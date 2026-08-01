@@ -78,6 +78,11 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580300042.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580300042.png)
+
+---
+
+
 
 ---
 
