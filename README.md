@@ -25,6 +25,12 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **The Concept:** Most modern AI (like ChatGPT) runs on massive server farms (the Cloud). Running AI on "The Edge" simply means running it completely locally on your own computer, offline, without pinging a server. "Bare-metal" means the code is written to talk directly to your computer's hardware, skipping heavy middle-man software like Python.
  * **The Example:** Imagine you want a sandwich. The Cloud is like ordering UberEats—it takes time, relies on external roads, and someone else is handling your food (your data). Python-based local AI is like having a kitchen, but forcing a translator to tell the chef what to do. **A.E.S.I.R. is bare-metal:** You are the chef, alone in your own kitchen, moving at top speed.
 
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png)
+
+---
+
 ### 2. Zero-Copy GGUF Parsing
 
  * **The Concept:** GGUF is the file format that holds the AI's "brain" (weights). Normally, when an AI loads, your computer reads the file from your hard drive, copies it to your system RAM, and then copies it *again* to your GPU's VRAM. This is incredibly slow and wastes memory. A.E.S.I.R. uses a technique called mmap (memory mapping) to point the GPU directly to the file on your drive.
