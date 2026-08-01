@@ -35,7 +35,13 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
  * **The Concept:** GGUF is the file format that holds the AI's "brain" (weights). Normally, when an AI loads, your computer reads the file from your hard drive, copies it to your system RAM, and then copies it *again* to your GPU's VRAM. This is incredibly slow and wastes memory. A.E.S.I.R. uses a technique called mmap (memory mapping) to point the GPU directly to the file on your drive.
  * **The Example:** Imagine moving into a new house. The traditional way is carrying heavy boxes from the moving truck (Drive), putting them in the driveway (RAM), and then carrying them into the living room (VRAM). **Zero-copy** means backing the truck right up to the living room window and sliding the boxes directly inside. Zero wasted movement, zero delay.
- * 
+
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579714847.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579714847.png)
+
+---
+
 ### 3. PagedAttention KV Caching
 
  * **The Concept:** When you chat with an AI, it has to remember the history of the conversation. This memory is stored in a "KV Cache" (Key-Value Cache) in your GPU. Older engines reserve a massive, rigid chunk of memory for every single chat, just in case the chat gets long. This results in horrific memory fragmentation, wasting up to 50% of your VRAM. PagedAttention breaks this memory into tiny "pages" and only assigns a new page when the AI actually needs it.
