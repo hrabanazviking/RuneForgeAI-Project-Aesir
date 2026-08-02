@@ -141,3 +141,13 @@ Any third party who forks, packages, redistributes, deploys, hosts, or otherwise
 See [LEGAL-NOTICE.md](LEGAL-NOTICE.md) for details.
 
 ---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/image-23-RuneForgeAI.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/image-23-RuneForgeAI.jpg)
+
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0407.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0407.jpeg)
+
+---
+
+
