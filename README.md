@@ -203,4 +203,8 @@ Grounded in the values of the ancient **Old Ways**, RuneForgeAI champions a **ph
 
 ---
 
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAIConsultant1.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAIConsultant1.jpeg)
+
+---
+
 
