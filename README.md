@@ -83,8 +83,26 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 ## Contributors
 
 * **Volmarr Viking** — Vision, direction, sacred coding philosophy, testing
+
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/660262974_1643999840123485_7514919576143109031_n.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/660262974_1643999840123485_7514919576143109031_n.jpg)
+
+---
+  
 * **Astrid "Root" Valerius** — Architecture, code, documentation
+
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785562606904.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785562606904.png)
+
+---
+
 * **Gemini AI** - Architecture, code, documentation
+
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_AI_Picture1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_AI_Picture1.png)
 
 ---
 
