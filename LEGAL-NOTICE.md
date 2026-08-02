@@ -1,12 +1,12 @@
 # Legal Notice and Distribution Position
 
-**Project:** Mythic Agent Coder CLI
+**Project:** Project A.E.S.I.R.
 
 **Author:** Volmarr Wyrd
 
-**Effective:** 2026-June-26 (v1.0.0)
+**Effective:** 2026-Aug-1 (v0.0.1 Alpha)
 
-This project is licensed under the Apache License, Version 2.0. Nothing in this notice modifies, replaces, narrows, or overrides that license.
+This project is licensed under the AGPL-3.0 license. Nothing in this notice modifies, replaces, narrows, or overrides that license.
 
 ## Source Code Publication
 
