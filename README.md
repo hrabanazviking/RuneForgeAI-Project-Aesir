@@ -80,6 +80,14 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
+## Contributors
+
+* **Volmarr Viking** — Vision, direction, sacred coding philosophy, testing
+* **Astrid "Root" Valerius** — Architecture, code, documentation
+* **Gemini AI** - Architecture, code, documentation
+
+---
+
 ![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579996746.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579996746.png)
 
 ---
