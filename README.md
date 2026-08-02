@@ -47,6 +47,12 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **The Concept:** When you chat with an AI, it has to remember the history of the conversation. This memory is stored in a "KV Cache" (Key-Value Cache) in your GPU. Older engines reserve a massive, rigid chunk of memory for every single chat, just in case the chat gets long. This results in horrific memory fragmentation, wasting up to 50% of your VRAM. PagedAttention breaks this memory into tiny "pages" and only assigns a new page when the AI actually needs it.
  * **The Example:** Think of a restaurant. The old way of AI caching is like a host refusing to seat a party of 2 unless they can reserve an entire banquet hall, "just in case" 50 more friends show up. **PagedAttention** is like a smart host who seats the couple at a small table, and simply pushes another table next to them only if more friends actually arrive. This is how A.E.S.I.R. handles massive context windows on 8GB GPUs without crashing.
 
+---
+
+![https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/blob/main/Gemini_Generated_Image_rxblg7rxblg7rxbl.png](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/blob/main/Gemini_Generated_Image_rxblg7rxblg7rxbl.png)
+
+---
+
 ### 4. Stateless Sampler
 
  * **The Concept:** The "Sampler" is the math that decides what the AI's next word will be (using settings like Temperature and Top-P). Normally, this math creates thousands of tiny temporary data objects in your computer's memory every single second. A "Garbage Collector" then has to pause the program to clean up that digital trash, causing lag spikes. A.E.S.I.R. is *stateless*—it allocates one single "scratchpad" of memory when the engine turns on, and just overwrites it infinitely.
