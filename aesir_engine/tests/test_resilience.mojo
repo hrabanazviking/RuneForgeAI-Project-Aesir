@@ -10,7 +10,7 @@ from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.supervisor import SelfHealingSupervisor
 
-def test_error_guard():
+def test_error_guard() raises:
     print("--- Testing ErrorGuard (Pointer & Logit Sanitization) ---")
     var success = True
     var ptr = alloc(Layout[Scalar[f16]](count=8)).unsafe_leak()
@@ -39,10 +39,10 @@ def test_error_guard():
     if success:
         print("ErrorGuard: PASS")
     else:
-        print("ErrorGuard: FAIL")
+        raise Error("ErrorGuard scaffold invariant mismatch")
 
 
-def test_state_vault():
+def test_state_vault() raises:
     print("--- Testing StateVault (Autoregressive Checkpointing) ---")
     var success = True
     var vault = StateVault()
@@ -59,10 +59,10 @@ def test_state_vault():
     if success:
         print("StateVault: PASS")
     else:
-        print("StateVault: FAIL")
+        raise Error("StateVault scaffold invariant mismatch")
 
 
-def test_event_bus():
+def test_event_bus() raises:
     print("--- Testing AesirEventBus (Inter-Module Messaging) ---")
     var success = True
     var bus = AesirEventBus()
@@ -75,10 +75,10 @@ def test_event_bus():
     if success:
         print("AesirEventBus: PASS")
     else:
-        print("AesirEventBus: FAIL")
+        raise Error("AesirEventBus marker invariant mismatch")
 
 
-def test_thread_pool():
+def test_thread_pool() raises:
     print("--- Testing RuneThreadPool (Parallel Worker Execution) ---")
     var success = True
     var pool = RuneThreadPool(8)
@@ -90,10 +90,10 @@ def test_thread_pool():
     if success:
         print("RuneThreadPool: PASS")
     else:
-        print("RuneThreadPool: FAIL")
+        raise Error("RuneThreadPool scaffold invariant mismatch")
 
 
-def test_supervisor_crash_recovery():
+def test_supervisor_crash_recovery() raises:
     print("--- Testing SelfHealingSupervisor (Panic Recovery & Self-Healing) ---")
     var success = True
     var supervisor = SelfHealingSupervisor()
@@ -114,4 +114,4 @@ def test_supervisor_crash_recovery():
     if success:
         print("SelfHealingSupervisor Crash Recovery: PASS")
     else:
-        print("SelfHealingSupervisor Crash Recovery: FAIL")
+        raise Error("SelfHealingSupervisor simulation invariant mismatch")

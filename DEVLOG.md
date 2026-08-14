@@ -3,6 +3,36 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 19: Forge 0A — Fail-Closed Test Semantics
+**Date:** August 14, 2026
+**Architectural Phase:** Verification Truth Boundary
+
+The forge repaired the master suite's most dangerous false-green behavior:
+
+1. **Raised failures:** All identified terminal print-only failure branches now
+   raise `Error`; both KV-cache print-and-return failures also raise. Affected
+   functions declare and propagate `raises` to the master runner.
+2. **Non-vacuous checks:** Speculative target logits are initialized; grammar
+   masking is activated and inspected; compressed dispatches must write output;
+   formatter tests inspect supplied fields; and zero-initialized synthetic
+   inference/KV steps assert token 0.
+3. **Exact final claim:** The master runner's final banner is reachable only
+   after all invoked assertions return normally. It explicitly says scaffold
+   checks are not external capability proof.
+4. **Negative proof:** A temporary one-line corruption of the stable
+   `GGMLType.F16` expectation made the focused test exit 1 with an identifying
+   error. Exact restoration returned the focused test and full suite to exit 0.
+5. **Regression gates:** The full master suite, pinned real-GGUF 32-token oracle,
+   and clean Mojo CLI build all passed after restoration.
+
+This milestone guarantees fail-closed behavior for existing invoked assertions.
+It does not provide counted aggregation, continue-after-failure reporting, or
+external proof for simulation-backed hardware, format, network, resilience,
+concurrency, and swarm checks. Those remain staged in the complete reality
+audit.
+
+---
+
 ## ⚡ Entry 18: Exact Multi-Token Greedy Generation
 **Date:** August 14, 2026
 **Architectural Phase:** Truth-Bearing Runtime Foundation

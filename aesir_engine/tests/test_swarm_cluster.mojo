@@ -3,7 +3,7 @@
 
 from core.swarm import SwarmNodeRole, PeerNode, PeerRegistry, TaskDispatcher, SwarmCluster
 
-def test_swarm_node_role():
+def test_swarm_node_role() raises:
     print("--- Testing SwarmNodeRole Discriminants ---")
     var success = True
 
@@ -18,10 +18,10 @@ def test_swarm_node_role():
     if success:
         print("SwarmNodeRole Discriminants: PASS")
     else:
-        print("SwarmNodeRole Discriminants: FAIL")
+        raise Error("SwarmNodeRole invariant mismatch")
 
 
-def test_peer_node_metrics():
+def test_peer_node_metrics() raises:
     print("--- Testing PeerNode State & VRAM Capacity Metrics ---")
     var success = True
 
@@ -38,7 +38,7 @@ def test_peer_node_metrics():
     if success:
         print("PeerNode Metrics: PASS")
     else:
-        print("PeerNode Metrics: FAIL")
+        raise Error("PeerNode metric invariant mismatch")
 
 
 def test_peer_registry_and_load_balancer() raises:
@@ -59,7 +59,7 @@ def test_peer_registry_and_load_balancer() raises:
     if success:
         print("PeerRegistry & Load Balancer: PASS")
     else:
-        print("PeerRegistry & Load Balancer: FAIL")
+        raise Error("PeerRegistry scaffold load-balancer invariant mismatch")
 
 
 def test_swarm_cluster_task_dispatch() raises:
@@ -80,4 +80,4 @@ def test_swarm_cluster_task_dispatch() raises:
     if success:
         print("SwarmCluster Task Dispatcher: PASS")
     else:
-        print("SwarmCluster Task Dispatcher: FAIL")
+        raise Error("SwarmCluster simulated dispatcher invariant mismatch")

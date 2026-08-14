@@ -10,43 +10,53 @@ from loader.onnx import ONNXModelSeer
 from server.openai import OpenAIGate
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
-def test_openai_api_formatter():
+def test_openai_api_formatter() raises:
     print("--- Testing OpenAIGate (OpenAI v1 REST API Formatter) ---")
     var success = True
     var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello world")
-    if len(json_resp.bytes()) == 0:
-        print("FAIL: OpenAIGate response is empty")
+    if '"model": "aesir:latest"' not in json_resp or '"content": "Hello world"' not in json_resp:
+        print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
 
     var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
-    if len(chunk_resp.bytes()) == 0:
-        print("FAIL: OpenAIGate chunk response is empty")
+    if "data: {" not in chunk_resp or '"content": "Hello"' not in chunk_resp:
+        print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
 
     if success:
         print("OpenAIGate: PASS")
     else:
-        print("OpenAIGate: FAIL")
+        raise Error("OpenAIGate formatter invariant mismatch")
 
 
-def test_gbnf_grammar():
+def test_gbnf_grammar() raises:
     print("--- Testing GBNFGrammar (Constrained Generation Logit Masking) ---")
     var success = True
     var grammar = GBNFGrammar("json")
+    grammar.state = 1
     var logits = alloc(Layout[Scalar[f16]](count=16)).unsafe_leak()
     for i in range(16):
         logits.unsafe_store(i, Scalar[f16](0.5))
 
     grammar.apply_grammar_mask(logits, 16)
+    for i in range(16):
+        if i % 2 == 1 and logits.unsafe_load(i) != Scalar[f16](-65504.0):
+            print("FAIL: GBNFGrammar did not mask odd token index", i)
+            success = False
+            break
+        if i % 2 == 0 and logits.unsafe_load(i) != Scalar[f16](0.5):
+            print("FAIL: GBNFGrammar changed allowed even token index", i)
+            success = False
+            break
     logits.unsafe_free()
 
     if success:
         print("GBNFGrammar: PASS")
     else:
-        print("GBNFGrammar: FAIL")
+        raise Error("GBNFGrammar scaffold masking invariant mismatch")
 
 
-def test_speculative_engine():
+def test_speculative_engine() raises:
     print("--- Testing SpeculativeEngine (Draft Sampling & Verification) ---")
     var success = True
     var spec = SpeculativeEngine(4)
@@ -55,6 +65,8 @@ def test_speculative_engine():
 
     for i in range(4):
         draft_tokens.unsafe_store(i, i)
+    for i in range(16):
+        target_logits.unsafe_store(i, Scalar[f16](0.0))
 
     var accepted = spec.verify_tokens(draft_tokens, target_logits, 4)
     draft_tokens.unsafe_free()
@@ -67,10 +79,10 @@ def test_speculative_engine():
     if success:
         print("SpeculativeEngine: PASS")
     else:
-        print("SpeculativeEngine: FAIL")
+        raise Error("SpeculativeEngine scaffold acceptance invariant mismatch")
 
 
-def test_onnx_model_seer():
+def test_onnx_model_seer() raises:
     print("--- Testing ONNXModelSeer (ONNX Graph Protocol Buffer Parser) ---")
     var success = True
     var seer = ONNXModelSeer("model.onnx")
@@ -81,10 +93,10 @@ def test_onnx_model_seer():
     if success:
         print("ONNXModelSeer: PASS")
     else:
-        print("ONNXModelSeer: FAIL")
+        raise Error("ONNXModelSeer scaffold invariant mismatch")
 
 
-def test_multi_engine_cli():
+def test_multi_engine_cli() raises:
     print("--- Testing Multi-Engine CLI Dispatchers ---")
     var success = True
     var args = List[String]()
@@ -108,4 +120,4 @@ def test_multi_engine_cli():
     if success:
         print("Multi-Engine CLI Dispatchers: PASS")
     else:
-        print("Multi-Engine CLI Dispatchers: FAIL")
+        raise Error("multi-engine CLI scaffold dispatch invariant mismatch")

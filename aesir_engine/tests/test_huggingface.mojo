@@ -4,7 +4,7 @@
 from loader.huggingface import HuggingFaceSeer
 from cli.manifest import RuneModelStore
 
-def test_hf_repo_parsing():
+def test_hf_repo_parsing() raises:
     print("--- Testing HuggingFaceSeer Repo Tag Parsing ---")
     var success = True
 
@@ -27,10 +27,10 @@ def test_hf_repo_parsing():
     if success:
         print("HuggingFace Tag Parsing: PASS")
     else:
-        print("HuggingFace Tag Parsing: FAIL")
+        raise Error("Hugging Face tag parsing invariant mismatch")
 
 
-def test_hf_download_url_builder():
+def test_hf_download_url_builder() raises:
     print("--- Testing HuggingFace CDN Download URL Builder ---")
     var success = True
     var url = HuggingFaceSeer.build_download_url("hf.co/HuggingFaceTB/SmolLM-360M-Instruct-GGUF", "smollm-360m.gguf")
@@ -42,7 +42,7 @@ def test_hf_download_url_builder():
     if success:
         print("HuggingFace CDN URL Builder: PASS")
     else:
-        print("HuggingFace CDN URL Builder: FAIL")
+        raise Error("Hugging Face URL builder invariant mismatch")
 
 
 def test_hf_mobile_model_download() raises:
@@ -63,4 +63,4 @@ def test_hf_mobile_model_download() raises:
     if success:
         print("HuggingFace Mobile Model Downloader: PASS")
     else:
-        print("HuggingFace Mobile Model Downloader: FAIL")
+        raise Error("Hugging Face simulated downloader invariant mismatch")

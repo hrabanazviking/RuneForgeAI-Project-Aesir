@@ -20,7 +20,7 @@ def test_gguf_parsing() raises:
         raise Error("GGUFSeer accepted a zero-tensor model fixture")
     print("GGUFSeer malformed-model rejection: PASS")
 
-def test_ggml_type():
+def test_ggml_type() raises:
     """Test GGMLType constants are correct per GGML spec."""
     print("--- Testing GGMLType Constants ---")
     var success = True
@@ -46,7 +46,7 @@ def test_ggml_type():
     if success:
         print("GGMLType: PASS")
     else:
-        print("GGMLType: FAIL")
+        raise Error("GGMLType invariant mismatch")
 
 def main() raises:
     test_gguf_parsing()

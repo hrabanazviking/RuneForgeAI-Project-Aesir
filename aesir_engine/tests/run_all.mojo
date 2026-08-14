@@ -141,9 +141,9 @@ def main() raises:
     print("")
 
     print("==============================================")
-    print("  All rites concluded. The engine stands.")
+    print("  All invoked assertions passed.")
+    print("  Scaffold checks are not external capability proof.")
     print("==============================================")
-
 
 
 

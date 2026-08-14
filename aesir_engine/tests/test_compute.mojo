@@ -4,7 +4,7 @@
 from core.mimir_well import MimirWell, RuneTensor, f16, f32
 from core.compute import gemm_f16, flash_attention_2, geglu, silu, dequantize_q4_k_m, BlockQ4_K
 
-def test_gemm():
+def test_gemm() raises:
     print("--- Testing gemm_f16 (The Anvil's Strike) ---")
     var well = MimirWell(1024 * 1024) # 1 MB
     
@@ -42,9 +42,9 @@ def test_gemm():
     if success:
         print("gemm_f16: PASS")
     else:
-        print("gemm_f16: FAIL")
+        raise Error("gemm_f16 result mismatch")
 
-def test_flash_attention():
+def test_flash_attention() raises:
     print("--- Testing flash_attention_2 (The Gaze of Odin) ---")
     var well = MimirWell(1024 * 1024) # 1 MB
     
@@ -86,9 +86,9 @@ def test_flash_attention():
     if success:
         print("flash_attention_2: PASS")
     else:
-        print("flash_attention_2: FAIL")
+        raise Error("flash_attention_2 result mismatch")
 
-def test_silu():
+def test_silu() raises:
     """Test SiLU activation: silu(x) = x * sigmoid(x)."""
     print("--- Testing silu (The Bending of the Branch) ---")
     var well = MimirWell(1024 * 64)
@@ -117,8 +117,9 @@ def test_silu():
         print("silu: PASS")
     else:
         print("silu: FAIL (expected ~0.7311, got head=", val, ", tail=", val_tail, ")")
+        raise Error("silu result mismatch")
 
-def test_geglu():
+def test_geglu() raises:
     """Test GeGLU: first half = x * GELU(y) where y is second half."""
     print("--- Testing geglu (The Binding of the Gates) ---")
     var well = MimirWell(1024 * 64)
@@ -150,9 +151,10 @@ def test_geglu():
         print("geglu: PASS")
     else:
         print("geglu: FAIL (expected ~1.68, got head=", val, ", tail=", val_tail, ")")
+        raise Error("geglu result mismatch")
 
 
-def test_dequantize_q4_k_m():
+def test_dequantize_q4_k_m() raises:
     """Test Q4_K_M dequantization: unpack 4-bit weights, scale, and add min."""
     print("--- Testing dequantize_q4_k_m (The Rune Unfolding) ---")
     var well = MimirWell(1024 * 64)
@@ -196,14 +198,14 @@ def test_dequantize_q4_k_m():
         print("FAIL: Upper nibble dequant expected 6.5, got", val_hi)
         success = False
     
+    block_ptr.unsafe_free()
+
     if success:
         print("dequantize_q4_k_m: PASS")
     else:
-        print("dequantize_q4_k_m: FAIL")
-    
-    block_ptr.unsafe_free()
+        raise Error("dequantize_q4_k_m result mismatch")
 
-def main():
+def main() raises:
     print("Starting Compute Kernel Verification...")
     test_gemm()
     test_flash_attention()

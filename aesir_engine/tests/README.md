@@ -16,6 +16,19 @@ The `tests` domain holds the master test runner and domain-specific verification
   stable generation-stop policy assertions for EOS, requested length, context
   exhaustion, and continuation.
 
+## Failure Semantics
+
+The master suite is fail closed. Every existing asserted mismatch in an invoked
+test raises or propagates `Error`, so `run_all.mojo` exits nonzero and cannot
+reach its final success banner. The two former KV-cache print-and-return paths
+also raise. A deliberate corruption of the stable `GGMLType.F16` expectation
+was verified to exit 1; restoring it returned the focused test and master suite
+to exit 0.
+
+The runner currently stops at the first raised failure. Counted pass/fail/skip
+aggregation is not implemented yet. The RAG external-fixture boundary prints an
+explicit `SKIP` and real model execution remains the opt-in test below.
+
 ## How to Run
 ```bash
 cd aesir_engine
@@ -36,6 +49,8 @@ The expected completion for `One day, Timmy went to` at 32 new tokens is:
 ```
 
 This proves only the documented F16 single-device CPU greedy path. The master
-suite still includes historical synthetic/smoke checks whose broader labels are
-not proof of real accelerator, quantized-model, server, or distributed behavior;
-see `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.
+suite still includes historical synthetic/scaffold checks whose broader labels
+are not proof of real accelerator, quantized-model, server, network,
+concurrency, resilience, or distributed behavior. A zero exit means that all
+invoked assertions passed; it does not expand their evidence boundary. See
+`PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.

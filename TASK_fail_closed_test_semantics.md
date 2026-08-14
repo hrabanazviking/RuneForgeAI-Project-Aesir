@@ -1,6 +1,6 @@
 # Task: Fail-Closed Master-Suite Semantics
 
-**Status:** Approved for implementation by Volmarr on August 14, 2026.  
+**Status:** Completed and verified on August 14, 2026.
 **Forge stage:** Forge 0A — Verification truth boundary  
 **Parent audit:** `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`  
 **Owning domain:** tests, with documentation-only updates outside that domain
@@ -255,3 +255,32 @@ silently repaired inside this verification-semantics task.
 Those remain open, numbered work in
 `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.
 
+## Completion Evidence
+
+Forge 0A satisfied its bounded acceptance contract:
+
+- All identified terminal print-only failures now raise `Error`, and affected
+  functions propagate `raises` to the master runner.
+- Both KV-cache print-and-return failure paths now raise.
+- The zero-initialized synthetic inference and KV-cache steps assert token 0.
+- `test_speculative_engine()` initializes every target-logit element before the
+  runtime reads it.
+- The grammar scaffold test activates state 1 and checks allowed/masked logits.
+- Every exercised compressed-format dispatch is checked for an output write.
+- OpenAI formatter tests inspect the supplied model and content rather than only
+  checking for a nonempty string.
+- The master epilogue states only that all invoked assertions passed and that
+  scaffold checks are not external capability proof.
+- Temporarily changing the stable F16 expectation from `1` to `2` made
+  `tests/test_gguf.mojo` exit 1 with `GGMLType invariant mismatch`.
+- Restoring the exact line made the focused test exit 0.
+- The restored complete master suite exited 0.
+- The pinned external GGUF test again matched all 32 oracle token IDs, exact
+  decoded text, one-token regression, and context boundary.
+- A clean `mojo build main.mojo` completed successfully.
+- `git diff --check` passed and the final tree contains no deliberate mutation,
+  model weight, generated binary, cache, secret, or hardcoded fixture path.
+
+The implementation does not close the separate evidence-quality findings for
+simulation-backed tests. Counted aggregation remains Forge 0B; capability
+labels and fabricated runtime success output remain Forge 0C through Forge 0E.

@@ -4,7 +4,7 @@
 from core.mimir_well import MimirWell, RuneTensor, MimirStore, f16, f32
 from core.compute import cosine_similarity
 
-def test_cosine_similarity():
+def test_cosine_similarity() raises:
     print("--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---")
     var well = MimirWell(1024 * 64)
     
@@ -47,8 +47,9 @@ def test_cosine_similarity():
         print("cosine_similarity: PASS")
     else:
         print("cosine_similarity: FAIL (identical =", sim_identical, ", orthogonal =", sim_orthogonal, ")")
+        raise Error("cosine_similarity invariant mismatch")
 
-def test_mimir_store():
+def test_mimir_store() raises:
     print("--- Testing MimirStore (Insertion & k-NN Vector Search) ---")
     var well = MimirWell(1024 * 512)
     var dim = 16
@@ -102,6 +103,7 @@ def test_mimir_store():
         print("MimirStore (insertion & k-NN): PASS")
     else:
         print("MimirStore: FAIL (count_ok =", count_ok, ", knn_ok =", knn_ok, ", emb_val_ok =", emb_val_ok, ")")
+        raise Error("MimirStore invariant mismatch")
     _ = store
 
 def report_engine_integration_boundary():
@@ -109,10 +111,10 @@ def report_engine_integration_boundary():
     # integration is covered by the opt-in test_real_gguf.mojo fixture.
     print("RAG Engine Integration: SKIP (requires a validated real GGUF fixture)")
 
-def test_rag():
+def test_rag() raises:
     test_cosine_similarity()
     test_mimir_store()
     report_engine_integration_boundary()
 
-def main():
+def main() raises:
     test_rag()

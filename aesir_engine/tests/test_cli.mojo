@@ -27,7 +27,7 @@ def test_modelfile_parser() raises:
     if success:
         print("Modelfile Parser: PASS")
     else:
-        print("Modelfile Parser: FAIL")
+        raise Error("Modelfile parser invariant mismatch")
 
 
 def test_model_manifest_store() raises:
@@ -62,7 +62,7 @@ def test_model_manifest_store() raises:
     if success:
         print("RuneModelStore Catalog: PASS")
     else:
-        print("RuneModelStore Catalog: FAIL")
+        raise Error("RuneModelStore in-memory catalog invariant mismatch")
 
 
 def test_cli_command_dispatch() raises:

@@ -20,7 +20,7 @@ from core.compute import (
     dequantize_compressed_tensor
 )
 
-def test_compressed_format_enum():
+def test_compressed_format_enum() raises:
     print("--- Testing CompressedFormatType (Format Discriminants) ---")
     var success = True
     var fmt_q2 = CompressedFormatType(CompressedFormatType.Q2_K)
@@ -52,10 +52,10 @@ def test_compressed_format_enum():
     if success:
         print("CompressedFormatType: PASS")
     else:
-        print("CompressedFormatType: FAIL")
+        raise Error("CompressedFormatType invariant mismatch")
 
 
-def test_dequantization_kernels():
+def test_dequantization_kernels() raises:
     print("--- Testing Dequantization Kernels across 18 Compressed Formats ---")
     var success = True
     var num_elements = 32
@@ -64,30 +64,77 @@ def test_dequantization_kernels():
 
     for i in range(32):
         in_bytes.unsafe_store(i, UInt8(i * 7 % 256))
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch Q2_K
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q2_K), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: Q2_K dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch Q4_0
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q4_0), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: Q4_0 dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
     
     # Dispatch Q8_0
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q8_0), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: Q8_0 dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch GPTQ_4BIT
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.GPTQ_4BIT), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: GPTQ_4BIT dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch AWQ_4BIT
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.AWQ_4BIT), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: AWQ_4BIT dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch EXL2_VARBIT
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: EXL2_VARBIT dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch HQQ
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.HQQ), in_bytes, out_f16, num_elements)
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: HQQ dispatch did not write output")
+        success = False
+
+    for i in range(32):
+        out_f16.unsafe_store(i, Scalar[f16](123.0))
 
     # Dispatch SMOOTHQUANT_INT8
     dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8), in_bytes, out_f16, num_elements)
+
+    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
+        print("FAIL: SMOOTHQUANT_INT8 dispatch did not write output")
+        success = False
 
     in_bytes.unsafe_free()
     out_f16.unsafe_free()
@@ -95,10 +142,9 @@ def test_dequantization_kernels():
     if success:
         print("Dequantization Kernels: PASS")
     else:
-        print("Dequantization Kernels: FAIL")
+        raise Error("dequantization dispatch did not write deterministic output")
 
 
-def main():
+def main() raises:
     test_compressed_format_enum()
     test_dequantization_kernels()
-

@@ -17,7 +17,7 @@ def test_kv_cache() raises:
     var kv_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
     if kv_cache.max_seq_len != 64 or kv_cache.hidden_dim != 16 or kv_cache.num_layers != 2:
         print("FAIL: KVCache initialization metadata mismatch")
-        return
+        raise Error("KVCache initialization metadata mismatch")
     print("KVCache instantiation: PASS")
 
     # 2. Token append test
@@ -37,7 +37,7 @@ def test_kv_cache() raises:
     var v0 = kv_cache.get_v_slice(0, 1)
     if k0.get(0, 0) != 1.0 or v0.get(0, 0) != 2.0:
         print("FAIL: KVCache token append data corruption")
-        return
+        raise Error("KVCache token append data corruption")
     print("KVCache token append: PASS")
 
     # 3. Multi-step single-token forward pass state accumulation
@@ -67,12 +67,14 @@ def test_kv_cache() raises:
 
     # Step 0
     var t0 = forward_pass(tokens, seer, well, test_cache, 0, 1, head_dim, heads)
-    _ = t0
+    if t0 != 0:
+        raise Error("zero-initialized KV step 0 must select token 0")
     
     # Step 1
     tokens.append(2)
     var t1 = forward_pass(tokens, seer, well, test_cache, 1, 1, head_dim, heads)
-    _ = t1
+    if t1 != 0:
+        raise Error("zero-initialized KV step 1 must select token 0")
 
     print("KVCache state accumulation: PASS")
     print("test_kv_cache: PASS")

@@ -4,7 +4,7 @@
 from core.mimir_well import MimirWell, RuneTensor, DeviceTopology, NPUBackendType, NPUBuffer, f16, f32
 from core.compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu
 
-def test_npu_backend_enum():
+def test_npu_backend_enum() raises:
     print("--- Testing NPUBackendType (The Edge Acceleration Realm) ---")
     var success = True
 
@@ -37,10 +37,10 @@ def test_npu_backend_enum():
     if success:
         print("NPUBackendType: PASS")
     else:
-        print("NPUBackendType: FAIL")
+        raise Error("NPUBackendType invariant mismatch")
 
 
-def test_device_topology_npu():
+def test_device_topology_npu() raises:
     print("--- Testing DeviceTopology NPU Discovery (The Realm Mapping) ---")
     var success = True
     var topo = DeviceTopology(2)
@@ -60,10 +60,10 @@ def test_device_topology_npu():
     if success:
         print("DeviceTopology NPU Discovery: PASS")
     else:
-        print("DeviceTopology NPU Discovery: FAIL")
+        raise Error("DeviceTopology NPU discovery invariant mismatch")
 
 
-def test_npu_buffer_zero_copy():
+def test_npu_buffer_zero_copy() raises:
     print("--- Testing NPUBuffer Zero-Copy Allocation (The Mímisbrunnr Shared Stream) ---")
     var success = True
     var well = MimirWell(1024 * 1024)
@@ -90,10 +90,10 @@ def test_npu_buffer_zero_copy():
     if success:
         print("NPUBuffer Zero-Copy: PASS")
     else:
-        print("NPUBuffer Zero-Copy: FAIL")
+        raise Error("NPUBuffer host-memory view invariant mismatch")
 
 
-def test_arm_neon_precision():
+def test_arm_neon_precision() raises:
     print("--- Testing ARM NEON SIMD Precision (128-bit Vector Lanes) ---")
     var success = True
     var well = MimirWell(1024 * 1024)
@@ -133,10 +133,10 @@ def test_arm_neon_precision():
     if success:
         print("ARM NEON Precision: PASS")
     else:
-        print("ARM NEON Precision: FAIL")
+        raise Error("ARM NEON synthetic parity mismatch")
 
 
-def test_npu_gemm_parity():
+def test_npu_gemm_parity() raises:
     print("--- Testing NPU GEMM Parity across Acceleration Backends ---")
     var success = True
 
@@ -182,4 +182,4 @@ def test_npu_gemm_parity():
     if success:
         print("NPU GEMM Parity: PASS")
     else:
-        print("NPU GEMM Parity: FAIL")
+        raise Error("NPU-labeled CPU fallback parity mismatch")

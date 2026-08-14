@@ -4,7 +4,7 @@
 from core.mimir_well import MimirWell, RuneTensor, DeviceTopology, GPURealmType, GPUBuffer, f16, f32
 from core.compute import gemm_f16, gemm_f16_gpu, rmsnorm_gpu
 
-def test_gpu_realm_enum():
+def test_gpu_realm_enum() raises:
     print("--- Testing GPURealmType (Universal GPU Hardware Sigils) ---")
     var success = True
 
@@ -53,10 +53,10 @@ def test_gpu_realm_enum():
     if success:
         print("GPURealmType: PASS")
     else:
-        print("GPURealmType: FAIL")
+        raise Error("GPURealmType invariant mismatch")
 
 
-def test_device_topology_gpus():
+def test_device_topology_gpus() raises:
     print("--- Testing DeviceTopology GPU Realm Discovery ---")
     var success = True
     var topo = DeviceTopology(2)
@@ -79,10 +79,10 @@ def test_device_topology_gpus():
     if success:
         print("DeviceTopology GPU Discovery: PASS")
     else:
-        print("DeviceTopology GPU Discovery: FAIL")
+        raise Error("DeviceTopology GPU enumeration invariant mismatch")
 
 
-def test_gpu_buffer_zero_copy():
+def test_gpu_buffer_zero_copy() raises:
     print("--- Testing GPUBuffer Zero-Copy Allocation ---")
     var success = True
     var well = MimirWell(1024 * 1024)
@@ -109,10 +109,10 @@ def test_gpu_buffer_zero_copy():
     if success:
         print("GPUBuffer Zero-Copy: PASS")
     else:
-        print("GPUBuffer Zero-Copy: FAIL")
+        raise Error("GPUBuffer host-memory view invariant mismatch")
 
 
-def test_gpu_gemm_parity():
+def test_gpu_gemm_parity() raises:
     print("--- Testing Universal GPU GEMM Parity across 10 Realms ---")
     var success = True
 
@@ -158,4 +158,4 @@ def test_gpu_gemm_parity():
     if success:
         print("Universal GPU GEMM Parity: PASS")
     else:
-        print("Universal GPU GEMM Parity: FAIL")
+        raise Error("GPU-labeled CPU fallback parity mismatch")
