@@ -1,3 +1,9 @@
+---
+
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png)
+
+---
+
 # RuneForgeAI: Project A.E.S.I.R.
 
 > **Advanced Edge System for Interface and Response**
