@@ -2,6 +2,7 @@
 
 **Audit date:** August 14, 2026  
 **Audit baseline:** `b8a24446d2b174e30e4219b023ccaabcb0e77c64`  
+**Function-level re-audit baseline:** `04d10575763997d337a0804c9ae55914cba5359b`
 **Audited branch:** `main`  
 **Audit mode:** source inspection, build inspection, test-behavior inspection,
 real-model verification review, documentation comparison, and repository hygiene
@@ -24,8 +25,9 @@ Project A.E.S.I.R. now contains one important, genuine inference foundation:
 - model-driven SentencePiece tokenization sufficient for the pinned TinyStories
   reference model and prompt;
 - single-device CPU transformer execution with grouped-query attention;
-- deterministic argmax generation of one real next token;
-- exact first-token parity with a pinned `llama.cpp` reference build; and
+- deterministic, EOS-aware, context-safe greedy generation with one reused KV
+  cache per request;
+- exact 32-token parity with a pinned `llama.cpp` reference build; and
 - a real `aesir run <gguf-path> <prompt>` single-shot connection.
 
 That foundation is meaningful. It proves that the repository is no longer only
@@ -37,7 +39,7 @@ present in `README.md`, `TODO.md`, `ARCHITECTURE.md`, `DATA_FLOW.md`,
 of the following remain simulated, partial, CPU-only under hardware-branded
 names, structurally incomplete, or unverified against real external systems:
 
-- multi-token production generation;
+- stochastic or production-general multi-token generation;
 - sampling controls;
 - chat templates and conversation state;
 - complete SentencePiece and byte-stream decoding;
@@ -141,8 +143,8 @@ Repository facts at the audit baseline:
 | F16 matrix mmap | **Verified real, narrow** | pointer-alias assertion in `test_real_gguf.mojo` | Lifetime hardening and immutable tensor typing |
 | F32 norm conversion | **Verified real, narrow** | numeric assertion in `test_real_gguf.mojo` | Precision policy and model coverage |
 | SentencePiece prompt encode | **Verified real for one model/prompt** | exact reference IDs | broader corpora, Unicode, byte fallback, normalizer metadata, decode-stream correctness |
-| Single next-token CPU inference | **Verified real** | token 265 / ` the` matches pinned oracle | multi-token parity, EOS, stop reasons, sampling, numerical regression corpus |
-| Multi-token generation | **Partial and unverified** | `generate_stream()` has a fixed five-step loop | reusable generation state, EOS, max token policy, exact 32-token parity, public result contract |
+| Single next-token CPU inference | **Verified real** | token 265 / ` the` matches pinned oracle | broader model/prompt corpus and numerical regression data |
+| Deterministic multi-token generation | **Verified real, narrow** | exact 32-token ID/text parity; EOS/length/context policy; 128-token boundary test | stateful byte decoding, more EOS/model fixtures, failure cleanup, cancellation, stop strings, sampling |
 | Quantized GGUF inference | **Not implemented** | real loader rejects everything except F16/F32 | correct block layouts, quantized matmul/dequant, real quantized fixtures and oracle parity |
 | GPU acceleration | **Simulation/mislabeling** | all GPU dispatches call host Mojo SIMD functions | real device APIs, allocations, kernels, synchronization, hardware testing |
 | NPU acceleration | **Simulation/mislabeling** | all NPU dispatches call CPU functions | vendor runtimes or genuine ISA/runtime bridges, device buffers, hardware testing |
@@ -185,8 +187,9 @@ deserve protection through regression tests:
 6. The CPU path correctly represents 8 query heads and 4 KV heads.
 7. The corrected GEMM tail handles the reference model's FFN width of 172.
 8. The prompt prefill processes each prompt position into the KV cache.
-9. The first greedy token matches the pinned reference.
-10. `run_single_shot()` opens the supplied GGUF and executes the engine instead
+9. The complete 32-token greedy sequence matches the pinned reference.
+10. A full-context request stops before evaluating an out-of-range position.
+11. `run_single_shot()` opens the supplied GGUF and executes the engine instead
     of printing the former fixed inference sentence.
 
 Any future refactor must keep these truths explicit and independently testable.
@@ -271,26 +274,26 @@ success language.
 test, is explicitly labeled scaffold/experimental, or is removed with Volmarr's
 approval.
 
-### AER-004 — Multi-token generation is not yet a verified state machine
+### AER-004 — Deterministic multi-token generation state machine
 
-**Status:** partial  
-**Severity:** P0 for the next inference milestone  
+**Status:** resolved for the pinned deterministic F16 slice; broader generation remains partial
+**Severity:** closed P0 milestone with remaining P1/P2 refinements
 **Owners:** `aesir.mojo`, `core/inference.mojo`, tokenizer, CLI, tests
 
-`generate()` returns exactly one token. `generate_stream()` loops five times,
-but the count is hardcoded, EOS is ignored, stop reasons do not exist, output
-token IDs are not returned, byte decoding is incomplete, and the sequence has
-not been compared with an oracle. The streaming function is also not connected
-to a real request-serving loop.
+Commit `aad4c08` added `GenerationResult`, a canonical
+`AesirEngine.generate_tokens()` loop, a single reused request KV cache,
+model-EOS handling, stable `eos`/`length`/`context_exhausted` reasons, generated
+token IDs, exact 32-token oracle parity, one-token regression coverage, and a
+real context-boundary proof. `generate()` and `generate_stream()` now reuse the
+same token mechanics.
 
-**Required buildout:** an explicit generation result/state contract; reusable
-KV-cache progression; max-new-token configuration; EOS stopping; context
-exhaustion stopping; deterministic token ID capture; decoded-text aggregation;
-and exact 32-token reference parity.
+**Remaining buildout:** stateful byte decoding, model-produced EOS fixtures,
+failure/cancellation cleanup, configurable stop-token sets and stop strings,
+stream-safe JSON escaping, sampling, chat templates, and server integration.
 
-**Acceptance gate:** the pinned model and prompt must match the pinned
-`llama.cpp` sequence for every generated token through token 32, or stop at the
-same EOS position and reason.
+**Acceptance achieved:** all 32 pinned token IDs and exact decoded text matched
+the pinned `llama.cpp` oracle; a 128-token prompt stopped without evaluating
+position 128.
 
 ### AER-005 — Unsafe pointer APIs have incomplete invariants
 
@@ -318,9 +321,11 @@ pool ranges must raise before any unsafe load/store.
 
 ### AER-006 — EOS, BOS, stop-token, and stop-string behavior is incomplete
 
-The loader records BOS/EOS/unknown IDs, but generation only uses BOS. EOS is not
-checked during streaming, no additional stop tokens can be configured, stop
-strings are not supported, and no stop reason is returned.
+The loader records BOS/EOS/unknown IDs. The canonical generation loop now uses
+model-controlled BOS, checks model EOS, excludes EOS from visible text, and
+returns stable stop reasons. No additional stop tokens can be configured, stop
+strings are not supported, byte-stream flush semantics remain incomplete, and
+the pinned fixture does not naturally exercise a generated EOS.
 
 **Buildout:** generation configuration, validated token stop set, sequence-aware
 stop-string handling, and structured reasons such as `eos`, `length`,
@@ -400,9 +405,11 @@ near-context-limit, and EOS-producing cases.
 
 ### AER-014 — Engine lifecycle and repeated-generation behavior need proof
 
-`generate()` resets the pool offset after a call, but repeated calls, failures
-mid-generation, and partially written KV caches are not tested. The engine does
-not expose cancellation or reset state explicitly.
+Repeated independent calls and runtime-offset restoration now have real-model
+coverage. Failures mid-generation can still bypass the final pool reset,
+partially written KV state is not explicitly invalidated, streaming failure can
+leave a client unclosed, and the engine does not expose cancellation or an
+explicit reset contract.
 
 **Buildout:** repeated independent generations, failure cleanup, state reset,
 and cancellation tests; define whether engine instances are single-session,
@@ -1193,12 +1200,12 @@ Documentation should distinguish:
 4. Downgrade simulated completion claims.
 5. Stop fabricated runtime success/benchmark output.
 
-### Forge 1 — Verified multi-token CPU generation
+### Forge 1 — Verified multi-token CPU generation — **completed narrowly**
 
 1. Add reusable generation state and result contracts.
 2. Implement max-new-token policy.
 3. Implement EOS and context stop reasons.
-4. Fix byte-stream decoding.
+4. Fix byte-stream decoding. **Still open; not required by the pinned emitted sequence.**
 5. Preserve deterministic argmax mode.
 6. Prove 32-token parity with the pinned oracle.
 7. Connect the real CLI to the verified path.
@@ -1308,20 +1315,21 @@ behavior, and failure recovery are established.
 
 ## 26. Immediate Next Task Authorized by This Report
 
-The next forge task is the narrowest extension of the truth-bearing foundation:
+The completed multi-token milestone exposed the original prerequisite still
+blocking trustworthy work. The next forge task is:
 
-> Implement EOS-aware, context-safe, deterministic multi-token generation that
-> reuses one KV cache, returns structured token IDs/text/stop reason, and matches
-> a pinned `llama.cpp` oracle for up to 32 generated tokens on the pinned
-> TinyStories F16 model.
+> Make every master-suite test fail closed: replace print-only `FAIL` branches
+> and early-return failures with raised errors, preserve legitimate skips as
+> explicit skips, and prove that an intentionally corrupted expectation makes
+> the process exit nonzero.
 
-This task must not claim stochastic sampling, chat quality, quantization,
-streaming-server compatibility, or accelerator support. It should improve the
-real CPU path without inheriting the surrounding simulated claims.
+This is Forge 0A. A counted aggregate test summary, capability ledger, and
+runtime-claim cleanup remain subsequent Forge 0 slices rather than being
+silently bundled into one unreviewable change.
 
 ---
 
-## 27. Final Audit Statement
+## 27. Original Audit Closing Statement
 
 Project A.E.S.I.R. has crossed an important boundary: it possesses a small real
 inference core. The correct engineering response is neither to dismiss the
@@ -1330,3 +1338,588 @@ to protect that real core, make every test and document tell the truth, and
 expand capability one independently verified vertical slice at a time.
 
 The vision can remain vast. The completion labels must remain exact.
+
+---
+
+## 28. Function-Level Re-Audit Addendum
+
+This addendum updates the original baseline after the verified multi-token
+milestone and performs the function-level accounting requested by Volmarr. The
+re-audit enumerated every `def`/`fn` declaration in tracked Mojo source at commit
+`04d1057`:
+
+| Classification | Functions and methods reviewed |
+|---|---:|
+| Runtime and public source (`aesir`, `core`, `loader`, `server`, `cli`, `main`) | 270 |
+| Test-domain functions and test entry points | 60 |
+| Legacy/scratch/replacement programs | 35 |
+| **Total declarations inventoried** | **365** |
+
+The ledger below lists every declaration or tightly coupled declaration group
+for which this pass found missing behavior, incomplete behavior, a correctness
+bug, unsafe preconditions, misleading semantics, inadequate error propagation,
+or material refinement work. Constructors and mechanical copy/equality methods
+are grouped when they share one invariant defect. A function not listed here is
+not thereby declared production-ready; it means this static pass found no
+specific additional defect beyond its owning subsystem's existing findings.
+
+### 28.1 Status changes since the original audit
+
+- AER-004 is resolved for the pinned deterministic F16 CPU slice.
+- AER-006 is partially resolved: model EOS and stable reasons exist, but custom
+  stops, stop strings, byte-stream flush, and natural EOS fixtures do not.
+- AER-014 is partially resolved: repeated successful generation and pool-offset
+  restoration are covered, but exception/cancellation cleanup is not.
+- Forge 1 is complete except for stateful byte decoding, which the pinned token
+  sequence did not exercise.
+- Forge 0 remains incomplete and is again the highest-priority trust boundary.
+- The current `TODO.md` regressed the verified multi-token record by removing
+  the completed milestone and reintroducing an older statement that EOS and
+  context handling are missing.
+
+## 29. New and Refined Findings
+
+### AER-100 — The current TODO regresses a verified capability back to “missing”
+
+**Status:** confirmed at `04d1057`
+**Severity:** P0 truth blocker
+**Owner:** project documentation
+
+`TODO.md` removed the completed deterministic multi-token milestone and restored
+an older future item saying multi-token generation still needs EOS and context
+handling. Both behaviors now exist and passed the pinned integration gates.
+
+**Buildout:** restore the narrow verified record while retaining sampling, chat,
+byte-stream decoding, and production-general behavior as open work.
+
+### AER-101 — Generation cleanup is not exception-safe
+
+**Status:** confirmed
+**Severity:** P0/P1 safety and lifecycle blocker
+**Owners:** `AesirEngine._prepare_prompt`, `_run_generation`,
+`generate_stream`, `TransformerBlock.forward`, both `forward_pass` overloads
+
+Pool offsets are restored only on normal completion. Any error during RAG
+augmentation, tokenization, allocation, a transformer layer, final projection,
+decoding, or streaming can bypass restoration. `generate_stream()` closes the
+client only after successful generation. Partially written KV state has no
+invalid/aborted marker.
+
+**Buildout:** introduce scoped offset guards or explicit `try`/cleanup paths;
+close streaming clients on every terminal path; make request state ownership
+explicit; add injected-failure tests at prefill, decode, projection, and send.
+
+### AER-102 — Allocation and dimension arithmetic can overflow or move backwards
+
+**Status:** confirmed
+**Severity:** P0 memory-safety blocker
+**Owners:** `calculate_runtime_pool_bytes`, `MimirWell.__init__`,
+`MimirWell.allocate`, `RuneTensor.__init__`, `KVCache.__init__`, buffer and store
+constructors, GGUF tensor-size calculations, shard allocation helpers
+
+Negative element counts are not rejected. `offset + elements`, `rows * cols`,
+layer/context products, and byte-size products can overflow before bounds are
+checked. A negative allocation can move the pool offset backwards and create an
+alias into already-owned storage.
+
+**Buildout:** checked nonnegative arithmetic at every public memory boundary,
+overflow-before-multiply checks, alignment-aware capacity calculations, and
+negative/zero/near-maximum tests.
+
+### AER-103 — Unknown discriminants silently become valid-looking backends or formats
+
+**Status:** confirmed
+**Severity:** P1 correctness/truth blocker
+**Owners:** `NPUBackendType`, `GPURealmType`, `CompressedFormatType`,
+`GGMLType.to_compressed_format`, GPU/NPU/dequant dispatch functions
+
+Unknown NPU values print `GENERIC_NPU`; unknown GPU values print `GENERIC_GPU`;
+unknown compressed-format values print `SMOOTHQUANT_INT8`; and unknown GGML
+types map to `Q4_K_M`. Dispatch then executes a fallback CPU or toy kernel.
+Invalid configuration is therefore converted into plausible but false success.
+
+**Buildout:** validated constructors or explicit `UNKNOWN`/error results; reject
+unknown GGML types; never route unsupported formats through a different format.
+
+### AER-104 — Core kernels trust incompatible tensor shapes and spans
+
+**Status:** confirmed
+**Severity:** P0/P1 depending on caller
+**Owners:** all GEMM, attention, normalization, RoPE, activation, similarity,
+dequantization, sharding, and reduction kernels
+
+The kernels receive raw pointer descriptors but generally do not validate
+dimensions, divisibility, output capacity, pointer validity, sequence lengths,
+head mappings, or packed-input byte counts. Representative failures include
+division by zero in RMSNorm, out-of-range width-16 vector access in
+`flash_attention_2`, an odd `head_dim` read in `apply_rope`, a zero
+`query_heads_per_kv` divisor in `flash_attention_gqa`, and silent truncation of
+odd or non-block-aligned dequantization requests.
+
+**Buildout:** checked boundary wrappers and invariant-bearing internal kernels;
+exact packed-byte contracts; scalar tails where mathematically valid; explicit
+rejection where they are not; randomized reference tests and sanitizers.
+
+### AER-105 — The multi-device transformer path is mathematically invalid for GQA
+
+**Status:** confirmed by source inspection; not exercised by a real device
+**Severity:** P1 core correctness blocker
+**Owner:** `TransformerBlock.forward` multi-device branch
+
+The branch assumes Q, K, and V shard widths all equal `x.cols / num_devices`,
+even though GQA K/V width is `kv_dim`, not the hidden width. It allocates full K
+and V using `x.size`, reconstructs only one row's shard indices, feeds sharded
+tensors to legacy attention with unchecked head divisibility, and uses host
+lists rather than device placement. The verified model itself has 8 query heads
+and 4 KV heads, so this assumption is structurally wrong for the project's own
+reference architecture.
+
+**Buildout:** disable/reject the branch until a separate real multi-device
+contract exists, or rebuild it from explicit Q/K/V layouts, device ownership,
+collectives, synchronization, and oracle parity.
+
+### AER-106 — GGUF parsing has re-entry, duplicate-key, and integer-conversion gaps
+
+**Status:** confirmed
+**Severity:** P1 loader hardening blocker
+**Owners:** `GGUFSeer._open_and_map`, parsing helpers, tensor mapping,
+`inspect_metadata`, both `mmap_and_load` overloads
+
+Calling mapping entry points more than once on one seer can overwrite live
+mapping/file-descriptor state. Duplicate metadata keys are accepted. UInt64
+lengths and offsets are converted to `Int` without a complete representability
+check. `rows * cols` can overflow before `_tensor_byte_size` sees it. Raw typed
+loads may be unaligned on strict-alignment platforms. Large nested metadata
+arrays can consume excessive time before rejection.
+
+**Buildout:** one explicit loader state machine; duplicate-key rejection;
+checked UInt64-to-Int conversions and products; portable little-endian reads;
+array nesting/work budgets; malformed corpus and fuzzing.
+
+### AER-107 — Tokenizer mutation APIs accept invalid and contradictory state
+
+**Status:** confirmed
+**Severity:** P1 compatibility/safety blocker
+**Owners:** `RuneWeaver.add_token`, `set_token_score`, `set_token_type`,
+`set_special_tokens`, UTF-8/piece helpers, `encode`, `decode`
+
+Negative or sparse token IDs are not validated, duplicate token text silently
+overwrites the reverse map, special IDs are not range-checked, UTF-8 lead-byte
+width is trusted without continuation validation, and byte-token decoding drops
+data. The fallback encoder has no inverse contract. The merge implementation
+rebuilds lists repeatedly and is unsuitable for long inputs.
+
+**Buildout:** validated vocabulary finalization; duplicate policy; tokenizer
+model/mode metadata; stateful byte decoding; Unicode error policy; corpus parity
+and complexity limits that fail honestly rather than truncate data.
+
+### AER-108 — The engine and supervisor expose two different event buses
+
+**Status:** confirmed
+**Severity:** P1 integration bug
+**Owners:** `AesirEngine.__init__`, `SelfHealingSupervisor.__init__`,
+`pulse_heartbeat`, `AesirEventBus`
+
+`AesirEngine` constructs `self.event_bus`, while
+`SelfHealingSupervisor` constructs its own `self.bus`. The startup heartbeat is
+published to the supervisor's private marker, not the engine bus advertised by
+the facade. Neither object has subscribers, but even the scaffold state is
+split.
+
+**Buildout:** one injected bus ownership contract before implementing real
+delivery; tests must observe the same event object used by engine consumers.
+
+### AER-109 — Model-store operations are ephemeral and ambiguous even in one process
+
+**Status:** confirmed
+**Severity:** P1 CLI/data correctness blocker
+**Owners:** `RuneModelStore` constructors and all store methods,
+`dispatch_command`
+
+Every command creates a newly seeded store. Missing lookups fabricate a model;
+prefix lookup can return the wrong tag; create/copy can duplicate key entries;
+remove returns success when an exception occurs; active state is fixed; parsed
+Modelfile data is mostly ignored. No operation persists to disk.
+
+**Buildout:** explicit store root, validated manifest schema, exact lookup,
+atomic persistence, checksum-derived identity, deterministic duplicate policy,
+and CLI exit failures.
+
+### AER-110 — Socket and response helpers lose error and protocol state
+
+**Status:** confirmed
+**Severity:** P1 server blocker
+**Owners:** all `BifrostGate` socket/send/route methods and OS helpers
+
+Windows is inferred as “not Linux or macOS” while still calling POSIX symbols.
+Socket-option constants and sockaddr layout are manually guessed. Request bytes
+are discarded after one 1024-byte read. Send functions ignore partial writes,
+interrupts, disconnects, and content length/chunk framing. Duplicate static and
+instance send helpers can drift. JSON is concatenated without escaping.
+
+**Buildout:** platform abstraction; owning request/response structs; bounded but
+incremental HTTP parsing; write-all semantics; error propagation; JSON encoder;
+one send implementation; conformance and disconnect tests.
+
+### AER-111 — Several “safety” and orchestration functions are no-ops with unsafe edges
+
+**Status:** confirmed
+**Severity:** P1 truth/correctness blocker
+**Owners:** `ErrorGuard`, grammar, speculative, state vault, event bus, thread
+pool, supervisor, and swarm functions
+
+`ErrorGuard.validate_pointer` accepts address 1 and does not check alignment;
+grammar state never parses or advances; speculative verification lacks a vocab
+bound and returns one accepted token for a zero-count request; StateVault stores
+no KV bytes; the event bus has no subscribers; the thread pool has no threads;
+the supervisor simulates recovery; heartbeat is unconditional; dispatch ignores
+the prompt and only formats a string.
+
+**Buildout:** treat each subsystem as a separate future contract. Until then,
+rename outputs and tests as scaffold behavior and prevent operational success
+claims.
+
+### AER-112 — Tests can read uninitialized memory or verify only that code returned
+
+**Status:** confirmed
+**Severity:** P0 verification blocker
+**Owners:** test suite, especially quantization, multi-engine, inference,
+resilience, accelerator, Hugging Face, and swarm tests
+
+`test_speculative_engine` allocates target logits without initializing them and
+then reads them. `test_dequantization_kernels` never changes its `success`
+variable or validates output. `test_gbnf_grammar` does not set the only active
+state or inspect logits. Many tests assert only nonempty strings or `True`
+returns from unconditional simulations.
+
+**Buildout:** initialize every byte read; assert derived outputs; add negative
+cases; rename scaffold tests; and make all failures raise.
+
+### AER-113 — Public generation defaults remain hardcoded policy
+
+**Status:** confirmed refinement
+**Severity:** P2 configuration debt
+**Owners:** `generate`, `generate_stream`, `run_single_shot`, CLI parser
+
+The verified token count of 32 is embedded in `generate()` and streaming. The
+CLI has a separate 32 default and a fixed 2,147,483,647 parsing ceiling. These
+were appropriate proving constants but are not a durable configuration model.
+
+**Buildout:** one validated `GenerationConfig` owned by the facade, with the
+verified greedy defaults represented once and model context applied as the
+runtime bound.
+
+### AER-114 — Copyable raw-pointer descriptors obscure ownership and lifetime
+
+**Status:** confirmed refinement
+**Severity:** P1/P2
+**Owners:** `RuneTensor`, KV/buffer/shard descriptors, transformer blocks,
+`GenerationResult`, registries, and their copy methods
+
+Copy operations usually alias pointers without encoding the lifetime owner.
+Some copies duplicate dynamic lists while others alias backing memory. A mapped
+tensor can outlive the seer in type terms. Unmanaged shard allocations have no
+owner at all.
+
+**Buildout:** distinguish owned allocation, borrowed view, immutable mapped
+view, and request-scoped view in types or constructors; eliminate ownerless
+heap leaks; document and test destruction order.
+
+### AER-115 — The suite has 118 print-only failure sites in 12 modules
+
+**Status:** confirmed by function-level census
+**Severity:** P0 truth blocker
+**Owner:** tests domain
+
+The re-audit found 118 `FAIL` print sites across 12 test modules. Two KV-cache
+failure paths return early. This refines AER-001 with a complete current count.
+
+**Buildout:** Forge 0A below.
+
+## 30. Runtime Function Buildout Ledger
+
+### 30.1 Asgard facade and entry point
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `calculate_runtime_pool_bytes` | Real formula, unsafe arithmetic | Reject invalid dimensions/capacity and check every sum/product for overflow. |
+| `GenerationResult.__init__`, `__copyinit__`, `copy` | Functional, copy-heavy | Clarify move/copy cost and avoid repeated token-list copies on hot return paths. |
+| `generation_stop_reason` | Verified narrow | Validate or encapsulate raw counts/positions; extend only through a generation configuration contract. |
+| `AesirEngine.__init__` | Real narrow plus scaffold construction | Avoid double metadata mapping cost, validate conflicting backend flags, inject one event bus, and stop activating fake subsystems by default. |
+| `_prepare_prompt` | Partial RAG scaffold | Replace constant query vector; validate dimensions; make temporary pool use exception-safe; add context budgeting. |
+| `_run_generation` | Verified deterministic core, incomplete lifecycle | Guaranteed pool cleanup, stateful decode, cancellation, custom stops, bounded/configured policy, stream-safe serialization. |
+| `generate_tokens` | Verified narrow | Accept a structured configuration in a later compatible extension and document request isolation. |
+| `generate` | Verified facade, hardcoded policy | Source the 32-token default from one configuration owner. |
+| `generate_stream` | Reuses real loop, transport-incomplete | Guaranteed close/error result, final stop reason, escaping/framing, cancellation/backpressure; ultimately move transport ownership out of Asgard. |
+| `main` | Functional dispatch | Define consistent exit codes and avoid defaulting no-argument execution into a nonpersistent fake server. |
+
+### 30.2 Memory, tensors, caches, stores, and topology
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `NPUBackendType.__init__`, `name`; `GPURealmType.__init__`, `name`; `CompressedFormatType.__init__`, `name` | Unvalidated discriminants | Reject unknown values instead of converting them to generic or SmoothQuant labels. |
+| `GPUBuffer` constructors, `as_rune_tensor`; `NPUBuffer` constructors, `as_rune_tensor` | Host-memory descriptors mislabeled as accelerator/DMA | Validate even byte size and tensor span; set DMA state truthfully; add real ownership/handle semantics or relabel as host buffers. |
+| `RuneTensor.__init__`, `get`, `set` | Unsafe pointer view | Reject negative/overflowed shapes; validate boundary access at public edges; encode borrowed/owned lifetime. |
+| `KVCache` constructors | Unsafe products and allocation failure | Validate positive layer/context/width, checked products, pool capacity, and explicit cache ownership. |
+| `KVCache.append` | Works for verified in-range path | Reject invalid layer/position/width and remove misleading ring behavior until chronological wraparound exists. |
+| `KVCache.get_k_slice`, `get_v_slice` | Unsafe unchecked view | Reject invalid layer/sequence lengths and define wrapped-cache semantics. |
+| `MimirWell.__init__` | Real allocation, incomplete validation | Reject nonpositive/odd/overflowed byte sizes and handle allocation failure. |
+| `MimirWell.allocate` | Critical bug | Raise on negative/exhausted/overflowed requests; never return address 1. |
+| `allocate_npu_buffer`, `allocate_gpu_buffer` | Host-only wrappers | Use checked allocation and honest metadata; later connect real backend allocators. |
+| `reset_kv_cache` | Arbitrary offset assignment | Replace with validated checkpoint/rewind ownership, not a caller-provided raw offset. |
+| `MimirStore` constructors and copy | Partial primitive | Validate max/dim/products; clarify aliased embedding lifetime and copied document ownership. |
+| `MimirStore.add_document` | Partial | Reject dimension mismatch and full capacity explicitly; return a result; avoid silent truncation. |
+| `MimirStore.search_knn` | Real simple search, dynamic and under-validated | Validate query width/top-k, define ties/NaN/zero vectors, avoid hot allocations, evaluate retrieval. |
+| `DeviceTopology` constructors | Fabricated devices | Represent configured versus discovered devices separately; validate name count and backend availability. |
+| `detect_edge_npus`, `detect_gpu_realms` | Simulation | Real platform probes or explicit empty/unavailable results. |
+| `shard_split_cols` with well | CPU copying helper | Validate shard count/divisibility/capacity and state that it is host partitioning. |
+| `shard_split_cols` without well | Leaks unmanaged allocations | Add an owner or remove only with approval after callers migrate. |
+| `shard_split_rows` | Host view helper | Validate shard count and lifetime; do not label as device placement. |
+
+### 30.3 Compute kernels
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `BlockQ4_K.__init__`, `dequantize_q4_k_m` | Toy non-GGML block | Implement the authoritative GGML block layout and scales or relabel; validate block/output spans. |
+| `dequantize_q2_k`, `dequantize_q3_k`, `dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q6_k`, `dequantize_q8_0` | Simplified incorrect formats | Parse real per-block metadata and packing; handle/reject tails; add real GGML fixtures. |
+| `dequantize_gptq_4bit`, `dequantize_awq_4bit`, `dequantize_exl2`, `dequantize_hqq`, `dequantize_smoothquant_int8` | Name-only toy conversions | Each needs its actual external format contract, scales/zeros/group metadata, fixture, and oracle—or honest unsupported status. |
+| `dequantize_compressed_tensor` | Unsafe conflating dispatcher | No fallback to another format; exact input byte length; distinct supported cases only. |
+| `gemm_f16` | Verified narrow CPU kernel | Shape/output-span checks, broader numerical/reference corpus, architecture-specific performance claims removed. |
+| `flash_attention_gqa` | Verified through pinned inference, under-validated | Enforce head divisibility, tensor widths, sequence spans, finite accumulation, and randomized F32 reference parity. |
+| `flash_attention_2` | Legacy unsafe kernel | Add scalar tails and causal semantics or retire only with approval; current width-16 loops can overrun. |
+| `silu` | Real primitive | Pointer/size validation and numerical extreme tests. |
+| `geglu` | Partial/misnamed relative to SwiGLU runtime | Reject odd sizes, define output shape, test overflow; clarify that transformer path actually uses SiLU(gate) times up. |
+| `rmsnorm`, `rmsnorm_arm_neon`, `rmsnorm_gpu` | CPU functions with varying lane widths | Reject zero/mismatched widths; stable F32 accumulation tests; remove hardware execution claims. |
+| `apply_rope` | Real narrow | Reject odd/mismatched head shapes and negative positions; parse model theta/scaling variants. |
+| `cosine_similarity` | Real primitive | Reject mismatched sizes rather than silently taking the minimum; define zero-vector behavior and finite checks. |
+| `gemm_f16_sharded` | Sequential host loop | Reject mismatched list lengths instead of silently taking minimum; real device scheduling later. |
+| `all_reduce_sum` | Sequential host reduction | Validate every shard span; use wider accumulation where needed; do not call it a device collective. |
+| `gemm_f16_arm_neon`, `gemm_f16_gpgpu_vector`, `gemm_f16_mobile_opencl` | CPU SIMD-width variants | F32 accumulation, shape checks, real ISA/backend compilation proof, honest naming. |
+| `gemm_f16_npu`, `gemm_f16_gpu` | Misleading dispatch | Return unsupported for unavailable backends; connect real runtimes only after hardware gates. |
+
+### 30.4 Inference orchestration
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `TransformerBlock.__init__(..., seer)` | Loader-backed but retains sentinel fallback | Required tensors should raise immediately; never construct usable address-1 weights. |
+| legacy `TransformerBlock.__init__` and `copy` | Sentinel-bearing test constructor | Replace with an explicit non-runnable descriptor/test fixture without address-1 pointers. |
+| `TransformerBlock.forward` single-device | Verified narrow, oversized function | Exception-safe rewind; precondition validation; split attention/FFN workspace responsibilities; retain exact parity. |
+| `TransformerBlock.forward` multi-device branch | Incorrect/unverified | Rebuild as a separate contract; current GQA widths, reconstruction, attention, and placement are invalid. |
+| primary `forward_pass` | Verified narrow, hot allocations and weak errors | Reuse block list without copying, reject empty tokens, validate positions/cache/layers, sanitize finite logits, use a true minimum argmax initializer, guarantee rewind. |
+| convenience `forward_pass` overload | Unsafe lifecycle convenience | Check embedding existence before lookup; scope/reclaim allocated KV cache; document that it is not reusable generation. |
+
+### 30.5 GGUF and tokenizer loader
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `GGMLType.to_compressed_format` | Dangerous default | Raise/return unsupported for unknown GGML types; map only implemented formats. |
+| `GGUFModelConfig.head_dim`, `kv_dim`, `validate` | Real narrow | Checked products; validate RMS epsilon and special IDs; support optional/tied/output and RoPE metadata deliberately. |
+| `GGUFSeer.__init__`, `_open_and_map`, `__deinit__` | POSIX real path, re-entry unsafe | Explicit state machine, no remap leak, portable platform layer, immutable mapped pointer view. |
+| `_require_range`, `_read_u32`, `_read_i32`, `_read_u64`, `_read_f32` | Bounds checks real | Portable unaligned little-endian reads and representability checks. |
+| `_read_string`, `_string_end` | Partial | UTF-8/error policy, size/work budget, avoid per-string heap churn where possible. |
+| `skip_value` | Real recursive parser, denial-of-service surface | Nesting/element/work bounds and checked cursor arithmetic. |
+| `_parse_string_array`, `_parse_score_array`, `_parse_type_array` | Real narrow | Checked UInt64 conversion/product; cross-array cardinality and duplicate semantics. |
+| `_parse_metadata_value`, `_parse_metadata` | Real narrow | Duplicate-key detection, type mismatch rejection for recognized keys, tokenizer-model and optional metadata. |
+| `_parse_header` | Real narrow | Stronger minimum table feasibility and count arithmetic. |
+| `_tensor_byte_size`, `_map_tensor`, `_parse_tensors` | Real F16/F32 narrow | Overflow-before-product, multidimensional/format policy, immutable mapped views, quantized layout only when real. |
+| `_require_tensor_shape`, `_validate_required_tensors` | Strong narrow validation | Tied output option, architecture variants, exact vocabulary/special IDs, no unused fake compatibility. |
+| `inspect_metadata`, both `mmap_and_load` overloads | Functional but duplicated lifecycle | One stateful inspection/load flow or explicit separate probe type; prevent re-entry and duplicated parsing cost. |
+| `RuneWeaver.add_token`, `set_token_score`, `set_token_type`, `set_special_tokens` | Under-validated mutation API | Nonnegative/range/duplicate validation and finalization invariant. |
+| `byte_to_hex_token` | Functional helper | Coverage for every byte and tokenizer-specific byte notation. |
+| `_append_utf8_symbols`, `_initial_pieces` | Model-specific UTF-8 handling | Validate continuation bytes and tokenizer normalization metadata. |
+| `_merge_sentencepiece` | Correct for pinned prompt, inefficient/general-incomplete | Priority-queue or equivalent proven algorithm, tie semantics, corpus parity. |
+| `_append_piece_tokens`, `encode` | Verified narrow | Control/user token rules, fallback error policy, multiple real tokenizer fixtures. |
+| `decode` | Token-local and lossy | Stateful sequence decoder for bytes/control tokens and UTF-8 flush/error semantics. |
+
+### 30.6 External loaders and CLI
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `HuggingFaceSeer.__init__` | Unused configured CDN | Either use an injected trusted endpoint or remove only with approval; validate configuration. |
+| `parse_hf_repo`, `is_hf_tag`, `build_download_url` | String helpers, weak validation | Exact URI/repo grammar, revision/file encoding, reject traversal/local-path confusion. |
+| `download_hf_model` | Simulation | HTTPS stream, auth, revision, resume, checksum, atomic destination, error result. |
+| `ONNXModelSeer.__init__`, `parse_onnx_header`, `map_to_well` | Simulation | Real protobuf parsing, graph/initializer ownership, operator support and conformance fixtures. |
+| `ModelManifest.__init__`, `size_formatted` | Fabricated defaults and crude formatting | Validated real metadata; no placeholder digest/size; correct human-readable sizes and negative rejection. |
+| all `RuneModelStore` constructors/methods | Ephemeral seeded simulation | Persistent store, exact lookup, atomic operations, real active-state ownership, honest missing errors. |
+| `parse_modelfile` | Partial parser | Prefix-safe extraction, quoting/multiline/comment rules, duplicate policy, required directive and parameter validation. |
+| `dispatch_llama_cli`, `dispatch_exl2_cli`, `dispatch_onnx_cli` | Simulated unconditional success | Real execution adapters or explicit unsupported nonzero results; remove fabricated metrics. |
+| `print_banner`, `print_general_help` | Presentation | Capability-aware help that labels unsupported/scaffold commands. |
+| `parse_positive_int` | Real narrow | Reuse a general validated numeric/config parser and one source of token limits. |
+| `format_model_table`, `format_ps_table` | Formatting over fake state | Consume persistent real state; no fixed CUDA/expiry values; terminal-width and Unicode tests. |
+| `dispatch_command` | Overloaded mixed real/simulated router | Per-command handlers, consistent nonzero errors, no fake progress/success, persistent server loop/store, exact help. |
+| `RuneREPL.run_repl` | Scripted demo | Real stdin/EOF/signals, engine session/history, slash-command validation, cancellation. |
+| `run_single_shot` | Verified real | Structured error/exit reporting and shared generation configuration. |
+
+### 30.7 Server, formatting, and ancillary systems
+
+| Function(s) | Status | Required work |
+|---|---|---|
+| `os_is_linux`, `os_is_macos`, `os_is_apple`, `os_is_windows` | Fragile runtime guesses | Compile-time/platform abstraction; Windows must not mean “unknown Unix.” |
+| `BifrostGate.__init__`, `start`, `await_request`, `__deinit__` | POSIX socket scaffold | Validated port, portable sockaddr/options, persistent accept loop, request ownership, failure cleanup. |
+| `send_response`, both close helpers, both chunk helpers, both embedding helpers | Duplicated unsafe writes | One write-all/error-aware implementation, HTTP framing, escaping, idempotent close ownership. |
+| `dispatch_http_route` | Fixed route theater | Parse method/path/body, invoke engine/service APIs, correct errors/status, authentication and conformance. |
+| all `OpenAIGate.format_*` functions | Unsafe string templates | JSON escaping, dynamic IDs/timestamps/usage, schema correctness, real embeddings and SSE termination. |
+| `GBNFGrammar.__init__`, `copy`, `apply_grammar_mask` | Toy/no-op state | Real parser/state machine/token validation; copy must preserve active state and position; pointer checks. |
+| `SpeculativeEngine.__init__`, `copy`, `verify_tokens` | Unsafe toy verifier | Validate count/token/vocab spans; real draft/target probabilities, rollback and KV coordination; zero count returns zero. |
+| all `ErrorGuard` functions | Partial helpers, not integrated | Reject sentinel/misalignment/span errors, correctly classify finite/subnormal values, integrate at actual boundaries. |
+| all `AesirEventBus` functions | Marker only | Subscriber registration/delivery, message ownership, ordering, concurrency, shared engine instance. |
+| all `StateVault` functions | Metadata marker only | Snapshot/restore tokens, KV data, RNG/config/session identity with validation and persistence policy. |
+| all `SelfHealingSupervisor` functions | Simulation and split bus | Inject shared bus/vault, observe real failures, recovery eligibility/state verification, no unconditional success. |
+| all `RuneThreadPool` functions | Boolean scaffold | Validate thread count, workers/queue/join/shutdown/error propagation and race tests. |
+| `SwarmNodeRole` construction/name | Unvalidated enum | Reject unknown roles. |
+| `PeerNode` construction, `vram_free_mb` | Unvalidated telemetry | Validate address/port/capacity/usage and prevent negative free memory. |
+| all `PeerRegistry` methods | Seeded local simulation | Empty real registry, liveness timestamps, duplicate/update policy, no-alive error, persistence/concurrency. |
+| all `TaskDispatcher` methods | String formatter | Real task lifecycle, decrement/completion, request identity, transport errors, cancellation. |
+| all `SwarmCluster` methods | Networkless simulation | Authenticated join, heartbeat transport/expiry, prompt-preserving remote inference and result propagation. |
+
+### 30.8 Legacy and scratch declarations
+
+The 35 functions/methods in `replace_gguf.mojo`, `test.mojo`, `test2.mojo`,
+`test3.mojo`, `test4.mojo`, `test_buf.mojo`, `test_callback.mojo`,
+`test_dict.mojo`, `test_engine.mojo`, `test_keepalive.mojo`, `test_mojo.mojo`,
+`test_parse.mojo`, `test_server_loop.mojo`, `test_sys.mojo`, and
+`test_trait.mojo` are not part of the supported runtime or proving suite. They
+include empty `pass` bodies, unsafe raw-pointer experiments, obsolete loader and
+socket copies, and placeholder callbacks. They need one of three explicit
+outcomes: promote into real tests, archive outside runtime source, or delete
+only after Volmarr's specific approval. Until then they must not be counted as
+capability code or test coverage.
+
+## 31. Test Function Truth Ledger
+
+### 31.1 Print-only or early-return failures that must become raised failures
+
+| Module | Functions requiring fail-closed conversion/refinement |
+|---|---|
+| `test_compute.mojo` | `test_gemm`, `test_flash_attention`, `test_silu`, `test_geglu`, `test_dequantize_q4_k_m` |
+| `test_gguf.mojo` | `test_ggml_type` |
+| `test_inference.mojo` | `test_forward_pass` needs an asserted output/invariant; `test_generation_stop_policy` already raises correctly |
+| `test_kv_cache.mojo` | `test_kv_cache` has two print-and-return failures and does not assert step-1 cache values |
+| `test_rag.mojo` | `test_cosine_similarity`, `test_mimir_store`; `report_engine_integration_boundary` must be counted as a skip |
+| `test_npu_edge.mojo` | `test_npu_backend_enum`, `test_device_topology_npu`, `test_npu_buffer_zero_copy`, `test_arm_neon_precision`, `test_npu_gemm_parity` |
+| `test_gpu_realms.mojo` | `test_gpu_realm_enum`, `test_device_topology_gpus`, `test_gpu_buffer_zero_copy`, `test_gpu_gemm_parity` |
+| `test_cli.mojo` | `test_modelfile_parser`, `test_model_manifest_store`; `test_cli_command_dispatch` needs actual output/error assertions |
+| `test_quantization.mojo` | `test_compressed_format_enum`, `test_dequantization_kernels` (the latter currently cannot fail) |
+| `test_multi_engine.mojo` | `test_openai_api_formatter`, `test_gbnf_grammar`, `test_speculative_engine`, `test_onnx_model_seer`, `test_multi_engine_cli` |
+| `test_resilience.mojo` | `test_error_guard`, `test_state_vault`, `test_event_bus`, `test_thread_pool`, `test_supervisor_crash_recovery` |
+| `test_huggingface.mojo` | `test_hf_repo_parsing`, `test_hf_download_url_builder`, `test_hf_mobile_model_download` |
+| `test_swarm_cluster.mojo` | `test_swarm_node_role`, `test_peer_node_metrics`, `test_peer_registry_and_load_balancer`, `test_swarm_cluster_task_dispatch` |
+
+### 31.2 Tests that already raise but still overstate their evidence
+
+- `test_sharding` and its five child tests fail correctly, but they prove host
+  partitioning and sequential arithmetic—not device placement or multi-GPU.
+- `test_tokenizer` uses process-failing assertions, but covers one synthetic
+  ASCII merge graph and token-local decode only.
+- `test_gguf_parsing` genuinely proves rejection of the tracked malformed
+  fixture; it does not prove general GGUF compatibility.
+- `test_generation_stop_policy` genuinely proves the isolated stop decision.
+- `test_real_gguf.main` is the strongest test: it raises on exact metadata,
+  mapping, tokenization, 32-token output, one-token regression, context boundary,
+  and pool restoration mismatches. It remains opt-in because weights are not
+  tracked.
+- `run_all.main` has no pass/fail/skip counters and prints a universal success
+  epilogue whenever child functions return normally.
+
+## 32. Massive Staged Buildout Plan Derived from the Function Ledger
+
+This plan expands the earlier Forge order into reviewable contracts. Each stage
+must receive its own `TASK_*.md`, independent acceptance gates, documentation
+update, commit, and push.
+
+### Stage 0 — Truth infrastructure
+
+1. **Forge 0A:** convert every print-only/early-return test failure to a raised
+   error; prove deliberate corruption exits nonzero.
+2. **Forge 0B:** add counted pass/fail/skip reporting without swallowing errors.
+3. **Forge 0C:** create a capability ledger linking each verified claim to its
+   gate and marking scaffolds honestly.
+4. **Forge 0D:** remove fabricated success/benchmark/download/hardware messages
+   by relabeling or returning unsupported errors; no public function deletion.
+5. **Forge 0E:** reconcile TODO, README, vision, architecture, interfaces, and
+   duplicate docs with the ledger.
+
+### Stage 1 — Memory and unsafe-boundary hardening
+
+1. Checked `MimirWell` construction/allocation/rewind.
+2. Checked tensor/cache/buffer/store dimensions and arithmetic.
+3. Remove address-1 from usable runtime objects.
+4. Exception-safe generation and forward-pass workspace guards.
+5. Ownership/lifetime model for mmap, pool views, shards, and results.
+
+### Stage 2 — Kernel contract hardening
+
+1. Shape-checked GEMM/RMSNorm/RoPE/attention wrappers.
+2. Randomized F32 reference tests for CPU primitives.
+3. Reject legacy attention/dequant tails that cannot be computed safely.
+4. Replace misleading hardware names with explicit CPU variants until real.
+5. Disable/reject invalid multi-device inference until separately rebuilt.
+
+### Stage 3 — Loader and tokenizer generalization
+
+1. GGUF loader state machine, checked integers, duplicate keys, portable reads.
+2. Malformed corpus and fuzz harness.
+3. Vocabulary finalization and special/control-token validation.
+4. Stateful byte/UTF-8 decoding.
+5. RoPE/tied-output/tokenizer metadata variants and multiple real F16 fixtures.
+
+### Stage 4 — Generation quality
+
+1. One `GenerationConfig` and cancellation/error results.
+2. Stop-token sets, stop strings, stateful decoder flush.
+3. Numerical/token regression corpus across prompts and models.
+4. Deterministically seeded sampler stack.
+5. Chat-template and conversation contracts after tokenizer support.
+
+### Stage 5 — Persistent CLI and model store
+
+1. Real on-disk manifest/blob layout with atomic operations.
+2. Exact create/copy/remove/show/list/ps semantics and exit codes.
+3. Real stdin REPL and session state.
+4. HTTPS Hugging Face download with revision, resume, checksum, and atomic move.
+5. Modelfile grammar and parameter-to-generation integration.
+
+### Stage 6 — Service boundary
+
+1. Move transport serialization out of `AesirEngine` behind a service API.
+2. Platform-safe socket abstraction and persistent serving loop.
+3. Incremental HTTP parser and write-all response path.
+4. One compatibility API first, with JSON/SSE conformance.
+5. Cancellation, backpressure, timeouts, limits, and security defaults.
+
+### Stage 7 — Embeddings and RAG
+
+1. Real embedding model/extraction path.
+2. Ingestion, parsing, chunking, metadata, persistence.
+3. Query embedding, retrieval evaluation, context budgeting, citations.
+4. End-to-end external corpus tests.
+
+### Stage 8 — Quantized inference
+
+1. Pick one authoritative GGML format.
+2. Implement exact block layout and verified dequant/matmul.
+3. Load a real quantized GGUF and compare logits/tokens to `llama.cpp`.
+4. Add formats one at a time; never restore a matrix claim from enum names.
+
+### Stage 9 — Hardware and multi-device
+
+1. Pick one physically available accelerator backend.
+2. Real detection, allocation, copy/zero-copy contract, kernel, sync, errors.
+3. CPU parity and hardware CI/fixture evidence.
+4. Only then design real placement, GQA sharding, collectives, and scaling.
+
+### Stage 10 — Optional ecosystems
+
+Treat ONNX, grammar, speculative decoding, ExLlama, resilience, concurrency, and
+swarm as separate projects with individual external fixtures. None may inherit a
+“complete” label from the current structs or unconditional `True` returns.
+
+## 33. Current Recommended Next Forge
+
+Proceed with **Forge 0A: fail-closed master-suite semantics**.
+
+It is the smallest change with the widest trust impact. It does not pretend the
+simulated tests prove their advertised domains; it ensures that whatever they
+do assert can no longer fail while the process exits successfully. Its exact
+scope and acceptance gates must be captured in
+`TASK_fail_closed_test_semantics.md` before code changes.
