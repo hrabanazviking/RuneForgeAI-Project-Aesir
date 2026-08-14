@@ -11,6 +11,9 @@
 - [x] **Fail-Closed Test Semantics:** Existing master-suite assertion failures
   raise and exit nonzero; an intentional expectation mutation proved the gate.
   Synthetic/scaffold checks remain distinct from external capability proof.
+- [x] **Counted Master-Suite Reporting:** Register 49 executable named cases and
+  one external-fixture skip, continue after case failures, emit stable
+  `[CASE ...]` and `[SUMMARY]` lines, and raise after the summary on failure.
 - [x] **Truth-Bearing GGUF Vertical Slice:** Validate a real GGUF v3 Llama F16 model, map matrix weights zero-copy, convert F32 norms, load tokenizer metadata, execute grouped-query CPU inference, and return one genuine CLI token with pinned `llama.cpp` parity.
 - [x] **Verified Deterministic Multi-Token Slice:** Reuse one request KV cache,
   enforce EOS/length/context stop reasons, and match all 32 pinned greedy token
@@ -43,4 +46,3 @@
 - [ ] **Quantized Real-Model Inference:** Connect supported GGML quantized tensor layouts to validated end-to-end execution; format discriminants and synthetic kernels alone do not establish model compatibility.
 - [ ] **Production Benchmarking & Custom Memory Tuning:** Hardware profiling & VRAM footprint optimization.
 - [ ] **Low-Precision Quantization (INT4/INT8 NPU):** Native NPU integer quantization kernels for Hailo-10 & Hexagon.
-

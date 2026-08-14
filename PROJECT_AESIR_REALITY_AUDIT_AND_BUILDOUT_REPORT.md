@@ -198,44 +198,48 @@ Any future refactor must keep these truths explicit and independently testable.
 
 ## 6. P0 Findings — Truth and Safety Blockers
 
-### AER-001 — Master-suite failure semantics and remaining aggregation debt
+### AER-001 — Master-suite failure and counted-reporting semantics
 
-**Status:** partially resolved by Forge 0A
-**Severity:** P0  
+**Status:** resolved by Forge 0A and Forge 0B
+**Severity:** closed P0 verification-infrastructure milestone
 **Owners:** tests domain; every domain whose tests use print-only failure
 
 Forge 0A converted every identified terminal print-only failure and both
 KV-cache early-return failures into raised errors, propagated `raises` through
 the affected call graph, and added a deterministic assertion to
-`test_forward_pass()`. The master runner now reaches its final banner only after
-all invoked assertions return normally. A deliberate mutation of the F16 GGML
-type expectation exited 1 and identified the failed invariant; restoration
-returned the focused test and complete suite to exit 0.
+`test_forward_pass()`.
 
-The runner still stops on the first failure rather than emitting counted
-pass/fail/skip totals. Historical hardware/ecosystem titles still overstate what
-their synthetic checks prove, and the RAG fixture boundary is printed as `SKIP`
-but not counted.
+Forge 0B added one tests-domain ledger and registered 49 executable named cases
+plus one explicit external-fixture skip. Each case is caught and recorded at its
+own boundary, so later cases continue after a failure. The runner prints unique
+`[CASE ...]` lines, ordered failure details, and `[SUMMARY]` pass/fail/skip/total
+keys. It raises after the summary if any case failed or the expected total is
+wrong.
+
+The deliberate F16 expectation mutation produced 48 passed, 1 failed, 1
+skipped, and 50 total; the final swarm case still executed; and the process
+exited 1 only after the summary. Exact restoration produced 49/0/1/50 and exit
+0. Historical hardware/ecosystem titles and internal banners still overstate
+what their synthetic checks prove, but that evidence-labeling debt is tracked
+by AER-003 and AER-112 rather than by runner mechanics.
 
 **Why this matters:** a green process exit does not prove that the output was
 green. Automation, contributors, and future agents can mistake a false-green
 suite for verified correctness.
 
-**Required buildout status:**
+**Completed buildout:**
 
-- **completed in Forge 0A:** every failed assertion raises or propagates a
+- every failed assertion raises or propagates a
   failure to the master runner;
-- the runner must emit a counted summary and exit nonzero on any failure;
-- **completed for existing assertions in Forge 0A:** `PASS` is printed only
+- the runner emits a counted summary and exits nonzero on any failure;
+- `PASS` is printed only
   after the function's asserted invariants are checked;
-- tests that only exercise labels or formatting must not be titled hardware or
-  ecosystem parity tests; and
-- skipped tests must be counted separately from passed tests.
+- skipped tests are counted separately from passed tests; and
+- a failure does not prevent later named cases from running.
 
-**Forge 0A acceptance achieved:** the deliberately corrupted accumulated-
-condition test failed nonzero, then passed after exact restoration. Forge 0B
-must add counted aggregation without swallowing a failure; Forge 0C/0D must
-correct capability titles and simulated success language.
+**Remaining adjacent truth work:** Forge 0C/0D must correct capability titles,
+completion labels, and simulated success language. Those changes must not be
+misdescribed as runner-semantics work.
 
 ### AER-002 — `MimirWell.allocate()` returns address `1` on exhaustion
 
@@ -1364,6 +1368,13 @@ re-audit enumerated every `def`/`fn` declaration in tracked Mojo source at commi
 | Legacy/scratch/replacement programs | 35 |
 | **Total declarations inventoried** | **365** |
 
+Forge 0B subsequently added eight complete test-harness declarations in
+`test_ledger.mojo`: six `TestLedger` methods plus `run_case` and `record_skip`.
+The current tracked census is therefore 270 runtime/public declarations, 68
+test-domain declarations, and 35 legacy/scratch declarations: **373 total**.
+These eight additions implement verified reporting infrastructure and are not
+open buildout findings.
+
 The ledger below lists every declaration or tightly coupled declaration group
 for which this pass found missing behavior, incomplete behavior, a correctness
 bug, unsafe preconditions, misleading semantics, inadequate error propagation,
@@ -1382,24 +1393,25 @@ specific additional defect beyond its owning subsystem's existing findings.
 - Forge 1 is complete except for stateful byte decoding, which the pinned token
   sequence did not exercise.
 - Forge 0 remains incomplete and is again the highest-priority trust boundary.
-- The current `TODO.md` regressed the verified multi-token record by removing
+- Forge 0A and Forge 0B are now complete; Forge 0C is the next truth boundary.
+- At `04d1057`, `TODO.md` regressed the verified multi-token record by removing
   the completed milestone and reintroducing an older statement that EOS and
-  context handling are missing.
+  context handling were missing. Forge 0A corrected that record.
 
 ## 29. New and Refined Findings
 
 ### AER-100 — The current TODO regresses a verified capability back to “missing”
 
-**Status:** confirmed at `04d1057`
-**Severity:** P0 truth blocker
+**Status:** resolved after confirmation at `04d1057`
+**Severity:** closed P0 documentation regression
 **Owner:** project documentation
 
 `TODO.md` removed the completed deterministic multi-token milestone and restored
 an older future item saying multi-token generation still needs EOS and context
 handling. Both behaviors now exist and passed the pinned integration gates.
 
-**Buildout:** restore the narrow verified record while retaining sampling, chat,
-byte-stream decoding, and production-general behavior as open work.
+**Resolution:** the narrow verified record is restored while sampling, chat,
+byte-stream decoding, and production-general behavior remain open work.
 
 ### AER-101 — Generation cleanup is not exception-safe
 
@@ -1639,7 +1651,7 @@ heap leaks; document and test destruction order.
 ### AER-115 — The suite had 118 print-only failure sites in 12 modules
 
 **Status:** resolved by Forge 0A for terminal failure semantics
-**Severity:** closed P0 slice; remaining evidence weakness tracked by AER-001 and AER-112
+**Severity:** closed P0 slice; remaining evidence weakness tracked by AER-003 and AER-112
 **Owner:** tests domain
 
 The re-audit found 118 `FAIL` print sites across 12 test modules and two
@@ -1648,8 +1660,8 @@ failure to a raised error, converted both early returns, and proved the nonzero
 exit behavior with an intentional mutation. Detailed mismatch diagnostics may
 still print before the terminal error; they no longer return success.
 
-**Remaining buildout:** counted aggregation, honest test naming, external
-fixtures, and stronger capability assertions remain in Forge 0B onward.
+**Remaining buildout:** honest test naming, external fixtures, and stronger
+capability assertions remain in Forge 0C onward.
 
 ## 30. Runtime Function Buildout Ledger
 
@@ -1836,9 +1848,21 @@ future regressions can be checked against the exact function inventory.
   mapping, tokenization, 32-token output, one-token regression, context boundary,
   and pool restoration mismatches. It remains opt-in because weights are not
   tracked.
-- `run_all.main` still has no pass/fail/skip counters. Its epilogue now states
-  only that all invoked assertions passed and that scaffold checks are not
-  external capability proof.
+- `run_all.main` now registers 49 executable cases and one explicit skip through
+  the counted ledger. A failure is recorded, later cases continue, the complete
+  summary is printed, and the process then exits nonzero.
+
+### 31.3 Counted runner infrastructure completed in Forge 0B
+
+| Function(s) | Verified contract |
+|---|---|
+| `TestLedger.__init__` | Starts pass/fail/skip counts and ordered failure details at zero/empty. |
+| `record_pass` | Increments only `passed` and emits one stable `[CASE PASS]` line. |
+| `record_failure` | Increments only `failed`, preserves name/message order, and emits one `[CASE FAIL]` line. |
+| `record_skip` method and function | Increment only `skipped` and emit one `[CASE SKIP]` line. |
+| `total` | Returns `passed + failed + skipped`. |
+| `finish` | Emits unique `[SUMMARY]` keys, validates the expected total, and raises after reporting on failure. |
+| `run_case` | Invokes one thin zero-argument test, catches its `Error`, records exactly one outcome, and continues. |
 
 ## 32. Massive Staged Buildout Plan Derived from the Function Ledger
 
@@ -1850,7 +1874,8 @@ update, commit, and push.
 
 1. **Forge 0A — completed:** convert every print-only/early-return test failure
    to a raised error; prove deliberate corruption exits nonzero.
-2. **Forge 0B:** add counted pass/fail/skip reporting without swallowing errors.
+2. **Forge 0B — completed:** add counted pass/fail/skip reporting without
+   swallowing errors.
 3. **Forge 0C:** create a capability ledger linking each verified claim to its
    gate and marking scaffolds honestly.
 4. **Forge 0D:** remove fabricated success/benchmark/download/hardware messages
@@ -1935,10 +1960,11 @@ swarm as separate projects with individual external fixtures. None may inherit a
 
 ## 33. Current Recommended Next Forge
 
-Proceed with **Forge 0B: counted master-suite reporting**.
+Proceed with **Forge 0C: an evidence-backed capability ledger**.
 
-Forge 0A now guarantees that an invoked assertion failure exits nonzero. Forge
-0B should add explicit pass/fail/skip totals and preserve nonzero process status
-without swallowing errors. It must not rename synthetic checks or revise broad
-capability claims; those remain Forge 0C through Forge 0E so each truth boundary
-stays reviewable.
+Forge 0A and Forge 0B now provide trustworthy test termination and counted
+reporting. Forge 0C should create one canonical ledger mapping every significant
+project claim to a status (`verified`, `partial`, `scaffold`, `simulated`, or
+`missing`), its exact executable evidence, and its remaining acceptance gate.
+It must not yet rewrite every runtime banner or historical document; those are
+Forge 0D and Forge 0E.

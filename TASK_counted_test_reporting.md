@@ -1,6 +1,6 @@
 # Task: Counted Master-Suite Reporting
 
-**Status:** Approved for implementation by Volmarr on August 14, 2026.
+**Status:** Completed and verified on August 14, 2026.
 **Forge stage:** Forge 0B — Verification reporting boundary  
 **Parent audit:** `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`  
 **Predecessor:** `TASK_fail_closed_test_semantics.md`  
@@ -208,17 +208,19 @@ Every case emits exactly one harness-owned terminal line:
 [CASE SKIP] <stable-name> :: <reason>
 ```
 
-The final summary contains stable keys:
+The final summary contains stable harness-owned keys. The `[SUMMARY]` prefix is
+required because a historical ONNX scaffold prints its own unrelated `Status:`
+line:
 
 ```text
-Passed: 49
-Failed: 0
-Skipped: 1
-Total: 50
-Status: PASS
+[SUMMARY] Passed: 49
+[SUMMARY] Failed: 0
+[SUMMARY] Skipped: 1
+[SUMMARY] Total: 50
+[SUMMARY] Status: PASS
 ```
 
-On a failing run, `Status: FAIL` is printed before the terminal `Error` is
+On a failing run, `[SUMMARY] Status: FAIL` is printed before the terminal `Error` is
 raised. Existing internal diagnostic output may remain; automation should rely
 on the harness-owned case lines and final keys.
 
@@ -232,10 +234,11 @@ After the normal counted run passes:
 3. Require the corrupted case to be recorded as failed.
 4. Require later cases, including the final swarm case, to execute.
 5. Require the summary to report 48 passed, 1 failed, 1 skipped, 50 total, and
-   `Status: FAIL`.
+   `[SUMMARY] Status: FAIL`.
 6. Require process exit 1 after the summary.
 7. Restore the exact expectation with another explicit patch.
-8. Re-run the complete suite and require 49/0/1/50, `Status: PASS`, and exit 0.
+8. Re-run the complete suite and require 49/0/1/50,
+   `[SUMMARY] Status: PASS`, and exit 0.
 9. Confirm no temporary mutation remains.
 
 ## Implementation Phases
@@ -306,12 +309,13 @@ have no final diff. No runtime implementation file is expected to change.
 
 - The normal master suite reports exactly 49 passed, 0 failed, 1 skipped, and
   50 total.
-- The normal master suite prints `Status: PASS` and exits 0.
+- The normal master suite prints `[SUMMARY] Status: PASS` and exits 0.
 - Every named executable case has exactly one harness-owned pass/fail line.
 - The explicit RAG integration boundary has exactly one skip line.
 - A deliberately corrupted GGUF expectation reports exactly 48 passed, 1
   failed, 1 skipped, and 50 total.
-- The corrupted run prints `Status: FAIL` and exits 1 only after later cases run.
+- The corrupted run prints `[SUMMARY] Status: FAIL` and exits 1 only after later
+  cases run.
 - The failure detail preserves `gguf.type_constants` and the original error
   message.
 - Exact restoration returns the suite to 49/0/1/50 and exit 0.
@@ -337,3 +341,36 @@ have no final diff. No runtime implementation file is expected to change.
 
 Those remain Forge 0C onward in the complete reality audit.
 
+## Completion Evidence
+
+Forge 0B satisfied every bounded acceptance gate:
+
+- `TestLedger` owns pass, failure, skip, total, and ordered failure-detail state.
+- `run_case()` accepts current Mojo 1.0 thin noncapturing test functions through
+  `def () thin raises`, invokes each exactly once, and records exactly one
+  terminal outcome.
+- The runner registers all 49 executable named cases directly, including the
+  five formerly hidden sharding children and two formerly hidden executable RAG
+  children.
+- `rag.real_engine_integration` is counted once as the sole master-suite skip.
+- Harness-owned result lines use `[CASE PASS]`, `[CASE FAIL]`, and
+  `[CASE SKIP]` prefixes.
+- Harness-owned final keys use `[SUMMARY]` because a historical ONNX scaffold
+  already emits an unrelated unprefixed `Status:` line.
+- The normal suite emitted 49 case-pass lines, zero case-fail lines, one
+  case-skip line, `[SUMMARY]` totals of 49/0/1/50, and exited 0.
+- Temporarily changing the stable F16 expectation from `1` to `2` recorded
+  `gguf.type_constants :: GGMLType invariant mismatch`.
+- The corrupted run continued through `[CASE PASS] swarm.dispatch_simulation`,
+  emitted `[SUMMARY]` totals of 48/1/1/50, printed failure status, and exited 1
+  only after the summary.
+- Exact restoration returned the complete suite to 49/0/1/50 and exit 0.
+- The pinned external GGUF proof again matched all 32 token IDs, exact decoded
+  text, one-token regression, and the context-exhaustion boundary.
+- A clean Mojo CLI build into a temporary output path passed.
+- `git diff --check` passed, and no temporary mutation or generated fixture,
+  binary, cache, secret, or hardcoded local path remains.
+
+This task changes verification reporting only. It does not validate any
+simulation-backed external capability. Forge 0C is now the recommended next
+truth slice: a canonical evidence-backed capability ledger.

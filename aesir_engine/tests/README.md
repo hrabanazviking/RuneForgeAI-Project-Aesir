@@ -3,7 +3,10 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator for the repository's synthetic and unit proving domains.
+- **`run_all.mojo`:** Master orchestrator registering 49 executable named cases
+  and one explicit external-fixture skip.
+- **`test_ledger.mojo`:** Tests-domain pass/fail/skip ledger, per-case error
+  boundary, stable result lines, ordered failure details, and terminal status.
 - **`test_compute.mojo`:** Unit tests for GEMM, Flash Attention-2, SiLU, GeGLU, and Q4_K_M dequantization.
 - **`test_gguf.mojo`:** Unit tests for malformed GGUF rejection and `GGMLType` constants.
 - **`test_tokenizer.mojo`:** Unit tests for `RuneWeaver` token encoding/decoding.
@@ -25,9 +28,26 @@ also raise. A deliberate corruption of the stable `GGMLType.F16` expectation
 was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
-The runner currently stops at the first raised failure. Counted pass/fail/skip
-aggregation is not implemented yet. The RAG external-fixture boundary prints an
-explicit `SKIP` and real model execution remains the opt-in test below.
+The runner catches errors only at each named case boundary, records the failure,
+and continues with later cases. After all 50 reportable cases, it prints unique
+`[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
+The RAG external-fixture boundary is counted as one skip, and real model
+execution remains the opt-in test below.
+
+A normal baseline run reports:
+
+```text
+[SUMMARY] Passed: 49
+[SUMMARY] Failed: 0
+[SUMMARY] Skipped: 1
+[SUMMARY] Total: 50
+[SUMMARY] Status: PASS
+```
+
+The Forge 0B negative gate deliberately corrupted the F16 type expectation.
+The runner recorded `gguf.type_constants` as failed, continued through the final
+swarm case, reported 48/1/1/50, and exited 1 after the summary. Exact restoration
+returned the suite to 49/0/1/50 and exit 0.
 
 ## How to Run
 ```bash
@@ -52,5 +72,5 @@ This proves only the documented F16 single-device CPU greedy path. The master
 suite still includes historical synthetic/scaffold checks whose broader labels
 are not proof of real accelerator, quantized-model, server, network,
 concurrency, resilience, or distributed behavior. A zero exit means that all
-invoked assertions passed; it does not expand their evidence boundary. See
+counted local assertions passed; it does not expand their evidence boundary. See
 `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.

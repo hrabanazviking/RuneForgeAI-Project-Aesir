@@ -3,6 +3,39 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 20: Forge 0B — Counted Master-Suite Reporting
+**Date:** August 14, 2026
+**Architectural Phase:** Verification Reporting Boundary
+
+The forge extended fail-closed testing into a complete counted result boundary:
+
+1. **One tests-domain ledger:** `TestLedger` owns pass, fail, skip, total, and
+   ordered failure-detail state. `run_case()` catches errors only around one
+   named test invocation and records exactly one outcome.
+2. **Truthful granularity:** The runner now registers 49 executable named cases
+   and one explicit RAG external-fixture skip. Five sharding children and two RAG
+   children are counted directly instead of being hidden behind aggregate
+   wrappers.
+3. **Stable output:** Every case emits one harness-owned `[CASE ...]` line. The
+   final result uses unique `[SUMMARY]` keys so legacy scaffold output cannot be
+   confused with the authoritative status.
+4. **Continue then fail:** A case error no longer prevents later cases from
+   executing. After the complete summary, any recorded failure or total mismatch
+   raises and preserves a nonzero process exit.
+5. **Negative proof:** A temporary F16 expectation corruption recorded
+   `gguf.type_constants` as failed, continued through the final swarm case,
+   summarized 48 passed / 1 failed / 1 skipped / 50 total, and exited 1 after
+   reporting. Exact restoration produced 49/0/1/50 and exit 0.
+6. **Regression gates:** The restored master suite, pinned real-GGUF 32-token
+   oracle, clean Mojo build, diff hygiene, and artifact scan all passed.
+
+These counts represent local asserted cases, not completed product
+capabilities. Simulation-backed hardware, format, network, resilience,
+concurrency, and swarm claims remain open in the reality audit. Forge 0C is the
+next recommended truth boundary: one evidence-backed capability ledger.
+
+---
+
 ## ⚡ Entry 19: Forge 0A — Fail-Closed Test Semantics
 **Date:** August 14, 2026
 **Architectural Phase:** Verification Truth Boundary
