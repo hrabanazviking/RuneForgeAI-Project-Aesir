@@ -6,6 +6,7 @@
 - [x] **Expand GGUFSeer:** Add support for quantized formats like `q4_k_m` directly into the bare-metal loading logic.
 - [ ] **RuneWeaver Improvements:** Optimize the BPE tokenizer for edge cases and multilingual tokens.
 - [x] **Testing:** Expand unit tests — full suite covers GEMM, Flash Attention-2, SiLU, GeGLU, Q4_K_M dequantization, GGUFSeer, and RuneWeaver.
+- [x] **Truth-Bearing GGUF Vertical Slice:** Validate a real GGUF v3 Llama F16 model, map matrix weights zero-copy, convert F32 norms, load tokenizer metadata, execute grouped-query CPU inference, and return one genuine CLI token with pinned `llama.cpp` parity.
 
 ## Immediate Tasks
 - [x] **RMSNorm:** Implement Root Mean Square Layer Normalization kernel.
@@ -28,8 +29,9 @@
 
 
 ## Future Expansions
+- [ ] **Multi-Token Generation:** Extend the verified real-model path with EOS handling, context limits, sampling controls, and chat templates.
+- [ ] **Quantized Real-Model Inference:** Connect supported GGML quantized tensor layouts to validated end-to-end execution; format discriminants and synthetic kernels alone do not establish model compatibility.
 - [ ] **Production Benchmarking & Custom Memory Tuning:** Hardware profiling & VRAM footprint optimization.
 - [ ] **Low-Precision Quantization (INT4/INT8 NPU):** Native NPU integer quantization kernels for Hailo-10 & Hexagon.
-
 
 

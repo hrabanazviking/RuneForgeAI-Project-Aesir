@@ -3,7 +3,6 @@
 
 from core.mimir_well import MimirWell, RuneTensor, MimirStore, f16, f32
 from core.compute import cosine_similarity
-from aesir import AesirEngine
 
 def test_cosine_similarity():
     print("--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---")
@@ -105,31 +104,15 @@ def test_mimir_store():
         print("MimirStore: FAIL (count_ok =", count_ok, ", knn_ok =", knn_ok, ", emb_val_ok =", emb_val_ok, ")")
     _ = store
 
-def test_rag_retrieval() raises:
-    print("--- Testing RAG Context Retrieval ---")
-    var engine = AesirEngine(String("model.gguf"))
-    
-    # Populate knowledge_base
-    var dim = 4096
-    var e_ptr = engine.pool.allocate(dim)
-    var emb = RuneTensor[f16](1, dim, e_ptr)
-    for i in range(dim):
-        emb.data.unsafe_store(i, 0.1)
-
-    engine.knowledge_base.add_document(String("Ragnarok is the destiny of Asgard."), emb)
-    
-    var response = engine.generate(String("What is Ragnarok?"))
-    _ = response
-    
-    print("RAG Context Retrieval: PASS")
+def report_engine_integration_boundary():
+    # The repository deliberately does not commit model weights. Real engine
+    # integration is covered by the opt-in test_real_gguf.mojo fixture.
+    print("RAG Engine Integration: SKIP (requires a validated real GGUF fixture)")
 
 def test_rag():
-    try:
-        test_cosine_similarity()
-        test_mimir_store()
-        test_rag_retrieval()
-    except e:
-        print("test_rag error:", e)
+    test_cosine_similarity()
+    test_mimir_store()
+    report_engine_integration_boundary()
 
 def main():
     test_rag()

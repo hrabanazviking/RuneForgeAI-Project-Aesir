@@ -279,40 +279,96 @@ def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]):
     The Anvil's Strike: Custom MATMUL tiling matrices to maximize shared memory usage.
     Target: CUDA Tensor Cores / MMA instructions. A rhythmic hammering of f16 threads.
     """
-    var M = A.rows
-    var K = A.cols
-    var N = B.rows
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var simd_end = (shared_dim // simd_w_f16) * simd_w_f16
 
-    # Tiling parameters
-    var BM = 32
-    var BN = 32
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            for inner in range(0, simd_end, simd_w_f16):
+                var input_values = A.data.unsafe_load[width=simd_w_f16](
+                    row * shared_dim + inner
+                ).cast[f32]()
+                var weight_values = B.data.unsafe_load[width=simd_w_f16](
+                    output_index * shared_dim + inner
+                ).cast[f32]()
+                sum += (input_values * weight_values).reduce_add()
+            for inner in range(simd_end, shared_dim):
+                sum += (
+                    A.data.unsafe_load(row * shared_dim + inner).cast[f32]()
+                    * B.data.unsafe_load(
+                        output_index * shared_dim + inner
+                    ).cast[f32]()
+                )
+            C.set(row, output_index, sum.cast[f16]())
 
-    @parameter
-    def _calc_block(m_idx: Int):
-        var m_start = m_idx * BM
-        for n_start in range(0, N, BN):
-            # "Shared memory" simulation: load blocks into L1/registers
-            # In a real kernel, this moves data to SRAM
-            for i in range(BM):
-                var m = m_start + i
-                if m >= M:
-                    continue
-                for j in range(BN):
-                    var n = n_start + j
-                    if n >= N:
-                        continue
-                        
-                    var acc = SIMD[f16, simd_w_f16](0.0)
-                    # Loop unrolling concepts applied in block traversal
-                    for k in range(0, K, simd_w_f16):
-                        var a_vec = A.data.unsafe_load[width=simd_w_f16](m * K + k)
-                        # Assuming B is transposed for memory locality
-                        var b_vec = B.data.unsafe_load[width=simd_w_f16](n * K + k) 
-                        acc += a_vec * b_vec
-                    C.set(m, n, acc.reduce_add())
 
-    for m_idx in range(M // BM + (1 if M % BM != 0 else 0)):
-        _calc_block(m_idx)
+def flash_attention_gqa(
+    query: RuneTensor[f16],
+    keys: RuneTensor[f16],
+    values: RuneTensor[f16],
+    mut output: RuneTensor[f16],
+    sequence_length: Int,
+    head_dim: Int,
+    query_head_count: Int,
+    kv_head_count: Int,
+):
+    """Incremental causal attention with grouped-query head mapping."""
+    if sequence_length <= 0 or query.rows != 1 or output.rows != 1:
+        return
+    if query_head_count <= 0 or kv_head_count <= 0:
+        return
+    var query_heads_per_kv = query_head_count // kv_head_count
+    var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
+
+    for query_head in range(query_head_count):
+        var kv_head = query_head // query_heads_per_kv
+        var query_base = query_head * head_dim
+        var output_base = query_head * head_dim
+        for dimension in range(head_dim):
+            output.data.unsafe_store(output_base + dimension, 0.0)
+
+        var running_max: Scalar[f32] = -1e20
+        var running_sum: Scalar[f32] = 0.0
+        for position in range(sequence_length):
+            var key_base = position * keys.cols + kv_head * head_dim
+            var value_base = position * values.cols + kv_head * head_dim
+            var score: Scalar[f32] = 0.0
+            for dimension in range(head_dim):
+                score += (
+                    query.data.unsafe_load(query_base + dimension).cast[f32]()
+                    * keys.data.unsafe_load(key_base + dimension).cast[f32]()
+                )
+            score *= scale
+            var next_max = max(running_max, score)
+            var previous_scale = exp(running_max - next_max)
+            var probability = exp(score - next_max)
+            var next_sum = running_sum * previous_scale + probability
+
+            for dimension in range(head_dim):
+                var previous = output.data.unsafe_load(
+                    output_base + dimension
+                ).cast[f32]()
+                var value = values.data.unsafe_load(
+                    value_base + dimension
+                ).cast[f32]()
+                output.data.unsafe_store(
+                    output_base + dimension,
+                    (previous * previous_scale + probability * value).cast[f16](),
+                )
+            running_max = next_max
+            running_sum = next_sum
+
+        for dimension in range(head_dim):
+            var accumulated = output.data.unsafe_load(
+                output_base + dimension
+            ).cast[f32]()
+            output.data.unsafe_store(
+                output_base + dimension,
+                (accumulated / running_sum).cast[f16](),
+            )
 
 
 def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16], mut Out: RuneTensor[f16], seq_len: Int, head_dim: Int):
@@ -877,7 +933,6 @@ def gemm_f16_gpu(
         gemm_f16_mobile_opencl(A, B, C)
     else:
         gemm_f16(A, B, C)
-
 
 
 

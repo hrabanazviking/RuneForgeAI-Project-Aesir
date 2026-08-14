@@ -1,5 +1,7 @@
 # Task: Real GGUF Inference Vertical Slice
 
+**Status:** Completed and verified on August 14, 2026.
+
 ## Context
 
 Project A.E.S.I.R. compiles and its current proving suite passes, but the tested
@@ -244,3 +246,17 @@ reported before expanding the task boundary.
 
 Those become later tasks after this vertical slice establishes a trustworthy
 foundation.
+
+## Completion Record
+
+- Reference `llama.cpp` commit: `7e4c0a96880dae4fc4268ad441f8a6446bd5460a`.
+- Pinned reference prompt token IDs: `1 385 328 432 405 263 377 267`.
+- Pinned reference first greedy token: ID `265`, decoded as ` the`.
+- The opt-in integration proves F16 mmap aliasing and F32 normalization
+  conversion in addition to metadata and inference parity.
+- `pixi run mojo run tests/run_all.mojo` passes; real engine/RAG integration is
+  explicitly skipped there because no model weights are committed.
+- `pixi run mojo run tests/test_real_gguf.mojo <model-path>` passes with the
+  pinned external fixture.
+- `pixi run mojo build main.mojo` succeeds, and the built CLI returns the same
+  real first token for the reference prompt.

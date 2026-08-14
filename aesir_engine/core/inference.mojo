@@ -6,7 +6,7 @@
 
 from std.math import max, min
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, silu, geglu, rmsnorm, apply_rope
+from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
 from loader.gguf import GGUFSeer
 
 from std.memory import Pointer
@@ -19,6 +19,8 @@ struct TransformerBlock(Copyable):
     var layer_idx: Int
     var head_dim: Int
     var num_heads: Int
+    var num_kv_heads: Int
+    var rms_epsilon: Scalar[f32]
 
     var attn_norm_weight: RuneTensor[f16]
     var attn_q_weight: RuneTensor[f16]
@@ -34,6 +36,11 @@ struct TransformerBlock(Copyable):
         self.layer_idx = layer_idx
         self.head_dim = head_dim
         self.num_heads = num_heads
+        self.num_kv_heads = num_heads
+        self.rms_epsilon = 1e-5
+        if seer.config.head_count_kv > 0:
+            self.num_kv_heads = seer.config.head_count_kv
+        self.rms_epsilon = seer.config.rms_epsilon
 
         var prefix = "blk." + String(self.layer_idx) + "."
         var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
@@ -86,6 +93,8 @@ struct TransformerBlock(Copyable):
         self.layer_idx = layer_idx
         self.head_dim = head_dim
         self.num_heads = num_heads
+        self.num_kv_heads = num_heads
+        self.rms_epsilon = 1e-5
 
         var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
 
@@ -103,6 +112,8 @@ struct TransformerBlock(Copyable):
         self.layer_idx = existing.layer_idx
         self.head_dim = existing.head_dim
         self.num_heads = existing.num_heads
+        self.num_kv_heads = existing.num_kv_heads
+        self.rms_epsilon = existing.rms_epsilon
         self.attn_norm_weight = existing.attn_norm_weight
         self.attn_q_weight = existing.attn_q_weight
         self.attn_k_weight = existing.attn_k_weight
@@ -116,6 +127,8 @@ struct TransformerBlock(Copyable):
     @always_inline
     def copy(self) -> Self:
         var res = TransformerBlock(self.layer_idx, self.head_dim, self.num_heads)
+        res.num_kv_heads = self.num_kv_heads
+        res.rms_epsilon = self.rms_epsilon
         res.attn_norm_weight = self.attn_norm_weight.copy()
         res.attn_q_weight = self.attn_q_weight.copy()
         res.attn_k_weight = self.attn_k_weight.copy()
@@ -155,16 +168,19 @@ struct TransformerBlock(Copyable):
             for i in range(x.size):
                 residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                 
-            rmsnorm(x, self.attn_norm_weight)
+            rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
 
             # 2. QKV Projections
-            var q_ptr = well.allocate(x.size)
-            var k_ptr = well.allocate(x.size)
-            var v_ptr = well.allocate(x.size)
-            
-            var q = RuneTensor[f16](x.rows, x.cols, q_ptr, False)
-            var k = RuneTensor[f16](x.rows, x.cols, k_ptr, False)
-            var v = RuneTensor[f16](x.rows, x.cols, v_ptr, False)
+            var q_cols = self.attn_q_weight.rows
+            var k_cols = self.attn_k_weight.rows
+            var v_cols = self.attn_v_weight.rows
+            var q_ptr = well.allocate(x.rows * q_cols)
+            var k_ptr = well.allocate(x.rows * k_cols)
+            var v_ptr = well.allocate(x.rows * v_cols)
+
+            var q = RuneTensor[f16](x.rows, q_cols, q_ptr, False)
+            var k = RuneTensor[f16](x.rows, k_cols, k_ptr, False)
+            var v = RuneTensor[f16](x.rows, v_cols, v_ptr, False)
             
             if use_gpu_realm:
                 gemm_f16_gpu(x, self.attn_q_weight, q, gpu_realm)
@@ -191,7 +207,16 @@ struct TransformerBlock(Copyable):
 
             var attn_out_ptr = well.allocate(x.size)
             var attn_out = RuneTensor[f16](x.rows, x.cols, attn_out_ptr, False)
-            flash_attention_2(q, k_slice, v_slice, attn_out, active_seq_len, self.head_dim)
+            flash_attention_gqa(
+                q,
+                k_slice,
+                v_slice,
+                attn_out,
+                active_seq_len,
+                self.head_dim,
+                self.num_heads,
+                self.num_kv_heads,
+            )
 
             # 5. Output Projection
             if use_gpu_realm:
@@ -210,7 +235,7 @@ struct TransformerBlock(Copyable):
             for i in range(x.size):
                 residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                 
-            rmsnorm(x, self.ffn_norm_weight)
+            rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
 
             # 8. Feed Forward Network
             var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
@@ -258,7 +283,7 @@ struct TransformerBlock(Copyable):
             for i in range(x.size):
                 residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                 
-            rmsnorm(x, self.attn_norm_weight)
+            rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
 
             # 2. Sharded Column-Parallel QKV Projections
             var q_weight_shards = shard_split_rows(self.attn_q_weight, num_devices)
@@ -345,7 +370,7 @@ struct TransformerBlock(Copyable):
             for i in range(x.size):
                 residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                 
-            rmsnorm(x, self.ffn_norm_weight)
+            rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
 
             # 8. Sharded Column-Parallel SwiGLU FFN Projections
             var up_weight_shards = shard_split_rows(self.ffn_up_weight, num_devices)
@@ -425,9 +450,11 @@ def forward_pass(
     var last_token = tokens[token_idx]
     
     if "token_embd.weight" not in seer.tensors:
-        return 0
+        raise Error("Inference requires token_embd.weight")
     ref token_embd = seer.tensors["token_embd.weight"]
     var hidden_dim = token_embd.cols
+    if last_token < 0 or last_token >= token_embd.rows:
+        raise Error("Prompt token ID is outside the embedding vocabulary")
     
     var initial_offset = well.offset
     
@@ -455,12 +482,15 @@ def forward_pass(
         
     # 4. Final RMSNorm
     if "output_norm.weight" in seer.tensors:
-        rmsnorm(x, seer.tensors["output_norm.weight"])
+        var epsilon: Scalar[f32] = 1e-5
+        if seer.config.rms_epsilon > 0.0:
+            epsilon = seer.config.rms_epsilon
+        rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
     
     # 5. Final projection to logits
     if "output.weight" not in seer.tensors:
         well.offset = initial_offset
-        return 0
+        raise Error("Inference requires output.weight")
 
     ref output_weight = seer.tensors["output.weight"]
     var vocab_size = output_weight.rows
@@ -506,11 +536,13 @@ def forward_pass(
     Overload for forward_pass without an explicit KVCache.
     """
     ref token_embd = seer.tensors["token_embd.weight"]
-    var hidden_dim = token_embd.cols
-    var kv_cache = KVCache(2048, hidden_dim, well, num_layers)
+    var kv_dim = token_embd.cols
+    var context_length = 2048
+    if seer.config.head_count_kv > 0:
+        kv_dim = seer.config.kv_dim()
+    if seer.config.context_length > 0:
+        context_length = seer.config.context_length
+    var kv_cache = KVCache(context_length, kv_dim, well, num_layers)
     var start_pos = max(0, len(tokens) - 1)
     return forward_pass(tokens, seer, well, kv_cache, start_pos, num_layers, head_dim, num_heads, topology, blocks, use_npu, npu_backend, use_gpu_realm, gpu_realm)
-
-
-
 

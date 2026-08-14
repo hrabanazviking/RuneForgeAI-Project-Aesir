@@ -73,8 +73,10 @@ struct RuneREPL:
 
 
 def run_single_shot(model_name: String, prompt: String) raises:
-    """Executes a single prompt run and streams output to terminal."""
-    print("Running model '" + model_name + "'...")
+    """Loads the supplied GGUF path and emits one genuine greedy model token."""
+    print("Loading GGUF model '" + model_name + "'...")
     print("Prompt: " + prompt)
+    var engine = AesirEngine(model_name, knowledge_capacity=1)
+    var response = engine.generate(prompt)
     print("\n[Response]:")
-    print("Bare-metal inference complete. Tensor matrix struck cleanly across all realms.")
+    print(response)

@@ -25,6 +25,7 @@ struct AesirEngine:
     var event_bus: AesirEventBus            # Slice 12 — decoupled Pub/Sub messaging
     var thread_pool: RuneThreadPool        # Slice 12 — parallel worker pool
     var swarm_cluster: SwarmCluster        # Phase 14 — mesh cluster orchestrator
+    var runtime_offset: Int                # Reusable workspace boundary after persistent allocations
 
     def __init__(
         out self,
@@ -33,12 +34,24 @@ struct AesirEngine:
         enable_npu: Bool = False,                                          # Slice 7
         target_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),  # Slice 7
         enable_gpu_realm: Bool = False,                                    # Slice 8
-        target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)    # Slice 8
+        target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),   # Slice 8
+        knowledge_capacity: Int = 100
     ) raises: ...
 
     def generate(mut self, prompt: String) raises -> String: ...
     def generate_stream(mut self, prompt: String, client_fd: Int32) raises: ...
 ```
+
+## Verified Real-GGUF CPU Path
+
+Construction first inspects validated GGUF metadata, derives the exact
+`MimirWell` capacity, then maps the model and builds its configured transformer
+blocks. `generate()` inserts the model BOS token, prefills every prompt token
+through a configuration-sized GQA KV cache, selects one deterministic argmax
+token, and decodes that genuine model token. The verified scope is GGUF v3,
+Llama architecture, F16 matrices, F32 normalization vectors, single-device CPU,
+and one generated token. Quantized inference and accelerator parity are not
+implied by this path.
 
 ---
 
@@ -130,4 +143,3 @@ struct AesirEngine:
 - `aesir.mojo` **must not** import `core/compute.mojo` directly — all compute is delegated via `core/inference.mojo`.
 - `aesir.mojo` **must not** perform GEMM, RMSNorm, or attention operations.
 - `aesir.mojo` **must not** read or write disk outside of initialization (delegated to `loader/`).
-

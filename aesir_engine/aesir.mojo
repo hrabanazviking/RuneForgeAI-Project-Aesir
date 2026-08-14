@@ -9,9 +9,33 @@ from core.state_vault import StateVault
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster
-from loader.gguf import GGUFSeer
+from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from server.api import BifrostGate
+
+
+def calculate_runtime_pool_bytes(
+    config: GGUFModelConfig,
+    vocab_size: Int,
+    knowledge_capacity: Int,
+) -> Int:
+    """Derives the F16 workspace size from validated model dimensions."""
+    var hidden = config.embedding_length
+    var kv_dim = config.kv_dim()
+    var converted_norms = (2 * config.block_count + 1) * hidden
+    var kv_cache = (
+        2 * config.block_count * config.context_length * kv_dim
+    )
+    var layer_workspace = (
+        4 * hidden
+        + 2 * kv_dim
+        + 2 * config.feed_forward_length
+        + vocab_size
+    )
+    var knowledge_store = max(1, knowledge_capacity) * hidden
+    return 2 * (
+        converted_norms + kv_cache + layer_workspace + knowledge_store
+    )
 
 struct AesirEngine:
     """
@@ -33,6 +57,7 @@ struct AesirEngine:
     var event_bus: AesirEventBus
     var thread_pool: RuneThreadPool
     var swarm_cluster: SwarmCluster
+    var runtime_offset: Int
 
     def __init__(
         out self, 
@@ -41,11 +66,19 @@ struct AesirEngine:
         enable_npu: Bool = False,
         target_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
         enable_gpu_realm: Bool = False,
-        target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+        target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+        knowledge_capacity: Int = 100,
     ) raises:
-        var mimir_depth_bytes = 1024 * 1024 * 1024 * 5 # 5GB
+        var probe_tokenizer = RuneWeaver()
+        var probe = GGUFSeer(model_path)
+        probe.inspect_metadata(probe_tokenizer)
+        var mimir_depth_bytes = calculate_runtime_pool_bytes(
+            probe.config,
+            probe_tokenizer.vocab_size,
+            knowledge_capacity,
+        )
         self.pool = MimirWell(mimir_depth_bytes)
-        print("MimirWell initialized with", mimir_depth_bytes // (1024 * 1024), "MB capacity.")
+        print("MimirWell initialized with", mimir_depth_bytes, "derived bytes.")
         
         self.supervisor = SelfHealingSupervisor()
         self.event_bus = AesirEventBus()
@@ -73,14 +106,28 @@ struct AesirEngine:
         self.parser = GGUFSeer(model_path)
         self.tokenizer = RuneWeaver()
         self.parser.mmap_and_load(self.pool, self.tokenizer)
-        self.knowledge_base = MimirStore(100, 4096, self.pool)
+        self.knowledge_base = MimirStore(
+            max(1, knowledge_capacity),
+            self.parser.config.embedding_length,
+            self.pool,
+        )
+        self.runtime_offset = self.pool.offset
         
         self.blocks = List[TransformerBlock]()
-        for layer_idx in range(32):
-            self.blocks.append(TransformerBlock(layer_idx, 128, 32, self.parser))
+        for layer_idx in range(self.parser.config.block_count):
+            self.blocks.append(
+                TransformerBlock(
+                    layer_idx,
+                    self.parser.config.head_dim(),
+                    self.parser.config.head_count,
+                    self.parser,
+                )
+            )
 
     def generate(mut self, prompt: String) raises -> String:
         var permit_seidr = False # Toggled via HTTP request. Seidr is bound by default.
+        if not self.parser.is_loaded:
+            raise Error("AesirEngine cannot generate without a validated GGUF model")
         
         print("Starting sampling loop (The Weaving of Fate)...")
         
@@ -107,15 +154,37 @@ struct AesirEngine:
                 print("RAG Context Augmented:", context_str)
 
         # Tokenize prompt
-        var tokens = self.tokenizer.encode(active_prompt)
-        
-        # Weave destiny: initialize KV cache and run forward pass
-        var hidden_dim = 4096
-        if "token_embd.weight" in self.parser.tensors:
-            hidden_dim = self.parser.tensors["token_embd.weight"].cols
-        var kv_cache = KVCache(2048, hidden_dim, self.pool, 32)
-        var start_pos = max(0, len(tokens) - 1)
-        var next_token = forward_pass(tokens, self.parser, self.pool, kv_cache, start_pos, topology=self.topology, blocks=self.blocks, use_npu=self.enable_npu, npu_backend=self.target_backend, use_gpu_realm=self.enable_gpu_realm, gpu_realm=self.target_gpu_realm)
+        var tokens = self.tokenizer.encode(active_prompt, True)
+        if len(tokens) == 0:
+            raise Error("RuneWeaver produced no prompt tokens")
+        if len(tokens) > self.parser.config.context_length:
+            raise Error("Prompt token count exceeds the model context length")
+
+        self.pool.offset = self.runtime_offset
+        var kv_cache = KVCache(
+            self.parser.config.context_length,
+            self.parser.config.kv_dim(),
+            self.pool,
+            self.parser.config.block_count,
+        )
+        var next_token = 0
+        for position in range(len(tokens)):
+            next_token = forward_pass(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                position,
+                self.parser.config.block_count,
+                self.parser.config.head_dim(),
+                self.parser.config.head_count,
+                self.topology,
+                self.blocks,
+                self.enable_npu,
+                self.target_backend,
+                self.enable_gpu_realm,
+                self.target_gpu_realm,
+            )
 
         
         # Decode
@@ -123,7 +192,7 @@ struct AesirEngine:
         
         print("Generated token:", response_text)
         print("Inference complete. Fate is sealed.")
-        
+        self.pool.offset = self.runtime_offset
         return response_text
 
     def generate_stream(mut self, prompt: String, client_fd: Int32) raises:
@@ -155,26 +224,62 @@ struct AesirEngine:
                     context_str += docs[i]
                 active_prompt = context_str + String("\n") + prompt
 
-        var tokens = self.tokenizer.encode(active_prompt)
+        var tokens = self.tokenizer.encode(active_prompt, True)
         if len(tokens) == 0:
             return
+        if len(tokens) > self.parser.config.context_length:
+            raise Error("Prompt token count exceeds the model context length")
 
-        var hidden_dim = 4096
-        if "token_embd.weight" in self.parser.tensors:
-            hidden_dim = self.parser.tensors["token_embd.weight"].cols
-
-        var kv_cache = KVCache(2048, hidden_dim, self.pool, 32)
+        self.pool.offset = self.runtime_offset
+        var kv_cache = KVCache(
+            self.parser.config.context_length,
+            self.parser.config.kv_dim(),
+            self.pool,
+            self.parser.config.block_count,
+        )
         
         # Populate KV Cache for prompt tokens up to current position
         for i in range(len(tokens) - 1):
-            _ = forward_pass(tokens, self.parser, self.pool, kv_cache, i, topology=self.topology, blocks=self.blocks, use_npu=self.enable_npu, npu_backend=self.target_backend, use_gpu_realm=self.enable_gpu_realm, gpu_realm=self.target_gpu_realm)
+            _ = forward_pass(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                i,
+                self.parser.config.block_count,
+                self.parser.config.head_dim(),
+                self.parser.config.head_count,
+                self.topology,
+                self.blocks,
+                self.enable_npu,
+                self.target_backend,
+                self.enable_gpu_realm,
+                self.target_gpu_realm,
+            )
             
         var current_tokens = tokens.copy()
         var max_gen_tokens = 5
         
         for _ in range(max_gen_tokens):
             var pos = len(current_tokens) - 1
-            var next_token = forward_pass(current_tokens, self.parser, self.pool, kv_cache, pos, topology=self.topology, blocks=self.blocks, use_npu=self.enable_npu, npu_backend=self.target_backend, use_gpu_realm=self.enable_gpu_realm, gpu_realm=self.target_gpu_realm)
+            if pos >= self.parser.config.context_length:
+                break
+            var next_token = forward_pass(
+                current_tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                pos,
+                self.parser.config.block_count,
+                self.parser.config.head_dim(),
+                self.parser.config.head_count,
+                self.topology,
+                self.blocks,
+                self.enable_npu,
+                self.target_backend,
+                self.enable_gpu_realm,
+                self.target_gpu_realm,
+            )
 
             var token_text = self.tokenizer.decode(next_token)
             
@@ -188,7 +293,5 @@ struct AesirEngine:
         var done_payload = String("{\"model\":\"aesir\",\"response\":\"\",\"done\":true}\n")
         BifrostGate.send_chunk_static(client_fd, done_payload)
         BifrostGate.close_client_static(client_fd)
+        self.pool.offset = self.runtime_offset
         print("Streaming inference complete. Stream closed.")
-
-
-

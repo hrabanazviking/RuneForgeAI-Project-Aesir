@@ -3,6 +3,38 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 17: Real GGUF Inference Vertical Slice
+**Date:** August 14, 2026
+**Architectural Phase:** Truth-Bearing Runtime Foundation
+
+The forge replaced the simulated single-shot path with the first verified
+end-to-end model execution:
+
+1. **Validated model loading:** `GGUFSeer` now bounds-checks GGUF v3 metadata and
+   tensor tables, derives a Llama configuration, aliases required F16 matrices
+   directly from the immutable mmap, converts required F32 normalization
+   vectors once, and fails closed on malformed or unsupported input.
+2. **Model-driven tokenization:** `RuneWeaver` consumes vocabulary scores, token
+   types, special IDs, UTF-8 boundaries, SentencePiece merge priority, byte
+   fallback, and model-controlled BOS insertion.
+3. **Configured CPU inference:** The single-device path derives dimensions from
+   model metadata, separates query and KV widths, applies grouped-query
+   attention, uses F32 GEMM accumulation with safe scalar tails, and rejects
+   invalid model/token state before inference.
+4. **Real CLI connection:** `aesir run <model-path> <prompt>` constructs
+   `AesirEngine` and prints one genuine decoded argmax token instead of the old
+   fixed response.
+5. **Reference verification:** The pinned TinyStories fixture matched a pinned
+   `llama.cpp` oracle for prompt IDs `1 385 328 432 405 263 377 267` and first
+   greedy token ID `265` (` the`). The full existing suite, opt-in real-model
+   integration, clean Mojo build, and built CLI command all passed.
+
+This milestone claims only the demonstrated GGUF v3 Llama F16/F32,
+single-device CPU, one-token path. Quantized execution, multi-token sampling,
+HTTP streaming, and accelerator parity remain future proving work.
+
+---
+
 ## ⚡ Entry 16: Vision Clarification Rite — Slice 14 (Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix)
 **Date:** August 14, 2026  
 **Architectural Phase:** Vision & Runic Naming Clarification Rite  

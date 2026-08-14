@@ -1,8 +1,8 @@
 # tests/test_inference.mojo
 
-from core.inference import forward_pass
-from core.mimir_well import MimirWell, RuneTensor, f16
 from loader.gguf import GGUFSeer
+from core.mimir_well import MimirWell, RuneTensor, f16
+from core.inference import forward_pass
 
 def test_forward_pass() raises:
     print("--- Testing forward_pass (The Loom of Fate) ---")

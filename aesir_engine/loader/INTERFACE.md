@@ -31,21 +31,59 @@ struct GGMLType:
     def to_compressed_format(ggml_type: UInt32) -> CompressedFormatType: ...
 ```
 
+### `GGUFModelConfig`
+Validated Llama architecture and tokenizer-special-token metadata derived from
+the GGUF key/value table. `head_dim()` and `kv_dim()` keep query width and
+grouped-query KV width distinct.
+
+```mojo
+struct GGUFModelConfig(Copyable):
+    var architecture: String
+    var context_length: Int
+    var embedding_length: Int
+    var feed_forward_length: Int
+    var block_count: Int
+    var head_count: Int
+    var head_count_kv: Int
+    var rope_dimension_count: Int
+    var rms_epsilon: Float32
+    var unknown_token_id: Int
+    var bos_token_id: Int
+    var eos_token_id: Int
+
+    def head_dim(self) -> Int: ...
+    def kv_dim(self) -> Int: ...
+    def validate(self) raises: ...
+```
+
 ### `GGUFSeer`
-GGUF binary model loader.
+Bounds-checked GGUF v3 Llama loader. Supported F16 matrices alias the immutable
+mapped file directly; required F32 normalization vectors are converted once
+into `MimirWell`. Unsupported types, shapes, offsets, truncation, architectures,
+or missing tensors raise before `is_loaded` becomes true.
 
 ```mojo
 struct GGUFSeer:
     var file_path: String
     var tensors: Dict[String, RuneTensor[f16]]
+    var tensor_file_offsets: Dict[String, Int]
+    var tensor_types: Dict[String, UInt32]
+    var config: GGUFModelConfig
     var fd: Int32
     var file_size: Int64
     var mmap_ptr: Pointer[Int8, MutUntrackedOrigin]
+    var is_mapped: Bool
+    var is_loaded: Bool
+    var version: UInt32
+    var tensor_count: Int
+    var kv_count: Int
+    var alignment: Int
+    var data_offset: Int
 
     def __init__(out self, file_path: String): ...
-    def skip_value(self, val_type: UInt32, offset: Int) -> Int: ...
-    def mmap_and_load(mut self, mut pool: MimirWell): ...
-    def mmap_and_load(mut self, mut pool: MimirWell, mut weaver: RuneWeaver): ...
+    def inspect_metadata(mut self, mut weaver: RuneWeaver) raises: ...
+    def mmap_and_load(mut self, mut pool: MimirWell) raises: ...
+    def mmap_and_load(mut self, mut pool: MimirWell, mut weaver: RuneWeaver) raises: ...
     def __deinit__(deinit self): ...
 ```
 
@@ -65,19 +103,31 @@ struct ONNXModelSeer:
 ```
 
 
-### `RuneWeaver` (Slice 4)
-Pure Mojo BPE tokenizer interface.
+### `RuneWeaver` (Slice 4, real-GGUF vertical slice)
+Pure Mojo, model-driven Llama SentencePiece tokenizer. Vocabulary, scores,
+token types, and special IDs are loaded together. Encoding applies the visible
+SentencePiece space marker, score-prioritized pair merges, UTF-8 symbol
+boundaries, byte fallback, and opt-in model-controlled BOS insertion.
 
 ```mojo
 struct RuneWeaver:
     var vocab: List[String]
     var token_to_id: Dict[String, Int]
+    var scores: List[Float32]
+    var token_types: List[Int]
     var vocab_size: Int
+    var unknown_token_id: Int
+    var bos_token_id: Int
+    var eos_token_id: Int
+    var add_bos_token: Bool
 
     def __init__(out self): ...
-    def add_token(mut self, token: String, id: Int): ...
+    def add_token(mut self, token: String, id: Int, score: Float32 = 0.0, token_type: Int = 1): ...
+    def set_token_score(mut self, token_id: Int, score: Float32): ...
+    def set_token_type(mut self, token_id: Int, token_type: Int): ...
+    def set_special_tokens(mut self, unknown_token_id: Int, bos_token_id: Int, eos_token_id: Int): ...
     def byte_to_hex_token(self, b: UInt8) -> String: ...
-    def encode(self, prompt: String) -> List[Int]: ...
+    def encode(self, prompt: String, add_bos: Bool = False) -> List[Int]: ...
     def decode(self, token: Int) -> String: ...
 ```
 

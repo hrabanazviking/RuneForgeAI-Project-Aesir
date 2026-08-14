@@ -326,12 +326,19 @@ struct GGUFSeer:
             self.config.rope_dimension_count = Int(self._read_u32(offset))
         elif key == "llama.attention.layer_norm_rms_epsilon" and value_type == 6:
             self.config.rms_epsilon = self._read_f32(offset)
+        elif key == "general.alignment" and value_type == 4:
+            self.alignment = Int(self._read_u32(offset))
         elif key == "tokenizer.ggml.unknown_token_id" and value_type == 4:
             self.config.unknown_token_id = Int(self._read_u32(offset))
         elif key == "tokenizer.ggml.bos_token_id" and value_type == 4:
             self.config.bos_token_id = Int(self._read_u32(offset))
         elif key == "tokenizer.ggml.eos_token_id" and value_type == 4:
             self.config.eos_token_id = Int(self._read_u32(offset))
+        elif key == "tokenizer.ggml.add_bos_token" and value_type == 7:
+            self._require_range(offset, 1)
+            tokenizer.add_bos_token = (
+                self.mmap_ptr.unsafe_offset(offset).unsafe_load() != 0
+            )
         return self.skip_value(value_type, offset)
 
     def _open_and_map(mut self) raises:
@@ -386,6 +393,12 @@ struct GGUFSeer:
             cursor = self._parse_metadata_value(
                 key, value_type, cursor, tokenizer
             )
+        if (
+            self.alignment <= 0
+            or self.alignment > 4096
+            or (self.alignment & (self.alignment - 1)) != 0
+        ):
+            raise Error("GGUF alignment must be a power of two up to 4096")
         self.config.validate()
         if tokenizer.vocab_size <= 0:
             raise Error("GGUF tokenizer vocabulary is empty")
@@ -498,6 +511,21 @@ struct GGUFSeer:
                 pool,
             )
 
+    def _require_tensor_shape(
+        self,
+        name: String,
+        expected_rows: Int,
+        expected_cols: Int,
+        expected_type: UInt32,
+    ) raises:
+        if name not in self.tensors:
+            raise Error("GGUF is missing required tensor: " + name)
+        ref tensor = self.tensors[name]
+        if tensor.rows != expected_rows or tensor.cols != expected_cols:
+            raise Error("GGUF required tensor has an invalid shape: " + name)
+        if self.tensor_types.get(name, UInt32(99)) != expected_type:
+            raise Error("GGUF required tensor has an invalid type: " + name)
+
     def _validate_required_tensors(self) raises:
         var required = List[String]()
         required.append("token_embd.weight")
@@ -518,9 +546,61 @@ struct GGUFSeer:
             if required[index] not in self.tensors:
                 raise Error("GGUF is missing required tensor: " + required[index])
 
+        var hidden = self.config.embedding_length
+        var kv_dim = self.config.kv_dim()
+        var ffn = self.config.feed_forward_length
+        var vocab = self.tensors["token_embd.weight"].rows
+        self._require_tensor_shape(
+            "token_embd.weight", vocab, hidden, GGMLType.F16
+        )
+        self._require_tensor_shape(
+            "output_norm.weight", 1, hidden, GGMLType.F32
+        )
+        self._require_tensor_shape(
+            "output.weight", vocab, hidden, GGMLType.F16
+        )
+        for layer_index in range(self.config.block_count):
+            var prefix = String("blk.") + String(layer_index) + String(".")
+            self._require_tensor_shape(
+                prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "attn_q.weight", hidden, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "attn_output.weight", hidden, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_norm.weight", 1, hidden, GGMLType.F32
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_gate.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_up.weight", ffn, hidden, GGMLType.F16
+            )
+            self._require_tensor_shape(
+                prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
+            )
+
     def mmap_and_load(mut self, mut pool: MimirWell) raises:
         var tokenizer = RuneWeaver()
         self.mmap_and_load(pool, tokenizer)
+
+    def inspect_metadata(
+        mut self,
+        mut tokenizer: RuneWeaver,
+    ) raises:
+        """Reads validated header and model metadata without mapping tensors."""
+        self._open_and_map()
+        self._parse_header()
+        _ = self._parse_metadata(tokenizer)
 
     def mmap_and_load(
         mut self,
