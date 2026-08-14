@@ -1,5 +1,5 @@
 # core/swarm.mojo
-# SwarmCluster: Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix
+# SwarmCluster: local descriptor scaffold for future distributed work
 
 from std.collections import Dict
 
@@ -64,9 +64,9 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         ip_address: String = "127.0.0.1",
         port: Int = 11434,
         role: SwarmNodeRole = SwarmNodeRole.WORKER,
-        vram_capacity_mb: Int = 16384,
-        vram_used_mb: Int = 2048,
-        is_alive: Bool = True
+        vram_capacity_mb: Int = 0,
+        vram_used_mb: Int = 0,
+        is_alive: Bool = False
     ):
         self.node_id = node_id
         self.ip_address = ip_address
@@ -110,8 +110,8 @@ struct PeerRegistry(Copyable):
     """
     ᛈᛖᛖᚱ·ᚱᛖᚷᛁᛋᛏᚱᛦ — The Peer Node Registry (PeerRegistry)
     ══════════════════════════════════════════════════════════════════════════
-    Stores and indexes active peer nodes across the enterprise mesh cluster, managing
-    liveness heartbeat updates and selecting optimal load-balanced nodes for work distribution.
+    Stores caller-supplied peer descriptors and supports one local capacity-based
+    selection rule. It does not discover peers or manage live heartbeats.
     """
     var nodes: Dict[String, PeerNode]
     var node_keys: List[String]
@@ -119,17 +119,6 @@ struct PeerRegistry(Copyable):
     def __init__(out self) raises:
         self.nodes = Dict[String, PeerNode]()
         self.node_keys = List[String]()
-
-        var local_node = PeerNode("local-leader", "127.0.0.1", 11434, SwarmNodeRole.LEADER, 24576, 4096, True)
-        var worker1 = PeerNode("worker-node-alpha", "192.168.1.101", 11434, SwarmNodeRole.WORKER, 16384, 2048, True)
-        var worker2 = PeerNode("worker-node-beta", "192.168.1.102", 11434, SwarmNodeRole.WORKER, 32768, 1024, True)
-
-        self.nodes[String("local-leader")] = local_node
-        self.node_keys.append("local-leader")
-        self.nodes[String("worker-node-alpha")] = worker1
-        self.node_keys.append("worker-node-alpha")
-        self.nodes[String("worker-node-beta")] = worker2
-        self.node_keys.append("worker-node-beta")
 
     def __copyinit__(out self, existing: Self):
         self.nodes = existing.nodes.copy()
@@ -160,7 +149,9 @@ struct PeerRegistry(Copyable):
         ══════════════════════════════════════════════════════════════════════════
         Identifies and returns the active peer node possessing the greatest available free VRAM capacity.
         """
-        var best_id = String("local-leader")
+        if len(self.node_keys) == 0:
+            raise Error("no registered swarm peers")
+        var best_id = String("")
         var max_free = -1
         for i in range(len(self.node_keys)):
             var k = self.node_keys[i]
@@ -169,13 +160,15 @@ struct PeerRegistry(Copyable):
                 if n.is_alive and n.vram_free_mb() > max_free:
                     max_free = n.vram_free_mb()
                     best_id = k
+        if best_id == "":
+            raise Error("no live swarm peers")
         return self.nodes[best_id].copy()
 
     def count(self) -> Int:
         """
         ᚲᛟᛢᚾᛏ — Active Peer Count Rune (count)
         ══════════════════════════════════════════════════════════════════════════
-        Returns the total number of peer nodes enrolled in the mesh registry.
+        Returns the number of caller-supplied peer descriptors.
         """
         return len(self.node_keys)
 
@@ -184,8 +177,7 @@ struct TaskDispatcher(Copyable, ImplicitlyCopyable):
     """
     ᛏᚨᛋᚲ·ᛞᛁᛋᛈᚨᛏᚲᚺᛖᚱ — The Swarm Task Dispatcher (TaskDispatcher)
     ══════════════════════════════════════════════════════════════════════════
-    Dynamic model workload router balancing inference requests and routing tasks
-    to optimal peer nodes across the enterprise mesh cluster.
+    Reserved task-dispatch surface. No network transport exists.
     """
     var active_tasks: Int
 
@@ -199,23 +191,22 @@ struct TaskDispatcher(Copyable, ImplicitlyCopyable):
     def copy(self) -> Self:
         return Self(self.active_tasks)
 
-    def dispatch_to_node(mut self, node: PeerNode, task_name: String) -> String:
+    def dispatch_to_node(mut self, node: PeerNode, task_name: String) raises -> String:
         """
         ᛞᛁᛋᛈᚨᛏᚲᚺ·ᛏᛟ·ᚾᛟᛞᛖ — Workload Dispatch Strike (dispatch_to_node)
         ══════════════════════════════════════════════════════════════════════════
-        Dispatches an inference execution task to the designated target peer node.
+        Rejects the reserved transport operation until a real peer protocol exists.
         """
-        self.active_tasks += 1
-        var msg = String("Task '") + task_name + String("' dispatched to node [") + node.node_id + String("] at ") + node.ip_address
-        return msg
+        _ = node
+        _ = task_name
+        raise Error("swarm task dispatch is not implemented")
 
 
 struct SwarmCluster(Copyable):
     """
     ᛋᚹᚨᚱᛗ·ᚲᛚᛢᛋᛏᛖᚱ — The Sovereign Swarm Cluster Orchestrator (SwarmCluster)
     ══════════════════════════════════════════════════════════════════════════
-    Master swarm orchestrator managing peer node registries, leader heartbeats,
-    inter-node task dispatching, and enterprise mesh cluster topology coordination.
+    Inactive scaffold owning local peer descriptors and reserved network methods.
     """
     var registry: PeerRegistry
     var dispatcher: TaskDispatcher
@@ -224,7 +215,7 @@ struct SwarmCluster(Copyable):
     def __init__(out self) raises:
         self.registry = PeerRegistry()
         self.dispatcher = TaskDispatcher()
-        self.is_mesh_active = True
+        self.is_mesh_active = False
 
     def __copyinit__(out self, existing: Self):
         self.registry = existing.registry.copy()
@@ -244,28 +235,25 @@ struct SwarmCluster(Copyable):
         """
         ᛪᛟᛁᚾ·ᛗᛖᛋᚺ — Enterprise Mesh Cluster Join Protocol (join_mesh)
         ══════════════════════════════════════════════════════════════════════════
-        Joins an existing enterprise mesh cluster given the leader's socket endpoint.
+        Rejects the reserved join operation until a real mesh protocol exists.
         """
-        print("⚡ SwarmCluster: Connecting to Mesh Leader at", leader_address, "...")
-        var new_peer = PeerNode(String("joined-node-") + leader_address, leader_address, 11434, SwarmNodeRole.WORKER, 16384, 1024, True)
-        self.registry.register_node(new_peer)
-        print("Successfully joined Swarm Cluster Mesh!")
-        return True
+        _ = leader_address
+        raise Error("swarm mesh join is not implemented")
 
     def heartbeat_pulse(mut self) raises -> Bool:
         """
         ᚺᛖᚨᚱᛏᛒᛖᚨᛏ·ᛈᛢᛚᛋᛖ — Mesh Telemetry & Liveness Pulse (heartbeat_pulse)
         ══════════════════════════════════════════════════════════════════════════
-        Emits an inter-node liveness heartbeat pulse across all connected cluster peers.
+        Reports unavailable until a real inter-node heartbeat exists.
         """
-        return True
+        return False
 
     def dispatch_distributed_inference(mut self, model: String, prompt: String) raises -> String:
         """
         ᛞᛁᛋᛈᚨᛏᚲᚺ·ᛞᛁᛋᛏᚱᛁᛒᛢᛏᛖᛞ — Load-Balanced Distributed Inference Routing (dispatch_distributed_inference)
         ══════════════════════════════════════════════════════════════════════════
-        Identifies the optimal, least-loaded peer node in the cluster and routes the inference task.
+        Rejects the reserved remote inference operation until transport exists.
         """
-        var target_node = self.registry.get_least_loaded_node()
-        return self.dispatcher.dispatch_to_node(target_node, model)
-
+        _ = model
+        _ = prompt
+        raise Error("distributed swarm inference is not implemented")

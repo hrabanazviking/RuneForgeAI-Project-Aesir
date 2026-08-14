@@ -1,15 +1,13 @@
 # loader/huggingface.mojo
-# HuggingFaceSeer: HuggingFace Hub Repository Resolver & Bare-Metal Weight Stream Downloader
+# HuggingFaceSeer: repository tag and resolve-URL helpers
 
 struct HuggingFaceSeer:
     """
     ᚺᛢᚷᚷᛁ᛾ᚷ·ᚠᚨᚲᛖ·ᛋᛖᛖᚱ — The Vision of the HuggingFace Hub (HuggingFaceSeer)
     ══════════════════════════════════════════════════════════════════════════
-    The Sovereign Repository Scout and Weight Stream Downloader for HuggingFace Hub.
+    Repository tag normalization and resolve-URL construction for Hugging Face.
     Parses HuggingFace repository tags (hf.co/org/model, huggingface.co/org/model, org/repo),
-    builds direct CDN download URLs, and streams model weights (including mobile & edge models
-    like SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini) directly into the local
-    disk and MimirWell memory substrate without dynamic Python runtime overhead.
+    Model downloading is not implemented.
     """
     var default_cdn: String
 
@@ -67,14 +65,9 @@ struct HuggingFaceSeer:
         """
         ᛞᛟᚹᚾᛚᛟᚨᛞ·ᚺᚠ·ᛗᛟᛞᛖᛚ — The Stream Downloader & Weight Inscription (download_hf_model)
         ══════════════════════════════════════════════════════════════════════════
-        Executes bare-metal HTTP weight stream download from HuggingFace Hub CDN,
-        streaming model weights into local disk and MimirWell memory substrate.
-        Supports mobile & edge models: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
+        Preserves the public download surface while rejecting the unimplemented
+        HTTPS, integrity, and storage operation.
         """
-        var norm_repo = HuggingFaceSeer.parse_hf_repo(repo_id)
-        print("⚡ Project Aesir — HuggingFace Hub Stream Downloader ⚡")
-        print("Repository:", norm_repo)
-        print("Target Weight File:", filename)
-        print("Downloading stream from CDN:", HuggingFaceSeer.build_download_url(norm_repo, filename))
-        return True
-
+        _ = repo_id
+        _ = filename
+        raise Error("Hugging Face model download is not implemented")

@@ -1,11 +1,11 @@
 # tests/test_npu_edge.mojo
-# Verification of the NPU Realm Gateway: Edge & Heterogeneous Acceleration
+# Verification of NPU descriptors and honest unsupported execution
 
 from core.mimir_well import MimirWell, RuneTensor, DeviceTopology, NPUBackendType, NPUBuffer, f16, f32
 from core.compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu
 
 def test_npu_backend_enum() raises:
-    print("--- Testing NPUBackendType (The Edge Acceleration Realm) ---")
+    print("--- Testing reserved NPU backend discriminants ---")
     var success = True
 
     var h10 = NPUBackendType(NPUBackendType.HAILO_10)
@@ -41,30 +41,15 @@ def test_npu_backend_enum() raises:
 
 
 def test_device_topology_npu() raises:
-    print("--- Testing DeviceTopology NPU Discovery (The Realm Mapping) ---")
-    var success = True
+    print("--- Testing no fabricated NPU discovery ---")
     var topo = DeviceTopology(2)
-    if len(topo.npu_backends) == 0:
-        print("FAIL: DeviceTopology failed to discover NPU backends")
-        success = False
-
-    var found_arm = False
-    for i in range(len(topo.npu_backends)):
-        if topo.npu_backends[i].value == NPUBackendType.ARM_NEON:
-            found_arm = True
-            break
-    if not found_arm:
-        print("FAIL: ARM_NEON backend not discovered by DeviceTopology")
-        success = False
-
-    if success:
-        print("DeviceTopology NPU Discovery: PASS")
-    else:
-        raise Error("DeviceTopology NPU discovery invariant mismatch")
+    if len(topo.npu_backends) != 0:
+        raise Error("DeviceTopology fabricated unavailable NPU backends")
+    print("no fabricated NPU discovery: PASS")
 
 
 def test_npu_buffer_zero_copy() raises:
-    print("--- Testing NPUBuffer Zero-Copy Allocation (The Mímisbrunnr Shared Stream) ---")
+    print("--- Testing NPU-labeled host buffer descriptor ---")
     var success = True
     var well = MimirWell(1024 * 1024)
     var buf_bytes = 1024
@@ -75,6 +60,9 @@ def test_npu_buffer_zero_copy() raises:
         success = False
     if buf.backend.value != NPUBackendType.HAILO_10:
         print("FAIL: NPUBuffer backend mismatch")
+        success = False
+    if buf.is_dma_buf:
+        print("FAIL: host pool buffer claimed DMA-BUF backing")
         success = False
 
     var tensor = buf.as_rune_tensor(16, 32)
@@ -88,13 +76,13 @@ def test_npu_buffer_zero_copy() raises:
             break
 
     if success:
-        print("NPUBuffer Zero-Copy: PASS")
+        print("NPU-labeled host buffer descriptor: PASS")
     else:
         raise Error("NPUBuffer host-memory view invariant mismatch")
 
 
 def test_arm_neon_precision() raises:
-    print("--- Testing ARM NEON SIMD Precision (128-bit Vector Lanes) ---")
+    print("--- Testing host 8-wide SIMD helper parity ---")
     var success = True
     var well = MimirWell(1024 * 1024)
 
@@ -131,21 +119,16 @@ def test_arm_neon_precision() raises:
             break
 
     if success:
-        print("ARM NEON Precision: PASS")
+        print("host 8-wide SIMD helper parity: PASS")
     else:
         raise Error("ARM NEON synthetic parity mismatch")
 
 
 def test_npu_gemm_parity() raises:
-    print("--- Testing NPU GEMM Parity across Acceleration Backends ---")
-    var success = True
-
-    # K=32 ensures gemm_f16 (simd_w_f16=32) and gemm_f16_arm_neon (neon_w=8) both iterate cleanly
+    print("--- Testing unsupported NPU execution gateway ---")
     var M = 4
     var K = 32
     var N = 4
-    # Expected: each C[m,n] = sum(A[m,k]*B[n,k] for k=0..31) = K * 2.0 * 1.5 = 96.0
-    var expected = Scalar[f16](96.0)
 
     for b in range(6):
         var well = MimirWell(1024 * 1024)
@@ -153,8 +136,6 @@ def test_npu_gemm_parity() raises:
         var A = RuneTensor[f16](M, K, a_ptr)
         var b_ptr = well.allocate(N * K)
         var B = RuneTensor[f16](N, K, b_ptr)
-        var c_cpu_ptr = well.allocate(M * N)
-        var C_CPU = RuneTensor[f16](M, N, c_cpu_ptr)
         var c_npu_ptr = well.allocate(M * N)
         var C_NPU = RuneTensor[f16](M, N, c_npu_ptr)
 
@@ -163,23 +144,20 @@ def test_npu_gemm_parity() raises:
         for i in range(N * K):
             B.data.unsafe_store(i, Scalar[f16](1.5))
         for i in range(M * N):
-            C_CPU.data.unsafe_store(i, Scalar[f16](0.0))
             C_NPU.data.unsafe_store(i, Scalar[f16](0.0))
 
-        gemm_f16(A, B, C_CPU)
-
         var backend = NPUBackendType(b)
-        gemm_f16_npu(A, B, C_NPU, backend)
-
+        var rejected = False
+        try:
+            gemm_f16_npu(A, B, C_NPU, backend)
+        except error:
+            rejected = True
+            if "not implemented" not in String(error):
+                raise Error("NPU gateway rejection omitted stable truth text")
+        if not rejected:
+            raise Error("NPU gateway executed a CPU fallback")
         for i in range(M * N):
-            var npu_val = C_NPU.data.unsafe_load(i)
-            var cpu_val = C_CPU.data.unsafe_load(i)
-            if npu_val != cpu_val or npu_val != expected:
-                print("FAIL: NPU backend", backend.name(), "mismatch at index", i, "got", npu_val, "expected", expected)
-                success = False
-                break
+            if C_NPU.data.unsafe_load(i) != Scalar[f16](0.0):
+                raise Error("unsupported NPU gateway wrote an output tensor")
 
-    if success:
-        print("NPU GEMM Parity: PASS")
-    else:
-        raise Error("NPU-labeled CPU fallback parity mismatch")
+    print("unsupported NPU execution gateway: PASS")

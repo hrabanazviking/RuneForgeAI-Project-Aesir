@@ -276,8 +276,8 @@ def dequantize_compressed_tensor(
 
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]):
     """
-    The Anvil's Strike: Custom MATMUL tiling matrices to maximize shared memory usage.
-    Target: CUDA Tensor Cores / MMA instructions. A rhythmic hammering of f16 threads.
+    Host Mojo SIMD/scalar-tail F16 matrix multiplication with F32 accumulation.
+    This function does not execute CUDA, Tensor Core, or MMA instructions.
     """
     var rows = A.rows
     var shared_dim = A.cols
@@ -737,51 +737,14 @@ def gemm_f16_npu(
     B: RuneTensor[f16], 
     mut C: RuneTensor[f16], 
     backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
-):
+) raises:
     """
-    ᚾᛈᚢ·ᚱᛖᚨᛚᛗ·ᚷᚨᛏᛖᚹᚨᚤ — The Gate of the Nine NPU Realms (gemm_f16_npu)
-    ═══════════════════════════════════════════════════════════════════════════
-
-    The Bifrost of compute — a single gateway rune that reads the NPUBackendType
-    discriminant and routes the matrix multiplication to the sovereign spirit of
-    the detected hardware realm. No virtual dispatch, no function pointer table,
-    no heap allocation: the branch is resolved at the token of the `backend.value`
-    integer and the correct kernel is struck directly.
-
-    Dispatch Map (The Nine Pathways):
-    ──────────────────────────────────
-      HAILO_10           (0) → gemm_f16()          — 32-wide SIMD tiled GEMM
-                                                      (compiled dataflow graph path;
-                                                       Hailo RT bridge pending)
-      QUALCOMM_HEXAGON   (1) → gemm_f16_arm_neon()  — HVX-width 8-lane NEON fallback
-                                                      (Hexagon HVX bridge pending)
-      ARM_NEON           (2) → gemm_f16_arm_neon()  — 128-bit NEON 8-lane GEMM kernel
-                                                      (primary edge path; sovereign)
-      JETSON_NVIDIA      (3) → gemm_f16()            — 32-wide SIMD CUDA tensor-core path
-      APPLE_NEURAL_ENGINE(4) → gemm_f16_arm_neon()  — ANE NEON fallback
-                                                      (Core ML ANE bridge pending)
-      GENERIC_NPU        (5) → gemm_f16()            — Universal SIMD tiled GEMM
-
-    The gateway is called from:
-      · TransformerBlock.forward() — QKV projections, output projection, FFN up/gate/down
-      · forward_pass()            — Final vocabulary projection logits
-
-    All inputs (A, B) are zero-copy RuneTensor views into MimirWell. C is written
-    in-place. No NPUBuffer allocation occurs at this level — buffers are pre-carved
-    by the caller before the generation loop begins.
+    Reserved public NPU gateway. No NPU runtime is implemented, so this fails
+    instead of silently executing a CPU fallback under a hardware label.
     """
-    if backend.value == NPUBackendType.ARM_NEON:
-        gemm_f16_arm_neon(A, B, C)
-    elif backend.value == NPUBackendType.HAILO_10:
-        gemm_f16(A, B, C)
-    elif backend.value == NPUBackendType.QUALCOMM_HEXAGON:
-        gemm_f16_arm_neon(A, B, C)
-    elif backend.value == NPUBackendType.JETSON_NVIDIA:
-        gemm_f16(A, B, C)
-    elif backend.value == NPUBackendType.APPLE_NEURAL_ENGINE:
-        gemm_f16_arm_neon(A, B, C)
-    else:
-        gemm_f16(A, B, C)
+    raise Error(
+        "NPU execution is not implemented for backend " + backend.name()
+    )
 
 
 def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]):
@@ -789,14 +752,8 @@ def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTen
     ᛗᚢᛋᚨ·ᛋᚢᚈᚨ·ᚷᛖᛗᛗ — The Strike of the Eastern Forge (gemm_f16_gpgpu_vector)
     ════════════════════════════════════════════════════════════════════════════
 
-    Optimized 16-wide SIMD matrix multiplication kernel for sovereign Eastern GPGPU architectures:
-      · Moore Threads MUSA (MTT S80 / S4000)
-      · Biren Technology SUPA (BR100 / BR104)
-      · MetaX MACA (C500 / N100)
-      · Hygon Haiguang DCU (DTK / Zhaoxin GPGPU)
-
-    Executes `simd_w = 16` half-precision vector registers matching 16-lane GPGPU warp/wavefront SIMT execution,
-    accumulating fused multiply-adds with zero dynamic heap allocation.
+    Host-only 16-wide Mojo SIMD experiment. The historical name is preserved
+    for API compatibility; this function does not execute on a GPGPU.
     """
     comptime gpgpu_w = 16
     var M = A.rows
@@ -822,12 +779,8 @@ def gemm_f16_mobile_opencl(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTe
     ᛗᛟᛒᛁᛚᛖ·ᛟᛈᛖᚾᚲᛚ·ᚷᛖᛗᛗ — The Wandering Stream of Midgard (gemm_f16_mobile_opencl)
     ═════════════════════════════════════════════════════════════════════════════════════
 
-    Optimized 8-wide SIMD matrix multiplication kernel for mobile, VR/XR headset, and IoT embedded GPUs:
-      · ARM Mali-G78 & Immortalis (Smartphones, VR Headsets, Wearables)
-      · Qualcomm Adreno 740/750 (Snapdragon XR2 VR Headsets, Mobile SoCs, Watches)
-      · Imagination PowerVR / B-Series (Embedded Automotive, Toasters, Smart Appliances)
-
-    Executes 8-element SIMD vector strides tailored specifically for mobile GPU L1/L2 cache line bounds and unified memory architectures.
+    Host-only 8-wide Mojo SIMD experiment. The historical name is preserved
+    for API compatibility; this function does not execute through OpenCL.
     """
     comptime mobile_w = 8
     var M = A.rows
@@ -848,43 +801,16 @@ def gemm_f16_mobile_opencl(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTe
             C.set(m, n, sum_val)
 
 
-def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5):
+def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5) raises:
     """
     ᚱᛗᛋ·ᚾᛟᚱᛗ·ᚷᛈᚢ — The Cleansing Stream of Alfheim (rmsnorm_gpu)
     ═════════════════════════════════════════════════════════════════
 
-    Executes 16-wide vectorized Root Mean Square Normalization across all ten GPU hardware realms:
-      1. SIMD Sum-of-Squares Accumulation (widened to f32 for numerical stability).
-      2. Scalar Reciprocal RMS Computation (`1.0 / sqrt(mean_sq + eps)`).
-      3. Vectorized In-Place Normalize & Rescale against learned weight tensor `weight`.
-
-    Leaves no residual allocation memory drawn from MimirWell.
+    Reserved public GPU RMSNorm gateway. No GPU runtime is implemented.
     """
-    comptime gpu_w = 16
-    var hidden_dim = T.cols
-    var simd_end = (hidden_dim // gpu_w) * gpu_w
-    for r in range(T.rows):
-        var ss: Scalar[f32] = 0.0
-        for c in range(0, simd_end, gpu_w):
-            var x = T.data.unsafe_load[width=gpu_w](r * hidden_dim + c).cast[f32]()
-            ss += (x * x).reduce_add()
-        for c in range(simd_end, hidden_dim):
-            var x = T.data.unsafe_load(r * hidden_dim + c).cast[f32]()
-            ss += x * x
-
-        var rms = sqrt(ss / Float32(hidden_dim) + epsilon)
-        var inv_rms = (1.0 / rms).cast[f16]()
-
-        for c in range(0, simd_end, gpu_w):
-            var x = T.data.unsafe_load[width=gpu_w](r * hidden_dim + c)
-            var w = weight.data.unsafe_load[width=gpu_w](c)
-            var normalized = x * inv_rms
-            T.data.unsafe_store[width=gpu_w](r * hidden_dim + c, normalized * w)
-        for c in range(simd_end, hidden_dim):
-            var x = T.data.unsafe_load(r * hidden_dim + c)
-            var w = weight.data.unsafe_load(c)
-            var normalized = x * inv_rms
-            T.data.unsafe_store(r * hidden_dim + c, normalized * w)
+    raise Error(
+        "GPU RMSNorm execution is not implemented for realm " + realm.name()
+    )
 
 
 def gemm_f16_gpu(
@@ -892,48 +818,15 @@ def gemm_f16_gpu(
     B: RuneTensor[f16],
     mut C: RuneTensor[f16],
     realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
-):
+) raises:
     """
     ᚷᛈᚢ·ᚱᛖᚨᛚᛗ·ᚷᚨᛏᛖᚹᚨᚤ — The Gateway of the Ten GPU Realms (gemm_f16_gpu)
     ══════════════════════════════════════════════════════════════════════════
 
-    The single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms:
-      · NVIDIA_CUDA        (0) → gemm_f16()                (32-wide CUDA SIMD tiled)
-      · AMD_ROCM_HIP       (1) → gemm_f16()                (32-wide ROCm hipBLAS)
-      · INTEL_ONEAPI_XE    (2) → gemm_f16()                (32-wide Intel Xe)
-      · MOORE_THREADS_MUSA (3) → gemm_f16_gpgpu_vector()   (16-wide MUSA vector)
-      · BIREN_SUPA         (4) → gemm_f16_gpgpu_vector()   (16-wide SUPA vector)
-      · METAX_MACA         (5) → gemm_f16_gpgpu_vector()   (16-wide MACA vector)
-      · HYGON_DCU          (6) → gemm_f16_gpgpu_vector()   (16-wide DCU vector)
-      · ARM_MALI_OPENCL    (7) → gemm_f16_mobile_opencl() (8-wide Mali mobile/VR)
-      · QUALCOMM_ADRENO    (8) → gemm_f16_mobile_opencl() (8-wide Adreno VR/XR)
-      · IMAGINATION_POWERVR(9) → gemm_f16_mobile_opencl() (8-wide PowerVR embedded)
-
-    Dispatches in zero cycles of dynamic allocation overhead — reading the `GPURealmType.value` discriminant rune directly.
+    Reserved public GPU gateway. No GPU runtime is implemented, so this fails
+    instead of silently executing a CPU fallback under a hardware label.
     """
-    if realm.value == GPURealmType.NVIDIA_CUDA:
-        gemm_f16(A, B, C)
-    elif realm.value == GPURealmType.AMD_ROCM_HIP:
-        gemm_f16(A, B, C)
-    elif realm.value == GPURealmType.INTEL_ONEAPI_XE:
-        gemm_f16(A, B, C)
-    elif realm.value == GPURealmType.MOORE_THREADS_MUSA:
-        gemm_f16_gpgpu_vector(A, B, C)
-    elif realm.value == GPURealmType.BIREN_SUPA:
-        gemm_f16_gpgpu_vector(A, B, C)
-    elif realm.value == GPURealmType.METAX_MACA:
-        gemm_f16_gpgpu_vector(A, B, C)
-    elif realm.value == GPURealmType.HYGON_DCU:
-        gemm_f16_gpgpu_vector(A, B, C)
-    elif realm.value == GPURealmType.ARM_MALI_OPENCL:
-        gemm_f16_mobile_opencl(A, B, C)
-    elif realm.value == GPURealmType.QUALCOMM_ADRENO:
-        gemm_f16_mobile_opencl(A, B, C)
-    elif realm.value == GPURealmType.IMAGINATION_POWERVR:
-        gemm_f16_mobile_opencl(A, B, C)
-    else:
-        gemm_f16(A, B, C)
-
-
-
+    raise Error(
+        "GPU execution is not implemented for realm " + realm.name()
+    )
 

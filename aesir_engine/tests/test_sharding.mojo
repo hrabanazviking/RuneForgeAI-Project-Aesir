@@ -1,5 +1,5 @@
 # tests/test_sharding.mojo
-# Verification of the Bifrost Shard Matrix: Multi-GPU Orchestration & Tensor Sharding
+# Verification of logical host tensor partitioning helpers
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -10,15 +10,15 @@ from core.compute import gemm_f16, gemm_f16_sharded, all_reduce_sum
 
 
 def test_device_topology() raises:
-    print("--- Testing DeviceTopology (The Realm Mapping) ---")
+    print("--- Testing configured logical host topology ---")
     var topo = DeviceTopology(2)
     if topo.num_devices != 2:
         raise Error("DeviceTopology num_devices mismatch")
     if len(topo.device_names) != 2:
         raise Error("DeviceTopology device_names length mismatch")
-    if topo.device_names[0] != "cuda:0" or topo.device_names[1] != "cuda:1":
+    if topo.device_names[0] != "host:0" or topo.device_names[1] != "host:1":
         raise Error("DeviceTopology device name mismatch")
-    print("DeviceTopology: PASS")
+    print("logical host topology: PASS")
 
 
 def test_shard_tensor() raises:
@@ -105,7 +105,7 @@ def test_all_reduce_sum() raises:
 
 
 def test_sharded_gemm_parity() raises:
-    print("--- Testing Sharded GEMM Parity (The Multi-Device Strike) ---")
+    print("--- Testing sequential host-shard GEMM parity ---")
     # Single-device reference: A (1x32), B (32x32), C_ref (1x32)
     var M = 1
     var K = 32
@@ -171,7 +171,7 @@ def test_sharded_gemm_parity() raises:
     a_sh0_ptr.unsafe_free()
     a_sh1_ptr.unsafe_free()
 
-    print("sharded gemm parity: PASS")
+    print("sequential host-shard GEMM parity: PASS")
 
 
 def test_sharding() raises:

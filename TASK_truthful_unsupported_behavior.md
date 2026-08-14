@@ -1,6 +1,6 @@
 # Task: Truthful Unsupported Behavior
 
-**Status:** In progress on August 14, 2026.
+**Status:** Completed and verified on August 14, 2026.
 **Forge:** 0D
 **Parent ledger:** `CAPABILITY_LEDGER.md`
 **Parent audit:** `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`
@@ -212,3 +212,15 @@ the implementation boundary.
 Forge 0E reconciles all present-tense README, architecture, vision, data-flow,
 interface, and duplicated documentation with the canonical ledger after runtime
 output no longer fabricates evidence.
+
+## Completion Record
+
+All four phases and every acceptance criterion passed. The counted suite reports
+51 pass, 0 fail, 1 explicit skip, and 52 total. The pinned external GGUF oracle,
+clean Mojo build, exact built-CLI 32-token completion, and representative
+nonzero built-CLI rejection cases passed. The capability ledger contains 99
+unique allowed-status entries with counts 28 verified, 15 partial, 14 scaffold,
+2 simulated, and 40 missing. Forge 0D's 16 TODO items are checked; the overall
+backlog is 26 checked and 172 open. Diff hygiene and repository safety scans
+passed, and no model weight, generated executable, secret, or machine-local path
+was added to the repository.

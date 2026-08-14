@@ -87,8 +87,10 @@ struct GGUFSeer:
     def __deinit__(deinit self): ...
 ```
 
-### `ONNXModelSeer` (Slice 11)
-ONNX binary protocol buffer and node graph seer.
+### `ONNXModelSeer` (reserved surface)
+Unavailable ONNX descriptor. Construction reports zero/empty metadata;
+`parse_onnx_header()` and `map_to_well()` return false. No protobuf parsing,
+validation, tensor mapping, or execution is implemented.
 
 ```mojo
 struct ONNXModelSeer:
@@ -131,8 +133,10 @@ struct RuneWeaver:
     def decode(self, token: Int) -> String: ...
 ```
 
-### `HuggingFaceSeer` (`loader/huggingface.mojo`) (Slice 13)
-Sovereign repository scout, URI tag normalizer, CDN stream URL builder, and weight stream downloader for HuggingFace Hub.
+### `HuggingFaceSeer` (`loader/huggingface.mojo`)
+Local tag normalizer and URL builder. `download_hf_model()` raises
+`Hugging Face model download is not implemented`; it performs no HTTP request,
+file write, digest verification, or store registration.
 
 ```mojo
 struct HuggingFaceSeer:

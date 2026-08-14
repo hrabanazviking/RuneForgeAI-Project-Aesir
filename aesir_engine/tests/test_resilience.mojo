@@ -1,5 +1,5 @@
 # tests/test_resilience.mojo
-# Verification of Resilience, Self-Healing & Multi-Threading Matrix (Slice 12)
+# Verification of local resilience scaffold markers
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -43,7 +43,7 @@ def test_error_guard() raises:
 
 
 def test_state_vault() raises:
-    print("--- Testing StateVault (Autoregressive Checkpointing) ---")
+    print("--- Testing StateVault in-memory marker ---")
     var success = True
     var vault = StateVault()
     vault.save_checkpoint(128, 16)
@@ -57,13 +57,13 @@ def test_state_vault() raises:
         success = False
 
     if success:
-        print("StateVault: PASS")
+        print("StateVault in-memory marker: PASS")
     else:
         raise Error("StateVault scaffold invariant mismatch")
 
 
 def test_event_bus() raises:
-    print("--- Testing AesirEventBus (Inter-Module Messaging) ---")
+    print("--- Testing AesirEventBus last-event marker ---")
     var success = True
     var bus = AesirEventBus()
     bus.publish_event("MODEL_LOADED", "llama3:latest")
@@ -73,13 +73,13 @@ def test_event_bus() raises:
         success = False
 
     if success:
-        print("AesirEventBus: PASS")
+        print("AesirEventBus last-event marker: PASS")
     else:
         raise Error("AesirEventBus marker invariant mismatch")
 
 
 def test_thread_pool() raises:
-    print("--- Testing RuneThreadPool (Parallel Worker Execution) ---")
+    print("--- Testing RuneThreadPool state scaffold ---")
     var success = True
     var pool = RuneThreadPool(8)
 
@@ -88,30 +88,33 @@ def test_thread_pool() raises:
         success = False
 
     if success:
-        print("RuneThreadPool: PASS")
+        print("RuneThreadPool state scaffold: PASS")
     else:
         raise Error("RuneThreadPool scaffold invariant mismatch")
 
 
 def test_supervisor_crash_recovery() raises:
-    print("--- Testing SelfHealingSupervisor (Panic Recovery & Self-Healing) ---")
+    print("--- Testing explicit supervisor simulation marker ---")
     var success = True
     var supervisor = SelfHealingSupervisor()
     supervisor.vault.save_checkpoint(64, 8)
 
     if not supervisor.simulate_crash_and_recover():
-        print("FAIL: SelfHealingSupervisor crash recovery failed")
+        print("FAIL: supervisor simulation marker did not complete")
         success = False
 
     if not supervisor.is_healthy:
-        print("FAIL: Supervisor status not healthy after recovery")
+        print("FAIL: supervisor local state did not reset after simulation")
         success = False
 
     if supervisor.recovery_count != 1:
         print("FAIL: Recovery count mismatch")
         success = False
+    if supervisor.bus.get_last_event() != "RECOVERY_COMPLETE":
+        print("FAIL: supervisor simulation omitted completion marker")
+        success = False
 
     if success:
-        print("SelfHealingSupervisor Crash Recovery: PASS")
+        print("supervisor simulation marker: PASS")
     else:
         raise Error("SelfHealingSupervisor simulation invariant mismatch")

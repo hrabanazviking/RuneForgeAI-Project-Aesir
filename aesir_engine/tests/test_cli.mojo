@@ -1,88 +1,106 @@
 # tests/test_cli.mojo
-# Verification of Complete Ollama Terminal Command Suite (Slice 9)
+# Verification of implemented CLI parsing and honest unsupported boundaries.
 
-from cli.modelfile import parse_modelfile, Modelfile
+from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest
 from cli.commands import dispatch_command
 
+
 def test_modelfile_parser() raises:
-    print("--- Testing Modelfile Parser (DIRECTIVES) ---")
-    var success = True
-    var content = String("FROM model.gguf\nPARAMETER temperature 0.7\nPARAMETER top_k 40\nSYSTEM You are Aesir.\nLICENSE MIT")
+    print("--- Testing narrow Modelfile directive parser ---")
+    var content = String(
+        "FROM model.gguf\nPARAMETER temperature 0.7\n"
+        + String("PARAMETER top_k 40\nSYSTEM You are Aesir.\nLICENSE MIT")
+    )
     var parsed = parse_modelfile(content)
 
     if parsed.from_model != "model.gguf":
-        print("FAIL: Expected FROM model.gguf, got", parsed.from_model)
-        success = False
+        raise Error("Modelfile FROM directive mismatch")
     if parsed.system_prompt != "You are Aesir.":
-        print("FAIL: Expected SYSTEM prompt 'You are Aesir.', got", parsed.system_prompt)
-        success = False
+        raise Error("Modelfile SYSTEM directive mismatch")
     if parsed.license_info != "MIT":
-        print("FAIL: Expected LICENSE MIT, got", parsed.license_info)
-        success = False
-    if "temperature" not in parsed.parameters or parsed.parameters["temperature"] != "0.7":
-        print("FAIL: Expected PARAMETER temperature 0.7")
-        success = False
+        raise Error("Modelfile LICENSE directive mismatch")
+    if (
+        "temperature" not in parsed.parameters
+        or parsed.parameters["temperature"] != "0.7"
+    ):
+        raise Error("Modelfile PARAMETER directive mismatch")
 
-    if success:
-        print("Modelfile Parser: PASS")
-    else:
-        raise Error("Modelfile parser invariant mismatch")
+    print("narrow Modelfile parser: PASS")
 
 
 def test_model_manifest_store() raises:
-    print("--- Testing RuneModelStore Catalog Operations ---")
-    var success = True
+    print("--- Testing empty in-memory manifest scaffold ---")
     var store = RuneModelStore()
+    if len(store.list_models()) != 0:
+        raise Error("new model store must not contain fictional manifests")
+    if len(store.get_active_ps()) != 0:
+        raise Error("model store must not report fictional active processes")
 
-    var models = store.list_models()
-    if len(models) < 3:
-        print("FAIL: Expected at least 3 models in store, got", len(models))
-        success = False
+    var missing_rejected = False
+    try:
+        _ = store.get_model("missing")
+    except error:
+        missing_rejected = True
+        if "not found" not in String(error):
+            raise Error("missing manifest error omitted not-found text")
+    if not missing_rejected:
+        raise Error("missing model lookup returned a fictional manifest")
 
-    # Test copy model
-    store.copy_model("llama3:latest", "llama3-backup:latest")
-    var copied = store.get_model("llama3-backup:latest")
-    if copied.name != "llama3-backup":
-        print("FAIL: Copy model name mismatch")
-        success = False
+    var fixture = ModelManifest(
+        "fixture",
+        "latest",
+        "sha256:0123456789ab",
+        1024,
+        "F16",
+        64,
+        5,
+        "test fixture",
+        "FROM fixture.gguf",
+    )
+    store.catalog[String("fixture:latest")] = fixture
+    store.model_keys.append("fixture:latest")
+    store.copy_model("fixture:latest", "fixture-copy:latest")
+    if store.get_model("fixture-copy:latest").name != "fixture-copy":
+        raise Error("explicit fixture manifest copy failed")
+    if not store.remove_model("fixture-copy:latest"):
+        raise Error("explicit fixture manifest removal failed")
 
-    # Test remove model
-    var removed = store.remove_model("llama3-backup:latest")
-    if not removed:
-        print("FAIL: Remove model failed")
-        success = False
+    print("empty in-memory manifest scaffold: PASS")
 
-    # Test active ps
-    var active = store.get_active_ps()
-    if len(active) == 0:
-        print("FAIL: Active ps empty")
-        success = False
 
-    if success:
-        print("RuneModelStore Catalog: PASS")
-    else:
-        raise Error("RuneModelStore in-memory catalog invariant mismatch")
+def assert_cli_command_unsupported(command: String) raises:
+    var args = List[String]()
+    args.append(command)
+    var rejected = False
+    try:
+        dispatch_command(args)
+    except error:
+        rejected = True
+        var message = String(error)
+        if "not implemented" not in message and "unsupported" not in message:
+            raise Error("unsupported CLI error omitted stable truth text")
+    if not rejected:
+        raise Error("unsupported CLI command returned successfully: " + command)
 
 
 def test_cli_command_dispatch() raises:
-    print("--- Testing CLI Command Dispatcher (12 Subcommands) ---")
+    print("--- Testing truthful CLI dispatcher boundaries ---")
 
     var help_args = List[String]()
     help_args.append("help")
     dispatch_command(help_args)
 
-    var list_args = List[String]()
-    list_args.append("list")
-    dispatch_command(list_args)
+    assert_cli_command_unsupported("serve")
+    assert_cli_command_unsupported("list")
+    assert_cli_command_unsupported("ps")
+    assert_cli_command_unsupported("show")
+    assert_cli_command_unsupported("pull")
+    assert_cli_command_unsupported("push")
+    assert_cli_command_unsupported("create")
+    assert_cli_command_unsupported("rm")
+    assert_cli_command_unsupported("cp")
+    assert_cli_command_unsupported("stop")
+    assert_cli_command_unsupported("swarm")
 
-    var ps_args = List[String]()
-    ps_args.append("ps")
-    dispatch_command(ps_args)
-
-    var show_args = List[String]()
-    show_args.append("show")
-    show_args.append("aesir:latest")
-    dispatch_command(show_args)
-
-    print("CLI Command Dispatcher: PASS")
+    print("truthful CLI dispatcher boundaries: PASS")

@@ -19,7 +19,7 @@ counts as completion of an external capability.
 
 ## Verified Forge Milestones
 
-- [x] **Complete reality and function-level audit:** Inventory all 373 tracked
+- [x] **Complete reality and function-level audit:** Inventory all 379 tracked
   Mojo declarations, record AER-001 through AER-115, classify affected
   functions, and publish the staged Forge 0 through Stage 10 buildout plan.
 - [x] **Forge 0A — fail-closed tests:** Replace identified print-only and
@@ -53,48 +53,48 @@ counts as completion of an external capability.
 - [x] Re-run the 49/0/1/50 master suite, external pinned GGUF integration, clean
   Mojo build, and real built-CLI generation before marking Forge 0C complete.
 
-### Forge 0D — Eliminate fabricated operational output
+### Forge 0D — Eliminate fabricated operational output (completed)
 
-- [ ] **[simulated, AES-GEN-009] Implement or disable Masking Seidr:** Stop
+- [x] **[missing, AES-GEN-009] Implement or disable Masking Seidr:** Stop
   claiming a thought token is bound to `-inf` until tokenizer resolution and
   real logit masking are verified.
-- [ ] **[simulated, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
+- [x] **[missing, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
   catalogs, CUDA utilization, expiry, architecture, parameters, and sampler
   values unless derived from real current state.
-- [ ] **[simulated, AES-CLI-006] Correct `pull`/`push`/`create` output:** Replace
+- [x] **[missing, AES-CLI-006] Correct `pull`/`push`/`create` output:** Replace
   fabricated hashes, byte totals, transfer rates, verification, manifests, and
   success with explicit unsupported errors until operations exist.
-- [ ] **[simulated, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
+- [x] **[missing, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
   storage or process mutations that occurred only in an ephemeral seeded list.
-- [ ] **[simulated, AES-CLI-008] Correct REPL output:** Label the sample loop as a
+- [x] **[missing, AES-CLI-008] Correct REPL output:** Label the sample loop as a
   demo or return unsupported until stdin and real inference are connected.
-- [ ] **[simulated, AES-SRV-006] Correct OpenAI route output:** Stop returning a
+- [x] **[missing, AES-SRV-006] Correct OpenAI route output:** Stop returning a
   fixed assistant response as successful inference.
-- [ ] **[simulated, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
+- [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
   completion/token/detokenize/health/metrics responses and parity wording.
-- [ ] **[simulated, AES-ACC-003] Correct device discovery:** Return only
+- [x] **[missing, AES-ACC-003] Correct device discovery:** Return only
   configured/observed devices, or explicit unavailable status; never append all
   backends as detected.
-- [ ] **[simulated, AES-ACC-006/AES-ACC-008] Correct accelerator banners:** Do not
+- [x] **[missing, AES-ACC-006/AES-ACC-008] Correct accelerator banners:** Do not
   print NPU/GPU “ACTIVE,” CUDA, Tensor Core, or hardware-realm execution when the
   selected function runs on the CPU.
-- [ ] **[simulated, AES-ECO-003] Correct Hugging Face download output:** Return
+- [x] **[missing, AES-ECO-003] Correct Hugging Face download output:** Return
   unsupported without “downloading”/registration success until bytes are
   transferred and stored.
-- [ ] **[simulated, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
+- [x] **[missing, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
   node count, and validated/mapped status.
-- [ ] **[simulated, AES-ECO-005/AES-ECO-006] Correct ExLlama/llama CLI output:**
+- [x] **[missing, AES-ECO-005/AES-ECO-006] Correct ExLlama/llama CLI output:**
   Remove fixed completion, server health, bitrate, cache, benchmark, and
   perplexity claims.
-- [ ] **[simulated, AES-RES-005] Correct self-healing output:** Clearly label
+- [x] **[simulated, AES-RES-005] Correct self-healing output:** Clearly label
   boolean toggling as a simulation; do not report recovery of state that was
   never lost.
-- [ ] **[simulated, AES-SWM-003/004/005] Correct swarm output:** Remove fixed
+- [x] **[missing, AES-SWM-003/004/005] Correct swarm output:** Remove fixed
   peers, VRAM, health, join, dispatch, and remote execution success.
-- [ ] **[simulated, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
+- [x] **[missing, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
   tokens/s, perplexity, model size, backend, or utilization number that was not
   measured by a recorded harness.
-- [ ] Add negative tests proving unsupported branches fail nonzero and cannot
+- [x] Add negative tests proving unsupported branches fail nonzero and cannot
   emit success/healthy/validated/completed language.
 
 ### Forge 0E — Reconcile all present-tense documentation
@@ -252,7 +252,7 @@ counts as completion of an external capability.
   stop, failure-cleanup, and cancellation regression corpora.
 - [ ] Make logit argmax initialization and finite-logit handling correct for all
   representable values.
-- [ ] **[simulated, AES-GEN-009] Implement real thought-token masking only after
+- [ ] **[missing, AES-GEN-009] Implement real thought-token masking only after
   token resolution and behavioral tests; otherwise keep it disabled.**
 
 ## Stage 5 — Persistent CLI, Model Store, and Distribution
@@ -265,7 +265,7 @@ counts as completion of an external capability.
   multiline directives, validation, errors, and compatibility corpus.
 - [ ] Connect parsed parameters, templates, system messages, and licenses to the
   actual stored model/generation configuration.
-- [ ] **[simulated, AES-CLI-008] Build a real stdin REPL:** One engine session,
+- [ ] **[missing, AES-CLI-008] Build a real stdin REPL:** One engine session,
   conversation state, slash commands, history, EOF, signals, cancellation, and
   pseudo-terminal tests.
 
@@ -283,7 +283,7 @@ counts as completion of an external capability.
 
 ### Network distribution
 
-- [ ] **[simulated, AES-ECO-003] Implement real Hugging Face HTTPS download:**
+- [ ] **[missing, AES-ECO-003] Implement real Hugging Face HTTPS download:**
   Revisions, filenames, URL encoding, redirects, authentication, resume/range,
   timeouts, cancellation, byte counts, and errors.
 - [ ] Verify expected size/digest before atomic promotion into the model store.
@@ -323,7 +323,7 @@ counts as completion of an external capability.
 - [ ] **[scaffold/simulated, AES-SRV-005/006] OpenAI:** Parse typed requests,
   invoke real inference/embeddings, calculate usage, emit compliant errors and
   SSE, and pass official-client/wire tests.
-- [ ] **[simulated, AES-SRV-007] llama.cpp server:** Connect real tokenize,
+- [ ] **[missing, AES-SRV-007] llama.cpp server:** Connect real tokenize,
   detokenize, completion, health, props, slots, and metrics only where supported;
   pass differential tests against a pinned server.
 - [ ] **[missing, AES-SRV-008] Ollama HTTP:** Implement selected generate/chat/
@@ -376,7 +376,7 @@ counts as completion of an external capability.
 
 ### Honest discovery and unsupported behavior
 
-- [ ] **[simulated, AES-ACC-003] Separate configured from discovered devices:**
+- [ ] **[missing, AES-ACC-003] Separate configured from discovered devices:**
   Probe the platform and return only available backends with capability/error
   metadata.
 - [ ] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
@@ -416,7 +416,7 @@ counts as completion of an external capability.
 
 ### ONNX
 
-- [ ] **[simulated, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
+- [ ] **[missing, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
   opsets, tensors, nodes, attributes, graph inputs/outputs, and bounds.
 - [ ] Define the supported operator/type/shape subset and reject everything else.
 - [ ] Build an execution planner and compare outputs with ONNX Runtime on
@@ -424,14 +424,14 @@ counts as completion of an external capability.
 
 ### ExLlama/EXL2
 
-- [ ] **[simulated, AES-ECO-005] Either explicitly remove/relabel unsupported
+- [ ] **[missing, AES-ECO-005] Either explicitly remove/relabel unsupported
   ExLlama promises with approval or scope an actual EXL2 parser/runtime project.**
 - [ ] Require a real EXL2 model, authoritative decoder/runtime comparison, and
   physical CUDA evidence before any parity claim.
 
 ### llama.cpp CLI
 
-- [ ] **[simulated, AES-ECO-006] Define an intentionally supported subcommand and
+- [ ] **[missing, AES-ECO-006] Define an intentionally supported subcommand and
   version subset; pass differential argument/output/error/exit tests.**
 - [ ] Never infer CLI/server parity from the pinned token-oracle comparison alone.
 
@@ -473,9 +473,9 @@ counts as completion of an external capability.
   freshness/failure handling.
 - [ ] Extend the locally verified selection rule with reservations, concurrent
   updates, fairness, staleness, and scheduling policy.
-- [ ] **[simulated, AES-SWM-003] Prove join/leave/heartbeat between separate
+- [ ] **[missing, AES-SWM-003] Prove join/leave/heartbeat between separate
   authenticated processes.**
-- [ ] **[simulated, AES-SWM-004] Execute one real inference request remotely:**
+- [ ] **[missing, AES-SWM-004] Execute one real inference request remotely:**
   Model availability, prompt/result transport, streaming, cancellation,
   timeout, retry/idempotency, and validation.
 - [ ] Derive CLI/REST state from the live cluster and pass multi-process failure
@@ -496,7 +496,7 @@ counts as completion of an external capability.
 
 ### Benchmarks and efficiency
 
-- [ ] **[simulated, AES-OPS-001] Build a real benchmark harness:** Timer, token
+- [ ] **[missing, AES-OPS-001] Build a real benchmark harness:** Timer, token
   accounting, correctness gate, warmup, repeated samples/statistics, raw output,
   hardware/software/model/prompt metadata, and reproducibility command.
 - [ ] **[missing, AES-OPS-002] Measure latency, throughput, memory, utilization,

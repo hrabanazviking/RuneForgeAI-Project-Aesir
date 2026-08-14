@@ -3,7 +3,43 @@
 from loader.gguf import GGUFSeer
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass
-from aesir import generation_stop_reason
+from aesir import generation_stop_reason, validate_runtime_backend_config
+
+
+def test_unsupported_runtime_config() raises:
+    """Proves unavailable engine backends fail before model construction."""
+    var rejected_multi_device = False
+    try:
+        validate_runtime_backend_config(2, False, False)
+    except error:
+        rejected_multi_device = True
+        if "not implemented" not in String(error):
+            raise Error("multi-device rejection omitted stable unsupported text")
+    if not rejected_multi_device:
+        raise Error("multi-device engine configuration did not fail closed")
+
+    var rejected_npu = False
+    try:
+        validate_runtime_backend_config(1, True, False)
+    except error:
+        rejected_npu = True
+        if "not implemented" not in String(error):
+            raise Error("NPU rejection omitted stable unsupported text")
+    if not rejected_npu:
+        raise Error("NPU engine configuration did not fail closed")
+
+    var rejected_gpu = False
+    try:
+        validate_runtime_backend_config(1, False, True)
+    except error:
+        rejected_gpu = True
+        if "not implemented" not in String(error):
+            raise Error("GPU rejection omitted stable unsupported text")
+    if not rejected_gpu:
+        raise Error("GPU engine configuration did not fail closed")
+
+    validate_runtime_backend_config(1, False, False)
+    print("unsupported runtime configurations: PASS")
 
 
 def test_generation_stop_policy() raises:

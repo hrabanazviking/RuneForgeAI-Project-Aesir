@@ -25,13 +25,13 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
         out self,
         name: String,
         tag: String = String("latest"),
-        digest: String = String("sha256:a1b2c3d4e5f6"),
-        size_bytes: Int64 = 4370000000, # ~4.37 GB
-        quantization: String = String("Q4_K_M"),
-        hidden_dim: Int = 4096,
-        num_layers: Int = 32,
-        modified_time: String = String("2 hours ago"),
-        modelfile_content: String = String("FROM model.gguf")
+        digest: String = String(""),
+        size_bytes: Int64 = 0,
+        quantization: String = String("unknown"),
+        hidden_dim: Int = 0,
+        num_layers: Int = 0,
+        modified_time: String = String("unknown"),
+        modelfile_content: String = String("")
     ):
         self.name = name
         self.tag = tag
@@ -80,9 +80,8 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
 struct RuneModelStore(Copyable):
     """
     RuneModelStore — ᚱᛢᚾᛖ·ᛗᛟᛞᛖᛚ·ᛋᛏᛟᚱᛖ — The Vault of Mímisbrunnr:
-    Sovereign model catalog store managing model creation, manifest querying,
-    model cloning, deletion, and active process tracking. Interoperates seamlessly
-    with ~/.aesir/models and ~/.ollama/models directory conventions.
+    In-memory manifest scaffold. Persistence and active-process tracking are not
+    implemented; a new store starts empty.
     """
     var catalog: Dict[String, ModelManifest]
     var model_keys: List[String]
@@ -90,17 +89,6 @@ struct RuneModelStore(Copyable):
     def __init__(out self) raises:
         self.catalog = Dict[String, ModelManifest]()
         self.model_keys = List[String]()
-
-        var m1 = ModelManifest(String("llama3"), String("latest"), String("sha256:70e23762f026"), 4661225472, String("Q4_K_M"), 4096, 32, String("12 minutes ago"), String("FROM model.gguf\nPARAMETER temperature 0.7\nSYSTEM You are Odin's wisdom incarnate."))
-        var m2 = ModelManifest(String("mistral"), String("7b"), String("sha256:e8a319a2b5c1"), 4109725696, String("Q4_0"), 4096, 32, String("3 hours ago"), String("FROM mistral.gguf\nPARAMETER temperature 0.8"))
-        var m3 = ModelManifest(String("aesir"), String("latest"), String("sha256:88fa19c4d9e2"), 5368709120, String("F16"), 4096, 32, String("Just now"), String("FROM model.gguf\nSYSTEM Sovereign Bare-Metal Engine"))
-
-        self.catalog[String("llama3:latest")] = m1
-        self.model_keys.append("llama3:latest")
-        self.catalog[String("mistral:7b")] = m2
-        self.model_keys.append("mistral:7b")
-        self.catalog[String("aesir:latest")] = m3
-        self.model_keys.append("aesir:latest")
 
     def __copyinit__(out self, existing: Self):
         self.catalog = existing.catalog.copy()
@@ -137,7 +125,7 @@ struct RuneModelStore(Copyable):
             if key.startswith(name):
                 return self.catalog[key].copy()
 
-        return ModelManifest(name, String("latest"))
+        raise Error("model manifest not found: " + name)
 
     def create_model(mut self, name: String, modelfile_content: String) raises:
         """Creates a new model manifest entry from Modelfile directives."""
@@ -202,7 +190,6 @@ struct RuneModelStore(Copyable):
 
 
     def get_active_ps(self) raises -> List[ModelManifest]:
-        """Returns active running models loaded in memory."""
+        """Returns no processes until runtime process tracking is implemented."""
         var active = List[ModelManifest]()
-        active.append(self.get_model("aesir:latest"))
         return active^

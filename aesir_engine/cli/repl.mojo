@@ -1,5 +1,5 @@
 # cli/repl.mojo
-# Interactive Terminal REPL & Chat Current for Project Aesir / Ollama CLI
+# Reserved interactive terminal REPL surface for Project Aesir
 
 from aesir import AesirEngine
 from cli.manifest import ModelManifest
@@ -7,8 +7,8 @@ from cli.manifest import ModelManifest
 struct RuneREPL:
     """
     RuneREPL — ᚱᛢᚾᛖ·ᚱᛖᛈᛚ — The Current of Conversation:
-    Provides interactive terminal chat prompt loop, streaming token generation current,
-    and runtime slash commands (/? /help, /set parameter val, /show modelfile, /clear, /bye).
+    Preserves the planned REPL configuration surface. Interactive stdin,
+    conversation state, and real inference integration are not implemented.
     """
     var model_name: String
     var system_prompt: String
@@ -37,39 +37,8 @@ struct RuneREPL:
         print("  /bye               - Exit the REPL session")
 
     def run_repl(mut self) raises:
-        """Runs the interactive prompt loop."""
-        self.render_welcome()
-
-        # Simulate REPL session interaction
-        var sample_prompts = List[String]()
-        sample_prompts.append("Hello Aesir! What is your purpose?")
-        sample_prompts.append("/show modelfile")
-        sample_prompts.append("Explain matrix multiplication in three sentences.")
-        sample_prompts.append("/bye")
-
-        for i in range(len(sample_prompts)):
-            var input_line = sample_prompts[i]
-            print("\n>>> " + input_line)
-
-            if input_line == "/bye" or input_line == "/exit":
-                print("Farewell! The rainbow bridge closes.")
-                break
-            elif input_line == "/?" or input_line == "/help":
-                self.render_help()
-                continue
-            elif input_line.startswith("/show"):
-                print("Model: " + self.model_name)
-                print("System Prompt: " + self.system_prompt)
-                print("Temperature: " + String(self.temperature))
-                continue
-            elif input_line.startswith("/clear"):
-                print("Conversation context cleared.")
-                continue
-
-            # Stream response simulation
-            print("\n[Aesir]: Floating through living memory...")
-            print("I am Project Aesir — forged directly upon bare metal with zero dependencies.")
-            print("My tensor streams flow through MimirWell without heap allocation ash.")
+        """Rejects the reserved REPL until stdin and engine sessions exist."""
+        raise Error("interactive REPL is not implemented")
 
 
 def run_single_shot(

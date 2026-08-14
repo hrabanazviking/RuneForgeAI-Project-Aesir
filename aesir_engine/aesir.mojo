@@ -38,6 +38,20 @@ def calculate_runtime_pool_bytes(
     )
 
 
+def validate_runtime_backend_config(
+    num_devices: Int,
+    enable_npu: Bool,
+    enable_gpu_realm: Bool,
+) raises:
+    """Rejects runtime paths that have no real execution backend."""
+    if num_devices != 1:
+        raise Error("multi-device engine execution is not implemented")
+    if enable_npu:
+        raise Error("NPU engine execution is not implemented")
+    if enable_gpu_realm:
+        raise Error("GPU engine execution is not implemented")
+
+
 struct GenerationResult(Copyable):
     """Structured output from one deterministic generation request."""
 
@@ -99,7 +113,8 @@ struct AesirEngine:
     """
     AesirEngine: Coordinates the Well (Memory), the Seer (Weights), and the Weaver (Tokenizer).
     Strictly decouples inference from the transport (Server) layer.
-    Integrates SelfHealingSupervisor, StateVault, AesirEventBus, RuneThreadPool, and SwarmCluster for 100% crash-proof resilience & enterprise mesh orchestrations.
+    Preserves development scaffolds for resilience, eventing, threading, and
+    swarm work without claiming those subsystems execute operationally.
     """
     var pool: MimirWell
     var parser: GGUFSeer
@@ -127,6 +142,11 @@ struct AesirEngine:
         target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
         knowledge_capacity: Int = 100,
     ) raises:
+        validate_runtime_backend_config(
+            num_devices,
+            enable_npu,
+            enable_gpu_realm,
+        )
         var probe_tokenizer = RuneWeaver()
         var probe = GGUFSeer(model_path)
         probe.inspect_metadata(probe_tokenizer)
@@ -143,23 +163,14 @@ struct AesirEngine:
         self.thread_pool = RuneThreadPool(8)
         self.swarm_cluster = SwarmCluster()
         self.supervisor.pulse_heartbeat()
-        print("SelfHealingSupervisor, EventBus & SwarmCluster ACTIVE.")
 
         self.enable_npu = enable_npu
         self.target_backend = target_backend
-        if self.enable_npu:
-            print("NPU Realm Gateway ACTIVE with backend:", self.target_backend.name())
 
         self.enable_gpu_realm = enable_gpu_realm
         self.target_gpu_realm = target_gpu_realm
-        if self.enable_gpu_realm:
-            print("Universal GPU Realm Gateway ACTIVE with realm:", self.target_gpu_realm.name())
-
-
 
         self.topology = DeviceTopology(num_devices)
-        if self.topology.num_devices > 1:
-            print("Bifrost Shard Matrix ACTIVE across", self.topology.num_devices, "devices.")
 
         self.parser = GGUFSeer(model_path)
         self.tokenizer = RuneWeaver()
@@ -217,10 +228,7 @@ struct AesirEngine:
         if max_new_tokens <= 0:
             raise Error("max_new_tokens must be a positive integer")
 
-        var permit_seidr = False # Toggled via HTTP request. Seidr is bound by default.
         print("Starting deterministic generation loop (The Weaving of Fate)...")
-        if not permit_seidr:
-            print("[Seidr Masking ACTIVE]: <|start_thought|> probability bound to -inf (The Inner Voice is Silenced)")
 
         self.pool.offset = self.runtime_offset
         var active_prompt = self._prepare_prompt(prompt)

@@ -1,26 +1,41 @@
 # tests/test_multi_engine.mojo
-# Verification of Universal Multi-Engine Ecosystem Matrix (Slice 11)
+# Verification of formatter scaffolds and unsupported ecosystem boundaries
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
-from core.mimir_well import Scalar, f16
+from core.mimir_well import MimirWell, Scalar, f16
 from core.grammar import GBNFGrammar
 from core.speculative import SpeculativeEngine
 from loader.onnx import ONNXModelSeer
 from server.openai import OpenAIGate
+from server.api import unsupported_http_response, route_not_found_response
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
 def test_openai_api_formatter() raises:
-    print("--- Testing OpenAIGate (OpenAI v1 REST API Formatter) ---")
+    print("--- Testing OpenAIGate local JSON formatter scaffold ---")
     var success = True
     var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello world")
     if '"model": "aesir:latest"' not in json_resp or '"content": "Hello world"' not in json_resp:
         print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
+    if '"aesir_status": "formatter_scaffold"' not in json_resp:
+        print("FAIL: OpenAIGate formatter omitted scaffold status")
+        success = False
+    if '"prompt_tokens": 0' not in json_resp or '"total_tokens": 0' not in json_resp:
+        print("FAIL: OpenAIGate formatter invented token usage")
+        success = False
 
     var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
     if "data: {" not in chunk_resp or '"content": "Hello"' not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
+        success = False
+    if '"aesir_status": "formatter_scaffold"' not in chunk_resp:
+        print("FAIL: OpenAIGate chunk omitted scaffold status")
+        success = False
+
+    var embedding_resp = OpenAIGate.format_embeddings("aesir:latest")
+    if '"error": "unsupported"' not in embedding_resp:
+        print("FAIL: embedding formatter invented vector data")
         success = False
 
     if success:
@@ -30,7 +45,7 @@ def test_openai_api_formatter() raises:
 
 
 def test_gbnf_grammar() raises:
-    print("--- Testing GBNFGrammar (Constrained Generation Logit Masking) ---")
+    print("--- Testing toy GBNF-shaped odd-index mask scaffold ---")
     var success = True
     var grammar = GBNFGrammar("json")
     grammar.state = 1
@@ -57,7 +72,7 @@ def test_gbnf_grammar() raises:
 
 
 def test_speculative_engine() raises:
-    print("--- Testing SpeculativeEngine (Draft Sampling & Verification) ---")
+    print("--- Testing local speculative acceptance arithmetic scaffold ---")
     var success = True
     var spec = SpeculativeEngine(4)
     var draft_tokens = alloc(Layout[Int](count=4)).unsafe_leak()
@@ -83,41 +98,73 @@ def test_speculative_engine() raises:
 
 
 def test_onnx_model_seer() raises:
-    print("--- Testing ONNXModelSeer (ONNX Graph Protocol Buffer Parser) ---")
-    var success = True
+    print("--- Testing honest ONNX unavailable state ---")
     var seer = ONNXModelSeer("model.onnx")
-    if not seer.parse_onnx_header():
-        print("FAIL: ONNX header parsing failed")
-        success = False
-
-    if success:
-        print("ONNXModelSeer: PASS")
-    else:
-        raise Error("ONNXModelSeer scaffold invariant mismatch")
+    if seer.ir_version != 0 or seer.num_nodes != 0 or seer.producer_name != "":
+        raise Error("ONNX scaffold invented parsed model metadata")
+    if seer.parse_onnx_header():
+        raise Error("ONNX scaffold reported header parsing success")
+    var well = MimirWell(1024)
+    if seer.map_to_well(well):
+        raise Error("ONNX scaffold reported tensor mapping success")
+    print("honest ONNX unavailable state: PASS")
 
 
 def test_multi_engine_cli() raises:
-    print("--- Testing Multi-Engine CLI Dispatchers ---")
-    var success = True
+    print("--- Testing unsupported multi-engine CLI dispatchers ---")
     var args = List[String]()
     args.append("llama-bench")
-    if not dispatch_llama_cli(args):
-        print("FAIL: dispatch_llama_cli failed")
-        success = False
+    var llama_rejected = False
+    try:
+        _ = dispatch_llama_cli(args)
+    except error:
+        llama_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("llama.cpp rejection omitted stable truth text")
+    if not llama_rejected:
+        raise Error("llama.cpp dispatcher returned fabricated success")
 
     var exl_args = List[String]()
     exl_args.append("exl2")
-    if not dispatch_exl2_cli(exl_args):
-        print("FAIL: dispatch_exl2_cli failed")
-        success = False
+    var exl_rejected = False
+    try:
+        _ = dispatch_exl2_cli(exl_args)
+    except error:
+        exl_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("ExLlama rejection omitted stable truth text")
+    if not exl_rejected:
+        raise Error("ExLlama dispatcher returned fabricated success")
 
     var onnx_args = List[String]()
     onnx_args.append("onnx")
-    if not dispatch_onnx_cli(onnx_args):
-        print("FAIL: dispatch_onnx_cli failed")
-        success = False
+    var onnx_rejected = False
+    try:
+        _ = dispatch_onnx_cli(onnx_args)
+    except error:
+        onnx_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("ONNX rejection omitted stable truth text")
+    if not onnx_rejected:
+        raise Error("ONNX dispatcher returned fabricated success")
 
-    if success:
-        print("Multi-Engine CLI Dispatchers: PASS")
-    else:
-        raise Error("multi-engine CLI scaffold dispatch invariant mismatch")
+    print("unsupported multi-engine CLI dispatchers: PASS")
+
+
+def test_unsupported_http_responses() raises:
+    print("--- Testing honest unsupported HTTP responses ---")
+    var unsupported = unsupported_http_response("OpenAI API execution")
+    if "501 Not Implemented" not in unsupported:
+        raise Error("known unsupported route omitted HTTP 501")
+    if '"error":"unsupported"' not in unsupported:
+        raise Error("known unsupported route omitted unsupported error body")
+    if "200 OK" in unsupported or '"status":"ok"' in unsupported:
+        raise Error("known unsupported route emitted success state")
+
+    var missing = route_not_found_response()
+    if "404 Not Found" not in missing:
+        raise Error("unknown route omitted HTTP 404")
+    if '"error":"route_not_found"' not in missing:
+        raise Error("unknown route omitted not-found error body")
+
+    print("honest unsupported HTTP responses: PASS")

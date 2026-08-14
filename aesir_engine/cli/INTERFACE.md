@@ -8,7 +8,9 @@
 ## Public Structs & Functions
 
 ### `Modelfile` (`cli/modelfile.mojo`)
-Encapsulates parsed directives carved into the runestone from an Ollama-compatible Modelfile (`FROM`, `PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE`).
+Encapsulates an Ollama-shaped subset of Modelfile directives (`FROM`,
+`PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE`). Full syntax or
+behavioral compatibility is not established.
 
 ```mojo
 struct Modelfile(Copyable):
@@ -48,13 +50,15 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
     var modified_time: String
     var modelfile_content: String
 
-    def __init__(out self, name: String, tag: String = "latest", digest: String = "sha256:a1b2c3d4e5f6", size_bytes: Int64 = 4370000000, quantization: String = "Q4_K_M", hidden_dim: Int = 4096, num_layers: Int = 32, modified_time: String = "2 hours ago", modelfile_content: String = "FROM model.gguf"): ...
+    def __init__(out self, name: String, tag: String = "latest", digest: String = "", size_bytes: Int64 = 0, quantization: String = "unknown", hidden_dim: Int = 0, num_layers: Int = 0, modified_time: String = "", modelfile_content: String = ""): ...
     def copy(self) -> Self: ...
     def size_formatted(self) -> String: ...
 ```
 
 ### `RuneModelStore` (`cli/manifest.mojo`)
-Sovereign model catalog store managing model creation, manifest querying, model cloning, deletion, and active process tracking.
+In-memory manifest collection used by local tests. It starts empty, does not
+persist model bytes, and reports no active processes. Mutation helpers alter
+only the current value; they are not wired to CLI storage operations.
 
 ```mojo
 struct RuneModelStore(Copyable):
@@ -74,7 +78,9 @@ struct RuneModelStore(Copyable):
 ---
 
 ### `RuneREPL` (`cli/repl.mojo`)
-Provides interactive terminal chat prompt loop, streaming token generation current, and runtime slash commands (`/?`, `/help`, `/set`, `/show`, `/clear`, `/bye`).
+Reserves the interactive terminal interface. `run_repl()` currently raises
+`interactive REPL is not implemented`; it does not read stdin or generate a
+sample response.
 
 ```mojo
 struct RuneREPL:
@@ -118,13 +124,16 @@ Single-shot syntax is:
 aesir run <model-path> [--max-tokens N] <prompt...>
 ```
 
-With no prompt arguments, `run` preserves the existing REPL entry point. This
-does not establish that the simulated REPL body is a real interactive chat.
+With no prompt arguments, `run` reaches the reserved REPL entry point and raises
+an explicit unsupported error.
 
 ---
 
 ### `dispatch_command` (`cli/commands.mojo`)
-Main entry point routing CLI subcommands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `swarm`, `help`) to sovereign Ollama and Swarm handlers. In **Slice 13**, `pull` detects HuggingFace tags (`hf.co/...`, `huggingface.co/...`, `org/repo`) via `HuggingFaceSeer.is_hf_tag`, streams model weights bare-metal via `download_hf_model`, and registers model manifests in `RuneModelStore`. In **Phase 14**, `swarm` dispatches swarm mesh operations (`join`, `list`/`ls`, `status`, `dispatch`) via `SwarmCluster`.
+Main CLI router. `help`, `--help`, `version`, and the real single-shot
+`run <model-path> [--max-tokens N] <prompt...>` path are implemented. `serve`,
+model-store/distribution commands, interactive `run`, multi-engine commands,
+and swarm commands raise stable unsupported errors and emit no success output.
 
 ```mojo
 def dispatch_command(args: List[String]) raises: ...
@@ -133,12 +142,14 @@ def dispatch_command(args: List[String]) raises: ...
 ---
 
 ### Multi-Engine CLI Dispatchers (`cli/multi_engine.mojo`) (Slice 11)
-Handles drop-in subcommand dispatching across llama.cpp, ExLlamaV3, and ONNX ecosystems.
+Preserves public entry points for llama.cpp-, ExLlama/EXL2-, and ONNX-shaped
+commands. Each function raises an explicit unsupported error; no benchmark,
+conversion, health, completion, cache, or perplexity result is fabricated.
 
 ```mojo
-def dispatch_llama_cli(args: List[String]) -> Bool: ...
-def dispatch_exl2_cli(args: List[String]) -> Bool: ...
-def dispatch_onnx_cli(args: List[String]) -> Bool: ...
+def dispatch_llama_cli(args: List[String]) raises -> Bool: ...
+def dispatch_exl2_cli(args: List[String]) raises -> Bool: ...
+def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 ```
 
 ---

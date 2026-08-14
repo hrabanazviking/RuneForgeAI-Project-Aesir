@@ -1,5 +1,11 @@
 # Core Domain Interface Specification
 
+> **Current execution boundary:** the verified runtime is host CPU only.
+> Hardware names below are reserved discriminants. NPU/GPU gateway functions
+> raise unsupported errors, discovery returns empty lists, and NPU/GPU buffers
+> remain CPU-resident descriptors. Logical shards are sequential host views,
+> not physical multi-device execution.
+
 ## Public Structs & Functions
 
 ### `MimirWell`
@@ -87,18 +93,19 @@ struct DeviceTopology:
 
     def __init__(out self, num_devices: Int = 1): ...
     def __init__(out self, num_devices: Int, device_names: List[String]): ...
-    def detect_edge_npus(mut self): ... # Slice 7 — populates npu_backends with all six NPUBackendType variants
-    def detect_gpu_realms(mut self): ... # Slice 8 — populates gpu_realms with all ten GPURealmType variants
+    def detect_edge_npus(mut self): ... # clears to an empty observed-device list
+    def detect_gpu_realms(mut self): ... # clears to an empty observed-device list
 ```
 
-### `NPUBackendType` (Slice 7)
-Zero-overhead integer discriminant tag naming the six sovereign edge compute spirits.
+### `NPUBackendType` (reserved NPU surface)
+Integer requested-backend discriminant. Values do not indicate discovery or
+execution.
 
 ```mojo
 struct NPUBackendType(Copyable, ImplicitlyCopyable):
     comptime HAILO_10 = 0
     comptime QUALCOMM_HEXAGON = 1
-    comptime ARM_NEON = 2           # Default — sovereign NEON path
+    comptime ARM_NEON = 2           # historical default discriminant
     comptime JETSON_NVIDIA = 3
     comptime APPLE_NEURAL_ENGINE = 4
     comptime GENERIC_NPU = 5
@@ -114,8 +121,9 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     def copy(self) -> Self: ...
 ```
 
-### `NPUBuffer` (Slice 7)
-Zero-copy CPU↔NPU DMA-BUF/ION shared memory conduit carved from `MimirWell`.
+### `NPUBuffer` (reserved NPU surface)
+CPU-resident host-memory descriptor carved from `MimirWell`. `handle_fd` is
+zero and `is_dma_buf` is false; no DMA-BUF/ION export or NPU mapping occurs.
 
 ```mojo
 struct NPUBuffer(Copyable, ImplicitlyCopyable):
@@ -125,14 +133,15 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
     var is_dma_buf: Bool
     var backend: NPUBackendType
 
-    def __init__(out self, ptr: Pointer[Scalar[f16], MutUntrackedOrigin], size_bytes: Int, handle_fd: Int32 = 0, is_dma_buf: Bool = True, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)): ...
+    def __init__(out self, ptr: Pointer[Scalar[f16], MutUntrackedOrigin], size_bytes: Int, handle_fd: Int32 = 0, is_dma_buf: Bool = False, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)): ...
     def __init__(out self, mut well: MimirWell, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)): ...
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]: ...
     def copy(self) -> Self: ...
 ```
 
-### `GPURealmType` (Slice 8)
-Zero-overhead integer discriminant tag naming ten sovereign compute GPU hardware realms.
+### `GPURealmType` (reserved GPU surface)
+Integer discriminant naming ten requested GPU realms. A value does not imply
+device presence, allocation, or execution.
 
 ```mojo
 struct GPURealmType(Copyable, ImplicitlyCopyable):
@@ -158,8 +167,9 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     def copy(self) -> Self: ...
 ```
 
-### `GPUBuffer` (Slice 8)
-Zero-copy physical GPU memory stream channel descriptor carved from `MimirWell`.
+### `GPUBuffer` (reserved GPU surface)
+CPU-resident host-memory descriptor carved from `MimirWell`. The `realm` field
+is metadata only; no device allocation, mapping, transfer, or execution occurs.
 
 ```mojo
 struct GPUBuffer(Copyable, ImplicitlyCopyable):
@@ -331,7 +341,10 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
 ```
 
 ### Compute Kernels (`compute.mojo`)
-Hardware SIMD linear algebra, activation functions, NPU backend dispatch, GPU realm dispatch, and compressed format dequantization.
+Host Mojo SIMD linear algebra and activation primitives plus reserved
+accelerator gateways. `gemm_f16_npu`, `gemm_f16_gpu`, and `rmsnorm_gpu` raise
+unsupported errors without modifying their outputs. The historically named
+`gpgpu_vector` and `mobile_opencl` functions are host-only SIMD experiments.
 
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
@@ -348,12 +361,12 @@ def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]): ...
 # Slice 7 — NPU Realm Gateway:
 def gemm_f16_arm_neon(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
 def rmsnorm_arm_neon(mut T: RuneTensor[f16], weight: RuneTensor[f16], epsilon: Scalar[f32] = 1e-5): ...
-def gemm_f16_npu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)): ...
+def gemm_f16_npu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) raises: ...
 # Slice 8 — Universal GPU Realm Matrix:
 def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ... # 16-wide GPGPU (MUSA, SUPA, MACA, DCU)
 def gemm_f16_mobile_opencl(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ... # 8-wide Mobile (Mali, Adreno, PowerVR)
-def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5): ...
-def gemm_f16_gpu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)): ... # GPU Dispatch Gate
+def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5) raises: ...
+def gemm_f16_gpu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises: ... # unsupported gateway
 # Slice 10 — Universal Compressed LLM Format Matrix Dequantization:
 def dequantize_compressed_tensor(format: CompressedFormatType, data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...
 def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...
@@ -371,8 +384,10 @@ def dequantize_smoothquant_int8(data: Pointer[UInt8, MutUntrackedOrigin], out_pt
 ```
 
 
-### Swarm Cluster Matrix (`core/swarm.mojo`) (Phase 14)
-Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix descriptors and orchestrator.
+### Swarm Cluster Descriptors (`core/swarm.mojo`)
+Local descriptor and selection scaffold. Registries start empty and clusters
+inactive. Join and distributed dispatch raise unsupported errors; heartbeat
+returns false. Caller-supplied peer selection is the only implemented behavior.
 
 ```mojo
 struct SwarmNodeRole(Copyable, ImplicitlyCopyable):

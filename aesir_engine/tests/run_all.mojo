@@ -13,7 +13,11 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
-from tests.test_inference import test_forward_pass, test_generation_stop_policy
+from tests.test_inference import (
+    test_forward_pass,
+    test_generation_stop_policy,
+    test_unsupported_runtime_config,
+)
 from tests.test_kv_cache import test_kv_cache
 from tests.test_rag import (
     test_cosine_similarity,
@@ -55,6 +59,7 @@ from tests.test_multi_engine import (
     test_speculative_engine,
     test_onnx_model_seer,
     test_multi_engine_cli,
+    test_unsupported_http_responses,
 )
 from tests.test_resilience import (
     test_error_guard,
@@ -115,21 +120,26 @@ def main() raises:
     print("  -----------------------------------------")
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
     run_case(ledger, "inference.stop_policy", test_generation_stop_policy)
+    run_case(
+        ledger,
+        "inference.unsupported_runtime_config",
+        test_unsupported_runtime_config,
+    )
     run_case(ledger, "inference.kv_cache", test_kv_cache)
     print("")
 
-    # --- Bifrost Shard Matrix (Multi-Device Sharding) ---
-    print("  [DOMAIN] The Bifrost Shard Matrix (Multi-Device Sharding)")
+    # --- Logical Host Tensor Partitioning ---
+    print("  [DOMAIN] Logical Host Tensor Partitioning")
     print("  -----------------------------------------")
-    run_case(ledger, "sharding.synthetic_topology", test_device_topology)
+    run_case(ledger, "sharding.logical_host_topology", test_device_topology)
     run_case(ledger, "sharding.tensor_descriptor", test_shard_tensor)
     run_case(ledger, "sharding.row_column_partition", test_tensor_partitioning)
     run_case(ledger, "sharding.host_all_reduce", test_all_reduce_sum)
     run_case(ledger, "sharding.host_gemm_parity", test_sharded_gemm_parity)
     print("")
 
-    # --- Mímisbrunnr RAG & Vector Search ---
-    print("  [DOMAIN] Mímisbrunnr External Knowledge & SIMD Vector Search")
+    # --- Local Vector and RAG Building Blocks ---
+    print("  [DOMAIN] Local Vector and RAG Building Blocks")
     print("  -----------------------------------------")
     run_case(ledger, "rag.cosine_similarity", test_cosine_similarity)
     run_case(ledger, "rag.in_memory_store", test_mimir_store)
@@ -141,35 +151,35 @@ def main() raises:
     )
     print("")
 
-    # --- NPU Realm Gateway (Edge & Mobile Acceleration) ---
-    print("  [DOMAIN] The NPU Realm Gateway (Edge & Mobile Acceleration)")
+    # --- NPU Descriptors and Unsupported Gateway ---
+    print("  [DOMAIN] NPU Descriptors and Unsupported Execution Gateway")
     print("  -----------------------------------------")
     run_case(ledger, "npu.enum", test_npu_backend_enum)
-    run_case(ledger, "npu.synthetic_topology", test_device_topology_npu)
+    run_case(ledger, "npu.no_fabricated_detection", test_device_topology_npu)
     run_case(ledger, "npu.host_buffer_view", test_npu_buffer_zero_copy)
-    run_case(ledger, "npu.arm_neon_cpu_parity", test_arm_neon_precision)
-    run_case(ledger, "npu.cpu_fallback_matrix", test_npu_gemm_parity)
+    run_case(ledger, "npu.host_simd8_parity", test_arm_neon_precision)
+    run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
     print("")
 
-    # --- Universal Multi-GPU & Hardware Accelerator Realm Matrix ---
-    print("  [DOMAIN] Universal Multi-GPU & Accelerator Realm Matrix")
+    # --- GPU Descriptors and Unsupported Gateway ---
+    print("  [DOMAIN] GPU Descriptors and Unsupported Execution Gateway")
     print("  -----------------------------------------")
     run_case(ledger, "gpu.enum", test_gpu_realm_enum)
-    run_case(ledger, "gpu.synthetic_topology", test_device_topology_gpus)
+    run_case(ledger, "gpu.no_fabricated_detection", test_device_topology_gpus)
     run_case(ledger, "gpu.host_buffer_view", test_gpu_buffer_zero_copy)
-    run_case(ledger, "gpu.cpu_fallback_matrix", test_gpu_gemm_parity)
+    run_case(ledger, "gpu.unsupported_execution", test_gpu_gemm_parity)
     print("")
 
-    # --- Complete Ollama Terminal Command Suite ---
-    print("  [DOMAIN] Complete Ollama Terminal Command Suite")
+    # --- Implemented CLI and Unsupported Boundaries ---
+    print("  [DOMAIN] Implemented CLI and Unsupported Boundaries")
     print("  -----------------------------------------")
     run_case(ledger, "cli.modelfile_parser", test_modelfile_parser)
     run_case(ledger, "cli.in_memory_manifest_store", test_model_manifest_store)
-    run_case(ledger, "cli.command_dispatch_smoke", test_cli_command_dispatch)
+    run_case(ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch)
     print("")
 
-    # --- Universal Compressed LLM Format Matrix ---
-    print("  [DOMAIN] Universal Compressed LLM Format Matrix")
+    # --- Compressed Format Scaffolds ---
+    print("  [DOMAIN] Compressed Format Scaffolds")
     print("  -----------------------------------------")
     run_case(ledger, "quantization.enum", test_compressed_format_enum)
     run_case(
@@ -177,20 +187,25 @@ def main() raises:
     )
     print("")
 
-    # --- Universal Multi-Engine Ecosystem Matrix ---
-    print("  [DOMAIN] Universal Multi-Engine Ecosystem Matrix")
+    # --- Formatter and Unsupported Ecosystem Boundaries ---
+    print("  [DOMAIN] Formatter and Unsupported Ecosystem Boundaries")
     print("  -----------------------------------------")
     run_case(ledger, "multi_engine.openai_formatter", test_openai_api_formatter)
     run_case(ledger, "multi_engine.grammar_mask", test_gbnf_grammar)
     run_case(
         ledger, "multi_engine.speculative_acceptance", test_speculative_engine
     )
-    run_case(ledger, "multi_engine.onnx_header_stub", test_onnx_model_seer)
-    run_case(ledger, "multi_engine.cli_dispatch_stubs", test_multi_engine_cli)
+    run_case(ledger, "multi_engine.onnx_unavailable", test_onnx_model_seer)
+    run_case(ledger, "multi_engine.cli_unsupported", test_multi_engine_cli)
+    run_case(
+        ledger,
+        "multi_engine.http_unsupported_responses",
+        test_unsupported_http_responses,
+    )
     print("")
 
-    # --- Sovereign Resilience & Self-Healing Matrix ---
-    print("  [DOMAIN] Sovereign Resilience & Self-Healing Matrix")
+    # --- Local Resilience Scaffolds ---
+    print("  [DOMAIN] Local Resilience Scaffolds")
     print("  -----------------------------------------")
     run_case(ledger, "resilience.error_guard", test_error_guard)
     run_case(ledger, "resilience.state_vault_marker", test_state_vault)
@@ -198,23 +213,23 @@ def main() raises:
     run_case(ledger, "resilience.thread_pool_stub", test_thread_pool)
     run_case(
         ledger,
-        "resilience.supervisor_simulation",
+        "resilience.supervisor_simulation_marker",
         test_supervisor_crash_recovery,
     )
     print("")
 
-    # --- HuggingFace Hub Integration & Mobile Downloader ---
-    print("  [DOMAIN] HuggingFace Hub Integration & Mobile Downloader")
+    # --- Hugging Face String Helpers and Unsupported Download ---
+    print("  [DOMAIN] Hugging Face String Helpers and Unsupported Download")
     print("  -----------------------------------------")
     run_case(ledger, "huggingface.tag_parser", test_hf_repo_parsing)
     run_case(ledger, "huggingface.url_builder", test_hf_download_url_builder)
     run_case(
-        ledger, "huggingface.download_simulation", test_hf_mobile_model_download
+        ledger, "huggingface.download_unsupported", test_hf_mobile_model_download
     )
     print("")
 
-    # --- Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix ---
-    print("  [DOMAIN] Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix")
+    # --- Local Swarm Descriptors and Unsupported Networking ---
+    print("  [DOMAIN] Local Swarm Descriptors and Unsupported Networking")
     print("  -----------------------------------------")
     run_case(ledger, "swarm.role_enum", test_swarm_node_role)
     run_case(ledger, "swarm.peer_metrics", test_peer_node_metrics)
@@ -224,8 +239,8 @@ def main() raises:
         test_peer_registry_and_load_balancer,
     )
     run_case(
-        ledger, "swarm.dispatch_simulation", test_swarm_cluster_task_dispatch
+        ledger, "swarm.network_unsupported", test_swarm_cluster_task_dispatch
     )
     print("")
 
-    ledger.finish(50)
+    ledger.finish(52)

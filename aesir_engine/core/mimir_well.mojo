@@ -18,42 +18,8 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     ᚾᛈᚢ·ᛒᚨᚲᚲᛖᚾᛞ·ᛏᚤᛈᛖ — The Sigil of Edge Realms (NPUBackendType)
     ══════════════════════════════════════════════════════════════════
 
-    Each integer constant names a sovereign compute spirit — a Dvergar craftsman
-    forged in a different land of silicon, each with its own architecture of
-    data-paths and tensor-pipelines:
-
-      0 · HAILO_10           — The Hailo Spear of the Edge (Hailo-10 NPU):
-                               Event-driven dataflow NPU with dedicated on-chip SRAM.
-                               Routes matrix ops through fixed compiled dataflow graphs.
-                               Sovereign over edge computer-vision inference (<26 TOPS).
-
-      1 · QUALCOMM_HEXAGON   — The Hexagon Warden of Midgard's Palm (Qualcomm DSP/HTA):
-                               Qualcomm Hexagon Tensor Accelerator (HTA) embedded within
-                               Snapdragon SoCs. Executes vectorized VLIW DSP instructions
-                               alongside dedicated HVX (Hexagon Vector eXtensions) lanes.
-                               Master of mobile-edge transformer inference.
-
-      2 · ARM_NEON           — The NEON Weaver of the Iron Thread (ARM NEON/SVE):
-                               128-bit SIMD vector ISA intrinsic to all Cortex-A and
-                               Apple Silicon cores. Executes 8 × f16 FMAs per cycle per core.
-                               Default runic path when no dedicated NPU spirit is present.
-
-      3 · JETSON_NVIDIA       — The Volta/Ampere Torch of the Jetson Shore (NVIDIA Jetson):
-                               CUDA-capable GPU tensor cores on Jetson Nano/Orin/Xavier.
-                               Falls through to `gemm_f16` (the 32×32 SIMD tiled CUDA path).
-
-      4 · APPLE_NEURAL_ENGINE — The Neural Engine of Valhöll's Tablet (Apple ANE):
-                               Apple Neural Engine — 16-core fixed-function matrix engine
-                               on M-series and A-series SoCs. 15.8–38 TOPS at sub-5W TDP.
-                               Routes through ARM NEON fallback pending Core ML bridge.
-
-      5 · GENERIC_NPU        — The Unnamed Forge Spirit (Generic NPU):
-                               Fallback realm for unrecognized edge accelerators.
-                               Routes through the universal SIMD GEMM path.
-
-    This struct is a zero-overhead discriminated integer tag — no vtable, no heap,
-    no dynamic dispatch overhead. The selection rune is read once at dispatch time
-    and the correct kernel stream is struck directly.
+    Integer names reserved for possible future NPU backends. They record desired
+    configuration only; no backend is detected or executed.
     """
     comptime HAILO_10 = 0
     comptime QUALCOMM_HEXAGON = 1
@@ -110,8 +76,7 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     ᚷᛈᚢ·ᚱᛖᚨᛚᛗ·ᛏᚤᛈᛖ — The Sigil of Universal GPU Realms (GPURealmType)
     ═════════════════════════════════════════════════════════════════════════
 
-    A zero-overhead discriminated integer tag naming ten sovereign compute GPU hardware realms
-    forged across global silicon in Asgard, Midgard, and Eastern realms:
+    Integer names reserved for possible future GPU backends:
 
       0 · NVIDIA_CUDA         — NVIDIA GeForce RTX / H100 / A100 / L40S / Jetson CUDA Tensor Cores
       1 · AMD_ROCM_HIP        — AMD Instinct MI300/MI250 & Radeon RX 7000/6000 (hipBLAS/ROCm/RDNA3)
@@ -124,7 +89,8 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
       8 · QUALCOMM_ADRENO     — Qualcomm Adreno 740/750 (Snapdragon XR2 VR Headsets, Mobile SoCs, Watches)
       9 · IMAGINATION_POWERVR — Imagination PowerVR / B-Series (Embedded IoT / Automotive / Appliances)
 
-    The selection rune operates without vtables, dynamic heap allocations, or virtual method dispatch overhead.
+    These values record desired configuration only; no GPU backend is detected
+    or executed.
     """
     comptime NVIDIA_CUDA = 0
     comptime AMD_ROCM_HIP = 1
@@ -289,18 +255,12 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 
 struct GPUBuffer(Copyable, ImplicitlyCopyable):
     """
-    ᚷᛈᚢ·ᛒᚢᚠᚠᛖᚱ — The Bifrost Physical Stream Channel (GPUBuffer)
+    ᚷᛈᚢ·ᛒᚢᚠᚠᛖᚱ — Host Buffer Descriptor Reserved for Future GPU Work
     ═════════════════════════════════════════════════════════════════
 
-    A zero-copy physical GPU memory buffer descriptor carved directly from the pre-allocated slab of MimirWell.
-    Establishes unified physical memory frame sharing between host MMU and accelerator hardware page tables across:
-      · CUDA Unified Memory (managed physical pages)
-      · ROCm hipHostMalloc / SVM
-      · Level Zero Shared Virtual Memory (SVM)
-      · OpenCL Shared Virtual Memory (SVM)
-      · Android Hardware Buffers / DMA-BUF zero-copy channels
-
-    Zero heap allocations are performed during buffer carving — preserving living memory integrity.
+    This currently describes CPU-resident memory carved from MimirWell. The
+    `realm` field is configuration metadata only; no GPU allocation, mapping,
+    transfer, or execution occurs.
     """
     var ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var size_bytes: Int
@@ -341,33 +301,13 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
     ᚾᛈᚢ·ᛒᚢᚠᚠᛖᚱ — The Yggdrasil Root Channel (NPUBuffer)
     ══════════════════════════════════════════════════════
 
-    A sacred conduit between the CPU mortal plane and the NPU spirit realm.
-    Physical memory mapped once into the host address space is shared directly
-    with the accelerator without copy — the tensor data flows as breath flows
-    through Yggdrasil's roots: continuous, unbroken, alive.
+    This currently describes CPU-resident memory carved from MimirWell. It does
+    not establish DMA-BUF, ION, AHardwareBuffer, IOMMU, or NPU visibility.
 
-    Implementation Contract (Zero-Copy DMA-BUF / ION / Android HardwareBuffer):
-    ─────────────────────────────────────────────────────────────────────────────
-    · `ptr`        — Raw f16 pointer into the pre-allocated MimirWell slab.
-                     This is the same physical frame visible to both CPU MMU
-                     and the NPU's IOMMU page table, enabling true zero-copy
-                     host↔accelerator data sharing.
-
-    · `handle_fd`  — Linux DMA-BUF file descriptor (or Android AHardwareBuffer
-                     handle on Android targets). Zero (0) indicates a plain host
-                     pointer without a DMA-BUF backing — still zero-copy within
-                     MimirWell, but without IOMMU mapping for external NPU DMA.
-
-    · `is_dma_buf` — True when `handle_fd` refers to a valid DMA-BUF / ION
-                     allocation exportable via `dma_buf_export` or `ion_alloc`.
-                     When False, the buffer is CPU-resident only (ARM NEON path).
-
-    · `backend`    — The NPUBackendType rune that dictates which hardware spirit
-                     consumes this buffer during kernel dispatch in `gemm_f16_npu`.
-
-    The buffer is always carved from MimirWell's living memory pool — never from
-    the fragmented heap of Midgard. Size is recorded in bytes (`size_bytes`) to
-    preserve byte-level alignment guarantees for DMA descriptor construction.
+    The fields reserve a future integration boundary. `ptr` is a host pointer,
+    `handle_fd` remains zero, `is_dma_buf` remains false, and `backend` is only a
+    requested-backend discriminant. No field currently proves accelerator
+    allocation, exportability, IOMMU mapping, alignment, or dispatch.
     """
     var ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var size_bytes: Int
@@ -380,7 +320,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
         size_bytes: Int,
         handle_fd: Int32 = 0,
-        is_dma_buf: Bool = True,
+        is_dma_buf: Bool = False,
         backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
     ):
         self.ptr = ptr
@@ -399,7 +339,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         self.ptr = well.allocate(elements)
         self.size_bytes = size_bytes
         self.handle_fd = 0
-        self.is_dma_buf = True
+        self.is_dma_buf = False
         self.backend = backend.copy()
 
     def __copyinit__(out self, existing: Self):
@@ -563,11 +503,11 @@ struct MimirWell:
         return ptr
 
     def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) -> NPUBuffer:
-        """Draws zero-copy NPU DMA shared buffer directly from MimirWell."""
+        """Returns a CPU-resident host descriptor; no NPU mapping occurs."""
         return NPUBuffer(self, size_bytes, backend)
 
     def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) -> GPUBuffer:
-        """Draws zero-copy GPU physical buffer directly from MimirWell."""
+        """Returns a CPU-resident host descriptor; no GPU mapping occurs."""
         return GPUBuffer(self, size_bytes, realm)
 
 
@@ -669,8 +609,8 @@ struct MimirStore(Copyable):
 struct DeviceTopology(Copyable):
     """
     DeviceTopology (The Realm Mapping):
-    Maps compute device IDs and hardware topology for multi-GPU sharding across the Nine Realms.
-    Orchestrates device dispatch and discovery of heterogeneous edge NPUs (Hailo-10, Hexagon, ARM NEON, Jetson, Apple ANE).
+    Describes configured logical host partitions. Hardware detector lists remain
+    empty until real platform probes are implemented.
     """
     var num_devices: Int
     var device_names: List[String]
@@ -681,7 +621,7 @@ struct DeviceTopology(Copyable):
         self.num_devices = max(1, num_devices)
         self.device_names = List[String]()
         for i in range(self.num_devices):
-            self.device_names.append("cuda:" + String(i))
+            self.device_names.append("host:" + String(i))
         self.npu_backends = List[NPUBackendType]()
         self.gpu_realms = List[GPURealmType]()
         self.detect_edge_npus()
@@ -702,28 +642,12 @@ struct DeviceTopology(Copyable):
         self.gpu_realms = existing.gpu_realms.copy()
 
     def detect_edge_npus(mut self):
-        """Scans platform topology and discovers available NPU hardware acceleration backends."""
+        """Reports no NPU until a real platform probe is implemented."""
         self.npu_backends.clear()
-        self.npu_backends.append(NPUBackendType(NPUBackendType.HAILO_10))
-        self.npu_backends.append(NPUBackendType(NPUBackendType.QUALCOMM_HEXAGON))
-        self.npu_backends.append(NPUBackendType(NPUBackendType.ARM_NEON))
-        self.npu_backends.append(NPUBackendType(NPUBackendType.JETSON_NVIDIA))
-        self.npu_backends.append(NPUBackendType(NPUBackendType.APPLE_NEURAL_ENGINE))
-        self.npu_backends.append(NPUBackendType(NPUBackendType.GENERIC_NPU))
 
     def detect_gpu_realms(mut self):
-        """Scans platform topology and discovers available GPU hardware acceleration realms."""
+        """Reports no GPU until a real platform probe is implemented."""
         self.gpu_realms.clear()
-        self.gpu_realms.append(GPURealmType(GPURealmType.NVIDIA_CUDA))
-        self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
-        self.gpu_realms.append(GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
-        self.gpu_realms.append(GPURealmType(GPURealmType.MOORE_THREADS_MUSA))
-        self.gpu_realms.append(GPURealmType(GPURealmType.BIREN_SUPA))
-        self.gpu_realms.append(GPURealmType(GPURealmType.METAX_MACA))
-        self.gpu_realms.append(GPURealmType(GPURealmType.HYGON_DCU))
-        self.gpu_realms.append(GPURealmType(GPURealmType.ARM_MALI_OPENCL))
-        self.gpu_realms.append(GPURealmType(GPURealmType.QUALCOMM_ADRENO))
-        self.gpu_realms.append(GPURealmType(GPURealmType.IMAGINATION_POWERVR))
 
 
 
@@ -822,7 +746,4 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
         result.append(RuneTensor[f16](shard_rows, T.cols, ptr, T.is_quantized))
 
     return result^
-
-
-
 

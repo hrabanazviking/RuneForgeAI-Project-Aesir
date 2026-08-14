@@ -1,11 +1,11 @@
 # tests/test_gpu_realms.mojo
-# Verification of Universal Multi-GPU & Accelerator Realm Matrix (Slice 8)
+# Verification of GPU descriptors and honest unsupported execution
 
 from core.mimir_well import MimirWell, RuneTensor, DeviceTopology, GPURealmType, GPUBuffer, f16, f32
 from core.compute import gemm_f16, gemm_f16_gpu, rmsnorm_gpu
 
 def test_gpu_realm_enum() raises:
-    print("--- Testing GPURealmType (Universal GPU Hardware Sigils) ---")
+    print("--- Testing reserved GPU realm discriminants ---")
     var success = True
 
     var cuda = GPURealmType(GPURealmType.NVIDIA_CUDA)
@@ -57,33 +57,15 @@ def test_gpu_realm_enum() raises:
 
 
 def test_device_topology_gpus() raises:
-    print("--- Testing DeviceTopology GPU Realm Discovery ---")
-    var success = True
+    print("--- Testing no fabricated GPU discovery ---")
     var topo = DeviceTopology(2)
-    if len(topo.gpu_realms) != 10:
-        print("FAIL: Expected 10 GPU realms discovered, got", len(topo.gpu_realms))
-        success = False
-
-    var found_musa = False
-    var found_adreno = False
-    for i in range(len(topo.gpu_realms)):
-        if topo.gpu_realms[i].value == GPURealmType.MOORE_THREADS_MUSA:
-            found_musa = True
-        if topo.gpu_realms[i].value == GPURealmType.QUALCOMM_ADRENO:
-            found_adreno = True
-
-    if not found_musa or not found_adreno:
-        print("FAIL: DeviceTopology failed to discover MUSA or Adreno realms")
-        success = False
-
-    if success:
-        print("DeviceTopology GPU Discovery: PASS")
-    else:
-        raise Error("DeviceTopology GPU enumeration invariant mismatch")
+    if len(topo.gpu_realms) != 0:
+        raise Error("DeviceTopology fabricated unavailable GPU realms")
+    print("no fabricated GPU discovery: PASS")
 
 
 def test_gpu_buffer_zero_copy() raises:
-    print("--- Testing GPUBuffer Zero-Copy Allocation ---")
+    print("--- Testing GPU-labeled host buffer descriptor ---")
     var success = True
     var well = MimirWell(1024 * 1024)
     var buf_bytes = 2048
@@ -107,30 +89,23 @@ def test_gpu_buffer_zero_copy() raises:
             break
 
     if success:
-        print("GPUBuffer Zero-Copy: PASS")
+        print("GPU-labeled host buffer descriptor: PASS")
     else:
         raise Error("GPUBuffer host-memory view invariant mismatch")
 
 
 def test_gpu_gemm_parity() raises:
-    print("--- Testing Universal GPU GEMM Parity across 10 Realms ---")
-    var success = True
-
-    # K=32 matches simd_w_f16=32, gpgpu_w=16, mobile_w=8 vector widths
+    print("--- Testing unsupported GPU execution gateway ---")
     var M = 4
     var K = 32
     var N = 4
-    var expected = Scalar[f16](96.0)
 
-    # Test all 10 GPU realms in isolated pools
     for b in range(10):
         var well = MimirWell(1024 * 1024)
         var a_ptr = well.allocate(M * K)
         var A = RuneTensor[f16](M, K, a_ptr)
         var b_ptr = well.allocate(N * K)
         var B = RuneTensor[f16](N, K, b_ptr)
-        var c_cpu_ptr = well.allocate(M * N)
-        var C_CPU = RuneTensor[f16](M, N, c_cpu_ptr)
         var c_gpu_ptr = well.allocate(M * N)
         var C_GPU = RuneTensor[f16](M, N, c_gpu_ptr)
 
@@ -139,23 +114,20 @@ def test_gpu_gemm_parity() raises:
         for i in range(N * K):
             B.data.unsafe_store(i, Scalar[f16](1.5))
         for i in range(M * N):
-            C_CPU.data.unsafe_store(i, Scalar[f16](0.0))
             C_GPU.data.unsafe_store(i, Scalar[f16](0.0))
 
-        gemm_f16(A, B, C_CPU)
-
         var realm = GPURealmType(b)
-        gemm_f16_gpu(A, B, C_GPU, realm)
-
+        var rejected = False
+        try:
+            gemm_f16_gpu(A, B, C_GPU, realm)
+        except error:
+            rejected = True
+            if "not implemented" not in String(error):
+                raise Error("GPU gateway rejection omitted stable truth text")
+        if not rejected:
+            raise Error("GPU gateway executed a CPU fallback")
         for i in range(M * N):
-            var gpu_val = C_GPU.data.unsafe_load(i)
-            var cpu_val = C_CPU.data.unsafe_load(i)
-            if gpu_val != cpu_val or gpu_val != expected:
-                print("FAIL: GPU realm", realm.name(), "mismatch at index", i, "got", gpu_val, "expected", expected)
-                success = False
-                break
+            if C_GPU.data.unsafe_load(i) != Scalar[f16](0.0):
+                raise Error("unsupported GPU gateway wrote an output tensor")
 
-    if success:
-        print("Universal GPU GEMM Parity: PASS")
-    else:
-        raise Error("GPU-labeled CPU fallback parity mismatch")
+    print("unsupported GPU execution gateway: PASS")

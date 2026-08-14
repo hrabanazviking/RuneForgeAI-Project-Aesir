@@ -1,5 +1,5 @@
 # tests/test_quantization.mojo
-# Verification of Universal Compressed LLM Format Matrix (Slice 10)
+# Verification of compressed-format discriminants and toy write scaffolds
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -56,7 +56,7 @@ def test_compressed_format_enum() raises:
 
 
 def test_dequantization_kernels() raises:
-    print("--- Testing Dequantization Kernels across 18 Compressed Formats ---")
+    print("--- Testing toy compressed dispatch writes (not format compatibility) ---")
     var success = True
     var num_elements = 32
     var in_bytes = alloc(Layout[UInt8](count=32)).unsafe_leak()
@@ -140,7 +140,7 @@ def test_dequantization_kernels() raises:
     out_f16.unsafe_free()
 
     if success:
-        print("Dequantization Kernels: PASS")
+        print("toy compressed dispatch writes: PASS")
     else:
         raise Error("dequantization dispatch did not write deterministic output")
 

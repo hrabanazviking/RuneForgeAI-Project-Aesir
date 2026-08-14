@@ -3,7 +3,14 @@
 ## Public Structs & Functions
 
 ### `BifrostGate`
-Bare-metal HTTP socket server facade (Slice 4 streaming, Slice 5 embeddings response formatting, Slice 11 multi-engine routing, Phase 14 Swarm REST endpoints).
+POSIX socket transport scaffold. Known generation, embedding, compatibility,
+and swarm routes return HTTP 501; unknown paths return HTTP 404. No route
+claims successful inference or protocol compatibility.
+
+```mojo
+def unsupported_http_response(capability: String) -> String: ...
+def route_not_found_response() -> String: ...
+```
 
 ```mojo
 struct BifrostGate:
@@ -25,8 +32,10 @@ struct BifrostGate:
     def __deinit__(deinit self): ...
 ```
 
-### `OpenAIGate` (Slice 11)
-OpenAI v1 REST API response formatter and protocol bridge.
+### `OpenAIGate` (formatter scaffold)
+Local JSON-shape formatter only. Completion payloads carry
+`aesir_status=formatter_scaffold`, timestamps and usage counts are zero, and
+embeddings return an unsupported object. This is not OpenAI API conformance.
 
 ```mojo
 struct OpenAIGate:
@@ -40,10 +49,8 @@ struct OpenAIGate:
     def format_embeddings(model: String) -> String: ...
 ```
 
-### Swarm REST Endpoints (Phase 14)
-- `GET /api/swarm/nodes`: Returns active mesh cluster nodes and cluster status JSON.
-- `GET /api/swarm/status`: Returns cluster health and mesh leader socket endpoint JSON.
-- `POST /api/swarm/join`: Enrolls local node into target mesh leader cluster.
-- `POST /api/swarm/dispatch`: Routes workload execution across mesh cluster to least-loaded peer node.
+### Reserved Swarm REST Endpoints
 
+`/api/swarm/nodes`, `/api/swarm/status`, `/api/swarm/join`, and
+`/api/swarm/dispatch` return HTTP 501. They do not inspect or mutate a cluster.
 

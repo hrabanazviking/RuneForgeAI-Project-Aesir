@@ -156,7 +156,7 @@ def test_geglu() raises:
 
 def test_dequantize_q4_k_m() raises:
     """Test Q4_K_M dequantization: unpack 4-bit weights, scale, and add min."""
-    print("--- Testing dequantize_q4_k_m (The Rune Unfolding) ---")
+    print("--- Testing toy Q4_K_M-shaped write scaffold ---")
     var well = MimirWell(1024 * 64)
     
     # Construct a single BlockQ4_K manually

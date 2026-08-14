@@ -3,10 +3,12 @@
 ## Domain Overview
 The `core` domain houses the mathematical engine room and memory management layer of Project Aesir.
 
-- **`mimir_well.mojo` (The Waters of Mímisbrunnr):** Manages single contiguous VRAM/RAM allocation (`MimirWell`) and lightweight zero-copy tensor descriptors (`RuneTensor`).
-- **`compute.mojo` (The Forge of Nidavellir):** Executes hardware-accelerated SIMD kernels: 32x32 block-tiled GEMM, fused Flash Attention-2, SiLU/GeGLU activations, and native Q4_K_M dequantization.
+- **`mimir_well.mojo` (The Waters of Mímisbrunnr):** Manages one contiguous host-memory workspace (`MimirWell`) and lightweight borrowed tensor descriptors (`RuneTensor`). NPU/GPU buffers are host descriptors only.
+- **`compute.mojo` (The Forge of Nidavellir):** Executes host Mojo SIMD experiments and activation primitives. NPU/GPU gateways explicitly reject execution; hardware names are reserved configuration values.
 
 ## Key Invariants
-- Zero heap allocation during inference.
-- Zero dynamic string or object creation in compute loops.
+- Persistent tensor workspaces are carved from `MimirWell`; lists, strings, and
+  temporary values still allocate elsewhere in generation.
+- Compute loops operate directly on `RuneTensor` pointers, but their complete
+  safety, numerical breadth, and allocation behavior remain hardening work.
 - SIMD operations execute directly on `RuneTensor` data pointers via `unsafe_load` / `unsafe_store`.

@@ -3,6 +3,46 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 22: Forge 0D — Truthful Unsupported Behavior
+**Date:** August 14, 2026
+**Architectural Phase:** Runtime Truth Boundary
+
+The forge removed operational theater without pretending to implement the
+large systems behind it:
+
+1. **Fail-early engine configuration:** Multi-device, NPU, and GPU engine
+   construction now raises before model loading. The verified single-device CPU
+   GGUF path remains unchanged.
+2. **Honest hardware boundaries:** Logical partitions are named `host:N`,
+   device detection returns empty without a probe, NPU/GPU buffers are labeled
+   CPU-resident descriptors, and accelerator gateways raise rather than running
+   host functions under hardware names.
+3. **Truthful CLI and model state:** The model store starts empty and has no
+   fictional active process. Help/version and real single-shot generation
+   remain; REPL, service, model lifecycle/distribution, optional-engine, and
+   swarm commands reject with stable unsupported errors.
+4. **No synthetic ecosystem success:** Hugging Face download, ONNX parsing,
+   llama.cpp compatibility, ExLlama/EXL2 conversion, benchmarks, and perplexity
+   output no longer report work that did not happen.
+5. **Protocol-appropriate server rejection:** Known unsupported compatibility
+   routes return HTTP 501 and unknown routes return 404. Fixed successful
+   completion, token, health, metric, embedding, and cluster payloads are gone.
+6. **Empty swarm, explicit resilience simulation:** Swarm registries start empty
+   and network actions reject. The retained supervisor toggle says
+   `SIMULATION ONLY` and makes no crash/recovery claim.
+7. **Evidence reconciliation:** The suite now reports 51 passed / 0 failed / 1
+   skipped / 52 total. The 99-entry ledger is 28 verified, 15 partial, 14
+   scaffold, 2 simulated, and 40 missing. The TODO is 26 checked / 172 open,
+   and the function census is 379 declarations.
+8. **Full regression gates:** The counted suite, pinned real-GGUF oracle, clean
+   build, real built CLI, representative negative built CLI commands, ledger
+   validators, source-output scan, diff hygiene, and repository safety scans all
+   passed.
+
+Forge 0E is next: reconcile every present-tense architecture, data-flow, vision,
+overview, domain-map, interface, and duplicated document with the canonical
+ledger, then enforce the boundary with a documentation-drift gate.
+
 ## ⚡ Entry 21: Forge 0C — Canonical Capability Ledger and Truthful Backlog
 **Date:** August 14, 2026
 **Architectural Phase:** Capability Truth and Planning Boundary

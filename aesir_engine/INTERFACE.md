@@ -42,7 +42,11 @@ tested without inventing model logits.
 
 ## Public Struct: `AesirEngine`
 
-The central orchestration facade. Coordinates `MimirWell`, `GGUFSeer`, `RuneWeaver`, `MimirStore` (RAG), `DeviceTopology` (multi-device), NPU backend selection, GPU realm targeting, and SwarmCluster (mesh cluster). All configuration knobs live here; all compute primitives live in `core/`.
+The central orchestration facade. Its verified runtime is one local CPU device
+running the documented F16 GGUF path. Multi-device, NPU, and GPU flags are
+reserved configuration surfaces and are rejected by
+`validate_runtime_backend_config()` before model loading. RAG, resilience, and
+swarm fields are local scaffolds and do not imply operational subsystems.
 
 ```mojo
 struct AesirEngine:
@@ -52,14 +56,14 @@ struct AesirEngine:
     var knowledge_base: MimirStore
     var topology: DeviceTopology
     var blocks: List[TransformerBlock]
-    var enable_npu: Bool                    # Slice 7 — activates NPU Realm Gateway dispatch
-    var target_backend: NPUBackendType      # Slice 7 — selects hardware backend (default: ARM_NEON)
-    var enable_gpu_realm: Bool              # Slice 8 — activates Universal GPU Realm Matrix
-    var target_gpu_realm: GPURealmType      # Slice 8 — selects GPU hardware realm (default: NVIDIA_CUDA)
-    var supervisor: SelfHealingSupervisor  # Slice 12 — process guardian & crash recovery
-    var event_bus: AesirEventBus            # Slice 12 — decoupled Pub/Sub messaging
-    var thread_pool: RuneThreadPool        # Slice 12 — parallel worker pool
-    var swarm_cluster: SwarmCluster        # Phase 14 — mesh cluster orchestrator
+    var enable_npu: Bool                    # reserved; true is rejected
+    var target_backend: NPUBackendType      # requested-backend metadata only
+    var enable_gpu_realm: Bool              # reserved; true is rejected
+    var target_gpu_realm: GPURealmType      # requested-realm metadata only
+    var supervisor: SelfHealingSupervisor  # explicit local simulation marker
+    var event_bus: AesirEventBus            # local last-event marker scaffold
+    var thread_pool: RuneThreadPool         # worker-state scaffold; no threads
+    var swarm_cluster: SwarmCluster         # empty/inactive local scaffold
     var runtime_offset: Int                # Reusable workspace boundary after persistent allocations
 
     def __init__(
@@ -76,6 +80,14 @@ struct AesirEngine:
     def generate_tokens(mut self, prompt: String, max_new_tokens: Int) raises -> GenerationResult: ...
     def generate(mut self, prompt: String) raises -> String: ...  # 32-token facade
     def generate_stream(mut self, prompt: String, client_fd: Int32) raises: ...
+```
+
+```mojo
+def validate_runtime_backend_config(
+    num_devices: Int,
+    enable_npu: Bool,
+    enable_gpu_realm: Bool,
+) raises: ...
 ```
 
 ## Verified Real-GGUF CPU Path
@@ -98,35 +110,38 @@ quantized inference, server conformance, and accelerator parity are not implied.
 
 ---
 
-## Slice 7: NPU Realm Gateway — Asgard Facade Contract
+## Reserved NPU Configuration Boundary
 
 `AesirEngine` is the **sole configuration owner** of NPU backend selection. The following rules are law:
 
 | Rule | Description |
 | :--- | :--- |
 | **Config ownership** | `enable_npu` and `target_backend` live **only** in `aesir.mojo`. The server and loader domains must never hold NPU state. |
-| **Passthrough, not dispatch** | `aesir.mojo` passes `use_npu=enable_npu` and `npu_backend=target_backend` into `forward_pass()`. It does **not** call `gemm_f16_npu` directly — that is the responsibility of `core/compute.mojo`. |
+| **Runtime behavior** | `enable_npu=True` raises `NPU engine execution is not implemented` before model loading. |
 | **Import direction** | `NPUBackendType` is imported from `core/mimir_well.mojo`. The dependency arrow is Facade → Core (never the reverse). |
-| **Logging** | On `enable_npu=True`, `AesirEngine.__init__` logs: `"NPU Realm Gateway ACTIVE with backend: <name>"`. |
-| **Multi-device precedence** | When `topology.num_devices > 1`, the Bifrost Shard Matrix (`gemm_f16_sharded`) executes regardless of `enable_npu`. NPU dispatch is operative only on the single-device path. |
+| **Logging** | No active-backend banner is emitted. |
+| **Multi-device behavior** | `num_devices != 1` raises `multi-device engine execution is not implemented`. |
 
 ---
 
-## Slice 8: Universal Multi-GPU Realm Matrix — Asgard Facade Contract
+## Reserved GPU Configuration Boundary
 
 `AesirEngine` is the **sole configuration owner** of GPU hardware realm selection. The following rules are law:
 
 | Rule | Description |
 | :--- | :--- |
 | **Config ownership** | `enable_gpu_realm` and `target_gpu_realm` live **only** in `aesir.mojo`. Server and loader domains must never hold GPU realm state. |
-| **Passthrough, not dispatch** | `aesir.mojo` passes `use_gpu_realm=enable_gpu_realm` and `gpu_realm=target_gpu_realm` into `forward_pass()`. It does **not** call `gemm_f16_gpu` directly — kernel dispatch is delegated to `core/compute.mojo`. |
+| **Runtime behavior** | `enable_gpu_realm=True` raises `GPU engine execution is not implemented` before model loading. |
 | **Import direction** | `GPURealmType` is imported from `core/mimir_well.mojo`. Dependency arrow is Facade → Core. |
-| **Logging** | On `enable_gpu_realm=True`, `AesirEngine.__init__` logs: `"Universal GPU Realm Gateway ACTIVE with realm: <name>"`. |
-| **Multi-device precedence** | When `topology.num_devices > 1`, Bifrost multi-device sharding takes precedence over single-device GPU realm routing. |
+| **Logging** | No active-realm banner is emitted. |
+| **Multi-device behavior** | `num_devices != 1` is unsupported; no device sharding occurs in `AesirEngine`. |
 
 ---
 
-## GPU Realm Values (from `core/mimir_well.mojo`)
+## Reserved GPU Realm Discriminants (from `core/mimir_well.mojo`)
+
+These names are configuration values only. None currently dispatches physical
+GPU work; the historical host kernel names in the table are not device proof.
 
 | Constant | Value | Hardware Architecture Target | Kernel Dispatched |
 | :--- | :--- | :--- | :--- |
@@ -143,7 +158,10 @@ quantized inference, server conformance, and accelerator parity are not implied.
 
 ---
 
-## NPU Backend Values (from `core/mimir_well.mojo`)
+## Reserved NPU Backend Discriminants (from `core/mimir_well.mojo`)
+
+These names are configuration values only. None currently dispatches physical
+NPU work.
 
 | Constant | Value | Hardware Target | Kernel Dispatched |
 | :--- | :--- | :--- | :--- |
@@ -175,7 +193,7 @@ quantized inference, server conformance, and accelerator parity are not implied.
 | Rule | Description |
 | :--- | :--- |
 | **Swarm ownership** | `swarm_cluster` instance is owned by `AesirEngine`. |
-| **Cluster initialization** | `AesirEngine.__init__` instantiates `SwarmCluster()` and logs active resilience and swarm cluster status. |
+| **Cluster initialization** | `AesirEngine.__init__` owns an empty, inactive `SwarmCluster`; no active-cluster banner is emitted. |
 | **Import direction** | `SwarmCluster` is imported from `core/swarm.mojo`. Dependency arrow is Facade → Core. |
 
 ---

@@ -6,7 +6,8 @@ from std.collections import Dict
 struct Modelfile(Copyable):
     """
     Modelfile — ᛗᛟᛞᛖᛚᚠᛁᛚᛖ — The Runestone of Configuration:
-    Encapsulates parsed directives carved into the rune-stone from an Ollama-compatible Modelfile.
+    Encapsulates an Ollama-shaped subset of Modelfile directives. This parser
+    does not establish full Ollama syntax or behavioral compatibility.
     Directives: FROM (base realm model), PARAMETER (hyperparameter tuning runes),
     SYSTEM (system prompt context), TEMPLATE (prompt template weaving),
     LICENSE (sovereign usage covenant), MESSAGE (pre-populated conversation context).

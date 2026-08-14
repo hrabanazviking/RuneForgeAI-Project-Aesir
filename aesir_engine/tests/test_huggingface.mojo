@@ -1,8 +1,7 @@
 # tests/test_huggingface.mojo
-# Verification of HuggingFace Hub Integration & Mobile Model Downloader (Slice 13)
+# Verification of Hugging Face string helpers and unsupported download boundary
 
 from loader.huggingface import HuggingFaceSeer
-from cli.manifest import RuneModelStore
 
 def test_hf_repo_parsing() raises:
     print("--- Testing HuggingFaceSeer Repo Tag Parsing ---")
@@ -46,21 +45,17 @@ def test_hf_download_url_builder() raises:
 
 
 def test_hf_mobile_model_download() raises:
-    print("--- Testing HuggingFace Mobile/Edge Model Downloader ---")
-    var success = True
+    print("--- Testing unsupported Hugging Face download boundary ---")
     var seer = HuggingFaceSeer()
-    var store = RuneModelStore()
-
-    if not seer.download_hf_model("hf.co/HuggingFaceTB/SmolLM-135M", "model.gguf"):
-        print("FAIL: HuggingFace mobile model download stream failed")
-        success = False
-    else:
-        var norm_repo = HuggingFaceSeer.parse_hf_repo("hf.co/HuggingFaceTB/SmolLM-135M")
-        var sample_modelfile = String("FROM model.gguf\nSYSTEM HuggingFace Model")
-        store.create_model(norm_repo, sample_modelfile)
-        print("HuggingFace Model registered successfully in RuneModelStore catalog.")
-
-    if success:
-        print("HuggingFace Mobile Model Downloader: PASS")
-    else:
-        raise Error("Hugging Face simulated downloader invariant mismatch")
+    var rejected = False
+    try:
+        _ = seer.download_hf_model(
+            "hf.co/HuggingFaceTB/SmolLM-135M", "model.gguf"
+        )
+    except error:
+        rejected = True
+        if "not implemented" not in String(error):
+            raise Error("Hugging Face rejection omitted stable truth text")
+    if not rejected:
+        raise Error("Hugging Face downloader returned fabricated success")
+    print("unsupported Hugging Face download boundary: PASS")

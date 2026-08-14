@@ -1,5 +1,5 @@
 # server/api.mojo
-# Bifrost Gate: Bare-Metal HTTP Server (Ollama API Compatible)
+# Bifrost Gate: development POSIX socket scaffold
 # 
 # The bridge between the raw power of the Aesir Engine (Asgard) 
 # and the external requests of the user (Midgard).
@@ -46,12 +46,34 @@ def os_is_windows() -> Bool:
     return not (os_is_linux() or os_is_macos())
 
 
+def unsupported_http_response(capability: String) -> String:
+    """Builds an honest HTTP 501 response for a known unavailable route."""
+    return (
+        String("HTTP/1.1 501 Not Implemented\r\n")
+        + String("Content-Type: application/json\r\n")
+        + String("Connection: close\r\n\r\n")
+        + String("{\"error\":\"unsupported\",\"capability\":\"")
+        + capability
+        + String("\"}")
+    )
+
+
+def route_not_found_response() -> String:
+    """Builds a fixed HTTP 404 without echoing untrusted request text."""
+    return (
+        String("HTTP/1.1 404 Not Found\r\n")
+        + String("Content-Type: application/json\r\n")
+        + String("Connection: close\r\n\r\n")
+        + String("{\"error\":\"route_not_found\"}")
+    )
+
+
 struct BifrostGate:
     """
     ᛒᛁᚠᚱᛟᛋᛏ·ᚷᚨᛏᛖ — The Bare-Metal HTTP Transport Current (BifrostGate)
     ══════════════════════════════════════════════════════════════════════════
-    High-concurrency POSIX socket server handling incoming Midgard HTTP requests,
-    Ollama/OpenAI/llama.cpp REST API endpoints, streaming responses, and swarm dispatch.
+    POSIX bind/listen and raw-send scaffold. HTTP parsing, serving loops, and
+    Ollama/OpenAI/llama.cpp/swarm execution are not implemented.
     """
     var port: Int
     var server_fd: Int32
@@ -145,12 +167,13 @@ struct BifrostGate:
         """
         ᛋᛖᚾᛞ·ᚱᛖᛋᛈᛟᚾᛋᛖ — The Ollama Response Current (send_response)
         ══════════════════════════════════════════════════════════════════════════
-        Sends an Ollama-compatible JSON response and closes the connection.
+        Rejects the reserved Ollama response path and closes the connection.
         """
         if client_fd < 0:
             return
             
-        var response = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"model\":\"aesir\",\"created_at\":\"\",\"response\":\"") + content + String("\",\"done\":true}")
+        _ = content
+        var response = unsupported_http_response("Ollama response generation")
         var resp_bytes = response.as_bytes()
         var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
         var resp_len = len(resp_bytes)
@@ -196,11 +219,12 @@ struct BifrostGate:
         _ = chunk
 
     def send_embeddings_response(self, client_fd: Int32, embedding_data: String):
-        """Sends an Ollama-compatible /api/embeddings JSON response and closes connection."""
+        """Rejects the reserved embeddings path and closes the connection."""
         if client_fd < 0:
             return
             
-        var response = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"model\":\"aesir\",\"embedding\":[") + embedding_data + String("]}")
+        _ = embedding_data
+        var response = unsupported_http_response("embedding generation")
         var resp_bytes = response.as_bytes()
         var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
         var resp_len = len(resp_bytes)
@@ -211,11 +235,12 @@ struct BifrostGate:
 
     @staticmethod
     def send_embeddings_response_static(client_fd: Int32, embedding_data: String):
-        """Static variant for sending /api/embeddings response."""
+        """Static variant for rejecting the reserved embeddings path."""
         if client_fd < 0:
             return
             
-        var response = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"model\":\"aesir\",\"embedding\":[") + embedding_data + String("]}")
+        _ = embedding_data
+        var response = unsupported_http_response("embedding generation")
         var resp_bytes = response.as_bytes()
         var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
         var resp_len = len(resp_bytes)
@@ -230,64 +255,57 @@ struct BifrostGate:
         """
         ᛞᛁᛋᛈᚨᛏᚲᚺ·ᚺᛏᛏᛈ·ᚱᛟᛢᛏᛖ — The Universal HTTP Route Dispatcher (dispatch_http_route)
         ═════════════════════════════════════════════════════════════════════════════════════
-        Routes incoming HTTP client requests across Ollama API endpoints,
-        OpenAI REST v1 API endpoints (/v1/chat/completions, /v1/models, /v1/embeddings),
-        and llama.cpp Server HTTP API endpoints (/completion, /tokenize, /detokenize, /infill, /health, /props, /slots, /metrics).
+        Returns HTTP 501 for known reserved compatibility routes and 404 for an
+        unknown path. No request payload is executed.
         """
         if client_fd < 0:
             return
 
-        if path == "/v1/chat/completions" or path == "/v1/completions":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "id": "chatcmpl-aesir",\n  "object": "chat.completion",\n  "model": "aesir:latest",\n  "choices": [{"index": 0, "message": {"role": "assistant", "content": "Sovereign Aesir Response"}, "finish_reason": "stop"}]\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/v1/models":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "object": "list",\n  "data": [{"id": "aesir:latest", "object": "model"}]\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/completion" or path == "/infill":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "content": "Sovereign llama.cpp completion response",\n  "stop": true,\n  "model": "aesir"\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/tokenize":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "tokens": [1, 512, 1024, 2048]\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/detokenize":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "content": "RuneWeaver detokenized string"\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/health" or path == "/props" or path == "/metrics":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "status": "ok",\n  "slots_idle": 1,\n  "slots_processing": 0\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/api/swarm/nodes" or path == "/api/swarm/status":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "cluster": "aesir-swarm",\n  "status": "HEALTHY",\n  "nodes": 3,\n  "leader": "127.0.0.1:11434"\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/api/swarm/join":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "status": "JOINED",\n  "mesh": "aesir-mesh"\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        elif path == "/api/swarm/dispatch":
-            var resp = String("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n")
-            resp += '{\n  "status": "DISPATCHED",\n  "target_node": "worker-node-beta"\n}'
-            self.send_chunk(client_fd, resp)
-            self.close_client(client_fd)
-        else:
-            self.send_response(client_fd, payload)
+        _ = payload
+        var capability = String("")
+        if (
+            path == "/v1/chat/completions"
+            or path == "/v1/completions"
+            or path == "/v1/models"
+            or path == "/v1/embeddings"
+        ):
+            capability = "OpenAI API execution"
+        elif (
+            path == "/completion"
+            or path == "/infill"
+            or path == "/tokenize"
+            or path == "/detokenize"
+            or path == "/health"
+            or path == "/props"
+            or path == "/slots"
+            or path == "/metrics"
+        ):
+            capability = "llama.cpp HTTP compatibility"
+        elif (
+            path == "/api/generate"
+            or path == "/api/chat"
+            or path == "/api/tags"
+            or path == "/api/show"
+            or path == "/api/embeddings"
+            or path == "/api/embed"
+        ):
+            capability = "Ollama HTTP compatibility"
+        elif (
+            path == "/api/swarm/nodes"
+            or path == "/api/swarm/status"
+            or path == "/api/swarm/join"
+            or path == "/api/swarm/dispatch"
+        ):
+            capability = "swarm HTTP execution"
+
+        var response = route_not_found_response()
+        if capability != "":
+            response = unsupported_http_response(capability)
+        self.send_chunk(client_fd, response)
+        self.close_client(client_fd)
 
     def __deinit__(deinit self):
         if self.server_fd >= 0:
             _ = external_call["close", Int32](self.server_fd)
         self.addr_ptr.unsafe_free()
-
 

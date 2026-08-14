@@ -1,12 +1,12 @@
 # core/thread_pool.mojo
-# RuneThreadPool: Parallel Layer Processing & Multi-Thread Worker Pool
+# RuneThreadPool: reserved worker-pool state scaffold
 
 struct RuneThreadPool(Copyable, ImplicitlyCopyable):
     """
     ᚱᛢᚾᛖ·ᛏᚺᚱᛖᚨᛞ·ᛈᛟᛟᛚ — The Multi-Threaded Forge (RuneThreadPool)
     ═══════════════════════════════════════════════════════════════
-    Manages worker threads for parallel GEMM block matrix multiplication,
-    sharded multi-device layer execution, and async pipeline tasks.
+    Stores planned worker-count and enabled-state fields. It does not create
+    threads, queue work, or execute tasks in parallel.
     """
     var num_threads: Int
     var is_active: Bool
@@ -24,7 +24,6 @@ struct RuneThreadPool(Copyable, ImplicitlyCopyable):
         """
         ᛈᚨᚱᚨᛚᛚᛖᛚ·ᛋᛏᛖᛈ — The Synchronized Strike (parallel_step)
         ═══════════════════════════════════════════════════════════
-        Executes a parallel worker thread step across active core lanes,
-        coordinating matrix tiles and parallel batch operations.
+        Returns the local enabled-state marker; no parallel work occurs.
         """
         return self.is_active

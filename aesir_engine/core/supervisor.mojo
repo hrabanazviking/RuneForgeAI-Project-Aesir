@@ -1,5 +1,5 @@
 # core/supervisor.mojo
-# SelfHealingSupervisor: Heartbeat Monitor, Panic Catching & Automatic Crash Recovery
+# SelfHealingSupervisor: local resilience-state scaffold
 
 from core.state_vault import StateVault
 from core.event_bus import AesirEventBus
@@ -8,9 +8,8 @@ struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
     """
     ᛋᚢᛈᛖᚱᚠᛁᛋᛟᚱ — The Undying Guardian (SelfHealingSupervisor)
     ═════════════════════════════════════════════════════════════
-    Monitors process and thread heartbeats, catches runtime panics,
-    restores state snapshots from StateVault, and automatically recovers
-    interrupted generation sessions without dropping socket connections.
+    Stores local health/checkpoint/event markers. No panic boundary, process
+    restart, KV/session restoration, or socket continuity is implemented.
     """
     var is_healthy: Bool
     var recovery_count: Int
@@ -43,16 +42,17 @@ struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
         """
         ᛋᛁᛗᛢᛚᚨᛏᛖ·ᚲᛱᚨᛋᚺ — The Self-Healing Rite (simulate_crash_and_recover)
         ═══════════════════════════════════════════════════════════════════════
-        Simulates an unexpected runtime panic and executes self-healing recovery.
-        Restores state vault checkpoint and resumes inference pipeline.
+        Exercises local state markers only. No process crash or runtime state
+        recovery occurs.
         """
+        print("SIMULATION ONLY: no process crash or runtime recovery occurred.")
         self.is_healthy = False
-        self.bus.publish_event("INFERENCE_CRASH", "Simulated runtime panic")
+        self.bus.publish_event("INFERENCE_CRASH", "Local simulation marker")
         
-        # Self-healing recovery pass
+        # Local marker reset only; no runtime recovery occurs.
         self.recovery_count += 1
         var restored_pos = self.vault.restore_checkpoint()
         _ = restored_pos
         self.is_healthy = True
-        self.bus.publish_event("RECOVERY_COMPLETE", "State restored from vault")
+        self.bus.publish_event("RECOVERY_COMPLETE", "Local simulation marker reset")
         return True

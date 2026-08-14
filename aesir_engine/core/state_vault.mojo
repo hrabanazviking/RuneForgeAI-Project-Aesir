@@ -1,5 +1,5 @@
 # core/state_vault.mojo
-# StateVault: Zero-Allocation KV Cache & Prompt State Snapshotting
+# StateVault: in-memory checkpoint marker scaffold
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -8,9 +8,8 @@ struct StateVault(Copyable, ImplicitlyCopyable):
     """
     ᛋᛏᚨᛏᛖ·ᚠᚨᚢᛚᛏ — The Vault of Unbroken State (StateVault)
     ═════════════════════════════════════════════════════════
-    Captures zero-allocation snapshots of autoregressive generation state
-    (token positions, prompt history, KV cache offsets) inside MimirWell.
-    Enables instant <1 ms self-healing crash restoration.
+    Stores token-position and prompt-count markers in the current process. It
+    does not snapshot KV memory, persist data, or recover a crashed runtime.
     """
     var is_checkpointed: Bool
     var last_token_pos: Int
@@ -32,8 +31,7 @@ struct StateVault(Copyable, ImplicitlyCopyable):
         """
         ᛋᚨᚠᛖ·ᚲᚺᛖᚲᚴᛈᛟᛁᚾᛏ — The Inscription of the Snapshot (save_checkpoint)
         ═════════════════════════════════════════════════════════════════════
-        Inscribes the current token position and prompt token count into living vault memory.
-        Establishes an immovable recovery anchor for self-healing restoration.
+        Stores the current token position and prompt count as local fields.
         """
         self.last_token_pos = token_pos
         self.prompt_tokens_count = prompt_count
@@ -43,8 +41,7 @@ struct StateVault(Copyable, ImplicitlyCopyable):
         """
         ᚱᛖᛋᛏᛟᚱᛖ·ᚲᚺᛖᚲᚴᛈᛟᛁᚾᛏ — The Recall of Fate (restore_checkpoint)
         ═════════════════════════════════════════════════════════════════
-        Restores the last valid sequence token position from the vault snapshot.
-        Enables seamless forward pass continuation following runtime interrupts.
+        Returns the last locally stored token-position marker.
         """
         if not self.is_checkpointed:
             return 0

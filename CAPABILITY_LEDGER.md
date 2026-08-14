@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Forge 0C, August 14, 2026
+**Ledger version:** Forge 0D, August 14, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 49 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 50, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 51 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 52, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -67,8 +67,8 @@ the complete ledger population.
 | `verified` | 28 |
 | `partial` | 15 |
 | `scaffold` | 14 |
-| `simulated` | 20 |
-| `missing` | 22 |
+| `simulated` | 2 |
+| `missing` | 40 |
 | **Total** | **99** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -514,12 +514,12 @@ the complete ledger population.
 
 ### AES-GEN-009 — “Masking Seidr” thought-token suppression
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** facade and sampling domains
 - **Claim sources:** README technical specifications; runtime generation banner
-- **Implementation evidence:** `AesirEngine.generate_tokens()` prints that `<|start_thought|>` was bound to `-inf`, but performs no tokenizer lookup or logit masking.
-- **Executable evidence:** source inspection only; no behavioral test.
-- **Evidence boundary:** A local constant and success banner do not alter logits.
+- **Implementation evidence:** the fabricated banner and unused token constant were removed; no masking implementation remains.
+- **Executable evidence:** `E-SOURCE`; real generation remains covered by `E-REAL` without a masking claim.
+- **Evidence boundary:** Absence of a false claim is not implementation of thought-token masking.
 - **Next acceptance gate:** Resolve configured token IDs, apply masking before selection, define missing-token policy, and prove changed logits/tokens in a fixture.
 - **Audit:** AER-008, AER-003.
 
@@ -531,7 +531,7 @@ the complete ledger population.
 - **Owner:** CLI domain
 - **Claim sources:** multi-token task contract; CLI help
 - **Implementation evidence:** `cli/commands.mojo::parse_positive_int` rejects empty, nonnumeric, zero, and negative values.
-- **Executable evidence:** `E-MASTER` case `cli.command_dispatch_smoke` and prior task-specific CLI negative runs.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` and prior task-specific CLI negative runs.
 - **Evidence boundary:** One option parser, not a complete CLI grammar or exit-code conformance suite.
 - **Next acceptance gate:** Table-driven CLI parsing tests for option ordering, missing values, `--`, Unicode, unknown flags, and stable exit codes.
 - **Audit:** AER-059, AER-065.
@@ -565,50 +565,50 @@ the complete ledger population.
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
 - **Implementation evidence:** `ModelManifest` and `RuneModelStore` support in-memory find/add/copy/remove operations.
 - **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store`.
-- **Evidence boundary:** Constructor seeds fictional catalog entries; no disk/blob layout, digest computation, atomicity, process ownership, or restart persistence.
+- **Evidence boundary:** The store now starts empty and tests add explicit fixtures, but there is still no disk/blob layout, digest computation, atomicity, process ownership, or restart persistence.
 - **Next acceptance gate:** Empty real store, persistent atomic manifests/blobs, computed digests, restart tests, and failure rollback.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, and `ps` operational output
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** commands format seeded `RuneModelStore` entries; `get_active_ps()` always returns `aesir:latest`; output prints fixed CUDA utilization and expiry.
-- **Executable evidence:** `E-MASTER` command-dispatch smoke proves branches run, not that models/processes exist.
-- **Evidence boundary:** Fixed catalog/process data are not observation of storage or runtime state.
+- **Implementation evidence:** the store starts empty, active-process reporting is empty, and the CLI commands raise unsupported errors.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` proves rejection text and empty local state.
+- **Evidence boundary:** Truthful rejection and an empty scaffold are not persistent catalog or process observation.
 - **Next acceptance gate:** Connect output to persistent catalog and live engine/session registry with deterministic compatibility tests.
 - **Audit:** AER-061, AER-064, AER-066.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** branches print fixed hashes, sizes, transfer rates, verification, manifest, and success messages without performing registry I/O.
-- **Executable evidence:** branch smoke only.
-- **Evidence boundary:** Printed progress is fabricated operational state.
+- **Implementation evidence:** all three commands raise unsupported errors before reporting progress or success.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries`.
+- **Evidence boundary:** Rejection prevents fabricated state but implements no distribution or creation operation.
 - **Next acceptance gate:** Authenticated network/storage clients, streaming/resume/checksum, atomic manifests, failure exit codes, and compatibility integration tests.
 - **Audit:** AER-064, AER-082, AER-003.
 
 ### AES-CLI-007 — `rm`, `cp`, `stop`, and runtime lifecycle semantics
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI and runtime domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** operations mutate a newly constructed ephemeral seeded store or print unload success; no persistent or live engine ownership exists.
-- **Executable evidence:** branch smoke only.
-- **Evidence boundary:** A local list mutation or banner does not remove/copy stored model data or stop a process.
+- **Implementation evidence:** CLI lifecycle commands raise unsupported errors and do not mutate the local store or claim process unload.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries`.
+- **Evidence boundary:** Safe rejection is not storage or live-session lifecycle behavior.
 - **Next acceptance gate:** Persistent store and live-session registry, atomic operations, not-found/in-use/error behavior, and restart/conformance tests.
 - **Audit:** AER-061 through AER-064.
 
 ### AES-CLI-008 — Interactive terminal REPL
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** `RuneREPL.run()` iterates built-in sample strings and prints fixed assistant responses.
-- **Executable evidence:** source inspection; not registered as a real stdin integration.
+- **Implementation evidence:** `RuneREPL.run_repl()` raises `interactive REPL is not implemented` without sample input/output.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` reaches the unsupported interactive branch.
 - **Evidence boundary:** No stdin, engine session, conversation state, signals, EOF, cancellation, or real token streaming.
 - **Next acceptance gate:** Terminal input loop connected to one engine/session, slash-command state, history, EOF/signal cleanup, and pseudo-terminal tests.
 - **Audit:** AER-059, AER-068.
@@ -618,7 +618,7 @@ the complete ledger population.
 - **Status:** `missing`
 - **Owner:** CLI, store, network, and runtime domains
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
-- **Implementation evidence:** command names and output shapes exist, but most operations are scaffolded or simulated as detailed above.
+- **Implementation evidence:** command names/help remain, while every unimplemented compatibility operation rejects as detailed above.
 - **Executable evidence:** no differential Ollama CLI conformance suite.
 - **Evidence boundary:** Matching names/help text is not behavioral compatibility.
 - **Next acceptance gate:** Define supported Ollama version/surface and pass differential command, filesystem, network, output, error, and exit-code fixtures.
@@ -675,7 +675,7 @@ the complete ledger population.
 - **Status:** `scaffold`
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
-- **Implementation evidence:** `OpenAIGate` builds completion, model-list, and embedding-shaped JSON strings.
+- **Implementation evidence:** `OpenAIGate` builds explicitly marked completion/model-list scaffold JSON; embeddings return an unsupported object and usage/timestamps remain zero.
 - **Executable evidence:** `E-MASTER` case `multi_engine.openai_formatter` checks local string fields.
 - **Evidence boundary:** No request schema, JSON escaping, engine execution, token usage accounting, streaming, errors, or API conformance.
 - **Next acceptance gate:** Versioned supported surface, typed request/response schemas, engine connection, JSON/SSE conformance, and negative tests.
@@ -683,23 +683,23 @@ the complete ledger population.
 
 ### AES-SRV-006 — OpenAI-compatible REST execution
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** server and facade domains
 - **Claim sources:** completed multi-engine TODO and server interface
-- **Implementation evidence:** `dispatch_http_route()` returns fixed `Sovereign Aesir Response`, model ID, and finish reason without parsing payload or running the engine.
-- **Executable evidence:** none against an OpenAI client/conformance fixture.
-- **Evidence boundary:** A fixed JSON body is not API execution.
+- **Implementation evidence:** known OpenAI-shaped routes return HTTP 501 unsupported; no successful response is fabricated.
+- **Executable evidence:** `E-MASTER` case `multi_engine.http_unsupported_responses`.
+- **Evidence boundary:** Correct HTTP rejection is not OpenAI API execution or conformance.
 - **Next acceptance gate:** Parse requests, validate parameters, invoke real generation/embeddings, stream standards-compliant SSE, compute usage, and pass client-level conformance tests.
 - **Audit:** AER-078, AER-079, AER-003.
 
 ### AES-SRV-007 — llama.cpp HTTP compatibility routes
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** server protocol domain
 - **Claim sources:** completed multi-engine TODO and server interface
-- **Implementation evidence:** route branches return fixed completion text, token IDs, detokenized text, health/slots/metrics fields.
-- **Executable evidence:** no comparison with a pinned llama.cpp server.
-- **Evidence boundary:** Path names and fixed payloads are not protocol parity.
+- **Implementation evidence:** known llama.cpp-shaped routes return HTTP 501; fixed completion/token/health/metrics payloads were removed.
+- **Executable evidence:** `E-MASTER` case `multi_engine.http_unsupported_responses`; no conformance fixture exists.
+- **Evidence boundary:** Truthful rejection is not protocol parity.
 - **Next acceptance gate:** Select supported endpoints/version, connect real tokenizer/inference/state, and pass differential request/response/error tests.
 - **Audit:** AER-080, AER-081.
 
@@ -843,12 +843,12 @@ the complete ledger population.
 
 ### AES-ACC-003 — Device topology discovery
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core hardware domain
 - **Claim sources:** NPU/GPU/multi-device TODO matrices and interfaces
-- **Implementation evidence:** `DeviceTopology` synthesizes `cuda:N`; detection methods append every declared NPU/GPU type without probing the machine.
-- **Executable evidence:** `E-MASTER` cases explicitly named `synthetic_topology`.
-- **Evidence boundary:** Enumerating all backends is the opposite of availability detection.
+- **Implementation evidence:** logical host partitions use `host:N`; NPU/GPU detection clears to empty lists because no platform probe exists.
+- **Executable evidence:** `E-MASTER` cases `sharding.logical_host_topology`, `npu.no_fabricated_detection`, and `gpu.no_fabricated_detection`.
+- **Evidence boundary:** An honest empty result prevents false discovery but does not implement platform probing.
 - **Next acceptance gate:** Platform probes returning only observed/configured devices, capability/error metadata, and physical-hardware tests.
 - **Audit:** AER-088, AER-094.
 
@@ -876,12 +876,12 @@ the complete ledger population.
 
 ### AES-ACC-006 — NPU execution dispatch
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** completed NPU TODO and runtime ACTIVE banner
-- **Implementation evidence:** `gemm_f16_npu` routes enum values to host Mojo CPU functions.
-- **Executable evidence:** `E-MASTER` cases `npu.arm_neon_cpu_parity` and `npu.cpu_fallback_matrix` prove host numeric agreement only.
-- **Evidence boundary:** CPU fallback selected by an NPU name is not NPU execution or parity.
+- **Implementation evidence:** `gemm_f16_npu` raises an explicit unsupported error for every backend and does not modify output.
+- **Executable evidence:** `E-MASTER` cases `npu.host_simd8_parity` and `npu.unsupported_execution`.
+- **Evidence boundary:** Host SIMD arithmetic and rejection do not implement NPU execution.
 - **Next acceptance gate:** Return explicit unsupported for absent backends; verify one genuine runtime/ISA path on physical hardware against CPU reference.
 - **Audit:** AER-095, AER-096, AER-003.
 
@@ -898,11 +898,11 @@ the complete ledger population.
 
 ### AES-ACC-008 — GPU execution dispatch
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** `gemm_f16_gpu`, `rmsnorm_gpu`, and realm variants call host Mojo functions with different SIMD lane widths.
-- **Executable evidence:** `E-MASTER` case `gpu.cpu_fallback_matrix` proves only host output agreement.
+- **Implementation evidence:** `gemm_f16_gpu` and `rmsnorm_gpu` raise explicit unsupported errors for every realm; historically named vector helpers remain host-only experiments.
+- **Executable evidence:** `E-MASTER` case `gpu.unsupported_execution` proves rejection without output mutation.
 - **Evidence boundary:** No CUDA/ROCm/OpenCL/MUSA/SUPA/MACA/DCU/Metal API, allocation, kernel launch, transfer, synchronization, or physical device is used.
 - **Next acceptance gate:** Explicit unsupported behavior for absent backends and one physical GPU vertical slice with CPU parity and hardware CI.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
@@ -944,44 +944,44 @@ the complete ledger population.
 
 ### AES-ECO-003 — Hugging Face weight downloading
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** loader and CLI domains
 - **Claim sources:** README/loader comments and completed Hugging Face TODO
-- **Implementation evidence:** `download_hf_model()` prints a URL and returns `True`; it performs no network or file I/O.
-- **Executable evidence:** `E-MASTER` case is explicitly named `huggingface.download_simulation`.
-- **Evidence boundary:** The test proves predetermined return/output behavior, not a downloaded byte.
+- **Implementation evidence:** `download_hf_model()` raises `Hugging Face model download is not implemented` before any success claim.
+- **Executable evidence:** `E-MASTER` case `huggingface.download_unsupported`.
+- **Evidence boundary:** Rejection proves no fabricated download; it does not transfer or store bytes.
 - **Next acceptance gate:** HTTPS streaming, revision/auth/redirect/resume, size/checksum, atomic destination, cancellation, and live/recorded integration tests.
 - **Audit:** AER-082, AER-003.
 
 ### AES-ECO-004 — ONNX model parsing and execution
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** loader and optional ecosystem domains
 - **Claim sources:** completed multi-engine TODO; loader interface
-- **Implementation evidence:** nonempty path makes `ONNXModelSeer` report fixed IR version 8 and 42 nodes; CLI prints the same predetermined graph/status.
-- **Executable evidence:** `E-MASTER` case `multi_engine.onnx_header_stub` validates the stub values only.
+- **Implementation evidence:** construction reports zero/empty metadata, parsing/mapping return false, and the CLI entry point raises unsupported.
+- **Executable evidence:** `E-MASTER` cases `multi_engine.onnx_unavailable` and `multi_engine.cli_unsupported`.
 - **Evidence boundary:** No protobuf parse, tensors, operators, graph validation, planner, runtime, or conformance model.
 - **Next acceptance gate:** Parse a pinned ONNX fixture, validate graph/tensors/operators, execute a supported graph, and compare outputs with ONNX Runtime.
 - **Audit:** AER-081, AER-003.
 
 ### AES-ECO-005 — ExLlama/EXL2 conversion and inference
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI and optional ecosystem domains
 - **Claim sources:** completed multi-engine and compressed-format TODOs
-- **Implementation evidence:** dispatcher prints fixed 4.25 bits/weight and FP8 cache messages and returns `True`.
-- **Executable evidence:** only `multi_engine.cli_dispatch_stubs` branch coverage.
+- **Implementation evidence:** dispatcher raises an explicit unsupported error and emits no conversion, cache, or completion claims.
+- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`.
 - **Evidence boundary:** No EXL2 parser, conversion, CUDA kernels, cache, model, or ExLlama oracle.
 - **Next acceptance gate:** Either remove/relabel the unsupported promise with approval or implement a separately scoped real EXL2 fixture and parity gate.
 - **Audit:** AER-054, AER-081, AER-003.
 
 ### AES-ECO-006 — llama.cpp CLI subcommand compatibility
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI and optional ecosystem domains
 - **Claim sources:** completed multi-engine TODO and CLI interface
-- **Implementation evidence:** dispatcher prints fixed completion, server health, benchmark, perplexity, or generic execution messages and returns `True`.
-- **Executable evidence:** `E-MASTER` case `multi_engine.cli_dispatch_stubs`.
+- **Implementation evidence:** dispatcher raises an explicit unsupported error and emits no completion, health, benchmark, or perplexity claims.
+- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`.
 - **Evidence boundary:** The real pinned oracle comparison verifies Aesir's narrow token output, not llama.cpp CLI argument/output compatibility.
 - **Next acceptance gate:** Define supported commands/version and pass differential parsing, execution, output, error, and exit-code fixtures.
 - **Audit:** AER-080, AER-081, AER-101.
@@ -1060,7 +1060,7 @@ the complete ledger population.
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO and facade ACTIVE banner
 - **Implementation evidence:** `simulate_crash_and_recover()` toggles booleans, publishes marker events, and returns `True` without a real failure boundary.
-- **Executable evidence:** `E-MASTER` case `resilience.supervisor_simulation`.
+- **Executable evidence:** `E-MASTER` case `resilience.supervisor_simulation_marker`; runtime output says `SIMULATION ONLY`.
 - **Evidence boundary:** No crash, persisted state, engine/KV restoration, socket continuity, retry policy, or process recovery occurs.
 - **Next acceptance gate:** Define failure boundaries and inject real recoverable faults; prove state/session continuity or explicit loss semantics across restart.
 - **Audit:** AER-106, AER-111, AER-003.
@@ -1083,7 +1083,7 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core swarm domain
 - **Claim sources:** swarm load-balancer interface
-- **Implementation evidence:** `PeerRegistry` ranks seeded/in-memory peer descriptors by available capacity.
+- **Implementation evidence:** `PeerRegistry` starts empty and ranks caller-supplied in-memory peer descriptors by available capacity.
 - **Executable evidence:** `E-MASTER` case `swarm.registry_load_balancer`.
 - **Evidence boundary:** Deterministic selection over caller-provided local records; not live scheduling or distributed load balancing.
 - **Next acceptance gate:** Heartbeat-derived metrics, staleness/failure policy, reservations, concurrency, fairness, and multi-process integration.
@@ -1091,33 +1091,33 @@ the complete ledger population.
 
 ### AES-SWM-003 — Mesh join and liveness
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core swarm and server domains
 - **Claim sources:** completed swarm TODO; CLI/server interfaces
-- **Implementation evidence:** join prints connection/success and returns `True`; constructors seed peers and active status.
-- **Executable evidence:** no network peer is contacted.
-- **Evidence boundary:** Predetermined local state is not discovery, handshake, auth, heartbeat, membership, or failure detection.
+- **Implementation evidence:** clusters start empty/inactive; join raises unsupported and heartbeat returns false.
+- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported`; no network peer is contacted.
+- **Evidence boundary:** Honest inactive state and rejection are not discovery, handshake, auth, heartbeat, membership, or failure detection.
 - **Next acceptance gate:** Authenticated protocol between separate processes, join/leave/heartbeat/timeouts, replay/version policy, and network integration tests.
 - **Audit:** AER-114, AER-003.
 
 ### AES-SWM-004 — Distributed inference dispatch
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core swarm and inference domains
 - **Claim sources:** completed swarm TODO
-- **Implementation evidence:** dispatcher increments a local task counter and returns a formatted target/result string.
-- **Executable evidence:** `E-MASTER` case `swarm.dispatch_simulation`.
+- **Implementation evidence:** both dispatcher and cluster distributed-dispatch entry points raise unsupported errors without creating a result.
+- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported`.
 - **Evidence boundary:** No model availability, prompt transmission, remote execution, streamed result, cancellation, retry, or failure occurs.
 - **Next acceptance gate:** Two-process authenticated transport executing one real request remotely with routing, cancellation, timeout, retry/idempotency, and result validation.
 - **Audit:** AER-114.
 
 ### AES-SWM-005 — Swarm REST and CLI operational status
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** CLI and server domains
 - **Claim sources:** completed swarm TODO and interfaces
-- **Implementation evidence:** CLI and HTTP routes print/return fixed cluster ID, IPs, VRAM, `HEALTHY`, `JOINED`, and `DISPATCHED` values.
-- **Executable evidence:** branch output only; no live cluster.
+- **Implementation evidence:** swarm CLI commands raise unsupported and swarm HTTP routes return 501; fixed cluster observations were removed.
+- **Executable evidence:** `E-MASTER` cases `cli.truthful_command_boundaries` and `multi_engine.http_unsupported_responses`.
 - **Evidence boundary:** Fixed tables/JSON are fabricated operational observations.
 - **Next acceptance gate:** Derive output from authenticated live cluster state and pass multi-process CLI/API integration and failure tests.
 - **Audit:** AER-114, AER-003.
@@ -1126,12 +1126,12 @@ the complete ledger population.
 
 ### AES-OPS-001 — Measured performance benchmarking
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** performance and CLI domains
 - **Claim sources:** llama-bench CLI surface and high-performance README language
-- **Implementation evidence:** `dispatch_llama_cli()` prints fixed 1420.5 prompt t/s, 118.2 eval t/s, 4.3 GB/7B metadata, and perplexity 5.4218.
-- **Executable evidence:** no timer, token counter, model run, corpus, warmup, hardware capture, or statistics.
-- **Evidence boundary:** The numbers are fabricated and must not be cited as measurements.
+- **Implementation evidence:** fixed benchmark/model/perplexity output was removed; the command now raises unsupported.
+- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`; still no benchmark harness exists.
+- **Evidence boundary:** Removing fabricated numbers does not create measured performance evidence.
 - **Next acceptance gate:** Reproducible benchmark harness with actual work, hardware/software/model metadata, warmup, repeated statistics, correctness guard, and raw results.
 - **Audit:** AER-101, AER-003.
 
@@ -1221,5 +1221,6 @@ the complete ledger population.
 4. Recalculate the summary mechanically and verify IDs/statuses before merge.
 5. Keep vision language in vision documents, present implementation truth here,
    and link the two without converting aspiration into completion.
-6. Runtime output must describe actual events. Forge 0D will use every
-   `simulated` entry as the cleanup queue for fabricated success language.
+6. Runtime output must describe actual events. Forge 0D converted operational
+   theater to explicit missing/unsupported boundaries; the two remaining
+   `simulated` entries are narrowly and visibly labeled local simulations.

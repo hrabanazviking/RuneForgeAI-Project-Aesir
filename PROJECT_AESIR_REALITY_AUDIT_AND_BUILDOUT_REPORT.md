@@ -1370,10 +1370,15 @@ re-audit enumerated every `def`/`fn` declaration in tracked Mojo source at commi
 
 Forge 0B subsequently added eight complete test-harness declarations in
 `test_ledger.mojo`: six `TestLedger` methods plus `run_case` and `record_skip`.
-The current tracked census is therefore 270 runtime/public declarations, 68
-test-domain declarations, and 35 legacy/scratch declarations: **373 total**.
-These eight additions implement verified reporting infrastructure and are not
-open buildout findings.
+Forge 0D added three runtime truth-boundary declarations
+(`validate_runtime_backend_config`, `unsupported_http_response`, and
+`route_not_found_response`) plus three test declarations
+(`assert_cli_command_unsupported`, `test_unsupported_runtime_config`, and
+`test_unsupported_http_responses`). The current tracked census is therefore 273
+runtime/public declarations, 71 test-domain declarations, and 35
+legacy/scratch declarations: **379 total**. These additions implement
+configuration, protocol-rejection, and proof infrastructure; they do not add an
+external runtime capability.
 
 The ledger below lists every declaration or tightly coupled declaration group
 for which this pass found missing behavior, incomplete behavior, a correctness
@@ -2111,3 +2116,151 @@ messages with honest unsupported errors or narrowly labeled demo output. Do not
 delete public functions or expand subsystem scope without a separate approved
 task. Add negative tests proving unsupported paths exit nonzero and cannot emit
 operational success language.
+
+---
+
+## 35. Forge 0D Addendum — Truthful Unsupported Behavior
+
+Forge 0D is complete. Its purpose was deliberately narrower than implementing
+the many subsystems whose output was misleading: make every unavailable public
+surface fail explicitly, preserve every public entry point, and prevent fixed
+text or seeded state from masquerading as hardware activity, network I/O,
+model management, protocol conformance, recovery, distributed execution, or a
+measurement.
+
+### 35.1 Facade and generation corrections
+
+`validate_runtime_backend_config()` is now the first runtime gate used by
+`AesirEngine.__init__`. It accepts only `num_devices == 1` with both accelerator
+flags disabled. Multi-device, NPU, and GPU configurations raise stable
+`not implemented` errors before GGUF inspection or pool construction. This is
+important beyond cleaner output: it prevents a caller from unknowingly running
+host functions under an accelerator label.
+
+The facade no longer prints NPU/GPU/swarm/event/thread/recovery `ACTIVE`
+banners. It also no longer claims that the `<|start_thought|>` logit has been
+bound to negative infinity. No masking code exists, so AES-GEN-009 is now
+`missing`, not simulated. The verified single-device CPU construction and
+generation path was intentionally left unchanged.
+
+### 35.2 Hardware and topology corrections
+
+`DeviceTopology` now uses `host:N` names for logical partitions. NPU and GPU
+detection methods return empty lists until a real platform probe is built; they
+no longer append every enum value as if every backend were present.
+
+`NPUBuffer` and `GPUBuffer` are documented as CPU-resident host descriptors.
+The NPU descriptor defaults to `handle_fd == 0` and `is_dma_buf == false` and
+does not claim DMA-BUF, ION, Android HardwareBuffer, IOMMU, or device visibility.
+The GPU descriptor similarly claims no device allocation, registration,
+mapping, transfer, or execution.
+
+`gemm_f16_npu`, `gemm_f16_gpu`, and `rmsnorm_gpu` now raise for every requested
+backend/realm without writing outputs. Host SIMD helper functions remain under
+their existing public names for API stability, but source and tests explicitly
+identify them as host experiments. `AesirEngine` also rejects multi-device
+execution even though logical host partitioning primitives remain independently
+testable. AES-ACC-003, AES-ACC-006, and AES-ACC-008 therefore moved from
+`simulated` to `missing`.
+
+### 35.3 CLI, model-store, and optional-ecosystem corrections
+
+`RuneModelStore()` now starts empty, missing lookups raise, default manifests no
+longer contain fictional digests/sizes/quantization/architecture/timestamps,
+and active-process reporting is empty. Tests add their own explicit fixture
+manifest when exercising local mutation. This preserves the narrow scaffold
+without implying persistence or live process ownership.
+
+The CLI retains help, version, integer parsing, and the real single-shot
+`run <model-path> [--max-tokens N] <prompt...>` path. Interactive run, serve,
+model list/show/process, create/copy/remove/stop, pull/push, llama.cpp,
+ExLlama/EXL2, ONNX, and swarm commands raise stable unsupported errors. The
+sample REPL loop was removed. No branch prints fixed hashes, byte counts,
+transfer percentages, rates, CUDA utilization, expiry, sampler settings,
+health, completion text, bitrate, cache configuration, benchmark throughput,
+or perplexity.
+
+Hugging Face tag normalization and URL construction remain real string helpers,
+while `download_hf_model()` raises before any download or registration claim.
+`ONNXModelSeer` now exposes zero/empty metadata and reports parsing/mapping as
+unavailable. The llama.cpp, ExLlama, and ONNX CLI dispatcher functions remain
+public but raise. AES-CLI-005 through AES-CLI-008, AES-ECO-003 through
+AES-ECO-006, and AES-OPS-001 therefore moved from `simulated` to `missing`.
+
+### 35.4 Server, swarm, and resilience corrections
+
+The server domain now has pure negative-response helpers. Every known
+unimplemented OpenAI-, llama.cpp-, Ollama-, embedding-, and swarm-shaped route
+returns HTTP 501 with `error=unsupported`; unknown routes return HTTP 404 and do
+not echo the caller's path. Fixed HTTP 200 completion, tokenization,
+detokenization, health, slot, metric, embedding-vector, and cluster payloads were
+removed. `OpenAIGate` remains only an explicitly marked formatter scaffold with
+zero timestamps/usage and an unsupported embedding result. AES-SRV-006 and
+AES-SRV-007 are now `missing`.
+
+Peer registries now start empty and clusters inactive. Caller-supplied local
+least-used/capacity selection remains a verified in-memory primitive. Join and
+distributed dispatch raise; heartbeat reports false; CLI and REST cannot report
+cluster success. AES-SWM-003 through AES-SWM-005 are now `missing`.
+
+The supervisor state toggle is retained because its public function is useful
+as a local harness marker, but its output is exactly labeled `SIMULATION ONLY:
+no process crash or runtime recovery occurred.` It remains `simulated`, and no
+facade startup banner calls it active or recovered.
+
+### 35.5 Test and ledger reconciliation
+
+The master suite now registers 51 executable cases plus one explicit external
+fixture skip. New cases cover engine configuration rejection and 501/404 server
+responses. Existing cases were re-grounded to assert empty discovery, host
+descriptors, accelerator gateway rejection without output writes, empty model
+state, stable CLI errors, unavailable ONNX/download behavior, inactive swarm
+state, explicit supervisor simulation wording, and narrow host-only primitives.
+Case IDs and banners no longer claim CUDA, NPU, download, distributed dispatch,
+recovery, or compatibility proof.
+
+Eighteen ledger entries moved from `simulated` to `missing` after their
+fabricated-success paths were removed. The 99-entry distribution is now:
+
+| Status | Count |
+|---|---:|
+| `verified` | 28 |
+| `partial` | 15 |
+| `scaffold` | 14 |
+| `simulated` | 2 |
+| `missing` | 40 |
+| **Total** | **99** |
+
+The only remaining simulated capabilities are AES-RAG-003's constant query
+vector and AES-RES-005's explicit local supervisor marker. Forge 0D checks all
+16 of its narrowly stated TODO items; the project backlog now contains 26
+checked evidence-backed items and 172 open buildout items.
+
+The function census is now 379 declarations: 273 runtime/public, 71 tests, and
+35 legacy/scratch. No existing public function, struct, or file was deleted.
+
+### 35.6 Verification record
+
+- master suite: 51 passed, 0 failed, 1 skipped, total 52, status PASS, exit 0;
+- external pinned GGUF: metadata, mappings, tokenizer, first token, exact
+  32-token text/IDs, stop/context rules, and pool restoration passed;
+- clean Mojo build: passed in a fresh temporary directory;
+- built CLI real-model oracle: exact 32-token completion passed;
+- representative built CLI unsupported commands: exited nonzero with stable
+  `not implemented` or `unsupported` messages and no fabricated success output;
+- ledger: 99 unique IDs, 99 allowed statuses, exact 28/15/14/2/40 counts, and
+  every cited master case present;
+- TODO: 26 checked and 172 open;
+- source-output scan: removed fixed benchmarks, hashes, transfers, hardware
+  activity, health, completion, download, ONNX, ExLlama, and swarm results;
+- diff hygiene and artifact/secret/local-path scans: passed.
+
+### 35.7 Current recommended next forge
+
+Proceed with **Forge 0E: reconcile all present-tense documentation**. The runtime
+now tells the truth at execution boundaries, but root architecture, data-flow,
+vision, overview, domain-map, and duplicated historical documents still contain
+present-tense completion and compatibility language contradicted by the
+canonical ledger. Forge 0E should preserve the long-range vision while marking
+implemented, partial, scaffold, simulated, and missing layers precisely and add
+an automated documentation-drift gate.
