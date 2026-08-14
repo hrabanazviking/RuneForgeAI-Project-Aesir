@@ -4,19 +4,21 @@
 from core.mimir_well import MimirWell
 from loader.gguf import GGUFSeer, GGMLType
 
-def test_gguf_parsing():
-    """Test GGUFSeer can open and validate a GGUF file."""
-    print("--- Testing GGUFSeer (The Runecaster's Vision) ---")
+def test_gguf_parsing() raises:
+    """The zero-tensor legacy fixture must be rejected before inference."""
+    print("--- Testing GGUFSeer validation (The Runecaster's Vision) ---")
     var path = String("model.gguf")
     
     var well = MimirWell(1024 * 1024)
     var seer = GGUFSeer(path)
-    seer.mmap_and_load(well)
-    
-    if seer.fd != -1:
-        print("GGUFSeer: PASS")
-    else:
-        print("GGUFSeer: FAIL")
+    var rejected = False
+    try:
+        seer.mmap_and_load(well)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("GGUFSeer accepted a zero-tensor model fixture")
+    print("GGUFSeer malformed-model rejection: PASS")
 
 def test_ggml_type():
     """Test GGMLType constants are correct per GGML spec."""
@@ -46,6 +48,6 @@ def test_ggml_type():
     else:
         print("GGMLType: FAIL")
 
-def main():
+def main() raises:
     test_gguf_parsing()
     test_ggml_type()
