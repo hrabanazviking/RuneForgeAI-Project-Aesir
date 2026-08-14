@@ -1,0 +1,516 @@
+# core/inference.mojo
+# The Loom of Fate: The Forward Pass
+#
+# Strings together the kernels from the Forge (compute) and the Memory (MimirWell)
+# to weave the destiny of the tokens.
+
+from std.math import max, min
+from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, shard_split_cols, shard_split_rows, f16, f32
+from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, silu, geglu, rmsnorm, apply_rope
+from loader.gguf import GGUFSeer
+
+from std.memory import Pointer
+
+struct TransformerBlock(Copyable):
+    """
+    A single layer of the Transformer.
+    Weaves attention and feed-forward networks together.
+    """
+    var layer_idx: Int
+    var head_dim: Int
+    var num_heads: Int
+
+    var attn_norm_weight: RuneTensor[f16]
+    var attn_q_weight: RuneTensor[f16]
+    var attn_k_weight: RuneTensor[f16]
+    var attn_v_weight: RuneTensor[f16]
+    var attn_output_weight: RuneTensor[f16]
+    var ffn_norm_weight: RuneTensor[f16]
+    var ffn_up_weight: RuneTensor[f16]
+    var ffn_gate_weight: RuneTensor[f16]
+    var ffn_down_weight: RuneTensor[f16]
+
+    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises:
+        self.layer_idx = layer_idx
+        self.head_dim = head_dim
+        self.num_heads = num_heads
+
+        var prefix = "blk." + String(self.layer_idx) + "."
+        var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+        if prefix + "attn_norm.weight" in seer.tensors:
+            self.attn_norm_weight = seer.tensors[prefix + "attn_norm.weight"].copy()
+        else:
+            self.attn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "attn_q.weight" in seer.tensors:
+            self.attn_q_weight = seer.tensors[prefix + "attn_q.weight"].copy()
+        else:
+            self.attn_q_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "attn_k.weight" in seer.tensors:
+            self.attn_k_weight = seer.tensors[prefix + "attn_k.weight"].copy()
+        else:
+            self.attn_k_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "attn_v.weight" in seer.tensors:
+            self.attn_v_weight = seer.tensors[prefix + "attn_v.weight"].copy()
+        else:
+            self.attn_v_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "attn_output.weight" in seer.tensors:
+            self.attn_output_weight = seer.tensors[prefix + "attn_output.weight"].copy()
+        else:
+            self.attn_output_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "ffn_norm.weight" in seer.tensors:
+            self.ffn_norm_weight = seer.tensors[prefix + "ffn_norm.weight"].copy()
+        else:
+            self.ffn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "ffn_up.weight" in seer.tensors:
+            self.ffn_up_weight = seer.tensors[prefix + "ffn_up.weight"].copy()
+        else:
+            self.ffn_up_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "ffn_gate.weight" in seer.tensors:
+            self.ffn_gate_weight = seer.tensors[prefix + "ffn_gate.weight"].copy()
+        else:
+            self.ffn_gate_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+        if prefix + "ffn_down.weight" in seer.tensors:
+            self.ffn_down_weight = seer.tensors[prefix + "ffn_down.weight"].copy()
+        else:
+            self.ffn_down_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int):
+        self.layer_idx = layer_idx
+        self.head_dim = head_dim
+        self.num_heads = num_heads
+
+        var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+
+        self.attn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.attn_q_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.attn_k_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.attn_v_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.attn_output_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.ffn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.ffn_up_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.ffn_gate_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.ffn_down_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+
+    def __copyinit__(out self, existing: Self):
+        self.layer_idx = existing.layer_idx
+        self.head_dim = existing.head_dim
+        self.num_heads = existing.num_heads
+        self.attn_norm_weight = existing.attn_norm_weight
+        self.attn_q_weight = existing.attn_q_weight
+        self.attn_k_weight = existing.attn_k_weight
+        self.attn_v_weight = existing.attn_v_weight
+        self.attn_output_weight = existing.attn_output_weight
+        self.ffn_norm_weight = existing.ffn_norm_weight
+        self.ffn_up_weight = existing.ffn_up_weight
+        self.ffn_gate_weight = existing.ffn_gate_weight
+        self.ffn_down_weight = existing.ffn_down_weight
+
+    @always_inline
+    def copy(self) -> Self:
+        var res = TransformerBlock(self.layer_idx, self.head_dim, self.num_heads)
+        res.attn_norm_weight = self.attn_norm_weight.copy()
+        res.attn_q_weight = self.attn_q_weight.copy()
+        res.attn_k_weight = self.attn_k_weight.copy()
+        res.attn_v_weight = self.attn_v_weight.copy()
+        res.attn_output_weight = self.attn_output_weight.copy()
+        res.ffn_norm_weight = self.ffn_norm_weight.copy()
+        res.ffn_up_weight = self.ffn_up_weight.copy()
+        res.ffn_gate_weight = self.ffn_gate_weight.copy()
+        res.ffn_down_weight = self.ffn_down_weight.copy()
+        return res^
+
+    def forward(
+        self,
+        mut x: RuneTensor[f16],
+        mut seer: GGUFSeer,
+        mut well: MimirWell,
+        seq_len: Int,
+        start_pos: Int,
+        mut kv_cache: KVCache,
+        topology: DeviceTopology = DeviceTopology(1),
+        use_npu: Bool = False,
+        npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+        use_gpu_realm: Bool = False,
+        gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+    ) raises:
+
+        """
+        Executes a single layer's forward pass supporting single and multi-device (sharded) execution.
+        """
+        var num_devices = topology.num_devices
+        if num_devices <= 1:
+            var start_offset = well.offset
+
+            # 1. Attention Norm
+            var residual = well.allocate(x.size)
+            var residual_tensor = RuneTensor[f16](x.rows, x.cols, residual, False)
+            for i in range(x.size):
+                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                
+            rmsnorm(x, self.attn_norm_weight)
+
+            # 2. QKV Projections
+            var q_ptr = well.allocate(x.size)
+            var k_ptr = well.allocate(x.size)
+            var v_ptr = well.allocate(x.size)
+            
+            var q = RuneTensor[f16](x.rows, x.cols, q_ptr, False)
+            var k = RuneTensor[f16](x.rows, x.cols, k_ptr, False)
+            var v = RuneTensor[f16](x.rows, x.cols, v_ptr, False)
+            
+            if use_gpu_realm:
+                gemm_f16_gpu(x, self.attn_q_weight, q, gpu_realm)
+                gemm_f16_gpu(x, self.attn_k_weight, k, gpu_realm)
+                gemm_f16_gpu(x, self.attn_v_weight, v, gpu_realm)
+            elif use_npu:
+                gemm_f16_npu(x, self.attn_q_weight, q, npu_backend)
+                gemm_f16_npu(x, self.attn_k_weight, k, npu_backend)
+                gemm_f16_npu(x, self.attn_v_weight, v, npu_backend)
+            else:
+                gemm_f16(x, self.attn_q_weight, q)
+                gemm_f16(x, self.attn_k_weight, k)
+                gemm_f16(x, self.attn_v_weight, v)
+
+
+            # 3. RoPE
+            apply_rope(q, k, start_pos, self.head_dim)
+
+            # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+            kv_cache.append(self.layer_idx, start_pos, k, v)
+            var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
+            var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
+            var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
+
+            var attn_out_ptr = well.allocate(x.size)
+            var attn_out = RuneTensor[f16](x.rows, x.cols, attn_out_ptr, False)
+            flash_attention_2(q, k_slice, v_slice, attn_out, active_seq_len, self.head_dim)
+
+            # 5. Output Projection
+            if use_gpu_realm:
+                gemm_f16_gpu(attn_out, self.attn_output_weight, x, gpu_realm)
+            elif use_npu:
+                gemm_f16_npu(attn_out, self.attn_output_weight, x, npu_backend)
+            else:
+                gemm_f16(attn_out, self.attn_output_weight, x)
+
+
+            # 6. Residual Add
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+
+            # 7. FFN Norm
+            for i in range(x.size):
+                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                
+            rmsnorm(x, self.ffn_norm_weight)
+
+            # 8. Feed Forward Network
+            var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
+            var up = RuneTensor[f16](x.rows, self.ffn_up_weight.rows, up_ptr, False)
+            
+            var gate_ptr = well.allocate(self.ffn_gate_weight.rows * x.rows)
+            var gate = RuneTensor[f16](x.rows, self.ffn_gate_weight.rows, gate_ptr, False)
+            
+            if use_gpu_realm:
+                gemm_f16_gpu(x, self.ffn_up_weight, up, gpu_realm)
+                gemm_f16_gpu(x, self.ffn_gate_weight, gate, gpu_realm)
+            elif use_npu:
+                gemm_f16_npu(x, self.ffn_up_weight, up, npu_backend)
+                gemm_f16_npu(x, self.ffn_gate_weight, gate, npu_backend)
+            else:
+                gemm_f16(x, self.ffn_up_weight, up)
+                gemm_f16(x, self.ffn_gate_weight, gate)
+            
+            # Apply SiLU to gate and multiply by up (elementwise)
+            silu(gate)
+            for i in range(up.size):
+                up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
+                
+            # GEMM down
+            if use_gpu_realm:
+                gemm_f16_gpu(up, self.ffn_down_weight, x, gpu_realm)
+            elif use_npu:
+                gemm_f16_npu(up, self.ffn_down_weight, x, npu_backend)
+            else:
+                gemm_f16(up, self.ffn_down_weight, x)
+
+
+            # 9. Residual Add
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+
+            well.offset = start_offset
+        else:
+            # Multi-Device Sharded Path (The Bifrost Shard Matrix)
+            var start_offset = well.offset
+
+            # 1. Attention Norm
+            var residual = well.allocate(x.size)
+            var residual_tensor = RuneTensor[f16](x.rows, x.cols, residual, False)
+            for i in range(x.size):
+                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                
+            rmsnorm(x, self.attn_norm_weight)
+
+            # 2. Sharded Column-Parallel QKV Projections
+            var q_weight_shards = shard_split_rows(self.attn_q_weight, num_devices)
+            var k_weight_shards = shard_split_rows(self.attn_k_weight, num_devices)
+            var v_weight_shards = shard_split_rows(self.attn_v_weight, num_devices)
+
+            var x_shards = List[RuneTensor[f16]]()
+            var q_shards = List[RuneTensor[f16]]()
+            var k_shards = List[RuneTensor[f16]]()
+            var v_shards = List[RuneTensor[f16]]()
+
+            var shard_dim = x.cols // num_devices
+
+            for _ in range(num_devices):
+                var x_d_ptr = well.allocate(x.size)
+                var x_d = RuneTensor[f16](x.rows, x.cols, x_d_ptr, False)
+                for i in range(x.size):
+                    x_d.data.unsafe_store(i, x.data.unsafe_load(i))
+                x_shards.append(x_d.copy())
+
+                var q_d_ptr = well.allocate(x.rows * shard_dim)
+                q_shards.append(RuneTensor[f16](x.rows, shard_dim, q_d_ptr, False))
+
+                var k_d_ptr = well.allocate(x.rows * shard_dim)
+                k_shards.append(RuneTensor[f16](x.rows, shard_dim, k_d_ptr, False))
+
+                var v_d_ptr = well.allocate(x.rows * shard_dim)
+                v_shards.append(RuneTensor[f16](x.rows, shard_dim, v_d_ptr, False))
+
+            gemm_f16_sharded(x_shards, q_weight_shards, q_shards)
+            gemm_f16_sharded(x_shards, k_weight_shards, k_shards)
+            gemm_f16_sharded(x_shards, v_weight_shards, v_shards)
+
+            # Reconstruct full q, k, v for RoPE, KV cache append & Flash Attention 2
+            var full_q_ptr = well.allocate(x.size)
+            var full_k_ptr = well.allocate(x.size)
+            var full_v_ptr = well.allocate(x.size)
+
+            var full_q = RuneTensor[f16](x.rows, x.cols, full_q_ptr, False)
+            var full_k = RuneTensor[f16](x.rows, x.cols, full_k_ptr, False)
+            var full_v = RuneTensor[f16](x.rows, x.cols, full_v_ptr, False)
+
+            for d in range(num_devices):
+                for i in range(shard_dim):
+                    full_q.data.unsafe_store(d * shard_dim + i, q_shards[d].data.unsafe_load(i))
+                    full_k.data.unsafe_store(d * shard_dim + i, k_shards[d].data.unsafe_load(i))
+                    full_v.data.unsafe_store(d * shard_dim + i, v_shards[d].data.unsafe_load(i))
+
+            # 3. RoPE
+            apply_rope(full_q, full_k, start_pos, self.head_dim)
+
+            # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+            kv_cache.append(self.layer_idx, start_pos, full_k, full_v)
+            var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
+            var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
+            var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
+
+            var attn_out_shards = List[RuneTensor[f16]]()
+            var k_slice_shards = shard_split_cols(k_slice, num_devices, well)
+            var v_slice_shards = shard_split_cols(v_slice, num_devices, well)
+            var q_shards_roped = shard_split_cols(full_q, num_devices, well)
+
+            for d in range(num_devices):
+                var attn_out_d_ptr = well.allocate(x.rows * shard_dim)
+                var attn_out_d = RuneTensor[f16](x.rows, shard_dim, attn_out_d_ptr, False)
+                flash_attention_2(q_shards_roped[d], k_slice_shards[d], v_slice_shards[d], attn_out_d, active_seq_len, self.head_dim)
+                attn_out_shards.append(attn_out_d.copy())
+
+            # 5. Row-Parallel Output Projection & All-Reduce
+            var attn_out_weight_shards = shard_split_cols(self.attn_output_weight, num_devices, well)
+            var out_shards = List[RuneTensor[f16]]()
+            for _ in range(num_devices):
+                var out_d_ptr = well.allocate(x.size)
+                out_shards.append(RuneTensor[f16](x.rows, x.cols, out_d_ptr, False))
+
+            gemm_f16_sharded(attn_out_shards, attn_out_weight_shards, out_shards)
+            all_reduce_sum(out_shards, x)
+
+            # 6. Residual Add
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+
+            # 7. FFN Norm
+            for i in range(x.size):
+                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                
+            rmsnorm(x, self.ffn_norm_weight)
+
+            # 8. Sharded Column-Parallel SwiGLU FFN Projections
+            var up_weight_shards = shard_split_rows(self.ffn_up_weight, num_devices)
+            var gate_weight_shards = shard_split_rows(self.ffn_gate_weight, num_devices)
+
+            var inter_dim = self.ffn_up_weight.rows
+            var inter_shard_dim = inter_dim // num_devices
+
+            var x_ffn_shards = List[RuneTensor[f16]]()
+            var up_shards = List[RuneTensor[f16]]()
+            var gate_shards = List[RuneTensor[f16]]()
+
+            for _ in range(num_devices):
+                var x_d_ptr = well.allocate(x.size)
+                var x_d = RuneTensor[f16](x.rows, x.cols, x_d_ptr, False)
+                for i in range(x.size):
+                    x_d.data.unsafe_store(i, x.data.unsafe_load(i))
+                x_ffn_shards.append(x_d.copy())
+
+                var up_d_ptr = well.allocate(x.rows * inter_shard_dim)
+                up_shards.append(RuneTensor[f16](x.rows, inter_shard_dim, up_d_ptr, False))
+
+                var gate_d_ptr = well.allocate(x.rows * inter_shard_dim)
+                gate_shards.append(RuneTensor[f16](x.rows, inter_shard_dim, gate_d_ptr, False))
+
+            gemm_f16_sharded(x_ffn_shards, up_weight_shards, up_shards)
+            gemm_f16_sharded(x_ffn_shards, gate_weight_shards, gate_shards)
+
+            for d in range(num_devices):
+                silu(gate_shards[d])
+                for i in range(up_shards[d].size):
+                    up_shards[d].data.unsafe_store(i, up_shards[d].data.unsafe_load(i) * gate_shards[d].data.unsafe_load(i))
+
+            # Row-Parallel FFN Down Projection & All-Reduce
+            var down_weight_shards = shard_split_cols(self.ffn_down_weight, num_devices, well)
+            var ffn_out_shards = List[RuneTensor[f16]]()
+            for _ in range(num_devices):
+                var ffn_d_ptr = well.allocate(x.size)
+                ffn_out_shards.append(RuneTensor[f16](x.rows, x.cols, ffn_d_ptr, False))
+
+            gemm_f16_sharded(up_shards, down_weight_shards, ffn_out_shards)
+            all_reduce_sum(ffn_out_shards, x)
+
+            # 9. Residual Add
+            for i in range(x.size):
+                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+
+            well.offset = start_offset
+
+
+def forward_pass(
+    tokens: List[Int], 
+    mut seer: GGUFSeer, 
+    mut well: MimirWell, 
+    mut kv_cache: KVCache,
+    start_pos: Int = 0,
+    num_layers: Int = 32, 
+    head_dim: Int = 128, 
+    num_heads: Int = 32,
+    topology: DeviceTopology = DeviceTopology(1),
+    blocks: List[TransformerBlock] = List[TransformerBlock](),
+    use_npu: Bool = False,
+    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+    use_gpu_realm: Bool = False,
+    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+) raises -> Int:
+
+    """
+    The Weaving of Fate.
+    Executes the full forward pass for a sequence of tokens and returns the next token.
+    """
+    var seq_len = len(tokens)
+    if seq_len == 0:
+        return 0
+        
+    var token_idx = min(max(0, start_pos), seq_len - 1)
+    var last_token = tokens[token_idx]
+    
+    if "token_embd.weight" not in seer.tensors:
+        return 0
+    ref token_embd = seer.tensors["token_embd.weight"]
+    var hidden_dim = token_embd.cols
+    
+    var initial_offset = well.offset
+    
+    # 1. Retrieve token embedding
+    var x_ptr = well.allocate(hidden_dim)
+    var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
+    
+    # Copy embedding for the last token
+    for i in range(hidden_dim):
+        x.data.unsafe_store(i, token_embd.data.unsafe_load(last_token * hidden_dim + i))
+        
+    # 2. Pre-construct or use pre-cached layer blocks (zero dynamic string allocations during inner loop)
+    var active_blocks = List[TransformerBlock]()
+    if len(blocks) == num_layers:
+        for i in range(len(blocks)):
+            active_blocks.append(blocks[i].copy())
+    else:
+        for layer_idx in range(num_layers):
+            active_blocks.append(TransformerBlock(layer_idx, head_dim, num_heads, seer))
+
+    # 3. Loop over layers
+    for layer_idx in range(num_layers):
+        var block = active_blocks[layer_idx].copy()
+        block.forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+        
+    # 4. Final RMSNorm
+    if "output_norm.weight" in seer.tensors:
+        rmsnorm(x, seer.tensors["output_norm.weight"])
+    
+    # 5. Final projection to logits
+    if "output.weight" not in seer.tensors:
+        well.offset = initial_offset
+        return 0
+
+    ref output_weight = seer.tensors["output.weight"]
+    var vocab_size = output_weight.rows
+    var logits_ptr = well.allocate(vocab_size)
+    var logits = RuneTensor[f16](1, vocab_size, logits_ptr, False)
+    
+    if use_gpu_realm:
+        gemm_f16_gpu(x, output_weight, logits, gpu_realm)
+    elif use_npu:
+        gemm_f16_npu(x, output_weight, logits, npu_backend)
+    else:
+        gemm_f16(x, output_weight, logits)
+
+    
+    # 6. Argmax sampling to return the next token
+    var max_val: Scalar[f16] = -10000.0
+    var best_token: Int = 0
+    for i in range(vocab_size):
+        var val = logits.data.unsafe_load(i)
+        if val > max_val:
+            max_val = val
+            best_token = i
+            
+    well.offset = initial_offset
+    return best_token
+
+
+def forward_pass(
+    tokens: List[Int], 
+    mut seer: GGUFSeer, 
+    mut well: MimirWell, 
+    num_layers: Int = 32, 
+    head_dim: Int = 128, 
+    num_heads: Int = 32,
+    topology: DeviceTopology = DeviceTopology(1),
+    blocks: List[TransformerBlock] = List[TransformerBlock](),
+    use_npu: Bool = False,
+    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+    use_gpu_realm: Bool = False,
+    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+) raises -> Int:
+    """
+    Overload for forward_pass without an explicit KVCache.
+    """
+    ref token_embd = seer.tensors["token_embd.weight"]
+    var hidden_dim = token_embd.cols
+    var kv_cache = KVCache(2048, hidden_dim, well, num_layers)
+    var start_pos = max(0, len(tokens) - 1)
+    return forward_pass(tokens, seer, well, kv_cache, start_pos, num_layers, head_dim, num_heads, topology, blocks, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+
+
+
+

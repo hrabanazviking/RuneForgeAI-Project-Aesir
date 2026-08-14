@@ -1,42 +1,19 @@
 # main.mojo
-# Entry point for Project Aesir Inference Engine
+# Entry point for Project Aesir / Ollama CLI Engine
 
-from aesir import AesirEngine
-from server.api import BifrostGate
+from std.sys import argv
+from cli.commands import dispatch_command, print_general_help
 
-def main():
-    print("======================================")
-    print("Project A.E.S.I.R. Inference Engine")
-    print("Target: Bare-Metal Mojo (CUDA/ROCm)")
-    print("======================================")
+def main() raises:
+    var raw_args = argv()
+    var cli_args = List[String]()
     
-    # 1. Instantiate the Engine (Encapsulates Core & Loader)
-    var engine = AesirEngine(String("model.gguf"))
-
-    # 2. Open the Bifrost Gate (HTTP Server)
-    var server = BifrostGate(11434)
-    if not server.start():
-        print("FATAL: BifrostGate failed to open.")
-        return
-
-    # 3. The Eternal Loop (Event/Inference Loop)
-    print("Watching the rainbow bridge for API requests...")
-    # Simulate a single run loop to not block the tests indefinitely
-    # In production, this would be `while True:`
-    for _ in range(1):
-        # We don't want to actually block on await_request during CI/tests
-        # So we'll just mock the invocation.
-        # client_fd = server.await_request()
-        var client_fd: Int32 = -1
+    # argv()[0] is binary name; collect rest of command line args
+    if len(raw_args) > 1:
+        for i in range(1, len(raw_args)):
+            cli_args.append(raw_args[i])
+    else:
+        # Default behavior: run serve daemon if invoked without subcommands
+        cli_args.append("serve")
         
-        print("Mock: Client connected!")
-        
-        # Parse prompt (mocked)
-        var prompt = String("Tell me a story.")
-        
-        # Generate
-        var response_text = engine.generate(prompt)
-        
-        # Send
-        server.send_response(client_fd, response_text)
-        print("Mock: Response sent to client via BifrostGate.")
+    dispatch_command(cli_args)

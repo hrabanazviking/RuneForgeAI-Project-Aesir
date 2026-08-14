@@ -93,7 +93,7 @@ def test_silu():
     print("--- Testing silu (The Bending of the Branch) ---")
     var well = MimirWell(1024 * 64)
     
-    var size = 32
+    var size = 35 # Unaligned size to verify SIMD tail handling
     var t_ptr = well.allocate(size)
     var T = RuneTensor[f16](1, size, t_ptr)
     
@@ -104,22 +104,26 @@ def test_silu():
     silu(T)
     
     var val = T.data.unsafe_load(0)
+    var val_tail = T.data.unsafe_load(34)
     var expected = Scalar[f16](0.7311)
     var diff = val - expected
     if diff < 0:
         diff = -diff
+    var diff_tail = val_tail - expected
+    if diff_tail < 0:
+        diff_tail = -diff_tail
     
-    if diff < 0.05:
+    if diff < 0.05 and diff_tail < 0.05:
         print("silu: PASS")
     else:
-        print("silu: FAIL (expected ~0.7311, got", val, ")")
+        print("silu: FAIL (expected ~0.7311, got head=", val, ", tail=", val_tail, ")")
 
 def test_geglu():
     """Test GeGLU: first half = x * GELU(y) where y is second half."""
     print("--- Testing geglu (The Binding of the Gates) ---")
     var well = MimirWell(1024 * 64)
     
-    var half = 32
+    var half = 35 # Unaligned half size to verify SIMD tail handling
     var total = half * 2
     var t_ptr = well.allocate(total)
     var T = RuneTensor[f16](1, total, t_ptr)
@@ -134,14 +138,19 @@ def test_geglu():
     geglu(T)
     
     var val = T.data.unsafe_load(0)
+    var val_tail = T.data.unsafe_load(34)
     var diff = val - 1.6826
     if diff < 0:
         diff = -diff
+    var diff_tail = val_tail - 1.6826
+    if diff_tail < 0:
+        diff_tail = -diff_tail
     
-    if diff < 0.1:
+    if diff < 0.1 and diff_tail < 0.1:
         print("geglu: PASS")
     else:
-        print("geglu: FAIL (expected ~1.68, got", val, ")")
+        print("geglu: FAIL (expected ~1.68, got head=", val, ", tail=", val_tail, ")")
+
 
 def test_dequantize_q4_k_m():
     """Test Q4_K_M dequantization: unpack 4-bit weights, scale, and add min."""

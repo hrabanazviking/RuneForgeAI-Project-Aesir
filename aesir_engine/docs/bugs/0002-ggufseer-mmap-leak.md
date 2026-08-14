@@ -3,6 +3,7 @@
 **Bug ID**: 0002
 **Title**: `mmap` failure ignored, leading to invalid memory access and unclosed file descriptor
 **Component**: `loader/gguf.mojo`
+**Status**: Resolved
 
 ## Description
 In `GGUFSeer.mmap_and_load()`, `mmap` was called with a hint address of `1`, and the return value was directly cast to a pointer without checking for `MAP_FAILED` (-1). If `mmap` failed, the `-1` address would be dereferenced when checking the GGUF magic bytes, causing a segmentation fault. 

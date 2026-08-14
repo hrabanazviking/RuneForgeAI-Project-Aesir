@@ -1,0 +1,13 @@
+[workspace]
+authors = ["Volmarr Wyrd <122174898+hrabanazviking@users.noreply.github.com>"]
+channels = ["https://conda.modular.com/max", "conda-forge"]
+name = "project_aesir"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+mojo = ">=1.0.0,<2"
+max = ">=26.5.0,<27"
+python = ">=3.14.6,<3.15"

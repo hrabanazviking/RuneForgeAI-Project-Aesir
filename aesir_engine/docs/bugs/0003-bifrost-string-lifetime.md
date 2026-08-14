@@ -12,4 +12,4 @@ Store a reference to `response` after the `external_call["send"]` using `_ = res
 
 ## Mythic Engineering Rite Completed
 Outlined for the Forge Worker.
-Resolved by Forge Worker: Used `_ = response^` to safely move and consume the string, keeping it alive during the send syscall.
+Resolved by Forge Worker: Maintained strong reference via `_ = response` (and `_ = chunk`) to safely keep string buffers alive across system calls.
