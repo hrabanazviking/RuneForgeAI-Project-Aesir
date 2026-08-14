@@ -1,13 +1,13 @@
 # Project Aesir - TODO
 
 ## Immediate Tasks
+- [ ] **Missing Buildout Functions:** Create a massive staged plans to fix All Issues Addressed in PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md 
 - [x] **Implement Tensor Math Kernels:** Build out the actual linear algebra implementations for Tiled Matrix Multiplication (GEMM) utilizing Mojo's tensor capabilities and hardware acceleration.
 - [x] **Fused Flash Attention-2 Integration:** Implement the fused kernel for attention scores, softmax, and value aggregation in a single pass.
 - [x] **Expand GGUFSeer:** Add support for quantized formats like `q4_k_m` directly into the bare-metal loading logic.
 - [ ] **RuneWeaver Improvements:** Optimize the BPE tokenizer for edge cases and multilingual tokens.
 - [x] **Testing:** Expand unit tests — full suite covers GEMM, Flash Attention-2, SiLU, GeGLU, Q4_K_M dequantization, GGUFSeer, and RuneWeaver.
 - [x] **Truth-Bearing GGUF Vertical Slice:** Validate a real GGUF v3 Llama F16 model, map matrix weights zero-copy, convert F32 norms, load tokenizer metadata, execute grouped-query CPU inference, and return one genuine CLI token with pinned `llama.cpp` parity.
-- [x] **Verified Deterministic Multi-Token Generation:** Reuse one request-owned KV cache, preserve generated token IDs, enforce EOS/length/context stop reasons, expose structured results, connect a configurable CLI token limit, and match all 32 greedy tokens plus exact decoded text from the pinned `llama.cpp` oracle.
 
 ## Immediate Tasks
 - [x] **RMSNorm:** Implement Root Mean Square Layer Normalization kernel.
@@ -30,8 +30,9 @@
 
 
 ## Future Expansions
-- [ ] **Sampling and Chat Semantics:** Extend the verified greedy multi-token path with temperature/top-k/top-p sampling, repetition controls, model chat templates, conversation state, and model-appropriate stop sequences. None are implied by the deterministic milestone.
+- [ ] **Multi-Token Generation:** Extend the verified real-model path with EOS handling, context limits, sampling controls, and chat templates.
 - [ ] **Quantized Real-Model Inference:** Connect supported GGML quantized tensor layouts to validated end-to-end execution; format discriminants and synthetic kernels alone do not establish model compatibility.
 - [ ] **Production Benchmarking & Custom Memory Tuning:** Hardware profiling & VRAM footprint optimization.
 - [ ] **Low-Precision Quantization (INT4/INT8 NPU):** Native NPU integer quantization kernels for Hailo-10 & Hexagon.
+
 
