@@ -63,10 +63,15 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Target Hardware:** Consumer GPUs (Optimized for NVIDIA CUDA RTX 30/40 series architecture)
  * **Precision:** f16 (Half-precision) compute with q4_k_m (4-bit) quantized weight support.
  * **Architecture:**
+   * **AesirEngine**: The central intelligence coordinating all subsystems and executing stateless sampling loops.
+   * **MimirWell (Memory Management)**: Core memory management struct utilizing zero-copy pointers for context buffering.
+   * **BifrostGate (Server Bridge)**: Bare-metal HTTP server bridging the engine to external requests without dragging in heavy Python dependencies (Ollama API compatible).
+   * **Masking Seidr**: Inner voice silencing feature that bounds `<|start_thought|>` token probabilities to `-inf` by default, ensuring focused and deterministic outputs.
    * Custom Tensor structs utilizing zero-copy pointers.
    * Tiled Matrix Multiplication (GEMM) targeting Tensor Cores.
    * Fused Flash Attention-2 (Attention score, softmax, and value aggregation in a single kernel pass).
-   * Pure Mojo Byte-Pair Encoding (BPE) tokenizer.
+   * Pure Mojo Byte-Pair Encoding (BPE) tokenizer (**RuneWeaver**).
+   * Zero-copy GGUF parsing (**GGUFSeer**).
   
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
