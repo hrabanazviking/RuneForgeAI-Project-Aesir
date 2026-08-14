@@ -14,6 +14,13 @@ Project A.E.S.I.R. is an LLM (Large Language Model) inference engine built from 
 
 Our mission is simple: **Eliminate cloud dependency and software bloat to deliver high-performance, private AI directly on the edge.**
 
+> [!IMPORTANT]
+> **Current implementation truth:** See the
+> [Canonical Capability Ledger](CAPABILITY_LEDGER.md) for the evidence-backed
+> status of every major capability (`verified`, `partial`, `scaffold`,
+> `simulated`, or `missing`). Vision and interface language elsewhere in the
+> repository does not override that ledger.
+
 By stripping away the heavy Python runtime and utilizing direct OS-level memory management, A.E.S.I.R. squeezes every ounce of compute power out of consumer hardware. Your data stays on your machine, your hardware is utilized to its maximum potential, and your AI remains entirely under your control.
 
 ## 🧠 Core Concepts Broken Down

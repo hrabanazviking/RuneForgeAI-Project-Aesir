@@ -1,6 +1,6 @@
 # Task: Canonical Evidence-Backed Capability Ledger
 
-**Status:** In progress on August 14, 2026.
+**Status:** Completed and verified on August 14, 2026.
 **Forge:** 0C
 **Parent audit:** `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`
 **Owning domains:** project documentation, tests, and every runtime domain that
@@ -219,3 +219,35 @@ Forge 0D consumes this ledger to remove fabricated operational success language,
 fixed benchmark/download/hardware claims, and false runtime validation banners.
 It must preserve public surfaces unless a separately approved task authorizes a
 breaking removal.
+
+## Completion Record
+
+Forge 0C produced `CAPABILITY_LEDGER.md` with 99 unique stable entries across all
+18 required claim families. Mechanical validation found exactly 28 `verified`,
+15 `partial`, 14 `scaffold`, 20 `simulated`, and 22 `missing` entries; zero
+duplicate IDs; zero invalid status values; and exact agreement with the summary.
+All 45 explicitly cited master-case names exist in `tests/run_all.mojo`.
+
+The README now points prominently to the ledger. At Volmarr's explicit request,
+the TODO reconciliation originally reserved for Forge 0E was pulled into this
+forge: false broad completion markers were replaced with ten narrowly verified
+milestones and 188 open, ledger-linked buildout items. Full reconciliation of
+vision, architecture, interface, and duplicated historical documents remains
+Forge 0E.
+
+Verification completed from `aesir_engine/`:
+
+- `pixi run mojo run tests/run_all.mojo` — 49 passed, 0 failed, 1 skipped,
+  total 50, status PASS, exit 0;
+- `pixi run mojo run tests/test_real_gguf.mojo <external-model>` — pinned
+  SHA-256 matched; exact metadata, F16 aliasing, F32 conversion, prompt IDs,
+  first token, 32-token IDs/text, length stop, context boundary, and pool
+  restoration passed;
+- `pixi run mojo build main.mojo -o <temporary-output>` — clean Linux x86-64
+  build passed;
+- the temporary built CLI produced the exact pinned 32-token completion; and
+- ledger validation, cited-case validation, `git diff --check`, and artifact
+  boundary checks passed.
+
+No runtime source, model weight, generated binary, secret, or machine-local path
+was added to the repository by this forge.

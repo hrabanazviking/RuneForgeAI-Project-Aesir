@@ -1958,7 +1958,7 @@ Treat ONNX, grammar, speculative decoding, ExLlama, resilience, concurrency, and
 swarm as separate projects with individual external fixtures. None may inherit a
 “complete” label from the current structs or unconditional `True` returns.
 
-## 33. Current Recommended Next Forge
+## 33. Forge 0C Recommendation (Completed)
 
 Proceed with **Forge 0C: an evidence-backed capability ledger**.
 
@@ -1968,3 +1968,146 @@ project claim to a status (`verified`, `partial`, `scaffold`, `simulated`, or
 `missing`), its exact executable evidence, and its remaining acceptance gate.
 It must not yet rewrite every runtime banner or historical document; those are
 Forge 0D and Forge 0E.
+
+Forge 0C completed on August 14, 2026. At Volmarr's explicit request, accurate
+TODO reconciliation was pulled forward from Forge 0E; the remaining vision,
+architecture, interface, and duplicate-document reconciliation stays in Forge
+0E.
+
+---
+
+## 34. Forge 0C Completion Addendum — Canonical Capability Ledger
+
+### 34.1 Delivered truth boundary
+
+`CAPABILITY_LEDGER.md` is now the canonical present-tense capability source of
+truth. It contains 99 stable entries spanning every major claim family found in
+the README, TODO, architecture/data-flow documents, vision records, domain
+interfaces, source, tests, and the preceding AER-001 through AER-115 audit.
+
+Each entry records:
+
+1. a stable `AES-<DOMAIN>-<NUMBER>` identifier;
+2. one exact canonical status;
+3. the responsible domain;
+4. the documents in which the claim appears;
+5. the concrete files, types, and functions that currently exist;
+6. an executable command or explicit statement that no adequate proof exists;
+7. an evidence boundary that prevents a narrow proof from becoming a broad
+   marketing claim;
+8. the next acceptance gate needed to advance the status; and
+9. applicable `AER-*` cross-references.
+
+The five canonical statuses are deliberately stricter and simpler than the
+audit's diagnostic vocabulary:
+
+| Canonical status | Entries | Operational rule |
+|---|---:|---|
+| `verified` | 28 | The narrowly worded behavior executes and has appropriate evidence. External claims require an external fixture, independent oracle, or physical backend. |
+| `partial` | 15 | Meaningful real logic exists, but safety, correctness breadth, integration, portability, persistence, or representative coverage is incomplete. |
+| `scaffold` | 14 | Types/control flow/interfaces exist without end-to-end subsystem behavior. |
+| `simulated` | 20 | Predetermined output, seeded state, or local toggles imitate an operation that did not occur. |
+| `missing` | 22 | The advertised or required behavior has no meaningful implementation. |
+| **Total** | **99** | Every entry has exactly one status. |
+
+Mechanical inspection proved 99 unique IDs, zero duplicate IDs, zero invalid
+status values, and exact agreement between the derived counts and the published
+summary. Forty-five master-case names cited as local evidence all exist in
+`tests/run_all.mojo`.
+
+### 34.2 Important claim decompositions
+
+Forge 0C did not assign one vague status to each grand subsystem. It split broad
+claims where different pieces have materially different truth states:
+
+- the fail-closed counted test harness is `verified`, while external-fixture RAG
+  remains an explicit skip rather than an implied pass;
+- the pinned GGUF v3 Llama F16/F32 metadata, mmap, conversion, tokenizer, and CPU
+  generation path are `verified`, while general GGUF compatibility is `partial`
+  and quantized GGUF loading is `missing`;
+- exact 32-token greedy generation is `verified`, while sampling, custom stop
+  strings, chat templates, batching, concurrency, and cancellation are
+  `missing`;
+- tested host tensor partitioning, host reduction, and host sharded GEMM are
+  `verified`, while device discovery is `simulated` and real multi-GPU execution
+  is `missing`;
+- GPU/NPU enums and host-backed buffer descriptors are `scaffold`, dispatch
+  under hardware names is `simulated`, and physical accelerator execution is
+  not claimed;
+- Hugging Face tag normalization and URL construction are `verified` string
+  operations, while the download operation is `simulated`;
+- the local cosine primitive and in-memory vector store are `verified` at their
+  tested bounds, while query embeddings are `simulated`, ingestion/persistence
+  are `missing`, and end-to-end RAG is a `scaffold`;
+- compressed-format discriminants and toy transformations are `scaffold`, while
+  real quantized-model inference is `missing`;
+- a local OpenAI-shaped formatter is `scaffold`, while fixed successful REST
+  responses are `simulated` and actual compatibility is not inferred;
+- grammar and speculative types are `scaffold`, while ONNX, ExLlama, and broad
+  llama.cpp CLI dispatch currently print simulated results;
+- an in-memory swarm peer-selection rule is narrowly `verified`, while join,
+  liveness, remote dispatch, and REST/CLI cluster status are `simulated`; and
+- fixed benchmark values are `simulated`, while measured efficiency, security,
+  observability, cross-platform support, CI, and production readiness remain
+  open.
+
+This decomposition is the main Forge 0C buildout result. It prevents a verified
+inner primitive from laundering an unimplemented outer system into a completion
+claim.
+
+### 34.3 TODO accuracy repair and expansion
+
+The prior TODO marked broad matrices complete based mainly on names, dispatch
+branches, and synthetic checks. It has been replaced with an evidence-backed
+backlog:
+
+- ten checked items preserve only narrowly verified audit/Forge/CPU milestones;
+- 188 unchecked items describe remaining work;
+- every major unfinished section states its current ledger status and ID;
+- Forge 0D enumerates every known fabricated runtime output family;
+- Forge 0E retains the full current-document reconciliation still to come;
+- Stages 1 through 11 cover memory safety, CPU contracts, GGUF/tokenizer
+  generalization, generation quality, persistent CLI/store/download, service
+  protocols, RAG, quantization, physical acceleration, optional ecosystems,
+  distributed execution, CI, portability, performance, security, observability,
+  repository hygiene, release engineering, and production readiness; and
+- an ongoing discipline section requires every newly found incomplete, buggy,
+  unsafe, misleading, or refinement-needing function to return to this audit and
+  ledger rather than disappearing into an untracked promise.
+
+This addendum introduces no new function-level defect outside AER-001 through
+AER-115. Instead, it normalizes the existing findings into capability-sized
+acceptance gates and exposes several broad TODO checkmarks as inaccurate. The
+function census remains 373 declarations: 270 runtime/public, 68 test-domain,
+and 35 legacy/scratch.
+
+### 34.4 Verification record
+
+The documentation-only Forge 0C change passed the same runtime gates as the
+preceding truth slices:
+
+- master suite: 49 passed, 0 failed, 1 skipped, total 50, status PASS, exit 0;
+- external fixture SHA-256:
+  `57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3`;
+- real GGUF gate: exact header/model metadata, F16 mmap pointer alias, F32 norm
+  conversion, prompt token IDs, first greedy token, complete 32-token IDs/text,
+  one-token compatibility, length stop, context-exhaustion boundary, and pool
+  restoration all passed;
+- clean Mojo build: Linux x86-64 executable produced successfully in a temporary
+  directory;
+- built CLI: exact pinned 32-token response reproduced;
+- ledger structure: 99/99 unique IDs and allowed statuses with exact counts;
+- cited master cases: 45/45 found; and
+- diff hygiene: `git diff --check` passed, with no model weight, generated
+  binary, secret, or committed machine-local path added.
+
+### 34.5 Current recommended next forge
+
+Proceed with **Forge 0D: eliminate fabricated operational output**.
+
+Use the 20 `simulated` ledger entries as the primary queue. Replace fixed
+success, benchmark, download, hardware, health, recovery, ecosystem, and swarm
+messages with honest unsupported errors or narrowly labeled demo output. Do not
+delete public functions or expand subsystem scope without a separate approved
+task. Add negative tests proving unsupported paths exit nonzero and cannot emit
+operational success language.

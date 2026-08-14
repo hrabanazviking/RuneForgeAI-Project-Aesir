@@ -3,6 +3,46 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 21: Forge 0C — Canonical Capability Ledger and Truthful Backlog
+**Date:** August 14, 2026
+**Architectural Phase:** Capability Truth and Planning Boundary
+
+The forge converted the complete reality audit into one present-tense source of
+truth and rebuilt the TODO around executable evidence:
+
+1. **Ninety-nine stable capability entries:** `CAPABILITY_LEDGER.md` covers
+   build/test foundations, memory, CPU kernels, GGUF, tokenization, generation,
+   CLI, server protocols, RAG, quantization, accelerators, external ecosystems,
+   resilience, swarm, and operations. Every entry records one status, owner,
+   claim sources, implementation evidence, executable evidence, evidence
+   boundary, next acceptance gate, and related audit findings.
+2. **Five enforced states:** Mechanical validation found 28 `verified`, 15
+   `partial`, 14 `scaffold`, 20 `simulated`, and 22 `missing` entries. All 99
+   IDs are unique, every status is allowed, summary counts match, and all 45
+   cited master-case names exist.
+3. **Separated narrow truth from broad promises:** CPU mmap/inference, exact
+   deterministic generation, local primitives, and test infrastructure remain
+   verified only at their actual boundaries. Hardware execution, quantized
+   inference, protocol compatibility, downloads, persistence, recovery,
+   distributed execution, and production readiness remain honestly open.
+4. **Truthful TODO rebuild:** At Volmarr's explicit request, the old broad
+   completion checklist was replaced. Ten narrow audited milestones are checked;
+   188 detailed open tasks now cover every ledger family and staged acceptance
+   path from fabricated-output cleanup through production readiness.
+5. **Canonical navigation:** README and the reality audit point contributors to
+   the ledger; the task contract records how future status changes must carry
+   evidence in the same commit.
+6. **Regression gates:** The master suite returned 49 passed / 0 failed / 1
+   skipped / 50 total. The pinned external GGUF SHA-256 and exact metadata,
+   pointer, tokenizer, first-token, 32-token, stop, context, and pool assertions
+   passed. A clean Linux x86-64 Mojo build and built-CLI oracle run also passed.
+
+Forge 0D is next: remove or explicitly reject fabricated runtime success,
+download, benchmark, hardware, recovery, ecosystem, and swarm output without
+deleting public surfaces.
+
+---
+
 ## ⚡ Entry 20: Forge 0B — Counted Master-Suite Reporting
 **Date:** August 14, 2026
 **Architectural Phase:** Verification Reporting Boundary
