@@ -90,11 +90,36 @@ struct RuneREPL:
 ```
 
 ### `run_single_shot` (`cli/repl.mojo`)
-Executes a single prompt run and streams output directly to terminal stdout.
+Executes one real deterministic prompt run and writes the decoded result to
+terminal stdout. The default proof length is 32 new tokens.
 
 ```mojo
-def run_single_shot(model_name: String, prompt: String) raises: ...
+def run_single_shot(
+    model_name: String,
+    prompt: String,
+    max_new_tokens: Int = 32,
+) raises: ...
 ```
+
+---
+
+### `parse_positive_int` (`cli/commands.mojo`)
+
+Parses the decimal argument to `--max-tokens`, rejecting empty, zero,
+nonnumeric, negative, and overflowed values with an explicit error.
+
+```mojo
+def parse_positive_int(value: String) raises -> Int: ...
+```
+
+Single-shot syntax is:
+
+```text
+aesir run <model-path> [--max-tokens N] <prompt...>
+```
+
+With no prompt arguments, `run` preserves the existing REPL entry point. This
+does not establish that the simulated REPL body is a real interactive chat.
 
 ---
 
@@ -123,4 +148,4 @@ def dispatch_onnx_cli(args: List[String]) -> Bool: ...
 1. **Subcommand Dispatch:** `cli/commands.mojo` acts as the command gateway router for binary execution from `main.mojo`.
 2. **Facade Isolation:** `cli/repl.mojo` and `cli/commands.mojo` interact with inference strictly via `AesirEngine` in `aesir.mojo` or `BifrostGate` in `server/api.mojo`. They **must never** import `core/compute.mojo`, `core/inference.mojo`, or `core/mimir_well.mojo` directly.
 3. **Model & Manifest Independence:** `cli/modelfile.mojo` and `cli/manifest.mojo` own configuration parsing and catalog storage and have zero dependencies on hardware kernels or socket connections.
-
+4. **Generation Option Ownership:** CLI code validates and forwards the positive token limit but never owns autoregressive state, KV memory, EOS policy, or token decoding; those remain in `AesirEngine`.

@@ -3,6 +3,22 @@
 from loader.gguf import GGUFSeer
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass
+from aesir import generation_stop_reason
+
+
+def test_generation_stop_policy() raises:
+    print("--- Testing deterministic generation stop policy ---")
+
+    if generation_stop_reason(2, 2, 1, 32, 8, 128) != "eos":
+        raise Error("EOS must terminate generation before visible decoding")
+    if generation_stop_reason(265, 2, 32, 32, 39, 128) != "length":
+        raise Error("requested generation length must report 'length'")
+    if generation_stop_reason(265, 2, 1, 32, 128, 128) != "context_exhausted":
+        raise Error("context boundary must stop before an out-of-range evaluation")
+    if generation_stop_reason(265, 2, 1, 32, 8, 128) != "":
+        raise Error("nonterminal generation state must continue")
+
+    print("deterministic generation stop policy: PASS")
 
 def test_forward_pass() raises:
     print("--- Testing forward_pass (The Loom of Fate) ---")

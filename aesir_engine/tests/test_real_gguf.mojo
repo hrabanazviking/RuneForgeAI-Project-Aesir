@@ -7,6 +7,7 @@ from core.mimir_well import DeviceTopology, KVCache, MimirWell, f16
 from loader.gguf import GGMLType, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from core.inference import TransformerBlock, forward_pass
+from aesir import AesirEngine
 
 
 def validate_reference_model(seer: GGUFSeer, tokenizer: RuneWeaver) raises:
@@ -111,4 +112,82 @@ def main() raises:
     print("Reference first greedy token text:", tokenizer.decode(next_token))
     if next_token != 265:
         raise Error("real GGUF first token differs from llama.cpp greedy output")
-    print("Real GGUF loader, tokenizer, and first-token inference: PASS")
+
+    var expected_generated = List[Int]()
+    expected_generated.append(265)
+    expected_generated.append(282)
+    expected_generated.append(295)
+    expected_generated.append(433)
+    expected_generated.append(335)
+    expected_generated.append(345)
+    expected_generated.append(357)
+    expected_generated.append(426)
+    expected_generated.append(342)
+    expected_generated.append(394)
+    expected_generated.append(261)
+    expected_generated.append(370)
+    expected_generated.append(268)
+    expected_generated.append(414)
+    expected_generated.append(444)
+    expected_generated.append(335)
+    expected_generated.append(261)
+    expected_generated.append(370)
+    expected_generated.append(268)
+    expected_generated.append(414)
+    expected_generated.append(444)
+    expected_generated.append(426)
+    expected_generated.append(291)
+    expected_generated.append(268)
+    expected_generated.append(414)
+    expected_generated.append(444)
+    expected_generated.append(286)
+    expected_generated.append(399)
+    expected_generated.append(262)
+    expected_generated.append(423)
+    expected_generated.append(388)
+    expected_generated.append(269)
+
+    var engine = AesirEngine(arguments[1], knowledge_capacity=1)
+    var result = engine.generate_tokens("One day, Timmy went to", 32)
+    if result.prompt_token_count != 8:
+        raise Error("structured generation reported the wrong prompt token count")
+    if result.generated_token_count() != 32:
+        raise Error("structured generation did not return exactly 32 tokens")
+    if result.stop_reason != "length":
+        raise Error("32-token reference request did not stop for length")
+    for index in range(len(expected_generated)):
+        if result.token_ids[index] != expected_generated[index]:
+            print("Generated token mismatch at index", index)
+            print("Expected:", expected_generated[index], "Actual:", result.token_ids[index])
+            raise Error("multi-token output differs from pinned llama.cpp oracle")
+
+    var expected_text = String(" the park with his mom. They saw a big box with a big box. The box was very small and")
+    if result.text != expected_text:
+        print("Expected text:", expected_text)
+        print("Actual text:", result.text)
+        raise Error("decoded multi-token text differs from pinned llama.cpp oracle")
+
+    var one_token = engine.generate_tokens("One day, Timmy went to", 1)
+    if len(one_token.token_ids) != 1 or one_token.token_ids[0] != 265:
+        raise Error("one-token compatibility regression")
+    if one_token.text != " the" or one_token.stop_reason != "length":
+        raise Error("one-token decoded output or stop reason regressed")
+
+    # BOS plus 127 single-piece `a` tokens exactly fills this model's
+    # 128-position context. The engine may emit the first token obtained from
+    # the final legal prompt position, but must not evaluate that generated
+    # token at position 128.
+    var full_context_prompt = String("a")
+    for _ in range(126):
+        full_context_prompt += String(" a")
+    var context_result = engine.generate_tokens(full_context_prompt, 2)
+    if context_result.prompt_token_count != 128:
+        raise Error("context-boundary fixture no longer tokenizes to 128 tokens")
+    if context_result.generated_token_count() != 1:
+        raise Error("context-boundary request evaluated beyond the legal prompt")
+    if context_result.stop_reason != "context_exhausted":
+        raise Error("full-context request did not report context exhaustion")
+    if engine.pool.offset != engine.runtime_offset:
+        raise Error("generation did not restore the persistent runtime boundary")
+
+    print("Real GGUF loader, tokenizer, and exact 32-token inference: PASS")

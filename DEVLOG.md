@@ -3,6 +3,41 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 18: Exact Multi-Token Greedy Generation
+**Date:** August 14, 2026
+**Architectural Phase:** Truth-Bearing Runtime Foundation
+
+The forge extended the real GGUF proof from one token to one canonical,
+structured autoregressive request:
+
+1. **Canonical state machine:** `AesirEngine.generate_tokens()` now tokenizes a
+   prompt once, allocates one KV cache, prefills each prompt position once, and
+   evaluates each generated token at its absolute position before predicting the
+   next one. `generate()` and `generate_stream()` delegate to these mechanics.
+2. **Truth-bearing result:** `GenerationResult` exposes generated token IDs,
+   decoded generated text, prompt token count, derived generated count, and the
+   stable `eos`, `length`, or `context_exhausted` terminal reason. EOS remains in
+   the ID sequence but is not emitted as visible text.
+3. **CLI control:** `aesir run <model> [--max-tokens N] <prompt...>` defaults to
+   32 new tokens. Positive decimal values are accepted; missing, zero,
+   nonnumeric, negative, and overflowing values fail explicitly.
+4. **Independent oracle parity:** The pinned F16 TinyStories request matched all
+   32 greedy token IDs and the exact text from pinned `llama.cpp` commit
+   `7e4c0a96880dae4fc4268ad441f8a6446bd5460a`. The original first token remains
+   ID `265`, decoded as ` the`.
+5. **Verification gates:** The complete existing suite, isolated EOS/length/
+   context stop-policy assertions, external real-model integration, clean Mojo
+   build, default 32-token CLI invocation, one-token CLI invocation, and invalid
+   CLI input check all passed.
+
+This milestone establishes deterministic greedy generation only for the
+documented GGUF v3 Llama F16/F32 single-device CPU slice. It does not establish
+sampling, chat semantics, quantized-model execution, HTTP conformance,
+accelerator execution, semantic RAG, or production readiness. Those boundaries
+remain cataloged in `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.
+
+---
+
 ## ⚡ Entry 17: Real GGUF Inference Vertical Slice
 **Date:** August 14, 2026
 **Architectural Phase:** Truth-Bearing Runtime Foundation

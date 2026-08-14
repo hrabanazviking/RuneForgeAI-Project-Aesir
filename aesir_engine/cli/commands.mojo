@@ -32,7 +32,7 @@ def print_general_help():
     print("  aesir [command] [flags]\n")
     print("Available Commands:")
     print("  serve              Start the Bifrost API server daemon")
-    print("  run <model> [p...] Run a model in interactive REPL or single-shot mode")
+    print("  run <model> [--max-tokens N] [prompt...] Run a model in REPL or single-shot mode")
     print("  pull <model>       Download a model from registry")
     print("  push <model>       Upload a model to registry")
     print("  create <model> -f  Create a model from a Modelfile")
@@ -51,6 +51,27 @@ def print_general_help():
     print("Flags:")
     print("  -h, --help    help for aesir")
     print("  -v, --version version for aesir")
+
+
+def parse_positive_int(value: String) raises -> Int:
+    """Parses an unsigned decimal CLI value and rejects zero or malformed input."""
+    var raw = value.as_bytes()
+    if len(raw) == 0:
+        raise Error("--max-tokens requires a positive integer")
+
+    var parsed = 0
+    for index in range(len(raw)):
+        var byte_value = raw[index]
+        if byte_value < 48 or byte_value > 57:
+            raise Error("--max-tokens requires a positive integer")
+        var digit = Int(byte_value - 48)
+        if parsed > (2147483647 - digit) // 10:
+            raise Error("--max-tokens value is too large")
+        parsed = parsed * 10 + digit
+
+    if parsed <= 0:
+        raise Error("--max-tokens requires a positive integer")
+    return parsed
 
 
 def format_model_table(models: List[ModelManifest]):
@@ -125,16 +146,25 @@ def dispatch_command(args: List[String]) raises:
 
     elif cmd == "run":
         if len(args) < 2:
-            print("Error: 'run' requires a model name. Usage: aesir run <model> [prompt...]")
-            return
+            raise Error("'run' requires a model name. Usage: aesir run <model> [--max-tokens N] [prompt...]")
         var model_name = args[1]
         if len(args) >= 3:
+            var max_new_tokens = 32
+            var prompt_start = 2
+            if args[2] == "--max-tokens":
+                if len(args) < 4:
+                    raise Error("--max-tokens requires a positive integer value")
+                max_new_tokens = parse_positive_int(args[3])
+                prompt_start = 4
+            if len(args) <= prompt_start:
+                raise Error("single-shot run requires prompt text after its options")
+
             var prompt = String("")
-            for i in range(2, len(args)):
-                if i > 2:
+            for i in range(prompt_start, len(args)):
+                if i > prompt_start:
                     prompt += String(" ")
                 prompt += args[i]
-            run_single_shot(model_name, prompt)
+            run_single_shot(model_name, prompt, max_new_tokens)
         else:
             var repl = RuneREPL(model_name)
             repl.run_repl()

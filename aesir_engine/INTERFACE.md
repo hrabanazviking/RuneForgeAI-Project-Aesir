@@ -5,6 +5,41 @@
 
 ---
 
+## Public Struct: `GenerationResult`
+
+The truth-bearing result of one deterministic generation request. Prompt token
+IDs are not repeated in `token_ids`; a generated EOS ID is recorded there but
+is excluded from `text`.
+
+```mojo
+struct GenerationResult(Copyable):
+    var token_ids: List[Int]
+    var text: String
+    var stop_reason: String
+    var prompt_token_count: Int
+
+    def generated_token_count(self) -> Int: ...
+```
+
+Stable terminal reasons are `eos`, `length`, and `context_exhausted`.
+
+## Public Function: `generation_stop_reason`
+
+```mojo
+def generation_stop_reason(
+    generated_token_id: Int,
+    eos_token_id: Int,
+    generated_token_count: Int,
+    max_new_tokens: Int,
+    next_position: Int,
+    context_length: Int,
+) -> String: ...
+```
+
+Returns one of the stable terminal reasons or an empty string when generation
+may continue. This pure boundary function allows EOS and context behavior to be
+tested without inventing model logits.
+
 ## Public Struct: `AesirEngine`
 
 The central orchestration facade. Coordinates `MimirWell`, `GGUFSeer`, `RuneWeaver`, `MimirStore` (RAG), `DeviceTopology` (multi-device), NPU backend selection, GPU realm targeting, and SwarmCluster (mesh cluster). All configuration knobs live here; all compute primitives live in `core/`.
@@ -38,7 +73,8 @@ struct AesirEngine:
         knowledge_capacity: Int = 100
     ) raises: ...
 
-    def generate(mut self, prompt: String) raises -> String: ...
+    def generate_tokens(mut self, prompt: String, max_new_tokens: Int) raises -> GenerationResult: ...
+    def generate(mut self, prompt: String) raises -> String: ...  # 32-token facade
     def generate_stream(mut self, prompt: String, client_fd: Int32) raises: ...
 ```
 
@@ -46,12 +82,19 @@ struct AesirEngine:
 
 Construction first inspects validated GGUF metadata, derives the exact
 `MimirWell` capacity, then maps the model and builds its configured transformer
-blocks. `generate()` inserts the model BOS token, prefills every prompt token
-through a configuration-sized GQA KV cache, selects one deterministic argmax
-token, and decodes that genuine model token. The verified scope is GGUF v3,
-Llama architecture, F16 matrices, F32 normalization vectors, single-device CPU,
-and one generated token. Quantized inference and accelerator parity are not
-implied by this path.
+blocks. `generate_tokens()` inserts the model-controlled BOS token, prefills
+every prompt token exactly once through one request-owned GQA KV cache, then
+evaluates each generated token at its absolute position to select the next
+deterministic argmax token. It records generated IDs, decoded text, prompt
+length, and the terminal reason. `generate()` delegates to that canonical path
+with a 32-token limit; `generate_stream()` also reuses it rather than owning a
+second token loop.
+
+The pinned TinyStories F16 fixture is verified for the complete 32-token greedy
+sequence documented in `TASK_verified_multi_token_generation.md`. The verified
+scope remains GGUF v3, Llama architecture, F16 matrices, F32 normalization
+vectors, single-device CPU, and deterministic greedy generation. Sampling,
+quantized inference, server conformance, and accelerator parity are not implied.
 
 ---
 

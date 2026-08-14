@@ -72,11 +72,13 @@ struct RuneREPL:
             print("My tensor streams flow through MimirWell without heap allocation ash.")
 
 
-def run_single_shot(model_name: String, prompt: String) raises:
-    """Loads the supplied GGUF path and emits one genuine greedy model token."""
+def run_single_shot(
+    model_name: String, prompt: String, max_new_tokens: Int = 32
+) raises:
+    """Loads the supplied GGUF path and emits genuine greedy model text."""
     print("Loading GGUF model '" + model_name + "'...")
     print("Prompt: " + prompt)
     var engine = AesirEngine(model_name, knowledge_capacity=1)
-    var response = engine.generate(prompt)
+    var result = engine.generate_tokens(prompt, max_new_tokens)
     print("\n[Response]:")
-    print(response)
+    print(result.text)

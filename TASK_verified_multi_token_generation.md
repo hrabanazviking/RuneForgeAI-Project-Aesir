@@ -1,6 +1,6 @@
 # Task: Verified Multi-Token Generation
 
-**Status:** Approved for implementation by Volmarr on August 14, 2026.  
+**Status:** Completed and verified on August 14, 2026.
 **Parent audit:** `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`  
 **Owning domains:** Asgard facade, core inference, tokenizer, CLI, and tests
 
@@ -245,3 +245,32 @@ the implementation boundary.
 - claims of production readiness.
 
 These remain separately identified in the complete reality audit.
+
+## Completion Evidence
+
+The implementation satisfied every acceptance gate in this task:
+
+- `GenerationResult` reports generated IDs, generated text, prompt count, and a
+  stable terminal reason.
+- `AesirEngine.generate_tokens()` owns one prompt-prefill and autoregressive
+  path with one per-request KV cache.
+- `generate()` and `generate_stream()` delegate to the canonical mechanics.
+- The external fixture matched all 32 pinned token IDs and the exact pinned
+  decoded text.
+- The one-token regression remained ID `265`, text ` the`.
+- A real 128-token prompt produced one legal output token and then stopped with
+  `context_exhausted`, proving that position 128 was not evaluated.
+- The isolated stop-policy test proved EOS precedence and EOS text exclusion at
+  the generation boundary.
+- The CLI default produced the exact 32-token completion.
+- `--max-tokens 1` produced the exact one-token completion.
+- Missing, zero, negative, nonnumeric, and overflowing CLI values exited
+  nonzero with explicit errors.
+- The full existing suite passed.
+- The opt-in real-GGUF integration passed.
+- A clean Mojo CLI build passed.
+- The final audit found no committed fixture weights, local absolute paths,
+  secrets, or newly tracked binaries.
+
+The completion does not expand any explicit non-goal or supersede the findings
+in `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.

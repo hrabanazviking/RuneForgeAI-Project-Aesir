@@ -7,7 +7,7 @@
 from tests.test_compute import test_gemm, test_flash_attention, test_silu, test_geglu, test_dequantize_q4_k_m
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
-from tests.test_inference import test_forward_pass
+from tests.test_inference import test_forward_pass, test_generation_stop_policy
 from tests.test_kv_cache import test_kv_cache
 from tests.test_rag import test_rag
 from tests.test_sharding import test_sharding
@@ -53,6 +53,7 @@ def main() raises:
     print("  [DOMAIN] The Loom of Fate (Inference)")
     print("  -----------------------------------------")
     test_forward_pass()
+    test_generation_stop_policy()
     test_kv_cache()
     print("")
     
@@ -142,7 +143,6 @@ def main() raises:
     print("==============================================")
     print("  All rites concluded. The engine stands.")
     print("==============================================")
-
 
 
 
