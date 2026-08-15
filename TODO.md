@@ -536,7 +536,7 @@ counts as completion of an external capability.
   recovery, concurrency, load, and upgrade gates pass; and no operational output
   is fabricated.
 
-## Ongoing Ledger and Audit Discipline
+### Ongoing Ledger and Audit Discipline
 
 - [ ] Update the capability ledger in the same commit as every material status
   change; never silently promote a claim.
@@ -550,3 +550,12 @@ counts as completion of an external capability.
   refinement-needing function to the reality audit and link it from this TODO.
 - [ ] Re-run function census and claim search after every major stage so new
   public declarations and marketing language cannot escape accounting.
+
+### Future After All Core Systems Work and Are Stable
+
+- [ ] Crush all bugs and send them to Hel!
+- [ ] Make Project A.E.S.I.R. so stable that even Ragnarok could not crash it!
+- [ ] Create a roadmap to add back in all previously rejected or removed features, and get every single one of those features to a true working stable state, and then follow that roadmap all the way to Valhalla.
+- [ ] Create a roadmap to make Project A.E.S.I.R. the number one best and most popular Local-LLM-Inference-Server on Earth Midgard, and then carry out that roadmap till it turns into manifest reality.
+- [ ] Create a roadmap to get all AI harnesses to have support for using Project A.E.S.I.R. and follow that roadmap till it turns into manifest reality!
+
