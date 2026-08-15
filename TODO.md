@@ -5,6 +5,10 @@ This backlog is governed by [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md) and
 An enum, interface, banner, synthetic happy path, or predetermined output never
 counts as completion of an external capability.
 
+> “I know that I sat nine days and nights, the friend of Mímir, seeking wisdom, until I was given to myself, and my own mind was won.”
+> — Hávamál, Stanza 141
+
+
 ## Status Rules
 
 - `[x]` means the narrowly worded task has executable evidence and its stated
