@@ -555,7 +555,7 @@ counts as completion of an external capability.
 - [ ] Re-run function census and claim search after every major stage so new
   public declarations and marketing language cannot escape accounting.
 
-### Future After All Core Systems Work and Are Stable
+### Future After All Core Systems Work and Are Stable (These are immutable until fully won)
 
 - [ ] Crush all bugs and send them to Hel!
 - [ ] Make Project A.E.S.I.R. so stable that even Ragnarok could not crash it!
