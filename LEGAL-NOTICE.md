@@ -4,7 +4,7 @@
 
 **Author:** Volmarr Wyrd
 
-**Effective:** 2026-Aug-1 (v0.0.1 Alpha)
+**Effective:** 2026-Aug-1 (v0.0.1 Alpha and onward)
 
 This project is licensed under the AGPL-3.0 license. Nothing in this notice modifies, replaces, narrows, or overrides that license.
 
