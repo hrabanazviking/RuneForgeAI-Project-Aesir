@@ -50,6 +50,10 @@ counts as completion of an external capability.
 - [x] **Stage 42.1 Hardening — Chat Template Formatter Empty Message List Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty message lists.
 - [x] **Stage 43.1 Hardening — Deep Bug Audit & Attention Head Bounds:** Hardened `incremental_causal_attention()` in `core/compute.mojo` for non-positive `head_dim` and non-divisible query/kv head ratio safeguards.
 
+### Most Important Issues to Address First - ASAP!!!
+
+- [ ] **MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md** Read the document MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md and make add a massive roadmap to address and fix all issues that are brought up in that document and make all issues of that part of the roadmap just in front of every other pending issue, so the tasks needed to address the issues outlined in MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md are implemented ASAP!   
+
 ### Remaining Audit & Hardening Remedies (Backlog)
 
 - [ ] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
