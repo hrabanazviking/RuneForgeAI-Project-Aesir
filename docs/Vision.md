@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 11.1 — ErrorGuard Pointer Validation & Logit Sanitization Hardening
+### ⚡ Completed Milestone: Stage 12.1 — HuggingFace Repo Tag Parsing Validation & Empty Tag Guard
+* **Stage 12.1 HuggingFace Tag Parsing Milestone ([`AES-ECO-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `HuggingFaceSeer.is_hf_tag()` in `loader/huggingface.mojo` to check `len(model_tag.bytes()) == 0`, explicitly returning `False` for empty model tags and adding empty string tag rejection assertions in `test_huggingface.mojo`.
 * **Stage 11.1 ErrorGuard Validation Milestone ([`AES-RES-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `ErrorGuard.validate_pointer()` in `core/error_guard.mojo` to reject sentinel address `1` alongside null (`0`) (`addr != 0 and addr != 1`) and updated `ErrorGuard.sanitize_logits()` to check `addr == 0 or addr == 1 or count <= 0` early-return bounds, adding sentinel address `1` pointer validation rejection assertions in `test_resilience.mojo`.
 * **Stage 10.1 Swarm Peer Telemetry Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `PeerNode.__init__()` in `core/swarm.mojo` to clamp negative VRAM capacity and usage inputs to zero and updated `PeerNode.vram_free_mb()` with zero-floor protection (`max(0, capacity - used)`), adding overflow and negative initialization test assertions in `test_swarm_cluster.mojo`.
 * **Stage 9.1 Multi-Device Partition Bounds Milestone ([`AES-ACC-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `all_reduce_sum()` in `core/compute.mojo` to strictly validate shard vector size equality (`shards[s].size >= Out.size`), raising `Error` on size mismatch and adding shard size mismatch error rejection test assertions in `test_sharding.mojo`.
