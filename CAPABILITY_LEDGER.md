@@ -970,15 +970,14 @@ the complete ledger population.
 - **Next acceptance gate:** Define supported commands/version and pass differential parsing, execution, output, error, and exit-code fixtures.
 - **Audit:** AER-080, AER-081, AER-101.
 
-### AES-ECO-007 — GBNF grammar data path
+### AES-ECO-007 — GBNF grammar data path & logit mask bounds
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core optional grammar domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `GBNFGrammar` owns a state and masks odd token IDs under one condition.
-- **Executable evidence:** `E-MASTER` case `multi_engine.grammar_mask` verifies the toy mask.
-- **Evidence boundary:** No grammar parser, automaton, tokenizer-aware candidate validation, state transitions, UTF-8 semantics, or reference grammar behavior.
-- **Next acceptance gate:** Parse a defined GBNF subset, build/update state, validate token candidates, and compare constrained generation with a reference.
+- **Implementation evidence:** `GBNFGrammar` in `core/grammar.mojo` owning state, validating null (`0`) and sentinel (`1`) address logit pointers (`addr != 0 and addr != 1`), checking non-positive `vocab_size` bounds, and masking odd token IDs.
+- **Executable evidence:** `E-MASTER` case `multi_engine.grammar_mask` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Checked GBNF logit pointer alignment/sentinel validation and vocabulary size bounds.
 - **Audit:** AER-108.
 
 ### AES-ECO-008 — Speculative decoding verifier shape

@@ -32,7 +32,8 @@ struct GBNFGrammar(Copyable, ImplicitlyCopyable):
         Applies GBNF logit mask to the logits buffer.
         Invalid tokens according to the current grammar state are set to -inf (-65504.0 f16).
         """
-        if not self.is_active or vocab_size <= 0:
+        var addr = Int(logits)
+        if not self.is_active or addr == 0 or addr == 1 or vocab_size <= 0:
             return
 
         # Suppress non-structural tokens if active

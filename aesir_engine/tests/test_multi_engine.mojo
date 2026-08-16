@@ -74,6 +74,12 @@ def test_gbnf_grammar() raises:
             print("FAIL: GBNFGrammar changed allowed even token index", i)
             success = False
             break
+    # Test sentinel pointer and non-positive vocab_size early return safety
+    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    grammar.apply_grammar_mask(sentinel_ptr, 16)
+    grammar.apply_grammar_mask(logits, 0)
+    grammar.apply_grammar_mask(logits, -5)
+
     logits.unsafe_free()
 
     if success:

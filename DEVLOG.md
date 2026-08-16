@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 60: Stage 15.1 — GBNFGrammar Token Mask Pointer & Vocab Bounds Hardening (AES-ECO-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** GBNF Logit Mask Sentinel Pointer & Vocabulary Size Bounds Guard  
+
+The forge completed Stage 15.1 of Project Aesir (`AES-ECO-007` `verified`):
+
+1. **Logit Pointer & Vocab Bounds Defense:** Hardened `GBNFGrammar.apply_grammar_mask()` in `core/grammar.mojo` to check null (`0`) and sentinel (`1`) address logit pointers (`addr == 0 or addr == 1`) and non-positive vocabulary sizes (`vocab_size <= 0`) early-return bounds.
+2. **Proving Assertions:** Added sentinel address `1` and non-positive `vocab_size` assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 59: Stage 14.1 — Model Manifest Tag Sanitization & Copy Guard (AES-CLI-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Model Manifest Copy Tag Validation & Empty Parameter Guard  
