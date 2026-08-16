@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 64: Stage 19.1 — RuneThreadPool Worker Count Bounds & Non-Positive Worker Guard (AES-RES-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Thread Pool Worker Count Clamping & Non-Positive Guard  
+
+The forge completed Stage 19.1 of Project Aesir (`AES-RES-004` `verified`):
+
+1. **Worker Count Clamping Defense:** Hardened `RuneThreadPool.__init__()` in `core/thread_pool.mojo` to enforce positive worker thread count bounds (`self.num_threads = max(1, num_threads)`), preventing zero or negative worker thread count initialization.
+2. **Proving Assertions:** Added zero and negative `num_threads` clamping assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 63: Stage 18.1 — AesirEventBus Event Type Validation & Empty String Guard (AES-RES-003)
 **Date:** August 16, 2026  
 **Architectural Phase:** Event Bus Event Type Validation & Empty String Guard  

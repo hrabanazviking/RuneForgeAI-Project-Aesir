@@ -111,6 +111,13 @@ def test_thread_pool() raises:
         print("FAIL: RuneThreadPool parallel_step failed")
         success = False
 
+    # Test non-positive num_threads clamping safety
+    var zero_pool = RuneThreadPool(0)
+    var neg_pool = RuneThreadPool(-4)
+    if zero_pool.num_threads != 1 or neg_pool.num_threads != 1:
+        print("FAIL: RuneThreadPool failed to clamp non-positive num_threads to 1")
+        success = False
+
     if success:
         print("RuneThreadPool state scaffold: PASS")
     else:

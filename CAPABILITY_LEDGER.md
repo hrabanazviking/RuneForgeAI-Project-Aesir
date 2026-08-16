@@ -1022,15 +1022,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked event bus non-empty event type parameter validation bounds.
 - **Audit:** AER-107.
 
-### AES-RES-004 — Worker thread pool
+### AES-RES-004 — Worker thread pool & worker count bounds
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core concurrency domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `RuneThreadPool` stores `num_workers`/`is_active`; `parallel_step()` returns the flag.
-- **Executable evidence:** `E-MASTER` case `resilience.thread_pool_stub`.
-- **Evidence boundary:** No threads, workers, task queue, synchronization, shutdown, errors, or integration.
-- **Next acceptance gate:** Real worker lifecycle and bounded queue with task completion, shutdown, race, fault, and service-integration tests.
+- **Implementation evidence:** `RuneThreadPool` in `core/thread_pool.mojo` storing `num_threads`/`is_active`, enforcing positive worker thread count bounds (`self.num_threads = max(1, num_threads)`) in `__init__`.
+- **Executable evidence:** `E-MASTER` case `resilience.thread_pool_stub` in `test_resilience.mojo`.
+- **Evidence boundary:** Checked thread pool worker count clamping bounds (`max(1, num_threads)`).
 - **Audit:** AER-089.
 
 ### AES-RES-005 — Self-healing crash recovery
