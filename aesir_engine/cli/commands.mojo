@@ -248,6 +248,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         raise Error("model registry transfer command '" + cmd + "' is not implemented")
 
     if cmd == "swarm":
+        if len(args) <= 1:
+            raise Error("swarm command requires a subcommand (join, status, list)")
         raise Error("swarm operational command 'swarm' is not implemented")
 
     if cmd == "llama-cli" or cmd == "llama-server" or cmd == "llama-bench":

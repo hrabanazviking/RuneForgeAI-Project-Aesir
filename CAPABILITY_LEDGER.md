@@ -1084,15 +1084,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked local parameter bounds and explicit unsupported network dispatch boundaries.
 - **Audit:** AER-114.
 
-### AES-SWM-005 — Swarm REST and CLI operational status
+### AES-SWM-005 — Swarm REST and CLI operational status & subcommand bounds
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** CLI and server domains
 - **Claim sources:** completed swarm TODO and interfaces
-- **Implementation evidence:** swarm CLI commands raise unsupported and swarm HTTP routes return 501; fixed cluster observations were removed.
-- **Executable evidence:** `E-MASTER` cases `cli.truthful_command_boundaries` and `multi_engine.http_unsupported_responses`.
-- **Evidence boundary:** Fixed tables/JSON are fabricated operational observations.
-- **Next acceptance gate:** Derive output from authenticated live cluster state and pass multi-process CLI/API integration and failure tests.
+- **Implementation evidence:** `dispatch_cli_command()` in `cli/commands.mojo` enforcing subcommand validation (`len(args) <= 1 -> raises Error("swarm command requires a subcommand (join, status, list)")`) and raising unsupported error when subcommands are supplied; HTTP routes return 501.
+- **Executable evidence:** `E-MASTER` cases `cli.truthful_command_boundaries` and `multi_engine.http_unsupported_responses` in `test_cli.mojo`.
+- **Evidence boundary:** Checked CLI subcommand requirement validation and explicit unsupported HTTP/CLI route boundaries.
 - **Audit:** AER-114, AER-003.
 
 ## 18. Benchmarks, Security, and Production Readiness

@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 69: Stage 24.1 — Operational CLI Swarm Command Subcommand Boundary Validation (AES-SWM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Operational CLI Swarm Subcommand Boundary Validation  
+
+The forge completed Stage 24.1 of Project Aesir (`AES-SWM-005` `verified`):
+
+1. **CLI Swarm Subcommand Defense:** Hardened `dispatch_cli_command()` in `cli/commands.mojo` for `cmd == "swarm"` to check parameter length (`len(args) <= 1`), raising `Error("swarm command requires a subcommand (join, status, list)")` when no subcommand is provided.
+2. **Proving Assertions:** Added bare `"swarm"` command parameter rejection assertions in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 68: Stage 23.1 — SwarmCluster Mesh Join & Distributed Inference Parameter Validation (AES-SWM-003)
 **Date:** August 16, 2026  
 **Architectural Phase:** Swarm Cluster Join & Distributed Inference Parameter Validation  

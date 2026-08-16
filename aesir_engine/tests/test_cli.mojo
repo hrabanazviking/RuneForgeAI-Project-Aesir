@@ -114,7 +114,7 @@ def assert_cli_command_unsupported(command: String) raises:
     except error:
         rejected = True
         var message = String(error)
-        if "not implemented" not in message and "unsupported" not in message:
+        if "not implemented" not in message and "unsupported" not in message and "requires a subcommand" not in message:
             raise Error("unsupported CLI error omitted stable truth text")
     if not rejected:
         raise Error("unsupported CLI command returned successfully: " + command)
@@ -162,6 +162,19 @@ def test_cli_command_dispatch() raises:
     dispatch_command(rm_args, store)
 
     # Verify reserved unsupported command rejections
+    # Test bare swarm command subcommand requirement assertion
+    var swarm_sub_rejected = False
+    try:
+        var swarm_args = List[String]()
+        swarm_args.append("swarm")
+        dispatch_command(swarm_args)
+    except error:
+        swarm_sub_rejected = True
+        if "requires a subcommand" not in String(error):
+            raise Error("swarm bare command rejection omitted subcommand error text")
+    if not swarm_sub_rejected:
+        raise Error("swarm bare command allowed execution without subcommand")
+
     assert_cli_command_unsupported("serve")
     assert_cli_command_unsupported("pull")
     assert_cli_command_unsupported("push")
