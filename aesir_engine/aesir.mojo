@@ -315,6 +315,7 @@ struct AesirEngine:
                     context_str += docs[i]
                 active_prompt = context_str + String("\n") + prompt
                 print("RAG Context Augmented:", context_str)
+            self.pool.reset_kv_cache(self.runtime_offset)
         return active_prompt
 
     def _run_generation(

@@ -636,6 +636,8 @@ def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) raises -> Scalar[f
         norm_a_sq += a_val * a_val
         norm_b_sq += b_val * b_val
 
+    if norm_a_sq <= 0.0 or norm_b_sq <= 0.0:
+        return 0.0
     var norm_a = sqrt(norm_a_sq)
     var norm_b = sqrt(norm_b_sq)
     var denom = max(norm_a * norm_b, Scalar[f32](1e-8))

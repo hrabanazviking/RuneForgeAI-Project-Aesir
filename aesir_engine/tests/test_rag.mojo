@@ -43,6 +43,13 @@ def test_cosine_similarity() raises:
     if diff2 < 0:
         diff2 = -diff2
 
+    # 3. Zero-vector -> Cosine similarity should be 0.0
+    for i in range(dim):
+        B.data.unsafe_store(i, 0.0)
+    var sim_zero = cosine_similarity(B, B)
+    if sim_zero != 0.0:
+        raise Error("cosine_similarity failed to return 0.0 for zero vector")
+
     if diff1 < 0.01 and diff2 < 0.01:
         print("cosine_similarity: PASS")
     else:

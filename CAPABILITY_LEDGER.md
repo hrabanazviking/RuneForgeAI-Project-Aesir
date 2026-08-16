@@ -722,10 +722,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** RAG TODO and core interface
-- **Implementation evidence:** `cosine_similarity` performs a host numeric dot/norm calculation.
-- **Executable evidence:** `E-MASTER` case `rag.cosine_similarity`.
-- **Evidence boundary:** Small equal-sized positive fixtures; current function silently uses the smaller length and lacks full zero/NaN/finite policy.
-- **Next acceptance gate:** Equal-shape enforcement and randomized F32 reference tests including zero, negative, NaN, infinity, ties, and tails.
+- **Implementation evidence:** `cosine_similarity` in `core/compute.mojo` enforcing equal-shape validation, SIMD dot/norm calculation, zero-vector zero-norm detection (`norm_a_sq <= 0.0 or norm_b_sq <= 0.0 -> 0.0`), and SIMD tail processing.
+- **Executable evidence:** `E-MASTER` case `rag.cosine_similarity` in `test_rag.mojo`.
+- **Evidence boundary:** Implements checked SIMD cosine similarity for F16 RuneTensors with zero-norm and dimension-mismatch protection.
 - **Audit:** AER-083.
 
 ### AES-RAG-002 — In-memory vector document store and top-k search

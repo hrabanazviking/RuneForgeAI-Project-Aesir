@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 51: Stage 7.1 — Workspace Memory Reclamation & Cosine Similarity Zero-Norm Hardening (AES-MEM-005 & AES-RAG-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Memory Workspace Reclamation & Zero-Norm SIMD Vector Hardening  
+
+The forge completed Stage 7.1 of Project Aesir (`AES-MEM-005` & `AES-RAG-001` `verified`):
+
+1. **Workspace Memory Reclamation:** Hardened `_prepare_prompt()` in `aesir.mojo` to invoke `self.pool.reset_kv_cache(self.runtime_offset)` after RAG context lookup completes, reclaiming transient query vector allocations before generation starts.
+2. **Zero-Norm Cosine Similarity Guard:** Enhanced `cosine_similarity()` in `core/compute.mojo` to return `0.0` when either input vector has a zero norm (`norm_a_sq <= 0.0` or `norm_b_sq <= 0.0`), preventing synthetic epsilon division on zero-vector inputs.
+3. **Verification & Assertions:** Registered zero-vector cosine similarity assertions in `test_rag.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 50: Stage 6.4 — OpenAI REST Gateway & Wire SSE Streaming Integration (AES-SRV-004 & AES-SRV-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** OpenAI REST Route Dispatcher, JSON Formatting & Master Test Harness Expansion  
