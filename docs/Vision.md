@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 33.1 — Compressed Format Discriminants & GGML Type Mapping Boundary Hardening
+### ⚡ Completed Milestone: Stage 34.1 — NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening
+* **Stage 34.1 Accelerator Buffer Milestone ([`AES-ACC-005`](../CAPABILITY_LEDGER.md) & [`AES-ACC-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `GPUBuffer.__init__()` and `NPUBuffer.__init__()` in `core/mimir_well.mojo` to check buffer byte sizes (`size_bytes < 0 -> raises Error("buffer size_bytes must not be negative")`), adding negative GPU buffer size parameter rejection assertions in `test_gpu_realms.mojo`.
 * **Stage 33.1 Format Mapping Milestone ([`AES-QNT-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `GGMLType.to_compressed_format()` in `loader/gguf.mojo` to map GGML tensor type discriminants (0..24) deterministically, adding GGML type mapping test assertions in `test_quantization.mojo`.
 * **Stage 32.1 Compute Hardening Milestone ([`AES-CPU-001`](../CAPABILITY_LEDGER.md) & [`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `dequantize_q4_k_m()`, `dequantize_q2_k()`, `silu()`, and `geglu()` in `core/compute.mojo` with zero-blocks and zero-size safety guards (`num_blocks <= 0` / `T.size <= 0`), adding zero-block dequantization safety assertions in `test_quantization.mojo`.
 * **Stage 31.1 All-Reduce Milestone ([`AES-ACC-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `all_reduce_sum()` in `core/compute.mojo` to check input shards list count (`num_shards == 0 -> raises Error("all_reduce_sum: input shards list must not be empty")`), adding empty shards list parameter rejection assertions in `test_sharding.mojo`.
