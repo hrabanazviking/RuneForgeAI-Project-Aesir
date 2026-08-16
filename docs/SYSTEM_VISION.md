@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Stage 19.1 — RuneThreadPool Worker Count Bounds & Non-Positive Worker Guard
+### ⚡ Completed Milestone: Stage 20.1 — SelfHealingSupervisor Checkpoint Marker Restoration Safety
+* **Stage 20.1 Supervisor Milestone ([`AES-RES-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `SelfHealingSupervisor.simulate_crash_and_recover()` in `core/supervisor.mojo` to validate `not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0`, returning `False` early if no valid vault checkpoint marker is present, adding uninitialized vault checkpoint rejection assertions in `test_resilience.mojo`.
 * **Stage 19.1 Thread Pool Milestone ([`AES-RES-004`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `RuneThreadPool.__init__()` in `core/thread_pool.mojo` to enforce positive worker thread count bounds (`self.num_threads = max(1, num_threads)`), preventing zero or negative worker thread count initialization, adding worker count clamping assertions in `test_resilience.mojo`.
 * **Stage 18.1 Event Bus Milestone ([`AES-RES-003`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `AesirEventBus.publish_event()` in `core/event_bus.mojo` to check non-empty event type parameter bounds (`len(event_type.bytes()) > 0`), ignoring empty string event type publications early, adding empty event type string test assertions in `test_resilience.mojo`.
 * **Stage 17.1 StateVault Milestone ([`AES-RES-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `StateVault.save_checkpoint()` in `core/state_vault.mojo` to check non-negative parameter bounds (`token_pos >= 0 and prompt_count >= 0`), ignoring negative checkpoint position markers, adding negative position test assertions in `test_resilience.mojo`.
