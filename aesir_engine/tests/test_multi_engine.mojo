@@ -299,6 +299,10 @@ def test_http_response_framing() raises:
     if "5\r\nhello\r\n" not in chunk:
         raise Error("build_http_chunk formatted invalid chunked block")
 
+    var term_chunk = build_http_chunk("")
+    if term_chunk != "0\r\n\r\n":
+        raise Error("build_http_chunk failed to format terminal chunked block")
+
     if write_all_bytes(-1, "data"):
         raise Error("write_all_bytes reported success on invalid file descriptor -1")
 

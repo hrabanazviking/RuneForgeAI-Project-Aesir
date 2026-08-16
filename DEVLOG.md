@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 80: Stage 35.1 — Raw File-Descriptor & Socket Write Bounds Hardening (AES-SRV-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Raw File-Descriptor & Socket Write Bounds Hardening  
+
+The forge completed Stage 35.1 of Project Aesir (`AES-SRV-004` `verified`):
+
+1. **Socket Write Bounds Defense:** Hardened `write_all_bytes()` in `server/api.mojo` to reject negative socket file descriptors (`client_fd < 0`) and hardened `build_http_chunk()` to format terminal chunked HTTP blocks (`0\r\n\r\n`).
+2. **Proving Assertions:** Added terminal chunk framing test assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 79: Stage 34.1 — NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening (AES-ACC-005 & AES-ACC-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening  

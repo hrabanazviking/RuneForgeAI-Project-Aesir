@@ -108,8 +108,12 @@ def build_sse_chunk(event: String, data: String) -> String:
 def build_http_chunk(data: String) -> String:
     """
     Constructs a standard HTTP/1.1 chunked encoding block (<hex_len>\r\n<data>\r\n).
+    Returns '0\r\n\r\n' for empty chunk payloads (standard HTTP stream termination).
     """
-    var hex_len = hex(data.byte_length())
+    var byte_len = data.byte_length()
+    if byte_len == 0:
+        return String("0\r\n\r\n")
+    var hex_len = hex(byte_len)
     return hex_len + String("\r\n") + data + String("\r\n")
 
 

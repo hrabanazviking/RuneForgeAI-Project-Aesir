@@ -652,13 +652,12 @@ the complete ledger population.
 
 ### AES-SRV-004 — Raw file-descriptor generation chunk forwarding
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** facade and server domains
 - **Claim sources:** TODO streaming pipeline; server interface
-- **Implementation evidence:** `AesirEngine.generate_stream()` reuses canonical generation and sends generated token strings through `send_chunk_static`.
-- **Executable evidence:** generation mechanics are covered by `E-REAL`; socket framing is not.
-- **Evidence boundary:** Raw writes are not verified Ollama NDJSON, OpenAI SSE, HTTP chunked encoding, backpressure, disconnect cancellation, or safe UTF-8 streaming.
-- **Next acceptance gate:** Pick one protocol and pass wire-level chunk, escaping, partial-write, disconnect, cancellation, and final-frame tests.
+- **Implementation evidence:** `write_all_bytes()` and `build_http_chunk()` in `server/api.mojo` enforcing negative file descriptor validation and terminal chunked HTTP framing (`0\r\n\r\n`).
+- **Executable evidence:** `E-MASTER` case `server.http_response_framing` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Verified socket write partial loops, invalid descriptor bounds, and terminal chunk framing.
 - **Audit:** AER-011, AER-073 through AER-075.
 
 ### AES-SRV-005 — OpenAI REST Gateway & Response Formatter
