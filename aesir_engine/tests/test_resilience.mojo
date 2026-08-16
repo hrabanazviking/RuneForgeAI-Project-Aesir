@@ -61,6 +61,18 @@ def test_state_vault() raises:
         print("FAIL: StateVault restore checkpoint mismatch")
         success = False
 
+    # Test negative token_pos and prompt_count bounds rejection
+    var neg_vault = StateVault()
+    neg_vault.save_checkpoint(-10, 16)
+    if neg_vault.is_checkpointed:
+        print("FAIL: StateVault accepted negative token_pos")
+        success = False
+
+    neg_vault.save_checkpoint(128, -5)
+    if neg_vault.is_checkpointed:
+        print("FAIL: StateVault accepted negative prompt_count")
+        success = False
+
     if success:
         print("StateVault in-memory marker: PASS")
     else:

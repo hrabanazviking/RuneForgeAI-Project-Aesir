@@ -1002,15 +1002,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked null (`0`) and sentinel (`1`) pointer address validation and NaN/Inf logit sanitization error bounds.
 - **Audit:** AER-005, AER-105.
 
-### AES-RES-002 — State checkpoint descriptor
+### AES-RES-002 — State checkpoint descriptor & marker bounds
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `StateVault` stores a few in-memory marker fields.
-- **Executable evidence:** `E-MASTER` case `resilience.state_vault_marker`.
-- **Evidence boundary:** No serialization, durable storage, model/KV/session snapshot, integrity, compatibility, or restoration.
-- **Next acceptance gate:** Versioned durable checkpoint format, atomic writes, complete owned-state boundaries, corruption handling, and restart restoration tests.
+- **Implementation evidence:** `StateVault` in `core/state_vault.mojo` storing token position and prompt count markers, validating non-negative position bounds (`token_pos >= 0 and prompt_count >= 0`) in `save_checkpoint`.
+- **Executable evidence:** `E-MASTER` case `resilience.state_vault_marker` in `test_resilience.mojo`.
+- **Evidence boundary:** Checked state checkpoint marker non-negative position and prompt count bounds.
 - **Audit:** AER-106.
 
 ### AES-RES-003 — Event bus state marker

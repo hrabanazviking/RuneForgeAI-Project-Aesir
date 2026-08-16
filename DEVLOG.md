@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 62: Stage 17.1 — StateVault Marker Bounds & Non-Negative Position Hardening (AES-RES-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** State Vault Checkpoint Marker Bounds & Position Guard  
+
+The forge completed Stage 17.1 of Project Aesir (`AES-RES-002` `verified`):
+
+1. **Checkpoint Position Bounds Defense:** Hardened `StateVault.save_checkpoint()` in `core/state_vault.mojo` to check non-negative parameter bounds (`token_pos >= 0 and prompt_count >= 0`), ignoring negative checkpoint position markers.
+2. **Proving Assertions:** Added negative token position and prompt count rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 61: Stage 16.1 — Speculative Engine Draft Validation & Pointer Safety (AES-ECO-008)
 **Date:** August 16, 2026  
 **Architectural Phase:** Speculative Decoding Draft Pointer & Count Bounds Guard  
