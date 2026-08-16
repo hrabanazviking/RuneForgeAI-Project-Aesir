@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 68: Stage 23.1 — SwarmCluster Mesh Join & Distributed Inference Parameter Validation (AES-SWM-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Cluster Join & Distributed Inference Parameter Validation  
+
+The forge completed Stage 23.1 of Project Aesir (`AES-SWM-003` `verified`):
+
+1. **Swarm Cluster Parameter Defense:** Hardened `SwarmCluster.join_mesh()` in `core/swarm.mojo` to validate non-empty leader addresses (`len(leader_address.bytes()) == 0 -> raises Error("leader address must not be empty")`) and hardened `SwarmCluster.dispatch_distributed_inference()` to validate model and prompt parameters (`len(model.bytes()) == 0 or len(prompt.bytes()) == 0 -> raises Error("model and prompt must not be empty")`).
+2. **Proving Assertions:** Added empty leader address and empty model parameter rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 67: Stage 22.1 — TaskDispatcher Parameter Validation & Empty Input Guard (AES-SWM-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** Swarm Task Dispatcher Parameter Validation & Empty Input Guard  

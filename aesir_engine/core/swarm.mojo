@@ -239,6 +239,8 @@ struct SwarmCluster(Copyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved join operation until a real mesh protocol exists.
         """
+        if len(leader_address.bytes()) == 0:
+            raise Error("leader address must not be empty")
         _ = leader_address
         raise Error("swarm mesh join is not implemented")
 
@@ -256,6 +258,8 @@ struct SwarmCluster(Copyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved remote inference operation until transport exists.
         """
+        if len(model.bytes()) == 0 or len(prompt.bytes()) == 0:
+            raise Error("model and prompt must not be empty")
         _ = model
         _ = prompt
         raise Error("distributed swarm inference is not implemented")

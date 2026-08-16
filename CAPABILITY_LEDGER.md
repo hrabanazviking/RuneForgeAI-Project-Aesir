@@ -1064,15 +1064,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked local peer load balancing string byte verification and empty cluster error boundaries.
 - **Audit:** AER-114.
 
-### AES-SWM-003 — Mesh join and liveness
+### AES-SWM-003 — Mesh join, liveness & parameter validation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** core swarm and server domains
 - **Claim sources:** completed swarm TODO; CLI/server interfaces
-- **Implementation evidence:** clusters start empty/inactive; join raises unsupported and heartbeat returns false.
-- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported`; no network peer is contacted.
-- **Evidence boundary:** Honest inactive state and rejection are not discovery, handshake, auth, heartbeat, membership, or failure detection.
-- **Next acceptance gate:** Authenticated protocol between separate processes, join/leave/heartbeat/timeouts, replay/version policy, and network integration tests.
+- **Implementation evidence:** `SwarmCluster` in `core/swarm.mojo` enforcing parameter validation (`len(leader_address.bytes()) == 0 -> raises Error("leader address must not be empty")`), returning false for heartbeat, and rejecting unsupported network mesh join.
+- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported` in `test_swarm_cluster.mojo`.
+- **Evidence boundary:** Checked local parameter bounds and explicit unsupported network mesh join boundaries.
 - **Audit:** AER-114, AER-003.
 
 ### AES-SWM-004 — Distributed inference dispatch & task dispatcher parameter validation

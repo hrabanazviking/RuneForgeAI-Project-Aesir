@@ -116,6 +116,28 @@ def test_swarm_cluster_task_dispatch() raises:
     if cluster.heartbeat_pulse():
         raise Error("swarm heartbeat reported success without transport")
 
+    # Test empty leader address join mesh rejection
+    var empty_join_rejected = False
+    try:
+        _ = cluster.join_mesh("")
+    except error:
+        empty_join_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty join rejection omitted empty error text")
+    if not empty_join_rejected:
+        raise Error("SwarmCluster allowed join_mesh with empty leader address")
+
+    # Test empty model parameter dispatch rejection
+    var empty_dist_rejected = False
+    try:
+        _ = cluster.dispatch_distributed_inference("", "Run inference across mesh")
+    except error:
+        empty_dist_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty dispatch rejection omitted empty error text")
+    if not empty_dist_rejected:
+        raise Error("SwarmCluster allowed dispatch_distributed_inference with empty model")
+
     var join_rejected = False
     try:
         _ = cluster.join_mesh("192.0.2.1")
