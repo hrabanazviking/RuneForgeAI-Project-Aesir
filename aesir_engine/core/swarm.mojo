@@ -160,7 +160,7 @@ struct PeerRegistry(Copyable):
                 if n.is_alive and n.vram_free_mb() > max_free:
                     max_free = n.vram_free_mb()
                     best_id = k
-        if best_id == "":
+        if len(best_id.bytes()) == 0:
             raise Error("no live swarm peers")
         return self.nodes[best_id].copy()
 

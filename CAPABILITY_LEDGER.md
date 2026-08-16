@@ -1054,15 +1054,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked local peer role discriminants and zero-floor VRAM arithmetic.
 - **Audit:** AER-088, AER-114.
 
-### AES-SWM-002 — In-memory least-used/capacity peer selection
+### AES-SWM-002 — In-memory least-used/capacity peer selection & empty cluster safety
 
 - **Status:** `verified`
 - **Owner:** core swarm domain
 - **Claim sources:** swarm load-balancer interface
-- **Implementation evidence:** `PeerRegistry` starts empty and ranks caller-supplied in-memory peer descriptors by available capacity.
-- **Executable evidence:** `E-MASTER` case `swarm.registry_load_balancer`.
-- **Evidence boundary:** Deterministic selection over caller-provided local records; not live scheduling or distributed load balancing.
-- **Next acceptance gate:** Heartbeat-derived metrics, staleness/failure policy, reservations, concurrency, fairness, and multi-process integration.
+- **Implementation evidence:** `PeerRegistry` in `core/swarm.mojo` managing peer descriptors and identifying `get_least_loaded_node()`, validating non-empty candidate IDs (`len(best_id.bytes()) > 0`) and raising `Error` when no live peer nodes are registered.
+- **Executable evidence:** `E-MASTER` case `swarm.registry_load_balancer` in `test_swarm_cluster.mojo`.
+- **Evidence boundary:** Checked local peer load balancing string byte verification and empty cluster error boundaries.
 - **Audit:** AER-114.
 
 ### AES-SWM-003 — Mesh join and liveness

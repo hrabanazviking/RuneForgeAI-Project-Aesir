@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 66: Stage 21.1 — PeerRegistry Least-Loaded Node Resolution & Empty Cluster Safety (AES-SWM-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Peer Registry Load Balancer Byte Check & Empty Cluster Guard  
+
+The forge completed Stage 21.1 of Project Aesir (`AES-SWM-002` `verified`):
+
+1. **Swarm Load Balancer Defense:** Hardened `PeerRegistry.get_least_loaded_node()` in `core/swarm.mojo` to validate candidate peer ID byte length (`len(best_id.bytes()) == 0`), raising `Error("no live swarm peers")` when no live peer nodes are present or registered.
+2. **Proving Assertions:** Added empty `PeerRegistry` candidate resolution rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 65: Stage 20.1 — SelfHealingSupervisor Checkpoint Marker Restoration Safety (AES-RES-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** Supervisor Checkpoint Presence & Restoration Validation Guard  

@@ -58,6 +58,16 @@ def test_peer_registry_and_load_balancer() raises:
     var success = True
 
     var registry = PeerRegistry()
+    # Test empty registry get_least_loaded_node rejection
+    var empty_rejected = False
+    try:
+        _ = registry.get_least_loaded_node()
+    except:
+        empty_rejected = True
+    if not empty_rejected:
+        print("FAIL: empty PeerRegistry get_least_loaded_node failed to raise Error")
+        success = False
+
     if registry.count() != 0:
         raise Error("PeerRegistry seeded fictional peers")
     registry.register_node(
