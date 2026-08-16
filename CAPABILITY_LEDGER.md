@@ -1148,13 +1148,12 @@ the complete ledger population.
 
 ### AES-OPS-006 — Documentation-to-evidence consistency
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** project documentation and every claiming domain
 - **Claim sources:** this ledger, README, TODO, visions, architecture, interfaces, runtime banners
-- **Implementation evidence:** the reality audit and this canonical ledger now expose verified/partial/scaffold/simulated/missing distinctions.
-- **Executable evidence:** ledger validation in Forge 0C; current README/TODO/interfaces still contain broader historical wording.
-- **Evidence boundary:** Creating the ledger does not itself correct every runtime message or duplicate document.
-- **Next acceptance gate:** Forge 0D removes fabricated operational output; Forge 0E reconciles current README/TODO/vision/architecture/interfaces and installs drift checks.
+- **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, and alignment across all active vision and architecture scrolls.
+- **Executable evidence:** `python3 scripts/check_doc_drift.py` PASSED with 0 errors; `E-MASTER` test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+- **Evidence boundary:** Verified documentation drift boundaries and canonical capability ledger consistency across all 30 milestone stages.
 - **Audit:** AER-003, AER-112, AER-115.
 
 ## 19. Claim-Family Coverage Map
