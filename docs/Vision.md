@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 41.1 — Query Embedding Fallback Generation Bounds Hardening
+### ⚡ Completed Milestone: Stage 42.1 — Chat Template Formatter Empty Message List Bounds Hardening
+* **Stage 42.1 Chat Template Milestone**: Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty `ChatMessage` lists (`len(messages) == 0 -> raises Error("cannot format empty ChatMessage list")`), adding empty message list rejection test assertion in `test_cli.mojo`.
 * **Stage 41.1 Query Embedding Milestone ([`AES-RAG-003`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` for fallback query vector allocation and hidden dimension bounds validation.
 * **Stage 40.1 Artifact Hygiene Milestone ([`AES-FND-007`](../CAPABILITY_LEDGER.md) `verified`)**: Created root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), environment builds (`.pixi/`), and temporary logs.
 * **Stage 39.1 Arena Pool Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
