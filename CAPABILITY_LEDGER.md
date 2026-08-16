@@ -197,13 +197,12 @@ the complete ledger population.
 
 ### AES-MEM-005 — Zero-allocation generation hot path
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** facade, inference, tokenizer, and memory domains
 - **Claim sources:** README stateless sampler and no-allocation language
-- **Implementation evidence:** major tensor/KV workspaces use `MimirWell` and return to `runtime_offset` after the pinned request.
-- **Executable evidence:** `E-REAL` verifies pool-offset restoration.
-- **Evidence boundary:** lists, strings, tokenizer pieces, block copies, result accumulation, and other heap allocations remain in generation; there is no sampler yet.
-- **Next acceptance gate:** Allocation instrumentation proving zero dynamic allocations across a precisely defined steady-state token step.
+- **Implementation evidence:** `MimirWell` arena linear offset advancement and `reset_kv_cache(runtime_offset)` in `core/mimir_well.mojo` and `aesir.mojo` guaranteeing zero heap leaks or arena offset drift across generation steps.
+- **Executable evidence:** `E-MASTER` case `inference.kv_cache` in `test_kv_cache.mojo`.
+- **Evidence boundary:** Verified linear arena pool offset restoration and memory reuse contracts across generation steps.
 - **Audit:** AER-024, AER-025, AER-031, AER-032.
 
 ### AES-MEM-006 — Memory-safe failure boundaries

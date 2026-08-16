@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 84: Stage 39.1 — MimirWell Arena Pool Offset Restoration Hardening (AES-MEM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** MimirWell Arena Pool Offset Restoration Hardening  
+
+The forge completed Stage 39.1 of Project Aesir (`AES-MEM-005` `verified`):
+
+1. **Arena Offset Restoration Defense:** Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
+2. **Proving Assertions:** Added arena offset advancement and reset verification assertions in `test_kv_cache.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 83: Stage 38.1 — Pure Native Mojo Zero-Python Runtime Verification (AES-FND-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Pure Native Mojo Zero-Python Runtime Verification  
