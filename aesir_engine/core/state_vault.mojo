@@ -33,6 +33,8 @@ struct StateVault(Copyable, ImplicitlyCopyable):
         ═════════════════════════════════════════════════════════════════════
         Stores the current token position and prompt count as local fields.
         """
+        if token_pos < 0 or prompt_count < 0:
+            return
         self.last_token_pos = token_pos
         self.prompt_tokens_count = prompt_count
         self.is_checkpointed = True

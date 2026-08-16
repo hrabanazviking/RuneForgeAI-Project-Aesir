@@ -180,7 +180,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             if i > prompt_start:
                 prompt += String(" ")
             prompt += args[i]
-        run_single_shot(model_name, prompt, max_new_tokens)
+        var trimmed_prompt = String(prompt.strip())
+        if len(trimmed_prompt.bytes()) == 0:
+            raise Error("single-shot run prompt text must not be empty")
+        run_single_shot(model_name, trimmed_prompt, max_new_tokens)
         return
 
     if cmd == "list" or cmd == "ls":
@@ -248,6 +251,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         raise Error("model registry transfer command '" + cmd + "' is not implemented")
 
     if cmd == "swarm":
+        if len(args) <= 1:
+            raise Error("swarm command requires a subcommand (join, status, list)")
         raise Error("swarm operational command 'swarm' is not implemented")
 
     if cmd == "llama-cli" or cmd == "llama-server" or cmd == "llama-bench":

@@ -39,6 +39,8 @@ struct HuggingFaceSeer:
         Determines whether a model tag points to the HuggingFace Hub repository realm
         by inspecting URI prefixes ('hf.co/', 'huggingface.co/') or 'org/repo' namespace patterns.
         """
+        if len(model_tag.bytes()) == 0:
+            return False
         if model_tag.startswith("hf.co/") or model_tag.startswith("huggingface.co/"):
             return True
         # Check for org/repo pattern
@@ -47,13 +49,15 @@ struct HuggingFaceSeer:
         return False
 
     @staticmethod
-    def build_download_url(repo_id: String, filename: String = "model.gguf") -> String:
+    def build_download_url(repo_id: String, filename: String = "model.gguf") raises -> String:
         """
         ᛒᛢᛁᛚᛞ·ᛞᛟᚹᚾᛚᛟᚨᛞ·ᛢᚱᛚ — The Bifrost Stream URL Builder (build_download_url)
         ══════════════════════════════════════════════════════════════════════════
         Constructs direct HuggingFace resolve CDN download URLs for GGUF model files.
         Maps repository identifiers and target filenames into high-throughput HTTPS weight streams.
         """
+        if len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0:
+            raise Error("HuggingFaceSeer.build_download_url: repo_id and filename must not be empty")
         var norm_repo = HuggingFaceSeer.parse_hf_repo(repo_id)
         var res = String("https://huggingface.co/")
         res += norm_repo

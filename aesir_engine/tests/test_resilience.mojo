@@ -19,6 +19,11 @@ def test_error_guard() raises:
         print("FAIL: ErrorGuard.validate_pointer failed")
         success = False
 
+    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    if ErrorGuard.validate_pointer(sentinel_ptr):
+        print("FAIL: ErrorGuard.validate_pointer accepted sentinel address 1")
+        success = False
+
     if not ErrorGuard.bounds_check(3, 8):
         print("FAIL: ErrorGuard.bounds_check valid index failed")
         success = False
@@ -56,6 +61,18 @@ def test_state_vault() raises:
         print("FAIL: StateVault restore checkpoint mismatch")
         success = False
 
+    # Test negative token_pos and prompt_count bounds rejection
+    var neg_vault = StateVault()
+    neg_vault.save_checkpoint(-10, 16)
+    if neg_vault.is_checkpointed:
+        print("FAIL: StateVault accepted negative token_pos")
+        success = False
+
+    neg_vault.save_checkpoint(128, -5)
+    if neg_vault.is_checkpointed:
+        print("FAIL: StateVault accepted negative prompt_count")
+        success = False
+
     if success:
         print("StateVault in-memory marker: PASS")
     else:
@@ -70,6 +87,13 @@ def test_event_bus() raises:
 
     if bus.get_last_event() != "MODEL_LOADED":
         print("FAIL: AesirEventBus event publish mismatch")
+        success = False
+
+    # Test empty string event_type rejection
+    var empty_bus = AesirEventBus()
+    empty_bus.publish_event("", "payload")
+    if empty_bus.event_count != 0:
+        print("FAIL: AesirEventBus accepted empty event_type")
         success = False
 
     if success:
@@ -87,6 +111,13 @@ def test_thread_pool() raises:
         print("FAIL: RuneThreadPool parallel_step failed")
         success = False
 
+    # Test non-positive num_threads clamping safety
+    var zero_pool = RuneThreadPool(0)
+    var neg_pool = RuneThreadPool(-4)
+    if zero_pool.num_threads != 1 or neg_pool.num_threads != 1:
+        print("FAIL: RuneThreadPool failed to clamp non-positive num_threads to 1")
+        success = False
+
     if success:
         print("RuneThreadPool state scaffold: PASS")
     else:
@@ -98,6 +129,12 @@ def test_supervisor_crash_recovery() raises:
     var success = True
     var supervisor = SelfHealingSupervisor()
     supervisor.vault.save_checkpoint(64, 8)
+
+    # Test uninitialized vault checkpoint recovery rejection
+    var uninit_supervisor = SelfHealingSupervisor()
+    if uninit_supervisor.simulate_crash_and_recover():
+        print("FAIL: SelfHealingSupervisor allowed crash recovery on uninitialized vault")
+        success = False
 
     if not supervisor.simulate_crash_and_recover():
         print("FAIL: supervisor simulation marker did not complete")

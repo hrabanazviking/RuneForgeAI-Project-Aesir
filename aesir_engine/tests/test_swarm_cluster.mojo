@@ -35,6 +35,18 @@ def test_peer_node_metrics() raises:
         print("FAIL: PeerNode liveness state incorrect")
         success = False
 
+    # Test overflow zero-floor protection when used > capacity
+    var overused_node = PeerNode("worker-overflow", "192.168.1.51", 11434, SwarmNodeRole.WORKER, 1000, 2000, True)
+    if overused_node.vram_free_mb() != 0:
+        print("FAIL: overused PeerNode free VRAM did not clamp to zero")
+        success = False
+
+    # Test negative VRAM initialization clamping
+    var neg_node = PeerNode("worker-neg", "192.168.1.52", 11434, SwarmNodeRole.WORKER, -100, -50, True)
+    if neg_node.vram_capacity_mb != 0 or neg_node.vram_used_mb != 0:
+        print("FAIL: negative VRAM attributes were not clamped to zero")
+        success = False
+
     if success:
         print("caller-supplied PeerNode capacity arithmetic: PASS")
     else:
@@ -46,6 +58,16 @@ def test_peer_registry_and_load_balancer() raises:
     var success = True
 
     var registry = PeerRegistry()
+    # Test empty registry get_least_loaded_node rejection
+    var empty_rejected = False
+    try:
+        _ = registry.get_least_loaded_node()
+    except:
+        empty_rejected = True
+    if not empty_rejected:
+        print("FAIL: empty PeerRegistry get_least_loaded_node failed to raise Error")
+        success = False
+
     if registry.count() != 0:
         raise Error("PeerRegistry seeded fictional peers")
     registry.register_node(
@@ -77,10 +99,44 @@ def test_swarm_cluster_task_dispatch() raises:
     print("--- Testing unsupported swarm network operations ---")
 
     var cluster = SwarmCluster()
+    var dispatcher = TaskDispatcher()
+    var empty_dispatch_rejected = False
+    try:
+        var empty_node = PeerNode("", "127.0.0.1", 11434, SwarmNodeRole.WORKER, 1000, 500, True)
+        _ = dispatcher.dispatch_to_node(empty_node, "test_task")
+    except error:
+        empty_dispatch_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty dispatch rejection omitted empty error text")
+    if not empty_dispatch_rejected:
+        raise Error("TaskDispatcher allowed dispatch to node with empty ID")
+
     if cluster.registry.count() != 0 or cluster.is_mesh_active:
         raise Error("SwarmCluster started with fictional operational state")
     if cluster.heartbeat_pulse():
         raise Error("swarm heartbeat reported success without transport")
+
+    # Test empty leader address join mesh rejection
+    var empty_join_rejected = False
+    try:
+        _ = cluster.join_mesh("")
+    except error:
+        empty_join_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty join rejection omitted empty error text")
+    if not empty_join_rejected:
+        raise Error("SwarmCluster allowed join_mesh with empty leader address")
+
+    # Test empty model parameter dispatch rejection
+    var empty_dist_rejected = False
+    try:
+        _ = cluster.dispatch_distributed_inference("", "Run inference across mesh")
+    except error:
+        empty_dist_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty dispatch rejection omitted empty error text")
+    if not empty_dist_rejected:
+        raise Error("SwarmCluster allowed dispatch_distributed_inference with empty model")
 
     var join_rejected = False
     try:

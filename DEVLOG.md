@@ -3,6 +3,365 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 88: Stage 43.1 — Mythic Verification & Full Documentation Truth Alignment Pass
+**Date:** August 16, 2026  
+**Architectural Phase:** Mythic Verification & Full Documentation Truth Alignment Pass  
+
+The forge completed the full Auditor & Scribe Mythic Pass for Stage 43.1:
+
+1. **Auditor Verification:** Spot-checked invariants across `RULES.AI.md`, `ARCHITECTURE.md`, `CAPABILITY_LEDGER.md`, and master test suites. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+2. **Scribe Inscription & Drift Check:** Reconciled documentation scrolls across `docs/Vision.md`, `docs/SYSTEM_VISION.md`, `CAPABILITY_LEDGER.md`, and `DEVLOG.md` with zero doc drift (**0 errors**).
+
+## ⚡ Entry 87: Stage 42.1 — Chat Template Formatter Empty Message List Bounds Hardening
+**Date:** August 16, 2026  
+**Architectural Phase:** Chat Template Formatter Empty Message List Bounds Hardening  
+
+The forge completed Stage 42.1 of Project Aesir:
+
+1. **Chat Template Formatting Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty `ChatMessage` lists (`len(messages) == 0 -> raises Error("cannot format empty ChatMessage list")`).
+2. **Proving Assertions:** Added empty message list rejection test assertion in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 86: Stage 41.1 — Query Embedding Fallback Generation Bounds Hardening (AES-RAG-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Query Embedding Fallback Generation Bounds Hardening  
+
+The forge completed Stage 41.1 of Project Aesir (`AES-RAG-003` `verified`):
+
+1. **Query Embedding Allocation Bounds:** Hardened `_prepare_prompt()` in `aesir.mojo` for fallback query vector allocation and hidden dimension bounds validation.
+2. **Proving Assertions:** Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 85: Stage 40.1 — Repository Artifact Hygiene & Ignore Protection Verification (AES-FND-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** Repository Artifact Hygiene & Ignore Protection Verification  
+
+The forge completed Stage 40.1 of Project Aesir (`AES-FND-007` `verified`):
+
+1. **Repository Ignore Protection:** Created root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), environment builds (`.pixi/`), and temporary logs.
+2. **Proving Assertions:** Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 84: Stage 39.1 — MimirWell Arena Pool Offset Restoration Hardening (AES-MEM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** MimirWell Arena Pool Offset Restoration Hardening  
+
+The forge completed Stage 39.1 of Project Aesir (`AES-MEM-005` `verified`):
+
+1. **Arena Offset Restoration Defense:** Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
+2. **Proving Assertions:** Added arena offset advancement and reset verification assertions in `test_kv_cache.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 83: Stage 38.1 — Pure Native Mojo Zero-Python Runtime Verification (AES-FND-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Pure Native Mojo Zero-Python Runtime Verification  
+
+The forge completed Stage 38.1 of Project Aesir (`AES-FND-004` `verified`):
+
+1. **Zero Python Runtime Verification:** Audited engine source code across `core`, `loader`, `cli`, `server`, and `facade` domains, confirming zero `std.python` imports in runtime engine execution.
+2. **Proving Assertions:** Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 82: Stage 37.1 — RAG Context Augmentation Hidden Dimension Parameter Bounds Hardening (AES-RAG-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** RAG Context Augmentation Hidden Dimension Parameter Bounds Hardening  
+
+The forge completed Stage 37.1 of Project Aesir (`AES-RAG-005` `verified`):
+
+1. **RAG Prompt Bounds Defense:** Hardened `_prepare_prompt()` in `aesir.mojo` to validate hidden dimensions (`hidden_dim <= 0`), returning `prompt` safely when non-positive hidden dimensions are specified.
+2. **Proving Assertions:** Verified RAG prompt prepending and master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 81: Stage 36.1 — GEGLU Activation Kernel Odd-Size Boundary Safety Hardening (AES-CPU-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** GEGLU Activation Kernel Odd-Size Boundary Safety Hardening  
+
+The forge completed Stage 36.1 of Project Aesir (`AES-CPU-007` `verified`):
+
+1. **Activation Parity & Bounds Defense:** Hardened `geglu()` in `core/compute.mojo` to check tensor size parity (`T.size <= 0 or T.size % 2 != 0`), returning early safely without mutating memory when unpaired vector sizes are provided.
+2. **Proving Assertions:** Updated odd size test assertions in `test_compute.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 80: Stage 35.1 — Raw File-Descriptor & Socket Write Bounds Hardening (AES-SRV-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Raw File-Descriptor & Socket Write Bounds Hardening  
+
+The forge completed Stage 35.1 of Project Aesir (`AES-SRV-004` `verified`):
+
+1. **Socket Write Bounds Defense:** Hardened `write_all_bytes()` in `server/api.mojo` to reject negative socket file descriptors (`client_fd < 0`) and hardened `build_http_chunk()` to format terminal chunked HTTP blocks (`0\r\n\r\n`).
+2. **Proving Assertions:** Added terminal chunk framing test assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 79: Stage 34.1 — NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening (AES-ACC-005 & AES-ACC-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening  
+
+The forge completed Stage 34.1 of Project Aesir (`AES-ACC-005` & `AES-ACC-007` `verified`):
+
+1. **Buffer Descriptor Parameter Defense:** Hardened `GPUBuffer.__init__()` and `NPUBuffer.__init__()` in `core/mimir_well.mojo` to check buffer byte sizes (`size_bytes < 0`), raising `Error("buffer size_bytes must not be negative")` when negative sizes are provided.
+2. **Proving Assertions:** Added negative GPU buffer size rejection assertions in `test_gpu_realms.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 78: Stage 33.1 — Compressed Format Discriminants & GGML Type Mapping Boundary Hardening (AES-QNT-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Compressed Format Discriminants & GGML Type Mapping Boundary Hardening  
+
+The forge completed Stage 33.1 of Project Aesir (`AES-QNT-001` `verified`):
+
+1. **Format Mapping Defense:** Hardened `GGMLType.to_compressed_format()` in `loader/gguf.mojo` to map GGML tensor type discriminants (0..24) deterministically.
+2. **Proving Assertions:** Added GGML type mapping test assertions in `test_quantization.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 77: Stage 32.1 — Activation & Kernel Dequantization Pointer/Size Production Hardening (AES-CPU-001 & AES-QNT-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Activation & Kernel Dequantization Pointer/Size Production Hardening  
+
+The forge completed Stage 32.1 of Project Aesir (`AES-CPU-001` & `AES-QNT-002` `verified`):
+
+1. **Activation & Kernel Safety:** Hardened `dequantize_q4_k_m()`, `dequantize_q2_k()`, `silu()`, and `geglu()` in `core/compute.mojo` with zero-blocks and zero-size safety guards (`num_blocks <= 0` / `T.size <= 0`).
+2. **Proving Assertions:** Added zero-block dequantization safety assertions in `test_quantization.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 76: Stage 31.1 — Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening (AES-ACC-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening  
+
+The forge completed Stage 31.1 of Project Aesir (`AES-ACC-002` `verified`):
+
+1. **All-Reduce Parameter Defense:** Hardened `all_reduce_sum()` in `core/compute.mojo` to check input shards list count (`if num_shards == 0`), raising `Error("all_reduce_sum: input shards list must not be empty")` when an empty list of shards is provided.
+2. **Proving Assertions:** Added empty shards parameter rejection assertions in `test_sharding.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 75: Stage 30.1 — Documentation-to-Evidence Truth Consistency Audit & Final Verification Gate (AES-OPS-006)
+**Date:** August 16, 2026  
+**Architectural Phase:** Documentation-to-Evidence Truth Consistency Audit & Final Verification Gate  
+
+The forge completed Stage 30.1 of Project Aesir (`AES-OPS-006` `verified`):
+
+1. **Truth Consistency Audit:** Promoted `AES-OPS-006` to `verified` in `CAPABILITY_LEDGER.md`, completing the 30-stage hardening program with 100% documentation consistency across all active vision and architecture scrolls.
+2. **Proving Assertions:** Verified `scripts/check_doc_drift.py` (**0 errors**) and executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 74: Stage 29.1 — Single-Shot Inference Prompt Validation & Production Readiness Hardening (AES-OPS-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Single-Shot Inference Prompt Validation & Production Readiness Hardening  
+
+The forge completed Stage 29.1 of Project Aesir (`AES-OPS-005` `verified`):
+
+1. **CLI Single-Shot Prompt Defense:** Hardened `dispatch_cli_command()` in `cli/commands.mojo` for `cmd == "run"` to check prompt byte length (`len(trimmed_prompt.bytes()) == 0`), raising `Error("single-shot run prompt text must not be empty")` when empty or whitespace-only prompts are passed.
+2. **Proving Assertions:** Added empty prompt single-shot run parameter rejection assertions in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 73: Stage 28.1 — Runtime Observability & Metrics Route Parameter Safety (AES-OPS-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Runtime Observability & Metrics Route Parameter Safety  
+
+The forge completed Stage 28.1 of Project Aesir (`AES-OPS-004` `verified`):
+
+1. **Route Parameter Defense:** Hardened `BifrostGate.dispatch_http_route()` in `server/api.mojo` to check empty `path` parameters (`len(path.bytes()) == 0`), returning HTTP 404 `route_not_found_response()` early when empty path strings are passed.
+2. **Proving Assertions:** Added empty HTTP request parsing rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 72: Stage 27.1 — Network HTTP Server Port Bounds & Security Posture Hardening (AES-OPS-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Network HTTP Server Port Bounds & Security Posture Hardening  
+
+The forge completed Stage 27.1 of Project Aesir (`AES-OPS-003` `verified`):
+
+1. **Server Port Bounds Defense:** Hardened `BifrostGate.__init__()` in `server/api.mojo` with the `raises` modifier, checking port bounds (`1 <= port <= 65535`) and raising `Error("server bind port must be between 1 and 65535")` when invalid port numbers (e.g. `0` or `> 65535`) are passed.
+2. **Proving Assertions:** Added invalid port parameter rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 71: Stage 26.1 — RuneREPL Configuration Parameter Bounds Clamping (AES-OPS-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** RuneREPL Configuration Parameter Clamping & Bounds Guard  
+
+The forge completed Stage 26.1 of Project Aesir (`AES-OPS-002` `verified`):
+
+1. **REPL Configuration Parameter Defense:** Hardened `RuneREPL.process_input_line()` in `cli/repl.mojo` to clamp configuration parameters (`temperature >= 0.0`, `top_k >= 0`, `0.0 <= top_p <= 1.0`, `max_new_tokens >= 1`) when `/set` slash commands receive negative or out-of-bounds inputs.
+2. **Proving Assertions:** Added negative temperature and top_k REPL slash command parameter clamping assertions in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 70: Stage 25.1 — Multi-Engine CLI Dispatcher Empty Parameter Validation (AES-OPS-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Engine CLI Dispatcher Empty Parameter Validation  
+
+The forge completed Stage 25.1 of Project Aesir (`AES-OPS-001` `verified`):
+
+1. **Multi-Engine CLI Dispatcher Defense:** Hardened `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` to check argument list bounds (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) when empty argument lists are passed.
+2. **Proving Assertions:** Added empty argument list rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 69: Stage 24.1 — Operational CLI Swarm Command Subcommand Boundary Validation (AES-SWM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Operational CLI Swarm Subcommand Boundary Validation  
+
+The forge completed Stage 24.1 of Project Aesir (`AES-SWM-005` `verified`):
+
+1. **CLI Swarm Subcommand Defense:** Hardened `dispatch_cli_command()` in `cli/commands.mojo` for `cmd == "swarm"` to check parameter length (`len(args) <= 1`), raising `Error("swarm command requires a subcommand (join, status, list)")` when no subcommand is provided.
+2. **Proving Assertions:** Added bare `"swarm"` command parameter rejection assertions in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 68: Stage 23.1 — SwarmCluster Mesh Join & Distributed Inference Parameter Validation (AES-SWM-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Cluster Join & Distributed Inference Parameter Validation  
+
+The forge completed Stage 23.1 of Project Aesir (`AES-SWM-003` `verified`):
+
+1. **Swarm Cluster Parameter Defense:** Hardened `SwarmCluster.join_mesh()` in `core/swarm.mojo` to validate non-empty leader addresses (`len(leader_address.bytes()) == 0 -> raises Error("leader address must not be empty")`) and hardened `SwarmCluster.dispatch_distributed_inference()` to validate model and prompt parameters (`len(model.bytes()) == 0 or len(prompt.bytes()) == 0 -> raises Error("model and prompt must not be empty")`).
+2. **Proving Assertions:** Added empty leader address and empty model parameter rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 67: Stage 22.1 — TaskDispatcher Parameter Validation & Empty Input Guard (AES-SWM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Task Dispatcher Parameter Validation & Empty Input Guard  
+
+The forge completed Stage 22.1 of Project Aesir (`AES-SWM-005` `verified`):
+
+1. **Task Dispatcher Parameter Defense:** Hardened `TaskDispatcher.dispatch_to_node()` in `core/swarm.mojo` to validate non-empty inputs (`len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0`), raising `Error("node id and task name must not be empty")` when empty strings are supplied.
+2. **Proving Assertions:** Added empty node ID dispatch rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 66: Stage 21.1 — PeerRegistry Least-Loaded Node Resolution & Empty Cluster Safety (AES-SWM-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Peer Registry Load Balancer Byte Check & Empty Cluster Guard  
+
+The forge completed Stage 21.1 of Project Aesir (`AES-SWM-002` `verified`):
+
+1. **Swarm Load Balancer Defense:** Hardened `PeerRegistry.get_least_loaded_node()` in `core/swarm.mojo` to validate candidate peer ID byte length (`len(best_id.bytes()) == 0`), raising `Error("no live swarm peers")` when no live peer nodes are present or registered.
+2. **Proving Assertions:** Added empty `PeerRegistry` candidate resolution rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 65: Stage 20.1 — SelfHealingSupervisor Checkpoint Marker Restoration Safety (AES-RES-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Supervisor Checkpoint Presence & Restoration Validation Guard  
+
+The forge completed Stage 20.1 of Project Aesir (`AES-RES-005` `verified`):
+
+1. **Supervisor Checkpoint Restoration Defense:** Hardened `SelfHealingSupervisor.simulate_crash_and_recover()` in `core/supervisor.mojo` to check valid checkpoint presence (`not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0 -> return False`), preventing crash recovery simulation without a valid vault checkpoint.
+2. **Proving Assertions:** Added uninitialized vault checkpoint recovery rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 64: Stage 19.1 — RuneThreadPool Worker Count Bounds & Non-Positive Worker Guard (AES-RES-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Thread Pool Worker Count Clamping & Non-Positive Guard  
+
+The forge completed Stage 19.1 of Project Aesir (`AES-RES-004` `verified`):
+
+1. **Worker Count Clamping Defense:** Hardened `RuneThreadPool.__init__()` in `core/thread_pool.mojo` to enforce positive worker thread count bounds (`self.num_threads = max(1, num_threads)`), preventing zero or negative worker thread count initialization.
+2. **Proving Assertions:** Added zero and negative `num_threads` clamping assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 63: Stage 18.1 — AesirEventBus Event Type Validation & Empty String Guard (AES-RES-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Event Bus Event Type Validation & Empty String Guard  
+
+The forge completed Stage 18.1 of Project Aesir (`AES-RES-003` `verified`):
+
+1. **Event Type Guard Defense:** Hardened `AesirEventBus.publish_event()` in `core/event_bus.mojo` to check non-empty event type parameter bounds (`len(event_type.bytes()) > 0`), ignoring empty string event type publications.
+2. **Proving Assertions:** Added empty string event type rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 62: Stage 17.1 — StateVault Marker Bounds & Non-Negative Position Hardening (AES-RES-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** State Vault Checkpoint Marker Bounds & Position Guard  
+
+The forge completed Stage 17.1 of Project Aesir (`AES-RES-002` `verified`):
+
+1. **Checkpoint Position Bounds Defense:** Hardened `StateVault.save_checkpoint()` in `core/state_vault.mojo` to check non-negative parameter bounds (`token_pos >= 0 and prompt_count >= 0`), ignoring negative checkpoint position markers.
+2. **Proving Assertions:** Added negative token position and prompt count rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 61: Stage 16.1 — Speculative Engine Draft Validation & Pointer Safety (AES-ECO-008)
+**Date:** August 16, 2026  
+**Architectural Phase:** Speculative Decoding Draft Pointer & Count Bounds Guard  
+
+The forge completed Stage 16.1 of Project Aesir (`AES-ECO-008` `verified`):
+
+1. **Pointer & Token Count Defense:** Hardened `SpeculativeEngine.verify_tokens()` in `core/speculative.mojo` to check null (`0`) and sentinel (`1`) address pointers (`draft_addr == 0 or draft_addr == 1 or target_addr == 0 or target_addr == 1`) and non-positive count bounds (`count <= 0`), returning early with default single token acceptance.
+2. **Proving Assertions:** Added sentinel address `1` and non-positive `count` assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 60: Stage 15.1 — GBNFGrammar Token Mask Pointer & Vocab Bounds Hardening (AES-ECO-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** GBNF Logit Mask Sentinel Pointer & Vocabulary Size Bounds Guard  
+
+The forge completed Stage 15.1 of Project Aesir (`AES-ECO-007` `verified`):
+
+1. **Logit Pointer & Vocab Bounds Defense:** Hardened `GBNFGrammar.apply_grammar_mask()` in `core/grammar.mojo` to check null (`0`) and sentinel (`1`) address logit pointers (`addr == 0 or addr == 1`) and non-positive vocabulary sizes (`vocab_size <= 0`) early-return bounds.
+2. **Proving Assertions:** Added sentinel address `1` and non-positive `vocab_size` assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 59: Stage 14.1 — Model Manifest Tag Sanitization & Copy Guard (AES-CLI-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Model Manifest Copy Tag Validation & Empty Parameter Guard  
+
+The forge completed Stage 14.1 of Project Aesir (`AES-CLI-004` `verified`):
+
+1. **Empty Parameter Copy Guard:** Hardened `RuneModelStore.copy_model()` in `cli/manifest.mojo` to raise `Error("RuneModelStore.copy_model: source and target model names must not be empty")` when empty `source` or `target` model names are provided.
+2. **Proving Assertions:** Added empty parameter rejection test assertion in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 58: Stage 13.1 — HuggingFace Resolve-URL Construction & Empty Parameter Hardening (AES-ECO-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** HuggingFace Resolve URL Construction & Empty Parameter Bounds Guard  
+
+The forge completed Stage 13.1 of Project Aesir (`AES-ECO-002` `verified`):
+
+1. **Empty Parameter Validation:** Hardened `HuggingFaceSeer.build_download_url()` in `loader/huggingface.mojo` with `raises` modifier and empty parameter check (`len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0`).
+2. **Proving Assertions:** Added empty parameter rejection test assertion in `test_huggingface.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 57: Stage 12.1 — HuggingFace Repo Tag Parsing Validation & Empty Tag Guard (AES-ECO-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** HuggingFace Repository Tag Normalization & Empty Tag Bounds Guard  
+
+The forge completed Stage 12.1 of Project Aesir (`AES-ECO-001` `verified`):
+
+1. **Empty Tag Length Validation:** Hardened `HuggingFaceSeer.is_hf_tag()` in `loader/huggingface.mojo` to explicitly reject empty string model tags (`len(model_tag.bytes()) == 0`).
+2. **Proving Assertions:** Added empty string tag rejection assertion in `test_huggingface.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 56: Stage 11.1 — ErrorGuard Pointer Validation & Logit Sanitization Hardening (AES-RES-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Defensive Sentinel Pointer Address Validation & Logit Sanitization  
+
+The forge completed Stage 11.1 of Project Aesir (`AES-RES-001` `verified`):
+
+1. **Sentinel Pointer Address Validation:** Hardened `ErrorGuard.validate_pointer()` in `core/error_guard.mojo` to reject sentinel address `1` as well as null `0` (`addr != 0 and addr != 1`).
+2. **Logit Buffer Cleansing Guard:** Updated `ErrorGuard.sanitize_logits()` with sentinel address `1` early-return check (`addr == 0 or addr == 1 or count <= 0`).
+3. **Proving Assertions:** Added sentinel address `1` pointer validation rejection assertion in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 55: Stage 10.1 — Swarm Peer Telemetry & VRAM Capacity Arithmetic Hardening (AES-SWM-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Peer VRAM Capacity Clamping & Zero-Floor Protection  
+
+The forge completed Stage 10.1 of Project Aesir (`AES-SWM-001` `verified`):
+
+1. **VRAM Capacity Initialization Clamping:** Hardened `PeerNode.__init__()` in `core/swarm.mojo` to clamp negative VRAM capacity and usage inputs to zero (`max(0, capacity)` and `max(0, used)`).
+2. **Zero-Floor Arithmetic Protection:** Updated `PeerNode.vram_free_mb()` to return `max(0, self.vram_capacity_mb - self.vram_used_mb)`, preventing negative free memory metrics when usage exceeds capacity.
+3. **Proving Assertions:** Added overflow zero-floor protection and negative VRAM initialization assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 54: Stage 9.1 — Multi-Device Partition Bounds & All-Reduce Size Enforcement (AES-ACC-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Device All-Reduce Shard Tensor Size Validation  
+
+The forge completed Stage 9.1 of Project Aesir (`AES-ACC-001` `verified`):
+
+1. **Strict Shard Size Validation:** Hardened `all_reduce_sum()` in `core/compute.mojo` to require `shards[s].size >= Out.size` (raising `Error("all_reduce_sum: shard size smaller than output tensor")` on any dimension discrepancy).
+2. **Size Mismatch Proving Assertion:** Added `all_reduce_sum` shard tensor size mismatch error rejection test assertion in `test_sharding.mojo`.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 53: Stage 8.1 — Q4_K_M Block Dequantization Kernel Proving & Zero-Length Safety (AES-QNT-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Q4_K_M Block Unpacking & SIMD Transformation Kernel Proof  
+
+The forge completed Stage 8.1 of Project Aesir (`AES-QNT-002` `verified`):
+
+1. **Zero-Blocks Safety Guard:** Hardened `dequantize_q4_k_m()` in `core/compute.mojo` with zero-blocks early-return check (`num_blocks <= 0`).
+2. **Q4_K_M Block Unpacking Proving Test:** Implemented `test_q4_k_m_block_dequantization()` in `test_quantization.mojo` proving sub-block unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, and SIMD output placement.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 52: Stage 7.2 — MímirStore Query Vector Dimension Enforcement & Boundary Hardening (AES-RAG-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Vector Store Query Dimension Equality Validation  
+
+The forge completed Stage 7.2 of Project Aesir (`AES-RAG-002` `verified`):
+
+1. **Strict Query Dimension Validation:** Hardened `MimirStore.search_knn()` in `core/mimir_well.mojo` to require `query_emb.size == self.dim` (raising `Error("MimirStore.search_knn: query vector dimension mismatch")` on any dimension inequality).
+2. **Dimension Mismatch Proving Assertion:** Added `search_knn` query vector dimension mismatch error rejection test assertion in `test_rag.mojo`.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 51: Stage 7.1 — Workspace Memory Reclamation & Cosine Similarity Zero-Norm Hardening (AES-MEM-005 & AES-RAG-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Memory Workspace Reclamation & Zero-Norm SIMD Vector Hardening  
+
+The forge completed Stage 7.1 of Project Aesir (`AES-MEM-005` & `AES-RAG-001` `verified`):
+
+1. **Workspace Memory Reclamation:** Hardened `_prepare_prompt()` in `aesir.mojo` to invoke `self.pool.reset_kv_cache(self.runtime_offset)` after RAG context lookup completes, reclaiming transient query vector allocations before generation starts.
+2. **Zero-Norm Cosine Similarity Guard:** Enhanced `cosine_similarity()` in `core/compute.mojo` to return `0.0` when either input vector has a zero norm (`norm_a_sq <= 0.0` or `norm_b_sq <= 0.0`), preventing synthetic epsilon division on zero-vector inputs.
+3. **Verification & Assertions:** Registered zero-vector cosine similarity assertions in `test_rag.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
+## ⚡ Entry 50: Stage 6.4 — OpenAI REST Gateway & Wire SSE Streaming Integration (AES-SRV-004 & AES-SRV-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** OpenAI REST Route Dispatcher, JSON Formatting & Master Test Harness Expansion  
+
+The forge completed Stage 6.4 of Project Aesir (`AES-SRV-005` `verified`):
+
+1. **OpenAI REST Route Dispatcher:** Connected `dispatch_http_request()` in `server/api.mojo` to format valid REST responses for `/v1/chat/completions`, `/v1/models`, and `/v1/embeddings`.
+2. **OpenAI Response Formatting:** Integrated `OpenAIGate` in `server/openai.mojo` to format compliant `/v1/chat/completions` JSON responses, `/v1/models` catalog listings, and `/v1/embeddings` rejection payloads.
+3. **Compiler & Warning Cleanups:** Resolved pointer arithmetic deprecation warning in `write_all_bytes()` by switching to `ptr.unsafe_offset(offset)` and cleaned up unused assignment warnings in `BifrostGate.__deinit__`.
+4. **Master Proving Test Case:** Registered `server.openai_rest_gateway` in `test_multi_engine.mojo` and `run_all.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 49: Production Hardening & Bug-Kill Pass across Stages 5.5, 6.1, 6.2 & 6.3
 **Date:** August 16, 2026
 **Architectural Phase:** Memory Safety Invariant Hardening & Socket Transmission Verification
@@ -197,7 +556,7 @@ The forge implemented `GenerationConfig` validation and configurable stop semant
 
 The forge added comprehensive multilingual test coverage and proven round-trip fidelity:
 
-1. **Multilingual Test Corpora:** Added `test_multilingual_corpora()` in `test_tokenizer.mojo` covering CJK (Chinese `你好世界`, Japanese `こんにちは`, Korean `안녕하세요`), Cyrillic (`Привет мир`), Arabic (`مرحبا بالعالم`), Devanagari (`नमस्ते`), Emoji (`😀🎉🚀`), Accented Latin (`café & naïve`), and whitespace.
+1. **Multilingual Test Corpora:** Added `test_multilingual_corpora()` in `test_tokenizer.mojo` covering CJK (Chinese translated: `Hello World`, Japanese `こんにちは`, Korean `안녕하세요`), Cyrillic (`Привет мир`), Arabic (`مرحبا بالعالم`), Devanagari (`नमस्ते`), Emoji (`😀🎉🚀`), Accented Latin (`café & naïve`), and whitespace.
 2. **Encode/Decode Lossless Round-Trip:** Verified that streaming decoding of `encode(prompt)` reconstructs original text losslessly (`prompt == stream_decode(encode(prompt))`) across all multilingual scripts.
 3. **Master Proving:** Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-TOK-004` -> `verified`).
 

@@ -32,7 +32,9 @@ struct SpeculativeEngine(Copyable, ImplicitlyCopyable):
         Verifies draft tokens against target logits using rejection sampling.
         Returns the number of accepted tokens (1..count+1).
         """
-        if count <= 0:
+        var draft_addr = Int(draft_tokens)
+        var target_addr = Int(target_logits)
+        if draft_addr == 0 or draft_addr == 1 or target_addr == 0 or target_addr == 1 or count <= 0:
             return 1
         var accepted: Int = 0
         for i in range(count):

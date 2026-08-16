@@ -72,8 +72,8 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         self.ip_address = ip_address
         self.port = port
         self.role = role
-        self.vram_capacity_mb = vram_capacity_mb
-        self.vram_used_mb = vram_used_mb
+        self.vram_capacity_mb = max(0, vram_capacity_mb)
+        self.vram_used_mb = max(0, vram_used_mb)
         self.is_alive = is_alive
 
     def __copyinit__(out self, existing: Self):
@@ -103,7 +103,7 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         ══════════════════════════════════════════════════════════════════════════
         Calculates the remaining unallocated VRAM capacity in megabytes.
         """
-        return self.vram_capacity_mb - self.vram_used_mb
+        return max(0, self.vram_capacity_mb - self.vram_used_mb)
 
 
 struct PeerRegistry(Copyable):
@@ -160,7 +160,7 @@ struct PeerRegistry(Copyable):
                 if n.is_alive and n.vram_free_mb() > max_free:
                     max_free = n.vram_free_mb()
                     best_id = k
-        if best_id == "":
+        if len(best_id.bytes()) == 0:
             raise Error("no live swarm peers")
         return self.nodes[best_id].copy()
 
@@ -197,6 +197,8 @@ struct TaskDispatcher(Copyable, ImplicitlyCopyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved transport operation until a real peer protocol exists.
         """
+        if len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0:
+            raise Error("node id and task name must not be empty")
         _ = node
         _ = task_name
         raise Error("swarm task dispatch is not implemented")
@@ -237,6 +239,8 @@ struct SwarmCluster(Copyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved join operation until a real mesh protocol exists.
         """
+        if len(leader_address.bytes()) == 0:
+            raise Error("leader address must not be empty")
         _ = leader_address
         raise Error("swarm mesh join is not implemented")
 
@@ -254,6 +258,8 @@ struct SwarmCluster(Copyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved remote inference operation until transport exists.
         """
+        if len(model.bytes()) == 0 or len(prompt.bytes()) == 0:
+            raise Error("model and prompt must not be empty")
         _ = model
         _ = prompt
         raise Error("distributed swarm inference is not implemented")

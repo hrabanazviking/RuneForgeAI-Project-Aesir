@@ -302,6 +302,8 @@ struct AesirEngine:
             var hidden_dim = self.parser.config.embedding_length
             if "token_embd.weight" in self.parser.tensors:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
+            if hidden_dim <= 0:
+                return prompt
             var q_ptr = self.pool.allocate(hidden_dim)
             var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
             for k in range(hidden_dim):
@@ -315,6 +317,7 @@ struct AesirEngine:
                     context_str += docs[i]
                 active_prompt = context_str + String("\n") + prompt
                 print("RAG Context Augmented:", context_str)
+            self.pool.reset_kv_cache(self.runtime_offset)
         return active_prompt
 
     def _run_generation(

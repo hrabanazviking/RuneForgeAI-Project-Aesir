@@ -12,7 +12,7 @@ struct RuneThreadPool(Copyable, ImplicitlyCopyable):
     var is_active: Bool
 
     def __init__(out self, num_threads: Int = 8):
-        self.num_threads = num_threads
+        self.num_threads = max(1, num_threads)
         self.is_active = True
 
     def copy(self) -> Self:

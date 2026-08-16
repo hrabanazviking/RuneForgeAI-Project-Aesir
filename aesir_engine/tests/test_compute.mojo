@@ -255,15 +255,26 @@ def test_kernel_bounds() raises:
     if not rope_odd:
         raise Error("apply_rope failed to detect odd head_dim")
 
-    # 5. GeGLU odd size test
+    # 5. GeGLU odd size test (returns early safely without mutation)
     var G_odd = RuneTensor[f16](1, 15, well.allocate(15))
-    var geglu_odd = False
-    try:
-        geglu(G_odd)
-    except:
-        geglu_odd = True
-    if not geglu_odd:
-        raise Error("geglu failed to detect odd size")
+    G_odd.data.unsafe_store(0, Scalar[f16](5.0))
+    geglu(G_odd)
+    if G_odd.data.unsafe_load(0) != Scalar[f16](5.0):
+        raise Error("geglu mutated odd size tensor")
+
+    # 6. Incremental causal attention head bounds safety (returns early without panic)
+    var q_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var k_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var v_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var out_att = RuneTensor[f16](1, 8, well.allocate(8))
+    out_att.data.unsafe_store(0, Scalar[f16](7.0))
+    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 0, 4, 2) # head_dim = 0
+    if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
+        raise Error("incremental_causal_attention failed on zero head_dim safety check")
+
+    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 4, 3, 2) # non-divisible 3 // 2
+    if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
+        raise Error("incremental_causal_attention failed on non-divisible head ratio safety check")
 
     print("checked kernel boundaries: PASS")
 

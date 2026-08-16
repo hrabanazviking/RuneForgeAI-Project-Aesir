@@ -30,6 +30,8 @@ struct AesirEventBus(Copyable, ImplicitlyCopyable):
         listeners of operational state transitions, heartbeats, and panic signals.
         Zero dynamic memory allocation.
         """
+        if len(event_type.bytes()) == 0:
+            return
         self.event_count += 1
         if event_type == "HEARTBEAT":
             self.last_event_code = 1

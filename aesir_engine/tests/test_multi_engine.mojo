@@ -74,6 +74,12 @@ def test_gbnf_grammar() raises:
             print("FAIL: GBNFGrammar changed allowed even token index", i)
             success = False
             break
+    # Test sentinel pointer and non-positive vocab_size early return safety
+    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    grammar.apply_grammar_mask(sentinel_ptr, 16)
+    grammar.apply_grammar_mask(logits, 0)
+    grammar.apply_grammar_mask(logits, -5)
+
     logits.unsafe_free()
 
     if success:
@@ -95,6 +101,17 @@ def test_speculative_engine() raises:
         target_logits.unsafe_store(i, Scalar[f16](0.0))
 
     var accepted = spec.verify_tokens(draft_tokens, target_logits, 4)
+    # Test sentinel pointer address and non-positive count early return safety
+    var sentinel_draft = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=1)
+    var sentinel_logits = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    var s1 = spec.verify_tokens(sentinel_draft, target_logits, 4)
+    var s2 = spec.verify_tokens(draft_tokens, sentinel_logits, 4)
+    var s3 = spec.verify_tokens(draft_tokens, target_logits, 0)
+    var s4 = spec.verify_tokens(draft_tokens, target_logits, -1)
+    if s1 != 1 or s2 != 1 or s3 != 1 or s4 != 1:
+        print("FAIL: SpeculativeEngine did not return 1 for sentinel pointers or non-positive count")
+        success = False
+
     draft_tokens.unsafe_free()
     target_logits.unsafe_free()
 
@@ -125,6 +142,18 @@ def test_multi_engine_cli() raises:
     print("--- Testing unsupported multi-engine CLI dispatchers ---")
     var args = List[String]()
     args.append("llama-bench")
+    # Test empty args list parameter rejection
+    var empty_args = List[String]()
+    var empty_dispatch_rejected = False
+    try:
+        _ = dispatch_llama_cli(empty_args)
+    except error:
+        empty_dispatch_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("llama empty dispatch rejection omitted empty error text")
+    if not empty_dispatch_rejected:
+        raise Error("dispatch_llama_cli allowed empty args parameter")
+
     var llama_rejected = False
     try:
         _ = dispatch_llama_cli(args)
@@ -183,6 +212,17 @@ def test_unsupported_http_responses() raises:
 
 def test_posix_socket_server() raises:
     print("--- Testing bare-metal POSIX socket bind/listen setup & options ---")
+    # Test invalid port bounds rejection
+    var invalid_port_rejected = False
+    try:
+        var bad_server = BifrostGate(0)
+    except error:
+        invalid_port_rejected = True
+        if "between 1 and 65535" not in String(error):
+            raise Error("invalid port rejection omitted expected error text")
+    if not invalid_port_rejected:
+        raise Error("BifrostGate allowed port 0 initialization")
+
     var server = BifrostGate(18434)
     if not server.is_valid():
         raise Error("BifrostGate socket creation failed: invalid file descriptor")
@@ -200,6 +240,17 @@ def test_posix_socket_server() raises:
 
 def test_http_parser_and_router() raises:
     print("--- Testing HTTP/1.1 request parser & route dispatcher ---")
+    # Test empty HTTP request line rejection
+    var empty_req_rejected = False
+    try:
+        _ = parse_http_request("")
+    except error:
+        empty_req_rejected = True
+        if "Empty HTTP request" not in String(error):
+            raise Error("empty HTTP request rejection omitted expected error text")
+    if not empty_req_rejected:
+        raise Error("parse_http_request allowed empty request string")
+
     var raw_post = (
         "POST /v1/chat/completions HTTP/1.1\r\n"
         + "Host: 127.0.0.1:11434\r\n"
@@ -218,8 +269,8 @@ def test_http_parser_and_router() raises:
         raise Error("HTTP parser failed to extract body: got " + req.body)
 
     var response = dispatch_http_request(req)
-    if "501 Not Implemented" not in response:
-        raise Error("Route dispatcher failed to return HTTP 501 for /v1/chat/completions")
+    if "HTTP/1.1 200 OK" not in response or '"object": "chat.completion"' not in response:
+        raise Error("Route dispatcher failed to format OpenAI chat completion response for /v1/chat/completions")
 
     var raw_unknown = "GET /unknown/path HTTP/1.1\r\nHost: localhost\r\n\r\n"
     var unknown_req = parse_http_request(raw_unknown)
@@ -248,7 +299,26 @@ def test_http_response_framing() raises:
     if "5\r\nhello\r\n" not in chunk:
         raise Error("build_http_chunk formatted invalid chunked block")
 
+    var term_chunk = build_http_chunk("")
+    if term_chunk != "0\r\n\r\n":
+        raise Error("build_http_chunk failed to format terminal chunked block")
+
     if write_all_bytes(-1, "data"):
         raise Error("write_all_bytes reported success on invalid file descriptor -1")
 
     print("HTTP/1.1 response framing & streaming utilities: PASS")
+
+
+def test_openai_rest_gateway() raises:
+    print("--- Testing OpenAI REST API Gateway (/v1/chat/completions, /v1/models, /v1/embeddings) ---")
+    var models_req = parse_http_request("GET /v1/models HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
+    var models_resp = dispatch_http_request(models_req)
+    if "HTTP/1.1 200 OK" not in models_resp or '"object": "list"' not in models_resp:
+        raise Error("Route dispatcher failed on /v1/models: got " + models_resp)
+
+    var emb_req = parse_http_request("POST /v1/embeddings HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
+    var emb_resp = dispatch_http_request(emb_req)
+    if "HTTP/1.1 200 OK" not in emb_resp or '"error": "unsupported"' not in emb_resp:
+        raise Error("Route dispatcher failed on /v1/embeddings: got " + emb_resp)
+
+    print("OpenAI REST API Gateway: PASS")

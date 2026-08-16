@@ -10,6 +10,15 @@ def test_kv_cache() raises:
 
     # 1. Instantiation test
     var well = MimirWell(1024 * 1024 * 2) # 2 MB well
+    var initial_offset = well.offset
+    var alloc_ptr = well.allocate(512)
+    var alloc_offset = well.offset
+    if alloc_offset <= initial_offset:
+        raise Error("MimirWell failed to advance offset")
+    well.reset_kv_cache(initial_offset)
+    if well.offset != initial_offset:
+        raise Error("MimirWell failed to restore runtime_offset")
+
     var max_seq_len = 64
     var hidden_dim = 16
     var num_layers = 2

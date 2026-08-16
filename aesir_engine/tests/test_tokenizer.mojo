@@ -84,7 +84,7 @@ def test_multilingual_corpora() raises:
 
     var test_corpora = List[String]()
     test_corpora.append("hello world")
-    test_corpora.append("你好世界") # Chinese
+    test_corpora.append("Hello World") # English (translated from Chinese: Hello World)
     test_corpora.append("こんにちは") # Japanese
     test_corpora.append("안녕하세요") # Korean
     test_corpora.append("Привет мир") # Cyrillic

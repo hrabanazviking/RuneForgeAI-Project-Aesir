@@ -31,6 +31,8 @@ def dequantize_q4_k_m(block_ptr: Pointer[BlockQ4_K, MutUntrackedOrigin], out_ptr
     On-the-fly dequantization of Q4_K_M blocks directly into registers/L1.
     Bypasses system memory bandwidth bottlenecks.
     """
+    if num_blocks <= 0:
+        return
     for b in range(num_blocks):
         var scale = block_ptr.unsafe_offset(b)[].scale
         var min_val = block_ptr.unsafe_offset(b)[].min_val
@@ -54,6 +56,8 @@ def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[S
     ════════════════════════════════════════════════════════════
     2-bit K-quantization block unpacking with 6-bit scales.
     """
+    if num_elements <= 0:
+        return
     var scale: Scalar[f16] = 0.125
     var min_val: Scalar[f16] = -1.0
     var num_bytes = num_elements // 4
@@ -325,7 +329,9 @@ def flash_attention_gqa(
     """Incremental causal attention with grouped-query head mapping."""
     if sequence_length <= 0 or query.rows != 1 or output.rows != 1:
         return
-    if query_head_count <= 0 or kv_head_count <= 0:
+    if query_head_count <= 0 or kv_head_count <= 0 or head_dim <= 0:
+        return
+    if query_head_count % kv_head_count != 0:
         return
     var query_heads_per_kv = query_head_count // kv_head_count
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
@@ -476,6 +482,8 @@ def flash_attention_2(
 @always_inline
 def silu(mut T: RuneTensor[f16]):
     """Vectorized SiLU (Swish) activation: x * sigmoid(x). The bending of the branch."""
+    if T.size <= 0:
+        return
     var simd_end = (T.size // simd_w_f16) * simd_w_f16
     for i in range(0, simd_end, simd_w_f16):
         var x = T.data.unsafe_load[width=simd_w_f16](i)
@@ -489,6 +497,8 @@ def silu(mut T: RuneTensor[f16]):
 @always_inline
 def geglu(mut T: RuneTensor[f16]):
     """Vectorized GeGLU operation. The binding of the gates."""
+    if T.size <= 0 or T.size % 2 != 0:
+        return
     # Custom SIMD implementation to bypass global memory write-backs
     # GeGLU splits the vector into two halves: x and y, and computes x * GELU(y)
     var half_size = T.size // 2
@@ -636,6 +646,8 @@ def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) raises -> Scalar[f
         norm_a_sq += a_val * a_val
         norm_b_sq += b_val * b_val
 
+    if norm_a_sq <= 0.0 or norm_b_sq <= 0.0:
+        return 0.0
     var norm_a = sqrt(norm_a_sq)
     var norm_b = sqrt(norm_b_sq)
     var denom = max(norm_a * norm_b, Scalar[f32](1e-8))
@@ -659,7 +671,7 @@ def gemm_f16_sharded(
         gemm_f16(A_shards[i], B_shards[i], C_shards[i])
 
 
-def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]):
+def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]) raises:
     """
     The Convergence of Shards at the Bifrost Bridge (All-Reduce Sum):
     Accumulates hidden state representations from row-parallel device shards 
@@ -667,9 +679,13 @@ def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]):
     """
     var num_shards = len(shards)
     if num_shards == 0:
-        return
+        raise Error("all_reduce_sum: input shards list must not be empty")
 
     var size = Out.size
+    for s in range(num_shards):
+        if shards[s].size < size:
+            raise Error("all_reduce_sum: shard size smaller than output tensor")
+
     var simd_end = (size // simd_w_f16) * simd_w_f16
 
     for i in range(0, simd_end, simd_w_f16):

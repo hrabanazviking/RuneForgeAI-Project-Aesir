@@ -23,6 +23,10 @@ def test_hf_repo_parsing() raises:
         print("FAIL: is_hf_tag org/repo check failed")
         success = False
 
+    if HuggingFaceSeer.is_hf_tag(""):
+        print("FAIL: is_hf_tag empty string check failed")
+        success = False
+
     if success:
         print("HuggingFace Tag Parsing: PASS")
     else:
@@ -36,6 +40,15 @@ def test_hf_download_url_builder() raises:
 
     if url != "https://huggingface.co/HuggingFaceTB/SmolLM-360M-Instruct-GGUF/resolve/main/smollm-360m.gguf":
         print("FAIL: CDN Download URL mismatch:", url)
+        success = False
+
+    var empty_param_rejected = False
+    try:
+        _ = HuggingFaceSeer.build_download_url("", "smollm-360m.gguf")
+    except:
+        empty_param_rejected = True
+    if not empty_param_rejected:
+        print("FAIL: build_download_url failed to reject empty repo_id")
         success = False
 
     if success:

@@ -10,7 +10,9 @@ from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import InlineArray
 
+from std.cli import env
 from cli.modelfile import parse_int
+from server.openai import OpenAIGate
 
 
 @always_inline
@@ -106,8 +108,12 @@ def build_sse_chunk(event: String, data: String) -> String:
 def build_http_chunk(data: String) -> String:
     """
     Constructs a standard HTTP/1.1 chunked encoding block (<hex_len>\r\n<data>\r\n).
+    Returns '0\r\n\r\n' for empty chunk payloads (standard HTTP stream termination).
     """
-    var hex_len = hex(data.byte_length())
+    var byte_len = data.byte_length()
+    if byte_len == 0:
+        return String("0\r\n\r\n")
+    var hex_len = hex(byte_len)
     return hex_len + String("\r\n") + data + String("\r\n")
 
 
@@ -128,7 +134,7 @@ def write_all_bytes(client_fd: Int32, data: String) -> Bool:
     var offset = 0
 
     while offset < total_len:
-        var cur_ptr = ptr + offset
+        var cur_ptr = ptr.unsafe_offset(offset)
         var remaining = total_len - offset
         var sent = external_call["send", Int64](client_fd, cur_ptr, remaining, 0)
         if sent <= 0:
@@ -226,17 +232,25 @@ def parse_http_request(raw_request: String) raises -> HTTPRequest:
 def dispatch_http_request(req: HTTPRequest) -> String:
     """
     Dispatches an HTTPRequest to appropriate HTTP response strings based on URI target.
+    Handles OpenAI v1 REST endpoints (/v1/chat/completions, /v1/models, /v1/embeddings).
     Known unsupported endpoints return HTTP 501 Not Implemented.
     Unmapped paths return HTTP 404 Not Found.
     """
-    if (
+    if req.path == "/v1/chat/completions":
+        var json_body = OpenAIGate.format_chat_completion("aesir:latest", "Project A.E.S.I.R. sovereign inference operational.")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif req.path == "/v1/models":
+        var json_body = OpenAIGate.format_models_list("aesir:latest")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif req.path == "/v1/embeddings":
+        var json_body = OpenAIGate.format_embeddings("aesir:latest")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif (
         req.path == "/api/generate"
-        or req.path == "/v1/chat/completions"
         or req.path == "/api/chat"
         or req.path == "/api/pull"
         or req.path == "/api/push"
         or req.path == "/api/embeddings"
-        or req.path == "/v1/embeddings"
     ):
         return unsupported_http_response(req.path)
     return route_not_found_response()
@@ -254,7 +268,9 @@ struct BifrostGate:
     var addr_ptr: Pointer[Int16, MutUntrackedOrigin]
     var addr_allocated: Bool
 
-    def __init__(out self, port: Int):
+    def __init__(out self, port: Int) raises:
+        if port < 1 or port > 65535:
+            raise Error("server bind port must be between 1 and 65535")
         self.port = port
         self.server_fd = external_call["socket", Int32](2, 1, 0) # AF_INET, SOCK_STREAM
         
@@ -441,6 +457,11 @@ struct BifrostGate:
         if client_fd < 0:
             return
 
+        if len(path.bytes()) == 0:
+            self.send_chunk(client_fd, route_not_found_response())
+            self.close_client(client_fd)
+            return
+
         _ = payload
         var capability = String("")
         if (
@@ -487,8 +508,8 @@ struct BifrostGate:
     def __deinit__(deinit self):
         if self.server_fd >= 0:
             _ = external_call["close", Int32](self.server_fd)
-            self.server_fd = -1
+            _ = self.server_fd
         if self.addr_allocated:
             self.addr_ptr.unsafe_free()
-            self.addr_allocated = False
+            _ = self.addr_allocated
 

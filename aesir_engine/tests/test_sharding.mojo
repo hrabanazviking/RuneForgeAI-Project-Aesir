@@ -98,6 +98,32 @@ def test_all_reduce_sum() raises:
         if abs(actual - expected) > 1e-3:
             raise Error("all_reduce_sum value mismatch at index " + String(i))
 
+    # Shard size mismatch rejection check
+    var bad_ptr = alloc(Layout[Scalar[f16]](count=dim - 2)).unsafe_leak()
+    var bad_shard = RuneTensor[f16](1, dim - 2, bad_ptr, False)
+    var bad_shards = List[RuneTensor[f16]]()
+    bad_shards.append(bad_shard.copy())
+    var size_mismatch = False
+    try:
+        all_reduce_sum(bad_shards, out_t)
+    except:
+        size_mismatch = True
+    bad_ptr.unsafe_free()
+    if not size_mismatch:
+        raise Error("all_reduce_sum failed to detect shard size mismatch")
+
+    # Empty shards list rejection check
+    var empty_shards = List[RuneTensor[f16]]()
+    var empty_rejected = False
+    try:
+        all_reduce_sum(empty_shards, out_t)
+    except error:
+        empty_rejected = True
+        if "input shards list must not be empty" not in String(error):
+            raise Error("all_reduce_sum empty shards rejection omitted expected error text")
+    if not empty_rejected:
+        raise Error("all_reduce_sum failed to reject empty input shards list")
+
     ptr1.unsafe_free()
     ptr2.unsafe_free()
     out_ptr.unsafe_free()

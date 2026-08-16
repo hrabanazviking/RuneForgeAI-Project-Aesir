@@ -93,6 +93,15 @@ def test_model_manifest_store() raises:
     if len(store.list_models()) != 0:
         raise Error("store list_models must be empty after removal")
 
+    # Test copy model empty parameter rejection
+    var copy_rejected = False
+    try:
+        store.copy_model("", "target")
+    except:
+        copy_rejected = True
+    if not copy_rejected:
+        raise Error("copy_model failed to reject empty source parameter")
+
     print("model manifest store, digest & serialization: PASS")
 
 
@@ -105,7 +114,7 @@ def assert_cli_command_unsupported(command: String) raises:
     except error:
         rejected = True
         var message = String(error)
-        if "not implemented" not in message and "unsupported" not in message:
+        if "not implemented" not in message and "unsupported" not in message and "requires a subcommand" not in message:
             raise Error("unsupported CLI error omitted stable truth text")
     if not rejected:
         raise Error("unsupported CLI command returned successfully: " + command)
@@ -153,6 +162,34 @@ def test_cli_command_dispatch() raises:
     dispatch_command(rm_args, store)
 
     # Verify reserved unsupported command rejections
+    # Test bare swarm command subcommand requirement assertion
+    var swarm_sub_rejected = False
+    try:
+        var swarm_args = List[String]()
+        swarm_args.append("swarm")
+        dispatch_command(swarm_args)
+    except error:
+        swarm_sub_rejected = True
+        if "requires a subcommand" not in String(error):
+            raise Error("swarm bare command rejection omitted subcommand error text")
+    if not swarm_sub_rejected:
+        raise Error("swarm bare command allowed execution without subcommand")
+
+    # Test empty prompt single-shot run parameter rejection
+    var empty_prompt_rejected = False
+    try:
+        var run_empty = List[String]()
+        run_empty.append("run")
+        run_empty.append("demo-model.gguf")
+        run_empty.append("   ")
+        dispatch_command(run_empty)
+    except error:
+        empty_prompt_rejected = True
+        if "prompt text must not be empty" not in String(error):
+            raise Error("empty prompt run rejection omitted expected error text")
+    if not empty_prompt_rejected:
+        raise Error("run command allowed empty prompt parameter")
+
     assert_cli_command_unsupported("serve")
     assert_cli_command_unsupported("pull")
     assert_cli_command_unsupported("push")
@@ -193,6 +230,16 @@ def test_repl_session_and_slash_commands() raises:
     if outputs[6] != "[EXIT]":
         raise Error("REPL exit slash command mismatch")
 
+    # Test negative configuration parameter clamping
+    var neg_inputs = List[String]()
+    neg_inputs.append("/set temp -0.5")
+    neg_inputs.append("/set top_k -10")
+    _ = repl.run_repl_stream(neg_inputs)
+    if repl.config.temperature != 0.0:
+        raise Error("REPL negative temperature was not clamped to 0.0")
+    if repl.config.top_k != 0:
+        raise Error("REPL negative top_k was not clamped to 0")
+
     print("RuneREPL session state & slash commands: PASS")
 
 
@@ -228,5 +275,17 @@ def test_cli_flag_options_parser() raises:
     list_json_args.append("--format")
     list_json_args.append("json")
     dispatch_command(list_json_args, store)
+
+    # Verify ChatMessage empty list formatting safety
+    from loader.chat_template import RuneChatTemplate, ChatMessage
+    var tmpl = RuneChatTemplate("chatml")
+    var empty_msgs = List[ChatMessage]()
+    var empty_chatml_rejected = False
+    try:
+        _ = tmpl.format_chatml(empty_msgs)
+    except:
+        empty_chatml_rejected = True
+    if not empty_chatml_rejected:
+        raise Error("RuneChatTemplate format_chatml failed to reject empty message list")
 
     print("CLIOptions flag parser, duration conversion & JSON output: PASS")
