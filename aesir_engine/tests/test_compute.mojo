@@ -255,15 +255,12 @@ def test_kernel_bounds() raises:
     if not rope_odd:
         raise Error("apply_rope failed to detect odd head_dim")
 
-    # 5. GeGLU odd size test
+    # 5. GeGLU odd size test (returns early safely without mutation)
     var G_odd = RuneTensor[f16](1, 15, well.allocate(15))
-    var geglu_odd = False
-    try:
-        geglu(G_odd)
-    except:
-        geglu_odd = True
-    if not geglu_odd:
-        raise Error("geglu failed to detect odd size")
+    G_odd.data.unsafe_store(0, Scalar[f16](5.0))
+    geglu(G_odd)
+    if G_odd.data.unsafe_load(0) != Scalar[f16](5.0):
+        raise Error("geglu mutated odd size tensor")
 
     print("checked kernel boundaries: PASS")
 

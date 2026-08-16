@@ -495,7 +495,7 @@ def silu(mut T: RuneTensor[f16]):
 @always_inline
 def geglu(mut T: RuneTensor[f16]):
     """Vectorized GeGLU operation. The binding of the gates."""
-    if T.size <= 0:
+    if T.size <= 0 or T.size % 2 != 0:
         return
     # Custom SIMD implementation to bypass global memory write-backs
     # GeGLU splits the vector into two halves: x and y, and computes x * GELU(y)

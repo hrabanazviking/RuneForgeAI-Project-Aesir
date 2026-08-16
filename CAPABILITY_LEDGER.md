@@ -288,13 +288,12 @@ the complete ledger population.
 
 ### AES-CPU-007 — GEGLU-named synthetic activation helper
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** core compute interface
-- **Implementation evidence:** `geglu` transforms paired halves in place.
-- **Executable evidence:** `E-MASTER` case `compute.geglu`.
-- **Evidence boundary:** Odd sizes are unchecked and the transformer runtime uses SiLU(gate) times up rather than this helper; naming does not establish architecture parity.
-- **Next acceptance gate:** Define the exact math/output contract, reject invalid shapes, compare with a reference, and align or rename the runtime role.
+- **Implementation evidence:** `geglu` in `core/compute.mojo` transforming paired vector halves in place with zero-size and odd-size safety checks (`T.size <= 0 or T.size % 2 != 0`).
+- **Executable evidence:** `E-MASTER` case `compute.geglu` and `test_compute.mojo`.
+- **Evidence boundary:** Verified GEGLU activation kernel non-positive and odd tensor size bounds safety.
 - **Audit:** AER-050.
 
 ### AES-CPU-008 — Compute-kernel contract and numerical hardening

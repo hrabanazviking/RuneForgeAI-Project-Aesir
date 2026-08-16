@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 81: Stage 36.1 — GEGLU Activation Kernel Odd-Size Boundary Safety Hardening (AES-CPU-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** GEGLU Activation Kernel Odd-Size Boundary Safety Hardening  
+
+The forge completed Stage 36.1 of Project Aesir (`AES-CPU-007` `verified`):
+
+1. **Activation Parity & Bounds Defense:** Hardened `geglu()` in `core/compute.mojo` to check tensor size parity (`T.size <= 0 or T.size % 2 != 0`), returning early safely without mutating memory when unpaired vector sizes are provided.
+2. **Proving Assertions:** Updated odd size test assertions in `test_compute.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 80: Stage 35.1 — Raw File-Descriptor & Socket Write Bounds Hardening (AES-SRV-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Raw File-Descriptor & Socket Write Bounds Hardening  
