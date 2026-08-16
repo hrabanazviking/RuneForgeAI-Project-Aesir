@@ -523,7 +523,7 @@ An undocumented error that occurs in production is a taxonomy gap, not an unavoi
 
 ---
 
-## Section十八: Error Reporting and Analytics
+## Section Eighteen: Error Reporting and Analytics
 
 ### Error Metrics
 
