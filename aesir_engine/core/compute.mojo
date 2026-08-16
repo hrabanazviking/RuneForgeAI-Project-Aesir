@@ -671,7 +671,7 @@ def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]) rais
     """
     var num_shards = len(shards)
     if num_shards == 0:
-        return
+        raise Error("all_reduce_sum: input shards list must not be empty")
 
     var size = Out.size
     for s in range(num_shards):

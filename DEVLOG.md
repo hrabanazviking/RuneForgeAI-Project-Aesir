@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 76: Stage 31.1 — Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening (AES-ACC-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening  
+
+The forge completed Stage 31.1 of Project Aesir (`AES-ACC-002` `verified`):
+
+1. **All-Reduce Parameter Defense:** Hardened `all_reduce_sum()` in `core/compute.mojo` to check input shards list count (`if num_shards == 0`), raising `Error("all_reduce_sum: input shards list must not be empty")` when an empty list of shards is provided.
+2. **Proving Assertions:** Added empty shards parameter rejection assertions in `test_sharding.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 75: Stage 30.1 — Documentation-to-Evidence Truth Consistency Audit & Final Verification Gate (AES-OPS-006)
 **Date:** August 16, 2026  
 **Architectural Phase:** Documentation-to-Evidence Truth Consistency Audit & Final Verification Gate  

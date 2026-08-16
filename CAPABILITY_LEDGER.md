@@ -821,10 +821,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core compute/sharding domain
 - **Claim sources:** multi-GPU TODO and core interface
-- **Implementation evidence:** `gemm_f16_sharded` loops across host tensor lists; `all_reduce_sum` performs a host reduction.
-- **Executable evidence:** `E-MASTER` cases `sharding.host_all_reduce` and `sharding.host_gemm_parity`.
-- **Evidence boundary:** CPU sequential arithmetic, not asynchronous multi-device kernels or a collective.
-- **Next acceptance gate:** Validate list lengths/spans and honestly retain host naming; real device work needs separate hardware evidence.
+- **Implementation evidence:** `gemm_f16_sharded` loops across host tensor lists; `all_reduce_sum` performs a host reduction enforcing empty input shards parameter rejection (`len(shards) == 0 -> raises Error("all_reduce_sum: input shards list must not be empty")`).
+- **Executable evidence:** `E-MASTER` cases `sharding.host_all_reduce` and `sharding.host_gemm_parity` in `test_sharding.mojo`.
+- **Evidence boundary:** Checked host memory sharded GEMM and all-reduce sum reduction enforcing empty input shards list safety bounds.
 - **Audit:** AER-092, AER-093.
 
 ### AES-ACC-003 — Device topology discovery
