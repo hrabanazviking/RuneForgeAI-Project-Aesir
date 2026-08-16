@@ -2,7 +2,7 @@
 
 ## Authority
 
-This document governs every external dependency引入 into Project Æsir. It defines what is permitted, what requires justification, what is forbidden, and how approvals work. The ENGINEERING_DOCTRINE.md establishes that the project must remain lean and auditable. This document defines what lean and auditable mean in practice.
+This document governs every external dependency introduced into Project Æsir. It defines what is permitted, what requires justification, what is forbidden, and how approvals work. The ENGINEERING_DOCTRINE.md establishes that the project must remain lean and auditable. This document defines what lean and auditable mean in practice.
 
 A dependency is any code that the project consumes but does not own. This includes Mojo packages, Python modules invoked through interop, C libraries linked through FFI, system libraries accessed through dynamic loading, and build-time tools required for compilation or testing.
 
