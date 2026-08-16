@@ -27,8 +27,14 @@ def parse_int(value: String) -> Int:
 def parse_float(value: String) -> Float32:
     """Parses a Float32 from string digits."""
     var s = String(value.strip())
+    var is_neg = False
+    if s.startswith("-"):
+        is_neg = True
+        var rest = String(s[byte=1:])
+        s = String(rest.strip())
     if "." not in s:
-        return Float32(parse_int(s))
+        var res = Float32(parse_int(s))
+        return -res if is_neg else res
     var parts = s.split(".")
     var p0 = String(parts[0])
     var p1 = String(parts[1])
@@ -37,9 +43,8 @@ def parse_float(value: String) -> Float32:
     var div = Float32(1.0)
     for _ in range(len(p1.bytes())):
         div *= Float32(10.0)
-    if int_part < 0.0:
-        return int_part - (frac_part / div)
-    return int_part + (frac_part / div)
+    var res = int_part + (frac_part / div)
+    return -res if is_neg else res
 
 
 @always_inline

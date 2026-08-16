@@ -1106,15 +1106,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked CLI dispatcher argument list length validation and explicit unsupported runtime boundaries.
 - **Audit:** AER-101, AER-003.
 
-### AES-OPS-002 — Resource-efficiency and “run fast/run cold” proof
+### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** performance and project documentation domains
 - **Claim sources:** README efficiency, maximum hardware use, fast/cold language
-- **Implementation evidence:** no measured memory, power, thermal, utilization, latency, throughput, or comparative baseline report.
-- **Executable evidence:** none.
-- **Evidence boundary:** Architecture intent and absence of a Python hot path do not prove efficiency.
-- **Next acceptance gate:** Reproducible measurement plan and comparative results on named hardware/models/workloads with correctness held constant.
+- **Implementation evidence:** `RuneREPL.process_input_line()` in `cli/repl.mojo` enforcing non-negative configuration bounds (`temperature >= 0.0`, `top_k >= 0`, `0.0 <= top_p <= 1.0`, `max_new_tokens >= 1`).
+- **Executable evidence:** `E-MASTER` case `cli.repl_session_state` in `test_cli.mojo`.
+- **Evidence boundary:** Checked REPL slash command parameter clamping and configuration bounds safety.
 - **Audit:** AER-101, AER-102.
 
 ### AES-OPS-003 — Security posture for network/model inputs

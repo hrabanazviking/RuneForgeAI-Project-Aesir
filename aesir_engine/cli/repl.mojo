@@ -76,17 +76,31 @@ struct RuneREPL:
                 var param = String(parts[0]).strip()
                 var val_str = String(parts[1]).strip()
                 if param == "temp" or param == "temperature":
-                    self.config.temperature = parse_float(String(val_str))
-                    print("Set temperature to " + val_str)
+                    var t = parse_float(String(val_str))
+                    if t < 0.0:
+                        t = 0.0
+                    self.config.temperature = t
+                    print("Set temperature to " + String(self.config.temperature))
                 elif param == "top_k":
-                    self.config.top_k = parse_int(String(val_str))
-                    print("Set top_k to " + val_str)
+                    var k = parse_int(String(val_str))
+                    if k < 0:
+                        k = 0
+                    self.config.top_k = k
+                    print("Set top_k to " + String(self.config.top_k))
                 elif param == "top_p":
-                    self.config.top_p = parse_float(String(val_str))
-                    print("Set top_p to " + val_str)
+                    var p = parse_float(String(val_str))
+                    if p < 0.0:
+                        p = 0.0
+                    elif p > 1.0:
+                        p = 1.0
+                    self.config.top_p = p
+                    print("Set top_p to " + String(self.config.top_p))
                 elif param == "max_tokens" or param == "num_predict":
-                    self.config.max_new_tokens = parse_int(String(val_str))
-                    print("Set max_new_tokens to " + val_str)
+                    var m = parse_int(String(val_str))
+                    if m < 1:
+                        m = 1
+                    self.config.max_new_tokens = m
+                    print("Set max_new_tokens to " + String(self.config.max_new_tokens))
                 else:
                     print("Unknown parameter: " + param)
             return String("[SET]")

@@ -215,6 +215,16 @@ def test_repl_session_and_slash_commands() raises:
     if outputs[6] != "[EXIT]":
         raise Error("REPL exit slash command mismatch")
 
+    # Test negative configuration parameter clamping
+    var neg_inputs = List[String]()
+    neg_inputs.append("/set temp -0.5")
+    neg_inputs.append("/set top_k -10")
+    _ = repl.run_repl_stream(neg_inputs)
+    if repl.config.temperature != 0.0:
+        raise Error("REPL negative temperature was not clamped to 0.0")
+    if repl.config.top_k != 0:
+        raise Error("REPL negative top_k was not clamped to 0")
+
     print("RuneREPL session state & slash commands: PASS")
 
 
