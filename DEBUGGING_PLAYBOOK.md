@@ -1,6 +1,6 @@
 # DEBUGGING PLAYBOOK
 
-**This is a tenative version of this document. See note at the bottom of the document for need for further verification of the document before it becomes law.*
+*This is a tenative version of this document. See note at the bottom of the document for need for further verification of the document before it becomes law.*
 
 **Owner:** AesirEngine core maintainers
 **Authority:** Diagnostic reference for all agents inheriting or troubleshooting Project A.E.S.I.R. code
