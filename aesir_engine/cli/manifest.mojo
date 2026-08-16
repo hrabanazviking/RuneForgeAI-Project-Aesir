@@ -239,6 +239,8 @@ struct RuneModelStore(Copyable):
 
     def copy_model(mut self, source: String, target: String) raises:
         """Copies an existing model manifest to a new name/tag."""
+        if len(source.bytes()) == 0 or len(target.bytes()) == 0:
+            raise Error("RuneModelStore.copy_model: source and target model names must not be empty")
         var src_manifest = self.get_model(source)
         var target_name = target
         if ":" not in target_name:

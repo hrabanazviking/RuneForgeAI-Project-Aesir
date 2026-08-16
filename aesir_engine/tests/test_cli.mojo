@@ -93,6 +93,15 @@ def test_model_manifest_store() raises:
     if len(store.list_models()) != 0:
         raise Error("store list_models must be empty after removal")
 
+    # Test copy model empty parameter rejection
+    var copy_rejected = False
+    try:
+        store.copy_model("", "target")
+    except:
+        copy_rejected = True
+    if not copy_rejected:
+        raise Error("copy_model failed to reject empty source parameter")
+
     print("model manifest store, digest & serialization: PASS")
 
 

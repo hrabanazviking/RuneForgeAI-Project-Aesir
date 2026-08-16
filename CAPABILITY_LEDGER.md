@@ -561,9 +561,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` supporting deterministic `compute_modelfile_digest()`, text serialization, and `serialize_store()` / `deserialize_store()` persistence round-trip.
+- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` supporting deterministic `compute_modelfile_digest()`, empty parameter copy model guards (`copy_model`), text serialization, and `serialize_store()` / `deserialize_store()` persistence round-trip.
 - **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store` in `test_cli.mojo`.
-- **Evidence boundary:** Implements manifest digest generation, text serialization, and store persistence; does not claim binary blob store distribution.
+- **Evidence boundary:** Implements manifest digest generation, copy model parameter bounds, text serialization, and store persistence; does not claim binary blob store distribution.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output

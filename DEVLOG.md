@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 59: Stage 14.1 — Model Manifest Tag Sanitization & Copy Guard (AES-CLI-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Model Manifest Copy Tag Validation & Empty Parameter Guard  
+
+The forge completed Stage 14.1 of Project Aesir (`AES-CLI-004` `verified`):
+
+1. **Empty Parameter Copy Guard:** Hardened `RuneModelStore.copy_model()` in `cli/manifest.mojo` to raise `Error("RuneModelStore.copy_model: source and target model names must not be empty")` when empty `source` or `target` model names are provided.
+2. **Proving Assertions:** Added empty parameter rejection test assertion in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 58: Stage 13.1 — HuggingFace Resolve-URL Construction & Empty Parameter Hardening (AES-ECO-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** HuggingFace Resolve URL Construction & Empty Parameter Bounds Guard  
