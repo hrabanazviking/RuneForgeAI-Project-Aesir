@@ -49,13 +49,15 @@ struct HuggingFaceSeer:
         return False
 
     @staticmethod
-    def build_download_url(repo_id: String, filename: String = "model.gguf") -> String:
+    def build_download_url(repo_id: String, filename: String = "model.gguf") raises -> String:
         """
         ᛒᛢᛁᛚᛞ·ᛞᛟᚹᚾᛚᛟᚨᛞ·ᛢᚱᛚ — The Bifrost Stream URL Builder (build_download_url)
         ══════════════════════════════════════════════════════════════════════════
         Constructs direct HuggingFace resolve CDN download URLs for GGUF model files.
         Maps repository identifiers and target filenames into high-throughput HTTPS weight streams.
         """
+        if len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0:
+            raise Error("HuggingFaceSeer.build_download_url: repo_id and filename must not be empty")
         var norm_repo = HuggingFaceSeer.parse_hf_repo(repo_id)
         var res = String("https://huggingface.co/")
         res += norm_repo

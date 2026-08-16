@@ -42,6 +42,15 @@ def test_hf_download_url_builder() raises:
         print("FAIL: CDN Download URL mismatch:", url)
         success = False
 
+    var empty_param_rejected = False
+    try:
+        _ = HuggingFaceSeer.build_download_url("", "smollm-360m.gguf")
+    except:
+        empty_param_rejected = True
+    if not empty_param_rejected:
+        print("FAIL: build_download_url failed to reject empty repo_id")
+        success = False
+
     if success:
         print("HuggingFace CDN URL Builder: PASS")
     else:

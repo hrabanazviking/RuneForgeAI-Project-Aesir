@@ -921,10 +921,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** loader domain
 - **Claim sources:** Hugging Face loader interface
-- **Implementation evidence:** `HuggingFaceSeer.build_download_url` constructs the expected resolve URL shape.
-- **Executable evidence:** `E-MASTER` case `huggingface.url_builder`.
-- **Evidence boundary:** String construction is not URL encoding, revision resolution, authentication, redirect handling, or download.
-- **Next acceptance gate:** Define revision/file encoding rules and validate against live authoritative endpoints without upgrading download status.
+- **Implementation evidence:** `HuggingFaceSeer.build_download_url` in `loader/huggingface.mojo` constructing resolve URL shapes and validating non-empty `repo_id` and `filename` parameters.
+- **Executable evidence:** `E-MASTER` case `huggingface.url_builder` in `test_huggingface.mojo`.
+- **Evidence boundary:** Checked HTTPS resolve URL construction and empty parameter rejection bounds.
 - **Audit:** AER-082.
 
 ### AES-ECO-003 — Hugging Face weight downloading

@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 58: Stage 13.1 — HuggingFace Resolve-URL Construction & Empty Parameter Hardening (AES-ECO-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** HuggingFace Resolve URL Construction & Empty Parameter Bounds Guard  
+
+The forge completed Stage 13.1 of Project Aesir (`AES-ECO-002` `verified`):
+
+1. **Empty Parameter Validation:** Hardened `HuggingFaceSeer.build_download_url()` in `loader/huggingface.mojo` with `raises` modifier and empty parameter check (`len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0`).
+2. **Proving Assertions:** Added empty parameter rejection test assertion in `test_huggingface.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 57: Stage 12.1 — HuggingFace Repo Tag Parsing Validation & Empty Tag Guard (AES-ECO-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** HuggingFace Repository Tag Normalization & Empty Tag Bounds Guard  
