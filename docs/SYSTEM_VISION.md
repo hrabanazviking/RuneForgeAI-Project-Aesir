@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Stage 37.1 — RAG Context Augmentation Hidden Dimension Parameter Bounds Hardening
+### ⚡ Completed Milestone: Stage 38.1 — Pure Native Mojo Zero-Python Runtime Verification
+* **Stage 38.1 Pure Mojo Milestone ([`AES-FND-004`](../CAPABILITY_LEDGER.md) `verified`)**: Audited engine source code across `core`, `loader`, `cli`, `server`, and `facade` domains, confirming zero `std.python` imports in runtime engine execution.
 * **Stage 37.1 RAG Prompt Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` to validate hidden dimensions (`hidden_dim <= 0 -> returns prompt`), returning `prompt` safely when non-positive hidden dimensions are specified.
 * **Stage 36.1 Activation Parity Milestone ([`AES-CPU-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `geglu()` in `core/compute.mojo` to check tensor size parity (`T.size <= 0 or T.size % 2 != 0`), returning early safely without mutating memory when unpaired vector sizes are provided, adding odd size test assertions in `test_compute.mojo`.
 * **Stage 35.1 Socket Write Milestone ([`AES-SRV-004`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `write_all_bytes()` in `server/api.mojo` to reject negative socket file descriptors (`client_fd < 0`) and hardened `build_http_chunk()` to format terminal chunked HTTP blocks (`0\r\n\r\n`), adding terminal chunk framing test assertions in `test_multi_engine.mojo`.
