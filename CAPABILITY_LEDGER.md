@@ -64,11 +64,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 40 |
-| `partial` | 10 |
-| `scaffold` | 13 |
-| `simulated` | 2 |
-| `missing` | 34 |
+| `verified` | 67 |
+| `partial` | 5 |
+| `scaffold` | 4 |
+| `simulated` | 1 |
+| `missing` | 22 |
 | **Total** | **99** |
 
 ## 4. Foundation, Build, and Test Truth
