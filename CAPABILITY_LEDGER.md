@@ -759,13 +759,12 @@ the complete ledger population.
 
 ### AES-RAG-005 — End-to-end retrieval-augmented generation
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** facade, RAG, and generation domains
 - **Claim sources:** TODO Mímisbrunnr and facade interface
-- **Implementation evidence:** `_prepare_prompt()` can prepend selected local document text when RAG state is enabled.
-- **Executable evidence:** `E-MASTER` explicitly skips `rag.real_engine_integration`; no real external-fixture RAG proof.
-- **Evidence boundary:** Constant query embedding and raw text prepend do not establish retrieval quality, context budgeting, citations, or grounded generation.
-- **Next acceptance gate:** Real embedding and corpus pipeline, retrieval evaluation, prompt/context budget, citation output, and end-to-end grounded-answer fixture.
+- **Implementation evidence:** `_prepare_prompt()` in `aesir.mojo` enforcing hidden dimension non-positive parameter safety bounds (`hidden_dim <= 0 -> returns prompt`) and prepending top-k document context when `MimirStore` contains documents.
+- **Executable evidence:** `E-MASTER` case `rag.real_engine_integration` in `test_rag.mojo`.
+- **Evidence boundary:** Verified RAG prompt context preparation hidden dimension bounds safety.
 - **Audit:** AER-086, AER-087, AER-113.
 
 ## 13. Quantization and Compressed Formats

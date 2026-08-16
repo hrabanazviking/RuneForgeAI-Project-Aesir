@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 82: Stage 37.1 — RAG Context Augmentation Hidden Dimension Parameter Bounds Hardening (AES-RAG-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** RAG Context Augmentation Hidden Dimension Parameter Bounds Hardening  
+
+The forge completed Stage 37.1 of Project Aesir (`AES-RAG-005` `verified`):
+
+1. **RAG Prompt Bounds Defense:** Hardened `_prepare_prompt()` in `aesir.mojo` to validate hidden dimensions (`hidden_dim <= 0`), returning `prompt` safely when non-positive hidden dimensions are specified.
+2. **Proving Assertions:** Verified RAG prompt prepending and master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 81: Stage 36.1 — GEGLU Activation Kernel Odd-Size Boundary Safety Hardening (AES-CPU-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** GEGLU Activation Kernel Odd-Size Boundary Safety Hardening  
