@@ -42,6 +42,19 @@ counts as completion of an external capability.
   RMSNorm/RoPE/GQA path, SiLU, cosine similarity, host tensor partitioning,
   sequential host reduction/GEMM, and in-memory vector-store invariants. These
   checks do not establish hardware acceleration or general production kernels.
+- [x] **Stage 37.1 Hardening — RAG Hidden Dim Parameter Bounds (`AES-RAG-005`):** Hardened `_prepare_prompt()` in `aesir.mojo` for non-positive hidden dimensions (`hidden_dim <= 0`).
+- [x] **Stage 38.1 Hardening — Pure Native Mojo Zero-Python Runtime (`AES-FND-004`):** Audited and confirmed zero `std.python` imports in engine runtime execution.
+- [x] **Stage 39.1 Hardening — Arena Pool KV Cache Reset Restoration (`AES-MEM-005`):** Hardened `MimirWell.reset_kv_cache(runtime_offset)` pool restoration and offset advancement tests.
+- [x] **Stage 40.1 Hardening — Repository Artifact Hygiene & `.gitignore` (`AES-FND-007`):** Configured `.gitignore` protecting against `.pixi/`, binaries, objects, and logs.
+- [x] **Stage 41.1 Hardening — Query Embedding Fallback Generation Bounds (`AES-RAG-003`):** Hardened fallback query vector allocation and KNN vector store query prepending.
+- [x] **Stage 42.1 Hardening — Chat Template Formatter Empty Message List Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty message lists.
+- [x] **Stage 43.1 Hardening — Deep Bug Audit & Attention Head Bounds:** Hardened `incremental_causal_attention()` in `core/compute.mojo` for non-positive `head_dim` and non-divisible query/kv head ratio safeguards.
+
+### Remaining Audit & Hardening Remedies (Backlog)
+
+- [ ] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
+- [ ] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
+- [ ] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
 
