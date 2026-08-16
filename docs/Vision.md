@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 38.1 — Pure Native Mojo Zero-Python Runtime Verification
+### ⚡ Completed Milestone: Stage 39.1 — MimirWell Arena Pool Offset Restoration Hardening
+* **Stage 39.1 Arena Pool Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
 * **Stage 38.1 Pure Mojo Milestone ([`AES-FND-004`](../CAPABILITY_LEDGER.md) `verified`)**: Audited engine source code across `core`, `loader`, `cli`, `server`, and `facade` domains, confirming zero `std.python` imports in runtime engine execution.
 * **Stage 37.1 RAG Prompt Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` to validate hidden dimensions (`hidden_dim <= 0 -> returns prompt`), returning `prompt` safely when non-positive hidden dimensions are specified.
 * **Stage 36.1 Activation Parity Milestone ([`AES-CPU-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `geglu()` in `core/compute.mojo` to check tensor size parity (`T.size <= 0 or T.size % 2 != 0`), returning early safely without mutating memory when unpaired vector sizes are provided, adding odd size test assertions in `test_compute.mojo`.
