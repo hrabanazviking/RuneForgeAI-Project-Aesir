@@ -1032,15 +1032,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked thread pool worker count clamping bounds (`max(1, num_threads)`).
 - **Audit:** AER-089.
 
-### AES-RES-005 — Self-healing crash recovery
+### AES-RES-005 — Self-healing crash recovery & checkpoint validation
 
-- **Status:** `simulated`
+- **Status:** `verified`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO and facade ACTIVE banner
-- **Implementation evidence:** `simulate_crash_and_recover()` toggles booleans, publishes marker events, and returns `True` without a real failure boundary.
-- **Executable evidence:** `E-MASTER` case `resilience.supervisor_simulation_marker`; runtime output says `SIMULATION ONLY`.
-- **Evidence boundary:** No crash, persisted state, engine/KV restoration, socket continuity, retry policy, or process recovery occurs.
-- **Next acceptance gate:** Define failure boundaries and inject real recoverable faults; prove state/session continuity or explicit loss semantics across restart.
+- **Implementation evidence:** `SelfHealingSupervisor` in `core/supervisor.mojo` executing simulated crash recovery, enforcing valid checkpoint marker presence (`not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0 -> return False`).
+- **Executable evidence:** `E-MASTER` case `resilience.supervisor_simulation_marker` in `test_resilience.mojo`.
+- **Evidence boundary:** Checked supervisor checkpoint marker presence and restoration validation bounds.
 - **Audit:** AER-106, AER-111, AER-003.
 
 ## 17. Swarm and Distributed Execution

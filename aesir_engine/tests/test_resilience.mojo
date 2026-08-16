@@ -130,6 +130,12 @@ def test_supervisor_crash_recovery() raises:
     var supervisor = SelfHealingSupervisor()
     supervisor.vault.save_checkpoint(64, 8)
 
+    # Test uninitialized vault checkpoint recovery rejection
+    var uninit_supervisor = SelfHealingSupervisor()
+    if uninit_supervisor.simulate_crash_and_recover():
+        print("FAIL: SelfHealingSupervisor allowed crash recovery on uninitialized vault")
+        success = False
+
     if not supervisor.simulate_crash_and_recover():
         print("FAIL: supervisor simulation marker did not complete")
         success = False

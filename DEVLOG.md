@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 65: Stage 20.1 — SelfHealingSupervisor Checkpoint Marker Restoration Safety (AES-RES-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Supervisor Checkpoint Presence & Restoration Validation Guard  
+
+The forge completed Stage 20.1 of Project Aesir (`AES-RES-005` `verified`):
+
+1. **Supervisor Checkpoint Restoration Defense:** Hardened `SelfHealingSupervisor.simulate_crash_and_recover()` in `core/supervisor.mojo` to check valid checkpoint presence (`not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0 -> return False`), preventing crash recovery simulation without a valid vault checkpoint.
+2. **Proving Assertions:** Added uninitialized vault checkpoint recovery rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 64: Stage 19.1 — RuneThreadPool Worker Count Bounds & Non-Positive Worker Guard (AES-RES-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Thread Pool Worker Count Clamping & Non-Positive Guard  

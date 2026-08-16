@@ -45,6 +45,8 @@ struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
         Exercises local state markers only. No process crash or runtime state
         recovery occurs.
         """
+        if not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0:
+            return False
         print("SIMULATION ONLY: no process crash or runtime recovery occurred.")
         self.is_healthy = False
         self.bus.publish_event("INFERENCE_CRASH", "Local simulation marker")
