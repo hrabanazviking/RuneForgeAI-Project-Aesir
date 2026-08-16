@@ -556,7 +556,7 @@ The forge implemented `GenerationConfig` validation and configurable stop semant
 
 The forge added comprehensive multilingual test coverage and proven round-trip fidelity:
 
-1. **Multilingual Test Corpora:** Added `test_multilingual_corpora()` in `test_tokenizer.mojo` covering CJK (Chinese `你好世界`, Japanese `こんにちは`, Korean `안녕하세요`), Cyrillic (`Привет мир`), Arabic (`مرحبا بالعالم`), Devanagari (`नमस्ते`), Emoji (`😀🎉🚀`), Accented Latin (`café & naïve`), and whitespace.
+1. **Multilingual Test Corpora:** Added `test_multilingual_corpora()` in `test_tokenizer.mojo` covering CJK (Chinese translated: `Hello World`, Japanese `こんにちは`, Korean `안녕하세요`), Cyrillic (`Привет мир`), Arabic (`مرحبا بالعالم`), Devanagari (`नमस्ते`), Emoji (`😀🎉🚀`), Accented Latin (`café & naïve`), and whitespace.
 2. **Encode/Decode Lossless Round-Trip:** Verified that streaming decoding of `encode(prompt)` reconstructs original text losslessly (`prompt == stream_decode(encode(prompt))`) across all multilingual scripts.
 3. **Master Proving:** Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-TOK-004` -> `verified`).
 
