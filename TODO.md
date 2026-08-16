@@ -420,8 +420,7 @@ counts as completion of an external capability.
 
 ### ExLlama/EXL2
 
-- [ ] **[missing, AES-ECO-005] Either explicitly remove/relabel unsupported
-  ExLlama promises with approval or scope an actual EXL2 parser/runtime project.**
+- [ ] **[missing, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
 - [ ] Require a real EXL2 model, authoritative decoder/runtime comparison, and
   physical CUDA evidence before any parity claim.
 
