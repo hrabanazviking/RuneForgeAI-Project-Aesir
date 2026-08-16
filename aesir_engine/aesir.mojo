@@ -4,6 +4,8 @@
 from std.math import max
 from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16
 from core.inference import forward_pass, TransformerBlock
+from core.sampler import RuneRNG, sample_token_from_logits
+from core.session import SessionContext, SessionManager
 from core.supervisor import SelfHealingSupervisor
 from core.state_vault import StateVault
 from core.event_bus import AesirEventBus
@@ -11,6 +13,7 @@ from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
+from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
 
 
@@ -50,6 +53,103 @@ def validate_runtime_backend_config(
         raise Error("NPU engine execution is not implemented")
     if enable_gpu_realm:
         raise Error("GPU engine execution is not implemented")
+
+
+struct GenerationConfig(Copyable):
+    """Validated configuration parameters for text generation."""
+
+    var max_new_tokens: Int
+    var stop_tokens: List[Int]
+    var stop_strings: List[String]
+    var temperature: Float32
+    var top_k: Int
+    var top_p: Float32
+    var repetition_penalty: Float32
+    var frequency_penalty: Float32
+    var presence_penalty: Float32
+    var min_p: Float32
+    var suppress_tokens: List[Int]
+    var seed: UInt64
+
+    def __init__(
+        out self,
+        max_new_tokens: Int = 32,
+        stop_tokens: List[Int] = List[Int](),
+        stop_strings: List[String] = List[String](),
+        temperature: Float32 = 0.0,
+        top_k: Int = 1,
+        top_p: Float32 = 1.0,
+        repetition_penalty: Float32 = 1.0,
+        frequency_penalty: Float32 = 0.0,
+        presence_penalty: Float32 = 0.0,
+        min_p: Float32 = 0.0,
+        suppress_tokens: List[Int] = List[Int](),
+        seed: UInt64 = 42,
+    ):
+        self.max_new_tokens = max_new_tokens
+        self.stop_tokens = stop_tokens.copy()
+        self.stop_strings = stop_strings.copy()
+        self.temperature = temperature
+        self.top_k = top_k
+        self.top_p = top_p
+        self.repetition_penalty = repetition_penalty
+        self.frequency_penalty = frequency_penalty
+        self.presence_penalty = presence_penalty
+        self.min_p = min_p
+        self.suppress_tokens = suppress_tokens.copy()
+        self.seed = seed
+
+    def __copyinit__(out self, existing: Self):
+        self.max_new_tokens = existing.max_new_tokens
+        self.stop_tokens = existing.stop_tokens.copy()
+        self.stop_strings = existing.stop_strings.copy()
+        self.temperature = existing.temperature
+        self.top_k = existing.top_k
+        self.top_p = existing.top_p
+        self.repetition_penalty = existing.repetition_penalty
+        self.frequency_penalty = existing.frequency_penalty
+        self.presence_penalty = existing.presence_penalty
+        self.min_p = existing.min_p
+        self.suppress_tokens = existing.suppress_tokens.copy()
+        self.seed = existing.seed
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(
+            self.max_new_tokens,
+            self.stop_tokens.copy(),
+            self.stop_strings.copy(),
+            self.temperature,
+            self.top_k,
+            self.top_p,
+            self.repetition_penalty,
+            self.frequency_penalty,
+            self.presence_penalty,
+            self.min_p,
+            self.suppress_tokens.copy(),
+            self.seed,
+        )
+
+    def validate(self, context_length: Int = 4096) raises:
+        """Validates generation hyper-parameters against boundaries."""
+        if self.max_new_tokens <= 0:
+            raise Error("GenerationConfig max_new_tokens must be a positive integer")
+        if self.max_new_tokens > context_length:
+            raise Error("GenerationConfig max_new_tokens exceeds context_length boundary")
+        if self.temperature < 0.0:
+            raise Error("GenerationConfig temperature cannot be negative")
+        if self.top_k < 0:
+            raise Error("GenerationConfig top_k cannot be negative")
+        if self.top_p < 0.0 or self.top_p > 1.0:
+            raise Error("GenerationConfig top_p must be between 0.0 and 1.0")
+        if self.repetition_penalty < 0.0:
+            raise Error("GenerationConfig repetition_penalty cannot be negative")
+        if self.frequency_penalty < -2.0 or self.frequency_penalty > 2.0:
+            raise Error("GenerationConfig frequency_penalty must be between -2.0 and 2.0")
+        if self.presence_penalty < -2.0 or self.presence_penalty > 2.0:
+            raise Error("GenerationConfig presence_penalty must be between -2.0 and 2.0")
+        if self.min_p < 0.0 or self.min_p > 1.0:
+            raise Error("GenerationConfig min_p must be between 0.0 and 1.0")
 
 
 struct GenerationResult(Copyable):
@@ -96,14 +196,16 @@ def generation_stop_reason(
     generated_token_id: Int,
     eos_token_id: Int,
     generated_token_count: Int,
-    max_new_tokens: Int,
+    config: GenerationConfig,
     next_position: Int,
     context_length: Int,
 ) -> String:
     """Returns the stable terminal reason, or an empty string to continue."""
     if eos_token_id >= 0 and generated_token_id == eos_token_id:
         return "eos"
-    if generated_token_count >= max_new_tokens:
+    if generated_token_id in config.stop_tokens:
+        return "stop_token"
+    if generated_token_count >= config.max_new_tokens:
         return "length"
     if next_position >= context_length:
         return "context_exhausted"
@@ -197,7 +299,7 @@ struct AesirEngine:
         """Applies the existing optional knowledge context before tokenization."""
         var active_prompt = prompt
         if self.knowledge_base.count > 0:
-            var hidden_dim = 4096
+            var hidden_dim = self.parser.config.embedding_length
             if "token_embd.weight" in self.parser.tensors:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
             var q_ptr = self.pool.allocate(hidden_dim)
@@ -218,127 +320,156 @@ struct AesirEngine:
     def _run_generation(
         mut self,
         prompt: String,
-        max_new_tokens: Int,
+        config: GenerationConfig,
         client_fd: Int32,
         stream_chunks: Bool,
+        is_cancelled: Bool = False,
     ) raises -> GenerationResult:
         """Owns prompt prefill and every autoregressive token transition."""
         if not self.parser.is_loaded:
             raise Error("AesirEngine cannot generate without a validated GGUF model")
-        if max_new_tokens <= 0:
-            raise Error("max_new_tokens must be a positive integer")
+        config.validate(self.parser.config.context_length)
 
         print("Starting deterministic generation loop (The Weaving of Fate)...")
 
-        self.pool.offset = self.runtime_offset
-        var active_prompt = self._prepare_prompt(prompt)
+        try:
+            self.pool.offset = self.runtime_offset
+            var active_prompt = self._prepare_prompt(prompt)
 
-        var tokens = self.tokenizer.encode(active_prompt, True)
-        if len(tokens) == 0:
-            raise Error("RuneWeaver produced no prompt tokens")
-        if len(tokens) > self.parser.config.context_length:
-            raise Error("Prompt token count exceeds the model context length")
+            var tokens = self.tokenizer.encode(active_prompt, True)
+            if len(tokens) == 0:
+                raise Error("RuneWeaver produced no prompt tokens")
+            if len(tokens) > self.parser.config.context_length:
+                raise Error("Prompt token count exceeds the model context length")
 
-        # One request owns one KV cache. forward_pass() reclaims only its
-        # temporary workspace, leaving these cached positions intact.
-        self.pool.offset = self.runtime_offset
-        var kv_cache = KVCache(
-            self.parser.config.context_length,
-            self.parser.config.kv_dim(),
-            self.pool,
-            self.parser.config.block_count,
-        )
-        var next_token = 0
-        for position in range(len(tokens)):
-            next_token = forward_pass(
-                tokens,
-                self.parser,
-                self.pool,
-                kv_cache,
-                position,
-                self.parser.config.block_count,
-                self.parser.config.head_dim(),
-                self.parser.config.head_count,
-                self.topology,
-                self.blocks,
-                self.enable_npu,
-                self.target_backend,
-                self.enable_gpu_realm,
-                self.target_gpu_realm,
-            )
-
-        var current_tokens = tokens.copy()
-        var generated_token_ids = List[Int]()
-        var response_text = String("")
-        var stop_reason = String("")
-
-        for _ in range(max_new_tokens):
-            generated_token_ids.append(next_token)
-            current_tokens.append(next_token)
-
-            # EOS is part of the model output contract but never visible text.
-            if next_token == self.tokenizer.eos_token_id:
-                stop_reason = "eos"
-                break
-
-            var token_text = self.tokenizer.decode(next_token)
-            response_text += token_text
-            if stream_chunks:
-                var chunk_payload = String("{\"model\":\"aesir\",\"response\":\"") + token_text + String("\",\"done\":false}\n")
-                BifrostGate.send_chunk_static(client_fd, chunk_payload)
-
-            var next_position = len(current_tokens) - 1
-            stop_reason = generation_stop_reason(
-                next_token,
-                self.tokenizer.eos_token_id,
-                len(generated_token_ids),
-                max_new_tokens,
-                next_position,
+            # One request owns one KV cache. forward_pass() reclaims only its
+            # temporary workspace, leaving these cached positions intact.
+            self.pool.offset = self.runtime_offset
+            var kv_cache = KVCache(
                 self.parser.config.context_length,
-            )
-            if stop_reason != "":
-                break
-
-            # Evaluate exactly the newly generated token at its absolute
-            # position to obtain the following greedy token.
-            next_token = forward_pass(
-                current_tokens,
-                self.parser,
+                self.parser.config.kv_dim(),
                 self.pool,
-                kv_cache,
-                next_position,
                 self.parser.config.block_count,
-                self.parser.config.head_dim(),
-                self.parser.config.head_count,
-                self.topology,
-                self.blocks,
-                self.enable_npu,
-                self.target_backend,
-                self.enable_gpu_realm,
-                self.target_gpu_realm,
             )
+            var next_token = 0
+            for position in range(len(tokens)):
+                next_token = forward_pass(
+                    tokens,
+                    self.parser,
+                    self.pool,
+                    kv_cache,
+                    position,
+                    self.parser.config.block_count,
+                    self.parser.config.head_dim(),
+                    self.parser.config.head_count,
+                    self.topology,
+                    self.blocks,
+                    self.enable_npu,
+                    self.target_backend,
+                    self.enable_gpu_realm,
+                    self.target_gpu_realm,
+                )
 
-        if stop_reason == "":
-            # Defensive fallback: a positive bounded loop normally ends as
-            # `length`, but never expose an undocumented empty terminal state.
-            stop_reason = "length"
+            var current_tokens = tokens.copy()
+            var generated_token_ids = List[Int]()
+            var response_text = String("")
+            var stop_reason = String("")
 
-        var result = GenerationResult(
-            generated_token_ids,
-            response_text,
-            stop_reason,
-            len(tokens),
-        )
-        print("Generated", result.generated_token_count(), "token(s); stop reason:", stop_reason)
-        print("Inference complete. Fate is sealed.")
-        self.pool.offset = self.runtime_offset
-        return result^
+            for _ in range(config.max_new_tokens):
+                if is_cancelled:
+                    stop_reason = "cancelled"
+                    break
+                generated_token_ids.append(next_token)
+                current_tokens.append(next_token)
+
+                # EOS is part of the model output contract but never visible text.
+                if next_token == self.tokenizer.eos_token_id:
+                    stop_reason = "eos"
+                    break
+                if next_token in config.stop_tokens:
+                    stop_reason = "stop_token"
+                    break
+
+                var token_text = self.tokenizer.decode(next_token)
+                response_text += token_text
+                if stream_chunks:
+                    var chunk_payload = String("{\"model\":\"aesir\",\"response\":\"") + token_text + String("\",\"done\":false}\n")
+                    BifrostGate.send_chunk_static(client_fd, chunk_payload)
+
+                var matched_stop_string = False
+                for s_idx in range(len(config.stop_strings)):
+                    var stop_str = config.stop_strings[s_idx]
+                    if stop_str in response_text:
+                        stop_reason = "stop_string"
+                        var match_pos = response_text.find(stop_str)
+                        if match_pos >= 0:
+                            var truncated = String(response_text[byte=0 : match_pos])
+                            response_text = truncated
+                        matched_stop_string = True
+                        break
+                if matched_stop_string:
+                    break
+
+                var next_position = len(current_tokens) - 1
+                stop_reason = generation_stop_reason(
+                    next_token,
+                    self.tokenizer.eos_token_id,
+                    len(generated_token_ids),
+                    config,
+                    next_position,
+                    self.parser.config.context_length,
+                )
+                if stop_reason != "":
+                    break
+
+                # Evaluate exactly the newly generated token at its absolute
+                # position to obtain the following greedy token.
+                next_token = forward_pass(
+                    current_tokens,
+                    self.parser,
+                    self.pool,
+                    kv_cache,
+                    next_position,
+                    self.parser.config.block_count,
+                    self.parser.config.head_dim(),
+                    self.parser.config.head_count,
+                    self.topology,
+                    self.blocks,
+                    self.enable_npu,
+                    self.target_backend,
+                    self.enable_gpu_realm,
+                    self.target_gpu_realm,
+                )
+
+            if stop_reason == "":
+                stop_reason = "length"
+
+            var result = GenerationResult(
+                generated_token_ids,
+                response_text,
+                stop_reason,
+                len(tokens),
+            )
+            print("Generated", result.generated_token_count(), "token(s); stop reason:", stop_reason)
+            print("Inference complete. Fate is sealed.")
+            self.pool.offset = self.runtime_offset
+            return result^
+        except e:
+            self.pool.offset = self.runtime_offset
+            raise e
+
+    def generate_tokens_config(
+        mut self, prompt: String, config: GenerationConfig
+    ) raises -> GenerationResult:
+        """Returns token IDs, decoded text, counts, and a stable stop reason for a given GenerationConfig."""
+        return self._run_generation(prompt, config, Int32(-1), False)
 
     def generate_tokens(
         mut self, prompt: String, max_new_tokens: Int
     ) raises -> GenerationResult:
         """Returns token IDs, decoded text, counts, and a stable stop reason."""
-        return self._run_generation(prompt, max_new_tokens, Int32(-1), False)
+        var config = GenerationConfig(max_new_tokens=max_new_tokens)
+        return self._run_generation(prompt, config, Int32(-1), False)
 
     def generate(mut self, prompt: String) raises -> String:
         """Compatibility facade for a verified 32-token greedy request."""
@@ -350,8 +481,32 @@ struct AesirEngine:
         Runs the autoregressive token generation loop, decoding each sampled token ID
         via RuneWeaver.decode() and streaming it immediately through BifrostGate.send_chunk().
         """
-        _ = self._run_generation(prompt, 32, client_fd, True)
+        var config = GenerationConfig(max_new_tokens=32)
+        _ = self._run_generation(prompt, config, client_fd, True)
         var done_payload = String("{\"model\":\"aesir\",\"response\":\"\",\"done\":true}\n")
         BifrostGate.send_chunk_static(client_fd, done_payload)
         BifrostGate.close_client_static(client_fd)
         print("Streaming inference complete. Stream closed.")
+
+    def generate_chat(
+        mut self,
+        messages: List[ChatMessage],
+        config: GenerationConfig,
+        template_format: String = "chatml",
+    ) raises -> GenerationResult:
+        """Formats multi-turn ChatMessage turns into a canonical prompt and runs inference."""
+        var template = RuneChatTemplate(template_format)
+        var formatted_prompt = template.format_chat(messages)
+        return self._run_generation(formatted_prompt, config, Int32(-1), False)
+
+    def generate_session(
+        mut self,
+        mut session: SessionContext,
+        prompt: String,
+        config: GenerationConfig,
+    ) raises -> GenerationResult:
+        """Runs generation bound to a SessionContext, checking cancellation status and updating active token counts."""
+        session.validate()
+        var res = self._run_generation(prompt, config, Int32(-1), False, session.is_cancelled)
+        session.active_tokens += res.generated_token_count()
+        return res

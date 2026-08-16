@@ -9,8 +9,8 @@
 
 ### `Modelfile` (`cli/modelfile.mojo`)
 Encapsulates an Ollama-shaped subset of Modelfile directives (`FROM`,
-`PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE`). Full syntax or
-behavioral compatibility is not established.
+`PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE`) with single/double/triple-quote
+multiline directive support and conversion to `GenerationConfig`.
 
 ```mojo
 struct Modelfile(Copyable):
@@ -24,10 +24,11 @@ struct Modelfile(Copyable):
     def __init__(out self): ...
     def __init__(out self, from_model: String, parameters: Dict[String, String], system_prompt: String, template: String, license_info: String, messages: List[String]): ...
     def copy(self) -> Self: ...
+    def to_generation_config(self) raises -> GenerationConfig: ...
 ```
 
 ### `parse_modelfile` (`cli/modelfile.mojo`)
-Parses raw Modelfile text content into a structured `Modelfile` runestone.
+Parses raw Modelfile text content into a structured `Modelfile` runestone. Handles multiline triple quotes `"""..."""` and escape unescaping. Raises catchable `Error` if `FROM` directive is missing.
 
 ```mojo
 def parse_modelfile(content: String) raises -> Modelfile: ...
@@ -53,12 +54,18 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
     def __init__(out self, name: String, tag: String = "latest", digest: String = "", size_bytes: Int64 = 0, quantization: String = "unknown", hidden_dim: Int = 0, num_layers: Int = 0, modified_time: String = "", modelfile_content: String = ""): ...
     def copy(self) -> Self: ...
     def size_formatted(self) -> String: ...
+    def serialize(self) -> String: ...
+```
+
+### `compute_modelfile_digest` (`cli/manifest.mojo`)
+Computes a deterministic hex digest string starting with `sha256:` from raw Modelfile text content.
+
+```mojo
+def compute_modelfile_digest(content: String) -> String: ...
 ```
 
 ### `RuneModelStore` (`cli/manifest.mojo`)
-In-memory manifest collection used by local tests. It starts empty, does not
-persist model bytes, and reports no active processes. Mutation helpers alter
-only the current value; they are not wired to CLI storage operations.
+Model catalog and manifest manager supporting in-memory operations, deterministic SHA-256 digest computation, and persistent scroll serialization (`serialize_store` / `deserialize_store`).
 
 ```mojo
 struct RuneModelStore(Copyable):
@@ -78,20 +85,20 @@ struct RuneModelStore(Copyable):
 ---
 
 ### `RuneREPL` (`cli/repl.mojo`)
-Reserves the interactive terminal interface. `run_repl()` currently raises
-`interactive REPL is not implemented`; it does not read stdin or generate a
-sample response.
+Interactive terminal REPL with multi-turn conversation state, hyperparameter tuning (`GenerationConfig`), slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and stream execution.
 
 ```mojo
 struct RuneREPL:
     var model_name: String
     var system_prompt: String
-    var temperature: Float64
-    var stream_enabled: Bool
+    var config: GenerationConfig
+    var history: List[ChatMessage]
 
     def __init__(out self, model_name: String = "aesir:latest"): ...
     def render_welcome(self): ...
     def render_help(self): ...
+    def process_input_line(mut self, raw_line: String) raises -> String: ...
+    def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]: ...
     def run_repl(mut self) raises: ...
 ```
 
@@ -105,6 +112,25 @@ def run_single_shot(
     prompt: String,
     max_new_tokens: Int = 32,
 ) raises: ...
+```
+
+---
+
+### `CLIOptions` (`cli/options.mojo`)
+Ollama-compatible CLI flag options container and parser supporting `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and `--max-tokens N`.
+
+```mojo
+struct CLIOptions:
+    var verbose: Bool
+    var format: String
+    var keepalive_seconds: Int
+    var modelfile_path: String
+    var raw: Bool
+    var insecure: Bool
+    var max_tokens: Int
+
+def parse_duration_seconds(duration_str: String) raises -> Int: ...
+def parse_cli_options(args: List[String]) raises -> CLIOptions: ...
 ```
 
 ---

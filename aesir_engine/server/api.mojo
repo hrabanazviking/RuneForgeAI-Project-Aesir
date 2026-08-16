@@ -10,6 +10,9 @@ from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import InlineArray
 
+from cli.modelfile import parse_int
+
+
 @always_inline
 def os_is_linux() -> Bool:
     var buf = InlineArray[Int8, 512](fill=0)
@@ -68,6 +71,177 @@ def route_not_found_response() -> String:
     )
 
 
+def build_http_response(
+    status_code: Int,
+    status_text: String,
+    content_type: String,
+    body: String,
+) -> String:
+    """
+    Constructs a complete HTTP/1.1 response string with Content-Length and Connection: close.
+    """
+    return (
+        String("HTTP/1.1 ")
+        + String(status_code)
+        + String(" ")
+        + status_text
+        + String("\r\nContent-Type: ")
+        + content_type
+        + String("\r\nContent-Length: ")
+        + String(body.byte_length())
+        + String("\r\nConnection: close\r\n\r\n")
+        + body
+    )
+
+
+def build_sse_chunk(event: String, data: String) -> String:
+    """
+    Constructs a standard Server-Sent Event (SSE) chunk.
+    """
+    if event.byte_length() > 0:
+        return String("event: ") + event + String("\ndata: ") + data + String("\n\n")
+    return String("data: ") + data + String("\n\n")
+
+
+def build_http_chunk(data: String) -> String:
+    """
+    Constructs a standard HTTP/1.1 chunked encoding block (<hex_len>\r\n<data>\r\n).
+    """
+    var hex_len = hex(data.byte_length())
+    return hex_len + String("\r\n") + data + String("\r\n")
+
+
+def write_all_bytes(client_fd: Int32, data: String) -> Bool:
+    """
+    Loop socket send until all bytes of data are written or connection fails.
+    Handles partial writes safely.
+    """
+    if client_fd < 0:
+        return False
+
+    var data_bytes = data.as_bytes()
+    var total_len = len(data_bytes)
+    if total_len == 0:
+        return True
+
+    var ptr = data_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
+    var offset = 0
+
+    while offset < total_len:
+        var cur_ptr = ptr + offset
+        var remaining = total_len - offset
+        var sent = external_call["send", Int64](client_fd, cur_ptr, remaining, 0)
+        if sent <= 0:
+            _ = data_bytes
+            return False
+        offset += Int(sent)
+
+    _ = data_bytes
+    return True
+
+
+struct HTTPRequest:
+    """
+    HTTPRequest — Bare-metal HTTP/1.1 request representation.
+    """
+    var method: String
+    var path: String
+    var protocol: String
+    var headers_raw: String
+    var body: String
+    var content_length: Int
+
+    def __init__(out self):
+        self.method = String("")
+        self.path = String("")
+        self.protocol = String("")
+        self.headers_raw = String("")
+        self.body = String("")
+        self.content_length = 0
+
+
+def parse_http_request(raw_request: String) raises -> HTTPRequest:
+    """
+    Parses a raw HTTP request string into an HTTPRequest struct.
+    Raises Error if the request is empty or malformed.
+    """
+    var raw = raw_request.strip()
+    if raw.byte_length() == 0:
+        raise Error("Empty HTTP request")
+
+    var req = HTTPRequest()
+
+    # Split headers and body at \r\n\r\n or \n\n
+    var body_delimiter = "\r\n\r\n"
+    var delim_idx = raw.find(body_delimiter)
+    var header_block: String = String(raw)
+    if delim_idx != -1:
+        header_block = String(raw[byte=0:delim_idx])
+        req.body = String(raw[byte=delim_idx + 4:])
+    else:
+        var alt_delim = "\n\n"
+        var alt_idx = raw.find(alt_delim)
+        if alt_idx != -1:
+            header_block = String(raw[byte=0:alt_idx])
+            req.body = String(raw[byte=alt_idx + 2:])
+
+    # Parse first line (Request Line: METHOD PATH PROTOCOL)
+    var line_delim = "\r\n"
+    var line_idx = header_block.find(line_delim)
+    var req_line: String = String(header_block)
+    if line_idx != -1:
+        req_line = String(header_block[byte=0:line_idx])
+        req.headers_raw = String(header_block[byte=line_idx + 2:])
+
+    var parts = req_line.split(" ")
+    if len(parts) < 2:
+        raise Error("Malformed HTTP request line: " + req_line)
+
+    req.method = String(parts[0])
+    req.path = String(parts[1])
+    if len(parts) >= 3:
+        req.protocol = String(parts[2])
+    else:
+        req.protocol = String("HTTP/1.1")
+
+    # Extract Content-Length from headers_raw if present
+    var cl_prefix = "Content-Length: "
+    var cl_idx = req.headers_raw.find(cl_prefix)
+    if cl_idx == -1:
+        cl_prefix = "content-length: "
+        cl_idx = req.headers_raw.find(cl_prefix)
+
+    if cl_idx != -1:
+        var start_val = cl_idx + cl_prefix.byte_length()
+        var rest = String(req.headers_raw[byte=start_val:])
+        var end_val = rest.find("\r\n")
+        var val_str: String = String(rest)
+        if end_val != -1:
+            val_str = String(rest[byte=0:end_val])
+        req.content_length = parse_int(String(val_str.strip()))
+
+    return req^
+
+
+def dispatch_http_request(req: HTTPRequest) -> String:
+    """
+    Dispatches an HTTPRequest to appropriate HTTP response strings based on URI target.
+    Known unsupported endpoints return HTTP 501 Not Implemented.
+    Unmapped paths return HTTP 404 Not Found.
+    """
+    if (
+        req.path == "/api/generate"
+        or req.path == "/v1/chat/completions"
+        or req.path == "/api/chat"
+        or req.path == "/api/pull"
+        or req.path == "/api/push"
+        or req.path == "/api/embeddings"
+        or req.path == "/v1/embeddings"
+    ):
+        return unsupported_http_response(req.path)
+    return route_not_found_response()
+
+
 struct BifrostGate:
     """
     ᛒᛁᚠᚱᛟᛋᛏ·ᚷᚨᛏᛖ — The Bare-Metal HTTP Transport Current (BifrostGate)
@@ -78,6 +252,7 @@ struct BifrostGate:
     var port: Int
     var server_fd: Int32
     var addr_ptr: Pointer[Int16, MutUntrackedOrigin]
+    var addr_allocated: Bool
 
     def __init__(out self, port: Int):
         self.port = port
@@ -85,6 +260,7 @@ struct BifrostGate:
         
         var allocation = alloc(Layout[Int16](count=8))
         self.addr_ptr = allocation^.unsafe_leak()
+        self.addr_allocated = True
         
         # Calculate htons for port
         # Assuming little endian, port 11434 -> 0x2CAA -> 0xAA2C -> 43564
@@ -100,6 +276,37 @@ struct BifrostGate:
         self.addr_ptr.unsafe_store(1, Int16(port_htons))
         for i in range(2, 8):
             self.addr_ptr.unsafe_store(i, 0)
+
+    def is_valid(self) -> Bool:
+        """Returns True if the server socket file descriptor is non-negative."""
+        return self.server_fd >= 0
+
+    def set_nonblocking(self, non_blocking: Bool = True) -> Bool:
+        """Configures O_NONBLOCK flag on the server socket via fcntl."""
+        if self.server_fd < 0:
+            return False
+        var f_getfl: Int32 = 3
+        var f_setfl: Int32 = 4
+        var o_nonblock: Int32 = 2048 # O_NONBLOCK on Linux
+        if os_is_macos() or os_is_apple():
+            o_nonblock = 4 # O_NONBLOCK on macOS
+        
+        var flags = external_call["fcntl", Int32](self.server_fd, f_getfl, Int64(0))
+        if flags < 0:
+            return False
+        
+        var new_flags = flags | o_nonblock if non_blocking else flags & (~o_nonblock)
+        var res = external_call["fcntl", Int32](self.server_fd, f_setfl, Int64(new_flags))
+        return res >= 0
+
+    def close(mut self):
+        """Closes server socket and deallocates address pointer safely."""
+        if self.server_fd >= 0:
+            _ = external_call["close", Int32](self.server_fd)
+            self.server_fd = -1
+        if self.addr_allocated:
+            self.addr_ptr.unsafe_free()
+            self.addr_allocated = False
 
     def start(self) -> Bool:
         """
@@ -174,13 +381,8 @@ struct BifrostGate:
             
         _ = content
         var response = unsupported_http_response("Ollama response generation")
-        var resp_bytes = response.as_bytes()
-        var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
-        var resp_len = len(resp_bytes)
-        _ = external_call["send", Int](client_fd, response_ptr, resp_len, 0)
+        _ = write_all_bytes(client_fd, response)
         self.close_client(client_fd)
-        _ = resp_bytes
-        _ = response
 
     def close_client(self, client_fd: Int32):
         """Closes a client socket connection."""
@@ -199,24 +401,14 @@ struct BifrostGate:
         """Sends raw HTTP chunked data or SSE events to the client socket."""
         if client_fd < 0:
             return
-        var chunk_bytes = chunk.as_bytes()
-        var ptr = chunk_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
-        var chunk_len = len(chunk_bytes)
-        _ = external_call["send", Int](client_fd, ptr, chunk_len, 0)
-        _ = chunk_bytes
-        _ = chunk
+        _ = write_all_bytes(client_fd, chunk)
 
     @staticmethod
     def send_chunk_static(client_fd: Int32, chunk: String):
         """Static variant for sending raw HTTP chunked data or SSE events to the client socket."""
         if client_fd < 0:
             return
-        var chunk_bytes = chunk.as_bytes()
-        var ptr = chunk_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
-        var chunk_len = len(chunk_bytes)
-        _ = external_call["send", Int](client_fd, ptr, chunk_len, 0)
-        _ = chunk_bytes
-        _ = chunk
+        _ = write_all_bytes(client_fd, chunk)
 
     def send_embeddings_response(self, client_fd: Int32, embedding_data: String):
         """Rejects the reserved embeddings path and closes the connection."""
@@ -225,13 +417,8 @@ struct BifrostGate:
             
         _ = embedding_data
         var response = unsupported_http_response("embedding generation")
-        var resp_bytes = response.as_bytes()
-        var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
-        var resp_len = len(resp_bytes)
-        _ = external_call["send", Int](client_fd, response_ptr, resp_len, 0)
+        _ = write_all_bytes(client_fd, response)
         self.close_client(client_fd)
-        _ = resp_bytes
-        _ = response
 
     @staticmethod
     def send_embeddings_response_static(client_fd: Int32, embedding_data: String):
@@ -241,16 +428,9 @@ struct BifrostGate:
             
         _ = embedding_data
         var response = unsupported_http_response("embedding generation")
-        var resp_bytes = response.as_bytes()
-        var response_ptr = resp_bytes.unsafe_ptr().unsafe_bitcast[Int8]()
-        var resp_len = len(resp_bytes)
-        _ = external_call["send", Int](client_fd, response_ptr, resp_len, 0)
+        _ = write_all_bytes(client_fd, response)
         BifrostGate.close_client_static(client_fd)
-        _ = resp_bytes
-        _ = response
 
-        
-        
     def dispatch_http_route(self, client_fd: Int32, path: String, payload: String = ""):
         """
         ᛞᛁᛋᛈᚨᛏᚲᚺ·ᚺᛏᛏᛈ·ᚱᛟᛢᛏᛖ — The Universal HTTP Route Dispatcher (dispatch_http_route)
@@ -307,5 +487,8 @@ struct BifrostGate:
     def __deinit__(deinit self):
         if self.server_fd >= 0:
             _ = external_call["close", Int32](self.server_fd)
-        self.addr_ptr.unsafe_free()
+            self.server_fd = -1
+        if self.addr_allocated:
+            self.addr_ptr.unsafe_free()
+            self.addr_allocated = False
 

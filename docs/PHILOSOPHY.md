@@ -7,9 +7,7 @@
 
 ## The Vision of Aesir
 
-Project Aesir was born from a fundamental rejection of modern software bloat: massive runtime overheads, unneeded library dependencies, uncontrolled memory allocations, and AI engines that waste precious compute and tokens on hidden "thinking" loops when unneeded.
-
-Aesir is a **bare-metal, zero-dependency LLM inference engine** written entirely in **Mojo**. It serves as an ultra-fast, ultra-efficient drop-in replacement for Ollama, engineered to run directly on hardware with zero-copy memory mapping and hardware-accelerated SIMD compute.
+Aesir is a **bare-metal, zero-dependency LLM inference engine** written entirely in **Mojo**. Its present-tense implementation is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md) (verified CPU GGUF inference slice [`AES-FND-002`](../CAPABILITY_LEDGER.md)), engineered to run directly on hardware with zero-copy memory mapping and hardware-accelerated SIMD compute. Full API parity goals are preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
 
 ---
 

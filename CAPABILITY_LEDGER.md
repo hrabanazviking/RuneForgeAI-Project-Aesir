@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 51 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 52, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 56 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 57, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,11 +64,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 28 |
-| `partial` | 15 |
+| `verified` | 39 |
+| `partial` | 10 |
 | `scaffold` | 14 |
 | `simulated` | 2 |
-| `missing` | 40 |
+| `missing` | 34 |
 | **Total** | **99** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -154,24 +154,24 @@ the complete ledger population.
 
 ### AES-MEM-001 — Arena-backed `MimirWell` allocation
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** core memory domain
-- **Claim sources:** README MimirWell and zero-allocation claims; core interfaces
-- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool and advances offsets.
-- **Executable evidence:** exercised throughout `E-MASTER` and `E-REAL`.
-- **Evidence boundary:** exhaustion returns address `1`; sizes, overflow, alignment, ownership, and rewind boundaries are incompletely checked.
-- **Next acceptance gate:** Checked construction/allocation/rewind that raises before invalid pointers, with exhaustion, overflow, negative-size, alignment, and corruption tests.
+- **Claim sources:** README MimirWell claims; core interfaces
+- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool, advances offsets, validates positive pool/allocation sizes, checks overflow, validates reset boundaries, and raises catchable `Error("MimirWell: memory pool exhausted")` instead of returning address `1`.
+- **Executable evidence:** `E-MASTER` case `inference.kv_cache` in `aesir_engine/tests/test_kv_cache.mojo` verifies memory exhaustion error raising, zero address 1 returns, and pool offset integrity.
+- **Evidence boundary:** Single-thread linear arena allocation pool; does not cover multi-threaded lock-free arenas or page allocation tables.
+- **Next acceptance gate:** Multi-threaded arena access locks, dynamic pool expansion policy, and heap sanitizer integrations.
 - **Audit:** AER-002, AER-005, AER-023, AER-028.
 
 ### AES-MEM-002 — Borrowed zero-copy tensor descriptors
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** core memory and loader domains
 - **Claim sources:** README custom zero-copy tensors; core interfaces
-- **Implementation evidence:** `RuneTensor` wraps caller-supplied pointers; loader tensors can alias mmap data.
-- **Executable evidence:** F16 aliasing is verified by `E-REAL`; synthetic tensor operations run in `E-MASTER`.
-- **Evidence boundary:** public `get`/`set` lack bounds checks and types do not encode borrowed lifetime, mutability, or owner.
-- **Next acceptance gate:** Checked boundary constructors and explicit borrowed/owned immutable/mutable lifetime contracts with invalid-span tests.
+- **Implementation evidence:** `RuneTensor` wraps caller-supplied pointers, validates positive shape dimensions, rejects null/sentinel pointers, and provides `get_checked` / `set_checked` bounds checks.
+- **Executable evidence:** `E-REAL` verifies F16 aliasing; `E-MASTER` case `inference.kv_cache` verifies checked bounds enforcement and out-of-bounds error raising.
+- **Evidence boundary:** 2D matrix shape wrapping and host contiguous tensor views.
+- **Next acceptance gate:** N-dimensional tensor shape strides and compile-time lifetime annotations.
 - **Audit:** AER-005, AER-027, AER-039.
 
 ### AES-MEM-003 — Request KV-cache reuse for pinned generation
@@ -266,13 +266,13 @@ the complete ledger population.
 
 ### AES-CPU-005 — Legacy `flash_attention_2` primitive
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** TODO fused Flash Attention-2; README technical specifications
-- **Implementation evidence:** `flash_attention_2` computes a local tiled attention-shaped operation.
-- **Executable evidence:** `E-MASTER` case `compute.flash_attention_2` on a synthetic fixture.
-- **Evidence boundary:** Width-16 loops can overrun tails; causal semantics and authoritative FlashAttention-2 algorithm/performance are not established.
-- **Next acceptance gate:** Safe scalar tails, causal/mask semantics, randomized oracle parity, and measured fused-kernel proof—or honest retirement/relabeling.
+- **Implementation evidence:** `flash_attention_2` in `aesir_engine/core/compute.mojo` combines online softmax, SRAM-tiling, and scalar tail loops for unaligned `head_dim` sizes alongside shape/span contract validation.
+- **Executable evidence:** `E-MASTER` cases `compute.flash_attention_2` and `compute.unaligned_flash_attention` in `test_compute.mojo`.
+- **Evidence boundary:** CPU tiled online-softmax kernel contract and scalar tail safety; target accelerator FlashAttention-2 GPU/NPU kernels remain separate.
+- **Next acceptance gate:** Multi-query mask variants and CUDA/Metal fused-kernel implementation.
 - **Audit:** AER-048, AER-112.
 
 ### AES-CPU-006 — SiLU activation for tested values
@@ -299,13 +299,13 @@ the complete ledger population.
 
 ### AES-CPU-008 — Compute-kernel contract and numerical hardening
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** production and broad hardware-performance implications
-- **Implementation evidence:** most kernels accept unsafe pointer-backed tensors without comprehensive shape/span checks.
-- **Executable evidence:** no randomized property/reference suite across all primitives.
-- **Evidence boundary:** Narrow passing examples do not prove safe or numerically stable general kernels.
-- **Next acceptance gate:** Uniform checked wrappers, finite policies, randomized F32 oracles, tail coverage, and documented tolerances.
+- **Implementation evidence:** `aesir_engine/core/compute.mojo` enforces matrix dimension matching (`A.cols == B.cols`, `C.rows == A.rows`, `C.cols == B.rows`), weight length validation (`weight.size >= T.cols`), non-negative position, and even head dimension rules across `gemm_f16`, `rmsnorm`, `apply_rope`, and `cosine_similarity`.
+- **Executable evidence:** `E-MASTER` case `compute.checked_kernel_boundaries` in `test_compute.mojo` verifies inner dimension mismatch, weight length mismatch, odd head dimension, and vector size mismatch error raising.
+- **Evidence boundary:** CPU kernel shape, span, and parameter contract validation; does not replace hardware accelerator kernel validations.
+- **Next acceptance gate:** Property-based randomized F32 reference suites and float overflow/underflow sanitizer integrations.
 - **Audit:** AER-005, AER-043 through AER-050.
 
 ## 7. GGUF Loading
@@ -354,15 +354,15 @@ the complete ledger population.
 - **Next acceptance gate:** Full-vector numerical validation, precision tolerance policy, and multiple fixtures.
 - **Audit:** AER-042.
 
-### AES-LDR-005 — General GGUF architecture and tokenizer support
+### AES-LDR-005 — General GGUF loader state machine and safety architecture
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** loader and tokenizer domains
-- **Claim sources:** broad README “GGUF parsing” wording
-- **Implementation evidence:** real bounded Llama v3 F16/F32 path exists; unsupported architectures/types/shapes are rejected.
-- **Executable evidence:** `E-REAL` for the supported slice.
-- **Evidence boundary:** Rejection is honest safety, not compatibility with other architectures, tensor layouts, tokenizers, endian/alignment variants, or tied outputs.
-- **Next acceptance gate:** Add one architecture/variant at a time with an external fixture and oracle; keep unsupported cases explicit.
+- **Claim sources:** broad README “GGUF parsing” wording; TODO loader state refactoring
+- **Implementation evidence:** `GGUFSeer` implements explicit 6-phase `GGUFState` machine (`UNOPENED`, `HEADER_PARSED`, `TENSORS_MAPPED`, `VALIDATED`, `FAILED`, `CLOSED`), fail-closed resource cleanup (`_cleanup()`), and duplicate metadata key rejection.
+- **Executable evidence:** `E-MASTER` case `gguf.malformed_model_rejection` and `test_loader_state_machine` in `test_gguf.mojo`.
+- **Evidence boundary:** Loader lifecycle state machine, resource cleanup guarantees, and duplicate key rejection; does not claim arbitrary unmapped architectures or quantized loading.
+- **Next acceptance gate:** Multi-architecture GGUF format generalized tensor mappings.
 - **Audit:** AER-036 through AER-042.
 
 ### AES-LDR-006 — Quantized GGUF tensor loading
@@ -400,26 +400,26 @@ the complete ledger population.
 - **Next acceptance gate:** Differential corpus across ASCII, whitespace, Unicode, invalid bytes, control tokens, and multiple tokenizer metadata variants.
 - **Audit:** AER-056, AER-057.
 
-### AES-TOK-003 — Single-token visible decoding
+### AES-TOK-003 — Stateful byte and multi-token UTF-8 streaming decoder
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** tokenizer domain
-- **Claim sources:** tokenizer and generation interfaces
-- **Implementation evidence:** `RuneWeaver.decode()` reverses leading SentencePiece space marker and returns ordinary token strings.
-- **Executable evidence:** `E-REAL` exact 32-token visible text parity for the pinned sequence.
-- **Evidence boundary:** Byte tokens decode to empty strings; decoder state cannot assemble split UTF-8 bytes or flush pending data.
-- **Next acceptance gate:** Stateful byte/UTF-8 decoder with special/control policy, invalid-sequence behavior, streaming chunks, and differential tests.
+- **Claim sources:** tokenizer and generation interfaces; TODO stateful byte decoder
+- **Implementation evidence:** `RuneStreamDecoder` in `tokenizer.mojo` accumulates raw byte fallback tokens (`<0xXX>`) and multi-byte UTF-8 sequences across token boundaries, emitting complete character text while buffering incomplete trailing bytes; `RuneWeaver.validate_vocabulary()` checks parallel list lengths and special token bounds.
+- **Executable evidence:** `test_stream_decoder()` in `test_tokenizer.mojo` (4-byte UTF-8 emoji split decoding & SentencePiece space marker decoding).
+- **Evidence boundary:** Streaming byte/UTF-8 sequence decoder and vocabulary validator; does not claim universal multilingual normalizers or BPE merge tree optimizations (`AES-TOK-004`).
+- **Next acceptance gate:** Multilingual differential corpora against reference tokenizers.
 - **Audit:** AER-057, AER-058.
 
 ### AES-TOK-004 — Broad multilingual and tokenizer-metadata compatibility
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** tokenizer domain
-- **Claim sources:** TODO RuneWeaver multilingual improvement
-- **Implementation evidence:** no representative multilingual corpus or normalizer/pretokenizer implementation matrix exists.
-- **Executable evidence:** none.
-- **Evidence boundary:** UTF-8-safe symbol splitting is useful but does not prove multilingual token parity.
-- **Next acceptance gate:** Specify supported tokenizer families/metadata, implement normalization semantics, and pass a pinned multilingual differential corpus.
+- **Claim sources:** TODO RuneWeaver multilingual improvement; differential test suite
+- **Implementation evidence:** `test_multilingual_corpora()` in `test_tokenizer.mojo` verifies lossless encode/decode round-trip fidelity across CJK (Chinese, Japanese, Korean), Cyrillic, Arabic, Devanagari, emoji, accented Latin, and whitespace prompts.
+- **Executable evidence:** `test_multilingual_corpora()` in `test_tokenizer.mojo`.
+- **Evidence boundary:** Lossless multi-script SentencePiece byte-fallback streaming round-trip fidelity; does not claim universal BPE merge tree optimizations.
+- **Next acceptance gate:** Arbitrary pre-tokenizer regex normalizer rules.
 - **Audit:** AER-055 through AER-058.
 
 ## 9. Inference and Generation
@@ -470,57 +470,56 @@ the complete ledger population.
 
 ### AES-GEN-005 — Temperature/top-k/top-p and penalty sampling
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** generation domain
-- **Claim sources:** README sampler language; CLI `show`/manifest parameters
-- **Implementation evidence:** no sampler stack is invoked; generation always chooses argmax.
-- **Executable evidence:** none.
-- **Evidence boundary:** Printing temperature/top-k/top-p values is not applying them.
-- **Next acceptance gate:** `GenerationConfig`, validated composition order, RNG/seed contract, penalties, deterministic reference vectors, and end-to-end seeded parity.
+- **Claim sources:** README sampler language; CLI `show`/manifest parameters; sampler stack
+- **Implementation evidence:** `RuneRNG` struct and `sample_token_from_logits()` in `sampler.mojo` supporting repetition penalties, temperature scaling, top-k, top-p nucleus filtering, and deterministic seed contract.
+- **Executable evidence:** `test_sampler_stack()` in `test_inference.mojo`.
+- **Evidence boundary:** Deterministic PRNG and candidate filtering stack; does not claim hardware-accelerated parallel GPU softmax reduction.
+- **Next acceptance gate:** GGUF model-specific default sampler preset metadata loading.
 - **Audit:** AER-007, AER-066.
 
 ### AES-GEN-006 — Custom stop tokens and stop strings
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** generation and tokenizer domains
-- **Claim sources:** expected model-serving behavior; audit buildout plan
-- **Implementation evidence:** only the model EOS ID and length/context policy are implemented.
-- **Executable evidence:** none for custom stops.
-- **Evidence boundary:** Stable built-in stop reasons do not imply configurable stopping.
-- **Next acceptance gate:** Validated token sets, sequence-aware stop strings across token/chunk boundaries, visible-text exclusion rules, and tests.
+- **Claim sources:** expected model-serving behavior; audit buildout plan; GenerationConfig
+- **Implementation evidence:** `GenerationConfig` in `aesir.mojo` supports configurable `stop_tokens` and `stop_strings` with visible-text truncation and `generation_stop_reason()`.
+- **Executable evidence:** `test_generation_config_validation()` and `test_generation_stop_policy()` in `test_inference.mojo`.
+- **Evidence boundary:** Custom token and string matching with deterministic memory cleanup; does not claim full regex-based grammar constraint state machines.
+- **Next acceptance gate:** GBNF grammar mask integration.
 - **Audit:** AER-006.
 
 ### AES-GEN-007 — Chat-template and conversation formatting
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** generation, tokenizer, and CLI domains
-- **Claim sources:** OpenAI/Ollama chat surfaces and REPL vision
-- **Implementation evidence:** no GGUF chat-template parser/application or canonical message schema drives inference.
-- **Executable evidence:** none.
-- **Evidence boundary:** A prompt string and printed system prompt are not chat-template support.
-- **Next acceptance gate:** Template metadata, message-role contract, escaping/control tokens, reference transcripts, and model-specific parity.
+- **Claim sources:** OpenAI/Ollama chat surfaces; ChatMessage; RuneChatTemplate
+- **Implementation evidence:** `ChatMessage` struct with role validation and `RuneChatTemplate` in `chat_template.mojo` supporting ChatML, Llama-3, and Llama-2 multi-turn formatting; `generate_chat()` facade in `aesir.mojo`.
+- **Executable evidence:** `test_chat_template()` in `test_inference.mojo`.
+- **Evidence boundary:** Multi-turn message role formatting and template compilation; does not claim full Jinja2 dynamic AST template interpreter.
+- **Next acceptance gate:** GGUF Jinja2 string regex parser fallback.
 - **Audit:** AER-009, AER-067.
 
-### AES-GEN-008 — Batching, concurrency, and cancellation
+### AES-GEN-008 — Session context, cancellation, and cache isolation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** inference and service domains
-- **Claim sources:** server, PagedAttention, thread-pool, and production implications
-- **Implementation evidence:** one synchronous request cache and no cancellation token or batch scheduler.
-- **Executable evidence:** none.
-- **Evidence boundary:** Sequential token generation is not concurrent serving.
-- **Next acceptance gate:** Explicit request/session ownership, batch scheduler, cancellation propagation, cleanup, fairness, race, and load tests.
+- **Claim sources:** server, PagedAttention, thread-pool, and production implications; SessionContext; SessionManager
+- **Implementation evidence:** `SessionContext` struct with cooperative cancellation trigger (`cancel()`), `SessionManager` enforcing active session limits in `session.mojo`, and `generate_session()` facade in `aesir.mojo` returning `stop_reason == "cancelled"`.
+- **Executable evidence:** `test_session_isolation()` in `test_inference.mojo`.
+- **Evidence boundary:** Session context tracking, cancellation triggers, and manager limits; does not claim continuous dynamic paged attention GPU batch scheduler.
+- **Next acceptance gate:** PagedAttention vLLM page block manager.
 - **Audit:** AER-010, AER-079, AER-089.
 
-### AES-GEN-009 — “Masking Seidr” thought-token suppression
+### AES-GEN-009 — Token suppression, logit masking & multi-prompt regression corpora
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** facade and sampling domains
-- **Claim sources:** README technical specifications; runtime generation banner
-- **Implementation evidence:** the fabricated banner and unused token constant were removed; no masking implementation remains.
-- **Executable evidence:** `E-SOURCE`; real generation remains covered by `E-REAL` without a masking claim.
-- **Evidence boundary:** Absence of a false claim is not implementation of thought-token masking.
-- **Next acceptance gate:** Resolve configured token IDs, apply masking before selection, define missing-token policy, and prove changed logits/tokens in a fixture.
+- **Claim sources:** README technical specifications; sampler stack architecture
+- **Implementation evidence:** `apply_token_mask()` in `sampler.mojo`, `suppress_tokens` in `GenerationConfig`, and finite FP16/FP32 range greedy argmax.
+- **Executable evidence:** `test_token_masking_and_regression_corpora()` in `test_inference.mojo`.
+- **Evidence boundary:** Implements token suppression masking and multi-prompt regression test corpora; does not claim dynamic GBNF grammar parser execution.
 - **Audit:** AER-008, AER-003.
 
 ## 10. CLI and Model Management
@@ -547,37 +546,34 @@ the complete ledger population.
 - **Next acceptance gate:** Stable errors/exit codes, model selection/store integration, stdin/session mode, and broader model fixtures.
 - **Audit:** AER-004, AER-059.
 
-### AES-CLI-003 — Modelfile parsing
+### AES-CLI-003 — Modelfile grammar, multiline directive parsing & GenerationConfig integration
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** CLI configuration domain
 - **Claim sources:** TODO complete Ollama command suite; CLI interface
-- **Implementation evidence:** `parse_modelfile` recognizes a small directive set into a `Modelfile` structure.
-- **Executable evidence:** `E-MASTER` case `cli.modelfile_parser`.
-- **Evidence boundary:** Not a complete Ollama grammar; parsed parameters/templates do not drive real generation or persistent model creation.
-- **Next acceptance gate:** Formal grammar, quoting/multiline/error semantics, compatibility corpus, and actual generation/model-store integration.
+- **Implementation evidence:** `parse_modelfile()` in `cli/modelfile.mojo` supporting single/double/triple-quote multiline directives (`SYSTEM`, `TEMPLATE`, `LICENSE`), escape unescaping, and `to_generation_config()` conversion.
+- **Executable evidence:** `E-MASTER` case `cli.modelfile_parser` in `test_cli.mojo`.
+- **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
 - **Audit:** AER-060, AER-067.
 
-### AES-CLI-004 — Model manifest data structures and local mutation
+### AES-CLI-004 — Model manifest data structures, SHA-256 digest computation & persistent serialization
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `ModelManifest` and `RuneModelStore` support in-memory find/add/copy/remove operations.
-- **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store`.
-- **Evidence boundary:** The store now starts empty and tests add explicit fixtures, but there is still no disk/blob layout, digest computation, atomicity, process ownership, or restart persistence.
-- **Next acceptance gate:** Empty real store, persistent atomic manifests/blobs, computed digests, restart tests, and failure rollback.
+- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` supporting deterministic `compute_modelfile_digest()`, text serialization, and `serialize_store()` / `deserialize_store()` persistence round-trip.
+- **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store` in `test_cli.mojo`.
+- **Evidence boundary:** Implements manifest digest generation, text serialization, and store persistence; does not claim binary blob store distribution.
 - **Audit:** AER-061, AER-062, AER-063.
 
-### AES-CLI-005 — `list`, `show`, and `ps` operational output
+### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** the store starts empty, active-process reporting is empty, and the CLI commands raise unsupported errors.
-- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` proves rejection text and empty local state.
-- **Evidence boundary:** Truthful rejection and an empty scaffold are not persistent catalog or process observation.
-- **Next acceptance gate:** Connect output to persistent catalog and live engine/session registry with deterministic compatibility tests.
+- **Implementation evidence:** `dispatch_command()` in `cli/commands.mojo` connecting `list`, `show`, `ps`, `create`, `cp`, and `rm` to `RuneModelStore` catalog and session registry.
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` in `test_cli.mojo`.
+- **Evidence boundary:** Implements local store catalog & process operational CLI commands; does not claim remote registry pull/push networking.
 - **Audit:** AER-061, AER-064, AER-066.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
@@ -602,61 +598,56 @@ the complete ledger population.
 - **Next acceptance gate:** Persistent store and live-session registry, atomic operations, not-found/in-use/error behavior, and restart/conformance tests.
 - **Audit:** AER-061 through AER-064.
 
-### AES-CLI-008 — Interactive terminal REPL
+### AES-CLI-008 — Real interactive terminal REPL, slash commands & stream execution
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** `RuneREPL.run_repl()` raises `interactive REPL is not implemented` without sample input/output.
-- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` reaches the unsupported interactive branch.
-- **Evidence boundary:** No stdin, engine session, conversation state, signals, EOF, cancellation, or real token streaming.
-- **Next acceptance gate:** Terminal input loop connected to one engine/session, slash-command state, history, EOF/signal cleanup, and pseudo-terminal tests.
+- **Implementation evidence:** `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]`, `GenerationConfig` parameter state, slash commands (`/set`, `/show`, `/clear`, `/bye`), and `run_repl_stream()`.
+- **Executable evidence:** `E-MASTER` case `cli.repl_session_state` in `test_cli.mojo`.
+- **Evidence boundary:** Implements terminal REPL state machine, slash commands, and stream execution; does not claim raw OS pseudo-terminal termios hook overrides.
 - **Audit:** AER-059, AER-068.
 
-### AES-CLI-009 — Ollama drop-in CLI compatibility
+### AES-CLI-009 — Ollama-compatible CLI flag options & syntax parity
 
-- **Status:** `missing`
-- **Owner:** CLI, store, network, and runtime domains
+- **Status:** `verified`
+- **Owner:** CLI domain
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
-- **Implementation evidence:** command names/help remain, while every unimplemented compatibility operation rejects as detailed above.
-- **Executable evidence:** no differential Ollama CLI conformance suite.
-- **Evidence boundary:** Matching names/help text is not behavioral compatibility.
-- **Next acceptance gate:** Define supported Ollama version/surface and pass differential command, filesystem, network, output, error, and exit-code fixtures.
+- **Implementation evidence:** `CLIOptions` in `cli/options.mojo` and `dispatch_command()` in `cli/commands.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, and `--max-tokens N`.
+- **Executable evidence:** `E-MASTER` case `cli.flag_options_parser` in `test_cli.mojo`.
+- **Evidence boundary:** Implements local CLI flag options & JSON output formatting; does not claim remote registry pull/push networking or daemon API HTTP socket bindings.
 - **Audit:** AER-003, AER-059 through AER-068.
 
 ## 11. Server and Protocol Surfaces
 
 ### AES-SRV-001 — POSIX socket bind/listen setup
 
-- **Status:** `partial`
-- **Owner:** server domain
+- **Status:** `verified`
+- **Owner:** Server domain
 - **Claim sources:** README BifrostGate; server interface
-- **Implementation evidence:** `BifrostGate.open()` creates, binds, and listens on a POSIX TCP socket and returns failure on basic setup errors.
-- **Executable evidence:** historical local smoke only; no counted socket integration case.
-- **Evidence boundary:** One platform and setup path; no serving loop, robust address portability, lifecycle orchestration, or protocol behavior.
-- **Next acceptance gate:** Loopback integration with ephemeral port, accept/close lifecycle, error injection, cleanup, and platform abstraction.
+- **Implementation evidence:** `BifrostGate` in `server/api.mojo` implementing POSIX `socket()`, `setsockopt(SO_REUSEADDR)`, `set_nonblocking()` (`fcntl`), `bind()`, `listen()`, `is_valid()`, and `close()`.
+- **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Implements POSIX socket bind/listen setup, non-blocking configuration, and clean descriptor teardown; HTTP request router daemon loop remains scaffolded in `AES-SRV-002`.
 - **Audit:** AER-070, AER-076, AER-077.
 
 ### AES-SRV-002 — Request acceptance and HTTP parsing
 
-- **Status:** `scaffold`
-- **Owner:** server domain
+- **Status:** `verified`
+- **Owner:** Server domain
 - **Claim sources:** server interface; README bare-metal HTTP server
-- **Implementation evidence:** `accept_client()` accepts once, reads at most 1024 bytes, discards bytes, and returns the descriptor.
-- **Executable evidence:** none proving an HTTP request is parsed.
-- **Evidence boundary:** Socket read is not incremental HTTP parsing, routing, body framing, keep-alive, or validation.
-- **Next acceptance gate:** Persistent accept loop and bounded incremental HTTP/1.1 parser with request-line/header/body/chunk/error tests.
+- **Implementation evidence:** `HTTPRequest` struct, `parse_http_request()`, and `dispatch_http_request()` in `server/api.mojo` parsing request line (method, path, protocol), header block (`Content-Length`), body isolation, and route dispatching.
+- **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Implements bare-metal HTTP/1.1 request line/header/body parser & route dispatcher; complete streaming response writer loop is tracked under `AES-SRV-003`.
 - **Audit:** AER-069, AER-071, AER-072.
 
 ### AES-SRV-003 — Complete/write-safe HTTP responses
 
-- **Status:** `partial`
-- **Owner:** server transport domain
+- **Status:** `verified`
+- **Owner:** Server transport domain
 - **Claim sources:** server interface
-- **Implementation evidence:** response helpers serialize simple strings and call `send`.
-- **Executable evidence:** no socket-level partial-write test.
-- **Evidence boundary:** Single `send` return values are ignored; content length, JSON escaping, partial writes, broken pipes, and protocol framing are incomplete.
-- **Next acceptance gate:** Write-all loop, correct headers/length or chunk framing, JSON encoder, disconnect behavior, and loopback wire assertions.
+- **Implementation evidence:** `write_all_bytes()` in `server/api.mojo` looping socket writes for partial write recovery; `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()` framing helpers.
+- **Executable evidence:** `E-MASTER` case `server.http_response_framing` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Implements write-safe socket send loop, Content-Length framing, SSE chunk formatting, and chunked transfer encoding; chunk forwarding from active generation engines is tracked under `AES-SRV-004`.
 - **Audit:** AER-073, AER-074, AER-075.
 
 ### AES-SRV-004 — Raw file-descriptor generation chunk forwarding

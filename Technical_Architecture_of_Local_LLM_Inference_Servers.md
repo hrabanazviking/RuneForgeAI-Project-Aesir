@@ -1567,7 +1567,7 @@ The field continues to evolve rapidly, with new techniques for memory efficiency
 
 7. RaffaeleSpezia. "local-llm-inference-lab: Practical Guides for Running LLMs on Local Hardware."
 
-8. "DeepSeek-R1本地部署全攻略：配置要求与实操指南."
+8. "DeepSeek-R1 Local Deployment Guide: System Requirements and Hands-On Instructions."
 
 9. QSpec: "Speculative Decoding with Complementary Quantization Schemes."
 

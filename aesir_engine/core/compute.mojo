@@ -274,11 +274,18 @@ def dequantize_compressed_tensor(
 
 
 
-def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]):
+def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
     """
     Host Mojo SIMD/scalar-tail F16 matrix multiplication with F32 accumulation.
     This function does not execute CUDA, Tensor Core, or MMA instructions.
     """
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_f16: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_f16: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_f16: output matrix shape mismatch")
+
     var rows = A.rows
     var shared_dim = A.cols
     var output_dim = B.rows
@@ -371,13 +378,31 @@ def flash_attention_gqa(
             )
 
 
-def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16], mut Out: RuneTensor[f16], seq_len: Int, head_dim: Int):
+def flash_attention_2(
+    Q: RuneTensor[f16],
+    K: RuneTensor[f16],
+    V: RuneTensor[f16],
+    mut Out: RuneTensor[f16],
+    seq_len: Int,
+    head_dim: Int
+) raises:
     """
     The Gaze of Odin (Flash Attention-2):
     Fuses score calculation, softmax, and value aggregation into a single, piercing kernel pass.
     Sees all tokens across the sequence without materializing the vast attention matrix.
+    Includes SIMD + scalar-tail loops for head_dim alignment safety.
     """
+    if seq_len <= 0 or head_dim <= 0:
+        raise Error("flash_attention_2: sequence length and head dimension must be positive")
+    if Q.cols <= 0 or Q.cols % head_dim != 0:
+        raise Error("flash_attention_2: Q.cols must be a positive multiple of head_dim")
+    if K.cols != Q.cols or V.cols != Q.cols or Out.cols != Q.cols:
+        raise Error("flash_attention_2: tensor column dimension mismatch")
+    if Q.rows < seq_len or K.rows < seq_len or V.rows < seq_len or Out.rows < seq_len:
+        raise Error("flash_attention_2: tensor row dimension smaller than sequence length")
+
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
+    var simd_end = (head_dim // simd_w_f32) * simd_w_f32
     
     # Block dimensions (SRAM tiling simulation)
     var Br = 32
@@ -396,8 +421,10 @@ def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16]
                 var l_i: Scalar[f32] = 0.0
                 
                 # Initialize Out row to 0 for this head
-                for k in range(0, head_dim, simd_w_f32):
+                for k in range(0, simd_end, simd_w_f32):
                     Out.data.unsafe_store[width=simd_w_f32](i * Q.cols + h * head_dim + k, SIMD[f16, simd_w_f32](0.0))
+                for k in range(simd_end, head_dim):
+                    Out.data.unsafe_store(i * Q.cols + h * head_dim + k, 0.0)
             
                 for j_start in range(0, seq_len, Bc):
                     for jj in range(Bc):
@@ -407,10 +434,14 @@ def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16]
                             
                         # 1. Compute QK^T / sqrt(d)
                         var S_ij: Scalar[f32] = 0.0
-                        for k in range(0, head_dim, simd_w_f32):
+                        for k in range(0, simd_end, simd_w_f32):
                             var q_vec = Q.data.unsafe_load[width=simd_w_f32](i * Q.cols + h * head_dim + k).cast[f32]()
                             var k_vec = K.data.unsafe_load[width=simd_w_f32](j * K.cols + h * head_dim + k).cast[f32]()
                             S_ij += (q_vec * k_vec).reduce_add()
+                        for k in range(simd_end, head_dim):
+                            var q_val = Q.data.unsafe_load(i * Q.cols + h * head_dim + k).cast[f32]()
+                            var k_val = K.data.unsafe_load(j * K.cols + h * head_dim + k).cast[f32]()
+                            S_ij += q_val * k_val
                         
                         var score = S_ij * scale
                         
@@ -420,19 +451,27 @@ def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16]
                         var l_i_new = l_i * exp(m_i - m_i_new) + P_ij
                         
                         # 3. Multiply by V and accumulate
-                        for k in range(0, head_dim, simd_w_f32):
+                        for k in range(0, simd_end, simd_w_f32):
                             var v_vec = V.data.unsafe_load[width=simd_w_f32](j * V.cols + h * head_dim + k).cast[f32]()
                             var out_old = Out.data.unsafe_load[width=simd_w_f32](i * Out.cols + h * head_dim + k).cast[f32]()
                             var out_new = out_old * exp(m_i - m_i_new) + P_ij * v_vec
                             Out.data.unsafe_store[width=simd_w_f32](i * Out.cols + h * head_dim + k, out_new.cast[f16]())
+                        for k in range(simd_end, head_dim):
+                            var v_val = V.data.unsafe_load(j * V.cols + h * head_dim + k).cast[f32]()
+                            var out_old_s = Out.data.unsafe_load(i * Out.cols + h * head_dim + k).cast[f32]()
+                            var out_new_s = out_old_s * exp(m_i - m_i_new) + P_ij * v_val
+                            Out.data.unsafe_store(i * Out.cols + h * head_dim + k, out_new_s.cast[f16]())
                             
                         m_i = m_i_new
                         l_i = l_i_new
                         
                 # Normalize Out by l_i
-                for k in range(0, head_dim, simd_w_f32):
+                for k in range(0, simd_end, simd_w_f32):
                     var out_val = Out.data.unsafe_load[width=simd_w_f32](i * Out.cols + h * head_dim + k).cast[f32]()
                     Out.data.unsafe_store[width=simd_w_f32](i * Out.cols + h * head_dim + k, (out_val / l_i).cast[f16]())
+                for k in range(simd_end, head_dim):
+                    var out_val_s = Out.data.unsafe_load(i * Out.cols + h * head_dim + k).cast[f32]()
+                    Out.data.unsafe_store(i * Out.cols + h * head_dim + k, (out_val_s / l_i).cast[f16]())
 
 @always_inline
 def silu(mut T: RuneTensor[f16]):
@@ -483,12 +522,19 @@ def geglu(mut T: RuneTensor[f16]):
         var gelu_y = 0.5 * y * (1.0 + tanh_approx)
         T.data.unsafe_store(i, x * gelu_y)
 
-def rmsnorm(mut T: RuneTensor[f16], weight: RuneTensor[f16], epsilon: Scalar[f32] = 1e-5):
+def rmsnorm(mut T: RuneTensor[f16], weight: RuneTensor[f16], epsilon: Scalar[f32] = 1e-5) raises:
     """
     RMSNorm: The Cleansing Fire of Muspelheim.
     Normalizes the tensor by its Root Mean Square to stabilize the forward pass, 
     then re-scales it using learned weights (The Forged Armor).
     """
+    if T.rows <= 0 or T.cols <= 0:
+        raise Error("rmsnorm: tensor dimensions must be positive")
+    if weight.size < T.cols:
+        raise Error("rmsnorm: weight dimension mismatch")
+    if epsilon <= 0.0:
+        raise Error("rmsnorm: epsilon must be positive")
+
     var hidden_dim = T.cols
     var simd_end = (hidden_dim // simd_w_f16) * simd_w_f16
     for r in range(T.rows):
@@ -517,11 +563,20 @@ def rmsnorm(mut T: RuneTensor[f16], weight: RuneTensor[f16], epsilon: Scalar[f32
             T.data.unsafe_store(r * hidden_dim + c, normalized * w)
 
 
-def apply_rope(mut Q: RuneTensor[f16], mut K: RuneTensor[f16], start_pos: Int, head_dim: Int, theta: Scalar[f32] = 10000.0):
+def apply_rope(mut Q: RuneTensor[f16], mut K: RuneTensor[f16], start_pos: Int, head_dim: Int, theta: Scalar[f32] = 10000.0) raises:
     """
     RoPE (Rotary Position Embeddings): The Threads of Urd.
     Rotates the queries and keys in the complex plane to weave positional destiny into the tokens.
     """
+    if start_pos < 0:
+        raise Error("apply_rope: start_pos cannot be negative")
+    if head_dim <= 0 or head_dim % 2 != 0:
+        raise Error("apply_rope: head_dim must be positive and even")
+    if Q.cols % head_dim != 0 or K.cols % head_dim != 0:
+        raise Error("apply_rope: tensor columns must be a multiple of head_dim")
+    if Q.rows <= 0 or K.rows <= 0:
+        raise Error("apply_rope: tensor dimensions must be positive")
+
     var num_heads_q = Q.cols // head_dim
     var num_heads_k = K.cols // head_dim
     
@@ -549,14 +604,18 @@ def apply_rope(mut Q: RuneTensor[f16], mut K: RuneTensor[f16], start_pos: Int, h
 
 
 @always_inline
-def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) -> Scalar[f32]:
+def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) raises -> Scalar[f32]:
     """
     SIMD Cosine Similarity Kernel: The Mímisbrunnr Alignment.
     Computes dot product A . B, norm ||A||, and norm ||B|| using simd_w_f16 SIMD lanes.
     Returns (A . B) / max(||A|| * ||B||, 1e-8).
     Includes SIMD tail loop for unaligned vector lengths.
     """
-    var size = min(A.size, B.size)
+    if A.size != B.size:
+        raise Error("cosine_similarity: vector size mismatch")
+    if A.size <= 0:
+        raise Error("cosine_similarity: vector size must be positive")
+    var size = A.size
     var simd_end = (size // simd_w_f16) * simd_w_f16
 
     var dot_sum: Scalar[f32] = 0.0
@@ -587,13 +646,16 @@ def gemm_f16_sharded(
     A_shards: List[RuneTensor[f16]], 
     B_shards: List[RuneTensor[f16]], 
     mut C_shards: List[RuneTensor[f16]]
-):
+) raises:
     """
     The Multi-Device Strike of Mjölnir (Sharded Matrix Multiplication):
     Executes parallel GEMM matrix computations across distinct device realms in the Bifrost Shard Matrix.
     """
-    var num_shards = min(len(A_shards), min(len(B_shards), len(C_shards)))
-    for i in range(num_shards):
+    if len(A_shards) == 0:
+        raise Error("gemm_f16_sharded: empty shard list")
+    if len(A_shards) != len(B_shards) or len(A_shards) != len(C_shards):
+        raise Error("gemm_f16_sharded: shard list length mismatch")
+    for i in range(len(A_shards)):
         gemm_f16(A_shards[i], B_shards[i], C_shards[i])
 
 

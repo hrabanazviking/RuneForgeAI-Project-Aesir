@@ -99,6 +99,16 @@ def test_mimir_store() raises:
     
     var knn_ok = len(nearest) == 2 and nearest[0] == String("Odin the Allfather") and nearest[1] == String("Odin of Valhalla")
 
+    # Dimension mismatch test
+    var bad_emb = RuneTensor[f16](1, dim + 5, well.allocate(dim + 5))
+    var dim_mismatch = False
+    try:
+        store.add_document(String("Loki Trickster"), bad_emb)
+    except:
+        dim_mismatch = True
+    if not dim_mismatch:
+        raise Error("MimirStore add_document failed to detect dimension mismatch")
+
     if count_ok and knn_ok and emb_val_ok:
         print("MimirStore (insertion & k-NN): PASS")
     else:

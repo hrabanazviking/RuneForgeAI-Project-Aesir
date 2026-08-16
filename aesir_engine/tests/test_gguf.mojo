@@ -2,7 +2,7 @@
 # The Seer's Trial: Verification of the Runecaster's Vision
 
 from core.mimir_well import MimirWell
-from loader.gguf import GGUFSeer, GGMLType
+from loader.gguf import GGUFSeer, GGMLType, GGUFState
 
 def test_gguf_parsing() raises:
     """The zero-tensor legacy fixture must be rejected before inference."""
@@ -11,6 +11,9 @@ def test_gguf_parsing() raises:
     
     var well = MimirWell(1024 * 1024)
     var seer = GGUFSeer(path)
+    if seer.state != GGUFState.UNOPENED:
+        raise Error("Fresh GGUFSeer instance must begin in UNOPENED state")
+        
     var rejected = False
     try:
         seer.mmap_and_load(well)
@@ -18,7 +21,20 @@ def test_gguf_parsing() raises:
         rejected = True
     if not rejected:
         raise Error("GGUFSeer accepted a zero-tensor model fixture")
-    print("GGUFSeer malformed-model rejection: PASS")
+    if seer.state != GGUFState.FAILED:
+        raise Error("Failed GGUFSeer parse must transition state to FAILED")
+    print("GGUFSeer malformed-model rejection & FAILED state transition: PASS")
+
+def test_loader_state_machine() raises:
+    """Test GGUFState helper string representations."""
+    print("--- Testing GGUFState Machine Discriminants ---")
+    if GGUFState.to_string(GGUFState.UNOPENED) != "UNOPENED":
+        raise Error("GGUFState UNOPENED string mismatch")
+    if GGUFState.to_string(GGUFState.VALIDATED) != "VALIDATED":
+        raise Error("GGUFState VALIDATED string mismatch")
+    if GGUFState.to_string(GGUFState.FAILED) != "FAILED":
+        raise Error("GGUFState FAILED string mismatch")
+    print("GGUFState Machine Discriminants: PASS")
 
 def test_ggml_type() raises:
     """Test GGMLType constants are correct per GGML spec."""
@@ -50,4 +66,5 @@ def test_ggml_type() raises:
 
 def main() raises:
     test_gguf_parsing()
+    test_loader_state_machine()
     test_ggml_type()

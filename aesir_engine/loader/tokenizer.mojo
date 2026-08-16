@@ -66,6 +66,23 @@ struct RuneWeaver:
         self.bos_token_id = bos_token_id
         self.eos_token_id = eos_token_id
 
+    def validate_vocabulary(self) raises:
+        """Validates parallel list lengths, vocabulary size, and special token bounds."""
+        if self.vocab_size <= 0:
+            raise Error("Tokenizer vocabulary is empty")
+        if len(self.vocab) != self.vocab_size:
+            raise Error("Tokenizer vocab length does not match vocab_size")
+        if len(self.scores) != self.vocab_size:
+            raise Error("Tokenizer scores length does not match vocab_size")
+        if len(self.token_types) != self.vocab_size:
+            raise Error("Tokenizer token_types length does not match vocab_size")
+        if self.unknown_token_id < 0 or self.unknown_token_id >= self.vocab_size:
+            raise Error("Tokenizer unknown_token_id is out of bounds")
+        if self.bos_token_id < 0 or self.bos_token_id >= self.vocab_size:
+            raise Error("Tokenizer bos_token_id is out of bounds")
+        if self.eos_token_id < 0 or self.eos_token_id >= self.vocab_size:
+            raise Error("Tokenizer eos_token_id is out of bounds")
+
     def byte_to_hex_token(self, byte_value: UInt8) -> String:
         """Formats one raw byte using GGUF's canonical byte-token spelling."""
         var hex_digits = String("0123456789ABCDEF")
@@ -204,3 +221,112 @@ struct RuneWeaver:
         if value.startswith("<0x") and value.endswith(">"):
             return String("")
         return value
+
+
+def hex_char_to_int(c: UInt8) -> Int:
+    if c >= 48 and c <= 57:
+        return Int(c - 48)
+    if c >= 65 and c <= 70:
+        return Int(c - 65 + 10)
+    if c >= 97 and c <= 102:
+        return Int(c - 97 + 10)
+    return 0
+
+
+struct RuneStreamDecoder:
+    """Stateful streaming byte/UTF-8 decoder handling byte-fallback tokens and UTF-8 sequence completion."""
+
+    var pending_bytes: List[UInt8]
+
+    def __init__(out self):
+        self.pending_bytes = List[UInt8]()
+
+    def _append_token_bytes(mut self, token: String):
+        var raw = token.as_bytes()
+        if len(raw) == 6 and raw[0] == 60 and raw[1] == 48 and raw[2] == 120 and raw[5] == 62:
+            var high = hex_char_to_int(raw[3])
+            var low = hex_char_to_int(raw[4])
+            var byte_val = UInt8((high << 4) | low)
+            self.pending_bytes.append(byte_val)
+            return
+
+        var index = 0
+        while index < len(raw):
+            if token.startswith("▁") and index == 0:
+                self.pending_bytes.append(0x20)
+                index += 3
+                continue
+            self.pending_bytes.append(UInt8(raw[index]))
+            index += 1
+
+    def decode_token(mut self, token_str: String) -> String:
+        """Decodes one token string and returns any complete UTF-8 text accumulated so far."""
+        self._append_token_bytes(token_str)
+        return self._pop_complete_utf8()
+
+    def decode_id(mut self, token_id: Int, tokenizer: RuneWeaver) -> String:
+        """Decodes one token ID using tokenizer vocabulary and returns complete UTF-8 text."""
+        if token_id < 0 or token_id >= len(tokenizer.vocab):
+            return String("")
+        return self.decode_token(tokenizer.vocab[token_id])
+
+    def _pop_complete_utf8(mut self) -> String:
+        var text_bytes = List[Int8]()
+        var index = 0
+        var n = len(self.pending_bytes)
+
+        while index < n:
+            var b = Int(self.pending_bytes[index])
+            var width = 1
+            if b < 0x80:
+                width = 1
+            elif b >= 0xC0 and b <= 0xDF:
+                width = 2
+            elif b >= 0xE0 and b <= 0xEF:
+                width = 3
+            elif b >= 0xF0 and b <= 0xF7:
+                width = 4
+            else:
+                text_bytes.append(Int8(b))
+                index += 1
+                continue
+
+            if index + width > n:
+                break
+
+            var valid = True
+            for offset in range(1, width):
+                var cb = Int(self.pending_bytes[index + offset])
+                if (cb & 0xC0) != 0x80:
+                    valid = False
+                    break
+
+            if not valid:
+                text_bytes.append(Int8(b))
+                index += 1
+                continue
+
+            for offset in range(width):
+                text_bytes.append(Int8(self.pending_bytes[index + offset]))
+            index += width
+
+        var remaining = List[UInt8]()
+        for rem_idx in range(index, n):
+            remaining.append(self.pending_bytes[rem_idx])
+        self.pending_bytes = remaining.copy()
+
+        if len(text_bytes) == 0:
+            return String("")
+        text_bytes.append(0)
+        return String(unsafe_from_utf8_ptr=text_bytes.unsafe_ptr())
+
+    def flush(mut self) -> String:
+        """Flushes all pending bytes at end of stream as String."""
+        if len(self.pending_bytes) == 0:
+            return String("")
+        var bytes = List[Int8]()
+        for index in range(len(self.pending_bytes)):
+            bytes.append(Int8(self.pending_bytes[index]))
+        bytes.append(0)
+        self.pending_bytes.clear()
+        return String(unsafe_from_utf8_ptr=bytes.unsafe_ptr())

@@ -76,5 +76,49 @@ def test_kv_cache() raises:
     if t1 != 0:
         raise Error("zero-initialized KV step 1 must select token 0")
 
+    # 4. Memory Pool Exhaustion & Bounds Tests (Stage 1 Hardening)
+    var tiny_well = MimirWell(1024) # 1 KB well (512 f16 elements)
+    var exhausted = False
+    try:
+        _ = tiny_well.allocate(1000) # Request 1000 elements from 512 capacity
+    except e:
+        exhausted = True
+    if not exhausted:
+        print("FAIL: MimirWell did not raise on memory pool exhaustion")
+        raise Error("MimirWell did not raise on memory pool exhaustion")
+    print("MimirWell memory exhaustion error: PASS")
+
+    # Checked indexing test
+    var test_tensor = RuneTensor[f16](2, 2, well.allocate(4), False)
+    test_tensor.set(0, 0, Scalar[f16](42.0))
+    var val_checked = test_tensor.get_checked(0, 0)
+    if val_checked != 42.0:
+        raise Error("RuneTensor get_checked mismatch")
+
+    var oob = False
+    try:
+        _ = test_tensor.get_checked(5, 5)
+    except:
+        oob = True
+    if not oob:
+        raise Error("RuneTensor get_checked failed to detect OOB")
+    # KVCache slice bounds checks
+    var slice_oob = False
+    try:
+        _ = kv_cache.get_k_slice(10, 1) # layer_idx 10 >= num_layers 2
+    except:
+        slice_oob = True
+    if not slice_oob:
+        raise Error("KVCache get_k_slice failed to detect layer OOB")
+
+    var seq_oob = False
+    try:
+        _ = kv_cache.get_v_slice(0, 500) # seq_len 500 > max_seq_len 64
+    except:
+        seq_oob = True
+    if not seq_oob:
+        raise Error("KVCache get_v_slice failed to detect sequence OOB")
+    print("KVCache slice bounds: PASS")
+
     print("KVCache state accumulation: PASS")
     print("test_kv_cache: PASS")

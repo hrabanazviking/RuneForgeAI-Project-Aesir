@@ -126,7 +126,7 @@ Shortcutting boundaries creates the Ball of Mud anti-pattern. Every shortcut tak
 
 ### Role-Based Operation
 
-Contributors operate as one of six specialized roles during any work session. Switch roles consciously. Do not模糊角色边界。
+Contributors operate as one of six specialized roles during any work session. Switch roles consciously. Do not blur role boundaries.
 
 **Skald** — Vision, naming, philosophy, conceptual framing. Use when starting new features, naming modules, writing project-level documentation.
 

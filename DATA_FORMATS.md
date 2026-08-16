@@ -26,7 +26,7 @@ New schema versions must accept data produced by older versions. Fields added in
 
 ### Principle of Canonical Encoding
 
-Each format has exactly one canonical encoding. Variations (whitespace, key ordering, numeric representation) are normalized to the canonical form before persistence or传输. Canonical encoding enables checksumming, deduplication, and deterministic comparison.
+Each format has exactly one canonical encoding. Variations (whitespace, key ordering, numeric representation) are normalized to the canonical form before persistence or transmission. Canonical encoding enables checksumming, deduplication, and deterministic comparison.
 
 ### Principle of Text Over Binary (Where Feasible)
 
@@ -254,7 +254,7 @@ Tensor data is aligned to 32-byte boundaries. Padding bytes between tensors are 
 
 ### Overview
 
-Safetensors is used as an alternative weight storage format for models that are not packaged as GGUF. It provides memory-mappable storage with a JSON header describing tensor布局.
+Safetensors is used as an alternative weight storage format for models that are not packaged as GGUF. It provides memory-mappable storage with a JSON header describing tensor layout.
 
 ### File Structure
 
@@ -409,7 +409,7 @@ Endpoint: `POST /v1/embeddings`
 
 ### Canonical Ordering
 
-Fields in serialized JSON output are alphabetically ordered. This ensures deterministic output for caching, checksumming, and testing. Input ordering is not mandated (JSON objects are unordered by定义).
+Fields in serialized JSON output are alphabetically ordered. This ensures deterministic output for caching, checksumming, and testing. Input ordering is not mandated (JSON objects are unordered by definition).
 
 ---
 
@@ -465,7 +465,7 @@ Fields in serialized JSON output are alphabetically ordered. This ensures determ
 |-------|---------|
 | `"stop"` | Natural termination (EOS token or stop sequence matched) |
 | `"length"` | Hit max_tokens limit |
-| `"content_filter"` | Output filtered by downstream safety layer (not implemented by engine本身) |
+| `"content_filter"` | Output filtered by downstream safety layer (not implemented by engine itself) |
 | `"tool_calls"` | Model indicated a tool call (not implemented; reserved) |
 
 ### Completions Response
@@ -709,7 +709,7 @@ Paths are resolved relative to the configured models directory, not relative to 
 Resolution order:
 1. Join models_directory + configured path
 2. Normalize (resolve `..` and `.`)
-3. Verify normalized path is within models_directory (path traversal防御)
+3. Verify normalized path is within models_directory (path traversal defense)
 4. Verify file exists and is readable
 
 ---
@@ -778,7 +778,7 @@ Each block includes a SHA-256 hash of its uncompressed data. On load, hashes are
 
 ### Compression
 
-Snapshot data is optionally compressed with LZ4 (fast) or zstd (compact). The compression algorithm is recorded in the format header. Uncompressed snapshots are permitted for maximum load速度.
+Snapshot data is optionally compressed with LZ4 (fast) or zstd (compact). The compression algorithm is recorded in the format header. Uncompressed snapshots are permitted for maximum load speed.
 
 ---
 
@@ -864,8 +864,8 @@ Each log entry is a single JSON object on one line (JSON Lines / NDJSON format):
 | `level` | string | Yes | One of: `trace`, `debug`, `info`, `warn`, `error`, `critical`, `fatal` |
 | `module` | string | Yes | Module name where the event originates |
 | `event` | string | Yes | Event identifier (snake_case) |
-| `session_id` | string | No | Associated session (omitted for系统级 events) |
-| `request_id` | string | No | Associated request (omitted for非请求事件) |
+| `session_id` | string | No | Associated session (omitted for system-level events) |
+| `request_id` | string | No | Associated request (omitted for non-request events) |
 | `duration_ms` | int | No | Duration in milliseconds (for timed events) |
 | `extra` | object | No | Additional structured context (free-form, module-specific) |
 
@@ -945,7 +945,7 @@ aesir_errors_total{category="tok"} 12
 
 ### Internal Representation
 
-Internally, token sequences are stored as Mojo `List[Int32]` (or `SIMD[DType.int32, N]` for vectorized operations). This is a runtime detail, not a serialization格式.
+Internally, token sequences are stored as Mojo `List[Int32]` (or `SIMD[DType.int32, N]` for vectorized operations). This is a runtime detail, not a serialization format.
 
 ### External Representation
 
@@ -973,7 +973,7 @@ Token type metadata (from GGUF tokenizer) uses bitmask values:
 
 ### Embedded in Request
 
-Sampler parameters are embedded within the API request JSON (defined in Section Six). They are not a standalone文件格式.
+Sampler parameters are embedded within the API request JSON (defined in Section Six). They are not a standalone file format.
 
 ### Internal Canonical Form
 
@@ -1045,7 +1045,7 @@ On model load (when verification is enabled):
 2. Compute SHA-256 of model file (streaming, constant memory)
 3. Compare computed hash with recorded hash (constant-time comparison)
 4. If mismatch: raise MDL-013 (CHECKSUM_MISMATCH, Critical severity)
-5. If file size also recorded, verify size matches (cheap preliminary检查)
+5. If file size also recorded, verify size matches (cheap preliminary check)
 
 ---
 
@@ -1134,7 +1134,7 @@ Formats are deprecated, not deleted. A deprecated format remains readable for on
 
 ### Compile-Time Validation
 
-Where possible, format schemas are expressed as Mojo structs with compile-time-checked field types. The compiler enforces structural conformance before runtime验证。
+Where possible, format schemas are expressed as Mojo structs with compile-time-checked field types. The compiler enforces structural conformance before runtime validation.
 
 ### Runtime Validation
 
@@ -1209,6 +1209,6 @@ The formats defined in this document are not suggestions. They are the law of th
 
 ---
 
-*Last updated: 2026-08-15. Maintained by the Architect role. Format additions or修改 require Architect review. Parser implementations require Auditor fuzz-testing certification before merge.*
+*Last updated: 2026-08-15. Maintained by the Architect role. Format additions or modifications require Architect review. Parser implementations require Auditor fuzz-testing certification before merge.*
 
 ---

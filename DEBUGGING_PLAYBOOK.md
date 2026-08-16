@@ -251,7 +251,7 @@ total_vram_needed = model_weights + kv_cache_pool + activation_buffers + framewo
 **Diagnostic procedure:**
 - Check system RAM usage during model load. If RAM spikes to roughly the model file size, mmap fell back to eager loading.
 - Verify the mmap syscall succeeded (check errno or Mojo's mmap wrapper return value).
-- On some filesystems (network mounts,某些 tmpfs configurations), mmap with MAP_SHARED is not supported and will fail.
+- On some filesystems (network mounts, some tmpfs configurations), mmap with MAP_SHARED is not supported and will fail.
 
 **Resolution path:** Ensure the model file resides on a local filesystem supporting mmap, or implement an explicit fallback that logs loudly when zero-copy is unavailable.
 

@@ -3,25 +3,40 @@
 > *"A system that knows its own boundaries and honors its own memory cannot be broken by chaos."*  
 > — **Sigrún Ljósbrá, The Skald**
 
----
+> [!IMPORTANT]
+> **Executable Status Alignment**: Present-tense operational capabilities are governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). The full unconstrained multi-engine, multi-device, and swarm target roadmap is preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
 
-## 🎯 Primary Purpose & Vision for the Current Slice (Slice 14: Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix)
+## 🎯 Primary Purpose & Vision
 
-Project Aesir is designed to be the fastest, leanest, and most resource-efficient bare-metal LLM inference engine in existence, acting as a seamless **drop-in replacement for Ollama** (`localhost:11434`), **llama.cpp**, **ExLlamaV3**, and **ONNX Runtime**.
+Project Aesir is designed to be a high-performance bare-metal LLM inference engine targeting Ollama, llama.cpp, ExLlamaV3, and ONNX Runtime ecosystem compatibility.
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-In **Slice 14**, Project Aesir establishes the Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix, enabling multi-node swarm orchestration, peer liveness tracking, dynamic VRAM load balancing, distributed task routing, and REST endpoint parity. The sovereign matrix provides the Swarm Node Role Sigil (`SwarmNodeRole`), Peer Node Descriptor (`PeerNode`), Peer Node Registry (`PeerRegistry`), Task Dispatcher (`TaskDispatcher`), Sovereign Swarm Cluster Orchestrator (`SwarmCluster`), Swarm REST API endpoints (`/api/swarm/nodes`, `/api/swarm/join`, `/api/swarm/dispatch`, `/api/swarm/status`), `aesir swarm` CLI subcommands (`join`, `list`, `status`, `dispatch`), core engine facade integration (`aesir.mojo`), and proving suite (`tests/test_swarm_cluster.mojo`):
+### ⚡ Completed Milestone: Production Hardening & Bug-Kill Pass across Stages 5.5, 6.1, 6.2 & 6.3
+* **Production Hardening Pass ([`AES-SRV-001`](../CAPABILITY_LEDGER.md), [`AES-SRV-002`](../CAPABILITY_LEDGER.md), [`AES-SRV-003`](../CAPABILITY_LEDGER.md), [`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Eliminated potential double-free in `BifrostGate.__deinit__`, upgraded embedding gateway responses to write-all transmission loop (`write_all_bytes`), and hardened CLI options/duration parsing with fail-closed missing parameter handling.
+* **Stage 6.3 Response Framing Milestone ([`AES-SRV-003`](../CAPABILITY_LEDGER.md) `verified`)**: Built `write_all_bytes()` socket transmission loop in `server/api.mojo`, `build_http_response()` framing helper, `build_sse_chunk()` Server-Sent Events utility, and `build_http_chunk()` HTTP/1.1 chunked encoding helper.
+* **Stage 6.2 HTTP Parser Milestone ([`AES-SRV-002`](../CAPABILITY_LEDGER.md) `verified`)**: Built `HTTPRequest` struct in `server/api.mojo` capturing `method`, `path`, `protocol`, `headers_raw`, `body`, and `content_length`, with `parse_http_request()` and route dispatcher `dispatch_http_request()`.
+* **Stage 6.1 POSIX Socket Milestone ([`AES-SRV-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `BifrostGate` in `server/api.mojo` with socket validity checks (`is_valid()`), non-blocking configuration via `fcntl(O_NONBLOCK)` (`set_nonblocking()`), `SO_REUSEADDR` options, `bind()`, `listen(backlog=128)`, and safe teardown (`close()`).
+* **Stage 5.5 CLI Flag Options Milestone ([`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `CLIOptions` in `cli/options.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, `--max-tokens N`, and duration string parsing.
+* **Stage 5.4 Stdin REPL Milestone ([`AES-CLI-008`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]`, `GenerationConfig` parameter tuning, slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and `run_repl_stream()`.
+* **Stage 5.3 Operational CLI Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `aesir list`, `aesir ls`, `aesir show`, `aesir ps`, `aesir create`, `aesir cp`, and `aesir rm` in `cli/commands.mojo`, connecting output to `RuneModelStore` catalog and session registry.
+* **Stage 5.2 Manifest Persistence Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `compute_modelfile_digest()` producing deterministic `sha256:<hex>` IDs, `ModelManifest.serialize()`, `deserialize_manifest()`, and `RuneModelStore` persistence scroll round-trip (`serialize_store()` / `deserialize_store()`).
+* **Stage 5.1 Modelfile Grammar Milestone ([`AES-CLI-003`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented multiline triple-quote `"""..."""` parsing, single/double quote unescaping (`unescape_string()`), fail-closed validation (`FROM` directive checks), and parameter conversion to `GenerationConfig` (`Modelfile.to_generation_config()`).
+* **Stage 4.5 Token Masking & Corpora ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `apply_token_mask()` in `sampler.mojo`, `suppress_tokens` in `GenerationConfig`, hardened finite FP16/FP32 float range greedy argmax, and multi-prompt regression test corpora.
+* **Maximum Bug, Error, Security & Boundary Hardening ([`AES-GEN-005`](../CAPABILITY_LEDGER.md), [`AES-GEN-006`](../CAPABILITY_LEDGER.md), [`AES-GEN-007`](../CAPABILITY_LEDGER.md), [`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added zero-candidate list safety guards across all sampling functions, explicit `"tool"` role formatting across ChatML/Llama-3/Llama-2 templates, fail-closed unregistered session release rejection, and session `active_tokens` accounting.
+* **Production Hardening & Security Upgrade ([`AES-GEN-005`](../CAPABILITY_LEDGER.md), [`AES-GEN-006`](../CAPABILITY_LEDGER.md), [`AES-GEN-007`](../CAPABILITY_LEDGER.md), [`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added prompt injection control token escaping (`escape_control_tokens`), non-finite logit safety (`sanitize_logit`), and `SessionManager` active session registry with eviction sweeps (`evict_expired_sessions`).
+* **Deep Sampler, Template & Session Hardening ([`AES-GEN-005`](../CAPABILITY_LEDGER.md), [`AES-GEN-006`](../CAPABILITY_LEDGER.md), [`AES-GEN-007`](../CAPABILITY_LEDGER.md), [`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added Min-P sampling (`apply_min_p`), count/presence penalties (`apply_frequency_presence_penalty`), Jinja2 chat template family auto-detection (`detect_template_family`), tool message roles, and session TTL expiration (`is_expired`, `touch`).
+* **Stage 4.4 Session Context Milestone ([`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `SessionContext` with cooperative `cancel()`, `SessionManager` tracking concurrency bounds, and `generate_session()` facade in `aesir.mojo`.
+* **Stage 4.3 Chat Template Milestone ([`AES-GEN-007`](../CAPABILITY_LEDGER.md) `verified`)**: Added `ChatMessage` struct with role validation (`system`, `user`, `assistant`), `RuneChatTemplate` supporting ChatML, Llama-3, and Llama-2 formatting, and `generate_chat()` facade in `aesir.mojo`.
+* **Stage 4.2 Sampler Stack Milestone ([`AES-GEN-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RuneRNG` deterministic PRNG and sampler stack (`apply_repetition_penalty`, `apply_temperature`, `apply_top_k`, `apply_top_p`, `sample_token_from_logits`) in `sampler.mojo` with seeded reproducibility.
+* **Stage 4.1 GenerationConfig Milestone ([`AES-GEN-006`](../CAPABILITY_LEDGER.md) `verified`)**: Added `GenerationConfig` struct in `aesir.mojo` with validated bounds for `max_new_tokens`, `stop_tokens`, and `stop_strings`, with visible-text truncation and `try...except` memory cleanup.
+* **Stage 3 GGUF & Tokenizer Milestone ([`AES-LDR-005`](../CAPABILITY_LEDGER.md), [`AES-TOK-003`](../CAPABILITY_LEDGER.md), [`AES-TOK-004`](../CAPABILITY_LEDGER.md) `verified`)**: Integrated 6-phase `GGUFState` machine, `RuneStreamDecoder` stateful UTF-8 streaming decoder, and multilingual differential corpora round-trip parity.
+* **Stage 2 CPU Kernel Milestone ([`AES-CPU-001`](../CAPABILITY_LEDGER.md), [`AES-CPU-005`](../CAPABILITY_LEDGER.md), [`AES-CPU-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added F32 reference matrix multiplication/silu/attention oracles, scalar tail loops for unaligned `head_dim` sizes, and uniform shape/span input contract validation.
+* **Stage 1 Memory Safety Milestone ([`AES-MEM-001`](../CAPABILITY_LEDGER.md), [`AES-MEM-002`](../CAPABILITY_LEDGER.md), [`AES-MEM-003`](../CAPABILITY_LEDGER.md), [`AES-RAG-002`](../CAPABILITY_LEDGER.md) `verified`)**: Replaced address-1 sentinel returns with catchable exceptions, enforced shape positivity, checked indexing, `KVCache` slice bounds, and `MimirStore` dimension checks.
+* **Forge 0 Truth Restoration**: Master fail-closed test summary, capability ledger, elimination of synthetic claims, and automated doc-drift prevention gate (`scripts/check_doc_drift.py`).
 
-1. **The Swarm Node Role Sigil (`core/swarm.mojo` - `SwarmNodeRole`):** Zero-cost integer discriminant representing enterprise cluster node authority roles: LEADER (0), WORKER (1), RELAY (2).
-2. **The Peer Node Descriptor (`PeerNode`):** State and capacity telemetry container tracking node ID, network address, authority role, VRAM capacity/usage, active model catalog runes, and liveness status.
-3. **The Peer Node Registry (`PeerRegistry`):** Sovereign peer catalog managing liveness heartbeats, node enrollment, and dynamic scout for the least-loaded peer node based on free VRAM capacity.
-4. **The Swarm Task Dispatcher (`TaskDispatcher`):** Dynamic workload router balancing model inference tasks across connected cluster peer nodes.
-5. **The Sovereign Swarm Cluster Orchestrator (`SwarmCluster`):** Master swarm orchestrator coordinating mesh connection rites (`join_mesh`), inter-node liveness pulses (`heartbeat_pulse`), and load-balanced distributed inference dispatch (`dispatch_distributed_inference`).
-6. **Swarm REST Route Dispatcher (`server/api.mojo`):** Bare-metal API endpoints serving mesh topology status (`/api/swarm/nodes`, `/api/swarm/status`), node join handshake (`/api/swarm/join`), and workload dispatch routing (`/api/swarm/dispatch`).
-7. **Bifrost CLI Swarm Terminal Suite (`cli/commands.mojo`):** Native `aesir swarm` subcommand suite (`join`, `list`, `status`, `dispatch`) executing mesh connection, cluster inventory inspection, and distributed inference routing.
-8. **Integrated Sovereign Engine Facade (`aesir.mojo`):** Engine facade integration instantiating `SwarmCluster` active during runtime operations.
-9. **Autonomous Swarm Proving Suite (`tests/test_swarm_cluster.mojo`):** Verification suite testing node role discriminants, peer node metrics, registry load balancing, and cluster task dispatch.
+### 🎯 Next Horizon: Stage 6.4 — Generation Chunk Socket Forwarding & Stream Connection Lifecycle (`AES-SRV-004`)
+- **Generation Chunk Forwarding ([`AES-SRV-004`](../CAPABILITY_LEDGER.md))**: Implement streaming token chunk forwarding over socket connection.
 
 ---
 
@@ -82,7 +97,7 @@ In **Slice 14**, Project Aesir establishes the Autonomous Swarm Agents & Enterpr
    - **The Cleansing Stream of Alfheim (`rmsnorm_gpu`):** Vectorized RMSNorm across GPU realms with f32 numerical widening.
    - **Universal GPU Forward Pass & Engine Controls (`TransformerBlock.forward`, `AesirEngine`):** `enable_gpu_realm` and `target_gpu_realm` configuration across all model projections and generation loops.
 
-12. **Complete Ollama Terminal Command Suite & Drop-In Replacement:**
+12. **Complete Ollama Terminal Command Suite & CLI Compatibility ([`AES-CLI-005`](../CAPABILITY_LEDGER.md)):**
    - **The Bifrost Command Dispatcher (`dispatch_command`):** Native Mojo routing across 12 subcommands (`serve`, `run`, `pull`, `push`, `create`, `list`, `ps`, `rm`, `cp`, `show`, `stop`, `help`).
    - **Modelfile Directive Parser (`Modelfile`, `parse_modelfile`):** Parser for `FROM`, `PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE` runestones.
    - **The Scroll & Vault of Mímisbrunnr (`ModelManifest`, `RuneModelStore`):** Manifest metadata, SHA-256 digests, and catalog store.
@@ -141,7 +156,7 @@ timeline
     Phase 6 : Multi-GPU Orchestration & Shard Matrix : Device Topology Mapping : Column/Row Tensor Sharding : All-Reduce Sum & Sharded GEMM [COMPLETED]
     Phase 7 : NPU Realm Gateway : NPUBackendType Edge Spirits : NPUBuffer Zero-Copy DMA-BUF : NEON gemm_f16_arm_neon & rmsnorm_arm_neon : gemm_f16_npu Dispatcher [COMPLETED]
     Phase 8 : Universal Multi-GPU & Accelerator Realm Matrix : GPURealmType Sigils : GPUBuffer Zero-Copy Channel : gemm_f16_gpu Dispatcher : Eastern & Mobile SIMD Kernels [COMPLETED]
-    Phase 9 : Complete Ollama Terminal Command Suite & Drop-In Replacement : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [COMPLETED]
+    Phase 9 : Complete Ollama Terminal Command Suite & CLI Compatibility : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [COMPLETED]
     Phase 10 : Universal Compressed LLM Format Matrix : CompressedFormatType Sigils : GGMLType Converter : dequantize_compressed_tensor Gateway : 21 Format Kernels [COMPLETED]
     Phase 11 : Universal Multi-Engine Ecosystem Matrix : OpenAIGate REST Bridge : llama.cpp HTTP Endpoint Parity : GBNFGrammar Constrained Generation : SpeculativeEngine Draft Verification : ONNXModelSeer Protocol Parser [COMPLETED]
     Phase 12 : Sovereign Resilience & Self-Healing Matrix : ErrorGuard Pointer/Logit Sanitizer : StateVault State Snapshotting : AesirEventBus Decoupled PubSub : RuneThreadPool Parallel Workers : SelfHealingSupervisor Undying Guardian [COMPLETED]

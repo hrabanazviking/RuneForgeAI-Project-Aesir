@@ -48,6 +48,8 @@ from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
     test_cli_command_dispatch,
+    test_repl_session_and_slash_commands,
+    test_cli_flag_options_parser,
 )
 from tests.test_quantization import (
     test_compressed_format_enum,
@@ -60,6 +62,9 @@ from tests.test_multi_engine import (
     test_onnx_model_seer,
     test_multi_engine_cli,
     test_unsupported_http_responses,
+    test_posix_socket_server,
+    test_http_parser_and_router,
+    test_http_response_framing,
 )
 from tests.test_resilience import (
     test_error_guard,
@@ -176,6 +181,8 @@ def main() raises:
     run_case(ledger, "cli.modelfile_parser", test_modelfile_parser)
     run_case(ledger, "cli.in_memory_manifest_store", test_model_manifest_store)
     run_case(ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch)
+    run_case(ledger, "cli.repl_session_state", test_repl_session_and_slash_commands)
+    run_case(ledger, "cli.flag_options_parser", test_cli_flag_options_parser)
     print("")
 
     # --- Compressed Format Scaffolds ---
@@ -201,6 +208,11 @@ def main() raises:
         ledger,
         "multi_engine.http_unsupported_responses",
         test_unsupported_http_responses,
+    )
+    run_case(ledger, "server.posix_socket", test_posix_socket_server)
+    run_case(ledger, "server.http_parser", test_http_parser_and_router)
+    run_case(
+        ledger, "server.http_response_framing", test_http_response_framing
     )
     print("")
 
@@ -243,4 +255,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(52)
+    ledger.finish(57)

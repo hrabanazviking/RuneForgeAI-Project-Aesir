@@ -465,7 +465,7 @@ All error responses follow a consistent JSON structure:
 | Critical | Generic message + code. No internal state. Logged with full detail server-side. |
 | Fatal | No response sent (process terminating). |
 
-Internal paths, module names, memory addresses, stack traces, and configuration values are never included in HTTP error responses. The client receives enough information to understand and修正 their request. The server retains the full diagnostic detail in logs.
+Internal paths, module names, memory addresses, stack traces, and configuration values are never included in HTTP error responses. The client receives enough information to understand and correct their request. The server retains the full diagnostic detail in logs.
 
 ---
 

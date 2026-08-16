@@ -7,7 +7,10 @@
 
 ## 🏗️ Architectural Overview
 
-Project Aesir is an ultra-fast, bare-metal LLM inference engine written in **Mojo**. It acts as a zero-dependency drop-in replacement for Ollama (`localhost:11434`), designed to maximize hardware utilization, eliminate dynamic memory allocations, and enforce strict domain boundaries.
+Project Aesir is a bare-metal LLM inference engine written in **Mojo**. 
+
+> [!IMPORTANT]
+> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Subsystems such as full Ollama HTTP server parity ([`AES-SRV-001`](../CAPABILITY_LEDGER.md)), GPU/NPU acceleration, and Swarm clusters represent target architectural goals preserved under [`docs/historical/2026-08-16/`](historical/2026-08-16/).
 
 ---
 

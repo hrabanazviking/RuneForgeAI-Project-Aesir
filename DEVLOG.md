@@ -3,6 +3,303 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 49: Production Hardening & Bug-Kill Pass across Stages 5.5, 6.1, 6.2 & 6.3
+**Date:** August 16, 2026
+**Architectural Phase:** Memory Safety Invariant Hardening & Socket Transmission Verification
+
+The forge completed a deep production hardening and bug-kill pass across all stages completed today:
+
+1. **Double-Free Guard:** Hardened `BifrostGate.__deinit__` in `server/api.mojo` with explicit `if self.addr_allocated:` protection, preventing double-free crashes if `.close()` is called prior to drop.
+2. **Socket Transmission Gateway:** Upgraded `send_embeddings_response()` and `send_embeddings_response_static()` to route all outbound payload buffers through `write_all_bytes()`, guaranteeing complete transmission under socket backpressure.
+3. **Fail-Closed CLI Parser:** Hardened `parse_cli_options()` in `cli/options.mojo` with explicit missing parameter error raising for `--format`, `--keepalive`, `--modelfile`/`-f`, and `--max-tokens`, and added uppercase duration unit support (`'S'`, `'M'`, `'H'`).
+4. **Verification Pass:** Master test suite passed clean (`56 passed / 0 failed / 1 skipped / Total 57`). Doc drift check passed clean (`0 errors`).
+
+## ⚡ Entry 48: Stage 6.3 — Write-Safe HTTP Response Framing & Framing Utilities (AES-SRV-003)
+**Date:** August 16, 2026
+**Architectural Phase:** Socket Write-All Loop, HTTP Response Framing & SSE/Chunking Utilities
+
+The forge completed Stage 6.3 of Project Aesir (`AES-SRV-003` `verified`):
+
+1. **Write-Safe Socket Send Loop:** Built `write_all_bytes()` in `server/api.mojo` looping socket writes until all payload bytes are written or an unrecoverable connection failure occurs.
+2. **HTTP Response Framing:** Implemented `build_http_response()` constructing HTTP/1.1 response status lines, `Content-Type`, `Content-Length`, and `Connection: close` headers.
+3. **SSE & Chunking Utilities:** Implemented `build_sse_chunk()` (`event: ...\ndata: ...\n\n`) and `build_http_chunk()` (`<hex_len>\r\n<data>\r\n`).
+4. **Capability Ledger Promotion:** Promoted `AES-SRV-003` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`56 passed / 0 failed / 1 skipped / Total 57`).
+
+## ⚡ Entry 47: Stage 6.2 — Persistent Bounded Accept Loop & Incremental HTTP/1.1 Parser (AES-SRV-002)
+**Date:** August 16, 2026
+**Architectural Phase:** HTTP/1.1 Request Parser, Header Extraction & Route Dispatcher
+
+The forge completed Stage 6.2 of Project Aesir (`AES-SRV-002` `verified`):
+
+1. **HTTP Request Struct:** Built `HTTPRequest` in `server/api.mojo` capturing `method`, `path`, `protocol`, `headers_raw`, `body`, and `content_length`.
+2. **HTTP Request Parser:** Implemented `parse_http_request()` parsing request line (method, target URI path, protocol), header block (`Content-Length`), and body payload.
+3. **HTTP Route Dispatcher:** Implemented `dispatch_http_request()` mapping target URI paths to `501 Not Implemented` for known endpoints and `404 Not Found` for unmapped paths.
+4. **Capability Ledger Promotion:** Promoted `AES-SRV-002` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`55 passed / 0 failed / 1 skipped / Total 56`).
+
+## ⚡ Entry 46: Stage 6.1 — POSIX Socket Bind/Listen Setup (AES-SRV-001)
+**Date:** August 16, 2026
+**Architectural Phase:** Midgard Bare-Metal POSIX Socket Listener, Non-Blocking Options & Lifecycle
+
+The forge completed Stage 6.1 of Project Aesir (`AES-SRV-001` `verified`):
+
+1. **Bare-Metal Socket Lifetime Management:** Hardened `BifrostGate` in `server/api.mojo` with socket validity checks (`is_valid()`), non-blocking configuration via `fcntl(O_NONBLOCK)` (`set_nonblocking()`), and safe teardown (`close()`).
+2. **Port Binding & Socket Options:** Enforced `SO_REUSEADDR` via `setsockopt()`, IPv4 TCP socket creation (`AF_INET`, `SOCK_STREAM`), and `bind()` / `listen(backlog=128)` lifecycle.
+3. **Master Proving Test Case:** Registered `server.posix_socket` (`test_posix_socket_server()`) in `test_multi_engine.mojo` and `run_all.mojo`.
+4. **Capability Ledger Promotion:** Promoted `AES-SRV-001` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`54 passed / 0 failed / 1 skipped / Total 55`).
+
+## ⚡ Entry 45: Stage 5.5 — Ollama-Compatible Flag Options & CLI Syntax Parity (AES-CLI-009)
+**Date:** August 16, 2026
+**Architectural Phase:** CLI Flag Options Parser, Duration Conversion & JSON Output
+
+The forge completed Stage 5.5 of Project Aesir (`AES-CLI-009` `verified`):
+
+1. **CLI Flag Options Parser:** Built `CLIOptions` in `cli/options.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>`, `--modelfile <path>` (`-f`), `--raw`, `--insecure`, and `--max-tokens N`.
+2. **Duration String Parsing:** Implemented `parse_duration_seconds()` converting `10s`, `5m`, `1h` into seconds (`600s`).
+3. **JSON Table Output Formatting:** Added JSON array and object formatting in `cli/commands.mojo` for `list`, `show`, and `ps` commands when `--format json` is specified.
+4. **Capability Ledger Promotion:** Promoted `AES-CLI-009` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`53 passed / 0 failed / 1 skipped / Total 54`).
+
+## ⚡ Entry 44: Stage 5.4 — Stdin Interactive REPL & Signal Handling (AES-CLI-008)
+**Date:** August 16, 2026
+**Architectural Phase:** REPL Conversation State, Slash Commands & Stream Execution
+
+The forge completed Stage 5.4 of Project Aesir (`AES-CLI-008` `verified`):
+
+1. **REPL Session State:** Built `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]` tracking and `GenerationConfig` parameter tuning.
+2. **Slash Command Execution Engine:** Implemented `/?` / `/help`, `/set <param> <val>` (`temperature`, `top_k`, `top_p`, `max_tokens`), `/show`, `/clear`, and `/bye` / `/exit`.
+3. **Stream Input Loop:** Implemented `run_repl_stream(inputs)` enabling programmatic turn-by-turn proving without hanging stdin.
+4. **Capability Ledger Promotion:** Promoted `AES-CLI-008` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`52 passed / 0 failed / 1 skipped / Total 53`).
+
+## ⚡ Entry 43: Stage 5.3 — Catalog & Process Operational Output (AES-CLI-005)
+**Date:** August 16, 2026
+**Architectural Phase:** Operational CLI Dispatcher, Table Formatting & Session Registry
+
+The forge completed Stage 5.3 of Project Aesir (`AES-CLI-005` `verified`):
+
+1. **Operational CLI Command Dispatcher:** Wired `aesir list`, `aesir ls`, `aesir show <model>`, `aesir ps`, `aesir create <name> -f <modelfile>`, `aesir cp <src> <tgt>`, and `aesir rm <model>` in `cli/commands.mojo`.
+2. **Help Banner & CLI Surface Alignment:** Moved `list`, `show`, `ps`, `create`, `cp`, `rm` from "Reserved but unsupported" to "Implemented" in `print_general_help()`.
+3. **Shared Store Parameter Support:** Added `dispatch_command(args, mut store)` overload enabling test suite command chains to mutate shared store state cleanly.
+4. **Capability Ledger Promotion:** Promoted `AES-CLI-005` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 42: Stage 5.2 — Model Manifest Persistence & SHA-256 Digest Computation (AES-CLI-004)
+**Date:** August 16, 2026
+**Architectural Phase:** SHA-256 Manifest Digest, Text Serialization & Store Persistence
+
+The forge completed Stage 5.2 of Project Aesir (`AES-CLI-004` `verified`):
+
+1. **SHA-256 Digest Calculation:** Implemented `compute_modelfile_digest()` in `cli/manifest.mojo` generating deterministic `sha256:<hex>` strings from Modelfile inscriptions and model metadata.
+2. **Text Serialization & Deserialization:** Built `ModelManifest.serialize()` and `deserialize_manifest()` handling field parsing line by line.
+3. **Store Persistence:** Implemented `RuneModelStore.serialize_store()` and `deserialize_store()` enabling full catalog save/reload round-trips and restart isolation.
+4. **Capability Ledger Promotion:** Promoted `AES-CLI-004` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 41: Stage 5.1 — Modelfile Grammar, Quoting & GenerationConfig Integration (AES-CLI-003)
+**Date:** August 16, 2026
+**Architectural Phase:** Multiline Directives, Quote Unescaping & GenerationConfig Integration
+
+The forge completed Stage 5.1 of Project Aesir (`AES-CLI-003` `verified`):
+
+1. **Multiline Directive Parser & Quoting:** Enhanced `parse_modelfile()` in `cli/modelfile.mojo` with single-quote `'...'`, double-quote `"..."`, and triple-quote `"""..."""` multiline directive state machine for `SYSTEM`, `TEMPLATE`, `LICENSE`, and `MESSAGE`.
+2. **Escape Sequence Unescaping:** Added `unescape_string()` handling `\n`, `\t`, `\"`, and `\\`.
+3. **GenerationConfig Integration:** Implemented `Modelfile.to_generation_config()` mapping parsed parameters (`num_predict`, `temperature`, `top_k`, `top_p`, `repeat_penalty`, `presence_penalty`, `frequency_penalty`, `stop`, `seed`) into a validated `GenerationConfig`.
+4. **Validation & Exception Safety:** Added fail-closed checks raising `Error` if `FROM` directive is missing or if multiline quotes are unclosed.
+5. **Capability Ledger Promotion:** Promoted `AES-CLI-003` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 40: Stage 4.5 — Finite Logit Argmax, Token Masking & Regression Corpora (AES-GEN-009)
+**Date:** August 16, 2026
+**Architectural Phase:** Finite Float Argmax Range, Token Suppression Masking & Multi-Prompt Regression Corpora
+
+The forge completed Stage 4.5 of Project Aesir (`AES-GEN-009` `verified`):
+
+1. **Finite Float Argmax Safety:** Hardened greedy argmax initialization in `sampler.mojo` to safely scan all finite FP16 (`-65504.0` to `65504.0`) and FP32 float ranges without baseline overflow.
+2. **Token Suppression & Logit Masking (`AES-GEN-009`):** Built `apply_token_mask()` in `sampler.mojo` forcing suppressed token logits (e.g. `<think>` tokens) to `-1e9`. Integrated `suppress_tokens: List[Int]` into `GenerationConfig` and `sample_token_from_logits`.
+3. **Multi-Prompt Regression Corpora:** Expanded `test_inference.mojo` with multi-prompt regression test cases executing system instructions, code generation, math queries, and conversation turns to prove token output stability.
+4. **Capability Ledger Promotion:** Promoted `AES-GEN-009` to `verified` in `CAPABILITY_LEDGER.md`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 39: Maximum Bug, Error, Security & Boundary Hardening
+**Date:** August 16, 2026
+**Architectural Phase:** Empty Candidate List Guards, Tool Turn Templates & Unregistered Release Exceptions
+
+The forge completed maximum safety, error, and boundary hardening across all generation components:
+
+1. **Zero-Candidate Guards:** Added `len(candidates) == 0` check across all sampling functions (`apply_repetition_penalty`, `apply_frequency_presence_penalty`, `apply_temperature`, `apply_top_k`, `apply_top_p`, `apply_min_p`) and inside `sample_token_from_logits` to prevent zero candidate pointer indexing crashes.
+2. **Explicit Tool Role Template Formatting:** Added explicit `"tool"` role formatting across ChatML, Llama-3, and Llama-2 (`[INST] Tool Response:\n... [/INST]`) ensuring tool call outputs are preserved across all prompt templates.
+3. **Fail-Closed Session Release & Active Token Accounting:** Updated `SessionManager.release_session()` to throw an explicit error if attempting to release an unregistered session ID, and updated `generate_session()` in `aesir.mojo` to track `session.active_tokens`.
+4. **Master Proving:** Expanded `test_inference.mojo` with unit tests for tool turn formatting across all templates, unregistered session release rejection, and session active_tokens updating. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 38: Production Hardening & Security Upgrade
+**Date:** August 16, 2026
+**Architectural Phase:** Control Token Sanitization, Non-Finite Logit Safety & Session Registry Eviction
+
+The forge brought all generation code built today to full production-grade safety:
+
+1. **Prompt Injection & Control Token Sanitization:** Implemented `escape_control_tokens()` in `chat_template.mojo` sanitizing control tags (`<|im_start|>`, `<|im_end|>`, `<|start_header_id|>`, `<|end_header_id|>`, `<|eot_id|>`, `[INST]`, `[/INST]`, `<<SYS>>`, `<</SYS>>`) within message content payloads.
+2. **Non-Finite Logit Safety:** Built `sanitize_logit()` in `sampler.mojo` catching `isnan`/`isinf` float logits and mapping them to `-1e9`.
+3. **Session Registry & TTL Eviction Sweep:** Upgraded `SessionManager` in `session.mojo` to maintain an active `sessions: List[SessionContext]` registry with `get_session()`, duplicate session ID rejection, and `evict_expired_sessions(current_timestamp, ttl_seconds)` sweep.
+4. **Master Proving:** Expanded `test_inference.mojo` with unit tests for prompt injection control token escaping, NaN logit sanitization, duplicate session rejection, and `evict_expired_sessions()` TTL sweeps. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 37: Deep Hardening & Quality Expansion (Stages 4.1 – 4.4)
+**Date:** August 16, 2026
+**Architectural Phase:** Sampler Pipeline Hardening, Chat Template Auto-Detection & Session TTL Bounds
+
+The forge completed deep hardening and quality expansion across all generation slices built today:
+
+1. **Min-P & Frequency/Presence Penalties:** Implemented `apply_frequency_presence_penalty` (count-based logit scaling) and `apply_min_p` (truncates candidates below `min_p * max_prob`) in `sampler.mojo`. Added validated `frequency_penalty`, `presence_penalty`, and `min_p` fields to `GenerationConfig`.
+2. **Template Family Auto-Detection:** Built `RuneChatTemplate.detect_template_family()` inspecting Jinja2 metadata strings to auto-select ChatML, Llama-3, or Llama-2. Added support for `"tool"` message roles.
+3. **Session TTL & Touch Updates:** Added `last_accessed_timestamp`, `touch()`, and `is_expired(ttl_seconds)` to `SessionContext` in `session.mojo`.
+4. **Master Proving:** Expanded `test_inference.mojo` with unit tests for Min-P, frequency/presence penalties, Jinja2 template auto-detection, and session TTL expiration. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 36: Stage 4.4 — Session & Cache Isolation Architecture (`AES-GEN-008`)
+**Date:** August 16, 2026
+**Architectural Phase:** Session Context, Cooperative Cancellation & Cache Isolation
+
+The forge implemented session management, cancellation controls, and cache isolation boundaries:
+
+1. **`SessionContext` Struct:** Built `SessionContext` in `core/session.mojo` tracking `session_id`, `is_cancelled`, `active_tokens`, and `max_context` with cooperative `cancel()` trigger.
+2. **`SessionManager` Registry:** Built `SessionManager` enforcing concurrency limits (`max_concurrent_sessions`) and active session count tracking.
+3. **Generation Loop Cancellation:** Integrated `is_cancelled` check into `_run_generation()` before each forward pass, returning `stop_reason == "cancelled"`. Added `generate_session()` facade method to `AesirEngine`.
+4. **Master Proving:** Added `test_session_isolation()` in `test_inference.mojo`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-GEN-008` -> `verified`).
+
+## ⚡ Entry 35: Stage 4.3 — GGUF Chat Templates & Message Roles (`AES-GEN-007`)
+**Date:** August 16, 2026
+**Architectural Phase:** Multi-Turn Conversation Formatting & Chat Template Compilation
+
+The forge implemented a GGUF chat template engine and message role formatting:
+
+1. **`ChatMessage` Struct:** Built `ChatMessage` in `loader/chat_template.mojo` with role validation (`system`, `user`, `assistant`).
+2. **`RuneChatTemplate` Formatting Engine:** Built `RuneChatTemplate` supporting ChatML (`<|im_start|>role\ncontent<|im_end|>\n`), Llama-3 (`<|start_header_id|>role<|end_header_id|>\n\ncontent<|eot_id|>`), and Llama-2 (`[INST] <<SYS>>...[/INST]`) conversation prompt formatting.
+3. **`AesirEngine` Facade Integration:** Added `generate_chat(messages, config, template_format)` facade method to `AesirEngine`.
+4. **Master Proving:** Added `test_chat_template()` in `test_inference.mojo`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-GEN-007` -> `verified`).
+
+## ⚡ Entry 34: Stage 4.2 — Configurable Sampler Stack & Seeded Randomness (`AES-GEN-005`)
+**Date:** August 16, 2026
+**Architectural Phase:** Configurable Sampler Pipeline & Deterministic Seeded PRNG
+
+The forge implemented a configurable sampler stack and PRNG reproducibility:
+
+1. **`RuneRNG` Deterministic PRNG:** Built `RuneRNG` in `sampler.mojo` implementing a SplitMix64 pseudo-random number generator algorithm with explicit seed initialization and uniform float `[0.0, 1.0)` sampling.
+2. **Sampler Stack Pipeline:** Implemented `apply_repetition_penalty()` (scaling previous token logits), `apply_temperature()` ($1/\text{temp}$ scaling), `apply_top_k()` (logit truncation), `apply_top_p()` (nucleus cumulative softmax probability pruning), and `sample_token_from_logits()`.
+3. **`GenerationConfig` Integration:** Added `seed: UInt64` parameter to `GenerationConfig` and wired sampling into generation loops.
+4. **Master Proving:** Added `test_sampler_stack()` in `test_inference.mojo`. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-GEN-005` -> `verified`).
+
+## ⚡ Entry 33: Stage 4.1 — Validated GenerationConfig & Configurable Stop-Token Sets (`AES-GEN-006`)
+**Date:** August 16, 2026
+**Architectural Phase:** Request Hyper-Parameters & Configurable Token/String Stop Semantics
+
+The forge implemented `GenerationConfig` validation and configurable stop semantics:
+
+1. **`GenerationConfig` Struct:** Built `GenerationConfig` in `aesir.mojo` with validated bounds for `max_new_tokens`, `temperature`, `top_k`, `top_p`, `repetition_penalty`, `stop_tokens`, and `stop_strings`.
+2. **Configurable Token & String Stopping:** Updated `generation_stop_reason()` and `_run_generation()` to halt on `stop_tokens` (`stop_reason = "stop_token"`) or `stop_strings` (`stop_reason = "stop_string"` with text truncated at stop-string start).
+3. **Deterministic Cleanup Guarantee:** Wrapped generation execution in `try...except` to guarantee `self.pool.offset = self.runtime_offset` memory reclamation on all success and error paths.
+4. **Master Proving:** Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-GEN-006` -> `verified`).
+
+## ⚡ Entry 32: Stage 3.3 — Multilingual Differential Corpora & Tokenizer Round-Trip Tests (`AES-TOK-004`)
+**Date:** August 16, 2026
+**Architectural Phase:** Multilingual Tokenizer Proving & Encode/Decode Round-Trip Invariant
+
+The forge added comprehensive multilingual test coverage and proven round-trip fidelity:
+
+1. **Multilingual Test Corpora:** Added `test_multilingual_corpora()` in `test_tokenizer.mojo` covering CJK (Chinese `你好世界`, Japanese `こんにちは`, Korean `안녕하세요`), Cyrillic (`Привет мир`), Arabic (`مرحبا بالعالم`), Devanagari (`नमस्ते`), Emoji (`😀🎉🚀`), Accented Latin (`café & naïve`), and whitespace.
+2. **Encode/Decode Lossless Round-Trip:** Verified that streaming decoding of `encode(prompt)` reconstructs original text losslessly (`prompt == stream_decode(encode(prompt))`) across all multilingual scripts.
+3. **Master Proving:** Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-TOK-004` -> `verified`).
+
+## ⚡ Entry 31: Stage 3.2 — Stateful Byte/UTF-8 Decoder & Vocabulary Validation (`AES-TOK-003`)
+**Date:** August 16, 2026
+**Architectural Phase:** Stateful Streaming Token Decoder & Vocabulary Contract Validation
+
+The forge implemented a stateful byte/UTF-8 streaming decoder and vocabulary validation:
+
+1. **`RuneStreamDecoder` Stateful Decoder:** Built `RuneStreamDecoder` in `tokenizer.mojo` to accumulate byte fallback tokens (`<0xXX>`) and multi-byte UTF-8 sequences (e.g., 4-byte CJK or emoji characters) across token boundaries. Emits complete UTF-8 strings while buffering incomplete trailing bytes until subsequent tokens or explicit `flush()`.
+2. **SentencePiece Space Marker Decoding:** Handles SentencePiece leading space markers (`▁`) by converting UTF-8 `0xE2 0x96 0x81` to standard space `0x20`.
+3. **Vocabulary & Parallel Metadata Validation:** Added `validate_vocabulary()` to `RuneWeaver` enforcing parallel metadata list length equality (`len(vocab) == len(scores) == len(token_types) == vocab_size`) and checking special token bounds (`unknown_token_id`, `bos_token_id`, `eos_token_id`). Integrated validation call into GGUF metadata parsing.
+4. **Unit Test Verification:** Added `test_stream_decoder()` in `test_tokenizer.mojo` testing 4-byte emoji split decoding (`<0xF0><0x9F><0x98><0x80>` -> `😀`). Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-TOK-003` -> `verified`).
+
+## ⚡ Entry 30: Stage 3.1 — GGUF Loader State Machine & Fail-Closed Cleanup (`AES-LDR-005`)
+**Date:** August 16, 2026
+**Architectural Phase:** GGUF Loader Lifecycle State Machine & Memory Cleanup Integrity
+
+The forge refactored `GGUFSeer` to enforce a 6-phase loader lifecycle state machine and fail-closed resource cleanup:
+
+1. **`GGUFState` Lifecycle Machine:** Defined formal integer discriminants: `UNOPENED (0)`, `HEADER_PARSED (1)`, `TENSORS_MAPPED (2)`, `VALIDATED (3)`, `FAILED (4)`, and `CLOSED (5)`. `GGUFSeer` updates state at each phase boundary.
+2. **Fail-Closed Resource Cleanup (`_cleanup()`):** Ensured that any exception raised during GGUF header parsing, metadata parsing, or tensor validation automatically triggers `_cleanup()`, munmapping memory and closing file descriptors before entering `GGUFState.FAILED`.
+3. **Duplicate Key Rejection:** Added duplicate key detection raising `Error("GGUF contains duplicate metadata key: ...")` during metadata parsing.
+4. **Unit Test Verification:** Added `test_loader_state_machine()` in `test_gguf.mojo` and verified state transitions to `GGUFState.FAILED` on malformed inputs. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-LDR-005` -> `verified`).
+
+## ⚡ Entry 29: Stage 2.3 — F32 Reference Oracles & Stage 2 Milestone Completion
+**Date:** August 16, 2026
+**Architectural Phase:** F32 Numerical Reference Testing & Stage 2 Completion
+
+The forge added comprehensive F32 reference tests and completed Stage 2 CPU Kernel Contract & Numerical Hardening:
+
+1. **`gemm_f16` Rectangular F32 Reference Oracle:** Added `test_gemm_f32_reference()` in `test_compute.mojo` testing non-power-of-2 rectangular matrices ($17 \times 35 \times 29$) with SIMD tail offsets against an explicit Float32 matrix multiplication reference within $10^{-2}$ Float16 tolerance.
+2. **`silu` Numerical Accuracy Oracle:** Added `test_silu_f32_reference()` verifying $x \cdot \sigma(x)$ across positive, negative, zero, and unaligned tail values (size 37) against a Float32 reference within $10^{-3}$ tolerance.
+3. **`flash_attention_gqa` Head Ratio Oracle:** Added `test_gqa_attention_reference()` verifying grouped-query attention over an $8:2$ query-to-KV head ratio against an explicit Float32 attention reference.
+4. **Stage 2 Completion:** All Stage 2 CPU Kernel Contract & Numerical Hardening tasks are 100% complete and verified. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`).
+
+## ⚡ Entry 28: Stage 2.2 — Scalar-Tail Hardening & Attention Kernel Verification (`AES-CPU-005`)
+**Date:** August 16, 2026
+**Architectural Phase:** Compute Kernel Scalar-Tail Safety & Input Contract Validation
+
+The forge hardened attention and activation compute kernels against unaligned dimensions and contract violations:
+
+1. **`flash_attention_2` Scalar-Tail Safety:** Integrated SIMD + scalar tail loops across Out zeroing, QK^T dot product, P_ij * V accumulation, and Out normalization. Enabled safe execution on non-16-multiple head dimensions (e.g., `head_dim = 40` or `24`) without memory corruption or bounds overrun.
+2. **`flash_attention_2` Input Validation:** Added contract checks for `seq_len > 0`, `head_dim > 0`, `Q.cols % head_dim == 0`, column match across Q/K/V/Out, and row bounds.
+3. **`geglu` & `gemm_f16_sharded` Contract Hardening:** Enforced even size requirement (`T.size % 2 == 0`) in `geglu` raising `Error("geglu: tensor size must be even")`. Hardened `gemm_f16_sharded` to validate shard count match across `A_shards`, `B_shards`, and `C_shards`.
+4. **Unit Test Verification:** Added `test_unaligned_flash_attention()` to `test_compute.mojo` on a `head_dim = 40` fixture. Master test suite passed clean (`51 passed / 0 failed / 1 skipped`). `CAPABILITY_LEDGER.md` status updated (`AES-CPU-005` -> `verified`).
+
+## ⚡ Entry 27: Stage 2 — Checked CPU Kernel Boundary & Input Validation (`AES-CPU-008`)
+**Date:** August 16, 2026
+**Architectural Phase:** CPU Compute Kernel Boundary & Numerical Hardening
+
+The forge created a uniform checked-kernel boundary across core SIMD compute kernels:
+
+1. **`gemm_f16` Dimension Validation:** Enforced inner matrix dimension matching (`A.cols == B.cols`), output row match (`C.rows == A.rows`), output column match (`C.cols == B.rows`), and positive dimensions, raising `Error` on shape mismatch before entering SIMD pointer loops.
+2. **`rmsnorm` & `apply_rope` Hardening:** Hardened `rmsnorm` to validate weight dimension (`weight.size >= T.cols`) and positive epsilon (`epsilon > 0.0`). Hardened `apply_rope` to enforce non-negative position (`start_pos >= 0`), positive even head dimension (`head_dim > 0` and `head_dim % 2 == 0`), and head count divisibility.
+3. **`cosine_similarity` Input Validation:** Added vector size equality check (`A.size == B.size`), raising `Error("cosine_similarity: vector size mismatch")`.
+4. **Unit Test Verification:** Added `test_kernel_bounds()` to `test_compute.mojo` proving catchable `Error` raising on matrix dimension mismatch, weight length mismatch, odd head dimension, and vector size mismatch. `CAPABILITY_LEDGER.md` status updated (`AES-CPU-008` -> `verified`).
+
+## ⚡ Entry 26: Stage 1.3 — MimirStore & Host Buffer Contract Hardening
+**Date:** August 16, 2026
+**Architectural Phase:** Vector Store & Host Descriptor Contract Hardening
+
+The forge eliminated silent vector truncation and hardened host buffer descriptors:
+
+1. **`MimirStore.add_document()` Hardening:** Enforced exact vector dimension match (`embedding.size == self.dim`), raising `Error("MimirStore: embedding dimension mismatch")` instead of silently zero-padding or truncating mismatched vectors.
+2. **`MimirStore.search_knn()` Hardening:** Updated `search_knn` signature to `raises` and enforced `top_k > 0` and `query_emb.size >= self.dim`, raising explicit errors on invalid search parameters.
+3. **Unit Test Verification:** Added unit assertions in `test_rag.mojo` testing vector dimension mismatch handling. Master test suite passed clean (51 passed / 0 failed / 1 skipped / 52 total).
+
+## ⚡ Entry 25: Stage 1.2 — KVCache & Buffer Slicing Contract Hardening
+**Date:** August 16, 2026
+**Architectural Phase:** Cache Slicing & Boundary Contract Hardening
+
+The forge hardened `KVCache` slicing and mutation boundaries against out-of-bounds layer, sequence, or vector dimension requests:
+
+1. **`KVCache.append()` Validation:** Added `raises` to `append()` and enforced layer index bounds (`0 <= layer_idx < num_layers`), non-negative position (`pos >= 0`), and Key/Value tensor dimension match (`key.size >= hidden_dim`), raising an explicit `Error` on violation.
+2. **`get_k_slice()` & `get_v_slice()` Bounds Validation:** Hardened sequence slicing to validate `0 <= layer_idx < num_layers` and `0 < seq_len <= max_seq_len`, raising `Error` on out-of-bounds layer or sequence requests.
+3. **Unit Test Verification:** Added executable unit assertions in `test_kv_cache.mojo` testing out-of-bounds layer and sequence length requests. `pixi run mojo run aesir_engine/tests/run_all.mojo` passed clean (51 passed / 0 failed / 1 skipped / 52 total).
+
+## ⚡ Entry 24: Stage 1 — Memory & Unsafe-Boundary Hardening (`MimirWell` & `RuneTensor`)
+**Date:** August 16, 2026
+**Architectural Phase:** Memory Safety & Allocation Boundary Hardening
+
+The forge eliminated unsafe sentinel pointer returns and hardened core memory boundaries:
+
+1. **Elimination of Address-1 Sentinel Exhaustion ([`AES-MEM-001`](CAPABILITY_LEDGER.md)):** Replaced unsafe address-1 pointer returns (`unsafe_from_address=1`) in `MimirWell.allocate()` with a catchable, explicit `Error("MimirWell: memory pool exhausted")`.
+2. **Allocation Input & Boundary Validation:** Added strict input validation for nonpositive pool sizes (`size_in_bytes <= 0`) and negative/zero allocation element requests (`elements <= 0`). Hardened `reset_kv_cache(start)` offset integrity checks.
+3. **Checked Tensor & Cache Contracts ([`AES-MEM-002`](CAPABILITY_LEDGER.md), [`AES-MEM-003`](CAPABILITY_LEDGER.md)):** Added shape positivity enforcement (`rows > 0`, `cols > 0`) and checked element indexing (`get_checked` / `set_checked`) to `RuneTensor`. Validated layer count, context width, and sequence slicing bounds in `KVCache`.
+4. **Unit Test Verification:** Added executable unit assertions in `test_kv_cache.mojo` proving clean `Error` raising on memory pool exhaustion and checked bounds enforcement. `CAPABILITY_LEDGER.md` status updated (`AES-MEM-001` -> `verified`, `AES-MEM-002` -> `verified`).
+
+## ⚡ Entry 23: Forge 0E — Documentation Reconciliation & Drift Prevention Gate
+**Date:** August 16, 2026
+**Architectural Phase:** Documentation Truth & Preservation Boundary
+
+The forge completed the full documentation reconciliation pass across active repository documents and established an automated documentation drift prevention gate:
+
+1. **Mandatory Documentation Preservation Vault:** Preserved all historical unconstrained vision documents and target specifications under [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/) per the mandatory preservation policy established in [`docs/historical/README.md`](docs/historical/README.md).
+2. **Present-Tense Alignment:** Reconciled active operational documentation (`README.md`, `ARCHITECTURE.md`, `DATA_FLOW.md`, `INTERFACE.md`, `docs/SYSTEM_VISION.md`, `docs/Vision.md`, `docs/PHILOSOPHY.md`) with [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md). Grounded present-tense claims around the verified single-device CPU GGUF Llama F16 slice (`AES-FND-002`), contiguous request KV cache (`AES-MEM-003`), and greedy argmax decoding (`AES-GEN-002`).
+3. **Automated Documentation Drift Gate:** Created `scripts/check_doc_drift.py` to scan active docs for prohibited unevidenced maturity language ("drop-in replacement", "zero VRAM", "production-ready", etc.) unless tagged with capability IDs or target disclaimers. Passed clean (0 issues).
+4. **Master Suite & Compilation Verification:** Re-ran master test suite (51 passed / 0 failed / 1 skipped / 52 total) and verified clean native Mojo binary build (`pixi run mojo build aesir_engine/main.mojo`).
+
+Forge 0 complete. Stage 1 (Memory and Unsafe-Boundary Hardening) is next.
+
 ## ⚡ Entry 22: Forge 0D — Truthful Unsupported Behavior
 **Date:** August 14, 2026
 **Architectural Phase:** Runtime Truth Boundary

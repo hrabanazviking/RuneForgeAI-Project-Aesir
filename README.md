@@ -42,12 +42,10 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png)
 
----
+### 2. Zero-Copy GGUF Parsing & System Memory Mapping
 
-### 2. Zero-Copy GGUF Parsing
-
- * **The Concept:** GGUF is the file format that holds the AI's "brain" (weights). Normally, when an AI loads, your computer reads the file from your hard drive, copies it to your system RAM, and then copies it *again* to your GPU's VRAM. This is incredibly slow and wastes memory. A.E.S.I.R. uses a technique called mmap (memory mapping) to point the GPU directly to the file on your drive.
- * **The Example:** Imagine moving into a new house. The traditional way is carrying heavy boxes from the moving truck (Drive), putting them in the driveway (RAM), and then carrying them into the living room (VRAM). **Zero-copy** means backing the truck right up to the living room window and sliding the boxes directly inside. Zero wasted movement, zero delay.
+ * **The Concept:** GGUF is the file format that holds the AI's model weights. A.E.S.I.R. uses zero-copy memory mapping (`mmap`) to map GGUF files directly from disk into host memory, bypassing dynamic memory copies for host-side inference ([`AES-LDR-001`](CAPABILITY_LEDGER.md)).
+ * **The Current Scope:** The verified vertical slice ([`AES-FND-002`](CAPABILITY_LEDGER.md)) uses host-resident `mmap` for CPU GGUF Llama F16 model execution. Direct GPU mmap and accelerator streaming are part of the target vision archived in [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
 
 ---
 
@@ -55,10 +53,10 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-### 3. PagedAttention KV Caching
+### 3. Contiguous Request KV Caching
 
- * **The Concept:** When you chat with an AI, it has to remember the history of the conversation. This memory is stored in a "KV Cache" (Key-Value Cache) in your GPU. Older engines reserve a massive, rigid chunk of memory for every single chat, just in case the chat gets long. This results in horrific memory fragmentation, wasting up to 50% of your VRAM. PagedAttention breaks this memory into tiny "pages" and only assigns a new page when the AI actually needs it.
- * **The Example:** Think of a restaurant. The old way of AI caching is like a host refusing to seat a party of 2 unless they can reserve an entire banquet hall, "just in case" 50 more friends show up. **PagedAttention** is like a smart host who seats the couple at a small table, and simply pushes another table next to them only if more friends actually arrive. This is how A.E.S.I.R. handles massive context windows on 8GB GPUs without crashing.
+ * **The Concept:** When generating responses autoregressively, previous Key-Value attention states are stored in a `KVCache` ([`AES-MEM-003`](CAPABILITY_LEDGER.md)). A.E.S.I.R. pre-allocates a contiguous pool inside `MimirWell` to eliminate per-token heap allocations during single-sequence decoding.
+ * **Current Scope vs Target Vision:** A.E.S.I.R. currently uses a verified contiguous pre-allocated KV buffer for single-request autoregressive generation. Dynamic page allocation (PagedAttention page tables) is preserved in the roadmap vision under [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
 
 ---
 
@@ -66,26 +64,20 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-### 4. Stateless Sampler
+### 4. Greedy Argmax Generation & Sampler Pipeline
 
- * **The Concept:** The "Sampler" is the math that decides what the AI's next word will be (using settings like Temperature and Top-P). Normally, this math creates thousands of tiny temporary data objects in your computer's memory every single second. A "Garbage Collector" then has to pause the program to clean up that digital trash, causing lag spikes. A.E.S.I.R. is *stateless*—it allocates one single "scratchpad" of memory when the engine turns on, and just overwrites it infinitely.
- * **The Example:** The traditional way is doing a complex math equation using thousands of sticky notes, and then having to stop and throw them all in the trash before doing the next equation. **A stateless sampler** is like using a whiteboard. You write the math, get the answer, and immediately wipe it clean for the next word. No trash, no cleanup, no lag.
+ * **The Concept:** The generation pipeline converts model output logits into new token IDs. A.E.S.I.R. currently uses verified greedy argmax selection ([`AES-GEN-002`](CAPABILITY_LEDGER.md)) to pick the highest-probability token deterministically without temporary heap allocations.
+ * **Current Scope vs Target Vision:** Multi-sampler pipelines (temperature, top-k, top-p, min-p) are scaffolded and will be verified in upcoming kernel stages.
 
-## ⚡ Technical Specifications
- * **Language:** Pure Mojo (Zero Python dependencies in the runtime)
- * **Target Hardware:** Consumer GPUs (Optimized for NVIDIA CUDA RTX 30/40 series architecture)
- * **Precision:** f16 (Half-precision) compute with q4_k_m (4-bit) quantized weight support.
- * **Architecture:**
-   * **AesirEngine**: The central intelligence coordinating all subsystems and executing stateless sampling loops.
-   * **MimirWell (Memory Management)**: Core memory management struct utilizing zero-copy pointers for context buffering.
-   * **BifrostGate (Server Bridge)**: Bare-metal HTTP server bridging the engine to external requests without dragging in heavy Python dependencies (Ollama API compatible).
-   * **Masking Seidr**: Inner voice silencing feature that bounds `<|start_thought|>` token probabilities to `-inf` by default, ensuring focused and deterministic outputs.
-   * Custom Tensor structs utilizing zero-copy pointers.
-   * Tiled Matrix Multiplication (GEMM) targeting Tensor Cores.
-   * Fused Flash Attention-2 (Attention score, softmax, and value aggregation in a single kernel pass).
-   * Pure Mojo Byte-Pair Encoding (BPE) tokenizer (**RuneWeaver**).
-   * Zero-copy GGUF parsing (**GGUFSeer**).
-  
+## ⚡ Technical Specifications & Truth Boundaries
+ * **Language:** Pure Mojo (Zero Python runtime dependencies; [`AES-FND-003`](CAPABILITY_LEDGER.md) `verified`)
+ * **Verified Slice:** Single-device CPU GGUF v3 Llama F16 model execution (`stories260K.F16.gguf` pinned oracle; [`AES-FND-002`](CAPABILITY_LEDGER.md) `verified`)
+ * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
+ * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
+ * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TKN-001`](CAPABILITY_LEDGER.md) `verified`)
+ * **CLI & Transport:** Single-shot CLI execution ([`AES-CLI-001`](CAPABILITY_LEDGER.md) `verified`); full daemon server & multi-engine CLI suites ([`AES-SRV-001`, `AES-CLI-005`](CAPABILITY_LEDGER.md) `scaffold`/`simulated`/`missing`)
+ * **Accelerator & Swarm Matrix:** GPU, NPU, and Swarm modules are scaffolded/simulated boundaries; full hardware acceleration vision is archived in [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
+
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
 
@@ -94,7 +86,7 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
  * **Efficient:** Leaves maximum CPU and RAM available for your other applications and games.
  * **Uncensored:** You load the weights, you set the rules. No API guardrails.
 
-*Status: Architecture foundation established. Active development ongoing.*
+*Status: Verified CPU GGUF vertical slice established ([`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md)). Active kernel hardening ongoing.*ment ongoing.*
 
 ---
 

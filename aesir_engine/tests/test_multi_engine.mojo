@@ -8,7 +8,18 @@ from core.grammar import GBNFGrammar
 from core.speculative import SpeculativeEngine
 from loader.onnx import ONNXModelSeer
 from server.openai import OpenAIGate
-from server.api import unsupported_http_response, route_not_found_response
+from server.api import (
+    BifrostGate,
+    HTTPRequest,
+    parse_http_request,
+    dispatch_http_request,
+    build_http_response,
+    build_sse_chunk,
+    build_http_chunk,
+    write_all_bytes,
+    unsupported_http_response,
+    route_not_found_response,
+)
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
 def test_openai_api_formatter() raises:
@@ -168,3 +179,76 @@ def test_unsupported_http_responses() raises:
         raise Error("unknown route omitted not-found error body")
 
     print("honest unsupported HTTP responses: PASS")
+
+
+def test_posix_socket_server() raises:
+    print("--- Testing bare-metal POSIX socket bind/listen setup & options ---")
+    var server = BifrostGate(18434)
+    if not server.is_valid():
+        raise Error("BifrostGate socket creation failed: invalid file descriptor")
+    if not server.set_nonblocking(True):
+        server.close()
+        raise Error("BifrostGate non-blocking option configuration failed")
+    if not server.start():
+        server.close()
+        raise Error("BifrostGate start listening failed")
+    server.close()
+    if server.is_valid():
+        raise Error("BifrostGate close failed to reset file descriptor")
+    print("bare-metal POSIX socket bind/listen setup & options: PASS")
+
+
+def test_http_parser_and_router() raises:
+    print("--- Testing HTTP/1.1 request parser & route dispatcher ---")
+    var raw_post = (
+        "POST /v1/chat/completions HTTP/1.1\r\n"
+        + "Host: 127.0.0.1:11434\r\n"
+        + "Content-Type: application/json\r\n"
+        + "Content-Length: 26\r\n\r\n"
+        + "{\"model\":\"aesir\",\"prompt\":\"hi\"}"
+    )
+    var req = parse_http_request(raw_post)
+    if req.method != "POST":
+        raise Error("HTTP parser failed to extract POST method: got " + req.method)
+    if req.path != "/v1/chat/completions":
+        raise Error("HTTP parser failed to extract path: got " + req.path)
+    if req.content_length != 26:
+        raise Error("HTTP parser failed to extract Content-Length: got " + String(req.content_length))
+    if req.body != "{\"model\":\"aesir\",\"prompt\":\"hi\"}":
+        raise Error("HTTP parser failed to extract body: got " + req.body)
+
+    var response = dispatch_http_request(req)
+    if "501 Not Implemented" not in response:
+        raise Error("Route dispatcher failed to return HTTP 501 for /v1/chat/completions")
+
+    var raw_unknown = "GET /unknown/path HTTP/1.1\r\nHost: localhost\r\n\r\n"
+    var unknown_req = parse_http_request(raw_unknown)
+    var unknown_resp = dispatch_http_request(unknown_req)
+    if "404 Not Found" not in unknown_resp:
+        raise Error("Route dispatcher failed to return HTTP 404 for unknown path")
+
+    print("HTTP/1.1 request parser & route dispatcher: PASS")
+
+
+def test_http_response_framing() raises:
+    print("--- Testing HTTP/1.1 response framing & streaming utilities ---")
+    var resp = build_http_response(200, "OK", "application/json", "{\"status\":\"ok\"}")
+    if "HTTP/1.1 200 OK" not in resp:
+        raise Error("build_http_response omitted status line")
+    if "Content-Length: 15" not in resp:
+        raise Error("build_http_response computed wrong Content-Length")
+    if "Connection: close" not in resp:
+        raise Error("build_http_response omitted Connection header")
+
+    var sse = build_sse_chunk("message", "{\"text\":\"hi\"}")
+    if "event: message\ndata: {\"text\":\"hi\"}\n\n" not in sse:
+        raise Error("build_sse_chunk formatted invalid SSE event")
+
+    var chunk = build_http_chunk("hello")
+    if "5\r\nhello\r\n" not in chunk:
+        raise Error("build_http_chunk formatted invalid chunked block")
+
+    if write_all_bytes(-1, "data"):
+        raise Error("write_all_bytes reported success on invalid file descriptor -1")
+
+    print("HTTP/1.1 response framing & streaming utilities: PASS")

@@ -55,7 +55,7 @@ Security events are logged loudly, not swallowed quietly. A failed authenticatio
 |-------|-------------|----------------------|
 | User prompts | High | Prompts may contain personal, confidential, or sensitive information. Leakage violates user trust and potentially legal obligations. |
 | Generated outputs | Medium | Outputs may contain information derived from sensitive prompts. Cached outputs retain sensitivity. |
-| Model weights | Medium | Weights are large binary assets. Corruption produces garbage output. Theft is a知识产权 concern but not a security catastrophe. |
+| Model weights | Medium | Weights are large binary assets. Corruption produces garbage output. Theft is an intellectual property concern but not a security catastrophe. |
 | KV cache contents | High | Contains intermediate representations of user prompts. May allow reconstruction of input text. |
 | Configuration files | Medium | Contains paths, port assignments, performance settings. May reveal system topology. |
 | API keys and secrets | Critical | Credentials for authentication. Compromise allows unauthorized access. |
@@ -124,7 +124,7 @@ These exclusions are documented, not ignored. They are handled by complementary 
 | Module-to-module IPC | Internal | Compromised module could send malformed data to another module. |
 | KV cache shared memory | Internal | KV cache poisoning could corrupt generation for other sessions. |
 | Model weight memory | Internal | Corrupted weights produce corrupted output. Integrity verification needed. |
-| Log file writes | Internal | Log injection could伪造 audit trail entries. |
+| Log file writes | Internal | Log injection could forge audit trail entries. |
 
 ### Shrinking the Surface
 
@@ -671,7 +671,7 @@ Date: _________________________________
 
 ```
 BEFORE EXPOSING TO NETWORK:
-□ TLS configured and证书 valid
+□ TLS configured and certificate valid
 □ Authentication enabled (non-plaintext API keys)
 □ Server binds to intended address (not 0.0.0.0 unless deliberate)
 □ Rate limiting configured

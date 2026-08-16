@@ -273,7 +273,7 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
         self.handle_fd = handle_fd
         self.realm = realm
 
-    def __init__(out self, mut well: MimirWell, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)):
+    def __init__(out self, mut well: MimirWell, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises:
         var elements = size_bytes // 2
         self.ptr = well.allocate(elements)
         self.size_bytes = size_bytes
@@ -334,7 +334,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         mut well: MimirWell,
         size_bytes: Int,
         backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
-    ):
+    ) raises:
         var elements = size_bytes // 2
         self.ptr = well.allocate(elements)
         self.size_bytes = size_bytes
@@ -399,6 +399,16 @@ struct RuneTensor[type: DType](Copyable):
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]):
         self.data.unsafe_store(r * self.cols + c, val)
 
+    def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]:
+        if r < 0 or r >= self.rows or c < 0 or c >= self.cols:
+            raise Error("RuneTensor: index out of bounds")
+        return self.get(r, c)
+
+    def set_checked(mut self, r: Int, c: Int, val: Scalar[Self.type]) raises:
+        if r < 0 or r >= self.rows or c < 0 or c >= self.cols:
+            raise Error("RuneTensor: index out of bounds")
+        self.set(r, c, val)
+
 
 
 struct KVCache(Copyable):
@@ -419,7 +429,9 @@ struct KVCache(Copyable):
         hidden_dim: Int, 
         mut well: MimirWell, 
         num_layers: Int = 32
-    ):
+    ) raises:
+        if max_seq_len <= 0 or hidden_dim <= 0 or num_layers <= 0:
+            raise Error("KVCache: dimensions must be positive")
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
@@ -454,8 +466,14 @@ struct KVCache(Copyable):
         self.num_layers = existing.num_layers
 
     @always_inline
-    def append(mut self, layer_idx: Int, pos: Int, key: RuneTensor[f16], val: RuneTensor[f16]):
-        """Appends single-token Key and Value vectors into the ring buffer at position pos."""
+    def append(mut self, layer_idx: Int, pos: Int, key: RuneTensor[f16], val: RuneTensor[f16]) raises:
+        """Appends single-token Key and Value vectors into the cache at position pos."""
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("KVCache.append: layer_idx out of bounds")
+        if pos < 0:
+            raise Error("KVCache.append: pos must be non-negative")
+        if key.size < self.hidden_dim or val.size < self.hidden_dim:
+            raise Error("KVCache.append: key/val width mismatch")
         var slot = pos % self.max_seq_len
         var offset = (layer_idx * self.max_seq_len + slot) * self.hidden_dim
         for c in range(self.hidden_dim):
@@ -463,14 +481,22 @@ struct KVCache(Copyable):
             self.v.data.unsafe_store(offset + c, val.data.unsafe_load(c))
 
     @always_inline
-    def get_k_slice(self, layer_idx: Int, seq_len: Int) -> RuneTensor[f16]:
+    def get_k_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]:
         """Returns a RuneTensor view over active Key tokens [0..seq_len) for layer_idx."""
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("KVCache.get_k_slice: layer_idx out of bounds")
+        if seq_len <= 0 or seq_len > self.max_seq_len:
+            raise Error("KVCache.get_k_slice: seq_len out of bounds")
         var offset = layer_idx * self.max_seq_len * self.hidden_dim
         return RuneTensor[f16](seq_len, self.hidden_dim, self.k.data.unsafe_offset(offset), False)
 
     @always_inline
-    def get_v_slice(self, layer_idx: Int, seq_len: Int) -> RuneTensor[f16]:
+    def get_v_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]:
         """Returns a RuneTensor view over active Value tokens [0..seq_len) for layer_idx."""
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("KVCache.get_v_slice: layer_idx out of bounds")
+        if seq_len <= 0 or seq_len > self.max_seq_len:
+            raise Error("KVCache.get_v_slice: seq_len out of bounds")
         var offset = layer_idx * self.max_seq_len * self.hidden_dim
         return RuneTensor[f16](seq_len, self.hidden_dim, self.v.data.unsafe_offset(offset), False)
 
@@ -484,7 +510,9 @@ struct MimirWell:
     var capacity: Int
     var offset: Int
 
-    def __init__(out self, size_in_bytes: Int):
+    def __init__(out self, size_in_bytes: Int) raises:
+        if size_in_bytes <= 0:
+            raise Error("MimirWell: pool size must be positive")
         # Calculate number of f16 elements
         self.capacity = size_in_bytes // 2 
         var allocation = alloc(Layout[Scalar[f16]](count=self.capacity))
@@ -492,27 +520,29 @@ struct MimirWell:
         self.offset = 0
         unsafe_memset_zero(self.base_ptr, self.capacity)
 
-    def allocate(mut self, elements: Int) -> Pointer[Scalar[f16], MutUntrackedOrigin]:
+    def allocate(mut self, elements: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
+        if elements <= 0:
+            raise Error("MimirWell: allocation count must be positive")
         if self.offset + elements > self.capacity:
-            # Hard failure if VRAM pool is exceeded
-            print("FATAL: The Waters of Mimir are exhausted. Cannot draw more memory.")
-            return Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+            raise Error("MimirWell: memory pool exhausted")
         
         var ptr = self.base_ptr.unsafe_offset(self.offset)
         self.offset += elements
         return ptr
 
-    def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) -> NPUBuffer:
+    def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) raises -> NPUBuffer:
         """Returns a CPU-resident host descriptor; no NPU mapping occurs."""
         return NPUBuffer(self, size_bytes, backend)
 
-    def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) -> GPUBuffer:
+    def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> GPUBuffer:
         """Returns a CPU-resident host descriptor; no GPU mapping occurs."""
         return GPUBuffer(self, size_bytes, realm)
 
 
-    def reset_kv_cache(mut self, kv_offset_start: Int):
-        """Ring-buffer reset point for KV Cache."""
+    def reset_kv_cache(mut self, kv_offset_start: Int) raises:
+        """Reset point for KV Cache."""
+        if kv_offset_start < 0 or kv_offset_start > self.offset:
+            raise Error("MimirWell: invalid reset offset")
         self.offset = kv_offset_start
 
     def __deinit__(deinit self):
@@ -530,7 +560,9 @@ struct MimirStore(Copyable):
     var dim: Int
     var count: Int
 
-    def __init__(out self, max_docs: Int, dim: Int, mut well: MimirWell):
+    def __init__(out self, max_docs: Int, dim: Int, mut well: MimirWell) raises:
+        if max_docs <= 0 or dim <= 0:
+            raise Error("MimirStore: dimensions must be positive")
         self.max_docs = max_docs
         self.dim = dim
         self.count = 0
@@ -538,7 +570,9 @@ struct MimirStore(Copyable):
         var ptr = well.allocate(max_docs * dim)
         self.embeddings = RuneTensor[f16](max_docs, dim, ptr, False)
 
-    def __init__(out self, mut well: MimirWell, max_docs: Int = 100, dim: Int = 4096):
+    def __init__(out self, mut well: MimirWell, max_docs: Int = 100, dim: Int = 4096) raises:
+        if max_docs <= 0 or dim <= 0:
+            raise Error("MimirStore: dimensions must be positive")
         self.max_docs = max_docs
         self.dim = dim
         self.count = 0
@@ -553,25 +587,28 @@ struct MimirStore(Copyable):
         self.dim = existing.dim
         self.count = existing.count
 
-    def add_document(mut self, doc: String, embedding: RuneTensor[f16]):
+    def add_document(mut self, doc: String, embedding: RuneTensor[f16]) raises:
         """Appends text document chunks and vectors into MimirStore."""
         if self.count >= self.max_docs:
-            print("Warning: MimirStore capacity reached. Cannot add document.")
-            return
+            raise Error("MimirStore: capacity reached")
+        if embedding.size != self.dim:
+            raise Error("MimirStore: embedding dimension mismatch")
         self.documents.append(doc)
-        var copy_len = min(embedding.size, self.dim)
         var offset = self.count * self.dim
-        for i in range(copy_len):
+        for i in range(self.dim):
             var val = embedding.data.unsafe_load(i)
             self.embeddings.data.unsafe_store(offset + i, val)
-        for i in range(copy_len, self.dim):
-            self.embeddings.data.unsafe_store(offset + i, Scalar[f16](0.0))
         self.count += 1
 
-    def search_knn(self, query_emb: RuneTensor[f16], top_k: Int = 3) -> List[String]:
+    def search_knn(self, query_emb: RuneTensor[f16], top_k: Int = 3) raises -> List[String]:
         """Using SIMD cosine_similarity to retrieve nearest document strings."""
         from core.compute import cosine_similarity
         
+        if top_k <= 0:
+            raise Error("MimirStore.search_knn: top_k must be positive")
+        if query_emb.size < self.dim:
+            raise Error("MimirStore.search_knn: query vector dimension mismatch")
+
         var result = List[String]()
         if self.count == 0:
             return result^
@@ -670,7 +707,7 @@ struct ShardTensor(Copyable):
         self.tensor = existing.tensor.copy()
 
 
-def shard_split_cols(T: RuneTensor[f16], num_shards: Int, mut well: MimirWell) -> List[RuneTensor[f16]]:
+def shard_split_cols(T: RuneTensor[f16], num_shards: Int, mut well: MimirWell) raises -> List[RuneTensor[f16]]:
     """
     The Splitting of the Bifrost Stream (Column-Parallel Partitioning):
     Splits tensor T across column dimensions (dimension 1) for distributed activation matrices 

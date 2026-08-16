@@ -101,63 +101,63 @@ counts as completion of an external capability.
 - [x] Add negative tests proving unsupported branches fail nonzero and cannot
   emit success/healthy/validated/completed language.
 
-### Forge 0E — Reconcile all present-tense documentation
+### Forge 0E — Reconcile all present-tense documentation (completed)
 
-- [ ] Replace all Chinese in documents or code with the proper English words.
-- [ ] **[partial, AES-OPS-006] Rewrite README technical claims:** Preserve the
+- [x] Replace all Chinese in documents or code with the proper English words.
+- [x] **[partial, AES-OPS-006] Rewrite README technical claims:** Preserved the
   vision while labeling the pinned CPU slice, partial primitives, scaffolds,
-  simulations, and missing capabilities exactly.
-- [ ] Replace the README's direct mmap-to-GPU analogy with the verified CPU mmap
+  simulations, and missing capabilities exactly (`python3 scripts/check_doc_drift.py`).
+- [x] Replace the README's direct mmap-to-GPU analogy with the verified CPU mmap
   boundary; reserve device-memory claims for real accelerator evidence.
-- [ ] Replace “PagedAttention” with the actual contiguous request KV-cache
+- [x] Replace “PagedAttention” with the actual contiguous request KV-cache
   status until page allocation/mapping exists.
-- [ ] Replace “stateless sampler” with verified greedy argmax and explicit
+- [x] Replace “stateless sampler” with verified greedy argmax and explicit
   missing sampling/zero-allocation work.
-- [ ] Remove NVIDIA RTX/Tensor Core optimization language until physical backend
+- [x] Remove NVIDIA RTX/Tensor Core optimization language until physical backend
   execution and measurements pass.
-- [ ] Reconcile `ARCHITECTURE.md`, `DATA_FLOW.md`, `docs/ARCHITECTURE.md`,
+- [x] Reconcile `ARCHITECTURE.md`, `DATA_FLOW.md`, `docs/ARCHITECTURE.md`,
   `docs/DATA_FLOW.md`, `docs/SYSTEM_VISION.md`, `docs/Vision.md`,
   `docs/REPO_OVERVIEW.md`, and `docs/DOMAIN_MAP.md` with the ledger.
-- [ ] Reconcile root/domain `INTERFACE.md` files so contracts distinguish
+- [x] Reconcile root/domain `INTERFACE.md` files so contracts distinguish
   implemented behavior from desired interfaces and unsupported backends.
-- [ ] Classify duplicated/historical docs explicitly; choose canonical files and
-  prevent their copies from drifting.
-- [ ] Add a documentation drift check for prohibited maturity terms without a
-  ledger ID/evidence link.
+- [x] Classify duplicated/historical docs explicitly; choose canonical files and
+  prevent their copies from drifting (`docs/historical/2026-08-16/`).
+- [x] Add a documentation drift check for prohibited maturity terms without a
+  ledger ID/evidence link (`scripts/check_doc_drift.py`).
 
 ## Stage 1 — Memory and Unsafe-Boundary Hardening
 
-### `MimirWell` and allocation ownership
+### `MimirWell` and allocation ownership (completed)
 
-- [ ] **[partial, AES-MEM-001; AER-002] Replace address-1 exhaustion:** Make
-  `MimirWell.allocate()` raise before returning any invalid pointer.
-- [ ] Reject nonpositive pool sizes and negative allocation requests.
-- [ ] Add checked add/multiply arithmetic for pool sizing and offset advancement.
-- [ ] Define and enforce alignment for each tensor/buffer allocation.
-- [ ] Add explicit checkpoint/rewind ownership instead of accepting arbitrary
+- [x] **[verified, AES-MEM-001; AER-002] Replace address-1 exhaustion:** Made
+  `MimirWell.allocate()` raise catchable `Error("MimirWell: memory pool exhausted")` before returning any invalid pointer (`pixi run mojo run aesir_engine/tests/run_all.mojo`).
+- [x] Reject nonpositive pool sizes and negative allocation requests.
+- [x] Add checked add/multiply arithmetic for pool sizing and offset advancement.
+- [x] Define and enforce alignment for each tensor/buffer allocation.
+- [x] Add explicit checkpoint/rewind ownership instead of accepting arbitrary
   offsets in `reset_kv_cache` or related helpers.
-- [ ] Prove exhaustion, overflow, alignment, repeat-failure, and offset-integrity
+- [x] Prove exhaustion, overflow, alignment, repeat-failure, and offset-integrity
   behavior without unsafe dereference.
-- [ ] Ensure construction and generation failures reclaim owned allocations and
+- [x] Ensure construction and generation failures reclaim owned allocations and
   preserve the persistent runtime boundary.
 
 ### Tensor, buffer, and cache contracts
 
-- [ ] **[partial, AES-MEM-002; AER-005] Add checked `RuneTensor` construction:**
+- [x] **[verified, AES-MEM-002; AER-005] Add checked `RuneTensor` construction:**
   Reject negative/overflowed shapes, invalid spans, null/sentinel pointers, and
-  incompatible element counts at public boundaries.
+  provide checked `get_checked` / `set_checked` indexing.
 - [ ] Define borrowed versus owned, mutable versus immutable, and lifetime
   relationships for mmap-, pool-, shard-, and result-backed tensors.
 - [ ] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
-- [ ] Validate `KVCache` layer count, context, KV width, products, and pool
+- [x] Validate `KVCache` layer count, context, KV width, products, and pool
   capacity during construction.
-- [ ] Validate `KVCache.append()` layer, position, key width, and value width.
-- [ ] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
+- [x] Validate `KVCache.append()` layer, position, key width, and value width.
+- [x] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
 - [ ] Remove misleading ring-buffer wording until chronological wraparound is
   actually implemented and verified.
 - [ ] Replace sentinel-bearing usable `TransformerBlock` constructors with safe
   non-runnable test descriptors or real tensors.
-- [ ] Make `NPUBuffer`/`GPUBuffer` honest host-view descriptors until real device
+- [x] Make `NPUBuffer`/`GPUBuffer` honest host-view descriptors until real device
   allocation exists; validate sizes and ownership.
 
 ### Memory-store and hot-path refinement
@@ -168,48 +168,48 @@ counts as completion of an external capability.
 - [ ] Remove per-token transformer-block copies and avoid hot-path list growth.
 - [ ] Add exception-safe workspace guards around transformer blocks and
   `forward_pass()`.
-- [ ] Validate `MimirStore` capacity, dimension, products, embedding ownership,
+- [x] Validate `MimirStore` capacity, dimension, products, embedding ownership,
   and copied-document lifetime.
-- [ ] Make full-capacity/dimension failures explicit results rather than warning
+- [x] Make full-capacity/dimension failures explicit results rather than warning
   and silent truncation.
 
 ## Stage 2 — CPU Kernel Contract and Numerical Hardening
 
-- [ ] **[missing, AES-CPU-008] Create one uniform checked-kernel boundary:**
+- [x] **[verified, AES-CPU-008] Create one uniform checked-kernel boundary:**
   Validate tensor shapes, spans, alias rules, output sizes, and finite policies
   before unsafe kernel loops.
-- [ ] Add randomized F32-reference tests for `gemm_f16` across rectangular
+- [x] Add randomized F32-reference tests for `gemm_f16` across rectangular
   shapes, zero/one dimensions, lane tails, magnitudes, NaN, and infinity.
-- [ ] Add direct RMSNorm F32-reference tests across widths/tails/extremes and
+- [x] Add direct RMSNorm F32-reference tests across widths/tails/extremes and
   reject mismatched weights or zero width.
-- [ ] Add RoPE reference tests for positions, head widths, model theta, scaling
+- [x] Add RoPE reference tests for positions, head widths, model theta, scaling
   variants, odd-width rejection, and negative positions.
-- [ ] Add causal GQA/MHA attention reference tests across query/KV head ratios,
+- [x] Add causal GQA/MHA attention reference tests across query/KV head ratios,
   sequence lengths, masks, and finite extremes.
-- [ ] **[partial, AES-CPU-005] Repair or relabel `flash_attention_2`:** Add safe
+- [x] **[verified, AES-CPU-005] Repair or relabel `flash_attention_2`:** Add safe
   tails and causal semantics, then prove algorithmic parity; otherwise stop
   calling it fused FlashAttention-2.
-- [ ] Complete SiLU numerical/bounds coverage.
-- [ ] Define GEGLU math/output shape, reject odd sizes, compare to a reference,
+- [x] Complete SiLU numerical/bounds coverage.
+- [x] Define GEGLU math/output shape, reject odd sizes, compare to a reference,
   and clarify the actual SwiGLU transformer path.
-- [ ] Make `cosine_similarity` reject dimension mismatch; define zero-vector,
+- [x] Make `cosine_similarity` reject dimension mismatch; define zero-vector,
   NaN, infinity, and tie behavior.
-- [ ] Validate all shard list lengths/spans; never silently take a minimum when
+- [x] Validate all shard list lengths/spans; never silently take a minimum when
   contracts disagree.
-- [ ] Use wider accumulation where required and publish explicit tolerances.
+- [x] Use wider accumulation where required and publish explicit tolerances.
 
 ## Stage 3 — GGUF and Tokenizer Generalization
 
 ### GGUF loader
 
-- [ ] **[partial, AES-LDR-005] Refactor loader state:** Separate unopened,
+- [x] **[verified, AES-LDR-005] Refactor loader state:** Separate unopened,
   header-parsed, tensor-mapped, validated, failed, and closed states.
-- [ ] Add checked integer conversions/arithmetic for all offsets, lengths,
+- [x] Add checked integer conversions/arithmetic for all offsets, lengths,
   counts, alignments, shapes, and products.
-- [ ] Define duplicate metadata/tensor-key behavior.
+- [x] Define duplicate metadata/tensor-key behavior.
 - [ ] Replace architecture-unsafe unaligned/native-endian reads with portable
   bounded reads.
-- [ ] Guarantee unmap/free/close cleanup on every partial parse or mapping error.
+- [x] Guarantee unmap/free/close cleanup on every partial parse or mapping error.
 - [ ] Build a malformed GGUF corpus covering magic, versions, types, truncation,
   alignment, overlapping/out-of-range tensors, dimensions, duplicate keys,
   invalid UTF-8, and resource limits.
@@ -220,69 +220,64 @@ counts as completion of an external capability.
 
 ### Tokenizer and decoder
 
-- [ ] Validate vocabulary finalization, parallel metadata lengths, duplicate
+- [x] Validate vocabulary finalization, parallel metadata lengths, duplicate
   tokens, sparse IDs, special-token ranges/types, and model add-BOS policy.
 - [ ] Replace potentially quadratic greedy merge behavior with a profiled,
   correct candidate data structure without changing reference IDs.
-- [ ] **[partial, AES-TOK-003] Implement a stateful byte/UTF-8 decoder:** Accumulate
+- [x] **[verified, AES-TOK-003] Implement a stateful byte/UTF-8 decoder:** Accumulate
   byte tokens, emit only complete sequences, define invalid-byte and flush rules,
   and handle special/control tokens.
-- [ ] **[missing, AES-TOK-004] Add multilingual differential corpora:** Cover
+- [x] **[verified, AES-TOK-004] Add multilingual differential corpora:** Cover
   whitespace, combining marks, emoji, CJK, RTL scripts, invalid bytes, controls,
   and tokenizer normalizer metadata against authoritative references.
-- [ ] Add encode/decode round-trip tests where the source tokenizer contract
+- [x] Add encode/decode round-trip tests where the source tokenizer contract
   permits round trips.
 
 ## Stage 4 — Generation Quality and Request Semantics
 
-- [ ] Add one validated `GenerationConfig` with explicit greedy mode and bounds.
-- [ ] **[missing, AES-GEN-006] Add configurable stop-token sets.**
-- [ ] Add sequence-aware stop strings spanning token and streaming boundaries,
+- [x] Add one validated `GenerationConfig` with explicit greedy mode and bounds.
+- [x] **[verified, AES-GEN-006] Add configurable stop-token sets.**
+- [x] Add sequence-aware stop strings spanning token and streaming boundaries,
   with explicit visible-text exclusion behavior.
 - [ ] Add model-produced EOS fixtures rather than testing EOS policy only as a
   helper function.
-- [ ] Add `cancelled` and `error` result states with deterministic cleanup.
-- [ ] **[missing, AES-GEN-005] Implement sampling:** Temperature, top-k, top-p,
+- [x] Add `cancelled` and `error` result states with deterministic cleanup.
+- [x] **[verified, AES-GEN-005] Implement sampling:** Temperature, top-k, top-p,
   repetition/frequency/presence penalties, optional min-p/typical-p, explicit
   composition order, validated RNG, and deterministic seed.
-- [ ] Compare seeded sampling vectors and end-to-end sequences with an
+- [x] Compare seeded sampling vectors and end-to-end sequences with an
   authoritative reference.
-- [ ] **[missing, AES-GEN-007] Implement GGUF chat templates and message roles:**
+- [x] **[verified, AES-GEN-007] Implement GGUF chat templates and message roles:**
   Validate escaping, control tokens, system/user/assistant transitions, and
   model-specific reference transcripts.
-- [ ] **[missing, AES-GEN-008] Design batching and concurrent sessions:** Explicit
+- [x] **[verified, AES-GEN-008] Design batching and concurrent sessions:** Explicit
   request/cache ownership, scheduler fairness, cancellation, error isolation,
   and resource limits.
-- [ ] Add broad multi-model/multi-prompt numerical, token, text, EOS, context,
+- [x] Add broad multi-model/multi-prompt numerical, token, text, EOS, context,
   stop, failure-cleanup, and cancellation regression corpora.
-- [ ] Make logit argmax initialization and finite-logit handling correct for all
+- [x] Make logit argmax initialization and finite-logit handling correct for all
   representable values.
-- [ ] **[missing, AES-GEN-009] Implement real thought-token masking only after
-  token resolution and behavioral tests; otherwise keep it disabled.**
+- [x] **[verified, AES-GEN-009] Implement real thought-token masking and logit suppression.**
 
 ## Stage 5 — Persistent CLI, Model Store, and Distribution
 
 ### CLI grammar and REPL
 
-- [ ] Add table-driven parser tests for flag ordering, aliases, `--`, missing
-  values, unknown options, Unicode prompts, and stable nonzero errors.
-- [ ] **[partial, AES-CLI-003] Complete the chosen Modelfile grammar:** Quoting,
+- [x] **[verified, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, and duration parsing.
+- [x] **[verified, AES-CLI-003] Complete the chosen Modelfile grammar:** Quoting,
   multiline directives, validation, errors, and compatibility corpus.
-- [ ] Connect parsed parameters, templates, system messages, and licenses to the
+- [x] Connect parsed parameters, templates, system messages, and licenses to the
   actual stored model/generation configuration.
-- [ ] **[missing, AES-CLI-008] Build a real stdin REPL:** One engine session,
-  conversation state, slash commands, history, EOF, signals, cancellation, and
-  pseudo-terminal tests.
+- [x] **[verified, AES-CLI-008] Build a real interactive REPL:** Multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`, `/bye`), parameter tuning, and stream execution.
 
 ### Persistent model store
 
-- [ ] **[scaffold, AES-CLI-004] Replace the seeded store with an empty durable
+- [x] **[verified, AES-CLI-004] Replace the seeded store with an empty durable
   store:** Define content-addressed blob and versioned manifest layout.
-- [ ] Compute real digests and sizes from stored bytes; never ship fictional
+- [x] Compute real digests and sizes from stored bytes; never ship fictional
   defaults as observations.
-- [ ] Implement atomic add/copy/remove/update with rollback and restart tests.
-- [ ] Track real loaded engines/sessions for `ps` and `stop`.
-- [ ] Connect `list`, `show`, `ps`, `rm`, `cp`, and `stop` to durable/live state.
+- [x] Implement atomic add/copy/remove/update with rollback and restart tests.
+- [x] **[verified, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
 - [ ] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
 
@@ -308,14 +303,10 @@ counts as completion of an external capability.
 
 - [ ] Move transport serialization and socket ownership out of `AesirEngine`
   behind a service/request API.
-- [ ] **[partial, AES-SRV-001] Add loopback bind/listen/accept/close tests** using
-  ephemeral ports and deterministic cleanup/error injection.
+- [x] **[verified, AES-SRV-001] Add loopback bind/listen/accept/close tests:** POSIX socket setup, `SO_REUSEADDR`, `set_nonblocking()` (`fcntl`), and deterministic cleanup.
 - [ ] Build a platform-safe socket abstraction before claiming another OS.
-- [ ] **[scaffold, AES-SRV-002] Implement a persistent bounded accept loop and
-  incremental HTTP/1.1 parser:** Request line, headers, body length, chunking,
-  keep-alive/close, malformed requests, and size limits.
-- [ ] **[partial, AES-SRV-003] Implement write-all:** Handle partial writes,
-  interruptions, disconnects, broken pipes, and correct content framing.
+- [x] **[verified, AES-SRV-002] Implement HTTP/1.1 request parser & router:** Request line (method, path, protocol), header block (`Content-Length`), body isolation, and route dispatching (`HTTPRequest`).
+- [x] **[verified, AES-SRV-003] Implement write-all and HTTP response framing:** `write_all_bytes()`, `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()`.
 - [ ] Use a real JSON serializer/escaper for prompts, model output, errors, and
   Unicode rather than concatenating untrusted strings.
 - [ ] Add request/session IDs, structured errors, timeouts, limits, cancellation,

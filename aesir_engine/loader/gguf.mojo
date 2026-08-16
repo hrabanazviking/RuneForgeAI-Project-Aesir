@@ -141,10 +141,36 @@ struct GGUFModelConfig(Copyable):
             raise Error("GGUF RoPE dimension does not match attention head size")
 
 
+struct GGUFState:
+    comptime UNOPENED = 0
+    comptime HEADER_PARSED = 1
+    comptime TENSORS_MAPPED = 2
+    comptime VALIDATED = 3
+    comptime FAILED = 4
+    comptime CLOSED = 5
+
+    @staticmethod
+    def to_string(state: Int) -> String:
+        if state == 0:
+            return "UNOPENED"
+        elif state == 1:
+            return "HEADER_PARSED"
+        elif state == 2:
+            return "TENSORS_MAPPED"
+        elif state == 3:
+            return "VALIDATED"
+        elif state == 4:
+            return "FAILED"
+        elif state == 5:
+            return "CLOSED"
+        return "UNKNOWN"
+
+
 struct GGUFSeer:
     """Owns a validated read-only GGUF mmap and tensor descriptors into it."""
 
     var file_path: String
+    var state: Int
     var tensors: Dict[String, RuneTensor[f16]]
     var tensor_file_offsets: Dict[String, Int]
     var tensor_types: Dict[String, UInt32]
@@ -162,6 +188,7 @@ struct GGUFSeer:
 
     def __init__(out self, file_path: String):
         self.file_path = file_path
+        self.state = GGUFState.UNOPENED
         self.tensors = Dict[String, RuneTensor[f16]]()
         self.tensor_file_offsets = Dict[String, Int]()
         self.tensor_types = Dict[String, UInt32]()
@@ -385,8 +412,12 @@ struct GGUFSeer:
         mut tokenizer: RuneWeaver,
     ) raises -> Int:
         var cursor = 24
+        var seen_keys = List[String]()
         for _ in range(self.kv_count):
             var key = self._read_string(cursor)
+            if key in seen_keys:
+                raise Error("GGUF contains duplicate metadata key: " + key)
+            seen_keys.append(key)
             cursor = self._string_end(cursor)
             var value_type = self._read_u32(cursor)
             cursor += 4
@@ -400,17 +431,12 @@ struct GGUFSeer:
         ):
             raise Error("GGUF alignment must be a power of two up to 4096")
         self.config.validate()
-        if tokenizer.vocab_size <= 0:
-            raise Error("GGUF tokenizer vocabulary is empty")
-        if len(tokenizer.scores) != tokenizer.vocab_size:
-            raise Error("GGUF tokenizer score count does not match vocabulary")
-        if len(tokenizer.token_types) != tokenizer.vocab_size:
-            raise Error("GGUF tokenizer type count does not match vocabulary")
         tokenizer.set_special_tokens(
             self.config.unknown_token_id,
             self.config.bos_token_id,
             self.config.eos_token_id,
         )
+        tokenizer.validate_vocabulary()
         return cursor
 
     def _tensor_byte_size(
@@ -589,6 +615,21 @@ struct GGUFSeer:
                 prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
             )
 
+    def _cleanup(mut self):
+        if self.is_mapped:
+            if self.mmap_ptr != Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=1):
+                _ = external_call["munmap", Int32](self.mmap_ptr, self.file_size)
+            self.mmap_ptr = Pointer[Int8, MutUntrackedOrigin](unsafe_from_address=1)
+            self.is_mapped = False
+        if self.fd >= 0:
+            _ = external_call["close", Int32](self.fd)
+            self.fd = -1
+        self.is_loaded = False
+
+    def close(mut self):
+        self._cleanup()
+        self.state = GGUFState.CLOSED
+
     def mmap_and_load(mut self, mut pool: MimirWell) raises:
         var tokenizer = RuneWeaver()
         self.mmap_and_load(pool, tokenizer)
@@ -598,32 +639,43 @@ struct GGUFSeer:
         mut tokenizer: RuneWeaver,
     ) raises:
         """Reads validated header and model metadata without mapping tensors."""
-        self._open_and_map()
-        self._parse_header()
-        _ = self._parse_metadata(tokenizer)
+        try:
+            self._open_and_map()
+            self._parse_header()
+            self.state = GGUFState.HEADER_PARSED
+            _ = self._parse_metadata(tokenizer)
+        except e:
+            self._cleanup()
+            self.state = GGUFState.FAILED
+            raise e
 
     def mmap_and_load(
         mut self,
         mut pool: MimirWell,
         mut tokenizer: RuneWeaver,
     ) raises:
-        self._open_and_map()
-        self._parse_header()
-        var tensor_table_offset = self._parse_metadata(tokenizer)
-        self._parse_tensors(tensor_table_offset, pool)
-        self._validate_required_tensors()
-        self.is_loaded = True
-        print(
-            "GGUF validated:",
-            self.tensor_count,
-            "tensors,",
-            self.kv_count,
-            "metadata entries, architecture",
-            self.config.architecture,
-        )
+        try:
+            self._open_and_map()
+            self._parse_header()
+            self.state = GGUFState.HEADER_PARSED
+            var tensor_table_offset = self._parse_metadata(tokenizer)
+            self._parse_tensors(tensor_table_offset, pool)
+            self.state = GGUFState.TENSORS_MAPPED
+            self._validate_required_tensors()
+            self.state = GGUFState.VALIDATED
+            self.is_loaded = True
+            print(
+                "GGUF validated:",
+                self.tensor_count,
+                "tensors,",
+                self.kv_count,
+                "metadata entries, architecture",
+                self.config.architecture,
+            )
+        except e:
+            self._cleanup()
+            self.state = GGUFState.FAILED
+            raise e
 
     def __deinit__(deinit self):
-        if self.is_mapped:
-            _ = external_call["munmap", Int32](self.mmap_ptr, self.file_size)
-        if self.fd >= 0:
-            _ = external_call["close", Int32](self.fd)
+        self._cleanup()
