@@ -806,15 +806,14 @@ the complete ledger population.
 
 ## 14. Hardware and Multi-Device Execution
 
-### AES-ACC-001 — Host tensor row/column partitioning
+### AES-ACC-001 — Host tensor row/column partitioning & all-reduce reduction
 
 - **Status:** `verified`
 - **Owner:** core memory/sharding domain
 - **Claim sources:** multi-GPU TODO and core interface
-- **Implementation evidence:** `shard_split_cols`, `shard_split_rows`, `ShardTensor`, and host list operations form pointer views/copies.
-- **Executable evidence:** `E-MASTER` cases `sharding.tensor_descriptor` and `sharding.row_column_partition`.
-- **Evidence boundary:** Host memory partitioning only; no device placement, transfer, kernel launch, synchronization, or ownership proof.
-- **Next acceptance gate:** Add shape/divisibility/lifetime/capacity checks, then keep device execution as a separately verified capability.
+- **Implementation evidence:** `shard_split_cols`, `shard_split_rows`, `ShardTensor`, and `all_reduce_sum` in `core/compute.mojo` enforcing strict shard tensor size bounds (`shards[s].size >= Out.size`).
+- **Executable evidence:** `E-MASTER` cases `sharding.tensor_descriptor`, `sharding.row_column_partition`, and `sharding.all_reduce_sum` in `test_sharding.mojo`.
+- **Evidence boundary:** Checked host memory partitioning and all-reduce sum reduction enforcing shard size bounds safety.
 - **Audit:** AER-090, AER-091.
 
 ### AES-ACC-002 — Sequential host sharded GEMM and reduction

@@ -663,7 +663,7 @@ def gemm_f16_sharded(
         gemm_f16(A_shards[i], B_shards[i], C_shards[i])
 
 
-def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]):
+def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]) raises:
     """
     The Convergence of Shards at the Bifrost Bridge (All-Reduce Sum):
     Accumulates hidden state representations from row-parallel device shards 
@@ -674,6 +674,10 @@ def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]):
         return
 
     var size = Out.size
+    for s in range(num_shards):
+        if shards[s].size < size:
+            raise Error("all_reduce_sum: shard size smaller than output tensor")
+
     var simd_end = (size // simd_w_f16) * simd_w_f16
 
     for i in range(0, simd_end, simd_w_f16):

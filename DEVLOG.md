@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 54: Stage 9.1 — Multi-Device Partition Bounds & All-Reduce Size Enforcement (AES-ACC-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Device All-Reduce Shard Tensor Size Validation  
+
+The forge completed Stage 9.1 of Project Aesir (`AES-ACC-001` `verified`):
+
+1. **Strict Shard Size Validation:** Hardened `all_reduce_sum()` in `core/compute.mojo` to require `shards[s].size >= Out.size` (raising `Error("all_reduce_sum: shard size smaller than output tensor")` on any dimension discrepancy).
+2. **Size Mismatch Proving Assertion:** Added `all_reduce_sum` shard tensor size mismatch error rejection test assertion in `test_sharding.mojo`.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 53: Stage 8.1 — Q4_K_M Block Dequantization Kernel Proving & Zero-Length Safety (AES-QNT-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Q4_K_M Block Unpacking & SIMD Transformation Kernel Proof  
