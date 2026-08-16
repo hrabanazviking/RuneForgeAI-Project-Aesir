@@ -99,6 +99,18 @@ def test_swarm_cluster_task_dispatch() raises:
     print("--- Testing unsupported swarm network operations ---")
 
     var cluster = SwarmCluster()
+    var dispatcher = TaskDispatcher()
+    var empty_dispatch_rejected = False
+    try:
+        var empty_node = PeerNode("", "127.0.0.1", 11434, SwarmNodeRole.WORKER, 1000, 500, True)
+        _ = dispatcher.dispatch_to_node(empty_node, "test_task")
+    except error:
+        empty_dispatch_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("swarm empty dispatch rejection omitted empty error text")
+    if not empty_dispatch_rejected:
+        raise Error("TaskDispatcher allowed dispatch to node with empty ID")
+
     if cluster.registry.count() != 0 or cluster.is_mesh_active:
         raise Error("SwarmCluster started with fictional operational state")
     if cluster.heartbeat_pulse():

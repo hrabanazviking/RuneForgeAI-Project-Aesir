@@ -197,6 +197,8 @@ struct TaskDispatcher(Copyable, ImplicitlyCopyable):
         ══════════════════════════════════════════════════════════════════════════
         Rejects the reserved transport operation until a real peer protocol exists.
         """
+        if len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0:
+            raise Error("node id and task name must not be empty")
         _ = node
         _ = task_name
         raise Error("swarm task dispatch is not implemented")

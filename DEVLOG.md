@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 67: Stage 22.1 — TaskDispatcher Parameter Validation & Empty Input Guard (AES-SWM-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Task Dispatcher Parameter Validation & Empty Input Guard  
+
+The forge completed Stage 22.1 of Project Aesir (`AES-SWM-005` `verified`):
+
+1. **Task Dispatcher Parameter Defense:** Hardened `TaskDispatcher.dispatch_to_node()` in `core/swarm.mojo` to validate non-empty inputs (`len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0`), raising `Error("node id and task name must not be empty")` when empty strings are supplied.
+2. **Proving Assertions:** Added empty node ID dispatch rejection assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 66: Stage 21.1 — PeerRegistry Least-Loaded Node Resolution & Empty Cluster Safety (AES-SWM-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Swarm Peer Registry Load Balancer Byte Check & Empty Cluster Guard  

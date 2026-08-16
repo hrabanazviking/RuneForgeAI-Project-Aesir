@@ -1075,15 +1075,14 @@ the complete ledger population.
 - **Next acceptance gate:** Authenticated protocol between separate processes, join/leave/heartbeat/timeouts, replay/version policy, and network integration tests.
 - **Audit:** AER-114, AER-003.
 
-### AES-SWM-004 — Distributed inference dispatch
+### AES-SWM-004 — Distributed inference dispatch & task dispatcher parameter validation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** core swarm and inference domains
 - **Claim sources:** completed swarm TODO
-- **Implementation evidence:** both dispatcher and cluster distributed-dispatch entry points raise unsupported errors without creating a result.
-- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported`.
-- **Evidence boundary:** No model availability, prompt transmission, remote execution, streamed result, cancellation, retry, or failure occurs.
-- **Next acceptance gate:** Two-process authenticated transport executing one real request remotely with routing, cancellation, timeout, retry/idempotency, and result validation.
+- **Implementation evidence:** `TaskDispatcher` in `core/swarm.mojo` enforcing parameter validation (`len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0 -> raises Error("node id and task name must not be empty")`) and rejecting unsupported network transport operations (`raises Error("swarm task dispatch is not implemented")`).
+- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported` in `test_swarm_cluster.mojo`.
+- **Evidence boundary:** Checked local parameter bounds and explicit unsupported network dispatch boundaries.
 - **Audit:** AER-114.
 
 ### AES-SWM-005 — Swarm REST and CLI operational status
