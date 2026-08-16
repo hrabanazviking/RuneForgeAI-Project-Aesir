@@ -89,6 +89,13 @@ def test_event_bus() raises:
         print("FAIL: AesirEventBus event publish mismatch")
         success = False
 
+    # Test empty string event_type rejection
+    var empty_bus = AesirEventBus()
+    empty_bus.publish_event("", "payload")
+    if empty_bus.event_count != 0:
+        print("FAIL: AesirEventBus accepted empty event_type")
+        success = False
+
     if success:
         print("AesirEventBus last-event marker: PASS")
     else:

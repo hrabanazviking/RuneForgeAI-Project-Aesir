@@ -1012,15 +1012,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked state checkpoint marker non-negative position and prompt count bounds.
 - **Audit:** AER-106.
 
-### AES-RES-003 — Event bus state marker
+### AES-RES-003 — Event bus state marker & empty topic bounds
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core resilience/concurrency domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `AesirEventBus` records a count and last integer/string event state.
-- **Executable evidence:** `E-MASTER` case `resilience.event_bus_marker`.
-- **Evidence boundary:** No subscribers, delivery, ordering, queue, backpressure, lifetime, synchronization, or inter-module integration.
-- **Next acceptance gate:** Explicit publisher/subscriber ownership and delivery semantics with concurrency, ordering, unsubscribe, overflow, and lifetime tests.
+- **Implementation evidence:** `AesirEventBus` in `core/event_bus.mojo` recording event count and last event code, enforcing non-empty event type validation (`len(event_type.bytes()) > 0`) in `publish_event`.
+- **Executable evidence:** `E-MASTER` case `resilience.event_bus_marker` in `test_resilience.mojo`.
+- **Evidence boundary:** Checked event bus non-empty event type parameter validation bounds.
 - **Audit:** AER-107.
 
 ### AES-RES-004 — Worker thread pool

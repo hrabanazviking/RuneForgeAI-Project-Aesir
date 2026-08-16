@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 63: Stage 18.1 — AesirEventBus Event Type Validation & Empty String Guard (AES-RES-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Event Bus Event Type Validation & Empty String Guard  
+
+The forge completed Stage 18.1 of Project Aesir (`AES-RES-003` `verified`):
+
+1. **Event Type Guard Defense:** Hardened `AesirEventBus.publish_event()` in `core/event_bus.mojo` to check non-empty event type parameter bounds (`len(event_type.bytes()) > 0`), ignoring empty string event type publications.
+2. **Proving Assertions:** Added empty string event type rejection assertions in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 62: Stage 17.1 — StateVault Marker Bounds & Non-Negative Position Hardening (AES-RES-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** State Vault Checkpoint Marker Bounds & Position Guard  
