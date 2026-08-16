@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 9.1 — Multi-Device Partition Bounds & All-Reduce Size Enforcement
+### ⚡ Completed Milestone: Stage 10.1 — Swarm Peer Telemetry & VRAM Capacity Arithmetic Hardening
+* **Stage 10.1 Swarm Peer Telemetry Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `PeerNode.__init__()` in `core/swarm.mojo` to clamp negative VRAM capacity and usage inputs to zero and updated `PeerNode.vram_free_mb()` with zero-floor protection (`max(0, capacity - used)`), adding overflow and negative initialization test assertions in `test_swarm_cluster.mojo`.
 * **Stage 9.1 Multi-Device Partition Bounds Milestone ([`AES-ACC-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `all_reduce_sum()` in `core/compute.mojo` to strictly validate shard vector size equality (`shards[s].size >= Out.size`), raising `Error` on size mismatch and adding shard size mismatch error rejection test assertions in `test_sharding.mojo`.
 * **Stage 8.1 Q4_K_M Dequantization Kernel Milestone ([`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `dequantize_q4_k_m()` in `core/compute.mojo` with zero-blocks early return safety (`num_blocks <= 0`) and proved 32-element sub-block nibble unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, and SIMD output layout in `test_quantization.mojo`.
 * **Stage 7.2 MímirStore Dimension Milestone ([`AES-RAG-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirStore.search_knn()` in `core/mimir_well.mojo` to strictly enforce query vector dimension equality (`query_emb.size != self.dim`), raising `Error` on size mismatch and adding dimension mismatch error rejection test assertions.
