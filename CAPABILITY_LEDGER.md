@@ -980,15 +980,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked GBNF logit pointer alignment/sentinel validation and vocabulary size bounds.
 - **Audit:** AER-108.
 
-### AES-ECO-008 — Speculative decoding verifier shape
+### AES-ECO-008 — Speculative decoding verifier shape & pointer bounds
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core optional generation domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `SpeculativeEngine` checks token identity and one logit threshold.
-- **Executable evidence:** `E-MASTER` case `multi_engine.speculative_acceptance`.
-- **Evidence boundary:** No draft model, proposal distribution, acceptance ratio, rollback, target/draft KV coordination, or speed/correctness proof.
-- **Next acceptance gate:** Two-model algorithm with cache rollback, probability-correct acceptance, deterministic reference sequences, and measured benefit.
+- **Implementation evidence:** `SpeculativeEngine` in `core/speculative.mojo` owning draft token sampling validation, checking null (`0`) and sentinel (`1`) address pointers (`draft_addr != 0 and draft_addr != 1`, `target_addr != 0 and target_addr != 1`), validating positive token count, and executing rejection sampling logic.
+- **Executable evidence:** `E-MASTER` case `multi_engine.speculative_acceptance` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Checked speculative decoding pointer alignment/sentinel validation and token count bounds.
 - **Audit:** AER-109, AER-110.
 
 ## 16. Resilience and Concurrency

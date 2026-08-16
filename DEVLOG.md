@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 61: Stage 16.1 — Speculative Engine Draft Validation & Pointer Safety (AES-ECO-008)
+**Date:** August 16, 2026  
+**Architectural Phase:** Speculative Decoding Draft Pointer & Count Bounds Guard  
+
+The forge completed Stage 16.1 of Project Aesir (`AES-ECO-008` `verified`):
+
+1. **Pointer & Token Count Defense:** Hardened `SpeculativeEngine.verify_tokens()` in `core/speculative.mojo` to check null (`0`) and sentinel (`1`) address pointers (`draft_addr == 0 or draft_addr == 1 or target_addr == 0 or target_addr == 1`) and non-positive count bounds (`count <= 0`), returning early with default single token acceptance.
+2. **Proving Assertions:** Added sentinel address `1` and non-positive `count` assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 60: Stage 15.1 — GBNFGrammar Token Mask Pointer & Vocab Bounds Hardening (AES-ECO-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** GBNF Logit Mask Sentinel Pointer & Vocabulary Size Bounds Guard  

@@ -101,6 +101,17 @@ def test_speculative_engine() raises:
         target_logits.unsafe_store(i, Scalar[f16](0.0))
 
     var accepted = spec.verify_tokens(draft_tokens, target_logits, 4)
+    # Test sentinel pointer address and non-positive count early return safety
+    var sentinel_draft = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=1)
+    var sentinel_logits = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    var s1 = spec.verify_tokens(sentinel_draft, target_logits, 4)
+    var s2 = spec.verify_tokens(draft_tokens, sentinel_logits, 4)
+    var s3 = spec.verify_tokens(draft_tokens, target_logits, 0)
+    var s4 = spec.verify_tokens(draft_tokens, target_logits, -1)
+    if s1 != 1 or s2 != 1 or s3 != 1 or s4 != 1:
+        print("FAIL: SpeculativeEngine did not return 1 for sentinel pointers or non-positive count")
+        success = False
+
     draft_tokens.unsafe_free()
     target_logits.unsafe_free()
 
