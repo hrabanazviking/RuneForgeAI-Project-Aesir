@@ -218,8 +218,8 @@ def test_http_parser_and_router() raises:
         raise Error("HTTP parser failed to extract body: got " + req.body)
 
     var response = dispatch_http_request(req)
-    if "501 Not Implemented" not in response:
-        raise Error("Route dispatcher failed to return HTTP 501 for /v1/chat/completions")
+    if "HTTP/1.1 200 OK" not in response or '"object": "chat.completion"' not in response:
+        raise Error("Route dispatcher failed to format OpenAI chat completion response for /v1/chat/completions")
 
     var raw_unknown = "GET /unknown/path HTTP/1.1\r\nHost: localhost\r\n\r\n"
     var unknown_req = parse_http_request(raw_unknown)
@@ -252,3 +252,18 @@ def test_http_response_framing() raises:
         raise Error("write_all_bytes reported success on invalid file descriptor -1")
 
     print("HTTP/1.1 response framing & streaming utilities: PASS")
+
+
+def test_openai_rest_gateway() raises:
+    print("--- Testing OpenAI REST API Gateway (/v1/chat/completions, /v1/models, /v1/embeddings) ---")
+    var models_req = parse_http_request("GET /v1/models HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
+    var models_resp = dispatch_http_request(models_req)
+    if "HTTP/1.1 200 OK" not in models_resp or '"object": "list"' not in models_resp:
+        raise Error("Route dispatcher failed on /v1/models: got " + models_resp)
+
+    var emb_req = parse_http_request("POST /v1/embeddings HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
+    var emb_resp = dispatch_http_request(emb_req)
+    if "HTTP/1.1 200 OK" not in emb_resp or '"error": "unsupported"' not in emb_resp:
+        raise Error("Route dispatcher failed on /v1/embeddings: got " + emb_resp)
+
+    print("OpenAI REST API Gateway: PASS")

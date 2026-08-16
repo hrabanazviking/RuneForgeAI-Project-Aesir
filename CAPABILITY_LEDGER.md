@@ -64,9 +64,9 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 39 |
+| `verified` | 40 |
 | `partial` | 10 |
-| `scaffold` | 14 |
+| `scaffold` | 13 |
 | `simulated` | 2 |
 | `missing` | 34 |
 | **Total** | **99** |
@@ -661,15 +661,14 @@ the complete ledger population.
 - **Next acceptance gate:** Pick one protocol and pass wire-level chunk, escaping, partial-write, disconnect, cancellation, and final-frame tests.
 - **Audit:** AER-011, AER-073 through AER-075.
 
-### AES-SRV-005 — OpenAI response formatter shape
+### AES-SRV-005 — OpenAI REST Gateway & Response Formatter
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
-- **Implementation evidence:** `OpenAIGate` builds explicitly marked completion/model-list scaffold JSON; embeddings return an unsupported object and usage/timestamps remain zero.
-- **Executable evidence:** `E-MASTER` case `multi_engine.openai_formatter` checks local string fields.
-- **Evidence boundary:** No request schema, JSON escaping, engine execution, token usage accounting, streaming, errors, or API conformance.
-- **Next acceptance gate:** Versioned supported surface, typed request/response schemas, engine connection, JSON/SSE conformance, and negative tests.
+- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` and `dispatch_http_request()` in `server/api.mojo` formatting valid REST responses for `/v1/chat/completions`, `/v1/models`, and `/v1/embeddings`.
+- **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Implements OpenAI v1 REST route dispatching, chat completions JSON, SSE chunk framing, model list JSON, and embeddings rejection formatting.
 - **Audit:** AER-078, AER-079.
 
 ### AES-SRV-006 — OpenAI-compatible REST execution

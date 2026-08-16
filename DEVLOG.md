@@ -3,6 +3,17 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 50: Stage 6.4 — OpenAI REST Gateway & Wire SSE Streaming Integration (AES-SRV-004 & AES-SRV-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** OpenAI REST Route Dispatcher, JSON Formatting & Master Test Harness Expansion  
+
+The forge completed Stage 6.4 of Project Aesir (`AES-SRV-005` `verified`):
+
+1. **OpenAI REST Route Dispatcher:** Connected `dispatch_http_request()` in `server/api.mojo` to format valid REST responses for `/v1/chat/completions`, `/v1/models`, and `/v1/embeddings`.
+2. **OpenAI Response Formatting:** Integrated `OpenAIGate` in `server/openai.mojo` to format compliant `/v1/chat/completions` JSON responses, `/v1/models` catalog listings, and `/v1/embeddings` rejection payloads.
+3. **Compiler & Warning Cleanups:** Resolved pointer arithmetic deprecation warning in `write_all_bytes()` by switching to `ptr.unsafe_offset(offset)` and cleaned up unused assignment warnings in `BifrostGate.__deinit__`.
+4. **Master Proving Test Case:** Registered `server.openai_rest_gateway` in `test_multi_engine.mojo` and `run_all.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 49: Production Hardening & Bug-Kill Pass across Stages 5.5, 6.1, 6.2 & 6.3
 **Date:** August 16, 2026
 **Architectural Phase:** Memory Safety Invariant Hardening & Socket Transmission Verification

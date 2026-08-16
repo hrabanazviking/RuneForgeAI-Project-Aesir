@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Production Hardening & Bug-Kill Pass across Stages 5.5, 6.1, 6.2 & 6.3
+### ⚡ Completed Milestone: Stage 6.4 — OpenAI REST Gateway & Wire SSE Streaming Integration
+* **Stage 6.4 OpenAI REST Gateway Milestone ([`AES-SRV-005`](../CAPABILITY_LEDGER.md) `verified`)**: Integrated `OpenAIGate` in `server/openai.mojo` and `dispatch_http_request()` in `server/api.mojo` formatting valid REST responses for `/v1/chat/completions` (JSON & SSE chunks), `/v1/models` catalog listings, and `/v1/embeddings` rejection formatting.
 * **Production Hardening Pass ([`AES-SRV-001`](../CAPABILITY_LEDGER.md), [`AES-SRV-002`](../CAPABILITY_LEDGER.md), [`AES-SRV-003`](../CAPABILITY_LEDGER.md), [`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Eliminated potential double-free in `BifrostGate.__deinit__`, upgraded embedding gateway responses to write-all transmission loop (`write_all_bytes`), and hardened CLI options/duration parsing with fail-closed missing parameter handling.
 * **Stage 6.3 Response Framing Milestone ([`AES-SRV-003`](../CAPABILITY_LEDGER.md) `verified`)**: Built `write_all_bytes()` socket transmission loop in `server/api.mojo`, `build_http_response()` framing helper, `build_sse_chunk()` Server-Sent Events utility, and `build_http_chunk()` HTTP/1.1 chunked encoding helper.
 * **Stage 6.2 HTTP Parser Milestone ([`AES-SRV-002`](../CAPABILITY_LEDGER.md) `verified`)**: Built `HTTPRequest` struct in `server/api.mojo` capturing `method`, `path`, `protocol`, `headers_raw`, `body`, and `content_length`, with `parse_http_request()` and route dispatcher `dispatch_http_request()`.

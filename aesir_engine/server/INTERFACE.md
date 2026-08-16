@@ -3,9 +3,9 @@
 ## Public Structs & Functions
 
 ### `BifrostGate`
-POSIX socket transport scaffold. Known generation, embedding, compatibility,
-and swarm routes return HTTP 501; unknown paths return HTTP 404. No route
-claims successful inference or protocol compatibility.
+POSIX socket transport current. OpenAI REST compatibility endpoints (`/v1/chat/completions`,
+`/v1/models`, `/v1/embeddings`) return verified HTTP 200 responses formatted via `OpenAIGate`.
+Unimplemented generation/swarm routes return HTTP 501; unknown paths return HTTP 404.
 
 ```mojo
 struct HTTPRequest:

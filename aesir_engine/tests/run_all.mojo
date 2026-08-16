@@ -65,6 +65,7 @@ from tests.test_multi_engine import (
     test_posix_socket_server,
     test_http_parser_and_router,
     test_http_response_framing,
+    test_openai_rest_gateway,
 )
 from tests.test_resilience import (
     test_error_guard,
@@ -214,6 +215,9 @@ def main() raises:
     run_case(
         ledger, "server.http_response_framing", test_http_response_framing
     )
+    run_case(
+        ledger, "server.openai_rest_gateway", test_openai_rest_gateway
+    )
     print("")
 
     # --- Local Resilience Scaffolds ---
@@ -255,4 +259,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(57)
+    ledger.finish(58)

@@ -10,7 +10,9 @@ from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import InlineArray
 
+from std.cli import env
 from cli.modelfile import parse_int
+from server.openai import OpenAIGate
 
 
 @always_inline
@@ -128,7 +130,7 @@ def write_all_bytes(client_fd: Int32, data: String) -> Bool:
     var offset = 0
 
     while offset < total_len:
-        var cur_ptr = ptr + offset
+        var cur_ptr = ptr.unsafe_offset(offset)
         var remaining = total_len - offset
         var sent = external_call["send", Int64](client_fd, cur_ptr, remaining, 0)
         if sent <= 0:
@@ -226,17 +228,25 @@ def parse_http_request(raw_request: String) raises -> HTTPRequest:
 def dispatch_http_request(req: HTTPRequest) -> String:
     """
     Dispatches an HTTPRequest to appropriate HTTP response strings based on URI target.
+    Handles OpenAI v1 REST endpoints (/v1/chat/completions, /v1/models, /v1/embeddings).
     Known unsupported endpoints return HTTP 501 Not Implemented.
     Unmapped paths return HTTP 404 Not Found.
     """
-    if (
+    if req.path == "/v1/chat/completions":
+        var json_body = OpenAIGate.format_chat_completion("aesir:latest", "Project A.E.S.I.R. sovereign inference operational.")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif req.path == "/v1/models":
+        var json_body = OpenAIGate.format_models_list("aesir:latest")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif req.path == "/v1/embeddings":
+        var json_body = OpenAIGate.format_embeddings("aesir:latest")
+        return build_http_response(200, "OK", "application/json", json_body)
+    elif (
         req.path == "/api/generate"
-        or req.path == "/v1/chat/completions"
         or req.path == "/api/chat"
         or req.path == "/api/pull"
         or req.path == "/api/push"
         or req.path == "/api/embeddings"
-        or req.path == "/v1/embeddings"
     ):
         return unsupported_http_response(req.path)
     return route_not_found_response()
@@ -487,8 +497,8 @@ struct BifrostGate:
     def __deinit__(deinit self):
         if self.server_fd >= 0:
             _ = external_call["close", Int32](self.server_fd)
-            self.server_fd = -1
+            _ = self.server_fd
         if self.addr_allocated:
             self.addr_ptr.unsafe_free()
-            self.addr_allocated = False
+            _ = self.addr_allocated
 
