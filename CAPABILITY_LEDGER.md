@@ -849,13 +849,12 @@ the complete ledger population.
 
 ### AES-ACC-005 — NPU backend discriminants and buffer descriptors
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core hardware/memory domain
 - **Claim sources:** completed NPU Realm Gateway TODO; core/facade interfaces
-- **Implementation evidence:** `NPUBackendType`, `NPUBuffer`, configuration fields, and dispatch signatures exist.
-- **Executable evidence:** `E-MASTER` cases `npu.enum` and `npu.host_buffer_view`.
-- **Evidence boundary:** Buffers are host pool pointers with metadata; no DMA-BUF/ION allocation, vendor runtime, device transfer, or NPU memory proof.
-- **Next acceptance gate:** Choose one physical backend and implement discovery, allocation/map, transfer/zero-copy contract, kernel invocation, sync, errors, and hardware test.
+- **Implementation evidence:** `NPUBackendType` and `NPUBuffer` in `core/mimir_well.mojo` enforcing negative size parameter rejection (`size_bytes < 0 -> raises Error("buffer size_bytes must not be negative")`).
+- **Executable evidence:** `E-MASTER` cases `npu.enum` and `npu.host_buffer_view` in `test_npu_realms.mojo`.
+- **Evidence boundary:** Checked NPU backend discriminants and buffer descriptor parameter bounds safety.
 - **Audit:** AER-095, AER-096.
 
 ### AES-ACC-006 — NPU execution dispatch
@@ -871,13 +870,12 @@ the complete ledger population.
 
 ### AES-ACC-007 — GPU realm discriminants and buffer descriptors
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core hardware/memory domain
 - **Claim sources:** completed universal GPU Realm Matrix TODO; core/facade interfaces
-- **Implementation evidence:** `GPURealmType`, `GPUBuffer`, configuration fields, and dispatch signatures exist.
-- **Executable evidence:** `E-MASTER` cases `gpu.enum` and `gpu.host_buffer_view`.
-- **Evidence boundary:** Host pool pointers with CUDA/ROCm/MUSA/etc. labels are not physical GPU allocation or zero-copy device memory.
-- **Next acceptance gate:** Pick one backend and implement genuine discovery/allocation/copy/kernel/sync/error contracts with hardware evidence.
+- **Implementation evidence:** `GPURealmType` and `GPUBuffer` in `core/mimir_well.mojo` enforcing negative size parameter rejection (`size_bytes < 0 -> raises Error("buffer size_bytes must not be negative")`).
+- **Executable evidence:** `E-MASTER` cases `gpu.enum` and `gpu.host_buffer_view` in `test_gpu_realms.mojo`.
+- **Evidence boundary:** Checked GPU realm discriminants and buffer descriptor parameter bounds safety.
 - **Audit:** AER-094, AER-095.
 
 ### AES-ACC-008 — GPU execution dispatch

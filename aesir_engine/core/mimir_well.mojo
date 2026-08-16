@@ -274,6 +274,8 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
         self.realm = realm
 
     def __init__(out self, mut well: MimirWell, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises:
+        if size_bytes < 0:
+            raise Error("buffer size_bytes must not be negative")
         var elements = size_bytes // 2
         self.ptr = well.allocate(elements)
         self.size_bytes = size_bytes
@@ -335,6 +337,8 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         size_bytes: Int,
         backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
     ) raises:
+        if size_bytes < 0:
+            raise Error("buffer size_bytes must not be negative")
         var elements = size_bytes // 2
         self.ptr = well.allocate(elements)
         self.size_bytes = size_bytes

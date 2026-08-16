@@ -88,6 +88,17 @@ def test_gpu_buffer_zero_copy() raises:
             success = False
             break
 
+    # Negative buffer size rejection check
+    var neg_rejected = False
+    try:
+        var bad_buf = well.allocate_gpu_buffer(-100, GPURealmType(GPURealmType.NVIDIA_CUDA))
+    except error:
+        neg_rejected = True
+        if "size_bytes must not be negative" not in String(error):
+            raise Error("GPUBuffer negative size rejection omitted expected error text")
+    if not neg_rejected:
+        raise Error("GPUBuffer failed to reject negative buffer size")
+
     if success:
         print("GPU-labeled host buffer descriptor: PASS")
     else:

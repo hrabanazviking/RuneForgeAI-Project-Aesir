@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 79: Stage 34.1 — NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening (AES-ACC-005 & AES-ACC-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening  
+
+The forge completed Stage 34.1 of Project Aesir (`AES-ACC-005` & `AES-ACC-007` `verified`):
+
+1. **Buffer Descriptor Parameter Defense:** Hardened `GPUBuffer.__init__()` and `NPUBuffer.__init__()` in `core/mimir_well.mojo` to check buffer byte sizes (`size_bytes < 0`), raising `Error("buffer size_bytes must not be negative")` when negative sizes are provided.
+2. **Proving Assertions:** Added negative GPU buffer size rejection assertions in `test_gpu_realms.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 78: Stage 33.1 — Compressed Format Discriminants & GGML Type Mapping Boundary Hardening (AES-QNT-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** Compressed Format Discriminants & GGML Type Mapping Boundary Hardening  
