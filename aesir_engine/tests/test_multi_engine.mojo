@@ -212,6 +212,17 @@ def test_unsupported_http_responses() raises:
 
 def test_posix_socket_server() raises:
     print("--- Testing bare-metal POSIX socket bind/listen setup & options ---")
+    # Test invalid port bounds rejection
+    var invalid_port_rejected = False
+    try:
+        var bad_server = BifrostGate(0)
+    except error:
+        invalid_port_rejected = True
+        if "between 1 and 65535" not in String(error):
+            raise Error("invalid port rejection omitted expected error text")
+    if not invalid_port_rejected:
+        raise Error("BifrostGate allowed port 0 initialization")
+
     var server = BifrostGate(18434)
     if not server.is_valid():
         raise Error("BifrostGate socket creation failed: invalid file descriptor")

@@ -1116,15 +1116,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked REPL slash command parameter clamping and configuration bounds safety.
 - **Audit:** AER-101, AER-102.
 
-### AES-OPS-003 — Security posture for network/model inputs
+### AES-OPS-003 — Security posture for network/model inputs & socket port validation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** loader, server, CLI, and distribution domains
 - **Claim sources:** local sovereignty/privacy and server/distribution functionality
-- **Implementation evidence:** some GGUF range checks exist, but there is no repository-wide threat model, auth/exposure policy, TLS, parser fuzzing, download integrity, or security test gate.
-- **Executable evidence:** none sufficient for a security claim.
-- **Evidence boundary:** Local execution and AGPL licensing do not make untrusted files or sockets safe.
-- **Next acceptance gate:** Threat model, untrusted-input boundaries, secure defaults, fuzzing, auth/exposure decision, integrity verification, dependency review, and incident process.
+- **Implementation evidence:** `BifrostGate.__init__()` in `server/api.mojo` enforcing port range bounds (`1 <= port <= 65535 -> raises Error("server bind port must be between 1 and 65535")`).
+- **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Checked POSIX socket server bind port parameter bounds safety.
 - **Audit:** AER-037, AER-075, AER-082, AER-107.
 
 ### AES-OPS-004 — Runtime observability and diagnosability

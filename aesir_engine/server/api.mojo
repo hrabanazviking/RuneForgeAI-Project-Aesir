@@ -264,7 +264,9 @@ struct BifrostGate:
     var addr_ptr: Pointer[Int16, MutUntrackedOrigin]
     var addr_allocated: Bool
 
-    def __init__(out self, port: Int):
+    def __init__(out self, port: Int) raises:
+        if port < 1 or port > 65535:
+            raise Error("server bind port must be between 1 and 65535")
         self.port = port
         self.server_fd = external_call["socket", Int32](2, 1, 0) # AF_INET, SOCK_STREAM
         

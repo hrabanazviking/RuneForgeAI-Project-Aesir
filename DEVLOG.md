@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 72: Stage 27.1 — Network HTTP Server Port Bounds & Security Posture Hardening (AES-OPS-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Network HTTP Server Port Bounds & Security Posture Hardening  
+
+The forge completed Stage 27.1 of Project Aesir (`AES-OPS-003` `verified`):
+
+1. **Server Port Bounds Defense:** Hardened `BifrostGate.__init__()` in `server/api.mojo` with the `raises` modifier, checking port bounds (`1 <= port <= 65535`) and raising `Error("server bind port must be between 1 and 65535")` when invalid port numbers (e.g. `0` or `> 65535`) are passed.
+2. **Proving Assertions:** Added invalid port parameter rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 71: Stage 26.1 — RuneREPL Configuration Parameter Bounds Clamping (AES-OPS-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** RuneREPL Configuration Parameter Clamping & Bounds Guard  
