@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Stage 14.1 — Model Manifest Tag Sanitization & Copy Guard
+### ⚡ Completed Milestone: Stage 15.1 — GBNFGrammar Token Mask Pointer & Vocab Bounds Hardening
+* **Stage 15.1 GBNFGrammar Logit Mask Milestone ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `GBNFGrammar.apply_grammar_mask()` in `core/grammar.mojo` to check null (`0`) and sentinel (`1`) address logit pointers (`addr == 0 or addr == 1`) and non-positive vocabulary sizes (`vocab_size <= 0`) early-return bounds, adding sentinel address `1` pointer and zero/negative `vocab_size` assertions in `test_multi_engine.mojo`.
 * **Stage 14.1 Model Manifest Copy Guard Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `RuneModelStore.copy_model()` in `cli/manifest.mojo` to validate `len(source.bytes()) == 0 or len(target.bytes()) == 0`, raising `Error` on empty name parameters and adding empty parameter rejection assertions in `test_cli.mojo`.
 * **Stage 13.1 HuggingFace Resolve URL Milestone ([`AES-ECO-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `HuggingFaceSeer.build_download_url()` in `loader/huggingface.mojo` with `raises` modifier and empty parameter validation (`len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0`), raising `Error` on empty parameters and adding empty parameter rejection assertions in `test_huggingface.mojo`.
 * **Stage 12.1 HuggingFace Tag Parsing Milestone ([`AES-ECO-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `HuggingFaceSeer.is_hf_tag()` in `loader/huggingface.mojo` to check `len(model_tag.bytes()) == 0`, explicitly returning `False` for empty model tags and adding empty string tag rejection assertions in `test_huggingface.mojo`.
