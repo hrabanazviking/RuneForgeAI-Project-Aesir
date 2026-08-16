@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Stage 40.1 — Repository Artifact Hygiene & Ignore Protection Verification
+### ⚡ Completed Milestone: Stage 41.1 — Query Embedding Fallback Generation Bounds Hardening
+* **Stage 41.1 Query Embedding Milestone ([`AES-RAG-003`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` for fallback query vector allocation and hidden dimension bounds validation.
 * **Stage 40.1 Artifact Hygiene Milestone ([`AES-FND-007`](../CAPABILITY_LEDGER.md) `verified`)**: Created root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), environment builds (`.pixi/`), and temporary logs.
 * **Stage 39.1 Arena Pool Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
 * **Stage 38.1 Pure Mojo Milestone ([`AES-FND-004`](../CAPABILITY_LEDGER.md) `verified`)**: Audited engine source code across `core`, `loader`, `cli`, `server`, and `facade` domains, confirming zero `std.python` imports in runtime engine execution.
