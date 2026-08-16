@@ -453,6 +453,11 @@ struct BifrostGate:
         if client_fd < 0:
             return
 
+        if len(path.bytes()) == 0:
+            self.send_chunk(client_fd, route_not_found_response())
+            self.close_client(client_fd)
+            return
+
         _ = payload
         var capability = String("")
         if (

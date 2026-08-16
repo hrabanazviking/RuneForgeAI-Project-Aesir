@@ -240,6 +240,17 @@ def test_posix_socket_server() raises:
 
 def test_http_parser_and_router() raises:
     print("--- Testing HTTP/1.1 request parser & route dispatcher ---")
+    # Test empty HTTP request line rejection
+    var empty_req_rejected = False
+    try:
+        _ = parse_http_request("")
+    except error:
+        empty_req_rejected = True
+        if "Empty HTTP request" not in String(error):
+            raise Error("empty HTTP request rejection omitted expected error text")
+    if not empty_req_rejected:
+        raise Error("parse_http_request allowed empty request string")
+
     var raw_post = (
         "POST /v1/chat/completions HTTP/1.1\r\n"
         + "Host: 127.0.0.1:11434\r\n"

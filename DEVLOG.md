@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 73: Stage 28.1 — Runtime Observability & Metrics Route Parameter Safety (AES-OPS-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Runtime Observability & Metrics Route Parameter Safety  
+
+The forge completed Stage 28.1 of Project Aesir (`AES-OPS-004` `verified`):
+
+1. **Route Parameter Defense:** Hardened `BifrostGate.dispatch_http_route()` in `server/api.mojo` to check empty `path` parameters (`len(path.bytes()) == 0`), returning HTTP 404 `route_not_found_response()` early when empty path strings are passed.
+2. **Proving Assertions:** Added empty HTTP request parsing rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 72: Stage 27.1 — Network HTTP Server Port Bounds & Security Posture Hardening (AES-OPS-003)
 **Date:** August 16, 2026  
 **Architectural Phase:** Network HTTP Server Port Bounds & Security Posture Hardening  

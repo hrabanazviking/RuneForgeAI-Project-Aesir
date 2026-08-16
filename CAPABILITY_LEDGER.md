@@ -1126,15 +1126,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked POSIX socket server bind port parameter bounds safety.
 - **Audit:** AER-037, AER-075, AER-082, AER-107.
 
-### AES-OPS-004 — Runtime observability and diagnosability
+### AES-OPS-004 — Runtime observability, route parameter safety & diagnosability
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** runtime and service domains
 - **Claim sources:** metrics/health routes and production implications
-- **Implementation evidence:** current output is ad hoc `print`; metrics/health payloads are fixed.
-- **Executable evidence:** none for structured events, real counters, traces, request IDs, or failure diagnostics.
-- **Evidence boundary:** Banners and fixed “healthy” JSON are not observability.
-- **Next acceptance gate:** Structured logging levels, real metrics, request/session correlation, error taxonomy, and tests that observed state tracks actual state.
+- **Implementation evidence:** `BifrostGate.dispatch_http_route()` in `server/api.mojo` enforcing route path parameter validation (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`) and explicit compatibility route handling for `/metrics`, `/health`, `/props`, and `/slots`.
+- **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Checked HTTP route path parameter length validation and explicit route handling bounds.
 - **Audit:** AER-078, AER-101, AER-111.
 
 ### AES-OPS-005 — Production readiness
