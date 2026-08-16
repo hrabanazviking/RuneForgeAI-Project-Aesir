@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 77: Stage 32.1 — Activation & Kernel Dequantization Pointer/Size Production Hardening (AES-CPU-001 & AES-QNT-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Activation & Kernel Dequantization Pointer/Size Production Hardening  
+
+The forge completed Stage 32.1 of Project Aesir (`AES-CPU-001` & `AES-QNT-002` `verified`):
+
+1. **Activation & Kernel Safety:** Hardened `dequantize_q4_k_m()`, `dequantize_q2_k()`, `silu()`, and `geglu()` in `core/compute.mojo` with zero-blocks and zero-size safety guards (`num_blocks <= 0` / `T.size <= 0`).
+2. **Proving Assertions:** Added zero-block dequantization safety assertions in `test_quantization.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 76: Stage 31.1 — Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening (AES-ACC-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening  

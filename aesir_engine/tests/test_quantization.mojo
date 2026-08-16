@@ -162,6 +162,9 @@ def test_q4_k_m_block_dequantization() raises:
     var val_lower = out_mem.unsafe_load(0) # 1 * 0.5 + (-1.0) = -0.5
     var val_upper = out_mem.unsafe_load(16) # 2 * 0.5 + (-1.0) = 0.0
 
+    # Zero blocks safety check (must return early without modifying or crashing)
+    dequantize_q4_k_m(block_mem, out_mem, 0)
+
     block_mem.unsafe_free()
     out_mem.unsafe_free()
 

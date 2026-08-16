@@ -56,6 +56,8 @@ def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[S
     ════════════════════════════════════════════════════════════
     2-bit K-quantization block unpacking with 6-bit scales.
     """
+    if num_elements <= 0:
+        return
     var scale: Scalar[f16] = 0.125
     var min_val: Scalar[f16] = -1.0
     var num_bytes = num_elements // 4
@@ -478,6 +480,8 @@ def flash_attention_2(
 @always_inline
 def silu(mut T: RuneTensor[f16]):
     """Vectorized SiLU (Swish) activation: x * sigmoid(x). The bending of the branch."""
+    if T.size <= 0:
+        return
     var simd_end = (T.size // simd_w_f16) * simd_w_f16
     for i in range(0, simd_end, simd_w_f16):
         var x = T.data.unsafe_load[width=simd_w_f16](i)
@@ -491,6 +495,8 @@ def silu(mut T: RuneTensor[f16]):
 @always_inline
 def geglu(mut T: RuneTensor[f16]):
     """Vectorized GeGLU operation. The binding of the gates."""
+    if T.size <= 0:
+        return
     # Custom SIMD implementation to bypass global memory write-backs
     # GeGLU splits the vector into two halves: x and y, and computes x * GELU(y)
     var half_size = T.size // 2
