@@ -12,7 +12,8 @@ Project Aesir is designed to be a high-performance bare-metal LLM inference engi
 
 It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
 
-### ⚡ Completed Milestone: Stage 34.1 — NPU/GPU Buffer Descriptor Parameter Bounds & Safety Hardening
+### ⚡ Completed Milestone: Stage 35.1 — Raw File-Descriptor & Socket Write Bounds Hardening
+* **Stage 35.1 Socket Write Milestone ([`AES-SRV-004`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `write_all_bytes()` in `server/api.mojo` to reject negative socket file descriptors (`client_fd < 0`) and hardened `build_http_chunk()` to format terminal chunked HTTP blocks (`0\r\n\r\n`), adding terminal chunk framing test assertions in `test_multi_engine.mojo`.
 * **Stage 34.1 Accelerator Buffer Milestone ([`AES-ACC-005`](../CAPABILITY_LEDGER.md) & [`AES-ACC-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `GPUBuffer.__init__()` and `NPUBuffer.__init__()` in `core/mimir_well.mojo` to check buffer byte sizes (`size_bytes < 0 -> raises Error("buffer size_bytes must not be negative")`), adding negative GPU buffer size parameter rejection assertions in `test_gpu_realms.mojo`.
 * **Stage 33.1 Format Mapping Milestone ([`AES-QNT-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `GGMLType.to_compressed_format()` in `loader/gguf.mojo` to map GGML tensor type discriminants (0..24) deterministically, adding GGML type mapping test assertions in `test_quantization.mojo`.
 * **Stage 32.1 Compute Hardening Milestone ([`AES-CPU-001`](../CAPABILITY_LEDGER.md) & [`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `dequantize_q4_k_m()`, `dequantize_q2_k()`, `silu()`, and `geglu()` in `core/compute.mojo` with zero-blocks and zero-size safety guards (`num_blocks <= 0` / `T.size <= 0`), adding zero-block dequantization safety assertions in `test_quantization.mojo`.
