@@ -10,6 +10,8 @@ def dispatch_llama_cli(args: List[String]) raises -> Bool:
     Preserves the public llama.cpp-oriented dispatcher name while rejecting the
     unimplemented compatibility surface.
     """
+    if len(args) == 0:
+        raise Error("CLI dispatcher arguments must not be empty")
     _ = args
     raise Error("llama.cpp CLI compatibility is not implemented")
 
@@ -21,6 +23,8 @@ def dispatch_exl2_cli(args: List[String]) raises -> Bool:
     Preserves the public ExLlama dispatcher name while rejecting the
     unimplemented format/runtime surface.
     """
+    if len(args) == 0:
+        raise Error("CLI dispatcher arguments must not be empty")
     _ = args
     raise Error("ExLlama/EXL2 conversion and inference are not implemented")
 
@@ -32,5 +36,7 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool:
     Preserves the public ONNX dispatcher name while rejecting the unimplemented
     parser/runtime surface.
     """
+    if len(args) == 0:
+        raise Error("CLI dispatcher arguments must not be empty")
     _ = args
     raise Error("ONNX graph parsing and execution are not implemented")

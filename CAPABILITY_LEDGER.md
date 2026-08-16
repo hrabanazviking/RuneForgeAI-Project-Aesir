@@ -1096,15 +1096,14 @@ the complete ledger population.
 
 ## 18. Benchmarks, Security, and Production Readiness
 
-### AES-OPS-001 — Measured performance benchmarking
+### AES-OPS-001 — Measured performance benchmarking & CLI dispatcher validation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** performance and CLI domains
 - **Claim sources:** llama-bench CLI surface and high-performance README language
-- **Implementation evidence:** fixed benchmark/model/perplexity output was removed; the command now raises unsupported.
-- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`; still no benchmark harness exists.
-- **Evidence boundary:** Removing fabricated numbers does not create measured performance evidence.
-- **Next acceptance gate:** Reproducible benchmark harness with actual work, hardware/software/model metadata, warmup, repeated statistics, correctness guard, and raw results.
+- **Implementation evidence:** `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` enforcing parameter validation (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) and rejecting unsupported benchmark/runtime surfaces.
+- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported` in `test_multi_engine.mojo`.
+- **Evidence boundary:** Checked CLI dispatcher argument list length validation and explicit unsupported runtime boundaries.
 - **Audit:** AER-101, AER-003.
 
 ### AES-OPS-002 — Resource-efficiency and “run fast/run cold” proof

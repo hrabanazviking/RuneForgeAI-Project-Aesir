@@ -142,6 +142,18 @@ def test_multi_engine_cli() raises:
     print("--- Testing unsupported multi-engine CLI dispatchers ---")
     var args = List[String]()
     args.append("llama-bench")
+    # Test empty args list parameter rejection
+    var empty_args = List[String]()
+    var empty_dispatch_rejected = False
+    try:
+        _ = dispatch_llama_cli(empty_args)
+    except error:
+        empty_dispatch_rejected = True
+        if "must not be empty" not in String(error):
+            raise Error("llama empty dispatch rejection omitted empty error text")
+    if not empty_dispatch_rejected:
+        raise Error("dispatch_llama_cli allowed empty args parameter")
+
     var llama_rejected = False
     try:
         _ = dispatch_llama_cli(args)

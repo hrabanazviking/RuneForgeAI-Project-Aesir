@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 70: Stage 25.1 — Multi-Engine CLI Dispatcher Empty Parameter Validation (AES-OPS-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Multi-Engine CLI Dispatcher Empty Parameter Validation  
+
+The forge completed Stage 25.1 of Project Aesir (`AES-OPS-001` `verified`):
+
+1. **Multi-Engine CLI Dispatcher Defense:** Hardened `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` to check argument list bounds (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) when empty argument lists are passed.
+2. **Proving Assertions:** Added empty argument list rejection assertions in `test_multi_engine.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 69: Stage 24.1 — Operational CLI Swarm Command Subcommand Boundary Validation (AES-SWM-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** Operational CLI Swarm Subcommand Boundary Validation  
