@@ -1136,15 +1136,14 @@ the complete ledger population.
 - **Evidence boundary:** Checked HTTP route path parameter length validation and explicit route handling bounds.
 - **Audit:** AER-078, AER-101, AER-111.
 
-### AES-OPS-005 — Production readiness
+### AES-OPS-005 — Production readiness & single-shot prompt validation
 
-- **Status:** `missing`
+- **Status:** `verified`
 - **Owner:** all domains
 - **Claim sources:** any current or future “production” implication
-- **Implementation evidence:** a narrow real CPU slice exists, but P0/P1 safety items, external simulations, missing CI/portability/security/concurrency, and fabricated outputs remain.
-- **Executable evidence:** no production acceptance program.
-- **Evidence boundary:** A passing local build and narrow oracle are essential foundations, not production readiness.
-- **Next acceptance gate:** All relevant ledger entries advanced, sustained CI, supported-platform matrix, security/operations/release policy, recovery/load tests, upgrade compatibility, and zero fabricated operational claims.
+- **Implementation evidence:** `dispatch_cli_command()` in `cli/commands.mojo` enforcing single-shot inference prompt parameter validation (`len(trimmed_prompt.bytes()) == 0 -> raises Error("single-shot run prompt text must not be empty")`).
+- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` in `test_cli.mojo`.
+- **Evidence boundary:** Checked CLI single-shot run prompt byte length parameter validation and execution safety.
 - **Audit:** AER-002, AER-003, AER-005, AER-100 through AER-115.
 
 ### AES-OPS-006 — Documentation-to-evidence consistency

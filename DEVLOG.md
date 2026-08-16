@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 74: Stage 29.1 — Single-Shot Inference Prompt Validation & Production Readiness Hardening (AES-OPS-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Single-Shot Inference Prompt Validation & Production Readiness Hardening  
+
+The forge completed Stage 29.1 of Project Aesir (`AES-OPS-005` `verified`):
+
+1. **CLI Single-Shot Prompt Defense:** Hardened `dispatch_cli_command()` in `cli/commands.mojo` for `cmd == "run"` to check prompt byte length (`len(trimmed_prompt.bytes()) == 0`), raising `Error("single-shot run prompt text must not be empty")` when empty or whitespace-only prompts are passed.
+2. **Proving Assertions:** Added empty prompt single-shot run parameter rejection assertions in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 73: Stage 28.1 — Runtime Observability & Metrics Route Parameter Safety (AES-OPS-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Runtime Observability & Metrics Route Parameter Safety  

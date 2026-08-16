@@ -175,6 +175,21 @@ def test_cli_command_dispatch() raises:
     if not swarm_sub_rejected:
         raise Error("swarm bare command allowed execution without subcommand")
 
+    # Test empty prompt single-shot run parameter rejection
+    var empty_prompt_rejected = False
+    try:
+        var run_empty = List[String]()
+        run_empty.append("run")
+        run_empty.append("demo-model.gguf")
+        run_empty.append("   ")
+        dispatch_command(run_empty)
+    except error:
+        empty_prompt_rejected = True
+        if "prompt text must not be empty" not in String(error):
+            raise Error("empty prompt run rejection omitted expected error text")
+    if not empty_prompt_rejected:
+        raise Error("run command allowed empty prompt parameter")
+
     assert_cli_command_unsupported("serve")
     assert_cli_command_unsupported("pull")
     assert_cli_command_unsupported("push")
