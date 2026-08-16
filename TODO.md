@@ -103,6 +103,7 @@ counts as completion of an external capability.
 
 ### Forge 0E — Reconcile all present-tense documentation
 
+- [ ] Replace all Chinese in documents or code with the proper English words.
 - [ ] **[partial, AES-OPS-006] Rewrite README technical claims:** Preserve the
   vision while labeling the pinned CPU slice, partial primitives, scaffolds,
   simulations, and missing capabilities exactly.
