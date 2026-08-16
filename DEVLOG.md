@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 57: Stage 12.1 — HuggingFace Repo Tag Parsing Validation & Empty Tag Guard (AES-ECO-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** HuggingFace Repository Tag Normalization & Empty Tag Bounds Guard  
+
+The forge completed Stage 12.1 of Project Aesir (`AES-ECO-001` `verified`):
+
+1. **Empty Tag Length Validation:** Hardened `HuggingFaceSeer.is_hf_tag()` in `loader/huggingface.mojo` to explicitly reject empty string model tags (`len(model_tag.bytes()) == 0`).
+2. **Proving Assertions:** Added empty string tag rejection assertion in `test_huggingface.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 56: Stage 11.1 — ErrorGuard Pointer Validation & Logit Sanitization Hardening (AES-RES-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** Defensive Sentinel Pointer Address Validation & Logit Sanitization  

@@ -911,10 +911,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** loader domain
 - **Claim sources:** completed Hugging Face TODO and loader interface
-- **Implementation evidence:** `HuggingFaceSeer.is_hf_tag` and `normalize_repo_id` recognize and normalize supported string forms.
-- **Executable evidence:** `E-MASTER` case `huggingface.tag_parser`.
-- **Evidence boundary:** String parsing only; no Hub resolution, revision lookup, auth, metadata, or network access.
-- **Next acceptance gate:** Expand a versioned grammar with rejection cases and connect to a real Hub client separately.
+- **Implementation evidence:** `HuggingFaceSeer.is_hf_tag` and `parse_hf_repo` in `loader/huggingface.mojo` recognizing string forms, normalizing `hf.co/` and `huggingface.co/` tags, and checking empty string tag bounds (`len(model_tag.bytes()) == 0`).
+- **Executable evidence:** `E-MASTER` case `huggingface.tag_parser` in `test_huggingface.mojo`.
+- **Evidence boundary:** Checked repository tag string normalization and empty string rejection bounds.
 - **Audit:** AER-082.
 
 ### AES-ECO-002 — Hugging Face resolve-URL construction

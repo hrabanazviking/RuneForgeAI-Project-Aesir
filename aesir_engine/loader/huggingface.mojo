@@ -39,6 +39,8 @@ struct HuggingFaceSeer:
         Determines whether a model tag points to the HuggingFace Hub repository realm
         by inspecting URI prefixes ('hf.co/', 'huggingface.co/') or 'org/repo' namespace patterns.
         """
+        if len(model_tag.bytes()) == 0:
+            return False
         if model_tag.startswith("hf.co/") or model_tag.startswith("huggingface.co/"):
             return True
         # Check for org/repo pattern

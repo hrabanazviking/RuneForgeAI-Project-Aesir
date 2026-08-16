@@ -23,6 +23,10 @@ def test_hf_repo_parsing() raises:
         print("FAIL: is_hf_tag org/repo check failed")
         success = False
 
+    if HuggingFaceSeer.is_hf_tag(""):
+        print("FAIL: is_hf_tag empty string check failed")
+        success = False
+
     if success:
         print("HuggingFace Tag Parsing: PASS")
     else:
