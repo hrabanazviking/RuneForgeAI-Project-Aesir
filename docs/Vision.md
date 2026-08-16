@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 39.1 — MimirWell Arena Pool Offset Restoration Hardening
+### ⚡ Completed Milestone: Stage 40.1 — Repository Artifact Hygiene & Ignore Protection Verification
+* **Stage 40.1 Artifact Hygiene Milestone ([`AES-FND-007`](../CAPABILITY_LEDGER.md) `verified`)**: Created root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), environment builds (`.pixi/`), and temporary logs.
 * **Stage 39.1 Arena Pool Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirWell` offset tracking and `reset_kv_cache()` restoration tests in `test_kv_cache.mojo`, proving zero heap memory leaks or arena pool drift across generation steps.
 * **Stage 38.1 Pure Mojo Milestone ([`AES-FND-004`](../CAPABILITY_LEDGER.md) `verified`)**: Audited engine source code across `core`, `loader`, `cli`, `server`, and `facade` domains, confirming zero `std.python` imports in runtime engine execution.
 * **Stage 37.1 RAG Prompt Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` to validate hidden dimensions (`hidden_dim <= 0 -> returns prompt`), returning `prompt` safely when non-positive hidden dimensions are specified.
