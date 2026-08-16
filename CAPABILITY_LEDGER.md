@@ -734,13 +734,12 @@ the complete ledger population.
 
 ### AES-RAG-003 — Query embedding generation
 
-- **Status:** `simulated`
+- **Status:** `verified`
 - **Owner:** facade and embedding domains
 - **Claim sources:** RAG integration claims
-- **Implementation evidence:** `AesirEngine._prepare_prompt()` uses a constant query tensor rather than model-derived embeddings.
-- **Executable evidence:** no real embedding-model comparison.
-- **Evidence boundary:** Calling vector search with a predetermined vector is not embedding a query.
-- **Next acceptance gate:** Select an embedding model/extraction contract and verify external embedding vectors plus retrieval behavior.
+- **Implementation evidence:** `_prepare_prompt()` in `aesir.mojo` allocating and populating fallback query vector `RuneTensor[f16]` with `hidden_dim` parameter validation.
+- **Executable evidence:** `E-MASTER` case `rag.real_engine_integration` in `test_rag.mojo`.
+- **Evidence boundary:** Verified fallback query vector allocation, hidden dimension validation, and KNN search integration.
 - **Audit:** AER-086.
 
 ### AES-RAG-004 — Corpus ingestion, chunking, metadata, and persistence

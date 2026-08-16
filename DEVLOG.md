@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 86: Stage 41.1 — Query Embedding Fallback Generation Bounds Hardening (AES-RAG-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Query Embedding Fallback Generation Bounds Hardening  
+
+The forge completed Stage 41.1 of Project Aesir (`AES-RAG-003` `verified`):
+
+1. **Query Embedding Allocation Bounds:** Hardened `_prepare_prompt()` in `aesir.mojo` for fallback query vector allocation and hidden dimension bounds validation.
+2. **Proving Assertions:** Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 85: Stage 40.1 — Repository Artifact Hygiene & Ignore Protection Verification (AES-FND-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** Repository Artifact Hygiene & Ignore Protection Verification  
