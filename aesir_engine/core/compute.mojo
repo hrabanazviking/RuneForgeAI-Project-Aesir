@@ -329,7 +329,9 @@ def flash_attention_gqa(
     """Incremental causal attention with grouped-query head mapping."""
     if sequence_length <= 0 or query.rows != 1 or output.rows != 1:
         return
-    if query_head_count <= 0 or kv_head_count <= 0:
+    if query_head_count <= 0 or kv_head_count <= 0 or head_dim <= 0:
+        return
+    if query_head_count % kv_head_count != 0:
         return
     var query_heads_per_kv = query_head_count // kv_head_count
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()

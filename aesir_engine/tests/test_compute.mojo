@@ -262,6 +262,20 @@ def test_kernel_bounds() raises:
     if G_odd.data.unsafe_load(0) != Scalar[f16](5.0):
         raise Error("geglu mutated odd size tensor")
 
+    # 6. Incremental causal attention head bounds safety (returns early without panic)
+    var q_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var k_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var v_att = RuneTensor[f16](1, 8, well.allocate(8))
+    var out_att = RuneTensor[f16](1, 8, well.allocate(8))
+    out_att.data.unsafe_store(0, Scalar[f16](7.0))
+    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 0, 4, 2) # head_dim = 0
+    if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
+        raise Error("incremental_causal_attention failed on zero head_dim safety check")
+
+    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 4, 3, 2) # non-divisible 3 // 2
+    if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
+        raise Error("incremental_causal_attention failed on non-divisible head ratio safety check")
+
     print("checked kernel boundaries: PASS")
 
 def test_unaligned_flash_attention() raises:
