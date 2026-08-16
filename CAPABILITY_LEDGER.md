@@ -732,10 +732,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core memory/RAG domain
 - **Claim sources:** Mímisbrunnr TODO; core interface
-- **Implementation evidence:** `MimirStore` adds document/embedding records and returns locally ranked cosine matches.
-- **Executable evidence:** `E-MASTER` case `rag.in_memory_store`.
-- **Evidence boundary:** Test-supplied embeddings, one process, no ingestion/chunking/model/persistence/evaluation, and incomplete validation/ownership.
-- **Next acceptance gate:** Checked dimensions/capacity/lifetimes, persistence, retrieval evaluation, and integration with real embeddings.
+- **Implementation evidence:** `MimirStore` in `core/mimir_well.mojo` enforcing strict equal-dimension checks on `add_document` (`embedding.size != self.dim`) and `search_knn` (`query_emb.size != self.dim`), with top-k selection and capacity validation.
+- **Executable evidence:** `E-MASTER` case `rag.in_memory_store` in `test_rag.mojo`.
+- **Evidence boundary:** Checked contiguous in-memory vector document store enforcing strict dimension equality and capacity bounds.
 - **Audit:** AER-084, AER-085.
 
 ### AES-RAG-003 — Query embedding generation

@@ -606,7 +606,7 @@ struct MimirStore(Copyable):
         
         if top_k <= 0:
             raise Error("MimirStore.search_knn: top_k must be positive")
-        if query_emb.size < self.dim:
+        if query_emb.size != self.dim:
             raise Error("MimirStore.search_knn: query vector dimension mismatch")
 
         var result = List[String]()

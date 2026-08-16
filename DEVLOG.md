@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 52: Stage 7.2 — MímirStore Query Vector Dimension Enforcement & Boundary Hardening (AES-RAG-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Vector Store Query Dimension Equality Validation  
+
+The forge completed Stage 7.2 of Project Aesir (`AES-RAG-002` `verified`):
+
+1. **Strict Query Dimension Validation:** Hardened `MimirStore.search_knn()` in `core/mimir_well.mojo` to require `query_emb.size == self.dim` (raising `Error("MimirStore.search_knn: query vector dimension mismatch")` on any dimension inequality).
+2. **Dimension Mismatch Proving Assertion:** Added `search_knn` query vector dimension mismatch error rejection test assertion in `test_rag.mojo`.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 51: Stage 7.1 — Workspace Memory Reclamation & Cosine Similarity Zero-Norm Hardening (AES-MEM-005 & AES-RAG-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** Memory Workspace Reclamation & Zero-Norm SIMD Vector Hardening  

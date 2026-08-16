@@ -116,6 +116,14 @@ def test_mimir_store() raises:
     if not dim_mismatch:
         raise Error("MimirStore add_document failed to detect dimension mismatch")
 
+    var query_dim_mismatch = False
+    try:
+        _ = store.search_knn(bad_emb, 2)
+    except:
+        query_dim_mismatch = True
+    if not query_dim_mismatch:
+        raise Error("MimirStore search_knn failed to detect query dimension mismatch")
+
     if count_ok and knn_ok and emb_val_ok:
         print("MimirStore (insertion & k-NN): PASS")
     else:
