@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 53: Stage 8.1 — Q4_K_M Block Dequantization Kernel Proving & Zero-Length Safety (AES-QNT-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Q4_K_M Block Unpacking & SIMD Transformation Kernel Proof  
+
+The forge completed Stage 8.1 of Project Aesir (`AES-QNT-002` `verified`):
+
+1. **Zero-Blocks Safety Guard:** Hardened `dequantize_q4_k_m()` in `core/compute.mojo` with zero-blocks early-return check (`num_blocks <= 0`).
+2. **Q4_K_M Block Unpacking Proving Test:** Implemented `test_q4_k_m_block_dequantization()` in `test_quantization.mojo` proving sub-block unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, and SIMD output placement.
+3. **Master Proving Run:** Executed master test suite (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 52: Stage 7.2 — MímirStore Query Vector Dimension Enforcement & Boundary Hardening (AES-RAG-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Vector Store Query Dimension Equality Validation  

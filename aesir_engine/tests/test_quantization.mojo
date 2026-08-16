@@ -145,6 +145,34 @@ def test_dequantization_kernels() raises:
         raise Error("dequantization dispatch did not write deterministic output")
 
 
+def test_q4_k_m_block_dequantization() raises:
+    print("--- Testing Q4_K_M Block Dequantization Math & Layout ---")
+    from core.compute import BlockQ4_K, dequantize_q4_k_m
+    var block_mem = alloc(Layout[BlockQ4_K](count=1)).unsafe_leak()
+    var out_mem = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
+
+    var scale = Scalar[f16](0.5)
+    var min_val = Scalar[f16](-1.0)
+    var qs = SIMD[DType.uint8, 16](0x21) # lower_4 = 1, upper_4 = 2
+
+    block_mem.unsafe_store(0, BlockQ4_K(scale, min_val, qs))
+
+    dequantize_q4_k_m(block_mem, out_mem, 1)
+
+    var val_lower = out_mem.unsafe_load(0) # 1 * 0.5 + (-1.0) = -0.5
+    var val_upper = out_mem.unsafe_load(16) # 2 * 0.5 + (-1.0) = 0.0
+
+    block_mem.unsafe_free()
+    out_mem.unsafe_free()
+
+    if val_lower == Scalar[f16](-0.5) and val_upper == Scalar[f16](0.0):
+        print("Q4_K_M block dequantization math & layout: PASS")
+    else:
+        print("FAIL: Expected lower=-0.5, upper=0.0; got lower=", val_lower, ", upper=", val_upper)
+        raise Error("Q4_K_M block dequantization invariant mismatch")
+
+
 def main() raises:
     test_compressed_format_enum()
     test_dequantization_kernels()
+    test_q4_k_m_block_dequantization()

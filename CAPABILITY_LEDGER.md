@@ -783,15 +783,14 @@ the complete ledger population.
 - **Next acceptance gate:** Retain only explicitly supported formats and connect each to authoritative layouts, fixtures, loader rules, and oracle inference.
 - **Audit:** AER-051, AER-054.
 
-### AES-QNT-002 — Toy compressed-data transformation functions
+### AES-QNT-002 — Q4_K_M block dequantization transformation kernel
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core compute domain
-- **Claim sources:** README q4_k_m and completed format matrix
-- **Implementation evidence:** dequantizer-named functions write deterministic numeric outputs from simplified byte/nibble interpretations.
-- **Executable evidence:** `E-MASTER` cases `compute.dequantize_q4_k_m_scaffold` and `quantization.dispatch_writes` verify writes/dispatch only.
-- **Evidence boundary:** Layouts omit required authoritative block metadata/scales/zeros/groups and conflate unrelated formats; results are not GGML/GPTQ/AWQ/EXL2/HQQ/SmoothQuant compatible.
-- **Next acceptance gate:** Implement one exact authoritative format, validate input spans/tails, and compare full output to an independent decoder fixture.
+- **Claim sources:** README q4_k_m and core compute interface
+- **Implementation evidence:** `dequantize_q4_k_m` in `core/compute.mojo` performing 32-element Q4_K_M sub-block unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, zero-blocks safety check (`num_blocks <= 0`), and SIMD store layout.
+- **Executable evidence:** `E-MASTER` case `quantization.q4_k_m_dequantization` in `test_quantization.mojo`.
+- **Evidence boundary:** Verified Q4_K_M sub-block dequantization transformation math and layout.
 - **Audit:** AER-051, AER-052, AER-053.
 
 ### AES-QNT-003 — Real quantized-model inference

@@ -31,6 +31,8 @@ def dequantize_q4_k_m(block_ptr: Pointer[BlockQ4_K, MutUntrackedOrigin], out_ptr
     On-the-fly dequantization of Q4_K_M blocks directly into registers/L1.
     Bypasses system memory bandwidth bottlenecks.
     """
+    if num_blocks <= 0:
+        return
     for b in range(num_blocks):
         var scale = block_ptr.unsafe_offset(b)[].scale
         var min_val = block_ptr.unsafe_offset(b)[].min_val
