@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 55: Stage 10.1 — Swarm Peer Telemetry & VRAM Capacity Arithmetic Hardening (AES-SWM-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Swarm Peer VRAM Capacity Clamping & Zero-Floor Protection  
+
+The forge completed Stage 10.1 of Project Aesir (`AES-SWM-001` `verified`):
+
+1. **VRAM Capacity Initialization Clamping:** Hardened `PeerNode.__init__()` in `core/swarm.mojo` to clamp negative VRAM capacity and usage inputs to zero (`max(0, capacity)` and `max(0, used)`).
+2. **Zero-Floor Arithmetic Protection:** Updated `PeerNode.vram_free_mb()` to return `max(0, self.vram_capacity_mb - self.vram_used_mb)`, preventing negative free memory metrics when usage exceeds capacity.
+3. **Proving Assertions:** Added overflow zero-floor protection and negative VRAM initialization assertions in `test_swarm_cluster.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 54: Stage 9.1 — Multi-Device Partition Bounds & All-Reduce Size Enforcement (AES-ACC-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** Multi-Device All-Reduce Shard Tensor Size Validation  

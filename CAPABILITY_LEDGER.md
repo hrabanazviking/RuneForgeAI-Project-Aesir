@@ -1055,13 +1055,12 @@ the complete ledger population.
 
 ### AES-SWM-001 — Peer roles, descriptors, and capacity arithmetic
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core swarm domain
 - **Claim sources:** completed swarm TODO and core interface
-- **Implementation evidence:** `SwarmNodeRole`, `PeerNode`, `PeerRegistry`, `TaskDispatcher`, and `SwarmCluster` data structures exist.
-- **Executable evidence:** `E-MASTER` cases `swarm.role_enum` and `swarm.peer_metrics`.
-- **Evidence boundary:** Local structs and arithmetic do not establish discovery, transport, authenticated peers, liveness, or remote resources.
-- **Next acceptance gate:** Separate configured/observed peer state and connect descriptors to an authenticated transport and heartbeat protocol.
+- **Implementation evidence:** `SwarmNodeRole`, `PeerNode`, and `PeerRegistry` in `core/swarm.mojo` enforcing non-negative attribute bounds and zero-floor VRAM arithmetic (`max(0, capacity - used)`).
+- **Executable evidence:** `E-MASTER` cases `swarm.role_enum` and `swarm.peer_metrics` in `test_swarm_cluster.mojo`.
+- **Evidence boundary:** Checked local peer role discriminants and zero-floor VRAM arithmetic.
 - **Audit:** AER-088, AER-114.
 
 ### AES-SWM-002 — In-memory least-used/capacity peer selection

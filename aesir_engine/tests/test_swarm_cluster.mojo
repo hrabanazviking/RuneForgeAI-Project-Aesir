@@ -35,6 +35,18 @@ def test_peer_node_metrics() raises:
         print("FAIL: PeerNode liveness state incorrect")
         success = False
 
+    # Test overflow zero-floor protection when used > capacity
+    var overused_node = PeerNode("worker-overflow", "192.168.1.51", 11434, SwarmNodeRole.WORKER, 1000, 2000, True)
+    if overused_node.vram_free_mb() != 0:
+        print("FAIL: overused PeerNode free VRAM did not clamp to zero")
+        success = False
+
+    # Test negative VRAM initialization clamping
+    var neg_node = PeerNode("worker-neg", "192.168.1.52", 11434, SwarmNodeRole.WORKER, -100, -50, True)
+    if neg_node.vram_capacity_mb != 0 or neg_node.vram_used_mb != 0:
+        print("FAIL: negative VRAM attributes were not clamped to zero")
+        success = False
+
     if success:
         print("caller-supplied PeerNode capacity arithmetic: PASS")
     else:

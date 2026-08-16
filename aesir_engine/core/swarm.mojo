@@ -72,8 +72,8 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         self.ip_address = ip_address
         self.port = port
         self.role = role
-        self.vram_capacity_mb = vram_capacity_mb
-        self.vram_used_mb = vram_used_mb
+        self.vram_capacity_mb = max(0, vram_capacity_mb)
+        self.vram_used_mb = max(0, vram_used_mb)
         self.is_alive = is_alive
 
     def __copyinit__(out self, existing: Self):
@@ -103,7 +103,7 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         ══════════════════════════════════════════════════════════════════════════
         Calculates the remaining unallocated VRAM capacity in megabytes.
         """
-        return self.vram_capacity_mb - self.vram_used_mb
+        return max(0, self.vram_capacity_mb - self.vram_used_mb)
 
 
 struct PeerRegistry(Copyable):
