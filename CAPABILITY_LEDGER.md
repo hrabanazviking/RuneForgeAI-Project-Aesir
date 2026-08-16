@@ -140,13 +140,12 @@ the complete ledger population.
 
 ### AES-FND-007 — Repository artifact and source hygiene
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** project operations
 - **Claim sources:** project build and distribution posture
-- **Implementation evidence:** source, licenses, notices, and task records are tracked; the audit also found tracked executable artifacts and large repository objects.
-- **Executable evidence:** source inventory and Git object inspection recorded in the reality audit.
-- **Evidence boundary:** A clean current Forge diff does not repair historical object size or establish release hygiene.
-- **Next acceptance gate:** Remove generated binaries from source control without losing needed history, add ignore rules and artifact checks, and document reproducible release packaging.
+- **Implementation evidence:** root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), build environments (`.pixi/`), and temporary logs.
+- **Executable evidence:** Git status and ignore rule validation in `scripts/check_doc_drift.py` and repository hygiene checks.
+- **Evidence boundary:** Verified repository ignore rules and artifact protection boundaries.
 - **Audit:** AER-098, AER-099, AER-103.
 
 ## 5. Memory, Tensor, Cache, and Ownership

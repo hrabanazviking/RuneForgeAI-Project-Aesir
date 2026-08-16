@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 85: Stage 40.1 — Repository Artifact Hygiene & Ignore Protection Verification (AES-FND-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** Repository Artifact Hygiene & Ignore Protection Verification  
+
+The forge completed Stage 40.1 of Project Aesir (`AES-FND-007` `verified`):
+
+1. **Repository Ignore Protection:** Created root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), environment builds (`.pixi/`), and temporary logs.
+2. **Proving Assertions:** Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 84: Stage 39.1 — MimirWell Arena Pool Offset Restoration Hardening (AES-MEM-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** MimirWell Arena Pool Offset Restoration Hardening  

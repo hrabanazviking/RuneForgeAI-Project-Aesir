@@ -1,0 +1,15 @@
+# Pixi and Environment
+.pixi/
+
+# Compiled Binaries and Build Artifacts
+main
+aesir_main
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Temporary files & logs
+*.log
+.DS_Store
