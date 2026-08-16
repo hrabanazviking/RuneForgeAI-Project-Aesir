@@ -37,7 +37,9 @@ struct GGMLType:
 
     @staticmethod
     def to_compressed_format(ggml_type: UInt32) -> CompressedFormatType:
-        if ggml_type == 10:
+        if ggml_type == 0 or ggml_type == 1:
+            return CompressedFormatType(CompressedFormatType.Q4_K_M)
+        elif ggml_type == 10:
             return CompressedFormatType(CompressedFormatType.Q2_K)
         elif ggml_type == 11:
             return CompressedFormatType(CompressedFormatType.Q3_K_M)

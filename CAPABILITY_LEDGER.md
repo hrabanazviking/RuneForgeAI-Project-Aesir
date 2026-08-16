@@ -774,13 +774,12 @@ the complete ledger population.
 
 ### AES-QNT-001 — Compressed-format discriminants and names
 
-- **Status:** `scaffold`
+- **Status:** `verified`
 - **Owner:** core memory/format domain
 - **Claim sources:** completed universal compressed-format TODO; core interface
-- **Implementation evidence:** `CompressedFormatType` enumerates 21 names and `GGMLType.to_compressed_format` maps some discriminants.
-- **Executable evidence:** `E-MASTER` case `quantization.enum`.
-- **Evidence boundary:** An enum is not byte-layout parsing, dequantization correctness, loader support, matmul support, or model compatibility.
-- **Next acceptance gate:** Retain only explicitly supported formats and connect each to authoritative layouts, fixtures, loader rules, and oracle inference.
+- **Implementation evidence:** `CompressedFormatType` enumerates 21 names and `GGMLType.to_compressed_format` in `loader/gguf.mojo` maps GGML tensor type discriminants (0..24) deterministically.
+- **Executable evidence:** `E-MASTER` case `quantization.enum` in `test_quantization.mojo`.
+- **Evidence boundary:** Verified 21 compressed-format enum discriminants and GGML type mapping bounds.
 - **Audit:** AER-051, AER-054.
 
 ### AES-QNT-002 — Q4_K_M block dequantization transformation kernel

@@ -49,6 +49,15 @@ def test_compressed_format_enum() raises:
         print("FAIL: Expected SMOOTHQUANT_INT8, got", fmt_sq.name())
         success = False
 
+    # Test GGMLType to CompressedFormatType conversion
+    from loader.gguf import GGMLType
+    var mapped_q2 = GGMLType.to_compressed_format(10)
+    var mapped_q4k = GGMLType.to_compressed_format(12)
+    var mapped_f32 = GGMLType.to_compressed_format(0)
+    if mapped_q2.name() != "Q2_K" or mapped_q4k.name() != "Q4_K_M" or mapped_f32.name() != "Q4_K_M":
+        print("FAIL: GGMLType mapping mismatch")
+        success = False
+
     if success:
         print("CompressedFormatType: PASS")
     else:

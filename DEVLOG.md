@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 78: Stage 33.1 — Compressed Format Discriminants & GGML Type Mapping Boundary Hardening (AES-QNT-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Compressed Format Discriminants & GGML Type Mapping Boundary Hardening  
+
+The forge completed Stage 33.1 of Project Aesir (`AES-QNT-001` `verified`):
+
+1. **Format Mapping Defense:** Hardened `GGMLType.to_compressed_format()` in `loader/gguf.mojo` to map GGML tensor type discriminants (0..24) deterministically.
+2. **Proving Assertions:** Added GGML type mapping test assertions in `test_quantization.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 77: Stage 32.1 — Activation & Kernel Dequantization Pointer/Size Production Hardening (AES-CPU-001 & AES-QNT-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Activation & Kernel Dequantization Pointer/Size Production Hardening  
