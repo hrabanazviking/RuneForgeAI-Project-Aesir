@@ -10,7 +10,8 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
-### ⚡ Completed Milestone: Stage 30.1 — Documentation-to-Evidence Truth Consistency Audit & Final Verification Gate
+### ⚡ Completed Milestone: Stage 31.1 — Multi-Device All-Reduce & Sharded GEMM Empty Parameter Boundary Hardening
+* **Stage 31.1 All-Reduce Milestone ([`AES-ACC-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `all_reduce_sum()` in `core/compute.mojo` to check input shards list count (`num_shards == 0 -> raises Error("all_reduce_sum: input shards list must not be empty")`), adding empty shards list parameter rejection assertions in `test_sharding.mojo`.
 * **Stage 30.1 Truth Audit Milestone ([`AES-OPS-006`](../CAPABILITY_LEDGER.md) `verified`)**: Conducted the final documentation-to-evidence truth consistency audit, promoting `AES-OPS-006` to `verified` in `CAPABILITY_LEDGER.md` and concluding the 30-stage hardening program with 100% doc-drift verification and master test suite validation.
 * **Stage 29.1 Prompt Safety Milestone ([`AES-OPS-005`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `dispatch_cli_command()` in `cli/commands.mojo` for `cmd == "run"` to validate prompt byte length (`len(trimmed_prompt.bytes()) == 0 -> raises Error("single-shot run prompt text must not be empty")`), adding empty prompt single-shot run parameter rejection assertions in `test_cli.mojo`.
 * **Stage 28.1 Route Safety Milestone ([`AES-OPS-004`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `BifrostGate.dispatch_http_route()` in `server/api.mojo` to validate non-empty request route path bounds (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`), adding empty HTTP request parsing rejection assertions in `test_multi_engine.mojo`.
