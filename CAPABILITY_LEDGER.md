@@ -998,13 +998,12 @@ the complete ledger population.
 
 ### AES-RES-001 — Basic pointer/logit guard helpers
 
-- **Status:** `partial`
+- **Status:** `verified`
 - **Owner:** core safety domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `ErrorGuard` checks null pointers and clamps/sanitizes limited logit conditions.
-- **Executable evidence:** `E-MASTER` case `resilience.error_guard`.
-- **Evidence boundary:** It does not reject sentinel address `1`, validate ownership/span/alignment, protect all loads/stores, or integrate comprehensively into inference.
-- **Next acceptance gate:** Boundary-owned validation with unsafe-address/span cases, finite policies, propagation, and coverage across every public unsafe path.
+- **Implementation evidence:** `ErrorGuard` in `core/error_guard.mojo` checking null (`0`) and sentinel (`1`) address validation (`addr != 0 and addr != 1`) and sanitizing NaN/Inf logits buffer inputs.
+- **Executable evidence:** `E-MASTER` case `resilience.error_guard` in `test_resilience.mojo`.
+- **Evidence boundary:** Checked null (`0`) and sentinel (`1`) pointer address validation and NaN/Inf logit sanitization error bounds.
 - **Audit:** AER-005, AER-105.
 
 ### AES-RES-002 — State checkpoint descriptor

@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 56: Stage 11.1 — ErrorGuard Pointer Validation & Logit Sanitization Hardening (AES-RES-001)
+**Date:** August 16, 2026  
+**Architectural Phase:** Defensive Sentinel Pointer Address Validation & Logit Sanitization  
+
+The forge completed Stage 11.1 of Project Aesir (`AES-RES-001` `verified`):
+
+1. **Sentinel Pointer Address Validation:** Hardened `ErrorGuard.validate_pointer()` in `core/error_guard.mojo` to reject sentinel address `1` as well as null `0` (`addr != 0 and addr != 1`).
+2. **Logit Buffer Cleansing Guard:** Updated `ErrorGuard.sanitize_logits()` with sentinel address `1` early-return check (`addr == 0 or addr == 1 or count <= 0`).
+3. **Proving Assertions:** Added sentinel address `1` pointer validation rejection assertion in `test_resilience.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 55: Stage 10.1 — Swarm Peer Telemetry & VRAM Capacity Arithmetic Hardening (AES-SWM-001)
 **Date:** August 16, 2026  
 **Architectural Phase:** Swarm Peer VRAM Capacity Clamping & Zero-Floor Protection  

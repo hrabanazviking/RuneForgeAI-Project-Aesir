@@ -19,9 +19,10 @@ struct ErrorGuard:
         ᛈᛟᛁᚾᛏᛖᚱ·ᚠᚨᛚᛁᛞᚨᛏᛖ — Pointer Alignment & Validity Gate (validate_pointer)
         ══════════════════════════════════════════════════════════════════════════
         Verifies that memory pointers drawn from Midgard or MimirWell are non-null
-        and properly aligned for SIMD vector execution.
+        and non-sentinel for SIMD vector execution.
         """
-        return Int(ptr) != 0
+        var addr = Int(ptr)
+        return addr != 0 and addr != 1
 
     @staticmethod
     def bounds_check(index: Int, max_len: Int) -> Bool:
@@ -42,7 +43,8 @@ struct ErrorGuard:
         Replaces non-finite values with safe minimum scalar bounds (-65504.0).
         Ensures numerical stability during argmax and softmax sampling.
         """
-        if Int(logits) == 0 or count <= 0:
+        var addr = Int(logits)
+        if addr == 0 or addr == 1 or count <= 0:
             return
 
         for i in range(count):

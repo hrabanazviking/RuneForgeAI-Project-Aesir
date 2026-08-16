@@ -19,6 +19,11 @@ def test_error_guard() raises:
         print("FAIL: ErrorGuard.validate_pointer failed")
         success = False
 
+    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    if ErrorGuard.validate_pointer(sentinel_ptr):
+        print("FAIL: ErrorGuard.validate_pointer accepted sentinel address 1")
+        success = False
+
     if not ErrorGuard.bounds_check(3, 8):
         print("FAIL: ErrorGuard.bounds_check valid index failed")
         success = False
