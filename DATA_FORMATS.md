@@ -969,7 +969,7 @@ Token type metadata (from GGUF tokenizer) uses bitmask values:
 
 ---
 
-## Section十六: Sampler Parameters Format (FMT-SAMPL)
+## Section Sixteen: Sampler Parameters Format (FMT-SAMPL)
 
 ### Embedded in Request
 
@@ -1014,7 +1014,7 @@ Missing fields from incoming requests are populated with defaults before being p
 | `top_logprobs` | None |
 | `logit_bias` | None |
 
-Defaults are defined in code (not in configuration) because they reflect the API contract, not deployment环境。
+Defaults are defined in code (not in configuration) because they reflect the API contract, not deployment environment.
 
 ---
 
@@ -1112,7 +1112,7 @@ Each format that includes a version field (GGUF, KV cache snapshot, SBOM) follow
 
 - **Major**: Breaking change (fields removed, semantics changed, encoding altered)
 - **Minor**: Additive change (new optional fields, new enum values)
-- **Patch**: Clarification (documentation更新, no schema alteration)
+- **Patch**: Clarification (documentation renew, no schema alteration)
 
 ### Breaking Change Procedure
 
@@ -1121,8 +1121,8 @@ When a format requires a major version increment:
 1. The new version is implemented alongside the old version (both supported).
 2. A deprecation notice is added to the format documentation.
 3. Writers produce the new version by default. Readers accept both.
-4. After one release cycle, readers reject the old版本。
-5. The old version is removed from the文档。
+4. After one release cycle, readers reject the old version.
+5. The old version is removed from the document.
 
 ### Format Deprecation Policy
 
@@ -1155,9 +1155,9 @@ The Auditor role conducts fuzz testing on all format parsers:
 
 | Target | Fuzzer | Campaign Duration | Success Criterion |
 |--------|--------|-------------------|--------------------|
-| GGUF parser | AFL++ | 24 hours | No crashes, no内存安全 violations |
-| JSON API parser | libFuzzer | 8 hours | No crashes, proper错误返回 for malformed输入 |
-| TOML config parser | AFL++ | 8 hours | No crashes, proper错误消息 for malformed输入 |
+| GGUF parser | AFL++ | 24 hours | No crashes, no memory safety violations |
+| JSON API parser | libFuzzer | 8 hours | No crashes, proper error return for malformed importing |
+| TOML config parser | AFL++ | 8 hours | No crashes, proper error message for malformed importing |
 | KV cache serializer | Custom | 4 hours | Round-trip integrity (serialize→deserialize→compare) |
 
 ---
@@ -1201,7 +1201,7 @@ VERSIONING:
 
 ## Closing Principle
 
-Data formats are the ligature of a system—the connective tissue that binds modules together and the interface through which the system speaks to the outside world. Poorly defined formats produce mistranslation. Well-defined formats produce互操作性 without ambiguity.
+Data formats are the ligature of a system—the connective tissue that binds modules together and the interface through which the system speaks to the outside world. Poorly defined formats produce mistranslation. Well-defined formats produce interoperability without ambiguity.
 
 Every byte that crosses a boundary does so under a contract. Every contract is documented here. Every deviation from the contract is an error, not a quirk. Every error has a code, a recovery path, and a test.
 
