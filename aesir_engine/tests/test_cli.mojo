@@ -276,4 +276,16 @@ def test_cli_flag_options_parser() raises:
     list_json_args.append("json")
     dispatch_command(list_json_args, store)
 
+    # Verify ChatMessage empty list formatting safety
+    from loader.chat_template import RuneChatTemplate, ChatMessage
+    var tmpl = RuneChatTemplate("chatml")
+    var empty_msgs = List[ChatMessage]()
+    var empty_chatml_rejected = False
+    try:
+        _ = tmpl.format_chatml(empty_msgs)
+    except:
+        empty_chatml_rejected = True
+    if not empty_chatml_rejected:
+        raise Error("RuneChatTemplate format_chatml failed to reject empty message list")
+
     print("CLIOptions flag parser, duration conversion & JSON output: PASS")

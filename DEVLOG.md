@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 87: Stage 42.1 — Chat Template Formatter Empty Message List Bounds Hardening
+**Date:** August 16, 2026  
+**Architectural Phase:** Chat Template Formatter Empty Message List Bounds Hardening  
+
+The forge completed Stage 42.1 of Project Aesir:
+
+1. **Chat Template Formatting Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty `ChatMessage` lists (`len(messages) == 0 -> raises Error("cannot format empty ChatMessage list")`).
+2. **Proving Assertions:** Added empty message list rejection test assertion in `test_cli.mojo`. Master test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
+
 ## ⚡ Entry 86: Stage 41.1 — Query Embedding Fallback Generation Bounds Hardening (AES-RAG-003)
 **Date:** August 16, 2026  
 **Architectural Phase:** Query Embedding Fallback Generation Bounds Hardening  

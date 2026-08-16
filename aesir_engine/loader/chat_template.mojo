@@ -79,6 +79,8 @@ struct RuneChatTemplate(Copyable):
 
     def format_chatml(self, messages: List[ChatMessage]) raises -> String:
         """Formats messages in ChatML standard (<|im_start|>role\ncontent<|im_end|>\n)."""
+        if len(messages) == 0:
+            raise Error("cannot format empty ChatMessage list")
         var prompt = String("")
         for i in range(len(messages)):
             messages[i].validate()
@@ -89,6 +91,8 @@ struct RuneChatTemplate(Copyable):
 
     def format_llama3(self, messages: List[ChatMessage]) raises -> String:
         """Formats messages in Llama-3 standard (<|start_header_id|>role<|end_header_id|>\n\ncontent<|eot_id|>)."""
+        if len(messages) == 0:
+            raise Error("cannot format empty ChatMessage list")
         var prompt = String("<|begin_of_text|>")
         for i in range(len(messages)):
             messages[i].validate()
@@ -99,6 +103,8 @@ struct RuneChatTemplate(Copyable):
 
     def format_llama2(self, messages: List[ChatMessage]) raises -> String:
         """Formats messages in Llama-2 standard ([INST] <<SYS>>\nsystem\n<</SYS>>\n\nuser [/INST])."""
+        if len(messages) == 0:
+            raise Error("cannot format empty ChatMessage list")
         var prompt = String("")
         var system_prompt = String("")
         var in_inst = False
