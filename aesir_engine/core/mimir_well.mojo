@@ -711,6 +711,13 @@ struct DeviceTopology(Copyable):
         if IntelGate.is_available() and IntelGate.get_device_count() > 0:
             self.gpu_realms.append(GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
 
+    def probe_amd_realm(mut self):
+        """Runtime probe for AMD ROCm / HIP GPU realm."""
+        self.gpu_realms.clear()
+        from core.amd_gate import AMDGate
+        if AMDGate.is_available() and AMDGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
+
 
 
 

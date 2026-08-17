@@ -59,6 +59,11 @@ from tests.test_intel_realm import (
     test_intel_gemm_dispatch_bounds,
     test_intel_realm_unsupported_gateways,
 )
+from tests.test_amd_realm import (
+    test_amd_gate_availability,
+    test_amd_gemm_dispatch_bounds,
+    test_amd_realm_unsupported_gateways,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -198,6 +203,9 @@ def main() raises:
     run_case(ledger, "gpu.intel_gate_availability", test_intel_gate_availability)
     run_case(ledger, "gpu.intel_gemm_dispatch_bounds", test_intel_gemm_dispatch_bounds)
     run_case(ledger, "gpu.intel_realm_unsupported_gateways", test_intel_realm_unsupported_gateways)
+    run_case(ledger, "gpu.amd_gate_availability", test_amd_gate_availability)
+    run_case(ledger, "gpu.amd_gemm_dispatch_bounds", test_amd_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.amd_realm_unsupported_gateways", test_amd_realm_unsupported_gateways)
     print("")
 
     # --- Implemented CLI and Unsupported Boundaries ---
@@ -283,4 +291,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(67)
+    ledger.finish(70)

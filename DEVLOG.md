@@ -3,6 +3,42 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 92: Stage 47.1 — AMD ROCm / HIP GPU Acceleration Gateway & Device Memory Management (AES-ACC-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** AMD ROCm / HIP GPU Acceleration Gateway  
+
+The forge completed Stage 47.1 of Project Aesir (`AES-ACC-004` `partial`):
+1. **AMD HIP FFI Gateway:** Created `AMDGate` in `core/amd_gate.mojo` providing native POSIX FFI driver/runtime detection (`libamdhip64.so`, `libhipblas.so`), device count discovery (`hipGetDeviceCount`), HIP VRAM memory allocation (`allocate_vram()`), VRAM deallocation (`free_vram()`), host-to-device transfers, device-to-host transfers, and hipBLAS GEMM kernel launch gateway (`launch_gemm_amd()`).
+2. **Core Hardware Integration:** Added `probe_amd_realm()` in `core/mimir_well.mojo` and connected `gemm_f16_gpu()` in `core/compute.mojo` to dispatch `GPURealmType.AMD_ROCM_HIP` requests to `AMDGate`.
+3. **Dedicated Test Suite & Master Suite:** Created `aesir_engine/tests/test_amd_realm.mojo` and registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**69 passed / 0 failed / 1 skipped / Total 70**).
+
+## ⚡ Entry 91: Stage 46.1 — Intel OneAPI / Level Zero GPU Acceleration Gateway & Device Memory Management (AES-ACC-003)
+**Date:** August 16, 2026  
+**Architectural Phase:** Intel OneAPI / Level Zero GPU Acceleration Gateway  
+
+The forge completed Stage 46.1 of Project Aesir (`AES-ACC-003` `partial`):
+1. **Intel Level Zero FFI Gateway:** Created `IntelGate` in `core/intel_gate.mojo` providing native POSIX FFI driver/runtime detection (`libze_loader.so`, `libze_intel_gpu.so`), device count discovery (`zeDeviceGet`), Level Zero VRAM memory allocation (`allocate_vram()`), VRAM deallocation (`free_vram()`), host-to-device transfers, device-to-host transfers, and Level Zero GEMM kernel launch gateway (`launch_gemm_intel()`).
+2. **Core Hardware Integration:** Added `probe_intel_realm()` in `core/mimir_well.mojo` and connected `gemm_f16_gpu()` in `core/compute.mojo` to dispatch `GPURealmType.INTEL_ONEAPI_XE` requests to `IntelGate`.
+3. **Dedicated Test Suite & Master Suite:** Created `aesir_engine/tests/test_intel_realm.mojo` and registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**66 passed / 0 failed / 1 skipped / Total 67**).
+
+## ⚡ Entry 90: Stage 45.1 — Apple Metal GPU Acceleration Gateway & Buffer Management (AES-ACC-002/AES-ACC-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** Apple Metal GPU Acceleration Gateway  
+
+The forge completed Stage 45.1 of Project Aesir (`AES-ACC-002`/`AES-ACC-005` `partial`):
+1. **Apple Metal Framework FFI Gateway:** Created `MetalGate` in `core/metal_gate.mojo` providing native FFI framework probes (`/System/Library/Frameworks/Metal.framework/Metal`, `libobjc.dylib`), Apple Silicon GPU device discovery (`MTLCreateSystemDefaultDevice`), zero-copy Metal buffer allocation (`allocate_metal_buffer()`), and Metal Performance Shaders (MPS) GEMM kernel launch dispatch (`launch_gemm_metal()`).
+2. **Core Hardware Integration:** Added `probe_metal_realm()` in `core/mimir_well.mojo` and connected `gemm_f16_gpu()` in `core/compute.mojo` to dispatch `GPURealmType.ARM_MALI_OPENCL` / Metal requests to `MetalGate`.
+3. **Dedicated Test Suite & Master Suite:** Created `aesir_engine/tests/test_metal_realm.mojo` and registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**64 passed / 0 failed / 1 skipped / Total 65**).
+
+## ⚡ Entry 89: Stage 44.1 — NVIDIA CUDA GPU Realm Gateway & Device Memory Management (AES-ACC-001/AES-ACC-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** NVIDIA CUDA GPU Realm Gateway  
+
+The forge completed Stage 44.1 of Project Aesir (`AES-ACC-001`/`AES-ACC-004` `partial`):
+1. **CUDA Dynamic FFI Gateway:** Created `CUDAGate` in `core/cuda_gate.mojo` providing native POSIX FFI driver/runtime detection (`libcuda.so`/`libcudart.so`), device count lookup (`cudaGetDeviceCount`), VRAM allocation (`allocate_vram()`), VRAM release (`free_vram()`), host-to-device transfers (`memcpy_host_to_device()`), device-to-host transfers (`memcpy_device_to_host()`), and Tensor Core GEMM launch gateway (`launch_gemm_cuda()`).
+2. **Core Hardware Integration:** Added `probe_cuda_realm()` in `core/mimir_well.mojo` and connected `gemm_f16_gpu()` in `core/compute.mojo` to dispatch `GPURealmType.NVIDIA_CUDA` requests to `CUDAGate`.
+3. **Dedicated Test Suite & Master Suite:** Created `aesir_engine/tests/test_cuda_realm.mojo` and registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**61 passed / 0 failed / 1 skipped / Total 62**).
+
 ## ⚡ Entry 88: Stage 43.1 — Mythic Verification & Full Documentation Truth Alignment Pass
 **Date:** August 16, 2026  
 **Architectural Phase:** Mythic Verification & Full Documentation Truth Alignment Pass  

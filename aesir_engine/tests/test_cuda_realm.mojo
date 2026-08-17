@@ -59,7 +59,8 @@ def test_cuda_realm_unsupported_gateways() raises:
     try:
         gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.AMD_ROCM_HIP))
     except e:
-        if "GPU execution is not implemented for realm AMD_ROCM_HIP" in String(e):
+        var err_str = String(e)
+        if "GPU execution is not implemented for realm AMD_ROCM_HIP" in err_str or "AMD ROCm HIP GPU execution error" in err_str or "libamdhip64.so" in err_str:
             raised_rocm = True
 
     if not raised_rocm:

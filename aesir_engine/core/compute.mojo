@@ -13,6 +13,7 @@ from .mimir_well import RuneTensor, MimirWell, NPUBackendType, GPURealmType, Com
 from .cuda_gate import CUDAGate
 from .metal_gate import MetalGate
 from .intel_gate import IntelGate
+from .amd_gate import AMDGate
 
 comptime simd_w_f16 = 32
 comptime simd_w_f32 = 16
@@ -924,6 +925,10 @@ def gemm_f16_gpu(
 
     if realm.value == GPURealmType.INTEL_ONEAPI_XE:
         IntelGate.launch_gemm_intel(A, B, C)
+        return
+
+    if realm.value == GPURealmType.AMD_ROCM_HIP:
+        AMDGate.launch_gemm_amd(A, B, C)
         return
 
     raise Error(
