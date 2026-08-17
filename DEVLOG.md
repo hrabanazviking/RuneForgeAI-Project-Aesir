@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 98: Stage 53.1 — 3-Bit & 5-Bit K-Quantization (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M) (AES-QNT-006)
+**Date:** August 16, 2026  
+**Architectural Phase:** 3-Bit & 5-Bit K-Quantization (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)  
+
+The forge completed Stage 53.1 of Project Aesir (`AES-QNT-006` `verified`):
+1. **3-Bit & 5-Bit K-Block Layouts & Dequantizers:** Implemented `BlockQ3_K` and `BlockQ5_K` 256-element block layout structs with power-of-two SIMD fields (`SIMD[DType.uint8, 16] scales`) and `Copyable, ImplicitlyCopyable` traits in `core/compute.mojo`. Implemented `dequantize_q3_k_m()`, `dequantize_q3_k_s()`, `dequantize_q3_k_l()`, `dequantize_q5_k_m()`, and `dequantize_q5_k_s()`.
+2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_q3_k_m()`, `gemm_q3_k_s()`, `gemm_q3_k_l()`, `gemm_q5_k_m()`, `gemm_q5_k_s()` fused matrix-vector multiplication kernels, and connected automatic format dispatching in `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_k_quants_3_5.mojo` testing bit-for-bit mathematical output parity between fused Q3_K / Q5_K GEMM and uncompressed `gemm_f16`. Master test suite passed clean (**90 passed / 0 failed / 1 skipped / Total 91**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 97: Stage 52.1 — 8-Bit & FP8 Quantization (Q8_0, Q8_1, FP8_E4M3, FP8_E5M2) (AES-QNT-005)
 **Date:** August 16, 2026  
 **Architectural Phase:** 8-Bit & FP8 Quantization (Q8_0, Q8_1, FP8_E4M3, FP8_E5M2)  

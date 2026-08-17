@@ -90,6 +90,13 @@ from tests.test_q8_fp8_quantization import (
     test_fused_fp8_e4m3_parity,
     test_fused_fp8_e5m2_parity,
 )
+from tests.test_k_quants_3_5 import (
+    test_fused_q3_k_s_parity,
+    test_fused_q3_k_m_parity,
+    test_fused_q3_k_l_parity,
+    test_fused_q5_k_s_parity,
+    test_fused_q5_k_m_parity,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -266,6 +273,11 @@ def main() raises:
     run_case(ledger, "quantization.fused_q8_1_parity", test_fused_q8_1_parity)
     run_case(ledger, "quantization.fused_fp8_e4m3_parity", test_fused_fp8_e4m3_parity)
     run_case(ledger, "quantization.fused_fp8_e5m2_parity", test_fused_fp8_e5m2_parity)
+    run_case(ledger, "quantization.fused_q3_k_s_parity", test_fused_q3_k_s_parity)
+    run_case(ledger, "quantization.fused_q3_k_m_parity", test_fused_q3_k_m_parity)
+    run_case(ledger, "quantization.fused_q3_k_l_parity", test_fused_q3_k_l_parity)
+    run_case(ledger, "quantization.fused_q5_k_s_parity", test_fused_q5_k_s_parity)
+    run_case(ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity)
     run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
     print("")
 
@@ -333,4 +345,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(86)
+    ledger.finish(91)

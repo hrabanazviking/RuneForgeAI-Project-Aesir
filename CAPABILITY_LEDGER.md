@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 85 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 86, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 90 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 91, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 81 |
+| `verified` | 82 |
 | `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **101** |
+| **Total** | **102** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -815,6 +815,16 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `quantization.fused_q8_0_parity`, `quantization.fused_q8_1_parity`, `quantization.fused_fp8_e4m3_parity`, `quantization.fused_fp8_e5m2_parity` in `test_q8_fp8_quantization.mojo`.
 - **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q8_0, Q8_1, FP8_E4M3, FP8_E5M2 GEMM and uncompressed `gemm_f16`.
 - **Audit:** Stage 52.1 Mythic Engineering Pass.
+
+### AES-QNT-006 — K-quantization 3-bit and 5-bit block quantization transformation kernels
+
+- **Status:** `verified`
+- **Owner:** core compute domain
+- **Claim sources:** 3-bit and 5-bit K-quantization support (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)
+- **Implementation evidence:** `BlockQ3_K` and `BlockQ5_K` block structs, `dequantize_q3_k_m`, `dequantize_q3_k_s`, `dequantize_q3_k_l`, `dequantize_q5_k_m`, `dequantize_q5_k_s` block dequantizers, and `gemm_q3_k_m`, `gemm_q3_k_s`, `gemm_q3_k_l`, `gemm_q5_k_m`, `gemm_q5_k_s` fused matrix-vector multiplication kernels in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, `quantization.fused_q5_k_m_parity` in `test_k_quants_3_5.mojo`.
+- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q3_K and Q5_K GEMM kernels and uncompressed `gemm_f16`.
+- **Audit:** Stage 53.1 Mythic Engineering Pass.
 
 ## 14. Hardware and Multi-Device Execution
 
