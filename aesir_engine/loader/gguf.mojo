@@ -477,7 +477,7 @@ struct GGUFSeer:
         if tensor_type == GGMLType.F16:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             self.tensors[name] = RuneTensor[f16](rows, cols, tensor_ptr, False)
-        else:
+        elif tensor_type == GGMLType.F32:
             if pool.offset + element_count > pool.capacity:
                 raise Error("MimirWell cannot hold converted F32 normalization tensor")
             var destination = pool.allocate(element_count)
@@ -485,6 +485,10 @@ struct GGUFSeer:
             for index in range(element_count):
                 destination.unsafe_store(index, source.unsafe_load(index).cast[f16]())
             self.tensors[name] = RuneTensor[f16](rows, cols, destination, False)
+        else:
+            var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
+            var fmt = GGMLType.to_compressed_format(tensor_type)
+            self.tensors[name] = RuneTensor[f16](rows, cols, tensor_ptr, True, fmt)
         self.tensor_file_offsets[name] = absolute_offset
         self.tensor_types[name] = tensor_type
 

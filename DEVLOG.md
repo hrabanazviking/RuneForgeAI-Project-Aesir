@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 95: Stage 50.1 — Quantized GGUF Inference Vertical Slice (Q4_K_M) (AES-CMP-004/AES-GEN-002)
+**Date:** August 16, 2026  
+**Architectural Phase:** Quantized GGUF Inference Vertical Slice (Q4_K_M)  
+
+The forge completed Stage 50.1 of Project Aesir (`AES-CMP-004`/`AES-GEN-002` `partial`):
+1. **Fused Matrix-Vector Quantized Matmul Integration:** Connected fused `gemm_q4_k_m()` block dequantization kernel directly to memory-mapped quantized weight tensors mapped by `GGUFSeer`. Updated `RuneTensor` in `core/mimir_well.mojo` with `quant_format: CompressedFormatType` metadata and updated `loader/gguf.mojo` `_register_mapped_tensor()` to flag quantized weight tensors.
+2. **Copyable Block Traits:** Implemented `Copyable, ImplicitlyCopyable` traits and `__copyinit__` on `struct BlockQ4_K` in `core/compute.mojo` enabling direct SIMD pointer dereferencing and register dequantization.
+3. **Dedicated Quantized Inference Test Suite:** Created `aesir_engine/tests/test_quantized_inference.mojo` proving bit-for-bit scalar output parity between uncompressed `gemm_f16` and fused `gemm_q4_k_m` on quantized block tensors. Master test suite passed clean (**77 passed / 0 failed / 1 skipped / Total 78**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 94: Stage 49.1 — Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience (AES-ACC-008/AES-ACC-009)
 **Date:** August 16, 2026  
 **Architectural Phase:** Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience  

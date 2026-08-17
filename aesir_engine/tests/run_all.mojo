@@ -74,6 +74,10 @@ from tests.test_hardware_resilience import (
     test_non_positive_dimension_gemm_rejection,
     test_self_healing_error_barriers,
 )
+from tests.test_quantized_inference import (
+    test_gemm_q4_k_m_fused_parity,
+    test_quantized_tensor_mapping,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -241,6 +245,8 @@ def main() raises:
     run_case(
         ledger, "quantization.dispatch_writes", test_dequantization_kernels
     )
+    run_case(ledger, "quantization.fused_q4_k_m_parity", test_gemm_q4_k_m_fused_parity)
+    run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
     print("")
 
     # --- Formatter and Unsupported Ecosystem Boundaries ---
@@ -307,4 +313,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(76)
+    ledger.finish(78)

@@ -378,13 +378,15 @@ struct RuneTensor[type: DType](Copyable):
     var cols: Int
     var size: Int
     var is_quantized: Bool
+    var quant_format: CompressedFormatType
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False):
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = CompressedFormatType(CompressedFormatType.Q4_K_M)):
         self.rows = rows
         self.cols = cols
         self.size = rows * cols
         self.data = pre_allocated_ptr
         self.is_quantized = is_quantized
+        self.quant_format = quant_format.copy()
 
     def __copyinit__(out self, existing: Self):
         self.rows = existing.rows
@@ -392,10 +394,11 @@ struct RuneTensor[type: DType](Copyable):
         self.size = existing.size
         self.data = existing.data
         self.is_quantized = existing.is_quantized
+        self.quant_format = existing.quant_format.copy()
 
     @always_inline
     def copy(self) -> Self:
-        return Self(self.rows, self.cols, self.data, self.is_quantized)
+        return Self(self.rows, self.cols, self.data, self.is_quantized, self.quant_format.copy())
 
 
     @always_inline
