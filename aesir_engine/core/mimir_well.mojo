@@ -212,6 +212,9 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime SMOOTHQUANT_INT8 = 20
     comptime FP8_E4M3 = 21
     comptime FP8_E5M2 = 22
+    comptime IQ1_S = 23
+    comptime IQ2_XXS = 24
+    comptime TERNARY_155BIT = 25
 
     var value: Int
 
@@ -255,7 +258,12 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
         elif self.value == 17: return "AWQ_4BIT"
         elif self.value == 18: return "EXL2_VARBIT"
         elif self.value == 19: return "HQQ"
-        else: return "SMOOTHQUANT_INT8"
+        elif self.value == 20: return "SMOOTHQUANT_INT8"
+        elif self.value == 21: return "FP8_E4M3"
+        elif self.value == 22: return "FP8_E5M2"
+        elif self.value == 23: return "IQ1_S"
+        elif self.value == 24: return "IQ2_XXS"
+        else: return "TERNARY_155BIT"
 
 
 struct GPUBuffer(Copyable, ImplicitlyCopyable):

@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 102: Stage 57.1 — Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT) (AES-QNT-010)
+**Date:** August 16, 2026  
+**Architectural Phase:** Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT)  
+
+The forge completed Stage 57.1 of Project Aesir (`AES-QNT-010` `verified`):
+1. **1-Bit & Ternary Block Layouts & Dequantizers:** Implemented `BlockIQ1_S`, `BlockIQ2_XXS`, and `BlockTernary158` block structs with `Copyable, ImplicitlyCopyable` traits in `core/compute.mojo`. Implemented `dequantize_iq1_s_block()`, `dequantize_iq2_xxs_block()`, and `dequantize_ternary_158_block()`.
+2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_iq1_s()`, `gemm_iq2_xxs()`, and `gemm_ternary_158()` fused matrix-vector multiplication kernels, and connected automatic format dispatching in `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_extreme_quants.mojo` testing bit-for-bit mathematical output parity against uncompressed `gemm_f16`. Master test suite passed clean (**105 passed / 0 failed / 1 skipped / Total 106**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 101: Stage 56.1 — GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization (AES-QNT-009)
 **Date:** August 16, 2026  
 **Architectural Phase:** GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization  

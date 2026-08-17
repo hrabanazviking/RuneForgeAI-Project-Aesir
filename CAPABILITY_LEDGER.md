@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 102 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 103, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 105 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 106, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 85 |
+| `verified` | 86 |
 | `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **105** |
+| **Total** | **106** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -855,6 +855,16 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `quantization.fused_gptq_4bit_parity`, `quantization.fused_gptq_8bit_parity`, `quantization.fused_awq_4bit_parity`, `quantization.fused_exl2_parity`, `quantization.fused_hqq_parity`, `quantization.fused_smoothquant_int8_parity` in `test_gptq_awq_quantization.mojo`.
 - **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused GPTQ/AWQ/EXL2/HQQ/SmoothQuant GEMM kernels and uncompressed `gemm_f16`.
 - **Audit:** Stage 56.1 Mythic Engineering Pass.
+
+### AES-QNT-010 — Ternary and 1-bit extreme quantization transformation kernels
+
+- **Status:** `verified`
+- **Owner:** core compute domain
+- **Claim sources:** 1-bit and BitNet 1.58-bit ternary quantization support (IQ1_S, IQ2_XXS, TERNARY_155BIT)
+- **Implementation evidence:** `BlockIQ1_S`, `BlockIQ2_XXS`, and `BlockTernary158` block structs, `dequantize_iq1_s_block`, `dequantize_iq2_xxs_block`, `dequantize_ternary_158_block` dequantizers, and `gemm_iq1_s`, `gemm_iq2_xxs`, `gemm_ternary_158` fused matrix-vector multiplication kernels in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_iq1_s_parity`, `quantization.fused_iq2_xxs_parity`, `quantization.fused_ternary_158_parity` in `test_extreme_quants.mojo`.
+- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused extreme quantization GEMM kernels and uncompressed `gemm_f16`.
+- **Audit:** Stage 57.1 Mythic Engineering Pass.
 
 ## 14. Hardware and Multi-Device Execution
 

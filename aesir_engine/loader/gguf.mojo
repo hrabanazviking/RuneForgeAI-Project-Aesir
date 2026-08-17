@@ -71,6 +71,12 @@ struct GGMLType:
             return CompressedFormatType(CompressedFormatType.HQQ)
         elif ggml_type == 24:
             return CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8)
+        elif ggml_type == 25:
+            return CompressedFormatType(CompressedFormatType.IQ1_S)
+        elif ggml_type == 19:
+            return CompressedFormatType(CompressedFormatType.IQ2_XXS)
+        elif ggml_type == 27:
+            return CompressedFormatType(CompressedFormatType.TERNARY_155BIT)
         return CompressedFormatType(CompressedFormatType.Q4_K_M)
 
 
