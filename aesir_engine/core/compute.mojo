@@ -161,12 +161,42 @@ struct BlockQ5_K(Copyable, ImplicitlyCopyable):
         self.d = d
         self.dmin = dmin
 
+struct BlockQ2_K(Copyable, ImplicitlyCopyable):
+    var scales: SIMD[DType.uint8, 16]
+    var qs: SIMD[DType.uint8, 64]
+    var d: Scalar[f16]
+    var dmin: Scalar[f16]
+
+    def __init__(out self, scales: SIMD[DType.uint8, 16], qs: SIMD[DType.uint8, 64], d: Scalar[f16], dmin: Scalar[f16]):
+        self.scales = scales
+        self.qs = qs
+        self.d = d
+        self.dmin = dmin
+
     def __copyinit__(out self, existing: Self):
-        self.hmask = existing.hmask
-        self.qs = existing.qs
         self.scales = existing.scales
+        self.qs = existing.qs
         self.d = existing.d
         self.dmin = existing.dmin
+
+
+struct BlockQ6_K(Copyable, ImplicitlyCopyable):
+    var ql: SIMD[DType.uint8, 128]
+    var qh: SIMD[DType.uint8, 64]
+    var scales: SIMD[DType.int8, 16]
+    var d: Scalar[f16]
+
+    def __init__(out self, ql: SIMD[DType.uint8, 128], qh: SIMD[DType.uint8, 64], scales: SIMD[DType.int8, 16], d: Scalar[f16]):
+        self.ql = ql
+        self.qh = qh
+        self.scales = scales
+        self.d = d
+
+    def __copyinit__(out self, existing: Self):
+        self.ql = existing.ql
+        self.qh = existing.qh
+        self.scales = existing.scales
+        self.d = existing.d
 
 
 @always_inline
@@ -411,6 +441,50 @@ def dequantize_q5_k_s(block_ptr: Pointer[BlockQ5_K, MutUntrackedOrigin], out_ptr
 
 
 @always_inline
+def dequantize_q2_k_block(block_ptr: Pointer[BlockQ2_K, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int):
+    if num_blocks <= 0:
+        return
+    for b in range(num_blocks):
+        var blk = block_ptr.unsafe_offset(b)[]
+        var d = blk.d
+        var dmin = blk.dmin
+        var out_offset = b * 256
+        var qs = blk.qs
+        for i in range(64):
+            var byte_val = qs[i]
+            var q0 = Scalar[f16](byte_val & 0x03) * d * 0.25 + dmin
+            var q1 = Scalar[f16]((byte_val >> 2) & 0x03) * d * 0.25 + dmin
+            var q2 = Scalar[f16]((byte_val >> 4) & 0x03) * d * 0.25 + dmin
+            var q3 = Scalar[f16]((byte_val >> 6) & 0x03) * d * 0.25 + dmin
+            out_ptr.unsafe_store(out_offset + i * 4, q0)
+            out_ptr.unsafe_store(out_offset + i * 4 + 1, q1)
+            out_ptr.unsafe_store(out_offset + i * 4 + 2, q2)
+            out_ptr.unsafe_store(out_offset + i * 4 + 3, q3)
+
+
+@always_inline
+def dequantize_q6_k_block(block_ptr: Pointer[BlockQ6_K, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int):
+    if num_blocks <= 0:
+        return
+    for b in range(num_blocks):
+        var blk = block_ptr.unsafe_offset(b)[]
+        var d = blk.d
+        var out_offset = b * 256
+        var ql = blk.ql
+        var qh = blk.qh
+        for i in range(128):
+            var q_lo = Scalar[f16](ql[i] & 0x0F)
+            var h_bit_lo = Scalar[f16]((qh[i // 2] >> Scalar[DType.uint8](0 if i % 2 == 0 else 2)) & 3)
+            var q6_lo = (q_lo + h_bit_lo * 16.0) - 32.0
+            out_ptr.unsafe_store(out_offset + i, q6_lo * d * 0.0625)
+
+            var q_hi = Scalar[f16]((ql[i] >> 4) & 0x0F)
+            var h_bit_hi = Scalar[f16]((qh[(i + 128) // 2] >> Scalar[DType.uint8](4 if (i + 128) % 2 == 0 else 6)) & 3)
+            var q6_hi = (q_hi + h_bit_hi * 16.0) - 32.0
+            out_ptr.unsafe_store(out_offset + 128 + i, q6_hi * d * 0.0625)
+
+
+@always_inline
 def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int):
     """
     ᚴᛏᚹᛟ·ᚲ — The Strike of the Twofold Rune (Q2_K Dequantization)
@@ -610,10 +684,17 @@ def dequantize_compressed_tensor(
     based on the format discriminant across all 21 compressed formats.
     """
     if format.value == CompressedFormatType.Q2_K:
-        dequantize_q2_k(data, out_ptr, num_elements)
+        if num_elements < 256:
+            dequantize_q2_k(data, out_ptr, num_elements)
+        else:
+            var block_ptr = data.unsafe_bitcast[BlockQ2_K]()
+            dequantize_q2_k_block(block_ptr, out_ptr, num_elements // 256)
     elif format.value == CompressedFormatType.Q3_K_S or format.value == CompressedFormatType.Q3_K_M or format.value == CompressedFormatType.Q3_K_L:
-        var block_ptr = data.unsafe_bitcast[BlockQ3_K]()
-        dequantize_q3_k_m(block_ptr, out_ptr, num_elements // 256)
+        if num_elements < 256:
+            dequantize_q3_k(data, out_ptr, num_elements)
+        else:
+            var block_ptr = data.unsafe_bitcast[BlockQ3_K]()
+            dequantize_q3_k_m(block_ptr, out_ptr, num_elements // 256)
     elif format.value == CompressedFormatType.Q5_K_S or format.value == CompressedFormatType.Q5_K_M:
         var block_ptr = data.unsafe_bitcast[BlockQ5_K]()
         dequantize_q5_k_m(block_ptr, out_ptr, num_elements // 256)
@@ -630,7 +711,11 @@ def dequantize_compressed_tensor(
         var block_ptr = data.unsafe_bitcast[BlockQ5_1]()
         dequantize_q5_1(block_ptr, out_ptr, num_elements // 32)
     elif format.value == CompressedFormatType.Q6_K:
-        dequantize_q6_k(data, out_ptr, num_elements)
+        if num_elements < 256:
+            dequantize_q6_k(data, out_ptr, num_elements)
+        else:
+            var block_ptr = data.unsafe_bitcast[BlockQ6_K]()
+            dequantize_q6_k_block(block_ptr, out_ptr, num_elements // 256)
     elif format.value == CompressedFormatType.Q8_0:
         var block_ptr = data.unsafe_bitcast[BlockQ8_0]()
         dequantize_q8_0(block_ptr, out_ptr, num_elements // 32)
@@ -963,6 +1048,93 @@ def gemm_fp8_e5m2(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
             C.set(row, output_index, sum.cast[f16]())
 
 
+def gemm_q2_k(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_q2_k: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_q2_k: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_q2_k: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var blocks_per_row = shared_dim // 256
+    var block_base = B.data.unsafe_bitcast[BlockQ2_K]()
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_block_offset = output_index * blocks_per_row
+            for b in range(blocks_per_row):
+                var blk = block_base.unsafe_offset(row_block_offset + b)[]
+                var d = blk.d
+                var dmin = blk.dmin
+                var qs = blk.qs
+                var col_idx = b * 256
+                for i in range(64):
+                    var byte_val = qs[i]
+                    var a0 = A.data.unsafe_load(row * shared_dim + col_idx + i * 4).cast[f32]()
+                    var w0 = (Scalar[f16](byte_val & 0x03) * d * 0.25 + dmin).cast[f32]()
+                    sum += a0 * w0
+
+                    var a1 = A.data.unsafe_load(row * shared_dim + col_idx + i * 4 + 1).cast[f32]()
+                    var w1 = (Scalar[f16]((byte_val >> 2) & 0x03) * d * 0.25 + dmin).cast[f32]()
+                    sum += a1 * w1
+
+                    var a2 = A.data.unsafe_load(row * shared_dim + col_idx + i * 4 + 2).cast[f32]()
+                    var w2 = (Scalar[f16]((byte_val >> 4) & 0x03) * d * 0.25 + dmin).cast[f32]()
+                    sum += a2 * w2
+
+                    var a3 = A.data.unsafe_load(row * shared_dim + col_idx + i * 4 + 3).cast[f32]()
+                    var w3 = (Scalar[f16]((byte_val >> 6) & 0x03) * d * 0.25 + dmin).cast[f32]()
+                    sum += a3 * w3
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_q6_k(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_q6_k: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_q6_k: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_q6_k: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var blocks_per_row = shared_dim // 256
+    var block_base = B.data.unsafe_bitcast[BlockQ6_K]()
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_block_offset = output_index * blocks_per_row
+            for b in range(blocks_per_row):
+                var blk = block_base.unsafe_offset(row_block_offset + b)[]
+                var d = blk.d
+                var ql = blk.ql
+                var qh = blk.qh
+                var col_idx = b * 256
+                for i in range(128):
+                    var a_lo = A.data.unsafe_load(row * shared_dim + col_idx + i).cast[f32]()
+                    var q_lo = Scalar[f16](ql[i] & 0x0F)
+                    var h_bit_lo = Scalar[f16]((qh[i // 2] >> Scalar[DType.uint8](0 if i % 2 == 0 else 2)) & 3)
+                    var w_lo = (((q_lo + h_bit_lo * 16.0) - 32.0) * d * 0.0625).cast[f32]()
+                    sum += a_lo * w_lo
+
+                    var a_hi = A.data.unsafe_load(row * shared_dim + col_idx + 128 + i).cast[f32]()
+                    var q_hi = Scalar[f16]((ql[i] >> 4) & 0x0F)
+                    var h_bit_hi = Scalar[f16]((qh[(i + 128) // 2] >> Scalar[DType.uint8](4 if (i + 128) % 2 == 0 else 6)) & 3)
+                    var w_hi = (((q_hi + h_bit_hi * 16.0) - 32.0) * d * 0.0625).cast[f32]()
+                    sum += a_hi * w_hi
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
 def gemm_q3_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
     if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
         raise Error("gemm_q3_k_m: matrix dimensions must be positive")
@@ -1140,6 +1312,12 @@ def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) rai
             return
         elif B.quant_format.value == CompressedFormatType.Q5_K_S or B.quant_format.value == CompressedFormatType.Q5_K_M:
             gemm_q5_k_m(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.Q2_K:
+            gemm_q2_k(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.Q6_K:
+            gemm_q6_k(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.Q4_K_M:
             gemm_q4_k_m(A, B, C)

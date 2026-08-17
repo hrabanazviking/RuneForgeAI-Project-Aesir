@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 100: Stage 55.1 — 2-Bit & 6-Bit K-Quantization (Q2_K, Q6_K) (AES-QNT-008)
+**Date:** August 16, 2026  
+**Architectural Phase:** 2-Bit & 6-Bit K-Quantization (Q2_K, Q6_K)  
+
+The forge completed Stage 55.1 of Project Aesir (`AES-QNT-008` `verified`):
+1. **2-Bit & 6-Bit K-Block Layouts & Dequantizers:** Implemented `BlockQ2_K` and `BlockQ6_K` 256-element block layout structs with `Copyable, ImplicitlyCopyable` traits in `core/compute.mojo`. Implemented `dequantize_q2_k_block()` and `dequantize_q6_k_block()`, with small-element fallback in `dequantize_compressed_tensor()`.
+2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_q2_k()` and `gemm_q6_k()` fused matrix-vector multiplication kernels, and connected automatic format dispatching in `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_k_quants_2_6.mojo` testing bit-for-bit mathematical output parity between fused Q2_K / Q6_K GEMM and uncompressed `gemm_f16`. Master test suite passed clean (**96 passed / 0 failed / 1 skipped / Total 97**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 99: Stage 54.1 — Quantization System Hardening, Error-Correcting & Self-Healing (AES-QNT-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** Quantization System Hardening, Error-Correcting & Self-Healing  
