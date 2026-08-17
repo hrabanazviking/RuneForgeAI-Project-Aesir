@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 101: Stage 56.1 — GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization (AES-QNT-009)
+**Date:** August 16, 2026  
+**Architectural Phase:** GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization  
+
+The forge completed Stage 56.1 of Project Aesir (`AES-QNT-009` `verified`):
+1. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_gptq_4bit()`, `gemm_gptq_8bit()`, `gemm_awq_4bit()`, `gemm_exl2()`, `gemm_hqq()`, and `gemm_smoothquant_int8()` fused matrix-vector multiplication kernels in `core/compute.mojo`.
+2. **Automatic Dispatching in GEMM Gateway:** Connected format dispatches for GPTQ_4BIT, GPTQ_8BIT, AWQ_4BIT, EXL2_VARBIT, HQQ, and SMOOTHQUANT_INT8 directly into `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_gptq_awq_quantization.mojo` testing bit-for-bit mathematical output parity against uncompressed `gemm_f16`. Master test suite passed clean (**102 passed / 0 failed / 1 skipped / Total 103**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 100: Stage 55.1 — 2-Bit & 6-Bit K-Quantization (Q2_K, Q6_K) (AES-QNT-008)
 **Date:** August 16, 2026  
 **Architectural Phase:** 2-Bit & 6-Bit K-Quantization (Q2_K, Q6_K)  

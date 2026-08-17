@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 96 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 97, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 102 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 103, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 84 |
+| `verified` | 85 |
 | `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **104** |
+| **Total** | **105** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -845,6 +845,16 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity`, `quantization.fused_q6_k_parity` in `test_k_quants_2_6.mojo`.
 - **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q2_K and Q6_K GEMM kernels and uncompressed `gemm_f16`.
 - **Audit:** Stage 55.1 Mythic Engineering Pass.
+
+### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels
+
+- **Status:** `verified`
+- **Owner:** core compute domain
+- **Claim sources:** GPTQ, AWQ, EXL2, HQQ, and SmoothQuant 4-bit/8-bit support (GPTQ_4BIT, GPTQ_8BIT, AWQ_4BIT, EXL2_VARBIT, HQQ, SMOOTHQUANT_INT8)
+- **Implementation evidence:** `gemm_gptq_4bit`, `gemm_gptq_8bit`, `gemm_awq_4bit`, `gemm_exl2`, `gemm_hqq`, and `gemm_smoothquant_int8` fused matrix-vector multiplication kernels and automatic format dispatches in `gemm_f16()` in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_gptq_4bit_parity`, `quantization.fused_gptq_8bit_parity`, `quantization.fused_awq_4bit_parity`, `quantization.fused_exl2_parity`, `quantization.fused_hqq_parity`, `quantization.fused_smoothquant_int8_parity` in `test_gptq_awq_quantization.mojo`.
+- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused GPTQ/AWQ/EXL2/HQQ/SmoothQuant GEMM kernels and uncompressed `gemm_f16`.
+- **Audit:** Stage 56.1 Mythic Engineering Pass.
 
 ## 14. Hardware and Multi-Device Execution
 

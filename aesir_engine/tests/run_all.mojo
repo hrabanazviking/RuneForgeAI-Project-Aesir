@@ -101,6 +101,14 @@ from tests.test_k_quants_2_6 import (
     test_fused_q2_k_parity,
     test_fused_q6_k_parity,
 )
+from tests.test_gptq_awq_quantization import (
+    test_fused_gptq_4bit_parity,
+    test_fused_gptq_8bit_parity,
+    test_fused_awq_4bit_parity,
+    test_fused_exl2_parity,
+    test_fused_hqq_parity,
+    test_fused_smoothquant_int8_parity,
+)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -290,6 +298,12 @@ def main() raises:
     run_case(ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity)
     run_case(ledger, "quantization.fused_q2_k_parity", test_fused_q2_k_parity)
     run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
+    run_case(ledger, "quantization.fused_gptq_4bit_parity", test_fused_gptq_4bit_parity)
+    run_case(ledger, "quantization.fused_gptq_8bit_parity", test_fused_gptq_8bit_parity)
+    run_case(ledger, "quantization.fused_awq_4bit_parity", test_fused_awq_4bit_parity)
+    run_case(ledger, "quantization.fused_exl2_parity", test_fused_exl2_parity)
+    run_case(ledger, "quantization.fused_hqq_parity", test_fused_hqq_parity)
+    run_case(ledger, "quantization.fused_smoothquant_int8_parity", test_fused_smoothquant_int8_parity)
     run_case(ledger, "quantization.hardening_zero_and_null_bounds", test_dequantizer_zero_and_null_bounds)
     run_case(ledger, "quantization.hardening_invalid_dimensions", test_gemm_invalid_dimensions_rejection)
     run_case(ledger, "quantization.hardening_unrecognized_format", test_unrecognized_format_self_healing)
@@ -361,4 +375,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(97)
+    ledger.finish(103)

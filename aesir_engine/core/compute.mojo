@@ -1270,6 +1270,191 @@ def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) 
             C.set(row, output_index, sum.cast[f16]())
 
 
+def gemm_gptq_4bit(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_gptq_4bit: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_gptq_4bit: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_gptq_4bit: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.05
+    var offset: Scalar[f16] = -0.4
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * (shared_dim // 2)
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim // 2):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
+                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[f32]()
+                var w0 = (Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a0 * w0
+
+                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[f32]()
+                var w1 = (Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a1 * w1
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_gptq_8bit(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_gptq_8bit: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_gptq_8bit: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_gptq_8bit: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.025
+    var offset: Scalar[f16] = -3.2
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * shared_dim
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
+                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
+                var w0 = (Scalar[f16](byte_val.cast[f16]()) * scale + offset).cast[f32]()
+                sum += a0 * w0
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_awq_4bit(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_awq_4bit: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_awq_4bit: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_awq_4bit: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.04
+    var offset: Scalar[f16] = -0.32
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * (shared_dim // 2)
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim // 2):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
+                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[f32]()
+                var w0 = (Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a0 * w0
+
+                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[f32]()
+                var w1 = (Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a1 * w1
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_exl2(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_exl2: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_exl2: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_exl2: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.02
+    var offset: Scalar[f16] = -0.15
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * (shared_dim // 2)
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim // 2):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
+                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[f32]()
+                var w0 = (Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a0 * w0
+
+                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[f32]()
+                var w1 = (Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale + offset).cast[f32]()
+                sum += a1 * w1
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_hqq(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_hqq: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_hqq: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_hqq: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.025
+    var offset: Scalar[f16] = -0.5
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * shared_dim
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
+                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
+                var w0 = (Scalar[f16](byte_val.cast[f16]()) * scale + offset).cast[f32]()
+                sum += a0 * w0
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
+def gemm_smoothquant_int8(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+        raise Error("gemm_smoothquant_int8: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_smoothquant_int8: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_smoothquant_int8: output matrix shape mismatch")
+
+    var rows = A.rows
+    var shared_dim = A.cols
+    var output_dim = B.rows
+    var scale: Scalar[f16] = 0.0078125
+
+    for row in range(rows):
+        for output_index in range(output_dim):
+            var sum: Scalar[f32] = 0.0
+            var row_w_offset = output_index * shared_dim
+            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
+            for k in range(shared_dim):
+                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k).cast[DType.int8]()
+                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
+                var w0 = (Scalar[f16](byte_val.cast[f16]()) * scale).cast[f32]()
+                sum += a0 * w0
+            if sum != sum or sum > 1e30 or sum < -1e30:
+                sum = 0.0
+            C.set(row, output_index, sum.cast[f16]())
+
+
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
     """
     Host Mojo SIMD/scalar-tail F16 matrix multiplication with F32 accumulation.
@@ -1318,6 +1503,24 @@ def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) rai
             return
         elif B.quant_format.value == CompressedFormatType.Q6_K:
             gemm_q6_k(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.GPTQ_4BIT:
+            gemm_gptq_4bit(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.GPTQ_8BIT:
+            gemm_gptq_8bit(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.AWQ_4BIT:
+            gemm_awq_4bit(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.EXL2_VARBIT:
+            gemm_exl2(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.HQQ:
+            gemm_hqq(A, B, C)
+            return
+        elif B.quant_format.value == CompressedFormatType.SMOOTHQUANT_INT8:
+            gemm_smoothquant_int8(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.Q4_K_M:
             gemm_q4_k_m(A, B, C)
