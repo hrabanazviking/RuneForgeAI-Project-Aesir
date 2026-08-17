@@ -11,6 +11,7 @@ from std.algorithm import vectorize
 
 from .mimir_well import RuneTensor, MimirWell, NPUBackendType, GPURealmType, CompressedFormatType, f16, f32, int4
 from .cuda_gate import CUDAGate
+from .metal_gate import MetalGate
 
 comptime simd_w_f16 = 32
 comptime simd_w_f32 = 16
@@ -914,6 +915,10 @@ def gemm_f16_gpu(
     """
     if realm.value == GPURealmType.NVIDIA_CUDA:
         CUDAGate.launch_gemm_cuda(A, B, C)
+        return
+
+    if realm.value == GPURealmType.ARM_MALI_OPENCL:
+        MetalGate.launch_gemm_metal(A, B, C)
         return
 
     raise Error(

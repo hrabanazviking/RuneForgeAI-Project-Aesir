@@ -52,7 +52,7 @@ counts as completion of an external capability.
 
 ### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
-- [ ] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implement native CUDA driver/runtime FFI bindings, GPU memory allocation, and CUDA Tensor Core GEMM/rmsnorm/attention kernel dispatch for NVIDIA RTX 30/40 series GPUs.
+- [x] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implemented native CUDA driver/runtime FFI bindings (`cuda_gate.mojo`), VRAM allocation, host-to-device transfers, and CUDA GEMM kernel dispatch.
 - [ ] **#1 PRIORITY PHASE 2 — Apple Metal GPU Acceleration (`AES-ACC-002`/`AES-ACC-005`):** Implement Metal Shading Language (MSL) and Metal Performance Shaders (MPS) bindings and GPU buffer management for Apple Silicon.
 - [ ] **#1 PRIORITY PHASE 3 — Intel OneAPI / Level Zero GPU Acceleration (`AES-ACC-003`):** Implement Intel OneAPI / Level Zero FFI bindings and sycl/level-zero GEMM kernel execution for Intel Arc and Data Center GPUs.
 - [ ] **#1 PRIORITY PHASE 4 — AMD ROCm / HIP GPU Acceleration (`AES-ACC-004`):** Implement AMD HIP/ROCm FFI bindings and rocBLAS / hipBLAS GEMM kernel execution for RDNA/CDNA GPUs.

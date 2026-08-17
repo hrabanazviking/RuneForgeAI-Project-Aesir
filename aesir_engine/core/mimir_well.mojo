@@ -697,6 +697,13 @@ struct DeviceTopology(Copyable):
         if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
             self.gpu_realms.append(GPURealmType(GPURealmType.NVIDIA_CUDA))
 
+    def probe_metal_realm(mut self):
+        """Runtime probe for Apple Metal GPU realm."""
+        self.gpu_realms.clear()
+        from core.metal_gate import MetalGate
+        if MetalGate.is_available() and MetalGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.ARM_MALI_OPENCL))
+
 
 
 
