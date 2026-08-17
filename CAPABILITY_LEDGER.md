@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 90 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 91, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 94 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 95, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 82 |
+| `verified` | 83 |
 | `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **102** |
+| **Total** | **103** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -825,6 +825,16 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, `quantization.fused_q5_k_m_parity` in `test_k_quants_3_5.mojo`.
 - **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q3_K and Q5_K GEMM kernels and uncompressed `gemm_f16`.
 - **Audit:** Stage 53.1 Mythic Engineering Pass.
+
+### AES-QNT-007 — Quantization system crash-proofing, error-correcting, and self-healing boundaries
+
+- **Status:** `verified`
+- **Owner:** core compute domain
+- **Claim sources:** Quantization system crash-proofing, error-correcting, and self-healing boundaries
+- **Implementation evidence:** Zero/negative block & null pointer guards in `dequantize_compressed_tensor`, `dequantize_q4_k_m`, `dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q5_1`, `dequantize_q8_0`, `dequantize_q8_1`, `dequantize_fp8_e4m3`, `dequantize_fp8_e5m2`, `dequantize_q3_k_m`, `dequantize_q5_k_m`, non-positive matrix dimension guards across all fused GEMM kernels, self-healing format dispatch fallbacks in `gemm_f16()` and `dequantize_compressed_tensor()`, and FP8 NaN weight sanitization in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.hardening_zero_and_null_bounds`, `quantization.hardening_invalid_dimensions`, `quantization.hardening_unrecognized_format`, `quantization.hardening_nan_sanitization` in `test_quantization_hardening.mojo`.
+- **Evidence boundary:** Verified zero crashes on zero/null bounds, rejected invalid GEMM shapes, self-healed unrecognized format discriminants without crashing, and sanitized FP8 NaN bit patterns.
+- **Audit:** Stage 54.1 Mythic Engineering Pass.
 
 ## 14. Hardware and Multi-Device Execution
 

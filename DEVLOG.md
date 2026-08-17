@@ -3,6 +3,16 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 99: Stage 54.1 — Quantization System Hardening, Error-Correcting & Self-Healing (AES-QNT-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** Quantization System Hardening, Error-Correcting & Self-Healing  
+
+The forge completed Stage 54.1 of Project Aesir (`AES-QNT-007` `verified`):
+1. **Crash-Proof Bounds & Pointer Protection:** Enforced zero/negative element count early returns and null pointer guards across all 15+ block dequantization routines and fused GEMM kernels in `core/compute.mojo`.
+2. **Self-Healing Fallback Dispatching:** Connected self-healing format dispatch fallbacks in `gemm_f16()` and `dequantize_compressed_tensor()` for unrecognized or corrupted format discriminants, preventing process crashes or out-of-bounds reads.
+3. **NaN Sanitization & Error Correction:** Implemented FP8 and quantized NaN weight pattern sanitization to prevent NaN propagation to model activations or logits.
+4. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_quantization_hardening.mojo` testing crash-proofing, invalid dimension rejection, self-healing fallbacks, and NaN sanitization. Master test suite passed clean (**94 passed / 0 failed / 1 skipped / Total 95**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 98: Stage 53.1 — 3-Bit & 5-Bit K-Quantization (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M) (AES-QNT-006)
 **Date:** August 16, 2026  
 **Architectural Phase:** 3-Bit & 5-Bit K-Quantization (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)  

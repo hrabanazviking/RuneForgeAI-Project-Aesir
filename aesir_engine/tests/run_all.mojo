@@ -97,6 +97,12 @@ from tests.test_k_quants_3_5 import (
     test_fused_q5_k_s_parity,
     test_fused_q5_k_m_parity,
 )
+from tests.test_quantization_hardening import (
+    test_dequantizer_zero_and_null_bounds,
+    test_gemm_invalid_dimensions_rejection,
+    test_unrecognized_format_self_healing,
+    test_nan_corrupt_weight_sanitization,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -278,6 +284,10 @@ def main() raises:
     run_case(ledger, "quantization.fused_q3_k_l_parity", test_fused_q3_k_l_parity)
     run_case(ledger, "quantization.fused_q5_k_s_parity", test_fused_q5_k_s_parity)
     run_case(ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity)
+    run_case(ledger, "quantization.hardening_zero_and_null_bounds", test_dequantizer_zero_and_null_bounds)
+    run_case(ledger, "quantization.hardening_invalid_dimensions", test_gemm_invalid_dimensions_rejection)
+    run_case(ledger, "quantization.hardening_unrecognized_format", test_unrecognized_format_self_healing)
+    run_case(ledger, "quantization.hardening_nan_sanitization", test_nan_corrupt_weight_sanitization)
     run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
     print("")
 
@@ -345,4 +355,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(91)
+    ledger.finish(95)
