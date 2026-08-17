@@ -95,6 +95,8 @@ struct MetalGate:
         """
         Launch Metal Performance Shaders (MPS) GEMM kernel or fallback safely with explicit Metal error.
         """
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+            raise Error("MetalGate.launch_gemm_metal: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("MetalGate.launch_gemm_metal: GEMM shape mismatch")
 

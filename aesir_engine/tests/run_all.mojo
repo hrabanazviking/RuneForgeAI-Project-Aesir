@@ -69,6 +69,11 @@ from tests.test_npu_realm import (
     test_npu_gemm_dispatch_bounds,
     test_npu_realm_unsupported_gateways,
 )
+from tests.test_hardware_resilience import (
+    test_non_positive_allocation_rejection,
+    test_non_positive_dimension_gemm_rejection,
+    test_self_healing_error_barriers,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -214,6 +219,9 @@ def main() raises:
     run_case(ledger, "gpu.amd_gate_availability", test_amd_gate_availability)
     run_case(ledger, "gpu.amd_gemm_dispatch_bounds", test_amd_gemm_dispatch_bounds)
     run_case(ledger, "gpu.amd_realm_unsupported_gateways", test_amd_realm_unsupported_gateways)
+    run_case(ledger, "gpu.resilience_allocation_rejection", test_non_positive_allocation_rejection)
+    run_case(ledger, "gpu.resilience_dimension_rejection", test_non_positive_dimension_gemm_rejection)
+    run_case(ledger, "gpu.resilience_error_barriers", test_self_healing_error_barriers)
     print("")
 
     # --- Implemented CLI and Unsupported Boundaries ---
@@ -299,4 +307,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(73)
+    ledger.finish(76)

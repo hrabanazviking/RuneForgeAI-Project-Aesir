@@ -118,6 +118,8 @@ struct CUDAGate:
         """
         Launch CUDA GEMM kernel on target NVIDIA hardware or fallback safely with explicit CUDA error.
         """
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+            raise Error("CUDAGate.launch_gemm_cuda: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("CUDAGate.launch_gemm_cuda: GEMM shape mismatch")
 

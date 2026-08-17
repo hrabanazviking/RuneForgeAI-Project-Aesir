@@ -119,6 +119,8 @@ struct AMDGate:
         """
         Launch hipBLAS GEMM kernel on target AMD hardware or fallback safely with explicit HIP error.
         """
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+            raise Error("AMDGate.launch_gemm_amd: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("AMDGate.launch_gemm_amd: GEMM shape mismatch")
 

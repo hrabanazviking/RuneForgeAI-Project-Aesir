@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 94: Stage 49.1 — Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience (AES-ACC-008/AES-ACC-009)
+**Date:** August 16, 2026  
+**Architectural Phase:** Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience  
+
+The forge completed Stage 49.1 of Project Aesir (`AES-ACC-008`/`AES-ACC-009` `verified`):
+1. **Hardened Hardware Gateways:** Hardened all 5 GPU and NPU hardware acceleration gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict parameter bounds validation, non-positive allocation size rejection (`size_bytes <= 0 -> raises Error`), non-positive matrix dimension rejection (`rows <= 0` or `cols <= 0`), null pointer checks, and self-healing try-catch VRAM memory reclamation.
+2. **Dedicated Resilience Suite:** Created `aesir_engine/tests/test_hardware_resilience.mojo` testing non-positive allocation rejection, GEMM dimension rejection, self-healing memory reclamation, and error trapping under hardware fault conditions.
+3. **Master Test Suite & Audit:** Registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**75 passed / 0 failed / 1 skipped / Total 76**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 93: Stage 48.1 — Major Edge & Desktop NPU Acceleration Integration (AES-ACC-006/AES-ACC-007)
 **Date:** August 16, 2026  
 **Architectural Phase:** Major Edge & Desktop NPU Acceleration Integration  

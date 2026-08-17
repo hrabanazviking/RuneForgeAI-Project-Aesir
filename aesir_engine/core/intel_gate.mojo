@@ -119,6 +119,8 @@ struct IntelGate:
         """
         Launch Intel Level Zero GEMM kernel on target Intel hardware or fallback safely with explicit Level Zero error.
         """
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+            raise Error("IntelGate.launch_gemm_intel: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("IntelGate.launch_gemm_intel: GEMM shape mismatch")
 

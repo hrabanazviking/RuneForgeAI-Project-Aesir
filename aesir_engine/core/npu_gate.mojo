@@ -114,6 +114,8 @@ struct NPUGate:
         """
         Launch GEMM tensor kernel on target NPU hardware or fallback safely with explicit NPU error.
         """
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+            raise Error("NPUGate.launch_gemm_npu: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("NPUGate.launch_gemm_npu: GEMM shape mismatch")
 
