@@ -27,6 +27,7 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     comptime JETSON_NVIDIA = 3
     comptime APPLE_NEURAL_ENGINE = 4
     comptime GENERIC_NPU = 5
+    comptime INTEL_NPU = 6
 
     var value: Int
 
@@ -67,6 +68,8 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
             return "JETSON_NVIDIA"
         elif self.value == 4:
             return "APPLE_NEURAL_ENGINE"
+        elif self.value == 6:
+            return "INTEL_NPU"
         else:
             return "GENERIC_NPU"
 
@@ -207,6 +210,11 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime EXL2_VARBIT = 18
     comptime HQQ = 19
     comptime SMOOTHQUANT_INT8 = 20
+    comptime FP8_E4M3 = 21
+    comptime FP8_E5M2 = 22
+    comptime IQ1_S = 23
+    comptime IQ2_XXS = 24
+    comptime TERNARY_155BIT = 25
 
     var value: Int
 
@@ -250,7 +258,12 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
         elif self.value == 17: return "AWQ_4BIT"
         elif self.value == 18: return "EXL2_VARBIT"
         elif self.value == 19: return "HQQ"
-        else: return "SMOOTHQUANT_INT8"
+        elif self.value == 20: return "SMOOTHQUANT_INT8"
+        elif self.value == 21: return "FP8_E4M3"
+        elif self.value == 22: return "FP8_E5M2"
+        elif self.value == 23: return "IQ1_S"
+        elif self.value == 24: return "IQ2_XXS"
+        else: return "TERNARY_155BIT"
 
 
 struct GPUBuffer(Copyable, ImplicitlyCopyable):
@@ -375,13 +388,15 @@ struct RuneTensor[type: DType](Copyable):
     var cols: Int
     var size: Int
     var is_quantized: Bool
+    var quant_format: CompressedFormatType
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False):
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = CompressedFormatType(CompressedFormatType.Q4_K_M)):
         self.rows = rows
         self.cols = cols
         self.size = rows * cols
         self.data = pre_allocated_ptr
         self.is_quantized = is_quantized
+        self.quant_format = quant_format.copy()
 
     def __copyinit__(out self, existing: Self):
         self.rows = existing.rows
@@ -389,10 +404,11 @@ struct RuneTensor[type: DType](Copyable):
         self.size = existing.size
         self.data = existing.data
         self.is_quantized = existing.is_quantized
+        self.quant_format = existing.quant_format.copy()
 
     @always_inline
     def copy(self) -> Self:
-        return Self(self.rows, self.cols, self.data, self.is_quantized)
+        return Self(self.rows, self.cols, self.data, self.is_quantized, self.quant_format.copy())
 
 
     @always_inline
@@ -683,12 +699,49 @@ struct DeviceTopology(Copyable):
         self.gpu_realms = existing.gpu_realms.copy()
 
     def detect_edge_npus(mut self):
-        """Reports no NPU until a real platform probe is implemented."""
+        """Reports default edge NPUs (comptime safe)."""
         self.npu_backends.clear()
 
+    def probe_npu_realms(mut self):
+        """Runtime probe for edge/desktop NPU backends."""
+        self.npu_backends.clear()
+        from core.npu_gate import NPUGate
+        for b_id in range(7):
+            var b = NPUBackendType(b_id)
+            if NPUGate.is_available(b) and NPUGate.get_device_count(b) > 0:
+                self.npu_backends.append(b)
+
     def detect_gpu_realms(mut self):
-        """Reports no GPU until a real platform probe is implemented."""
+        """Default constructor initialization (comptime safe)."""
         self.gpu_realms.clear()
+
+    def probe_cuda_realm(mut self):
+        """Runtime probe for NVIDIA CUDA realm."""
+        self.gpu_realms.clear()
+        from core.cuda_gate import CUDAGate
+        if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.NVIDIA_CUDA))
+
+    def probe_metal_realm(mut self):
+        """Runtime probe for Apple Metal GPU realm."""
+        self.gpu_realms.clear()
+        from core.metal_gate import MetalGate
+        if MetalGate.is_available() and MetalGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.ARM_MALI_OPENCL))
+
+    def probe_intel_realm(mut self):
+        """Runtime probe for Intel OneAPI / Level Zero GPU realm."""
+        self.gpu_realms.clear()
+        from core.intel_gate import IntelGate
+        if IntelGate.is_available() and IntelGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
+
+    def probe_amd_realm(mut self):
+        """Runtime probe for AMD ROCm / HIP GPU realm."""
+        self.gpu_realms.clear()
+        from core.amd_gate import AMDGate
+        if AMDGate.is_available() and AMDGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
 
 
 

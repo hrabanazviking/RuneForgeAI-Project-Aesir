@@ -44,6 +44,86 @@ from tests.test_gpu_realms import (
     test_gpu_buffer_zero_copy,
     test_gpu_gemm_parity,
 )
+from tests.test_cuda_realm import (
+    test_cuda_gate_availability,
+    test_cuda_gemm_dispatch_bounds,
+    test_cuda_realm_unsupported_gateways,
+)
+from tests.test_metal_realm import (
+    test_metal_gate_availability,
+    test_metal_gemm_dispatch_bounds,
+    test_metal_realm_unsupported_gateways,
+)
+from tests.test_intel_realm import (
+    test_intel_gate_availability,
+    test_intel_gemm_dispatch_bounds,
+    test_intel_realm_unsupported_gateways,
+)
+from tests.test_amd_realm import (
+    test_amd_gate_availability,
+    test_amd_gemm_dispatch_bounds,
+    test_amd_realm_unsupported_gateways,
+)
+from tests.test_npu_realm import (
+    test_npu_gate_availability,
+    test_npu_gemm_dispatch_bounds,
+    test_npu_realm_unsupported_gateways,
+)
+from tests.test_hardware_resilience import (
+    test_non_positive_allocation_rejection,
+    test_non_positive_dimension_gemm_rejection,
+    test_self_healing_error_barriers,
+)
+from tests.test_quantized_inference import (
+    test_gemm_q4_k_m_fused_parity,
+    test_quantized_tensor_mapping,
+)
+from tests.test_legacy_quantization import (
+    test_q4_0_parity,
+    test_q4_1_parity,
+    test_q5_0_parity,
+    test_q5_1_parity,
+)
+from tests.test_q8_fp8_quantization import (
+    test_fused_q8_0_parity,
+    test_fused_q8_1_parity,
+    test_fused_fp8_e4m3_parity,
+    test_fused_fp8_e5m2_parity,
+)
+from tests.test_k_quants_3_5 import (
+    test_fused_q3_k_s_parity,
+    test_fused_q3_k_m_parity,
+    test_fused_q3_k_l_parity,
+    test_fused_q5_k_s_parity,
+    test_fused_q5_k_m_parity,
+)
+from tests.test_k_quants_2_6 import (
+    test_fused_q2_k_parity,
+    test_fused_q6_k_parity,
+)
+from tests.test_gptq_awq_quantization import (
+    test_fused_gptq_4bit_parity,
+    test_fused_gptq_8bit_parity,
+    test_fused_awq_4bit_parity,
+    test_fused_exl2_parity,
+    test_fused_hqq_parity,
+    test_fused_smoothquant_int8_parity,
+)
+from tests.test_extreme_quants import (
+    test_fused_iq1_s_parity,
+    test_fused_iq2_xxs_parity,
+    test_fused_ternary_158_parity,
+)
+from tests.test_all_quantization_formats_suite import (
+    test_quantization_metadata_store,
+    test_autotune_quantized_gemm_dispatch,
+)
+from tests.test_quantization_hardening import (
+    test_dequantizer_zero_and_null_bounds,
+    test_gemm_invalid_dimensions_rejection,
+    test_unrecognized_format_self_healing,
+    test_nan_corrupt_weight_sanitization,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -165,15 +245,33 @@ def main() raises:
     run_case(ledger, "npu.host_buffer_view", test_npu_buffer_zero_copy)
     run_case(ledger, "npu.host_simd8_parity", test_arm_neon_precision)
     run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
+    run_case(ledger, "npu.npu_gate_availability", test_npu_gate_availability)
+    run_case(ledger, "npu.npu_gemm_dispatch_bounds", test_npu_gemm_dispatch_bounds)
+    run_case(ledger, "npu.npu_realm_unsupported_gateways", test_npu_realm_unsupported_gateways)
     print("")
 
-    # --- GPU Descriptors and Unsupported Gateway ---
-    print("  [DOMAIN] GPU Descriptors and Unsupported Execution Gateway")
+    # --- GPU Descriptors and CUDA Execution Gateway ---
+    print("  [DOMAIN] GPU Descriptors and CUDA Execution Gateway")
     print("  -----------------------------------------")
     run_case(ledger, "gpu.enum", test_gpu_realm_enum)
     run_case(ledger, "gpu.no_fabricated_detection", test_device_topology_gpus)
     run_case(ledger, "gpu.host_buffer_view", test_gpu_buffer_zero_copy)
     run_case(ledger, "gpu.unsupported_execution", test_gpu_gemm_parity)
+    run_case(ledger, "gpu.cuda_gate_availability", test_cuda_gate_availability)
+    run_case(ledger, "gpu.cuda_gemm_dispatch_bounds", test_cuda_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.cuda_realm_unsupported_gateways", test_cuda_realm_unsupported_gateways)
+    run_case(ledger, "gpu.metal_gate_availability", test_metal_gate_availability)
+    run_case(ledger, "gpu.metal_gemm_dispatch_bounds", test_metal_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.metal_realm_unsupported_gateways", test_metal_realm_unsupported_gateways)
+    run_case(ledger, "gpu.intel_gate_availability", test_intel_gate_availability)
+    run_case(ledger, "gpu.intel_gemm_dispatch_bounds", test_intel_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.intel_realm_unsupported_gateways", test_intel_realm_unsupported_gateways)
+    run_case(ledger, "gpu.amd_gate_availability", test_amd_gate_availability)
+    run_case(ledger, "gpu.amd_gemm_dispatch_bounds", test_amd_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.amd_realm_unsupported_gateways", test_amd_realm_unsupported_gateways)
+    run_case(ledger, "gpu.resilience_allocation_rejection", test_non_positive_allocation_rejection)
+    run_case(ledger, "gpu.resilience_dimension_rejection", test_non_positive_dimension_gemm_rejection)
+    run_case(ledger, "gpu.resilience_error_barriers", test_self_healing_error_barriers)
     print("")
 
     # --- Implemented CLI and Unsupported Boundaries ---
@@ -193,6 +291,38 @@ def main() raises:
     run_case(
         ledger, "quantization.dispatch_writes", test_dequantization_kernels
     )
+    run_case(ledger, "quantization.fused_q4_k_m_parity", test_gemm_q4_k_m_fused_parity)
+    run_case(ledger, "quantization.fused_q4_0_parity", test_q4_0_parity)
+    run_case(ledger, "quantization.fused_q4_1_parity", test_q4_1_parity)
+    run_case(ledger, "quantization.fused_q5_0_parity", test_q5_0_parity)
+    run_case(ledger, "quantization.fused_q5_1_parity", test_q5_1_parity)
+    run_case(ledger, "quantization.fused_q8_0_parity", test_fused_q8_0_parity)
+    run_case(ledger, "quantization.fused_q8_1_parity", test_fused_q8_1_parity)
+    run_case(ledger, "quantization.fused_fp8_e4m3_parity", test_fused_fp8_e4m3_parity)
+    run_case(ledger, "quantization.fused_fp8_e5m2_parity", test_fused_fp8_e5m2_parity)
+    run_case(ledger, "quantization.fused_q3_k_s_parity", test_fused_q3_k_s_parity)
+    run_case(ledger, "quantization.fused_q3_k_m_parity", test_fused_q3_k_m_parity)
+    run_case(ledger, "quantization.fused_q3_k_l_parity", test_fused_q3_k_l_parity)
+    run_case(ledger, "quantization.fused_q5_k_s_parity", test_fused_q5_k_s_parity)
+    run_case(ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity)
+    run_case(ledger, "quantization.fused_q2_k_parity", test_fused_q2_k_parity)
+    run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
+    run_case(ledger, "quantization.fused_gptq_4bit_parity", test_fused_gptq_4bit_parity)
+    run_case(ledger, "quantization.fused_gptq_8bit_parity", test_fused_gptq_8bit_parity)
+    run_case(ledger, "quantization.fused_awq_4bit_parity", test_fused_awq_4bit_parity)
+    run_case(ledger, "quantization.fused_exl2_parity", test_fused_exl2_parity)
+    run_case(ledger, "quantization.fused_hqq_parity", test_fused_hqq_parity)
+    run_case(ledger, "quantization.fused_smoothquant_int8_parity", test_fused_smoothquant_int8_parity)
+    run_case(ledger, "quantization.fused_iq1_s_parity", test_fused_iq1_s_parity)
+    run_case(ledger, "quantization.fused_iq2_xxs_parity", test_fused_iq2_xxs_parity)
+    run_case(ledger, "quantization.fused_ternary_158_parity", test_fused_ternary_158_parity)
+    run_case(ledger, "quantization.metadata_store_all_formats", test_quantization_metadata_store)
+    run_case(ledger, "quantization.autotune_gemm_dispatch", test_autotune_quantized_gemm_dispatch)
+    run_case(ledger, "quantization.hardening_zero_and_null_bounds", test_dequantizer_zero_and_null_bounds)
+    run_case(ledger, "quantization.hardening_invalid_dimensions", test_gemm_invalid_dimensions_rejection)
+    run_case(ledger, "quantization.hardening_unrecognized_format", test_unrecognized_format_self_healing)
+    run_case(ledger, "quantization.hardening_nan_sanitization", test_nan_corrupt_weight_sanitization)
+    run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
     print("")
 
     # --- Formatter and Unsupported Ecosystem Boundaries ---
@@ -259,4 +389,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(58)
+    ledger.finish(108)
