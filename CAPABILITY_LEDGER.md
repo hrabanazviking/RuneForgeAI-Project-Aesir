@@ -876,10 +876,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo` provides native POSIX FFI driver/runtime detection (`libcuda.so`/`libcudart.so`), CUDA device discovery (`cudaGetDeviceCount`), VRAM allocation (`allocate_vram`), and CUDA GEMM launch gateway; `gemm_f16_gpu` and `rmsnorm_gpu` dispatch NVIDIA CUDA realm to `CUDAGate` while remaining reserved GPU realms raise explicit unsupported errors.
-- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, and `gpu.cuda_realm_unsupported_gateways` in `test_cuda_realm.mojo`.
-- **Evidence boundary:** NVIDIA CUDA FFI driver gateway and memory management established; physical CUDA Tensor Core kernel compilation remains active development.
-- **Next acceptance gate:** Physical CUDA Tensor Core PTX/cublas kernel compilation and physical NVIDIA hardware CI execution.
+- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo` and `MetalGate` in `core/metal_gate.mojo` provide native FFI driver/runtime detection (`libcuda.so`/`libcudart.so` for NVIDIA CUDA, `/System/Library/Frameworks/Metal.framework/Metal` and `libobjc.dylib` for Apple Metal), device discovery (`MTLCreateSystemDefaultDevice`, `cudaGetDeviceCount`), zero-copy buffer allocation (`allocate_vram`, `allocate_metal_buffer`), and GEMM kernel dispatch gateways (`launch_gemm_cuda`, `launch_gemm_metal`).
+- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, and `gpu.metal_realm_unsupported_gateways` in `test_cuda_realm.mojo` and `test_metal_realm.mojo`.
+- **Evidence boundary:** NVIDIA CUDA and Apple Metal FFI driver gateways and memory management established; remaining reserved GPU realms raise explicit fail-closed error gateways.
+- **Next acceptance gate:** Physical Metal Shading Language (MSL) / MPS and CUDA PTX kernel compilation on physical hardware CI execution.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
