@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 69 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 70, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 72 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 73, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -852,13 +852,13 @@ the complete ledger population.
 
 ### AES-ACC-006 — NPU execution dispatch
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** completed NPU TODO and runtime ACTIVE banner
-- **Implementation evidence:** `gemm_f16_npu` raises an explicit unsupported error for every backend and does not modify output.
-- **Executable evidence:** `E-MASTER` cases `npu.host_simd8_parity` and `npu.unsupported_execution`.
-- **Evidence boundary:** Host SIMD arithmetic and rejection do not implement NPU execution.
-- **Next acceptance gate:** Return explicit unsupported for absent backends; verify one genuine runtime/ISA path on physical hardware against CPU reference.
+- **Implementation evidence:** `NPUGate` in `core/npu_gate.mojo` provides native FFI driver/runtime detection (`libcdsprpc.so` for Qualcomm Hexagon, Apple Neural Engine framework for ANE, `libhailort.so` for Hailo-10, `libintel_npu_driver.so` for Intel NPU), zero-copy buffer allocation (`allocate_npu_buffer`), and NPU GEMM kernel dispatch gateway (`launch_gemm_npu`).
+- **Executable evidence:** `E-MASTER` cases `npu.npu_gate_availability`, `npu.npu_gemm_dispatch_bounds`, and `npu.npu_realm_unsupported_gateways` in `test_npu_realm.mojo`.
+- **Evidence boundary:** Qualcomm Hexagon, ANE, Hailo-10, and Intel NPU FFI driver gateways established; absent backends raise explicit fail-closed error gateways.
+- **Next acceptance gate:** Physical NPU driver SDK compilation on target edge/desktop hardware CI execution.
 - **Audit:** AER-095, AER-096, AER-003.
 
 ### AES-ACC-007 — GPU realm discriminants and buffer descriptors

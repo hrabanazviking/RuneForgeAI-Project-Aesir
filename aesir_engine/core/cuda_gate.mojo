@@ -21,24 +21,23 @@ struct CUDAGate:
     @staticmethod
     def get_handle() -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
         """Loads libcudart.so or libcuda.so handle via dlopen, or returns None."""
-        try:
-            var path1 = InlineArray[Int8, 16](fill=0)
-            # "libcudart.so"
-            path1[0] = 108; path1[1] = 105; path1[2] = 98; path1[3] = 99; path1[4] = 117; path1[5] = 100; path1[6] = 97; path1[7] = 114; path1[8] = 116; path1[9] = 46; path1[10] = 115; path1[11] = 111
-            var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
-            if Int(h1) != 0:
-                return Optional[Pointer[Int8, MutUntrackedOrigin]](h1)
+        var path1 = InlineArray[Int8, 32](fill=0)
+        var p1_bytes = String("libcudart.so").as_bytes()
+        for i in range(len(p1_bytes)):
+            path1[i] = Int8(p1_bytes[i])
+        var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
+        if Int(h1) != 0:
+            return Optional[Pointer[Int8, MutUntrackedOrigin]](h1)
 
-            var path2 = InlineArray[Int8, 16](fill=0)
-            # "libcuda.so"
-            path2[0] = 108; path2[1] = 105; path2[2] = 98; path2[3] = 99; path2[4] = 117; path2[5] = 100; path2[6] = 97; path2[7] = 46; path2[8] = 115; path2[9] = 111
-            var h2 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path2.unsafe_ptr(), Int32(RTLD_NOW))
-            if Int(h2) != 0:
-                return Optional[Pointer[Int8, MutUntrackedOrigin]](h2)
+        var path2 = InlineArray[Int8, 32](fill=0)
+        var p2_bytes = String("libcuda.so").as_bytes()
+        for i in range(len(p2_bytes)):
+            path2[i] = Int8(p2_bytes[i])
+        var h2 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path2.unsafe_ptr(), Int32(RTLD_NOW))
+        if Int(h2) != 0:
+            return Optional[Pointer[Int8, MutUntrackedOrigin]](h2)
 
-            return None
-        except:
-            return None
+        return None
 
     @staticmethod
     def is_available() -> Bool:

@@ -14,6 +14,7 @@ from .cuda_gate import CUDAGate
 from .metal_gate import MetalGate
 from .intel_gate import IntelGate
 from .amd_gate import AMDGate
+from .npu_gate import NPUGate
 
 comptime simd_w_f16 = 32
 comptime simd_w_f32 = 16
@@ -821,12 +822,9 @@ def gemm_f16_npu(
     backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
 ) raises:
     """
-    Reserved public NPU gateway. No NPU runtime is implemented, so this fails
-    instead of silently executing a CPU fallback under a hardware label.
+    Dispatch GEMM execution to NPUGate or raise explicit NPU error.
     """
-    raise Error(
-        "NPU execution is not implemented for backend " + backend.name()
-    )
+    NPUGate.launch_gemm_npu(A, B, C, backend)
 
 
 def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]):

@@ -152,8 +152,9 @@ def test_npu_gemm_parity() raises:
             gemm_f16_npu(A, B, C_NPU, backend)
         except error:
             rejected = True
-            if "not implemented" not in String(error):
-                raise Error("NPU gateway rejection omitted stable truth text")
+            var err_str = String(error)
+            if "not implemented" not in err_str and "NPU execution error" not in err_str and "driver not available" not in err_str:
+                raise Error("NPU gateway rejection omitted stable truth text: " + err_str)
         if not rejected:
             raise Error("NPU gateway executed a CPU fallback")
         for i in range(M * N):

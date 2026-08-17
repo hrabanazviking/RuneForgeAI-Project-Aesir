@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 93: Stage 48.1 — Major Edge & Desktop NPU Acceleration Integration (AES-ACC-006/AES-ACC-007)
+**Date:** August 16, 2026  
+**Architectural Phase:** Major Edge & Desktop NPU Acceleration Integration  
+
+The forge completed Stage 48.1 of Project Aesir (`AES-ACC-006`/`AES-ACC-007` `partial`):
+1. **NPU Dynamic FFI Gateway:** Created `NPUGate` in `core/npu_gate.mojo` providing native POSIX FFI driver/runtime detection for Qualcomm Hexagon (`libcdsprpc.so`), Apple Neural Engine (ANE), Hailo-10 (`libhailort.so`), and Intel NPU (`libintel_npu_driver.so`), zero-copy NPU buffer allocation (`allocate_npu_buffer()`), buffer deallocation (`free_npu_buffer()`), and NPU GEMM kernel launch gateway (`launch_gemm_npu()`).
+2. **Core Hardware Integration:** Added `INTEL_NPU` (6) discriminant to `NPUBackendType`, added `probe_npu_realms()` in `core/mimir_well.mojo`, and connected `gemm_f16_npu()` in `core/compute.mojo` to dispatch NPU requests to `NPUGate`.
+3. **Dedicated Test Suite & Master Suite:** Created `aesir_engine/tests/test_npu_realm.mojo` and registered 3 new test cases in `run_all.mojo`. Master test suite passed clean (**72 passed / 0 failed / 1 skipped / Total 73**).
+
 ## ⚡ Entry 92: Stage 47.1 — AMD ROCm / HIP GPU Acceleration Gateway & Device Memory Management (AES-ACC-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** AMD ROCm / HIP GPU Acceleration Gateway  

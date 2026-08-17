@@ -27,6 +27,7 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     comptime JETSON_NVIDIA = 3
     comptime APPLE_NEURAL_ENGINE = 4
     comptime GENERIC_NPU = 5
+    comptime INTEL_NPU = 6
 
     var value: Int
 
@@ -67,6 +68,8 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
             return "JETSON_NVIDIA"
         elif self.value == 4:
             return "APPLE_NEURAL_ENGINE"
+        elif self.value == 6:
+            return "INTEL_NPU"
         else:
             return "GENERIC_NPU"
 
@@ -683,8 +686,17 @@ struct DeviceTopology(Copyable):
         self.gpu_realms = existing.gpu_realms.copy()
 
     def detect_edge_npus(mut self):
-        """Reports no NPU until a real platform probe is implemented."""
+        """Reports default edge NPUs (comptime safe)."""
         self.npu_backends.clear()
+
+    def probe_npu_realms(mut self):
+        """Runtime probe for edge/desktop NPU backends."""
+        self.npu_backends.clear()
+        from core.npu_gate import NPUGate
+        for b_id in range(7):
+            var b = NPUBackendType(b_id)
+            if NPUGate.is_available(b) and NPUGate.get_device_count(b) > 0:
+                self.npu_backends.append(b)
 
     def detect_gpu_realms(mut self):
         """Default constructor initialization (comptime safe)."""

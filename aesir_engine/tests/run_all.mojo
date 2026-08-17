@@ -64,6 +64,11 @@ from tests.test_amd_realm import (
     test_amd_gemm_dispatch_bounds,
     test_amd_realm_unsupported_gateways,
 )
+from tests.test_npu_realm import (
+    test_npu_gate_availability,
+    test_npu_gemm_dispatch_bounds,
+    test_npu_realm_unsupported_gateways,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -185,6 +190,9 @@ def main() raises:
     run_case(ledger, "npu.host_buffer_view", test_npu_buffer_zero_copy)
     run_case(ledger, "npu.host_simd8_parity", test_arm_neon_precision)
     run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
+    run_case(ledger, "npu.npu_gate_availability", test_npu_gate_availability)
+    run_case(ledger, "npu.npu_gemm_dispatch_bounds", test_npu_gemm_dispatch_bounds)
+    run_case(ledger, "npu.npu_realm_unsupported_gateways", test_npu_realm_unsupported_gateways)
     print("")
 
     # --- GPU Descriptors and CUDA Execution Gateway ---
@@ -291,4 +299,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(70)
+    ledger.finish(73)

@@ -21,26 +21,23 @@ struct IntelGate:
     @staticmethod
     def get_handle() -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
         """Loads libze_loader.so or libze_intel_gpu.so handle via dlopen, or returns None."""
-        try:
-            var path1 = InlineArray[Int8, 32](fill=0)
-            var p1_bytes = String("libze_loader.so").as_bytes()
-            for i in range(len(p1_bytes)):
-                path1[i] = Int8(p1_bytes[i])
-            var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
-            if Int(h1) != 0:
-                return Optional[Pointer[Int8, MutUntrackedOrigin]](h1)
+        var path1 = InlineArray[Int8, 32](fill=0)
+        var p1_bytes = String("libze_loader.so").as_bytes()
+        for i in range(len(p1_bytes)):
+            path1[i] = Int8(p1_bytes[i])
+        var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
+        if Int(h1) != 0:
+            return Optional[Pointer[Int8, MutUntrackedOrigin]](h1)
 
-            var path2 = InlineArray[Int8, 32](fill=0)
-            var p2_bytes = String("libze_intel_gpu.so").as_bytes()
-            for i in range(len(p2_bytes)):
-                path2[i] = Int8(p2_bytes[i])
-            var h2 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path2.unsafe_ptr(), Int32(RTLD_NOW))
-            if Int(h2) != 0:
-                return Optional[Pointer[Int8, MutUntrackedOrigin]](h2)
+        var path2 = InlineArray[Int8, 32](fill=0)
+        var p2_bytes = String("libze_intel_gpu.so").as_bytes()
+        for i in range(len(p2_bytes)):
+            path2[i] = Int8(p2_bytes[i])
+        var h2 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path2.unsafe_ptr(), Int32(RTLD_NOW))
+        if Int(h2) != 0:
+            return Optional[Pointer[Int8, MutUntrackedOrigin]](h2)
 
-            return None
-        except:
-            return None
+        return None
 
     @staticmethod
     def is_available() -> Bool:
