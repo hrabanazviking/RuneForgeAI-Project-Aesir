@@ -114,6 +114,10 @@ from tests.test_extreme_quants import (
     test_fused_iq2_xxs_parity,
     test_fused_ternary_158_parity,
 )
+from tests.test_all_quantization_formats_suite import (
+    test_quantization_metadata_store,
+    test_autotune_quantized_gemm_dispatch,
+)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -312,6 +316,8 @@ def main() raises:
     run_case(ledger, "quantization.fused_iq1_s_parity", test_fused_iq1_s_parity)
     run_case(ledger, "quantization.fused_iq2_xxs_parity", test_fused_iq2_xxs_parity)
     run_case(ledger, "quantization.fused_ternary_158_parity", test_fused_ternary_158_parity)
+    run_case(ledger, "quantization.metadata_store_all_formats", test_quantization_metadata_store)
+    run_case(ledger, "quantization.autotune_gemm_dispatch", test_autotune_quantized_gemm_dispatch)
     run_case(ledger, "quantization.hardening_zero_and_null_bounds", test_dequantizer_zero_and_null_bounds)
     run_case(ledger, "quantization.hardening_invalid_dimensions", test_gemm_invalid_dimensions_rejection)
     run_case(ledger, "quantization.hardening_unrecognized_format", test_unrecognized_format_self_healing)
@@ -383,4 +389,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(106)
+    ledger.finish(108)

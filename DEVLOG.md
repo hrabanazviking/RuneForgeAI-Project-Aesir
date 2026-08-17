@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 103: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
+**Date:** August 16, 2026  
+**Architectural Phase:** Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway  
+
+The forge completed Stage 58.1 of Project Aesir (`AES-QNT-011` `verified`):
+1. **Metadata Store for All 25+ Quantization Formats:** Implemented `QuantizationFormatInfo` struct and `get_quantization_format_info()` metadata store in `core/compute.mojo` returning block size, bits per weight, compression ratio, recommended tile size, and format classifications across all 25+ supported quantization formats.
+2. **Hardware Autotuning Gateway Dispatcher:** Implemented `autotune_quantized_gemm()` in `core/compute.mojo` for validating matrix dimensions, evaluating format metadata, and autotuning execution tile parameters.
+3. **Comprehensive Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_all_quantization_formats_suite.mojo` testing metadata reporting across all format discriminants and autotuned hardware gateway dispatching. Master test suite passed clean (**107 passed / 0 failed / 1 skipped / Total 108**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 102: Stage 57.1 — Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT) (AES-QNT-010)
 **Date:** August 16, 2026  
 **Architectural Phase:** Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT)  
