@@ -1,6 +1,6 @@
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png)
 
 ---
 
@@ -29,7 +29,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785578752571.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785578752571.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785578752571.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785578752571.png)
 
 ---
 
@@ -40,7 +40,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/9f0cf40ba52df119e1ce721f261bc1205d2f3e5e/1785579199112.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579199112.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579199112.png)
 
 ### 2. Zero-Copy GGUF Parsing & System Memory Mapping
 
@@ -49,7 +49,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579714847.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579714847.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579714847.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579714847.png)
 
 ---
 
@@ -60,7 +60,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-![https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/blob/main/Gemini_Generated_Image_rxblg7rxblg7rxbl.png](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/blob/main/Gemini_Generated_Image_rxblg7rxblg7rxbl.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_rxblg7rxblg7rxbl.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_rxblg7rxblg7rxbl.png)
 
 ---
 
@@ -94,7 +94,7 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/660262974_1643999840123485_7514919576143109031_n.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/660262974_1643999840123485_7514919576143109031_n.jpg)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/660262974_1643999840123485_7514919576143109031_n.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/660262974_1643999840123485_7514919576143109031_n.jpg)
 
 ---
 

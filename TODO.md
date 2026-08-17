@@ -52,7 +52,12 @@ counts as completion of an external capability.
 
 ### Most Important Issues to Address First - ASAP!!!
 
-- [ ] **MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md** Read the document `MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md` and add a massive roadmap of tasks to 100% address and fix all issues that are brought up in that document and make all issues of that part of the roadmap jump in front of all other pending issues, so the tasks needed to address the issues outlined in `MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md` are implemented ASAP!
+- [x] **Automated CI/CD Pipeline (`.github/workflows/ci.yml`):** Added GitHub Actions CI workflow executing master test runner (`run_all.mojo`) and doc drift verification on push/PR.
+- [x] **Repository Structure & Asset Cleanup:** Consolidated 20+ root image files into `docs/assets/images/`, moved `TASK_*.md` documentation files into `docs/tasks/`, and updated all markdown image links.
+- [ ] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
+- [ ] **Live OpenAI REST API Inference Connection (`AES-SRV-006`):** Connect bare-metal POSIX socket `/v1/chat/completions` REST endpoint directly to the local GGUF engine runner for streaming inference.
+- [ ] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
+- [ ] **Security Fuzzing & Resource Limits:** Add GGUF parser fuzzing harness, enforce system-level generation token limits, and document threat model (`AES-OPS-003`).
 
 ### Remaining Audit & Hardening Remedies (Backlog)
 
