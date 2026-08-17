@@ -44,6 +44,11 @@ from tests.test_gpu_realms import (
     test_gpu_buffer_zero_copy,
     test_gpu_gemm_parity,
 )
+from tests.test_cuda_realm import (
+    test_cuda_gate_availability,
+    test_cuda_gemm_dispatch_bounds,
+    test_cuda_realm_unsupported_gateways,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -167,13 +172,16 @@ def main() raises:
     run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
     print("")
 
-    # --- GPU Descriptors and Unsupported Gateway ---
-    print("  [DOMAIN] GPU Descriptors and Unsupported Execution Gateway")
+    # --- GPU Descriptors and CUDA Execution Gateway ---
+    print("  [DOMAIN] GPU Descriptors and CUDA Execution Gateway")
     print("  -----------------------------------------")
     run_case(ledger, "gpu.enum", test_gpu_realm_enum)
     run_case(ledger, "gpu.no_fabricated_detection", test_device_topology_gpus)
     run_case(ledger, "gpu.host_buffer_view", test_gpu_buffer_zero_copy)
     run_case(ledger, "gpu.unsupported_execution", test_gpu_gemm_parity)
+    run_case(ledger, "gpu.cuda_gate_availability", test_cuda_gate_availability)
+    run_case(ledger, "gpu.cuda_gemm_dispatch_bounds", test_cuda_gemm_dispatch_bounds)
+    run_case(ledger, "gpu.cuda_realm_unsupported_gateways", test_cuda_realm_unsupported_gateways)
     print("")
 
     # --- Implemented CLI and Unsupported Boundaries ---
@@ -259,4 +267,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(58)
+    ledger.finish(61)

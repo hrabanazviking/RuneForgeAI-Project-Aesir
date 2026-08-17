@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 57 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 58, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 60 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 61, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,10 +65,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 79 |
-| `partial` | 0 |
+| `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 20 |
+| `missing` | 19 |
 | **Total** | **99** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -873,13 +873,13 @@ the complete ledger population.
 
 ### AES-ACC-008 — GPU execution dispatch
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** `gemm_f16_gpu` and `rmsnorm_gpu` raise explicit unsupported errors for every realm; historically named vector helpers remain host-only experiments.
-- **Executable evidence:** `E-MASTER` case `gpu.unsupported_execution` proves rejection without output mutation.
-- **Evidence boundary:** No CUDA/ROCm/OpenCL/MUSA/SUPA/MACA/DCU/Metal API, allocation, kernel launch, transfer, synchronization, or physical device is used.
-- **Next acceptance gate:** Explicit unsupported behavior for absent backends and one physical GPU vertical slice with CPU parity and hardware CI.
+- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo` provides native POSIX FFI driver/runtime detection (`libcuda.so`/`libcudart.so`), CUDA device discovery (`cudaGetDeviceCount`), VRAM allocation (`allocate_vram`), and CUDA GEMM launch gateway; `gemm_f16_gpu` and `rmsnorm_gpu` dispatch NVIDIA CUDA realm to `CUDAGate` while remaining reserved GPU realms raise explicit unsupported errors.
+- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, and `gpu.cuda_realm_unsupported_gateways` in `test_cuda_realm.mojo`.
+- **Evidence boundary:** NVIDIA CUDA FFI driver gateway and memory management established; physical CUDA Tensor Core kernel compilation remains active development.
+- **Next acceptance gate:** Physical CUDA Tensor Core PTX/cublas kernel compilation and physical NVIDIA hardware CI execution.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

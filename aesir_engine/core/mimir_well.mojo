@@ -687,8 +687,15 @@ struct DeviceTopology(Copyable):
         self.npu_backends.clear()
 
     def detect_gpu_realms(mut self):
-        """Reports no GPU until a real platform probe is implemented."""
+        """Default constructor initialization (comptime safe)."""
         self.gpu_realms.clear()
+
+    def probe_cuda_realm(mut self):
+        """Runtime probe for NVIDIA CUDA realm."""
+        self.gpu_realms.clear()
+        from core.cuda_gate import CUDAGate
+        if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.NVIDIA_CUDA))
 
 
 

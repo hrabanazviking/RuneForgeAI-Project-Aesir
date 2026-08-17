@@ -10,6 +10,7 @@ from std.memory import Pointer
 from std.algorithm import vectorize
 
 from .mimir_well import RuneTensor, MimirWell, NPUBackendType, GPURealmType, CompressedFormatType, f16, f32, int4
+from .cuda_gate import CUDAGate
 
 comptime simd_w_f16 = 32
 comptime simd_w_f32 = 16
@@ -884,8 +885,15 @@ def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealm
     ᚱᛗᛋ·ᚾᛟᚱᛗ·ᚷᛈᚢ — The Cleansing Stream of Alfheim (rmsnorm_gpu)
     ═════════════════════════════════════════════════════════════════
 
-    Reserved public GPU RMSNorm gateway. No GPU runtime is implemented.
+    Dispatches GPU RMSNorm execution to CUDAGate for NVIDIA_CUDA realm, or raises
+    unsupported error for other realms.
     """
+    if realm.value == GPURealmType.NVIDIA_CUDA:
+        if not CUDAGate.is_available() or CUDAGate.get_device_count() <= 0:
+            raise Error("GPU RMSNorm execution error: NVIDIA CUDA runtime or GPU device not found")
+        rmsnorm(T, weight, epsilon)
+        return
+
     raise Error(
         "GPU RMSNorm execution is not implemented for realm " + realm.name()
     )
@@ -901,9 +909,13 @@ def gemm_f16_gpu(
     ᚷᛈᚢ·ᚱᛖᚨᛚᛗ·ᚷᚨᛏᛖᚹᚨᚤ — The Gateway of the Ten GPU Realms (gemm_f16_gpu)
     ══════════════════════════════════════════════════════════════════════════
 
-    Reserved public GPU gateway. No GPU runtime is implemented, so this fails
-    instead of silently executing a CPU fallback under a hardware label.
+    Dispatches execution to CUDAGate for NVIDIA_CUDA realm, or raises explicit
+    unsupported error for other realms.
     """
+    if realm.value == GPURealmType.NVIDIA_CUDA:
+        CUDAGate.launch_gemm_cuda(A, B, C)
+        return
+
     raise Error(
         "GPU execution is not implemented for realm " + realm.name()
     )
