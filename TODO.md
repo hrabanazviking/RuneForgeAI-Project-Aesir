@@ -50,8 +50,13 @@ counts as completion of an external capability.
 - [x] **Stage 42.1 Hardening — Chat Template Formatter Empty Message List Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty message lists.
 - [x] **Stage 43.1 Hardening — Deep Bug Audit & Attention Head Bounds:** Hardened `incremental_causal_attention()` in `core/compute.mojo` for non-positive `head_dim` and non-divisible query/kv head ratio safeguards.
 
-### Most Important Issues to Address First - ASAP!!!
+### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
+- [ ] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implement native CUDA driver/runtime FFI bindings, GPU memory allocation, and CUDA Tensor Core GEMM/rmsnorm/attention kernel dispatch for NVIDIA RTX 30/40 series GPUs.
+- [ ] **#1 PRIORITY PHASE 2 — Apple Metal GPU Acceleration (`AES-ACC-002`/`AES-ACC-005`):** Implement Metal Shading Language (MSL) and Metal Performance Shaders (MPS) bindings and GPU buffer management for Apple Silicon.
+- [ ] **#1 PRIORITY PHASE 3 — Intel OneAPI / Level Zero GPU Acceleration (`AES-ACC-003`):** Implement Intel OneAPI / Level Zero FFI bindings and sycl/level-zero GEMM kernel execution for Intel Arc and Data Center GPUs.
+- [ ] **#1 PRIORITY PHASE 4 — AMD ROCm / HIP GPU Acceleration (`AES-ACC-004`):** Implement AMD HIP/ROCm FFI bindings and rocBLAS / hipBLAS GEMM kernel execution for RDNA/CDNA GPUs.
+- [ ] **#1 PRIORITY PHASE 5 — Major NPU Acceleration Integration (`AES-ACC-006`/`AES-ACC-007`):** Implement vendor NPU driver gateways and execution dispatch for Qualcomm Hexagon NPU, Intel NPU, Apple Neural Engine (ANE), and ARM Ethos NPU.
 - [x] **Automated CI/CD Pipeline (`.github/workflows/ci.yml`):** Added GitHub Actions CI workflow executing master test runner (`run_all.mojo`) and doc drift verification on push/PR.
 - [x] **Repository Structure & Asset Cleanup:** Consolidated 20+ root image files into `docs/assets/images/`, moved `TASK_*.md` documentation files into `docs/tasks/`, and updated all markdown image links.
 - [ ] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
