@@ -84,6 +84,12 @@ from tests.test_legacy_quantization import (
     test_q5_0_parity,
     test_q5_1_parity,
 )
+from tests.test_q8_fp8_quantization import (
+    test_fused_q8_0_parity,
+    test_fused_q8_1_parity,
+    test_fused_fp8_e4m3_parity,
+    test_fused_fp8_e5m2_parity,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -256,6 +262,10 @@ def main() raises:
     run_case(ledger, "quantization.fused_q4_1_parity", test_q4_1_parity)
     run_case(ledger, "quantization.fused_q5_0_parity", test_q5_0_parity)
     run_case(ledger, "quantization.fused_q5_1_parity", test_q5_1_parity)
+    run_case(ledger, "quantization.fused_q8_0_parity", test_fused_q8_0_parity)
+    run_case(ledger, "quantization.fused_q8_1_parity", test_fused_q8_1_parity)
+    run_case(ledger, "quantization.fused_fp8_e4m3_parity", test_fused_fp8_e4m3_parity)
+    run_case(ledger, "quantization.fused_fp8_e5m2_parity", test_fused_fp8_e5m2_parity)
     run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
     print("")
 
@@ -323,4 +333,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(82)
+    ledger.finish(86)

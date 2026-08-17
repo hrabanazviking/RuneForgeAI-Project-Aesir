@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 97: Stage 52.1 — 8-Bit & FP8 Quantization (Q8_0, Q8_1, FP8_E4M3, FP8_E5M2) (AES-QNT-005)
+**Date:** August 16, 2026  
+**Architectural Phase:** 8-Bit & FP8 Quantization (Q8_0, Q8_1, FP8_E4M3, FP8_E5M2)  
+
+The forge completed Stage 52.1 of Project Aesir (`AES-QNT-005` `verified`):
+1. **8-Bit & FP8 Block Structs & Dequantizers:** Added `BlockQ8_0` and `BlockQ8_1` layout structs in `core/compute.mojo`, added FP8 byte unpackers `dequantize_fp8_e4m3()` and `dequantize_fp8_e5m2()`, and added `dequantize_q8_0()` and `dequantize_q8_1()` block dequantizers. Added `FP8_E4M3` (21) and `FP8_E5M2` (22) discriminants to `CompressedFormatType`.
+2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_q8_0()`, `gemm_q8_1()`, `gemm_fp8_e4m3()`, `gemm_fp8_e5m2()` fused matrix-vector multiplication kernels, and connected automatic format dispatch in `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_q8_fp8_quantization.mojo` testing bit-for-bit mathematical output parity between fused Q8/FP8 GEMM and uncompressed `gemm_f16`. Master test suite passed clean (**85 passed / 0 failed / 1 skipped / Total 86**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 96: Stage 51.1 — Legacy 4-Bit & 5-Bit Quantization (Q4_0, Q4_1, Q5_0, Q5_1) (AES-QNT-004)
 **Date:** August 16, 2026  
 **Architectural Phase:** Legacy 4-Bit & 5-Bit Block Quantization (Q4_0, Q4_1, Q5_0, Q5_1)  

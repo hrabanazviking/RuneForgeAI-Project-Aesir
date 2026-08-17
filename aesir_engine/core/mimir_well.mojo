@@ -210,6 +210,8 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime EXL2_VARBIT = 18
     comptime HQQ = 19
     comptime SMOOTHQUANT_INT8 = 20
+    comptime FP8_E4M3 = 21
+    comptime FP8_E5M2 = 22
 
     var value: Int
 
