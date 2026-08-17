@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 63 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 64, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 66 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 67, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -876,10 +876,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo` and `MetalGate` in `core/metal_gate.mojo` provide native FFI driver/runtime detection (`libcuda.so`/`libcudart.so` for NVIDIA CUDA, `/System/Library/Frameworks/Metal.framework/Metal` and `libobjc.dylib` for Apple Metal), device discovery (`MTLCreateSystemDefaultDevice`, `cudaGetDeviceCount`), zero-copy buffer allocation (`allocate_vram`, `allocate_metal_buffer`), and GEMM kernel dispatch gateways (`launch_gemm_cuda`, `launch_gemm_metal`).
-- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, and `gpu.metal_realm_unsupported_gateways` in `test_cuda_realm.mojo` and `test_metal_realm.mojo`.
-- **Evidence boundary:** NVIDIA CUDA and Apple Metal FFI driver gateways and memory management established; remaining reserved GPU realms raise explicit fail-closed error gateways.
-- **Next acceptance gate:** Physical Metal Shading Language (MSL) / MPS and CUDA PTX kernel compilation on physical hardware CI execution.
+- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo`, `MetalGate` in `core/metal_gate.mojo`, and `IntelGate` in `core/intel_gate.mojo` provide native FFI driver/runtime detection (`libcuda.so`/`libcudart.so` for NVIDIA CUDA, `/System/Library/Frameworks/Metal.framework/Metal` for Apple Metal, `libze_loader.so`/`libze_intel_gpu.so` for Intel Level Zero), device discovery (`cudaGetDeviceCount`, `MTLCreateSystemDefaultDevice`, `zeDeviceGet`), zero-copy VRAM allocation (`allocate_vram`, `allocate_metal_buffer`), and GEMM kernel dispatch gateways (`launch_gemm_cuda`, `launch_gemm_metal`, `launch_gemm_intel`).
+- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, `gpu.metal_realm_unsupported_gateways`, `gpu.intel_gate_availability`, `gpu.intel_gemm_dispatch_bounds`, and `gpu.intel_realm_unsupported_gateways` in `test_cuda_realm.mojo`, `test_metal_realm.mojo`, and `test_intel_realm.mojo`.
+- **Evidence boundary:** NVIDIA CUDA, Apple Metal, and Intel Level Zero FFI driver gateways and memory management established; remaining reserved GPU realms raise explicit fail-closed error gateways.
+- **Next acceptance gate:** Physical Metal Shading Language (MSL), Level Zero sycl, and CUDA PTX kernel compilation on physical hardware CI execution.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

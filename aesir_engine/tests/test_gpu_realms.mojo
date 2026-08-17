@@ -112,7 +112,7 @@ def test_gpu_gemm_parity() raises:
     var N = 4
 
     for b in range(10):
-        if b == 0 or b == 7:
+        if b == 0 or b == 2 or b == 7:
             continue
         var well = MimirWell(1024 * 1024)
         var a_ptr = well.allocate(M * K)

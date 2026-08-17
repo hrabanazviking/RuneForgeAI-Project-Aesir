@@ -69,7 +69,8 @@ def test_cuda_realm_unsupported_gateways() raises:
     try:
         gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
     except e:
-        if "GPU execution is not implemented for realm INTEL_ONEAPI_XE" in String(e):
+        var err_str = String(e)
+        if "GPU execution is not implemented for realm INTEL_ONEAPI_XE" in err_str or "Intel OneAPI Level Zero GPU execution error" in err_str or "libze_loader.so" in err_str:
             raised_oneapi = True
 
     if not raised_oneapi:

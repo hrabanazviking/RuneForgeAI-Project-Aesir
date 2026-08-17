@@ -704,6 +704,13 @@ struct DeviceTopology(Copyable):
         if MetalGate.is_available() and MetalGate.get_device_count() > 0:
             self.gpu_realms.append(GPURealmType(GPURealmType.ARM_MALI_OPENCL))
 
+    def probe_intel_realm(mut self):
+        """Runtime probe for Intel OneAPI / Level Zero GPU realm."""
+        self.gpu_realms.clear()
+        from core.intel_gate import IntelGate
+        if IntelGate.is_available() and IntelGate.get_device_count() > 0:
+            self.gpu_realms.append(GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
+
 
 
 
