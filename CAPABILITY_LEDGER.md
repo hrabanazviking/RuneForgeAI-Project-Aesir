@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 77 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 78, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 81 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 82, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 79 |
+| `verified` | 80 |
 | `partial` | 1 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **99** |
+| **Total** | **100** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -795,6 +795,16 @@ the complete ledger population.
 - **Evidence boundary:** Verified fused Q4_K_M matrix-vector multiplication parity with uncompressed `gemm_f16` on synthetic block tensors; pending external quantized GGUF fixture verification.
 - **Next acceptance gate:** Real quantized GGUF fixture, exact load/layout, correct compute path, and logits/token parity against pinned `llama.cpp`.
 - **Audit:** AER-051 through AER-054.
+
+### AES-QNT-004 — Legacy 4-bit and 5-bit block quantization transformation kernels
+
+- **Status:** `verified`
+- **Owner:** core compute domain
+- **Claim sources:** GGUF legacy quantization support (Q4_0, Q4_1, Q5_0, Q5_1)
+- **Implementation evidence:** `BlockQ4_0`, `BlockQ4_1`, `BlockQ5_0`, `BlockQ5_1` block structs, `dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q5_1` block dequantizers, and `gemm_q4_0`, `gemm_q4_1`, `gemm_q5_0`, `gemm_q5_1` fused matrix-vector multiplication kernels in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q4_0_parity`, `quantization.fused_q4_1_parity`, `quantization.fused_q5_0_parity`, `quantization.fused_q5_1_parity` in `test_legacy_quantization.mojo`.
+- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q4_0, Q4_1, Q5_0, Q5_1 GEMM and uncompressed `gemm_f16`.
+- **Audit:** Stage 51.1 Mythic Engineering Pass.
 
 ## 14. Hardware and Multi-Device Execution
 

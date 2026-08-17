@@ -3,6 +3,15 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## ⚡ Entry 96: Stage 51.1 — Legacy 4-Bit & 5-Bit Quantization (Q4_0, Q4_1, Q5_0, Q5_1) (AES-QNT-004)
+**Date:** August 16, 2026  
+**Architectural Phase:** Legacy 4-Bit & 5-Bit Block Quantization (Q4_0, Q4_1, Q5_0, Q5_1)  
+
+The forge completed Stage 51.1 of Project Aesir (`AES-QNT-004` `verified`):
+1. **Legacy Block Structures & Dequantizers:** Implemented `BlockQ4_0`, `BlockQ4_1`, `BlockQ5_0`, `BlockQ5_1` layout structs with `Copyable, ImplicitlyCopyable` traits, and `dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q5_1` block dequantization functions in `core/compute.mojo`.
+2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_q4_0()`, `gemm_q4_1()`, `gemm_q5_0()`, `gemm_q5_1()` fused matrix-vector multiplication kernels, and connected automatic format dispatch in `gemm_f16()`.
+3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_legacy_quantization.mojo` testing bit-for-bit mathematical output parity between fused legacy GEMM and uncompressed `gemm_f16`. Master test suite passed clean (**81 passed / 0 failed / 1 skipped / Total 82**). Doc drift check passed (**0 errors**).
+
 ## ⚡ Entry 95: Stage 50.1 — Quantized GGUF Inference Vertical Slice (Q4_K_M) (AES-CMP-004/AES-GEN-002)
 **Date:** August 16, 2026  
 **Architectural Phase:** Quantized GGUF Inference Vertical Slice (Q4_K_M)  
