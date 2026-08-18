@@ -52,6 +52,10 @@ counts as completion of an external capability.
 
 ### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
+- [ ] **Modular Max Support:** - Add full support for MAX by Modular
+- [ ] **Acceleration Selection:** - Add command that allows the User to select which acceleration system is being used.
+- [ ] **Add TUI:** - Add very beautiful looking advanced optional TUI.
+- [ ] **Add Help Commands:** Add very useful, well written, complete help command system.
 - [x] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implemented native CUDA driver/runtime FFI bindings (`cuda_gate.mojo`), VRAM allocation, host-to-device transfers, and CUDA GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 2 — Apple Metal GPU Acceleration (`AES-ACC-002`/`AES-ACC-005`):** Implemented native Metal framework FFI bindings (`metal_gate.mojo`), zero-copy buffer allocation, and Metal GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 3 — Intel OneAPI / Level Zero GPU Acceleration (`AES-ACC-003`):** Implemented native Intel Level Zero FFI bindings (`intel_gate.mojo`), VRAM allocation, and Level Zero GEMM kernel dispatch.
