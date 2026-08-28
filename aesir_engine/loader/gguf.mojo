@@ -402,6 +402,13 @@ struct GGUFSeer:
         )
         self.is_mapped = True
 
+    def parse_header_bytes[origin: Origin](mut self, bytes_ptr: Pointer[UInt8, origin], size_bytes: Int, mut well: MimirWell) raises:
+        if size_bytes < 24:
+            raise Error("GGUF header byte buffer size must be at least 24 bytes")
+        var magic = UInt32(bytes_ptr[0]) | (UInt32(bytes_ptr[1]) << 8) | (UInt32(bytes_ptr[2]) << 16) | (UInt32(bytes_ptr[3]) << 24)
+        if magic != 0x46554747:
+            raise Error("GGUF magic bytes are invalid")
+
     def _parse_header(mut self) raises:
         if self._read_u32(0) != 0x46554747:
             raise Error("GGUF magic bytes are invalid")
