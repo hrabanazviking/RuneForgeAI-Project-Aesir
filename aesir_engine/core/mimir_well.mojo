@@ -429,6 +429,14 @@ struct RuneTensor[type: DType](Copyable):
             raise Error("RuneTensor: index out of bounds")
         self.set(r, c, val)
 
+    @always_inline
+    def is_borrowed(self) -> Bool:
+        return True
+
+    @always_inline
+    def is_owned(self) -> Bool:
+        return False
+
 
 
 struct KVCache(Copyable):

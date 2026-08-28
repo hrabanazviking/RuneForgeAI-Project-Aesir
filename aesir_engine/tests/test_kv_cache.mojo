@@ -131,3 +131,6 @@ def test_kv_cache() raises:
 
     print("KVCache state accumulation: PASS")
     print("test_kv_cache: PASS")
+
+def main() raises:
+    test_kv_cache()
