@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 62.1 — Security Fuzzing Harness & Resource Limit Guards (`AES-OPS-003`)
+* **Stage 62.1 Security Fuzzing Milestone ([`AES-OPS-003`](../CAPABILITY_LEDGER.md) `verified`)**: Created GGUF binary security fuzzing test suite `test_gguf_fuzzing.mojo` and generic memory pointer buffer parser `parse_header_bytes()` in `loader/gguf.mojo` validating invalid magic bytes, zero-length byte streams, and corrupted header boundaries without crashing. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 61.1 — PagedAttention Dynamic Block KV Cache Pool (`AES-MEM-006`)
 * **Stage 61.1 PagedAttention Milestone ([`AES-MEM-006`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `PagedKVCache` in `core/mimir_well.mojo`. Divides sequence memory into non-contiguous physical 16-token memory blocks (`block_size = 16`), enabling zero-fragmentation page-table virtual token indexing, block allocation (`allocate_block()`), and block deallocation (`free_block()`). Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
