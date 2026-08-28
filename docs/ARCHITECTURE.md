@@ -86,6 +86,21 @@ graph TD
   - **`GPURealmType` (Slice 8):** Zero-overhead integer discriminant tag naming ten global compute GPU hardware realms: `NVIDIA_CUDA (0)`, `AMD_ROCM_HIP (1)`, `INTEL_ONEAPI_XE (2)`, `MOORE_THREADS_MUSA (3)`, `BIREN_SUPA (4)`, `METAX_MACA (5)`, `HYGON_DCU (6)`, `ARM_MALI_OPENCL (7)`, `QUALCOMM_ADRENO (8)`, `IMAGINATION_POWERVR (9)`. Provides `.name()`, `==`, and `!=`. Default: `NVIDIA_CUDA (0)`.
   - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop.
 
+### 7. `aesir_engine/config.mojo` & System Paradigms (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
+- **Role:** Configuration management, safety protocols, crash self-healing, and optional inference paradigm engines.
+- **Components:**
+  - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
+  - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
+  - `ThinkingController`: Thought token block parsing and hard logit suppression for reasoning tokens when disabled.
+  - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.
+  - `SmartCrashReporter`: Crash interception, structured logging, auto-retry counters, failsafe hardware fallback, and AI code hardening suggestions.
+  - `MAXGate`: Modular MAX Framework execution graph gateway.
+  - `EpisodicComputationMemory`: Cognitive Inference Architecture (CIA) semantic hash matching and state reconstruction.
+  - `WaveInferenceEngine`: Wave Inference Computing (WIC) 2D standing wave propagation.
+  - `NSFIEngine`: Neural Spectral Fractal Inference (NSFI) IFS fractal attractor code weight reconstruction.
+  - `MQARIEngine`: MÍMIR-VØLVA Quantum-Acoustic Resonance Inference (MQARI) multi-frequency harmonic mode solver for edge hardware.
+  - `AesirTUIDashboard`: Terminal monitoring dashboard showing live hardware realm, VRAM/RAM residency, and token throughput.
+
 ### 6. `core/compute.mojo` — Nidavellir SIMD Kernels, Sharded Operations, NPU Gateway & GPU Realm Dispatch
 - **Role:** Hardware SIMD compute kernels, vector similarity alignment, sharded matrix algebra, NPU backend dispatch, and GPU realm matrix multiplication.
 - **Kernels:**
