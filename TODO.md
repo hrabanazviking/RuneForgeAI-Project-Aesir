@@ -208,8 +208,8 @@ counts as completion of an external capability.
 - [ ] **[partial, AES-MEM-005] Instrument dynamic allocations:** Define the exact
   steady-state token region and measure every list/string/block/workspace heap
   allocation.
-- [ ] Remove per-token transformer-block copies and avoid hot-path list growth.
-- [ ] Add exception-safe workspace guards around transformer blocks and
+- [x] Remove per-token transformer-block copies and avoid hot-path list growth.
+- [x] Add exception-safe workspace guards around transformer blocks and
   `forward_pass()`.
 - [x] Validate `MimirStore` capacity, dimension, products, embedding ownership,
   and copied-document lifetime.
