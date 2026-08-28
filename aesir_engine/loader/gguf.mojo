@@ -3,7 +3,7 @@
 
 from std.collections import Dict
 from std.ffi import external_call
-from std.memory import Pointer
+from std.memory import Pointer, bitcast
 
 from core.mimir_well import (
     CompressedFormatType,
@@ -221,10 +221,10 @@ struct GGUFSeer:
     def _read_u32(self, offset: Int) raises -> UInt32:
         self._require_range(offset, 4)
         var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
-        var b0 = UInt32(ptr[0])
-        var b1 = UInt32(ptr[1])
-        var b2 = UInt32(ptr[2])
-        var b3 = UInt32(ptr[3])
+        var b0 = UInt32(ptr.unsafe_offset(0).unsafe_load())
+        var b1 = UInt32(ptr.unsafe_offset(1).unsafe_load())
+        var b2 = UInt32(ptr.unsafe_offset(2).unsafe_load())
+        var b3 = UInt32(ptr.unsafe_offset(3).unsafe_load())
         return b0 | (b1 << 8) | (b2 << 16) | (b3 << 24)
 
     def _read_i32(self, offset: Int) raises -> Int32:
@@ -233,14 +233,14 @@ struct GGUFSeer:
     def _read_u64(self, offset: Int) raises -> UInt64:
         self._require_range(offset, 8)
         var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
-        var b0 = UInt64(ptr[0])
-        var b1 = UInt64(ptr[1])
-        var b2 = UInt64(ptr[2])
-        var b3 = UInt64(ptr[3])
-        var b4 = UInt64(ptr[4])
-        var b5 = UInt64(ptr[5])
-        var b6 = UInt64(ptr[6])
-        var b7 = UInt64(ptr[7])
+        var b0 = UInt64(ptr.unsafe_offset(0).unsafe_load())
+        var b1 = UInt64(ptr.unsafe_offset(1).unsafe_load())
+        var b2 = UInt64(ptr.unsafe_offset(2).unsafe_load())
+        var b3 = UInt64(ptr.unsafe_offset(3).unsafe_load())
+        var b4 = UInt64(ptr.unsafe_offset(4).unsafe_load())
+        var b5 = UInt64(ptr.unsafe_offset(5).unsafe_load())
+        var b6 = UInt64(ptr.unsafe_offset(6).unsafe_load())
+        var b7 = UInt64(ptr.unsafe_offset(7).unsafe_load())
         return b0 | (b1 << 8) | (b2 << 16) | (b3 << 24) | (b4 << 32) | (b5 << 40) | (b6 << 48) | (b7 << 56)
 
     def _read_f32(self, offset: Int) raises -> Float32:
