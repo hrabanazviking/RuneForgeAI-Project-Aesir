@@ -246,7 +246,7 @@ struct GGUFSeer:
     def _read_f32(self, offset: Int) raises -> Float32:
         self._require_range(offset, 4)
         var bits = self._read_u32(offset)
-        return rebind[Float32](bits)
+        return bitcast[DType.float32](bits)
 
     def _read_string(self, offset: Int) raises -> String:
         var string_length = Int(self._read_u64(offset))
