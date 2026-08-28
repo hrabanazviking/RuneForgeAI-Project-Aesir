@@ -77,7 +77,7 @@ counts as completion of an external capability.
 - [x] **Repository Structure & Asset Cleanup:** Consolidated 20+ root image files into `docs/assets/images/`, moved `TASK_*.md` documentation files into `docs/tasks/`, and updated all markdown image links.
 - [x] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
 - [x] **Live OpenAI REST API Inference Connection (`AES-SRV-006`):** Connect bare-metal POSIX socket `/v1/chat/completions` REST endpoint directly to the local GGUF engine runner for streaming inference.
-- [ ] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
+- [x] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
 - [ ] **Security Fuzzing & Resource Limits:** Add GGUF parser fuzzing harness, enforce system-level generation token limits, and document threat model (`AES-OPS-003`).
 
 ### Remaining Audit & Hardening Remedies (Backlog)
