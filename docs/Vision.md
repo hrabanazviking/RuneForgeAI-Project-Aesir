@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 64.1 — Exception-Safe Workspace Pool Offset Recovery (`AES-MEM-005`)
+* **Stage 64.1 Workspace Recovery Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Added try-catch workspace pool offset restoration around single-device and multi-device `forward_pass()` execution in `core/inference.mojo`, guaranteeing zero arena offset drift or memory pool leakage even under layer execution failures. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 63.1 — RuneTensor Lifetime Contracts & Checked Indexing (`AES-MEM-002`)
 * **Stage 63.1 RuneTensor Lifetime Milestone ([`AES-MEM-002`](../CAPABILITY_LEDGER.md) `verified`)**: Added `is_borrowed()` and `is_owned()` lifetime methods and `get_checked()` / `set_checked()` boundary safety guards to `RuneTensor` in `core/mimir_well.mojo`. Created unit test suite in `test_kv_cache.mojo` proving out-of-bounds index rejection. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 

@@ -121,8 +121,8 @@ graph TD
   - **`gemm_f16_gpu` (Slice 8) — The Universal GPU Realm Gateway:** Single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms (`NVIDIA_CUDA`/`AMD_ROCM_HIP`/`INTEL_ONEAPI_XE` → `gemm_f16`, `MUSA`/`SUPA`/`MACA`/`DCU` → `gemm_f16_gpgpu_vector`, `MALI`/`ADRENO`/`POWERVR` → `gemm_f16_mobile_opencl`). Called from `TransformerBlock.forward()` and `forward_pass()`.
 
 ### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock` & `forward_pass`)
-- **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, and GPU realm dispatch support.
-- **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`.
+- **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, GPU realm dispatch support, and exception-safe arena offset restoration.
+- **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`. Features try-catch workspace pool offset restoration (`well.reset_kv_cache(start_offset)`) around single-device and multi-device execution paths, preventing workspace arena leakage or offset drift under layer exceptions (`AES-MEM-005`).
 - **GPU Dispatch (Slice 8):** `TransformerBlock.forward()` accepts `use_gpu_realm: Bool` and `gpu_realm: GPURealmType`. When `use_gpu_realm` is `True` on the single-device path, all GEMM calls (QKV, output projection, FFN up/gate/down) are dispatched through `gemm_f16_gpu(…, gpu_realm)`. `forward_pass()` threads `use_gpu_realm` and `gpu_realm` into every layer block and into the final vocabulary projection.
 
 ### 8. `cli/` & `main.mojo` — The Ollama CLI & REPL Terminal Suite (Slice 9)
