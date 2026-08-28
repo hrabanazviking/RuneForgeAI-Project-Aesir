@@ -250,7 +250,7 @@ counts as completion of an external capability.
 - [x] Add checked integer conversions/arithmetic for all offsets, lengths,
   counts, alignments, shapes, and products.
 - [x] Define duplicate metadata/tensor-key behavior.
-- [ ] Replace architecture-unsafe unaligned/native-endian reads with portable
+- [x] Replace architecture-unsafe unaligned/native-endian reads with portable
   bounded reads.
 - [x] Guarantee unmap/free/close cleanup on every partial parse or mapping error.
 - [ ] Build a malformed GGUF corpus covering magic, versions, types, truncation,

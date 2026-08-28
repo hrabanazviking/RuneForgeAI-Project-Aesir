@@ -220,19 +220,33 @@ struct GGUFSeer:
 
     def _read_u32(self, offset: Int) raises -> UInt32:
         self._require_range(offset, 4)
-        return self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt32]().unsafe_load()
+        var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
+        var b0 = UInt32(ptr[0])
+        var b1 = UInt32(ptr[1])
+        var b2 = UInt32(ptr[2])
+        var b3 = UInt32(ptr[3])
+        return b0 | (b1 << 8) | (b2 << 16) | (b3 << 24)
 
     def _read_i32(self, offset: Int) raises -> Int32:
-        self._require_range(offset, 4)
-        return self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[Int32]().unsafe_load()
+        return Int32(self._read_u32(offset))
 
     def _read_u64(self, offset: Int) raises -> UInt64:
         self._require_range(offset, 8)
-        return self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt64]().unsafe_load()
+        var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
+        var b0 = UInt64(ptr[0])
+        var b1 = UInt64(ptr[1])
+        var b2 = UInt64(ptr[2])
+        var b3 = UInt64(ptr[3])
+        var b4 = UInt64(ptr[4])
+        var b5 = UInt64(ptr[5])
+        var b6 = UInt64(ptr[6])
+        var b7 = UInt64(ptr[7])
+        return b0 | (b1 << 8) | (b2 << 16) | (b3 << 24) | (b4 << 32) | (b5 << 40) | (b6 << 48) | (b7 << 56)
 
     def _read_f32(self, offset: Int) raises -> Float32:
         self._require_range(offset, 4)
-        return self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[Float32]().unsafe_load()
+        var bits = self._read_u32(offset)
+        return rebind[Float32](bits)
 
     def _read_string(self, offset: Int) raises -> String:
         var string_length = Int(self._read_u64(offset))
@@ -405,7 +419,11 @@ struct GGUFSeer:
     def parse_header_bytes[origin: Origin](mut self, bytes_ptr: Pointer[UInt8, origin], size_bytes: Int, mut well: MimirWell) raises:
         if size_bytes < 24:
             raise Error("GGUF header byte buffer size must be at least 24 bytes")
-        var magic = UInt32(bytes_ptr[0]) | (UInt32(bytes_ptr[1]) << 8) | (UInt32(bytes_ptr[2]) << 16) | (UInt32(bytes_ptr[3]) << 24)
+        var b0 = UInt32(bytes_ptr.unsafe_offset(0).unsafe_load())
+        var b1 = UInt32(bytes_ptr.unsafe_offset(1).unsafe_load())
+        var b2 = UInt32(bytes_ptr.unsafe_offset(2).unsafe_load())
+        var b3 = UInt32(bytes_ptr.unsafe_offset(3).unsafe_load())
+        var magic = b0 | (b1 << 8) | (b2 << 16) | (b3 << 24)
         if magic != 0x46554747:
             raise Error("GGUF magic bytes are invalid")
 
