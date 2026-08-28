@@ -15,6 +15,14 @@ struct CLIOptions:
     var raw: Bool
     var insecure: Bool
     var max_tokens: Int
+    var config_path: String
+    var accel_backend: String
+    var skaldbrodir: String  # "auto", "on", "off"
+    var thinking: String     # "auto", "on", "off"
+    var cia: String          # "auto", "on", "off"
+    var wic: String          # "auto", "on", "off"
+    var nsfi: String         # "auto", "on", "off"
+    var tui: Bool
 
     def __init__(out self):
         self.verbose = False
@@ -24,6 +32,14 @@ struct CLIOptions:
         self.raw = False
         self.insecure = False
         self.max_tokens = 32
+        self.config_path = String("aesir.config.toml")
+        self.accel_backend = String("auto")
+        self.skaldbrodir = String("auto")
+        self.thinking = String("auto")
+        self.cia = String("auto")
+        self.wic = String("auto")
+        self.nsfi = String("auto")
+        self.tui = False
 
 
 def parse_duration_seconds(duration_str: String) raises -> Int:
@@ -85,5 +101,42 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
                 raise Error("Missing value for --max-tokens flag")
             options.max_tokens = parse_int(args[i + 1])
             i += 1
+        elif arg == "--config" or arg == "-c":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --config/-c flag")
+            options.config_path = args[i + 1]
+            i += 1
+        elif arg == "--accel" or arg == "-a":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --accel/-a flag")
+            options.accel_backend = args[i + 1]
+            i += 1
+        elif arg == "--skaldbrodir":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --skaldbrodir flag")
+            options.skaldbrodir = args[i + 1]
+            i += 1
+        elif arg == "--thinking":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --thinking flag")
+            options.thinking = args[i + 1]
+            i += 1
+        elif arg == "--cia":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --cia flag")
+            options.cia = args[i + 1]
+            i += 1
+        elif arg == "--wic":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --wic flag")
+            options.wic = args[i + 1]
+            i += 1
+        elif arg == "--nsfi":
+            if i + 1 >= len(args):
+                raise Error("Missing value for --nsfi flag")
+            options.nsfi = args[i + 1]
+            i += 1
+        elif arg == "--tui":
+            options.tui = True
         i += 1
     return options^

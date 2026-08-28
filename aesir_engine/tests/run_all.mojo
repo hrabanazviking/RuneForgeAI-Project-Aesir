@@ -165,6 +165,15 @@ from tests.test_swarm_cluster import (
     test_peer_registry_and_load_balancer,
     test_swarm_cluster_task_dispatch,
 )
+from tests.test_new_paradigms_suite import (
+    test_config_and_toml,
+    test_cli_flags,
+    test_help_and_tui,
+    test_skaldbrodir_doom_loop,
+    test_thinking_and_tool_use,
+    test_smart_crash_and_max,
+    test_experimental_paradigms,
+)
 from tests.test_ledger import TestLedger, run_case, record_skip
 
 
@@ -389,4 +398,16 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(108)
+    # --- New System Paradigms, Safety Protocols and Framework Controls ---
+    print("  [DOMAIN] System Paradigms, Safety Protocols and Framework Controls")
+    print("  -----------------------------------------")
+    run_case(ledger, "paradigms.config_and_toml", test_config_and_toml)
+    run_case(ledger, "paradigms.cli_flags", test_cli_flags)
+    run_case(ledger, "paradigms.help_and_tui", test_help_and_tui)
+    run_case(ledger, "paradigms.skaldbrodir_doom_loop", test_skaldbrodir_doom_loop)
+    run_case(ledger, "paradigms.thinking_and_tool_use", test_thinking_and_tool_use)
+    run_case(ledger, "paradigms.smart_crash_and_max", test_smart_crash_and_max)
+    run_case(ledger, "paradigms.experimental_paradigms", test_experimental_paradigms)
+    print("")
+
+    ledger.finish(115)

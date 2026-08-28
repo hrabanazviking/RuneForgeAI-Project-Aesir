@@ -1,0 +1,123 @@
+# config.mojo
+# Human-Readable Configuration System for Project A.E.S.I.R.
+
+struct AesirConfig:
+    """
+    AesirConfig — Central configuration container for Project A.E.S.I.R.
+    Governs hardware acceleration, compute paradigms, safety protocols, and defaults.
+    """
+    var acceleration_backend: String  # "auto", "cuda", "metal", "intel", "amd", "npu", "cpu", "max"
+    var skaldbrodir_enabled: Bool      # Doom Loop Annihilation Protocol
+    var thinking_enabled: Bool        # Thought token generation & suppression toggle
+    var cia_enabled: Bool             # Cognitive Inference Architecture (Episodic Computation Memory)
+    var wic_enabled: Bool             # Wave Inference Computing (Holographic standing waves)
+    var nsfi_enabled: Bool            # Neural Spectral Fractal Inference
+    var tui_enabled: Bool             # Terminal UI monitoring dashboard
+    var max_threads: Int              # Thread pool limit (0 = auto-detect CPU cores)
+    var num_gpu_layers: Int           # Number of model layers offloaded to GPU/NPU (-1 = all)
+    var temperature: Float64          # Default sampling temperature
+    var top_p: Float64                # Default top-p nucleus sampling cutoff
+    var config_path: String           # Source path of loaded configuration file
+
+    def __init__(out self):
+        self.acceleration_backend = String("auto")
+        self.skaldbrodir_enabled = True
+        self.thinking_enabled = True
+        self.cia_enabled = False
+        self.wic_enabled = False
+        self.nsfi_enabled = False
+        self.tui_enabled = False
+        self.max_threads = 0
+        self.num_gpu_layers = -1
+        self.temperature = 0.7
+        self.top_p = 0.9
+        self.config_path = String("aesir.config.toml")
+
+    def to_toml_string(self) -> String:
+        """Serializes current configuration into annotated human-readable TOML string."""
+        var out_str = String("# ═══════════════════════════════════════════════════════════════════════════════\n")
+        out_str += "# Project A.E.S.I.R. Configuration Manifest (aesir.config.toml)\n"
+        out_str += "# ═══════════════════════════════════════════════════════════════════════════════\n\n"
+        
+        out_str += "[hardware]\n"
+        out_str += "# Acceleration backend: auto | cuda | metal | intel | amd | npu | cpu | max\n"
+        out_str += "acceleration_backend = \"" + self.acceleration_backend + "\"\n"
+        out_str += "# Number of layers to offload (-1 = all available layers)\n"
+        out_str += "num_gpu_layers = " + String(self.num_gpu_layers) + "\n"
+        out_str += "# CPU thread pool limit (0 = auto-detect max cores)\n"
+        out_str += "max_threads = " + String(self.max_threads) + "\n\n"
+
+        out_str += "[safety]\n"
+        out_str += "# SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol (Repetition & Entropy guard)\n"
+        out_str += "skaldbrodir_enabled = " + (String("true") if self.skaldbrodir_enabled else String("false")) + "\n"
+        out_str += "# Thinking mode control (Hard suppression of thought tokens when false)\n"
+        out_str += "thinking_enabled = " + (String("true") if self.thinking_enabled else String("false")) + "\n\n"
+
+        out_str += "[experimental_paradigms]\n"
+        out_str += "# CIA: Cognitive Inference Architecture (Episodic Computation Memory)\n"
+        out_str += "cia_enabled = " + (String("true") if self.cia_enabled else String("false")) + "\n"
+        out_str += "# WIC: Wave Inference Computing (Holographic Wavefront Interference)\n"
+        out_str += "wic_enabled = " + (String("true") if self.wic_enabled else String("false")) + "\n"
+        out_str += "# NSFI: Neural Spectral Fractal Inference (Fractal Attractor Weight Encoding)\n"
+        out_str += "nsfi_enabled = " + (String("true") if self.nsfi_enabled else String("false")) + "\n\n"
+
+        out_str += "[interface]\n"
+        out_str += "# Enable Rich Terminal Monitoring Dashboard (TUI)\n"
+        out_str += "tui_enabled = " + (String("true") if self.tui_enabled else String("false")) + "\n\n"
+
+        out_str += "[sampling]\n"
+        out_str += "temperature = " + String(self.temperature) + "\n"
+        out_str += "top_p = " + String(self.top_p) + "\n"
+
+        return out_str
+
+def parse_config_toml(toml_content: String) raises -> AesirConfig:
+    """Parses a TOML configuration string into an AesirConfig instance."""
+    var config = AesirConfig()
+    var lines = toml_content.split("\n")
+    for i in range(len(lines)):
+        var line = lines[i].strip()
+        if len(line.as_bytes()) == 0 or line.startswith("#") or line.startswith("["):
+            continue
+        var parts = line.split("=")
+        if len(parts) != 2:
+            continue
+        var key = String(parts[0].strip())
+        var val = String(parts[1].strip().strip('"').strip("'"))
+
+        if key == "acceleration_backend":
+            config.acceleration_backend = val
+        elif key == "skaldbrodir_enabled":
+            config.skaldbrodir_enabled = (val.lower() == "true")
+        elif key == "thinking_enabled":
+            config.thinking_enabled = (val.lower() == "true")
+        elif key == "cia_enabled":
+            config.cia_enabled = (val.lower() == "true")
+        elif key == "wic_enabled":
+            config.wic_enabled = (val.lower() == "true")
+        elif key == "nsfi_enabled":
+            config.nsfi_enabled = (val.lower() == "true")
+        elif key == "tui_enabled":
+            config.tui_enabled = (val.lower() == "true")
+        elif key == "max_threads":
+            try:
+                config.max_threads = atol(val)
+            except:
+                pass
+        elif key == "num_gpu_layers":
+            try:
+                config.num_gpu_layers = atol(val)
+            except:
+                pass
+        elif key == "temperature":
+            try:
+                config.temperature = atof(val)
+            except:
+                pass
+        elif key == "top_p":
+            try:
+                config.top_p = atof(val)
+            except:
+                pass
+
+    return config^
