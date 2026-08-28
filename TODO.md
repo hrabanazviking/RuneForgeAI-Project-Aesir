@@ -189,9 +189,9 @@ counts as completion of an external capability.
 - [x] **[verified, AES-MEM-002; AER-005] Add checked `RuneTensor` construction:**
   Reject negative/overflowed shapes, invalid spans, null/sentinel pointers, and
   provide checked `get_checked` / `set_checked` indexing.
-- [ ] Define borrowed versus owned, mutable versus immutable, and lifetime
+- [x] Define borrowed versus owned, mutable versus immutable, and lifetime
   relationships for mmap-, pool-, shard-, and result-backed tensors.
-- [ ] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
+- [x] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
 - [x] Validate `KVCache` layer count, context, KV width, products, and pool
   capacity during construction.
 - [x] Validate `KVCache.append()` layer, position, key width, and value width.
