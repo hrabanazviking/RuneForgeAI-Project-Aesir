@@ -13,6 +13,7 @@ struct AesirConfig:
     var cia_enabled: Bool             # Cognitive Inference Architecture (Episodic Computation Memory)
     var wic_enabled: Bool             # Wave Inference Computing (Holographic standing waves)
     var nsfi_enabled: Bool            # Neural Spectral Fractal Inference
+    var mqari_enabled: Bool           # MÍMIR-VØLVA Quantum-Acoustic Resonance Inference
     var tui_enabled: Bool             # Terminal UI monitoring dashboard
     var max_threads: Int              # Thread pool limit (0 = auto-detect CPU cores)
     var num_gpu_layers: Int           # Number of model layers offloaded to GPU/NPU (-1 = all)
@@ -28,6 +29,7 @@ struct AesirConfig:
         self.cia_enabled = False
         self.wic_enabled = False
         self.nsfi_enabled = False
+        self.mqari_enabled = False
         self.tui_enabled = False
         self.max_threads = 0
         self.num_gpu_layers = -1
@@ -53,7 +55,8 @@ struct AesirConfig:
         out_str += "  \"experimental_paradigms\": {\n"
         out_str += "    \"cia_enabled\": " + (String("true") if self.cia_enabled else String("false")) + ",\n"
         out_str += "    \"wic_enabled\": " + (String("true") if self.wic_enabled else String("false")) + ",\n"
-        out_str += "    \"nsfi_enabled\": " + (String("true") if self.nsfi_enabled else String("false")) + "\n"
+        out_str += "    \"nsfi_enabled\": " + (String("true") if self.nsfi_enabled else String("false")) + ",\n"
+        out_str += "    \"mqari_enabled\": " + (String("true") if self.mqari_enabled else String("false")) + "\n"
         out_str += "  },\n"
 
         out_str += "  \"interface\": {\n"
@@ -96,6 +99,8 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
             config.wic_enabled = (val.lower() == "true")
         elif key == "nsfi_enabled":
             config.nsfi_enabled = (val.lower() == "true")
+        elif key == "mqari_enabled":
+            config.mqari_enabled = (val.lower() == "true")
         elif key == "tui_enabled":
             config.tui_enabled = (val.lower() == "true")
         elif key == "max_threads":

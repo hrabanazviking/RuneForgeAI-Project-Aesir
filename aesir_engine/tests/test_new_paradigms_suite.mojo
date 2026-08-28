@@ -13,6 +13,7 @@ from core.max_gate import MAXGate
 from core.cia import EpisodicComputationMemory
 from core.wic import WaveInferenceEngine
 from core.nsfi import NSFIEngine
+from core.mqari import MQARIEngine
 from core.mimir_well import MimirWell, RuneTensor, f16, NPUBackendType
 from core.npu_gate import NPUGate
 
@@ -148,6 +149,10 @@ def test_experimental_paradigms() raises:
     var w_ptr = well.allocate(16)
     var target_w = RuneTensor[f16](4, 4, w_ptr)
     nsfi.reconstruct_fractal_weights(1.5, 2.5, target_w)
+
+    var mqari = MQARIEngine()
+    mqari.enabled = True
+    mqari.solve_harmonic_resonance(in_sig, out_wave)
     print("test_experimental_paradigms: PASS")
 
 def main() raises:

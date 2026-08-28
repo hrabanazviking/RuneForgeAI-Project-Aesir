@@ -12,7 +12,8 @@
   "experimental_paradigms": {
     "cia_enabled": false,
     "wic_enabled": false,
-    "nsfi_enabled": false
+    "nsfi_enabled": false,
+    "mqari_enabled": false
   },
   "interface": {
     "tui_enabled": false
