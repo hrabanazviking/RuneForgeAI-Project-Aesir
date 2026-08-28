@@ -1,7 +1,7 @@
 # tests/test_new_paradigms_suite.mojo
 # Proving suite for Config, SKÁLDBRØÐIR, Thinking, Tool Use, Smart Crash, MAX, CIA, WIC, and NSFI
 
-from config import AesirConfig, parse_config_toml
+from config import AesirConfig, parse_config_json
 from cli.options import parse_cli_options
 from cli.help import get_help_overview, get_command_help
 from cli.tui import AesirTUIDashboard
@@ -13,24 +13,31 @@ from core.max_gate import MAXGate
 from core.cia import EpisodicComputationMemory
 from core.wic import WaveInferenceEngine
 from core.nsfi import NSFIEngine
-from core.mimir_well import MimirWell, RuneTensor, f16
+from core.mimir_well import MimirWell, RuneTensor, f16, NPUBackendType
+from core.npu_gate import NPUGate
 
-def test_config_and_toml() raises:
+def test_config_and_json() raises:
     var cfg = AesirConfig()
-    cfg.acceleration_backend = String("cuda")
+    cfg.acceleration_backend = String("npu")
+    cfg.target_npu = String("hailo10")
     cfg.skaldbrodir_enabled = True
     cfg.cia_enabled = True
-    var toml_out = cfg.to_toml_string()
+    var json_out = cfg.to_json_string()
 
-    if "acceleration_backend = \"cuda\"" not in toml_out:
-        raise Error("test_config_and_toml: Failed to serialize config to TOML")
+    if "\"acceleration_backend\": \"npu\"" not in json_out:
+        raise Error("test_config_and_json: Failed to serialize config to JSON")
 
-    var parsed = parse_config_toml(toml_out)
-    if parsed.acceleration_backend != "cuda":
-        raise Error("test_config_and_toml: Failed to parse acceleration_backend")
+    var parsed = parse_config_json(json_out)
+    if parsed.acceleration_backend != "npu":
+        raise Error("test_config_and_json: Failed to parse acceleration_backend")
+    if parsed.target_npu != "hailo10":
+        raise Error("test_config_and_json: Failed to parse target_npu")
     if not parsed.skaldbrodir_enabled:
-        raise Error("test_config_and_toml: Failed to parse skaldbrodir_enabled")
-    print("test_config_and_toml: PASS")
+        raise Error("test_config_and_json: Failed to parse skaldbrodir_enabled")
+    
+    # Prove Hailo-10 /dev/hailo0 Pi 5 device detection method executes cleanly
+    _ = NPUGate.is_hailo_pi5_device_present()
+    print("test_config_and_json: PASS")
 
 def test_cli_flags() raises:
     var args = List[String]()
@@ -145,7 +152,7 @@ def test_experimental_paradigms() raises:
 
 def main() raises:
     print("=== Testing New Paradigms & System Extensions ===")
-    test_config_and_toml()
+    test_config_and_json()
     test_cli_flags()
     test_help_and_tui()
     test_skaldbrodir_doom_loop()

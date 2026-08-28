@@ -166,7 +166,7 @@ from tests.test_swarm_cluster import (
     test_swarm_cluster_task_dispatch,
 )
 from tests.test_new_paradigms_suite import (
-    test_config_and_toml,
+    test_config_and_json,
     test_cli_flags,
     test_help_and_tui,
     test_skaldbrodir_doom_loop,
@@ -401,7 +401,7 @@ def main() raises:
     # --- New System Paradigms, Safety Protocols and Framework Controls ---
     print("  [DOMAIN] System Paradigms, Safety Protocols and Framework Controls")
     print("  -----------------------------------------")
-    run_case(ledger, "paradigms.config_and_toml", test_config_and_toml)
+    run_case(ledger, "paradigms.config_and_json", test_config_and_json)
     run_case(ledger, "paradigms.cli_flags", test_cli_flags)
     run_case(ledger, "paradigms.help_and_tui", test_help_and_tui)
     run_case(ledger, "paradigms.skaldbrodir_doom_loop", test_skaldbrodir_doom_loop)

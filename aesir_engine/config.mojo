@@ -1,12 +1,13 @@
 # config.mojo
-# Human-Readable Configuration System for Project A.E.S.I.R.
+# Human-Readable JSON Configuration System for Project A.E.S.I.R.
 
 struct AesirConfig:
     """
     AesirConfig — Central configuration container for Project A.E.S.I.R.
-    Governs hardware acceleration, compute paradigms, safety protocols, and defaults.
+    Governs hardware acceleration (GPUs, NPUs including Hailo-10 / Pi 5), compute paradigms, safety protocols, and defaults.
     """
     var acceleration_backend: String  # "auto", "cuda", "metal", "intel", "amd", "npu", "cpu", "max"
+    var target_npu: String            # "auto", "hailo10", "hailo8", "hexagon", "ane", "intel_npu", "arm_neon"
     var skaldbrodir_enabled: Bool      # Doom Loop Annihilation Protocol
     var thinking_enabled: Bool        # Thought token generation & suppression toggle
     var cia_enabled: Bool             # Cognitive Inference Architecture (Episodic Computation Memory)
@@ -21,6 +22,7 @@ struct AesirConfig:
 
     def __init__(out self):
         self.acceleration_backend = String("auto")
+        self.target_npu = String("auto")
         self.skaldbrodir_enabled = True
         self.thinking_enabled = True
         self.cia_enabled = False
@@ -31,62 +33,59 @@ struct AesirConfig:
         self.num_gpu_layers = -1
         self.temperature = 0.7
         self.top_p = 0.9
-        self.config_path = String("aesir.config.toml")
+        self.config_path = String("aesir.config.json")
 
-    def to_toml_string(self) -> String:
-        """Serializes current configuration into annotated human-readable TOML string."""
-        var out_str = String("# ═══════════════════════════════════════════════════════════════════════════════\n")
-        out_str += "# Project A.E.S.I.R. Configuration Manifest (aesir.config.toml)\n"
-        out_str += "# ═══════════════════════════════════════════════════════════════════════════════\n\n"
-        
-        out_str += "[hardware]\n"
-        out_str += "# Acceleration backend: auto | cuda | metal | intel | amd | npu | cpu | max\n"
-        out_str += "acceleration_backend = \"" + self.acceleration_backend + "\"\n"
-        out_str += "# Number of layers to offload (-1 = all available layers)\n"
-        out_str += "num_gpu_layers = " + String(self.num_gpu_layers) + "\n"
-        out_str += "# CPU thread pool limit (0 = auto-detect max cores)\n"
-        out_str += "max_threads = " + String(self.max_threads) + "\n\n"
+    def to_json_string(self) -> String:
+        """Serializes current configuration into human-readable JSON string."""
+        var out_str = String("{\n")
+        out_str += "  \"hardware\": {\n"
+        out_str += "    \"acceleration_backend\": \"" + self.acceleration_backend + "\",\n"
+        out_str += "    \"target_npu\": \"" + self.target_npu + "\",\n"
+        out_str += "    \"num_gpu_layers\": " + String(self.num_gpu_layers) + ",\n"
+        out_str += "    \"max_threads\": " + String(self.max_threads) + "\n"
+        out_str += "  },\n"
 
-        out_str += "[safety]\n"
-        out_str += "# SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol (Repetition & Entropy guard)\n"
-        out_str += "skaldbrodir_enabled = " + (String("true") if self.skaldbrodir_enabled else String("false")) + "\n"
-        out_str += "# Thinking mode control (Hard suppression of thought tokens when false)\n"
-        out_str += "thinking_enabled = " + (String("true") if self.thinking_enabled else String("false")) + "\n\n"
+        out_str += "  \"safety\": {\n"
+        out_str += "    \"skaldbrodir_enabled\": " + (String("true") if self.skaldbrodir_enabled else String("false")) + ",\n"
+        out_str += "    \"thinking_enabled\": " + (String("true") if self.thinking_enabled else String("false")) + "\n"
+        out_str += "  },\n"
 
-        out_str += "[experimental_paradigms]\n"
-        out_str += "# CIA: Cognitive Inference Architecture (Episodic Computation Memory)\n"
-        out_str += "cia_enabled = " + (String("true") if self.cia_enabled else String("false")) + "\n"
-        out_str += "# WIC: Wave Inference Computing (Holographic Wavefront Interference)\n"
-        out_str += "wic_enabled = " + (String("true") if self.wic_enabled else String("false")) + "\n"
-        out_str += "# NSFI: Neural Spectral Fractal Inference (Fractal Attractor Weight Encoding)\n"
-        out_str += "nsfi_enabled = " + (String("true") if self.nsfi_enabled else String("false")) + "\n\n"
+        out_str += "  \"experimental_paradigms\": {\n"
+        out_str += "    \"cia_enabled\": " + (String("true") if self.cia_enabled else String("false")) + ",\n"
+        out_str += "    \"wic_enabled\": " + (String("true") if self.wic_enabled else String("false")) + ",\n"
+        out_str += "    \"nsfi_enabled\": " + (String("true") if self.nsfi_enabled else String("false")) + "\n"
+        out_str += "  },\n"
 
-        out_str += "[interface]\n"
-        out_str += "# Enable Rich Terminal Monitoring Dashboard (TUI)\n"
-        out_str += "tui_enabled = " + (String("true") if self.tui_enabled else String("false")) + "\n\n"
+        out_str += "  \"interface\": {\n"
+        out_str += "    \"tui_enabled\": " + (String("true") if self.tui_enabled else String("false")) + "\n"
+        out_str += "  },\n"
 
-        out_str += "[sampling]\n"
-        out_str += "temperature = " + String(self.temperature) + "\n"
-        out_str += "top_p = " + String(self.top_p) + "\n"
+        out_str += "  \"sampling\": {\n"
+        out_str += "    \"temperature\": " + String(self.temperature) + ",\n"
+        out_str += "    \"top_p\": " + String(self.top_p) + "\n"
+        out_str += "  }\n"
+        out_str += "}\n"
 
         return out_str
 
-def parse_config_toml(toml_content: String) raises -> AesirConfig:
-    """Parses a TOML configuration string into an AesirConfig instance."""
+def parse_config_json(json_content: String) raises -> AesirConfig:
+    """Parses a JSON configuration string into an AesirConfig instance."""
     var config = AesirConfig()
-    var lines = toml_content.split("\n")
+    var lines = json_content.split("\n")
     for i in range(len(lines)):
         var line = lines[i].strip()
-        if len(line.as_bytes()) == 0 or line.startswith("#") or line.startswith("["):
+        if len(line.as_bytes()) == 0 or line.startswith("{") or line.startswith("}"):
             continue
-        var parts = line.split("=")
+        var parts = line.split(":")
         if len(parts) != 2:
             continue
-        var key = String(parts[0].strip())
-        var val = String(parts[1].strip().strip('"').strip("'"))
+        var key = String(parts[0].strip().strip('"').strip("'"))
+        var val = String(parts[1].strip().strip(",").strip('"').strip("'"))
 
         if key == "acceleration_backend":
             config.acceleration_backend = val
+        elif key == "target_npu":
+            config.target_npu = val
         elif key == "skaldbrodir_enabled":
             config.skaldbrodir_enabled = (val.lower() == "true")
         elif key == "thinking_enabled":

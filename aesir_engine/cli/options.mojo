@@ -32,7 +32,7 @@ struct CLIOptions:
         self.raw = False
         self.insecure = False
         self.max_tokens = 32
-        self.config_path = String("aesir.config.toml")
+        self.config_path = String("aesir.config.json")
         self.accel_backend = String("auto")
         self.skaldbrodir = String("auto")
         self.thinking = String("auto")
