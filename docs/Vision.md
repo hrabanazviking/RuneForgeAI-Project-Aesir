@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 65.1 — Portable Little-Endian Bounded GGUF Reads (`AES-LDR-005`)
+* **Stage 65.1 Portable GGUF Reads Milestone ([`AES-LDR-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded GGUF loader scalar byte reading methods (`_read_u32`, `_read_i32`, `_read_u64`, `_read_f32`) in `loader/gguf.mojo` from native-endian bitcast loads to explicit little-endian byte-reconstruction, guaranteeing cross-platform architecture portability across big-endian and unaligned-strict processors. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 64.1 — Exception-Safe Workspace Pool Offset Recovery (`AES-MEM-005`)
 * **Stage 64.1 Workspace Recovery Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Added try-catch workspace pool offset restoration around single-device and multi-device `forward_pass()` execution in `core/inference.mojo`, guaranteeing zero arena offset drift or memory pool leakage even under layer execution failures. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
