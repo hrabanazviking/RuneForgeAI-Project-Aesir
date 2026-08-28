@@ -82,9 +82,9 @@ counts as completion of an external capability.
 
 ### Remaining Audit & Hardening Remedies (Backlog)
 
-- [ ] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
-- [ ] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
-- [ ] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
+- [x] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
+- [x] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
+- [x] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
 
