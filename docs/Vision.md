@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 85.1 — Speculative Decoding Draft Proposals & Rejection Rollback (`AES-ECO-008`)
+* **Stage 85.1 Speculative Milestone ([`AES-ECO-008`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/speculative.mojo` with `DraftProposal`, `SpeculativeVerificationResult`, and `SpeculativeEngine` providing `propose_draft_tokens()`, `verify_and_reconcile()`, probability-correct rejection sampling, and KV cache rollback step tracking. Created `test_speculative.mojo` unit test suite. Verified 124 passing cases out of 125 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 84.1 — GBNF Grammar Parser & Tokenizer-Aware State Automaton (`AES-ECO-007`)
 * **Stage 84.1 GBNF Grammar Milestone ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/grammar.mojo` with `GBNFRule`, `GBNFAutomatonState`, and `GBNFGrammar` providing rule parsing, candidate token validation, automaton state transitions (`advance_state`), and zero-allocation logit masking. Created `test_gbnf_grammar.mojo` unit test suite. Verified 122 passing cases out of 123 total cases in `run_all.mojo`.
 
