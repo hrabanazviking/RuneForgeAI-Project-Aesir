@@ -19,7 +19,8 @@
    unlisted, stale, hidden, or classification-mismatched violations fail the
    repository gate. Cleanup remains separately approval-bound.
 4. Added deterministic in-memory self-tests and a dedicated hosted-CI step
-   before the live consistency check; no test artifact is created or deleted.
+   before the live consistency check. CI retains history so the pinned baseline
+   is provable on clean runners; no test artifact is created or deleted.
 5. Kept `AES-FND-007` `partial`: seven executables, one placeholder GGUF, and
    24 duplicate root assets remain tracked pending explicit approval, while
    deeper content, provenance, release, and history gates remain open.

@@ -208,6 +208,7 @@ def check_source_truth(errors: list[str]) -> None:
 def check_ci(errors: list[str]) -> None:
     content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     for token in [
+        "fetch-depth: 0",
         "mojo build aesir_engine/main.mojo",
         "mojo run aesir_engine/tests/run_all.mojo",
         "test_fail_closed_runner.mojo",

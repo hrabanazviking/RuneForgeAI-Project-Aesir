@@ -106,4 +106,6 @@ scan full Git history, establish SBOM/signing, or complete `AES-FND-007`.
   rejection, class-mismatch rejection, live schema count, and baseline
   existence without creating or deleting test artifacts.
 - Hosted CI runs the deterministic self-test before the live repository check.
+- CI checks out full Git history so the pinned pre-gate baseline commit is
+  available for exact path verification in a clean runner.
 - No legacy file was deleted, moved, renamed, or rewritten.

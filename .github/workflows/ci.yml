@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Setup Pixi
         uses: prefix-dev/setup-pixi@v0.10.2
