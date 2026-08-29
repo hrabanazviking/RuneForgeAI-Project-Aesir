@@ -9,32 +9,32 @@ def test_gemm_q4_k_m_fused_parity() raises:
     print("--- Testing fused Q4_K_M GEMM parity against uncompressed gemm_f16 ---")
     var well = MimirWell(1024 * 1024)
 
-    # 1. Allocate block memory for 1 BlockQ4_K (32 elements)
+    # 1. Allocate block memory for 1 BlockQ4_K (256 elements)
     var block_layout = Layout[BlockQ4_K](count=1)
     var block_alloc = alloc(block_layout)
     var block_mem = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
     
-    # Scale = 2.0, Min = 0.5, qs = 0x31
     block_mem[] = BlockQ4_K(
-        scale=Scalar[f16](2.0),
-        min_val=Scalar[f16](0.5),
-        qs=SIMD[DType.uint8, 16](0x31)
+        d=Scalar[f16](2.0),
+        dmin=Scalar[f16](0.5),
+        scales=SIMD[DType.uint8, 16](0x01),
+        qs=SIMD[DType.uint8, 128](0x31)
     )
 
     # 2. Dequantize into explicit F16 weight tensor
-    var f16_w_ptr = well.allocate(32)
+    var f16_w_ptr = well.allocate(256)
     dequantize_q4_k_m(block_mem, f16_w_ptr, 1)
-    var B_f16 = RuneTensor[f16](1, 32, f16_w_ptr, False)
+    var B_f16 = RuneTensor[f16](1, 256, f16_w_ptr, False)
 
     # 3. Create quantized weight tensor representation
     var quant_w_ptr = block_mem.unsafe_bitcast[Scalar[f16]]()
-    var B_quant = RuneTensor[f16](1, 32, quant_w_ptr, True, CompressedFormatType(CompressedFormatType.Q4_K_M))
+    var B_quant = RuneTensor[f16](1, 256, quant_w_ptr, True, CompressedFormatType(CompressedFormatType.Q4_K_M))
 
-    # 4. Create input vector A (1 x 32)
-    var a_ptr = well.allocate(32)
-    for i in range(32):
+    # 4. Create input vector A (1 x 256)
+    var a_ptr = well.allocate(256)
+    for i in range(256):
         a_ptr.unsafe_store(i, Scalar[f16](1.0))
-    var A = RuneTensor[f16](1, 32, a_ptr, False)
+    var A = RuneTensor[f16](1, 256, a_ptr, False)
 
     # 5. Output tensors C1 and C2 (1 x 1)
     var c1_ptr = well.allocate(1)
@@ -66,3 +66,7 @@ def test_quantized_tensor_mapping() raises:
     if tensor.quant_format.value != CompressedFormatType.Q4_K_M:
         raise Error("RuneTensor failed to retain quant_format metadata")
     print("RuneTensor Q4_K_M quantization metadata: PASS")
+
+def main() raises:
+    test_gemm_q4_k_m_fused_parity()
+    test_quantized_tensor_mapping()

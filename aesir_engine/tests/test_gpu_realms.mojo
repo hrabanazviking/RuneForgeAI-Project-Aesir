@@ -55,7 +55,6 @@ def test_gpu_realm_enum() raises:
     else:
         raise Error("GPURealmType invariant mismatch")
 
-
 def test_device_topology_gpus() raises:
     print("--- Testing no fabricated GPU discovery ---")
     var topo = DeviceTopology(2)
@@ -98,6 +97,15 @@ def test_gpu_buffer_zero_copy() raises:
             raise Error("GPUBuffer negative size rejection omitted expected error text")
     if not neg_rejected:
         raise Error("GPUBuffer failed to reject negative buffer size")
+
+    # Unverified zero-copy contract rejection check (handle_fd == 0)
+    var zero_copy_rejected = False
+    try:
+        buf.validate_zero_copy_contract()
+    except:
+        zero_copy_rejected = True
+    if not zero_copy_rejected:
+        raise Error("GPUBuffer failed to reject unverified zero-copy contract")
 
     if success:
         print("GPU-labeled host buffer descriptor: PASS")
@@ -145,3 +153,9 @@ def test_gpu_gemm_parity() raises:
                 raise Error("unsupported GPU gateway wrote an output tensor")
 
     print("unsupported GPU execution gateway: PASS")
+
+def main() raises:
+    test_gpu_realm_enum()
+    test_device_topology_gpus()
+    test_gpu_buffer_zero_copy()
+    test_gpu_gemm_parity()

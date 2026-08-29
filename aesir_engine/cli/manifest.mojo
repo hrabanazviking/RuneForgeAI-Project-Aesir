@@ -273,6 +273,24 @@ struct RuneModelStore(Copyable):
                 return True
         return False
 
+    def remove_model_checked(mut self, name: String, active_model: String = String("")) raises:
+        """Removes model manifest with model-in-use and not-found exception guards."""
+        var search_name = name
+        if ":" not in search_name:
+            search_name += String(":latest")
+
+        var active_search = active_model
+        if len(active_search.bytes()) > 0 and ":" not in active_search:
+            active_search += String(":latest")
+
+        if len(active_search.bytes()) > 0 and search_name == active_search:
+            raise Error("cannot remove model currently in use: " + name)
+
+        if search_name not in self.catalog:
+            raise Error("model manifest not found: " + name)
+
+        _ = self.remove_model(search_name)
+
     def serialize_store(self) raises -> String:
         """Serializes entire model store into persistent scroll format."""
         var chunks = List[String]()

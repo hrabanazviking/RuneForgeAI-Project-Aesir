@@ -61,30 +61,67 @@ graph TD
 ### 2. `aesir.mojo` — `AesirEngine` (Orchestrator, RAG, Resilience, Multi-Device Topology, NPU Gateway & GPU Matrix)
 - **Role:** Sovereign facade coordinating intelligence, memory, vector stores, resilience guardians, multi-device topology, NPU backend selection, GPU realm targeting, and transport streaming.
 - **Resilience Matrix (Slice 12):** Holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. During initialization, activates the supervisor and emits an initial heartbeat pulse (`supervisor.pulse_heartbeat()`). Guarantees process self-healing recovery and zero-allocation checkpointing.
-- **Multi-Device Topology & RAG:** Holds `knowledge_base: MimirStore` and `topology: DeviceTopology` (initialized via `num_devices`). In `generate()` and `generate_stream()`, if `knowledge_base.count > 0`, constructs a query vector, executes `knowledge_base.search_knn(query_vector, 3)`, and prepends retrieved document context (`[CONTEXT]: ...`) to the prompt before tokenization. Executes `forward_pass()` passing `topology` to drive single- or multi-device sharded matrix operations across the Bifrost Shard Matrix.
+- **Multi-Device Topology & RAG:** Holds `knowledge_base: MimirStore` and `topology: DeviceTopology` (initialized via `num_devices`). In `generate()` and `generate_stream()`, if `knowledge_base.count > 0`, invokes `extract_query_embedding(prompt, hidden_dim)` to compute mean-pooled query vectors via `token_embd.weight` lookup or string hash projection (`AES-RAG-003`), executes `knowledge_base.search_knn(query_vector, 3)`, formats structured citations (`[CITATION N]: ...`), enforces context byte budgeting (`max_context_bytes = 1024`) (`AES-RAG-005`), and prepends retrieved document context (`[GROUNDED CONTEXT]: ...`) to the prompt before tokenization. Executes `forward_pass()` passing `topology` to drive single- or multi-device sharded matrix operations across the Bifrost Shard Matrix.
 - **Thinking Control (`permit_seidr`):** When set to `False`, the generation loop masks out thinking tokens (`<|start_thought|>`) with $-\infty$ logit probability, preventing unneeded reasoning computation.
 - **NPU Realm Gateway (Slice 7):** Holds `enable_npu: Bool` and `target_backend: NPUBackendType` fields. When `enable_npu` is `True`, logs the active NPU backend name (`target_backend.name()`) during initialization and passes `use_npu=enable_npu, npu_backend=target_backend` into every `forward_pass()` invocation.
 - **Universal Multi-GPU Realm Matrix (Slice 8):** Holds `enable_gpu_realm: Bool` and `target_gpu_realm: GPURealmType` fields. When `enable_gpu_realm` is `True`, logs the active GPU realm name (`target_gpu_realm.name()`) during initialization and passes `use_gpu_realm=enable_gpu_realm, gpu_realm=target_gpu_realm` into every `forward_pass()` invocation, routing GEMM operations through `gemm_f16_gpu` in `core/compute.mojo`.
 
 ### 3. `loader/gguf.mojo` — `GGUFSeer`
-- **Role:** Zero-allocation model parser & weight mapper.
-- **Implementation:** `mmap`s model files directly from disk into address space. Reads 24-byte binary GGUF headers (`magic` `0x46554747`, `version`, `tensor_count`, `kv_count`), walks KV pairs using `skip_value`, populates `RuneWeaver` vocabulary from `tokenizer.ggml.tokens`, and populates tensor metadata dictionary mapping quantized blocks into `MimirWell`.
+- **Role:** Zero-allocation model parser, weight mapper, and binary security fuzzing boundary.
+- **Implementation:** `mmap`s model files directly from disk into address space. Reads 24-byte binary GGUF headers (`magic` `0x46554747`, `version`, `tensor_count`, `kv_count`), walks KV pairs using `skip_value`, populates `RuneWeaver` vocabulary from `tokenizer.ggml.tokens`, and populates tensor metadata dictionary mapping quantized blocks into `MimirWell`. Uses portable little-endian byte-reconstruction (`_read_u32`, `_read_i32`, `_read_u64`, `_read_f32`) for cross-platform endian safety (`AES-LDR-005`). Provides generic memory pointer buffer parser `parse_header_bytes()` for binary stream fuzzing boundary validation (`AES-OPS-003`).
 
 ### 4. `loader/tokenizer.mojo` — `RuneWeaver` (BPE Tokenizer)
 - **Role:** Pure Mojo Byte-Pair Encoding (BPE) Tokenizer.
 - **Implementation:** Translates human text into token arrays (`encode`) and back (`decode`). Features vocabulary lookup maps (`token_to_id`), byte-fallback token formatting (`<0xXX>`), and iterative pair merging. Completely independent of Python or external runtimes.
 
-### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
+### 4.1. `loader/corpus_ingestion.mojo` — Deterministic Corpus Ingestion & Text Chunking
+- **Role:** Text document chunking and vector store batch ingestion pipeline (`AES-RAG-004`).
+- **Implementation:** Provides `DocumentChunk` metadata structure (`id`, `text`, `source_file`, `chunk_index`, `byte_offset`), `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population.
+
+### 4.1a. `loader/chat_template.mojo` — Chat Template Formatting
+- **Role:** Structured chat message formatting for multi-turn conversations.
+- **Implementation:** Provides `ChatMessage` struct (role + content), `ChatTemplate` with system/user/assistant role markers, and `format_chat_prompt()` for rendering multi-turn conversations into model-compatible prompt strings. Supports ChatML, Llama, and custom template formats.
+
+### 4.2. `loader/quantization.mojo` — Quantization Byte Span Bounds Validation & Format Metadata
+- **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
+- **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
+
+### 4.3. `loader/onnx.mojo` — ONNX Protobuf Binary Header & Node Dispatch Validator
+- **Role:** ONNX model header parsing, IR/opset version extraction, and operator dispatcher validation (`AES-ECO-004`).
+- **Implementation:** Provides `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse protobuf binary headers, validate graph nodes against supported operator subset (`MatMul`, `Add`, `Mul`, `Relu`, `Softmax`, etc.), and reject unsupported operator types with explicit error exceptions.
+
+### 4.4. `loader/exl2.mojo` — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator
+- **Role:** EXL2 variable-bit sub-block quantization parser, bitrate metric extraction, and physical CUDA hardware execution contract validator (`AES-ECO-005`).
+- **Implementation:** Provides `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers (2.0 to 8.0 bpw), extract average bitrate metrics, and enforce physical NVIDIA CUDA hardware and custom EXL2 CUDA kernel execution contracts.
+
+### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 
   - `MimirWell`: Pre-allocates a single contiguous memory block using `alloc` and provides `allocate()` for zero-copy pointer slice offsets. In **Slice 7**, provides `allocate_npu_buffer(size_bytes, backend)`. In **Slice 8**, provides `allocate_gpu_buffer(size_bytes, realm)` to carve zero-copy physical GPU stream channels directly from the pool.
+  - `RuneTensor`: Zero-copy tensor structure providing `get_checked()` and `set_checked()` out-of-bounds indexing safety guards and `is_borrowed()` / `is_owned()` lifetime descriptor getters.
   - `KVCache`: Ring-buffer KV cache managing pre-allocated `RuneTensor[f16]` buffers for Key ($K$) and Value ($V$) tensors across `max_seq_len` (e.g., 2048/4096 tokens) and `num_layers`. Provides `append()`, `get_k_slice()`, and `get_v_slice()`.
-  - `MimirStore`: Vector store pre-allocating zero-copy memory inside `MimirWell`. Holds document text chunks (`List[String]`) and embedding matrix `embeddings` (`RuneTensor[f16]`). Provides `add_document()` and `search_knn()` for k-NN vector retrieval.
-  - `DeviceTopology` & `ShardTensor`: Map hardware compute devices (`cuda:0`, `cuda:1`, etc.) and wrap zero-copy `RuneTensor[f16]` slices bound to individual device realms. In **Slice 7**, `DeviceTopology` holds `npu_backends: List[NPUBackendType]`. In **Slice 8**, `DeviceTopology` also holds `gpu_realms: List[GPURealmType]` and calls `detect_gpu_realms()` at initialization to enumerate all ten GPU hardware realms.
-  - Partitioning Functions: `shard_split_cols()` (column-parallel matrix splitting) and `shard_split_rows()` (row-parallel matrix splitting).
-  - **`NPUBackendType` & `NPUBuffer` (Slice 7):** Zero-overhead integer discriminant tag naming six edge NPU spirits and DMA-BUF zero-copy shared memory conduit.
+  - `PagedKVCache`: Dynamic Page-Table KV Cache Pool dividing sequence memory into non-contiguous physical 16-token blocks (`block_size = 16`), enabling page-table virtual indexing, `allocate_block()`, and `free_block()` for zero KV fragmentation.
+  - `MimirStore`: Vector store pre-allocating zero-copy memory inside `MimirWell`. Holds document text chunks (`List[String]`) and embedding matrix `embeddings` (`RuneTensor[f16]`). Provides `add_document()`, `clear()`, and `search_knn()` for k-NN vector retrieval with capacity and dimension boundary validation (`AES-RAG-002`).
+  - `DeviceTopology` & `ShardTensor`: Map hardware compute devices (`cuda:0`, `cuda:1`, etc.) and wrap zero-copy `RuneTensor[f16]` slices bound to individual device realms. Provides `probe_all_hardware()`, `require_npu_backend()`, and `require_gpu_realm()` to separate configured from discovered physical backends and strictly reject absent accelerator requests with explicit error exceptions instead of claiming CPU as hardware execution (`AES-ACC-003`).
+  - Partitioning Functions: `shard_split_cols()` (column-parallel matrix splitting), `shard_split_rows()` (row-parallel matrix splitting), and `shard_split_gqa_heads()` (multi-device Grouped-Query Attention Q/K/V head partitioning with head divisibility validation) (`AES-ACC-004`).
+  - **`NPUBackendType` & `NPUBuffer` (Slice 7):** Zero-overhead integer discriminant tag naming six edge NPU spirits and DMA-BUF zero-copy shared memory conduit. Provides `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
   - **`GPURealmType` (Slice 8):** Zero-overhead integer discriminant tag naming ten global compute GPU hardware realms: `NVIDIA_CUDA (0)`, `AMD_ROCM_HIP (1)`, `INTEL_ONEAPI_XE (2)`, `MOORE_THREADS_MUSA (3)`, `BIREN_SUPA (4)`, `METAX_MACA (5)`, `HYGON_DCU (6)`, `ARM_MALI_OPENCL (7)`, `QUALCOMM_ADRENO (8)`, `IMAGINATION_POWERVR (9)`. Provides `.name()`, `==`, and `!=`. Default: `NVIDIA_CUDA (0)`.
-  - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop.
+  - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop and `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
+
+### 7. `aesir_engine/config.mojo` & System Paradigms (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
+- **Role:** Configuration management, safety protocols, crash self-healing, and optional inference paradigm engines.
+- **Components:**
+  - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
+  - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
+  - `ThinkingController`: Thought token block parsing and hard logit suppression for reasoning tokens when disabled.
+  - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.
+  - `SmartCrashReporter`: Crash interception, structured logging, auto-retry counters, failsafe hardware fallback, and AI code hardening suggestions.
+  - `MAXGate`: Modular MAX Framework execution graph gateway.
+  - `EpisodicComputationMemory`: Cognitive Inference Architecture (CIA) semantic hash matching and state reconstruction.
+  - `WaveInferenceEngine`: Wave Inference Computing (WIC) 2D standing wave propagation.
+  - `NSFIEngine`: Neural Spectral Fractal Inference (NSFI) IFS fractal attractor code weight reconstruction.
+  - `MQARIEngine`: MÍMIR-VØLVA Quantum-Acoustic Resonance Inference (MQARI) multi-frequency harmonic mode solver for edge hardware.
+  - `AesirTUIDashboard`: Terminal monitoring dashboard showing live hardware realm, VRAM/RAM residency, and token throughput.
 
 ### 6. `core/compute.mojo` — Nidavellir SIMD Kernels, Sharded Operations, NPU Gateway & GPU Realm Dispatch
 - **Role:** Hardware SIMD compute kernels, vector similarity alignment, sharded matrix algebra, NPU backend dispatch, and GPU realm matrix multiplication.
@@ -92,10 +129,10 @@ graph TD
   - `gemm_f16`: 32x32 block-tiled matrix multiplication.
   - `flash_attention_2`: Fused $QK^T$, online streaming softmax ($m_i, l_i$), and $V$ accumulation.
   - `silu` & `geglu`: Vectorized activation functions.
-  - `dequantize_q4_k_m`: On-the-fly 4-bit nibble unpacking.
+  - `dequantize_q4_k_m` & `dequantize_compressed_tensor`: On-the-fly 256-weight GGML `BlockQ4_K` block dequantization kernel using 6-bit sub-block scales and 4-bit nibbles (`AES-QNT-001`). `dequantize_compressed_tensor()` and `autotune_quantized_gemm()` strictly reject unrecognized format discriminants with explicit error exceptions, eliminating silent fallbacks (`AES-QNT-003`).
   - `rmsnorm`: Vectorized Root Mean Square normalization with learned scale weights.
   - `apply_rope`: Rotary Position Embeddings in complex space across queries and keys.
-  - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and an unaligned tail loop.
+  - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
   - `gemm_f16_sharded` & `all_reduce_sum`: Multi-device parallel GEMM and SIMD vector reduction across Bifrost Shard Matrix.
   - **`gemm_f16_arm_neon`, `rmsnorm_arm_neon` & `gemm_f16_npu` (Slice 7):** 128-bit ARM NEON kernels and NPU Realm Gateway dispatcher.
   - **`gemm_f16_gpgpu_vector` (Slice 8):** 16-wide SIMD matrix multiplication kernel targeting sovereign GPGPU architectures (Moore Threads MUSA, Biren SUPA, MetaX MACA, Hygon DCU).
@@ -103,27 +140,41 @@ graph TD
   - **`rmsnorm_gpu` (Slice 8):** 16-wide SIMD Root Mean Square Normalization kernel across all ten GPU hardware realms.
   - **`gemm_f16_gpu` (Slice 8) — The Universal GPU Realm Gateway:** Single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms (`NVIDIA_CUDA`/`AMD_ROCM_HIP`/`INTEL_ONEAPI_XE` → `gemm_f16`, `MUSA`/`SUPA`/`MACA`/`DCU` → `gemm_f16_gpgpu_vector`, `MALI`/`ADRENO`/`POWERVR` → `gemm_f16_mobile_opencl`). Called from `TransformerBlock.forward()` and `forward_pass()`.
 
-### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock` & `forward_pass`)
-- **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, and GPU realm dispatch support.
-- **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`.
+### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
+- **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
+- **Implementation:**
+  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime probe with `is_cuda_available()`, dynamic `libcuda.so` / `nvcuda.dll` presence detection, and fail-closed error boundaries for missing CUDA drivers.
+  - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
+  - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
+  - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
+  - `NPUGate` (`npu_gate.mojo`): Edge NPU runtime probe with backend-specific library detection (`libhailort.so`, `libQnnHtp.so`, etc.) and fail-closed boundaries for unavailable NPU hardware.
+- **Boundary:** All gate files are in `core/` (Core — Hardware Discovery Domain). They have zero imports from `server/`, `cli/`, or `loader/`.
+
+### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock`, `forward_pass` & `generation_stop_reason`)
+- **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, GPU realm dispatch support, and exception-safe arena offset restoration.
+- **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`. Features try-catch workspace pool offset restoration (`well.reset_kv_cache(start_offset)`) around single-device and multi-device execution paths, preventing workspace arena leakage or offset drift under layer exceptions (`AES-MEM-005`). `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo` conform to `ImplicitlyCopyable` for zero-copy collection passing (`AES-GEN-009`).
 - **GPU Dispatch (Slice 8):** `TransformerBlock.forward()` accepts `use_gpu_realm: Bool` and `gpu_realm: GPURealmType`. When `use_gpu_realm` is `True` on the single-device path, all GEMM calls (QKV, output projection, FFN up/gate/down) are dispatched through `gemm_f16_gpu(…, gpu_realm)`. `forward_pass()` threads `use_gpu_realm` and `gpu_realm` into every layer block and into the final vocabulary projection.
 
-### 8. `cli/` & `main.mojo` — The Ollama CLI & REPL Terminal Suite (Slice 9)
-- **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), and interactive chat REPL terminal session (`cli/repl.mojo`).
-- **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Communicates with inference through `AesirEngine` facade and with network transport via `BifrostGate`.
+### 8. `cli/` & `main.mojo` — The Ollama CLI, REPL Terminal Suite & llama.cpp CLI Compat (Slice 9 & Slice 25)
+- **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`), CLI flag/option parser (`cli/options.mojo`), and help/TUI dashboard (`cli/help.mojo`, `cli/tui.mojo`).
+- **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). Provides `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` in `cli/llama_cpp_compat.mojo` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1 (`AES-ECO-006`).
 
-### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12)
-- **Role:** Fault tolerance, zero-allocation state snapshotting, process monitoring, inter-module event bus, thread pool concurrency, and defensive memory sanitization.
+### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
+- **Role:** Fault tolerance, versioned durable state snapshotting, process monitoring, inter-module pub/sub event bus, thread pool concurrency, and defensive memory sanitization.
 - **Implementation:**
   - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
-  - `StateVault`: Zero-allocation autoregressive state checkpointing (`save_checkpoint`, `restore_checkpoint`).
-  - `AesirEventBus`: Decoupled Pub/Sub event messaging (`publish_event`, `get_last_event`).
-  - `RuneThreadPool`: Multi-threaded worker pool (`parallel_step`).
-  - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery (`simulate_crash_and_recover`).
+  - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
+  - `AesirEventBus`: Decoupled Pub/Sub event messaging with `EventSubscription`, topic masks, subscriber queues (`subscribe`, `unsubscribe`), and event log queue (`AES-RES-003`).
+  - `RuneThreadPool`: Multi-threaded worker pool with `RuneTask`, task queue submission (`submit_task`), task cancellation (`cancel_task`), and graceful shutdown (`shutdown`) (`AES-RES-004`).
+  - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery simulation (`simulate_crash_and_recover`).
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
 - **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
 - **Implementation:** Provides `HuggingFaceSeer` with static utilities: `parse_hf_repo` (strips `hf.co/` and `huggingface.co/` prefixes), `is_hf_tag` (discriminates HuggingFace repository URI patterns), `build_download_url` (constructs direct HuggingFace resolve CDN HTTPS URLs), and `download_hf_model` (streams model weight streams into local disk storage and `MimirWell` memory substrate). Supports mobile & edge model architectures: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
+
+### 11. `server/api.mojo` & `server/openai.mojo` — Bifrost Gate Server & Gateway (Slice 10 & 11)
+- **Role:** HTTP transport framing, POSIX socket server, OpenAI REST API endpoint routing, request correlation tracking, and JSON string escaping.
+- **Implementation:** Provides `json_escape_string()` for safe JSON payload serialization across quotes, backslashes, tabs, control characters, and Unicode (`AES-SRV-003`). Encapsulates `RequestContext` (correlation ID, session binding, timeout_ms, cancellation) and `build_structured_error()` for structured JSON error payloads (`AES-SRV-004`). Implements `build_http_response()`, `build_sse_chunk()`, `build_http_chunk()`, `unsupported_http_response()`, and `route_not_found_response()`.
 
 ---
 
@@ -358,8 +409,8 @@ graph TD
 | :--- | :--- | :--- | :--- |
 | `OpenAIGate` | `server/openai.mojo` | Server — Transport & Protocol Domain | ✅ **Correct** — OpenAI v1 JSON/SSE payload formatting belongs in transport |
 | `BifrostGate.dispatch_http_route()` | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct** — REST URI routing and socket dispatch belong in server transport |
-| `GBNFGrammar` | `core/grammar.mojo` | Core — Grammar & Constrained Logits | ✅ **Correct** — logit mask manipulation on raw memory buffers belongs in core |
-| `SpeculativeEngine` | `core/speculative.mojo` | Core — Speculative Acceleration | ✅ **Correct** — draft token verification and rejection sampling belong in core |
+| `GBNFGrammar` | `core/grammar.mojo` | Core — Grammar & Constrained Logits | ✅ **Correct** — `GBNFRule`, `GBNFAutomatonState`, `is_token_valid`, `advance_state`, and logit mask manipulation on raw memory buffers belong in core (`AES-ECO-007`) |
+| `SpeculativeEngine` | `core/speculative.mojo` | Core — Speculative Acceleration | ✅ **Correct** — `DraftProposal`, `SpeculativeVerificationResult`, `propose_draft_tokens`, `verify_and_reconcile`, draft token verification, and KV cache rollback step tracking belong in core (`AES-ECO-008`) |
 | `ONNXModelSeer` | `loader/onnx.mojo` | Loader — File Format & Graph Seer | ✅ **Correct** — parsing ONNX protocol buffer models belongs in loader |
 | Multi-Engine CLI Dispatchers | `cli/multi_engine.mojo` | CLI — Command Suite Domain | ✅ **Correct** — terminal subcommand routers belong in CLI domain |
 | `test_multi_engine.mojo` | `tests/test_multi_engine.mojo` | Testing Domain | ✅ **Correct** — multi-engine unit tests belong in test suite |
@@ -427,7 +478,7 @@ graph TD
 | `PeerNode` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node descriptor belongs in core swarm module |
 | `PeerRegistry` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node registry and load balancer belong in core swarm module |
 | `TaskDispatcher` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — dynamic task router belongs in core swarm module |
-| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — swarm orchestrator belongs in core swarm module |
+| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — `NodeIdentity`, `authenticate_node_identity`, `join_mesh_authenticated`, `leave_mesh`, `heartbeat_pulse`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference` belong in core swarm module (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`) |
 | Swarm REST API routes | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct** — REST routes (`/api/swarm/*`) belong in server transport layer |
 | Swarm CLI subcommand (`swarm`) | `cli/commands.mojo` | CLI — Subcommand Dispatcher | ✅ **Correct** — CLI command routing belongs in CLI domain |
 | `AesirEngine.swarm_cluster` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns cluster orchestrator instance |

@@ -2,7 +2,7 @@
 # Session Context & KV-Cache Isolation Architecture for Project Aesir
 
 
-struct SessionContext(Copyable):
+struct SessionContext(Copyable, ImplicitlyCopyable):
     """Encapsulates session state, cancellation triggers, and resource bounds."""
 
     var session_id: String

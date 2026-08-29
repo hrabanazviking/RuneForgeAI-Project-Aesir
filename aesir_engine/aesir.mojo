@@ -2,7 +2,7 @@
 # The central intelligence that unites the components of the Aesir Engine.
 
 from std.math import max
-from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16
+from core.mimir_well import MimirWell, KVCache, MimirStore, RuneTensor, DeviceTopology, NPUBackendType, GPURealmType, f16, f32
 from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
@@ -295,8 +295,61 @@ struct AesirEngine:
                 )
             )
 
+    def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
+        """
+        Mean-Pooled Query Embedding Extractor (The Wisdom Extraction).
+        Extracts token embedding vectors from prompt tokens using token_embd.weight lookup,
+        computing element-wise mean-pooling across the prompt sequence.
+        """
+        if hidden_dim <= 0:
+            raise Error("extract_query_embedding: hidden_dim must be positive")
+        var q_ptr = self.pool.allocate(hidden_dim)
+        var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
+        
+        for i in range(hidden_dim):
+            query_vector.data.unsafe_store(i, 0.0)
+
+        var tokens = self.tokenizer.encode(prompt, False)
+        var n_tokens = len(tokens)
+        if n_tokens == 0:
+            query_vector.data.unsafe_store(0, 1.0)
+            return query_vector^
+
+        if "token_embd.weight" in self.parser.tensors:
+            var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
+            var vocab_size = embd_tensor.rows
+            var embd_dim = embd_tensor.cols
+            var active_dim = min(hidden_dim, embd_dim)
+            
+            for t_idx in range(n_tokens):
+                var tok_id = tokens[t_idx]
+                if tok_id < 0 or tok_id >= vocab_size:
+                    tok_id = 0
+                var row_offset = tok_id * embd_dim
+                for k in range(active_dim):
+                    var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
+                    var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
+                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[f32]()))
+            
+            var scale = Scalar[f32](1.0 / Float32(n_tokens))
+            for k in range(active_dim):
+                var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
+                query_vector.data.unsafe_store(k, Scalar[f16](val))
+        else:
+            var seed_hash: Int = 5381
+            var p_bytes = prompt.as_bytes()
+            for b_idx in range(len(p_bytes)):
+                seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
+            for k in range(hidden_dim):
+                var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
+                query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
+
+        return query_vector^
+
     def _prepare_prompt(mut self, prompt: String) raises -> String:
-        """Applies the existing optional knowledge context before tokenization."""
+        """
+        Applies end-to-end RAG grounded context augmentation with budget enforcement and citations.
+        """
         var active_prompt = prompt
         if self.knowledge_base.count > 0:
             var hidden_dim = self.parser.config.embedding_length
@@ -304,19 +357,33 @@ struct AesirEngine:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
             if hidden_dim <= 0:
                 return prompt
-            var q_ptr = self.pool.allocate(hidden_dim)
-            var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
-            for k in range(hidden_dim):
-                query_vector.data.unsafe_store(k, Scalar[f16](0.1))
+            var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)
+            
             if len(docs) > 0:
-                var context_str = String("[CONTEXT]: ")
+                var max_context_bytes = 1024
+                var context_str = String("[GROUNDED CONTEXT]:\n")
+                var curr_bytes = len(context_str.as_bytes())
+                var added_count = 0
+                
                 for i in range(len(docs)):
-                    if i > 0:
-                        context_str += String(" ")
-                    context_str += docs[i]
-                active_prompt = context_str + String("\n") + prompt
-                print("RAG Context Augmented:", context_str)
+                    var doc_item = docs[i]
+                    var citation = String("[CITATION ") + String(i + 1) + String("]: ") + doc_item + String("\n")
+                    var cit_bytes = len(citation.as_bytes())
+                    if curr_bytes + cit_bytes > max_context_bytes:
+                        break
+                    context_str += citation
+                    curr_bytes += cit_bytes
+                    added_count += 1
+                
+                if added_count > 0:
+                    active_prompt = context_str + String("\n[PROMPT]: ") + prompt
+                    print("RAG Grounded Context Augmented:", context_str)
+                else:
+                    print("RAG Notice: Knowledge context exceeded budget, skipping augmentation.")
+            else:
+                print("RAG Notice: No relevant knowledge context found.")
+            
             self.pool.reset_kv_cache(self.runtime_offset)
         return active_prompt
 

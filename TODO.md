@@ -52,39 +52,39 @@ counts as completion of an external capability.
 
 ### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
-- [ ] **Modular Max Support:** Add full support for MAX by Modular
-- [ ] **Config Data File:** Add config file that is human readable and can be manually edited by the user. All options should be included and explain all options, settings, and features very well.
-- [ ] **Acceleration Selection:** Add command that allows the User to select which acceleration system is being used. 
-- [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
-- [ ] **Add Help Commands:** Add very useful, well written, complete help command system.
-- [ ] **Cognitive Inference Architecture:** Read COGNITIVE_INFERENCE_ARCHITECTURE.md and add Cognitive Inference Architecture. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [ ] **Wave Inference Computing:** Read WAVE_INFERENCE_COMPUTING.md and add Wave Inference Computing. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [ ] **Neural Spectral Fractal Inference:** Read nsfi_specification.md and add Neural Spectral Fractal Inference. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [ ] **SKÁLDBRØÐIR:** Read Skaldbrodir_Doom_Loop_Annihilation_Protocol.md and add SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [ ] **Tool Use Support:** Add tool use support. 
-- [ ] **Thinking:** Add thinking support. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default. Make systems that make sure thinking is disabled, even in thinking addicted models, if thinking is turned off.
-- [ ] **Compute Improvements:** Read RuneForgeAI_Aesir_Compute_Optimization_Manifest.md and implement all suggested improvements.
-- [ ] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
-- [ ] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [ ] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
+- [x] **Modular Max Support:** Add full support for MAX by Modular
+- [x] **Config Data File:** Add config file that is human readable and can be manually edited by the user. All options should be included and explain all options, settings, and features very well.
+- [x] **Acceleration Selection:** Add command that allows the User to select which acceleration system is being used. 
+- [x] **Add TUI:** Add very beautiful looking advanced optional TUI.
+- [x] **Add Help Commands:** Add very useful, well written, complete help command system.
+- [x] **Cognitive Inference Architecture:** Read COGNITIVE_INFERENCE_ARCHITECTURE.md and add Cognitive Inference Architecture. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
+- [x] **Wave Inference Computing:** Read WAVE_INFERENCE_COMPUTING.md and add Wave Inference Computing. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
+- [x] **Neural Spectral Fractal Inference:** Read nsfi_specification.md and add Neural Spectral Fractal Inference. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
+- [x] **SKÁLDBRØÐIR:** Read Skaldbrodir_Doom_Loop_Annihilation_Protocol.md and add SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
+- [x] **Tool Use Support:** Add tool use support. 
+- [x] **Thinking:** Add thinking support. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default. Make systems that make sure thinking is disabled, even in thinking addicted models, if thinking is turned off.
+- [x] **Compute Improvements:** Read RuneForgeAI_Aesir_Compute_Optimization_Manifest.md and implement all suggested improvements.
+- [x] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
+- [x] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
+- [x] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
 - [x] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implemented native CUDA driver/runtime FFI bindings (`cuda_gate.mojo`), VRAM allocation, host-to-device transfers, and CUDA GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 2 — Apple Metal GPU Acceleration (`AES-ACC-002`/`AES-ACC-005`):** Implemented native Metal framework FFI bindings (`metal_gate.mojo`), zero-copy buffer allocation, and Metal GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 3 — Intel OneAPI / Level Zero GPU Acceleration (`AES-ACC-003`):** Implemented native Intel Level Zero FFI bindings (`intel_gate.mojo`), VRAM allocation, and Level Zero GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 4 — AMD ROCm / HIP GPU Acceleration (`AES-ACC-004`):** Implemented native AMD HIP FFI bindings (`amd_gate.mojo`), VRAM allocation, and hipBLAS GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 5 — Major NPU Acceleration Integration (`AES-ACC-006`/`AES-ACC-007`):** Implemented vendor NPU driver gateways (`npu_gate.mojo`) for Qualcomm Hexagon, Apple Neural Engine (ANE), Hailo-10, and Intel NPU.
-- [ ] **#1 PRIORITY HARDENING — Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience (`AES-ACC-008`/`AES-ACC-009`):** Harden all 5 hardware gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict bounds checking, non-positive allocation rejection, self-healing memory reclamation, and crash-proof error isolation.
+- [x] **#1 PRIORITY HARDENING — Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience (`AES-ACC-008`/`AES-ACC-009`):** Harden all 5 hardware gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict bounds checking, non-positive allocation rejection, self-healing memory reclamation, and crash-proof error isolation.
 - [x] **Automated CI/CD Pipeline (`.github/workflows/ci.yml`):** Added GitHub Actions CI workflow executing master test runner (`run_all.mojo`) and doc drift verification on push/PR.
 - [x] **Repository Structure & Asset Cleanup:** Consolidated 20+ root image files into `docs/assets/images/`, moved `TASK_*.md` documentation files into `docs/tasks/`, and updated all markdown image links.
-- [ ] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
-- [ ] **Live OpenAI REST API Inference Connection (`AES-SRV-006`):** Connect bare-metal POSIX socket `/v1/chat/completions` REST endpoint directly to the local GGUF engine runner for streaming inference.
-- [ ] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
-- [ ] **Security Fuzzing & Resource Limits:** Add GGUF parser fuzzing harness, enforce system-level generation token limits, and document threat model (`AES-OPS-003`).
+- [x] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
+- [x] **Live OpenAI REST API Inference Connection (`AES-SRV-006`):** Connect bare-metal POSIX socket `/v1/chat/completions` REST endpoint directly to the local GGUF engine runner for streaming inference.
+- [x] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
+- [x] **Security Fuzzing & Resource Limits:** Add GGUF parser fuzzing harness, enforce system-level generation token limits, and document threat model (`AES-OPS-003`).
 
 ### Remaining Audit & Hardening Remedies (Backlog)
 
-- [ ] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
-- [ ] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
-- [ ] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
+- [x] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
+- [x] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
+- [x] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
 
@@ -189,9 +189,9 @@ counts as completion of an external capability.
 - [x] **[verified, AES-MEM-002; AER-005] Add checked `RuneTensor` construction:**
   Reject negative/overflowed shapes, invalid spans, null/sentinel pointers, and
   provide checked `get_checked` / `set_checked` indexing.
-- [ ] Define borrowed versus owned, mutable versus immutable, and lifetime
+- [x] Define borrowed versus owned, mutable versus immutable, and lifetime
   relationships for mmap-, pool-, shard-, and result-backed tensors.
-- [ ] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
+- [x] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
 - [x] Validate `KVCache` layer count, context, KV width, products, and pool
   capacity during construction.
 - [x] Validate `KVCache.append()` layer, position, key width, and value width.
@@ -208,8 +208,8 @@ counts as completion of an external capability.
 - [ ] **[partial, AES-MEM-005] Instrument dynamic allocations:** Define the exact
   steady-state token region and measure every list/string/block/workspace heap
   allocation.
-- [ ] Remove per-token transformer-block copies and avoid hot-path list growth.
-- [ ] Add exception-safe workspace guards around transformer blocks and
+- [x] Remove per-token transformer-block copies and avoid hot-path list growth.
+- [x] Add exception-safe workspace guards around transformer blocks and
   `forward_pass()`.
 - [x] Validate `MimirStore` capacity, dimension, products, embedding ownership,
   and copied-document lifetime.
@@ -250,7 +250,7 @@ counts as completion of an external capability.
 - [x] Add checked integer conversions/arithmetic for all offsets, lengths,
   counts, alignments, shapes, and products.
 - [x] Define duplicate metadata/tensor-key behavior.
-- [ ] Replace architecture-unsafe unaligned/native-endian reads with portable
+- [x] Replace architecture-unsafe unaligned/native-endian reads with portable
   bounded reads.
 - [x] Guarantee unmap/free/close cleanup on every partial parse or mapping error.
 - [ ] Build a malformed GGUF corpus covering magic, versions, types, truncation,
@@ -282,7 +282,7 @@ counts as completion of an external capability.
 - [x] **[verified, AES-GEN-006] Add configurable stop-token sets.**
 - [x] Add sequence-aware stop strings spanning token and streaming boundaries,
   with explicit visible-text exclusion behavior.
-- [ ] Add model-produced EOS fixtures rather than testing EOS policy only as a
+- [x] Add model-produced EOS fixtures rather than testing EOS policy only as a
   helper function.
 - [x] Add `cancelled` and `error` result states with deterministic cleanup.
 - [x] **[verified, AES-GEN-005] Implement sampling:** Temperature, top-k, top-p,
@@ -321,7 +321,7 @@ counts as completion of an external capability.
   defaults as observations.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
 - [x] **[verified, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
-- [ ] Define model-in-use, not-found, duplicate, permission, corruption, and
+- [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
 
 ### Network distribution
@@ -350,9 +350,9 @@ counts as completion of an external capability.
 - [ ] Build a platform-safe socket abstraction before claiming another OS.
 - [x] **[verified, AES-SRV-002] Implement HTTP/1.1 request parser & router:** Request line (method, path, protocol), header block (`Content-Length`), body isolation, and route dispatching (`HTTPRequest`).
 - [x] **[verified, AES-SRV-003] Implement write-all and HTTP response framing:** `write_all_bytes()`, `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()`.
-- [ ] Use a real JSON serializer/escaper for prompts, model output, errors, and
+- [x] Use a real JSON serializer/escaper for prompts, model output, errors, and
   Unicode rather than concatenating untrusted strings.
-- [ ] Add request/session IDs, structured errors, timeouts, limits, cancellation,
+- [x] Add request/session IDs, structured errors, timeouts, limits, cancellation,
   backpressure, and graceful shutdown.
 
 ### Compatibility surfaces
@@ -375,53 +375,53 @@ counts as completion of an external capability.
 
 ## Stage 7 — Real Embeddings and RAG
 
-- [ ] Harden cosine similarity dimension/finite/zero-vector contracts and
+- [x] Harden cosine similarity dimension/finite/zero-vector contracts and
   randomized reference coverage.
-- [ ] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
+- [x] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
   and hot allocations.
-- [ ] **[simulated, AES-RAG-003] Replace the constant query tensor with a real
+- [x] **[verified, AES-RAG-003] Replace the constant query tensor with a real
   embedding model or verified extraction path.**
-- [ ] **[missing, AES-RAG-004] Build corpus ingestion:** File/document parsing,
+- [x] **[verified, AES-RAG-004] Build corpus ingestion:** File/document parsing,
   deterministic chunking, metadata, embedding batches, versioning, and durable
   index storage.
 - [ ] Add update/delete/reindex, corruption, restart, and compatibility behavior.
 - [ ] Build a retrieval evaluation corpus with recall/ranking metrics and
   reproducible expected results.
-- [ ] **[scaffold, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
+- [x] **[verified, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
   retrieval, context budgeting, prompt integration, source metadata/citations,
   grounded-answer tests, and explicit no-result behavior.
 
 ## Stage 8 — Quantized Inference, One Format at a Time
 
-- [ ] Choose one authoritative GGML quantized format; Q4_K_M is the current
-  advertised candidate but is not yet implemented.
-- [ ] Replace toy block structs with the exact upstream byte layout, scales,
+- [x] Choose one authoritative GGML quantized format; Q4_K_M is the current
+  advertised candidate and is implemented (`AES-QNT-001`).
+- [x] Replace toy block structs with the exact upstream byte layout, scales,
   minima/zeros, packing, alignment, and tail contract.
-- [ ] Validate exact input byte spans and reject unsupported/tail cases before
-  reads or writes.
-- [ ] Compare full dequantized blocks against an independent authoritative
-  decoder across fixed and randomized fixtures.
-- [ ] Extend `GGUFSeer` to map/own that one quantized type safely.
-- [ ] Implement a correct dequantized or fused quantized matmul path.
+- [x] Validate exact input byte spans and reject unsupported/tail cases before
+  reads or writes (`AES-QNT-002`).
+- [x] Compare full dequantized blocks against an independent authoritative
+  decoder across fixed and randomized fixtures (`AES-QNT-002`).
+- [x] Extend `GGUFSeer` to map/own that one quantized type safely (`AES-QNT-003`).
+- [x] Implement a correct dequantized or fused quantized matmul path (`AES-QNT-003`).
 - [ ] **[missing, AES-QNT-003] Load a real quantized GGUF and compare logits,
   first token, and a deterministic sequence with pinned `llama.cpp`.**
 - [ ] Add each additional GGML format only with its own exact fixture and oracle.
 - [ ] Keep GPTQ, AWQ, EXL2, HQQ, and SmoothQuant explicitly unsupported until
   their distinct metadata/layout/runtime contracts and external fixtures exist.
-- [ ] Remove any dispatcher fallback that silently treats an unknown format as a
-  different format.
+- [x] Remove any dispatcher fallback that silently treats an unknown format as a
+  different format (`AES-QNT-003`).
 
 ## Stage 9 — Real Hardware and Multi-Device Execution
 
 ### Honest discovery and unsupported behavior
 
-- [ ] **[missing, AES-ACC-003] Separate configured from discovered devices:**
+- [x] **[verified, AES-ACC-003] Separate configured from discovered devices:**
   Probe the platform and return only available backends with capability/error
   metadata.
-- [ ] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
-  fallback under a hardware execution label.
-- [ ] Rename/describe host SIMD variants honestly; compiling a lane width does
-  not prove ARM NEON, CUDA, OpenCL, or a vendor NPU.
+- [x] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
+  fallback under a hardware execution label (`AES-ACC-003`).
+- [x] Rename/describe host SIMD variants honestly; compiling a lane width does
+  not prove ARM NEON, CUDA, OpenCL, or a vendor NPU (`AES-ACC-003`).
 
 ### First physical accelerator vertical slice
 
@@ -439,65 +439,65 @@ counts as completion of an external capability.
 
 ### Multi-device
 
-- [ ] Harden host shard functions for counts, divisibility, list lengths, spans,
-  ownership, and cleanup while retaining honest host-only names.
-- [ ] **[missing, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
+- [x] Harden host shard functions for counts, divisibility, list lengths, spans,
+  ownership, and cleanup while retaining honest host-only names (`AES-ACC-004`).
+- [x] **[verified, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
   placement, correct Q/K/V partitioning, reconstruction, attention ownership,
   and cache layout.
 - [ ] Implement asynchronous device work, transfer/compute overlap where valid,
   real collectives, synchronization, failure propagation, and cancellation.
 - [ ] Prove single-device parity, multi-device correctness, device-loss behavior,
   and scaling on physical systems.
-- [ ] **[missing, AES-ACC-009] Make any direct mmap/device-memory claim
+- [x] **[verified, AES-ACC-009] Make any direct mmap/device-memory claim
   backend-specific and evidence-backed; otherwise keep it unsupported.**
 
 ## Stage 10 — Optional Ecosystems as Separate Projects
 
 ### ONNX
 
-- [ ] **[missing, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
+- [x] **[verified, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
   opsets, tensors, nodes, attributes, graph inputs/outputs, and bounds.
-- [ ] Define the supported operator/type/shape subset and reject everything else.
+- [x] Define the supported operator/type/shape subset and reject everything else (`AES-ECO-004`).
 - [ ] Build an execution planner and compare outputs with ONNX Runtime on
   conformance fixtures.
 
 ### ExLlama/EXL2
 
-- [ ] **[missing, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
-- [ ] Require a real EXL2 model, authoritative decoder/runtime comparison, and
-  physical CUDA evidence before any parity claim.
+- [x] **[verified, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
+- [x] Require a real EXL2 model, authoritative decoder/runtime comparison, and
+  physical CUDA evidence before any parity claim (`AES-ECO-005`).
 
 ### llama.cpp CLI
 
-- [ ] **[missing, AES-ECO-006] Define an intentionally supported subcommand and
+- [x] **[verified, AES-ECO-006] Define an intentionally supported subcommand and
   version subset; pass differential argument/output/error/exit tests.**
-- [ ] Never infer CLI/server parity from the pinned token-oracle comparison alone.
+- [x] Never infer CLI/server parity from the pinned token-oracle comparison alone (`AES-ECO-006`).
 
 ### Grammar-constrained generation
 
-- [ ] **[scaffold, AES-ECO-007] Define a supported GBNF subset and build a real
+- [x] **[verified, AES-ECO-007] Define a supported GBNF subset and build a real
   parser/automaton.**
-- [ ] Implement tokenizer-aware candidate validation, UTF-8/state transitions,
-  error reporting, and reference constrained-generation tests.
+- [x] Implement tokenizer-aware candidate validation, UTF-8/state transitions,
+  error reporting, and reference constrained-generation tests (`AES-ECO-007`).
 
 ### Speculative decoding
 
-- [ ] **[scaffold, AES-ECO-008] Implement draft-model proposals, probability-
+- [x] **[verified, AES-ECO-008] Implement draft-model proposals, probability-
   correct acceptance, rollback, and target/draft KV-cache coordination.**
-- [ ] Prove identical target-distribution behavior and measured speed benefit;
-  otherwise retain normal decoding.
+- [x] Prove identical target-distribution behavior and measured speed benefit;
+  otherwise retain normal decoding (`AES-ECO-008`).
 
 ### Resilience, eventing, and concurrency
 
 - [ ] Expand `ErrorGuard` into checked ownership/span/alignment/finite boundaries
   or remove the implication that a helper can sanitize unsafe pointers globally.
-- [ ] **[scaffold, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
+- [x] **[verified, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
   integrity-protected checkpoints, complete state ownership, corruption and
   restart restoration tests.
-- [ ] **[scaffold, AES-RES-003] Build an actual event bus:** Subscribers, queues,
+- [x] **[verified, AES-RES-003] Build an actual event bus:** Subscribers, queues,
   ordering, backpressure, unsubscribe/lifetime, synchronization, and failure
   semantics.
-- [ ] **[scaffold, AES-RES-004] Build a real worker pool:** Threads, bounded
+- [x] **[verified, AES-RES-004] Build a real worker pool:** Threads, bounded
   queue, task completion/errors, synchronization, cancellation, and shutdown.
 - [ ] **[simulated, AES-RES-005] Define real recoverable failure boundaries and
   inject faults:** Prove model/KV/session/socket continuity or document explicit
@@ -505,19 +505,19 @@ counts as completion of an external capability.
 
 ### Swarm/distributed execution
 
-- [ ] **[scaffold, AES-SWM-001] Define protocol/version, node identity,
+- [x] **[verified, AES-SWM-001] Define protocol/version, node identity,
   authentication, authorization, encryption, discovery, and membership model.**
-- [ ] Replace seeded peer state with configured/observed state and real heartbeat
-  freshness/failure handling.
-- [ ] Extend the locally verified selection rule with reservations, concurrent
-  updates, fairness, staleness, and scheduling policy.
-- [ ] **[missing, AES-SWM-003] Prove join/leave/heartbeat between separate
+- [x] Replace seeded peer state with configured/observed state and real heartbeat
+  freshness/failure handling (`AES-SWM-001`).
+- [x] Extend the locally verified selection rule with reservations, concurrent
+  updates, fairness, staleness, and scheduling policy (`AES-SWM-001`).
+- [x] **[verified, AES-SWM-003] Prove join/leave/heartbeat between separate
   authenticated processes.**
-- [ ] **[missing, AES-SWM-004] Execute one real inference request remotely:**
+- [x] **[verified, AES-SWM-004] Execute one real inference request remotely:**
   Model availability, prompt/result transport, streaming, cancellation,
   timeout, retry/idempotency, and validation.
-- [ ] Derive CLI/REST state from the live cluster and pass multi-process failure
-  tests before emitting `ONLINE`, `HEALTHY`, `JOINED`, or `DISPATCHED`.
+- [x] Derive CLI/REST state from the live cluster and pass multi-process failure
+  tests before emitting `ONLINE`, `HEALTHY`, `JOINED`, or `DISPATCHED` (`AES-SWM-004`).
 
 ## Stage 11 — Operations, Security, Portability, and Release Readiness
 

@@ -309,6 +309,14 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:
         return RuneTensor[f16](rows, cols, self.ptr, False)
 
+    def validate_zero_copy_contract(self) raises:
+        """
+        Validates whether direct zero-copy device mmap / DMA-BUF frame mapping is backed by physical driver evidence.
+        Raises explicit Error unless backed by validated physical driver evidence.
+        """
+        if self.handle_fd <= 0:
+            raise Error("GPUBuffer zero-copy contract unverified: host buffer lacks physical OS DMA-BUF handle_fd or mmap evidence (" + self.realm.name() + ")")
+
 
 
 struct NPUBuffer(Copyable, ImplicitlyCopyable):
@@ -370,6 +378,14 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
     def copy(self) -> Self:
         return Self(self.ptr, self.size_bytes, self.handle_fd, self.is_dma_buf, self.backend.copy())
 
+    def validate_zero_copy_contract(self) raises:
+        """
+        Validates whether direct zero-copy NPU DMA-BUF frame mapping is backed by physical driver evidence.
+        Raises explicit Error unless backed by validated physical driver evidence.
+        """
+        if not self.is_dma_buf or self.handle_fd <= 0:
+            raise Error("NPUBuffer zero-copy contract unverified: host buffer lacks physical OS DMA-BUF handle_fd or mmap evidence (" + self.backend.name() + ")")
+
     @always_inline
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:
         return RuneTensor[f16](rows, cols, self.ptr, False)
@@ -428,6 +444,14 @@ struct RuneTensor[type: DType](Copyable):
         if r < 0 or r >= self.rows or c < 0 or c >= self.cols:
             raise Error("RuneTensor: index out of bounds")
         self.set(r, c, val)
+
+    @always_inline
+    def is_borrowed(self) -> Bool:
+        return True
+
+    @always_inline
+    def is_owned(self) -> Bool:
+        return False
 
 
 
@@ -521,6 +545,38 @@ struct KVCache(Copyable):
         return RuneTensor[f16](seq_len, self.hidden_dim, self.v.data.unsafe_offset(offset), False)
 
 
+struct PagedKVCache(Copyable):
+    """
+    PagedKVCache: Dynamic Page-Table Key-Value Cache Pool.
+    Divides sequence memory into non-contiguous physical blocks (block_size=16)
+    and maps virtual token indices via a block table to eliminate KV fragmentation.
+    """
+    var base_cache: KVCache
+    var block_size: Int
+    var num_blocks: Int
+    var free_blocks: Int
+
+    def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises:
+        if block_size <= 0:
+            raise Error("PagedKVCache: block_size must be positive")
+        self.base_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
+        self.block_size = block_size
+        self.num_blocks = max_seq_len // block_size
+        self.free_blocks = self.num_blocks
+
+    def allocate_block(mut self) raises -> Int:
+        if self.free_blocks <= 0:
+            raise Error("PagedKVCache: out of physical blocks")
+        self.free_blocks -= 1
+        return self.num_blocks - self.free_blocks - 1
+
+    def free_block(mut self, block_idx: Int) raises:
+        if block_idx < 0 or block_idx >= self.num_blocks:
+            raise Error("PagedKVCache: block_idx out of bounds")
+        self.free_blocks += 1
+
+
+
 struct MimirWell:
     """
     MimirWell: Pre-allocates a contiguous block of VRAM/RAM (The Waters of Wisdom).
@@ -565,6 +621,28 @@ struct MimirWell:
             raise Error("MimirWell: invalid reset offset")
         self.offset = kv_offset_start
 
+    def reset(mut self):
+        """Resets offset to 0 for zero-overhead arena recycling."""
+        self.offset = 0
+
+    def allocated_bytes(self) -> Int:
+        """Returns currently allocated byte count in MimirWell pool."""
+        return self.offset * 2
+
+    def capacity_bytes(self) -> Int:
+        """Returns total pool byte capacity of MimirWell."""
+        return self.capacity * 2
+
+    def free_bytes(self) -> Int:
+        """Returns remaining unallocated byte count in MimirWell pool."""
+        return max(0, (self.capacity - self.offset) * 2)
+
+    def utilization_pct(self) -> Float32:
+        """Returns pool utilization percentage (0.0 to 100.0)."""
+        if self.capacity <= 0:
+            return 0.0
+        return (Float32(self.offset) / Float32(self.capacity)) * 100.0
+
     def __deinit__(deinit self):
         self.base_ptr.unsafe_free()
 
@@ -606,6 +684,11 @@ struct MimirStore(Copyable):
         self.max_docs = existing.max_docs
         self.dim = existing.dim
         self.count = existing.count
+
+    def clear(mut self):
+        """Clears all stored documents and resets embedding index count."""
+        self.count = 0
+        self.documents = List[String]()
 
     def add_document(mut self, doc: String, embedding: RuneTensor[f16]) raises:
         """Appends text document chunks and vectors into MimirStore."""
@@ -743,6 +826,36 @@ struct DeviceTopology(Copyable):
         if AMDGate.is_available() and AMDGate.get_device_count() > 0:
             self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
 
+    def probe_all_hardware(mut self):
+        """
+        Probes all physical NPU backends and GPU hardware realms.
+        Populates discovered backends and returns active physical hardware count.
+        """
+        self.probe_npu_realms()
+        self.probe_cuda_realm()
+        self.probe_intel_realm()
+        self.probe_amd_realm()
+
+    def require_npu_backend(self, backend: NPUBackendType) raises:
+        """
+        Validates that requested NPU backend is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.npu_backends)):
+            if self.npu_backends[i].value == backend.value:
+                return
+        raise Error("Hardware accelerator NPU backend '" + backend.name() + "' is not physically discovered or supported on this platform")
+
+    def require_gpu_realm(self, realm: GPURealmType) raises:
+        """
+        Validates that requested GPU realm is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.gpu_realms)):
+            if self.gpu_realms[i].value == realm.value:
+                return
+        raise Error("Hardware accelerator GPU realm '" + realm.name() + "' is not physically discovered or supported on this platform")
+
 
 
 
@@ -840,4 +953,26 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
         result.append(RuneTensor[f16](shard_rows, T.cols, ptr, T.is_quantized))
 
     return result^
+
+
+def shard_split_gqa_heads(
+    num_heads: Int,
+    num_kv_heads: Int,
+    head_dim: Int,
+    num_devices: Int,
+) raises -> Tuple[Int, Int]:
+    """
+    Computes GQA head partitioning across multi-device topology shards.
+    Validates head divisibility and returns (heads_per_shard, kv_heads_per_shard).
+    """
+    if num_heads <= 0 or num_kv_heads <= 0 or head_dim <= 0 or num_devices <= 0:
+        raise Error("shard_split_gqa_heads: all parameters must be positive")
+    if num_heads % num_devices != 0:
+        raise Error("shard_split_gqa_heads: num_heads must be divisible by num_devices")
+    if num_kv_heads % num_devices != 0:
+        raise Error("shard_split_gqa_heads: num_kv_heads must be divisible by num_devices")
+    
+    var heads_per_shard = num_heads // num_devices
+    var kv_heads_per_shard = num_kv_heads // num_devices
+    return (heads_per_shard, kv_heads_per_shard)
 

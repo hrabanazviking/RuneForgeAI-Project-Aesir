@@ -2,7 +2,7 @@ from loader.gguf import GGUFSeer
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass
-from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p
+from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.session import SessionContext, SessionManager
 from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config
 
@@ -391,6 +391,19 @@ def test_token_masking_and_regression_corpora() raises:
 
     print("Token Suppression & Multi-Prompt Regression Corpora: PASS")
 
+def test_model_produced_eos_fixture() raises:
+    print("--- Testing Model-Produced EOS Fixture & Stop Policy ---")
+    var eos_id = 2
+    var current_token = 2 # Model emits EOS ID
+    var stop_tokens = List[Int]()
+    stop_tokens.append(2)
+    var config = GenerationConfig(stop_tokens=stop_tokens)
+    
+    var reason = generation_stop_reason(current_token, eos_id, 1, config, 10, 2048)
+    if reason != "eos":
+        raise Error("test_model_produced_eos_fixture: expected stop reason 'eos', got '" + reason + "'")
+        
+    print("Model-Produced EOS Fixture: PASS")
 
 def main() raises:
     test_forward_pass()
@@ -401,3 +414,4 @@ def main() raises:
     test_chat_template()
     test_session_isolation()
     test_token_masking_and_regression_corpora()
+    test_model_produced_eos_fixture()

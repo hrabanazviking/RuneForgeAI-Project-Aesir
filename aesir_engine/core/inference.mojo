@@ -161,118 +161,121 @@ struct TransformerBlock(Copyable):
         var num_devices = topology.num_devices
         if num_devices <= 1:
             var start_offset = well.offset
+            try:
+                # 1. Attention Norm
+                var residual = well.allocate(x.size)
+                var residual_tensor = RuneTensor[f16](x.rows, x.cols, residual, False)
+                for i in range(x.size):
+                    residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                    
+                rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
 
-            # 1. Attention Norm
-            var residual = well.allocate(x.size)
-            var residual_tensor = RuneTensor[f16](x.rows, x.cols, residual, False)
-            for i in range(x.size):
-                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                # 2. QKV Projections
+                var q_cols = self.attn_q_weight.rows
+                var k_cols = self.attn_k_weight.rows
+                var v_cols = self.attn_v_weight.rows
+                var q_ptr = well.allocate(x.rows * q_cols)
+                var k_ptr = well.allocate(x.rows * k_cols)
+                var v_ptr = well.allocate(x.rows * v_cols)
+
+                var q = RuneTensor[f16](x.rows, q_cols, q_ptr, False)
+                var k = RuneTensor[f16](x.rows, k_cols, k_ptr, False)
+                var v = RuneTensor[f16](x.rows, v_cols, v_ptr, False)
                 
-            rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
-
-            # 2. QKV Projections
-            var q_cols = self.attn_q_weight.rows
-            var k_cols = self.attn_k_weight.rows
-            var v_cols = self.attn_v_weight.rows
-            var q_ptr = well.allocate(x.rows * q_cols)
-            var k_ptr = well.allocate(x.rows * k_cols)
-            var v_ptr = well.allocate(x.rows * v_cols)
-
-            var q = RuneTensor[f16](x.rows, q_cols, q_ptr, False)
-            var k = RuneTensor[f16](x.rows, k_cols, k_ptr, False)
-            var v = RuneTensor[f16](x.rows, v_cols, v_ptr, False)
-            
-            if use_gpu_realm:
-                gemm_f16_gpu(x, self.attn_q_weight, q, gpu_realm)
-                gemm_f16_gpu(x, self.attn_k_weight, k, gpu_realm)
-                gemm_f16_gpu(x, self.attn_v_weight, v, gpu_realm)
-            elif use_npu:
-                gemm_f16_npu(x, self.attn_q_weight, q, npu_backend)
-                gemm_f16_npu(x, self.attn_k_weight, k, npu_backend)
-                gemm_f16_npu(x, self.attn_v_weight, v, npu_backend)
-            else:
-                gemm_f16(x, self.attn_q_weight, q)
-                gemm_f16(x, self.attn_k_weight, k)
-                gemm_f16(x, self.attn_v_weight, v)
+                if use_gpu_realm:
+                    gemm_f16_gpu(x, self.attn_q_weight, q, gpu_realm)
+                    gemm_f16_gpu(x, self.attn_k_weight, k, gpu_realm)
+                    gemm_f16_gpu(x, self.attn_v_weight, v, gpu_realm)
+                elif use_npu:
+                    gemm_f16_npu(x, self.attn_q_weight, q, npu_backend)
+                    gemm_f16_npu(x, self.attn_k_weight, k, npu_backend)
+                    gemm_f16_npu(x, self.attn_v_weight, v, npu_backend)
+                else:
+                    gemm_f16(x, self.attn_q_weight, q)
+                    gemm_f16(x, self.attn_k_weight, k)
+                    gemm_f16(x, self.attn_v_weight, v)
 
 
-            # 3. RoPE
-            apply_rope(q, k, start_pos, self.head_dim)
+                # 3. RoPE
+                apply_rope(q, k, start_pos, self.head_dim)
 
-            # 4. Ring-Buffer KV Cache Append & Flash Attention 2
-            kv_cache.append(self.layer_idx, start_pos, k, v)
-            var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
-            var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
-            var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
+                # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+                kv_cache.append(self.layer_idx, start_pos, k, v)
+                var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
+                var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
+                var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
 
-            var attn_out_ptr = well.allocate(x.size)
-            var attn_out = RuneTensor[f16](x.rows, x.cols, attn_out_ptr, False)
-            flash_attention_gqa(
-                q,
-                k_slice,
-                v_slice,
-                attn_out,
-                active_seq_len,
-                self.head_dim,
-                self.num_heads,
-                self.num_kv_heads,
-            )
+                var attn_out_ptr = well.allocate(x.size)
+                var attn_out = RuneTensor[f16](x.rows, x.cols, attn_out_ptr, False)
+                flash_attention_gqa(
+                    q,
+                    k_slice,
+                    v_slice,
+                    attn_out,
+                    active_seq_len,
+                    self.head_dim,
+                    self.num_heads,
+                    self.num_kv_heads,
+                )
 
-            # 5. Output Projection
-            if use_gpu_realm:
-                gemm_f16_gpu(attn_out, self.attn_output_weight, x, gpu_realm)
-            elif use_npu:
-                gemm_f16_npu(attn_out, self.attn_output_weight, x, npu_backend)
-            else:
-                gemm_f16(attn_out, self.attn_output_weight, x)
+                # 5. Output Projection
+                if use_gpu_realm:
+                    gemm_f16_gpu(attn_out, self.attn_output_weight, x, gpu_realm)
+                elif use_npu:
+                    gemm_f16_npu(attn_out, self.attn_output_weight, x, npu_backend)
+                else:
+                    gemm_f16(attn_out, self.attn_output_weight, x)
 
 
-            # 6. Residual Add
-            for i in range(x.size):
-                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+                # 6. Residual Add
+                for i in range(x.size):
+                    x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
 
-            # 7. FFN Norm
-            for i in range(x.size):
-                residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                # 7. FFN Norm
+                for i in range(x.size):
+                    residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
+                    
+                rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
+
+                # 8. Feed Forward Network
+                var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
+                var up = RuneTensor[f16](x.rows, self.ffn_up_weight.rows, up_ptr, False)
                 
-            rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
-
-            # 8. Feed Forward Network
-            var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
-            var up = RuneTensor[f16](x.rows, self.ffn_up_weight.rows, up_ptr, False)
-            
-            var gate_ptr = well.allocate(self.ffn_gate_weight.rows * x.rows)
-            var gate = RuneTensor[f16](x.rows, self.ffn_gate_weight.rows, gate_ptr, False)
-            
-            if use_gpu_realm:
-                gemm_f16_gpu(x, self.ffn_up_weight, up, gpu_realm)
-                gemm_f16_gpu(x, self.ffn_gate_weight, gate, gpu_realm)
-            elif use_npu:
-                gemm_f16_npu(x, self.ffn_up_weight, up, npu_backend)
-                gemm_f16_npu(x, self.ffn_gate_weight, gate, npu_backend)
-            else:
-                gemm_f16(x, self.ffn_up_weight, up)
-                gemm_f16(x, self.ffn_gate_weight, gate)
-            
-            # Apply SiLU to gate and multiply by up (elementwise)
-            silu(gate)
-            for i in range(up.size):
-                up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
+                var gate_ptr = well.allocate(self.ffn_gate_weight.rows * x.rows)
+                var gate = RuneTensor[f16](x.rows, self.ffn_gate_weight.rows, gate_ptr, False)
                 
-            # GEMM down
-            if use_gpu_realm:
-                gemm_f16_gpu(up, self.ffn_down_weight, x, gpu_realm)
-            elif use_npu:
-                gemm_f16_npu(up, self.ffn_down_weight, x, npu_backend)
-            else:
-                gemm_f16(up, self.ffn_down_weight, x)
+                if use_gpu_realm:
+                    gemm_f16_gpu(x, self.ffn_up_weight, up, gpu_realm)
+                    gemm_f16_gpu(x, self.ffn_gate_weight, gate, gpu_realm)
+                elif use_npu:
+                    gemm_f16_npu(x, self.ffn_up_weight, up, npu_backend)
+                    gemm_f16_npu(x, self.ffn_gate_weight, gate, npu_backend)
+                else:
+                    gemm_f16(x, self.ffn_up_weight, up)
+                    gemm_f16(x, self.ffn_gate_weight, gate)
+                
+                # Apply SiLU to gate and multiply by up (elementwise)
+                silu(gate)
+                for i in range(up.size):
+                    up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
+                    
+                # GEMM down
+                if use_gpu_realm:
+                    gemm_f16_gpu(up, self.ffn_down_weight, x, gpu_realm)
+                elif use_npu:
+                    gemm_f16_npu(up, self.ffn_down_weight, x, npu_backend)
+                else:
+                    gemm_f16(up, self.ffn_down_weight, x)
 
 
-            # 9. Residual Add
-            for i in range(x.size):
-                x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
+                # 9. Residual Add
+                for i in range(x.size):
+                    x.data.unsafe_store(i, x.data.unsafe_load(i) + residual_tensor.data.unsafe_load(i))
 
-            well.offset = start_offset
+                well.reset_kv_cache(start_offset)
+            except e:
+                well.reset_kv_cache(start_offset)
+                raise e
         else:
             # Multi-Device Sharded Path (The Bifrost Shard Matrix)
             var start_offset = well.offset

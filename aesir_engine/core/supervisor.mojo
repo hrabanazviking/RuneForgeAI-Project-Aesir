@@ -4,9 +4,9 @@
 from core.state_vault import StateVault
 from core.event_bus import AesirEventBus
 
-struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
+struct SelfHealingSupervisor(Copyable):
     """
-    ᛋᚢᛈᛖᚱᚠᛁᛋᛟᚱ — The Undying Guardian (SelfHealingSupervisor)
+    ᛋᛢᛈᛖᚱᚠᛁᛋᛟᚱ — The Undying Guardian (SelfHealingSupervisor)
     ═════════════════════════════════════════════════════════════
     Stores local health/checkpoint/event markers. No panic boundary, process
     restart, KV/session restoration, or socket continuity is implemented.
@@ -22,13 +22,19 @@ struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
         self.vault = StateVault()
         self.bus = AesirEventBus()
 
+    def __copyinit__(out self, existing: Self):
+        self.is_healthy = existing.is_healthy
+        self.recovery_count = existing.recovery_count
+        self.vault = existing.vault.copy()
+        self.bus = existing.bus.copy()
+
     def copy(self) -> Self:
         var s = Self()
         s.is_healthy = self.is_healthy
         s.recovery_count = self.recovery_count
         s.vault = self.vault.copy()
         s.bus = self.bus.copy()
-        return s
+        return s^
 
     def pulse_heartbeat(mut self):
         """

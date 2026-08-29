@@ -19,6 +19,14 @@ from tests.test_inference import (
     test_unsupported_runtime_config,
 )
 from tests.test_kv_cache import test_kv_cache
+from tests.test_mimir_well import (
+    test_mimir_well_allocation,
+    test_kv_cache_ring_buffer,
+)
+from tests.test_memory_refinements import (
+    test_mimir_well_telemetry,
+    test_bpe_tokenizer_linear_perf,
+)
 from tests.test_rag import (
     test_cosine_similarity,
     test_mimir_store,
@@ -48,6 +56,31 @@ from tests.test_cuda_realm import (
     test_cuda_gate_availability,
     test_cuda_gemm_dispatch_bounds,
     test_cuda_realm_unsupported_gateways,
+)
+from tests.test_onnx import (
+    test_onnx_supported_operators,
+    test_onnx_seer_header_validation,
+)
+from tests.test_exl2 import (
+    test_exl2_cuda_contract_validation,
+    test_exl2_model_seer,
+)
+from tests.test_llama_cpp_cli import (
+    test_llama_cpp_subcommands,
+    test_llama_cpp_arg_parsing,
+)
+from tests.test_gbnf_grammar import (
+    test_gbnf_rule_construction,
+    test_gbnf_token_validation_and_masking,
+)
+from tests.test_speculative import (
+    test_speculative_proposal_and_verification,
+    test_speculative_rollback_on_rejection,
+)
+from tests.test_resilience_matrix import (
+    test_state_vault_durable_checkpoints,
+    test_event_bus_pub_sub,
+    test_thread_pool_concurrency,
 )
 from tests.test_metal_realm import (
     test_metal_gate_availability,
@@ -165,6 +198,20 @@ from tests.test_swarm_cluster import (
     test_peer_registry_and_load_balancer,
     test_swarm_cluster_task_dispatch,
 )
+from tests.test_swarm_protocol import (
+    test_swarm_node_authentication,
+    test_swarm_join_leave_heartbeat,
+    test_remote_inference_dispatch,
+)
+from tests.test_new_paradigms_suite import (
+    test_config_and_json,
+    test_cli_flags,
+    test_help_and_tui,
+    test_skaldbrodir_doom_loop,
+    test_thinking_and_tool_use,
+    test_smart_crash_and_max,
+    test_experimental_paradigms,
+)
 from tests.test_ledger import TestLedger, run_case, record_skip
 
 
@@ -199,6 +246,12 @@ def main() raises:
     print("  [DOMAIN] RuneWeaver Tokenizer")
     print("  -----------------------------------------")
     run_case(ledger, "tokenizer.synthetic_bpe", test_tokenizer)
+    run_case(
+        ledger, "tokenizer.linear_bpe_perf", test_bpe_tokenizer_linear_perf
+    )
+    run_case(
+        ledger, "memory.telemetry_and_recycling", test_mimir_well_telemetry
+    )
     print("")
 
     # --- Inference Engine ---
@@ -350,13 +403,24 @@ def main() raises:
     )
     print("")
 
-    # --- Local Resilience Scaffolds ---
-    print("  [DOMAIN] Local Resilience Scaffolds")
+    # --- Local Resilience & Concurrency Matrix ---
+    print("  [DOMAIN] Local Resilience & Concurrency Matrix")
     print("  -----------------------------------------")
     run_case(ledger, "resilience.error_guard", test_error_guard)
     run_case(ledger, "resilience.state_vault_marker", test_state_vault)
+    run_case(
+        ledger,
+        "resilience.durable_state_vault",
+        test_state_vault_durable_checkpoints,
+    )
     run_case(ledger, "resilience.event_bus_marker", test_event_bus)
+    run_case(ledger, "resilience.event_bus_pub_sub", test_event_bus_pub_sub)
     run_case(ledger, "resilience.thread_pool_stub", test_thread_pool)
+    run_case(
+        ledger,
+        "resilience.thread_pool_concurrency",
+        test_thread_pool_concurrency,
+    )
     run_case(
         ledger,
         "resilience.supervisor_simulation_marker",
@@ -374,8 +438,8 @@ def main() raises:
     )
     print("")
 
-    # --- Local Swarm Descriptors and Unsupported Networking ---
-    print("  [DOMAIN] Local Swarm Descriptors and Unsupported Networking")
+    # --- Swarm Protocol & Distributed Mesh Mesh Matrix ---
+    print("  [DOMAIN] Swarm Protocol & Distributed Mesh Matrix")
     print("  -----------------------------------------")
     run_case(ledger, "swarm.role_enum", test_swarm_node_role)
     run_case(ledger, "swarm.peer_metrics", test_peer_node_metrics)
@@ -387,6 +451,80 @@ def main() raises:
     run_case(
         ledger, "swarm.network_unsupported", test_swarm_cluster_task_dispatch
     )
+    run_case(
+        ledger,
+        "swarm.node_authentication",
+        test_swarm_node_authentication,
+    )
+    run_case(
+        ledger,
+        "swarm.join_leave_heartbeat",
+        test_swarm_join_leave_heartbeat,
+    )
+    run_case(
+        ledger,
+        "swarm.remote_inference_dispatch",
+        test_remote_inference_dispatch,
+    )
     print("")
 
-    ledger.finish(108)
+    # --- New System Paradigms, Safety Protocols and Framework Controls ---
+    print("  [DOMAIN] System Paradigms, Safety Protocols and Framework Controls")
+    print("  -----------------------------------------")
+    run_case(ledger, "paradigms.config_and_json", test_config_and_json)
+    run_case(ledger, "paradigms.cli_flags", test_cli_flags)
+    run_case(ledger, "paradigms.help_and_tui", test_help_and_tui)
+    run_case(ledger, "paradigms.skaldbrodir_doom_loop", test_skaldbrodir_doom_loop)
+    run_case(ledger, "paradigms.thinking_and_tool_use", test_thinking_and_tool_use)
+    run_case(ledger, "paradigms.smart_crash_and_max", test_smart_crash_and_max)
+    run_case(ledger, "paradigms.experimental_paradigms", test_experimental_paradigms)
+    print("")
+
+    # --- ONNX Protobuf & Operator Dispatcher Subset ---
+    print("  [DOMAIN] ONNX Protobuf & Operator Dispatcher Subset")
+    print("  -----------------------------------------")
+    run_case(ledger, "onnx.supported_operators", test_onnx_supported_operators)
+    run_case(ledger, "onnx.model_seer", test_onnx_seer_header_validation)
+    print("")
+
+    # --- EXL2 Variable-Bit Parser & CUDA Contract ---
+    print("  [DOMAIN] EXL2 Variable-Bit Parser & CUDA Contract")
+    print("  -----------------------------------------")
+    run_case(ledger, "exl2.cuda_contract", test_exl2_cuda_contract_validation)
+    run_case(ledger, "exl2.model_seer", test_exl2_model_seer)
+    print("")
+
+    # --- llama.cpp Differential CLI Validator ---
+    print("  [DOMAIN] llama.cpp Differential CLI Validator")
+    print("  -----------------------------------------")
+    run_case(ledger, "llama_cpp_cli.subcommands", test_llama_cpp_subcommands)
+    run_case(ledger, "llama_cpp_cli.arg_parsing", test_llama_cpp_arg_parsing)
+    print("")
+
+    # --- GBNF Grammar Parser & Automaton ---
+    print("  [DOMAIN] GBNF Grammar Parser & Automaton")
+    print("  -----------------------------------------")
+    run_case(ledger, "gbnf.rule_construction", test_gbnf_rule_construction)
+    run_case(
+        ledger,
+        "gbnf.token_validation_masking",
+        test_gbnf_token_validation_and_masking,
+    )
+    print("")
+
+    # --- Speculative Decoding Engine ---
+    print("  [DOMAIN] Speculative Decoding Engine")
+    print("  -----------------------------------------")
+    run_case(
+        ledger,
+        "speculative.proposal_verification",
+        test_speculative_proposal_and_verification,
+    )
+    run_case(
+        ledger,
+        "speculative.rejection_rollback",
+        test_speculative_rollback_on_rejection,
+    )
+    print("")
+
+    ledger.finish(133)

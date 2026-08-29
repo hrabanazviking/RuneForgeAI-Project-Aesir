@@ -51,6 +51,87 @@ def os_is_windows() -> Bool:
     return not (os_is_linux() or os_is_macos())
 
 
+@always_inline
+def json_escape_string(val: String) -> String:
+    """Escapes special characters in a string for safe JSON serialization."""
+    var bytes = val.as_bytes()
+    var hex_digits = String("0123456789abcdef")
+    var res = String("")
+    for i in range(len(bytes)):
+        var b = bytes[i]
+        if b == 0x22: # "
+            res += String("\\\"")
+        elif b == 0x5C: # \
+            res += String("\\\\")
+        elif b == 0x0A: # \n
+            res += String("\\n")
+        elif b == 0x0D: # \r
+            res += String("\\r")
+        elif b == 0x09: # \t
+            res += String("\\t")
+        elif b < 0x20: # control character
+            var hi = Int((b >> 4) & 0xF)
+            var lo = Int(b & 0xF)
+            res += String("\\u00") + String(hex_digits[byte=hi : hi + 1]) + String(hex_digits[byte=lo : lo + 1])
+        else:
+            res += String(val[byte=i : i + 1])
+    return res
+
+
+struct RequestContext(Copyable, ImplicitlyCopyable):
+    """Encapsulates request correlation ID, session binding, and timeout state."""
+    var request_id: String
+    var session_id: String
+    var timeout_ms: UInt64
+    var is_cancelled: Bool
+
+    def __init__(
+        out self,
+        request_id: String,
+        session_id: String = String("default"),
+        timeout_ms: UInt64 = 30000,
+    ):
+        self.request_id = request_id
+        self.session_id = session_id
+        self.timeout_ms = timeout_ms
+        self.is_cancelled = False
+
+    def __copyinit__(out self, existing: Self):
+        self.request_id = existing.request_id
+        self.session_id = existing.session_id
+        self.timeout_ms = existing.timeout_ms
+        self.is_cancelled = existing.is_cancelled
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(self.request_id, self.session_id, self.timeout_ms)
+
+    def cancel(mut self):
+        self.is_cancelled = True
+
+
+def build_structured_error(
+    status_code: Int,
+    error_type: String,
+    message: String,
+    request_id: String = String(""),
+) -> String:
+    """Builds a structured JSON error response body with request correlation."""
+    var body = String("{\"error\":{\"code\":")
+    body += String(status_code)
+    body += String(",\"type\":\"")
+    body += json_escape_string(error_type)
+    body += String("\",\"message\":\"")
+    body += json_escape_string(message)
+    body += String("\"")
+    if len(request_id.bytes()) > 0:
+        body += String(",\"request_id\":\"")
+        body += json_escape_string(request_id)
+        body += String("\"")
+    body += String("}}")
+    return body
+
+
 def unsupported_http_response(capability: String) -> String:
     """Builds an honest HTTP 501 response for a known unavailable route."""
     return (
@@ -58,7 +139,7 @@ def unsupported_http_response(capability: String) -> String:
         + String("Content-Type: application/json\r\n")
         + String("Connection: close\r\n\r\n")
         + String("{\"error\":\"unsupported\",\"capability\":\"")
-        + capability
+        + json_escape_string(capability)
         + String("\"}")
     )
 

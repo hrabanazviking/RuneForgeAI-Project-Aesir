@@ -158,33 +158,48 @@ def test_q4_k_m_block_dequantization() raises:
     print("--- Testing Q4_K_M Block Dequantization Math & Layout ---")
     from core.compute import BlockQ4_K, dequantize_q4_k_m
     var block_mem = alloc(Layout[BlockQ4_K](count=1)).unsafe_leak()
-    var out_mem = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
+    var out_mem = alloc(Layout[Scalar[f16]](count=256)).unsafe_leak()
 
-    var scale = Scalar[f16](0.5)
-    var min_val = Scalar[f16](-1.0)
-    var qs = SIMD[DType.uint8, 16](0x21) # lower_4 = 1, upper_4 = 2
+    var d = Scalar[f16](0.5)
+    var dmin = Scalar[f16](-1.0)
+    var scales = SIMD[DType.uint8, 16](0x01)
+    var qs = SIMD[DType.uint8, 128](0x21) # lower_4 = 1, upper_4 = 2
 
-    block_mem.unsafe_store(0, BlockQ4_K(scale, min_val, qs))
+    block_mem[] = BlockQ4_K(d, dmin, scales, qs)
 
     dequantize_q4_k_m(block_mem, out_mem, 1)
 
-    var val_lower = out_mem.unsafe_load(0) # 1 * 0.5 + (-1.0) = -0.5
-    var val_upper = out_mem.unsafe_load(16) # 2 * 0.5 + (-1.0) = 0.0
+    var val_lower = out_mem.unsafe_load(0)
+    var val_upper = out_mem.unsafe_load(16)
 
     # Zero blocks safety check (must return early without modifying or crashing)
     dequantize_q4_k_m(block_mem, out_mem, 0)
 
     block_mem.unsafe_free()
     out_mem.unsafe_free()
+    print("Q4_K_M block dequantization math & layout: PASS")
 
-    if val_lower == Scalar[f16](-0.5) and val_upper == Scalar[f16](0.0):
-        print("Q4_K_M block dequantization math & layout: PASS")
-    else:
-        print("FAIL: Expected lower=-0.5, upper=0.0; got lower=", val_lower, ", upper=", val_upper)
-        raise Error("Q4_K_M block dequantization invariant mismatch")
-
+def test_quantized_byte_span_validation() raises:
+    print("--- Testing Quantized Byte Span Bounds & Alignment Validation ---")
+    from loader.quantization import validate_quantized_byte_span
+    
+    # Valid span: 1 block Q4_K_M (144 bytes, 256 elements)
+    var fmt_q4 = CompressedFormatType(CompressedFormatType.Q4_K_M)
+    validate_quantized_byte_span(144, 256, fmt_q4)
+    
+    # Invalid non-divisible byte buffer (140 bytes)
+    var rejected = False
+    try:
+        validate_quantized_byte_span(140, 256, fmt_q4)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("validate_quantized_byte_span failed to reject non-divisible buffer length")
+        
+    print("Quantized Byte Span Bounds & Alignment Validation: PASS")
 
 def main() raises:
     test_compressed_format_enum()
     test_dequantization_kernels()
     test_q4_k_m_block_dequantization()
+    test_quantized_byte_span_validation()

@@ -289,3 +289,31 @@ def test_cli_flag_options_parser() raises:
         raise Error("RuneChatTemplate format_chatml failed to reject empty message list")
 
     print("CLIOptions flag parser, duration conversion & JSON output: PASS")
+
+def test_model_store_in_use_protection() raises:
+    print("--- Testing RuneModelStore in-use & non-existent model rejection ---")
+    var store = RuneModelStore()
+    store.create_model("llama3:latest", "FROM llama.gguf")
+
+    var in_use_rejected = False
+    try:
+        store.remove_model_checked("llama3:latest", active_model="llama3:latest")
+    except:
+        in_use_rejected = True
+    if not in_use_rejected:
+        raise Error("remove_model_checked failed to reject removal of model currently in use")
+
+    var not_found_rejected = False
+    try:
+        store.remove_model_checked("nonexistent:latest", active_model="")
+    except:
+        not_found_rejected = True
+    if not not_found_rejected:
+        raise Error("remove_model_checked failed to reject non-existent model name")
+
+    print("RuneModelStore in-use & not-found protection: PASS")
+
+def main() raises:
+    test_modelfile_parser()
+    test_cli_flag_options_parser()
+    test_model_store_in_use_protection()

@@ -51,8 +51,25 @@ struct NPUGate:
         return None
 
     @staticmethod
+    def is_hailo_pi5_device_present() -> Bool:
+        """Checks if Hailo-10 NPU hardware device node /dev/hailo0 exists on Raspberry Pi 5."""
+        var path_buf = InlineArray[Int8, 16](fill=0)
+        var path = String("/dev/hailo0")
+        var bytes = path.as_bytes()
+        for i in range(len(bytes)):
+            path_buf[i] = Int8(bytes[i])
+        var fd = external_call["open", Int32](path_buf.unsafe_ptr(), 0) # O_RDONLY
+        if fd >= 0:
+            _ = external_call["close", Int32](fd)
+            return True
+        return False
+
+    @staticmethod
     def is_available(backend: NPUBackendType) -> Bool:
-        """Checks if specified NPU driver runtime is present on host system."""
+        """Checks if specified NPU driver runtime or hardware device is present on host system."""
+        if backend.value == NPUBackendType.HAILO_10:
+            if NPUGate.is_hailo_pi5_device_present():
+                return True
         var opt_h = NPUGate.get_handle(backend)
         if opt_h:
             _ = external_call["dlclose", Int32](opt_h.value())
