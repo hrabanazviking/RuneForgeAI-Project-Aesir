@@ -97,3 +97,12 @@ The bug remains open. Content-addressed model blobs, SHA-256 over source bytes,
 measured size/metadata, separate-process CLI wiring, injected rollback and
 permission faults, missing-blob handling, and process-concurrency evidence are
 still required.
+
+## Configuration Slice Contract
+
+Before command wiring, `AesirConfig` will own a `model_store_path` value with
+the relative default `.aesir/models`. The tracked JSON schema will expose it in
+a `storage` object, normalized configuration output will preserve it, and the
+parser will reject empty, absolute, backslash-separated, traversal-shaped, or
+otherwise unsafe path components. `DurableModelStore` will reuse that single
+validator so configuration and filesystem enforcement cannot drift.
