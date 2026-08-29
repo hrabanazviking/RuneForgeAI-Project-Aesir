@@ -381,7 +381,7 @@ counts as completion of an external capability.
   and hot allocations.
 - [x] **[verified, AES-RAG-003] Replace the constant query tensor with a real
   embedding model or verified extraction path.**
-- [ ] **[missing, AES-RAG-004] Build corpus ingestion:** File/document parsing,
+- [x] **[verified, AES-RAG-004] Build corpus ingestion:** File/document parsing,
   deterministic chunking, metadata, embedding batches, versioning, and durable
   index storage.
 - [ ] Add update/delete/reindex, corruption, restart, and compatibility behavior.

@@ -3,6 +3,7 @@
 
 from core.mimir_well import MimirWell, RuneTensor, MimirStore, f16, f32
 from core.compute import cosine_similarity
+from loader.corpus_ingestion import chunk_text, ingest_corpus_batch, DocumentChunk
 
 def test_cosine_similarity() raises:
     print("--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---")
@@ -164,6 +165,21 @@ def test_query_embedding_extraction() raises:
         raise Error("Query vector extraction returned old dummy constant 0.1")
     print("Query Embedding Extraction: PASS")
 
+def test_corpus_ingestion() raises:
+    print("--- Testing Corpus Ingestion & Deterministic Text Chunking ---")
+    var text = String("Odin Allfather sat at the well of Mímir seeking supreme wisdom. Thor forged Mjölnir in the depths of Nidavellir.")
+    var chunks = chunk_text(text, 40, 10)
+    if len(chunks) < 2:
+        raise Error("chunk_text failed to split text into expected overlapping chunks")
+    
+    var well = MimirWell(1024 * 64)
+    var dim = 16
+    var store = MimirStore(well, max_docs=10, dim=dim)
+    var count = ingest_corpus_batch(store, chunks, well, dim)
+    if count != len(chunks) or store.count != count:
+        raise Error("ingest_corpus_batch count mismatch")
+    print("Corpus Ingestion & Text Chunking: PASS")
+
 def report_engine_integration_boundary():
     # The repository deliberately does not commit model weights. Real engine
     # integration is covered by the opt-in test_real_gguf.mojo fixture.
@@ -173,6 +189,7 @@ def test_rag() raises:
     test_cosine_similarity()
     test_mimir_store()
     test_query_embedding_extraction()
+    test_corpus_ingestion()
     report_engine_integration_boundary()
 
 def main() raises:
