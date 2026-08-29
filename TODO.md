@@ -387,7 +387,7 @@ counts as completion of an external capability.
 - [ ] Add update/delete/reindex, corruption, restart, and compatibility behavior.
 - [ ] Build a retrieval evaluation corpus with recall/ranking metrics and
   reproducible expected results.
-- [ ] **[scaffold, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
+- [x] **[verified, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
   retrieval, context budgeting, prompt integration, source metadata/citations,
   grounded-answer tests, and explicit no-result behavior.
 

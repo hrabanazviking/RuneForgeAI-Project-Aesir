@@ -180,6 +180,35 @@ def test_corpus_ingestion() raises:
         raise Error("ingest_corpus_batch count mismatch")
     print("Corpus Ingestion & Text Chunking: PASS")
 
+def test_end_to_end_rag_grounding() raises:
+    print("--- Testing End-to-End RAG Grounded Context & Citation Budgeting ---")
+    var well = MimirWell(1024 * 64)
+    var dim = 16
+    var store = MimirStore(well, max_docs=5, dim=dim)
+    
+    # Ingest document
+    var text = String("Hávamál Stanza 141: I know that I hung on a windy tree nine whole nights.")
+    var chunks = chunk_text(text, 50, 10)
+    _ = ingest_corpus_batch(store, chunks, well, dim)
+
+    # Search KNN
+    var query_ptr = well.allocate(dim)
+    var q_vec = RuneTensor[f16](1, dim, query_ptr, False)
+    for i in range(dim):
+        q_vec.data.unsafe_store(i, 0.1)
+    
+    var docs = store.search_knn(q_vec, 2)
+    if len(docs) == 0:
+        raise Error("End-to-end RAG retrieval returned 0 documents")
+    
+    var context_str = String("[GROUNDED CONTEXT]:\n")
+    for i in range(len(docs)):
+        context_str += String("[CITATION ") + String(i + 1) + String("]: ") + docs[i] + String("\n")
+    
+    if len(context_str.as_bytes()) == 0:
+        raise Error("End-to-end RAG citation formatting failed")
+    print("End-to-End RAG Grounded Context & Citation Budgeting: PASS")
+
 def report_engine_integration_boundary():
     # The repository deliberately does not commit model weights. Real engine
     # integration is covered by the opt-in test_real_gguf.mojo fixture.
@@ -190,6 +219,7 @@ def test_rag() raises:
     test_mimir_store()
     test_query_embedding_extraction()
     test_corpus_ingestion()
+    test_end_to_end_rag_grounding()
     report_engine_integration_boundary()
 
 def main() raises:

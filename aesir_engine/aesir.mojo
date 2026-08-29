@@ -347,7 +347,9 @@ struct AesirEngine:
         return query_vector^
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
-        """Applies the existing optional knowledge context before tokenization."""
+        """
+        Applies end-to-end RAG grounded context augmentation with budget enforcement and citations.
+        """
         var active_prompt = prompt
         if self.knowledge_base.count > 0:
             var hidden_dim = self.parser.config.embedding_length
@@ -357,14 +359,31 @@ struct AesirEngine:
                 return prompt
             var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)
+            
             if len(docs) > 0:
-                var context_str = String("[CONTEXT]: ")
+                var max_context_bytes = 1024
+                var context_str = String("[GROUNDED CONTEXT]:\n")
+                var curr_bytes = len(context_str.as_bytes())
+                var added_count = 0
+                
                 for i in range(len(docs)):
-                    if i > 0:
-                        context_str += String(" ")
-                    context_str += docs[i]
-                active_prompt = context_str + String("\n") + prompt
-                print("RAG Context Augmented:", context_str)
+                    var doc_item = docs[i]
+                    var citation = String("[CITATION ") + String(i + 1) + String("]: ") + doc_item + String("\n")
+                    var cit_bytes = len(citation.as_bytes())
+                    if curr_bytes + cit_bytes > max_context_bytes:
+                        break
+                    context_str += citation
+                    curr_bytes += cit_bytes
+                    added_count += 1
+                
+                if added_count > 0:
+                    active_prompt = context_str + String("\n[PROMPT]: ") + prompt
+                    print("RAG Grounded Context Augmented:", context_str)
+                else:
+                    print("RAG Notice: Knowledge context exceeded budget, skipping augmentation.")
+            else:
+                print("RAG Notice: No relevant knowledge context found.")
+            
             self.pool.reset_kv_cache(self.runtime_offset)
         return active_prompt
 
