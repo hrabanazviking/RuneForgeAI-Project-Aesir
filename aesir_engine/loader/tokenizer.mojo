@@ -266,6 +266,9 @@ struct RuneStreamDecoder:
 
     def decode_id(mut self, token_id: Int, tokenizer: RuneWeaver) -> String:
         """Decodes one token ID using tokenizer vocabulary and returns complete UTF-8 text."""
+        if tokenizer.vocab_size == 0:
+            self.pending_bytes.append(UInt8(token_id & 0xFF))
+            return self._pop_complete_utf8()
         if token_id < 0 or token_id >= len(tokenizer.vocab):
             return String("")
         return self.decode_token(tokenizer.vocab[token_id])

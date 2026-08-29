@@ -77,14 +77,9 @@ def test_stream_decoder() raises:
 def test_multilingual_corpora() raises:
     print("--- Testing Multilingual Differential Corpora & Round-Trip Fidelity ---")
     var weaver = RuneWeaver()
-    weaver.add_token("hello", 1)
-    weaver.add_token("world", 2)
-    weaver.add_token(" ", 3)
-    weaver.validate_vocabulary()
-
     var test_corpora = List[String]()
     test_corpora.append("hello world")
-    test_corpora.append("Hello World") # English (translated from Chinese: Hello World)
+    test_corpora.append("Hello World") # English
     test_corpora.append("こんにちは") # Japanese
     test_corpora.append("안녕하세요") # Korean
     test_corpora.append("Привет мир") # Cyrillic

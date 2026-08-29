@@ -19,6 +19,14 @@ from tests.test_inference import (
     test_unsupported_runtime_config,
 )
 from tests.test_kv_cache import test_kv_cache
+from tests.test_mimir_well import (
+    test_mimir_well_allocation,
+    test_kv_cache_ring_buffer,
+)
+from tests.test_memory_refinements import (
+    test_mimir_well_telemetry,
+    test_bpe_tokenizer_linear_perf,
+)
 from tests.test_rag import (
     test_cosine_similarity,
     test_mimir_store,
@@ -238,6 +246,12 @@ def main() raises:
     print("  [DOMAIN] RuneWeaver Tokenizer")
     print("  -----------------------------------------")
     run_case(ledger, "tokenizer.synthetic_bpe", test_tokenizer)
+    run_case(
+        ledger, "tokenizer.linear_bpe_perf", test_bpe_tokenizer_linear_perf
+    )
+    run_case(
+        ledger, "memory.telemetry_and_recycling", test_mimir_well_telemetry
+    )
     print("")
 
     # --- Inference Engine ---
@@ -513,4 +527,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(131)
+    ledger.finish(133)

@@ -621,6 +621,28 @@ struct MimirWell:
             raise Error("MimirWell: invalid reset offset")
         self.offset = kv_offset_start
 
+    def reset(mut self):
+        """Resets offset to 0 for zero-overhead arena recycling."""
+        self.offset = 0
+
+    def allocated_bytes(self) -> Int:
+        """Returns currently allocated byte count in MimirWell pool."""
+        return self.offset * 2
+
+    def capacity_bytes(self) -> Int:
+        """Returns total pool byte capacity of MimirWell."""
+        return self.capacity * 2
+
+    def free_bytes(self) -> Int:
+        """Returns remaining unallocated byte count in MimirWell pool."""
+        return max(0, (self.capacity - self.offset) * 2)
+
+    def utilization_pct(self) -> Float32:
+        """Returns pool utilization percentage (0.0 to 100.0)."""
+        if self.capacity <= 0:
+            return 0.0
+        return (Float32(self.offset) / Float32(self.capacity)) * 100.0
+
     def __deinit__(deinit self):
         self.base_ptr.unsafe_free()
 
