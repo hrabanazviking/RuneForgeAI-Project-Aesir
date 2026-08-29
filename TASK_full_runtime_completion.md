@@ -11,6 +11,11 @@ documentation, commits, and pushes on the active feature branch. It does not
 override the repository law requiring separate approval before deleting files,
 functions, modules, or data.
 
+On August 29, 2026, Volmarr separately approved deletion of temporary files
+and directories created by the model-store tests only. The approval excludes
+tracked paths, pre-existing paths, user data, model weights, and production
+store contents.
+
 ## System Statement
 
 Project A.E.S.I.R. has a verified narrow Linux CPU/GGUF inference core, but its

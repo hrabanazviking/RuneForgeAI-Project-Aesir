@@ -69,9 +69,10 @@ measures them.
 - Master suite, native build, deliberate negative control, consistency check,
   artifact scan, `git diff --check`, and hosted CI.
 
-## Approval Needed Before Implementation
+## Test-Cleanup Approval
 
-The verification matrix must remove only the temporary catalog/blob files and
-directories it creates. Repository law requires explicit human approval before
-any deletion, including test cleanup. No tracked or pre-existing user file is
-within that requested deletion scope.
+On August 29, 2026, Volmarr approved deletion of temporary files and
+directories created by the model-store tests only. This authorization is
+strictly limited to test-owned paths created during the current test run. It
+does not authorize deletion of tracked files, pre-existing files or
+directories, user data, model weights, or any production store contents.
