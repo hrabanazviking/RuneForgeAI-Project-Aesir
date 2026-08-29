@@ -130,6 +130,11 @@ def test_mimir_store() raises:
     if not query_dim_mismatch:
         raise Error("MimirStore search_knn failed to detect query dimension mismatch")
 
+    # Clear method test
+    store.clear()
+    if store.count != 0 or len(store.documents) != 0:
+        raise Error("MimirStore clear() failed to reset document count and list")
+
     if count_ok and knn_ok and emb_val_ok:
         print("MimirStore (insertion & k-NN): PASS")
     else:

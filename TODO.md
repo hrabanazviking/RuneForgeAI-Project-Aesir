@@ -377,7 +377,7 @@ counts as completion of an external capability.
 
 - [x] Harden cosine similarity dimension/finite/zero-vector contracts and
   randomized reference coverage.
-- [ ] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
+- [x] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
   and hot allocations.
 - [ ] **[simulated, AES-RAG-003] Replace the constant query tensor with a real
   embedding model or verified extraction path.**

@@ -647,6 +647,11 @@ struct MimirStore(Copyable):
         self.dim = existing.dim
         self.count = existing.count
 
+    def clear(mut self):
+        """Clears all stored documents and resets embedding index count."""
+        self.count = 0
+        self.documents = List[String]()
+
     def add_document(mut self, doc: String, embedding: RuneTensor[f16]) raises:
         """Appends text document chunks and vectors into MimirStore."""
         if self.count >= self.max_docs:
