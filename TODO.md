@@ -350,7 +350,7 @@ counts as completion of an external capability.
 - [ ] Build a platform-safe socket abstraction before claiming another OS.
 - [x] **[verified, AES-SRV-002] Implement HTTP/1.1 request parser & router:** Request line (method, path, protocol), header block (`Content-Length`), body isolation, and route dispatching (`HTTPRequest`).
 - [x] **[verified, AES-SRV-003] Implement write-all and HTTP response framing:** `write_all_bytes()`, `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()`.
-- [ ] Use a real JSON serializer/escaper for prompts, model output, errors, and
+- [x] Use a real JSON serializer/escaper for prompts, model output, errors, and
   Unicode rather than concatenating untrusted strings.
 - [ ] Add request/session IDs, structured errors, timeouts, limits, cancellation,
   backpressure, and graceful shutdown.

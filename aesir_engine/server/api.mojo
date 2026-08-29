@@ -51,6 +51,33 @@ def os_is_windows() -> Bool:
     return not (os_is_linux() or os_is_macos())
 
 
+@always_inline
+def json_escape_string(val: String) -> String:
+    """Escapes special characters in a string for safe JSON serialization."""
+    var bytes = val.as_bytes()
+    var hex_digits = String("0123456789abcdef")
+    var res = String("")
+    for i in range(len(bytes)):
+        var b = bytes[i]
+        if b == 0x22: # "
+            res += String("\\\"")
+        elif b == 0x5C: # \
+            res += String("\\\\")
+        elif b == 0x0A: # \n
+            res += String("\\n")
+        elif b == 0x0D: # \r
+            res += String("\\r")
+        elif b == 0x09: # \t
+            res += String("\\t")
+        elif b < 0x20: # control character
+            var hi = Int((b >> 4) & 0xF)
+            var lo = Int(b & 0xF)
+            res += String("\\u00") + String(hex_digits[byte=hi : hi + 1]) + String(hex_digits[byte=lo : lo + 1])
+        else:
+            res += String(val[byte=i : i + 1])
+    return res
+
+
 def unsupported_http_response(capability: String) -> String:
     """Builds an honest HTTP 501 response for a known unavailable route."""
     return (
@@ -58,7 +85,7 @@ def unsupported_http_response(capability: String) -> String:
         + String("Content-Type: application/json\r\n")
         + String("Connection: close\r\n\r\n")
         + String("{\"error\":\"unsupported\",\"capability\":\"")
-        + capability
+        + json_escape_string(capability)
         + String("\"}")
     )
 

@@ -19,6 +19,7 @@ from server.api import (
     write_all_bytes,
     unsupported_http_response,
     route_not_found_response,
+    json_escape_string,
 )
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
@@ -322,3 +323,24 @@ def test_openai_rest_gateway() raises:
         raise Error("Route dispatcher failed on /v1/embeddings: got " + emb_resp)
 
     print("OpenAI REST API Gateway: PASS")
+
+def test_json_escape_string() raises:
+    print("--- Testing JSON string escaper for quotes, backslashes, tabs, and newlines ---")
+    var raw = String("hello \"world\"\nnext\\line\ttab")
+    var escaped = json_escape_string(raw)
+    if "\\\"world\\\"" not in escaped or "\\nnext\\\\line\\ttab" not in escaped:
+        raise Error("json_escape_string failed to escape special characters: got '" + escaped + "'")
+    print("JSON string escaper: PASS")
+
+def main() raises:
+    test_openai_api_formatter()
+    test_gbnf_grammar()
+    test_speculative_engine()
+    test_onnx_model_seer()
+    test_multi_engine_cli()
+    test_unsupported_http_responses()
+    test_posix_socket_server()
+    test_http_parser_and_router()
+    test_http_response_framing()
+    test_openai_rest_gateway()
+    test_json_escape_string()
