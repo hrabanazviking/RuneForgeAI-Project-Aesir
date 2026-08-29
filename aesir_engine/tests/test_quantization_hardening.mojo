@@ -99,8 +99,9 @@ def test_unrecognized_format_self_healing() raises:
     var block_alloc = alloc(block_layout)
     var B_blocks = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
     for n in range(N):
-        var qs = SIMD[DType.uint8, 16](0x22)
-        var blk = BlockQ4_K(Scalar[f16](0.5), Scalar[f16](-0.25), qs)
+        var scales = SIMD[DType.uint8, 16](0x01)
+        var qs = SIMD[DType.uint8, 128](0x22)
+        var blk = BlockQ4_K(Scalar[f16](0.5), Scalar[f16](-0.25), scales, qs)
         B_blocks.unsafe_offset(n)[] = blk
 
     var quant_w_ptr = B_blocks.unsafe_bitcast[Scalar[f16]]()

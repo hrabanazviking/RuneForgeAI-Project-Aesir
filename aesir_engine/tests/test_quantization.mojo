@@ -158,18 +158,19 @@ def test_q4_k_m_block_dequantization() raises:
     print("--- Testing Q4_K_M Block Dequantization Math & Layout ---")
     from core.compute import BlockQ4_K, dequantize_q4_k_m
     var block_mem = alloc(Layout[BlockQ4_K](count=1)).unsafe_leak()
-    var out_mem = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
+    var out_mem = alloc(Layout[Scalar[f16]](count=256)).unsafe_leak()
 
-    var scale = Scalar[f16](0.5)
-    var min_val = Scalar[f16](-1.0)
-    var qs = SIMD[DType.uint8, 16](0x21) # lower_4 = 1, upper_4 = 2
+    var d = Scalar[f16](0.5)
+    var dmin = Scalar[f16](-1.0)
+    var scales = SIMD[DType.uint8, 16](0x01)
+    var qs = SIMD[DType.uint8, 128](0x21) # lower_4 = 1, upper_4 = 2
 
-    block_mem.unsafe_store(0, BlockQ4_K(scale, min_val, qs))
+    block_mem.unsafe_store(0, BlockQ4_K(d, dmin, scales, qs))
 
     dequantize_q4_k_m(block_mem, out_mem, 1)
 
-    var val_lower = out_mem.unsafe_load(0) # 1 * 0.5 + (-1.0) = -0.5
-    var val_upper = out_mem.unsafe_load(16) # 2 * 0.5 + (-1.0) = 0.0
+    var val_lower = out_mem.unsafe_load(0)
+    var val_upper = out_mem.unsafe_load(16)
 
     # Zero blocks safety check (must return early without modifying or crashing)
     dequantize_q4_k_m(block_mem, out_mem, 0)

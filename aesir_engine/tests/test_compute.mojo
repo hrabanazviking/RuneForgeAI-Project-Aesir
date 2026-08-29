@@ -181,12 +181,13 @@ def test_dequantize_q4_k_m() raises:
     var block_alloc = alloc(block_layout)
     var block_ptr = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
     block_ptr[] = BlockQ4_K(
-        scale=Scalar[f16](2.0),
-        min_val=Scalar[f16](0.5),
-        qs=SIMD[DType.uint8, 16](0x31)
+        d=Scalar[f16](2.0),
+        dmin=Scalar[f16](0.5),
+        scales=SIMD[DType.uint8, 16](0x01),
+        qs=SIMD[DType.uint8, 128](0x31)
     )
     
-    var out_ptr = well.allocate(32)  # 32 f16 values from 1 block
+    var out_ptr = well.allocate(256)  # 32 f16 values from 1 block
     
     dequantize_q4_k_m(block_ptr, out_ptr, 1)
     

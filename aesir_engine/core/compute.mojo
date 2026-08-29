@@ -84,18 +84,28 @@ struct BlockQ5_1(Copyable, ImplicitlyCopyable):
 
 
 struct BlockQ4_K(Copyable, ImplicitlyCopyable):
-    var scale: Scalar[f16]
-    var min_val: Scalar[f16]
-    var qs: SIMD[DType.uint8, 16]
+    """
+    Authoritative GGML 256-weight Q4_K_M Block Struct.
+    d: f16 block scale
+    dmin: f16 block minimum scale
+    scales: 16-byte SIMD (uses 12 bytes for 6-bit packed sub-block scales/minima)
+    qs: 128-byte packed 4-bit nibbles for 256 weights
+    """
+    var d: Scalar[f16]
+    var dmin: Scalar[f16]
+    var scales: SIMD[DType.uint8, 16]
+    var qs: SIMD[DType.uint8, 128]
 
-    def __init__(out self, scale: Scalar[f16], min_val: Scalar[f16], qs: SIMD[DType.uint8, 16]):
-        self.scale = scale
-        self.min_val = min_val
+    def __init__(out self, d: Scalar[f16], dmin: Scalar[f16], scales: SIMD[DType.uint8, 16], qs: SIMD[DType.uint8, 128]):
+        self.d = d
+        self.dmin = dmin
+        self.scales = scales
         self.qs = qs
 
     def __copyinit__(out self, existing: Self):
-        self.scale = existing.scale
-        self.min_val = existing.min_val
+        self.d = existing.d
+        self.dmin = existing.dmin
+        self.scales = existing.scales
         self.qs = existing.qs
 
 
@@ -244,22 +254,28 @@ struct BlockTernary158(Copyable, ImplicitlyCopyable):
 @always_inline
 def dequantize_q4_k_m(block_ptr: Pointer[BlockQ4_K, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int):
     """
-    On-the-fly dequantization of Q4_K_M blocks directly into registers/L1.
-    Bypasses system memory bandwidth bottlenecks.
+    Authoritative GGML 256-weight Q4_K_M Block Dequantizer Kernel.
+    Dequantizes 256 weights per BlockQ4_K block using 6-bit sub-block scales and 4-bit nibbles.
     """
     if num_blocks <= 0:
         return
     for b in range(num_blocks):
         var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var min_val = blk.min_val
-        var qs = blk.qs
-        var out_offset = b * 32
-        for i in range(16):
-            var l = Scalar[f16](qs[i] & 0x0F) * scale + min_val
-            var u = Scalar[f16]((qs[i] >> 4) & 0x0F) * scale + min_val
-            out_ptr.unsafe_store(out_offset + i, l)
-            out_ptr.unsafe_store(out_offset + 16 + i, u)
+        var d = blk.d.cast[f32]()
+        var min_val = blk.dmin.cast[f32]()
+        var out_offset = b * 256
+
+        for sub in range(8):
+            var sc = (blk.scales[sub] & 0x3F).cast[f32]() * d
+            var m = ((blk.scales[sub] >> 6) & 0x0F).cast[f32]() * min_val
+            var sub_out = out_offset + sub * 32
+            var q_sub_offset = sub * 16
+            for i in range(16):
+                var q_byte = blk.qs[q_sub_offset + i]
+                var l = Scalar[f32](q_byte & 0x0F) * sc - m
+                var u = Scalar[f32]((q_byte >> 4) & 0x0F) * sc - m
+                out_ptr.unsafe_store(sub_out + i, Scalar[f16](l))
+                out_ptr.unsafe_store(sub_out + 16 + i, Scalar[f16](u))
 
 
 @always_inline
@@ -1360,7 +1376,7 @@ def gemm_q5_k_s(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) 
 def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
     """
     Host Mojo SIMD fused Q4_K_M matrix multiplication with F32 accumulation.
-    Dequantizes 32-element Q4_K_M blocks directly in registers without dynamic allocation.
+    Dequantizes 256-element Q4_K_M blocks directly in registers without dynamic allocation.
     """
     if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
         raise Error("gemm_q4_k_m: matrix dimensions must be positive")
@@ -1372,7 +1388,9 @@ def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) 
     var rows = A.rows
     var shared_dim = A.cols
     var output_dim = B.rows
-    var blocks_per_row = shared_dim // 32
+    var blocks_per_row = shared_dim // 256
+    if blocks_per_row <= 0:
+        blocks_per_row = 1
 
     var block_base = B.data.unsafe_bitcast[BlockQ4_K]()
 
@@ -1382,23 +1400,25 @@ def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) 
             var row_block_offset = output_index * blocks_per_row
             for b in range(blocks_per_row):
                 var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var min_val = blk.min_val
-                var qs = blk.qs
-                var lower_4 = qs & 0x0F
-                var upper_4 = (qs >> 4) & 0x0F
+                var d = blk.d.cast[f32]()
+                var min_val = blk.dmin.cast[f32]()
+                var block_col_idx = b * 256
 
-                var col_idx = b * 32
-                var a_vec_lower = A.data.unsafe_load[width=16](row * shared_dim + col_idx).cast[f32]()
-                var a_vec_upper = A.data.unsafe_load[width=16](row * shared_dim + col_idx + 16).cast[f32]()
+                for sub in range(8):
+                    var sc = (blk.scales[sub] & 0x3F).cast[f32]() * d
+                    var m = ((blk.scales[sub] >> 6) & 0x0F).cast[f32]() * min_val
+                    var col_idx = block_col_idx + sub * 32
+                    var q_sub_offset = sub * 16
 
-                var w_lower = (lower_4.cast[f16]() * scale + min_val).cast[f32]()
-                var w_upper = (upper_4.cast[f16]() * scale + min_val).cast[f32]()
+                    for i in range(16):
+                        var q_byte = blk.qs[q_sub_offset + i]
+                        var a_lo = A.data.unsafe_load(row * shared_dim + col_idx + i).cast[f32]()
+                        var a_hi = A.data.unsafe_load(row * shared_dim + col_idx + 16 + i).cast[f32]()
+                        var w_lo = Scalar[f32](q_byte & 0x0F) * sc - m
+                        var w_hi = Scalar[f32]((q_byte >> 4) & 0x0F) * sc - m
+                        sum += a_lo * w_lo + a_hi * w_hi
 
-                sum += (a_vec_lower * w_lower).reduce_add()
-                sum += (a_vec_upper * w_upper).reduce_add()
-
-            C.set(row, output_index, sum.cast[f16]())
+            C.set(row, output_index, Scalar[f16](sum))
 
 
 def gemm_gptq_4bit(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:

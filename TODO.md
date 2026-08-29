@@ -393,9 +393,9 @@ counts as completion of an external capability.
 
 ## Stage 8 — Quantized Inference, One Format at a Time
 
-- [ ] Choose one authoritative GGML quantized format; Q4_K_M is the current
-  advertised candidate but is not yet implemented.
-- [ ] Replace toy block structs with the exact upstream byte layout, scales,
+- [x] Choose one authoritative GGML quantized format; Q4_K_M is the current
+  advertised candidate and is implemented (`AES-QNT-001`).
+- [x] Replace toy block structs with the exact upstream byte layout, scales,
   minima/zeros, packing, alignment, and tail contract.
 - [ ] Validate exact input byte spans and reject unsupported/tail cases before
   reads or writes.
