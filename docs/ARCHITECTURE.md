@@ -111,7 +111,8 @@ graph TD
 ### 7. `aesir_engine/config.mojo` & Experimental Primitives (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
 - **Role:** Validated configuration fields, local deterministic transforms, text helpers, and status-display shapes. These are not integrated inference paradigms, live telemetry, self-healing, tool execution, or MAX execution.
 - **Components:**
-  - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
+  - `AesirConfig`: Validated human-readable JSON configuration manifest
+    (`aesir.config.json`), including the relative durable model-store root.
   - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
   - `ThinkingController`: Thought token block parsing and hard logit suppression for reasoning tokens when disabled.
   - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.

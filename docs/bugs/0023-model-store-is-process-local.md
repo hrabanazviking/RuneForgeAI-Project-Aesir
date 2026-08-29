@@ -106,3 +106,7 @@ a `storage` object, normalized configuration output will preserve it, and the
 parser will reject empty, absolute, backslash-separated, traversal-shaped, or
 otherwise unsafe path components. `DurableModelStore` will reuse that single
 validator so configuration and filesystem enforcement cannot drift.
+
+Implemented in the configuration slice: the tracked schema, default,
+normalized output, parser validation, durable-store delegation, focused
+unsafe-path checks, and production `.aesir/` ignore boundary now agree.

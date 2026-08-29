@@ -5,6 +5,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import Dict
+from config import validate_model_store_path
 from cli.manifest import (
     ModelManifest,
     RuneModelStore,
@@ -29,31 +30,8 @@ def _cstring(value: String) -> List[Int8]:
 
 
 def validate_store_root(root_path: String) raises -> String:
-    """Validates a caller-owned relative store root without canonicalizing it."""
-    var root = String(root_path.strip())
-    if len(root.bytes()) == 0:
-        raise Error("model store root must not be empty")
-    if root.startswith("/") or "\\" in root:
-        raise Error("model store root must be a relative POSIX path")
-    var segments = root.split("/")
-    for index in range(len(segments)):
-        var segment = String(segments[index])
-        if len(segment.bytes()) == 0 or segment == "." or segment == "..":
-            raise Error("model store root contains an unsafe path segment")
-        var segment_bytes = segment.as_bytes()
-        for byte_index in range(len(segment_bytes)):
-            var code = Int(segment_bytes[byte_index])
-            var allowed = (
-                (code >= 48 and code <= 57)
-                or (code >= 65 and code <= 90)
-                or (code >= 97 and code <= 122)
-                or code == 45
-                or code == 46
-                or code == 95
-            )
-            if not allowed:
-                raise Error("model store root contains an unsafe character")
-    return root
+    """Delegates store-root validation to the authoritative config schema."""
+    return validate_model_store_path(root_path)
 
 
 def _hex_encode(value: String) -> String:

@@ -16,6 +16,7 @@ test_server_loop
 
 # Temporary files & logs
 *.log
+.aesir/
 .aesir-test-model-store-*
 .DS_Store
 __pycache__/

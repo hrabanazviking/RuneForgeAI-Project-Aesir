@@ -113,7 +113,9 @@ struct DurableModelStore:
 
 `validate_store_root`, `serialize_catalog`, and `deserialize_catalog` expose
 the corresponding validation and catalog-codec boundaries for callers and
-focused verification.
+focused verification. Store-root validation delegates to the authoritative
+`AesirConfig.model_store_path` schema, whose relative default is
+`.aesir/models`.
 
 ---
 

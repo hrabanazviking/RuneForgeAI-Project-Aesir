@@ -6,6 +6,34 @@ from std.ffi import external_call
 from std.memory.alloc import alloc, Layout
 
 
+def validate_model_store_path(path: String) raises -> String:
+    """Validates a relative POSIX model-store path from caller configuration."""
+    var clean = String(path.strip())
+    if len(clean.bytes()) == 0:
+        raise Error("model_store_path must not be empty")
+    if clean.startswith("/") or "\\" in clean:
+        raise Error("model_store_path must be a relative POSIX path")
+    var segments = clean.split("/")
+    for index in range(len(segments)):
+        var segment = String(segments[index])
+        if len(segment.bytes()) == 0 or segment == "." or segment == "..":
+            raise Error("model_store_path contains an unsafe path segment")
+        var source = segment.as_bytes()
+        for byte_index in range(len(source)):
+            var code = Int(source[byte_index])
+            var allowed = (
+                (code >= 48 and code <= 57)
+                or (code >= 65 and code <= 90)
+                or (code >= 97 and code <= 122)
+                or code == 45
+                or code == 46
+                or code == 95
+            )
+            if not allowed:
+                raise Error("model_store_path contains an unsafe character")
+    return clean
+
+
 struct AesirConfig:
     """
     AesirConfig — Central configuration container for Project A.E.S.I.R.
@@ -26,6 +54,7 @@ struct AesirConfig:
     var num_gpu_layers: Int  # Number of model layers offloaded to GPU/NPU (-1 = all)
     var temperature: Float64  # Default sampling temperature
     var top_p: Float64  # Default top-p nucleus sampling cutoff
+    var model_store_path: String  # Relative root for durable catalog/blob state
     var config_path: String  # Source path of loaded configuration file
 
     def __init__(out self):
@@ -42,6 +71,7 @@ struct AesirConfig:
         self.num_gpu_layers = 0
         self.temperature = 0.0
         self.top_p = 1.0
+        self.model_store_path = String(".aesir/models")
         self.config_path = String("aesir.config.json")
 
     def to_json_string(self) -> String:
@@ -102,6 +132,12 @@ struct AesirConfig:
         )
         out_str += "  },\n"
 
+        out_str += '  "storage": {\n'
+        out_str += (
+            '    "model_store_path": "' + self.model_store_path + '"\n'
+        )
+        out_str += "  },\n"
+
         out_str += '  "sampling": {\n'
         out_str += '    "temperature": ' + String(self.temperature) + ",\n"
         out_str += '    "top_p": ' + String(self.top_p) + "\n"
@@ -127,7 +163,7 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
             continue
         var parts = line.split(":")
         if len(parts) != 2:
-            continue
+            raise Error("malformed configuration line")
         var key = String(parts[0].strip().strip('"'))
         var val = String(parts[1].strip().strip(",").strip('"'))
 
@@ -188,6 +224,8 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
             if val != "true" and val != "false":
                 raise Error("tui_enabled must be true or false")
             config.tui_enabled = val.lower() == "true"
+        elif key == "model_store_path":
+            config.model_store_path = validate_model_store_path(val)
         elif key == "max_threads":
             try:
                 config.max_threads = atol(val)
@@ -213,6 +251,7 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
             and key != "safety"
             and key != "experimental_paradigms"
             and key != "interface"
+            and key != "storage"
             and key != "sampling"
         ):
             raise Error("unknown configuration key: " + key)
@@ -229,6 +268,9 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
         raise Error("top_p must be between 0.0 and 1.0")
     if isnan(config.top_p) or isinf(config.top_p):
         raise Error("top_p must be finite")
+    config.model_store_path = validate_model_store_path(
+        config.model_store_path
+    )
 
     return config^
 

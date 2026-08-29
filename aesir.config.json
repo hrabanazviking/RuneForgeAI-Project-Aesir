@@ -18,6 +18,9 @@
   "interface": {
     "tui_enabled": false
   },
+  "storage": {
+    "model_store_path": ".aesir/models"
+  },
   "sampling": {
     "temperature": 0.0,
     "top_p": 1.0

@@ -43,6 +43,8 @@ def test_config_and_json() raises:
         raise Error("test_config_and_json: Failed to parse target_npu")
     if not parsed.skaldbrodir_enabled:
         raise Error("test_config_and_json: Failed to parse skaldbrodir_enabled")
+    if parsed.model_store_path != ".aesir/models":
+        raise Error("test_config_and_json: model_store_path round-trip mismatch")
 
     var invalid_target_rejected = False
     try:
@@ -61,6 +63,16 @@ def test_config_and_json() raises:
         duplicate_key_rejected = True
     if not duplicate_key_rejected:
         raise Error("test_config_and_json: duplicate keys must fail closed")
+
+    var unsafe_store_rejected = False
+    try:
+        _ = parse_config_json(
+            '{\n  "model_store_path": "../outside"\n}'
+        )
+    except:
+        unsafe_store_rejected = True
+    if not unsafe_store_rejected:
+        raise Error("test_config_and_json: unsafe model_store_path was accepted")
 
     # The portable Hailo presence boundary must execute without claiming a device.
     _ = NPUGate.is_hailo_pi5_device_present()
