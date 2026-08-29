@@ -455,9 +455,9 @@ counts as completion of an external capability.
 
 ### ONNX
 
-- [ ] **[missing, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
+- [x] **[verified, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
   opsets, tensors, nodes, attributes, graph inputs/outputs, and bounds.
-- [ ] Define the supported operator/type/shape subset and reject everything else.
+- [x] Define the supported operator/type/shape subset and reject everything else (`AES-ECO-004`).
 - [ ] Build an execution planner and compare outputs with ONNX Runtime on
   conformance fixtures.
 
