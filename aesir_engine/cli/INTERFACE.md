@@ -127,9 +127,11 @@ def run_single_shot(
 CLI intent container and parser supporting `--verbose`, `--format json|text`,
 `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and
 `--max-tokens N`. It also records whether `--config` and `--accel` were
-explicitly supplied so command dispatch can apply precedence without mistaking
-defaults for caller intent. Parsing a flag does not imply downstream
-operational support.
+explicitly supplied, along with presence markers for every other parsed flag,
+so command dispatch can apply precedence without mistaking defaults for caller
+intent. Parsing a flag does not imply downstream operational support. Each
+implemented command validates applicability and rejects options that do not yet
+have a connected owner.
 
 ```mojo
 struct CLIOptions:
@@ -172,7 +174,9 @@ an explicit unsupported error.
 Recognized option tokens and their values are removed from positional assembly,
 so control flags cannot become model prompt text. `auto` and `cpu` select the
 verified CPU route. Explicit unavailable accelerator intent raises before model
-loading and never falls back under a hardware label.
+loading and never falls back under a hardware label. The tracked configuration
+uses neutral values for unconnected runtime fields; changing one of those
+fields on a single-shot run raises rather than being ignored.
 
 ---
 

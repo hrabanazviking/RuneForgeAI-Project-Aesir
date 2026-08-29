@@ -198,3 +198,12 @@ feature work.
 - Separated recognized flags from positional model/prompt tokens.
 - Added regression coverage and passed the 133-case master proving suite plus a
   clean native build. Hosted CI evidence is recorded after the slice push.
+
+## Progress — Slice 2: CLI Option Applicability
+
+- Recorded explicit presence for every parsed flag.
+- Added a command-specific single-shot applicability gate.
+- Rejected every option and config field that lacks a connected runtime owner,
+  before model loading or other side effects.
+- Changed the tracked config to neutral values for unconnected capabilities.
+- Preserved 132/0/1/133 master-suite evidence and a clean native build.

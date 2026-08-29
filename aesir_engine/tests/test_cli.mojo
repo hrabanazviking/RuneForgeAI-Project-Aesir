@@ -8,6 +8,8 @@ from cli.commands import (
     dispatch_command,
     effective_config,
     require_verified_cpu_backend,
+    validate_single_shot_config_support,
+    validate_run_option_support,
 )
 from cli.repl import RuneREPL
 from cli.options import parse_cli_options, parse_duration_seconds
@@ -149,6 +151,35 @@ def assert_cli_command_unsupported(command: String) raises:
             raise Error("unsupported CLI error omitted stable truth text")
     if not rejected:
         raise Error("unsupported CLI command returned successfully: " + command)
+
+
+def assert_run_option_rejected(
+    option: String, value: String = String(""), takes_value: Bool = False
+) raises:
+    """Proves an accepted-but-unconnected option cannot report run success."""
+    var args = List[String]()
+    args.append("run")
+    args.append("model.gguf")
+    args.append(option)
+    if takes_value:
+        args.append(value)
+    args.append("hello")
+
+    var options = parse_cli_options(args)
+    var rejected = False
+    try:
+        validate_run_option_support(options)
+    except error:
+        rejected = True
+        var message = String(error)
+        if (
+            "not implemented" not in message
+            and "not connected" not in message
+            and "applies to" not in message
+        ):
+            raise Error("run option rejection omitted stable truth text")
+    if not rejected:
+        raise Error("unconnected run option was accepted: " + option)
 
 
 def test_cli_command_dispatch() raises:
@@ -307,6 +338,12 @@ def test_cli_flag_options_parser() raises:
         raise Error("CLIOptions raw flag not set")
     if not options.insecure:
         raise Error("CLIOptions insecure flag not set")
+    if not options.verbose_was_set or not options.format_was_set:
+        raise Error("CLIOptions did not record explicit output intent")
+    if not options.keepalive_was_set:
+        raise Error("CLIOptions did not record explicit keepalive intent")
+    if not options.raw_was_set or not options.insecure_was_set:
+        raise Error("CLIOptions did not record explicit mode intent")
 
     var explicit_args = List[String]()
     explicit_args.append("run")
@@ -342,6 +379,19 @@ def test_cli_flag_options_parser() raises:
     if effective.acceleration_backend != "cpu":
         raise Error("explicit CLI acceleration did not override file intent")
     require_verified_cpu_backend(effective)
+    validate_single_shot_config_support(effective)
+
+    effective.temperature = 0.7
+    var ignored_config_rejected = False
+    try:
+        validate_single_shot_config_support(effective)
+    except error:
+        ignored_config_rejected = True
+        if "sampling config is not connected" not in String(error):
+            raise Error("unconnected config rejection omitted truth boundary")
+    if not ignored_config_rejected:
+        raise Error("unconnected sampling config reached single-shot execution")
+    effective.temperature = 0.0
 
     effective.acceleration_backend = String("cuda")
     var unsupported_backend_rejected = False
@@ -363,6 +413,21 @@ def test_cli_flag_options_parser() raises:
             raise Error("missing config rejection omitted contextual error")
     if not missing_config_rejected:
         raise Error("missing configuration file was accepted")
+
+    # Every globally parsed option without a single-shot owner must fail before
+    # model loading instead of being silently ignored.
+    assert_run_option_rejected("--verbose")
+    assert_run_option_rejected("--format", "json", True)
+    assert_run_option_rejected("--keepalive", "5m", True)
+    assert_run_option_rejected("--modelfile", "Modelfile", True)
+    assert_run_option_rejected("--raw")
+    assert_run_option_rejected("--insecure")
+    assert_run_option_rejected("--skaldbrodir", "on", True)
+    assert_run_option_rejected("--thinking", "off", True)
+    assert_run_option_rejected("--cia", "on", True)
+    assert_run_option_rejected("--wic", "on", True)
+    assert_run_option_rejected("--nsfi", "on", True)
+    assert_run_option_rejected("--tui")
 
     # Verify invalid option values fail closed.
     var invalid_format = List[String]()

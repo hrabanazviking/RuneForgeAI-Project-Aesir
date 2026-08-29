@@ -17,8 +17,8 @@ def get_help_overview() -> String:
     help_str += "  aesir [command] [flags] [arguments]\n\n"
     help_str += "COMMANDS:\n"
     help_str += (
-        "  run <model.gguf> <prompt>  Run the verified local single-shot CPU"
-        " path\n"
+        "  run <model.gguf> [options] <prompt>  Run the verified local"
+        " single-shot CPU path\n"
     )
     help_str += (
         "  config [--config <path>]  Validate and show a configuration file\n"
@@ -33,30 +33,20 @@ def get_help_overview() -> String:
     help_str += "  pull; push; stop; llama-*; exl2; onnx; swarm\n\n"
     help_str += "FLAGS & OPTIONS:\n"
     help_str += (
-        "  -a, --accel <backend>  Parse backend intent; non-CPU execution fails"
-        " closed\n"
+        "  --max-tokens N         Set the positive single-shot token limit\n"
     )
     help_str += (
-        "  -c, --config <path>    Select a JSON configuration path for future"
-        " loading\n"
+        "  -c, --config <path>    Load configuration and enforce backend"
+        " intent\n"
     )
     help_str += (
-        "  --skaldbrodir <on|off> Parse local detector intent; not"
-        " engine-integrated\n"
+        "  -a, --accel <auto|cpu> Select the currently verified execution"
+        " path\n"
     )
     help_str += (
-        "  --thinking <on|off>    Parse transcript-filter intent; not logit"
-        " integration\n"
+        "  Other parsed flags are rejected by run until their owners are"
+        " connected\n"
     )
-    help_str += (
-        "  --cia/--wic/--nsfi     Parse experimental intent; not inference"
-        " backends\n"
-    )
-    help_str += (
-        "  --tui                  Request a caller-populated status frame\n"
-    )
-    help_str += "  -v, --verbose          Enable detailed debug logging\n"
-    help_str += "  --format <json|text>   Output response format\n"
     return help_str
 
 
@@ -65,9 +55,10 @@ def get_command_help(cmd: String) -> String:
     var name = cmd.strip().lower()
     if name == "run":
         return (
-            "aesir run <model.gguf> [--max-tokens N] <prompt>\n\nRuns the"
-            " verified local single-shot CPU GGUF path. Interactive mode is"
-            " unsupported."
+            "aesir run <model.gguf> [--max-tokens N] [--config path]"
+            " [--accel auto|cpu] <prompt>\n\nRuns the verified local"
+            " single-shot CPU GGUF path. Inapplicable or unconnected options"
+            " fail before model loading. Interactive mode is unsupported."
         )
     elif name == "serve":
         return (

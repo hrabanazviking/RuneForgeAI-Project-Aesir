@@ -10,41 +10,67 @@ struct CLIOptions:
     """
 
     var verbose: Bool
+    var verbose_was_set: Bool
     var format: String
+    var format_was_set: Bool
     var keepalive_seconds: Int
+    var keepalive_was_set: Bool
     var modelfile_path: String
+    var modelfile_was_set: Bool
     var raw: Bool
+    var raw_was_set: Bool
     var insecure: Bool
+    var insecure_was_set: Bool
     var max_tokens: Int
+    var max_tokens_was_set: Bool
     var config_path: String
     var config_was_set: Bool
     var accel_backend: String
     var accel_was_set: Bool
     var skaldbrodir: String  # "auto", "on", "off"
+    var skaldbrodir_was_set: Bool
     var thinking: String  # "auto", "on", "off"
+    var thinking_was_set: Bool
     var cia: String  # "auto", "on", "off"
+    var cia_was_set: Bool
     var wic: String  # "auto", "on", "off"
+    var wic_was_set: Bool
     var nsfi: String  # "auto", "on", "off"
+    var nsfi_was_set: Bool
     var tui: Bool
+    var tui_was_set: Bool
 
     def __init__(out self):
         self.verbose = False
+        self.verbose_was_set = False
         self.format = String("text")
+        self.format_was_set = False
         self.keepalive_seconds = 300
+        self.keepalive_was_set = False
         self.modelfile_path = String("")
+        self.modelfile_was_set = False
         self.raw = False
+        self.raw_was_set = False
         self.insecure = False
+        self.insecure_was_set = False
         self.max_tokens = 32
+        self.max_tokens_was_set = False
         self.config_path = String("aesir.config.json")
         self.config_was_set = False
         self.accel_backend = String("auto")
         self.accel_was_set = False
         self.skaldbrodir = String("auto")
+        self.skaldbrodir_was_set = False
         self.thinking = String("auto")
+        self.thinking_was_set = False
         self.cia = String("auto")
+        self.cia_was_set = False
         self.wic = String("auto")
+        self.wic_was_set = False
         self.nsfi = String("auto")
+        self.nsfi_was_set = False
         self.tui = False
+        self.tui_was_set = False
 
 
 def parse_duration_seconds(duration_str: String) raises -> Int:
@@ -107,14 +133,18 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
         var arg = args[i]
         if arg == "--verbose" or arg == "-v":
             options.verbose = True
+            options.verbose_was_set = True
         elif arg == "--raw":
             options.raw = True
+            options.raw_was_set = True
         elif arg == "--insecure":
             options.insecure = True
+            options.insecure_was_set = True
         elif arg == "--format":
             if i + 1 >= len(args):
                 raise Error("Missing value for --format flag")
             options.format = args[i + 1]
+            options.format_was_set = True
             if options.format != "json" and options.format != "text":
                 raise Error("--format must be json or text")
             i += 1
@@ -122,16 +152,19 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --keepalive flag")
             options.keepalive_seconds = parse_duration_seconds(args[i + 1])
+            options.keepalive_was_set = True
             i += 1
         elif arg == "--modelfile" or arg == "-f":
             if i + 1 >= len(args):
                 raise Error("Missing value for --modelfile/-f flag")
             options.modelfile_path = args[i + 1]
+            options.modelfile_was_set = True
             i += 1
         elif arg == "--max-tokens":
             if i + 1 >= len(args):
                 raise Error("Missing value for --max-tokens flag")
             options.max_tokens = parse_int(args[i + 1])
+            options.max_tokens_was_set = True
             if options.max_tokens <= 0:
                 raise Error("--max-tokens must be positive")
             i += 1
@@ -151,28 +184,34 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --skaldbrodir flag")
             options.skaldbrodir = validate_toggle(args[i + 1], "--skaldbrodir")
+            options.skaldbrodir_was_set = True
             i += 1
         elif arg == "--thinking":
             if i + 1 >= len(args):
                 raise Error("Missing value for --thinking flag")
             options.thinking = validate_toggle(args[i + 1], "--thinking")
+            options.thinking_was_set = True
             i += 1
         elif arg == "--cia":
             if i + 1 >= len(args):
                 raise Error("Missing value for --cia flag")
             options.cia = validate_toggle(args[i + 1], "--cia")
+            options.cia_was_set = True
             i += 1
         elif arg == "--wic":
             if i + 1 >= len(args):
                 raise Error("Missing value for --wic flag")
             options.wic = validate_toggle(args[i + 1], "--wic")
+            options.wic_was_set = True
             i += 1
         elif arg == "--nsfi":
             if i + 1 >= len(args):
                 raise Error("Missing value for --nsfi flag")
             options.nsfi = validate_toggle(args[i + 1], "--nsfi")
+            options.nsfi_was_set = True
             i += 1
         elif arg == "--tui":
             options.tui = True
+            options.tui_was_set = True
         i += 1
     return options^

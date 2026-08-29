@@ -3,6 +3,23 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 106: Full Completion Slice 2 — CLI Option Applicability
+
+**Date:** August 29, 2026
+**Architectural Phase:** Command contract and ignored-intent elimination
+
+1. Added explicit-presence markers for every globally parsed CLI flag so a
+   caller-supplied default value cannot be confused with absence.
+2. Added a single-shot applicability gate: verbose/format, keepalive,
+   Modelfile, raw, insecure, safety, thinking, experimental, and TUI intent now
+   reject before model loading until their owning behavior is connected.
+3. Added a config applicability gate and neutralized the tracked example's
+   unconnected fields. Non-neutral GPU-layer, thread, NPU, sampling, safety,
+   experimental, or TUI intent cannot silently succeed.
+4. Updated help to advertise only the currently connected single-shot options.
+5. Verification passed: clean native build and master suite **132 passed / 0
+   failed / 1 skipped / total 133**.
+
 ## Entry 105: Full Completion Slice 1 — CLI Configuration Truth Boundary
 
 **Date:** August 29, 2026

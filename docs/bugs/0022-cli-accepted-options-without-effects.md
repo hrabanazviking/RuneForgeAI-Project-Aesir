@@ -83,3 +83,19 @@ the command succeeds while caller intent is ignored.
 - Negative tests for every inapplicable option/command pairing.
 - Master suite, native build, deliberate negative control, consistency check,
   `git diff --check`, built-CLI smoke tests, and hosted CI.
+
+## Truth-Boundary Resolution — August 29, 2026
+
+- `CLIOptions` now records explicit presence for every parsed option.
+- Single-shot dispatch has a command-applicability gate. Every accepted option
+  without a connected single-shot owner raises before model loading.
+- Explicit config files must keep unsupported fields neutral; non-neutral
+  sampling, safety, experimental, TUI, thread, NPU, or GPU-layer intent raises
+  instead of being ignored.
+- The tracked example now uses neutral values for all unconnected behavior.
+- Master verification passed with **132 passed / 0 failed / 1 skipped / total
+  133** and the native CLI builds cleanly.
+
+The fabricated-success defect is resolved. The feature work remains open:
+rejections are replaced only when each option's real owner is implemented and
+verified.

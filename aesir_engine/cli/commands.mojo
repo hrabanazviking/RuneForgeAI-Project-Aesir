@@ -32,8 +32,8 @@ def print_general_help():
     print("  aesir [command] [flags]\n")
     print("Implemented:")
     print(
-        "  run <model.gguf> [--max-tokens N] [--verbose] [--format json]"
-        " <prompt...>"
+        "  run <model.gguf> [--max-tokens N] [--config path]"
+        " [--accel auto|cpu] <prompt...>"
     )
     print(
         "      Run one local single-shot request on the verified CPU GGUF path."
@@ -138,9 +138,6 @@ def validate_config_command_args(args: List[String]) raises:
                 raise Error("missing value for option " + token)
             index += 2
             continue
-        if token == "--verbose" or token == "-v":
-            index += 1
-            continue
         raise Error("unknown config option: " + token)
 
 
@@ -165,6 +162,71 @@ def require_verified_cpu_backend(config: AesirConfig) raises:
             + config.acceleration_backend
             + "' is not implemented; verified execution is CPU-only"
         )
+
+
+def validate_single_shot_config_support(config: AesirConfig) raises:
+    """Rejects non-neutral config fields until their runtime owners are wired.
+    """
+    if config.target_npu != "auto":
+        raise Error(
+            "target_npu is not applicable to verified CPU single-shot run"
+        )
+    if config.num_gpu_layers != 0:
+        raise Error(
+            "num_gpu_layers is not applicable to verified CPU single-shot run"
+        )
+    if config.max_threads != 0:
+        raise Error("max_threads is not connected to single-shot run")
+    if config.skaldbrodir_enabled:
+        raise Error("skaldbrodir_enabled is not connected to model generation")
+    if config.thinking_enabled:
+        raise Error("thinking_enabled is not connected to model generation")
+    if config.cia_enabled or config.wic_enabled or config.nsfi_enabled:
+        raise Error(
+            "experimental inference config is not connected to model generation"
+        )
+    if config.mqari_enabled:
+        raise Error("mqari_enabled is not connected to model generation")
+    if config.tui_enabled:
+        raise Error(
+            "tui_enabled live telemetry is not connected to single-shot run"
+        )
+    if config.temperature != 0.0 or config.top_p != 1.0:
+        raise Error("sampling config is not connected to single-shot run")
+
+
+def validate_run_option_support(options: CLIOptions) raises:
+    """Rejects parsed options whose owning operation is not single-shot run."""
+    if options.verbose_was_set:
+        raise Error("--verbose is not implemented for single-shot run")
+    if options.format_was_set:
+        raise Error("--format is not implemented for single-shot run")
+    if options.keepalive_was_set:
+        raise Error(
+            "--keepalive applies to managed service sessions, not"
+            " single-shot run"
+        )
+    if options.modelfile_was_set:
+        raise Error("--modelfile is not connected to single-shot run")
+    if options.raw_was_set:
+        raise Error("--raw is not implemented for single-shot run")
+    if options.insecure_was_set:
+        raise Error(
+            "--insecure applies to authenticated network operations, not"
+            " local run"
+        )
+    if options.skaldbrodir_was_set:
+        raise Error("--skaldbrodir is not connected to model generation")
+    if options.thinking_was_set:
+        raise Error("--thinking is not connected to model generation")
+    if options.cia_was_set:
+        raise Error("--cia is not connected to model generation")
+    if options.wic_was_set:
+        raise Error("--wic is not connected to model generation")
+    if options.nsfi_was_set:
+        raise Error("--nsfi is not connected to model generation")
+    if options.tui_was_set:
+        raise Error("--tui live telemetry is not connected to single-shot run")
 
 
 def format_model_table(models: List[ModelManifest], is_json: Bool = False):
@@ -288,6 +350,7 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         return
 
     if cmd == "run":
+        validate_run_option_support(options)
         var positionals = collect_run_positionals(args)
         if len(positionals) < 1:
             raise Error(
@@ -301,6 +364,7 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             return
 
         var config = effective_config(options)
+        validate_single_shot_config_support(config)
         require_verified_cpu_backend(config)
 
         var prompt = String("")
