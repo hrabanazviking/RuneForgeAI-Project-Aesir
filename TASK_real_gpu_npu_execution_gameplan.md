@@ -78,3 +78,17 @@ This task produces the implementation plan only. It must describe the complete
 path to genuine execution without representing planned code or unavailable
 hardware evidence as implemented. Accelerator capability statuses remain
 unchanged until later implementation tasks satisfy their physical proof gates.
+
+## Implementation Evidence
+
+- `GPU_NPU_REAL_EXECUTION_GAMEPLAN_2026-08-29.md` records the audited current
+  boundary, real-execution definition, common architecture, existing-surface
+  corrections, CUDA-first GPU sequence, vendor-specific NPU tracks, file
+  ownership, test matrix, hardware CI, error contract, commit sequence, and
+  ledger promotion gates.
+- Live target selection observed one NVIDIA RTX 2060 Max-Q through `nvidia-smi`;
+  no GPU/NPU capability status was promoted from that observation alone.
+- Current vendor and Mojo/MAX API recommendations were checked against primary
+  documentation and remain bounded by the repository's exact dependency lock.
+- No runtime code, model, fixture, asset, function, or historical record was
+  deleted, moved, fabricated, or represented as implemented.
