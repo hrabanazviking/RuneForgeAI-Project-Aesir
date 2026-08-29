@@ -1,6 +1,14 @@
 # Rules AIs (and Humans Too) Have to Follow When Coding Here.
 # Project Laws — Viking Edition
 
+> **Active companion law:** Read and follow
+> [`AI.rules.part2.md`](AI.rules.part2.md) before editing this repository. Part 2
+> governs code reality, evidence, capability claims, completion, and
+> anti-fabrication review. When a legacy generic instruction conflicts with
+> observable truth, fail-closed safety, the canonical capability ledger, or the
+> current authorized `main` workflow, the Part 2 reality-first interpretation
+> controls.
+
 -Never make pseudocde ever. Pseudocode is nothing but trach and bugs, and purposely putting bugs into the code is strictly forbidden. Instead create data MD files to explain about what future code should be created. Nowhere in any actual code file is there to exist any pseudocode.
 -Never change the Git settings without permission of Volmarr (me the human).
 -Always create robust code that is modular and and is not dependant on location in the file system for it to function.
@@ -441,6 +449,5 @@ Follow these laws, and the saga will remain coherent.
 Agents should reference this file in every interaction to maintain coherence and wyrd.
 
 These are immutable laws. Any AI contributing to this codebase MUST obey them.
-
 
 

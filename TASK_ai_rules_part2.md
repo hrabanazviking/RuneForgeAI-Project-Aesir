@@ -76,3 +76,17 @@ claim that every rule is already mechanically detected by CI. The document must
 distinguish rules already enforced by tests/scripts from rules requiring human
 or AI review, and it must require future repeat violations to become automated
 gates when deterministic detection is feasible.
+
+## Implementation Evidence
+
+- `AI.rules.part2.md` establishes stable, reviewable laws for authority,
+  terminology, truth, task admission, research, file admission, source code,
+  integration, failures, tests, fixtures, claims, documentation, models,
+  hardware, networking, persistence, concurrency, performance, security,
+  portability, Git, AI conduct, stop conditions, checklists, and enforcement.
+- `RULES.AI.md` links the companion law and records its conflict-resolution
+  authority, preventing the new document from becoming an orphan rule file.
+- The supplement explicitly distinguishes honest fail-closed scaffolds from fake
+  implementation and does not claim every written rule is already automated.
+- No runtime capability, capability status, model, fixture, source function,
+  asset, or historical record was added, removed, or represented as verified.
