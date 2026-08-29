@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 84.1 — GBNF Grammar Parser & Tokenizer-Aware State Automaton (`AES-ECO-007`)
+* **Stage 84.1 GBNF Grammar Milestone ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/grammar.mojo` with `GBNFRule`, `GBNFAutomatonState`, and `GBNFGrammar` providing rule parsing, candidate token validation, automaton state transitions (`advance_state`), and zero-allocation logit masking. Created `test_gbnf_grammar.mojo` unit test suite. Verified 122 passing cases out of 123 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 83.1 — llama.cpp Subcommand & Differential Argument/Exit Validator (`AES-ECO-006`)
 * **Stage 83.1 llama.cpp CLI Milestone ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `verified`)**: Built `cli/llama_cpp_compat.mojo` providing `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1. Created `test_llama_cpp_cli.mojo` unit test suite. Verified 120 passing cases out of 121 total cases in `run_all.mojo`.
 
