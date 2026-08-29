@@ -127,7 +127,7 @@ graph TD
 
 ### 8. `cli/` & `main.mojo` — The Ollama CLI & REPL Terminal Suite (Slice 9)
 - **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), and interactive chat REPL terminal session (`cli/repl.mojo`).
-- **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Communicates with inference through `AesirEngine` facade and with network transport via `BifrostGate`.
+- **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). Communicates with inference through `AesirEngine` facade and with network transport via `BifrostGate`.
 
 ### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12)
 - **Role:** Fault tolerance, zero-allocation state snapshotting, process monitoring, inter-module event bus, thread pool concurrency, and defensive memory sanitization.

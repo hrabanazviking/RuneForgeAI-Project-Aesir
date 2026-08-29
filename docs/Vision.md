@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 67.1 — Model Store In-Use & Not-Found Protection Semantics (`AES-CLI-005`)
+* **Stage 67.1 Model Store Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `remove_model_checked()` in `cli/manifest.mojo` providing active model-in-use protection and non-existent model error guards. Created unit test suite in `test_cli.mojo` proving exception rejection. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 66.1 — Model-Produced EOS Fixtures & ImplicitlyCopyable Descriptors (`AES-GEN-009`)
 * **Stage 66.1 EOS Fixture Milestone ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added model-emitted EOS token fixture tests in `test_inference.mojo` proving end-to-end terminal generation stop policy triggering. Added `ImplicitlyCopyable` trait conformance to `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
