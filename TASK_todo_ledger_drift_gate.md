@@ -50,3 +50,16 @@ correct.
 This slice enforces status-reference consistency only. It does not decide
 whether every TODO item is well scoped, remove duplicates, implement open work,
 or alter capability evidence boundaries.
+
+## Implementation Evidence
+
+- `scripts/check_doc_drift.py::todo_status_reference_errors()` checks every
+  status-tagged TODO reference against the canonical ledger and rejects unknown
+  statuses, unknown IDs, and mismatches with stable line-level errors.
+- `scripts/test_check_doc_drift.py` proves matching, mismatched, unknown-ID, and
+  unsupported-status cases deterministically.
+- All 11 census mismatches were reconciled to ledger truth. Four compound tags
+  were normalized into one independently checkable tag per capability.
+- The existing CI item now describes the remaining CI work instead of asking to
+  add infrastructure that already exists; open follow-ups remain unchecked.
+- No capability status or existing checkbox completion state changed.

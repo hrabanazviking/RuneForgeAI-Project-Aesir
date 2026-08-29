@@ -309,6 +309,9 @@ duplicate-root-asset violations. Legacy matches remain visible warnings;
 fixture classification/provenance and external-storage rules are also enforced.
 Content-level secret detection, format validation, generated-license
 verification, release controls, cleanup, and full-history scanning remain open.
+The consistency gate also rejects unknown or stale TODO capability-status tags;
+the 11 mismatches present at intake have been reconciled without closing their
+open follow-up work.
 
 - Expand `scripts/check_doc_drift.py` into the automated prevention matrix
   above, beginning with fatal new-artifact detection while preserving the

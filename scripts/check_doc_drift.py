@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "CAPABILITY_LEDGER.md"
 RUN_ALL = ROOT / "aesir_engine/tests/run_all.mojo"
+TODO = ROOT / "TODO.md"
 HYGIENE_POLICY = ROOT / "repository_hygiene_policy.json"
 TEXT_SUFFIXES = {".md", ".mojo", ".py", ".toml", ".yml", ".yaml", ".json"}
 ALLOWED_STATUSES = {"verified", "partial", "scaffold", "simulated", "missing"}
@@ -148,6 +149,37 @@ def check_ledger(errors: list[str]) -> dict[str, str]:
     if not total_match or int(total_match.group(1)) != len(headings):
         errors.append("CAPABILITY_LEDGER.md: summary total does not match capability entries")
     return statuses
+
+
+def todo_status_reference_errors(
+    content: str, statuses: dict[str, str]
+) -> list[str]:
+    errors = []
+    tag_pattern = re.compile(r"\[([a-z/]+),\s*(AES-[A-Z]+-\d+)")
+    for line_no, line in enumerate(content.splitlines(), 1):
+        for declared, capability_id in tag_pattern.findall(line):
+            if declared not in ALLOWED_STATUSES:
+                errors.append(
+                    f"TODO.md:{line_no}: unsupported status tag {declared!r}"
+                )
+                continue
+            actual = statuses.get(capability_id)
+            if actual is None:
+                errors.append(
+                    f"TODO.md:{line_no}: unknown capability reference {capability_id}"
+                )
+            elif declared != actual:
+                errors.append(
+                    f"TODO.md:{line_no}: {capability_id} tag is {declared}, "
+                    f"ledger is {actual}"
+                )
+    return errors
+
+
+def check_todo_statuses(statuses: dict[str, str], errors: list[str]) -> None:
+    errors.extend(
+        todo_status_reference_errors(TODO.read_text(encoding="utf-8"), statuses)
+    )
 
 
 def check_master_count(errors: list[str]) -> None:
@@ -486,6 +518,7 @@ def main() -> int:
     warnings: list[str] = []
     paths = tracked_paths()
     statuses = check_ledger(errors)
+    check_todo_statuses(statuses, errors)
     check_master_count(errors)
     check_text_hygiene(paths, errors)
     check_source_truth(errors)

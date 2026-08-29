@@ -3,6 +3,25 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 109: Phase 0 — TODO and Ledger Status Drift Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Backlog truth synchronization
+
+1. Added a mechanical consistency rule that rejects unsupported TODO status
+   tags, unknown capability IDs, and any tag that differs from the canonical
+   capability ledger.
+2. Added deterministic positive and negative tests for matching, stale,
+   unknown-ID, and unsupported-status references.
+3. Reconciled all 11 discovered status mismatches without changing any ledger
+   status or checkbox state. Completed work now reflects its current narrow
+   capability status, while open extensions remain open.
+4. Split compound accelerator, ecosystem, swarm, and OpenAI tags into one
+   independently verifiable reference per capability.
+5. Reworded the stale `Add CI` backlog entry around the actual remaining gates:
+   branch protection, supported targets, formatting, and content-level secret
+   scanning.
+
 ## Entry 108: Phase 0 — Fixture Classification and Provenance Gate
 
 **Date:** August 29, 2026

@@ -11,6 +11,7 @@ from check_doc_drift import (
     classify_artifact,
     evaluate_artifact_policy,
     load_hygiene_policy,
+    todo_status_reference_errors,
     validate_hygiene_policy,
 )
 
@@ -161,6 +162,25 @@ def test_policy_schema_rejection() -> None:
         require(bool(errors), f"malformed policy {index} did not fail validation")
 
 
+def test_todo_status_references() -> None:
+    statuses = {"AES-FND-001": "verified", "AES-FND-002": "partial"}
+    clean = "- [x] **[verified, AES-FND-001] Complete narrow task.**"
+    require(
+        not todo_status_reference_errors(clean, statuses),
+        "matching TODO status reference was rejected",
+    )
+    cases = [
+        "- [ ] **[missing, AES-FND-002] Stale status.**",
+        "- [ ] **[partial, AES-FND-999] Unknown capability.**",
+        "- [ ] **[finished, AES-FND-001] Unsupported status.**",
+    ]
+    for index, content in enumerate(cases):
+        require(
+            bool(todo_status_reference_errors(content, statuses)),
+            f"invalid TODO status reference {index} did not fail",
+        )
+
+
 def test_live_policy_schema_and_baseline() -> None:
     errors: list[str] = []
     exceptions = load_hygiene_policy(errors)
@@ -174,6 +194,7 @@ def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
     test_policy_schema_rejection()
+    test_todo_status_references()
     test_live_policy_schema_and_baseline()
 
 
