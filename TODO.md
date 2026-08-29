@@ -463,9 +463,9 @@ counts as completion of an external capability.
 
 ### ExLlama/EXL2
 
-- [ ] **[missing, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
-- [ ] Require a real EXL2 model, authoritative decoder/runtime comparison, and
-  physical CUDA evidence before any parity claim.
+- [x] **[verified, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
+- [x] Require a real EXL2 model, authoritative decoder/runtime comparison, and
+  physical CUDA evidence before any parity claim (`AES-ECO-005`).
 
 ### llama.cpp CLI
 

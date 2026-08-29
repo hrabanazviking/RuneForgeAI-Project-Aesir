@@ -53,6 +53,10 @@ from tests.test_onnx import (
     test_onnx_supported_operators,
     test_onnx_seer_header_validation,
 )
+from tests.test_exl2 import (
+    test_exl2_cuda_contract_validation,
+    test_exl2_model_seer,
+)
 from tests.test_metal_realm import (
     test_metal_gate_availability,
     test_metal_gemm_dispatch_bounds,
@@ -421,4 +425,11 @@ def main() raises:
     run_case(ledger, "onnx.model_seer", test_onnx_seer_header_validation)
     print("")
 
-    ledger.finish(117)
+    # --- EXL2 Variable-Bit Parser & CUDA Contract ---
+    print("  [DOMAIN] EXL2 Variable-Bit Parser & CUDA Contract")
+    print("  -----------------------------------------")
+    run_case(ledger, "exl2.cuda_contract", test_exl2_cuda_contract_validation)
+    run_case(ledger, "exl2.model_seer", test_exl2_model_seer)
+    print("")
+
+    ledger.finish(119)
