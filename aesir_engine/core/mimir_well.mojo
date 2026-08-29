@@ -916,3 +916,25 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
 
     return result^
 
+
+def shard_split_gqa_heads(
+    num_heads: Int,
+    num_kv_heads: Int,
+    head_dim: Int,
+    num_devices: Int,
+) raises -> Tuple[Int, Int]:
+    """
+    Computes GQA head partitioning across multi-device topology shards.
+    Validates head divisibility and returns (heads_per_shard, kv_heads_per_shard).
+    """
+    if num_heads <= 0 or num_kv_heads <= 0 or head_dim <= 0 or num_devices <= 0:
+        raise Error("shard_split_gqa_heads: all parameters must be positive")
+    if num_heads % num_devices != 0:
+        raise Error("shard_split_gqa_heads: num_heads must be divisible by num_devices")
+    if num_kv_heads % num_devices != 0:
+        raise Error("shard_split_gqa_heads: num_kv_heads must be divisible by num_devices")
+    
+    var heads_per_shard = num_heads // num_devices
+    var kv_heads_per_shard = num_kv_heads // num_devices
+    return (heads_per_shard, kv_heads_per_shard)
+

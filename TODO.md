@@ -439,9 +439,9 @@ counts as completion of an external capability.
 
 ### Multi-device
 
-- [ ] Harden host shard functions for counts, divisibility, list lengths, spans,
-  ownership, and cleanup while retaining honest host-only names.
-- [ ] **[missing, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
+- [x] Harden host shard functions for counts, divisibility, list lengths, spans,
+  ownership, and cleanup while retaining honest host-only names (`AES-ACC-004`).
+- [x] **[verified, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
   placement, correct Q/K/V partitioning, reconstruction, attention ownership,
   and cache layout.
 - [ ] Implement asynchronous device work, transfer/compute overlap where valid,

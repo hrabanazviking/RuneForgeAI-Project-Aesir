@@ -26,6 +26,26 @@ def test_honest_hardware_discovery() raises:
         
     print("honest accelerator hardware discovery: PASS")
 
+def test_gqa_head_partitioning() raises:
+    print("--- Testing Multi-Device GQA Head Partitioning ---")
+    from core.mimir_well import shard_split_gqa_heads
+    
+    # 32 Q heads, 8 KV heads split across 4 devices -> 8 Q heads/shard, 2 KV heads/shard
+    var res = shard_split_gqa_heads(32, 8, 128, 4)
+    if res[0] != 8 or res[1] != 2:
+        raise Error("shard_split_gqa_heads mismatch for 32:8 across 4 devices")
+        
+    # Non-divisible head count rejection
+    var rejected = False
+    try:
+        _ = shard_split_gqa_heads(32, 7, 128, 4)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("shard_split_gqa_heads failed to reject non-divisible KV head count")
+        
+    print("multi-device GQA head partitioning: PASS")
+
 def test_device_topology() raises:
     print("--- Testing configured logical host topology ---")
     var topo = DeviceTopology(2)
@@ -36,6 +56,7 @@ def test_device_topology() raises:
     if topo.device_names[0] != "host:0" or topo.device_names[1] != "host:1":
         raise Error("DeviceTopology device name mismatch")
     test_honest_hardware_discovery()
+    test_gqa_head_partitioning()
     print("logical host topology: PASS")
 
 
