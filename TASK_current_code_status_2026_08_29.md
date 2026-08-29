@@ -59,3 +59,15 @@ Create `PROJECT_AESIR_CODE_STATUS_2026-08-29.md` containing:
 This is a point-in-time status audit. It reports—not implements—the remaining
 roadmap and does not certify untested platforms, external models, accelerators,
 network services, or production readiness.
+
+## Implementation Evidence
+
+- `PROJECT_AESIR_CODE_STATUS_2026-08-29.md` records the audited revision,
+  verification matrix, repository census, all 107 ledger capabilities by
+  domain/status, every non-verified capability family, known debt, priority
+  order, and readiness verdict.
+- Counts were mechanically derived from the ledger, TODO, tracked-file list,
+  and master runner; runtime claims were re-observed through the full proof
+  matrix.
+- No capability status changed and no file, function, model, fixture, asset, or
+  historical record was deleted or moved.

@@ -3,6 +3,26 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 115: Current Code Status Audit — 2026-08-29
+
+**Date:** August 29, 2026
+**Architectural Phase:** Repository-wide verification and continuity record
+
+1. Published `PROJECT_AESIR_CODE_STATUS_2026-08-29.md` from the canonical
+   ledger, TODO, source census, master suite, native build, negative control,
+   repository gates, Git state, and hosted CI.
+2. Counted 107 capabilities: 68 verified, 9 partial, 2 scaffold, 1 simulated,
+   and 27 missing.
+3. Recorded 335 tracked files, 113 Mojo files, 19,485 Mojo lines, 46 Mojo test
+   modules, 132 executable cases, one explicit skip, and 129 open TODO items.
+4. Classified every code domain and every non-verified capability without
+   converting local helpers, rejection tests, or historical claims into broad
+   operational evidence.
+5. Preserved the exact 32 approval-blocked legacy artifacts and documented the
+   next repair order.
+6. No capability status changed and no code, model, fixture, asset, function,
+   or historical record was deleted or moved.
+
 ## Entry 114: Phase 1 — Honest PagedKVCache Boundary
 
 **Date:** August 29, 2026
