@@ -313,10 +313,10 @@ struct AesirEngine:
         var n_tokens = len(tokens)
         if n_tokens == 0:
             query_vector.data.unsafe_store(0, 1.0)
-            return query_vector
+            return query_vector^
 
         if "token_embd.weight" in self.parser.tensors:
-            var embd_tensor = self.parser.tensors["token_embd.weight"]
+            var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
             var vocab_size = embd_tensor.rows
             var embd_dim = embd_tensor.cols
             var active_dim = min(hidden_dim, embd_dim)
@@ -328,12 +328,12 @@ struct AesirEngine:
                 var row_offset = tok_id * embd_dim
                 for k in range(active_dim):
                     var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
-                    var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
-                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[f32]()))
+                    var curr_acc = query_vector.data.unsafe_load(k).cast[Float32]()
+                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[Float32]()))
             
-            var scale = Scalar[f32](1.0 / Float32(n_tokens))
+            var scale = Scalar[Float32](1.0 / Float32(n_tokens))
             for k in range(active_dim):
-                var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
+                var val = query_vector.data.unsafe_load(k).cast[Float32]() * scale
                 query_vector.data.unsafe_store(k, Scalar[f16](val))
         else:
             var seed_hash: Int = 5381
@@ -341,10 +341,10 @@ struct AesirEngine:
             for b_idx in range(len(p_bytes)):
                 seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
             for k in range(hidden_dim):
-                var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
+                var proj_val = Scalar[Float32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
                 query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
 
-        return query_vector
+        return query_vector^
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """Applies the existing optional knowledge context before tokenization."""
