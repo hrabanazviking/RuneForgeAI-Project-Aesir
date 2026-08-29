@@ -190,6 +190,11 @@ from tests.test_swarm_cluster import (
     test_peer_registry_and_load_balancer,
     test_swarm_cluster_task_dispatch,
 )
+from tests.test_swarm_protocol import (
+    test_swarm_node_authentication,
+    test_swarm_join_leave_heartbeat,
+    test_remote_inference_dispatch,
+)
 from tests.test_new_paradigms_suite import (
     test_config_and_json,
     test_cli_flags,
@@ -419,8 +424,8 @@ def main() raises:
     )
     print("")
 
-    # --- Local Swarm Descriptors and Unsupported Networking ---
-    print("  [DOMAIN] Local Swarm Descriptors and Unsupported Networking")
+    # --- Swarm Protocol & Distributed Mesh Mesh Matrix ---
+    print("  [DOMAIN] Swarm Protocol & Distributed Mesh Matrix")
     print("  -----------------------------------------")
     run_case(ledger, "swarm.role_enum", test_swarm_node_role)
     run_case(ledger, "swarm.peer_metrics", test_peer_node_metrics)
@@ -431,6 +436,21 @@ def main() raises:
     )
     run_case(
         ledger, "swarm.network_unsupported", test_swarm_cluster_task_dispatch
+    )
+    run_case(
+        ledger,
+        "swarm.node_authentication",
+        test_swarm_node_authentication,
+    )
+    run_case(
+        ledger,
+        "swarm.join_leave_heartbeat",
+        test_swarm_join_leave_heartbeat,
+    )
+    run_case(
+        ledger,
+        "swarm.remote_inference_dispatch",
+        test_remote_inference_dispatch,
     )
     print("")
 
@@ -493,4 +513,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(128)
+    ledger.finish(131)

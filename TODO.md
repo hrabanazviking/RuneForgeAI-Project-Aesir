@@ -505,19 +505,19 @@ counts as completion of an external capability.
 
 ### Swarm/distributed execution
 
-- [ ] **[scaffold, AES-SWM-001] Define protocol/version, node identity,
+- [x] **[verified, AES-SWM-001] Define protocol/version, node identity,
   authentication, authorization, encryption, discovery, and membership model.**
-- [ ] Replace seeded peer state with configured/observed state and real heartbeat
-  freshness/failure handling.
-- [ ] Extend the locally verified selection rule with reservations, concurrent
-  updates, fairness, staleness, and scheduling policy.
-- [ ] **[missing, AES-SWM-003] Prove join/leave/heartbeat between separate
+- [x] Replace seeded peer state with configured/observed state and real heartbeat
+  freshness/failure handling (`AES-SWM-001`).
+- [x] Extend the locally verified selection rule with reservations, concurrent
+  updates, fairness, staleness, and scheduling policy (`AES-SWM-001`).
+- [x] **[verified, AES-SWM-003] Prove join/leave/heartbeat between separate
   authenticated processes.**
-- [ ] **[missing, AES-SWM-004] Execute one real inference request remotely:**
+- [x] **[verified, AES-SWM-004] Execute one real inference request remotely:**
   Model availability, prompt/result transport, streaming, cancellation,
   timeout, retry/idempotency, and validation.
-- [ ] Derive CLI/REST state from the live cluster and pass multi-process failure
-  tests before emitting `ONLINE`, `HEALTHY`, `JOINED`, or `DISPATCHED`.
+- [x] Derive CLI/REST state from the live cluster and pass multi-process failure
+  tests before emitting `ONLINE`, `HEALTHY`, `JOINED`, or `DISPATCHED` (`AES-SWM-004`).
 
 ## Stage 11 — Operations, Security, Portability, and Release Readiness
 

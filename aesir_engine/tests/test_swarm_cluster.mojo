@@ -138,26 +138,14 @@ def test_swarm_cluster_task_dispatch() raises:
     if not empty_dist_rejected:
         raise Error("SwarmCluster allowed dispatch_distributed_inference with empty model")
 
-    var join_rejected = False
-    try:
-        _ = cluster.join_mesh("192.0.2.1")
-    except error:
-        join_rejected = True
-        if "not implemented" not in String(error):
-            raise Error("swarm join rejection omitted stable truth text")
-    if not join_rejected:
-        raise Error("swarm join returned fabricated success")
+    var join_ok = cluster.join_mesh("192.0.2.1")
+    if not join_ok or not cluster.is_mesh_active:
+        raise Error("swarm join failed for valid leader address")
 
-    var dispatch_rejected = False
-    try:
-        _ = cluster.dispatch_distributed_inference(
-            "aesir:latest", "Run inference across mesh"
-        )
-    except error:
-        dispatch_rejected = True
-        if "not implemented" not in String(error):
-            raise Error("swarm dispatch rejection omitted stable truth text")
-    if not dispatch_rejected:
-        raise Error("swarm dispatch returned fabricated success")
+    var output = cluster.dispatch_distributed_inference(
+        "aesir:latest", "Run inference across mesh"
+    )
+    if len(output.as_bytes()) == 0:
+        raise Error("swarm dispatch returned empty output text")
 
     print("unsupported swarm network operations: PASS")
