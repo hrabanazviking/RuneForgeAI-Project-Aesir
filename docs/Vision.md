@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 68.1 — Robust JSON String Escaper & Formatter (`AES-SRV-003`)
+* **Stage 68.1 JSON Escaper Milestone ([`AES-SRV-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `json_escape_string()` in `server/api.mojo` to safely escape quotes, backslashes, tabs, newlines, and control bytes across HTTP/REST responses. Created unit test suite in `test_multi_engine.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 67.1 — Model Store In-Use & Not-Found Protection Semantics (`AES-CLI-005`)
 * **Stage 67.1 Model Store Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `remove_model_checked()` in `cli/manifest.mojo` providing active model-in-use protection and non-existent model error guards. Created unit test suite in `test_cli.mojo` proving exception rejection. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
