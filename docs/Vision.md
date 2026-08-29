@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 74.1 — End-to-End RAG Grounded Context & Citation Budgeting (`AES-RAG-005`)
+* **Stage 74.1 End-to-End RAG Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `_prepare_prompt()` in `aesir.mojo` with context byte budgeting (`max_context_bytes = 1024`), citation formatting (`[CITATION N]: ...`), and explicit no-result warnings (`RAG Notice: No relevant knowledge context found`). Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 73.1 — Corpus Ingestion & Deterministic Text Chunking (`AES-RAG-004`)
 * **Stage 73.1 Corpus Ingestion Milestone ([`AES-RAG-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/corpus_ingestion.mojo` providing `DocumentChunk` metadata structures, `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
