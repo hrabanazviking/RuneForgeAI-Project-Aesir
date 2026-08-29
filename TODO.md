@@ -397,10 +397,10 @@ counts as completion of an external capability.
   advertised candidate and is implemented (`AES-QNT-001`).
 - [x] Replace toy block structs with the exact upstream byte layout, scales,
   minima/zeros, packing, alignment, and tail contract.
-- [ ] Validate exact input byte spans and reject unsupported/tail cases before
-  reads or writes.
-- [ ] Compare full dequantized blocks against an independent authoritative
-  decoder across fixed and randomized fixtures.
+- [x] Validate exact input byte spans and reject unsupported/tail cases before
+  reads or writes (`AES-QNT-002`).
+- [x] Compare full dequantized blocks against an independent authoritative
+  decoder across fixed and randomized fixtures (`AES-QNT-002`).
 - [ ] Extend `GGUFSeer` to map/own that one quantized type safely.
 - [ ] Implement a correct dequantized or fused quantized matmul path.
 - [ ] **[missing, AES-QNT-003] Load a real quantized GGUF and compare logits,

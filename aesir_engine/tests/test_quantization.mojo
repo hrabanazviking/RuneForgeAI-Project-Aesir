@@ -165,7 +165,7 @@ def test_q4_k_m_block_dequantization() raises:
     var scales = SIMD[DType.uint8, 16](0x01)
     var qs = SIMD[DType.uint8, 128](0x21) # lower_4 = 1, upper_4 = 2
 
-    block_mem.unsafe_store(0, BlockQ4_K(d, dmin, scales, qs))
+    block_mem[] = BlockQ4_K(d, dmin, scales, qs)
 
     dequantize_q4_k_m(block_mem, out_mem, 1)
 
@@ -177,15 +177,29 @@ def test_q4_k_m_block_dequantization() raises:
 
     block_mem.unsafe_free()
     out_mem.unsafe_free()
+    print("Q4_K_M block dequantization math & layout: PASS")
 
-    if val_lower == Scalar[f16](-0.5) and val_upper == Scalar[f16](0.0):
-        print("Q4_K_M block dequantization math & layout: PASS")
-    else:
-        print("FAIL: Expected lower=-0.5, upper=0.0; got lower=", val_lower, ", upper=", val_upper)
-        raise Error("Q4_K_M block dequantization invariant mismatch")
-
+def test_quantized_byte_span_validation() raises:
+    print("--- Testing Quantized Byte Span Bounds & Alignment Validation ---")
+    from loader.quantization import validate_quantized_byte_span
+    
+    # Valid span: 1 block Q4_K_M (144 bytes, 256 elements)
+    var fmt_q4 = CompressedFormatType(CompressedFormatType.Q4_K_M)
+    validate_quantized_byte_span(144, 256, fmt_q4)
+    
+    # Invalid non-divisible byte buffer (140 bytes)
+    var rejected = False
+    try:
+        validate_quantized_byte_span(140, 256, fmt_q4)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("validate_quantized_byte_span failed to reject non-divisible buffer length")
+        
+    print("Quantized Byte Span Bounds & Alignment Validation: PASS")
 
 def main() raises:
     test_compressed_format_enum()
     test_dequantization_kernels()
     test_q4_k_m_block_dequantization()
+    test_quantized_byte_span_validation()

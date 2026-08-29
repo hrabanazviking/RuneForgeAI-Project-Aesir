@@ -191,23 +191,23 @@ def test_dequantize_q4_k_m() raises:
     
     dequantize_q4_k_m(block_ptr, out_ptr, 1)
     
-    # Check lower 16: should all be 1*2.0 + 0.5 = 2.5
+    # Check lower 16: should all be 1 * 2.0 - 0.0 = 2.0
     var success = True
     var val_lo = out_ptr.unsafe_load(0)
-    var diff_lo = val_lo - 2.5
+    var diff_lo = val_lo - 2.0
     if diff_lo < 0:
         diff_lo = -diff_lo
     if diff_lo > 0.1:
-        print("FAIL: Lower nibble dequant expected 2.5, got", val_lo)
+        print("FAIL: Lower nibble dequant expected 2.0, got", val_lo)
         success = False
     
-    # Check upper 16: should all be 3*2.0 + 0.5 = 6.5
+    # Check upper 16: should all be 3 * 2.0 - 0.0 = 6.0
     var val_hi = out_ptr.unsafe_load(16)
-    var diff_hi = val_hi - 6.5
+    var diff_hi = val_hi - 6.0
     if diff_hi < 0:
         diff_hi = -diff_hi
     if diff_hi > 0.1:
-        print("FAIL: Upper nibble dequant expected 6.5, got", val_hi)
+        print("FAIL: Upper nibble dequant expected 6.0, got", val_hi)
         success = False
     
     block_ptr.unsafe_free()
@@ -269,13 +269,13 @@ def test_kernel_bounds() raises:
     var v_att = RuneTensor[f16](1, 8, well.allocate(8))
     var out_att = RuneTensor[f16](1, 8, well.allocate(8))
     out_att.data.unsafe_store(0, Scalar[f16](7.0))
-    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 0, 4, 2) # head_dim = 0
+    flash_attention_gqa(q_att, k_att, v_att, out_att, 1, 0, 4, 2) # head_dim = 0
     if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
-        raise Error("incremental_causal_attention failed on zero head_dim safety check")
+        raise Error("flash_attention_gqa failed on zero head_dim safety check")
 
-    incremental_causal_attention(q_att, k_att, v_att, out_att, 1, 4, 3, 2) # non-divisible 3 // 2
+    flash_attention_gqa(q_att, k_att, v_att, out_att, 1, 4, 3, 2) # non-divisible 3 // 2
     if out_att.data.unsafe_load(0) != Scalar[f16](7.0):
-        raise Error("incremental_causal_attention failed on non-divisible head ratio safety check")
+        raise Error("flash_attention_gqa failed on non-divisible head ratio safety check")
 
     print("checked kernel boundaries: PASS")
 
