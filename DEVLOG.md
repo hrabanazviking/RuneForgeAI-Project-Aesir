@@ -29,6 +29,9 @@
    / 1 skipped / total 133**; deliberate negative case counted **0/1/0/1** and
    exited nonzero for the intended assertion; repository consistency check
    passed with one explicit artifact-hygiene warning; `git diff --check` passed.
+   Hosted GitHub Actions run `33239432026` then passed the clean checkout,
+   counted suite, native build, negative control, and consistency gate after the
+   Pixi bootstrap was updated for the checked-in lockfile.
 6. Repository artifact hygiene remains `partial`: seven tracked executable
    outputs, one 24-byte placeholder GGUF, and 24 byte-identical root image copies
    await explicit maintainer approval before removal. Canonical images under

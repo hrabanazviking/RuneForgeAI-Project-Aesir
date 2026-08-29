@@ -122,9 +122,9 @@ the complete ledger population.
 - **Owner:** project operations
 - **Claim sources:** implied prerequisite for broad completion and production claims
 - **Implementation evidence:** `.github/workflows/ci.yml` performs a clean checkout, native build, counted master suite, deliberate fail-closed negative control, and repository consistency check on pushes and pull requests.
-- **Executable evidence:** the same commands are reproducible locally; hosted GitHub Actions execution remains external to this checkout.
-- **Evidence boundary:** A tracked workflow is meaningful CI configuration, but no protected required status or opt-in external real-model job is established here.
-- **Next acceptance gate:** Observe the workflow on this branch, require it in branch protection, and add an opt-in pinned external-fixture job.
+- **Executable evidence:** the same commands are reproducible locally; hosted GitHub Actions run `33239432026` passed the clean checkout, counted master suite, native build, deliberate negative control, and repository consistency check on August 29, 2026.
+- **Evidence boundary:** The tracked workflow and one successful hosted run prove the current Linux CI path, but no protected required status, supported-target matrix, or opt-in external real-model job is established here.
+- **Next acceptance gate:** Require the workflow in branch protection, add supported-target coverage, and add an opt-in pinned external-fixture job.
 - **Audit:** AER-100, AER-113.
 
 ### AES-FND-006 — Cross-platform runtime support
