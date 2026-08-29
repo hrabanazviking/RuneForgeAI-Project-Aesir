@@ -78,6 +78,10 @@ graph TD
 - **Role:** Text document chunking and vector store batch ingestion pipeline (`AES-RAG-004`).
 - **Implementation:** Provides `DocumentChunk` metadata structure (`id`, `text`, `source_file`, `chunk_index`, `byte_offset`), `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population.
 
+### 4.2. `loader/quantization.mojo` — Quantization Byte Span Bounds Validation & Format Metadata
+- **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
+- **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
+
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 
