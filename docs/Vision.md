@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 82.1 — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator (`AES-ECO-005`)
+* **Stage 82.1 EXL2 Ecosystem Milestone ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `verified`)**: Created `loader/exl2.mojo` providing `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers, extract sub-block bitrates, and enforce physical NVIDIA CUDA hardware & custom EXL2 CUDA kernel execution contracts. Created `test_exl2.mojo` unit test suite. Verified 118 passing cases out of 119 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 81.1 — ONNX Protobuf Binary Header & Node Dispatch Validator (`AES-ECO-004`)
 * **Stage 81.1 ONNX Ecosystem Milestone ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/onnx.mojo` providing `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse ONNX protobuf headers, extract IR/opset versions, and validate graph node operator types against Aesir's supported subset. Created `test_onnx.mojo` unit test suite. Verified 116 passing cases out of 117 total cases in `run_all.mojo`.
 

@@ -86,6 +86,10 @@ graph TD
 - **Role:** ONNX model header parsing, IR/opset version extraction, and operator dispatcher validation (`AES-ECO-004`).
 - **Implementation:** Provides `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse protobuf binary headers, validate graph nodes against supported operator subset (`MatMul`, `Add`, `Mul`, `Relu`, `Softmax`, etc.), and reject unsupported operator types with explicit error exceptions.
 
+### 4.4. `loader/exl2.mojo` — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator
+- **Role:** EXL2 variable-bit sub-block quantization parser, bitrate metric extraction, and physical CUDA hardware execution contract validator (`AES-ECO-005`).
+- **Implementation:** Provides `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers (2.0 to 8.0 bpw), extract average bitrate metrics, and enforce physical NVIDIA CUDA hardware and custom EXL2 CUDA kernel execution contracts.
+
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 
