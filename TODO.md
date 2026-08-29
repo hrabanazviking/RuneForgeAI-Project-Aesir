@@ -469,9 +469,9 @@ counts as completion of an external capability.
 
 ### llama.cpp CLI
 
-- [ ] **[missing, AES-ECO-006] Define an intentionally supported subcommand and
+- [x] **[verified, AES-ECO-006] Define an intentionally supported subcommand and
   version subset; pass differential argument/output/error/exit tests.**
-- [ ] Never infer CLI/server parity from the pinned token-oracle comparison alone.
+- [x] Never infer CLI/server parity from the pinned token-oracle comparison alone (`AES-ECO-006`).
 
 ### Grammar-constrained generation
 

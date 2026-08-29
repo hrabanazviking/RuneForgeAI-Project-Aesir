@@ -57,6 +57,10 @@ from tests.test_exl2 import (
     test_exl2_cuda_contract_validation,
     test_exl2_model_seer,
 )
+from tests.test_llama_cpp_cli import (
+    test_llama_cpp_subcommands,
+    test_llama_cpp_arg_parsing,
+)
 from tests.test_metal_realm import (
     test_metal_gate_availability,
     test_metal_gemm_dispatch_bounds,
@@ -432,4 +436,11 @@ def main() raises:
     run_case(ledger, "exl2.model_seer", test_exl2_model_seer)
     print("")
 
-    ledger.finish(119)
+    # --- llama.cpp Differential CLI Validator ---
+    print("  [DOMAIN] llama.cpp Differential CLI Validator")
+    print("  -----------------------------------------")
+    run_case(ledger, "llama_cpp_cli.subcommands", test_llama_cpp_subcommands)
+    run_case(ledger, "llama_cpp_cli.arg_parsing", test_llama_cpp_arg_parsing)
+    print("")
+
+    ledger.finish(121)
