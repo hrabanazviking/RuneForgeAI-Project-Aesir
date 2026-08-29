@@ -3,6 +3,26 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 111: Phase 1 — TransformerBlock Construction Safety
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Replaced all nine GGUF layer-weight address-1 fallbacks with one required
+   tensor boundary that rejects absent, empty, null, and sentinel pointers.
+2. Added positive metadata checks for layer index, head dimension, and head
+   count before a loader-backed block can become runnable.
+3. Preserved the legacy three-argument API as a stable fail-closed overload; it
+   now always raises and manufactures no tensor or pointer.
+4. Rebuilt `copy()` around a module-private complete-state token so a valid
+   block can be copied without passing through the legacy constructor.
+5. Extended executable inference coverage across missing, empty, sentinel,
+   legacy, valid, and copy paths while retaining the existing synthetic forward
+   result.
+6. Recorded Bug 0025 and synchronized the interface, architecture, TODO,
+   roadmap, task contract, and capability ledger. `AES-MEM-006` remains
+   `missing` because unrelated unsafe boundaries still exist.
+
 ## Entry 110: Phase 0 — Active Vision Truth Boundary
 
 **Date:** August 29, 2026

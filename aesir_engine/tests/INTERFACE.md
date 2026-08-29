@@ -111,6 +111,11 @@ def test_peer_registry_and_load_balancer() raises: ...
 def test_swarm_cluster_task_dispatch() raises: ...
 ```
 
+`test_forward_pass()` includes the Transformer-block construction contract:
+missing, empty, and address-1 layer weights fail before inference; the legacy
+constructor is non-runnable; and a valid block copy preserves its metadata and
+validated tensor views.
+
 `test_generation_stop_policy()` proves the stable EOS, length, continuation,
 and context-exhaustion decisions independently of model logits.
 
@@ -128,7 +133,7 @@ as `gguf.stories260k-f16-v3` in the root `fixture_manifest.json`.
 - The runner registers 132 executable named cases and one explicit skip in a
   deterministic order.
 - `TestLedger.finish(133)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 52.
+  raises after reporting if any case failed or the total is not 133.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
 - Synthetic/scaffold assertions establish only their local deterministic

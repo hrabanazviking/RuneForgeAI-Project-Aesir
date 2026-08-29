@@ -454,7 +454,7 @@ NPU/GPU options are reserved arguments that fail closed; physical multi-device
 execution is not implemented.
 
 ```mojo
-struct TransformerBlock:
+struct TransformerBlock(Copyable):
     var layer_idx: Int
     var head_dim: Int
     var num_heads: Int
@@ -462,7 +462,8 @@ struct TransformerBlock:
     var rms_epsilon: Scalar[f32]
 
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises: ...
-    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int): ...
+    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int) raises: ...
+    def copy(self) -> Self: ...
     # Slice 7 & Slice 8: use_npu/npu_backend and use_gpu_realm/gpu_realm parameters added
     def forward(self, mut x: RuneTensor[f16], mut seer: GGUFSeer, mut well: MimirWell, seq_len: Int, start_pos: Int, mut kv_cache: KVCache, topology: DeviceTopology = DeviceTopology(1), use_npu: Bool = False, npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON), use_gpu_realm: Bool = False, gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises: ...
 
@@ -471,8 +472,11 @@ def forward_pass(tokens: List[Int], mut seer: GGUFSeer, mut well: MimirWell, mut
 def forward_pass(tokens: List[Int], mut seer: GGUFSeer, mut well: MimirWell, num_layers: Int = 32, head_dim: Int = 128, num_heads: Int = 32, topology: DeviceTopology = DeviceTopology(1), blocks: List[TransformerBlock] = List[TransformerBlock](), use_npu: Bool = False, npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON), use_gpu_realm: Bool = False, gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> Int: ...
 ```
 
-The validated single-device path sizes Q independently from K/V, applies
-grouped-query attention, checks token IDs and required embedding/output
-tensors, and uses the model's RMS epsilon. The legacy default overload remains
-for synthetic unit tests; production construction supplies values from
-`GGUFModelConfig`.
+The loader-backed constructor validates positive layer metadata and requires
+all nine non-empty, non-null, non-sentinel layer tensors before it can return a
+runnable block. The legacy three-argument overload is retained only as a stable
+fail-closed compatibility boundary and always raises. `copy()` uses a
+module-private complete-state path, so it cannot manufacture sentinel-bearing
+weights. The validated single-device path sizes Q independently from K/V,
+applies grouped-query attention, checks token IDs and required
+embedding/output tensors, and uses the model's RMS epsilon.

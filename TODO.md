@@ -200,8 +200,9 @@ counts as completion of an external capability.
 - [x] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
 - [ ] Remove misleading ring-buffer wording until chronological wraparound is
   actually implemented and verified.
-- [ ] Replace sentinel-bearing usable `TransformerBlock` constructors with safe
-  non-runnable test descriptors or real tensors.
+- [x] Replace sentinel-bearing usable `TransformerBlock` constructors: the
+  GGUF-backed path now requires nine usable tensors, the legacy overload raises,
+  and the copy path preserves only validated views.
 - [x] Make `NPUBuffer`/`GPUBuffer` honest host-view descriptors until real device
   allocation exists; validate sizes and ownership.
 

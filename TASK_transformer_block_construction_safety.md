@@ -67,3 +67,18 @@ This slice makes Transformer block construction and copying fail closed. It
 does not validate every GGUF architecture-specific matrix dimension, certify
 numerical model quality, remove unrelated sentinel uses, or promote full
 inference beyond its current ledger status.
+
+## Implementation Evidence
+
+- `_required_block_weight()` rejects absent, empty, null, and address-1 layer
+  tensors before a `TransformerBlock` can exist.
+- The loader-backed constructor validates layer index, head dimension, and head
+  count, then resolves all nine required tensors through that boundary.
+- The three-argument constructor remains present but always raises a stable
+  non-runnable error; it no longer creates any tensor.
+- `copy()` uses a module-private complete-state token and copies only the
+  metadata and validated tensor views of an existing block.
+- The synthetic inference case proves missing, empty, sentinel, and legacy
+  rejection plus valid construction/copy and the existing forward result.
+- The broader memory-safety capability remains `missing`; unrelated unsafe
+  pointer paths are outside this slice.

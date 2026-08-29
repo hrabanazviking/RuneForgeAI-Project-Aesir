@@ -9,7 +9,29 @@ from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBacke
 from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
 from loader.gguf import GGUFSeer
 
-from std.memory import Pointer
+
+
+def _required_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
+    """Returns one usable layer weight or rejects the incomplete model."""
+    if key not in seer.tensors:
+        raise Error("TransformerBlock: missing required tensor '" + key + "'")
+
+    var weight = seer.tensors[key].copy()
+    if weight.rows <= 0 or weight.cols <= 0 or weight.size <= 0:
+        raise Error("TransformerBlock: required tensor '" + key + "' is empty")
+    var address = Int(weight.data)
+    if address == 0 or address == 1:
+        raise Error("TransformerBlock: required tensor '" + key + "' has an invalid pointer")
+    return weight^
+
+
+struct _ValidatedBlockCopyToken(Copyable, ImplicitlyCopyable):
+    """Module-private token restricting complete-state construction to copy()."""
+    var approved: Bool
+
+    def __init__(out self):
+        self.approved = True
+
 
 struct TransformerBlock(Copyable):
     """
@@ -33,6 +55,13 @@ struct TransformerBlock(Copyable):
     var ffn_down_weight: RuneTensor[f16]
 
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises:
+        if layer_idx < 0:
+            raise Error("TransformerBlock: layer_idx must be non-negative")
+        if head_dim <= 0:
+            raise Error("TransformerBlock: head_dim must be positive")
+        if num_heads <= 0:
+            raise Error("TransformerBlock: num_heads must be positive")
+
         self.layer_idx = layer_idx
         self.head_dim = head_dim
         self.num_heads = num_heads
@@ -43,70 +72,55 @@ struct TransformerBlock(Copyable):
         self.rms_epsilon = seer.config.rms_epsilon
 
         var prefix = "blk." + String(self.layer_idx) + "."
-        var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
-        if prefix + "attn_norm.weight" in seer.tensors:
-            self.attn_norm_weight = seer.tensors[prefix + "attn_norm.weight"].copy()
-        else:
-            self.attn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.attn_norm_weight = _required_block_weight(seer, prefix + "attn_norm.weight")
+        self.attn_q_weight = _required_block_weight(seer, prefix + "attn_q.weight")
+        self.attn_k_weight = _required_block_weight(seer, prefix + "attn_k.weight")
+        self.attn_v_weight = _required_block_weight(seer, prefix + "attn_v.weight")
+        self.attn_output_weight = _required_block_weight(seer, prefix + "attn_output.weight")
+        self.ffn_norm_weight = _required_block_weight(seer, prefix + "ffn_norm.weight")
+        self.ffn_up_weight = _required_block_weight(seer, prefix + "ffn_up.weight")
+        self.ffn_gate_weight = _required_block_weight(seer, prefix + "ffn_gate.weight")
+        self.ffn_down_weight = _required_block_weight(seer, prefix + "ffn_down.weight")
 
-        if prefix + "attn_q.weight" in seer.tensors:
-            self.attn_q_weight = seer.tensors[prefix + "attn_q.weight"].copy()
-        else:
-            self.attn_q_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int) raises:
+        raise Error(
+            "TransformerBlock: the legacy constructor is non-runnable; "
+            "construct from a GGUFSeer with complete layer weights"
+        )
 
-        if prefix + "attn_k.weight" in seer.tensors:
-            self.attn_k_weight = seer.tensors[prefix + "attn_k.weight"].copy()
-        else:
-            self.attn_k_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "attn_v.weight" in seer.tensors:
-            self.attn_v_weight = seer.tensors[prefix + "attn_v.weight"].copy()
-        else:
-            self.attn_v_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "attn_output.weight" in seer.tensors:
-            self.attn_output_weight = seer.tensors[prefix + "attn_output.weight"].copy()
-        else:
-            self.attn_output_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "ffn_norm.weight" in seer.tensors:
-            self.ffn_norm_weight = seer.tensors[prefix + "ffn_norm.weight"].copy()
-        else:
-            self.ffn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "ffn_up.weight" in seer.tensors:
-            self.ffn_up_weight = seer.tensors[prefix + "ffn_up.weight"].copy()
-        else:
-            self.ffn_up_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "ffn_gate.weight" in seer.tensors:
-            self.ffn_gate_weight = seer.tensors[prefix + "ffn_gate.weight"].copy()
-        else:
-            self.ffn_gate_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-        if prefix + "ffn_down.weight" in seer.tensors:
-            self.ffn_down_weight = seer.tensors[prefix + "ffn_down.weight"].copy()
-        else:
-            self.ffn_down_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-
-    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int):
+    def __init__(
+        out self,
+        token: _ValidatedBlockCopyToken,
+        layer_idx: Int,
+        head_dim: Int,
+        num_heads: Int,
+        num_kv_heads: Int,
+        rms_epsilon: Scalar[f32],
+        attn_norm_weight: RuneTensor[f16],
+        attn_q_weight: RuneTensor[f16],
+        attn_k_weight: RuneTensor[f16],
+        attn_v_weight: RuneTensor[f16],
+        attn_output_weight: RuneTensor[f16],
+        ffn_norm_weight: RuneTensor[f16],
+        ffn_up_weight: RuneTensor[f16],
+        ffn_gate_weight: RuneTensor[f16],
+        ffn_down_weight: RuneTensor[f16],
+    ):
+        """Builds a complete copy; the token is module-private by design."""
         self.layer_idx = layer_idx
         self.head_dim = head_dim
         self.num_heads = num_heads
-        self.num_kv_heads = num_heads
-        self.rms_epsilon = 1e-5
-
-        var dummy_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
-
-        self.attn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.attn_q_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.attn_k_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.attn_v_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.attn_output_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.ffn_norm_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.ffn_up_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.ffn_gate_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
-        self.ffn_down_weight = RuneTensor[f16](0, 0, dummy_ptr, False)
+        self.num_kv_heads = num_kv_heads
+        self.rms_epsilon = rms_epsilon
+        self.attn_norm_weight = attn_norm_weight.copy()
+        self.attn_q_weight = attn_q_weight.copy()
+        self.attn_k_weight = attn_k_weight.copy()
+        self.attn_v_weight = attn_v_weight.copy()
+        self.attn_output_weight = attn_output_weight.copy()
+        self.ffn_norm_weight = ffn_norm_weight.copy()
+        self.ffn_up_weight = ffn_up_weight.copy()
+        self.ffn_gate_weight = ffn_gate_weight.copy()
+        self.ffn_down_weight = ffn_down_weight.copy()
 
     def __copyinit__(out self, existing: Self):
         self.layer_idx = existing.layer_idx
@@ -126,19 +140,23 @@ struct TransformerBlock(Copyable):
 
     @always_inline
     def copy(self) -> Self:
-        var res = TransformerBlock(self.layer_idx, self.head_dim, self.num_heads)
-        res.num_kv_heads = self.num_kv_heads
-        res.rms_epsilon = self.rms_epsilon
-        res.attn_norm_weight = self.attn_norm_weight.copy()
-        res.attn_q_weight = self.attn_q_weight.copy()
-        res.attn_k_weight = self.attn_k_weight.copy()
-        res.attn_v_weight = self.attn_v_weight.copy()
-        res.attn_output_weight = self.attn_output_weight.copy()
-        res.ffn_norm_weight = self.ffn_norm_weight.copy()
-        res.ffn_up_weight = self.ffn_up_weight.copy()
-        res.ffn_gate_weight = self.ffn_gate_weight.copy()
-        res.ffn_down_weight = self.ffn_down_weight.copy()
-        return res^
+        return Self(
+            _ValidatedBlockCopyToken(),
+            self.layer_idx,
+            self.head_dim,
+            self.num_heads,
+            self.num_kv_heads,
+            self.rms_epsilon,
+            self.attn_norm_weight.copy(),
+            self.attn_q_weight.copy(),
+            self.attn_k_weight.copy(),
+            self.attn_v_weight.copy(),
+            self.attn_output_weight.copy(),
+            self.ffn_norm_weight.copy(),
+            self.ffn_up_weight.copy(),
+            self.ffn_gate_weight.copy(),
+            self.ffn_down_weight.copy(),
+        )
 
     def forward(
         self,

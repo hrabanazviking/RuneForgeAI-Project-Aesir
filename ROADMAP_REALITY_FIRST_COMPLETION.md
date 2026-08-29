@@ -338,8 +338,9 @@ new violations fail CI, and `AES-FND-007` has truthful executable evidence.
 
 - Correct misleading ring-buffer terminology unless real chronological
   wraparound is implemented and tested.
-- Replace sentinel-bearing runnable transformer descriptors with safe explicit
-  non-runnable fixtures or fully valid tensors.
+- **Completed:** Replace sentinel-bearing runnable transformer descriptors with
+  a fail-closed legacy overload and GGUF construction that accepts only complete
+  non-empty, non-sentinel layer tensors.
 - Instrument steady-state token-path allocations and remove or account for
   remaining list/string/workspace allocation (`AES-MEM-006` and follow-up to
   the verified memory primitives).

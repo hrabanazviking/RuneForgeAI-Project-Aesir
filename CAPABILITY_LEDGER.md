@@ -210,7 +210,7 @@ the complete ledger population.
 - **Status:** `missing`
 - **Owner:** all unsafe-pointer domains
 - **Claim sources:** implicit requirement of local runtime correctness
-- **Implementation evidence:** unsafe loads/stores and sentinel address `1` remain reachable.
+- **Implementation evidence:** `TransformerBlock` now rejects missing, empty, null, and address-1 layer weights before construction and its legacy overload always raises. Unsafe loads/stores and sentinel address `1` remain reachable in other unverified domains.
 - **Executable evidence:** no systematic invalid-input or fuzz gate.
 - **Evidence boundary:** Passing in-range tests does not prove failure safety.
 - **Next acceptance gate:** Checked public boundaries, removal of usable sentinel pointers, fuzz/boundary corpus, sanitizers where available, and proof that errors occur before dereference.
