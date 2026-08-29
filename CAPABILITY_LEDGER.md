@@ -189,8 +189,8 @@ the complete ledger population.
 - **Status:** `missing`
 - **Owner:** core memory and inference domains
 - **Claim sources:** README “PagedAttention KV Caching”
-- **Implementation evidence:** current `KVCache` is a contiguous preallocated buffer; no page table, allocator, eviction, or page sharing exists.
-- **Executable evidence:** none.
+- **Implementation evidence:** current `KVCache` is a contiguous preallocated buffer. The reserved `PagedKVCache` API now rejects construction and block operations; no page table, allocator, ownership map, eviction, or page sharing exists.
+- **Executable evidence:** `E-MASTER` case `inference.kv_cache` proves `PagedKVCache` construction fails with a stable unsupported error.
 - **Evidence boundary:** The fixed contiguous cache rejects capacity overflow; preallocation alone does not implement PagedAttention, sliding windows, or chronological wraparound.
 - **Next acceptance gate:** Page allocator/table, logical-to-physical mapping, growth/reuse/eviction policy, multi-sequence tests, and memory-efficiency measurements.
 - **Audit:** AER-003, AER-021, AER-112.

@@ -77,6 +77,18 @@ Positions form one chronological prefix and never wrap. `append()` rejects
 `pos >= max_seq_len` before writing, and pointer-backed construction rejects
 invalid dimensions and null/address-1 storage.
 
+### `PagedKVCache`
+
+Reserved compatibility API only. No page table or block allocator is present;
+construction, allocation, and free operations raise `not implemented`.
+
+```mojo
+struct PagedKVCache(Copyable):
+    def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises: ...
+    def allocate_block(mut self) raises -> Int: ...
+    def free_block(mut self, block_idx: Int) raises: ...
+```
+
 ### `MimirStore`
 Vector store pre-allocating zero-copy memory inside `MimirWell`. Validates vector dimensions (`embedding.size == dim`) and `top_k > 0`.
 

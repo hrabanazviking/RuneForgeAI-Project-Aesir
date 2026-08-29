@@ -582,9 +582,8 @@ struct KVCache(Copyable):
 
 struct PagedKVCache(Copyable):
     """
-    PagedKVCache: Dynamic Page-Table Key-Value Cache Pool.
-    Divides sequence memory into non-contiguous physical blocks (block_size=16)
-    and maps virtual token indices via a block table to eliminate KV fragmentation.
+    Reserved PagedAttention API. No page table or block ownership exists yet;
+    every entry point fails closed rather than simulating allocation.
     """
     var base_cache: KVCache
     var block_size: Int
@@ -592,23 +591,13 @@ struct PagedKVCache(Copyable):
     var free_blocks: Int
 
     def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises:
-        if block_size <= 0:
-            raise Error("PagedKVCache: block_size must be positive")
-        self.base_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
-        self.block_size = block_size
-        self.num_blocks = max_seq_len // block_size
-        self.free_blocks = self.num_blocks
+        raise Error("PagedKVCache: not implemented; page-table allocation is unavailable")
 
     def allocate_block(mut self) raises -> Int:
-        if self.free_blocks <= 0:
-            raise Error("PagedKVCache: out of physical blocks")
-        self.free_blocks -= 1
-        return self.num_blocks - self.free_blocks - 1
+        raise Error("PagedKVCache.allocate_block: not implemented")
 
     def free_block(mut self, block_idx: Int) raises:
-        if block_idx < 0 or block_idx >= self.num_blocks:
-            raise Error("PagedKVCache: block_idx out of bounds")
-        self.free_blocks += 1
+        raise Error("PagedKVCache.free_block: not implemented")
 
 
 

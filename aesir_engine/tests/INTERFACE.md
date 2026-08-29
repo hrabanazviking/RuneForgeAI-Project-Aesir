@@ -122,7 +122,8 @@ validated tensor views.
 
 `test_kv_cache()` also proves `RuneTensor.checked()` accepts a valid view and
 rejects zero dimensions, wrapped shape products, and address-1 pointers before
-dereference.
+dereference. It proves the reserved `PagedKVCache` API rejects construction
+rather than fabricating page-table state.
 
 `test_generation_stop_policy()` proves the stable EOS, length, continuation,
 and context-exhaustion decisions independently of model logits.

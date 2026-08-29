@@ -42,3 +42,13 @@ map, ownership state, eviction, sharing, or logical-to-physical translation;
 
 This slice removes fabricated success. It does not implement page tables,
 eviction, sharing, block ownership, or PagedAttention execution.
+
+## Implementation Evidence
+
+- `PagedKVCache` construction now raises a stable unavailable error before
+  producing state.
+- `allocate_block()` and `free_block()` independently raise `not implemented`;
+  the old free-counter simulation is gone.
+- The counted cache case proves construction cannot fabricate a page table.
+- Core interface, architecture, and ledger now identify the API as reserved and
+  keep `AES-MEM-004` `missing`.

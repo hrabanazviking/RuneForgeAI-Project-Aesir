@@ -3,6 +3,21 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 114: Phase 1 — Honest PagedKVCache Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory capability truth and fail-closed execution
+
+1. Audited `PagedKVCache` and found no page table, ownership map, virtual-token
+   translation, eviction, sharing, or non-contiguous allocation.
+2. Replaced the free-counter simulation with stable `not implemented` errors at
+   construction, allocation, and free boundaries.
+3. Preserved every public function while preventing fabricated block indices
+   and double-free counter inflation.
+4. Added counted construction-rejection evidence and recorded Bug 0028.
+5. Synchronized the core interface, architecture, task contract, and capability
+   ledger; `AES-MEM-004` remains `missing`.
+
 ## Entry 113: Phase 1 — Checked RuneTensor Admission
 
 **Date:** August 29, 2026
