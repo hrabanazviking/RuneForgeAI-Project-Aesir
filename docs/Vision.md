@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 66.1 — Model-Produced EOS Fixtures & ImplicitlyCopyable Descriptors (`AES-GEN-009`)
+* **Stage 66.1 EOS Fixture Milestone ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added model-emitted EOS token fixture tests in `test_inference.mojo` proving end-to-end terminal generation stop policy triggering. Added `ImplicitlyCopyable` trait conformance to `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 65.1 — Portable Little-Endian Bounded GGUF Reads (`AES-LDR-005`)
 * **Stage 65.1 Portable GGUF Reads Milestone ([`AES-LDR-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded GGUF loader scalar byte reading methods (`_read_u32`, `_read_i32`, `_read_u64`, `_read_f32`) in `loader/gguf.mojo` from native-endian bitcast loads to explicit little-endian byte-reconstruction, guaranteeing cross-platform architecture portability across big-endian and unaligned-strict processors. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
