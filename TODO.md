@@ -53,8 +53,8 @@ counts as completion of an external capability.
 ### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
 - [ ] **Modular Max Support:** Add full support for MAX by Modular
-- [ ] **Config Data File:** Add config file that is human readable and can be manually edited by the user. All options should be included and explain all options, settings, and features very well.
-- [ ] **Acceleration Selection:** Add command that allows the User to select which acceleration system is being used.
+- [ ] **[partial, AES-CLI-009] Config Data File:** `aesir config [--config <path>]` now reads, validates, and normalizes the human-editable tracked schema. Apply every supported sampling/safety option to its owning runtime and add complete option documentation before closing this item.
+- [ ] **[partial, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path and explicit unavailable backends fail before model loading. Add observed physical discovery and a proved backend before enabling any hardware selection.
 - [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
 - [ ] **Add Help Commands:** Add very useful, well written, complete help command system.
 - [ ] **Cognitive Inference Architecture:** Read COGNITIVE_INFERENCE_ARCHITECTURE.md and add Cognitive Inference Architecture. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
@@ -306,7 +306,7 @@ counts as completion of an external capability.
 
 ### CLI grammar and REPL
 
-- [x] **[verified, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, and duration parsing.
+- [x] **[partial, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, configuration/acceleration intent, and duration parsing. Operational wiring remains incomplete for the broader capability.
 - [x] **[verified, AES-CLI-003] Complete the chosen Modelfile grammar:** Quoting,
   multiline directives, validation, errors, and compatibility corpus.
 - [ ] Connect parsed parameters, templates, system messages, and licenses to the

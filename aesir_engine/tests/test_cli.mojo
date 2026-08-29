@@ -3,37 +3,58 @@
 
 from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest
-from cli.commands import dispatch_command
+from cli.commands import (
+    collect_run_positionals,
+    dispatch_command,
+    effective_config,
+    require_verified_cpu_backend,
+)
 from cli.repl import RuneREPL
 from cli.options import parse_cli_options, parse_duration_seconds
+from config import load_config_file
 
 
 def test_modelfile_parser() raises:
-    print("--- Testing Modelfile directive parser, quoting & GenerationConfig conversion ---")
+    print(
+        "--- Testing Modelfile directive parser, quoting & GenerationConfig"
+        " conversion ---"
+    )
     var content = String(
-        "FROM \"model.gguf\"\n"
+        'FROM "model.gguf"\n'
         + "PARAMETER num_predict 64\n"
         + "PARAMETER temperature 0.8\n"
         + "PARAMETER top_k 40\n"
         + "PARAMETER top_p 0.9\n"
-        + "SYSTEM \"\"\"You are Aesir,\na sovereign engine.\"\"\"\n"
+        + 'SYSTEM """You are Aesir,\na sovereign engine."""\n'
         + "LICENSE 'MIT License'"
     )
     var parsed = parse_modelfile(content)
 
     if parsed.from_model != "model.gguf":
-        raise Error("Modelfile FROM directive mismatch: got '" + parsed.from_model + "'")
+        raise Error(
+            "Modelfile FROM directive mismatch: got '" + parsed.from_model + "'"
+        )
     if "You are Aesir,\na sovereign engine." not in parsed.system_prompt:
         raise Error("Modelfile multiline SYSTEM directive mismatch")
     if parsed.license_info != "MIT License":
-        raise Error("Modelfile LICENSE directive mismatch: got '" + parsed.license_info + "'")
-    if "temperature" not in parsed.parameters or parsed.parameters["temperature"] != "0.8":
+        raise Error(
+            "Modelfile LICENSE directive mismatch: got '"
+            + parsed.license_info
+            + "'"
+        )
+    if (
+        "temperature" not in parsed.parameters
+        or parsed.parameters["temperature"] != "0.8"
+    ):
         raise Error("Modelfile PARAMETER directive mismatch")
 
     # Test GenerationConfig conversion
     var gen_cfg = parsed.to_generation_config()
     if gen_cfg.max_new_tokens != 64:
-        raise Error("to_generation_config max_new_tokens mismatch: got " + String(gen_cfg.max_new_tokens))
+        raise Error(
+            "to_generation_config max_new_tokens mismatch: got "
+            + String(gen_cfg.max_new_tokens)
+        )
     if gen_cfg.top_k != 40:
         raise Error("to_generation_config top_k mismatch")
 
@@ -68,7 +89,9 @@ def test_model_manifest_store() raises:
         raise Error("missing model lookup returned a fictional manifest")
 
     # Test digest computation
-    var mf_text = String("FROM test.gguf\nPARAMETER temperature 0.7\nSYSTEM You are test.")
+    var mf_text = String(
+        "FROM test.gguf\nPARAMETER temperature 0.7\nSYSTEM You are test."
+    )
     store.create_model("testmodel:v1", mf_text)
     var fetched = store.get_model("testmodel:v1")
     if not fetched.digest.startswith("fnv1a64:"):
@@ -85,7 +108,9 @@ def test_model_manifest_store() raises:
     new_store.deserialize_store(serialized)
     var restored = new_store.get_model("testmodel:v1")
     if restored.name != "testmodel":
-        raise Error("deserialized store manifest name mismatch: got " + restored.name)
+        raise Error(
+            "deserialized store manifest name mismatch: got " + restored.name
+        )
     if restored.digest != fetched.digest:
         raise Error("deserialized store manifest digest mismatch")
 
@@ -116,7 +141,11 @@ def assert_cli_command_unsupported(command: String) raises:
     except error:
         rejected = True
         var message = String(error)
-        if "not implemented" not in message and "unsupported" not in message and "requires a subcommand" not in message:
+        if (
+            "not implemented" not in message
+            and "unsupported" not in message
+            and "requires a subcommand" not in message
+        ):
             raise Error("unsupported CLI error omitted stable truth text")
     if not rejected:
         raise Error("unsupported CLI command returned successfully: " + command)
@@ -130,6 +159,17 @@ def test_cli_command_dispatch() raises:
     var help_args = List[String]()
     help_args.append("help")
     dispatch_command(help_args, store)
+
+    # Empty invocation is a stable help request rather than an implicit daemon.
+    var empty_args = List[String]()
+    dispatch_command(empty_args, store)
+
+    # The documented config command must load and validate the tracked file.
+    var config_args = List[String]()
+    config_args.append("config")
+    config_args.append("--config")
+    config_args.append("aesir.config.json")
+    dispatch_command(config_args, store)
 
     assert_cli_command_unsupported("list")
     assert_cli_command_unsupported("show")
@@ -148,7 +188,9 @@ def test_cli_command_dispatch() raises:
     except error:
         swarm_sub_rejected = True
         if "requires a subcommand" not in String(error):
-            raise Error("swarm bare command rejection omitted subcommand error text")
+            raise Error(
+                "swarm bare command rejection omitted subcommand error text"
+            )
     if not swarm_sub_rejected:
         raise Error("swarm bare command allowed execution without subcommand")
 
@@ -163,7 +205,9 @@ def test_cli_command_dispatch() raises:
     except error:
         empty_prompt_rejected = True
         if "prompt text must not be empty" not in String(error):
-            raise Error("empty prompt run rejection omitted expected error text")
+            raise Error(
+                "empty prompt run rejection omitted expected error text"
+            )
     if not empty_prompt_rejected:
         raise Error("run command allowed empty prompt parameter")
 
@@ -177,7 +221,10 @@ def test_cli_command_dispatch() raises:
 
 
 def test_repl_session_and_slash_commands() raises:
-    print("--- Testing RuneREPL session state, slash commands & stream execution ---")
+    print(
+        "--- Testing RuneREPL session state, slash commands & stream"
+        " execution ---"
+    )
     var repl = RuneREPL("aesir-chat:latest")
 
     var inputs = List[String]()
@@ -190,7 +237,10 @@ def test_repl_session_and_slash_commands() raises:
 
     var outputs = repl.run_repl_stream(inputs)
     if len(outputs) != 6:
-        raise Error("run_repl_stream output length mismatch: got " + String(len(outputs)))
+        raise Error(
+            "run_repl_stream output length mismatch: got "
+            + String(len(outputs))
+        )
     if outputs[0] != "[HELP]":
         raise Error("REPL help slash command mismatch")
     if outputs[1] != "[SET]" or repl.config.temperature != 0.8:
@@ -228,8 +278,11 @@ def test_repl_session_and_slash_commands() raises:
 
 
 def test_cli_flag_options_parser() raises:
-    print("--- Testing CLIOptions flag parser, duration conversion & JSON output ---")
-    
+    print(
+        "--- Testing CLIOptions flag parser, duration conversion & JSON"
+        " output ---"
+    )
+
     var args = List[String]()
     args.append("list")
     args.append("--verbose")
@@ -246,11 +299,70 @@ def test_cli_flag_options_parser() raises:
     if options.format != "json":
         raise Error("CLIOptions format flag mismatch")
     if options.keepalive_seconds != 600:
-        raise Error("CLIOptions duration parsing mismatch: expected 600s, got " + String(options.keepalive_seconds))
+        raise Error(
+            "CLIOptions duration parsing mismatch: expected 600s, got "
+            + String(options.keepalive_seconds)
+        )
     if not options.raw:
         raise Error("CLIOptions raw flag not set")
     if not options.insecure:
         raise Error("CLIOptions insecure flag not set")
+
+    var explicit_args = List[String]()
+    explicit_args.append("run")
+    explicit_args.append("model.gguf")
+    explicit_args.append("--config")
+    explicit_args.append("aesir.config.json")
+    explicit_args.append("--accel")
+    explicit_args.append("cpu")
+    explicit_args.append("hello")
+    explicit_args.append("from")
+    explicit_args.append("aesir")
+    var explicit_options = parse_cli_options(explicit_args)
+    if not explicit_options.config_was_set:
+        raise Error("CLIOptions did not record explicit --config intent")
+    if not explicit_options.accel_was_set:
+        raise Error("CLIOptions did not record explicit --accel intent")
+
+    var positionals = collect_run_positionals(explicit_args)
+    if len(positionals) != 4:
+        raise Error("run option tokens leaked into positional prompt assembly")
+    if positionals[0] != "model.gguf":
+        raise Error("run positional model path mismatch")
+    if positionals[1] != "hello" or positionals[3] != "aesir":
+        raise Error("run positional prompt order mismatch")
+
+    var loaded = load_config_file("aesir.config.json")
+    if loaded.config_path != "aesir.config.json":
+        raise Error("configuration loader did not record its source path")
+    if loaded.acceleration_backend != "auto":
+        raise Error("tracked configuration acceleration intent mismatch")
+
+    var effective = effective_config(explicit_options)
+    if effective.acceleration_backend != "cpu":
+        raise Error("explicit CLI acceleration did not override file intent")
+    require_verified_cpu_backend(effective)
+
+    effective.acceleration_backend = String("cuda")
+    var unsupported_backend_rejected = False
+    try:
+        require_verified_cpu_backend(effective)
+    except error:
+        unsupported_backend_rejected = True
+        if "CPU-only" not in String(error):
+            raise Error("unsupported backend rejection omitted truth boundary")
+    if not unsupported_backend_rejected:
+        raise Error("explicit unsupported accelerator reached CPU execution")
+
+    var missing_config_rejected = False
+    try:
+        _ = load_config_file("does-not-exist-aesir.config.json")
+    except error:
+        missing_config_rejected = True
+        if "unable to read configuration" not in String(error):
+            raise Error("missing config rejection omitted contextual error")
+    if not missing_config_rejected:
+        raise Error("missing configuration file was accepted")
 
     # Verify invalid option values fail closed.
     var invalid_format = List[String]()
@@ -267,6 +379,7 @@ def test_cli_flag_options_parser() raises:
 
     # Verify ChatMessage empty list formatting safety
     from loader.chat_template import RuneChatTemplate, ChatMessage
+
     var tmpl = RuneChatTemplate("chatml")
     var empty_msgs = List[ChatMessage]()
     var empty_chatml_rejected = False
@@ -275,22 +388,32 @@ def test_cli_flag_options_parser() raises:
     except:
         empty_chatml_rejected = True
     if not empty_chatml_rejected:
-        raise Error("RuneChatTemplate format_chatml failed to reject empty message list")
+        raise Error(
+            "RuneChatTemplate format_chatml failed to reject empty message list"
+        )
 
     print("CLIOptions flag parser, duration conversion & JSON output: PASS")
 
+
 def test_model_store_in_use_protection() raises:
-    print("--- Testing RuneModelStore in-use & non-existent model rejection ---")
+    print(
+        "--- Testing RuneModelStore in-use & non-existent model rejection ---"
+    )
     var store = RuneModelStore()
     store.create_model("llama3:latest", "FROM llama.gguf")
 
     var in_use_rejected = False
     try:
-        store.remove_model_checked("llama3:latest", active_model="llama3:latest")
+        store.remove_model_checked(
+            "llama3:latest", active_model="llama3:latest"
+        )
     except:
         in_use_rejected = True
     if not in_use_rejected:
-        raise Error("remove_model_checked failed to reject removal of model currently in use")
+        raise Error(
+            "remove_model_checked failed to reject removal of model currently"
+            " in use"
+        )
 
     var not_found_rejected = False
     try:
@@ -298,9 +421,12 @@ def test_model_store_in_use_protection() raises:
     except:
         not_found_rejected = True
     if not not_found_rejected:
-        raise Error("remove_model_checked failed to reject non-existent model name")
+        raise Error(
+            "remove_model_checked failed to reject non-existent model name"
+        )
 
     print("RuneModelStore in-use & not-found protection: PASS")
+
 
 def main() raises:
     test_modelfile_parser()

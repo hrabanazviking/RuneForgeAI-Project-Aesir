@@ -91,3 +91,17 @@ read before `run_single_shot()`.
   invalid config path, CPU selection, and unsupported backend rejection.
 - Full counted suite, native build, deliberate negative control, repository
   consistency check, `git diff --check`, and hosted CI.
+
+## Resolution — August 29, 2026
+
+- Empty invocation now routes to stable general help.
+- `config [--config <path>] [--format json|text]` reads the selected file,
+  rejects missing/empty/duplicate/unknown/invalid values, and prints normalized
+  configuration.
+- Explicit config and acceleration intent are tracked separately from defaults;
+  CLI acceleration overrides file intent.
+- Recognized options and their values are removed from model/prompt positionals.
+- Explicit non-CPU backend requests fail before model loading.
+- Narrow and master verification passed with **132 passed / 0 failed / 1
+  skipped / total 133**. The broader remaining-option wiring stays tracked by
+  `AES-CLI-009` as `partial`.

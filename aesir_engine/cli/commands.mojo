@@ -4,14 +4,25 @@
 from cli.manifest import ModelManifest, RuneModelStore
 from cli.repl import RuneREPL, run_single_shot
 from cli.options import CLIOptions, parse_cli_options
-from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
+from cli.multi_engine import (
+    dispatch_llama_cli,
+    dispatch_exl2_cli,
+    dispatch_onnx_cli,
+)
+from config import AesirConfig, load_config_file
 
 
 def print_banner():
     """Displays the Project Aesir development CLI header."""
-    print("==========================================================================")
-    print("  Project Aesir CLI — verified local GGUF run + development surfaces")
-    print("==========================================================================")
+    print(
+        "=========================================================================="
+    )
+    print(
+        "  Project Aesir CLI — verified local GGUF run + development surfaces"
+    )
+    print(
+        "=========================================================================="
+    )
 
 
 def print_general_help():
@@ -20,8 +31,15 @@ def print_general_help():
     print("Usage:")
     print("  aesir [command] [flags]\n")
     print("Implemented:")
-    print("  run <model.gguf> [--max-tokens N] [--verbose] [--format json] <prompt...>")
-    print("      Run one local single-shot request on the verified CPU GGUF path.")
+    print(
+        "  run <model.gguf> [--max-tokens N] [--verbose] [--format json]"
+        " <prompt...>"
+    )
+    print(
+        "      Run one local single-shot request on the verified CPU GGUF path."
+    )
+    print("  config [--config <path>] [--format json|text]")
+    print("      Validate and show the selected configuration file.")
     print("  help, -h, --help")
     print("      Show this capability-aware help.")
     print("  -v, --version")
@@ -30,11 +48,14 @@ def print_general_help():
     print("  serve; interactive run; list; show; ps; create; cp; rm")
     print("  pull; push; stop")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
-    print("See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.")
+    print(
+        "See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates."
+    )
 
 
 def parse_positive_int(value: String) raises -> Int:
-    """Parses an unsigned decimal CLI value and rejects zero or malformed input."""
+    """Parses an unsigned decimal CLI value and rejects zero or malformed input.
+    """
     var raw = value.as_bytes()
     if len(raw) == 0:
         raise Error("--max-tokens requires a positive integer")
@@ -54,6 +75,98 @@ def parse_positive_int(value: String) raises -> Int:
     return parsed
 
 
+def option_requires_value(option: String) -> Bool:
+    """Identifies recognized CLI options that consume the following token."""
+    return (
+        option == "--format"
+        or option == "--keepalive"
+        or option == "--modelfile"
+        or option == "-f"
+        or option == "--max-tokens"
+        or option == "--config"
+        or option == "-c"
+        or option == "--accel"
+        or option == "-a"
+        or option == "--skaldbrodir"
+        or option == "--thinking"
+        or option == "--cia"
+        or option == "--wic"
+        or option == "--nsfi"
+    )
+
+
+def option_is_switch(option: String) -> Bool:
+    """Identifies recognized single-token CLI switches."""
+    return (
+        option == "--verbose"
+        or option == "-v"
+        or option == "--raw"
+        or option == "--insecure"
+        or option == "--tui"
+    )
+
+
+def collect_run_positionals(args: List[String]) raises -> List[String]:
+    """Returns model/prompt tokens while preventing option leakage into prompts.
+    """
+    var positionals = List[String]()
+    var index = 1
+    while index < len(args):
+        var token = args[index]
+        if option_requires_value(token):
+            if index + 1 >= len(args):
+                raise Error("missing value for option " + token)
+            index += 2
+            continue
+        if option_is_switch(token):
+            index += 1
+            continue
+        if token.startswith("-"):
+            raise Error("unknown run option: " + token)
+        positionals.append(token)
+        index += 1
+    return positionals^
+
+
+def validate_config_command_args(args: List[String]) raises:
+    """Restricts the config command to its documented options."""
+    var index = 1
+    while index < len(args):
+        var token = args[index]
+        if token == "--config" or token == "-c" or token == "--format":
+            if index + 1 >= len(args):
+                raise Error("missing value for option " + token)
+            index += 2
+            continue
+        if token == "--verbose" or token == "-v":
+            index += 1
+            continue
+        raise Error("unknown config option: " + token)
+
+
+def effective_config(options: CLIOptions) raises -> AesirConfig:
+    """Loads explicit file intent and applies the documented CLI override."""
+    var config = AesirConfig()
+    if options.config_was_set:
+        config = load_config_file(options.config_path)
+    if options.accel_was_set:
+        config.acceleration_backend = options.accel_backend
+    return config^
+
+
+def require_verified_cpu_backend(config: AesirConfig) raises:
+    """Prevents explicit backend intent from silently running on the CPU."""
+    if (
+        config.acceleration_backend != "auto"
+        and config.acceleration_backend != "cpu"
+    ):
+        raise Error(
+            "requested acceleration backend '"
+            + config.acceleration_backend
+            + "' is not implemented; verified execution is CPU-only"
+        )
+
+
 def format_model_table(models: List[ModelManifest], is_json: Bool = False):
     """Formats manifest values into a clean table or JSON array."""
     if is_json:
@@ -63,7 +176,18 @@ def format_model_table(models: List[ModelManifest], is_json: Bool = False):
             var comma = String(",")
             if i == len(models) - 1:
                 comma = String("")
-            print("  {\"name\": \"" + manifest.name + ":" + manifest.tag + "\", \"digest\": \"" + manifest.digest + "\", \"size\": " + String(manifest.size_bytes) + "}" + comma)
+            print(
+                '  {"name": "'
+                + manifest.name
+                + ":"
+                + manifest.tag
+                + '", "digest": "'
+                + manifest.digest
+                + '", "size": '
+                + String(manifest.size_bytes)
+                + "}"
+                + comma
+            )
         print("]")
         return
 
@@ -94,7 +218,19 @@ def format_model_table(models: List[ModelManifest], is_json: Bool = False):
 def show_model_details(manifest: ModelManifest, is_json: Bool = False):
     """Prints detailed manifest information."""
     if is_json:
-        print("{\"name\": \"" + manifest.name + ":" + manifest.tag + "\", \"digest\": \"" + manifest.digest + "\", \"size\": " + String(manifest.size_bytes) + ", \"quantization\": \"" + manifest.quantization + "\"}")
+        print(
+            '{"name": "'
+            + manifest.name
+            + ":"
+            + manifest.tag
+            + '", "digest": "'
+            + manifest.digest
+            + '", "size": '
+            + String(manifest.size_bytes)
+            + ', "quantization": "'
+            + manifest.quantization
+            + '"}'
+        )
         return
 
     print("Model:        " + manifest.name + ":" + manifest.tag)
@@ -124,7 +260,8 @@ def dispatch_command(args: List[String]) raises:
 
 
 def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
-    """Routes implemented commands and rejected reserved surfaces using a shared store context."""
+    """Routes implemented commands and rejected reserved surfaces using a shared store context.
+    """
     if len(args) == 0:
         print_general_help()
         return
@@ -142,62 +279,75 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
     var options = parse_cli_options(args)
     var is_json = options.format == "json"
 
+    if cmd == "config":
+        validate_config_command_args(args)
+        var config = load_config_file(options.config_path)
+        if not is_json:
+            print("Validated configuration: " + config.config_path)
+        print(config.to_json_string(), end="")
+        return
+
     if cmd == "run":
-        if len(args) < 2:
+        var positionals = collect_run_positionals(args)
+        if len(positionals) < 1:
             raise Error(
                 "'run' requires a model path. Usage: aesir run "
                 + String("<model.gguf> [--max-tokens N] <prompt...>")
             )
-        var model_name = args[1]
-        if len(args) < 3:
+        var model_name = positionals[0]
+        if len(positionals) < 2:
             var repl = RuneREPL(model_name)
             repl.run_repl()
             return
 
-        var max_new_tokens = options.max_tokens
-        var prompt_start = 2
-        if args[2] == "--max-tokens":
-            if len(args) < 4:
-                raise Error("--max-tokens requires a positive integer value")
-            max_new_tokens = parse_positive_int(args[3])
-            prompt_start = 4
-        if len(args) <= prompt_start:
-            raise Error("single-shot run requires prompt text after its options")
+        var config = effective_config(options)
+        require_verified_cpu_backend(config)
 
         var prompt = String("")
-        for i in range(prompt_start, len(args)):
-            if i > prompt_start:
+        for i in range(1, len(positionals)):
+            if i > 1:
                 prompt += String(" ")
-            prompt += args[i]
+            prompt += positionals[i]
         var trimmed_prompt = String(prompt.strip())
         if len(trimmed_prompt.bytes()) == 0:
             raise Error("single-shot run prompt text must not be empty")
-        run_single_shot(model_name, trimmed_prompt, max_new_tokens)
+        run_single_shot(model_name, trimmed_prompt, options.max_tokens)
         return
 
     if (
-        cmd == "list" or cmd == "ls" or cmd == "show" or cmd == "ps"
-        or cmd == "create" or cmd == "cp" or cmd == "rm" or cmd == "delete"
+        cmd == "list"
+        or cmd == "ls"
+        or cmd == "show"
+        or cmd == "ps"
+        or cmd == "create"
+        or cmd == "cp"
+        or cmd == "rm"
+        or cmd == "delete"
     ):
         _ = store
         _ = is_json
         raise Error(
-            "persistent model-store command '" + cmd
-            + "' is not implemented"
+            "persistent model-store command '" + cmd + "' is not implemented"
         )
 
     if cmd == "serve" or cmd == "daemon":
         raise Error("HTTP server daemon is not implemented")
 
     if cmd == "stop":
-        raise Error("engine process control command '" + cmd + "' is not implemented")
+        raise Error(
+            "engine process control command '" + cmd + "' is not implemented"
+        )
 
     if cmd == "pull" or cmd == "push":
-        raise Error("model registry transfer command '" + cmd + "' is not implemented")
+        raise Error(
+            "model registry transfer command '" + cmd + "' is not implemented"
+        )
 
     if cmd == "swarm":
         if len(args) <= 1:
-            raise Error("swarm command requires a subcommand (join, status, list)")
+            raise Error(
+                "swarm command requires a subcommand (join, status, list)"
+            )
         raise Error("swarm operational command 'swarm' is not implemented")
 
     if cmd == "llama-cli" or cmd == "llama-server" or cmd == "llama-bench":

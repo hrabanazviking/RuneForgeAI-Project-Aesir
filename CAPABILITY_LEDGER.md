@@ -613,10 +613,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
-- **Implementation evidence:** `CLIOptions` in `cli/options.mojo` and `dispatch_command()` in `cli/commands.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, and `--max-tokens N`.
-- **Executable evidence:** `E-MASTER` case `cli.flag_options_parser` in `test_cli.mojo`.
-- **Evidence boundary:** The parser validates intent; most options are not connected to operational command behavior and no Ollama differential parity suite exists.
-- **Next acceptance gate:** Define the supported grammar, connect each accepted option, and pass differential syntax/error/exit-code fixtures.
+- **Implementation evidence:** `CLIOptions` in `cli/options.mojo` records explicit `--config` and `--accel` intent; `dispatch_command()` in `cli/commands.mojo` separates recognized options from model/prompt positionals, validates and prints caller-selected configuration files, applies CLI acceleration precedence, and rejects non-CPU backend requests before model loading. Other parsed options include `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, and `--max-tokens N`.
+- **Executable evidence:** `E-MASTER` cases `cli.truthful_command_boundaries`, `cli.flag_options_parser`, and `paradigms.config_and_json`; built-CLI smoke tests cover empty invocation, default and explicit config loading, missing files, and unsupported accelerator rejection.
+- **Evidence boundary:** Configuration validation, option-safe positional parsing, CPU selection, and fail-closed accelerator intent are connected. Sampling/safety/experimental config application, most remaining flags, stable exit-code schemas, and Ollama differential parity are not complete.
+- **Next acceptance gate:** Connect or reject every remaining accepted option at its owning operation, apply supported sampling/safety configuration to generation, and pass differential syntax/error/exit-code fixtures.
 - **Audit:** AER-003, AER-059 through AER-068.
 
 ## 11. Server and Protocol Surfaces

@@ -188,3 +188,13 @@ hardware work all depend on trustworthy ownership, loader behavior, and test
 evidence. The first implementation commit will address the highest-severity
 locally reproducible defect found by that census; it will not bundle unrelated
 feature work.
+
+## Progress — Slice 1: CLI Configuration Truth Boundary
+
+- Reproduced Bug 0021: unreachable `config`, ignored `--config`/`--accel`,
+  option leakage into prompts, and no-argument dispatch to unsupported `serve`.
+- Connected configuration file reading/validation and normalized output.
+- Made explicit acceleration intent fail closed before the verified CPU engine.
+- Separated recognized flags from positional model/prompt tokens.
+- Added regression coverage and passed the 133-case master proving suite plus a
+  clean native build. Hosted CI evidence is recorded after the slice push.

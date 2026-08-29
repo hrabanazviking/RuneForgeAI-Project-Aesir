@@ -3,6 +3,28 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 105: Full Completion Slice 1 — CLI Configuration Truth Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Configuration ownership and command-wiring repair
+
+1. Connected the documented `aesir config [--config <path>]` command to real
+   file reading, strict schema validation, normalized output, and contextual
+   missing/empty-file errors.
+2. Replaced implicit no-argument `serve` dispatch with stable general help.
+3. Recorded explicit config/acceleration intent, applied CLI-over-file backend
+   precedence, and rejected unavailable accelerators before model loading so a
+   hardware request cannot silently run on CPU.
+4. Separated recognized option tokens from model/prompt positionals and added
+   duplicate-key, missing-file, override, option-leakage, and backend rejection
+   coverage.
+5. The broader `AES-CLI-009` capability remains `partial`: sampling, safety,
+   experimental toggles, remaining option application, and differential CLI
+   conformance are still open.
+6. Verification passed: native Mojo build; built-CLI empty/config/error/backend
+   smoke tests; and master suite **132 passed / 0 failed / 1 skipped / total
+   133**.
+
 ## Entry 104: Forge 0F — Repository Truth and Consistency Reconciliation
 
 **Date:** August 29, 2026

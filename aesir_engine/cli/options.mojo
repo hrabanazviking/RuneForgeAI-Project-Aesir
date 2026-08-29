@@ -8,6 +8,7 @@ struct CLIOptions:
     """
     CLIOptions — Ollama-compatible CLI flag options container.
     """
+
     var verbose: Bool
     var format: String
     var keepalive_seconds: Int
@@ -16,12 +17,14 @@ struct CLIOptions:
     var insecure: Bool
     var max_tokens: Int
     var config_path: String
+    var config_was_set: Bool
     var accel_backend: String
+    var accel_was_set: Bool
     var skaldbrodir: String  # "auto", "on", "off"
-    var thinking: String     # "auto", "on", "off"
-    var cia: String          # "auto", "on", "off"
-    var wic: String          # "auto", "on", "off"
-    var nsfi: String         # "auto", "on", "off"
+    var thinking: String  # "auto", "on", "off"
+    var cia: String  # "auto", "on", "off"
+    var wic: String  # "auto", "on", "off"
+    var nsfi: String  # "auto", "on", "off"
     var tui: Bool
 
     def __init__(out self):
@@ -33,7 +36,9 @@ struct CLIOptions:
         self.insecure = False
         self.max_tokens = 32
         self.config_path = String("aesir.config.json")
+        self.config_was_set = False
         self.accel_backend = String("auto")
+        self.accel_was_set = False
         self.skaldbrodir = String("auto")
         self.thinking = String("auto")
         self.cia = String("auto")
@@ -50,16 +55,16 @@ def parse_duration_seconds(duration_str: String) raises -> Int:
         raise Error("duration must not be empty")
     var unit_idx = len(bytes_view) - 1
     var last_byte = bytes_view[unit_idx]
-    
+
     var multiplier = 1
     var num_part = String(raw)
-    if last_byte == 115 or last_byte == 83: # 's' or 'S'
+    if last_byte == 115 or last_byte == 83:  # 's' or 'S'
         multiplier = 1
         num_part = String(raw[byte=0:unit_idx])
-    elif last_byte == 109 or last_byte == 77: # 'm' or 'M'
+    elif last_byte == 109 or last_byte == 77:  # 'm' or 'M'
         multiplier = 60
         num_part = String(raw[byte=0:unit_idx])
-    elif last_byte == 104 or last_byte == 72: # 'h' or 'H'
+    elif last_byte == 104 or last_byte == 72:  # 'h' or 'H'
         multiplier = 3600
         num_part = String(raw[byte=0:unit_idx])
 
@@ -81,9 +86,14 @@ def validate_toggle(value: String, flag_name: String) raises -> String:
 def validate_acceleration_backend(value: String) raises -> String:
     """Validates configuration intent without claiming backend execution."""
     if (
-        value != "auto" and value != "cpu" and value != "cuda"
-        and value != "metal" and value != "intel" and value != "amd"
-        and value != "npu" and value != "max"
+        value != "auto"
+        and value != "cpu"
+        and value != "cuda"
+        and value != "metal"
+        and value != "intel"
+        and value != "amd"
+        and value != "npu"
+        and value != "max"
     ):
         raise Error("unsupported acceleration backend: " + value)
     return value
@@ -129,11 +139,13 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --config/-c flag")
             options.config_path = args[i + 1]
+            options.config_was_set = True
             i += 1
         elif arg == "--accel" or arg == "-a":
             if i + 1 >= len(args):
                 raise Error("Missing value for --accel/-a flag")
             options.accel_backend = validate_acceleration_backend(args[i + 1])
+            options.accel_was_set = True
             i += 1
         elif arg == "--skaldbrodir":
             if i + 1 >= len(args):

@@ -7,7 +7,12 @@ from cli.help import get_help_overview, get_command_help
 from cli.tui import AesirTUIDashboard
 from core.skaldbrodir import SkaldbrodirDetector
 from core.thinking import ThinkingController, sanitize_thinking_transcript
-from core.tool_use import ToolDefinition, ToolCall, format_tool_system_prompt, parse_tool_call
+from core.tool_use import (
+    ToolDefinition,
+    ToolCall,
+    format_tool_system_prompt,
+    parse_tool_call,
+)
 from core.smart_crash import SmartCrashReporter
 from core.max_gate import MAXGate
 from core.cia import EpisodicComputationMemory
@@ -17,6 +22,7 @@ from core.mqari import MQARIEngine
 from core.mimir_well import MimirWell, RuneTensor, f16, NPUBackendType
 from core.npu_gate import NPUGate
 
+
 def test_config_and_json() raises:
     var cfg = AesirConfig()
     cfg.acceleration_backend = String("npu")
@@ -25,12 +31,14 @@ def test_config_and_json() raises:
     cfg.cia_enabled = True
     var json_out = cfg.to_json_string()
 
-    if "\"acceleration_backend\": \"npu\"" not in json_out:
+    if '"acceleration_backend": "npu"' not in json_out:
         raise Error("test_config_and_json: Failed to serialize config to JSON")
 
     var parsed = parse_config_json(json_out)
     if parsed.acceleration_backend != "npu":
-        raise Error("test_config_and_json: Failed to parse acceleration_backend")
+        raise Error(
+            "test_config_and_json: Failed to parse acceleration_backend"
+        )
     if parsed.target_npu != "hailo10":
         raise Error("test_config_and_json: Failed to parse target_npu")
     if not parsed.skaldbrodir_enabled:
@@ -38,15 +46,26 @@ def test_config_and_json() raises:
 
     var invalid_target_rejected = False
     try:
-        _ = parse_config_json("{\n  \"target_npu\": \"fictional\"\n}")
+        _ = parse_config_json('{\n  "target_npu": "fictional"\n}')
     except:
         invalid_target_rejected = True
     if not invalid_target_rejected:
         raise Error("test_config_and_json: invalid target_npu must fail closed")
-    
+
+    var duplicate_key_rejected = False
+    try:
+        _ = parse_config_json(
+            '{\n  "temperature": 0.1,\n  "temperature": 0.2\n}'
+        )
+    except:
+        duplicate_key_rejected = True
+    if not duplicate_key_rejected:
+        raise Error("test_config_and_json: duplicate keys must fail closed")
+
     # The portable Hailo presence boundary must execute without claiming a device.
     _ = NPUGate.is_hailo_pi5_device_present()
     print("test_config_and_json: PASS")
+
 
 def test_cli_flags() raises:
     var args = List[String]()
@@ -65,6 +84,7 @@ def test_cli_flags() raises:
         raise Error("test_cli_flags: Failed to parse --tui flag")
     print("test_cli_flags: PASS")
 
+
 def test_help_and_tui() raises:
     var overview = get_help_overview()
     if "verified CPU slice" not in overview:
@@ -82,6 +102,7 @@ def test_help_and_tui() raises:
         raise Error("test_help_and_tui: TUI frame rendering failed")
     print("test_help_and_tui: PASS")
 
+
 def test_skaldbrodir_doom_loop() raises:
     var detector = SkaldbrodirDetector()
 
@@ -96,42 +117,78 @@ def test_skaldbrodir_doom_loop() raises:
                 break
 
     if not caught:
-        raise Error("test_skaldbrodir_doom_loop: Failed to annihilate runaway generation loop with INF-016")
+        raise Error(
+            "test_skaldbrodir_doom_loop: Failed to annihilate runaway"
+            " generation loop with INF-016"
+        )
     print("test_skaldbrodir_doom_loop: PASS")
 
+
 def test_thinking_and_tool_use() raises:
-    var raw = String("Let me think... <think>Solving equation 2+2</think> The answer is 4.")
+    var raw = String(
+        "Let me think... <think>Solving equation 2+2</think> The answer is 4."
+    )
     var sanitized = sanitize_thinking_transcript(raw, False)
     if "<think>" in sanitized or "Solving" in sanitized:
-        raise Error("test_thinking_and_tool_use: Failed to suppress thought tokens when thinking mode disabled")
+        raise Error(
+            "test_thinking_and_tool_use: Failed to suppress thought tokens when"
+            " thinking mode disabled"
+        )
 
-    var tool = ToolDefinition(String("get_weather"), String("Gets current weather"), String("{\"location\": \"string\"}"))
+    var tool = ToolDefinition(
+        String("get_weather"),
+        String("Gets current weather"),
+        String('{"location": "string"}'),
+    )
     var tools = List[ToolDefinition]()
     tools.append(tool)
     var prompt = format_tool_system_prompt(tools)
     if "[AVAILABLE_TOOLS]" not in prompt:
         raise Error("test_thinking_and_tool_use: Tool prompt formatting failed")
 
-    var call_json = String("Sure! Calling tool: {\"tool\": \"get_weather\", \"arguments\": {\"location\": \"Oslo\"}}")
+    var call_json = String(
+        'Sure! Calling tool: {"tool": "get_weather", "arguments": {"location":'
+        ' "Oslo"}}'
+    )
     var parsed_call = parse_tool_call(call_json)
     if parsed_call.name != "get_weather":
-        raise Error("test_thinking_and_tool_use: Failed to parse tool call name")
+        raise Error(
+            "test_thinking_and_tool_use: Failed to parse tool call name"
+        )
     print("test_thinking_and_tool_use: PASS")
+
 
 def test_smart_crash_and_max() raises:
     var reporter = SmartCrashReporter()
-    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    var r3 = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
+    _ = reporter.handle_crash(
+        String("CUDA out of memory error"), String("CUDAGate")
+    )
+    _ = reporter.handle_crash(
+        String("CUDA out of memory error"), String("CUDAGate")
+    )
+    var r3 = reporter.handle_crash(
+        String("CUDA out of memory error"), String("CUDAGate")
+    )
     if not reporter.failsafe_mode_active:
-        raise Error("test_smart_crash_and_max: Failsafe mode not activated after 3 crashes")
-    if "FAILSAFE REQUESTED" not in r3 or "no automatic switch occurred" not in r3:
-        raise Error("test_smart_crash_and_max: Crash report missing failsafe alert")
+        raise Error(
+            "test_smart_crash_and_max: Failsafe mode not activated after 3"
+            " crashes"
+        )
+    if (
+        "FAILSAFE REQUESTED" not in r3
+        or "no automatic switch occurred" not in r3
+    ):
+        raise Error(
+            "test_smart_crash_and_max: Crash report missing failsafe alert"
+        )
 
     var max_gate = MAXGate()
     if max_gate.is_available():
-        raise Error("test_smart_crash_and_max: MAXGate fabricated runtime availability")
+        raise Error(
+            "test_smart_crash_and_max: MAXGate fabricated runtime availability"
+        )
     print("test_smart_crash_and_max: PASS")
+
 
 def test_experimental_paradigms() raises:
     var well = MimirWell(1024 * 1024)
@@ -163,8 +220,12 @@ def test_experimental_paradigms() raises:
     mqari.solve_harmonic_resonance(in_sig, out_wave)
     print("test_experimental_paradigms: PASS")
 
+
 def main() raises:
-    print("=== Testing local experimental primitives and unsupported boundaries ===")
+    print(
+        "=== Testing local experimental primitives and unsupported"
+        " boundaries ==="
+    )
     test_config_and_json()
     test_cli_flags()
     test_help_and_tui()

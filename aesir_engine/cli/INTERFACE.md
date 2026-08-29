@@ -126,7 +126,10 @@ def run_single_shot(
 ### `CLIOptions` (`cli/options.mojo`)
 CLI intent container and parser supporting `--verbose`, `--format json|text`,
 `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and
-`--max-tokens N`. Parsing a flag does not imply downstream operational support.
+`--max-tokens N`. It also records whether `--config` and `--accel` were
+explicitly supplied so command dispatch can apply precedence without mistaking
+defaults for caller intent. Parsing a flag does not imply downstream
+operational support.
 
 ```mojo
 struct CLIOptions:
@@ -137,6 +140,10 @@ struct CLIOptions:
     var raw: Bool
     var insecure: Bool
     var max_tokens: Int
+    var config_path: String
+    var config_was_set: Bool
+    var accel_backend: String
+    var accel_was_set: Bool
 
 def parse_duration_seconds(duration_str: String) raises -> Int: ...
 def parse_cli_options(args: List[String]) raises -> CLIOptions: ...
@@ -156,17 +163,24 @@ def parse_positive_int(value: String) raises -> Int: ...
 Single-shot syntax is:
 
 ```text
-aesir run <model-path> [--max-tokens N] <prompt...>
+aesir run <model-path> [options] <prompt...>
 ```
 
 With no prompt arguments, `run` reaches the reserved REPL entry point and raises
 an explicit unsupported error.
 
+Recognized option tokens and their values are removed from positional assembly,
+so control flags cannot become model prompt text. `auto` and `cpu` select the
+verified CPU route. Explicit unavailable accelerator intent raises before model
+loading and never falls back under a hardware label.
+
 ---
 
 ### `dispatch_command` (`cli/commands.mojo`)
-Main CLI router. `help`, `--help`, `version`, and the real single-shot
-`run <model-path> [--max-tokens N] <prompt...>` path are implemented. `serve`,
+Main CLI router. Empty invocation, `help`, `--help`, `version`, configuration
+validation, and the real single-shot `run <model-path> [options] <prompt...>`
+path are implemented. `config [--config <path>]` reads and validates the
+selected schema and prints its normalized representation. `serve`,
 model-store/distribution commands, interactive `run`, multi-engine commands,
 and swarm commands raise stable unsupported errors and emit no success output.
 
@@ -195,3 +209,4 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 2. **Facade Isolation:** `cli/repl.mojo` and `cli/commands.mojo` interact with inference strictly via `AesirEngine` in `aesir.mojo` or `BifrostGate` in `server/api.mojo`. They **must never** import `core/compute.mojo`, `core/inference.mojo`, or `core/mimir_well.mojo` directly.
 3. **Model & Manifest Independence:** `cli/modelfile.mojo` and `cli/manifest.mojo` own configuration parsing and catalog storage and have zero dependencies on hardware kernels or socket connections.
 4. **Generation Option Ownership:** CLI code validates and forwards the positive token limit but never owns autoregressive state, KV memory, EOS policy, or token decoding; those remain in `AesirEngine`.
+5. **Intent Must Be Enforced:** Explicit configuration and acceleration intent must be applied or rejected before execution. No accepted option may silently select a different backend or enter prompt text.
