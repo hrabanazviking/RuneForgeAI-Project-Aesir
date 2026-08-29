@@ -142,9 +142,9 @@ graph TD
 - **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
 - **Implementation:** Provides `HuggingFaceSeer` with static utilities: `parse_hf_repo` (strips `hf.co/` and `huggingface.co/` prefixes), `is_hf_tag` (discriminates HuggingFace repository URI patterns), `build_download_url` (constructs direct HuggingFace resolve CDN HTTPS URLs), and `download_hf_model` (streams model weight streams into local disk storage and `MimirWell` memory substrate). Supports mobile & edge model architectures: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
 
-### 11. `server/api.mojo` & `server/openai.mojo` — Bifrost Gate Server & Gateway (Slice 10)
-- **Role:** HTTP transport framing, POSIX socket server, OpenAI REST API endpoint routing, and JSON string escaping.
-- **Implementation:** Provides `json_escape_string()` for safe JSON payload serialization across quotes, backslashes, tabs, control characters, and Unicode (`AES-SRV-003`). Implements `build_http_response()`, `build_sse_chunk()`, `build_http_chunk()`, `unsupported_http_response()`, and `route_not_found_response()`.
+### 11. `server/api.mojo` & `server/openai.mojo` — Bifrost Gate Server & Gateway (Slice 10 & 11)
+- **Role:** HTTP transport framing, POSIX socket server, OpenAI REST API endpoint routing, request correlation tracking, and JSON string escaping.
+- **Implementation:** Provides `json_escape_string()` for safe JSON payload serialization across quotes, backslashes, tabs, control characters, and Unicode (`AES-SRV-003`). Encapsulates `RequestContext` (correlation ID, session binding, timeout_ms, cancellation) and `build_structured_error()` for structured JSON error payloads (`AES-SRV-004`). Implements `build_http_response()`, `build_sse_chunk()`, `build_http_chunk()`, `unsupported_http_response()`, and `route_not_found_response()`.
 
 ---
 
