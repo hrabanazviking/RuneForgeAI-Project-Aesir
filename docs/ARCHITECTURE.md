@@ -464,7 +464,7 @@ graph TD
 | `PeerNode` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node descriptor belongs in core swarm module |
 | `PeerRegistry` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node registry and load balancer belong in core swarm module |
 | `TaskDispatcher` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — dynamic task router belongs in core swarm module |
-| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — swarm orchestrator belongs in core swarm module |
+| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — `NodeIdentity`, `authenticate_node_identity`, `join_mesh_authenticated`, `leave_mesh`, `heartbeat_pulse`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference` belong in core swarm module (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`) |
 | Swarm REST API routes | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct** — REST routes (`/api/swarm/*`) belong in server transport layer |
 | Swarm CLI subcommand (`swarm`) | `cli/commands.mojo` | CLI — Subcommand Dispatcher | ✅ **Correct** — CLI command routing belongs in CLI domain |
 | `AesirEngine.swarm_cluster` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns cluster orchestrator instance |

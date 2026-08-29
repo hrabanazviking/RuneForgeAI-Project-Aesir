@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 87.1 — Swarm Mesh Protocol & Remote Inference Dispatch (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`)
+* **Stage 87.1 Swarm Protocol Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) / [`AES-SWM-003`](../CAPABILITY_LEDGER.md) / [`AES-SWM-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/swarm.mojo` with `NodeIdentity`, `authenticate_node_identity()`, `join_mesh_authenticated()`, `leave_mesh()`, `heartbeat_pulse()`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference()`. Created `test_swarm_protocol.mojo` unit test suite. Verified 130 passing cases out of 131 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 86.1 — Durable StateVault, EventBus Pub/Sub & Worker Pool (`AES-RES-002`, `AES-RES-003`, `AES-RES-004`)
 * **Stage 86.1 Resilience Milestone ([`AES-RES-002`](../CAPABILITY_LEDGER.md) / [`AES-RES-003`](../CAPABILITY_LEDGER.md) / [`AES-RES-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/state_vault.mojo` (`VaultCheckpoint`, 64-bit checksum integrity verification, `restore_checkpoint_checked`), `core/event_bus.mojo` (`EventSubscription`, subscriber queues, `subscribe`, `unsubscribe`), and `core/thread_pool.mojo` (`RuneTask`, `submit_task`, queue processing, `cancel_task`, `shutdown`). Created `test_resilience_matrix.mojo` unit test suite. Verified 127 passing cases out of 128 total cases in `run_all.mojo`.
 
