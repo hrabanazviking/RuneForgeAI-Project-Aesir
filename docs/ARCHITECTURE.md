@@ -78,6 +78,10 @@ graph TD
 - **Role:** Text document chunking and vector store batch ingestion pipeline (`AES-RAG-004`).
 - **Implementation:** Provides `DocumentChunk` metadata structure (`id`, `text`, `source_file`, `chunk_index`, `byte_offset`), `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population.
 
+### 4.1a. `loader/chat_template.mojo` — Chat Template Formatting
+- **Role:** Structured chat message formatting for multi-turn conversations.
+- **Implementation:** Provides `ChatMessage` struct (role + content), `ChatTemplate` with system/user/assistant role markers, and `format_chat_prompt()` for rendering multi-turn conversations into model-compatible prompt strings. Supports ChatML, Llama, and custom template formats.
+
 ### 4.2. `loader/quantization.mojo` — Quantization Byte Span Bounds Validation & Format Metadata
 - **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
 - **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
@@ -136,13 +140,23 @@ graph TD
   - **`rmsnorm_gpu` (Slice 8):** 16-wide SIMD Root Mean Square Normalization kernel across all ten GPU hardware realms.
   - **`gemm_f16_gpu` (Slice 8) — The Universal GPU Realm Gateway:** Single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms (`NVIDIA_CUDA`/`AMD_ROCM_HIP`/`INTEL_ONEAPI_XE` → `gemm_f16`, `MUSA`/`SUPA`/`MACA`/`DCU` → `gemm_f16_gpgpu_vector`, `MALI`/`ADRENO`/`POWERVR` → `gemm_f16_mobile_opencl`). Called from `TransformerBlock.forward()` and `forward_pass()`.
 
+### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
+- **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
+- **Implementation:**
+  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime probe with `is_cuda_available()`, dynamic `libcuda.so` / `nvcuda.dll` presence detection, and fail-closed error boundaries for missing CUDA drivers.
+  - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
+  - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
+  - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
+  - `NPUGate` (`npu_gate.mojo`): Edge NPU runtime probe with backend-specific library detection (`libhailort.so`, `libQnnHtp.so`, etc.) and fail-closed boundaries for unavailable NPU hardware.
+- **Boundary:** All gate files are in `core/` (Core — Hardware Discovery Domain). They have zero imports from `server/`, `cli/`, or `loader/`.
+
 ### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock`, `forward_pass` & `generation_stop_reason`)
 - **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, GPU realm dispatch support, and exception-safe arena offset restoration.
 - **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`. Features try-catch workspace pool offset restoration (`well.reset_kv_cache(start_offset)`) around single-device and multi-device execution paths, preventing workspace arena leakage or offset drift under layer exceptions (`AES-MEM-005`). `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo` conform to `ImplicitlyCopyable` for zero-copy collection passing (`AES-GEN-009`).
 - **GPU Dispatch (Slice 8):** `TransformerBlock.forward()` accepts `use_gpu_realm: Bool` and `gpu_realm: GPURealmType`. When `use_gpu_realm` is `True` on the single-device path, all GEMM calls (QKV, output projection, FFN up/gate/down) are dispatched through `gemm_f16_gpu(…, gpu_realm)`. `forward_pass()` threads `use_gpu_realm` and `gpu_realm` into every layer block and into the final vocabulary projection.
 
 ### 8. `cli/` & `main.mojo` — The Ollama CLI, REPL Terminal Suite & llama.cpp CLI Compat (Slice 9 & Slice 25)
-- **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), and llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`).
+- **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`), CLI flag/option parser (`cli/options.mojo`), and help/TUI dashboard (`cli/help.mojo`, `cli/tui.mojo`).
 - **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). Provides `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` in `cli/llama_cpp_compat.mojo` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1 (`AES-ECO-006`).
 
 ### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
