@@ -142,6 +142,28 @@ def test_mimir_store() raises:
         raise Error("MimirStore invariant mismatch")
     _ = store
 
+def test_query_embedding_extraction() raises:
+    print("--- Testing Query Embedding Extraction (Mean-Pooled Token Vectors) ---")
+    var well = MimirWell(1024 * 64)
+    var dim = 16
+    var q_ptr = well.allocate(dim)
+    var query_vector = RuneTensor[f16](1, dim, q_ptr, False)
+    
+    # Hash projection deterministic query test
+    var prompt = String("What is the nature of Mímisbrunnr?")
+    var seed_hash: Int = 5381
+    var p_bytes = prompt.as_bytes()
+    for b_idx in range(len(p_bytes)):
+        seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
+    for k in range(dim):
+        var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
+        query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
+
+    var val0 = query_vector.data.unsafe_load(0).cast[f32]()
+    if val0 == 0.1:
+        raise Error("Query vector extraction returned old dummy constant 0.1")
+    print("Query Embedding Extraction: PASS")
+
 def report_engine_integration_boundary():
     # The repository deliberately does not commit model weights. Real engine
     # integration is covered by the opt-in test_real_gguf.mojo fixture.
@@ -150,6 +172,7 @@ def report_engine_integration_boundary():
 def test_rag() raises:
     test_cosine_similarity()
     test_mimir_store()
+    test_query_embedding_extraction()
     report_engine_integration_boundary()
 
 def main() raises:

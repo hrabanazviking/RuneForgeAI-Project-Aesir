@@ -295,6 +295,57 @@ struct AesirEngine:
                 )
             )
 
+    def extract_query_embedding(mut self, prompt: String, hidden_dim: Int) raises -> RuneTensor[f16]:
+        """
+        Mean-Pooled Query Embedding Extractor (The Wisdom Extraction).
+        Extracts token embedding vectors from prompt tokens using token_embd.weight lookup,
+        computing element-wise mean-pooling across the prompt sequence.
+        """
+        if hidden_dim <= 0:
+            raise Error("extract_query_embedding: hidden_dim must be positive")
+        var q_ptr = self.pool.allocate(hidden_dim)
+        var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
+        
+        for i in range(hidden_dim):
+            query_vector.data.unsafe_store(i, 0.0)
+
+        var tokens = self.tokenizer.encode(prompt, False)
+        var n_tokens = len(tokens)
+        if n_tokens == 0:
+            query_vector.data.unsafe_store(0, 1.0)
+            return query_vector
+
+        if "token_embd.weight" in self.parser.tensors:
+            var embd_tensor = self.parser.tensors["token_embd.weight"]
+            var vocab_size = embd_tensor.rows
+            var embd_dim = embd_tensor.cols
+            var active_dim = min(hidden_dim, embd_dim)
+            
+            for t_idx in range(n_tokens):
+                var tok_id = tokens[t_idx]
+                if tok_id < 0 or tok_id >= vocab_size:
+                    tok_id = 0
+                var row_offset = tok_id * embd_dim
+                for k in range(active_dim):
+                    var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
+                    var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
+                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[f32]()))
+            
+            var scale = Scalar[f32](1.0 / Float32(n_tokens))
+            for k in range(active_dim):
+                var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
+                query_vector.data.unsafe_store(k, Scalar[f16](val))
+        else:
+            var seed_hash: Int = 5381
+            var p_bytes = prompt.as_bytes()
+            for b_idx in range(len(p_bytes)):
+                seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
+            for k in range(hidden_dim):
+                var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
+                query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
+
+        return query_vector
+
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """Applies the existing optional knowledge context before tokenization."""
         var active_prompt = prompt
@@ -304,10 +355,7 @@ struct AesirEngine:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
             if hidden_dim <= 0:
                 return prompt
-            var q_ptr = self.pool.allocate(hidden_dim)
-            var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
-            for k in range(hidden_dim):
-                query_vector.data.unsafe_store(k, Scalar[f16](0.1))
+            var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)
             if len(docs) > 0:
                 var context_str = String("[CONTEXT]: ")
