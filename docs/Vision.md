@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 75.1 — GGML Authoritative Q4_K_M Upstream Byte Layout & Dequantizer (`AES-QNT-001`)
+* **Stage 75.1 Quantization Milestone ([`AES-QNT-001`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `BlockQ4_K` and `dequantize_q4_k_m()` in `core/compute.mojo` to conform to upstream GGML 256-weight block layout with 6-bit sub-block scales and 4-bit nibbles. Updated unit test suites in `test_quantized_inference.mojo`, `test_quantization.mojo`, and `test_compute.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 74.1 — End-to-End RAG Grounded Context & Citation Budgeting (`AES-RAG-005`)
 * **Stage 74.1 End-to-End RAG Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `_prepare_prompt()` in `aesir.mojo` with context byte budgeting (`max_context_bytes = 1024`), citation formatting (`[CITATION N]: ...`), and explicit no-result warnings (`RAG Notice: No relevant knowledge context found`). Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 

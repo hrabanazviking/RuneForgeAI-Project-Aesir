@@ -113,7 +113,7 @@ graph TD
   - `gemm_f16`: 32x32 block-tiled matrix multiplication.
   - `flash_attention_2`: Fused $QK^T$, online streaming softmax ($m_i, l_i$), and $V$ accumulation.
   - `silu` & `geglu`: Vectorized activation functions.
-  - `dequantize_q4_k_m`: On-the-fly 4-bit nibble unpacking.
+  - `dequantize_q4_k_m`: On-the-fly 256-weight GGML `BlockQ4_K` block dequantization kernel using 6-bit sub-block scales and 4-bit nibbles (`AES-QNT-001`).
   - `rmsnorm`: Vectorized Root Mean Square normalization with learned scale weights.
   - `apply_rope`: Rotary Position Embeddings in complex space across queries and keys.
   - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
