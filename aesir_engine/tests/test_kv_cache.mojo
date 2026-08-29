@@ -5,6 +5,7 @@ from core.mimir_well import MimirWell, RuneTensor, KVCache, f16
 from core.inference import forward_pass
 from loader.gguf import GGUFSeer
 from tests.test_mimir_well import test_kv_cache_fixed_capacity
+from std.memory import Pointer
 
 def test_kv_cache() raises:
     print("--- Testing KVCache (The Waters of Mímisbrunnr) ---")
@@ -113,6 +114,41 @@ def test_kv_cache() raises:
         oob = True
     if not oob:
         raise Error("RuneTensor get_checked failed to detect OOB")
+
+    var checked_tensor = RuneTensor[f16].checked(2, 2, well.allocate(4), False)
+    if checked_tensor.rows != 2 or checked_tensor.size != 4:
+        raise Error("RuneTensor.checked rejected or corrupted a valid view")
+
+    var shape_rejected = False
+    try:
+        _ = RuneTensor[f16].checked(0, 2, well.allocate(1), False)
+    except error:
+        shape_rejected = True
+        if "dimensions must be positive" not in String(error):
+            raise Error("RuneTensor.checked shape rejection was not precise")
+    if not shape_rejected:
+        raise Error("RuneTensor.checked accepted a zero dimension")
+
+    var overflow_rejected = False
+    try:
+        _ = RuneTensor[f16].checked(Int(1) << 62, 4, well.allocate(1), False)
+    except error:
+        overflow_rejected = True
+        if "shape product overflow" not in String(error):
+            raise Error("RuneTensor.checked overflow rejection was not precise")
+    if not overflow_rejected:
+        raise Error("RuneTensor.checked accepted an overflowed shape")
+
+    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    var pointer_rejected = False
+    try:
+        _ = RuneTensor[f16].checked(1, 1, sentinel_ptr, False)
+    except error:
+        pointer_rejected = True
+        if "pointer is null or sentinel" not in String(error):
+            raise Error("RuneTensor.checked pointer rejection was not precise")
+    if not pointer_rejected:
+        raise Error("RuneTensor.checked accepted address 1")
     # KVCache slice bounds checks
     var slice_oob = False
     try:

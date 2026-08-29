@@ -31,12 +31,19 @@ struct RuneTensor[type: DType]:
     var size: Int
     var is_quantized: Bool
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...  # unchecked internal view
+    @staticmethod
+    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False) raises -> Self: ...
     def get(self, r: Int, c: Int) -> Scalar[Self.type]: ...
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]): ...
     def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]: ...
     def set_checked(mut self, r: Int, c: Int, val: Scalar[Self.type]) raises: ...
 ```
+
+`checked()` is the trust-boundary constructor and rejects nonpositive shapes,
+wrapped shape products, and null/address-1 pointers. The non-raising initializer
+is an explicitly unchecked internal view primitive used by copy and slice paths;
+callers must already own its shape, pointer, and lifetime invariants.
 
 ### `BlockQ4_K`
 Memory layout descriptor for Q4_K quantized blocks.

@@ -336,6 +336,9 @@ new violations fail CI, and `AES-FND-007` has truthful executable evidence.
 
 ### Phase 1 — Close local safety and loader debt
 
+- **Completed:** Add checked tensor admission for GGUF/cache trust boundaries;
+  raw internal views remain explicit and allocation-span/lifetime proof stays
+  open under `AES-MEM-006`.
 - **Completed:** Correct misleading cache terminology and reject positions at
   capacity; real chronological wraparound remains a separate unimplemented
   design.

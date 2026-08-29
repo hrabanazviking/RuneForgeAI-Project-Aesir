@@ -167,9 +167,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core memory and loader domains
 - **Claim sources:** README custom zero-copy tensors; core interfaces
-- **Implementation evidence:** `RuneTensor` wraps caller-supplied pointers, validates positive shape dimensions, rejects null/sentinel pointers, and provides `get_checked` / `set_checked` bounds checks.
-- **Executable evidence:** `E-REAL` verifies F16 aliasing; `E-MASTER` case `inference.kv_cache` verifies checked bounds enforcement and out-of-bounds error raising.
-- **Evidence boundary:** 2D matrix shape wrapping and host contiguous tensor views.
+- **Implementation evidence:** `RuneTensor.checked()` validates positive shape dimensions, rejects wrapped products and null/sentinel pointers, and is used by GGUF mapping and public cache pointer admission. The non-raising initializer is an explicitly unchecked internal view primitive. `get_checked` / `set_checked` provide coordinate bounds checks.
+- **Executable evidence:** `E-REAL` verifies F16 aliasing; `E-MASTER` case `inference.kv_cache` verifies valid checked construction plus dimension, overflow, sentinel-pointer, and coordinate rejection.
+- **Evidence boundary:** Checked admission for untrusted 2D host views; raw internal views and allocation-span/lifetime proof remain caller-owned.
 - **Next acceptance gate:** N-dimensional tensor shape strides and compile-time lifetime annotations.
 - **Audit:** AER-005, AER-027, AER-039.
 

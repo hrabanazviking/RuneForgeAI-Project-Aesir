@@ -120,6 +120,10 @@ missing, empty, and address-1 layer weights fail before inference; the legacy
 constructor is non-runnable; and a valid block copy preserves its metadata and
 validated tensor views.
 
+`test_kv_cache()` also proves `RuneTensor.checked()` accepts a valid view and
+rejects zero dimensions, wrapped shape products, and address-1 pointers before
+dereference.
+
 `test_generation_stop_policy()` proves the stable EOS, length, continuation,
 and context-exhaustion decisions independently of model logits.
 

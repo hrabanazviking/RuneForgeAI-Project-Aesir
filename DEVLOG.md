@@ -3,6 +3,24 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 113: Phase 1 — Checked RuneTensor Admission
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Added `RuneTensor.checked()` as the owning trust boundary for positive shape,
+   product-overflow, and null/address-1 pointer validation.
+2. Kept the existing initializer as an explicitly unchecked, non-raising
+   internal view primitive required by zero-copy slice and copy paths.
+3. Migrated all GGUF tensor-mapping branches plus arena- and pointer-backed
+   cache storage construction to checked admission.
+4. Added executable valid, zero-dimension, overflow, and sentinel-pointer
+   assertions to the counted cache test without dereferencing invalid memory.
+5. Recorded Bug 0027 and corrected active evidence that previously attributed
+   checks to the raw constructor.
+6. Allocation-span ownership and lifetime proof remain open under
+   `AES-MEM-006`; the broader memory-safe-failure capability was not promoted.
+
 ## Entry 112: Phase 1 — KVCache Fixed-Capacity Contract
 
 **Date:** August 29, 2026

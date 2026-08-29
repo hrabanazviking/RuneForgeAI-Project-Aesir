@@ -66,3 +66,16 @@ This slice makes untrusted tensor admission real and truthful. It does not make
 raw pointer views memory-safe, add compile-time lifetimes, validate every
 internal pointer span against its allocation owner, or promote the broader
 memory-safe-failure capability.
+
+## Implementation Evidence
+
+- `RuneTensor.checked()` rejects nonpositive dimensions, wrapped shape products,
+  and null/address-1 pointers before returning a view.
+- The existing initializer now documents its unchecked internal-view contract
+  and remains non-raising for copies and slices.
+- All three GGUF mapping branches and both public cache storage paths use
+  checked admission.
+- The counted cache test proves valid admission and dimension, overflow, and
+  sentinel rejection without dereferencing invalid memory.
+- Active interface, ledger, TODO, roadmap, and architecture text now separate
+  checked admission from still-open allocation-span and lifetime proof.

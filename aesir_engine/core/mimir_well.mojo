@@ -407,12 +407,32 @@ struct RuneTensor[type: DType](Copyable):
     var quant_format: CompressedFormatType
 
     def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = CompressedFormatType(CompressedFormatType.Q4_K_M)):
+        """Creates an unchecked internal view; use checked() at trust boundaries."""
         self.rows = rows
         self.cols = cols
         self.size = rows * cols
         self.data = pre_allocated_ptr
         self.is_quantized = is_quantized
         self.quant_format = quant_format.copy()
+
+    @staticmethod
+    def checked(
+        rows: Int,
+        cols: Int,
+        pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin],
+        is_quantized: Bool = False,
+        quant_format: CompressedFormatType = CompressedFormatType(CompressedFormatType.Q4_K_M),
+    ) raises -> Self:
+        """Validates an untrusted shape and pointer before creating a view."""
+        if rows <= 0 or cols <= 0:
+            raise Error("RuneTensor.checked: dimensions must be positive")
+        var size = rows * cols
+        if size <= 0 or size // rows != cols:
+            raise Error("RuneTensor.checked: shape product overflow")
+        var address = Int(pre_allocated_ptr)
+        if address == 0 or address == 1:
+            raise Error("RuneTensor.checked: pointer is null or sentinel")
+        return Self(rows, cols, pre_allocated_ptr, is_quantized, quant_format.copy())
 
     def __copyinit__(out self, existing: Self):
         self.rows = existing.rows
@@ -480,12 +500,17 @@ struct KVCache(Copyable):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         
-        var total_elements = num_layers * max_seq_len * hidden_dim
+        var cache_rows = num_layers * max_seq_len
+        if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
+            raise Error("KVCache: row product overflow")
+        var total_elements = cache_rows * hidden_dim
+        if total_elements <= 0 or total_elements // cache_rows != hidden_dim:
+            raise Error("KVCache: element product overflow")
         var k_ptr = well.allocate(total_elements)
         var v_ptr = well.allocate(total_elements)
         
-        self.k = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, k_ptr, False)
-        self.v = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, v_ptr, False)
+        self.k = RuneTensor[f16].checked(cache_rows, hidden_dim, k_ptr, False)
+        self.v = RuneTensor[f16].checked(cache_rows, hidden_dim, v_ptr, False)
 
     def __init__(
         out self, 
@@ -505,8 +530,11 @@ struct KVCache(Copyable):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         
-        self.k = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, k_ptr, False)
-        self.v = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, v_ptr, False)
+        var cache_rows = num_layers * max_seq_len
+        if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
+            raise Error("KVCache: row product overflow")
+        self.k = RuneTensor[f16].checked(cache_rows, hidden_dim, k_ptr, False)
+        self.v = RuneTensor[f16].checked(cache_rows, hidden_dim, v_ptr, False)
 
     def __copyinit__(out self, existing: Self):
         self.k = existing.k

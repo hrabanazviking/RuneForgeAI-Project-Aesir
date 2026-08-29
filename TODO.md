@@ -188,9 +188,12 @@ counts as completion of an external capability.
 
 ### Tensor, buffer, and cache contracts
 
-- [x] **[verified, AES-MEM-002; AER-005] Add checked `RuneTensor` construction:**
-  Reject negative/overflowed shapes, invalid spans, null/sentinel pointers, and
-  provide checked `get_checked` / `set_checked` indexing.
+- [x] **[verified, AES-MEM-002; AER-005] Add checked `RuneTensor` admission:**
+  `RuneTensor.checked()` rejects nonpositive/overflowed shapes and null/sentinel
+  pointers; GGUF mapping and public cache pointer construction use it.
+- [ ] **[missing, AES-MEM-006; AER-005] Validate raw pointer spans:** Bind raw
+  tensor views to allocation-owner length/lifetime evidence before claiming
+  general invalid-span rejection.
 - [x] Define borrowed versus owned, mutable versus immutable, and lifetime
   relationships for mmap-, pool-, shard-, and result-backed tensors.
 - [x] Add checked boundary alternatives for `RuneTensor.get()` and `set()`.
