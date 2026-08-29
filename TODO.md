@@ -590,6 +590,8 @@ counts as completion of an external capability.
 
 - [x] Mechanically reject unknown or ledger-mismatched status tags in this TODO;
   keep checkbox completion distinct from capability maturity.
+- [x] Separate current evidence from preserved historical milestone claims in
+  both active vision documents and reject pre-boundary status drift.
 - [ ] Update the capability ledger in the same commit as every material status
   change; never silently promote a claim.
 - [ ] Add a stable capability ID when splitting a broad claim; never repurpose an

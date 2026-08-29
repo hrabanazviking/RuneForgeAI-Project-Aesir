@@ -69,3 +69,19 @@ present-tense.
 This slice separates current truth from preserved historical claims. It does
 not individually adjudicate or rewrite every historical sentence, establish
 new runtime evidence, or make future targets current capabilities.
+
+## Implementation Evidence
+
+- `docs/Vision.md` and `docs/SYSTEM_VISION.md` now lead with narrow current
+  evidence sections and one explicit `HISTORICAL_CLAIMS_BEGIN` marker.
+- Every pre-existing milestone line from each first stage heading through EOF
+  remains byte-identical below the marker.
+- `scripts/check_doc_drift.py::active_status_document_errors()` requires one
+  marker, validates canonical status tags before it, and rejects non-canonical
+  status prose tied to capability IDs.
+- `scripts/test_check_doc_drift.py` proves missing-marker, stale-status,
+  unknown-ID, non-canonical-claim, clean-current, and ignored-historical cases.
+- `docs/bugs/0024-active-vision-claim-drift.md` records the 39/23 mismatch census
+  and the preservation-first repair contract.
+- No capability status changed and no historical line, file, or asset was
+  deleted or moved.

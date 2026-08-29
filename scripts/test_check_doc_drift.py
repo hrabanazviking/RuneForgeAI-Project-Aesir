@@ -7,6 +7,7 @@ from check_doc_drift import (
     ArtifactViolation,
     LegacyException,
     TrackedArtifact,
+    active_status_document_errors,
     check_policy_baseline,
     classify_artifact,
     evaluate_artifact_policy,
@@ -181,6 +182,31 @@ def test_todo_status_references() -> None:
         )
 
 
+def test_active_status_document_boundary() -> None:
+    statuses = {"AES-FND-001": "verified", "AES-FND-002": "partial"}
+    marker = "<!-- HISTORICAL_CLAIMS_BEGIN -->"
+    clean = (
+        "Current: `[verified, AES-FND-001]`.\n"
+        + marker
+        + "\nHistorical: `[missing, AES-FND-001]`."
+    )
+    require(
+        not active_status_document_errors(clean, statuses, "Vision.md"),
+        "historical status claim escaped its boundary",
+    )
+    cases = [
+        "Current: `[verified, AES-FND-001]`.",
+        "Current: `[missing, AES-FND-001]`.\n" + marker,
+        "Current: AES-FND-001 is verified.\n" + marker,
+        "Current: `[partial, AES-FND-999]`.\n" + marker,
+    ]
+    for index, content in enumerate(cases):
+        require(
+            bool(active_status_document_errors(content, statuses, "Vision.md")),
+            f"invalid active vision boundary {index} did not fail",
+        )
+
+
 def test_live_policy_schema_and_baseline() -> None:
     errors: list[str] = []
     exceptions = load_hygiene_policy(errors)
@@ -195,6 +221,7 @@ def main() -> None:
     test_policy_evaluation()
     test_policy_schema_rejection()
     test_todo_status_references()
+    test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
 
 

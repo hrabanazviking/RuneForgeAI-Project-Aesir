@@ -3,6 +3,26 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 110: Phase 0 — Active Vision Truth Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Present-tense declaration governance
+
+1. The public declaration census found 39 ledger-status contradictions in
+   `docs/Vision.md` and 23 in `docs/SYSTEM_VISION.md` beneath nominal ledger
+   disclaimers.
+2. Added concise current evidence sections covering the verified CPU GGUF slice
+   and the exact partial/missing foundation boundaries.
+3. Preserved both complete milestone bodies byte-for-byte beneath explicit
+   `HISTORICAL_CLAIMS_BEGIN` markers and warnings that old completion/status
+   language is chronology, not present-tense evidence.
+4. Added deterministic enforcement for missing markers, stale or unknown status
+   tags, and non-canonical status prose before the historical boundary.
+5. Recorded Bug 0024 with the census, violated invariant, reproduction, and
+   preservation-first repair contract.
+6. No capability status changed and no historical content, file, model, or
+   asset was deleted or moved.
+
 ## Entry 109: Phase 0 — TODO and Ledger Status Drift Gate
 
 **Date:** August 29, 2026

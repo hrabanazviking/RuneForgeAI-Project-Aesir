@@ -1236,9 +1236,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** project documentation and every claiming domain
 - **Claim sources:** this ledger, README, TODO, visions, architecture, interfaces, runtime banners
-- **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, and alignment across all active vision and architecture scrolls.
-- **Executable evidence:** `python3 scripts/check_doc_drift.py`; `E-MASTER` (**132 passed / 0 failed / 1 skipped / total 133**).
-- **Evidence boundary:** Checks mechanical ledger/test/doc invariants and known fabrication signatures; semantic review remains required for new claim families.
+- **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, TODO status synchronization, and explicit current-versus-historical claim boundaries in both active vision documents.
+- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves current status rejection and historical exclusion; `python3 scripts/check_doc_drift.py`; `E-MASTER` (**132 passed / 0 failed / 1 skipped / total 133**).
+- **Evidence boundary:** Checks mechanical ledger/test/doc invariants, active vision status tags, and known fabrication signatures. Historical prose is preserved rather than semantically re-adjudicated; new claim families still require review and gate expansion.
 - **Audit:** AER-003, AER-112, AER-115.
 
 ## 19. Claim-Family Coverage Map

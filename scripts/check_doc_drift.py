@@ -18,6 +18,8 @@ LEDGER = ROOT / "CAPABILITY_LEDGER.md"
 RUN_ALL = ROOT / "aesir_engine/tests/run_all.mojo"
 TODO = ROOT / "TODO.md"
 HYGIENE_POLICY = ROOT / "repository_hygiene_policy.json"
+ACTIVE_STATUS_DOCS = [ROOT / "docs/Vision.md", ROOT / "docs/SYSTEM_VISION.md"]
+HISTORICAL_CLAIMS_MARKER = "<!-- HISTORICAL_CLAIMS_BEGIN -->"
 TEXT_SUFFIXES = {".md", ".mojo", ".py", ".toml", ".yml", ".yaml", ".json"}
 ALLOWED_STATUSES = {"verified", "partial", "scaffold", "simulated", "missing"}
 ARTIFACT_CLASSIFICATIONS = {
@@ -151,8 +153,8 @@ def check_ledger(errors: list[str]) -> dict[str, str]:
     return statuses
 
 
-def todo_status_reference_errors(
-    content: str, statuses: dict[str, str]
+def status_reference_errors(
+    content: str, statuses: dict[str, str], source: str
 ) -> list[str]:
     errors = []
     tag_pattern = re.compile(r"\[([a-z/]+),\s*(AES-[A-Z]+-\d+)")
@@ -160,26 +162,64 @@ def todo_status_reference_errors(
         for declared, capability_id in tag_pattern.findall(line):
             if declared not in ALLOWED_STATUSES:
                 errors.append(
-                    f"TODO.md:{line_no}: unsupported status tag {declared!r}"
+                    f"{source}:{line_no}: unsupported status tag {declared!r}"
                 )
                 continue
             actual = statuses.get(capability_id)
             if actual is None:
                 errors.append(
-                    f"TODO.md:{line_no}: unknown capability reference {capability_id}"
+                    f"{source}:{line_no}: unknown capability reference {capability_id}"
                 )
             elif declared != actual:
                 errors.append(
-                    f"TODO.md:{line_no}: {capability_id} tag is {declared}, "
+                    f"{source}:{line_no}: {capability_id} tag is {declared}, "
                     f"ledger is {actual}"
                 )
     return errors
+
+
+def todo_status_reference_errors(
+    content: str, statuses: dict[str, str]
+) -> list[str]:
+    return status_reference_errors(content, statuses, "TODO.md")
 
 
 def check_todo_statuses(statuses: dict[str, str], errors: list[str]) -> None:
     errors.extend(
         todo_status_reference_errors(TODO.read_text(encoding="utf-8"), statuses)
     )
+
+
+def active_status_document_errors(
+    content: str, statuses: dict[str, str], source: str
+) -> list[str]:
+    if content.count(HISTORICAL_CLAIMS_MARKER) != 1:
+        return [f"{source}: requires exactly one historical claims marker"]
+    current = content.split(HISTORICAL_CLAIMS_MARKER, 1)[0]
+    errors = status_reference_errors(current, statuses, source)
+    tag_pattern = re.compile(r"\[[a-z/]+,\s*(AES-[A-Z]+-\d+)")
+    status_word = re.compile(r"\b(?:verified|partial|scaffold|simulated|missing)\b")
+    for line_no, line in enumerate(current.splitlines(), 1):
+        capability_ids = set(re.findall(r"AES-[A-Z]+-\d+", line))
+        tagged_ids = set(tag_pattern.findall(line))
+        if capability_ids and status_word.search(line):
+            for capability_id in sorted(capability_ids - tagged_ids):
+                errors.append(
+                    f"{source}:{line_no}: non-canonical status claim for "
+                    f"{capability_id}"
+                )
+    return errors
+
+
+def check_active_status_documents(
+    statuses: dict[str, str], errors: list[str]
+) -> None:
+    for path in ACTIVE_STATUS_DOCS:
+        errors.extend(
+            active_status_document_errors(
+                path.read_text(encoding="utf-8"), statuses, relative(path)
+            )
+        )
 
 
 def check_master_count(errors: list[str]) -> None:
@@ -519,6 +559,7 @@ def main() -> int:
     paths = tracked_paths()
     statuses = check_ledger(errors)
     check_todo_statuses(statuses, errors)
+    check_active_status_documents(statuses, errors)
     check_master_count(errors)
     check_text_hygiene(paths, errors)
     check_source_truth(errors)

@@ -4,13 +4,36 @@
 > — **Sigrún Ljósbrá, The Skald**
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense operational capabilities are governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). The full unconstrained multi-engine, multi-device, and swarm target roadmap is preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense operational capabilities are
+> governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). Historical
+> completion labels below are preserved chronology, not current evidence.
 
 ## 🎯 Primary Purpose & Vision
 
-Project Aesir is designed to be a high-performance bare-metal LLM inference engine targeting Ollama, llama.cpp, ExLlamaV3, and ONNX Runtime ecosystem compatibility.
+Project Aesir is a native Mojo local-inference system under active construction.
+Its ecosystem, accelerator, service, resilience, and distributed ambitions are
+targets until the capability ledger records the required external or physical
+evidence.
 
-It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
+## Current Evidence Boundary
+
+- The current bounded runtime proof is the pinned single-device Linux CPU GGUF
+  v3 Llama F16 slice: `[verified, AES-FND-002]`.
+- Cross-platform runtime support remains absent: `[missing, AES-FND-006]`.
+- CI and repository hygiene are real but incomplete:
+  `[partial, AES-FND-005]` and `[partial, AES-FND-007]`.
+- Compatibility names, enums, format labels, gateway types, and synthetic tests
+  do not establish external ecosystem, hardware, protocol, or production
+  support.
+
+<!-- HISTORICAL_CLAIMS_BEGIN -->
+
+## Preserved Historical Milestone Claim Log
+
+> [!CAUTION]
+> Everything below this marker is preserved chronology and target language.
+> Its old completion/status words are not current evidence and do not override
+> `CAPABILITY_LEDGER.md`.
 
 ### ⚡ Completed Milestone: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
 * **Stage 58.1 All-Format Quantization Suite & Autotuner Milestone ([`AES-QNT-011`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `QuantizationFormatInfo` struct, `get_quantization_format_info()` metadata store, and `autotune_quantized_gemm()` hardware autotuning gateway in `core/compute.mojo`. Created comprehensive unit test suite `test_all_quantization_formats_suite.mojo` testing metadata reporting across all 25+ quantization format discriminants and autotuned hardware gateway dispatching.

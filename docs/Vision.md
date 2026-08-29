@@ -4,11 +4,39 @@
 > — **Sigrún Ljósbrá, The Skald**
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense operational capabilities are governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). The full unconstrained multi-engine, multi-device, and swarm target roadmap is preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense operational capabilities are
+> governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). Historical
+> completion labels below are preserved chronology, not current evidence.
 
 ## 🎯 Primary Purpose & Vision
 
-Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
+Project Aesir is a native Mojo local-LLM inference engine under active
+construction. Its design vision is sovereign, efficient local execution with
+strict domain and evidence boundaries; performance and zero-allocation targets
+remain claims only where the ledger records executable proof.
+
+## Current Evidence Boundary
+
+- The bounded operational runtime is one pinned GGUF v3 Llama F16 model on the
+  Linux single-device CPU path: `[verified, AES-FND-002]`.
+- Automated Linux CI exists but supported-target coverage, required branch
+  protection, and an external-fixture job remain open:
+  `[partial, AES-FND-005]`.
+- Artifact and fixture prevention gates reject new debt, while 32 exact legacy
+  artifacts remain approval-blocked: `[partial, AES-FND-007]`.
+- Broader acceleration, quantized-model compatibility, services, RAG,
+  ecosystems, resilience, swarm, and production-readiness claims must be read
+  from the ledger and completion roadmap, not inferred from the historical log.
+
+<!-- HISTORICAL_CLAIMS_BEGIN -->
+
+## Preserved Historical Milestone Claim Log
+
+> [!CAUTION]
+> Everything below this marker is a preserved chronological claim or target.
+> Words such as “completed,” “verified,” “production,” and “implemented” record
+> what an earlier stage asserted. They are not present-tense capability status
+> and must not override the capability ledger.
 
 ### ⚡ Completed Milestone: Stage 87.1 — Swarm Mesh Protocol & Remote Inference Dispatch (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`)
 * **Stage 87.1 Swarm Protocol Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) / [`AES-SWM-003`](../CAPABILITY_LEDGER.md) / [`AES-SWM-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/swarm.mojo` with `NodeIdentity`, `authenticate_node_identity()`, `join_mesh_authenticated()`, `leave_mesh()`, `heartbeat_pulse()`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference()`. Created `test_swarm_protocol.mojo` unit test suite. Verified 130 passing cases out of 131 total cases in `run_all.mojo`.

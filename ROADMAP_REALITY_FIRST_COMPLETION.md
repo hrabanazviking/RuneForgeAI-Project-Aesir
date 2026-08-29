@@ -312,6 +312,10 @@ verification, release controls, cleanup, and full-history scanning remain open.
 The consistency gate also rejects unknown or stale TODO capability-status tags;
 the 11 mismatches present at intake have been reconciled without closing their
 open follow-up work.
+The public declaration census also found 39 contradictory status lines in
+`docs/Vision.md` and 23 in `docs/SYSTEM_VISION.md`. Their complete milestone
+bodies are now preserved behind explicit historical markers while concise
+current sections and CI enforce ledger-aligned status tags.
 
 - Expand `scripts/check_doc_drift.py` into the automated prevention matrix
   above, beginning with fatal new-artifact detection while preserving the
