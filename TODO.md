@@ -415,13 +415,13 @@ counts as completion of an external capability.
 
 ### Honest discovery and unsupported behavior
 
-- [ ] **[missing, AES-ACC-003] Separate configured from discovered devices:**
+- [x] **[verified, AES-ACC-003] Separate configured from discovered devices:**
   Probe the platform and return only available backends with capability/error
   metadata.
-- [ ] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
-  fallback under a hardware execution label.
-- [ ] Rename/describe host SIMD variants honestly; compiling a lane width does
-  not prove ARM NEON, CUDA, OpenCL, or a vendor NPU.
+- [x] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
+  fallback under a hardware execution label (`AES-ACC-003`).
+- [x] Rename/describe host SIMD variants honestly; compiling a lane width does
+  not prove ARM NEON, CUDA, OpenCL, or a vendor NPU (`AES-ACC-003`).
 
 ### First physical accelerator vertical slice
 

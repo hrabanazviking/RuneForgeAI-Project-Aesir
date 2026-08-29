@@ -9,6 +9,23 @@ from core.mimir_well import RuneTensor, MimirWell, DeviceTopology, ShardTensor, 
 from core.compute import gemm_f16, gemm_f16_sharded, all_reduce_sum
 
 
+def test_honest_hardware_discovery() raises:
+    print("--- Testing Honest Accelerator Hardware Discovery & Capability Matrix ---")
+    from core.mimir_well import NPUBackendType, GPURealmType
+    var topo = DeviceTopology(4)
+    topo.probe_all_hardware()
+    
+    # Assert missing GPU realm (e.g. 999) raises explicit Error
+    var rejected = False
+    try:
+        topo.require_gpu_realm(GPURealmType(999))
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("DeviceTopology failed to reject un-discovered GPU realm")
+        
+    print("honest accelerator hardware discovery: PASS")
+
 def test_device_topology() raises:
     print("--- Testing configured logical host topology ---")
     var topo = DeviceTopology(2)
@@ -18,6 +35,7 @@ def test_device_topology() raises:
         raise Error("DeviceTopology device_names length mismatch")
     if topo.device_names[0] != "host:0" or topo.device_names[1] != "host:1":
         raise Error("DeviceTopology device name mismatch")
+    test_honest_hardware_discovery()
     print("logical host topology: PASS")
 
 
@@ -206,3 +224,6 @@ def test_sharding() raises:
     test_tensor_partitioning()
     test_all_reduce_sum()
     test_sharded_gemm_parity()
+
+def main() raises:
+    test_sharding()

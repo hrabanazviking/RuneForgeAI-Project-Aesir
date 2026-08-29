@@ -788,6 +788,36 @@ struct DeviceTopology(Copyable):
         if AMDGate.is_available() and AMDGate.get_device_count() > 0:
             self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
 
+    def probe_all_hardware(mut self):
+        """
+        Probes all physical NPU backends and GPU hardware realms.
+        Populates discovered backends and returns active physical hardware count.
+        """
+        self.probe_npu_realms()
+        self.probe_cuda_realm()
+        self.probe_intel_realm()
+        self.probe_amd_realm()
+
+    def require_npu_backend(self, backend: NPUBackendType) raises:
+        """
+        Validates that requested NPU backend is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.npu_backends)):
+            if self.npu_backends[i].value == backend.value:
+                return
+        raise Error("Hardware accelerator NPU backend '" + backend.name() + "' is not physically discovered or supported on this platform")
+
+    def require_gpu_realm(self, realm: GPURealmType) raises:
+        """
+        Validates that requested GPU realm is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.gpu_realms)):
+            if self.gpu_realms[i].value == realm.value:
+                return
+        raise Error("Hardware accelerator GPU realm '" + realm.name() + "' is not physically discovered or supported on this platform")
+
 
 
 
