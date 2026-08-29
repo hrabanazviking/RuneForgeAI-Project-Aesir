@@ -145,14 +145,14 @@ graph TD
 - **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), and llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`).
 - **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). Provides `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` in `cli/llama_cpp_compat.mojo` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1 (`AES-ECO-006`).
 
-### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12)
-- **Role:** Fault tolerance, zero-allocation state snapshotting, process monitoring, inter-module event bus, thread pool concurrency, and defensive memory sanitization.
+### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
+- **Role:** Fault tolerance, versioned durable state snapshotting, process monitoring, inter-module pub/sub event bus, thread pool concurrency, and defensive memory sanitization.
 - **Implementation:**
   - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
-  - `StateVault`: Zero-allocation autoregressive state checkpointing (`save_checkpoint`, `restore_checkpoint`).
-  - `AesirEventBus`: Decoupled Pub/Sub event messaging (`publish_event`, `get_last_event`).
-  - `RuneThreadPool`: Multi-threaded worker pool (`parallel_step`).
-  - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery (`simulate_crash_and_recover`).
+  - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
+  - `AesirEventBus`: Decoupled Pub/Sub event messaging with `EventSubscription`, topic masks, subscriber queues (`subscribe`, `unsubscribe`), and event log queue (`AES-RES-003`).
+  - `RuneThreadPool`: Multi-threaded worker pool with `RuneTask`, task queue submission (`submit_task`), task cancellation (`cancel_task`), and graceful shutdown (`shutdown`) (`AES-RES-004`).
+  - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery simulation (`simulate_crash_and_recover`).
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
 - **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
