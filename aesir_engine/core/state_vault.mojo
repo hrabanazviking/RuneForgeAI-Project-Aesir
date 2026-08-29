@@ -1,11 +1,11 @@
 # core/state_vault.mojo
-# StateVault: Versioned Durable Checkpoint & Integrity Protection Engine
+# StateVault: in-memory checkpoint descriptor and integrity marker
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
 
 struct VaultCheckpoint(Copyable, ImplicitlyCopyable):
-    """Integrity-protected atomic state checkpoint."""
+    """In-memory state marker with a lightweight consistency checksum."""
     var token_pos: Int
     var prompt_tokens_count: Int
     var checksum: Int64
@@ -31,8 +31,8 @@ struct StateVault(Copyable, ImplicitlyCopyable):
     """
     ᛋᛏᚨᛏᛖ·ᚠᚨᚢᛚᛏ — The Vault of Unbroken State (StateVault)
     ═════════════════════════════════════════════════════════
-    Stores versioned, integrity-protected checkpoints with checksum verification
-    and restoration guards against memory corruption.
+    Stores one process-local checkpoint marker with a lightweight checksum.
+    It provides no durability, atomic file I/O, or memory-corruption recovery.
     """
     var is_checkpointed: Bool
     var active_checkpoint: VaultCheckpoint
@@ -50,7 +50,7 @@ struct StateVault(Copyable, ImplicitlyCopyable):
 
     def save_checkpoint(mut self, token_pos: Int, prompt_count: Int, timestamp: Int64 = 1000) -> VaultCheckpoint:
         """
-        Creates an atomic integrity-protected checkpoint with computed checksum.
+        Creates an in-memory checkpoint marker with a computed checksum.
         """
         if token_pos < 0 or prompt_count < 0:
             return VaultCheckpoint()
@@ -62,7 +62,7 @@ struct StateVault(Copyable, ImplicitlyCopyable):
 
     def restore_checkpoint_checked(self, chk: VaultCheckpoint) raises -> Int:
         """
-        Restores state after verifying checksum integrity.
+        Returns the marked position after verifying the local checksum.
         Raises Error on checksum mismatch or invalid checkpoint.
         """
         if not chk.is_valid:

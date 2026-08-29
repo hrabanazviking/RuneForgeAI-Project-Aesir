@@ -1,10 +1,11 @@
 # config.mojo
-# Human-Readable JSON Configuration System for Project A.E.S.I.R.
+# Line-oriented JSON configuration-intent parser for Project A.E.S.I.R.
 
 struct AesirConfig:
     """
     AesirConfig — Central configuration container for Project A.E.S.I.R.
-    Governs hardware acceleration (GPUs, NPUs including Hailo-10 / Pi 5), compute paradigms, safety protocols, and defaults.
+    Stores parsed intent. Most fields are not yet connected to runtime behavior;
+    in particular, hardware and experimental values do not activate execution.
     """
     var acceleration_backend: String  # "auto", "cuda", "metal", "intel", "amd", "npu", "cpu", "max"
     var target_npu: String            # "auto", "hailo10", "hailo8", "hexagon", "ane", "intel_npu", "arm_neon"
@@ -72,7 +73,7 @@ struct AesirConfig:
         return out_str
 
 def parse_config_json(json_content: String) raises -> AesirConfig:
-    """Parses a JSON configuration string into an AesirConfig instance."""
+    """Parses the tracked line-oriented JSON schema and rejects invalid values."""
     var config = AesirConfig()
     var lines = json_content.split("\n")
     for i in range(len(lines)):
@@ -82,46 +83,87 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
         var parts = line.split(":")
         if len(parts) != 2:
             continue
-        var key = String(parts[0].strip().strip('"').strip("'"))
-        var val = String(parts[1].strip().strip(",").strip('"').strip("'"))
+        var key = String(parts[0].strip().strip("\""))
+        var val = String(parts[1].strip().strip(",").strip("\""))
 
         if key == "acceleration_backend":
+            if (
+                val != "auto" and val != "cpu" and val != "cuda"
+                and val != "metal" and val != "intel" and val != "amd"
+                and val != "npu" and val != "max"
+            ):
+                raise Error("invalid acceleration_backend: " + val)
             config.acceleration_backend = val
         elif key == "target_npu":
+            if (
+                val != "auto" and val != "hailo10" and val != "hailo8"
+                and val != "hexagon" and val != "ane"
+                and val != "intel_npu" and val != "arm_neon"
+            ):
+                raise Error("invalid target_npu: " + val)
             config.target_npu = val
         elif key == "skaldbrodir_enabled":
+            if val != "true" and val != "false":
+                raise Error("skaldbrodir_enabled must be true or false")
             config.skaldbrodir_enabled = (val.lower() == "true")
         elif key == "thinking_enabled":
+            if val != "true" and val != "false":
+                raise Error("thinking_enabled must be true or false")
             config.thinking_enabled = (val.lower() == "true")
         elif key == "cia_enabled":
+            if val != "true" and val != "false":
+                raise Error("cia_enabled must be true or false")
             config.cia_enabled = (val.lower() == "true")
         elif key == "wic_enabled":
+            if val != "true" and val != "false":
+                raise Error("wic_enabled must be true or false")
             config.wic_enabled = (val.lower() == "true")
         elif key == "nsfi_enabled":
+            if val != "true" and val != "false":
+                raise Error("nsfi_enabled must be true or false")
             config.nsfi_enabled = (val.lower() == "true")
         elif key == "mqari_enabled":
+            if val != "true" and val != "false":
+                raise Error("mqari_enabled must be true or false")
             config.mqari_enabled = (val.lower() == "true")
         elif key == "tui_enabled":
+            if val != "true" and val != "false":
+                raise Error("tui_enabled must be true or false")
             config.tui_enabled = (val.lower() == "true")
         elif key == "max_threads":
             try:
                 config.max_threads = atol(val)
             except:
-                pass
+                raise Error("max_threads must be an integer")
         elif key == "num_gpu_layers":
             try:
                 config.num_gpu_layers = atol(val)
             except:
-                pass
+                raise Error("num_gpu_layers must be an integer")
         elif key == "temperature":
             try:
                 config.temperature = atof(val)
             except:
-                pass
+                raise Error("temperature must be numeric")
         elif key == "top_p":
             try:
                 config.top_p = atof(val)
             except:
-                pass
+                raise Error("top_p must be numeric")
+        elif (
+            key != "hardware" and key != "safety"
+            and key != "experimental_paradigms" and key != "interface"
+            and key != "sampling"
+        ):
+            raise Error("unknown configuration key: " + key)
+
+    if config.max_threads < 0:
+        raise Error("max_threads cannot be negative")
+    if config.num_gpu_layers < -1:
+        raise Error("num_gpu_layers cannot be less than -1")
+    if config.temperature < 0.0:
+        raise Error("temperature cannot be negative")
+    if config.top_p < 0.0 or config.top_p > 1.0:
+        raise Error("top_p must be between 0.0 and 1.0")
 
     return config^

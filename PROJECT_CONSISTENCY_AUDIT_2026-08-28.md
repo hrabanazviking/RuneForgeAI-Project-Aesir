@@ -114,9 +114,9 @@ fabricated-success source patterns.
 
 ### AES-CONS-014 — Tracked generated and duplicate artifacts remain
 
-Five compiled ELF binaries, one 24-byte fake GGUF file, and duplicate root image
-assets are tracked despite ignore rules and completed cleanup claims. Removal is
-subject to Volmarr's explicit deletion approval.
+Seven compiled ELF binaries, one 24-byte placeholder GGUF file, and 24
+byte-identical root image assets are tracked despite ignore rules and completed
+cleanup claims. Removal is subject to Volmarr's explicit deletion approval.
 
 ### AES-CONS-015 — Active documents contain machine-specific absolute paths
 
@@ -150,3 +150,11 @@ dispatcher rejects or does not connect those surfaces.
 8. Remove generated/duplicate tracked files only after explicit deletion
    approval.
 
+## Remediation Status — August 29, 2026
+
+Findings AES-CONS-001 through AES-CONS-013 and AES-CONS-015 through
+AES-CONS-017 were repaired and covered by source, test, documentation, or
+consistency-check evidence. AES-CONS-014 remains intentionally open because the
+required deletion approval has not been granted; the ledger therefore records
+repository artifact hygiene as `partial`, and the checker emits a warning rather
+than a false pass claim for that sub-capability.

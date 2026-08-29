@@ -1,6 +1,15 @@
-# Project Aesir: Data Flow (From Prompt to Fate)
+# Project Aesir: Target Slice 6 Data Flow (From Prompt to Fate)
 
-This document traces the journey of a request through the Aesir Engine, from the moment it crosses the Bifrost to when its fate is sealed. In **Slice 6**, single-response generation (`generate`), real-time streaming output (`generate_stream`), external knowledge RAG prompt context retrieval via `MimirStore` / `cosine_similarity`, `/api/embeddings` response formatting, and multi-device matrix sharding across the **Bifrost Shard Matrix** (`DeviceTopology`, `ShardTensor`, `gemm_f16_sharded`, `all_reduce_sum`) are fully supported.
+> [!IMPORTANT]
+> This is a target sequence retained for design context, not a trace of the
+> current executable system. The verified flow is local single-shot CPU GGUF
+> inference. Ollama HTTP compatibility, socket-to-engine streaming,
+> multi-device execution, and complete RAG are not operational; see
+> [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md).
+
+This document sketches the intended journey of a request through the Aesir
+Engine. Names in the diagram may correspond to verified local primitives, but
+the complete end-to-end route is not implemented.
 
 ## The Journey of a Request (Slice 6)
 
@@ -98,5 +107,4 @@ sequenceDiagram
     E->>B: send_chunk_static(client_fd, JSON chunk {"done": true})
     B->>C: Final Chunk & Close Socket
 ```
-
 

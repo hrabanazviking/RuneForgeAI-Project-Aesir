@@ -1,5 +1,5 @@
 # core/speculative.mojo
-# SpeculativeEngine: Draft Token Sampling & Parallel Verification Gateway
+# SpeculativeEngine: local proposal and acceptance-arithmetic scaffold
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -42,9 +42,9 @@ struct SpeculativeEngine(Copyable):
     """
     ᛋᛈᛖᚲᚢᛚᚨᛏᛁᚠᛖ·ᛞᚱᚨᚠᛏ — The Vision of Future Runes (SpeculativeEngine)
     ═════════════════════════════════════════════════════════════════════════
-    Executes draft model speculative token sampling (K draft tokens) and
-    parallel target model verification loops for 3-5× inference throughput acceleration.
-    Draws candidate rune streams into existence before target verification seals their fate.
+    Provides local proposal and acceptance bookkeeping over caller-supplied
+    logits. It runs no draft model, performs no parallel target verification,
+    and makes no throughput claim.
     """
     var num_draft_tokens: Int
     var acceptance_rate: Scalar[f16]
@@ -64,7 +64,7 @@ struct SpeculativeEngine(Copyable):
 
     def propose_draft_tokens(self, draft_logits: Pointer[Scalar[f16], MutUntrackedOrigin], vocab_size: Int, count: Int) -> DraftProposal:
         """
-        Generates K draft candidate tokens from draft model logits.
+        Repeats the local argmax candidate over caller-supplied logits.
         """
         var proposal = DraftProposal()
         var addr = Int(draft_logits)
@@ -91,8 +91,8 @@ struct SpeculativeEngine(Copyable):
         target_vocab_size: Int
     ) -> SpeculativeVerificationResult:
         """
-        Performs probability-correct rejection sampling over proposed draft tokens.
-        Determines accepted sequence length and rollback token ID for target KV coordination.
+        Applies a deterministic masked-logit acceptance rule and records a
+        rollback marker. This is not probability-correct speculative decoding.
         """
         var res = SpeculativeVerificationResult()
         var target_addr = Int(target_logits)

@@ -1,13 +1,13 @@
 # core/wic.mojo
-# Wave Inference Computing (WIC) — Holographic Neural Interference Patterns
+# Experimental deterministic wave-shaped transform
 
-from std.math import cos, sin, sqrt
+from std.math import cos
 from .mimir_well import RuneTensor, f16
 
 struct WaveInferenceEngine:
     """
-    WaveInferenceEngine — Holographic standing wave solver for massively parallel inference.
-    Replaces matrix multiplication loops with wave interference propagation.
+    Local mathematical experiment. It is not an accuracy-preserving matrix
+    multiplication replacement and is not integrated with verified inference.
     """
     var enabled: Bool
     var grid_dim: Int
@@ -22,10 +22,15 @@ struct WaveInferenceEngine:
 
     def propagate_holographic_wavefront(mut self, input_signal: RuneTensor[f16], mut output_wavefront: RuneTensor[f16]) raises:
         """
-        Simulates 2D standing wave interference propagation through holographic weight fields.
+        Applies a deterministic cosine transform to caller-owned tensors.
         """
         if not self.enabled:
             return
+
+        if input_signal.rows <= 0 or input_signal.cols <= 0:
+            raise Error("WaveInferenceEngine requires a non-empty input tensor")
+        if output_wavefront.rows <= 0 or output_wavefront.cols <= 0:
+            raise Error("WaveInferenceEngine requires a non-empty output tensor")
 
         var n = input_signal.cols
         var m = output_wavefront.cols

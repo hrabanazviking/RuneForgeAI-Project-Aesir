@@ -163,7 +163,7 @@ Every work session follows this rhythm:
 
 ### Task Selection
 
-Before starting work, read `TASK_QUEUE.md` and `CAPABILITY_LEDGER.md`. Pick tasks that are:
+Before starting work, read `TODO.md` and `CAPABILITY_LEDGER.md`. Pick tasks that are:
 - Blocking other work (highest priority)
 - Marked as scaffold or missing in the capability ledger
 - Within your current role's domain of competence
@@ -317,10 +317,10 @@ Every domain folder must contain:
 The project root must maintain:
 - `README.md` — Project overview, build instructions, usage
 - `ARCHITECTURE.md` — System structure, domain relationships, data flow
-- `DOMAIN_MAP.md` — Ownership boundaries, what each domain does and does not do
+- `docs/DOMAIN_MAP.md` — Ownership boundaries, what each domain does and does not do
 - `CAPABILITY_LEDGER.md` — Feature status tracking
 - `DEVLOG.md` — chronological record of significant changes
-- `TASK_QUEUE.md` — Outstanding work items with priorities
+- `TODO.md` — Canonical outstanding work items with priorities
 
 ### Documentation Hygiene
 
@@ -417,8 +417,8 @@ When studying or adapting code from external open-source projects (vLLM, llama.c
 
 ### Before Starting Work
 
-1. Pull latest from the development branch
-2. Read `TASK_QUEUE.md` for current priorities
+1. Pull latest from the `main` integration branch
+2. Read `TODO.md` for current priorities
 3. Read `CAPABILITY_LEDGER.md` to understand what exists and what is scaffold
 4. Read the last `DEVLOG.md` entry to understand recent context
 5. Read the `INTERFACE.md` of any domain you will touch
@@ -436,8 +436,8 @@ When studying or adapting code from external open-source projects (vLLM, llama.c
 1. Run the full test suite
 2. Update the capability ledger with any status changes
 3. Write a DEVLOG entry
-4. Update TASK_QUEUE.md if tasks were completed or discovered
-5. Push to the development branch
+4. Update `TODO.md` if tasks were completed or discovered
+5. Push the feature branch and open it against `main`
 6. Confirm the working tree is clean
 
 ### Commit Message Format
@@ -483,4 +483,3 @@ The machine does not lie. The terminal is the only honest interface. Build accor
 ---
 
 *Maintained by the Architect role. Last updated: 2026-08-15.*
-

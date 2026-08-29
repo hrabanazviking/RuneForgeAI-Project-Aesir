@@ -481,7 +481,7 @@ Auditor Agent: _________________________________
 --- Documentation ---
 
 [ ] Relevant INTERFACE.md updated if API changed
-[ ] DOMAIN_MAP.md updated if ownership shifted
+[ ] `docs/DOMAIN_MAP.md` updated if ownership shifted
 [ ] DEVLOG entry written for the verification
 [ ] CAPABILITY_LEDGER.md updated to Verified with date and evidence
 

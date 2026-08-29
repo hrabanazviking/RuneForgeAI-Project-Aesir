@@ -1,9 +1,10 @@
 # cli/tui.mojo
-# Terminal User Interface Dashboard for Project A.E.S.I.R.
+# Caller-populated terminal status frame for Project A.E.S.I.R.
 
 struct AesirTUIDashboard:
     """
-    AesirTUIDashboard — Terminal telemetry display for live engine metrics.
+    AesirTUIDashboard renders caller-supplied status values. It does not collect
+    live CPU, device-memory, throughput, or session telemetry.
     """
     var model_name: String
     var active_backend: String
@@ -19,14 +20,14 @@ struct AesirTUIDashboard:
         self.active_sessions = 0
 
     def render_frame(self) -> String:
-        """Renders ASCII terminal telemetry dashboard frame."""
+        """Renders an ASCII frame from explicitly supplied values."""
         var frame = String("┌──────────────────────────────────────────────────────────────────────────────┐\n")
-        frame += "│                 🛡️ PROJECT A.E.S.I.R. TELEMETRY DASHBOARD 🛡️                 │\n"
+        frame += "│                   PROJECT A.E.S.I.R. STATUS FRAME                            │\n"
         frame += "├──────────────────────────────────────────────────────────────────────────────┤\n"
         frame += "│ Active Model:     " + self.model_name + "\n"
-        frame += "│ Hardware Realm:   " + self.active_backend + "\n"
+        frame += "│ Reported Backend: " + self.active_backend + "\n"
         frame += "│ Active Sessions:  " + String(self.active_sessions) + "\n"
-        frame += "│ Memory Residency: " + String(self.memory_used_mb) + " MB\n"
-        frame += "│ Throughput Speed: " + String(self.token_speed_tps) + " tokens/sec\n"
+        frame += "│ Reported Memory:  " + String(self.memory_used_mb) + " MB\n"
+        frame += "│ Reported Speed:   " + String(self.token_speed_tps) + " tokens/sec\n"
         frame += "└──────────────────────────────────────────────────────────────────────────────┘\n"
         return frame

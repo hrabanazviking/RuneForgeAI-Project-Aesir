@@ -1,5 +1,5 @@
 # tests/test_onnx.mojo
-# Verification of ONNX protobuf binary header & operator dispatcher validator
+# Verification of ONNX local descriptors and unsupported parser boundary
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -32,7 +32,7 @@ def test_onnx_supported_operators() raises:
 
 
 def test_onnx_seer_header_validation() raises:
-    print("--- Testing ONNXModelSeer Graph Validator ---")
+    print("--- Testing ONNXModelSeer fail-closed parser boundary ---")
     var seer = ONNXModelSeer("models/test.onnx")
     
     var bytes_ptr = alloc(Layout[Scalar[DType.uint8]](count=16)).unsafe_leak()
@@ -41,11 +41,17 @@ def test_onnx_seer_header_validation() raises:
     bytes_ptr.unsafe_store(2, 0x12)
     bytes_ptr.unsafe_store(3, 0x0A)
 
-    var ok = seer.parse_onnx_header_bytes(bytes_ptr, 16)
-    if not ok:
-        raise Error("ONNXModelSeer failed to parse valid protobuf header")
-    if seer.ir_version != 7:
-        raise Error("ONNXModelSeer IR version mismatch")
+    var parser_rejected = False
+    try:
+        _ = seer.parse_onnx_header_bytes(bytes_ptr, 16)
+    except error:
+        parser_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("ONNX parser rejection omitted truth boundary")
+    if not parser_rejected:
+        raise Error("ONNXModelSeer accepted synthetic fixed metadata")
+    if seer.ir_version != 0 or seer.opset_version != 0:
+        raise Error("ONNXModelSeer fabricated metadata after rejection")
 
     seer.add_node("MatMul", "node_0")
     seer.add_node("Add", "node_1")
@@ -55,7 +61,7 @@ def test_onnx_seer_header_validation() raises:
         raise Error("ONNXModelSeer node count mismatch")
 
     bytes_ptr.unsafe_free()
-    print("ONNXModelSeer graph validator: PASS")
+    print("ONNXModelSeer fail-closed parser boundary: PASS")
 
 
 def main() raises:

@@ -1,8 +1,8 @@
 # core/thread_pool.mojo
-# RuneThreadPool: Bounded Task Queue, Thread State & Concurrent Execution Engine
+# RuneThreadPool: bounded process-local task queue descriptor
 
 struct RuneTask(Copyable, ImplicitlyCopyable):
-    """Task payload descriptor for thread pool execution."""
+    """Task payload descriptor for the local task list."""
     var task_id: Int
     var payload: String
     var is_completed: Bool
@@ -25,8 +25,8 @@ struct RuneThreadPool(Copyable):
     """
     ᚱᛢᚾᛖ·ᛏᚺᚱᛖᚨᛞ·ᛈᛟᛟᛚ — The Multi-Threaded Forge (RuneThreadPool)
     ═══════════════════════════════════════════════════════════════
-    Multi-threaded worker pool managing task queue submission, completion,
-    task cancellation, and graceful shutdown safety.
+    Bounded local task list with submission, completion markers, cancellation,
+    and shutdown state. It creates no threads and performs no concurrent work.
     """
     var num_threads: Int
     var is_active: Bool
@@ -47,7 +47,7 @@ struct RuneThreadPool(Copyable):
 
     def submit_task(mut self, task_id: Int, payload: String = "") raises -> Int:
         """
-        Enqueues a task payload into the bounded worker pool queue.
+        Enqueues a task payload into the bounded local list.
         Raises Error if the pool is shut down or queue is full (max 256).
         """
         if not self.is_active:
@@ -59,7 +59,7 @@ struct RuneThreadPool(Copyable):
 
     def process_pending_tasks(mut self) -> Int:
         """
-        Executes pending tasks in the queue and marks them as completed.
+        Sequentially marks pending tasks as completed; payloads are not executed.
         """
         var processed = 0
         for i in range(len(self.task_queue)):
@@ -81,7 +81,7 @@ struct RuneThreadPool(Copyable):
 
     def shutdown(mut self):
         """
-        Gracefully shuts down worker pool threads and drains pending task queue.
+        Marks the descriptor inactive and clears its local task list.
         """
         self.is_active = False
         self.task_queue.clear()

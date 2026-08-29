@@ -1,13 +1,13 @@
 # core/nsfi.mojo
-# Neural Spectral Fractal Inference (NSFI) — Memory-Efficient Generative Spectral Fractal Weight Engine
+# Experimental deterministic fractal-shaped tensor transform
 
 from std.math import sin, cos
 from .mimir_well import RuneTensor, f16
 
 struct NSFIEngine:
     """
-    NSFIEngine — Stores generative spectral fractal attractor codes (IFS parameters)
-    and expands weight matrices deterministically on demand.
+    Local mathematical experiment that writes deterministic values into a
+    tensor. It does not reconstruct trained model weights or preserve accuracy.
     """
     var enabled: Bool
     var num_attractor_params: Int
@@ -20,10 +20,13 @@ struct NSFIEngine:
 
     def reconstruct_fractal_weights(self, seed_a: Float64, seed_b: Float64, mut target_weight: RuneTensor[f16]) raises:
         """
-        Reconstructs target weight matrix on demand from IFS fractal attractor parameters.
+        Writes an experimental sinusoidal pattern into a caller-owned tensor.
         """
         if not self.enabled:
             return
+
+        if target_weight.rows <= 0 or target_weight.cols <= 0:
+            raise Error("NSFIEngine requires a non-empty target tensor")
 
         var rows = target_weight.rows
         var cols = target_weight.cols

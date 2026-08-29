@@ -1,10 +1,11 @@
 # core/smart_crash.mojo
-# Smart Crashing & Self-Healing Crash Reporter for Project A.E.S.I.R.
+# Local crash-counter and diagnostic formatter for Project A.E.S.I.R.
 
 struct SmartCrashReporter:
     """
-    SmartCrashReporter — Intercepts execution crashes, generates detailed technical diagnostic logs,
-    executes failsafe recovery loops, and provides AI-driven code hardening recommendations.
+    SmartCrashReporter records caller-supplied error text, advances a local
+    retry counter, and formats static diagnostic suggestions. It does not
+    intercept process crashes, restart the engine, switch backends, or call AI.
     """
     var consecutive_crashes: Int
     var max_retries: Int
@@ -19,14 +20,13 @@ struct SmartCrashReporter:
 
     def handle_crash(mut self, error_msg: String, subsystem: String) -> String:
         """
-        Intercepts crash, increments crash counters, checks failsafe thresholds,
-        and generates crash report output with code hardening suggestions.
+        Records an observed error and formats a local heuristic report.
         """
         self.consecutive_crashes += 1
         self.last_error_message = error_msg
 
         var report = String("═══════════════════════════════════════════════════════════════════════════════\n")
-        report += "  🚨 SMART CRASH INTERCEPTOR & DIAGNOSTIC REPORT 🚨\n"
+        report += "  REPORTED ERROR DIAGNOSTIC (NO PROCESS INTERCEPTION)\n"
         report += "═══════════════════════════════════════════════════════════════════════════════\n"
         report += "Subsystem:           " + subsystem + "\n"
         report += "Error Message:       " + error_msg + "\n"
@@ -34,9 +34,9 @@ struct SmartCrashReporter:
 
         if self.consecutive_crashes >= self.max_retries:
             self.failsafe_mode_active = True
-            report += "⚠️ FAILSAFE MODE ACTIVATED: Maximum retries reached. Switching hardware acceleration to CPU reference path.\n\n"
+            report += "⚠️ FAILSAFE REQUESTED: Maximum retries reached. The caller must stop or select a verified backend; no automatic switch occurred.\n\n"
 
-        report += "💡 AI CODE HARDENING RECOMMENDATION:\n"
+        report += "STATIC HARDENING HEURISTIC (NO AI CALL):\n"
         if "out of memory" in error_msg.lower() or "vram" in error_msg.lower():
             report += "  - Suggestion: Increase KV Cache pool allocation in MimirWell or reduce num_gpu_layers.\n"
         elif "null pointer" in error_msg.lower() or "exhausted" in error_msg.lower():

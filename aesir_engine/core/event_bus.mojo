@@ -1,5 +1,5 @@
 # core/event_bus.mojo
-# AesirEventBus: Decoupled Inter-Module Message Bus with Queues & Subscriptions
+# AesirEventBus: process-local event log and subscription descriptors
 
 struct EventSubscription(Copyable, ImplicitlyCopyable):
     """Event bus subscriber descriptor."""
@@ -19,8 +19,8 @@ struct AesirEventBus(Copyable):
     """
     ᛖᚠᛖᚾᛏ·ᛒᚢᛋ — The Current of Module Whispers (AesirEventBus)
     ════════════════════════════════════════════════════════════
-    Provides asynchronous, decoupled Pub/Sub messaging across system domains
-    (server, core, loader, cli) with subscribers, bounded queues, and failure semantics.
+    Records process-local event strings and subscription descriptors.
+    It performs no asynchronous delivery, queue fan-out, or cross-domain transport.
     """
     var event_count: Int
     var last_event_code: Int
@@ -53,7 +53,7 @@ struct AesirEventBus(Copyable):
 
     def publish_event(mut self, event_type: String, message: String = ""):
         """
-        Publishes an inter-module event pulse across registered subscribers.
+        Records one local event. Subscriber delivery is not implemented.
         """
         if len(event_type.as_bytes()) == 0:
             return

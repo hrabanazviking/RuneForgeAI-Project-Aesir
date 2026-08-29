@@ -1,5 +1,5 @@
 # core/tool_use.mojo
-# Structured Tool Use & Function Calling Support for Project A.E.S.I.R.
+# Tool-definition prompt formatter and convention-shaped text extractor
 
 struct ToolDefinition(Copyable, ImplicitlyCopyable):
     """
@@ -22,7 +22,7 @@ struct ToolDefinition(Copyable, ImplicitlyCopyable):
 
 struct ToolCall(Copyable, ImplicitlyCopyable):
     """
-    ToolCall — Model-generated tool call request.
+    ToolCall — Locally extracted tool-call-shaped text fields.
     """
     var name: String
     var arguments_json: String
@@ -50,7 +50,7 @@ def format_tool_system_prompt(tools: List[ToolDefinition]) -> String:
     return prompt
 
 def parse_tool_call(output_text: String) -> ToolCall:
-    """Parses JSON-formatted tool calls from model generation output."""
+    """Extracts one convention-shaped tool call; this is not a JSON parser."""
     var raw = output_text.strip()
     var name = String("")
     var args = String("{}")

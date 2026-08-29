@@ -47,7 +47,7 @@ def parse_duration_seconds(duration_str: String) raises -> Int:
     var raw = duration_str.strip()
     var bytes_view = raw.as_bytes()
     if len(bytes_view) == 0:
-        return 300
+        raise Error("duration must not be empty")
     var unit_idx = len(bytes_view) - 1
     var last_byte = bytes_view[unit_idx]
     
@@ -65,8 +65,28 @@ def parse_duration_seconds(duration_str: String) raises -> Int:
 
     var parsed_num = parse_int(num_part)
     if parsed_num < 0:
-        return 300
+        raise Error("duration cannot be negative")
+    if parsed_num > 2147483647 // multiplier:
+        raise Error("duration is too large")
     return parsed_num * multiplier
+
+
+def validate_toggle(value: String, flag_name: String) raises -> String:
+    """Accepts only the documented auto/on/off vocabulary."""
+    if value != "auto" and value != "on" and value != "off":
+        raise Error(flag_name + " must be auto, on, or off")
+    return value
+
+
+def validate_acceleration_backend(value: String) raises -> String:
+    """Validates configuration intent without claiming backend execution."""
+    if (
+        value != "auto" and value != "cpu" and value != "cuda"
+        and value != "metal" and value != "intel" and value != "amd"
+        and value != "npu" and value != "max"
+    ):
+        raise Error("unsupported acceleration backend: " + value)
+    return value
 
 
 def parse_cli_options(args: List[String]) raises -> CLIOptions:
@@ -85,6 +105,8 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --format flag")
             options.format = args[i + 1]
+            if options.format != "json" and options.format != "text":
+                raise Error("--format must be json or text")
             i += 1
         elif arg == "--keepalive":
             if i + 1 >= len(args):
@@ -100,6 +122,8 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --max-tokens flag")
             options.max_tokens = parse_int(args[i + 1])
+            if options.max_tokens <= 0:
+                raise Error("--max-tokens must be positive")
             i += 1
         elif arg == "--config" or arg == "-c":
             if i + 1 >= len(args):
@@ -109,32 +133,32 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
         elif arg == "--accel" or arg == "-a":
             if i + 1 >= len(args):
                 raise Error("Missing value for --accel/-a flag")
-            options.accel_backend = args[i + 1]
+            options.accel_backend = validate_acceleration_backend(args[i + 1])
             i += 1
         elif arg == "--skaldbrodir":
             if i + 1 >= len(args):
                 raise Error("Missing value for --skaldbrodir flag")
-            options.skaldbrodir = args[i + 1]
+            options.skaldbrodir = validate_toggle(args[i + 1], "--skaldbrodir")
             i += 1
         elif arg == "--thinking":
             if i + 1 >= len(args):
                 raise Error("Missing value for --thinking flag")
-            options.thinking = args[i + 1]
+            options.thinking = validate_toggle(args[i + 1], "--thinking")
             i += 1
         elif arg == "--cia":
             if i + 1 >= len(args):
                 raise Error("Missing value for --cia flag")
-            options.cia = args[i + 1]
+            options.cia = validate_toggle(args[i + 1], "--cia")
             i += 1
         elif arg == "--wic":
             if i + 1 >= len(args):
                 raise Error("Missing value for --wic flag")
-            options.wic = args[i + 1]
+            options.wic = validate_toggle(args[i + 1], "--wic")
             i += 1
         elif arg == "--nsfi":
             if i + 1 >= len(args):
                 raise Error("Missing value for --nsfi flag")
-            options.nsfi = args[i + 1]
+            options.nsfi = validate_toggle(args[i + 1], "--nsfi")
             i += 1
         elif arg == "--tui":
             options.tui = True

@@ -1,13 +1,18 @@
-# Project Aesir: Data Flow Architecture
+# Project Aesir: Target Data Flow Architecture
 
 > *"To navigate complexity, one must see the whole terrain and trace every thread from source to fate."*  
 > — **Védis Eikleið, The Cartographer**
 
 ---
 
-## 🌊 The Lifecycle of an Inference, CLI, RAG, Multi-Device, NPU Gateway, GPU Realm, Compressed Format, Multi-Engine Ecosystem, Resilience, HuggingFace Hub & Swarm Mesh Matrix Request (Slice 6 to Phase 14)
+## 🌊 Target Lifecycle Across Planned Subsystems
 
-Every request in Project Aesir follows an unbroken, deterministic data flow across domain boundaries. In **Slice 6**, single-response, streaming token output, external knowledge RAG prompt context retrieval via `MimirStore` / `cosine_similarity`, `/api/embeddings` response formatting, and multi-device matrix sharding across the **Bifrost Shard Matrix** (`DeviceTopology`, `ShardTensor`, `gemm_f16_sharded`, `all_reduce_sum`) are fully supported. **Slice 7** adds the **NPU Realm Gateway** (`gemm_f16_npu`). **Slice 8** introduces the **Universal Multi-GPU & Hardware Accelerator Realm Matrix**. **Slice 9** introduces **The Ollama CLI & REPL Terminal Suite**. **Slice 10** introduces **The Universal Compressed LLM Format Matrix**. **Slice 11** introduces **The Universal Multi-Engine Ecosystem Matrix**. **Slice 12** introduces **The Sovereign Resilience & Self-Healing Matrix** (`ErrorGuard`, `StateVault`, `AesirEventBus`, `RuneThreadPool`, `SelfHealingSupervisor`). **Slice 13** introduces **The HuggingFace Hub Integration & Mobile Model Downloading Matrix** (`HuggingFaceSeer`, `parse_hf_repo`, `is_hf_tag`, `build_download_url`, `download_hf_model`). **Phase 14** introduces **The Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix** (`SwarmNodeRole`, `PeerNode`, `PeerRegistry`, `TaskDispatcher`, `SwarmCluster`).
+This document preserves the intended multi-subsystem sequence. It is not an
+executable trace. The current verified path is local single-shot CPU GGUF
+inference; persistent model operations, network downloads, compatibility APIs,
+physical accelerators, durable resilience, and Swarm transport are absent. See
+[`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md) before treating any arrow below
+as implemented.
 
 ```mermaid
 sequenceDiagram
@@ -191,7 +196,6 @@ sequenceDiagram
 7. **String Decoding & Streaming Response (`BifrostGate.send_chunk_static`):**
    - Token ID decoded to text via `RuneWeaver.decode(next_token)`.
    - Transmitted immediately over socket via `send_chunk_static()`.
-
 
 
 

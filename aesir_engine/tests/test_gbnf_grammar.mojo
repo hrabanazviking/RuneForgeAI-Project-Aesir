@@ -1,5 +1,5 @@
 # tests/test_gbnf_grammar.mojo
-# Verification of GBNF grammar parser & tokenizer-aware state automaton
+# Verification of local grammar-shaped descriptors and limited mask primitive
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -7,7 +7,7 @@ from core.mimir_well import Scalar, f16
 from core.grammar import GBNFGrammar, GBNFRule, GBNFAutomatonState
 
 def test_gbnf_rule_construction() raises:
-    print("--- Testing GBNF Rule Construction & Automaton ---")
+    print("--- Testing local grammar rule/state descriptors ---")
     var rule = GBNFRule("root", "choice", "true|false")
     if rule.name != "root" or rule.rule_type != "choice" or rule.pattern != "true|false":
         raise Error("GBNFRule construction mismatch")
@@ -16,11 +16,11 @@ def test_gbnf_rule_construction() raises:
     if state.current_state != 0 or state.is_accepting:
         raise Error("GBNFAutomatonState initial state mismatch")
 
-    print("GBNF rule construction: PASS")
+    print("Local grammar rule/state descriptors: PASS")
 
 
 def test_gbnf_token_validation_and_masking() raises:
-    print("--- Testing GBNF Token Candidate Validation & Logit Masking ---")
+    print("--- Testing limited built-in token checks and logit mask ---")
     var grammar = GBNFGrammar("boolean")
     
     if not grammar.is_token_valid("true"):
@@ -49,7 +49,7 @@ def test_gbnf_token_validation_and_masking() raises:
         raise Error("GBNFGrammar apply_grammar_mask failed to mask non-conforming logits")
 
     logits_ptr.unsafe_free()
-    print("GBNF token candidate validation & logit masking: PASS")
+    print("Limited built-in token checks and logit mask: PASS")
 
 
 def main() raises:

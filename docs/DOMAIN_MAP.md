@@ -1,4 +1,4 @@
-# Project Aesir: Domain Map & Boundary Law
+# Project Aesir: Domain Ownership Map & Target Boundary Law
 
 > *"Let every realm maintain its own walls. When boundaries collapse, chaos reigns."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -8,6 +8,13 @@
 ## 🏛️ Domain Architecture Overview
 
 Project Aesir is strictly partitioned into isolated domain realms. Each domain has a single, immutable responsibility and communicates only through explicit facade interfaces.
+
+> [!IMPORTANT]
+> This map assigns ownership and preserves intended interface shapes. It is not
+> a capability-completion matrix. Reserved commands/routes and named hardware,
+> ecosystem, resilience, and Swarm types may fail closed or remain local
+> descriptors. Current operational status is defined only by
+> [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md).
 
 ```mermaid
 graph TB
@@ -232,7 +239,6 @@ graph TD
 | **Loader** | `loader/gguf.mojo`, `loader/tokenizer.mojo`, `loader/onnx.mojo` *(Slice 11)*, `loader/huggingface.mojo` *(Slice 13)* | `GGUFSeer`, `RuneWeaver` (BPE `encode`/`decode`/`<0xXX>`), `GGMLType` (+ `to_compressed_format` *Slice 10*), `ONNXModelSeer` *(Slice 11)*, `HuggingFaceSeer` *(Slice 13)* (`parse_hf_repo`, `is_hf_tag`, `build_download_url`, `download_hf_model`) | `loader/INTERFACE.md` |
 | **Core** | `core/mimir_well.mojo`, `core/compute.mojo`, `core/inference.mojo`, `core/grammar.mojo` *(Slice 11)*, `core/speculative.mojo` *(Slice 11)*, `core/error_guard.mojo` *(Slice 12)*, `core/state_vault.mojo` *(Slice 12)*, `core/event_bus.mojo` *(Slice 12)*, `core/thread_pool.mojo` *(Slice 12)*, `core/supervisor.mojo` *(Slice 12)*, `core/swarm.mojo` *(Phase 14)* | `MimirWell` (+ `allocate_npu_buffer` *Slice 7*, `allocate_gpu_buffer` *Slice 8*), `RuneTensor`, `KVCache`, `MimirStore`, `DeviceTopology` (+ `npu_backends` *Slice 7*, `gpu_realms` *Slice 8*), `ShardTensor`, `NPUBackendType` *(Slice 7)*, `NPUBuffer` *(Slice 7)*, `GPURealmType` *(Slice 8)*, `GPUBuffer` *(Slice 8)*, `CompressedFormatType` *(Slice 10)*, `GBNFGrammar` *(Slice 11)*, `SpeculativeEngine` *(Slice 11)*, `ErrorGuard` *(Slice 12)*, `StateVault` *(Slice 12)*, `AesirEventBus` *(Slice 12)*, `RuneThreadPool` *(Slice 12)*, `SelfHealingSupervisor` *(Slice 12)*, `SwarmNodeRole` *(Phase 14)*, `PeerNode` *(Phase 14)*, `PeerRegistry` *(Phase 14)*, `TaskDispatcher` *(Phase 14)*, `SwarmCluster` *(Phase 14)*, SIMD Kernels, `TransformerBlock`, `forward_pass` | `core/INTERFACE.md` |
 | **Tests** | `tests/run_all.mojo`, `test_*.mojo` | `main()`, test cases (`test_compute`, `test_gguf`, `test_tokenizer`, `test_inference`, `test_kv_cache`, `test_rag`, `test_sharding`, `test_npu_edge`, `test_gpu_realms`, `test_cli`, `test_quantization` *Slice 10*, `test_multi_engine` *Slice 11*, `test_resilience` *Slice 12*, `test_huggingface` *Slice 13*, `test_swarm_cluster` *Phase 14*) | `tests/INTERFACE.md` |
-
 
 
 

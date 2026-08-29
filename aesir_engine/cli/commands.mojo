@@ -22,24 +22,13 @@ def print_general_help():
     print("Implemented:")
     print("  run <model.gguf> [--max-tokens N] [--verbose] [--format json] <prompt...>")
     print("      Run one local single-shot request on the verified CPU GGUF path.")
-    print("  list, ls [--format json]")
-    print("      List all installed local model manifests.")
-    print("  show <model> [--format json]")
-    print("      Show details and Modelfile inscriptions for a model.")
-    print("  ps [--format json]")
-    print("      List active model engine sessions.")
-    print("  create <name> -f <modelfile>")
-    print("      Create a new model manifest entry from a Modelfile.")
-    print("  cp <source> <target>")
-    print("      Copy a model manifest to a new name or tag.")
-    print("  rm, delete <model>")
-    print("      Remove a model manifest entry.")
     print("  help, -h, --help")
     print("      Show this capability-aware help.")
     print("  -v, --version")
     print("      Show the development version.\n")
     print("Reserved but unsupported:")
-    print("  serve; interactive run; pull; push; stop")
+    print("  serve; interactive run; list; show; ps; create; cp; rm")
+    print("  pull; push; stop")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
     print("See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.")
 
@@ -147,7 +136,7 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         return
 
     if cmd == "-v" or cmd == "--version":
-        print("aesir development version 0.9.0")
+        print("aesir development snapshot (unversioned)")
         return
 
     var options = parse_cli_options(args)
@@ -186,60 +175,16 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         run_single_shot(model_name, trimmed_prompt, max_new_tokens)
         return
 
-    if cmd == "list" or cmd == "ls":
-        var models = store.list_models()
-        if len(models) == 0:
-            if is_json:
-                print("[]")
-            else:
-                print("No local models found.")
-        else:
-            format_model_table(models, is_json)
-        return
-
-    if cmd == "show":
-        if len(args) < 2:
-            raise Error("'show' requires a model name. Usage: aesir show <model>")
-        var manifest = store.get_model(args[1])
-        show_model_details(manifest, is_json)
-        return
-
-    if cmd == "ps":
-        var active = store.get_active_ps()
-        if len(active) == 0:
-            if is_json:
-                print("[]")
-            else:
-                print("NAME              \tID          \tSIZE    \tMODIFIED")
-                print("------------------\t------------\t--------\t-------------")
-                print("No active model sessions running.")
-        else:
-            format_ps_table(active, is_json)
-        return
-
-    if cmd == "create":
-        if len(args) < 4 or args[2] != "-f":
-            raise Error("'create' requires a model name and Modelfile path. Usage: aesir create <name> -f <modelfile_path>")
-        var default_modelfile = String("FROM ") + args[1] + String(".gguf\nSYSTEM You are ") + args[1]
-        store.create_model(args[1], default_modelfile)
-        print("Created model '" + args[1] + "' successfully.")
-        return
-
-    if cmd == "cp":
-        if len(args) < 3:
-            raise Error("'cp' requires source and target names. Usage: aesir cp <source> <target>")
-        store.copy_model(args[1], args[2])
-        print("Copied model '" + args[1] + "' to '" + args[2] + "' successfully.")
-        return
-
-    if cmd == "rm" or cmd == "delete":
-        if len(args) < 2:
-            raise Error("'rm' requires a model name. Usage: aesir rm <model>")
-        if store.remove_model(args[1]):
-            print("Removed model '" + args[1] + "' successfully.")
-        else:
-            raise Error("model manifest not found: " + args[1])
-        return
+    if (
+        cmd == "list" or cmd == "ls" or cmd == "show" or cmd == "ps"
+        or cmd == "create" or cmd == "cp" or cmd == "rm" or cmd == "delete"
+    ):
+        _ = store
+        _ = is_json
+        raise Error(
+            "persistent model-store command '" + cmd
+            + "' is not implemented"
+        )
 
     if cmd == "serve" or cmd == "daemon":
         raise Error("HTTP server daemon is not implemented")

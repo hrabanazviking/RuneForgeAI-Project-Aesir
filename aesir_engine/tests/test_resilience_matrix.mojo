@@ -1,12 +1,12 @@
 # tests/test_resilience_matrix.mojo
-# Verification of StateVault durable checkpoints, AesirEventBus pub/sub, and RuneThreadPool worker pool
+# Verification of local checksum, subscription, and task-list descriptors
 
 from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus, EventSubscription
 from core.thread_pool import RuneThreadPool, RuneTask
 
 def test_state_vault_durable_checkpoints() raises:
-    print("--- Testing StateVault Durable Checkpoints & Checksum Verification ---")
+    print("--- Testing StateVault in-memory checksum marker ---")
     var vault = StateVault()
     var chk = vault.save_checkpoint(128, 32, 5000)
 
@@ -24,11 +24,11 @@ def test_state_vault_durable_checkpoints() raises:
     if not rejected:
         raise Error("StateVault failed to reject corrupt checksum checkpoint")
 
-    print("StateVault durable checkpoints & checksum verification: PASS")
+    print("StateVault in-memory checksum marker: PASS")
 
 
 def test_event_bus_pub_sub() raises:
-    print("--- Testing AesirEventBus Pub/Sub & Subscriptions ---")
+    print("--- Testing AesirEventBus local event/subscription descriptors ---")
     var bus = AesirEventBus()
     bus.subscribe("server_listener", 0xFFFF)
     bus.subscribe("cli_listener", 0x0001)
@@ -44,11 +44,11 @@ def test_event_bus_pub_sub() raises:
     if len(bus.subscriptions) != 1:
         raise Error("AesirEventBus unsubscribe failed")
 
-    print("AesirEventBus pub/sub & subscriptions: PASS")
+    print("AesirEventBus local event/subscription descriptors: PASS")
 
 
 def test_thread_pool_concurrency() raises:
-    print("--- Testing RuneThreadPool Worker Pool & Cancellation ---")
+    print("--- Testing RuneThreadPool local task list & cancellation markers ---")
     var pool = RuneThreadPool(4)
     var count1 = pool.submit_task(101, "embed_job_1")
     var count2 = pool.submit_task(102, "embed_job_2")
@@ -67,7 +67,7 @@ def test_thread_pool_concurrency() raises:
     if pool.is_active:
         raise Error("RuneThreadPool shutdown failed to clear active state")
 
-    print("RuneThreadPool worker pool & cancellation: PASS")
+    print("RuneThreadPool local task list & cancellation markers: PASS")
 
 
 def main() raises:

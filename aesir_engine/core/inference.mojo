@@ -156,7 +156,8 @@ struct TransformerBlock(Copyable):
     ) raises:
 
         """
-        Executes a single layer's forward pass supporting single and multi-device (sharded) execution.
+        Executes one layer on the host path. Logical sharding remains sequential
+        host computation; physical accelerator options fail closed.
         """
         var num_devices = topology.num_devices
         if num_devices <= 1:
@@ -548,4 +549,3 @@ def forward_pass(
     var kv_cache = KVCache(context_length, kv_dim, well, num_layers)
     var start_pos = max(0, len(tokens) - 1)
     return forward_pass(tokens, seer, well, kv_cache, start_pos, num_layers, head_dim, num_heads, topology, blocks, use_npu, npu_backend, use_gpu_realm, gpu_realm)
-

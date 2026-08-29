@@ -1,15 +1,13 @@
 # core/mqari.mojo
-# MÍMIR-VØLVA Quantum-Acoustic Resonance Inference (MQARI)
-# Ultra-Fast Edge Inference Acceleration via Quantum-Acoustic Harmonic Superposition
+# Experimental harmonic tensor transform
 
-from std.math import cos, sin, sqrt
+from std.math import cos
 from .mimir_well import RuneTensor, f16
 
 struct MQARIEngine:
     """
-    MQARIEngine — Quantum-Acoustic Harmonic Resonance Solver.
-    Transforms activation matrices into multi-frequency harmonic modes,
-    projecting sparse linear layers directly in frequency domain.
+    Local harmonic-transform experiment. It does not use quantum or acoustic
+    hardware, replace trained projections, or accelerate verified inference.
     """
     var enabled: Bool
     var harmonic_modes: Int
@@ -22,10 +20,17 @@ struct MQARIEngine:
 
     def solve_harmonic_resonance(self, input_tensor: RuneTensor[f16], mut output_tensor: RuneTensor[f16]) raises:
         """
-        Executes quantum-acoustic harmonic superposition, accelerating forward pass matrix projections.
+        Applies a deterministic cosine transform to caller-owned tensors.
         """
         if not self.enabled:
             return
+
+        if input_tensor.rows <= 0 or input_tensor.cols <= 0:
+            raise Error("MQARIEngine requires a non-empty input tensor")
+        if output_tensor.rows != input_tensor.rows or output_tensor.cols <= 0:
+            raise Error("MQARIEngine output shape is incompatible with input")
+        if self.harmonic_modes <= 0:
+            raise Error("MQARIEngine harmonic_modes must be positive")
 
         var rows = input_tensor.rows
         var cols = input_tensor.cols

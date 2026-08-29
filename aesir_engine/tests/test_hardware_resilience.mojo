@@ -1,5 +1,5 @@
 # tests/test_hardware_resilience.mojo
-# Resilience & Self-Healing Hardening Suite for GPU and NPU Gateways
+# Fail-closed bounds suite for unsupported GPU and NPU gateways
 
 from core.cuda_gate import CUDAGate
 from core.metal_gate import MetalGate
@@ -114,7 +114,7 @@ def test_non_positive_dimension_gemm_rejection() raises:
 
 
 def test_self_healing_error_barriers() raises:
-    print("--- Testing self-healing error barriers and memory safety ---")
+    print("--- Testing fail-closed error barriers and arena integrity ---")
     var well = MimirWell(1024 * 1024)
     var a_ptr = well.allocate(4 * 32)
     var A = RuneTensor[f16](4, 32, a_ptr)
@@ -143,4 +143,4 @@ def test_self_healing_error_barriers() raises:
         if not hailo_caught:
             raise Error("gemm_f16_npu failed to trap Hailo-10 unavailable error")
 
-    print("self-healing error barriers and memory safety: PASS")
+    print("fail-closed error barriers and arena integrity: PASS")

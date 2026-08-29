@@ -3,9 +3,10 @@
 ## Public Structs & Functions
 
 ### `BifrostGate`
-POSIX socket transport current. OpenAI REST compatibility endpoints (`/v1/chat/completions`,
-`/v1/models`, `/v1/embeddings`) return verified HTTP 200 responses formatted via `OpenAIGate`.
-Unimplemented generation/swarm routes return HTTP 501; unknown paths return HTTP 404.
+POSIX socket and HTTP framing primitives. OpenAI-, Ollama-, llama.cpp-, and
+Swarm-shaped operational routes return HTTP 501; unknown paths return HTTP 404.
+`OpenAIGate` remains a local formatter scaffold and is not wired to successful
+compatibility endpoints.
 
 ```mojo
 struct HTTPRequest:
@@ -70,4 +71,3 @@ struct OpenAIGate:
 
 `/api/swarm/nodes`, `/api/swarm/status`, `/api/swarm/join`, and
 `/api/swarm/dispatch` return HTTP 501. They do not inspect or mutate a cluster.
-

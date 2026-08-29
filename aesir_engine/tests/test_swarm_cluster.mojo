@@ -111,6 +111,20 @@ def test_swarm_cluster_task_dispatch() raises:
     if not empty_dispatch_rejected:
         raise Error("TaskDispatcher allowed dispatch to node with empty ID")
 
+    var valid_dispatch_rejected = False
+    try:
+        var local_node = PeerNode(
+            "local", "127.0.0.1", 11434,
+            SwarmNodeRole.WORKER, 1000, 500, True
+        )
+        _ = dispatcher.dispatch_to_node(local_node, "test_task")
+    except error:
+        valid_dispatch_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("swarm dispatch rejection omitted truth boundary")
+    if not valid_dispatch_rejected:
+        raise Error("TaskDispatcher fabricated a dispatch success string")
+
     if cluster.registry.count() != 0 or cluster.is_mesh_active:
         raise Error("SwarmCluster started with fictional operational state")
     if cluster.heartbeat_pulse():
@@ -138,14 +152,26 @@ def test_swarm_cluster_task_dispatch() raises:
     if not empty_dist_rejected:
         raise Error("SwarmCluster allowed dispatch_distributed_inference with empty model")
 
-    var join_ok = cluster.join_mesh("192.0.2.1")
-    if not join_ok or not cluster.is_mesh_active:
-        raise Error("swarm join failed for valid leader address")
+    var join_rejected = False
+    try:
+        _ = cluster.join_mesh("192.0.2.1")
+    except error:
+        join_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("swarm join rejection omitted truth boundary")
+    if not join_rejected or cluster.is_mesh_active:
+        raise Error("swarm join fabricated operational mesh state")
 
-    var output = cluster.dispatch_distributed_inference(
-        "aesir:latest", "Run inference across mesh"
-    )
-    if len(output.as_bytes()) == 0:
-        raise Error("swarm dispatch returned empty output text")
+    var dispatch_rejected = False
+    try:
+        _ = cluster.dispatch_distributed_inference(
+            "aesir:latest", "Run inference across mesh"
+        )
+    except error:
+        dispatch_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("swarm inference rejection omitted truth boundary")
+    if not dispatch_rejected:
+        raise Error("swarm dispatch returned fabricated output text")
 
     print("unsupported swarm network operations: PASS")

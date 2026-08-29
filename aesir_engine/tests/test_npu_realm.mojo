@@ -13,13 +13,11 @@ def test_npu_gate_availability() raises:
         var count = NPUGate.get_device_count(backend)
 
         if avail:
-            print("NPU Backend " + backend.name() + ": AVAILABLE (" + String(count) + " devices)")
-            if count <= 0:
-                raise Error("NPUGate reported available for " + backend.name() + " but device count is 0")
+            print("NPU Backend " + backend.name() + ": runtime library LOADABLE; physical device count unverified")
         else:
             print("NPU Backend " + backend.name() + ": UNAVAILABLE on current host platform (Fail-Closed)")
-            if count != 0:
-                raise Error("NPUGate reported unavailable for " + backend.name() + " but device count is non-zero")
+        if count != 0:
+            raise Error("NPUGate fabricated a physical device count for " + backend.name())
 
     print("NPUGate driver & runtime availability: PASS")
 
@@ -66,16 +64,14 @@ def test_npu_realm_unsupported_gateways() raises:
 
     for idx in range(len(test_backends)):
         var b = test_backends[idx]
-        if not NPUGate.is_available(b):
-            var rejected = False
-            try:
-                gemm_f16_npu(A, B, C, b)
-            except error:
-                rejected = True
-                var err_str = String(error)
-                if "NPU execution error" not in err_str and "driver not available" not in err_str:
-                    raise Error("NPU gateway rejection omitted stable error text: " + err_str)
-            if not rejected:
-                raise Error("NPU gateway failed to reject execution on host without NPU driver: " + b.name())
+        var rejected = False
+        try:
+            gemm_f16_npu(A, B, C, b)
+        except error:
+            rejected = True
+            if "not implemented" not in String(error):
+                raise Error("NPU gateway rejection omitted stable error text: " + String(error))
+        if not rejected:
+            raise Error("NPU gateway reported execution without a physical kernel: " + b.name())
 
     print("NPU realm error gateways: PASS")

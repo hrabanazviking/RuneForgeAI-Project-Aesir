@@ -1,4 +1,4 @@
-# Project Aesir: System Architecture
+# Project Aesir: Target Architecture and Implemented Shapes
 
 > *"Order is not accidental. It is built by design laws that endure under load."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -10,11 +10,11 @@
 Project Aesir is a bare-metal LLM inference engine written in **Mojo**. 
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Subsystems such as full Ollama HTTP server parity ([`AES-SRV-001`](../CAPABILITY_LEDGER.md)), GPU/NPU acceleration, and Swarm clusters represent target architectural goals preserved under [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Unless a paragraph cites a matching ledger entry and boundary, the diagrams, `Role`, and legacy `Implementation` labels below describe target architecture or code shape—not an operational claim. Ollama compatibility, GPU/NPU execution, durable services, and Swarm networking are missing.
 
 ---
 
-## 🧩 Subsystem Architecture
+## 🧩 Target Subsystem Architecture
 
 ```mermaid
 graph TD
@@ -51,7 +51,7 @@ graph TD
 
 ---
 
-## 🔒 Domain Layering & Component Breakdown (Slice 6, Slice 7, Slice 8, Slice 9, Slice 10, Slice 11, Slice 12 & Slice 13)
+## 🔒 Target Domain Layering & Existing Component Shapes
 
 ### 1. `server/api.mojo` — `BifrostGate` (Transport & Response Formatting)
 - **Role:** Bare-metal HTTP socket listener, streaming transport, and API response formatting engine.
@@ -61,7 +61,7 @@ graph TD
 ### 2. `aesir.mojo` — `AesirEngine` (Orchestrator, RAG, Resilience, Multi-Device Topology, NPU Gateway & GPU Matrix)
 - **Role:** Sovereign facade coordinating intelligence, memory, vector stores, resilience guardians, multi-device topology, NPU backend selection, GPU realm targeting, and transport streaming.
 - **Resilience Matrix (Slice 12):** Holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. During initialization, activates the supervisor and emits an initial heartbeat pulse (`supervisor.pulse_heartbeat()`). Guarantees process self-healing recovery and zero-allocation checkpointing.
-- **Multi-Device Topology & RAG:** Holds `knowledge_base: MimirStore` and `topology: DeviceTopology` (initialized via `num_devices`). In `generate()` and `generate_stream()`, if `knowledge_base.count > 0`, invokes `extract_query_embedding(prompt, hidden_dim)` to compute mean-pooled query vectors via `token_embd.weight` lookup or string hash projection (`AES-RAG-003`), executes `knowledge_base.search_knn(query_vector, 3)`, formats structured citations (`[CITATION N]: ...`), enforces context byte budgeting (`max_context_bytes = 1024`) (`AES-RAG-005`), and prepends retrieved document context (`[GROUNDED CONTEXT]: ...`) to the prompt before tokenization. Executes `forward_pass()` passing `topology` to drive single- or multi-device sharded matrix operations across the Bifrost Shard Matrix.
+- **RAG and topology boundary:** Holds an in-memory `MimirStore` and host topology descriptors. When token-embedding weights are loaded, it can mean-pool query embeddings, search local vectors, and construct grounded context subject to the model's token budget (`AES-RAG-003`, `AES-RAG-005` `partial`). There is no string-hash fallback, fixed 1024-byte cap, corpus persistence, or physical multi-device execution.
 - **Thinking Control (`permit_seidr`):** When set to `False`, the generation loop masks out thinking tokens (`<|start_thought|>`) with $-\infty$ logit probability, preventing unneeded reasoning computation.
 - **NPU Realm Gateway (Slice 7):** Holds `enable_npu: Bool` and `target_backend: NPUBackendType` fields. When `enable_npu` is `True`, logs the active NPU backend name (`target_backend.name()`) during initialization and passes `use_npu=enable_npu, npu_backend=target_backend` into every `forward_pass()` invocation.
 - **Universal Multi-GPU Realm Matrix (Slice 8):** Holds `enable_gpu_realm: Bool` and `target_gpu_realm: GPURealmType` fields. When `enable_gpu_realm` is `True`, logs the active GPU realm name (`target_gpu_realm.name()`) during initialization and passes `use_gpu_realm=enable_gpu_realm, gpu_realm=target_gpu_realm` into every `forward_pass()` invocation, routing GEMM operations through `gemm_f16_gpu` in `core/compute.mojo`.
@@ -86,13 +86,13 @@ graph TD
 - **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
 - **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
 
-### 4.3. `loader/onnx.mojo` — ONNX Protobuf Binary Header & Node Dispatch Validator
-- **Role:** ONNX model header parsing, IR/opset version extraction, and operator dispatcher validation (`AES-ECO-004`).
-- **Implementation:** Provides `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse protobuf binary headers, validate graph nodes against supported operator subset (`MatMul`, `Add`, `Mul`, `Relu`, `Softmax`, etc.), and reject unsupported operator types with explicit error exceptions.
+### 4.3. `loader/onnx.mojo` — ONNX Descriptors and Unsupported Parser
+- **Role:** Local operator-name descriptors and explicit unsupported boundaries (`AES-ECO-004`).
+- **Current boundary:** Byte parsing and mapping fail closed; no protobuf graph, tensor, or execution support exists.
 
-### 4.4. `loader/exl2.mojo` — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator
-- **Role:** EXL2 variable-bit sub-block quantization parser, bitrate metric extraction, and physical CUDA hardware execution contract validator (`AES-ECO-005`).
-- **Implementation:** Provides `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers (2.0 to 8.0 bpw), extract average bitrate metrics, and enforce physical NVIDIA CUDA hardware and custom EXL2 CUDA kernel execution contracts.
+### 4.4. `loader/exl2.mojo` — EXL2 Descriptors and Unsupported Parser
+- **Role:** Local descriptor/contract validation with an explicit unsupported boundary (`AES-ECO-005`).
+- **Current boundary:** Model parsing, bitrate extraction, CUDA kernels, and execution are not implemented.
 
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
@@ -108,8 +108,8 @@ graph TD
   - **`GPURealmType` (Slice 8):** Zero-overhead integer discriminant tag naming ten global compute GPU hardware realms: `NVIDIA_CUDA (0)`, `AMD_ROCM_HIP (1)`, `INTEL_ONEAPI_XE (2)`, `MOORE_THREADS_MUSA (3)`, `BIREN_SUPA (4)`, `METAX_MACA (5)`, `HYGON_DCU (6)`, `ARM_MALI_OPENCL (7)`, `QUALCOMM_ADRENO (8)`, `IMAGINATION_POWERVR (9)`. Provides `.name()`, `==`, and `!=`. Default: `NVIDIA_CUDA (0)`.
   - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop and `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
 
-### 7. `aesir_engine/config.mojo` & System Paradigms (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
-- **Role:** Configuration management, safety protocols, crash self-healing, and optional inference paradigm engines.
+### 7. `aesir_engine/config.mojo` & Experimental Primitives (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
+- **Role:** Validated configuration fields, local deterministic transforms, text helpers, and status-display shapes. These are not integrated inference paradigms, live telemetry, self-healing, tool execution, or MAX execution.
 - **Components:**
   - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
   - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.

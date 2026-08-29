@@ -11,13 +11,11 @@ def test_intel_gate_availability() raises:
     var count = IntelGate.get_device_count()
 
     if avail:
-        print("Intel Level Zero (libze_loader.so/libze_intel_gpu.so): AVAILABLE (" + String(count) + " devices)")
-        if count <= 0:
-            raise Error("IntelGate reported available but device count is 0")
+        print("Intel Level Zero runtime library: LOADABLE; physical device count unverified")
     else:
         print("Intel Level Zero: UNAVAILABLE on current host platform (Fail-Closed)")
-        if count != 0:
-            raise Error("IntelGate reported unavailable but device count is non-zero")
+    if count != 0:
+        raise Error("IntelGate fabricated a physical device count")
 
     print("IntelGate driver & runtime availability: PASS")
 
@@ -56,16 +54,14 @@ def test_intel_realm_unsupported_gateways() raises:
     var c_ptr = well.allocate(4 * 4)
     var C = RuneTensor[f16](4, 4, c_ptr)
 
-    if not IntelGate.is_available():
-        var rejected = False
-        try:
-            gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
-        except error:
-            rejected = True
-            var err_str = String(error)
-            if "Intel OneAPI Level Zero GPU execution error" not in err_str and "libze_loader.so" not in err_str:
-                raise Error("Intel gateway rejection omitted stable error text: " + err_str)
-        if not rejected:
-            raise Error("Intel gateway failed to reject execution on host without Level Zero runtime")
+    var rejected = False
+    try:
+        IntelGate.launch_gemm_intel(A, B, C)
+    except error:
+        rejected = True
+        if "not implemented" not in String(error):
+            raise Error("Intel gateway rejection omitted stable error text: " + String(error))
+    if not rejected:
+        raise Error("Intel gateway reported execution without a physical kernel")
 
     print("Intel Level Zero realm error gateways: PASS")

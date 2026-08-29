@@ -1,9 +1,10 @@
 # core/thinking.mojo
-# Thinking Mode Controller & Thought Token Suppression Engine
+# Transcript-level thought-tag filter
 
 struct ThinkingController:
     """
-    ThinkingController — Manages thought token generation, reasoning blocks, and hard logit suppression.
+    Filters explicit thought tags from decoded text. Tokenizer resolution and
+    pre-sampling logit suppression are owned by the sampler, not this helper.
     """
     var enabled: Bool
     var in_thought_block: Bool

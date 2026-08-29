@@ -50,7 +50,7 @@ def test_modelfile_parser() raises:
 
 
 def test_model_manifest_store() raises:
-    print("--- Testing model manifest store, SHA-256 digest & disk serialization ---")
+    print("--- Testing in-memory manifest fingerprint & text serialization ---")
     var store = RuneModelStore()
     if len(store.list_models()) != 0:
         raise Error("new model store must not contain fictional manifests")
@@ -71,8 +71,10 @@ def test_model_manifest_store() raises:
     var mf_text = String("FROM test.gguf\nPARAMETER temperature 0.7\nSYSTEM You are test.")
     store.create_model("testmodel:v1", mf_text)
     var fetched = store.get_model("testmodel:v1")
-    if not fetched.digest.startswith("sha256:"):
-        raise Error("create_model manifest digest missing sha256: prefix")
+    if not fetched.digest.startswith("fnv1a64:"):
+        raise Error("create_model manifest fingerprint missing fnv1a64 prefix")
+    if fetched.size_bytes != 0 or fetched.quantization != "unknown":
+        raise Error("create_model fabricated unobserved model metadata")
 
     # Test store serialization round-trip
     var serialized = store.serialize_store()
@@ -102,7 +104,7 @@ def test_model_manifest_store() raises:
     if not copy_rejected:
         raise Error("copy_model failed to reject empty source parameter")
 
-    print("model manifest store, digest & serialization: PASS")
+    print("in-memory manifest fingerprint & text serialization: PASS")
 
 
 def assert_cli_command_unsupported(command: String) raises:
@@ -129,37 +131,12 @@ def test_cli_command_dispatch() raises:
     help_args.append("help")
     dispatch_command(help_args, store)
 
-    # Test implemented operational CLI commands
-    var list_args = List[String]()
-    list_args.append("list")
-    dispatch_command(list_args, store)
-
-    var ps_args = List[String]()
-    ps_args.append("ps")
-    dispatch_command(ps_args, store)
-
-    var create_args = List[String]()
-    create_args.append("create")
-    create_args.append("demo-model")
-    create_args.append("-f")
-    create_args.append("Modelfile")
-    dispatch_command(create_args, store)
-
-    var show_args = List[String]()
-    show_args.append("show")
-    show_args.append("demo-model")
-    dispatch_command(show_args, store)
-
-    var cp_args = List[String]()
-    cp_args.append("cp")
-    cp_args.append("demo-model")
-    cp_args.append("demo-copy")
-    dispatch_command(cp_args, store)
-
-    var rm_args = List[String]()
-    rm_args.append("rm")
-    rm_args.append("demo-model")
-    dispatch_command(rm_args, store)
+    assert_cli_command_unsupported("list")
+    assert_cli_command_unsupported("show")
+    assert_cli_command_unsupported("ps")
+    assert_cli_command_unsupported("create")
+    assert_cli_command_unsupported("cp")
+    assert_cli_command_unsupported("rm")
 
     # Verify reserved unsupported command rejections
     # Test bare swarm command subcommand requirement assertion
@@ -208,12 +185,11 @@ def test_repl_session_and_slash_commands() raises:
     inputs.append("/set temp 0.8")
     inputs.append("/set top_k 50")
     inputs.append("/show")
-    inputs.append("Hello Aesir")
     inputs.append("/clear")
     inputs.append("/bye")
 
     var outputs = repl.run_repl_stream(inputs)
-    if len(outputs) != 7:
+    if len(outputs) != 6:
         raise Error("run_repl_stream output length mismatch: got " + String(len(outputs)))
     if outputs[0] != "[HELP]":
         raise Error("REPL help slash command mismatch")
@@ -223,12 +199,20 @@ def test_repl_session_and_slash_commands() raises:
         raise Error("REPL set top_k slash command mismatch")
     if outputs[3] != "[SHOW]":
         raise Error("REPL show slash command mismatch")
-    if "Aesir response to: Hello Aesir" not in outputs[4]:
-        raise Error("REPL chat turn response mismatch")
-    if outputs[5] != "[CLEAR]":
+    if outputs[4] != "[CLEAR]":
         raise Error("REPL clear slash command mismatch")
-    if outputs[6] != "[EXIT]":
+    if outputs[5] != "[EXIT]":
         raise Error("REPL exit slash command mismatch")
+
+    var chat_rejected = False
+    try:
+        _ = repl.process_input_line("Hello Aesir")
+    except error:
+        chat_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("REPL chat rejection omitted truth boundary")
+    if not chat_rejected:
+        raise Error("REPL returned fabricated assistant text")
 
     # Test negative configuration parameter clamping
     var neg_inputs = List[String]()
@@ -268,13 +252,18 @@ def test_cli_flag_options_parser() raises:
     if not options.insecure:
         raise Error("CLIOptions insecure flag not set")
 
-    # Verify JSON output dispatch
-    var store = RuneModelStore()
-    var list_json_args = List[String]()
-    list_json_args.append("list")
-    list_json_args.append("--format")
-    list_json_args.append("json")
-    dispatch_command(list_json_args, store)
+    # Verify invalid option values fail closed.
+    var invalid_format = List[String]()
+    invalid_format.append("list")
+    invalid_format.append("--format")
+    invalid_format.append("yaml")
+    var invalid_format_rejected = False
+    try:
+        _ = parse_cli_options(invalid_format)
+    except:
+        invalid_format_rejected = True
+    if not invalid_format_rejected:
+        raise Error("CLIOptions accepted unsupported output format")
 
     # Verify ChatMessage empty list formatting safety
     from loader.chat_template import RuneChatTemplate, ChatMessage

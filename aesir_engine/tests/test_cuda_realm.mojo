@@ -11,13 +11,11 @@ def test_cuda_gate_availability() raises:
     var avail = CUDAGate.is_available()
     var count = CUDAGate.get_device_count()
     if avail:
-        print("CUDA Runtime (libcudart.so/libcuda.so): AVAILABLE (" + String(count) + " devices)")
-        if count < 0:
-            raise Error("Device count must be non-negative")
+        print("CUDA runtime library: LOADABLE; physical device count unverified")
     else:
         print("CUDA Runtime (libcudart.so/libcuda.so): NOT LOADED ON HOST (Fail-Closed)")
-        if count != 0:
-            raise Error("Device count must be 0 when CUDA runtime is unavailable")
+    if count != 0:
+        raise Error("CUDAGate fabricated a physical CUDA device count")
 
 def test_cuda_gemm_dispatch_bounds() raises:
     """Verify gemm_f16_gpu shape bounds checking for NVIDIA_CUDA realm."""
@@ -43,7 +41,7 @@ def test_cuda_gemm_dispatch_bounds() raises:
         raise Error("gemm_f16_gpu failed to raise shape bounds or driver error")
 
 def test_cuda_realm_unsupported_gateways() raises:
-    """Verify non-CUDA GPU realms raise explicit unsupported errors."""
+    """Verify every physical GPU execution path fails closed."""
     print("--- Testing unsupported GPU realm error gateways ---")
     var well = MimirWell(1024 * 1024)
 
@@ -55,12 +53,21 @@ def test_cuda_realm_unsupported_gateways() raises:
     var B = RuneTensor[f16](2, 2, p_b, False)
     var C = RuneTensor[f16](2, 2, p_c, False)
 
+    var raised_cuda = False
+    try:
+        gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.NVIDIA_CUDA))
+    except e:
+        if "not implemented" in String(e) and "no physical CUDA kernel" in String(e):
+            raised_cuda = True
+    if not raised_cuda:
+        raise Error("NVIDIA_CUDA realm reported execution without a physical kernel")
+
     var raised_rocm = False
     try:
         gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.AMD_ROCM_HIP))
     except e:
         var err_str = String(e)
-        if "GPU execution is not implemented for realm AMD_ROCM_HIP" in err_str or "AMD ROCm HIP GPU execution error" in err_str or "libamdhip64.so" in err_str:
+        if "not implemented" in err_str:
             raised_rocm = True
 
     if not raised_rocm:
@@ -71,7 +78,7 @@ def test_cuda_realm_unsupported_gateways() raises:
         gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
     except e:
         var err_str = String(e)
-        if "GPU execution is not implemented for realm INTEL_ONEAPI_XE" in err_str or "Intel OneAPI Level Zero GPU execution error" in err_str or "libze_loader.so" in err_str:
+        if "not implemented" in err_str:
             raised_oneapi = True
 
     if not raised_oneapi:

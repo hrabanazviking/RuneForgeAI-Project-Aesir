@@ -29,26 +29,26 @@ def test_openai_api_formatter() raises:
     print("--- Testing OpenAIGate local JSON formatter scaffold ---")
     var success = True
     var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello world")
-    if '"model": "aesir:latest"' not in json_resp or '"content": "Hello world"' not in json_resp:
+    if "\"model\": \"aesir:latest\"" not in json_resp or "\"content\": \"Hello world\"" not in json_resp:
         print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
-    if '"aesir_status": "formatter_scaffold"' not in json_resp:
+    if "\"aesir_status\": \"formatter_scaffold\"" not in json_resp:
         print("FAIL: OpenAIGate formatter omitted scaffold status")
         success = False
-    if '"prompt_tokens": 0' not in json_resp or '"total_tokens": 0' not in json_resp:
+    if "\"prompt_tokens\": 0" not in json_resp or "\"total_tokens\": 0" not in json_resp:
         print("FAIL: OpenAIGate formatter invented token usage")
         success = False
 
     var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
-    if "data: {" not in chunk_resp or '"content": "Hello"' not in chunk_resp:
+    if "data: {" not in chunk_resp or "\"content\": \"Hello\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
-    if '"aesir_status": "formatter_scaffold"' not in chunk_resp:
+    if "\"aesir_status\": \"formatter_scaffold\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted scaffold status")
         success = False
 
     var embedding_resp = OpenAIGate.format_embeddings("aesir:latest")
-    if '"error": "unsupported"' not in embedding_resp:
+    if "\"error\": \"unsupported\"" not in embedding_resp:
         print("FAIL: embedding formatter invented vector data")
         success = False
 
@@ -199,15 +199,15 @@ def test_unsupported_http_responses() raises:
     var unsupported = unsupported_http_response("OpenAI API execution")
     if "501 Not Implemented" not in unsupported:
         raise Error("known unsupported route omitted HTTP 501")
-    if '"error":"unsupported"' not in unsupported:
+    if "\"error\":\"unsupported\"" not in unsupported:
         raise Error("known unsupported route omitted unsupported error body")
-    if "200 OK" in unsupported or '"status":"ok"' in unsupported:
+    if "200 OK" in unsupported or "\"status\":\"ok\"" in unsupported:
         raise Error("known unsupported route emitted success state")
 
     var missing = route_not_found_response()
     if "404 Not Found" not in missing:
         raise Error("unknown route omitted HTTP 404")
-    if '"error":"route_not_found"' not in missing:
+    if "\"error\":\"route_not_found\"" not in missing:
         raise Error("unknown route omitted not-found error body")
 
     print("honest unsupported HTTP responses: PASS")
@@ -272,8 +272,8 @@ def test_http_parser_and_router() raises:
         raise Error("HTTP parser failed to extract body: got " + req.body)
 
     var response = dispatch_http_request(req)
-    if "HTTP/1.1 200 OK" not in response or '"object": "chat.completion"' not in response:
-        raise Error("Route dispatcher failed to format OpenAI chat completion response for /v1/chat/completions")
+    if "501 Not Implemented" not in response or "\"error\":\"unsupported\"" not in response:
+        raise Error("Route dispatcher fabricated OpenAI inference success")
 
     var raw_unknown = "GET /unknown/path HTTP/1.1\r\nHost: localhost\r\n\r\n"
     var unknown_req = parse_http_request(raw_unknown)
@@ -313,18 +313,18 @@ def test_http_response_framing() raises:
 
 
 def test_openai_rest_gateway() raises:
-    print("--- Testing OpenAI REST API Gateway (/v1/chat/completions, /v1/models, /v1/embeddings) ---")
+    print("--- Testing fail-closed OpenAI REST compatibility boundaries ---")
     var models_req = parse_http_request("GET /v1/models HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
     var models_resp = dispatch_http_request(models_req)
-    if "HTTP/1.1 200 OK" not in models_resp or '"object": "list"' not in models_resp:
-        raise Error("Route dispatcher failed on /v1/models: got " + models_resp)
+    if "501 Not Implemented" not in models_resp or "\"error\":\"unsupported\"" not in models_resp:
+        raise Error("Route dispatcher fabricated model catalog success: got " + models_resp)
 
     var emb_req = parse_http_request("POST /v1/embeddings HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n\r\n")
     var emb_resp = dispatch_http_request(emb_req)
-    if "HTTP/1.1 200 OK" not in emb_resp or '"error": "unsupported"' not in emb_resp:
-        raise Error("Route dispatcher failed on /v1/embeddings: got " + emb_resp)
+    if "501 Not Implemented" not in emb_resp or "\"error\":\"unsupported\"" not in emb_resp:
+        raise Error("Route dispatcher fabricated embeddings success: got " + emb_resp)
 
-    print("OpenAI REST API Gateway: PASS")
+    print("Fail-closed OpenAI REST compatibility boundaries: PASS")
 
 def test_json_escape_string() raises:
     print("--- Testing JSON string escaper for quotes, backslashes, tabs, and newlines ---")
@@ -346,7 +346,7 @@ def test_request_context_and_structured_errors() raises:
         raise Error("RequestContext cancel() must set is_cancelled = True")
 
     var err_json = build_structured_error(400, "invalid_request", "Missing prompt parameter", "req-12345")
-    if '"code":400' not in err_json or '"type":"invalid_request"' not in err_json or '"request_id":"req-12345"' not in err_json:
+    if "\"code\":400" not in err_json or "\"type\":\"invalid_request\"" not in err_json or "\"request_id\":\"req-12345\"" not in err_json:
         raise Error("build_structured_error formatted invalid JSON error payload: got '" + err_json + "'")
     print("RequestContext & Structured Error Formatting: PASS")
 

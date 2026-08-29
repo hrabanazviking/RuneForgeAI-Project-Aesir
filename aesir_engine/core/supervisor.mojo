@@ -40,7 +40,7 @@ struct SelfHealingSupervisor(Copyable):
         """
         ᛈᛢᛚᛋᛖ·ᚺᛖᚨᛏᛒᛖᚨᛏ — The Rhythm of Vitality (pulse_heartbeat)
         ════════════════════════════════════════════════════════════
-        Emits a periodic heartbeat pulse across the event bus to certify thread health.
+        Records a local heartbeat event; it does not inspect thread health.
         """
         self.bus.publish_event("HEARTBEAT", "Supervisor pulse OK")
 

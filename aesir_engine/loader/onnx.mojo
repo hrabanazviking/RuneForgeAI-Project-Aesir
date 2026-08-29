@@ -1,5 +1,5 @@
 # loader/onnx.mojo
-# ONNXModelSeer: Protobuf binary header & operator dispatcher validator
+# ONNXModelSeer: local descriptors and unsupported parser boundary
 
 from std.memory import Pointer
 from core.mimir_well import MimirWell
@@ -52,8 +52,8 @@ struct ONNXModelSeer:
     """
     ᛟᚾᚾᛏ·ᛋᛖᛖᚱ — The Vision of the ONNX Graph (ONNXModelSeer)
     ════════════════════════════════════════════════════════════
-    Parses ONNX model protobuf headers, extracts IR version and opset,
-    and validates operator nodes against Aesir's supported subset.
+    Preserves local ONNX node descriptors and operator allow-list validation.
+    Protobuf parsing, tensor decoding, planning, and execution are unsupported.
     """
     var model_path: String
     var ir_version: Int64
@@ -76,27 +76,25 @@ struct ONNXModelSeer:
 
     def parse_onnx_header_bytes(mut self, bytes: Pointer[Scalar[DType.uint8], MutUntrackedOrigin], size: Int) raises -> Bool:
         """
-        Parses ONNX protobuf magic byte signature, extracts IR version,
-        and validates model graph node operators.
+        Rejects synthetic header parsing until a bounded protobuf parser exists.
         """
+        _ = bytes
         if size < 4:
             raise Error("ONNX protobuf binary span too small (< 4 bytes)")
-        
-        # ONNX protobuf wire format check: varint IR version field (0x08) or standard protobuf magic
-        self.ir_version = 7 # ONNX IR v7 default for opset 13-18
-        self.producer_name = "AesirONNX"
-        self.opset_version = 17
-        return True
+        raise Error(
+            "ONNX protobuf parsing is not implemented; "
+            "fixed metadata is prohibited"
+        )
 
     def add_node(mut self, op_type: String, name: String = "") raises:
         """
-        Adds a graph node to the ONNX execution plan after validating operator type.
+        Adds a local operator descriptor after validating its name.
         """
         validate_onnx_node_op(op_type)
         self.nodes.append(ONNXNodeDescriptor(op_type, name))
         self.num_nodes += 1
 
     def map_to_well(self, mut well: MimirWell) -> Bool:
-        """Maps ONNX tensor initializers into contiguous MimirWell RAM/VRAM slabs."""
+        """Returns false until ONNX initializers are parsed and mapped."""
         _ = well
-        return len(self.nodes) > 0
+        return False

@@ -2,7 +2,6 @@ name: Project Aesir CI
 
 on:
   push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -23,5 +22,21 @@ jobs:
       - name: Run Master Test Suite
         run: pixi run mojo run aesir_engine/tests/run_all.mojo
 
-      - name: Check Documentation Drift
+      - name: Build Native CLI
+        run: pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ci-build
+
+      - name: Prove Fail-Closed Test Semantics
+        shell: bash
+        run: |
+          if pixi run mojo run aesir_engine/tests/test_fail_closed_runner.mojo > /tmp/aesir-negative-control.log 2>&1; then
+            echo "negative control unexpectedly succeeded"
+            exit 1
+          fi
+          if ! grep -q "negative_control.intentional_failure" /tmp/aesir-negative-control.log; then
+            cat /tmp/aesir-negative-control.log
+            echo "negative control failed for an unrelated reason"
+            exit 1
+          fi
+
+      - name: Check Repository Consistency
         run: python3 scripts/check_doc_drift.py

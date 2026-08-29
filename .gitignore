@@ -4,12 +4,18 @@
 # Compiled Binaries and Build Artifacts
 main
 aesir_main
+test
+test_engine
+test_server_loop
 *.o
 *.so
 *.dylib
 *.dll
 *.exe
+*.gguf
 
 # Temporary files & logs
 *.log
 .DS_Store
+__pycache__/
+*.py[cod]

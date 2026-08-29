@@ -228,7 +228,8 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 ```
 
 ### `GBNFGrammar` (`core/grammar.mojo`) (Slice 11)
-Constrained generation state machine and logit masking engine.
+Limited built-in boolean/number checks plus a deterministic logit-mask
+primitive. It does not parse general GBNF or guarantee structured output.
 
 ```mojo
 struct GBNFGrammar(Copyable, ImplicitlyCopyable):
@@ -242,7 +243,8 @@ struct GBNFGrammar(Copyable, ImplicitlyCopyable):
 ```
 
 ### `SpeculativeEngine` (`core/speculative.mojo`) (Slice 11)
-Draft token sampling and parallel verification gateway.
+Local proposal/acceptance arithmetic over caller-supplied logits. It runs no
+draft model and performs no parallel or probability-correct verification.
 
 ```mojo
 struct SpeculativeEngine(Copyable, ImplicitlyCopyable):
@@ -268,7 +270,8 @@ struct ErrorGuard:
 ```
 
 ### `StateVault` (`core/state_vault.mojo`) (Slice 12)
-Zero-allocation KV cache and prompt state snapshotting.
+One process-local checkpoint marker with a lightweight checksum; no durable or
+atomic storage and no KV-cache restoration.
 
 ```mojo
 struct StateVault(Copyable, ImplicitlyCopyable):
@@ -283,7 +286,8 @@ struct StateVault(Copyable, ImplicitlyCopyable):
 ```
 
 ### `AesirEventBus` (`core/event_bus.mojo`) (Slice 12)
-Decoupled inter-module message pub/sub event bus.
+Process-local event log and subscription descriptors. Subscriber delivery and
+asynchronous pub/sub are not implemented.
 
 ```mojo
 struct AesirEventBus(Copyable, ImplicitlyCopyable):
@@ -297,7 +301,8 @@ struct AesirEventBus(Copyable, ImplicitlyCopyable):
 ```
 
 ### `RuneThreadPool` (`core/thread_pool.mojo`) (Slice 12)
-Parallel worker thread pool for layer processing and async pipeline tasks.
+Bounded local task list. It creates no threads, executes no payloads, and
+provides no parallelism.
 
 ```mojo
 struct RuneThreadPool(Copyable, ImplicitlyCopyable):
@@ -310,7 +315,8 @@ struct RuneThreadPool(Copyable, ImplicitlyCopyable):
 ```
 
 ### `SelfHealingSupervisor` (`core/supervisor.mojo`) (Slice 12)
-Heartbeat monitor, panic catching & automatic crash recovery supervisor.
+Simulated heartbeat/crash-recovery state for local tests. It catches no process
+panic and performs no restart, automatic recovery, or failsafe switching.
 
 ```mojo
 struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
@@ -443,7 +449,9 @@ struct SwarmCluster(Copyable):
 ```
 
 ### Inference Pipeline (`inference.mojo`)
-Transformer layer forward pass execution engine with multi-device topology, NPU backend, and GPU realm matrix dispatch support.
+Transformer layer forward pass with a verified single-device host path. The
+NPU/GPU options are reserved arguments that fail closed; physical multi-device
+execution is not implemented.
 
 ```mojo
 struct TransformerBlock:

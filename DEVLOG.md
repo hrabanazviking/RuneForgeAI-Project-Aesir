@@ -3,6 +3,37 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 104: Forge 0F — Repository Truth and Consistency Reconciliation
+
+**Date:** August 29, 2026
+**Architectural Phase:** Mythic Engineering audit, truth-boundary repair, and CI hardening
+
+1. Replaced fabricated accelerator discovery, device allocation/transfer, and
+   CUDA/Metal/Intel/AMD/NPU/MAX kernel claims with checked fail-closed gateways.
+   Runtime-library loadability is now reported separately from physical device
+   presence.
+2. Removed fabricated REPL responses, fixed model metadata, ephemeral
+   model-management success, ONNX/EXL2 metadata, Swarm network success, fallback
+   RAG embeddings, and fixed byte-budget behavior. Preserved useful local
+   descriptors and deterministic primitives under narrow names.
+3. Reconciled `CAPABILITY_LEDGER.md`, `TODO.md`, active interfaces, architecture
+   and vision status, onboarding paths, and the `main`-based branch workflow.
+   Machine-local paths were removed and non-cryptographic model identity is now
+   named `fnv1a64:` fingerprinting.
+4. Expanded `.github/workflows/ci.yml` with a native build and a deliberate
+   fail-closed negative control. Replaced the phrase-only drift script with
+   mechanical ledger/status counts, master-case counts, unique case names,
+   workflow gates, source-truth signatures, absolute-path checks, and tracked
+   artifact inventory.
+5. Verification passed: native Mojo build; master suite **132 passed / 0 failed
+   / 1 skipped / total 133**; deliberate negative case counted **0/1/0/1** and
+   exited nonzero for the intended assertion; repository consistency check
+   passed with one explicit artifact-hygiene warning; `git diff --check` passed.
+6. Repository artifact hygiene remains `partial`: seven tracked executable
+   outputs, one 24-byte placeholder GGUF, and 24 byte-identical root image copies
+   await explicit maintainer approval before removal. Canonical images under
+   `docs/assets/images/` and all source/legal/history material are preserved.
+
 ## ⚡ Entry 103: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
 **Date:** August 16, 2026  
 **Architectural Phase:** Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway  
@@ -1333,7 +1364,7 @@ The 4 mythic roles completed the sequential pass for Stage 45.1:
 
 4. **Forge Worker (Eldra Járnsdóttir):**
    - Implemented `aesir_engine/core/metal_gate.mojo`, updated `core/mimir_well.mojo` and `core/compute.mojo`, created `aesir_engine/tests/test_metal_realm.mojo`, and updated `run_all.mojo`.
-   - Synchronized workspace mirror to `/home/volmarr/AntiGravity_Viking_Longhall/Project_Aesir/`.
+   - Synchronized workspace mirror to `<historical-local-workspace>/`.
    - Committed locally (0 remote pushes executed per user directive).
 
 ---
@@ -1358,7 +1389,7 @@ The 4 mythic roles completed the sequential pass for Stage 44.1:
 
 4. **Forge Worker (Eldra Járnsdóttir):**
    - Implemented `aesir_engine/core/cuda_gate.mojo`, updated `core/mimir_well.mojo` and `core/compute.mojo`, created `aesir_engine/tests/test_cuda_realm.mojo`, and updated `run_all.mojo`.
-   - Synchronized workspace mirror to `/home/volmarr/AntiGravity_Viking_Longhall/Project_Aesir/`.
+   - Synchronized workspace mirror to `<historical-local-workspace>/`.
    - Committed locally (0 remote pushes executed per user directive).
 
 ---

@@ -37,7 +37,10 @@ def parse_modelfile(content: String) raises -> Modelfile: ...
 ---
 
 ### `ModelManifest` (`cli/manifest.mojo`)
-Preserves model metadata scroll: model name, tag, SHA-256 digest ID, size in bytes, quantization rune, structural dimensions, modification timestamp, and raw Modelfile inscriptions.
+Preserves caller-supplied model metadata: model name, tag, non-cryptographic
+content fingerprint, optional byte size, quantization, structural dimensions,
+modification timestamp, and raw Modelfile text. Creation does not invent model
+metadata that has not been measured.
 
 ```mojo
 struct ModelManifest(Copyable, ImplicitlyCopyable):
@@ -57,15 +60,18 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
     def serialize(self) -> String: ...
 ```
 
-### `compute_modelfile_digest` (`cli/manifest.mojo`)
-Computes a deterministic hex digest string starting with `sha256:` from raw Modelfile text content.
+### `compute_modelfile_fingerprint` (`cli/manifest.mojo`)
+Computes a deterministic FNV-1a 64-bit fingerprint starting with `fnv1a64:`.
+This is an identity hint, not a cryptographic integrity digest.
 
 ```mojo
-def compute_modelfile_digest(content: String) -> String: ...
+def compute_modelfile_fingerprint(content: String) -> String: ...
 ```
 
 ### `RuneModelStore` (`cli/manifest.mojo`)
-Model catalog and manifest manager supporting in-memory operations, deterministic SHA-256 digest computation, and persistent scroll serialization (`serialize_store` / `deserialize_store`).
+In-memory model catalog supporting deterministic fingerprints and text
+serialization/deserialization. The module does not read or write a durable
+catalog on its own.
 
 ```mojo
 struct RuneModelStore(Copyable):
@@ -85,7 +91,9 @@ struct RuneModelStore(Copyable):
 ---
 
 ### `RuneREPL` (`cli/repl.mojo`)
-Interactive terminal REPL with multi-turn conversation state, hyperparameter tuning (`GenerationConfig`), slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and stream execution.
+Slash-command state machine with hyperparameter tuning (`GenerationConfig`)
+and history management (`/?`, `/set`, `/show`, `/clear`, `/bye`). Ordinary
+chat input and the terminal loop fail closed until inference wiring exists.
 
 ```mojo
 struct RuneREPL:
@@ -98,7 +106,6 @@ struct RuneREPL:
     def render_welcome(self): ...
     def render_help(self): ...
     def process_input_line(mut self, raw_line: String) raises -> String: ...
-    def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]: ...
     def run_repl(mut self) raises: ...
 ```
 
@@ -117,7 +124,9 @@ def run_single_shot(
 ---
 
 ### `CLIOptions` (`cli/options.mojo`)
-Ollama-compatible CLI flag options container and parser supporting `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and `--max-tokens N`.
+CLI intent container and parser supporting `--verbose`, `--format json|text`,
+`--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and
+`--max-tokens N`. Parsing a flag does not imply downstream operational support.
 
 ```mojo
 struct CLIOptions:

@@ -1,12 +1,10 @@
 # core/cia.mojo
-# Cognitive Inference Architecture (CIA) — Episodic Neural Computation with Predictive Materialization
-
-from .mimir_well import RuneTensor, f16
+# Experimental prompt-fingerprint cache primitive
 
 struct EpisodicComputationMemory:
     """
-    EpisodicComputationMemory — Caches semantic activation traces and subgraph execution paths.
-    Enables instant reconstruction of repetitive cognitive states (the "Déjà Vu" effect).
+    Stores deterministic prompt fingerprints supplied to a local cache. It does
+    not capture neural activations, semantic similarity, or execution graphs.
     """
     var enabled: Bool
     var similarity_threshold: Float64
@@ -22,7 +20,7 @@ struct EpisodicComputationMemory:
         self.cached_hashes = List[String]()
 
     def compute_semantic_hash(self, text_prompt: String) -> String:
-        """Computes a semantic hash signature for input token sequences."""
+        """Computes a non-cryptographic byte fingerprint; it is not semantic."""
         var raw_bytes = text_prompt.as_bytes()
         var hash_val: Int = 5381
         for i in range(len(raw_bytes)):

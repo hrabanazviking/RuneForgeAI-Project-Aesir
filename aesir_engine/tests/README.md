@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 51 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 132 executable named cases
   and one explicit external-fixture skip.
 - **`test_ledger.mojo`:** Tests-domain pass/fail/skip ledger, per-case error
   boundary, stable result lines, ordered failure details, and terminal status.
@@ -29,7 +29,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 52 reportable cases, it prints unique
+and continues with later cases. After all 133 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -37,18 +37,19 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 51
+[SUMMARY] Passed: 132
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 52
+[SUMMARY] Total: 133
 [SUMMARY] Status: PASS
 ```
 
 The historical Forge 0B negative gate deliberately corrupted the F16 type expectation.
 The runner recorded `gguf.type_constants` as failed, continued through the final
 swarm case, reported 48/1/1/50, and exited 1 after the summary. Exact restoration
-returned that Forge's suite to 49/0/1/50 and exit 0. Forge 0D adds two
-executable truth-boundary cases, making the current baseline 51/0/1/52.
+returned that Forge's suite to 49/0/1/50 and exit 0. Later stages expanded the
+current baseline to 132/0/1/133; the consistency checker mechanically keeps
+the runner total and capability ledger synchronized.
 
 ## How to Run
 ```bash

@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Forge 0D, August 14, 2026
+**Ledger version:** Forge 0F, August 28, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 107 named executable cases pass, zero fail, one external-fixture case is explicitly skipped, total 108, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 132 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 133, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,11 +64,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 87 |
-| `partial` | 1 |
-| `scaffold` | 0 |
-| `simulated` | 0 |
-| `missing` | 19 |
+| `verified` | 68 |
+| `partial` | 9 |
+| `scaffold` | 2 |
+| `simulated` | 1 |
+| `missing` | 27 |
 | **Total** | **107** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -118,13 +118,13 @@ the complete ledger population.
 
 ### AES-FND-005 — Automated continuous integration
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** project operations
 - **Claim sources:** implied prerequisite for broad completion and production claims
-- **Implementation evidence:** no tracked GitHub Actions workflow at the audit baseline.
-- **Executable evidence:** `E-SOURCE` only.
-- **Evidence boundary:** Local manual verification is real but is not continuous integration.
-- **Next acceptance gate:** Add clean-checkout build, master suite, negative-control, lint/diff, and opt-in external-fixture jobs with protected required status.
+- **Implementation evidence:** `.github/workflows/ci.yml` performs a clean checkout, native build, counted master suite, deliberate fail-closed negative control, and repository consistency check on pushes and pull requests.
+- **Executable evidence:** the same commands are reproducible locally; hosted GitHub Actions execution remains external to this checkout.
+- **Evidence boundary:** A tracked workflow is meaningful CI configuration, but no protected required status or opt-in external real-model job is established here.
+- **Next acceptance gate:** Observe the workflow on this branch, require it in branch protection, and add an opt-in pinned external-fixture job.
 - **Audit:** AER-100, AER-113.
 
 ### AES-FND-006 — Cross-platform runtime support
@@ -140,12 +140,13 @@ the complete ledger population.
 
 ### AES-FND-007 — Repository artifact and source hygiene
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** project operations
 - **Claim sources:** project build and distribution posture
-- **Implementation evidence:** root `.gitignore` protecting against compiled binaries (`main`, `aesir_main`), build environments (`.pixi/`), and temporary logs.
-- **Executable evidence:** Git status and ignore rule validation in `scripts/check_doc_drift.py` and repository hygiene checks.
-- **Evidence boundary:** Verified repository ignore rules and artifact protection boundaries.
+- **Implementation evidence:** root `.gitignore` protects build environments and common generated artifacts; the consistency checker inventories tracked artifacts.
+- **Executable evidence:** `scripts/check_doc_drift.py` reports tracked ELF outputs, a placeholder GGUF, and duplicated root assets until removal is explicitly approved.
+- **Evidence boundary:** Ignore rules prevent recurrence only after existing tracked artifacts are removed from the index.
+- **Next acceptance gate:** Remove approved generated/placeholder/duplicate artifacts, preserve canonical assets, and pass the tracked-artifact consistency gate.
 - **Audit:** AER-098, AER-099, AER-103.
 
 ## 5. Memory, Tensor, Cache, and Ownership
@@ -552,24 +553,26 @@ the complete ledger population.
 - **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
 - **Audit:** AER-060, AER-067.
 
-### AES-CLI-004 — Model manifest data structures, SHA-256 digest computation & persistent serialization
+### AES-CLI-004 — In-memory model manifest structures and text serialization
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` supporting deterministic `compute_modelfile_digest()`, empty parameter copy model guards (`copy_model`), text serialization, and `serialize_store()` / `deserialize_store()` persistence round-trip.
+- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` support deterministic non-cryptographic `fnv1a64:` fingerprints, copy guards, and in-memory text serialization/deserialization.
 - **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store` in `test_cli.mojo`.
-- **Evidence boundary:** Implements manifest digest generation, copy model parameter bounds, text serialization, and store persistence; does not claim binary blob store distribution.
+- **Evidence boundary:** No file I/O, atomic durable store, measured model metadata, cryptographic integrity digest, or binary blob distribution is implemented.
+- **Next acceptance gate:** Add an atomic on-disk store, compute cryptographic digests and metadata from actual model bytes, and prove restart/corruption behavior.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `dispatch_command()` in `cli/commands.mojo` connecting `list`, `show`, `ps`, `create`, `cp`, and `rm` to `RuneModelStore` catalog and session registry.
+- **Implementation evidence:** `dispatch_command()` rejects these reserved commands before reporting success or mutating ephemeral state.
 - **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` in `test_cli.mojo`.
-- **Evidence boundary:** Implements local store catalog & process operational CLI commands; does not claim remote registry pull/push networking.
+- **Evidence boundary:** Truthful rejection is not an operational model store or process registry.
+- **Next acceptance gate:** Connect the commands to the durable catalog and live session registry with restart and failure-path tests.
 - **Audit:** AER-061, AER-064, AER-066.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
@@ -594,24 +597,26 @@ the complete ledger population.
 - **Next acceptance gate:** Persistent store and live-session registry, atomic operations, not-found/in-use/error behavior, and restart/conformance tests.
 - **Audit:** AER-061 through AER-064.
 
-### AES-CLI-008 — Real interactive terminal REPL, slash commands & stream execution
+### AES-CLI-008 — REPL slash-command state and interactive inference
 
-- **Status:** `verified`
+- **Status:** `scaffold`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]`, `GenerationConfig` parameter state, slash commands (`/set`, `/show`, `/clear`, `/bye`), and `run_repl_stream()`.
+- **Implementation evidence:** `RuneREPL` retains local parameter/history state and slash commands (`/set`, `/show`, `/clear`, `/bye`); ordinary chat and `run_repl()` raise unsupported errors.
 - **Executable evidence:** `E-MASTER` case `cli.repl_session_state` in `test_cli.mojo`.
-- **Evidence boundary:** Implements terminal REPL state machine, slash commands, and stream execution; does not claim raw OS pseudo-terminal termios hook overrides.
+- **Evidence boundary:** Slash-command parsing does not execute inference, stream tokens, or provide a terminal session.
+- **Next acceptance gate:** Wire a validated model/session into ordinary input, stream real generated tokens, and test EOF/signals/exit codes.
 - **Audit:** AER-059, AER-068.
 
-### AES-CLI-009 — Ollama-compatible CLI flag options & syntax parity
+### AES-CLI-009 — CLI flag parsing
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
 - **Implementation evidence:** `CLIOptions` in `cli/options.mojo` and `dispatch_command()` in `cli/commands.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, and `--max-tokens N`.
 - **Executable evidence:** `E-MASTER` case `cli.flag_options_parser` in `test_cli.mojo`.
-- **Evidence boundary:** Implements local CLI flag options & JSON output formatting; does not claim remote registry pull/push networking or daemon API HTTP socket bindings.
+- **Evidence boundary:** The parser validates intent; most options are not connected to operational command behavior and no Ollama differential parity suite exists.
+- **Next acceptance gate:** Define the supported grammar, connect each accepted option, and pass differential syntax/error/exit-code fixtures.
 - **Audit:** AER-003, AER-059 through AER-068.
 
 ## 11. Server and Protocol Surfaces
@@ -656,14 +661,15 @@ the complete ledger population.
 - **Evidence boundary:** Verified socket write partial loops, invalid descriptor bounds, and terminal chunk framing.
 - **Audit:** AER-011, AER-073 through AER-075.
 
-### AES-SRV-005 — OpenAI REST Gateway & Response Formatter
+### AES-SRV-005 — OpenAI-shaped JSON formatter
 
-- **Status:** `verified`
+- **Status:** `scaffold`
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
-- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` and `dispatch_http_request()` in `server/api.mojo` formatting valid REST responses for `/v1/chat/completions`, `/v1/models`, and `/v1/embeddings`.
+- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` formats local JSON/SSE shapes; OpenAI-shaped HTTP routes in `server/api.mojo` return HTTP 501.
 - **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Implements OpenAI v1 REST route dispatching, chat completions JSON, SSE chunk framing, model list JSON, and embeddings rejection formatting.
+- **Evidence boundary:** Formatter shape and fail-closed routing do not establish OpenAI request parsing, execution, streaming semantics, or client compatibility.
+- **Next acceptance gate:** Connect real request parsing and execution, then pass official-client protocol fixtures.
 - **Audit:** AER-078, AER-079.
 
 ### AES-SRV-006 — OpenAI-compatible REST execution
@@ -734,12 +740,13 @@ the complete ledger population.
 
 ### AES-RAG-003 — Query embedding generation
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** facade and embedding domains
 - **Claim sources:** RAG integration claims
-- **Implementation evidence:** `_prepare_prompt()` in `aesir.mojo` allocating and populating fallback query vector `RuneTensor[f16]` with `hidden_dim` parameter validation.
-- **Executable evidence:** `E-MASTER` case `rag.real_engine_integration` in `test_rag.mojo`.
-- **Evidence boundary:** Verified fallback query vector allocation, hidden dimension validation, and KNN search integration.
+- **Implementation evidence:** `extract_query_embedding()` in `aesir.mojo` mean-pools loaded `token_embd.weight` rows and rejects missing weights, invalid dimensions, and empty token sequences.
+- **Executable evidence:** source inspection plus the external-fixture integration case recorded as skipped by `E-MASTER`.
+- **Evidence boundary:** No fabricated fallback remains, but the real-model path is not exercised by the default suite and is not a dedicated embedding model.
+- **Next acceptance gate:** Run the pinned external fixture in CI and compare embeddings/retrieval against an independent oracle.
 - **Audit:** AER-086.
 
 ### AES-RAG-004 — Corpus ingestion, chunking, metadata, and persistence
@@ -755,12 +762,13 @@ the complete ledger population.
 
 ### AES-RAG-005 — End-to-end retrieval-augmented generation
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** facade, RAG, and generation domains
 - **Claim sources:** TODO Mímisbrunnr and facade interface
-- **Implementation evidence:** `_prepare_prompt()` in `aesir.mojo` enforcing hidden dimension non-positive parameter safety bounds (`hidden_dim <= 0 -> returns prompt`) and prepending top-k document context when `MimirStore` contains documents.
-- **Executable evidence:** `E-MASTER` case `rag.real_engine_integration` in `test_rag.mojo`.
-- **Evidence boundary:** Verified RAG prompt context preparation hidden dimension bounds safety.
+- **Implementation evidence:** `_prepare_prompt()` uses loaded token embeddings, local KNN results, dynamic token-budget checks against model context, and grounded-context prompt construction.
+- **Executable evidence:** local primitives pass in `E-MASTER`; the external-fixture engine integration is explicitly skipped.
+- **Evidence boundary:** Corpus ingestion/persistence, citation provenance, and default-suite real-model execution remain incomplete.
+- **Next acceptance gate:** Add a pinned corpus plus model fixture and prove retrieval, prompt budgeting, citations, generation, and restart behavior end to end.
 - **Audit:** AER-086, AER-087, AER-113.
 
 ## 13. Quantization and Compressed Formats
@@ -932,13 +940,13 @@ the complete ledger population.
 
 ### AES-ACC-006 — NPU execution dispatch
 
-- **Status:** `partial`
+- **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** completed NPU TODO and runtime ACTIVE banner
-- **Implementation evidence:** `NPUGate` in `core/npu_gate.mojo` provides native FFI driver/runtime detection (`libcdsprpc.so` for Qualcomm Hexagon, Apple Neural Engine framework for ANE, `libhailort.so` for Hailo-10, `libintel_npu_driver.so` for Intel NPU), zero-copy buffer allocation (`allocate_npu_buffer`), and NPU GEMM kernel dispatch gateway (`launch_gemm_npu`).
+- **Implementation evidence:** `NPUGate` can probe whether selected runtime libraries load, but physical discovery is intentionally unverified; allocation, transfer, and GEMM entry points fail closed.
 - **Executable evidence:** `E-MASTER` cases `npu.npu_gate_availability`, `npu.npu_gemm_dispatch_bounds`, and `npu.npu_realm_unsupported_gateways` in `test_npu_realm.mojo`.
-- **Evidence boundary:** Qualcomm Hexagon, ANE, Hailo-10, and Intel NPU FFI driver gateways established; absent backends raise explicit fail-closed error gateways.
-- **Next acceptance gate:** Physical NPU driver SDK compilation on target edge/desktop hardware CI execution.
+- **Evidence boundary:** Runtime-library presence is not a physical NPU, allocation, transfer, or kernel execution.
+- **Next acceptance gate:** Implement one vendor SDK vertical slice and prove physical enumeration, memory, transfer, GEMM parity, synchronization, and failure cleanup on hardware.
 - **Audit:** AER-095, AER-096, AER-003.
 
 ### AES-ACC-007 — GPU realm discriminants and buffer descriptors
@@ -953,13 +961,13 @@ the complete ledger population.
 
 ### AES-ACC-008 — GPU execution dispatch
 
-- **Status:** `partial`
+- **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** `CUDAGate` in `core/cuda_gate.mojo`, `MetalGate` in `core/metal_gate.mojo`, `IntelGate` in `core/intel_gate.mojo`, and `AMDGate` in `core/amd_gate.mojo` provide native FFI driver/runtime detection (`libcuda.so`/`libcudart.so` for NVIDIA CUDA, `/System/Library/Frameworks/Metal.framework/Metal` for Apple Metal, `libze_loader.so`/`libze_intel_gpu.so` for Intel Level Zero, `libamdhip64.so`/`libhipblas.so` for AMD ROCm HIP), device discovery (`cudaGetDeviceCount`, `MTLCreateSystemDefaultDevice`, `zeDeviceGet`, `hipGetDeviceCount`), zero-copy VRAM allocation (`allocate_vram`, `allocate_metal_buffer`), and GEMM kernel dispatch gateways (`launch_gemm_cuda`, `launch_gemm_metal`, `launch_gemm_intel`, `launch_gemm_amd`).
+- **Implementation evidence:** CUDA, Metal, Intel, and AMD gates can probe whether named runtime libraries load; physical discovery returns zero and allocation, transfer, and GEMM entry points fail closed.
 - **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, `gpu.metal_realm_unsupported_gateways`, `gpu.intel_gate_availability`, `gpu.intel_gemm_dispatch_bounds`, `gpu.intel_realm_unsupported_gateways`, `gpu.amd_gate_availability`, `gpu.amd_gemm_dispatch_bounds`, `gpu.amd_realm_unsupported_gateways`, `gpu.resilience_allocation_rejection`, `gpu.resilience_dimension_rejection`, and `gpu.resilience_error_barriers` in `test_cuda_realm.mojo`, `test_metal_realm.mojo`, `test_intel_realm.mojo`, `test_amd_realm.mojo`, and `test_hardware_resilience.mojo`.
-- **Evidence boundary:** NVIDIA CUDA, Apple Metal, Intel Level Zero, and AMD ROCm HIP FFI driver gateways and memory management established; remaining reserved GPU realms raise explicit fail-closed error gateways.
-- **Next acceptance gate:** Physical Metal Shading Language (MSL), Level Zero sycl, hipBLAS, and CUDA PTX kernel compilation on physical hardware CI execution.
+- **Evidence boundary:** Runtime-library presence and checked unsupported errors are not device discovery, VRAM management, or GPU execution.
+- **Next acceptance gate:** Implement one backend vertical slice and prove physical enumeration, device memory, transfers, GEMM parity, synchronization, cleanup, and hardware CI.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
@@ -1039,24 +1047,26 @@ the complete ledger population.
 - **Next acceptance gate:** Define supported commands/version and pass differential parsing, execution, output, error, and exit-code fixtures.
 - **Audit:** AER-080, AER-081, AER-101.
 
-### AES-ECO-007 — GBNF grammar data path & logit mask bounds
+### AES-ECO-007 — Limited grammar-shaped token checks and logit-mask bounds
 
 - **Status:** `verified`
 - **Owner:** core optional grammar domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `GBNFGrammar` in `core/grammar.mojo` owning state, validating null (`0`) and sentinel (`1`) address logit pointers (`addr != 0 and addr != 1`), checking non-positive `vocab_size` bounds, and masking odd token IDs.
+- **Implementation evidence:** `GBNFGrammar` in `core/grammar.mojo` owns local state, applies limited boolean/number checks, validates logit pointers and vocabulary size, and applies deterministic test masks.
 - **Executable evidence:** `E-MASTER` case `multi_engine.grammar_mask` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked GBNF logit pointer alignment/sentinel validation and vocabulary size bounds.
+- **Evidence boundary:** No general GBNF/EBNF parser, tokenizer-aware automaton, JSON guarantee, or generation integration is implemented.
+- **Next acceptance gate:** Define a supported grammar subset, parse it, maintain tokenizer-aware state, integrate candidate masking, and pass differential grammar fixtures.
 - **Audit:** AER-108.
 
-### AES-ECO-008 — Speculative decoding verifier shape & pointer bounds
+### AES-ECO-008 — Speculative-decoding-shaped local arithmetic and pointer bounds
 
 - **Status:** `verified`
 - **Owner:** core optional generation domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `SpeculativeEngine` in `core/speculative.mojo` owning draft token sampling validation, checking null (`0`) and sentinel (`1`) address pointers (`draft_addr != 0 and draft_addr != 1`, `target_addr != 0 and target_addr != 1`), validating positive token count, and executing rejection sampling logic.
+- **Implementation evidence:** `SpeculativeEngine` validates pointer/count bounds, repeats an argmax proposal over caller-supplied logits, and applies a deterministic masked-logit acceptance rule.
 - **Executable evidence:** `E-MASTER` case `multi_engine.speculative_acceptance` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked speculative decoding pointer alignment/sentinel validation and token count bounds.
+- **Evidence boundary:** No draft model, probability-correct acceptance distribution, target-model verification loop, KV integration, or speed evidence exists.
+- **Next acceptance gate:** Integrate real draft/target models and caches, prove output-distribution equivalence, and measure speed on reproducible workloads.
 - **Audit:** AER-109, AER-110.
 
 ## 16. Resilience and Concurrency
@@ -1091,19 +1101,20 @@ the complete ledger population.
 - **Evidence boundary:** Checked event bus non-empty event type parameter validation bounds.
 - **Audit:** AER-107.
 
-### AES-RES-004 — Worker thread pool & worker count bounds
+### AES-RES-004 — Local task-list descriptor and worker-count bounds
 
 - **Status:** `verified`
 - **Owner:** core concurrency domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `RuneThreadPool` in `core/thread_pool.mojo` storing `num_threads`/`is_active`, enforcing positive worker thread count bounds (`self.num_threads = max(1, num_threads)`) in `__init__`.
+- **Implementation evidence:** `RuneThreadPool` stores a bounded local task list, completion/cancellation markers, `num_threads` intent, and active state; it clamps the requested count to at least one.
 - **Executable evidence:** `E-MASTER` case `resilience.thread_pool_stub` in `test_resilience.mojo`.
-- **Evidence boundary:** Checked thread pool worker count clamping bounds (`max(1, num_threads)`).
+- **Evidence boundary:** It creates no worker threads, executes no payloads, and provides no concurrency.
+- **Next acceptance gate:** Implement bounded synchronized workers, real task execution, cancellation/shutdown semantics, and race/load tests.
 - **Audit:** AER-089.
 
 ### AES-RES-005 — Self-healing crash recovery & checkpoint validation
 
-- **Status:** `verified`
+- **Status:** `simulated`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO and facade ACTIVE banner
 - **Implementation evidence:** `SelfHealingSupervisor` in `core/supervisor.mojo` executing simulated crash recovery, enforcing valid checkpoint marker presence (`not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0 -> return False`).
@@ -1135,7 +1146,7 @@ the complete ledger population.
 
 ### AES-SWM-003 — Mesh join, liveness & parameter validation
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** core swarm and server domains
 - **Claim sources:** completed swarm TODO; CLI/server interfaces
 - **Implementation evidence:** `SwarmCluster` in `core/swarm.mojo` enforcing parameter validation (`len(leader_address.bytes()) == 0 -> raises Error("leader address must not be empty")`), returning false for heartbeat, and rejecting unsupported network mesh join.
@@ -1145,7 +1156,7 @@ the complete ledger population.
 
 ### AES-SWM-004 — Distributed inference dispatch & task dispatcher parameter validation
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** core swarm and inference domains
 - **Claim sources:** completed swarm TODO
 - **Implementation evidence:** `TaskDispatcher` in `core/swarm.mojo` enforcing parameter validation (`len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0 -> raises Error("node id and task name must not be empty")`) and rejecting unsupported network transport operations (`raises Error("swarm task dispatch is not implemented")`).
@@ -1155,7 +1166,7 @@ the complete ledger population.
 
 ### AES-SWM-005 — Swarm REST and CLI operational status & subcommand bounds
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** CLI and server domains
 - **Claim sources:** completed swarm TODO and interfaces
 - **Implementation evidence:** `dispatch_cli_command()` in `cli/commands.mojo` enforcing subcommand validation (`len(args) <= 1 -> raises Error("swarm command requires a subcommand (join, status, list)")`) and raising unsupported error when subcommands are supplied; HTTP routes return 501.
@@ -1167,52 +1178,57 @@ the complete ledger population.
 
 ### AES-OPS-001 — Measured performance benchmarking & CLI dispatcher validation
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** performance and CLI domains
 - **Claim sources:** llama-bench CLI surface and high-performance README language
 - **Implementation evidence:** `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` enforcing parameter validation (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) and rejecting unsupported benchmark/runtime surfaces.
 - **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked CLI dispatcher argument list length validation and explicit unsupported runtime boundaries.
+- **Evidence boundary:** Checked rejection is not a measured benchmark or performance claim.
+- **Next acceptance gate:** Add reproducible warmup, workload, environment, statistics, and independent comparison methodology.
 - **Audit:** AER-101, AER-003.
 
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** performance and project documentation domains
 - **Claim sources:** README efficiency, maximum hardware use, fast/cold language
 - **Implementation evidence:** `RuneREPL.process_input_line()` in `cli/repl.mojo` enforcing non-negative configuration bounds (`temperature >= 0.0`, `top_k >= 0`, `0.0 <= top_p <= 1.0`, `max_new_tokens >= 1`).
 - **Executable evidence:** `E-MASTER` case `cli.repl_session_state` in `test_cli.mojo`.
-- **Evidence boundary:** Checked REPL slash command parameter clamping and configuration bounds safety.
+- **Evidence boundary:** Parameter validation provides no resource-efficiency measurement or operational runtime-safety case.
+- **Next acceptance gate:** Define resource and safety metrics, instrument real executions, and publish reproducible failure and load evidence.
 - **Audit:** AER-101, AER-102.
 
 ### AES-OPS-003 — Security posture for network/model inputs & socket port validation
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** loader, server, CLI, and distribution domains
 - **Claim sources:** local sovereignty/privacy and server/distribution functionality
 - **Implementation evidence:** `BifrostGate.__init__()` in `server/api.mojo` enforcing port range bounds (`1 <= port <= 65535 -> raises Error("server bind port must be between 1 and 65535")`).
 - **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked POSIX socket server bind port parameter bounds safety.
+- **Evidence boundary:** Port and parser bounds are useful hardening, but no complete threat model, fuzz campaign, auth/TLS policy, or resource-exhaustion proof exists.
+- **Next acceptance gate:** Publish the threat model and run reproducible malformed-model, request-fuzzing, and resource-limit suites.
 - **Audit:** AER-037, AER-075, AER-082, AER-107.
 
 ### AES-OPS-004 — Runtime observability, route parameter safety & diagnosability
 
-- **Status:** `verified`
+- **Status:** `partial`
 - **Owner:** runtime and service domains
 - **Claim sources:** metrics/health routes and production implications
 - **Implementation evidence:** `BifrostGate.dispatch_http_route()` in `server/api.mojo` enforcing route path parameter validation (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`) and explicit compatibility route handling for `/metrics`, `/health`, `/props`, and `/slots`.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked HTTP route path parameter length validation and explicit route handling bounds.
+- **Evidence boundary:** Route validation is not structured observability, live metrics, tracing, or production diagnosis.
+- **Next acceptance gate:** Add structured logs, request/session correlation, real metrics, health semantics, and operator-facing failure diagnostics.
 - **Audit:** AER-078, AER-101, AER-111.
 
 ### AES-OPS-005 — Production readiness & single-shot prompt validation
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** all domains
 - **Claim sources:** any current or future “production” implication
 - **Implementation evidence:** `dispatch_cli_command()` in `cli/commands.mojo` enforcing single-shot inference prompt parameter validation (`len(trimmed_prompt.bytes()) == 0 -> raises Error("single-shot run prompt text must not be empty")`).
 - **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` in `test_cli.mojo`.
-- **Evidence boundary:** Checked CLI single-shot run prompt byte length parameter validation and execution safety.
+- **Evidence boundary:** One prompt validation guard does not establish production readiness.
+- **Next acceptance gate:** Meet the outstanding correctness, security, service, compatibility, portability, packaging, observability, and operational acceptance gates.
 - **Audit:** AER-002, AER-003, AER-005, AER-100 through AER-115.
 
 ### AES-OPS-006 — Documentation-to-evidence consistency
@@ -1221,8 +1237,8 @@ the complete ledger population.
 - **Owner:** project documentation and every claiming domain
 - **Claim sources:** this ledger, README, TODO, visions, architecture, interfaces, runtime banners
 - **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, and alignment across all active vision and architecture scrolls.
-- **Executable evidence:** `python3 scripts/check_doc_drift.py` PASSED with 0 errors; `E-MASTER` test suite passed clean (**57 passed / 0 failed / 1 skipped / Total 58**).
-- **Evidence boundary:** Verified documentation drift boundaries and canonical capability ledger consistency across all 30 milestone stages.
+- **Executable evidence:** `python3 scripts/check_doc_drift.py`; `E-MASTER` (**132 passed / 0 failed / 1 skipped / total 133**).
+- **Evidence boundary:** Checks mechanical ledger/test/doc invariants and known fabrication signatures; semantic review remains required for new claim families.
 - **Audit:** AER-003, AER-112, AER-115.
 
 ## 19. Claim-Family Coverage Map

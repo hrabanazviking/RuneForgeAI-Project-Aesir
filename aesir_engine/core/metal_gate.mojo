@@ -2,9 +2,9 @@
 # MetalGate: Native FFI Gateway & Memory Management for Apple Metal Realm (Asgard / Midgard)
 
 from std.ffi import external_call
-from std.memory import Pointer, alloc, Layout
+from std.memory import Pointer
 from std.collections import Optional
-from core.mimir_well import Scalar, f16, f32, GPURealmType, RuneTensor
+from core.mimir_well import Scalar, f16, RuneTensor
 
 comptime RTLD_NOW = 2
 
@@ -14,15 +14,15 @@ struct MetalGate:
     ════════════════════════════════════════════════════════════════════
 
     Native FFI interface to Apple Metal framework and Objective-C runtime.
-    Provides Apple Silicon GPU device discovery (MTLCreateSystemDefaultDevice),
-    zero-copy Metal buffer allocation, and Metal Performance Shaders (MPS) GEMM gateways.
+    Probes whether a Metal runtime library is loadable. Physical device
+    discovery, Metal buffers, and MPS kernel launch are unsupported.
     """
 
     @staticmethod
     def get_handle() -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
         """Loads Metal framework or libobjc.dylib handle via dlopen, or returns None on non-Apple hosts."""
         var path1 = InlineArray[Int8, 64](fill=0)
-        var p1_bytes = String("/System/Library/Frameworks/Metal.framework/Metal").as_bytes()
+        var p1_bytes = String("Metal.framework/Metal").as_bytes()
         for i in range(len(p1_bytes)):
             path1[i] = Int8(p1_bytes[i])
         var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
@@ -50,41 +50,21 @@ struct MetalGate:
 
     @staticmethod
     def get_device_count() -> Int:
-        """Returns number of active Apple Metal GPU devices (MTLCreateSystemDefaultDevice)."""
-        var opt_h = MetalGate.get_handle()
-        if not opt_h:
-            return 0
-        var handle = opt_h.value()
-
-        var sym_name = InlineArray[Int8, 32](fill=0)
-        var s_bytes = String("MTLCreateSystemDefaultDevice").as_bytes()
-        for i in range(len(s_bytes)):
-            sym_name[i] = Int8(s_bytes[i])
-        var sym = external_call["dlsym", Pointer[Int8, MutUntrackedOrigin]](handle, sym_name.unsafe_ptr())
-        if Int(sym) == 0:
-            _ = external_call["dlclose", Int32](handle)
-            return 0
-
-        _ = external_call["dlclose", Int32](handle)
-        return 1
+        """Returns zero until MTLCreateSystemDefaultDevice is genuinely invoked."""
+        return 0
 
     @staticmethod
     def allocate_metal_buffer(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
-        """Allocates zero-copy host-accessible Metal buffer or raises error if unavailable."""
+        """Reserved Metal buffer allocation entry point; always fails closed."""
         if size_bytes <= 0:
             raise Error("MetalGate.allocate_metal_buffer: size_bytes must be positive")
-        if not MetalGate.is_available():
-            raise Error("MetalGate.allocate_metal_buffer: Apple Metal framework runtime not available on host silicon")
-
-        var layout = Layout[Scalar[f16]](count=size_bytes // 2)
-        var mem = alloc(layout)
-        var dev_ptr = mem^.unsafe_leak()
-        return dev_ptr
+        raise Error("MetalGate.allocate_metal_buffer: physical Metal buffer allocation is not implemented")
 
     @staticmethod
     def free_metal_buffer(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
-        """Frees Metal host-shared memory buffer."""
-        ptr.unsafe_free()
+        """Reserved Metal free entry point; always fails closed."""
+        _ = ptr
+        raise Error("MetalGate.free_metal_buffer: physical Metal buffer ownership is not implemented")
 
     @staticmethod
     def launch_gemm_metal(
@@ -93,47 +73,11 @@ struct MetalGate:
         mut C: RuneTensor[f16]
     ) raises:
         """
-        Launch Metal Performance Shaders (MPS) GEMM kernel or fallback safely with explicit Metal error.
+        Validates shapes and rejects execution until a real Metal kernel exists.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
             raise Error("MetalGate.launch_gemm_metal: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("MetalGate.launch_gemm_metal: GEMM shape mismatch")
 
-        if not MetalGate.is_available():
-            raise Error("Apple Metal GPU execution error: Metal framework runtime not available on host silicon")
-
-        var devices = MetalGate.get_device_count()
-        if devices <= 0:
-            raise Error("Apple Metal GPU execution error: zero active Metal GPU devices detected on host")
-
-        var bytes_a = A.size * 2
-        var bytes_b = B.size * 2
-        var bytes_c = C.size * 2
-
-        var d_a = MetalGate.allocate_metal_buffer(bytes_a)
-        var d_b = MetalGate.allocate_metal_buffer(bytes_b)
-        var d_c = MetalGate.allocate_metal_buffer(bytes_c)
-
-        try:
-            var M = A.rows
-            var N = B.rows
-            var K = A.cols
-            for m in range(M):
-                for n in range(N):
-                    var acc: Scalar[f32] = 0.0
-                    for k in range(K):
-                        acc += A.get(m, k).cast[f32]() * B.get(n, k).cast[f32]()
-                    C.set(m, n, acc.cast[f16]())
-
-            MetalGate.free_metal_buffer(d_a)
-            MetalGate.free_metal_buffer(d_b)
-            MetalGate.free_metal_buffer(d_c)
-        except e:
-            try:
-                MetalGate.free_metal_buffer(d_a)
-                MetalGate.free_metal_buffer(d_b)
-                MetalGate.free_metal_buffer(d_c)
-            except:
-                pass
-            raise e
+        raise Error("Apple Metal GPU execution is not implemented: no physical Metal kernel was launched")

@@ -1,5 +1,5 @@
 # core/grammar.mojo
-# GBNFGrammar: Constrained Generation State Machine & Logit Masking Engine
+# GBNFGrammar: local grammar-shaped descriptors and bounded mask primitive
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -42,9 +42,9 @@ struct GBNFGrammar(Copyable):
     """
     ᚷᛒᚾᚠ·ᚷᚱᚨᛗᛗᚨᚱ — The Rune of Structural Constraints (GBNFGrammar)
     ════════════════════════════════════════════════════════════════════
-    Parses GGML BNF grammar rules (EBNF/JSON/Regex schemas) and applies
-    zero-allocation logit masks to restrict next-token probability distributions.
-    Guarantees structural validity across structured JSON outputs, function calling schemas, and formal grammars.
+    Provides a small built-in token validator and deterministic mask primitive.
+    It does not parse general GBNF/EBNF/regex grammars and cannot guarantee
+    structurally valid JSON, tool calls, or arbitrary formal-language output.
     """
     var is_active: Bool
     var state: Int
@@ -86,7 +86,7 @@ struct GBNFGrammar(Copyable):
 
     def advance_state(mut self, token_str: String):
         """
-        Advances the grammar automaton state upon accepting a validated token string.
+        Advances a local byte-count state marker.
         """
         self.state += 1
         self.automaton.pos_in_pattern += len(token_str.as_bytes())
@@ -95,7 +95,7 @@ struct GBNFGrammar(Copyable):
 
     def is_token_valid(self, token_str: String) -> Bool:
         """
-        Validates whether token_str conforms to current grammar automaton state.
+        Applies the limited built-in boolean/number token checks.
         """
         if not self.is_active:
             return True

@@ -1,10 +1,10 @@
 # core/skaldbrodir.mojo
-# SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol (AES-DOOM-001)
+# SKÁLDBRØÐIR — local repeated-tail detector scaffold
 
 struct SkaldbrodirDetector:
     """
-    SkaldbrodirDetector — Sub-millisecond latency runaway loop detection and annihilation engine.
-    Prevents token generation from entering pathological repetition cycles.
+    Local repeated-tail detector. It has no latency benchmark and is not yet
+    integrated into the verified generation loop or sampler penalties.
     """
     var enabled: Bool
     var window_size: Int
@@ -64,12 +64,12 @@ struct SkaldbrodirDetector:
 
     def evaluate_and_intercept(mut self, token_id: Int) raises -> Int:
         """
-        Evaluates current sequence state against SKÁLDBRØÐIR thresholds.
+        Evaluates local history against deterministic repetition thresholds.
         Returns:
           0: Normal continuation
-          1: Tier 1 Soft Penalty applied
-          2: Tier 2 Hard N-gram Blocked
-          3: Tier 3 Emergency Annihilation triggered (raises INF-016)
+          1: threshold marker only; no sampler penalty is applied
+          2: threshold marker only; no n-gram block is applied
+          INF-016: local repeated-tail threshold reached
         """
         if not self.enabled:
             return 0
@@ -80,7 +80,7 @@ struct SkaldbrodirDetector:
 
         if rep_index >= self.repetition_threshold:
             self.is_annihilated = True
-            raise Error("INF-016: DOOM_LOOP_TERMINATED — SKÁLDBRØÐIR protocol annihilated runaway generation cycle (Repetition Index: " + String(rep_index) + " >= " + String(self.repetition_threshold) + ")")
+            raise Error("INF-016: local repeated-tail threshold reached (Repetition Index: " + String(rep_index) + " >= " + String(self.repetition_threshold) + ")")
 
         if rep_index > 5.0:
             return 2

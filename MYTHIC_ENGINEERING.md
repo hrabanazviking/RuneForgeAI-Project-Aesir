@@ -19,7 +19,7 @@ When developing, refactoring, or reviewing this codebase, invoke specific AI sub
 ### 2. **Architect (Rúnhild Svartdóttir) — Dominant Designer**
 - **Focus:** Domain maps, system boundaries, architectural laws, refactoring strategy.
 - **Documents Owned:** `docs/DOMAIN_MAP.md`, `docs/ARCHITECTURE.md`, `ARCHITECTURE.md`.
-- **Sample Invocation:** *"Architect, define exact ownership and boundaries for this capability and update DOMAIN_MAP.md and ARCHITECTURE.md."*
+- **Sample Invocation:** *"Architect, define exact ownership and boundaries for this capability and update docs/DOMAIN_MAP.md and docs/ARCHITECTURE.md."*
 
 ### 3. **Forge Worker (Eldra Járnsdóttir) — Fiery Builder**
 - **Focus:** Implementation, writing clean SIMD/Mojo code, mechanical fixes, test implementation.

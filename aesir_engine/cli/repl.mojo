@@ -3,15 +3,14 @@
 
 from aesir import AesirEngine, GenerationConfig
 from loader.chat_template import ChatMessage
-from cli.manifest import ModelManifest
 from cli.modelfile import parse_float, parse_int
 
 
 struct RuneREPL:
     """
     RuneREPL — ᚱᛢᚾᛖ·ᚱᛖᛈᛚ — The Current of Conversation:
-    Interactive terminal REPL with multi-turn conversation state, slash commands,
-    session configuration, and stream execution.
+    Local REPL state and slash-command parser. Model-backed conversational
+    execution and live stdin streaming remain unsupported.
     """
     var model_name: String
     var system_prompt: String
@@ -105,14 +104,13 @@ struct RuneREPL:
                     print("Unknown parameter: " + param)
             return String("[SET]")
 
-        # Regular conversation turn
-        self.history.append(ChatMessage("user", line))
-        var mock_response = String("Aesir response to: ") + line
-        self.history.append(ChatMessage("assistant", mock_response))
-        return mock_response
+        raise Error(
+            "interactive REPL model execution is not implemented; "
+            "use run <model.gguf> <prompt> for verified single-shot inference"
+        )
 
     def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]:
-        """Runs a sequence of REPL inputs programmatically without hanging stdin."""
+        """Runs local slash-command inputs without claiming model execution."""
         var outputs = List[String]()
         for i in range(len(inputs)):
             var out_str = self.process_input_line(inputs[i])
@@ -122,9 +120,12 @@ struct RuneREPL:
         return outputs^
 
     def run_repl(mut self) raises:
-        """Runs interactive REPL terminal session."""
+        """Rejects the reserved live REPL until stdin and model execution are connected."""
         self.render_welcome()
-        print("REPL initialized. Ready for turn-by-turn input.")
+        raise Error(
+            "interactive REPL is not implemented; "
+            "use run <model.gguf> <prompt> for verified single-shot inference"
+        )
 
 
 def run_single_shot(

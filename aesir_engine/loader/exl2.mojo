@@ -1,8 +1,7 @@
 # loader/exl2.mojo
-# EXL2ModelSeer: Variable-bit sub-block quantization parser & CUDA contract validator
+# EXL2ModelSeer: local descriptors and unsupported parser boundary
 
 from std.memory import Pointer
-from core.cuda_gate import CUDAGate
 from core.mimir_well import MimirWell, f16
 
 struct EXL2SubBlockDescriptor(Copyable):
@@ -39,8 +38,8 @@ struct EXL2ModelSeer:
     """
     ᛖᚲᛋᛚᛟ·ᛋᛖᛖᚱ — The Vision of the EXL2 Variable-Bit Matrix (EXL2ModelSeer)
     ════════════════════════════════════════════════════════════════════
-    Parses EXL2 sub-block quantization headers, extracts average bitrates,
-    and enforces physical CUDA hardware execution contracts.
+    Preserves EXL2-shaped sub-block descriptors and the physical CUDA evidence
+    boundary. EXL2 metadata parsing and execution are unsupported.
     """
     var model_path: String
     var avg_bitrate: Float32
@@ -49,20 +48,22 @@ struct EXL2ModelSeer:
 
     def __init__(out self, model_path: String):
         self.model_path = model_path
-        self.avg_bitrate = 4.25 # Typical EXL2 4.25 bpw target
+        self.avg_bitrate = 0.0
         self.total_weights = 0
         self.sub_blocks = List[EXL2SubBlockDescriptor]()
 
     def parse_exl2_header_bytes(mut self, bytes: Pointer[Scalar[DType.uint8], MutUntrackedOrigin], size: Int) raises -> Bool:
         """
-        Parses EXL2 model metadata header and populates sub-block bitrates.
+        Rejects synthetic parsing until an authoritative EXL2 decoder exists.
         """
         if size < 8:
             raise Error("EXL2 binary header span too small (< 8 bytes)")
         
-        validate_exl2_format_contract(False)
-        self.avg_bitrate = 4.25
-        return True
+        _ = bytes
+        raise Error(
+            "EXL2 metadata parsing is not implemented; "
+            "fixed bitrate metadata is prohibited"
+        )
 
     def add_sub_block(mut self, bit_rate: Float32, num_weights: Int = 256):
         """
@@ -73,6 +74,6 @@ struct EXL2ModelSeer:
         self.total_weights += Int64(num_weights)
 
     def map_to_well(self, mut well: MimirWell) -> Bool:
-        """Maps EXL2 tensor weights into contiguous MimirWell RAM/VRAM slabs."""
+        """Returns false until EXL2 tensors are parsed and mapped."""
         _ = well
-        return len(self.sub_blocks) > 0
+        return False

@@ -235,8 +235,8 @@ struct AesirEngine:
     var runtime_offset: Int
 
     def __init__(
-        out self, 
-        model_path: String, 
+        out self,
+        model_path: String,
         num_devices: Int = 1,
         enable_npu: Bool = False,
         target_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
@@ -259,7 +259,7 @@ struct AesirEngine:
         )
         self.pool = MimirWell(mimir_depth_bytes)
         print("MimirWell initialized with", mimir_depth_bytes, "derived bytes.")
-        
+
         self.supervisor = SelfHealingSupervisor()
         self.event_bus = AesirEventBus()
         self.thread_pool = RuneThreadPool(8)
@@ -283,7 +283,7 @@ struct AesirEngine:
             self.pool,
         )
         self.runtime_offset = self.pool.offset
-        
+
         self.blocks = List[TransformerBlock]()
         for layer_idx in range(self.parser.config.block_count):
             self.blocks.append(
@@ -305,44 +305,42 @@ struct AesirEngine:
             raise Error("extract_query_embedding: hidden_dim must be positive")
         var q_ptr = self.pool.allocate(hidden_dim)
         var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
-        
+
         for i in range(hidden_dim):
             query_vector.data.unsafe_store(i, 0.0)
 
         var tokens = self.tokenizer.encode(prompt, False)
         var n_tokens = len(tokens)
         if n_tokens == 0:
-            query_vector.data.unsafe_store(0, 1.0)
-            return query_vector^
+            raise Error("extract_query_embedding requires at least one prompt token")
 
-        if "token_embd.weight" in self.parser.tensors:
-            var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
-            var vocab_size = embd_tensor.rows
-            var embd_dim = embd_tensor.cols
-            var active_dim = min(hidden_dim, embd_dim)
-            
-            for t_idx in range(n_tokens):
-                var tok_id = tokens[t_idx]
-                if tok_id < 0 or tok_id >= vocab_size:
-                    tok_id = 0
-                var row_offset = tok_id * embd_dim
-                for k in range(active_dim):
-                    var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
-                    var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
-                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[f32]()))
-            
-            var scale = Scalar[f32](1.0 / Float32(n_tokens))
+        if "token_embd.weight" not in self.parser.tensors:
+            raise Error(
+                "extract_query_embedding requires token_embd.weight; "
+                "fabricated fallback embeddings are prohibited"
+            )
+
+        var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
+        var vocab_size = embd_tensor.rows
+        var embd_dim = embd_tensor.cols
+        var active_dim = min(hidden_dim, embd_dim)
+
+        for t_idx in range(n_tokens):
+            var tok_id = tokens[t_idx]
+            if tok_id < 0 or tok_id >= vocab_size:
+                tok_id = 0
+            var row_offset = tok_id * embd_dim
             for k in range(active_dim):
-                var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
-                query_vector.data.unsafe_store(k, Scalar[f16](val))
-        else:
-            var seed_hash: Int = 5381
-            var p_bytes = prompt.as_bytes()
-            for b_idx in range(len(p_bytes)):
-                seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
-            for k in range(hidden_dim):
-                var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
-                query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
+                var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
+                var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
+                query_vector.data.unsafe_store(
+                    k, Scalar[f16](curr_acc + weight_val.cast[f32]())
+                )
+
+        var scale = Scalar[f32](1.0 / Float32(n_tokens))
+        for k in range(active_dim):
+            var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
+            query_vector.data.unsafe_store(k, Scalar[f16](val))
 
         return query_vector^
 
@@ -355,35 +353,38 @@ struct AesirEngine:
             var hidden_dim = self.parser.config.embedding_length
             if "token_embd.weight" in self.parser.tensors:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
-            if hidden_dim <= 0:
+            if hidden_dim <= 0 or "token_embd.weight" not in self.parser.tensors:
                 return prompt
             var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)
-            
+
             if len(docs) > 0:
-                var max_context_bytes = 1024
                 var context_str = String("[GROUNDED CONTEXT]:\n")
-                var curr_bytes = len(context_str.as_bytes())
                 var added_count = 0
-                
+
                 for i in range(len(docs)):
                     var doc_item = docs[i]
                     var citation = String("[CITATION ") + String(i + 1) + String("]: ") + doc_item + String("\n")
-                    var cit_bytes = len(citation.as_bytes())
-                    if curr_bytes + cit_bytes > max_context_bytes:
+                    var candidate_context = context_str + citation
+                    var candidate_prompt = (
+                        candidate_context + String("\n[PROMPT]: ") + prompt
+                    )
+                    var candidate_tokens = self.tokenizer.encode(
+                        candidate_prompt, True
+                    )
+                    if len(candidate_tokens) >= self.parser.config.context_length:
                         break
                     context_str += citation
-                    curr_bytes += cit_bytes
                     added_count += 1
-                
+
                 if added_count > 0:
                     active_prompt = context_str + String("\n[PROMPT]: ") + prompt
                     print("RAG Grounded Context Augmented:", context_str)
                 else:
-                    print("RAG Notice: Knowledge context exceeded budget, skipping augmentation.")
+                    print("RAG Notice: Knowledge context exceeded the model token budget; skipping augmentation.")
             else:
                 print("RAG Notice: No relevant knowledge context found.")
-            
+
             self.pool.reset_kv_cache(self.runtime_offset)
         return active_prompt
 

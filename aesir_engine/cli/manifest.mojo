@@ -6,15 +6,15 @@ from cli.modelfile import Modelfile, parse_modelfile, parse_int
 
 
 @always_inline
-def compute_modelfile_digest(content: String) -> String:
-    """Computes a deterministic hex digest string starting with 'sha256:'."""
+def compute_modelfile_fingerprint(content: String) -> String:
+    """Computes a deterministic non-cryptographic FNV-1a 64-bit fingerprint."""
     var bytes = content.as_bytes()
     var h: UInt64 = 14695981039346656037
     for i in range(len(bytes)):
         h = (h ^ UInt64(bytes[i])) * 1099511628211
     
     var hex_chars = String("0123456789abcdef")
-    var res = String("sha256:")
+    var res = String("fnv1a64:")
     for shift in range(60, -4, -4):
         var nibble = Int((h >> UInt64(shift)) & 0xF)
         res += String(hex_chars[byte=nibble : nibble + 1])
@@ -24,7 +24,7 @@ def compute_modelfile_digest(content: String) -> String:
 struct ModelManifest(Copyable, ImplicitlyCopyable):
     """
     ModelManifest — ᛗᛟᛞᛖᛚ·ᛗᚨᚾᛁᚠᛖᛋᛏ — The Scroll of the Model:
-    Preserves model metadata scroll: model name, tag, SHA-256 digest ID,
+    Preserves model metadata scroll: model name, tag, content fingerprint,
     file byte size, quantization rune, structural dimensions (hidden_dim, num_layers),
     modification timestamp, and raw Modelfile inscriptions.
     """
@@ -163,7 +163,8 @@ def deserialize_manifest(raw: String) raises -> ModelManifest:
 struct RuneModelStore(Copyable):
     """
     RuneModelStore — ᚱᛢᚾᛖ·ᛗᛟᛞᛖᛚ·ᛋᛏᛟᚱᛖ — The Vault of Mímisbrunnr:
-    Model catalog and manifest manager supporting in-memory operations and persistent serialization.
+    Model catalog supporting in-memory operations and text serialization.
+    It performs no durable file I/O.
     """
     var catalog: Dict[String, ModelManifest]
     var model_keys: List[String]
@@ -210,32 +211,33 @@ struct RuneModelStore(Copyable):
         raise Error("model manifest not found: " + name)
 
     def create_model(mut self, name: String, modelfile_content: String) raises:
-        """Creates a new model manifest entry from Modelfile directives and computes its SHA-256 digest."""
+        """Creates an in-memory manifest without inventing unobserved model metadata."""
         var search_name = name
         if ":" not in search_name:
             search_name += String(":latest")
         
-        var parsed = parse_modelfile(modelfile_content)
+        _ = parse_modelfile(modelfile_content)
         var tag = String("latest")
         if ":" in name:
             var parts = name.split(":")
             tag = String(parts[1])
         
-        var digest = compute_modelfile_digest(modelfile_content)
+        var fingerprint = compute_modelfile_fingerprint(modelfile_content)
         var name_base = String(name.split(":")[0])
         var new_manifest = ModelManifest(
             name_base,
             tag,
-            digest,
-            4370000000,
-            String("Q4_K_M"),
-            4096,
-            32,
-            String("Just now"),
+            fingerprint,
+            0,
+            String("unknown"),
+            0,
+            0,
+            String("unknown"),
             modelfile_content
         )
         self.catalog[search_name] = new_manifest
-        self.model_keys.append(search_name)
+        if search_name not in self.model_keys:
+            self.model_keys.append(search_name)
 
     def copy_model(mut self, source: String, target: String) raises:
         """Copies an existing model manifest to a new name/tag."""
@@ -252,7 +254,8 @@ struct RuneModelStore(Copyable):
         if len(parts) > 1:
             copied.tag = String(parts[1])
         self.catalog[target_name] = copied.copy()
-        self.model_keys.append(target_name)
+        if target_name not in self.model_keys:
+            self.model_keys.append(target_name)
 
     def remove_model(mut self, name: String) -> Bool:
         """Removes a model manifest from the store."""
@@ -292,7 +295,7 @@ struct RuneModelStore(Copyable):
         _ = self.remove_model(search_name)
 
     def serialize_store(self) raises -> String:
-        """Serializes entire model store into persistent scroll format."""
+        """Serializes the in-memory model store to caller-owned text."""
         var chunks = List[String]()
         for i in range(len(self.model_keys)):
             var key = self.model_keys[i]
@@ -310,7 +313,8 @@ struct RuneModelStore(Copyable):
                 var manifest = deserialize_manifest(block)
                 var key = manifest.name + ":" + manifest.tag
                 self.catalog[key] = manifest.copy()
-                self.model_keys.append(key)
+                if key not in self.model_keys:
+                    self.model_keys.append(key)
 
     def get_active_ps(self) raises -> List[ModelManifest]:
         """Returns no processes until runtime process tracking is implemented."""

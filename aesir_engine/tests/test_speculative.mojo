@@ -1,5 +1,5 @@
 # tests/test_speculative.mojo
-# Verification of SpeculativeEngine draft proposal & rejection sampling verification
+# Verification of local proposal, acceptance, and rollback arithmetic
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -11,7 +11,7 @@ from core.speculative import (
 )
 
 def test_speculative_proposal_and_verification() raises:
-    print("--- Testing Speculative Engine Proposal & Rejection Verification ---")
+    print("--- Testing local proposal and acceptance arithmetic ---")
     var engine = SpeculativeEngine(4)
     var vocab_size = 32
 
@@ -32,11 +32,11 @@ def test_speculative_proposal_and_verification() raises:
         raise Error("SpeculativeEngine verify_and_reconcile target_kv_step mismatch")
 
     logits_ptr.unsafe_free()
-    print("Speculative proposal & rejection verification: PASS")
+    print("Local proposal and acceptance arithmetic: PASS")
 
 
 def test_speculative_rollback_on_rejection() raises:
-    print("--- Testing Speculative Engine Rejection & Rollback ---")
+    print("--- Testing local rejection and rollback marker ---")
     var engine = SpeculativeEngine(4)
     var vocab_size = 32
 
@@ -61,7 +61,7 @@ def test_speculative_rollback_on_rejection() raises:
         raise Error("SpeculativeEngine verify_and_reconcile failed to record rejected rollback token ID")
 
     logits_ptr.unsafe_free()
-    print("Speculative rejection & rollback: PASS")
+    print("Local rejection and rollback marker: PASS")
 
 
 def main() raises:

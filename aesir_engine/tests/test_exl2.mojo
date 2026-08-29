@@ -1,5 +1,5 @@
 # tests/test_exl2.mojo
-# Verification of EXL2 variable-bit sub-block parser & CUDA contract validator
+# Verification of EXL2 local descriptors and unsupported parser boundary
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -30,9 +30,17 @@ def test_exl2_model_seer() raises:
     bytes_ptr.unsafe_store(2, 0x4C) # 'L'
     bytes_ptr.unsafe_store(3, 0x32) # '2'
 
-    var ok = seer.parse_exl2_header_bytes(bytes_ptr, 16)
-    if not ok:
-        raise Error("EXL2ModelSeer failed to parse header bytes")
+    var parser_rejected = False
+    try:
+        _ = seer.parse_exl2_header_bytes(bytes_ptr, 16)
+    except error:
+        parser_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("EXL2 parser rejection omitted truth boundary")
+    if not parser_rejected:
+        raise Error("EXL2ModelSeer accepted synthetic fixed metadata")
+    if seer.avg_bitrate != 0.0:
+        raise Error("EXL2ModelSeer fabricated bitrate metadata after rejection")
 
     seer.add_sub_block(3.5, 256)
     seer.add_sub_block(4.25, 256)
@@ -44,7 +52,7 @@ def test_exl2_model_seer() raises:
         raise Error("EXL2ModelSeer total_weights mismatch")
 
     bytes_ptr.unsafe_free()
-    print("EXL2ModelSeer variable-bit parser: PASS")
+    print("EXL2ModelSeer local descriptor and parser boundary: PASS")
 
 
 def main() raises:

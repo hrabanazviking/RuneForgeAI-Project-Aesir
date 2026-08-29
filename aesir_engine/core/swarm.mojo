@@ -48,9 +48,9 @@ struct NodeIdentity(Copyable):
     def __init__(
         out self,
         node_id: String,
-        auth_token: String = "secret-aesir-token",
+        auth_token: String = "",
         protocol_version: String = "AESIR-SWARM-v1",
-        timestamp: Int64 = 1000
+        timestamp: Int64 = 0
     ):
         self.node_id = node_id
         self.auth_token = auth_token
@@ -93,13 +93,13 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
     def __init__(
         out self,
         node_id: String,
-        ip_address: String = "127.0.0.1",
-        port: Int = 11434,
+        ip_address: String = "",
+        port: Int = 0,
         role: SwarmNodeRole = SwarmNodeRole.WORKER,
         vram_capacity_mb: Int = 0,
         vram_used_mb: Int = 0,
         is_alive: Bool = False,
-        last_heartbeat_timestamp: Int64 = 1000
+        last_heartbeat_timestamp: Int64 = 0
     ):
         self.node_id = node_id
         self.ip_address = ip_address
@@ -259,7 +259,7 @@ struct RemoteInferenceResponse(Copyable):
 
 
 struct TaskDispatcher(Copyable):
-    """The Swarm Task Dispatcher."""
+    """Validates task descriptors while network dispatch remains unsupported."""
     var active_tasks: Int
 
     def __init__(out self, active_tasks: Int = 0):
@@ -275,8 +275,7 @@ struct TaskDispatcher(Copyable):
     def dispatch_to_node(mut self, node: PeerNode, task_name: String) raises -> String:
         if len(node.node_id.as_bytes()) == 0 or len(task_name.as_bytes()) == 0:
             raise Error("node id and task name must not be empty")
-        self.active_tasks += 1
-        return "DISPATCHED_TO_" + node.node_id + "_TASK_" + task_name
+        raise Error("swarm task dispatch is not implemented")
 
 
 struct SwarmCluster(Copyable):
@@ -312,24 +311,12 @@ struct SwarmCluster(Copyable):
         expected_token: String
     ) raises -> Bool:
         """
-        Authenticates node identity and joins the enterprise mesh cluster.
+        Validates join parameters and rejects until authenticated transport exists.
         """
         if len(leader_address.as_bytes()) == 0:
             raise Error("leader address must not be empty")
-        var _ = authenticate_node_identity(identity, expected_token)
-        var peer = PeerNode(
-            node_id=identity.node_id,
-            ip_address=leader_address,
-            port=11434,
-            role=SwarmNodeRole.WORKER,
-            vram_capacity_mb=16384,
-            vram_used_mb=2048,
-            is_alive=True,
-            last_heartbeat_timestamp=identity.timestamp
-        )
-        self.registry.register_node(peer)
-        self.is_mesh_active = True
-        return True
+        _ = authenticate_node_identity(identity, expected_token)
+        raise Error("swarm mesh join is not implemented: no network transport was opened")
 
     def leave_mesh(mut self, node_id: String) raises -> Bool:
         """
@@ -342,16 +329,10 @@ struct SwarmCluster(Copyable):
 
     def heartbeat_pulse(mut self, node_id: String = "", current_time: Int64 = 1000) raises -> Bool:
         """
-        Updates liveness heartbeat pulse for specified peer node.
+        Returns false until a network heartbeat is observed.
         """
-        if len(node_id.as_bytes()) == 0:
-            return False
-        if node_id in self.registry.nodes:
-            var node = self.registry.nodes[node_id].copy()
-            node.last_heartbeat_timestamp = current_time
-            node.is_alive = True
-            self.registry.register_node(node)
-            return True
+        _ = node_id
+        _ = current_time
         return False
 
     def dispatch_remote_inference(
@@ -360,30 +341,24 @@ struct SwarmCluster(Copyable):
         expected_token: String
     ) raises -> RemoteInferenceResponse:
         """
-        Dispatches load-balanced remote inference request to optimal live peer.
+        Validates request fields and rejects until remote transport exists.
         """
         if len(req.model.as_bytes()) == 0 or len(req.prompt.as_bytes()) == 0:
             raise Error("model and prompt must not be empty")
-
-        var best_peer = self.registry.get_least_loaded_node()
-        var task_ref = self.dispatcher.dispatch_to_node(best_peer, req.request_id)
-        _ = task_ref
-
-        return RemoteInferenceResponse(
-            request_id=req.request_id,
-            output_text="[Swarm Output from " + best_peer.node_id + "] Response for: " + req.prompt,
-            tokens_generated=req.max_tokens,
-            executing_node_id=best_peer.node_id,
-            is_success=True
+        _ = expected_token
+        raise Error(
+            "remote swarm inference is not implemented: "
+            "no request was transmitted or executed"
         )
 
     def join_mesh(mut self, leader_address: String) raises -> Bool:
         """Legacy join compatibility wrapper."""
-        var id = NodeIdentity("node-compat-1", "secret-aesir-token")
-        return self.join_mesh_authenticated(id, leader_address, "secret-aesir-token")
+        if len(leader_address.as_bytes()) == 0:
+            raise Error("leader address must not be empty")
+        raise Error("swarm mesh join is not implemented")
 
     def dispatch_distributed_inference(mut self, model: String, prompt: String) raises -> String:
         """Legacy remote inference compatibility wrapper."""
-        var req = RemoteInferenceRequest("req-compat-1", model, prompt)
-        var resp = self.dispatch_remote_inference(req, "secret-aesir-token")
-        return resp.output_text
+        if len(model.as_bytes()) == 0 or len(prompt.as_bytes()) == 0:
+            raise Error("model and prompt must not be empty")
+        raise Error("remote swarm inference is not implemented")

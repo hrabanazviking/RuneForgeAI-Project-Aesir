@@ -14,19 +14,18 @@ Treat it accordingly.
 
 ### Protected Branches
 
-Two branches are protected. No agent commits directly to either.
-
-**`main`** — Release-ready code. Only receives merges from `development` after full Auditor verification. Every commit on main should theoretically be deployable. If it is not deployable, it does not belong here.
-
-**`development`** — Integration branch. Feature branches merge here after passing CI. This is where the living codebase evolves. It may contain incomplete features, but it must always compile and pass the invariant test suite.
+The repository's protected integration target is **`main`**. Agents do not
+commit directly to it. Feature branches merge into `main` only after CI and
+Auditor verification. Every commit on `main` must compile and pass the
+invariant suite.
 
 ### Feature Branches
 
-All work happens on feature branches branched from `development`.
+All work happens on feature branches branched from `main`.
 
 ```bash
-git checkout development
-git pull origin development
+git checkout main
+git pull --ff-only origin main
 git checkout -b [type]/[domain]-[brief-description]
 ```
 
@@ -78,7 +77,7 @@ fix/mimir                       # No description
 
 Feature branches are temporary. They exist to deliver a unit of work and then die.
 
-- **Maximum lifespan**: 7 days. If a branch lives longer, it has diverged too far from development and will produce painful conflicts.
+- **Maximum lifespan**: 7 days. If a branch lives longer, it has diverged too far from `main` and will produce painful conflicts.
 - **Stale branches**: Branches with no commits for 14 days are eligible for deletion by the coordinator. The coordinator notifies the owning agent before deletion.
 - **Merged branches**: Deleted immediately after successful merge. Do not hoard merged branches.
 
@@ -89,10 +88,10 @@ One branch accomplishes one thing. Do not mix unrelated changes on the same bran
 Split them:
 ```bash
 git stash                           # Save current work
-git checkout development
+git checkout main
 git checkout -b fix/the-bug        # Branch for the bug
 # Fix the bug, commit, merge
-git checkout development
+git checkout main
 git checkout -b feat/the-feature   # Branch for the feature
 git stash pop                       # Restore feature work
 # Continue feature work
@@ -216,7 +215,7 @@ audit: downgrade GGUFSeer.tensor_extraction from Verified to Partial
 
 Manual testing revealed that tensor extraction fails on models with
 quantization format Q5_K_M. Unit tests only covered Q4_0 and Q8_0.
-Downgrade reflects actual capability. Added TODO in TASK_QUEUE.md
+Downgrade reflects actual capability. Added TODO in TODO.md
 for Q5_K_M support.
 ```
 
@@ -324,11 +323,11 @@ Rule of thumb: if losing your local branch would cause more than 30 minutes of r
 ### Keeping Branches Current
 
 ```bash
-# Daily: sync with development
-git checkout development
-git pull origin development
+# Daily: sync with main
+git checkout main
+git pull --ff-only origin main
 git checkout feat/my-branch
-git rebase development    # Preferred over merge for feature branches
+git rebase main           # Preferred over merge for feature branches
 ```
 
 Rebase keeps history linear and clean. Merge creates merge commits that clutter the log. For feature branches destined to be squashed on merge, rebase is strictly preferable.
@@ -339,7 +338,7 @@ If your branch has been pushed and others may have pulled it, rebasing rewrites 
 
 For solo feature branches that no one else has pulled:
 ```bash
-git rebase development
+git rebase main
 # Resolve conflicts if any
 git push --force-with-lease origin feat/my-branch
 ```
@@ -352,12 +351,12 @@ Use `--force-with-lease` instead of `--force`. The former refuses to push if som
 
 ### When to Request Merge
 
-A feature branch is ready to merge into `development` when:
+A feature branch is ready to merge into `main` when:
 1. All planned work is complete
 2. All tests pass locally
 3. The capability ledger is updated if status changed
 4. Documentation is updated
-5. No merge conflicts exist (rebase onto latest development)
+5. No merge conflicts exist (rebase onto latest `main`)
 6. The commit history is clean (squash intermediary commits if needed)
 
 ### Pull Request Template
@@ -395,13 +394,13 @@ A feature branch is ready to merge into `development` when:
 
 ### Squash Merging
 
-Feature branches are squash-merged into development. This compresses all commits on the branch into a single commit on development.
+Feature branches are squash-merged into `main`. This compresses all commits on the branch into a single commit on `main`.
 
-Rationale: intermediary commits on a feature branch (fix typo, address review feedback, reorder imports) are noise. The development branch should show one commit per feature, not seventeen.
+Rationale: intermediary commits on a feature branch (fix typo, address review feedback, reorder imports) are noise. The `main` branch should show one commit per feature, not seventeen.
 
 Procedure:
 ```bash
-# On development
+# On main
 git merge --squash feat/my-branch
 git commit -m "feat: [complete description encompassing all branch work]"
 ```
@@ -413,13 +412,13 @@ The squash commit message should be comprehensive. It summarizes the entire bran
 Conflicts are inevitable. Panic is optional.
 
 ```bash
-git rebase development
+git rebase main
 # CONFLICT detected in src/example.mojo
 ```
 
 Resolution procedure:
 1. Open the conflicted file. Locate conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`).
-2. Understand both sides. What does your branch do? What does development do? Why do they differ?
+2. Understand both sides. What does your branch do? What does `main` do? Why do they differ?
 3. Resolve manually. Do not blindly accept one side. The correct resolution may combine both.
 4. Test the resolution: `mojo build src/ && mojo test tests/`
 5. Stage the resolved file: `git add src/example.mojo`
@@ -441,16 +440,13 @@ git commit -m "fix: [critical bug description]"
 git checkout main
 git merge --no-ff fix/hotfix-[description]
 git push origin main
-# Merge back to development
-git checkout development
-git merge --no-ff fix/hotfix-[description]
-git push origin development
+# `main` already contains the hotfix; no second integration branch exists.
 # Delete the hotfix branch
 git branch -d fix/hotfix-[description]
 git push origin --delete fix/hotfix-[description]
 ```
 
-Hotfixes bypass the normal feature branch → development → main flow because timeliness matters. They still require full testing. A hotfix that introduces a new bug is worse than the original.
+Hotfixes use a short-lived branch from `main`; timeliness does not waive full testing. A hotfix that introduces a new bug is worse than the original.
 
 ---
 
@@ -502,7 +498,7 @@ Amend only when the commit has not been pushed. If it has been pushed, amending 
 Before merging a feature branch, clean up intermediary commits:
 
 ```bash
-git rebase -i development
+git rebase -i main
 ```
 
 Squash typos and fixes into their parent commits. Reorder if logical grouping improves. Remove commits that were experimental and reverted.
@@ -517,17 +513,17 @@ Warning: Dropping commits is irreversible once the rebase completes. Be certain.
 
 ### Never Rewrite Published History
 
-Once a commit is on `main` or `development`, it is permanent. Do not rebase, amend, or force-push to these branches. If a commit on a protected branch is wrong, create a new commit that fixes it.
+Once a commit is on `main`, it is permanent. Do not rebase, amend, or force-push this branch. If a commit on the protected branch is wrong, create a new commit that fixes it.
 
 ```bash
-# Bad: rewriting history on development
+# Bad: rewriting history on main
 git rebase -i HEAD~5
-git push --force origin development
+git push --force origin main
 
 # Good: a fix-forward commit
 git revert abc123
 git commit -m "fix: revert problematic change from abc123"
-git push origin development
+git push origin main
 ```
 
 ---
@@ -603,7 +599,7 @@ Use `--soft` when you want to re-commit with a different message or staging. Use
 
 ```bash
 git revert abc123
-git push origin development
+git push origin main
 ```
 
 `revert` creates a new commit that undoes the changes. It does not rewrite history. Use this for any commit already on a shared branch.
@@ -623,11 +619,11 @@ The reflog records every HEAD movement for 90 days. Deleted branches are recover
 ### Resolving Accidental Push to Wrong Branch
 
 ```bash
-# Accidentally pushed feature work to development directly
-# Reset development to its previous state
-git checkout development
-git reset --hard origin/previous-development-hash
-git push --force-with-lease origin development
+# Accidentally pushed feature work to main directly
+# Coordinate with the repository owner before repairing protected history.
+git checkout main
+git reset --hard origin/previous-main-hash
+git push --force-with-lease origin main
 
 # Then redo the work properly on a feature branch
 git checkout -b feat/proper-branch
@@ -682,7 +678,7 @@ git commit -m "fix: remove accidentally committed credentials"
 # If already pushed, the secret is in history permanently
 # Rotate the secret, then purge:
 git filter-branch --tree-filter 'rm -f config/secrets.env' HEAD
-git push --force origin development
+git push --force origin main
 # Document in DECISIONS
 ```
 
@@ -693,12 +689,12 @@ git push --force origin development
 git merge --abort
 
 # Rebase interactively in small chunks
-git rebase -i development
+git rebase -i main
 # Resolve one commit at a time
 # Test after each resolution
 ```
 
-If the conflict is truly intractable, the branch may need to be abandoned and restarted from the current development head. This is not failure. It is acknowledging sunk cost.
+If the conflict is truly intractable, the branch may need to be abandoned and restarted from the current `main` head. This is not failure. It is acknowledging sunk cost.
 
 ### Scenario: Force-Pushed Over Someone Else's Work
 
@@ -713,12 +709,12 @@ git cherry-pick abc123
 
 Prevention: always use `--force-with-lease`. Never use `--force`.
 
-### Scenario: Accidental Deletion of development Branch
+### Scenario: Accidental Deletion of Local main Branch
 
 ```bash
-# development is protected remotely. Fetch it back:
+# main is protected remotely. Fetch it back:
 git fetch origin
-git checkout -b development origin/development
+git checkout -b main origin/main
 ```
 
 Protected branches cannot truly be deleted from the remote. Local deletions are recoverable via fetch.
@@ -729,7 +725,7 @@ Protected branches cannot truly be deleted from the remote. Local deletions are 
 
 ```
 STARTING WORK:
-□ git checkout development && git pull
+□ git checkout main && git pull --ff-only
 □ git checkout -b [type]/[domain]-[description]
 
 BEFORE COMMITTING:
@@ -749,13 +745,13 @@ COMMIT MESSAGE:
 PUSHING:
 □ git push origin [branch-name]
 □ Use --force-with-lease only after rebase on unpublished branches
-□ Never force-push to main or development
+□ Never force-push to main
 
 MERGING:
-□ Rebase onto latest development
+□ Rebase onto latest main
 □ All tests pass
 □ PR template filled
-□ Squash merge into development
+□ Squash merge into main
 □ Delete merged branch
 
 EMERGENCY:
