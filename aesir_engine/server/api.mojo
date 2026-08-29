@@ -78,6 +78,60 @@ def json_escape_string(val: String) -> String:
     return res
 
 
+struct RequestContext(Copyable, ImplicitlyCopyable):
+    """Encapsulates request correlation ID, session binding, and timeout state."""
+    var request_id: String
+    var session_id: String
+    var timeout_ms: UInt64
+    var is_cancelled: Bool
+
+    def __init__(
+        out self,
+        request_id: String,
+        session_id: String = String("default"),
+        timeout_ms: UInt64 = 30000,
+    ):
+        self.request_id = request_id
+        self.session_id = session_id
+        self.timeout_ms = timeout_ms
+        self.is_cancelled = False
+
+    def __copyinit__(out self, existing: Self):
+        self.request_id = existing.request_id
+        self.session_id = existing.session_id
+        self.timeout_ms = existing.timeout_ms
+        self.is_cancelled = existing.is_cancelled
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(self.request_id, self.session_id, self.timeout_ms)
+
+    def cancel(mut self):
+        self.is_cancelled = True
+
+
+def build_structured_error(
+    status_code: Int,
+    error_type: String,
+    message: String,
+    request_id: String = String(""),
+) -> String:
+    """Builds a structured JSON error response body with request correlation."""
+    var body = String("{\"error\":{\"code\":")
+    body += String(status_code)
+    body += String(",\"type\":\"")
+    body += json_escape_string(error_type)
+    body += String("\",\"message\":\"")
+    body += json_escape_string(message)
+    body += String("\"")
+    if len(request_id.bytes()) > 0:
+        body += String(",\"request_id\":\"")
+        body += json_escape_string(request_id)
+        body += String("\"")
+    body += String("}}")
+    return body
+
+
 def unsupported_http_response(capability: String) -> String:
     """Builds an honest HTTP 501 response for a known unavailable route."""
     return (

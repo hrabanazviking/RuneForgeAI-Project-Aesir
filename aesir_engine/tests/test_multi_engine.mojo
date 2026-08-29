@@ -20,6 +20,8 @@ from server.api import (
     unsupported_http_response,
     route_not_found_response,
     json_escape_string,
+    RequestContext,
+    build_structured_error,
 )
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
@@ -332,6 +334,22 @@ def test_json_escape_string() raises:
         raise Error("json_escape_string failed to escape special characters: got '" + escaped + "'")
     print("JSON string escaper: PASS")
 
+def test_request_context_and_structured_errors() raises:
+    print("--- Testing RequestContext & Structured Error Formatting ---")
+    var ctx = RequestContext("req-12345", "sess-abc", 5000)
+    if ctx.request_id != "req-12345" or ctx.session_id != "sess-abc":
+        raise Error("RequestContext property initialization mismatch")
+    if ctx.is_cancelled:
+        raise Error("RequestContext must default to is_cancelled = False")
+    ctx.cancel()
+    if not ctx.is_cancelled:
+        raise Error("RequestContext cancel() must set is_cancelled = True")
+
+    var err_json = build_structured_error(400, "invalid_request", "Missing prompt parameter", "req-12345")
+    if '"code":400' not in err_json or '"type":"invalid_request"' not in err_json or '"request_id":"req-12345"' not in err_json:
+        raise Error("build_structured_error formatted invalid JSON error payload: got '" + err_json + "'")
+    print("RequestContext & Structured Error Formatting: PASS")
+
 def main() raises:
     test_openai_api_formatter()
     test_gbnf_grammar()
@@ -344,3 +362,4 @@ def main() raises:
     test_http_response_framing()
     test_openai_rest_gateway()
     test_json_escape_string()
+    test_request_context_and_structured_errors()

@@ -352,7 +352,7 @@ counts as completion of an external capability.
 - [x] **[verified, AES-SRV-003] Implement write-all and HTTP response framing:** `write_all_bytes()`, `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()`.
 - [x] Use a real JSON serializer/escaper for prompts, model output, errors, and
   Unicode rather than concatenating untrusted strings.
-- [ ] Add request/session IDs, structured errors, timeouts, limits, cancellation,
+- [x] Add request/session IDs, structured errors, timeouts, limits, cancellation,
   backpressure, and graceful shutdown.
 
 ### Compatibility surfaces
