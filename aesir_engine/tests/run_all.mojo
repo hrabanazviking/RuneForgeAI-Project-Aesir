@@ -331,7 +331,7 @@ def main() raises:
     print("  [DOMAIN] Implemented CLI and Unsupported Boundaries")
     print("  -----------------------------------------")
     run_case(ledger, "cli.modelfile_parser", test_modelfile_parser)
-    run_case(ledger, "cli.in_memory_manifest_store", test_model_manifest_store)
+    run_case(ledger, "cli.manifest_store_restart", test_model_manifest_store)
     run_case(ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch)
     run_case(ledger, "cli.repl_session_state", test_repl_session_and_slash_commands)
     run_case(ledger, "cli.flag_options_parser", test_cli_flag_options_parser)

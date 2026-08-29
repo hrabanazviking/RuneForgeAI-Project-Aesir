@@ -76,3 +76,24 @@ directories created by the model-store tests only. This authorization is
 strictly limited to test-owned paths created during the current test run. It
 does not authorize deletion of tracked files, pre-existing files or
 directories, user data, model weights, or any production store contents.
+
+## Partial Repair — Durable Catalog Slice
+
+The first implementation slice adds a caller-owned relative Linux store root,
+an absent-store-as-empty rule, strict model identity validation, and a bounded
+versioned catalog codec whose manifest payloads are hex encoded so caller text
+cannot collide with record delimiters. Mutations reload under an exclusive
+directory lock, stage in the destination directory, sync the staged file,
+atomically rename it, sync the store directory, and publish in-memory state
+only after the write path succeeds.
+
+`E-MASTER` case `cli.manifest_store_restart` proves empty start, traversal and
+catalog-version rejection, delimiter-safe Modelfile content, and durable
+create/copy/remove behavior across reconstructed store instances. The test
+deletes only its newly created `.aesir-test-model-store-<pid>` catalog and
+directory under the approval above.
+
+The bug remains open. Content-addressed model blobs, SHA-256 over source bytes,
+measured size/metadata, separate-process CLI wiring, injected rollback and
+permission faults, missing-blob handling, and process-concurrency evidence are
+still required.

@@ -3,6 +3,7 @@
 
 from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest
+from cli.storage import DurableModelStore, deserialize_catalog
 from cli.commands import (
     collect_run_positionals,
     dispatch_command,
@@ -14,6 +15,27 @@ from cli.commands import (
 from cli.repl import RuneREPL
 from cli.options import parse_cli_options, parse_duration_seconds
 from config import load_config_file
+from std.ffi import external_call
+
+
+def _test_cstring(value: String) -> List[Int8]:
+    var result = List[Int8]()
+    var source = value.as_bytes()
+    for index in range(len(source)):
+        result.append(Int8(source[index]))
+    result.append(0)
+    return result^
+
+
+def _cleanup_owned_model_store(root: String) raises:
+    """Deletes only the model-store paths created by this test process."""
+    if not root.startswith(".aesir-test-model-store-") or "/" in root:
+        raise Error("refusing to clean a path not owned by the model-store test")
+    var catalog_bytes = _test_cstring(root + "/catalog.v1")
+    var root_bytes = _test_cstring(root)
+    _ = external_call["unlink", Int32](catalog_bytes.unsafe_ptr())
+    if external_call["rmdir", Int32](root_bytes.unsafe_ptr()) != 0:
+        raise Error("failed to remove test-owned model-store directory")
 
 
 def test_modelfile_parser() raises:
@@ -73,7 +95,7 @@ def test_modelfile_parser() raises:
 
 
 def test_model_manifest_store() raises:
-    print("--- Testing in-memory manifest fingerprint & text serialization ---")
+    print("--- Testing validated manifests & restart-safe durable catalog ---")
     var store = RuneModelStore()
     if len(store.list_models()) != 0:
         raise Error("new model store must not contain fictional manifests")
@@ -131,7 +153,61 @@ def test_model_manifest_store() raises:
     if not copy_rejected:
         raise Error("copy_model failed to reject empty source parameter")
 
-    print("in-memory manifest fingerprint & text serialization: PASS")
+    var traversal_rejected = False
+    try:
+        store.create_model("../escape", mf_text)
+    except:
+        traversal_rejected = True
+    if not traversal_rejected:
+        raise Error("model identity accepted a path traversal reference")
+
+    var corruption_rejected = False
+    try:
+        _ = deserialize_catalog("AESIR_MODEL_CATALOG_V2\nCOUNT:0")
+    except:
+        corruption_rejected = True
+    if not corruption_rejected:
+        raise Error("durable catalog accepted an unsupported version")
+
+    var test_root = (
+        String(".aesir-test-model-store-")
+        + String(external_call["getpid", Int32]())
+    )
+    var root_bytes = _test_cstring(test_root)
+    if external_call["access", Int32](root_bytes.unsafe_ptr(), 0) == 0:
+        raise Error("refusing to reuse a pre-existing model-store test path")
+
+    # The caller-approved cleanup scope begins only after absence is proven.
+    try:
+        var durable = DurableModelStore(test_root)
+        if len(durable.list_models()) != 0:
+            raise Error("absent durable store did not start empty")
+        durable.create_model(
+            "persisted:v1",
+            mf_text + "\nSYSTEM ===MANIFEST=== delimiter-safe",
+        )
+
+        var restarted = DurableModelStore(test_root)
+        var persisted = restarted.get_model("persisted:v1")
+        if "===MANIFEST===" not in persisted.modelfile_content:
+            raise Error("durable catalog corrupted delimiter-shaped content")
+        restarted.copy_model("persisted:v1", "copied:stable")
+
+        var copied_restart = DurableModelStore(test_root)
+        if copied_restart.get_model("copied:stable").name != "copied":
+            raise Error("durable catalog copy did not survive restart")
+        copied_restart.remove_model("persisted:v1")
+
+        var removed_restart = DurableModelStore(test_root)
+        if len(removed_restart.list_models()) != 1:
+            raise Error("durable catalog removal did not survive restart")
+        _ = removed_restart.get_model("copied:stable")
+    except error:
+        _cleanup_owned_model_store(test_root)
+        raise error
+    _cleanup_owned_model_store(test_root)
+
+    print("validated manifests & restart-safe durable catalog: PASS")
 
 
 def assert_cli_command_unsupported(command: String) raises:

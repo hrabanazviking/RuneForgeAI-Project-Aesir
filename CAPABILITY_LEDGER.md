@@ -553,15 +553,15 @@ the complete ledger population.
 - **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
 - **Audit:** AER-060, AER-067.
 
-### AES-CLI-004 — In-memory model manifest structures and text serialization
+### AES-CLI-004 — Durable model catalog and incomplete blob store
 
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` support deterministic non-cryptographic `fnv1a64:` fingerprints, copy guards, and in-memory text serialization/deserialization.
-- **Executable evidence:** `E-MASTER` case `cli.in_memory_manifest_store` in `test_cli.mojo`.
-- **Evidence boundary:** No file I/O, atomic durable store, measured model metadata, cryptographic integrity digest, or binary blob distribution is implemented.
-- **Next acceptance gate:** Add an atomic on-disk store, compute cryptographic digests and metadata from actual model bytes, and prove restart/corruption behavior.
+- **Implementation evidence:** `ModelManifest` and `RuneModelStore` in `cli/manifest.mojo` validate model identities and retain deterministic non-cryptographic `fnv1a64:` fingerprints. `DurableModelStore` in `cli/storage.mojo` loads absent stores as empty, uses a bounded/versioned/delimiter-safe catalog, serializes writers with a Linux directory lock, and commits through same-directory stage, file sync, atomic rename, and directory sync.
+- **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` in `test_cli.mojo` proves empty start, validated traversal rejection, version rejection, delimiter-safe content, and create/copy/remove persistence across reconstructed store instances.
+- **Evidence boundary:** Catalog durability is implemented for the configured Linux target. The suite does not yet prove separate-process execution, injected write rollback, permission failures, or concurrent processes. Model-byte ingestion, measured metadata, cryptographic integrity digest, content-addressed blobs, and binary distribution remain unimplemented.
+- **Next acceptance gate:** Add content-addressed blob ingestion with cryptographic digest and exact byte size, then prove multi-process restart, corruption, permission, rollback, missing-blob, and concurrent-writer behavior.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
