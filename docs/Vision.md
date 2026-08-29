@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 79.1 — Multi-Device GQA Head Partitioning & Host Shard Bounds Hardening (`AES-ACC-004`)
+* **Stage 79.1 Multi-Device Milestone ([`AES-ACC-004`](../CAPABILITY_LEDGER.md) `verified`)**: Added `shard_split_gqa_heads()` to `core/mimir_well.mojo` to compute explicit Q/K/V attention head partitioning across multi-device topology shards with head divisibility validation. Updated `test_sharding.mojo` with GQA head partitioning test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 78.1 — Honest Accelerator Hardware Discovery & Capability Matrix (`AES-ACC-003`)
 * **Stage 78.1 Hardware Milestone ([`AES-ACC-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `probe_all_hardware()`, `require_npu_backend()`, and `require_gpu_realm()` to `DeviceTopology` in `core/mimir_well.mojo`. Separates configured from discovered physical backends and strictly rejects absent accelerator requests with explicit error exceptions instead of claiming CPU as hardware execution. Updated `test_sharding.mojo` with hardware capability matrix test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
