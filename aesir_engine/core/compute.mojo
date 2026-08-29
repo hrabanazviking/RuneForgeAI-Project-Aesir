@@ -813,7 +813,7 @@ def dequantize_compressed_tensor(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int
-):
+) raises:
     """
     ᚲᛟᛗᛈᚱᛖᛋᛋᛖᛞ·ᚷᚨᛏᛖᚹᚨᚤ — The Gateway of Universal Dequantization (dequantize_compressed_tensor)
     ════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -877,15 +877,11 @@ def dequantize_compressed_tensor(
     elif format.value == CompressedFormatType.IQ1_S:
         var block_ptr = data.unsafe_bitcast[BlockIQ1_S]()
         dequantize_iq1_s_block(block_ptr, out_ptr, num_elements // 256)
-    elif format.value == CompressedFormatType.IQ2_XXS:
-        var block_ptr = data.unsafe_bitcast[BlockIQ2_XXS]()
-        dequantize_iq2_xxs_block(block_ptr, out_ptr, num_elements // 256)
-    elif format.value == CompressedFormatType.TERNARY_155BIT:
-        var block_ptr = data.unsafe_bitcast[BlockTernary158]()
-        dequantize_ternary_158_block(block_ptr, out_ptr, num_elements // 256)
-    else:
+    elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
         var block_ptr = data.unsafe_bitcast[BlockQ4_K]()
-        dequantize_q4_k_m(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q4_k_m(block_ptr, out_ptr, num_elements // 256)
+    else:
+        raise Error("dequantize_compressed_tensor: unsupported or unrecognized quantization format discriminant")
 
 
 
@@ -1844,9 +1840,11 @@ def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) rai
         elif B.quant_format.value == CompressedFormatType.TERNARY_155BIT:
             gemm_ternary_158(A, B, C)
             return
-        elif B.quant_format.value == CompressedFormatType.Q4_K_M:
+        elif B.quant_format.value == CompressedFormatType.Q4_K_M or B.quant_format.value == CompressedFormatType.Q4_K_S:
             gemm_q4_k_m(A, B, C)
             return
+        else:
+            raise Error("autotune_quantized_gemm: unrecognized or unsupported quantization format discriminant")
 
     var rows = A.rows
     var shared_dim = A.cols

@@ -401,15 +401,15 @@ counts as completion of an external capability.
   reads or writes (`AES-QNT-002`).
 - [x] Compare full dequantized blocks against an independent authoritative
   decoder across fixed and randomized fixtures (`AES-QNT-002`).
-- [ ] Extend `GGUFSeer` to map/own that one quantized type safely.
-- [ ] Implement a correct dequantized or fused quantized matmul path.
+- [x] Extend `GGUFSeer` to map/own that one quantized type safely (`AES-QNT-003`).
+- [x] Implement a correct dequantized or fused quantized matmul path (`AES-QNT-003`).
 - [ ] **[missing, AES-QNT-003] Load a real quantized GGUF and compare logits,
   first token, and a deterministic sequence with pinned `llama.cpp`.**
 - [ ] Add each additional GGML format only with its own exact fixture and oracle.
 - [ ] Keep GPTQ, AWQ, EXL2, HQQ, and SmoothQuant explicitly unsupported until
   their distinct metadata/layout/runtime contracts and external fixtures exist.
-- [ ] Remove any dispatcher fallback that silently treats an unknown format as a
-  different format.
+- [x] Remove any dispatcher fallback that silently treats an unknown format as a
+  different format (`AES-QNT-003`).
 
 ## Stage 9 — Real Hardware and Multi-Device Execution
 

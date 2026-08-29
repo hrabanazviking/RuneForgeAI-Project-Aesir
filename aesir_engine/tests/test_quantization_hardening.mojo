@@ -111,10 +111,17 @@ def test_unrecognized_format_self_healing() raises:
     var cf_ptr = well.allocate(M * N)
     var C = RuneTensor[f16](M, N, cf_ptr, False)
 
-    # gemm_f16 should self-heal and route unrecognized format safely without crashing
-    gemm_f16(A, B_unrecognized, C)
+    # autotune_quantized_gemm should strictly reject unrecognized format 999
+    var rejected = False
+    try:
+        gemm_f16(A, B_unrecognized, C)
+    except:
+        rejected = True
 
-    print("unrecognized format self-healing fallback: PASS")
+    if not rejected:
+        raise Error("test_unrecognized_format_fallback failed to reject unrecognized format discriminant 999")
+
+    print("unrecognized format strict rejection: PASS")
 
 
 def test_nan_corrupt_weight_sanitization() raises:
@@ -135,3 +142,9 @@ def test_nan_corrupt_weight_sanitization() raises:
             raise Error("test_nan_corrupt_weight_sanitization: NaN detected at output index " + String(i))
 
     print("FP8 & quantized NaN / corrupt weight sanitization: PASS")
+
+def main() raises:
+    test_dequantizer_zero_and_null_bounds()
+    test_gemm_invalid_dimensions_rejection()
+    test_unrecognized_format_self_healing()
+    test_nan_corrupt_weight_sanitization()
