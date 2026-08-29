@@ -321,7 +321,7 @@ counts as completion of an external capability.
   defaults as observations.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
 - [x] **[verified, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
-- [ ] Define model-in-use, not-found, duplicate, permission, corruption, and
+- [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
 
 ### Network distribution
