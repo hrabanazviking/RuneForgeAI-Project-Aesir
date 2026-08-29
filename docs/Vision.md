@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 72.1 — Query Embedding Extraction & Mean-Pooled Vector Integration (`AES-RAG-003`)
+* **Stage 72.1 Query Embedding Milestone ([`AES-RAG-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `extract_query_embedding()` in `aesir.mojo` to compute element-wise mean-pooled query vectors from prompt tokens via `token_embd.weight` tensor lookup or deterministic string hash projection, replacing constant dummy query tensors. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 71.1 — MimirStore Capacity & Dimension Boundary Hardening (`AES-RAG-002`)
 * **Stage 71.1 MimirStore Milestone ([`AES-RAG-002`](../CAPABILITY_LEDGER.md) `verified`)**: Added `clear()` method and capacity/dimension boundary guards to `MimirStore` in `core/mimir_well.mojo`. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
