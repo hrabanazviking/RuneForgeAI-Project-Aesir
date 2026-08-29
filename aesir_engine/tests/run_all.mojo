@@ -61,6 +61,10 @@ from tests.test_llama_cpp_cli import (
     test_llama_cpp_subcommands,
     test_llama_cpp_arg_parsing,
 )
+from tests.test_gbnf_grammar import (
+    test_gbnf_rule_construction,
+    test_gbnf_token_validation_and_masking,
+)
 from tests.test_metal_realm import (
     test_metal_gate_availability,
     test_metal_gemm_dispatch_bounds,
@@ -443,4 +447,15 @@ def main() raises:
     run_case(ledger, "llama_cpp_cli.arg_parsing", test_llama_cpp_arg_parsing)
     print("")
 
-    ledger.finish(121)
+    # --- GBNF Grammar Parser & Automaton ---
+    print("  [DOMAIN] GBNF Grammar Parser & Automaton")
+    print("  -----------------------------------------")
+    run_case(ledger, "gbnf.rule_construction", test_gbnf_rule_construction)
+    run_case(
+        ledger,
+        "gbnf.token_validation_masking",
+        test_gbnf_token_validation_and_masking,
+    )
+    print("")
+
+    ledger.finish(123)

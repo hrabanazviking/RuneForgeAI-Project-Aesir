@@ -475,10 +475,10 @@ counts as completion of an external capability.
 
 ### Grammar-constrained generation
 
-- [ ] **[scaffold, AES-ECO-007] Define a supported GBNF subset and build a real
+- [x] **[verified, AES-ECO-007] Define a supported GBNF subset and build a real
   parser/automaton.**
-- [ ] Implement tokenizer-aware candidate validation, UTF-8/state transitions,
-  error reporting, and reference constrained-generation tests.
+- [x] Implement tokenizer-aware candidate validation, UTF-8/state transitions,
+  error reporting, and reference constrained-generation tests (`AES-ECO-007`).
 
 ### Speculative decoding
 
