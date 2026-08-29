@@ -112,7 +112,7 @@ graph TD
   - `dequantize_q4_k_m`: On-the-fly 4-bit nibble unpacking.
   - `rmsnorm`: Vectorized Root Mean Square normalization with learned scale weights.
   - `apply_rope`: Rotary Position Embeddings in complex space across queries and keys.
-  - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and an unaligned tail loop.
+  - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
   - `gemm_f16_sharded` & `all_reduce_sum`: Multi-device parallel GEMM and SIMD vector reduction across Bifrost Shard Matrix.
   - **`gemm_f16_arm_neon`, `rmsnorm_arm_neon` & `gemm_f16_npu` (Slice 7):** 128-bit ARM NEON kernels and NPU Realm Gateway dispatcher.
   - **`gemm_f16_gpgpu_vector` (Slice 8):** 16-wide SIMD matrix multiplication kernel targeting sovereign GPGPU architectures (Moore Threads MUSA, Biren SUPA, MetaX MACA, Hygon DCU).

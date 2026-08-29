@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 70.1 — Cosine Similarity NaN/Inf Sanitization (`AES-RAG-001`)
+* **Stage 70.1 Cosine Similarity Milestone ([`AES-RAG-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `cosine_similarity()` in `core/compute.mojo` with `isnan` and `isinf` error checks returning `0.0` for corrupt or zero-vector embeddings. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 69.1 — Request Context & Structured Service Error Payloads (`AES-SRV-004`)
 * **Stage 69.1 Request Context Milestone ([`AES-SRV-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RequestContext` struct and `build_structured_error()` formatter in `server/api.mojo` providing request correlation IDs, session bindings, timeouts, cancellation triggers, and JSON error payloads. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
