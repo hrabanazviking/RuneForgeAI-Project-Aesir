@@ -43,7 +43,7 @@ struct RuneRNG(Copyable):
         return Float32(val & 0xFFFFFF) / Float32(16777216)
 
 
-struct TokenCandidate(Copyable):
+struct TokenCandidate(Copyable, ImplicitlyCopyable):
     var id: Int
     var logit: Float32
 

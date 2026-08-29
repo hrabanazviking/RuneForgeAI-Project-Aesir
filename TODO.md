@@ -282,7 +282,7 @@ counts as completion of an external capability.
 - [x] **[verified, AES-GEN-006] Add configurable stop-token sets.**
 - [x] Add sequence-aware stop strings spanning token and streaming boundaries,
   with explicit visible-text exclusion behavior.
-- [ ] Add model-produced EOS fixtures rather than testing EOS policy only as a
+- [x] Add model-produced EOS fixtures rather than testing EOS policy only as a
   helper function.
 - [x] Add `cancelled` and `error` result states with deterministic cleanup.
 - [x] **[verified, AES-GEN-005] Implement sampling:** Temperature, top-k, top-p,
