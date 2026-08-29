@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 83.1 — llama.cpp Subcommand & Differential Argument/Exit Validator (`AES-ECO-006`)
+* **Stage 83.1 llama.cpp CLI Milestone ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `verified`)**: Built `cli/llama_cpp_compat.mojo` providing `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1. Created `test_llama_cpp_cli.mojo` unit test suite. Verified 120 passing cases out of 121 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 82.1 — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator (`AES-ECO-005`)
 * **Stage 82.1 EXL2 Ecosystem Milestone ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `verified`)**: Created `loader/exl2.mojo` providing `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers, extract sub-block bitrates, and enforce physical NVIDIA CUDA hardware & custom EXL2 CUDA kernel execution contracts. Created `test_exl2.mojo` unit test suite. Verified 118 passing cases out of 119 total cases in `run_all.mojo`.
 
