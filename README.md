@@ -23,6 +23,10 @@ Our mission is simple: **Eliminate cloud dependency and software bloat to delive
 > `simulated`, or `missing`). Vision and interface language elsewhere in the
 > repository does not override that ledger.
 
+The ordered completion plan and the rules preventing fake files, placeholder
+artifacts, and fabricated evidence live in the
+[Reality-First Completion Roadmap](ROADMAP_REALITY_FIRST_COMPLETION.md).
+
 The runtime contains no Python imports and uses direct POSIX memory mapping for
 its verified local CPU slice. No general performance, maximum-utilization, or
 cross-platform claim has yet passed an acceptance gate.

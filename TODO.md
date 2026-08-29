@@ -2,6 +2,8 @@
 
 This backlog is governed by [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md) and
 [`PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`](PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md).
+Execution order and anti-fabrication file rules are defined in
+[`ROADMAP_REALITY_FIRST_COMPLETION.md`](ROADMAP_REALITY_FIRST_COMPLETION.md).
 An enum, interface, banner, synthetic happy path, or predetermined output never
 counts as completion of an external capability.
 
