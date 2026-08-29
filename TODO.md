@@ -482,10 +482,10 @@ counts as completion of an external capability.
 
 ### Speculative decoding
 
-- [ ] **[scaffold, AES-ECO-008] Implement draft-model proposals, probability-
+- [x] **[verified, AES-ECO-008] Implement draft-model proposals, probability-
   correct acceptance, rollback, and target/draft KV-cache coordination.**
-- [ ] Prove identical target-distribution behavior and measured speed benefit;
-  otherwise retain normal decoding.
+- [x] Prove identical target-distribution behavior and measured speed benefit;
+  otherwise retain normal decoding (`AES-ECO-008`).
 
 ### Resilience, eventing, and concurrency
 

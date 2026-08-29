@@ -65,6 +65,10 @@ from tests.test_gbnf_grammar import (
     test_gbnf_rule_construction,
     test_gbnf_token_validation_and_masking,
 )
+from tests.test_speculative import (
+    test_speculative_proposal_and_verification,
+    test_speculative_rollback_on_rejection,
+)
 from tests.test_metal_realm import (
     test_metal_gate_availability,
     test_metal_gemm_dispatch_bounds,
@@ -458,4 +462,19 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(123)
+    # --- Speculative Decoding Engine ---
+    print("  [DOMAIN] Speculative Decoding Engine")
+    print("  -----------------------------------------")
+    run_case(
+        ledger,
+        "speculative.proposal_verification",
+        test_speculative_proposal_and_verification,
+    )
+    run_case(
+        ledger,
+        "speculative.rejection_rollback",
+        test_speculative_rollback_on_rejection,
+    )
+    print("")
+
+    ledger.finish(125)
