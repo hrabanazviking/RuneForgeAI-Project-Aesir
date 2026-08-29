@@ -36,7 +36,7 @@ Project Aesir adheres strictly to the Mythic Engineering methodology. The archit
    - **Responsibility:** Translates text into token arrays (`encode`) using byte fallbacks (`<0xXX>`) and iterative pair merging, and decodes token IDs back to text (`decode`).
 
 5. **`core/mimir_well.mojo` (MimirWell, KVCache, MimirStore, DeviceTopology & ShardTensor)**
-   - **Role:** Core Memory Management, Ring-Buffer Key-Value Cache, Vector Store & Shard Descriptors.
+   - **Role:** Core Memory Management, Fixed-Capacity Key-Value Cache, Vector Store & Shard Descriptors.
    - **Responsibility:** Pre-allocates contiguous host RAM and provides `RuneTensor`, `KVCache`, `MimirStore`, topology/shard descriptors, and host partitioning helpers. VRAM ownership and physical device mapping are not implemented.
 
 6. **`core/compute.mojo` (The Forge of Nidavellir)**
@@ -80,4 +80,3 @@ graph TD
     
     Gate -->|HTTP 200 / Chunked SSE / Embeddings JSON| Client
 ```
-

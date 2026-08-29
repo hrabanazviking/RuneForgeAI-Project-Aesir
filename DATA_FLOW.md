@@ -29,7 +29,7 @@ the complete end-to-end route is not implemented.
 4. **The Waters of Memory & Topology (MimirWell, KVCache, MimirStore & DeviceTopology)**
    - `GGUFSeer` (`loader/gguf.mojo`) mmap's model weights into `MimirWell` (`core/mimir_well.mojo`) and populates `RuneWeaver` vocabulary.
    - `DeviceTopology` registers active compute device realms (`cuda:0`, `cuda:1`, etc.).
-   - `KVCache` manages ring-buffer Key and Value tensor state in `MimirWell` across sequence positions up to `max_seq_len`.
+   - `KVCache` manages contiguous Key and Value tensor state in `MimirWell` across fixed chronological positions below `max_seq_len`; it does not wrap.
    - Zero dynamic memory allocations occur during generation steps.
 
 5. **The Autoregressive Loop & Sharded Compute Kernels (`forward_pass`)**
@@ -107,4 +107,3 @@ sequenceDiagram
     E->>B: send_chunk_static(client_fd, JSON chunk {"done": true})
     B->>C: Final Chunk & Close Socket
 ```
-

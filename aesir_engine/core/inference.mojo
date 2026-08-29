@@ -218,7 +218,7 @@ struct TransformerBlock(Copyable):
                 # 3. RoPE
                 apply_rope(q, k, start_pos, self.head_dim)
 
-                # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+                # 4. Fixed-capacity KV Cache Append & Flash Attention 2
                 kv_cache.append(self.layer_idx, start_pos, k, v)
                 var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
                 var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
@@ -357,7 +357,7 @@ struct TransformerBlock(Copyable):
             # 3. RoPE
             apply_rope(full_q, full_k, start_pos, self.head_dim)
 
-            # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+            # 4. Fixed-capacity KV Cache Append & Flash Attention 2
             kv_cache.append(self.layer_idx, start_pos, full_k, full_v)
             var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
             var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)

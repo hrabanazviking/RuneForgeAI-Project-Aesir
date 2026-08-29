@@ -1,12 +1,14 @@
 # tests/test_kv_cache.mojo
-# Test suite for Ring-Buffer KV Cache & Multi-step state accumulation
+# Test suite for fixed-capacity KV Cache and multi-step state accumulation
 
 from core.mimir_well import MimirWell, RuneTensor, KVCache, f16
 from core.inference import forward_pass
 from loader.gguf import GGUFSeer
+from tests.test_mimir_well import test_kv_cache_fixed_capacity
 
 def test_kv_cache() raises:
     print("--- Testing KVCache (The Waters of Mímisbrunnr) ---")
+    test_kv_cache_fixed_capacity()
 
     # 1. Instantiation test
     var well = MimirWell(1024 * 1024 * 2) # 2 MB well

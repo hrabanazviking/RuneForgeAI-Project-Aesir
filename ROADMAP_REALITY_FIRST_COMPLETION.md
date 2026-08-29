@@ -336,8 +336,9 @@ new violations fail CI, and `AES-FND-007` has truthful executable evidence.
 
 ### Phase 1 — Close local safety and loader debt
 
-- Correct misleading ring-buffer terminology unless real chronological
-  wraparound is implemented and tested.
+- **Completed:** Correct misleading cache terminology and reject positions at
+  capacity; real chronological wraparound remains a separate unimplemented
+  design.
 - **Completed:** Replace sentinel-bearing runnable transformer descriptors with
   a fail-closed legacy overload and GGUF construction that accepts only complete
   non-empty, non-sentinel layer tensors.

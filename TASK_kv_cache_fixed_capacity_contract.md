@@ -63,3 +63,18 @@ order. Active comments and tests nevertheless describe ring rotation.
 This slice makes the current fixed cache honest and safe. It does not implement
 sliding-window attention, chronological ring reordering, page allocation,
 PagedAttention, batching, or concurrent-session cache ownership.
+
+## Implementation Evidence
+
+- Both cache constructors now reject nonpositive dimensions; pointer-backed
+  construction also rejects null and address-1 key/value storage.
+- `append()` rejects `pos >= max_seq_len` before calculating or writing an
+  offset and uses the validated chronological position directly.
+- `test_kv_cache_fixed_capacity()` fills every slot, rejects the first overflow,
+  and proves token zero is unchanged; the counted `inference.kv_cache` case now
+  executes this regression.
+- The former ring-named test remains as a compatibility wrapper only, preserving
+  the public function while removing its false behavior claim.
+- Active architecture, data-flow, domain, interface, TODO, roadmap, and ledger
+  text now describe fixed-capacity behavior. Historical target prose remains
+  preserved and non-current.

@@ -1,5 +1,5 @@
 # tests/test_mimir_well.mojo
-# Verification of MimirWell core memory allocation and KVCache ring-buffer rotation
+# Verification of MimirWell allocation and the fixed-capacity KVCache contract
 
 from core.mimir_well import MimirWell, RuneTensor, KVCache, f16
 
@@ -38,14 +38,12 @@ def test_mimir_well_allocation() raises:
     print("MimirWell allocation: PASS")
 
 
-def test_kv_cache_ring_buffer() raises:
+def test_kv_cache_fixed_capacity() raises:
     """
-    ᚲᚠ·ᚱᛁᚾᚷ — KVCache Ring-Buffer Rotation Verification
-    ═══════════════════════════════════════════════════════════
-    Verifies that KVCache correctly handles token appends via
-    the ring-buffer modulus slot, and slice extraction boundaries.
+    Verifies that KVCache preserves chronological prefix positions, rejects the
+    first out-of-capacity write, and leaves existing cells unchanged.
     """
-    print("--- Testing KVCache Ring-Buffer Rotation ---")
+    print("--- Testing KVCache Fixed-Capacity Bounds ---")
 
     var well = MimirWell(1024 * 1024 * 4)  # 4 MB pool
     var max_seq_len = 8
@@ -80,9 +78,30 @@ def test_kv_cache_ring_buffer() raises:
     if v_slice.rows != max_seq_len or v_slice.cols != hidden_dim:
         raise Error("KVCache V slice shape mismatch")
 
-    # Verify first token K values survived ring-buffer fill
+    # Verify first token K values survived the full-capacity fill.
     var k0_val = k_slice.get_checked(0, 0)
     if Float32(k0_val) != 0.0:
-        raise Error("KVCache ring-buffer K[0,0] value mismatch after fill")
+        raise Error("KVCache K[0,0] value mismatch after capacity fill")
 
-    print("KVCache ring-buffer rotation: PASS")
+    var overflow_k = RuneTensor[f16](1, hidden_dim, well.allocate(hidden_dim), False)
+    var overflow_v = RuneTensor[f16](1, hidden_dim, well.allocate(hidden_dim), False)
+    overflow_k.set(0, 0, Scalar[f16](999.0))
+    overflow_v.set(0, 0, Scalar[f16](999.0))
+    var overflow_rejected = False
+    try:
+        kv.append(0, max_seq_len, overflow_k, overflow_v)
+    except error:
+        overflow_rejected = True
+        if "pos exceeds fixed cache capacity" not in String(error):
+            raise Error("KVCache capacity rejection was not precise")
+    if not overflow_rejected:
+        raise Error("KVCache silently wrapped an out-of-capacity position")
+    if Float32(kv.get_k_slice(0, max_seq_len).get_checked(0, 0)) != 0.0:
+        raise Error("KVCache overflow rejection mutated the first token")
+
+    print("KVCache fixed-capacity bounds: PASS")
+
+
+def test_kv_cache_ring_buffer() raises:
+    """Compatibility wrapper for the former misleading test name."""
+    test_kv_cache_fixed_capacity()

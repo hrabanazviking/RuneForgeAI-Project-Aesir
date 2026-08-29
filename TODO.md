@@ -198,8 +198,9 @@ counts as completion of an external capability.
   capacity during construction.
 - [x] Validate `KVCache.append()` layer, position, key width, and value width.
 - [x] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
-- [ ] Remove misleading ring-buffer wording until chronological wraparound is
-  actually implemented and verified.
+- [x] Remove misleading ring-buffer behavior and wording: fixed-capacity
+  appends now reject overflow without mutation; chronological wraparound remains
+  explicitly unimplemented.
 - [x] Replace sentinel-bearing usable `TransformerBlock` constructors: the
   GGUF-backed path now requires nine usable tensors, the legacy overload raises,
   and the copy path preserves only validated views.

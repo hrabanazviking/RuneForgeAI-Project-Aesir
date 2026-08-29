@@ -191,7 +191,7 @@ the complete ledger population.
 - **Claim sources:** README “PagedAttention KV Caching”
 - **Implementation evidence:** current `KVCache` is a contiguous preallocated buffer; no page table, allocator, eviction, or page sharing exists.
 - **Executable evidence:** none.
-- **Evidence boundary:** Calling a fixed cache “ring-buffer” or preallocating it does not implement PagedAttention.
+- **Evidence boundary:** The fixed contiguous cache rejects capacity overflow; preallocation alone does not implement PagedAttention, sliding windows, or chronological wraparound.
 - **Next acceptance gate:** Page allocator/table, logical-to-physical mapping, growth/reuse/eviction policy, multi-sequence tests, and memory-efficiency measurements.
 - **Audit:** AER-003, AER-021, AER-112.
 

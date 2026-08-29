@@ -3,6 +3,26 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 112: Phase 1 — KVCache Fixed-Capacity Contract
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Removed implicit modulo aliasing from `KVCache.append()` and made positions
+   at or beyond capacity fail before any key/value write.
+2. Hardened the pointer-backed constructor with positive-dimension and
+   null/address-1 storage validation.
+3. Replaced the dormant rotation assertion with a fixed-capacity regression
+   that fills all slots, rejects the first overflow, and proves token zero is
+   unchanged; the counted cache case now executes it.
+4. Preserved the old ring-named test function as a compatibility wrapper rather
+   than deleting a public surface.
+5. Recorded Bug 0026 and synchronized active cache terminology across code,
+   interfaces, architecture, data flow, domain map, specification, TODO,
+   roadmap, task contract, and capability ledger.
+6. Chronological wraparound, sliding-window attention, and PagedAttention remain
+   explicitly unimplemented and unclaimed.
+
 ## Entry 111: Phase 1 — TransformerBlock Construction Safety
 
 **Date:** August 29, 2026

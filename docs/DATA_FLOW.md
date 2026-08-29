@@ -93,7 +93,7 @@ sequenceDiagram
         Engine->>Engine: Prepend context: "[CONTEXT]: ...\n" + prompt
     end
 
-    Note over Engine, Compute: BPE Encoding & Ring-Buffer Setup
+    Note over Engine, Compute: BPE Encoding & Fixed-Capacity Cache Setup
     Engine->>Tokenizer: encode(active_prompt) [Iterative BPE merge + byte fallback <0xXX>]
     Tokenizer-->>Engine: token_ids: List[Int]
     Engine->>Memory: KVCache(max_seq_len, hidden_dim, pool, num_layers)
@@ -153,7 +153,7 @@ sequenceDiagram
 3. **Rune BPE Encoding (`RuneWeaver`):**
    - Prompt text converted to token IDs (`encode`).
 
-4. **Memory Pool Offset Slicing & Ring-Buffer KV Cache (`MimirWell`, `KVCache` & `DeviceTopology`):**
+4. **Memory Pool Offset Slicing & Fixed-Capacity KV Cache (`MimirWell`, `KVCache` & `DeviceTopology`):**
    - `MimirWell` allocates Key and Value buffers for `KVCache`.
    - Descriptors are zero-copy slice-offsets from `MimirWell.base_ptr`.
 
@@ -196,6 +196,5 @@ sequenceDiagram
 7. **String Decoding & Streaming Response (`BifrostGate.send_chunk_static`):**
    - Token ID decoded to text via `RuneWeaver.decode(next_token)`.
    - Transmitted immediately over socket via `send_chunk_static()`.
-
 
 

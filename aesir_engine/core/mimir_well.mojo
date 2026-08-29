@@ -457,9 +457,9 @@ struct RuneTensor[type: DType](Copyable):
 
 struct KVCache(Copyable):
     """
-    KVCache: Ring-Buffer Key-Value Cache drawn from the Well of Mimir.
-    Manages pre-allocated RuneTensor[f16] buffers for Key (K) and Value (V) tensors
-    across sequence length (max_seq_len, default 2048 or 4096).
+    KVCache: Fixed-capacity Key-Value Cache drawn from the Well of Mimir.
+    Manages contiguous pre-allocated buffers for chronological positions
+    [0, max_seq_len). It does not wrap or reorder positions.
     """
     var k: RuneTensor[f16]
     var v: RuneTensor[f16]
@@ -494,7 +494,13 @@ struct KVCache(Copyable):
         k_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], 
         v_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], 
         num_layers: Int = 1
-    ):
+    ) raises:
+        if max_seq_len <= 0 or hidden_dim <= 0 or num_layers <= 0:
+            raise Error("KVCache: dimensions must be positive")
+        if Int(k_ptr) == 0 or Int(k_ptr) == 1:
+            raise Error("KVCache: key storage pointer is invalid")
+        if Int(v_ptr) == 0 or Int(v_ptr) == 1:
+            raise Error("KVCache: value storage pointer is invalid")
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
@@ -516,10 +522,11 @@ struct KVCache(Copyable):
             raise Error("KVCache.append: layer_idx out of bounds")
         if pos < 0:
             raise Error("KVCache.append: pos must be non-negative")
+        if pos >= self.max_seq_len:
+            raise Error("KVCache.append: pos exceeds fixed cache capacity")
         if key.size < self.hidden_dim or val.size < self.hidden_dim:
             raise Error("KVCache.append: key/val width mismatch")
-        var slot = pos % self.max_seq_len
-        var offset = (layer_idx * self.max_seq_len + slot) * self.hidden_dim
+        var offset = (layer_idx * self.max_seq_len + pos) * self.hidden_dim
         for c in range(self.hidden_dim):
             self.k.data.unsafe_store(offset + c, key.data.unsafe_load(c))
             self.v.data.unsafe_store(offset + c, val.data.unsafe_load(c))
@@ -975,4 +982,3 @@ def shard_split_gqa_heads(
     var heads_per_shard = num_heads // num_devices
     var kv_heads_per_shard = num_kv_heads // num_devices
     return (heads_per_shard, kv_heads_per_shard)
-
