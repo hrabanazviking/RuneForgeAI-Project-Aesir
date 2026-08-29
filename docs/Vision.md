@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 77.1 — GGUFSeer Quantized Tensor Mapping & Strict Dispatcher Rejection (`AES-QNT-003`)
+* **Stage 77.1 Quantization Milestone ([`AES-QNT-003`](../CAPABILITY_LEDGER.md) `verified`)**: Removed silent fallback branches in `dequantize_compressed_tensor()` and `autotune_quantized_gemm()` in `core/compute.mojo`. Enforced explicit error raising for unrecognized or unsupported quantization format discriminants. Updated `test_quantization_hardening.mojo` with strict error rejection test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 76.1 — Quantization Input Byte Span Validation & Bounds Hardening (`AES-QNT-002`)
 * **Stage 76.1 Quantization Milestone ([`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/quantization.mojo` providing `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned/non-divisible buffer lengths. Updated `test_quantization.mojo` with validation test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
