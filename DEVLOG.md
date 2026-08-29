@@ -3,6 +3,27 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 107: Phase 0 — Fatal New-Artifact Prevention Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Repository truth enforcement and anti-fabrication guardrail
+
+1. Moved the exact deletion-blocked artifact inventory into
+   `repository_hygiene_policy.json`, pinned to the commit where all 32 legacy
+   paths are proven to exist.
+2. Replaced fixed-name inventory logic with general classification for tracked
+   executable signatures, model formats, build outputs, archives, runtime
+   state, private-key formats, tiny placeholder models, and byte-identical root
+   assets.
+3. Exact policy-listed legacy artifacts remain visible warnings while
+   unlisted, stale, hidden, or classification-mismatched violations fail the
+   repository gate. Cleanup remains separately approval-bound.
+4. Added deterministic in-memory self-tests and a dedicated hosted-CI step
+   before the live consistency check; no test artifact is created or deleted.
+5. Kept `AES-FND-007` `partial`: seven executables, one placeholder GGUF, and
+   24 duplicate root assets remain tracked pending explicit approval, while
+   deeper content, provenance, release, and history gates remain open.
+
 ## Entry 106: Full Completion Slice 2 — CLI Option Applicability
 
 **Date:** August 29, 2026

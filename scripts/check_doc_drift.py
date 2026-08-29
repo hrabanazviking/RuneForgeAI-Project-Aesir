@@ -4,18 +4,82 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import re
 import subprocess
 import sys
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "CAPABILITY_LEDGER.md"
 RUN_ALL = ROOT / "aesir_engine/tests/run_all.mojo"
+HYGIENE_POLICY = ROOT / "repository_hygiene_policy.json"
 TEXT_SUFFIXES = {".md", ".mojo", ".py", ".toml", ".yml", ".yaml", ".json"}
 ALLOWED_STATUSES = {"verified", "partial", "scaffold", "simulated", "missing"}
+ARTIFACT_CLASSIFICATIONS = {
+    "duplicate_root_asset",
+    "generated_archive",
+    "generated_build_artifact",
+    "generated_executable",
+    "model_weight",
+    "placeholder_model",
+    "runtime_state",
+    "secret_material",
+}
+MODEL_SUFFIXES = {
+    ".bin", ".ckpt", ".gguf", ".h5", ".hdf5", ".mlmodel", ".onnx",
+    ".pb", ".pt", ".pth", ".safetensors", ".tflite", ".torchscript",
+}
+BUILD_SUFFIXES = {
+    ".a", ".dll", ".dylib", ".exe", ".lib", ".o", ".obj", ".pyc",
+    ".pyo", ".so", ".out", ".wasm",
+}
+ARCHIVE_SUFFIXES = {
+    ".7z", ".bz2", ".gz", ".rar", ".tar", ".tgz", ".whl", ".xz", ".zip",
+}
+STATE_SUFFIXES = {
+    ".bak", ".cache", ".core", ".db", ".dmp", ".log", ".sqlite",
+    ".sqlite3", ".tmp",
+}
+SECRET_SUFFIXES = {".key", ".p12", ".pem", ".pfx"}
+IMAGE_SUFFIXES = {".jpeg", ".jpg", ".png", ".webp"}
+EXECUTABLE_MAGICS = {
+    b"\x7fELF",
+    b"MZ",
+    b"\xca\xfe\xba\xbe",
+    b"\xce\xfa\xed\xfe",
+    b"\xcf\xfa\xed\xfe",
+    b"\xfe\xed\xfa\xce",
+    b"\xfe\xed\xfa\xcf",
+}
+
+
+@dataclass(frozen=True)
+class TrackedArtifact:
+    path: str
+    suffix: str
+    size: int
+    prefix: bytes
+    sha256: str | None = None
+
+
+@dataclass(frozen=True)
+class ArtifactViolation:
+    path: str
+    classification: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class LegacyException:
+    path: str
+    classification: str
+    disposition: str
+    reason: str
+    baseline_commit: str
 
 
 def tracked_paths() -> list[Path]:
@@ -147,49 +211,271 @@ def check_ci(errors: list[str]) -> None:
         "mojo build aesir_engine/main.mojo",
         "mojo run aesir_engine/tests/run_all.mojo",
         "test_fail_closed_runner.mojo",
+        "scripts/test_check_doc_drift.py",
         "scripts/check_doc_drift.py",
     ]:
         if token not in content:
             errors.append(f".github/workflows/ci.yml: missing gate {token!r}")
 
 
-def check_tracked_artifacts(
-    paths: list[Path], statuses: dict[str, str], errors: list[str], warnings: list[str]
-) -> None:
-    tracked = {relative(path): path for path in paths}
-    generated = {
-        "main", "aesir_main", "test_engine", "test_server_loop",
-        "aesir_engine/main", "aesir_engine/aesir_main", "aesir_engine/test",
-        "aesir_engine/test_engine", "aesir_engine/test_server_loop",
-    }
-    artifacts = sorted(generated & tracked.keys())
-    placeholders = sorted(
-        name for name, path in tracked.items()
-        if name.endswith(".gguf") and path.stat().st_size < 1024
-    )
-    canonical_hashes = set()
+def _is_executable_magic(prefix: bytes) -> bool:
+    return any(prefix.startswith(magic) for magic in EXECUTABLE_MAGICS)
+
+
+def inspect_tracked_artifact(path: Path) -> TrackedArtifact:
+    name = relative(path)
+    with path.open("rb") as handle:
+        prefix = handle.read(4)
+    suffix = path.suffix.lower()
+    content_hash = None
+    if suffix in IMAGE_SUFFIXES:
+        content_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    return TrackedArtifact(name, suffix, path.stat().st_size, prefix, content_hash)
+
+
+def classify_artifact(
+    artifact: TrackedArtifact, canonical_image_hashes: set[str]
+) -> ArtifactViolation | None:
+    if _is_executable_magic(artifact.prefix):
+        return ArtifactViolation(
+            artifact.path,
+            "generated_executable",
+            "tracked file contains executable binary magic",
+        )
+    if artifact.suffix in MODEL_SUFFIXES:
+        if artifact.size < 1024:
+            return ArtifactViolation(
+                artifact.path,
+                "placeholder_model",
+                "model-format file is smaller than the 1 KiB placeholder floor",
+            )
+        return ArtifactViolation(
+            artifact.path,
+            "model_weight",
+            "model weights and external model formats must remain outside Git",
+        )
+    if artifact.suffix in BUILD_SUFFIXES:
+        return ArtifactViolation(
+            artifact.path,
+            "generated_build_artifact",
+            "build output must be produced outside the tracked source tree",
+        )
+    if artifact.suffix in ARCHIVE_SUFFIXES:
+        return ArtifactViolation(
+            artifact.path,
+            "generated_archive",
+            "archive requires a separately approved provenance boundary",
+        )
+    if artifact.suffix in STATE_SUFFIXES:
+        return ArtifactViolation(
+            artifact.path,
+            "runtime_state",
+            "runtime state, logs, databases, and dumps must not be tracked",
+        )
+    if artifact.suffix in SECRET_SUFFIXES:
+        return ArtifactViolation(
+            artifact.path,
+            "secret_material",
+            "private keys and certificate bundles must not be tracked",
+        )
+    if (
+        "/" not in artifact.path
+        and artifact.suffix in IMAGE_SUFFIXES
+        and artifact.sha256 in canonical_image_hashes
+    ):
+        return ArtifactViolation(
+            artifact.path,
+            "duplicate_root_asset",
+            "root image is byte-identical to a canonical docs asset",
+        )
+    return None
+
+
+def classify_tracked_artifacts(paths: list[Path]) -> list[ArtifactViolation]:
     asset_root = ROOT / "docs/assets/images"
+    canonical_hashes = set()
     if asset_root.exists():
         canonical_hashes = {
             hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in asset_root.rglob("*") if path.is_file()
+            for path in asset_root.rglob("*")
+            if path.is_file()
         }
-    duplicates = [
-        name for name, path in tracked.items()
-        if "/" not in name
-        and path.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
-        and hashlib.sha256(path.read_bytes()).hexdigest() in canonical_hashes
-    ]
-    issues = []
-    if artifacts:
-        issues.append(f"tracked generated executables: {', '.join(artifacts)}")
-    if placeholders:
-        issues.append(f"placeholder model files: {', '.join(placeholders)}")
-    if duplicates:
-        issues.append(f"duplicate root assets: {len(duplicates)}")
-    if issues:
-        message = "repository artifact hygiene pending: " + "; ".join(issues)
-        (errors if statuses.get("AES-FND-007") == "verified" else warnings).append(message)
+    violations = []
+    for path in paths:
+        violation = classify_artifact(
+            inspect_tracked_artifact(path), canonical_hashes
+        )
+        if violation is not None:
+            violations.append(violation)
+    return violations
+
+
+def _valid_policy_path(path: str) -> bool:
+    candidate = Path(path)
+    return (
+        bool(path)
+        and not candidate.is_absolute()
+        and "\\" not in path
+        and ".." not in candidate.parts
+        and candidate.as_posix() == path
+    )
+
+
+def validate_hygiene_policy(
+    policy: object, errors: list[str]
+) -> dict[str, LegacyException]:
+    if not isinstance(policy, dict):
+        errors.append("repository_hygiene_policy.json: policy must be an object")
+        return {}
+    expected_keys = {"policy_version", "legacy_baseline_commit", "legacy_classes"}
+    if set(policy) != expected_keys:
+        errors.append(
+            "repository_hygiene_policy.json: top-level schema keys mismatch"
+        )
+        return {}
+    if type(policy["policy_version"]) is not int or policy["policy_version"] != 1:
+        errors.append("repository_hygiene_policy.json: unsupported policy version")
+
+    baseline = policy["legacy_baseline_commit"]
+    if not isinstance(baseline, str) or not re.fullmatch(r"[0-9a-f]{40}", baseline):
+        errors.append(
+            "repository_hygiene_policy.json: legacy baseline must be a full commit hash"
+        )
+        baseline = ""
+
+    classes = policy["legacy_classes"]
+    if not isinstance(classes, list):
+        errors.append("repository_hygiene_policy.json: legacy_classes must be a list")
+        return {}
+
+    exceptions: dict[str, LegacyException] = {}
+    class_keys = {"classification", "disposition", "reason", "paths"}
+    for index, group in enumerate(classes):
+        label = f"repository_hygiene_policy.json: legacy_classes[{index}]"
+        if not isinstance(group, dict) or set(group) != class_keys:
+            errors.append(f"{label}: schema keys mismatch")
+            continue
+        classification = group["classification"]
+        disposition = group["disposition"]
+        reason = group["reason"]
+        group_paths = group["paths"]
+        if (
+            not isinstance(classification, str)
+            or classification not in ARTIFACT_CLASSIFICATIONS
+        ):
+            errors.append(f"{label}: unsupported classification")
+            continue
+        if disposition != "deletion_requires_approval":
+            errors.append(f"{label}: unsupported disposition")
+            continue
+        if not isinstance(reason, str) or not reason.strip():
+            errors.append(f"{label}: reason must be non-empty")
+            continue
+        if not isinstance(group_paths, list) or not group_paths:
+            errors.append(f"{label}: paths must be a non-empty list")
+            continue
+        for path in group_paths:
+            if not isinstance(path, str) or not _valid_policy_path(path):
+                errors.append(f"{label}: unsafe or invalid path {path!r}")
+                continue
+            if path in exceptions:
+                errors.append(f"{label}: duplicate exception path {path}")
+                continue
+            exceptions[path] = LegacyException(
+                path, classification, disposition, reason, baseline
+            )
+    return exceptions
+
+
+def load_hygiene_policy(errors: list[str]) -> dict[str, LegacyException]:
+    try:
+        policy = json.loads(HYGIENE_POLICY.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        errors.append(f"repository_hygiene_policy.json: unable to load: {error}")
+        return {}
+    return validate_hygiene_policy(policy, errors)
+
+
+def evaluate_artifact_policy(
+    violations: list[ArtifactViolation],
+    exceptions: dict[str, LegacyException],
+    tracked: set[str],
+    hygiene_verified: bool,
+) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    detected = {violation.path: violation for violation in violations}
+    matched_legacy: dict[str, list[str]] = {}
+
+    for path, exception in sorted(exceptions.items()):
+        if path not in tracked:
+            errors.append(f"artifact policy exception is not tracked: {path}")
+            continue
+        violation = detected.get(path)
+        if violation is None:
+            errors.append(f"artifact policy exception hides no violation: {path}")
+            continue
+        if violation.classification != exception.classification:
+            errors.append(
+                f"artifact policy classification mismatch for {path}: "
+                f"policy={exception.classification}, detected={violation.classification}"
+            )
+
+    for violation in sorted(violations, key=lambda item: item.path):
+        exception = exceptions.get(violation.path)
+        if exception is None:
+            errors.append(
+                f"unapproved tracked artifact {violation.path} "
+                f"({violation.classification}): {violation.detail}"
+            )
+        elif violation.classification == exception.classification:
+            matched_legacy.setdefault(violation.classification, []).append(
+                violation.path
+            )
+    for classification, paths in sorted(matched_legacy.items()):
+        message = (
+            "legacy tracked artifacts pending deletion approval: "
+            f"{classification}={len(paths)} ({', '.join(sorted(paths))})"
+        )
+        (errors if hygiene_verified else warnings).append(message)
+    return errors, warnings
+
+
+def check_policy_baseline(
+    exceptions: dict[str, LegacyException], errors: list[str]
+) -> None:
+    for path, exception in sorted(exceptions.items()):
+        if not exception.baseline_commit:
+            continue
+        result = subprocess.run(
+            [
+                "git", "cat-file", "-e",
+                f"{exception.baseline_commit}:{path}",
+            ],
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+        )
+        if result.returncode != 0:
+            errors.append(
+                f"artifact policy path did not exist at legacy baseline: {path}"
+            )
+
+
+def check_tracked_artifacts(
+    paths: list[Path], statuses: dict[str, str], errors: list[str], warnings: list[str]
+) -> None:
+    exceptions = load_hygiene_policy(errors)
+    check_policy_baseline(exceptions, errors)
+    violations = classify_tracked_artifacts(paths)
+    policy_errors, policy_warnings = evaluate_artifact_policy(
+        violations,
+        exceptions,
+        {relative(path) for path in paths},
+        statuses.get("AES-FND-007") == "verified",
+    )
+    errors.extend(policy_errors)
+    warnings.extend(policy_warnings)
 
 
 def main() -> int:

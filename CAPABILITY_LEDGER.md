@@ -143,10 +143,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** project operations
 - **Claim sources:** project build and distribution posture
-- **Implementation evidence:** root `.gitignore` protects build environments and common generated artifacts; the consistency checker inventories tracked artifacts.
-- **Executable evidence:** `scripts/check_doc_drift.py` reports tracked ELF outputs, a placeholder GGUF, and duplicated root assets until removal is explicitly approved.
-- **Evidence boundary:** Ignore rules prevent recurrence only after existing tracked artifacts are removed from the index.
-- **Next acceptance gate:** Remove approved generated/placeholder/duplicate artifacts, preserve canonical assets, and pass the tracked-artifact consistency gate.
+- **Implementation evidence:** root `.gitignore` protects common generated formats; `repository_hygiene_policy.json` pins the exact 32-file legacy exception inventory to commit `c1d02d1919dc8c98971507b80ddb46a5a24af37f`; `scripts/check_doc_drift.py` classifies tracked executable magic, model formats, build outputs, archives, runtime state, private-key formats, placeholder models, and duplicate root assets. Exact legacy matches warn while every new, stale, or mismatched violation fails.
+- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves pure classification and fail-closed policy behavior; hosted CI runs it before `python3 scripts/check_doc_drift.py`, whose live inventory reports seven legacy executables, one placeholder model, and 24 duplicate assets.
+- **Evidence boundary:** New extension/signature-based artifact debt is rejected, but the 32 deletion-blocked legacy files remain tracked. Deep file-format validation, secret-content scanning, fixture provenance, generated-asset licensing, release signing/SBOM, and full-history scanning remain open.
+- **Next acceptance gate:** Obtain approval for and remove exact legacy paths, expand content/provenance gates, preserve canonical assets, and prove a clean checkout before promotion.
 - **Audit:** AER-098, AER-099, AER-103.
 
 ## 5. Memory, Tensor, Cache, and Ownership

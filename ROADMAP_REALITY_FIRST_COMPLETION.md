@@ -301,6 +301,14 @@ roadmap work; documentation of a gate is not proof that the gate exists.
 
 ### Phase 0 — Make repository truth mechanically enforceable
 
+**Progress:** The first prevention slice is implemented: a baseline-locked data
+policy records the exact 32 deletion-blocked legacy artifacts, deterministic
+self-tests prove the policy semantics, and CI rejects new tracked executable,
+build, model, archive, runtime-state, private-key-format, tiny-placeholder, and
+duplicate-root-asset violations. Legacy matches remain visible warnings;
+content-level secret detection, format validation, fixture/provenance rules,
+release controls, cleanup, and full-history scanning remain open.
+
 - Expand `scripts/check_doc_drift.py` into the automated prevention matrix
   above, beginning with fatal new-artifact detection while preserving the
   existing warning for deletion-blocked legacy artifacts.

@@ -8,11 +8,53 @@ test
 test_engine
 test_server_loop
 *.o
+*.obj
+*.a
+*.lib
 *.so
 *.dylib
 *.dll
 *.exe
+*.out
+*.wasm
 *.gguf
+*.bin
+*.ckpt
+*.h5
+*.hdf5
+*.mlmodel
+*.onnx
+*.pb
+*.pt
+*.pth
+*.safetensors
+*.tflite
+*.torchscript
+
+# Archives and packages
+*.7z
+*.bz2
+*.gz
+*.rar
+*.tar
+*.tgz
+*.whl
+*.xz
+*.zip
+
+# Runtime state and private key material
+*.bak
+*.cache
+*.core
+*.db
+*.dmp
+*.sqlite
+*.sqlite3
+*.tmp
+*.key
+*.p12
+*.pem
+*.pfx
 
 # Temporary files & logs
 *.log

@@ -1,0 +1,59 @@
+{
+  "policy_version": 1,
+  "legacy_baseline_commit": "c1d02d1919dc8c98971507b80ddb46a5a24af37f",
+  "legacy_classes": [
+    {
+      "classification": "generated_executable",
+      "disposition": "deletion_requires_approval",
+      "reason": "Tracked Linux build output predates the fatal artifact gate.",
+      "paths": [
+        "aesir_engine/aesir_main",
+        "aesir_engine/main",
+        "aesir_engine/test",
+        "aesir_engine/test_engine",
+        "aesir_engine/test_server_loop",
+        "aesir_main",
+        "main"
+      ]
+    },
+    {
+      "classification": "placeholder_model",
+      "disposition": "deletion_requires_approval",
+      "reason": "Tiny placeholder GGUF predates the fatal artifact gate.",
+      "paths": [
+        "aesir_engine/model.gguf"
+      ]
+    },
+    {
+      "classification": "duplicate_root_asset",
+      "disposition": "deletion_requires_approval",
+      "reason": "Root image duplicates a canonical docs/assets/images file and predates the fatal artifact gate.",
+      "paths": [
+        "1785562606904.png",
+        "1785578752571.png",
+        "1785579199112.png",
+        "1785579714847.png",
+        "1785579996746.png",
+        "1785580300042.png",
+        "1785580561571.png",
+        "660262974_1643999840123485_7514919576143109031_n.jpg",
+        "GLM_AI_Picture4.png",
+        "GNU_Affero_OS_License1.png",
+        "Gemini_AI_Picture1.png",
+        "Gemini_Generated_Image_63wk1e63wk1e63wk.png",
+        "Gemini_Generated_Image_718k4h718k4h718k.png",
+        "Gemini_Generated_Image_fkesx8fkesx8fkes.png",
+        "Gemini_Generated_Image_fz3555fz3555fz35.png",
+        "Gemini_Generated_Image_pxw52zpxw52zpxw5.png",
+        "Gemini_Generated_Image_rxblg7rxblg7rxbl.png",
+        "IMG_0407.jpeg",
+        "RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png",
+        "RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AIsmall.png",
+        "RuneForgeAIConsultant1.jpeg",
+        "Sovereign_Paganism_Flag_V1.png",
+        "cybervikingsolarpunk1.png",
+        "image-23-RuneForgeAI.jpg"
+      ]
+    }
+  ]
+}

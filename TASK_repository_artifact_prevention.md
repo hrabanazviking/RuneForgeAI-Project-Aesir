@@ -92,3 +92,18 @@ without preventing new debt.
 This slice prevents new tracked fake/generated artifact debt. It does not clean
 the existing files, verify fixture provenance, implement release provenance,
 scan full Git history, establish SBOM/signing, or complete `AES-FND-007`.
+
+## Implementation Evidence
+
+- `repository_hygiene_policy.json` owns the exact 32-path legacy inventory and
+  pins every exception to the pre-gate baseline commit.
+- `scripts/check_doc_drift.py` now classifies tracked artifact signatures and
+  forbidden generated-format extensions generally, validates the exception
+  schema and baseline, warns only for exact legacy matches, and fails new,
+  stale, hidden, or mismatched policy violations.
+- `scripts/test_check_doc_drift.py` proves classification, a clean source case,
+  unlisted-artifact rejection, exact-legacy warning behavior, verified-status
+  rejection, class-mismatch rejection, live schema count, and baseline
+  existence without creating or deleting test artifacts.
+- Hosted CI runs the deterministic self-test before the live repository check.
+- No legacy file was deleted, moved, renamed, or rewritten.

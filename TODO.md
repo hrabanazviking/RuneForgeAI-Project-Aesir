@@ -559,6 +559,10 @@ counts as completion of an external capability.
 
 ### Repository and release hygiene
 
+- [x] Prevent new tracked executable/build/model/archive/runtime-state/private-key
+  format artifacts, tiny placeholder models, and duplicate canonical root assets
+  with a baseline-locked policy, deterministic self-tests, and fatal CI
+  enforcement.
 - [ ] **[partial, AES-FND-007] Remove generated executables from source tracking
   through a reviewed, recoverable migration; preserve required source/history.**
 - [ ] Add ignore and CI checks for binaries, model weights, secrets, caches,

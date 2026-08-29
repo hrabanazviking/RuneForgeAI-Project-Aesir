@@ -42,5 +42,8 @@ jobs:
             exit 1
           fi
 
+      - name: Prove Repository Artifact Prevention
+        run: python3 scripts/test_check_doc_drift.py
+
       - name: Check Repository Consistency
         run: python3 scripts/check_doc_drift.py
