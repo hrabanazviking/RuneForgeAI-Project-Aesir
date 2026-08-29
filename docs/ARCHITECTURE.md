@@ -74,6 +74,10 @@ graph TD
 - **Role:** Pure Mojo Byte-Pair Encoding (BPE) Tokenizer.
 - **Implementation:** Translates human text into token arrays (`encode`) and back (`decode`). Features vocabulary lookup maps (`token_to_id`), byte-fallback token formatting (`<0xXX>`), and iterative pair merging. Completely independent of Python or external runtimes.
 
+### 4.1. `loader/corpus_ingestion.mojo` — Deterministic Corpus Ingestion & Text Chunking
+- **Role:** Text document chunking and vector store batch ingestion pipeline (`AES-RAG-004`).
+- **Implementation:** Provides `DocumentChunk` metadata structure (`id`, `text`, `source_file`, `chunk_index`, `byte_offset`), `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population.
+
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 
