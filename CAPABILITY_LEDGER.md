@@ -143,10 +143,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** project operations
 - **Claim sources:** project build and distribution posture
-- **Implementation evidence:** root `.gitignore` protects common generated formats; `repository_hygiene_policy.json` pins the exact 32-file legacy exception inventory to commit `c1d02d1919dc8c98971507b80ddb46a5a24af37f`; `scripts/check_doc_drift.py` classifies tracked executable magic, model formats, build outputs, archives, runtime state, private-key formats, placeholder models, and duplicate root assets. Exact legacy matches warn while every new, stale, or mismatched violation fails.
-- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves pure classification and fail-closed policy behavior; hosted CI runs it before `python3 scripts/check_doc_drift.py`, whose live inventory reports seven legacy executables, one placeholder model, and 24 duplicate assets.
-- **Evidence boundary:** New extension/signature-based artifact debt is rejected, but the 32 deletion-blocked legacy files remain tracked. Deep file-format validation, secret-content scanning, fixture provenance, generated-asset licensing, release signing/SBOM, and full-history scanning remain open.
-- **Next acceptance gate:** Obtain approval for and remove exact legacy paths, expand content/provenance gates, preserve canonical assets, and prove a clean checkout before promotion.
+- **Implementation evidence:** root `.gitignore` protects common generated formats; `repository_hygiene_policy.json` pins the exact 32-file legacy exception inventory to commit `c1d02d1919dc8c98971507b80ddb46a5a24af37f`; `scripts/check_doc_drift.py` classifies tracked artifact debt; `fixture_manifest.json` and `scripts/check_fixture_manifest.py` require classified, owned, licensed, checksummed, consumer-bound fixture provenance and keep external references outside Git.
+- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` and `python3 scripts/test_fixture_manifest.py` prove fail-closed policy behavior; CI runs both live validators. The artifact inventory reports seven legacy executables, one placeholder model, and 24 duplicate assets; the fixture manifest registers one external reference and no tracked payload.
+- **Evidence boundary:** New extension/signature-based artifact debt and unregistered/malformed fixture provenance are rejected, but the 32 deletion-blocked legacy files remain tracked. Deep file-format validation, secret-content scanning, generated-asset license verification, release signing/SBOM, and full-history scanning remain open.
+- **Next acceptance gate:** Obtain approval for and remove exact legacy paths, expand content/license/release gates, preserve canonical assets, and prove a clean checkout before promotion.
 - **Audit:** AER-098, AER-099, AER-103.
 
 ## 5. Memory, Tensor, Cache, and Ownership

@@ -212,6 +212,8 @@ def check_ci(errors: list[str]) -> None:
         "mojo build aesir_engine/main.mojo",
         "mojo run aesir_engine/tests/run_all.mojo",
         "test_fail_closed_runner.mojo",
+        "scripts/test_fixture_manifest.py",
+        "scripts/check_fixture_manifest.py",
         "scripts/test_check_doc_drift.py",
         "scripts/check_doc_drift.py",
     ]:

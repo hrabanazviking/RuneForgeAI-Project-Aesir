@@ -57,8 +57,8 @@ cd aesir_engine
 pixi run mojo run tests/run_all.mojo
 ```
 
-Run the real-model proof with the pinned fixture and oracle described in
-`TASK_verified_multi_token_generation.md`:
+Run the real-model proof with the pinned fixture and oracle described in the
+root `fixture_manifest.json` and `TASK_verified_multi_token_generation.md`:
 
 ```bash
 pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf
@@ -76,3 +76,9 @@ are not proof of real accelerator, quantized-model, server, network,
 concurrency, resilience, or distributed behavior. A zero exit means that all
 counted local assertions passed; it does not expand their evidence boundary. See
 `PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`.
+
+Tracked fixture payloads, if added, belong only under `tests/fixtures/` and must
+be registered before admission. Run `python3 scripts/check_fixture_manifest.py`
+from the repository root to validate classifications, provenance, consumers,
+storage boundaries, byte sizes, and SHA-256 values. The directory currently
+contains only its policy README and no payload data.

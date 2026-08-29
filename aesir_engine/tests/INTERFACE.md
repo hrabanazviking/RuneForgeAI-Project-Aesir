@@ -116,7 +116,8 @@ and context-exhaustion decisions independently of model logits.
 
 The external-fixture `main()` additionally proves all 32 greedy generated token
 IDs, exact decoded text, prompt/generated counts, the `length` stop reason, and
-the one-token ID 265 regression against the pinned `llama.cpp` oracle.
+the one-token ID 265 regression against the pinned `llama.cpp` oracle registered
+as `gguf.stories260k-f16-v3` in the root `fixture_manifest.json`.
 
 ## Process Contract
 
@@ -124,9 +125,9 @@ the one-token ID 265 regression against the pinned `llama.cpp` oracle.
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 51 executable named cases and one explicit skip in a
+- The runner registers 132 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(52)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+- `TestLedger.finish(133)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
   raises after reporting if any case failed or the total is not 52.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.

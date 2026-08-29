@@ -3,6 +3,28 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 108: Phase 0 — Fixture Classification and Provenance Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Test evidence ownership and external-reference governance
+
+1. Added `fixture_manifest.json` as the canonical machine-readable owner for
+   fixture classification, ownership, purpose, consumer, evidence boundary,
+   license, immutable source/construction, exact size, and SHA-256.
+2. Registered the pinned TinyStories GGUF and independent `llama.cpp` oracle
+   without adding or downloading model bytes; it remains external and opt-in.
+3. Added deterministic admission tests and a live Git/filesystem validator that
+   reject malformed metadata, unsafe/duplicate paths, missing consumers,
+   unregistered payloads, unpinned sources, checksum/size drift, and external
+   fixtures appearing in Git.
+4. Established `aesir_engine/tests/fixtures/` as the sole tracked payload
+   boundary. It contains policy documentation and no fixture payloads.
+5. Removed active documentation claims about a fictional committed tiny GGUF
+   and reconciled the tests interface from obsolete 51/52 counts to the current
+   132 executable cases plus one explicit skip.
+6. This gate governs evidence admission only; it does not prove a fixture was
+   executed, validate arbitrary binary formats/licenses, or clean legacy files.
+
 ## Entry 107: Phase 0 — Fatal New-Artifact Prevention Gate
 
 **Date:** August 29, 2026

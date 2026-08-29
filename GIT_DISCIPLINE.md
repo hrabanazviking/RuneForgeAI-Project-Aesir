@@ -197,7 +197,9 @@ Adds tests for:
 - Metadata exceeding uint32 size limit
 - Unicode string metadata values
 
-All tests use fixtures committed to tests/fixtures/gguf/.
+All fixture-backed tests use identities registered in `fixture_manifest.json`.
+Small tracked fixture data belongs under `aesir_engine/tests/fixtures/`; model
+weights and registered external references remain outside Git.
 ```
 
 **`docs`** — Documentation changes.

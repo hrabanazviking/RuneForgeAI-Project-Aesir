@@ -83,3 +83,19 @@ This slice establishes fixture admission and provenance metadata. It does not
 create a malformed corpus, run an external-fixture CI job, verify a new model,
 scan license text, validate arbitrary file-format bytes, or establish release
 provenance.
+
+## Implementation Evidence
+
+- `fixture_manifest.json` is the single machine-readable owner for the pinned
+  external GGUF identity and `llama.cpp` oracle already proven elsewhere.
+- `scripts/check_fixture_manifest.py` enforces exact schema fields,
+  classifications, immutable revisions, pinned URLs, checksums, sizes,
+  consumers, canonical tracked paths, and external-storage boundaries.
+- `scripts/test_fixture_manifest.py` proves clean tracked and external cases as
+  well as unknown classes, unsafe paths, malformed hashes, missing ownership,
+  unknown fields, unpinned URLs, accidentally tracked external files, and
+  orphan tracked payloads without creating or deleting artifacts.
+- Active testing and Git documents no longer claim a fictional committed tiny
+  GGUF or nonexistent populated fixture tree; obsolete suite counts are
+  reconciled to 132 passed cases plus one explicit skip.
+- CI runs both fixture checks before the repository consistency gate.

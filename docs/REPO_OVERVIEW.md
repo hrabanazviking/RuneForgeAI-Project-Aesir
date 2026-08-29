@@ -34,7 +34,7 @@ Project_Aesir/
     ├── pixi.toml / pixi.lock           ← Pixi environment configuration
     ├── main.mojo                      ← Entry point binary runner
     ├── aesir.mojo                     ← AesirEngine facade orchestrator
-    ├── model.gguf                     ← Development model weights fixture
+    ├── model.gguf                     ← Invalid 24-byte legacy placeholder; not evidence
     ├── core/                          ← Compute & Memory Domain
     │   ├── README.md                  ← Core domain documentation
     │   ├── INTERFACE.md               ← Core public API specification

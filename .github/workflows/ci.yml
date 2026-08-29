@@ -47,5 +47,10 @@ jobs:
       - name: Prove Repository Artifact Prevention
         run: python3 scripts/test_check_doc_drift.py
 
+      - name: Prove Fixture Provenance Policy
+        run: |
+          python3 scripts/test_fixture_manifest.py
+          python3 scripts/check_fixture_manifest.py
+
       - name: Check Repository Consistency
         run: python3 scripts/check_doc_drift.py

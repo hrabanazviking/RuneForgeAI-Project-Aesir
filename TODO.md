@@ -563,6 +563,9 @@ counts as completion of an external capability.
   format artifacts, tiny placeholder models, and duplicate canonical root assets
   with a baseline-locked policy, deterministic self-tests, and fatal CI
   enforcement.
+- [x] Require fixture classification, ownership, purpose, consumer, evidence
+  boundary, license, immutable source/construction, exact size, and SHA-256;
+  keep registered external references outside Git.
 - [ ] **[partial, AES-FND-007] Remove generated executables from source tracking
   through a reviewed, recoverable migration; preserve required source/history.**
 - [ ] Add ignore and CI checks for binaries, model weights, secrets, caches,
