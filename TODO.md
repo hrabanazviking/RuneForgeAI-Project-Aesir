@@ -375,7 +375,7 @@ counts as completion of an external capability.
 
 ## Stage 7 — Real Embeddings and RAG
 
-- [ ] Harden cosine similarity dimension/finite/zero-vector contracts and
+- [x] Harden cosine similarity dimension/finite/zero-vector contracts and
   randomized reference coverage.
 - [ ] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
   and hot allocations.

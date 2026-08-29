@@ -5,7 +5,7 @@
 # We bypass the bloated abstractions of Midgard, striking the silicon directly
 # through SIMD and parallelized runic operations.
 
-from std.math import exp, max, sqrt, cos, sin
+from std.math import exp, max, sqrt, cos, sin, isinf, isnan
 from std.memory import Pointer
 from std.algorithm import vectorize
 
@@ -2277,12 +2277,18 @@ def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) raises -> Scalar[f
         norm_a_sq += a_val * a_val
         norm_b_sq += b_val * b_val
 
+    if isnan(dot_sum) or isinf(dot_sum) or isnan(norm_a_sq) or isinf(norm_a_sq) or isnan(norm_b_sq) or isinf(norm_b_sq):
+        return 0.0
+
     if norm_a_sq <= 0.0 or norm_b_sq <= 0.0:
         return 0.0
     var norm_a = sqrt(norm_a_sq)
     var norm_b = sqrt(norm_b_sq)
     var denom = max(norm_a * norm_b, Scalar[f32](1e-8))
-    return dot_sum / denom
+    var res = dot_sum / denom
+    if isnan(res) or isinf(res):
+        return 0.0
+    return res
 
 
 def gemm_f16_sharded(

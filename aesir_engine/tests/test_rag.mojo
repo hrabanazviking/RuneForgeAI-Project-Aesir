@@ -48,7 +48,13 @@ def test_cosine_similarity() raises:
         B.data.unsafe_store(i, 0.0)
     var sim_zero = cosine_similarity(B, B)
     if sim_zero != 0.0:
-        raise Error("cosine_similarity failed to return 0.0 for zero vector")
+        raise Error("Zero vector cosine similarity must return 0.0")
+
+    # 4. Non-finite / corrupt vector -> Cosine similarity should return 0.0 without crash
+    A.data.unsafe_store(0, Scalar[f16](0.0 / 0.0)) # NaN
+    var sim_nan = cosine_similarity(A, B)
+    if sim_nan != 0.0:
+        raise Error("NaN corrupt vector cosine similarity must return 0.0")
 
     if diff1 < 0.01 and diff2 < 0.01:
         print("cosine_similarity: PASS")
