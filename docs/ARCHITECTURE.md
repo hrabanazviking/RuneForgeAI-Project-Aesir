@@ -82,6 +82,10 @@ graph TD
 - **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
 - **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
 
+### 4.3. `loader/onnx.mojo` — ONNX Protobuf Binary Header & Node Dispatch Validator
+- **Role:** ONNX model header parsing, IR/opset version extraction, and operator dispatcher validation (`AES-ECO-004`).
+- **Implementation:** Provides `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse protobuf binary headers, validate graph nodes against supported operator subset (`MatMul`, `Add`, `Mul`, `Relu`, `Softmax`, etc.), and reject unsupported operator types with explicit error exceptions.
+
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 

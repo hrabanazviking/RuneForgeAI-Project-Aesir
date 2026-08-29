@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 81.1 — ONNX Protobuf Binary Header & Node Dispatch Validator (`AES-ECO-004`)
+* **Stage 81.1 ONNX Ecosystem Milestone ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/onnx.mojo` providing `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse ONNX protobuf headers, extract IR/opset versions, and validate graph node operator types against Aesir's supported subset. Created `test_onnx.mojo` unit test suite. Verified 116 passing cases out of 117 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 80.1 — Honest Backend-Specific Zero-Copy Memory & Mmap Validation Contract (`AES-ACC-009`)
 * **Stage 80.1 Zero-Copy Milestone ([`AES-ACC-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added `validate_zero_copy_contract()` to `GPUBuffer` and `NPUBuffer` in `core/mimir_well.mojo` to enforce OS DMA-BUF / mmap handle validation and reject unverified zero-copy claims with explicit error exceptions. Updated `test_gpu_realms.mojo` and `test_npu_edge.mojo` with zero-copy contract validation test suites. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
