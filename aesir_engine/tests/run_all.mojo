@@ -69,6 +69,11 @@ from tests.test_speculative import (
     test_speculative_proposal_and_verification,
     test_speculative_rollback_on_rejection,
 )
+from tests.test_resilience_matrix import (
+    test_state_vault_durable_checkpoints,
+    test_event_bus_pub_sub,
+    test_thread_pool_concurrency,
+)
 from tests.test_metal_realm import (
     test_metal_gate_availability,
     test_metal_gemm_dispatch_bounds,
@@ -379,13 +384,24 @@ def main() raises:
     )
     print("")
 
-    # --- Local Resilience Scaffolds ---
-    print("  [DOMAIN] Local Resilience Scaffolds")
+    # --- Local Resilience & Concurrency Matrix ---
+    print("  [DOMAIN] Local Resilience & Concurrency Matrix")
     print("  -----------------------------------------")
     run_case(ledger, "resilience.error_guard", test_error_guard)
     run_case(ledger, "resilience.state_vault_marker", test_state_vault)
+    run_case(
+        ledger,
+        "resilience.durable_state_vault",
+        test_state_vault_durable_checkpoints,
+    )
     run_case(ledger, "resilience.event_bus_marker", test_event_bus)
+    run_case(ledger, "resilience.event_bus_pub_sub", test_event_bus_pub_sub)
     run_case(ledger, "resilience.thread_pool_stub", test_thread_pool)
+    run_case(
+        ledger,
+        "resilience.thread_pool_concurrency",
+        test_thread_pool_concurrency,
+    )
     run_case(
         ledger,
         "resilience.supervisor_simulation_marker",
@@ -477,4 +493,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(125)
+    ledger.finish(128)

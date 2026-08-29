@@ -51,7 +51,7 @@ def test_state_vault() raises:
     print("--- Testing StateVault in-memory marker ---")
     var success = True
     var vault = StateVault()
-    vault.save_checkpoint(128, 16)
+    var _ = vault.save_checkpoint(128, 16)
 
     if not vault.is_checkpointed:
         print("FAIL: StateVault save checkpoint failed")
@@ -63,12 +63,12 @@ def test_state_vault() raises:
 
     # Test negative token_pos and prompt_count bounds rejection
     var neg_vault = StateVault()
-    neg_vault.save_checkpoint(-10, 16)
+    var _1 = neg_vault.save_checkpoint(-10, 16)
     if neg_vault.is_checkpointed:
         print("FAIL: StateVault accepted negative token_pos")
         success = False
 
-    neg_vault.save_checkpoint(128, -5)
+    var _2 = neg_vault.save_checkpoint(128, -5)
     if neg_vault.is_checkpointed:
         print("FAIL: StateVault accepted negative prompt_count")
         success = False
@@ -128,7 +128,7 @@ def test_supervisor_crash_recovery() raises:
     print("--- Testing explicit supervisor simulation marker ---")
     var success = True
     var supervisor = SelfHealingSupervisor()
-    supervisor.vault.save_checkpoint(64, 8)
+    var _ = supervisor.vault.save_checkpoint(64, 8)
 
     # Test uninitialized vault checkpoint recovery rejection
     var uninit_supervisor = SelfHealingSupervisor()

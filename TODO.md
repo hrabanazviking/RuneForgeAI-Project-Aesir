@@ -491,13 +491,13 @@ counts as completion of an external capability.
 
 - [ ] Expand `ErrorGuard` into checked ownership/span/alignment/finite boundaries
   or remove the implication that a helper can sanitize unsafe pointers globally.
-- [ ] **[scaffold, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
+- [x] **[verified, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
   integrity-protected checkpoints, complete state ownership, corruption and
   restart restoration tests.
-- [ ] **[scaffold, AES-RES-003] Build an actual event bus:** Subscribers, queues,
+- [x] **[verified, AES-RES-003] Build an actual event bus:** Subscribers, queues,
   ordering, backpressure, unsubscribe/lifetime, synchronization, and failure
   semantics.
-- [ ] **[scaffold, AES-RES-004] Build a real worker pool:** Threads, bounded
+- [x] **[verified, AES-RES-004] Build a real worker pool:** Threads, bounded
   queue, task completion/errors, synchronization, cancellation, and shutdown.
 - [ ] **[simulated, AES-RES-005] Define real recoverable failure boundaries and
   inject faults:** Prove model/KV/session/socket continuity or document explicit
