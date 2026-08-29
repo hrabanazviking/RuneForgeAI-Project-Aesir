@@ -89,3 +89,98 @@ GPU-0 ends at toolchain reachability. It selects a viable production API but
 does not connect device discovery or GPU computation to the engine. GPU-1 will
 own truthful physical discovery; GPU-2 will own production device resources;
 GPU-3 will own the first real A.E.S.I.R. F16 GEMM.
+
+## Implementation Evidence
+
+`aesir_engine/tests/test_gpu_reachability.mojo` is the isolated hardware proof.
+It uses these locked MAX 26.5 / Mojo 1.0.0 APIs:
+
+- `max.gpu.host.DeviceContext()` and its context-manager lifetime;
+- `DeviceContext.name()` and `DeviceContext.api()` for observed identity;
+- `enqueue_create_host_buffer[DType.float32]()` for owned pinned host buffers;
+- `enqueue_create_buffer[DType.float32]()` for owned device buffers;
+- `enqueue_copy()` for explicit H2D and D2H operations;
+- `enqueue_function[kernel](...)` with buffer-derived origins and device pointers;
+- `std.gpu.global_idx` for kernel indexing; and
+- `DeviceContext.synchronize()` before every host validation.
+
+The input vector contains 257 binary-exact Float32 values, deliberately crossing
+the 128-thread block tail. The GPU computes `output = input * 2 + 3`; host code
+independently calculates the expected value and checks every element. Three
+rounds execute inside each context. `--negative-control` changes one expected
+value after real GPU execution, which must raise and return nonzero.
+
+The API selection was checked against Modular's MAX 26.5 release notes and
+current accelerator-library reference, then accepted only after compilation and
+execution with the repository's locked packages. The compiler rejected a host
+`Int` kernel argument as non-`DevicePassable`; the final boundary therefore uses
+`Int32`, not an assumed native-width integer ABI.
+
+## Physical Verification Record
+
+Environment discovery:
+
+```text
+$ pixi run gpu-query
+name: NVIDIA GeForce RTX 2060 with Max-Q Design
+driver_version: 595.84
+api_version: 13020
+memory: 5.25GB
+compute_capability: 7.5
+SM count: 30
+
+$ pixi run mojo --version
+Mojo 1.0.0 (ed45d567)
+
+$ pixi run max --version
+MAX 26.5.0
+
+$ /usr/bin/ptxas --version
+Cuda compilation tools, release 12.4, V12.4.131
+```
+
+Three independent process runs used:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_reachability.mojo
+```
+
+Each process exited zero after three synchronized rounds and printed:
+
+```text
+[GPU0] device: NVIDIA GeForce RTX 2060 with Max-Q Design
+[GPU0] api: cuda
+[GPU0] context: created
+[GPU0] buffers: host-and-device-created
+[GPU0] copy-roundtrip: pass
+[GPU0] kernel-affine-parity: pass
+[GPU0] synchronized-rounds: 3
+[GPU0] result: PASS
+```
+
+The deliberate negative control used the same command plus
+`--negative-control`; it raised `GPU-0 kernel mismatch at index 0 during round
+2` and exited `1`.
+
+## Regression Verification
+
+- `pixi run mojo run aesir_engine/tests/run_all.mojo` — 132 passed, 0 failed,
+  1 explicitly skipped, total 133, status PASS.
+- `pixi run mojo build aesir_engine/main.mojo -o <temporary-output>` — native
+  CLI build passed outside the repository.
+- `pixi run mojo run aesir_engine/tests/test_fail_closed_runner.mojo` — exited
+  nonzero and contained the expected `negative_control.intentional_failure`.
+- `python3 scripts/test_check_doc_drift.py` — passed.
+- `python3 scripts/check_doc_drift.py` — passed with only the previously
+  catalogued approval-blocked legacy-artifact warnings.
+- `python3 scripts/test_fixture_manifest.py` — passed.
+- `python3 scripts/check_fixture_manifest.py` — passed.
+- `git diff --check` — passed.
+
+## Truth Boundary After Implementation
+
+GPU-0 proves the locked MAX toolchain can allocate, transfer, compile, launch,
+synchronize, validate, and release reference-counted resources on this physical
+CUDA target. Public `CUDAGate` discovery still returns zero, all engine GPU
+operations still fail closed, `AES-ACC-003` and `AES-ACC-008` remain `missing`,
+and no NPU execution claim was made.

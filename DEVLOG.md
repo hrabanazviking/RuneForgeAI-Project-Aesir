@@ -3,6 +3,28 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 116: GPU-0 — Real MAX GPU Toolchain Reachability
+
+**Date:** August 29, 2026
+**Architectural Phase:** First physical GPU execution slice
+
+1. Added the opt-in `test_gpu_reachability.mojo` against locked Mojo 1.0.0 and
+   MAX 26.5.0 without registering physical hardware in the CPU master suite.
+2. Created a real CUDA `DeviceContext` on the NVIDIA GeForce RTX 2060 Max-Q,
+   plus pinned host buffers and device buffers owned by the MAX lifecycle.
+3. Proved explicit H2D/D2H round-trip copies and a compiled Mojo affine GPU
+   kernel across a 257-element tail, synchronized before host validation.
+4. Validated every value against a separately calculated host expectation over
+   three rounds in each of three independent process executions.
+5. Proved the harness fails closed: `--negative-control` injected one expected
+   mismatch, raised at index 0 in round 2, and exited `1`.
+6. Recorded the exact GPU, driver, `ptxas`, toolchain, invocation, APIs, result,
+   and evidence boundary in `TASK_gpu0_max_gpu_reachability.md`.
+7. Kept public engine GPU gates unchanged and fail-closed. `AES-ACC-003` and
+   `AES-ACC-008` remain `missing`; GPU-1 physical engine discovery is next.
+8. No NPU, GEMM, model inference, performance, generalized CUDA, production
+   dispatch, or hardware-CI claim was made.
+
 ## Entry 115: Current Code Status Audit — 2026-08-29
 
 **Date:** August 29, 2026

@@ -55,6 +55,7 @@ counts as completion of an external capability.
 ### Most Important Issues to Address First - ASAP!!! (TOP PRIORITY: HARDWARE ACCELERATION)
 
 - [ ] **Modular Max Support:** Add full support for MAX by Modular
+- [x] **GPU-0 MAX toolchain reachability proof:** Locked Mojo 1.0.0 / MAX 26.5.0 created a real CUDA context, host/device buffers, round-trip copies, synchronized kernel execution, and host parity on the observed RTX 2060 Max-Q. This isolated hardware test does not implement or promote engine GPU dispatch.
 - [ ] **[partial, AES-CLI-009] Config Data File:** `aesir config [--config <path>]` now reads, validates, and normalizes the human-editable tracked schema. Apply every supported sampling/safety option to its owning runtime and add complete option documentation before closing this item.
 - [ ] **[missing, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path and explicit unavailable backends fail before model loading. Add observed physical discovery and a proved backend before enabling any hardware selection.
 - [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
@@ -69,7 +70,7 @@ counts as completion of an external capability.
 - [ ] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
 - [ ] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
-- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** Runtime-library probing exists; physical discovery, VRAM, transfers, and GEMM are missing.
+- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** Isolated MAX GPU-0 toolchain reachability is proved on the observed RTX host; engine physical discovery, owned production resources, transfers, GEMM, model integration, and hardware CI are still missing.
 - [ ] **[missing, AES-ACC-008] Apple Metal GPU execution:** Runtime-library probing exists; physical discovery, device buffers, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] Intel Level Zero GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] AMD ROCm/HIP GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.

@@ -58,6 +58,13 @@ def test_rag() raises: ...
 def validate_reference_model(seer: GGUFSeer, tokenizer: RuneWeaver) raises: ...
 def main() raises: ...
 
+# tests/test_gpu_reachability.mojo (opt-in NVIDIA hardware proof)
+def affine_kernel(input: Pointer[Float32, ...], output: Pointer[Float32, ...], count: Int32): ...
+def expected_input(index: Int, execution_round: Int) -> Float32: ...
+def validate_identity(host_input: HostBuffer[DType.float32], host_roundtrip: HostBuffer[DType.float32], execution_round: Int) raises: ...
+def validate_kernel_output(host_output: HostBuffer[DType.float32], execution_round: Int, inject_mismatch: Bool) raises: ...
+def main() raises: ...
+
 # tests/test_sharding.mojo (Slice 6)
 def test_device_topology() raises: ...
 def test_shard_tensor() raises: ...
@@ -133,6 +140,21 @@ IDs, exact decoded text, prompt/generated counts, the `length` stop reason, and
 the one-token ID 265 regression against the pinned `llama.cpp` oracle registered
 as `gguf.stories260k-f16-v3` in the root `fixture_manifest.json`.
 
+The opt-in GPU reachability `main()` requires a physical NVIDIA GPU, a compatible
+`ptxas`, and the locked MAX accelerator library. It creates a CUDA
+`DeviceContext`, pinned host buffers, device buffers, explicit H2D/D2H copies,
+and a real Mojo GPU kernel launch. It validates 257 elements over three rounds
+against a separately calculated host formula and offers `--negative-control` to
+prove a mismatch exits nonzero. Run it with:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_reachability.mojo
+```
+
+This isolated test proves only MAX 26.5 toolchain reachability on the observed
+device. It is not engine device discovery, production buffer ownership, GEMM,
+model inference, generalized CUDA support, NPU execution, or hardware CI.
+
 ## Process Contract
 
 - Any existing asserted mismatch in a test invoked by `run_all.main()` raises
@@ -145,6 +167,8 @@ as `gguf.stories260k-f16-v3` in the root `fixture_manifest.json`.
   raises after reporting if any case failed or the total is not 133.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
+- `test_gpu_reachability.mojo` is intentionally absent from `run_all.mojo` so
+  the default suite stays deterministic and hardware-independent.
 - Synthetic/scaffold assertions establish only their local deterministic
   invariants. They do not establish hardware, format, protocol, network,
   resilience, concurrency, or distributed compatibility.
