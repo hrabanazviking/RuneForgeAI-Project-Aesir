@@ -10,6 +10,9 @@
 
 Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
 
+### ⚡ Completed Milestone: Stage 78.1 — Honest Accelerator Hardware Discovery & Capability Matrix (`AES-ACC-003`)
+* **Stage 78.1 Hardware Milestone ([`AES-ACC-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `probe_all_hardware()`, `require_npu_backend()`, and `require_gpu_realm()` to `DeviceTopology` in `core/mimir_well.mojo`. Separates configured from discovered physical backends and strictly rejects absent accelerator requests with explicit error exceptions instead of claiming CPU as hardware execution. Updated `test_sharding.mojo` with hardware capability matrix test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
 ### ⚡ Completed Milestone: Stage 77.1 — GGUFSeer Quantized Tensor Mapping & Strict Dispatcher Rejection (`AES-QNT-003`)
 * **Stage 77.1 Quantization Milestone ([`AES-QNT-003`](../CAPABILITY_LEDGER.md) `verified`)**: Removed silent fallback branches in `dequantize_compressed_tensor()` and `autotune_quantized_gemm()` in `core/compute.mojo`. Enforced explicit error raising for unrecognized or unsupported quantization format discriminants. Updated `test_quantization_hardening.mojo` with strict error rejection test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
