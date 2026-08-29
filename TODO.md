@@ -448,7 +448,7 @@ counts as completion of an external capability.
   real collectives, synchronization, failure propagation, and cancellation.
 - [ ] Prove single-device parity, multi-device correctness, device-loss behavior,
   and scaling on physical systems.
-- [ ] **[missing, AES-ACC-009] Make any direct mmap/device-memory claim
+- [x] **[verified, AES-ACC-009] Make any direct mmap/device-memory claim
   backend-specific and evidence-backed; otherwise keep it unsupported.**
 
 ## Stage 10 — Optional Ecosystems as Separate Projects

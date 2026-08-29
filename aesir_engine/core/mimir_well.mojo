@@ -309,6 +309,14 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:
         return RuneTensor[f16](rows, cols, self.ptr, False)
 
+    def validate_zero_copy_contract(self) raises:
+        """
+        Validates whether direct zero-copy device mmap / DMA-BUF frame mapping is backed by physical driver evidence.
+        Raises explicit Error unless backed by validated physical driver evidence.
+        """
+        if self.handle_fd <= 0:
+            raise Error("GPUBuffer zero-copy contract unverified: host buffer lacks physical OS DMA-BUF handle_fd or mmap evidence (" + self.realm.name() + ")")
+
 
 
 struct NPUBuffer(Copyable, ImplicitlyCopyable):
@@ -369,6 +377,14 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
     @always_inline
     def copy(self) -> Self:
         return Self(self.ptr, self.size_bytes, self.handle_fd, self.is_dma_buf, self.backend.copy())
+
+    def validate_zero_copy_contract(self) raises:
+        """
+        Validates whether direct zero-copy NPU DMA-BUF frame mapping is backed by physical driver evidence.
+        Raises explicit Error unless backed by validated physical driver evidence.
+        """
+        if not self.is_dma_buf or self.handle_fd <= 0:
+            raise Error("NPUBuffer zero-copy contract unverified: host buffer lacks physical OS DMA-BUF handle_fd or mmap evidence (" + self.backend.name() + ")")
 
     @always_inline
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:

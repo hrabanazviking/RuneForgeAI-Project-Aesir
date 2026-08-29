@@ -80,6 +80,15 @@ def test_npu_buffer_zero_copy() raises:
     else:
         raise Error("NPUBuffer host-memory view invariant mismatch")
 
+    # Unverified zero-copy contract rejection check (is_dma_buf == False)
+    var zero_copy_rejected = False
+    try:
+        buf.validate_zero_copy_contract()
+    except:
+        zero_copy_rejected = True
+    if not zero_copy_rejected:
+        raise Error("NPUBuffer failed to reject unverified zero-copy contract")
+
 
 def test_arm_neon_precision() raises:
     print("--- Testing host 8-wide SIMD helper parity ---")
@@ -162,3 +171,10 @@ def test_npu_gemm_parity() raises:
                 raise Error("unsupported NPU gateway wrote an output tensor")
 
     print("unsupported NPU execution gateway: PASS")
+
+def main() raises:
+    test_npu_backend_enum()
+    test_device_topology_npu()
+    test_npu_buffer_zero_copy()
+    test_arm_neon_precision()
+    test_npu_gemm_parity()
