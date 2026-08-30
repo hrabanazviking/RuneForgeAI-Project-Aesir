@@ -309,3 +309,57 @@ def _cuda_rope_kernel[
         vec_ptr.unsafe_store(idx0, new_v0.cast[f16]())
         vec_ptr.unsafe_store(idx1, new_v1.cast[f16]())
 
+
+def _cuda_dequantize_q4_0_kernel[
+    blocks_origin: Origin[mut=False],
+    out_origin: MutOrigin,
+](
+    raw_blocks_ptr: Pointer[Scalar[DType.uint8], blocks_origin],
+    out_ptr: Pointer[Scalar[f16], out_origin],
+    num_blocks: Int32,
+):
+    """Dequantizes Q4_0 blocks to F16 on CUDA GPU."""
+    var block_idx = Int(global_idx.x)
+    if block_idx < Int(num_blocks):
+        var block_byte_offset = block_idx * 18
+        var out_offset = block_idx * 32
+
+        var scale_b0 = raw_blocks_ptr.unsafe_load(block_byte_offset)
+        var scale_b1 = raw_blocks_ptr.unsafe_load(block_byte_offset + 1)
+        var scale_u16 = (UInt16(scale_b1) << 8) | UInt16(scale_b0)
+        var scale = Pointer[UInt16, MutUntrackedOrigin](unsafe_address_of(scale_u16)).bitcast[Scalar[f16]]()[]
+
+        for i in range(16):
+            var q_byte = raw_blocks_ptr.unsafe_load(block_byte_offset + 2 + i)
+            var l_val = (Scalar[f16]((q_byte & 0x0F).cast[Int32]()) - 8.0) * scale
+            var u_val = (Scalar[f16](((q_byte >> 4) & 0x0F).cast[Int32]()) - 8.0) * scale
+            out_ptr.unsafe_store(out_offset + i, l_val)
+            out_ptr.unsafe_store(out_offset + 16 + i, u_val)
+
+
+def _cuda_dequantize_q8_0_kernel[
+    blocks_origin: Origin[mut=False],
+    out_origin: MutOrigin,
+](
+    raw_blocks_ptr: Pointer[Scalar[DType.uint8], blocks_origin],
+    out_ptr: Pointer[Scalar[f16], out_origin],
+    num_blocks: Int32,
+):
+    """Dequantizes Q8_0 blocks to F16 on CUDA GPU."""
+    var block_idx = Int(global_idx.x)
+    if block_idx < Int(num_blocks):
+        var block_byte_offset = block_idx * 34
+        var out_offset = block_idx * 32
+
+        var scale_b0 = raw_blocks_ptr.unsafe_load(block_byte_offset)
+        var scale_b1 = raw_blocks_ptr.unsafe_load(block_byte_offset + 1)
+        var scale_u16 = (UInt16(scale_b1) << 8) | UInt16(scale_b0)
+        var scale = Pointer[UInt16, MutUntrackedOrigin](unsafe_address_of(scale_u16)).bitcast[Scalar[f16]]()[]
+
+        for i in range(32):
+            var q_byte = raw_blocks_ptr.unsafe_load(block_byte_offset + 2 + i)
+            var val_i8 = Scalar[DType.int8](q_byte)
+            var val_f16 = Scalar[f16](val_i8.cast[Float32]()) * scale
+            out_ptr.unsafe_store(out_offset + i, val_f16)
+
+

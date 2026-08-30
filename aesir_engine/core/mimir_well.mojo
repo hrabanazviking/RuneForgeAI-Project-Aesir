@@ -954,7 +954,6 @@ struct PagedKVCache(Copyable):
     var free_blocks: Int
 
     def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises:
-        raise Error("PagedKVCache is not implemented")
         if block_size <= 0:
             raise Error("PagedKVCache: block_size must be positive")
         self.base_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
