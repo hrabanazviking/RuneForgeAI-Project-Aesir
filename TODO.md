@@ -57,9 +57,10 @@ counts as completion of an external capability.
 - [ ] **Modular Max Support:** Add full support for MAX by Modular
 - [x] **GPU-0 MAX toolchain reachability proof:** Locked Mojo 1.0.0 / MAX 26.5.0 created a real CUDA context, host/device buffers, round-trip copies, synchronized kernel execution, and host parity on the observed RTX 2060 Max-Q. This isolated hardware test does not implement or promote engine GPU dispatch.
 - [x] **GPU-1 truthful CUDA discovery:** MAX-backed enumeration now records and validates observed CUDA identity/capabilities and supports topology selection on the observed RTX host. This does not enable engine GPU allocation, compute, inference, or CLI acceleration.
-- [x] **GPU-2 production CUDA resource ownership:** A selected-device MAX context now owns budgeted F16 device and pinned-host buffers with explicit synchronized H2D/D2H transfers and scope-based cleanup. Engine compute and inference remain disabled.
+- [x] **GPU-2 production CUDA resource ownership:** A selected-device MAX context now owns budgeted F16 device and pinned-host buffers with explicit synchronized H2D/D2H transfers and scope-based cleanup. GPU-2 alone did not enable compute; GPU-3 now consumes these resources while inference remains disabled.
+- [x] **GPU-3 real CUDA F16 GEMM gateway:** A reusable fixed-shape executor now owns three GPU-2 allocation pairs and executes the repository's `A[M,K] × B[N,K] → C[M,N]` contract through a genuine CUDA F16-input/F32-accumulation kernel with synchronized output, independent physical parity, repeat execution, and negative controls. Transformer/model integration and CLI acceleration remain disabled.
 - [ ] **[partial, AES-CLI-009] Config Data File:** `aesir config [--config <path>]` now reads, validates, and normalizes the human-editable tracked schema. Apply every supported sampling/safety option to its owning runtime and add complete option documentation before closing this item.
-- [ ] **[partial, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path, CUDA discovery/selection is real through MAX, and explicit accelerator execution remains rejected before model loading. Connect only after production GPU resources and compute are proved.
+- [ ] **[partial, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path, while CUDA discovery, selected resources, and one explicit GEMM are real through MAX. Connect accelerator selection only after persistent model weights and a Transformer projection pass logits/token parity.
 - [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
 - [ ] **Add Help Commands:** Add very useful, well written, complete help command system.
 - [ ] **Cognitive Inference Architecture:** Read COGNITIVE_INFERENCE_ARCHITECTURE.md and add Cognitive Inference Architecture. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
@@ -72,10 +73,10 @@ counts as completion of an external capability.
 - [ ] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
 - [ ] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
-- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** GPU-0 toolchain reachability, GPU-1 discovery/selection, and GPU-2 owned F16 resources/transfers are proved on the observed RTX host; engine GEMM, model integration, CLI activation, and hardware CI are still missing.
-- [ ] **[missing, AES-ACC-008] Apple Metal GPU execution:** Runtime-library probing exists; physical discovery, device buffers, and GEMM are missing.
-- [ ] **[missing, AES-ACC-008] Intel Level Zero GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
-- [ ] **[missing, AES-ACC-008] AMD ROCm/HIP GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
+- [ ] **[partial, AES-ACC-008] NVIDIA CUDA GPU execution:** GPU-0 through GPU-3 now prove toolchain reachability, discovery/selection, owned F16 resources/transfers, and one reusable explicit CUDA GEMM on the observed RTX host. Persistent model weights, Transformer integration, logits/token parity, CLI activation, broader operators, and hardware CI remain open.
+- [ ] **[partial, AES-ACC-008] Apple Metal GPU execution:** The broad GPU-dispatch capability is partial because of the CUDA slice; Apple Metal itself still has only runtime probing, with physical discovery, device buffers, and GEMM missing.
+- [ ] **[partial, AES-ACC-008] Intel Level Zero GPU execution:** The broad GPU-dispatch capability is partial because of the CUDA slice; Intel itself still has only runtime probing, with physical discovery, VRAM, and GEMM missing.
+- [ ] **[partial, AES-ACC-008] AMD ROCm/HIP GPU execution:** The broad GPU-dispatch capability is partial because of the CUDA slice; AMD itself still has only runtime probing, with physical discovery, VRAM, and GEMM missing.
 - [ ] **[missing, AES-ACC-006] Vendor NPU execution:** Runtime-library probing exists; vendor SDK integration and hardware proof are missing.
 - [ ] **#1 PRIORITY HARDENING — Hardware Acceleration Hardening, Crash-Proofing & Self-Healing Resilience (`AES-ACC-008`/`AES-ACC-009`):** Harden all 5 hardware gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict bounds checking, non-positive allocation rejection, self-healing memory reclamation, and crash-proof error isolation.
 - [x] **[partial, AES-FND-005] Automated CI configuration:** Clean checkout, build, master suite, negative control, and consistency checks are tracked and passed in hosted run `33239432026`; branch protection, supported-target coverage, and an external-fixture job remain open gates.
@@ -127,7 +128,7 @@ counts as completion of an external capability.
 - [x] **[partial, AES-ACC-003] Correct device discovery:** Return only
   configured/observed devices, or explicit unavailable status; never append all
   backends as detected.
-- [x] **[missing, AES-ACC-006] [missing, AES-ACC-008] Correct accelerator banners:** Do not
+- [x] **[missing, AES-ACC-006] [partial, AES-ACC-008] Correct accelerator banners:** Do not
   print NPU/GPU “ACTIVE,” CUDA, Tensor Core, or hardware-realm execution when the
   selected function runs on the CPU.
 - [x] **[missing, AES-ECO-003] Correct Hugging Face download output:** Return
@@ -445,10 +446,15 @@ counts as completion of an external capability.
   zero-copy contract, synchronization, and error propagation.
 - [x] Implement at least one genuine device kernel and compare its output with a
   CPU F32/verified reference on physical hardware.
+- [x] Connect GPU-2 resource ownership to one reusable production-core CUDA F16
+  GEMM and prove exact/tolerance parity, rejected-request safety, repeatability,
+  and a deliberate post-kernel mismatch on physical hardware.
 - [ ] Connect the kernel to one real-model inference slice and preserve token/
   logit parity.
-- [ ] Add hardware-specific CI or a recorded reproducible hardware gate before
-  upgrading any accelerator ledger status.
+- [x] Record reproducible GPU-0 through GPU-3 physical commands, device/toolchain
+  identity, independent reference checks, repeated processes, and negative
+  controls before promoting `AES-ACC-008` to `partial`. Trusted hardware CI
+  remains open.
 - [ ] Measure actual latency/throughput/memory only after correctness passes.
 
 ### Multi-device

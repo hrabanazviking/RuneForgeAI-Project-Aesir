@@ -22,6 +22,9 @@ evidence.
 - Cross-platform runtime support remains absent: `[missing, AES-FND-006]`.
 - CI and repository hygiene are real but incomplete:
   `[partial, AES-FND-005]` and `[partial, AES-FND-007]`.
+- One explicit reusable MAX CUDA F16 GEMM now has physical reference evidence:
+  `[partial, AES-ACC-008]`. This is not Transformer inference, persistent
+  device-resident model weights, general GPU support, or CLI acceleration.
 - Compatibility names, enums, format labels, gateway types, and synthetic tests
   do not establish external ecosystem, hardware, protocol, or production
   support.

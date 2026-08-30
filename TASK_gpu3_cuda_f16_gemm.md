@@ -220,3 +220,78 @@ truth checks, pushes, and hosted CPU CI must also pass.
 The next separate slice after GPU-3 is real-model integration: persistent CUDA
 weight placement and one Transformer GEMM path with logits/token parity. That
 work is not smuggled into this kernel-and-gateway contract.
+
+## Implementation Evidence
+
+- `core/cuda_gemm_plan.mojo` adds hardware-independent checked products,
+  exact F16 bytes, Int32 kernel ABI bounds, launch-tail planning, tensor-shape
+  admission, and dual remaining-budget checks.
+- `CUDAResourceBudget.reserve_f16_batch3()` atomically reserves the exact A, B,
+  and C device/pinned-host total. `CUDAF16GemmExecutor.create()` restores the
+  reservation if any MAX construction or initial synchronization fails and
+  commits three allocations only after all owners exist.
+- `core/cuda_compute.mojo` adds the reusable move-only executor and the genuine
+  CUDA kernel. Each in-range thread computes one output cell for the established
+  `A[M,K] × B[N,K] → C[M,N]` layout using F16 inputs and F32 accumulation.
+- `gemm_f16_cuda()` is the explicit production-core gateway. It requires a
+  selected-resource executor and performs no discovery, hidden allocation,
+  implicit global-context creation, or host fallback.
+- Every execution validates live shapes, plain-F16 storage, element counts,
+  pointers, device identity, and context compatibility; then it stages A/B,
+  enqueues H2D, launches, enqueues D2H, synchronizes, and publishes C.
+- A copy, launch, or synchronization exception marks the executor unusable and
+  records the failure message; later calls reject rather than reusing a
+  potentially faulted stream. Pre-launch validation rejection remains retryable.
+- The older realm-only `gemm_f16_gpu()` and `CUDAGate.launch_gemm_cuda()` remain
+  fail-closed because their signatures cannot satisfy the ownership contract.
+
+## Physical Verification Record
+
+The opt-in production proof selected the GPU-1 record for the observed NVIDIA
+GeForce RTX 2060 with Max-Q Design through MAX 26.5. Three independent process
+executions each completed:
+
+- three rounds of binary-exact `2×3×4` GEMM with maximum error `0.0`;
+- three rounds of unaligned `17×19×23` GEMM with maximum error
+  `0.0009613037` against the independent host F32 calculation;
+- shape and quantized-storage rejection before execution;
+- insufficient pinned-host budget rejection without reservation or allocation
+  count mutation; and
+- reuse of each executor without execution-time allocation.
+
+The physical command was:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_gemm.mojo
+```
+
+The same command with `--negative-control` changed one independent expectation
+after genuine GPU execution, raised `GPU-3 exact GEMM mismatch at output index
+0 in round 2`, and exited `1`.
+
+GPU-2 resource ownership, GPU-1 discovery, and GPU-0 reachability positive
+regressions passed. GPU-2 and GPU-0 deliberate negative controls both exited
+`1` at their expected mismatch boundaries.
+
+## Hardware-Independent Verification Record
+
+Four GPU-3 plan cases joined the counted master suite and prove exact counts and
+launch rounding, tensor-shape rejection, overflow/Int32 ABI rejection, and
+atomic three-buffer budget reservation/rollback. The full suite reports 144
+passed, 0 failed, 1 explicitly skipped, total 145.
+
+## Capability Result
+
+`AES-ACC-008` is now `partial`. That status is scoped to one real reusable
+CUDA F16 GEMM through explicit project ownership on the observed host.
+Persistent device-resident model weights, Transformer execution, logits/token
+parity, remaining operators, CLI activation, Tensor Core/MMA execution,
+generalized CUDA and other GPU backends, performance, and hardware CI remain
+unproved. `AES-ACC-009` remains `missing`.
+
+## Final Status
+
+GPU-3 is complete at the explicit production-core CUDA GEMM boundary. Planning
+landed in `b2dcae8`, the real executor/kernel/gateway in `3210de6`, and physical
+gateway rejection hardening in `a9d7928`; every checkpoint was pushed to the
+real GitHub `main`. GPU-4 is the next slice.

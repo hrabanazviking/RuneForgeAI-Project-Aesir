@@ -50,6 +50,8 @@ struct CUDAF16GemmExecutor:
     var b_allocation: CUDAF16Allocation
     var c_allocation: CUDAF16Allocation
     var execution_count: Int
+    var is_usable: Bool
+    var last_failure_message: String
 
     def __init__(
         out self,
@@ -67,6 +69,8 @@ struct CUDAF16GemmExecutor:
         self.b_allocation = b_allocation^
         self.c_allocation = c_allocation^
         self.execution_count = 0
+        self.is_usable = True
+        self.last_failure_message = ""
 
     @staticmethod
     def create(
@@ -158,6 +162,11 @@ struct CUDAF16GemmExecutor:
         mut c: RuneTensor[f16],
     ) raises:
         """Upload, launch, download, synchronize, and publish one GEMM result."""
+        if not self.is_usable:
+            raise Error(
+                "CUDAF16GemmExecutor: executor is unusable after device failure: "
+                + self.last_failure_message
+            )
         self._validate_live_contract(a, b, c)
 
         for index in range(self.plan.a_element_count):
@@ -165,27 +174,35 @@ struct CUDAF16GemmExecutor:
         for index in range(self.plan.b_element_count):
             self.b_allocation.set_host(index, b.data.unsafe_load(index))
 
-        self.a_allocation.enqueue_upload()
-        self.b_allocation.enqueue_upload()
-        self.context.enqueue_function[
-            _cuda_f16_gemm_kernel[
-                origin_of(self.a_allocation.device_buffer),
-                origin_of(self.b_allocation.device_buffer),
-                origin_of(self.c_allocation.device_buffer),
-            ]
-        ](
-            self.a_allocation.device_buffer.unsafe_ptr(),
-            self.b_allocation.device_buffer.unsafe_ptr(),
-            self.c_allocation.device_buffer.unsafe_ptr(),
-            Int32(self.plan.m),
-            Int32(self.plan.k),
-            Int32(self.plan.n),
-            Int32(self.plan.c_element_count),
-            grid_dim=self.plan.grid_size,
-            block_dim=self.plan.block_size,
-        )
-        self.c_allocation.enqueue_download()
-        self.context.synchronize()
+        try:
+            self.a_allocation.enqueue_upload()
+            self.b_allocation.enqueue_upload()
+            self.context.enqueue_function[
+                _cuda_f16_gemm_kernel[
+                    origin_of(self.a_allocation.device_buffer),
+                    origin_of(self.b_allocation.device_buffer),
+                    origin_of(self.c_allocation.device_buffer),
+                ]
+            ](
+                self.a_allocation.device_buffer.unsafe_ptr(),
+                self.b_allocation.device_buffer.unsafe_ptr(),
+                self.c_allocation.device_buffer.unsafe_ptr(),
+                Int32(self.plan.m),
+                Int32(self.plan.k),
+                Int32(self.plan.n),
+                Int32(self.plan.c_element_count),
+                grid_dim=self.plan.grid_size,
+                block_dim=self.plan.block_size,
+            )
+            self.c_allocation.enqueue_download()
+            self.context.synchronize()
+        except error:
+            self.is_usable = False
+            self.last_failure_message = String(error)
+            raise Error(
+                "CUDAF16GemmExecutor: CUDA operation failed; executor poisoned: "
+                + self.last_failure_message
+            )
 
         for index in range(self.plan.c_element_count):
             c.data.unsafe_store(index, self.c_allocation.get_host(index))

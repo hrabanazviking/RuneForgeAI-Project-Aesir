@@ -19,6 +19,13 @@ on the locally observed RTX 2060 Max-Q**. The first target is intentionally
 narrow: establish one complete, honest, hardware-proved path before generalizing
 the design to AMD, Apple, Intel, or an NPU vendor.
 
+**Execution status, August 30, 2026:** GPU-0 through GPU-3 have passed. The
+repository now has real MAX CUDA reachability, physical discovery/selection,
+owned budgeted F16 resources/transfers, and one reusable production-core F16
+GEMM with independent physical parity. GPU-4 persistent real-model weight
+placement and logits/token parity is the next slice. This status does not claim
+general CUDA, complete Transformer inference, NPU execution, or performance.
+
 GPU completion requires an end-to-end model path, not only a sample GEMM. NPU
 completion requires a supported vendor deployment artifact and real graph
 execution; a generic `RuneTensor` GEMM API cannot be treated as a portable NPU
@@ -30,11 +37,12 @@ contract.
 
 | Surface | What exists now | What is still missing |
 |---|---|---|
-| CUDA, Metal, Intel, AMD gates | Dynamic-library loadability probes and fail-closed placeholders | Device enumeration, owned contexts, device allocation, transfers, kernels, synchronization, cleanup |
+| NVIDIA CUDA | MAX enumeration/selection, owned budgeted F16 resources and transfers, and one reusable explicit F16 GEMM are physically proved on the observed RTX host | Persistent model weights, Transformer operators/integration, logits/token parity, CLI activation, hardware CI, portability, and performance |
+| Metal, Intel, AMD gates | Dynamic-library loadability probes and fail-closed placeholders | Physical enumeration, owned contexts, device allocation, transfers, kernels, synchronization, cleanup |
 | NPU gate | Selected runtime-library probes and fail-closed placeholders | Supported vendor SDK adapters, physical discovery, compiled artifacts, I/O bindings, execution, synchronization, cleanup |
-| `DeviceTopology` | Logical `host:N` partitions and empty accelerator lists | Stable device identities, capabilities, error metadata, multi-backend accumulation |
-| `GPUBuffer` / `NPUBuffer` | Host F16 views carved from `MimirWell` | Device ownership, address-space identity, allocator/context association, valid lifetime and release |
-| `gemm_f16_gpu()` / `gemm_f16_npu()` | Dispatch names and checked unsupported errors | Genuine accelerator work |
+| `DeviceTopology` | Logical `host:N` partitions plus real validated CUDA records and stable selection | Other physical backends and real multi-device placement |
+| `GPUBuffer` / `NPUBuffer` | Compatibility host F16 views; CUDA separately uses owned MAX resource types | General backend device ownership and direct mapping contracts |
+| CUDA compute | `gemm_f16_cuda()` is a real explicit selected-resource gateway; realm-only `gemm_f16_gpu()` and every NPU route fail closed | Model integration and all remaining device operators |
 | Transformer inference | CPU tensor pipeline with accelerator flags threaded through GEMM call sites | Persistent device-resident weights, activations, KV cache, and all required device operators |
 | Sharding | Sequential host partitioning and reduction | Device placement, asynchronous work, collectives, reconstruction, failure propagation |
 | CLI/config | Accelerator intent vocabulary; single-shot runtime rejects non-CPU requests | Discovery-backed selection, explicit device choice, verified `auto`, offload policy |
@@ -282,6 +290,8 @@ change land in the same slice.
 
 ### GPU-0 — Lock the contract and prove toolchain reachability
 
+**Status:** Completed and physically verified on the observed RTX/MAX host.
+
 - Pin the exact Mojo/MAX APIs used by the runtime.
 - Compile a minimal program using the locked `max.gpu` package.
 - On the RTX host, prove context creation, device identity, one device buffer,
@@ -294,6 +304,8 @@ change land in the same slice.
 and a checked task record identifies the exact production APIs to wrap.
 
 ### GPU-1 — Implement truthful physical discovery
+
+**Status:** Completed and physically verified through production MAX discovery.
 
 - Add `PhysicalDevice` and `DeviceCapabilities` records.
 - Enumerate through the selected runtime and retain all observed devices.
@@ -309,6 +321,9 @@ tests, while other backends remain unpromoted.
 
 ### GPU-2 — Implement ownership, buffers, copies, and synchronization
 
+**Status:** Completed and physically verified with reusable selected-device
+resource sessions and explicit F16 transfers.
+
 - Create owned `DeviceContext`, `DeviceStream`, `DeviceEvent`, `DeviceBuffer`,
   and `DeviceTensor` wrappers.
 - Add checked allocation counts and byte-overflow guards.
@@ -321,6 +336,12 @@ tests, while other backends remain unpromoted.
 double-free tests pass; host code cannot dereference device memory.
 
 ### GPU-3 — Implement the first genuine F16 GEMM
+
+**Status:** Completed August 30, 2026. `CUDAGemmPlan`,
+`CUDAF16GemmExecutor`, and `gemm_f16_cuda` implement the fixed-shape
+resource-explicit CUDA path. Three independent physical processes passed exact
+and tail-shape F32-reference checks; rejected requests preserve accounting and
+the negative control exits nonzero.
 
 - Add a correctness-first Mojo GPU GEMM with the repository's exact matrix
   convention: `A[M,K]` times logical transposed weight storage `B[N,K]` gives

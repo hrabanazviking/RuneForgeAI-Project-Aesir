@@ -137,13 +137,16 @@ graph TD
   - `gemm_f16_sharded` & `all_reduce_sum`: Multi-device parallel GEMM and SIMD vector reduction across Bifrost Shard Matrix.
   - **`gemm_f16_arm_neon`, `rmsnorm_arm_neon` & `gemm_f16_npu` (Slice 7):** 128-bit ARM NEON kernels and NPU Realm Gateway dispatcher.
   - **GPU-named host helpers (Slice 8):** `gemm_f16_gpgpu_vector` and `gemm_f16_mobile_opencl` are host SIMD functions retained for compatibility; their names do not prove vendor GPU execution.
-  - **`rmsnorm_gpu` and `gemm_f16_gpu`:** Public engine GPU gateways remain fail-closed for every realm. CUDA discovery never authorizes a CPU fallback under a GPU label.
+  - **`gemm_f16_cuda`:** Real resource-explicit CUDA F16 GEMM gateway. It requires a reusable selected-device `CUDAF16GemmExecutor`; it never discovers hardware, invents budgets, or falls back to host compute.
+  - **`rmsnorm_gpu` and `gemm_f16_gpu`:** The older realm-only gateways remain fail-closed for every realm because they carry no selected resource owner. CUDA discovery never authorizes a CPU fallback under a GPU label.
 
-### 6.1. `core/cuda_gate.mojo`, `cuda_resources.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Boundaries
+### 6.1. `core/cuda_gate.mojo`, `cuda_resources.mojo`, `cuda_gemm_plan.mojo`, `cuda_compute.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Boundaries
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
 - **Implementation:**
   - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime loading plus real MAX 26.5 enumeration and per-device capability inspection. The record uses MAX's runtime ID, not an invented vendor UUID. Legacy raw-pointer and engine-kernel gateways remain fail-closed.
-  - `CUDADeviceResources` (`cuda_resources.mojo`): Move-only selected-device MAX context with conservative device/pinned-host budgets and owned paired F16 buffers. It provides explicit synchronized H2D/D2H operations and MAX lifecycle cleanup but is not connected to engine compute.
+  - `CUDADeviceResources` (`cuda_resources.mojo`): Move-only selected-device MAX context with conservative device/pinned-host budgets and owned paired F16 buffers. It provides explicit H2D/D2H operations, synchronization, MAX lifecycle cleanup, and atomic three-buffer reservation for GPU-3.
+  - `CUDAGemmPlan` (`cuda_gemm_plan.mojo`): Hardware-independent fixed-shape `A[M,K] × B[N,K] → C[M,N]` product, byte, Int32 ABI, launch-grid, tensor-shape, and remaining-budget validation.
+  - `CUDAF16GemmExecutor` (`cuda_compute.mojo`): Move-only reusable owner of three GPU-2 allocation pairs plus the genuine CUDA F16-input/F32-accumulation kernel. Execution performs staging, H2D, launch, D2H, synchronization, and checked host publication without allocating.
   - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
   - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
   - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
@@ -153,7 +156,7 @@ graph TD
 ### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock`, `forward_pass` & `generation_stop_reason`)
 - **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, GPU realm dispatch support, and exception-safe arena offset restoration.
 - **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`. Loader-backed block construction requires all nine usable layer tensors and rejects missing, empty, null, or address-1 weights before inference; the legacy constructor is a stable non-runnable error boundary. Features try-catch workspace pool offset restoration (`well.reset_kv_cache(start_offset)`) around single-device and multi-device execution paths, preventing workspace arena leakage or offset drift under layer exceptions (`AES-MEM-005`). `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo` conform to `ImplicitlyCopyable` for zero-copy collection passing (`AES-GEN-009`).
-- **GPU configuration boundary:** `TransformerBlock.forward()` retains GPU parameters, but facade validation rejects GPU execution before model loading and every public GPU compute gateway fails closed. CUDA discovery is intentionally independent of inference enablement.
+- **GPU configuration boundary:** `TransformerBlock.forward()` retains GPU parameters, but facade validation rejects GPU execution before model loading. The explicit CUDA GEMM primitive is not wired to Transformer/model ownership, and the realm-only gateways remain fail-closed. CUDA discovery is intentionally independent of inference enablement.
 
 ### 8. `cli/` & `main.mojo` — The Ollama CLI, REPL Terminal Suite & llama.cpp CLI Compat (Slice 9 & Slice 25)
 - **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`), CLI flag/option parser (`cli/options.mojo`), and help/TUI dashboard (`cli/help.mojo`, `cli/tui.mojo`).
@@ -248,10 +251,12 @@ graph LR
 
 ## 🌌 The Universal GPU Realm Matrix — Slice 8 Domain Layer
 
-This layer currently separates requested realm names, observed hardware, and
-execution. GPU-1 provides one real discovery path: MAX CUDA enumeration and
-validated topology selection. All engine GPU allocation, transfer, compute,
-inference, and CLI acceleration paths remain unsupported.
+This layer separates requested realm names, observed hardware, explicit
+resource ownership, and model integration. GPU-1 provides real MAX CUDA
+enumeration and validated topology selection; GPU-2 owns selected contexts,
+buffers, transfers, and synchronization; GPU-3 owns one real explicit F16 GEMM.
+Transformer inference, persistent device weights, the realm-only gateway, and
+CLI acceleration remain unsupported.
 
 ```mermaid
 graph TD
@@ -259,7 +264,9 @@ graph TD
     CG --> R[HardwareDiscoveryResult<br/>status + validated records]
     R --> T[DeviceTopology<br/>accumulate + select]
     T --> CR[CUDADeviceResources<br/>budgeted F16 buffers + transfers]
-    CR -. resources do not enable .-> G[GPU compute gateways<br/>explicit unsupported error]
+    CR --> P[CUDAGemmPlan<br/>shape + bytes + launch]
+    P --> X[CUDAF16GemmExecutor<br/>real reusable F16 GEMM]
+    X --> C[gemm_f16_cuda<br/>explicit core gateway]
     E[AesirEngine GPU request] --> V[validate_runtime_backend_config]
     V --> X[rejected before model loading]
 ```
@@ -272,13 +279,17 @@ graph TD
 | `GPUBuffer` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — reserved host descriptor belongs beside `MimirWell` |
 | discovery records and `DeviceTopology` | `core/mimir_well.mojo` | Core — Memory & Topology Domain | ✅ **Correct** — runtime-neutral records and selection belong in topology |
 | `CUDAGate` MAX adapter | `core/cuda_gate.mojo` | Core — CUDA Runtime Boundary | ✅ **Correct** — CUDA-specific enumeration stays behind its gate |
-| GPU compute gateways | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — fail-closed execution boundary remains in compute |
+| `CUDAGemmPlan` | `core/cuda_gemm_plan.mojo` | Core — CUDA Planning Domain | ✅ **Correct** — hardware-independent admission stays outside topology and kernel execution |
+| `CUDAF16GemmExecutor` | `core/cuda_compute.mojo` | Core — CUDA Compute Domain | ✅ **Correct** — owned transfers, kernel launch, synchronization, and reuse remain behind one explicit owner |
+| GPU compute gateways | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — real resource-explicit CUDA GEMM and fail-closed realm-only boundaries remain in compute |
 | `TransformerBlock.forward()` GPU params | `core/inference.mojo` | Core — Inference Domain | ✅ **Correct** — inference layer owns layer dispatch decisions |
 | `AesirEngine.enable_gpu_realm`, `target_gpu_realm` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — configuration knobs belong in orchestration facade |
 
-**Current evidence boundary:** server and loader domains do not own CUDA
-discovery. The opt-in physical tests prove one observed RTX/MAX host, not
-general CUDA portability or engine execution.
+**Current evidence boundary:** server, loader, facade, and Transformer inference
+do not own or invoke the CUDA GEMM executor. The opt-in physical tests prove one
+explicit GEMM on one observed RTX/MAX host, not model inference, persistent
+device weights, other operators/backends, general CUDA portability,
+performance, or hardware CI.
 
 ---
 

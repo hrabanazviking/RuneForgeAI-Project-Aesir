@@ -44,7 +44,8 @@ graph TB
     subgraph Core [Compute, Memory & Resilience Domain - core/]
         Memory[core/mimir_well.mojo<br/>MimirWell, DeviceTopology, PhysicalDevice, GPURealmType & host descriptors]
         CUDA[core/cuda_gate.mojo + cuda_resources.mojo<br/>MAX CUDA discovery + owned resources]
-        Compute[core/compute.mojo<br/>Nidavellir SIMD Kernels, gemm_f16_npu, gemm_f16_gpu & dequantize_compressed_tensor]
+        CUDACompute[core/cuda_gemm_plan.mojo + cuda_compute.mojo<br/>checked plan + reusable real CUDA F16 GEMM]
+        Compute[core/compute.mojo<br/>host kernels, gemm_f16_cuda, fail-closed realm gates]
         Inference[core/inference.mojo<br/>TransformerBlock & forward_pass]
         Grammar[core/grammar.mojo<br/>GBNFGrammar]
         Speculative[core/speculative.mojo<br/>SpeculativeEngine]
@@ -72,6 +73,8 @@ graph TB
     Engine -->|Orchestrates Swarm Mesh| Swarm
     Inference -->|Appends & Slices KV Cache| Memory
     CUDA -->|Returns Records; Owns MAX F16 Resources| Memory
+    CUDA -->|Owns selected context and buffers| CUDACompute
+    CUDACompute -->|Explicit gemm_f16_cuda gateway| Compute
     Inference -->|Dispatches SIMD Kernels| Compute
     Inference -->|Sanitizes Logits & Checks Bounds| Resilience
     Inference -->|Routes via NPU Gateway gemm_f16_npu| Compute
@@ -122,9 +125,9 @@ graph TB
 ### 4. `core` Domain (Nidavellir SIMD Kernels, MimirWell, KVCache, MimirStore, NPU Gateway, GPU Realm Matrix, Compressed Format Matrix, GBNFGrammar, SpeculativeEngine, Sovereign Resilience Matrix & Swarm Cluster Matrix)
 - **Path:** `aesir_engine/core/`
 - **Owner:** Math, Zero-Allocation Memory, Quantization Unpacking, Constrained Generation, Self-Healing Resilience, Swarm Mesh Cluster & Transformer Forward Pass
-- **Responsibility:** `MimirWell` pre-allocates contiguous host workspace. `core/mimir_well.mojo` owns memory types, runtime-neutral discovery records, topology, sharding, and partitioning. `core/cuda_gate.mojo` owns real MAX CUDA enumeration; `core/cuda_resources.mojo` owns selected-device contexts, budgets, paired F16 buffers, transfers, and synchronization. `core/compute.mojo` owns CPU SIMD kernels and fail-closed accelerator compute gateways; `core/inference.mojo` owns `TransformerBlock` and `forward_pass`.
+- **Responsibility:** `MimirWell` pre-allocates contiguous host workspace. `core/mimir_well.mojo` owns memory types, runtime-neutral discovery records, topology, sharding, and partitioning. `core/cuda_gate.mojo` owns real MAX CUDA enumeration; `core/cuda_resources.mojo` owns selected-device contexts, budgets, paired F16 buffers, transfers, and synchronization; `core/cuda_gemm_plan.mojo` owns hardware-independent GEMM admission; and `core/cuda_compute.mojo` owns the reusable real CUDA F16 GEMM executor and kernel. `core/compute.mojo` owns CPU SIMD kernels, the explicit `gemm_f16_cuda` gateway, and fail-closed realm-only gateways; `core/inference.mojo` owns `TransformerBlock` and `forward_pass`.
   - **Slice 7 — NPU Realm Gateway additions:** `NPUBackendType`, `NPUBuffer`, `DeviceTopology.detect_edge_npus()`, `MimirWell.allocate_npu_buffer()`, `gemm_f16_arm_neon`, `rmsnorm_arm_neon`, `gemm_f16_npu`.
-  - **Slice 8 / GPU-1:** `GPURealmType` and host `GPUBuffer` descriptors remain reserved execution surfaces. GPU-1 adds `DiscoveryStatus`, `DeviceCapabilities`, `PhysicalDevice`, `HardwareDiscoveryResult`, real MAX CUDA enumeration, accumulation, and compatible-device selection. GPU compute remains fail-closed.
+  - **Slice 8 / GPU-1 through GPU-3:** `GPURealmType` and host `GPUBuffer` descriptors remain reserved compatibility surfaces. GPU-1 adds real MAX CUDA enumeration and compatible selection, GPU-2 adds owned selected-device resources, and GPU-3 adds one explicit reusable CUDA F16 GEMM. Transformer/model execution and the realm-only gateway remain fail-closed.
   - **Slice 10 — Universal Compressed LLM Format Matrix additions:** `CompressedFormatType` in `core/mimir_well.mojo`, `dequantize_compressed_tensor` gate and SIMD unpacking kernels in `core/compute.mojo`.
   - **Slice 11 — Constrained Generation & Speculative Sampling additions:** `GBNFGrammar` (`core/grammar.mojo`), `SpeculativeEngine` (`core/speculative.mojo`).
   - **Slice 12 — Sovereign Resilience & Self-Healing Matrix additions:** `ErrorGuard`, `StateVault`, `AesirEventBus`, `RuneThreadPool`, `SelfHealingSupervisor`.
@@ -140,7 +143,7 @@ graph TB
 ### 6. `tests` Domain (Verification Suite)
 - **Path:** `aesir_engine/tests/`
 - **Owner:** Quality & Invariants
-- **Responsibility:** Verifies CPU math, memory, loading, tokenization, inference, and fail-closed subsystem contracts. Discovery admission and selection use injected records in the hardware-independent master suite; opt-in tests separately prove physical MAX CUDA discovery and GPU-0 kernel reachability. Those tests do not promote production GPU execution.
+- **Responsibility:** Verifies CPU math, memory, loading, tokenization, inference, and fail-closed subsystem contracts. Discovery, resource-budget, and GEMM-plan admission use hardware-independent master-suite cases; opt-in tests separately prove physical MAX CUDA reachability, discovery, resource ownership, and the production GPU-3 GEMM gateway. The GPU-3 proof promotes only the narrow explicit CUDA dispatch to partial status, not model inference or general GPU support.
 
 ---
 

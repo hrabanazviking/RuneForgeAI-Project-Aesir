@@ -1,11 +1,12 @@
 # Core Domain Interface Specification
 
 > **Current execution boundary:** model execution remains host CPU only. CUDA
-> discovery is a real, partial MAX 26.5 integration: it enumerates observed
-> devices and records runtime-derived capabilities for selection. GPU/NPU
-> allocation, transfers, compute, inference, and CLI acceleration remain
-> fail-closed. GPU/NPU buffers are CPU-resident descriptors, and logical shards
-> are sequential host views rather than physical multi-device execution.
+> discovery, selected-device resource ownership, explicit F16 transfers, and a
+> reusable resource-explicit F16 GEMM execute through MAX 26.5 on the observed
+> CUDA host. Model weights, Transformer dispatch, RMSNorm, attention, KV cache,
+> and CLI acceleration remain host-only or fail-closed. Other GPU/NPU backends
+> remain unimplemented, GPU/NPU descriptor buffers remain CPU-resident, and
+> logical shards remain sequential host views.
 
 ## Public Structs & Functions
 
@@ -309,10 +310,13 @@ struct CUDAResourceBudget(Copyable):
     def __init__(out self, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
     @staticmethod
     def f16_size_bytes(element_count: Int) raises -> Int: ...
+    @staticmethod
+    def f16_batch3_size_bytes(first_element_count: Int, second_element_count: Int, third_element_count: Int) raises -> Int: ...
     def validate(self) raises: ...
     def remaining_device_bytes(self) -> Int: ...
     def remaining_pinned_host_bytes(self) -> Int: ...
     def reserve_f16(mut self, element_count: Int) raises -> Int: ...
+    def reserve_f16_batch3(mut self, first_element_count: Int, second_element_count: Int, third_element_count: Int) raises -> Int: ...
     def rollback_f16(mut self, size_bytes: Int) raises: ...
 
 def validate_cuda_resource_policy(device: PhysicalDevice, budget: CUDAResourceBudget) raises: ...
@@ -346,9 +350,59 @@ struct CUDADeviceResources:
 ```
 
 Budget accounting is conservative and monotonic for a session. Failed MAX
-allocation rolls back its reservation. Dropping a buffer does not fabricate
-immediate pool reuse, and no owning raw pointer is exposed. This resource API
-does not enable an engine compute or inference gateway.
+allocation rolls back its reservation. Three-buffer GPU-3 admission reserves
+one exact atomic total and restores that total if executor construction fails.
+Dropping a buffer does not fabricate immediate pool reuse, and no owning raw
+pointer is exposed.
+
+### `CUDAGemmPlan` and `CUDAF16GemmExecutor` (GPU-3)
+
+`core/cuda_gemm_plan.mojo` provides hardware-independent checked planning for
+the existing `A[M,K] × B[N,K] → C[M,N]` layout. It validates positive
+dimensions, shape products, F16 bytes, Int32 kernel ABI limits, block/grid
+rounding, and both remaining resource budgets.
+
+`core/cuda_compute.mojo` owns the real MAX CUDA kernel and its reusable
+fixed-shape executor. The executor transactionally owns A, B, and C pinned-host
+and device-buffer pairs, borrows their device pointers only for launch, uploads
+both inputs, accumulates each output in F32 on the GPU, downloads C,
+synchronizes, and then publishes every F16 result to the caller's checked host
+tensor.
+
+```mojo
+struct CUDAGemmPlan(Copyable):
+    var m: Int
+    var k: Int
+    var n: Int
+    var a_element_count: Int
+    var b_element_count: Int
+    var c_element_count: Int
+    var total_size_bytes: Int
+    var block_size: Int
+    var grid_size: Int
+
+    def __init__(out self, m: Int, k: Int, n: Int) raises: ...
+    def validate_tensor_shapes(self, a_rows: Int, a_cols: Int, b_rows: Int, b_cols: Int, c_rows: Int, c_cols: Int) raises: ...
+    def validate_budget(self, budget: CUDAResourceBudget) raises: ...
+
+struct CUDAF16GemmExecutor:
+    var plan: CUDAGemmPlan
+    var stable_device_id: String
+    var execution_count: Int
+    var is_usable: Bool
+    var last_failure_message: String
+
+    @staticmethod
+    def create(mut resources: CUDADeviceResources, plan: CUDAGemmPlan) raises -> Self: ...
+    def execute(mut self, a: RuneTensor[f16], b: RuneTensor[f16], mut c: RuneTensor[f16]) raises: ...
+```
+
+The executor performs no allocation during `execute()`. It rejects shape,
+element-count, pointer, quantization, allocation-identity, and live-context
+violations before unsafe access or kernel launch. Any copy, launch, or
+synchronization exception poisons the executor and records the failure so its
+possibly faulted stream cannot be reused. This is a real explicit CUDA GEMM
+boundary, not model integration or an implicit realm-only dispatcher.
 
 ### `CompressedFormatType` (Slice 10)
 Zero-overhead integer discriminant tag naming 21 universal sub-byte, integer, and block-compressed LLM format variants.
@@ -513,9 +567,11 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
 ```
 
 ### Compute Kernels (`compute.mojo`)
-Host Mojo SIMD linear algebra and activation primitives plus reserved
-accelerator gateways. `gemm_f16_npu`, `gemm_f16_gpu`, and `rmsnorm_gpu` raise
-unsupported errors without modifying their outputs. The historically named
+Host Mojo SIMD linear algebra and activation primitives plus one explicit CUDA
+GEMM gateway. `gemm_f16_cuda` requires a caller-owned
+`CUDAF16GemmExecutor`. The older realm-only `gemm_f16_gpu`, all
+`gemm_f16_npu` routes, and `rmsnorm_gpu` remain unsupported because their
+signatures do not carry selected device resources. The historically named
 `gpgpu_vector` and `mobile_opencl` functions are host-only SIMD experiments.
 
 ```mojo
@@ -539,6 +595,7 @@ def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTen
 def gemm_f16_mobile_opencl(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ... # 8-wide Mobile (Mali, Adreno, PowerVR)
 def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5) raises: ...
 def gemm_f16_gpu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises: ... # unsupported gateway
+def gemm_f16_cuda(mut executor: CUDAF16GemmExecutor, A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises: ... # real explicit CUDA F16 GEMM
 # Slice 10 — Universal Compressed LLM Format Matrix Dequantization:
 def dequantize_compressed_tensor(format: CompressedFormatType, data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...
 def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...

@@ -3,6 +3,40 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 119: GPU-3 — Real Reusable CUDA F16 GEMM Gateway
+
+**Date:** August 30, 2026
+**Architectural Phase:** First production-core physical GPU compute slice
+
+1. Added hardware-independent `CUDAGemmPlan` admission for the repository's
+   `A[M,K] × B[N,K] → C[M,N]` convention, including exact products/bytes,
+   Int32 device ABI bounds, launch-tail calculation, shape validation, and
+   remaining-budget checks.
+2. Extended GPU-2 budgeting with atomic three-buffer F16 reservation and exact
+   rollback for failed executor construction.
+3. Added move-only `CUDAF16GemmExecutor`, owning three paired pinned-host/device
+   resources and a selected MAX CUDA context for reusable fixed-shape execution.
+4. Added a genuine CUDA kernel with one output cell per thread, F16 inputs, F32
+   accumulation, tail guards, explicit H2D/D2H operations, synchronization,
+   and checked host output publication.
+5. Added `gemm_f16_cuda()` as the explicit production-core gateway. The older
+   realm-only gateway remains fail-closed; no hidden discovery, global context,
+   budget, allocation, or CPU fallback was introduced.
+6. Added four hardware-independent master-suite cases and an opt-in physical
+   proof covering exact `2×3×4`, unaligned `17×19×23`, three reuse rounds per
+   shape, gateway shape/storage rejection, insufficient-budget accounting, and
+   deliberate post-kernel mismatch detection.
+7. Three independent physical processes passed on the observed RTX 2060 Max-Q.
+   Exact maximum error was `0.0`; tail-shape maximum error was `0.0009613037`.
+   The GPU-3 negative control exited `1`.
+8. GPU-0, GPU-1, and GPU-2 positive hardware regressions passed. GPU-0 and
+   GPU-2 negative controls still exited `1` at their intended mismatches.
+9. The counted CPU suite reports 144 passed, 0 failed, 1 skipped, total 145.
+   `AES-ACC-008` moved from `missing` to narrowly scoped `partial`.
+10. Model inference, persistent device weights, logits/token parity, remaining
+    operators, CLI acceleration, Tensor Core/MMA execution, other GPU/NPU
+    backends, performance, and hardware CI remain open for later slices.
+
 ## Entry 118: GPU-2 — Production CUDA Resource Ownership
 
 **Date:** August 29, 2026

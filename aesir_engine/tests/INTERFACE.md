@@ -86,6 +86,18 @@ def exercise_allocation(mut allocation: CUDAF16Allocation, allocation_tag: Int, 
 def run_resource_session(physical_device: PhysicalDevice, session_round: Int, inject_mismatch: Bool) raises: ...
 def main() raises: ...
 
+# tests/test_cuda_gemm_plan.mojo (CPU-only GPU-3 planning tests)
+def test_cuda_gemm_plan_counts_and_launch() raises: ...
+def test_cuda_gemm_plan_shape_rejection() raises: ...
+def test_cuda_gemm_plan_overflow_and_abi_rejection() raises: ...
+def test_cuda_gemm_batch_budget_transaction() raises: ...
+
+# tests/test_gpu_gemm.mojo (opt-in physical GPU-3 compute proof)
+def validate_output(a: RuneTensor[f16], b: RuneTensor[f16], c: RuneTensor[f16], execution_round: Int, exact_values: Bool, inject_mismatch: Bool) raises -> Scalar[f32]: ...
+def exercise_shape(mut resources: CUDADeviceResources, plan: CUDAGemmPlan, exact_values: Bool, inject_mismatch: Bool) raises -> Scalar[f32]: ...
+def prove_insufficient_budget_rejection(physical_device: PhysicalDevice, plan: CUDAGemmPlan) raises: ...
+def main() raises: ...
+
 # tests/test_sharding.mojo (Slice 6)
 def test_device_topology() raises: ...
 def test_shard_tensor() raises: ...
@@ -201,21 +213,43 @@ Append `--negative-control` to inject a post-transfer mismatch that must exit
 nonzero. This proves resource ownership and transfer integrity on the observed
 host, not GPU compute or model inference.
 
+The hardware-independent GPU-3 plan cases validate exact allocation sizes,
+launch-tail rounding, all three tensor shapes, Int32 device ABI limits,
+overflow rejection, atomic three-buffer reservation, and rollback. They open no
+device and are part of `run_all.mojo`.
+
+The opt-in GPU-3 proof calls the production `gemm_f16_cuda` gateway through two
+reusable fixed-shape executors. It executes `2×3×4` binary-exact GEMM and an
+unaligned `17×19×23` GEMM for three rounds each, proves no execution-time
+allocation, checks every output against an independent host F32 calculation,
+and verifies shape, storage, and insufficient-budget rejection before launch:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_gemm.mojo
+```
+
+Append `--negative-control` to corrupt one expected value only after real GPU
+execution; the command must exit nonzero. This proof establishes one explicit
+CUDA F16 GEMM on the observed MAX host. It does not establish model inference,
+persistent device weights, Tensor Core execution, generalized CUDA support,
+other operators/backends, performance, or hardware CI.
+
 ## Process Contract
 
 - Any existing asserted mismatch in a test invoked by `run_all.main()` raises
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 140 executable named cases and one explicit skip in a
+- The runner registers 144 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(141)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 141.
+- `TestLedger.finish(145)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+  raises after reporting if any case failed or the total is not 145.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
-- `test_gpu_reachability.mojo`, `test_gpu_discovery.mojo`, and
-  `test_gpu_resources.mojo` are intentionally absent from `run_all.mojo` so the
-  default suite stays deterministic and hardware-independent.
+- `test_gpu_reachability.mojo`, `test_gpu_discovery.mojo`,
+  `test_gpu_resources.mojo`, and `test_gpu_gemm.mojo` are intentionally absent
+  from `run_all.mojo` so the default suite stays deterministic and
+  hardware-independent.
 - Synthetic/scaffold assertions establish only their local deterministic
   invariants. They do not establish hardware, format, protocol, network,
   resilience, concurrency, or distributed compatibility.

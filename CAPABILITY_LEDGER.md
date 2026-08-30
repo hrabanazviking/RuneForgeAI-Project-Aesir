@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-2, August 29, 2026
+**Ledger version:** GPU-3, August 30, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -33,13 +33,13 @@ acceptance gate has actually passed.
 
 ## 2. Reproducible Evidence Commands
 
-Run commands from `aesir_engine/` unless stated otherwise.
+Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 140 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 141, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
-| `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
-| `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 144 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 145, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
+| `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
@@ -65,10 +65,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 68 |
-| `partial` | 10 |
+| `partial` | 11 |
 | `scaffold` | 2 |
 | `simulated` | 1 |
-| `missing` | 26 |
+| `missing` | 25 |
 | **Total** | **107** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -961,13 +961,13 @@ the complete ledger population.
 
 ### AES-ACC-008 — GPU execution dispatch
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** CUDA has real MAX enumeration/topology selection and a move-only `CUDADeviceResources` session. It owns the selected MAX context, conservative device/pinned-host budgets, and paired F16 buffers with explicit H2D/D2H copy and synchronization methods. Allocation failure rolls back its reservation; successful accounting is monotonic and cleanup follows MAX reference-counted `Deinitable` lifecycles. Legacy raw-pointer, RMSNorm, GEMM, inference, and CLI GPU gateways remain fail-closed. Metal, Intel, and AMD remain library probes.
-- **Executable evidence:** `E-MASTER` cases `gpu.resource_budget_accounting`, `gpu.resource_budget_transaction`, `gpu.resource_budget_rollback`, and `gpu.resource_policy_admission`, plus the existing accelerator rejection cases; opt-in `MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_resources.mojo` passed two session scopes, two unequal allocations per session, and three synchronized F16 transfer rounds per allocation on the observed RTX 2060 Max-Q. Its `--negative-control` mismatch exited nonzero. GPU-0 kernel reachability and GPU-1 discovery proofs remain separate regression gates.
-- **Evidence boundary:** The external MAX proofs establish resource ownership and transfer reachability on one observed host. They do not establish an A.E.S.I.R. GPU GEMM, model inference, CLI activation, generalized CUDA support, NPU execution, multi-GPU behavior, performance, or hardware CI.
-- **Next acceptance gate:** GPU-3 must connect these owned buffers to one genuine CUDA F16 GEMM and prove full CPU-reference parity, failure propagation, and repeatability before any engine execution promotion; model integration and hardware CI remain later gates.
+- **Implementation evidence:** CUDA has real MAX enumeration/topology selection, move-only selected-device `CUDADeviceResources`, atomic three-buffer F16 budget admission, hardware-independent `CUDAGemmPlan`, and a move-only reusable `CUDAF16GemmExecutor`. `gemm_f16_cuda()` uses those owners to stage A/B, launch a genuine F16-input/F32-accumulation CUDA kernel for the repository's `A[M,K] × B[N,K] → C[M,N]` layout, download C, synchronize, and publish checked output. Execution allocates nothing. The older realm-only GEMM, RMSNorm, Transformer/inference, and CLI GPU gateways remain fail-closed. Metal, Intel, and AMD remain library probes.
+- **Executable evidence:** `E-MASTER` adds `gpu.cuda_gemm_plan_counts`, `gpu.cuda_gemm_plan_shape_rejection`, `gpu.cuda_gemm_plan_abi_rejection`, and `gpu.cuda_gemm_batch_transaction`. Opt-in `MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_gemm.mojo` passed in three independent processes on the observed RTX 2060 Max-Q: three rounds each for exact `2×3×4` and tail `17×19×23`, exact maximum error `0.0`, tail maximum error `0.0009613037`, no execution-time reallocation, gateway shape/storage rejection, and insufficient-budget accounting preservation. Its deliberate post-kernel `--negative-control` mismatch exited `1`. GPU-0/1/2 positive regressions passed and GPU-0/GPU-2 negative controls exited `1`.
+- **Evidence boundary:** This proves one explicit reusable CUDA F16 GEMM through production core ownership on one observed MAX host. It does not prove persistent device-resident model weights, Transformer inference, logits/token parity, RMSNorm/attention/KV kernels, CLI activation, Tensor Core/MMA execution, generalized CUDA or other GPU support, NPU execution, multi-GPU behavior, performance, or hardware CI.
+- **Next acceptance gate:** GPU-4 must place one real model projection's weights persistently on the selected device and prove CPU/GPU logits and token parity without per-call weight staging. Hardware CI and the remaining Transformer operators are later gates.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
@@ -1237,7 +1237,7 @@ the complete ledger population.
 - **Owner:** project documentation and every claiming domain
 - **Claim sources:** this ledger, README, TODO, visions, architecture, interfaces, runtime banners
 - **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, TODO status synchronization, and explicit current-versus-historical claim boundaries in both active vision documents.
-- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves current status rejection and historical exclusion; `python3 scripts/check_doc_drift.py`; `E-MASTER` (**140 passed / 0 failed / 1 skipped / total 141**).
+- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves current status rejection and historical exclusion; `python3 scripts/check_doc_drift.py`; `E-MASTER` (**144 passed / 0 failed / 1 skipped / total 145**).
 - **Evidence boundary:** Checks mechanical ledger/test/doc invariants, active vision status tags, and known fabrication signatures. Historical prose is preserved rather than semantically re-adjudicated; new claim families still require review and gate expansion.
 - **Audit:** AER-003, AER-112, AER-115.
 

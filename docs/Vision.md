@@ -24,6 +24,10 @@ remain claims only where the ledger records executable proof.
   `[partial, AES-FND-005]`.
 - Artifact and fixture prevention gates reject new debt, while 32 exact legacy
   artifacts remain approval-blocked: `[partial, AES-FND-007]`.
+- CUDA now has truthful discovery, selected-device owned resources, and one
+  reusable explicit F16 GEMM with physical CPU-reference evidence:
+  `[partial, AES-ACC-008]`. Model inference, persistent device weights, other
+  GPU operators/backends, CLI acceleration, and hardware CI remain open.
 - Broader acceleration, quantized-model compatibility, services, RAG,
   ecosystems, resilience, swarm, and production-readiness claims must be read
   from the ledger and completion roadmap, not inferred from the historical log.

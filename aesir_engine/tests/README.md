@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 140 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 144 executable named cases
   and one explicit external-fixture skip.
 - **`test_hardware_discovery.mojo`:** Deterministic injected-record tests for
   discovery statuses, validation, accumulation, deduplication, and selection.
@@ -13,6 +13,10 @@ The `tests` domain holds the master test runner and domain-specific verification
   transactional rejection, rollback, overflow, and device-policy admission.
 - **`test_gpu_resources.mojo`:** Opt-in physical GPU-2 selected-context,
   budgeted F16 buffer, synchronized transfer, and scope-cleanup proof.
+- **`test_cuda_gemm_plan.mojo`:** CPU-only GPU-3 shape/product/ABI/launch and
+  transactional three-buffer budget verification.
+- **`test_gpu_gemm.mojo`:** Opt-in physical GPU-3 production-gateway F16 GEMM,
+  independent F32 parity, reuse, failure, and negative-control proof.
 - **`test_ledger.mojo`:** Tests-domain pass/fail/skip ledger, per-case error
   boundary, stable result lines, ordered failure details, and terminal status.
 - **`test_compute.mojo`:** Unit tests for GEMM, Flash Attention-2, SiLU, GeGLU, and Q4_K_M dequantization.
@@ -37,7 +41,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 141 reportable cases, it prints unique
+and continues with later cases. After all 145 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -45,10 +49,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 140
+[SUMMARY] Passed: 144
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 141
+[SUMMARY] Total: 145
 [SUMMARY] Status: PASS
 ```
 
@@ -56,13 +60,16 @@ The historical Forge 0B negative gate deliberately corrupted the F16 type expect
 The runner recorded `gguf.type_constants` as failed, continued through the final
 swarm case, reported 48/1/1/50, and exited 1 after the summary. Exact restoration
 returned that Forge's suite to 49/0/1/50 and exit 0. Later stages expanded the
-current baseline to 140/0/1/141; the consistency checker mechanically keeps
+current baseline to 144/0/1/145; the consistency checker mechanically keeps
 the runner total and capability ledger synchronized.
 
 ## How to Run
+
+Run the master suite from the repository root so tracked configuration fixtures
+resolve through their production-relative paths:
+
 ```bash
-cd aesir_engine
-pixi run mojo run tests/run_all.mojo
+pixi run mojo run aesir_engine/tests/run_all.mojo
 ```
 
 Run the opt-in physical GPU-2 resource proof from the repository root:
@@ -73,6 +80,16 @@ MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/
 
 Its `--negative-control` form must exit nonzero after injecting one transfer
 mismatch. Neither command is part of hosted CPU CI.
+
+Run the opt-in production GPU-3 CUDA GEMM proof from the repository root:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_gemm.mojo
+```
+
+Its `--negative-control` form must exit nonzero after corrupting an independently
+computed expectation. The normal command executes two shapes for three rounds
+each through the reusable production gateway; it is not part of hosted CPU CI.
 
 Run the real-model proof with the pinned fixture and oracle described in the
 root `fixture_manifest.json` and `TASK_verified_multi_token_generation.md`:
