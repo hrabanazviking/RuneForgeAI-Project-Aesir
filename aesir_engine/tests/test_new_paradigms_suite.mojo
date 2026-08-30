@@ -112,8 +112,8 @@ def test_thinking_and_tool_use() raises:
 
 def test_smart_crash_and_max() raises:
     var reporter = SmartCrashReporter()
-    var r1 = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    var r2 = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
+    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
+    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
     var r3 = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
     if not reporter.failsafe_mode_active:
         raise Error("test_smart_crash_and_max: Failsafe mode not activated after 3 crashes")

@@ -276,8 +276,6 @@ struct TaskDispatcher(Copyable):
         if len(node.node_id.as_bytes()) == 0 or len(task_name.as_bytes()) == 0:
             raise Error("node id and task name must not be empty")
         raise Error("TaskDispatcher is not implemented")
-        self.active_tasks += 1
-        return "DISPATCHED_TO_" + node.node_id + "_TASK_" + task_name
 
 
 struct SwarmCluster(Copyable):

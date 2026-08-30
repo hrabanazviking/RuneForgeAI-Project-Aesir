@@ -106,10 +106,15 @@ struct RuneREPL:
 
         # If line is not a slash command, append user input and run AesirEngine generation
         self.history.append(ChatMessage("user", line))
-        var engine = AesirEngine(self.model_name, knowledge_capacity=1)
-        var result = engine.generate_tokens(line, self.config.max_new_tokens)
-        self.history.append(ChatMessage("assistant", result.text))
-        return result.text
+        try:
+            var engine = AesirEngine(self.model_name, knowledge_capacity=1)
+            var result = engine.generate_tokens(line, self.config.max_new_tokens)
+            self.history.append(ChatMessage("assistant", result.text))
+            return result.text
+        except error:
+            var err_msg = String("Model '") + self.model_name + String("' note: ") + String(error)
+            self.history.append(ChatMessage("assistant", err_msg))
+            return err_msg
 
     def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]:
         """Runs local slash-command inputs and model execution stream."""

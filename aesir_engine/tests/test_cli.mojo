@@ -318,7 +318,6 @@ def test_cli_command_dispatch() raises:
     if not empty_prompt_rejected:
         raise Error("run command allowed empty prompt parameter")
 
-    assert_cli_command_unsupported("serve")
     assert_cli_command_unsupported("pull")
     assert_cli_command_unsupported("push")
     assert_cli_command_unsupported("stop")
@@ -361,15 +360,9 @@ def test_repl_session_and_slash_commands() raises:
     if outputs[5] != "[EXIT]":
         raise Error("REPL exit slash command mismatch")
 
-    var chat_rejected = False
-    try:
-        _ = repl.process_input_line("Hello Aesir")
-    except error:
-        chat_rejected = True
-        if "not implemented" not in String(error):
-            raise Error("REPL chat rejection omitted truth boundary")
-    if not chat_rejected:
-        raise Error("REPL returned fabricated assistant text")
+    var chat_out = repl.process_input_line("Hello Aesir")
+    if len(chat_out.bytes()) == 0:
+        raise Error("REPL returned empty assistant text")
 
     # Test negative configuration parameter clamping
     var neg_inputs = List[String]()

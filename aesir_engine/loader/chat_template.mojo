@@ -115,25 +115,17 @@ struct RuneChatTemplate(Copyable):
             if messages[i].role == "system":
                 system_prompt = safe_content
             elif messages[i].role == "user":
-                if not in_inst:
-                    prompt += "[INST] "
-                    if system_prompt != "":
-                        prompt += "<<SYS>>\n" + system_prompt + "\n<</SYS>>\n\n"
-                        system_prompt = ""
-                    in_inst = True
+                prompt += "[INST] "
+                if system_prompt != "":
+                    prompt += "<<SYS>>\n" + system_prompt + "\n<</SYS>>\n\n"
+                    system_prompt = ""
                 prompt += safe_content + " [/INST]"
-                in_inst = False
             elif messages[i].role == "assistant":
                 prompt += " " + safe_content + " "
             elif messages[i].role == "tool":
-                if not in_inst:
-                    prompt += "[INST] Tool Response:\n"
-                    in_inst = True
-                prompt += safe_content + " [/INST]"
-                in_inst = False
+                prompt += "[INST] Tool Response:\n" + safe_content + " [/INST]"
 
-        if in_inst:
-            prompt += " [/INST]"
+        _ = in_inst
         return prompt
 
     def format_chat(self, messages: List[ChatMessage]) raises -> String:
