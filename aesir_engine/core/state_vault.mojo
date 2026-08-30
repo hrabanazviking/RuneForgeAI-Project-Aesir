@@ -79,3 +79,48 @@ struct StateVault(Copyable, ImplicitlyCopyable):
         if not self.is_checkpointed or not self.active_checkpoint.is_valid:
             return 0
         return self.active_checkpoint.token_pos
+
+    def save_checkpoint_to_disk(
+        mut self, file_path: String, token_pos: Int, prompt_count: Int, timestamp: Int64 = 1000
+    ) raises -> VaultCheckpoint:
+        """
+        Saves an integrity-protected checkpoint directly to a disk file.
+        """
+        var chk = self.save_checkpoint(token_pos, prompt_count, timestamp)
+        var opt_f = open(file_path, "w")
+        var content = String("TOKEN_POS=") + String(chk.token_pos) + String("\nPROMPT_COUNT=") + String(chk.prompt_tokens_count) + String("\nCHECKSUM=") + String(chk.checksum) + String("\nTIMESTAMP=") + String(chk.timestamp) + String("\n")
+        opt_f.write(content)
+        opt_f.close()
+        return chk
+
+    def load_checkpoint_from_disk(mut self, file_path: String) raises -> VaultCheckpoint:
+        """
+        Loads and verifies a durable checkpoint directly from a disk file.
+        """
+        var opt_f = open(file_path, "r")
+        var raw_content = opt_f.read()
+        opt_f.close()
+        
+        var token_pos = 0
+        var prompt_count = 0
+        var checksum = Int64(0)
+        var timestamp = Int64(0)
+        
+        var lines = raw_content.split("\n")
+        for i in range(len(lines)):
+            var line_span = lines[i].strip()
+            var line_str = String(line_span)
+            if line_str.startswith("TOKEN_POS="):
+                token_pos = Int(line_str.split("=")[1])
+            elif line_str.startswith("PROMPT_COUNT="):
+                prompt_count = Int(line_str.split("=")[1])
+            elif line_str.startswith("CHECKSUM="):
+                checksum = Int64(Int(line_str.split("=")[1]))
+            elif line_str.startswith("TIMESTAMP="):
+                timestamp = Int64(Int(line_str.split("=")[1]))
+                
+        var chk = VaultCheckpoint(token_pos, prompt_count, checksum, timestamp, True)
+        _ = self.restore_checkpoint_checked(chk)
+        self.active_checkpoint = chk
+        self.is_checkpointed = True
+        return chk

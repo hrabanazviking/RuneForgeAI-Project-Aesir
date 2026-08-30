@@ -73,8 +73,17 @@ def test_state_vault() raises:
         print("FAIL: StateVault accepted negative prompt_count")
         success = False
 
+    # Test disk file checkpointing
+    var tmp_path = String("/tmp/aesir_vault_test.chk")
+    var _3 = vault.save_checkpoint_to_disk(tmp_path, 256, 32, 2000)
+    var loaded_vault = StateVault()
+    var loaded_chk = loaded_vault.load_checkpoint_from_disk(tmp_path)
+    if loaded_chk.token_pos != 256 or loaded_chk.prompt_tokens_count != 32:
+        print("FAIL: StateVault disk checkpoint token_pos/prompt_count mismatch")
+        success = False
+
     if success:
-        print("StateVault in-memory marker: PASS")
+        print("StateVault in-memory & disk durable checkpoint: PASS")
     else:
         raise Error("StateVault scaffold invariant mismatch")
 

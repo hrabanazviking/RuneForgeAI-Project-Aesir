@@ -7,7 +7,7 @@ from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, sample_token_from_logits
 from core.session import SessionContext, SessionManager
 from core.supervisor import SelfHealingSupervisor
-from core.state_vault import StateVault
+from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster
@@ -355,6 +355,20 @@ struct AesirEngine:
         if "token_embd.weight" in self.parser.tensors:
             hidden_dim = self.parser.tensors["token_embd.weight"].cols
         return ingest_corpus_batch(self.knowledge_base, chunks, self.pool, hidden_dim)
+
+    def save_checkpoint(mut self, file_path: String, token_pos: Int, prompt_count: Int) raises -> VaultCheckpoint:
+        """
+        Saves an integrity-protected engine checkpoint to disk using StateVault.
+        """
+        var vault = StateVault()
+        return vault.save_checkpoint_to_disk(file_path, token_pos, prompt_count)
+
+    def load_checkpoint(mut self, file_path: String) raises -> VaultCheckpoint:
+        """
+        Loads and verifies a durable engine checkpoint from disk using StateVault.
+        """
+        var vault = StateVault()
+        return vault.load_checkpoint_from_disk(file_path)
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """
