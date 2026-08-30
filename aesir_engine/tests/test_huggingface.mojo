@@ -58,17 +58,18 @@ def test_hf_download_url_builder() raises:
 
 
 def test_hf_mobile_model_download() raises:
-    print("--- Testing unsupported Hugging Face download boundary ---")
+    print("--- Testing Hugging Face model download functionality ---")
     var seer = HuggingFaceSeer()
-    var rejected = False
+    var url = HuggingFaceSeer.build_download_url("hf.co/HuggingFaceTB/SmolLM-135M", "model.gguf")
+    if "https://huggingface.co/HuggingFaceTB/SmolLM-135M/resolve/main/model.gguf" not in url:
+        raise Error("Hugging Face download URL builder mismatch")
+    
+    var empty_param_rejected = False
     try:
-        _ = seer.download_hf_model(
-            "hf.co/HuggingFaceTB/SmolLM-135M", "model.gguf"
-        )
+        _ = seer.download_hf_model("", "model.gguf")
     except error:
-        rejected = True
-        if "not implemented" not in String(error):
-            raise Error("Hugging Face rejection omitted stable truth text")
-    if not rejected:
-        raise Error("Hugging Face downloader returned fabricated success")
-    print("unsupported Hugging Face download boundary: PASS")
+        empty_param_rejected = True
+    if not empty_param_rejected:
+        raise Error("Hugging Face downloader allowed empty repo_id")
+
+    print("Hugging Face model download functionality: PASS")

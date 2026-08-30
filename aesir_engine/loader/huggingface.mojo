@@ -1,6 +1,8 @@
 # loader/huggingface.mojo
 # HuggingFaceSeer: repository tag and resolve-URL helpers
 
+from std.ffi import external_call
+
 struct HuggingFaceSeer:
     """
     ᚺᛢᚷᚷᛁ᛾ᚷ·ᚠᚨᚲᛖ·ᛋᛖᛖᚱ — The Vision of the HuggingFace Hub (HuggingFaceSeer)
@@ -65,13 +67,23 @@ struct HuggingFaceSeer:
         res += filename
         return res
 
-    def download_hf_model(self, repo_id: String, filename: String) raises -> Bool:
+    def download_hf_model(self, repo_id: String, filename: String, dest_path: String = "") raises -> Bool:
         """
         ᛞᛟᚹᚾᛚᛟᚨᛞ·ᚺᚠ·ᛗᛟᛞᛖᛚ — The Stream Downloader & Weight Inscription (download_hf_model)
         ══════════════════════════════════════════════════════════════════════════
-        Preserves the public download surface while rejecting the unimplemented
-        HTTPS, integrity, and storage operation.
+        Downloads GGUF weights directly from HuggingFace CDN to dest_path via HTTPS stream.
         """
-        _ = repo_id
-        _ = filename
-        raise Error("Hugging Face model download is not implemented")
+        if len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0:
+            raise Error("HuggingFaceSeer.download_hf_model: repo_id and filename must not be empty")
+        var url = HuggingFaceSeer.build_download_url(repo_id, filename)
+        var out_file = dest_path
+        if len(out_file.bytes()) == 0:
+            out_file = filename
+
+        var cmd = String("curl -sSL \"") + url + String("\" -o \"") + out_file + String("\"")
+        var cmd_bytes = cmd.as_bytes()
+        var ret = external_call["system", Int32](cmd_bytes.unsafe_ptr().unsafe_bitcast[Int8]())
+        _ = cmd_bytes
+        if ret != 0:
+            raise Error("Failed to download model from Hugging Face: " + url)
+        return True
