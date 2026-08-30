@@ -552,7 +552,11 @@ struct AesirEngine:
             var response_text = String("")
             var stop_reason = String("")
 
-            for _ in range(gen_config.max_new_tokens):
+            var effective_limit = gen_config.max_new_tokens
+            if effective_limit <= 0:
+                effective_limit = max(1, target_context_len - len(tokens))
+
+            for _ in range(effective_limit):
                 if is_cancelled:
                     stop_reason = "cancelled"
                     break
@@ -577,22 +581,12 @@ struct AesirEngine:
                 var matched_stop_string = False
                 for s_idx in range(len(gen_config.stop_strings)):
                     var stop_str = gen_config.stop_strings[s_idx]
-                    if stop_str in response_text:
+                    if stop_str.byte_length() > 0 and stop_str in response_text:
                         stop_reason = "stop_string"
                         var match_pos = response_text.find(stop_str)
                         if match_pos > 0:
-                            var raw_b = response_text.as_bytes()
-                            var valid_end = match_pos
-                            while valid_end > 0 and (raw_b[valid_end - 1] & 0xC0) == 0x80:
-                                valid_end -= 1
-                            if valid_end > 0:
-                                var clean_b = List[Int8]()
-                                for b_i in range(valid_end):
-                                    clean_b.append(Int8(raw_b[b_i]))
-                                clean_b.append(0)
-                                response_text = String(unsafe_from_utf8_ptr=clean_b.unsafe_ptr())
-                            else:
-                                response_text = String("")
+                            var sliced_str = String(response_text[codepoint=0:match_pos])
+                            response_text = sliced_str
                         else:
                             response_text = String("")
                         matched_stop_string = True

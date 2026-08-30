@@ -55,30 +55,12 @@ struct RuneChatTemplate(Copyable):
 
     @staticmethod
     def escape_control_tokens(content: String) -> String:
-        """Sanitizes raw prompt control tokens from message content payloads using UTF-8 safe byte scanning."""
-        var raw_b = content.as_bytes()
-        var n_bytes = len(raw_b)
-        if n_bytes == 0:
-            return String("")
-        
-        var clean_b = List[Int8]()
-        var i = 0
-        while i < n_bytes:
-            if i + 12 <= n_bytes and content[byte=i : i + 12] == "<|im_start|>":
-                for b_c in "[im_start]".as_bytes():
-                    clean_b.append(Int8(b_c))
-                i += 12
-                continue
-            if i + 10 <= n_bytes and content[byte=i : i + 10] == "<|im_end|>":
-                for b_c in "[im_end]".as_bytes():
-                    clean_b.append(Int8(b_c))
-                i += 10
-                continue
-            clean_b.append(Int8(raw_b[i]))
-            i += 1
-            
-        clean_b.append(0)
-        return String(unsafe_from_utf8_ptr=clean_b.unsafe_ptr())
+        """Sanitizes raw prompt control tokens from message content payloads using UTF-8 safe string replacement."""
+        if "<|im_start|>" not in content and "<|im_end|>" not in content:
+            return content
+        var res = content.replace("<|im_start|>", "[im_start]")
+        res = res.replace("<|im_end|>", "[im_end]")
+        return res
 
     def format_chatml(self, messages: List[ChatMessage]) raises -> String:
         """Formats messages in ChatML standard (<|im_start|>role\ncontent<|im_end|>\n)."""
