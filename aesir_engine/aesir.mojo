@@ -15,6 +15,7 @@ from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
+from loader.corpus_ingestion import chunk_text, ingest_corpus_batch
 
 
 def calculate_runtime_pool_bytes(
@@ -345,6 +346,16 @@ struct AesirEngine:
 
         return query_vector^
 
+    def ingest_document(mut self, text: String) raises -> Int:
+        """
+        Ingests raw document text into the engine's MimirStore knowledge base for RAG retrieval.
+        """
+        var chunks = chunk_text(text, 256, 32)
+        var hidden_dim = 128
+        if "token_embd.weight" in self.parser.tensors:
+            hidden_dim = self.parser.tensors["token_embd.weight"].cols
+        return ingest_corpus_batch(self.knowledge_base, chunks, self.pool, hidden_dim)
+
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """
         Applies end-to-end RAG grounded context augmentation with budget enforcement and citations.
@@ -354,7 +365,7 @@ struct AesirEngine:
             var hidden_dim = self.parser.config.embedding_length
             if "token_embd.weight" in self.parser.tensors:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
-            if hidden_dim <= 0 or "token_embd.weight" not in self.parser.tensors:
+            if hidden_dim <= 0:
                 return prompt
             var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)
