@@ -6,11 +6,10 @@ All offsets and extents must be validated by the loader/session before launch.
 from std.memory import Pointer, bitcast
 from std.gpu import global_idx
 from std.gpu.primitives import warp
-from std.math import sqrt, exp, log, cos, sin
+from std.math import sqrt, exp, log, cos, sin, tanh
 @always_inline
 def fast_fast_tanh(x: Float32) -> Float32:
-    var e2x = exp(2.0 * x)
-    return (e2x - 1.0) / (e2x + 1.0)
+    return tanh(x)
 
 
 comptime Bytes = Pointer[UInt8, MutUntrackedOrigin]
@@ -112,8 +111,7 @@ def norm_kernel(w: Bytes, a: Floats, weight_arg: Int64, src_arg: Int64, dst_arg:
 
 @always_inline
 def fast_tanh(x: Float32) -> Float32:
-    var e2x = exp(2.0 * x)
-    return (e2x - 1.0) / (e2x + 1.0)
+    return tanh(x)
 
 def element_kernel(w: Bytes, a: Floats, op_arg: Int64, src_arg: Int64, second_arg: Int64, dst_arg: Int64, count_arg: Int64, scale: Float32):
     var op = Int(op_arg)

@@ -1,5 +1,24 @@
 # Project Aesir Devlog
 
+## Entry 123: Integration regressions and CPU packed-weight proof
+
+**Date:** August 30, 2026
+
+**Roles:** Forge Worker, Auditor, Scribe
+
+Integrated concurrent Gemma 3 development from `0d29839` without overwriting
+the new architecture work. Restored pinned Hugging Face argument/size/digest
+checks and disabled failure assertions. Corrected unconditional Gemma scaling
+and normalization on Llama, speculative matrix transposes, token wrapping,
+out-of-bounds debug reads and overflowing CUDA tanh. The CPU oracle again
+matches all 32 tokens. Q4_K/Q6_K CPU matmul uses canonical GGUF bytes and the
+independently checked packed decoder; 25 real Stheno row comparisons pass
+with maximum absolute difference 0.00018817186 after F16 output rounding.
+Known-value raw Q4_K/Q5_0/Q6_K tests now assert rather than suppress failures.
+Fixed the new tests' arena lifetime through their last borrowed-pointer read.
+Master: 152 passed, 0 failed, 1 skipped. Full Gemma 3 CPU model parity remains
+unverified; retained development paths do not establish that claim.
+
 ## Entry 122: Native hardware reporting and checked execution planning
 
 **Date:** August 30, 2026

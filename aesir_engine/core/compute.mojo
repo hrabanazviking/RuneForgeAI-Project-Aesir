@@ -5,6 +5,7 @@
 # We bypass the bloated abstractions of Midgard, striking the silicon directly
 # through SIMD and parallelized runic operations.
 
+from core.gemma4_kernels import packed_value
 from std.math import exp, max, sqrt, cos, sin, isinf, isnan
 from std.memory import Pointer, alloc
 from std.algorithm import vectorize
@@ -1563,70 +1564,21 @@ def gemm_q2_k(
             C.set(row, output_index, sum.cast[f16]())
 
 
-def gemm_q6_k(
-    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
-) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_q6_k: matrix dimensions must be positive")
-    var is_transposed = (B.rows == C.cols or B.cols == A.cols)
-    if is_transposed:
-        if C.rows != A.rows or (C.cols != B.rows and C.cols != B.cols):
-            raise Error("gemm_q6_k: shape mismatch (transposed)")
-    else:
-        if A.cols != B.rows or C.rows != A.rows or C.cols != B.cols:
-            raise Error("gemm_q6_k: shape mismatch (non-transposed)")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = C.cols
-    var blocks_per_row = shared_dim // 256
-    var bytes_ptr = B.data.unsafe_bitcast[UInt8]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Float32 = 0.0
-            var row_byte_offset = output_index * blocks_per_row * 210
-            for b in range(blocks_per_row):
-                var p = row_byte_offset + b * 210
-                var d_ptr = bytes_ptr.unsafe_offset(p + 208).unsafe_bitcast[Scalar[f16]]()
-                var d = d_ptr.unsafe_load().cast[DType.float32]()
-                var block_col_idx = b * 256
-
-                for n in range(2):
-                    var n_offset = n * 64
-                    var ql_p = p + n * 64
-                    var qh_p = p + 128 + n * 32
-                    var sc_p = p + 192 + n * 8
-
-                    for l in range(32):
-                        var sc_byte = bytes_ptr.unsafe_load(sc_p + l // 4).cast[DType.int8]()
-                        var ql0 = Int(bytes_ptr.unsafe_load(ql_p + l)) & 15
-                        var ql1 = Int(bytes_ptr.unsafe_load(ql_p + l + 32)) & 15
-                        var ql2 = Int(bytes_ptr.unsafe_load(ql_p + l)) >> 4
-                        var ql3 = Int(bytes_ptr.unsafe_load(ql_p + l + 32)) >> 4
-
-                        var qh_byte0 = Int(bytes_ptr.unsafe_load(qh_p + l))
-
-                        var qh0 = (qh_byte0 >> 0) & 3
-                        var qh1 = (qh_byte0 >> 2) & 3
-                        var qh2 = (qh_byte0 >> 4) & 3
-                        var qh3 = (qh_byte0 >> 6) & 3
-
-                        var q0 = Float32((ql0 | (qh0 << 4)) - 32)
-                        var q1 = Float32((ql1 | (qh1 << 4)) - 32)
-                        var q2 = Float32((ql2 | (qh2 << 4)) - 32)
-                        var q3 = Float32((ql3 | (qh3 << 4)) - 32)
-
-                        var scale_f32 = d * Float32(sc_byte)
-
-                        var a0 = A.data.unsafe_load(row * shared_dim + block_col_idx + n_offset + l).cast[DType.float32]()
-                        var a1 = A.data.unsafe_load(row * shared_dim + block_col_idx + n_offset + l + 32).cast[DType.float32]()
-                        var a2 = A.data.unsafe_load(row * shared_dim + block_col_idx + n_offset + l + 64).cast[DType.float32]()
-                        var a3 = A.data.unsafe_load(row * shared_dim + block_col_idx + n_offset + l + 96).cast[DType.float32]()
-
-                        sum += scale_f32 * (a0 * q0 + a1 * q1 + a2 * q2 + a3 * q3)
-
-            C.set(row, output_index, Scalar[f16](sum))
+def gemm_q6_k(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    """CPU F32 accumulation over canonical GGUF packed bytes, B[N,K]."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols != A.cols or A.cols % 256 != 0:
+        raise Error("gemm_q6_k: invalid shape or incomplete quantization block")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_q6_k: output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_q6_k: invalid storage")
+    var weights = B.data.unsafe_bitcast[UInt8]()
+    for row in range(A.rows):
+        for output in range(B.rows):
+            var total: Float32 = 0
+            for col in range(A.cols):
+                total += A.data.unsafe_load(row * A.cols + col).cast[f32]() * packed_value(weights, 0, 14, output * A.cols + col)
+            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
 
 
 def gemm_q3_k_m(
@@ -1770,57 +1722,21 @@ def gemm_q5_k_s(
     gemm_q5_k_m(A, B, C)
 
 
-def gemm_q4_k_m(
-    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
-) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_q4_k_m: matrix dimensions must be positive")
-    var is_transposed = (B.cols == A.cols)
-    if is_transposed:
-        if C.rows != A.rows or C.cols != B.rows:
-            raise Error("gemm_q4_k_m: output matrix shape mismatch (transposed)")
-    else:
-        if A.cols != B.rows:
-            raise Error("gemm_q4_k_m: inner matrix dimension mismatch")
-        if C.rows != A.rows or C.cols != B.cols:
-            raise Error("gemm_q4_k_m: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows if is_transposed else B.cols
-    var blocks_per_row = shared_dim // 256
-
-    var bytes_ptr = B.data.unsafe_bitcast[UInt8]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Float32 = 0.0
-            var row_byte_offset = output_index * blocks_per_row * 144
-            for b in range(blocks_per_row):
-                var p = row_byte_offset + b * 144
-                var d = bytes_ptr.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-                var min_val = bytes_ptr.unsafe_offset(p + 2).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-                var block_col_idx = b * 256
-
-                for j in range(256):
-                    var g = j // 32
-                    var scale_val: Int
-                    var minimum_val: Int
-                    if g < 4:
-                        scale_val = Int(bytes_ptr.unsafe_load(p + 4 + g)) & 63
-                        minimum_val = Int(bytes_ptr.unsafe_load(p + 8 + g)) & 63
-                    else:
-                        scale_val = (Int(bytes_ptr.unsafe_load(p + 8 + g)) & 15) | ((Int(bytes_ptr.unsafe_load(p + (g - 4))) >> 6) << 4)
-                        minimum_val = (Int(bytes_ptr.unsafe_load(p + 8 + g)) >> 4) | ((Int(bytes_ptr.unsafe_load(p + 4 + (g - 4))) >> 6) << 4)
-
-                    var qs_idx = p + 16 + (j // 64) * 32 + (j % 32)
-                    var q_byte = Int(bytes_ptr.unsafe_load(qs_idx))
-                    var q_val = (q_byte >> (4 * (g % 2))) & 15
-                    var w_val = d * Float32(scale_val * q_val) - min_val * Float32(minimum_val)
-                    var a_val = A.data.unsafe_load(row * shared_dim + block_col_idx + j).cast[DType.float32]()
-                    sum += a_val * w_val
-
-            C.set(row, output_index, Scalar[f16](sum))
+def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
+    """CPU F32 accumulation over canonical GGUF packed bytes, B[N,K]."""
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols != A.cols or A.cols % 256 != 0:
+        raise Error("gemm_q4_k_m: invalid shape or incomplete quantization block")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_q4_k_m: output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_q4_k_m: invalid storage")
+    var weights = B.data.unsafe_bitcast[UInt8]()
+    for row in range(A.rows):
+        for output in range(B.rows):
+            var total: Float32 = 0
+            for col in range(A.cols):
+                total += A.data.unsafe_load(row * A.cols + col).cast[f32]() * packed_value(weights, 0, 12, output * A.cols + col)
+            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
 
 
 def gemm_gptq_4bit(
@@ -2297,14 +2213,19 @@ def gemm_ternary_158(
 def gemm_f16(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
+    """
+    Host Mojo SIMD/scalar-tail F16 matrix multiplication with F32 accumulation.
+    This function does not execute CUDA, Tensor Core, or MMA instructions.
+    """
     if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
         raise Error("gemm_f16: matrix dimensions must be positive")
+    if A.cols != B.cols:
+        raise Error("gemm_f16: inner matrix dimension mismatch")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_f16: output matrix shape mismatch")
 
     if B.is_quantized:
-        if B.quant_format.value == CompressedFormatType.Q4_K_M or B.quant_format.value == CompressedFormatType.Q4_K_S:
-            gemm_q4_k_m(A, B, C)
-            return
-        elif B.quant_format.value == CompressedFormatType.Q4_0:
+        if B.quant_format.value == CompressedFormatType.Q4_0:
             gemm_q4_0(A, B, C)
             return
         elif B.quant_format.value == CompressedFormatType.Q4_1:
@@ -2374,26 +2295,35 @@ def gemm_f16(
         elif B.quant_format.value == CompressedFormatType.TERNARY_155BIT:
             gemm_ternary_158(A, B, C)
             return
-        
-
+        elif B.quant_format.value == CompressedFormatType.Q4_K_M or B.quant_format.value == CompressedFormatType.Q4_K_S:
+            gemm_q4_k_m(A, B, C)
+            return
+        else:
+            raise Error("autotune_quantized_gemm: unrecognized or unsupported quantization format discriminant")
 
     var rows = A.rows
     var shared_dim = A.cols
-    var is_transposed = (B.rows == shared_dim)
-    var output_dim = B.cols if is_transposed else B.rows
+    var output_dim = B.rows
     var simd_end = (shared_dim // simd_w_f16) * simd_w_f16
 
     for row in range(rows):
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
-            for inner in range(shared_dim):
-                var input_val = A.data.unsafe_load(row * shared_dim + inner).cast[f32]()
-                var weight_val: Float32 = 0.0
-                if B.cols == shared_dim:
-                    weight_val = B.data.unsafe_load(output_index * B.cols + inner).cast[f32]()
-                else:
-                    weight_val = B.data.unsafe_load(inner * B.cols + output_index).cast[f32]()
-                sum += input_val * weight_val
+            for inner in range(0, simd_end, simd_w_f16):
+                var input_values = A.data.unsafe_load[width=simd_w_f16](
+                    row * shared_dim + inner
+                ).cast[f32]()
+                var weight_values = B.data.unsafe_load[width=simd_w_f16](
+                    output_index * shared_dim + inner
+                ).cast[f32]()
+                sum += (input_values * weight_values).reduce_add()
+            for inner in range(simd_end, shared_dim):
+                sum += (
+                    A.data.unsafe_load(row * shared_dim + inner).cast[f32]()
+                    * B.data.unsafe_load(
+                        output_index * shared_dim + inner
+                    ).cast[f32]()
+                )
             C.set(row, output_index, sum.cast[f16]())
 
 
@@ -2825,19 +2755,19 @@ def rmsnorm(
 
         var inv_rms = 1.0 / sqrt(ss / Float32(hidden_dim) + epsilon)
 
-        # Normalize and apply Gemma (1.0 + weight) scaling
+        # Normalize and apply weight
         for c in range(0, simd_end, simd_w_f16):
             var x = T.data.unsafe_load[width=simd_w_f16](r * hidden_dim + c).cast[f32]()
             var w = weight.data.unsafe_load[width=simd_w_f16](c).cast[f32]()
             var normalized = x * inv_rms
             T.data.unsafe_store[width=simd_w_f16](
-                r * hidden_dim + c, (normalized * (1.0 + w)).cast[f16]()
+                r * hidden_dim + c, (normalized * w).cast[f16]()
             )
         for c in range(simd_end, hidden_dim):
             var x = T.data.unsafe_load(r * hidden_dim + c).cast[f32]()
             var w = weight.data.unsafe_load(c).cast[f32]()
             var normalized = x * inv_rms
-            T.data.unsafe_store(r * hidden_dim + c, (normalized * (1.0 + w)).cast[f16]())
+            T.data.unsafe_store(r * hidden_dim + c, (normalized * w).cast[f16]())
 
 
 def apply_rope(

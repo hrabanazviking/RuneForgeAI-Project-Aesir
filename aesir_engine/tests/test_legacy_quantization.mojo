@@ -91,47 +91,30 @@ def test_q4_1_parity() raises:
 
 
 def test_q5_0_parity() raises:
-    print("--- Testing fused Q5_0 GEMM parity against uncompressed gemm_f16 ---")
-    var well = MimirWell(1024 * 1024)
-    var block_layout = Layout[BlockQ5_0](count=1)
-    var block_alloc = alloc(block_layout)
-    var block_mem = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ5_0]()
-    
-    # scale = 0.5, qh = 0x01 (1st element high bit set = 1), qs = 0x31
-    block_mem[] = BlockQ5_0(
-        scale=Scalar[f16](0.5),
-        qh=SIMD[DType.uint8, 4](0x01),
-        qs=SIMD[DType.uint8, 16](0x31)
-    )
+    """Known-value raw GGUF regression, independent of legacy padded structs."""
+    var well = MimirWell(8192)
+    var raw = well.allocate(22).unsafe_bitcast[UInt8]()
+    for i in range(22):
+        raw.unsafe_store(i, UInt8(0))
+    raw.unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.5))
+    for i in range(4):
+        raw.unsafe_store(2 + i, UInt8(1))
+    for i in range(16):
+        raw.unsafe_store(6 + i, UInt8(49))
+    # Sixteen low codes 1, sixteen high codes 3; four extra high bits.
+    var expected = Float32(-192)
 
-    var f16_w_ptr = well.allocate(32)
-    dequantize_q5_0(block_mem, f16_w_ptr, 1)
-
-    var B_f16 = RuneTensor[f16](1, 32, f16_w_ptr, False)
-    var quant_w_ptr = block_mem.unsafe_bitcast[Scalar[f16]]()
-    var B_quant = RuneTensor[f16](1, 32, quant_w_ptr, True, CompressedFormatType(CompressedFormatType.Q5_0))
-
-    var a_ptr = well.allocate(32)
+    var input = well.allocate(32)
     for i in range(32):
-        a_ptr.unsafe_store(i, Scalar[f16](1.0))
-    var A = RuneTensor[f16](1, 32, a_ptr, False)
-
-    var c1_ptr = well.allocate(1)
-    var c2_ptr = well.allocate(1)
-    var C1 = RuneTensor[f16](1, 1, c1_ptr, False)
-    var C2 = RuneTensor[f16](1, 1, c2_ptr, False)
-
-    gemm_f16(A, B_f16, C1)
-    gemm_f16(A, B_quant, C2)
-
-    var val1 = C1.data.unsafe_load(0)
-    var val2 = C2.data.unsafe_load(0)
-    var diff = val1 - val2
-    if diff < 0:
-        diff = -diff
-    if diff > 0.01:
-        _ = diff
-    print("fused Q5_0 GEMM parity: PASS")
+        input.unsafe_store(i, Float16(1))
+    var A = RuneTensor[f16](1, 32, input, False)
+    var B = RuneTensor[f16](1, 32, raw.unsafe_bitcast[Float16](), True, CompressedFormatType(CompressedFormatType.Q5_0))
+    var C = RuneTensor[f16](1, 1, well.allocate(1), False)
+    gemm_f16(A, B, C)
+    if C.data.unsafe_load().cast[f32]() != expected:
+        raise Error("Raw Q5_0 matvec known-value mismatch")
+    _ = well  # Keep the arena alive through every borrowed-pointer read.
+    print("raw Q5_0 matvec: PASS")
 
 
 def test_q5_1_parity() raises:

@@ -6,53 +6,29 @@ from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f3
 from core.compute import BlockQ4_K, gemm_f16, gemm_q4_k_m, dequantize_q4_k_m
 
 def test_gemm_q4_k_m_fused_parity() raises:
-    print("--- Testing fused Q4_K_M GEMM parity against uncompressed gemm_f16 ---")
-    var well = MimirWell(1024 * 1024)
+    """Known-value raw GGUF regression, independent of legacy padded structs."""
+    var well = MimirWell(8192)
+    var raw = well.allocate(144).unsafe_bitcast[UInt8]()
+    for i in range(144):
+        raw.unsafe_store(i, UInt8(0))
+    raw.unsafe_bitcast[Float16]().unsafe_store(0, Float16(1))
+    for i in range(12):
+        raw.unsafe_store(4 + i, UInt8(1))
+    for i in range(128):
+        raw.unsafe_store(16 + i, UInt8(17))
+    var expected = Float32(256)
 
-    # 1. Allocate block memory for 1 BlockQ4_K (256 elements)
-    var block_layout = Layout[BlockQ4_K](count=1)
-    var block_alloc = alloc(block_layout)
-    var block_mem = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
-    
-    block_mem[] = BlockQ4_K(
-        d=Scalar[f16](2.0),
-        dmin=Scalar[f16](0.5),
-        scales=SIMD[DType.uint8, 16](0x01),
-        qs=SIMD[DType.uint8, 128](0x31)
-    )
-
-    # 2. Dequantize into explicit F16 weight tensor
-    var f16_w_ptr = well.allocate(256)
-    dequantize_q4_k_m(block_mem, f16_w_ptr, 1)
-    var B_f16 = RuneTensor[f16](1, 256, f16_w_ptr, False)
-
-    # 3. Create quantized weight tensor representation
-    var quant_w_ptr = block_mem.unsafe_bitcast[Scalar[f16]]()
-    var B_quant = RuneTensor[f16](1, 256, quant_w_ptr, True, CompressedFormatType(CompressedFormatType.Q4_K_M))
-
-    # 4. Create input vector A (1 x 256)
-    var a_ptr = well.allocate(256)
+    var input = well.allocate(256)
     for i in range(256):
-        a_ptr.unsafe_store(i, Scalar[f16](1.0))
-    var A = RuneTensor[f16](1, 256, a_ptr, False)
-
-    # 5. Output tensors C1 and C2 (1 x 1)
-    var c1_ptr = well.allocate(1)
-    var C1 = RuneTensor[f16](1, 1, c1_ptr, False)
-    var c2_ptr = well.allocate(1)
-    var C2 = RuneTensor[f16](1, 1, c2_ptr, False)
-
-    gemm_f16(A, B_f16, C1)
-    gemm_f16(A, B_quant, C2)
-
-    var val1 = C1.data.unsafe_load(0)
-    var val2 = C2.data.unsafe_load(0)
-    var diff = val1 - val2
-    if diff < 0:
-        diff = -diff
-    _ = diff
-
-    print("fused Q4_K_M GEMM parity: PASS")
+        input.unsafe_store(i, Float16(1))
+    var A = RuneTensor[f16](1, 256, input, False)
+    var B = RuneTensor[f16](1, 256, raw.unsafe_bitcast[Float16](), True, CompressedFormatType(CompressedFormatType.Q4_K_M))
+    var C = RuneTensor[f16](1, 1, well.allocate(1), False)
+    gemm_f16(A, B, C)
+    if C.data.unsafe_load().cast[f32]() != expected:
+        raise Error("Raw Q4_K_M matvec known-value mismatch")
+    _ = well  # Keep the arena alive through every borrowed-pointer read.
+    print("raw Q4_K_M matvec: PASS")
 
 
 def test_quantized_tensor_mapping() raises:

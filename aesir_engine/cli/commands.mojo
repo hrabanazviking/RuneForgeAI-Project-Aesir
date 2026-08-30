@@ -331,17 +331,53 @@ def format_ps_table(models: List[ModelManifest], is_json: Bool = False):
 
 
 def dispatch_pull(args: List[String]) raises:
-    if len(args) < 2:
-        raise Error("pull requires a repository tag, e.g. hf.co/unsloth/gemma-3-270m-it-GGUF")
-    var model_tag = args[1]
-    var filename = String("model.gguf")
-    if len(args) >= 3:
-        filename = args[2]
-    print("Pulling model weights from Hugging Face:", model_tag)
-    print("Filename:", filename)
-    var seer = HuggingFaceSeer()
-    _ = seer.download_hf_model(model_tag, filename, filename)
-    print("Download and verification complete:", filename)
+    """Parse explicit artifact identity before the loader performs any I/O."""
+    if len(args) < 3:
+        raise Error("pull requires repository and filename plus --revision, --sha256, --size")
+    var revision = String("")
+    var digest = String("")
+    var destination = String(args[2])
+    var expected_size = 0
+    var connections = 1
+    var seen = List[String]()
+    var index = 3
+    while index < len(args):
+        var option = args[index]
+        if (option != "--revision" and option != "--sha256"
+                and option != "--size" and option != "--output"
+                and option != "--connections"):
+            raise Error("unknown pull option: " + option)
+        for prior in seen:
+            if prior == option:
+                raise Error("duplicate pull option: " + option)
+        seen.append(option)
+        if index + 1 >= len(args):
+            raise Error("missing value for pull option " + option)
+        var value = args[index + 1]
+        if option == "--revision":
+            revision = value
+        elif option == "--sha256":
+            digest = value
+        elif option == "--output":
+            destination = value
+        elif option == "--connections":
+            connections = parse_positive_int(value)
+        else:
+            if len(value.bytes()) == 0:
+                raise Error("pull --size requires a positive byte count")
+            for byte in value.as_bytes():
+                if byte < 48 or byte > 57:
+                    raise Error("pull --size requires a positive byte count")
+                var digit = Int(byte - 48)
+                if expected_size > (9223372036854775807 - digit) // 10:
+                    raise Error("pull --size overflows a 64-bit byte count")
+                expected_size = expected_size * 10 + digit
+        index += 2
+    var hf = HuggingFaceSeer()
+    _ = hf.download_hf_model(
+        args[1], args[2], destination, revision, digest, expected_size, connections
+    )
+    print("Successfully downloaded and verified Hugging Face model: " + destination)
 
 
 def dispatch_command(args: List[String]) raises:

@@ -425,8 +425,8 @@ def test_forward_pass() raises:
     
     var next_token = forward_pass(tokens, seer, well, num_layers, head_dim, heads)
     print("Next token generated:", next_token)
-    if next_token < 0 or next_token >= vocab:
-        raise Error("forward pass must select valid token within vocab range")
+    if next_token != 0:
+        raise Error("zero-initialized synthetic forward pass must select token 0")
     print("forward_pass: PASS")
 
 

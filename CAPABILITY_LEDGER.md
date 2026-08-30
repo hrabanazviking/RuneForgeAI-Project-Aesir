@@ -773,6 +773,12 @@ the complete ledger population.
 
 ## 13. Quantization and Compressed Formats
 
+Runtime expansion note: CPU raw-byte Q4_K/Q6_K GEMM now matches 25 independent
+Stheno row references via `tests/test_cpu_packed_parity.mojo`; output remains
+F16 (maximum observed difference 0.00018817186). Q4_K/Q5_0/Q6_K known-value
+raw-byte tests assert their results. Legacy SIMD block descriptors and other
+synthetic transforms are not proof of general GGUF wire-layout compatibility.
+
 ### AES-QNT-001 — Compressed-format discriminants and names
 
 - **Status:** `verified`

@@ -546,10 +546,7 @@ struct GGUFSeer:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             var fmt = GGMLType.to_compressed_format(tensor_type)
             var is_q = True
-            if name == "token_embd.weight" or name == "output.weight":
-                self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, is_q, fmt)
-            else:
-                self.tensors[name] = RuneTensor[f16].checked(cols, rows, tensor_ptr, is_q, fmt)
+            self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, is_q, fmt)
         self.tensor_file_offsets[name] = absolute_offset
         self.tensor_types[name] = tensor_type
 
@@ -614,7 +611,7 @@ struct GGUFSeer:
         if name not in self.tensors:
             raise Error("GGUF is missing required tensor: " + name)
         ref tensor = self.tensors[name]
-        if (tensor.rows != expected_rows or tensor.cols != expected_cols) and (tensor.rows != expected_cols or tensor.cols != expected_rows):
+        if tensor.rows != expected_rows or tensor.cols != expected_cols:
             raise Error("GGUF required tensor has an invalid shape: " + name + " actual: " + String(tensor.rows) + "x" + String(tensor.cols) + " expected: " + String(expected_rows) + "x" + String(expected_cols))
         var actual_type = self.tensor_types.get(name, UInt32(99))
         if actual_type == UInt32(99):
@@ -624,6 +621,7 @@ struct GGUFSeer:
         if "output.weight" not in self.tensors and "token_embd.weight" in self.tensors:
             self.tensors["output.weight"] = self.tensors["token_embd.weight"].copy()
             self.tensor_types["output.weight"] = self.tensor_types.get("token_embd.weight", UInt32(1))
+            self.tensor_file_offsets["output.weight"] = self.tensor_file_offsets["token_embd.weight"]
         var required = List[String]()
         required.append("token_embd.weight")
         required.append("output_norm.weight")
@@ -661,25 +659,18 @@ struct GGUFSeer:
             self._require_tensor_shape(
                 prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
             )
-            var q_rows = self.tensors[prefix + "attn_q.weight"].rows
-            var q_cols = self.tensors[prefix + "attn_q.weight"].cols
-            var k_rows = self.tensors[prefix + "attn_k.weight"].rows
-            var k_cols = self.tensors[prefix + "attn_k.weight"].cols
-            var v_rows = self.tensors[prefix + "attn_v.weight"].rows
-            var v_cols = self.tensors[prefix + "attn_v.weight"].cols
+            var q_width = self.config.head_count * self.config.head_dim()
             self._require_tensor_shape(
-                prefix + "attn_q.weight", q_rows, q_cols, GGMLType.F16
+                prefix + "attn_q.weight", q_width, hidden, GGMLType.F16
             )
             self._require_tensor_shape(
-                prefix + "attn_k.weight", k_rows, k_cols, GGMLType.F16
+                prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
             )
             self._require_tensor_shape(
-                prefix + "attn_v.weight", v_rows, v_cols, GGMLType.F16
+                prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
             )
-            var out_cols = self.tensors[prefix + "attn_output.weight"].cols
-            var out_rows = self.tensors[prefix + "attn_output.weight"].rows
             self._require_tensor_shape(
-                prefix + "attn_output.weight", out_rows, out_cols, GGMLType.F16
+                prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
             )
             self._require_tensor_shape(
                 prefix + "ffn_norm.weight", 1, hidden, GGMLType.F32

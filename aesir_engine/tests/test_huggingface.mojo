@@ -113,7 +113,7 @@ def test_hf_pinned_download_admission() raises:
     except error:
         rejected = "revision" in String(error)
     if not rejected:
-        pass
+        raise Error("Unpinned download reached external I/O")
     var cases: List[List[String]] = [
         ["pull", "org/repo"],
         ["pull", "org/repo", "model.gguf", "--insecure"],
@@ -129,4 +129,4 @@ def test_hf_pinned_download_admission() raises:
         except error:
             failed = "pull" in String(error)
         if not failed:
-            pass
+            raise Error("Invalid pull arguments were not rejected before I/O")

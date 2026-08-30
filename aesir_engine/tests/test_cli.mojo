@@ -328,7 +328,7 @@ def test_cli_command_dispatch() raises:
     except error:
         pull_rejected = "pull requires repository and filename" in String(error)
     if not pull_rejected:
-        pass
+        raise Error("pull without explicit artifact identity must fail")
     assert_cli_command_unsupported("push")
     assert_cli_command_unsupported("stop")
     assert_cli_command_unsupported("swarm")

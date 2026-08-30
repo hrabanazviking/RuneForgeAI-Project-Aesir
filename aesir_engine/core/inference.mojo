@@ -607,9 +607,11 @@ def forward_pass(
         raise Error("Inference requires token_embd.weight")
     
     ref token_embd = seer.tensors["token_embd.weight"]
-    var hidden_dim = min(token_embd.rows, token_embd.cols)
-    var vocab_dim = max(token_embd.rows, token_embd.cols)
-    var safe_last_token = last_token % vocab_dim
+    var hidden_dim = token_embd.cols
+    var vocab_dim = token_embd.rows
+    if last_token < 0 or last_token >= vocab_dim:
+        raise Error("Inference token ID is outside the embedding vocabulary")
+    var safe_last_token = last_token
     var x_ptr = well.allocate(hidden_dim)
     var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
 
@@ -631,9 +633,10 @@ def forward_pass(
             x.data.unsafe_store(i, token_embd.data.unsafe_load(src_offset + i))
 
     # Gemma architecture scales token embeddings by sqrt(hidden_dim)
-    var emb_scale = Float32(sqrt(Float64(hidden_dim)))
-    for i in range(hidden_dim):
-        x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * emb_scale))
+    if seer.config.architecture.startswith("gemma"):
+        var emb_scale = Float32(sqrt(Float64(hidden_dim)))
+        for i in range(hidden_dim):
+            x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * emb_scale))
 
     # 2. Layer-by-Layer Forward Pass
     var actual_layers = min(num_layers, seer.config.block_count)
@@ -670,11 +673,11 @@ def forward_pass(
         raise Error("Inference requires output.weight")
 
     ref output_weight = seer.tensors["output.weight"]
-    var vocab_size = max(output_weight.rows, output_weight.cols)
+    var vocab_size = output_weight.rows
     var logits_ptr = well.allocate(vocab_size)
     var logits = RuneTensor[f16](1, vocab_size, logits_ptr, False)
     
-    var output_weight_eff = RuneTensor[f16](hidden_dim, vocab_size, output_weight.data, output_weight.is_quantized, output_weight.quant_format)
+    var output_weight_eff = output_weight.copy()
     
     if use_gpu_realm:
         gemm_f16_gpu(x, output_weight_eff, logits, gpu_realm)
@@ -683,17 +686,10 @@ def forward_pass(
     else:
         gemm_f16(x, output_weight_eff, logits)
 
-    var l0 = logits.data.unsafe_load(0).cast[f32]()
-    var l2 = logits.data.unsafe_load(2).cast[f32]()
-    var l2500 = logits.data.unsafe_load(2500).cast[f32]()
-
     
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
     var rng = RuneRNG(42)
     var suppress_list = List[Int]()
-    suppress_list.append(0) # pad token
-    if seer.config.eos_token_id != 1:
-        suppress_list.append(1) # unk token
     var best_token = sample_token_from_logits(
         logits.data,
         vocab_size,

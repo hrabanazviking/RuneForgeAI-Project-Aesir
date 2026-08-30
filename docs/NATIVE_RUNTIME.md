@@ -61,5 +61,15 @@ with locked Mojo 1.0/MAX 26.5: both profiles were planned and executed, and
 impossible reserve/device requests were rejected before upload. Multi-device
 selection is tested with injected records; physical execution was checked only
 on CUDA device 0. The master suite passed 152 cases with one external skip.
+After integrating concurrent Gemma 3 development, the pinned 32-token CPU
+oracle still passes. Restored mandatory download identity checks and failure
+assertions, bounded CPU token/shape handling and stable CUDA tanh. CPU packed
+Q4_K/Q6_K matmul now also matches 25 independent Stheno weight-row references
+(maximum absolute difference 0.00018817186 after F16 output rounding).
+
+The new Gemma 3 CPU development paths are retained, but this task has not
+verified their full-model output. Existing CPU block objects with SIMD fields
+are not canonical packed GGUF layouts; the repaired raw-byte matmul tests no
+longer reinterpret those padded objects as wire-format model data.
 Independent model/kernel references and earlier conversations remain in
 [the Gemma guide](GEMMA4_CUDA.md) and [the Stheno guide](STHENO_CUDA.md).
