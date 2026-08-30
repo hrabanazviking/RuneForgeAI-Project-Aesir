@@ -216,6 +216,15 @@ def test_live_policy_schema_and_baseline() -> None:
     require(not errors, "legacy exception was absent from the pinned baseline")
 
 
+def test_explicit_cuda_ci_target() -> None:
+    from check_doc_drift import has_mojo_ci_gate
+    source = "aesir_engine/tests/run_all.mojo"
+    for command in [f"pixi run mojo run {source}", f"pixi run mojo run --target-accelerator sm_89 {source}", f"pixi run mojo run --target-accelerator=sm_89 {source}"]:
+        require(has_mojo_ci_gate(command, "run", source), "real Mojo test gate was not recognized")
+    for command in [f"# pixi run mojo run {source}", "pixi run mojo run --target-accelerator sm_89 wrong.mojo", f"pixi run mojo build {source}", f"pixi run mojo run {source}.disabled"]:
+        require(not has_mojo_ci_gate(command, "run", source), "missing/commented/wrong Mojo gate was accepted")
+
+
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -223,6 +232,7 @@ def main() -> None:
     test_todo_status_references()
     test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
+    test_explicit_cuda_ci_target()
 
 
 if __name__ == "__main__":

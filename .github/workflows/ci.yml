@@ -26,15 +26,17 @@ jobs:
           cache: true
 
       - name: Run Master Test Suite
-        run: pixi run mojo run aesir_engine/tests/run_all.mojo
+        # Hosted runners have no GPU to detect. Compile the tested Ada target;
+        # physical inference remains an explicit opt-in hardware test.
+        run: pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo
 
       - name: Build Native CLI
-        run: pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ci-build
+        run: pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-ci-build
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash
         run: |
-          if pixi run mojo run aesir_engine/tests/test_fail_closed_runner.mojo > /tmp/aesir-negative-control.log 2>&1; then
+          if pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/test_fail_closed_runner.mojo > /tmp/aesir-negative-control.log 2>&1; then
             echo "negative control unexpectedly succeeded"
             exit 1
           fi

@@ -12,6 +12,9 @@ multimodal, MoE, multi-GPU, or Tensor Core optimization support.
 Use Linux or WSL2 with a working NVIDIA driver and the repository's locked Pixi
 environment. This run used Mojo 1.0.0, MAX 26.5.0 and an RTX 4070 Laptop GPU with
 8188 MiB VRAM. Keep other VRAM usage low; allocation failure is an error.
+When compiling on a machine without a GPU, add `--target-accelerator sm_89` to
+`mojo build`/`mojo run` for the tested Ada target. CI uses this explicit compile
+target; its CPU runner does not execute GPU inference.
 
 ```bash
 pixi install --locked

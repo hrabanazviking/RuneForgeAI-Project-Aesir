@@ -295,12 +295,20 @@ def check_source_truth(errors: list[str]) -> None:
             errors.append(f"aesir_engine/core/{name}: physical device count must fail closed")
 
 
+def has_mojo_ci_gate(content: str, command: str, source: str) -> bool:
+    """Recognize the actual compiler command, including an explicit GPU target."""
+    active = "\n".join(line for line in content.splitlines() if not line.lstrip().startswith("#"))
+    target = r"(?:[ \t]+--target-accelerator(?:[ \t]+|=)[A-Za-z0-9_:-]+)?"
+    return re.search(r"\bmojo[ \t]+" + re.escape(command) + target + r"[ \t]+" + re.escape(source) + r"(?=[ \t\r\n]|$)", active) is not None
+
+
 def check_ci(errors: list[str]) -> None:
     content = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    for command, source in [("build", "aesir_engine/main.mojo"), ("run", "aesir_engine/tests/run_all.mojo")]:
+        if not has_mojo_ci_gate(content, command, source):
+            errors.append(f".github/workflows/ci.yml: missing Mojo {command} gate for {source}")
     for token in [
         "fetch-depth: 0",
-        "mojo build aesir_engine/main.mojo",
-        "mojo run aesir_engine/tests/run_all.mojo",
         "test_fail_closed_runner.mojo",
         "scripts/test_fixture_manifest.py",
         "scripts/check_fixture_manifest.py",
