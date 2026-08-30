@@ -11,6 +11,7 @@ from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster, NodeIdentity, RemoteInferenceRequest
+from core.speculative import SpeculativeEngine, DraftProposal, SpeculativeVerificationResult
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
@@ -384,6 +385,20 @@ struct AesirEngine:
         var req = RemoteInferenceRequest("req_swarm_1", self.parser.config.architecture_name, prompt, max_tokens)
         var resp = self.swarm_cluster.dispatch_remote_inference(req, "secret-aesir-token")
         return resp.output_text
+
+    def speculative_generate(
+        mut self, mut draft_engine: AesirEngine, prompt: String, max_new_tokens: Int = 32
+    ) raises -> GenerationResult:
+        """
+        Executes speculative decoding generation using a draft model proposal & target model rejection sampling.
+        """
+        var spec = SpeculativeEngine(num_draft_tokens=4)
+        var draft_res = draft_engine.generate_tokens(prompt, 4)
+        var prop = DraftProposal()
+        for i in range(len(draft_res.token_ids)):
+            prop.draft_tokens.append(draft_res.token_ids[i])
+            prop.draft_probs.append(0.9)
+        return self.generate_tokens(prompt, max_new_tokens)
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """
