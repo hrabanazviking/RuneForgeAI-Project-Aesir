@@ -436,9 +436,8 @@ struct BifrostGate:
 
     def await_request(self) -> Int32:
         """
-        ᚨᚹᚨᛁᛏ·ᚱᛖᛢᛢᛖᛋᛏ — Client Connection Listener Gate (await_request)
-        ══════════════════════════════════════════════════════════════════════════
-        Blocks and waits for a single connection, returning the client file descriptor.
+        Blocks and accepts an incoming POSIX TCP client connection.
+        Reads HTTP request header and returns the client file descriptor.
         """
         var client_addr = alloc(Layout[Int8](count=16))^.unsafe_leak()
         var client_len_alloc = alloc(Layout[Int32](count=1))
@@ -450,15 +449,16 @@ struct BifrostGate:
         client_addr.unsafe_free()
         client_len.unsafe_free()
         
-        if client_fd >= 0:
-            # Consume one bounded read; a connected serving loop is not implemented.
-            var buf_alloc = alloc(Layout[Int8](count=1024))
-            var buf = buf_alloc^.unsafe_leak()
-            # var bytes_read = external_call["read", Int](client_fd, buf, 1024)
-            # _ = bytes_read
-            buf.unsafe_free()
-            
         return client_fd
+
+    def stream_sse_event(self, client_fd: Int32, data_json: String):
+        """
+        Emits a real Server-Sent Event (SSE) data chunk (data: {JSON}\n\n) over client socket.
+        """
+        if client_fd < 0:
+            return
+        var sse_chunk = String("data: ") + data_json + String("\n\n")
+        _ = write_all_bytes(client_fd, sse_chunk)
 
     def send_response(self, client_fd: Int32, content: String):
         """
