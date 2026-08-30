@@ -4,7 +4,8 @@
 > GPU-1 slices on the same date. For current status, use
 > [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md),
 > [`TASK_gpu0_max_gpu_reachability.md`](TASK_gpu0_max_gpu_reachability.md), and
-> [`TASK_gpu1_truthful_device_discovery.md`](TASK_gpu1_truthful_device_discovery.md).
+> [`TASK_gpu1_truthful_device_discovery.md`](TASK_gpu1_truthful_device_discovery.md),
+> and [`TASK_gpu2_cuda_resource_ownership.md`](TASK_gpu2_cuda_resource_ownership.md).
 
 **Audit date:** August 29, 2026  
 **Audited code revision:** `99dfc665adb0bfa368f7d9f4453d56ef462572b2`  

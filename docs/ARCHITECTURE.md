@@ -142,8 +142,8 @@ graph TD
 ### 6.1. `core/cuda_gate.mojo`, `cuda_resources.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Boundaries
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
 - **Implementation:**
-  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime loading plus real MAX 26.5 enumeration and per-device capability inspection. The record uses MAX's runtime ID, not an invented vendor UUID. Allocation, transfers, and engine kernels remain fail-closed.
-  - `CUDADeviceResources` (`cuda_resources.mojo`): Move-only selected-device MAX context with conservative device/pinned-host budgets and owned paired F16 buffers. It provides explicit copy and synchronization operations but is not connected to engine compute.
+  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime loading plus real MAX 26.5 enumeration and per-device capability inspection. The record uses MAX's runtime ID, not an invented vendor UUID. Legacy raw-pointer and engine-kernel gateways remain fail-closed.
+  - `CUDADeviceResources` (`cuda_resources.mojo`): Move-only selected-device MAX context with conservative device/pinned-host budgets and owned paired F16 buffers. It provides explicit synchronized H2D/D2H operations and MAX lifecycle cleanup but is not connected to engine compute.
   - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
   - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
   - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
@@ -258,7 +258,8 @@ graph TD
     MAX[MAX DeviceContext CUDA API] --> CG[CUDAGate.discover_physical_devices]
     CG --> R[HardwareDiscoveryResult<br/>status + validated records]
     R --> T[DeviceTopology<br/>accumulate + select]
-    T -. discovery does not enable .-> G[GPU compute gateways<br/>explicit unsupported error]
+    T --> CR[CUDADeviceResources<br/>budgeted F16 buffers + transfers]
+    CR -. resources do not enable .-> G[GPU compute gateways<br/>explicit unsupported error]
     E[AesirEngine GPU request] --> V[validate_runtime_backend_config]
     V --> X[rejected before model loading]
 ```

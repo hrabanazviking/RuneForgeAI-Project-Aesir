@@ -80,6 +80,12 @@ def test_cuda_budget_rejection_is_transactional() raises: ...
 def test_cuda_budget_overflow_and_rollback() raises: ...
 def test_cuda_resource_policy_admission() raises: ...
 
+# tests/test_gpu_resources.mojo (opt-in physical GPU-2 resource proof)
+def expected_value(index: Int, transfer_round: Int, allocation_tag: Int, session_round: Int) -> Scalar[f16]: ...
+def exercise_allocation(mut allocation: CUDAF16Allocation, allocation_tag: Int, session_round: Int, inject_mismatch: Bool) raises: ...
+def run_resource_session(physical_device: PhysicalDevice, session_round: Int, inject_mismatch: Bool) raises: ...
+def main() raises: ...
+
 # tests/test_sharding.mojo (Slice 6)
 def test_device_topology() raises: ...
 def test_shard_tensor() raises: ...
@@ -182,6 +188,19 @@ pixi run mojo run aesir_engine/tests/test_gpu_discovery.mojo
 That proof establishes engine-facing CUDA enumeration and selection only. It
 does not establish persistent device resources or any engine compute path.
 
+The opt-in GPU-2 resource proof selects the GPU-1 record, opens a project-owned
+CUDA session, allocates two unequal paired F16 resources, and validates repeated
+synchronized H2D/D2H identity across two successive session scopes. It also
+proves zero and over-budget requests leave accounting unchanged. Run it with:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_resources.mojo
+```
+
+Append `--negative-control` to inject a post-transfer mismatch that must exit
+nonzero. This proves resource ownership and transfer integrity on the observed
+host, not GPU compute or model inference.
+
 ## Process Contract
 
 - Any existing asserted mismatch in a test invoked by `run_all.main()` raises
@@ -194,9 +213,9 @@ does not establish persistent device resources or any engine compute path.
   raises after reporting if any case failed or the total is not 141.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
-- `test_gpu_reachability.mojo` and `test_gpu_discovery.mojo` are intentionally
-  absent from `run_all.mojo` so the default suite stays deterministic and
-  hardware-independent.
+- `test_gpu_reachability.mojo`, `test_gpu_discovery.mojo`, and
+  `test_gpu_resources.mojo` are intentionally absent from `run_all.mojo` so the
+  default suite stays deterministic and hardware-independent.
 - Synthetic/scaffold assertions establish only their local deterministic
   invariants. They do not establish hardware, format, protocol, network,
   resilience, concurrency, or distributed compatibility.

@@ -11,6 +11,8 @@ The `tests` domain holds the master test runner and domain-specific verification
   topology-selection proof; intentionally excluded from the CPU master suite.
 - **`test_cuda_resource_budget.mojo`:** CPU-only GPU-2 byte accounting,
   transactional rejection, rollback, overflow, and device-policy admission.
+- **`test_gpu_resources.mojo`:** Opt-in physical GPU-2 selected-context,
+  budgeted F16 buffer, synchronized transfer, and scope-cleanup proof.
 - **`test_ledger.mojo`:** Tests-domain pass/fail/skip ledger, per-case error
   boundary, stable result lines, ordered failure details, and terminal status.
 - **`test_compute.mojo`:** Unit tests for GEMM, Flash Attention-2, SiLU, GeGLU, and Q4_K_M dequantization.
@@ -62,6 +64,15 @@ the runner total and capability ledger synchronized.
 cd aesir_engine
 pixi run mojo run tests/run_all.mojo
 ```
+
+Run the opt-in physical GPU-2 resource proof from the repository root:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_resources.mojo
+```
+
+Its `--negative-control` form must exit nonzero after injecting one transfer
+mismatch. Neither command is part of hosted CPU CI.
 
 Run the real-model proof with the pinned fixture and oracle described in the
 root `fixture_manifest.json` and `TASK_verified_multi_token_generation.md`:

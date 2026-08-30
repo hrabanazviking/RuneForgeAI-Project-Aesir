@@ -57,6 +57,7 @@ counts as completion of an external capability.
 - [ ] **Modular Max Support:** Add full support for MAX by Modular
 - [x] **GPU-0 MAX toolchain reachability proof:** Locked Mojo 1.0.0 / MAX 26.5.0 created a real CUDA context, host/device buffers, round-trip copies, synchronized kernel execution, and host parity on the observed RTX 2060 Max-Q. This isolated hardware test does not implement or promote engine GPU dispatch.
 - [x] **GPU-1 truthful CUDA discovery:** MAX-backed enumeration now records and validates observed CUDA identity/capabilities and supports topology selection on the observed RTX host. This does not enable engine GPU allocation, compute, inference, or CLI acceleration.
+- [x] **GPU-2 production CUDA resource ownership:** A selected-device MAX context now owns budgeted F16 device and pinned-host buffers with explicit synchronized H2D/D2H transfers and scope-based cleanup. Engine compute and inference remain disabled.
 - [ ] **[partial, AES-CLI-009] Config Data File:** `aesir config [--config <path>]` now reads, validates, and normalizes the human-editable tracked schema. Apply every supported sampling/safety option to its owning runtime and add complete option documentation before closing this item.
 - [ ] **[partial, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path, CUDA discovery/selection is real through MAX, and explicit accelerator execution remains rejected before model loading. Connect only after production GPU resources and compute are proved.
 - [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
@@ -71,7 +72,7 @@ counts as completion of an external capability.
 - [ ] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
 - [ ] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
-- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** GPU-0 toolchain reachability and GPU-1 engine discovery/selection are proved on the observed RTX host; owned production resources, transfer dispatch, GEMM, model integration, and hardware CI are still missing.
+- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** GPU-0 toolchain reachability, GPU-1 discovery/selection, and GPU-2 owned F16 resources/transfers are proved on the observed RTX host; engine GEMM, model integration, CLI activation, and hardware CI are still missing.
 - [ ] **[missing, AES-ACC-008] Apple Metal GPU execution:** Runtime-library probing exists; physical discovery, device buffers, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] Intel Level Zero GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] AMD ROCm/HIP GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
@@ -440,7 +441,7 @@ counts as completion of an external capability.
   through MAX 26.5 on the observed RTX host.
 - [x] Implement real runtime/driver discovery and version/capability checks for
   the selected CUDA slice.
-- [ ] Implement backend allocation, ownership, host/device transfer or a precise
+- [x] Implement backend allocation, ownership, host/device transfer or a precise
   zero-copy contract, synchronization, and error propagation.
 - [x] Implement at least one genuine device kernel and compare its output with a
   CPU F32/verified reference on physical hardware.

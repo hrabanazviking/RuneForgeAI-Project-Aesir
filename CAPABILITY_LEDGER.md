@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-1, August 29, 2026
+**Ledger version:** GPU-2, August 29, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -914,7 +914,7 @@ the complete ledger population.
 - **Implementation evidence:** `CUDAGate.discover_physical_devices()` uses MAX 26.5 to enumerate every CUDA index and records runtime ID, name, API/version, memory, compatibility, compute capability, multiprocessor count, and thread limit. `DeviceTopology` validates, accumulates, deduplicates, and selects compatible records by realm-local index or runtime-derived stable ID.
 - **Executable evidence:** `E-MASTER` cases `gpu.discovery_status_classification`, `gpu.physical_device_admission`, `gpu.discovery_accumulation`, and `gpu.stable_device_selection`; opt-in `pixi run mojo run aesir_engine/tests/test_gpu_discovery.mojo` passed on the observed RTX 2060 Max-Q.
 - **Evidence boundary:** This proves one MAX CUDA discovery adapter on one observed host plus deterministic injected admission logic. The MAX runtime ID is not a vendor UUID. Other backends, CLI accelerator selection, persistent contexts/resources, and hardware CI remain unverified.
-- **Next acceptance gate:** GPU-2 must add production context/resource ownership, memory budgets, transfers, synchronization, and cleanup; broader platform and hardware-CI coverage are also required.
+- **Next acceptance gate:** Connect the selected discovery record to an authorized runtime configuration only after GPU compute is proved; add broader platform and hardware-CI coverage.
 - **Audit:** AER-088, AER-094.
 
 ### AES-ACC-004 — Real multi-GPU placement and inference
@@ -964,10 +964,10 @@ the complete ledger population.
 - **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** CUDA has real MAX enumeration and topology selection. GPU-2 adds a project-owned CUDA context/resource wrapper with conservative device and pinned-host budget logic; physical wrapper evidence remains opt-in. Legacy raw-pointer, RMSNorm, GEMM, and inference gateways remain fail-closed. Metal, Intel, and AMD remain library probes. The opt-in `test_gpu_reachability.mojo` separately proves MAX buffers, copies, synchronization, and an affine kernel on an observed RTX 2060 Max-Q without connecting those operations to an engine compute gateway.
-- **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, `gpu.metal_realm_unsupported_gateways`, `gpu.intel_gate_availability`, `gpu.intel_gemm_dispatch_bounds`, `gpu.intel_realm_unsupported_gateways`, `gpu.amd_gate_availability`, `gpu.amd_gemm_dispatch_bounds`, `gpu.amd_realm_unsupported_gateways`, `gpu.resilience_allocation_rejection`, `gpu.resilience_dimension_rejection`, and `gpu.resilience_error_barriers` in `test_cuda_realm.mojo`, `test_metal_realm.mojo`, `test_intel_realm.mojo`, `test_amd_realm.mojo`, and `test_hardware_resilience.mojo`; external hardware command `MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_reachability.mojo` passed three independent processes, while `--negative-control` exited nonzero.
-- **Evidence boundary:** The external MAX proofs establish toolchain reachability and engine-facing discovery on one observed host. They do not establish owned production resources, engine transfer dispatch, GEMM, model inference, generalized CUDA support, NPU execution, or hardware CI.
-- **Next acceptance gate:** GPU-2 and later slices must prove production ownership, transfers, GEMM parity, synchronization, cleanup, model integration, and hardware CI before this execution capability can be promoted.
+- **Implementation evidence:** CUDA has real MAX enumeration/topology selection and a move-only `CUDADeviceResources` session. It owns the selected MAX context, conservative device/pinned-host budgets, and paired F16 buffers with explicit H2D/D2H copy and synchronization methods. Allocation failure rolls back its reservation; successful accounting is monotonic and cleanup follows MAX reference-counted `Deinitable` lifecycles. Legacy raw-pointer, RMSNorm, GEMM, inference, and CLI GPU gateways remain fail-closed. Metal, Intel, and AMD remain library probes.
+- **Executable evidence:** `E-MASTER` cases `gpu.resource_budget_accounting`, `gpu.resource_budget_transaction`, `gpu.resource_budget_rollback`, and `gpu.resource_policy_admission`, plus the existing accelerator rejection cases; opt-in `MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_resources.mojo` passed two session scopes, two unequal allocations per session, and three synchronized F16 transfer rounds per allocation on the observed RTX 2060 Max-Q. Its `--negative-control` mismatch exited nonzero. GPU-0 kernel reachability and GPU-1 discovery proofs remain separate regression gates.
+- **Evidence boundary:** The external MAX proofs establish resource ownership and transfer reachability on one observed host. They do not establish an A.E.S.I.R. GPU GEMM, model inference, CLI activation, generalized CUDA support, NPU execution, multi-GPU behavior, performance, or hardware CI.
+- **Next acceptance gate:** GPU-3 must connect these owned buffers to one genuine CUDA F16 GEMM and prove full CPU-reference parity, failure propagation, and repeatability before any engine execution promotion; model integration and hardware CI remain later gates.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

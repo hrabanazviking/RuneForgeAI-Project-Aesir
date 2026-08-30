@@ -3,6 +3,36 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 118: GPU-2 — Production CUDA Resource Ownership
+
+**Date:** August 29, 2026
+**Architectural Phase:** First engine-owned physical GPU resource slice
+
+1. Added a move-only selected-device CUDA resource session backed by the locked
+   MAX 26.5 `DeviceContext` lifecycle.
+2. Added conservative, exact device and pinned-host F16 byte budgets with
+   overflow guards, dual-limit admission, transactional rollback, and monotonic
+   successful accounting.
+3. Added move-only paired F16 allocations owning MAX `DeviceBuffer` global
+   memory and pinned `HostBuffer` staging memory on the selected context.
+4. Added bounds-checked staging access, explicit asynchronous H2D/D2H enqueue
+   operations, and explicit synchronization before host-visible validation.
+5. Relied on MAX reference-counted `Deinitable` ownership for scope cleanup;
+   no raw-pointer ownership transfer, fake release flag, or immediate pool-reuse
+   claim was introduced.
+6. Added four hardware-independent budget/policy cases to hosted CPU CI and an
+   opt-in physical proof covering two unequal allocations, three transfer rounds
+   each, and two successive resource-session scopes on the RTX 2060 Max-Q.
+7. Proved invalid and over-budget requests preserve committed accounting and a
+   deliberate post-transfer mismatch exits nonzero.
+8. Kept `AES-ACC-008` `missing`: GPU GEMM, inference, CLI activation,
+   generalized CUDA support, performance, multi-GPU, NPU, and hardware CI are
+   not claimed. GPU-3 is the first engine CUDA F16 GEMM slice.
+9. Final local verification passed: three independent GPU-2 processes, GPU-1
+   discovery, GPU-0 kernel reachability, both physical negative controls,
+   native build, fail-closed runner, repository/fixture gates, and the master
+   suite at 140 passed, 0 failed, 1 skipped, total 141.
+
 ## Entry 117: GPU-1 — Truthful MAX CUDA Device Discovery
 
 **Date:** August 29, 2026

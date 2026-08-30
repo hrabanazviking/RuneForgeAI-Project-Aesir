@@ -148,3 +148,59 @@ GPU-2 ends when one selected CUDA device can be opened through a project-owned
 resource session, two-budget F16 allocations and transfers survive repeated
 physical execution, failure paths preserve accounting, cleanup follows MAX
 ownership semantics, all CPU gates pass, and hosted CI is green.
+
+## Implementation Evidence
+
+- `core/cuda_resources.mojo` adds `CUDAResourceBudget`,
+  `CUDAF16Allocation`, `CUDADeviceResources`, and pure selected-device policy
+  admission.
+- The resource wrapper retains MAX ownership types rather than leaking an
+  owning raw pointer. It is move-only at the project layer.
+- Successful F16 allocations reserve equal device and pinned-host byte spans.
+  Validation and allocation failure paths preserve or roll back accounting.
+- Each allocation exposes bounds-checked host staging access, explicit upload,
+  explicit download, and explicit synchronization.
+- Session construction checks the selected discovery record against the live
+  CUDA context ID, API, compatibility, total memory, and current free memory.
+- Successful budget accounting remains monotonic for the session; cleanup is
+  driven by the MAX context/buffer `Deinitable` lifecycle at scope exit.
+
+## Physical Verification Record
+
+The opt-in `test_gpu_resources.mojo` selected the GPU-1 record for the observed
+NVIDIA GeForce RTX 2060 with Max-Q Design. In each of two successive resource
+session scopes it allocated 257-element and 1025-element paired F16 resources,
+then completed three synchronized H2D/D2H identity rounds per allocation.
+
+The same run proved zero-element and over-budget requests fail without changing
+reserved bytes or successful allocation count. A deliberate mismatch at index
+0 in session 1, allocation 1, transfer round 2 exited `1`.
+
+## Truth Boundary After Implementation
+
+GPU-2 proves selected-context ownership, budgeted F16 device/pinned-host
+resources, explicit transfers, synchronization, and repeatable scope cleanup on
+one observed MAX CUDA host. It does not prove a GPU compute gateway, GEMM,
+model inference, CLI activation, generalized CUDA support, mmap zero-copy,
+multi-GPU, NPU execution, performance, or hardware CI. `AES-ACC-008` and
+`AES-ACC-009` remain `missing`; GPU-3 owns the first real engine CUDA F16 GEMM.
+
+## Regression Verification
+
+- GPU-2 physical resource proof: three independent processes passed.
+- GPU-2 `--negative-control`: intended transfer mismatch exited `1`.
+- GPU-1 physical discovery regression: passed.
+- GPU-0 physical affine-kernel regression: passed.
+- GPU-0 `--negative-control`: intended kernel mismatch exited `1`.
+- CPU master suite: 140 passed, 0 failed, 1 skipped, total 141.
+- Native Mojo CLI build: passed in a temporary directory outside the repository.
+- Deliberate fail-closed master-runner control: intended failure exited nonzero.
+- Documentation drift, artifact prevention, fixture provenance, fixture
+  manifest, and diff checks: passed. Only the existing approval-blocked legacy
+  artifact warnings remain; GPU-2 deleted nothing.
+
+## Final Status
+
+GPU-2 is complete at the resource ownership and transfer boundary. The next
+slice is GPU-3: one real engine CUDA F16 GEMM with independent CPU-reference
+parity. No public CUDA execution route is enabled by GPU-2.
