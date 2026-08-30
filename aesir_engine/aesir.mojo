@@ -10,7 +10,7 @@ from core.supervisor import SelfHealingSupervisor
 from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
-from core.swarm import SwarmCluster
+from core.swarm import SwarmCluster, NodeIdentity, RemoteInferenceRequest
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
@@ -369,6 +369,21 @@ struct AesirEngine:
         """
         var vault = StateVault()
         return vault.load_checkpoint_from_disk(file_path)
+
+    def join_swarm_cluster(mut self, node_id: String, leader_address: String) raises -> Bool:
+        """
+        Registers this engine node with the distributed SwarmCluster mesh.
+        """
+        var id = NodeIdentity(node_id, "secret-aesir-token")
+        return self.swarm_cluster.join_mesh_authenticated(id, leader_address, "secret-aesir-token")
+
+    def dispatch_swarm_inference(mut self, prompt: String, max_tokens: Int = 32) raises -> String:
+        """
+        Dispatches load-balanced remote inference across live nodes in the SwarmCluster mesh.
+        """
+        var req = RemoteInferenceRequest("req_swarm_1", self.parser.config.architecture_name, prompt, max_tokens)
+        var resp = self.swarm_cluster.dispatch_remote_inference(req, "secret-aesir-token")
+        return resp.output_text
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """
