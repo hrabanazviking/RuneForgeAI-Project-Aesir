@@ -1,5 +1,10 @@
 # Project Aesir: Domain Ownership Map & Target Boundary Law
 
+> **Status boundary — 2026-08-30:** Ownership labels describe intended
+> responsibilities, not proof that every domain executes. The live ownership
+> boundary for native Gemma CUDA is loader (artifact/tokenizer), core (GPU model
+> session), and CLI (input/logs). See [CURRENT_STATUS.md](CURRENT_STATUS.md).
+
 > *"Let every realm maintain its own walls. When boundaries collapse, chaos reigns."*  
 > — **Rúnhild Svartdóttir, The Architect**
 

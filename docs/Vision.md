@@ -17,7 +17,10 @@ remain claims only where the ledger records executable proof.
 
 ## Current Evidence Boundary
 
-- The bounded operational runtime is one pinned GGUF v3 Llama F16 model on the
+- The bounded operational runtime includes one pinned GGUF v3 Llama F16 CPU
+  model and one dense text-only Gemma 4 E4B Q4_K_M native CUDA profile. The
+  CUDA profile is documented in [`GEMMA4_CUDA.md`](GEMMA4_CUDA.md) and remains
+  limited to its observed NVIDIA/WSL environment.
   Linux single-device CPU path: `[verified, AES-FND-002]`.
 - Automated Linux CI exists but supported-target coverage, required branch
   protection, and an external-fixture job remain open:

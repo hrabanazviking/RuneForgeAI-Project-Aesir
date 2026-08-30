@@ -1,5 +1,12 @@
 # Project Aesir: Target Architecture and Implemented Shapes
 
+> **Status boundary — 2026-08-30:** This document mixes implemented shapes and
+> target architecture. The runnable architecture is the CPU GGUF slice and the
+> narrow native CUDA Gemma profile in [CURRENT_STATUS.md](CURRENT_STATUS.md).
+> Server, distributed, NPU, multi-GPU, compatibility, and broad accelerator
+> diagrams below are aspirations unless the capability ledger explicitly says
+> otherwise.
+
 > *"Order is not accidental. It is built by design laws that endure under load."*  
 > — **Rúnhild Svartdóttir, The Architect**
 

@@ -1,7 +1,8 @@
 # Project A.E.S.I.R. Current Code Status
 
 > **Snapshot boundary:** This audit was recorded before the later GPU-0 through
-> GPU-3 slices. For current status, use
+> GPU-3 and native Gemma CUDA slices. For current status, use
+> [`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md),
 > [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md),
 > [`TASK_gpu0_max_gpu_reachability.md`](TASK_gpu0_max_gpu_reachability.md), and
 > [`TASK_gpu1_truthful_device_discovery.md`](TASK_gpu1_truthful_device_discovery.md),

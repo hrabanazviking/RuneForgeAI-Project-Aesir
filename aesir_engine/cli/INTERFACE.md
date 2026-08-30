@@ -1,5 +1,11 @@
 # CLI Domain Interface Specification (`cli/`)
 
+> **Current supported command boundary — 2026-08-30:** `pull` downloads the
+> documented public pinned GGUF artifact; `chat --accel cuda` and
+> `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
+> native CUDA. Legacy Ollama-shaped commands, generic REPL behavior, model-store
+> lifecycle, and compatibility surfaces below are not thereby implemented.
+
 > *"Through rune-carved directives and terminal currents, the sovereign engine obeys the commands of mortals."*  
 > — **Rúnhild Svartdóttir, The Architect**
 

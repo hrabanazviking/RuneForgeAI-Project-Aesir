@@ -17,7 +17,10 @@ evidence.
 
 ## Current Evidence Boundary
 
-- The current bounded runtime proof is the pinned single-device Linux CPU GGUF
+- The current bounded runtime proof includes the pinned single-device Linux CPU
+  GGUF path and the documented native CUDA Gemma 4 E4B Q4_K_M profile on the
+  observed NVIDIA/WSL host. See [`GEMMA4_CUDA.md`](GEMMA4_CUDA.md) for its
+  explicit limit and evidence boundary.
   v3 Llama F16 slice: `[verified, AES-FND-002]`.
 - Cross-platform runtime support remains absent: `[missing, AES-FND-006]`.
 - CI and repository hygiene are real but incomplete:

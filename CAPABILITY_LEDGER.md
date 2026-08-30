@@ -65,10 +65,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 68 |
-| `partial` | 12 |
-| `scaffold` | 2 |
+| `partial` | 15 |
+| `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 24 |
+| `missing` | 22 |
 | **Total** | **107** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -364,13 +364,13 @@ the complete ledger population.
 
 ### AES-LDR-006 — Quantized GGUF tensor loading
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** loader and quantization domains
 - **Claim sources:** README q4_k_m support; completed TODO quantized-format matrix
-- **Implementation evidence:** real loader accepts only supported F16/F32 tensors and rejects quantized tensor types.
-- **Executable evidence:** no real quantized GGUF load/inference gate.
-- **Evidence boundary:** GGML type constants and toy dequantizers are not loader compatibility.
-- **Next acceptance gate:** Exact authoritative block layout, byte-span validation, real quantized fixture loading, and oracle logits/tokens.
+- **Implementation evidence:** `PackedGGUFModel` performs bounded metadata and tensor-index parsing for the Gemma 4 E4B profile and admits the Q4_K/Q5_K/Q6_K/F32/F16/BF16 storage needed by its native CUDA session.
+- **Executable evidence:** the pinned Gemma 4 E4B Q4_K_M artifact was parsed, loaded, and executed end to end; 35 independent real-weight quantized matvec checks passed.
+- **Evidence boundary:** This is not a general quantized-GGUF loader. The established admission is limited to the documented dense Gemma profile and its tensor layout.
+- **Next acceptance gate:** Per-architecture metadata/layout contracts, additional real fixtures, and independent logits/tokens for each admitted model family.
 - **Audit:** AER-051 through AER-054.
 
 ## 8. Tokenization and Decoding
@@ -577,13 +577,13 @@ the complete ledger population.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** all three commands raise unsupported errors before reporting progress or success.
-- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries`.
-- **Evidence boundary:** Rejection prevents fabricated state but implements no distribution or creation operation.
-- **Next acceptance gate:** Authenticated network/storage clients, streaming/resume/checksum, atomic manifests, failure exit codes, and compatibility integration tests.
+- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `push` and `create` remain fail closed.
+- **Executable evidence:** `E-MASTER` downloader admission cases, six live integrity/failure checks, and the full pinned Gemma artifact download through `pull`.
+- **Evidence boundary:** Only public, pinned, single-GGUF Linux/WSL downloads are established. No authentication, resume, upload, creation, or model-store registration exists.
+- **Next acceptance gate:** Add authenticated/resumable download as a separate contract; implement push/create only with durable store semantics and integration tests.
 - **Audit:** AER-064, AER-082, AER-003.
 
 ### AES-CLI-007 — `rm`, `cp`, `stop`, and runtime lifecycle semantics
@@ -599,13 +599,13 @@ the complete ledger population.
 
 ### AES-CLI-008 — REPL slash-command state and interactive inference
 
-- **Status:** `scaffold`
+- **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** `RuneREPL` retains local parameter/history state and slash commands (`/set`, `/show`, `/clear`, `/bye`); ordinary chat and `run_repl()` raise unsupported errors.
-- **Executable evidence:** `E-MASTER` case `cli.repl_session_state` in `test_cli.mojo`.
-- **Evidence boundary:** Slash-command parsing does not execute inference, stream tokens, or provide a terminal session.
-- **Next acceptance gate:** Wire a validated model/session into ordinary input, stream real generated tokens, and test EOF/signals/exit codes.
+- **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but the native `cuda_chat.mojo` command provides interactive and prompt-file chat with one persistent `Gemma4CUDASession`, streamed text, `/bye`/EOF handling, and durable transcripts.
+- **Executable evidence:** `E-MASTER` covers legacy state bounds; the physical Gemma run completed 20 interactive-equivalent prompt-file exchanges and wrote a checked transcript.
+- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma profile. The legacy general REPL, slash-command integration, signal handling, and arbitrary-model chat are not established.
+- **Next acceptance gate:** Consolidate the legacy/general session surface with the CUDA chat contract and add terminal-interaction tests.
 - **Audit:** AER-059, AER-068.
 
 ### AES-CLI-009 — CLI flag parsing
@@ -798,10 +798,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** loader, compute, and inference domains
 - **Claim sources:** README q4_k_m support and completed quantized-format TODO
-- **Implementation evidence:** `gemm_q4_k_m` fused matrix-vector multiplication kernel in `core/compute.mojo` connected to `RuneTensor.quant_format` metadata mapped by `GGUFSeer`, with `Copyable BlockQ4_K` SIMD dequantization.
-- **Executable evidence:** `E-MASTER` case `quantization.fused_q4_k_m_parity` in `test_quantized_inference.mojo`.
-- **Evidence boundary:** Verified fused Q4_K_M matrix-vector multiplication parity with uncompressed `gemm_f16` on synthetic block tensors; pending external quantized GGUF fixture verification.
-- **Next acceptance gate:** Real quantized GGUF fixture, exact load/layout, correct compute path, and logits/token parity against pinned `llama.cpp`.
+- **Implementation evidence:** the CPU synthetic path remains present; the native Gemma CUDA profile uses packed Q4_K/Q5_K/Q6_K weight matvec kernels connected to bounded GGUF tensor metadata.
+- **Executable evidence:** master-suite Q4_K_M parity plus 35 independently generated real-weight CUDA matvec comparisons from the pinned Gemma artifact (maximum absolute error `1.3113022e-06`) and end-to-end 20-turn Q4_K_M inference.
+- **Evidence boundary:** Real execution establishes one Gemma profile, not general quantized model compatibility or independent full-model logit parity.
+- **Next acceptance gate:** Per-model end-to-end parity against an independent implementation and broader supported quantized fixtures.
 - **Audit:** AER-051 through AER-054.
 
 ### AES-QNT-004 — Legacy 4-bit and 5-bit block quantization transformation kernels
@@ -912,8 +912,8 @@ the complete ledger population.
 - **Owner:** core hardware domain
 - **Claim sources:** NPU/GPU/multi-device TODO matrices and interfaces
 - **Implementation evidence:** `CUDAGate.discover_physical_devices()` uses MAX 26.5 to enumerate every CUDA index and records runtime ID, name, API/version, memory, compatibility, compute capability, multiprocessor count, and thread limit. `DeviceTopology` validates, accumulates, deduplicates, and selects compatible records by realm-local index or runtime-derived stable ID.
-- **Executable evidence:** `E-MASTER` cases `gpu.discovery_status_classification`, `gpu.physical_device_admission`, `gpu.discovery_accumulation`, and `gpu.stable_device_selection`; opt-in `pixi run mojo run aesir_engine/tests/test_gpu_discovery.mojo` passed on the observed RTX 2060 Max-Q.
-- **Evidence boundary:** This proves one MAX CUDA discovery adapter on one observed host plus deterministic injected admission logic. The MAX runtime ID is not a vendor UUID. Other backends, CLI accelerator selection, persistent contexts/resources, and hardware CI remain unverified.
+- **Executable evidence:** `E-MASTER` cases `gpu.discovery_status_classification`, `gpu.physical_device_admission`, `gpu.discovery_accumulation`, and `gpu.stable_device_selection`; the CUDA Gemma session ran on the observed RTX 4070 Laptop GPU.
+- **Evidence boundary:** This proves one MAX CUDA discovery adapter and one observed NVIDIA host. The MAX runtime ID is not a vendor UUID. Other backends and hardware CI remain unverified.
 - **Next acceptance gate:** Connect the selected discovery record to an authorized runtime configuration only after GPU compute is proved; add broader platform and hardware-CI coverage.
 - **Audit:** AER-088, AER-094.
 

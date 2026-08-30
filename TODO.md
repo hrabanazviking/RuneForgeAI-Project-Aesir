@@ -110,13 +110,13 @@ counts as completion of an external capability.
 - [x] **[missing, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
   catalogs, CUDA utilization, expiry, architecture, parameters, and sampler
   values unless derived from real current state.
-- [x] **[missing, AES-CLI-006] Correct `pull`/`push`/`create` output:** Replace
-  fabricated hashes, byte totals, transfer rates, verification, manifests, and
-  success with explicit unsupported errors until operations exist.
+- [x] **[partial, AES-CLI-006] Correct `pull`/`push`/`create` output:** `pull`
+  now performs the documented pinned, verified public GGUF download; `push` and
+  `create` remain explicit unsupported errors until their operations exist.
 - [x] **[missing, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
   storage or process mutations that occurred only in an ephemeral seeded list.
-- [x] **[scaffold, AES-CLI-008] Correct REPL output:** Label the sample loop as a
-  demo or return unsupported until stdin and real inference are connected.
+- [x] **[partial, AES-CLI-008] Correct REPL output:** The legacy sample loop is
+  bounded; native Gemma CUDA chat supplies the separate real interactive path.
 - [x] **[missing, AES-SRV-006] Correct OpenAI route output:** Stop returning a
   fixed assistant response as successful inference.
 - [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
@@ -316,7 +316,10 @@ counts as completion of an external capability.
   multiline directives, validation, errors, and compatibility corpus.
 - [ ] Connect parsed parameters, templates, system messages, and licenses to the
   actual stored model/generation configuration.
-- [ ] **[scaffold, AES-CLI-008] Build a real interactive REPL:** Multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`, `/bye`), parameter tuning, and stream execution.
+- [ ] **[partial, AES-CLI-008] Build a general interactive REPL:** Unify
+  multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`,
+  `/bye`), parameter tuning, and stream execution beyond the native Gemma CUDA
+  chat path.
 
 ### Persistent model store
 

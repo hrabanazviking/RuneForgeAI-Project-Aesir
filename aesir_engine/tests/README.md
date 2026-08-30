@@ -3,8 +3,12 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 144 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 147 executable named cases
   and one explicit external-fixture skip.
+- **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
+  `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
+  checks. `scripts/check_gemma4_conversation.py` validates the logged 20-turn
+  transcript. See `docs/GEMMA4_CUDA.md` for their scope.
 - **`test_hardware_discovery.mojo`:** Deterministic injected-record tests for
   discovery statuses, validation, accumulation, deduplication, and selection.
 - **`test_gpu_discovery.mojo`:** Opt-in physical MAX CUDA enumeration and

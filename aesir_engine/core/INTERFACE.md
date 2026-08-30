@@ -1,12 +1,12 @@
 # Core Domain Interface Specification
 
-> **Current execution boundary:** model execution remains host CPU only. CUDA
-> discovery, selected-device resource ownership, explicit F16 transfers, and a
-> reusable resource-explicit F16 GEMM execute through MAX 26.5 on the observed
-> CUDA host. Model weights, Transformer dispatch, RMSNorm, attention, KV cache,
-> and CLI acceleration remain host-only or fail-closed. Other GPU/NPU backends
-> remain unimplemented, GPU/NPU descriptor buffers remain CPU-resident, and
-> logical shards remain sequential host views.
+> **Current execution boundary:** the documented CPU path remains supported, and
+> `gemma4_cuda.mojo` executes the full dense text-only Gemma 4 E4B Q4_K_M model
+> on one CUDA device: packed weights, activations, KV cache, transformer
+> operations, logits, and greedy selection are device-resident. Other GPU/NPU
+> backends, multi-GPU, generic GPU selection, and logical shards remain
+> unimplemented or host-only. See `docs/CURRENT_STATUS.md` for the evidence
+> boundary.
 
 ## Public Structs & Functions
 

@@ -1,5 +1,12 @@
 # SECURITY POSTURE — Project Æsir
 
+> **Status boundary — 2026-08-30:** This is a target threat model and security
+> posture. It does not certify the described server controls as implemented.
+> The supported CUDA path is local CLI execution; it has no service
+> authentication, TLS endpoint, rate limiting, or production security review.
+> Consult [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md) and the capability
+> ledger before deploying any network-facing surface.
+
 ## Authority
 
 This document defines the security stance, threat model, defensive measures, and incident response procedures for Project Æsir. It complements ENGINEERING_DOCTRINE.md by specifying how the system protects itself, its users, and its data. Where the doctrine says "secure," this document defines what secure means in practice.

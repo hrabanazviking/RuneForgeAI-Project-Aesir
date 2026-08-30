@@ -1,5 +1,11 @@
 # PERFORMANCE BUDGETS — Project Æsir
 
+> **Status boundary — 2026-08-30:** The values below are proposed targets, not
+> measured performance commitments. No throughput, latency, power, load, or
+> multi-user budget in this document has current acceptance evidence. The
+> CUDA telemetry in [docs/GEMMA4_CUDA.md](docs/GEMMA4_CUDA.md) establishes
+> execution on one GPU, not performance.
+
 ## Authority
 
 This document defines the numerical performance targets for Project Æsir. Every optimization decision is judged against these numbers. Every claim of "fast" or "efficient" is meaningless until measured against the budgets defined here.

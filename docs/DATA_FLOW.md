@@ -1,5 +1,11 @@
 # Project Aesir: Target Data Flow Architecture
 
+> **Status boundary — 2026-08-30:** This is a target flow map. The supported
+> executable flow is the local CPU GGUF path plus built-in download and native
+> CUDA chat for Gemma 4 E4B Q4_K_M. See [CURRENT_STATUS.md](CURRENT_STATUS.md);
+> do not infer active server, RAG, swarm, or multi-device execution from the
+> diagrams below.
+
 > *"To navigate complexity, one must see the whole terrain and trace every thread from source to fate."*  
 > — **Védis Eikleið, The Cartographer**
 
@@ -43,14 +49,12 @@ sequenceDiagram
         Disp->>Engine: RuneREPL.run_repl() / run_single_shot()
     else cmd == "create"
         Disp->>Store: create_model(name, modelfile_content) -> parse_modelfile()
-    else cmd == "pull" (HuggingFace Hub model tag hf.co/...)
-        Disp->>HFSeer: is_hf_tag(model_tag) & parse_hf_repo(model_tag)
-        Disp->>HFSeer: build_download_url(repo_id, filename)
-        Disp->>HFSeer: download_hf_model(repo_id, filename)
-        HFSeer->>CDN: Bare-metal HTTPS weight stream (SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini)
-        CDN-->>HFSeer: Weight bytes stream
-        HFSeer-->>Disp: Model weights written to local disk & MimirWell
-        Disp->>Store: create_model(norm_repo, modelfile_content) [Register model in RuneModelStore catalog]
+    else cmd == "pull" (public pinned GGUF)
+        Disp->>HFSeer: validate repo, revision, filename and output
+        HFSeer->>CDN: HTTPS-only bounded transfer
+        CDN-->>HFSeer: temporary artifact bytes
+        HFSeer->>HFSeer: verify exact size/SHA-256; publish exclusively
+        HFSeer-->>Disp: completed output path
     else cmd == "swarm" (Phase 14 Swarm Subcommand)
         Disp->>Swarm: join_mesh() / dispatch_distributed_inference() / status
     else cmd == "list" / "ps" / "rm" / "cp" / "show" / "push"
@@ -134,12 +138,13 @@ sequenceDiagram
    - `main.mojo` passes argument slice to `cli.commands.dispatch_command(args)`.
    - Command dispatcher routes to target subcommand handler (`serve`, `run`, `create`, `list`, `ps`, `rm`, `cp`, `show`, `pull`, `push`, `stop`).
 
-0b. **HuggingFace Hub Model Stream Downloading & Catalog Inscription (`HuggingFaceSeer` — Slice 13):**
-    - When `aesir pull` is invoked with a HuggingFace model tag (`hf.co/org/model`, `huggingface.co/org/model`, `org/repo`), `HuggingFaceSeer.is_hf_tag()` identifies the repository realm.
-    - `parse_hf_repo()` normalizes tag strings by stripping `hf.co/` and `huggingface.co/` prefixes.
-    - `build_download_url()` constructs direct CDN download endpoints (`https://huggingface.co/.../resolve/main/model.gguf`).
-    - `download_hf_model()` streams model weights directly into local storage and `MimirWell` memory substrate for mobile & edge models (SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini).
-    - Upon successful download, `cli/commands.mojo` calls `RuneModelStore.create_model()` to register the new model manifest into the sovereign model catalog.
+0b. **Hugging Face Public Pinned-GGUF Download (`HuggingFaceSeer`):**
+    - `aesir pull` accepts explicit repository, immutable revision, filename,
+      output, expected size, and SHA-256 arguments.
+    - The downloader uses checked argv execution, HTTPS-only redirects, bounded
+      transfers/ranges, digest validation, and exclusive atomic publication.
+    - It supports one public GGUF artifact at a time and does not register a
+      model, populate `MimirWell`, authenticate, upload, or resume.
 
 1. **POSIX Network Reception & API Endpoints (`BifrostGate`):**
    - Sockets accept incoming HTTP connections via `await_request()`.

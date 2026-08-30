@@ -42,11 +42,12 @@ tested without inventing model logits.
 
 ## Public Struct: `AesirEngine`
 
-The central orchestration facade. Its verified runtime is one local CPU device
-running the documented F16 GGUF path. Multi-device, NPU, and GPU flags are
-reserved configuration surfaces and are rejected by
-`validate_runtime_backend_config()` before model loading. RAG, resilience, and
-swarm fields are local scaffolds and do not imply operational subsystems.
+The central orchestration facade retains the documented CPU F16 GGUF path and
+exports the separate `Gemma4CUDASession` used by `chat --accel cuda` and
+`run --accel cuda`. That CUDA session is limited to dense text-only Gemma 4 E4B
+Q4_K_M and keeps model operations on one NVIDIA GPU. Multi-device, NPU, general
+GPU selection, RAG, resilience, and swarm fields remain bounded or scaffolded;
+see `docs/CURRENT_STATUS.md` and `CAPABILITY_LEDGER.md`.
 
 ```mojo
 struct AesirEngine:

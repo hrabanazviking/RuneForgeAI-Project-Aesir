@@ -1,5 +1,11 @@
 # 🔥 MASSIVE AUDIT: RuneForgeAI_Project_Aesir_Aug-16-2026
 
+> **Historical audit:** Findings here describe the August 16 baseline. In
+> particular, its statement that Hugging Face downloading is unimplemented is
+> superseded by the later native `pull` implementation. Use
+> [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md) and the capability ledger for
+> current behavior.
+
 (MASSIVE_AUDIT_RuneForgeAI_Project_Aesir_Aug-16-2026.md)
 
 ## Executive Summary

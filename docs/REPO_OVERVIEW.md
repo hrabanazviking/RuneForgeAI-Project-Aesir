@@ -1,5 +1,12 @@
 # Project Aesir: Repository Overview
 
+> **Current-runtime note (2026-08-30):** This directory map preserves earlier
+> names and planned modules. For what can be run now, begin with
+> [CURRENT_STATUS.md](CURRENT_STATUS.md) and [GEMMA4_CUDA.md](GEMMA4_CUDA.md).
+> The source tree has grown beyond the illustrative map below; it must not be
+> used as evidence that listed server, multi-engine, or accelerator features
+> are operational.
+
 > *"Know the whole terrain before laying down the first stone."*  
 > — **Védis Eikleið, The Cartographer**
 
@@ -63,30 +70,34 @@ Project_Aesir/
 ## 🛠️ Build & Execution Quick Guide
 
 ### 1. Environment Setup
-Project Aesir uses Pixi for zero-dependency Mojo environment management.
+Project Aesir uses Pixi for its locked Mojo/MAX environment. Run commands from
+the repository root; the CUDA workflow and its dependencies are documented in
+[GEMMA4_CUDA.md](GEMMA4_CUDA.md).
 
 ```bash
-cd ~/AntiGravity_Viking_Longhall/Project_Aesir/aesir_engine
-export PATH="$HOME/.pixi/bin:$PATH"
+pixi install --locked
 ```
 
 ### 2. Running the Test Suite
-Execute all 8 verification unit tests:
+Execute the counted verification suite:
 
 ```bash
-pixi run mojo run tests/run_all.mojo
+pixi run mojo run aesir_engine/tests/run_all.mojo
 ```
 
 ### 3. Compiling the Engine Binary
 Build the native binary executable:
 
 ```bash
-pixi run mojo build main.mojo -o aesir
+pixi run mojo build -I aesir_engine aesir_engine/main.mojo -o .aesir/aesir
 ```
 
-### 4. Running the Engine Server
-Start the bare-metal server on port 11434:
+### 4. Running a supported model
+
+The only documented native CUDA model profile is Gemma 4 E4B Q4_K_M. Follow the
+download and chat command in [GEMMA4_CUDA.md](GEMMA4_CUDA.md). The server
+modules are not a supported inference service.
 
 ```bash
-./aesir
+.aesir/aesir chat <model.gguf> --accel cuda --max-tokens 16384 --context 32768
 ```

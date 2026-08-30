@@ -19,6 +19,10 @@ weights, activations and KV cache on the NVIDIA GPU, with no CPU fallback.
 See the [native CUDA download and chat guide](docs/GEMMA4_CUDA.md) for the
 20-turn conversation, exact artifact pin, limits and reproduction commands.
 
+For the current supported surface, known limits, test result, and the boundary
+between working runtime code and project vision, start with
+[Current project status](docs/CURRENT_STATUS.md).
+
 Our mission is simple: **Eliminate cloud dependency and software bloat to deliver high-performance, private AI directly on the edge.**
 
 > [!IMPORTANT]
@@ -88,8 +92,8 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
  * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
- * **CLI & Transport:** Single-shot CLI execution ([`AES-CLI-002`](CAPABILITY_LEDGER.md) `verified`); persistent model commands, interactive inference, and compatibility APIs remain scaffolded or missing ([`AES-CLI-005`, `AES-CLI-008`, `AES-SRV-006`-`008`](CAPABILITY_LEDGER.md))
- * **Accelerator & Swarm Matrix:** GPU, NPU, and Swarm modules are scaffolded/simulated boundaries; full hardware acceleration vision is archived in [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
+* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Model-store operations and compatibility APIs remain partial, scaffolded, or missing; see the [current status](docs/CURRENT_STATUS.md) and ledger.
+* **Accelerator & Swarm Matrix:** The native CUDA Gemma profile is real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
@@ -100,7 +104,7 @@ solo operator. Performance and resource-efficiency measurement remain open work.
  * **Measured claims only:** Throughput, latency, power, and memory claims require reproducible benchmarks before publication.
  * **Uncensored:** You load the weights, you set the rules. No API guardrails.
 
-*Status: Verified CPU GGUF vertical slice established ([`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md)); broader hardening and integration remain active work.*
+*Status: The CPU GGUF slice and a narrow native CUDA Gemma profile are verified. Broader hardening and integration remain active work; [CURRENT_STATUS.md](docs/CURRENT_STATUS.md) states the live boundary.*
 
 ---
 

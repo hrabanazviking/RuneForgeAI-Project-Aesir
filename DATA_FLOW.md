@@ -2,10 +2,11 @@
 
 > [!IMPORTANT]
 > This is a target sequence retained for design context, not a trace of the
-> current executable system. The verified flow is local single-shot CPU GGUF
-> inference. Ollama HTTP compatibility, socket-to-engine streaming,
+> current executable system. The verified flows are local CPU GGUF inference and
+> the narrow native CUDA Gemma 4 E4B Q4_K_M download/chat path described in
+> [`docs/GEMMA4_CUDA.md`](docs/GEMMA4_CUDA.md). Ollama HTTP compatibility, socket-to-engine streaming,
 > multi-device execution, and complete RAG are not operational; see
-> [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md).
+> [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md) and [`docs/CURRENT_STATUS.md`](docs/CURRENT_STATUS.md).
 
 This document sketches the intended journey of a request through the Aesir
 Engine. Names in the diagram may correspond to verified local primitives, but

@@ -1,5 +1,10 @@
 # Project A.E.S.I.R. Reality-First Completion Roadmap
 
+> **Planning document:** Read this as an ordered backlog, not a list of current
+> capabilities. The project now includes the narrowly verified native CUDA
+> Gemma path described in [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md);
+> remaining items retain their own evidence requirements.
+
 - **Status:** Active execution roadmap
 - **Established:** August 29, 2026
 - **Owning method:** Mythic Engineering

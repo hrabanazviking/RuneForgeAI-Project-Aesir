@@ -1,5 +1,21 @@
 # Project Aesir Devlog
 
+## Entry 120: Current-status reconciliation and documentation boundary
+
+**Date:** August 30, 2026
+**Architectural Phase:** Evidence preservation and documentation repair
+
+1. Added `docs/CURRENT_STATUS.md` as the current operational entry point,
+   covering the verified CPU path, native CUDA Gemma profile, built-in download,
+   20-turn chat evidence, limits, and next proof gates.
+2. Reconciled the capability ledger with the implemented quantized Gemma loader,
+   `pull` command, and interactive CUDA chat. The changes remain deliberately
+   partial because support is model-profile-specific.
+3. Marked target architecture, hardware, performance, security, roadmap, and
+   dated status material so it cannot be mistaken for a live support claim.
+4. Preserved historic reports and task records rather than rewriting their
+   contemporary evidence.
+
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 

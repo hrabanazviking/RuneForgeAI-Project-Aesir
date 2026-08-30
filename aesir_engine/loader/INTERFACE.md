@@ -1,5 +1,11 @@
 # Loader Domain Interface Specification
 
+> **Current execution boundary — 2026-08-30:** `gguf.mojo`/`tokenizer.mojo`
+> retain the CPU Llama slice. `packed_gguf.mojo` and `gemma4_tokenizer.mojo`
+> provide the bounded GGUF and BPE contract for the native Gemma CUDA profile;
+> `huggingface.mojo` implements the public pinned `pull` workflow. These do not
+> make arbitrary GGUF formats, model architectures, or Hub operations supported.
+
 ## Public Structs & Enums
 
 ### `GGMLType`

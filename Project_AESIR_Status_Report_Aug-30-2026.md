@@ -1,5 +1,10 @@
 # RuneForgeAI: Project A.E.S.I.R. — Comprehensive Project Status Report
 
+> **Superseded as a live report:** This snapshot predates the native Gemma CUDA
+> implementation completed later on August 30. It remains a useful audit record;
+> use [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md) and
+> [CAPABILITY_LEDGER.md](CAPABILITY_LEDGER.md) for the current state.
+
 **Report Date:** August 30, 2026  
 **Repository:** https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir  
 **License:** AGPL-3.0  

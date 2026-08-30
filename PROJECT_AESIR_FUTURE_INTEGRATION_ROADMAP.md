@@ -1,5 +1,9 @@
 # Project A.E.S.I.R. Future Integration Roadmap
 
+> **Planning document:** This roadmap contains future work and older assumptions.
+> It is not a current support statement. The native Gemma CUDA profile and its
+> limits are recorded in [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md).
+
 > **Living idea vault for future capabilities, experiments, integrations, and related projects**
 >
 > **Project:** RuneForgeAI Project A.E.S.I.R.  

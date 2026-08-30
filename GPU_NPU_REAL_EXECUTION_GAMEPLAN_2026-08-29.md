@@ -1,5 +1,10 @@
 # Project A.E.S.I.R. Real GPU/NPU Execution Gameplan
 
+> **Historical planning baseline:** This gameplan predates the native Gemma
+> CUDA profile completed on August 30. Its remaining CUDA/NPU work is still
+> useful planning material, but current observed support and limits are in
+> [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md).
+
 **Date:** 2026-08-29  
 **Branch:** `main`  
 **Planning baseline:** `92816a1`  

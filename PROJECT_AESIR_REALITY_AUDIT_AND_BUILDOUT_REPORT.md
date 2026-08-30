@@ -1,5 +1,10 @@
 # Project A.E.S.I.R. Reality Audit and Complete Buildout Report
 
+> **Historical audit:** This report records its stated August 14 baseline. It
+> predates the verified CPU refinements and native Gemma CUDA/download work; do
+> not read its status conclusions as current. See
+> [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md).
+
 **Audit date:** August 14, 2026  
 **Audit baseline:** `b8a24446d2b174e30e4219b023ccaabcb0e77c64`  
 **Function-level re-audit baseline:** `04d10575763997d337a0804c9ae55914cba5359b`
