@@ -81,8 +81,12 @@ struct ONNXModelSeer:
         """
         if size < 4:
             raise Error("ONNX protobuf binary span too small (< 4 bytes)")
-        
-        # ONNX protobuf wire format check: varint IR version field (0x08) or standard protobuf magic
+
+        # ONNX protobuf wire format check: field 1 varint tag (0x08)
+        var tag = bytes.unsafe_load(0)
+        if tag != 0x08 and tag != 0x0A: # Field 1 (ir_version varint) or Field 1 (opset/producer string)
+            raise Error("Invalid ONNX Protobuf wire tag: expected 0x08 or 0x0A")
+
         self.ir_version = 7 # ONNX IR v7 default for opset 13-18
         self.producer_name = "AesirONNX"
         self.opset_version = 17
