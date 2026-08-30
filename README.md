@@ -28,9 +28,9 @@ for single-shot CUDA execution.
 
 ---
 
-## Aug-30-2026 Project A.E.S.I.R. update ⚙️🔥
+### Aug-30-2026 Project A.E.S.I.R. update ⚙️🔥
 
-A.E.S.I.R. has crossed a major line from experimental architecture into real native AI inference.
+**A.E.S.I.R. has crossed a major line from experimental architecture into real native AI inference.**
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
@@ -40,7 +40,7 @@ The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and sha
 
 The long-term goal is becoming much bigger than an Ollama replacement: a bare-metal, hardware-aware local AI runtime that can intelligently use whatever compute a machine actually has.
 
-Still experimental. Still being forged. But it is very definitely running real AI now. ⚔️🧠
+*Still experimental. Still being forged. But it is very definitely running real AI now. ⚔️🧠*
 
 ---
 
