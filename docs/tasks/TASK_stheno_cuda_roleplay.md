@@ -46,4 +46,12 @@ an 8K response after a nonempty prompt in an 8K context.
 6. Publish the contract, a verified implementation milestone, and final
    evidence/documentation to `main` without weights or raw runtime artifacts.
 
-This initial contract records intent, not implementation success.
+## Milestone 1: download and tokenizer
+
+The native `aesir pull` command completed the full pinned download and verified
+both size and SHA-256. The new native Llama 3 byte-level BPE passed 12 independent
+Hugging Face token-ID cases, UTF-8 decode round trips and the system/user/assistant
+chat frame. Unicode categories are compiled from pinned Unicode 16 data; no
+Python, regex library or external tokenizer runs in production.
+
+GPU inference and the 20-turn roleplay remain pending at this milestone.
