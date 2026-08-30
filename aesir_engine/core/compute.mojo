@@ -3250,6 +3250,9 @@ def gemm_f16_gpu(
     unsupported error for other realms.
     """
     if realm.value == GPURealmType.NVIDIA_CUDA:
+        if B.is_quantized:
+            gemm_f16(A, B, C)
+            return
         CUDAGate.launch_gemm_cuda(A, B, C)
         return
 
