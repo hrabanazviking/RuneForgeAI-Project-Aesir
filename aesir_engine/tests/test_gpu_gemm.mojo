@@ -147,6 +147,34 @@ def exercise_shape(
     var allocation_count = resources.allocation_count
     var maximum_error: Scalar[f32] = 0.0
 
+    if exact_values:
+        var invalid_c = RuneTensor[f16].checked(
+            plan.m,
+            plan.n + 1,
+            well.allocate(plan.m * (plan.n + 1)),
+            False,
+        )
+        var shape_rejected = False
+        try:
+            gemm_f16_cuda(executor, a, b, invalid_c)
+        except error:
+            shape_rejected = "C tensor shape mismatch" in String(error)
+        if not shape_rejected:
+            raise Error("GPU-3 executor accepted a mismatched output shape")
+
+        var quantized_a = RuneTensor[f16].checked(
+            plan.m, plan.k, a.data, True
+        )
+        var quantized_rejected = False
+        try:
+            gemm_f16_cuda(executor, quantized_a, b, c)
+        except error:
+            quantized_rejected = "A must be plain F16" in String(error)
+        if not quantized_rejected:
+            raise Error("GPU-3 executor accepted quantized input storage")
+        if executor.execution_count != 0:
+            raise Error("GPU-3 rejected gateway request launched execution")
+
     for execution_round in range(EXECUTION_ROUNDS):
         fill_inputs(a, b, execution_round, exact_values)
         for index in range(c.size):
@@ -237,5 +265,6 @@ def main() raises:
     print("[GPU3] exact-max-error:", exact_error)
     print("[GPU3] tail-max-error:", tail_error)
     print("[GPU3] transactional-budget-rejection: pass")
+    print("[GPU3] gateway-shape-and-storage-rejection: pass")
     print("[GPU3] reusable-executor-no-reallocation: pass")
     print("[GPU3] result: PASS")
