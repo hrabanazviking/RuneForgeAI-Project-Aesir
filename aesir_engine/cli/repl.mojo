@@ -2,7 +2,7 @@
 # Interactive Terminal REPL Engine for Project Aesir
 
 from aesir import AesirEngine, GenerationConfig
-from loader.chat_template import ChatMessage
+from loader.chat_template import ChatMessage, RuneChatTemplate
 from cli.modelfile import parse_float, parse_int
 from std.ffi import external_call
 
@@ -119,8 +119,9 @@ struct RuneREPL:
         # If line is not a slash command, append user input and run AesirEngine generation
         self.history.append(ChatMessage("user", line))
         try:
-            var engine = AesirEngine(self.model_name, knowledge_capacity=1)
-            var result = engine.generate_tokens(line, self.config.max_new_tokens)
+            var engine = AesirEngine(self.model_name, enable_gpu_realm=True, knowledge_capacity=1)
+            var formatted_prompt = RuneChatTemplate("chatml").format_chatml(self.history)
+            var result = engine.generate_tokens_config(formatted_prompt, self.config)
             self.history.append(ChatMessage("assistant", result.text))
             return result.text
         except error:

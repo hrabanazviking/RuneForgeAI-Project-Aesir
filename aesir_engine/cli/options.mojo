@@ -53,7 +53,7 @@ struct CLIOptions:
         self.raw_was_set = False
         self.insecure = False
         self.insecure_was_set = False
-        self.max_tokens = 32
+        self.max_tokens = 16000
         self.max_tokens_was_set = False
         self.config_path = String("aesir.config.json")
         self.config_was_set = False

@@ -9,6 +9,7 @@ from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBacke
 from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block
+from core.sampler import sample_token_from_logits, RuneRNG
 
 
 
@@ -220,11 +221,9 @@ struct TransformerBlock(Copyable):
 
 
                 # 3. RoPE
-                print("DEBUG Layer", self.layer_idx, "substep 3 RoPE")
                 apply_rope(q, k, start_pos, self.head_dim)
 
                 # 4. Ring-Buffer KV Cache Append & Flash Attention 2
-                print("DEBUG Layer", self.layer_idx, "substep 4 FlashAttention")
                 kv_cache.append(self.layer_idx, start_pos, k, v)
                 var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
                 var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
@@ -524,7 +523,6 @@ def forward_pass(
             rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
     
     # 4. Final projection to logits
-    print("DEBUG: Step 5 Final Projection to Logits")
     if "output.weight" not in seer.tensors:
         well.offset = initial_offset
         raise Error("Inference requires output.weight")
@@ -542,15 +540,18 @@ def forward_pass(
         gemm_f16(x, output_weight, logits)
 
     
-    # 6. Argmax sampling to return the next token
-    var max_val: Scalar[f16] = -10000.0
-    var best_token: Int = 0
-    for i in range(vocab_size):
-        var val = logits.data.unsafe_load(i)
-        if val > max_val:
-            max_val = val
-            best_token = i
-            
+    # 6. Temperature & Top-K / Top-P sampling with repetition penalty
+    var rng = RuneRNG(42)
+    var best_token = sample_token_from_logits(
+        logits.data,
+        vocab_size,
+        temperature=0.7,
+        top_k=40,
+        top_p=0.9,
+        repetition_penalty=1.1,
+        context_tokens=tokens,
+        rng=rng,
+    )
     well.offset = initial_offset
     return best_token
 

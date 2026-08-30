@@ -75,13 +75,13 @@ struct GenerationConfig(Copyable):
 
     def __init__(
         out self,
-        max_new_tokens: Int = 32,
+        max_new_tokens: Int = 16000,
         stop_tokens: List[Int] = List[Int](),
         stop_strings: List[String] = List[String](),
-        temperature: Float32 = 0.0,
-        top_k: Int = 1,
-        top_p: Float32 = 1.0,
-        repetition_penalty: Float32 = 1.0,
+        temperature: Float32 = 0.7,
+        top_k: Int = 40,
+        top_p: Float32 = 0.9,
+        repetition_penalty: Float32 = 1.1,
         frequency_penalty: Float32 = 0.0,
         presence_penalty: Float32 = 0.0,
         min_p: Float32 = 0.0,
@@ -466,8 +466,23 @@ struct AesirEngine:
         print("Starting deterministic generation loop (The Weaving of Fate)...")
 
         try:
+            var gen_config = config.copy()
             self.pool.offset = self.runtime_offset
             var active_prompt = self._prepare_prompt(prompt)
+
+            if "<|im_start|>" not in active_prompt and "<|begin_of_text|>" not in active_prompt and "[INST]" not in active_prompt:
+                var tmpl = RuneChatTemplate("chatml")
+                var msgs = List[ChatMessage]()
+                msgs.append(ChatMessage("system", "You are Aesir, a sovereign LLM inference engine. Respond helpfully and accurately."))
+                msgs.append(ChatMessage("user", active_prompt))
+                active_prompt = tmpl.format_chatml(msgs)
+
+            if 151645 not in gen_config.stop_tokens:
+                gen_config.stop_tokens.append(151645)
+            if 151643 not in gen_config.stop_tokens:
+                gen_config.stop_tokens.append(151643)
+            if "<|im_end|>" not in gen_config.stop_strings:
+                gen_config.stop_strings.append("<|im_end|>")
 
             var tokens = self.tokenizer.encode(active_prompt, True)
             if len(tokens) == 0:
@@ -485,35 +500,30 @@ struct AesirEngine:
                 self.pool,
                 self.parser.config.block_count,
             )
-            var next_token = 0
-            for position in range(len(tokens)):
-                try:
-                    next_token = forward_pass(
-                        tokens,
-                        self.parser,
-                        self.pool,
-                        kv_cache,
-                        position,
-                        self.parser.config.block_count,
-                        self.parser.config.head_dim(),
-                        self.parser.config.head_count,
-                        self.topology,
-                        self.blocks,
-                        self.enable_npu,
-                        self.target_backend,
-                        self.enable_gpu_realm,
-                        self.target_gpu_realm,
-                    )
-                except e:
-                    print("Error during forward pass position", position, ":", e)
-                    raise e
+            var last_prompt_pos = len(tokens) - 1
+            var next_token = forward_pass(
+                tokens,
+                self.parser,
+                self.pool,
+                kv_cache,
+                last_prompt_pos,
+                self.parser.config.block_count,
+                self.parser.config.head_dim(),
+                self.parser.config.head_count,
+                self.topology,
+                self.blocks,
+                self.enable_npu,
+                self.target_backend,
+                self.enable_gpu_realm,
+                self.target_gpu_realm,
+            )
 
             var current_tokens = tokens.copy()
             var generated_token_ids = List[Int]()
             var response_text = String("")
             var stop_reason = String("")
 
-            for _ in range(config.max_new_tokens):
+            for _ in range(gen_config.max_new_tokens):
                 if is_cancelled:
                     stop_reason = "cancelled"
                     break
@@ -524,7 +534,7 @@ struct AesirEngine:
                 if next_token == self.tokenizer.eos_token_id:
                     stop_reason = "eos"
                     break
-                if next_token in config.stop_tokens:
+                if next_token in gen_config.stop_tokens:
                     stop_reason = "stop_token"
                     break
 
@@ -535,14 +545,26 @@ struct AesirEngine:
                     BifrostGate.send_chunk_static(client_fd, chunk_payload)
 
                 var matched_stop_string = False
-                for s_idx in range(len(config.stop_strings)):
-                    var stop_str = config.stop_strings[s_idx]
+                for s_idx in range(len(gen_config.stop_strings)):
+                    var stop_str = gen_config.stop_strings[s_idx]
                     if stop_str in response_text:
                         stop_reason = "stop_string"
                         var match_pos = response_text.find(stop_str)
-                        if match_pos >= 0:
-                            var truncated = String(response_text[byte=0 : match_pos])
-                            response_text = truncated
+                        if match_pos > 0:
+                            var raw_b = response_text.as_bytes()
+                            var valid_end = match_pos
+                            while valid_end > 0 and (raw_b[valid_end - 1] & 0xC0) == 0x80:
+                                valid_end -= 1
+                            if valid_end > 0:
+                                var clean_b = List[Int8]()
+                                for b_i in range(valid_end):
+                                    clean_b.append(Int8(raw_b[b_i]))
+                                clean_b.append(0)
+                                response_text = String(unsafe_from_utf8_ptr=clean_b.unsafe_ptr())
+                            else:
+                                response_text = String("")
+                        else:
+                            response_text = String("")
                         matched_stop_string = True
                         break
                 if matched_stop_string:
@@ -553,7 +575,7 @@ struct AesirEngine:
                     next_token,
                     self.tokenizer.eos_token_id,
                     len(generated_token_ids),
-                    config,
+                    gen_config,
                     next_position,
                     self.parser.config.context_length,
                 )

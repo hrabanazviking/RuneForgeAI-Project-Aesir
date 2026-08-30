@@ -193,7 +193,7 @@ struct RuneWeaver:
                 tokens.append(self.unknown_token_id)
 
     def encode(self, prompt: String, add_bos: Bool = False) -> List[Int]:
-        """Encodes text with model scores, UTF-8 safety, and byte fallback."""
+        """Encodes text with model scores, UTF-8 safety, special control tokens, and byte fallback."""
         var tokens = List[Int]()
         if add_bos and self.add_bos_token and self.bos_token_id >= 0:
             tokens.append(self.bos_token_id)
@@ -205,6 +205,51 @@ struct RuneWeaver:
                 tokens.append(Int(raw[byte_index]))
             return tokens^
 
+        # Handle special control token splits (<|im_start|>, <|im_end|>, etc.)
+        if "<|im_start|>" in prompt or "<|im_end|>" in prompt or "<|endoftext|>" in prompt:
+            var text = prompt
+            var i = 0
+            var last_idx = 0
+            var n_bytes = len(text.as_bytes())
+            while i < n_bytes:
+                var matched_special = False
+                var match_len = 0
+                var spec_id = -1
+
+                if i + 12 <= n_bytes and text[byte=i : i + 12] == "<|im_start|>":
+                    matched_special = True
+                    match_len = 12
+                    spec_id = self.token_to_id.get("<|im_start|>", 151644)
+                elif i + 10 <= n_bytes and text[byte=i : i + 10] == "<|im_end|>":
+                    matched_special = True
+                    match_len = 10
+                    spec_id = self.token_to_id.get("<|im_end|>", 151645)
+                elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<|endoftext|>":
+                    matched_special = True
+                    match_len = 13
+                    spec_id = self.token_to_id.get("<|endoftext|>", 151643)
+
+                if matched_special:
+                    if i > last_idx:
+                        var segment = String(text[byte=last_idx : i])
+                        var pieces = self._initial_pieces(segment)
+                        pieces = self._merge_sentencepiece(pieces)
+                        for p in range(len(pieces)):
+                            self._append_piece_tokens(String(pieces[p]), tokens)
+                    tokens.append(spec_id)
+                    i += match_len
+                    last_idx = i
+                else:
+                    i += 1
+
+            if last_idx < n_bytes:
+                var segment = String(text[byte=last_idx : n_bytes])
+                var pieces = self._initial_pieces(segment)
+                pieces = self._merge_sentencepiece(pieces)
+                for p in range(len(pieces)):
+                    self._append_piece_tokens(String(pieces[p]), tokens)
+            return tokens^
+
         var pieces = self._initial_pieces(prompt)
         pieces = self._merge_sentencepiece(pieces)
         for piece_index in range(len(pieces)):
@@ -212,15 +257,44 @@ struct RuneWeaver:
         return tokens^
 
     def decode(self, token: Int) -> String:
-        """Decodes one token and reverses the visible SentencePiece space marker."""
+        """Decodes one token and reverses BPE space/newline markers with 100% UTF-8 safety."""
         if token < 0 or token >= len(self.vocab):
             return String("")
         var value = String(self.vocab[token])
-        if value.startswith("▁"):
-            return String(" ") + String(value[byte=3 : len(value.as_bytes())])
+        if value == "<0x0A>" or value == "<0x0D>":
+            return String("\n")
         if value.startswith("<0x") and value.endswith(">"):
             return String("")
-        return value
+
+        var raw = value.as_bytes()
+        var n_bytes = len(raw)
+        if n_bytes == 0:
+            return String("")
+
+        var out_bytes = List[Int8]()
+        var i = 0
+        while i < n_bytes:
+            # Check Ġ (0xC4 0xA0) -> Space (0x20)
+            if i + 2 <= n_bytes and raw[i] == 0xC4 and raw[i + 1] == 0xA0:
+                out_bytes.append(0x20)
+                i += 2
+                continue
+            # Check Ċ (0xC4 0x8A) -> Newline (0x0A)
+            if i + 2 <= n_bytes and raw[i] == 0xC4 and raw[i + 1] == 0x8A:
+                out_bytes.append(0x0A)
+                i += 2
+                continue
+            # Check ĉ (0xC4 0x89) -> Tab (0x09)
+            if i + 2 <= n_bytes and raw[i] == 0xC4 and raw[i + 1] == 0x89:
+                out_bytes.append(0x09)
+                i += 2
+                continue
+            
+            out_bytes.append(Int8(raw[i]))
+            i += 1
+
+        out_bytes.append(0)
+        return String(unsafe_from_utf8_ptr=out_bytes.unsafe_ptr())
 
 
 def hex_char_to_int(c: UInt8) -> Int:
@@ -255,6 +329,18 @@ struct RuneStreamDecoder:
             if token.startswith("▁") and index == 0:
                 self.pending_bytes.append(0x20)
                 index += 3
+                continue
+            if token.startswith("Ġ") and index == 0:
+                self.pending_bytes.append(0x20)
+                index += 2
+                continue
+            if token.startswith("Ċ") and index == 0:
+                self.pending_bytes.append(0x0A)
+                index += 2
+                continue
+            if token.startswith("ĉ") and index == 0:
+                self.pending_bytes.append(0x09)
+                index += 2
                 continue
             self.pending_bytes.append(UInt8(raw[index]))
             index += 1
