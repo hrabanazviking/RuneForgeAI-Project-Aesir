@@ -196,7 +196,7 @@ struct CUDAGate:
             raise Error("CUDAGate.allocate_vram: no CUDA devices available")
         from std.memory.alloc import alloc, Layout
         var memory = alloc(Layout[Scalar[f16]](count=max(1, size_bytes // 2)))
-        return memory.unsafe_leak()
+        return memory^.unsafe_leak()
 
     @staticmethod
     def free_vram(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:

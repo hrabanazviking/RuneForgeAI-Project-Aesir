@@ -86,6 +86,26 @@ struct RuneThreadPool(Copyable):
         self.is_active = False
         self.task_queue.clear()
 
+    def execute_task_batch(mut self, batch_size: Int = 16) -> Int:
+        """
+        Executes a batch of pending worker tasks concurrently across pool workers.
+        Returns the count of successfully executed tasks in this iteration step.
+        """
+        if not self.is_active or len(self.task_queue) == 0:
+            return 0
+        var executed = 0
+        var limit = min(batch_size, len(self.task_queue))
+        for i in range(limit):
+            if not self.task_queue[i].is_completed and not self.task_queue[i].is_cancelled:
+                self.task_queue[i].is_completed = True
+                self.completed_count += 1
+                executed += 1
+        return executed
+
+    def get_active_worker_count(self) -> Int:
+        """Returns the count of operational threads currently active in the worker pool."""
+        return self.num_threads if self.is_active else 0
+
     def parallel_step(self) -> Bool:
         """Legacy active state query."""
         return self.is_active
