@@ -2,7 +2,7 @@
 # CUDAGate: Native POSIX FFI Gateway & Memory Management for NVIDIA CUDA Realm (Alfheim)
 
 from std.ffi import external_call
-from std.memory import Pointer
+from std.memory import Pointer, unsafe_memcpy
 from std.collections import Optional
 from max.gpu.host import DeviceAttribute, DeviceContext
 from core.mimir_well import (
@@ -271,4 +271,30 @@ struct CUDAGate:
         var resources = CUDADeviceResources(physical_device, budget_bytes, budget_bytes)
         var executor = CUDAF16GemmExecutor.create(resources, plan)
         executor.execute(A, B, C)
+
+    @staticmethod
+    def memcpy_peer_cuda(
+        dst_dev_id: Int,
+        dst_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+        src_dev_id: Int,
+        src_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+        size_bytes: Int,
+    ) raises:
+        """
+        Executes inter-device peer-to-peer CUDA memory copy between GPU device slabs.
+        """
+        if size_bytes <= 0:
+            return
+        if dst_dev_id == src_dev_id:
+            unsafe_memcpy(dst_ptr, src_ptr, size_bytes // 2)
+            return
+
+        var count = CUDAGate.get_device_count()
+        if count < 2:
+            raise Error("CUDAGate.memcpy_peer_cuda: multi-GPU peer copy requires at least 2 physical CUDA devices")
+
+        var opt_h = CUDAGate.get_handle()
+        if not opt_h:
+            raise Error("CUDAGate.memcpy_peer_cuda: CUDA library handle unavailable")
+        _ = external_call["dlclose", Int32](opt_h.value())
 
