@@ -111,6 +111,20 @@ def test_swarm_cluster_task_dispatch() raises:
     if not empty_dispatch_rejected:
         raise Error("TaskDispatcher allowed dispatch to node with empty ID")
 
+    var valid_dispatch_rejected = False
+    try:
+        var local_node = PeerNode(
+            "local", "127.0.0.1", 11434,
+            SwarmNodeRole.WORKER, 1000, 500, True
+        )
+        _ = dispatcher.dispatch_to_node(local_node, "test_task")
+    except error:
+        valid_dispatch_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("swarm dispatch rejection omitted truth boundary")
+    if not valid_dispatch_rejected:
+        raise Error("TaskDispatcher fabricated a dispatch success string")
+
     if cluster.registry.count() != 0 or cluster.is_mesh_active:
         raise Error("SwarmCluster started with fictional operational state")
     if cluster.heartbeat_pulse():

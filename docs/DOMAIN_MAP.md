@@ -1,4 +1,4 @@
-# Project Aesir: Domain Map & Boundary Law
+# Project Aesir: Domain Ownership Map & Target Boundary Law
 
 > *"Let every realm maintain its own walls. When boundaries collapse, chaos reigns."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -8,6 +8,13 @@
 ## 🏛️ Domain Architecture Overview
 
 Project Aesir is strictly partitioned into isolated domain realms. Each domain has a single, immutable responsibility and communicates only through explicit facade interfaces.
+
+> [!IMPORTANT]
+> This map assigns ownership and preserves intended interface shapes. It is not
+> a capability-completion matrix. Reserved commands/routes and named hardware,
+> ecosystem, resilience, and Swarm types may fail closed or remain local
+> descriptors. Current operational status is defined only by
+> [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md).
 
 ```mermaid
 graph TB
@@ -35,8 +42,10 @@ graph TB
     end
 
     subgraph Core [Compute, Memory & Resilience Domain - core/]
-        Memory[core/mimir_well.mojo<br/>MimirWell, RuneTensor, KVCache, MimirStore, GPURealmType, GPUBuffer & CompressedFormatType]
-        Compute[core/compute.mojo<br/>Nidavellir SIMD Kernels, gemm_f16_npu, gemm_f16_gpu & dequantize_compressed_tensor]
+        Memory[core/mimir_well.mojo<br/>MimirWell, DeviceTopology, PhysicalDevice, GPURealmType & host descriptors]
+        CUDA[core/cuda_gate.mojo + cuda_resources.mojo<br/>MAX CUDA discovery + owned resources]
+        CUDACompute[core/cuda_gemm_plan.mojo + cuda_compute.mojo<br/>checked plan + reusable real CUDA F16 GEMM]
+        Compute[core/compute.mojo<br/>host kernels, gemm_f16_cuda, fail-closed realm gates]
         Inference[core/inference.mojo<br/>TransformerBlock & forward_pass]
         Grammar[core/grammar.mojo<br/>GBNFGrammar]
         Speculative[core/speculative.mojo<br/>SpeculativeEngine]
@@ -63,6 +72,9 @@ graph TB
     Engine -->|Monitors Process & Thread Health| Resilience
     Engine -->|Orchestrates Swarm Mesh| Swarm
     Inference -->|Appends & Slices KV Cache| Memory
+    CUDA -->|Returns Records; Owns MAX F16 Resources| Memory
+    CUDA -->|Owns selected context and buffers| CUDACompute
+    CUDACompute -->|Explicit gemm_f16_cuda gateway| Compute
     Inference -->|Dispatches SIMD Kernels| Compute
     Inference -->|Sanitizes Logits & Checks Bounds| Resilience
     Inference -->|Routes via NPU Gateway gemm_f16_npu| Compute
@@ -97,10 +109,10 @@ graph TB
 ### 2. `asgard` Domain (AesirEngine Orchestration Facade, RAG, Resilience, Multi-Device Topology & Swarm Mesh Orchestration)
 - **Path:** `aesir_engine/aesir.mojo`
 - **Owner:** Engine Orchestration & Lifecycle
-- **Responsibility:** Instantiates `MimirWell`, `GGUFSeer`, `RuneWeaver`, `knowledge_base` (`MimirStore`), `topology: DeviceTopology`, `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, `thread_pool: RuneThreadPool`, and `swarm_cluster: SwarmCluster`. Coordinates prompt encoding, RAG prompt context augmentation (`search_knn`), multi-device sharded generation loop execution (`generate` and `generate_stream`), token-by-token decoding, thinking token masking (`permit_seidr`), heartbeat pulses (`supervisor.pulse_heartbeat()`), enterprise mesh cluster orchestration (`swarm_cluster`), and dispatching chunk payloads via `BifrostGate`.
+- **Responsibility:** Instantiates the engine's local components and coordinates the verified single-device CPU generation path. Multi-device, NPU, GPU, live server, concurrency, and swarm surfaces remain rejected or scaffolded according to the capability ledger.
 - **Slice 6 Components:** `AesirEngine` holds `topology: DeviceTopology` initialized via `num_devices` parameter. When `num_devices > 1`, logs active Bifrost Shard Matrix status and passes `topology` into `forward_pass()` calls during inference.
 - **Slice 7 Components (NPU Realm Gateway):** `AesirEngine` holds `enable_npu: Bool` and `target_backend: NPUBackendType`. When `enable_npu` is `True`, logs the active NPU backend name via `target_backend.name()` at construction time and passes `use_npu=enable_npu` and `npu_backend=target_backend` into every `forward_pass()` call. `NPUBackendType` is imported from `core/mimir_well.mojo`.
-- **Slice 8 Components (Universal Multi-GPU Realm Matrix):** `AesirEngine` holds `enable_gpu_realm: Bool` and `target_gpu_realm: GPURealmType`. When `enable_gpu_realm` is `True`, logs the active GPU realm name via `target_gpu_realm.name()` during initialization and threads `use_gpu_realm=enable_gpu_realm` and `gpu_realm=target_gpu_realm` into every `forward_pass()` call.
+- **Slice 8 Components:** `AesirEngine` retains requested GPU configuration fields, but validation rejects GPU execution before model loading. GPU-1 discovery lives in the core topology boundary and does not enable these fields.
 - **Slice 12 Components (Sovereign Resilience & Self-Healing Matrix):** `AesirEngine` holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. Emits an initial heartbeat pulse on startup and maintains thread pool resources for concurrent inference requests.
 - **Phase 14 Components (Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix):** `AesirEngine` holds `swarm_cluster: SwarmCluster`. Instantiates the swarm orchestrator on startup and manages mesh cluster topology.
 
@@ -113,9 +125,9 @@ graph TB
 ### 4. `core` Domain (Nidavellir SIMD Kernels, MimirWell, KVCache, MimirStore, NPU Gateway, GPU Realm Matrix, Compressed Format Matrix, GBNFGrammar, SpeculativeEngine, Sovereign Resilience Matrix & Swarm Cluster Matrix)
 - **Path:** `aesir_engine/core/`
 - **Owner:** Math, Zero-Allocation Memory, Quantization Unpacking, Constrained Generation, Self-Healing Resilience, Swarm Mesh Cluster & Transformer Forward Pass
-- **Responsibility:** `MimirWell` pre-allocates contiguous workspace VRAM/RAM. In **Slice 6**, `core/mimir_well.mojo` provides `KVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, and tensor partitioning functions `shard_split_cols` and `shard_split_rows`. `core/compute.mojo` provides SIMD kernels (`gemm_f16`, `flash_attention_2`, `silu`, `geglu`, `dequantize_q4_k_m`, `rmsnorm`, `apply_rope`, `cosine_similarity`), `gemm_f16_sharded`, and `all_reduce_sum`. `core/inference.mojo` encapsulates `TransformerBlock` and `forward_pass`.
+- **Responsibility:** `MimirWell` pre-allocates contiguous host workspace. `core/mimir_well.mojo` owns memory types, runtime-neutral discovery records, topology, sharding, and partitioning. `core/cuda_gate.mojo` owns real MAX CUDA enumeration; `core/cuda_resources.mojo` owns selected-device contexts, budgets, paired F16 buffers, transfers, and synchronization; `core/cuda_gemm_plan.mojo` owns hardware-independent GEMM admission; and `core/cuda_compute.mojo` owns the reusable real CUDA F16 GEMM executor and kernel. `core/compute.mojo` owns CPU SIMD kernels, the explicit `gemm_f16_cuda` gateway, and fail-closed realm-only gateways; `core/inference.mojo` owns `TransformerBlock` and `forward_pass`.
   - **Slice 7 — NPU Realm Gateway additions:** `NPUBackendType`, `NPUBuffer`, `DeviceTopology.detect_edge_npus()`, `MimirWell.allocate_npu_buffer()`, `gemm_f16_arm_neon`, `rmsnorm_arm_neon`, `gemm_f16_npu`.
-  - **Slice 8 — Universal Multi-GPU & Accelerator Realm Matrix additions:** `GPURealmType`, `GPUBuffer`, `DeviceTopology.detect_gpu_realms()`, `MimirWell.allocate_gpu_buffer()`, `gemm_f16_gpgpu_vector`, `gemm_f16_mobile_opencl`, `rmsnorm_gpu`, `gemm_f16_gpu`.
+  - **Slice 8 / GPU-1 through GPU-3:** `GPURealmType` and host `GPUBuffer` descriptors remain reserved compatibility surfaces. GPU-1 adds real MAX CUDA enumeration and compatible selection, GPU-2 adds owned selected-device resources, and GPU-3 adds one explicit reusable CUDA F16 GEMM. Transformer/model execution and the realm-only gateway remain fail-closed.
   - **Slice 10 — Universal Compressed LLM Format Matrix additions:** `CompressedFormatType` in `core/mimir_well.mojo`, `dequantize_compressed_tensor` gate and SIMD unpacking kernels in `core/compute.mojo`.
   - **Slice 11 — Constrained Generation & Speculative Sampling additions:** `GBNFGrammar` (`core/grammar.mojo`), `SpeculativeEngine` (`core/speculative.mojo`).
   - **Slice 12 — Sovereign Resilience & Self-Healing Matrix additions:** `ErrorGuard`, `StateVault`, `AesirEventBus`, `RuneThreadPool`, `SelfHealingSupervisor`.
@@ -131,7 +143,7 @@ graph TB
 ### 6. `tests` Domain (Verification Suite)
 - **Path:** `aesir_engine/tests/`
 - **Owner:** Quality & Invariants
-- **Responsibility:** Verifies math correctness, SIMD cosine similarity, memory pool safety, GGUF loading, BPE tokenization, ring-buffer KV cache updates, `MimirStore` k-NN search, RAG prompt augmentation, forward pass layer execution, `DeviceTopology`, `ShardTensor`, tensor partitioning, sharded GEMM parity, NPU edge dispatch, Universal Multi-GPU Realm Matrix parity, Ollama CLI command dispatching, Universal Compressed LLM Format Matrix dequantization (`test_quantization.mojo`), Universal Multi-Engine Ecosystem Matrix parity (`test_multi_engine.mojo`), Sovereign Resilience & Self-Healing Matrix invariants (`test_resilience.mojo`), HuggingFace Hub Integration & Mobile Downloader invariants (`test_huggingface.mojo`), and **Phase 14 Swarm Cluster Matrix invariants (`test_swarm_cluster.mojo`)**.
+- **Responsibility:** Verifies CPU math, memory, loading, tokenization, inference, and fail-closed subsystem contracts. Discovery, resource-budget, and GEMM-plan admission use hardware-independent master-suite cases; opt-in tests separately prove physical MAX CUDA reachability, discovery, resource ownership, and the production GPU-3 GEMM gateway. The GPU-3 proof promotes only the narrow explicit CUDA dispatch to partial status, not model inference or general GPU support.
 
 ---
 
@@ -232,7 +244,3 @@ graph TD
 | **Loader** | `loader/gguf.mojo`, `loader/tokenizer.mojo`, `loader/onnx.mojo` *(Slice 11)*, `loader/huggingface.mojo` *(Slice 13)* | `GGUFSeer`, `RuneWeaver` (BPE `encode`/`decode`/`<0xXX>`), `GGMLType` (+ `to_compressed_format` *Slice 10*), `ONNXModelSeer` *(Slice 11)*, `HuggingFaceSeer` *(Slice 13)* (`parse_hf_repo`, `is_hf_tag`, `build_download_url`, `download_hf_model`) | `loader/INTERFACE.md` |
 | **Core** | `core/mimir_well.mojo`, `core/compute.mojo`, `core/inference.mojo`, `core/grammar.mojo` *(Slice 11)*, `core/speculative.mojo` *(Slice 11)*, `core/error_guard.mojo` *(Slice 12)*, `core/state_vault.mojo` *(Slice 12)*, `core/event_bus.mojo` *(Slice 12)*, `core/thread_pool.mojo` *(Slice 12)*, `core/supervisor.mojo` *(Slice 12)*, `core/swarm.mojo` *(Phase 14)* | `MimirWell` (+ `allocate_npu_buffer` *Slice 7*, `allocate_gpu_buffer` *Slice 8*), `RuneTensor`, `KVCache`, `MimirStore`, `DeviceTopology` (+ `npu_backends` *Slice 7*, `gpu_realms` *Slice 8*), `ShardTensor`, `NPUBackendType` *(Slice 7)*, `NPUBuffer` *(Slice 7)*, `GPURealmType` *(Slice 8)*, `GPUBuffer` *(Slice 8)*, `CompressedFormatType` *(Slice 10)*, `GBNFGrammar` *(Slice 11)*, `SpeculativeEngine` *(Slice 11)*, `ErrorGuard` *(Slice 12)*, `StateVault` *(Slice 12)*, `AesirEventBus` *(Slice 12)*, `RuneThreadPool` *(Slice 12)*, `SelfHealingSupervisor` *(Slice 12)*, `SwarmNodeRole` *(Phase 14)*, `PeerNode` *(Phase 14)*, `PeerRegistry` *(Phase 14)*, `TaskDispatcher` *(Phase 14)*, `SwarmCluster` *(Phase 14)*, SIMD Kernels, `TransformerBlock`, `forward_pass` | `core/INTERFACE.md` |
 | **Tests** | `tests/run_all.mojo`, `test_*.mojo` | `main()`, test cases (`test_compute`, `test_gguf`, `test_tokenizer`, `test_inference`, `test_kv_cache`, `test_rag`, `test_sharding`, `test_npu_edge`, `test_gpu_realms`, `test_cli`, `test_quantization` *Slice 10*, `test_multi_engine` *Slice 11*, `test_resilience` *Slice 12*, `test_huggingface` *Slice 13*, `test_swarm_cluster` *Phase 14*) | `tests/INTERFACE.md` |
-
-
-
-

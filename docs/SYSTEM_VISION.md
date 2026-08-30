@@ -4,13 +4,39 @@
 > — **Sigrún Ljósbrá, The Skald**
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense operational capabilities are governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). The full unconstrained multi-engine, multi-device, and swarm target roadmap is preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense operational capabilities are
+> governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). Historical
+> completion labels below are preserved chronology, not current evidence.
 
 ## 🎯 Primary Purpose & Vision
 
-Project Aesir is designed to be a high-performance bare-metal LLM inference engine targeting Ollama, llama.cpp, ExLlamaV3, and ONNX Runtime ecosystem compatibility.
+Project Aesir is a native Mojo local-inference system under active construction.
+Its ecosystem, accelerator, service, resilience, and distributed ambitions are
+targets until the capability ledger records the required external or physical
+evidence.
 
-It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and runtime memory fragmentation by implementing everything in native **Mojo**.
+## Current Evidence Boundary
+
+- The current bounded runtime proof is the pinned single-device Linux CPU GGUF
+  v3 Llama F16 slice: `[verified, AES-FND-002]`.
+- Cross-platform runtime support remains absent: `[missing, AES-FND-006]`.
+- CI and repository hygiene are real but incomplete:
+  `[partial, AES-FND-005]` and `[partial, AES-FND-007]`.
+- One explicit reusable MAX CUDA F16 GEMM now has physical reference evidence:
+  `[partial, AES-ACC-008]`. This is not Transformer inference, persistent
+  device-resident model weights, general GPU support, or CLI acceleration.
+- Compatibility names, enums, format labels, gateway types, and synthetic tests
+  do not establish external ecosystem, hardware, protocol, or production
+  support.
+
+<!-- HISTORICAL_CLAIMS_BEGIN -->
+
+## Preserved Historical Milestone Claim Log
+
+> [!CAUTION]
+> Everything below this marker is preserved chronology and target language.
+> Its old completion/status words are not current evidence and do not override
+> `CAPABILITY_LEDGER.md`.
 
 ### ⚡ Completed Milestone: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
 * **Stage 58.1 All-Format Quantization Suite & Autotuner Milestone ([`AES-QNT-011`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `QuantizationFormatInfo` struct, `get_quantization_format_info()` metadata store, and `autotune_quantized_gemm()` hardware autotuning gateway in `core/compute.mojo`. Created comprehensive unit test suite `test_all_quantization_formats_suite.mojo` testing metadata reporting across all 25+ quantization format discriminants and autotuned hardware gateway dispatching.
@@ -74,7 +100,7 @@ It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and run
 * **Stage 5.5 CLI Flag Options Milestone ([`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `CLIOptions` in `cli/options.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, `--max-tokens N`, and duration string parsing.
 * **Stage 5.4 Stdin REPL Milestone ([`AES-CLI-008`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]`, `GenerationConfig` parameter tuning, slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and `run_repl_stream()`.
 * **Stage 5.3 Operational CLI Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `aesir list`, `aesir ls`, `aesir show`, `aesir ps`, `aesir create`, `aesir cp`, and `aesir rm` in `cli/commands.mojo`, connecting output to `RuneModelStore` catalog and session registry.
-* **Stage 5.2 Manifest Persistence Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `compute_modelfile_digest()` producing deterministic `sha256:<hex>` IDs, `ModelManifest.serialize()`, `deserialize_manifest()`, and `RuneModelStore` persistence scroll round-trip (`serialize_store()` / `deserialize_store()`).
+* **Stage 5.2 Manifest Catalog Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `partial`)**: Implemented validated manifests, a caller-configured relative store root, and a versioned atomic Linux catalog with restart-safe mutations. Content-addressed blobs and cryptographic model-byte integrity remain targets.
 * **Stage 5.1 Modelfile Grammar Milestone ([`AES-CLI-003`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented multiline triple-quote `"""..."""` parsing, single/double quote unescaping (`unescape_string()`), fail-closed validation (`FROM` directive checks), and parameter conversion to `GenerationConfig` (`Modelfile.to_generation_config()`).
 * **Stage 4.5 Token Masking & Corpora ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `apply_token_mask()` in `sampler.mojo`, `suppress_tokens` in `GenerationConfig`, hardened finite FP16/FP32 float range greedy argmax, and multi-prompt regression test corpora.
 * **Maximum Bug, Error, Security & Boundary Hardening ([`AES-GEN-005`](../CAPABILITY_LEDGER.md), [`AES-GEN-006`](../CAPABILITY_LEDGER.md), [`AES-GEN-007`](../CAPABILITY_LEDGER.md), [`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added zero-candidate list safety guards across all sampling functions, explicit `"tool"` role formatting across ChatML/Llama-3/Llama-2 templates, fail-closed unregistered session release rejection, and session `active_tokens` accounting.
@@ -143,10 +169,10 @@ It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and run
    - **Heterogeneous Forward Pass (`TransformerBlock.forward`, `AesirEngine`):** `enable_npu` / `target_backend` propagation through all projection layers and the full generation pipeline.
 
 11. **Universal Multi-GPU & Hardware Accelerator Realm Matrix:**
-   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Ten sovereign compute spirits: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR.
+   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Eleven target realms: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR, and Apple Metal.
    - **The Bifrost Physical Stream Channel (`GPUBuffer`):** Zero-copy physical GPU buffer carved directly from MimirWell.
-   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Topology scan registering all ten GPU hardware realms into living memory.
-   - **The Gateway of the Ten GPU Realms (`gemm_f16_gpu`):** Zero-overhead single-integer discriminant routing matrix operations to specialized SIMD kernels.
+   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Target topology scan across eleven GPU realms.
+   - **The Gateway of the Eleven GPU Realms (`gemm_f16_gpu`):** Target single-integer dispatch to genuine backend kernels after each is proved.
    - **Eastern GPGPU & Mobile SIMD Kernels (`gemm_f16_gpgpu_vector`, `gemm_f16_mobile_opencl`):** 16-wide GPGPU SIMT and 8-wide mobile OpenCL vector kernels.
    - **The Cleansing Stream of Alfheim (`rmsnorm_gpu`):** Vectorized RMSNorm across GPU realms with f32 numerical widening.
    - **Universal GPU Forward Pass & Engine Controls (`TransformerBlock.forward`, `AesirEngine`):** `enable_gpu_realm` and `target_gpu_realm` configuration across all model projections and generation loops.
@@ -154,7 +180,7 @@ It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and run
 12. **Complete Ollama Terminal Command Suite & CLI Compatibility ([`AES-CLI-005`](../CAPABILITY_LEDGER.md)):**
    - **The Bifrost Command Dispatcher (`dispatch_command`):** Native Mojo routing across 12 subcommands (`serve`, `run`, `pull`, `push`, `create`, `list`, `ps`, `rm`, `cp`, `show`, `stop`, `help`).
    - **Modelfile Directive Parser (`Modelfile`, `parse_modelfile`):** Parser for `FROM`, `PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE` runestones.
-   - **The Scroll & Vault of Mímisbrunnr (`ModelManifest`, `RuneModelStore`):** Manifest metadata, SHA-256 digests, and catalog store.
+   - **The Scroll & Vault of Mímisbrunnr (`ModelManifest`, `RuneModelStore`):** Target durable metadata/catalog store; the current implementation is in-memory with non-cryptographic fingerprints.
    - **Interactive REPL Chat Current (`RuneREPL`):** Streaming terminal chat with `/set`, `/show`, `/clear`, `/bye` slash commands.
 
 13. **Universal Compressed LLM Format Matrix:**
@@ -202,20 +228,20 @@ It eliminates bloated dynamic runtimes, heavy Python/C++ library stacks, and run
 ```mermaid
 timeline
     title Project Aesir System Evolution
-    Phase 1 : Core Architecture : BifrostGate Socket Server : MimirWell Memory Pool : AesirEngine Facade [COMPLETED]
-    Phase 2 : Math Kernels & Quantization : Tiled GEMM : Fused Flash Attention-2 : Q4_K_M Dequantization [COMPLETED]
-    Phase 3 : Complete LLM Forward Pass & GGUF Parsing : The Loom of Fate : The Runecaster KV Parser : RMSNorm & RoPE [COMPLETED]
-    Phase 4 : Production Tokenizer & KV Cache : BPE Tokenizer Dictionary : Ring-Buffer KV Cache : Streaming Response Pipeline [COMPLETED]
-    Phase 5 : External Knowledge & SIMD Vector Search : SIMD Cosine Similarity : MimirStore Vector Pool : RAG Context Augmentation [COMPLETED]
-    Phase 6 : Multi-GPU Orchestration & Shard Matrix : Device Topology Mapping : Column/Row Tensor Sharding : All-Reduce Sum & Sharded GEMM [COMPLETED]
-    Phase 7 : NPU Realm Gateway : NPUBackendType Edge Spirits : NPUBuffer Zero-Copy DMA-BUF : NEON gemm_f16_arm_neon & rmsnorm_arm_neon : gemm_f16_npu Dispatcher [COMPLETED]
-    Phase 8 : Universal Multi-GPU & Accelerator Realm Matrix : GPURealmType Sigils : GPUBuffer Zero-Copy Channel : gemm_f16_gpu Dispatcher : Eastern & Mobile SIMD Kernels [COMPLETED]
-    Phase 9 : Complete Ollama Terminal Command Suite & CLI Compatibility : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [COMPLETED]
-    Phase 10 : Universal Compressed LLM Format Matrix : CompressedFormatType Sigils : GGMLType Converter : dequantize_compressed_tensor Gateway : 21 Format Kernels [COMPLETED]
-    Phase 11 : Universal Multi-Engine Ecosystem Matrix : OpenAIGate REST Bridge : llama.cpp HTTP Endpoint Parity : GBNFGrammar Constrained Generation : SpeculativeEngine Draft Verification : ONNXModelSeer Protocol Parser [COMPLETED]
-    Phase 12 : Sovereign Resilience & Self-Healing Matrix : ErrorGuard Pointer/Logit Sanitizer : StateVault State Snapshotting : AesirEventBus Decoupled PubSub : RuneThreadPool Parallel Workers : SelfHealingSupervisor Undying Guardian [COMPLETED]
-    Phase 13 : HuggingFace Hub Integration & Mobile Downloader : HuggingFaceSeer Repo Scout : parse_hf_repo Tag Normalizer : build_download_url CDN Resolver : Mobile & Edge Model Downloader [COMPLETED]
-    Phase 14 : Autonomous Swarm Agents & Enterprise Mesh Cluster : Distributed Peer Nodes : Dynamic Model Load Balancing : Sovereign Swarm Orchestration [COMPLETED]
+    Phase 1 : Core Architecture : BifrostGate Socket Server : MimirWell Memory Pool : AesirEngine Facade [TARGET; SEE CAPABILITY LEDGER]
+    Phase 2 : Math Kernels & Quantization : Tiled GEMM : Fused Flash Attention-2 : Q4_K_M Dequantization [TARGET; SEE CAPABILITY LEDGER]
+    Phase 3 : Complete LLM Forward Pass & GGUF Parsing : The Loom of Fate : The Runecaster KV Parser : RMSNorm & RoPE [TARGET; SEE CAPABILITY LEDGER]
+    Phase 4 : Production Tokenizer & KV Cache : BPE Tokenizer Dictionary : Ring-Buffer KV Cache : Streaming Response Pipeline [TARGET; SEE CAPABILITY LEDGER]
+    Phase 5 : External Knowledge & SIMD Vector Search : SIMD Cosine Similarity : MimirStore Vector Pool : RAG Context Augmentation [TARGET; SEE CAPABILITY LEDGER]
+    Phase 6 : Multi-GPU Orchestration & Shard Matrix : Device Topology Mapping : Column/Row Tensor Sharding : All-Reduce Sum & Sharded GEMM [TARGET; SEE CAPABILITY LEDGER]
+    Phase 7 : NPU Realm Gateway : NPUBackendType Edge Spirits : NPUBuffer Zero-Copy DMA-BUF : NEON gemm_f16_arm_neon & rmsnorm_arm_neon : gemm_f16_npu Dispatcher [TARGET; SEE CAPABILITY LEDGER]
+    Phase 8 : Universal Multi-GPU & Accelerator Realm Matrix : GPURealmType Sigils : GPUBuffer Zero-Copy Channel : gemm_f16_gpu Dispatcher : Eastern & Mobile SIMD Kernels [TARGET; SEE CAPABILITY LEDGER]
+    Phase 9 : Complete Ollama Terminal Command Suite & CLI Compatibility : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [TARGET; SEE CAPABILITY LEDGER]
+    Phase 10 : Universal Compressed LLM Format Matrix : CompressedFormatType Sigils : GGMLType Converter : dequantize_compressed_tensor Gateway : 21 Format Kernels [TARGET; SEE CAPABILITY LEDGER]
+    Phase 11 : Universal Multi-Engine Ecosystem Matrix : OpenAIGate REST Bridge : llama.cpp HTTP Endpoint Parity : GBNFGrammar Constrained Generation : SpeculativeEngine Draft Verification : ONNXModelSeer Protocol Parser [TARGET; SEE CAPABILITY LEDGER]
+    Phase 12 : Sovereign Resilience & Self-Healing Matrix : ErrorGuard Pointer/Logit Sanitizer : StateVault State Snapshotting : AesirEventBus Decoupled PubSub : RuneThreadPool Parallel Workers : SelfHealingSupervisor Undying Guardian [TARGET; SEE CAPABILITY LEDGER]
+    Phase 13 : HuggingFace Hub Integration & Mobile Downloader : HuggingFaceSeer Repo Scout : parse_hf_repo Tag Normalizer : build_download_url CDN Resolver : Mobile & Edge Model Downloader [TARGET; SEE CAPABILITY LEDGER]
+    Phase 14 : Autonomous Swarm Agents & Enterprise Mesh Cluster : Distributed Peer Nodes : Dynamic Model Load Balancing : Sovereign Swarm Orchestration [TARGET; SEE CAPABILITY LEDGER]
     Phase 15 : Production Benchmarking & Custom VRAM Footprint Optimization : End-to-End Throughput Profiling : Sub-Byte KV Cache Compression : Extreme VRAM Footprint Reduction [NEXT]
 ```
 

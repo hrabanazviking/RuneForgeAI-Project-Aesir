@@ -44,6 +44,10 @@ def test_unsupported_runtime_config() raises: ...
 # tests/test_kv_cache.mojo
 def test_kv_cache() raises: ...
 
+# tests/test_mimir_well.mojo
+def test_kv_cache_fixed_capacity() raises: ...
+def test_kv_cache_ring_buffer() raises: ...  # compatibility wrapper only
+
 # tests/test_rag.mojo (Slice 5)
 def test_cosine_similarity() raises: ...
 def test_mimir_store() raises: ...
@@ -52,6 +56,46 @@ def test_rag() raises: ...
 
 # tests/test_real_gguf.mojo (opt-in external fixture)
 def validate_reference_model(seer: GGUFSeer, tokenizer: RuneWeaver) raises: ...
+def main() raises: ...
+
+# tests/test_gpu_reachability.mojo (opt-in NVIDIA hardware proof)
+def affine_kernel(input: Pointer[Float32, ...], output: Pointer[Float32, ...], count: Int32): ...
+def expected_input(index: Int, execution_round: Int) -> Float32: ...
+def validate_identity(host_input: HostBuffer[DType.float32], host_roundtrip: HostBuffer[DType.float32], execution_round: Int) raises: ...
+def validate_kernel_output(host_output: HostBuffer[DType.float32], execution_round: Int, inject_mismatch: Bool) raises: ...
+def main() raises: ...
+
+# tests/test_hardware_discovery.mojo (CPU-only injected records)
+def test_discovery_status_classification() raises: ...
+def test_physical_device_admission() raises: ...
+def test_topology_discovery_accumulation() raises: ...
+def test_topology_stable_selection() raises: ...
+
+# tests/test_gpu_discovery.mojo (opt-in physical CUDA discovery proof)
+def main() raises: ...
+
+# tests/test_cuda_resource_budget.mojo (CPU-only GPU-2 policy tests)
+def test_cuda_budget_accounting() raises: ...
+def test_cuda_budget_rejection_is_transactional() raises: ...
+def test_cuda_budget_overflow_and_rollback() raises: ...
+def test_cuda_resource_policy_admission() raises: ...
+
+# tests/test_gpu_resources.mojo (opt-in physical GPU-2 resource proof)
+def expected_value(index: Int, transfer_round: Int, allocation_tag: Int, session_round: Int) -> Scalar[f16]: ...
+def exercise_allocation(mut allocation: CUDAF16Allocation, allocation_tag: Int, session_round: Int, inject_mismatch: Bool) raises: ...
+def run_resource_session(physical_device: PhysicalDevice, session_round: Int, inject_mismatch: Bool) raises: ...
+def main() raises: ...
+
+# tests/test_cuda_gemm_plan.mojo (CPU-only GPU-3 planning tests)
+def test_cuda_gemm_plan_counts_and_launch() raises: ...
+def test_cuda_gemm_plan_shape_rejection() raises: ...
+def test_cuda_gemm_plan_overflow_and_abi_rejection() raises: ...
+def test_cuda_gemm_batch_budget_transaction() raises: ...
+
+# tests/test_gpu_gemm.mojo (opt-in physical GPU-3 compute proof)
+def validate_output(a: RuneTensor[f16], b: RuneTensor[f16], c: RuneTensor[f16], execution_round: Int, exact_values: Bool, inject_mismatch: Bool) raises -> Scalar[f32]: ...
+def exercise_shape(mut resources: CUDADeviceResources, plan: CUDAGemmPlan, exact_values: Bool, inject_mismatch: Bool) raises -> Scalar[f32]: ...
+def prove_insufficient_budget_rejection(physical_device: PhysicalDevice, plan: CUDAGemmPlan) raises: ...
 def main() raises: ...
 
 # tests/test_sharding.mojo (Slice 6)
@@ -111,12 +155,84 @@ def test_peer_registry_and_load_balancer() raises: ...
 def test_swarm_cluster_task_dispatch() raises: ...
 ```
 
+`test_forward_pass()` includes the Transformer-block construction contract:
+missing, empty, and address-1 layer weights fail before inference; the legacy
+constructor is non-runnable; and a valid block copy preserves its metadata and
+validated tensor views.
+
+`test_kv_cache()` also proves `RuneTensor.checked()` accepts a valid view and
+rejects zero dimensions, wrapped shape products, and address-1 pointers before
+dereference. It proves the reserved `PagedKVCache` API rejects construction
+rather than fabricating page-table state.
+
 `test_generation_stop_policy()` proves the stable EOS, length, continuation,
 and context-exhaustion decisions independently of model logits.
 
 The external-fixture `main()` additionally proves all 32 greedy generated token
 IDs, exact decoded text, prompt/generated counts, the `length` stop reason, and
-the one-token ID 265 regression against the pinned `llama.cpp` oracle.
+the one-token ID 265 regression against the pinned `llama.cpp` oracle registered
+as `gguf.stories260k-f16-v3` in the root `fixture_manifest.json`.
+
+The opt-in GPU reachability `main()` requires a physical NVIDIA GPU, a compatible
+`ptxas`, and the locked MAX accelerator library. It creates a CUDA
+`DeviceContext`, pinned host buffers, device buffers, explicit H2D/D2H copies,
+and a real Mojo GPU kernel launch. It validates 257 elements over three rounds
+against a separately calculated host formula and offers `--negative-control` to
+prove a mismatch exits nonzero. Run it with:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_reachability.mojo
+```
+
+This isolated test proves only MAX 26.5 toolchain reachability on the observed
+device. It is not production buffer ownership, GEMM, model inference,
+generalized CUDA support, NPU execution, or hardware CI.
+
+The CPU master suite injects validated discovery records to prove failure
+classification, admission, accumulation, deduplication, and selection without
+pretending hosted CI has a GPU. The separate physical discovery proof exercises
+the production MAX CUDA adapter and topology on an actual device:
+
+```bash
+pixi run mojo run aesir_engine/tests/test_gpu_discovery.mojo
+```
+
+That proof establishes engine-facing CUDA enumeration and selection only. It
+does not establish persistent device resources or any engine compute path.
+
+The opt-in GPU-2 resource proof selects the GPU-1 record, opens a project-owned
+CUDA session, allocates two unequal paired F16 resources, and validates repeated
+synchronized H2D/D2H identity across two successive session scopes. It also
+proves zero and over-budget requests leave accounting unchanged. Run it with:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_resources.mojo
+```
+
+Append `--negative-control` to inject a post-transfer mismatch that must exit
+nonzero. This proves resource ownership and transfer integrity on the observed
+host, not GPU compute or model inference.
+
+The hardware-independent GPU-3 plan cases validate exact allocation sizes,
+launch-tail rounding, all three tensor shapes, Int32 device ABI limits,
+overflow rejection, atomic three-buffer reservation, and rollback. They open no
+device and are part of `run_all.mojo`.
+
+The opt-in GPU-3 proof calls the production `gemm_f16_cuda` gateway through two
+reusable fixed-shape executors. It executes `2×3×4` binary-exact GEMM and an
+unaligned `17×19×23` GEMM for three rounds each, proves no execution-time
+allocation, checks every output against an independent host F32 calculation,
+and verifies shape, storage, and insufficient-budget rejection before launch:
+
+```bash
+MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_gemm.mojo
+```
+
+Append `--negative-control` to corrupt one expected value only after real GPU
+execution; the command must exit nonzero. This proof establishes one explicit
+CUDA F16 GEMM on the observed MAX host. It does not establish model inference,
+persistent device weights, Tensor Core execution, generalized CUDA support,
+other operators/backends, performance, or hardware CI.
 
 ## Process Contract
 
@@ -124,12 +240,16 @@ the one-token ID 265 regression against the pinned `llama.cpp` oracle.
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 51 executable named cases and one explicit skip in a
+- The runner registers 144 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(52)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 52.
+- `TestLedger.finish(145)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+  raises after reporting if any case failed or the total is not 145.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
+- `test_gpu_reachability.mojo`, `test_gpu_discovery.mojo`,
+  `test_gpu_resources.mojo`, and `test_gpu_gemm.mojo` are intentionally absent
+  from `run_all.mojo` so the default suite stays deterministic and
+  hardware-independent.
 - Synthetic/scaffold assertions establish only their local deterministic
   invariants. They do not establish hardware, format, protocol, network,
   resilience, concurrency, or distributed compatibility.

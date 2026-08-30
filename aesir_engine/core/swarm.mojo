@@ -93,8 +93,8 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
     def __init__(
         out self,
         node_id: String,
-        ip_address: String = "127.0.0.1",
-        port: Int = 11434,
+        ip_address: String = "",
+        port: Int = 0,
         role: SwarmNodeRole = SwarmNodeRole.WORKER,
         vram_capacity_mb: Int = 0,
         vram_used_mb: Int = 0,

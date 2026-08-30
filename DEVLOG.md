@@ -3,6 +3,368 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 119: GPU-3 — Real Reusable CUDA F16 GEMM Gateway
+
+**Date:** August 30, 2026
+**Architectural Phase:** First production-core physical GPU compute slice
+
+1. Added hardware-independent `CUDAGemmPlan` admission for the repository's
+   `A[M,K] × B[N,K] → C[M,N]` convention, including exact products/bytes,
+   Int32 device ABI bounds, launch-tail calculation, shape validation, and
+   remaining-budget checks.
+2. Extended GPU-2 budgeting with atomic three-buffer F16 reservation and exact
+   rollback for failed executor construction.
+3. Added move-only `CUDAF16GemmExecutor`, owning three paired pinned-host/device
+   resources and a selected MAX CUDA context for reusable fixed-shape execution.
+4. Added a genuine CUDA kernel with one output cell per thread, F16 inputs, F32
+   accumulation, tail guards, explicit H2D/D2H operations, synchronization,
+   and checked host output publication.
+5. Added `gemm_f16_cuda()` as the explicit production-core gateway. The older
+   realm-only gateway remains fail-closed; no hidden discovery, global context,
+   budget, allocation, or CPU fallback was introduced.
+6. Added four hardware-independent master-suite cases and an opt-in physical
+   proof covering exact `2×3×4`, unaligned `17×19×23`, three reuse rounds per
+   shape, gateway shape/storage rejection, insufficient-budget accounting, and
+   deliberate post-kernel mismatch detection.
+7. Three independent physical processes passed on the observed RTX 2060 Max-Q.
+   Exact maximum error was `0.0`; tail-shape maximum error was `0.0009613037`.
+   The GPU-3 negative control exited `1`.
+8. GPU-0, GPU-1, and GPU-2 positive hardware regressions passed. GPU-0 and
+   GPU-2 negative controls still exited `1` at their intended mismatches.
+9. The counted CPU suite reports 144 passed, 0 failed, 1 skipped, total 145.
+   `AES-ACC-008` moved from `missing` to narrowly scoped `partial`.
+10. Model inference, persistent device weights, logits/token parity, remaining
+    operators, CLI acceleration, Tensor Core/MMA execution, other GPU/NPU
+    backends, performance, and hardware CI remain open for later slices.
+
+## Entry 118: GPU-2 — Production CUDA Resource Ownership
+
+**Date:** August 29, 2026
+**Architectural Phase:** First engine-owned physical GPU resource slice
+
+1. Added a move-only selected-device CUDA resource session backed by the locked
+   MAX 26.5 `DeviceContext` lifecycle.
+2. Added conservative, exact device and pinned-host F16 byte budgets with
+   overflow guards, dual-limit admission, transactional rollback, and monotonic
+   successful accounting.
+3. Added move-only paired F16 allocations owning MAX `DeviceBuffer` global
+   memory and pinned `HostBuffer` staging memory on the selected context.
+4. Added bounds-checked staging access, explicit asynchronous H2D/D2H enqueue
+   operations, and explicit synchronization before host-visible validation.
+5. Relied on MAX reference-counted `Deinitable` ownership for scope cleanup;
+   no raw-pointer ownership transfer, fake release flag, or immediate pool-reuse
+   claim was introduced.
+6. Added four hardware-independent budget/policy cases to hosted CPU CI and an
+   opt-in physical proof covering two unequal allocations, three transfer rounds
+   each, and two successive resource-session scopes on the RTX 2060 Max-Q.
+7. Proved invalid and over-budget requests preserve committed accounting and a
+   deliberate post-transfer mismatch exits nonzero.
+8. Kept `AES-ACC-008` `missing`: GPU GEMM, inference, CLI activation,
+   generalized CUDA support, performance, multi-GPU, NPU, and hardware CI are
+   not claimed. GPU-3 is the first engine CUDA F16 GEMM slice.
+9. Final local verification passed: three independent GPU-2 processes, GPU-1
+   discovery, GPU-0 kernel reachability, both physical negative controls,
+   native build, fail-closed runner, repository/fixture gates, and the master
+   suite at 140 passed, 0 failed, 1 skipped, total 141.
+
+## Entry 117: GPU-1 — Truthful MAX CUDA Device Discovery
+
+**Date:** August 29, 2026
+**Architectural Phase:** First engine-facing physical GPU discovery slice
+
+1. Added validated discovery statuses, capability records, physical-device
+   records, and result admission in the core topology domain.
+2. Implemented real CUDA enumeration through MAX 26.5, including runtime ID,
+   device name, API/version, memory, compatibility, compute capability,
+   multiprocessor count, and maximum threads per block.
+3. Added topology accumulation, realm deduplication, and compatible selection by
+   backend-local index or runtime-derived stable ID. The stable ID is explicitly
+   not represented as a vendor UUID.
+4. Corrected sequential probe erasure and separated Apple Metal from ARM Mali
+   with the additive `APPLE_METAL` realm.
+5. Added four hardware-independent injected discovery cases to the master suite
+   and an opt-in physical discovery proof on the observed RTX 2060 Max-Q.
+6. Removed the latent CUDA RMSNorm CPU fallback exposed when real device counts
+   became nonzero; every engine GPU compute path remains fail-closed.
+7. Verified 136 passed, 0 failed, 1 skipped, total 137, plus GPU-0 reachability,
+   GPU-1 physical discovery, native build, negative controls, and repository
+   consistency gates.
+8. Promoted only `AES-ACC-003` from `missing` to `partial`. `AES-ACC-008`
+   remains `missing`; production GPU contexts, buffers, transfers, GEMM,
+   inference, CLI acceleration, generalized CUDA support, and hardware CI are
+   not claimed.
+
+## Entry 116: GPU-0 — Real MAX GPU Toolchain Reachability
+
+**Date:** August 29, 2026
+**Architectural Phase:** First physical GPU execution slice
+
+1. Added the opt-in `test_gpu_reachability.mojo` against locked Mojo 1.0.0 and
+   MAX 26.5.0 without registering physical hardware in the CPU master suite.
+2. Created a real CUDA `DeviceContext` on the NVIDIA GeForce RTX 2060 Max-Q,
+   plus pinned host buffers and device buffers owned by the MAX lifecycle.
+3. Proved explicit H2D/D2H round-trip copies and a compiled Mojo affine GPU
+   kernel across a 257-element tail, synchronized before host validation.
+4. Validated every value against a separately calculated host expectation over
+   three rounds in each of three independent process executions.
+5. Proved the harness fails closed: `--negative-control` injected one expected
+   mismatch, raised at index 0 in round 2, and exited `1`.
+6. Recorded the exact GPU, driver, `ptxas`, toolchain, invocation, APIs, result,
+   and evidence boundary in `TASK_gpu0_max_gpu_reachability.md`.
+7. Kept public engine GPU gates unchanged and fail-closed. `AES-ACC-003` and
+   `AES-ACC-008` remain `missing`; GPU-1 physical engine discovery is next.
+8. No NPU, GEMM, model inference, performance, generalized CUDA, production
+   dispatch, or hardware-CI claim was made.
+
+## Entry 115: Current Code Status Audit — 2026-08-29
+
+**Date:** August 29, 2026
+**Architectural Phase:** Repository-wide verification and continuity record
+
+1. Published `PROJECT_AESIR_CODE_STATUS_2026-08-29.md` from the canonical
+   ledger, TODO, source census, master suite, native build, negative control,
+   repository gates, Git state, and hosted CI.
+2. Counted 107 capabilities: 68 verified, 9 partial, 2 scaffold, 1 simulated,
+   and 27 missing.
+3. Recorded 335 tracked files, 113 Mojo files, 19,485 Mojo lines, 46 Mojo test
+   modules, 132 executable cases, one explicit skip, and 129 open TODO items.
+4. Classified every code domain and every non-verified capability without
+   converting local helpers, rejection tests, or historical claims into broad
+   operational evidence.
+5. Preserved the exact 32 approval-blocked legacy artifacts and documented the
+   next repair order.
+6. No capability status changed and no code, model, fixture, asset, function,
+   or historical record was deleted or moved.
+
+## Entry 114: Phase 1 — Honest PagedKVCache Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory capability truth and fail-closed execution
+
+1. Audited `PagedKVCache` and found no page table, ownership map, virtual-token
+   translation, eviction, sharing, or non-contiguous allocation.
+2. Replaced the free-counter simulation with stable `not implemented` errors at
+   construction, allocation, and free boundaries.
+3. Preserved every public function while preventing fabricated block indices
+   and double-free counter inflation.
+4. Added counted construction-rejection evidence and recorded Bug 0028.
+5. Synchronized the core interface, architecture, task contract, and capability
+   ledger; `AES-MEM-004` remains `missing`.
+
+## Entry 113: Phase 1 — Checked RuneTensor Admission
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Added `RuneTensor.checked()` as the owning trust boundary for positive shape,
+   product-overflow, and null/address-1 pointer validation.
+2. Kept the existing initializer as an explicitly unchecked, non-raising
+   internal view primitive required by zero-copy slice and copy paths.
+3. Migrated all GGUF tensor-mapping branches plus arena- and pointer-backed
+   cache storage construction to checked admission.
+4. Added executable valid, zero-dimension, overflow, and sentinel-pointer
+   assertions to the counted cache test without dereferencing invalid memory.
+5. Recorded Bug 0027 and corrected active evidence that previously attributed
+   checks to the raw constructor.
+6. Allocation-span ownership and lifetime proof remain open under
+   `AES-MEM-006`; the broader memory-safe-failure capability was not promoted.
+
+## Entry 112: Phase 1 — KVCache Fixed-Capacity Contract
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Removed implicit modulo aliasing from `KVCache.append()` and made positions
+   at or beyond capacity fail before any key/value write.
+2. Hardened the pointer-backed constructor with positive-dimension and
+   null/address-1 storage validation.
+3. Replaced the dormant rotation assertion with a fixed-capacity regression
+   that fills all slots, rejects the first overflow, and proves token zero is
+   unchanged; the counted cache case now executes it.
+4. Preserved the old ring-named test function as a compatibility wrapper rather
+   than deleting a public surface.
+5. Recorded Bug 0026 and synchronized active cache terminology across code,
+   interfaces, architecture, data flow, domain map, specification, TODO,
+   roadmap, task contract, and capability ledger.
+6. Chronological wraparound, sliding-window attention, and PagedAttention remain
+   explicitly unimplemented and unclaimed.
+
+## Entry 111: Phase 1 — TransformerBlock Construction Safety
+
+**Date:** August 29, 2026
+**Architectural Phase:** Memory and unsafe-boundary hardening
+
+1. Replaced all nine GGUF layer-weight address-1 fallbacks with one required
+   tensor boundary that rejects absent, empty, null, and sentinel pointers.
+2. Added positive metadata checks for layer index, head dimension, and head
+   count before a loader-backed block can become runnable.
+3. Preserved the legacy three-argument API as a stable fail-closed overload; it
+   now always raises and manufactures no tensor or pointer.
+4. Rebuilt `copy()` around a module-private complete-state token so a valid
+   block can be copied without passing through the legacy constructor.
+5. Extended executable inference coverage across missing, empty, sentinel,
+   legacy, valid, and copy paths while retaining the existing synthetic forward
+   result.
+6. Recorded Bug 0025 and synchronized the interface, architecture, TODO,
+   roadmap, task contract, and capability ledger. `AES-MEM-006` remains
+   `missing` because unrelated unsafe boundaries still exist.
+
+## Entry 110: Phase 0 — Active Vision Truth Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Present-tense declaration governance
+
+1. The public declaration census found 39 ledger-status contradictions in
+   `docs/Vision.md` and 23 in `docs/SYSTEM_VISION.md` beneath nominal ledger
+   disclaimers.
+2. Added concise current evidence sections covering the verified CPU GGUF slice
+   and the exact partial/missing foundation boundaries.
+3. Preserved both complete milestone bodies byte-for-byte beneath explicit
+   `HISTORICAL_CLAIMS_BEGIN` markers and warnings that old completion/status
+   language is chronology, not present-tense evidence.
+4. Added deterministic enforcement for missing markers, stale or unknown status
+   tags, and non-canonical status prose before the historical boundary.
+5. Recorded Bug 0024 with the census, violated invariant, reproduction, and
+   preservation-first repair contract.
+6. No capability status changed and no historical content, file, model, or
+   asset was deleted or moved.
+
+## Entry 109: Phase 0 — TODO and Ledger Status Drift Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Backlog truth synchronization
+
+1. Added a mechanical consistency rule that rejects unsupported TODO status
+   tags, unknown capability IDs, and any tag that differs from the canonical
+   capability ledger.
+2. Added deterministic positive and negative tests for matching, stale,
+   unknown-ID, and unsupported-status references.
+3. Reconciled all 11 discovered status mismatches without changing any ledger
+   status or checkbox state. Completed work now reflects its current narrow
+   capability status, while open extensions remain open.
+4. Split compound accelerator, ecosystem, swarm, and OpenAI tags into one
+   independently verifiable reference per capability.
+5. Reworded the stale `Add CI` backlog entry around the actual remaining gates:
+   branch protection, supported targets, formatting, and content-level secret
+   scanning.
+
+## Entry 108: Phase 0 — Fixture Classification and Provenance Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Test evidence ownership and external-reference governance
+
+1. Added `fixture_manifest.json` as the canonical machine-readable owner for
+   fixture classification, ownership, purpose, consumer, evidence boundary,
+   license, immutable source/construction, exact size, and SHA-256.
+2. Registered the pinned TinyStories GGUF and independent `llama.cpp` oracle
+   without adding or downloading model bytes; it remains external and opt-in.
+3. Added deterministic admission tests and a live Git/filesystem validator that
+   reject malformed metadata, unsafe/duplicate paths, missing consumers,
+   unregistered payloads, unpinned sources, checksum/size drift, and external
+   fixtures appearing in Git.
+4. Established `aesir_engine/tests/fixtures/` as the sole tracked payload
+   boundary. It contains policy documentation and no fixture payloads.
+5. Removed active documentation claims about a fictional committed tiny GGUF
+   and reconciled the tests interface from obsolete 51/52 counts to the current
+   132 executable cases plus one explicit skip.
+6. This gate governs evidence admission only; it does not prove a fixture was
+   executed, validate arbitrary binary formats/licenses, or clean legacy files.
+
+## Entry 107: Phase 0 — Fatal New-Artifact Prevention Gate
+
+**Date:** August 29, 2026
+**Architectural Phase:** Repository truth enforcement and anti-fabrication guardrail
+
+1. Moved the exact deletion-blocked artifact inventory into
+   `repository_hygiene_policy.json`, pinned to the commit where all 32 legacy
+   paths are proven to exist.
+2. Replaced fixed-name inventory logic with general classification for tracked
+   executable signatures, model formats, build outputs, archives, runtime
+   state, private-key formats, tiny placeholder models, and byte-identical root
+   assets.
+3. Exact policy-listed legacy artifacts remain visible warnings while
+   unlisted, stale, hidden, or classification-mismatched violations fail the
+   repository gate. Cleanup remains separately approval-bound.
+4. Added deterministic in-memory self-tests and a dedicated hosted-CI step
+   before the live consistency check. CI retains history so the pinned baseline
+   is provable on clean runners; no test artifact is created or deleted.
+5. Kept `AES-FND-007` `partial`: seven executables, one placeholder GGUF, and
+   24 duplicate root assets remain tracked pending explicit approval, while
+   deeper content, provenance, release, and history gates remain open.
+
+## Entry 106: Full Completion Slice 2 — CLI Option Applicability
+
+**Date:** August 29, 2026
+**Architectural Phase:** Command contract and ignored-intent elimination
+
+1. Added explicit-presence markers for every globally parsed CLI flag so a
+   caller-supplied default value cannot be confused with absence.
+2. Added a single-shot applicability gate: verbose/format, keepalive,
+   Modelfile, raw, insecure, safety, thinking, experimental, and TUI intent now
+   reject before model loading until their owning behavior is connected.
+3. Added a config applicability gate and neutralized the tracked example's
+   unconnected fields. Non-neutral GPU-layer, thread, NPU, sampling, safety,
+   experimental, or TUI intent cannot silently succeed.
+4. Updated help to advertise only the currently connected single-shot options.
+5. Verification passed: clean native build and master suite **132 passed / 0
+   failed / 1 skipped / total 133**.
+
+## Entry 105: Full Completion Slice 1 — CLI Configuration Truth Boundary
+
+**Date:** August 29, 2026
+**Architectural Phase:** Configuration ownership and command-wiring repair
+
+1. Connected the documented `aesir config [--config <path>]` command to real
+   file reading, strict schema validation, normalized output, and contextual
+   missing/empty-file errors.
+2. Replaced implicit no-argument `serve` dispatch with stable general help.
+3. Recorded explicit config/acceleration intent, applied CLI-over-file backend
+   precedence, and rejected unavailable accelerators before model loading so a
+   hardware request cannot silently run on CPU.
+4. Separated recognized option tokens from model/prompt positionals and added
+   duplicate-key, missing-file, override, option-leakage, and backend rejection
+   coverage.
+5. The broader `AES-CLI-009` capability remains `partial`: sampling, safety,
+   experimental toggles, remaining option application, and differential CLI
+   conformance are still open.
+6. Verification passed: native Mojo build; built-CLI empty/config/error/backend
+   smoke tests; and master suite **132 passed / 0 failed / 1 skipped / total
+   133**.
+
+## Entry 104: Forge 0F — Repository Truth and Consistency Reconciliation
+
+**Date:** August 29, 2026
+**Architectural Phase:** Mythic Engineering audit, truth-boundary repair, and CI hardening
+
+1. Replaced fabricated accelerator discovery, device allocation/transfer, and
+   CUDA/Metal/Intel/AMD/NPU/MAX kernel claims with checked fail-closed gateways.
+   Runtime-library loadability is now reported separately from physical device
+   presence.
+2. Removed fabricated REPL responses, fixed model metadata, ephemeral
+   model-management success, ONNX/EXL2 metadata, Swarm network success, fallback
+   RAG embeddings, and fixed byte-budget behavior. Preserved useful local
+   descriptors and deterministic primitives under narrow names.
+3. Reconciled `CAPABILITY_LEDGER.md`, `TODO.md`, active interfaces, architecture
+   and vision status, onboarding paths, and the `main`-based branch workflow.
+   Machine-local paths were removed and non-cryptographic model identity is now
+   named `fnv1a64:` fingerprinting.
+4. Expanded `.github/workflows/ci.yml` with a native build and a deliberate
+   fail-closed negative control. Replaced the phrase-only drift script with
+   mechanical ledger/status counts, master-case counts, unique case names,
+   workflow gates, source-truth signatures, absolute-path checks, and tracked
+   artifact inventory.
+5. Verification passed: native Mojo build; master suite **132 passed / 0 failed
+   / 1 skipped / total 133**; deliberate negative case counted **0/1/0/1** and
+   exited nonzero for the intended assertion; repository consistency check
+   passed with one explicit artifact-hygiene warning; `git diff --check` passed.
+   Hosted GitHub Actions run `33239432026` then passed the clean checkout,
+   counted suite, native build, negative control, and consistency gate after the
+   Pixi bootstrap was updated for the checked-in lockfile.
+6. Repository artifact hygiene remains `partial`: seven tracked executable
+   outputs, one 24-byte placeholder GGUF, and 24 byte-identical root image copies
+   await explicit maintainer approval before removal. Canonical images under
+   `docs/assets/images/` and all source/legal/history material are preserved.
+
 ## ⚡ Entry 103: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
 **Date:** August 16, 2026  
 **Architectural Phase:** Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway  
@@ -1333,7 +1695,7 @@ The 4 mythic roles completed the sequential pass for Stage 45.1:
 
 4. **Forge Worker (Eldra Járnsdóttir):**
    - Implemented `aesir_engine/core/metal_gate.mojo`, updated `core/mimir_well.mojo` and `core/compute.mojo`, created `aesir_engine/tests/test_metal_realm.mojo`, and updated `run_all.mojo`.
-   - Synchronized workspace mirror to `/home/volmarr/AntiGravity_Viking_Longhall/Project_Aesir/`.
+   - Synchronized workspace mirror to `<historical-local-workspace>/`.
    - Committed locally (0 remote pushes executed per user directive).
 
 ---
@@ -1358,7 +1720,7 @@ The 4 mythic roles completed the sequential pass for Stage 44.1:
 
 4. **Forge Worker (Eldra Járnsdóttir):**
    - Implemented `aesir_engine/core/cuda_gate.mojo`, updated `core/mimir_well.mojo` and `core/compute.mojo`, created `aesir_engine/tests/test_cuda_realm.mojo`, and updated `run_all.mojo`.
-   - Synchronized workspace mirror to `/home/volmarr/AntiGravity_Viking_Longhall/Project_Aesir/`.
+   - Synchronized workspace mirror to `<historical-local-workspace>/`.
    - Committed locally (0 remote pushes executed per user directive).
 
 ---

@@ -12,7 +12,11 @@ This is not a tutorial. This is not a welcoming message. This is an operational 
 
 ## What Project Æsir Is
 
-Project Æsir is a bare-metal Mojo LLM inference engine. It loads GGUF model files, manages KV cache memory via PagedAttention, tokenizes input through a pure Mojo BPE tokenizer, executes transformer forward passes on GPU or CPU, and serves inference requests through an Ollama-compatible HTTP API.
+Project Æsir is an experimental Mojo LLM inference engine. Its verified vertical
+slice loads one pinned GGUF v3 Llama F16 model, uses a contiguous request KV
+cache, tokenizes with a Mojo BPE tokenizer, and executes locally on a Linux CPU.
+GPU/NPU execution, PagedAttention, and Ollama-compatible HTTP inference are
+roadmap capabilities, not current behavior.
 
 The project runs entirely on local hardware. No cloud calls. No telemetry. No external runtime dependencies beyond Mojo's standard library and the system's GPU drivers.
 
@@ -40,11 +44,11 @@ Before writing any code, read these files in order:
 
 2. **`CAPABILITY_LEDGER.md`** — The honest accounting of what works, what is partial, what is scaffold, and what is missing. This tells you where the project actually stands versus where it claims to stand.
 
-3. **`TASK_QUEUE.md`** — Current work priorities. Do not invent your own tasks. Select from the queue unless you have identified an unlisted critical issue.
+3. **`TODO.md`** — Canonical current work priorities. Do not invent your own tasks unless you have identified an unlisted critical issue.
 
 4. **`ARCHITECTURE.md`** — System structure and domain relationships. Understand how data flows from HTTP request to tokenized input to inference execution to streamed response.
 
-5. **`DOMAIN_MAP.md`** — What each module owns and what it does not own. Boundary violations are the most common cause of architectural rot.
+5. **`docs/DOMAIN_MAP.md`** — What each module owns and what it does not own. Boundary violations are the most common cause of architectural rot.
 
 6. **`DEVLOG.md`** — Read the last five entries. This gives you recent context: what was attempted, what succeeded, what failed, what was discovered.
 
@@ -102,7 +106,7 @@ If you cannot answer all five questions, you are not ready to write code. Read m
 
 ### Step Two: Select a Task
 
-Open `TASK_QUEUE.md`. Find a task that:
+Open `TODO.md`. Find a task that:
 - Matches the domain you have oriented to
 - Is marked as high priority or blocking
 - Falls within your current role's competence
@@ -125,8 +129,8 @@ State your role at the top of your DEVLOG entry. This is not vanity. It is opera
 ### Step Four: Create a Branch
 
 ```bash
-git checkout development
-git pull
+git checkout main
+git pull --ff-only
 git checkout -b feat/[domain]-[brief-description]
 ```
 
@@ -209,11 +213,11 @@ When updating documentation:
 Uncertainty is normal. Guessing is not.
 
 If you do not know:
-- Which domain owns a piece of functionality, consult `DOMAIN_MAP.md`
+- Which domain owns a piece of functionality, consult `docs/DOMAIN_MAP.md`
 - Whether a feature is implemented, consult `CAPABILITY_LEDGER.md`
 - What an interface expects, consult the relevant `INTERFACE.md`
 - Whether a change is safe, consult `ARCHITECTURE.md`
-- What the project priorities are, consult `TASK_QUEUE.md`
+- What the project priorities are, consult `TODO.md`
 
 If the documents do not answer your question, escalate to the human coordinator. Frame the question precisely: "I need to implement X. Domain map suggests it belongs to Y, but Y's interface does not expose the needed capability. Should I extend Y's interface or create a new domain?"
 

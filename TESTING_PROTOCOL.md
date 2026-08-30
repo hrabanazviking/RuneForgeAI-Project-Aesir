@@ -13,74 +13,25 @@ If the doctrine and this protocol disagree, the doctrine wins on philosophy. Thi
 ## Section One: Test Directory Structure
 
 ```
-tests/
-├── unit/
-│   ├── aesir_engine/
-│   │   ├── test_session_lifecycle.mojo
-│   │   ├── test_request_routing.mojo
-│   │   └── test_scheduler_logic.mojo
-│   ├── mimir_well/
-│   │   ├── test_kv_cache_allocation.mojo
-│   │   ├── test_page_table_management.mojo
-│   │   └── test_eviction_policy.mojo
-│   ├── bifrost_gate/
-│   │   ├── test_http_parser.mojo
-│   │   ├── test_response_streaming.mojo
-│   │   └── test_api_compatibility.mojo
-│   ├── rune_weaver/
-│   │   ├── test_bpe_encoding.mojo
-│   │   ├── test_bpe_decoding.mojo
-│   │   ├── test_vocab_loading.mojo
-│   │   └── test_special_tokens.mojo
-│   ├── gguf_seer/
-│   │   ├── test_header_parsing.mojo
-│   │   ├── test_tensor_extraction.mojo
-│   │   └── test_metadata_reading.mojo
-│   ├── hladgerd/
-│   │   ├── test_weight_loading.mojo
-│   │   ├── test_quantization_conversion.mojo
-│   │   └── test_dtype_handling.mojo
-│   └── mjolnir/
-│       ├── test_forward_pass.mojo
-│       ├── test_attention_compute.mojo
-│       └── test_sampling.mojo
-├── integration/
-│   ├── test_end_to_end_inference.mojo
-│   ├── test_model_load_to_generation.mojo
-│   ├── test_http_to_token_stream.mojo
-│   └── test_multi_request_concurrency.mojo
-├── fixtures/
-│   ├── models/
-│   │   ├── tiny_test_model.gguf
-│   │   └── metadata_only_model.gguf
-│   ├── tokenizers/
-│   │   ├── test_vocab.json
-│   │   └── test_merges.txt
-│   ├── requests/
-│   │   ├── valid_chat_completion.json
-│   │   ├── valid_completion.json
-│   │   ├── malformed_request.json
-│   │   └── oversized_prompt.json
-│   └── expected_outputs/
-│       ├── known_token_ids.json
-│       └── known_generations.json
-├── regression/
-│   ├── test_issue_001_kv_overflow.mojo
-│   ├── test_issue_002_tokenizer_edge.mojo
-│   └── test_issue_003_race_condition.mojo
-└── invariant/
-    ├── test_entity_id_stability.mojo
-    ├── test_save_load_roundtrip.mojo
-    └── test_deterministic_ordering.mojo
+aesir_engine/tests/
+├── run_all.mojo                 # counted master orchestrator
+├── test_ledger.mojo             # pass/fail/skip accounting
+├── test_<domain>.mojo           # focused domain and boundary cases
+├── test_real_gguf.mojo          # opt-in registered external reference
+├── test_fail_closed_runner.mojo # intentional CI negative control
+└── fixtures/
+    └── README.md                # canonical tracked-fixture boundary; no payloads
 ```
 
 ### Directory Rules
 
-- **`unit/`** — Tests for individual functions and modules in isolation. Fast. No external dependencies. No GPU required.
-- **`integration/`** — Tests that exercise multiple modules together through their published interfaces. Slower. May require GPU. May require fixture files.
-- **`fixtures/`** — Static test data. Models, tokenizers, request payloads, expected outputs. Never generated at runtime. Never downloaded during test execution.
-- **`regression/`** — Tests that reproduce specific reported bugs and confirm they stay fixed. Named after the issue or bug they address.
-- **`invariant/`** — Tests that verify system-wide properties that must always hold. These run on every CI pass.
+- **`test_<domain>.mojo`** — Current tracked unit, boundary, integration, and
+  regression cases are grouped by owning domain.
+- **`fixtures/`** — The only approved tracked fixture-data boundary. Every
+  payload must be registered in `fixture_manifest.json`; there are currently no
+  tracked payloads.
+- **External references** — Model weights remain outside Git and are supplied
+  only to opt-in tests after their manifest identity is verified.
 
 ### File Naming
 
@@ -136,7 +87,7 @@ Write integration tests for:
 Integration tests:
 - May require GPU access
 - May take longer to execute (seconds, not milliseconds)
-- Must use fixture models, not downloaded models
+- Must use a registered fixture identity, never an ad hoc download or local path
 - Must clean up all allocated resources after execution
 
 ### Regression Tests
@@ -249,36 +200,16 @@ fn test_session_creation():  # Assumes test_setup ran first
 
 ### Fixture Loading
 
-Load fixtures using the project's internal path resolution. Never hardcode paths.
-
-```mojo
-from testing.fixtures import load_fixture_path
-
-fn test_gguf_header_parsing() raises:
-    var model_path = load_fixture_path("models/tiny_test_model.gguf")
-    var data = read_bytes(model_path)
-    var result = GGUFSeer.parse_header(data, data.size())
-    
-    assert_true(result.is_ok(), "Header parsing should succeed on valid fixture")
-    var header = result.unwrap()
-    assert_equal(header.magic, GGUF_MAGIC_BYTES, "Magic bytes must match GGUF format")
-```
+Tracked fixtures resolve from `aesir_engine/tests/fixtures/` and must match the
+path, size, and SHA-256 registered in `fixture_manifest.json`. External
+references are caller-supplied after checksum verification; tests must not
+hardcode machine-local paths or download them implicitly.
 
 ### Test Helpers
 
-Helper functions live in `tests/helpers/` and are imported by test files. Helpers must not contain test functions themselves.
-
-```mojo
-# tests/helpers/test_models.mojo
-fn create_test_engine() -> AesirEngine:
-    """Create a minimal AesirEngine configured for testing."""
-    var config = EngineConfig(
-        model_path=load_fixture_path("models/tiny_test_model.gguf"),
-        max_context_length=512,
-        gpu_layers=0  # CPU-only for unit tests
-    )
-    return AesirEngine(config)
-```
+Shared test utilities must remain in the tests domain, contain no independently
+reported test cases, and preserve the manifest and evidence boundaries of any
+fixture they consume.
 
 ---
 
@@ -394,13 +325,12 @@ Performance tests do not block CI by default. They produce reports. The human co
 
 ### Fixture Integrity
 
-Fixture files are immutable. Once committed, they do not change. If a test requires different data, create a new fixture file with a new name.
-
-Fixture files must be:
-- Small (under 10 MB total for all fixtures combined)
-- Synthetic (not real user data)
-- Documented (each fixture has a comment explaining what it represents)
-- Version-tagged in the fixture file name if format changes are needed
+Fixture identities are immutable. A changed byte sequence receives a new stable
+ID and path. `fixture_manifest.json` classifies every admitted fixture as
+`synthetic`, `malformed`, `regression`, or `external-reference` and records its
+owner, purpose, consumer, evidence boundary, license, exact size, checksum, and
+construction or immutable source. CI validates this policy with
+`scripts/check_fixture_manifest.py`.
 
 ### Generated Test Data
 
@@ -420,13 +350,11 @@ fn test stochastic_sampling() raises:
 
 ### Test Model
 
-The project maintains a single tiny test model in `tests/fixtures/models/tiny_test_model.gguf`. This model is:
-- Under 1 MB in size
-- Has 2 layers, 4 attention heads, 64 hidden dimensions
-- Contains a known vocabulary of 256 tokens
-- Produces deterministic output for known inputs
-
-All integration tests use this model. No test downloads models from HuggingFace or any external source. If a test requires a different model architecture, create a new fixture model and document it.
+No model weight is committed as a test fixture. The one registered real-model
+reference is `gguf.stories260k-f16-v3`; its immutable source revision, exact
+size, SHA-256, MIT license, consumer, and independent `llama.cpp` oracle live in
+`fixture_manifest.json`. It remains an opt-in external dependency and is not
+evidence unless the real-model command actually executes successfully.
 
 ---
 
@@ -481,7 +409,7 @@ Auditor Agent: _________________________________
 --- Documentation ---
 
 [ ] Relevant INTERFACE.md updated if API changed
-[ ] DOMAIN_MAP.md updated if ownership shifted
+[ ] `docs/DOMAIN_MAP.md` updated if ownership shifted
 [ ] DEVLOG entry written for the verification
 [ ] CAPABILITY_LEDGER.md updated to Verified with date and evidence
 

@@ -235,8 +235,8 @@ struct AesirEngine:
     var runtime_offset: Int
 
     def __init__(
-        out self, 
-        model_path: String, 
+        out self,
+        model_path: String,
         num_devices: Int = 1,
         enable_npu: Bool = False,
         target_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
@@ -259,7 +259,7 @@ struct AesirEngine:
         )
         self.pool = MimirWell(mimir_depth_bytes)
         print("MimirWell initialized with", mimir_depth_bytes, "derived bytes.")
-        
+
         self.supervisor = SelfHealingSupervisor()
         self.event_bus = AesirEventBus()
         self.thread_pool = RuneThreadPool(8)
@@ -283,7 +283,7 @@ struct AesirEngine:
             self.pool,
         )
         self.runtime_offset = self.pool.offset
-        
+
         self.blocks = List[TransformerBlock]()
         for layer_idx in range(self.parser.config.block_count):
             self.blocks.append(
@@ -355,7 +355,7 @@ struct AesirEngine:
             var hidden_dim = self.parser.config.embedding_length
             if "token_embd.weight" in self.parser.tensors:
                 hidden_dim = self.parser.tensors["token_embd.weight"].cols
-            if hidden_dim <= 0:
+            if hidden_dim <= 0 or "token_embd.weight" not in self.parser.tensors:
                 return prompt
             var query_vector = self.extract_query_embedding(prompt, hidden_dim)
             var docs = self.knowledge_base.search_knn(query_vector, 3)

@@ -1,5 +1,5 @@
 # core/speculative.mojo
-# SpeculativeEngine: Draft Token Sampling & Parallel Verification Gateway
+# SpeculativeEngine: local proposal and acceptance-arithmetic scaffold
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -42,9 +42,9 @@ struct SpeculativeEngine(Copyable):
     """
     ᛋᛈᛖᚲᚢᛚᚨᛏᛁᚠᛖ·ᛞᚱᚨᚠᛏ — The Vision of Future Runes (SpeculativeEngine)
     ═════════════════════════════════════════════════════════════════════════
-    Executes draft model speculative token sampling (K draft tokens) and
-    parallel target model verification loops for 3-5× inference throughput acceleration.
-    Draws candidate rune streams into existence before target verification seals their fate.
+    Provides local proposal and acceptance bookkeeping over caller-supplied
+    logits. It runs no draft model, performs no parallel target verification,
+    and makes no throughput claim.
     """
     var num_draft_tokens: Int
     var acceptance_rate: Scalar[f16]

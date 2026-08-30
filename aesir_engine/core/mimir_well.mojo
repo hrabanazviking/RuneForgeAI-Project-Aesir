@@ -1,6 +1,6 @@
 # core/mimir_well.mojo
 # The Waters of Mímisbrunnr: Aesir Engine Core Memory Management
-# 
+#
 # In Mythic Engineering, memory is not merely allocated; it is drawn from the Well of Mimir.
 # No dynamic allocation occurs during the living breath of inference. The waters are drawn once,
 # deep and still, providing the sacred space for the engine's thoughts to manifest.
@@ -11,7 +11,8 @@ from std.math import exp, max
 
 comptime f16 = DType.float16
 comptime f32 = DType.float32
-comptime int4 = DType.int8 # Mojo natively handles down to int8, we bitshift for int4
+comptime int4 = DType.int8  # Mojo natively handles down to int8, we bitshift for int4
+
 
 struct NPUBackendType(Copyable, ImplicitlyCopyable):
     """
@@ -21,6 +22,7 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     Integer names reserved for possible future NPU backends. They record desired
     configuration only; no backend is detected or executed.
     """
+
     comptime HAILO_10 = 0
     comptime QUALCOMM_HEXAGON = 1
     comptime ARM_NEON = 2
@@ -95,6 +97,7 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     These values record desired configuration only; no GPU backend is detected
     or executed.
     """
+
     comptime NVIDIA_CUDA = 0
     comptime AMD_ROCM_HIP = 1
     comptime INTEL_ONEAPI_XE = 2
@@ -105,6 +108,7 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     comptime ARM_MALI_OPENCL = 7
     comptime QUALCOMM_ADRENO = 8
     comptime IMAGINATION_POWERVR = 9
+    comptime APPLE_METAL = 10
 
     var value: Int
 
@@ -155,8 +159,276 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
             return "QUALCOMM_ADRENO"
         elif self.value == 9:
             return "IMAGINATION_POWERVR"
+        elif self.value == 10:
+            return "APPLE_METAL"
         else:
             return "GENERIC_GPU"
+
+
+struct DiscoveryStatus(Copyable, ImplicitlyCopyable):
+    """Classifies a physical accelerator discovery outcome without guessing."""
+
+    comptime SUCCESS = 0
+    comptime PARTIAL = 1
+    comptime UNSUPPORTED_RUNTIME = 2
+    comptime NO_DEVICE = 3
+    comptime INCOMPATIBLE_DRIVER = 4
+    comptime UNSUPPORTED_ARCHITECTURE = 5
+    comptime MISSING_COMPILER_TOOL = 6
+    comptime PERMISSION_DENIED = 7
+    comptime PROBE_FAILED = 8
+
+    var value: Int
+
+    def __init__(out self, value: Int = Self.PROBE_FAILED):
+        self.value = value
+
+    def __copyinit__(out self, existing: Self):
+        self.value = existing.value
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(self.value)
+
+    @always_inline
+    def is_success(self) -> Bool:
+        return self.value == Self.SUCCESS
+
+    @always_inline
+    def has_devices(self) -> Bool:
+        return self.value == Self.SUCCESS or self.value == Self.PARTIAL
+
+    def name(self) -> String:
+        if self.value == Self.SUCCESS:
+            return "SUCCESS"
+        elif self.value == Self.PARTIAL:
+            return "PARTIAL"
+        elif self.value == Self.UNSUPPORTED_RUNTIME:
+            return "UNSUPPORTED_RUNTIME"
+        elif self.value == Self.NO_DEVICE:
+            return "NO_DEVICE"
+        elif self.value == Self.INCOMPATIBLE_DRIVER:
+            return "INCOMPATIBLE_DRIVER"
+        elif self.value == Self.UNSUPPORTED_ARCHITECTURE:
+            return "UNSUPPORTED_ARCHITECTURE"
+        elif self.value == Self.MISSING_COMPILER_TOOL:
+            return "MISSING_COMPILER_TOOL"
+        elif self.value == Self.PERMISSION_DENIED:
+            return "PERMISSION_DENIED"
+        return "PROBE_FAILED"
+
+
+struct DeviceCapabilities(Copyable):
+    """Observed runtime capabilities for one physical accelerator."""
+
+    var is_compatible: Bool
+    var api_version: Int
+    var free_memory_bytes: UInt
+    var total_memory_bytes: UInt
+    var compute_capability_major: Int
+    var compute_capability_minor: Int
+    var multiprocessor_count: Int
+    var max_threads_per_block: Int
+
+    def __init__(
+        out self,
+        is_compatible: Bool,
+        api_version: Int,
+        free_memory_bytes: UInt,
+        total_memory_bytes: UInt,
+        compute_capability_major: Int,
+        compute_capability_minor: Int,
+        multiprocessor_count: Int,
+        max_threads_per_block: Int,
+    ):
+        self.is_compatible = is_compatible
+        self.api_version = api_version
+        self.free_memory_bytes = free_memory_bytes
+        self.total_memory_bytes = total_memory_bytes
+        self.compute_capability_major = compute_capability_major
+        self.compute_capability_minor = compute_capability_minor
+        self.multiprocessor_count = multiprocessor_count
+        self.max_threads_per_block = max_threads_per_block
+
+    def __copyinit__(out self, existing: Self):
+        self.is_compatible = existing.is_compatible
+        self.api_version = existing.api_version
+        self.free_memory_bytes = existing.free_memory_bytes
+        self.total_memory_bytes = existing.total_memory_bytes
+        self.compute_capability_major = existing.compute_capability_major
+        self.compute_capability_minor = existing.compute_capability_minor
+        self.multiprocessor_count = existing.multiprocessor_count
+        self.max_threads_per_block = existing.max_threads_per_block
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(
+            self.is_compatible,
+            self.api_version,
+            self.free_memory_bytes,
+            self.total_memory_bytes,
+            self.compute_capability_major,
+            self.compute_capability_minor,
+            self.multiprocessor_count,
+            self.max_threads_per_block,
+        )
+
+    def validate(self) raises:
+        if self.api_version <= 0:
+            raise Error("DeviceCapabilities: api_version must be positive")
+        if self.total_memory_bytes == 0:
+            raise Error(
+                "DeviceCapabilities: total_memory_bytes must be positive"
+            )
+        if self.free_memory_bytes > self.total_memory_bytes:
+            raise Error("DeviceCapabilities: free memory exceeds total memory")
+        if (
+            self.compute_capability_major < 0
+            or self.compute_capability_minor < 0
+        ):
+            raise Error(
+                "DeviceCapabilities: compute capability must not be negative"
+            )
+        if self.multiprocessor_count <= 0:
+            raise Error(
+                "DeviceCapabilities: multiprocessor_count must be positive"
+            )
+        if self.max_threads_per_block <= 0:
+            raise Error(
+                "DeviceCapabilities: max_threads_per_block must be positive"
+            )
+
+
+struct PhysicalDevice(Copyable):
+    """One accelerator identity and its capabilities observed from a runtime."""
+
+    var realm: GPURealmType
+    var backend_index: Int
+    var runtime_id: Int64
+    var stable_id: String
+    var name: String
+    var api: String
+    var capabilities: DeviceCapabilities
+
+    def __init__(
+        out self,
+        realm: GPURealmType,
+        backend_index: Int,
+        runtime_id: Int64,
+        stable_id: String,
+        name: String,
+        api: String,
+        capabilities: DeviceCapabilities,
+    ):
+        self.realm = realm.copy()
+        self.backend_index = backend_index
+        self.runtime_id = runtime_id
+        self.stable_id = stable_id
+        self.name = name
+        self.api = api
+        self.capabilities = capabilities.copy()
+
+    def __copyinit__(out self, existing: Self):
+        self.realm = existing.realm.copy()
+        self.backend_index = existing.backend_index
+        self.runtime_id = existing.runtime_id
+        self.stable_id = existing.stable_id
+        self.name = existing.name
+        self.api = existing.api
+        self.capabilities = existing.capabilities.copy()
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(
+            self.realm.copy(),
+            self.backend_index,
+            self.runtime_id,
+            self.stable_id,
+            self.name,
+            self.api,
+            self.capabilities.copy(),
+        )
+
+    def validate(self) raises:
+        if self.backend_index < 0:
+            raise Error("PhysicalDevice: backend_index must not be negative")
+        if self.runtime_id < 0:
+            raise Error("PhysicalDevice: runtime_id must not be negative")
+        if self.stable_id.byte_length() == 0:
+            raise Error("PhysicalDevice: stable_id must not be empty")
+        if self.name.byte_length() == 0:
+            raise Error("PhysicalDevice: name must not be empty")
+        if self.api.byte_length() == 0:
+            raise Error("PhysicalDevice: api must not be empty")
+        if self.realm.value == GPURealmType.NVIDIA_CUDA and self.api != "cuda":
+            raise Error("PhysicalDevice: NVIDIA_CUDA requires api=cuda")
+        self.capabilities.validate()
+
+
+struct HardwareDiscoveryResult(Copyable):
+    """A validated production result or explicitly injected test snapshot."""
+
+    var status: DiscoveryStatus
+    var message: String
+    var devices: List[PhysicalDevice]
+
+    def __init__(
+        out self,
+        status: DiscoveryStatus,
+        message: String,
+        devices: List[PhysicalDevice],
+    ):
+        self.status = status.copy()
+        self.message = message
+        self.devices = devices.copy()
+
+    def __copyinit__(out self, existing: Self):
+        self.status = existing.status.copy()
+        self.message = existing.message
+        self.devices = existing.devices.copy()
+
+    @always_inline
+    def copy(self) -> Self:
+        return Self(self.status.copy(), self.message, self.devices.copy())
+
+    def validate(self) raises:
+        if (
+            self.status.value < DiscoveryStatus.SUCCESS
+            or self.status.value > DiscoveryStatus.PROBE_FAILED
+        ):
+            raise Error("HardwareDiscoveryResult: unknown discovery status")
+        if self.status.is_success() and len(self.devices) == 0:
+            raise Error(
+                "HardwareDiscoveryResult: SUCCESS requires at least one device"
+            )
+        if (
+            self.status.value == DiscoveryStatus.PARTIAL
+            and len(self.devices) == 0
+        ):
+            raise Error(
+                "HardwareDiscoveryResult: PARTIAL requires an observed device"
+            )
+        if not self.status.has_devices() and len(self.devices) != 0:
+            raise Error(
+                "HardwareDiscoveryResult: failure status cannot carry devices"
+            )
+        if not self.status.has_devices() and self.message.byte_length() == 0:
+            raise Error(
+                "HardwareDiscoveryResult: failure status requires a message"
+            )
+        for i in range(len(self.devices)):
+            self.devices[i].validate()
+            for j in range(i):
+                if self.devices[i].stable_id == self.devices[j].stable_id:
+                    raise Error("HardwareDiscoveryResult: duplicate stable_id")
+                if (
+                    self.devices[i].realm == self.devices[j].realm
+                    and self.devices[i].backend_index
+                    == self.devices[j].backend_index
+                ):
+                    raise Error(
+                        "HardwareDiscoveryResult: duplicate backend index"
+                    )
 
 
 struct CompressedFormatType(Copyable, ImplicitlyCopyable):
@@ -189,6 +461,7 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 
     The selection rune operates without vtables, dynamic heap allocations, or virtual method dispatch overhead.
     """
+
     comptime Q2_K = 0
     comptime Q3_K_S = 1
     comptime Q3_K_M = 2
@@ -218,7 +491,7 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 
     var value: Int
 
-    def __init__(out self, value: Int = 7): # default Q4_K_M
+    def __init__(out self, value: Int = 7):  # default Q4_K_M
         self.value = value
 
     def __copyinit__(out self, existing: Self):
@@ -238,32 +511,58 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 
     @always_inline
     def name(self) -> String:
-        if self.value == 0: return "Q2_K"
-        elif self.value == 1: return "Q3_K_S"
-        elif self.value == 2: return "Q3_K_M"
-        elif self.value == 3: return "Q3_K_L"
-        elif self.value == 4: return "Q4_0"
-        elif self.value == 5: return "Q4_1"
-        elif self.value == 6: return "Q4_K_S"
-        elif self.value == 7: return "Q4_K_M"
-        elif self.value == 8: return "Q5_0"
-        elif self.value == 9: return "Q5_1"
-        elif self.value == 10: return "Q5_K_S"
-        elif self.value == 11: return "Q5_K_M"
-        elif self.value == 12: return "Q6_K"
-        elif self.value == 13: return "Q8_0"
-        elif self.value == 14: return "Q8_1"
-        elif self.value == 15: return "GPTQ_4BIT"
-        elif self.value == 16: return "GPTQ_8BIT"
-        elif self.value == 17: return "AWQ_4BIT"
-        elif self.value == 18: return "EXL2_VARBIT"
-        elif self.value == 19: return "HQQ"
-        elif self.value == 20: return "SMOOTHQUANT_INT8"
-        elif self.value == 21: return "FP8_E4M3"
-        elif self.value == 22: return "FP8_E5M2"
-        elif self.value == 23: return "IQ1_S"
-        elif self.value == 24: return "IQ2_XXS"
-        else: return "TERNARY_155BIT"
+        if self.value == 0:
+            return "Q2_K"
+        elif self.value == 1:
+            return "Q3_K_S"
+        elif self.value == 2:
+            return "Q3_K_M"
+        elif self.value == 3:
+            return "Q3_K_L"
+        elif self.value == 4:
+            return "Q4_0"
+        elif self.value == 5:
+            return "Q4_1"
+        elif self.value == 6:
+            return "Q4_K_S"
+        elif self.value == 7:
+            return "Q4_K_M"
+        elif self.value == 8:
+            return "Q5_0"
+        elif self.value == 9:
+            return "Q5_1"
+        elif self.value == 10:
+            return "Q5_K_S"
+        elif self.value == 11:
+            return "Q5_K_M"
+        elif self.value == 12:
+            return "Q6_K"
+        elif self.value == 13:
+            return "Q8_0"
+        elif self.value == 14:
+            return "Q8_1"
+        elif self.value == 15:
+            return "GPTQ_4BIT"
+        elif self.value == 16:
+            return "GPTQ_8BIT"
+        elif self.value == 17:
+            return "AWQ_4BIT"
+        elif self.value == 18:
+            return "EXL2_VARBIT"
+        elif self.value == 19:
+            return "HQQ"
+        elif self.value == 20:
+            return "SMOOTHQUANT_INT8"
+        elif self.value == 21:
+            return "FP8_E4M3"
+        elif self.value == 22:
+            return "FP8_E5M2"
+        elif self.value == 23:
+            return "IQ1_S"
+        elif self.value == 24:
+            return "IQ2_XXS"
+        else:
+            return "TERNARY_155BIT"
 
 
 struct GPUBuffer(Copyable, ImplicitlyCopyable):
@@ -275,18 +574,30 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
     `realm` field is configuration metadata only; no GPU allocation, mapping,
     transfer, or execution occurs.
     """
+
     var ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var size_bytes: Int
     var handle_fd: Int32
     var realm: GPURealmType
 
-    def __init__(out self, ptr: Pointer[Scalar[f16], MutUntrackedOrigin], size_bytes: Int, handle_fd: Int32 = 0, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)):
+    def __init__(
+        out self,
+        ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+        size_bytes: Int,
+        handle_fd: Int32 = 0,
+        realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+    ):
         self.ptr = ptr
         self.size_bytes = size_bytes
         self.handle_fd = handle_fd
         self.realm = realm
 
-    def __init__(out self, mut well: MimirWell, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises:
+    def __init__(
+        out self,
+        mut well: MimirWell,
+        size_bytes: Int,
+        realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+    ) raises:
         if size_bytes < 0:
             raise Error("buffer size_bytes must not be negative")
         var elements = size_bytes // 2
@@ -303,7 +614,9 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
 
     @always_inline
     def copy(self) -> Self:
-        return Self(self.ptr, self.size_bytes, self.handle_fd, self.realm.copy())
+        return Self(
+            self.ptr, self.size_bytes, self.handle_fd, self.realm.copy()
+        )
 
     @always_inline
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:
@@ -332,6 +645,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
     requested-backend discriminant. No field currently proves accelerator
     allocation, exportability, IOMMU mapping, alignment, or dispatch.
     """
+
     var ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var size_bytes: Int
     var handle_fd: Int32
@@ -344,7 +658,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         size_bytes: Int,
         handle_fd: Int32 = 0,
         is_dma_buf: Bool = False,
-        backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
+        backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     ):
         self.ptr = ptr
         self.size_bytes = size_bytes
@@ -356,7 +670,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         out self,
         mut well: MimirWell,
         size_bytes: Int,
-        backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)
+        backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     ) raises:
         if size_bytes < 0:
             raise Error("buffer size_bytes must not be negative")
@@ -376,7 +690,26 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
 
     @always_inline
     def copy(self) -> Self:
-        return Self(self.ptr, self.size_bytes, self.handle_fd, self.is_dma_buf, self.backend.copy())
+        return Self(
+            self.ptr,
+            self.size_bytes,
+            self.handle_fd,
+            self.is_dma_buf,
+            self.backend.copy(),
+        )
+
+    def validate_zero_copy_contract(self) raises:
+        """
+        Validates whether direct zero-copy NPU DMA-BUF frame mapping is backed by physical driver evidence.
+        Raises explicit Error unless backed by validated physical driver evidence.
+        """
+        if not self.is_dma_buf or self.handle_fd <= 0:
+            raise Error(
+                "NPUBuffer zero-copy contract unverified: host buffer lacks"
+                " physical OS DMA-BUF handle_fd or mmap evidence ("
+                + self.backend.name()
+                + ")"
+            )
 
     def validate_zero_copy_contract(self) raises:
         """
@@ -391,14 +724,13 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
         return RuneTensor[f16](rows, cols, self.ptr, False)
 
 
-
 struct RuneTensor[type: DType](Copyable):
 
-
     """
-    RuneTensor: The threads of fate woven by the Norns. 
+    RuneTensor: The threads of fate woven by the Norns.
     A custom tensor structure utilizing zero-copy pointers to maintain an unbroken, living connection to the Well.
     """
+
     var data: Pointer[Scalar[Self.type], MutUntrackedOrigin]
     var rows: Int
     var cols: Int
@@ -406,13 +738,47 @@ struct RuneTensor[type: DType](Copyable):
     var is_quantized: Bool
     var quant_format: CompressedFormatType
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = CompressedFormatType(CompressedFormatType.Q4_K_M)):
+    def __init__(
+        out self,
+        rows: Int,
+        cols: Int,
+        pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin],
+        is_quantized: Bool = False,
+        quant_format: CompressedFormatType = CompressedFormatType(
+            CompressedFormatType.Q4_K_M
+        ),
+    ):
+        """Creates an unchecked internal view; use checked() at trust boundaries.
+        """
         self.rows = rows
         self.cols = cols
         self.size = rows * cols
         self.data = pre_allocated_ptr
         self.is_quantized = is_quantized
         self.quant_format = quant_format.copy()
+
+    @staticmethod
+    def checked(
+        rows: Int,
+        cols: Int,
+        pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin],
+        is_quantized: Bool = False,
+        quant_format: CompressedFormatType = CompressedFormatType(
+            CompressedFormatType.Q4_K_M
+        ),
+    ) raises -> Self:
+        """Validates an untrusted shape and pointer before creating a view."""
+        if rows <= 0 or cols <= 0:
+            raise Error("RuneTensor.checked: dimensions must be positive")
+        var size = rows * cols
+        if size <= 0 or size // rows != cols:
+            raise Error("RuneTensor.checked: shape product overflow")
+        var address = Int(pre_allocated_ptr)
+        if address == 0 or address == 1:
+            raise Error("RuneTensor.checked: pointer is null or sentinel")
+        return Self(
+            rows, cols, pre_allocated_ptr, is_quantized, quant_format.copy()
+        )
 
     def __copyinit__(out self, existing: Self):
         self.rows = existing.rows
@@ -424,8 +790,13 @@ struct RuneTensor[type: DType](Copyable):
 
     @always_inline
     def copy(self) -> Self:
-        return Self(self.rows, self.cols, self.data, self.is_quantized, self.quant_format.copy())
-
+        return Self(
+            self.rows,
+            self.cols,
+            self.data,
+            self.is_quantized,
+            self.quant_format.copy(),
+        )
 
     @always_inline
     def get(self, r: Int, c: Int) -> Scalar[Self.type]:
@@ -457,10 +828,11 @@ struct RuneTensor[type: DType](Copyable):
 
 struct KVCache(Copyable):
     """
-    KVCache: Ring-Buffer Key-Value Cache drawn from the Well of Mimir.
-    Manages pre-allocated RuneTensor[f16] buffers for Key (K) and Value (V) tensors
-    across sequence length (max_seq_len, default 2048 or 4096).
+    KVCache: Fixed-capacity Key-Value Cache drawn from the Well of Mimir.
+    Manages contiguous pre-allocated buffers for chronological positions
+    [0, max_seq_len). It does not wrap or reorder positions.
     """
+
     var k: RuneTensor[f16]
     var v: RuneTensor[f16]
     var max_seq_len: Int
@@ -468,39 +840,53 @@ struct KVCache(Copyable):
     var num_layers: Int
 
     def __init__(
-        out self, 
-        max_seq_len: Int, 
-        hidden_dim: Int, 
-        mut well: MimirWell, 
-        num_layers: Int = 32
+        out self,
+        max_seq_len: Int,
+        hidden_dim: Int,
+        mut well: MimirWell,
+        num_layers: Int = 32,
     ) raises:
         if max_seq_len <= 0 or hidden_dim <= 0 or num_layers <= 0:
             raise Error("KVCache: dimensions must be positive")
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
-        
-        var total_elements = num_layers * max_seq_len * hidden_dim
+
+        var cache_rows = num_layers * max_seq_len
+        if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
+            raise Error("KVCache: row product overflow")
+        var total_elements = cache_rows * hidden_dim
+        if total_elements <= 0 or total_elements // cache_rows != hidden_dim:
+            raise Error("KVCache: element product overflow")
         var k_ptr = well.allocate(total_elements)
         var v_ptr = well.allocate(total_elements)
-        
-        self.k = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, k_ptr, False)
-        self.v = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, v_ptr, False)
+
+        self.k = RuneTensor[f16].checked(cache_rows, hidden_dim, k_ptr, False)
+        self.v = RuneTensor[f16].checked(cache_rows, hidden_dim, v_ptr, False)
 
     def __init__(
-        out self, 
-        max_seq_len: Int, 
-        hidden_dim: Int, 
-        k_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], 
-        v_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], 
-        num_layers: Int = 1
-    ):
+        out self,
+        max_seq_len: Int,
+        hidden_dim: Int,
+        k_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+        v_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+        num_layers: Int = 1,
+    ) raises:
+        if max_seq_len <= 0 or hidden_dim <= 0 or num_layers <= 0:
+            raise Error("KVCache: dimensions must be positive")
+        if Int(k_ptr) == 0 or Int(k_ptr) == 1:
+            raise Error("KVCache: key storage pointer is invalid")
+        if Int(v_ptr) == 0 or Int(v_ptr) == 1:
+            raise Error("KVCache: value storage pointer is invalid")
         self.max_seq_len = max_seq_len
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
-        
-        self.k = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, k_ptr, False)
-        self.v = RuneTensor[f16](num_layers * max_seq_len, hidden_dim, v_ptr, False)
+
+        var cache_rows = num_layers * max_seq_len
+        if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
+            raise Error("KVCache: row product overflow")
+        self.k = RuneTensor[f16].checked(cache_rows, hidden_dim, k_ptr, False)
+        self.v = RuneTensor[f16].checked(cache_rows, hidden_dim, v_ptr, False)
 
     def __copyinit__(out self, existing: Self):
         self.k = existing.k
@@ -510,39 +896,88 @@ struct KVCache(Copyable):
         self.num_layers = existing.num_layers
 
     @always_inline
-    def append(mut self, layer_idx: Int, pos: Int, key: RuneTensor[f16], val: RuneTensor[f16]) raises:
-        """Appends single-token Key and Value vectors into the cache at position pos."""
+    def append(
+        mut self,
+        layer_idx: Int,
+        pos: Int,
+        key: RuneTensor[f16],
+        val: RuneTensor[f16],
+    ) raises:
+        """Appends single-token Key and Value vectors into the cache at position pos.
+        """
         if layer_idx < 0 or layer_idx >= self.num_layers:
             raise Error("KVCache.append: layer_idx out of bounds")
         if pos < 0:
             raise Error("KVCache.append: pos must be non-negative")
+        if pos >= self.max_seq_len:
+            raise Error("KVCache.append: pos exceeds fixed cache capacity")
         if key.size < self.hidden_dim or val.size < self.hidden_dim:
             raise Error("KVCache.append: key/val width mismatch")
-        var slot = pos % self.max_seq_len
-        var offset = (layer_idx * self.max_seq_len + slot) * self.hidden_dim
+        var offset = (layer_idx * self.max_seq_len + pos) * self.hidden_dim
         for c in range(self.hidden_dim):
             self.k.data.unsafe_store(offset + c, key.data.unsafe_load(c))
             self.v.data.unsafe_store(offset + c, val.data.unsafe_load(c))
 
     @always_inline
-    def get_k_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]:
-        """Returns a RuneTensor view over active Key tokens [0..seq_len) for layer_idx."""
+    def get_k_slice(
+        self, layer_idx: Int, seq_len: Int
+    ) raises -> RuneTensor[f16]:
+        """Returns a RuneTensor view over active Key tokens [0..seq_len) for layer_idx.
+        """
         if layer_idx < 0 or layer_idx >= self.num_layers:
             raise Error("KVCache.get_k_slice: layer_idx out of bounds")
         if seq_len <= 0 or seq_len > self.max_seq_len:
             raise Error("KVCache.get_k_slice: seq_len out of bounds")
         var offset = layer_idx * self.max_seq_len * self.hidden_dim
-        return RuneTensor[f16](seq_len, self.hidden_dim, self.k.data.unsafe_offset(offset), False)
+        return RuneTensor[f16](
+            seq_len, self.hidden_dim, self.k.data.unsafe_offset(offset), False
+        )
 
     @always_inline
-    def get_v_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]:
-        """Returns a RuneTensor view over active Value tokens [0..seq_len) for layer_idx."""
+    def get_v_slice(
+        self, layer_idx: Int, seq_len: Int
+    ) raises -> RuneTensor[f16]:
+        """Returns a RuneTensor view over active Value tokens [0..seq_len) for layer_idx.
+        """
         if layer_idx < 0 or layer_idx >= self.num_layers:
             raise Error("KVCache.get_v_slice: layer_idx out of bounds")
         if seq_len <= 0 or seq_len > self.max_seq_len:
             raise Error("KVCache.get_v_slice: seq_len out of bounds")
         var offset = layer_idx * self.max_seq_len * self.hidden_dim
-        return RuneTensor[f16](seq_len, self.hidden_dim, self.v.data.unsafe_offset(offset), False)
+        return RuneTensor[f16](
+            seq_len, self.hidden_dim, self.v.data.unsafe_offset(offset), False
+        )
+
+
+struct PagedKVCache(Copyable):
+    """
+    Reserved PagedAttention API. No page table or block ownership exists yet;
+    every entry point fails closed rather than simulating allocation.
+    """
+
+    var base_cache: KVCache
+    var block_size: Int
+    var num_blocks: Int
+    var free_blocks: Int
+
+    def __init__(
+        out self,
+        max_seq_len: Int,
+        hidden_dim: Int,
+        mut well: MimirWell,
+        num_layers: Int = 32,
+        block_size: Int = 16,
+    ) raises:
+        raise Error(
+            "PagedKVCache: not implemented; page-table allocation is"
+            " unavailable"
+        )
+
+    def allocate_block(mut self) raises -> Int:
+        raise Error("PagedKVCache.allocate_block: not implemented")
+
+    def free_block(mut self, block_idx: Int) raises:
+        raise Error("PagedKVCache.free_block: not implemented")
 
 
 struct PagedKVCache(Copyable):
@@ -582,6 +1017,7 @@ struct MimirWell:
     MimirWell: Pre-allocates a contiguous block of VRAM/RAM (The Waters of Wisdom).
     Strictly forbids dynamic allocation during inference to maintain the purity and speed of the living system.
     """
+
     var base_ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var capacity: Int
     var offset: Int
@@ -590,30 +1026,39 @@ struct MimirWell:
         if size_in_bytes <= 0:
             raise Error("MimirWell: pool size must be positive")
         # Calculate number of f16 elements
-        self.capacity = size_in_bytes // 2 
+        self.capacity = size_in_bytes // 2
         var allocation = alloc(Layout[Scalar[f16]](count=self.capacity))
         self.base_ptr = allocation^.unsafe_leak()
         self.offset = 0
         unsafe_memset_zero(self.base_ptr, self.capacity)
 
-    def allocate(mut self, elements: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
+    def allocate(
+        mut self, elements: Int
+    ) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
         if elements <= 0:
             raise Error("MimirWell: allocation count must be positive")
         if self.offset + elements > self.capacity:
             raise Error("MimirWell: memory pool exhausted")
-        
+
         var ptr = self.base_ptr.unsafe_offset(self.offset)
         self.offset += elements
         return ptr
 
-    def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) raises -> NPUBuffer:
+    def allocate_npu_buffer(
+        mut self,
+        size_bytes: Int,
+        backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+    ) raises -> NPUBuffer:
         """Returns a CPU-resident host descriptor; no NPU mapping occurs."""
         return NPUBuffer(self, size_bytes, backend)
 
-    def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> GPUBuffer:
+    def allocate_gpu_buffer(
+        mut self,
+        size_bytes: Int,
+        realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+    ) raises -> GPUBuffer:
         """Returns a CPU-resident host descriptor; no GPU mapping occurs."""
         return GPUBuffer(self, size_bytes, realm)
-
 
     def reset_kv_cache(mut self, kv_offset_start: Int) raises:
         """Reset point for KV Cache."""
@@ -652,6 +1097,7 @@ struct MimirStore(Copyable):
     MimirStore: Vector store pre-allocating zero-copy memory inside MimirWell.
     Holds text document chunks and f16 embeddings (N x D).
     """
+
     var documents: List[String]
     var embeddings: RuneTensor[f16]
     var max_docs: Int
@@ -668,7 +1114,9 @@ struct MimirStore(Copyable):
         var ptr = well.allocate(max_docs * dim)
         self.embeddings = RuneTensor[f16](max_docs, dim, ptr, False)
 
-    def __init__(out self, mut well: MimirWell, max_docs: Int = 100, dim: Int = 4096) raises:
+    def __init__(
+        out self, mut well: MimirWell, max_docs: Int = 100, dim: Int = 4096
+    ) raises:
         if max_docs <= 0 or dim <= 0:
             raise Error("MimirStore: dimensions must be positive")
         self.max_docs = max_docs
@@ -703,14 +1151,18 @@ struct MimirStore(Copyable):
             self.embeddings.data.unsafe_store(offset + i, val)
         self.count += 1
 
-    def search_knn(self, query_emb: RuneTensor[f16], top_k: Int = 3) raises -> List[String]:
+    def search_knn(
+        self, query_emb: RuneTensor[f16], top_k: Int = 3
+    ) raises -> List[String]:
         """Using SIMD cosine_similarity to retrieve nearest document strings."""
         from core.compute import cosine_similarity
-        
+
         if top_k <= 0:
             raise Error("MimirStore.search_knn: top_k must be positive")
         if query_emb.size != self.dim:
-            raise Error("MimirStore.search_knn: query vector dimension mismatch")
+            raise Error(
+                "MimirStore.search_knn: query vector dimension mismatch"
+            )
 
         var result = List[String]()
         if self.count == 0:
@@ -720,7 +1172,12 @@ struct MimirStore(Copyable):
         var indices = List[Int]()
 
         for i in range(self.count):
-            var doc_emb = RuneTensor[f16](1, self.dim, self.embeddings.data.unsafe_offset(i * self.dim), False)
+            var doc_emb = RuneTensor[f16](
+                1,
+                self.dim,
+                self.embeddings.data.unsafe_offset(i * self.dim),
+                False,
+            )
             var score = cosine_similarity(query_emb, doc_emb)
             scores.append(score)
             indices.append(i)
@@ -749,13 +1206,16 @@ struct MimirStore(Copyable):
 struct DeviceTopology(Copyable):
     """
     DeviceTopology (The Realm Mapping):
-    Describes configured logical host partitions. Hardware detector lists remain
-    empty until real platform probes are implemented.
+    Describes configured logical host partitions and validated accelerator
+    records. Default construction performs no physical hardware probe.
     """
+
     var num_devices: Int
     var device_names: List[String]
     var npu_backends: List[NPUBackendType]
     var gpu_realms: List[GPURealmType]
+    var physical_devices: List[PhysicalDevice]
+    var last_gpu_discovery_status: DiscoveryStatus
 
     def __init__(out self, num_devices: Int = 1):
         self.num_devices = max(1, num_devices)
@@ -764,6 +1224,10 @@ struct DeviceTopology(Copyable):
             self.device_names.append("host:" + String(i))
         self.npu_backends = List[NPUBackendType]()
         self.gpu_realms = List[GPURealmType]()
+        self.physical_devices = List[PhysicalDevice]()
+        self.last_gpu_discovery_status = DiscoveryStatus(
+            DiscoveryStatus.NO_DEVICE
+        )
         self.detect_edge_npus()
         self.detect_gpu_realms()
 
@@ -772,6 +1236,10 @@ struct DeviceTopology(Copyable):
         self.device_names = device_names.copy()
         self.npu_backends = List[NPUBackendType]()
         self.gpu_realms = List[GPURealmType]()
+        self.physical_devices = List[PhysicalDevice]()
+        self.last_gpu_discovery_status = DiscoveryStatus(
+            DiscoveryStatus.NO_DEVICE
+        )
         self.detect_edge_npus()
         self.detect_gpu_realms()
 
@@ -780,6 +1248,10 @@ struct DeviceTopology(Copyable):
         self.device_names = existing.device_names.copy()
         self.npu_backends = existing.npu_backends.copy()
         self.gpu_realms = existing.gpu_realms.copy()
+        self.physical_devices = existing.physical_devices.copy()
+        self.last_gpu_discovery_status = (
+            existing.last_gpu_discovery_status.copy()
+        )
 
     def detect_edge_npus(mut self):
         """Reports default edge NPUs (comptime safe)."""
@@ -789,6 +1261,7 @@ struct DeviceTopology(Copyable):
         """Runtime probe for edge/desktop NPU backends."""
         self.npu_backends.clear()
         from core.npu_gate import NPUGate
+
         for b_id in range(7):
             var b = NPUBackendType(b_id)
             if NPUGate.is_available(b) and NPUGate.get_device_count(b) > 0:
@@ -797,34 +1270,67 @@ struct DeviceTopology(Copyable):
     def detect_gpu_realms(mut self):
         """Default constructor initialization (comptime safe)."""
         self.gpu_realms.clear()
+        self.physical_devices.clear()
+        self.last_gpu_discovery_status = DiscoveryStatus(
+            DiscoveryStatus.NO_DEVICE
+        )
 
-    def probe_cuda_realm(mut self):
-        """Runtime probe for NVIDIA CUDA realm."""
-        self.gpu_realms.clear()
+    def _append_gpu_realm_if_missing(mut self, realm: GPURealmType):
+        for existing in self.gpu_realms:
+            if existing == realm:
+                return
+        self.gpu_realms.append(realm.copy())
+
+    def apply_gpu_discovery(mut self, result: HardwareDiscoveryResult) raises:
+        """Apply a production result or an explicitly injected test snapshot."""
+        result.validate()
+        self.last_gpu_discovery_status = result.status.copy()
+        for device in result.devices:
+            for existing in self.physical_devices:
+                if existing.stable_id == device.stable_id:
+                    raise Error("DeviceTopology: duplicate physical stable_id")
+                if (
+                    existing.realm == device.realm
+                    and existing.backend_index == device.backend_index
+                ):
+                    raise Error(
+                        "DeviceTopology: duplicate physical backend index"
+                    )
+            self.physical_devices.append(device.copy())
+            self._append_gpu_realm_if_missing(device.realm)
+
+    def probe_cuda_realm(mut self) raises:
+        """Discover NVIDIA CUDA devices through the selected MAX runtime."""
         from core.cuda_gate import CUDAGate
-        if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
-            self.gpu_realms.append(GPURealmType(GPURealmType.NVIDIA_CUDA))
+
+        self.apply_gpu_discovery(CUDAGate.discover_physical_devices())
 
     def probe_metal_realm(mut self):
         """Runtime probe for Apple Metal GPU realm."""
-        self.gpu_realms.clear()
         from core.metal_gate import MetalGate
+
         if MetalGate.is_available() and MetalGate.get_device_count() > 0:
-            self.gpu_realms.append(GPURealmType(GPURealmType.ARM_MALI_OPENCL))
+            self._append_gpu_realm_if_missing(
+                GPURealmType(GPURealmType.APPLE_METAL)
+            )
 
     def probe_intel_realm(mut self):
         """Runtime probe for Intel OneAPI / Level Zero GPU realm."""
-        self.gpu_realms.clear()
         from core.intel_gate import IntelGate
+
         if IntelGate.is_available() and IntelGate.get_device_count() > 0:
-            self.gpu_realms.append(GPURealmType(GPURealmType.INTEL_ONEAPI_XE))
+            self._append_gpu_realm_if_missing(
+                GPURealmType(GPURealmType.INTEL_ONEAPI_XE)
+            )
 
     def probe_amd_realm(mut self):
         """Runtime probe for AMD ROCm / HIP GPU realm."""
-        self.gpu_realms.clear()
         from core.amd_gate import AMDGate
+
         if AMDGate.is_available() and AMDGate.get_device_count() > 0:
-            self.gpu_realms.append(GPURealmType(GPURealmType.AMD_ROCM_HIP))
+            self._append_gpu_realm_if_missing(
+                GPURealmType(GPURealmType.AMD_ROCM_HIP)
+            )
 
     def probe_all_hardware(mut self):
         """
@@ -857,6 +1363,71 @@ struct DeviceTopology(Copyable):
         raise Error("Hardware accelerator GPU realm '" + realm.name() + "' is not physically discovered or supported on this platform")
 
 
+    def select_gpu_by_index(
+        self, realm: GPURealmType, backend_index: Int
+    ) raises -> PhysicalDevice:
+        """Select a compatible observed device by realm-local index."""
+        if backend_index < 0:
+            raise Error("DeviceTopology: backend_index must not be negative")
+        for device in self.physical_devices:
+            if device.realm == realm and device.backend_index == backend_index:
+                if not device.capabilities.is_compatible:
+                    raise Error(
+                        "DeviceTopology: selected GPU is incompatible with MAX"
+                    )
+                return device.copy()
+        raise Error(
+            "DeviceTopology: GPU realm '"
+            + realm.name()
+            + "' has no observed device at backend index "
+            + String(backend_index)
+        )
+
+    def select_gpu_by_stable_id(
+        self, stable_id: String
+    ) raises -> PhysicalDevice:
+        """Select a compatible observed device by its runtime-derived stable ID.
+        """
+        if stable_id.byte_length() == 0:
+            raise Error("DeviceTopology: stable_id must not be empty")
+        for device in self.physical_devices:
+            if device.stable_id == stable_id:
+                if not device.capabilities.is_compatible:
+                    raise Error(
+                        "DeviceTopology: selected GPU is incompatible with MAX"
+                    )
+                return device.copy()
+        raise Error(
+            "DeviceTopology: no observed GPU has stable_id '" + stable_id + "'"
+        )
+
+    def require_npu_backend(self, backend: NPUBackendType) raises:
+        """
+        Validates that requested NPU backend is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.npu_backends)):
+            if self.npu_backends[i].value == backend.value:
+                return
+        raise Error(
+            "Hardware accelerator NPU backend '"
+            + backend.name()
+            + "' is not physically discovered or supported on this platform"
+        )
+
+    def require_gpu_realm(self, realm: GPURealmType) raises:
+        """
+        Validates that requested GPU realm is physically discovered.
+        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
+        """
+        for i in range(len(self.gpu_realms)):
+            if self.gpu_realms[i].value == realm.value:
+                return
+        raise Error(
+            "Hardware accelerator GPU realm '"
+            + realm.name()
+            + "' is not physically discovered or supported on this platform"
+        )
 
 
 struct ShardTensor(Copyable):
@@ -865,6 +1436,7 @@ struct ShardTensor(Copyable):
     Wraps zero-copy RuneTensor[f16] slices assigned to a specific compute realm/device.
     Preserves direct memory offset linkages into MimirWell without heap reallocation.
     """
+
     var device_id: Int
     var tensor: RuneTensor[f16]
 
@@ -877,10 +1449,12 @@ struct ShardTensor(Copyable):
         self.tensor = existing.tensor.copy()
 
 
-def shard_split_cols(T: RuneTensor[f16], num_shards: Int, mut well: MimirWell) raises -> List[RuneTensor[f16]]:
+def shard_split_cols(
+    T: RuneTensor[f16], num_shards: Int, mut well: MimirWell
+) raises -> List[RuneTensor[f16]]:
     """
     The Splitting of the Bifrost Stream (Column-Parallel Partitioning):
-    Splits tensor T across column dimensions (dimension 1) for distributed activation matrices 
+    Splits tensor T across column dimensions (dimension 1) for distributed activation matrices
     or column-sharded weight layers within the Bifrost Shard Matrix. Memory for 2D slices
     is drawn directly from MimirWell to ensure zero dynamic heap allocations.
     """
@@ -902,12 +1476,16 @@ def shard_split_cols(T: RuneTensor[f16], num_shards: Int, mut well: MimirWell) r
                 for c in range(shard_cols):
                     var val = T.get(r, i * shard_cols + c)
                     ptr.unsafe_store(r * shard_cols + c, val)
-            result.append(RuneTensor[f16](T.rows, shard_cols, ptr, T.is_quantized))
+            result.append(
+                RuneTensor[f16](T.rows, shard_cols, ptr, T.is_quantized)
+            )
 
     return result^
 
 
-def shard_split_cols(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16]]:
+def shard_split_cols(
+    T: RuneTensor[f16], num_shards: Int
+) -> List[RuneTensor[f16]]:
     """
     Overload for column-parallel partitioning when MimirWell is omitted.
     For 1D row vectors (T.rows == 1), this is zero-copy offset slicing.
@@ -925,21 +1503,27 @@ def shard_split_cols(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
             result.append(RuneTensor[f16](1, shard_cols, ptr, T.is_quantized))
     else:
         for i in range(num_shards):
-            var allocation = alloc(Layout[Scalar[f16]](count=T.rows * shard_cols))
+            var allocation = alloc(
+                Layout[Scalar[f16]](count=T.rows * shard_cols)
+            )
             var ptr = allocation^.unsafe_leak()
             for r in range(T.rows):
                 for c in range(shard_cols):
                     var val = T.get(r, i * shard_cols + c)
                     ptr.unsafe_store(r * shard_cols + c, val)
-            result.append(RuneTensor[f16](T.rows, shard_cols, ptr, T.is_quantized))
+            result.append(
+                RuneTensor[f16](T.rows, shard_cols, ptr, T.is_quantized)
+            )
 
     return result^
 
 
-def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16]]:
+def shard_split_rows(
+    T: RuneTensor[f16], num_shards: Int
+) -> List[RuneTensor[f16]]:
     """
     The Cleaving of the Runic Matrix (Row-Parallel Partitioning):
-    Splits tensor T across row dimensions (dimension 0), providing zero-copy 
+    Splits tensor T across row dimensions (dimension 0), providing zero-copy
     contiguous slice views in row-major layout across allocated device shards.
     """
     var result = List[RuneTensor[f16]]()

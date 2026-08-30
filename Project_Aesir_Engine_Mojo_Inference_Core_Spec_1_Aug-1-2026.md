@@ -11,7 +11,7 @@ RuneForgeAI: Project A.E.S.I.R.
 
 **1. Core Architecture & Memory Management**
 *   **Tensor Structure:** Define a custom `Tensor[T]` struct utilizing Mojo's `NDBuffer` for zero-copy data movement. Must support `f16` (half-precision) and `q4_k` (4-bit quantization) natively to minimize VRAM usage.
-*   **Memory Pool:** Implement a unified memory allocator (`MemoryPool`) that pre-allocates a contiguous block of VRAM/RAM for model weights and KV cache. No dynamic allocation during inference. The cache must be ring-buffered to handle long contexts without fragmentation.
+*   **Memory Pool:** Implement a unified memory allocator (`MemoryPool`) that pre-allocates a contiguous block of VRAM/RAM for model weights and KV cache. No dynamic allocation during inference. The current cache is a fixed chronological prefix that rejects capacity overflow; any future sliding-window design must specify and test eviction and chronological reordering explicitly.
 *   **Quantization Support:** Hardcode support for `GGUF`-style quantization (specifically Q4_K_M). Write custom Mojo kernels to dequantize weights on-the-fly directly into GPU registers, bypassing system memory bandwidth bottlenecks.
 
 **2. Compute Kernels (The "Hot Path")**

@@ -12,7 +12,6 @@ from std.collections import InlineArray
 
 from std.cli import env
 from cli.modelfile import parse_int
-from server.openai import OpenAIGate
 
 
 @always_inline
@@ -313,21 +312,15 @@ def parse_http_request(raw_request: String) raises -> HTTPRequest:
 def dispatch_http_request(req: HTTPRequest) -> String:
     """
     Dispatches an HTTPRequest to appropriate HTTP response strings based on URI target.
-    Handles OpenAI v1 REST endpoints (/v1/chat/completions, /v1/models, /v1/embeddings).
-    Known unsupported endpoints return HTTP 501 Not Implemented.
+    Returns HTTP 501 for model-backed compatibility endpoints until a caller
+    supplies real engine execution and observed model state.
     Unmapped paths return HTTP 404 Not Found.
     """
-    if req.path == "/v1/chat/completions":
-        var json_body = OpenAIGate.format_chat_completion("aesir:latest", "Project A.E.S.I.R. sovereign inference operational.")
-        return build_http_response(200, "OK", "application/json", json_body)
-    elif req.path == "/v1/models":
-        var json_body = OpenAIGate.format_models_list("aesir:latest")
-        return build_http_response(200, "OK", "application/json", json_body)
-    elif req.path == "/v1/embeddings":
-        var json_body = OpenAIGate.format_embeddings("aesir:latest")
-        return build_http_response(200, "OK", "application/json", json_body)
-    elif (
-        req.path == "/api/generate"
+    if (
+        req.path == "/v1/chat/completions"
+        or req.path == "/v1/models"
+        or req.path == "/v1/embeddings"
+        or req.path == "/api/generate"
         or req.path == "/api/chat"
         or req.path == "/api/pull"
         or req.path == "/api/push"
@@ -438,7 +431,7 @@ struct BifrostGate:
             print("Failed to listen.")
             return False
             
-        print("Bifrost Gate open. A.E.S.I.R Engine listening on http://127.0.0.1:" + String(self.port) + " (Bare-Metal)")
+        print("Bifrost socket listener open on http://127.0.0.1:" + String(self.port) + "; no model-backed service loop is attached")
         return True
 
     def await_request(self) -> Int32:
@@ -458,7 +451,7 @@ struct BifrostGate:
         client_len.unsafe_free()
         
         if client_fd >= 0:
-            # Read request (just consume it for now, ignoring HTTP headers parsing in mock)
+            # Consume one bounded read; a connected serving loop is not implemented.
             var buf_alloc = alloc(Layout[Int8](count=1024))
             var buf = buf_alloc^.unsafe_leak()
             var bytes_read = external_call["read", Int64](client_fd, buf.unsafe_bitcast[Int8](), 1024)
@@ -593,4 +586,3 @@ struct BifrostGate:
         if self.addr_allocated:
             self.addr_ptr.unsafe_free()
             _ = self.addr_allocated
-

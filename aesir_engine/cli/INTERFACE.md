@@ -37,7 +37,10 @@ def parse_modelfile(content: String) raises -> Modelfile: ...
 ---
 
 ### `ModelManifest` (`cli/manifest.mojo`)
-Preserves model metadata scroll: model name, tag, SHA-256 digest ID, size in bytes, quantization rune, structural dimensions, modification timestamp, and raw Modelfile inscriptions.
+Preserves caller-supplied model metadata: model name, tag, non-cryptographic
+content fingerprint, optional byte size, quantization, structural dimensions,
+modification timestamp, and raw Modelfile text. Creation does not invent model
+metadata that has not been measured.
 
 ```mojo
 struct ModelManifest(Copyable, ImplicitlyCopyable):
@@ -57,15 +60,18 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
     def serialize(self) -> String: ...
 ```
 
-### `compute_modelfile_digest` (`cli/manifest.mojo`)
-Computes a deterministic hex digest string starting with `sha256:` from raw Modelfile text content.
+### `compute_modelfile_fingerprint` (`cli/manifest.mojo`)
+Computes a deterministic FNV-1a 64-bit fingerprint starting with `fnv1a64:`.
+This is an identity hint, not a cryptographic integrity digest.
 
 ```mojo
-def compute_modelfile_digest(content: String) -> String: ...
+def compute_modelfile_fingerprint(content: String) -> String: ...
 ```
 
 ### `RuneModelStore` (`cli/manifest.mojo`)
-Model catalog and manifest manager supporting in-memory operations, deterministic SHA-256 digest computation, and persistent scroll serialization (`serialize_store` / `deserialize_store`).
+In-memory model catalog supporting deterministic fingerprints and text
+serialization/deserialization. The module does not read or write a durable
+catalog on its own.
 
 ```mojo
 struct RuneModelStore(Copyable):
@@ -78,14 +84,45 @@ struct RuneModelStore(Copyable):
     def get_model(self, name: String) raises -> ModelManifest: ...
     def create_model(mut self, name: String, modelfile_content: String) raises: ...
     def copy_model(mut self, source: String, target: String) raises: ...
-    def remove_model(mut self, name: String) -> Bool: ...
+    def remove_model(mut self, name: String) raises -> Bool: ...
     def get_active_ps(self) raises -> List[ModelManifest]: ...
 ```
+
+### `DurableModelStore` (`cli/storage.mojo`)
+
+Linux durable-catalog boundary. The caller supplies a validated relative store
+root. An absent catalog loads as empty; mutations stage a same-directory file,
+sync it, atomically rename it, sync the containing directory, and publish the
+new in-memory state only after the durable commit succeeds. Catalog v1 is
+bounded, versioned, delimiter-safe, and rejects malformed records, duplicate
+identities, unsafe references, and unsupported versions. Model-byte blob
+ingestion remains outside this slice.
+
+```mojo
+struct DurableModelStore:
+    var root_path: String
+    var store: RuneModelStore
+
+    def __init__(out self, root_path: String) raises: ...
+    def list_models(self) raises -> List[ModelManifest]: ...
+    def get_model(self, name: String) raises -> ModelManifest: ...
+    def create_model(mut self, name: String, modelfile_content: String) raises: ...
+    def copy_model(mut self, source: String, target: String) raises: ...
+    def remove_model(mut self, name: String) raises: ...
+```
+
+`validate_store_root`, `serialize_catalog`, and `deserialize_catalog` expose
+the corresponding validation and catalog-codec boundaries for callers and
+focused verification. Store-root validation delegates to the authoritative
+`AesirConfig.model_store_path` schema, whose relative default is
+`.aesir/models`.
 
 ---
 
 ### `RuneREPL` (`cli/repl.mojo`)
-Interactive terminal REPL with multi-turn conversation state, hyperparameter tuning (`GenerationConfig`), slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and stream execution.
+Slash-command state machine with hyperparameter tuning (`GenerationConfig`)
+and history management (`/?`, `/set`, `/show`, `/clear`, `/bye`). Ordinary
+chat input and the terminal loop fail closed until inference wiring exists.
 
 ```mojo
 struct RuneREPL:
@@ -98,7 +135,6 @@ struct RuneREPL:
     def render_welcome(self): ...
     def render_help(self): ...
     def process_input_line(mut self, raw_line: String) raises -> String: ...
-    def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]: ...
     def run_repl(mut self) raises: ...
 ```
 
@@ -117,7 +153,14 @@ def run_single_shot(
 ---
 
 ### `CLIOptions` (`cli/options.mojo`)
-Ollama-compatible CLI flag options container and parser supporting `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and `--max-tokens N`.
+CLI intent container and parser supporting `--verbose`, `--format json|text`,
+`--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, and
+`--max-tokens N`. It also records whether `--config` and `--accel` were
+explicitly supplied, along with presence markers for every other parsed flag,
+so command dispatch can apply precedence without mistaking defaults for caller
+intent. Parsing a flag does not imply downstream operational support. Each
+implemented command validates applicability and rejects options that do not yet
+have a connected owner.
 
 ```mojo
 struct CLIOptions:
@@ -128,6 +171,10 @@ struct CLIOptions:
     var raw: Bool
     var insecure: Bool
     var max_tokens: Int
+    var config_path: String
+    var config_was_set: Bool
+    var accel_backend: String
+    var accel_was_set: Bool
 
 def parse_duration_seconds(duration_str: String) raises -> Int: ...
 def parse_cli_options(args: List[String]) raises -> CLIOptions: ...
@@ -147,17 +194,26 @@ def parse_positive_int(value: String) raises -> Int: ...
 Single-shot syntax is:
 
 ```text
-aesir run <model-path> [--max-tokens N] <prompt...>
+aesir run <model-path> [options] <prompt...>
 ```
 
 With no prompt arguments, `run` reaches the reserved REPL entry point and raises
 an explicit unsupported error.
 
+Recognized option tokens and their values are removed from positional assembly,
+so control flags cannot become model prompt text. `auto` and `cpu` select the
+verified CPU route. Explicit unavailable accelerator intent raises before model
+loading and never falls back under a hardware label. The tracked configuration
+uses neutral values for unconnected runtime fields; changing one of those
+fields on a single-shot run raises rather than being ignored.
+
 ---
 
 ### `dispatch_command` (`cli/commands.mojo`)
-Main CLI router. `help`, `--help`, `version`, and the real single-shot
-`run <model-path> [--max-tokens N] <prompt...>` path are implemented. `serve`,
+Main CLI router. Empty invocation, `help`, `--help`, `version`, configuration
+validation, and the real single-shot `run <model-path> [options] <prompt...>`
+path are implemented. `config [--config <path>]` reads and validates the
+selected schema and prints its normalized representation. `serve`,
 model-store/distribution commands, interactive `run`, multi-engine commands,
 and swarm commands raise stable unsupported errors and emit no success output.
 
@@ -186,3 +242,4 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 2. **Facade Isolation:** `cli/repl.mojo` and `cli/commands.mojo` interact with inference strictly via `AesirEngine` in `aesir.mojo` or `BifrostGate` in `server/api.mojo`. They **must never** import `core/compute.mojo`, `core/inference.mojo`, or `core/mimir_well.mojo` directly.
 3. **Model & Manifest Independence:** `cli/modelfile.mojo` and `cli/manifest.mojo` own configuration parsing and catalog storage and have zero dependencies on hardware kernels or socket connections.
 4. **Generation Option Ownership:** CLI code validates and forwards the positive token limit but never owns autoregressive state, KV memory, EOS policy, or token decoding; those remain in `AesirEngine`.
+5. **Intent Must Be Enforced:** Explicit configuration and acceleration intent must be applied or rejected before execution. No accepted option may silently select a different backend or enter prompt text.

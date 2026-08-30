@@ -1,10 +1,12 @@
 # Core Domain Interface Specification
 
-> **Current execution boundary:** the verified runtime is host CPU only.
-> Hardware names below are reserved discriminants. NPU/GPU gateway functions
-> raise unsupported errors, discovery returns empty lists, and NPU/GPU buffers
-> remain CPU-resident descriptors. Logical shards are sequential host views,
-> not physical multi-device execution.
+> **Current execution boundary:** model execution remains host CPU only. CUDA
+> discovery, selected-device resource ownership, explicit F16 transfers, and a
+> reusable resource-explicit F16 GEMM execute through MAX 26.5 on the observed
+> CUDA host. Model weights, Transformer dispatch, RMSNorm, attention, KV cache,
+> and CLI acceleration remain host-only or fail-closed. Other GPU/NPU backends
+> remain unimplemented, GPU/NPU descriptor buffers remain CPU-resident, and
+> logical shards remain sequential host views.
 
 ## Public Structs & Functions
 
@@ -31,12 +33,19 @@ struct RuneTensor[type: DType]:
     var size: Int
     var is_quantized: Bool
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...  # unchecked internal view
+    @staticmethod
+    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False) raises -> Self: ...
     def get(self, r: Int, c: Int) -> Scalar[Self.type]: ...
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]): ...
     def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]: ...
     def set_checked(mut self, r: Int, c: Int, val: Scalar[Self.type]) raises: ...
 ```
+
+`checked()` is the trust-boundary constructor and rejects nonpositive shapes,
+wrapped shape products, and null/address-1 pointers. The non-raising initializer
+is an explicitly unchecked internal view primitive used by copy and slice paths;
+callers must already own its shape, pointer, and lifetime invariants.
 
 ### `BlockQ4_K`
 Memory layout descriptor for Q4_K quantized blocks.
@@ -63,10 +72,23 @@ struct KVCache:
     def append(mut self, layer_idx: Int, pos: Int, key: RuneTensor[f16], val: RuneTensor[f16]) raises: ...
     def get_k_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]: ...
     def get_v_slice(self, layer_idx: Int, seq_len: Int) raises -> RuneTensor[f16]: ...
-    def __init__(out self, max_seq_len: Int, hidden_dim: Int, k_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], v_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_layers: Int = 1): ...
-    def append(mut self, layer_idx: Int, pos: Int, key: RuneTensor[f16], val: RuneTensor[f16]): ...
-    def get_k_slice(self, layer_idx: Int, seq_len: Int) -> RuneTensor[f16]: ...
-    def get_v_slice(self, layer_idx: Int, seq_len: Int) -> RuneTensor[f16]: ...
+    def __init__(out self, max_seq_len: Int, hidden_dim: Int, k_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], v_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_layers: Int = 1) raises: ...
+```
+
+Positions form one chronological prefix and never wrap. `append()` rejects
+`pos >= max_seq_len` before writing, and pointer-backed construction rejects
+invalid dimensions and null/address-1 storage.
+
+### `PagedKVCache`
+
+Reserved compatibility API only. No page table or block allocator is present;
+construction, allocation, and free operations raise `not implemented`.
+
+```mojo
+struct PagedKVCache(Copyable):
+    def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises: ...
+    def allocate_block(mut self) raises -> Int: ...
+    def free_block(mut self, block_idx: Int) raises: ...
 ```
 
 ### `MimirStore`
@@ -86,8 +108,59 @@ struct MimirStore:
     def search_knn(self, query_emb: RuneTensor[f16], top_k: Int = 3) raises -> List[String]: ...
 ```
 
-### `DeviceTopology` (Slice 6, Slice 7 & Slice 8)
-Device topology mapping compute device IDs, NPU backends, and universal GPU hardware realms.
+### `DiscoveryStatus`, `DeviceCapabilities`, `PhysicalDevice`, and `HardwareDiscoveryResult`
+
+Validated truth-bearing records for accelerator discovery. CUDA stable IDs use
+the public MAX runtime ID (`cuda:max-id:<id>`); they are not vendor UUIDs.
+
+```mojo
+struct DiscoveryStatus(Copyable, ImplicitlyCopyable):
+    comptime SUCCESS = 0
+    comptime PARTIAL = 1
+    comptime UNSUPPORTED_RUNTIME = 2
+    comptime NO_DEVICE = 3
+    comptime INCOMPATIBLE_DRIVER = 4
+    comptime UNSUPPORTED_ARCHITECTURE = 5
+    comptime MISSING_COMPILER_TOOL = 6
+    comptime PERMISSION_DENIED = 7
+    comptime PROBE_FAILED = 8
+
+struct DeviceCapabilities(Copyable):
+    var is_compatible: Bool
+    var api_version: Int
+    var free_memory_bytes: UInt
+    var total_memory_bytes: UInt
+    var compute_capability_major: Int
+    var compute_capability_minor: Int
+    var multiprocessor_count: Int
+    var max_threads_per_block: Int
+    def validate(self) raises: ...
+
+struct PhysicalDevice(Copyable):
+    var realm: GPURealmType
+    var backend_index: Int
+    var runtime_id: Int64
+    var stable_id: String
+    var name: String
+    var api: String
+    var capabilities: DeviceCapabilities
+    def validate(self) raises: ...
+
+struct HardwareDiscoveryResult(Copyable):
+    var status: DiscoveryStatus
+    var message: String
+    var devices: List[PhysicalDevice]
+    def validate(self) raises: ...
+```
+
+Validation rejects empty successful results, devices attached to failure
+statuses, invalid capability values, duplicate stable IDs, and duplicate
+realm-local indices.
+
+### `DeviceTopology` (Slices 6–8 and GPU-1)
+
+Maps logical host partitions and retains validated observed accelerator records.
+Default construction is side-effect-free with respect to hardware probing.
 
 ```mojo
 struct DeviceTopology:
@@ -95,11 +168,18 @@ struct DeviceTopology:
     var device_names: List[String]
     var npu_backends: List[NPUBackendType]  # Slice 7
     var gpu_realms: List[GPURealmType]     # Slice 8
+    var physical_devices: List[PhysicalDevice]
+    var last_gpu_discovery_status: DiscoveryStatus
 
     def __init__(out self, num_devices: Int = 1): ...
     def __init__(out self, num_devices: Int, device_names: List[String]): ...
-    def detect_edge_npus(mut self): ... # clears to an empty observed-device list
-    def detect_gpu_realms(mut self): ... # clears to an empty observed-device list
+    def detect_edge_npus(mut self): ...
+    def detect_gpu_realms(mut self): ...
+    def apply_gpu_discovery(mut self, result: HardwareDiscoveryResult) raises: ...
+    def probe_cuda_realm(mut self) raises: ...
+    def probe_all_hardware(mut self) raises: ...
+    def select_gpu_by_index(self, realm: GPURealmType, backend_index: Int) raises -> PhysicalDevice: ...
+    def select_gpu_by_stable_id(self, stable_id: String) raises -> PhysicalDevice: ...
 ```
 
 ### `NPUBackendType` (reserved NPU surface)
@@ -145,7 +225,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
 ```
 
 ### `GPURealmType` (reserved GPU surface)
-Integer discriminant naming ten requested GPU realms. A value does not imply
+Integer discriminant naming eleven requested GPU realms. A value does not imply
 device presence, allocation, or execution.
 
 ```mojo
@@ -160,6 +240,7 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     comptime ARM_MALI_OPENCL = 7     # Mobile ARM Mali / OpenCL
     comptime QUALCOMM_ADRENO = 8     # Snapdragon Adreno / OpenCL
     comptime IMAGINATION_POWERVR = 9 # Embedded PowerVR
+    comptime APPLE_METAL = 10        # Apple Metal
 
     var value: Int
 
@@ -188,6 +269,140 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]: ...
     def copy(self) -> Self: ...
 ```
+
+### `CUDAGate` (GPU-1 discovery boundary)
+
+Uses the locked MAX accelerator API for real CUDA enumeration and capability
+inspection. A loadable library is not counted as a device. Errors are preserved
+as explicit discovery statuses, and the execution methods remain unsupported.
+
+```mojo
+struct CUDAGate:
+    @staticmethod
+    def is_available() -> Bool: ...
+    @staticmethod
+    def get_device_count() -> Int: ...
+    @staticmethod
+    def classify_discovery_error(message: String) -> DiscoveryStatus: ...
+    @staticmethod
+    def discover_physical_devices() -> HardwareDiscoveryResult: ...
+```
+
+`discover_physical_devices()` records the runtime ID, name, API/version,
+free/total memory, MAX compatibility, compute capability, multiprocessor count,
+and maximum threads per block for each inspected CUDA index. It does not create
+production contexts or buffers whose lifetime extends beyond discovery.
+
+### `CUDAResourceBudget`, `CUDAF16Allocation`, and `CUDADeviceResources` (GPU-2)
+
+`core/cuda_resources.mojo` owns the selected CUDA context and real MAX-managed
+F16 resource lifecycle. These are move-only project wrappers: the underlying
+MAX context, pinned-host buffer, and device buffer are reference-counted and
+released by their `Deinitable` lifecycles after queued stream work completes.
+
+```mojo
+struct CUDAResourceBudget(Copyable):
+    var device_limit_bytes: Int
+    var pinned_host_limit_bytes: Int
+    var device_reserved_bytes: Int
+    var pinned_host_reserved_bytes: Int
+
+    def __init__(out self, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
+    @staticmethod
+    def f16_size_bytes(element_count: Int) raises -> Int: ...
+    @staticmethod
+    def f16_batch3_size_bytes(first_element_count: Int, second_element_count: Int, third_element_count: Int) raises -> Int: ...
+    def validate(self) raises: ...
+    def remaining_device_bytes(self) -> Int: ...
+    def remaining_pinned_host_bytes(self) -> Int: ...
+    def reserve_f16(mut self, element_count: Int) raises -> Int: ...
+    def reserve_f16_batch3(mut self, first_element_count: Int, second_element_count: Int, third_element_count: Int) raises -> Int: ...
+    def rollback_f16(mut self, size_bytes: Int) raises: ...
+
+def validate_cuda_resource_policy(device: PhysicalDevice, budget: CUDAResourceBudget) raises: ...
+
+struct CUDAF16Allocation:
+    var context: DeviceContext
+    var host_buffer: HostBuffer[DType.float16]
+    var device_buffer: DeviceBuffer[DType.float16]
+    var element_count: Int
+    var size_bytes: Int
+    var stable_device_id: String
+    var synchronization_count: Int
+
+    def set_host(mut self, index: Int, value: Scalar[f16]) raises: ...
+    def get_host(self, index: Int) raises -> Scalar[f16]: ...
+    def enqueue_upload(self) raises: ...
+    def enqueue_download(self) raises: ...
+    def synchronize(mut self) raises: ...
+    def upload_and_synchronize(mut self) raises: ...
+    def download_and_synchronize(mut self) raises: ...
+
+struct CUDADeviceResources:
+    var context: DeviceContext
+    var physical_device: PhysicalDevice
+    var budget: CUDAResourceBudget
+    var allocation_count: Int
+
+    def __init__(out self, physical_device: PhysicalDevice, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
+    def allocate_f16(mut self, element_count: Int) raises -> CUDAF16Allocation: ...
+    def synchronize(self) raises: ...
+```
+
+Budget accounting is conservative and monotonic for a session. Failed MAX
+allocation rolls back its reservation. Three-buffer GPU-3 admission reserves
+one exact atomic total and restores that total if executor construction fails.
+Dropping a buffer does not fabricate immediate pool reuse, and no owning raw
+pointer is exposed.
+
+### `CUDAGemmPlan` and `CUDAF16GemmExecutor` (GPU-3)
+
+`core/cuda_gemm_plan.mojo` provides hardware-independent checked planning for
+the existing `A[M,K] × B[N,K] → C[M,N]` layout. It validates positive
+dimensions, shape products, F16 bytes, Int32 kernel ABI limits, block/grid
+rounding, and both remaining resource budgets.
+
+`core/cuda_compute.mojo` owns the real MAX CUDA kernel and its reusable
+fixed-shape executor. The executor transactionally owns A, B, and C pinned-host
+and device-buffer pairs, borrows their device pointers only for launch, uploads
+both inputs, accumulates each output in F32 on the GPU, downloads C,
+synchronizes, and then publishes every F16 result to the caller's checked host
+tensor.
+
+```mojo
+struct CUDAGemmPlan(Copyable):
+    var m: Int
+    var k: Int
+    var n: Int
+    var a_element_count: Int
+    var b_element_count: Int
+    var c_element_count: Int
+    var total_size_bytes: Int
+    var block_size: Int
+    var grid_size: Int
+
+    def __init__(out self, m: Int, k: Int, n: Int) raises: ...
+    def validate_tensor_shapes(self, a_rows: Int, a_cols: Int, b_rows: Int, b_cols: Int, c_rows: Int, c_cols: Int) raises: ...
+    def validate_budget(self, budget: CUDAResourceBudget) raises: ...
+
+struct CUDAF16GemmExecutor:
+    var plan: CUDAGemmPlan
+    var stable_device_id: String
+    var execution_count: Int
+    var is_usable: Bool
+    var last_failure_message: String
+
+    @staticmethod
+    def create(mut resources: CUDADeviceResources, plan: CUDAGemmPlan) raises -> Self: ...
+    def execute(mut self, a: RuneTensor[f16], b: RuneTensor[f16], mut c: RuneTensor[f16]) raises: ...
+```
+
+The executor performs no allocation during `execute()`. It rejects shape,
+element-count, pointer, quantization, allocation-identity, and live-context
+violations before unsafe access or kernel launch. Any copy, launch, or
+synchronization exception poisons the executor and records the failure so its
+possibly faulted stream cannot be reused. This is a real explicit CUDA GEMM
+boundary, not model integration or an implicit realm-only dispatcher.
 
 ### `CompressedFormatType` (Slice 10)
 Zero-overhead integer discriminant tag naming 21 universal sub-byte, integer, and block-compressed LLM format variants.
@@ -228,7 +443,8 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
 ```
 
 ### `GBNFGrammar` (`core/grammar.mojo`) (Slice 11)
-Constrained generation state machine and logit masking engine.
+Limited built-in boolean/number checks plus a deterministic logit-mask
+primitive. It does not parse general GBNF or guarantee structured output.
 
 ```mojo
 struct GBNFGrammar(Copyable, ImplicitlyCopyable):
@@ -242,7 +458,8 @@ struct GBNFGrammar(Copyable, ImplicitlyCopyable):
 ```
 
 ### `SpeculativeEngine` (`core/speculative.mojo`) (Slice 11)
-Draft token sampling and parallel verification gateway.
+Local proposal/acceptance arithmetic over caller-supplied logits. It runs no
+draft model and performs no parallel or probability-correct verification.
 
 ```mojo
 struct SpeculativeEngine(Copyable, ImplicitlyCopyable):
@@ -268,7 +485,8 @@ struct ErrorGuard:
 ```
 
 ### `StateVault` (`core/state_vault.mojo`) (Slice 12)
-Zero-allocation KV cache and prompt state snapshotting.
+One process-local checkpoint marker with a lightweight checksum; no durable or
+atomic storage and no KV-cache restoration.
 
 ```mojo
 struct StateVault(Copyable, ImplicitlyCopyable):
@@ -283,7 +501,8 @@ struct StateVault(Copyable, ImplicitlyCopyable):
 ```
 
 ### `AesirEventBus` (`core/event_bus.mojo`) (Slice 12)
-Decoupled inter-module message pub/sub event bus.
+Process-local event log and subscription descriptors. Subscriber delivery and
+asynchronous pub/sub are not implemented.
 
 ```mojo
 struct AesirEventBus(Copyable, ImplicitlyCopyable):
@@ -297,7 +516,8 @@ struct AesirEventBus(Copyable, ImplicitlyCopyable):
 ```
 
 ### `RuneThreadPool` (`core/thread_pool.mojo`) (Slice 12)
-Parallel worker thread pool for layer processing and async pipeline tasks.
+Bounded local task list. It creates no threads, executes no payloads, and
+provides no parallelism.
 
 ```mojo
 struct RuneThreadPool(Copyable, ImplicitlyCopyable):
@@ -310,7 +530,8 @@ struct RuneThreadPool(Copyable, ImplicitlyCopyable):
 ```
 
 ### `SelfHealingSupervisor` (`core/supervisor.mojo`) (Slice 12)
-Heartbeat monitor, panic catching & automatic crash recovery supervisor.
+Simulated heartbeat/crash-recovery state for local tests. It catches no process
+panic and performs no restart, automatic recovery, or failsafe switching.
 
 ```mojo
 struct SelfHealingSupervisor(Copyable, ImplicitlyCopyable):
@@ -346,9 +567,11 @@ def shard_split_rows(T: RuneTensor[f16], num_shards: Int) -> List[RuneTensor[f16
 ```
 
 ### Compute Kernels (`compute.mojo`)
-Host Mojo SIMD linear algebra and activation primitives plus reserved
-accelerator gateways. `gemm_f16_npu`, `gemm_f16_gpu`, and `rmsnorm_gpu` raise
-unsupported errors without modifying their outputs. The historically named
+Host Mojo SIMD linear algebra and activation primitives plus one explicit CUDA
+GEMM gateway. `gemm_f16_cuda` requires a caller-owned
+`CUDAF16GemmExecutor`. The older realm-only `gemm_f16_gpu`, all
+`gemm_f16_npu` routes, and `rmsnorm_gpu` remain unsupported because their
+signatures do not carry selected device resources. The historically named
 `gpgpu_vector` and `mobile_opencl` functions are host-only SIMD experiments.
 
 ```mojo
@@ -372,6 +595,7 @@ def gemm_f16_gpgpu_vector(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTen
 def gemm_f16_mobile_opencl(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ... # 8-wide Mobile (Mali, Adreno, PowerVR)
 def rmsnorm_gpu(mut T: RuneTensor[f16], weight: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA), epsilon: Scalar[f32] = 1e-5) raises: ...
 def gemm_f16_gpu(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16], realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises: ... # unsupported gateway
+def gemm_f16_cuda(mut executor: CUDAF16GemmExecutor, A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises: ... # real explicit CUDA F16 GEMM
 # Slice 10 — Universal Compressed LLM Format Matrix Dequantization:
 def dequantize_compressed_tensor(format: CompressedFormatType, data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...
 def dequantize_q2_k(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_elements: Int): ...
@@ -443,10 +667,12 @@ struct SwarmCluster(Copyable):
 ```
 
 ### Inference Pipeline (`inference.mojo`)
-Transformer layer forward pass execution engine with multi-device topology, NPU backend, and GPU realm matrix dispatch support.
+Transformer layer forward pass with a verified single-device host path. The
+NPU/GPU options are reserved arguments that fail closed; physical multi-device
+execution is not implemented.
 
 ```mojo
-struct TransformerBlock:
+struct TransformerBlock(Copyable):
     var layer_idx: Int
     var head_dim: Int
     var num_heads: Int
@@ -454,7 +680,8 @@ struct TransformerBlock:
     var rms_epsilon: Scalar[f32]
 
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises: ...
-    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int): ...
+    def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int) raises: ...
+    def copy(self) -> Self: ...
     # Slice 7 & Slice 8: use_npu/npu_backend and use_gpu_realm/gpu_realm parameters added
     def forward(self, mut x: RuneTensor[f16], mut seer: GGUFSeer, mut well: MimirWell, seq_len: Int, start_pos: Int, mut kv_cache: KVCache, topology: DeviceTopology = DeviceTopology(1), use_npu: Bool = False, npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON), use_gpu_realm: Bool = False, gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises: ...
 
@@ -463,8 +690,11 @@ def forward_pass(tokens: List[Int], mut seer: GGUFSeer, mut well: MimirWell, mut
 def forward_pass(tokens: List[Int], mut seer: GGUFSeer, mut well: MimirWell, num_layers: Int = 32, head_dim: Int = 128, num_heads: Int = 32, topology: DeviceTopology = DeviceTopology(1), blocks: List[TransformerBlock] = List[TransformerBlock](), use_npu: Bool = False, npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON), use_gpu_realm: Bool = False, gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> Int: ...
 ```
 
-The validated single-device path sizes Q independently from K/V, applies
-grouped-query attention, checks token IDs and required embedding/output
-tensors, and uses the model's RMS epsilon. The legacy default overload remains
-for synthetic unit tests; production construction supplies values from
-`GGUFModelConfig`.
+The loader-backed constructor validates positive layer metadata and requires
+all nine non-empty, non-null, non-sentinel layer tensors before it can return a
+runnable block. The legacy three-argument overload is retained only as a stable
+fail-closed compatibility boundary and always raises. `copy()` uses a
+module-private complete-state path, so it cannot manufacture sentinel-bearing
+weights. The validated single-device path sizes Q independently from K/V,
+applies grouped-query attention, checks token IDs and required
+embedding/output tensors, and uses the model's RMS epsilon.

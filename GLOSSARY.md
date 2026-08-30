@@ -6,7 +6,7 @@
 
 **Rule:** Never guess a mythic name's technical function. Always cross-reference this document. If a name is not listed here, it has not yet been catalogued — investigate the source and add an entry.
 
-**Related Documents:** SYSTEM_VISION.md, ARCHITECTURE.md, DOMAIN_MAP.md, CAPABILITY_LEDGER.md
+**Related Documents:** `docs/SYSTEM_VISION.md`, `docs/ARCHITECTURE.md`, `docs/DOMAIN_MAP.md`, `CAPABILITY_LEDGER.md`
 
 ---
 
@@ -621,7 +621,7 @@ The following table is a TEMPLATE. An agent with source access must populate it 
 7. Move the entry's status from "Needs Verification" or "Fully Unmapped" to "Confirmed From Source."
 8. Update the Confirmation Tracker table.
 9. Commit with message: `docs: populate GLOSSARY.md with verified mythological-to-technical mappings`
-10. Push to the development branch.
+10. Push the feature branch for review against `main`.
 
 Do not submit unverifiable mappings. An unmapped entry is more valuable than a guessed one.
 

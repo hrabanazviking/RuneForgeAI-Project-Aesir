@@ -1,4 +1,12 @@
-# Project Aesir: System Architecture
+# Project Aesir: Target System Architecture Snapshot
+
+> [!IMPORTANT]
+> This root document preserves the intended Slice 6 design vocabulary. It is
+> not a present-tense implementation map. The current evidence-backed system is
+> described by [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and governed by
+> [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md). HTTP compatibility,
+> multi-device execution, accelerator memory, and end-to-end RAG remain partial,
+> scaffolded, or missing as recorded there.
 
 ## The Mythic Architecture
 Project Aesir adheres strictly to the Mythic Engineering methodology. The architecture is decoupled into distinct realms:
@@ -12,7 +20,7 @@ Project Aesir adheres strictly to the Mythic Engineering methodology. The archit
 ## Component Breakdown (Slice 6)
 
 1. **`server/api.mojo` (BifrostGate, Streaming Transport & API Responses)**
-   - **Role:** Bare-Metal HTTP Server (Ollama API Compatible).
+   - **Target Role:** Bare-metal HTTP server with a future Ollama-compatible surface.
    - **Responsibility:** Accepts connections, parses requests, returns JSON responses, streams output tokens real-time via `send_chunk` and `send_chunk_static`, and formats `/api/embeddings` JSON responses via `send_embeddings_response` and `send_embeddings_response_static`. Strictly decoupled from inference logic.
 
 2. **`aesir.mojo` (AesirEngine Orchestrator, RAG & Multi-Device Topology)**
@@ -28,8 +36,8 @@ Project Aesir adheres strictly to the Mythic Engineering methodology. The archit
    - **Responsibility:** Translates text into token arrays (`encode`) using byte fallbacks (`<0xXX>`) and iterative pair merging, and decodes token IDs back to text (`decode`).
 
 5. **`core/mimir_well.mojo` (MimirWell, KVCache, MimirStore, DeviceTopology & ShardTensor)**
-   - **Role:** Core Memory Management, Ring-Buffer Key-Value Cache, Vector Store & Shard Descriptors.
-   - **Responsibility:** Pre-allocates contiguous RAM/VRAM pools. Forbids dynamic allocation during inference. Provides `RuneTensor` descriptors, manages `KVCache` ring buffers across transformer layers, provides `MimirStore` zero-copy vector store, `DeviceTopology` device mapping, `ShardTensor` zero-copy realm slice views, and matrix partitioning functions `shard_split_cols` and `shard_split_rows`.
+   - **Role:** Core Memory Management, Fixed-Capacity Key-Value Cache, Vector Store & Shard Descriptors.
+   - **Responsibility:** Pre-allocates contiguous host RAM and provides `RuneTensor`, `KVCache`, `MimirStore`, topology/shard descriptors, and host partitioning helpers. VRAM ownership and physical device mapping are not implemented.
 
 6. **`core/compute.mojo` (The Forge of Nidavellir)**
    - **Role:** SIMD and parallelized runic operations & sharded compute kernels.
@@ -72,5 +80,3 @@ graph TD
     
     Gate -->|HTTP 200 / Chunked SSE / Embeddings JSON| Client
 ```
-
-

@@ -1,8 +1,17 @@
 # tests/test_gpu_realms.mojo
 # Verification of GPU descriptors and honest unsupported execution
 
-from core.mimir_well import MimirWell, RuneTensor, DeviceTopology, GPURealmType, GPUBuffer, f16, f32
+from core.mimir_well import (
+    MimirWell,
+    RuneTensor,
+    DeviceTopology,
+    GPURealmType,
+    GPUBuffer,
+    f16,
+    f32,
+)
 from core.compute import gemm_f16, gemm_f16_gpu, rmsnorm_gpu
+
 
 def test_gpu_realm_enum() raises:
     print("--- Testing reserved GPU realm discriminants ---")
@@ -18,6 +27,7 @@ def test_gpu_realm_enum() raises:
     var mali = GPURealmType(GPURealmType.ARM_MALI_OPENCL)
     var adreno = GPURealmType(GPURealmType.QUALCOMM_ADRENO)
     var powervr = GPURealmType(GPURealmType.IMAGINATION_POWERVR)
+    var metal = GPURealmType(GPURealmType.APPLE_METAL)
 
     if cuda.value != 0 or cuda.name() != "NVIDIA_CUDA":
         print("FAIL: NVIDIA_CUDA expected value 0, name NVIDIA_CUDA")
@@ -29,7 +39,9 @@ def test_gpu_realm_enum() raises:
         print("FAIL: INTEL_ONEAPI_XE expected value 2, name INTEL_ONEAPI_XE")
         success = False
     if musa.value != 3 or musa.name() != "MOORE_THREADS_MUSA":
-        print("FAIL: MOORE_THREADS_MUSA expected value 3, name MOORE_THREADS_MUSA")
+        print(
+            "FAIL: MOORE_THREADS_MUSA expected value 3, name MOORE_THREADS_MUSA"
+        )
         success = False
     if supa.value != 4 or supa.name() != "BIREN_SUPA":
         print("FAIL: BIREN_SUPA expected value 4, name BIREN_SUPA")
@@ -47,7 +59,13 @@ def test_gpu_realm_enum() raises:
         print("FAIL: QUALCOMM_ADRENO expected value 8, name QUALCOMM_ADRENO")
         success = False
     if powervr.value != 9 or powervr.name() != "IMAGINATION_POWERVR":
-        print("FAIL: IMAGINATION_POWERVR expected value 9, name IMAGINATION_POWERVR")
+        print(
+            "FAIL: IMAGINATION_POWERVR expected value 9, name"
+            " IMAGINATION_POWERVR"
+        )
+        success = False
+    if metal.value != 10 or metal.name() != "APPLE_METAL":
+        print("FAIL: APPLE_METAL expected value 10, name APPLE_METAL")
         success = False
 
     if success:
@@ -68,7 +86,9 @@ def test_gpu_buffer_zero_copy() raises:
     var success = True
     var well = MimirWell(1024 * 1024)
     var buf_bytes = 2048
-    var buf = well.allocate_gpu_buffer(buf_bytes, GPURealmType(GPURealmType.AMD_ROCM_HIP))
+    var buf = well.allocate_gpu_buffer(
+        buf_bytes, GPURealmType(GPURealmType.AMD_ROCM_HIP)
+    )
 
     if buf.size_bytes != buf_bytes:
         print("FAIL: GPUBuffer size_bytes mismatch")
@@ -90,11 +110,15 @@ def test_gpu_buffer_zero_copy() raises:
     # Negative buffer size rejection check
     var neg_rejected = False
     try:
-        var bad_buf = well.allocate_gpu_buffer(-100, GPURealmType(GPURealmType.NVIDIA_CUDA))
+        var bad_buf = well.allocate_gpu_buffer(
+            -100, GPURealmType(GPURealmType.NVIDIA_CUDA)
+        )
     except error:
         neg_rejected = True
         if "size_bytes must not be negative" not in String(error):
-            raise Error("GPUBuffer negative size rejection omitted expected error text")
+            raise Error(
+                "GPUBuffer negative size rejection omitted expected error text"
+            )
     if not neg_rejected:
         raise Error("GPUBuffer failed to reject negative buffer size")
 
@@ -119,8 +143,8 @@ def test_gpu_gemm_parity() raises:
     var K = 32
     var N = 4
 
-    for b in range(10):
-        if b == 0 or b == 1 or b == 2 or b == 7:
+    for b in range(11):
+        if b == 0 or b == 1 or b == 2:
             continue
         var well = MimirWell(1024 * 1024)
         var a_ptr = well.allocate(M * K)
@@ -144,7 +168,10 @@ def test_gpu_gemm_parity() raises:
         except error:
             rejected = True
             var err_str = String(error)
-            if "not implemented" not in err_str and "CUDA GPU execution error" not in err_str:
+            if (
+                "not implemented" not in err_str
+                and "CUDA GPU execution error" not in err_str
+            ):
                 raise Error("GPU gateway rejection omitted stable truth text")
         if not rejected:
             raise Error("GPU gateway executed a CPU fallback")

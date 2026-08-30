@@ -52,6 +52,24 @@ from tests.test_gpu_realms import (
     test_gpu_buffer_zero_copy,
     test_gpu_gemm_parity,
 )
+from tests.test_hardware_discovery import (
+    test_discovery_status_classification,
+    test_physical_device_admission,
+    test_topology_discovery_accumulation,
+    test_topology_stable_selection,
+)
+from tests.test_cuda_resource_budget import (
+    test_cuda_budget_accounting,
+    test_cuda_budget_rejection_is_transactional,
+    test_cuda_budget_overflow_and_rollback,
+    test_cuda_resource_policy_admission,
+)
+from tests.test_cuda_gemm_plan import (
+    test_cuda_gemm_plan_counts_and_launch,
+    test_cuda_gemm_plan_shape_rejection,
+    test_cuda_gemm_plan_overflow_and_abi_rejection,
+    test_cuda_gemm_batch_budget_transaction,
+)
 from tests.test_cuda_realm import (
     test_cuda_gate_availability,
     test_cuda_gemm_dispatch_bounds,
@@ -299,41 +317,149 @@ def main() raises:
     run_case(ledger, "npu.host_simd8_parity", test_arm_neon_precision)
     run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
     run_case(ledger, "npu.npu_gate_availability", test_npu_gate_availability)
-    run_case(ledger, "npu.npu_gemm_dispatch_bounds", test_npu_gemm_dispatch_bounds)
-    run_case(ledger, "npu.npu_realm_unsupported_gateways", test_npu_realm_unsupported_gateways)
+    run_case(
+        ledger, "npu.npu_gemm_dispatch_bounds", test_npu_gemm_dispatch_bounds
+    )
+    run_case(
+        ledger,
+        "npu.npu_realm_unsupported_gateways",
+        test_npu_realm_unsupported_gateways,
+    )
     print("")
 
-    # --- GPU Descriptors and CUDA Execution Gateway ---
-    print("  [DOMAIN] GPU Descriptors and CUDA Execution Gateway")
+    # --- GPU Descriptors and Unsupported Physical Gateways ---
+    print("  [DOMAIN] GPU Descriptors and Unsupported Physical Gateways")
     print("  -----------------------------------------")
     run_case(ledger, "gpu.enum", test_gpu_realm_enum)
     run_case(ledger, "gpu.no_fabricated_detection", test_device_topology_gpus)
     run_case(ledger, "gpu.host_buffer_view", test_gpu_buffer_zero_copy)
     run_case(ledger, "gpu.unsupported_execution", test_gpu_gemm_parity)
+    run_case(
+        ledger,
+        "gpu.discovery_status_classification",
+        test_discovery_status_classification,
+    )
+    run_case(
+        ledger, "gpu.physical_device_admission", test_physical_device_admission
+    )
+    run_case(
+        ledger,
+        "gpu.discovery_accumulation",
+        test_topology_discovery_accumulation,
+    )
+    run_case(
+        ledger, "gpu.stable_device_selection", test_topology_stable_selection
+    )
+    run_case(
+        ledger, "gpu.resource_budget_accounting", test_cuda_budget_accounting
+    )
+    run_case(
+        ledger,
+        "gpu.resource_budget_transaction",
+        test_cuda_budget_rejection_is_transactional,
+    )
+    run_case(
+        ledger,
+        "gpu.resource_budget_rollback",
+        test_cuda_budget_overflow_and_rollback,
+    )
+    run_case(
+        ledger,
+        "gpu.resource_policy_admission",
+        test_cuda_resource_policy_admission,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_counts",
+        test_cuda_gemm_plan_counts_and_launch,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_shape_rejection",
+        test_cuda_gemm_plan_shape_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_abi_rejection",
+        test_cuda_gemm_plan_overflow_and_abi_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_batch_transaction",
+        test_cuda_gemm_batch_budget_transaction,
+    )
     run_case(ledger, "gpu.cuda_gate_availability", test_cuda_gate_availability)
-    run_case(ledger, "gpu.cuda_gemm_dispatch_bounds", test_cuda_gemm_dispatch_bounds)
-    run_case(ledger, "gpu.cuda_realm_unsupported_gateways", test_cuda_realm_unsupported_gateways)
-    run_case(ledger, "gpu.metal_gate_availability", test_metal_gate_availability)
-    run_case(ledger, "gpu.metal_gemm_dispatch_bounds", test_metal_gemm_dispatch_bounds)
-    run_case(ledger, "gpu.metal_realm_unsupported_gateways", test_metal_realm_unsupported_gateways)
-    run_case(ledger, "gpu.intel_gate_availability", test_intel_gate_availability)
-    run_case(ledger, "gpu.intel_gemm_dispatch_bounds", test_intel_gemm_dispatch_bounds)
-    run_case(ledger, "gpu.intel_realm_unsupported_gateways", test_intel_realm_unsupported_gateways)
+    run_case(
+        ledger, "gpu.cuda_gemm_dispatch_bounds", test_cuda_gemm_dispatch_bounds
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_realm_unsupported_gateways",
+        test_cuda_realm_unsupported_gateways,
+    )
+    run_case(
+        ledger, "gpu.metal_gate_availability", test_metal_gate_availability
+    )
+    run_case(
+        ledger,
+        "gpu.metal_gemm_dispatch_bounds",
+        test_metal_gemm_dispatch_bounds,
+    )
+    run_case(
+        ledger,
+        "gpu.metal_realm_unsupported_gateways",
+        test_metal_realm_unsupported_gateways,
+    )
+    run_case(
+        ledger, "gpu.intel_gate_availability", test_intel_gate_availability
+    )
+    run_case(
+        ledger,
+        "gpu.intel_gemm_dispatch_bounds",
+        test_intel_gemm_dispatch_bounds,
+    )
+    run_case(
+        ledger,
+        "gpu.intel_realm_unsupported_gateways",
+        test_intel_realm_unsupported_gateways,
+    )
     run_case(ledger, "gpu.amd_gate_availability", test_amd_gate_availability)
-    run_case(ledger, "gpu.amd_gemm_dispatch_bounds", test_amd_gemm_dispatch_bounds)
-    run_case(ledger, "gpu.amd_realm_unsupported_gateways", test_amd_realm_unsupported_gateways)
-    run_case(ledger, "gpu.resilience_allocation_rejection", test_non_positive_allocation_rejection)
-    run_case(ledger, "gpu.resilience_dimension_rejection", test_non_positive_dimension_gemm_rejection)
-    run_case(ledger, "gpu.resilience_error_barriers", test_self_healing_error_barriers)
+    run_case(
+        ledger, "gpu.amd_gemm_dispatch_bounds", test_amd_gemm_dispatch_bounds
+    )
+    run_case(
+        ledger,
+        "gpu.amd_realm_unsupported_gateways",
+        test_amd_realm_unsupported_gateways,
+    )
+    run_case(
+        ledger,
+        "gpu.resilience_allocation_rejection",
+        test_non_positive_allocation_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.resilience_dimension_rejection",
+        test_non_positive_dimension_gemm_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.resilience_error_barriers",
+        test_self_healing_error_barriers,
+    )
     print("")
 
     # --- Implemented CLI and Unsupported Boundaries ---
     print("  [DOMAIN] Implemented CLI and Unsupported Boundaries")
     print("  -----------------------------------------")
     run_case(ledger, "cli.modelfile_parser", test_modelfile_parser)
-    run_case(ledger, "cli.in_memory_manifest_store", test_model_manifest_store)
-    run_case(ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch)
-    run_case(ledger, "cli.repl_session_state", test_repl_session_and_slash_commands)
+    run_case(ledger, "cli.manifest_store_restart", test_model_manifest_store)
+    run_case(
+        ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch
+    )
+    run_case(
+        ledger, "cli.repl_session_state", test_repl_session_and_slash_commands
+    )
     run_case(ledger, "cli.flag_options_parser", test_cli_flag_options_parser)
     print("")
 
@@ -344,38 +470,104 @@ def main() raises:
     run_case(
         ledger, "quantization.dispatch_writes", test_dequantization_kernels
     )
-    run_case(ledger, "quantization.fused_q4_k_m_parity", test_gemm_q4_k_m_fused_parity)
+    run_case(
+        ledger,
+        "quantization.fused_q4_k_m_parity",
+        test_gemm_q4_k_m_fused_parity,
+    )
     run_case(ledger, "quantization.fused_q4_0_parity", test_q4_0_parity)
     run_case(ledger, "quantization.fused_q4_1_parity", test_q4_1_parity)
     run_case(ledger, "quantization.fused_q5_0_parity", test_q5_0_parity)
     run_case(ledger, "quantization.fused_q5_1_parity", test_q5_1_parity)
     run_case(ledger, "quantization.fused_q8_0_parity", test_fused_q8_0_parity)
     run_case(ledger, "quantization.fused_q8_1_parity", test_fused_q8_1_parity)
-    run_case(ledger, "quantization.fused_fp8_e4m3_parity", test_fused_fp8_e4m3_parity)
-    run_case(ledger, "quantization.fused_fp8_e5m2_parity", test_fused_fp8_e5m2_parity)
-    run_case(ledger, "quantization.fused_q3_k_s_parity", test_fused_q3_k_s_parity)
-    run_case(ledger, "quantization.fused_q3_k_m_parity", test_fused_q3_k_m_parity)
-    run_case(ledger, "quantization.fused_q3_k_l_parity", test_fused_q3_k_l_parity)
-    run_case(ledger, "quantization.fused_q5_k_s_parity", test_fused_q5_k_s_parity)
-    run_case(ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity)
+    run_case(
+        ledger, "quantization.fused_fp8_e4m3_parity", test_fused_fp8_e4m3_parity
+    )
+    run_case(
+        ledger, "quantization.fused_fp8_e5m2_parity", test_fused_fp8_e5m2_parity
+    )
+    run_case(
+        ledger, "quantization.fused_q3_k_s_parity", test_fused_q3_k_s_parity
+    )
+    run_case(
+        ledger, "quantization.fused_q3_k_m_parity", test_fused_q3_k_m_parity
+    )
+    run_case(
+        ledger, "quantization.fused_q3_k_l_parity", test_fused_q3_k_l_parity
+    )
+    run_case(
+        ledger, "quantization.fused_q5_k_s_parity", test_fused_q5_k_s_parity
+    )
+    run_case(
+        ledger, "quantization.fused_q5_k_m_parity", test_fused_q5_k_m_parity
+    )
     run_case(ledger, "quantization.fused_q2_k_parity", test_fused_q2_k_parity)
     run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
-    run_case(ledger, "quantization.fused_gptq_4bit_parity", test_fused_gptq_4bit_parity)
-    run_case(ledger, "quantization.fused_gptq_8bit_parity", test_fused_gptq_8bit_parity)
-    run_case(ledger, "quantization.fused_awq_4bit_parity", test_fused_awq_4bit_parity)
+    run_case(
+        ledger,
+        "quantization.fused_gptq_4bit_parity",
+        test_fused_gptq_4bit_parity,
+    )
+    run_case(
+        ledger,
+        "quantization.fused_gptq_8bit_parity",
+        test_fused_gptq_8bit_parity,
+    )
+    run_case(
+        ledger, "quantization.fused_awq_4bit_parity", test_fused_awq_4bit_parity
+    )
     run_case(ledger, "quantization.fused_exl2_parity", test_fused_exl2_parity)
     run_case(ledger, "quantization.fused_hqq_parity", test_fused_hqq_parity)
-    run_case(ledger, "quantization.fused_smoothquant_int8_parity", test_fused_smoothquant_int8_parity)
+    run_case(
+        ledger,
+        "quantization.fused_smoothquant_int8_parity",
+        test_fused_smoothquant_int8_parity,
+    )
     run_case(ledger, "quantization.fused_iq1_s_parity", test_fused_iq1_s_parity)
-    run_case(ledger, "quantization.fused_iq2_xxs_parity", test_fused_iq2_xxs_parity)
-    run_case(ledger, "quantization.fused_ternary_158_parity", test_fused_ternary_158_parity)
-    run_case(ledger, "quantization.metadata_store_all_formats", test_quantization_metadata_store)
-    run_case(ledger, "quantization.autotune_gemm_dispatch", test_autotune_quantized_gemm_dispatch)
-    run_case(ledger, "quantization.hardening_zero_and_null_bounds", test_dequantizer_zero_and_null_bounds)
-    run_case(ledger, "quantization.hardening_invalid_dimensions", test_gemm_invalid_dimensions_rejection)
-    run_case(ledger, "quantization.hardening_unrecognized_format", test_unrecognized_format_self_healing)
-    run_case(ledger, "quantization.hardening_nan_sanitization", test_nan_corrupt_weight_sanitization)
-    run_case(ledger, "quantization.tensor_mapping_metadata", test_quantized_tensor_mapping)
+    run_case(
+        ledger, "quantization.fused_iq2_xxs_parity", test_fused_iq2_xxs_parity
+    )
+    run_case(
+        ledger,
+        "quantization.fused_ternary_158_parity",
+        test_fused_ternary_158_parity,
+    )
+    run_case(
+        ledger,
+        "quantization.metadata_store_all_formats",
+        test_quantization_metadata_store,
+    )
+    run_case(
+        ledger,
+        "quantization.autotune_gemm_dispatch",
+        test_autotune_quantized_gemm_dispatch,
+    )
+    run_case(
+        ledger,
+        "quantization.hardening_zero_and_null_bounds",
+        test_dequantizer_zero_and_null_bounds,
+    )
+    run_case(
+        ledger,
+        "quantization.hardening_invalid_dimensions",
+        test_gemm_invalid_dimensions_rejection,
+    )
+    run_case(
+        ledger,
+        "quantization.hardening_unrecognized_format",
+        test_unrecognized_format_self_healing,
+    )
+    run_case(
+        ledger,
+        "quantization.hardening_nan_sanitization",
+        test_nan_corrupt_weight_sanitization,
+    )
+    run_case(
+        ledger,
+        "quantization.tensor_mapping_metadata",
+        test_quantized_tensor_mapping,
+    )
     print("")
 
     # --- Formatter and Unsupported Ecosystem Boundaries ---
@@ -395,12 +587,8 @@ def main() raises:
     )
     run_case(ledger, "server.posix_socket", test_posix_socket_server)
     run_case(ledger, "server.http_parser", test_http_parser_and_router)
-    run_case(
-        ledger, "server.http_response_framing", test_http_response_framing
-    )
-    run_case(
-        ledger, "server.openai_rest_gateway", test_openai_rest_gateway
-    )
+    run_case(ledger, "server.http_response_framing", test_http_response_framing)
+    run_case(ledger, "server.openai_rest_gateway", test_openai_rest_gateway)
     print("")
 
     # --- Local Resilience & Concurrency Matrix ---
@@ -434,7 +622,9 @@ def main() raises:
     run_case(ledger, "huggingface.tag_parser", test_hf_repo_parsing)
     run_case(ledger, "huggingface.url_builder", test_hf_download_url_builder)
     run_case(
-        ledger, "huggingface.download_unsupported", test_hf_mobile_model_download
+        ledger,
+        "huggingface.download_unsupported",
+        test_hf_mobile_model_download,
     )
     print("")
 

@@ -2,6 +2,8 @@
 
 This backlog is governed by [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md) and
 [`PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`](PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md).
+Execution order and anti-fabrication file rules are defined in
+[`ROADMAP_REALITY_FIRST_COMPLETION.md`](ROADMAP_REALITY_FIRST_COMPLETION.md).
 An enum, interface, banner, synthetic happy path, or predetermined output never
 counts as completion of an external capability.
 
@@ -46,7 +48,7 @@ counts as completion of an external capability.
 - [x] **Stage 38.1 Hardening — Pure Native Mojo Zero-Python Runtime (`AES-FND-004`):** Audited and confirmed zero `std.python` imports in engine runtime execution.
 - [x] **Stage 39.1 Hardening — Arena Pool KV Cache Reset Restoration (`AES-MEM-005`):** Hardened `MimirWell.reset_kv_cache(runtime_offset)` pool restoration and offset advancement tests.
 - [x] **Stage 40.1 Hardening — Repository Artifact Hygiene & `.gitignore` (`AES-FND-007`):** Configured `.gitignore` protecting against `.pixi/`, binaries, objects, and logs.
-- [x] **Stage 41.1 Hardening — Query Embedding Fallback Generation Bounds (`AES-RAG-003`):** Hardened fallback query vector allocation and KNN vector store query prepending.
+- [x] **Stage 41.1 Hardening — Query Embedding Truth Boundary (`AES-RAG-003`):** Removed fabricated fallback embeddings; real query embeddings now require loaded token-embedding weights.
 - [x] **Stage 42.1 Hardening — Chat Template Formatter Empty Message List Bounds:** Hardened `format_chatml()`, `format_llama3()`, and `format_llama2()` in `loader/chat_template.mojo` to reject empty message lists.
 - [x] **Stage 43.1 Hardening — Deep Bug Audit & Attention Head Bounds:** Hardened `incremental_causal_attention()` in `core/compute.mojo` for non-positive `head_dim` and non-divisible query/kv head ratio safeguards.
 
@@ -102,7 +104,7 @@ counts as completion of an external capability.
 
 ### Forge 0D — Eliminate fabricated operational output (completed)
 
-- [x] **[missing, AES-GEN-009] Implement or disable Masking Seidr:** Stop
+- [x] **[verified, AES-GEN-009] Implement or disable Masking Seidr:** Stop
   claiming a thought token is bound to `-inf` until tokenizer resolution and
   real logit masking are verified.
 - [x] **[missing, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
@@ -113,16 +115,16 @@ counts as completion of an external capability.
   success with explicit unsupported errors until operations exist.
 - [x] **[missing, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
   storage or process mutations that occurred only in an ephemeral seeded list.
-- [x] **[missing, AES-CLI-008] Correct REPL output:** Label the sample loop as a
+- [x] **[scaffold, AES-CLI-008] Correct REPL output:** Label the sample loop as a
   demo or return unsupported until stdin and real inference are connected.
 - [x] **[missing, AES-SRV-006] Correct OpenAI route output:** Stop returning a
   fixed assistant response as successful inference.
 - [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
   completion/token/detokenize/health/metrics responses and parity wording.
-- [x] **[missing, AES-ACC-003] Correct device discovery:** Return only
+- [x] **[partial, AES-ACC-003] Correct device discovery:** Return only
   configured/observed devices, or explicit unavailable status; never append all
   backends as detected.
-- [x] **[missing, AES-ACC-006/AES-ACC-008] Correct accelerator banners:** Do not
+- [x] **[missing, AES-ACC-006] [partial, AES-ACC-008] Correct accelerator banners:** Do not
   print NPU/GPU “ACTIVE,” CUDA, Tensor Core, or hardware-realm execution when the
   selected function runs on the CPU.
 - [x] **[missing, AES-ECO-003] Correct Hugging Face download output:** Return
@@ -130,13 +132,13 @@ counts as completion of an external capability.
   transferred and stored.
 - [x] **[missing, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
   node count, and validated/mapped status.
-- [x] **[missing, AES-ECO-005/AES-ECO-006] Correct ExLlama/llama CLI output:**
+- [x] **[missing, AES-ECO-005] [missing, AES-ECO-006] Correct ExLlama/llama CLI output:**
   Remove fixed completion, server health, bitrate, cache, benchmark, and
   perplexity claims.
 - [x] **[simulated, AES-RES-005] Correct self-healing output:** Clearly label
   boolean toggling as a simulation; do not report recovery of state that was
   never lost.
-- [x] **[missing, AES-SWM-003/004/005] Correct swarm output:** Remove fixed
+- [x] **[missing, AES-SWM-003] [missing, AES-SWM-004] [missing, AES-SWM-005] Correct swarm output:** Remove fixed
   peers, VRAM, health, join, dispatch, and remote execution success.
 - [x] **[missing, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
   tokens/s, perplexity, model size, backend, or utilization number that was not
@@ -147,7 +149,7 @@ counts as completion of an external capability.
 ### Forge 0E — Reconcile all present-tense documentation (completed)
 
 - [x] Replace all Chinese in documents or code with the proper English words.
-- [x] **[partial, AES-OPS-006] Rewrite README technical claims:** Preserved the
+- [x] **[verified, AES-OPS-006] Rewrite README technical claims:** Preserved the
   vision while labeling the pinned CPU slice, partial primitives, scaffolds,
   simulations, and missing capabilities exactly (`python3 scripts/check_doc_drift.py`).
 - [x] Replace the README's direct mmap-to-GPU analogy with the verified CPU mmap
@@ -196,16 +198,19 @@ counts as completion of an external capability.
   capacity during construction.
 - [x] Validate `KVCache.append()` layer, position, key width, and value width.
 - [x] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
-- [ ] Remove misleading ring-buffer wording until chronological wraparound is
-  actually implemented and verified.
-- [ ] Replace sentinel-bearing usable `TransformerBlock` constructors with safe
-  non-runnable test descriptors or real tensors.
+- [x] Remove misleading ring-buffer behavior and wording: fixed-capacity
+  appends now reject overflow without mutation; chronological wraparound remains
+  explicitly unimplemented.
+- [x] Replace sentinel-bearing usable `TransformerBlock` constructors: the
+  GGUF-backed path now requires nine usable tensors, the legacy overload raises,
+  and the copy path preserves only validated views.
 - [x] Make `NPUBuffer`/`GPUBuffer` honest host-view descriptors until real device
   allocation exists; validate sizes and ownership.
 
 ### Memory-store and hot-path refinement
 
-- [ ] **[partial, AES-MEM-005] Instrument dynamic allocations:** Define the exact
+- [ ] **[verified, AES-MEM-005] Instrument dynamic allocations:** Extend the
+  narrowly verified pool restoration and ownership boundary by defining the exact
   steady-state token region and measure every list/string/block/workspace heap
   allocation.
 - [x] Remove per-token transformer-block copies and avoid hot-path list growth.
@@ -306,18 +311,18 @@ counts as completion of an external capability.
 
 ### CLI grammar and REPL
 
-- [x] **[verified, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, and duration parsing.
+- [x] **[partial, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, configuration/acceleration intent, and duration parsing. Operational wiring remains incomplete for the broader capability.
 - [x] **[verified, AES-CLI-003] Complete the chosen Modelfile grammar:** Quoting,
   multiline directives, validation, errors, and compatibility corpus.
-- [x] Connect parsed parameters, templates, system messages, and licenses to the
+- [ ] Connect parsed parameters, templates, system messages, and licenses to the
   actual stored model/generation configuration.
-- [x] **[verified, AES-CLI-008] Build a real interactive REPL:** Multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`, `/bye`), parameter tuning, and stream execution.
+- [ ] **[scaffold, AES-CLI-008] Build a real interactive REPL:** Multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`, `/bye`), parameter tuning, and stream execution.
 
 ### Persistent model store
 
-- [x] **[verified, AES-CLI-004] Replace the seeded store with an empty durable
+- [ ] **[partial, AES-CLI-004] Replace the seeded store with an empty durable
   store:** Define content-addressed blob and versioned manifest layout.
-- [x] Compute real digests and sizes from stored bytes; never ship fictional
+- [ ] Compute real digests and sizes from stored bytes; never ship fictional
   defaults as observations.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
 - [x] **[verified, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
@@ -337,7 +342,7 @@ counts as completion of an external capability.
   semantics; otherwise return explicit unsupported.
 - [ ] Implement `create` as real manifest/layer construction from a validated
   Modelfile.
-- [ ] **[missing, AES-CLI-009] Build an Ollama CLI differential conformance suite
+- [ ] **[partial, AES-CLI-009] Build an Ollama CLI differential conformance suite
   for only the explicitly supported version and commands.**
 
 ## Stage 6 — Service Boundary and Protocol Conformance
@@ -359,7 +364,7 @@ counts as completion of an external capability.
 
 - [ ] Choose one first compatibility API and record its exact supported version,
   endpoints, schemas, and exclusions.
-- [ ] **[scaffold/simulated, AES-SRV-005/006] OpenAI:** Parse typed requests,
+- [ ] **[scaffold, AES-SRV-005] [missing, AES-SRV-006] OpenAI:** Parse typed requests,
   invoke real inference/embeddings, calculate usage, emit compliant errors and
   SSE, and pass official-client/wire tests.
 - [ ] **[missing, AES-SRV-007] llama.cpp server:** Connect real tokenize,
@@ -367,7 +372,8 @@ counts as completion of an external capability.
   pass differential tests against a pinned server.
 - [ ] **[missing, AES-SRV-008] Ollama HTTP:** Implement selected generate/chat/
   model endpoints and NDJSON semantics; pass real-client differential tests.
-- [ ] **[partial, AES-SRV-004] Streaming:** Pick protocol framing, use stateful
+- [ ] **[verified, AES-SRV-004] Streaming:** Extend the narrowly verified framing
+  utilities: pick protocol framing, use stateful
   UTF-8 decoding, escape chunks, handle partial writes/backpressure/disconnect,
   propagate cancellation, and prove the final frame.
 - [ ] **[missing, AES-SRV-009] Add bounded concurrent service operation:** Worker
@@ -425,16 +431,23 @@ counts as completion of an external capability.
 
 ### First physical accelerator vertical slice
 
-- [ ] Select exactly one physically available GPU or NPU backend.
-- [ ] Implement real runtime/driver discovery and version/capability checks.
-- [ ] Implement backend allocation, ownership, host/device transfer or a precise
+- [x] Select exactly one physically available GPU or NPU backend: NVIDIA CUDA
+  through MAX 26.5 on the observed RTX host.
+- [x] Implement real runtime/driver discovery and version/capability checks for
+  the selected CUDA slice.
+- [x] Implement backend allocation, ownership, host/device transfer or a precise
   zero-copy contract, synchronization, and error propagation.
-- [ ] Implement at least one genuine device kernel and compare its output with a
+- [x] Implement at least one genuine device kernel and compare its output with a
   CPU F32/verified reference on physical hardware.
+- [x] Connect GPU-2 resource ownership to one reusable production-core CUDA F16
+  GEMM and prove exact/tolerance parity, rejected-request safety, repeatability,
+  and a deliberate post-kernel mismatch on physical hardware.
 - [ ] Connect the kernel to one real-model inference slice and preserve token/
   logit parity.
-- [ ] Add hardware-specific CI or a recorded reproducible hardware gate before
-  upgrading any accelerator ledger status.
+- [x] Record reproducible GPU-0 through GPU-3 physical commands, device/toolchain
+  identity, independent reference checks, repeated processes, and negative
+  controls before promoting `AES-ACC-008` to `partial`. Trusted hardware CI
+  remains open.
 - [ ] Measure actual latency/throughput/memory only after correctness passes.
 
 ### Multi-device
@@ -523,9 +536,10 @@ counts as completion of an external capability.
 
 ### Continuous integration and portability
 
-- [ ] **[missing, AES-FND-005] Add CI:** Clean checkout, dependency lock,
-  `E-BUILD`, `E-MASTER`, deliberate negative-control, ledger validation,
-  formatting/diff checks, and artifact/secret/path scans.
+- [ ] **[partial, AES-FND-005] Complete CI coverage:** The clean Linux checkout,
+  dependency lock, `E-BUILD`, `E-MASTER`, deliberate negative control, ledger,
+  fixture, and artifact/path gates exist. Add required branch protection,
+  supported-target coverage, formatting, and content-level secret scanning.
 - [ ] Add opt-in/cached external-fixture jobs without committing model weights.
 - [ ] **[missing, AES-FND-006] Build platform abstractions and CI for every
   explicitly supported OS/architecture; keep untested platforms unsupported.**
@@ -545,18 +559,25 @@ counts as completion of an external capability.
 
 ### Security and observability
 
-- [ ] **[missing, AES-OPS-003] Write a threat model:** Untrusted GGUF/ONNX/
+- [ ] **[partial, AES-OPS-003] Complete the threat model:** Untrusted GGUF/ONNX/
   Modelfile inputs, local/network clients, model registries, secrets, filesystem,
   unsafe pointers, resource exhaustion, and swarm peers.
 - [ ] Add parser fuzzing, resource limits, secure filesystem permissions,
   checksum/signature policy, secret redaction, and dependency review.
 - [ ] Decide safe network exposure defaults; add authentication/TLS policy before
   recommending non-loopback use.
-- [ ] **[missing, AES-OPS-004] Add structured logs, real health/metrics, request/
+- [ ] **[partial, AES-OPS-004] Add structured logs, real health/metrics, request/
   session correlation, error taxonomy, and observed-state consistency tests.**
 
 ### Repository and release hygiene
 
+- [x] Prevent new tracked executable/build/model/archive/runtime-state/private-key
+  format artifacts, tiny placeholder models, and duplicate canonical root assets
+  with a baseline-locked policy, deterministic self-tests, and fatal CI
+  enforcement.
+- [x] Require fixture classification, ownership, purpose, consumer, evidence
+  boundary, license, immutable source/construction, exact size, and SHA-256;
+  keep registered external references outside Git.
 - [ ] **[partial, AES-FND-007] Remove generated executables from source tracking
   through a reviewed, recoverable migration; preserve required source/history.**
 - [ ] Add ignore and CI checks for binaries, model weights, secrets, caches,
@@ -576,6 +597,10 @@ counts as completion of an external capability.
 
 ### Ongoing Ledger and Audit Discipline
 
+- [x] Mechanically reject unknown or ledger-mismatched status tags in this TODO;
+  keep checkbox completion distinct from capability maturity.
+- [x] Separate current evidence from preserved historical milestone claims in
+  both active vision documents and reject pre-boundary status drift.
 - [ ] Update the capability ledger in the same commit as every material status
   change; never silently promote a claim.
 - [ ] Add a stable capability ID when splitting a broad claim; never repurpose an
@@ -597,4 +622,3 @@ counts as completion of an external capability.
 - [ ] Create a roadmap to make Project A.E.S.I.R. the number one best and most popular Local-LLM-Inference-Server on Earth Midgard, and then carry out that roadmap till it turns into manifest reality.
 - [ ] Create a roadmap to get all AI harnesses to have support for using Project A.E.S.I.R. and follow that roadmap till it turns into manifest reality!
 - [ ] Create a roadmap to get RuneForgeAI so well known that all the Cyber-Viking skalds in all the Nine Worlds are writing poetry to sing its praises! Follow that roadmap till it becomes manifest reality!
-

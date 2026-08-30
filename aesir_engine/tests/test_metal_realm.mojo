@@ -11,13 +11,11 @@ def test_metal_gate_availability() raises:
     var count = MetalGate.get_device_count()
 
     if avail:
-        print("Apple Metal Framework: AVAILABLE (" + String(count) + " devices)")
-        if count <= 0:
-            raise Error("MetalGate reported available but device count is 0")
+        print("Apple Metal runtime library: LOADABLE; physical device count unverified")
     else:
         print("Apple Metal Framework: UNAVAILABLE on current host platform (Fail-Closed)")
-        if count != 0:
-            raise Error("MetalGate reported unavailable but device count is non-zero")
+    if count != 0:
+        raise Error("MetalGate fabricated a physical device count")
 
     print("MetalGate driver & framework availability: PASS")
 
@@ -56,16 +54,14 @@ def test_metal_realm_unsupported_gateways() raises:
     var c_ptr = well.allocate(4 * 4)
     var C = RuneTensor[f16](4, 4, c_ptr)
 
-    if not MetalGate.is_available():
-        var rejected = False
-        try:
-            gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.ARM_MALI_OPENCL))
-        except error:
-            rejected = True
-            var err_str = String(error)
-            if "Apple Metal GPU execution error" not in err_str and "Metal framework runtime not available" not in err_str:
-                raise Error("Metal gateway rejection omitted stable error text: " + err_str)
-        if not rejected:
-            raise Error("Metal gateway failed to reject execution on host without Metal runtime")
+    var rejected = False
+    try:
+        MetalGate.launch_gemm_metal(A, B, C)
+    except error:
+        rejected = True
+        if "not implemented" not in String(error):
+            raise Error("Metal gateway rejection omitted stable error text: " + String(error))
+    if not rejected:
+        raise Error("Metal gateway reported execution without a physical kernel")
 
     print("Apple Metal realm error gateways: PASS")

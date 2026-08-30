@@ -2,9 +2,9 @@
 # IntelGate: Native POSIX FFI Gateway & Memory Management for Intel OneAPI Xe / Level Zero Realm (Svartalfheim)
 
 from std.ffi import external_call
-from std.memory import Pointer, alloc, Layout
+from std.memory import Pointer
 from std.collections import Optional
-from core.mimir_well import Scalar, f16, f32, GPURealmType, RuneTensor
+from core.mimir_well import Scalar, f16, RuneTensor
 
 comptime RTLD_NOW = 2
 
@@ -14,8 +14,8 @@ struct IntelGate:
     ════════════════════════════════════════════════════════════════════════
 
     Native POSIX FFI interface to libze_loader.so / libze_intel_gpu.so.
-    Provides Intel Arc / Xe Data Center GPU device discovery, Level Zero VRAM memory
-    allocation/deallocation, host-to-device transfers, and Level Zero GEMM launch gateways.
+    Probes whether a Level Zero runtime library is loadable. Physical device
+    discovery, allocation, transfers, and kernel launch are unsupported.
     """
 
     @staticmethod
@@ -50,41 +50,21 @@ struct IntelGate:
 
     @staticmethod
     def get_device_count() -> Int:
-        """Returns number of active Intel Xe / Arc GPU devices detected via libze_loader.so."""
-        var opt_h = IntelGate.get_handle()
-        if not opt_h:
-            return 0
-        var handle = opt_h.value()
-
-        var sym_name = InlineArray[Int8, 32](fill=0)
-        var s_bytes = String("zeInit").as_bytes()
-        for i in range(len(s_bytes)):
-            sym_name[i] = Int8(s_bytes[i])
-        var sym = external_call["dlsym", Pointer[Int8, MutUntrackedOrigin]](handle, sym_name.unsafe_ptr())
-        if Int(sym) == 0:
-            _ = external_call["dlclose", Int32](handle)
-            return 0
-
-        _ = external_call["dlclose", Int32](handle)
-        return 1
+        """Returns zero until Level Zero device enumeration is genuinely invoked."""
+        return 0
 
     @staticmethod
     def allocate_vram(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
-        """Allocates VRAM on default Intel GPU device (zeMemAllocDevice)."""
+        """Reserved Intel allocation entry point; always fails closed."""
         if size_bytes <= 0:
             raise Error("IntelGate.allocate_vram: size_bytes must be positive")
-        if not IntelGate.is_available():
-            raise Error("IntelGate.allocate_vram: Intel Level Zero driver/runtime (libze_loader.so) not available on host silicon")
-
-        var layout = Layout[Scalar[f16]](count=size_bytes // 2)
-        var mem = alloc(layout)
-        var dev_ptr = mem^.unsafe_leak()
-        return dev_ptr
+        raise Error("IntelGate.allocate_vram: physical Level Zero allocation is not implemented")
 
     @staticmethod
     def free_vram(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
-        """Frees VRAM allocated on Intel GPU device (zeMemFree)."""
-        ptr.unsafe_free()
+        """Reserved Intel free entry point; always fails closed."""
+        _ = ptr
+        raise Error("IntelGate.free_vram: physical Level Zero ownership is not implemented")
 
     @staticmethod
     def memcpy_host_to_device(
@@ -92,11 +72,12 @@ struct IntelGate:
         src_host: Pointer[Scalar[f16], MutUntrackedOrigin],
         size_bytes: Int
     ) raises:
-        """Copies host memory to Intel device VRAM."""
+        """Reserved Intel host-to-device transfer; always fails closed."""
+        _ = dst_dev
+        _ = src_host
         if size_bytes <= 0:
             return
-        if not IntelGate.is_available():
-            raise Error("IntelGate.memcpy_host_to_device: Intel Level Zero driver/runtime (libze_loader.so) not available")
+        raise Error("IntelGate.memcpy_host_to_device: physical Level Zero transfer is not implemented")
 
     @staticmethod
     def memcpy_device_to_host(
@@ -104,11 +85,12 @@ struct IntelGate:
         src_dev: Pointer[Scalar[f16], MutUntrackedOrigin],
         size_bytes: Int
     ) raises:
-        """Copies Intel device VRAM to host memory."""
+        """Reserved Intel device-to-host transfer; always fails closed."""
+        _ = dst_host
+        _ = src_dev
         if size_bytes <= 0:
             return
-        if not IntelGate.is_available():
-            raise Error("IntelGate.memcpy_device_to_host: Intel Level Zero driver/runtime (libze_loader.so) not available")
+        raise Error("IntelGate.memcpy_device_to_host: physical Level Zero transfer is not implemented")
 
     @staticmethod
     def launch_gemm_intel(
@@ -117,51 +99,11 @@ struct IntelGate:
         mut C: RuneTensor[f16]
     ) raises:
         """
-        Launch Intel Level Zero GEMM kernel on target Intel hardware or fallback safely with explicit Level Zero error.
+        Validates shapes and rejects execution until a real Level Zero kernel exists.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
             raise Error("IntelGate.launch_gemm_intel: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("IntelGate.launch_gemm_intel: GEMM shape mismatch")
 
-        if not IntelGate.is_available():
-            raise Error("Intel OneAPI Level Zero GPU execution error: Intel Level Zero driver/runtime (libze_loader.so) not available on host silicon")
-
-        var devices = IntelGate.get_device_count()
-        if devices <= 0:
-            raise Error("Intel OneAPI Level Zero GPU execution error: zero active Intel Xe GPU devices detected on host")
-
-        var bytes_a = A.size * 2
-        var bytes_b = B.size * 2
-        var bytes_c = C.size * 2
-
-        var d_a = IntelGate.allocate_vram(bytes_a)
-        var d_b = IntelGate.allocate_vram(bytes_b)
-        var d_c = IntelGate.allocate_vram(bytes_c)
-
-        try:
-            IntelGate.memcpy_host_to_device(d_a, A.data, bytes_a)
-            IntelGate.memcpy_host_to_device(d_b, B.data, bytes_b)
-
-            var M = A.rows
-            var N = B.rows
-            var K = A.cols
-            for m in range(M):
-                for n in range(N):
-                    var acc: Scalar[f32] = 0.0
-                    for k in range(K):
-                        acc += A.get(m, k).cast[f32]() * B.get(n, k).cast[f32]()
-                    C.set(m, n, acc.cast[f16]())
-
-            IntelGate.memcpy_device_to_host(C.data, d_c, bytes_c)
-            IntelGate.free_vram(d_a)
-            IntelGate.free_vram(d_b)
-            IntelGate.free_vram(d_c)
-        except e:
-            try:
-                IntelGate.free_vram(d_a)
-                IntelGate.free_vram(d_b)
-                IntelGate.free_vram(d_c)
-            except:
-                pass
-            raise e
+        raise Error("Intel Level Zero GPU execution is not implemented: no physical kernel was launched")

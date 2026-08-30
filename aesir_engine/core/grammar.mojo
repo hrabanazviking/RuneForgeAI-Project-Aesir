@@ -1,5 +1,5 @@
 # core/grammar.mojo
-# GBNFGrammar: Constrained Generation State Machine & Logit Masking Engine
+# GBNFGrammar: local grammar-shaped descriptors and bounded mask primitive
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -42,9 +42,9 @@ struct GBNFGrammar(Copyable):
     """
     ᚷᛒᚾᚠ·ᚷᚱᚨᛗᛗᚨᚱ — The Rune of Structural Constraints (GBNFGrammar)
     ════════════════════════════════════════════════════════════════════
-    Parses GGML BNF grammar rules (EBNF/JSON/Regex schemas) and applies
-    zero-allocation logit masks to restrict next-token probability distributions.
-    Guarantees structural validity across structured JSON outputs, function calling schemas, and formal grammars.
+    Provides a small built-in token validator and deterministic mask primitive.
+    It does not parse general GBNF/EBNF/regex grammars and cannot guarantee
+    structurally valid JSON, tool calls, or arbitrary formal-language output.
     """
     var is_active: Bool
     var state: Int

@@ -11,13 +11,11 @@ def test_amd_gate_availability() raises:
     var count = AMDGate.get_device_count()
 
     if avail:
-        print("AMD ROCm HIP (libamdhip64.so/libhipblas.so): AVAILABLE (" + String(count) + " devices)")
-        if count <= 0:
-            raise Error("AMDGate reported available but device count is 0")
+        print("AMD HIP runtime library: LOADABLE; physical device count unverified")
     else:
         print("AMD ROCm HIP: UNAVAILABLE on current host platform (Fail-Closed)")
-        if count != 0:
-            raise Error("AMDGate reported unavailable but device count is non-zero")
+    if count != 0:
+        raise Error("AMDGate fabricated a physical device count")
 
     print("AMDGate driver & runtime availability: PASS")
 
@@ -56,16 +54,14 @@ def test_amd_realm_unsupported_gateways() raises:
     var c_ptr = well.allocate(4 * 4)
     var C = RuneTensor[f16](4, 4, c_ptr)
 
-    if not AMDGate.is_available():
-        var rejected = False
-        try:
-            gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.AMD_ROCM_HIP))
-        except error:
-            rejected = True
-            var err_str = String(error)
-            if "AMD ROCm HIP GPU execution error" not in err_str and "libamdhip64.so" not in err_str:
-                raise Error("AMD gateway rejection omitted stable error text: " + err_str)
-        if not rejected:
-            raise Error("AMD gateway failed to reject execution on host without HIP runtime")
+    var rejected = False
+    try:
+        AMDGate.launch_gemm_amd(A, B, C)
+    except error:
+        rejected = True
+        if "not implemented" not in String(error):
+            raise Error("AMD gateway rejection omitted stable error text: " + String(error))
+    if not rejected:
+        raise Error("AMD gateway reported execution without a physical kernel")
 
     print("AMD ROCm HIP realm error gateways: PASS")

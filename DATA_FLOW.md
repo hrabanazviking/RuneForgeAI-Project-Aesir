@@ -1,6 +1,15 @@
-# Project Aesir: Data Flow (From Prompt to Fate)
+# Project Aesir: Target Slice 6 Data Flow (From Prompt to Fate)
 
-This document traces the journey of a request through the Aesir Engine, from the moment it crosses the Bifrost to when its fate is sealed. In **Slice 6**, single-response generation (`generate`), real-time streaming output (`generate_stream`), external knowledge RAG prompt context retrieval via `MimirStore` / `cosine_similarity`, `/api/embeddings` response formatting, and multi-device matrix sharding across the **Bifrost Shard Matrix** (`DeviceTopology`, `ShardTensor`, `gemm_f16_sharded`, `all_reduce_sum`) are fully supported.
+> [!IMPORTANT]
+> This is a target sequence retained for design context, not a trace of the
+> current executable system. The verified flow is local single-shot CPU GGUF
+> inference. Ollama HTTP compatibility, socket-to-engine streaming,
+> multi-device execution, and complete RAG are not operational; see
+> [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md).
+
+This document sketches the intended journey of a request through the Aesir
+Engine. Names in the diagram may correspond to verified local primitives, but
+the complete end-to-end route is not implemented.
 
 ## The Journey of a Request (Slice 6)
 
@@ -20,7 +29,7 @@ This document traces the journey of a request through the Aesir Engine, from the
 4. **The Waters of Memory & Topology (MimirWell, KVCache, MimirStore & DeviceTopology)**
    - `GGUFSeer` (`loader/gguf.mojo`) mmap's model weights into `MimirWell` (`core/mimir_well.mojo`) and populates `RuneWeaver` vocabulary.
    - `DeviceTopology` registers active compute device realms (`cuda:0`, `cuda:1`, etc.).
-   - `KVCache` manages ring-buffer Key and Value tensor state in `MimirWell` across sequence positions up to `max_seq_len`.
+   - `KVCache` manages contiguous Key and Value tensor state in `MimirWell` across fixed chronological positions below `max_seq_len`; it does not wrap.
    - Zero dynamic memory allocations occur during generation steps.
 
 5. **The Autoregressive Loop & Sharded Compute Kernels (`forward_pass`)**
@@ -98,5 +107,3 @@ sequenceDiagram
     E->>B: send_chunk_static(client_fd, JSON chunk {"done": true})
     B->>C: Final Chunk & Close Socket
 ```
-
-

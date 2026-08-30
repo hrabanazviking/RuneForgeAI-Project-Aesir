@@ -10,7 +10,9 @@
 
 **A bare-metal Mojo inference engine designed for local sovereignty.**
 
-Project A.E.S.I.R. is an LLM (Large Language Model) inference engine built from the ground up in the Mojo programming language. It is engineered specifically for local consumer hardware (like NVIDIA RTX 30/40 series GPUs).
+Project A.E.S.I.R. is an experimental LLM inference engine built in Mojo. Its
+verified vertical slice runs one pinned GGUF v3 Llama F16 model on a Linux CPU;
+consumer GPU support is a roadmap target, not a current runtime capability.
 
 Our mission is simple: **Eliminate cloud dependency and software bloat to deliver high-performance, private AI directly on the edge.**
 
@@ -21,7 +23,13 @@ Our mission is simple: **Eliminate cloud dependency and software bloat to delive
 > `simulated`, or `missing`). Vision and interface language elsewhere in the
 > repository does not override that ledger.
 
-By stripping away the heavy Python runtime and utilizing direct OS-level memory management, A.E.S.I.R. squeezes every ounce of compute power out of consumer hardware. Your data stays on your machine, your hardware is utilized to its maximum potential, and your AI remains entirely under your control.
+The ordered completion plan and the rules preventing fake files, placeholder
+artifacts, and fabricated evidence live in the
+[Reality-First Completion Roadmap](ROADMAP_REALITY_FIRST_COMPLETION.md).
+
+The runtime contains no Python imports and uses direct POSIX memory mapping for
+its verified local CPU slice. No general performance, maximum-utilization, or
+cross-platform claim has yet passed an acceptance gate.
 
 ## 🧠 Core Concepts Broken Down
 
@@ -70,23 +78,24 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Current Scope vs Target Vision:** Multi-sampler pipelines (temperature, top-k, top-p, min-p) are scaffolded and will be verified in upcoming kernel stages.
 
 ## ⚡ Technical Specifications & Truth Boundaries
- * **Language:** Pure Mojo (Zero Python runtime dependencies; [`AES-FND-003`](CAPABILITY_LEDGER.md) `verified`)
+ * **Language:** Pure Mojo engine runtime (zero Python runtime imports; [`AES-FND-004`](CAPABILITY_LEDGER.md) `verified`)
  * **Verified Slice:** Single-device CPU GGUF v3 Llama F16 model execution (`stories260K.F16.gguf` pinned oracle; [`AES-FND-002`](CAPABILITY_LEDGER.md) `verified`)
  * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
- * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TKN-001`](CAPABILITY_LEDGER.md) `verified`)
- * **CLI & Transport:** Single-shot CLI execution ([`AES-CLI-001`](CAPABILITY_LEDGER.md) `verified`); full daemon server & multi-engine CLI suites ([`AES-SRV-001`, `AES-CLI-005`](CAPABILITY_LEDGER.md) `scaffold`/`simulated`/`missing`)
+ * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
+ * **CLI & Transport:** Single-shot CLI execution ([`AES-CLI-002`](CAPABILITY_LEDGER.md) `verified`); persistent model commands, interactive inference, and compatibility APIs remain scaffolded or missing ([`AES-CLI-005`, `AES-CLI-008`, `AES-SRV-006`-`008`](CAPABILITY_LEDGER.md))
  * **Accelerator & Swarm Matrix:** GPU, NPU, and Swarm modules are scaffolded/simulated boundaries; full hardware acceleration vision is archived in [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
 
-Project A.E.S.I.R. strips away the enterprise bloat designed for massive data centers and focuses entirely on the solo operator. It is built to run fast, run cold, and run completely off the grid.
- * **Private:** Your prompts and data never leave your motherboard.
- * **Efficient:** Leaves maximum CPU and RAM available for your other applications and games.
+Project A.E.S.I.R. focuses on a source-available local inference path for the
+solo operator. Performance and resource-efficiency measurement remain open work.
+ * **Local by design:** The verified single-shot inference path loads a caller-supplied local model and does not invoke a hosted inference API.
+ * **Measured claims only:** Throughput, latency, power, and memory claims require reproducible benchmarks before publication.
  * **Uncensored:** You load the weights, you set the rules. No API guardrails.
 
-*Status: Verified CPU GGUF vertical slice established ([`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md)). Active kernel hardening ongoing.*ment ongoing.*
+*Status: Verified CPU GGUF vertical slice established ([`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md)); broader hardening and integration remain active work.*
 
 ---
 
@@ -104,7 +113,7 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785562606904.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785562606904.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785562606904.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785562606904.png)
 
 ---
   
@@ -114,7 +123,7 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_AI_Picture1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_AI_Picture1.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_AI_Picture1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_AI_Picture1.png)
 
 ---
 
@@ -124,7 +133,7 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/GLM_AI_Picture4.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/GLM_AI_Picture4.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/GLM_AI_Picture4.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/GLM_AI_Picture4.png)
 
 ---
 
@@ -155,39 +164,39 @@ Project A.E.S.I.R. strips away the enterprise bloat designed for massive data ce
 ---
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579996746.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785579996746.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579996746.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785579996746.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580300042.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580300042.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785580300042.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785580300042.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580561571.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/1785580561571.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785580561571.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/1785580561571.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_pxw52zpxw52zpxw5.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_pxw52zpxw52zpxw5.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_pxw52zpxw52zpxw5.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_pxw52zpxw52zpxw5.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_718k4h718k4h718k.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_718k4h718k4h718k.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_718k4h718k4h718k.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_718k4h718k4h718k.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_fz3555fz3555fz35.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_fz3555fz3555fz35.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_fz3555fz3555fz35.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_fz3555fz3555fz35.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_63wk1e63wk1e63wk.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_63wk1e63wk1e63wk.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_63wk1e63wk1e63wk.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_63wk1e63wk1e63wk.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_fkesx8fkesx8fkes.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Gemini_Generated_Image_fkesx8fkesx8fkes.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_fkesx8fkesx8fkes.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Gemini_Generated_Image_fkesx8fkesx8fkes.png)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/GNU_Affero_OS_License1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/GNU_Affero_OS_License1.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/GNU_Affero_OS_License1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/GNU_Affero_OS_License1.png)
 
 ---
 
@@ -217,7 +226,7 @@ See [LEGAL-NOTICE.md](LEGAL-NOTICE.md) for details.
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/image-23-RuneForgeAI.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/image-23-RuneForgeAI.jpg)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/image-23-RuneForgeAI.jpg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/image-23-RuneForgeAI.jpg)
 
 ---
 
@@ -229,15 +238,15 @@ Grounded in the values of the ancient **Old Ways**, RuneForgeAI champions a **ph
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0407.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/IMG_0407.jpeg)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/IMG_0407.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/IMG_0407.jpeg)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAIConsultant1.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/RuneForgeAIConsultant1.jpeg)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/RuneForgeAIConsultant1.jpeg](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/RuneForgeAIConsultant1.jpeg)
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Sovereign_Paganism_Flag_V1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/Sovereign_Paganism_Flag_V1.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Sovereign_Paganism_Flag_V1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/Sovereign_Paganism_Flag_V1.png)
 
 ---
 
@@ -247,7 +256,7 @@ Sovereign Paganism rejects the throne and the committee. We stand on the heath, 
 
 ---
 
-![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/cybervikingsolarpunk1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/cybervikingsolarpunk1.png)
+![https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/cybervikingsolarpunk1.png](https://raw.githubusercontent.com/hrabanazviking/RuneForgeAI-Project-Aesir/refs/heads/main/docs/assets/images/cybervikingsolarpunk1.png)
 
 ---
 

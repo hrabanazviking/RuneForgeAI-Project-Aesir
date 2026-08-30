@@ -1,4 +1,4 @@
-# Project Aesir: System Architecture
+# Project Aesir: Target Architecture and Implemented Shapes
 
 > *"Order is not accidental. It is built by design laws that endure under load."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -10,11 +10,11 @@
 Project Aesir is a bare-metal LLM inference engine written in **Mojo**. 
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Subsystems such as full Ollama HTTP server parity ([`AES-SRV-001`](../CAPABILITY_LEDGER.md)), GPU/NPU acceleration, and Swarm clusters represent target architectural goals preserved under [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Unless a paragraph cites a matching ledger entry and boundary, the diagrams, `Role`, and legacy `Implementation` labels below describe target architecture or code shape—not an operational claim. Ollama compatibility, GPU/NPU execution, durable services, and Swarm networking are missing.
 
 ---
 
-## 🧩 Subsystem Architecture
+## 🧩 Target Subsystem Architecture
 
 ```mermaid
 graph TD
@@ -51,7 +51,7 @@ graph TD
 
 ---
 
-## 🔒 Domain Layering & Component Breakdown (Slice 6, Slice 7, Slice 8, Slice 9, Slice 10, Slice 11, Slice 12 & Slice 13)
+## 🔒 Target Domain Layering & Existing Component Shapes
 
 ### 1. `server/api.mojo` — `BifrostGate` (Transport & Response Formatting)
 - **Role:** Bare-metal HTTP socket listener, streaming transport, and API response formatting engine.
@@ -135,10 +135,9 @@ graph TD
   - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
   - `gemm_f16_sharded` & `all_reduce_sum`: Multi-device parallel GEMM and SIMD vector reduction across Bifrost Shard Matrix.
   - **`gemm_f16_arm_neon`, `rmsnorm_arm_neon` & `gemm_f16_npu` (Slice 7):** 128-bit ARM NEON kernels and NPU Realm Gateway dispatcher.
-  - **`gemm_f16_gpgpu_vector` (Slice 8):** 16-wide SIMD matrix multiplication kernel targeting sovereign GPGPU architectures (Moore Threads MUSA, Biren SUPA, MetaX MACA, Hygon DCU).
-  - **`gemm_f16_mobile_opencl` (Slice 8):** 8-wide SIMD matrix multiplication kernel targeting mobile, VR/XR headset, and IoT embedded GPUs (ARM Mali OpenCL, Qualcomm Adreno, Imagination PowerVR).
-  - **`rmsnorm_gpu` (Slice 8):** 16-wide SIMD Root Mean Square Normalization kernel across all ten GPU hardware realms.
-  - **`gemm_f16_gpu` (Slice 8) — The Universal GPU Realm Gateway:** Single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms (`NVIDIA_CUDA`/`AMD_ROCM_HIP`/`INTEL_ONEAPI_XE` → `gemm_f16`, `MUSA`/`SUPA`/`MACA`/`DCU` → `gemm_f16_gpgpu_vector`, `MALI`/`ADRENO`/`POWERVR` → `gemm_f16_mobile_opencl`). Called from `TransformerBlock.forward()` and `forward_pass()`.
+  - **GPU-named host helpers (Slice 8):** `gemm_f16_gpgpu_vector` and `gemm_f16_mobile_opencl` are host SIMD functions retained for compatibility; their names do not prove vendor GPU execution.
+  - **`gemm_f16_cuda`:** Real resource-explicit CUDA F16 GEMM gateway. It requires a reusable selected-device `CUDAF16GemmExecutor`; it never discovers hardware, invents budgets, or falls back to host compute.
+  - **`rmsnorm_gpu` and `gemm_f16_gpu`:** The older realm-only gateways remain fail-closed for every realm because they carry no selected resource owner. CUDA discovery never authorizes a CPU fallback under a GPU label.
 
 ### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
@@ -248,21 +247,24 @@ graph LR
 
 ## 🌌 The Universal GPU Realm Matrix — Slice 8 Domain Layer
 
-The Universal Multi-GPU & Hardware Accelerator Realm Matrix expands Project Aesir's compute coverage across ten global GPU hardware architectures. It provides a **zero-overhead, zero-vtable** single-integer discriminant routing system from `AesirEngine` down to hardware SIMD kernel execution.
+This layer separates requested realm names, observed hardware, explicit
+resource ownership, and model integration. GPU-1 provides real MAX CUDA
+enumeration and validated topology selection; GPU-2 owns selected contexts,
+buffers, transfers, and synchronization; GPU-3 owns one real explicit F16 GEMM.
+Transformer inference, persistent device weights, the realm-only gateway, and
+CLI acceleration remain unsupported.
 
 ```mermaid
 graph TD
-    Engine[AesirEngine<br/>enable_gpu_realm=True<br/>target_gpu_realm=GPURealmType] -->|use_gpu_realm, gpu_realm| FP[forward_pass<br/>core/inference.mojo]
-    FP -->|use_gpu_realm, gpu_realm per layer| TB[TransformerBlock.forward<br/>QKV · Output · FFN up/gate/down]
-    TB -->|realm.value discriminant| GW[gemm_f16_gpu<br/>core/compute.mojo]
-    
-    GW -->|0: NVIDIA_CUDA<br/>1: AMD_ROCM_HIP<br/>2: INTEL_ONEAPI_XE| CUDA[gemm_f16<br/>32-wide AVX/CUDA SIMD]
-    GW -->|3: MOORE_THREADS_MUSA<br/>4: BIREN_SUPA<br/>5: METAX_MACA<br/>6: HYGON_DCU| GPGPU[gemm_f16_gpgpu_vector<br/>16-wide GPGPU Vector SIMD]
-    GW -->|7: ARM_MALI_OPENCL<br/>8: QUALCOMM_ADRENO<br/>9: IMAGINATION_POWERVR| MOBILE[gemm_f16_mobile_opencl<br/>8-wide Mobile SIMD]
-    
-    CUDA -.->|reads f16 from| MW[MimirWell zero-copy slab / GPUBuffer]
-    GPGPU -.->|reads f16 from| MW
-    MOBILE -.->|reads f16 from| MW
+    MAX[MAX DeviceContext CUDA API] --> CG[CUDAGate.discover_physical_devices]
+    CG --> R[HardwareDiscoveryResult<br/>status + validated records]
+    R --> T[DeviceTopology<br/>accumulate + select]
+    T --> CR[CUDADeviceResources<br/>budgeted F16 buffers + transfers]
+    CR --> P[CUDAGemmPlan<br/>shape + bytes + launch]
+    P --> X[CUDAF16GemmExecutor<br/>real reusable F16 GEMM]
+    X --> C[gemm_f16_cuda<br/>explicit core gateway]
+    E[AesirEngine GPU request] --> V[validate_runtime_backend_config]
+    V --> X[rejected before model loading]
 ```
 
 **Boundary confirmation for Slice 8:**
@@ -270,16 +272,20 @@ graph TD
 | Component | Placed in | Domain | Verdict |
 | :--- | :--- | :--- | :--- |
 | `GPURealmType` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — hardware discriminant type belongs in core memory/topology |
-| `GPUBuffer` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — physical memory buffer descriptor belongs beside `MimirWell` |
-| `DeviceTopology.detect_gpu_realms()` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — realm discovery is a memory/topology initialization concern |
-| `gemm_f16_gpgpu_vector` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — 16-wide GPGPU kernel belongs in Nidavellir Forge |
-| `gemm_f16_mobile_opencl` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — 8-wide mobile GPU kernel belongs in Nidavellir Forge |
-| `rmsnorm_gpu` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — GPU RMSNorm kernel belongs in Nidavellir Forge |
-| `gemm_f16_gpu` dispatcher | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — dispatch gate is compute logic |
+| `GPUBuffer` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — reserved host descriptor belongs beside `MimirWell` |
+| discovery records and `DeviceTopology` | `core/mimir_well.mojo` | Core — Memory & Topology Domain | ✅ **Correct** — runtime-neutral records and selection belong in topology |
+| `CUDAGate` MAX adapter | `core/cuda_gate.mojo` | Core — CUDA Runtime Boundary | ✅ **Correct** — CUDA-specific enumeration stays behind its gate |
+| `CUDAGemmPlan` | `core/cuda_gemm_plan.mojo` | Core — CUDA Planning Domain | ✅ **Correct** — hardware-independent admission stays outside topology and kernel execution |
+| `CUDAF16GemmExecutor` | `core/cuda_compute.mojo` | Core — CUDA Compute Domain | ✅ **Correct** — owned transfers, kernel launch, synchronization, and reuse remain behind one explicit owner |
+| GPU compute gateways | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — real resource-explicit CUDA GEMM and fail-closed realm-only boundaries remain in compute |
 | `TransformerBlock.forward()` GPU params | `core/inference.mojo` | Core — Inference Domain | ✅ **Correct** — inference layer owns layer dispatch decisions |
 | `AesirEngine.enable_gpu_realm`, `target_gpu_realm` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — configuration knobs belong in orchestration facade |
 
-**No boundary violations detected.** `server/api.mojo` has zero GPU imports. `loader/` domain is completely unaffected. `aesir.mojo` imports `GPURealmType` from `core/mimir_well.mojo` (Facade → Core dependency law). No compute logic has leaked outside `core/`.
+**Current evidence boundary:** server, loader, facade, and Transformer inference
+do not own or invoke the CUDA GEMM executor. The opt-in physical tests prove one
+explicit GEMM on one observed RTX/MAX host, not model inference, persistent
+device weights, other operators/backends, general CUDA portability,
+performance, or hardware CI.
 
 ---
 

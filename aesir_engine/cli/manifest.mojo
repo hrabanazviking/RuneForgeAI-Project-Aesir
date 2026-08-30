@@ -2,19 +2,78 @@
 # Model Catalog & Manifest Manager for Project Aesir / Ollama CLI
 
 from std.collections import Dict
-from cli.modelfile import Modelfile, parse_modelfile, parse_int
+from cli.modelfile import parse_modelfile
+
+
+def validate_model_component(component: String, label: String) raises:
+    """Rejects empty, oversized, or path-shaped model identity components."""
+    var value = String(component)
+    var raw = value.as_bytes()
+    if len(raw) == 0:
+        raise Error("model " + label + " must not be empty")
+    if len(raw) > 128:
+        raise Error("model " + label + " exceeds 128 bytes")
+    for index in range(len(raw)):
+        var code = Int(raw[index])
+        var allowed = (
+            (code >= 48 and code <= 57)
+            or (code >= 65 and code <= 90)
+            or (code >= 97 and code <= 122)
+            or code == 45
+            or code == 46
+            or code == 95
+        )
+        if not allowed:
+            raise Error(
+                "model " + label
+                + " may contain only letters, digits, '.', '-', and '_'"
+            )
+    if value == "." or value == "..":
+        raise Error("model " + label + " must not be a path segment")
+
+
+def normalize_model_reference(reference: String) raises -> String:
+    """Returns a validated `name:tag` reference, defaulting to `latest`."""
+    var parts = reference.split(":")
+    if len(parts) > 2:
+        raise Error("model reference must contain at most one ':' separator")
+    var name = String(parts[0])
+    var tag = String("latest")
+    if len(parts) == 2:
+        tag = String(parts[1])
+    validate_model_component(name, "name")
+    validate_model_component(tag, "tag")
+    return name + ":" + tag
+
+
+def _parse_nonnegative_manifest_int(value: String, label: String) raises -> Int:
+    var clean = String(value.strip())
+    var source = clean.as_bytes()
+    if len(source) == 0:
+        raise Error("manifest " + label + " field must not be empty")
+    for index in range(len(source)):
+        if source[index] < 48 or source[index] > 57:
+            raise Error("manifest " + label + " field must be decimal")
+    var parsed: Int
+    try:
+        parsed = atol(clean)
+    except:
+        raise Error("manifest " + label + " field is outside the supported range")
+    if parsed < 0:
+        raise Error("manifest " + label + " field must not be negative")
+    return parsed
 
 
 @always_inline
-def compute_modelfile_digest(content: String) -> String:
-    """Computes a deterministic hex digest string starting with 'sha256:'."""
+def compute_modelfile_fingerprint(content: String) -> String:
+    """Computes a deterministic non-cryptographic FNV-1a 64-bit fingerprint."""
     var bytes = content.as_bytes()
     var h: UInt64 = 14695981039346656037
     for i in range(len(bytes)):
         h = (h ^ UInt64(bytes[i])) * 1099511628211
     
     var hex_chars = String("0123456789abcdef")
-    var res = String("sha256:")
+    var res = String("fnv1a64:")
     for shift in range(60, -4, -4):
         var nibble = Int((h >> UInt64(shift)) & 0xF)
         res += String(hex_chars[byte=nibble : nibble + 1])
@@ -24,7 +83,7 @@ def compute_modelfile_digest(content: String) -> String:
 struct ModelManifest(Copyable, ImplicitlyCopyable):
     """
     ModelManifest — ᛗᛟᛞᛖᛚ·ᛗᚨᚾᛁᚠᛖᛋᛏ — The Scroll of the Model:
-    Preserves model metadata scroll: model name, tag, SHA-256 digest ID,
+    Preserves model metadata scroll: model name, tag, content fingerprint,
     file byte size, quantization rune, structural dimensions (hidden_dim, num_layers),
     modification timestamp, and raw Modelfile inscriptions.
     """
@@ -108,7 +167,7 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
 
 
 def deserialize_manifest(raw: String) raises -> ModelManifest:
-    """Deserializes text string into a ModelManifest."""
+    """Strictly deserializes the complete ModelManifest text schema."""
     var lines = raw.split("\n")
     var name = String("")
     var tag = String("latest")
@@ -120,6 +179,15 @@ def deserialize_manifest(raw: String) raises -> ModelManifest:
     var modified_time = String("unknown")
     var modelfile_lines = List[String]()
     var in_modelfile = False
+    var seen_name = False
+    var seen_tag = False
+    var seen_digest = False
+    var seen_size = False
+    var seen_quantization = False
+    var seen_hidden_dim = False
+    var seen_num_layers = False
+    var seen_modified = False
+    var seen_modelfile = False
 
     for i in range(len(lines)):
         var line = String(lines[i])
@@ -128,23 +196,77 @@ def deserialize_manifest(raw: String) raises -> ModelManifest:
             continue
 
         if line.startswith("NAME:"):
+            if seen_name:
+                raise Error("manifest contains duplicate NAME field")
+            seen_name = True
             name = String(line.replace("NAME:", "").strip())
         elif line.startswith("TAG:"):
+            if seen_tag:
+                raise Error("manifest contains duplicate TAG field")
+            seen_tag = True
             tag = String(line.replace("TAG:", "").strip())
         elif line.startswith("DIGEST:"):
+            if seen_digest:
+                raise Error("manifest contains duplicate DIGEST field")
+            seen_digest = True
             digest = String(line.replace("DIGEST:", "").strip())
         elif line.startswith("SIZE:"):
-            size_bytes = Int64(parse_int(String(line.replace("SIZE:", "").strip())))
+            if seen_size:
+                raise Error("manifest contains duplicate SIZE field")
+            seen_size = True
+            size_bytes = Int64(
+                _parse_nonnegative_manifest_int(
+                    String(line[byte=5:]), "SIZE"
+                )
+            )
         elif line.startswith("QUANT:"):
+            if seen_quantization:
+                raise Error("manifest contains duplicate QUANT field")
+            seen_quantization = True
             quantization = String(line.replace("QUANT:", "").strip())
         elif line.startswith("HIDDEN_DIM:"):
-            hidden_dim = parse_int(String(line.replace("HIDDEN_DIM:", "").strip()))
+            if seen_hidden_dim:
+                raise Error("manifest contains duplicate HIDDEN_DIM field")
+            seen_hidden_dim = True
+            hidden_dim = _parse_nonnegative_manifest_int(
+                String(line[byte=11:]), "HIDDEN_DIM"
+            )
         elif line.startswith("NUM_LAYERS:"):
-            num_layers = parse_int(String(line.replace("NUM_LAYERS:", "").strip()))
+            if seen_num_layers:
+                raise Error("manifest contains duplicate NUM_LAYERS field")
+            seen_num_layers = True
+            num_layers = _parse_nonnegative_manifest_int(
+                String(line[byte=11:]), "NUM_LAYERS"
+            )
         elif line.startswith("MODIFIED:"):
+            if seen_modified:
+                raise Error("manifest contains duplicate MODIFIED field")
+            seen_modified = True
             modified_time = String(line.replace("MODIFIED:", "").strip())
-        elif line.startswith("MODELFILE:"):
+        elif line == "MODELFILE:":
+            if seen_modelfile:
+                raise Error("manifest contains duplicate MODELFILE field")
+            seen_modelfile = True
             in_modelfile = True
+        else:
+            raise Error("manifest contains an unknown or malformed field")
+
+    if not (
+        seen_name
+        and seen_tag
+        and seen_digest
+        and seen_size
+        and seen_quantization
+        and seen_hidden_dim
+        and seen_num_layers
+        and seen_modified
+        and seen_modelfile
+    ):
+        raise Error("manifest is missing one or more required fields")
+    validate_model_component(name, "name")
+    validate_model_component(tag, "tag")
+    if len(digest.bytes()) == 0:
+        raise Error("manifest digest must not be empty")
 
     var modelfile_content = String("\n").join(modelfile_lines)
     return ModelManifest(
@@ -163,7 +285,8 @@ def deserialize_manifest(raw: String) raises -> ModelManifest:
 struct RuneModelStore(Copyable):
     """
     RuneModelStore — ᚱᛢᚾᛖ·ᛗᛟᛞᛖᛚ·ᛋᛏᛟᚱᛖ — The Vault of Mímisbrunnr:
-    Model catalog and manifest manager supporting in-memory operations and persistent serialization.
+    Model catalog supporting in-memory operations and text serialization.
+    It performs no durable file I/O.
     """
     var catalog: Dict[String, ModelManifest]
     var model_keys: List[String]
@@ -195,82 +318,64 @@ struct RuneModelStore(Copyable):
 
     def get_model(self, name: String) raises -> ModelManifest:
         """Finds a model by name or tag (e.g. 'llama3' or 'llama3:latest')."""
-        var search_name = name
-        if ":" not in search_name:
-            search_name += String(":latest")
+        var search_name = normalize_model_reference(name)
         
         if search_name in self.catalog:
             return self.catalog[search_name].copy()
         
-        for i in range(len(self.model_keys)):
-            var key = self.model_keys[i]
-            if key.startswith(name):
-                return self.catalog[key].copy()
-
         raise Error("model manifest not found: " + name)
 
     def create_model(mut self, name: String, modelfile_content: String) raises:
-        """Creates a new model manifest entry from Modelfile directives and computes its SHA-256 digest."""
-        var search_name = name
-        if ":" not in search_name:
-            search_name += String(":latest")
+        """Creates an in-memory manifest without inventing unobserved model metadata."""
+        var search_name = normalize_model_reference(name)
         
-        var parsed = parse_modelfile(modelfile_content)
-        var tag = String("latest")
-        if ":" in name:
-            var parts = name.split(":")
-            tag = String(parts[1])
+        _ = parse_modelfile(modelfile_content)
+        var parts = search_name.split(":")
+        var tag = String(parts[1])
         
-        var digest = compute_modelfile_digest(modelfile_content)
-        var name_base = String(name.split(":")[0])
+        var fingerprint = compute_modelfile_fingerprint(modelfile_content)
+        var name_base = String(parts[0])
         var new_manifest = ModelManifest(
             name_base,
             tag,
-            digest,
-            4370000000,
-            String("Q4_K_M"),
-            4096,
-            32,
-            String("Just now"),
+            fingerprint,
+            0,
+            String("unknown"),
+            0,
+            0,
+            String("unknown"),
             modelfile_content
         )
         self.catalog[search_name] = new_manifest
-        self.model_keys.append(search_name)
+        if search_name not in self.model_keys:
+            self.model_keys.append(search_name)
 
     def copy_model(mut self, source: String, target: String) raises:
         """Copies an existing model manifest to a new name/tag."""
-        if len(source.bytes()) == 0 or len(target.bytes()) == 0:
-            raise Error("RuneModelStore.copy_model: source and target model names must not be empty")
-        var src_manifest = self.get_model(source)
-        var target_name = target
-        if ":" not in target_name:
-            target_name += String(":latest")
+        var source_name = normalize_model_reference(source)
+        var target_name = normalize_model_reference(target)
+        var src_manifest = self.get_model(source_name)
         
         var copied = src_manifest.copy()
-        var parts = target.split(":")
+        var parts = target_name.split(":")
         copied.name = String(parts[0])
-        if len(parts) > 1:
-            copied.tag = String(parts[1])
+        copied.tag = String(parts[1])
         self.catalog[target_name] = copied.copy()
-        self.model_keys.append(target_name)
+        if target_name not in self.model_keys:
+            self.model_keys.append(target_name)
 
-    def remove_model(mut self, name: String) -> Bool:
+    def remove_model(mut self, name: String) raises -> Bool:
         """Removes a model manifest from the store."""
-        var search_name = name
-        if ":" not in search_name:
-            search_name += String(":latest")
+        var search_name = normalize_model_reference(name)
         
         if search_name in self.catalog:
-            try:
-                _ = self.catalog.pop(search_name)
-                var new_keys = List[String]()
-                for i in range(len(self.model_keys)):
-                    if self.model_keys[i] != search_name:
-                        new_keys.append(self.model_keys[i])
-                self.model_keys = new_keys^
-                return True
-            except:
-                return True
+            _ = self.catalog.pop(search_name)
+            var new_keys = List[String]()
+            for i in range(len(self.model_keys)):
+                if self.model_keys[i] != search_name:
+                    new_keys.append(self.model_keys[i])
+            self.model_keys = new_keys^
+            return True
         return False
 
     def remove_model_checked(mut self, name: String, active_model: String = String("")) raises:
@@ -292,7 +397,7 @@ struct RuneModelStore(Copyable):
         _ = self.remove_model(search_name)
 
     def serialize_store(self) raises -> String:
-        """Serializes entire model store into persistent scroll format."""
+        """Serializes the in-memory model store to caller-owned text."""
         var chunks = List[String]()
         for i in range(len(self.model_keys)):
             var key = self.model_keys[i]
@@ -310,7 +415,8 @@ struct RuneModelStore(Copyable):
                 var manifest = deserialize_manifest(block)
                 var key = manifest.name + ":" + manifest.tag
                 self.catalog[key] = manifest.copy()
-                self.model_keys.append(key)
+                if key not in self.model_keys:
+                    self.model_keys.append(key)
 
     def get_active_ps(self) raises -> List[ModelManifest]:
         """Returns no processes until runtime process tracking is implemented."""

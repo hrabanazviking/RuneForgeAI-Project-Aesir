@@ -5,6 +5,7 @@ from core.inference import forward_pass
 from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.session import SessionContext, SessionManager
 from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config
+from std.memory import Pointer
 
 
 def test_session_isolation() raises:
@@ -314,8 +315,88 @@ def test_generation_stop_policy() raises:
 
     print("deterministic generation stop policy: PASS")
 
+def _test_transformer_block_construction_safety() raises:
+    var well = MimirWell(1024 * 1024)
+    var seer = GGUFSeer("dummy.gguf")
+
+    var dimension_rejected = False
+    try:
+        var invalid_dimension_block = TransformerBlock(-1, 4, 4, seer)
+    except error:
+        dimension_rejected = True
+        if "layer_idx must be non-negative" not in String(error):
+            raise Error("TransformerBlock dimension rejection was not precise")
+    if not dimension_rejected:
+        raise Error("TransformerBlock accepted invalid layer metadata")
+
+    var missing_rejected = False
+    try:
+        var missing_block = TransformerBlock(0, 4, 4, seer)
+    except error:
+        missing_rejected = True
+        if "missing required tensor 'blk.0.attn_norm.weight'" not in String(error):
+            raise Error("TransformerBlock missing-weight rejection was not precise")
+    if not missing_rejected:
+        raise Error("TransformerBlock accepted an incomplete layer")
+
+    var dim = 16
+    var ffn_hidden = 32
+    seer.tensors["blk.0.attn_norm.weight"] = RuneTensor[f16](1, dim, well.allocate(dim), False)
+    seer.tensors["blk.0.attn_q.weight"] = RuneTensor[f16](dim, dim, well.allocate(dim * dim), False)
+    seer.tensors["blk.0.attn_k.weight"] = RuneTensor[f16](dim, dim, well.allocate(dim * dim), False)
+    seer.tensors["blk.0.attn_v.weight"] = RuneTensor[f16](dim, dim, well.allocate(dim * dim), False)
+    seer.tensors["blk.0.attn_output.weight"] = RuneTensor[f16](dim, dim, well.allocate(dim * dim), False)
+    seer.tensors["blk.0.ffn_norm.weight"] = RuneTensor[f16](1, dim, well.allocate(dim), False)
+    seer.tensors["blk.0.ffn_gate.weight"] = RuneTensor[f16](ffn_hidden, dim, well.allocate(ffn_hidden * dim), False)
+    seer.tensors["blk.0.ffn_up.weight"] = RuneTensor[f16](ffn_hidden, dim, well.allocate(ffn_hidden * dim), False)
+    seer.tensors["blk.0.ffn_down.weight"] = RuneTensor[f16](dim, ffn_hidden, well.allocate(ffn_hidden * dim), False)
+
+    var saved_down = seer.tensors["blk.0.ffn_down.weight"].copy()
+    seer.tensors["blk.0.ffn_down.weight"] = RuneTensor[f16](0, 0, well.allocate(1), False)
+    var empty_rejected = False
+    try:
+        var empty_block = TransformerBlock(0, 4, 4, seer)
+    except error:
+        empty_rejected = True
+        if "required tensor 'blk.0.ffn_down.weight' is empty" not in String(error):
+            raise Error("TransformerBlock empty-weight rejection was not precise")
+    if not empty_rejected:
+        raise Error("TransformerBlock accepted an empty layer weight")
+
+    var sentinel = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
+    seer.tensors["blk.0.ffn_down.weight"] = RuneTensor[f16](dim, ffn_hidden, sentinel, False)
+    var sentinel_rejected = False
+    try:
+        var sentinel_block = TransformerBlock(0, 4, 4, seer)
+    except error:
+        sentinel_rejected = True
+        if "required tensor 'blk.0.ffn_down.weight' has an invalid pointer" not in String(error):
+            raise Error("TransformerBlock sentinel rejection was not precise")
+    if not sentinel_rejected:
+        raise Error("TransformerBlock retained an address-1 layer weight")
+    seer.tensors["blk.0.ffn_down.weight"] = saved_down.copy()
+
+    var legacy_rejected = False
+    try:
+        var legacy_block = TransformerBlock(0, 4, 4)
+    except error:
+        legacy_rejected = True
+        if "legacy constructor is non-runnable" not in String(error):
+            raise Error("TransformerBlock legacy rejection was not precise")
+    if not legacy_rejected:
+        raise Error("TransformerBlock legacy constructor remained runnable")
+
+    var block = TransformerBlock(0, 4, 4, seer)
+    var copied = block.copy()
+    if copied.layer_idx != 0 or copied.head_dim != 4 or copied.num_heads != 4:
+        raise Error("TransformerBlock copy lost layer metadata")
+    if copied.attn_q_weight.data != block.attn_q_weight.data:
+        raise Error("TransformerBlock copy lost its validated weight view")
+
+
 def test_forward_pass() raises:
     print("--- Testing forward_pass (The Loom of Fate) ---")
+    _test_transformer_block_construction_safety()
     
     var well = MimirWell(1024 * 1024 * 2) # 2 MB well
     var seer = GGUFSeer("dummy.gguf")

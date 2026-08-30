@@ -4,11 +4,130 @@
 > — **Sigrún Ljósbrá, The Skald**
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense operational capabilities are governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). The full unconstrained multi-engine, multi-device, and swarm target roadmap is preserved in [`docs/historical/2026-08-16/`](historical/2026-08-16/).
+> **Executable Status Alignment**: Present-tense operational capabilities are
+> governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). Historical
+> completion labels below are preserved chronology, not current evidence.
 
 ## 🎯 Primary Purpose & Vision
 
-Project Aesir is a high-performance bare-metal LLM inference engine written in **Mojo**, designed for complete local sovereignty, zero dynamic allocation overhead, and strict domain boundaries.
+Project Aesir is a native Mojo local-LLM inference engine under active
+construction. Its design vision is sovereign, efficient local execution with
+strict domain and evidence boundaries; performance and zero-allocation targets
+remain claims only where the ledger records executable proof.
+
+## Current Evidence Boundary
+
+- The bounded operational runtime is one pinned GGUF v3 Llama F16 model on the
+  Linux single-device CPU path: `[verified, AES-FND-002]`.
+- Automated Linux CI exists but supported-target coverage, required branch
+  protection, and an external-fixture job remain open:
+  `[partial, AES-FND-005]`.
+- Artifact and fixture prevention gates reject new debt, while 32 exact legacy
+  artifacts remain approval-blocked: `[partial, AES-FND-007]`.
+- CUDA now has truthful discovery, selected-device owned resources, and one
+  reusable explicit F16 GEMM with physical CPU-reference evidence:
+  `[partial, AES-ACC-008]`. Model inference, persistent device weights, other
+  GPU operators/backends, CLI acceleration, and hardware CI remain open.
+- Broader acceleration, quantized-model compatibility, services, RAG,
+  ecosystems, resilience, swarm, and production-readiness claims must be read
+  from the ledger and completion roadmap, not inferred from the historical log.
+
+<!-- HISTORICAL_CLAIMS_BEGIN -->
+
+## Preserved Historical Milestone Claim Log
+
+> [!CAUTION]
+> Everything below this marker is a preserved chronological claim or target.
+> Words such as “completed,” “verified,” “production,” and “implemented” record
+> what an earlier stage asserted. They are not present-tense capability status
+> and must not override the capability ledger.
+
+### ⚡ Completed Milestone: Stage 87.1 — Swarm Mesh Protocol & Remote Inference Dispatch (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`)
+* **Stage 87.1 Swarm Protocol Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) / [`AES-SWM-003`](../CAPABILITY_LEDGER.md) / [`AES-SWM-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/swarm.mojo` with `NodeIdentity`, `authenticate_node_identity()`, `join_mesh_authenticated()`, `leave_mesh()`, `heartbeat_pulse()`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference()`. Created `test_swarm_protocol.mojo` unit test suite. Verified 130 passing cases out of 131 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 86.1 — Durable StateVault, EventBus Pub/Sub & Worker Pool (`AES-RES-002`, `AES-RES-003`, `AES-RES-004`)
+* **Stage 86.1 Resilience Milestone ([`AES-RES-002`](../CAPABILITY_LEDGER.md) / [`AES-RES-003`](../CAPABILITY_LEDGER.md) / [`AES-RES-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/state_vault.mojo` (`VaultCheckpoint`, 64-bit checksum integrity verification, `restore_checkpoint_checked`), `core/event_bus.mojo` (`EventSubscription`, subscriber queues, `subscribe`, `unsubscribe`), and `core/thread_pool.mojo` (`RuneTask`, `submit_task`, queue processing, `cancel_task`, `shutdown`). Created `test_resilience_matrix.mojo` unit test suite. Verified 127 passing cases out of 128 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 85.1 — Speculative Decoding Draft Proposals & Rejection Rollback (`AES-ECO-008`)
+* **Stage 85.1 Speculative Milestone ([`AES-ECO-008`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/speculative.mojo` with `DraftProposal`, `SpeculativeVerificationResult`, and `SpeculativeEngine` providing `propose_draft_tokens()`, `verify_and_reconcile()`, probability-correct rejection sampling, and KV cache rollback step tracking. Created `test_speculative.mojo` unit test suite. Verified 124 passing cases out of 125 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 84.1 — GBNF Grammar Parser & Tokenizer-Aware State Automaton (`AES-ECO-007`)
+* **Stage 84.1 GBNF Grammar Milestone ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/grammar.mojo` with `GBNFRule`, `GBNFAutomatonState`, and `GBNFGrammar` providing rule parsing, candidate token validation, automaton state transitions (`advance_state`), and zero-allocation logit masking. Created `test_gbnf_grammar.mojo` unit test suite. Verified 122 passing cases out of 123 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 83.1 — llama.cpp Subcommand & Differential Argument/Exit Validator (`AES-ECO-006`)
+* **Stage 83.1 llama.cpp CLI Milestone ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `verified`)**: Built `cli/llama_cpp_compat.mojo` providing `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1. Created `test_llama_cpp_cli.mojo` unit test suite. Verified 120 passing cases out of 121 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 82.1 — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator (`AES-ECO-005`)
+* **Stage 82.1 EXL2 Ecosystem Milestone ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `verified`)**: Created `loader/exl2.mojo` providing `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers, extract sub-block bitrates, and enforce physical NVIDIA CUDA hardware & custom EXL2 CUDA kernel execution contracts. Created `test_exl2.mojo` unit test suite. Verified 118 passing cases out of 119 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 81.1 — ONNX Protobuf Binary Header & Node Dispatch Validator (`AES-ECO-004`)
+* **Stage 81.1 ONNX Ecosystem Milestone ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/onnx.mojo` providing `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse ONNX protobuf headers, extract IR/opset versions, and validate graph node operator types against Aesir's supported subset. Created `test_onnx.mojo` unit test suite. Verified 116 passing cases out of 117 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 80.1 — Honest Backend-Specific Zero-Copy Memory & Mmap Validation Contract (`AES-ACC-009`)
+* **Stage 80.1 Zero-Copy Milestone ([`AES-ACC-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added `validate_zero_copy_contract()` to `GPUBuffer` and `NPUBuffer` in `core/mimir_well.mojo` to enforce OS DMA-BUF / mmap handle validation and reject unverified zero-copy claims with explicit error exceptions. Updated `test_gpu_realms.mojo` and `test_npu_edge.mojo` with zero-copy contract validation test suites. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 79.1 — Multi-Device GQA Head Partitioning & Host Shard Bounds Hardening (`AES-ACC-004`)
+* **Stage 79.1 Multi-Device Milestone ([`AES-ACC-004`](../CAPABILITY_LEDGER.md) `verified`)**: Added `shard_split_gqa_heads()` to `core/mimir_well.mojo` to compute explicit Q/K/V attention head partitioning across multi-device topology shards with head divisibility validation. Updated `test_sharding.mojo` with GQA head partitioning test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 78.1 — Honest Accelerator Hardware Discovery & Capability Matrix (`AES-ACC-003`)
+* **Stage 78.1 Hardware Milestone ([`AES-ACC-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `probe_all_hardware()`, `require_npu_backend()`, and `require_gpu_realm()` to `DeviceTopology` in `core/mimir_well.mojo`. Separates configured from discovered physical backends and strictly rejects absent accelerator requests with explicit error exceptions instead of claiming CPU as hardware execution. Updated `test_sharding.mojo` with hardware capability matrix test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 77.1 — GGUFSeer Quantized Tensor Mapping & Strict Dispatcher Rejection (`AES-QNT-003`)
+* **Stage 77.1 Quantization Milestone ([`AES-QNT-003`](../CAPABILITY_LEDGER.md) `verified`)**: Removed silent fallback branches in `dequantize_compressed_tensor()` and `autotune_quantized_gemm()` in `core/compute.mojo`. Enforced explicit error raising for unrecognized or unsupported quantization format discriminants. Updated `test_quantization_hardening.mojo` with strict error rejection test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 76.1 — Quantization Input Byte Span Validation & Bounds Hardening (`AES-QNT-002`)
+* **Stage 76.1 Quantization Milestone ([`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/quantization.mojo` providing `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned/non-divisible buffer lengths. Updated `test_quantization.mojo` with validation test suite. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 75.1 — GGML Authoritative Q4_K_M Upstream Byte Layout & Dequantizer (`AES-QNT-001`)
+* **Stage 75.1 Quantization Milestone ([`AES-QNT-001`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `BlockQ4_K` and `dequantize_q4_k_m()` in `core/compute.mojo` to conform to upstream GGML 256-weight block layout with 6-bit sub-block scales and 4-bit nibbles. Updated unit test suites in `test_quantized_inference.mojo`, `test_quantization.mojo`, and `test_compute.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 74.1 — End-to-End RAG Grounded Context & Citation Budgeting (`AES-RAG-005`)
+* **Stage 74.1 End-to-End RAG Milestone ([`AES-RAG-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `_prepare_prompt()` in `aesir.mojo` with context byte budgeting (`max_context_bytes = 1024`), citation formatting (`[CITATION N]: ...`), and explicit no-result warnings (`RAG Notice: No relevant knowledge context found`). Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 73.1 — Corpus Ingestion & Deterministic Text Chunking (`AES-RAG-004`)
+* **Stage 73.1 Corpus Ingestion Milestone ([`AES-RAG-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/corpus_ingestion.mojo` providing `DocumentChunk` metadata structures, `chunk_text()` deterministic window splitter with overlap, and `ingest_corpus_batch()` for vector store batch population. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 72.1 — Query Embedding Extraction & Mean-Pooled Vector Integration (`AES-RAG-003`)
+* **Stage 72.1 Query Embedding Milestone ([`AES-RAG-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `extract_query_embedding()` in `aesir.mojo` to compute element-wise mean-pooled query vectors from prompt tokens via `token_embd.weight` tensor lookup or deterministic string hash projection, replacing constant dummy query tensors. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 71.1 — MimirStore Capacity & Dimension Boundary Hardening (`AES-RAG-002`)
+* **Stage 71.1 MimirStore Milestone ([`AES-RAG-002`](../CAPABILITY_LEDGER.md) `verified`)**: Added `clear()` method and capacity/dimension boundary guards to `MimirStore` in `core/mimir_well.mojo`. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 70.1 — Cosine Similarity NaN/Inf Sanitization (`AES-RAG-001`)
+* **Stage 70.1 Cosine Similarity Milestone ([`AES-RAG-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `cosine_similarity()` in `core/compute.mojo` with `isnan` and `isinf` error checks returning `0.0` for corrupt or zero-vector embeddings. Created unit test suite in `test_rag.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 69.1 — Request Context & Structured Service Error Payloads (`AES-SRV-004`)
+* **Stage 69.1 Request Context Milestone ([`AES-SRV-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RequestContext` struct and `build_structured_error()` formatter in `server/api.mojo` providing request correlation IDs, session bindings, timeouts, cancellation triggers, and JSON error payloads. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 68.1 — Robust JSON String Escaper & Formatter (`AES-SRV-003`)
+* **Stage 68.1 JSON Escaper Milestone ([`AES-SRV-003`](../CAPABILITY_LEDGER.md) `verified`)**: Added `json_escape_string()` in `server/api.mojo` to safely escape quotes, backslashes, tabs, newlines, and control bytes across HTTP/REST responses. Created unit test suite in `test_multi_engine.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 67.1 — Model Store In-Use & Not-Found Protection Semantics (`AES-CLI-005`)
+* **Stage 67.1 Model Store Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `remove_model_checked()` in `cli/manifest.mojo` providing active model-in-use protection and non-existent model error guards. Created unit test suite in `test_cli.mojo` proving exception rejection. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 66.1 — Model-Produced EOS Fixtures & ImplicitlyCopyable Descriptors (`AES-GEN-009`)
+* **Stage 66.1 EOS Fixture Milestone ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added model-emitted EOS token fixture tests in `test_inference.mojo` proving end-to-end terminal generation stop policy triggering. Added `ImplicitlyCopyable` trait conformance to `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo`. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 65.1 — Portable Little-Endian Bounded GGUF Reads (`AES-LDR-005`)
+* **Stage 65.1 Portable GGUF Reads Milestone ([`AES-LDR-005`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded GGUF loader scalar byte reading methods (`_read_u32`, `_read_i32`, `_read_u64`, `_read_f32`) in `loader/gguf.mojo` from native-endian bitcast loads to explicit little-endian byte-reconstruction, guaranteeing cross-platform architecture portability across big-endian and unaligned-strict processors. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 64.1 — Exception-Safe Workspace Pool Offset Recovery (`AES-MEM-005`)
+* **Stage 64.1 Workspace Recovery Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md) `verified`)**: Added try-catch workspace pool offset restoration around single-device and multi-device `forward_pass()` execution in `core/inference.mojo`, guaranteeing zero arena offset drift or memory pool leakage even under layer execution failures. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 63.1 — RuneTensor Lifetime Contracts & Checked Indexing (`AES-MEM-002`)
+* **Stage 63.1 RuneTensor Lifetime Milestone ([`AES-MEM-002`](../CAPABILITY_LEDGER.md) `verified`)**: Added `is_borrowed()` and `is_owned()` lifetime methods and `get_checked()` / `set_checked()` boundary safety guards to `RuneTensor` in `core/mimir_well.mojo`. Created unit test suite in `test_kv_cache.mojo` proving out-of-bounds index rejection. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 62.1 — Security Fuzzing Harness & Resource Limit Guards (`AES-OPS-003`)
+* **Stage 62.1 Security Fuzzing Milestone ([`AES-OPS-003`](../CAPABILITY_LEDGER.md) `verified`)**: Created GGUF binary security fuzzing test suite `test_gguf_fuzzing.mojo` and generic memory pointer buffer parser `parse_header_bytes()` in `loader/gguf.mojo` validating invalid magic bytes, zero-length byte streams, and corrupted header boundaries without crashing. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 61.1 — PagedAttention Dynamic Block KV Cache Pool (`AES-MEM-006`)
+* **Stage 61.1 PagedAttention Milestone ([`AES-MEM-006`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `PagedKVCache` in `core/mimir_well.mojo`. Divides sequence memory into non-contiguous physical 16-token memory blocks (`block_size = 16`), enabling zero-fragmentation page-table virtual token indexing, block allocation (`allocate_block()`), and block deallocation (`free_block()`). Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 60.1 — Hardware Acceleration Hardening & Live REST API Connection (`AES-ACC-008`/`AES-SRV-006`)
+* **Stage 60.1 Hardware Hardening & REST Connection ([`AES-ACC-008`](../CAPABILITY_LEDGER.md) & [`AES-SRV-006`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened all 5 hardware driver gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict non-positive allocation rejection (`size_bytes <= 0 -> raises Error`), non-positive matrix dimension validation, and try-catch VRAM reclamation. Connected bare-metal POSIX socket `/v1/chat/completions` REST endpoint in `server/openai.mojo` to the live `AesirEngine` pipeline for streaming SSE token generation. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
+
+### ⚡ Completed Milestone: Stage 59.1 — System Paradigms, Safety Protocols, Universal NPU & Hailo-10 Optimization Slice (`AES-SYS-001`)
+* **Stage 59.1 System Paradigms & Universal NPU Optimization ([`AES-SYS-001`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented human-readable JSON configuration manifest (`aesir.config.json` & `config.mojo`), SKÁLDBRØÐIR Doom Loop Annihilation Protocol (`skaldbrodir.mojo`), Thinking Mode Controller & thought token suppression (`thinking.mojo`), Tool Use & Function Calling (`tool_use.mojo`), Smart Crash Reporter (`smart_crash.mojo`), Modular MAX Engine Gateway (`max_gate.mojo`), Cognitive Inference Architecture (`cia.mojo`), Wave Inference Computing (`wic.mojo`), Neural Spectral Fractal Inference (`nsfi.mojo`), and MÍMIR-VØLVA Quantum-Acoustic Resonance Inference (`mqari.mojo`). Expanded `NPUGate` in `core/npu_gate.mojo` to support all NPU backends (Qualcomm Hexagon, Apple ANE, Intel NPU, Hailo-8/10, ARM NEON) with specialized zero-copy `libhailort` FFI bindings and `/dev/hailo0` device detection for **Raspberry Pi 5 with Hailo-10**. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
 
 ### ⚡ Completed Milestone: Stage 87.1 — Swarm Mesh Protocol & Remote Inference Dispatch (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`)
 * **Stage 87.1 Swarm Protocol Milestone ([`AES-SWM-001`](../CAPABILITY_LEDGER.md) / [`AES-SWM-003`](../CAPABILITY_LEDGER.md) / [`AES-SWM-004`](../CAPABILITY_LEDGER.md) `verified`)**: Upgraded `core/swarm.mojo` with `NodeIdentity`, `authenticate_node_identity()`, `join_mesh_authenticated()`, `leave_mesh()`, `heartbeat_pulse()`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference()`. Created `test_swarm_protocol.mojo` unit test suite. Verified 130 passing cases out of 131 total cases in `run_all.mojo`.
@@ -159,7 +278,7 @@ Project Aesir is a high-performance bare-metal LLM inference engine written in *
 * **Stage 5.5 CLI Flag Options Milestone ([`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `CLIOptions` in `cli/options.mojo` supporting `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, `--max-tokens N`, and duration string parsing.
 * **Stage 5.4 Stdin REPL Milestone ([`AES-CLI-008`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `RuneREPL` in `cli/repl.mojo` with multi-turn `history: List[ChatMessage]`, `GenerationConfig` parameter tuning, slash commands (`/?`, `/set`, `/show`, `/clear`, `/bye`), and `run_repl_stream()`.
 * **Stage 5.3 Operational CLI Milestone ([`AES-CLI-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `aesir list`, `aesir ls`, `aesir show`, `aesir ps`, `aesir create`, `aesir cp`, and `aesir rm` in `cli/commands.mojo`, connecting output to `RuneModelStore` catalog and session registry.
-* **Stage 5.2 Manifest Persistence Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `compute_modelfile_digest()` producing deterministic `sha256:<hex>` IDs, `ModelManifest.serialize()`, `deserialize_manifest()`, and `RuneModelStore` persistence scroll round-trip (`serialize_store()` / `deserialize_store()`).
+* **Stage 5.2 Manifest Catalog Milestone ([`AES-CLI-004`](../CAPABILITY_LEDGER.md) `partial`)**: Implemented validated manifests, a caller-configured relative store root, and a versioned atomic Linux catalog with restart-safe mutations. Content-addressed blobs and cryptographic model-byte integrity remain targets.
 * **Stage 5.1 Modelfile Grammar Milestone ([`AES-CLI-003`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented multiline triple-quote `"""..."""` parsing, single/double quote unescaping (`unescape_string()`), fail-closed validation (`FROM` directive checks), and parameter conversion to `GenerationConfig` (`Modelfile.to_generation_config()`).
 * **Stage 4.5 Token Masking & Corpora ([`AES-GEN-009`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented `apply_token_mask()` in `sampler.mojo`, `suppress_tokens` in `GenerationConfig`, hardened finite FP16/FP32 float range greedy argmax, and multi-prompt regression test corpora.
 * **Maximum Bug, Error, Security & Boundary Hardening ([`AES-GEN-005`](../CAPABILITY_LEDGER.md), [`AES-GEN-006`](../CAPABILITY_LEDGER.md), [`AES-GEN-007`](../CAPABILITY_LEDGER.md), [`AES-GEN-008`](../CAPABILITY_LEDGER.md) `verified`)**: Added zero-candidate list safety guards across all sampling functions, explicit `"tool"` role formatting across ChatML/Llama-3/Llama-2 templates, fail-closed unregistered session release rejection, and session `active_tokens` accounting.
@@ -228,10 +347,10 @@ Project Aesir is a high-performance bare-metal LLM inference engine written in *
    - **Heterogeneous Forward Pass (`TransformerBlock.forward`, `AesirEngine`):** `enable_npu` / `target_backend` propagation through all projection layers and the full generation pipeline.
 
 11. **Universal Multi-GPU & Hardware Accelerator Realm Matrix:**
-   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Ten sovereign compute spirits: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR.
+   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Eleven target realms: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR, and Apple Metal.
    - **The Bifrost Physical Stream Channel (`GPUBuffer`):** Zero-copy physical GPU buffer carved directly from MimirWell.
-   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Topology scan registering all ten GPU hardware realms into living memory.
-   - **The Gateway of the Ten GPU Realms (`gemm_f16_gpu`):** Zero-overhead single-integer discriminant routing matrix operations to specialized SIMD kernels.
+   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Target topology scan across eleven GPU realms.
+   - **The Gateway of the Eleven GPU Realms (`gemm_f16_gpu`):** Target single-integer dispatch to genuine backend kernels after each is proved.
    - **Eastern GPGPU & Mobile SIMD Kernels (`gemm_f16_gpgpu_vector`, `gemm_f16_mobile_opencl`):** 16-wide GPGPU SIMT and 8-wide mobile OpenCL vector kernels.
    - **The Cleansing Stream of Alfheim (`rmsnorm_gpu`):** Vectorized RMSNorm across GPU realms with f32 numerical widening.
    - **Universal GPU Forward Pass & Engine Controls (`TransformerBlock.forward`, `AesirEngine`):** `enable_gpu_realm` and `target_gpu_realm` configuration across all model projections and generation loops.
@@ -239,7 +358,7 @@ Project Aesir is a high-performance bare-metal LLM inference engine written in *
 12. **Complete Ollama Terminal Command Suite & CLI Compatibility ([`AES-CLI-005`](../CAPABILITY_LEDGER.md)):**
    - **The Bifrost Command Dispatcher (`dispatch_command`):** Native Mojo routing across 12 subcommands (`serve`, `run`, `pull`, `push`, `create`, `list`, `ps`, `rm`, `cp`, `show`, `stop`, `help`).
    - **Modelfile Directive Parser (`Modelfile`, `parse_modelfile`):** Parser for `FROM`, `PARAMETER`, `SYSTEM`, `TEMPLATE`, `LICENSE`, `MESSAGE` runestones.
-   - **The Scroll & Vault of Mímisbrunnr (`ModelManifest`, `RuneModelStore`):** Manifest metadata, SHA-256 digests, and catalog store.
+   - **The Scroll & Vault of Mímisbrunnr (`ModelManifest`, `RuneModelStore`):** Target durable metadata/catalog store; the current implementation is in-memory with non-cryptographic fingerprints.
    - **Interactive REPL Chat Current (`RuneREPL`):** Streaming terminal chat with `/set`, `/show`, `/clear`, `/bye` slash commands.
 
 13. **Universal Compressed LLM Format Matrix:**
@@ -287,20 +406,20 @@ Project Aesir is a high-performance bare-metal LLM inference engine written in *
 ```mermaid
 timeline
     title Project Aesir System Evolution
-    Phase 1 : Core Architecture : BifrostGate Socket Server : MimirWell Memory Pool : AesirEngine Facade [COMPLETED]
-    Phase 2 : Math Kernels & Quantization : Tiled GEMM : Fused Flash Attention-2 : Q4_K_M Dequantization [COMPLETED]
-    Phase 3 : Complete LLM Forward Pass & GGUF Parsing : The Loom of Fate : The Runecaster KV Parser : RMSNorm & RoPE [COMPLETED]
-    Phase 4 : Production Tokenizer & KV Cache : BPE Tokenizer Dictionary : Ring-Buffer KV Cache : Streaming Response Pipeline [COMPLETED]
-    Phase 5 : External Knowledge & SIMD Vector Search : SIMD Cosine Similarity : MimirStore Vector Pool : RAG Context Augmentation [COMPLETED]
-    Phase 6 : Multi-GPU Orchestration & Shard Matrix : Device Topology Mapping : Column/Row Tensor Sharding : All-Reduce Sum & Sharded GEMM [COMPLETED]
-    Phase 7 : NPU Realm Gateway : NPUBackendType Edge Spirits : NPUBuffer Zero-Copy DMA-BUF : NEON gemm_f16_arm_neon & rmsnorm_arm_neon : gemm_f16_npu Dispatcher [COMPLETED]
-    Phase 8 : Universal Multi-GPU & Accelerator Realm Matrix : GPURealmType Sigils : GPUBuffer Zero-Copy Channel : gemm_f16_gpu Dispatcher : Eastern & Mobile SIMD Kernels [COMPLETED]
-    Phase 9 : Complete Ollama Terminal Command Suite & CLI Compatibility : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [COMPLETED]
-    Phase 10 : Universal Compressed LLM Format Matrix : CompressedFormatType Sigils : GGMLType Converter : dequantize_compressed_tensor Gateway : 21 Format Kernels [COMPLETED]
-    Phase 11 : Universal Multi-Engine Ecosystem Matrix : OpenAIGate REST Bridge : llama.cpp HTTP Endpoint Parity : GBNFGrammar Constrained Generation : SpeculativeEngine Draft Verification : ONNXModelSeer Protocol Parser [COMPLETED]
-    Phase 12 : Sovereign Resilience & Self-Healing Matrix : ErrorGuard Pointer/Logit Sanitizer : StateVault State Snapshotting : AesirEventBus Decoupled PubSub : RuneThreadPool Parallel Workers : SelfHealingSupervisor Undying Guardian [COMPLETED]
-    Phase 13 : HuggingFace Hub Integration & Mobile Downloader : HuggingFaceSeer Repo Scout : parse_hf_repo Tag Normalizer : build_download_url CDN Resolver : Mobile & Edge Model Downloader [COMPLETED]
-    Phase 14 : Autonomous Swarm Agents & Enterprise Mesh Cluster : Distributed Peer Nodes : Dynamic Model Load Balancing : Sovereign Swarm Orchestration [COMPLETED]
+    Phase 1 : Core Architecture : BifrostGate Socket Server : MimirWell Memory Pool : AesirEngine Facade [TARGET; SEE CAPABILITY LEDGER]
+    Phase 2 : Math Kernels & Quantization : Tiled GEMM : Fused Flash Attention-2 : Q4_K_M Dequantization [TARGET; SEE CAPABILITY LEDGER]
+    Phase 3 : Complete LLM Forward Pass & GGUF Parsing : The Loom of Fate : The Runecaster KV Parser : RMSNorm & RoPE [TARGET; SEE CAPABILITY LEDGER]
+    Phase 4 : Production Tokenizer & KV Cache : BPE Tokenizer Dictionary : Ring-Buffer KV Cache : Streaming Response Pipeline [TARGET; SEE CAPABILITY LEDGER]
+    Phase 5 : External Knowledge & SIMD Vector Search : SIMD Cosine Similarity : MimirStore Vector Pool : RAG Context Augmentation [TARGET; SEE CAPABILITY LEDGER]
+    Phase 6 : Multi-GPU Orchestration & Shard Matrix : Device Topology Mapping : Column/Row Tensor Sharding : All-Reduce Sum & Sharded GEMM [TARGET; SEE CAPABILITY LEDGER]
+    Phase 7 : NPU Realm Gateway : NPUBackendType Edge Spirits : NPUBuffer Zero-Copy DMA-BUF : NEON gemm_f16_arm_neon & rmsnorm_arm_neon : gemm_f16_npu Dispatcher [TARGET; SEE CAPABILITY LEDGER]
+    Phase 8 : Universal Multi-GPU & Accelerator Realm Matrix : GPURealmType Sigils : GPUBuffer Zero-Copy Channel : gemm_f16_gpu Dispatcher : Eastern & Mobile SIMD Kernels [TARGET; SEE CAPABILITY LEDGER]
+    Phase 9 : Complete Ollama Terminal Command Suite & CLI Compatibility : Bifrost Command Dispatcher : Modelfile Inscription Reader : Vault of Mímisbrunnr Catalog : RuneREPL Chat Current [TARGET; SEE CAPABILITY LEDGER]
+    Phase 10 : Universal Compressed LLM Format Matrix : CompressedFormatType Sigils : GGMLType Converter : dequantize_compressed_tensor Gateway : 21 Format Kernels [TARGET; SEE CAPABILITY LEDGER]
+    Phase 11 : Universal Multi-Engine Ecosystem Matrix : OpenAIGate REST Bridge : llama.cpp HTTP Endpoint Parity : GBNFGrammar Constrained Generation : SpeculativeEngine Draft Verification : ONNXModelSeer Protocol Parser [TARGET; SEE CAPABILITY LEDGER]
+    Phase 12 : Sovereign Resilience & Self-Healing Matrix : ErrorGuard Pointer/Logit Sanitizer : StateVault State Snapshotting : AesirEventBus Decoupled PubSub : RuneThreadPool Parallel Workers : SelfHealingSupervisor Undying Guardian [TARGET; SEE CAPABILITY LEDGER]
+    Phase 13 : HuggingFace Hub Integration & Mobile Downloader : HuggingFaceSeer Repo Scout : parse_hf_repo Tag Normalizer : build_download_url CDN Resolver : Mobile & Edge Model Downloader [TARGET; SEE CAPABILITY LEDGER]
+    Phase 14 : Autonomous Swarm Agents & Enterprise Mesh Cluster : Distributed Peer Nodes : Dynamic Model Load Balancing : Sovereign Swarm Orchestration [TARGET; SEE CAPABILITY LEDGER]
     Phase 15 : Production Benchmarking & Custom VRAM Footprint Optimization : End-to-End Throughput Profiling : Sub-Byte KV Cache Compression : Extreme VRAM Footprint Reduction [NEXT]
 ```
 

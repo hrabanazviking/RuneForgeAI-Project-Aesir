@@ -2,9 +2,9 @@
 # NPUGate: Native POSIX FFI Gateway & Memory Management for Edge/Desktop NPU Realms
 
 from std.ffi import external_call
-from std.memory import Pointer, alloc, Layout
+from std.memory import Pointer
 from std.collections import Optional
-from core.mimir_well import Scalar, f16, f32, NPUBackendType, RuneTensor
+from core.mimir_well import Scalar, f16, NPUBackendType, RuneTensor
 
 comptime RTLD_NOW = 2
 
@@ -15,26 +15,25 @@ struct NPUGate:
 
     Native POSIX FFI interface to Qualcomm Hexagon (libcdsprpc.so), Apple Neural Engine (ANE),
     Hailo-10 (libhailort.so), and Intel NPU (libintel_npu_driver.so) runtimes.
-    Provides device discovery, zero-copy buffer allocation, and GEMM kernel dispatch.
+    Probes whether selected runtime libraries are loadable. Physical device
+    discovery, NPU buffers, transfers, and kernel launch are unsupported.
     """
 
     @staticmethod
     def get_handle(backend: NPUBackendType) -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
         """Loads NPU driver library handle via dlopen for given NPU backend, or returns None."""
         var val = backend.value
-        var lib_name = String("")
+        var lib_name = String("libhailort.so")
 
-        if val == NPUBackendType.HAILO_10:
-            lib_name = String("libhailort.so")
-        elif val == NPUBackendType.QUALCOMM_HEXAGON:
+        if val == NPUBackendType.QUALCOMM_HEXAGON:
             lib_name = String("libcdsprpc.so")
         elif val == NPUBackendType.APPLE_NEURAL_ENGINE:
-            lib_name = String("/System/Library/PrivateFrameworks/AppleNeuralEngine.framework/AppleNeuralEngine")
+            lib_name = String("AppleNeuralEngine.framework/AppleNeuralEngine")
         elif val == NPUBackendType.JETSON_NVIDIA:
             lib_name = String("libnvgov_npu.so")
         elif val == 6:  # INTEL_NPU
             lib_name = String("libintel_npu_driver.so")
-        else:
+        elif val != NPUBackendType.HAILO_10:
             return None
 
         var path_buf = InlineArray[Int8, 128](fill=0)
@@ -78,28 +77,22 @@ struct NPUGate:
 
     @staticmethod
     def get_device_count(backend: NPUBackendType) -> Int:
-        """Returns number of active NPU device cores detected for given NPU backend."""
-        var opt_h = NPUGate.get_handle(backend)
-        if not opt_h:
-            return 0
-        var handle = opt_h.value()
-        _ = external_call["dlclose", Int32](handle)
-        return 1
+        """Returns zero until a vendor device enumeration API is genuinely invoked."""
+        _ = backend
+        return 0
 
     @staticmethod
     def allocate_npu_buffer(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
-        """Allocates contiguous memory for NPU execution."""
+        """Rejects simulated NPU allocation until a vendor allocator is integrated."""
         if size_bytes <= 0:
             raise Error("NPUGate.allocate_npu_buffer: size_bytes must be positive")
-        var layout = Layout[Scalar[f16]](count=size_bytes // 2)
-        var mem = alloc(layout)
-        var dev_ptr = mem^.unsafe_leak()
-        return dev_ptr
+        raise Error("NPUGate.allocate_npu_buffer: physical NPU allocation is not implemented")
 
     @staticmethod
     def free_npu_buffer(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
         """Frees contiguous NPU buffer memory."""
-        ptr.unsafe_free()
+        _ = ptr
+        raise Error("NPUGate.free_npu_buffer: physical NPU buffer ownership is not implemented")
 
     @staticmethod
     def memcpy_host_to_npu(
@@ -108,8 +101,11 @@ struct NPUGate:
         size_bytes: Int
     ) raises:
         """Copies host memory into NPU memory buffer."""
+        _ = dst_npu
+        _ = src_host
         if size_bytes <= 0:
             return
+        raise Error("NPUGate.memcpy_host_to_npu: physical NPU transfer is not implemented")
 
     @staticmethod
     def memcpy_npu_to_host(
@@ -118,8 +114,11 @@ struct NPUGate:
         size_bytes: Int
     ) raises:
         """Copies NPU memory buffer into host memory."""
+        _ = dst_host
+        _ = src_npu
         if size_bytes <= 0:
             return
+        raise Error("NPUGate.memcpy_npu_to_host: physical NPU transfer is not implemented")
 
     @staticmethod
     def launch_gemm_npu(
@@ -129,51 +128,11 @@ struct NPUGate:
         backend: NPUBackendType
     ) raises:
         """
-        Launch GEMM tensor kernel on target NPU hardware or fallback safely with explicit NPU error.
+        Validates shapes and rejects execution until a real NPU kernel exists.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
             raise Error("NPUGate.launch_gemm_npu: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("NPUGate.launch_gemm_npu: GEMM shape mismatch")
 
-        if not NPUGate.is_available(backend):
-            raise Error("NPU execution error: NPU backend " + backend.name() + " driver not available on host silicon")
-
-        var devices = NPUGate.get_device_count(backend)
-        if devices <= 0:
-            raise Error("NPU execution error: zero active NPU devices detected for backend " + backend.name())
-
-        var bytes_a = A.size * 2
-        var bytes_b = B.size * 2
-        var bytes_c = C.size * 2
-
-        var d_a = NPUGate.allocate_npu_buffer(bytes_a)
-        var d_b = NPUGate.allocate_npu_buffer(bytes_b)
-        var d_c = NPUGate.allocate_npu_buffer(bytes_c)
-
-        try:
-            NPUGate.memcpy_host_to_npu(d_a, A.data, bytes_a)
-            NPUGate.memcpy_host_to_npu(d_b, B.data, bytes_b)
-
-            var M = A.rows
-            var N = B.rows
-            var K = A.cols
-            for m in range(M):
-                for n in range(N):
-                    var acc: Scalar[f32] = 0.0
-                    for k in range(K):
-                        acc += A.get(m, k).cast[f32]() * B.get(n, k).cast[f32]()
-                    C.set(m, n, acc.cast[f16]())
-
-            NPUGate.memcpy_npu_to_host(C.data, d_c, bytes_c)
-            NPUGate.free_npu_buffer(d_a)
-            NPUGate.free_npu_buffer(d_b)
-            NPUGate.free_npu_buffer(d_c)
-        except e:
-            try:
-                NPUGate.free_npu_buffer(d_a)
-                NPUGate.free_npu_buffer(d_b)
-                NPUGate.free_npu_buffer(d_c)
-            except:
-                pass
-            raise e
+        raise Error("NPU execution is not implemented for backend " + backend.name() + ": no physical kernel was launched")

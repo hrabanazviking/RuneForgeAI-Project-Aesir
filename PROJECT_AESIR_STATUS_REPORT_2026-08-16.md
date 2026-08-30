@@ -109,8 +109,8 @@ python3 scripts/check_doc_drift.py
 ## 📁 5. Repository & Workspace Synchronization
 
 Both primary repository locations are synchronized at `commit 5fb683c`:
-- **Primary Working Repository:** `/home/volmarr/.gemini/antigravity/scratch/RuneForgeAI-Project-Aesir/`
-- **Active Workspace Mirror:** `/home/volmarr/AntiGravity_Viking_Longhall/Project_Aesir/`
+- **Primary Working Repository:** `<historical-local-repository>/`
+- **Active Workspace Mirror:** `<historical-local-workspace>/`
 
 ---
 
