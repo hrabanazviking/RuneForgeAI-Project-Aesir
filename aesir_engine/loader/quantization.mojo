@@ -1,7 +1,8 @@
 # loader/quantization.mojo
 # The Quantization Forge: Upstream GGML Byte Layout Validation & Oracle Reference
 
-from core.mimir_well import CompressedFormatType
+from std.memory import Pointer
+from core.mimir_well import CompressedFormatType, Scalar, f16
 
 @always_inline
 def get_block_size_bytes(format_type: CompressedFormatType) -> Int:
@@ -46,3 +47,24 @@ def validate_quantized_byte_span(
 
     if num_elements != expected_elements:
         raise Error("validate_quantized_byte_span: element count mismatch for byte span")
+
+
+def dequantize_q4_0_block(
+    src_bytes: Pointer[Byte, MutUntrackedOrigin],
+    dst_f16: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+):
+    """
+    Dequantizes Q4_0 packed byte blocks into 32 F16 values per block.
+    """
+    for b in range(num_blocks):
+        var src_offset = b * 18
+        var dst_offset = b * 32
+        var scale_ptr = src_bytes.offset(src_offset).unsafe_bitcast[Scalar[f16]]()
+        var d = scale_ptr.unsafe_load()
+        for i in range(16):
+            var nibbles = src_bytes.unsafe_load(src_offset + 2 + i)
+            var q0 = Int(nibbles & 0x0F) - 8
+            var q1 = Int((nibbles >> 4) & 0x0F) - 8
+            dst_f16.unsafe_store(dst_offset + i, d * Scalar[f16](q0))
+            dst_f16.unsafe_store(dst_offset + i + 16, d * Scalar[f16](q1))
