@@ -12,6 +12,18 @@
 
 ## Public Structs & Functions
 
+### Native hardware and inference admission
+
+`native_hardware.mojo` exposes `observe_host_memory()` and `observe_cpu_name()`
+from Linux procfs. `inference_memory.mojo` owns checked explicit CUDA buffer
+counts and reserve/host-upload admission. `runtime_plan.mojo` owns
+`NativeModelPlan(path, requested_profile="auto", context_length=0)` and
+`choose_native_cuda(memory, requested_index=-1, reserve_bytes=268435456)`.
+Selection uses observed compatible devices and never falls back to CPU.
+Both CUDA session constructors additionally accept `device_index=0` and
+`reserve_bytes=268435456`, rechecking memory before allocating. Plans do not
+reserve memory against other processes. See `docs/NATIVE_RUNTIME.md`.
+
 ### `MimirWell`
 Pre-allocates the contiguous workspace pool. Raises `Error` on nonpositive pool sizes, negative allocations, integer overflow, or pool exhaustion.
 

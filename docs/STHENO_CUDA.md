@@ -63,7 +63,7 @@ cuda` still targets Gemma; use `chat --profile llama3` for Stheno.
   utilization** (274 samples), and peaks at **7,136 MiB total device VRAM used**.
   These are whole-device observations, including runtime/desktop activity, not
   an isolated performance benchmark or a constant-utilization guarantee.
-- The current-source master suite reports **147 passed, 0 failed, 1 skipped,
+- The Stheno milestone master suite reported **147 passed, 0 failed, 1 skipped,
   148 total**. The explicit external CPU regression separately passes all 32
   reference tokens and context checks. GitHub CI passed implementation commit
   `b14154351fa38d5807de5c3c54df21f571ed7f09`.

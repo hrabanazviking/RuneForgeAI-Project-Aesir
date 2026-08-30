@@ -22,6 +22,12 @@ and transcript presentation. `loader/huggingface.mojo` isolates curl/sha256sum
 transport and atomic verified downloads. No external inference backend crosses
 these boundaries. Independent Python oracles remain in test tooling only.
 
+Native hardware/planning ownership: core owns Linux host observations, MAX
+CUDA discovery, exact explicit-buffer accounting and fitting-device selection
+(`native_hardware`, `inference_memory`, `runtime_plan`). The facade exports the
+plan and observation APIs; `cli/hardware.mojo` owns options and presentation.
+Each core session rechecks its budget before allocation. See `NATIVE_RUNTIME.md`.
+
 The Stheno profile has identical domain ownership but separate
 `Llama3Tokenizer` and `Llama3CUDASession` implementations. Core owns the F16
 cache and context-exhaustion policy; CLI selects `--profile llama3` and never

@@ -8,6 +8,10 @@ guides describe their stated point in time; they do not override this status.
 
 ## What works now
 
+Native hardware reporting and model memory planning are connected to both
+CUDA sessions, including device selection and automatic profile detection for
+CUDA `run`. See [runtime controls and limits](NATIVE_RUNTIME.md).
+
 Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 
 | Capability | Status and evidence |
@@ -17,7 +21,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Native CUDA Stheno chat | `bartowski/L3-8B-Stheno-v3.2-GGUF` **Q4_K_S** runs through a separate native 32-layer Llama 3 session, with F16 KV and an 8,192-position context. All 20 roleplay exchanges completed with natural EOS, 5,152 generated tokens and 6,514 context positions used. The [unedited conversation](evidence/stheno-roleplay-20.md) preserves both its connected story and model continuity imperfections. |
 | Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
-| Automated checks | The counted suite reports 147 passed, 0 failed, and 1 explicit external-fixture skip (148 total). GitHub Actions passed the master suite, native build, fail-closed control, provenance, and documentation checks on the Stheno implementation commit `b141543`. |
+| Automated checks | The counted suite reports 152 passed, 0 failed, and 1 explicit external-fixture skip (153 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and

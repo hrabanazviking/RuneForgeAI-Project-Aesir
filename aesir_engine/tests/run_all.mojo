@@ -14,6 +14,7 @@ from tests.test_compute import (
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
 from tests.test_cuda_chat_admission import test_cuda_chat_admission
+from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_native_planning_cli_rejection
 from tests.test_inference import (
     test_forward_pass,
     test_generation_stop_policy,
@@ -238,6 +239,11 @@ from tests.test_ledger import TestLedger, run_case, record_skip
 
 def main() raises:
     var ledger = TestLedger()
+    run_case(ledger, "hardware.host_memory", test_host_memory_observations)
+    run_case(ledger, "hardware.inference_memory_counts", test_native_memory_counts)
+    run_case(ledger, "hardware.inference_memory_rejection", test_native_memory_rejection)
+    run_case(ledger, "hardware.native_device_selection", test_native_device_selection)
+    run_case(ledger, "hardware.planning_cli_rejection", test_native_planning_cli_rejection)
 
     print("==============================================")
     print("  ⚡ Project Aesir — The Grand Proving ⚡")
@@ -723,4 +729,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(148)
+    ledger.finish(153)

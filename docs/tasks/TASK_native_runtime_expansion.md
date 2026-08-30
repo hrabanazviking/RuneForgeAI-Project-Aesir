@@ -55,4 +55,7 @@ other hardware. Push each reviewable verified slice and inspect hosted CI.
 
 ## Progress
 
-- Contract established; implementation and physical evidence pending.
+- Slice 1 implemented: observed hardware CLI, checked model plans, CUDA
+  device selection, reserve/host admission and automatic single-shot profile
+  detection. Five new counted tests and the physical CLI integration passed
+  for both models. Master: 152 passed, 0 failed, 1 skipped. Other slices remain.

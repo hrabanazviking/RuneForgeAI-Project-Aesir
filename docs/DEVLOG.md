@@ -1,3 +1,11 @@
+## 2026-08-30 — Native hardware and execution planning
+
+Architect/Forge Worker/Auditor/Scribe connected observed CPU/CUDA resources,
+checked native model memory plans, CUDA device selection and automatic
+single-shot model-profile detection. Both real model integrations and five
+new counted cases passed; master result is 152 passed, 0 failed, 1 skipped.
+See [runtime controls](NATIVE_RUNTIME.md) for commands and remaining limits.
+
 ## 2026-08-30 — Native Stheno CUDA roleplay
 
 Downloaded the pinned `bartowski/L3-8B-Stheno-v3.2-GGUF` Q4_K_S artifact through

@@ -22,6 +22,10 @@ See the [native CUDA download and chat guide](docs/GEMMA4_CUDA.md) for the
 The [Stheno CUDA guide](docs/STHENO_CUDA.md) covers its separate 32-layer native
 session, verified download, independent math checks and 8K context policy.
 
+[Native runtime controls](docs/NATIVE_RUNTIME.md) add observed hardware listing,
+model memory planning, CUDA device selection and automatic profile detection
+for single-shot CUDA execution.
+
 For the current supported surface, known limits, test result, and the boundary
 between working runtime code and project vision, start with
 [Current project status](docs/CURRENT_STATUS.md).

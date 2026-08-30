@@ -6,6 +6,7 @@ from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel, element_kernel, argmax_kernel
 from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
+from core.inference_memory import llama3_memory_plan
 
 comptime X = 0
 comptime N = X + 4096
@@ -77,7 +78,10 @@ struct Llama3CUDASession:
     var finish_reason: String
     var decoder: RuneStreamDecoder
 
-    def __init__(out self, path: String, context_length: Int = 8192) raises:
+    def __init__(out self, path: String, context_length: Int = 8192,
+                 device_index: Int = 0, reserve_bytes: Int = 268435456) raises:
+        if device_index < 0 or reserve_bytes < 0:
+            raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
         validate_llama3(self.model, context_length)
         self.tokenizer = Llama3Tokenizer(self.model)
@@ -91,9 +95,11 @@ struct Llama3CUDASession:
         self.pending_token = -1
         self.finish_reason = ""
         self.decoder = RuneStreamDecoder()
-        self.context = DeviceContext(0, api="cuda")
+        self.context = DeviceContext(device_index, api="cuda")
         if self.context.api() != "cuda" or not self.context.is_compatible():
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
+        var memory = llama3_memory_plan(Int(self.model.source.file_size), context_length)
+        memory.admit_observed(Int(self.context.get_memory_info()[0]), reserve_bytes)
         self.weights = self.context.enqueue_create_buffer[DType.uint8](Int(self.model.source.file_size))
         self.activations = self.context.enqueue_create_buffer[DType.float32](SCORES + 32 * context_length)
         self.cache = self.context.enqueue_create_buffer[DType.float16](32 * 2 * context_length * 1024)
@@ -103,7 +109,7 @@ struct Llama3CUDASession:
         unsafe_memcpy(dest=staging.unsafe_ptr(), src=self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), count=Int(self.model.source.file_size))
         self.context.enqueue_copy(self.weights, staging)
         self.context.synchronize()
-        print("[CUDA] native Mojo Llama3; device=0 api=cuda layers=32/32 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(32 * 2 * context_length * 1024 * 2) + " context=" + String(context_length) + " cpu_offload=0")
+        print("[CUDA] native Mojo Llama3; device=" + String(device_index) + " api=cuda layers=32/32 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))

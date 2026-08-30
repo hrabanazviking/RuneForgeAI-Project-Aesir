@@ -1,6 +1,7 @@
 """Native CUDA chat orchestration and durable, exclusive transcript output."""
 from std.ffi import external_call
-from aesir import Gemma4CUDASession, Llama3CUDASession
+from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda
+from cli.hardware import parse_device_index, parse_reserve_bytes
 
 
 struct ChatTranscript:
@@ -87,6 +88,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var context_length = 32768
     var acceleration = String("")
     var profile = String("gemma4")
+    var device_index = -1
+    var reserve_bytes = 268435456
     var seen = List[String]()
     var i = 2
     while i < len(args):
@@ -112,13 +115,22 @@ def dispatch_cuda_chat(args: List[String]) raises:
             acceleration = value
         elif flag == "--profile":
             profile = value
+        elif flag == "--device":
+            device_index = parse_device_index(value)
+        elif flag == "--reserve-mib":
+            reserve_bytes = parse_reserve_bytes(value)
         else:
             raise Error("Unknown chat option: " + flag)
         i += 2
     if acceleration != "cuda":
         raise Error("Native chat requires explicit --accel cuda; CPU fallback is disabled")
-    if profile != "gemma4" and profile != "llama3":
+    if profile != "gemma4" and profile != "llama3" and profile != "auto":
         raise Error("Unsupported CUDA chat profile")
+    if profile == "auto":
+        var requested_context = context_length if "--context" in seen else 0
+        var detected = NativeModelPlan(args[1], "auto", requested_context)
+        profile = detected.profile
+        context_length = detected.context_length
     if profile == "llama3":
         if "--context" not in seen:
             context_length = 8192
@@ -140,12 +152,14 @@ def dispatch_cuda_chat(args: List[String]) raises:
                     prompts.append(prompt)
         if len(prompts) == 0:
             raise Error("Chat prompt file has no turns")
+    var plan = NativeModelPlan(args[1], profile, context_length)
+    device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
     if profile == "llama3":
-        run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript)
+        run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes)
         return
+    var session = Gemma4CUDASession(args[1], context_length, device_index, reserve_bytes)
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + args[1] + "\n\nbackend=cuda; model=gemma4-E4B; layers=42/42; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=greedy\n\nSystem: " + system + "\n")
-    var session = Gemma4CUDASession(args[1], context_length)
     var turns = 0
     if prompts_path != "":
         for prompt in prompts:
@@ -165,8 +179,14 @@ def dispatch_cuda_chat(args: List[String]) raises:
 
 def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
     var transcript = ChatTranscript("")
-    var session = Gemma4CUDASession(path)
-    cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+    var plan = NativeModelPlan(path)
+    var device_index = choose_native_cuda(plan.memory)
+    if plan.profile == "llama3":
+        var session = Llama3CUDASession(path, plan.context_length, device_index)
+        cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+    else:
+        var session = Gemma4CUDASession(path, plan.context_length, device_index)
+        cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
 
 
 def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises:
@@ -178,9 +198,9 @@ def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: Strin
     transcript.flush()
 
 
-def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript) raises:
+def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456) raises:
     # Emit the admitted backend claim only after model validation and upload.
-    var session = Llama3CUDASession(path, context_length)
+    var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes)
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=llama3-8B; layers=32/32; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=greedy\n\nSystem: " + system + "\n")
     var turns = 0
     if from_file:

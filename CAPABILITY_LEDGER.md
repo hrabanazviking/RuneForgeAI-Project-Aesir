@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 147 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 148, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 152 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 153, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -914,7 +914,8 @@ the complete ledger population.
 - **Implementation evidence:** `CUDAGate.discover_physical_devices()` uses MAX 26.5 to enumerate every CUDA index and records runtime ID, name, API/version, memory, compatibility, compute capability, multiprocessor count, and thread limit. `DeviceTopology` validates, accumulates, deduplicates, and selects compatible records by realm-local index or runtime-derived stable ID.
 - **Executable evidence:** `E-MASTER` cases `gpu.discovery_status_classification`, `gpu.physical_device_admission`, `gpu.discovery_accumulation`, and `gpu.stable_device_selection`; the CUDA Gemma session ran on the observed RTX 4070 Laptop GPU.
 - **Evidence boundary:** This proves one MAX CUDA discovery adapter and one observed NVIDIA host. The MAX runtime ID is not a vendor UUID. Other backends and hardware CI remain unverified.
-- **Next acceptance gate:** Connect the selected discovery record to an authorized runtime configuration only after GPU compute is proved; add broader platform and hardware-CI coverage.
+- **Runtime integration:** `hardware list` exposes Linux CPU memory/name and MAX CUDA observations. `compute plan|explain` validates native model buffers and selects a fitting device; both real CUDA sessions recheck memory and honor device selection. Five counted planning cases and `scripts/test_native_planning.py` passed on the RTX host. See `docs/NATIVE_RUNTIME.md` for snapshot, host-staging and unprobed-memory-domain limits.
+- **Next acceptance gate:** Broader device/platform discovery, container memory limits and hardware-CI coverage.
 - **Audit:** AER-088, AER-094.
 
 ### AES-ACC-004 — Real multi-GPU placement and inference

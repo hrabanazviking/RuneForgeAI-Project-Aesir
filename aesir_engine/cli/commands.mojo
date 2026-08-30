@@ -13,6 +13,7 @@ from config import AesirConfig, load_config_file
 from server.api import BifrostGate
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
+from cli.hardware import dispatch_hardware, dispatch_compute
 
 
 def print_banner():
@@ -34,6 +35,9 @@ def print_general_help():
     print("Usage:")
     print("  aesir [command] [flags]\n")
     print("Implemented:")
+    print("  hardware list — observed CPU/CUDA devices and backend availability")
+    print("  compute plan|explain <model.gguf> [--profile auto|gemma4|llama3]")
+    print("      [--context N] [--device auto|N] [--reserve-mib N]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
     print("      Download and verify a public pinned GGUF; never overwrite a file.")
@@ -42,9 +46,10 @@ def print_general_help():
         " [--accel auto|cpu|cuda] <prompt...>"
     )
     print(
-        "      CPU GGUF or native CUDA Gemma 4 E4B single-shot inference."
+        "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3 single-shot inference."
     )
-    print("  chat <model.gguf> --accel cuda [--profile gemma4|llama3]")
+    print("  chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3]")
+    print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
     print("      [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     print("      Gemma defaults: 16384/32768; Llama 3 defaults: 8192/8192 (reply/context).")
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
@@ -368,6 +373,14 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "chat":
         dispatch_cuda_chat(args)
+        return
+
+    if cmd == "hardware":
+        dispatch_hardware(args)
+        return
+
+    if cmd == "compute":
+        dispatch_compute(args)
         return
 
     var options = parse_cli_options(args)

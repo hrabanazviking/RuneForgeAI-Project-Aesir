@@ -1,5 +1,21 @@
 # Project Aesir Devlog
 
+## Entry 122: Native hardware reporting and checked execution planning
+
+**Date:** August 30, 2026
+
+**Roles:** Architect, Forge Worker, Auditor, Scribe
+
+Connected Linux CPU/MAX CUDA observations, model-buffer accounting, explicit or
+automatic fitting-device selection and pre-allocation memory rechecks to both
+native CUDA profiles. CUDA `run` now detects Stheno as well as Gemma; chat adds
+automatic profile/device options and a configurable reserve. Five new counted
+tests pass (152 passed, 0 failed, 1 skipped). The physical CLI test planned both
+models, rejected unavailable devices/impossible budgets before upload, and ran
+both models to natural EOS. Limits: one physical GPU tested, snapshot admission
+is not a reservation, no container-memory or other-backend discovery claim.
+See `docs/NATIVE_RUNTIME.md` and the runtime-expansion task contract.
+
 ## Entry 121: Native Stheno Q4_K_S CUDA and 20-turn roleplay
 
 **Date:** August 30, 2026

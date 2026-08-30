@@ -9,6 +9,9 @@ The `core` domain houses the mathematical engine room and memory management laye
 - **`compute.mojo` (The Forge of Nidavellir):** Executes host Mojo SIMD primitives. Its generic NPU/GPU gateways remain bounded and do not replace the specialized Gemma CUDA session.
 
 ## Key Invariants
+- `native_hardware.mojo`, `inference_memory.mojo` and `runtime_plan.mojo` own
+  Linux resource observations, checked native model memory counts and CUDA
+  device selection. The facade exports these; CLI only formats their results.
 - Persistent tensor workspaces are carved from `MimirWell`; lists, strings, and
   temporary values still allocate elsewhere in generation.
 - Compute loops operate directly on `RuneTensor` pointers, but their complete

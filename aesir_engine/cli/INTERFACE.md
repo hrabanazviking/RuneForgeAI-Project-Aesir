@@ -6,7 +6,10 @@
 > native CUDA. Legacy Ollama-shaped commands, generic REPL behavior, model-store
 > lifecycle, and compatibility surfaces below are not thereby implemented.
 > `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
-> Q4_K_S profile with an 8K context; CUDA single-shot `run` remains Gemma.
+> Q4_K_S profile with an 8K context. CUDA single-shot `run` auto-detects either
+> profile. `hardware list` and `compute plan|explain` expose observed resources
+> and checked native model plans. Chat accepts `--profile auto`, `--device
+> auto|N` and `--reserve-mib N`; see `docs/NATIVE_RUNTIME.md`.
 
 > *"Through rune-carved directives and terminal currents, the sovereign engine obeys the commands of mortals."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -267,5 +270,6 @@ uses the same native engine for a single prompt. See `docs/GEMMA4_CUDA.md`.
 `chat <llama3.gguf> --accel cuda --profile llama3` selects the native Llama 3
 session. Defaults are `--context 8192 --max-tokens 8192`; the reply is bounded
 by remaining context. Unsupported profiles, duplicate flags and excessive
-limits fail before model/transcript operations. The default profile and
-single-shot CUDA `run` remain Gemma. See `docs/STHENO_CUDA.md`.
+limits fail before model/transcript operations. The default chat profile is
+Gemma; single-shot CUDA `run` auto-detects Gemma or Llama 3. See
+`docs/STHENO_CUDA.md` and `docs/NATIVE_RUNTIME.md`.

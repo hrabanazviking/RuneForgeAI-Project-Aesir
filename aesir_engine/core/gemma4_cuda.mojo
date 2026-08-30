@@ -5,6 +5,7 @@ from std.math import sqrt
 from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.gemma4_tokenizer import Gemma4Tokenizer
 from loader.tokenizer import RuneStreamDecoder
+from core.inference_memory import gemma4_memory_plan
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
@@ -104,7 +105,10 @@ struct Gemma4CUDASession:
     var finish_reason: String
     var decoder: RuneStreamDecoder
 
-    def __init__(out self, path: String, context_length: Int = 32768) raises:
+    def __init__(out self, path: String, context_length: Int = 32768,
+                 device_index: Int = 0, reserve_bytes: Int = 268435456) raises:
+        if device_index < 0 or reserve_bytes < 0:
+            raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
         validate_gemma4(self.model, context_length)
         self.tokenizer = Gemma4Tokenizer(self.model)
@@ -125,9 +129,11 @@ struct Gemma4CUDASession:
             var width = 512 if layer % 6 == 5 else 256
             var capacity = context_length if layer % 6 == 5 else 512
             cache_elements += 2 * capacity * 2 * width
-        self.context = DeviceContext(0, api="cuda")
+        self.context = DeviceContext(device_index, api="cuda")
         if self.context.api() != "cuda" or not self.context.is_compatible():
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
+        var memory = gemma4_memory_plan(Int(self.model.source.file_size), context_length)
+        memory.admit_observed(Int(self.context.get_memory_info()[0]), reserve_bytes)
         self.weights = self.context.enqueue_create_buffer[DType.uint8](Int(self.model.source.file_size))
         self.activations = self.context.enqueue_create_buffer[DType.float32](SCORES + 8 * context_length)
         self.cache = self.context.enqueue_create_buffer[DType.float32](cache_elements)
@@ -139,7 +145,7 @@ struct Gemma4CUDASession:
         unsafe_memcpy(dest=staging.unsafe_ptr(), src=self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), count=Int(self.model.source.file_size))
         self.context.enqueue_copy(self.weights, staging)
         self.context.synchronize()
-        print("[CUDA] native Mojo Gemma4; device=0 api=cuda layers=42/42 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(cache_elements * 4) + " context=" + String(context_length) + " cpu_offload=0")
+        print("[CUDA] native Mojo Gemma4; device=" + String(device_index) + " api=cuda layers=42/42 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))
