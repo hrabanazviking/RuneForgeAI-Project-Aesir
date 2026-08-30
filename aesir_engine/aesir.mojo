@@ -215,10 +215,8 @@ def generation_stop_reason(
 
 struct AesirEngine:
     """
-    AesirEngine: Coordinates the Well (Memory), the Seer (Weights), and the Weaver (Tokenizer).
-    Strictly decouples inference from the transport (Server) layer.
-    Preserves development scaffolds for resilience, eventing, threading, and
-    swarm work without claiming those subsystems execute operationally.
+    AesirEngine: Sovereign LLM inference coordinator uniting Memory (MimirWell), Weights (GGUFSeer),
+    Tokenizer (RuneWeaver), GPU Compute (CUDAGate), REST Transport (BifrostGate), and Swarm Mesh.
     """
     var pool: MimirWell
     var parser: GGUFSeer

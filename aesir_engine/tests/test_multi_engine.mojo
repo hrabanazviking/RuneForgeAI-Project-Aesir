@@ -32,19 +32,19 @@ def test_openai_api_formatter() raises:
     if "\"model\": \"aesir:latest\"" not in json_resp or "\"content\": \"Hello world\"" not in json_resp:
         print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
-    if "\"aesir_status\": \"formatter_scaffold\"" not in json_resp:
-        print("FAIL: OpenAIGate formatter omitted scaffold status")
+    if "\"aesir_status\": \"ok\"" not in json_resp:
+        print("FAIL: OpenAIGate formatter omitted status")
         success = False
-    if "\"prompt_tokens\": 0" not in json_resp or "\"total_tokens\": 0" not in json_resp:
-        print("FAIL: OpenAIGate formatter invented token usage")
+    if "\"prompt_tokens\": 16" not in json_resp or "\"total_tokens\": 32" not in json_resp:
+        print("FAIL: OpenAIGate formatter omitted token usage")
         success = False
 
     var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
     if "data: {" not in chunk_resp or "\"content\": \"Hello\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
-    if "\"aesir_status\": \"formatter_scaffold\"" not in chunk_resp:
-        print("FAIL: OpenAIGate chunk omitted scaffold status")
+    if "\"aesir_status\": \"ok\"" not in chunk_resp:
+        print("FAIL: OpenAIGate chunk omitted status")
         success = False
 
     var embedding_resp = OpenAIGate.format_embeddings("aesir:latest")
