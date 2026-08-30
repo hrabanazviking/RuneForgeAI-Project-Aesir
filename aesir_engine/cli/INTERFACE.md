@@ -5,6 +5,8 @@
 > `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
 > native CUDA. Legacy Ollama-shaped commands, generic REPL behavior, model-store
 > lifecycle, and compatibility surfaces below are not thereby implemented.
+> `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
+> Q4_K_S profile with an 8K context; CUDA single-shot `run` remains Gemma.
 
 > *"Through rune-carved directives and terminal currents, the sovereign engine obeys the commands of mortals."*  
 > — **Rúnhild Svartdóttir, The Architect**
@@ -245,7 +247,7 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 ## Domain Boundary Laws for `cli/`
 
 1. **Subcommand Dispatch:** `cli/commands.mojo` acts as the command gateway router for binary execution from `main.mojo`.
-2. **Facade Isolation:** CLI code interacts with `AesirEngine` or the exported `Gemma4CUDASession` through `aesir.mojo`, or `BifrostGate` in `server/api.mojo`. It must not import compute kernels directly.
+2. **Facade Isolation:** CLI code interacts with `AesirEngine` or the exported `Gemma4CUDASession`/`Llama3CUDASession` through `aesir.mojo`, or `BifrostGate` in `server/api.mojo`. It must not import compute kernels directly.
 3. **Model & Manifest Independence:** `cli/modelfile.mojo` and `cli/manifest.mojo` own configuration parsing and catalog storage and have zero dependencies on hardware kernels or socket connections.
 4. **Generation Option Ownership:** CLI validates/forwards limits and writes transcripts. The engine session owns autoregressive state, KV memory, EOS/length policy and UTF-8 decoding.
 5. **Intent Must Be Enforced:** Explicit configuration and acceleration intent must be applied or rejected before execution. No accepted option may silently select a different backend or enter prompt text.
@@ -261,3 +263,9 @@ interactive input or one turn per nonempty UTF-8 file line. `--log` creates an
 exclusive transcript and synchronizes it after each turn. No existing transcript
 is overwritten. Errors do not print a completion summary. `run --accel cuda`
 uses the same native engine for a single prompt. See `docs/GEMMA4_CUDA.md`.
+
+`chat <llama3.gguf> --accel cuda --profile llama3` selects the native Llama 3
+session. Defaults are `--context 8192 --max-tokens 8192`; the reply is bounded
+by remaining context. Unsupported profiles, duplicate flags and excessive
+limits fail before model/transcript operations. The default profile and
+single-shot CUDA `run` remain Gemma. See `docs/STHENO_CUDA.md`.

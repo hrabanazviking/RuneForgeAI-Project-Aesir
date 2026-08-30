@@ -2,7 +2,7 @@
 
 > **Status boundary — 2026-08-30:** Ownership labels describe intended
 > responsibilities, not proof that every domain executes. The live ownership
-> boundary for native Gemma CUDA is loader (artifact/tokenizer), core (GPU model
+> boundary for native Gemma/Llama CUDA is loader (artifact/tokenizer), core (GPU model
 > session), and CLI (input/logs). See [CURRENT_STATUS.md](CURRENT_STATUS.md).
 
 > *"Let every realm maintain its own walls. When boundaries collapse, chaos reigns."*  
@@ -21,6 +21,12 @@ CUDA allocations, kernels, KV state, generation limits/EOS and decoding; the
 and transcript presentation. `loader/huggingface.mojo` isolates curl/sha256sum
 transport and atomic verified downloads. No external inference backend crosses
 these boundaries. Independent Python oracles remain in test tooling only.
+
+The Stheno profile has identical domain ownership but separate
+`Llama3Tokenizer` and `Llama3CUDASession` implementations. Core owns the F16
+cache and context-exhaustion policy; CLI selects `--profile llama3` and never
+implements model math. Unicode category generation and NumPy/HF reference
+comparisons are build/test tooling, never runtime inference dependencies.
 
 > [!IMPORTANT]
 > This map assigns ownership and preserves intended interface shapes. It is not

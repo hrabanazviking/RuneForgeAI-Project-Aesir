@@ -14,10 +14,13 @@
 
 Project A.E.S.I.R. is an experimental LLM inference engine built in Mojo. Its
 verified paths include a pinned GGUF v3 Llama F16 CPU model and native Mojo CUDA
-text inference for Gemma 4 E4B Q4_K_M. The Gemma path keeps all 42 layers, packed
+text inference for Gemma 4 E4B Q4_K_M and Llama 3 8B Stheno Q4_K_S.
+The Gemma path keeps all 42 layers, packed
 weights, activations and KV cache on the NVIDIA GPU, with no CPU fallback.
 See the [native CUDA download and chat guide](docs/GEMMA4_CUDA.md) for the
 20-turn conversation, exact artifact pin, limits and reproduction commands.
+The [Stheno CUDA guide](docs/STHENO_CUDA.md) covers its separate 32-layer native
+session, verified download, independent math checks and 8K context policy.
 
 For the current supported surface, known limits, test result, and the boundary
 between working runtime code and project vision, start with
@@ -93,7 +96,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
  * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
 * **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Model-store operations and compatibility APIs remain partial, scaffolded, or missing; see the [current status](docs/CURRENT_STATUS.md) and ledger.
-* **Accelerator & Swarm Matrix:** The native CUDA Gemma profile is real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
+* **Accelerator & Swarm Matrix:** The native CUDA Gemma and Llama 3 profiles are real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
 The future of intelligence should not be gatekept by massive server farms, monthly subscription fees, or cloud outages. True technological sovereignty means owning your hardware and the intelligence that runs on it.
@@ -104,7 +107,7 @@ solo operator. Performance and resource-efficiency measurement remain open work.
  * **Measured claims only:** Throughput, latency, power, and memory claims require reproducible benchmarks before publication.
  * **Uncensored:** You load the weights, you set the rules. No API guardrails.
 
-*Status: The CPU GGUF slice and a narrow native CUDA Gemma profile are verified. Broader hardening and integration remain active work; [CURRENT_STATUS.md](docs/CURRENT_STATUS.md) states the live boundary.*
+*Status: The CPU GGUF slice and narrow native CUDA Gemma/Llama 3 profiles work. Broader hardening and integration remain active work; [CURRENT_STATUS.md](docs/CURRENT_STATUS.md) states the live boundary.*
 
 ---
 

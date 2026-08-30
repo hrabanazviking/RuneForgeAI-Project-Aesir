@@ -3,3 +3,4 @@ aesir_engine/tests/fixtures/gemma4_conversation_20.txt text eol=lf
 aesir_engine/tests/fixtures/gemma4_tokenizer.json text eol=lf
 aesir_engine/tests/fixtures/llama3_tokenizer.json text eol=lf
 aesir_engine/tests/fixtures/stheno_roleplay_20.txt text eol=lf
+docs/evidence/stheno-roleplay-20.md text eol=lf

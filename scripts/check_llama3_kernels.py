@@ -20,7 +20,7 @@ for position in (0, 1, 127, 8191):
 expected['silu', 0] = base[:14336] / (1 + np.exp(-base[:14336])) * base[16000:30336]
 keys, values = [], []
 for t in range(7):
-    row = ((np.arange(40000) + t * 13) % 97 - 48) / 16.0
+    row = (((np.arange(40000) + t * 13) % 97 - 48) / 17.0).astype(np.float32)
     keys.append(row[4096:5120].reshape(8, 128).astype(np.float16).astype(np.float64))
     values.append(row[5120:6144].reshape(8, 128).astype(np.float16).astype(np.float64))
 k = np.repeat(np.array(keys), 4, axis=1)

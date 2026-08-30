@@ -7,6 +7,11 @@
 
 ## Public Struct: `GenerationResult`
 
+The facade also exports the separate native `Gemma4CUDASession` and
+`Llama3CUDASession` types from core. Their persistent CUDA chat interfaces are
+specified in `core/INTERFACE.md`; they do not pass through the older
+`AesirEngine` accelerator-dispatch fields below.
+
 The truth-bearing result of one deterministic generation request. Prompt token
 IDs are not repeated in `token_ids`; a generated EOS ID is recorded there but
 is excluded from `text`.
@@ -42,12 +47,16 @@ tested without inventing model logits.
 
 ## Public Struct: `AesirEngine`
 
-The central orchestration facade retains the documented CPU F16 GGUF path and
-exports the separate `Gemma4CUDASession` used by `chat --accel cuda` and
+The central orchestration facade retains the documented CPU F16 GGUF path. The
+module exports the separate `Gemma4CUDASession` used by `chat --accel cuda` and
 `run --accel cuda`. That CUDA session is limited to dense text-only Gemma 4 E4B
 Q4_K_M and keeps model operations on one NVIDIA GPU. Multi-device, NPU, general
 GPU selection, RAG, resilience, and swarm fields remain bounded or scaffolded;
 see `docs/CURRENT_STATUS.md` and `CAPABILITY_LEDGER.md`.
+
+The module also exports `Llama3CUDASession` for `chat --profile llama3`, with
+32 device-resident layers and F16 KV. Both native sessions are separate from
+the `AesirEngine` struct and its legacy accelerator fields.
 
 ```mojo
 struct AesirEngine:

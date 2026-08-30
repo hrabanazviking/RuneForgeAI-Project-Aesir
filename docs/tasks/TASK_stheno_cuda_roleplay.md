@@ -71,4 +71,26 @@ counted master suite remains 147 passed, 0 failed, 1 skipped, 148 total.
 A short native roleplay smoke test completed with natural EOS. The first full
 roleplay attempt was deliberately interrupted during turn 1 when the rotary
 precision check failed; its unedited partial logs remain in `.aesir/evidence/`.
-The corrected 20-turn run and final documentation remain pending.
+## Final acceptance
+
+The corrected native run completed all 20 exchanges with natural EOS, 5,152
+generated tokens and 6,514 context positions; every turn retained the 8,192
+completion ceiling. All 32 layers, weights, activations and F16 KV remained on
+CUDA with zero CPU model offload. Telemetry reached 100% utilization and
+7,136 MiB total device memory used.
+
+The tokenizer proof now includes 15 cases, adding three independent Vietnamese
+whole-segment lookup regressions. Additional tests passed eight malformed
+profile cases, actual CUDA session closure/rejection boundaries, the pinned
+32-token CPU oracle, the Gemma CUDA smoke regression, master suite and negative
+control. Numerical checks also cover nonzero F16-cache offsets and rounding.
+
+The [published transcript](../evidence/stheno-roleplay-20.md) is byte-identical
+to the native log. Its connected story and model-generated continuity defects
+are assessed candidly in [the guide](../STHENO_CUDA.md); no response was edited.
+Current status, interfaces, ownership/flow maps, ledger and test documentation
+now distinguish both supported CUDA profiles from unsupported generalizations.
+
+Published milestones: contract `4b36383`, tokenizer/download `5b244e7`, native
+CUDA implementation `b141543`; final evidence and documentation follow them on
+`main`. The three initial milestones passed GitHub Actions.

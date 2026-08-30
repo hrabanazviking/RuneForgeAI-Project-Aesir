@@ -1,5 +1,30 @@
 # Project Aesir Devlog
 
+## Entry 121: Native Stheno Q4_K_S CUDA and 20-turn roleplay
+
+**Date:** August 30, 2026
+
+Aesir's native Hugging Face downloader fetched and verified the pinned Stheno
+Q4_K_S artifact. Added native Llama 3 byte BPE/chat framing and a separate
+32-layer CUDA session with F16 KV, an 8K context and explicit remaining-context
+stops. Independent checks caught and corrected rotary phase error near 8K;
+15 tokenizer cases, 35 real-weight matvec cases and 34,816 CUDA primitive values
+now match their independent references.
+
+The final run completed 20 natural-EOS roleplay exchanges, generated 5,152
+tokens and used 6,514 context positions with the 8,192 reply ceiling retained.
+Peak observed whole-device memory was 7,136 MiB and utilization reached 100%.
+The [unedited conversation](docs/evidence/stheno-roleplay-20.md) and
+[reproduction guide](docs/STHENO_CUDA.md) preserve the result and its limits,
+including minor model continuity defects. An earlier partial run was retained
+after interruption for the precision fix.
+
+The master suite remains 147 passed, 0 failed, 1 skipped; the explicit CPU
+oracle, native Gemma smoke test, profile rejection and CUDA session-boundary
+checks also pass. Updated current status, interfaces, ownership/flow maps,
+capability ledger and fixture/test documentation. Contract, tokenizer and
+implementation milestones were pushed separately and passed GitHub CI.
+
 ## Entry 120: Current-status reconciliation and documentation boundary
 
 **Date:** August 30, 2026

@@ -1,7 +1,8 @@
 # Test Fixture Boundary
 
-This is the only approved location for small tracked fixture data. It currently
-contains no fixture payloads.
+This is the only approved location for small tracked fixture data. It contains
+authored Gemma/Stheno conversation prompts and independent tokenizer expected
+IDs. Generated assistant responses are evidence, never prompt fixtures.
 
 Before adding a payload, register it in the root `fixture_manifest.json` as
 exactly one of `synthetic`, `malformed`, or `regression`, with its owner,

@@ -251,8 +251,8 @@ other operators/backends, performance, or hardware CI.
   one pass or failure, and returns so later cases can execute.
 - The runner registers 147 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(145)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 145.
+- `TestLedger.finish(148)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+  raises after reporting if any case failed or the total is not 148.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
 - `test_gpu_reachability.mojo`, `test_gpu_discovery.mojo`,
@@ -265,3 +265,27 @@ other operators/backends, performance, or hardware CI.
 - Unsupported-boundary cases prove that runtime configuration, accelerator
   gateways, model/network commands, downloads, ONNX/multi-engine entry points,
   HTTP routes, and swarm network actions do not report fabricated success.
+
+## Native model profile proofs
+
+Physical Gemma and Stheno tests stay opt-in because they require external large
+weights and an NVIDIA GPU. `inspect_llama3.mojo` plus
+`scripts/test_llama3_tokenizer.py` compare native token IDs, UTF-8 round trips and
+chat framing with independently generated Hugging Face expectations.
+`test_llama3_quant_parity.mojo` checks 35 real-weight dot products;
+`inspect_llama3_kernels.mojo` plus `scripts/check_llama3_kernels.py` compare
+34,816 CUDA values with NumPy. `test_llama3_session_limits.mojo` deliberately
+forces ordinary token IDs to test length/context closure and state rejection;
+its output is never conversation-quality evidence.
+
+`scripts/run_stheno_roleplay.py` invokes native chat and records GPU telemetry;
+`scripts/check_stheno_conversation.py` validates the unedited 20-turn transcript
+and retained-context accounting. Coherence requires separately reading the
+actual responses. These checks do not establish full-model logit parity or a
+general performance benchmark. Commands and artifact pins are documented in
+`docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md`.
+
+`test_llama3_profile.mojo` uses the real GGUF metadata but no GPU allocations;
+it proves admission of the documented profile and rejection of eight mutated
+metadata/tensor/context cases. Its mutations affect only the in-memory index,
+never the mapped model file.

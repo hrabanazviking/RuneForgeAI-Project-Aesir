@@ -22,6 +22,9 @@ def main():
         "a\u0301 b\u0327 \r\n\t", "", " ", "\n\n",
         "<|start_header_id|>user<|end_header_id|> is literal text.",
         "?hello!world:: lighthouse---keeper 0000",
+        # Independent counterexamples: ranked merges alone split these despite
+        # whole-segment vocabulary entries (Llama 3 ignore_merges=True).
+        " việc", " hợp", " nhiều",
     ]
     # Plain text is not allowed to inject special controls. Remove the added
     # token recognizer for these reference cases, retaining BPE/postprocessor.

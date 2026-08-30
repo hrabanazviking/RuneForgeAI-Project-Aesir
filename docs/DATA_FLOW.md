@@ -2,7 +2,8 @@
 
 > **Status boundary — 2026-08-30:** This is a target flow map. The supported
 > executable flow is the local CPU GGUF path plus built-in download and native
-> CUDA chat for Gemma 4 E4B Q4_K_M. See [CURRENT_STATUS.md](CURRENT_STATUS.md);
+> CUDA chat for Gemma 4 E4B Q4_K_M and Llama 3 Stheno Q4_K_S.
+> See [CURRENT_STATUS.md](CURRENT_STATUS.md);
 > do not infer active server, RAG, swarm, or multi-device execution from the
 > diagrams below.
 
@@ -14,11 +15,17 @@
 ## 🌊 Target Lifecycle Across Planned Subsystems
 
 This document preserves the intended multi-subsystem sequence. It is not an
-executable trace. The current verified path is local single-shot CPU GGUF
-inference; persistent model operations, network downloads, compatibility APIs,
-physical accelerators, durable resilience, and Swarm transport are absent. See
+executable trace. The runnable paths include CPU GGUF inference, verified public
+Hub downloads and persistent native CUDA chat for the two admitted profiles.
+Compatibility APIs, durable resilience and Swarm transport remain unsupported. See
 [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md) before treating any arrow below
 as implemented.
+
+For Stheno: pinned Hub bytes → verified local GGUF → packed metadata/tensors and
+Llama 3 BPE → one device upload → persistent 32-layer CUDA/F16-KV session →
+greedy token ID → UTF-8 decoder → durable transcript. Later turns append to the
+same KV state. Admission rejects oversized prompts without truncating history;
+generation stops explicitly when remaining context cannot hold more output.
 
 ```mermaid
 sequenceDiagram

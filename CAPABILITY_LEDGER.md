@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-3, August 30, 2026
+**Ledger version:** GPU-4, August 30, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -367,9 +367,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** loader and quantization domains
 - **Claim sources:** README q4_k_m support; completed TODO quantized-format matrix
-- **Implementation evidence:** `PackedGGUFModel` performs bounded metadata and tensor-index parsing for the Gemma 4 E4B profile and admits the Q4_K/Q5_K/Q6_K/F32/F16/BF16 storage needed by its native CUDA session.
-- **Executable evidence:** the pinned Gemma 4 E4B Q4_K_M artifact was parsed, loaded, and executed end to end; 35 independent real-weight quantized matvec checks passed.
-- **Evidence boundary:** This is not a general quantized-GGUF loader. The established admission is limited to the documented dense Gemma profile and its tensor layout.
+- **Implementation evidence:** `PackedGGUF` performs bounded metadata and tensor-index parsing for the Gemma 4 E4B and dense Llama 3 8B profiles, admitting their Q4_K/Q5_K/Q6_K/F32/F16/BF16 storage. Architecture-specific core admission validates every required shape before upload.
+- **Executable evidence:** pinned Gemma E4B Q4_K_M and Stheno Q4_K_S artifacts were parsed, loaded and executed; each passed 35 independent real-weight quantized matvec checks. See `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md`.
+- **Evidence boundary:** This is not a general quantized-GGUF loader. Established admission is limited to the two documented dense profiles and their tensor layouts.
 - **Next acceptance gate:** Per-architecture metadata/layout contracts, additional real fixtures, and independent logits/tokens for each admitted model family.
 - **Audit:** AER-051 through AER-054.
 
@@ -391,9 +391,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** tokenizer and loader domains
 - **Claim sources:** real-GGUF task and audit matrix
-- **Implementation evidence:** tokenizer metadata loads from the pinned GGUF and encodes the reference prompt.
-- **Executable evidence:** `E-REAL` matches exact IDs `1 385 328 432 405 263 377 267` from pinned `llama.cpp`.
-- **Evidence boundary:** One model and primary prompt, plus a narrow full-context prompt; not multilingual or general corpus parity.
+- **Implementation evidence:** tokenizer metadata loads from the pinned GGUF and encodes the reference prompt. Separate `Gemma4Tokenizer` and `Llama3Tokenizer` implementations load their embedded vocabularies/merges and construct explicit model-specific chat controls.
+- **Executable evidence:** `E-REAL` matches exact IDs `1 385 328 432 405 263 377 267` from pinned `llama.cpp`. Independent Hugging Face checks cover six Gemma cases and fifteen Llama 3 cases plus chat framing and UTF-8 round trips; Llama cases include three whole-segment lookup counterexamples.
+- **Evidence boundary:** These pinned models and explicitly recorded text cases only; not arbitrary normalizers, tokenizer metadata or universal corpus parity. Commands and revisions are in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md`.
 - **Next acceptance gate:** Differential corpus across ASCII, whitespace, Unicode, invalid bytes, control tokens, and multiple tokenizer metadata variants.
 - **Audit:** AER-056, AER-057.
 
@@ -581,7 +581,7 @@ the complete ledger population.
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
 - **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `push` and `create` remain fail closed.
-- **Executable evidence:** `E-MASTER` downloader admission cases, six live integrity/failure checks, and the full pinned Gemma artifact download through `pull`.
+- **Executable evidence:** `E-MASTER` downloader admission cases, six live integrity/failure checks, and the full pinned Gemma and Stheno artifact downloads through `pull`.
 - **Evidence boundary:** Only public, pinned, single-GGUF Linux/WSL downloads are established. No authentication, resume, upload, creation, or model-store registration exists.
 - **Next acceptance gate:** Add authenticated/resumable download as a separate contract; implement push/create only with durable store semantics and integration tests.
 - **Audit:** AER-064, AER-082, AER-003.
@@ -602,9 +602,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but the native `cuda_chat.mojo` command provides interactive and prompt-file chat with one persistent `Gemma4CUDASession`, streamed text, `/bye`/EOF handling, and durable transcripts.
-- **Executable evidence:** `E-MASTER` covers legacy state bounds; the physical Gemma run completed 20 interactive-equivalent prompt-file exchanges and wrote a checked transcript.
-- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma profile. The legacy general REPL, slash-command integration, signal handling, and arbitrary-model chat are not established.
+- **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but `cuda_chat.mojo` provides interactive and prompt-file chat with a persistent `Gemma4CUDASession` or `Llama3CUDASession`, streamed text, `/bye`/EOF handling and durable transcripts. `--profile llama3` selects Stheno with an 8K context and remaining-context completion policy.
+- **Executable evidence:** `E-MASTER` covers legacy state bounds; physical Gemma and Stheno runs each completed 20 prompt-file exchanges. Stheno's unedited transcript records 20 natural EOS stops, 5,152 generated tokens and 6,514 retained context positions with an 8,192 ceiling; see `docs/evidence/stheno-roleplay-20.md`.
+- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma and Llama 3 profiles. The legacy general REPL, slash-command integration, signal handling, and arbitrary-model chat are not established.
 - **Next acceptance gate:** Consolidate the legacy/general session surface with the CUDA chat contract and add terminal-interaction tests.
 - **Audit:** AER-059, AER-068.
 
@@ -798,9 +798,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** loader, compute, and inference domains
 - **Claim sources:** README q4_k_m support and completed quantized-format TODO
-- **Implementation evidence:** the CPU synthetic path remains present; the native Gemma CUDA profile uses packed Q4_K/Q5_K/Q6_K weight matvec kernels connected to bounded GGUF tensor metadata.
+- **Implementation evidence:** the CPU synthetic path remains present; the native Gemma and Llama 3 CUDA profiles use packed Q4_K/Q5_K/Q6_K weight matvec kernels connected to bounded GGUF tensor metadata.
 - **Executable evidence:** master-suite Q4_K_M parity plus 35 independently generated real-weight CUDA matvec comparisons from the pinned Gemma artifact (maximum absolute error `1.3113022e-06`) and end-to-end 20-turn Q4_K_M inference.
-- **Evidence boundary:** Real execution establishes one Gemma profile, not general quantized model compatibility or independent full-model logit parity.
+- **Evidence boundary:** Real execution establishes the documented Gemma and Stheno profiles, not general quantized model compatibility or independent full-model logit parity. Stheno's 35 real-weight comparisons have maximum absolute error `4.172325e-07`; its roleplay acceptance status is recorded in `docs/STHENO_CUDA.md`.
 - **Next acceptance gate:** Per-model end-to-end parity against an independent implementation and broader supported quantized fixtures.
 - **Audit:** AER-051 through AER-054.
 
@@ -963,10 +963,11 @@ the complete ledger population.
 
 - **Status:** `partial`
 - **Owner:** core compute/hardware domain
-- **Claim sources:** native CUDA Gemma 4 profile and existing F16 GEMM
+- **Claim sources:** native CUDA Gemma 4 and Llama 3 profiles and existing F16 GEMM
 - **Implementation evidence:** `Gemma4CUDASession` owns packed device weights, activations, per-layer/global/shared KV, native quantized matvec, norms, RoPE, attention, GELU/PLE, logits and GPU greedy selection. It is exported by `aesir.mojo` and reached by `chat --accel cuda` and `run --accel cuda`. There is no CPU model fallback or external inference engine.
 - **Executable evidence:** RTX 4070 Laptop GPU: all 42 dense Gemma 4 E4B layers executed, 35 independent real-weight CUDA matvec comparisons passed (maximum error `1.3113022e-06`), tokenizer parity passed, and 20 exchanges with a 16,384 completion ceiling retained corrected facts across the 512-token attention boundary. Existing F16 CUDA GEMM exact/tail tests also passed. See `docs/GEMMA4_CUDA.md` for commands and limits.
-- **Evidence boundary:** One dense text-only E4B Q4_K_M profile and one observed NVIDIA host. Full-model independent logit parity, long 16K generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. Host tokenization/I/O remains on CPU.
+- **Evidence boundary:** Dense text-only E4B Q4_K_M and Llama 3 Stheno Q4_K_S profiles on one observed NVIDIA host. Full-model independent logit parity, long maximum-length generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. Host tokenization/I/O remains on CPU.
+- **Llama 3 evidence:** `Llama3CUDASession` implements all 32 layers with native CUDA packed weights, F32 activations and F16 KV. Fifteen independent tokenizer cases and framing passed, including three whole-segment lookup regressions; 35 real-weight dot products and 34,816 CUDA RoPE/SiLU/GQA values matched independent references. Boundary-position RoPE precision was corrected on-device. See `docs/STHENO_CUDA.md` for the final conversation acceptance status.
 - **Next acceptance gate:** Broader model/hardware coverage, independent full-model logits, long-generation/context tests and optimized batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
@@ -1009,7 +1010,7 @@ the complete ledger population.
 - **Owner:** loader and CLI domains
 - **Claim sources:** built-in `pull` command
 - **Implementation evidence:** Native Mojo orchestration invokes curl and sha256sum with checked argv, HTTPS-only redirects, immutable revision, bounded transfers, optional parallel byte ranges, exact size/SHA-256 verification and atomic exclusive publication.
-- **Executable evidence:** `E-MASTER` admission/argv cases; six live download integrity, HTTP-failure and existing-file/symlink protection checks passed with both one and eight connections. The pinned Gemma artifact in `docs/GEMMA4_CUDA.md` downloaded and verified in full through `pull`.
+- **Executable evidence:** `E-MASTER` admission/argv cases; six live download integrity, HTTP-failure and existing-file/symlink protection checks passed with both one and eight connections. Both pinned artifacts in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md` downloaded and verified in full through `pull`.
 - **Evidence boundary:** Public pinned single-GGUF artifacts on Linux/WSL; no authentication, restart/resume or model-store registration. System curl/sha256sum are explicit dependencies.
 - **Next acceptance gate:** Authentication, restart/resume, cancellation/recovery and store integration.
 - **Audit:** AER-082, AER-003.

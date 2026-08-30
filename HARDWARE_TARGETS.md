@@ -2,7 +2,8 @@
 
 > **Status boundary — 2026-08-30:** This file records ambitions and planning
 > constraints, not a hardware support matrix. The only physical accelerator
-> inference evidence is dense text-only Gemma 4 E4B Q4_K_M on the observed RTX
+> inference evidence covers dense text-only Gemma 4 E4B Q4_K_M and Llama 3
+> Stheno Q4_K_S on the observed RTX
 > 4070 Laptop GPU under WSL2. CUDA support is not universal GPU support. CPU
 > GGUF Llama F16 is separately verified. See [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md)
 > and the [capability ledger](CAPABILITY_LEDGER.md) before relying on a target.

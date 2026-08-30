@@ -20,7 +20,7 @@ aesir_engine/tests/
 ├── test_real_gguf.mojo          # opt-in registered external reference
 ├── test_fail_closed_runner.mojo # intentional CI negative control
 └── fixtures/
-    └── README.md                # canonical tracked-fixture boundary; no payloads
+    └── README.md                # tracked-fixture boundary and provenance rules
 ```
 
 ### Directory Rules
@@ -28,8 +28,9 @@ aesir_engine/tests/
 - **`test_<domain>.mojo`** — Current tracked unit, boundary, integration, and
   regression cases are grouped by owning domain.
 - **`fixtures/`** — The only approved tracked fixture-data boundary. Every
-  payload must be registered in `fixture_manifest.json`; there are currently no
-  tracked payloads.
+  payload must be registered in `fixture_manifest.json`. Current payloads are
+  authored conversation prompts and independent tokenizer expectations; model
+  weights remain external.
 - **External references** — Model weights remain outside Git and are supplied
   only to opt-in tests after their manifest identity is verified.
 

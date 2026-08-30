@@ -8,22 +8,25 @@ guides describe their stated point in time; they do not override this status.
 
 ## What works now
 
-Project A.E.S.I.R. has two real local inference paths:
+Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 
 | Capability | Status and evidence |
 |---|---|
 | CPU inference | A pinned GGUF v3 Llama F16 fixture runs through the native Mojo CPU path. The integration check verifies metadata, tokenizer IDs, 32 greedy tokens, decoded text, stop behavior, a context boundary, and pool restoration. |
 | Native CUDA Gemma chat | The dense, text-only `unsloth/gemma-4-E4B-it-GGUF` **Q4_K_M** profile runs through native Mojo CUDA kernels on the observed RTX 4070 Laptop GPU. All 42 layers, packed weights, activations, KV cache, and greedy token selection remain on the GPU; host code only handles scheduling, tokenization, and I/O. |
-| Built-in Hugging Face download | `aesir pull` downloads a public, pinned GGUF artifact with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. The accepted Gemma artifact is 4,977,171,584 bytes and has SHA-256 `85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87`. |
+| Native CUDA Stheno chat | `bartowski/L3-8B-Stheno-v3.2-GGUF` **Q4_K_S** runs through a separate native 32-layer Llama 3 session, with F16 KV and an 8,192-position context. All 20 roleplay exchanges completed with natural EOS, 5,152 generated tokens and 6,514 context positions used. The [unedited conversation](evidence/stheno-roleplay-20.md) preserves both its connected story and model continuity imperfections. |
+| Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
-| Automated checks | The counted suite reports 147 passed, 0 failed, and 1 explicit external-fixture skip (148 total). GitHub Actions passed the master suite, native build, fail-closed control, provenance, and documentation checks on commit `bf5254a`. |
+| Automated checks | The counted suite reports 147 passed, 0 failed, and 1 explicit external-fixture skip (148 total). GitHub Actions passed the master suite, native build, fail-closed control, provenance, and documentation checks on the Stheno implementation commit `b141543`. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
-observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md).
+observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
+[STHENO_CUDA.md](STHENO_CUDA.md).
 
 ## Current limits
 
-- CUDA support is **one dense, text-only Gemma 4 E4B Q4_K_M profile** on the
+- CUDA support covers **dense, text-only Gemma 4 E4B Q4_K_M and Llama 3 8B
+  Stheno Q4_K_S profiles** on the
   observed NVIDIA/WSL2 setup. It is not general GGUF, multimodal, MoE,
   multi-GPU, NPU, AMD, Intel, Metal, or cross-platform accelerator support.
 - CUDA errors fail the session. There is no CPU model fallback and no external
@@ -35,6 +38,9 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md).
 - The 16,384 setting is a maximum number of new tokens, not evidence that a
   16,384-token response has been generated and independently validated. The
   accepted conversation used a 32,768-token context configuration.
+- Stheno's 8,192-position context includes the whole conversation and replies.
+  Its 8,192-new-token ceiling is bounded by remaining context, with an explicit
+  `context_exhausted` stop and no silent history truncation.
 - There is no independent full-model logit-parity proof, throughput/latency
   benchmark, hardware CI runner, authentication, resumable/authenticated Hub
   transfer, model-store registration, or production-service readiness claim.
@@ -45,8 +51,10 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md).
 
 Use Linux or WSL2 with the locked Pixi environment, an NVIDIA driver, and
 enough free VRAM. Build, download, and chat using the commands in
-[GEMMA4_CUDA.md](GEMMA4_CUDA.md). The downloader requires `curl` and
-`sha256sum`; the model and logs intentionally remain outside Git.
+[GEMMA4_CUDA.md](GEMMA4_CUDA.md) or [STHENO_CUDA.md](STHENO_CUDA.md).
+The downloader requires `curl` and
+`sha256sum`; weights, binaries and raw runtime logs intentionally remain outside
+Git. The readable Stheno conversation is published unchanged as Markdown evidence.
 
 ## Reading the rest of the repository
 
@@ -54,6 +62,7 @@ enough free VRAM. Build, download, and chat using the commands in
   boundaries for individual capabilities.
 - [TODO](../TODO.md): active work, ordered by evidence needs.
 - [Gemma CUDA guide](GEMMA4_CUDA.md): supported native CUDA workflow.
+- [Stheno CUDA guide](STHENO_CUDA.md): Llama 3 download, roleplay and 8K limits.
 - [DEVLOG](DEVLOG.md): chronological implementation record.
 - `docs/historical/` and dated audits: preserved context, not current runtime
   assertions. Older architecture, hardware, performance, protocol, and vision

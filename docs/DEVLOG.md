@@ -1,3 +1,22 @@
+## 2026-08-30 — Native Stheno CUDA roleplay
+
+Downloaded the pinned `bartowski/L3-8B-Stheno-v3.2-GGUF` Q4_K_S artifact through
+native `pull`, with exact size and SHA-256 verification. Added native Llama 3
+Unicode byte BPE, explicit chat framing and 32-layer CUDA inference with F16 KV.
+The 8,192 reply ceiling respects the model's 8,192-position total context.
+
+The complete [20-turn transcript](evidence/stheno-roleplay-20.md) records 5,152
+generated tokens, 6,514 context positions and natural EOS on every exchange.
+GPU telemetry reaches 100% and 7,136 MiB total device use. Responses are unedited;
+the [guide](STHENO_CUDA.md) records continuity imperfections and exact hashes.
+
+Verification: 15 independent tokenizer cases/framing/UTF-8 round trips, 35 real
+quantized-weight matvec checks, 34,816 NumPy/CUDA values, eight malformed profile
+cases, physical length/context/poisoned-session checks, the existing CPU oracle,
+Gemma CUDA smoke regression and 147-pass/1-skip master suite. Device-side phase
+reduction fixed the RoPE boundary error exposed by the independent tests.
+Python remains test/process tooling only; no external engine runs inference.
+
 ## 2026-08-30 — Native Gemma 4 CUDA and verified downloads
 
 Implemented pinned public Hugging Face downloads with checked argv, HTTPS-only

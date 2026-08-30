@@ -2,7 +2,7 @@
 
 > **Status boundary — 2026-08-30:** This document mixes implemented shapes and
 > target architecture. The runnable architecture is the CPU GGUF slice and the
-> narrow native CUDA Gemma profile in [CURRENT_STATUS.md](CURRENT_STATUS.md).
+> narrow native CUDA Gemma and Llama 3 profiles in [CURRENT_STATUS.md](CURRENT_STATUS.md).
 > Server, distributed, NPU, multi-GPU, compatibility, and broad accelerator
 > diagrams below are aspirations unless the capability ledger explicitly says
 > otherwise.
@@ -27,6 +27,15 @@ persistent device activations/KV, context admission, autoregression and decoding
 `core/gemma4_kernels.mojo` contains the actual GPU model operations. CLI code
 owns input and transcript I/O only. Device errors poison the session and do not
 select a CPU fallback. See [the verified profile and limits](GEMMA4_CUDA.md).
+
+The Llama 3 route uses the same CLI/facade boundary with `--profile llama3` and
+`Llama3CUDASession`. `loader/llama3_tokenizer.mojo` owns Unicode-aware byte BPE
+and explicit Llama chat controls; `core/llama3_cuda.mojo` owns the admitted
+32-layer profile, F16 KV and remaining-context policy. `llama3_kernels.mojo`
+implements adjacent-pair RoPE, SiLU and 32-query/8-KV-head scaled attention,
+reusing the validated packed matvec/norm primitives from `gemma4_kernels.mojo`.
+See [STHENO_CUDA.md](STHENO_CUDA.md). Neither session is the legacy
+`AesirEngine` accelerator-dispatch scaffold.
 
 ---
 

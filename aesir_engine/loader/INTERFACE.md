@@ -3,6 +3,7 @@
 > **Current execution boundary — 2026-08-30:** `gguf.mojo`/`tokenizer.mojo`
 > retain the CPU Llama slice. `packed_gguf.mojo` and `gemma4_tokenizer.mojo`
 > provide the bounded GGUF and BPE contract for the native Gemma CUDA profile;
+> `llama3_tokenizer.mojo` supplies the separate Stheno byte-BPE/chat contract.
 > `huggingface.mojo` implements the public pinned `pull` workflow. These do not
 > make arbitrary GGUF formats, model architectures, or Hub operations supported.
 
@@ -160,7 +161,7 @@ struct HuggingFaceSeer:
     def download_hf_model(self, repo_id: String, filename: String, destination: String = "", revision: String = "", expected_sha256: String = "", expected_size: Int = 0, connections: Int = 1) raises -> Bool: ...
 ```
 
-### Packed Gemma 4 loading
+### Packed Gemma 4 and Llama 3 loading
 
 `PackedGGUF` owns its mmap and a bounded metadata/tensor index; `PackedTensor`
 describes validated dense storage without pretending packed bytes are F16.
@@ -171,3 +172,10 @@ misaligned or truncated tensors before core code can upload them.
 UTF-8 Gemma BPE with newline boundaries, and constructs text-chat control tokens
 explicitly. The generic `RuneWeaver` retains model-driven Llama space-prefix
 handling; Llama and Qwen use their own RoPE base/layout metadata in core.
+
+`Llama3Tokenizer(model: PackedGGUF)` admits `gpt2`/`llama-bpe`, the 128,256-token
+vocabulary and expected control IDs. `encode(text, add_bos=False)` applies the
+Unicode Llama 3 segmentation pattern, GPT-2 byte encoding, whole-segment lookup
+and ranked BPE. Plain input cannot inject control IDs. `append_header`,
+`append_message` and `decode(token, decoder)` own chat framing and streaming
+UTF-8. The Unicode 16 category table is generated at build time.

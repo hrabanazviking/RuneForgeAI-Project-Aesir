@@ -7,6 +7,11 @@ Execution order and anti-fabrication file rules are defined in
 An enum, interface, banner, synthetic happy path, or predetermined output never
 counts as completion of an external capability.
 
+Latest completed native profile: Stheno Q4_K_S download, Llama 3 CUDA inference
+and 20-turn roleplay with an 8K ceiling. See [the evidence and remaining
+limits](docs/STHENO_CUDA.md). General model support, full-model logit parity,
+non-greedy sampling and optimized batched prefill remain future work.
+
 > “I know that I sat nine days and nights, the friend of Mímir, seeking wisdom, until I was given to myself, and my own mind was won.”
 > — Hávamál, Stanza 141
 
@@ -116,7 +121,7 @@ counts as completion of an external capability.
 - [x] **[missing, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
   storage or process mutations that occurred only in an ephemeral seeded list.
 - [x] **[partial, AES-CLI-008] Correct REPL output:** The legacy sample loop is
-  bounded; native Gemma CUDA chat supplies the separate real interactive path.
+  bounded; native Gemma/Llama CUDA chat supplies separate real interactive paths.
 - [x] **[missing, AES-SRV-006] Correct OpenAI route output:** Stop returning a
   fixed assistant response as successful inference.
 - [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
@@ -318,8 +323,8 @@ counts as completion of an external capability.
   actual stored model/generation configuration.
 - [ ] **[partial, AES-CLI-008] Build a general interactive REPL:** Unify
   multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`,
-  `/bye`), parameter tuning, and stream execution beyond the native Gemma CUDA
-  chat path.
+  `/bye`), parameter tuning, and stream execution beyond the native Gemma/Llama
+  CUDA chat profiles.
 
 ### Persistent model store
 

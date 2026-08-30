@@ -7,6 +7,8 @@
 > backends, multi-GPU, generic GPU selection, and logical shards remain
 > unimplemented or host-only. See `docs/CURRENT_STATUS.md` for the evidence
 > boundary.
+> `llama3_cuda.mojo` adds the separate dense Llama 3 8B Stheno profile with the
+> same device ownership, an F16 KV cache and an 8K context ceiling.
 
 ## Public Structs & Functions
 
@@ -713,3 +715,15 @@ RoPE, grouped-query attention, local/global/shared KV, GELU feed-forward and
 per-layer embeddings, softcapped logits and greedy argmax. Host code handles
 tokenization and scheduling only. This profile is distinct from the older F16
 `RuneTensor` CPU/GPU primitives; it never labels CPU fallback as CUDA.
+
+# Native Llama 3 CUDA session
+
+`Llama3CUDASession(path, context_length=8192)` admits the dense 32-layer Llama 3
+8B profile and owns packed GPU weights, F32 activations and F16 KV. Its
+`begin_turn`/`next_chunk` interface and observations match the Gemma session.
+Completion ceilings are 1..8192; the context includes input and output.
+Admission reserves at least one response token and a closing token. Generation
+reports `eos`, `length`, or `context_exhausted`, preserving all previous KV.
+Rejected input leaves position unchanged; CUDA execution failure poisons reuse.
+Native kernels implement adjacent-pair RoPE with device-side F64 phase reduction,
+scaled grouped-query attention and SiLU, reusing packed matvec/norm/argmax code.

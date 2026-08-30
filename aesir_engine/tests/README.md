@@ -9,6 +9,10 @@ The `tests` domain holds the master test runner and domain-specific verification
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
   checks. `scripts/check_gemma4_conversation.py` validates the logged 20-turn
   transcript. See `docs/GEMMA4_CUDA.md` for their scope.
+- **Native Stheno CUDA evidence:** independent tokenizer, packed matvec and
+  RoPE/SiLU/GQA checks, profile admission, session limits and 20-turn transcript
+  accounting are documented in `docs/STHENO_CUDA.md`. These opt-in proofs keep
+  large weights external and do not establish general Llama compatibility.
 - **`test_hardware_discovery.mojo`:** Deterministic injected-record tests for
   discovery statuses, validation, accumulation, deduplication, and selection.
 - **`test_gpu_discovery.mojo`:** Opt-in physical MAX CUDA enumeration and
