@@ -9,7 +9,7 @@
 > current authorized `main` workflow, the Part 2 reality-first interpretation
 > controls.
 
--Never make pseudocde ever. Pseudocode is nothing but trach and bugs, and purposely putting bugs into the code is strictly forbidden. Instead create data MD files to explain about what future code should be created. Nowhere in any actual code file is there to exist any pseudocode.
+-Never make pseudocode ever. Pseudocode is nothing but trash and bugs, and purposely putting bugs into the code is strictly forbidden. Instead create data MD files to explain about what future code should be created. Nowhere in any actual code file is there to exist any pseudocode. Demo-code, example code, fake-code, example-code, idea-code, stand-in-code, etc, are all other names for pseudocode and NONE OF THEM ARE TO BE EVER MADE, NO MATTER WHAT! ANY AI THAT WRITES ANY PSEUDOCODE OF ANY SORT GETS INSTANTLY FIRED!! ALL CODE IS TO BE FULLY WORKING HIGHEST QUALITY FULL PRODUCTION LEVEL CODE ONLY!! Any already existing pseudocode is to be rewritten at once into fully working highest quality full production level code. Any pseudocode is to be considered a bug that needs fixing! Pseudocode should never exist in any project at any point in it's build. Only real code!
 -Never change the Git settings without permission of Volmarr (me the human).
 -Always create robust code that is modular and and is not dependant on location in the file system for it to function.
 -Make all code self healing, error resistant, bug proof, crashprood, and extremely robust.
@@ -165,6 +165,10 @@ Every file must be built to a standard suitable for long-term reference use.
 - TODO placeholders
 - “to be expanded later” stubs
 - unfinished sections presented as complete
+- Demo code
+- Pseudo code
+- Example code
+- Fake code
 
 This task must be done with care, discipline, and precision.
 
@@ -439,6 +443,9 @@ Work like a disciplined research archivist and master craftsperson.
 \- Do not pad.
 \- Do not bluff.
 \- Do not rush.
+\- Only make real code!
+\- Only make production level code!
+\- Only make code that actually fully works!
 \- Do not stop until the work is truly complete.
 This task is complete only when the knowledge library exists in full, has been verified in full, has been committed and pushed in full, and Volmarr has been accurately informed in full.
 
