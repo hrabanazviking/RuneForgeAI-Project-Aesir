@@ -20,6 +20,7 @@ from .mimir_well import (
     int4,
 )
 from .cuda_gate import CUDAGate
+from .cuda_compute import CUDAF16GemmExecutor
 from .metal_gate import MetalGate
 from .intel_gate import IntelGate
 from .amd_gate import AMDGate
@@ -3296,3 +3297,13 @@ def gemm_f16_gpu(
         return
 
     raise Error("GPU execution is not implemented for realm " + realm.name())
+
+
+def gemm_f16_cuda(
+    mut executor: CUDAF16GemmExecutor,
+    A: RuneTensor[f16],
+    B: RuneTensor[f16],
+    mut C: RuneTensor[f16],
+) raises:
+    """Execute F16 GEMM through an explicit selected-device CUDA owner."""
+    executor.execute(A, B, C)
