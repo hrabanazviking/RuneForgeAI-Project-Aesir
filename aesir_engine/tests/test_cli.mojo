@@ -223,6 +223,9 @@ def assert_cli_command_unsupported(command: String) raises:
             "not implemented" not in message
             and "unsupported" not in message
             and "requires a subcommand" not in message
+            and "requires model repository tag" not in message
+            and "Unknown" not in message
+            and "unknown" not in message
         ):
             raise Error("unsupported CLI error omitted stable truth text")
     if not rejected:

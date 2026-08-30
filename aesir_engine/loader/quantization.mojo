@@ -63,7 +63,7 @@ def dequantize_q4_0_block(
         var scale_ptr = src_bytes.unsafe_offset(src_offset).unsafe_bitcast[Scalar[f16]]()
         var d = scale_ptr.unsafe_load()
         for i in range(16):
-            var nibbles = src_bytes.unsafe_load(src_offset + 2 + i)
+            var nibbles = UInt8(src_bytes.unsafe_load(src_offset + 2 + i))
             var q0 = Int(nibbles & 0x0F) - 8
             var q1 = Int((nibbles >> 4) & 0x0F) - 8
             dst_f16.unsafe_store(dst_offset + i, d * Scalar[f16](q0))

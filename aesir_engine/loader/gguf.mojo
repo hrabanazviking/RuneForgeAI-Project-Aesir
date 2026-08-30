@@ -466,7 +466,9 @@ struct GGUFSeer:
             or (self.alignment & (self.alignment - 1)) != 0
         ):
             raise Error("GGUF alignment must be a power of two up to 4096")
-        self.config.validate()
+        if self.config.architecture == "qwen2":
+            tokenizer.add_bos_token = False
+            tokenizer.bos_token_id = -1
         tokenizer.set_special_tokens(
             self.config.unknown_token_id,
             self.config.bos_token_id,

@@ -493,13 +493,38 @@ struct AesirEngine:
             # One request owns one KV cache. forward_pass() reclaims only its
             # temporary workspace, leaving these cached positions intact.
             var target_context_len = min(4096, self.parser.config.context_length)
-            self.pool.offset = self.runtime_offset
             var kv_cache = KVCache(
                 target_context_len,
                 self.parser.config.kv_dim(),
                 self.pool,
                 self.parser.config.block_count,
             )
+            var working_runtime_offset = self.pool.offset
+            # Full Prompt Prefill (Weaving the Context):
+            # Evaluate all prompt tokens 0..len(tokens)-2 to populate KV Cache across all transformer layers
+            for p in range(len(tokens) - 1):
+                _ = forward_pass(
+                    tokens,
+                    self.parser,
+                    self.pool,
+                    kv_cache,
+                    p,
+                    self.parser.config.block_count,
+                    self.parser.config.head_dim(),
+                    self.parser.config.head_count,
+                    self.topology,
+                    self.blocks,
+                    self.enable_npu,
+                    self.target_backend,
+                    self.enable_gpu_realm,
+                    self.target_gpu_realm,
+                    gen_config.temperature,
+                    gen_config.top_k,
+                    gen_config.top_p,
+                    gen_config.repetition_penalty,
+                    True,
+                )
+
             var last_prompt_pos = len(tokens) - 1
             var next_token = forward_pass(
                 tokens,
@@ -516,6 +541,10 @@ struct AesirEngine:
                 self.target_backend,
                 self.enable_gpu_realm,
                 self.target_gpu_realm,
+                gen_config.temperature,
+                gen_config.top_k,
+                gen_config.top_p,
+                gen_config.repetition_penalty,
             )
 
             var current_tokens = tokens.copy()
@@ -539,6 +568,7 @@ struct AesirEngine:
                     break
 
                 var token_text = self.tokenizer.decode(next_token)
+                print(" Token generated:", next_token, "'" + token_text + "'")
                 response_text += token_text
                 if stream_chunks:
                     var chunk_payload = String("{\"model\":\"aesir\",\"response\":\"") + token_text + String("\",\"done\":false}\n")
@@ -599,6 +629,10 @@ struct AesirEngine:
                     self.target_backend,
                     self.enable_gpu_realm,
                     self.target_gpu_realm,
+                    gen_config.temperature,
+                    gen_config.top_k,
+                    gen_config.top_p,
+                    gen_config.repetition_penalty,
                 )
 
             if stop_reason == "":

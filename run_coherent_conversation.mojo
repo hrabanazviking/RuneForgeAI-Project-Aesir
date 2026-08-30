@@ -47,10 +47,12 @@ def main() raises:
         print("[Line " + String(line_counter) + " - User]: " + prompt)
         line_counter += 1
 
-        history.append(ChatMessage("user", prompt))
-        var formatted_prompt = tmpl.format_chatml(history)
+        var turn_msgs = List[ChatMessage]()
+        turn_msgs.append(ChatMessage("system", "You are Aesir, a sovereign LLM inference engine operating on GPU. Respond helpfully and accurately."))
+        turn_msgs.append(ChatMessage("user", prompt))
+        var formatted_prompt = tmpl.format_chatml(turn_msgs)
 
-        var config = GenerationConfig(max_new_tokens=1, temperature=0.7, top_k=40, top_p=0.9, repetition_penalty=1.1)
+        var config = GenerationConfig(max_new_tokens=48, temperature=0.7, top_k=40, top_p=0.9, repetition_penalty=1.1)
         var result = engine.generate_tokens_config(formatted_prompt, config)
 
         var raw_text = result.text

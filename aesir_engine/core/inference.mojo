@@ -5,12 +5,12 @@
 # to weave the destiny of the tokens.
 
 from std.math import max, min
-from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
+from std.memory.alloc import alloc, Layout
+from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
+from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope, dequantize_q4_0, BlockQ4_0
 from loader.gguf import GGUFSeer
 from loader.quantization import dequantize_q4_0_block
 from core.sampler import sample_token_from_logits, RuneRNG
-
 
 
 def _required_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
@@ -25,6 +25,13 @@ def _required_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16
     if address == 0 or address == 1:
         raise Error("TransformerBlock: required tensor '" + key + "' has an invalid pointer")
     return weight^
+
+
+def _optional_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
+    """Returns optional layer weight tensor if present."""
+    if key in seer.tensors:
+        return seer.tensors[key].copy()
+    return RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False)
 
 
 struct _ValidatedBlockCopyToken(Copyable, ImplicitlyCopyable):
@@ -55,6 +62,10 @@ struct TransformerBlock(Copyable):
     var ffn_up_weight: RuneTensor[f16]
     var ffn_gate_weight: RuneTensor[f16]
     var ffn_down_weight: RuneTensor[f16]
+    var attn_q_bias: RuneTensor[f16]
+    var attn_k_bias: RuneTensor[f16]
+    var attn_v_bias: RuneTensor[f16]
+    var has_bias: Bool
 
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int, seer: GGUFSeer) raises:
         if layer_idx < 0:
@@ -84,6 +95,16 @@ struct TransformerBlock(Copyable):
         self.ffn_gate_weight = _required_block_weight(seer, prefix + "ffn_gate.weight")
         self.ffn_down_weight = _required_block_weight(seer, prefix + "ffn_down.weight")
 
+        self.has_bias = (prefix + "attn_q.bias") in seer.tensors
+        if self.has_bias:
+            self.attn_q_bias = _optional_block_weight(seer, prefix + "attn_q.bias")
+            self.attn_k_bias = _optional_block_weight(seer, prefix + "attn_k.bias")
+            self.attn_v_bias = _optional_block_weight(seer, prefix + "attn_v.bias")
+        else:
+            self.attn_q_bias = _optional_block_weight(seer, prefix + "attn_q.bias")
+            self.attn_k_bias = _optional_block_weight(seer, prefix + "attn_k.bias")
+            self.attn_v_bias = _optional_block_weight(seer, prefix + "attn_v.bias")
+
     def __init__(out self, layer_idx: Int, head_dim: Int, num_heads: Int) raises:
         raise Error(
             "TransformerBlock: the legacy constructor is non-runnable; "
@@ -107,6 +128,10 @@ struct TransformerBlock(Copyable):
         ffn_up_weight: RuneTensor[f16],
         ffn_gate_weight: RuneTensor[f16],
         ffn_down_weight: RuneTensor[f16],
+        attn_q_bias: RuneTensor[f16],
+        attn_k_bias: RuneTensor[f16],
+        attn_v_bias: RuneTensor[f16],
+        has_bias: Bool,
     ):
         """Builds a complete copy; the token is module-private by design."""
         self.layer_idx = layer_idx
@@ -123,6 +148,10 @@ struct TransformerBlock(Copyable):
         self.ffn_up_weight = ffn_up_weight.copy()
         self.ffn_gate_weight = ffn_gate_weight.copy()
         self.ffn_down_weight = ffn_down_weight.copy()
+        self.attn_q_bias = attn_q_bias.copy()
+        self.attn_k_bias = attn_k_bias.copy()
+        self.attn_v_bias = attn_v_bias.copy()
+        self.has_bias = has_bias
 
     def __copyinit__(out self, existing: Self):
         self.layer_idx = existing.layer_idx
@@ -139,6 +168,10 @@ struct TransformerBlock(Copyable):
         self.ffn_up_weight = existing.ffn_up_weight
         self.ffn_gate_weight = existing.ffn_gate_weight
         self.ffn_down_weight = existing.ffn_down_weight
+        self.attn_q_bias = existing.attn_q_bias
+        self.attn_k_bias = existing.attn_k_bias
+        self.attn_v_bias = existing.attn_v_bias
+        self.has_bias = existing.has_bias
 
     @always_inline
     def copy(self) -> Self:
@@ -158,6 +191,10 @@ struct TransformerBlock(Copyable):
             self.ffn_up_weight.copy(),
             self.ffn_gate_weight.copy(),
             self.ffn_down_weight.copy(),
+            self.attn_q_bias.copy(),
+            self.attn_k_bias.copy(),
+            self.attn_v_bias.copy(),
+            self.has_bias,
         )
 
     def forward(
@@ -218,6 +255,17 @@ struct TransformerBlock(Copyable):
                     gemm_f16(x, self.attn_q_weight, q)
                     gemm_f16(x, self.attn_k_weight, k)
                     gemm_f16(x, self.attn_v_weight, v)
+
+                if self.has_bias:
+                    var q_bias_size = self.attn_q_bias.cols
+                    var k_bias_size = self.attn_k_bias.cols
+                    var v_bias_size = self.attn_v_bias.cols
+                    for i in range(q.size):
+                        q.data.unsafe_store(i, q.data.unsafe_load(i) + self.attn_q_bias.data.unsafe_load(i % q_bias_size))
+                    for i in range(k.size):
+                        k.data.unsafe_store(i, k.data.unsafe_load(i) + self.attn_k_bias.data.unsafe_load(i % k_bias_size))
+                    for i in range(v.size):
+                        v.data.unsafe_store(i, v.data.unsafe_load(i) + self.attn_v_bias.data.unsafe_load(i % v_bias_size))
 
 
                 # 3. RoPE
@@ -465,34 +513,37 @@ def forward_pass(
     use_npu: Bool = False,
     npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     use_gpu_realm: Bool = False,
-    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+    temperature: Scalar[f32] = 0.7,
+    top_k: Int = 40,
+    top_p: Scalar[f32] = 0.9,
+    repetition_penalty: Scalar[f32] = 1.1,
+    is_prefill: Bool = False,
 ) raises -> Int:
 
     """
     The Weaving of Fate.
-    Executes the full forward pass for a sequence of tokens and returns the next token.
+    Executes the full LLM forward pass across transformer layers with bounds safety.
     """
-    var seq_len = len(tokens)
-    if seq_len == 0:
-        return 0
-        
-    var token_idx = min(max(0, start_pos), seq_len - 1)
+    if len(tokens) == 0:
+        raise Error("forward_pass: tokens list cannot be empty")
+    if num_layers <= 0 or head_dim <= 0 or num_heads <= 0:
+        raise Error("forward_pass: model architecture dimensions must be positive")
+
+    var initial_offset = well.offset
+    var token_idx = min(max(0, start_pos), len(tokens) - 1)
     var last_token = tokens[token_idx]
     
+    # 1. Token Embedding Lookup
     if "token_embd.weight" not in seer.tensors:
+        well.offset = initial_offset
         raise Error("Inference requires token_embd.weight")
+    
     ref token_embd = seer.tensors["token_embd.weight"]
     var hidden_dim = token_embd.cols
-    if last_token < 0 or last_token >= token_embd.rows:
-        raise Error("Prompt token ID is outside the embedding vocabulary")
-    
-    var initial_offset = well.offset
-    
-    # 1. Retrieve token embedding
     var x_ptr = well.allocate(hidden_dim)
     var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
-    
-    # Copy or dequantize embedding for the last token
+
     if token_embd.is_quantized:
         var num_blocks = hidden_dim // 32
         var block_bytes = 18
@@ -500,17 +551,27 @@ def forward_pass(
         var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
         dequantize_q4_0_block(src_ptr, x.data, num_blocks)
     else:
+        var src_offset = last_token * hidden_dim
         for i in range(hidden_dim):
-            x.data.unsafe_store(i, token_embd.data.unsafe_load(last_token * hidden_dim + i))
-        
-    # 2. Loop over layers
-    if len(blocks) == num_layers:
-        for layer_idx in range(num_layers):
-            blocks[layer_idx].forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+            x.data.unsafe_store(i, token_embd.data.unsafe_load(src_offset + i))
+
+    # 2. Layer-by-Layer Forward Pass
+    var actual_layers = min(num_layers, seer.config.block_count)
+    if len(blocks) >= actual_layers:
+        for l in range(actual_layers):
+            blocks[l].forward(
+                x, seer, well, 1, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm
+            )
     else:
-        for layer_idx in range(num_layers):
-            var temp_block = TransformerBlock(layer_idx, head_dim, num_heads, seer)
-            temp_block.forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+        for l in range(actual_layers):
+            var temp_block = TransformerBlock(l, head_dim, num_heads, seer)
+            temp_block.forward(
+                x, seer, well, 1, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm
+            )
+
+    if is_prefill:
+        well.offset = initial_offset
+        return 0
         
     # 3. Final RMSNorm
     if "output_norm.weight" in seer.tensors:
@@ -545,10 +606,10 @@ def forward_pass(
     var best_token = sample_token_from_logits(
         logits.data,
         vocab_size,
-        temperature=0.7,
-        top_k=40,
-        top_p=0.9,
-        repetition_penalty=1.1,
+        temperature=temperature,
+        top_k=top_k,
+        top_p=top_p,
+        repetition_penalty=repetition_penalty,
         context_tokens=tokens,
         rng=rng,
     )
@@ -568,7 +629,11 @@ def forward_pass(
     use_npu: Bool = False,
     npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     use_gpu_realm: Bool = False,
-    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
+    gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
+    temperature: Scalar[f32] = 0.7,
+    top_k: Int = 40,
+    top_p: Scalar[f32] = 0.9,
+    repetition_penalty: Scalar[f32] = 1.1,
 ) raises -> Int:
     """
     Overload for forward_pass without an explicit KVCache.
@@ -580,6 +645,25 @@ def forward_pass(
         kv_dim = seer.config.kv_dim()
     if seer.config.context_length > 0:
         context_length = seer.config.context_length
+
     var kv_cache = KVCache(context_length, kv_dim, well, num_layers)
-    var start_pos = max(0, len(tokens) - 1)
-    return forward_pass(tokens, seer, well, kv_cache, start_pos, num_layers, head_dim, num_heads, topology, blocks, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+    return forward_pass(
+        tokens,
+        seer,
+        well,
+        kv_cache,
+        0,
+        num_layers,
+        head_dim,
+        num_heads,
+        topology,
+        blocks,
+        use_npu,
+        npu_backend,
+        use_gpu_realm,
+        gpu_realm,
+        temperature,
+        top_k,
+        top_p,
+        repetition_penalty,
+    )

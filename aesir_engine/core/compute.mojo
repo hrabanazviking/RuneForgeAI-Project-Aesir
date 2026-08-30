@@ -6,7 +6,7 @@
 # through SIMD and parallelized runic operations.
 
 from std.math import exp, max, sqrt, cos, sin, isinf, isnan
-from std.memory import Pointer
+from std.memory import Pointer, alloc
 from std.algorithm import vectorize
 
 from .mimir_well import (
@@ -350,14 +350,15 @@ def dequantize_q4_0(
 ):
     if num_blocks <= 0:
         return
+    var b_bytes = block_ptr.unsafe_bitcast[Byte]()
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var qs = blk.qs
+        var b_ptr = b_bytes.unsafe_offset(b * 18)
+        var scale = b_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(16):
-            var l = (Scalar[f16](qs[i] & 0x0F) - 8.0) * scale
-            var u = (Scalar[f16]((qs[i] >> 4) & 0x0F) - 8.0) * scale
+            var qs = b_ptr.unsafe_load(2 + i)
+            var l = (Scalar[f16](qs & 0x0F) - 8.0) * scale
+            var u = (Scalar[f16]((qs >> 4) & 0x0F) - 8.0) * scale
             out_ptr.unsafe_store(out_offset + i, l)
             out_ptr.unsafe_store(out_offset + 16 + i, u)
 
@@ -454,13 +455,14 @@ def dequantize_q8_0(
 ):
     if num_blocks <= 0:
         return
+    var b_bytes = block_ptr.unsafe_bitcast[Byte]()
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var qs = blk.qs
+        var b_ptr = b_bytes.unsafe_offset(b * 34)
+        var scale = b_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(32):
-            out_ptr.unsafe_store(out_offset + i, Scalar[f16](qs[i]) * scale)
+            var q_val = b_ptr.unsafe_load(2 + i).cast[DType.int8]()
+            out_ptr.unsafe_store(out_offset + i, Scalar[f16](q_val) * scale)
 
 
 @always_inline
@@ -1152,6 +1154,7 @@ def gemm_q4_0(
     var src_bytes = B.data.unsafe_bitcast[Byte]()
 
     for row in range(rows):
+        var row_a_ptr = A.data.unsafe_offset(row * shared_dim)
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
             var row_byte_offset = (output_index * blocks_per_row) * 18
@@ -1160,14 +1163,14 @@ def gemm_q4_0(
                 var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
 
                 var col_idx = b * 32
+                var a_vec_lo = row_a_ptr.unsafe_load[width=16](col_idx).cast[f32]()
+                var a_vec_hi = row_a_ptr.unsafe_load[width=16](col_idx + 16).cast[f32]()
+
                 for i in range(16):
-                    var nibbles = blk_ptr.unsafe_load(2 + i)
+                    var nibbles = UInt8(blk_ptr.unsafe_load(2 + i))
                     var q0 = Scalar[f32](Int(nibbles & 0x0F) - 8) * scale
                     var q1 = Scalar[f32](Int((nibbles >> 4) & 0x0F) - 8) * scale
-
-                    var a_lo = A.data.unsafe_load(row * shared_dim + col_idx + i).cast[f32]()
-                    var a_hi = A.data.unsafe_load(row * shared_dim + col_idx + i + 16).cast[f32]()
-                    sum += a_lo * q0 + a_hi * q1
+                    sum += a_vec_lo[i] * q0 + a_vec_hi[i] * q1
 
             C.set(row, output_index, sum.cast[f16]())
 
@@ -1357,23 +1360,22 @@ def gemm_q8_0(
     var shared_dim = A.cols
     var output_dim = B.rows
     var blocks_per_row = shared_dim // 32
-    var block_base = B.data.unsafe_bitcast[BlockQ8_0]()
+    var src_bytes = B.data.unsafe_bitcast[Byte]()
 
     for row in range(rows):
+        var row_a_ptr = A.data.unsafe_offset(row * shared_dim)
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
+            var row_byte_offset = (output_index * blocks_per_row) * 34
             for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var qs = blk.qs
+                var blk_ptr = src_bytes.unsafe_offset(row_byte_offset + b * 34)
+                var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
                 var col_idx = b * 32
+                var a_vec = row_a_ptr.unsafe_load[width=32](col_idx).cast[f32]()
                 for i in range(32):
-                    var a_val = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i
-                    ).cast[f32]()
-                    var w_val = (Scalar[f16](qs[i]) * scale).cast[f32]()
-                    sum += a_val * w_val
+                    var q_byte = blk_ptr.unsafe_load(2 + i).cast[DType.int8]()
+                    var w_val = Scalar[f32](q_byte) * scale
+                    sum += a_vec[i] * w_val
             C.set(row, output_index, sum.cast[f16]())
 
 
@@ -2561,12 +2563,13 @@ def flash_attention_gqa(
     var query_heads_per_kv = query_head_count // kv_head_count
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
 
+    var acc = alloc[Scalar[f32]](head_dim)
     for query_head in range(query_head_count):
         var kv_head = query_head // query_heads_per_kv
         var query_base = query_head * head_dim
         var output_base = query_head * head_dim
         for dimension in range(head_dim):
-            output.data.unsafe_store(output_base + dimension, 0.0)
+            acc.unsafe_store(dimension, 0.0)
 
         var running_max: Scalar[f32] = -1e20
         var running_sum: Scalar[f32] = 0.0
@@ -2586,29 +2589,21 @@ def flash_attention_gqa(
             var next_sum = running_sum * previous_scale + probability
 
             for dimension in range(head_dim):
-                var previous = output.data.unsafe_load(
-                    output_base + dimension
-                ).cast[f32]()
+                var previous = acc.unsafe_load(dimension)
                 var value = values.data.unsafe_load(
                     value_base + dimension
                 ).cast[f32]()
-                output.data.unsafe_store(
-                    output_base + dimension,
-                    (previous * previous_scale + probability * value).cast[
-                        f16
-                    ](),
-                )
+                acc.unsafe_store(dimension, previous * previous_scale + probability * value)
             running_max = next_max
             running_sum = next_sum
 
         for dimension in range(head_dim):
-            var accumulated = output.data.unsafe_load(
-                output_base + dimension
-            ).cast[f32]()
+            var accumulated = acc.unsafe_load(dimension)
             output.data.unsafe_store(
                 output_base + dimension,
                 (accumulated / running_sum).cast[f16](),
             )
+    acc.free()
 
 
 def flash_attention_2(
@@ -2764,19 +2759,18 @@ def flash_attention_2(
 
 @always_inline
 def silu(mut T: RuneTensor[f16]):
-    """Vectorized SiLU (Swish) activation: x * sigmoid(x). The bending of the branch.
-    """
+    """Vectorized SiLU (Swish) activation: x * sigmoid(x). The bending of the branch."""
     if T.size <= 0:
         return
     var simd_end = (T.size // simd_w_f16) * simd_w_f16
     for i in range(0, simd_end, simd_w_f16):
-        var x = T.data.unsafe_load[width=simd_w_f16](i)
+        var x = T.data.unsafe_load[width=simd_w_f16](i).cast[f32]()
         var sigmoid = 1.0 / (1.0 + exp(-x))
-        T.data.unsafe_store[width=simd_w_f16](i, x * sigmoid)
+        T.data.unsafe_store[width=simd_w_f16](i, (x * sigmoid).cast[f16]())
     for i in range(simd_end, T.size):
-        var x = T.data.unsafe_load(i)
+        var x = T.data.unsafe_load(i).cast[f32]()
         var sigmoid = 1.0 / (1.0 + exp(-x))
-        T.data.unsafe_store(i, x * sigmoid)
+        T.data.unsafe_store(i, (x * sigmoid).cast[f16]())
 
 
 @always_inline
@@ -2784,14 +2778,12 @@ def geglu(mut T: RuneTensor[f16]):
     """Vectorized GeGLU operation. The binding of the gates."""
     if T.size <= 0 or T.size % 2 != 0:
         return
-    # Custom SIMD implementation to bypass global memory write-backs
-    # GeGLU splits the vector into two halves: x and y, and computes x * GELU(y)
     var half_size = T.size // 2
     var simd_end = (half_size // simd_w_f16) * simd_w_f16
 
     for i in range(0, simd_end, simd_w_f16):
-        var x = T.data.unsafe_load[width=simd_w_f16](i)
-        var y = T.data.unsafe_load[width=simd_w_f16](i + half_size)
+        var x = T.data.unsafe_load[width=simd_w_f16](i).cast[f32]()
+        var y = T.data.unsafe_load[width=simd_w_f16](i + half_size).cast[f32]()
 
         var y3 = y * y * y
         var inner = 0.79788456 * (y + 0.044715 * y3)
@@ -2801,11 +2793,11 @@ def geglu(mut T: RuneTensor[f16]):
         var tanh_approx = (exp_pos - exp_neg) / (exp_pos + exp_neg)
 
         var gelu_y = 0.5 * y * (1.0 + tanh_approx)
-        T.data.unsafe_store[width=simd_w_f16](i, x * gelu_y)
+        T.data.unsafe_store[width=simd_w_f16](i, (x * gelu_y).cast[f16]())
 
     for i in range(simd_end, half_size):
-        var x = T.data.unsafe_load(i)
-        var y = T.data.unsafe_load(i + half_size)
+        var x = T.data.unsafe_load(i).cast[f32]()
+        var y = T.data.unsafe_load(i + half_size).cast[f32]()
 
         var y3 = y * y * y
         var inner = 0.79788456 * (y + 0.044715 * y3)
@@ -2815,7 +2807,7 @@ def geglu(mut T: RuneTensor[f16]):
         var tanh_approx = (exp_pos - exp_neg) / (exp_pos + exp_neg)
 
         var gelu_y = 0.5 * y * (1.0 + tanh_approx)
-        T.data.unsafe_store(i, x * gelu_y)
+        T.data.unsafe_store(i, (x * gelu_y).cast[f16]())
 
 
 def rmsnorm(
@@ -2847,22 +2839,21 @@ def rmsnorm(
             var x = T.data.unsafe_load(r * hidden_dim + c).cast[f32]()
             ss += x * x
 
-        var rms = sqrt(ss / Float32(hidden_dim) + epsilon)
-        var inv_rms = (1.0 / rms).cast[f16]()
+        var inv_rms = 1.0 / sqrt(ss / Float32(hidden_dim) + epsilon)
 
         # Normalize and apply weight
         for c in range(0, simd_end, simd_w_f16):
-            var x = T.data.unsafe_load[width=simd_w_f16](r * hidden_dim + c)
-            var w = weight.data.unsafe_load[width=simd_w_f16](c)
+            var x = T.data.unsafe_load[width=simd_w_f16](r * hidden_dim + c).cast[f32]()
+            var w = weight.data.unsafe_load[width=simd_w_f16](c).cast[f32]()
             var normalized = x * inv_rms
             T.data.unsafe_store[width=simd_w_f16](
-                r * hidden_dim + c, normalized * w
+                r * hidden_dim + c, (normalized * w).cast[f16]()
             )
         for c in range(simd_end, hidden_dim):
-            var x = T.data.unsafe_load(r * hidden_dim + c)
-            var w = weight.data.unsafe_load(c)
+            var x = T.data.unsafe_load(r * hidden_dim + c).cast[f32]()
+            var w = weight.data.unsafe_load(c).cast[f32]()
             var normalized = x * inv_rms
-            T.data.unsafe_store(r * hidden_dim + c, normalized * w)
+            T.data.unsafe_store(r * hidden_dim + c, (normalized * w).cast[f16]())
 
 
 def apply_rope(
@@ -2870,7 +2861,7 @@ def apply_rope(
     mut K: RuneTensor[f16],
     start_pos: Int,
     head_dim: Int,
-    theta: Scalar[f32] = 10000.0,
+    theta: Scalar[f32] = 1000000.0,
 ) raises:
     """
     RoPE (Rotary Position Embeddings): The Threads of Urd.
@@ -2887,28 +2878,33 @@ def apply_rope(
 
     var num_heads_q = Q.cols // head_dim
     var num_heads_k = K.cols // head_dim
+    var half_dim = head_dim // 2
 
     for r in range(Q.rows):
         var pos = start_pos + r
-        for i in range(0, head_dim, 2):
-            var freq = 1.0 / (theta ** (Float32(i) / Float32(head_dim)))
+        for i in range(half_dim):
+            var freq = 1.0 / (theta ** (Float32(2 * i) / Float32(head_dim)))
             var val = Float32(pos) * freq
             var fcr = cos(val).cast[f16]()
             var fci = sin(val).cast[f16]()
 
             for h in range(num_heads_q):
-                var idx = r * Q.cols + h * head_dim + i
-                var q0 = Q.data.unsafe_load(idx)
-                var q1 = Q.data.unsafe_load(idx + 1)
-                Q.data.unsafe_store(idx, q0 * fcr - q1 * fci)
-                Q.data.unsafe_store(idx + 1, q0 * fci + q1 * fcr)
+                var head_base = r * Q.cols + h * head_dim
+                var idx0 = head_base + i
+                var idx1 = head_base + i + half_dim
+                var q0 = Q.data.unsafe_load(idx0)
+                var q1 = Q.data.unsafe_load(idx1)
+                Q.data.unsafe_store(idx0, q0 * fcr - q1 * fci)
+                Q.data.unsafe_store(idx1, q0 * fci + q1 * fcr)
 
             for h in range(num_heads_k):
-                var idx = r * K.cols + h * head_dim + i
-                var k0 = K.data.unsafe_load(idx)
-                var k1 = K.data.unsafe_load(idx + 1)
-                K.data.unsafe_store(idx, k0 * fcr - k1 * fci)
-                K.data.unsafe_store(idx + 1, k0 * fci + k1 * fcr)
+                var head_base = r * K.cols + h * head_dim
+                var idx0 = head_base + i
+                var idx1 = head_base + i + half_dim
+                var k0 = K.data.unsafe_load(idx0)
+                var k1 = K.data.unsafe_load(idx1)
+                K.data.unsafe_store(idx0, k0 * fcr - k1 * fci)
+                K.data.unsafe_store(idx1, k0 * fci + k1 * fcr)
 
 
 @always_inline

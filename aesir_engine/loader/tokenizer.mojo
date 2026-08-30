@@ -114,16 +114,20 @@ struct RuneWeaver:
             index += width
 
     def _initial_pieces(self, prompt: String) -> List[String]:
-        """Applies Llama's SentencePiece space marker and returns UTF-8 symbols."""
-        var uses_space_marker = "▁" in self.token_to_id
+        """Applies SentencePiece/BPE space markers and returns UTF-8 symbols."""
+        var uses_llama_space = "▁" in self.token_to_id
+        var uses_gpt2_space = "Ġ" in self.token_to_id
         var normalized = String("")
-        if uses_space_marker:
-            normalized += String("▁")
         var prompt_bytes = prompt.as_bytes()
         var byte_index = 0
         while byte_index < len(prompt_bytes):
-            if uses_space_marker and prompt_bytes[byte_index] == 0x20:
-                normalized += String("▁")
+            if prompt_bytes[byte_index] == 0x20:
+                if uses_gpt2_space:
+                    normalized += String("Ġ")
+                elif uses_llama_space:
+                    normalized += String("▁")
+                else:
+                    normalized += String(" ")
                 byte_index += 1
                 continue
             var width = 1

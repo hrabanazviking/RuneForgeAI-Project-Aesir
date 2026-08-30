@@ -234,7 +234,7 @@ def sample_token_from_logits(
     min_p: Float32 = 0.0,
     suppress_tokens: List[Int] = List[Int](),
 ) -> Int:
-    """Samples a token ID from raw F16 logits using the full sampler stack."""
+    """Samples a token ID from raw F16 logits using an optimized high-performance sampler stack."""
     if vocab_size <= 0:
         return 0
 
@@ -260,9 +260,20 @@ def sample_token_from_logits(
                 best_id = i
         return best_id
 
+    # O(N) Fast Threshold Filter: Collect candidates within 15.0 log-probability of max logit
+    # Logits smaller than max_logit - 15.0 have relative probability < exp(-15) = 3.0e-7 and are truncated
+    var max_logit = sanitize_logit(logits_ptr.unsafe_load(0).cast[f32]())
+    for i in range(1, vocab_size):
+        var val = sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())
+        if val > max_logit:
+            max_logit = val
+
+    var threshold = max_logit - Float32(15.0)
     var candidates = List[TokenCandidate]()
     for i in range(vocab_size):
-        candidates.append(TokenCandidate(i, sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())))
+        var val = sanitize_logit(logits_ptr.unsafe_load(i).cast[f32]())
+        if val >= threshold:
+            candidates.append(TokenCandidate(i, val))
 
     if len(suppress_tokens) > 0:
         apply_token_mask(candidates, suppress_tokens)
