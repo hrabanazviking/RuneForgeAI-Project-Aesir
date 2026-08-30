@@ -59,7 +59,15 @@ struct EXL2ModelSeer:
         """
         if size < 8:
             raise Error("EXL2 binary header span too small (< 8 bytes)")
-        
+
+        # Verify 'EXL2' magic header bytes
+        var b0 = bytes.unsafe_load(0)
+        var b1 = bytes.unsafe_load(1)
+        var b2 = bytes.unsafe_load(2)
+        var b3 = bytes.unsafe_load(3)
+        if b0 != 0x45 or b1 != 0x58 or b2 != 0x4C or b3 != 0x32:
+            raise Error("Invalid EXL2 magic header: expected 'EXL2'")
+
         validate_exl2_format_contract(False)
         self.avg_bitrate = 4.25
         return True
