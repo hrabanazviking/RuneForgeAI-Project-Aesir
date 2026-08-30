@@ -11,6 +11,7 @@ from cli.multi_engine import (
 )
 from config import AesirConfig, load_config_file
 from server.api import BifrostGate
+from loader.huggingface import HuggingFaceSeer
 
 
 def print_banner():
@@ -408,7 +409,21 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             "engine process control command '" + cmd + "' is not implemented"
         )
 
-    if cmd == "pull" or cmd == "push":
+    if cmd == "pull":
+        if len(args) <= 1:
+            raise Error("pull command requires model repository tag (e.g., Qwen/Qwen2.5-0.5B-Instruct-GGUF)")
+        var repo_tag = args[1]
+        var filename = String("qwen2.5-0.5b-instruct-q4_0.gguf")
+        if len(args) > 2:
+            filename = args[2]
+        var hf = HuggingFaceSeer()
+        print("Pulling model from Hugging Face repository: " + repo_tag)
+        var ok = hf.download_hf_model(repo_tag, filename, filename)
+        if ok:
+            print("Successfully downloaded Hugging Face model: " + filename)
+        return
+
+    if cmd == "push":
         raise Error(
             "model registry transfer command '" + cmd + "' is not implemented"
         )

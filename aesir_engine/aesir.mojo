@@ -30,13 +30,13 @@ def calculate_runtime_pool_bytes(
     var kv_dim = config.kv_dim()
     var converted_norms = (2 * config.block_count + 1) * hidden
     var kv_cache = (
-        2 * config.block_count * config.context_length * kv_dim
+        2 * config.block_count * max(4096, config.context_length) * kv_dim
     )
     var layer_workspace = (
-        4 * hidden
-        + 2 * kv_dim
-        + 2 * config.feed_forward_length
-        + vocab_size
+        16 * hidden
+        + 4 * kv_dim
+        + 4 * config.feed_forward_length
+        + max(32000, vocab_size)
     )
     var knowledge_store = max(1, knowledge_capacity) * hidden
     return 2 * (
@@ -477,31 +477,36 @@ struct AesirEngine:
 
             # One request owns one KV cache. forward_pass() reclaims only its
             # temporary workspace, leaving these cached positions intact.
+            var target_context_len = min(4096, self.parser.config.context_length)
             self.pool.offset = self.runtime_offset
             var kv_cache = KVCache(
-                self.parser.config.context_length,
+                target_context_len,
                 self.parser.config.kv_dim(),
                 self.pool,
                 self.parser.config.block_count,
             )
             var next_token = 0
             for position in range(len(tokens)):
-                next_token = forward_pass(
-                    tokens,
-                    self.parser,
-                    self.pool,
-                    kv_cache,
-                    position,
-                    self.parser.config.block_count,
-                    self.parser.config.head_dim(),
-                    self.parser.config.head_count,
-                    self.topology,
-                    self.blocks,
-                    self.enable_npu,
-                    self.target_backend,
-                    self.enable_gpu_realm,
-                    self.target_gpu_realm,
-                )
+                try:
+                    next_token = forward_pass(
+                        tokens,
+                        self.parser,
+                        self.pool,
+                        kv_cache,
+                        position,
+                        self.parser.config.block_count,
+                        self.parser.config.head_dim(),
+                        self.parser.config.head_count,
+                        self.topology,
+                        self.blocks,
+                        self.enable_npu,
+                        self.target_backend,
+                        self.enable_gpu_realm,
+                        self.target_gpu_realm,
+                    )
+                except e:
+                    print("Error during forward pass position", position, ":", e)
+                    raise e
 
             var current_tokens = tokens.copy()
             var generated_token_ids = List[Int]()

@@ -80,7 +80,7 @@ struct HuggingFaceSeer:
         if len(out_file.bytes()) == 0:
             out_file = filename
 
-        var cmd = String("curl -sSL \"") + url + String("\" -o \"") + out_file + String("\"")
+        var cmd = String("curl -sSL -f \"") + url + String("\" -o \"") + out_file + String("\"")
         var cmd_bytes = cmd.as_bytes()
         var ret = external_call["system", Int32](cmd_bytes.unsafe_ptr().unsafe_bitcast[Int8]())
         _ = cmd_bytes

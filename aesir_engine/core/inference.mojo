@@ -8,6 +8,7 @@ from std.math import max, min
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, shard_split_cols, shard_split_rows, f16, f32
 from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
 from loader.gguf import GGUFSeer
+from loader.quantization import dequantize_q4_0_block
 
 
 
@@ -219,9 +220,11 @@ struct TransformerBlock(Copyable):
 
 
                 # 3. RoPE
+                print("DEBUG Layer", self.layer_idx, "substep 3 RoPE")
                 apply_rope(q, k, start_pos, self.head_dim)
 
                 # 4. Ring-Buffer KV Cache Append & Flash Attention 2
+                print("DEBUG Layer", self.layer_idx, "substep 4 FlashAttention")
                 kv_cache.append(self.layer_idx, start_pos, k, v)
                 var active_seq_len = min(start_pos + 1, kv_cache.max_seq_len)
                 var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
@@ -490,25 +493,27 @@ def forward_pass(
     var x_ptr = well.allocate(hidden_dim)
     var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
     
-    # Copy embedding for the last token
-    for i in range(hidden_dim):
-        x.data.unsafe_store(i, token_embd.data.unsafe_load(last_token * hidden_dim + i))
+    # Copy or dequantize embedding for the last token
+    if token_embd.is_quantized:
+        var num_blocks = hidden_dim // 32
+        var block_bytes = 18
+        var src_byte_offset = (last_token * num_blocks) * block_bytes
+        var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+        dequantize_q4_0_block(src_ptr, x.data, num_blocks)
+    else:
+        for i in range(hidden_dim):
+            x.data.unsafe_store(i, token_embd.data.unsafe_load(last_token * hidden_dim + i))
         
-    # 2. Pre-construct or use pre-cached layer blocks (zero dynamic string allocations during inner loop)
-    var active_blocks = List[TransformerBlock]()
+    # 2. Loop over layers
     if len(blocks) == num_layers:
-        for i in range(len(blocks)):
-            active_blocks.append(blocks[i].copy())
+        for layer_idx in range(num_layers):
+            blocks[layer_idx].forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
     else:
         for layer_idx in range(num_layers):
-            active_blocks.append(TransformerBlock(layer_idx, head_dim, num_heads, seer))
-
-    # 3. Loop over layers
-    for layer_idx in range(num_layers):
-        var block = active_blocks[layer_idx].copy()
-        block.forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
+            var temp_block = TransformerBlock(layer_idx, head_dim, num_heads, seer)
+            temp_block.forward(x, seer, well, seq_len, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm)
         
-    # 4. Final RMSNorm
+    # 3. Final RMSNorm
     if "output_norm.weight" in seer.tensors:
         var epsilon: Scalar[f32] = 1e-5
         if seer.config.rms_epsilon > 0.0:
@@ -518,7 +523,8 @@ def forward_pass(
         else:
             rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
     
-    # 5. Final projection to logits
+    # 4. Final projection to logits
+    print("DEBUG: Step 5 Final Projection to Logits")
     if "output.weight" not in seer.tensors:
         well.offset = initial_offset
         raise Error("Inference requires output.weight")

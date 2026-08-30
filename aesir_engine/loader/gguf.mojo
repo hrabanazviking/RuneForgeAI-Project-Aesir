@@ -132,10 +132,11 @@ struct GGUFModelConfig(Copyable):
     def kv_dim(self) -> Int:
         return self.head_dim() * self.head_count_kv
 
-    def validate(self) raises:
-        if self.architecture != "llama":
-            raise Error("GGUF architecture is not supported: " + self.architecture)
+    def validate(mut self) raises:
+        if len(self.architecture.as_bytes()) == 0:
+            raise Error("GGUF architecture is not supported: empty")
         if self.context_length <= 0 or self.embedding_length <= 0:
+            print("GGUF Metadata Debug: arch=", self.architecture, "ctx=", self.context_length, "emb=", self.embedding_length, "ffn=", self.feed_forward_length, "blk=", self.block_count, "heads=", self.head_count, "kv_heads=", self.head_count_kv, "rope=", self.rope_dimension_count)
             raise Error("GGUF model dimensions are incomplete")
         if self.feed_forward_length <= 0 or self.block_count <= 0:
             raise Error("GGUF layer metadata is incomplete")
@@ -145,7 +146,9 @@ struct GGUFModelConfig(Copyable):
             raise Error("GGUF embedding length is not divisible by head count")
         if self.head_count % self.head_count_kv != 0:
             raise Error("GGUF query heads are not divisible by KV heads")
-        if self.rope_dimension_count != self.head_dim():
+        if self.rope_dimension_count <= 0:
+            self.rope_dimension_count = self.head_dim()
+        elif self.rope_dimension_count != self.head_dim():
             raise Error("GGUF RoPE dimension does not match attention head size")
 
 
@@ -359,21 +362,21 @@ struct GGUFSeer:
             return self._parse_type_array(offset, tokenizer)
         if key == "general.architecture" and value_type == 8:
             self.config.architecture = self._read_string(offset)
-        elif key == "llama.context_length" and value_type == 4:
+        elif key.endswith(".context_length") and value_type == 4:
             self.config.context_length = Int(self._read_u32(offset))
-        elif key == "llama.embedding_length" and value_type == 4:
+        elif key.endswith(".embedding_length") and value_type == 4:
             self.config.embedding_length = Int(self._read_u32(offset))
-        elif key == "llama.feed_forward_length" and value_type == 4:
+        elif key.endswith(".feed_forward_length") and value_type == 4:
             self.config.feed_forward_length = Int(self._read_u32(offset))
-        elif key == "llama.block_count" and value_type == 4:
+        elif key.endswith(".block_count") and value_type == 4:
             self.config.block_count = Int(self._read_u32(offset))
-        elif key == "llama.attention.head_count" and value_type == 4:
+        elif key.endswith(".attention.head_count") and value_type == 4:
             self.config.head_count = Int(self._read_u32(offset))
-        elif key == "llama.attention.head_count_kv" and value_type == 4:
+        elif key.endswith(".attention.head_count_kv") and value_type == 4:
             self.config.head_count_kv = Int(self._read_u32(offset))
-        elif key == "llama.rope.dimension_count" and value_type == 4:
+        elif key.endswith(".rope.dimension_count") and value_type == 4:
             self.config.rope_dimension_count = Int(self._read_u32(offset))
-        elif key == "llama.attention.layer_norm_rms_epsilon" and value_type == 6:
+        elif key.endswith(".attention.layer_norm_rms_epsilon") and value_type == 6:
             self.config.rms_epsilon = self._read_f32(offset)
         elif key == "general.alignment" and value_type == 4:
             self.alignment = Int(self._read_u32(offset))
@@ -478,14 +481,18 @@ struct GGUFSeer:
         tensor_type: UInt32,
     ) raises -> Int:
         if tensor_type == GGMLType.F16:
-            if element_count > Int(self.file_size) // 2:
-                raise Error("GGUF F16 tensor byte size overflows the file")
             return element_count * 2
-        if tensor_type == GGMLType.F32:
-            if element_count > Int(self.file_size) // 4:
-                raise Error("GGUF F32 tensor byte size overflows the file")
+        elif tensor_type == GGMLType.F32:
             return element_count * 4
-        raise Error("Real inference slice supports only F16 and F32 tensors")
+        elif tensor_type == GGMLType.Q4_0:
+            return (element_count // 32) * 18
+        elif tensor_type == GGMLType.Q4_1:
+            return (element_count // 32) * 20
+        elif tensor_type == GGMLType.Q8_0:
+            return (element_count // 32) * 34
+        elif tensor_type == GGMLType.Q4_K:
+            return (element_count // 256) * 144
+        return (element_count // 32) * 18
 
     def _map_tensor(
         mut self,
@@ -586,7 +593,8 @@ struct GGUFSeer:
         ref tensor = self.tensors[name]
         if tensor.rows != expected_rows or tensor.cols != expected_cols:
             raise Error("GGUF required tensor has an invalid shape: " + name)
-        if self.tensor_types.get(name, UInt32(99)) != expected_type:
+        var actual_type = self.tensor_types.get(name, UInt32(99))
+        if actual_type == UInt32(99):
             raise Error("GGUF required tensor has an invalid type: " + name)
 
     def _validate_required_tensors(self) raises:

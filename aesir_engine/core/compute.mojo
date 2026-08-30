@@ -1149,32 +1149,25 @@ def gemm_q4_0(
     var shared_dim = A.cols
     var output_dim = B.rows
     var blocks_per_row = shared_dim // 32
-    var block_base = B.data.unsafe_bitcast[BlockQ4_0]()
+    var src_bytes = B.data.unsafe_bitcast[Byte]()
 
     for row in range(rows):
         for output_index in range(output_dim):
             var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
+            var row_byte_offset = (output_index * blocks_per_row) * 18
             for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var qs = blk.qs
-                var lower_4 = qs & 0x0F
-                var upper_4 = (qs >> 4) & 0x0F
+                var blk_ptr = src_bytes.unsafe_offset(row_byte_offset + b * 18)
+                var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
 
                 var col_idx = b * 32
-                var a_vec_lower = A.data.unsafe_load[width=16](
-                    row * shared_dim + col_idx
-                ).cast[f32]()
-                var a_vec_upper = A.data.unsafe_load[width=16](
-                    row * shared_dim + col_idx + 16
-                ).cast[f32]()
+                for i in range(16):
+                    var nibbles = blk_ptr.unsafe_load(2 + i)
+                    var q0 = Scalar[f32](Int(nibbles & 0x0F) - 8) * scale
+                    var q1 = Scalar[f32](Int((nibbles >> 4) & 0x0F) - 8) * scale
 
-                var w_lower = ((lower_4.cast[f16]() - 8.0) * scale).cast[f32]()
-                var w_upper = ((upper_4.cast[f16]() - 8.0) * scale).cast[f32]()
-
-                sum += (a_vec_lower * w_lower).reduce_add()
-                sum += (a_vec_upper * w_upper).reduce_add()
+                    var a_lo = A.data.unsafe_load(row * shared_dim + col_idx + i).cast[f32]()
+                    var a_hi = A.data.unsafe_load(row * shared_dim + col_idx + i + 16).cast[f32]()
+                    sum += a_lo * q0 + a_hi * q1
 
             C.set(row, output_index, sum.cast[f16]())
 
@@ -2662,8 +2655,11 @@ def flash_attention_2(
     var Bc = 32
 
     var num_heads = Q.cols // head_dim
+    var num_kv_heads = max(1, K.cols // head_dim)
+    var group_size = max(1, num_heads // num_kv_heads)
 
     for h in range(num_heads):
+        var kv_head = h // group_size
         for i_start in range(0, seq_len, Br):
             for ii in range(Br):
                 var i = i_start + ii
@@ -2695,7 +2691,7 @@ def flash_attention_2(
                                 i * Q.cols + h * head_dim + k
                             ).cast[f32]()
                             var k_vec = K.data.unsafe_load[width=simd_w_f32](
-                                j * K.cols + h * head_dim + k
+                                j * K.cols + kv_head * head_dim + k
                             ).cast[f32]()
                             S_ij += (q_vec * k_vec).reduce_add()
                         for k in range(simd_end, head_dim):
@@ -2703,7 +2699,7 @@ def flash_attention_2(
                                 i * Q.cols + h * head_dim + k
                             ).cast[f32]()
                             var k_val = K.data.unsafe_load(
-                                j * K.cols + h * head_dim + k
+                                j * K.cols + kv_head * head_dim + k
                             ).cast[f32]()
                             S_ij += q_val * k_val
 
@@ -2717,7 +2713,7 @@ def flash_attention_2(
                         # 3. Multiply by V and accumulate
                         for k in range(0, simd_end, simd_w_f32):
                             var v_vec = V.data.unsafe_load[width=simd_w_f32](
-                                j * V.cols + h * head_dim + k
+                                j * V.cols + kv_head * head_dim + k
                             ).cast[f32]()
                             var out_old = Out.data.unsafe_load[
                                 width=simd_w_f32
@@ -2731,7 +2727,7 @@ def flash_attention_2(
                             )
                         for k in range(simd_end, head_dim):
                             var v_val = V.data.unsafe_load(
-                                j * V.cols + h * head_dim + k
+                                j * V.cols + kv_head * head_dim + k
                             ).cast[f32]()
                             var out_old_s = Out.data.unsafe_load(
                                 i * Out.cols + h * head_dim + k

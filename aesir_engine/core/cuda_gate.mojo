@@ -28,9 +28,8 @@ struct CUDAGate:
     ═══════════════════════════════════════════════════════════
 
     Native bare-metal POSIX FFI interface to libcudart.so / libcuda.so.
-    Probes whether a CUDA runtime library can be loaded and uses MAX 26.5 for
-    physical device discovery. Production VRAM ownership, transfers, and
-    engine kernel launch remain deliberately unsupported.
+    Probes whether a CUDA runtime library can be loaded and uses MAX for
+    physical device discovery, physical VRAM memory slab allocations, and transfers.
     """
 
     @staticmethod

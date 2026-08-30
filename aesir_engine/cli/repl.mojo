@@ -163,6 +163,10 @@ def run_single_shot(
     print("Loading GGUF model '" + model_name + "'...")
     print("Prompt: " + prompt)
     var engine = AesirEngine(model_name, knowledge_capacity=1)
-    var result = engine.generate_tokens(prompt, max_new_tokens)
-    print("\n[Response]:")
-    print(result.text)
+    try:
+        var result = engine.generate_tokens(prompt, max_new_tokens)
+        print("\n[Response]:")
+        print(result.text)
+    except e:
+        print("\nExecution Error in generate_tokens:", e)
+        raise e
