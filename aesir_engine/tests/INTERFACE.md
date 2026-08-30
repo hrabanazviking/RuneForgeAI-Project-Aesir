@@ -1,5 +1,14 @@
 # Tests Domain Interface Specification
 
+Native CUDA opt-in evidence is documented in `docs/GEMMA4_CUDA.md`:
+`test_gemma4_cuda.mojo` executes the actual dense model,
+`test_gemma4_quant_parity.mojo` compares physical GPU matvec results against
+independently generated real-weight expectations, and `inspect_gemma4.mojo`
+supports the independent tokenizer check. `test_cuda_chat_admission` remains
+hardware-free in the counted master suite. `scripts/check_gemma4_conversation.py`
+validates 20 actual transcript turns, context accounting, limits and retained
+facts; it does not fabricate responses or certify general model intelligence.
+
 ## Public Test Modules
 
 ```mojo

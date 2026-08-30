@@ -52,6 +52,8 @@ struct TransformerBlock(Copyable):
     var num_heads: Int
     var num_kv_heads: Int
     var rms_epsilon: Scalar[f32]
+    var rope_theta: Scalar[f32]
+    var rope_neox: Bool
 
     var attn_norm_weight: RuneTensor[f16]
     var attn_q_weight: RuneTensor[f16]
@@ -83,6 +85,8 @@ struct TransformerBlock(Copyable):
         if seer.config.head_count_kv > 0:
             self.num_kv_heads = seer.config.head_count_kv
         self.rms_epsilon = seer.config.rms_epsilon
+        self.rope_theta = seer.config.rope_freq_base
+        self.rope_neox = seer.config.architecture == "qwen2"
 
         var prefix = "blk." + String(self.layer_idx) + "."
         self.attn_norm_weight = _required_block_weight(seer, prefix + "attn_norm.weight")
@@ -119,6 +123,8 @@ struct TransformerBlock(Copyable):
         num_heads: Int,
         num_kv_heads: Int,
         rms_epsilon: Scalar[f32],
+        rope_theta: Scalar[f32],
+        rope_neox: Bool,
         attn_norm_weight: RuneTensor[f16],
         attn_q_weight: RuneTensor[f16],
         attn_k_weight: RuneTensor[f16],
@@ -139,6 +145,8 @@ struct TransformerBlock(Copyable):
         self.num_heads = num_heads
         self.num_kv_heads = num_kv_heads
         self.rms_epsilon = rms_epsilon
+        self.rope_theta = rope_theta
+        self.rope_neox = rope_neox
         self.attn_norm_weight = attn_norm_weight.copy()
         self.attn_q_weight = attn_q_weight.copy()
         self.attn_k_weight = attn_k_weight.copy()
@@ -159,6 +167,8 @@ struct TransformerBlock(Copyable):
         self.num_heads = existing.num_heads
         self.num_kv_heads = existing.num_kv_heads
         self.rms_epsilon = existing.rms_epsilon
+        self.rope_theta = existing.rope_theta
+        self.rope_neox = existing.rope_neox
         self.attn_norm_weight = existing.attn_norm_weight
         self.attn_q_weight = existing.attn_q_weight
         self.attn_k_weight = existing.attn_k_weight
@@ -182,6 +192,8 @@ struct TransformerBlock(Copyable):
             self.num_heads,
             self.num_kv_heads,
             self.rms_epsilon,
+            self.rope_theta,
+            self.rope_neox,
             self.attn_norm_weight.copy(),
             self.attn_q_weight.copy(),
             self.attn_k_weight.copy(),
@@ -269,7 +281,7 @@ struct TransformerBlock(Copyable):
 
 
                 # 3. RoPE
-                apply_rope(q, k, start_pos, self.head_dim)
+                apply_rope(q, k, start_pos, self.head_dim, self.rope_theta, self.rope_neox)
 
                 # 4. Ring-Buffer KV Cache Append & Flash Attention 2
                 kv_cache.append(self.layer_idx, start_pos, k, v)
@@ -411,7 +423,7 @@ struct TransformerBlock(Copyable):
                     full_v.data.unsafe_store(d * shard_dim + i, v_shards[d].data.unsafe_load(i))
 
             # 3. RoPE
-            apply_rope(full_q, full_k, start_pos, self.head_dim)
+            apply_rope(full_q, full_k, start_pos, self.head_dim, self.rope_theta, self.rope_neox)
 
             # 4. Fixed-capacity KV Cache Append & Flash Attention 2
             kv_cache.append(self.layer_idx, start_pos, full_k, full_v)
@@ -514,7 +526,7 @@ def forward_pass(
     npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     use_gpu_realm: Bool = False,
     gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
-    temperature: Scalar[f32] = 0.7,
+    temperature: Scalar[f32] = 0.0,
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
@@ -630,7 +642,7 @@ def forward_pass(
     npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
     use_gpu_realm: Bool = False,
     gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
-    temperature: Scalar[f32] = 0.7,
+    temperature: Scalar[f32] = 0.0,
     top_k: Int = 40,
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,

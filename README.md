@@ -13,8 +13,11 @@
 **A bare-metal Mojo inference engine designed for local sovereignty.**
 
 Project A.E.S.I.R. is an experimental LLM inference engine built in Mojo. Its
-verified vertical slice runs one pinned GGUF v3 Llama F16 model on a Linux CPU;
-consumer GPU support is a roadmap target, not a current runtime capability.
+verified paths include a pinned GGUF v3 Llama F16 CPU model and native Mojo CUDA
+text inference for Gemma 4 E4B Q4_K_M. The Gemma path keeps all 42 layers, packed
+weights, activations and KV cache on the NVIDIA GPU, with no CPU fallback.
+See the [native CUDA download and chat guide](docs/GEMMA4_CUDA.md) for the
+20-turn conversation, exact artifact pin, limits and reproduction commands.
 
 Our mission is simple: **Eliminate cloud dependency and software bloat to deliver high-performance, private AI directly on the edge.**
 

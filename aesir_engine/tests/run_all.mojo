@@ -13,6 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
+from tests.test_cuda_chat_admission import test_cuda_chat_admission
 from tests.test_inference import (
     test_forward_pass,
     test_generation_stop_policy,
@@ -209,6 +210,8 @@ from tests.test_huggingface import (
     test_hf_repo_parsing,
     test_hf_download_url_builder,
     test_hf_mobile_model_download,
+    test_hf_subprocess_argument_safety,
+    test_hf_pinned_download_admission,
 )
 from tests.test_swarm_cluster import (
     test_swarm_node_role,
@@ -617,10 +620,13 @@ def main() raises:
     print("")
 
     # --- Hugging Face String Helpers and Unsupported Download ---
-    print("  [DOMAIN] Hugging Face String Helpers and Unsupported Download")
+    print("  [DOMAIN] Hugging Face Download Admission and Process Safety")
     print("  -----------------------------------------")
     run_case(ledger, "huggingface.tag_parser", test_hf_repo_parsing)
     run_case(ledger, "huggingface.url_builder", test_hf_download_url_builder)
+    run_case(ledger, "huggingface.argv_safety", test_hf_subprocess_argument_safety)
+    run_case(ledger, "huggingface.pinned_admission", test_hf_pinned_download_admission)
+    run_case(ledger, "cli.cuda_chat_admission", test_cuda_chat_admission)
     run_case(
         ledger,
         "huggingface.download_unsupported",
@@ -717,4 +723,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(145)
+    ledger.finish(148)

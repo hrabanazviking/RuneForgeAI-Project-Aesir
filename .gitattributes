@@ -1,0 +1,3 @@
+# Byte-pinned text fixtures must have stable hashes on Windows and Linux.
+aesir_engine/tests/fixtures/gemma4_conversation_20.txt text eol=lf
+aesir_engine/tests/fixtures/gemma4_tokenizer.json text eol=lf

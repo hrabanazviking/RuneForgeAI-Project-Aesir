@@ -92,6 +92,7 @@ struct GGUFModelConfig(Copyable):
     var head_count_kv: Int
     var rope_dimension_count: Int
     var rms_epsilon: Float32
+    var rope_freq_base: Float32
     var unknown_token_id: Int
     var bos_token_id: Int
     var eos_token_id: Int
@@ -106,6 +107,7 @@ struct GGUFModelConfig(Copyable):
         self.head_count_kv = 0
         self.rope_dimension_count = 0
         self.rms_epsilon = 1e-5
+        self.rope_freq_base = 10000.0
         self.unknown_token_id = 0
         self.bos_token_id = 1
         self.eos_token_id = 2
@@ -120,6 +122,7 @@ struct GGUFModelConfig(Copyable):
         self.head_count_kv = existing.head_count_kv
         self.rope_dimension_count = existing.rope_dimension_count
         self.rms_epsilon = existing.rms_epsilon
+        self.rope_freq_base = existing.rope_freq_base
         self.unknown_token_id = existing.unknown_token_id
         self.bos_token_id = existing.bos_token_id
         self.eos_token_id = existing.eos_token_id
@@ -376,6 +379,8 @@ struct GGUFSeer:
             self.config.head_count_kv = Int(self._read_u32(offset))
         elif key.endswith(".rope.dimension_count") and value_type == 4:
             self.config.rope_dimension_count = Int(self._read_u32(offset))
+        elif key.endswith(".rope.freq_base") and value_type == 6:
+            self.config.rope_freq_base = self._read_f32(offset)
         elif key.endswith(".attention.layer_norm_rms_epsilon") and value_type == 6:
             self.config.rms_epsilon = self._read_f32(offset)
         elif key == "general.alignment" and value_type == 4:
@@ -391,6 +396,9 @@ struct GGUFSeer:
             tokenizer.add_bos_token = (
                 self.mmap_ptr.unsafe_offset(offset).unsafe_load() != 0
             )
+        elif key == "tokenizer.ggml.add_space_prefix" and value_type == 7:
+            self._require_range(offset, 1)
+            tokenizer.add_space_prefix = self.mmap_ptr.unsafe_load(offset) != 0
         return self.skip_value(value_type, offset)
 
     def _open_and_map(mut self) raises:
@@ -469,6 +477,8 @@ struct GGUFSeer:
         if self.config.architecture == "qwen2":
             tokenizer.add_bos_token = False
             tokenizer.bos_token_id = -1
+        if self.config.architecture == "llama" and "tokenizer.ggml.add_space_prefix" not in seen_keys:
+            tokenizer.add_space_prefix = True
         tokenizer.set_special_tokens(
             self.config.unknown_token_id,
             self.config.bos_token_id,

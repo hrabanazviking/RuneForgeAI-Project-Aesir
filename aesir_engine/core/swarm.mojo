@@ -48,7 +48,7 @@ struct NodeIdentity(Copyable):
     def __init__(
         out self,
         node_id: String,
-        auth_token: String = "secret-aesir-token",
+        auth_token: String = "",
         protocol_version: String = "AESIR-SWARM-v1",
         timestamp: Int64 = 1000
     ):
@@ -72,7 +72,7 @@ def authenticate_node_identity(identity: NodeIdentity, expected_token: String) r
         raise Error("Swarm authentication failed: empty node_id")
     if identity.protocol_version != "AESIR-SWARM-v1":
         raise Error("Swarm authentication failed: unsupported protocol version " + identity.protocol_version)
-    if identity.auth_token != expected_token:
+    if expected_token == "" or identity.auth_token == "" or identity.auth_token != expected_token:
         raise Error("Swarm authentication failed: invalid auth_token")
     return True
 
@@ -378,11 +378,12 @@ struct SwarmCluster(Copyable):
 
     def join_mesh(mut self, leader_address: String) raises -> Bool:
         """Legacy join compatibility wrapper."""
-        var id = NodeIdentity("node-compat-1", "secret-aesir-token")
-        return self.join_mesh_authenticated(id, leader_address, "secret-aesir-token")
+        if leader_address == "":
+            raise Error("leader address must not be empty")
+        raise Error("unauthenticated swarm join is not implemented; explicit credentials are required")
 
     def dispatch_distributed_inference(mut self, model: String, prompt: String) raises -> String:
         """Legacy remote inference compatibility wrapper."""
-        var req = RemoteInferenceRequest("req-compat-1", model, prompt)
-        var resp = self.dispatch_remote_inference(req, "secret-aesir-token")
-        return resp.output_text
+        if model == "" or prompt == "":
+            raise Error("model and prompt must not be empty")
+        raise Error("unauthenticated distributed inference is not implemented; explicit credentials are required")

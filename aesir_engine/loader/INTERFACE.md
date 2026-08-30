@@ -134,9 +134,11 @@ struct RuneWeaver:
 ```
 
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
-Local tag normalizer and URL builder. `download_hf_model()` raises
-`Hugging Face model download is not implemented`; it performs no HTTP request,
-file write, digest verification, or store registration.
+Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv
+subprocesses, HTTPS-only redirects, bounded time/size, optional parallel ranges,
+exact SHA-256/size checks and atomic exclusive publication. Existing files and
+symlinks are never overwritten. Authentication, restart/resume and model-store
+registration remain unsupported.
 
 ```mojo
 struct HuggingFaceSeer:
@@ -148,6 +150,18 @@ struct HuggingFaceSeer:
     @staticmethod
     def is_hf_tag(model_tag: String) -> Bool: ...
     @staticmethod
-    def build_download_url(repo_id: String, filename: String = "model.gguf") -> String: ...
-    def download_hf_model(self, repo_id: String, filename: String) raises -> Bool: ...
+    def build_download_url(repo_id: String, filename: String = "model.gguf", revision: String = "main") raises -> String: ...
+    def download_hf_model(self, repo_id: String, filename: String, destination: String = "", revision: String = "", expected_sha256: String = "", expected_size: Int = 0, connections: Int = 1) raises -> Bool: ...
 ```
+
+### Packed Gemma 4 loading
+
+`PackedGGUF` owns its mmap and a bounded metadata/tensor index; `PackedTensor`
+describes validated dense storage without pretending packed bytes are F16.
+Supported storage is F32, F16, BF16, Q4_K, Q5_K and Q6_K. It rejects overlapping,
+misaligned or truncated tensors before core code can upload them.
+
+`Gemma4Tokenizer` loads the embedded vocabulary and merge ranks, implements raw
+UTF-8 Gemma BPE with newline boundaries, and constructs text-chat control tokens
+explicitly. The generic `RuneWeaver` retains model-driven Llama space-prefix
+handling; Llama and Qwen use their own RoPE base/layout metadata in core.

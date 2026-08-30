@@ -10,7 +10,16 @@
 Project Aesir is a bare-metal LLM inference engine written in **Mojo**. 
 
 > [!IMPORTANT]
-> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The verified operational pipeline is a single-device CPU GGUF v3 Llama F16 inference slice ([`AES-FND-002`](../CAPABILITY_LEDGER.md)). Unless a paragraph cites a matching ledger entry and boundary, the diagrams, `Role`, and legacy `Implementation` labels below describe target architecture or code shape—not an operational claim. Ollama compatibility, GPU/NPU execution, durable services, and Swarm networking are missing.
+> **Executable Status Alignment**: Present-tense execution is governed by [`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md). The tested paths include the pinned CPU Llama F16 slice and native CUDA Gemma 4 E4B text inference. Other diagrams below retain target/legacy vocabulary and do not prove general GPU, NPU, service or distributed execution.
+
+The native CUDA path is `main → cli/cuda_chat → aesir.Gemma4CUDASession`.
+`loader/packed_gguf.mojo` owns validated packed tensor offsets and mmap lifetime;
+`loader/gemma4_tokenizer.mojo` owns model-driven BPE and text-chat framing.
+`core/gemma4_cuda.mojo` owns the device context, one-time packed-weight upload,
+persistent device activations/KV, context admission, autoregression and decoding.
+`core/gemma4_kernels.mojo` contains the actual GPU model operations. CLI code
+owns input and transcript I/O only. Device errors poison the session and do not
+select a CPU fallback. See [the verified profile and limits](GEMMA4_CUDA.md).
 
 ---
 

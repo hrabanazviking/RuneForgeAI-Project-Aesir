@@ -18,6 +18,7 @@ from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
 from loader.corpus_ingestion import chunk_text, ingest_corpus_batch
+from core.gemma4_cuda import Gemma4CUDASession
 
 
 def calculate_runtime_pool_bytes(
@@ -470,20 +471,8 @@ struct AesirEngine:
             self.pool.offset = self.runtime_offset
             var active_prompt = self._prepare_prompt(prompt)
 
-            if "<|im_start|>" not in active_prompt and "<|begin_of_text|>" not in active_prompt and "[INST]" not in active_prompt:
-                var tmpl = RuneChatTemplate("chatml")
-                var msgs = List[ChatMessage]()
-                msgs.append(ChatMessage("system", "You are Aesir, a sovereign LLM inference engine. Respond helpfully and accurately."))
-                msgs.append(ChatMessage("user", active_prompt))
-                active_prompt = tmpl.format_chatml(msgs)
-
-            if 151645 not in gen_config.stop_tokens:
-                gen_config.stop_tokens.append(151645)
-            if 151643 not in gen_config.stop_tokens:
-                gen_config.stop_tokens.append(151643)
-            if "<|im_end|>" not in gen_config.stop_strings:
-                gen_config.stop_strings.append("<|im_end|>")
-
+            # Raw generation preserves caller text. Chat formatting belongs to
+            # generate_chat; model-specific control IDs must not leak here.
             var tokens = self.tokenizer.encode(active_prompt, True)
             if len(tokens) == 0:
                 raise Error("RuneWeaver produced no prompt tokens")
@@ -656,7 +645,7 @@ struct AesirEngine:
         mut self, prompt: String, max_new_tokens: Int
     ) raises -> GenerationResult:
         """Returns token IDs, decoded text, counts, and a stable stop reason."""
-        var config = GenerationConfig(max_new_tokens=max_new_tokens)
+        var config = GenerationConfig(max_new_tokens=max_new_tokens, temperature=0.0, repetition_penalty=1.0)
         return self._run_generation(prompt, config, Int32(-1), False)
 
     def generate(mut self, prompt: String) raises -> String:

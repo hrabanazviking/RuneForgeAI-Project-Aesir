@@ -1,3 +1,34 @@
+## 2026-08-30 — Native Gemma 4 CUDA and verified downloads
+
+Implemented pinned public Hugging Face downloads with checked argv, HTTPS-only
+redirects, size/SHA-256 verification, parallel ranges and exclusive atomic
+publication. Aesir itself downloaded the complete E4B Q4_K_M artifact.
+
+Added native packed GGUF ownership, Gemma BPE, all dense E4B CUDA model operations,
+persistent GPU weights/KV and `Gemma4CUDASession` through the engine facade.
+`chat --accel cuda` supports interactive/batch turns and durable transcripts;
+`run --accel cuda` reaches the same engine. Twenty exchanges completed with
+16,384 maximum new tokens per turn, 32,768 context capacity and all layers on GPU.
+The prompt fixture includes an explicit arithmetic correction: the initial
+uncorrected trial propagated a model arithmetic mistake. Later replies retained
+the corrected budget and conversation facts. No responses were supplied by tests.
+
+Evidence: 35 independent real-weight CUDA matvec comparisons (max error
+1.3113022e-06), six independent tokenizer cases, repeated 20-turn transcripts,
+and physical NVIDIA telemetry reaching 100% utilization. Full-model independent
+logit parity and long 16K output generation remain untested. See GEMMA4_CUDA.md.
+
+Restored existing CPU reference behavior by respecting model-specific RoPE
+layout/base, Llama space-prefix tokenization, raw prompt semantics and greedy
+compatibility defaults. The pinned 32-token CPU oracle matches again.
+
+Repository checks also exposed pre-existing stale TODO statuses, a built-in
+swarm credential and ten tracked probe executables. Statuses now follow the
+ledger; unauthenticated swarm wrappers fail closed and no default credential
+is fabricated. The ten generated binaries are removed from version control
+and ignored, while local copies and tracked source remain intact. Older approved
+legacy artifact exceptions are unchanged.
+
 # Project Aesir Devlog
 
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  

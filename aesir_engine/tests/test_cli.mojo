@@ -321,7 +321,14 @@ def test_cli_command_dispatch() raises:
     if not empty_prompt_rejected:
         raise Error("run command allowed empty prompt parameter")
 
-    assert_cli_command_unsupported("pull")
+    var pull_args: List[String] = ["pull"]
+    var pull_rejected = False
+    try:
+        dispatch_command(pull_args)
+    except error:
+        pull_rejected = "pull requires repository and filename" in String(error)
+    if not pull_rejected:
+        raise Error("pull without explicit artifact identity must fail")
     assert_cli_command_unsupported("push")
     assert_cli_command_unsupported("stop")
     assert_cli_command_unsupported("swarm")

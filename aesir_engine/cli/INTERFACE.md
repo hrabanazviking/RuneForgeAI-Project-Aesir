@@ -202,7 +202,7 @@ an explicit unsupported error.
 
 Recognized option tokens and their values are removed from positional assembly,
 so control flags cannot become model prompt text. `auto` and `cpu` select the
-verified CPU route. Explicit unavailable accelerator intent raises before model
+verified CPU route. `cuda` selects the native Gemma 4 E4B session. Other unavailable accelerator intent raises before model
 loading and never falls back under a hardware label. The tracked configuration
 uses neutral values for unconnected runtime fields; changing one of those
 fields on a single-shot run raises rather than being ignored.
@@ -239,7 +239,19 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 ## Domain Boundary Laws for `cli/`
 
 1. **Subcommand Dispatch:** `cli/commands.mojo` acts as the command gateway router for binary execution from `main.mojo`.
-2. **Facade Isolation:** `cli/repl.mojo` and `cli/commands.mojo` interact with inference strictly via `AesirEngine` in `aesir.mojo` or `BifrostGate` in `server/api.mojo`. They **must never** import `core/compute.mojo`, `core/inference.mojo`, or `core/mimir_well.mojo` directly.
+2. **Facade Isolation:** CLI code interacts with `AesirEngine` or the exported `Gemma4CUDASession` through `aesir.mojo`, or `BifrostGate` in `server/api.mojo`. It must not import compute kernels directly.
 3. **Model & Manifest Independence:** `cli/modelfile.mojo` and `cli/manifest.mojo` own configuration parsing and catalog storage and have zero dependencies on hardware kernels or socket connections.
-4. **Generation Option Ownership:** CLI code validates and forwards the positive token limit but never owns autoregressive state, KV memory, EOS policy, or token decoding; those remain in `AesirEngine`.
+4. **Generation Option Ownership:** CLI validates/forwards limits and writes transcripts. The engine session owns autoregressive state, KV memory, EOS/length policy and UTF-8 decoding.
 5. **Intent Must Be Enforced:** Explicit configuration and acceleration intent must be applied or rejected before execution. No accepted option may silently select a different backend or enter prompt text.
+
+### Native download and CUDA chat
+
+`pull <repo> <file.gguf> --revision <sha> --sha256 <digest> --size <bytes>
+--output <path> [--connections 1..8]` retrieves and verifies a public model.
+
+`chat <gemma4.gguf> --accel cuda [--prompts file] [--log file]
+[--max-tokens 16384] [--context 32768] [--system text]` supports persistent
+interactive input or one turn per nonempty UTF-8 file line. `--log` creates an
+exclusive transcript and synchronizes it after each turn. No existing transcript
+is overwritten. Errors do not print a completion summary. `run --accel cuda`
+uses the same native engine for a single prompt. See `docs/GEMMA4_CUDA.md`.

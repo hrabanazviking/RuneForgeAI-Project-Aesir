@@ -2861,7 +2861,8 @@ def apply_rope(
     mut K: RuneTensor[f16],
     start_pos: Int,
     head_dim: Int,
-    theta: Scalar[f32] = 1000000.0,
+    theta: Scalar[f32] = 10000.0,
+    neox: Bool = False,
 ) raises:
     """
     RoPE (Rotary Position Embeddings): The Threads of Urd.
@@ -2890,8 +2891,8 @@ def apply_rope(
 
             for h in range(num_heads_q):
                 var head_base = r * Q.cols + h * head_dim
-                var idx0 = head_base + i
-                var idx1 = head_base + i + half_dim
+                var idx0 = head_base + (i if neox else 2 * i)
+                var idx1 = idx0 + (half_dim if neox else 1)
                 var q0 = Q.data.unsafe_load(idx0)
                 var q1 = Q.data.unsafe_load(idx1)
                 Q.data.unsafe_store(idx0, q0 * fcr - q1 * fci)
@@ -2899,8 +2900,8 @@ def apply_rope(
 
             for h in range(num_heads_k):
                 var head_base = r * K.cols + h * head_dim
-                var idx0 = head_base + i
-                var idx1 = head_base + i + half_dim
+                var idx0 = head_base + (i if neox else 2 * i)
+                var idx1 = idx0 + (half_dim if neox else 1)
                 var k0 = K.data.unsafe_load(idx0)
                 var k1 = K.data.unsafe_load(idx1)
                 K.data.unsafe_store(idx0, k0 * fcr - k1 * fci)

@@ -9,6 +9,14 @@
 
 Project Aesir is strictly partitioned into isolated domain realms. Each domain has a single, immutable responsibility and communicates only through explicit facade interfaces.
 
+Native Gemma 4 ownership: loader owns `PackedGGUF`, packed tensor validation,
+Gemma BPE and control-token framing; core owns `Gemma4CUDASession`, persistent
+CUDA allocations, kernels, KV state, generation limits/EOS and decoding; the
+`aesir.mojo` facade exports that session; `cli/cuda_chat.mojo` owns prompt input
+and transcript presentation. `loader/huggingface.mojo` isolates curl/sha256sum
+transport and atomic verified downloads. No external inference backend crosses
+these boundaries. Independent Python oracles remain in test tooling only.
+
 > [!IMPORTANT]
 > This map assigns ownership and preserves intended interface shapes. It is not
 > a capability-completion matrix. Reserved commands/routes and named hardware,

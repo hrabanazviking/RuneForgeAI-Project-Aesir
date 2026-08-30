@@ -16,6 +16,7 @@ struct RuneWeaver:
     var bos_token_id: Int
     var eos_token_id: Int
     var add_bos_token: Bool
+    var add_space_prefix: Bool
 
     def __init__(out self):
         self.vocab = List[String]()
@@ -27,6 +28,7 @@ struct RuneWeaver:
         self.bos_token_id = 1
         self.eos_token_id = 2
         self.add_bos_token = True
+        self.add_space_prefix = False
 
     def add_token(
         mut self,
@@ -118,6 +120,8 @@ struct RuneWeaver:
         var uses_llama_space = "▁" in self.token_to_id
         var uses_gpt2_space = "Ġ" in self.token_to_id
         var normalized = String("")
+        if self.add_space_prefix and uses_llama_space and not uses_gpt2_space:
+            normalized = "▁"
         var prompt_bytes = prompt.as_bytes()
         var byte_index = 0
         while byte_index < len(prompt_bytes):
@@ -264,7 +268,7 @@ struct RuneWeaver:
         """Decodes one token and reverses BPE space/newline markers with 100% UTF-8 safety."""
         if token < 0 or token >= len(self.vocab):
             return String("")
-        var value = String(self.vocab[token])
+        var value = String(self.vocab[token]).replace("▁", " ")
         if value == "<0x0A>" or value == "<0x0D>":
             return String("\n")
         if value.startswith("<0x") and value.endswith(">"):

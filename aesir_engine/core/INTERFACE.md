@@ -698,3 +698,18 @@ module-private complete-state path, so it cannot manufacture sentinel-bearing
 weights. The validated single-device path sizes Q independently from K/V,
 applies grouped-query attention, checks token IDs and required
 embedding/output tensors, and uses the model's RMS epsilon.
+# Native Gemma 4 CUDA session
+
+`Gemma4CUDASession(path, context_length=32768)` validates the dense E4B profile,
+uploads packed weights once and owns device-only activations/KV. It is exported
+through `aesir.mojo`. `begin_turn(prompt, system, max_tokens)` admits a complete
+turn without truncating history; `next_chunk()` advances greedy CUDA generation
+and returns complete UTF-8 text while `generating` is true. Read-only observations
+include `position`, `prompt_tokens`, `generated_tokens`, `max_new_tokens` and
+`finish_reason`. Errors propagate and execution failures poison reuse.
+
+GPU kernels implement F32/F16/BF16/Q4_K/Q5_K/Q6_K reads, matvec, RMSNorm, NEOX
+RoPE, grouped-query attention, local/global/shared KV, GELU feed-forward and
+per-layer embeddings, softcapped logits and greedy argmax. Host code handles
+tokenization and scheduling only. This profile is distinct from the older F16
+`RuneTensor` CPU/GPU primitives; it never labels CPU fallback as CUDA.

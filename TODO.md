@@ -84,8 +84,8 @@ counts as completion of an external capability.
 
 ### Remaining Audit & Hardening Remedies (Backlog)
 
-- [x] **[missing, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
-- [x] **[missing, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
+- [x] **[verified, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
+- [x] **[verified, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
 - [x] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
@@ -127,7 +127,7 @@ counts as completion of an external capability.
 - [x] **[missing, AES-ACC-006] [partial, AES-ACC-008] Correct accelerator banners:** Do not
   print NPU/GPU “ACTIVE,” CUDA, Tensor Core, or hardware-realm execution when the
   selected function runs on the CPU.
-- [x] **[missing, AES-ECO-003] Correct Hugging Face download output:** Return
+- [x] **[partial, AES-ECO-003] Correct Hugging Face download output:** Return
   unsupported without “downloading”/registration success until bytes are
   transferred and stored.
 - [x] **[missing, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
@@ -325,13 +325,13 @@ counts as completion of an external capability.
 - [ ] Compute real digests and sizes from stored bytes; never ship fictional
   defaults as observations.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
-- [x] **[verified, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
+- [ ] **[missing, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
 
 ### Network distribution
 
-- [ ] **[missing, AES-ECO-003] Implement real Hugging Face HTTPS download:**
+- [ ] **[partial, AES-ECO-003] Implement real Hugging Face HTTPS download:**
   Revisions, filenames, URL encoding, redirects, authentication, resume/range,
   timeouts, cancellation, byte counts, and errors.
 - [ ] Verify expected size/digest before atomic promotion into the model store.
@@ -385,15 +385,15 @@ counts as completion of an external capability.
   randomized reference coverage.
 - [x] Harden `MimirStore` dimensions, capacity, ownership, result/tie semantics,
   and hot allocations.
-- [x] **[verified, AES-RAG-003] Replace the constant query tensor with a real
+- [ ] **[partial, AES-RAG-003] Replace the constant query tensor with a real
   embedding model or verified extraction path.**
-- [x] **[verified, AES-RAG-004] Build corpus ingestion:** File/document parsing,
+- [ ] **[missing, AES-RAG-004] Build corpus ingestion:** File/document parsing,
   deterministic chunking, metadata, embedding batches, versioning, and durable
   index storage.
 - [ ] Add update/delete/reindex, corruption, restart, and compatibility behavior.
 - [ ] Build a retrieval evaluation corpus with recall/ranking metrics and
   reproducible expected results.
-- [x] **[verified, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
+- [ ] **[partial, AES-RAG-005] Complete end-to-end RAG:** Query embedding,
   retrieval, context budgeting, prompt integration, source metadata/citations,
   grounded-answer tests, and explicit no-result behavior.
 
@@ -409,7 +409,7 @@ counts as completion of an external capability.
   decoder across fixed and randomized fixtures (`AES-QNT-002`).
 - [x] Extend `GGUFSeer` to map/own that one quantized type safely (`AES-QNT-003`).
 - [x] Implement a correct dequantized or fused quantized matmul path (`AES-QNT-003`).
-- [ ] **[missing, AES-QNT-003] Load a real quantized GGUF and compare logits,
+- [ ] **[partial, AES-QNT-003] Load a real quantized GGUF and compare logits,
   first token, and a deterministic sequence with pinned `llama.cpp`.**
 - [ ] Add each additional GGML format only with its own exact fixture and oracle.
 - [ ] Keep GPTQ, AWQ, EXL2, HQQ, and SmoothQuant explicitly unsupported until
@@ -421,7 +421,7 @@ counts as completion of an external capability.
 
 ### Honest discovery and unsupported behavior
 
-- [x] **[verified, AES-ACC-003] Separate configured from discovered devices:**
+- [ ] **[partial, AES-ACC-003] Separate configured from discovered devices:**
   Probe the platform and return only available backends with capability/error
   metadata.
 - [x] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
@@ -454,21 +454,21 @@ counts as completion of an external capability.
 
 - [x] Harden host shard functions for counts, divisibility, list lengths, spans,
   ownership, and cleanup while retaining honest host-only names (`AES-ACC-004`).
-- [x] **[verified, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
+- [ ] **[missing, AES-ACC-004] Redesign multi-device GQA inference:** Explicit
   placement, correct Q/K/V partitioning, reconstruction, attention ownership,
   and cache layout.
 - [ ] Implement asynchronous device work, transfer/compute overlap where valid,
   real collectives, synchronization, failure propagation, and cancellation.
 - [ ] Prove single-device parity, multi-device correctness, device-loss behavior,
   and scaling on physical systems.
-- [x] **[verified, AES-ACC-009] Make any direct mmap/device-memory claim
+- [ ] **[missing, AES-ACC-009] Make any direct mmap/device-memory claim
   backend-specific and evidence-backed; otherwise keep it unsupported.**
 
 ## Stage 10 — Optional Ecosystems as Separate Projects
 
 ### ONNX
 
-- [x] **[verified, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
+- [ ] **[missing, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
   opsets, tensors, nodes, attributes, graph inputs/outputs, and bounds.
 - [x] Define the supported operator/type/shape subset and reject everything else (`AES-ECO-004`).
 - [ ] Build an execution planner and compare outputs with ONNX Runtime on
@@ -476,13 +476,13 @@ counts as completion of an external capability.
 
 ### ExLlama/EXL2
 
-- [x] **[verified, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
+- [ ] **[missing, AES-ECO-005] Scope an actual EXL2 parser/runtime for AESIR.**
 - [x] Require a real EXL2 model, authoritative decoder/runtime comparison, and
   physical CUDA evidence before any parity claim (`AES-ECO-005`).
 
 ### llama.cpp CLI
 
-- [x] **[verified, AES-ECO-006] Define an intentionally supported subcommand and
+- [ ] **[missing, AES-ECO-006] Define an intentionally supported subcommand and
   version subset; pass differential argument/output/error/exit tests.**
 - [x] Never infer CLI/server parity from the pinned token-oracle comparison alone (`AES-ECO-006`).
 
@@ -524,9 +524,9 @@ counts as completion of an external capability.
   freshness/failure handling (`AES-SWM-001`).
 - [x] Extend the locally verified selection rule with reservations, concurrent
   updates, fairness, staleness, and scheduling policy (`AES-SWM-001`).
-- [x] **[verified, AES-SWM-003] Prove join/leave/heartbeat between separate
+- [ ] **[missing, AES-SWM-003] Prove join/leave/heartbeat between separate
   authenticated processes.**
-- [x] **[verified, AES-SWM-004] Execute one real inference request remotely:**
+- [ ] **[missing, AES-SWM-004] Execute one real inference request remotely:**
   Model availability, prompt/result transport, streaming, cancellation,
   timeout, retry/idempotency, and validation.
 - [x] Derive CLI/REST state from the live cluster and pass multi-process failure

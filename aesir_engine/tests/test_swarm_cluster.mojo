@@ -152,9 +152,13 @@ def test_swarm_cluster_task_dispatch() raises:
     if not empty_dist_rejected:
         raise Error("SwarmCluster allowed dispatch_distributed_inference with empty model")
 
-    var join_ok = cluster.join_mesh("192.0.2.1")
-    if not join_ok or not cluster.is_mesh_active:
-        raise Error("swarm join failed for valid leader address")
+    var join_rejected = False
+    try:
+        _ = cluster.join_mesh("192.0.2.1")
+    except error:
+        join_rejected = "explicit credentials" in String(error)
+    if not join_rejected or cluster.is_mesh_active:
+        raise Error("unauthenticated swarm join fabricated success")
 
     var output_failed = False
     try:

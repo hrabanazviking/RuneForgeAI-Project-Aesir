@@ -63,3 +63,15 @@ test_server_loop
 .DS_Store
 __pycache__/
 *.py[cod]
+
+# Generated legacy probe executables (sources remain tracked).
+/print_qwen_tensors
+/run_5_conversations
+/run_all_tests
+/run_coherent_conversation
+/test_gpu_prompt
+/test_layer0
+/test_q4_0_correctness
+/test_q8_0_correctness
+/test_qwen_tokens
+/test_tensor_names

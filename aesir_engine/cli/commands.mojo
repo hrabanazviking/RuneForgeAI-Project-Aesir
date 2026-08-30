@@ -12,6 +12,7 @@ from cli.multi_engine import (
 from config import AesirConfig, load_config_file
 from server.api import BifrostGate
 from loader.huggingface import HuggingFaceSeer
+from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 
 
 def print_banner():
@@ -33,13 +34,19 @@ def print_general_help():
     print("Usage:")
     print("  aesir [command] [flags]\n")
     print("Implemented:")
+    print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
+    print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
+    print("      Download and verify a public pinned GGUF; never overwrite a file.")
     print(
         "  run <model.gguf> [--max-tokens N] [--config path]"
-        " [--accel auto|cpu] <prompt...>"
+        " [--accel auto|cpu|cuda] <prompt...>"
     )
     print(
-        "      Run one local single-shot request on the verified CPU GGUF path."
+        "      CPU GGUF or native CUDA Gemma 4 E4B single-shot inference."
     )
+    print("  chat <gemma4.gguf> --accel cuda [--prompts file] [--log file]")
+    print("      [--max-tokens 16384] [--context 32768] [--system text]")
+    print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
     print("  config [--config <path>] [--format json|text]")
     print("      Validate and show the selected configuration file.")
     print("  help, -h, --help")
@@ -48,7 +55,7 @@ def print_general_help():
     print("      Show the development version.\n")
     print("Reserved but unsupported:")
     print("  serve; interactive run; list; show; ps; create; cp; rm")
-    print("  pull; push; stop")
+    print("  push; stop")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
     print(
         "See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates."
@@ -317,6 +324,56 @@ def format_ps_table(models: List[ModelManifest], is_json: Bool = False):
     format_model_table(models, is_json)
 
 
+def dispatch_pull(args: List[String]) raises:
+    """Parse explicit artifact identity before the loader performs any I/O."""
+    if len(args) < 3:
+        raise Error("pull requires repository and filename plus --revision, --sha256, --size")
+    var revision = String("")
+    var digest = String("")
+    var destination = String(args[2])
+    var expected_size = 0
+    var connections = 1
+    var seen = List[String]()
+    var index = 3
+    while index < len(args):
+        var option = args[index]
+        if (option != "--revision" and option != "--sha256"
+                and option != "--size" and option != "--output"
+                and option != "--connections"):
+            raise Error("unknown pull option: " + option)
+        for prior in seen:
+            if prior == option:
+                raise Error("duplicate pull option: " + option)
+        seen.append(option)
+        if index + 1 >= len(args):
+            raise Error("missing value for pull option " + option)
+        var value = args[index + 1]
+        if option == "--revision":
+            revision = value
+        elif option == "--sha256":
+            digest = value
+        elif option == "--output":
+            destination = value
+        elif option == "--connections":
+            connections = parse_positive_int(value)
+        else:
+            if len(value.bytes()) == 0:
+                raise Error("pull --size requires a positive byte count")
+            for byte in value.as_bytes():
+                if byte < 48 or byte > 57:
+                    raise Error("pull --size requires a positive byte count")
+                var digit = Int(byte - 48)
+                if expected_size > (9223372036854775807 - digit) // 10:
+                    raise Error("pull --size overflows a 64-bit byte count")
+                expected_size = expected_size * 10 + digit
+        index += 2
+    var hf = HuggingFaceSeer()
+    _ = hf.download_hf_model(
+        args[1], args[2], destination, revision, digest, expected_size, connections
+    )
+    print("Successfully downloaded and verified Hugging Face model: " + destination)
+
+
 def dispatch_command(args: List[String]) raises:
     """Routes implemented commands with a fresh store."""
     var store = RuneModelStore()
@@ -338,6 +395,14 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "-v" or cmd == "--version":
         print("aesir development snapshot (unversioned)")
+        return
+
+    if cmd == "pull":
+        dispatch_pull(args)
+        return
+
+    if cmd == "chat":
+        dispatch_cuda_chat(args)
         return
 
     var options = parse_cli_options(args)
@@ -367,7 +432,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
         var config = effective_config(options)
         validate_single_shot_config_support(config)
-        require_verified_cpu_backend(config)
+        if config.acceleration_backend != "cuda":
+            require_verified_cpu_backend(config)
 
         var prompt = String("")
         for i in range(1, len(positionals)):
@@ -377,7 +443,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         var trimmed_prompt = String(prompt.strip())
         if len(trimmed_prompt.bytes()) == 0:
             raise Error("single-shot run prompt text must not be empty")
-        run_single_shot(model_name, trimmed_prompt, options.max_tokens)
+        if config.acceleration_backend == "cuda":
+            cuda_single_shot(model_name, trimmed_prompt, options.max_tokens)
+        else:
+            run_single_shot(model_name, trimmed_prompt, options.max_tokens)
         return
 
     if (
@@ -408,20 +477,6 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         raise Error(
             "engine process control command '" + cmd + "' is not implemented"
         )
-
-    if cmd == "pull":
-        if len(args) <= 1:
-            raise Error("pull command requires model repository tag (e.g., Qwen/Qwen2.5-0.5B-Instruct-GGUF)")
-        var repo_tag = args[1]
-        var filename = String("qwen2.5-0.5b-instruct-q4_0.gguf")
-        if len(args) > 2:
-            filename = args[2]
-        var hf = HuggingFaceSeer()
-        print("Pulling model from Hugging Face repository: " + repo_tag)
-        var ok = hf.download_hf_model(repo_tag, filename, filename)
-        if ok:
-            print("Successfully downloaded Hugging Face model: " + filename)
-        return
 
     if cmd == "push":
         raise Error(

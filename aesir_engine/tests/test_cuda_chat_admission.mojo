@@ -1,0 +1,24 @@
+"""Invalid CUDA chat requests must fail before opening a model or transcript."""
+from cli.cuda_chat import dispatch_cuda_chat
+
+def test_cuda_chat_admission() raises:
+    var cases: List[String] = [
+        "chat missing.gguf --accel cpu",
+        "chat missing.gguf --accel cuda --context 16384 --max-tokens 16384",
+        "chat missing.gguf --accel cuda --max-tokens 0",
+        "chat missing.gguf --accel cuda --log one --log two",
+        "chat missing.gguf --accel cuda --unknown value",
+    ]
+    for request in cases:
+        var args = List[String]()
+        for word in request.split(" "):
+            args.append(String(word))
+        var rejected = False
+        try:
+            dispatch_cuda_chat(args)
+        except error:
+            if "Failed to open GGUF" in String(error) or "Cannot create transcript" in String(error):
+                raise Error("Invalid chat options reached file operations")
+            rejected = True
+        if not rejected:
+            raise Error("Invalid CUDA chat request was accepted")
