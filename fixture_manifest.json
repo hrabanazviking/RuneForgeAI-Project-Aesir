@@ -8,6 +8,24 @@
   ],
   "fixtures": [
     {
+      "id": "llama3.roleplay-20",
+      "classification": "regression",
+      "storage": "tracked",
+      "owner": "loader/core/cli",
+      "purpose": "Twenty-exchange fantasy roleplay with retained characters, objects, choices and resolution.",
+      "consumer": "scripts/run_stheno_roleplay.py",
+      "evidence_boundary": "User prompts only; actual native responses must be preserved and assessed separately.",
+      "license": "Project-authored test data",
+      "path": "aesir_engine/tests/fixtures/stheno_roleplay_20.txt",
+      "size_bytes": 4275,
+      "sha256": "ae65360f8193640b088d08b88f925693448a59d796e395b8ccf9f1c0f637e9d7",
+      "construction": {
+        "method": "Project-authored original fantasy prompts; no generated assistant responses in fixture.",
+        "tool": "native Aesir chat acceptance harness",
+        "version": "2026-08-30"
+      }
+    },
+    {
       "id": "llama3.tokenizer-parity",
       "classification": "regression",
       "storage": "tracked",

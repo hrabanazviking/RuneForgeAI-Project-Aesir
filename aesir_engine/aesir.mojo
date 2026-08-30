@@ -19,6 +19,7 @@ from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
 from loader.corpus_ingestion import chunk_text, ingest_corpus_batch
 from core.gemma4_cuda import Gemma4CUDASession
+from core.llama3_cuda import Llama3CUDASession
 
 
 def calculate_runtime_pool_bytes(

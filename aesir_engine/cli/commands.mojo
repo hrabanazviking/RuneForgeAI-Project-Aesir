@@ -44,8 +44,9 @@ def print_general_help():
     print(
         "      CPU GGUF or native CUDA Gemma 4 E4B single-shot inference."
     )
-    print("  chat <gemma4.gguf> --accel cuda [--prompts file] [--log file]")
-    print("      [--max-tokens 16384] [--context 32768] [--system text]")
+    print("  chat <model.gguf> --accel cuda [--profile gemma4|llama3]")
+    print("      [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+    print("      Gemma defaults: 16384/32768; Llama 3 defaults: 8192/8192 (reply/context).")
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
     print("  config [--config <path>] [--format json|text]")
     print("      Validate and show the selected configuration file.")

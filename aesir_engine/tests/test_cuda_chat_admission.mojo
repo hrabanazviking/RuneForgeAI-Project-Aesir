@@ -8,6 +8,10 @@ def test_cuda_chat_admission() raises:
         "chat missing.gguf --accel cuda --max-tokens 0",
         "chat missing.gguf --accel cuda --log one --log two",
         "chat missing.gguf --accel cuda --unknown value",
+        "chat missing.gguf --accel cuda --profile unknown",
+        "chat missing.gguf --accel cuda --profile llama3 --context 8193",
+        "chat missing.gguf --accel cuda --profile llama3 --max-tokens 8193",
+        "chat missing.gguf --accel cuda --profile llama3 --context 1",
     ]
     for request in cases:
         var args = List[String]()

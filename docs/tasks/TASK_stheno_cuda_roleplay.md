@@ -54,4 +54,21 @@ Hugging Face token-ID cases, UTF-8 decode round trips and the system/user/assist
 chat frame. Unicode categories are compiled from pinned Unicode 16 data; no
 Python, regex library or external tokenizer runs in production.
 
-GPU inference and the 20-turn roleplay remain pending at this milestone.
+## Milestone 2: native CUDA inference
+
+The separate `Llama3CUDASession` admits the dense 32-layer Llama 3 8B profile,
+uploads packed weights once and uses a device-resident F16 KV cache. Native
+chat accepts `--profile llama3 --context 8192 --max-tokens 8192`; context
+exhaustion is distinct from the requested reply ceiling.
+
+Physical RTX 4070 verification passed 35 independent real-weight Q4_K/Q5_K/Q6_K
+dot-product checks (maximum absolute error `4.172325e-07`) and 34,816 independent
+NumPy comparisons of CUDA RoPE, SiLU and grouped-query attention values. The
+boundary-position test exposed F32 rotary phase error; device-side F64 phase
+reduction corrected it without moving model computation to the CPU. The
+counted master suite remains 147 passed, 0 failed, 1 skipped, 148 total.
+
+A short native roleplay smoke test completed with natural EOS. The first full
+roleplay attempt was deliberately interrupted during turn 1 when the rotary
+precision check failed; its unedited partial logs remain in `.aesir/evidence/`.
+The corrected 20-turn run and final documentation remain pending.
