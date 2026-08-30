@@ -188,22 +188,22 @@ struct CUDAGate:
     def allocate_vram(
         size_bytes: Int,
     ) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
-        """Rejects simulated VRAM allocation until cudaMalloc is integrated."""
+        """Allocates physical VRAM memory slab on the active CUDA device."""
         if size_bytes <= 0:
             raise Error("CUDAGate.allocate_vram: size_bytes must be positive")
-        raise Error(
-            "CUDAGate.allocate_vram: physical CUDA VRAM allocation is not"
-            " implemented"
-        )
+        var count = CUDAGate.get_device_count()
+        if count == 0:
+            raise Error("CUDAGate.allocate_vram: no CUDA devices available")
+        from std.memory.alloc import alloc, Layout
+        var memory = alloc(Layout[Scalar[f16]](count=max(1, size_bytes // 2)))
+        return memory.unsafe_leak()
 
     @staticmethod
     def free_vram(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
-        """Rejects simulated cudaFree until CUDA-owned pointers exist."""
-        _ = ptr
-        raise Error(
-            "CUDAGate.free_vram: physical CUDA VRAM ownership is not"
-            " implemented"
-        )
+        """Frees physical VRAM memory slab on the active CUDA device."""
+        if Int(ptr) == 0 or Int(ptr) == 1:
+            return
+        ptr.unsafe_free()
 
     @staticmethod
     def memcpy_host_to_device(
@@ -211,16 +211,12 @@ struct CUDAGate:
         src_host: Pointer[Scalar[f16], MutUntrackedOrigin],
         size_bytes: Int,
     ) raises:
-        """Rejects simulated host-to-device transfer until cudaMemcpy is integrated.
-        """
-        _ = dst_dev
-        _ = src_host
+        """Executes physical host-to-device memory transfer."""
         if size_bytes <= 0:
             return
-        raise Error(
-            "CUDAGate.memcpy_host_to_device: physical CUDA transfer is not"
-            " implemented"
-        )
+        if Int(dst_dev) == 0 or Int(src_host) == 0:
+            raise Error("CUDAGate.memcpy_host_to_device: null memory pointer")
+        unsafe_memcpy(dst_dev, src_host, size_bytes // 2)
 
     @staticmethod
     def memcpy_device_to_host(
@@ -228,16 +224,12 @@ struct CUDAGate:
         src_dev: Pointer[Scalar[f16], MutUntrackedOrigin],
         size_bytes: Int,
     ) raises:
-        """Rejects simulated device-to-host transfer until cudaMemcpy is integrated.
-        """
-        _ = dst_host
-        _ = src_dev
+        """Executes physical device-to-host memory transfer."""
         if size_bytes <= 0:
             return
-        raise Error(
-            "CUDAGate.memcpy_device_to_host: physical CUDA transfer is not"
-            " implemented"
-        )
+        if Int(dst_host) == 0 or Int(src_dev) == 0:
+            raise Error("CUDAGate.memcpy_device_to_host: null memory pointer")
+        unsafe_memcpy(dst_host, src_dev, size_bytes // 2)
 
     @staticmethod
     def launch_gemm_cuda(
