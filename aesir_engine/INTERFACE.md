@@ -140,21 +140,22 @@ quantized inference, server conformance, and accelerator parity are not implied.
 
 ## Reserved GPU Realm Discriminants (from `core/mimir_well.mojo`)
 
-These names are configuration values only. None currently dispatches physical
-GPU work; the historical host kernel names in the table are not device proof.
+These names are configuration values. CUDA now supports real MAX discovery and
+selection, but none currently dispatches physical engine compute.
 
-| Constant | Value | Hardware Architecture Target | Kernel Dispatched |
+| Constant | Value | Hardware Architecture Target | Current runtime behavior |
 | :--- | :--- | :--- | :--- |
-| `GPURealmType.NVIDIA_CUDA` | 0 | NVIDIA GeForce RTX / H100 / A100 / Jetson CUDA | `gemm_f16` (32-wide SIMD) |
-| `GPURealmType.AMD_ROCM_HIP` | 1 | AMD Instinct MI300/MI250 & Radeon RX 7000/6000 | `gemm_f16` (32-wide SIMD) |
-| `GPURealmType.INTEL_ONEAPI_XE` | 2 | Intel Arc A770 & Data Center GPU Max | `gemm_f16` (32-wide SIMD) |
-| `GPURealmType.MOORE_THREADS_MUSA` | 3 | Moore Threads MTT S80 / S4000 (MUSA GPGPU, China) | `gemm_f16_gpgpu_vector` (16-wide SIMD) |
-| `GPURealmType.BIREN_SUPA` | 4 | Biren Technology BR100 / BR104 (SUPA GPGPU, China) | `gemm_f16_gpgpu_vector` (16-wide SIMD) |
-| `GPURealmType.METAX_MACA` | 5 | MetaX C500 / N100 (MACA GPGPU, China) | `gemm_f16_gpgpu_vector` (16-wide SIMD) |
-| `GPURealmType.HYGON_DCU` | 6 | Hygon Haiguang DCU (Zhaoxin/DTK GPGPU, China) | `gemm_f16_gpgpu_vector` (16-wide SIMD) |
-| `GPURealmType.ARM_MALI_OPENCL` | 7 | ARM Mali-G78 & Immortalis (Mobile/VR OpenCL) | `gemm_f16_mobile_opencl` (8-wide SIMD) |
-| `GPURealmType.QUALCOMM_ADRENO` | 8 | Qualcomm Adreno 740/750 (Snapdragon XR2) | `gemm_f16_mobile_opencl` (8-wide SIMD) |
-| `GPURealmType.IMAGINATION_POWERVR` | 9 | Imagination PowerVR / B-Series (Embedded IoT) | `gemm_f16_mobile_opencl` (8-wide SIMD) |
+| `GPURealmType.NVIDIA_CUDA` | 0 | NVIDIA CUDA | Real MAX discovery and selection; engine compute unsupported |
+| `GPURealmType.AMD_ROCM_HIP` | 1 | AMD ROCm/HIP | Execution unsupported |
+| `GPURealmType.INTEL_ONEAPI_XE` | 2 | Intel OneAPI/Level Zero | Execution unsupported |
+| `GPURealmType.MOORE_THREADS_MUSA` | 3 | Moore Threads MUSA | Execution unsupported |
+| `GPURealmType.BIREN_SUPA` | 4 | Biren SUPA | Execution unsupported |
+| `GPURealmType.METAX_MACA` | 5 | MetaX MACA | Execution unsupported |
+| `GPURealmType.HYGON_DCU` | 6 | Hygon DCU | Execution unsupported |
+| `GPURealmType.ARM_MALI_OPENCL` | 7 | ARM Mali OpenCL | Execution unsupported |
+| `GPURealmType.QUALCOMM_ADRENO` | 8 | Qualcomm Adreno | Execution unsupported |
+| `GPURealmType.IMAGINATION_POWERVR` | 9 | Imagination PowerVR | Execution unsupported |
+| `GPURealmType.APPLE_METAL` | 10 | Apple Metal | Execution unsupported |
 
 ---
 

@@ -56,8 +56,9 @@ counts as completion of an external capability.
 
 - [ ] **Modular Max Support:** Add full support for MAX by Modular
 - [x] **GPU-0 MAX toolchain reachability proof:** Locked Mojo 1.0.0 / MAX 26.5.0 created a real CUDA context, host/device buffers, round-trip copies, synchronized kernel execution, and host parity on the observed RTX 2060 Max-Q. This isolated hardware test does not implement or promote engine GPU dispatch.
+- [x] **GPU-1 truthful CUDA discovery:** MAX-backed enumeration now records and validates observed CUDA identity/capabilities and supports topology selection on the observed RTX host. This does not enable engine GPU allocation, compute, inference, or CLI acceleration.
 - [ ] **[partial, AES-CLI-009] Config Data File:** `aesir config [--config <path>]` now reads, validates, and normalizes the human-editable tracked schema. Apply every supported sampling/safety option to its owning runtime and add complete option documentation before closing this item.
-- [ ] **[missing, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path and explicit unavailable backends fail before model loading. Add observed physical discovery and a proved backend before enabling any hardware selection.
+- [ ] **[partial, AES-ACC-003] Acceleration Selection:** `--accel auto|cpu` reaches the verified CPU path, CUDA discovery/selection is real through MAX, and explicit accelerator execution remains rejected before model loading. Connect only after production GPU resources and compute are proved.
 - [ ] **Add TUI:** Add very beautiful looking advanced optional TUI.
 - [ ] **Add Help Commands:** Add very useful, well written, complete help command system.
 - [ ] **Cognitive Inference Architecture:** Read COGNITIVE_INFERENCE_ARCHITECTURE.md and add Cognitive Inference Architecture. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
@@ -70,7 +71,7 @@ counts as completion of an external capability.
 - [ ] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **Invent New Faster Inference:** Invent a totally new extremely creative, unique extremely advanced way to massively speed up AI inference speed on less powerful hardware, that does not sacrifice accuracy or quality. Keep thinking and thinking till something that will completely work well is devised. Add it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
 - [ ] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
-- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** Isolated MAX GPU-0 toolchain reachability is proved on the observed RTX host; engine physical discovery, owned production resources, transfers, GEMM, model integration, and hardware CI are still missing.
+- [ ] **[missing, AES-ACC-008] NVIDIA CUDA GPU execution:** GPU-0 toolchain reachability and GPU-1 engine discovery/selection are proved on the observed RTX host; owned production resources, transfer dispatch, GEMM, model integration, and hardware CI are still missing.
 - [ ] **[missing, AES-ACC-008] Apple Metal GPU execution:** Runtime-library probing exists; physical discovery, device buffers, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] Intel Level Zero GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
 - [ ] **[missing, AES-ACC-008] AMD ROCm/HIP GPU execution:** Runtime-library probing exists; physical discovery, VRAM, and GEMM are missing.
@@ -122,7 +123,7 @@ counts as completion of an external capability.
   fixed assistant response as successful inference.
 - [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
   completion/token/detokenize/health/metrics responses and parity wording.
-- [x] **[missing, AES-ACC-003] Correct device discovery:** Return only
+- [x] **[partial, AES-ACC-003] Correct device discovery:** Return only
   configured/observed devices, or explicit unavailable status; never append all
   backends as detected.
 - [x] **[missing, AES-ACC-006] [missing, AES-ACC-008] Correct accelerator banners:** Do not
@@ -425,9 +426,9 @@ counts as completion of an external capability.
 
 ### Honest discovery and unsupported behavior
 
-- [ ] **[missing, AES-ACC-003] Separate configured from discovered devices:**
-  Probe the platform and return only available backends with capability/error
-  metadata.
+- [x] **[partial, AES-ACC-003] Separate configured from discovered devices:**
+  MAX CUDA discovery returns validated observed devices with capability/error
+  metadata; other hardware backends remain unpromoted.
 - [x] Make absent GPU/NPU backends return explicit unsupported errors, never CPU
   fallback under a hardware execution label (`AES-ACC-003`).
 - [x] Rename/describe host SIMD variants honestly; compiling a lane width does
@@ -435,11 +436,13 @@ counts as completion of an external capability.
 
 ### First physical accelerator vertical slice
 
-- [ ] Select exactly one physically available GPU or NPU backend.
-- [ ] Implement real runtime/driver discovery and version/capability checks.
+- [x] Select exactly one physically available GPU or NPU backend: NVIDIA CUDA
+  through MAX 26.5 on the observed RTX host.
+- [x] Implement real runtime/driver discovery and version/capability checks for
+  the selected CUDA slice.
 - [ ] Implement backend allocation, ownership, host/device transfer or a precise
   zero-copy contract, synchronization, and error propagation.
-- [ ] Implement at least one genuine device kernel and compare its output with a
+- [x] Implement at least one genuine device kernel and compare its output with a
   CPU F32/verified reference on physical hardware.
 - [ ] Connect the kernel to one real-model inference slice and preserve token/
   logit parity.

@@ -3,6 +3,33 @@
 > *"Preserved in living memory, the history of the forge guides every future iteration."*  
 > — **Eirwyn Rúnblóm, The Scribe**
 
+## Entry 117: GPU-1 — Truthful MAX CUDA Device Discovery
+
+**Date:** August 29, 2026
+**Architectural Phase:** First engine-facing physical GPU discovery slice
+
+1. Added validated discovery statuses, capability records, physical-device
+   records, and result admission in the core topology domain.
+2. Implemented real CUDA enumeration through MAX 26.5, including runtime ID,
+   device name, API/version, memory, compatibility, compute capability,
+   multiprocessor count, and maximum threads per block.
+3. Added topology accumulation, realm deduplication, and compatible selection by
+   backend-local index or runtime-derived stable ID. The stable ID is explicitly
+   not represented as a vendor UUID.
+4. Corrected sequential probe erasure and separated Apple Metal from ARM Mali
+   with the additive `APPLE_METAL` realm.
+5. Added four hardware-independent injected discovery cases to the master suite
+   and an opt-in physical discovery proof on the observed RTX 2060 Max-Q.
+6. Removed the latent CUDA RMSNorm CPU fallback exposed when real device counts
+   became nonzero; every engine GPU compute path remains fail-closed.
+7. Verified 136 passed, 0 failed, 1 skipped, total 137, plus GPU-0 reachability,
+   GPU-1 physical discovery, native build, negative controls, and repository
+   consistency gates.
+8. Promoted only `AES-ACC-003` from `missing` to `partial`. `AES-ACC-008`
+   remains `missing`; production GPU contexts, buffers, transfers, GEMM,
+   inference, CLI acceleration, generalized CUDA support, and hardware CI are
+   not claimed.
+
 ## Entry 116: GPU-0 — Real MAX GPU Toolchain Reachability
 
 **Date:** August 29, 2026

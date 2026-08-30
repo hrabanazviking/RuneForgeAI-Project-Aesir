@@ -1,10 +1,11 @@
 # Core Domain Interface Specification
 
-> **Current execution boundary:** the verified runtime is host CPU only.
-> Hardware names below are reserved discriminants. NPU/GPU gateway functions
-> raise unsupported errors, discovery returns empty lists, and NPU/GPU buffers
-> remain CPU-resident descriptors. Logical shards are sequential host views,
-> not physical multi-device execution.
+> **Current execution boundary:** model execution remains host CPU only. CUDA
+> discovery is a real, partial MAX 26.5 integration: it enumerates observed
+> devices and records runtime-derived capabilities for selection. GPU/NPU
+> allocation, transfers, compute, inference, and CLI acceleration remain
+> fail-closed. GPU/NPU buffers are CPU-resident descriptors, and logical shards
+> are sequential host views rather than physical multi-device execution.
 
 ## Public Structs & Functions
 
@@ -106,8 +107,59 @@ struct MimirStore:
     def search_knn(self, query_emb: RuneTensor[f16], top_k: Int = 3) raises -> List[String]: ...
 ```
 
-### `DeviceTopology` (Slice 6, Slice 7 & Slice 8)
-Device topology mapping compute device IDs, NPU backends, and universal GPU hardware realms.
+### `DiscoveryStatus`, `DeviceCapabilities`, `PhysicalDevice`, and `HardwareDiscoveryResult`
+
+Validated truth-bearing records for accelerator discovery. CUDA stable IDs use
+the public MAX runtime ID (`cuda:max-id:<id>`); they are not vendor UUIDs.
+
+```mojo
+struct DiscoveryStatus(Copyable, ImplicitlyCopyable):
+    comptime SUCCESS = 0
+    comptime PARTIAL = 1
+    comptime UNSUPPORTED_RUNTIME = 2
+    comptime NO_DEVICE = 3
+    comptime INCOMPATIBLE_DRIVER = 4
+    comptime UNSUPPORTED_ARCHITECTURE = 5
+    comptime MISSING_COMPILER_TOOL = 6
+    comptime PERMISSION_DENIED = 7
+    comptime PROBE_FAILED = 8
+
+struct DeviceCapabilities(Copyable):
+    var is_compatible: Bool
+    var api_version: Int
+    var free_memory_bytes: UInt
+    var total_memory_bytes: UInt
+    var compute_capability_major: Int
+    var compute_capability_minor: Int
+    var multiprocessor_count: Int
+    var max_threads_per_block: Int
+    def validate(self) raises: ...
+
+struct PhysicalDevice(Copyable):
+    var realm: GPURealmType
+    var backend_index: Int
+    var runtime_id: Int64
+    var stable_id: String
+    var name: String
+    var api: String
+    var capabilities: DeviceCapabilities
+    def validate(self) raises: ...
+
+struct HardwareDiscoveryResult(Copyable):
+    var status: DiscoveryStatus
+    var message: String
+    var devices: List[PhysicalDevice]
+    def validate(self) raises: ...
+```
+
+Validation rejects empty successful results, devices attached to failure
+statuses, invalid capability values, duplicate stable IDs, and duplicate
+realm-local indices.
+
+### `DeviceTopology` (Slices 6–8 and GPU-1)
+
+Maps logical host partitions and retains validated observed accelerator records.
+Default construction is side-effect-free with respect to hardware probing.
 
 ```mojo
 struct DeviceTopology:
@@ -115,11 +167,18 @@ struct DeviceTopology:
     var device_names: List[String]
     var npu_backends: List[NPUBackendType]  # Slice 7
     var gpu_realms: List[GPURealmType]     # Slice 8
+    var physical_devices: List[PhysicalDevice]
+    var last_gpu_discovery_status: DiscoveryStatus
 
     def __init__(out self, num_devices: Int = 1): ...
     def __init__(out self, num_devices: Int, device_names: List[String]): ...
-    def detect_edge_npus(mut self): ... # clears to an empty observed-device list
-    def detect_gpu_realms(mut self): ... # clears to an empty observed-device list
+    def detect_edge_npus(mut self): ...
+    def detect_gpu_realms(mut self): ...
+    def apply_gpu_discovery(mut self, result: HardwareDiscoveryResult) raises: ...
+    def probe_cuda_realm(mut self) raises: ...
+    def probe_all_hardware(mut self) raises: ...
+    def select_gpu_by_index(self, realm: GPURealmType, backend_index: Int) raises -> PhysicalDevice: ...
+    def select_gpu_by_stable_id(self, stable_id: String) raises -> PhysicalDevice: ...
 ```
 
 ### `NPUBackendType` (reserved NPU surface)
@@ -165,7 +224,7 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
 ```
 
 ### `GPURealmType` (reserved GPU surface)
-Integer discriminant naming ten requested GPU realms. A value does not imply
+Integer discriminant naming eleven requested GPU realms. A value does not imply
 device presence, allocation, or execution.
 
 ```mojo
@@ -180,6 +239,7 @@ struct GPURealmType(Copyable, ImplicitlyCopyable):
     comptime ARM_MALI_OPENCL = 7     # Mobile ARM Mali / OpenCL
     comptime QUALCOMM_ADRENO = 8     # Snapdragon Adreno / OpenCL
     comptime IMAGINATION_POWERVR = 9 # Embedded PowerVR
+    comptime APPLE_METAL = 10        # Apple Metal
 
     var value: Int
 
@@ -208,6 +268,29 @@ struct GPUBuffer(Copyable, ImplicitlyCopyable):
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]: ...
     def copy(self) -> Self: ...
 ```
+
+### `CUDAGate` (GPU-1 discovery boundary)
+
+Uses the locked MAX accelerator API for real CUDA enumeration and capability
+inspection. A loadable library is not counted as a device. Errors are preserved
+as explicit discovery statuses, and the execution methods remain unsupported.
+
+```mojo
+struct CUDAGate:
+    @staticmethod
+    def is_available() -> Bool: ...
+    @staticmethod
+    def get_device_count() -> Int: ...
+    @staticmethod
+    def classify_discovery_error(message: String) -> DiscoveryStatus: ...
+    @staticmethod
+    def discover_physical_devices() -> HardwareDiscoveryResult: ...
+```
+
+`discover_physical_devices()` records the runtime ID, name, API/version,
+free/total memory, MAX compatibility, compute capability, multiprocessor count,
+and maximum threads per block for each inspected CUDA index. It does not create
+production contexts or buffers whose lifetime extends beyond discovery.
 
 ### `CompressedFormatType` (Slice 10)
 Zero-overhead integer discriminant tag naming 21 universal sub-byte, integer, and block-compressed LLM format variants.

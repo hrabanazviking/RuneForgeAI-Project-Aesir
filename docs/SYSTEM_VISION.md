@@ -166,10 +166,10 @@ evidence.
    - **Heterogeneous Forward Pass (`TransformerBlock.forward`, `AesirEngine`):** `enable_npu` / `target_backend` propagation through all projection layers and the full generation pipeline.
 
 11. **Universal Multi-GPU & Hardware Accelerator Realm Matrix:**
-   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Ten sovereign compute spirits: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR.
+   - **The Sigil of Universal GPU Realms (`GPURealmType`):** Eleven target realms: CUDA, ROCm/HIP, OneAPI Xe, MUSA, SUPA, MACA, DCU, Mali OpenCL, Adreno, PowerVR, and Apple Metal.
    - **The Bifrost Physical Stream Channel (`GPUBuffer`):** Zero-copy physical GPU buffer carved directly from MimirWell.
-   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Topology scan registering all ten GPU hardware realms into living memory.
-   - **The Gateway of the Ten GPU Realms (`gemm_f16_gpu`):** Zero-overhead single-integer discriminant routing matrix operations to specialized SIMD kernels.
+   - **The Universal GPU Realm Scout (`DeviceTopology.detect_gpu_realms`):** Target topology scan across eleven GPU realms.
+   - **The Gateway of the Eleven GPU Realms (`gemm_f16_gpu`):** Target single-integer dispatch to genuine backend kernels after each is proved.
    - **Eastern GPGPU & Mobile SIMD Kernels (`gemm_f16_gpgpu_vector`, `gemm_f16_mobile_opencl`):** 16-wide GPGPU SIMT and 8-wide mobile OpenCL vector kernels.
    - **The Cleansing Stream of Alfheim (`rmsnorm_gpu`):** Vectorized RMSNorm across GPU realms with f32 numerical widening.
    - **Universal GPU Forward Pass & Engine Controls (`TransformerBlock.forward`, `AesirEngine`):** `enable_gpu_realm` and `target_gpu_realm` configuration across all model projections and generation loops.

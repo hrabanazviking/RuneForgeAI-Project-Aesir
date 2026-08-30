@@ -112,3 +112,46 @@ observed CUDA device through MAX while CPU-only tests exercise the same
 admission logic with clearly injected snapshots. GPU-2 will own long-lived
 production contexts, buffers, transfers, synchronization objects, budgets, and
 cleanup. GPU-3 will own the first A.E.S.I.R. GPU GEMM.
+
+## Implementation Evidence
+
+- `CUDAGate.get_device_count()` now returns
+  `DeviceContext.number_of_devices(api="cuda")`.
+- `CUDAGate.discover_physical_devices()` inspects each MAX CUDA index and emits
+  only runtime-derived validated records.
+- `DeviceTopology.apply_gpu_discovery()` admits production results or explicit
+  injected snapshots without clearing earlier records and rejects duplicate
+  IDs or realm-local indices.
+- Selection by backend index and `cuda:max-id:<MAX id>` rejects missing and
+  incompatible records.
+- `APPLE_METAL (10)` prevents a positive Metal probe from being mislabeled as
+  ARM Mali OpenCL.
+- Real CUDA discovery exposed a pre-existing `rmsnorm_gpu()` CPU fallback; it
+  was removed so discovery cannot silently enable host compute under a GPU
+  label.
+
+## Observed Physical Result
+
+The opt-in production test observed one `NVIDIA GeForce RTX 2060 with Max-Q
+Design` through MAX 26.5: backend index/runtime ID `0`, API `cuda`, API version
+`13020`, compute capability `7.5`, 30 multiprocessors, and 1024 maximum threads
+per block. Memory is recorded live and is intentionally not hardcoded here.
+Topology selection by both index and stable ID passed.
+
+The MAX runtime ID is the only selected public Mojo identity value and is not a
+vendor UUID. This observation proves the local RTX/MAX boundary only.
+
+## Verification Result
+
+- CPU-only injected discovery tests: 4 passed.
+- Master suite: 136 passed, 0 failed, 1 skipped, total 137.
+- Opt-in GPU-1 discovery proof: passed.
+- GPU-0 H2D/kernel/D2H reachability regression: passed; its injected mismatch
+  control exited nonzero.
+- Native build, fail-closed runtime control, documentation drift, fixture, and
+  diff checks: passed.
+
+## Final Status
+
+GPU-1 is complete at the discovery boundary. `AES-ACC-003` is `partial`.
+`AES-ACC-008` remains `missing`; GPU-2 is the next authorized slice.

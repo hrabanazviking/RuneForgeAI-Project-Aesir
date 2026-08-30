@@ -97,16 +97,16 @@ graph TD
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.
 - **Implementation:** 
-  - `MimirWell`: Pre-allocates a single contiguous memory block using `alloc` and provides `allocate()` for zero-copy pointer slice offsets. In **Slice 7**, provides `allocate_npu_buffer(size_bytes, backend)`. In **Slice 8**, provides `allocate_gpu_buffer(size_bytes, realm)` to carve zero-copy physical GPU stream channels directly from the pool.
+  - `MimirWell`: Pre-allocates a single contiguous host-memory block using `alloc` and provides `allocate()` for pointer slice offsets. The NPU/GPU allocation methods create host descriptors only; they do not allocate device memory.
   - `RuneTensor`: Zero-copy tensor structure providing `checked()` admission for untrusted shapes/products/pointers plus `get_checked()` and `set_checked()` coordinate guards. Its non-raising initializer is an explicit internal raw-view primitive; allocation-span and lifetime proof remain caller-owned despite the `is_borrowed()` / `is_owned()` descriptor getters.
   - `KVCache`: Fixed-capacity contiguous cache managing pre-allocated `RuneTensor[f16]` buffers for Key ($K$) and Value ($V$) tensors across chronological positions below `max_seq_len` and `num_layers`. Out-of-capacity appends fail; no wraparound is implemented. Provides `append()`, `get_k_slice()`, and `get_v_slice()`.
   - `PagedKVCache`: Reserved fail-closed compatibility API. It has no page table, allocator, ownership map, eviction, sharing, or logical-to-physical translation; construction and block methods raise `not implemented` (`AES-MEM-004` remains `missing`).
   - `MimirStore`: Vector store pre-allocating zero-copy memory inside `MimirWell`. Holds document text chunks (`List[String]`) and embedding matrix `embeddings` (`RuneTensor[f16]`). Provides `add_document()`, `clear()`, and `search_knn()` for k-NN vector retrieval with capacity and dimension boundary validation (`AES-RAG-002`).
-  - `DeviceTopology` & `ShardTensor`: Map hardware compute devices (`cuda:0`, `cuda:1`, etc.) and wrap zero-copy `RuneTensor[f16]` slices bound to individual device realms. Provides `probe_all_hardware()`, `require_npu_backend()`, and `require_gpu_realm()` to separate configured from discovered physical backends and strictly reject absent accelerator requests with explicit error exceptions instead of claiming CPU as hardware execution (`AES-ACC-003`).
+  - `DeviceTopology` & `ShardTensor`: Logical shards remain sequential host views. GPU-1 adds validated `PhysicalDevice`, `DeviceCapabilities`, discovery-status records, real MAX CUDA enumeration, topology accumulation, and compatible-device selection. Other backend probes remain unpromoted, and no topology record enables execution (`AES-ACC-003`).
   - Partitioning Functions: `shard_split_cols()` (column-parallel matrix splitting), `shard_split_rows()` (row-parallel matrix splitting), and `shard_split_gqa_heads()` (multi-device Grouped-Query Attention Q/K/V head partitioning with head divisibility validation) (`AES-ACC-004`).
   - **`NPUBackendType` & `NPUBuffer` (Slice 7):** Zero-overhead integer discriminant tag naming six edge NPU spirits and DMA-BUF zero-copy shared memory conduit. Provides `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
-  - **`GPURealmType` (Slice 8):** Zero-overhead integer discriminant tag naming ten global compute GPU hardware realms: `NVIDIA_CUDA (0)`, `AMD_ROCM_HIP (1)`, `INTEL_ONEAPI_XE (2)`, `MOORE_THREADS_MUSA (3)`, `BIREN_SUPA (4)`, `METAX_MACA (5)`, `HYGON_DCU (6)`, `ARM_MALI_OPENCL (7)`, `QUALCOMM_ADRENO (8)`, `IMAGINATION_POWERVR (9)`. Provides `.name()`, `==`, and `!=`. Default: `NVIDIA_CUDA (0)`.
-  - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop and `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
+  - **`GPURealmType` (Slice 8/GPU-1):** Integer requested-realm discriminant naming eleven realms, including distinct `ARM_MALI_OPENCL (7)` and `APPLE_METAL (10)`. A discriminant is not device or execution evidence.
+  - **`GPUBuffer` (Slice 8):** CPU-resident host descriptor with realm metadata. It does not establish device allocation, mapping, transfer, or GPU page-table sharing (`AES-ACC-009`).
 
 ### 7. `aesir_engine/config.mojo` & Experimental Primitives (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
 - **Role:** Validated configuration fields, local deterministic transforms, text helpers, and status-display shapes. These are not integrated inference paradigms, live telemetry, self-healing, tool execution, or MAX execution.
@@ -136,15 +136,13 @@ graph TD
   - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
   - `gemm_f16_sharded` & `all_reduce_sum`: Multi-device parallel GEMM and SIMD vector reduction across Bifrost Shard Matrix.
   - **`gemm_f16_arm_neon`, `rmsnorm_arm_neon` & `gemm_f16_npu` (Slice 7):** 128-bit ARM NEON kernels and NPU Realm Gateway dispatcher.
-  - **`gemm_f16_gpgpu_vector` (Slice 8):** 16-wide SIMD matrix multiplication kernel targeting sovereign GPGPU architectures (Moore Threads MUSA, Biren SUPA, MetaX MACA, Hygon DCU).
-  - **`gemm_f16_mobile_opencl` (Slice 8):** 8-wide SIMD matrix multiplication kernel targeting mobile, VR/XR headset, and IoT embedded GPUs (ARM Mali OpenCL, Qualcomm Adreno, Imagination PowerVR).
-  - **`rmsnorm_gpu` (Slice 8):** 16-wide SIMD Root Mean Square Normalization kernel across all ten GPU hardware realms.
-  - **`gemm_f16_gpu` (Slice 8) — The Universal GPU Realm Gateway:** Single-integer discriminant dispatch gateway routing matrix multiplication across all ten global GPU hardware realms (`NVIDIA_CUDA`/`AMD_ROCM_HIP`/`INTEL_ONEAPI_XE` → `gemm_f16`, `MUSA`/`SUPA`/`MACA`/`DCU` → `gemm_f16_gpgpu_vector`, `MALI`/`ADRENO`/`POWERVR` → `gemm_f16_mobile_opencl`). Called from `TransformerBlock.forward()` and `forward_pass()`.
+  - **GPU-named host helpers (Slice 8):** `gemm_f16_gpgpu_vector` and `gemm_f16_mobile_opencl` are host SIMD functions retained for compatibility; their names do not prove vendor GPU execution.
+  - **`rmsnorm_gpu` and `gemm_f16_gpu`:** Public engine GPU gateways remain fail-closed for every realm. CUDA discovery never authorizes a CPU fallback under a GPU label.
 
 ### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
 - **Implementation:**
-  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime probe with `is_cuda_available()`, dynamic `libcuda.so` / `nvcuda.dll` presence detection, and fail-closed error boundaries for missing CUDA drivers.
+  - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime loading plus real MAX 26.5 enumeration and per-device capability inspection. The record uses MAX's runtime ID, not an invented vendor UUID. Allocation, transfers, and engine kernels remain fail-closed.
   - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
   - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
   - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
@@ -154,7 +152,7 @@ graph TD
 ### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock`, `forward_pass` & `generation_stop_reason`)
 - **Role:** Transformer layer pipeline execution with multi-device topology, NPU backend, GPU realm dispatch support, and exception-safe arena offset restoration.
 - **Implementation:** Encapsulates `TransformerBlock` and `forward_pass()`. Loader-backed block construction requires all nine usable layer tensors and rejects missing, empty, null, or address-1 weights before inference; the legacy constructor is a stable non-runnable error boundary. Features try-catch workspace pool offset restoration (`well.reset_kv_cache(start_offset)`) around single-device and multi-device execution paths, preventing workspace arena leakage or offset drift under layer exceptions (`AES-MEM-005`). `TokenCandidate` in `core/sampler.mojo` and `SessionContext` in `core/session.mojo` conform to `ImplicitlyCopyable` for zero-copy collection passing (`AES-GEN-009`).
-- **GPU Dispatch (Slice 8):** `TransformerBlock.forward()` accepts `use_gpu_realm: Bool` and `gpu_realm: GPURealmType`. When `use_gpu_realm` is `True` on the single-device path, all GEMM calls (QKV, output projection, FFN up/gate/down) are dispatched through `gemm_f16_gpu(…, gpu_realm)`. `forward_pass()` threads `use_gpu_realm` and `gpu_realm` into every layer block and into the final vocabulary projection.
+- **GPU configuration boundary:** `TransformerBlock.forward()` retains GPU parameters, but facade validation rejects GPU execution before model loading and every public GPU compute gateway fails closed. CUDA discovery is intentionally independent of inference enablement.
 
 ### 8. `cli/` & `main.mojo` — The Ollama CLI, REPL Terminal Suite & llama.cpp CLI Compat (Slice 9 & Slice 25)
 - **Role:** Sovereign command-line entry point (`main.mojo`), command routing dispatcher (`cli/commands.mojo`), Modelfile directive parser (`cli/modelfile.mojo`), model catalog & manifest store (`cli/manifest.mojo`), interactive chat REPL terminal session (`cli/repl.mojo`), llama.cpp CLI compatibility validator (`cli/llama_cpp_compat.mojo`), CLI flag/option parser (`cli/options.mojo`), and help/TUI dashboard (`cli/help.mojo`, `cli/tui.mojo`).
@@ -249,21 +247,19 @@ graph LR
 
 ## 🌌 The Universal GPU Realm Matrix — Slice 8 Domain Layer
 
-The Universal Multi-GPU & Hardware Accelerator Realm Matrix expands Project Aesir's compute coverage across ten global GPU hardware architectures. It provides a **zero-overhead, zero-vtable** single-integer discriminant routing system from `AesirEngine` down to hardware SIMD kernel execution.
+This layer currently separates requested realm names, observed hardware, and
+execution. GPU-1 provides one real discovery path: MAX CUDA enumeration and
+validated topology selection. All engine GPU allocation, transfer, compute,
+inference, and CLI acceleration paths remain unsupported.
 
 ```mermaid
 graph TD
-    Engine[AesirEngine<br/>enable_gpu_realm=True<br/>target_gpu_realm=GPURealmType] -->|use_gpu_realm, gpu_realm| FP[forward_pass<br/>core/inference.mojo]
-    FP -->|use_gpu_realm, gpu_realm per layer| TB[TransformerBlock.forward<br/>QKV · Output · FFN up/gate/down]
-    TB -->|realm.value discriminant| GW[gemm_f16_gpu<br/>core/compute.mojo]
-    
-    GW -->|0: NVIDIA_CUDA<br/>1: AMD_ROCM_HIP<br/>2: INTEL_ONEAPI_XE| CUDA[gemm_f16<br/>32-wide AVX/CUDA SIMD]
-    GW -->|3: MOORE_THREADS_MUSA<br/>4: BIREN_SUPA<br/>5: METAX_MACA<br/>6: HYGON_DCU| GPGPU[gemm_f16_gpgpu_vector<br/>16-wide GPGPU Vector SIMD]
-    GW -->|7: ARM_MALI_OPENCL<br/>8: QUALCOMM_ADRENO<br/>9: IMAGINATION_POWERVR| MOBILE[gemm_f16_mobile_opencl<br/>8-wide Mobile SIMD]
-    
-    CUDA -.->|reads f16 from| MW[MimirWell zero-copy slab / GPUBuffer]
-    GPGPU -.->|reads f16 from| MW
-    MOBILE -.->|reads f16 from| MW
+    MAX[MAX DeviceContext CUDA API] --> CG[CUDAGate.discover_physical_devices]
+    CG --> R[HardwareDiscoveryResult<br/>status + validated records]
+    R --> T[DeviceTopology<br/>accumulate + select]
+    T -. discovery does not enable .-> G[GPU compute gateways<br/>explicit unsupported error]
+    E[AesirEngine GPU request] --> V[validate_runtime_backend_config]
+    V --> X[rejected before model loading]
 ```
 
 **Boundary confirmation for Slice 8:**
@@ -271,16 +267,16 @@ graph TD
 | Component | Placed in | Domain | Verdict |
 | :--- | :--- | :--- | :--- |
 | `GPURealmType` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — hardware discriminant type belongs in core memory/topology |
-| `GPUBuffer` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — physical memory buffer descriptor belongs beside `MimirWell` |
-| `DeviceTopology.detect_gpu_realms()` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — realm discovery is a memory/topology initialization concern |
-| `gemm_f16_gpgpu_vector` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — 16-wide GPGPU kernel belongs in Nidavellir Forge |
-| `gemm_f16_mobile_opencl` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — 8-wide mobile GPU kernel belongs in Nidavellir Forge |
-| `rmsnorm_gpu` | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — GPU RMSNorm kernel belongs in Nidavellir Forge |
-| `gemm_f16_gpu` dispatcher | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — dispatch gate is compute logic |
+| `GPUBuffer` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — reserved host descriptor belongs beside `MimirWell` |
+| discovery records and `DeviceTopology` | `core/mimir_well.mojo` | Core — Memory & Topology Domain | ✅ **Correct** — runtime-neutral records and selection belong in topology |
+| `CUDAGate` MAX adapter | `core/cuda_gate.mojo` | Core — CUDA Runtime Boundary | ✅ **Correct** — CUDA-specific enumeration stays behind its gate |
+| GPU compute gateways | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — fail-closed execution boundary remains in compute |
 | `TransformerBlock.forward()` GPU params | `core/inference.mojo` | Core — Inference Domain | ✅ **Correct** — inference layer owns layer dispatch decisions |
 | `AesirEngine.enable_gpu_realm`, `target_gpu_realm` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — configuration knobs belong in orchestration facade |
 
-**No boundary violations detected.** `server/api.mojo` has zero GPU imports. `loader/` domain is completely unaffected. `aesir.mojo` imports `GPURealmType` from `core/mimir_well.mojo` (Facade → Core dependency law). No compute logic has leaked outside `core/`.
+**Current evidence boundary:** server and loader domains do not own CUDA
+discovery. The opt-in physical tests prove one observed RTX/MAX host, not
+general CUDA portability or engine execution.
 
 ---
 

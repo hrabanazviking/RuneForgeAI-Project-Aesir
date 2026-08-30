@@ -270,7 +270,25 @@ def check_source_truth(errors: list[str]) -> None:
             if token in content:
                 errors.append(f"{name}: prohibited fabricated signature {token!r}")
 
-    for name in ["cuda_gate.mojo", "metal_gate.mojo", "intel_gate.mojo", "amd_gate.mojo", "npu_gate.mojo"]:
+    cuda_content = (ROOT / "aesir_engine/core/cuda_gate.mojo").read_text(
+        encoding="utf-8"
+    )
+    cuda_count = re.search(
+        r"def get_device_count\([^)]*\)[^:]*:\s*(.*?)(?=\n\s*def |\Z)",
+        cuda_content,
+        re.DOTALL,
+    )
+    if (
+        not cuda_count
+        or 'DeviceContext.number_of_devices(api="cuda")'
+        not in cuda_count.group(1)
+        or "def discover_physical_devices()" not in cuda_content
+    ):
+        errors.append(
+            "aesir_engine/core/cuda_gate.mojo: CUDA count must use truthful MAX discovery"
+        )
+
+    for name in ["metal_gate.mojo", "intel_gate.mojo", "amd_gate.mojo", "npu_gate.mojo"]:
         content = (ROOT / "aesir_engine/core" / name).read_text(encoding="utf-8")
         block = re.search(r"def get_device_count\([^)]*\)[^:]*:\s*(.*?)(?=\n\s*def |\Z)", content, re.DOTALL)
         if not block or "return 0" not in block.group(1):

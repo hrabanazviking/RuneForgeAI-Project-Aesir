@@ -65,6 +65,15 @@ def validate_identity(host_input: HostBuffer[DType.float32], host_roundtrip: Hos
 def validate_kernel_output(host_output: HostBuffer[DType.float32], execution_round: Int, inject_mismatch: Bool) raises: ...
 def main() raises: ...
 
+# tests/test_hardware_discovery.mojo (CPU-only injected records)
+def test_discovery_status_classification() raises: ...
+def test_physical_device_admission() raises: ...
+def test_topology_discovery_accumulation() raises: ...
+def test_topology_stable_selection() raises: ...
+
+# tests/test_gpu_discovery.mojo (opt-in physical CUDA discovery proof)
+def main() raises: ...
+
 # tests/test_sharding.mojo (Slice 6)
 def test_device_topology() raises: ...
 def test_shard_tensor() raises: ...
@@ -152,8 +161,20 @@ MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/
 ```
 
 This isolated test proves only MAX 26.5 toolchain reachability on the observed
-device. It is not engine device discovery, production buffer ownership, GEMM,
-model inference, generalized CUDA support, NPU execution, or hardware CI.
+device. It is not production buffer ownership, GEMM, model inference,
+generalized CUDA support, NPU execution, or hardware CI.
+
+The CPU master suite injects validated discovery records to prove failure
+classification, admission, accumulation, deduplication, and selection without
+pretending hosted CI has a GPU. The separate physical discovery proof exercises
+the production MAX CUDA adapter and topology on an actual device:
+
+```bash
+pixi run mojo run aesir_engine/tests/test_gpu_discovery.mojo
+```
+
+That proof establishes engine-facing CUDA enumeration and selection only. It
+does not establish persistent device resources or any engine compute path.
 
 ## Process Contract
 
@@ -161,14 +182,15 @@ model inference, generalized CUDA support, NPU execution, or hardware CI.
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 132 executable named cases and one explicit skip in a
+- The runner registers 136 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(133)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 133.
+- `TestLedger.finish(137)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+  raises after reporting if any case failed or the total is not 137.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
-- `test_gpu_reachability.mojo` is intentionally absent from `run_all.mojo` so
-  the default suite stays deterministic and hardware-independent.
+- `test_gpu_reachability.mojo` and `test_gpu_discovery.mojo` are intentionally
+  absent from `run_all.mojo` so the default suite stays deterministic and
+  hardware-independent.
 - Synthetic/scaffold assertions establish only their local deterministic
   invariants. They do not establish hardware, format, protocol, network,
   resilience, concurrency, or distributed compatibility.
