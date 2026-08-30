@@ -43,6 +43,24 @@ struct CUDAResourceBudget(Copyable):
             raise Error("CUDAResourceBudget: F16 byte count overflow")
         return size_bytes
 
+    @staticmethod
+    def f16_batch3_size_bytes(
+        first_element_count: Int,
+        second_element_count: Int,
+        third_element_count: Int,
+    ) raises -> Int:
+        """Return the exact byte total for three positive F16 allocations."""
+        var first_bytes = Self.f16_size_bytes(first_element_count)
+        var second_bytes = Self.f16_size_bytes(second_element_count)
+        var third_bytes = Self.f16_size_bytes(third_element_count)
+        var first_pair_bytes = first_bytes + second_bytes
+        if first_pair_bytes <= first_bytes:
+            raise Error("CUDAResourceBudget: F16 batch byte count overflow")
+        var total_bytes = first_pair_bytes + third_bytes
+        if total_bytes <= first_pair_bytes:
+            raise Error("CUDAResourceBudget: F16 batch byte count overflow")
+        return total_bytes
+
     def validate(self) raises:
         if self.device_limit_bytes <= 0:
             raise Error("CUDAResourceBudget: device limit must be positive")
@@ -78,6 +96,27 @@ struct CUDAResourceBudget(Copyable):
         self.device_reserved_bytes += size_bytes
         self.pinned_host_reserved_bytes += size_bytes
         return size_bytes
+
+    def reserve_f16_batch3(
+        mut self,
+        first_element_count: Int,
+        second_element_count: Int,
+        third_element_count: Int,
+    ) raises -> Int:
+        """Atomically reserve device and host bytes for three F16 buffers."""
+        self.validate()
+        var total_bytes = Self.f16_batch3_size_bytes(
+            first_element_count,
+            second_element_count,
+            third_element_count,
+        )
+        if total_bytes > self.remaining_device_bytes():
+            raise Error("CUDAResourceBudget: device budget exceeded")
+        if total_bytes > self.remaining_pinned_host_bytes():
+            raise Error("CUDAResourceBudget: pinned-host budget exceeded")
+        self.device_reserved_bytes += total_bytes
+        self.pinned_host_reserved_bytes += total_bytes
+        return total_bytes
 
     def rollback_f16(mut self, size_bytes: Int) raises:
         """Undo one failed allocation reservation without underflow."""

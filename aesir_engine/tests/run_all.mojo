@@ -64,6 +64,12 @@ from tests.test_cuda_resource_budget import (
     test_cuda_budget_overflow_and_rollback,
     test_cuda_resource_policy_admission,
 )
+from tests.test_cuda_gemm_plan import (
+    test_cuda_gemm_plan_counts_and_launch,
+    test_cuda_gemm_plan_shape_rejection,
+    test_cuda_gemm_plan_overflow_and_abi_rejection,
+    test_cuda_gemm_batch_budget_transaction,
+)
 from tests.test_cuda_realm import (
     test_cuda_gate_availability,
     test_cuda_gemm_dispatch_bounds,
@@ -361,6 +367,26 @@ def main() raises:
         ledger,
         "gpu.resource_policy_admission",
         test_cuda_resource_policy_admission,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_counts",
+        test_cuda_gemm_plan_counts_and_launch,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_shape_rejection",
+        test_cuda_gemm_plan_shape_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_plan_abi_rejection",
+        test_cuda_gemm_plan_overflow_and_abi_rejection,
+    )
+    run_case(
+        ledger,
+        "gpu.cuda_gemm_batch_transaction",
+        test_cuda_gemm_batch_budget_transaction,
     )
     run_case(ledger, "gpu.cuda_gate_availability", test_cuda_gate_availability)
     run_case(
@@ -703,4 +729,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(141)
+    ledger.finish(145)
