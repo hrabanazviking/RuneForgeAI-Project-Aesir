@@ -58,6 +58,12 @@ from tests.test_hardware_discovery import (
     test_topology_discovery_accumulation,
     test_topology_stable_selection,
 )
+from tests.test_cuda_resource_budget import (
+    test_cuda_budget_accounting,
+    test_cuda_budget_rejection_is_transactional,
+    test_cuda_budget_overflow_and_rollback,
+    test_cuda_resource_policy_admission,
+)
 from tests.test_cuda_realm import (
     test_cuda_gate_availability,
     test_cuda_gemm_dispatch_bounds,
@@ -337,6 +343,24 @@ def main() raises:
     )
     run_case(
         ledger, "gpu.stable_device_selection", test_topology_stable_selection
+    )
+    run_case(
+        ledger, "gpu.resource_budget_accounting", test_cuda_budget_accounting
+    )
+    run_case(
+        ledger,
+        "gpu.resource_budget_transaction",
+        test_cuda_budget_rejection_is_transactional,
+    )
+    run_case(
+        ledger,
+        "gpu.resource_budget_rollback",
+        test_cuda_budget_overflow_and_rollback,
+    )
+    run_case(
+        ledger,
+        "gpu.resource_policy_admission",
+        test_cuda_resource_policy_admission,
     )
     run_case(ledger, "gpu.cuda_gate_availability", test_cuda_gate_availability)
     run_case(
@@ -679,4 +703,4 @@ def main() raises:
     )
     print("")
 
-    ledger.finish(137)
+    ledger.finish(141)

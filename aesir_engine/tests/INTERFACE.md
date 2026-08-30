@@ -74,6 +74,12 @@ def test_topology_stable_selection() raises: ...
 # tests/test_gpu_discovery.mojo (opt-in physical CUDA discovery proof)
 def main() raises: ...
 
+# tests/test_cuda_resource_budget.mojo (CPU-only GPU-2 policy tests)
+def test_cuda_budget_accounting() raises: ...
+def test_cuda_budget_rejection_is_transactional() raises: ...
+def test_cuda_budget_overflow_and_rollback() raises: ...
+def test_cuda_resource_policy_admission() raises: ...
+
 # tests/test_sharding.mojo (Slice 6)
 def test_device_topology() raises: ...
 def test_shard_tensor() raises: ...
@@ -182,10 +188,10 @@ does not establish persistent device resources or any engine compute path.
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 136 executable named cases and one explicit skip in a
+- The runner registers 140 executable named cases and one explicit skip in a
   deterministic order.
-- `TestLedger.finish(137)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
-  raises after reporting if any case failed or the total is not 137.
+- `TestLedger.finish(141)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
+  raises after reporting if any case failed or the total is not 141.
 - `report_engine_integration_boundary()` is the one explicit external-fixture
   skip. It increments only the skip count and is not a pass.
 - `test_gpu_reachability.mojo` and `test_gpu_discovery.mojo` are intentionally

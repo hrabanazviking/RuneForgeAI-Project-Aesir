@@ -3,12 +3,14 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 136 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 140 executable named cases
   and one explicit external-fixture skip.
 - **`test_hardware_discovery.mojo`:** Deterministic injected-record tests for
   discovery statuses, validation, accumulation, deduplication, and selection.
 - **`test_gpu_discovery.mojo`:** Opt-in physical MAX CUDA enumeration and
   topology-selection proof; intentionally excluded from the CPU master suite.
+- **`test_cuda_resource_budget.mojo`:** CPU-only GPU-2 byte accounting,
+  transactional rejection, rollback, overflow, and device-policy admission.
 - **`test_ledger.mojo`:** Tests-domain pass/fail/skip ledger, per-case error
   boundary, stable result lines, ordered failure details, and terminal status.
 - **`test_compute.mojo`:** Unit tests for GEMM, Flash Attention-2, SiLU, GeGLU, and Q4_K_M dequantization.
@@ -33,7 +35,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 137 reportable cases, it prints unique
+and continues with later cases. After all 141 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -41,10 +43,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 136
+[SUMMARY] Passed: 140
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 137
+[SUMMARY] Total: 141
 [SUMMARY] Status: PASS
 ```
 
@@ -52,7 +54,7 @@ The historical Forge 0B negative gate deliberately corrupted the F16 type expect
 The runner recorded `gguf.type_constants` as failed, continued through the final
 swarm case, reported 48/1/1/50, and exited 1 after the summary. Exact restoration
 returned that Forge's suite to 49/0/1/50 and exit 0. Later stages expanded the
-current baseline to 136/0/1/137; the consistency checker mechanically keeps
+current baseline to 140/0/1/141; the consistency checker mechanically keeps
 the runner total and capability ledger synchronized.
 
 ## How to Run

@@ -292,6 +292,64 @@ free/total memory, MAX compatibility, compute capability, multiprocessor count,
 and maximum threads per block for each inspected CUDA index. It does not create
 production contexts or buffers whose lifetime extends beyond discovery.
 
+### `CUDAResourceBudget`, `CUDAF16Allocation`, and `CUDADeviceResources` (GPU-2)
+
+`core/cuda_resources.mojo` owns the selected CUDA context and real MAX-managed
+F16 resource lifecycle. These are move-only project wrappers: the underlying
+MAX context, pinned-host buffer, and device buffer are reference-counted and
+released by their `Deinitable` lifecycles after queued stream work completes.
+
+```mojo
+struct CUDAResourceBudget(Copyable):
+    var device_limit_bytes: Int
+    var pinned_host_limit_bytes: Int
+    var device_reserved_bytes: Int
+    var pinned_host_reserved_bytes: Int
+
+    def __init__(out self, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
+    @staticmethod
+    def f16_size_bytes(element_count: Int) raises -> Int: ...
+    def validate(self) raises: ...
+    def remaining_device_bytes(self) -> Int: ...
+    def remaining_pinned_host_bytes(self) -> Int: ...
+    def reserve_f16(mut self, element_count: Int) raises -> Int: ...
+    def rollback_f16(mut self, size_bytes: Int) raises: ...
+
+def validate_cuda_resource_policy(device: PhysicalDevice, budget: CUDAResourceBudget) raises: ...
+
+struct CUDAF16Allocation:
+    var context: DeviceContext
+    var host_buffer: HostBuffer[DType.float16]
+    var device_buffer: DeviceBuffer[DType.float16]
+    var element_count: Int
+    var size_bytes: Int
+    var stable_device_id: String
+    var synchronization_count: Int
+
+    def set_host(mut self, index: Int, value: Scalar[f16]) raises: ...
+    def get_host(self, index: Int) raises -> Scalar[f16]: ...
+    def enqueue_upload(self) raises: ...
+    def enqueue_download(self) raises: ...
+    def synchronize(mut self) raises: ...
+    def upload_and_synchronize(mut self) raises: ...
+    def download_and_synchronize(mut self) raises: ...
+
+struct CUDADeviceResources:
+    var context: DeviceContext
+    var physical_device: PhysicalDevice
+    var budget: CUDAResourceBudget
+    var allocation_count: Int
+
+    def __init__(out self, physical_device: PhysicalDevice, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
+    def allocate_f16(mut self, element_count: Int) raises -> CUDAF16Allocation: ...
+    def synchronize(self) raises: ...
+```
+
+Budget accounting is conservative and monotonic for a session. Failed MAX
+allocation rolls back its reservation. Dropping a buffer does not fabricate
+immediate pool reuse, and no owning raw pointer is exposed. This resource API
+does not enable an engine compute or inference gateway.
+
 ### `CompressedFormatType` (Slice 10)
 Zero-overhead integer discriminant tag naming 21 universal sub-byte, integer, and block-compressed LLM format variants.
 

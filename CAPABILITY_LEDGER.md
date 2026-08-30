@@ -37,7 +37,7 @@ Run commands from `aesir_engine/` unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 136 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 137, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run tests/run_all.mojo` | 140 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 141, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -964,7 +964,7 @@ the complete ledger population.
 - **Status:** `missing`
 - **Owner:** core compute/hardware domain
 - **Claim sources:** README NVIDIA/Tensor Core optimization; completed GPU matrix; ACTIVE banners
-- **Implementation evidence:** CUDA now has real MAX enumeration and topology selection; Metal, Intel, and AMD remain library probes. Allocation, transfer, RMSNorm, GEMM, and inference gateways fail closed. The opt-in `test_gpu_reachability.mojo` separately creates MAX host/device buffers, copies data, launches a Mojo affine kernel, synchronizes, and validates results on an observed RTX 2060 Max-Q without connecting those operations to an engine gateway. GPU-1 also removed a latent CUDA RMSNorm CPU fallback exposed by real device counts.
+- **Implementation evidence:** CUDA has real MAX enumeration and topology selection. GPU-2 adds a project-owned CUDA context/resource wrapper with conservative device and pinned-host budget logic; physical wrapper evidence remains opt-in. Legacy raw-pointer, RMSNorm, GEMM, and inference gateways remain fail-closed. Metal, Intel, and AMD remain library probes. The opt-in `test_gpu_reachability.mojo` separately proves MAX buffers, copies, synchronization, and an affine kernel on an observed RTX 2060 Max-Q without connecting those operations to an engine compute gateway.
 - **Executable evidence:** `E-MASTER` cases `gpu.cuda_gate_availability`, `gpu.cuda_gemm_dispatch_bounds`, `gpu.cuda_realm_unsupported_gateways`, `gpu.metal_gate_availability`, `gpu.metal_gemm_dispatch_bounds`, `gpu.metal_realm_unsupported_gateways`, `gpu.intel_gate_availability`, `gpu.intel_gemm_dispatch_bounds`, `gpu.intel_realm_unsupported_gateways`, `gpu.amd_gate_availability`, `gpu.amd_gemm_dispatch_bounds`, `gpu.amd_realm_unsupported_gateways`, `gpu.resilience_allocation_rejection`, `gpu.resilience_dimension_rejection`, and `gpu.resilience_error_barriers` in `test_cuda_realm.mojo`, `test_metal_realm.mojo`, `test_intel_realm.mojo`, `test_amd_realm.mojo`, and `test_hardware_resilience.mojo`; external hardware command `MODULAR_NVPTX_COMPILER_PATH=/usr/bin/ptxas pixi run mojo run aesir_engine/tests/test_gpu_reachability.mojo` passed three independent processes, while `--negative-control` exited nonzero.
 - **Evidence boundary:** The external MAX proofs establish toolchain reachability and engine-facing discovery on one observed host. They do not establish owned production resources, engine transfer dispatch, GEMM, model inference, generalized CUDA support, NPU execution, or hardware CI.
 - **Next acceptance gate:** GPU-2 and later slices must prove production ownership, transfers, GEMM parity, synchronization, cleanup, model integration, and hardware CI before this execution capability can be promoted.
@@ -1237,7 +1237,7 @@ the complete ledger population.
 - **Owner:** project documentation and every claiming domain
 - **Claim sources:** this ledger, README, TODO, visions, architecture, interfaces, runtime banners
 - **Implementation evidence:** canonical ledger, `scripts/check_doc_drift.py` documentation verification suite, TODO status synchronization, and explicit current-versus-historical claim boundaries in both active vision documents.
-- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves current status rejection and historical exclusion; `python3 scripts/check_doc_drift.py`; `E-MASTER` (**136 passed / 0 failed / 1 skipped / total 137**).
+- **Executable evidence:** `python3 scripts/test_check_doc_drift.py` proves current status rejection and historical exclusion; `python3 scripts/check_doc_drift.py`; `E-MASTER` (**140 passed / 0 failed / 1 skipped / total 141**).
 - **Evidence boundary:** Checks mechanical ledger/test/doc invariants, active vision status tags, and known fabrication signatures. Historical prose is preserved rather than semantically re-adjudicated; new claim families still require review and gate expansion.
 - **Audit:** AER-003, AER-112, AER-115.
 

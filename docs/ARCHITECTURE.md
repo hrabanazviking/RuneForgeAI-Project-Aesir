@@ -139,10 +139,11 @@ graph TD
   - **GPU-named host helpers (Slice 8):** `gemm_f16_gpgpu_vector` and `gemm_f16_mobile_opencl` are host SIMD functions retained for compatibility; their names do not prove vendor GPU execution.
   - **`rmsnorm_gpu` and `gemm_f16_gpu`:** Public engine GPU gateways remain fail-closed for every realm. CUDA discovery never authorizes a CPU fallback under a GPU label.
 
-### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
+### 6.1. `core/cuda_gate.mojo`, `cuda_resources.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Boundaries
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
 - **Implementation:**
   - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime loading plus real MAX 26.5 enumeration and per-device capability inspection. The record uses MAX's runtime ID, not an invented vendor UUID. Allocation, transfers, and engine kernels remain fail-closed.
+  - `CUDADeviceResources` (`cuda_resources.mojo`): Move-only selected-device MAX context with conservative device/pinned-host budgets and owned paired F16 buffers. It provides explicit copy and synchronization operations but is not connected to engine compute.
   - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
   - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
   - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
