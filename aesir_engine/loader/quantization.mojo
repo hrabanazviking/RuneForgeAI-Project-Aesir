@@ -68,3 +68,21 @@ def dequantize_q4_0_block(
             var q1 = Int((nibbles >> 4) & 0x0F) - 8
             dst_f16.unsafe_store(dst_offset + i, d * Scalar[f16](q0))
             dst_f16.unsafe_store(dst_offset + i + 16, d * Scalar[f16](q1))
+
+
+def dequantize_q8_0_block(
+    src_bytes: Pointer[Byte, MutUntrackedOrigin],
+    dst_f16: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+):
+    """
+    Dequantizes Q8_0 packed byte blocks (34 bytes: 2-byte fp16 scale + 32 int8 quants) into 32 F16 values per block.
+    """
+    for b in range(num_blocks):
+        var src_offset = b * 34
+        var dst_offset = b * 32
+        var scale_ptr = src_bytes.unsafe_offset(src_offset).unsafe_bitcast[Scalar[f16]]()
+        var d = scale_ptr.unsafe_load()
+        for i in range(32):
+            var q_byte = src_bytes.unsafe_load(src_offset + 2 + i).cast[DType.int8]()
+            dst_f16.unsafe_store(dst_offset + i, d * Scalar[f16](q_byte))

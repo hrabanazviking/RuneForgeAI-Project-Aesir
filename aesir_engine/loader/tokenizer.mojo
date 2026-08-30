@@ -214,7 +214,7 @@ struct RuneWeaver:
             return tokens^
 
         # Handle special control token splits (<|im_start|>, <|im_end|>, etc.)
-        if "<|im_start|>" in prompt or "<|im_end|>" in prompt or "<|endoftext|>" in prompt:
+        if "<|im_start|>" in prompt or "<|im_end|>" in prompt or "<|endoftext|>" in prompt or "<start_of_turn>" in prompt or "<end_of_turn>" in prompt:
             var text = prompt
             var i = 0
             var last_idx = 0
@@ -224,7 +224,15 @@ struct RuneWeaver:
                 var match_len = 0
                 var spec_id = -1
 
-                if i + 12 <= n_bytes and text[byte=i : i + 12] == "<|im_start|>":
+                if i + 15 <= n_bytes and text[byte=i : i + 15] == "<start_of_turn>":
+                    matched_special = True
+                    match_len = 15
+                    spec_id = self.token_to_id.get("<start_of_turn>", 106)
+                elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<end_of_turn>":
+                    matched_special = True
+                    match_len = 13
+                    spec_id = self.token_to_id.get("<end_of_turn>", 107)
+                elif i + 12 <= n_bytes and text[byte=i : i + 12] == "<|im_start|>":
                     matched_special = True
                     match_len = 12
                     spec_id = self.token_to_id.get("<|im_start|>", 151644)

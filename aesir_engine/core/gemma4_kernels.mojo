@@ -6,7 +6,12 @@ All offsets and extents must be validated by the loader/session before launch.
 from std.memory import Pointer, bitcast
 from std.gpu import global_idx
 from std.gpu.primitives import warp
-from std.math import sqrt, exp, log, cos, sin, tanh
+from std.math import sqrt, exp, log, cos, sin
+@always_inline
+def fast_fast_tanh(x: Float32) -> Float32:
+    var e2x = exp(2.0 * x)
+    return (e2x - 1.0) / (e2x + 1.0)
+
 
 comptime Bytes = Pointer[UInt8, MutUntrackedOrigin]
 comptime Floats = Pointer[Float32, MutUntrackedOrigin]
@@ -105,6 +110,11 @@ def norm_kernel(w: Bytes, a: Floats, weight_arg: Int64, src_arg: Int64, dst_arg:
             a.unsafe_store(dst + group * width + j, v)
 
 
+@always_inline
+def fast_tanh(x: Float32) -> Float32:
+    var e2x = exp(2.0 * x)
+    return (e2x - 1.0) / (e2x + 1.0)
+
 def element_kernel(w: Bytes, a: Floats, op_arg: Int64, src_arg: Int64, second_arg: Int64, dst_arg: Int64, count_arg: Int64, scale: Float32):
     var op = Int(op_arg)
     var src = Int(src_arg)
@@ -119,11 +129,11 @@ def element_kernel(w: Bytes, a: Floats, op_arg: Int64, src_arg: Int64, second_ar
         elif op == 1:
             value = (value + a.unsafe_load(second + i)) * scale
         elif op == 2:
-            value = 0.5 * value * (1.0 + tanh(0.7978845608028654 * value * (1.0 + 0.044715 * value * value))) * a.unsafe_load(second + i)
+            value = 0.5 * value * (1.0 + fast_tanh(0.7978845608028654 * value * (1.0 + 0.044715 * value * value))) * a.unsafe_load(second + i)
         elif op == 3:
             value *= packed_value(w, second, 0, 0)
         elif op == 4:
-            value = scale * tanh(value / scale)
+            value = scale * fast_tanh(value / scale)
         a.unsafe_store(dst + i, value)
 
 

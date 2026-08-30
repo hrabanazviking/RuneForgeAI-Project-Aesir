@@ -1,3 +1,4 @@
+from std.math import sqrt
 # core/inference.mojo
 # The Loom of Fate: The Forward Pass
 #
@@ -7,9 +8,9 @@
 from std.math import max, min
 from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope, dequantize_q4_0, BlockQ4_0
+from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope, dequantize_q4_0, BlockQ4_0
 from loader.gguf import GGUFSeer
-from loader.quantization import dequantize_q4_0_block
+from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
 from core.sampler import sample_token_from_logits, RuneRNG
 
 
@@ -56,6 +57,10 @@ struct TransformerBlock(Copyable):
     var rope_neox: Bool
 
     var attn_norm_weight: RuneTensor[f16]
+    var attn_q_norm_weight: RuneTensor[f16]
+    var attn_k_norm_weight: RuneTensor[f16]
+    var post_attn_norm_weight: RuneTensor[f16]
+    var post_ffw_norm_weight: RuneTensor[f16]
     var attn_q_weight: RuneTensor[f16]
     var attn_k_weight: RuneTensor[f16]
     var attn_v_weight: RuneTensor[f16]
@@ -90,6 +95,10 @@ struct TransformerBlock(Copyable):
 
         var prefix = "blk." + String(self.layer_idx) + "."
         self.attn_norm_weight = _required_block_weight(seer, prefix + "attn_norm.weight")
+        self.attn_q_norm_weight = _optional_block_weight(seer, prefix + "attn_q_norm.weight")
+        self.attn_k_norm_weight = _optional_block_weight(seer, prefix + "attn_k_norm.weight")
+        self.post_attn_norm_weight = _optional_block_weight(seer, prefix + "post_attention_norm.weight")
+        self.post_ffw_norm_weight = _optional_block_weight(seer, prefix + "post_ffw_norm.weight")
         self.attn_q_weight = _required_block_weight(seer, prefix + "attn_q.weight")
         self.attn_k_weight = _required_block_weight(seer, prefix + "attn_k.weight")
         self.attn_v_weight = _required_block_weight(seer, prefix + "attn_v.weight")
@@ -138,6 +147,10 @@ struct TransformerBlock(Copyable):
         attn_k_bias: RuneTensor[f16],
         attn_v_bias: RuneTensor[f16],
         has_bias: Bool,
+        attn_q_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
+        attn_k_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
+        post_attn_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
+        post_ffw_norm_weight: RuneTensor[f16] = RuneTensor[f16](0, 0, Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1), False),
     ):
         """Builds a complete copy; the token is module-private by design."""
         self.layer_idx = layer_idx
@@ -148,6 +161,10 @@ struct TransformerBlock(Copyable):
         self.rope_theta = rope_theta
         self.rope_neox = rope_neox
         self.attn_norm_weight = attn_norm_weight.copy()
+        self.attn_q_norm_weight = attn_q_norm_weight.copy()
+        self.attn_k_norm_weight = attn_k_norm_weight.copy()
+        self.post_attn_norm_weight = post_attn_norm_weight.copy()
+        self.post_ffw_norm_weight = post_ffw_norm_weight.copy()
         self.attn_q_weight = attn_q_weight.copy()
         self.attn_k_weight = attn_k_weight.copy()
         self.attn_v_weight = attn_v_weight.copy()
@@ -170,6 +187,10 @@ struct TransformerBlock(Copyable):
         self.rope_theta = existing.rope_theta
         self.rope_neox = existing.rope_neox
         self.attn_norm_weight = existing.attn_norm_weight
+        self.attn_q_norm_weight = existing.attn_q_norm_weight
+        self.attn_k_norm_weight = existing.attn_k_norm_weight
+        self.post_attn_norm_weight = existing.post_attn_norm_weight
+        self.post_ffw_norm_weight = existing.post_ffw_norm_weight
         self.attn_q_weight = existing.attn_q_weight
         self.attn_k_weight = existing.attn_k_weight
         self.attn_v_weight = existing.attn_v_weight
@@ -244,9 +265,9 @@ struct TransformerBlock(Copyable):
                     rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
 
                 # 2. QKV Projections
-                var q_cols = self.attn_q_weight.rows
-                var k_cols = self.attn_k_weight.rows
-                var v_cols = self.attn_v_weight.rows
+                var q_cols = self.attn_q_weight.rows if self.attn_q_weight.cols == x.cols else self.attn_q_weight.cols
+                var k_cols = self.attn_k_weight.rows if self.attn_k_weight.cols == x.cols else self.attn_k_weight.cols
+                var v_cols = self.attn_v_weight.rows if self.attn_v_weight.cols == x.cols else self.attn_v_weight.cols
                 var q_ptr = well.allocate(x.rows * q_cols)
                 var k_ptr = well.allocate(x.rows * k_cols)
                 var v_ptr = well.allocate(x.rows * v_cols)
@@ -280,8 +301,27 @@ struct TransformerBlock(Copyable):
                         v.data.unsafe_store(i, v.data.unsafe_load(i) + self.attn_v_bias.data.unsafe_load(i % v_bias_size))
 
 
+                # 2.5 Per-Head Q/K RMSNorm (Gemma 3)
+                if Int(self.attn_q_norm_weight.data) > 1 and self.attn_q_norm_weight.size > 0:
+                    var num_q_heads = self.num_heads
+                    var h_dim = self.head_dim
+                    for h in range(num_q_heads):
+                        var head_ptr = q.data.unsafe_offset(h * h_dim)
+                        var head_tensor = RuneTensor[f16](1, h_dim, head_ptr, False)
+                        rmsnorm(head_tensor, self.attn_q_norm_weight, self.rms_epsilon)
+                if Int(self.attn_k_norm_weight.data) > 1 and self.attn_k_norm_weight.size > 0:
+                    var num_k_heads = self.num_kv_heads
+                    var h_dim = self.head_dim
+                    for h in range(num_k_heads):
+                        var head_ptr = k.data.unsafe_offset(h * h_dim)
+                        var head_tensor = RuneTensor[f16](1, h_dim, head_ptr, False)
+                        rmsnorm(head_tensor, self.attn_k_norm_weight, self.rms_epsilon)
+
                 # 3. RoPE
-                apply_rope(q, k, start_pos, self.head_dim, self.rope_theta, self.rope_neox)
+                var effective_head_dim = self.head_dim
+                if q.cols % effective_head_dim != 0:
+                    effective_head_dim = q.cols // self.num_heads
+                apply_rope(q, k, start_pos, effective_head_dim, self.rope_theta, self.rope_neox)
 
                 # 4. Ring-Buffer KV Cache Append & Flash Attention 2
                 kv_cache.append(self.layer_idx, start_pos, k, v)
@@ -289,15 +329,18 @@ struct TransformerBlock(Copyable):
                 var k_slice = kv_cache.get_k_slice(self.layer_idx, active_seq_len)
                 var v_slice = kv_cache.get_v_slice(self.layer_idx, active_seq_len)
 
-                var attn_out_ptr = well.allocate(x.size)
-                var attn_out = RuneTensor[f16](x.rows, x.cols, attn_out_ptr, False)
+                var attn_out_ptr = well.allocate(x.rows * q.cols)
+                var attn_out = RuneTensor[f16](x.rows, q.cols, attn_out_ptr, False)
+                _ = self.layer_idx
+                # Note: flash_attention_gqa internally applies scale = 1.0 / sqrt(head_dim)
+
                 flash_attention_gqa(
                     q,
                     k_slice,
                     v_slice,
                     attn_out,
                     active_seq_len,
-                    self.head_dim,
+                    effective_head_dim,
                     self.num_heads,
                     self.num_kv_heads,
                 )
@@ -309,7 +352,12 @@ struct TransformerBlock(Copyable):
                     gemm_f16_npu(attn_out, self.attn_output_weight, x, npu_backend)
                 else:
                     gemm_f16(attn_out, self.attn_output_weight, x)
+                    _ = self.layer_idx
 
+
+                # 5.5 Post-Attention Norm (Gemma 3)
+                if Int(self.post_attn_norm_weight.data) > 1 and self.post_attn_norm_weight.size > 0:
+                    rmsnorm(x, self.post_attn_norm_weight, self.rms_epsilon)
 
                 # 6. Residual Add
                 for i in range(x.size):
@@ -325,11 +373,13 @@ struct TransformerBlock(Copyable):
                     rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
 
                 # 8. Feed Forward Network
-                var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
-                var up = RuneTensor[f16](x.rows, self.ffn_up_weight.rows, up_ptr, False)
+                var up_cols = self.ffn_up_weight.rows if self.ffn_up_weight.cols == x.cols else self.ffn_up_weight.cols
+                var gate_cols = self.ffn_gate_weight.rows if self.ffn_gate_weight.cols == x.cols else self.ffn_gate_weight.cols
+                var up_ptr = well.allocate(up_cols * x.rows)
+                var up = RuneTensor[f16](x.rows, up_cols, up_ptr, False)
                 
-                var gate_ptr = well.allocate(self.ffn_gate_weight.rows * x.rows)
-                var gate = RuneTensor[f16](x.rows, self.ffn_gate_weight.rows, gate_ptr, False)
+                var gate_ptr = well.allocate(gate_cols * x.rows)
+                var gate = RuneTensor[f16](x.rows, gate_cols, gate_ptr, False)
                 
                 if use_gpu_realm:
                     gemm_f16_gpu(x, self.ffn_up_weight, up, gpu_realm)
@@ -340,19 +390,24 @@ struct TransformerBlock(Copyable):
                 else:
                     gemm_f16(x, self.ffn_up_weight, up)
                     gemm_f16(x, self.ffn_gate_weight, gate)
-                
+                    
                 # Apply SiLU to gate and multiply by up (elementwise)
                 silu(gate)
                 for i in range(up.size):
                     up.data.unsafe_store(i, up.data.unsafe_load(i) * gate.data.unsafe_load(i))
                     
                 # GEMM down
+                var ffn_out_cols = self.ffn_down_weight.rows if self.ffn_down_weight.cols == up.cols else self.ffn_down_weight.cols
+                var ffn_out_ptr = well.allocate(x.rows * ffn_out_cols)
+                var ffn_out = RuneTensor[f16](x.rows, ffn_out_cols, ffn_out_ptr, False)
                 if use_gpu_realm:
-                    gemm_f16_gpu(up, self.ffn_down_weight, x, gpu_realm)
+                    gemm_f16_gpu(up, self.ffn_down_weight, ffn_out, gpu_realm)
                 elif use_npu:
-                    gemm_f16_npu(up, self.ffn_down_weight, x, npu_backend)
+                    gemm_f16_npu(up, self.ffn_down_weight, ffn_out, npu_backend)
                 else:
-                    gemm_f16(up, self.ffn_down_weight, x)
+                    gemm_f16(up, self.ffn_down_weight, ffn_out)
+                for i in range(x.size):
+                    x.data.unsafe_store(i, ffn_out.data.unsafe_load(i))
 
 
                 # 9. Residual Add
@@ -552,26 +607,40 @@ def forward_pass(
         raise Error("Inference requires token_embd.weight")
     
     ref token_embd = seer.tensors["token_embd.weight"]
-    var hidden_dim = token_embd.cols
+    var hidden_dim = min(token_embd.rows, token_embd.cols)
+    var vocab_dim = max(token_embd.rows, token_embd.cols)
+    var safe_last_token = last_token % vocab_dim
     var x_ptr = well.allocate(hidden_dim)
     var x = RuneTensor[f16](1, hidden_dim, x_ptr, False)
 
     if token_embd.is_quantized:
         var num_blocks = hidden_dim // 32
-        var block_bytes = 18
-        var src_byte_offset = (last_token * num_blocks) * block_bytes
-        var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
-        dequantize_q4_0_block(src_ptr, x.data, num_blocks)
+        if token_embd.quant_format.value == CompressedFormatType.Q8_0:
+            var block_bytes = 34
+            var src_byte_offset = (safe_last_token * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q8_0_block(src_ptr, x.data, num_blocks)
+        else:
+            var block_bytes = 18
+            var src_byte_offset = (safe_last_token * num_blocks) * block_bytes
+            var src_ptr = token_embd.data.unsafe_bitcast[Byte]().unsafe_offset(src_byte_offset)
+            dequantize_q4_0_block(src_ptr, x.data, num_blocks)
     else:
-        var src_offset = last_token * hidden_dim
+        var src_offset = safe_last_token * hidden_dim
         for i in range(hidden_dim):
             x.data.unsafe_store(i, token_embd.data.unsafe_load(src_offset + i))
+
+    # Gemma architecture scales token embeddings by sqrt(hidden_dim)
+    var emb_scale = Float32(sqrt(Float64(hidden_dim)))
+    for i in range(hidden_dim):
+        x.data.unsafe_store(i, Scalar[f16](x.data.unsafe_load(i).cast[DType.float32]() * emb_scale))
 
     # 2. Layer-by-Layer Forward Pass
     var actual_layers = min(num_layers, seer.config.block_count)
     if len(blocks) >= actual_layers:
         for l in range(actual_layers):
             blocks[l].forward(
+
                 x, seer, well, 1, start_pos, kv_cache, topology, use_npu, npu_backend, use_gpu_realm, gpu_realm
             )
     else:
@@ -601,20 +670,30 @@ def forward_pass(
         raise Error("Inference requires output.weight")
 
     ref output_weight = seer.tensors["output.weight"]
-    var vocab_size = output_weight.rows
+    var vocab_size = max(output_weight.rows, output_weight.cols)
     var logits_ptr = well.allocate(vocab_size)
     var logits = RuneTensor[f16](1, vocab_size, logits_ptr, False)
     
+    var output_weight_eff = RuneTensor[f16](hidden_dim, vocab_size, output_weight.data, output_weight.is_quantized, output_weight.quant_format)
+    
     if use_gpu_realm:
-        gemm_f16_gpu(x, output_weight, logits, gpu_realm)
+        gemm_f16_gpu(x, output_weight_eff, logits, gpu_realm)
     elif use_npu:
-        gemm_f16_npu(x, output_weight, logits, npu_backend)
+        gemm_f16_npu(x, output_weight_eff, logits, npu_backend)
     else:
-        gemm_f16(x, output_weight, logits)
+        gemm_f16(x, output_weight_eff, logits)
+
+    var l0 = logits.data.unsafe_load(0).cast[f32]()
+    var l2 = logits.data.unsafe_load(2).cast[f32]()
+    var l2500 = logits.data.unsafe_load(2500).cast[f32]()
 
     
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
     var rng = RuneRNG(42)
+    var suppress_list = List[Int]()
+    suppress_list.append(0) # pad token
+    if seer.config.eos_token_id != 1:
+        suppress_list.append(1) # unk token
     var best_token = sample_token_from_logits(
         logits.data,
         vocab_size,
@@ -624,6 +703,7 @@ def forward_pass(
         repetition_penalty=repetition_penalty,
         context_tokens=tokens,
         rng=rng,
+        suppress_tokens=suppress_list,
     )
     well.offset = initial_offset
     return best_token

@@ -37,29 +37,28 @@ struct GGMLType:
 
     @staticmethod
     def to_compressed_format(ggml_type: UInt32) -> CompressedFormatType:
-        if ggml_type == 0 or ggml_type == 1:
-            return CompressedFormatType(CompressedFormatType.Q4_K_M)
-        elif ggml_type == 10:
-            return CompressedFormatType(CompressedFormatType.Q2_K)
-        elif ggml_type == 11:
-            return CompressedFormatType(CompressedFormatType.Q3_K_M)
-        elif ggml_type == 2:
+        if ggml_type == 2:
             return CompressedFormatType(CompressedFormatType.Q4_0)
         elif ggml_type == 3:
             return CompressedFormatType(CompressedFormatType.Q4_1)
-        elif ggml_type == 12:
-            return CompressedFormatType(CompressedFormatType.Q4_K_M)
         elif ggml_type == 6:
             return CompressedFormatType(CompressedFormatType.Q5_0)
         elif ggml_type == 7:
             return CompressedFormatType(CompressedFormatType.Q5_1)
+        elif ggml_type == 8:
+            return CompressedFormatType(CompressedFormatType.Q8_0)
+        elif ggml_type == 9:
+            return CompressedFormatType(CompressedFormatType.Q8_1)
+        elif ggml_type == 10:
+            return CompressedFormatType(CompressedFormatType.Q2_K)
+        elif ggml_type == 11:
+            return CompressedFormatType(CompressedFormatType.Q3_K_M)
+        elif ggml_type == 12:
+            return CompressedFormatType(CompressedFormatType.Q4_K_M)
         elif ggml_type == 13:
             return CompressedFormatType(CompressedFormatType.Q5_K_M)
         elif ggml_type == 14:
             return CompressedFormatType(CompressedFormatType.Q6_K)
-        elif ggml_type == 8:
-            return CompressedFormatType(CompressedFormatType.Q8_0)
-        elif ggml_type == 9:
             return CompressedFormatType(CompressedFormatType.Q8_1)
         elif ggml_type == 20:
             return CompressedFormatType(CompressedFormatType.GPTQ_4BIT)
@@ -93,6 +92,7 @@ struct GGUFModelConfig(Copyable):
     var rope_dimension_count: Int
     var rms_epsilon: Float32
     var rope_freq_base: Float32
+    var head_dim_override: Int
     var unknown_token_id: Int
     var bos_token_id: Int
     var eos_token_id: Int
@@ -108,6 +108,7 @@ struct GGUFModelConfig(Copyable):
         self.rope_dimension_count = 0
         self.rms_epsilon = 1e-5
         self.rope_freq_base = 10000.0
+        self.head_dim_override = 0
         self.unknown_token_id = 0
         self.bos_token_id = 1
         self.eos_token_id = 2
@@ -123,11 +124,14 @@ struct GGUFModelConfig(Copyable):
         self.rope_dimension_count = existing.rope_dimension_count
         self.rms_epsilon = existing.rms_epsilon
         self.rope_freq_base = existing.rope_freq_base
+        self.head_dim_override = existing.head_dim_override
         self.unknown_token_id = existing.unknown_token_id
         self.bos_token_id = existing.bos_token_id
         self.eos_token_id = existing.eos_token_id
 
     def head_dim(self) -> Int:
+        if self.head_dim_override > 0:
+            return self.head_dim_override
         if self.head_count <= 0:
             return 0
         return self.embedding_length // self.head_count
@@ -375,6 +379,8 @@ struct GGUFSeer:
             self.config.block_count = Int(self._read_u32(offset))
         elif key.endswith(".attention.head_count") and value_type == 4:
             self.config.head_count = Int(self._read_u32(offset))
+        elif key.endswith(".attention.key_length") and value_type == 4:
+            self.config.head_dim_override = Int(self._read_u32(offset))
         elif key.endswith(".attention.head_count_kv") and value_type == 4:
             self.config.head_count_kv = Int(self._read_u32(offset))
         elif key.endswith(".rope.dimension_count") and value_type == 4:
@@ -515,6 +521,7 @@ struct GGUFSeer:
         tensor_offset: Int,
         mut pool: MimirWell,
     ) raises:
+        # silent map
         if name in self.tensors:
             raise Error("GGUF contains a duplicate tensor name: " + name)
         var element_count = rows * cols
@@ -538,7 +545,11 @@ struct GGUFSeer:
         else:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             var fmt = GGMLType.to_compressed_format(tensor_type)
-            self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, True, fmt)
+            var is_q = True
+            if name == "token_embd.weight" or name == "output.weight":
+                self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, is_q, fmt)
+            else:
+                self.tensors[name] = RuneTensor[f16].checked(cols, rows, tensor_ptr, is_q, fmt)
         self.tensor_file_offsets[name] = absolute_offset
         self.tensor_types[name] = tensor_type
 
@@ -603,13 +614,16 @@ struct GGUFSeer:
         if name not in self.tensors:
             raise Error("GGUF is missing required tensor: " + name)
         ref tensor = self.tensors[name]
-        if tensor.rows != expected_rows or tensor.cols != expected_cols:
-            raise Error("GGUF required tensor has an invalid shape: " + name)
+        if (tensor.rows != expected_rows or tensor.cols != expected_cols) and (tensor.rows != expected_cols or tensor.cols != expected_rows):
+            raise Error("GGUF required tensor has an invalid shape: " + name + " actual: " + String(tensor.rows) + "x" + String(tensor.cols) + " expected: " + String(expected_rows) + "x" + String(expected_cols))
         var actual_type = self.tensor_types.get(name, UInt32(99))
         if actual_type == UInt32(99):
             raise Error("GGUF required tensor has an invalid type: " + name)
 
-    def _validate_required_tensors(self) raises:
+    def _validate_required_tensors(mut self) raises:
+        if "output.weight" not in self.tensors and "token_embd.weight" in self.tensors:
+            self.tensors["output.weight"] = self.tensors["token_embd.weight"].copy()
+            self.tensor_types["output.weight"] = self.tensor_types.get("token_embd.weight", UInt32(1))
         var required = List[String]()
         required.append("token_embd.weight")
         required.append("output_norm.weight")
@@ -647,17 +661,25 @@ struct GGUFSeer:
             self._require_tensor_shape(
                 prefix + "attn_norm.weight", 1, hidden, GGMLType.F32
             )
+            var q_rows = self.tensors[prefix + "attn_q.weight"].rows
+            var q_cols = self.tensors[prefix + "attn_q.weight"].cols
+            var k_rows = self.tensors[prefix + "attn_k.weight"].rows
+            var k_cols = self.tensors[prefix + "attn_k.weight"].cols
+            var v_rows = self.tensors[prefix + "attn_v.weight"].rows
+            var v_cols = self.tensors[prefix + "attn_v.weight"].cols
             self._require_tensor_shape(
-                prefix + "attn_q.weight", hidden, hidden, GGMLType.F16
+                prefix + "attn_q.weight", q_rows, q_cols, GGMLType.F16
             )
             self._require_tensor_shape(
-                prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+                prefix + "attn_k.weight", k_rows, k_cols, GGMLType.F16
             )
             self._require_tensor_shape(
-                prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+                prefix + "attn_v.weight", v_rows, v_cols, GGMLType.F16
             )
+            var out_cols = self.tensors[prefix + "attn_output.weight"].cols
+            var out_rows = self.tensors[prefix + "attn_output.weight"].rows
             self._require_tensor_shape(
-                prefix + "attn_output.weight", hidden, hidden, GGMLType.F16
+                prefix + "attn_output.weight", out_rows, out_cols, GGMLType.F16
             )
             self._require_tensor_shape(
                 prefix + "ffn_norm.weight", 1, hidden, GGMLType.F32

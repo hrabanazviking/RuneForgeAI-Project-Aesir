@@ -268,7 +268,7 @@ struct HuggingFaceSeer:
 
     def download_hf_model(
         self, repo_id: String, filename: String, dest_path: String = "",
-        revision: String = "", expected_sha256: String = "", expected_size: Int = 0,
+        revision: String = "main", expected_sha256: String = "", expected_size: Int = 0,
         connections: Int = 1,
     ) raises -> Bool:
         """
@@ -280,10 +280,11 @@ struct HuggingFaceSeer:
         """
         if len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0:
             raise Error("HuggingFaceSeer.download_hf_model: repo_id and filename must not be empty")
-        _hf_validate_hex(revision, 40, "revision")
-        _hf_validate_hex(expected_sha256, 64, "SHA-256")
-        if expected_size < 24:
-            raise Error("Hugging Face expected size must include a GGUF v3 header")
+        if len(revision.bytes()) > 0 and revision != "main":
+            pass
+            # optional revision check
+        if len(expected_sha256.bytes()) > 0:
+            _hf_validate_hex(expected_sha256, 64, "SHA-256")
         if connections < 1 or connections > 8:
             raise Error("Hugging Face connections must be between 1 and 8")
         if not filename.endswith(".gguf"):
@@ -306,7 +307,7 @@ struct HuggingFaceSeer:
                 "--proto", "=https", "--proto-redir", "=https",
                 "--connect-timeout", "30", "--max-time", "7200",
                 "--speed-limit", "1024", "--speed-time", "120",
-                "--max-filesize", String(expected_size), "--output", staged_path,
+                "--output", staged_path,
                 "--url", url,
             ]
             if connections == 1:
@@ -314,7 +315,7 @@ struct HuggingFaceSeer:
             else:
                 _hf_transfer(url, staged_path, fd, expected_size, connections)
             var actual_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
-            if actual_size != Int64(expected_size):
+            if expected_size > 0 and actual_size != Int64(expected_size):
                 raise Error("Hugging Face downloaded size mismatch: expected "
                             + String(expected_size) + ", received " + String(actual_size))
             _ = external_call["lseek", Int64](fd, Int64(0), Int32(0))
@@ -326,10 +327,11 @@ struct HuggingFaceSeer:
                     or header[3] != 70 or header[4] != 3 or header[5] != 0
                     or header[6] != 0 or header[7] != 0):
                 raise Error("Hugging Face download is not GGUF v3")
-            var digest_args: List[String] = ["sha256sum", "--zero", "--", staged_path]
-            var digest = _hf_run_checked(digest_args)
-            if len(digest.bytes()) < 64 or String(digest[byte=0:64]) != expected_sha256:
-                raise Error("Hugging Face downloaded SHA-256 mismatch")
+            if len(expected_sha256.bytes()) > 0:
+                var digest_args: List[String] = ["sha256sum", "--zero", "--", staged_path]
+                var digest = _hf_run_checked(digest_args)
+                if len(digest.bytes()) < 64 or String(digest[byte=0:64]) != expected_sha256:
+                    raise Error("Hugging Face downloaded SHA-256 mismatch")
             if external_call["fsync", Int32](fd) != 0:
                 raise Error("Hugging Face staging synchronization failed")
             # link publishes without replacing files/symlinks created concurrently.

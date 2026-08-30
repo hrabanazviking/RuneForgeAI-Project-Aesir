@@ -482,7 +482,7 @@ struct AesirEngine:
 
             # One request owns one KV cache. forward_pass() reclaims only its
             # temporary workspace, leaving these cached positions intact.
-            var target_context_len = min(4096, self.parser.config.context_length)
+            var target_context_len = min(16000, max(4096, self.parser.config.context_length))
             var kv_cache = KVCache(
                 target_context_len,
                 self.parser.config.kv_dim(),
@@ -490,6 +490,7 @@ struct AesirEngine:
                 self.parser.config.block_count,
             )
             var working_runtime_offset = self.pool.offset
+            print("Prompt tokens:", len(tokens), "context_length:", self.parser.config.context_length)
             # Full Prompt Prefill (Weaving the Context):
             # Evaluate all prompt tokens 0..len(tokens)-2 to populate KV Cache across all transformer layers
             for p in range(len(tokens) - 1):

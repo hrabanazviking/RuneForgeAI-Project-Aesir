@@ -1,10 +1,8 @@
 # loader/chat_template.mojo
 # GGUF Chat Template & Multi-Turn Message Formatting Engine for Project Aesir
 
-
 struct ChatMessage(Copyable):
     """A single conversation turn with a role and content payload."""
-
     var role: String
     var content: String
 
@@ -21,14 +19,10 @@ struct ChatMessage(Copyable):
         return Self(self.role, self.content)
 
     def validate(self) raises:
-        """Validates that the role is system, user, assistant, or tool."""
         if self.role != "system" and self.role != "user" and self.role != "assistant" and self.role != "tool":
-            raise Error("ChatMessage role must be 'system', 'user', 'assistant', or 'tool', got '" + self.role + "'")
-
+            raise Error("ChatMessage role must be system, user, assistant, or tool")
 
 struct RuneChatTemplate(Copyable):
-    """Formats structured multi-turn ChatMessage lists into canonical prompts."""
-
     var format_style: String
 
     def __init__(out self, format_style: String = "chatml"):
@@ -43,8 +37,9 @@ struct RuneChatTemplate(Copyable):
 
     @staticmethod
     def detect_template_family(jinja_template: String) -> String:
-        """Auto-detects template family ('chatml', 'llama3', 'llama2') from Jinja2 metadata string."""
-        if "<|im_start|>" in jinja_template or "im_start" in jinja_template:
+        if "start_of_turn" in jinja_template or "gemma" in jinja_template:
+            return "gemma"
+        elif "<|im_start|>" in jinja_template or "im_start" in jinja_template:
             return "chatml"
         elif "<|start_header_id|>" in jinja_template or "start_header_id" in jinja_template:
             return "llama3"
@@ -55,69 +50,82 @@ struct RuneChatTemplate(Copyable):
 
     @staticmethod
     def escape_control_tokens(content: String) -> String:
-        """Sanitizes raw prompt control tokens from message content payloads using UTF-8 safe string replacement."""
         if "<|im_start|>" not in content and "<|im_end|>" not in content:
             return content
         var res = content.replace("<|im_start|>", "[im_start]")
         res = res.replace("<|im_end|>", "[im_end]")
         return res
 
-    def format_chatml(self, messages: List[ChatMessage]) raises -> String:
-        """Formats messages in ChatML standard (<|im_start|>role\ncontent<|im_end|>\n)."""
+    def format_gemma(self, messages: List[ChatMessage]) raises -> String:
         if len(messages) == 0:
             raise Error("cannot format empty ChatMessage list")
         var prompt = String("")
+        var nl = String("\n")
+        for i in range(len(messages)):
+            messages[i].validate()
+            var role = messages[i].role
+            if role == "assistant":
+                role = "model"
+            elif role == "system":
+                role = "user"
+            var safe_content = Self.escape_control_tokens(messages[i].content)
+            prompt += String("<start_of_turn>") + role + nl + safe_content + String("<end_of_turn>") + nl
+        prompt += String("<start_of_turn>model") + nl
+        return prompt
+
+    def format_chatml(self, messages: List[ChatMessage]) raises -> String:
+        if len(messages) == 0:
+            raise Error("cannot format empty ChatMessage list")
+        var prompt = String("")
+        var nl = String("\n")
         for i in range(len(messages)):
             messages[i].validate()
             var safe_content = Self.escape_control_tokens(messages[i].content)
-            prompt += "<|im_start|>" + messages[i].role + "\n" + safe_content + "<|im_end|>\n"
-        prompt += "<|im_start|>assistant\n"
+            prompt += String("<|im_start|>") + messages[i].role + nl + safe_content + String("<|im_end|>") + nl
+        prompt += String("<|im_start|>assistant") + nl
         return prompt
 
     def format_llama3(self, messages: List[ChatMessage]) raises -> String:
-        """Formats messages in Llama-3 standard (<|start_header_id|>role<|end_header_id|>\n\ncontent<|eot_id|>)."""
         if len(messages) == 0:
             raise Error("cannot format empty ChatMessage list")
         var prompt = String("<|begin_of_text|>")
+        var nl = String("\n")
         for i in range(len(messages)):
             messages[i].validate()
             var safe_content = Self.escape_control_tokens(messages[i].content)
-            prompt += "<|start_header_id|>" + messages[i].role + "<|end_header_id|>\n\n" + safe_content + "<|eot_id|>"
-        prompt += "<|start_header_id|>assistant<|end_header_id|>\n\n"
+            prompt += String("<|start_header_id|>") + messages[i].role + String("<|end_header_id|>") + nl + nl + safe_content + String("<|eot_id|>")
+        prompt += String("<|start_header_id|>assistant<|end_header_id|>") + nl + nl
         return prompt
 
     def format_llama2(self, messages: List[ChatMessage]) raises -> String:
-        """Formats messages in Llama-2 standard ([INST] <<SYS>>\nsystem\n<</SYS>>\n\nuser [/INST])."""
         if len(messages) == 0:
             raise Error("cannot format empty ChatMessage list")
         var prompt = String("")
         var system_prompt = String("")
-        var in_inst = False
-
+        var nl = String("\n")
         for i in range(len(messages)):
             messages[i].validate()
             var safe_content = Self.escape_control_tokens(messages[i].content)
             if messages[i].role == "system":
                 system_prompt = safe_content
             elif messages[i].role == "user":
-                prompt += "[INST] "
+                prompt += String("[INST] ")
                 if system_prompt != "":
-                    prompt += "<<SYS>>\n" + system_prompt + "\n<</SYS>>\n\n"
+                    prompt += String("<<SYS>>") + nl + system_prompt + nl + String("<</SYS>>") + nl + nl
                     system_prompt = ""
-                prompt += safe_content + " [/INST]"
+                prompt += safe_content + String(" [/INST]")
             elif messages[i].role == "assistant":
-                prompt += " " + safe_content + " "
+                prompt += String(" ") + safe_content + String(" ")
             elif messages[i].role == "tool":
-                prompt += "[INST] Tool Response:\n" + safe_content + " [/INST]"
-
-        _ = in_inst
+                prompt += String("[INST] Tool Response:") + nl + safe_content + String(" [/INST]")
         return prompt
 
     def format_chat(self, messages: List[ChatMessage]) raises -> String:
-        """Formats a list of ChatMessages according to self.format_style."""
         if len(messages) == 0:
             raise Error("cannot format empty ChatMessage list")
-        if self.format_style == "llama3":
+        if self.format_style == "gemma" or self.format_style == "gemma3":
+            return self.format_gemma(messages)
+        elif self.format_style == "llama3":
             return self.format_llama3(messages)
         elif self.format_style == "llama2":
             return self.format_llama2(messages)

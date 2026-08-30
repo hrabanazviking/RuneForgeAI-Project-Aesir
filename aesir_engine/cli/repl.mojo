@@ -120,7 +120,10 @@ struct RuneREPL:
         self.history.append(ChatMessage("user", line))
         try:
             var engine = AesirEngine(self.model_name, enable_gpu_realm=True, knowledge_capacity=1)
-            var formatted_prompt = RuneChatTemplate("chatml").format_chatml(self.history)
+            var template_family = String("chatml")
+            if "gemma" in self.model_name.lower():
+                template_family = String("gemma")
+            var formatted_prompt = RuneChatTemplate(template_family).format_chat(self.history)
             var result = engine.generate_tokens_config(formatted_prompt, self.config)
             self.history.append(ChatMessage("assistant", result.text))
             return result.text
