@@ -150,7 +150,7 @@ def deserialize_catalog(raw: String) raises -> RuneModelStore:
 
 def _read_optional_text(path: String) raises -> String:
     var path_bytes = _cstring(path)
-    var fd = external_call["open", Int32](path_bytes.unsafe_ptr(), 0)
+    var fd = external_call["open64", Int32](path_bytes.unsafe_ptr(), Int32(0), Int32(0))
     if fd < 0:
         var errno_pointer = external_call[
             "__errno_location", Pointer[Int32, MutUntrackedOrigin]
@@ -161,14 +161,16 @@ def _read_optional_text(path: String) raises -> String:
     var content = List[Int8]()
     var buffer_alloc = alloc(Layout[Int8](count=4096))
     var buffer = buffer_alloc^.unsafe_leak()
+    var offset = Int(0)
     while True:
-        var read_count = external_call["read", Int64](fd, buffer, 4096)
+        var read_count = external_call["pread", Int](fd, buffer, 4096, offset)
         if read_count < 0:
             buffer.unsafe_free()
             _ = external_call["close", Int32](fd)
             raise Error("failed while reading model catalog: " + path)
         if read_count == 0:
             break
+        offset += Int(read_count)
         if len(content) + Int(read_count) > MAX_CATALOG_BYTES:
             buffer.unsafe_free()
             _ = external_call["close", Int32](fd)
@@ -216,8 +218,8 @@ def _ensure_store_root(root: String) raises:
 
 def _lock_store_root(root: String) raises -> Int32:
     var root_bytes = _cstring(root)
-    var directory_fd = external_call["open", Int32](
-        root_bytes.unsafe_ptr(), 65536
+    var directory_fd = external_call["open64", Int32](
+        root_bytes.unsafe_ptr(), Int32(65536), Int32(0)
     )
     if directory_fd < 0:
         raise Error("unable to open model store root for locking")
@@ -229,8 +231,8 @@ def _lock_store_root(root: String) raises -> Int32:
 
 def _sync_directory(root: String) raises:
     var root_bytes = _cstring(root)
-    var directory_fd = external_call["open", Int32](
-        root_bytes.unsafe_ptr(), 65536
+    var directory_fd = external_call["open64", Int32](
+        root_bytes.unsafe_ptr(), Int32(65536), Int32(0)
     )
     if directory_fd < 0:
         raise Error("unable to open model store root for synchronization")

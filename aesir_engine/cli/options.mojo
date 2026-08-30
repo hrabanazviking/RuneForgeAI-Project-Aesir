@@ -22,14 +22,23 @@ struct CLIOptions:
     var insecure: Bool
     var insecure_was_set: Bool
     var max_tokens: Int
+    var max_tokens_was_set: Bool
     var config_path: String
+    var config_was_set: Bool
     var accel_backend: String
+    var accel_was_set: Bool
     var skaldbrodir: String  # "auto", "on", "off"
+    var skaldbrodir_was_set: Bool
     var thinking: String     # "auto", "on", "off"
+    var thinking_was_set: Bool
     var cia: String          # "auto", "on", "off"
+    var cia_was_set: Bool
     var wic: String          # "auto", "on", "off"
+    var wic_was_set: Bool
     var nsfi: String         # "auto", "on", "off"
+    var nsfi_was_set: Bool
     var tui: Bool
+    var tui_was_set: Bool
 
     def __init__(out self):
         self.verbose = False
@@ -45,14 +54,23 @@ struct CLIOptions:
         self.insecure = False
         self.insecure_was_set = False
         self.max_tokens = 32
+        self.max_tokens_was_set = False
         self.config_path = String("aesir.config.json")
+        self.config_was_set = False
         self.accel_backend = String("auto")
+        self.accel_was_set = False
         self.skaldbrodir = String("auto")
+        self.skaldbrodir_was_set = False
         self.thinking = String("auto")
+        self.thinking_was_set = False
         self.cia = String("auto")
+        self.cia_was_set = False
         self.wic = String("auto")
+        self.wic_was_set = False
         self.nsfi = String("auto")
+        self.nsfi_was_set = False
         self.tui = False
+        self.tui_was_set = False
 
 
 def parse_duration_seconds(duration_str: String) raises -> Int:
@@ -154,38 +172,46 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
             if i + 1 >= len(args):
                 raise Error("Missing value for --config/-c flag")
             options.config_path = args[i + 1]
+            options.config_was_set = True
             i += 1
         elif arg == "--accel" or arg == "-a":
             if i + 1 >= len(args):
                 raise Error("Missing value for --accel/-a flag")
             options.accel_backend = args[i + 1]
+            options.accel_was_set = True
             i += 1
         elif arg == "--skaldbrodir":
             if i + 1 >= len(args):
                 raise Error("Missing value for --skaldbrodir flag")
             options.skaldbrodir = args[i + 1]
+            options.skaldbrodir_was_set = True
             i += 1
         elif arg == "--thinking":
             if i + 1 >= len(args):
                 raise Error("Missing value for --thinking flag")
             options.thinking = args[i + 1]
+            options.thinking_was_set = True
             i += 1
         elif arg == "--cia":
             if i + 1 >= len(args):
                 raise Error("Missing value for --cia flag")
             options.cia = args[i + 1]
+            options.cia_was_set = True
             i += 1
         elif arg == "--wic":
             if i + 1 >= len(args):
                 raise Error("Missing value for --wic flag")
             options.wic = args[i + 1]
+            options.wic_was_set = True
             i += 1
         elif arg == "--nsfi":
             if i + 1 >= len(args):
                 raise Error("Missing value for --nsfi flag")
             options.nsfi = args[i + 1]
+            options.nsfi_was_set = True
             i += 1
         elif arg == "--tui":
             options.tui = True
+            options.tui_was_set = True
         i += 1
     return options^

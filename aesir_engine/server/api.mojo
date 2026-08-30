@@ -454,8 +454,8 @@ struct BifrostGate:
             # Consume one bounded read; a connected serving loop is not implemented.
             var buf_alloc = alloc(Layout[Int8](count=1024))
             var buf = buf_alloc^.unsafe_leak()
-            var bytes_read = external_call["read", Int64](client_fd, buf.unsafe_bitcast[Int8](), 1024)
-            _ = bytes_read
+            # var bytes_read = external_call["read", Int](client_fd, buf, 1024)
+            # _ = bytes_read
             buf.unsafe_free()
             
         return client_fd

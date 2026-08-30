@@ -1,7 +1,7 @@
 from loader.gguf import GGUFSeer
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from core.mimir_well import MimirWell, RuneTensor, f16
-from core.inference import forward_pass
+from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.session import SessionContext, SessionManager
 from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config

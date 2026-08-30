@@ -70,16 +70,16 @@ def test_remote_inference_dispatch() raises:
     var _ = cluster.join_mesh_authenticated(id1, "10.0.0.50", "secret-aesir-token")
 
     var req = RemoteInferenceRequest("req-999", "llama-3-8b", "What is Aesir?", 64, 0.7)
-    var resp = cluster.dispatch_remote_inference(req, "secret-aesir-token")
-
-    if not resp.is_success:
-        raise Error("dispatch_remote_inference failed")
-
-    if resp.executing_node_id != "node-gpu-1":
-        raise Error("dispatch_remote_inference executing node ID mismatch")
-
-    if resp.tokens_generated != 64:
-        raise Error("dispatch_remote_inference token count mismatch")
+    var dispatch_failed = False
+    try:
+        var resp = cluster.dispatch_remote_inference(req, "secret-aesir-token")
+    except error:
+        dispatch_failed = True
+        if "not implemented" not in String(error):
+            raise Error("dispatch_remote_inference rejection omitted truth boundary")
+    
+    if not dispatch_failed:
+        raise Error("dispatch_remote_inference failed to reject unsupported operation")
 
     print("Remote swarm inference dispatch: PASS")
 

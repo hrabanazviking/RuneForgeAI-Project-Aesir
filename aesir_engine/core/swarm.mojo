@@ -275,6 +275,7 @@ struct TaskDispatcher(Copyable):
     def dispatch_to_node(mut self, node: PeerNode, task_name: String) raises -> String:
         if len(node.node_id.as_bytes()) == 0 or len(task_name.as_bytes()) == 0:
             raise Error("node id and task name must not be empty")
+        raise Error("TaskDispatcher is not implemented")
         self.active_tasks += 1
         return "DISPATCHED_TO_" + node.node_id + "_TASK_" + task_name
 

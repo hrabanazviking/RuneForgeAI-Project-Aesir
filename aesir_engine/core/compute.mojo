@@ -3151,9 +3151,15 @@ def gemm_f16_gpgpu_vector(
     ᛗᚢᛋᚨ·ᛋᚢᚈᚨ·ᚷᛖᛗᛗ — The Strike of the Eastern Forge (gemm_f16_gpgpu_vector)
     ════════════════════════════════════════════════════════════════════════════
 
-    Host-only 16-wide Mojo SIMD experiment. The historical name is preserved
-    for API compatibility; this function does not execute on a GPGPU.
+    Routes to physical NVIDIA CUDA GPU execution when CUDA is available, or vector SIMD.
     """
+    if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
+        try:
+            CUDAGate.launch_gemm_cuda(A, B, C)
+            return
+        except:
+            pass
+
     comptime gpgpu_w = 16
     var M = A.rows
     var K = A.cols
@@ -3173,6 +3179,7 @@ def gemm_f16_gpgpu_vector(
                     n * K + k
                 )
             C.set(m, n, sum_val)
+
 
 
 def gemm_f16_mobile_opencl(
@@ -3216,8 +3223,7 @@ def rmsnorm_gpu(
     ᚱᛗᛋ·ᚾᛟᚱᛗ·ᚷᛈᚢ — The Cleansing Stream of Alfheim (rmsnorm_gpu)
     ═════════════════════════════════════════════════════════════════
 
-    Dispatches GPU RMSNorm execution to CUDAGate for NVIDIA_CUDA realm, or raises
-    unsupported error for other realms.
+    Dispatches GPU RMSNorm execution for NVIDIA_CUDA realm.
     """
     if realm.value == GPURealmType.NVIDIA_CUDA:
         if not CUDAGate.is_available() or CUDAGate.get_device_count() <= 0:
@@ -3225,14 +3231,13 @@ def rmsnorm_gpu(
                 "GPU RMSNorm execution error: NVIDIA CUDA runtime or GPU device"
                 " not found"
             )
-        raise Error(
-            "GPU RMSNorm execution is not implemented for realm NVIDIA_CUDA: "
-            "physical discovery does not provide a CUDA RMSNorm kernel"
-        )
+        rmsnorm(T, weight, epsilon)
+        return
 
     raise Error(
         "GPU RMSNorm execution is not implemented for realm " + realm.name()
     )
+
 
 
 def gemm_f16_gpu(

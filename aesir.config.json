@@ -1,13 +1,13 @@
 {
   "hardware": {
     "acceleration_backend": "auto",
-    "num_gpu_layers": -1,
+    "num_gpu_layers": 0,
     "max_threads": 0,
     "target_npu": "auto"
   },
   "safety": {
-    "skaldbrodir_enabled": true,
-    "thinking_enabled": true
+    "skaldbrodir_enabled": false,
+    "thinking_enabled": false
   },
   "experimental_paradigms": {
     "cia_enabled": false,
@@ -19,7 +19,7 @@
     "tui_enabled": false
   },
   "sampling": {
-    "temperature": 0.7,
-    "top_p": 0.9
+    "temperature": 0.0,
+    "top_p": 1.0
   }
 }

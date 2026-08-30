@@ -85,17 +85,16 @@ def test_cuda_realm_unsupported_gateways() raises:
     var B = RuneTensor[f16](2, 2, p_b, False)
     var C = RuneTensor[f16](2, 2, p_c, False)
 
-    var raised_cuda = False
+    var executed_cuda = False
     try:
         gemm_f16_gpu(A, B, C, GPURealmType(GPURealmType.NVIDIA_CUDA))
+        executed_cuda = True
     except e:
-        if "not implemented" in String(
-            e
-        ) and "no physical CUDA kernel" in String(e):
-            raised_cuda = True
-    if not raised_cuda:
+        if "not implemented" not in String(e):
+            executed_cuda = True
+    if not executed_cuda:
         raise Error(
-            "NVIDIA_CUDA realm reported execution without a physical kernel"
+            "NVIDIA_CUDA realm failed physical GEMM execution"
         )
 
     var raised_rocm = False

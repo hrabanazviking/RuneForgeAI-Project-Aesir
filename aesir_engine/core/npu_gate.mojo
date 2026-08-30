@@ -57,7 +57,7 @@ struct NPUGate:
         var bytes = path.as_bytes()
         for i in range(len(bytes)):
             path_buf[i] = Int8(bytes[i])
-        var fd = external_call["open", Int32](path_buf.unsafe_ptr(), 0) # O_RDONLY
+        var fd = external_call["open64", Int32](path_buf.unsafe_ptr(), Int32(0), Int32(0)) # O_RDONLY
         if fd >= 0:
             _ = external_call["close", Int32](fd)
             return True

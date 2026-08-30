@@ -24,17 +24,17 @@ struct AesirConfig:
     def __init__(out self):
         self.acceleration_backend = String("auto")
         self.target_npu = String("auto")
-        self.skaldbrodir_enabled = True
-        self.thinking_enabled = True
+        self.skaldbrodir_enabled = False
+        self.thinking_enabled = False
         self.cia_enabled = False
         self.wic_enabled = False
         self.nsfi_enabled = False
         self.mqari_enabled = False
         self.tui_enabled = False
         self.max_threads = 0
-        self.num_gpu_layers = -1
-        self.temperature = 0.7
-        self.top_p = 0.9
+        self.num_gpu_layers = 0
+        self.temperature = 0.0
+        self.top_p = 1.0
         self.config_path = String("aesir.config.json")
 
     def to_json_string(self) -> String:
@@ -125,3 +125,20 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
                 pass
 
     return config^
+
+def validate_model_store_path(path: String) raises -> String:
+    """Validates a model store root path is non-empty and usable."""
+    if len(path.as_bytes()) == 0:
+        raise Error("model store path must not be empty")
+    return path
+
+
+def load_config_file(path: String) raises -> AesirConfig:
+    """Reads a config file from disk and parses it."""
+    try:
+        var f = open(path, "r")
+        var content = f.read()
+        f.close()
+        return parse_config_json(content)
+    except e:
+        raise Error("unable to read configuration: " + String(e))

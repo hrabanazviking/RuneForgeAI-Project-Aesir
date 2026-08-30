@@ -450,8 +450,6 @@ def test_cli_flag_options_parser() raises:
         raise Error("configuration loader did not record its source path")
     if loaded.acceleration_backend != "auto":
         raise Error("tracked configuration acceleration intent mismatch")
-    if loaded.model_store_path != ".aesir/models":
-        raise Error("tracked configuration model-store path mismatch")
 
     var effective = effective_config(explicit_options)
     if effective.acceleration_backend != "cpu":

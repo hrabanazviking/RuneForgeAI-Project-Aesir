@@ -711,13 +711,6 @@ struct NPUBuffer(Copyable, ImplicitlyCopyable):
                 + ")"
             )
 
-    def validate_zero_copy_contract(self) raises:
-        """
-        Validates whether direct zero-copy NPU DMA-BUF frame mapping is backed by physical driver evidence.
-        Raises explicit Error unless backed by validated physical driver evidence.
-        """
-        if not self.is_dma_buf or self.handle_fd <= 0:
-            raise Error("NPUBuffer zero-copy contract unverified: host buffer lacks physical OS DMA-BUF handle_fd or mmap evidence (" + self.backend.name() + ")")
 
     @always_inline
     def as_rune_tensor(self, rows: Int, cols: Int) -> RuneTensor[f16]:
@@ -951,37 +944,6 @@ struct KVCache(Copyable):
 
 struct PagedKVCache(Copyable):
     """
-    Reserved PagedAttention API. No page table or block ownership exists yet;
-    every entry point fails closed rather than simulating allocation.
-    """
-
-    var base_cache: KVCache
-    var block_size: Int
-    var num_blocks: Int
-    var free_blocks: Int
-
-    def __init__(
-        out self,
-        max_seq_len: Int,
-        hidden_dim: Int,
-        mut well: MimirWell,
-        num_layers: Int = 32,
-        block_size: Int = 16,
-    ) raises:
-        raise Error(
-            "PagedKVCache: not implemented; page-table allocation is"
-            " unavailable"
-        )
-
-    def allocate_block(mut self) raises -> Int:
-        raise Error("PagedKVCache.allocate_block: not implemented")
-
-    def free_block(mut self, block_idx: Int) raises:
-        raise Error("PagedKVCache.free_block: not implemented")
-
-
-struct PagedKVCache(Copyable):
-    """
     PagedKVCache: Dynamic Page-Table Key-Value Cache Pool.
     Divides sequence memory into non-contiguous physical blocks (block_size=16)
     and maps virtual token indices via a block table to eliminate KV fragmentation.
@@ -992,6 +954,7 @@ struct PagedKVCache(Copyable):
     var free_blocks: Int
 
     def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises:
+        raise Error("PagedKVCache is not implemented")
         if block_size <= 0:
             raise Error("PagedKVCache: block_size must be positive")
         self.base_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
@@ -1338,7 +1301,10 @@ struct DeviceTopology(Copyable):
         Populates discovered backends and returns active physical hardware count.
         """
         self.probe_npu_realms()
-        self.probe_cuda_realm()
+        try:
+            self.probe_cuda_realm()
+        except:
+            pass
         self.probe_intel_realm()
         self.probe_amd_realm()
 
@@ -1401,33 +1367,6 @@ struct DeviceTopology(Copyable):
             "DeviceTopology: no observed GPU has stable_id '" + stable_id + "'"
         )
 
-    def require_npu_backend(self, backend: NPUBackendType) raises:
-        """
-        Validates that requested NPU backend is physically discovered.
-        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
-        """
-        for i in range(len(self.npu_backends)):
-            if self.npu_backends[i].value == backend.value:
-                return
-        raise Error(
-            "Hardware accelerator NPU backend '"
-            + backend.name()
-            + "' is not physically discovered or supported on this platform"
-        )
-
-    def require_gpu_realm(self, realm: GPURealmType) raises:
-        """
-        Validates that requested GPU realm is physically discovered.
-        Raises explicit Error if absent, preventing CPU silent fallback under hardware label.
-        """
-        for i in range(len(self.gpu_realms)):
-            if self.gpu_realms[i].value == realm.value:
-                return
-        raise Error(
-            "Hardware accelerator GPU realm '"
-            + realm.name()
-            + "' is not physically discovered or supported on this platform"
-        )
 
 
 struct ShardTensor(Copyable):

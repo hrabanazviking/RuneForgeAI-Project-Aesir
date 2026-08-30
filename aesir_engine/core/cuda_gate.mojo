@@ -15,6 +15,9 @@ from core.mimir_well import (
     PhysicalDevice,
     HardwareDiscoveryResult,
 )
+from core.cuda_gemm_plan import CUDAGemmPlan
+from core.cuda_resources import CUDADeviceResources
+from core.cuda_compute import CUDAF16GemmExecutor
 
 comptime RTLD_NOW = 2
 
@@ -241,7 +244,7 @@ struct CUDAGate:
         A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
     ) raises:
         """
-        Validates shapes and rejects execution until a real CUDA kernel exists.
+        Launches a real CUDA F16 GEMM kernel on the physical NVIDIA GPU.
         """
         if (
             A.rows <= 0
@@ -258,7 +261,14 @@ struct CUDAGate:
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
             raise Error("CUDAGate.launch_gemm_cuda: GEMM shape mismatch")
 
-        raise Error(
-            "CUDA GPU execution is not implemented: no physical CUDA kernel was"
-            " launched"
-        )
+        var discovery = CUDAGate.discover_physical_devices()
+        if not discovery.status.has_devices():
+            raise Error("CUDAGate.launch_gemm_cuda: no compatible CUDA device discovered")
+
+        var physical_device = discovery.devices[0].copy()
+        var plan = CUDAGemmPlan(A.rows, A.cols, C.cols)
+        var budget_bytes = plan.total_size_bytes + 1024 * 1024
+        var resources = CUDADeviceResources(physical_device, budget_bytes, budget_bytes)
+        var executor = CUDAF16GemmExecutor.create(resources, plan)
+        executor.execute(A, B, C)
+

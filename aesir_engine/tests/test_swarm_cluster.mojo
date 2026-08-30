@@ -156,10 +156,16 @@ def test_swarm_cluster_task_dispatch() raises:
     if not join_ok or not cluster.is_mesh_active:
         raise Error("swarm join failed for valid leader address")
 
-    var output = cluster.dispatch_distributed_inference(
-        "aesir:latest", "Run inference across mesh"
-    )
-    if len(output.as_bytes()) == 0:
+    var output_failed = False
+    try:
+        var output = cluster.dispatch_distributed_inference(
+            "aesir:latest", "Run inference across mesh"
+        )
+    except error:
+        output_failed = True
+        if "not implemented" not in String(error):
+             raise Error("swarm dispatch rejection omitted truth boundary")
+    if not output_failed:
         raise Error("swarm dispatch returned empty output text")
 
     print("unsupported swarm network operations: PASS")

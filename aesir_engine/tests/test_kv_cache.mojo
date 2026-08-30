@@ -4,12 +4,12 @@
 from core.mimir_well import MimirWell, RuneTensor, KVCache, PagedKVCache, f16
 from core.inference import forward_pass
 from loader.gguf import GGUFSeer
-from tests.test_mimir_well import test_kv_cache_fixed_capacity
+from tests.test_mimir_well import test_kv_cache_ring_buffer
 from std.memory import Pointer
 
 def test_kv_cache() raises:
     print("--- Testing KVCache (The Waters of Mímisbrunnr) ---")
-    test_kv_cache_fixed_capacity()
+    test_kv_cache_ring_buffer()
 
     var paged_rejected = False
     var paged_well = MimirWell(1024 * 1024)
