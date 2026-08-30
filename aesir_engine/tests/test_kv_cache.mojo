@@ -11,16 +11,12 @@ def test_kv_cache() raises:
     print("--- Testing KVCache (The Waters of Mímisbrunnr) ---")
     test_kv_cache_ring_buffer()
 
-    var paged_rejected = False
     var paged_well = MimirWell(1024 * 1024)
-    try:
-        var paged_cache = PagedKVCache(64, 16, paged_well, 1, 16)
-    except error:
-        paged_rejected = True
-        if "not implemented" not in String(error):
-            raise Error("PagedKVCache rejection omitted its unsupported boundary")
-    if not paged_rejected:
-        raise Error("PagedKVCache fabricated page-table construction")
+    var paged_cache = PagedKVCache(64, 16, paged_well, 1, 16)
+    var blk0 = paged_cache.allocate_block()
+    if blk0 < 0:
+        raise Error("PagedKVCache block allocation failed")
+    paged_cache.free_block(blk0)
 
     # 1. Instantiation test
     var well = MimirWell(1024 * 1024 * 2) # 2 MB well
