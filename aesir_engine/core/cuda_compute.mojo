@@ -4,10 +4,12 @@
 from max.gpu.host import DeviceContext
 from std.gpu import global_idx
 from std.memory import Pointer
+from std.math import exp, sqrt, cos, sin
 
 from core.cuda_gemm_plan import CUDAGemmPlan
 from core.cuda_resources import CUDADeviceResources, CUDAF16Allocation
 from core.mimir_well import RuneTensor, Scalar, f16, f32
+
 
 
 def _cuda_f16_gemm_kernel[
@@ -207,3 +209,103 @@ struct CUDAF16GemmExecutor:
         for index in range(self.plan.c_element_count):
             c.data.unsafe_store(index, self.c_allocation.get_host(index))
         self.execution_count += 1
+
+
+def _cuda_rmsnorm_kernel[
+    input_origin: Origin[mut=False],
+    weight_origin: Origin[mut=False],
+    output_origin: MutOrigin,
+](
+    input_ptr: Pointer[Scalar[f16], input_origin],
+    weight_ptr: Pointer[Scalar[f16], weight_origin],
+    output_ptr: Pointer[Scalar[f16], output_origin],
+    rows: Int32,
+    cols: Int32,
+    epsilon: Float32,
+):
+    """Computes RMSNorm per row on CUDA GPU."""
+    var row = Int(global_idx.x)
+    if row < Int(rows):
+        var cols_int = Int(cols)
+        var row_offset = row * cols_int
+        var ss: Scalar[f32] = 0.0
+        for c in range(cols_int):
+            var val = input_ptr.unsafe_load(row_offset + c).cast[f32]()
+            ss += val * val
+        var mean_square = ss / Float32(cols_int)
+        var inv_rms = (1.0 / sqrt(mean_square + epsilon)).cast[f32]()
+        for c in range(cols_int):
+            var val = input_ptr.unsafe_load(row_offset + c).cast[f32]()
+            var w = weight_ptr.unsafe_load(c).cast[f32]()
+            var norm_val = val * inv_rms * w
+            output_ptr.unsafe_store(row_offset + c, norm_val.cast[f16]())
+
+
+def _cuda_silu_kernel[
+    t_origin: MutOrigin,
+](
+    t_ptr: Pointer[Scalar[f16], t_origin],
+    element_count: Int32,
+):
+    """Computes in-place SiLU (x * sigmoid(x)) on CUDA GPU."""
+    var idx = Int(global_idx.x)
+    if idx < Int(element_count):
+        var x = t_ptr.unsafe_load(idx).cast[f32]()
+        var sig = 1.0 / (1.0 + exp(-x))
+        t_ptr.unsafe_store(idx, (x * sig).cast[f16]())
+
+
+def _cuda_swiglu_kernel[
+    gate_origin: Origin[mut=False],
+    up_origin: Origin[mut=False],
+    out_origin: MutOrigin,
+](
+    gate_ptr: Pointer[Scalar[f16], gate_origin],
+    up_ptr: Pointer[Scalar[f16], up_origin],
+    out_ptr: Pointer[Scalar[f16], out_origin],
+    element_count: Int32,
+):
+    """Computes SwiGLU ((gate * sigmoid(gate)) * up) on CUDA GPU."""
+    var idx = Int(global_idx.x)
+    if idx < Int(element_count):
+        var g = gate_ptr.unsafe_load(idx).cast[f32]()
+        var u = up_ptr.unsafe_load(idx).cast[f32]()
+        var sig = 1.0 / (1.0 + exp(-g))
+        out_ptr.unsafe_store(idx, ((g * sig) * u).cast[f16]())
+
+
+def _cuda_rope_kernel[
+    vec_origin: MutOrigin,
+](
+    vec_ptr: Pointer[Scalar[f16], vec_origin],
+    pos: Int32,
+    head_dim: Int32,
+    num_heads: Int32,
+    freq_base: Float32,
+):
+    """Computes Rotary Position Embeddings (RoPE) on CUDA GPU."""
+    var global_thread = Int(global_idx.x)
+    var half_dim = Int(head_dim) // 2
+    var total_pairs = Int(num_heads) * half_dim
+    if global_thread < total_pairs:
+        var head_idx = global_thread // half_dim
+        var pair_idx = global_thread % half_dim
+        var base_offset = head_idx * Int(head_dim)
+
+        var freq = 1.0 / (freq_base ** (Float32(2 * pair_idx) / Float32(head_dim)))
+        var val = Float32(pos) * freq
+        var cos_val = cos(val)
+        var sin_val = sin(val)
+
+        var idx0 = base_offset + pair_idx
+        var idx1 = base_offset + pair_idx + half_dim
+
+        var v0 = vec_ptr.unsafe_load(idx0).cast[f32]()
+        var v1 = vec_ptr.unsafe_load(idx1).cast[f32]()
+
+        var new_v0 = v0 * cos_val - v1 * sin_val
+        var new_v1 = v0 * sin_val + v1 * cos_val
+
+        vec_ptr.unsafe_store(idx0, new_v0.cast[f16]())
+        vec_ptr.unsafe_store(idx1, new_v1.cast[f16]())
+

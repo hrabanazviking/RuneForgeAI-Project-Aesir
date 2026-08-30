@@ -11,6 +11,9 @@ from core.mimir_well import (
 )
 from core.cuda_gate import CUDAGate
 from core.compute import gemm_f16_gpu, rmsnorm_gpu
+from core.cuda_compute import _cuda_rmsnorm_kernel, _cuda_silu_kernel
+from max.gpu.host import DeviceContext
+
 
 
 def test_cuda_gate_availability() raises:
@@ -136,3 +139,5 @@ def main() raises:
     test_cuda_gemm_dispatch_bounds()
     test_cuda_realm_unsupported_gateways()
     print("Stage 44.1 CUDA Realm Tests: PASSED CLEAN")
+
+
