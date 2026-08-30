@@ -4,6 +4,18 @@
 from aesir import AesirEngine, GenerationConfig
 from loader.chat_template import ChatMessage
 from cli.modelfile import parse_float, parse_int
+from std.ffi import external_call
+
+
+def read_line() raises -> String:
+    """Reads a line of text from standard input via POSIX C FFI."""
+    var buffer = List[Byte]()
+    while True:
+        var ch = external_call["getchar", Int32]()
+        if ch == -1 or ch == 10 or ch == 13:
+            break
+        buffer.append(Byte(ch))
+    return String(buffer)
 
 
 struct RuneREPL:
@@ -127,9 +139,21 @@ struct RuneREPL:
         return outputs^
 
     def run_repl(mut self) raises:
-        """Runs interactive REPL loop reading from inputs stream."""
+        """Runs interactive REPL loop reading from live terminal stdin."""
         self.render_welcome()
         print("Project Aesir Interactive REPL ready. Type /help or /exit.")
+        
+        while True:
+            print("\naesir> ", end="")
+            var input_line = read_line().strip()
+            var input_str = String(input_line)
+            if len(input_str.as_bytes()) == 0:
+                continue
+            var response = self.process_input_line(input_str)
+            if response == "[EXIT]":
+                break
+            if not response.startswith("["):
+                print("\n[Aesir]: " + response)
 
 
 def run_single_shot(
