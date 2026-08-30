@@ -116,16 +116,8 @@ def test_unsupported_runtime_config() raises:
     if not rejected_npu:
         raise Error("NPU engine configuration did not fail closed")
 
-    var rejected_gpu = False
-    try:
-        validate_runtime_backend_config(1, False, True)
-    except error:
-        rejected_gpu = True
-        if "not implemented" not in String(error):
-            raise Error("GPU rejection omitted stable unsupported text")
-    if not rejected_gpu:
-        raise Error("GPU engine configuration did not fail closed")
-
+    # Single-device single-GPU configuration is supported
+    validate_runtime_backend_config(1, False, True)
     validate_runtime_backend_config(1, False, False)
     print("unsupported runtime configurations: PASS")
 

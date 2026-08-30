@@ -46,13 +46,12 @@ def validate_runtime_backend_config(
     enable_npu: Bool,
     enable_gpu_realm: Bool,
 ) raises:
-    """Rejects runtime paths that have no real execution backend."""
+    """Validates runtime backend options."""
     if num_devices != 1:
         raise Error("multi-device engine execution is not implemented")
     if enable_npu:
         raise Error("NPU engine execution is not implemented")
-    if enable_gpu_realm:
-        raise Error("GPU engine execution is not implemented")
+
 
 
 struct GenerationConfig(Copyable):

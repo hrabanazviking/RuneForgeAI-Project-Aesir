@@ -6,7 +6,7 @@
 
 from std.math import max, min
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, shard_split_cols, shard_split_rows, f16, f32
-from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
+from .compute import gemm_f16, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, geglu, rmsnorm, apply_rope
 from loader.gguf import GGUFSeer
 
 
@@ -187,7 +187,10 @@ struct TransformerBlock(Copyable):
                 for i in range(x.size):
                     residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                     
-                rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
+                if use_gpu_realm:
+                    rmsnorm_gpu(x, self.attn_norm_weight, gpu_realm, self.rms_epsilon)
+                else:
+                    rmsnorm(x, self.attn_norm_weight, self.rms_epsilon)
 
                 # 2. QKV Projections
                 var q_cols = self.attn_q_weight.rows
@@ -254,7 +257,10 @@ struct TransformerBlock(Copyable):
                 for i in range(x.size):
                     residual_tensor.data.unsafe_store(i, x.data.unsafe_load(i))
                     
-                rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
+                if use_gpu_realm:
+                    rmsnorm_gpu(x, self.ffn_norm_weight, gpu_realm, self.rms_epsilon)
+                else:
+                    rmsnorm(x, self.ffn_norm_weight, self.rms_epsilon)
 
                 # 8. Feed Forward Network
                 var up_ptr = well.allocate(self.ffn_up_weight.rows * x.rows)
@@ -507,7 +513,10 @@ def forward_pass(
         var epsilon: Scalar[f32] = 1e-5
         if seer.config.rms_epsilon > 0.0:
             epsilon = seer.config.rms_epsilon
-        rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
+        if use_gpu_realm:
+            rmsnorm_gpu(x, seer.tensors["output_norm.weight"], gpu_realm, epsilon)
+        else:
+            rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
     
     # 5. Final projection to logits
     if "output.weight" not in seer.tensors:
