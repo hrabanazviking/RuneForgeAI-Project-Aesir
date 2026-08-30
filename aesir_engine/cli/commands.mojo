@@ -10,6 +10,7 @@ from cli.multi_engine import (
     dispatch_onnx_cli,
 )
 from config import AesirConfig, load_config_file
+from server.api import BifrostGate
 
 
 def print_banner():
@@ -395,7 +396,12 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         )
 
     if cmd == "serve" or cmd == "daemon":
-        raise Error("HTTP server daemon is not implemented")
+        print("Starting Project Aesir Bifrost Server on port 18434...")
+        var server = BifrostGate(18434)
+        if not server.start():
+            raise Error("Failed to start Bifrost Server")
+        server.close()
+        return
 
     if cmd == "stop":
         raise Error(

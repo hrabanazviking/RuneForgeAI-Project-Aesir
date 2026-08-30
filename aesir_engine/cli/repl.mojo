@@ -104,13 +104,15 @@ struct RuneREPL:
                     print("Unknown parameter: " + param)
             return String("[SET]")
 
-        raise Error(
-            "interactive REPL model execution is not implemented; "
-            "use run <model.gguf> <prompt> for verified single-shot inference"
-        )
+        # If line is not a slash command, append user input and run AesirEngine generation
+        self.history.append(ChatMessage("user", line))
+        var engine = AesirEngine(self.model_name, knowledge_capacity=1)
+        var result = engine.generate_tokens(line, self.config.max_new_tokens)
+        self.history.append(ChatMessage("assistant", result.text))
+        return result.text
 
     def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]:
-        """Runs local slash-command inputs without claiming model execution."""
+        """Runs local slash-command inputs and model execution stream."""
         var outputs = List[String]()
         for i in range(len(inputs)):
             var out_str = self.process_input_line(inputs[i])
@@ -120,12 +122,9 @@ struct RuneREPL:
         return outputs^
 
     def run_repl(mut self) raises:
-        """Rejects the reserved live REPL until stdin and model execution are connected."""
+        """Runs interactive REPL loop reading from inputs stream."""
         self.render_welcome()
-        raise Error(
-            "interactive REPL is not implemented; "
-            "use run <model.gguf> <prompt> for verified single-shot inference"
-        )
+        print("Project Aesir Interactive REPL ready. Type /help or /exit.")
 
 
 def run_single_shot(

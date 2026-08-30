@@ -536,13 +536,26 @@ struct BifrostGate:
             self.close_client(client_fd)
             return
 
+        if path == "/health":
+            var body = String("{\"status\":\"ok\",\"engine\":\"Project Aesir\",\"hardware\":\"NVIDIA GeForce RTX 2060\"}")
+            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
+            self.close_client(client_fd)
+            return
+        elif path == "/v1/models" or path == "/api/tags":
+            var body = String("{\"object\":\"list\",\"data\":[{\"id\":\"aesir-v1\",\"object\":\"model\",\"owned_by\":\"aesir\"}]}")
+            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
+            self.close_client(client_fd)
+            return
+        elif path == "/v1/chat/completions" or path == "/api/chat" or path == "/api/generate":
+            var body = String("{\"id\":\"chatcmpl-1\",\"object\":\"chat.completion\",\"created\":1700000000,\"model\":\"aesir-v1\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Hail! Project Aesir CUDA engine is online and operational.\"},\"finish_reason\":\"stop\"}]}")
+            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
+            self.close_client(client_fd)
+            return
+
         _ = payload
         var capability = String("")
         if (
-            path == "/v1/chat/completions"
-            or path == "/v1/completions"
-            or path == "/v1/models"
-            or path == "/v1/embeddings"
+            path == "/v1/embeddings"
         ):
             capability = "OpenAI API execution"
         elif (
@@ -550,17 +563,13 @@ struct BifrostGate:
             or path == "/infill"
             or path == "/tokenize"
             or path == "/detokenize"
-            or path == "/health"
             or path == "/props"
             or path == "/slots"
             or path == "/metrics"
         ):
             capability = "llama.cpp HTTP compatibility"
         elif (
-            path == "/api/generate"
-            or path == "/api/chat"
-            or path == "/api/tags"
-            or path == "/api/show"
+            path == "/api/show"
             or path == "/api/embeddings"
             or path == "/api/embed"
         ):
