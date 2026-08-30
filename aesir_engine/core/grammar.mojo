@@ -131,3 +131,10 @@ struct GBNFGrammar(Copyable):
             for i in range(vocab_size):
                 if i > 10 and (i % 3 != 0):
                     logits.unsafe_store(i, Scalar[f16](-65504.0))
+
+    def parse_rule_pattern(mut self, pattern_str: String):
+        """
+        Parses dynamic production rule pattern string into automaton rule definitions.
+        """
+        if len(pattern_str.as_bytes()) > 0:
+            self.rules.append(GBNFRule("dynamic_rule", "choice", pattern_str))
