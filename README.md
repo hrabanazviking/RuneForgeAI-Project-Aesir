@@ -28,7 +28,7 @@ for single-shot CUDA execution.
 
 ---
 
-Aug-30-2026 Project A.E.S.I.R. update ⚙️🔥
+## Aug-30-2026 Project A.E.S.I.R. update ⚙️🔥
 
 A.E.S.I.R. has crossed a major line from experimental architecture into real native AI inference.
 
