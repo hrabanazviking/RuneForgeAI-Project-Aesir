@@ -462,15 +462,12 @@ struct BifrostGate:
 
     def send_response(self, client_fd: Int32, content: String):
         """
-        ᛋᛖᚾᛞ·ᚱᛖᛋᛈᛟᚾᛋᛖ — The Ollama Response Current (send_response)
-        ══════════════════════════════════════════════════════════════════════════
-        Rejects the reserved Ollama response path and closes the connection.
+        Emits real HTTP 200 OK text/json response over client socket connection.
         """
         if client_fd < 0:
             return
             
-        _ = content
-        var response = unsupported_http_response("Ollama response generation")
+        var response = build_http_200_response(content, "application/json")
         _ = write_all_bytes(client_fd, response)
         self.close_client(client_fd)
 
@@ -501,23 +498,21 @@ struct BifrostGate:
         _ = write_all_bytes(client_fd, chunk)
 
     def send_embeddings_response(self, client_fd: Int32, embedding_data: String):
-        """Rejects the reserved embeddings path and closes the connection."""
+        """Emits real HTTP 200 OK embeddings response."""
         if client_fd < 0:
             return
             
-        _ = embedding_data
-        var response = unsupported_http_response("embedding generation")
+        var response = build_http_200_response(embedding_data, "application/json")
         _ = write_all_bytes(client_fd, response)
         self.close_client(client_fd)
 
     @staticmethod
     def send_embeddings_response_static(client_fd: Int32, embedding_data: String):
-        """Static variant for rejecting the reserved embeddings path."""
+        """Static variant for emitting real HTTP 200 OK embeddings response."""
         if client_fd < 0:
             return
             
-        _ = embedding_data
-        var response = unsupported_http_response("embedding generation")
+        var response = build_http_200_response(embedding_data, "application/json")
         _ = write_all_bytes(client_fd, response)
         BifrostGate.close_client_static(client_fd)
 
