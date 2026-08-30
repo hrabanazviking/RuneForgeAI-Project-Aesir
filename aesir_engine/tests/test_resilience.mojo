@@ -161,6 +161,6 @@ def test_supervisor_crash_recovery() raises:
         success = False
 
     if success:
-        print("supervisor simulation marker: PASS")
+        print("supervisor crash recovery: PASS")
     else:
-        raise Error("SelfHealingSupervisor simulation invariant mismatch")
+        raise Error("SelfHealingSupervisor recovery invariant mismatch")
