@@ -153,7 +153,7 @@ graph TB
 - **Owner:** Network & Transport Layer
 - **Responsibility:** Listens on POSIX sockets (`127.0.0.1:11434`), accepts HTTP requests, formats JSON responses, and manages client socket lifetimes. Provides `send_chunk` / `@staticmethod send_chunk_static` for chunked SSE streaming and `send_embeddings_response` / `@staticmethod send_embeddings_response_static` for formatting Ollama-compatible `/api/embeddings` JSON responses. In **Slice 11**:
   - `OpenAIGate` (`server/openai.mojo`): Protocol bridge formatting OpenAI v1 REST JSON payloads (`format_chat_completion`, `format_chat_chunk`, `format_models_list`, `format_embeddings`).
-  - `BifrostGate.dispatch_http_route()` (`server/api.mojo`): Universal REST API router handling requests across Ollama, OpenAI v1 (`/v1/chat/completions`, `/v1/models`, `/v1/embeddings`), llama.cpp Server HTTP endpoints (`/completion`, `/tokenize`, `/detokenize`, `/infill`, `/health`, `/props`, `/slots`, `/metrics`), and **Phase 14 Swarm REST API routes** (`/api/swarm/nodes`, `/api/swarm/join`, `/api/swarm/dispatch`, `/api/swarm/status`).
+  - `BifrostGate.dispatch_http_route()` (`server/api.mojo`): Legacy route recognizer returning HTTP 501 for reserved Ollama, OpenAI, llama.cpp, and Swarm paths. It is not the live native inference service.
 - **Forbidden:** Must NEVER import `core/compute.mojo`, `core/inference.mojo`, or access `MimirWell` / `MimirStore` / `KVCache` / `DeviceTopology` / `NPUBackendType` / `NPUBuffer` / `GPURealmType` / `GPUBuffer` / `CompressedFormatType` / `SwarmCluster` directly. Must ONLY communicate via `AesirEngine` in `aesir.mojo`.
 
 ### 2. `asgard` Domain (AesirEngine Orchestration Facade, RAG, Resilience, Multi-Device Topology & Swarm Mesh Orchestration)

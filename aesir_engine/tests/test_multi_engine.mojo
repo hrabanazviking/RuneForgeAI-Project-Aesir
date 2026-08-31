@@ -19,6 +19,7 @@ from server.api import (
     write_all_bytes,
     unsupported_http_response,
     route_not_found_response,
+    legacy_route_response,
     json_escape_string,
     RequestContext,
     build_structured_error,
@@ -28,22 +29,25 @@ from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onn
 def test_openai_api_formatter() raises:
     print("--- Testing OpenAIGate local JSON formatter scaffold ---")
     var success = True
-    var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello world")
-    if "\"model\": \"aesir:latest\"" not in json_resp or "\"content\": \"Hello world\"" not in json_resp:
+    var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello \"world\"\nnext")
+    if "\"model\": \"aesir:latest\"" not in json_resp or "Hello \\\"world\\\"\\nnext" not in json_resp:
         print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
-    if "\"aesir_status\": \"ok\"" not in json_resp:
+    if "\"aesir_status\": \"formatter_scaffold\"" not in json_resp:
         print("FAIL: OpenAIGate formatter omitted status")
         success = False
-    if "\"prompt_tokens\": 16" not in json_resp or "\"total_tokens\": 32" not in json_resp:
-        print("FAIL: OpenAIGate formatter omitted token usage")
+    if "\"prompt_tokens\": 0" not in json_resp or "\"total_tokens\": 0" not in json_resp:
+        print("FAIL: OpenAIGate formatter invented token usage")
+        success = False
+    if "1700000000" in json_resp or "chatcmpl-aesir-v1" in json_resp:
+        print("FAIL: OpenAIGate formatter retained fictional identity or time")
         success = False
 
     var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
     if "data: {" not in chunk_resp or "\"content\": \"Hello\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
-    if "\"aesir_status\": \"ok\"" not in chunk_resp:
+    if "\"aesir_status\": \"formatter_scaffold\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted status")
         success = False
 
@@ -209,6 +213,19 @@ def test_unsupported_http_responses() raises:
         raise Error("unknown route omitted HTTP 404")
     if "\"error\":\"route_not_found\"" not in missing:
         raise Error("unknown route omitted not-found error body")
+
+    var legacy_paths: List[String] = [
+        "/health", "/v1/models", "/api/tags",
+        "/v1/chat/completions", "/api/chat", "/api/generate",
+    ]
+    for path in legacy_paths:
+        var response = legacy_route_response(path)
+        if "501 Not Implemented" not in response:
+            raise Error("legacy compatibility route omitted HTTP 501: " + path)
+        if "200 OK" in response or "\"status\":\"ok\"" in response:
+            raise Error("legacy compatibility route fabricated success: " + path)
+    if "404 Not Found" not in legacy_route_response("/not-a-route"):
+        raise Error("legacy compatibility router accepted an unknown path")
 
     print("honest unsupported HTTP responses: PASS")
 

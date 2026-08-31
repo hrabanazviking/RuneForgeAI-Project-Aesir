@@ -178,7 +178,7 @@ sequenceDiagram
     - Dispatches `dequantize_compressed_tensor` to unpack weights to float16 slab zero-copy.
 
 5e. **Universal Multi-Engine REST API Routing & Protocol Bridge (Slice 11):**
-    - `dispatch_http_route()` handles Ollama, OpenAI v1 REST, and llama.cpp Server HTTP endpoints.
+    - `dispatch_http_route()` recognizes reserved Ollama, OpenAI, llama.cpp, and Swarm paths but returns HTTP 501; live inference uses the separate authenticated native service.
 
 5f. **Constrained Generation GBNF Logit Masking (Slice 11):**
     - `GBNFGrammar.apply_grammar_mask()` applies zero-allocation logit masks directly onto raw memory pointer.

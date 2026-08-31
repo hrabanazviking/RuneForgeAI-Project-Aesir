@@ -95,7 +95,7 @@ evidence.
 * **Stage 8.1 Q4_K_M Dequantization Kernel Milestone ([`AES-QNT-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `dequantize_q4_k_m()` in `core/compute.mojo` with zero-blocks early return safety (`num_blocks <= 0`) and proved 32-element sub-block nibble unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, and SIMD output layout in `test_quantization.mojo`.
 * **Stage 7.2 MímirStore Dimension Milestone ([`AES-RAG-002`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `MimirStore.search_knn()` in `core/mimir_well.mojo` to strictly enforce query vector dimension equality (`query_emb.size != self.dim`), raising `Error` on size mismatch and adding dimension mismatch error rejection test assertions.
 * **Stage 7.1 Memory Reclamation & Zero-Norm Milestone ([`AES-MEM-005`](../CAPABILITY_LEDGER.md), [`AES-RAG-001`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened `_prepare_prompt()` in `aesir.mojo` to reset workspace pool offset (`self.pool.reset_kv_cache(self.runtime_offset)`), preventing RAG context query vector allocations from leaking into generation workspace RAM. Enhanced SIMD `cosine_similarity()` in `core/compute.mojo` with zero-norm detection (`norm_a_sq <= 0.0 or norm_b_sq <= 0.0 -> 0.0`).
-* **Stage 6.4 OpenAI REST Gateway Milestone ([`AES-SRV-005`](../CAPABILITY_LEDGER.md) `verified`)**: Integrated `OpenAIGate` in `server/openai.mojo` and `dispatch_http_request()` in `server/api.mojo` formatting valid REST responses for `/v1/chat/completions` (JSON & SSE chunks), `/v1/models` catalog listings, and `/v1/embeddings` rejection formatting.
+* **Stage 6.4 OpenAI-shaped Formatter Milestone ([`AES-SRV-005`](../CAPABILITY_LEDGER.md) `scaffold`)**: `OpenAIGate` emits escaped local JSON/SSE shapes with explicit scaffold status and zero unobserved usage. All OpenAI-shaped legacy routes return HTTP 501; this is not client compatibility.
 * **Production Hardening Pass ([`AES-SRV-001`](../CAPABILITY_LEDGER.md), [`AES-SRV-002`](../CAPABILITY_LEDGER.md), [`AES-SRV-003`](../CAPABILITY_LEDGER.md), [`AES-CLI-009`](../CAPABILITY_LEDGER.md) `verified`)**: Eliminated potential double-free in `BifrostGate.__deinit__`, upgraded embedding gateway responses to write-all transmission loop (`write_all_bytes`), and hardened CLI options/duration parsing with fail-closed missing parameter handling.
 * **Stage 6.3 Response Framing Milestone ([`AES-SRV-003`](../CAPABILITY_LEDGER.md) `verified`)**: Built `write_all_bytes()` socket transmission loop in `server/api.mojo`, `build_http_response()` framing helper, `build_sse_chunk()` Server-Sent Events utility, and `build_http_chunk()` HTTP/1.1 chunked encoding helper.
 * **Stage 6.2 HTTP Parser Milestone ([`AES-SRV-002`](../CAPABILITY_LEDGER.md) `verified`)**: Built `HTTPRequest` struct in `server/api.mojo` capturing `method`, `path`, `protocol`, `headers_raw`, `body`, and `content_length`, with `parse_http_request()` and route dispatcher `dispatch_http_request()`.
@@ -127,7 +127,7 @@ evidence.
 
 1. **Bare-Metal HTTP Transport & Streaming Current (`BifrostGate`):**
    - High-concurrency POSIX socket server listening on `0.0.0.0:11434`.
-   - Full compatibility with Ollama API requests (`/api/generate`, `/api/chat`, `/api/tags`, `/api/version`).
+   - The legacy Ollama-shaped routes return HTTP 501. The separate authenticated native service exposes only `/health` and `/v1/generate` under its documented contract.
    - **The Bifrost Streaming Current (`send_chunk` / `generate_stream`):** Real-time chunked token streaming with zero intermediate string copies.
 
 2. **Contiguous Memory Pool & Memory Rings (`MimirWell` & `KVCache`):**
@@ -193,8 +193,8 @@ evidence.
    - **Specialized Dequantization Kernels:** On-the-fly SIMD nibble unpacking for `Q2_K`–`Q8_1`, `GPTQ 4-bit/8-bit`, `AWQ 4-bit`, `ExLlamaV2 (EXL2)`, `HQQ`, and `SmoothQuant INT8`.
 
 14. **Universal Multi-Engine Ecosystem Matrix:**
-   - **The OpenAI Protocol Bridge (`OpenAIGate`):** Formats `/v1/chat/completions`, `/v1/models`, `/v1/embeddings` JSON and SSE streams.
-   - **Universal llama.cpp HTTP Parity (`dispatch_http_route`):** Native routing for `/completion`, `/tokenize`, `/detokenize`, `/infill`, `/props`, `/health`, `/slots`, `/metrics`.
+   - **The OpenAI-shaped Formatter (`OpenAIGate`):** Escapes local JSON/SSE shapes; no compatibility route exposes it as successful inference.
+   - **llama.cpp-shaped route boundary (`dispatch_http_route`):** Recognizes the reserved paths and returns HTTP 501; no parity is claimed.
    - **The Rune of Structural Constraints (`GBNFGrammar`):** Zero-allocation logit masking for EBNF, JSON Schema, and regex formal grammars.
    - **The Vision of Future Runes (`SpeculativeEngine`):** Speculative draft token sampling and parallel target verification loops.
    - **The Vision of the ONNX Graph (`ONNXModelSeer`):** Protocol buffer graph parser mapping ONNX tensor initializers to `MimirWell`.
@@ -221,7 +221,7 @@ evidence.
    - **The Peer Node Registry (`PeerRegistry`):** Sovereign peer catalog managing liveness heartbeats and least-loaded node scouts based on free VRAM.
    - **The Swarm Task Dispatcher (`TaskDispatcher`):** Dynamic load balancer routing distributed inference workloads across the cluster.
    - **The Sovereign Swarm Cluster Orchestrator (`SwarmCluster`):** Enterprise mesh orchestrator managing peer registration, leader join protocols, and distributed task execution.
-   - **Swarm REST API Parity (`dispatch_http_route`):** Native HTTP endpoints for `/api/swarm/nodes`, `/api/swarm/join`, `/api/swarm/dispatch`, `/api/swarm/status`.
+   - **Swarm REST route boundary (`dispatch_http_route`):** Reserved Swarm paths return HTTP 501 and perform no cluster operation.
    - **Bifrost CLI Swarm Commands (`cli/commands.mojo`):** Drop-in CLI subcommands `aesir swarm join`, `aesir swarm list`, `aesir swarm status`, and `aesir swarm dispatch`.
 
 ---

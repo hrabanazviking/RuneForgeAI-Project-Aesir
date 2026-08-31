@@ -153,6 +153,47 @@ def route_not_found_response() -> String:
     )
 
 
+def legacy_route_response(path: String) -> String:
+    """Returns truthful responses for the disconnected compatibility router."""
+    if len(path.bytes()) == 0:
+        return route_not_found_response()
+    if path == "/health":
+        return unsupported_http_response("legacy service health")
+    if path == "/v1/models" or path == "/api/tags":
+        return unsupported_http_response("model catalog compatibility")
+    if (
+        path == "/v1/chat/completions"
+        or path == "/api/chat"
+        or path == "/api/generate"
+        or path == "/v1/embeddings"
+    ):
+        return unsupported_http_response("model-backed compatibility execution")
+    if (
+        path == "/completion"
+        or path == "/infill"
+        or path == "/tokenize"
+        or path == "/detokenize"
+        or path == "/props"
+        or path == "/slots"
+        or path == "/metrics"
+    ):
+        return unsupported_http_response("llama.cpp HTTP compatibility")
+    if (
+        path == "/api/show"
+        or path == "/api/embeddings"
+        or path == "/api/embed"
+    ):
+        return unsupported_http_response("Ollama HTTP compatibility")
+    if (
+        path == "/api/swarm/nodes"
+        or path == "/api/swarm/status"
+        or path == "/api/swarm/join"
+        or path == "/api/swarm/dispatch"
+    ):
+        return unsupported_http_response("swarm HTTP execution")
+    return route_not_found_response()
+
+
 def build_http_response(
     status_code: Int,
     status_text: String,
@@ -526,61 +567,8 @@ struct BifrostGate:
         if client_fd < 0:
             return
 
-        if len(path.bytes()) == 0:
-            self.send_chunk(client_fd, route_not_found_response())
-            self.close_client(client_fd)
-            return
-
-        if path == "/health":
-            var body = String("{\"status\":\"ok\",\"engine\":\"Project Aesir\",\"hardware\":\"NVIDIA GeForce RTX 2060\"}")
-            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
-            self.close_client(client_fd)
-            return
-        elif path == "/v1/models" or path == "/api/tags":
-            var body = String("{\"object\":\"list\",\"data\":[{\"id\":\"aesir-v1\",\"object\":\"model\",\"owned_by\":\"aesir\"}]}")
-            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
-            self.close_client(client_fd)
-            return
-        elif path == "/v1/chat/completions" or path == "/api/chat" or path == "/api/generate":
-            var body = String("{\"id\":\"chatcmpl-1\",\"object\":\"chat.completion\",\"created\":1700000000,\"model\":\"aesir-v1\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"Hail! Project Aesir CUDA engine is online and operational.\"},\"finish_reason\":\"stop\"}]}")
-            self.send_chunk(client_fd, build_http_response(200, "OK", "application/json", body))
-            self.close_client(client_fd)
-            return
-
         _ = payload
-        var capability = String("")
-        if (
-            path == "/v1/embeddings"
-        ):
-            capability = "OpenAI API execution"
-        elif (
-            path == "/completion"
-            or path == "/infill"
-            or path == "/tokenize"
-            or path == "/detokenize"
-            or path == "/props"
-            or path == "/slots"
-            or path == "/metrics"
-        ):
-            capability = "llama.cpp HTTP compatibility"
-        elif (
-            path == "/api/show"
-            or path == "/api/embeddings"
-            or path == "/api/embed"
-        ):
-            capability = "Ollama HTTP compatibility"
-        elif (
-            path == "/api/swarm/nodes"
-            or path == "/api/swarm/status"
-            or path == "/api/swarm/join"
-            or path == "/api/swarm/dispatch"
-        ):
-            capability = "swarm HTTP execution"
-
-        var response = route_not_found_response()
-        if capability != "":
-            response = unsupported_http_response(capability)
-        self.send_chunk(client_fd, response)
+        self.send_chunk(client_fd, legacy_route_response(path))
         self.close_client(client_fd)
 
     def __deinit__(deinit self):

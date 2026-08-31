@@ -1,3 +1,13 @@
+## 2026-08-31 — Removed legacy fabricated HTTP success
+
+The disconnected `BifrostGate` router no longer returns a hard-coded RTX 2060,
+fictional `aesir-v1` catalog, fixed timestamp/token counts, or canned assistant
+answer. Every recognized model-backed compatibility path now returns HTTP 501;
+unknown paths return 404. The local OpenAI-shaped formatter escapes all caller
+strings, labels itself `formatter_scaffold`, and uses zero for unobserved time
+and usage fields. The real authenticated native CUDA service remains unchanged.
+Master: 167 passed, zero failed, one skipped.
+
 ## 2026-08-31 — Restart-safe native recipe catalog commands
 
 Connected native `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` to the
