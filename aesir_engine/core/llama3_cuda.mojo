@@ -9,7 +9,7 @@ from core.inference_memory import llama3_memory_plan
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
-from core.generation_control import GenerationControl
+from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 
 comptime X = 0
 comptime N = X + 4096
@@ -61,7 +61,7 @@ def validate_llama3(model: PackedGGUF, context_length: Int) raises:
             raise Error("Llama normalization tensors must be F32")
 
 
-struct Llama3CUDASession:
+struct Llama3CUDASession(ControlledTextSession):
     var model: PackedGGUF
     var tokenizer: Llama3Tokenizer
     var context: DeviceContext
@@ -291,3 +291,7 @@ struct Llama3CUDASession:
             self.generating = False
             chunk += self.decoder.flush()
         return chunk
+
+    def status(self) -> NativeGenerationStatus:
+        return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
+                                      self.generated_tokens, self.position, self.finish_reason)

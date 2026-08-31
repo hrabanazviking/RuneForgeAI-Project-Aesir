@@ -1,5 +1,20 @@
 ## 2026-08-31 — Container-aware native CUDA host admission
 
+## 2026-08-31 — Authenticated native local CUDA service
+
+Connected `serve` to real loaded Gemma/Stheno sessions through a shared serialized
+contract. Added strict bounded HTTP/JSON parsing, owner-only key files, loopback
+Host/origin controls, nonblocking deadline-bound I/O, SIGPIPE suppression,
+stateless reset/replay, private request logs and cooperative SIGINT/SIGTERM.
+Removed the CLI behavior that opened and immediately closed a scaffold listener.
+
+Both physical HTTP probes pass generation, seeded replay, adversarial admission,
+slow-client deadlines, prefill recovery and active shutdown. Master: 166 passed,
+zero failed, one external skip. See `docs/NATIVE_SERVICE.md` for reproduction and
+bounds. Streaming, compatibility protocols, concurrency, TLS, remote deployment
+and broad production readiness remain unclaimed.
+
+
 ## 2026-08-31 — Native CUDA cancellation and recovery
 
 Implemented cooperative monotonic generation deadlines, caller-owned pollable

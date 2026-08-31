@@ -768,3 +768,14 @@ interrupted prefill requires an explicit `reset()` before reuse. Failed CUDA
 sessions stay failed. Chat exposes timeout/settings, `/show` reset state and
 Ctrl+C through Linux signalfd plus a mask-preserving executable bootstrap.
 See `docs/NATIVE_RUNTIME.md` for tested limits and physical reproduction.
+
+### Serialized native service contract (2026-08-31)
+
+The facade exports `ControlledTextSession`, `NativeGenerationStatus` and the
+monotonic clock. Both CUDA sessions implement reset, begin/next/cancel, sampling
+and deadline configuration, plus a copied status snapshot. The service holds
+one session and serializes all mutation; this does not make sessions thread-safe.
+`cli/native_serve.mojo` connects authenticated local requests to this contract.
+`serve` is a foreground loopback command requiring an API key file; `daemon`
+remains rejected. SIGINT/SIGTERM terminate cooperatively. API details and
+production limitations are in `docs/NATIVE_SERVICE.md`.

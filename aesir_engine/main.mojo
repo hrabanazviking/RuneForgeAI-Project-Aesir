@@ -19,4 +19,6 @@ def main() raises:
     # start an unsupported daemon. The dispatcher renders actionable help.
     if len(cli_args) > 0 and cli_args[0] == "chat":
         prepare_chat_process()
+    if len(cli_args) > 0 and cli_args[0] == "serve":
+        prepare_chat_process(True)
     dispatch_command(cli_args)

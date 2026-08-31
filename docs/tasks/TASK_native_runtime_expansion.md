@@ -88,3 +88,9 @@ SIGINT bootstrap, explicit partial-prefill reset gate and physical recovery on
 both models. Master 163 passed, zero failed, one skipped. Serving and broader
 model/device evidence remain next; cgroup v1/hidden ancestors and generic CPU
 arena admission remain limitations.
+
+Native local service milestone implemented: authenticated, bounded loopback
+HTTP over both real CUDA models; strict protocol, stateless replay, deadline
+recovery and active shutdown probes pass. Master 166 passed, zero failed, one
+skip. No OpenAI/Ollama or public production claim. Broader model/device evidence,
+CPU container admission, streaming and operational load/security gates remain.

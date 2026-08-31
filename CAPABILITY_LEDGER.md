@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-6, August 31, 2026
+**Ledger version:** GPU-7, August 31, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 163 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 164, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 166 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 167, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -64,12 +64,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 68 |
-| `partial` | 15 |
+| `verified` | 69 |
+| `partial` | 16 |
 | `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 22 |
-| **Total** | **107** |
+| `missing` | 21 |
+| **Total** | **108** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -604,7 +604,7 @@ the complete ledger population.
 - **Claim sources:** CLI interface and Ollama `run` implications
 - **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but `cuda_chat.mojo` provides interactive and prompt-file chat with a persistent `Gemma4CUDASession` or `Llama3CUDASession`, streamed text, `/help`, `/show`, `/clear`, validated `/set`, `/bye`/EOF handling and durable transcripts. Reset retains loaded weights and invalid interactive admissions preserve healthy history. `--profile llama3` selects Stheno with an 8K context and remaining-context completion policy.
 - **Executable evidence:** `E-MASTER` covers legacy state bounds; physical Gemma and Stheno runs each completed 20 prompt-file exchanges. Stheno's unedited transcript records 20 natural EOS stops, 5,152 generated tokens and 6,514 retained context positions with an 8,192 ceiling; see `docs/evidence/stheno-roleplay-20.md`.
-- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma and Llama 3 profiles. The legacy general REPL, signal handling, cancellation and arbitrary-model chat are not established.
+- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma and Llama 3 profiles. Native CUDA chat additionally verifies cooperative SIGINT/deadline recovery. The legacy general REPL and arbitrary-model chat remain unestablished.
 - **Next acceptance gate:** Consolidate the legacy/general session surface with the CUDA chat contract and add terminal-interaction tests.
 - **Audit:** AER-059, AER-068.
 
@@ -628,7 +628,7 @@ the complete ledger population.
 - **Claim sources:** README BifrostGate; server interface
 - **Implementation evidence:** `BifrostGate` in `server/api.mojo` implementing POSIX `socket()`, `setsockopt(SO_REUSEADDR)`, `set_nonblocking()` (`fcntl`), `bind()`, `listen()`, `is_valid()`, and `close()`.
 - **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Implements POSIX socket bind/listen setup, non-blocking configuration, and clean descriptor teardown; HTTP request router daemon loop remains scaffolded in `AES-SRV-002`.
+- **Evidence boundary:** Implements POSIX socket bind/listen setup, non-blocking configuration, and clean descriptor teardown; the legacy gate is not the live service. The native loopback service is tracked in `AES-SRV-010`.
 - **Audit:** AER-070, AER-076, AER-077.
 
 ### AES-SRV-002 — Request acceptance and HTTP parsing
@@ -638,7 +638,7 @@ the complete ledger population.
 - **Claim sources:** server interface; README bare-metal HTTP server
 - **Implementation evidence:** `HTTPRequest` struct, `parse_http_request()`, and `dispatch_http_request()` in `server/api.mojo` parsing request line (method, path, protocol), header block (`Content-Length`), body isolation, and route dispatching.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Implements bare-metal HTTP/1.1 request line/header/body parser & route dispatcher; complete streaming response writer loop is tracked under `AES-SRV-003`.
+- **Evidence boundary:** Legacy local parser assertions do not establish safe network input. Live serving uses the separate strict `local_protocol.mojo` contract in `AES-SRV-010`.
 - **Audit:** AER-069, AER-071, AER-072.
 
 ### AES-SRV-003 — Complete/write-safe HTTP responses
@@ -648,7 +648,7 @@ the complete ledger population.
 - **Claim sources:** server interface
 - **Implementation evidence:** `write_all_bytes()` in `server/api.mojo` looping socket writes for partial write recovery; `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()` framing helpers.
 - **Executable evidence:** `E-MASTER` case `server.http_response_framing` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Implements write-safe socket send loop, Content-Length framing, SSE chunk formatting, and chunked transfer encoding; chunk forwarding from active generation engines is tracked under `AES-SRV-004`.
+- **Evidence boundary:** Legacy tests cover framing and narrow send behavior, not production streaming safety. Live serving uses nonblocking bounded `send_local` with SIGPIPE suppression; no streaming endpoint is exposed.
 - **Audit:** AER-073, AER-074, AER-075.
 
 ### AES-SRV-004 — Raw file-descriptor generation chunk forwarding
@@ -707,14 +707,21 @@ the complete ledger population.
 
 ### AES-SRV-009 — Concurrent, bounded, secure service operation
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** service and security domains
-- **Claim sources:** server daemon and production implications
-- **Implementation evidence:** no real worker pool, request limits, timeouts, auth, TLS, rate limiting, cancellation, or structured observability.
-- **Executable evidence:** none.
-- **Evidence boundary:** Local-only intent does not eliminate malformed/local-client or network-exposure risks.
-- **Next acceptance gate:** Threat model and safe defaults, bounded concurrency/resources, timeouts/cancellation, optional auth/TLS exposure policy, and load/security tests.
-- **Audit:** AER-075, AER-077, AER-079, AER-089, AER-107.
+- **Implementation evidence:** The native local service adds strict input limits, owner-only key admission, authentication, loopback-only binding, bounded I/O, cooperative cancellation/deadlines and privacy-preserving request logs.
+- **Executable evidence:** `local_service.json`, `local_service.http`, `local_service.request`; `scripts/test_native_service.py` with both real CUDA models.
+- **Evidence boundary:** One active stateless request, backlog 8, no parallel scheduling, streaming endpoint, TLS, rate limiter, user quotas, remote access or public production claim.
+- **Next acceptance gate:** Sustained load/fuzz/security assessment, explicit multi-client scheduling, deployment lifecycle, and separately tested compatibility protocols.
+
+### AES-SRV-010 — Authenticated native loopback CUDA generation
+
+- **Status:** `verified`
+- **Owner:** CLI orchestration, server transport/protocol, facade session contract, core CUDA execution.
+- **Implementation evidence:** `cli/native_serve.mojo` invokes `ControlledTextSession` through the facade. `server/local_protocol.mojo` owns bounded HTTP/flat JSON; `server/local_transport.mojo` owns private-file authentication input and nonblocking loopback sockets. `serve` no longer opens and immediately closes the old socket scaffold.
+- **Executable evidence:** Both real-model HTTP probes pass at context 512 and max 64 new tokens: authentication/Host/origin checks, observed binding/masks, arithmetic, stateless seeded replay, malformed/oversized requests, slow-client deadlines, prefill recovery, reset-peer handling and active SIGINT/SIGTERM shutdown.
+- **Evidence boundary:** Native `/health` and `/v1/generate`, one loaded model, serialized stateless nonstreaming responses, Linux x86-64/NVIDIA. OpenAI/Ollama compatibility and arbitrary device/model support remain unimplemented.
+- **Reproduction and threat model:** [Native service guide](docs/NATIVE_SERVICE.md).
 
 ## 12. Embeddings and RAG
 
@@ -1224,9 +1231,10 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `partial`
 - **Owner:** runtime and service domains
 - **Claim sources:** metrics/health routes and production implications
-- **Implementation evidence:** `BifrostGate.dispatch_http_route()` in `server/api.mojo` enforcing route path parameter validation (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`) and explicit compatibility route handling for `/metrics`, `/health`, `/props`, and `/slots`.
+- **Native service evidence:** Per-request sequence, generation phase, HTTP status and elapsed time are recorded without prompts/responses/credentials; authenticated health reports the actually loaded CUDA profile/context. Both real-model service probes verify readiness, generation and shutdown.
+- **Legacy implementation evidence:** `BifrostGate.dispatch_http_route()` in `server/api.mojo` enforcing route path parameter validation (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`) and explicit compatibility route handling for `/metrics`, `/health`, `/props`, and `/slots`.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Route validation is not structured observability, live metrics, tracing, or production diagnosis.
+- **Evidence boundary:** The native service has narrow request logs and readiness. Legacy route validation still does not establish metrics, tracing, persistent audit storage or broad production diagnosis.
 - **Next acceptance gate:** Add structured logs, request/session correlation, real metrics, health semantics, and operator-facing failure diagnostics.
 - **Audit:** AER-078, AER-101, AER-111.
 
@@ -1262,7 +1270,7 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-009 |
 | CLI/model management | AES-CLI-001 through AES-CLI-009 |
-| Server/protocols | AES-SRV-001 through AES-SRV-009 |
+| Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |
 | Quantization | AES-QNT-001 through AES-QNT-003 |
 | Hardware/multi-device | AES-ACC-001 through AES-ACC-009 |

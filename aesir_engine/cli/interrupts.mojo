@@ -1,4 +1,4 @@
-"""Linux SIGINT ownership without executing Mojo in an async signal handler."""
+"""Linux chat/service signal ownership without async Mojo signal handlers."""
 from std.collections import InlineArray
 from std.ffi import external_call
 from std.memory import Pointer
@@ -6,7 +6,7 @@ from std.sys import argv
 
 
 
-def prepare_chat_process() raises:
+def prepare_chat_process(include_termination: Bool = False) raises:
     """Bootstrap the executable once so pre-main runtime workers inherit SIGINT.
 
     Linux preserves the calling thread mask across exec and newly created threads
@@ -17,11 +17,14 @@ def prepare_chat_process() raises:
     var old_mask = InlineArray[UInt64, 16](fill=0)
     if external_call["pthread_sigmask", Int32](Int32(0), Int(0), Int(old_mask.unsafe_ptr())) != 0:
         raise Error("Cannot observe native launch signal mask")
-    if old_mask[0] & 2:
+    var required_mask = UInt64(16386) if include_termination else UInt64(2)
+    if old_mask[0] & required_mask == required_mask:
         return
     var mask = InlineArray[UInt64, 16](fill=0)
     if external_call["sigemptyset", Int32](mask.unsafe_ptr()) != 0 or external_call["sigaddset", Int32](mask.unsafe_ptr(), Int32(2)) != 0:
         raise Error("Cannot prepare native launch signal set")
+    if include_termination and external_call["sigaddset", Int32](mask.unsafe_ptr(), Int32(15)) != 0:
+        raise Error("Cannot prepare native SIGTERM set")
     if external_call["pthread_sigmask", Int32](Int32(0), Int(mask.unsafe_ptr()), Int(0)) != 0:
         raise Error("Cannot prepare native launch signal mask")
     var bytes = List[List[Int8]]()
@@ -47,8 +50,14 @@ def consume_interrupts(fd: Int) -> Bool:
         return False
     var info = InlineArray[UInt64, 16](fill=0)
     var consumed = False
-    while external_call["read", Int](fd, info.unsafe_ptr(), Int(128)) > 0:
-        consumed = True
+    while True:
+        var count = external_call["read", Int](fd, info.unsafe_ptr(), Int(128))
+        if count > 0:
+            consumed = True
+        elif count < 0 and external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]().unsafe_load() == 4:
+            continue
+        else:
+            break
     return consumed
 
 
@@ -57,13 +66,15 @@ struct ChatInterrupts:
     var old_mask: InlineArray[UInt64, 16]
     var active: Bool
 
-    def __init__(out self) raises:
+    def __init__(out self, include_termination: Bool = False) raises:
         self.fd = -1
         self.old_mask = InlineArray[UInt64, 16](fill=0)
         self.active = False
         var mask = InlineArray[UInt64, 16](fill=0)
         if external_call["sigemptyset", Int32](mask.unsafe_ptr()) != 0 or external_call["sigaddset", Int32](mask.unsafe_ptr(), Int32(2)) != 0:
             raise Error("Cannot configure SIGINT set")
+        if include_termination and external_call["sigaddset", Int32](mask.unsafe_ptr(), Int32(15)) != 0:
+            raise Error("Cannot configure SIGTERM set")
         if external_call["pthread_sigmask", Int32](Int32(0), Int(mask.unsafe_ptr()), Int(self.old_mask.unsafe_ptr())) != 0:
             raise Error("Cannot block SIGINT for safe native cancellation")
         self.fd = Int(external_call["signalfd", Int32](Int32(-1), mask.unsafe_ptr(), Int32(526336)))

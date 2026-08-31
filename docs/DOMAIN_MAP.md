@@ -1,5 +1,22 @@
 # Project Aesir: Domain Ownership Map & Target Boundary Law
 
+## Native local service ownership — 2026-08-31
+
+`main` prepares process signal ownership; `cli/native_serve.mojo` owns options,
+request policy and serialized orchestration. It accesses CUDA sessions through
+`aesir.mojo` and the `ControlledTextSession` contract. Core owns generation
+status, deadlines, reset/cancel invariants and all device execution.
+`server/local_protocol.mojo` owns strict HTTP/flat JSON parsing;
+`server/local_transport.mojo` owns private-key file admission, bounded loopback
+sockets and descriptor lifetime. Neither transport file imports a model kernel.
+The legacy `BifrostGate`/compatibility formatters are not the live service.
+
+Both CUDA profiles have passed authenticated stateless HTTP generation,
+malformed-input/slow-client rejection, deadline recovery and active shutdown.
+This proves the limited [native service](NATIVE_SERVICE.md), not the distributed,
+streaming, OpenAI/Ollama or multi-device aspirations retained below.
+
+
 > **Status boundary — 2026-08-30:** Ownership labels describe intended
 > responsibilities, not proof that every domain executes. The live ownership
 > boundary for native Gemma/Llama CUDA is loader (artifact/tokenizer), core (GPU model

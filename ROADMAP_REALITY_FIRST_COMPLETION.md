@@ -556,7 +556,7 @@ decorative file, option, or banner.
 | AES-SRV-006 | missing | Phase 3 — OpenAI-compatible live execution |
 | AES-SRV-007 | missing | Phase 8 — selected llama.cpp HTTP subset |
 | AES-SRV-008 | missing | Phase 8 — selected Ollama HTTP subset |
-| AES-SRV-009 | missing | Phase 3 — bounded concurrent service |
+| AES-SRV-009 | partial | Phase 3 — bounded concurrent service |
 | AES-RAG-003 | partial | Phase 4 — verified query embeddings |
 | AES-RAG-004 | missing | Phase 4 — ingestion and durable index |
 | AES-RAG-005 | partial | Phase 4 — end-to-end evaluated RAG |

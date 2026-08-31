@@ -1,5 +1,24 @@
 # Server Domain Interface Specification
 
+## Live native loopback service (2026-08-31)
+
+`local_protocol.mojo`: `LocalHTTPHead` validates bounded HTTP/1.1 and local Host,
+mandatory authentication and supported framing. `FlatJSON` validates UTF-8 and
+flat string/number JSON with strict duplicate/escape checks. These replace the
+legacy permissive parser for live network input.
+
+`local_transport.mojo`: `OwnedFD`, `load_service_key`, `listen_local`,
+`accept_local`, `receive_head`, `receive_body` and `send_local` own Linux x86-64
+nonblocking sockets/files, absolute read/send deadlines and descriptor cleanup.
+Only IPv4 loopback is supported. Signals are borrowed pollable descriptors;
+transport neither consumes them nor imports inference kernels.
+
+`cli/native_serve.mojo` supplies the loaded-session loop and request policy.
+Only authenticated `GET /health` and `POST /v1/generate` execute. Responses are
+nonstreaming, stateless and serialized. See `docs/NATIVE_SERVICE.md` for exact
+limits, threats and both real-model proofs. The declarations below describe
+legacy primitives/formatters, not an exposed compatibility service.
+
 ## Public Structs & Functions
 
 ### `BifrostGate`

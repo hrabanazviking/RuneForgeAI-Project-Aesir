@@ -367,6 +367,11 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 
 ## Stage 6 — Service Boundary and Protocol Conformance
 
+Native milestone (2026-08-31): authenticated loopback `/health` and
+`/v1/generate` now execute on both loaded CUDA profiles with strict bounds,
+deadline recovery and active shutdown. See [native service](docs/NATIVE_SERVICE.md).
+The legacy formatters below are not exposed compatibility APIs.
+
 ### Socket and HTTP foundation
 
 - [ ] Move transport serialization and socket ownership out of `AesirEngine`
@@ -377,8 +382,10 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **[verified, AES-SRV-003] Implement write-all and HTTP response framing:** `write_all_bytes()`, `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()`.
 - [x] Use a real JSON serializer/escaper for prompts, model output, errors, and
   Unicode rather than concatenating untrusted strings.
-- [x] Add request/session IDs, structured errors, timeouts, limits, cancellation,
-  backpressure, and graceful shutdown.
+- [x] **[verified, AES-SRV-010] Native serialized service:** request sequence,
+  bounded errors/I/O, deadlines, cancellation and cooperative shutdown.
+- [ ] Add multi-client session ownership, scheduling, streaming backpressure
+  and sustained load/security evidence.
 
 ### Compatibility surfaces
 
@@ -396,7 +403,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   utilities: pick protocol framing, use stateful
   UTF-8 decoding, escape chunks, handle partial writes/backpressure/disconnect,
   propagate cancellation, and prove the final frame.
-- [ ] **[missing, AES-SRV-009] Add bounded concurrent service operation:** Worker
+- [ ] **[partial, AES-SRV-009] Add bounded concurrent service operation:** Worker
   ownership, queue limits, fairness, cancellation, race, soak, and load tests.
 
 ## Stage 7 — Real Embeddings and RAG

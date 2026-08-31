@@ -22,7 +22,8 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
-| Automated checks | The counted suite reports 163 passed, 0 failed, and 1 explicit external-fixture skip (164 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
+| Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
+| Automated checks | The counted suite reports 166 passed, 0 failed, and 1 explicit external-fixture skip (167 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
@@ -49,7 +50,7 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   Its 8,192-new-token ceiling is bounded by remaining context, with an explicit
   `context_exhausted` stop and no silent history truncation.
 - There is no independent full-model logit-parity proof, throughput/latency
-  benchmark, hardware CI runner, authentication, resumable/authenticated Hub
+  benchmark, hardware CI runner, resumable/authenticated Hub
   transfer, model-store registration, or production-service readiness claim.
 - OpenAI, Ollama, llama.cpp, ONNX, EXL2, RAG execution, Swarm, and NPU paths
   remain scaffolded, partial, or fail closed as specified by the ledger.

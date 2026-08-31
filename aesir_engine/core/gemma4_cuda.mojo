@@ -8,7 +8,7 @@ from core.inference_memory import gemma4_memory_plan
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
-from core.generation_control import GenerationControl
+from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
@@ -87,7 +87,7 @@ def validate_gemma4(model: PackedGGUF, context_length: Int) raises:
         raise Error("This Gemma 4 CUDA profile requires tied output embeddings")
 
 
-struct Gemma4CUDASession:
+struct Gemma4CUDASession(ControlledTextSession):
     var model: PackedGGUF
     var tokenizer: Gemma4Tokenizer
     var context: DeviceContext
@@ -361,3 +361,7 @@ struct Gemma4CUDASession:
             self.generating = False
             chunk += self.decoder.flush()
         return chunk
+
+    def status(self) -> NativeGenerationStatus:
+        return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
+                                      self.generated_tokens, self.position, self.finish_reason)

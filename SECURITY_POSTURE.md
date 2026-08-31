@@ -1,11 +1,12 @@
 # SECURITY POSTURE — Project Æsir
 
-> **Status boundary — 2026-08-30:** This is a target threat model and security
-> posture. It does not certify the described server controls as implemented.
-> The supported CUDA path is local CLI execution; it has no service
-> authentication, TLS endpoint, rate limiting, or production security review.
-> Consult [docs/CURRENT_STATUS.md](docs/CURRENT_STATUS.md) and the capability
-> ledger before deploying any network-facing surface.
+> **Status boundary — 2026-08-31:** This document retains a target threat model,
+> not a certification that every control below exists. Native local serving now
+> has mandatory file-backed authentication, loopback-only binding, strict input
+> bounds and cooperative I/O/generation limits. The tested scope and remaining
+> risks are specified in [NATIVE_SERVICE.md](docs/NATIVE_SERVICE.md). There is no
+> TLS, remote access, multi-tenant isolation, rate limiter or production security
+> assessment. Do not expose the endpoint publicly based on target text below.
 
 ## Authority
 

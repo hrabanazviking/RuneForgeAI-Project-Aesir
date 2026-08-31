@@ -7,6 +7,7 @@ preemption of an in-flight GPU operation and is not a hard real-time deadline.
 from std.collections import InlineArray
 from std.ffi import external_call
 from std.memory import Pointer
+from core.sampling_config import NativeSamplingConfig
 
 
 def monotonic_milliseconds() raises -> Int:
@@ -65,3 +66,33 @@ struct GenerationControl(Copyable, ImplicitlyCopyable):
         if self.deadline_ms != 0 and monotonic_milliseconds() >= self.deadline_ms:
             return "timeout"
         return ""
+
+
+struct NativeGenerationStatus(Copyable, ImplicitlyCopyable):
+    var healthy: Bool
+    var generating: Bool
+    var prompt_tokens: Int
+    var generated_tokens: Int
+    var position: Int
+    var finish_reason: String
+
+    def __init__(out self, healthy: Bool, generating: Bool, prompt_tokens: Int,
+                 generated_tokens: Int, position: Int, finish_reason: String):
+        self.healthy = healthy
+        self.generating = generating
+        self.prompt_tokens = prompt_tokens
+        self.generated_tokens = generated_tokens
+        self.position = position
+        self.finish_reason = finish_reason
+
+
+
+trait ControlledTextSession(Movable):
+    """Serialized session contract; transport cannot inspect or own device memory."""
+    def reset(mut self) raises: ...
+    def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises: ...
+    def next_chunk(mut self) raises -> String: ...
+    def cancel(mut self, reason: String = "cancelled") raises -> String: ...
+    def configure_control(mut self, timeout_ms: Int = 0, cancel_fd: Int = -1) raises: ...
+    def configure_sampling(mut self, sampling: NativeSamplingConfig) raises: ...
+    def status(self) -> NativeGenerationStatus: ...

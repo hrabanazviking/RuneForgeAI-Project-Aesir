@@ -24,7 +24,7 @@ from core.runtime_plan import NativeModelPlan, choose_native_cuda
 from core.native_hardware import observe_host_memory, observe_cpu_name, bounded_decimal
 from core.cuda_gate import CUDAGate
 from core.sampling_config import NativeSamplingConfig
-from core.generation_control import GenerationControl
+from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession, monotonic_milliseconds
 
 
 def calculate_runtime_pool_bytes(

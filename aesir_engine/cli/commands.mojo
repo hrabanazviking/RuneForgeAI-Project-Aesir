@@ -10,7 +10,7 @@ from cli.multi_engine import (
     dispatch_onnx_cli,
 )
 from config import AesirConfig, load_config_file
-from server.api import BifrostGate
+from cli.native_serve import dispatch_native_serve
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
@@ -63,8 +63,12 @@ def print_general_help():
     print("      Show this capability-aware help.")
     print("  -v, --version")
     print("      Show the development version.\n")
+    print("  serve <model.gguf> --accel cuda --api-key-file <private-file>")
+    print("      [--port 18434] [--profile auto|gemma4|llama3] [--context N]")
+    print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
+    print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
     print("Reserved but unsupported:")
-    print("  serve; interactive run; list; show; ps; create; cp; rm")
+    print("  daemon; interactive run; list; show; ps; create; cp; rm")
     print("  push; stop")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
     print(
@@ -415,6 +419,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         dispatch_cuda_chat(args)
         return
 
+    if cmd == "serve":
+        dispatch_native_serve(args)
+        return
+
     if cmd == "hardware":
         dispatch_hardware(args)
         return
@@ -483,13 +491,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             "persistent model-store command '" + cmd + "' is not implemented"
         )
 
-    if cmd == "serve" or cmd == "daemon":
-        print("Starting Project Aesir Bifrost Server on port 18434...")
-        var server = BifrostGate(18434)
-        if not server.start():
-            raise Error("Failed to start Bifrost Server")
-        server.close()
-        return
+    if cmd == "daemon":
+        raise Error("daemon is unsupported; use explicit foreground serve with authentication")
 
     if cmd == "stop":
         raise Error(
