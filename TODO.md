@@ -21,7 +21,8 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] Native CUDA temperature/top-k/top-p/min-p/repetition controls, seeded
   device selection and explicit session reset/settings. Independent GPU sampler
   reference and both real model/control integrations pass.
-- [ ] Reduce pinned host upload staging and prove tail-copy correctness.
+- [x] Bound pinned host upload staging to 64 MiB; physical exact-byte and
+  final-chunk checks pass. GPU weight/KV memory requirements are unchanged.
 
 > “I know that I sat nine days and nights, the friend of Mímir, seeking wisdom, until I was given to myself, and my own mind was won.”
 > — Hávamál, Stanza 141

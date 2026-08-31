@@ -35,8 +35,38 @@ The same buffer calculation runs immediately before either CUDA session
 allocates. The default reserve is 256 MiB. Driver, allocator and tokenizer
 overhead are not exact model-buffer counts; memory observations can race with
 other processes, so allocation errors still propagate. Host admission accounts
-for both the mapped model and a full pinned upload copy. Linux procfs memory
-does not yet account for stricter container/cgroup limits.
+for the mapped model, one pinned staging chunk capped at 64 MiB and a four-byte
+output. Transfers use exact device subviews and synchronize before reusing the
+chunk, including the short final transfer. No model weights are staged through
+the CPU during inference. `compute plan` and session startup report
+`host_staging_bytes`; the mapped-file allowance remains conservative.
+Linux procfs memory does not yet account for stricter container/cgroup limits.
+
+For the pinned artifacts, explicit host mapping/upload allowance falls from
+9,385,337,924 to 4,759,777,828 bytes (Stheno) and from 9,954,343,172 to
+5,044,280,452 bytes (Gemma). These are buffer-accounting values, not measured
+whole-process peak RAM. GPU weight/KV requirements are unchanged.
+
+A separate paired load/exit measurement on the observed WSL2/NVIDIA host used
+`/usr/bin/time -f MAX_RSS_KIB=%M`, context 512, completion ceiling 64 and `/bye`
+on stdin. With the same pinned models and sampling defaults:
+
+| Model | Full-copy peak RSS (KiB) | Bounded-copy peak RSS (KiB) |
+|---|---:|---:|
+| Stheno | 10,712,272 | 6,125,384 |
+| Gemma | 11,305,684 | 6,443,800 |
+
+This is one run per binary/model, not a cross-platform benchmark. Both model
+chat/control regressions also pass after changing the uploader.
+
+The physical upload test compares every byte in nine round trips totaling
+201,457,805 bytes, including exact boundaries, small chunks and one-byte tails
+after 64/128 MiB. Three invalid upload requests reject; two counted tests cover
+staging bounds and host admission. Reproduce with:
+
+```bash
+pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/test_cuda_upload.mojo
+```
 
 `run --accel cuda` now detects either supported CUDA profile. `chat` preserves
 its default Gemma profile for compatibility; `--profile auto` inspects metadata
@@ -144,8 +174,8 @@ This test passed on Linux/WSL2, Intel i7-12700H and NVIDIA RTX 4070 Laptop GPU,
 with locked Mojo 1.0/MAX 26.5: both profiles were planned and executed, and
 impossible reserve/device requests were rejected before upload. Multi-device
 selection is tested with injected records; physical execution was checked only
-on CUDA device 0. With sampling tests the master suite passes 155 cases with
-one external skip (156 total).
+on CUDA device 0. With sampling/upload tests the master suite passes 157 cases with
+one external skip (158 total).
 After integrating concurrent Gemma 3 development, the pinned 32-token CPU
 oracle still passes. Restored mandatory download identity checks and failure
 assertions, bounded CPU token/shape handling and stable CUDA tanh. CPU packed

@@ -1,6 +1,5 @@
 """Persistent native CUDA inference for the admitted Llama 3 8B GGUF profile."""
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from std.memory import unsafe_memcpy
 from loader.packed_gguf import PackedGGUF
 from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
@@ -8,6 +7,7 @@ from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, 
 from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
 from core.inference_memory import llama3_memory_plan
 from core.cuda_sampling import NativeCUDASampler
+from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
 
 comptime X = 0
@@ -111,11 +111,9 @@ struct Llama3CUDASession:
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
         self.sampler = NativeCUDASampler(self.context, 128256, sampling)
-        var staging = self.context.enqueue_create_host_buffer[DType.uint8](Int(self.model.source.file_size))
-        unsafe_memcpy(dest=staging.unsafe_ptr(), src=self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), count=Int(self.model.source.file_size))
-        self.context.enqueue_copy(self.weights, staging)
-        self.context.synchronize()
-        print("[CUDA] native Mojo Llama3; device=" + String(device_index) + " api=cuda layers=32/32 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " cpu_offload=0")
+        var staging_bytes = upload_cuda_bytes(self.context, self.weights,
+            self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), Int(self.model.source.file_size))
+        print("[CUDA] native Mojo Llama3; device=" + String(device_index) + " api=cuda layers=32/32 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))

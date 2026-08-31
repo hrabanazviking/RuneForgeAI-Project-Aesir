@@ -76,6 +76,7 @@ def dispatch_compute(args: List[String]) raises:
           + " kv_bytes=" + String(plan.memory.kv_bytes)
           + " activation_bytes=" + String(plan.memory.activation_bytes))
     print("explicit_device_bytes=" + String(plan.memory.device_bytes)
+          + " host_staging_bytes=" + String(plan.memory.host_staging_bytes)
           + " host_mapping_and_upload_bytes=" + String(plan.memory.host_upload_bytes)
           + " reserve_bytes=" + String(reserve))
     var selected = choose_native_cuda(plan.memory, device, reserve)

@@ -22,7 +22,11 @@ counts and reserve/host-upload admission. `runtime_plan.mojo` owns
 Selection uses observed compatible devices and never falls back to CPU.
 Both CUDA session constructors additionally accept `device_index=0` and
 `reserve_bytes=268435456`, rechecking memory before allocating. Plans do not
-reserve memory against other processes. See `docs/NATIVE_RUNTIME.md`.
+reserve memory against other processes. `cuda_upload.mojo` owns synchronous
+bounded staging: at most 64 MiB pinned, exact destination extents, and completed
+copies before chunk reuse. The caller keeps the mapped source alive and uses
+the destination context's stream. Plans expose `host_staging_bytes` and include
+mapping/staging/output in host admission. See `docs/NATIVE_RUNTIME.md`.
 
 ### Native CUDA sampling and session controls
 

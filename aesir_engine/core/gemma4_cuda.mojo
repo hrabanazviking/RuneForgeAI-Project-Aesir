@@ -1,12 +1,12 @@
 """A persistent native Mojo CUDA session for dense, text-only Gemma 4 E4B."""
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from std.memory import Pointer, unsafe_memcpy
 from std.math import sqrt
 from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.gemma4_tokenizer import Gemma4Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.inference_memory import gemma4_memory_plan
 from core.cuda_sampling import NativeCUDASampler
+from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
@@ -147,11 +147,9 @@ struct Gemma4CUDASession:
         self.sampler = NativeCUDASampler(self.context, 262144, sampling)
         # One initial upload. No layer weights or KV are staged through the CPU
         # during prefill or decoding. The staging allocation dies after sync.
-        var staging = self.context.enqueue_create_host_buffer[DType.uint8](Int(self.model.source.file_size))
-        unsafe_memcpy(dest=staging.unsafe_ptr(), src=self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), count=Int(self.model.source.file_size))
-        self.context.enqueue_copy(self.weights, staging)
-        self.context.synchronize()
-        print("[CUDA] native Mojo Gemma4; device=" + String(device_index) + " api=cuda layers=42/42 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " cpu_offload=0")
+        var staging_bytes = upload_cuda_bytes(self.context, self.weights,
+            self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), Int(self.model.source.file_size))
+        print("[CUDA] native Mojo Gemma4; device=" + String(device_index) + " api=cuda layers=42/42 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))

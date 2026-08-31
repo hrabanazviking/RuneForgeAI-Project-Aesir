@@ -1,6 +1,7 @@
 """Exact explicit buffer accounting for the implemented native CUDA profiles."""
 from core.native_hardware import observe_host_memory
 from core.sampling_config import sampling_device_bytes
+from core.cuda_upload import upload_staging_bytes
 
 
 def checked_bytes_sum(a: Int, b: Int) raises -> Int:
@@ -15,6 +16,7 @@ struct InferenceMemoryPlan(Copyable, ImplicitlyCopyable):
     var activation_bytes: Int
     var device_bytes: Int
     var host_upload_bytes: Int
+    var host_staging_bytes: Int
 
     def __init__(out self, weights: Int, kv: Int, activations: Int) raises:
         if weights <= 0 or kv <= 0 or activations <= 0:
@@ -22,10 +24,11 @@ struct InferenceMemoryPlan(Copyable, ImplicitlyCopyable):
         self.weights_bytes = weights
         self.kv_bytes = kv
         self.activation_bytes = activations
-        # One int32 token output on each side; weights are mapped plus pinned
-        # during initial upload. Tokenizer/driver overhead needs reserve too.
+        # One int32 output on each side; one bounded pinned upload chunk plus
+        # the mapped weights. Tokenizer/driver overhead needs reserve too.
         self.device_bytes = checked_bytes_sum(checked_bytes_sum(weights, kv), checked_bytes_sum(activations, 4))
-        self.host_upload_bytes = checked_bytes_sum(checked_bytes_sum(weights, weights), 4)
+        self.host_staging_bytes = upload_staging_bytes(weights)
+        self.host_upload_bytes = checked_bytes_sum(checked_bytes_sum(weights, self.host_staging_bytes), 4)
 
     def fits(self, free_bytes: Int, reserve_bytes: Int) raises -> Bool:
         if free_bytes < 0 or reserve_bytes < 0:

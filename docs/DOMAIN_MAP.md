@@ -26,7 +26,9 @@ Native hardware/planning ownership: core owns Linux host observations, MAX
 CUDA discovery, exact explicit-buffer accounting and fitting-device selection
 (`native_hardware`, `inference_memory`, `runtime_plan`). The facade exports the
 plan and observation APIs; `cli/hardware.mojo` owns options and presentation.
-Each core session rechecks its budget before allocation. See `NATIVE_RUNTIME.md`.
+Each core session rechecks its budget before allocation. Core `cuda_upload`
+owns bounded pinned staging and synchronized host-to-device copies; loader
+retains mapped source ownership. See `NATIVE_RUNTIME.md`.
 
 Native sampling ownership: core owns `sampling_config` policy and
 `cuda_sampling` device candidate selection, RNG and repetition history. CUDA

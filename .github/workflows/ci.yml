@@ -33,6 +33,11 @@ jobs:
       - name: Build Native CLI
         run: pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-ci-build
 
+      - name: Compile Opt-In CUDA Probes Without Claiming GPU Execution
+        run: |
+          pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_sampling.mojo -o /tmp/aesir-sampling-probe
+          pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_upload.mojo -o /tmp/aesir-upload-probe
+
       - name: Prove Fail-Closed Test Semantics
         shell: bash
         run: |

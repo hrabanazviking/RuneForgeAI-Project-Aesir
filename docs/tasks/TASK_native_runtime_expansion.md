@@ -64,5 +64,10 @@ other hardware. Push each reviewable verified slice and inspect hosted CI.
   sampling decisions matched an independent reference; both real models passed
   sampled and greedy replay/reset plus protected transcript checks. Master:
   155 passed, 0 failed, 1 skipped. Pinned CPU parity remains passing.
-- Next: reduce native model upload staging requirements, then continue expanding
-  model/device coverage with real fixtures and independent numerical evidence.
+- Upload milestone implemented (2026-08-31): bounded 64 MiB pinned staging,
+  exact-byte CUDA round trips, matching host admission and both model/control
+  regressions. Measured host peak RSS substantially reduced on the observed
+  setup; master 157 passed, 0 failed, 1 skipped.
+- Remaining expansion: broader model fixtures/logit parity, additional physical
+  backend implementations, container-aware admission, serving and cancellation.
+  These are not declared complete by the tested CUDA improvements.

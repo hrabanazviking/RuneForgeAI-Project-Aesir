@@ -13,6 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
+from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
 from tests.test_sampling_config import test_sampling_syntax, test_sampling_config_rejection, test_sampling_config_updates
 from tests.test_cuda_chat_admission import test_cuda_chat_admission
 from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_native_planning_cli_rejection
@@ -733,4 +734,6 @@ def main() raises:
     run_case(ledger, "sampling.strict_syntax", test_sampling_syntax)
     run_case(ledger, "sampling.config_rejection", test_sampling_config_rejection)
     run_case(ledger, "sampling.config_updates", test_sampling_config_updates)
-    ledger.finish(156)
+    run_case(ledger, "upload.staging_bounds", test_upload_staging_bounds)
+    run_case(ledger, "upload.host_admission", test_upload_host_admission)
+    ledger.finish(158)

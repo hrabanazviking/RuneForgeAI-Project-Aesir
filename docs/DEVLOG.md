@@ -1,3 +1,19 @@
+## 2026-08-31 — Bounded native CUDA model uploads
+
+Replaced full-model pinned copies in both CUDA sessions with synchronized,
+exact-size device subviews and at most 64 MiB pinned staging. Memory admission
+and diagnostics use the same bounded formula. No inference weights/KV spill to
+CPU and device memory requirements are unchanged.
+
+Verification: 201,457,805 bytes checked across nine physical round trips,
+including one-byte tails; three rejected upload cases; two new counted tests.
+Both real models pass sampled/greedy chat reset, rejection recovery and log
+protection again. Master: 157 passed, 0 failed, 1 skipped. Native build passes.
+One paired `/usr/bin/time` load/exit observation at context 512 measured peak
+RSS falling from 10,712,272 to 6,125,384 KiB for Stheno and 11,305,684 to
+6,443,800 KiB for Gemma. This is one Linux/WSL2 host observation, not a portable
+RAM or throughput guarantee. Reproduction and limits: [runtime guide](NATIVE_RUNTIME.md).
+
 ## 2026-08-31 — Native CUDA sampling and reusable chat controls
 
 Implemented device-side exact top-k, temperature, min-p, nucleus sampling,
