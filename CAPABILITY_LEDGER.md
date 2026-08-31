@@ -1077,15 +1077,15 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Next acceptance gate:** Parse a versioned GBNF subset, integrate the model tokenizer and generation loop, and pass differential fixtures against an independent grammar implementation.
 - **Audit:** AER-108.
 
-### AES-ECO-008 — Speculative-decoding-shaped local arithmetic and pointer bounds
+### AES-ECO-008 — Speculative token probability-ratio acceptance primitive
 
 - **Status:** `verified`
 - **Owner:** core optional generation domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `SpeculativeEngine` validates pointer/count bounds, repeats an argmax proposal over caller-supplied logits, and applies a deterministic masked-logit acceptance rule.
-- **Executable evidence:** `E-MASTER` case `multi_engine.speculative_acceptance` in `test_multi_engine.mojo`.
-- **Evidence boundary:** No draft model, probability-correct acceptance distribution, target-model verification loop, KV integration, or speed evidence exists.
-- **Next acceptance gate:** Integrate real draft/target models and caches, prove output-distribution equivalence, and measure speed on reproducible workloads.
+- **Implementation evidence:** `SpeculativeEngine.evaluate_acceptance()` validates aligned caller-observed token/probability/draw sequences and computes the standard sequential `min(1, p_target/p_draft)` acceptance prefix. It reports accepted tokens, the first rejected token and an arithmetic KV step marker. Invalid IDs, sizes, limits, probabilities, draws and starting steps are rejected. Legacy logits/pointer proposal and reconciliation APIs raise unsupported.
+- **Executable evidence:** `E-MASTER` cases `speculative.proposal_verification`, `speculative.rejection_rollback`, and `multi_engine.speculative_acceptance` cover ratio boundaries, ordered prefix/rejection results, KV marker arithmetic, invalid probabilities/lengths and legacy refusal.
+- **Evidence boundary:** No draft-model loop, batched target verification, residual correction sampling, KV mutation/rollback, distribution-equivalence proof or speed evidence exists. The result's KV field is arithmetic metadata only.
+- **Next acceptance gate:** Integrate real draft/target model sessions and KV transactions, implement residual-distribution sampling, prove target-distribution equivalence, then measure speed on reproducible workloads.
 - **Audit:** AER-109, AER-110.
 
 ## 16. Resilience and Concurrency

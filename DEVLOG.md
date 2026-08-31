@@ -1,3 +1,15 @@
+## 2026-08-31 — Honest speculative acceptance arithmetic
+
+Removed the repeated single-logit argmax proposal, fixed `0.9` draft
+probability, masked-logit acceptance shortcut and silent fallback to ordinary
+model generation. `evaluate_acceptance()` now validates caller-observed token
+probabilities and explicit uniform draws, then computes the sequential
+`min(1, p_target/p_draft)` accepted prefix and rejection marker.
+
+This is an arithmetic primitive. Draft/target model loops, residual correction
+sampling, KV mutation, distribution parity and speedup remain unavailable. All
+legacy approximation and engine-generation entry points now raise unsupported.
+
 ## 2026-08-31 — Token-text grammar masks replace token-ID guessing
 
 Removed the odd/even and modulo token-ID masks, which could not represent a

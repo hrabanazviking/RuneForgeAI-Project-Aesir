@@ -497,19 +497,25 @@ struct GBNFGrammar(Copyable):
 ```
 
 
-### `SpeculativeEngine` (`core/speculative.mojo`) (Slice 11)
-Local proposal/acceptance arithmetic over caller-supplied logits. It runs no
-draft model and performs no parallel or probability-correct verification.
+### `SpeculativeEngine` (`core/speculative.mojo`) (acceptance primitive)
+
+`evaluate_acceptance()` performs validated sequential probability-ratio
+acceptance over caller-observed proposed-token probabilities, target-token
+probabilities and explicit uniform draws. It returns prefix and arithmetic KV
+marker metadata only. Draft decoding, target batching, residual correction
+sampling, KV mutation and end-to-end speculative generation remain unsupported;
+legacy pointer/logit methods raise.
 
 ```mojo
-struct SpeculativeEngine(Copyable, ImplicitlyCopyable):
+struct SpeculativeEngine(Copyable):
     var num_draft_tokens: Int
-    var acceptance_rate: Scalar[f16]
 
-    def __init__(out self, num_draft_tokens: Int = 4): ...
-    def copy(self) -> Self: ...
-    def verify_tokens(self, draft_tokens: Pointer[Int, MutUntrackedOrigin], target_logits: Pointer[Scalar[f16], MutUntrackedOrigin], count: Int) -> Int: ...
+    def evaluate_acceptance(self, proposal: DraftProposal, target_token_probs: List[Float64], uniform_draws: List[Float64], starting_kv_step: Int = 0) raises -> SpeculativeVerificationResult: ...
+    def propose_draft_tokens(...) raises -> DraftProposal: ...
+    def verify_and_reconcile(...) raises -> SpeculativeVerificationResult: ...
+    def verify_tokens(...) raises -> Int: ...
 ```
+
 
 ### `ErrorGuard` (`core/error_guard.mojo`) (Slice 12)
 Defensive pointer alignment, bounds checking & Float16 logit sanitization.

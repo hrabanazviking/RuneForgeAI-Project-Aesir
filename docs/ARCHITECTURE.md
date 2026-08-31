@@ -446,7 +446,7 @@ graph TD
     ONNXCLI -.->|execution unavailable| ONNXLoader[ONNXModelSeer<br/>bounded metadata only]
     
     OllamaAPI & OpenAI & LlamaAPI -->|Constrained Logit Masking| GBNF[GBNFGrammar.apply_token_grammar_mask<br/>boolean/number token text]
-    OllamaAPI & OpenAI & LlamaAPI -->|Speculative Draft Verification| Spec[SpeculativeEngine.verify_tokens<br/>core/speculative.mojo]
+    OllamaAPI & OpenAI & LlamaAPI -->|Speculative Draft Verification| Spec[SpeculativeEngine.evaluate_acceptance<br/>arithmetic primitive only]
     
     GBNF & Spec -.->|Zero-Allocation Memory| MW[MimirWell / RuneTensor[f16]]
 ```
@@ -458,7 +458,7 @@ graph TD
 | `OpenAIGate` | `server/openai.mojo` | Server — Transport & Protocol Domain | ✅ **Correct** — OpenAI v1 JSON/SSE payload formatting belongs in transport |
 | `BifrostGate.dispatch_http_route()` | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct** — REST URI routing and socket dispatch belong in server transport |
 | `GBNFGrammar` | `core/grammar.mojo` | Core — Grammar & Constrained Logits | ✅ **Correct** — decoded-token boolean/number automata and bounded logit masking belong in core; general GBNF and generation integration remain outside the implemented surface (`AES-ECO-007`) |
-| `SpeculativeEngine` | `core/speculative.mojo` | Core — Speculative Acceleration | ✅ **Correct** — `DraftProposal`, `SpeculativeVerificationResult`, `propose_draft_tokens`, `verify_and_reconcile`, draft token verification, and KV cache rollback step tracking belong in core (`AES-ECO-008`) |
+| `SpeculativeEngine` | `core/speculative.mojo` | Core — Speculative Acceleration | ✅ **Correct** — validated probability-ratio acceptance arithmetic belongs in core; draft/target execution, residual sampling and KV ownership remain unimplemented (`AES-ECO-008`) |
 | `ONNXModelSeer` | `loader/onnx.mojo` | Loader — File Format & Graph Seer | ✅ **Correct** — parsing ONNX protocol buffer models belongs in loader |
 | Multi-Engine CLI Dispatchers | `cli/multi_engine.mojo` | CLI — Command Suite Domain | ✅ **Correct** — terminal subcommand routers belong in CLI domain |
 | `test_multi_engine.mojo` | `tests/test_multi_engine.mojo` | Testing Domain | ✅ **Correct** — multi-engine unit tests belong in test suite |

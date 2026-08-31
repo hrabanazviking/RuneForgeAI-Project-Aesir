@@ -184,7 +184,7 @@ sequenceDiagram
     - `GBNFGrammar.apply_token_grammar_mask()` checks actual decoded candidate text for the bounded boolean/number subset before masking logits; the token-ID-only API raises unsupported.
 
 5g. **Speculative Draft Verification Loop (Slice 11):**
-    - `SpeculativeEngine.verify_tokens()` runs parallel rejection sampling across draft tokens.
+    - `SpeculativeEngine.evaluate_acceptance()` computes a validated sequential probability-ratio acceptance prefix from caller-observed probabilities and draws; draft/target execution, residual sampling and KV mutation are unavailable.
 
 5j. **ErrorGuard Pointer Alignment, Bounds & Logit Sanitization Gate (Slice 12):**
     - Prior to vector operations, `ErrorGuard.validate_pointer(ptr)` verifies non-null pointer alignment.

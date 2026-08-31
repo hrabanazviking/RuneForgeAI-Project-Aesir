@@ -533,10 +533,14 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Speculative decoding
 
-- [x] **[verified, AES-ECO-008] Implement draft-model proposals, probability-
-  correct acceptance, rollback, and target/draft KV-cache coordination.**
-- [x] Prove identical target-distribution behavior and measured speed benefit;
-  otherwise retain normal decoding (`AES-ECO-008`).
+- [x] **[verified, AES-ECO-008] Implement and validate the isolated sequential
+  `min(1, p_target/p_draft)` token acceptance-prefix arithmetic.**
+- [x] Remove fabricated repeated-argmax proposals, logits-as-probabilities and
+  silent normal-generation fallback; incomplete integration paths fail closed.
+- [ ] Implement real per-step draft proposals, batched target probabilities,
+  residual correction sampling and transactional target/draft KV coordination.
+- [ ] Prove target-distribution equivalence and a measured speed benefit before
+  enabling speculative generation.
 
 ### Resilience, eventing, and concurrency
 

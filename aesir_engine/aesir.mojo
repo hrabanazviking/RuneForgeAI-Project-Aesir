@@ -11,7 +11,6 @@ from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster, NodeIdentity, RemoteInferenceRequest
-from core.speculative import SpeculativeEngine, DraftProposal, SpeculativeVerificationResult
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
@@ -395,15 +394,12 @@ struct AesirEngine:
         mut self, mut draft_engine: AesirEngine, prompt: String, max_new_tokens: Int = 32
     ) raises -> GenerationResult:
         """
-        Executes speculative decoding generation using a draft model proposal & target model rejection sampling.
+        Reserved speculative-generation entry point.
         """
-        var spec = SpeculativeEngine(num_draft_tokens=4)
-        var draft_res = draft_engine.generate_tokens(prompt, 4)
-        var prop = DraftProposal()
-        for i in range(len(draft_res.token_ids)):
-            prop.draft_tokens.append(draft_res.token_ids[i])
-            prop.draft_probs.append(0.9)
-        return self.generate_tokens(prompt, max_new_tokens)
+        _ = draft_engine
+        _ = prompt
+        _ = max_new_tokens
+        raise Error("speculative model generation and KV reconciliation are not implemented")
 
     def generate_tokens_with_grammar(
         mut self, prompt: String, schema_type: String = "json", max_new_tokens: Int = 32

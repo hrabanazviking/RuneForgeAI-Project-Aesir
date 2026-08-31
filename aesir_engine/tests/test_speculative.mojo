@@ -1,9 +1,6 @@
 # tests/test_speculative.mojo
-# Verification of SpeculativeEngine draft proposal & rejection sampling verification
+# Verification of validated speculative acceptance arithmetic.
 
-from std.memory import Pointer
-from std.memory.alloc import alloc, Layout
-from core.mimir_well import Scalar, f16
 from core.speculative import (
     SpeculativeEngine,
     DraftProposal,
@@ -11,57 +8,49 @@ from core.speculative import (
 )
 
 def test_speculative_proposal_and_verification() raises:
-    print("--- Testing Speculative Engine Proposal & Rejection Verification ---")
+    print("--- Testing speculative probability-ratio acceptance ---")
     var engine = SpeculativeEngine(4)
-    var vocab_size = 32
-
-    # Allocate target logits
-    var logits_ptr = alloc(Layout[Scalar[f16]](count=vocab_size)).unsafe_leak()
-    for i in range(vocab_size):
-        logits_ptr.unsafe_store(i, Scalar[f16](1.5))
-
-    var proposal = engine.propose_draft_tokens(logits_ptr, vocab_size, 4)
-    if len(proposal.draft_tokens) != 4:
-        raise Error("SpeculativeEngine propose_draft_tokens failed to generate 4 draft tokens")
-
-    var result = engine.verify_and_reconcile(proposal, logits_ptr, vocab_size)
-    if result.accepted_count != 4:
-        raise Error("SpeculativeEngine verify_and_reconcile failed to accept all valid tokens")
-
-    if result.target_kv_step != 4:
-        raise Error("SpeculativeEngine verify_and_reconcile target_kv_step mismatch")
-
-    logits_ptr.unsafe_free()
-    print("Speculative proposal & rejection verification: PASS")
+    var proposal = DraftProposal()
+    proposal.draft_tokens = [10, 11, 12]
+    proposal.draft_probs = [0.5, 0.4, 0.2]
+    var target: List[Float64] = [0.25, 0.4, 0.1]
+    var draws: List[Float64] = [0.49, 0.99, 0.6]
+    var result = engine.evaluate_acceptance(proposal, target, draws, 7)
+    if result.accepted_count != 2 or len(result.accepted_tokens) != 2:
+        raise Error("speculative acceptance ratio produced the wrong prefix")
+    if result.accepted_tokens[0] != 10 or result.accepted_tokens[1] != 11:
+        raise Error("speculative acceptance result changed token order")
+    if result.rollback_token_id != 12 or result.target_kv_step != 9:
+        raise Error("speculative rejection/KV marker mismatch")
+    print("speculative probability-ratio acceptance: PASS")
 
 
 def test_speculative_rollback_on_rejection() raises:
-    print("--- Testing Speculative Engine Rejection & Rollback ---")
+    print("--- Testing speculative validation and unsupported integrations ---")
     var engine = SpeculativeEngine(4)
-    var vocab_size = 32
-
-    var logits_ptr = alloc(Layout[Scalar[f16]](count=vocab_size)).unsafe_leak()
-    for i in range(vocab_size):
-        logits_ptr.unsafe_store(i, Scalar[f16](1.5))
-
-    # Mask token 2 to simulate rejection
-    logits_ptr.unsafe_store(2, Scalar[f16](-65504.0))
-
     var proposal = DraftProposal()
-    proposal.draft_tokens.append(0)
-    proposal.draft_tokens.append(1)
-    proposal.draft_tokens.append(2) # Masked token
-    proposal.draft_tokens.append(3)
+    proposal.draft_tokens = [1]
+    proposal.draft_probs = [0.0]
+    var target: List[Float64] = [0.5]
+    var draws: List[Float64] = [0.1]
+    var rejected = False
+    try:
+        _ = engine.evaluate_acceptance(proposal, target, draws)
+    except error:
+        rejected = "draft token probabilities" in String(error)
+    if not rejected:
+        raise Error("speculative acceptance allowed a zero draft probability")
 
-    var result = engine.verify_and_reconcile(proposal, logits_ptr, vocab_size)
-    if result.accepted_count != 2:
-        raise Error("SpeculativeEngine verify_and_reconcile should accept exactly 2 tokens before rejection")
-
-    if result.rollback_token_id != 2:
-        raise Error("SpeculativeEngine verify_and_reconcile failed to record rejected rollback token ID")
-
-    logits_ptr.unsafe_free()
-    print("Speculative rejection & rollback: PASS")
+    proposal.draft_probs = [0.5]
+    var missing_draws = List[Float64]()
+    rejected = False
+    try:
+        _ = engine.evaluate_acceptance(proposal, target, missing_draws)
+    except error:
+        rejected = "lengths must match" in String(error)
+    if not rejected:
+        raise Error("speculative acceptance allowed mismatched observations")
+    print("speculative validation and unsupported integrations: PASS")
 
 
 def main() raises:
