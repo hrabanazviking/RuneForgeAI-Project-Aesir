@@ -119,6 +119,15 @@ struct ONNXModelSeer:
 ```
 
 
+### `EXL2ModelSeer` (descriptor only; parser/runtime unavailable)
+
+Construction reports zero model metadata. `parse_exl2_header_bytes()`,
+`map_to_well()` and the execution contract raise unsupported. `add_sub_block()`
+only validates caller-declared 2..8 bpw metadata and computes a weighted average;
+it is not evidence that a model was parsed. Real EXL2 requires config and
+safetensors handling plus custom kernels, none of which is implemented.
+
+
 ### `RuneWeaver` (Slice 4, real-GGUF vertical slice)
 Pure Mojo, model-driven Llama SentencePiece tokenizer. Vocabulary, scores,
 token types, and special IDs are loaded together. Encoding applies the visible

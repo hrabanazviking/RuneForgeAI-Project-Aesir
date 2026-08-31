@@ -1,8 +1,8 @@
 # loader/exl2.mojo
-# EXL2ModelSeer: Variable-bit sub-block quantization parser & CUDA contract validator
+# EXL2 metadata descriptors and explicit unavailable format/runtime boundary.
 
+from std.math import isinf, isnan
 from std.memory import Pointer
-from core.cuda_gate import CUDAGate
 from core.mimir_well import MimirWell, f16
 
 struct EXL2SubBlockDescriptor(Copyable):
@@ -31,16 +31,16 @@ def validate_exl2_format_contract(check_cuda_evidence: Bool = True) raises:
     EXL2 requires physical NVIDIA CUDA hardware & custom EXL2 CUDA kernels.
     Raises explicit Error if physical CUDA hardware is absent or kernel uncompiled.
     """
-    if check_cuda_evidence:
-        raise Error("EXL2 execution contract unverified: requires physical NVIDIA CUDA hardware evidence and custom EXL2 CUDA dequantization kernel")
+    _ = check_cuda_evidence
+    raise Error("EXL2 execution is not implemented: model parsing and custom CUDA kernels are unavailable")
 
 
 struct EXL2ModelSeer:
     """
     ᛖᚲᛋᛚᛟ·ᛋᛖᛖᚱ — The Vision of the EXL2 Variable-Bit Matrix (EXL2ModelSeer)
     ════════════════════════════════════════════════════════════════════
-    Parses EXL2 sub-block quantization headers, extracts average bitrates,
-    and enforces physical CUDA hardware execution contracts.
+    Holds caller-declared EXL2-like sub-block metadata. It does not parse an
+    ExLlamaV2 model directory or safetensors files and cannot execute them.
     """
     var model_path: String
     var avg_bitrate: Float32
@@ -49,38 +49,38 @@ struct EXL2ModelSeer:
 
     def __init__(out self, model_path: String):
         self.model_path = model_path
-        self.avg_bitrate = 4.25 # Typical EXL2 4.25 bpw target
+        self.avg_bitrate = 0.0
         self.total_weights = 0
         self.sub_blocks = List[EXL2SubBlockDescriptor]()
 
     def parse_exl2_header_bytes(mut self, bytes: Pointer[Scalar[DType.uint8], MutUntrackedOrigin], size: Int) raises -> Bool:
         """
-        Parses EXL2 model metadata header and populates sub-block bitrates.
+        Reserved byte-parser surface. EXL2 is not a standalone magic-header
+        format, so accepting an invented `EXL2` prefix would be misleading.
         """
-        if size < 8:
-            raise Error("EXL2 binary header span too small (< 8 bytes)")
+        _ = bytes
+        _ = size
+        raise Error("EXL2 byte parsing is not implemented; EXL2 models require validated config and safetensors artifacts")
 
-        # Verify 'EXL2' magic header bytes
-        var b0 = bytes.unsafe_load(0)
-        var b1 = bytes.unsafe_load(1)
-        var b2 = bytes.unsafe_load(2)
-        var b3 = bytes.unsafe_load(3)
-        if b0 != 0x45 or b1 != 0x58 or b2 != 0x4C or b3 != 0x32:
-            raise Error("Invalid EXL2 magic header: expected 'EXL2'")
-
-        validate_exl2_format_contract(False)
-        self.avg_bitrate = 4.25
-        return True
-
-    def add_sub_block(mut self, bit_rate: Float32, num_weights: Int = 256):
+    def add_sub_block(mut self, bit_rate: Float32, num_weights: Int = 256) raises:
         """
         Registers an EXL2 variable-bit sub-block (e.g. 3.5 bpw, 4.0 bpw, 6.0 bpw).
         """
+        if isnan(bit_rate) or isinf(bit_rate) or bit_rate < 2.0 or bit_rate > 8.0:
+            raise Error("EXL2 metadata bit rate must be finite and between 2 and 8")
+        if num_weights <= 0:
+            raise Error("EXL2 metadata weight count must be positive")
+        if self.total_weights > Int64(0x7FFFFFFFFFFFFFFF) - Int64(num_weights):
+            raise Error("EXL2 metadata total weight count overflow")
         var idx = len(self.sub_blocks)
         self.sub_blocks.append(EXL2SubBlockDescriptor(idx, bit_rate, num_weights))
         self.total_weights += Int64(num_weights)
+        var weighted_sum = Float64(0.0)
+        for block in self.sub_blocks:
+            weighted_sum += Float64(block.bit_rate) * Float64(block.num_weights)
+        self.avg_bitrate = Float32(weighted_sum / Float64(self.total_weights))
 
-    def map_to_well(self, mut well: MimirWell) -> Bool:
-        """Maps EXL2 tensor weights into contiguous MimirWell RAM/VRAM slabs."""
+    def map_to_well(mut self, mut well: MimirWell) raises -> Bool:
+        """Refuses mapping until real safetensors parsing and kernels exist."""
         _ = well
-        return len(self.sub_blocks) > 0
+        raise Error("EXL2 tensor mapping and execution are not implemented")

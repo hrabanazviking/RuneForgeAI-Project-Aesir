@@ -132,9 +132,9 @@ graph TD
 - **Role:** Safe file/in-memory `ModelProto` metadata decoding and explicit separation from unavailable ONNX execution (`AES-ECO-004`).
 - **Implementation:** Opens final paths with `O_NOFOLLOW`, read-only maps files, bounds every protobuf field, validates metadata UTF-8, extracts actual IR/producer/default opset values and graph node descriptors, and rejects malformed input or operator names outside its recognized metadata subset. It does not decode initializers or execute graphs; `map_to_well()` fails explicitly.
 
-### 4.4. `loader/exl2.mojo` — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator
-- **Role:** EXL2 variable-bit sub-block quantization parser, bitrate metric extraction, and physical CUDA hardware execution contract validator (`AES-ECO-005`).
-- **Implementation:** Provides `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers (2.0 to 8.0 bpw), extract average bitrate metrics, and enforce physical NVIDIA CUDA hardware and custom EXL2 CUDA kernel execution contracts.
+### 4.4. `loader/exl2.mojo` — EXL2 descriptor and unavailable runtime boundary
+- **Role:** Preserve validated caller-owned bitrate descriptors while refusing nonexistent EXL2 parsing or execution (`AES-ECO-005`).
+- **Implementation:** `EXL2ModelSeer` starts with zero metadata, rejects the formerly invented `EXL2` magic-header path, validates explicit 2..8 bpw descriptor inputs and calculates their weighted average. Config/safetensors parsing, tensor mapping, conversion and CUDA execution all remain unsupported.
 
 ### 5. `core/mimir_well.mojo` — `MimirWell`, `RuneTensor`, `KVCache`, `PagedKVCache`, `MimirStore`, `DeviceTopology`, `ShardTensor`, `NPUBackendType`, `NPUBuffer`, `GPURealmType` & `GPUBuffer`
 - **Role:** Central contiguous memory manager, zero-allocation Key-Value cache pool, vector store, multi-device realm sharding descriptors, NPU buffer allocation, and GPU realm buffer management.

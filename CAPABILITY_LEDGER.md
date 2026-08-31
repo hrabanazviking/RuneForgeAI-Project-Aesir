@@ -1049,9 +1049,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `missing`
 - **Owner:** CLI and optional ecosystem domains
 - **Claim sources:** completed multi-engine and compressed-format TODOs
-- **Implementation evidence:** dispatcher raises an explicit unsupported error and emits no conversion, cache, or completion claims.
-- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`.
-- **Evidence boundary:** No EXL2 parser, conversion, CUDA kernels, cache, model, or ExLlama oracle.
+- **Implementation evidence:** CLI dispatch, byte parsing, tensor mapping and execution all raise explicit unsupported errors. The loader starts with zero measured metadata; its only working operation validates caller-declared 2..8 bpw descriptor values and computes their weighted average without presenting them as parsed model state. The old invented `EXL2` magic and fixed 4.25 bpw value are gone.
+- **Executable evidence:** `E-MASTER` cases `exl2.cuda_contract`, `exl2.model_seer`, and `multi_engine.cli_unsupported` cover bypass refusal, zero initial state, invented-header rejection, descriptor validation/average and mapping refusal.
+- **Evidence boundary:** No EXL2 config/safetensors parser, conversion, CUDA kernels, cache, model, or ExLlama oracle.
 - **Next acceptance gate:** Either remove/relabel the unsupported promise with approval or implement a separately scoped real EXL2 fixture and parity gate.
 - **Audit:** AER-054, AER-081, AER-003.
 

@@ -39,4 +39,4 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool:
     if len(args) == 0:
         raise Error("CLI dispatcher arguments must not be empty")
     _ = args
-    raise Error("ONNX graph parsing and execution are not implemented")
+    raise Error("ONNX CLI graph execution is not implemented")

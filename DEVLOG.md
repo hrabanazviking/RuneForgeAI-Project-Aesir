@@ -1,3 +1,14 @@
+## 2026-08-31 — Removed invented EXL2 format success
+
+Removed the fictional standalone `EXL2` magic-header parser, fixed 4.25 bpw
+metadata and `map_to_well()` success after caller-added descriptors. EXL2 model
+artifacts require real configuration and safetensors handling; those paths and
+custom CUDA kernels now raise unsupported with no bypass flag.
+
+The retained descriptor builder validates finite 2..8 bpw caller inputs,
+positive weight counts, total overflow and weighted-average arithmetic. Tests
+prove zero initial metadata, invented-header rejection and mapping refusal.
+
 ## 2026-08-31 — Honest speculative acceptance arithmetic
 
 Removed the repeated single-logit argmax proposal, fixed `0.9` draft
