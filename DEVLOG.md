@@ -1,3 +1,16 @@
+## 2026-08-31 — Real bounded ONNX metadata decoding
+
+Replaced the two-byte ONNX surrogate that invented IR 7, opset 17 and producer
+`AesirONNX`. The native loader now safely opens and read-only maps model files,
+walks bounded protobuf wire data, validates UTF-8, and extracts actual
+`ModelProto` IR/producer/default-opset and `GraphProto` node metadata. Parsing is
+transactional and rejects truncation, overflow, invalid wire types, duplicate
+owned fields, sentinel pointers and unrecognized operator metadata.
+
+TensorProto initializer decoding, tensor mapping and graph execution remain
+unavailable and now raise an explicit error. In-memory and file-backed fixtures
+exercise real protobuf fields without claiming ONNX Runtime conformance.
+
 ## 2026-08-31 — Container-aware native CUDA host admission
 
 ## 2026-08-31 — Native key setup and C-path hardening

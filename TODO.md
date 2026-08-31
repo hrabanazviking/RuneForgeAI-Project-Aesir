@@ -148,7 +148,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **[partial, AES-ECO-003] Correct Hugging Face download output:** Return
   unsupported without “downloading”/registration success until bytes are
   transferred and stored.
-- [x] **[missing, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
+- [x] **[partial, AES-ECO-004] Correct ONNX output:** Remove fixed IR version,
   node count, and validated/mapped status.
 - [x] **[missing, AES-ECO-005] [missing, AES-ECO-006] Correct ExLlama/llama CLI output:**
   Remove fixed completion, server health, bitrate, cache, benchmark, and
@@ -502,11 +502,13 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### ONNX
 
-- [ ] **[missing, AES-ECO-004] Parse a pinned real ONNX protobuf:** Header,
-  opsets, tensors, nodes, attributes, graph inputs/outputs, and bounds.
-- [x] Define the supported operator/type/shape subset and reject everything else (`AES-ECO-004`).
-- [ ] Build an execution planner and compare outputs with ONNX Runtime on
-  conformance fixtures.
+- [x] **[partial, AES-ECO-004] Decode bounded ONNX protobuf metadata:** Real
+  file-backed/in-memory IR, producer, default opset and node fields with strict
+  wire bounds, UTF-8 validation, rollback and recognized-operator rejection.
+- [ ] Parse a pinned ONNX conformance model's TensorProto initializers,
+  attributes, graph inputs/outputs, types and shapes.
+- [ ] Define and implement an executable operator/type/shape subset; then build
+  a planner and compare outputs with ONNX Runtime conformance fixtures.
 
 ### ExLlama/EXL2
 

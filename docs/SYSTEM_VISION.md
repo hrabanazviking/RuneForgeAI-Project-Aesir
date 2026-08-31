@@ -197,7 +197,7 @@ evidence.
    - **llama.cpp-shaped route boundary (`dispatch_http_route`):** Recognizes the reserved paths and returns HTTP 501; no parity is claimed.
    - **The Rune of Structural Constraints (`GBNFGrammar`):** Zero-allocation logit masking for EBNF, JSON Schema, and regex formal grammars.
    - **The Vision of Future Runes (`SpeculativeEngine`):** Speculative draft token sampling and parallel target verification loops.
-   - **The Vision of the ONNX Graph (`ONNXModelSeer`):** Protocol buffer graph parser mapping ONNX tensor initializers to `MimirWell`.
+   - **ONNX metadata (`ONNXModelSeer`):** Bounded `ModelProto` metadata decoding is implemented; initializer mapping and graph execution remain unavailable.
    - **Multi-Engine CLI Terminal Dispatchers (`dispatch_llama_cli`, `dispatch_exl2_cli`, `dispatch_onnx_cli`):** Terminal CLI parity for llama.cpp, ExLlamaV3, and ONNX tools.
 
 15. **Sovereign Resilience, Self-Healing, Multi-Threading & Crash Recovery Matrix:**

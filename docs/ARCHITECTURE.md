@@ -128,9 +128,9 @@ graph TD
 - **Role:** Upstream GGML block size calculation, weights-per-block metrics, and input byte span validation (`AES-QNT-002`).
 - **Implementation:** Provides `get_block_size_bytes()`, `get_weights_per_block()`, and `validate_quantized_byte_span()` to enforce exact byte span alignment ($bytes == num\_blocks \times 144$) and reject unaligned or non-divisible byte buffer lengths before execution.
 
-### 4.3. `loader/onnx.mojo` — ONNX Protobuf Binary Header & Node Dispatch Validator
-- **Role:** ONNX model header parsing, IR/opset version extraction, and operator dispatcher validation (`AES-ECO-004`).
-- **Implementation:** Provides `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse protobuf binary headers, validate graph nodes against supported operator subset (`MatMul`, `Add`, `Mul`, `Relu`, `Softmax`, etc.), and reject unsupported operator types with explicit error exceptions.
+### 4.3. `loader/onnx.mojo` — bounded ONNX protobuf metadata parser
+- **Role:** Safe file/in-memory `ModelProto` metadata decoding and explicit separation from unavailable ONNX execution (`AES-ECO-004`).
+- **Implementation:** Opens final paths with `O_NOFOLLOW`, read-only maps files, bounds every protobuf field, validates metadata UTF-8, extracts actual IR/producer/default opset values and graph node descriptors, and rejects malformed input or operator names outside its recognized metadata subset. It does not decode initializers or execute graphs; `map_to_well()` fails explicitly.
 
 ### 4.4. `loader/exl2.mojo` — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator
 - **Role:** EXL2 variable-bit sub-block quantization parser, bitrate metric extraction, and physical CUDA hardware execution contract validator (`AES-ECO-005`).
@@ -443,7 +443,7 @@ graph TD
     CLIRouter -->|exl2-convert / exl2-infer| EXL2CLI[dispatch_exl2_cli<br/>cli/multi_engine.mojo]
     CLIRouter -->|onnx-inspect / onnx-convert| ONNXCLI[dispatch_onnx_cli<br/>cli/multi_engine.mojo]
 
-    ONNXCLI -->|parse_onnx_header & map_to_well| ONNXLoader[ONNXModelSeer<br/>loader/onnx.mojo]
+    ONNXCLI -.->|execution unavailable| ONNXLoader[ONNXModelSeer<br/>bounded metadata only]
     
     OllamaAPI & OpenAI & LlamaAPI -->|Constrained Logit Masking| GBNF[GBNFGrammar.apply_grammar_mask<br/>core/grammar.mojo]
     OllamaAPI & OpenAI & LlamaAPI -->|Speculative Draft Verification| Spec[SpeculativeEngine.verify_tokens<br/>core/speculative.mojo]

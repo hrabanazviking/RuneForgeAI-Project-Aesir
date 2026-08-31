@@ -133,16 +133,21 @@ def test_speculative_engine() raises:
 
 
 def test_onnx_model_seer() raises:
-    print("--- Testing honest ONNX unavailable state ---")
+    print("--- Testing honest ONNX execution boundary ---")
     var seer = ONNXModelSeer("model.onnx")
     if seer.ir_version != 0 or seer.num_nodes != 0 or seer.producer_name != "":
-        raise Error("ONNX scaffold invented parsed model metadata")
-    if seer.parse_onnx_header():
-        raise Error("ONNX scaffold reported header parsing success")
+        raise Error("ONNX parser invented model metadata before parsing")
     var well = MimirWell(1024)
-    if seer.map_to_well(well):
-        raise Error("ONNX scaffold reported tensor mapping success")
-    print("honest ONNX unavailable state: PASS")
+    var mapping_rejected = False
+    try:
+        _ = seer.map_to_well(well)
+    except error:
+        mapping_rejected = True
+        if "not implemented" not in String(error):
+            raise Error("ONNX mapping rejection omitted stable boundary text")
+    if not mapping_rejected:
+        raise Error("ONNX parser reported tensor mapping success")
+    print("honest ONNX execution boundary: PASS")
 
 
 def test_multi_engine_cli() raises:

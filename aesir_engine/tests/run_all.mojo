@@ -83,7 +83,7 @@ from tests.test_cuda_realm import (
     test_cuda_realm_unsupported_gateways,
 )
 from tests.test_onnx import (
-    test_onnx_supported_operators,
+    test_onnx_recognized_operators,
     test_onnx_seer_header_validation,
 )
 from tests.test_exl2 import (
@@ -690,7 +690,7 @@ def main() raises:
     # --- ONNX Protobuf & Operator Dispatcher Subset ---
     print("  [DOMAIN] ONNX Protobuf & Operator Dispatcher Subset")
     print("  -----------------------------------------")
-    run_case(ledger, "onnx.supported_operators", test_onnx_supported_operators)
+    run_case(ledger, "onnx.recognized_operators", test_onnx_recognized_operators)
     run_case(ledger, "onnx.model_seer", test_onnx_seer_header_validation)
     print("")
 

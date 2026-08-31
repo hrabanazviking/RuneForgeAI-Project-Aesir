@@ -66,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 18 |
+| `partial` | 19 |
 | `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 19 |
+| `missing` | 18 |
 | **Total** | **108** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -1035,13 +1035,13 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ### AES-ECO-004 — ONNX model parsing and execution
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** loader and optional ecosystem domains
 - **Claim sources:** completed multi-engine TODO; loader interface
-- **Implementation evidence:** construction reports zero/empty metadata, parsing/mapping return false, and the CLI entry point raises unsupported.
-- **Executable evidence:** `E-MASTER` cases `multi_engine.onnx_unavailable` and `multi_engine.cli_unsupported`.
-- **Evidence boundary:** No protobuf parse, tensors, operators, graph validation, planner, runtime, or conformance model.
-- **Next acceptance gate:** Parse a pinned ONNX fixture, validate graph/tensors/operators, execute a supported graph, and compare outputs with ONNX Runtime.
+- **Implementation evidence:** Native Mojo safely opens and read-only maps an ONNX file, decodes bounded protobuf wire data, extracts real IR/producer/default-domain opset metadata, walks `GraphProto.node` entries, counts inputs/outputs, validates UTF-8 and recognizes a declared operator metadata subset. Parsing is transactional; malformed/truncated/overflowing data and unrecognized operators are rejected. Initializer mapping and execution raise unsupported.
+- **Executable evidence:** `E-MASTER` cases `onnx.model_seer`, `onnx.recognized_operators`, `multi_engine.onnx_unavailable`, and `multi_engine.cli_unsupported`; the parser case covers in-memory and file-backed valid wire fixtures, truncation, sentinel pointers, state rollback and unknown operators.
+- **Evidence boundary:** The fixture proves protobuf metadata decoding only. TensorProto initializers, attributes, graph type/shape validation, planning, kernels, ONNX Runtime comparison and CLI execution are not implemented.
+- **Next acceptance gate:** Parse a pinned ONNX conformance model including tensors/types/shapes/attributes, execute a deliberately bounded operator subset, and compare outputs with ONNX Runtime.
 - **Audit:** AER-081, AER-003.
 
 ### AES-ECO-005 — ExLlama/EXL2 conversion and inference

@@ -63,8 +63,8 @@ remain claims only where the ledger records executable proof.
 ### ⚡ Completed Milestone: Stage 82.1 — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator (`AES-ECO-005`)
 * **Stage 82.1 EXL2 Ecosystem Milestone ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `verified`)**: Created `loader/exl2.mojo` providing `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers, extract sub-block bitrates, and enforce physical NVIDIA CUDA hardware & custom EXL2 CUDA kernel execution contracts. Created `test_exl2.mojo` unit test suite. Verified 118 passing cases out of 119 total cases in `run_all.mojo`.
 
-### ⚡ Completed Milestone: Stage 81.1 — ONNX Protobuf Binary Header & Node Dispatch Validator (`AES-ECO-004`)
-* **Stage 81.1 ONNX Ecosystem Milestone ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/onnx.mojo` providing `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse ONNX protobuf headers, extract IR/opset versions, and validate graph node operator types against Aesir's supported subset. Created `test_onnx.mojo` unit test suite. Verified 116 passing cases out of 117 total cases in `run_all.mojo`.
+### Current capability — bounded ONNX protobuf metadata (`AES-ECO-004`)
+* **Current status ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `partial`)**: `loader/onnx.mojo` now decodes bounded, real protobuf metadata from memory or a safely mapped file: IR version, producer, default-domain opset and graph node descriptors. Malformed wire data and unrecognized operator metadata fail closed. Tensor initializers, planning, execution and ONNX Runtime parity remain unavailable; `map_to_well()` raises unsupported.
 
 ### ⚡ Completed Milestone: Stage 80.1 — Honest Backend-Specific Zero-Copy Memory & Mmap Validation Contract (`AES-ACC-009`)
 * **Stage 80.1 Zero-Copy Milestone ([`AES-ACC-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added `validate_zero_copy_contract()` to `GPUBuffer` and `NPUBuffer` in `core/mimir_well.mojo` to enforce OS DMA-BUF / mmap handle validation and reject unverified zero-copy claims with explicit error exceptions. Updated `test_gpu_realms.mojo` and `test_npu_edge.mojo` with zero-copy contract validation test suites. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
@@ -150,8 +150,8 @@ remain claims only where the ledger records executable proof.
 ### ⚡ Completed Milestone: Stage 82.1 — EXL2 Variable-Bit Sub-Block Parser & CUDA Contract Validator (`AES-ECO-005`)
 * **Stage 82.1 EXL2 Ecosystem Milestone ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `verified`)**: Created `loader/exl2.mojo` providing `EXL2SubBlockDescriptor`, `validate_exl2_format_contract()`, and `EXL2ModelSeer` to parse EXL2 variable-bit sub-block headers, extract sub-block bitrates, and enforce physical NVIDIA CUDA hardware & custom EXL2 CUDA kernel execution contracts. Created `test_exl2.mojo` unit test suite. Verified 118 passing cases out of 119 total cases in `run_all.mojo`.
 
-### ⚡ Completed Milestone: Stage 81.1 — ONNX Protobuf Binary Header & Node Dispatch Validator (`AES-ECO-004`)
-* **Stage 81.1 ONNX Ecosystem Milestone ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `verified`)**: Built `loader/onnx.mojo` providing `ONNXNodeDescriptor`, `is_supported_onnx_op()`, `validate_onnx_node_op()`, and `ONNXModelSeer` to parse ONNX protobuf headers, extract IR/opset versions, and validate graph node operator types against Aesir's supported subset. Created `test_onnx.mojo` unit test suite. Verified 116 passing cases out of 117 total cases in `run_all.mojo`.
+### Current capability — bounded ONNX protobuf metadata (`AES-ECO-004`)
+* **Current status ([`AES-ECO-004`](../CAPABILITY_LEDGER.md) `partial`)**: `loader/onnx.mojo` now decodes bounded, real protobuf metadata from memory or a safely mapped file: IR version, producer, default-domain opset and graph node descriptors. Malformed wire data and unrecognized operator metadata fail closed. Tensor initializers, planning, execution and ONNX Runtime parity remain unavailable; `map_to_well()` raises unsupported.
 
 ### ⚡ Completed Milestone: Stage 80.1 — Honest Backend-Specific Zero-Copy Memory & Mmap Validation Contract (`AES-ACC-009`)
 * **Stage 80.1 Zero-Copy Milestone ([`AES-ACC-009`](../CAPABILITY_LEDGER.md) `verified`)**: Added `validate_zero_copy_contract()` to `GPUBuffer` and `NPUBuffer` in `core/mimir_well.mojo` to enforce OS DMA-BUF / mmap handle validation and reject unverified zero-copy claims with explicit error exceptions. Updated `test_gpu_realms.mojo` and `test_npu_edge.mojo` with zero-copy contract validation test suites. Verified 114 passing cases out of 115 total cases in `run_all.mojo`.
@@ -375,7 +375,7 @@ remain claims only where the ledger records executable proof.
    - **llama.cpp-shaped route boundary (`dispatch_http_route`):** Recognizes the reserved paths and returns HTTP 501; no parity is claimed.
    - **The Rune of Structural Constraints (`GBNFGrammar`):** Zero-allocation logit masking for EBNF, JSON Schema, and regex formal grammars.
    - **The Vision of Future Runes (`SpeculativeEngine`):** Speculative draft token sampling and parallel target verification loops.
-   - **The Vision of the ONNX Graph (`ONNXModelSeer`):** Protocol buffer graph parser mapping ONNX tensor initializers to `MimirWell`.
+   - **ONNX metadata (`ONNXModelSeer`):** Bounded `ModelProto` metadata decoding is implemented; initializer mapping and graph execution remain unavailable.
    - **Multi-Engine CLI Terminal Dispatchers (`dispatch_llama_cli`, `dispatch_exl2_cli`, `dispatch_onnx_cli`):** Terminal CLI parity for llama.cpp, ExLlamaV3, and ONNX tools.
 
 15. **Sovereign Resilience, Self-Healing, Multi-Threading & Crash Recovery Matrix:**

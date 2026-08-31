@@ -94,21 +94,28 @@ struct GGUFSeer:
     def __deinit__(deinit self): ...
 ```
 
-### `ONNXModelSeer` (reserved surface)
-Unavailable ONNX descriptor. Construction reports zero/empty metadata;
-`parse_onnx_header()` and `map_to_well()` return false. No protobuf parsing,
-validation, tensor mapping, or execution is implemented.
+### `ONNXModelSeer` (metadata parser; execution unavailable)
+
+`parse_onnx_header()` safely opens and read-only maps `model_path` on Linux;
+`parse_onnx_header_bytes()` decodes bounded protobuf `ModelProto`, default-domain
+opset and graph node metadata transactionally. Strings are length-capped and
+UTF-8 checked, unknown wire fields are skipped safely, and malformed input is
+rejected. Recognized operator names describe the accepted metadata subset only.
+`map_to_well()` raises unsupported because TensorProto initializer mapping and
+ONNX execution are not implemented.
 
 ```mojo
 struct ONNXModelSeer:
     var model_path: String
     var ir_version: Int64
     var producer_name: String
+    var opset_version: Int64
     var num_nodes: Int
+    var nodes: List[ONNXNodeDescriptor]
 
-    def __init__(out self, model_path: String): ...
-    def parse_onnx_header(mut self) -> Bool: ...
-    def map_to_well(self, mut well: MimirWell) -> Bool: ...
+    def parse_onnx_header(mut self) raises -> Bool: ...
+    def parse_onnx_header_bytes(mut self, bytes: Pointer[Scalar[DType.uint8], MutUntrackedOrigin], size: Int) raises -> Bool: ...
+    def map_to_well(mut self, mut well: MimirWell) raises -> Bool: ...
 ```
 
 
