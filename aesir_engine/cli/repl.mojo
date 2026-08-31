@@ -2,7 +2,7 @@
 # Interactive Terminal REPL Engine for Project Aesir
 
 from aesir import AesirEngine, GenerationConfig
-from loader.chat_template import ChatMessage, RuneChatTemplate
+from loader.chat_template import ChatMessage
 from cli.modelfile import parse_float, parse_int
 from std.ffi import external_call
 
@@ -116,21 +116,13 @@ struct RuneREPL:
                     print("Unknown parameter: " + param)
             return String("[SET]")
 
-        # If line is not a slash command, append user input and run AesirEngine generation
-        self.history.append(ChatMessage("user", line))
-        try:
-            var engine = AesirEngine(self.model_name, enable_gpu_realm=True, knowledge_capacity=1)
-            var template_family = String("chatml")
-            if "gemma" in self.model_name.lower():
-                template_family = String("gemma")
-            var formatted_prompt = RuneChatTemplate(template_family).format_chat(self.history)
-            var result = engine.generate_tokens_config(formatted_prompt, self.config)
-            self.history.append(ChatMessage("assistant", result.text))
-            return result.text
-        except error:
-            var err_msg = String("Model '") + self.model_name + String("' note: ") + String(error)
-            self.history.append(ChatMessage("assistant", err_msg))
-            return err_msg
+        # The general REPL has no verified persistent model session. Do not
+        # turn a load/runtime error into an assistant message or mutate history.
+        raise Error(
+            "general model-backed REPL is unsupported; use 'aesir chat "
+            + self.model_name
+            + " --accel cuda' for a verified persistent CUDA session"
+        )
 
     def run_repl_stream(mut self, inputs: List[String]) raises -> List[String]:
         """Runs local slash-command inputs and model execution stream."""

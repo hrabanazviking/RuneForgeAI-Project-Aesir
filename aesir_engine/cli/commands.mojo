@@ -3,7 +3,7 @@
 
 from cli.manifest import ModelManifest, RuneModelStore
 from cli.storage import DurableModelStore
-from cli.repl import RuneREPL, run_single_shot
+from cli.repl import run_single_shot
 from cli.options import CLIOptions, parse_cli_options
 from cli.multi_engine import (
     dispatch_llama_cli,
@@ -628,9 +628,11 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             )
         var model_name = positionals[0]
         if len(positionals) < 2:
-            var repl = RuneREPL(model_name)
-            repl.run_repl()
-            return
+            raise Error(
+                "interactive run is unsupported; use 'aesir chat "
+                + model_name
+                + " --accel cuda'"
+            )
 
         var config = effective_config(options)
         validate_single_shot_config_support(config)

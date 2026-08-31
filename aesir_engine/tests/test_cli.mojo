@@ -393,9 +393,25 @@ def test_repl_session_and_slash_commands() raises:
     if outputs[5] != "[EXIT]":
         raise Error("REPL exit slash command mismatch")
 
-    var chat_out = repl.process_input_line("Hello Aesir")
-    if len(chat_out.bytes()) == 0:
-        raise Error("REPL returned empty assistant text")
+    var history_before = len(repl.history)
+    var model_chat_rejected = False
+    try:
+        _ = repl.process_input_line("Hello Aesir")
+    except error:
+        model_chat_rejected = "general model-backed REPL is unsupported" in String(error)
+    if not model_chat_rejected:
+        raise Error("legacy REPL fabricated a model-backed assistant reply")
+    if len(repl.history) != history_before:
+        raise Error("rejected legacy REPL input mutated conversation history")
+
+    var bare_run_args: List[String] = ["run", "model.gguf"]
+    var bare_run_rejected = False
+    try:
+        dispatch_command(bare_run_args)
+    except error:
+        bare_run_rejected = "interactive run is unsupported" in String(error)
+    if not bare_run_rejected:
+        raise Error("bare run entered the unsupported legacy REPL")
 
     # Test negative configuration parameter clamping
     var neg_inputs = List[String]()

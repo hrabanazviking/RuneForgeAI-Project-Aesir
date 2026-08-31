@@ -1,3 +1,11 @@
+## 2026-08-31 — Removed fabricated legacy REPL replies
+
+The generic `RuneREPL` no longer catches model-load/runtime failures and stores
+their text as assistant messages. Ordinary input now raises an explicit
+unsupported error without changing history, and bare `run <model>` directs the
+caller to the verified persistent CUDA `chat` command. Slash-command state
+tests remain available without implying model inference.
+
 ## 2026-08-31 — Strict native JSON configuration parser
 
 Replaced the line-splitting `.json` approximation with a bounded recursive

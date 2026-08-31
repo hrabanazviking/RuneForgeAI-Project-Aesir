@@ -341,6 +341,8 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   multi-turn conversation state, slash commands (`/set`, `/show`, `/clear`,
   `/bye`), parameter tuning, and stream execution beyond the native Gemma/Llama
   CUDA chat profiles.
+- [x] Reject ordinary legacy REPL input and bare interactive `run` without
+  turning model/runtime errors into assistant messages or mutating history.
 
 ### Persistent model store
 
