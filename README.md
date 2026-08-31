@@ -24,7 +24,10 @@ session, verified download, independent math checks and 8K context policy.
 
 [Native runtime controls](docs/NATIVE_RUNTIME.md) add observed hardware listing,
 model memory planning, CUDA device selection and automatic profile detection
-for single-shot CUDA execution.
+for single-shot CUDA execution. Both CUDA chat profiles now have seeded
+temperature/top-k/top-p/min-p sampling, repetition penalties and explicit
+reset/settings controls. Model loading uses at most 64 MiB pinned staging;
+the runtime guide records independent GPU checks and measured host RAM savings.
 
 ---
 

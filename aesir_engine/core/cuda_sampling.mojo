@@ -203,4 +203,6 @@ struct NativeCUDASampler:
             self.flags.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), output,
             Int64(k), self.config.temperature, self.config.top_p, self.config.min_p,
             self.config.seed, self.draws, grid_dim=1, block_dim=32)
-        self.draws += 1
+        # A deterministic penalized argmax does not consume an RNG draw.
+        if self.config.temperature > 0:
+            self.draws += 1

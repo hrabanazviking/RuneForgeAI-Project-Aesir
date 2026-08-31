@@ -106,7 +106,8 @@ temperature, removes probabilities below `min-p` times the maximum, retains
 the smallest sorted prefix reaching `top-p` of that filtered probability mass,
 and samples using SplitMix64 keyed by seed and draw index. Ties favor lower token
 IDs. Temperature zero selects the maximum adjusted logit; top-k/p/min-p then
-have no effect. Plain greedy retains the existing selection path. Non-finite
+have no effect. Deterministic selections do not advance the random draw
+sequence. Plain greedy retains the existing selection path. Non-finite
 logits fail both paths. The non-greedy/penalized Llama path excludes reserved
 control IDs except its two supported EOS IDs.
 

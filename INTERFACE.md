@@ -9,6 +9,11 @@
 
 Project Aesir enforces modular domain boundaries. Each subsystem contains an `INTERFACE.md` defining its public contracts, data structures, and truth boundaries.
 
+The native CUDA sessions additionally expose seeded device sampling, explicit
+conversation reset/settings and bounded model-upload staging. These execute for
+the two admitted profiles; general REPL and backend compatibility remain
+separate. Current public contracts and evidence: [native runtime controls](docs/NATIVE_RUNTIME.md).
+
 ### Domain Interfaces & Present-Tense Status
 
 | Domain | Directory | Primary Contracts | Capability Ledger Status |

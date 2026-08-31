@@ -9,6 +9,16 @@ hardware-free in the counted master suite. `scripts/check_gemma4_conversation.py
 validates 20 actual transcript turns, context accounting, limits and retained
 facts; it does not fabricate responses or certify general model intelligence.
 
+Native sampling/upload checks are documented in `docs/NATIVE_RUNTIME.md`:
+`test_sampling_config.mojo` and `test_upload_admission.mojo` are counted,
+hardware-independent validation cases. `test_cuda_sampling.mojo` is a physical
+CUDA probe checked by the independent `scripts/test_cuda_sampling.py` reference.
+`test_cuda_upload.mojo` checks actual GPU round-trip bytes and transfer rejection.
+Hosted CI compiles these probes but never runs them without a GPU.
+`scripts/test_native_chat_controls.py` loads both real model profiles and checks
+sampled/greedy replay, reset, rejected settings/prompts and protected logs.
+No synthetic logits or transfer buffers count as full-model inference evidence.
+
 ## Public Test Modules
 
 ```mojo

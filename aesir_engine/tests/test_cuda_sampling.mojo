@@ -68,10 +68,27 @@ def main() raises:
                     260 if scenario == 6 else -1, 269 if scenario == 6 else -1)
                 context.enqueue_copy(chosen, output)
                 context.synchronize()
+                var expected_draws = UInt64(draw + 1) if config.temperature > 0 else UInt64(0)
+                if sampler.draws != expected_draws:
+                    raise Error("Deterministic selection consumed RNG state")
                 var token = Int(chosen[0])
                 print("SAMPLE", scenario, epoch, draw, token)
                 if token >= 0:
                     sampler.record(token)
+        var reseeded = config
+        reseeded.seed ^= UInt64(1)
+        sampler.configure(reseeded)
+        if sampler.draws != 0 or sampler.config.seed != reseeded.seed:
+            raise Error("Changing seed did not reset the draw sequence")
+        var invalid_window = reseeded
+        invalid_window.repeat_last_n += 1
+        var rejected = False
+        try:
+            sampler.configure(invalid_window)
+        except:
+            rejected = True
+        if not rejected or sampler.config.repeat_last_n != config.repeat_last_n:
+            raise Error("Rejected repetition window changed live policy")
         _ = sampler
         _ = logits
         _ = host

@@ -1,3 +1,11 @@
+## 2026-08-31 — Sampling state and public-contract review
+
+Deterministic penalized argmax no longer consumes RNG state. The physical
+sampler probe also checks reseeding and transactional rejection of repetition
+window changes; all 896 independently expected token decisions still match.
+CLI sampling policy now imports through the public facade. Updated facade,
+master and test interface records without claiming broad backend completion.
+
 ## 2026-08-31 — Bounded native CUDA model uploads
 
 Replaced full-model pinned copies in both CUDA sessions with synchronized,

@@ -12,6 +12,14 @@ The facade also exports the separate native `Gemma4CUDASession` and
 specified in `core/INTERFACE.md`; they do not pass through the older
 `AesirEngine` accelerator-dispatch fields below.
 
+`NativeSamplingConfig` is exported through this facade for native CUDA chat.
+Both session constructors accept it after device index and reserve bytes.
+`configure_sampling()` and `reset()` operate only between healthy turns.
+`NativeModelPlan` exposes device bytes, bounded host staging bytes and host
+mapping/upload allowance; `choose_native_cuda` applies explicit or fitting-device
+selection. Policy semantics, opt-in physical tests and remaining limitations
+are documented in `docs/NATIVE_RUNTIME.md`.
+
 The truth-bearing result of one deterministic generation request. Prompt token
 IDs are not repeated in `token_ids`; a generated EOS ID is recorded there but
 is excluded from `text`.

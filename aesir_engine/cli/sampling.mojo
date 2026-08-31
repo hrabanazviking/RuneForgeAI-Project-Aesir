@@ -1,6 +1,6 @@
 """Strict native chat sampling syntax, shared by flags and interactive settings."""
 from std.math import isfinite
-from core.sampling_config import NativeSamplingConfig
+from aesir import NativeSamplingConfig
 
 
 def sampling_uint(text: String) raises -> UInt64:
