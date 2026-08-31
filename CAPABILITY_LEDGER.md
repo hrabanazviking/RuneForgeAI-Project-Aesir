@@ -1071,10 +1071,10 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core optional grammar domain
 - **Claim sources:** completed multi-engine TODO
-- **Implementation evidence:** `GBNFGrammar` in `core/grammar.mojo` owns local state, applies limited boolean/number checks, validates logit pointers and vocabulary size, and applies deterministic test masks.
-- **Executable evidence:** `E-MASTER` case `multi_engine.grammar_mask` in `test_multi_engine.mojo`.
-- **Evidence boundary:** No general GBNF/EBNF parser, tokenizer-aware automaton, JSON guarantee, or generation integration is implemented.
-- **Next acceptance gate:** Define a supported grammar subset, parse it, maintain tokenizer-aware state, integrate candidate masking, and pass differential grammar fixtures.
+- **Implementation evidence:** `GBNFGrammar` implements token-text-aware prefix automata for exact JSON booleans and JSON numbers. It tracks committed text and accepting state, masks caller logits only after validating a same-length decoded-token list, rejects null/sentinel pointers and empty/all-invalid candidate sets, and refuses the legacy token-ID-only API.
+- **Executable evidence:** `E-MASTER` cases `gbnf.token_validation_masking` and `multi_engine.grammar_mask` cover valid/invalid boolean prefixes, incremental number states, masking, completed-literal rejection, general-JSON refusal and mutation-free legacy rejection.
+- **Evidence boundary:** No general GBNF/EBNF parser, JSON object/array grammar, tokenizer-vocabulary adapter, or generation-loop integration is implemented. The class name is broader than this exact two-schema subset.
+- **Next acceptance gate:** Parse a versioned GBNF subset, integrate the model tokenizer and generation loop, and pass differential fixtures against an independent grammar implementation.
 - **Audit:** AER-108.
 
 ### AES-ECO-008 — Speculative-decoding-shaped local arithmetic and pointer bounds

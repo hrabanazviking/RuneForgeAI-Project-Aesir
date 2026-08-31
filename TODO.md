@@ -524,10 +524,12 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Grammar-constrained generation
 
-- [x] **[verified, AES-ECO-007] Define a supported GBNF subset and build a real
-  parser/automaton.**
-- [x] Implement tokenizer-aware candidate validation, UTF-8/state transitions,
-  error reporting, and reference constrained-generation tests (`AES-ECO-007`).
+- [x] **[verified, AES-ECO-007] Implement real decoded-token prefix automata
+  and logit masking for the exact boolean and JSON-number schemas.**
+- [x] Reject token-ID-only masking and unsupported JSON/general-GBNF requests
+  without mutating logits or claiming constrained model generation.
+- [ ] Parse a versioned GBNF subset, connect real tokenizer vocabulary text and
+  the generation loop, and pass independent constrained-generation fixtures.
 
 ### Speculative decoding
 

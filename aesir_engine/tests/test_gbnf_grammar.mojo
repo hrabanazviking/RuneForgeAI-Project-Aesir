@@ -20,36 +20,70 @@ def test_gbnf_rule_construction() raises:
 
 
 def test_gbnf_token_validation_and_masking() raises:
-    print("--- Testing GBNF Token Candidate Validation & Logit Masking ---")
+    print("--- Testing bounded token-text grammar masking ---")
     var grammar = GBNFGrammar("boolean")
-    
-    if not grammar.is_token_valid("true"):
-        raise Error("GBNFGrammar should validate 'true' for boolean schema")
-    if not grammar.is_token_valid("false"):
-        raise Error("GBNFGrammar should validate 'false' for boolean schema")
 
-    grammar.advance_state("true")
-    if grammar.state != 1:
-        raise Error("GBNFGrammar advance_state failed to update state counter")
-
-    # Logit masking check
-    var vocab_size = 32
+    var token_texts: List[String] = ["t", "f", "true", "false", "x", ""]
+    var vocab_size = len(token_texts)
     var logits_ptr = alloc(Layout[Scalar[f16]](count=vocab_size)).unsafe_leak()
     for i in range(vocab_size):
         logits_ptr.unsafe_store(i, Scalar[f16](2.0))
-
-    grammar.apply_grammar_mask(logits_ptr, vocab_size)
-
-    var masked_count = 0
-    for i in range(vocab_size):
-        if logits_ptr.unsafe_load(i) == Scalar[f16](-65504.0):
-            masked_count += 1
-
-    if masked_count == 0:
-        raise Error("GBNFGrammar apply_grammar_mask failed to mask non-conforming logits")
-
+    grammar.apply_token_grammar_mask(logits_ptr, token_texts)
+    for index in range(4):
+        if logits_ptr.unsafe_load(index) != Scalar[f16](2.0):
+            raise Error("boolean grammar masked a valid token-text prefix")
+    if logits_ptr.unsafe_load(4) != Scalar[f16](-65504.0) or logits_ptr.unsafe_load(5) != Scalar[f16](-65504.0):
+        raise Error("boolean grammar retained an invalid candidate")
     logits_ptr.unsafe_free()
-    print("GBNF token candidate validation & logit masking: PASS")
+
+    grammar.advance_state("t")
+    if not grammar.is_token_valid("rue") or grammar.is_token_valid("false"):
+        raise Error("boolean grammar failed to preserve committed prefix state")
+    grammar.advance_state("rue")
+    if not grammar.automaton.is_accepting or grammar.accepted_text != "true":
+        raise Error("boolean grammar failed to reach its accepting state")
+    var rejected = False
+    try:
+        grammar.advance_state("x")
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("boolean grammar accepted text after a complete literal")
+
+    var number = GBNFGrammar("number")
+    if not number.is_token_valid("-") or number.is_token_valid("01") or number.is_token_valid("."):
+        raise Error("JSON-number grammar prefix admission mismatch")
+    number.advance_state("-12")
+    number.advance_state(".5")
+    number.advance_state("e+")
+    if number.automaton.is_accepting:
+        raise Error("JSON-number grammar accepted an incomplete exponent")
+    number.advance_state("2")
+    if not number.automaton.is_accepting or number.accepted_text != "-12.5e+2":
+        raise Error("JSON-number grammar failed to reach an accepting state")
+
+    var legacy_logits = alloc(Layout[Scalar[f16]](count=2)).unsafe_leak()
+    rejected = False
+    try:
+        grammar.apply_grammar_mask(legacy_logits, 2)
+    except error:
+        rejected = "decoded token text is required" in String(error)
+    legacy_logits.unsafe_free()
+    if not rejected:
+        raise Error("legacy token-ID-only grammar mask did not fail closed")
+
+    var general = GBNFGrammar("json")
+    var general_logits = alloc(Layout[Scalar[f16]](count=1)).unsafe_leak()
+    var general_tokens: List[String] = ["{"]
+    rejected = False
+    try:
+        general.apply_token_grammar_mask(general_logits, general_tokens)
+    except error:
+        rejected = "not implemented" in String(error)
+    general_logits.unsafe_free()
+    if not rejected:
+        raise Error("general JSON grammar path claimed unsupported behavior")
+    print("bounded token-text grammar masking: PASS")
 
 
 def main() raises:

@@ -1,3 +1,15 @@
+## 2026-08-31 — Token-text grammar masks replace token-ID guessing
+
+Removed the odd/even and modulo token-ID masks, which could not represent a
+grammar without tokenizer text. The bounded grammar core now validates actual
+decoded candidates with incremental automata for exact booleans and JSON
+numbers, tracks accepting state, and masks only invalid candidates. Null,
+sentinel, empty and all-invalid inputs fail explicitly.
+
+The legacy ID-only mask, general JSON/GBNF parsing and grammar-constrained model
+generation now raise unsupported without mutating logits. The counted tests
+cover prefix transitions, accepting states, invalid continuations and masks.
+
 ## 2026-08-31 — Real bounded ONNX metadata decoding
 
 Replaced the two-byte ONNX surrogate that invented IR 7, opset 17 and producer

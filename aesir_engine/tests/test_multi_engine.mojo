@@ -63,36 +63,23 @@ def test_openai_api_formatter() raises:
 
 
 def test_gbnf_grammar() raises:
-    print("--- Testing toy GBNF-shaped odd-index mask scaffold ---")
-    var success = True
+    print("--- Testing fail-closed legacy grammar boundary ---")
     var grammar = GBNFGrammar("json")
-    grammar.state = 1
     var logits = alloc(Layout[Scalar[f16]](count=16)).unsafe_leak()
     for i in range(16):
         logits.unsafe_store(i, Scalar[f16](0.5))
-
-    grammar.apply_grammar_mask(logits, 16)
+    var rejected = False
+    try:
+        grammar.apply_grammar_mask(logits, 16)
+    except error:
+        rejected = "decoded token text is required" in String(error)
+    if not rejected:
+        raise Error("legacy token-ID-only grammar mask did not fail closed")
     for i in range(16):
-        if i % 2 == 1 and logits.unsafe_load(i) != Scalar[f16](-65504.0):
-            print("FAIL: GBNFGrammar did not mask odd token index", i)
-            success = False
-            break
-        if i % 2 == 0 and logits.unsafe_load(i) != Scalar[f16](0.5):
-            print("FAIL: GBNFGrammar changed allowed even token index", i)
-            success = False
-            break
-    # Test sentinel pointer and non-positive vocab_size early return safety
-    var sentinel_ptr = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
-    grammar.apply_grammar_mask(sentinel_ptr, 16)
-    grammar.apply_grammar_mask(logits, 0)
-    grammar.apply_grammar_mask(logits, -5)
-
+        if logits.unsafe_load(i) != Scalar[f16](0.5):
+            raise Error("rejected grammar request mutated caller logits")
     logits.unsafe_free()
-
-    if success:
-        print("GBNFGrammar: PASS")
-    else:
-        raise Error("GBNFGrammar scaffold masking invariant mismatch")
+    print("fail-closed legacy grammar boundary: PASS")
 
 
 def test_speculative_engine() raises:

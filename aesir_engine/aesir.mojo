@@ -12,7 +12,6 @@ from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.swarm import SwarmCluster, NodeIdentity, RemoteInferenceRequest
 from core.speculative import SpeculativeEngine, DraftProposal, SpeculativeVerificationResult
-from core.grammar import GBNFGrammar
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
@@ -410,11 +409,12 @@ struct AesirEngine:
         mut self, prompt: String, schema_type: String = "json", max_new_tokens: Int = 32
     ) raises -> GenerationResult:
         """
-        Executes token generation with GBNF grammar logit masking to enforce output structure constraints.
+        Reserved grammar-generation entry point.
         """
-        var grammar = GBNFGrammar(schema_type)
-        var result = self.generate_tokens(prompt, max_new_tokens)
-        return result
+        _ = prompt
+        _ = schema_type
+        _ = max_new_tokens
+        raise Error("grammar-constrained model generation is not implemented")
 
     def _prepare_prompt(mut self, prompt: String) raises -> String:
         """

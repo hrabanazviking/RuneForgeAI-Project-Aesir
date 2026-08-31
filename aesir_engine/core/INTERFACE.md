@@ -474,20 +474,28 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     def copy(self) -> Self: ...
 ```
 
-### `GBNFGrammar` (`core/grammar.mojo`) (Slice 11)
-Limited built-in boolean/number checks plus a deterministic logit-mask
-primitive. It does not parse general GBNF or guarantee structured output.
+### `GBNFGrammar` (`core/grammar.mojo`) (bounded token-text subset)
+
+Implements exact prefix-state validation and masking for decoded boolean and
+JSON-number token candidates. The caller must provide one decoded token string
+per logit. The legacy token-ID-only method raises because IDs have no intrinsic
+text. General GBNF, JSON objects/arrays, regex and generation integration remain
+unsupported.
 
 ```mojo
-struct GBNFGrammar(Copyable, ImplicitlyCopyable):
+struct GBNFGrammar(Copyable):
     var is_active: Bool
     var state: Int
     var schema_type: String
+    var accepted_text: String
+    var automaton: GBNFAutomatonState
 
-    def __init__(out self, schema_type: String = "json"): ...
-    def copy(self) -> Self: ...
-    def apply_grammar_mask(self, logits: Pointer[Scalar[f16], MutUntrackedOrigin], vocab_size: Int): ...
+    def is_token_valid(self, token_text: String) -> Bool: ...
+    def advance_state(mut self, token_text: String) raises: ...
+    def apply_token_grammar_mask(self, logits: Pointer[Scalar[f16], MutUntrackedOrigin], token_texts: List[String]) raises: ...
+    def apply_grammar_mask(self, logits: Pointer[Scalar[f16], MutUntrackedOrigin], vocab_size: Int) raises: ...
 ```
+
 
 ### `SpeculativeEngine` (`core/speculative.mojo`) (Slice 11)
 Local proposal/acceptance arithmetic over caller-supplied logits. It runs no

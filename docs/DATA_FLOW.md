@@ -181,7 +181,7 @@ sequenceDiagram
     - `dispatch_http_route()` recognizes reserved Ollama, OpenAI, llama.cpp, and Swarm paths but returns HTTP 501; live inference uses the separate authenticated native service.
 
 5f. **Constrained Generation GBNF Logit Masking (Slice 11):**
-    - `GBNFGrammar.apply_grammar_mask()` applies zero-allocation logit masks directly onto raw memory pointer.
+    - `GBNFGrammar.apply_token_grammar_mask()` checks actual decoded candidate text for the bounded boolean/number subset before masking logits; the token-ID-only API raises unsupported.
 
 5g. **Speculative Draft Verification Loop (Slice 11):**
     - `SpeculativeEngine.verify_tokens()` runs parallel rejection sampling across draft tokens.

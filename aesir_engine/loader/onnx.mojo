@@ -9,7 +9,7 @@ comptime MAX_ONNX_STRING_BYTES = 1024 * 1024
 comptime MAX_ONNX_NODES = 1000000
 
 struct ONNXNodeDescriptor(Copyable):
-    """Validated metadata for one supported ONNX graph node."""
+    """Validated metadata for one recognized ONNX graph node."""
     var op_type: String
     var name: String
     var input_count: Int
@@ -81,7 +81,7 @@ struct _ProtobufCursor:
 
     def read_key(mut self, end: Int) raises -> Int:
         var key = self.read_varint(end)
-        if key == 0 or key > UInt64(0x7FFFFFFF):
+        if key == 0 or key > UInt64(0xFFFFFFFF):
             raise Error("ONNX protobuf field key is invalid")
         return Int(key)
 
