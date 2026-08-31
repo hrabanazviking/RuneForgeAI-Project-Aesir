@@ -1,3 +1,13 @@
+## 2026-08-31 — Container-aware native CUDA host admission
+
+Added bounded read-only cgroup v2 observation, mount/subtree resolution,
+ancestor headroom intersection and effective host-memory diagnostics. Known
+v1 memory control, malformed data and unreadable observations fail closed.
+No limits are changed by engine execution; namespace-hidden ancestors remain
+unobservable. A real `MemoryMax=256M` user service reported 268,435,456 bytes
+and rejected an oversized model allowance. Three new counted cases cover
+paths, nested usage/limits and rejection; master 160 passed, 0 failed, 1 skipped.
+
 ## 2026-08-31 — Sampling state and public-contract review
 
 Deterministic penalized argmax no longer consumes RNG state. The physical

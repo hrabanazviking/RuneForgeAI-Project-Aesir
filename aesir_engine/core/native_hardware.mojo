@@ -1,29 +1,23 @@
 """Observed Linux host resources; never substitutes configured memory for facts."""
 
 
-def bounded_decimal(text: String) raises -> Int:
-    var value = 0
-    if text.byte_length() == 0:
-        raise Error("Expected an unsigned decimal integer")
-    for byte in text.as_bytes():
-        if byte < 48 or byte > 57:
-            raise Error("Expected an unsigned decimal integer")
-        var digit = Int(byte - 48)
-        if value > (9223372036854775807 - digit) // 10:
-            raise Error("Integer overflow")
-        value = value * 10 + digit
-    return value
+from core.observation_integer import bounded_decimal
+from core.linux_cgroups import observe_cgroup_memory
 
 
 struct HostMemory(Copyable, ImplicitlyCopyable):
     var total_bytes: Int
     var available_bytes: Int
+    var cgroup_levels: Int
+    var source: String
 
     def __init__(out self, total_bytes: Int, available_bytes: Int) raises:
-        if total_bytes <= 0 or available_bytes < 0 or available_bytes > total_bytes:
+        if total_bytes < 0 or available_bytes < 0 or available_bytes > total_bytes:
             raise Error("Invalid observed host memory")
         self.total_bytes = total_bytes
         self.available_bytes = available_bytes
+        self.cgroup_levels = 0
+        self.source = "procfs"
 
 
 def parse_linux_memory(text: String) raises -> HostMemory:
@@ -48,13 +42,23 @@ def parse_linux_memory(text: String) raises -> HostMemory:
             if available >= 0:
                 raise Error("Duplicate MemAvailable observation")
             available = kib * 1024
+    if total <= 0:
+        raise Error("Invalid MemTotal observation")
     return HostMemory(total, available)
 
 
 def observe_host_memory() raises -> HostMemory:
     # procfs is the Linux kernel interface, not a machine-specific data path.
     with open("/proc/meminfo", "r") as source:
-        return parse_linux_memory(source.read())
+        var host = parse_linux_memory(source.read())
+        var cgroup = observe_cgroup_memory()
+        host.total_bytes = min(host.total_bytes, cgroup.limit_bytes)
+        host.available_bytes = min(host.available_bytes, cgroup.available_bytes)
+        host.available_bytes = min(host.available_bytes, host.total_bytes)
+        host.cgroup_levels = cgroup.observed_levels
+        if cgroup.active:
+            host.source = "procfs+cgroup2-visible-ancestry"
+        return host
 
 
 def observe_cpu_name() raises -> String:

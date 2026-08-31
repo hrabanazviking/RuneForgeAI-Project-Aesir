@@ -15,7 +15,9 @@
 ### Native hardware and inference admission
 
 `native_hardware.mojo` exposes `observe_host_memory()` and `observe_cpu_name()`
-from Linux procfs. `inference_memory.mojo` owns checked explicit CUDA buffer
+from Linux procfs, intersected with visible cgroup v2 memory ancestors via
+`linux_cgroups.mojo`. Read/mount parsing errors and known v1 memory control
+reject; the host observation exposes `source` and `cgroup_levels`. `inference_memory.mojo` owns checked explicit CUDA buffer
 counts and reserve/host-upload admission. `runtime_plan.mojo` owns
 `NativeModelPlan(path, requested_profile="auto", context_length=0)` and
 `choose_native_cuda(memory, requested_index=-1, reserve_bytes=268435456)`.

@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 157 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 158, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 160 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 161, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -922,7 +922,8 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Evidence boundary:** This proves one MAX CUDA discovery adapter and one observed NVIDIA host. The MAX runtime ID is not a vendor UUID. Other backends and hardware CI remain unverified.
 - **Runtime integration:** `hardware list` exposes Linux CPU memory/name and MAX CUDA observations. `compute plan|explain` validates native model buffers and selects a fitting device; both real CUDA sessions recheck memory and honor device selection. Five counted planning cases and `scripts/test_native_planning.py` passed on the RTX host. See `docs/NATIVE_RUNTIME.md` for snapshot, host-staging and unprobed-memory-domain limits.
 - **Upload integration:** Both CUDA sessions use at most 64 MiB pinned staging with synchronized exact-size copies. `test_cuda_upload.mojo` checks 201,457,805 physical round-trip bytes and three rejections; two counted admission tests and both real chat/control regressions pass. Host allowance includes mapped bytes plus bounded staging; GPU model memory does not shrink. Paired observed RSS values are recorded in `docs/NATIVE_RUNTIME.md`.
-- **Next acceptance gate:** Broader device/platform discovery, container memory limits and hardware-CI coverage.
+- **Container admission:** Native CUDA host budgets now intersect procfs with visible cgroup v2 ancestor limits/current usage; three counted parser/hierarchy cases and a real kernel-enforced 256 MiB user-service check pass. Missing visibility is documented; known v1 memory control and malformed reads fail closed.
+- **Next acceptance gate:** Broader device/platform discovery, cgroup v1/hidden ancestry and hardware-CI coverage.
 - **Audit:** AER-088, AER-094.
 
 ### AES-ACC-004 — Real multi-GPU placement and inference

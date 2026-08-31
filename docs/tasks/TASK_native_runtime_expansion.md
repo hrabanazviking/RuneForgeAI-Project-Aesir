@@ -71,3 +71,14 @@ other hardware. Push each reviewable verified slice and inspect hosted CI.
 - Remaining expansion: broader model fixtures/logit parity, additional physical
   backend implementations, container-aware admission, serving and cancellation.
   These are not declared complete by the tested CUDA improvements.
+
+## Production hardening continuation — 2026-08-31
+
+The user explicitly requested implementing the remaining functions as real,
+production-quality code. Continue in independently verified milestones:
+container admission; native cooperative cancellation and deadlines; a bounded,
+authenticated loopback inference service; then broader model/device evidence.
+Do not infer that unavailable hardware or legacy scaffolds are production ready.
+Cgroup v2 admission is now implemented and verified under a real 256 MiB scope;
+cgroup v1/hidden-ancestor handling, generic CPU admission, cancellation, serving
+and broader model/device work remain.

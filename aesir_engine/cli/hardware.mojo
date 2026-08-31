@@ -25,6 +25,7 @@ def dispatch_hardware(args: List[String]) raises:
     var host = observe_host_memory()
     print("cpu:0 name=" + observe_cpu_name() + " backend=cpu memory_domain=system")
     print("  total_bytes=" + String(host.total_bytes) + " available_bytes=" + String(host.available_bytes))
+    print("  memory_source=" + host.source + " cgroup_levels=" + String(host.cgroup_levels))
     print("  execution=Linux native CPU Llama F16; other CPU profiles require separate admission")
     var cuda = CUDAGate.discover_physical_devices()
     cuda.validate()

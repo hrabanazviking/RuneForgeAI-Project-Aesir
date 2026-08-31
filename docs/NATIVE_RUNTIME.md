@@ -40,7 +40,33 @@ output. Transfers use exact device subviews and synchronize before reusing the
 chunk, including the short final transfer. No model weights are staged through
 the CPU during inference. `compute plan` and session startup report
 `host_staging_bytes`; the mapped-file allowance remains conservative.
-Linux procfs memory does not yet account for stricter container/cgroup limits.
+Host admission intersects procfs with each visible cgroup v2 ancestor's
+`memory.max - memory.current` headroom (clamped at zero), and the minimum
+finite limit. Mount roots, subtree mounts and kernel path escapes are resolved
+from the process's membership and mountinfo. The process must stay in the same
+cgroup during observation. Unreadable or malformed values fail admission;
+known v1 memory control is explicitly rejected rather than treated as unlimited.
+Namespace-hidden ancestor limits remain unobservable, and observations can race
+with other allocations. This is a conservative snapshot, not a reservation or
+an OOM guarantee. The kernel's [cgroup v2 memory contract](https://docs.kernel.org/admin-guide/cgroup-v2.html)
+defines the counters used here.
+
+`hardware list` reports the memory source and observed cgroup levels. Three
+counted cases cover mount resolution, nested budgets and malformed observations.
+A real user service with `MemoryMax=256M` reported exactly 268,435,456 bytes and
+rejected a model allowance exceeding that budget, without allocating the model.
+On Linux with a user systemd manager, reproduce this opt-in kernel check:
+
+```bash
+pixi run mojo build --target-accelerator sm_89 \
+  aesir_engine/tests/test_observed_cgroup.mojo -o .aesir/test-observed-cgroup
+systemd-run --user --pipe --wait --quiet -p MemoryMax=256M \
+  "$PWD/.aesir/test-observed-cgroup"
+```
+
+The fixture above changes only its transient user service's memory limit;
+normal engine execution never changes cgroup limits. This admission is wired
+to native CUDA plans and sessions; generic CPU arena admission is separate.
 
 For the pinned artifacts, explicit host mapping/upload allowance falls from
 9,385,337,924 to 4,759,777,828 bytes (Stheno) and from 9,954,343,172 to
@@ -175,8 +201,8 @@ This test passed on Linux/WSL2, Intel i7-12700H and NVIDIA RTX 4070 Laptop GPU,
 with locked Mojo 1.0/MAX 26.5: both profiles were planned and executed, and
 impossible reserve/device requests were rejected before upload. Multi-device
 selection is tested with injected records; physical execution was checked only
-on CUDA device 0. With sampling/upload tests the master suite passes 157 cases with
-one external skip (158 total).
+on CUDA device 0. With sampling/upload tests the master suite passes 160 cases with
+one external skip (161 total).
 After integrating concurrent Gemma 3 development, the pinned 32-token CPU
 oracle still passes. Restored mandatory download identity checks and failure
 assertions, bounded CPU token/shape handling and stable CUDA tanh. CPU packed

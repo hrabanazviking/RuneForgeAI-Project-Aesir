@@ -13,6 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
+from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
 from tests.test_sampling_config import test_sampling_syntax, test_sampling_config_rejection, test_sampling_config_updates
 from tests.test_cuda_chat_admission import test_cuda_chat_admission
@@ -736,4 +737,7 @@ def main() raises:
     run_case(ledger, "sampling.config_updates", test_sampling_config_updates)
     run_case(ledger, "upload.staging_bounds", test_upload_staging_bounds)
     run_case(ledger, "upload.host_admission", test_upload_host_admission)
-    ledger.finish(158)
+    run_case(ledger, "cgroup.paths", test_cgroup_paths)
+    run_case(ledger, "cgroup.hierarchy", test_cgroup_hierarchy)
+    run_case(ledger, "cgroup.rejection", test_cgroup_rejection)
+    ledger.finish(161)
