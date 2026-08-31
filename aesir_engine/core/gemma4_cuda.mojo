@@ -8,6 +8,7 @@ from core.inference_memory import gemma4_memory_plan
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
+from core.generation_control import GenerationControl
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
@@ -107,6 +108,8 @@ struct Gemma4CUDASession:
     var finish_reason: String
     var decoder: RuneStreamDecoder
     var sampler: NativeCUDASampler
+    var control: GenerationControl
+    var reset_required: Bool
 
     def __init__(out self, path: String, context_length: Int = 32768,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
@@ -121,6 +124,8 @@ struct Gemma4CUDASession:
         self.position = 0
         self.healthy = True
         self.generating = False
+        self.reset_required = False
+        self.control = GenerationControl()
         self.generated_tokens = 0
         self.prompt_tokens = 0
         self.max_new_tokens = 0
@@ -249,6 +254,8 @@ struct Gemma4CUDASession:
         return result
 
     def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
+        if self.reset_required:
+            raise Error("Interrupted prefill requires an explicit conversation reset")
         """Admit and prefill a turn without truncating existing conversation KV."""
         if not self.healthy or self.generating:
             raise Error("CUDA session is busy or unusable")
@@ -272,7 +279,20 @@ struct Gemma4CUDASession:
         self.max_new_tokens = max_tokens
         self.finish_reason = ""
         self.decoder = RuneStreamDecoder()
+        self.control.start()
         for i in range(len(tokens)):
+            var reason = String("")
+            try:
+                reason = self.control.stop_reason()
+            except:
+                self.reset_required = True
+                self.finish_reason = "control_error"
+                raise
+            if reason != "":
+                self.reset_required = True
+                self.finish_reason = reason
+                self.pending_token = -1
+                raise Error("CUDA prefill " + reason + "; explicit reset required")
             self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
         self.generating = True
 
@@ -287,6 +307,8 @@ struct Gemma4CUDASession:
         self.prompt_tokens = 0
         self.pending_token = -1
         self.finish_reason = "reset"
+        self.reset_required = False
+        self.control.deadline_ms = 0
         self.decoder = RuneStreamDecoder()
         self.healthy = True
 
@@ -295,10 +317,34 @@ struct Gemma4CUDASession:
             raise Error("Cannot configure a busy or failed CUDA session")
         self.sampler.configure(sampling)
 
+    def configure_control(mut self, timeout_ms: Int = 0, cancel_fd: Int = -1) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot configure a busy or failed CUDA session")
+        self.control = GenerationControl(timeout_ms, cancel_fd)
+
+    def cancel(mut self, reason: String = "cancelled") raises -> String:
+        if not self.healthy:
+            raise Error("Cannot recover a failed CUDA session through cancellation")
+        if reason != "cancelled" and reason != "timeout":
+            raise Error("Unsupported native cancellation reason")
+        if not self.generating:
+            return ""
+        # A pending prediction has not yet entered KV/history. Close the actual
+        # assistant prefix with its native EOS so the next turn remains valid.
+        _ = self.forward(self.tokenizer.vocabulary.eos_token_id, False)
+        self.pending_token = -1
+        self.finish_reason = reason
+        self.generating = False
+        self.control.deadline_ms = 0
+        return self.decoder.flush()
+
     def next_chunk(mut self) raises -> String:
         """Advance native GPU decoding and return complete UTF-8 output bytes."""
         if not self.generating:
             raise Error("No active CUDA generation")
+        var stop = self.control.stop_reason()
+        if stop != "":
+            return self.cancel(stop)
         var token = self.pending_token
         if token == self.tokenizer.vocabulary.eos_token_id or token == self.tokenizer.control("<eos>"):
             _ = self.forward(token, False)

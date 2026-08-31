@@ -281,3 +281,14 @@ by remaining context. Unsupported profiles, duplicate flags and excessive
 limits fail before model/transcript operations. The default chat profile is
 Gemma; single-shot CUDA `run` auto-detects Gemma or Llama 3. See
 `docs/STHENO_CUDA.md` and `docs/NATIVE_RUNTIME.md`.
+
+### Native cooperative generation control (2026-08-31)
+
+`GenerationControl` and both CUDA sessions expose monotonic `timeout_ms`
+(0..3600000, zero disabled) and a borrowed `cancel_fd` (-1 disabled). The owner
+keeps the descriptor alive; core never consumes or closes it. Configure between
+turns; calls are serialized. `cancel()` closes the active assistant with EOS;
+interrupted prefill requires an explicit `reset()` before reuse. Failed CUDA
+sessions stay failed. Chat exposes timeout/settings, `/show` reset state and
+Ctrl+C through Linux signalfd plus a mask-preserving executable bootstrap.
+See `docs/NATIVE_RUNTIME.md` for tested limits and physical reproduction.

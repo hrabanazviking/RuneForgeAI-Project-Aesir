@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-5, August 31, 2026
+**Ledger version:** GPU-6, August 31, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 160 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 161, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 163 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 164, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -1285,3 +1285,14 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 6. Runtime output must describe actual events. Forge 0D converted operational
    theater to explicit missing/unsupported boundaries; the two remaining
    `simulated` entries are narrowly and visibly labeled local simulations.
+
+## Native CUDA cancellation milestone — 2026-08-31
+
+**Status: verified**, scoped to cooperative deadlines and serialized cancellation
+in the two native CUDA sessions on the observed Linux/WSL2/NVIDIA host. The
+public executable handles process-wide SIGINT across pre-main MAX workers,
+recovers a completed assistant cancellation, and requires explicit reset after
+interrupted prefill. Three counted cases and both real-model CLI probes pass.
+See [runtime contract and reproduction](docs/NATIVE_RUNTIME.md#cancellation-and-deadlines).
+This does not establish kernel preemption, concurrent session mutation, SIGTERM
+graceful shutdown, cross-platform signal handling or production serving.

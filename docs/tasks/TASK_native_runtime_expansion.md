@@ -82,3 +82,9 @@ Do not infer that unavailable hardware or legacy scaffolds are production ready.
 Cgroup v2 admission is now implemented and verified under a real 256 MiB scope;
 cgroup v1/hidden-ancestor handling, generic CPU admission, cancellation, serving
 and broader model/device work remain.
+
+Cancellation milestone implemented: native session deadlines/cancel, public-CLI
+SIGINT bootstrap, explicit partial-prefill reset gate and physical recovery on
+both models. Master 163 passed, zero failed, one skipped. Serving and broader
+model/device evidence remain next; cgroup v1/hidden ancestors and generic CPU
+arena admission remain limitations.

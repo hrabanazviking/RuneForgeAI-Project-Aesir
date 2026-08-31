@@ -3,6 +3,7 @@
 
 from std.sys import argv
 from cli.commands import dispatch_command, print_general_help
+from cli.interrupts import prepare_chat_process
 
 
 def main() raises:
@@ -16,4 +17,6 @@ def main() raises:
 
     # An empty invocation is a discovery request, not an implicit request to
     # start an unsupported daemon. The dispatcher renders actionable help.
+    if len(cli_args) > 0 and cli_args[0] == "chat":
+        prepare_chat_process()
     dispatch_command(cli_args)

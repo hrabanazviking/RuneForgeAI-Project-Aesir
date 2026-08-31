@@ -13,6 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
+from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
 from tests.test_sampling_config import test_sampling_syntax, test_sampling_config_rejection, test_sampling_config_updates
@@ -740,4 +741,7 @@ def main() raises:
     run_case(ledger, "cgroup.paths", test_cgroup_paths)
     run_case(ledger, "cgroup.hierarchy", test_cgroup_hierarchy)
     run_case(ledger, "cgroup.rejection", test_cgroup_rejection)
-    ledger.finish(161)
+    run_case(ledger, "control.deadline", test_generation_deadline)
+    run_case(ledger, "control.admission", test_generation_control_rejection)
+    run_case(ledger, "control.sigint", test_generation_sigint)
+    ledger.finish(164)

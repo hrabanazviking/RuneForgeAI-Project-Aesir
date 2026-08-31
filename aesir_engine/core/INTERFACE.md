@@ -757,3 +757,14 @@ reports `eos`, `length`, or `context_exhausted`, preserving all previous KV.
 Rejected input leaves position unchanged; CUDA execution failure poisons reuse.
 Native kernels implement adjacent-pair RoPE with device-side F64 phase reduction,
 scaled grouped-query attention and SiLU, reusing packed matvec/norm/argmax code.
+
+### Native cooperative generation control (2026-08-31)
+
+`GenerationControl` and both CUDA sessions expose monotonic `timeout_ms`
+(0..3600000, zero disabled) and a borrowed `cancel_fd` (-1 disabled). The owner
+keeps the descriptor alive; core never consumes or closes it. Configure between
+turns; calls are serialized. `cancel()` closes the active assistant with EOS;
+interrupted prefill requires an explicit `reset()` before reuse. Failed CUDA
+sessions stay failed. Chat exposes timeout/settings, `/show` reset state and
+Ctrl+C through Linux signalfd plus a mask-preserving executable bootstrap.
+See `docs/NATIVE_RUNTIME.md` for tested limits and physical reproduction.

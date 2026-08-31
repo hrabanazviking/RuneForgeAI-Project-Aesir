@@ -52,6 +52,7 @@ def print_general_help():
     print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
     print("      [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     print("      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]")
+    print("      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation")
     print("      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]")
     print("      Interactive: /help /show /clear /set <setting> <value> /bye")
     print("      Gemma defaults: 16384/32768; Llama 3 defaults: 8192/8192 (reply/context).")

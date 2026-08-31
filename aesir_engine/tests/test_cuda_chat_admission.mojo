@@ -20,6 +20,9 @@ def test_cuda_chat_admission() raises:
         "chat missing.gguf --accel cuda --repeat-last-n 0",
         "chat missing.gguf --accel cuda --seed 18446744073709551616",
         "chat missing.gguf --accel cuda --temperature 0.8 --temperature 1",
+        "chat missing.gguf --accel cuda --timeout-ms -1",
+        "chat missing.gguf --accel cuda --timeout-ms 3600001",
+        "chat missing.gguf --accel cuda --timeout-ms junk",
     ]
     for request in cases:
         var args = List[String]()

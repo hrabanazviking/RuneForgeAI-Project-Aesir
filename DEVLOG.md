@@ -1,5 +1,20 @@
 ## 2026-08-31 — Container-aware native CUDA host admission
 
+## 2026-08-31 — Native CUDA cancellation and recovery
+
+Implemented cooperative monotonic generation deadlines, caller-owned pollable
+cancellation, explicit session cancellation and native Ctrl+C chat handling.
+The real CUDA test exposed pre-main MAX worker threads with unblocked SIGINT;
+the executable now performs a native mask-preserving re-exec before chat setup.
+No async handler executes Mojo and unrelated commands are unchanged.
+
+Both Stheno and Gemma pass process-wide SIGINT, next-turn recovery, a forced
+prefill deadline, explicit reset gating and clean idle exit at context 1024.
+Interrupted prefill deliberately requires `/clear`; CUDA failure is not reset
+into health. Master: 163 passed, 0 failed, 1 external skip. See runtime guide for
+bounds and reproduction; no claim of hard deadlines or broad production readiness.
+
+
 Added bounded read-only cgroup v2 observation, mount/subtree resolution,
 ancestor headroom intersection and effective host-memory diagnostics. Known
 v1 memory control, malformed data and unreadable observations fail closed.
