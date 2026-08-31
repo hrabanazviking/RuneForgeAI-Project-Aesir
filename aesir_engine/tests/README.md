@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 147 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 167 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical

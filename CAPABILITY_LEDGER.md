@@ -41,6 +41,7 @@ Run commands from the repository root unless stated otherwise.
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
+| `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
 Pinned `E-REAL` fixture and oracle:
@@ -65,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 16 |
+| `partial` | 18 |
 | `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 21 |
+| `missing` | 19 |
 | **Total** | **108** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -566,13 +567,13 @@ the complete ledger population.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `dispatch_command()` rejects these reserved commands before reporting success or mutating ephemeral state.
-- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries` in `test_cli.mojo`.
-- **Evidence boundary:** Truthful rejection is not an operational model store or process registry.
-- **Next acceptance gate:** Connect the commands to the durable catalog and live session registry with restart and failure-path tests.
+- **Implementation evidence:** Native `list`/`ls`, `show`, `create`, `cp`, `rm`/`delete` commands use `DurableModelStore` and a caller-selected validated config. Output comes from catalog records, JSON strings are escaped, and Modelfile input is bounded and rejects final symlinks. `ps` remains fail closed because no live process registry exists.
+- **Executable evidence:** `E-MASTER` catalog cases and `E-STORE`; the latter executes each operation in a separate built-CLI process and checks restart state, JSON, rollback, permissions on native Linux storage, and symlink rejection.
+- **Evidence boundary:** These are recipe-catalog operations. They do not ingest or delete model bytes, calculate model-byte SHA-256/size, or report live processes. WSL DrvFS permissions remain governed by the mounted Windows filesystem.
+- **Next acceptance gate:** Add content-addressed model-byte ingestion and a real live-session registry before implementing `ps`.
 - **Audit:** AER-061, AER-064, AER-066.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
@@ -580,21 +581,21 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `push` and `create` remain fail closed.
-- **Executable evidence:** `E-MASTER` downloader admission cases, six live integrity/failure checks, and the full pinned Gemma and Stheno artifact downloads through `pull`.
-- **Evidence boundary:** Only public, pinned, single-GGUF Linux/WSL downloads are established. No authentication, resume, upload, creation, or model-store registration exists.
-- **Next acceptance gate:** Add authenticated/resumable download as a separate contract; implement push/create only with durable store semantics and integration tests.
+- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `create` now validates and durably records a Modelfile recipe. `push` remains fail closed.
+- **Executable evidence:** `E-MASTER` downloader/catalog admission cases, `E-STORE`, six live integrity/failure checks, and the full pinned Gemma and Stheno artifact downloads through `pull`.
+- **Evidence boundary:** Only public, pinned, single-GGUF Linux/WSL downloads are established. Catalog `create` records a recipe and deliberately reports unknown byte metadata; it does not ingest weights. No authentication, resume, upload, or automatic pull-to-store registration exists.
+- **Next acceptance gate:** Add authenticated/resumable download, content-addressed weight ingestion, and upload as separate contracts.
 - **Audit:** AER-064, AER-082, AER-003.
 
 ### AES-CLI-007 — `rm`, `cp`, `stop`, and runtime lifecycle semantics
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** CLI and runtime domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** CLI lifecycle commands raise unsupported errors and do not mutate the local store or claim process unload.
-- **Executable evidence:** `E-MASTER` case `cli.truthful_command_boundaries`.
-- **Evidence boundary:** Safe rejection is not storage or live-session lifecycle behavior.
-- **Next acceptance gate:** Persistent store and live-session registry, atomic operations, not-found/in-use/error behavior, and restart/conformance tests.
+- **Implementation evidence:** `cp` and `rm`/`delete` perform locked, restart-safe catalog mutations through staged file sync, atomic replacement and directory sync. `stop` remains unsupported and cannot claim process unload.
+- **Executable evidence:** `E-MASTER` durable catalog cases and `E-STORE` separate-process success and rollback checks.
+- **Evidence boundary:** Copy/remove mutate recipe manifests only; shared model blobs and live process ownership do not exist yet.
+- **Next acceptance gate:** Content-addressed blob reference counting plus a live-session registry with real in-use and stop semantics.
 - **Audit:** AER-061 through AER-064.
 
 ### AES-CLI-008 — REPL slash-command state and interactive inference

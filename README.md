@@ -124,7 +124,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
  * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
-* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Model-store operations and compatibility APIs remain partial, scaffolded, or missing; see the [current status](docs/CURRENT_STATUS.md) and ledger.
+* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe recipe catalog commands (`create`, `list`, `show`, `cp`, and `rm`) are operational; model-byte ingestion, `ps`/`stop`, and compatibility APIs remain unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
 * **Accelerator & Swarm Matrix:** The native CUDA Gemma and Llama 3 profiles are real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)

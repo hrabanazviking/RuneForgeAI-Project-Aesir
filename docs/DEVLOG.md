@@ -1,3 +1,18 @@
+## 2026-08-31 — Restart-safe native recipe catalog commands
+
+Connected native `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` to the
+durable Mojo catalog through the validated `.aesir/models` configuration root.
+The CLI now reloads state across processes, emits escaped JSON, bounds
+Modelfiles at 1 MiB, and rejects unknown/inapplicable options and final
+symlinks. Catalog/config reads retry interruption and catalog readers reject a
+final symlink.
+
+The built-binary harness proves empty start, create/show/copy/remove across
+independent processes, rollback after a failed copy, permissions on native
+Linux storage, and no staged-file leaks. Master remains 167 passed, zero
+failed, one skipped. This is a recipe catalog: model bytes, measured metadata,
+`ps`/`stop`, automatic pull registration and `push` remain unfinished.
+
 ## 2026-08-31 — Container-aware native CUDA host admission
 
 ## 2026-08-31 — Native key setup and C-path hardening

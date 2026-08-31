@@ -3,8 +3,9 @@
 > **Current supported command boundary — 2026-08-30:** `pull` downloads the
 > documented public pinned GGUF artifact; `chat --accel cuda` and
 > `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
-> native CUDA. Legacy Ollama-shaped commands, generic REPL behavior, model-store
-> lifecycle, and compatibility surfaces below are not thereby implemented.
+> native CUDA. Native recipe-catalog `create`, `list`, `show`, `cp`, and `rm`
+> persist through `DurableModelStore`; model-byte lifecycle, generic REPL
+> behavior, and compatibility surfaces below are not thereby implemented.
 > `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
 > Q4_K_S profile with an 8K context. CUDA single-shot `run` auto-detects either
 > profile. `hardware list` and `compute plan|explain` expose observed resources
@@ -110,7 +111,8 @@ struct RuneModelStore(Copyable):
 ### `DurableModelStore` (`cli/storage.mojo`)
 
 Linux durable-catalog boundary. The caller supplies a validated relative store
-root. An absent catalog loads as empty; mutations stage a same-directory file,
+root. Native `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` dispatchers
+use it across process restarts. An absent catalog loads as empty; mutations stage a same-directory file,
 sync it, atomically rename it, sync the containing directory, and publish the
 new in-memory state only after the durable commit succeeds. Catalog v1 is
 bounded, versioned, delimiter-safe, and rejects malformed records, duplicate
@@ -232,9 +234,10 @@ fields on a single-shot run raises rather than being ignored.
 Main CLI router. Empty invocation, `help`, `--help`, `version`, configuration
 validation, and the real single-shot `run <model-path> [options] <prompt...>`
 path are implemented. `config [--config <path>]` reads and validates the
-selected schema and prints its normalized representation. `serve`,
-model-store/distribution commands, interactive `run`, multi-engine commands,
-and swarm commands raise stable unsupported errors and emit no success output.
+selected schema and prints its normalized representation. Recipe-catalog
+commands are restart safe; `ps`, `stop`, `push`, model-byte ingestion,
+interactive `run`, multi-engine commands, and swarm commands raise stable
+unsupported errors and emit no success output.
 
 ```mojo
 def dispatch_command(args: List[String]) raises: ...

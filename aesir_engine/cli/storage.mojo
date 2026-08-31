@@ -150,7 +150,11 @@ def deserialize_catalog(raw: String) raises -> RuneModelStore:
 
 def _read_optional_text(path: String) raises -> String:
     var path_bytes = _cstring(path)
-    var fd = external_call["open64", Int32](path_bytes.unsafe_ptr(), Int32(0), Int32(0))
+    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC. A catalog must be the named file,
+    # never a final symlink selected by another process.
+    var fd = external_call["open64", Int32](
+        path_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+    )
     if fd < 0:
         var errno_pointer = external_call[
             "__errno_location", Pointer[Int32, MutUntrackedOrigin]
@@ -165,6 +169,11 @@ def _read_optional_text(path: String) raises -> String:
     while True:
         var read_count = external_call["pread", Int](fd, buffer, 4096, offset)
         if read_count < 0:
+            var errno_pointer = external_call[
+                "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+            ]()
+            if errno_pointer.unsafe_load() == 4:
+                continue
             buffer.unsafe_free()
             _ = external_call["close", Int32](fd)
             raise Error("failed while reading model catalog: " + path)
@@ -193,7 +202,14 @@ def _write_all(fd: Int32, content: String) raises:
             len(source) - offset,
             Int64(offset),
         )
-        if written <= 0:
+        if written < 0:
+            var errno_pointer = external_call[
+                "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+            ]()
+            if errno_pointer.unsafe_load() == 4:
+                continue
+            raise Error("failed while writing staged model catalog")
+        if written == 0:
             raise Error("failed while writing staged model catalog")
         offset += Int(written)
 
@@ -219,7 +235,7 @@ def _ensure_store_root(root: String) raises:
 def _lock_store_root(root: String) raises -> Int32:
     var root_bytes = _cstring(root)
     var directory_fd = external_call["open64", Int32](
-        root_bytes.unsafe_ptr(), Int32(65536), Int32(0)
+        root_bytes.unsafe_ptr(), Int32(720896), Int32(0)
     )
     if directory_fd < 0:
         raise Error("unable to open model store root for locking")
@@ -232,7 +248,7 @@ def _lock_store_root(root: String) raises -> Int32:
 def _sync_directory(root: String) raises:
     var root_bytes = _cstring(root)
     var directory_fd = external_call["open64", Int32](
-        root_bytes.unsafe_ptr(), Int32(65536), Int32(0)
+        root_bytes.unsafe_ptr(), Int32(720896), Int32(0)
     )
     if directory_fd < 0:
         raise Error("unable to open model store root for synchronization")

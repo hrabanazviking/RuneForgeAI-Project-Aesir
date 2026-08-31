@@ -2,6 +2,7 @@
 # Truthful Project Aesir CLI command dispatcher.
 
 from cli.manifest import ModelManifest, RuneModelStore
+from cli.storage import DurableModelStore
 from cli.repl import RuneREPL, run_single_shot
 from cli.options import CLIOptions, parse_cli_options
 from cli.multi_engine import (
@@ -15,6 +16,13 @@ from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
+from server.api import json_escape_string
+from std.ffi import external_call
+from std.memory import Pointer
+from std.memory.alloc import alloc, Layout
+
+
+comptime MAX_MODELFILE_BYTES = 1024 * 1024
 
 
 def print_banner():
@@ -61,6 +69,13 @@ def print_general_help():
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
     print("  config [--config <path>] [--format json|text]")
     print("      Validate and show the selected configuration file.")
+    print("  list|ls [--config path] [--format text|json]")
+    print("  show <name[:tag]> [--config path] [--format text|json]")
+    print("  create <name[:tag]> --modelfile <path> [--config path]")
+    print("  cp <source[:tag]> <target[:tag]> [--config path]")
+    print("  rm|delete <name[:tag]> [--config path]")
+    print("      Restart-safe catalog operations; default store is .aesir/models.")
+    print("      create records a validated Modelfile recipe; it does not copy weights.")
     print("  help, -h, --help")
     print("      Show this capability-aware help.")
     print("  -v, --version")
@@ -70,7 +85,7 @@ def print_general_help():
     print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
     print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
     print("Reserved but unsupported:")
-    print("  daemon; interactive run; list; show; ps; create; cp; rm")
+    print("  daemon; interactive run; ps")
     print("  push; stop")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
     print(
@@ -265,11 +280,11 @@ def format_model_table(models: List[ModelManifest], is_json: Bool = False):
                 comma = String("")
             print(
                 '  {"name": "'
-                + manifest.name
+                + json_escape_string(manifest.name)
                 + ":"
-                + manifest.tag
+                + json_escape_string(manifest.tag)
                 + '", "digest": "'
-                + manifest.digest
+                + json_escape_string(manifest.digest)
                 + '", "size": '
                 + String(manifest.size_bytes)
                 + "}"
@@ -307,15 +322,15 @@ def show_model_details(manifest: ModelManifest, is_json: Bool = False):
     if is_json:
         print(
             '{"name": "'
-            + manifest.name
+            + json_escape_string(manifest.name)
             + ":"
-            + manifest.tag
+            + json_escape_string(manifest.tag)
             + '", "digest": "'
-            + manifest.digest
+            + json_escape_string(manifest.digest)
             + '", "size": '
             + String(manifest.size_bytes)
             + ', "quantization": "'
-            + manifest.quantization
+            + json_escape_string(manifest.quantization)
             + '"}'
         )
         return
@@ -390,8 +405,160 @@ def dispatch_pull(args: List[String]) raises:
     print("Successfully downloaded and verified Hugging Face model: " + destination)
 
 
+def _read_bounded_modelfile(path: String) raises -> String:
+    """Reads one regular Modelfile without following its final symlink."""
+    var clean = String(path.strip())
+    if len(clean.bytes()) == 0 or len(clean.bytes()) >= 4096 or "\0" in clean:
+        raise Error("Modelfile path must contain 1..4095 non-NUL UTF-8 bytes")
+    var path_bytes = List[Int8]()
+    for byte in clean.as_bytes():
+        path_bytes.append(Int8(byte))
+    path_bytes.append(0)
+    # Linux O_RDONLY | O_NOFOLLOW | O_CLOEXEC.
+    var fd = external_call["open64", Int32](
+        path_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+    )
+    _ = path_bytes
+    if fd < 0:
+        raise Error("unable to open Modelfile: " + clean)
+
+    var content = List[Int8]()
+    var buffer_alloc = alloc(Layout[Int8](count=4096))
+    var buffer = buffer_alloc^.unsafe_leak()
+    try:
+        while True:
+            var count = external_call["read", Int](Int(fd), buffer, 4096)
+            if count < 0:
+                var errno_pointer = external_call[
+                    "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+                ]()
+                if errno_pointer.unsafe_load() == 4:
+                    continue
+                raise Error("failed while reading Modelfile: " + clean)
+            if count == 0:
+                break
+            if len(content) + count > MAX_MODELFILE_BYTES:
+                raise Error("Modelfile exceeds the 1 MiB limit")
+            for index in range(count):
+                content.append(buffer.unsafe_load(index))
+    except error:
+        buffer.unsafe_free()
+        _ = external_call["close", Int32](fd)
+        raise error
+    buffer.unsafe_free()
+    if external_call["close", Int32](fd) != 0:
+        raise Error("unable to close Modelfile: " + clean)
+    if len(content) == 0:
+        raise Error("Modelfile must not be empty")
+    content.append(0)
+    return String(unsafe_from_utf8_ptr=content.unsafe_ptr())
+
+
+def _is_catalog_command(command: String) -> Bool:
+    return (
+        command == "list"
+        or command == "ls"
+        or command == "show"
+        or command == "create"
+        or command == "cp"
+        or command == "rm"
+        or command == "delete"
+    )
+
+
+def dispatch_catalog_command(args: List[String]) raises:
+    """Executes one catalog command against configured restart-safe state."""
+    var command = args[0]
+    var config_path = String("")
+    var format = String("text")
+    var modelfile_path = String("")
+    var positionals = List[String]()
+    var seen_config = False
+    var seen_format = False
+    var seen_modelfile = False
+    var index = 1
+    while index < len(args):
+        var token = args[index]
+        if token == "--config" or token == "-c":
+            if seen_config:
+                raise Error("duplicate catalog option: " + token)
+            if index + 1 >= len(args):
+                raise Error("missing value for catalog option " + token)
+            seen_config = True
+            config_path = args[index + 1]
+            index += 2
+            continue
+        if token == "--format":
+            if seen_format:
+                raise Error("duplicate catalog option: --format")
+            if index + 1 >= len(args):
+                raise Error("missing value for catalog option --format")
+            seen_format = True
+            format = args[index + 1]
+            if format != "text" and format != "json":
+                raise Error("--format must be json or text")
+            index += 2
+            continue
+        if token == "--modelfile" or token == "-f":
+            if seen_modelfile:
+                raise Error("duplicate catalog option: " + token)
+            if index + 1 >= len(args):
+                raise Error("missing value for catalog option " + token)
+            seen_modelfile = True
+            modelfile_path = args[index + 1]
+            index += 2
+            continue
+        if token.startswith("-"):
+            raise Error("unknown catalog option: " + token)
+        positionals.append(token)
+        index += 1
+
+    if command != "create" and seen_modelfile:
+        raise Error("--modelfile applies only to create")
+    if command != "list" and command != "ls" and command != "show" and seen_format:
+        raise Error("--format applies only to list and show")
+
+    var config = AesirConfig()
+    if seen_config:
+        config = load_config_file(config_path)
+    var durable = DurableModelStore(config.model_store_path)
+    var is_json = format == "json"
+
+    if command == "list" or command == "ls":
+        if len(positionals) != 0:
+            raise Error("list does not accept model arguments")
+        format_model_table(durable.list_models(), is_json)
+        return
+    if command == "show":
+        if len(positionals) != 1:
+            raise Error("Usage: aesir show <name[:tag]> [--format text|json]")
+        show_model_details(durable.get_model(positionals[0]), is_json)
+        return
+    if command == "create":
+        if len(positionals) != 1 or not seen_modelfile:
+            raise Error("Usage: aesir create <name[:tag]> --modelfile <path>")
+        durable.create_model(
+            positionals[0], _read_bounded_modelfile(modelfile_path)
+        )
+        print("Created model recipe: " + positionals[0])
+        return
+    if command == "cp":
+        if len(positionals) != 2:
+            raise Error("Usage: aesir cp <source[:tag]> <target[:tag]>")
+        durable.copy_model(positionals[0], positionals[1])
+        print("Copied model recipe: " + positionals[0] + " -> " + positionals[1])
+        return
+    if len(positionals) != 1:
+        raise Error("Usage: aesir rm <name[:tag]>")
+    durable.remove_model(positionals[0])
+    print("Removed model recipe: " + positionals[0])
+
+
 def dispatch_command(args: List[String]) raises:
-    """Routes implemented commands with a fresh store."""
+    """Routes implemented commands, using durable state where required."""
+    if len(args) > 0 and _is_catalog_command(args[0]):
+        dispatch_catalog_command(args)
+        return
     var store = RuneModelStore()
     dispatch_command(args, store)
 
@@ -484,20 +651,11 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             run_single_shot(model_name, trimmed_prompt, options.max_tokens)
         return
 
-    if (
-        cmd == "list"
-        or cmd == "ls"
-        or cmd == "show"
-        or cmd == "ps"
-        or cmd == "create"
-        or cmd == "cp"
-        or cmd == "rm"
-        or cmd == "delete"
-    ):
+    if cmd == "ps":
         _ = store
         _ = is_json
         raise Error(
-            "persistent model-store command '" + cmd + "' is not implemented"
+            "runtime process registry command 'ps' is not implemented"
         )
 
     if cmd == "daemon":

@@ -259,7 +259,7 @@ other operators/backends, performance, or hardware CI.
   or propagates `Error`.
 - `run_case()` catches an error only at one named case boundary, records exactly
   one pass or failure, and returns so later cases can execute.
-- The runner registers 147 executable named cases and one explicit skip in a
+- The runner registers 167 executable named cases and one explicit skip in a
   deterministic order.
 - `TestLedger.finish(148)` prints `[SUMMARY]` pass/fail/skip/total/status keys and
   raises after reporting if any case failed or the total is not 148.

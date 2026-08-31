@@ -93,10 +93,16 @@ create/copy/remove behavior across reconstructed store instances. The test
 deletes only its newly created `.aesir-test-model-store-<pid>` catalog and
 directory under the approval above.
 
-The bug remains open. Content-addressed model blobs, SHA-256 over source bytes,
-measured size/metadata, separate-process CLI wiring, injected rollback and
-permission faults, missing-blob handling, and process-concurrency evidence are
-still required.
+The built CLI now wires `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete`
+to this catalog. `scripts/test_native_model_store.py` runs each operation in a
+separate process and proves restart state, machine-readable output, rollback,
+native-filesystem modes, and final-symlink rejection. Catalog/config reads are
+bounded and retry interrupted syscalls.
+
+The bug remains open for content-addressed model blobs, SHA-256 over source
+bytes, measured size/metadata, injected I/O faults, missing-blob handling,
+process-concurrency stress, and the separate live-session registry needed by
+`ps` and `stop`.
 
 ## Configuration Slice Contract
 

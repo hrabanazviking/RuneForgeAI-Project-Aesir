@@ -23,6 +23,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
+| Native recipe catalog | `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` use a bounded, restart-safe Mojo catalog. A built-binary harness verifies separate-process persistence and rollback; see the [model-store contract](MODEL_STORE.md). |
 | Automated checks | The counted suite reports 167 passed, 0 failed, and 1 explicit external-fixture skip (168 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
@@ -50,8 +51,9 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   Its 8,192-new-token ceiling is bounded by remaining context, with an explicit
   `context_exhausted` stop and no silent history truncation.
 - There is no independent full-model logit-parity proof, throughput/latency
-  benchmark, hardware CI runner, resumable/authenticated Hub
-  transfer, model-store registration, or production-service readiness claim.
+  benchmark, hardware CI runner, resumable/authenticated Hub transfer,
+  content-addressed model-byte ingestion, or production-service readiness claim.
+  The recipe catalog does not copy or measure the GGUF referenced by a Modelfile.
 - OpenAI, Ollama, llama.cpp, ONNX, EXL2, RAG execution, Swarm, and NPU paths
   remain scaffolded, partial, or fail closed as specified by the ledger.
 
@@ -71,6 +73,7 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
 - [TODO](../TODO.md): active work, ordered by evidence needs.
 - [Gemma CUDA guide](GEMMA4_CUDA.md): supported native CUDA workflow.
 - [Stheno CUDA guide](STHENO_CUDA.md): Llama 3 download, roleplay and 8K limits.
+- [Model-store guide](MODEL_STORE.md): durable recipe operations and limits.
 - [DEVLOG](DEVLOG.md): chronological implementation record.
 - `docs/historical/` and dated audits: preserved context, not current runtime
   assertions. Older architecture, hardware, performance, protocol, and vision
@@ -83,5 +86,5 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
    profile.
 3. Generalize model admission only with per-architecture loader, tokenizer,
    kernel, and parity evidence.
-4. Build one complete, secure service/API path before claiming compatibility or
-   production readiness.
+4. Add content-addressed model-byte ingestion and measured SHA-256/size to the
+   durable recipe catalog.

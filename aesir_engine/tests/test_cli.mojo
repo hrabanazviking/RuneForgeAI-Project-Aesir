@@ -14,7 +14,7 @@ from cli.commands import (
 )
 from cli.repl import RuneREPL
 from cli.options import parse_cli_options, parse_duration_seconds
-from config import load_config_file
+from config import load_config_file, parse_config_json, validate_model_store_path
 from std.ffi import external_call
 
 
@@ -281,12 +281,25 @@ def test_cli_command_dispatch() raises:
     config_args.append("aesir.config.json")
     dispatch_command(config_args, store)
 
-    assert_cli_command_unsupported("list")
-    assert_cli_command_unsupported("show")
     assert_cli_command_unsupported("ps")
-    assert_cli_command_unsupported("create")
-    assert_cli_command_unsupported("cp")
-    assert_cli_command_unsupported("rm")
+
+    var bad_catalog_args: List[String] = ["list", "--unknown"]
+    var bad_catalog_rejected = False
+    try:
+        dispatch_command(bad_catalog_args)
+    except error:
+        bad_catalog_rejected = "unknown catalog option" in String(error)
+    if not bad_catalog_rejected:
+        raise Error("catalog command accepted an unknown option")
+
+    var missing_modelfile_args: List[String] = ["create", "demo"]
+    var missing_modelfile_rejected = False
+    try:
+        dispatch_command(missing_modelfile_args)
+    except error:
+        missing_modelfile_rejected = "Usage: aesir create" in String(error)
+    if not missing_modelfile_rejected:
+        raise Error("create accepted a missing Modelfile")
 
     # Verify reserved unsupported command rejections
     # Test bare swarm command subcommand requirement assertion
@@ -453,6 +466,26 @@ def test_cli_flag_options_parser() raises:
         raise Error("configuration loader did not record its source path")
     if loaded.acceleration_backend != "auto":
         raise Error("tracked configuration acceleration intent mismatch")
+    if loaded.model_store_path != ".aesir/models":
+        raise Error("tracked configuration model-store path mismatch")
+
+    if validate_model_store_path("private/models") != "private/models":
+        raise Error("safe relative model-store path changed during validation")
+    var unsafe_store_rejected = False
+    try:
+        _ = validate_model_store_path("../escape")
+    except:
+        unsafe_store_rejected = True
+    if not unsafe_store_rejected:
+        raise Error("model-store path accepted traversal")
+
+    var invalid_config_rejected = False
+    try:
+        _ = parse_config_json('{\n  "max_threads": "many"\n}')
+    except:
+        invalid_config_rejected = True
+    if not invalid_config_rejected:
+        raise Error("configuration silently ignored an invalid integer")
 
     var effective = effective_config(explicit_options)
     if effective.acceleration_backend != "cpu":

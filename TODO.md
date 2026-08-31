@@ -124,13 +124,14 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **[verified, AES-GEN-009] Implement or disable Masking Seidr:** Stop
   claiming a thought token is bound to `-inf` until tokenizer resolution and
   real logit masking are verified.
-- [x] **[missing, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
+- [x] **[partial, AES-CLI-005] Correct `list`/`show`/`ps` output:** Remove fixed
   catalogs, CUDA utilization, expiry, architecture, parameters, and sampler
   values unless derived from real current state.
 - [x] **[partial, AES-CLI-006] Correct `pull`/`push`/`create` output:** `pull`
-  now performs the documented pinned, verified public GGUF download; `push` and
-  `create` remain explicit unsupported errors until their operations exist.
-- [x] **[missing, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
+  performs the documented pinned, verified public GGUF download and `create`
+  records a validated durable recipe without inventing model-byte metadata;
+  `push` remains explicitly unsupported.
+- [x] **[partial, AES-CLI-007] Correct `rm`/`cp`/`stop` output:** Do not report
   storage or process mutations that occurred only in an ephemeral seeded list.
 - [x] **[partial, AES-CLI-008] Correct REPL output:** The legacy sample loop is
   bounded; native Gemma/Llama CUDA chat supplies separate real interactive paths.
@@ -345,7 +346,8 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [ ] Compute real digests and sizes from stored bytes; never ship fictional
   defaults as observations.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
-- [ ] **[missing, AES-CLI-005] Connect catalog and process output:** Connect `list`, `show`, `ps`, `create`, `cp`, and `rm` commands to persistent store and session registry.
+- [x] **[partial, AES-CLI-005] Connect catalog output:** `list`, `show`, `create`, `cp`, and `rm` use the restart-safe recipe catalog with built-CLI process evidence.
+- [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
 
