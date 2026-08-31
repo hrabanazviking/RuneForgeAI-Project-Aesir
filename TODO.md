@@ -330,6 +330,9 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 ### CLI grammar and REPL
 
 - [x] **[partial, AES-CLI-009] Implement CLI flag option parser:** `--verbose`, `--format json|text`, `--keepalive <duration>`, `--modelfile <path>`, `--raw`, `--insecure`, `--max-tokens N`, configuration/acceleration intent, and duration parsing. Operational wiring remains incomplete for the broader capability.
+- [x] Replace the line-based configuration approximation with strict bounded
+  nested JSON syntax, schema/type/range checks, duplicate rejection, and
+  adversarial parser coverage.
 - [x] **[verified, AES-CLI-003] Complete the chosen Modelfile grammar:** Quoting,
   multiline directives, validation, errors, and compatibility corpus.
 - [ ] Connect parsed parameters, templates, system messages, and licenses to the

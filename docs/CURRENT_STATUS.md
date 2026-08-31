@@ -74,6 +74,7 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
 - [Gemma CUDA guide](GEMMA4_CUDA.md): supported native CUDA workflow.
 - [Stheno CUDA guide](STHENO_CUDA.md): Llama 3 download, roleplay and 8K limits.
 - [Model-store guide](MODEL_STORE.md): durable recipe operations and limits.
+- [Configuration guide](CONFIGURATION.md): strict JSON schema and runtime ownership.
 - [DEVLOG](DEVLOG.md): chronological implementation record.
 - `docs/historical/` and dated audits: preserved context, not current runtime
   assertions. Older architecture, hardware, performance, protocol, and vision

@@ -67,6 +67,8 @@ Our mission is simple: **Eliminate cloud dependency and software bloat to delive
 The ordered completion plan and the rules preventing fake files, placeholder
 artifacts, and fabricated evidence live in the
 [Reality-First Completion Roadmap](ROADMAP_REALITY_FIRST_COMPLETION.md).
+The native [configuration contract](docs/CONFIGURATION.md) documents the strict
+JSON schema, validation behavior, and which settings currently affect runtime.
 
 The runtime contains no Python imports and uses direct POSIX memory mapping for
 its verified local CPU slice. No general performance, maximum-utilization, or

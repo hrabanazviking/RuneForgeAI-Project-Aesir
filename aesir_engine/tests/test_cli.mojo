@@ -261,6 +261,16 @@ def assert_run_option_rejected(
         raise Error("unconnected run option was accepted: " + option)
 
 
+def assert_config_json_rejected(raw: String, label: String) raises:
+    var rejected = False
+    try:
+        _ = parse_config_json(raw)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("configuration accepted " + label)
+
+
 def test_cli_command_dispatch() raises:
     print("--- Testing operational CLI command dispatchers & boundaries ---")
 
@@ -486,6 +496,65 @@ def test_cli_flag_options_parser() raises:
         invalid_config_rejected = True
     if not invalid_config_rejected:
         raise Error("configuration silently ignored an invalid integer")
+
+    var compact = parse_config_json(
+        '{"hard\\u0077are":{"acceleration_backend":"cuda",'
+        + '"target_npu":"auto","num_gpu_layers":-1,"max_threads":4},'
+        + '"safety":{"thinking_enabled":true},'
+        + '"storage":{"model_store_path":"private/models"},'
+        + '"sampling":{"temperature":7e-1,"top_p":0.95}}'
+    )
+    if (
+        compact.acceleration_backend != "cuda"
+        or compact.num_gpu_layers != -1
+        or compact.max_threads != 4
+        or not compact.thinking_enabled
+        or compact.model_store_path != "private/models"
+        or compact.temperature != 0.7
+        or compact.top_p != 0.95
+    ):
+        raise Error("strict compact configuration values were not preserved")
+
+    assert_config_json_rejected(
+        '{"hardware":{"max_threads":1,}}', "an object trailing comma"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{},}', "a root trailing comma"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{} "sampling":{}}', "a missing root comma"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{},"hardware":{}}', "a duplicate section"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{"max_threads":1,"max_threads":2}}',
+        "a duplicate field",
+    )
+    assert_config_json_rejected(
+        '{"sampling":{"max_threads":1}}', "a field in the wrong section"
+    )
+    assert_config_json_rejected(
+        '{"safety":{"thinking_enabled":"true"}}', "a quoted boolean"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{"max_threads":1.0}}', "a fractional integer"
+    )
+    assert_config_json_rejected(
+        '{"hardware":{"max_threads":01}}', "a leading-zero number"
+    )
+    assert_config_json_rejected(
+        '{"unknown":{}}', "an unknown section"
+    )
+    assert_config_json_rejected(
+        '{"sampling":{"top_p":null}}', "a null numeric value"
+    )
+    assert_config_json_rejected(
+        '{"sampling":{"top_p":0.5}} trailing', "trailing content"
+    )
+    assert_config_json_rejected(
+        '{"stor\\uD800age":{}}', "an unpaired Unicode surrogate"
+    )
 
     var effective = effective_config(explicit_options)
     if effective.acceleration_backend != "cpu":

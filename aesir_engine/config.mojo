@@ -1,5 +1,5 @@
 # config.mojo
-# Line-oriented JSON configuration-intent parser for Project A.E.S.I.R.
+# Strict bounded JSON configuration-intent parser for Project A.E.S.I.R.
 
 from std.math import isinf, isnan
 from std.ffi import external_call
@@ -152,132 +152,387 @@ struct AesirConfig:
         return out_str
 
 
-def parse_config_json(json_content: String) raises -> AesirConfig:
-    """Parses the tracked line-oriented JSON schema and rejects invalid values.
-    """
-    var config = AesirConfig()
-    var seen_keys = Dict[String, Bool]()
-    var lines = json_content.split("\n")
-    for i in range(len(lines)):
-        var line = lines[i].strip()
-        if (
-            len(line.as_bytes()) == 0
-            or line.startswith("{")
-            or line.startswith("}")
-        ):
+def _valid_config_utf8(text: String) -> Bool:
+    var source = text.as_bytes()
+    var index = 0
+    while index < len(source):
+        var first = Int(source[index])
+        if first < 128:
+            index += 1
             continue
-        var parts = line.split(":")
-        if len(parts) != 2:
-            raise Error("malformed configuration line")
-        var key = String(parts[0].strip().strip('"'))
-        var val = String(parts[1].strip().strip(",").strip('"'))
-
-        if key in seen_keys:
-            raise Error("duplicate configuration key: " + key)
-        seen_keys[key] = True
-
-        if key == "acceleration_backend":
-            if (
-                val != "auto"
-                and val != "cpu"
-                and val != "cuda"
-                and val != "metal"
-                and val != "intel"
-                and val != "amd"
-                and val != "npu"
-                and val != "max"
-            ):
-                raise Error("invalid acceleration_backend: " + val)
-            config.acceleration_backend = val
-        elif key == "target_npu":
-            if (
-                val != "auto"
-                and val != "hailo10"
-                and val != "hailo8"
-                and val != "hexagon"
-                and val != "ane"
-                and val != "intel_npu"
-                and val != "arm_neon"
-            ):
-                raise Error("invalid target_npu: " + val)
-            config.target_npu = val
-        elif key == "skaldbrodir_enabled":
-            if val != "true" and val != "false":
-                raise Error("skaldbrodir_enabled must be true or false")
-            config.skaldbrodir_enabled = val.lower() == "true"
-        elif key == "thinking_enabled":
-            if val != "true" and val != "false":
-                raise Error("thinking_enabled must be true or false")
-            config.thinking_enabled = val.lower() == "true"
-        elif key == "cia_enabled":
-            if val != "true" and val != "false":
-                raise Error("cia_enabled must be true or false")
-            config.cia_enabled = val.lower() == "true"
-        elif key == "wic_enabled":
-            if val != "true" and val != "false":
-                raise Error("wic_enabled must be true or false")
-            config.wic_enabled = val.lower() == "true"
-        elif key == "nsfi_enabled":
-            if val != "true" and val != "false":
-                raise Error("nsfi_enabled must be true or false")
-            config.nsfi_enabled = val.lower() == "true"
-        elif key == "mqari_enabled":
-            if val != "true" and val != "false":
-                raise Error("mqari_enabled must be true or false")
-            config.mqari_enabled = val.lower() == "true"
-        elif key == "tui_enabled":
-            if val != "true" and val != "false":
-                raise Error("tui_enabled must be true or false")
-            config.tui_enabled = val.lower() == "true"
-        elif key == "model_store_path":
-            config.model_store_path = validate_model_store_path(val)
-        elif key == "max_threads":
-            try:
-                config.max_threads = atol(val)
-            except:
-                raise Error("max_threads must be an integer")
-        elif key == "num_gpu_layers":
-            try:
-                config.num_gpu_layers = atol(val)
-            except:
-                raise Error("num_gpu_layers must be an integer")
-        elif key == "temperature":
-            try:
-                config.temperature = atof(val)
-            except:
-                raise Error("temperature must be numeric")
-        elif key == "top_p":
-            try:
-                config.top_p = atof(val)
-            except:
-                raise Error("top_p must be numeric")
-        elif (
-            key != "hardware"
-            and key != "safety"
-            and key != "experimental_paradigms"
-            and key != "interface"
-            and key != "storage"
-            and key != "sampling"
+        var count = 0
+        var codepoint = 0
+        var minimum = 0
+        if first >= 194 and first <= 223:
+            count = 1
+            codepoint = first & 31
+            minimum = 128
+        elif first >= 224 and first <= 239:
+            count = 2
+            codepoint = first & 15
+            minimum = 2048
+        elif first >= 240 and first <= 244:
+            count = 3
+            codepoint = first & 7
+            minimum = 65536
+        else:
+            return False
+        if index + count >= len(source):
+            return False
+        for offset in range(1, count + 1):
+            var next = Int(source[index + offset])
+            if next < 128 or next > 191:
+                return False
+            codepoint = (codepoint << 6) | (next & 63)
+        if (
+            codepoint < minimum
+            or codepoint > 1114111
+            or (codepoint >= 55296 and codepoint <= 57343)
         ):
-            raise Error("unknown configuration key: " + key)
+            return False
+        index += count + 1
+    return True
 
-    if config.max_threads < 0:
-        raise Error("max_threads cannot be negative")
-    if config.num_gpu_layers < -1:
-        raise Error("num_gpu_layers cannot be less than -1")
-    if config.temperature < 0.0:
-        raise Error("temperature cannot be negative")
-    if isnan(config.temperature) or isinf(config.temperature):
-        raise Error("temperature must be finite")
-    if config.top_p < 0.0 or config.top_p > 1.0:
-        raise Error("top_p must be between 0.0 and 1.0")
-    if isnan(config.top_p) or isinf(config.top_p):
-        raise Error("top_p must be finite")
-    config.model_store_path = validate_model_store_path(
-        config.model_store_path
-    )
 
-    return config^
+struct ConfigJSONParser:
+    """Strict JSON parser for the bounded Project Aesir configuration schema."""
+
+    var source: String
+    var position: Int
+    var config: AesirConfig
+
+    def __init__(out self, source: String) raises:
+        if (
+            source.byte_length() == 0
+            or source.byte_length() > MAX_CONFIG_BYTES
+            or not _valid_config_utf8(source)
+        ):
+            raise Error("configuration must be 1..1048576 bytes of valid UTF-8")
+        self.source = source
+        self.position = 0
+        self.config = AesirConfig()
+
+    def _peek(self) -> Int:
+        if self.position >= self.source.byte_length():
+            return -1
+        return Int(self.source.as_bytes()[self.position])
+
+    def _space(mut self):
+        while (
+            self._peek() == 32
+            or self._peek() == 9
+            or self._peek() == 10
+            or self._peek() == 13
+        ):
+            self.position += 1
+
+    def _take(mut self, expected: Int) raises:
+        self._space()
+        if self._peek() != expected:
+            raise Error("malformed configuration JSON")
+        self.position += 1
+
+    def _hex4(mut self) raises -> Int:
+        var value = 0
+        for _ in range(4):
+            var digit = self._peek()
+            if digit < 0:
+                raise Error("truncated configuration Unicode escape")
+            self.position += 1
+            if digit >= 48 and digit <= 57:
+                digit -= 48
+            elif digit >= 65 and digit <= 70:
+                digit -= 55
+            elif digit >= 97 and digit <= 102:
+                digit -= 87
+            else:
+                raise Error("invalid configuration Unicode escape")
+            value = value * 16 + digit
+        return value
+
+    def _string(mut self) raises -> String:
+        self._take(34)
+        var output = List[Int8]()
+        while True:
+            var byte = self._peek()
+            if byte < 0:
+                raise Error("unterminated configuration string")
+            self.position += 1
+            if byte == 34:
+                break
+            if byte < 32:
+                raise Error("configuration string contains an unescaped control")
+            if byte != 92:
+                output.append(Int8(byte))
+                continue
+            byte = self._peek()
+            if byte < 0:
+                raise Error("unterminated configuration escape")
+            self.position += 1
+            if byte == 34 or byte == 92 or byte == 47:
+                output.append(Int8(byte))
+            elif byte == 98:
+                output.append(8)
+            elif byte == 102:
+                output.append(12)
+            elif byte == 110:
+                output.append(10)
+            elif byte == 114:
+                output.append(13)
+            elif byte == 116:
+                output.append(9)
+            elif byte == 117:
+                var codepoint = self._hex4()
+                if codepoint >= 55296 and codepoint <= 56319:
+                    if self._peek() != 92:
+                        raise Error("configuration Unicode high surrogate lacks pair")
+                    self.position += 1
+                    if self._peek() != 117:
+                        raise Error("configuration Unicode surrogate pair is malformed")
+                    self.position += 1
+                    var low = self._hex4()
+                    if low < 56320 or low > 57343:
+                        raise Error("configuration Unicode low surrogate is invalid")
+                    codepoint = 65536 + ((codepoint - 55296) << 10) + low - 56320
+                elif codepoint >= 56320 and codepoint <= 57343:
+                    raise Error("configuration contains an unpaired low surrogate")
+                if codepoint == 0:
+                    raise Error("configuration strings must not contain NUL")
+                if codepoint < 128:
+                    output.append(Int8(codepoint))
+                elif codepoint < 2048:
+                    output.append(Int8(192 | (codepoint >> 6)))
+                    output.append(Int8(128 | (codepoint & 63)))
+                elif codepoint < 65536:
+                    output.append(Int8(224 | (codepoint >> 12)))
+                    output.append(Int8(128 | ((codepoint >> 6) & 63)))
+                    output.append(Int8(128 | (codepoint & 63)))
+                else:
+                    output.append(Int8(240 | (codepoint >> 18)))
+                    output.append(Int8(128 | ((codepoint >> 12) & 63)))
+                    output.append(Int8(128 | ((codepoint >> 6) & 63)))
+                    output.append(Int8(128 | (codepoint & 63)))
+            else:
+                raise Error("invalid configuration string escape")
+        output.append(0)
+        var result = String(unsafe_from_utf8_ptr=output.unsafe_ptr())
+        _ = output
+        return result
+
+    def _boolean(mut self) raises -> Bool:
+        self._space()
+        if (
+            self.position + 4 <= self.source.byte_length()
+            and String(self.source[byte=self.position : self.position + 4])
+            == "true"
+        ):
+            self.position += 4
+            return True
+        if (
+            self.position + 5 <= self.source.byte_length()
+            and String(self.source[byte=self.position : self.position + 5])
+            == "false"
+        ):
+            self.position += 5
+            return False
+        raise Error("configuration boolean must be true or false")
+
+    def _number(mut self) raises -> String:
+        self._space()
+        var start = self.position
+        if self._peek() == 45:
+            self.position += 1
+        if self._peek() == 48:
+            self.position += 1
+            if self._peek() >= 48 and self._peek() <= 57:
+                raise Error("configuration number has a leading zero")
+        elif self._peek() >= 49 and self._peek() <= 57:
+            while self._peek() >= 48 and self._peek() <= 57:
+                self.position += 1
+        else:
+            raise Error("configuration value must be a JSON number")
+        if self._peek() == 46:
+            self.position += 1
+            var fraction_start = self.position
+            while self._peek() >= 48 and self._peek() <= 57:
+                self.position += 1
+            if self.position == fraction_start:
+                raise Error("configuration fraction requires digits")
+        if self._peek() == 101 or self._peek() == 69:
+            self.position += 1
+            if self._peek() == 43 or self._peek() == 45:
+                self.position += 1
+            var exponent_start = self.position
+            while self._peek() >= 48 and self._peek() <= 57:
+                self.position += 1
+            if self.position == exponent_start:
+                raise Error("configuration exponent requires digits")
+        if self.position - start > 64:
+            raise Error("configuration number exceeds 64 bytes")
+        return String(self.source[byte=start : self.position])
+
+    def _integer(mut self, label: String) raises -> Int:
+        var value = self._number()
+        if "." in value or "e" in value or "E" in value:
+            raise Error(label + " must be an integer")
+        try:
+            return atol(value)
+        except:
+            raise Error(label + " is outside the supported integer range")
+
+    def _float(mut self, label: String) raises -> Float64:
+        var value = self._number()
+        try:
+            var parsed = atof(value)
+            if isnan(parsed) or isinf(parsed):
+                raise Error(label + " must be finite")
+            return parsed
+        except:
+            raise Error(label + " must be a finite JSON number")
+
+    def _field(mut self, section: String, key: String) raises:
+        if section == "hardware" and key == "acceleration_backend":
+            var value = self._string()
+            if (
+                value != "auto" and value != "cpu" and value != "cuda"
+                and value != "metal" and value != "intel" and value != "amd"
+                and value != "npu" and value != "max"
+            ):
+                raise Error("invalid acceleration_backend: " + value)
+            self.config.acceleration_backend = value
+        elif section == "hardware" and key == "target_npu":
+            var value = self._string()
+            if (
+                value != "auto" and value != "hailo10" and value != "hailo8"
+                and value != "hexagon" and value != "ane"
+                and value != "intel_npu" and value != "arm_neon"
+            ):
+                raise Error("invalid target_npu: " + value)
+            self.config.target_npu = value
+        elif section == "hardware" and key == "max_threads":
+            self.config.max_threads = self._integer(key)
+        elif section == "hardware" and key == "num_gpu_layers":
+            self.config.num_gpu_layers = self._integer(key)
+        elif section == "safety" and key == "skaldbrodir_enabled":
+            self.config.skaldbrodir_enabled = self._boolean()
+        elif section == "safety" and key == "thinking_enabled":
+            self.config.thinking_enabled = self._boolean()
+        elif section == "experimental_paradigms" and key == "cia_enabled":
+            self.config.cia_enabled = self._boolean()
+        elif section == "experimental_paradigms" and key == "wic_enabled":
+            self.config.wic_enabled = self._boolean()
+        elif section == "experimental_paradigms" and key == "nsfi_enabled":
+            self.config.nsfi_enabled = self._boolean()
+        elif section == "experimental_paradigms" and key == "mqari_enabled":
+            self.config.mqari_enabled = self._boolean()
+        elif section == "interface" and key == "tui_enabled":
+            self.config.tui_enabled = self._boolean()
+        elif section == "storage" and key == "model_store_path":
+            self.config.model_store_path = validate_model_store_path(self._string())
+        elif section == "sampling" and key == "temperature":
+            self.config.temperature = self._float(key)
+        elif section == "sampling" and key == "top_p":
+            self.config.top_p = self._float(key)
+        else:
+            raise Error("unknown configuration field " + section + "." + key)
+
+    def _object(mut self, section: String) raises:
+        self._take(123)
+        self._space()
+        var seen = Dict[String, Bool]()
+        var field_count = 0
+        if self._peek() != 125:
+            while True:
+                var key = self._string()
+                field_count += 1
+                if key.byte_length() > 64 or field_count > 32:
+                    raise Error("configuration object has too many or oversized fields")
+                if key in seen:
+                    raise Error("duplicate configuration field: " + section + "." + key)
+                seen[key] = True
+                self._take(58)
+                self._field(section, key)
+                self._space()
+                if self._peek() == 125:
+                    break
+                if self._peek() != 44:
+                    raise Error("configuration object requires a comma")
+                self.position += 1
+                self._space()
+                if self._peek() == 125:
+                    raise Error("configuration object has a trailing comma")
+        self._take(125)
+
+    def parse(mut self) raises -> AesirConfig:
+        self._take(123)
+        self._space()
+        var sections = Dict[String, Bool]()
+        var section_count = 0
+        if self._peek() != 125:
+            while True:
+                var section = self._string()
+                section_count += 1
+                if section.byte_length() > 64 or section_count > 16:
+                    raise Error("configuration has too many or oversized sections")
+                if section in sections:
+                    raise Error("duplicate configuration section: " + section)
+                if (
+                    section != "hardware" and section != "safety"
+                    and section != "experimental_paradigms"
+                    and section != "interface" and section != "storage"
+                    and section != "sampling"
+                ):
+                    raise Error("unknown configuration section: " + section)
+                sections[section] = True
+                self._take(58)
+                self._object(section)
+                self._space()
+                if self._peek() == 125:
+                    break
+                if self._peek() != 44:
+                    raise Error("configuration root requires a comma")
+                self.position += 1
+                self._space()
+                if self._peek() == 125:
+                    raise Error("configuration root has a trailing comma")
+        self._take(125)
+        self._space()
+        if self._peek() != -1:
+            raise Error("configuration has trailing content")
+        if self.config.max_threads < 0:
+            raise Error("max_threads cannot be negative")
+        if self.config.num_gpu_layers < -1:
+            raise Error("num_gpu_layers cannot be less than -1")
+        if self.config.temperature < 0.0:
+            raise Error("temperature cannot be negative")
+        if self.config.top_p < 0.0 or self.config.top_p > 1.0:
+            raise Error("top_p must be between 0.0 and 1.0")
+        self.config.model_store_path = validate_model_store_path(
+            self.config.model_store_path
+        )
+        var result = AesirConfig()
+        result.acceleration_backend = self.config.acceleration_backend
+        result.target_npu = self.config.target_npu
+        result.skaldbrodir_enabled = self.config.skaldbrodir_enabled
+        result.thinking_enabled = self.config.thinking_enabled
+        result.cia_enabled = self.config.cia_enabled
+        result.wic_enabled = self.config.wic_enabled
+        result.nsfi_enabled = self.config.nsfi_enabled
+        result.mqari_enabled = self.config.mqari_enabled
+        result.tui_enabled = self.config.tui_enabled
+        result.max_threads = self.config.max_threads
+        result.num_gpu_layers = self.config.num_gpu_layers
+        result.temperature = self.config.temperature
+        result.top_p = self.config.top_p
+        result.model_store_path = self.config.model_store_path
+        result.config_path = self.config.config_path
+        return result^
+
+
+def parse_config_json(json_content: String) raises -> AesirConfig:
+    """Parses the strict bounded nested JSON configuration schema."""
+    var parser = ConfigJSONParser(json_content)
+    return parser.parse()
 
 
 def load_config_file(path: String) raises -> AesirConfig:

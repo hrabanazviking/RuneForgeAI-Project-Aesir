@@ -1,3 +1,14 @@
+## 2026-08-31 — Strict native JSON configuration parser
+
+Replaced the line-splitting `.json` approximation with a bounded recursive
+schema parser. It validates real nested JSON independent of line layout,
+including UTF-8 and Unicode escapes, strict numbers and booleans, duplicate and
+unknown keys, section ownership, commas, trailing content, ranges and finite
+sampling values. Config files are capped at 1 MiB and final symlinks remain
+rejected. Compact configuration, exponent, malformed structure/type, duplicate,
+range and surrogate cases pass in the counted suite; the built CLI emits JSON
+accepted by Python's standard parser. Master: 167 passed, zero failed, one skip.
+
 ## 2026-08-31 — Removed legacy fabricated HTTP success
 
 The disconnected `BifrostGate` router no longer returns a hard-coded RTX 2060,
