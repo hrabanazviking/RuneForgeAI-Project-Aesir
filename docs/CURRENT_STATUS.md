@@ -23,7 +23,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
-| Automated checks | The counted suite reports 166 passed, 0 failed, and 1 explicit external-fixture skip (167 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
+| Automated checks | The counted suite reports 167 passed, 0 failed, and 1 explicit external-fixture skip (168 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and

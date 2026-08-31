@@ -1,5 +1,20 @@
 ## 2026-08-31 — Container-aware native CUDA host admission
 
+## 2026-08-31 — Native key setup and C-path hardening
+
+Added `keygen` with Linux OS randomness, private staging, no-replace publication
+relative to an opened directory and file/directory synchronization. Existing
+files and symlinks remain untouched; output never reveals credentials. The
+four-process race test permits exactly one publisher and leaves no temporary
+links. Filename lengths 1..33 and Unicode are checked.
+
+The tests exposed Mojo String storage being passed to POSIX without guaranteed
+NUL termination. Key loading, publication and executable bootstrap now use
+explicitly terminated owned buffers. Added a counted path-boundary test and a
+hosted CI native-key probe. Master: 167 passed, zero failed, one skipped. The
+service's real CUDA test now uses native key generation for its credential.
+
+
 ## 2026-08-31 — Authenticated native local CUDA service
 
 Connected `serve` to real loaded Gemma/Stheno sessions through a shared serialized

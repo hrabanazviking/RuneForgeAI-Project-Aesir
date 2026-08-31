@@ -33,6 +33,9 @@ jobs:
       - name: Build Native CLI
         run: pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-ci-build
 
+      - name: Prove Native Private Key Publication
+        run: python3 scripts/test_native_keygen.py --binary /tmp/aesir-ci-build
+
       - name: Compile Opt-In CUDA Probes Without Claiming GPU Execution
         run: |
           pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_sampling.mojo -o /tmp/aesir-sampling-probe

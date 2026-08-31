@@ -1,6 +1,25 @@
 """Pure bounded-protocol adversarial checks; physical service tests are separate."""
 from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
 from cli.native_serve import GenerateRequest
+from server.local_transport import c_path_bytes
+
+
+def test_local_path_bounds() raises:
+    var bytes = c_path_bytes("Halló")
+    if len(bytes) != 7 or bytes[6] != 0 or UInt8(bytes[4]) != 195 or UInt8(bytes[5]) != 179:
+        raise Error("Native C path lost UTF-8 or terminator")
+    var long_path = String("")
+    for _ in range(4096):
+        long_path += "x"
+    var cases: List[String] = ["", "bad\0path", long_path]
+    for path in cases:
+        var rejected = False
+        try:
+            _ = c_path_bytes(path)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Invalid native path accepted")
 
 
 def test_local_json() raises:
@@ -45,6 +64,7 @@ def main() raises:
     test_local_json()
     test_local_http()
     test_local_generation_request()
+    test_local_path_bounds()
     print("PASS bounded JSON and HTTP rejection")
 
 

@@ -38,7 +38,10 @@ def prepare_chat_process(include_termination: Bool = False) raises:
     for i in range(len(bytes)):
         pointers.append(Int(bytes[i].unsafe_ptr()))
     pointers.append(0)
-    var executable = String("/proc/self/exe")
+    var executable = List[Int8]()
+    for byte in String("/proc/self/exe").as_bytes():
+        executable.append(Int8(byte))
+    executable.append(0)
     _ = external_call["execv", Int32](executable.unsafe_ptr(), pointers.unsafe_ptr())
     _ = bytes
     _ = executable

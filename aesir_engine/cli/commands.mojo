@@ -11,6 +11,7 @@ from cli.multi_engine import (
 )
 from config import AesirConfig, load_config_file
 from cli.native_serve import dispatch_native_serve
+from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
@@ -35,6 +36,7 @@ def print_general_help():
     print("Usage:")
     print("  aesir [command] [flags]\n")
     print("Implemented:")
+    print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
     print("  compute plan|explain <model.gguf> [--profile auto|gemma4|llama3]")
     print("      [--context N] [--device auto|N] [--reserve-mib N]")
@@ -413,6 +415,13 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "pull":
         dispatch_pull(args)
+        return
+
+    if cmd == "keygen":
+        if len(args) != 2:
+            raise Error("Usage: aesir keygen <new-private-file>")
+        create_service_key(args[1])
+        print("Private service key created; credential contents were not printed")
         return
 
     if cmd == "chat":

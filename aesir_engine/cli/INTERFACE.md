@@ -303,3 +303,14 @@ one session and serializes all mutation; this does not make sessions thread-safe
 `serve` is a foreground loopback command requiring an API key file; `daemon`
 remains rejected. SIGINT/SIGTERM terminate cooperatively. API details and
 production limitations are in `docs/NATIVE_SERVICE.md`.
+
+### Native private-key publication
+
+`aesir keygen <new-private-file>` calls `server/keyfiles.create_service_key`.
+Linux `getrandom` supplies a 256-bit key; a separate random staging name is
+exclusively created in the opened parent directory. File sync precedes atomic
+no-replace linking; directory sync follows owned temporary-link removal. Existing
+outputs are never deleted or replaced. Contents are never printed. All POSIX
+path pointers refer to explicitly terminated, owned byte buffers. The native
+key probe runs in CI without a GPU; crash/persistence limits are documented in
+`docs/NATIVE_SERVICE.md`.

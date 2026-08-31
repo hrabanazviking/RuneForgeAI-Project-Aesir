@@ -41,10 +41,10 @@ def reject_keys(binary):
 def check(binary, model, profile, output_dir):
     with tempfile.TemporaryDirectory(prefix="aesir-service-check-") as directory:
         root = Path(directory)
-        token = secrets.token_hex(32)
         keyfile = root / "api-key"
-        keyfile.write_text(token + "\n")
-        keyfile.chmod(0o600)
+        created = subprocess.run([binary, "keygen", str(keyfile)], capture_output=True, timeout=30)
+        assert created.returncode == 0, "native service key creation failed"
+        token = keyfile.read_text().strip()
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", 0))
             port = probe.getsockname()[1]

@@ -237,8 +237,8 @@ This test passed on Linux/WSL2, Intel i7-12700H and NVIDIA RTX 4070 Laptop GPU,
 with locked Mojo 1.0/MAX 26.5: both profiles were planned and executed, and
 impossible reserve/device requests were rejected before upload. Multi-device
 selection is tested with injected records; physical execution was checked only
-on CUDA device 0. With sampling/upload tests the master suite passes 166 cases with
-one external skip (167 total).
+on CUDA device 0. With sampling/upload tests the master suite passes 167 cases with
+one external skip (168 total).
 After integrating concurrent Gemma 3 development, the pinned 32-token CPU
 oracle still passes. Restored mandatory download identity checks and failure
 assertions, bounded CPU token/shape handling and stable CUDA tanh. CPU packed

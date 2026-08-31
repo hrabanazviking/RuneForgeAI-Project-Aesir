@@ -13,7 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
-from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request
+from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
@@ -748,4 +748,5 @@ def main() raises:
     run_case(ledger, "local_service.json", test_local_json)
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
-    ledger.finish(167)
+    run_case(ledger, "local_service.c_paths", test_local_path_bounds)
+    ledger.finish(168)

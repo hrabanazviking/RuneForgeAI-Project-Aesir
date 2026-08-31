@@ -9,21 +9,29 @@ a claim of readiness for public, multi-tenant deployment.
 ## Start and call
 
 Build the native executable as described in [the runtime guide](NATIVE_RUNTIME.md).
-Create a random service key in a protected Linux directory. The file must be a
+Create a random service key natively in a protected Linux directory. The file must be a
 regular file owned by the current effective user, with no group/other permission
 bits. Symlinks and special files are rejected. Keys contain 32..256 letters,
 digits, hyphens or underscores, optionally followed by one newline. Generate
-random key material; do not use a human-chosen password. For example:
+random key material; do not use a human-chosen password. `keygen` obtains
+256 bits from Linux `getrandom`, writes a private temporary file, syncs it, and
+publishes it with an atomic no-replace hard link within the opened parent
+directory. For example:
 
 ```bash
 mkdir -p "$HOME/.config/aesir"
-(umask 077; set -o noclobber; openssl rand -hex 32 > "$HOME/.config/aesir/service.key")
+./aesir keygen "$HOME/.config/aesir/service.key"
 ./aesir serve models/L3-8B-Stheno-v3.2-Q4_K_S.gguf \
   --accel cuda --api-key-file "$HOME/.config/aesir/service.key" \
   --context 8192 --max-tokens 256 --timeout-ms 30000
 ```
 
-The key command refuses to overwrite an existing file. The service reads the
+The key command refuses to overwrite an existing file or symlink, never prints
+the credential, and needs a filesystem supporting hard links and directory
+synchronization. Normal failure paths remove only their owned temporary links.
+A crash can leave a private `.aesir-key-*` temporary file; inspect it before
+manual cleanup. A synchronization failure after publication can leave a complete
+key while reporting failure; retry never overwrites it. The service reads the
 key at startup; restart it to rotate the key. Do not store it in Git, a public
 directory, a URL or command-line arguments. Keep key files on a Linux filesystem
 with working POSIX permissions, not a Windows mount that exposes mode 0777.
@@ -129,5 +137,17 @@ seeded replay, rejects unsafe key files and malformed protocol inputs, forces
 slow-client and prefill deadlines, then verifies recovery and active shutdown.
 Tests use context 512, a 64-token ceiling and a 300 ms I/O deadline to make bounds
 observable on the available GPU. They do not prove service operation at every
-possible context size or under sustained load. Three counted protocol/request
+possible context size or under sustained load. Four counted protocol/request/path
 cases join the master suite; hosted CPU CI does not claim GPU service execution.
+
+Native key publication is also tested without a GPU, including filename byte
+lengths 1..33, Unicode, mode/format, existing files/symlinks, a four-process
+publication race and temporary-link cleanup:
+
+```bash
+python scripts/test_native_keygen.py --binary ./aesir
+```
+
+This probe runs in hosted CI. Every POSIX path uses an explicitly terminated
+owned byte buffer; Mojo strings are not assumed to be C strings. The service
+probe now creates its actual API key through the native `keygen` command.

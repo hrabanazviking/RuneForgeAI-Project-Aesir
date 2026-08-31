@@ -94,3 +94,9 @@ HTTP over both real CUDA models; strict protocol, stateless replay, deadline
 recovery and active shutdown probes pass. Master 166 passed, zero failed, one
 skip. No OpenAI/Ollama or public production claim. Broader model/device evidence,
 CPU container admission, streaming and operational load/security gates remain.
+
+Native service setup now includes OS-random `keygen`, race-safe no-replace
+publication and explicit C-path termination. Hosted CI includes its no-GPU
+filesystem probe; the real service tests use generated native keys. Master
+167 passed, zero failed, one skipped. This does not complete the broader
+model/device, CPU admission, streaming or operational security gates above.

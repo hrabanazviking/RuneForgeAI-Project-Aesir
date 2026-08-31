@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-7, August 31, 2026
+**Ledger version:** GPU-8, August 31, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 166 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 167, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 167 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 168, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -722,6 +722,7 @@ the complete ledger population.
 - **Executable evidence:** Both real-model HTTP probes pass at context 512 and max 64 new tokens: authentication/Host/origin checks, observed binding/masks, arithmetic, stateless seeded replay, malformed/oversized requests, slow-client deadlines, prefill recovery, reset-peer handling and active SIGINT/SIGTERM shutdown.
 - **Evidence boundary:** Native `/health` and `/v1/generate`, one loaded model, serialized stateless nonstreaming responses, Linux x86-64/NVIDIA. OpenAI/Ollama compatibility and arbitrary device/model support remain unimplemented.
 - **Reproduction and threat model:** [Native service guide](docs/NATIVE_SERVICE.md).
+- **Native setup hardening:** `keygen` obtains a 256-bit OS-random key and publishes it exclusively through a synced private file in the opened parent directory. The external no-GPU probe verifies exact/Unicode paths, existing-file/symlink preservation, a four-process race and cleanup; hosted CI runs it. Four counted service cases include explicit C-path termination/bounds.
 
 ## 12. Embeddings and RAG
 

@@ -10,6 +10,19 @@ def io_errno() -> Int:
     return Int(external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]().unsafe_load())
 
 
+def c_path_bytes(path: String) raises -> List[Int8]:
+    # Mojo String storage is not guaranteed to have a C NUL terminator.
+    if path.byte_length() == 0 or path.byte_length() >= 4096:
+        raise Error("Native path must contain 1..4095 UTF-8 bytes")
+    var bytes = List[Int8]()
+    for byte in path.as_bytes():
+        if byte == 0:
+            raise Error("Native path contains NUL")
+        bytes.append(Int8(byte))
+    bytes.append(0)
+    return bytes^
+
+
 struct OwnedFD:
     var fd: Int32
 
@@ -45,7 +58,9 @@ def load_service_key(path: String) raises -> String:
     if path.byte_length() == 0 or "\0" in path:
         raise Error("Service requires an API key file")
     # O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK; inspect the opened inode, not its path.
-    var file = OwnedFD(external_call["open64", Int32](path.unsafe_ptr(), Int32(657408), Int32(0)))
+    var path_bytes = c_path_bytes(path)
+    var file = OwnedFD(external_call["open64", Int32](path_bytes.unsafe_ptr(), Int32(657408), Int32(0)))
+    _ = path_bytes
     var stat = InlineArray[UInt64, 18](fill=0)
     if external_call["fstat", Int32](file.fd, stat.unsafe_ptr()) != 0:
         raise Error("Cannot inspect service key file")
