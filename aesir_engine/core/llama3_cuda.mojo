@@ -7,6 +7,8 @@ from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel, element_kernel, argmax_kernel
 from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
 from core.inference_memory import llama3_memory_plan
+from core.cuda_sampling import NativeCUDASampler
+from core.sampling_config import NativeSamplingConfig
 
 comptime X = 0
 comptime N = X + 4096
@@ -77,9 +79,12 @@ struct Llama3CUDASession:
     var pending_token: Int
     var finish_reason: String
     var decoder: RuneStreamDecoder
+    var sampler: NativeCUDASampler
 
     def __init__(out self, path: String, context_length: Int = 8192,
-                 device_index: Int = 0, reserve_bytes: Int = 268435456) raises:
+                 device_index: Int = 0, reserve_bytes: Int = 268435456,
+                 sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
@@ -105,6 +110,7 @@ struct Llama3CUDASession:
         self.cache = self.context.enqueue_create_buffer[DType.float16](32 * 2 * context_length * 1024)
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
+        self.sampler = NativeCUDASampler(self.context, 128256, sampling)
         var staging = self.context.enqueue_create_host_buffer[DType.uint8](Int(self.model.source.file_size))
         unsafe_memcpy(dest=staging.unsafe_ptr(), src=self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), count=Int(self.model.source.file_size))
         self.context.enqueue_copy(self.weights, staging)
@@ -136,6 +142,7 @@ struct Llama3CUDASession:
         if token < 0 or token >= 128256 or self.position >= self.context_length:
             raise Error("Llama 3 token/context bound exceeded")
         self.healthy = False
+        self.sampler.record(token)
         var embedding = self.model.tensors["token_embd.weight"]
         self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(4096), Int64(token), Int64(X), Float32(1), grid_dim=32, block_dim=128)
         for layer in range(32):
@@ -164,7 +171,7 @@ struct Llama3CUDASession:
         if need_logits:
             self.norm("output_norm.weight", X, N)
             self.matvec("output.weight", N, LOGITS)
-            self.context.enqueue_function[argmax_kernel](self.a(), self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), Int64(LOGITS), Int64(128256), grid_dim=1, block_dim=32)
+            self.sampler.select(self.a(), LOGITS, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), 128000, 128001, 128009)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
             result = Int(self.host_output[0])
@@ -200,6 +207,25 @@ struct Llama3CUDASession:
         for i in range(len(tokens)):
             self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
         self.generating = True
+
+    def reset(mut self) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot reset a busy or failed CUDA session")
+        self.healthy = False
+        self.sampler.clear()
+        self.context.synchronize()
+        self.position = 0
+        self.generated_tokens = 0
+        self.prompt_tokens = 0
+        self.pending_token = -1
+        self.finish_reason = "reset"
+        self.decoder = RuneStreamDecoder()
+        self.healthy = True
+
+    def configure_sampling(mut self, sampling: NativeSamplingConfig) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot configure a busy or failed CUDA session")
+        self.sampler.configure(sampling)
 
     def next_chunk(mut self) raises -> String:
         if not self.generating:

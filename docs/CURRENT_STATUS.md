@@ -1,6 +1,6 @@
 # Current project status
 
-**Current as of 2026-08-30.** This document is the concise operational entry
+**Current as of 2026-08-31.** This document is the concise operational entry
 point for Project A.E.S.I.R. It complements the detailed
 [capability ledger](../CAPABILITY_LEDGER.md), which is authoritative for every
 capability ID. Dated audits, roadmaps, vision documents, and external reference
@@ -17,11 +17,11 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Capability | Status and evidence |
 |---|---|
 | CPU inference | A pinned GGUF v3 Llama F16 fixture runs through the native Mojo CPU path. The integration check verifies metadata, tokenizer IDs, 32 greedy tokens, decoded text, stop behavior, a context boundary, and pool restoration. |
-| Native CUDA Gemma chat | The dense, text-only `unsloth/gemma-4-E4B-it-GGUF` **Q4_K_M** profile runs through native Mojo CUDA kernels on the observed RTX 4070 Laptop GPU. All 42 layers, packed weights, activations, KV cache, and greedy token selection remain on the GPU; host code only handles scheduling, tokenization, and I/O. |
+| Native CUDA Gemma chat | The dense, text-only `unsloth/gemma-4-E4B-it-GGUF` **Q4_K_M** profile runs through native Mojo CUDA kernels on the observed RTX 4070 Laptop GPU. All 42 layers, packed weights, activations, KV cache, and native token selection remain on the GPU; host code only handles scheduling, tokenization, and I/O. |
 | Native CUDA Stheno chat | `bartowski/L3-8B-Stheno-v3.2-GGUF` **Q4_K_S** runs through a separate native 32-layer Llama 3 session, with F16 KV and an 8,192-position context. All 20 roleplay exchanges completed with natural EOS, 5,152 generated tokens and 6,514 context positions used. The [unedited conversation](evidence/stheno-roleplay-20.md) preserves both its connected story and model continuity imperfections. |
 | Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
-| Automated checks | The counted suite reports 152 passed, 0 failed, and 1 explicit external-fixture skip (153 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
+| Automated checks | The counted suite reports 155 passed, 0 failed, and 1 explicit external-fixture skip (156 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
@@ -36,9 +36,11 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
 - CUDA errors fail the session. There is no CPU model fallback and no external
   inference backend. GPU utilization was observed as high as 100%; utilization
   is variable and is not a constant-use guarantee.
-- Sampling is deterministic greedy. Temperature, top-k, top-p, penalties,
-  grammar-constrained generation, speculative decoding, batching, and
-  production serving have no acceptance evidence for this CUDA profile.
+- Native CUDA chat supports seeded temperature/top-k/top-p/min-p sampling,
+  repetition penalties and explicit reset/settings controls. The GPU sampler
+  matches 896 independent reference decisions; see [runtime controls](NATIVE_RUNTIME.md).
+  Grammar-constrained generation, speculative decoding, batching and production
+  serving remain unverified for these CUDA profiles.
 - The 16,384 setting is a maximum number of new tokens, not evidence that a
   16,384-token response has been generated and independently validated. The
   accepted conversation used a 32,768-token context configuration.

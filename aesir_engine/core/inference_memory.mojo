@@ -1,5 +1,6 @@
 """Exact explicit buffer accounting for the implemented native CUDA profiles."""
 from core.native_hardware import observe_host_memory
+from core.sampling_config import sampling_device_bytes
 
 
 def checked_bytes_sum(a: Int, b: Int) raises -> Int:
@@ -47,7 +48,7 @@ def llama3_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan
     if context < 2 or context > 8192:
         raise Error("Llama 3 memory context must be in 2..8192")
     return InferenceMemoryPlan(weights, 32 * 2 * context * 1024 * 2,
-                               (179456 + 32 * context) * 4)
+                               (179456 + 32 * context) * 4 + sampling_device_bytes(128256))
 
 
 def gemma4_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan:
@@ -55,4 +56,4 @@ def gemma4_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan
         raise Error("Gemma 4 memory context must be in 2..32768")
     # Only first 24 layers own KV: twenty local windows and four global caches.
     var kv = (20 * 2 * 512 * 2 * 256 + 4 * 2 * context * 2 * 512) * 4
-    return InferenceMemoryPlan(weights, kv, (322048 + 8 * context) * 4)
+    return InferenceMemoryPlan(weights, kv, (322048 + 8 * context) * 4 + sampling_device_bytes(262144))

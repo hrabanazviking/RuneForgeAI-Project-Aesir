@@ -16,6 +16,14 @@
 
 ---
 
+## Native CUDA chat controls
+
+`cli/sampling.mojo` validates native sampling flags and interactive setting
+values. `cuda_chat.mojo` owns `/help`, `/show`, `/clear`, `/set` and `/bye`,
+reports successful state changes and rejections to the durable transcript,
+and treats prompt-file lines literally. The core owns sampler/KV state.
+CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
+
 ## Public Structs & Functions
 
 ### `Modelfile` (`cli/modelfile.mojo`)

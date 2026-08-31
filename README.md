@@ -34,7 +34,7 @@ for single-shot CUDA execution.
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **152 passed, 0 failed**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, quantization support, and a growing hardware abstraction layer.
+The current automated test suite is at **155 passed, 0 failed**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, quantization support, and a growing hardware abstraction layer.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 
@@ -108,7 +108,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ### 4. Greedy Argmax Generation & Sampler Pipeline
 
- * **The Concept:** The generation pipeline converts model output logits into new token IDs. A.E.S.I.R. currently uses verified greedy argmax selection ([`AES-GEN-002`](CAPABILITY_LEDGER.md)) to pick the highest-probability token deterministically without temporary heap allocations.
+ * **The Concept:** The generation pipeline converts model output logits into new token IDs. Native CUDA chat also supports [seeded sampling and repetition controls](docs/NATIVE_RUNTIME.md). The CPU reference path uses verified greedy argmax selection ([`AES-GEN-002`](CAPABILITY_LEDGER.md)) to pick the highest-probability token deterministically without temporary heap allocations.
  * **Current Scope vs Target Vision:** Multi-sampler pipelines (temperature, top-k, top-p, min-p) are scaffolded and will be verified in upcoming kernel stages.
 
 ## ⚡ Technical Specifications & Truth Boundaries

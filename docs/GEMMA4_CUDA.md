@@ -89,8 +89,8 @@ intelligence. Raw trial transcripts remain in local ignored evidence files.
 
 Numerical matvec checks are not full-model logit parity. Long 16,384-token
 outputs, arbitrary Gemma variants, other GPUs and hardware CI are not claimed
-as tested. Current sampling is deterministic greedy. Do not pass unsupported
-sampling flags expecting them to take effect.
+as tested. Greedy remains the default; [native runtime controls](NATIVE_RUNTIME.md)
+document the separately tested seeded CUDA sampler and interactive settings.
 
 For independent CUDA matvec verification, install `gguf==0.19.0` and NumPy in a
 test environment, generate expectations with

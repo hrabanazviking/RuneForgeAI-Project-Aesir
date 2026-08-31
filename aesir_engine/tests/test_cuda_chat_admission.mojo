@@ -12,6 +12,14 @@ def test_cuda_chat_admission() raises:
         "chat missing.gguf --accel cuda --profile llama3 --context 8193",
         "chat missing.gguf --accel cuda --profile llama3 --max-tokens 8193",
         "chat missing.gguf --accel cuda --profile llama3 --context 1",
+        "chat missing.gguf --accel cuda --temperature NaN",
+        "chat missing.gguf --accel cuda --top-k 257",
+        "chat missing.gguf --accel cuda --top-p 0",
+        "chat missing.gguf --accel cuda --min-p 1.01",
+        "chat missing.gguf --accel cuda --repeat-penalty 0",
+        "chat missing.gguf --accel cuda --repeat-last-n 0",
+        "chat missing.gguf --accel cuda --seed 18446744073709551616",
+        "chat missing.gguf --accel cuda --temperature 0.8 --temperature 1",
     ]
     for request in cases:
         var args = List[String]()

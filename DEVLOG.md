@@ -1,3 +1,19 @@
+## 2026-08-31 — Native CUDA sampling and reusable chat controls
+
+Implemented device-side exact top-k, temperature, min-p, nucleus sampling,
+SplitMix64 seeds and repetition history in both CUDA profiles. Added strict
+CLI flags, `/show`, `/clear`, `/set`, `/help` and healthy-session recovery from
+invalid prompts/settings. Reset retains weights while clearing logical context,
+history and seed sequence. Non-finite logits now fail greedy selection too.
+
+Verification: 896 physical GPU decisions match independent CPU probability
+references across 14 scenarios; all 155 counted cases pass with one external
+skip; pinned CPU 32-token/text/context parity still passes. Both real models
+passed four-turn sampled/greedy reset replay, invalid control/prompt recovery
+and exclusive durable-log checks at context 512. This does not expand model
+architectures, prove arbitrary hardware or certify sampler throughput.
+See [native runtime controls](docs/NATIVE_RUNTIME.md) for semantics and reproduction.
+
 # Project Aesir Devlog
 
 ## Entry 123: Integration regressions and CPU packed-weight proof

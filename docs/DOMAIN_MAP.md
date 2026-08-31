@@ -28,6 +28,12 @@ CUDA discovery, exact explicit-buffer accounting and fitting-device selection
 plan and observation APIs; `cli/hardware.mojo` owns options and presentation.
 Each core session rechecks its budget before allocation. See `NATIVE_RUNTIME.md`.
 
+Native sampling ownership: core owns `sampling_config` policy and
+`cuda_sampling` device candidate selection, RNG and repetition history. CUDA
+sessions own safe reset/configuration boundaries; `cli/sampling` owns strict
+option syntax and `cli/cuda_chat` owns interactive commands/transcript events.
+The independent CPU sampler exists only in test tooling.
+
 The Stheno profile has identical domain ownership but separate
 `Llama3Tokenizer` and `Llama3CUDASession` implementations. Core owns the F16
 cache and context-exhaustion policy; CLI selects `--profile llama3` and never

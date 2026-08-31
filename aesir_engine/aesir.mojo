@@ -23,6 +23,7 @@ from core.llama3_cuda import Llama3CUDASession
 from core.runtime_plan import NativeModelPlan, choose_native_cuda
 from core.native_hardware import observe_host_memory, observe_cpu_name, bounded_decimal
 from core.cuda_gate import CUDAGate
+from core.sampling_config import NativeSamplingConfig
 
 
 def calculate_runtime_pool_bytes(

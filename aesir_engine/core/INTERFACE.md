@@ -3,8 +3,8 @@
 > **Current execution boundary:** the documented CPU path remains supported, and
 > `gemma4_cuda.mojo` executes the full dense text-only Gemma 4 E4B Q4_K_M model
 > on one CUDA device: packed weights, activations, KV cache, transformer
-> operations, logits, and greedy selection are device-resident. Other GPU/NPU
-> backends, multi-GPU, generic GPU selection, and logical shards remain
+> operations, logits, and native sampling are device-resident. Other GPU/NPU
+> backends, multi-GPU, non-CUDA selection, and logical shards remain
 > unimplemented or host-only. See `docs/CURRENT_STATUS.md` for the evidence
 > boundary.
 > `llama3_cuda.mojo` adds the separate dense Llama 3 8B Stheno profile with the
@@ -23,6 +23,18 @@ Selection uses observed compatible devices and never falls back to CPU.
 Both CUDA session constructors additionally accept `device_index=0` and
 `reserve_bytes=268435456`, rechecking memory before allocating. Plans do not
 reserve memory against other processes. See `docs/NATIVE_RUNTIME.md`.
+
+### Native CUDA sampling and session controls
+
+`NativeSamplingConfig` owns validated temperature/top-k/top-p/min-p/repetition
+and UInt64 seed policy. Both CUDA constructors accept `sampling` after
+`reserve_bytes`; default construction preserves greedy selection.
+`configure_sampling(config)` changes policy between turns, and `reset()`
+clears position/history/draw state without reloading weights. Both reject busy
+or failed sessions. Repetition-window changes require a new session.
+`NativeCUDASampler` owns fixed device workspaces and the ordered-stream history;
+no probability tensors are copied to CPU. See `docs/NATIVE_RUNTIME.md` for
+exact filtering order, byte counts, admission and reproducibility boundaries.
 
 ### `MimirWell`
 Pre-allocates the contiguous workspace pool. Raises `Error` on nonpositive pool sizes, negative allocations, integer overflow, or pool exhaustion.

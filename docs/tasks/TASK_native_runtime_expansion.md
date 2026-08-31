@@ -58,4 +58,11 @@ other hardware. Push each reviewable verified slice and inspect hosted CI.
 - Slice 1 implemented: observed hardware CLI, checked model plans, CUDA
   device selection, reserve/host admission and automatic single-shot profile
   detection. Five new counted tests and the physical CLI integration passed
-  for both models. Master: 152 passed, 0 failed, 1 skipped. Other slices remain.
+  for both models. Master at that milestone: 152 passed, 0 failed, 1 skipped.
+- Slice 2 implemented (2026-08-31): native CUDA sampling, strict CLI controls,
+  reset/show/settings and safe interactive admission recovery. All 896 physical
+  sampling decisions matched an independent reference; both real models passed
+  sampled and greedy replay/reset plus protected transcript checks. Master:
+  155 passed, 0 failed, 1 skipped. Pinned CPU parity remains passing.
+- Next: reduce native model upload staging requirements, then continue expanding
+  model/device coverage with real fixtures and independent numerical evidence.

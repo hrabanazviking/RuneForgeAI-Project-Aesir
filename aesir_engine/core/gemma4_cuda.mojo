@@ -6,6 +6,8 @@ from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.gemma4_tokenizer import Gemma4Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.inference_memory import gemma4_memory_plan
+from core.cuda_sampling import NativeCUDASampler
+from core.sampling_config import NativeSamplingConfig
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
@@ -104,9 +106,12 @@ struct Gemma4CUDASession:
     var pending_token: Int
     var finish_reason: String
     var decoder: RuneStreamDecoder
+    var sampler: NativeCUDASampler
 
     def __init__(out self, path: String, context_length: Int = 32768,
-                 device_index: Int = 0, reserve_bytes: Int = 268435456) raises:
+                 device_index: Int = 0, reserve_bytes: Int = 268435456,
+                 sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
@@ -139,6 +144,7 @@ struct Gemma4CUDASession:
         self.cache = self.context.enqueue_create_buffer[DType.float32](cache_elements)
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
+        self.sampler = NativeCUDASampler(self.context, 262144, sampling)
         # One initial upload. No layer weights or KV are staged through the CPU
         # during prefill or decoding. The staging allocation dies after sync.
         var staging = self.context.enqueue_create_host_buffer[DType.uint8](Int(self.model.source.file_size))
@@ -180,6 +186,7 @@ struct Gemma4CUDASession:
             raise Error("Gemma 4 token/context bound exceeded")
         # Poison until the complete token operation has succeeded.
         self.healthy = False
+        self.sampler.record(token)
         self.embed("token_embd.weight", token, X, sqrt(Float32(2560)))
         self.embed("per_layer_token_embd.weight", token, PLE, 16)
         self.matvec("per_layer_model_proj.weight", X, PLE_TEMP)
@@ -231,7 +238,7 @@ struct Gemma4CUDASession:
             self.norm("output_norm.weight", X, N, 2560)
             self.matvec("token_embd.weight", N, LOGITS)
             self.element(4, LOGITS, 0, LOGITS, 262144, 30)
-            self.context.enqueue_function[argmax_kernel](self.a(), self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), Int64(LOGITS), Int64(262144), grid_dim=1, block_dim=32)
+            self.sampler.select(self.a(), LOGITS, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), 262144, -1, -1)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
             result = Int(self.host_output[0])
@@ -270,6 +277,25 @@ struct Gemma4CUDASession:
         for i in range(len(tokens)):
             self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
         self.generating = True
+
+    def reset(mut self) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot reset a busy or failed CUDA session")
+        self.healthy = False
+        self.sampler.clear()
+        self.context.synchronize()
+        self.position = 0
+        self.generated_tokens = 0
+        self.prompt_tokens = 0
+        self.pending_token = -1
+        self.finish_reason = "reset"
+        self.decoder = RuneStreamDecoder()
+        self.healthy = True
+
+    def configure_sampling(mut self, sampling: NativeSamplingConfig) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot configure a busy or failed CUDA session")
+        self.sampler.configure(sampling)
 
     def next_chunk(mut self) raises -> String:
         """Advance native GPU decoding and return complete UTF-8 output bytes."""

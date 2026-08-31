@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-4, August 30, 2026
+**Ledger version:** GPU-5, August 31, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 152 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 153, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 155 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 156, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -469,11 +469,11 @@ the complete ledger population.
 
 - **Status:** `verified`
 - **Owner:** generation domain
-- **Claim sources:** README sampler language; CLI `show`/manifest parameters; sampler stack
-- **Implementation evidence:** `RuneRNG` struct and `sample_token_from_logits()` in `sampler.mojo` supporting repetition penalties, temperature scaling, top-k, top-p nucleus filtering, and deterministic seed contract.
-- **Executable evidence:** `test_sampler_stack()` in `test_inference.mojo`.
-- **Evidence boundary:** Deterministic PRNG and candidate filtering stack; does not claim hardware-accelerated parallel GPU softmax reduction.
-- **Next acceptance gate:** GGUF model-specific default sampler preset metadata loading.
+- **Claim sources:** native CUDA chat controls; sampler stack
+- **Implementation evidence:** `NativeSamplingConfig`, `NativeCUDASampler` and native CUDA partition/merge kernels implement stable exact top-k (1..256), temperature, min-p, nucleus filtering, SplitMix64 seeds and device repetition history. Both CUDA model sessions and `chat` use this implementation. Plain greedy remains the default.
+- **Executable evidence:** Three counted configuration/parser tests plus `scripts/test_cuda_sampling.py`: 896 physical CUDA selections match an independent CPU sort/probability reference across 14 cases, including reset/replay, masked EOS, ties, non-finite rejection and repetition eviction. Pinned CPU greedy token parity remains passing.
+- **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
+- **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets.
 - **Audit:** AER-007, AER-066.
 
 ### AES-GEN-006 — Custom stop tokens and stop strings
@@ -602,9 +602,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI interface and Ollama `run` implications
-- **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but `cuda_chat.mojo` provides interactive and prompt-file chat with a persistent `Gemma4CUDASession` or `Llama3CUDASession`, streamed text, `/bye`/EOF handling and durable transcripts. `--profile llama3` selects Stheno with an 8K context and remaining-context completion policy.
+- **Implementation evidence:** the legacy `RuneREPL` remains a local state/scaffold surface, but `cuda_chat.mojo` provides interactive and prompt-file chat with a persistent `Gemma4CUDASession` or `Llama3CUDASession`, streamed text, `/help`, `/show`, `/clear`, validated `/set`, `/bye`/EOF handling and durable transcripts. Reset retains loaded weights and invalid interactive admissions preserve healthy history. `--profile llama3` selects Stheno with an 8K context and remaining-context completion policy.
 - **Executable evidence:** `E-MASTER` covers legacy state bounds; physical Gemma and Stheno runs each completed 20 prompt-file exchanges. Stheno's unedited transcript records 20 natural EOS stops, 5,152 generated tokens and 6,514 retained context positions with an 8,192 ceiling; see `docs/evidence/stheno-roleplay-20.md`.
-- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma and Llama 3 profiles. The legacy general REPL, slash-command integration, signal handling, and arbitrary-model chat are not established.
+- **Evidence boundary:** Interactive inference is limited to the documented CUDA Gemma and Llama 3 profiles. The legacy general REPL, signal handling, cancellation and arbitrary-model chat are not established.
 - **Next acceptance gate:** Consolidate the legacy/general session surface with the CUDA chat contract and add terminal-interaction tests.
 - **Audit:** AER-059, AER-068.
 

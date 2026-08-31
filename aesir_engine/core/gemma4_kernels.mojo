@@ -6,7 +6,7 @@ All offsets and extents must be validated by the loader/session before launch.
 from std.memory import Pointer, bitcast
 from std.gpu import global_idx
 from std.gpu.primitives import warp
-from std.math import sqrt, exp, log, cos, sin, tanh
+from std.math import sqrt, exp, log, cos, sin, tanh, isfinite
 @always_inline
 def fast_fast_tanh(x: Float32) -> Float32:
     return tanh(x)
@@ -235,12 +235,12 @@ def argmax_kernel(a: Floats, output: Integers, logits_arg: Int64, count_arg: Int
     var logits = Int(logits_arg)
     var count = Int(count_arg)
     var lane = Int(global_idx.x)
-    var best: Float32 = -3.4028235e38
+    var best = -bitcast[DType.float32](UInt32(0x7f800000))
     var best_id = Int32(2147483647)
     var bad = Int32(0)
     for i in range(lane, count, 32):
         var value = a.unsafe_load(logits + i)
-        if value != value:
+        if not isfinite(value):
             bad = 1
         if value > best:
             best = value

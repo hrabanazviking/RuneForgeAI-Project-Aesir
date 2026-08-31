@@ -124,6 +124,8 @@ identifies CC-BY-NC-4.0. Weights remain external; that license is distinct from
 the engine's license. Quantization labels describe a mixed tensor profile:
 this Q4_K_S artifact contains Q4_K, Q5_K, Q6_K and F32 tensors.
 
-General Llama-family compatibility, extended RoPE, batched prefill, sampling
-beyond greedy, full-model logit parity, API serving and hardware CI are not
+Native CUDA sampling and interactive reset/settings are described in
+[NATIVE_RUNTIME.md](NATIVE_RUNTIME.md); the historical 20-turn transcript remains
+unchanged and used greedy selection. General Llama-family compatibility,
+extended RoPE, batched prefill, full-model logit parity, API serving and hardware CI are not
 established by these checks.

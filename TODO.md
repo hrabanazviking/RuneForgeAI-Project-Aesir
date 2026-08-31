@@ -10,12 +10,18 @@ counts as completion of an external capability.
 Latest completed native profile: Stheno Q4_K_S download, Llama 3 CUDA inference
 and 20-turn roleplay with an 8K ceiling. See [the evidence and remaining
 limits](docs/STHENO_CUDA.md). General model support, full-model logit parity,
-non-greedy sampling and optimized batched prefill remain future work.
+and optimized batched prefill remain future work. Native CUDA sampling now has
+an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME.md).
 
 - [x] Connect native CPU/CUDA hardware reporting, checked model memory plans,
   fitting-device selection and automatic CUDA single-shot profile detection.
   Five counted cases and both physical CUDA profile integrations passed;
   [limits and commands](docs/NATIVE_RUNTIME.md) retain unverified devices.
+
+- [x] Native CUDA temperature/top-k/top-p/min-p/repetition controls, seeded
+  device selection and explicit session reset/settings. Independent GPU sampler
+  reference and both real model/control integrations pass.
+- [ ] Reduce pinned host upload staging and prove tail-copy correctness.
 
 > “I know that I sat nine days and nights, the friend of Mímir, seeking wisdom, until I was given to myself, and my own mind was won.”
 > — Hávamál, Stanza 141
