@@ -110,15 +110,15 @@ def test_thinking_and_tool_use() raises:
         raise Error("test_thinking_and_tool_use: Failed to parse tool call name")
     print("test_thinking_and_tool_use: PASS")
 
-def test_smart_crash_and_max() raises:
+def test_smart_failure_diagnostics() raises:
     var reporter = SmartCrashReporter()
     _ = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
     _ = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
     var r3 = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
     if not reporter.threshold_reached:
-        raise Error("test_smart_crash_and_max: failure threshold was not recorded")
+        raise Error("test_smart_failure_diagnostics: failure threshold was not recorded")
     if "Category: resource_exhaustion" not in r3 or "Recovery action: none performed" not in r3:
-        raise Error("test_smart_crash_and_max: bounded diagnostic report is incorrect")
+        raise Error("test_smart_failure_diagnostics: bounded diagnostic report is incorrect")
 
     var count_before_rejection = reporter.consecutive_failures
     var rejected = False
@@ -127,12 +127,34 @@ def test_smart_crash_and_max() raises:
     except:
         rejected = True
     if not rejected or reporter.consecutive_failures != count_before_rejection:
-        raise Error("test_smart_crash_and_max: invalid failure mutated reporter state")
+        raise Error("test_smart_failure_diagnostics: invalid failure mutated reporter state")
 
+    print("test_smart_failure_diagnostics: PASS")
+
+def test_max_gate_boundary() raises:
     var max_gate = MAXGate()
-    if not max_gate.is_available():
-        raise Error("test_smart_crash_and_max: MAXGate is_available returned false")
-    print("test_smart_crash_and_max: PASS")
+    if max_gate.is_available() or max_gate.is_initialized or max_gate.num_devices != 0:
+        raise Error("test_max_gate_boundary: legacy gateway fabricated availability")
+
+    var well = MimirWell(1024)
+    var A = RuneTensor[f16](2, 2, well.allocate(4), False)
+    var B = RuneTensor[f16](2, 2, well.allocate(4), False)
+    var C = RuneTensor[f16](2, 2, well.allocate(4), False)
+    for i in range(4):
+        A.data.unsafe_store(i, Scalar[f16](1.0))
+        B.data.unsafe_store(i, Scalar[f16](1.0))
+        C.data.unsafe_store(i, Scalar[f16](7.0))
+    var rejected = False
+    try:
+        max_gate.launch_gemm_max(A, B, C)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_max_gate_boundary: legacy gateway substituted host GEMM")
+    for i in range(4):
+        if C.data.unsafe_load(i) != Scalar[f16](7.0):
+            raise Error("test_max_gate_boundary: rejected gateway mutated output")
+    print("test_max_gate_boundary: PASS")
 
 def test_experimental_paradigms() raises:
     var well = MimirWell(1024 * 1024)
@@ -220,6 +242,7 @@ def main() raises:
     test_help_and_tui()
     test_skaldbrodir_doom_loop()
     test_thinking_and_tool_use()
-    test_smart_crash_and_max()
+    test_smart_failure_diagnostics()
+    test_max_gate_boundary()
     test_experimental_paradigms()
     print("=== ALL NEW PARADIGMS PROVED CLEAN PASS ===")

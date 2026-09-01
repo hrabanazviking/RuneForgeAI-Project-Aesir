@@ -158,7 +158,7 @@ graph TD
   - `ThinkingController`: Thought token block parsing and hard logit suppression for reasoning tokens when disabled.
   - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.
   - `SmartCrashReporter`: Validated in-memory caller-reported failure counter and deterministic diagnostic formatter (`AES-RES-006`). Reports state that no recovery action occurred; it does not intercept crashes, persist logs, switch hardware, restart a process, or call AI.
-  - `MAXGate`: Modular MAX Framework execution graph gateway.
+  - `MAXGate`: Legacy unavailable graph gateway. It reports no devices and rejects without mutating output; real MAX CUDA work uses the selected-device resource and executor modules.
   - `EpisodicComputationMemory`: Reserved CIA surface; semantic state hashing/storage/lookup are unavailable and raise.
   - `WaveInferenceEngine`: Reserved WIC surface; no wave solver or inference transform is implemented.
   - `NSFIEngine`: Reserved NSFI surface; no trained representation or weight reconstruction is implemented.

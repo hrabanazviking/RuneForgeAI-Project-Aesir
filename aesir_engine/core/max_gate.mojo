@@ -1,43 +1,39 @@
 # core/max_gate.mojo
-# Modular MAX Engine Hardware Acceleration & Graph Compilation Gateway
+# Legacy MAX graph gateway boundary. Real CUDA execution lives in
+# cuda_resources.mojo and cuda_compute.mojo with selected device ownership.
 
 from .mimir_well import RuneTensor, f16
 
 struct MAXGate:
     """
-    MAXGate — Gateway interface for Modular MAX Engine execution graph compilation and hardware acceleration.
+    Reserved graph gateway without a graph/device runtime owner.
     """
     var is_initialized: Bool
     var num_devices: Int
     var device_name: String
 
     def __init__(out self):
-        self.is_initialized = True
-        self.num_devices = 1
-        self.device_name = String("Modular MAX Graph Engine")
+        self.is_initialized = False
+        self.num_devices = 0
+        self.device_name = String("")
 
     def is_available(self) -> Bool:
-        """Returns whether Modular MAX runtime is detected on host system."""
-        return self.is_initialized
+        """Returns false; this class performs no runtime discovery."""
+        return False
 
     def launch_gemm_max(self, A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) raises:
         """
-        Dispatches GEMM operation to Modular MAX accelerated graph engine.
-        Falls back cleanly if dimension constraints fail.
+        Validates tensor shapes, then rejects because no MAX graph executor is
+        attached. It never substitutes a host scalar loop for acceleration.
         """
-        if A.shape.ndim < 2 or B.shape.ndim < 2:
-            raise Error("MAXGate: Tensors must be at least 2-dimensional")
+        if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
+            raise Error("MAXGate: tensor dimensions must be positive")
 
-        var M = A.shape.dim(0)
-        var K = A.shape.dim(1)
-        var N = B.shape.dim(1)
+        var M = A.rows
+        var K = A.cols
+        var N = B.cols
 
-        if B.shape.dim(0) != K or C.shape.dim(0) != M or C.shape.dim(1) != N:
+        if B.rows != K or C.rows != M or C.cols != N:
             raise Error("MAXGate: Incompatible GEMM shape dimensions")
 
-        for m in range(M):
-            for n in range(N):
-                var acc: Float64 = 0.0
-                for k in range(K):
-                    acc += Float64(A.get(m, k)) * Float64(B.get(k, n))
-                C.set(m, n, Scalar[f16](acc))
+        raise Error("MAXGate graph execution is not implemented; use an explicit CUDA executor")

@@ -1,3 +1,13 @@
+## 2026-09-01 — Removed host GEMM from the MAX graph label
+
+The detached `MAXGate` no longer invents one device, reports itself available,
+or runs a scalar CPU matrix loop under a MAX acceleration name. It now starts
+empty and rejects shape-valid execution without changing output tensors.
+
+This does not affect the real selected-device MAX CUDA resource and executor
+path used by native Gemma and Llama profiles. The new counted boundary test
+keeps the legacy gateway from silently becoming a host fallback again.
+
 ## 2026-09-01 — Replaced crash-recovery theater with diagnostics
 
 The crash reporter now records bounded caller-supplied failures, classifies two
