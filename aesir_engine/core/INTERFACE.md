@@ -787,8 +787,8 @@ winner to `C`. The bounded cache key includes the caller-supplied device identit
 format, and exact M/N/K. The v1 codec is limited to 1 MiB, binds records to a
 caller build fingerprint, encodes device keys safely, checks record counts and
 an FNV-1a checksum, and restores transactionally. Core performs no file I/O;
-the caller owns atomic persistence. This remains opt-in, not automatic model
-dispatch.
+`cli/quantization_tuning_storage.mojo` provides the separate locked atomic Linux
+file boundary. This remains opt-in, not automatic model dispatch.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

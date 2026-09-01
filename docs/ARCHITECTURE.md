@@ -404,6 +404,7 @@ outside these bounded host primitives.
 | `CompressedFormatType` | Core memory/types | Carry an internal descriptor; never imply support by name alone |
 | `dequantize_compressed_tensor()` | Core compute | Dispatch implemented layouts and reject reserved descriptors before mutation |
 | `QuantizedGEMMAutotuner` | Core tuning policy | Measure real host candidates over caller-owned scratch, require output agreement, and cache an exact-shape winner |
+| `DurableQuantizationTuningCache` | CLI control-plane storage | Lock, bound, privately stage, sync, atomically publish, and reload the core cache record |
 | Quantization tests | Tests | Use authoritative fixtures/oracles for compatibility claims; use boundary tests for unavailable formats |
 
 ---

@@ -13,9 +13,12 @@ fingerprints, hex-safe device identities, exact measurements, an FNV-1a
 checksum, duplicate rejection, and transactional restore. Two counted cases
 cover all 26 discriminants, exact storage rates, positive measurements, winner
 execution, cache reuse, restart serialization, wrong-build/corruption rejection,
-restored execution, and metadata-bearing rejection. Built-in atomic file storage,
-automatic model dispatch, physical CUDA candidates, and representative
-performance evidence remain open.
+restored execution, atomic persistence through a fresh owner, and
+metadata-bearing rejection. `cli/quantization_tuning_storage.mojo` owns the
+separate normalized-path, locked, no-follow, bounded, private-stage/fsync/rename/
+directory-fsync Linux file boundary. Automatic build/device fingerprints, model
+dispatch, physical CUDA candidates, and representative performance evidence
+remain open.
 
 ## 2026-09-01 — Added canonical GGML TQ1_0 ternary host execution
 

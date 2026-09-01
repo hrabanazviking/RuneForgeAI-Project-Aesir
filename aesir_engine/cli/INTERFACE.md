@@ -317,3 +317,15 @@ outputs are never deleted or replaced. Contents are never printed. All POSIX
 path pointers refer to explicitly terminated, owned byte buffers. The native
 key probe runs in CI without a GPU; crash/persistence limits are documented in
 `docs/NATIVE_SERVICE.md`.
+
+### Durable quantization tuning cache
+
+`DurableQuantizationTuningCache(root_path, build_fingerprint)` stores the core
+autotuner's checksummed v1 codec as `quantization-tuning.v1`. The Linux boundary
+accepts a normalized relative root, creates missing directories with mode 0700,
+locks and opens the final directory without following a symlink, reads the
+target with `O_NOFOLLOW`, enforces the 1 MiB limit, stages through `mkstemp`,
+syncs the staged file, atomically renames it, and syncs the directory. `load()`
+returns false for an absent record and transactionally restores a present valid
+record. Callers still supply the build fingerprint; automatic runtime wiring is
+outside this storage interface.

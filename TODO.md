@@ -462,9 +462,11 @@ The legacy formatters below are not exposed compatibility APIs.
   the exact-device/format/shape winner in memory (`AES-QNT-011`).
 - [x] Serialize and transactionally restore a bounded, checksummed v1 tuning
   cache tied to caller-supplied build and device identities (`AES-QNT-011`).
-- [ ] Add atomic cache-file integration with automatic executable/physical-device
-  fingerprints, synchronized CUDA and metadata-bearing candidates, and a
-  representative statistical benchmark matrix (`AES-QNT-011`).
+- [x] Add locked, no-follow, bounded, private-stage/fsync/rename/fsync Linux
+  cache-file persistence around the core codec (`AES-QNT-011`).
+- [ ] Derive automatic executable/physical-device fingerprints, add synchronized
+  CUDA and metadata-bearing candidates, and build a representative statistical
+  benchmark matrix (`AES-QNT-011`).
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 

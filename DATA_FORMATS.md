@@ -1116,8 +1116,9 @@ A JSON representation is also maintained at `docs/sbom.json` for tooling:
 
 `QuantizedGEMMAutotuner.serialize_cache()` emits a UTF-8, newline-delimited,
 bounded cache record. Core returns the bytes to its caller and does not choose a
-path or perform file I/O. A caller that persists the record must publish it
-atomically and apply its own private-file policy.
+path or perform file I/O. `DurableQuantizationTuningCache` stores the record as
+`quantization-tuning.v1` beneath a validated relative root using a locked final
+directory, private staging file, file sync, atomic rename, and directory sync.
 
 ```text
 AESIR_QGEMM_TUNING_CACHE_V1

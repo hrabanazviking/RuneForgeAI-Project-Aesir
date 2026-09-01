@@ -8,6 +8,11 @@ from core.quantization_autotuner import (
     QuantizedGEMMAutotuner,
     get_quantization_format_info,
 )
+from cli.quantization_tuning_storage import (
+    DurableQuantizationTuningCache,
+    TUNING_CACHE_FILE,
+)
+from std.ffi import external_call
 
 
 def test_quantization_format_metadata() raises:
@@ -176,6 +181,31 @@ def test_measured_quantized_gemm_autotuner() raises:
     for index in range(output_elements):
         if output.data.unsafe_load(index) != expected.data.unsafe_load(index):
             raise Error("restored-cache output differs from direct GEMM")
+
+    var durable_root = (
+        ".aesir/tuning-cache-test-"
+        + String(external_call["getpid", Int32]())
+    )
+    var durable = DurableQuantizationTuningCache(
+        durable_root, "test-build-fingerprint"
+    )
+    durable.save(tuner)
+    var disk_restored = QuantizedGEMMAutotuner(max_entries=2)
+    if not durable.load(disk_restored) or disk_restored.cache_size() != 1:
+        raise Error("atomic tuning cache did not survive a fresh owner")
+    var cache_path = durable_root + "/" + TUNING_CACHE_FILE
+    var cache_path_bytes = List[Int8]()
+    for byte in cache_path.as_bytes():
+        cache_path_bytes.append(Int8(byte))
+    cache_path_bytes.append(0)
+    var root_path_bytes = List[Int8]()
+    for byte in durable_root.as_bytes():
+        root_path_bytes.append(Int8(byte))
+    root_path_bytes.append(0)
+    if external_call["unlink", Int32](cache_path_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove durable tuning cache test file")
+    if external_call["rmdir", Int32](root_path_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove durable tuning cache test root")
 
     var rejected_output = RuneTensor[f16](
         rows, outputs, well.allocate(output_elements), False
