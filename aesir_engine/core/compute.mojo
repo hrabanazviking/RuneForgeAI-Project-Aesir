@@ -32,6 +32,7 @@ from .external_quantization import (
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
     SmoothQuantW8A8Matrix,
+    HQQ4BitAxis1Matrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
@@ -40,6 +41,8 @@ from .external_quantization import (
     gemm_awq_4bit_matrix,
     dequantize_smoothquant_weights,
     gemm_smoothquant_w8a8,
+    dequantize_hqq_4bit_axis1,
+    gemm_hqq_4bit_axis1,
 )
 
 comptime simd_w_f16 = 16
@@ -529,6 +532,15 @@ def dequantize_hqq(
     _ = out_ptr
     _ = num_elements
     raise Error("HQQ dequantization requires tensor-specific scale, zero, grouping, and packing metadata; it is not implemented")
+
+
+@always_inline
+def dequantize_hqq(
+    matrix: HQQ4BitAxis1Matrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    dequantize_hqq_4bit_axis1(matrix, out_ptr, output_elements)
 
 
 @always_inline
@@ -1138,6 +1150,19 @@ def gemm_hqq(
     _ = B
     _ = C
     raise Error("HQQ GEMM requires tensor-specific scale, zero, grouping, and packing metadata; it is not implemented")
+
+
+def gemm_hqq(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: HQQ4BitAxis1Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    gemm_hqq_4bit_axis1(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_smoothquant_int8(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

@@ -7,6 +7,7 @@ from core.external_quantization import (
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
     SmoothQuantW8A8Matrix,
+    HQQ4BitAxis1Matrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
@@ -16,6 +17,8 @@ from core.external_quantization import (
     dequantize_smoothquant_weights,
     gemm_smoothquant_w8a8,
     quantize_smoothquant_int8,
+    dequantize_hqq_4bit_axis1,
+    gemm_hqq_4bit_axis1,
 )
 
 
@@ -227,8 +230,50 @@ def test_exl2_boundary() raises:
     assert_external_format_rejected(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), "EXL2_VARBIT")
 
 
-def test_hqq_boundary() raises:
-    assert_external_format_rejected(CompressedFormatType(CompressedFormatType.HQQ), "HQQ")
+def test_hqq_4bit_axis1_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(2).unsafe_bitcast[UInt8]()
+    var scales = well.allocate(4).unsafe_bitcast[Float16]()
+    var zeros = well.allocate(4).unsafe_bitcast[Float16]()
+    var expanded = well.allocate(8).unsafe_bitcast[Float16]()
+    var input = well.allocate(8).unsafe_bitcast[Float16]()
+    var output = well.allocate(4).unsafe_bitcast[Float16]()
+    packed.unsafe_store(0, UInt8(0x15))
+    packed.unsafe_store(1, UInt8(0x26))
+    packed.unsafe_store(2, UInt8(0x37))
+    packed.unsafe_store(3, UInt8(0x48))
+    var scale_values = [
+        Float16(0.5), Float16(1.0), Float16(0.25), Float16(0.125)
+    ]
+    var zero_values = [
+        Float16(1.0), Float16(2.0), Float16(3.0), Float16(4.0)
+    ]
+    for i in range(4):
+        scales.unsafe_store(i, scale_values[i])
+        zeros.unsafe_store(i, zero_values[i])
+    var matrix = HQQ4BitAxis1Matrix(
+        packed, 4, scales, 4, zeros, 4, 4, 2, 2
+    )
+    dequantize_hqq_4bit_axis1(matrix, expanded, 8)
+    var expected_weights = [
+        Float16(0.0), Float16(0.5), Float16(1.0), Float16(2.0),
+        Float16(0.5), Float16(0.75), Float16(0.375), Float16(0.5),
+    ]
+    for i in range(8):
+        if expanded.unsafe_load(i) != expected_weights[i]:
+            raise Error("HQQ 4-bit axis=1 cross-group unpack mismatch")
+
+    for i in range(4):
+        input.unsafe_store(i, Float16(i + 1))
+        input.unsafe_store(4 + i, Float16(1.0))
+    gemm_hqq_4bit_axis1(input, 8, 2, matrix, output, 4)
+    var expected_output = [
+        Float16(12.0), Float16(5.125), Float16(3.5), Float16(2.125)
+    ]
+    for i in range(4):
+        if output.unsafe_load(i) != expected_output[i]:
+            raise Error("HQQ 4-bit axis=1 GEMM mismatch")
+    print("HQQ 4-bit axis=1 native packing and execution: PASS")
 
 
 def test_smoothquant_int8_known_value() raises:

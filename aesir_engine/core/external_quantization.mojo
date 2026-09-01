@@ -828,3 +828,186 @@ def gemm_smoothquant_w8a8(
                 row * matrix.out_features + output_index,
                 result.cast[DType.float16](),
             )
+
+
+struct HQQ4BitAxis1Matrix(Copyable, ImplicitlyCopyable):
+    """Native HQQ 4-bit axis=1 packed matrix and floating metadata."""
+
+    var packed_weights: Pointer[UInt8, MutUntrackedOrigin]
+    var packed_elements: Int
+    var scales: Pointer[Float16, MutUntrackedOrigin]
+    var scale_elements: Int
+    var zeros: Pointer[Float16, MutUntrackedOrigin]
+    var zero_elements: Int
+    var in_features: Int
+    var out_features: Int
+    var group_size: Int
+    var group_count: Int
+
+    def __init__(
+        out self,
+        packed_weights: Pointer[UInt8, MutUntrackedOrigin],
+        packed_elements: Int,
+        scales: Pointer[Float16, MutUntrackedOrigin],
+        scale_elements: Int,
+        zeros: Pointer[Float16, MutUntrackedOrigin],
+        zero_elements: Int,
+        in_features: Int,
+        out_features: Int,
+        group_size: Int,
+    ) raises:
+        self.packed_weights = packed_weights
+        self.packed_elements = packed_elements
+        self.scales = scales
+        self.scale_elements = scale_elements
+        self.zeros = zeros
+        self.zero_elements = zero_elements
+        self.in_features = in_features
+        self.out_features = out_features
+        self.group_size = group_size
+        self.group_count = 0
+        if self.in_features <= 0 or self.out_features <= 0:
+            raise Error("HQQ4BitAxis1Matrix: dimensions must be positive")
+        if self.group_size <= 0:
+            raise Error("HQQ4BitAxis1Matrix: group_size must be positive")
+        var total = _checked_product(
+            self.in_features, self.out_features, "HQQ matrix"
+        )
+        if total % self.group_size != 0:
+            raise Error("HQQ4BitAxis1Matrix: group_size must divide the matrix")
+        self.group_count = total // self.group_size
+        self.validate()
+
+    def __copyinit__(out self, existing: Self):
+        self.packed_weights = existing.packed_weights
+        self.packed_elements = existing.packed_elements
+        self.scales = existing.scales
+        self.scale_elements = existing.scale_elements
+        self.zeros = existing.zeros
+        self.zero_elements = existing.zero_elements
+        self.in_features = existing.in_features
+        self.out_features = existing.out_features
+        self.group_size = existing.group_size
+        self.group_count = existing.group_count
+
+    def validate(self) raises:
+        if self.in_features <= 0 or self.out_features <= 0:
+            raise Error("HQQ4BitAxis1Matrix: dimensions must be positive")
+        if self.group_size <= 0:
+            raise Error("HQQ4BitAxis1Matrix: group_size must be positive")
+        if (
+            Int(self.packed_weights) <= 1
+            or Int(self.scales) <= 1
+            or Int(self.zeros) <= 1
+        ):
+            raise Error("HQQ4BitAxis1Matrix: storage pointers must be valid")
+        var total = _checked_product(
+            self.in_features, self.out_features, "HQQ matrix"
+        )
+        if total % self.group_size != 0:
+            raise Error("HQQ4BitAxis1Matrix: group_size must divide the matrix")
+        var expected_groups = total // self.group_size
+        if expected_groups % 2 != 0:
+            raise Error("HQQ4BitAxis1Matrix: 4-bit packing requires an even group count")
+        if self.group_count != expected_groups:
+            raise Error("HQQ4BitAxis1Matrix: group_count disagrees with shape")
+        if self.packed_elements != total // 2:
+            raise Error("HQQ4BitAxis1Matrix: packed storage length mismatch")
+        if self.scale_elements != expected_groups:
+            raise Error("HQQ4BitAxis1Matrix: scale storage length mismatch")
+        if self.zero_elements != expected_groups:
+            raise Error("HQQ4BitAxis1Matrix: zero storage length mismatch")
+
+
+@always_inline
+def _hqq_4bit_axis1_weight_unchecked(
+    matrix: HQQ4BitAxis1Matrix, input_index: Int, output_index: Int
+) -> Float32:
+    var linear_index = output_index * matrix.in_features + input_index
+    var group = linear_index // matrix.group_size
+    var lane = linear_index % matrix.group_size
+    var half_groups = matrix.group_count // 2
+    var packed_group = group if group < half_groups else group - half_groups
+    var packed = matrix.packed_weights.unsafe_load(
+        packed_group * matrix.group_size + lane
+    )
+    var quantized: Int
+    if group < half_groups:
+        quantized = Int((packed >> 4) & UInt8(0xF))
+    else:
+        quantized = Int(packed & UInt8(0xF))
+    var scale = matrix.scales.unsafe_load(group).cast[DType.float32]()
+    var zero = matrix.zeros.unsafe_load(group).cast[DType.float32]()
+    return (Float32(quantized) - zero) * scale
+
+
+def hqq_4bit_axis1_weight(
+    matrix: HQQ4BitAxis1Matrix, input_index: Int, output_index: Int
+) raises -> Float32:
+    matrix.validate()
+    if input_index < 0 or input_index >= matrix.in_features:
+        raise Error("hqq_4bit_axis1_weight: input index out of range")
+    if output_index < 0 or output_index >= matrix.out_features:
+        raise Error("hqq_4bit_axis1_weight: output index out of range")
+    return _hqq_4bit_axis1_weight_unchecked(
+        matrix, input_index, output_index
+    )
+
+
+def dequantize_hqq_4bit_axis1(
+    matrix: HQQ4BitAxis1Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(output) <= 1:
+        raise Error("dequantize_hqq_4bit_axis1: output pointer must be valid")
+    matrix.validate()
+    var expected_output = _checked_product(
+        matrix.in_features, matrix.out_features, "HQQ output"
+    )
+    if output_elements != expected_output:
+        raise Error("dequantize_hqq_4bit_axis1: output storage length mismatch")
+    for output_index in range(matrix.out_features):
+        for input_index in range(matrix.in_features):
+            output.unsafe_store(
+                output_index * matrix.in_features + input_index,
+                _hqq_4bit_axis1_weight_unchecked(
+                    matrix, input_index, output_index
+                ).cast[DType.float16](),
+            )
+
+
+def gemm_hqq_4bit_axis1(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: HQQ4BitAxis1Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(output) <= 1:
+        raise Error("gemm_hqq_4bit_axis1: input and output pointers must be valid")
+    matrix.validate()
+    var expected_input = _checked_product(
+        input_rows, matrix.in_features, "HQQ GEMM input"
+    )
+    var expected_output = _checked_product(
+        input_rows, matrix.out_features, "HQQ GEMM output"
+    )
+    if input_elements != expected_input:
+        raise Error("gemm_hqq_4bit_axis1: input storage length mismatch")
+    if output_elements != expected_output:
+        raise Error("gemm_hqq_4bit_axis1: output storage length mismatch")
+    for row in range(input_rows):
+        for output_index in range(matrix.out_features):
+            var accumulator = Float32(0.0)
+            for input_index in range(matrix.in_features):
+                accumulator += input.unsafe_load(
+                    row * matrix.in_features + input_index
+                ).cast[DType.float32]() * _hqq_4bit_axis1_weight_unchecked(
+                    matrix, input_index, output_index
+                )
+            output.unsafe_store(
+                row * matrix.out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )

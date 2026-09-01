@@ -55,11 +55,11 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   benchmark, hardware CI runner, resumable/authenticated Hub transfer,
   content-addressed model-byte ingestion, or production-service readiness claim.
   The recipe catalog does not copy or measure the GGUF referenced by a Modelfile.
-- GPTQ 4-bit/8-bit, AWQ GEMM 4-bit, and static SmoothQuant W8A8 now have checked format-compatible host dequantization/GEMM
+- GPTQ 4-bit/8-bit, AWQ GEMM 4-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 now have checked format-compatible host dequantization/GEMM
   primitive with explicit packed weights, zero points, scales, grouping, and
   optional activation-order indices. Model-file loading, tensor attachment,
-  CUDA dispatch, and full-model execution remain unfinished. EXL2, HQQ,
-  dynamic SmoothQuant variants, IQ/extreme quantization, OpenAI, Ollama,
+  CUDA dispatch, and full-model execution remain unfinished. EXL2, other HQQ
+  variants, dynamic SmoothQuant variants, IQ/extreme quantization, OpenAI, Ollama,
   llama.cpp, ONNX, RAG execution, Swarm, and NPU paths remain partial or fail
   closed as specified by the ledger.
 

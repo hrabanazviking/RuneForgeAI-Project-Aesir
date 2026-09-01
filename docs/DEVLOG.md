@@ -1,3 +1,12 @@
+## 2026-09-01 — Added native HQQ 4-bit axis=1 execution
+
+Added `HQQ4BitAxis1Matrix` with exact packed-weight, floating scale/zero,
+grouping, input, and output bounds. The decoder follows HQQ's unusual native
+`pack_4bit_u8` layout: high nibbles come from the first half of flattened group
+rows and low nibbles from the second half. The known-value test uses four
+different groups to prove both halves and checks two GEMM rows. The contract is
+traced to HQQ commit `d88a488ec8aa2d58362ef2038a52bca862db2e74`.
+
 ## 2026-09-01 — Added static SmoothQuant W8A8 host execution
 
 Added `SmoothQuantW8A8Matrix` for the reference torch-int static per-tensor
