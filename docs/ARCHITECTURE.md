@@ -154,7 +154,7 @@ graph TD
 - **Role:** Configuration intent and a mixture of bounded local helpers and reserved experimental surfaces; the capability ledger defines which execute.
 - **Components:**
   - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
-  - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
+  - `SkaldbrodirDetector`: Bounded exact-period scoring over a token-ID suffix. It emits soft/hard intervention signals and raises `INF-016` after two terminal-threshold observations. It does not compute entropy, modify logits, or affect generation until a runtime explicitly consumes it.
   - `ThinkingController`: Streaming text redaction for one literal thought-block convention, with split-marker buffering and malformed-block rejection (`AES-GEN-010`).
   - `ToolDefinition` / `ToolCall`: Strict bounded JSON schema formatting and exact tool-call parsing (`AES-GEN-011`). No tool execution or generation-loop integration exists.
   - `SmartCrashReporter`: Validated in-memory caller-reported failure counter and deterministic diagnostic formatter (`AES-RES-006`). Reports state that no recovery action occurred; it does not intercept crashes, persist logs, switch hardware, restart a process, or call AI.
@@ -163,7 +163,7 @@ graph TD
   - `WaveInferenceEngine`: Reserved WIC surface; no wave solver or inference transform is implemented.
   - `NSFIEngine`: Reserved NSFI surface; no trained representation or weight reconstruction is implemented.
   - `MQARIEngine`: Reserved MQARI surface; no physical acoustic/quantum operation or model projection is implemented.
-  - `AesirTUIDashboard`: Terminal monitoring dashboard showing live hardware realm, VRAM/RAM residency, and token throughput.
+  - `AesirTUIDashboard`: Validates and formats explicitly caller-observed runtime snapshots with source and timestamp provenance. With no observation it reports metrics unavailable; it does not inspect hardware or measure throughput itself.
 
 ### 6. `core/compute.mojo` — Nidavellir SIMD Kernels, Sharded Operations, NPU Gateway & GPU Realm Dispatch
 - **Role:** Hardware SIMD compute kernels, vector similarity alignment, sharded matrix algebra, NPU backend dispatch, and GPU realm matrix multiplication.

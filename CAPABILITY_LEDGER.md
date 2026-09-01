@@ -473,8 +473,9 @@ the complete ledger population.
 - **Claim sources:** native CUDA chat controls; sampler stack
 - **Implementation evidence:** `NativeSamplingConfig`, `NativeCUDASampler` and native CUDA partition/merge kernels implement stable exact top-k (1..256), temperature, min-p, nucleus filtering, SplitMix64 seeds and device repetition history. Both CUDA model sessions and `chat` use this implementation. Plain greedy remains the default.
 - **Executable evidence:** Three counted configuration/parser tests plus `scripts/test_cuda_sampling.py`: 896 physical CUDA selections match an independent CPU sort/probability reference across 14 cases, including reset/replay, masked EOS, ties, non-finite rejection and repetition eviction. Pinned CPU greedy token parity remains passing.
-- **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
-- **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets.
+- **Additional bounded component:** `SkaldbrodirDetector` computes exact periodicity over at most 64 caller-supplied token IDs, emits intervention tiers, and requires two terminal observations before `INF-016`. The counted paradigm test covers repeated-token termination and a non-repeating sequence.
+- **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. SKÁLDBRØÐIR is not connected to generation and does not itself apply a penalty or stop a session. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
+- **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets, and measured integration of repetition intervention signals.
 - **Audit:** AER-007, AER-066.
 
 ### AES-GEN-006 — Custom stop tokens and stop strings
@@ -1270,6 +1271,7 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Claim sources:** metrics/health routes and production implications
 - **Native service evidence:** Per-request sequence, generation phase, HTTP status and elapsed time are recorded without prompts/responses/credentials; authenticated health reports the actually loaded CUDA profile/context. Both real-model service probes verify readiness, generation and shutdown.
 - **Legacy implementation evidence:** `BifrostGate.dispatch_http_route()` in `server/api.mojo` enforcing route path parameter validation (`len(path.bytes()) == 0 -> returns HTTP 404 route_not_found_response()`) and explicit compatibility route handling for `/metrics`, `/health`, `/props`, and `/slots`.
+- **Observation formatter evidence:** `AesirTUIDashboard` accepts an atomic, validated metric snapshot with caller source and timestamp. An empty dashboard reports observations unavailable, and invalid values cannot partially replace the preceding snapshot.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
 - **Evidence boundary:** The native service has narrow request logs and readiness. Legacy route validation still does not establish metrics, tracing, persistent audit storage or broad production diagnosis.
 - **Next acceptance gate:** Add structured logs, request/session correlation, real metrics, health semantics, and operator-facing failure diagnostics.

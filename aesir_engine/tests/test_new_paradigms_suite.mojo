@@ -67,11 +67,24 @@ def test_help_and_tui() raises:
         raise Error("test_help_and_tui: Run help text missing")
 
     var dash = AesirTUIDashboard()
-    dash.model_name = String("Llama-3-8B-Q4_K_M.gguf")
-    dash.active_backend = String("CUDA GPU")
+    var empty_frame = dash.render_frame()
+    if "observation: unavailable" not in empty_frame:
+        raise Error("test_help_and_tui: empty dashboard fabricated telemetry")
+    dash.update_observation(
+        "Llama-3-8B-Q4_K_M.gguf", "CUDA GPU", 4096.0, 12.5, 1,
+        "native-session", 1788210000000,
+    )
     var frame = dash.render_frame()
-    if "TELEMETRY DASHBOARD" not in frame:
+    if "OBSERVATION DASHBOARD" not in frame or "native-session" not in frame:
         raise Error("test_help_and_tui: TUI frame rendering failed")
+
+    var rejected = False
+    try:
+        dash.update_observation("model", "CUDA", -1.0, 1.0, 1, "probe", 1)
+    except:
+        rejected = True
+    if not rejected or dash.memory_used_mb != 4096.0:
+        raise Error("test_help_and_tui: invalid observation was accepted or partially committed")
     print("test_help_and_tui: PASS")
 
 def test_skaldbrodir_doom_loop() raises:
@@ -89,6 +102,27 @@ def test_skaldbrodir_doom_loop() raises:
 
     if not caught:
         raise Error("test_skaldbrodir_doom_loop: Failed to annihilate runaway generation loop with INF-016")
+
+    var varied = SkaldbrodirDetector()
+    for token in range(12):
+        if varied.evaluate_and_intercept(token) != 0:
+            raise Error("test_skaldbrodir_doom_loop: varied prefix raised a repetition signal")
+    if varied.last_repetition_index != 0.0:
+        raise Error("test_skaldbrodir_doom_loop: varied prefix produced a false periodicity score")
+
+    var invalid = SkaldbrodirDetector()
+    invalid.window_size = 0
+    var invalid_rejected = False
+    try:
+        _ = invalid.evaluate_and_intercept(1)
+    except:
+        invalid_rejected = True
+    if not invalid_rejected or len(invalid.token_history) != 0:
+        raise Error("test_skaldbrodir_doom_loop: invalid policy mutated detector history")
+
+    detector.reset()
+    if detector.is_annihilated or len(detector.token_history) != 0:
+        raise Error("test_skaldbrodir_doom_loop: reset did not clear session state")
     print("test_skaldbrodir_doom_loop: PASS")
 
 def test_thinking_redaction() raises:
