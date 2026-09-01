@@ -41,7 +41,7 @@ readiness remain separate, unfinished work.
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **170 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a bounded set of quantization kernels, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
+The current automated test suite is at **172 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 

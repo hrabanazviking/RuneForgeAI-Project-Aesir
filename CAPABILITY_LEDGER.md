@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 170 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 171, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 172 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 173, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -66,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 23 |
+| `partial` | 24 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 20 |
+| `missing` | 19 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -918,14 +918,14 @@ and circular self-parity transforms were removed.
 
 ### AES-QNT-011 — Comprehensive all-format quantization metadata store & hardware autotuning gateway
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core compute domain
 - **Claim sources:** Comprehensive all-format quantization metadata and hardware autotuning gateway
-- **Implementation evidence:** None. The former metadata table merged unrelated formats, returned Q4_K_M for unknown values, and supplied guessed tile sizes. The former autotuner performed no measurements or parameter selection; both it and its self-validating tests were removed.
-- **Executable evidence:** None.
-- **Evidence boundary:** `gemm_f16()` remains the format dispatcher. No runtime benchmarking, device-specific candidate search, cache, persistence, or selected-kernel evidence exists.
-- **Next acceptance gate:** Define candidate kernels and constraints, measure representative shapes on a physical target, select and cache a winner, and verify numerical parity plus repeatable benchmark evidence.
-- **Audit:** Reality correction, September 1, 2026.
+- **Implementation evidence:** `core/quantization_autotuner.mojo` defines truthful fixed-block metadata for every inline `CompressedFormatType`, explicit external-metadata records for GPTQ/AWQ/EXL2/HQQ/SmoothQuant, and strict unknown-format rejection. `QuantizedGEMMAutotuner` benchmarks two real host strategies—fused packed GEMM and dequantize-then-F16 GEMM—with `CLOCK_MONOTONIC`, checks candidate output parity before selection, publishes output from caller-owned scratch only after success, and stores the winner in a bounded exact-device/format/shape in-memory cache. Checked element products, pointer ranges, iteration limits, and complete-block admission fail before output mutation.
+- **Executable evidence:** `E-MASTER` cases `quantization.format_metadata` and `quantization.measured_autotuner` verify all 26 internal discriminants, exact fixed rates including Q4_K and TQ1_0, external-metadata boundaries, unknown rejection, positive measured durations, valid winner selection, direct-GEMM parity, cache reuse, and mutation-free rejection of a metadata-bearing raw request.
+- **Evidence boundary:** Verified real Linux host measurements and bounded in-process exact-shape caching over inline raw quantization layouts. Measurements are local observations, not published performance claims. The cache is not persisted; metadata-bearing matrix views are not yet accepted by the tuner; no CUDA/other-device candidate set, representative benchmark matrix, thermal control, statistical sampling, or production auto-dispatch integration exists.
+- **Next acceptance gate:** Add versioned durable cache serialization tied to executable/device identity, metadata-bearing candidates, physical CUDA candidates with synchronization, representative shape sampling, and repeatable benchmark evidence before enabling automatic runtime use.
+- **Audit:** Measured host selection and bounded cache milestone, September 1, 2026.
 
 ## 14. Hardware and Multi-Device Execution
 
@@ -1329,7 +1329,7 @@ and circular self-parity transforms were removed.
 | CLI/model management | AES-CLI-001 through AES-CLI-009 |
 | Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |
-| Quantization | AES-QNT-001 through AES-QNT-003 |
+| Quantization | AES-QNT-001 through AES-QNT-011 |
 | Hardware/multi-device | AES-ACC-001 through AES-ACC-009 |
 | External ecosystems | AES-ECO-001 through AES-ECO-008 |
 | Resilience/concurrency | AES-RES-001 through AES-RES-006 |

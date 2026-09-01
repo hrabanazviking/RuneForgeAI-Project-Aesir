@@ -749,6 +749,41 @@ odd scale multiplier, and signed delta; TQ1_0 extracts balanced trits from its
 three packed regions and applies one F16 scale. `TERNARY_155BIT` remains an alias
 for the TQ1_0 descriptor so existing callers retain the feature surface.
 
+### Measured host quantization selection (`core/quantization_autotuner.mojo`)
+
+```mojo
+def get_quantization_format_info(format: CompressedFormatType) raises -> QuantizationFormatInfo: ...
+
+struct QuantizedGEMMAutotuner:
+    def __init__(out self, max_entries: Int = 64) raises: ...
+    def cache_size(self) -> Int: ...
+    def clear(mut self): ...
+    def tune_and_execute(
+        mut self,
+        device_key: String,
+        A: RuneTensor[f16],
+        B: RuneTensor[f16],
+        mut C: RuneTensor[f16],
+        dequantized_weights: Pointer[Scalar[f16], MutUntrackedOrigin],
+        dequantized_weight_elements: Int,
+        fused_output: Pointer[Scalar[f16], MutUntrackedOrigin],
+        dequantized_output: Pointer[Scalar[f16], MutUntrackedOrigin],
+        scratch_output_elements: Int,
+        warmup_iterations: Int = 1,
+        measured_iterations: Int = 3,
+        tolerance: Float32 = 0.0,
+    ) raises -> QuantizedGEMMTuneResult: ...
+```
+
+The format store gives exact block bytes for inline layouts and marks
+GPTQ/AWQ/EXL2/HQQ/SmoothQuant as external-metadata formats rather than inventing
+a shared block. The tuner supports inline raw host layouts. On a cache miss it
+runs fused packed GEMM and dequantize-then-F16 GEMM against separate caller-owned
+scratch, requires finite outputs within the caller's tolerance, measures both
+with `CLOCK_MONOTONIC`, selects the lower total duration, and then copies the
+winner to `C`. The bounded cache key includes the caller-supplied device identity,
+format, and exact M/N/K. It is process-local and not automatic model dispatch.
+
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)
 Local descriptor and selection scaffold. Registries start empty and clusters

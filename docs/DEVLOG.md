@@ -1,3 +1,18 @@
+## 2026-09-01 — Added measured host quantization autotuning
+
+Added `core/quantization_autotuner.mojo` with exact block metadata for every
+inline compressed format and explicit external-metadata records for
+GPTQ/AWQ/EXL2/HQQ/SmoothQuant. The new opt-in host tuner measures two real
+strategies with the monotonic nanosecond clock: fused packed GEMM and complete
+dequantization followed by F16 GEMM. It checks finite numerical agreement before
+selection, uses distinct caller-owned scratch so rejection cannot mutate the
+destination, validates dimensions/products/pointer ranges, and caches winners
+by caller device key plus exact format and M/N/K in a bounded in-memory store.
+Two counted cases cover all 26 discriminants, exact storage rates, positive
+measurements, winner execution, cache reuse, and metadata-bearing rejection.
+Durable cache persistence, automatic model dispatch, physical CUDA candidates,
+and representative performance evidence remain open.
+
 ## 2026-09-01 — Added canonical GGML TQ1_0 ternary host execution
 
 Implemented the upstream 54-byte, 256-value TQ1_0 block contract and connected

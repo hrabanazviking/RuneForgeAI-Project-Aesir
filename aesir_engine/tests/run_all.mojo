@@ -181,6 +181,10 @@ from tests.test_quantization_hardening import (
     test_unrecognized_format_self_healing,
     test_nan_corrupt_weight_sanitization,
 )
+from tests.test_quantization_autotuner import (
+    test_quantization_format_metadata,
+    test_measured_quantized_gemm_autotuner,
+)
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
@@ -559,6 +563,16 @@ def main() raises:
     )
     run_case(
         ledger,
+        "quantization.format_metadata",
+        test_quantization_format_metadata,
+    )
+    run_case(
+        ledger,
+        "quantization.measured_autotuner",
+        test_measured_quantized_gemm_autotuner,
+    )
+    run_case(
+        ledger,
         "quantization.hardening_zero_and_null_bounds",
         test_dequantizer_zero_and_null_bounds,
     )
@@ -751,4 +765,4 @@ def main() raises:
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
-    ledger.finish(171)
+    ledger.finish(173)

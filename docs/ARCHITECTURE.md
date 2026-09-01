@@ -171,7 +171,7 @@ graph TD
   - `gemm_f16`: 32x32 block-tiled matrix multiplication.
   - `flash_attention_2`: Fused $QK^T$, online streaming softmax ($m_i, l_i$), and $V$ accumulation.
   - `silu` & `geglu`: Vectorized activation functions.
-  - `packed_value`, `dequantize_ggml_k` & `dequantize_compressed_tensor`: direct canonical GGML byte addressing for Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K 256-value blocks (`AES-QNT-002`, `AES-QNT-006`, `AES-QNT-008`). The dispatcher and `gemm_f16()` require complete blocks and reject unknown or reserved formats; hardware autotuning is unavailable (`AES-QNT-003`, `AES-QNT-011`).
+  - `packed_value`, `dequantize_ggml_k` & `dequantize_compressed_tensor`: direct canonical GGML byte addressing for Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K 256-value blocks (`AES-QNT-002`, `AES-QNT-006`, `AES-QNT-008`). The dispatcher and `gemm_f16()` require complete blocks and reject unknown or reserved formats. `quantization_autotuner.mojo` separately owns opt-in Linux host measurement, correctness gating, and bounded exact-shape selection caching; it does not alter automatic inference dispatch (`AES-QNT-003`, `AES-QNT-011`).
   - `rmsnorm`: Vectorized Root Mean Square normalization with learned scale weights.
   - `apply_rope`: Rotary Position Embeddings in complex space across queries and keys.
   - `cosine_similarity`: SIMD-vectorized cosine similarity kernel ($\frac{A \cdot B}{\max(\|A\| \cdot \|B\|, 10^{-8})}$) using `simd_w_f16` vector lanes and unaligned tail loop with `isnan` and `isinf` error checks returning `0.0` for corrupt/zero-vector inputs (`AES-RAG-001`).
@@ -403,6 +403,7 @@ outside these bounded host primitives.
 | `GGMLType.to_compressed_format()` | Loader | Whitelist external GGML IDs; reject everything else |
 | `CompressedFormatType` | Core memory/types | Carry an internal descriptor; never imply support by name alone |
 | `dequantize_compressed_tensor()` | Core compute | Dispatch implemented layouts and reject reserved descriptors before mutation |
+| `QuantizedGEMMAutotuner` | Core tuning policy | Measure real host candidates over caller-owned scratch, require output agreement, and cache an exact-shape winner |
 | Quantization tests | Tests | Use authoritative fixtures/oracles for compatibility claims; use boundary tests for unavailable formats |
 
 ---

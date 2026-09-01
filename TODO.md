@@ -454,6 +454,15 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] Implement canonical GGML TQ1_0 54-byte ternary host decoding/GEMM, retain
   `TERNARY_155BIT` as a compatibility alias, and verify all packed regions with
   an independent raw-block oracle regression (`AES-QNT-010`).
+- [x] Replace guessed quantization metadata with exact fixed-block records and
+  explicit external-metadata boundaries for every internal discriminant
+  (`AES-QNT-011`).
+- [x] Measure fused packed and dequantize-then-F16 host GEMM candidates, require
+  numerical agreement, publish atomically from caller-owned scratch, and cache
+  the exact-device/format/shape winner in memory (`AES-QNT-011`).
+- [ ] Persist versioned tuning results against executable and physical-device
+  identity; add synchronized CUDA and metadata-bearing candidates plus a
+  representative statistical benchmark matrix (`AES-QNT-011`).
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 

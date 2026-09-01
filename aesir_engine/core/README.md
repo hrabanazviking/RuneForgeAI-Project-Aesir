@@ -7,6 +7,7 @@ The `core` domain houses the mathematical engine room and memory management laye
 - **`gemma4_cuda.mojo` / `gemma4_kernels.mojo`:** Own the supported CUDA profile's device buffers, packed weights, KV cache, and transformer kernels for dense text-only Gemma 4 E4B Q4_K_M.
 - **`llama3_cuda.mojo` / `llama3_kernels.mojo`:** Own dense Llama 3 8B Stheno CUDA inference, F16 KV, adjacent-pair RoPE, SiLU and scaled GQA. Reuse packed matvec/norm primitives; cap output by remaining 8K context without truncating history.
 - **`compute.mojo` (The Forge of Nidavellir):** Executes host Mojo SIMD primitives. Its generic NPU/GPU gateways remain bounded and do not replace the specialized Gemma CUDA session.
+- **`quantization_autotuner.mojo`:** Owns opt-in Linux host measurements between real packed and dequantized GEMM strategies, validates numerical agreement, and caches winners by caller device key and exact shape. It does not silently change model execution.
 
 ## Key Invariants
 - `native_hardware.mojo`, `inference_memory.mojo` and `runtime_plan.mojo` own
