@@ -26,6 +26,10 @@ struct QuantizedGEMMStrategy:
     comptime DEQUANTIZE_F16 = 1
 
 
+comptime TUNING_CACHE_HEADER = "AESIR_QGEMM_TUNING_CACHE_V1"
+comptime MAX_TUNING_CACHE_BYTES = 1024 * 1024
+
+
 struct QuantizationFormatInfo(Copyable):
     """Exact fixed-block facts or an explicit external-metadata boundary."""
 
@@ -188,6 +192,79 @@ def monotonic_nanoseconds() raises -> Int:
     if whole > 9223372036854775807 - fraction:
         raise Error("quantization autotuner monotonic time overflow")
     return whole + fraction
+
+
+def _validate_cache_identity(value: String, label: String) raises:
+    var source = value.as_bytes()
+    if len(source) <= 0 or len(source) > 128:
+        raise Error("quantization autotuner " + label + " must be 1..128 bytes")
+    for index in range(len(source)):
+        if source[index] < 32 or source[index] > 126:
+            raise Error(
+                "quantization autotuner " + label + " must be printable ASCII"
+            )
+
+
+def _cache_hex_encode(value: String) -> String:
+    var digits = String("0123456789abcdef")
+    var result = String("")
+    var source = value.as_bytes()
+    for index in range(len(source)):
+        var code = Int(source[index])
+        result += String(digits[byte=code >> 4 : (code >> 4) + 1])
+        result += String(digits[byte=code & 15 : (code & 15) + 1])
+    return result
+
+
+def _cache_hex_nibble(code: Int) raises -> Int:
+    if code >= 48 and code <= 57:
+        return code - 48
+    if code >= 97 and code <= 102:
+        return code - 87
+    raise Error("quantization tuning cache contains invalid lowercase hex")
+
+
+def _cache_hex_decode(value: String) raises -> String:
+    var source = value.as_bytes()
+    if len(source) == 0 or len(source) > 256 or len(source) % 2 != 0:
+        raise Error("quantization tuning cache identity hex length is invalid")
+    var decoded = List[Int8]()
+    for index in range(0, len(source), 2):
+        var high = _cache_hex_nibble(Int(source[index]))
+        var low = _cache_hex_nibble(Int(source[index + 1]))
+        decoded.append(Int8((high << 4) | low))
+    decoded.append(0)
+    return String(unsafe_from_utf8_ptr=decoded.unsafe_ptr())
+
+
+def _parse_cache_int(value: String, label: String, maximum: Int) raises -> Int:
+    var source = value.as_bytes()
+    if len(source) == 0 or len(source) > 20:
+        raise Error("quantization tuning cache " + label + " length is invalid")
+    for index in range(len(source)):
+        if source[index] < 48 or source[index] > 57:
+            raise Error("quantization tuning cache " + label + " must be decimal")
+    var parsed: Int
+    try:
+        parsed = atol(value)
+    except:
+        raise Error("quantization tuning cache " + label + " is out of range")
+    if parsed < 0 or parsed > maximum:
+        raise Error("quantization tuning cache " + label + " exceeds its limit")
+    return parsed
+
+
+def _cache_checksum(body: String) -> String:
+    var hash: UInt64 = 14695981039346656037
+    var source = body.as_bytes()
+    for index in range(len(source)):
+        hash = (hash ^ UInt64(source[index])) * 1099511628211
+    var digits = String("0123456789abcdef")
+    var result = String("")
+    for shift in range(60, -4, -4):
+        var nibble = Int((hash >> UInt64(shift)) & 15)
+        result += String(digits[byte=nibble : nibble + 1])
+    return result
 
 
 struct QuantizedGEMMTuneResult(Copyable):
@@ -382,6 +459,152 @@ struct QuantizedGEMMAutotuner:
         self.cache_hits = 0
         self.cache_misses = 0
 
+    def serialize_cache(self, build_fingerprint: String) raises -> String:
+        """Return a bounded, checksummed v1 cache for caller-owned persistence."""
+        _validate_cache_identity(build_fingerprint, "build fingerprint")
+        if len(self.entries) > self.max_entries:
+            raise Error("quantization tuning cache exceeds configured capacity")
+        var lines = List[String]()
+        lines.append(TUNING_CACHE_HEADER)
+        lines.append("BUILD:" + _cache_hex_encode(build_fingerprint))
+        lines.append("COUNT:" + String(len(self.entries)))
+        for index in range(len(self.entries)):
+            var entry = self.entries[index].copy()
+            _validate_cache_identity(entry.device_key, "device key")
+            lines.append(
+                "ENTRY:"
+                + _cache_hex_encode(entry.device_key)
+                + ":"
+                + String(entry.format_value)
+                + ":"
+                + String(entry.rows)
+                + ":"
+                + String(entry.outputs)
+                + ":"
+                + String(entry.shared)
+                + ":"
+                + String(entry.strategy)
+                + ":"
+                + String(entry.fused_total_ns)
+                + ":"
+                + String(entry.dequantized_total_ns)
+                + ":"
+                + String(entry.iterations)
+            )
+        var body = String("\n").join(lines)
+        var encoded = body + "\nCHECKSUM:" + _cache_checksum(body)
+        if encoded.byte_length() > MAX_TUNING_CACHE_BYTES:
+            raise Error("serialized quantization tuning cache exceeds 1 MiB")
+        return encoded
+
+    def restore_cache(
+        mut self, raw: String, expected_build_fingerprint: String
+    ) raises:
+        """Transactionally restore a v1 cache or leave current entries unchanged."""
+        _validate_cache_identity(
+            expected_build_fingerprint, "build fingerprint"
+        )
+        if raw.byte_length() == 0 or raw.byte_length() > MAX_TUNING_CACHE_BYTES:
+            raise Error("quantization tuning cache size is invalid")
+        var lines = raw.split("\n")
+        if len(lines) < 4 or String(lines[0]) != TUNING_CACHE_HEADER:
+            raise Error("unsupported or missing quantization tuning cache version")
+        var build_line = String(lines[1])
+        if not build_line.startswith("BUILD:"):
+            raise Error("quantization tuning cache is missing build identity")
+        var build_fingerprint = _cache_hex_decode(
+            String(build_line[byte=6:])
+        )
+        _validate_cache_identity(build_fingerprint, "build fingerprint")
+        if build_fingerprint != expected_build_fingerprint:
+            raise Error("quantization tuning cache build fingerprint mismatch")
+        var count_line = String(lines[2])
+        if not count_line.startswith("COUNT:"):
+            raise Error("quantization tuning cache is missing entry count")
+        var count = _parse_cache_int(
+            String(count_line[byte=6:]), "entry count", self.max_entries
+        )
+        if len(lines) != count + 4:
+            raise Error("quantization tuning cache entry count mismatch")
+        var checksum_line = String(lines[len(lines) - 1])
+        if not checksum_line.startswith("CHECKSUM:"):
+            raise Error("quantization tuning cache is missing checksum")
+        var body_lines = List[String]()
+        for index in range(len(lines) - 1):
+            body_lines.append(String(lines[index]))
+        var body = String("\n").join(body_lines)
+        if String(checksum_line[byte=9:]) != _cache_checksum(body):
+            raise Error("quantization tuning cache checksum mismatch")
+
+        var candidate = List[_TuneCacheEntry]()
+        for index in range(count):
+            var fields = String(lines[index + 3]).split(":")
+            if len(fields) != 10 or String(fields[0]) != "ENTRY":
+                raise Error("quantization tuning cache entry is malformed")
+            var device_key = _cache_hex_decode(String(fields[1]))
+            _validate_cache_identity(device_key, "device key")
+            var format_value = _parse_cache_int(
+                String(fields[2]), "format", 25
+            )
+            var rows = _parse_cache_int(String(fields[3]), "rows", 1000000000)
+            var outputs = _parse_cache_int(
+                String(fields[4]), "outputs", 1000000000
+            )
+            var shared = _parse_cache_int(
+                String(fields[5]), "shared", 1000000000
+            )
+            var strategy = _parse_cache_int(String(fields[6]), "strategy", 1)
+            var fused_ns = _parse_cache_int(
+                String(fields[7]), "fused duration", 9223372036854775807
+            )
+            var dequantized_ns = _parse_cache_int(
+                String(fields[8]),
+                "dequantized duration",
+                9223372036854775807,
+            )
+            var iterations = _parse_cache_int(
+                String(fields[9]), "iterations", 10000
+            )
+            if (
+                rows <= 0
+                or outputs <= 0
+                or shared <= 0
+                or fused_ns <= 0
+                or dequantized_ns <= 0
+                or iterations <= 0
+            ):
+                raise Error("quantization tuning cache entry contains zero values")
+            var info = get_quantization_format_info(
+                CompressedFormatType(format_value)
+            )
+            if not info.raw_host_tunable or shared % info.block_weights != 0:
+                raise Error("quantization tuning cache entry format is not tunable")
+            for existing_index in range(len(candidate)):
+                if candidate[existing_index].matches(
+                    device_key, format_value, rows, outputs, shared
+                ):
+                    raise Error("quantization tuning cache contains duplicate key")
+            var result = QuantizedGEMMTuneResult(
+                strategy,
+                fused_ns,
+                dequantized_ns,
+                iterations,
+                False,
+            )
+            candidate.append(
+                _TuneCacheEntry(
+                    device_key,
+                    format_value,
+                    rows,
+                    outputs,
+                    shared,
+                    result,
+                )
+            )
+        self.entries = candidate^
+        self.cache_hits = 0
+        self.cache_misses = 0
+
     def tune_and_execute(
         mut self,
         device_key: String,
@@ -397,8 +620,7 @@ struct QuantizedGEMMAutotuner:
         measured_iterations: Int = 3,
         tolerance: Float32 = 0.0,
     ) raises -> QuantizedGEMMTuneResult:
-        if device_key.byte_length() <= 0 or device_key.byte_length() > 128:
-            raise Error("quantization autotuner device key must be 1..128 bytes")
+        _validate_cache_identity(device_key, "device key")
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
             raise Error("quantization autotuner dimensions must be positive")
         if A.cols != B.cols or C.rows != A.rows or C.cols != B.rows:

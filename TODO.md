@@ -460,8 +460,10 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] Measure fused packed and dequantize-then-F16 host GEMM candidates, require
   numerical agreement, publish atomically from caller-owned scratch, and cache
   the exact-device/format/shape winner in memory (`AES-QNT-011`).
-- [ ] Persist versioned tuning results against executable and physical-device
-  identity; add synchronized CUDA and metadata-bearing candidates plus a
+- [x] Serialize and transactionally restore a bounded, checksummed v1 tuning
+  cache tied to caller-supplied build and device identities (`AES-QNT-011`).
+- [ ] Add atomic cache-file integration with automatic executable/physical-device
+  fingerprints, synchronized CUDA and metadata-bearing candidates, and a
   representative statistical benchmark matrix (`AES-QNT-011`).
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).

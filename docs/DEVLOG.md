@@ -8,10 +8,14 @@ dequantization followed by F16 GEMM. It checks finite numerical agreement before
 selection, uses distinct caller-owned scratch so rejection cannot mutate the
 destination, validates dimensions/products/pointer ranges, and caches winners
 by caller device key plus exact format and M/N/K in a bounded in-memory store.
-Two counted cases cover all 26 discriminants, exact storage rates, positive
-measurements, winner execution, cache reuse, and metadata-bearing rejection.
-Durable cache persistence, automatic model dispatch, physical CUDA candidates,
-and representative performance evidence remain open.
+The same module now provides a bounded v1 cache codec with caller build
+fingerprints, hex-safe device identities, exact measurements, an FNV-1a
+checksum, duplicate rejection, and transactional restore. Two counted cases
+cover all 26 discriminants, exact storage rates, positive measurements, winner
+execution, cache reuse, restart serialization, wrong-build/corruption rejection,
+restored execution, and metadata-bearing rejection. Built-in atomic file storage,
+automatic model dispatch, physical CUDA candidates, and representative
+performance evidence remain open.
 
 ## 2026-09-01 — Added canonical GGML TQ1_0 ternary host execution
 

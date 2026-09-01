@@ -758,6 +758,8 @@ struct QuantizedGEMMAutotuner:
     def __init__(out self, max_entries: Int = 64) raises: ...
     def cache_size(self) -> Int: ...
     def clear(mut self): ...
+    def serialize_cache(self, build_fingerprint: String) raises -> String: ...
+    def restore_cache(mut self, raw: String, expected_build_fingerprint: String) raises: ...
     def tune_and_execute(
         mut self,
         device_key: String,
@@ -782,7 +784,11 @@ runs fused packed GEMM and dequantize-then-F16 GEMM against separate caller-owne
 scratch, requires finite outputs within the caller's tolerance, measures both
 with `CLOCK_MONOTONIC`, selects the lower total duration, and then copies the
 winner to `C`. The bounded cache key includes the caller-supplied device identity,
-format, and exact M/N/K. It is process-local and not automatic model dispatch.
+format, and exact M/N/K. The v1 codec is limited to 1 MiB, binds records to a
+caller build fingerprint, encodes device keys safely, checks record counts and
+an FNV-1a checksum, and restores transactionally. Core performs no file I/O;
+the caller owns atomic persistence. This remains opt-in, not automatic model
+dispatch.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

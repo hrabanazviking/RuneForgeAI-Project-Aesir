@@ -139,6 +139,44 @@ def test_measured_quantized_gemm_autotuner() raises:
         if output.data.unsafe_load(index) != expected.data.unsafe_load(index):
             raise Error("cached autotuner output differs from direct GEMM")
 
+    var serialized = tuner.serialize_cache("test-build-fingerprint")
+    var restored = QuantizedGEMMAutotuner(max_entries=2)
+    restored.restore_cache(serialized, "test-build-fingerprint")
+    if restored.cache_size() != 1:
+        raise Error("serialized autotuner cache did not restore its entry")
+    var rejected_restore = False
+    try:
+        restored.restore_cache(serialized, "different-build")
+    except error:
+        rejected_restore = "fingerprint mismatch" in String(error)
+    if not rejected_restore or restored.cache_size() != 1:
+        raise Error("build-mismatched cache restore was not transactional")
+    rejected_restore = False
+    try:
+        restored.restore_cache(serialized + "x", "test-build-fingerprint")
+    except error:
+        rejected_restore = "checksum mismatch" in String(error)
+    if not rejected_restore or restored.cache_size() != 1:
+        raise Error("corrupt cache restore was not transactional")
+    for index in range(output_elements):
+        output.data.unsafe_store(index, Float16(88.0))
+    var restored_result = restored.tune_and_execute(
+        "host:test-cpu",
+        A,
+        B,
+        output,
+        dequantized_weights,
+        outputs * shared,
+        fused_scratch,
+        dequantized_scratch,
+        output_elements,
+    )
+    if not restored_result.cache_hit:
+        raise Error("restored autotuner cache did not serve the exact key")
+    for index in range(output_elements):
+        if output.data.unsafe_load(index) != expected.data.unsafe_load(index):
+            raise Error("restored-cache output differs from direct GEMM")
+
     var rejected_output = RuneTensor[f16](
         rows, outputs, well.allocate(output_elements), False
     )

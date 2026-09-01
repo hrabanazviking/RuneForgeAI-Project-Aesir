@@ -1112,6 +1112,30 @@ A JSON representation is also maintained at `docs/sbom.json` for tooling:
 
 ---
 
+## Section Eighteen A: Quantized GEMM Tuning Cache (FMT-QGTC)
+
+`QuantizedGEMMAutotuner.serialize_cache()` emits a UTF-8, newline-delimited,
+bounded cache record. Core returns the bytes to its caller and does not choose a
+path or perform file I/O. A caller that persists the record must publish it
+atomically and apply its own private-file policy.
+
+```text
+AESIR_QGEMM_TUNING_CACHE_V1
+BUILD:<lowercase hex of 1..128 printable ASCII bytes>
+COUNT:<0..configured cache capacity>
+ENTRY:<device-key hex>:<format>:<M>:<N>:<K>:<strategy>:<fused-ns>:<dequantized-ns>:<iterations>
+CHECKSUM:<16 lowercase hex FNV-1a-64 over every preceding line joined by LF>
+```
+
+There are exactly `COUNT` entry lines and no trailing line. Numeric fields are
+unsigned canonical decimal. Format is an internal `CompressedFormatType` value;
+strategy `0` means fused raw packed GEMM and `1` means dequantize then F16 GEMM.
+Dimensions, durations, and iterations must be positive; `K` must contain complete
+blocks for the named format. The complete record is at most 1 MiB. Restore
+requires the caller's expected build fingerprint to match, rejects duplicates,
+unknown/external-metadata formats, malformed fields, count drift, and checksum
+failure, and commits the parsed entries only after the entire record validates.
+
 ## Section Nineteen: Versioning and Evolution
 
 ### Format Version Numbers
@@ -1217,6 +1241,6 @@ The formats defined in this document are not suggestions. They are the law of th
 
 ---
 
-*Last updated: 2026-08-15. Maintained by the Architect role. Format additions or modifications require Architect review. Parser implementations require Auditor fuzz-testing certification before merge.*
+*Last updated: 2026-09-01. Maintained by the Architect role. Format additions or modifications require Architect review. Parser implementations require Auditor fuzz-testing certification before merge.*
 
 ---

@@ -28,7 +28,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | CPU K-quant decoding | Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K use canonical GGML packed-byte layouts with complete-block validation and raw known-value regressions. Independent real-row parity covers Q4_K and Q6_K; general full-model compatibility is not claimed. |
 | Metadata-bearing host quantization | AutoGPTQ 4/8-bit, AutoAWQ GEMM 4-bit, EXL2 mixed 2/3/4/5/6/8-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 have checked host dequantization/GEMM primitives over their real packing metadata. These are bounded primitives, not model-loader or CUDA integration claims. |
 | Extreme host quantization | Canonical GGML IQ2_XXS 66-byte, IQ1_S 50-byte, and TQ1_0 54-byte blocks decode and multiply on the host. Raw regressions use independent oracle values and cover exact storage rejection; real-model and CUDA integration remain open. The legacy `TERNARY_155BIT` descriptor aliases TQ1_0. |
-| Measured host quantization tuning | A caller-invoked Linux host tuner measures fused packed GEMM against dequantize-then-F16 GEMM, rejects numerically divergent candidates, publishes output only after success, and caches the winner by caller device key plus exact format/shape. The cache is bounded and in-memory; it is not yet wired into model execution or accelerator kernels. |
+| Measured host quantization tuning | A caller-invoked Linux host tuner measures fused packed GEMM against dequantize-then-F16 GEMM, rejects numerically divergent candidates, publishes output only after success, and caches the winner by caller device key plus exact format/shape. A checksummed v1 codec supports transactional restart restore when a caller persists it; built-in atomic file storage, model dispatch, and accelerator candidates remain open. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
@@ -59,9 +59,10 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   content-addressed model-byte ingestion, or production-service readiness claim.
   The recipe catalog does not copy or measure the GGUF referenced by a Modelfile.
 - Host quantization tuning is an explicit API, not automatic inference dispatch.
-  Its timings describe only the current process and exact shape. Cache
-  persistence, statistical benchmarking, metadata-bearing formats, CUDA
-  candidates, and other physical backends remain unfinished.
+  Its timings describe only the current process and exact shape. A versioned
+  codec exists, but built-in atomic cache-file storage, trustworthy automatic
+  build/device fingerprinting, statistical benchmarking, metadata-bearing
+  formats, CUDA candidates, and other physical backends remain unfinished.
 - GPTQ 4-bit/8-bit, AWQ GEMM 4-bit, EXL2 mixed-bit, static SmoothQuant W8A8,
   and HQQ 4-bit axis=1 now have checked format-compatible host
   dequantization/GEMM primitives with explicit packed weights, scales,
