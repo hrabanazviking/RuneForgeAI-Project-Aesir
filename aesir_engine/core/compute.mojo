@@ -48,7 +48,9 @@ from .external_quantization import (
     gemm_hqq_4bit_axis1,
 )
 from .extreme_quantization import (
+    dequantize_iq1_s_blocks,
     dequantize_iq2_xxs_blocks,
+    gemm_iq1_s_blocks,
     gemm_iq2_xxs_blocks,
 )
 
@@ -671,10 +673,10 @@ def dequantize_compressed_tensor(
         dequantize_iq2_xxs_blocks(
             data, blocks * 66, out_ptr, num_elements
         )
-    elif (
-        format.value == CompressedFormatType.IQ1_S
-        or format.value == CompressedFormatType.TERNARY_155BIT
-    ):
+    elif format.value == CompressedFormatType.IQ1_S:
+        var blocks = quantized_block_count(num_elements, 256, "IQ1_S")
+        dequantize_iq1_s_blocks(data, blocks * 50, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.TERNARY_155BIT:
         raise Error("extreme quantization layout is not implemented")
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
         var blocks = quantized_block_count(num_elements, 256, "Q4_K")
@@ -1221,10 +1223,22 @@ def gemm_smoothquant_int8(
 def gemm_iq1_s(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    _ = A
-    _ = B
-    _ = C
-    raise Error("IQ1_S GEMM requires the authoritative codebooks, signs, scales, and block layout; it is not implemented")
+    if A.cols != B.cols or C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_iq1_s: matrix shape mismatch")
+    if A.cols <= 0 or A.cols % 256 != 0:
+        raise Error("gemm_iq1_s: inner dimension must use complete 256-value blocks")
+    var weight_bytes = B.rows * (B.cols // 256) * 50
+    gemm_iq1_s_blocks(
+        A.data.unsafe_bitcast[Float16](),
+        A.rows * A.cols,
+        A.rows,
+        B.data.unsafe_bitcast[UInt8](),
+        weight_bytes,
+        A.cols,
+        B.rows,
+        C.data.unsafe_bitcast[Float16](),
+        C.rows * C.cols,
+    )
 
 def gemm_iq2_xxs(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

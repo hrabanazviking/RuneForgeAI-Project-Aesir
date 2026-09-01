@@ -1,3 +1,14 @@
+## 2026-09-01 — Added canonical GGML IQ1_S host execution
+
+Added the exact 50-byte, 256-value IQ1_S decoder and F32-accumulating host
+GEMM. The decoder uses the complete upstream 2,048-entry ternary grid, combines
+each low index byte with three high bits, applies the odd local scale multiplier
+and signed ±1/8 delta, checks exact storage, and admits GGUF tensor type 19.
+The raw regression compares 32 values and the full block sum with `gguf-py`,
+then checks GEMM and fail-before-mutation short-input rejection. Added
+`scripts/generate_iq_codebooks.py` so both IQ tables can be regenerated from
+the upstream Python source with strict entry-count validation.
+
 ## 2026-09-01 — Added canonical GGML IQ2_XXS host execution
 
 Added the exact 66-byte, 256-value IQ2_XXS block decoder and
@@ -10,8 +21,8 @@ the independent `gguf-py` decoder, then checks GEMM and fail-before-mutation
 short-input rejection. The source contract was rechecked at llama.cpp commit
 `3466812d1f06728effe7c0f3c0671117f461672d`.
 
-IQ1_S and the project-defined ternary descriptor remain strict boundaries for
-the next increments; no model-loader attachment, CUDA kernel, real IQ2 model
+The project-defined ternary descriptor remains a strict boundary for the next
+increment; no model-loader attachment, CUDA kernel, real IQ model
 fixture, or full-model claim is made here.
 
 ## 2026-09-01 — Added canonical EXL2 mixed-bit host execution

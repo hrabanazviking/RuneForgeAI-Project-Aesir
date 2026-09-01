@@ -449,8 +449,10 @@ The legacy formatters below are not exposed compatibility APIs.
   to parsed model tensors, external fixtures, and measured accelerator kernels.
 - [x] Implement canonical IQ2_XXS 66-byte host decoding/GEMM with the upstream
   codebook and an independent raw-block oracle regression (`AES-QNT-010`).
-- [ ] Keep IQ1_S and ternary execution unsupported until the exact upstream
-  IQ1 grid or a separately specified versioned native ternary format exists.
+- [x] Implement canonical IQ1_S 50-byte host decoding/GEMM with the complete
+  upstream grid and an independent raw-block oracle regression (`AES-QNT-010`).
+- [ ] Keep ternary execution unsupported until a separately specified versioned
+  native ternary format exists.
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 
