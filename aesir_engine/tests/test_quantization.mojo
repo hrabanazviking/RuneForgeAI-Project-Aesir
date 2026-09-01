@@ -39,9 +39,24 @@ def test_compressed_format_enum() raises:
     from loader.gguf import GGMLType
     var mapped_q2 = GGMLType.to_compressed_format(10)
     var mapped_q4k = GGMLType.to_compressed_format(12)
-    var mapped_f32 = GGMLType.to_compressed_format(0)
-    if mapped_q2.name() != "Q2_K" or mapped_q4k.name() != "Q4_K_M" or mapped_f32.name() != "Q4_K_M":
+    if mapped_q2.name() != "Q2_K" or mapped_q4k.name() != "Q4_K_M":
         print("FAIL: GGMLType mapping mismatch")
+        success = False
+    var rejected_f32 = False
+    try:
+        _ = GGMLType.to_compressed_format(GGMLType.F32)
+    except error:
+        rejected_f32 = "unsupported GGML tensor type" in String(error)
+    if not rejected_f32:
+        print("FAIL: non-quantized F32 was silently mapped to Q4_K_M")
+        success = False
+    var rejected_iq = False
+    try:
+        _ = GGMLType.to_compressed_format(GGMLType.IQ2_XXS)
+    except error:
+        rejected_iq = "unsupported GGML tensor type" in String(error)
+    if not rejected_iq:
+        print("FAIL: unimplemented IQ2_XXS tensor layout was accepted")
         success = False
 
     if success:

@@ -815,10 +815,10 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 - **Status:** `verified`
 - **Owner:** core memory/format domain
-- **Claim sources:** completed universal compressed-format TODO; core interface
-- **Implementation evidence:** `CompressedFormatType` enumerates 21 names and `GGMLType.to_compressed_format` in `loader/gguf.mojo` maps GGML tensor type discriminants (0..24) deterministically.
+- **Claim sources:** compressed-format descriptors and loader interface
+- **Implementation evidence:** `CompressedFormatType` retains reserved internal names while `GGMLType.to_compressed_format` maps only implemented GGML quantized tensor IDs 2, 3, 6–14 (excluding unsupported Q8_K 15) and raises for every other value.
 - **Executable evidence:** `E-MASTER` case `quantization.enum` in `test_quantization.mojo`.
-- **Evidence boundary:** Verified 21 compressed-format enum discriminants and GGML type mapping bounds.
+- **Evidence boundary:** Verified stable descriptor names, exact supported mappings, and strict rejection of F32 and the unsupported upstream IQ2_XXS type. Descriptor presence does not imply execution support.
 - **Audit:** AER-051, AER-054.
 
 ### AES-QNT-002 — Q4_K_M block dequantization transformation kernel

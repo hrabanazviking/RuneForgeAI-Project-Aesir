@@ -1,3 +1,10 @@
+## 2026-09-01 — Corrected GGML tensor type admission
+
+Removed invented GGML IDs for GPTQ, AWQ, EXL2, HQQ, and SmoothQuant. Those
+values collide with real upstream IQ and integer tensor types. The loader now
+maps only implemented GGML quantized IDs and raises for F32, unknown, and
+reserved-but-unimplemented values instead of silently treating them as Q4_K_M.
+
 ## 2026-09-01 — Removed invented external quantization execution
 
 GPTQ 4/8-bit, AWQ 4-bit, EXL2, HQQ, and SmoothQuant previously decoded

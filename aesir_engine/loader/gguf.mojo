@@ -29,53 +29,35 @@ struct GGMLType:
     comptime Q5_K = 13
     comptime Q6_K = 14
     comptime Q8_K = 15
-    comptime GPTQ_4BIT = 20
-    comptime AWQ_4BIT = 21
-    comptime EXL2 = 22
-    comptime HQQ = 23
-    comptime SMOOTHQUANT = 24
+    comptime IQ2_XXS = 16
+    comptime IQ1_S = 19
 
     @staticmethod
-    def to_compressed_format(ggml_type: UInt32) -> CompressedFormatType:
-        if ggml_type == 2:
+    def to_compressed_format(ggml_type: UInt32) raises -> CompressedFormatType:
+        """Map only GGML tensor types whose execution layout is implemented."""
+        if ggml_type == GGMLType.Q4_0:
             return CompressedFormatType(CompressedFormatType.Q4_0)
-        elif ggml_type == 3:
+        elif ggml_type == GGMLType.Q4_1:
             return CompressedFormatType(CompressedFormatType.Q4_1)
-        elif ggml_type == 6:
+        elif ggml_type == GGMLType.Q5_0:
             return CompressedFormatType(CompressedFormatType.Q5_0)
-        elif ggml_type == 7:
+        elif ggml_type == GGMLType.Q5_1:
             return CompressedFormatType(CompressedFormatType.Q5_1)
-        elif ggml_type == 8:
+        elif ggml_type == GGMLType.Q8_0:
             return CompressedFormatType(CompressedFormatType.Q8_0)
-        elif ggml_type == 9:
+        elif ggml_type == GGMLType.Q8_1:
             return CompressedFormatType(CompressedFormatType.Q8_1)
-        elif ggml_type == 10:
+        elif ggml_type == GGMLType.Q2_K:
             return CompressedFormatType(CompressedFormatType.Q2_K)
-        elif ggml_type == 11:
+        elif ggml_type == GGMLType.Q3_K:
             return CompressedFormatType(CompressedFormatType.Q3_K_M)
-        elif ggml_type == 12:
+        elif ggml_type == GGMLType.Q4_K:
             return CompressedFormatType(CompressedFormatType.Q4_K_M)
-        elif ggml_type == 13:
+        elif ggml_type == GGMLType.Q5_K:
             return CompressedFormatType(CompressedFormatType.Q5_K_M)
-        elif ggml_type == 14:
+        elif ggml_type == GGMLType.Q6_K:
             return CompressedFormatType(CompressedFormatType.Q6_K)
-        elif ggml_type == 20:
-            return CompressedFormatType(CompressedFormatType.GPTQ_4BIT)
-        elif ggml_type == 21:
-            return CompressedFormatType(CompressedFormatType.AWQ_4BIT)
-        elif ggml_type == 22:
-            return CompressedFormatType(CompressedFormatType.EXL2_VARBIT)
-        elif ggml_type == 23:
-            return CompressedFormatType(CompressedFormatType.HQQ)
-        elif ggml_type == 24:
-            return CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8)
-        elif ggml_type == 25:
-            return CompressedFormatType(CompressedFormatType.IQ1_S)
-        elif ggml_type == 19:
-            return CompressedFormatType(CompressedFormatType.IQ2_XXS)
-        elif ggml_type == 27:
-            return CompressedFormatType(CompressedFormatType.TERNARY_155BIT)
-        return CompressedFormatType(CompressedFormatType.Q4_K_M)
+        raise Error("unsupported GGML tensor type " + String(ggml_type))
 
 
 struct GGUFModelConfig(Copyable):
