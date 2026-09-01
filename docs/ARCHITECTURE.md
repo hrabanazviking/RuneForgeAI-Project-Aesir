@@ -151,7 +151,7 @@ graph TD
   - **`GPUBuffer` (Slice 8):** Zero-copy physical GPU memory buffer descriptor establishing unified physical memory frame sharing between host MMU and GPU page tables. Fields: `ptr`, `size_bytes`, `handle_fd`, `realm: GPURealmType`. Provides `.as_rune_tensor(rows, cols)` for zero-copy `RuneTensor` interop and `validate_zero_copy_contract()` to enforce OS DMA-BUF / mmap handle evidence before zero-copy access (`AES-ACC-009`).
 
 ### 7. `aesir_engine/config.mojo` & System Paradigms (`skaldbrodir`, `thinking`, `tool_use`, `smart_crash`, `max_gate`, `cia`, `wic`, `nsfi`, `mqari`, `help`, `tui`)
-- **Role:** Configuration management, safety protocols, crash self-healing, and optional inference paradigm engines.
+- **Role:** Configuration intent and a mixture of bounded local helpers and reserved experimental surfaces; the capability ledger defines which execute.
 - **Components:**
   - `AesirConfig`: Human-readable JSON configuration manifest (`aesir.config.json`).
   - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
@@ -159,10 +159,10 @@ graph TD
   - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.
   - `SmartCrashReporter`: Crash interception, structured logging, auto-retry counters, failsafe hardware fallback, and AI code hardening suggestions.
   - `MAXGate`: Modular MAX Framework execution graph gateway.
-  - `EpisodicComputationMemory`: Cognitive Inference Architecture (CIA) semantic hash matching and state reconstruction.
-  - `WaveInferenceEngine`: Wave Inference Computing (WIC) 2D standing wave propagation.
-  - `NSFIEngine`: Neural Spectral Fractal Inference (NSFI) IFS fractal attractor code weight reconstruction.
-  - `MQARIEngine`: MÍMIR-VØLVA Quantum-Acoustic Resonance Inference (MQARI) multi-frequency harmonic mode solver for edge hardware.
+  - `EpisodicComputationMemory`: Reserved CIA surface; semantic state hashing/storage/lookup are unavailable and raise.
+  - `WaveInferenceEngine`: Reserved WIC surface; no wave solver or inference transform is implemented.
+  - `NSFIEngine`: Reserved NSFI surface; no trained representation or weight reconstruction is implemented.
+  - `MQARIEngine`: Reserved MQARI surface; no physical acoustic/quantum operation or model projection is implemented.
   - `AesirTUIDashboard`: Terminal monitoring dashboard showing live hardware realm, VRAM/RAM residency, and token throughput.
 
 ### 6. `core/compute.mojo` — Nidavellir SIMD Kernels, Sharded Operations, NPU Gateway & GPU Realm Dispatch

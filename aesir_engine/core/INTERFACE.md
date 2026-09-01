@@ -744,6 +744,13 @@ module-private complete-state path, so it cannot manufacture sentinel-bearing
 weights. The validated single-device path sizes Q independently from K/V,
 applies grouped-query attention, checks token IDs and required
 embedding/output tensors, and uses the model's RMS epsilon.
+# Reserved experimental inference surfaces
+
+`EpisodicComputationMemory`, `WaveInferenceEngine`, `NSFIEngine` and
+`MQARIEngine` preserve configuration/API names only. Their semantic-state,
+wave, fractal-weight and harmonic methods raise unsupported without mutation.
+No model transform, inference equivalence or hardware speed claim exists.
+
 # Native Gemma 4 CUDA session
 
 `Gemma4CUDASession(path, context_length=32768)` validates the dense E4B profile,

@@ -129,10 +129,27 @@ def test_experimental_paradigms() raises:
     var well = MimirWell(1024 * 1024)
     var ecm = EpisodicComputationMemory()
     ecm.enabled = True
-    var hash1 = ecm.compute_semantic_hash(String("Explain quantum computing"))
-    ecm.store_episodic_state(hash1)
-    if not ecm.lookup_episodic_state(hash1):
-        raise Error("test_experimental_paradigms: Episodic state lookup failed")
+    var rejected = False
+    try:
+        _ = ecm.compute_semantic_hash(String("Explain quantum computing"))
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_experimental_paradigms: CIA fabricated a semantic hash")
+    rejected = False
+    try:
+        ecm.store_episodic_state("invented")
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected or len(ecm.cached_hashes) != 0:
+        raise Error("test_experimental_paradigms: CIA fabricated stored state")
+    rejected = False
+    try:
+        _ = ecm.lookup_episodic_state("invented")
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected or ecm.cache_hits != 0 or ecm.cache_misses != 0:
+        raise Error("test_experimental_paradigms: CIA fabricated lookup telemetry")
 
     var wic = WaveInferenceEngine()
     wic.enabled = True
@@ -142,17 +159,49 @@ def test_experimental_paradigms() raises:
     var out_wave = RuneTensor[f16](1, 4, out_ptr)
     for i in range(4):
         in_sig.set(0, i, Scalar[f16](1.0))
-    wic.propagate_holographic_wavefront(in_sig, out_wave)
+        out_wave.set(0, i, Scalar[f16](7.0))
+    rejected = False
+    try:
+        wic.propagate_holographic_wavefront(in_sig, out_wave)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_experimental_paradigms: WIC fabricated execution")
+    for i in range(4):
+        if out_wave.get(0, i) != Scalar[f16](7.0):
+            raise Error("test_experimental_paradigms: rejected WIC mutated output")
 
     var nsfi = NSFIEngine()
     nsfi.enabled = True
     var w_ptr = well.allocate(16)
     var target_w = RuneTensor[f16](4, 4, w_ptr)
-    nsfi.reconstruct_fractal_weights(1.5, 2.5, target_w)
+    for r in range(4):
+        for c in range(4):
+            target_w.set(r, c, Scalar[f16](3.0))
+    rejected = False
+    try:
+        nsfi.reconstruct_fractal_weights(1.5, 2.5, target_w)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_experimental_paradigms: NSFI fabricated weights")
+    for r in range(4):
+        for c in range(4):
+            if target_w.get(r, c) != Scalar[f16](3.0):
+                raise Error("test_experimental_paradigms: rejected NSFI mutated weights")
 
     var mqari = MQARIEngine()
     mqari.enabled = True
-    mqari.solve_harmonic_resonance(in_sig, out_wave)
+    rejected = False
+    try:
+        mqari.solve_harmonic_resonance(in_sig, out_wave)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_experimental_paradigms: MQARI fabricated execution")
+    for i in range(4):
+        if out_wave.get(0, i) != Scalar[f16](7.0):
+            raise Error("test_experimental_paradigms: rejected MQARI mutated output")
     print("test_experimental_paradigms: PASS")
 
 def main() raises:

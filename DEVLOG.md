@@ -1,3 +1,16 @@
+## 2026-09-01 — Removed synthetic experimental inference stand-ins
+
+CIA no longer labels a DJB2-style string checksum as semantic execution state.
+WIC, NSFI and MQARI no longer write cosine/sine-generated values into tensors
+and present them as model inference, reconstructed weights or physical harmonic
+acceleration. All four execution surfaces now raise unsupported and preserve
+caller tensors and telemetry.
+
+Configuration still records these research intents, while supported commands
+reject enabled values. The new `AES-SYS-001` ledger entry marks the family
+missing until each proposal has a falsifiable specification, real model
+integration, output-equivalence checks and physical performance evidence.
+
 ## 2026-08-31 — Removed detached llama.cpp compatibility claims
 
 The reserved compatibility module no longer marks `main`, `llama-cli` or

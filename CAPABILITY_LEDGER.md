@@ -69,8 +69,8 @@ the complete ledger population.
 | `partial` | 19 |
 | `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 18 |
-| **Total** | **108** |
+| `missing` | 19 |
+| **Total** | **109** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -1261,6 +1261,18 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Evidence boundary:** Checks mechanical ledger/test/doc invariants, active vision status tags, and known fabrication signatures. Historical prose is preserved rather than semantically re-adjudicated; new claim families still require review and gate expansion.
 - **Audit:** AER-003, AER-112, AER-115.
 
+
+### AES-SYS-001 — Experimental CIA/WIC/NSFI/MQARI inference paradigms
+
+- **Status:** `missing`
+- **Owner:** core experimental and configuration domains
+- **Claim sources:** completed top-priority TODO items; active vision and architecture descriptions
+- **Implementation evidence:** Configuration parsing records the four boolean intents and single-shot validation rejects enabled intent. `EpisodicComputationMemory`, `WaveInferenceEngine`, `NSFIEngine`, and `MQARIEngine` expose zero/empty initial state; semantic-state, synthetic wave, fractal-weight and harmonic execution methods all raise unsupported without mutating caller tensors or telemetry.
+- **Executable evidence:** `E-MASTER` case `paradigms.experimental_paradigms` covers every rejection and output/state non-mutation.
+- **Evidence boundary:** No semantic embedding/state snapshot, trained fractal representation, physical wave/acoustic system, calibrated numerical method, model conversion, output-equivalence proof, hardware execution or speed measurement exists.
+- **Next acceptance gate:** Each proposal requires a separate falsifiable specification, model artifact/transform, reference implementation, output-quality/equivalence gate and physical performance evidence before runtime enablement.
+- **Audit:** AER-003.
+
 ## 19. Claim-Family Coverage Map
 
 | Claim family | Canonical entries |
@@ -1280,6 +1292,7 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 | Resilience/concurrency | AES-RES-001 through AES-RES-005 |
 | Swarm/distributed | AES-SWM-001 through AES-SWM-005 |
 | Benchmarks/security/production | AES-OPS-001 through AES-OPS-006 |
+| Experimental inference paradigms | AES-SYS-001 |
 
 ## 20. How This Ledger Changes
 

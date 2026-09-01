@@ -1,12 +1,12 @@
 # core/cia.mojo
-# Cognitive Inference Architecture (CIA) — Episodic Neural Computation with Predictive Materialization
+# Reserved Cognitive Inference Architecture (CIA) surface.
 
 from .mimir_well import RuneTensor, f16
 
 struct EpisodicComputationMemory:
     """
-    EpisodicComputationMemory — Caches semantic activation traces and subgraph execution paths.
-    Enables instant reconstruction of repetitive cognitive states (the "Déjà Vu" effect).
+    Reserved configuration surface. No activation/KV snapshot ownership,
+    semantic embedding index, reconstruction path, or persistence exists.
     """
     var enabled: Bool
     var similarity_threshold: Float64
@@ -16,34 +16,22 @@ struct EpisodicComputationMemory:
 
     def __init__(out self):
         self.enabled = False
-        self.similarity_threshold = 0.95
+        self.similarity_threshold = 0.0
         self.cache_hits = 0
         self.cache_misses = 0
         self.cached_hashes = List[String]()
 
-    def compute_semantic_hash(self, text_prompt: String) -> String:
-        """Computes a semantic hash signature for input token sequences."""
-        var raw_bytes = text_prompt.as_bytes()
-        var hash_val: Int = 5381
-        for i in range(len(raw_bytes)):
-            hash_val = ((hash_val << 5) + hash_val) + Int(raw_bytes[i])
-        return String("cia_hash_") + String(hash_val)
+    def compute_semantic_hash(self, text_prompt: String) raises -> String:
+        """Refuses to label a non-semantic string checksum as model state."""
+        _ = text_prompt
+        raise Error("Cognitive Inference semantic state hashing is not implemented")
 
-    def lookup_episodic_state(mut self, semantic_hash: String) -> Bool:
-        """Checks if a matching cognitive execution state exists in memory pool."""
-        if not self.enabled:
-            return False
+    def lookup_episodic_state(mut self, semantic_hash: String) raises -> Bool:
+        """Refuses lookup because no execution state is stored."""
+        _ = semantic_hash
+        raise Error("Cognitive Inference episodic state lookup is not implemented")
 
-        for i in range(len(self.cached_hashes)):
-            if self.cached_hashes[i] == semantic_hash:
-                self.cache_hits += 1
-                return True
-
-        self.cache_misses += 1
-        return False
-
-    def store_episodic_state(mut self, semantic_hash: String):
-        """Stores a newly computed cognitive activation graph signature."""
-        if not self.enabled:
-            return
-        self.cached_hashes.append(semantic_hash)
+    def store_episodic_state(mut self, semantic_hash: String) raises:
+        """Refuses storage because a hash alone is not an execution snapshot."""
+        _ = semantic_hash
+        raise Error("Cognitive Inference episodic state storage is not implemented")
