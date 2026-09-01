@@ -1125,9 +1125,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core concurrency domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `RuneThreadPool` stores a bounded local task list, completion/cancellation markers, `num_threads` intent, and active state; it clamps the requested count to at least one.
-- **Executable evidence:** `E-MASTER` case `resilience.thread_pool_stub` in `test_resilience.mojo`.
-- **Evidence boundary:** It creates no worker threads, executes no payloads, and provides no concurrency.
+- **Implementation evidence:** `RuneThreadPool` stores at most 256 unique, non-negative task descriptors with non-empty payload labels, supports pre-execution cancellation and admission shutdown, and records a clamped desired worker count. Both execution entry points raise without changing completion state; active-worker queries return zero.
+- **Executable evidence:** `E-MASTER` cases `resilience.thread_pool_stub` and `resilience.task_descriptor_queue` cover bounds, cancellation, duplicate rejection, mutation-free execution refusal and shutdown.
+- **Evidence boundary:** It creates no worker threads, invokes no payload/callback, synchronizes nothing, and provides no concurrency. `num_threads` is configuration intent only.
 - **Next acceptance gate:** Implement bounded synchronized workers, real task execution, cancellation/shutdown semantics, and race/load tests.
 - **Audit:** AER-089.
 

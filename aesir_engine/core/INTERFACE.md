@@ -566,12 +566,19 @@ Bounded local task list. It creates no threads, executes no payloads, and
 provides no parallelism.
 
 ```mojo
-struct RuneThreadPool(Copyable, ImplicitlyCopyable):
+struct RuneThreadPool(Copyable):
     var num_threads: Int
     var is_active: Bool
+    var task_queue: List[RuneTask]
+    var completed_count: Int
 
     def __init__(out self, num_threads: Int = 8): ...
-    def copy(self) -> Self: ...
+    def submit_task(mut self, task_id: Int, payload: String) raises -> Int: ...
+    def process_pending_tasks(mut self) raises -> Int: ... # always unsupported
+    def cancel_task(mut self, task_id: Int) -> Bool: ...
+    def shutdown(mut self): ...
+    def execute_task_batch(mut self, batch_size: Int = 16) raises -> Int: ... # always unsupported
+    def get_active_worker_count(self) -> Int: ... # always zero
     def parallel_step(self) -> Bool: ...
 ```
 

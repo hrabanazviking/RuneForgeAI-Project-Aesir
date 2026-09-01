@@ -195,7 +195,7 @@ NPU work.
 
 ## Slice 12: Sovereign Resilience & Self-Healing Matrix — Asgard Facade Contract
 
-`AesirEngine` orchestrates system resilience, Pub/Sub event messaging, and thread pool worker management:
+`AesirEngine` owns local resilience, event-log, and task-descriptor state. This ownership does not provide subscriber delivery, worker threads, or process recovery:
 
 | Rule | Description |
 | :--- | :--- |

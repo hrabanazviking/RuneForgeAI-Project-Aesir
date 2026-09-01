@@ -1,8 +1,8 @@
 # core/thread_pool.mojo
-# RuneThreadPool: Bounded Task Queue, Thread State & Concurrent Execution Engine
+# RuneThreadPool: bounded local task descriptors; worker execution unavailable
 
 struct RuneTask(Copyable, ImplicitlyCopyable):
-    """Task payload descriptor for thread pool execution."""
+    """Local task descriptor. Payload execution is not implemented."""
     var task_id: Int
     var payload: String
     var is_completed: Bool
@@ -25,8 +25,9 @@ struct RuneThreadPool(Copyable):
     """
     ᚱᛢᚾᛖ·ᛏᚺᚱᛖᚨᛞ·ᛈᛟᛟᛚ — The Multi-Threaded Forge (RuneThreadPool)
     ═══════════════════════════════════════════════════════════════
-    Multi-threaded worker pool managing task queue submission, completion,
-    task cancellation, and graceful shutdown safety.
+    Bounded local task descriptor queue with cancellation and shutdown state.
+    No threads, callbacks, payload execution, synchronization, or completion
+    reporting are implemented.
     """
     var num_threads: Int
     var is_active: Bool
@@ -47,27 +48,27 @@ struct RuneThreadPool(Copyable):
 
     def submit_task(mut self, task_id: Int, payload: String = "") raises -> Int:
         """
-        Enqueues a task payload into the bounded worker pool queue.
-        Raises Error if the pool is shut down or queue is full (max 256).
+        Enqueues one unique, non-empty task descriptor into a bounded list.
         """
         if not self.is_active:
-            raise Error("RuneThreadPool is shut down - cannot submit task")
+            raise Error("RuneThreadPool descriptor queue is shut down")
+        if task_id < 0:
+            raise Error("RuneThreadPool task id must not be negative")
+        if payload.byte_length() == 0:
+            raise Error("RuneThreadPool task payload must not be empty")
         if len(self.task_queue) >= 256:
             raise Error("RuneThreadPool queue capacity overflow")
+        for i in range(len(self.task_queue)):
+            if self.task_queue[i].task_id == task_id:
+                raise Error("RuneThreadPool task id must be unique")
         self.task_queue.append(RuneTask(task_id, payload))
         return len(self.task_queue)
 
-    def process_pending_tasks(mut self) -> Int:
+    def process_pending_tasks(mut self) raises -> Int:
         """
-        Executes pending tasks in the queue and marks them as completed.
+        Reserved worker execution entry point.
         """
-        var processed = 0
-        for i in range(len(self.task_queue)):
-            if not self.task_queue[i].is_completed and not self.task_queue[i].is_cancelled:
-                self.task_queue[i].is_completed = True
-                self.completed_count += 1
-                processed += 1
-        return processed
+        raise Error("RuneThreadPool has no worker or payload execution implementation")
 
     def cancel_task(mut self, task_id: Int) -> Bool:
         """
@@ -81,31 +82,23 @@ struct RuneThreadPool(Copyable):
 
     def shutdown(mut self):
         """
-        Gracefully shuts down worker pool threads and drains pending task queue.
+        Stops descriptor admission and drops the local pending list.
         """
         self.is_active = False
         self.task_queue.clear()
 
-    def execute_task_batch(mut self, batch_size: Int = 16) -> Int:
+    def execute_task_batch(mut self, batch_size: Int = 16) raises -> Int:
         """
-        Executes a batch of pending worker tasks concurrently across pool workers.
-        Returns the count of successfully executed tasks in this iteration step.
+        Reserved batched worker execution entry point.
         """
-        if not self.is_active or len(self.task_queue) == 0:
-            return 0
-        var executed = 0
-        var limit = min(batch_size, len(self.task_queue))
-        for i in range(limit):
-            if not self.task_queue[i].is_completed and not self.task_queue[i].is_cancelled:
-                self.task_queue[i].is_completed = True
-                self.completed_count += 1
-                executed += 1
-        return executed
+        if batch_size <= 0:
+            raise Error("RuneThreadPool batch size must be positive")
+        raise Error("RuneThreadPool has no concurrent batch execution implementation")
 
     def get_active_worker_count(self) -> Int:
-        """Returns the count of operational threads currently active in the worker pool."""
-        return self.num_threads if self.is_active else 0
+        """Returns zero because this descriptor queue owns no workers."""
+        return 0
 
     def parallel_step(self) -> Bool:
-        """Legacy active state query."""
-        return self.is_active
+        """Legacy worker-step query; no worker step exists."""
+        return False

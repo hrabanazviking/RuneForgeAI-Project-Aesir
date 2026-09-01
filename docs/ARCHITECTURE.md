@@ -102,7 +102,7 @@ graph TD
 
 ### 2. `aesir.mojo` — `AesirEngine` (Orchestrator, RAG, Resilience, Multi-Device Topology, NPU Gateway & GPU Matrix)
 - **Role:** Sovereign facade coordinating intelligence, memory, vector stores, resilience guardians, multi-device topology, NPU backend selection, GPU realm targeting, and transport streaming.
-- **Resilience Matrix (Slice 12):** Holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. During initialization, activates the supervisor and emits an initial heartbeat pulse (`supervisor.pulse_heartbeat()`). Guarantees process self-healing recovery and zero-allocation checkpointing.
+- **Resilience descriptors (Slice 12):** Holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. Initialization records a local heartbeat marker. The supervisor is a labeled simulation and the thread-pool type is a bounded task descriptor queue with no workers; neither provides process recovery or concurrency.
 - **Topology & bounded RAG primitives:** Holds `knowledge_base: MimirStore` and a validated single-device `topology`. If callers populate the in-memory store with real embeddings, `generate()` and `generate_stream()` can mean-pool the loaded model's `token_embd.weight` rows, run local cosine top-k search, apply a 1024-byte context cap, and prepend citation-shaped text. Missing weights, empty token sequences, dimension mismatches, and out-of-range token IDs fail explicitly. This is a partial local RAG path: the facade's raw-text ingestion method is unavailable because no independent embedding pipeline, durable index, or citation-provenance store exists. Multi-device engine execution is rejected during configuration.
 - **Thinking Control (`permit_seidr`):** When set to `False`, the generation loop masks out thinking tokens (`<|start_thought|>`) with $-\infty$ logit probability, preventing unneeded reasoning computation.
 - **NPU Realm Gateway (Slice 7):** Holds `enable_npu: Bool` and `target_backend: NPUBackendType` fields. When `enable_npu` is `True`, logs the active NPU backend name (`target_backend.name()`) during initialization and passes `use_npu=enable_npu, npu_backend=target_backend` into every `forward_pass()` invocation.
@@ -201,12 +201,12 @@ graph TD
 - **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). The reserved `cli/llama_cpp_compat.mojo` surface rejects every subcommand and argument vector; no detached flag parser is presented as llama.cpp compatibility (`AES-ECO-006`).
 
 ### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
-- **Role:** Fault tolerance, versioned durable state snapshotting, process monitoring, inter-module pub/sub event bus, thread pool concurrency, and defensive memory sanitization.
+- **Role:** Durable checkpoint records, local event/task descriptors, explicit supervisor simulation, and defensive pointer/logit helpers. Process recovery, subscriber delivery, and worker concurrency are unavailable.
 - **Implementation:**
   - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
   - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
   - `AesirEventBus`: Decoupled Pub/Sub event messaging with `EventSubscription`, topic masks, subscriber queues (`subscribe`, `unsubscribe`), and event log queue (`AES-RES-003`).
-  - `RuneThreadPool`: Multi-threaded worker pool with `RuneTask`, task queue submission (`submit_task`), task cancellation (`cancel_task`), and graceful shutdown (`shutdown`) (`AES-RES-004`).
+  - `RuneThreadPool`: Bounded local `RuneTask` descriptor list with validated submission, pre-execution cancellation, and admission shutdown (`AES-RES-004`). Worker and batch execution methods reject without marking tasks complete.
   - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery simulation (`simulate_crash_and_recover`).
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
@@ -232,7 +232,7 @@ graph TD
     Inference[forward_pass<br/>core/inference.mojo] -->|Check Pointer & Bounds| Guard[ErrorGuard<br/>core/error_guard.mojo]
     Inference -->|Cleanse NaN / Inf Logits| Guard
     
-    Pool[RuneThreadPool<br/>core/thread_pool.mojo] -->|Parallel Matrix Tile Execution| Inference
+    Engine -->|owns local descriptor queue| Pool[RuneThreadPool<br/>no workers or payload execution]
 ```
 
 **Resilience Matrix Components:**
@@ -252,11 +252,10 @@ graph TD
    - Dispatches operational event pulses: `HEARTBEAT`, `MODEL_LOADED`, `INFERENCE_CRASH`, `RECOVERY_COMPLETE`.
 
 4. **`RuneThreadPool` (`core/thread_pool.mojo`):**
-   - Worker thread pool coordinator managing multi-lane GEMM block multiplication, sharded layer execution, and parallel background tasks.
+   - Stores bounded caller task descriptors and cancellation state. It creates no threads and executes no work.
 
 5. **`SelfHealingSupervisor` (`core/supervisor.mojo`):**
-   - Guardian monitoring system heartbeats (`pulse_heartbeat`).
-   - Catching runtime panics and executing `simulate_crash_and_recover()`, restoring `StateVault` snapshots and resuming inference without dropping socket connections.
+   - Records local heartbeat and checkpoint simulation markers only. It catches no panic, restarts no process, restores no runtime state, and provides no socket continuity.
 
 ---
 

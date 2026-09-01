@@ -1,5 +1,5 @@
 # tests/test_resilience_matrix.mojo
-# Verification of StateVault durable checkpoints, AesirEventBus pub/sub, and RuneThreadPool worker pool
+# Verification of durable checkpoints, local event records, and task descriptors
 
 from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus, EventSubscription
@@ -47,8 +47,8 @@ def test_event_bus_pub_sub() raises:
     print("AesirEventBus pub/sub & subscriptions: PASS")
 
 
-def test_thread_pool_concurrency() raises:
-    print("--- Testing RuneThreadPool Worker Pool & Cancellation ---")
+def test_task_descriptor_queue() raises:
+    print("--- Testing Bounded Task Descriptors & Unsupported Workers ---")
     var pool = RuneThreadPool(4)
     var count1 = pool.submit_task(101, "embed_job_1")
     var count2 = pool.submit_task(102, "embed_job_2")
@@ -59,18 +59,33 @@ def test_thread_pool_concurrency() raises:
     if not cancelled:
         raise Error("RuneThreadPool cancel_task failed")
 
-    var processed = pool.process_pending_tasks()
-    if processed != 1:
-        raise Error("RuneThreadPool process_pending_tasks should process exactly 1 un-cancelled task")
+    var completed_before = pool.completed_count
+    var execution_rejected = False
+    try:
+        _ = pool.process_pending_tasks()
+    except error:
+        execution_rejected = "no worker" in String(error)
+    if not execution_rejected or pool.completed_count != completed_before:
+        raise Error("RuneThreadPool fabricated payload completion")
+    if pool.task_queue[0].is_completed:
+        raise Error("RuneThreadPool marked an unexecuted task complete")
+
+    var duplicate_rejected = False
+    try:
+        _ = pool.submit_task(101, "duplicate")
+    except:
+        duplicate_rejected = True
+    if not duplicate_rejected or len(pool.task_queue) != 2:
+        raise Error("RuneThreadPool accepted a duplicate task id")
 
     pool.shutdown()
     if pool.is_active:
         raise Error("RuneThreadPool shutdown failed to clear active state")
 
-    print("RuneThreadPool worker pool & cancellation: PASS")
+    print("Bounded task descriptors & unsupported workers: PASS")
 
 
 def main() raises:
     test_state_vault_durable_checkpoints()
     test_event_bus_pub_sub()
-    test_thread_pool_concurrency()
+    test_task_descriptor_queue()

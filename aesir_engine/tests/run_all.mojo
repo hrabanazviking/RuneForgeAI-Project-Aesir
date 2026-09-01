@@ -108,7 +108,7 @@ from tests.test_speculative import (
 from tests.test_resilience_matrix import (
     test_state_vault_durable_checkpoints,
     test_event_bus_pub_sub,
-    test_thread_pool_concurrency,
+    test_task_descriptor_queue,
 )
 from tests.test_metal_realm import (
     test_metal_gate_availability,
@@ -626,8 +626,8 @@ def main() raises:
     run_case(ledger, "resilience.thread_pool_stub", test_thread_pool)
     run_case(
         ledger,
-        "resilience.thread_pool_concurrency",
-        test_thread_pool_concurrency,
+        "resilience.task_descriptor_queue",
+        test_task_descriptor_queue,
     )
     run_case(
         ledger,

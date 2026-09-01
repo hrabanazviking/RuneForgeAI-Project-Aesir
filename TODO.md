@@ -552,7 +552,7 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] **[verified, AES-RES-003] Build an actual event bus:** Subscribers, queues,
   ordering, backpressure, unsubscribe/lifetime, synchronization, and failure
   semantics.
-- [x] **[verified, AES-RES-004] Build a real worker pool:** Threads, bounded
+- [ ] **[verified, AES-RES-004] Expand the bounded task descriptor queue into a real worker pool:** Threads, bounded
   queue, task completion/errors, synchronization, cancellation, and shutdown.
 - [ ] **[simulated, AES-RES-005] Define real recoverable failure boundaries and
   inject faults:** Prove model/KV/session/socket continuity or document explicit

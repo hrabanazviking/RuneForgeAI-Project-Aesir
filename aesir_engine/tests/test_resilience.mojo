@@ -116,8 +116,8 @@ def test_thread_pool() raises:
     var success = True
     var pool = RuneThreadPool(8)
 
-    if not pool.parallel_step():
-        print("FAIL: RuneThreadPool parallel_step failed")
+    if pool.parallel_step() or pool.get_active_worker_count() != 0:
+        print("FAIL: RuneThreadPool claimed workers without creating threads")
         success = False
 
     # Test non-positive num_threads clamping safety

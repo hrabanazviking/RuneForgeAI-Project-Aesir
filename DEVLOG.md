@@ -1,3 +1,15 @@
+## 2026-09-01 — Removed imaginary thread-pool execution
+
+`RuneThreadPool` no longer marks string payloads complete without invoking any
+work, reports configured integers as active workers, or labels a serial loop as
+concurrent execution. Its real scope is now explicit: a bounded local task
+descriptor list with unique IDs, cancellation and admission shutdown.
+
+Both execution entry points reject without changing task completion counters.
+Tests and current architecture documents now call this a descriptor queue;
+threads, callbacks, synchronization, result/error propagation and races remain
+open work under `AES-RES-004`.
+
 ## 2026-09-01 — Removed fabricated swarm membership and credentials
 
 Authenticated mesh join no longer creates a fictional peer with fixed port,

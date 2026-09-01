@@ -163,7 +163,7 @@ graph TB
 - **Slice 6 Components:** `AesirEngine` holds `topology: DeviceTopology` initialized via `num_devices` parameter. When `num_devices > 1`, logs active Bifrost Shard Matrix status and passes `topology` into `forward_pass()` calls during inference.
 - **Slice 7 Components (NPU Realm Gateway):** `AesirEngine` holds `enable_npu: Bool` and `target_backend: NPUBackendType`. When `enable_npu` is `True`, logs the active NPU backend name via `target_backend.name()` at construction time and passes `use_npu=enable_npu` and `npu_backend=target_backend` into every `forward_pass()` call. `NPUBackendType` is imported from `core/mimir_well.mojo`.
 - **Slice 8 Components:** `AesirEngine` retains requested GPU configuration fields, but validation rejects GPU execution before model loading. GPU-1 discovery lives in the core topology boundary and does not enable these fields.
-- **Slice 12 Components (Sovereign Resilience & Self-Healing Matrix):** `AesirEngine` holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. Emits an initial heartbeat pulse on startup and maintains thread pool resources for concurrent inference requests.
+- **Slice 12 components:** `AesirEngine` holds `supervisor: SelfHealingSupervisor`, `event_bus: AesirEventBus`, and `thread_pool: RuneThreadPool`. Startup records a local heartbeat marker. The pool is a task descriptor list and does not serve concurrent inference requests.
 - **Phase 14 Components (Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix):** `AesirEngine` holds `swarm_cluster: SwarmCluster`. Instantiates the swarm orchestrator on startup and manages mesh cluster topology.
 
 ### 3. `loader` Domain (GGUFSeer, GGMLType, ONNXModelSeer, HuggingFaceSeer & RuneWeaver BPE Tokenizer)
@@ -199,7 +199,7 @@ graph TB
 
 ## 🛡️ Sovereign Resilience & Self-Healing Matrix — Slice 12 Domain Layer & Boundary Confirmations
 
-The Sovereign Resilience & Self-Healing Matrix establishes a fault-tolerant, self-healing runtime substrate within the `core` domain. It guarantees zero-downtime inference, defensive memory boundaries, NaN/Inf logit cleansing, state snapshotting, and thread pool worker management.
+The resilience domain contains pointer/logit guards, durable checkpoint records, a local event log, a bounded task descriptor queue, and an explicitly simulated supervisor. It does not guarantee zero downtime, process recovery, subscriber delivery, or worker execution.
 
 ```mermaid
 graph TD
@@ -221,7 +221,7 @@ graph TD
 | `ErrorGuard` | `core/error_guard.mojo` | Core — Defensive Memory & Safety | ✅ **Correct** — pointer alignment & logit sanitization belongs in core safety |
 | `StateVault` | `core/state_vault.mojo` | Core — State Checkpointing | ✅ **Correct** — zero-allocation state snapshotting belongs in core state domain |
 | `AesirEventBus` | `core/event_bus.mojo` | Core — Event Infrastructure | ✅ **Correct** — inter-module Pub/Sub event messaging belongs in core |
-| `RuneThreadPool` | `core/thread_pool.mojo` | Core — Concurrency & Work Stealing | ✅ **Correct** — parallel worker execution belongs in core compute pool |
+| `RuneThreadPool` | `core/thread_pool.mojo` | Core — Task Descriptors | ✅ **Correct boundary** — local admission/cancellation state belongs in core; workers remain unimplemented |
 | `SelfHealingSupervisor` | `core/supervisor.mojo` | Core — Process Guardianship | ✅ **Correct** — crash monitoring & recovery supervisor belongs in core |
 | `AesirEngine` fields (`supervisor`, `event_bus`, `thread_pool`) | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns system-wide component instances |
 | `test_resilience.mojo` | `tests/test_resilience.mojo` | Testing Domain | ✅ **Correct** — resilience unit tests belong in test suite |
