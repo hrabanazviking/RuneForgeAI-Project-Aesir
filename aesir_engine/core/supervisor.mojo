@@ -36,7 +36,7 @@ struct SelfHealingSupervisor(Copyable):
         s.bus = self.bus.copy()
         return s^
 
-    def pulse_heartbeat(mut self):
+    def pulse_heartbeat(mut self) raises:
         """
         ᛈᛢᛚᛋᛖ·ᚺᛖᚨᛏᛒᛖᚨᛏ — The Rhythm of Vitality (pulse_heartbeat)
         ════════════════════════════════════════════════════════════
@@ -44,7 +44,7 @@ struct SelfHealingSupervisor(Copyable):
         """
         self.bus.publish_event("HEARTBEAT", "Supervisor pulse OK")
 
-    def simulate_crash_and_recover(mut self) -> Bool:
+    def simulate_crash_and_recover(mut self) raises -> Bool:
         """
         ᛋᛁᛗᛢᛚᚨᛏᛖ·ᚲᛱᚨᛋᚺ — The Self-Healing Rite (simulate_crash_and_recover)
         ═══════════════════════════════════════════════════════════════════════

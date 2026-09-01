@@ -100,8 +100,12 @@ def test_event_bus() raises:
 
     # Test empty string event_type rejection
     var empty_bus = AesirEventBus()
-    empty_bus.publish_event("", "payload")
-    if empty_bus.event_count != 0:
+    var empty_rejected = False
+    try:
+        empty_bus.publish_event("", "payload")
+    except:
+        empty_rejected = True
+    if not empty_rejected or empty_bus.event_count != 0:
         print("FAIL: AesirEventBus accepted empty event_type")
         success = False
 

@@ -205,7 +205,7 @@ graph TD
 - **Implementation:**
   - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
   - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
-  - `AesirEventBus`: Decoupled Pub/Sub event messaging with `EventSubscription`, topic masks, subscriber queues (`subscribe`, `unsubscribe`), and event log queue (`AES-RES-003`).
+  - `AesirEventBus`: Bounded synchronous in-process event journal and masked subscriber mailboxes with ordered drain and unsubscribe (`AES-RES-003`). It owns no worker or cross-process transport.
   - `RuneThreadPool`: Bounded local `RuneTask` descriptor list with validated submission, pre-execution cancellation, and admission shutdown (`AES-RES-004`). Worker and batch execution methods reject without marking tasks complete.
   - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery simulation (`simulate_crash_and_recover`).
 
@@ -248,8 +248,8 @@ graph TD
    - `restore_checkpoint()`: Returns last valid sequence token index for instant $<1\text{ ms}$ state restoration.
 
 3. **`AesirEventBus` (`core/event_bus.mojo`):**
-   - Asynchronous, decoupled inter-module message bus.
-   - Dispatches operational event pulses: `HEARTBEAT`, `MODEL_LOADED`, `INFERENCE_CRASH`, `RECOVERY_COMPLETE`.
+   - Synchronously journals bounded local event records and copies them to matching in-memory subscriber mailboxes.
+   - Supports the built-in `HEARTBEAT`, `MODEL_LOADED`, `INFERENCE_CRASH`, and `RECOVERY_COMPLETE` mask bits plus a custom-event bit.
 
 4. **`RuneThreadPool` (`core/thread_pool.mojo`):**
    - Stores bounded caller task descriptors and cancellation state. It creates no threads and executes no work.

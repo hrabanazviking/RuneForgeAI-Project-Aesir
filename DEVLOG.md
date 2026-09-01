@@ -1,3 +1,15 @@
+## 2026-09-01 — Made local event publication real
+
+`AesirEventBus` previously collected subscriber names but never delivered an
+event to them. It now implements bounded synchronous in-process mailboxes with
+stable event masks, unique subscriber admission, pre-mutation capacity checks,
+ordered drain and unsubscribe. Invalid topics and oversized messages raise
+instead of disappearing silently.
+
+The boundary remains explicit: this is a single-owner local journal, not an
+asynchronous or cross-process bus. It has no worker, locking, durable replay,
+acknowledgement or retry system.
+
 ## 2026-09-01 — Removed imaginary thread-pool execution
 
 `RuneThreadPool` no longer marks string payloads complete without invoking any

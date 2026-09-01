@@ -199,7 +199,7 @@ graph TB
 
 ## 🛡️ Sovereign Resilience & Self-Healing Matrix — Slice 12 Domain Layer & Boundary Confirmations
 
-The resilience domain contains pointer/logit guards, durable checkpoint records, a local event log, a bounded task descriptor queue, and an explicitly simulated supervisor. It does not guarantee zero downtime, process recovery, subscriber delivery, or worker execution.
+The resilience domain contains pointer/logit guards, durable checkpoint records, a bounded synchronous local event journal with subscriber mailboxes, a task descriptor queue, and an explicitly simulated supervisor. It does not guarantee zero downtime, process recovery, concurrent delivery, or worker execution.
 
 ```mermaid
 graph TD
@@ -220,7 +220,7 @@ graph TD
 | :--- | :--- | :--- | :--- |
 | `ErrorGuard` | `core/error_guard.mojo` | Core — Defensive Memory & Safety | ✅ **Correct** — pointer alignment & logit sanitization belongs in core safety |
 | `StateVault` | `core/state_vault.mojo` | Core — State Checkpointing | ✅ **Correct** — zero-allocation state snapshotting belongs in core state domain |
-| `AesirEventBus` | `core/event_bus.mojo` | Core — Event Infrastructure | ✅ **Correct** — inter-module Pub/Sub event messaging belongs in core |
+| `AesirEventBus` | `core/event_bus.mojo` | Core — Local Event Infrastructure | ✅ **Correct** — bounded synchronous journals and mailboxes belong in core; concurrent transport is absent |
 | `RuneThreadPool` | `core/thread_pool.mojo` | Core — Task Descriptors | ✅ **Correct boundary** — local admission/cancellation state belongs in core; workers remain unimplemented |
 | `SelfHealingSupervisor` | `core/supervisor.mojo` | Core — Process Guardianship | ✅ **Correct** — crash monitoring & recovery supervisor belongs in core |
 | `AesirEngine` fields (`supervisor`, `event_bus`, `thread_pool`) | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns system-wide component instances |

@@ -40,7 +40,22 @@ def test_event_bus_pub_sub() raises:
     if len(bus.event_log) != 1:
         raise Error("AesirEventBus event log count mismatch")
 
-    bus.unsubscribe("cli_listener")
+    if bus.pending_count("server_listener") != 1:
+        raise Error("AesirEventBus failed to deliver to matching subscriber")
+    if bus.pending_count("cli_listener") != 0:
+        raise Error("AesirEventBus ignored the subscriber event mask")
+
+    bus.publish_event("HEARTBEAT", "local marker")
+    if bus.pending_count("server_listener") != 2 or bus.pending_count("cli_listener") != 1:
+        raise Error("AesirEventBus mailbox counts are incorrect")
+    var cli_events = bus.drain_events("cli_listener")
+    if len(cli_events) != 1 or cli_events[0] != "HEARTBEAT:local marker":
+        raise Error("AesirEventBus drain lost event order or payload")
+    if bus.pending_count("cli_listener") != 0:
+        raise Error("AesirEventBus drain failed to clear mailbox")
+
+    if not bus.unsubscribe("cli_listener"):
+        raise Error("AesirEventBus unsubscribe failed")
     if len(bus.subscriptions) != 1:
         raise Error("AesirEventBus unsubscribe failed")
 

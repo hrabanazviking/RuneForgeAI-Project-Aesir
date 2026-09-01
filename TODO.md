@@ -549,9 +549,9 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] **[verified, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
   integrity-protected checkpoints, complete state ownership, corruption and
   restart restoration tests.
-- [x] **[verified, AES-RES-003] Build an actual event bus:** Subscribers, queues,
-  ordering, backpressure, unsubscribe/lifetime, synchronization, and failure
-  semantics.
+- [ ] **[verified, AES-RES-003] Expand the bounded synchronous local event bus:**
+  Define ownership and add synchronization, reentrancy, durable replay,
+  acknowledgement/retry, and cross-thread failure semantics.
 - [ ] **[verified, AES-RES-004] Expand the bounded task descriptor queue into a real worker pool:** Threads, bounded
   queue, task completion/errors, synchronization, cancellation, and shutdown.
 - [ ] **[simulated, AES-RES-005] Define real recoverable failure boundaries and

@@ -1110,14 +1110,15 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Evidence boundary:** Checked state checkpoint marker non-negative position and prompt count bounds.
 - **Audit:** AER-106.
 
-### AES-RES-003 — Event bus state marker & empty topic bounds
+### AES-RES-003 — Bounded synchronous local event journal and mailboxes
 
 - **Status:** `verified`
 - **Owner:** core resilience/concurrency domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `AesirEventBus` in `core/event_bus.mojo` recording event count and last event code, enforcing non-empty event type validation (`len(event_type.bytes()) > 0`) in `publish_event`.
-- **Executable evidence:** `E-MASTER` case `resilience.event_bus_marker` in `test_resilience.mojo`.
-- **Evidence boundary:** Checked event bus non-empty event type parameter validation bounds.
+- **Implementation evidence:** `AesirEventBus` validates unique subscriber IDs and masks, journals up to 1024 events, synchronously copies matching records into per-subscriber 256-event mailboxes, checks all capacities before mutation, and supports ordered draining and unsubscribe. Event types and messages have explicit byte bounds.
+- **Executable evidence:** `E-MASTER` cases `resilience.event_bus_marker` and `resilience.event_bus_pub_sub` cover invalid topics, mask filtering, ordered payload delivery, draining, and unsubscribe.
+- **Evidence boundary:** This is synchronous in-process storage. It has no worker, lock, cross-thread/process transport, durable replay, acknowledgement, or retry semantics.
+- **Next acceptance gate:** Define concurrency ownership, add synchronization or a single-owner runtime contract, and pass race, backpressure, reentrancy and failure-injection tests.
 - **Audit:** AER-107.
 
 ### AES-RES-004 — Local task-list descriptor and worker-count bounds
