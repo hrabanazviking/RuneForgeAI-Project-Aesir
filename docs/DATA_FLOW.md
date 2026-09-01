@@ -41,7 +41,7 @@ sequenceDiagram
     participant Sup as SelfHealingSupervisor (core/supervisor.mojo)
     participant Bus as AesirEventBus (core/event_bus.mojo)
     participant Vault as StateVault (core/state_vault.mojo)
-    participant Guard as ErrorGuard (core/error_guard.mojo)
+    participant Guard as Optional ErrorGuard helper (not wired into generation)
     participant Tokenizer as RuneWeaver (loader/tokenizer.mojo)
     participant GGUF as GGUFSeer (loader/gguf.mojo)
     participant Memory as MimirWell / KVCache / Topology (core/mimir_well.mojo)
@@ -111,9 +111,7 @@ sequenceDiagram
 
     Note over Engine, Gate: Legacy CPU generation path; no automatic recovery
     loop Token-by-Token Generation Loop (0..max_gen_tokens)
-        Inference->>Guard: validate_pointer(logits_ptr) & bounds_check(pos, max_seq_len)
         Inference->>Inference: forward_pass(current_tokens, seer, well, kv_cache, pos, topology)
-        Inference->>Guard: sanitize_logits(logits_ptr, vocab_size) [Cleanse NaN / Inf values to -65504.0]
         
         alt permit_seidr == False
             Engine->>Engine: Mask thought tokens (<|start_thought|>) to -inf
@@ -178,10 +176,11 @@ sequenceDiagram
 5g. **Speculative Draft Verification Loop (Slice 11):**
     - `SpeculativeEngine.evaluate_acceptance()` computes a validated sequential probability-ratio acceptance prefix from caller-observed probabilities and draws; draft/target execution, residual sampling and KV mutation are unavailable.
 
-5j. **ErrorGuard Pointer Alignment, Bounds & Logit Sanitization Gate (Slice 12):**
-    - Prior to vector operations, `ErrorGuard.validate_pointer(ptr)` verifies non-null pointer alignment.
-    - `ErrorGuard.bounds_check(index, max_len)` verifies zero-copy tensor slicing indices remain strictly within limits.
-    - Following forward pass logit projection, `ErrorGuard.sanitize_logits(logits_ptr, count)` scans float16 values and replaces non-finite values (NaN, Inf, overflow) with safe scalar bound $-65504.0$.
+5j. **Optional ErrorGuard Helpers (Slice 12):**
+    - `ErrorGuard.validate_pointer(ptr)` rejects only null and address-one sentinels; it proves neither alignment nor ownership.
+    - `ErrorGuard.bounds_check(index, max_len)` tests one integer bound.
+    - `ErrorGuard.sanitize_logits(logits_ptr, count)` replaces Float16 NaN/Inf values in a valid caller-owned span and raises on sentinel pointers or nonpositive counts.
+    - These helpers are unit-tested but are not wired into the current CPU or native CUDA generation loops.
 
 5k. **Local Position Markers and Unavailable Recovery (Slice 12):**
     - `StateVault` can independently persist a strict, restart-safe record containing token position, prompt count, timestamp, and a non-cryptographic corruption checksum.

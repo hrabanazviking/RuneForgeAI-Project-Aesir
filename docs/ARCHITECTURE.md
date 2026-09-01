@@ -229,8 +229,7 @@ graph TD
     Sup -->|Publish Events| Bus[AesirEventBus<br/>core/event_bus.mojo]
     Sup -->|owns marker store| Vault[StateVault<br/>core/state_vault.mojo]
     
-    Inference[forward_pass<br/>core/inference.mojo] -->|Check Pointer & Bounds| Guard[ErrorGuard<br/>core/error_guard.mojo]
-    Inference -->|Cleanse NaN / Inf Logits| Guard
+    Caller[Explicit caller-owned buffer] -.->|optional narrow checks| Guard[ErrorGuard<br/>core/error_guard.mojo]
     
     Engine -->|owns local descriptor queue| Pool[RuneThreadPool<br/>no workers or payload execution]
 ```
@@ -240,7 +239,7 @@ graph TD
 1. **`ErrorGuard` (`core/error_guard.mojo`):**
    - `validate_pointer`: Rejects only null and address-one sentinels; ownership, span, alignment, and lifetime remain caller obligations.
    - `bounds_check`: Tests whether one index satisfies $0 \le \text{index} < \text{max\_len}$.
-   - `sanitize_logits`: Scans a caller-owned Float16 buffer and replaces NaN or infinite values with $-65504.0$.
+   - `sanitize_logits`: Scans a caller-owned Float16 buffer and replaces NaN or infinite values with $-65504.0$; sentinel pointers and nonpositive counts raise.
 
 2. **`StateVault` (`core/state_vault.mojo`):**
    - Captures sequence and prompt-count markers with a positive timestamp and corruption checksum.

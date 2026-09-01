@@ -39,6 +39,24 @@ def test_error_guard() raises:
         print("FAIL: Logit sanitization failed")
         success = False
 
+    var invalid_rejected = False
+    try:
+        ErrorGuard.sanitize_logits(sentinel_ptr, 8)
+    except:
+        invalid_rejected = True
+    if not invalid_rejected:
+        print("FAIL: Logit sanitizer silently accepted a sentinel pointer")
+        success = False
+
+    invalid_rejected = False
+    try:
+        ErrorGuard.sanitize_logits(ptr, 0)
+    except:
+        invalid_rejected = True
+    if not invalid_rejected:
+        print("FAIL: Logit sanitizer silently accepted a zero count")
+        success = False
+
     ptr.unsafe_free()
 
     if success:

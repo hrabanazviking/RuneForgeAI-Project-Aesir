@@ -209,8 +209,7 @@ graph TD
     Engine[AesirEngine<br/>aesir.mojo] -->|holds supervisor, bus, pool| Supervisor
     Engine -->|holds thread pool| ThreadPool[RuneThreadPool<br/>core/thread_pool.mojo]
     
-    Inference[forward_pass<br/>core/inference.mojo] -->|bounds_check & validate_pointer| ErrorGuard[ErrorGuard<br/>core/error_guard.mojo]
-    Inference -->|sanitize_logits| ErrorGuard
+    ExplicitCaller[Caller-owned valid span] -.->|optional helper calls| ErrorGuard[ErrorGuard<br/>core/error_guard.mojo]
     Engine -.->|explicit standalone save/load facade| Vault
 ```
 
@@ -218,7 +217,7 @@ graph TD
 
 | Component | Placed in | Domain | Verdict |
 | :--- | :--- | :--- | :--- |
-| `ErrorGuard` | `core/error_guard.mojo` | Core — Defensive Memory & Safety | ✅ **Correct** — pointer alignment & logit sanitization belongs in core safety |
+| `ErrorGuard` | `core/error_guard.mojo` | Core — Narrow Safety Helpers | ✅ **Correct boundary** — sentinel/index checks and caller-owned logit sanitization belong in core; no alignment/provenance proof or generation integration exists |
 | `StateVault` | `core/state_vault.mojo` | Core — Position Marker Storage | ✅ **Correct boundary** — bounded restart-safe position records belong in core; complete session snapshots and runtime recovery are absent |
 | `AesirEventBus` | `core/event_bus.mojo` | Core — Local Event Infrastructure | ✅ **Correct** — bounded synchronous journals and mailboxes belong in core; concurrent transport is absent |
 | `RuneThreadPool` | `core/thread_pool.mojo` | Core — Task Descriptors | ✅ **Correct boundary** — local admission/cancellation state belongs in core; workers remain unimplemented |

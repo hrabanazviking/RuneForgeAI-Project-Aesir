@@ -1118,8 +1118,8 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core safety domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `ErrorGuard` in `core/error_guard.mojo` checking null (`0`) and sentinel (`1`) addresses (`addr != 0 and addr != 1`), testing individual index bounds, and sanitizing NaN/Inf logits in a caller-owned buffer.
-- **Executable evidence:** `E-MASTER` case `resilience.error_guard` in `test_resilience.mojo`.
+- **Implementation evidence:** `ErrorGuard` in `core/error_guard.mojo` checks null (`0`) and sentinel (`1`) addresses (`addr != 0 and addr != 1`), tests individual index bounds, and sanitizes NaN/Inf logits in a caller-owned buffer. The mutating sanitizer raises on sentinel pointers and nonpositive counts instead of returning as though work occurred.
+- **Executable evidence:** `E-MASTER` case `resilience.error_guard` in `test_resilience.mojo` covers normal replacement plus explicit sentinel-pointer and zero-count refusal.
 - **Evidence boundary:** A non-sentinel address is not proof of allocation provenance, accessible span, alignment, lifetime, or synchronization. Sanitization requires the caller already to own a valid buffer of the declared count.
 - **Audit:** AER-005, AER-105.
 

@@ -35,7 +35,9 @@ struct ErrorGuard:
         return index >= 0 and index < max_len
 
     @staticmethod
-    def sanitize_logits(logits: Pointer[Scalar[f16], MutUntrackedOrigin], count: Int):
+    def sanitize_logits(
+        logits: Pointer[Scalar[f16], MutUntrackedOrigin], count: Int
+    ) raises:
         """
         ᛋᚨᚾᛁᛏᛁᛉᛖ·ᛚᛟᚷᛁᛏᛋ — The Cleansing Fire of Logits (sanitize_logits)
         ═══════════════════════════════════════════════════════════════════
@@ -44,8 +46,10 @@ struct ErrorGuard:
         It does not prove pointer ownership or general numerical stability.
         """
         var addr = Int(logits)
-        if addr == 0 or addr == 1 or count <= 0:
-            return
+        if addr == 0 or addr == 1:
+            raise Error("logit sanitizer requires a non-sentinel pointer")
+        if count <= 0:
+            raise Error("logit sanitizer count must be positive")
 
         for i in range(count):
             var val = logits.unsafe_load(i)
