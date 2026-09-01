@@ -391,8 +391,10 @@ W8A8, and native HQQ 4-bit `axis=1` matrix views with host
 dequantization/GEMM primitives. The EXL2 view consumes the official unshuffled
 packed tensors and restores activation-order input rows. These views are not
 yet populated by a model loader or dispatched to CUDA. Other HQQ/SmoothQuant
-variants, IQ1_S, IQ2_XXS, and the custom ternary
-descriptor remain explicitly unavailable.
+variants, IQ1_S, and the custom ternary descriptor remain explicitly
+unavailable. IQ2_XXS is owned by `core/extreme_quantization.mojo`, which reads
+the canonical 66-byte GGML block and is admitted as GGUF tensor type 16; model
+and CUDA integration remain outside that bounded host primitive.
 
 | Component | Owner | Contract |
 | :--- | :--- | :--- |

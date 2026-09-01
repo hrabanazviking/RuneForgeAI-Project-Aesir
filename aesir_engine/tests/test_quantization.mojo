@@ -50,13 +50,17 @@ def test_compressed_format_enum() raises:
     if not rejected_f32:
         print("FAIL: non-quantized F32 was silently mapped to Q4_K_M")
         success = False
-    var rejected_iq = False
+    var mapped_iq2 = GGMLType.to_compressed_format(GGMLType.IQ2_XXS)
+    if mapped_iq2.name() != "IQ2_XXS":
+        print("FAIL: implemented IQ2_XXS tensor layout was not mapped")
+        success = False
+    var rejected_iq1 = False
     try:
-        _ = GGMLType.to_compressed_format(GGMLType.IQ2_XXS)
+        _ = GGMLType.to_compressed_format(GGMLType.IQ1_S)
     except error:
-        rejected_iq = "unsupported GGML tensor type" in String(error)
-    if not rejected_iq:
-        print("FAIL: unimplemented IQ2_XXS tensor layout was accepted")
+        rejected_iq1 = "unsupported GGML tensor type" in String(error)
+    if not rejected_iq1:
+        print("FAIL: unimplemented IQ1_S tensor layout was accepted")
         success = False
 
     if success:

@@ -729,7 +729,19 @@ FP32 bias. EXL2 implements the official mixed 2/3/4/5/6/8-bit packing, packed
 scale equation, padded output width, group map, and activation-order
 permutation. HQQ 4-bit `axis=1` follows native HQQ cross-group nibble packing.
 They require exact backing-storage counts for every tensor, input, and output.
-Other HQQ variants and IQ execution are not yet part of this interface.
+Other HQQ variants are not yet part of this metadata-bearing interface.
+
+`core/extreme_quantization.mojo` additionally exposes bounded canonical
+IQ2_XXS raw-block execution:
+
+```mojo
+def dequantize_iq2_xxs_blocks(data: Pointer[UInt8, MutUntrackedOrigin], input_bytes: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def gemm_iq2_xxs_blocks(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, weights: Pointer[UInt8, MutUntrackedOrigin], weight_bytes: Int, in_features: Int, out_features: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+```
+
+The decoder requires complete canonical 66-byte/256-value blocks and uses the
+upstream IQ2_XXS grid, parity sign coding, and group scales. IQ1_S and the
+project-defined ternary descriptor still fail before mutation.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

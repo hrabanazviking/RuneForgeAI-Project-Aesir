@@ -57,6 +57,8 @@ struct GGMLType:
             return CompressedFormatType(CompressedFormatType.Q5_K_M)
         elif ggml_type == GGMLType.Q6_K:
             return CompressedFormatType(CompressedFormatType.Q6_K)
+        elif ggml_type == GGMLType.IQ2_XXS:
+            return CompressedFormatType(CompressedFormatType.IQ2_XXS)
         raise Error("unsupported GGML tensor type " + String(ggml_type))
 
 

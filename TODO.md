@@ -445,10 +445,12 @@ The legacy formatters below are not exposed compatibility APIs.
 - [ ] **[partial, AES-QNT-003] Load a real quantized GGUF and compare logits,
   first token, and a deterministic sequence with pinned `llama.cpp`.**
 - [ ] Add each additional GGML format only with its own exact fixture and oracle.
-- [ ] Keep GPTQ, AWQ, EXL2, HQQ, and SmoothQuant explicitly unsupported until
-  their distinct metadata/layout/runtime contracts and external fixtures exist.
-- [ ] Keep IQ1_S, IQ2_XXS, and ternary execution unsupported until exact
-  codebooks/layouts and independent real-fixture oracles exist (`AES-QNT-010`).
+- [ ] Connect the working GPTQ, AWQ, EXL2, HQQ, and SmoothQuant host primitives
+  to parsed model tensors, external fixtures, and measured accelerator kernels.
+- [x] Implement canonical IQ2_XXS 66-byte host decoding/GEMM with the upstream
+  codebook and an independent raw-block oracle regression (`AES-QNT-010`).
+- [ ] Keep IQ1_S and ternary execution unsupported until the exact upstream
+  IQ1 grid or a separately specified versioned native ternary format exists.
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 

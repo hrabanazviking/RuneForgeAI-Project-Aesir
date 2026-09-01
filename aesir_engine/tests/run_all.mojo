@@ -172,7 +172,7 @@ from tests.test_gptq_awq_quantization import (
 )
 from tests.test_extreme_quants import (
     test_iq1_s_boundary,
-    test_iq2_xxs_boundary,
+    test_iq2_xxs_known_value,
     test_ternary_boundary,
 )
 from tests.test_quantization_hardening import (
@@ -550,7 +550,7 @@ def main() raises:
     )
     run_case(ledger, "quantization.iq1_s_boundary", test_iq1_s_boundary)
     run_case(
-        ledger, "quantization.iq2_xxs_boundary", test_iq2_xxs_boundary
+        ledger, "quantization.iq2_xxs_known_value", test_iq2_xxs_known_value
     )
     run_case(
         ledger,

@@ -1,3 +1,19 @@
+## 2026-09-01 — Added canonical GGML IQ2_XXS host execution
+
+Added the exact 66-byte, 256-value IQ2_XXS block decoder and
+F32-accumulating host GEMM. The implementation carries the upstream 256-entry
+grid, reconstructs the eighth sign bit from the serialized seven-bit even-parity
+index, applies each 32-value group's scale nibble, validates exact backing
+storage, and admits GGUF tensor type 16 through the loader whitelist. A raw
+block regression compares 32 individual values and the full block sum against
+the independent `gguf-py` decoder, then checks GEMM and fail-before-mutation
+short-input rejection. The source contract was rechecked at llama.cpp commit
+`3466812d1f06728effe7c0f3c0671117f461672d`.
+
+IQ1_S and the project-defined ternary descriptor remain strict boundaries for
+the next increments; no model-loader attachment, CUDA kernel, real IQ2 model
+fixture, or full-model claim is made here.
+
 ## 2026-09-01 — Added canonical EXL2 mixed-bit host execution
 
 Added `EXL2Matrix` over the unshuffled tensors written by the official
