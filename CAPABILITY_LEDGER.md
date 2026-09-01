@@ -66,8 +66,8 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 72 |
-| `partial` | 20 |
-| `scaffold` | 1 |
+| `partial` | 21 |
+| `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 19 |
 | **Total** | **112** |
@@ -685,14 +685,14 @@ the complete ledger population.
 - **Evidence boundary:** Verified socket write partial loops, invalid descriptor bounds, and terminal chunk framing.
 - **Audit:** AER-011, AER-073 through AER-075.
 
-### AES-SRV-005 — OpenAI-shaped JSON formatter
+### AES-SRV-005 — Bounded OpenAI-shaped JSON serializer
 
-- **Status:** `scaffold`
+- **Status:** `partial`
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
-- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` formats local JSON/SSE shapes; OpenAI-shaped HTTP routes in `server/api.mojo` return HTTP 501.
+- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` bounds and escapes local JSON/SSE response data, validates finish reasons, and requires caller-observed request identity, creation time, model identity and measured token counts. It no longer inserts fixed success-shaped identity, time, or usage fields. OpenAI-shaped HTTP routes in `server/api.mojo` return HTTP 501.
 - **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Formatter shape and fail-closed routing do not establish OpenAI request parsing, execution, streaming semantics, or client compatibility.
+- **Evidence boundary:** A validated data serializer and fail-closed routes do not establish OpenAI request parsing, execution, streaming semantics, usage measurement, or client compatibility.
 - **Next acceptance gate:** Connect real request parsing and execution, then pass official-client protocol fixtures.
 - **Audit:** AER-078, AER-079.
 

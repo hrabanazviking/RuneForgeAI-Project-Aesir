@@ -1,5 +1,5 @@
 # tests/test_multi_engine.mojo
-# Verification of formatter scaffolds and unsupported ecosystem boundaries
+# Verification of bounded serializers and unsupported ecosystem boundaries
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
@@ -27,33 +27,56 @@ from server.api import (
 from cli.multi_engine import dispatch_llama_cli, dispatch_exl2_cli, dispatch_onnx_cli
 
 def test_openai_api_formatter() raises:
-    print("--- Testing OpenAIGate local JSON formatter scaffold ---")
+    print("--- Testing OpenAIGate caller-observed JSON serialization ---")
     var success = True
-    var json_resp = OpenAIGate.format_chat_completion("aesir:latest", "Hello \"world\"\nnext")
+    var json_resp = OpenAIGate.format_chat_completion(
+        "chatcmpl-observed-17", 1788210000, "aesir:latest",
+        "Hello \"world\"\nnext", "stop", 7, 3,
+    )
     if "\"model\": \"aesir:latest\"" not in json_resp or "Hello \\\"world\\\"\\nnext" not in json_resp:
         print("FAIL: OpenAIGate response omitted the supplied model or content")
         success = False
-    if "\"aesir_status\": \"formatter_scaffold\"" not in json_resp:
-        print("FAIL: OpenAIGate formatter omitted status")
+    if "\"id\": \"chatcmpl-observed-17\"" not in json_resp or "\"created\": 1788210000" not in json_resp:
+        print("FAIL: OpenAIGate formatter omitted supplied observation identity")
         success = False
-    if "\"prompt_tokens\": 0" not in json_resp or "\"total_tokens\": 0" not in json_resp:
-        print("FAIL: OpenAIGate formatter invented token usage")
+    if "\"prompt_tokens\": 7" not in json_resp or "\"total_tokens\": 10" not in json_resp:
+        print("FAIL: OpenAIGate formatter omitted supplied token usage")
         success = False
-    if "1700000000" in json_resp or "chatcmpl-aesir-v1" in json_resp:
-        print("FAIL: OpenAIGate formatter retained fictional identity or time")
+    if "formatter_scaffold" in json_resp or "unassigned" in json_resp:
+        print("FAIL: OpenAIGate formatter retained fabricated operational fields")
         success = False
 
-    var chunk_resp = OpenAIGate.format_chat_chunk("aesir:latest", "Hello")
+    var chunk_resp = OpenAIGate.format_chat_chunk(
+        "chatcmpl-observed-17", 1788210000, "aesir:latest", "Hello"
+    )
     if "data: {" not in chunk_resp or "\"content\": \"Hello\"" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
-    if "\"aesir_status\": \"formatter_scaffold\"" not in chunk_resp:
-        print("FAIL: OpenAIGate chunk omitted status")
+    if "\"created\": 1788210000" not in chunk_resp:
+        print("FAIL: OpenAIGate chunk omitted supplied observation time")
+        success = False
+
+    var models_resp = OpenAIGate.format_models_list(
+        "aesir:latest", 1788210000, "local-operator"
+    )
+    if "\"owned_by\": \"local-operator\"" not in models_resp or "\"created\": 1788210000" not in models_resp:
+        print("FAIL: OpenAIGate model record omitted caller observations")
         success = False
 
     var embedding_resp = OpenAIGate.format_embeddings("aesir:latest")
     if "\"error\": \"unsupported\"" not in embedding_resp:
         print("FAIL: embedding formatter invented vector data")
+        success = False
+
+    var invalid_rejected = False
+    try:
+        _ = OpenAIGate.format_chat_completion(
+            "", 0, "", "invented", "stop", -1, 0
+        )
+    except:
+        invalid_rejected = True
+    if not invalid_rejected:
+        print("FAIL: OpenAIGate accepted unobserved identity, time, and usage")
         success = False
 
     if success:

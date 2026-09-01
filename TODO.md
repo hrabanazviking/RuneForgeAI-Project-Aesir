@@ -397,7 +397,7 @@ The legacy formatters below are not exposed compatibility APIs.
 
 - [ ] Choose one first compatibility API and record its exact supported version,
   endpoints, schemas, and exclusions.
-- [ ] **[scaffold, AES-SRV-005] [missing, AES-SRV-006] OpenAI:** Parse typed requests,
+- [ ] **[partial, AES-SRV-005] [missing, AES-SRV-006] OpenAI:** Parse typed requests,
   invoke real inference/embeddings, calculate usage, emit compliant errors and
   SSE, and pass official-client/wire tests.
 - [ ] **[missing, AES-SRV-007] llama.cpp server:** Connect real tokenize,
