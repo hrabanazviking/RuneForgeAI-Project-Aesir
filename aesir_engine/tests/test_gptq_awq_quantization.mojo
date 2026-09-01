@@ -6,12 +6,16 @@ from core.external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
+    SmoothQuantW8A8Matrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
     gemm_gptq_8bit_matrix,
     dequantize_awq_4bit_matrix,
     gemm_awq_4bit_matrix,
+    dequantize_smoothquant_weights,
+    gemm_smoothquant_w8a8,
+    quantize_smoothquant_int8,
 )
 
 
@@ -227,5 +231,49 @@ def test_hqq_boundary() raises:
     assert_external_format_rejected(CompressedFormatType(CompressedFormatType.HQQ), "HQQ")
 
 
-def test_smoothquant_int8_boundary() raises:
-    assert_external_format_rejected(CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8), "SMOOTHQUANT_INT8")
+def test_smoothquant_int8_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var weights = well.allocate(4).unsafe_bitcast[Int8]()
+    var bias = well.allocate(4).unsafe_bitcast[Float32]()
+    var expanded = well.allocate(8).unsafe_bitcast[Float16]()
+    var input = well.allocate(8).unsafe_bitcast[Float16]()
+    var output = well.allocate(4).unsafe_bitcast[Float16]()
+    var raw_weights = [
+        Int8(1), Int8(-2), Int8(3), Int8(-4),
+        Int8(5), Int8(6), Int8(-7), Int8(-8),
+    ]
+    for i in range(8):
+        weights.unsafe_store(i, raw_weights[i])
+    bias.unsafe_store(0, Float32(1.0))
+    bias.unsafe_store(1, Float32(-2.0))
+    var matrix = SmoothQuantW8A8Matrix(
+        weights, 8, Float32(0.25), Float32(0.5), 4, 2, bias, 2, True
+    )
+
+    dequantize_smoothquant_weights(matrix, expanded, 8)
+    for i in range(8):
+        if expanded.unsafe_load(i) != Float16(raw_weights[i]) * Float16(0.25):
+            raise Error("SmoothQuant W8 weight expansion mismatch")
+    if quantize_smoothquant_int8(Float32(100.0), Float32(0.5)) != Int8(127):
+        raise Error("SmoothQuant positive activation saturation mismatch")
+    if quantize_smoothquant_int8(Float32(-100.0), Float32(0.5)) != Int8(-128):
+        raise Error("SmoothQuant negative activation saturation mismatch")
+    if quantize_smoothquant_int8(Float32(0.75), Float32(0.5)) != Int8(2):
+        raise Error("SmoothQuant positive nearest rounding mismatch")
+    if quantize_smoothquant_int8(Float32(-0.75), Float32(0.5)) != Int8(-2):
+        raise Error("SmoothQuant negative nearest rounding mismatch")
+
+    var input_values = [
+        Float16(0.5), Float16(-1.0), Float16(1.5), Float16(-2.0),
+        Float16(1.0), Float16(-0.5), Float16(0.0), Float16(2.0),
+    ]
+    for i in range(8):
+        input.unsafe_store(i, input_values[i])
+    gemm_smoothquant_w8a8(input, 8, 2, matrix, output, 4)
+    var expected = [
+        Float16(4.75), Float16(-1.5), Float16(-0.5), Float16(-5.5)
+    ]
+    for i in range(4):
+        if output.unsafe_load(i) != expected[i]:
+            raise Error("SmoothQuant W8A8 INT32 GEMM mismatch")
+    print("SMOOTHQUANT_INT8 static W8A8 execution: PASS")

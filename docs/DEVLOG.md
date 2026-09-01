@@ -1,3 +1,14 @@
+## 2026-09-01 — Added static SmoothQuant W8A8 host execution
+
+Added `SmoothQuantW8A8Matrix` for the reference torch-int static per-tensor
+path: bounded signed INT8 weights, calibrated input and weight scales, optional
+FP32 bias, symmetric nearest/saturating activation quantization, INT32 dot
+products, and a combined-scale F16 epilogue. Known-value tests cover weight
+expansion, positive/negative rounding, saturation, bias, and two GEMM rows.
+The contract is traced to SmoothQuant commit
+`c61476d728e42ae0d8a35e7e78494edcac3237b5` and torch-int commit
+`65266db1eadba5ca78941b789803929e6e6c6856`.
+
 ## 2026-09-01 — Added the canonical AutoAWQ GEMM 4-bit layout
 
 Added `AWQ4BitMatrix` with exact packed-weight, direct-zero, scale, grouping,

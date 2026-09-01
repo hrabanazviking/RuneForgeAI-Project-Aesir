@@ -168,7 +168,7 @@ from tests.test_gptq_awq_quantization import (
     test_awq_4bit_known_value,
     test_exl2_boundary,
     test_hqq_boundary,
-    test_smoothquant_int8_boundary,
+    test_smoothquant_int8_known_value,
 )
 from tests.test_extreme_quants import (
     test_iq1_s_boundary,
@@ -537,8 +537,8 @@ def main() raises:
     run_case(ledger, "quantization.hqq_boundary", test_hqq_boundary)
     run_case(
         ledger,
-        "quantization.smoothquant_int8_boundary",
-        test_smoothquant_int8_boundary,
+        "quantization.smoothquant_int8_known_value",
+        test_smoothquant_int8_known_value,
     )
     run_case(ledger, "quantization.iq1_s_boundary", test_iq1_s_boundary)
     run_case(

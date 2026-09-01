@@ -31,12 +31,15 @@ from .external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
+    SmoothQuantW8A8Matrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
     gemm_gptq_8bit_matrix,
     dequantize_awq_4bit_matrix,
     gemm_awq_4bit_matrix,
+    dequantize_smoothquant_weights,
+    gemm_smoothquant_w8a8,
 )
 
 comptime simd_w_f16 = 16
@@ -538,6 +541,15 @@ def dequantize_smoothquant_int8(
     _ = out_ptr
     _ = num_elements
     raise Error("SmoothQuant execution requires activation and weight scales with channel metadata; it is not implemented")
+
+
+@always_inline
+def dequantize_smoothquant_int8(
+    matrix: SmoothQuantW8A8Matrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    dequantize_smoothquant_weights(matrix, out_ptr, output_elements)
 
 
 @always_inline
@@ -1134,6 +1146,19 @@ def gemm_smoothquant_int8(
     _ = B
     _ = C
     raise Error("SmoothQuant GEMM requires activation and weight scales with channel metadata; it is not implemented")
+
+
+def gemm_smoothquant_int8(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: SmoothQuantW8A8Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    gemm_smoothquant_w8a8(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_iq1_s(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

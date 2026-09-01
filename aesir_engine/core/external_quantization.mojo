@@ -1,6 +1,7 @@
 """Validated execution primitives for metadata-bearing quantized matrices."""
 
 from std.memory import Pointer
+from std.math import isinf, isnan
 
 
 @always_inline
@@ -663,4 +664,167 @@ def gemm_awq_4bit_matrix(
             output.unsafe_store(
                 row * matrix.out_features + output_index,
                 accumulator.cast[DType.float16](),
+            )
+
+
+struct SmoothQuantW8A8Matrix(Copyable, ImplicitlyCopyable):
+    """SmoothQuant/torch-int static per-tensor W8A8 linear metadata."""
+
+    var weights: Pointer[Int8, MutUntrackedOrigin]
+    var weight_elements: Int
+    var weight_scale: Float32
+    var input_scale: Float32
+    var bias: Pointer[Float32, MutUntrackedOrigin]
+    var bias_elements: Int
+    var in_features: Int
+    var out_features: Int
+    var has_bias: Bool
+
+    def __init__(
+        out self,
+        weights: Pointer[Int8, MutUntrackedOrigin],
+        weight_elements: Int,
+        weight_scale: Float32,
+        input_scale: Float32,
+        in_features: Int,
+        out_features: Int,
+        bias: Pointer[Float32, MutUntrackedOrigin] = Pointer[
+            Float32, MutUntrackedOrigin
+        ](unsafe_from_address=1),
+        bias_elements: Int = 0,
+        has_bias: Bool = False,
+    ) raises:
+        self.weights = weights
+        self.weight_elements = weight_elements
+        self.weight_scale = weight_scale
+        self.input_scale = input_scale
+        self.bias = bias
+        self.bias_elements = bias_elements
+        self.in_features = in_features
+        self.out_features = out_features
+        self.has_bias = has_bias
+        self.validate()
+
+    def __copyinit__(out self, existing: Self):
+        self.weights = existing.weights
+        self.weight_elements = existing.weight_elements
+        self.weight_scale = existing.weight_scale
+        self.input_scale = existing.input_scale
+        self.bias = existing.bias
+        self.bias_elements = existing.bias_elements
+        self.in_features = existing.in_features
+        self.out_features = existing.out_features
+        self.has_bias = existing.has_bias
+
+    def validate(self) raises:
+        if self.in_features <= 0 or self.out_features <= 0:
+            raise Error("SmoothQuantW8A8Matrix: dimensions must be positive")
+        if Int(self.weights) <= 1:
+            raise Error("SmoothQuantW8A8Matrix: weight pointer must be valid")
+        if (
+            self.weight_scale <= 0.0
+            or isnan(self.weight_scale)
+            or isinf(self.weight_scale)
+        ):
+            raise Error("SmoothQuantW8A8Matrix: weight_scale must be finite and positive")
+        if (
+            self.input_scale <= 0.0
+            or isnan(self.input_scale)
+            or isinf(self.input_scale)
+        ):
+            raise Error("SmoothQuantW8A8Matrix: input_scale must be finite and positive")
+        var expected_weights = _checked_product(
+            self.out_features, self.in_features, "SmoothQuant weights"
+        )
+        if self.weight_elements != expected_weights:
+            raise Error("SmoothQuantW8A8Matrix: weight storage length mismatch")
+        if self.has_bias:
+            if Int(self.bias) <= 1 or self.bias_elements != self.out_features:
+                raise Error("SmoothQuantW8A8Matrix: bias storage mismatch")
+        elif self.bias_elements != 0:
+            raise Error("SmoothQuantW8A8Matrix: bias length requires has_bias")
+
+
+@always_inline
+def quantize_smoothquant_int8(value: Float32, scale: Float32) raises -> Int8:
+    """Symmetric static INT8 quantization with nearest rounding and saturation."""
+    if scale <= 0.0 or isnan(scale) or isinf(scale):
+        raise Error("quantize_smoothquant_int8: scale must be finite and positive")
+    var scaled = value / scale
+    var rounded: Int
+    if scaled >= 0.0:
+        rounded = Int(scaled + 0.5)
+    else:
+        rounded = Int(scaled - 0.5)
+    if rounded > 127:
+        rounded = 127
+    elif rounded < -128:
+        rounded = -128
+    return Int8(rounded)
+
+
+def dequantize_smoothquant_weights(
+    matrix: SmoothQuantW8A8Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(output) <= 1:
+        raise Error("dequantize_smoothquant_weights: output pointer must be valid")
+    matrix.validate()
+    if output_elements != matrix.weight_elements:
+        raise Error("dequantize_smoothquant_weights: output storage length mismatch")
+    for i in range(matrix.weight_elements):
+        output.unsafe_store(
+            i,
+            (
+                Float32(matrix.weights.unsafe_load(i)) * matrix.weight_scale
+            ).cast[DType.float16](),
+        )
+
+
+def gemm_smoothquant_w8a8(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: SmoothQuantW8A8Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(output) <= 1:
+        raise Error("gemm_smoothquant_w8a8: input and output pointers must be valid")
+    matrix.validate()
+    var expected_input = _checked_product(
+        input_rows, matrix.in_features, "SmoothQuant GEMM input"
+    )
+    var expected_output = _checked_product(
+        input_rows, matrix.out_features, "SmoothQuant GEMM output"
+    )
+    if input_elements != expected_input:
+        raise Error("gemm_smoothquant_w8a8: input storage length mismatch")
+    if output_elements != expected_output:
+        raise Error("gemm_smoothquant_w8a8: output storage length mismatch")
+    var combined_scale = matrix.input_scale * matrix.weight_scale
+    if isnan(combined_scale) or isinf(combined_scale):
+        raise Error("gemm_smoothquant_w8a8: combined scale is not finite")
+
+    for row in range(input_rows):
+        for output_index in range(matrix.out_features):
+            var accumulator = Int32(0)
+            for input_index in range(matrix.in_features):
+                var activation = quantize_smoothquant_int8(
+                    input.unsafe_load(
+                        row * matrix.in_features + input_index
+                    ).cast[DType.float32](),
+                    matrix.input_scale,
+                )
+                var weight = matrix.weights.unsafe_load(
+                    output_index * matrix.in_features + input_index
+                )
+                accumulator += Int32(activation) * Int32(weight)
+            var result = Float32(accumulator) * combined_scale
+            if matrix.has_bias:
+                result += matrix.bias.unsafe_load(output_index)
+            output.unsafe_store(
+                row * matrix.out_features + output_index,
+                result.cast[DType.float16](),
             )
