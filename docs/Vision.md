@@ -57,8 +57,8 @@ remain claims only where the ledger records executable proof.
 ### ⚡ Completed Milestone: Stage 84.1 — GBNF Grammar Parser & Tokenizer-Aware State Automaton (`AES-ECO-007`)
 * **Current status ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified` for the narrow subset)**: `GBNFGrammar` validates and masks actual decoded token text for exact booleans and JSON numbers, with incremental accepting states. The legacy ID-only mask and general JSON/GBNF requests fail explicitly. No general grammar parser or model-generation integration is claimed.
 
-### ⚡ Completed Milestone: Stage 83.1 — llama.cpp Subcommand & Differential Argument/Exit Validator (`AES-ECO-006`)
-* **Stage 83.1 llama.cpp CLI Milestone ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `verified`)**: Built `cli/llama_cpp_compat.mojo` providing `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1. Created `test_llama_cpp_cli.mojo` unit test suite. Verified 120 passing cases out of 121 total cases in `run_all.mojo`.
+### Current boundary — llama.cpp CLI compatibility unavailable (`AES-ECO-006`)
+* **Current status ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `missing`)**: The public dispatcher, subcommand contract and argument parser all reject llama.cpp compatibility. Recognizing a few familiar flags without matching validation, execution, output and exit behavior is no longer counted as support. Aesir’s pinned token oracle remains model-output evidence only.
 
 ### Current boundary — EXL2 unavailable (`AES-ECO-005`)
 * **Current status ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `missing`)**: The former invented `EXL2` magic header and fixed 4.25 bpw value have been removed. `EXL2ModelSeer` can validate caller-declared descriptor arithmetic only. Real config/safetensors parsing, conversion, tensor mapping, custom CUDA kernels and ExLlama parity remain unavailable and fail explicitly.
@@ -144,8 +144,8 @@ remain claims only where the ledger records executable proof.
 ### ⚡ Completed Milestone: Stage 84.1 — GBNF Grammar Parser & Tokenizer-Aware State Automaton (`AES-ECO-007`)
 * **Current status ([`AES-ECO-007`](../CAPABILITY_LEDGER.md) `verified` for the narrow subset)**: `GBNFGrammar` validates and masks actual decoded token text for exact booleans and JSON numbers, with incremental accepting states. The legacy ID-only mask and general JSON/GBNF requests fail explicitly. No general grammar parser or model-generation integration is claimed.
 
-### ⚡ Completed Milestone: Stage 83.1 — llama.cpp Subcommand & Differential Argument/Exit Validator (`AES-ECO-006`)
-* **Stage 83.1 llama.cpp CLI Milestone ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `verified`)**: Built `cli/llama_cpp_compat.mojo` providing `LlamaCppCLIConfig`, `is_supported_llama_cpp_subcommand()`, `validate_llama_cpp_cli_contract()`, and `parse_llama_cpp_cli_args()` to validate supported subcommands (`main`, `cli`, `server`), map differential flags (`-m`, `-p`, `-n`, `-c`, `-t`, `-ngl`, `-b`), and reject unsupported subcommands with exit code 1. Created `test_llama_cpp_cli.mojo` unit test suite. Verified 120 passing cases out of 121 total cases in `run_all.mojo`.
+### Current boundary — llama.cpp CLI compatibility unavailable (`AES-ECO-006`)
+* **Current status ([`AES-ECO-006`](../CAPABILITY_LEDGER.md) `missing`)**: The public dispatcher, subcommand contract and argument parser all reject llama.cpp compatibility. Recognizing a few familiar flags without matching validation, execution, output and exit behavior is no longer counted as support. Aesir’s pinned token oracle remains model-output evidence only.
 
 ### Current boundary — EXL2 unavailable (`AES-ECO-005`)
 * **Current status ([`AES-ECO-005`](../CAPABILITY_LEDGER.md) `missing`)**: The former invented `EXL2` magic header and fixed 4.25 bpw value have been removed. `EXL2ModelSeer` can validate caller-declared descriptor arithmetic only. Real config/safetensors parsing, conversion, tensor mapping, custom CUDA kernels and ExLlama parity remain unavailable and fail explicitly.

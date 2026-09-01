@@ -701,8 +701,8 @@ def main() raises:
     run_case(ledger, "exl2.model_seer", test_exl2_model_seer)
     print("")
 
-    # --- llama.cpp Differential CLI Validator ---
-    print("  [DOMAIN] llama.cpp Differential CLI Validator")
+    # --- llama.cpp Unsupported Compatibility Boundary ---
+    print("  [DOMAIN] llama.cpp Unsupported Compatibility Boundary")
     print("  -----------------------------------------")
     run_case(ledger, "llama_cpp_cli.subcommands", test_llama_cpp_subcommands)
     run_case(ledger, "llama_cpp_cli.arg_parsing", test_llama_cpp_arg_parsing)

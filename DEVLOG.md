@@ -1,3 +1,13 @@
+## 2026-08-31 — Removed detached llama.cpp compatibility claims
+
+The reserved compatibility module no longer marks `main`, `llama-cli` or
+`llama-server` as supported and no longer silently parses a small selection of
+similarly named flags. Every subcommand, flag-parser and runtime dispatcher path
+now raises unsupported, matching the actual absence of llama.cpp CLI parity.
+
+The existing pinned llama.cpp oracle remains valid evidence for one narrow model
+output comparison. It is not command, server, output or exit-code compatibility.
+
 ## 2026-08-31 — Removed invented EXL2 format success
 
 Removed the fictional standalone `EXL2` magic-header parser, fixed 4.25 bpw

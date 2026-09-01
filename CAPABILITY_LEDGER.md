@@ -1060,9 +1060,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `missing`
 - **Owner:** CLI and optional ecosystem domains
 - **Claim sources:** completed multi-engine TODO and CLI interface
-- **Implementation evidence:** dispatcher raises an explicit unsupported error and emits no completion, health, benchmark, or perplexity claims.
-- **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported`.
-- **Evidence boundary:** The real pinned oracle comparison verifies Aesir's narrow token output, not llama.cpp CLI argument/output compatibility.
+- **Implementation evidence:** The public dispatcher, subcommand contract and formerly detached flag parser all raise explicit unsupported errors. `is_supported_llama_cpp_subcommand()` returns false for every command; no completion, health, benchmark, parser or perplexity behavior is presented as compatible.
+- **Executable evidence:** `E-MASTER` cases `llama_cpp_cli.subcommands`, `llama_cpp_cli.arg_parsing`, and `multi_engine.cli_unsupported` cover former CLI/server names and a representative flag vector.
+- **Evidence boundary:** `LlamaCppCLIConfig` is an inert compatibility descriptor. The real pinned oracle comparison verifies Aesir's narrow token output, not llama.cpp CLI argument/output compatibility.
 - **Next acceptance gate:** Define supported commands/version and pass differential parsing, execution, output, error, and exit-code fixtures.
 - **Audit:** AER-080, AER-081, AER-101.
 
