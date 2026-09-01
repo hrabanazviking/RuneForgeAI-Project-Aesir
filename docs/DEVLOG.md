@@ -1,3 +1,11 @@
+## 2026-09-01 — Restored public K-quant dequantization APIs
+
+Added real format-specific Q2_K, Q3_K S/M/L, Q4_K, Q5_K S/M, and Q6_K
+dequantization entry points over the canonical packed-byte decoder. Each API
+validates block counts and multiplication overflow, is used by the compressed
+dispatcher, and is exercised directly by raw known-value tests. These APIs
+restore the planned feature surface without reintroducing padded layouts.
+
 ## 2026-09-01 — Corrected canonical Q8_1 metadata width
 
 Replaced the 36-byte local Q8_1 struct, which incorrectly stored scale and sum as

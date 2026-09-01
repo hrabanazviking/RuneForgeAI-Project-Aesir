@@ -144,6 +144,87 @@ def dequantize_ggml_k(
 
 
 @always_inline
+def _dequantize_ggml_k_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+    ggml_type: Int,
+    format_name: String,
+) raises:
+    """Checked block-count adapter for the public format-specific APIs."""
+    if num_blocks <= 0:
+        raise Error(format_name + ": block count must be positive")
+    var num_elements = num_blocks * 256
+    if num_elements <= 0 or num_elements // 256 != num_blocks:
+        raise Error(format_name + ": element count overflow")
+    dequantize_ggml_k(data, out_ptr, num_elements, ggml_type)
+
+
+def dequantize_q2_k_block(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    _dequantize_ggml_k_blocks(data, out_ptr, num_blocks, 10, "Q2_K")
+
+
+def dequantize_q3_k_m(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    _dequantize_ggml_k_blocks(data, out_ptr, num_blocks, 11, "Q3_K")
+
+
+def dequantize_q3_k_s(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    dequantize_q3_k_m(data, out_ptr, num_blocks)
+
+
+def dequantize_q3_k_l(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    dequantize_q3_k_m(data, out_ptr, num_blocks)
+
+
+def dequantize_q4_k_m(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    _dequantize_ggml_k_blocks(data, out_ptr, num_blocks, 12, "Q4_K")
+
+
+def dequantize_q5_k_m(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    _dequantize_ggml_k_blocks(data, out_ptr, num_blocks, 13, "Q5_K")
+
+
+def dequantize_q5_k_s(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    dequantize_q5_k_m(data, out_ptr, num_blocks)
+
+
+def dequantize_q6_k_block(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_blocks: Int,
+) raises:
+    _dequantize_ggml_k_blocks(data, out_ptr, num_blocks, 14, "Q6_K")
+
+
+@always_inline
 def dequantize_q4_0(
     block_ptr: Pointer[BlockQ4_0, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
@@ -437,21 +518,21 @@ def dequantize_compressed_tensor(
     if Int(data) <= 1 or Int(out_ptr) <= 1:
         raise Error("dequantize_compressed_tensor: invalid input or output storage")
     if format.value == CompressedFormatType.Q2_K:
-        _ = quantized_block_count(num_elements, 256, "Q2_K")
-        dequantize_ggml_k(data, out_ptr, num_elements, 10)
+        var blocks = quantized_block_count(num_elements, 256, "Q2_K")
+        dequantize_q2_k_block(data, out_ptr, blocks)
     elif (
         format.value == CompressedFormatType.Q3_K_S
         or format.value == CompressedFormatType.Q3_K_M
         or format.value == CompressedFormatType.Q3_K_L
     ):
-        _ = quantized_block_count(num_elements, 256, "Q3_K")
-        dequantize_ggml_k(data, out_ptr, num_elements, 11)
+        var blocks = quantized_block_count(num_elements, 256, "Q3_K")
+        dequantize_q3_k_m(data, out_ptr, blocks)
     elif (
         format.value == CompressedFormatType.Q5_K_S
         or format.value == CompressedFormatType.Q5_K_M
     ):
-        _ = quantized_block_count(num_elements, 256, "Q5_K")
-        dequantize_ggml_k(data, out_ptr, num_elements, 13)
+        var blocks = quantized_block_count(num_elements, 256, "Q5_K")
+        dequantize_q5_k_m(data, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q4_0:
         var blocks = quantized_block_count(num_elements, 32, "Q4_0")
         var block_ptr = data.unsafe_bitcast[BlockQ4_0]()
@@ -469,8 +550,8 @@ def dequantize_compressed_tensor(
         var block_ptr = data.unsafe_bitcast[BlockQ5_1]()
         dequantize_q5_1(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q6_K:
-        _ = quantized_block_count(num_elements, 256, "Q6_K")
-        dequantize_ggml_k(data, out_ptr, num_elements, 14)
+        var blocks = quantized_block_count(num_elements, 256, "Q6_K")
+        dequantize_q6_k_block(data, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q8_0:
         var blocks = quantized_block_count(num_elements, 32, "Q8_0")
         var block_ptr = data.unsafe_bitcast[BlockQ8_0]()
@@ -502,8 +583,8 @@ def dequantize_compressed_tensor(
     ):
         raise Error("extreme quantization layout is not implemented")
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
-        _ = quantized_block_count(num_elements, 256, "Q4_K")
-        dequantize_ggml_k(data, out_ptr, num_elements, 12)
+        var blocks = quantized_block_count(num_elements, 256, "Q4_K")
+        dequantize_q4_k_m(data, out_ptr, blocks)
     else:
         raise Error("dequantize_compressed_tensor: unsupported or unrecognized quantization format discriminant")
 

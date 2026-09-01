@@ -1,7 +1,7 @@
 # tests/test_compute.mojo
 # The Proving Grounds: Verification of the Forge's Mathematical Truth
 
-from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
+from core.mimir_well import MimirWell, RuneTensor, f16, f32
 from core.compute import (
     gemm_f16,
     flash_attention_2,
@@ -11,7 +11,7 @@ from core.compute import (
     rmsnorm,
     apply_rope,
     cosine_similarity,
-    dequantize_compressed_tensor,
+    dequantize_q4_k_m,
 )
 
 def test_gemm() raises:
@@ -177,9 +177,7 @@ def test_dequantize_q4_k_m() raises:
     for i in range(128):
         raw.unsafe_store(16 + i, UInt8(0x21))
     var output = well.allocate(256)
-    dequantize_compressed_tensor(
-        CompressedFormatType(CompressedFormatType.Q4_K_M), raw, output, 256
-    )
+    dequantize_q4_k_m(raw, output, 1)
     if output.unsafe_load(0) != Float16(0.5) or output.unsafe_load(32) != Float16(1):
         raise Error("Canonical Q4_K dequantization known-value mismatch")
     _ = well

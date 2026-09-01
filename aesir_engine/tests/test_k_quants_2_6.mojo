@@ -1,7 +1,7 @@
 """Raw-byte GGML Q2_K and Q6_K CPU matvec regressions."""
 
 from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
-from core.compute import gemm_f16
+from core.compute import gemm_f16, dequantize_q2_k_block, dequantize_q6_k_block
 
 
 def test_fused_q2_k_parity() raises:
@@ -16,6 +16,14 @@ def test_fused_q2_k_parity() raises:
         raw.unsafe_store(16 + i, UInt8(0xE4))  # 2-bit lanes 0,1,2,3
     raw.unsafe_offset(80).unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.5))
     raw.unsafe_offset(82).unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.25))
+
+    var decoded = well.allocate(256)
+    dequantize_q2_k_block(raw, decoded, 1)
+    var decoded_sum: Float32 = 0
+    for i in range(256):
+        decoded_sum += decoded.unsafe_load(i).cast[f32]()
+    if decoded_sum != Float32(64):
+        raise Error("Q2_K public dequantizer known-value mismatch")
 
     var input = well.allocate(256)
     for i in range(256):
@@ -44,6 +52,13 @@ def test_fused_q6_k_parity() raises:
     for i in range(16):
         raw.unsafe_store(192 + i, UInt8(1))
     # Half the weights are +21/8 and half -27/8, so their sum is -96.
+    var decoded = well.allocate(256)
+    dequantize_q6_k_block(raw, decoded, 1)
+    var decoded_sum: Float32 = 0
+    for i in range(256):
+        decoded_sum += decoded.unsafe_load(i).cast[f32]()
+    if decoded_sum != Float32(-96):
+        raise Error("Q6_K public dequantizer known-value mismatch")
     var input = well.allocate(256)
     for i in range(256):
         input.unsafe_store(i, Float16(1))

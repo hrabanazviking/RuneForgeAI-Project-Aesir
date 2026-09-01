@@ -868,8 +868,8 @@ and circular self-parity transforms were removed.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** 3-bit and 5-bit K-quantization support (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)
-- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks. The format-specific GEMM entry points route to that shared checked implementation; padded local descriptors and circular reference decoders were removed.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` use raw upstream-layout blocks with hand-calculated outputs.
+- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks. Public Q3_K S/M/L and Q5_K S/M dequantizers plus the format-specific GEMM entry points route to that shared checked implementation; padded local descriptors and circular reference decoders were replaced.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs.
 - **Evidence boundary:** Verified canonical raw-byte addressing, scale unpacking, quant unpacking, format-alias dispatch, and known-value matvec results. Full-model Q3_K execution has not been independently established.
 - **Audit:** Stage 53.1 Mythic Engineering Pass.
 
@@ -888,8 +888,8 @@ and circular self-parity transforms were removed.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** 2-bit and 6-bit K-quantization support (Q2_K, Q6_K)
-- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks; format-specific GEMM entry points route through the shared checked path.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` use raw upstream-layout blocks with hand-calculated outputs; independent Stheno row parity additionally covers Q6_K.
+- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks; public block dequantizers and format-specific GEMM entry points route through the shared checked path.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs; independent Stheno row parity additionally covers Q6_K.
 - **Evidence boundary:** Verified canonical raw-byte addressing, metadata use, complete-block enforcement, and known-value matvec results. Full-model Q2_K execution has not been independently established.
 - **Audit:** Stage 55.1 Mythic Engineering Pass.
 
