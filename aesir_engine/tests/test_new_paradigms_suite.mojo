@@ -91,24 +91,66 @@ def test_skaldbrodir_doom_loop() raises:
         raise Error("test_skaldbrodir_doom_loop: Failed to annihilate runaway generation loop with INF-016")
     print("test_skaldbrodir_doom_loop: PASS")
 
-def test_thinking_and_tool_use() raises:
+def test_thinking_redaction() raises:
     var raw = String("Let me think... <think>Solving equation 2+2</think> The answer is 4.")
     var sanitized = sanitize_thinking_transcript(raw, False)
     if "<think>" in sanitized or "Solving" in sanitized:
-        raise Error("test_thinking_and_tool_use: Failed to suppress thought tokens when thinking mode disabled")
+        raise Error("test_thinking_redaction: failed to suppress thought block")
 
+    var controller = ThinkingController(False)
+    var streamed = controller.process_token_text("Visible <thi")
+    streamed += controller.process_token_text("nk>hidden</thi")
+    streamed += controller.process_token_text("nk> tail")
+    streamed += controller.finish()
+    if streamed != "Visible  tail":
+        raise Error("test_thinking_redaction: split-tag redaction failed")
+
+    var malformed_rejected = False
+    try:
+        _ = sanitize_thinking_transcript("visible<think>hidden", False)
+    except:
+        malformed_rejected = True
+    if not malformed_rejected:
+        raise Error("test_thinking_redaction: unterminated thought block was accepted")
+    print("test_thinking_redaction: PASS")
+
+def test_tool_use_json() raises:
     var tool = ToolDefinition(String("get_weather"), String("Gets current weather"), String("{\"location\": \"string\"}"))
     var tools = List[ToolDefinition]()
     tools.append(tool)
     var prompt = format_tool_system_prompt(tools)
-    if "[AVAILABLE_TOOLS]" not in prompt:
-        raise Error("test_thinking_and_tool_use: Tool prompt formatting failed")
+    if "[AVAILABLE_TOOLS_JSON]" not in prompt:
+        raise Error("test_tool_use_json: tool prompt formatting failed")
 
-    var call_json = String("Sure! Calling tool: {\"tool\": \"get_weather\", \"arguments\": {\"location\": \"Oslo\"}}")
+    var call_json = String("{\"tool\":\"get_weather\",\"arguments\":{\"location\":\"Oslo\",\"units\":\"metric\"}}")
     var parsed_call = parse_tool_call(call_json)
-    if parsed_call.name != "get_weather":
-        raise Error("test_thinking_and_tool_use: Failed to parse tool call name")
-    print("test_thinking_and_tool_use: PASS")
+    if parsed_call.name != "get_weather" or parsed_call.arguments_json != "{\"location\":\"Oslo\",\"units\":\"metric\"}":
+        raise Error("test_tool_use_json: strict tool call parsing failed")
+
+    var prose_rejected = False
+    try:
+        _ = parse_tool_call("Calling tool: " + call_json)
+    except:
+        prose_rejected = True
+    if not prose_rejected:
+        raise Error("test_tool_use_json: prose-wrapped JSON was accepted")
+
+    var duplicate_rejected = False
+    try:
+        _ = parse_tool_call("{\"tool\":\"a\",\"tool\":\"b\",\"arguments\":{}}")
+    except:
+        duplicate_rejected = True
+    if not duplicate_rejected:
+        raise Error("test_tool_use_json: duplicate field was accepted")
+
+    var malformed_rejected = False
+    try:
+        _ = parse_tool_call("{\"tool\":\"a\",\"arguments\":{\"x\":[1,]}}")
+    except:
+        malformed_rejected = True
+    if not malformed_rejected:
+        raise Error("test_tool_use_json: malformed nested JSON was accepted")
+    print("test_tool_use_json: PASS")
 
 def test_smart_failure_diagnostics() raises:
     var reporter = SmartCrashReporter()
@@ -241,7 +283,8 @@ def main() raises:
     test_cli_flags()
     test_help_and_tui()
     test_skaldbrodir_doom_loop()
-    test_thinking_and_tool_use()
+    test_thinking_redaction()
+    test_tool_use_json()
     test_smart_failure_diagnostics()
     test_max_gate_boundary()
     test_experimental_paradigms()

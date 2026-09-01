@@ -238,7 +238,8 @@ from tests.test_new_paradigms_suite import (
     test_cli_flags,
     test_help_and_tui,
     test_skaldbrodir_doom_loop,
-    test_thinking_and_tool_use,
+    test_thinking_redaction,
+    test_tool_use_json,
     test_smart_failure_diagnostics,
     test_max_gate_boundary,
     test_experimental_paradigms,
@@ -689,7 +690,8 @@ def main() raises:
     run_case(ledger, "paradigms.cli_flags", test_cli_flags)
     run_case(ledger, "paradigms.help_and_tui", test_help_and_tui)
     run_case(ledger, "paradigms.skaldbrodir_doom_loop", test_skaldbrodir_doom_loop)
-    run_case(ledger, "paradigms.thinking_and_tool_use", test_thinking_and_tool_use)
+    run_case(ledger, "paradigms.thinking_redaction", test_thinking_redaction)
+    run_case(ledger, "paradigms.tool_use_json", test_tool_use_json)
     run_case(ledger, "paradigms.failure_diagnostics", test_smart_failure_diagnostics)
     run_case(ledger, "paradigms.max_gate_boundary", test_max_gate_boundary)
     run_case(ledger, "paradigms.experimental_paradigms", test_experimental_paradigms)
@@ -757,4 +759,4 @@ def main() raises:
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
-    ledger.finish(172)
+    ledger.finish(173)

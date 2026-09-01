@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 171 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 172, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 172 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 173, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 70 |
+| `verified` | 72 |
 | `partial` | 20 |
 | `scaffold` | 1 |
 | `simulated` | 0 |
 | `missing` | 19 |
-| **Total** | **110** |
+| **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -519,6 +519,28 @@ the complete ledger population.
 - **Executable evidence:** `test_token_masking_and_regression_corpora()` in `test_inference.mojo`.
 - **Evidence boundary:** Implements token suppression masking and multi-prompt regression test corpora; does not claim dynamic GBNF grammar parser execution.
 - **Audit:** AER-008, AER-003.
+
+### AES-GEN-010 — Bounded literal thought-block transcript redaction
+
+- **Status:** `verified`
+- **Owner:** generation text-safety domain
+- **Claim sources:** thinking-control TODO and architecture descriptions
+- **Implementation evidence:** `ThinkingController` redacts the exact literal `<think>...</think>` convention across arbitrary token boundaries, retains possible split-marker suffixes, rejects stray closing and unterminated blocks, bounds pending input, and requires an explicit final flush. Whole-transcript redaction uses the same streaming implementation.
+- **Executable evidence:** `E-MASTER` case `paradigms.thinking_redaction` covers inline and split tags, visible suffix preservation, hidden-content removal and malformed-input rejection.
+- **Evidence boundary:** This is text redaction for one literal convention. It does not prevent a model from reasoning, identify other model-specific tags, mask vocabulary logits, or integrate into the native CUDA streaming path.
+- **Next acceptance gate:** Define per-model reasoning controls, integrate the redactor into streamed output with fail-closed finalization, and prove no hidden-text leakage across tokenizer boundaries.
+- **Audit:** AER-003.
+
+### AES-GEN-011 — Strict bounded tool schema formatting and call parsing
+
+- **Status:** `verified`
+- **Owner:** generation/tool protocol domain
+- **Claim sources:** tool-use TODO and architecture descriptions
+- **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail.
+- **Executable evidence:** `E-MASTER` case `paradigms.tool_use_json` covers exact parsing, nested arguments, prompt formatting, prose refusal, duplicates and malformed nested JSON.
+- **Evidence boundary:** This formats and parses data only. It does not select, authorize, execute, sandbox, time out, cancel, audit, or return results from tools, and it is not wired into model generation.
+- **Next acceptance gate:** Add an allowlisted executor with per-tool schemas, authorization, resource/time limits, result framing, audit logs and end-to-end model fixtures.
+- **Audit:** AER-003.
 
 ## 10. CLI and Model Management
 
@@ -1295,7 +1317,7 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
-| Inference/generation | AES-GEN-001 through AES-GEN-009 |
+| Inference/generation | AES-GEN-001 through AES-GEN-011 |
 | CLI/model management | AES-CLI-001 through AES-CLI-009 |
 | Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |

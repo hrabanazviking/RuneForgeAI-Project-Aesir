@@ -80,8 +80,8 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [ ] **[missing, AES-SYS-001] Wave Inference Computing:** Supply a falsifiable physical/numerical specification, model transform, reference output and measured hardware evidence; the synthetic cosine path was removed.
 - [ ] **[missing, AES-SYS-001] Neural Spectral Fractal Inference:** Define trained representation/conversion, reconstruction error bounds and inference parity; the sine/cosine weight generator was removed.
 - [x] **SKÁLDBRØÐIR:** Read Skaldbrodir_Doom_Loop_Annihilation_Protocol.md and add SKÁLDBRØÐIR — The Doom Loop Annihilation Protocol. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default.
-- [x] **Tool Use Support:** Add tool use support. 
-- [x] **Thinking:** Add thinking support. Add it so it as an optional system that can be turned off or on with a command. Make it so the config data file allows it to be set to be used or not used by default. Make systems that make sure thinking is disabled, even in thinking addicted models, if thinking is turned off.
+- [ ] **[verified, AES-GEN-011] Complete tool use:** Strict bounded schema formatting and call parsing work; add an allowlisted executor, authorization, sandboxing, deadlines, cancellation, result framing, audit records, and model-loop integration.
+- [ ] **[verified, AES-GEN-010] Complete thinking control:** Literal thought-block redaction works across split tokens; add per-model reasoning controls and native CUDA streaming integration. Text redaction alone cannot ensure a model did not reason internally.
 - [x] **Compute Improvements:** Read RuneForgeAI_Aesir_Compute_Optimization_Manifest.md and implement all suggested improvements.
 - [x] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **[missing, AES-SYS-001] New inference research:** Treat MQARI or any new method as research until it has a falsifiable method, real model integration, output-equivalence tests and physical speed evidence.

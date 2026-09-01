@@ -1,3 +1,17 @@
+## 2026-09-01 — Added bounded thought redaction and strict tool JSON
+
+Thought-block redaction now survives tags split across token text, preserves
+visible prefixes/suffixes, and rejects stray or unterminated blocks. Its scope
+is one literal tag convention; it does not claim to prevent internal reasoning
+or cover model-specific formats.
+
+Tool calls now pass a strict bounded recursive JSON recognizer instead of
+substring searches and first/last-brace slicing. Definitions require safe
+unique names and valid object schemas; calls accept exactly a tool name and an
+object-valued arguments field. Prose wrappers, duplicates, extra fields,
+malformed nesting, bad numbers and invalid escapes fail. Execution, sandboxing
+and model-loop integration remain unavailable.
+
 ## 2026-09-01 — Removed host GEMM from the MAX graph label
 
 The detached `MAXGate` no longer invents one device, reports itself available,
