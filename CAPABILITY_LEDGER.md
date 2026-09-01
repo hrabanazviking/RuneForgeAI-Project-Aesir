@@ -65,11 +65,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 71 |
+| `verified` | 70 |
 | `partial` | 21 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 20 |
+| `missing` | 21 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -905,13 +905,14 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ### AES-QNT-010 — Ternary and 1-bit extreme quantization transformation kernels
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** core compute domain
 - **Claim sources:** 1-bit and BitNet 1.58-bit ternary quantization support (IQ1_S, IQ2_XXS, TERNARY_155BIT)
-- **Implementation evidence:** `BlockIQ1_S`, `BlockIQ2_XXS`, and `BlockTernary158` block structs, `dequantize_iq1_s_block`, `dequantize_iq2_xxs_block`, `dequantize_ternary_158_block` dequantizers, and `gemm_iq1_s`, `gemm_iq2_xxs`, `gemm_ternary_158` fused matrix-vector multiplication kernels in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_iq1_s_parity`, `quantization.fused_iq2_xxs_parity`, `quantization.fused_ternary_158_parity` in `test_extreme_quants.mojo`.
-- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused extreme quantization GEMM kernels and uncompressed `gemm_f16`.
-- **Audit:** Stage 57.1 Mythic Engineering Pass.
+- **Implementation evidence:** Reserved internal descriptors reach explicit errors in `gemm_f16()` and `dequantize_compressed_tensor()`. The invented local block structs and decoders were removed because they did not implement upstream IQ codebooks/layouts or a specified ternary file format.
+- **Executable evidence:** `E-MASTER` cases `quantization.iq1_s_boundary`, `quantization.iq2_xxs_boundary`, and `quantization.ternary_boundary` in `test_extreme_quants.mojo`.
+- **Evidence boundary:** Verified mutation-free refusal only. Removed self-parity tests used the same invented decoder as both implementation and reference.
+- **Next acceptance gate:** Implement one authoritative on-disk format with exact block structures and codebooks, then validate bytes and model output against an independent runtime and real fixture.
+- **Audit:** Reality correction, September 1, 2026.
 
 ### AES-QNT-011 — Comprehensive all-format quantization metadata store & hardware autotuning gateway
 

@@ -171,9 +171,9 @@ from tests.test_gptq_awq_quantization import (
     test_smoothquant_int8_boundary,
 )
 from tests.test_extreme_quants import (
-    test_fused_iq1_s_parity,
-    test_fused_iq2_xxs_parity,
-    test_fused_ternary_158_parity,
+    test_iq1_s_boundary,
+    test_iq2_xxs_boundary,
+    test_ternary_boundary,
 )
 from tests.test_all_quantization_formats_suite import (
     test_quantization_metadata_store,
@@ -546,14 +546,14 @@ def main() raises:
         "quantization.smoothquant_int8_boundary",
         test_smoothquant_int8_boundary,
     )
-    run_case(ledger, "quantization.fused_iq1_s_parity", test_fused_iq1_s_parity)
+    run_case(ledger, "quantization.iq1_s_boundary", test_iq1_s_boundary)
     run_case(
-        ledger, "quantization.fused_iq2_xxs_parity", test_fused_iq2_xxs_parity
+        ledger, "quantization.iq2_xxs_boundary", test_iq2_xxs_boundary
     )
     run_case(
         ledger,
-        "quantization.fused_ternary_158_parity",
-        test_fused_ternary_158_parity,
+        "quantization.ternary_boundary",
+        test_ternary_boundary,
     )
     run_case(
         ledger,

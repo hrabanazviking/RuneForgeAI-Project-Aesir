@@ -702,11 +702,14 @@ The forge completed Stage 58.1 of Project Aesir (`AES-QNT-011` `verified`):
 2. **Hardware Autotuning Gateway Dispatcher:** Implemented `autotune_quantized_gemm()` in `core/compute.mojo` for validating matrix dimensions, evaluating format metadata, and autotuning execution tile parameters.
 3. **Comprehensive Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_all_quantization_formats_suite.mojo` testing metadata reporting across all format discriminants and autotuned hardware gateway dispatching. Master test suite passed clean (**107 passed / 0 failed / 1 skipped / Total 108**). Doc drift check passed (**0 errors**).
 
-## ⚡ Entry 102: Stage 57.1 — Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT) (AES-QNT-010)
+## ⚡ Entry 102: Superseded Ternary & 1-Bit Extreme Quantization claim (AES-QNT-010)
 **Date:** August 16, 2026  
 **Architectural Phase:** Ternary & 1-Bit Extreme Quantization (IQ1_S, IQ2_XXS, TERNARY_155BIT)  
 
-The forge completed Stage 57.1 of Project Aesir (`AES-QNT-010` `verified`):
+Historical record: this entry's `verified` conclusion was invalidated on
+September 1, 2026. The local layouts were not authoritative and the tests used
+the same decoder as their reference. See the canonical ledger. The original
+work recorded here was:
 1. **1-Bit & Ternary Block Layouts & Dequantizers:** Implemented `BlockIQ1_S`, `BlockIQ2_XXS`, and `BlockTernary158` block structs with `Copyable, ImplicitlyCopyable` traits in `core/compute.mojo`. Implemented `dequantize_iq1_s_block()`, `dequantize_iq2_xxs_block()`, and `dequantize_ternary_158_block()`.
 2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_iq1_s()`, `gemm_iq2_xxs()`, and `gemm_ternary_158()` fused matrix-vector multiplication kernels, and connected automatic format dispatching in `gemm_f16()`.
 3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_extreme_quants.mojo` testing bit-for-bit mathematical output parity against uncompressed `gemm_f16`. Master test suite passed clean (**105 passed / 0 failed / 1 skipped / Total 106**). Doc drift check passed (**0 errors**).

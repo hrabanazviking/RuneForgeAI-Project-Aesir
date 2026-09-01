@@ -266,53 +266,6 @@ struct BlockQ6_K(Copyable, ImplicitlyCopyable):
         self.d = existing.d
 
 
-struct BlockIQ1_S(Copyable, ImplicitlyCopyable):
-    var d: Scalar[f16]
-    var qs: SIMD[DType.uint8, 32]
-    var qh: SIMD[DType.uint8, 16]
-
-    def __init__(
-        out self,
-        d: Scalar[f16],
-        qs: SIMD[DType.uint8, 32],
-        qh: SIMD[DType.uint8, 16],
-    ):
-        self.d = d
-        self.qs = qs
-        self.qh = qh
-
-    def __copyinit__(out self, existing: Self):
-        self.d = existing.d
-        self.qs = existing.qs
-        self.qh = existing.qh
-
-
-struct BlockIQ2_XXS(Copyable, ImplicitlyCopyable):
-    var d: Scalar[f16]
-    var qs: SIMD[DType.uint8, 64]
-
-    def __init__(out self, d: Scalar[f16], qs: SIMD[DType.uint8, 64]):
-        self.d = d
-        self.qs = qs
-
-    def __copyinit__(out self, existing: Self):
-        self.d = existing.d
-        self.qs = existing.qs
-
-
-struct BlockTernary158(Copyable, ImplicitlyCopyable):
-    var scale: Scalar[f16]
-    var qs: SIMD[DType.uint8, 64]
-
-    def __init__(out self, scale: Scalar[f16], qs: SIMD[DType.uint8, 64]):
-        self.scale = scale
-        self.qs = qs
-
-    def __copyinit__(out self, existing: Self):
-        self.scale = existing.scale
-        self.qs = existing.qs
-
-
 @always_inline
 def dequantize_q4_k_m(
     block_ptr: Pointer[BlockQ4_K, MutUntrackedOrigin],
@@ -707,112 +660,6 @@ def dequantize_q6_k_block(
 
 
 @always_inline
-def dequantize_iq1_s_block(
-    block_ptr: Pointer[BlockIQ1_S, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_blocks: Int,
-):
-    if num_blocks <= 0:
-        return
-    for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var d = blk.d
-        var out_offset = b * 256
-        var qs = blk.qs
-        var qh = blk.qh
-        for i in range(32):
-            var b_val = qs[i]
-            var h_val = qh[i // 2]
-            var q0 = Scalar[f16]((b_val & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q1 = Scalar[f16](((b_val >> 2) & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q2 = Scalar[f16](((b_val >> 4) & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q3 = Scalar[f16](((b_val >> 6) & 0x03).cast[f16]()) * 0.5 - 0.75
-            out_ptr.unsafe_store(out_offset + i * 8, q0 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 1, q1 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 2, q2 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 3, q3 * d)
-
-            var q4 = Scalar[f16]((h_val & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q5 = Scalar[f16](((h_val >> 2) & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q6 = Scalar[f16](((h_val >> 4) & 0x03).cast[f16]()) * 0.5 - 0.75
-            var q7 = Scalar[f16](((h_val >> 6) & 0x03).cast[f16]()) * 0.5 - 0.75
-            out_ptr.unsafe_store(out_offset + i * 8 + 4, q4 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 5, q5 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 6, q6 * d)
-            out_ptr.unsafe_store(out_offset + i * 8 + 7, q7 * d)
-
-
-@always_inline
-def dequantize_iq2_xxs_block(
-    block_ptr: Pointer[BlockIQ2_XXS, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_blocks: Int,
-):
-    if num_blocks <= 0:
-        return
-    for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var d = blk.d
-        var out_offset = b * 256
-        var qs = blk.qs
-        for i in range(64):
-            var b_val = qs[i]
-            var q0 = Scalar[f16]((b_val & 0x03).cast[f16]()) * 0.666 - 1.0
-            var q1 = (
-                Scalar[f16](((b_val >> 2) & 0x03).cast[f16]()) * 0.666 - 1.0
-            )
-            var q2 = (
-                Scalar[f16](((b_val >> 4) & 0x03).cast[f16]()) * 0.666 - 1.0
-            )
-            var q3 = (
-                Scalar[f16](((b_val >> 6) & 0x03).cast[f16]()) * 0.666 - 1.0
-            )
-            out_ptr.unsafe_store(out_offset + i * 4, q0 * d)
-            out_ptr.unsafe_store(out_offset + i * 4 + 1, q1 * d)
-            out_ptr.unsafe_store(out_offset + i * 4 + 2, q2 * d)
-            out_ptr.unsafe_store(out_offset + i * 4 + 3, q3 * d)
-
-
-@always_inline
-def dequantize_ternary_158_block(
-    block_ptr: Pointer[BlockTernary158, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_blocks: Int,
-):
-    if num_blocks <= 0:
-        return
-    for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var out_offset = b * 256
-        var qs = blk.qs
-        for i in range(64):
-            var b_val = qs[i]
-            var code0 = b_val & 0x03
-            var code1 = (b_val >> 2) & 0x03
-            var code2 = (b_val >> 4) & 0x03
-            var code3 = (b_val >> 6) & 0x03
-
-            var q0: Scalar[f16] = Scalar[f16](1.0) if code0 == 1 else (
-                Scalar[f16](-1.0) if code0 == 2 else Scalar[f16](0.0)
-            )
-            var q1: Scalar[f16] = Scalar[f16](1.0) if code1 == 1 else (
-                Scalar[f16](-1.0) if code1 == 2 else Scalar[f16](0.0)
-            )
-            var q2: Scalar[f16] = Scalar[f16](1.0) if code2 == 1 else (
-                Scalar[f16](-1.0) if code2 == 2 else Scalar[f16](0.0)
-            )
-            var q3: Scalar[f16] = Scalar[f16](1.0) if code3 == 1 else (
-                Scalar[f16](-1.0) if code3 == 2 else Scalar[f16](0.0)
-            )
-
-            out_ptr.unsafe_store(out_offset + i * 4, q0 * scale)
-            out_ptr.unsafe_store(out_offset + i * 4 + 1, q1 * scale)
-            out_ptr.unsafe_store(out_offset + i * 4 + 2, q2 * scale)
-            out_ptr.unsafe_store(out_offset + i * 4 + 3, q3 * scale)
-
-
-@always_inline
 def dequantize_q2_k(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
@@ -1090,9 +937,12 @@ def dequantize_compressed_tensor(
         dequantize_hqq(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.SMOOTHQUANT_INT8:
         dequantize_smoothquant_int8(data, out_ptr, num_elements)
-    elif format.value == CompressedFormatType.IQ1_S:
-        var block_ptr = data.unsafe_bitcast[BlockIQ1_S]()
-        dequantize_iq1_s_block(block_ptr, out_ptr, num_elements // 256)
+    elif (
+        format.value == CompressedFormatType.IQ1_S
+        or format.value == CompressedFormatType.IQ2_XXS
+        or format.value == CompressedFormatType.TERNARY_155BIT
+    ):
+        raise Error("extreme quantization layout is not implemented")
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
         var block_ptr = data.unsafe_bitcast[BlockQ4_K]()
         dequantize_q4_k_m(block_ptr, out_ptr, num_elements // 256)
@@ -1752,243 +1602,26 @@ def gemm_smoothquant_int8(
 def gemm_iq1_s(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_iq1_s: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_iq1_s: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_iq1_s: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var blocks_per_row = shared_dim // 256
-    var block_base = B.data.unsafe_bitcast[BlockIQ1_S]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
-            for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var d = blk.d
-                var qs = blk.qs
-                var qh = blk.qh
-                var col_idx = b * 256
-                for i in range(32):
-                    var b_val = qs[i]
-                    var h_val = qh[i // 2]
-                    var q0 = (
-                        Scalar[f16]((b_val & 0x03).cast[f16]()) * 0.5 - 0.75
-                    ) * d
-                    var a0 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8
-                    ).cast[f32]()
-                    sum += a0 * q0.cast[f32]()
-
-                    var q1 = (
-                        Scalar[f16](((b_val >> 2) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a1 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 1
-                    ).cast[f32]()
-                    sum += a1 * q1.cast[f32]()
-
-                    var q2 = (
-                        Scalar[f16](((b_val >> 4) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a2 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 2
-                    ).cast[f32]()
-                    sum += a2 * q2.cast[f32]()
-
-                    var q3 = (
-                        Scalar[f16](((b_val >> 6) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a3 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 3
-                    ).cast[f32]()
-                    sum += a3 * q3.cast[f32]()
-
-                    var q4 = (
-                        Scalar[f16]((h_val & 0x03).cast[f16]()) * 0.5 - 0.75
-                    ) * d
-                    var a4 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 4
-                    ).cast[f32]()
-                    sum += a4 * q4.cast[f32]()
-
-                    var q5 = (
-                        Scalar[f16](((h_val >> 2) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a5 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 5
-                    ).cast[f32]()
-                    sum += a5 * q5.cast[f32]()
-
-                    var q6 = (
-                        Scalar[f16](((h_val >> 4) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a6 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 6
-                    ).cast[f32]()
-                    sum += a6 * q6.cast[f32]()
-
-                    var q7 = (
-                        Scalar[f16](((h_val >> 6) & 0x03).cast[f16]()) * 0.5
-                        - 0.75
-                    ) * d
-                    var a7 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 8 + 7
-                    ).cast[f32]()
-                    sum += a7 * q7.cast[f32]()
-
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("IQ1_S GEMM requires the authoritative codebooks, signs, scales, and block layout; it is not implemented")
 
 def gemm_iq2_xxs(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_iq2_xxs: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_iq2_xxs: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_iq2_xxs: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var blocks_per_row = shared_dim // 256
-    var block_base = B.data.unsafe_bitcast[BlockIQ2_XXS]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
-            for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var d = blk.d
-                var qs = blk.qs
-                var col_idx = b * 256
-                for i in range(64):
-                    var b_val = qs[i]
-                    var q0 = (
-                        Scalar[f16]((b_val & 0x03).cast[f16]()) * 0.666 - 1.0
-                    ) * d
-                    var a0 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4
-                    ).cast[f32]()
-                    sum += a0 * q0.cast[f32]()
-
-                    var q1 = (
-                        Scalar[f16](((b_val >> 2) & 0x03).cast[f16]()) * 0.666
-                        - 1.0
-                    ) * d
-                    var a1 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 1
-                    ).cast[f32]()
-                    sum += a1 * q1.cast[f32]()
-
-                    var q2 = (
-                        Scalar[f16](((b_val >> 4) & 0x03).cast[f16]()) * 0.666
-                        - 1.0
-                    ) * d
-                    var a2 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 2
-                    ).cast[f32]()
-                    sum += a2 * q2.cast[f32]()
-
-                    var q3 = (
-                        Scalar[f16](((b_val >> 6) & 0x03).cast[f16]()) * 0.666
-                        - 1.0
-                    ) * d
-                    var a3 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 3
-                    ).cast[f32]()
-                    sum += a3 * q3.cast[f32]()
-
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("IQ2_XXS GEMM requires the authoritative codebooks, signs, scales, and block layout; it is not implemented")
 
 def gemm_ternary_158(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_ternary_158: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_ternary_158: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_ternary_158: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var blocks_per_row = shared_dim // 256
-    var block_base = B.data.unsafe_bitcast[BlockTernary158]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
-            for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var qs = blk.qs
-                var col_idx = b * 256
-                for i in range(64):
-                    var b_val = qs[i]
-                    var code0 = b_val & 0x03
-                    var code1 = (b_val >> 2) & 0x03
-                    var code2 = (b_val >> 4) & 0x03
-                    var code3 = (b_val >> 6) & 0x03
-
-                    var q0: Scalar[f16] = Scalar[f16](1.0) if code0 == 1 else (
-                        Scalar[f16](-1.0) if code0 == 2 else Scalar[f16](0.0)
-                    )
-                    var q1: Scalar[f16] = Scalar[f16](1.0) if code1 == 1 else (
-                        Scalar[f16](-1.0) if code1 == 2 else Scalar[f16](0.0)
-                    )
-                    var q2: Scalar[f16] = Scalar[f16](1.0) if code2 == 1 else (
-                        Scalar[f16](-1.0) if code2 == 2 else Scalar[f16](0.0)
-                    )
-                    var q3: Scalar[f16] = Scalar[f16](1.0) if code3 == 1 else (
-                        Scalar[f16](-1.0) if code3 == 2 else Scalar[f16](0.0)
-                    )
-
-                    var a0 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4
-                    ).cast[f32]()
-                    sum += a0 * (q0 * scale).cast[f32]()
-
-                    var a1 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 1
-                    ).cast[f32]()
-                    sum += a1 * (q1 * scale).cast[f32]()
-
-                    var a2 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 2
-                    ).cast[f32]()
-                    sum += a2 * (q2 * scale).cast[f32]()
-
-                    var a3 = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i * 4 + 3
-                    ).cast[f32]()
-                    sum += a3 * (q3 * scale).cast[f32]()
-
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("Ternary GEMM requires a specified on-disk format, scale contract, and independent oracle; it is not implemented")
 
 def gemm_f16(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

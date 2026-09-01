@@ -361,66 +361,38 @@ graph TD
 
 ---
 
-## 💎 The Universal Compressed LLM Format Matrix — Slice 10 Domain Layer
+## Compressed Tensor Admission and Dispatch
 
-The Universal Compressed LLM Format Matrix establishes a unified, zero-vtable, zero-heap dequantization and format translation pipeline across 21 sub-byte, integer, and block-compressed LLM representation formats.
+GGUF tensor IDs are external file-format values. `GGMLType.to_compressed_format()`
+owns the whitelist and raises for every non-quantized, unknown, or unimplemented
+value. It never maps an unsupported ID to a convenient fallback.
 
 ```mermaid
-graph TD
-    GGUF[GGUF Binary Model File] -->|Quantization Type ID| Mapper[GGMLType.to_compressed_format<br/>loader/gguf.mojo]
-    Mapper -->|CompressedFormatType Discriminant| Gate[dequantize_compressed_tensor<br/>core/compute.mojo]
-    
-    Gate -->|Q2_K| K2[dequantize_q2_k]
-    Gate -->|Q3_K_S / Q3_K_M / Q3_K_L| K3[dequantize_q3_k]
-    Gate -->|Q4_0| Q40[dequantize_q4_0]
-    Gate -->|Q4_1| Q41[dequantize_q4_1]
-    Gate -->|Q4_K_S / Q4_K_M| Q4K[dequantize_q4_k_m]
-    Gate -->|Q5_0 / Q5_1| Q50[dequantize_q5_0]
-    Gate -->|Q6_K| Q6K[dequantize_q6_k]
-    Gate -->|Q8_0 / Q8_1| Q80[dequantize_q8_0]
-    Gate -->|GPTQ_4BIT / GPTQ_8BIT| GPTQ[dequantize_gptq_4bit]
-    Gate -->|AWQ_4BIT| AWQ[dequantize_awq_4bit]
-    Gate -->|EXL2_VARBIT| EXL2[dequantize_exl2]
-    Gate -->|HQQ| HQQ[dequantize_hqq]
-    Gate -->|SMOOTHQUANT_INT8| SQ[dequantize_smoothquant_int8]
-    
-    K2 & K3 & Q40 & Q41 & Q4K & Q50 & Q6K & Q80 & GPTQ & AWQ & EXL2 & HQQ & SQ -.->|Unpacks to f16 float slab| MW[MimirWell / RuneTensor[f16]]
+flowchart LR
+    GGUF[GGUF tensor record] --> Mapper[GGMLType.to_compressed_format]
+    Mapper -->|implemented ID| Tensor[RuneTensor with quant descriptor]
+    Mapper -->|unknown or unsupported| Error[explicit loader error]
+    Tensor --> Gate[gemm_f16 / dequantize_compressed_tensor]
+    Gate -->|implemented layout| Kernel[format-specific CPU kernel]
+    Gate -->|reserved descriptor| Refusal[mutation-free not-implemented error]
 ```
 
-**Supported 21 Compressed Formats:**
-1. `Q2_K`: 2-bit K-quantization block format
-2. `Q3_K_S`: 3-bit K-quantization small format
-3. `Q3_K_M`: 3-bit K-quantization medium format
-4. `Q3_K_L`: 3-bit K-quantization large format
-5. `Q4_0`: Legacy 4-bit block quantization (scale only)
-6. `Q4_1`: Legacy 4-bit block quantization (scale + min)
-7. `Q4_K_S`: 4-bit K-quantization small format
-8. `Q4_K_M`: 4-bit K-quantization medium format (default rune)
-9. `Q5_0`: Legacy 5-bit block quantization (scale only)
-10. `Q5_1`: Legacy 5-bit block quantization (scale + min)
-11. `Q5_K_S`: 5-bit K-quantization small format
-12. `Q5_K_M`: 5-bit K-quantization medium format
-13. `Q6_K`: 6-bit K-quantization block format
-14. `Q8_0`: 8-bit block quantization (scale only)
-15. `Q8_1`: 8-bit block quantization (scale + min)
-16. `GPTQ_4BIT`: GPTQ 4-bit weight-only quantization
-17. `GPTQ_8BIT`: GPTQ 8-bit weight-only quantization
-18. `AWQ_4BIT`: Activation-aware Weight Quantization (AWQ 4-bit)
-19. `EXL2_VARBIT`: ExLlamaV2 variable bitrate quantization
-20. `HQQ`: Half-Quadratic Quantization (HQQ)
-21. `SMOOTHQUANT_INT8`: SmoothQuant INT8 activation/weight quantization
+The loader currently admits GGML IDs `2`, `3`, and `6` through `14`; ID `15`
+(Q8_K), upstream IQ types, and all other values are rejected. `CompressedFormatType`
+also contains reserved internal names for future work. A name in that descriptor
+does not establish an on-disk mapping, a decoder, or inference support.
 
-**Boundary confirmation for Slice 10:**
+Q4_K_M has the repository's strongest quantized path and exact byte-span checks.
+The capability ledger records the evidence boundary for each other format.
+GPTQ, AWQ, EXL2, HQQ, SmoothQuant, IQ1_S, IQ2_XXS, and the custom ternary
+descriptor are explicitly unavailable.
 
-| Component | Placed in | Domain | Verdict |
-| :--- | :--- | :--- | :--- |
-| `CompressedFormatType` | `core/mimir_well.mojo` | Core — Memory & Type Domain | ✅ **Correct** — format discriminant struct belongs in core memory/types |
-| `GGMLType.to_compressed_format()` | `loader/gguf.mojo` | Loader — File Format Domain | ✅ **Correct** — mapping GGUF IDs to internal format types belongs in loader |
-| `dequantize_compressed_tensor` gate | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — dequantization gateway belongs in Nidavellir Forge |
-| SIMD dequantization kernels | `core/compute.mojo` | Core — Compute Domain | ✅ **Correct** — raw unpacking & SIMD kernels belong in Nidavellir Forge |
-| `test_quantization.mojo` | `tests/test_quantization.mojo` | Testing Domain | ✅ **Correct** — quantization unit tests belong in test suite |
-
-**No boundary violations detected.** Format translation (`to_compressed_format`) is owned by `loader/gguf.mojo`. Format type representation (`CompressedFormatType`) and unpacking math (`dequantize_compressed_tensor` & SIMD kernels) are owned by `core/`.
+| Component | Owner | Contract |
+| :--- | :--- | :--- |
+| `GGMLType.to_compressed_format()` | Loader | Whitelist external GGML IDs; reject everything else |
+| `CompressedFormatType` | Core memory/types | Carry an internal descriptor; never imply support by name alone |
+| `dequantize_compressed_tensor()` | Core compute | Dispatch implemented layouts and reject reserved descriptors before mutation |
+| Quantization tests | Tests | Use authoritative fixtures/oracles for compatibility claims; use boundary tests for unavailable formats |
 
 ---
 

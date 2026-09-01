@@ -1,3 +1,10 @@
+## 2026-09-01 — Removed invented extreme-quantization layouts
+
+Deleted the local IQ1_S, IQ2_XXS, and ternary block structs and decoders. They
+did not match the authoritative IQ codebook layouts or identify a real ternary
+file contract, while their tests used the same decoder as their reference. The
+reserved descriptors now reject GEMM and dequantization without output mutation.
+
 ## 2026-09-01 — Corrected GGML tensor type admission
 
 Removed invented GGML IDs for GPTQ, AWQ, EXL2, HQQ, and SmoothQuant. Those

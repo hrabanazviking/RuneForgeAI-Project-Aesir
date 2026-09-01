@@ -447,6 +447,8 @@ The legacy formatters below are not exposed compatibility APIs.
 - [ ] Add each additional GGML format only with its own exact fixture and oracle.
 - [ ] Keep GPTQ, AWQ, EXL2, HQQ, and SmoothQuant explicitly unsupported until
   their distinct metadata/layout/runtime contracts and external fixtures exist.
+- [ ] Keep IQ1_S, IQ2_XXS, and ternary execution unsupported until exact
+  codebooks/layouts and independent real-fixture oracles exist (`AES-QNT-010`).
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 

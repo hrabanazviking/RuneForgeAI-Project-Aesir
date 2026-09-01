@@ -226,7 +226,7 @@ The project maintains exceptional documentation discipline:
 | Q2_K, Q3_K, Q5_K, Q6_K | ✅ Kernels verified | Real GGUF loading partial |
 | Q4_K_M | ✅ Kernels verified | Real GGUF loading partial |
 | FP8 (E4M3, E5M2) | ✅ Kernels verified | Real GGUF loading partial |
-| IQ1_S, IQ2_XXS, Ternary 1.58-bit | ✅ Kernels verified | Real GGUF loading partial |
+| IQ1_S, IQ2_XXS, Ternary 1.58-bit | ❌ Execution unavailable; descriptors reject explicitly | Exact layouts/codebooks and external fixtures are missing |
 | GPTQ, AWQ, EXL2, HQQ, SmoothQuant | ❌ Execution unavailable; descriptors reject explicitly | Exact metadata/layouts and external fixtures are missing |
 
 ### Other Formats

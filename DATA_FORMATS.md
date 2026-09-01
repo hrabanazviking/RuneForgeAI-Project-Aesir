@@ -225,11 +225,12 @@ Each tensor info record contains:
 | 12 | Q4_K | 4 | (K-quant, custom unpack) |
 | 13 | Q5_K | 5 | (K-quant, custom unpack) |
 | 14 | Q6_K | 6 | (K-quant, custom unpack) |
-| 15 | IQ2_XXS | 2 | (I-quant, custom unpack) |
-| 16 | IQ2_XS | 2 | (I-quant, custom unpack) |
-| 17 | IQ3_XXS | 3 | (I-quant, custom unpack) |
-| 18 | IQ1_S | 1 | (I-quant, custom unpack) |
-| 24 | BF16 | 16 | bfloat16 |
+| 15 | Q8_K | 8 | unsupported by this loader |
+| 16 | IQ2_XXS | ~2 | unsupported by this loader |
+| 17 | IQ2_XS | ~2 | unsupported by this loader |
+| 18 | IQ3_XXS | ~3 | unsupported by this loader |
+| 19 | IQ1_S | ~1 | unsupported by this loader |
+| 30 | BF16 | 16 | unsupported by this loader |
 
 ### Parser Validation Requirements
 
