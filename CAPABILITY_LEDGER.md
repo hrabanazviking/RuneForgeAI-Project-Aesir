@@ -66,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 24 |
+| `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 19 |
+| `missing` | 18 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -187,14 +187,14 @@ the complete ledger population.
 
 ### AES-MEM-004 — PagedAttention cache management
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core memory and inference domains
 - **Claim sources:** README “PagedAttention KV Caching”
-- **Implementation evidence:** current `KVCache` is a contiguous preallocated buffer. The reserved `PagedKVCache` API now rejects construction and block operations; no page table, allocator, ownership map, eviction, or page sharing exists.
-- **Executable evidence:** `E-MASTER` case `inference.kv_cache` proves `PagedKVCache` construction fails with a stable unsupported error.
-- **Evidence boundary:** The fixed contiguous cache rejects capacity overflow; preallocation alone does not implement PagedAttention, sliding windows, or chronological wraparound.
-- **Next acceptance gate:** Page allocator/table, logical-to-physical mapping, growth/reuse/eviction policy, multi-sequence tests, and memory-efficiency measurements.
-- **Audit:** AER-003, AER-021, AER-112.
+- **Implementation evidence:** `PagedKVCache` preallocates a bounded physical K/V page pool in `MimirWell`, maintains per-sequence logical-to-physical page tables, physical owner/logical-index maps, per-sequence and per-layer initialized lengths, checked on-demand mapping, sequential growth, exact physical translation, tail release, complete sequence release, and page reuse. Optional `physical_blocks` permits deliberate overcommit across multiple logical sequences without allocating during token writes. Explicit copies allocate an independent K/V snapshot and deep-copy all allocator metadata.
+- **Executable evidence:** `E-MASTER` case `inference.kv_cache` uses two logical sequences over three physical pages and verifies cross-page/layer values, ownership and free-count invariants, physical exhaustion without mutation, sequence release, page reuse without corrupting another mapping, unwritten-layer rejection after reuse, copy isolation, double-free rejection, and logical-gap rejection.
+- **Evidence boundary:** Verified bounded host page allocation, translation, release, and reuse primitives. The production CPU and native CUDA model sessions still use their existing contiguous caches. There is no paged attention kernel integration, scheduler admission, eviction, prefix-page sharing/reference counts, copy-on-write, GPU page pool, concurrency proof, or measured memory-efficiency result.
+- **Next acceptance gate:** Integrate the page table with an attention/session scheduler, add prefix sharing with reference counts and copy-on-write, define eviction/admission, and measure fragmentation and memory use under concurrent real-model sequences.
+- **Audit:** Real multi-sequence host page-table milestone, September 1, 2026; AER-003, AER-021, AER-112.
 
 ### AES-MEM-005 — Zero-allocation generation hot path
 

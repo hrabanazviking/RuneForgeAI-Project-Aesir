@@ -15,7 +15,7 @@ This is not a tutorial. This is not a welcoming message. This is an operational 
 Project Æsir is an experimental Mojo LLM inference engine. Its verified vertical
 slice loads one pinned GGUF v3 Llama F16 model, uses a contiguous request KV
 cache, tokenizes with a Mojo BPE tokenizer, and executes locally on a Linux CPU.
-GPU/NPU execution, PagedAttention, and Ollama-compatible HTTP inference are
+general GPU/NPU execution, paged-cache model integration, and Ollama-compatible HTTP inference are
 roadmap capabilities, not current behavior.
 
 The project runs entirely on local hardware. No cloud calls. No telemetry. No external runtime dependencies beyond Mojo's standard library and the system's GPU drivers.

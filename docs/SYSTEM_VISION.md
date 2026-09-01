@@ -46,6 +46,9 @@ evidence.
 > Its old completion/status words are not current evidence and do not override
 > `CAPABILITY_LEDGER.md`.
 
+### Current boundary — host paged K/V management (`AES-MEM-004`)
+* **Current PagedKVCache status ([`AES-MEM-004`](../CAPABILITY_LEDGER.md) `partial`)**: Multi-sequence logical page tables, bounded physical ownership, per-layer initialization, translation, exhaustion, release, and reuse are implemented and counted on the host. Model attention/scheduler integration, eviction, prefix sharing/reference counts, copy-on-write, GPU pages, and memory-efficiency evidence remain open.
+
 ### Current boundary — measured host quantization tuning is opt-in (AES-QNT-011)
 * **Current status ([`AES-QNT-011`](../CAPABILITY_LEDGER.md) `partial`)**: Exact inline block metadata and explicit external-metadata boundaries replace the old guessed table. An opt-in Linux host gateway measures fused packed GEMM against dequantize-then-F16 GEMM, requires numerical agreement, and keeps a bounded exact-device/format/shape winner cache. A checksummed versioned codec plus locked private-stage/fsync/rename/fsync storage supports transactional restart restore. It is not automatic model dispatch; automatic fingerprints, metadata-bearing candidates, physical CUDA candidates, representative statistical sampling, and performance evidence remain open.
 * **Current extreme-quantization boundary ([`AES-QNT-010`](../CAPABILITY_LEDGER.md) `partial`)**: IQ2_XXS, IQ1_S, and TQ1_0 now have canonical 66-byte, 50-byte, and 54-byte GGML host decoding/GEMM with independent raw-block oracle regressions. The legacy `TERNARY_155BIT` descriptor aliases TQ1_0. Real-model and CUDA evidence remain open.

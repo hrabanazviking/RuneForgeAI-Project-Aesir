@@ -1,3 +1,20 @@
+## 2026-09-01 — Replaced the PagedKVCache counter with a real page table
+
+Rebuilt `PagedKVCache` as a bounded multi-sequence host page manager. It now
+preallocates physical K/V pages from `MimirWell`, owns per-sequence logical page
+tables, physical owner/logical-index maps, and per-layer initialized lengths,
+and translates every append/read through the mapping. Sequential growth can
+overcommit a caller-sized physical pool; exhaustion fails before mutation.
+Tail release and whole-sequence release return pages for deterministic reuse,
+while double frees, gaps, stale owners, and reads from an unwritten recycled
+layer fail before dereference. Explicit copies deep-copy allocator metadata and
+K/V bytes into independently owned storage, avoiding contradictory allocators
+that alias one physical pool. The counted regression drives two sequences over
+three physical pages and covers cross-page/layer values, exhaustion, release,
+reuse, snapshot isolation, and failure invariants. Model attention integration,
+scheduling, eviction, prefix sharing/copy-on-write, GPU pages, and memory
+measurements remain open under `AES-MEM-004` `partial`.
+
 ## 2026-09-01 — Added measured host quantization autotuning
 
 Added `core/quantization_autotuner.mojo` with exact block metadata for every

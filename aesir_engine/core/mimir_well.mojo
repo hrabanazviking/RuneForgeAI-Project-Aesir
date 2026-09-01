@@ -883,6 +883,21 @@ struct KVCache(Copyable):
         self.k = RuneTensor[f16].checked(cache_rows, hidden_dim, k_ptr, False)
         self.v = RuneTensor[f16].checked(cache_rows, hidden_dim, v_ptr, False)
 
+    def __init__(
+        out self,
+        k: RuneTensor[f16],
+        v: RuneTensor[f16],
+        max_seq_len: Int,
+        hidden_dim: Int,
+        num_layers: Int,
+    ):
+        """Internal constructor for previously validated cache storage views."""
+        self.k = k.copy()
+        self.v = v.copy()
+        self.max_seq_len = max_seq_len
+        self.hidden_dim = hidden_dim
+        self.num_layers = num_layers
+
     def __copyinit__(out self, existing: Self):
         self.k = existing.k
         self.v = existing.v
@@ -946,33 +961,392 @@ struct KVCache(Copyable):
 
 struct PagedKVCache(Copyable):
     """
-    PagedKVCache: Dynamic Page-Table Key-Value Cache Pool.
-    Divides sequence memory into non-contiguous physical blocks (block_size=16)
-    and maps virtual token indices via a block table to eliminate KV fragmentation.
+    Preallocated host K/V page pool with per-sequence logical page tables.
+
+    Physical pages never move. Mapping, release, and reuse mutate only bounded
+    metadata built at construction; token reads and writes translate through the
+    owning sequence's logical-to-physical table.
     """
     var base_cache: KVCache
+    var max_seq_len: Int
+    var hidden_dim: Int
+    var num_layers: Int
     var block_size: Int
     var num_blocks: Int
     var free_blocks: Int
+    var max_sequences: Int
+    var max_blocks_per_sequence: Int
+    var page_table: List[Int]
+    var block_owner: List[Int]
+    var block_logical_index: List[Int]
+    var sequence_lengths: List[Int]
+    var layer_lengths: List[Int]
+    var owns_storage: Bool
 
-    def __init__(out self, max_seq_len: Int, hidden_dim: Int, mut well: MimirWell, num_layers: Int = 32, block_size: Int = 16) raises:
-        if block_size <= 0:
-            raise Error("PagedKVCache: block_size must be positive")
-        self.base_cache = KVCache(max_seq_len, hidden_dim, well, num_layers)
+    def __init__(
+        out self,
+        max_seq_len: Int,
+        hidden_dim: Int,
+        mut well: MimirWell,
+        num_layers: Int = 32,
+        block_size: Int = 16,
+        max_sequences: Int = 1,
+        physical_blocks: Int = 0,
+    ) raises:
+        if (
+            max_seq_len <= 0
+            or hidden_dim <= 0
+            or num_layers <= 0
+            or block_size <= 0
+            or max_sequences <= 0
+        ):
+            raise Error("PagedKVCache: dimensions must be positive")
+        if max_seq_len > 9223372036854775807 - (block_size - 1):
+            raise Error("PagedKVCache: logical block count overflow")
+        var logical_blocks = (max_seq_len + block_size - 1) // block_size
+        if logical_blocks <= 0:
+            raise Error("PagedKVCache: logical block count is invalid")
+        if max_sequences > 9223372036854775807 // logical_blocks:
+            raise Error("PagedKVCache: page-table size overflow")
+        var table_entries = max_sequences * logical_blocks
+        if max_sequences > 9223372036854775807 // num_layers:
+            raise Error("PagedKVCache: layer-state size overflow")
+        var layer_entries = max_sequences * num_layers
+        var actual_physical_blocks = physical_blocks
+        if actual_physical_blocks == 0:
+            actual_physical_blocks = table_entries
+        if actual_physical_blocks <= 0 or actual_physical_blocks > table_entries:
+            raise Error(
+                "PagedKVCache: physical_blocks must be 1..logical page capacity"
+            )
+        if actual_physical_blocks > 9223372036854775807 // block_size:
+            raise Error("PagedKVCache: physical token capacity overflow")
+        var physical_tokens = actual_physical_blocks * block_size
+        self.base_cache = KVCache(
+            physical_tokens, hidden_dim, well, num_layers
+        )
+        self.max_seq_len = max_seq_len
+        self.hidden_dim = hidden_dim
+        self.num_layers = num_layers
         self.block_size = block_size
-        self.num_blocks = max_seq_len // block_size
-        self.free_blocks = self.num_blocks
+        self.num_blocks = actual_physical_blocks
+        self.free_blocks = actual_physical_blocks
+        self.max_sequences = max_sequences
+        self.max_blocks_per_sequence = logical_blocks
+        self.page_table = List[Int]()
+        self.block_owner = List[Int]()
+        self.block_logical_index = List[Int]()
+        self.sequence_lengths = List[Int]()
+        self.layer_lengths = List[Int]()
+        for _ in range(table_entries):
+            self.page_table.append(-1)
+        for _ in range(actual_physical_blocks):
+            self.block_owner.append(-1)
+            self.block_logical_index.append(-1)
+        for _ in range(max_sequences):
+            self.sequence_lengths.append(0)
+        for _ in range(layer_entries):
+            self.layer_lengths.append(0)
+        self.owns_storage = False
 
-    def allocate_block(mut self) raises -> Int:
+    def __copyinit__(out self, existing: Self):
+        var elements = existing.base_cache.k.size
+        var k_allocation = alloc(Layout[Scalar[f16]](count=elements))
+        var v_allocation = alloc(Layout[Scalar[f16]](count=elements))
+        var k_pointer = k_allocation^.unsafe_leak()
+        var v_pointer = v_allocation^.unsafe_leak()
+        for index in range(elements):
+            k_pointer.unsafe_store(
+                index, existing.base_cache.k.data.unsafe_load(index)
+            )
+            v_pointer.unsafe_store(
+                index, existing.base_cache.v.data.unsafe_load(index)
+            )
+        self.base_cache = KVCache(
+            existing.base_cache.max_seq_len,
+            existing.base_cache.hidden_dim,
+            k_pointer,
+            v_pointer,
+            existing.base_cache.num_layers,
+        )
+        self.max_seq_len = existing.max_seq_len
+        self.hidden_dim = existing.hidden_dim
+        self.num_layers = existing.num_layers
+        self.block_size = existing.block_size
+        self.num_blocks = existing.num_blocks
+        self.free_blocks = existing.free_blocks
+        self.max_sequences = existing.max_sequences
+        self.max_blocks_per_sequence = existing.max_blocks_per_sequence
+        self.page_table = existing.page_table.copy()
+        self.block_owner = existing.block_owner.copy()
+        self.block_logical_index = existing.block_logical_index.copy()
+        self.sequence_lengths = existing.sequence_lengths.copy()
+        self.layer_lengths = existing.layer_lengths.copy()
+        self.owns_storage = True
+
+    def __init__(
+        out self,
+        existing: Self,
+        owned_k: Pointer[Scalar[f16], MutUntrackedOrigin],
+        owned_v: Pointer[Scalar[f16], MutUntrackedOrigin],
+    ):
+        """Builds an internal independent snapshot from already-copied storage."""
+        self.base_cache = KVCache(
+            RuneTensor[f16](
+                existing.base_cache.k.rows,
+                existing.base_cache.k.cols,
+                owned_k,
+                False,
+            ),
+            RuneTensor[f16](
+                existing.base_cache.v.rows,
+                existing.base_cache.v.cols,
+                owned_v,
+                False,
+            ),
+            existing.base_cache.max_seq_len,
+            existing.base_cache.hidden_dim,
+            existing.base_cache.num_layers,
+        )
+        self.max_seq_len = existing.max_seq_len
+        self.hidden_dim = existing.hidden_dim
+        self.num_layers = existing.num_layers
+        self.block_size = existing.block_size
+        self.num_blocks = existing.num_blocks
+        self.free_blocks = existing.free_blocks
+        self.max_sequences = existing.max_sequences
+        self.max_blocks_per_sequence = existing.max_blocks_per_sequence
+        self.page_table = existing.page_table.copy()
+        self.block_owner = existing.block_owner.copy()
+        self.block_logical_index = existing.block_logical_index.copy()
+        self.sequence_lengths = existing.sequence_lengths.copy()
+        self.layer_lengths = existing.layer_lengths.copy()
+        self.owns_storage = True
+
+    def copy(self) -> Self:
+        """Returns an independent metadata and K/V-storage snapshot."""
+        var elements = self.base_cache.k.size
+        var k_allocation = alloc(Layout[Scalar[f16]](count=elements))
+        var v_allocation = alloc(Layout[Scalar[f16]](count=elements))
+        var k_pointer = k_allocation^.unsafe_leak()
+        var v_pointer = v_allocation^.unsafe_leak()
+        for index in range(elements):
+            k_pointer.unsafe_store(
+                index, self.base_cache.k.data.unsafe_load(index)
+            )
+            v_pointer.unsafe_store(
+                index, self.base_cache.v.data.unsafe_load(index)
+            )
+        return Self(self, k_pointer, v_pointer)
+
+    def __deinit__(deinit self):
+        if self.owns_storage:
+            self.base_cache.k.data.unsafe_free()
+            self.base_cache.v.data.unsafe_free()
+
+    @always_inline
+    def _validate_sequence(self, sequence_id: Int) raises:
+        if sequence_id < 0 or sequence_id >= self.max_sequences:
+            raise Error("PagedKVCache: sequence_id out of bounds")
+
+    @always_inline
+    def _validate_logical_block(self, logical_block: Int) raises:
+        if logical_block < 0 or logical_block >= self.max_blocks_per_sequence:
+            raise Error("PagedKVCache: logical block out of bounds")
+
+    @always_inline
+    def _page_index(self, sequence_id: Int, logical_block: Int) -> Int:
+        return (
+            sequence_id * self.max_blocks_per_sequence + logical_block
+        )
+
+    @always_inline
+    def _layer_index(self, sequence_id: Int, layer_idx: Int) -> Int:
+        return sequence_id * self.num_layers + layer_idx
+
+    def mapped_block(self, sequence_id: Int, logical_block: Int) raises -> Int:
+        self._validate_sequence(sequence_id)
+        self._validate_logical_block(logical_block)
+        return self.page_table[self._page_index(sequence_id, logical_block)]
+
+    def allocate_block(
+        mut self, sequence_id: Int, logical_block: Int
+    ) raises -> Int:
+        self._validate_sequence(sequence_id)
+        self._validate_logical_block(logical_block)
+        var page_index = self._page_index(sequence_id, logical_block)
+        if self.page_table[page_index] >= 0:
+            raise Error("PagedKVCache: logical block is already mapped")
+        if logical_block > 0:
+            var previous = self.page_table[
+                self._page_index(sequence_id, logical_block - 1)
+            ]
+            if previous < 0:
+                raise Error("PagedKVCache: logical pages must be mapped in order")
         if self.free_blocks <= 0:
             raise Error("PagedKVCache: out of physical blocks")
+        var physical_block = -1
+        for candidate in range(self.num_blocks):
+            if self.block_owner[candidate] < 0:
+                physical_block = candidate
+                break
+        if physical_block < 0:
+            raise Error("PagedKVCache: free-block accounting invariant failed")
+        self.page_table[page_index] = physical_block
+        self.block_owner[physical_block] = sequence_id
+        self.block_logical_index[physical_block] = logical_block
         self.free_blocks -= 1
-        return self.num_blocks - self.free_blocks - 1
+        return physical_block
+
+    def allocate_block(mut self) raises -> Int:
+        for logical_block in range(self.max_blocks_per_sequence):
+            if self.page_table[self._page_index(0, logical_block)] < 0:
+                return self.allocate_block(0, logical_block)
+        raise Error("PagedKVCache: sequence 0 has no unmapped logical blocks")
+
+    def _free_mapping(
+        mut self,
+        sequence_id: Int,
+        logical_block: Int,
+        require_tail: Bool,
+    ) raises:
+        var page_index = self._page_index(sequence_id, logical_block)
+        var physical_block = self.page_table[page_index]
+        if physical_block < 0:
+            raise Error("PagedKVCache: logical block is not mapped")
+        if require_tail:
+            for later in range(
+                logical_block + 1, self.max_blocks_per_sequence
+            ):
+                if self.page_table[self._page_index(sequence_id, later)] >= 0:
+                    raise Error("PagedKVCache: only the mapped tail can be freed")
+        if (
+            physical_block >= self.num_blocks
+            or self.block_owner[physical_block] != sequence_id
+            or self.block_logical_index[physical_block] != logical_block
+        ):
+            raise Error("PagedKVCache: page ownership invariant failed")
+        self.page_table[page_index] = -1
+        self.block_owner[physical_block] = -1
+        self.block_logical_index[physical_block] = -1
+        self.free_blocks += 1
+        var new_length = logical_block * self.block_size
+        if self.sequence_lengths[sequence_id] > new_length:
+            self.sequence_lengths[sequence_id] = new_length
+        for layer_idx in range(self.num_layers):
+            var layer_index = self._layer_index(sequence_id, layer_idx)
+            if self.layer_lengths[layer_index] > new_length:
+                self.layer_lengths[layer_index] = new_length
+
+    def free_sequence_block(
+        mut self, sequence_id: Int, logical_block: Int
+    ) raises:
+        self._validate_sequence(sequence_id)
+        self._validate_logical_block(logical_block)
+        self._free_mapping(sequence_id, logical_block, True)
 
     def free_block(mut self, block_idx: Int) raises:
         if block_idx < 0 or block_idx >= self.num_blocks:
             raise Error("PagedKVCache: block_idx out of bounds")
-        self.free_blocks += 1
+        var owner = self.block_owner[block_idx]
+        var logical_block = self.block_logical_index[block_idx]
+        if owner < 0 or logical_block < 0:
+            raise Error("PagedKVCache: physical block is already free")
+        self._free_mapping(owner, logical_block, True)
+
+    def release_sequence(mut self, sequence_id: Int) raises:
+        self._validate_sequence(sequence_id)
+        for logical_block in range(self.max_blocks_per_sequence - 1, -1, -1):
+            if self.page_table[
+                self._page_index(sequence_id, logical_block)
+            ] >= 0:
+                self._free_mapping(sequence_id, logical_block, False)
+        self.sequence_lengths[sequence_id] = 0
+        for layer_idx in range(self.num_layers):
+            self.layer_lengths[self._layer_index(sequence_id, layer_idx)] = 0
+
+    def sequence_length(self, sequence_id: Int) raises -> Int:
+        self._validate_sequence(sequence_id)
+        return self.sequence_lengths[sequence_id]
+
+    def append(
+        mut self,
+        sequence_id: Int,
+        layer_idx: Int,
+        pos: Int,
+        key: RuneTensor[f16],
+        val: RuneTensor[f16],
+    ) raises:
+        self._validate_sequence(sequence_id)
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("PagedKVCache.append: layer_idx out of bounds")
+        if pos < 0 or pos >= self.max_seq_len:
+            raise Error("PagedKVCache.append: pos out of bounds")
+        var layer_index = self._layer_index(sequence_id, layer_idx)
+        if pos > self.layer_lengths[layer_index]:
+            raise Error("PagedKVCache.append: layer positions must be contiguous")
+        if (
+            key.size < self.hidden_dim
+            or val.size < self.hidden_dim
+            or Int(key.data) <= 1
+            or Int(val.data) <= 1
+        ):
+            raise Error("PagedKVCache.append: key/value storage is invalid")
+        var logical_block = pos // self.block_size
+        var page_index = self._page_index(sequence_id, logical_block)
+        var physical_block = self.page_table[page_index]
+        if physical_block < 0:
+            physical_block = self.allocate_block(sequence_id, logical_block)
+        var physical_pos = physical_block * self.block_size + pos % self.block_size
+        self.base_cache.append(layer_idx, physical_pos, key, val)
+        if pos == self.layer_lengths[layer_index]:
+            self.layer_lengths[layer_index] += 1
+        if pos == self.sequence_lengths[sequence_id]:
+            self.sequence_lengths[sequence_id] += 1
+
+    def get_k(
+        self, sequence_id: Int, layer_idx: Int, pos: Int, column: Int
+    ) raises -> Scalar[f16]:
+        self._validate_sequence(sequence_id)
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("PagedKVCache.get_k: layer_idx out of bounds")
+        if pos < 0 or pos >= self.layer_lengths[
+            self._layer_index(sequence_id, layer_idx)
+        ]:
+            raise Error("PagedKVCache.get_k: pos out of bounds")
+        if column < 0 or column >= self.hidden_dim:
+            raise Error("PagedKVCache.get_k: column out of bounds")
+        var logical_block = pos // self.block_size
+        var physical_block = self.page_table[
+            self._page_index(sequence_id, logical_block)
+        ]
+        if physical_block < 0:
+            raise Error("PagedKVCache.get_k: logical page is not mapped")
+        var physical_pos = physical_block * self.block_size + pos % self.block_size
+        var row = layer_idx * self.base_cache.max_seq_len + physical_pos
+        return self.base_cache.k.get_checked(row, column)
+
+    def get_v(
+        self, sequence_id: Int, layer_idx: Int, pos: Int, column: Int
+    ) raises -> Scalar[f16]:
+        self._validate_sequence(sequence_id)
+        if layer_idx < 0 or layer_idx >= self.num_layers:
+            raise Error("PagedKVCache.get_v: layer_idx out of bounds")
+        if pos < 0 or pos >= self.layer_lengths[
+            self._layer_index(sequence_id, layer_idx)
+        ]:
+            raise Error("PagedKVCache.get_v: pos out of bounds")
+        if column < 0 or column >= self.hidden_dim:
+            raise Error("PagedKVCache.get_v: column out of bounds")
+        var logical_block = pos // self.block_size
+        var physical_block = self.page_table[
+            self._page_index(sequence_id, logical_block)
+        ]
+        if physical_block < 0:
+            raise Error("PagedKVCache.get_v: logical page is not mapped")
+        var physical_pos = physical_block * self.block_size + pos % self.block_size
+        var row = layer_idx * self.base_cache.max_seq_len + physical_pos
+        return self.base_cache.v.get_checked(row, column)
 
 
 

@@ -96,7 +96,12 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **Repository Structure & Asset Cleanup:** Consolidated 20+ root image files into `docs/assets/images/`, moved `TASK_*.md` documentation files into `docs/tasks/`, and updated all markdown image links.
 - [x] **Quantized GGUF Inference Vertical Slice (Q4_K_M):** Connect `dequantize_q4_k_m()` kernel to `GGUFSeer` loader and `forward_pass()` model execution pipeline with real quantized GGUF model fixture tests.
 - [x] **Live OpenAI REST API Inference Connection (`AES-SRV-006`):** Connect bare-metal POSIX socket `/v1/chat/completions` REST endpoint directly to the local GGUF engine runner for streaming inference.
-- [x] **PagedAttention KV Cache Pool:** Replace contiguous KV memory allocation with page-table dynamic allocation, eviction, and prompt sharing across parallel requests.
+- [x] **[partial, AES-MEM-004] Paged KV Cache Pool:** Add real multi-sequence
+  logical page tables, bounded physical ownership, translated K/V access,
+  exhaustion, release/reuse, and per-layer initialization guards.
+- [ ] Connect paged K/V storage to model attention and scheduling; add eviction,
+  prefix sharing/reference counts, copy-on-write, GPU pages, and measured
+  fragmentation/memory efficiency (`AES-MEM-004`).
 - [x] **Security Fuzzing & Resource Limits:** Add GGUF parser fuzzing harness, enforce system-level generation token limits, and document threat model (`AES-OPS-003`).
 
 ### Remaining Audit & Hardening Remedies (Backlog)
@@ -215,6 +220,12 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   capacity during construction.
 - [x] Validate `KVCache.append()` layer, position, key width, and value width.
 - [x] Validate `get_k_slice()`/`get_v_slice()` layer and requested sequence span.
+- [x] **[partial, AES-MEM-004]** Replace the PagedKVCache counter with real
+  multi-sequence page tables, physical ownership, translated access,
+  per-layer initialization bounds, exhaustion, release, and reuse.
+- [ ] Integrate the paged pool with attention/session scheduling and add
+  eviction, shared-prefix reference counts/copy-on-write, GPU pages, and
+  memory-efficiency measurements (`AES-MEM-004`).
 - [x] Remove misleading ring-buffer behavior and wording: fixed-capacity
   appends now reject overflow without mutation; chronological wraparound remains
   explicitly unimplemented.

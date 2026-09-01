@@ -466,6 +466,10 @@ implementation milestones were pushed separately and passed GitHub CI.
 
 ## Entry 114: Phase 1 — Honest PagedKVCache Boundary
 
+> **Superseded on September 1, 2026:** the fail-closed boundary below was later
+> replaced by a real multi-sequence host page table. See `docs/DEVLOG.md` and
+> `AES-MEM-004` in the capability ledger for the current partial boundary.
+
 **Date:** August 29, 2026
 **Architectural Phase:** Memory capability truth and fail-closed execution
 

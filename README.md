@@ -104,10 +104,10 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
 
 ---
 
-### 3. Contiguous Request KV Caching
+### 3. Contiguous Runtime and Paged Host KV Caching
 
  * **The Concept:** When generating responses autoregressively, previous Key-Value attention states are stored in a `KVCache` ([`AES-MEM-003`](CAPABILITY_LEDGER.md)). A.E.S.I.R. pre-allocates a contiguous pool inside `MimirWell` to eliminate per-token heap allocations during single-sequence decoding.
- * **Current Scope vs Target Vision:** A.E.S.I.R. currently uses a verified contiguous pre-allocated KV buffer for single-request autoregressive generation. Dynamic page allocation (PagedAttention page tables) is preserved in the roadmap vision under [`docs/historical/2026-08-16/`](docs/historical/2026-08-16/).
+ * **Current Scope vs Target Vision:** Production CPU and native CUDA model sessions currently use pre-allocated contiguous KV buffers. A separate host `PagedKVCache` now provides checked multi-sequence logical page tables over a bounded physical page pool, including exhaustion, release, reuse, and per-layer initialization guards ([`AES-MEM-004`](CAPABILITY_LEDGER.md)). It is not yet connected to model attention, scheduling, GPU pages, eviction, or shared-prefix copy-on-write.
 
 ---
 

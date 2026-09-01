@@ -12,11 +12,91 @@ def test_kv_cache() raises:
     test_kv_cache_ring_buffer()
 
     var paged_well = MimirWell(1024 * 1024)
-    var paged_cache = PagedKVCache(64, 16, paged_well, 1, 16)
-    var blk0 = paged_cache.allocate_block()
-    if blk0 < 0:
-        raise Error("PagedKVCache block allocation failed")
-    paged_cache.free_block(blk0)
+    # Two logical sequences share three physical 2-token pages. Sequence 0
+    # temporarily owns two pages and sequence 1 owns one, proving exhaustion;
+    # releasing sequence 0 then lets sequence 1 reuse a physical page.
+    var paged_cache = PagedKVCache(8, 4, paged_well, 2, 2, 2, 3)
+    var paged_k = RuneTensor[f16](1, 4, paged_well.allocate(4), False)
+    var paged_v = RuneTensor[f16](1, 4, paged_well.allocate(4), False)
+    for pos in range(3):
+        for column in range(4):
+            paged_k.data.unsafe_store(
+                column, Float16(10 * pos + column + 1)
+            )
+            paged_v.data.unsafe_store(
+                column, Float16(100 + 10 * pos + column + 1)
+            )
+        paged_cache.append(0, 0, pos, paged_k, paged_v)
+        # Every layer maps the same logical token through the same page table.
+        paged_cache.append(0, 1, pos, paged_k, paged_v)
+    if paged_cache.sequence_length(0) != 3 or paged_cache.free_blocks != 1:
+        raise Error("PagedKVCache sequence-0 page growth mismatch")
+    if (
+        paged_cache.get_k(0, 0, 2, 3) != Float16(24.0)
+        or paged_cache.get_v(0, 1, 2, 3) != Float16(124.0)
+    ):
+        raise Error("PagedKVCache cross-page or layer mapping corrupted values")
+
+    for pos in range(2):
+        for column in range(4):
+            paged_k.data.unsafe_store(
+                column, Float16(200 + 10 * pos + column)
+            )
+            paged_v.data.unsafe_store(
+                column, Float16(300 + 10 * pos + column)
+            )
+        paged_cache.append(1, 0, pos, paged_k, paged_v)
+    if paged_cache.free_blocks != 0:
+        raise Error("PagedKVCache physical-page accounting mismatch")
+    var exhausted_pages = False
+    try:
+        paged_cache.append(1, 0, 2, paged_k, paged_v)
+    except error:
+        exhausted_pages = "out of physical blocks" in String(error)
+    if not exhausted_pages or paged_cache.sequence_length(1) != 2:
+        raise Error("PagedKVCache exhaustion was not mutation-free")
+
+    var released_physical = paged_cache.mapped_block(0, 1)
+    paged_cache.release_sequence(0)
+    if paged_cache.sequence_length(0) != 0 or paged_cache.free_blocks != 2:
+        raise Error("PagedKVCache sequence release did not return its pages")
+    paged_cache.append(1, 0, 2, paged_k, paged_v)
+    if paged_cache.free_blocks != 1:
+        raise Error("PagedKVCache did not reuse a released physical page")
+    if paged_cache.get_k(1, 0, 0, 0) != Float16(200.0):
+        raise Error("PagedKVCache page reuse corrupted another logical page")
+    var stale_layer_rejected = False
+    try:
+        _ = paged_cache.get_k(1, 1, 2, 0)
+    except error:
+        stale_layer_rejected = "pos out of bounds" in String(error)
+    if not stale_layer_rejected:
+        raise Error("PagedKVCache exposed an unwritten recycled layer value")
+    var paged_snapshot = paged_cache.copy()
+    for column in range(4):
+        paged_k.data.unsafe_store(column, Float16(900 + column))
+        paged_v.data.unsafe_store(column, Float16(950 + column))
+    paged_cache.append(1, 0, 0, paged_k, paged_v)
+    if (
+        paged_cache.get_k(1, 0, 0, 0) != Float16(900.0)
+        or paged_snapshot.get_k(1, 0, 0, 0) != Float16(200.0)
+    ):
+        raise Error("PagedKVCache copy did not own an independent snapshot")
+    var double_free_rejected = False
+    try:
+        paged_cache.free_block(released_physical)
+    except error:
+        double_free_rejected = "already free" in String(error)
+    if not double_free_rejected:
+        raise Error("PagedKVCache accepted a double free")
+    var gap_rejected = False
+    try:
+        paged_cache.append(0, 0, 2, paged_k, paged_v)
+    except error:
+        gap_rejected = "contiguous" in String(error)
+    if not gap_rejected or paged_cache.sequence_length(0) != 0:
+        raise Error("PagedKVCache accepted a logical-position gap")
+    print("PagedKVCache multi-sequence allocation, exhaustion, and reuse: PASS")
 
     # 1. Instantiation test
     var well = MimirWell(1024 * 1024 * 2) # 2 MB well
