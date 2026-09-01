@@ -1,3 +1,11 @@
+## 2026-09-01 — Corrected canonical Q8_1 metadata width
+
+Replaced the 36-byte local Q8_1 struct, which incorrectly stored scale and sum as
+F16, with direct decoding of the upstream 40-byte layout containing two F32
+metadata values and 32 signed quant bytes. Q8_0/Q8_1 GEMM now require complete
+blocks and valid storage. Circular Q8/FP8 parity cases were replaced by raw-byte,
+hand-calculated known-value regressions.
+
 ## 2026-09-01 — Replaced padded K-quant structs with canonical byte decoding
 
 Removed the local Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K structs and their circular

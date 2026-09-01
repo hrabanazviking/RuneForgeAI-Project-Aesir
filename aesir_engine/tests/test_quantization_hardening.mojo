@@ -9,7 +9,7 @@ quantization routines.
 from std.memory import Pointer
 from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
 from core.compute import (
-    BlockQ4_0, BlockQ4_1, BlockQ5_0, BlockQ5_1, BlockQ8_0, BlockQ8_1,
+    BlockQ4_0, BlockQ4_1, BlockQ5_0, BlockQ5_1, BlockQ8_0,
     dequantize_q4_0, dequantize_q4_1, dequantize_q5_0, dequantize_q5_1,
     dequantize_q8_0, dequantize_q8_1, dequantize_fp8_e4m3, dequantize_fp8_e5m2,
     dequantize_ggml_k, dequantize_compressed_tensor,
@@ -29,7 +29,7 @@ def test_dequantizer_zero_and_null_bounds() raises:
     dequantize_q5_0(null_u8.unsafe_bitcast[BlockQ5_0](), null_out, 0)
     dequantize_q5_1(null_u8.unsafe_bitcast[BlockQ5_1](), null_out, 0)
     dequantize_q8_0(null_u8.unsafe_bitcast[BlockQ8_0](), null_out, 0)
-    dequantize_q8_1(null_u8.unsafe_bitcast[BlockQ8_1](), null_out, 0)
+    dequantize_q8_1(null_u8, null_out, 0)
     dequantize_fp8_e4m3(null_u8, null_out, 0)
     dequantize_fp8_e5m2(null_u8, null_out, 0)
 

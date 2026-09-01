@@ -451,7 +451,7 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
       11 · Q5_K_M           — 5-bit K-quantization medium format
       12 · Q6_K             — 6-bit K-quantization block format
       13 · Q8_0             — 8-bit block quantization (scale only)
-      14 · Q8_1             — 8-bit block quantization (scale + min)
+      14 · Q8_1             — 8-bit GGML block quantization (F32 scale + auxiliary sum)
       15 · GPTQ_4BIT        — GPTQ 4-bit weight-only quantization
       16 · GPTQ_8BIT        — GPTQ 8-bit weight-only quantization
       17 · AWQ_4BIT         — Activation-aware Weight Quantization (AWQ 4-bit)

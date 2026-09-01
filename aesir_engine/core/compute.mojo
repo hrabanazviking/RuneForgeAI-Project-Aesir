@@ -125,24 +125,6 @@ struct BlockQ8_0(Copyable, ImplicitlyCopyable):
         self.qs = existing.qs
 
 
-struct BlockQ8_1(Copyable, ImplicitlyCopyable):
-    var scale: Scalar[f16]
-    var sum: Scalar[f16]
-    var qs: SIMD[DType.int8, 32]
-
-    def __init__(
-        out self, scale: Scalar[f16], sum: Scalar[f16], qs: SIMD[DType.int8, 32]
-    ):
-        self.scale = scale
-        self.sum = sum
-        self.qs = qs
-
-    def __copyinit__(out self, existing: Self):
-        self.scale = existing.scale
-        self.sum = existing.sum
-        self.qs = existing.qs
-
-
 @always_inline
 def dequantize_ggml_k(
     data: Pointer[UInt8, MutUntrackedOrigin],
@@ -286,19 +268,20 @@ def dequantize_q8_0(
 
 @always_inline
 def dequantize_q8_1(
-    block_ptr: Pointer[BlockQ8_1, MutUntrackedOrigin],
+    data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_blocks: Int,
 ):
+    """Decode canonical 40-byte GGML Q8_1 blocks; the stored sum is auxiliary."""
     if num_blocks <= 0:
         return
     for b in range(num_blocks):
-        var blk = block_ptr.unsafe_offset(b)[]
-        var scale = blk.scale
-        var qs = blk.qs
+        var p = b * 40
+        var scale = data.unsafe_offset(p).unsafe_bitcast[Float32]().unsafe_load()
         var out_offset = b * 32
         for i in range(32):
-            out_ptr.unsafe_store(out_offset + i, Scalar[f16](qs[i]) * scale)
+            var q = data.unsafe_load(p + 8 + i).cast[DType.int8]()
+            out_ptr.unsafe_store(out_offset + i, (Float32(q) * scale).cast[f16]())
 
 
 @always_inline
@@ -494,8 +477,7 @@ def dequantize_compressed_tensor(
         dequantize_q8_0(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q8_1:
         var blocks = quantized_block_count(num_elements, 32, "Q8_1")
-        var block_ptr = data.unsafe_bitcast[BlockQ8_1]()
-        dequantize_q8_1(block_ptr, out_ptr, blocks)
+        dequantize_q8_1(data, out_ptr, blocks)
     elif format.value == CompressedFormatType.FP8_E4M3:
         dequantize_fp8_e4m3(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.FP8_E5M2:
@@ -729,71 +711,49 @@ def gemm_q5_1(
 def gemm_q8_0(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_q8_0: matrix dimensions must be positive")
-    var is_transposed = (B.rows == C.cols)
-    if is_transposed:
-        if A.cols != B.cols or C.rows != A.rows or C.cols != B.rows:
-            raise Error("gemm_q8_0: shape mismatch (transposed): A=" + String(A.rows) + "x" + String(A.cols) + " B=" + String(B.rows) + "x" + String(B.cols) + " C=" + String(C.rows) + "x" + String(C.cols))
-    else:
-        if A.cols != B.rows or C.rows != A.rows or C.cols != B.cols:
-            raise Error("gemm_q8_0: shape mismatch (non-transposed): A=" + String(A.rows) + "x" + String(A.cols) + " B=" + String(B.rows) + "x" + String(B.cols) + " C=" + String(C.rows) + "x" + String(C.cols))
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = C.cols
-    var blocks_per_row = shared_dim // 32
-    var src_bytes = B.data.unsafe_bitcast[Byte]()
-
-    for row in range(rows):
-        var row_a_ptr = A.data.unsafe_offset(row * shared_dim)
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_byte_offset = (output_index * blocks_per_row) * 34
-            for b in range(blocks_per_row):
-                var blk_ptr = src_bytes.unsafe_offset(row_byte_offset + b * 34)
-                var scale = blk_ptr.unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
-                var col_idx = b * 32
-                var a_vec = row_a_ptr.unsafe_load[width=32](col_idx).cast[f32]()
-                for i in range(32):
-                    var q_byte = blk_ptr.unsafe_load(2 + i).cast[DType.int8]()
-                    var w_val = Scalar[f32](q_byte) * scale
-                    sum += a_vec[i] * w_val
-            C.set(row, output_index, sum.cast[f16]())
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols != A.cols or A.cols % 32 != 0:
+        raise Error("gemm_q8_0: invalid shape or incomplete quantization block")
+    if C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_q8_0: output matrix shape mismatch")
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_q8_0: invalid storage")
+    var weights = B.data.unsafe_bitcast[UInt8]()
+    var blocks_per_row = A.cols // 32
+    for row in range(A.rows):
+        for output in range(B.rows):
+            var total: Float32 = 0
+            var row_base = output * blocks_per_row * 34
+            for block in range(blocks_per_row):
+                var p = row_base + block * 34
+                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+                for lane in range(32):
+                    var q = weights.unsafe_load(p + 2 + lane).cast[DType.int8]()
+                    total += A.data.unsafe_load(row * A.cols + block * 32 + lane).cast[f32]() * Float32(q) * scale
+            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
 
 
 def gemm_q8_1(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_q8_1: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_q8_1: inner matrix dimension mismatch")
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols != A.cols or A.cols % 32 != 0:
+        raise Error("gemm_q8_1: invalid shape or incomplete quantization block")
     if C.rows != A.rows or C.cols != B.rows:
         raise Error("gemm_q8_1: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var blocks_per_row = shared_dim // 32
-    var block_base = B.data.unsafe_bitcast[BlockQ8_1]()
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_block_offset = output_index * blocks_per_row
-            for b in range(blocks_per_row):
-                var blk = block_base.unsafe_offset(row_block_offset + b)[]
-                var scale = blk.scale
-                var qs = blk.qs
-                var col_idx = b * 32
-                for i in range(32):
-                    var a_val = A.data.unsafe_load(
-                        row * shared_dim + col_idx + i
-                    ).cast[f32]()
-                    var w_val = (Scalar[f16](qs[i]) * scale).cast[f32]()
-                    sum += a_val * w_val
-            C.set(row, output_index, sum.cast[f16]())
+    if Int(A.data) <= 1 or Int(B.data) <= 1 or Int(C.data) <= 1:
+        raise Error("gemm_q8_1: invalid storage")
+    var weights = B.data.unsafe_bitcast[UInt8]()
+    var blocks_per_row = A.cols // 32
+    for row in range(A.rows):
+        for output in range(B.rows):
+            var total: Float32 = 0
+            var row_base = output * blocks_per_row * 40
+            for block in range(blocks_per_row):
+                var p = row_base + block * 40
+                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float32]().unsafe_load()
+                for lane in range(32):
+                    var q = weights.unsafe_load(p + 8 + lane).cast[DType.int8]()
+                    total += A.data.unsafe_load(row * A.cols + block * 32 + lane).cast[f32]() * Float32(q) * scale
+            C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
 
 
 def gemm_fp8_e4m3(

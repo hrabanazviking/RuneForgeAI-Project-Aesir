@@ -858,9 +858,9 @@ and circular self-parity transforms were removed.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** 8-bit and FP8 quantization support (Q8_0, Q8_1, FP8_E4M3, FP8_E5M2)
-- **Implementation evidence:** `BlockQ8_0` and `BlockQ8_1` block structs, `dequantize_q8_0`, `dequantize_q8_1`, `dequantize_fp8_e4m3`, `dequantize_fp8_e5m2` dequantizers, and `gemm_q8_0`, `gemm_q8_1`, `gemm_fp8_e4m3`, `gemm_fp8_e5m2` fused matrix-vector multiplication kernels in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q8_0_parity`, `quantization.fused_q8_1_parity`, `quantization.fused_fp8_e4m3_parity`, `quantization.fused_fp8_e5m2_parity` in `test_q8_fp8_quantization.mojo`.
-- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q8_0, Q8_1, FP8_E4M3, FP8_E5M2 GEMM and uncompressed `gemm_f16`.
+- **Implementation evidence:** Q8_0 GEMM reads canonical 34-byte GGML blocks and Q8_1 GEMM reads canonical 40-byte blocks with F32 scale and auxiliary sum metadata. `dequantize_q8_0`, `dequantize_q8_1`, `dequantize_fp8_e4m3`, `dequantize_fp8_e5m2`, and their fused entry points are implemented in `core/compute.mojo`.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q8_0_parity`, `quantization.fused_q8_1_parity`, `quantization.fused_fp8_e4m3_parity`, and `quantization.fused_fp8_e5m2_parity` use raw bytes with hand-calculated results.
+- **Evidence boundary:** Verified exact Q8 block sizes/metadata addressing, complete-block enforcement, and representative finite FP8 decoding. Stored-model Q8_1 and broad FP8 fixture compatibility are not independently established.
 - **Audit:** Stage 52.1 Mythic Engineering Pass.
 
 ### AES-QNT-006 — K-quantization 3-bit and 5-bit block quantization transformation kernels
