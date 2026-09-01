@@ -1,3 +1,17 @@
+## 2026-09-01 — Removed fabricated RAG embeddings
+
+Removed both DJB2-style text projections and the token-zero substitution from
+the RAG path. Query vectors now require real loaded token-embedding rows, exact
+dimensions, a non-empty token sequence and valid token IDs. The reusable mean
+pool primitive validates before allocating and has exact-value tests.
+
+Corpus batch ingestion now accepts a caller-computed embedding matrix and
+validates the entire shape, capacity and text batch before mutating the store.
+The facade raw-text ingestion method fails explicitly until an independent
+embedding pipeline and durable provenance-aware index exist. `AES-RAG-004` is
+partial because deterministic inline chunking and real matrix ingestion work;
+file parsing, UTF-8 boundary proof, persistence and lifecycle operations do not.
+
 ## 2026-09-01 — Removed synthetic experimental inference stand-ins
 
 CIA no longer labels a DJB2-style string checksum as semantic execution state.

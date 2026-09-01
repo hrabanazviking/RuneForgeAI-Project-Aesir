@@ -24,7 +24,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
 | Native recipe catalog | `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` use a bounded, restart-safe Mojo catalog. A built-binary harness verifies separate-process persistence and rollback; see the [model-store contract](MODEL_STORE.md). |
-| Automated checks | The counted suite reports 167 passed, 0 failed, and 1 explicit external-fixture skip (168 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
+| Automated checks | The counted suite reports 170 passed, 0 failed, and 1 explicit external-fixture skip (171 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and

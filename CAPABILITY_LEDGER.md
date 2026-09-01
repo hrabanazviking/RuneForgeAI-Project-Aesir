@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-8, August 31, 2026
+**Ledger version:** GPU-9, September 1, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 167 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 168, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 170 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 171, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -66,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 19 |
+| `partial` | 20 |
 | `scaffold` | 1 |
 | `simulated` | 1 |
-| `missing` | 19 |
+| `missing` | 18 |
 | **Total** | **109** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -752,20 +752,20 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** facade and embedding domains
 - **Claim sources:** RAG integration claims
-- **Implementation evidence:** `extract_query_embedding()` in `aesir.mojo` mean-pools loaded `token_embd.weight` rows and rejects missing weights, invalid dimensions, and empty token sequences.
-- **Executable evidence:** source inspection plus the external-fixture integration case recorded as skipped by `E-MASTER`.
+- **Implementation evidence:** `mean_pool_token_embeddings()` validates every caller token ID before allocation and mean-pools rows from a real caller-supplied token table. `extract_query_embedding()` requires the loaded `token_embd.weight`, exact hidden dimension, and a non-empty valid token sequence; it has no hash, constant, or token-zero substitution.
+- **Executable evidence:** `E-MASTER` case `rag.query_embedding` checks exact mean-pool values and pre-allocation rejection. The engine integration case remains explicitly skipped without a real fixture.
 - **Evidence boundary:** No fabricated fallback remains, but the real-model path is not exercised by the default suite and is not a dedicated embedding model.
 - **Next acceptance gate:** Run the pinned external fixture in CI and compare embeddings/retrieval against an independent oracle.
 - **Audit:** AER-086.
 
 ### AES-RAG-004 — Corpus ingestion, chunking, metadata, and persistence
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** RAG domain
 - **Claim sources:** Mímisbrunnr external knowledge-base claim
-- **Implementation evidence:** no document parser, chunker, metadata schema, embedding pipeline, or durable index.
-- **Executable evidence:** none.
-- **Evidence boundary:** An in-memory primitive does not constitute an external knowledge base.
+- **Implementation evidence:** `DocumentChunk` and `chunk_text()` provide deterministic overlapping inline chunks and byte offsets. `ingest_corpus_batch()` transactionally validates caller-supplied embedding matrix shape, store capacity, and non-empty text before copying rows into `MimirStore`; it performs no synthetic embedding generation.
+- **Executable evidence:** `E-MASTER` case `rag.corpus_ingestion` checks chunking, real matrix copying, shape rejection, and mutation-free failure.
+- **Evidence boundary:** There is no file/document parser, durable index, versioning, update/delete path, embedding service, or provenance-preserving citation store. The byte-window chunker does not yet prove arbitrary UTF-8 boundary safety.
 - **Next acceptance gate:** Reproducible ingestion pipeline, persistent store/index, metadata/citation contract, restart behavior, and external corpus tests.
 - **Audit:** AER-084 through AER-087.
 
@@ -774,8 +774,8 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** facade, RAG, and generation domains
 - **Claim sources:** TODO Mímisbrunnr and facade interface
-- **Implementation evidence:** `_prepare_prompt()` uses loaded token embeddings, local KNN results, dynamic token-budget checks against model context, and grounded-context prompt construction.
-- **Executable evidence:** local primitives pass in `E-MASTER`; the external-fixture engine integration is explicitly skipped.
+- **Implementation evidence:** `_prepare_prompt()` uses loaded token embeddings, local KNN results, a fixed 1024-byte context cap, and grounded-context prompt construction.
+- **Executable evidence:** `E-MASTER` case `rag.local_retrieval_prompt` covers the separate caller-embedded retrieval and citation-formatting primitives; the combined engine path is explicitly skipped without an external fixture.
 - **Evidence boundary:** Corpus ingestion/persistence, citation provenance, and default-suite real-model execution remain incomplete.
 - **Next acceptance gate:** Add a pinned corpus plus model fixture and prove retrieval, prompt budgeting, citations, generation, and restart behavior end to end.
 - **Audit:** AER-086, AER-087, AER-113.

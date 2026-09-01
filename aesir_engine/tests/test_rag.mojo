@@ -3,7 +3,12 @@
 
 from core.mimir_well import MimirWell, RuneTensor, MimirStore, f16, f32
 from core.compute import cosine_similarity
-from loader.corpus_ingestion import chunk_text, ingest_corpus_batch, DocumentChunk
+from loader.corpus_ingestion import (
+    chunk_text,
+    ingest_corpus_batch,
+    mean_pool_token_embeddings,
+    DocumentChunk,
+)
 
 def test_cosine_similarity() raises:
     print("--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---")
@@ -146,23 +151,34 @@ def test_mimir_store() raises:
 def test_query_embedding_extraction() raises:
     print("--- Testing Query Embedding Extraction (Mean-Pooled Token Vectors) ---")
     var well = MimirWell(1024 * 64)
-    var dim = 16
-    var q_ptr = well.allocate(dim)
-    var query_vector = RuneTensor[f16](1, dim, q_ptr, False)
-    
-    # Hash projection deterministic query test
-    var prompt = String("What is the nature of Mímisbrunnr?")
-    var seed_hash: Int = 5381
-    var p_bytes = prompt.as_bytes()
-    for b_idx in range(len(p_bytes)):
-        seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
-    for k in range(dim):
-        var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
-        query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
+    var table = RuneTensor[f16](4, 3, well.allocate(12), False)
+    for row in range(4):
+        for col in range(3):
+            table.set(row, col, Scalar[f16](Float32(row * 10 + col)))
 
-    var val0 = query_vector.data.unsafe_load(0).cast[f32]()
-    if val0 == 0.1:
-        raise Error("Query vector extraction returned old dummy constant 0.1")
+    var tokens = List[Int]()
+    tokens.append(1)
+    tokens.append(3)
+    var query_vector = mean_pool_token_embeddings(tokens, table, well)
+    if query_vector.rows != 1 or query_vector.cols != 3:
+        raise Error("mean_pool_token_embeddings returned the wrong shape")
+    for col in range(3):
+        var expected = Float32(20 + col)
+        var actual = query_vector.get(0, col).cast[f32]()
+        if actual != expected:
+            raise Error("mean_pool_token_embeddings returned an incorrect value")
+
+    var offset_before_rejection = well.offset
+    var invalid_tokens = List[Int]()
+    invalid_tokens.append(1)
+    invalid_tokens.append(4)
+    var rejected = False
+    try:
+        _ = mean_pool_token_embeddings(invalid_tokens, table, well)
+    except:
+        rejected = True
+    if not rejected or well.offset != offset_before_rejection:
+        raise Error("invalid token IDs must be rejected before allocation")
     print("Query Embedding Extraction: PASS")
 
 def test_corpus_ingestion() raises:
@@ -175,9 +191,23 @@ def test_corpus_ingestion() raises:
     var well = MimirWell(1024 * 64)
     var dim = 16
     var store = MimirStore(well, max_docs=10, dim=dim)
-    var count = ingest_corpus_batch(store, chunks, well, dim)
+    var embeddings = RuneTensor[f16](len(chunks), dim, well.allocate(len(chunks) * dim), False)
+    for row in range(len(chunks)):
+        for col in range(dim):
+            embeddings.set(row, col, Scalar[f16](Float32(row + col + 1)))
+    var count = ingest_corpus_batch(store, chunks, embeddings)
     if count != len(chunks) or store.count != count:
         raise Error("ingest_corpus_batch count mismatch")
+
+    var bad_embeddings = RuneTensor[f16](len(chunks), dim - 1, well.allocate(len(chunks) * (dim - 1)), False)
+    var count_before_rejection = store.count
+    var rejected = False
+    try:
+        _ = ingest_corpus_batch(store, chunks, bad_embeddings)
+    except:
+        rejected = True
+    if not rejected or store.count != count_before_rejection:
+        raise Error("shape mismatch must fail before mutating the corpus store")
     print("Corpus Ingestion & Text Chunking: PASS")
 
 def test_end_to_end_rag_grounding() raises:
@@ -189,7 +219,11 @@ def test_end_to_end_rag_grounding() raises:
     # Ingest document
     var text = String("Hávamál Stanza 141: I know that I hung on a windy tree nine whole nights.")
     var chunks = chunk_text(text, 50, 10)
-    _ = ingest_corpus_batch(store, chunks, well, dim)
+    var corpus_embeddings = RuneTensor[f16](len(chunks), dim, well.allocate(len(chunks) * dim), False)
+    for row in range(len(chunks)):
+        for col in range(dim):
+            corpus_embeddings.set(row, col, Scalar[f16](0.1 + Float32(row + col) / 100.0))
+    _ = ingest_corpus_batch(store, chunks, corpus_embeddings)
 
     # Search KNN
     var query_ptr = well.allocate(dim)

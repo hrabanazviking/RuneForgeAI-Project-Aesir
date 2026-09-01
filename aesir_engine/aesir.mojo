@@ -15,7 +15,7 @@ from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
 from server.api import BifrostGate
-from loader.corpus_ingestion import chunk_text, ingest_corpus_batch
+from loader.corpus_ingestion import mean_pool_token_embeddings
 from core.gemma4_cuda import Gemma4CUDASession
 from core.llama3_cuda import Llama3CUDASession
 from core.runtime_plan import NativeModelPlan, choose_native_cuda
@@ -308,58 +308,23 @@ struct AesirEngine:
         """
         if hidden_dim <= 0:
             raise Error("extract_query_embedding: hidden_dim must be positive")
-        var q_ptr = self.pool.allocate(hidden_dim)
-        var query_vector = RuneTensor[f16](1, hidden_dim, q_ptr, False)
-        
-        for i in range(hidden_dim):
-            query_vector.data.unsafe_store(i, 0.0)
-
+        if "token_embd.weight" not in self.parser.tensors:
+            raise Error("extract_query_embedding: loaded token embeddings are required")
+        var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
+        if hidden_dim != embd_tensor.cols:
+            raise Error("extract_query_embedding: hidden dimension does not match token embeddings")
         var tokens = self.tokenizer.encode(prompt, False)
-        var n_tokens = len(tokens)
-        if n_tokens == 0:
-            query_vector.data.unsafe_store(0, 1.0)
-            return query_vector^
-
-        if "token_embd.weight" in self.parser.tensors:
-            var embd_tensor = self.parser.tensors["token_embd.weight"].copy()
-            var vocab_size = embd_tensor.rows
-            var embd_dim = embd_tensor.cols
-            var active_dim = min(hidden_dim, embd_dim)
-            
-            for t_idx in range(n_tokens):
-                var tok_id = tokens[t_idx]
-                if tok_id < 0 or tok_id >= vocab_size:
-                    tok_id = 0
-                var row_offset = tok_id * embd_dim
-                for k in range(active_dim):
-                    var weight_val = embd_tensor.data.unsafe_load(row_offset + k)
-                    var curr_acc = query_vector.data.unsafe_load(k).cast[f32]()
-                    query_vector.data.unsafe_store(k, Scalar[f16](curr_acc + weight_val.cast[f32]()))
-            
-            var scale = Scalar[f32](1.0 / Float32(n_tokens))
-            for k in range(active_dim):
-                var val = query_vector.data.unsafe_load(k).cast[f32]() * scale
-                query_vector.data.unsafe_store(k, Scalar[f16](val))
-        else:
-            var seed_hash: Int = 5381
-            var p_bytes = prompt.as_bytes()
-            for b_idx in range(len(p_bytes)):
-                seed_hash = ((seed_hash << 5) + seed_hash) + Int(p_bytes[b_idx])
-            for k in range(hidden_dim):
-                var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
-                query_vector.data.unsafe_store(k, Scalar[f16](proj_val))
-
-        return query_vector^
+        return mean_pool_token_embeddings(tokens, embd_tensor, self.pool)
 
     def ingest_document(mut self, text: String) raises -> Int:
         """
-        Ingests raw document text into the engine's MimirStore knowledge base for RAG retrieval.
+        Reserved document-ingestion entry point.
+
+        The engine has no independently validated embedding model or durable
+        citation index yet, so it refuses to fabricate vectors from text.
         """
-        var chunks = chunk_text(text, 256, 32)
-        var hidden_dim = 128
-        if "token_embd.weight" in self.parser.tensors:
-            hidden_dim = self.parser.tensors["token_embd.weight"].cols
-        return ingest_corpus_batch(self.knowledge_base, chunks, self.pool, hidden_dim)
+        _ = text
+        raise Error("document ingestion requires caller-computed embeddings and is not implemented by AesirEngine")
 
     def save_checkpoint(mut self, file_path: String, token_pos: Int, prompt_count: Int) raises -> VaultCheckpoint:
         """

@@ -1,7 +1,9 @@
 # loader/corpus_ingestion.mojo
 # The Mímisbrunnr Ingestion Conduit: Deterministic Text Chunking & Corpus Metadata
 #
-# Breaks raw text documents into fixed-width overlapping chunks for vector embedding storage.
+# Breaks raw text documents into fixed-width overlapping chunks and accepts
+# caller-computed embeddings for vector storage. This module never invents
+# embeddings from document text.
 
 from core.mimir_well import MimirWell, MimirStore, RuneTensor, f16, f32
 
@@ -75,29 +77,59 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
 def ingest_corpus_batch(
     mut store: MimirStore,
     chunks: List[DocumentChunk],
-    mut well: MimirWell,
-    dim: Int,
+    embeddings: RuneTensor[f16],
 ) raises -> Int:
     """
-    Batch Corpus Ingestion Kernel.
-    Ingests text chunks into MimirStore with synthetic deterministic projections.
-    Returns the count of successfully ingested document chunks.
-    """
-    var count = 0
-    for i in range(len(chunks)):
-        var chunk = chunks[i]
-        var vec_ptr = well.allocate(dim)
-        var vec = RuneTensor[f16](1, dim, vec_ptr, False)
-        
-        # Deterministic projection from chunk text bytes
-        var seed_hash: Int = 5381
-        var c_bytes = chunk.text.as_bytes()
-        for b_idx in range(len(c_bytes)):
-            seed_hash = ((seed_hash << 5) + seed_hash) + Int(c_bytes[b_idx])
-        for k in range(dim):
-            var proj_val = Scalar[f32](((seed_hash + k * 31) % 1000) - 500) / 1000.0
-            vec.data.unsafe_store(k, Scalar[f16](proj_val))
+    Atomically validates and copies caller-computed document embeddings.
 
-        store.add_document(chunk.text, vec)
-        count += 1
+    Each matrix row corresponds to the chunk at the same list index. The
+    caller owns embedding generation; accepting the matrix here prevents a
+    hash or constant from being mislabeled as a semantic embedding.
+    """
+    var count = len(chunks)
+    if embeddings.rows != count or embeddings.cols != store.dim:
+        raise Error("ingest_corpus_batch: embedding matrix shape mismatch")
+    if store.count + count > store.max_docs:
+        raise Error("ingest_corpus_batch: store capacity exceeded")
+
+    for i in range(len(chunks)):
+        if chunks[i].text.byte_length() == 0:
+            raise Error("ingest_corpus_batch: chunk text must not be empty")
+
+    for i in range(count):
+        var row = RuneTensor[f16](
+            1,
+            store.dim,
+            embeddings.data.unsafe_offset(i * store.dim),
+            False,
+        )
+        store.add_document(chunks[i].text, row)
     return count
+
+
+def mean_pool_token_embeddings(
+    token_ids: List[Int],
+    token_embeddings: RuneTensor[f16],
+    mut well: MimirWell,
+) raises -> RuneTensor[f16]:
+    """Mean-pools validated rows from a real caller-supplied token table."""
+    if len(token_ids) == 0:
+        raise Error("mean_pool_token_embeddings: token sequence must not be empty")
+    if token_embeddings.rows <= 0 or token_embeddings.cols <= 0:
+        raise Error("mean_pool_token_embeddings: token embedding table is empty")
+    for i in range(len(token_ids)):
+        if token_ids[i] < 0 or token_ids[i] >= token_embeddings.rows:
+            raise Error("mean_pool_token_embeddings: token id is out of range")
+
+    var result_ptr = well.allocate(token_embeddings.cols)
+    var result = RuneTensor[f16](1, token_embeddings.cols, result_ptr, False)
+    for col in range(token_embeddings.cols):
+        var total = Scalar[f32](0.0)
+        for token_index in range(len(token_ids)):
+            total += token_embeddings.get(token_ids[token_index], col).cast[f32]()
+        result.set(
+            0,
+            col,
+            Scalar[f16](total / Scalar[f32](len(token_ids))),
+        )
+    return result^

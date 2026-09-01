@@ -37,6 +37,9 @@ from tests.test_memory_refinements import (
 from tests.test_rag import (
     test_cosine_similarity,
     test_mimir_store,
+    test_query_embedding_extraction,
+    test_corpus_ingestion,
+    test_end_to_end_rag_grounding,
     report_engine_integration_boundary,
 )
 from tests.test_sharding import (
@@ -314,6 +317,9 @@ def main() raises:
     print("  -----------------------------------------")
     run_case(ledger, "rag.cosine_similarity", test_cosine_similarity)
     run_case(ledger, "rag.in_memory_store", test_mimir_store)
+    run_case(ledger, "rag.query_embedding", test_query_embedding_extraction)
+    run_case(ledger, "rag.corpus_ingestion", test_corpus_ingestion)
+    run_case(ledger, "rag.local_retrieval_prompt", test_end_to_end_rag_grounding)
     report_engine_integration_boundary()
     record_skip(
         ledger,
@@ -749,4 +755,4 @@ def main() raises:
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
-    ledger.finish(168)
+    ledger.finish(171)
