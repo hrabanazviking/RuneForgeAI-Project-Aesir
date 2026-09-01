@@ -59,7 +59,6 @@ struct GGMLType:
             return CompressedFormatType(CompressedFormatType.Q5_K_M)
         elif ggml_type == 14:
             return CompressedFormatType(CompressedFormatType.Q6_K)
-            return CompressedFormatType(CompressedFormatType.Q8_1)
         elif ggml_type == 20:
             return CompressedFormatType(CompressedFormatType.GPTQ_4BIT)
         elif ggml_type == 21:

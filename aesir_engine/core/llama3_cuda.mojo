@@ -211,7 +211,7 @@ struct Llama3CUDASession(ControlledTextSession):
         self.decoder = RuneStreamDecoder()
         self.control.start()
         for i in range(len(tokens)):
-            var reason = String("")
+            var reason: String
             try:
                 reason = self.control.stop_reason()
             except:

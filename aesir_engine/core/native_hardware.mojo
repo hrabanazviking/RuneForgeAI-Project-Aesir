@@ -62,7 +62,7 @@ def observe_host_memory() raises -> HostMemory:
 
 
 def observe_cpu_name() raises -> String:
-    var text = String("")
+    var text: String
     with open("/proc/cpuinfo", "r") as source:
         text = source.read()
     for line in text.split("\n"):

@@ -382,7 +382,7 @@ struct RuneStreamDecoder:
 
         while index < n:
             var b = Int(self.pending_bytes[index])
-            var width = 1
+            var width: Int
             if b < 0x80:
                 width = 1
             elif b >= 0xC0 and b <= 0xDF:

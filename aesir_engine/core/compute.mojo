@@ -7,7 +7,8 @@
 
 from core.gemma4_kernels import packed_value
 from std.math import exp, max, sqrt, cos, sin, isinf, isnan
-from std.memory import Pointer, alloc
+from std.memory import Pointer
+from std.memory.alloc import alloc, Layout
 from std.algorithm import vectorize
 
 from .mimir_well import (
@@ -2477,7 +2478,7 @@ def flash_attention_gqa(
     var query_heads_per_kv = query_head_count // kv_head_count
     var scale = (1.0 / (Float64(head_dim) ** 0.5)).cast[f32]()
 
-    var acc = alloc[Scalar[f32]](head_dim)
+    var acc = alloc(Layout[Scalar[f32]](count=head_dim)).unsafe_leak()
     for query_head in range(query_head_count):
         var kv_head = query_head // query_heads_per_kv
         var query_base = query_head * head_dim
@@ -2517,7 +2518,7 @@ def flash_attention_gqa(
                 output_base + dimension,
                 (accumulated / running_sum).cast[f16](),
             )
-    acc.free()
+    acc.unsafe_free()
 
 
 def flash_attention_2(

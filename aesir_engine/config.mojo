@@ -160,9 +160,9 @@ def _valid_config_utf8(text: String) -> Bool:
         if first < 128:
             index += 1
             continue
-        var count = 0
-        var codepoint = 0
-        var minimum = 0
+        var count: Int
+        var codepoint: Int
+        var minimum: Int
         if first >= 194 and first <= 223:
             count = 1
             codepoint = first & 31

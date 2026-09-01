@@ -254,9 +254,9 @@ struct Gemma4CUDASession(ControlledTextSession):
         return result
 
     def begin_turn(mut self, prompt: String, system: String, max_tokens: Int) raises:
+        """Admit and prefill a turn without truncating existing conversation KV."""
         if self.reset_required:
             raise Error("Interrupted prefill requires an explicit conversation reset")
-        """Admit and prefill a turn without truncating existing conversation KV."""
         if not self.healthy or self.generating:
             raise Error("CUDA session is busy or unusable")
         if prompt.byte_length() == 0 or prompt.byte_length() > 65536:
@@ -281,7 +281,7 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.decoder = RuneStreamDecoder()
         self.control.start()
         for i in range(len(tokens)):
-            var reason = String("")
+            var reason: String
             try:
                 reason = self.control.stop_reason()
             except:

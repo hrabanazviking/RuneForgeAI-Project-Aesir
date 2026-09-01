@@ -14,9 +14,9 @@ def valid_utf8(text: String) -> Bool:
         if b < 128:
             i += 1
             continue
-        var count = 0
-        var cp = 0
-        var minimum = 0
+        var count: Int
+        var cp: Int
+        var minimum: Int
         if b >= 194 and b <= 223:
             count = 1
             cp = b & 31
@@ -176,12 +176,13 @@ struct FlatJSON:
                         raise Error("Duplicate JSON field")
                 self.take(58)
                 self.space()
-                var value = String("")
-                var kind = String("number")
+                var value: String
+                var kind: String
                 if self.peek() == 34:
                     kind = "string"
                     value = self.string()
                 else:
+                    kind = "number"
                     # Preserve strict JSON numeric syntax for later range checks.
                     var start = self.position
                     if self.peek() == 45:
