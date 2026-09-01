@@ -1,3 +1,15 @@
+## 2026-09-01 — Replaced crash-recovery theater with diagnostics
+
+The crash reporter now records bounded caller-supplied failures, classifies two
+documented categories, tracks a threshold and states that it performed no
+recovery. It no longer claims interception, restart, CPU fallback or AI-written
+hardening advice. Invalid records are rejected before counters change.
+
+The supervisor's former simulation no longer prints or publishes recovery
+success after toggling booleans. The legacy method rejects without mutation.
+`AES-RES-005` is now missing; `AES-RES-006` narrowly verifies the diagnostic
+recorder and formatter.
+
 ## 2026-09-01 — Made local event publication real
 
 `AesirEventBus` previously collected subscriber names but never delivered an

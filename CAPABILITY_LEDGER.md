@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 69 |
+| `verified` | 70 |
 | `partial` | 20 |
 | `scaffold` | 1 |
-| `simulated` | 1 |
-| `missing` | 18 |
-| **Total** | **109** |
+| `simulated` | 0 |
+| `missing` | 19 |
+| **Total** | **110** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -1134,13 +1134,25 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ### AES-RES-005 — Self-healing crash recovery & checkpoint validation
 
-- **Status:** `simulated`
+- **Status:** `missing`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO and facade ACTIVE banner
-- **Implementation evidence:** `SelfHealingSupervisor` in `core/supervisor.mojo` executing simulated crash recovery, enforcing valid checkpoint marker presence (`not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0 -> return False`).
-- **Executable evidence:** `E-MASTER` case `resilience.supervisor_simulation_marker` in `test_resilience.mojo`.
-- **Evidence boundary:** Checked supervisor checkpoint marker presence and restoration validation bounds.
+- **Implementation evidence:** `SelfHealingSupervisor.simulate_crash_and_recover()` now rejects without changing health, recovery counters, vault state or event records. `pulse_heartbeat()` writes a local event only and explicitly does not inspect runtime health.
+- **Executable evidence:** `E-MASTER` case `resilience.supervisor_recovery_unsupported` proves refusal and state non-mutation.
+- **Evidence boundary:** No panic interception, process restart, model/KV/session restoration, backend switch, socket continuity, or fault recovery exists.
+- **Next acceptance gate:** Define owned recoverable state and failure classes, implement an external lifecycle supervisor, then pass injected process/runtime failure and continuity tests.
 - **Audit:** AER-106, AER-111, AER-003.
+
+### AES-RES-006 — Caller-reported failure diagnostics
+
+- **Status:** `verified`
+- **Owner:** core diagnostics domain
+- **Claim sources:** smart-crash TODO and architecture descriptions
+- **Implementation evidence:** `SmartCrashReporter.record_failure()` validates bounded subsystem/message inputs before mutation, records consecutive caller reports and threshold state, applies a deterministic documented category rule, and emits a report that explicitly says no recovery action occurred. The legacy method name delegates to the same recorder and does not intercept crashes.
+- **Executable evidence:** `E-MASTER` case `paradigms.smart_crash_and_max` covers resource classification, threshold state, the no-recovery disclosure, invalid-input rejection and mutation-free failure.
+- **Evidence boundary:** This is an in-memory formatter and counter. It does not intercept faults, persist logs, inspect execution context, call AI, restart anything, or switch hardware.
+- **Next acceptance gate:** Integrate structured records with the real runtime owner and durable operator logging, with secret redaction and injected-failure evidence.
+- **Audit:** AER-111, AER-003.
 
 ## 17. Swarm and Distributed Execution
 
@@ -1290,7 +1302,7 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 | Quantization | AES-QNT-001 through AES-QNT-003 |
 | Hardware/multi-device | AES-ACC-001 through AES-ACC-009 |
 | External ecosystems | AES-ECO-001 through AES-ECO-008 |
-| Resilience/concurrency | AES-RES-001 through AES-RES-005 |
+| Resilience/concurrency | AES-RES-001 through AES-RES-006 |
 | Swarm/distributed | AES-SWM-001 through AES-SWM-005 |
 | Benchmarks/security/production | AES-OPS-001 through AES-OPS-006 |
 | Experimental inference paradigms | AES-SYS-001 |
@@ -1307,8 +1319,8 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 5. Keep vision language in vision documents, present implementation truth here,
    and link the two without converting aspiration into completion.
 6. Runtime output must describe actual events. Forge 0D converted operational
-   theater to explicit missing/unsupported boundaries; the two remaining
-   `simulated` entries are narrowly and visibly labeled local simulations.
+   theater to explicit missing/unsupported boundaries. No capability currently
+   relies on a `simulated` status as evidence.
 
 ## Native CUDA cancellation milestone — 2026-08-31
 

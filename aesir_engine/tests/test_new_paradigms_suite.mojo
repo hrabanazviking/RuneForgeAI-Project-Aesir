@@ -112,13 +112,22 @@ def test_thinking_and_tool_use() raises:
 
 def test_smart_crash_and_max() raises:
     var reporter = SmartCrashReporter()
-    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    _ = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    var r3 = reporter.handle_crash(String("CUDA out of memory error"), String("CUDAGate"))
-    if not reporter.failsafe_mode_active:
-        raise Error("test_smart_crash_and_max: Failsafe mode not activated after 3 crashes")
-    if "FAILSAFE MODE" not in r3:
-        raise Error("test_smart_crash_and_max: Crash report missing failsafe alert")
+    _ = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
+    _ = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
+    var r3 = reporter.record_failure(String("CUDA out of memory error"), String("CUDAGate"))
+    if not reporter.threshold_reached:
+        raise Error("test_smart_crash_and_max: failure threshold was not recorded")
+    if "Category: resource_exhaustion" not in r3 or "Recovery action: none performed" not in r3:
+        raise Error("test_smart_crash_and_max: bounded diagnostic report is incorrect")
+
+    var count_before_rejection = reporter.consecutive_failures
+    var rejected = False
+    try:
+        _ = reporter.record_failure("", "CUDAGate")
+    except:
+        rejected = True
+    if not rejected or reporter.consecutive_failures != count_before_rejection:
+        raise Error("test_smart_crash_and_max: invalid failure mutated reporter state")
 
     var max_gate = MAXGate()
     if not max_gate.is_available():

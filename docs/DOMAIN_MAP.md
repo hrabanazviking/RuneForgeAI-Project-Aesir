@@ -199,7 +199,7 @@ graph TB
 
 ## 🛡️ Sovereign Resilience & Self-Healing Matrix — Slice 12 Domain Layer & Boundary Confirmations
 
-The resilience domain contains pointer/logit guards, durable checkpoint records, a bounded synchronous local event journal with subscriber mailboxes, a task descriptor queue, and an explicitly simulated supervisor. It does not guarantee zero downtime, process recovery, concurrent delivery, or worker execution.
+The resilience domain contains pointer/logit guards, durable checkpoint records, a bounded synchronous local event journal with subscriber mailboxes, a task descriptor queue, and a fail-closed recovery boundary. It does not guarantee zero downtime, process recovery, concurrent delivery, or worker execution.
 
 ```mermaid
 graph TD

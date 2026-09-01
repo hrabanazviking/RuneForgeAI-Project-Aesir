@@ -213,7 +213,7 @@ from tests.test_resilience import (
     test_state_vault,
     test_event_bus,
     test_thread_pool,
-    test_supervisor_crash_recovery,
+    test_supervisor_recovery_boundary,
 )
 from tests.test_huggingface import (
     test_hf_repo_parsing,
@@ -631,8 +631,8 @@ def main() raises:
     )
     run_case(
         ledger,
-        "resilience.supervisor_simulation_marker",
-        test_supervisor_crash_recovery,
+        "resilience.supervisor_recovery_unsupported",
+        test_supervisor_recovery_boundary,
     )
     print("")
 

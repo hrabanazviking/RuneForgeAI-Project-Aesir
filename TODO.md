@@ -85,7 +85,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **Compute Improvements:** Read RuneForgeAI_Aesir_Compute_Optimization_Manifest.md and implement all suggested improvements.
 - [x] **NPU Gate Improvements:** Read RuneForgeAI_NPU_Gate_Optimization_Manifest.md and implement all suggested improvements.
 - [ ] **[missing, AES-SYS-001] New inference research:** Treat MQARI or any new method as research until it has a falsifiable method, real model integration, output-equivalence tests and physical speed evidence.
-- [x] **Smart Crashing:** Add smart crashing, that tries to intercept and stop the crash, that has veey easy to understand well written crash messages that contain a lot of data about what caused the crash and what the app was doing before the crash, has a crash reporter, that logs the crash and lots of technical info on what was happening, that tries to start the app back up, that switches to a failsafe mode if the attempt to restart the app causes a few crashes in a row. That quickly searches for and suggestes code changes to harden the program against that crash happening again using AI to come up with the suggestion.
+- [ ] **[verified, AES-RES-006] Expand caller-reported failure diagnostics into runtime crash handling:** Persist redacted structured records, capture owned runtime context, add a lifecycle supervisor, define safe restart/backend-switch policies, and prove them with injected failures. The current formatter does not intercept, restart, switch hardware, or call AI.
 - [x] **#1 PRIORITY PHASE 1 — NVIDIA CUDA GPU Acceleration (`AES-ACC-001`/`AES-ACC-004`):** Implemented native CUDA driver/runtime FFI bindings (`cuda_gate.mojo`), VRAM allocation, host-to-device transfers, and CUDA GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 2 — Apple Metal GPU Acceleration (`AES-ACC-002`/`AES-ACC-005`):** Implemented native Metal framework FFI bindings (`metal_gate.mojo`), zero-copy buffer allocation, and Metal GEMM kernel dispatch.
 - [x] **#1 PRIORITY PHASE 3 — Intel OneAPI / Level Zero GPU Acceleration (`AES-ACC-003`):** Implemented native Intel Level Zero FFI bindings (`intel_gate.mojo`), VRAM allocation, and Level Zero GEMM kernel dispatch.
@@ -153,9 +153,8 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] **[missing, AES-ECO-005] [missing, AES-ECO-006] Correct ExLlama/llama CLI output:**
   Remove fixed completion, server health, bitrate, cache, benchmark, and
   perplexity claims.
-- [x] **[simulated, AES-RES-005] Correct self-healing output:** Clearly label
-  boolean toggling as a simulation; do not report recovery of state that was
-  never lost.
+- [x] **[missing, AES-RES-005] Correct self-healing output:** Reject the legacy
+  recovery entry point without reporting recovery of state that was never lost.
 - [x] **[missing, AES-SWM-003] [missing, AES-SWM-004] [missing, AES-SWM-005] Correct swarm output:** Remove fixed
   peers, VRAM, health, join, dispatch, and remote execution success.
 - [x] **[missing, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
@@ -554,7 +553,7 @@ The legacy formatters below are not exposed compatibility APIs.
   acknowledgement/retry, and cross-thread failure semantics.
 - [ ] **[verified, AES-RES-004] Expand the bounded task descriptor queue into a real worker pool:** Threads, bounded
   queue, task completion/errors, synchronization, cancellation, and shutdown.
-- [ ] **[simulated, AES-RES-005] Define real recoverable failure boundaries and
+- [ ] **[missing, AES-RES-005] Define real recoverable failure boundaries and
   inject faults:** Prove model/KV/session/socket continuity or document explicit
   loss semantics.
 

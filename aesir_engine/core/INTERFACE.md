@@ -589,7 +589,7 @@ struct RuneThreadPool(Copyable):
 ```
 
 ### `SelfHealingSupervisor` (`core/supervisor.mojo`) (Slice 12)
-Simulated heartbeat/crash-recovery state for local tests. It catches no process
+Local heartbeat record and unavailable crash-recovery boundary. It catches no
 panic and performs no restart, automatic recovery, or failsafe switching.
 
 ```mojo

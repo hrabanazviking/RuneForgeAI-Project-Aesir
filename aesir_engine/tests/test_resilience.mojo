@@ -137,34 +137,29 @@ def test_thread_pool() raises:
         raise Error("RuneThreadPool scaffold invariant mismatch")
 
 
-def test_supervisor_crash_recovery() raises:
-    print("--- Testing explicit supervisor simulation marker ---")
+def test_supervisor_recovery_boundary() raises:
+    print("--- Testing Unsupported Supervisor Recovery Boundary ---")
     var success = True
     var supervisor = SelfHealingSupervisor()
     var _ = supervisor.vault.save_checkpoint(64, 8)
 
-    # Test uninitialized vault checkpoint recovery rejection
-    var uninit_supervisor = SelfHealingSupervisor()
-    if uninit_supervisor.simulate_crash_and_recover():
-        print("FAIL: SelfHealingSupervisor allowed crash recovery on uninitialized vault")
+    var event_count_before = supervisor.bus.event_count
+    var rejected = False
+    try:
+        _ = supervisor.simulate_crash_and_recover()
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        print("FAIL: supervisor reported runtime recovery")
         success = False
-
-    if not supervisor.simulate_crash_and_recover():
-        print("FAIL: supervisor simulation marker did not complete")
+    if not supervisor.is_healthy or supervisor.recovery_count != 0:
+        print("FAIL: rejected supervisor recovery mutated health state")
         success = False
-
-    if not supervisor.is_healthy:
-        print("FAIL: supervisor local state did not reset after simulation")
-        success = False
-
-    if supervisor.recovery_count != 1:
-        print("FAIL: Recovery count mismatch")
-        success = False
-    if supervisor.bus.get_last_event() != "RECOVERY_COMPLETE":
-        print("FAIL: supervisor simulation omitted completion marker")
+    if supervisor.bus.event_count != event_count_before:
+        print("FAIL: rejected supervisor recovery published false events")
         success = False
 
     if success:
-        print("supervisor crash recovery: PASS")
+        print("unsupported supervisor recovery boundary: PASS")
     else:
         raise Error("SelfHealingSupervisor recovery invariant mismatch")

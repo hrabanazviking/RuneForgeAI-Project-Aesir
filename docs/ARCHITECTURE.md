@@ -157,7 +157,7 @@ graph TD
   - `SkaldbrodirDetector`: Sub-millisecond runaway loop detection (`AES-DOOM-001`), token entropy monitor, soft/hard penalties, and `INF-016` annihilation exit.
   - `ThinkingController`: Thought token block parsing and hard logit suppression for reasoning tokens when disabled.
   - `ToolDefinition` / `ToolCall`: Structured tool prompt formatting & JSON call parsing.
-  - `SmartCrashReporter`: Crash interception, structured logging, auto-retry counters, failsafe hardware fallback, and AI code hardening suggestions.
+  - `SmartCrashReporter`: Validated in-memory caller-reported failure counter and deterministic diagnostic formatter (`AES-RES-006`). Reports state that no recovery action occurred; it does not intercept crashes, persist logs, switch hardware, restart a process, or call AI.
   - `MAXGate`: Modular MAX Framework execution graph gateway.
   - `EpisodicComputationMemory`: Reserved CIA surface; semantic state hashing/storage/lookup are unavailable and raise.
   - `WaveInferenceEngine`: Reserved WIC surface; no wave solver or inference transform is implemented.
@@ -201,13 +201,13 @@ graph TD
 - **Implementation:** Dispatches 12 standard Ollama commands (`serve`, `run`, `pull`, `push`, `create`, `list`/`ls`, `ps`, `rm`/`delete`, `cp`, `show`, `stop`, `help`). Features `remove_model_checked()` in `RuneModelStore` providing active model-in-use protection and non-existent model error guards (`AES-CLI-005`). The reserved `cli/llama_cpp_compat.mojo` surface rejects every subcommand and argument vector; no detached flag parser is presented as llama.cpp compatibility (`AES-ECO-006`).
 
 ### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
-- **Role:** Durable checkpoint records, local event/task descriptors, explicit supervisor simulation, and defensive pointer/logit helpers. Process recovery, subscriber delivery, and worker concurrency are unavailable.
+- **Role:** Durable checkpoint records, local event/task descriptors, an unavailable supervisor recovery boundary, and defensive pointer/logit helpers. Process recovery and worker concurrency are unavailable.
 - **Implementation:**
   - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
   - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
   - `AesirEventBus`: Bounded synchronous in-process event journal and masked subscriber mailboxes with ordered drain and unsubscribe (`AES-RES-003`). It owns no worker or cross-process transport.
   - `RuneThreadPool`: Bounded local `RuneTask` descriptor list with validated submission, pre-execution cancellation, and admission shutdown (`AES-RES-004`). Worker and batch execution methods reject without marking tasks complete.
-  - `SelfHealingSupervisor`: Heartbeat monitoring (`pulse_heartbeat`) and automatic panic recovery simulation (`simulate_crash_and_recover`).
+  - `SelfHealingSupervisor`: Records a local heartbeat event; its legacy recovery method rejects without mutation because no panic or runtime recovery owner exists.
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
 - **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.

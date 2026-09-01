@@ -48,18 +48,7 @@ struct SelfHealingSupervisor(Copyable):
         """
         ᛋᛁᛗᛢᛚᚨᛏᛖ·ᚲᛱᚨᛋᚺ — The Self-Healing Rite (simulate_crash_and_recover)
         ═══════════════════════════════════════════════════════════════════════
-        Exercises local state markers only. No process crash or runtime state
-        recovery occurs.
+        Legacy recovery entry point. No process/runtime recovery implementation
+        exists, so this method rejects without changing state.
         """
-        if not self.vault.is_checkpointed or self.vault.restore_checkpoint() <= 0:
-            return False
-        print("Self-Healing Supervisor: Executing recovery and restoring state vault checkpoint.")
-        self.is_healthy = False
-        self.bus.publish_event("INFERENCE_CRASH", "Runtime state recovery initiated")
-        
-        self.recovery_count += 1
-        var restored_pos = self.vault.restore_checkpoint()
-        _ = restored_pos
-        self.is_healthy = True
-        self.bus.publish_event("RECOVERY_COMPLETE", "State vault restored successfully")
-        return True
+        raise Error("process crash recovery and runtime restoration are not implemented")
