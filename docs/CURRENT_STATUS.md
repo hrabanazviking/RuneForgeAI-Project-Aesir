@@ -26,6 +26,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Native recipe catalog | `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` use a bounded, restart-safe Mojo catalog. A built-binary harness verifies separate-process persistence and rollback; see the [model-store contract](MODEL_STORE.md). |
 | Automated checks | The counted suite reports 170 passed, 0 failed, and 1 explicit external-fixture skip (171 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 | CPU K-quant decoding | Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K use canonical GGML packed-byte layouts with complete-block validation and raw known-value regressions. Independent real-row parity covers Q4_K and Q6_K; general full-model compatibility is not claimed. |
+| Metadata-bearing host quantization | AutoGPTQ 4/8-bit, AutoAWQ GEMM 4-bit, EXL2 mixed 2/3/4/5/6/8-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 have checked host dequantization/GEMM primitives over their real packing metadata. These are bounded primitives, not model-loader or CUDA integration claims. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
@@ -55,10 +56,11 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   benchmark, hardware CI runner, resumable/authenticated Hub transfer,
   content-addressed model-byte ingestion, or production-service readiness claim.
   The recipe catalog does not copy or measure the GGUF referenced by a Modelfile.
-- GPTQ 4-bit/8-bit, AWQ GEMM 4-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 now have checked format-compatible host dequantization/GEMM
-  primitive with explicit packed weights, zero points, scales, grouping, and
-  optional activation-order indices. Model-file loading, tensor attachment,
-  CUDA dispatch, and full-model execution remain unfinished. EXL2, other HQQ
+- GPTQ 4-bit/8-bit, AWQ GEMM 4-bit, EXL2 mixed-bit, static SmoothQuant W8A8,
+  and HQQ 4-bit axis=1 now have checked format-compatible host
+  dequantization/GEMM primitives with explicit packed weights, scales,
+  grouping, padding, and permutation metadata. Model-file loading, tensor
+  attachment, CUDA dispatch, and full-model execution remain unfinished. Other HQQ
   variants, dynamic SmoothQuant variants, IQ/extreme quantization, OpenAI, Ollama,
   llama.cpp, ONNX, RAG execution, Swarm, and NPU paths remain partial or fail
   closed as specified by the ledger.

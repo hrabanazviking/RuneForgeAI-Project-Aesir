@@ -6,6 +6,7 @@ from core.external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
+    EXL2Matrix,
     SmoothQuantW8A8Matrix,
     HQQ4BitAxis1Matrix,
     dequantize_gptq_4bit_matrix,
@@ -14,6 +15,9 @@ from core.external_quantization import (
     gemm_gptq_8bit_matrix,
     dequantize_awq_4bit_matrix,
     gemm_awq_4bit_matrix,
+    dequantize_exl2_matrix,
+    exl2_weight,
+    gemm_exl2_matrix,
     dequantize_smoothquant_weights,
     gemm_smoothquant_w8a8,
     quantize_smoothquant_int8,
@@ -226,8 +230,121 @@ def test_awq_4bit_known_value() raises:
     print("AWQ_4BIT canonical AutoAWQ GEMM layout and execution: PASS")
 
 
-def test_exl2_boundary() raises:
-    assert_external_format_rejected(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), "EXL2_VARBIT")
+def test_exl2_mixedbit_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var qweight = well.allocate(14 * 32 * 4).unsafe_bitcast[UInt32]()
+    var q_scale = well.allocate(6 * 4 * 4).unsafe_bitcast[UInt32]()
+    var q_scale_max = well.allocate(6 * 2).unsafe_bitcast[Float16]()
+    var q_groups = well.allocate(6 * 2 * 2).unsafe_bitcast[UInt16]()
+    var q_perm = well.allocate(108 * 4).unsafe_bitcast[Int32]()
+    var q_invperm = well.allocate(108 * 4).unsafe_bitcast[Int32]()
+    var expanded = well.allocate(108 * 2 * 2).unsafe_bitcast[Float16]()
+    var input = well.allocate(108 * 2).unsafe_bitcast[Float16]()
+    var output = well.allocate(2 * 2).unsafe_bitcast[Float16]()
+
+    # Each group uses deltas [-1, 0, 1] around its unsigned midpoint.
+    # These words were independently packed bit-contiguously by column using
+    # the upstream pack_columns definition, including 3/5/6-bit crossings.
+    var packed_rows = [
+        UInt32(0x79E79E79),
+        UInt32(0x1D8EC763),
+        UInt32(0xD8EC763B),
+        UInt32(0x8EC763B1),
+        UInt32(0x87987987),
+        UInt32(0xE307C60F),
+        UInt32(0xF8C1F183),
+        UInt32(0x3E307C60),
+        UInt32(0x0F8C1F18),
+        UInt32(0x83E307C6),
+        UInt32(0x607E181F),
+        UInt32(0x07E181F8),
+        UInt32(0x7E181F86),
+        UInt32(0x7F81807F),
+    ]
+    for packed_row in range(14):
+        for stored_output in range(32):
+            qweight.unsafe_store(
+                packed_row * 32 + stored_output, packed_rows[packed_row]
+            )
+    for i in range(6 * 4):
+        # Stored nibble 15 decodes to scale level 16.
+        q_scale.unsafe_store(i, UInt32(0xFFFFFFFF))
+    for group in range(6):
+        # Serialized max scale 1.0 gives 16^2 * 1 / 256 = 1.0.
+        q_scale_max.unsafe_store(group, Float16(1.0))
+    var group_metadata = [
+        UInt16(2), UInt16(0),
+        UInt16(3), UInt16(1),
+        UInt16(4), UInt16(4),
+        UInt16(5), UInt16(5),
+        UInt16(6), UInt16(10),
+        UInt16(8), UInt16(13),
+    ]
+    for i in range(12):
+        q_groups.unsafe_store(i, group_metadata[i])
+    for original_row in range(108):
+        q_perm.unsafe_store(original_row, Int32(107 - original_row))
+        q_invperm.unsafe_store(original_row, Int32(107 - original_row))
+
+    var matrix = EXL2Matrix(
+        qweight,
+        14 * 32,
+        14,
+        q_scale,
+        6 * 4,
+        q_scale_max,
+        6,
+        q_groups,
+        12,
+        q_perm,
+        108,
+        q_invperm,
+        108,
+        108,
+        2,
+        32,
+        6,
+    )
+    if exl2_weight(matrix, 0, 0) != Float32(-1.0):
+        raise Error("EXL2 q_invperm did not restore the original first row")
+    if exl2_weight(matrix, 1, 0) != Float32(1.0):
+        raise Error("EXL2 q_invperm did not restore the original second row")
+
+    dequantize_exl2_matrix(matrix, expanded, 108 * 2)
+    for output_index in range(2):
+        var total = Float32(0.0)
+        for input_index in range(108):
+            total += expanded.unsafe_load(
+                output_index * 108 + input_index
+            ).cast[DType.float32]()
+        if total != Float32(-6.0):
+            raise Error("EXL2 mixed-bit dequantization sum mismatch")
+    for i in range(108):
+        input.unsafe_store(i, Float16(1.0))
+    gemm_exl2_matrix(input, 108, 1, matrix, output, 2)
+    if output.unsafe_load(0) != Float16(-6.0) or output.unsafe_load(1) != Float16(-6.0):
+        raise Error("EXL2 mixed-bit GEMM mismatch")
+
+    # Metadata corruption must be rejected before caller output changes.
+    for i in range(108 * 2):
+        expanded.unsafe_store(i, Float16(99.0))
+    q_groups.unsafe_store(0, UInt16(7))
+    var rejected = False
+    try:
+        dequantize_exl2_matrix(matrix, expanded, 108 * 2)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("EXL2 accepted an unsupported group bitrate")
+    for i in range(108 * 2):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("EXL2 invalid-metadata rejection mutated output")
+
+    # RuneTensor cannot carry EXL2's auxiliary tensors and remains fail-closed.
+    assert_external_format_rejected(
+        CompressedFormatType(CompressedFormatType.EXL2_VARBIT), "EXL2_VARBIT"
+    )
+    print("EXL2 canonical 2/3/4/5/6/8-bit packing and execution: PASS")
 
 
 def test_hqq_4bit_axis1_known_value() raises:

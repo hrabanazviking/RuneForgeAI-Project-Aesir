@@ -1,3 +1,21 @@
+## 2026-09-01 — Added canonical EXL2 mixed-bit host execution
+
+Added `EXL2Matrix` over the unshuffled tensors written by the official
+converter: packed Int32 weights, packed 4-bit scale levels, serialized Float16
+maximum scales, `(bits, packed-row-start)` groups, and the serialized inverse
+permutation plus its loader-derived forward permutation. It decodes the full
+EXL2 2/3/4/5/6/8-bit family, including values crossing UInt32 boundaries,
+restores activation-order rows, handles upstream 32-column output padding, and
+provides checked F16 expansion and F32-accumulating GEMM. Metadata validation
+checks exact tensor extents, every group boundary and bitrate, finite positive
+scales, and mutual permutation inverses before output mutation.
+
+The raw known-value regression exercises all six bit widths and is traced to
+exllamav2 commit `7dc12af3a81f34ac3f27cd7602ed539b638933ca`, specifically
+`conversion/adaptivegptq.py`, `exllamav2_ext/cuda/pack_tensor.cu`, and
+`exllamav2_ext/cuda/util.cuh`. Model config/safetensors parsing, tensor
+attachment, CUDA kernels, conversion, and full-model parity remain open.
+
 ## 2026-09-01 — Added native HQQ 4-bit axis=1 execution
 
 Added `HQQ4BitAxis1Matrix` with exact packed-weight, floating scale/zero,

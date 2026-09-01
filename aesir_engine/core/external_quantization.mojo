@@ -830,6 +830,328 @@ def gemm_smoothquant_w8a8(
             )
 
 
+struct EXL2Matrix(Copyable, ImplicitlyCopyable):
+    """Canonical unshuffled EXL2 mixed-bit matrix from safetensors.
+
+    `q_weight` is the converter-written `[packed_rows, stored_out_features]`
+    Int32 tensor. `q_scale` is `[group_count, stored_out_features / 8]`
+    packed UInt32, `q_scale_max` is the serialized (pre `/ 256`) Float16
+    vector, and `q_groups` contains `(bits, first_packed_row)` UInt16 pairs.
+    The loader-derived `q_perm = argsort(q_invperm)` and serialized
+    `q_invperm[original_input]` map between packed and original input rows.
+
+    The supported EXL2 bit widths are exactly 2, 3, 4, 5, 6, and 8. Output
+    columns follow the upstream converter's padding to a multiple of 32 while
+    `out_features` records the logical, unpadded width.
+    """
+
+    var qweight: Pointer[UInt32, MutUntrackedOrigin]
+    var qweight_elements: Int
+    var qweight_rows: Int
+    var q_scale: Pointer[UInt32, MutUntrackedOrigin]
+    var q_scale_elements: Int
+    var q_scale_max: Pointer[Float16, MutUntrackedOrigin]
+    var q_scale_max_elements: Int
+    var q_groups: Pointer[UInt16, MutUntrackedOrigin]
+    var q_group_elements: Int
+    var q_perm: Pointer[Int32, MutUntrackedOrigin]
+    var q_perm_elements: Int
+    var q_invperm: Pointer[Int32, MutUntrackedOrigin]
+    var q_invperm_elements: Int
+    var in_features: Int
+    var out_features: Int
+    var stored_out_features: Int
+    var group_count: Int
+
+    def __init__(
+        out self,
+        qweight: Pointer[UInt32, MutUntrackedOrigin],
+        qweight_elements: Int,
+        qweight_rows: Int,
+        q_scale: Pointer[UInt32, MutUntrackedOrigin],
+        q_scale_elements: Int,
+        q_scale_max: Pointer[Float16, MutUntrackedOrigin],
+        q_scale_max_elements: Int,
+        q_groups: Pointer[UInt16, MutUntrackedOrigin],
+        q_group_elements: Int,
+        q_perm: Pointer[Int32, MutUntrackedOrigin],
+        q_perm_elements: Int,
+        q_invperm: Pointer[Int32, MutUntrackedOrigin],
+        q_invperm_elements: Int,
+        in_features: Int,
+        out_features: Int,
+        stored_out_features: Int,
+        group_count: Int,
+    ) raises:
+        self.qweight = qweight
+        self.qweight_elements = qweight_elements
+        self.qweight_rows = qweight_rows
+        self.q_scale = q_scale
+        self.q_scale_elements = q_scale_elements
+        self.q_scale_max = q_scale_max
+        self.q_scale_max_elements = q_scale_max_elements
+        self.q_groups = q_groups
+        self.q_group_elements = q_group_elements
+        self.q_perm = q_perm
+        self.q_perm_elements = q_perm_elements
+        self.q_invperm = q_invperm
+        self.q_invperm_elements = q_invperm_elements
+        self.in_features = in_features
+        self.out_features = out_features
+        self.stored_out_features = stored_out_features
+        self.group_count = group_count
+        self.validate()
+
+    def __copyinit__(out self, existing: Self):
+        self.qweight = existing.qweight
+        self.qweight_elements = existing.qweight_elements
+        self.qweight_rows = existing.qweight_rows
+        self.q_scale = existing.q_scale
+        self.q_scale_elements = existing.q_scale_elements
+        self.q_scale_max = existing.q_scale_max
+        self.q_scale_max_elements = existing.q_scale_max_elements
+        self.q_groups = existing.q_groups
+        self.q_group_elements = existing.q_group_elements
+        self.q_perm = existing.q_perm
+        self.q_perm_elements = existing.q_perm_elements
+        self.q_invperm = existing.q_invperm
+        self.q_invperm_elements = existing.q_invperm_elements
+        self.in_features = existing.in_features
+        self.out_features = existing.out_features
+        self.stored_out_features = existing.stored_out_features
+        self.group_count = existing.group_count
+
+    @always_inline
+    def _bits_supported(self, bits: Int) -> Bool:
+        return (
+            bits == 2
+            or bits == 3
+            or bits == 4
+            or bits == 5
+            or bits == 6
+            or bits == 8
+        )
+
+    def validate(self) raises:
+        if self.in_features <= 0 or self.out_features <= 0:
+            raise Error("EXL2Matrix: logical dimensions must be positive")
+        if self.qweight_rows <= 0 or self.group_count <= 0:
+            raise Error("EXL2Matrix: packed rows and group count must be positive")
+        if self.stored_out_features < self.out_features:
+            raise Error("EXL2Matrix: stored output width is shorter than logical width")
+        if self.stored_out_features % 32 != 0:
+            raise Error("EXL2Matrix: stored output width must use EXL2's 32-column padding")
+        if (
+            Int(self.qweight) <= 1
+            or Int(self.q_scale) <= 1
+            or Int(self.q_scale_max) <= 1
+            or Int(self.q_groups) <= 1
+            or Int(self.q_perm) <= 1
+            or Int(self.q_invperm) <= 1
+        ):
+            raise Error("EXL2Matrix: all serialized tensor pointers must be valid")
+        if self.qweight_elements != _checked_product(
+            self.qweight_rows, self.stored_out_features, "EXL2 q_weight"
+        ):
+            raise Error("EXL2Matrix: q_weight storage length mismatch")
+        if self.q_scale_elements != _checked_product(
+            self.group_count,
+            self.stored_out_features // 8,
+            "EXL2 q_scale",
+        ):
+            raise Error("EXL2Matrix: q_scale storage length mismatch")
+        if self.q_scale_max_elements != self.group_count:
+            raise Error("EXL2Matrix: q_scale_max storage length mismatch")
+        if self.q_group_elements != self.group_count * 2:
+            raise Error("EXL2Matrix: q_groups storage length mismatch")
+        if (
+            self.q_perm_elements != self.in_features
+            or self.q_invperm_elements != self.in_features
+        ):
+            raise Error("EXL2Matrix: permutation storage length mismatch")
+
+        var logical_row = 0
+        for group in range(self.group_count):
+            var bits = Int(self.q_groups.unsafe_load(group * 2))
+            if not self._bits_supported(bits):
+                raise Error("EXL2Matrix: q_groups contains an unsupported bitrate")
+            var packed_start = Int(self.q_groups.unsafe_load(group * 2 + 1))
+            var packed_end = self.qweight_rows
+            if group + 1 < self.group_count:
+                packed_end = Int(self.q_groups.unsafe_load(group * 2 + 3))
+            if group == 0 and packed_start != 0:
+                raise Error("EXL2Matrix: first group must start at packed row zero")
+            if packed_start < 0 or packed_end <= packed_start or packed_end > self.qweight_rows:
+                raise Error("EXL2Matrix: q_groups packed row offsets are invalid")
+            var packed_bits = (packed_end - packed_start) * 32
+            if group + 1 < self.group_count:
+                if packed_bits % bits != 0:
+                    raise Error("EXL2Matrix: non-final group contains partial packed values")
+                logical_row += packed_bits // bits
+                if logical_row >= self.in_features:
+                    raise Error("EXL2Matrix: non-final groups exhaust the logical rows")
+            else:
+                var remaining = self.in_features - logical_row
+                if remaining <= 0:
+                    raise Error("EXL2Matrix: final group has no logical rows")
+                var required_packed_rows = (remaining * bits + 31) // 32
+                if required_packed_rows != packed_end - packed_start:
+                    raise Error("EXL2Matrix: final group packing does not cover logical rows exactly")
+                logical_row += remaining
+            var max_scale = self.q_scale_max.unsafe_load(group).cast[DType.float32]()
+            if max_scale <= 0.0 or isnan(max_scale) or isinf(max_scale):
+                raise Error("EXL2Matrix: q_scale_max values must be finite and positive")
+        if logical_row != self.in_features:
+            raise Error("EXL2Matrix: q_groups do not cover the input dimension")
+
+        # ExLlama derives q_perm = argsort(q_invperm) while loading. Checking
+        # both directions proves a bijection in linear time without scratch.
+        for original_row in range(self.in_features):
+            var packed_row = Int(self.q_invperm.unsafe_load(original_row))
+            if packed_row < 0 or packed_row >= self.in_features:
+                raise Error("EXL2Matrix: q_invperm contains an out-of-range row")
+            if Int(self.q_perm.unsafe_load(packed_row)) != original_row:
+                raise Error("EXL2Matrix: q_perm and q_invperm are not inverses")
+        for packed_row in range(self.in_features):
+            var original_row = Int(self.q_perm.unsafe_load(packed_row))
+            if original_row < 0 or original_row >= self.in_features:
+                raise Error("EXL2Matrix: q_perm contains an out-of-range row")
+            if Int(self.q_invperm.unsafe_load(original_row)) != packed_row:
+                raise Error("EXL2Matrix: q_invperm and q_perm are not inverses")
+
+
+@always_inline
+def _exl2_group_rows(matrix: EXL2Matrix, group: Int, logical_start: Int) -> Int:
+    if group + 1 == matrix.group_count:
+        return matrix.in_features - logical_start
+    var bits = Int(matrix.q_groups.unsafe_load(group * 2))
+    var packed_start = Int(matrix.q_groups.unsafe_load(group * 2 + 1))
+    var packed_end = Int(matrix.q_groups.unsafe_load(group * 2 + 3))
+    return (packed_end - packed_start) * 32 // bits
+
+
+@always_inline
+def _exl2_weight_unchecked(
+    matrix: EXL2Matrix, input_index: Int, output_index: Int
+) -> Float32:
+    var packed_input = Int(matrix.q_invperm.unsafe_load(input_index))
+    var logical_start = 0
+    var selected_group = 0
+    for group in range(matrix.group_count):
+        var rows = _exl2_group_rows(matrix, group, logical_start)
+        if packed_input < logical_start + rows:
+            selected_group = group
+            break
+        logical_start += rows
+
+    var bits = Int(matrix.q_groups.unsafe_load(selected_group * 2))
+    var packed_start = Int(
+        matrix.q_groups.unsafe_load(selected_group * 2 + 1)
+    )
+    var local_row = packed_input - logical_start
+    var bit_index = local_row * bits
+    var word_row = packed_start + bit_index // 32
+    var shift = bit_index % 32
+    var word = matrix.qweight.unsafe_load(
+        word_row * matrix.stored_out_features + output_index
+    )
+    var quantized = word >> UInt32(shift)
+    if shift + bits > 32:
+        var next_word = matrix.qweight.unsafe_load(
+            (word_row + 1) * matrix.stored_out_features + output_index
+        )
+        quantized |= next_word << UInt32(32 - shift)
+    var mask = (UInt32(1) << UInt32(bits)) - UInt32(1)
+    quantized &= mask
+
+    var scale_word = matrix.q_scale.unsafe_load(
+        selected_group * (matrix.stored_out_features // 8)
+        + output_index // 8
+    )
+    var scale_code = Int(
+        (scale_word >> UInt32((output_index % 8) * 4)) & UInt32(0xF)
+    )
+    var scale_level = Float32(scale_code + 1)
+    var scale = (
+        scale_level
+        * scale_level
+        * matrix.q_scale_max.unsafe_load(selected_group).cast[DType.float32]()
+        / Float32(256.0)
+    )
+    var zero = UInt32(1) << UInt32(bits - 1)
+    return (Float32(quantized) - Float32(zero)) * scale
+
+
+def exl2_weight(
+    matrix: EXL2Matrix, input_index: Int, output_index: Int
+) raises -> Float32:
+    matrix.validate()
+    if input_index < 0 or input_index >= matrix.in_features:
+        raise Error("exl2_weight: input index out of range")
+    if output_index < 0 or output_index >= matrix.out_features:
+        raise Error("exl2_weight: output index out of range")
+    return _exl2_weight_unchecked(matrix, input_index, output_index)
+
+
+def dequantize_exl2_matrix(
+    matrix: EXL2Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(output) <= 1:
+        raise Error("dequantize_exl2_matrix: output pointer must be valid")
+    matrix.validate()
+    var expected_output = _checked_product(
+        matrix.in_features, matrix.out_features, "EXL2 output"
+    )
+    if output_elements != expected_output:
+        raise Error("dequantize_exl2_matrix: output storage length mismatch")
+    for output_index in range(matrix.out_features):
+        for input_index in range(matrix.in_features):
+            output.unsafe_store(
+                output_index * matrix.in_features + input_index,
+                _exl2_weight_unchecked(
+                    matrix, input_index, output_index
+                ).cast[DType.float16](),
+            )
+
+
+def gemm_exl2_matrix(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: EXL2Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(output) <= 1:
+        raise Error("gemm_exl2_matrix: input and output pointers must be valid")
+    matrix.validate()
+    var expected_input = _checked_product(
+        input_rows, matrix.in_features, "EXL2 GEMM input"
+    )
+    var expected_output = _checked_product(
+        input_rows, matrix.out_features, "EXL2 GEMM output"
+    )
+    if input_elements != expected_input:
+        raise Error("gemm_exl2_matrix: input storage length mismatch")
+    if output_elements != expected_output:
+        raise Error("gemm_exl2_matrix: output storage length mismatch")
+    for row in range(input_rows):
+        for output_index in range(matrix.out_features):
+            var accumulator = Float32(0.0)
+            for input_index in range(matrix.in_features):
+                accumulator += input.unsafe_load(
+                    row * matrix.in_features + input_index
+                ).cast[DType.float32]() * _exl2_weight_unchecked(
+                    matrix, input_index, output_index
+                )
+            output.unsafe_store(
+                row * matrix.out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )
+
+
 struct HQQ4BitAxis1Matrix(Copyable, ImplicitlyCopyable):
     """Native HQQ 4-bit axis=1 packed matrix and floating metadata."""
 

@@ -386,10 +386,12 @@ Q4_K_M has the repository's strongest quantized path and exact byte-span checks.
 The capability ledger records the evidence boundary for each other format.
 `core/external_quantization.mojo` owns metadata-bearing formats that cannot be
 represented by a bare GGML byte span. It currently implements a validated
-AutoGPTQ 4-bit/8-bit, AutoAWQ GEMM 4-bit, static SmoothQuant W8A8, and native
-HQQ 4-bit `axis=1` matrix views with host dequantization/GEMM primitives. Those
-views are not yet populated by a model loader or dispatched to CUDA. EXL2,
-other HQQ/SmoothQuant variants, IQ1_S, IQ2_XXS, and the custom ternary
+AutoGPTQ 4-bit/8-bit, AutoAWQ GEMM 4-bit, EXL2 mixed-bit, static SmoothQuant
+W8A8, and native HQQ 4-bit `axis=1` matrix views with host
+dequantization/GEMM primitives. The EXL2 view consumes the official unshuffled
+packed tensors and restores activation-order input rows. These views are not
+yet populated by a model loader or dispatched to CUDA. Other HQQ/SmoothQuant
+variants, IQ1_S, IQ2_XXS, and the custom ternary
 descriptor remain explicitly unavailable.
 
 | Component | Owner | Contract |

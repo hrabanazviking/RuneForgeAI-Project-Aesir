@@ -31,6 +31,7 @@ from .external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
     AWQ4BitMatrix,
+    EXL2Matrix,
     SmoothQuantW8A8Matrix,
     HQQ4BitAxis1Matrix,
     dequantize_gptq_4bit_matrix,
@@ -39,6 +40,8 @@ from .external_quantization import (
     gemm_gptq_8bit_matrix,
     dequantize_awq_4bit_matrix,
     gemm_awq_4bit_matrix,
+    dequantize_exl2_matrix,
+    gemm_exl2_matrix,
     dequantize_smoothquant_weights,
     gemm_smoothquant_w8a8,
     dequantize_hqq_4bit_axis1,
@@ -520,6 +523,15 @@ def dequantize_exl2(
     _ = out_ptr
     _ = num_elements
     raise Error("EXL2 dequantization requires its variable-bit layout and tensor metadata; it is not implemented")
+
+
+@always_inline
+def dequantize_exl2(
+    matrix: EXL2Matrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    dequantize_exl2_matrix(matrix, out_ptr, output_elements)
 
 
 @always_inline
@@ -1142,6 +1154,19 @@ def gemm_exl2(
     _ = B
     _ = C
     raise Error("EXL2 GEMM requires its variable-bit layout and tensor metadata; it is not implemented")
+
+
+def gemm_exl2(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: EXL2Matrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    gemm_exl2_matrix(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_hqq(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
