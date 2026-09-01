@@ -1,9 +1,8 @@
 # tests/test_quantized_inference.mojo
 # Quantized GGUF Q4_K_M Inference Vertical Slice Test Suite
 
-from std.memory import Pointer, alloc, Layout
 from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
-from core.compute import BlockQ4_K, gemm_f16, gemm_q4_k_m, dequantize_q4_k_m
+from core.compute import gemm_f16
 
 def test_gemm_q4_k_m_fused_parity() raises:
     """Known-value raw GGUF regression, independent of legacy padded structs."""

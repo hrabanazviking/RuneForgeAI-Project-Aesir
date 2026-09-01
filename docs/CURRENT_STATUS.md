@@ -1,6 +1,6 @@
 # Current project status
 
-**Current as of 2026-08-31.** This document is the concise operational entry
+**Current as of 2026-09-01.** This document is the concise operational entry
 point for Project A.E.S.I.R. It complements the detailed
 [capability ledger](../CAPABILITY_LEDGER.md), which is authoritative for every
 capability ID. Dated audits, roadmaps, vision documents, and external reference
@@ -25,6 +25,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
 | Native recipe catalog | `create`, `list`/`ls`, `show`, `cp`, and `rm`/`delete` use a bounded, restart-safe Mojo catalog. A built-binary harness verifies separate-process persistence and rollback; see the [model-store contract](MODEL_STORE.md). |
 | Automated checks | The counted suite reports 170 passed, 0 failed, and 1 explicit external-fixture skip (171 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
+| CPU K-quant decoding | Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K use canonical GGML packed-byte layouts with complete-block validation and raw known-value regressions. Independent real-row parity covers Q4_K and Q6_K; general full-model compatibility is not claimed. |
 
 The reproducible commands, exact model pin, evidence boundaries, and hardware
 observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
@@ -54,7 +55,7 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   benchmark, hardware CI runner, resumable/authenticated Hub transfer,
   content-addressed model-byte ingestion, or production-service readiness claim.
   The recipe catalog does not copy or measure the GGUF referenced by a Modelfile.
-- OpenAI, Ollama, llama.cpp, ONNX, EXL2, RAG execution, Swarm, and NPU paths
+- GPTQ, AWQ, EXL2, HQQ, SmoothQuant, IQ/extreme quantization, OpenAI, Ollama, llama.cpp, ONNX, RAG execution, Swarm, and NPU paths
   remain scaffolded, partial, or fail closed as specified by the ledger.
 
 ## Practical use

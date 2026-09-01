@@ -17,20 +17,25 @@ evidence.
 
 ## Current Evidence Boundary
 
-- The current bounded runtime proof includes the pinned single-device Linux CPU
-  GGUF path and the documented native CUDA Gemma 4 E4B Q4_K_M profile on the
-  observed NVIDIA/WSL host. See [`GEMMA4_CUDA.md`](GEMMA4_CUDA.md) for its
-  explicit limit and evidence boundary.
-  v3 Llama F16 slice: `[verified, AES-FND-002]`.
-- Cross-platform runtime support remains absent: `[missing, AES-FND-006]`.
-- CI and repository hygiene are real but incomplete:
-  `[partial, AES-FND-005]` and `[partial, AES-FND-007]`.
-- One explicit reusable MAX CUDA F16 GEMM now has physical reference evidence:
-  `[partial, AES-ACC-008]`. This is not Transformer inference, persistent
-  device-resident model weights, general GPU support, or CLI acceleration.
-- Compatibility names, enums, format labels, gateway types, and synthetic tests
-  do not establish external ecosystem, hardware, protocol, or production
-  support.
+- The bounded runtime includes one pinned GGUF v3 Llama F16 CPU fixture and two
+  native CUDA profiles on the observed RTX 4070 Laptop GPU under WSL2: dense
+  text-only Gemma 4 E4B Q4_K_M and Llama 3 8B Stheno Q4_K_S. Both CUDA profiles
+  completed documented 20-turn conversations; see `CURRENT_STATUS.md`,
+  `GEMMA4_CUDA.md`, and `STHENO_CUDA.md`.
+- Native CUDA resources, packed model weights, activations, KV cache, sampling,
+  persistent chat, cancellation, and the authenticated loopback service are real
+  for those two profiles. This evidence does not establish general GGUF,
+  multimodal, MoE, multi-GPU, cross-platform, or production-service support.
+- CPU Q2_K through Q6_K decoding now reads canonical GGML packed bytes. Raw
+  known-value cases cover each K-quant layout, while independent real-row parity
+  covers the documented Q4_K/Q5_K/Q6_K model paths. Broader full-model format
+  compatibility remains unproved.
+- Linux CI and repository hygiene are operational but incomplete; physical CUDA
+  checks remain opt-in and tracked legacy artifacts remain documented debt.
+- GPTQ, AWQ, EXL2, HQQ, SmoothQuant, IQ/extreme quantization, non-NVIDIA
+  accelerators, general ONNX/llama.cpp compatibility, and distributed execution
+  remain unavailable, partial, or fail closed exactly as recorded in the
+  capability ledger.
 
 <!-- HISTORICAL_CLAIMS_BEGIN -->
 
@@ -45,12 +50,12 @@ evidence.
 * **Current status ([`AES-QNT-011`](../CAPABILITY_LEDGER.md) `missing`)**: The guessed all-format metadata table and no-op autotuner were removed. `gemm_f16()` dispatches known descriptors, but no runtime measurement, candidate selection, device cache, or performance evidence exists.
 * **Current extreme-quantization boundary ([`AES-QNT-010`](../CAPABILITY_LEDGER.md) `missing`)**: IQ1_S, IQ2_XXS, and the custom ternary descriptor reject execution without mutation. Invented block layouts and circular decoder-parity tests were removed; an exact upstream or otherwise specified format, codebooks, real fixture, and independent oracle are required.
 * **Current external quantization boundary ([`AES-QNT-009`](../CAPABILITY_LEDGER.md) `missing`)**: GPTQ, AWQ, EXL2, HQQ, and SmoothQuant names remain reserved descriptors, but execution rejects them without mutation. Fixed guessed scales and circular self-parity tests were removed. Each format needs its authoritative metadata, byte layout, real fixture, and independent oracle before support can be claimed.
-* **Stage 55.1 2-Bit & 6-Bit K-Quantization Milestone ([`AES-QNT-008`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented block layout structs (`BlockQ2_K`, `BlockQ6_K`), block dequantizers (`dequantize_q2_k_block`, `dequantize_q6_k_block`), and fused matrix-vector multiplication kernels (`gemm_q2_k`, `gemm_q6_k`) in `core/compute.mojo`. Connected automatic format dispatching in `gemm_f16()` for 2-bit and 6-bit K-quantization formats, and created unit test suite `test_k_quants_2_6.mojo` proving bit-for-bit mathematical output parity against uncompressed `gemm_f16`.
+* **Current Q2_K/Q6_K boundary ([`AES-QNT-008`](../CAPABILITY_LEDGER.md) `verified`)**: Canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks are decoded directly from raw bytes by the shared checked K-quant path. Hand-calculated known-value matvec cases cover both formats; independent real Stheno rows additionally cover Q6_K. Full-model Q2_K compatibility is not claimed.
 * **Stage 54.1 Quantization System Hardening & Self-Healing Milestone ([`AES-QNT-007`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened all quantization dequantizers and fused matrix-vector multiplication kernels in `core/compute.mojo` against zero/negative element counts, null pointer references, and non-positive matrix dimensions. Connected self-healing fallback dispatchers in `gemm_f16()` and `dequantize_compressed_tensor()` for unrecognized format discriminants, and implemented NaN weight sanitization to prevent floating-point poisoning. Created unit test suite `test_quantization_hardening.mojo` proving crash-proof operation, dimension rejection, self-healing fallbacks, and NaN sanitization.
-* **Stage 53.1 3-Bit & 5-Bit K-Quantization Milestone ([`AES-QNT-006`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented block layout structs (`BlockQ3_K`, `BlockQ5_K`), block dequantizers (`dequantize_q3_k_m`, `dequantize_q3_k_s`, `dequantize_q3_k_l`, `dequantize_q5_k_m`, `dequantize_q5_k_s`), and fused matrix-vector multiplication kernels (`gemm_q3_k_m`, `gemm_q3_k_s`, `gemm_q3_k_l`, `gemm_q5_k_m`, `gemm_q5_k_s`) in `core/compute.mojo`. Connected automatic format dispatching in `gemm_f16()` for all 3-bit and 5-bit K-quantization formats, and created unit test suite `test_k_quants_3_5.mojo` proving bit-for-bit mathematical output parity against uncompressed `gemm_f16`.
+* **Current Q3_K/Q5_K boundary ([`AES-QNT-006`](../CAPABILITY_LEDGER.md) `verified`)**: Canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks are decoded directly from raw bytes by the shared checked K-quant path. Hand-calculated known-value cases cover Q3_K S/M/L descriptor routing and Q5_K S/M routing. Full-model Q3_K compatibility is not claimed; real-model Q5_K CUDA evidence is scoped by the ledger.
 * **Stage 52.1 8-Bit & FP8 Quantization Milestone ([`AES-QNT-005`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented block layout structs (`BlockQ8_0`, `BlockQ8_1`), byte unpackers (`dequantize_fp8_e4m3`, `dequantize_fp8_e5m2`), dequantizers (`dequantize_q8_0`, `dequantize_q8_1`), and fused matrix-vector multiplication kernels (`gemm_q8_0`, `gemm_q8_1`, `gemm_fp8_e4m3`, `gemm_fp8_e5m2`) in `core/compute.mojo`. Connected automatic format dispatching in `gemm_f16()` for 8-bit integer and FP8 floating-point formats, and created unit test suite `test_q8_fp8_quantization.mojo` proving bit-for-bit mathematical output parity against uncompressed `gemm_f16`.
 * **Stage 51.1 Legacy Quantization Milestone ([`AES-QNT-004`](../CAPABILITY_LEDGER.md) `verified`)**: Implemented block layout structs (`BlockQ4_0`, `BlockQ4_1`, `BlockQ5_0`, `BlockQ5_1`), dequantization functions (`dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q5_1`), and fused matrix-vector multiplication kernels (`gemm_q4_0`, `gemm_q4_1`, `gemm_q5_0`, `gemm_q5_1`) in `core/compute.mojo`. Connected automatic format dispatching in `gemm_f16()` for all legacy 4-bit and 5-bit formats, and created unit test suite `test_legacy_quantization.mojo` proving bit-for-bit mathematical output parity against uncompressed `gemm_f16`.
-* **Stage 50.1 Quantized GGUF Inference Milestone ([`AES-CMP-004`](../CAPABILITY_LEDGER.md) `verified` / [`AES-GEN-002`](../CAPABILITY_LEDGER.md) `verified`)**: Connected fused Q4_K_M matrix-vector multiplication kernel `gemm_q4_k_m()` directly to memory-mapped quantized weight tensors mapped by `GGUFSeer`. Updated `RuneTensor` with `quant_format: CompressedFormatType` metadata, updated `GGUFSeer._register_mapped_tensor()` to flag quantized tensors, and implemented `Copyable, ImplicitlyCopyable` traits on `BlockQ4_K` for direct SIMD dequantization. Created unit test suite `test_quantized_inference.mojo` proving bit-for-bit scalar output parity with uncompressed `gemm_f16`.
+* **Current quantized GGUF inference boundary ([`AES-CMP-004`](../CAPABILITY_LEDGER.md) `verified` / [`AES-GEN-002`](../CAPABILITY_LEDGER.md) `verified`)**: Memory-mapped quantized tensors retain format metadata and Q4_K/Q5_K/Q6_K execution reads canonical packed bytes directly. The obsolete padded `BlockQ4_K` descriptor was removed. End-to-end support remains limited to the documented Gemma 4 and Llama 3 CUDA profiles.
 * **Stage 49.1 Hardware Hardening Milestone ([`AES-ACC-008`](../CAPABILITY_LEDGER.md) `verified` / [`AES-ACC-009`](../CAPABILITY_LEDGER.md) `verified`)**: Hardened all 5 GPU and NPU acceleration gateways (`CUDAGate`, `MetalGate`, `IntelGate`, `AMDGate`, `NPUGate`) with strict bounds checking, non-positive allocation rejection (`size_bytes <= 0 -> raises Error`), non-positive matrix dimension validation (`rows <= 0` / `cols <= 0`), self-healing try-catch VRAM reclamation, and fault-trapping execution barriers. Created `test_hardware_resilience.mojo` verifying exception safety and zero memory leaks under hardware fault conditions.
 * **Stage 48.1 Major NPU Acceleration Milestone ([`AES-ACC-006`](../CAPABILITY_LEDGER.md) / [`AES-ACC-007`](../CAPABILITY_LEDGER.md) `partial`)**: Implemented `NPUGate` in `core/npu_gate.mojo` providing native POSIX FFI runtime probes for Qualcomm Hexagon (`libcdsprpc.so`), Apple Neural Engine (ANE), Hailo-10 (`libhailort.so`), and Intel NPU (`libintel_npu_driver.so`), zero-copy NPU buffer memory allocation (`allocate_npu_buffer()`), buffer deallocation (`free_npu_buffer()`), and NPU GEMM kernel launch dispatch (`launch_gemm_npu()`). Updated `mimir_well.mojo` with `probe_npu_realms()` and connected `gemm_f16_npu()` in `core/compute.mojo` to dispatch NPU requests to `NPUGate` while preserving fail-closed error handling on non-NPU hardware, adding NPU realm test assertions in `test_npu_realm.mojo`.
 * **Stage 47.1 AMD ROCm HIP GPU Realm Milestone ([`AES-ACC-004`](../CAPABILITY_LEDGER.md) `partial`)**: Implemented `AMDGate` in `core/amd_gate.mojo` providing native POSIX FFI runtime probes (`libamdhip64.so`, `libhipblas.so`), AMD RDNA / CDNA GPU device discovery (`hipGetDeviceCount`), HIP VRAM memory allocation (`allocate_vram()`), VRAM deallocation (`free_vram()`), and hipBLAS GEMM kernel launch dispatch (`launch_gemm_amd()`). Hardened `gemm_f16_gpu()` in `core/compute.mojo` to dispatch AMD requests to `AMDGate` while preserving fail-closed error handling on non-AMD hardware, adding AMD realm test assertions in `test_amd_realm.mojo`.

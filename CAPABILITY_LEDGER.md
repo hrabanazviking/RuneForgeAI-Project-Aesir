@@ -805,11 +805,12 @@ the complete ledger population.
 
 ## 13. Quantization and Compressed Formats
 
-Runtime expansion note: CPU raw-byte Q4_K/Q6_K GEMM now matches 25 independent
-Stheno row references via `tests/test_cpu_packed_parity.mojo`; output remains
-F16 (maximum observed difference 0.00018817186). Q4_K/Q5_0/Q6_K known-value
-raw-byte tests assert their results. Legacy SIMD block descriptors and other
-synthetic transforms are not proof of general GGUF wire-layout compatibility.
+Runtime expansion note: CPU Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K execution reads
+canonical GGML packed bytes through one bounded decoder. Q4_K/Q6_K GEMM also
+matches 25 independent Stheno row references via `tests/test_cpu_packed_parity.mojo`;
+output remains F16 (maximum observed difference 0.00018817186). Raw-byte
+known-value cases cover every K-quant decoder. Legacy SIMD block descriptors
+and circular self-parity transforms were removed.
 
 ### AES-QNT-001 — Compressed-format discriminants and names
 
@@ -826,9 +827,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** README q4_k_m and core compute interface
-- **Implementation evidence:** `dequantize_q4_k_m` in `core/compute.mojo` performs complete 256-element Q4_K block unpacking. `dequantize_compressed_tensor()` rejects invalid storage, nonpositive counts, and partial blocks before dispatch; fixed-scale byte helpers that bypassed real block metadata were removed.
-- **Executable evidence:** `E-MASTER` case `quantization.q4_k_m_dequantization` in `test_quantization.mojo`.
-- **Evidence boundary:** Verified Q4_K block transformation math and mutation-free incomplete-block rejection. Real-model breadth remains scoped by `AES-QNT-003`.
+- **Implementation evidence:** `dequantize_ggml_k` and `packed_value` read the canonical 144-byte GGML Q4_K layout. `dequantize_compressed_tensor()` rejects invalid storage, nonpositive counts, and partial blocks before dispatch; the padded local block descriptor was removed.
+- **Executable evidence:** `E-MASTER` case `compute.dequantize_q4_k` uses a raw 144-byte block with hand-calculated output, while `quantization.fused_q4_k_m_parity` exercises the fused path.
+- **Evidence boundary:** Verified raw-byte Q4_K transformation math and incomplete-block rejection. Real-model breadth remains scoped by `AES-QNT-003`.
 - **Audit:** AER-051, AER-052, AER-053.
 
 ### AES-QNT-003 — Real quantized-model inference
@@ -867,9 +868,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** 3-bit and 5-bit K-quantization support (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)
-- **Implementation evidence:** `BlockQ3_K` and `BlockQ5_K` block structs, `dequantize_q3_k_m`, `dequantize_q3_k_s`, `dequantize_q3_k_l`, `dequantize_q5_k_m`, `dequantize_q5_k_s` block dequantizers, and `gemm_q3_k_m`, `gemm_q3_k_s`, `gemm_q3_k_l`, `gemm_q5_k_m`, `gemm_q5_k_s` fused matrix-vector multiplication kernels in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, `quantization.fused_q5_k_m_parity` in `test_k_quants_3_5.mojo`.
-- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q3_K and Q5_K GEMM kernels and uncompressed `gemm_f16`.
+- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks. The format-specific GEMM entry points route to that shared checked implementation; padded local descriptors and circular reference decoders were removed.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` use raw upstream-layout blocks with hand-calculated outputs.
+- **Evidence boundary:** Verified canonical raw-byte addressing, scale unpacking, quant unpacking, format-alias dispatch, and known-value matvec results. Full-model Q3_K execution has not been independently established.
 - **Audit:** Stage 53.1 Mythic Engineering Pass.
 
 ### AES-QNT-007 — Quantization system crash-proofing, error-correcting, and self-healing boundaries
@@ -877,9 +878,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** Quantization system crash-proofing, error-correcting, and self-healing boundaries
-- **Implementation evidence:** Zero/negative block & null pointer guards in `dequantize_compressed_tensor`, `dequantize_q4_k_m`, `dequantize_q4_0`, `dequantize_q4_1`, `dequantize_q5_0`, `dequantize_q5_1`, `dequantize_q8_0`, `dequantize_q8_1`, `dequantize_fp8_e4m3`, `dequantize_fp8_e5m2`, `dequantize_q3_k_m`, `dequantize_q5_k_m`, non-positive matrix dimension guards across all fused GEMM kernels, self-healing format dispatch fallbacks in `gemm_f16()` and `dequantize_compressed_tensor()`, and FP8 NaN weight sanitization in `core/compute.mojo`.
+- **Implementation evidence:** `dequantize_compressed_tensor`, `dequantize_ggml_k`, the fixed-block legacy decoders, and fused GEMM paths validate counts, complete blocks, shapes, storage, and recognized format discriminants. FP8 corrupt-value handling remains explicit in `core/compute.mojo`.
 - **Executable evidence:** `E-MASTER` cases `quantization.hardening_zero_and_null_bounds`, `quantization.hardening_invalid_dimensions`, `quantization.hardening_unrecognized_format`, `quantization.hardening_nan_sanitization` in `test_quantization_hardening.mojo`.
-- **Evidence boundary:** Verified zero crashes on zero/null bounds, rejected invalid GEMM shapes, self-healed unrecognized format discriminants without crashing, and sanitized FP8 NaN bit patterns.
+- **Evidence boundary:** Verified strict K-quant count rejection, mutation-free legacy zero-count handling, invalid GEMM shape rejection, unknown-format refusal, and FP8 NaN-bit handling.
 - **Audit:** Stage 54.1 Mythic Engineering Pass.
 
 ### AES-QNT-008 — K-quantization 2-bit and 6-bit block quantization transformation kernels
@@ -887,9 +888,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** 2-bit and 6-bit K-quantization support (Q2_K, Q6_K)
-- **Implementation evidence:** `BlockQ2_K` and `BlockQ6_K` block structs, `dequantize_q2_k_block` and `dequantize_q6_k_block` dequantizers, and `gemm_q2_k` and `gemm_q6_k` fused matrix-vector multiplication kernels in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity`, `quantization.fused_q6_k_parity` in `test_k_quants_2_6.mojo`.
-- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused Q2_K and Q6_K GEMM kernels and uncompressed `gemm_f16`.
+- **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks; format-specific GEMM entry points route through the shared checked path.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` use raw upstream-layout blocks with hand-calculated outputs; independent Stheno row parity additionally covers Q6_K.
+- **Evidence boundary:** Verified canonical raw-byte addressing, metadata use, complete-block enforcement, and known-value matvec results. Full-model Q2_K execution has not been independently established.
 - **Audit:** Stage 55.1 Mythic Engineering Pass.
 
 ### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels

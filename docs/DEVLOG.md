@@ -1,3 +1,12 @@
+## 2026-09-01 — Replaced padded K-quant structs with canonical byte decoding
+
+Removed the local Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K structs and their circular
+self-parity decoders. A single checked CPU path now addresses the authoritative
+84-, 110-, 144-, 176-, and 210-byte GGML layouts directly. Q2_K and Q3_K support
+was added to the existing packed-value reader, every K-quant GEMM now shares the
+same validation and F32 accumulation path, and raw blocks with hand-calculated
+results replaced the former struct-built tests.
+
 ## 2026-09-01 — Removed fixed-scale partial-block dequantizers
 
 Deleted byte-pointer Q2_K, Q3_K, Q4_0, Q4_1, Q5_0, Q6_K, and Q8_0 helpers that

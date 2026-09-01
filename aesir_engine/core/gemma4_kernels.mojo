@@ -28,6 +28,35 @@ def packed_value(w: Bytes, base: Int, kind: Int, index: Int) -> Float32:
         return bitcast[DType.float32](UInt32(bits) << 16)
     var j = index % 256
     var block = index // 256
+    if kind == 10:
+        # GGML Q2_K: 16 scale/min bytes, 64 packed quant bytes, d, dmin.
+        var p = base + block * 84
+        var subblock = j // 16
+        var group = (j % 128) // 32
+        var lane_group = (j % 32) // 16
+        var lane = j % 16
+        var sc = Int(w.unsafe_load(p + subblock))
+        var q = (Int(w.unsafe_load(p + 16 + (j // 128) * 32 + lane_group * 16 + lane)) >> (2 * group)) & 3
+        var d = w.unsafe_offset(p + 80).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+        var dmin = w.unsafe_offset(p + 82).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+        return d * Float32(sc & 15) * Float32(q) - dmin * Float32(sc >> 4)
+    if kind == 11:
+        # GGML Q3_K: 32 high-bit bytes, 64 low-bit bytes, 12 scales, d.
+        var p = base + block * 110
+        var subblock = j // 16
+        var low_scale = (Int(w.unsafe_load(p + 96 + subblock)) & 15) if subblock < 8 else (Int(w.unsafe_load(p + 96 + subblock - 8)) >> 4)
+        var high_scale = (Int(w.unsafe_load(p + 104 + subblock % 4)) >> (2 * (subblock // 4))) & 3
+        var scale = (low_scale | (high_scale << 4)) - 32
+        var half = j // 128
+        var within = j % 128
+        var group = within // 32
+        var lane_group = (within % 32) // 16
+        var lane = within % 16
+        var low = (Int(w.unsafe_load(p + 32 + half * 32 + lane_group * 16 + lane)) >> (2 * group)) & 3
+        var high_set = (Int(w.unsafe_load(p + lane_group * 16 + lane)) >> (group + half * 4)) & 1
+        var q = low if high_set == 1 else low - 4
+        var d = w.unsafe_offset(p + 108).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+        return d * Float32(scale) * Float32(q)
     if kind == 14:
         var p = base + block * 210
         var half = j // 128

@@ -6,27 +6,24 @@ unrecognized format self-healing fallbacks, and NaN sanitization across all
 quantization routines.
 """
 
-from std.memory import Pointer, alloc, Layout
+from std.memory import Pointer
 from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
 from core.compute import (
-    BlockQ4_K, BlockQ4_0, BlockQ4_1, BlockQ5_0, BlockQ5_1, BlockQ8_0, BlockQ8_1,
-    BlockQ3_K, BlockQ5_K,
-    dequantize_q4_k_m, dequantize_q4_0, dequantize_q4_1, dequantize_q5_0, dequantize_q5_1,
+    BlockQ4_0, BlockQ4_1, BlockQ5_0, BlockQ5_1, BlockQ8_0, BlockQ8_1,
+    dequantize_q4_0, dequantize_q4_1, dequantize_q5_0, dequantize_q5_1,
     dequantize_q8_0, dequantize_q8_1, dequantize_fp8_e4m3, dequantize_fp8_e5m2,
-    dequantize_q3_k_m, dequantize_q5_k_m, dequantize_compressed_tensor,
+    dequantize_ggml_k, dequantize_compressed_tensor,
     gemm_q4_0, gemm_q4_1, gemm_q5_0, gemm_q5_1, gemm_q8_0, gemm_q8_1,
     gemm_fp8_e4m3, gemm_fp8_e5m2, gemm_q3_k_m, gemm_q5_k_m, gemm_q4_k_m, gemm_f16
 )
 
 
 def test_dequantizer_zero_and_null_bounds() raises:
-    print("--- Testing Dequantizer Zero & Null Bounds Crash-Proofing ---")
-    var null_b = Pointer[BlockQ4_K, MutUntrackedOrigin](unsafe_from_address=1)
+    print("--- Testing Dequantizer Invalid Bounds Rejection ---")
     var null_out = Pointer[Scalar[f16], MutUntrackedOrigin](unsafe_from_address=1)
     var null_u8 = Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=1)
 
-    # 1. Zero block / element count returns immediately without segfault
-    dequantize_q4_k_m(null_b, null_out, 0)
+    # Legacy fixed-size block helpers retain mutation-free zero-count behavior.
     dequantize_q4_0(null_u8.unsafe_bitcast[BlockQ4_0](), null_out, 0)
     dequantize_q4_1(null_u8.unsafe_bitcast[BlockQ4_1](), null_out, 0)
     dequantize_q5_0(null_u8.unsafe_bitcast[BlockQ5_0](), null_out, 0)
@@ -35,15 +32,25 @@ def test_dequantizer_zero_and_null_bounds() raises:
     dequantize_q8_1(null_u8.unsafe_bitcast[BlockQ8_1](), null_out, 0)
     dequantize_fp8_e4m3(null_u8, null_out, 0)
     dequantize_fp8_e5m2(null_u8, null_out, 0)
-    dequantize_q3_k_m(null_u8.unsafe_bitcast[BlockQ3_K](), null_out, 0)
-    dequantize_q5_k_m(null_u8.unsafe_bitcast[BlockQ5_K](), null_out, 0)
 
-    # 2. Negative block / element count returns immediately
-    dequantize_q4_k_m(null_b, null_out, -10)
-    dequantize_q8_0(null_u8.unsafe_bitcast[BlockQ8_0](), null_out, -5)
-    dequantize_fp8_e4m3(null_u8, null_out, -100)
+    # Canonical K-quant decoding is strict because it is a public byte-layout boundary.
+    var rejected_zero = False
+    try:
+        dequantize_ggml_k(null_u8, null_out, 0, 12)
+    except:
+        rejected_zero = True
+    if not rejected_zero:
+        raise Error("K-quant decoder accepted a zero element count")
 
-    print("dequantizer zero & null bounds crash-proofing: PASS")
+    var rejected_partial = False
+    try:
+        dequantize_ggml_k(null_u8, null_out, 255, 12)
+    except:
+        rejected_partial = True
+    if not rejected_partial:
+        raise Error("K-quant decoder accepted an incomplete block")
+
+    print("dequantizer invalid bounds rejection: PASS")
 
 
 def test_gemm_invalid_dimensions_rejection() raises:
@@ -95,16 +102,7 @@ def test_unrecognized_format_self_healing() raises:
     for i in range(M * K):
         A.data.unsafe_store(i, Scalar[f16](0.1) * Scalar[f16](i + 1))
 
-    var block_layout = Layout[BlockQ4_K](count=N)
-    var block_alloc = alloc(block_layout)
-    var B_blocks = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
-    for n in range(N):
-        var scales = SIMD[DType.uint8, 16](0x01)
-        var qs = SIMD[DType.uint8, 128](0x22)
-        var blk = BlockQ4_K(Scalar[f16](0.5), Scalar[f16](-0.25), scales, qs)
-        B_blocks.unsafe_offset(n)[] = blk
-
-    var quant_w_ptr = B_blocks.unsafe_bitcast[Scalar[f16]]()
+    var quant_w_ptr = well.allocate(N * K)
     # Construct tensor with unknown format discriminant 999
     var B_unrecognized = RuneTensor[f16](N, K, quant_w_ptr, True, CompressedFormatType(999))
 

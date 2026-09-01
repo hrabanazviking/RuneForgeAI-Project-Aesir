@@ -131,31 +131,6 @@ def test_dequantization_kernels() raises:
     print("compressed-format dequantization boundaries: PASS")
 
 
-def test_q4_k_m_block_dequantization() raises:
-    print("--- Testing Q4_K_M Block Dequantization Math & Layout ---")
-    from core.compute import BlockQ4_K, dequantize_q4_k_m
-    var block_mem = alloc(Layout[BlockQ4_K](count=1)).unsafe_leak()
-    var out_mem = alloc(Layout[Scalar[f16]](count=256)).unsafe_leak()
-
-    var d = Scalar[f16](0.5)
-    var dmin = Scalar[f16](-1.0)
-    var scales = SIMD[DType.uint8, 16](0x01)
-    var qs = SIMD[DType.uint8, 128](0x21) # lower_4 = 1, upper_4 = 2
-
-    block_mem[] = BlockQ4_K(d, dmin, scales, qs)
-
-    dequantize_q4_k_m(block_mem, out_mem, 1)
-
-    var val_lower = out_mem.unsafe_load(0)
-    var val_upper = out_mem.unsafe_load(16)
-
-    # Zero blocks safety check (must return early without modifying or crashing)
-    dequantize_q4_k_m(block_mem, out_mem, 0)
-
-    block_mem.unsafe_free()
-    out_mem.unsafe_free()
-    print("Q4_K_M block dequantization math & layout: PASS")
-
 def test_quantized_byte_span_validation() raises:
     print("--- Testing Quantized Byte Span Bounds & Alignment Validation ---")
     from loader.quantization import validate_quantized_byte_span
@@ -178,5 +153,4 @@ def test_quantized_byte_span_validation() raises:
 def main() raises:
     test_compressed_format_enum()
     test_dequantization_kernels()
-    test_q4_k_m_block_dequantization()
     test_quantized_byte_span_validation()

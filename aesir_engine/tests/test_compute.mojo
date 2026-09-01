@@ -1,7 +1,7 @@
 # tests/test_compute.mojo
 # The Proving Grounds: Verification of the Forge's Mathematical Truth
 
-from core.mimir_well import MimirWell, RuneTensor, f16, f32
+from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16, f32
 from core.compute import (
     gemm_f16,
     flash_attention_2,
@@ -11,8 +11,7 @@ from core.compute import (
     rmsnorm,
     apply_rope,
     cosine_similarity,
-    dequantize_q4_k_m,
-    BlockQ4_K,
+    dequantize_compressed_tensor,
 )
 
 def test_gemm() raises:
@@ -166,56 +165,26 @@ def test_geglu() raises:
 
 
 def test_dequantize_q4_k_m() raises:
-    """Test Q4_K_M dequantization: unpack 4-bit weights, scale, and add min."""
-    print("--- Testing toy Q4_K_M-shaped write scaffold ---")
-    var well = MimirWell(1024 * 64)
-    
-    # Construct a single BlockQ4_K manually
-    # scale=2.0, min_val=0.5
-    # packed bytes: each byte encodes two 4-bit values (lo, hi)
-    # byte 0x31 => lo=1, hi=3
-    # Expected: lo dequant = 1*2.0 + 0.5 = 2.5, hi dequant = 3*2.0 + 0.5 = 6.5
-    # Allocate a block buffer and store the block into it
-    from std.memory.alloc import alloc, Layout
-    var block_layout = Layout[BlockQ4_K](count=1)
-    var block_alloc = alloc(block_layout)
-    var block_ptr = block_alloc^.unsafe_leak().unsafe_bitcast[BlockQ4_K]()
-    block_ptr[] = BlockQ4_K(
-        d=Scalar[f16](2.0),
-        dmin=Scalar[f16](0.5),
-        scales=SIMD[DType.uint8, 16](0x01),
-        qs=SIMD[DType.uint8, 128](0x31)
+    """Known-value dequantization through the canonical 144-byte GGML layout."""
+    var well = MimirWell(8192)
+    var raw = well.allocate(144).unsafe_bitcast[UInt8]()
+    for i in range(144):
+        raw.unsafe_store(i, UInt8(0))
+    raw.unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.5))
+    for i in range(4):
+        raw.unsafe_store(4 + i, UInt8(1))
+        raw.unsafe_store(12 + i, UInt8(1))
+    for i in range(128):
+        raw.unsafe_store(16 + i, UInt8(0x21))
+    var output = well.allocate(256)
+    dequantize_compressed_tensor(
+        CompressedFormatType(CompressedFormatType.Q4_K_M), raw, output, 256
     )
-    
-    var out_ptr = well.allocate(256)  # 32 f16 values from 1 block
-    
-    dequantize_q4_k_m(block_ptr, out_ptr, 1)
-    
-    # Check lower 16: should all be 1 * 2.0 - 0.0 = 2.0
-    var success = True
-    var val_lo = out_ptr.unsafe_load(0)
-    var diff_lo = val_lo - 2.0
-    if diff_lo < 0:
-        diff_lo = -diff_lo
-    if diff_lo > 0.1:
-        print("FAIL: Lower nibble dequant expected 2.0, got", val_lo)
-        success = False
-    
-    # Check upper 16: should all be 3 * 2.0 - 0.0 = 6.0
-    var val_hi = out_ptr.unsafe_load(16)
-    var diff_hi = val_hi - 6.0
-    if diff_hi < 0:
-        diff_hi = -diff_hi
-    if diff_hi > 0.1:
-        print("FAIL: Upper nibble dequant expected 6.0, got", val_hi)
-        success = False
-    
-    block_ptr.unsafe_free()
+    if output.unsafe_load(0) != Float16(0.5) or output.unsafe_load(32) != Float16(1):
+        raise Error("Canonical Q4_K dequantization known-value mismatch")
+    _ = well
+    print("canonical Q4_K dequantization: PASS")
 
-    if success:
-        print("dequantize_q4_k_m: PASS")
-    else:
-        raise Error("dequantize_q4_k_m result mismatch")
 
 def test_kernel_bounds() raises:
     """Test checked kernel boundaries for gemm_f16, rmsnorm, apply_rope, and cosine_similarity."""

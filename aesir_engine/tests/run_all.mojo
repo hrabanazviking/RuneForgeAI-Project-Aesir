@@ -263,9 +263,7 @@ def main() raises:
     run_case(ledger, "compute.flash_attention_2", test_flash_attention)
     run_case(ledger, "compute.silu", test_silu)
     run_case(ledger, "compute.geglu", test_geglu)
-    run_case(
-        ledger, "compute.dequantize_q4_k_m_scaffold", test_dequantize_q4_k_m
-    )
+    run_case(ledger, "compute.dequantize_q4_k", test_dequantize_q4_k_m)
     print("")
 
     # --- GGUF Loader ---
