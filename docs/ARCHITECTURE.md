@@ -210,8 +210,8 @@ graph TD
   - `SelfHealingSupervisor`: Records a local heartbeat event; its legacy recovery method rejects without mutation because no panic or runtime recovery owner exists.
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
-- **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
-- **Implementation:** Provides `HuggingFaceSeer` with static utilities: `parse_hf_repo` (strips `hf.co/` and `huggingface.co/` prefixes), `is_hf_tag` (discriminates HuggingFace repository URI patterns), `build_download_url` (constructs direct HuggingFace resolve CDN HTTPS URLs), and `download_hf_model` (streams model weight streams into local disk storage and `MimirWell` memory substrate). Supports mobile & edge model architectures: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
+- **Role:** Hugging Face public-repository identity validation, pinned resolve-URL construction, and verified GGUF file download orchestration.
+- **Implementation:** `parse_hf_repo` normalizes the exact `hf.co` and `huggingface.co` forms. `is_hf_tag` requires one safe `owner/name` identity and rejects unrelated schemes/hosts and malformed paths. `download_hf_model` invokes `curl` and `sha256sum` through checked argv, enforces HTTPS-only redirects, an immutable 40-hex revision, expected size, SHA-256, GGUF v3 header, bounded optional ranges, and exclusive atomic file publication. It writes one public GGUF to disk; it does not populate `MimirWell`, register the model, authenticate, resume, or establish compatibility with any architecture merely named by a repository.
 
 ### 11. `server/api.mojo` & `server/openai.mojo` — Bifrost Gate Server & Gateway (Slice 10 & 11)
 - **Role:** HTTP transport framing, POSIX socket server, OpenAI REST API endpoint routing, request correlation tracking, and JSON string escaping.
@@ -465,8 +465,8 @@ graph TD
 **No boundary violations detected.** Transport formatting (`OpenAIGate`, `dispatch_http_route`) remains strictly inside `server/`. Graph parsing (`ONNXModelSeer`) is in `loader/`. Grammar logit masking and speculative draft verification (`GBNFGrammar`, `SpeculativeEngine`) operate directly on logits pointers inside `core/`. Command dispatchers (`dispatch_llama_cli`, `dispatch_exl2_cli`, `dispatch_onnx_cli`) are isolated within `cli/`.
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
-- **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
-- **Implementation:** Provides `HuggingFaceSeer` with static utilities: `parse_hf_repo` (strips `hf.co/` and `huggingface.co/` prefixes), `is_hf_tag` (discriminates HuggingFace repository URI patterns), `build_download_url` (constructs direct HuggingFace resolve CDN HTTPS URLs), and `download_hf_model` (streams model weight streams into local disk storage and `MimirWell` memory substrate). Supports mobile & edge model architectures: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
+- **Role:** Public Hub identity validation, pinned HTTPS resolve URLs, and verified single-GGUF file publication.
+- **Implementation:** See the authoritative description above. This boundary writes a verified file to disk and makes no general model-family compatibility claim.
 
 ### 11. `core/swarm.mojo` — local swarm descriptors and unavailable transport boundary
 - **Role:** Validated caller-owned peer records, local capacity selection, request descriptors, and the fail-closed boundary for planned distributed execution.

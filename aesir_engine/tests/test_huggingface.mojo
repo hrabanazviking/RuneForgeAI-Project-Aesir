@@ -28,9 +28,19 @@ def test_hf_repo_parsing() raises:
         print("FAIL: is_hf_tag org/repo check failed")
         success = False
 
-    if HuggingFaceSeer.is_hf_tag(""):
-        print("FAIL: is_hf_tag empty string check failed")
+    if not HuggingFaceSeer.is_hf_tag("https://huggingface.co/org/repo"):
+        print("FAIL: is_hf_tag HTTPS repository check failed")
         success = False
+
+    var invalid_tags: List[String] = [
+        "", "http://example.com/org/repo", "https://example.com/org/repo",
+        "org/repo/extra", "org//repo", "../repo", "org/repo?download=1",
+        "single-name",
+    ]
+    for tag in invalid_tags:
+        if HuggingFaceSeer.is_hf_tag(tag):
+            print("FAIL: is_hf_tag accepted invalid repository identity: " + tag)
+            success = False
 
     if success:
         print("HuggingFace Tag Parsing: PASS")
@@ -72,8 +82,8 @@ def test_hf_download_url_builder() raises:
         raise Error("Hugging Face URL builder invariant mismatch")
 
 
-def test_hf_mobile_model_download() raises:
-    print("--- Testing Hugging Face model download functionality ---")
+def test_hf_download_parameter_boundary() raises:
+    print("--- Testing Hugging Face download parameter boundary ---")
     var seer = HuggingFaceSeer()
     var url = HuggingFaceSeer.build_download_url("hf.co/HuggingFaceTB/SmolLM-135M", "model.gguf")
     if "https://huggingface.co/HuggingFaceTB/SmolLM-135M/resolve/main/model.gguf" not in url:
@@ -87,7 +97,7 @@ def test_hf_mobile_model_download() raises:
     if not empty_param_rejected:
         raise Error("Hugging Face downloader allowed empty repo_id")
 
-    print("Hugging Face model download functionality: PASS")
+    print("Hugging Face download parameter boundary: PASS")
 
 
 def test_hf_subprocess_argument_safety() raises:

@@ -1030,9 +1030,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** loader domain
 - **Claim sources:** completed Hugging Face TODO and loader interface
-- **Implementation evidence:** `HuggingFaceSeer.is_hf_tag` and `parse_hf_repo` in `loader/huggingface.mojo` recognizing string forms, normalizing `hf.co/` and `huggingface.co/` tags, and checking empty string tag bounds (`len(model_tag.bytes()) == 0`).
+- **Implementation evidence:** `HuggingFaceSeer.is_hf_tag` and `parse_hf_repo` in `loader/huggingface.mojo` recognize bare `owner/name` identities and the exact `hf.co` / `huggingface.co` HTTP-free or HTTPS prefixes. Admission requires exactly two nonempty safe path segments and rejects unrelated schemes/hosts, traversal, queries, duplicate separators, extra segments, and bare names.
 - **Executable evidence:** `E-MASTER` case `huggingface.tag_parser` in `test_huggingface.mojo`.
-- **Evidence boundary:** Checked repository tag string normalization and empty string rejection bounds.
+- **Evidence boundary:** This validates and normalizes public repository identity strings only; it does not query Hub existence, permissions, revisions, files, or model compatibility.
 - **Audit:** AER-082.
 
 ### AES-ECO-002 — Hugging Face resolve-URL construction

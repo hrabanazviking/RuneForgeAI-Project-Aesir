@@ -218,7 +218,7 @@ from tests.test_resilience import (
 from tests.test_huggingface import (
     test_hf_repo_parsing,
     test_hf_download_url_builder,
-    test_hf_mobile_model_download,
+    test_hf_download_parameter_boundary,
     test_hf_subprocess_argument_safety,
     test_hf_pinned_download_admission,
 )
@@ -648,8 +648,8 @@ def main() raises:
     run_case(ledger, "cli.cuda_chat_admission", test_cuda_chat_admission)
     run_case(
         ledger,
-        "huggingface.download_unsupported",
-        test_hf_mobile_model_download,
+        "huggingface.download_parameter_boundary",
+        test_hf_download_parameter_boundary,
     )
     print("")
 

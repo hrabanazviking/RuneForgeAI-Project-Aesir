@@ -235,12 +235,18 @@ struct HuggingFaceSeer:
         """
         if len(model_tag.bytes()) == 0:
             return False
-        if model_tag.startswith("hf.co/") or model_tag.startswith("huggingface.co/"):
-            return True
-        # Check for org/repo pattern
-        if "/" in model_tag and not model_tag.endswith(".gguf"):
-            return True
-        return False
+        if (
+            "://" in model_tag
+            and not model_tag.startswith("https://huggingface.co/")
+            and not model_tag.startswith("https://hf.co/")
+        ):
+            return False
+        var normalized = HuggingFaceSeer.parse_hf_repo(model_tag)
+        try:
+            _hf_validate_path(normalized, "repository")
+        except:
+            return False
+        return len(normalized.split("/")) == 2
 
     @staticmethod
     def build_download_url(
