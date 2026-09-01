@@ -30,10 +30,13 @@ from .npu_gate import NPUGate
 from .external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
+    AWQ4BitMatrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
     gemm_gptq_8bit_matrix,
+    dequantize_awq_4bit_matrix,
+    gemm_awq_4bit_matrix,
 )
 
 comptime simd_w_f16 = 16
@@ -490,6 +493,15 @@ def dequantize_awq_4bit(
     _ = out_ptr
     _ = num_elements
     raise Error("AWQ dequantization requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
+
+
+@always_inline
+def dequantize_awq_4bit(
+    matrix: AWQ4BitMatrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    dequantize_awq_4bit_matrix(matrix, out_ptr, output_elements)
 
 
 @always_inline
@@ -1085,6 +1097,19 @@ def gemm_awq_4bit(
     _ = B
     _ = C
     raise Error("AWQ GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
+
+
+def gemm_awq_4bit(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: AWQ4BitMatrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    gemm_awq_4bit_matrix(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_exl2(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

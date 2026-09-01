@@ -5,10 +5,13 @@ from core.compute import gemm_f16
 from core.external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
+    AWQ4BitMatrix,
     dequantize_gptq_4bit_matrix,
     dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
     gemm_gptq_8bit_matrix,
+    dequantize_awq_4bit_matrix,
+    gemm_awq_4bit_matrix,
 )
 
 
@@ -170,8 +173,50 @@ def test_gptq_8bit_known_value() raises:
     print("GPTQ_8BIT canonical AutoGPTQ dequantization and GEMM: PASS")
 
 
-def test_awq_4bit_boundary() raises:
-    assert_external_format_rejected(CompressedFormatType(CompressedFormatType.AWQ_4BIT), "AWQ_4BIT")
+def test_awq_4bit_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var qweight = well.allocate(8).unsafe_bitcast[UInt32]()
+    var qzeros = well.allocate(4).unsafe_bitcast[UInt32]()
+    var scales = well.allocate(16).unsafe_bitcast[Float16]()
+    var dequantized = well.allocate(32).unsafe_bitcast[Float16]()
+    var input = well.allocate(8).unsafe_bitcast[Float16]()
+    var output = well.allocate(16).unsafe_bitcast[Float16]()
+
+    # Logical output values [1..8] packed in AutoAWQ order [0,2,4,6,1,3,5,7].
+    for input_index in range(4):
+        qweight.unsafe_store(input_index, UInt32(0x86427531))
+    qzeros.unsafe_store(0, UInt32(0x11111111))
+    qzeros.unsafe_store(1, UInt32(0x11111111))
+    for output_index in range(8):
+        scales.unsafe_store(output_index, Float16(0.5))
+        scales.unsafe_store(8 + output_index, Float16(0.25))
+
+    var matrix = AWQ4BitMatrix(qweight, 4, qzeros, 2, scales, 16, 4, 8, 2)
+    dequantize_awq_4bit_matrix(matrix, dequantized, 32)
+    for output_index in range(8):
+        var delta = Float16(output_index)
+        var expected_first = delta * Float16(0.5)
+        var expected_second = delta * Float16(0.25)
+        if dequantized.unsafe_load(output_index * 4) != expected_first:
+            raise Error("AWQ 4-bit reordered weight mismatch in first group")
+        if dequantized.unsafe_load(output_index * 4 + 1) != expected_first:
+            raise Error("AWQ 4-bit reordered weight mismatch in first group")
+        if dequantized.unsafe_load(output_index * 4 + 2) != expected_second:
+            raise Error("AWQ 4-bit reordered weight mismatch in second group")
+        if dequantized.unsafe_load(output_index * 4 + 3) != expected_second:
+            raise Error("AWQ 4-bit reordered weight mismatch in second group")
+
+    for input_index in range(4):
+        input.unsafe_store(input_index, Float16(1.0))
+        input.unsafe_store(4 + input_index, Float16(input_index + 1))
+    gemm_awq_4bit_matrix(input, 8, 2, matrix, output, 16)
+    for output_index in range(8):
+        var delta = Float16(output_index)
+        if output.unsafe_load(output_index) != delta * Float16(1.5):
+            raise Error("AWQ 4-bit GEMM first row mismatch")
+        if output.unsafe_load(8 + output_index) != delta * Float16(3.25):
+            raise Error("AWQ 4-bit GEMM second row mismatch")
+    print("AWQ_4BIT canonical AutoAWQ GEMM layout and execution: PASS")
 
 
 def test_exl2_boundary() raises:

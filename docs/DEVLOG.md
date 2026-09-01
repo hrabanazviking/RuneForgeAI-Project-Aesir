@@ -1,3 +1,13 @@
+## 2026-09-01 — Added the canonical AutoAWQ GEMM 4-bit layout
+
+Added `AWQ4BitMatrix` with exact packed-weight, direct-zero, scale, grouping,
+and input/output storage bounds. Its decoder reverses AutoAWQ's
+`[0,2,4,6,1,3,5,7]` packing order before applying `(q - zero) * scale` and the
+GEMM accumulates in F32. The raw-word regression gives all eight logical output
+lanes distinct values and checks two matrix rows, exposing ordinary-nibble-order
+implementations. The layout is traced to AutoAWQ commit
+`88e4c76b20755db275574e6a03c83c84ba3bece5`.
+
 ## 2026-09-01 — Added canonical AutoGPTQ 8-bit execution
 
 Added a separately bounded `GPTQ8BitMatrix` using AutoGPTQ's four-values-per-
