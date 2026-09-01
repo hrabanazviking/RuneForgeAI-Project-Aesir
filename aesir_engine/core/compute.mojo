@@ -29,8 +29,11 @@ from .amd_gate import AMDGate
 from .npu_gate import NPUGate
 from .external_quantization import (
     GPTQ4BitMatrix,
+    GPTQ8BitMatrix,
     dequantize_gptq_4bit_matrix,
+    dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
+    gemm_gptq_8bit_matrix,
 )
 
 comptime simd_w_f16 = 16
@@ -457,6 +460,27 @@ def dequantize_gptq_4bit(
 
 
 @always_inline
+def dequantize_gptq_8bit(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
+    num_elements: Int,
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("GPTQ 8-bit byte-only dequantization is not implemented because it lacks scales, zero points, groups, and packing metadata; use the metadata-aware overload")
+
+
+@always_inline
+def dequantize_gptq_8bit(
+    matrix: GPTQ8BitMatrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    dequantize_gptq_8bit_matrix(matrix, out_ptr, output_elements)
+
+
+@always_inline
 def dequantize_awq_4bit(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
@@ -578,11 +602,10 @@ def dequantize_compressed_tensor(
         dequantize_fp8_e4m3(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.FP8_E5M2:
         dequantize_fp8_e5m2(data, out_ptr, num_elements)
-    elif (
-        format.value == CompressedFormatType.GPTQ_4BIT
-        or format.value == CompressedFormatType.GPTQ_8BIT
-    ):
+    elif format.value == CompressedFormatType.GPTQ_4BIT:
         dequantize_gptq_4bit(data, out_ptr, num_elements)
+    elif format.value == CompressedFormatType.GPTQ_8BIT:
+        dequantize_gptq_8bit(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.AWQ_4BIT:
         dequantize_awq_4bit(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.EXL2_VARBIT:
@@ -1041,6 +1064,19 @@ def gemm_gptq_8bit(
     _ = B
     _ = C
     raise Error("GPTQ 8-bit GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
+
+
+def gemm_gptq_8bit(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: GPTQ8BitMatrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    gemm_gptq_8bit_matrix(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_awq_4bit(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

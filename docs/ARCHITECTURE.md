@@ -386,8 +386,8 @@ Q4_K_M has the repository's strongest quantized path and exact byte-span checks.
 The capability ledger records the evidence boundary for each other format.
 `core/external_quantization.mojo` owns metadata-bearing formats that cannot be
 represented by a bare GGML byte span. It currently implements a validated
-AutoGPTQ 4-bit matrix view and host dequantization/GEMM primitives. That view is
-not yet populated by a model loader or dispatched to CUDA. GPTQ 8-bit, AWQ,
+AutoGPTQ 4-bit and 8-bit matrix views and host dequantization/GEMM primitives.
+Those views are not yet populated by a model loader or dispatched to CUDA. AWQ,
 EXL2, HQQ, SmoothQuant, IQ1_S, IQ2_XXS, and the custom ternary descriptor remain
 explicitly unavailable.
 

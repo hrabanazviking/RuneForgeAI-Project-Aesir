@@ -687,14 +687,21 @@ struct GPTQ4BitMatrix(Copyable, ImplicitlyCopyable):
     var group_count: Int
     var has_g_idx: Bool
 
+struct GPTQ8BitMatrix(Copyable, ImplicitlyCopyable):
+    # Same bounded metadata fields; UInt32 words pack four 8-bit values.
+    ...
+
 def dequantize_gptq_4bit(matrix: GPTQ4BitMatrix, out_ptr: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 def gemm_gptq_4bit(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, matrix: GPTQ4BitMatrix, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def dequantize_gptq_8bit(matrix: GPTQ8BitMatrix, out_ptr: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def gemm_gptq_8bit(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, matrix: GPTQ8BitMatrix, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 ```
 
-The view implements the AutoGPTQ 4-bit UInt32 packing and zero-minus-one rule,
-including optional `g_idx`, and requires exact backing-storage counts for every
-packed tensor, input, and output. GPTQ 8-bit, AWQ, EXL2, HQQ, SmoothQuant, and
-IQ execution are not yet part of this metadata-aware interface.
+The views implement AutoGPTQ's 4-bit and 8-bit UInt32 packing and
+zero-minus-one rule, including optional `g_idx`, and require exact
+backing-storage counts for every packed tensor, input, and output. AWQ, EXL2,
+HQQ, SmoothQuant, and IQ execution are not yet part of this metadata-aware
+interface.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

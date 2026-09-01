@@ -4,8 +4,11 @@ from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16
 from core.compute import gemm_f16
 from core.external_quantization import (
     GPTQ4BitMatrix,
+    GPTQ8BitMatrix,
     dequantize_gptq_4bit_matrix,
+    dequantize_gptq_8bit_matrix,
     gemm_gptq_4bit_matrix,
+    gemm_gptq_8bit_matrix,
 )
 
 
@@ -126,8 +129,45 @@ def test_gptq_4bit_known_value() raises:
     print("GPTQ_4BIT canonical AutoGPTQ dequantization and GEMM: PASS")
 
 
-def test_gptq_8bit_boundary() raises:
-    assert_external_format_rejected(CompressedFormatType(CompressedFormatType.GPTQ_8BIT), "GPTQ_8BIT")
+def test_gptq_8bit_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var qweight = well.allocate(8).unsafe_bitcast[UInt32]()
+    var qzeros = well.allocate(4).unsafe_bitcast[UInt32]()
+    var scales = well.allocate(8).unsafe_bitcast[Float16]()
+    var dequantized = well.allocate(16).unsafe_bitcast[Float16]()
+    var input = well.allocate(8).unsafe_bitcast[Float16]()
+    var output = well.allocate(8).unsafe_bitcast[Float16]()
+
+    # Each output uses q=[10,20,30,40] across the four input channels.
+    for output_index in range(4):
+        qweight.unsafe_store(output_index, UInt32(0x281E140A))
+    # Real zeros 12 and 25 are stored as 11 and 24.
+    qzeros.unsafe_store(0, UInt32(0x0B0B0B0B))
+    qzeros.unsafe_store(1, UInt32(0x18181818))
+    for output_index in range(4):
+        scales.unsafe_store(output_index, Float16(0.5))
+        scales.unsafe_store(4 + output_index, Float16(0.25))
+
+    var matrix = GPTQ8BitMatrix(qweight, 4, qzeros, 2, scales, 8, 4, 4, 2)
+    dequantize_gptq_8bit_matrix(matrix, dequantized, 16)
+    var expected = [
+        Float16(-1.0), Float16(4.0), Float16(1.25), Float16(3.75)
+    ]
+    for output_index in range(4):
+        for input_index in range(4):
+            if dequantized.unsafe_load(output_index * 4 + input_index) != expected[input_index]:
+                raise Error("GPTQ 8-bit dequantization disagrees with hand-computed weights")
+
+    for input_index in range(4):
+        input.unsafe_store(input_index, Float16(1.0))
+        input.unsafe_store(4 + input_index, Float16(input_index + 1))
+    gemm_gptq_8bit_matrix(input, 8, 2, matrix, output, 8)
+    for output_index in range(4):
+        if output.unsafe_load(output_index) != Float16(8.0):
+            raise Error("GPTQ 8-bit GEMM first row mismatch")
+        if output.unsafe_load(4 + output_index) != Float16(25.75):
+            raise Error("GPTQ 8-bit GEMM second row mismatch")
+    print("GPTQ_8BIT canonical AutoGPTQ dequantization and GEMM: PASS")
 
 
 def test_awq_4bit_boundary() raises:

@@ -1,3 +1,11 @@
+## 2026-09-01 — Added canonical AutoGPTQ 8-bit execution
+
+Added a separately bounded `GPTQ8BitMatrix` using AutoGPTQ's four-values-per-
+UInt32 packing, 8-bit zero-minus-one restoration, per-group/per-output scales,
+optional activation-order indices, F16 expansion, and F32-accumulating GEMM.
+Raw packed words are checked against hand-computed dequantized weights and two
+matrix rows. The byte-only API remains a strict metadata error.
+
 ## 2026-09-01 — Built the canonical AutoGPTQ 4-bit host primitive
 
 Added `GPTQ4BitMatrix`, a checked metadata-bearing view over AutoGPTQ's packed
