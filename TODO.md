@@ -560,18 +560,19 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Swarm/distributed execution
 
-- [x] **[verified, AES-SWM-001] Define protocol/version, node identity,
-  authentication, authorization, encryption, discovery, and membership model.**
-- [x] Replace seeded peer state with configured/observed state and real heartbeat
-  freshness/failure handling (`AES-SWM-001`).
-- [x] Extend the locally verified selection rule with reservations, concurrent
-  updates, fairness, staleness, and scheduling policy (`AES-SWM-001`).
+- [ ] **[verified, AES-SWM-001] Expand the local protocol/version and node
+  descriptors into an authenticated, authorized, encrypted discovery and
+  membership model.**
+- [ ] Replace the current caller-owned peer records with observed cross-process
+  state and real heartbeat freshness/failure handling (`AES-SWM-003`).
+- [ ] Extend the local capacity selector with reservations, concurrent updates,
+  fairness, staleness, and scheduling policy (`AES-SWM-002`).
 - [ ] **[missing, AES-SWM-003] Prove join/leave/heartbeat between separate
   authenticated processes.**
 - [ ] **[missing, AES-SWM-004] Execute one real inference request remotely:**
   Model availability, prompt/result transport, streaming, cancellation,
   timeout, retry/idempotency, and validation.
-- [x] Derive CLI/REST state from the live cluster and pass multi-process failure
+- [ ] Derive CLI/REST state from a live cluster and pass multi-process failure
   tests before emitting `ONLINE`, `HEALTHY`, `JOINED`, or `DISPATCHED` (`AES-SWM-004`).
 
 ## Stage 11 — Operations, Security, Portability, and Release Readiness

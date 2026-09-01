@@ -1,5 +1,5 @@
 # core/swarm.mojo
-# SwarmCluster: Distributed Mesh Protocol & Remote Inference Dispatch Engine
+# SwarmCluster: local peer descriptors and explicit unavailable network boundary
 
 from std.collections import Dict
 
@@ -50,7 +50,7 @@ struct NodeIdentity(Copyable):
         node_id: String,
         auth_token: String = "",
         protocol_version: String = "AESIR-SWARM-v1",
-        timestamp: Int64 = 1000
+        timestamp: Int64 = 0
     ):
         self.node_id = node_id
         self.auth_token = auth_token
@@ -64,6 +64,18 @@ struct NodeIdentity(Copyable):
         self.timestamp = existing.timestamp
 
 
+def _constant_time_token_equal(left: String, right: String) -> Bool:
+    """Compares equal-length credential bytes without content-dependent exits."""
+    if left.byte_length() != right.byte_length():
+        return False
+    var difference = 0
+    var left_bytes = left.as_bytes()
+    var right_bytes = right.as_bytes()
+    for i in range(len(left_bytes)):
+        difference |= Int(left_bytes[i]) ^ Int(right_bytes[i])
+    return difference == 0
+
+
 def authenticate_node_identity(identity: NodeIdentity, expected_token: String) raises -> Bool:
     """
     Validates node identity credentials and protocol version.
@@ -72,7 +84,13 @@ def authenticate_node_identity(identity: NodeIdentity, expected_token: String) r
         raise Error("Swarm authentication failed: empty node_id")
     if identity.protocol_version != "AESIR-SWARM-v1":
         raise Error("Swarm authentication failed: unsupported protocol version " + identity.protocol_version)
-    if expected_token == "" or identity.auth_token == "" or identity.auth_token != expected_token:
+    if identity.timestamp < 0:
+        raise Error("Swarm authentication failed: timestamp must not be negative")
+    if (
+        expected_token.byte_length() == 0
+        or identity.auth_token.byte_length() == 0
+        or not _constant_time_token_equal(identity.auth_token, expected_token)
+    ):
         raise Error("Swarm authentication failed: invalid auth_token")
     return True
 
@@ -99,7 +117,7 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         vram_capacity_mb: Int = 0,
         vram_used_mb: Int = 0,
         is_alive: Bool = False,
-        last_heartbeat_timestamp: Int64 = 1000
+        last_heartbeat_timestamp: Int64 = 0
     ):
         self.node_id = node_id
         self.ip_address = ip_address
@@ -137,7 +155,13 @@ struct PeerNode(Copyable, ImplicitlyCopyable):
         return max(0, self.vram_capacity_mb - self.vram_used_mb)
 
     def is_fresh(self, current_time: Int64, timeout_sec: Int64 = 30) -> Bool:
-        return self.is_alive and (current_time - self.last_heartbeat_timestamp <= timeout_sec)
+        return (
+            self.is_alive
+            and timeout_sec >= 0
+            and self.last_heartbeat_timestamp >= 0
+            and current_time >= self.last_heartbeat_timestamp
+            and current_time - self.last_heartbeat_timestamp <= timeout_sec
+        )
 
 
 struct PeerRegistry(Copyable):
@@ -165,6 +189,16 @@ struct PeerRegistry(Copyable):
 
     def register_node(mut self, node: PeerNode) raises:
         var id = node.node_id
+        if id.byte_length() == 0:
+            raise Error("PeerRegistry: node id must not be empty")
+        if node.ip_address.byte_length() == 0:
+            raise Error("PeerRegistry: node address must not be empty")
+        if node.port < 1 or node.port > 65535:
+            raise Error("PeerRegistry: node port must be between 1 and 65535")
+        if node.role.value < 0 or node.role.value > 2:
+            raise Error("PeerRegistry: node role is invalid")
+        if node.last_heartbeat_timestamp < 0:
+            raise Error("PeerRegistry: heartbeat timestamp must not be negative")
         if id not in self.nodes:
             self.node_keys.append(id)
         self.nodes[id] = node.copy()
@@ -242,7 +276,7 @@ struct RemoteInferenceResponse(Copyable):
         output_text: String,
         tokens_generated: Int,
         executing_node_id: String,
-        is_success: Bool = True
+        is_success: Bool = False
     ):
         self.request_id = request_id
         self.output_text = output_text
@@ -311,46 +345,27 @@ struct SwarmCluster(Copyable):
         expected_token: String
     ) raises -> Bool:
         """
-        Authenticates node identity and joins the enterprise mesh cluster.
+        Validates caller inputs, then rejects the unavailable network join.
         """
         if len(leader_address.as_bytes()) == 0:
             raise Error("leader address must not be empty")
         var _ = authenticate_node_identity(identity, expected_token)
-        var peer = PeerNode(
-            node_id=identity.node_id,
-            ip_address=leader_address,
-            port=11434,
-            role=SwarmNodeRole.WORKER,
-            vram_capacity_mb=16384,
-            vram_used_mb=2048,
-            is_alive=True,
-            last_heartbeat_timestamp=identity.timestamp
-        )
-        self.registry.register_node(peer)
-        self.is_mesh_active = True
-        return True
+        raise Error("authenticated swarm network join is not implemented")
 
     def leave_mesh(mut self, node_id: String) raises -> Bool:
         """
-        De-registers node identity from mesh cluster.
+        Rejects the unavailable network leave operation.
         """
-        self.registry.unregister_node(node_id)
-        if self.registry.count() == 0:
-            self.is_mesh_active = False
-        return True
+        if node_id.byte_length() == 0:
+            raise Error("node id must not be empty")
+        raise Error("swarm network leave is not implemented")
 
     def heartbeat_pulse(mut self, node_id: String = "", current_time: Int64 = 1000) raises -> Bool:
         """
-        Updates liveness heartbeat pulse for specified peer node.
+        Reports no network heartbeat because no mesh transport exists.
         """
-        if len(node_id.as_bytes()) == 0:
-            return False
-        if node_id in self.registry.nodes:
-            var node = self.registry.nodes[node_id].copy()
-            node.last_heartbeat_timestamp = current_time
-            node.is_alive = True
-            self.registry.register_node(node)
-            return True
+        _ = node_id
+        _ = current_time
         return False
 
     def dispatch_remote_inference(
@@ -359,22 +374,19 @@ struct SwarmCluster(Copyable):
         expected_token: String
     ) raises -> RemoteInferenceResponse:
         """
-        Dispatches load-balanced remote inference request to optimal live peer.
+        Validates request bounds, then rejects unavailable remote transport.
         """
-        if len(req.model.as_bytes()) == 0 or len(req.prompt.as_bytes()) == 0:
+        if req.request_id.byte_length() == 0:
+            raise Error("request id must not be empty")
+        if req.model.byte_length() == 0 or req.prompt.byte_length() == 0:
             raise Error("model and prompt must not be empty")
-
-        var best_peer = self.registry.get_least_loaded_node()
-        var task_ref = self.dispatcher.dispatch_to_node(best_peer, req.request_id)
-        _ = task_ref
-
-        return RemoteInferenceResponse(
-            request_id=req.request_id,
-            output_text="[Swarm Output from " + best_peer.node_id + "] Response for: " + req.prompt,
-            tokens_generated=req.max_tokens,
-            executing_node_id=best_peer.node_id,
-            is_success=True
-        )
+        if req.max_tokens <= 0:
+            raise Error("max_tokens must be positive")
+        if req.temperature < 0.0:
+            raise Error("temperature must not be negative")
+        if expected_token.byte_length() == 0:
+            raise Error("authentication token must not be empty")
+        raise Error("swarm remote inference transport is not implemented")
 
     def join_mesh(mut self, leader_address: String) raises -> Bool:
         """Legacy join compatibility wrapper."""

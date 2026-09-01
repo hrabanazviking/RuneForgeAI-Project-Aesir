@@ -1,3 +1,15 @@
+## 2026-09-01 — Removed fabricated swarm membership and credentials
+
+Authenticated mesh join no longer creates a fictional peer with fixed port,
+VRAM, utilization and liveness, and the engine facade no longer embeds a shared
+credential. Join, leave, heartbeat and remote inference now report the absent
+transport honestly and preserve registry, mesh and dispatcher state.
+
+The retained local primitives validate caller-owned peer records and compare
+equal-length credential bytes without content-dependent exits. They remain
+descriptor and selection helpers; discovery, encrypted transport, membership,
+liveness and distributed inference are still missing.
+
 ## 2026-09-01 — Removed fabricated RAG embeddings
 
 Removed both DJB2-style text projections and the token-zero substitution from

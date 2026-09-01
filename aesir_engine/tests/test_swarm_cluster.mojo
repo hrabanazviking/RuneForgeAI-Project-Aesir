@@ -70,6 +70,16 @@ def test_peer_registry_and_load_balancer() raises:
 
     if registry.count() != 0:
         raise Error("PeerRegistry seeded fictional peers")
+
+    var invalid_peer_rejected = False
+    try:
+        registry.register_node(
+            PeerNode("", "127.0.0.1", 11434, SwarmNodeRole.WORKER, 1000, 0, True)
+        )
+    except:
+        invalid_peer_rejected = True
+    if not invalid_peer_rejected or registry.count() != 0:
+        raise Error("PeerRegistry accepted or retained an invalid peer")
     registry.register_node(
         PeerNode("local", "127.0.0.1", 11434, SwarmNodeRole.LEADER, 24576, 4096, True)
     )

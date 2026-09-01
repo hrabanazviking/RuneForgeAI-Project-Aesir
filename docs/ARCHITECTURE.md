@@ -469,9 +469,9 @@ graph TD
 - **Role:** Bare-metal HuggingFace Hub repository resolver, URI tag normalizer, CDN stream URL builder, and weight stream downloader.
 - **Implementation:** Provides `HuggingFaceSeer` with static utilities: `parse_hf_repo` (strips `hf.co/` and `huggingface.co/` prefixes), `is_hf_tag` (discriminates HuggingFace repository URI patterns), `build_download_url` (constructs direct HuggingFace resolve CDN HTTPS URLs), and `download_hf_model` (streams model weight streams into local disk storage and `MimirWell` memory substrate). Supports mobile & edge model architectures: SmolLM, MobileLLM, Llama-3.2, Qwen2.5, Gemma-2-2B, Phi-3.5-mini.
 
-### 11. `core/swarm.mojo` — `SwarmCluster` & Mesh Orchestration Matrix (Phase 14)
-- **Role:** Cluster topology management, peer discovery, liveness heartbeats, and dynamic workload load balancing across enterprise mesh clusters.
-- **Implementation:** Encapsulates `SwarmNodeRole` (role discriminants: LEADER, WORKER, RELAY), `PeerNode` (preserves state, identity, socket port, role, VRAM capacity/usage, and liveness), `PeerRegistry` (stores active nodes and selects least-loaded node based on free VRAM), `TaskDispatcher` (routes inference tasks to target nodes), and `SwarmCluster` (orchestrates mesh join protocol, liveness pulses, and distributed inference routing).
+### 11. `core/swarm.mojo` — local swarm descriptors and unavailable transport boundary
+- **Role:** Validated caller-owned peer records, local capacity selection, request descriptors, and the fail-closed boundary for planned distributed execution.
+- **Implementation:** `PeerRegistry` validates node identity, address, port, role, and timestamp before storing caller observations. It can select the live record with most declared free VRAM. Credential comparison is content-independent for equal-length tokens. No discovery, socket transport, membership, heartbeat, remote execution, encryption, or distributed scheduling exists; every network join/leave/dispatch method rejects without changing cluster state.
 
 ---
 
@@ -503,19 +503,17 @@ graph TD
 
 ---
 
-## 🐝 The Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix — Phase 14 Domain Layer
+## 🐝 Planned Swarm Domain Boundary
 
-The Autonomous Swarm Agents & Enterprise Mesh Cluster Matrix domain layer provides distributed node discovery, dynamic load balancing based on free VRAM capacity, inter-node task dispatching, and REST API swarm monitoring across enterprise mesh clusters.
+The current swarm module provides local descriptors and selection arithmetic only. The CLI, REST, engine facade, and core transport paths all reject distributed operations. The diagram records ownership for future work, not operational connections.
 
 ```mermaid
 graph TD
-    CLI[aesir swarm ...<br/>cli/commands.mojo] -->|1. Swarm subcommand| Swarm[SwarmCluster Orchestrator<br/>core/swarm.mojo]
-    Gate[BifrostGate REST API<br/>server/api.mojo] -->|2. /api/swarm/* routes| Swarm
-    Engine[AesirEngine Facade<br/>aesir.mojo] -->|3. Holds swarm_cluster| Swarm
-    
-    Swarm -->|Manages| Reg[PeerRegistry<br/>core/swarm.mojo]
-    Swarm -->|Dispatches| Disp[TaskDispatcher<br/>core/swarm.mojo]
-    Reg -->|Identifies least loaded| Peer[PeerNode<br/>core/swarm.mojo]
+    CLI[aesir swarm] -->|unsupported| Boundary[Fail-closed network boundary]
+    Gate[/api/swarm routes] -->|HTTP 501| Boundary
+    Engine[AesirEngine facade] -->|unsupported| Boundary
+    Caller[Caller observations] --> Reg[Validated in-memory PeerRegistry]
+    Reg -->|local capacity selection| Peer[PeerNode descriptors]
 ```
 
 **Boundary confirmation for Phase 14:**
@@ -525,11 +523,11 @@ graph TD
 | `SwarmNodeRole` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — node role discriminant belongs in core swarm module |
 | `PeerNode` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node descriptor belongs in core swarm module |
 | `PeerRegistry` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — peer node registry and load balancer belong in core swarm module |
-| `TaskDispatcher` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — dynamic task router belongs in core swarm module |
-| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct** — `NodeIdentity`, `authenticate_node_identity`, `join_mesh_authenticated`, `leave_mesh`, `heartbeat_pulse`, `RemoteInferenceRequest`, `RemoteInferenceResponse`, and `dispatch_remote_inference` belong in core swarm module (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`) |
-| Swarm REST API routes | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct** — REST routes (`/api/swarm/*`) belong in server transport layer |
-| Swarm CLI subcommand (`swarm`) | `cli/commands.mojo` | CLI — Subcommand Dispatcher | ✅ **Correct** — CLI command routing belongs in CLI domain |
-| `AesirEngine.swarm_cluster` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns cluster orchestrator instance |
+| `TaskDispatcher` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct boundary** — validates local inputs and rejects unavailable transport |
+| `SwarmCluster` | `core/swarm.mojo` | Core — Swarm Domain | ✅ **Correct boundary** — owns descriptors and explicit unsupported network operations (`AES-SWM-001`, `AES-SWM-003`, `AES-SWM-004`) |
+| Swarm REST API routes | `server/api.mojo` | Server — Transport & Routing Domain | ✅ **Correct boundary** — reserved routes return 501 |
+| Swarm CLI subcommand (`swarm`) | `cli/commands.mojo` | CLI — Subcommand Dispatcher | ✅ **Correct boundary** — subcommands reject unsupported execution |
+| `AesirEngine.swarm_cluster` | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct boundary** — facade methods reject because secure transport is absent |
 | `test_swarm_cluster.mojo` | `tests/test_swarm_cluster.mojo` | Testing Domain | ✅ **Correct** — swarm unit tests belong in test suite |
 
-**No boundary violations detected.** `SwarmCluster` and core swarm structures are isolated within `core/swarm.mojo`. Sockets and HTTP routes in `server/api.mojo` remain cleanly separated from mesh state math. CLI commands in `cli/commands.mojo` handle display formatting.
+**Current limit:** No code path reports joined, healthy, dispatched, or successful remote inference. Separate-process authenticated transport, discovery, liveness, scheduling, cancellation, encryption, and failure recovery remain to be built.

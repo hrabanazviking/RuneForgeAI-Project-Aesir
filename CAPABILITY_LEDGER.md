@@ -1148,9 +1148,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core swarm domain
 - **Claim sources:** completed swarm TODO and core interface
-- **Implementation evidence:** `SwarmNodeRole`, `PeerNode`, and `PeerRegistry` in `core/swarm.mojo` enforcing non-negative attribute bounds and zero-floor VRAM arithmetic (`max(0, capacity - used)`).
-- **Executable evidence:** `E-MASTER` cases `swarm.role_enum` and `swarm.peer_metrics` in `test_swarm_cluster.mojo`.
-- **Evidence boundary:** Checked local peer role discriminants and zero-floor VRAM arithmetic.
+- **Implementation evidence:** `SwarmNodeRole`, `PeerNode`, and `PeerRegistry` in `core/swarm.mojo` provide role descriptors, zero-floor VRAM arithmetic, future-safe freshness checks, and pre-mutation validation of node ID, address, port, role, and timestamp.
+- **Executable evidence:** `E-MASTER` cases `swarm.role_enum`, `swarm.peer_metrics`, and `swarm.registry_load_balancer` in `test_swarm_cluster.mojo`.
+- **Evidence boundary:** These are caller-owned local records. They do not prove discovery, membership, authorization, encryption, or observed hardware capacity.
 - **Audit:** AER-088, AER-114.
 
 ### AES-SWM-002 — In-memory least-used/capacity peer selection & empty cluster safety
@@ -1168,9 +1168,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `missing`
 - **Owner:** core swarm and server domains
 - **Claim sources:** completed swarm TODO; CLI/server interfaces
-- **Implementation evidence:** `SwarmCluster` in `core/swarm.mojo` enforcing parameter validation (`len(leader_address.bytes()) == 0 -> raises Error("leader address must not be empty")`), returning false for heartbeat, and rejecting unsupported network mesh join.
-- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported` in `test_swarm_cluster.mojo`.
-- **Evidence boundary:** Checked local parameter bounds and explicit unsupported network mesh join boundaries.
+- **Implementation evidence:** `SwarmCluster` validates identity and equal-length credential bytes without content-dependent exits, validates leader/node parameters, returns false for heartbeat, and rejects authenticated/legacy join and leave operations without registering peers or activating the mesh. The facade contains no embedded credential.
+- **Executable evidence:** `E-MASTER` cases `swarm.network_unsupported`, `swarm.node_authentication`, and `swarm.join_leave_heartbeat`.
+- **Evidence boundary:** Local credential comparison and mutation-free refusal are not network authentication, anti-replay protection, encrypted transport, membership, or liveness.
 - **Audit:** AER-114, AER-003.
 
 ### AES-SWM-004 — Distributed inference dispatch & task dispatcher parameter validation
@@ -1178,9 +1178,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `missing`
 - **Owner:** core swarm and inference domains
 - **Claim sources:** completed swarm TODO
-- **Implementation evidence:** `TaskDispatcher` in `core/swarm.mojo` enforcing parameter validation (`len(node.node_id.bytes()) == 0 or len(task_name.bytes()) == 0 -> raises Error("node id and task name must not be empty")`) and rejecting unsupported network transport operations (`raises Error("swarm task dispatch is not implemented")`).
-- **Executable evidence:** `E-MASTER` case `swarm.network_unsupported` in `test_swarm_cluster.mojo`.
-- **Evidence boundary:** Checked local parameter bounds and explicit unsupported network dispatch boundaries.
+- **Implementation evidence:** `TaskDispatcher` and `dispatch_remote_inference()` validate node/task and request/authentication bounds, then reject before selecting a peer, incrementing task state, or constructing a response. The engine facade also rejects instead of manufacturing a request ID or credential.
+- **Executable evidence:** `E-MASTER` cases `swarm.network_unsupported` and `swarm.remote_inference_dispatch` cover invalid input, explicit refusal, and state non-mutation.
+- **Evidence boundary:** No transport, remote model admission, streaming, cancellation, retry, idempotency, or execution exists.
 - **Audit:** AER-114.
 
 ### AES-SWM-005 — Swarm REST and CLI operational status & subcommand bounds

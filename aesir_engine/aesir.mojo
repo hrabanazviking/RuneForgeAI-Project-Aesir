@@ -10,7 +10,7 @@ from core.supervisor import SelfHealingSupervisor
 from core.state_vault import StateVault, VaultCheckpoint
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
-from core.swarm import SwarmCluster, NodeIdentity, RemoteInferenceRequest
+from core.swarm import SwarmCluster
 from loader.gguf import GGUFModelConfig, GGUFSeer
 from loader.tokenizer import RuneWeaver
 from loader.chat_template import ChatMessage, RuneChatTemplate
@@ -342,18 +342,19 @@ struct AesirEngine:
 
     def join_swarm_cluster(mut self, node_id: String, leader_address: String) raises -> Bool:
         """
-        Registers this engine node with the distributed SwarmCluster mesh.
+        Reserved distributed-mesh facade entry point.
         """
-        var id = NodeIdentity(node_id, "secret-aesir-token")
-        return self.swarm_cluster.join_mesh_authenticated(id, leader_address, "secret-aesir-token")
+        _ = node_id
+        _ = leader_address
+        raise Error("AesirEngine swarm join is unavailable; no secure network transport is implemented")
 
     def dispatch_swarm_inference(mut self, prompt: String, max_tokens: Int = 32) raises -> String:
         """
-        Dispatches load-balanced remote inference across live nodes in the SwarmCluster mesh.
+        Reserved distributed-inference facade entry point.
         """
-        var req = RemoteInferenceRequest("req_swarm_1", self.parser.config.architecture_name, prompt, max_tokens)
-        var resp = self.swarm_cluster.dispatch_remote_inference(req, "secret-aesir-token")
-        return resp.output_text
+        _ = prompt
+        _ = max_tokens
+        raise Error("AesirEngine swarm inference is unavailable; no remote execution transport is implemented")
 
     def speculative_generate(
         mut self, mut draft_engine: AesirEngine, prompt: String, max_new_tokens: Int = 32
