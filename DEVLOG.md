@@ -693,11 +693,14 @@ implementation milestones were pushed separately and passed GitHub CI.
    await explicit maintainer approval before removal. Canonical images under
    `docs/assets/images/` and all source/legal/history material are preserved.
 
-## ⚡ Entry 103: Stage 58.1 — Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway (AES-QNT-011)
+## ⚡ Entry 103: Superseded all-format metadata and autotuning claim (AES-QNT-011)
 **Date:** August 16, 2026  
 **Architectural Phase:** Comprehensive All-Format Quantization Suite & Hardware Autotuning Gateway  
 
-The forge completed Stage 58.1 of Project Aesir (`AES-QNT-011` `verified`):
+Historical record: this entry's `verified` conclusion was invalidated on
+September 1, 2026. The metadata was guessed and conflated unrelated formats;
+the autotuner measured and selected nothing. See the canonical ledger. The
+original work recorded here was:
 1. **Metadata Store for All 25+ Quantization Formats:** Implemented `QuantizationFormatInfo` struct and `get_quantization_format_info()` metadata store in `core/compute.mojo` returning block size, bits per weight, compression ratio, recommended tile size, and format classifications across all 25+ supported quantization formats.
 2. **Hardware Autotuning Gateway Dispatcher:** Implemented `autotune_quantized_gemm()` in `core/compute.mojo` for validating matrix dimensions, evaluating format metadata, and autotuning execution tile parameters.
 3. **Comprehensive Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_all_quantization_formats_suite.mojo` testing metadata reporting across all format discriminants and autotuned hardware gateway dispatching. Master test suite passed clean (**107 passed / 0 failed / 1 skipped / Total 108**). Doc drift check passed (**0 errors**).

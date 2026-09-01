@@ -1,3 +1,11 @@
+## 2026-09-01 — Removed no-op quantization autotuning
+
+Deleted `QuantizationFormatInfo`, `get_quantization_format_info()`, and
+`autotune_quantized_gemm()`. The table returned guessed and conflated metadata,
+including Q4_K_M for unknown descriptors, while the autotuner performed no
+measurements or selection. Its two self-validating cases were removed from the
+counted suite; `AES-QNT-011` is now `missing`.
+
 ## 2026-09-01 — Removed invented extreme-quantization layouts
 
 Deleted the local IQ1_S, IQ2_XXS, and ternary block structs and decoders. They

@@ -1712,7 +1712,7 @@ def gemm_f16(
             gemm_q4_k_m(A, B, C)
             return
         else:
-            raise Error("autotune_quantized_gemm: unrecognized or unsupported quantization format discriminant")
+            raise Error("gemm_f16: unrecognized or unsupported quantization format discriminant")
 
     var rows = A.rows
     var shared_dim = A.cols
@@ -1738,136 +1738,6 @@ def gemm_f16(
                     ).cast[f32]()
                 )
             C.set(row, output_index, sum.cast[f16]())
-
-
-struct QuantizationFormatInfo(Copyable):
-    var format_name: String
-    var block_size: Int
-    var bits_per_weight: Float32
-    var compression_ratio: Float32
-    var recommended_tile_size: Int
-    var is_k_quant: Bool
-    var is_extreme: Bool
-
-    def __init__(
-        out self,
-        format_name: String,
-        block_size: Int,
-        bits_per_weight: Float32,
-        compression_ratio: Float32,
-        recommended_tile_size: Int,
-        is_k_quant: Bool,
-        is_extreme: Bool,
-    ):
-        self.format_name = format_name
-        self.block_size = block_size
-        self.bits_per_weight = bits_per_weight
-        self.compression_ratio = compression_ratio
-        self.recommended_tile_size = recommended_tile_size
-        self.is_k_quant = is_k_quant
-        self.is_extreme = is_extreme
-
-    def __copyinit__(out self, existing: Self):
-        self.format_name = String(existing.format_name)
-        self.block_size = existing.block_size
-        self.bits_per_weight = existing.bits_per_weight
-        self.compression_ratio = existing.compression_ratio
-        self.recommended_tile_size = existing.recommended_tile_size
-        self.is_k_quant = existing.is_k_quant
-        self.is_extreme = existing.is_extreme
-
-
-def get_quantization_format_info(
-    fmt: CompressedFormatType,
-) -> QuantizationFormatInfo:
-    """Returns architectural metadata and autotuning parameters for any quantization format.
-    """
-    var v = fmt.value
-    if v == CompressedFormatType.Q2_K:
-        return QuantizationFormatInfo("Q2_K", 256, 2.56, 6.25, 256, True, False)
-    elif (
-        v == CompressedFormatType.Q3_K_S
-        or v == CompressedFormatType.Q3_K_M
-        or v == CompressedFormatType.Q3_K_L
-    ):
-        return QuantizationFormatInfo("Q3_K", 256, 3.44, 4.65, 256, True, False)
-    elif v == CompressedFormatType.Q4_0 or v == CompressedFormatType.Q4_1:
-        return QuantizationFormatInfo("Q4_0", 32, 4.50, 3.55, 32, False, False)
-    elif v == CompressedFormatType.Q4_K_S or v == CompressedFormatType.Q4_K_M:
-        return QuantizationFormatInfo("Q4_K", 256, 4.50, 3.55, 256, True, False)
-    elif v == CompressedFormatType.Q5_0 or v == CompressedFormatType.Q5_1:
-        return QuantizationFormatInfo("Q5_0", 32, 5.50, 2.90, 32, False, False)
-    elif v == CompressedFormatType.Q5_K_S or v == CompressedFormatType.Q5_K_M:
-        return QuantizationFormatInfo("Q5_K", 256, 5.50, 2.90, 256, True, False)
-    elif v == CompressedFormatType.Q6_K:
-        return QuantizationFormatInfo("Q6_K", 256, 6.56, 2.44, 256, True, False)
-    elif (
-        v == CompressedFormatType.Q8_0
-        or v == CompressedFormatType.Q8_1
-        or v == CompressedFormatType.SMOOTHQUANT_INT8
-    ):
-        return QuantizationFormatInfo("Q8_0", 32, 8.50, 1.88, 32, False, False)
-    elif (
-        v == CompressedFormatType.FP8_E4M3 or v == CompressedFormatType.FP8_E5M2
-    ):
-        return QuantizationFormatInfo("FP8", 1, 8.00, 2.00, 64, False, False)
-    elif v == CompressedFormatType.IQ1_S:
-        return QuantizationFormatInfo(
-            "IQ1_S", 256, 1.56, 10.25, 256, False, True
-        )
-    elif v == CompressedFormatType.IQ2_XXS:
-        return QuantizationFormatInfo(
-            "IQ2_XXS", 256, 2.06, 7.76, 256, False, True
-        )
-    elif v == CompressedFormatType.TERNARY_155BIT:
-        return QuantizationFormatInfo(
-            "TERNARY_155BIT", 256, 1.58, 10.12, 256, False, True
-        )
-    elif (
-        v == CompressedFormatType.GPTQ_4BIT
-        or v == CompressedFormatType.AWQ_4BIT
-        or v == CompressedFormatType.EXL2_VARBIT
-    ):
-        return QuantizationFormatInfo(
-            "GPTQ_AWQ_4BIT", 128, 4.00, 4.00, 128, False, False
-        )
-    elif v == CompressedFormatType.GPTQ_8BIT or v == CompressedFormatType.HQQ:
-        return QuantizationFormatInfo(
-            "GPTQ_HQQ_8BIT", 128, 8.00, 2.00, 128, False, False
-        )
-    else:
-        return QuantizationFormatInfo(
-            "Q4_K_M", 256, 4.50, 3.55, 256, True, False
-        )
-
-
-def autotune_quantized_gemm(
-    A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
-) raises:
-    """
-    Hardware Autotuning Gateway:
-    Validates tensor dimensions, inspects quantization format metadata, optimizes execution parameters,
-    and dispatches quantized GEMM.
-    """
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error(
-            "autotune_quantized_gemm: matrix dimensions must be positive"
-        )
-    if A.cols != B.cols:
-        raise Error("autotune_quantized_gemm: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("autotune_quantized_gemm: output matrix shape mismatch")
-
-    var info = get_quantization_format_info(B.quant_format)
-    # Autotuning parameter validation: tile alignment
-    if (
-        A.cols % info.block_size != 0
-        and info.block_size > 1
-        and A.cols >= info.block_size
-    ):
-        pass  # Autotuner permits execution with tail handling
-
-    gemm_f16(A, B, C)
 
 
 def flash_attention_gqa(

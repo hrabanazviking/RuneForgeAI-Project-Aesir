@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 172 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 173, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 170 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 171, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,11 +65,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 70 |
+| `verified` | 69 |
 | `partial` | 21 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 21 |
+| `missing` | 22 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -916,13 +916,14 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ### AES-QNT-011 — Comprehensive all-format quantization metadata store & hardware autotuning gateway
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** core compute domain
 - **Claim sources:** Comprehensive all-format quantization metadata and hardware autotuning gateway
-- **Implementation evidence:** `QuantizationFormatInfo` struct, `get_quantization_format_info()` metadata store, and `autotune_quantized_gemm()` hardware autotuning gateway in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.metadata_store_all_formats`, `quantization.autotune_gemm_dispatch` in `test_all_quantization_formats_suite.mojo`.
-- **Evidence boundary:** Verified metadata reporting across all 25+ quantization format discriminants and hardware autotuner gateway execution.
-- **Audit:** Stage 58.1 Mythic Engineering Pass.
+- **Implementation evidence:** None. The former metadata table merged unrelated formats, returned Q4_K_M for unknown values, and supplied guessed tile sizes. The former autotuner performed no measurements or parameter selection; both it and its self-validating tests were removed.
+- **Executable evidence:** None.
+- **Evidence boundary:** `gemm_f16()` remains the format dispatcher. No runtime benchmarking, device-specific candidate search, cache, persistence, or selected-kernel evidence exists.
+- **Next acceptance gate:** Define candidate kernels and constraints, measure representative shapes on a physical target, select and cache a winner, and verify numerical parity plus repeatable benchmark evidence.
+- **Audit:** Reality correction, September 1, 2026.
 
 ## 14. Hardware and Multi-Device Execution
 

@@ -175,10 +175,6 @@ from tests.test_extreme_quants import (
     test_iq2_xxs_boundary,
     test_ternary_boundary,
 )
-from tests.test_all_quantization_formats_suite import (
-    test_quantization_metadata_store,
-    test_autotune_quantized_gemm_dispatch,
-)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -557,16 +553,6 @@ def main() raises:
     )
     run_case(
         ledger,
-        "quantization.metadata_store_all_formats",
-        test_quantization_metadata_store,
-    )
-    run_case(
-        ledger,
-        "quantization.autotune_gemm_dispatch",
-        test_autotune_quantized_gemm_dispatch,
-    )
-    run_case(
-        ledger,
         "quantization.hardening_zero_and_null_bounds",
         test_dequantizer_zero_and_null_bounds,
     )
@@ -759,4 +745,4 @@ def main() raises:
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
-    ledger.finish(173)
+    ledger.finish(171)

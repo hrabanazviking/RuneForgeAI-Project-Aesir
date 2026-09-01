@@ -111,7 +111,7 @@ def test_unrecognized_format_self_healing() raises:
     var cf_ptr = well.allocate(M * N)
     var C = RuneTensor[f16](M, N, cf_ptr, False)
 
-    # autotune_quantized_gemm should strictly reject unrecognized format 999
+    # The primary quantized GEMM dispatcher must reject unknown format 999.
     var rejected = False
     try:
         gemm_f16(A, B_unrecognized, C)
