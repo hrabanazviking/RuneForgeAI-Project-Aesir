@@ -204,14 +204,14 @@ The resilience domain contains pointer/logit guards, durable checkpoint records,
 ```mermaid
 graph TD
     Supervisor[SelfHealingSupervisor<br/>core/supervisor.mojo] -->|pulse_heartbeat / publish_event| Bus[AesirEventBus<br/>core/event_bus.mojo]
-    Supervisor -->|restore_checkpoint| Vault[StateVault<br/>core/state_vault.mojo]
+    Supervisor -->|owns marker store| Vault[StateVault<br/>core/state_vault.mojo]
     
     Engine[AesirEngine<br/>aesir.mojo] -->|holds supervisor, bus, pool| Supervisor
     Engine -->|holds thread pool| ThreadPool[RuneThreadPool<br/>core/thread_pool.mojo]
     
     Inference[forward_pass<br/>core/inference.mojo] -->|bounds_check & validate_pointer| ErrorGuard[ErrorGuard<br/>core/error_guard.mojo]
     Inference -->|sanitize_logits| ErrorGuard
-    Inference -->|save_checkpoint| Vault
+    Engine -.->|explicit standalone save/load facade| Vault
 ```
 
 **Boundary confirmation for Slice 12:**
@@ -219,10 +219,10 @@ graph TD
 | Component | Placed in | Domain | Verdict |
 | :--- | :--- | :--- | :--- |
 | `ErrorGuard` | `core/error_guard.mojo` | Core — Defensive Memory & Safety | ✅ **Correct** — pointer alignment & logit sanitization belongs in core safety |
-| `StateVault` | `core/state_vault.mojo` | Core — State Checkpointing | ✅ **Correct** — zero-allocation state snapshotting belongs in core state domain |
+| `StateVault` | `core/state_vault.mojo` | Core — Position Marker Storage | ✅ **Correct boundary** — bounded restart-safe position records belong in core; complete session snapshots and runtime recovery are absent |
 | `AesirEventBus` | `core/event_bus.mojo` | Core — Local Event Infrastructure | ✅ **Correct** — bounded synchronous journals and mailboxes belong in core; concurrent transport is absent |
 | `RuneThreadPool` | `core/thread_pool.mojo` | Core — Task Descriptors | ✅ **Correct boundary** — local admission/cancellation state belongs in core; workers remain unimplemented |
-| `SelfHealingSupervisor` | `core/supervisor.mojo` | Core — Process Guardianship | ✅ **Correct** — crash monitoring & recovery supervisor belongs in core |
+| `SelfHealingSupervisor` | `core/supervisor.mojo` | Core — Recovery Boundary | ✅ **Correct boundary** — local heartbeat storage is present; crash monitoring and recovery explicitly reject |
 | `AesirEngine` fields (`supervisor`, `event_bus`, `thread_pool`) | `aesir.mojo` | Asgard Facade Domain | ✅ **Correct** — orchestration facade owns system-wide component instances |
 | `test_resilience.mojo` | `tests/test_resilience.mojo` | Testing Domain | ✅ **Correct** — resilience unit tests belong in test suite |
 

@@ -51,7 +51,7 @@ def test_state_vault() raises:
     print("--- Testing StateVault in-memory marker ---")
     var success = True
     var vault = StateVault()
-    var _ = vault.save_checkpoint(128, 16)
+    var checkpoint = vault.save_checkpoint(128, 16)
 
     if not vault.is_checkpointed:
         print("FAIL: StateVault save checkpoint failed")
@@ -60,16 +60,27 @@ def test_state_vault() raises:
     if vault.restore_checkpoint() != 128:
         print("FAIL: StateVault restore checkpoint mismatch")
         success = False
+    if checkpoint.timestamp <= 0 or checkpoint.timestamp == 1000:
+        print("FAIL: StateVault default timestamp was not observed from the clock")
+        success = False
 
     # Test negative token_pos and prompt_count bounds rejection
     var neg_vault = StateVault()
-    var _1 = neg_vault.save_checkpoint(-10, 16)
-    if neg_vault.is_checkpointed:
+    var negative_rejected = False
+    try:
+        _ = neg_vault.save_checkpoint(-10, 16)
+    except:
+        negative_rejected = True
+    if not negative_rejected or neg_vault.is_checkpointed:
         print("FAIL: StateVault accepted negative token_pos")
         success = False
 
-    var _2 = neg_vault.save_checkpoint(128, -5)
-    if neg_vault.is_checkpointed:
+    negative_rejected = False
+    try:
+        _ = neg_vault.save_checkpoint(128, -5)
+    except:
+        negative_rejected = True
+    if not negative_rejected or neg_vault.is_checkpointed:
         print("FAIL: StateVault accepted negative prompt_count")
         success = False
 
@@ -80,6 +91,25 @@ def test_state_vault() raises:
     var loaded_chk = loaded_vault.load_checkpoint_from_disk(tmp_path)
     if loaded_chk.token_pos != 256 or loaded_chk.prompt_tokens_count != 32:
         print("FAIL: StateVault disk checkpoint token_pos/prompt_count mismatch")
+        success = False
+
+    # A malformed replacement must fail without replacing the last valid
+    # in-memory marker in the loading vault.
+    var corrupt_file = open(tmp_path, "w")
+    corrupt_file.write("TOKEN_POS=999\n")
+    corrupt_file.close()
+    var prior = loaded_vault.active_checkpoint.copy()
+    var malformed_rejected = False
+    try:
+        _ = loaded_vault.load_checkpoint_from_disk(tmp_path)
+    except:
+        malformed_rejected = True
+    if (
+        not malformed_rejected
+        or loaded_vault.active_checkpoint.token_pos != prior.token_pos
+        or loaded_vault.active_checkpoint.checksum != prior.checksum
+    ):
+        print("FAIL: StateVault malformed load was accepted or mutated active state")
         success = False
 
     if success:

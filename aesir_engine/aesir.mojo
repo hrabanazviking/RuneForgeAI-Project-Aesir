@@ -328,14 +328,17 @@ struct AesirEngine:
 
     def save_checkpoint(mut self, file_path: String, token_pos: Int, prompt_count: Int) raises -> VaultCheckpoint:
         """
-        Saves an integrity-protected engine checkpoint to disk using StateVault.
+        Persists a corruption-checked position marker using StateVault.
+
+        This does not capture the engine's model, tensors, KV cache, sampler,
+        session, process, or transport state.
         """
         var vault = StateVault()
         return vault.save_checkpoint_to_disk(file_path, token_pos, prompt_count)
 
     def load_checkpoint(mut self, file_path: String) raises -> VaultCheckpoint:
         """
-        Loads and verifies a durable engine checkpoint from disk using StateVault.
+        Loads and verifies a restart-safe position marker from disk.
         """
         var vault = StateVault()
         return vault.load_checkpoint_from_disk(file_path)

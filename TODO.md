@@ -545,9 +545,11 @@ The legacy formatters below are not exposed compatibility APIs.
 
 - [ ] Expand `ErrorGuard` into checked ownership/span/alignment/finite boundaries
   or remove the implication that a helper can sanitize unsafe pointers globally.
-- [x] **[verified, AES-RES-002] Design a versioned durable `StateVault`:** Atomic
-  integrity-protected checkpoints, complete state ownership, corruption and
-  restart restoration tests.
+- [ ] **[verified, AES-RES-002] Expand the restart-safe `StateVault` marker:**
+  Versioned bounded marker records, corruption checks, atomic replacement, and
+  restart parsing work. Define complete session-state ownership, coordinate
+  concurrent writers, add authenticated records where required, and prove
+  injected write/sync/permission failures before calling it runtime recovery.
 - [ ] **[verified, AES-RES-003] Expand the bounded synchronous local event bus:**
   Define ownership and add synchronization, reentrancy, durable replay,
   acknowledgement/retry, and cross-thread failure semantics.

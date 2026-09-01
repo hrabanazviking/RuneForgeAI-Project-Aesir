@@ -203,8 +203,8 @@ graph TD
 ### 9. `core/error_guard.mojo`, `state_vault.mojo`, `event_bus.mojo`, `thread_pool.mojo`, `supervisor.mojo` — Sovereign Resilience Matrix (Slice 12 & Slice 28)
 - **Role:** Durable checkpoint records, local event/task descriptors, an unavailable supervisor recovery boundary, and defensive pointer/logit helpers. Process recovery and worker concurrency are unavailable.
 - **Implementation:**
-  - `ErrorGuard`: Defensive pointer alignment (`validate_pointer`), boundary rune checking (`bounds_check`), and Float16 logit cleansing (`sanitize_logits`).
-  - `StateVault`: Versioned durable state checkpointing with `VaultCheckpoint`, 64-bit checksum computation, and integrity verification (`save_checkpoint`, `restore_checkpoint_checked`) (`AES-RES-002`).
+  - `ErrorGuard`: Null/address-one rejection (`validate_pointer`), one-index boundary checking (`bounds_check`), and caller-owned Float16 NaN/Inf replacement (`sanitize_logits`). It cannot prove pointer provenance, span, alignment, or lifetime.
+  - `StateVault`: Strict versioned persistence for token-position and prompt-count markers, with a corruption checksum, staged file sync, atomic replacement, directory sync, and transactional in-memory publication (`AES-RES-002`). It contains no model, tensor, KV, sampler, process, or socket state.
   - `AesirEventBus`: Bounded synchronous in-process event journal and masked subscriber mailboxes with ordered drain and unsubscribe (`AES-RES-003`). It owns no worker or cross-process transport.
   - `RuneThreadPool`: Bounded local `RuneTask` descriptor list with validated submission, pre-execution cancellation, and admission shutdown (`AES-RES-004`). Worker and batch execution methods reject without marking tasks complete.
   - `SelfHealingSupervisor`: Records a local heartbeat event; its legacy recovery method rejects without mutation because no panic or runtime recovery owner exists.
@@ -219,15 +219,15 @@ graph TD
 
 ---
 
-## 🛡️ Sovereign Resilience & Self-Healing Matrix — Slice 12 Domain Layer
+## 🛡️ Local Resilience Primitives — Slice 12 Domain Layer
 
-The Sovereign Resilience & Self-Healing Matrix delivers a crash-proof, zero-downtime execution substrate for Project Aesir. It decouples event signals, snapshot-checkpoints autoregressive state, sanitizes numerical anomalies in Float16 logits, and automatically recovers from unexpected runtime interrupts.
+This domain provides narrow local checks, restart-safe position markers, bounded synchronous event mailboxes, task descriptors, and an explicit unavailable recovery boundary. It does not provide zero downtime, crash interception, runtime restoration, concurrency, or socket continuity.
 
 ```mermaid
 graph TD
     Engine[AesirEngine<br/>aesir.mojo] -->|Pulse Heartbeat| Sup[SelfHealingSupervisor<br/>core/supervisor.mojo]
     Sup -->|Publish Events| Bus[AesirEventBus<br/>core/event_bus.mojo]
-    Sup -->|Save / Restore Checkpoints| Vault[StateVault<br/>core/state_vault.mojo]
+    Sup -->|owns marker store| Vault[StateVault<br/>core/state_vault.mojo]
     
     Inference[forward_pass<br/>core/inference.mojo] -->|Check Pointer & Bounds| Guard[ErrorGuard<br/>core/error_guard.mojo]
     Inference -->|Cleanse NaN / Inf Logits| Guard
@@ -238,14 +238,14 @@ graph TD
 **Resilience Matrix Components:**
 
 1. **`ErrorGuard` (`core/error_guard.mojo`):**
-   - `validate_pointer`: Ensures pointers derived from `MimirWell` are non-null and aligned.
-   - `bounds_check`: Guarantees slice indices satisfy $0 \le \text{index} < \text{max\_len}$.
-   - `sanitize_logits`: Scans Float16 logits buffers for NaN, Inf, or subnormal values, replacing non-finite scalars with safe minimum bounds ($-65504.0$).
+   - `validate_pointer`: Rejects only null and address-one sentinels; ownership, span, alignment, and lifetime remain caller obligations.
+   - `bounds_check`: Tests whether one index satisfies $0 \le \text{index} < \text{max\_len}$.
+   - `sanitize_logits`: Scans a caller-owned Float16 buffer and replaces NaN or infinite values with $-65504.0$.
 
 2. **`StateVault` (`core/state_vault.mojo`):**
-   - Zero-allocation struct capturing sequence token positions and prompt token counts.
-   - `save_checkpoint(token_pos, prompt_count)`: Inscribes recovery anchor into living vault memory.
-   - `restore_checkpoint()`: Returns last valid sequence token index for instant $<1\text{ ms}$ state restoration.
+   - Captures sequence and prompt-count markers with a positive timestamp and corruption checksum.
+   - Disk records have a strict 4 KiB/versioned format and commit through staged sync, atomic rename, and directory sync on Linux.
+   - Restore returns a validated position marker only; it does not restore any runtime object or claim a latency bound.
 
 3. **`AesirEventBus` (`core/event_bus.mojo`):**
    - Synchronously journals bounded local event records and copies them to matching in-memory subscriber mailboxes.
@@ -255,7 +255,7 @@ graph TD
    - Stores bounded caller task descriptors and cancellation state. It creates no threads and executes no work.
 
 5. **`SelfHealingSupervisor` (`core/supervisor.mojo`):**
-   - Records local heartbeat and checkpoint simulation markers only. It catches no panic, restarts no process, restores no runtime state, and provides no socket continuity.
+   - Records a local heartbeat event and owns a marker store. It catches no panic, restarts no process, restores no runtime state, and provides no socket continuity.
 
 ---
 

@@ -109,20 +109,12 @@ sequenceDiagram
     Tokenizer-->>Engine: token_ids: List[Int]
     Engine->>Memory: KVCache(max_seq_len, hidden_dim, pool, num_layers)
 
-    Note over Engine, Gate: Autoregressive Checkpointing & Self-Healing Loop (Slice 12)
+    Note over Engine, Gate: Legacy CPU generation path; no automatic recovery
     loop Token-by-Token Generation Loop (0..max_gen_tokens)
-        Engine->>Vault: save_checkpoint(pos, prompt_token_count)
         Inference->>Guard: validate_pointer(logits_ptr) & bounds_check(pos, max_seq_len)
         Inference->>Inference: forward_pass(current_tokens, seer, well, kv_cache, pos, topology)
         Inference->>Guard: sanitize_logits(logits_ptr, vocab_size) [Cleanse NaN / Inf values to -65504.0]
         
-        alt Runtime Interrupt / Panic Signal Detected
-            Sup->>Bus: publish_event("INFERENCE_CRASH", panic_msg)
-            Sup->>Vault: restore_checkpoint() -> last_valid_token_pos
-            Sup->>Bus: publish_event("RECOVERY_COMPLETE")
-            Sup-->>Engine: Resume generation from checkpoint position without dropping socket
-        end
-
         alt permit_seidr == False
             Engine->>Engine: Mask thought tokens (<|start_thought|>) to -inf
         end
@@ -191,15 +183,14 @@ sequenceDiagram
     - `ErrorGuard.bounds_check(index, max_len)` verifies zero-copy tensor slicing indices remain strictly within limits.
     - Following forward pass logit projection, `ErrorGuard.sanitize_logits(logits_ptr, count)` scans float16 values and replaces non-finite values (NaN, Inf, overflow) with safe scalar bound $-65504.0$.
 
-5k. **Autoregressive State Checkpointing & Self-Healing Recovery Pipeline (Slice 12):**
-    - Prior to each step in the token generation loop, `StateVault.save_checkpoint(token_pos, prompt_token_count)` records an atomic recovery anchor.
-    - If a runtime interrupt or panic occurs, `SelfHealingSupervisor` catches the event, publishes `INFERENCE_CRASH` to `AesirEventBus`, calls `StateVault.restore_checkpoint()`, resets `KVCache` to the last valid token offset, and publishes `RECOVERY_COMPLETE`.
-    - Generation resumes seamlessly without closing socket descriptors or corrupting model weight memory.
+5k. **Local Position Markers and Unavailable Recovery (Slice 12):**
+    - `StateVault` can independently persist a strict, restart-safe record containing token position, prompt count, timestamp, and a non-cryptographic corruption checksum.
+    - The generation loops do not automatically write or consume these markers. `SelfHealingSupervisor` catches no panic and its recovery method rejects without mutation.
+    - No KV, model, sampler, process, thread, or socket state is restored.
 
-5l. **Autonomous Swarm Mesh Discovery, Load Balancing & Task Dispatching Path (Phase 14):**
-    - `SwarmCluster.join_mesh(leader_address)` establishes connection to the mesh leader, instantiates a new `PeerNode` with node identity, IP, port, role (`SwarmNodeRole.WORKER`), and VRAM capacity metrics, and registers the node in `PeerRegistry`.
-    - `SwarmCluster.dispatch_distributed_inference(model, prompt)` queries `PeerRegistry.get_least_loaded_node()`, which calculates `vram_free_mb()` across all active (`is_alive == True`) peer nodes and selects the node with maximum free VRAM reservoir.
-    - `TaskDispatcher.dispatch_to_node()` routes the inference workload to the selected target node and increments active task metrics.
+5l. **Local Swarm Descriptors and Unavailable Network Path (Phase 14):**
+    - `PeerRegistry` validates caller-supplied node records and can select among records marked live using their declared free VRAM.
+    - Join, leave, heartbeat transport, discovery, remote dispatch, and distributed inference are not implemented; those entry points reject without mutating cluster state.
 
 6. **Token Sampling & Thought Masking:**
    - Next token probability distribution evaluated from logits.

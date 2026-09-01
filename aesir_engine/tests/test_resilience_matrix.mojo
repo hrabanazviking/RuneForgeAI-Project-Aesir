@@ -6,7 +6,7 @@ from core.event_bus import AesirEventBus, EventSubscription
 from core.thread_pool import RuneThreadPool, RuneTask
 
 def test_state_vault_durable_checkpoints() raises:
-    print("--- Testing StateVault Durable Checkpoints & Checksum Verification ---")
+    print("--- Testing StateVault Marker Checkpoints & Corruption Detection ---")
     var vault = StateVault()
     var chk = vault.save_checkpoint(128, 32, 5000)
 
@@ -24,7 +24,16 @@ def test_state_vault_durable_checkpoints() raises:
     if not rejected:
         raise Error("StateVault failed to reject corrupt checksum checkpoint")
 
-    print("StateVault durable checkpoints & checksum verification: PASS")
+    var invalid_fields = VaultCheckpoint(-1, 32, chk.checksum, 5000, True)
+    rejected = False
+    try:
+        _ = vault.restore_checkpoint_checked(invalid_fields)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("StateVault accepted a negative marker position")
+
+    print("StateVault marker checkpoints & corruption detection: PASS")
 
 
 def test_event_bus_pub_sub() raises:

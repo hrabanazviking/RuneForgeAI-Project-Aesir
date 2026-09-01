@@ -1113,24 +1113,25 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ## 16. Resilience and Concurrency
 
-### AES-RES-001 — Basic pointer/logit guard helpers
+### AES-RES-001 — Sentinel-address, index, and logit guard helpers
 
 - **Status:** `verified`
 - **Owner:** core safety domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `ErrorGuard` in `core/error_guard.mojo` checking null (`0`) and sentinel (`1`) address validation (`addr != 0 and addr != 1`) and sanitizing NaN/Inf logits buffer inputs.
+- **Implementation evidence:** `ErrorGuard` in `core/error_guard.mojo` checking null (`0`) and sentinel (`1`) addresses (`addr != 0 and addr != 1`), testing individual index bounds, and sanitizing NaN/Inf logits in a caller-owned buffer.
 - **Executable evidence:** `E-MASTER` case `resilience.error_guard` in `test_resilience.mojo`.
-- **Evidence boundary:** Checked null (`0`) and sentinel (`1`) pointer address validation and NaN/Inf logit sanitization error bounds.
+- **Evidence boundary:** A non-sentinel address is not proof of allocation provenance, accessible span, alignment, lifetime, or synchronization. Sanitization requires the caller already to own a valid buffer of the declared count.
 - **Audit:** AER-005, AER-105.
 
-### AES-RES-002 — State checkpoint descriptor & marker bounds
+### AES-RES-002 — Restart-safe checkpoint marker records
 
 - **Status:** `verified`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `StateVault` in `core/state_vault.mojo` storing token position and prompt count markers, validating non-negative position bounds (`token_pos >= 0 and prompt_count >= 0`) in `save_checkpoint`.
-- **Executable evidence:** `E-MASTER` case `resilience.state_vault_marker` in `test_resilience.mojo`.
-- **Evidence boundary:** Checked state checkpoint marker non-negative position and prompt count bounds.
+- **Implementation evidence:** `StateVault` stores non-negative token-position and prompt-count markers with an observed or explicit positive timestamp. Its bounded versioned disk record uses a deterministic corruption checksum, strict field order/count/decimal parsing, final-symlink refusal on reads, staged file sync, atomic same-directory replacement, and parent-directory sync. Failed validation/read/write does not replace the active in-memory marker.
+- **Executable evidence:** `E-MASTER` cases `resilience.state_vault_marker` and `resilience.durable_state_vault` cover observed timestamps, bounds, restart loading, malformed-record refusal, checksum corruption, invalid fields, and state non-mutation.
+- **Evidence boundary:** This records two positions; it does not snapshot model weights, tensors, KV data, sampler state, processes, threads, or sockets. FNV-1a detects ordinary corruption but is not authentication. Writers are not locked or coordinated across processes.
+- **Next acceptance gate:** Define a complete session-state schema and ownership model, add authenticated records if the marker crosses a trust boundary, serialize concurrent writers, and prove injected write/sync/permission/restart failures.
 - **Audit:** AER-106.
 
 ### AES-RES-003 — Bounded synchronous local event journal and mailboxes

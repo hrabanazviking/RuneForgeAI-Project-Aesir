@@ -1,5 +1,5 @@
 # core/error_guard.mojo
-# ErrorGuard: Defensive Pointer Alignment, Bounds Checking & Logit Sanitization
+# ErrorGuard: sentinel-address checks, bounds predicates, and logit sanitization
 
 from std.memory import Pointer
 from core.mimir_well import Scalar, f16
@@ -8,9 +8,9 @@ struct ErrorGuard:
     """
     ᛖᚱᚱᛟᚱ·ᚷᚢᚨᚱᛞ — The Shield of Invariance (ErrorGuard)
     ═════════════════════════════════════════════════════
-    Provides defensive assertion gates, pointer alignment verification,
-    slice bounds checking, and NaN/Inf float16 logit sanitization.
-    Guarantees that invalid silicon states cannot corrupt the inference pipeline.
+    Provides narrow sentinel-address checks, slice bounds predicates, and
+    NaN/Inf float16 logit sanitization. Callers remain responsible for pointer
+    provenance, allocation span, alignment, lifetime, and synchronization.
     """
 
     @staticmethod
@@ -18,8 +18,8 @@ struct ErrorGuard:
         """
         ᛈᛟᛁᚾᛏᛖᚱ·ᚠᚨᛚᛁᛞᚨᛏᛖ — Pointer Alignment & Validity Gate (validate_pointer)
         ══════════════════════════════════════════════════════════════════════════
-        Verifies that memory pointers drawn from Midgard or MimirWell are non-null
-        and non-sentinel for SIMD vector execution.
+        Rejects null and address-one sentinels only. It cannot prove allocation
+        ownership, accessible span, alignment, or lifetime.
         """
         var addr = Int(ptr)
         return addr != 0 and addr != 1
@@ -29,8 +29,8 @@ struct ErrorGuard:
         """
         ᛒᛟᚢᚾᛞᛋ·ᚲᚺᛖᚲᚴ — The Boundary Rune (bounds_check)
         ════════════════════════════════════════════════
-        Guarantees slice indexing stays within the safe bounds [0, max_len).
-        Prevents out-of-bounds reads and buffer overflows across tensor slices.
+        Checks whether one index is within [0, max_len). The caller must apply
+        the result before every access and retain ownership of the actual span.
         """
         return index >= 0 and index < max_len
 
@@ -39,9 +39,9 @@ struct ErrorGuard:
         """
         ᛋᚨᚾᛁᛏᛁᛉᛖ·ᛚᛟᚷᛁᛏᛋ — The Cleansing Fire of Logits (sanitize_logits)
         ═══════════════════════════════════════════════════════════════════
-        Cleanses NaN, Inf, and subnormal Float16 values in the logits buffer.
+        Replaces NaN and infinite Float16 values in a caller-owned logits buffer.
         Replaces non-finite values with safe minimum scalar bounds (-65504.0).
-        Ensures numerical stability during argmax and softmax sampling.
+        It does not prove pointer ownership or general numerical stability.
         """
         var addr = Int(logits)
         if addr == 0 or addr == 1 or count <= 0:
