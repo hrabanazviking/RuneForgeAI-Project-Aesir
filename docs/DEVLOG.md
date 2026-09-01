@@ -1,3 +1,16 @@
+## 2026-09-01 — Added canonical GGML TQ1_0 ternary host execution
+
+Implemented the upstream 54-byte, 256-value TQ1_0 block contract and connected
+it to bounded host dequantization, F32-accumulating quantized GEMM, and GGUF
+type ID 34. The decoder covers all three packed base-3 regions, including the
+intentional UInt8 multiplication wrap used by upstream digit extraction, and
+applies the block's F16 scale. An independent `gguf-py` fixture checks selected
+values across every packed region, the complete block sum, fused GEMM, and
+fail-before-mutation short-storage rejection. The public `TERNARY_155BIT`
+discriminant remains as a compatibility alias and now reports its canonical
+`TQ1_0` name. Real-model loading, CUDA execution, and performance evidence
+remain open.
+
 ## 2026-09-01 — Added canonical GGML IQ1_S host execution
 
 Added the exact 50-byte, 256-value IQ1_S decoder and F32-accumulating host
@@ -21,9 +34,8 @@ the independent `gguf-py` decoder, then checks GEMM and fail-before-mutation
 short-input rejection. The source contract was rechecked at llama.cpp commit
 `3466812d1f06728effe7c0f3c0671117f461672d`.
 
-The project-defined ternary descriptor remains a strict boundary for the next
-increment; no model-loader attachment, CUDA kernel, real IQ model
-fixture, or full-model claim is made here.
+At this point in the chronology, the project-defined ternary descriptor still
+rejected execution. The later TQ1_0 entry above supersedes that boundary.
 
 ## 2026-09-01 — Added canonical EXL2 mixed-bit host execution
 

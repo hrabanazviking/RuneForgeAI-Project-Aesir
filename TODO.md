@@ -451,8 +451,9 @@ The legacy formatters below are not exposed compatibility APIs.
   codebook and an independent raw-block oracle regression (`AES-QNT-010`).
 - [x] Implement canonical IQ1_S 50-byte host decoding/GEMM with the complete
   upstream grid and an independent raw-block oracle regression (`AES-QNT-010`).
-- [ ] Keep ternary execution unsupported until a separately specified versioned
-  native ternary format exists.
+- [x] Implement canonical GGML TQ1_0 54-byte ternary host decoding/GEMM, retain
+  `TERNARY_155BIT` as a compatibility alias, and verify all packed regions with
+  an independent raw-block oracle regression (`AES-QNT-010`).
 - [x] Remove any dispatcher fallback that silently treats an unknown format as a
   different format (`AES-QNT-003`).
 

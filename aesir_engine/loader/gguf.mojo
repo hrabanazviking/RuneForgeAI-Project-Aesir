@@ -31,6 +31,7 @@ struct GGMLType:
     comptime Q8_K = 15
     comptime IQ2_XXS = 16
     comptime IQ1_S = 19
+    comptime TQ1_0 = 34
 
     @staticmethod
     def to_compressed_format(ggml_type: UInt32) raises -> CompressedFormatType:
@@ -61,6 +62,8 @@ struct GGMLType:
             return CompressedFormatType(CompressedFormatType.IQ2_XXS)
         elif ggml_type == GGMLType.IQ1_S:
             return CompressedFormatType(CompressedFormatType.IQ1_S)
+        elif ggml_type == GGMLType.TQ1_0:
+            return CompressedFormatType(CompressedFormatType.TQ1_0)
         raise Error("unsupported GGML tensor type " + String(ggml_type))
 
 

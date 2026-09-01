@@ -50,8 +50,10 @@ from .external_quantization import (
 from .extreme_quantization import (
     dequantize_iq1_s_blocks,
     dequantize_iq2_xxs_blocks,
+    dequantize_tq1_0_blocks,
     gemm_iq1_s_blocks,
     gemm_iq2_xxs_blocks,
+    gemm_tq1_0_blocks,
 )
 
 comptime simd_w_f16 = 16
@@ -677,7 +679,8 @@ def dequantize_compressed_tensor(
         var blocks = quantized_block_count(num_elements, 256, "IQ1_S")
         dequantize_iq1_s_blocks(data, blocks * 50, out_ptr, num_elements)
     elif format.value == CompressedFormatType.TERNARY_155BIT:
-        raise Error("extreme quantization layout is not implemented")
+        var blocks = quantized_block_count(num_elements, 256, "TQ1_0")
+        dequantize_tq1_0_blocks(data, blocks * 54, out_ptr, num_elements)
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
         var blocks = quantized_block_count(num_elements, 256, "Q4_K")
         dequantize_q4_k_m(data, out_ptr, blocks)
@@ -1263,10 +1266,22 @@ def gemm_iq2_xxs(
 def gemm_ternary_158(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    _ = A
-    _ = B
-    _ = C
-    raise Error("Ternary GEMM requires a specified on-disk format, scale contract, and independent oracle; it is not implemented")
+    if A.cols != B.cols or C.rows != A.rows or C.cols != B.rows:
+        raise Error("gemm_tq1_0: matrix shape mismatch")
+    if A.cols <= 0 or A.cols % 256 != 0:
+        raise Error("gemm_tq1_0: inner dimension must use complete 256-value blocks")
+    var weight_bytes = B.rows * (B.cols // 256) * 54
+    gemm_tq1_0_blocks(
+        A.data.unsafe_bitcast[Float16](),
+        A.rows * A.cols,
+        A.rows,
+        B.data.unsafe_bitcast[UInt8](),
+        weight_bytes,
+        A.cols,
+        B.rows,
+        C.data.unsafe_bitcast[Float16](),
+        C.rows * C.cols,
+    )
 
 def gemm_f16(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

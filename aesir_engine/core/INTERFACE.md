@@ -732,19 +732,22 @@ They require exact backing-storage counts for every tensor, input, and output.
 Other HQQ variants are not yet part of this metadata-bearing interface.
 
 `core/extreme_quantization.mojo` additionally exposes bounded canonical
-IQ2_XXS and IQ1_S raw-block execution:
+IQ2_XXS, IQ1_S, and TQ1_0 raw-block execution:
 
 ```mojo
 def dequantize_iq2_xxs_blocks(data: Pointer[UInt8, MutUntrackedOrigin], input_bytes: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 def gemm_iq2_xxs_blocks(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, weights: Pointer[UInt8, MutUntrackedOrigin], weight_bytes: Int, in_features: Int, out_features: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 def dequantize_iq1_s_blocks(data: Pointer[UInt8, MutUntrackedOrigin], input_bytes: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 def gemm_iq1_s_blocks(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, weights: Pointer[UInt8, MutUntrackedOrigin], weight_bytes: Int, in_features: Int, out_features: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def dequantize_tq1_0_blocks(data: Pointer[UInt8, MutUntrackedOrigin], input_bytes: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def gemm_tq1_0_blocks(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, weights: Pointer[UInt8, MutUntrackedOrigin], weight_bytes: Int, in_features: Int, out_features: Int, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
 ```
 
-The decoders require complete canonical 66-byte or 50-byte blocks. IQ2_XXS
-uses its parity sign coding and local scales; IQ1_S uses its split grid index,
-odd scale multiplier, and signed delta. The project-defined ternary descriptor
-still fails before mutation.
+The decoders require complete canonical 66-byte, 50-byte, or 54-byte blocks.
+IQ2_XXS uses parity sign coding and local scales; IQ1_S uses a split grid index,
+odd scale multiplier, and signed delta; TQ1_0 extracts balanced trits from its
+three packed regions and applies one F16 scale. `TERNARY_155BIT` remains an alias
+for the TQ1_0 descriptor so existing callers retain the feature surface.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

@@ -7,8 +7,9 @@ implemented in Mojo with reference to ggml-org/llama.cpp commit
 `62acc89c26c66076cb72e049f307fbe93b8b9750` (`src/llama-vocab.cpp`,
 `src/models/gemma4.cpp`, `ggml/src/ggml-quants.c`, and model KV/RoPE policy).
 No llama.cpp engine is linked or invoked by production inference.
-The IQ2_XXS and IQ1_S grids and decoding contracts were additionally checked against
-ggml-org/llama.cpp commit `3466812d1f06728effe7c0f3c0671117f461672d`.
+The IQ2_XXS, IQ1_S, and TQ1_0 grids or decoding contracts were additionally
+checked against ggml-org/llama.cpp commit
+`3466812d1f06728effe7c0f3c0671117f461672d`.
 
 MIT License
 

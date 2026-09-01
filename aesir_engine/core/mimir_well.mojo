@@ -488,6 +488,7 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
     comptime IQ1_S = 23
     comptime IQ2_XXS = 24
     comptime TERNARY_155BIT = 25
+    comptime TQ1_0 = 25  # Canonical GGML name for the ternary descriptor.
 
     var value: Int
 
@@ -561,8 +562,9 @@ struct CompressedFormatType(Copyable, ImplicitlyCopyable):
             return "IQ1_S"
         elif self.value == 24:
             return "IQ2_XXS"
-        else:
-            return "TERNARY_155BIT"
+        elif self.value == 25:
+            return "TQ1_0"
+        return "UNKNOWN"
 
 
 struct GPUBuffer(Copyable, ImplicitlyCopyable):

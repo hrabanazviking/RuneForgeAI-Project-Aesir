@@ -1,39 +1,12 @@
-"""Unimplemented extreme quantization layouts must fail without mutation."""
+"""Oracle-backed tests for canonical GGML extreme quantization layouts."""
 
 from core.mimir_well import MimirWell, RuneTensor, CompressedFormatType, f16
 from core.compute import gemm_f16
 from core.extreme_quantization import (
     dequantize_iq1_s_blocks,
     dequantize_iq2_xxs_blocks,
+    dequantize_tq1_0_blocks,
 )
-
-
-def assert_extreme_format_rejected(format: CompressedFormatType, label: String) raises:
-    var well = MimirWell(1024 * 1024)
-    var rows = 2
-    var columns = 256
-    var outputs = 2
-    var input = RuneTensor[f16](rows, columns, well.allocate(rows * columns), False)
-    var weights = RuneTensor[f16](outputs, columns, well.allocate(outputs * columns), True, format)
-    var output = RuneTensor[f16](rows, outputs, well.allocate(rows * outputs), False)
-    for i in range(rows * columns):
-        input.data.unsafe_store(i, Scalar[f16](i + 1))
-    for i in range(outputs * columns):
-        weights.data.unsafe_store(i, Scalar[f16](i + 1))
-    for i in range(rows * outputs):
-        output.data.unsafe_store(i, Scalar[f16](197.0))
-
-    var rejected = False
-    try:
-        gemm_f16(input, weights, output)
-    except error:
-        rejected = "not implemented" in String(error)
-    if not rejected:
-        raise Error(label + " was accepted without its authoritative layout")
-    for i in range(rows * outputs):
-        if output.data.unsafe_load(i) != Scalar[f16](197.0):
-            raise Error(label + " rejection mutated output")
-    print(label, "explicit mutation-free rejection: PASS")
 
 
 def test_iq1_s_known_value() raises:
@@ -176,5 +149,66 @@ def test_iq2_xxs_known_value() raises:
     print("IQ2_XXS canonical 66-byte block and GEMM: PASS")
 
 
-def test_ternary_boundary() raises:
-    assert_extreme_format_rejected(CompressedFormatType(CompressedFormatType.TERNARY_155BIT), "TERNARY_155BIT")
+def test_tq1_0_known_value() raises:
+    var well = MimirWell(1024 * 1024)
+    var packed = well.allocate(54).unsafe_bitcast[UInt8]()
+    var expanded = well.allocate(256 * 2).unsafe_bitcast[Float16]()
+    var input_ptr = well.allocate(256 * 2)
+    var output_ptr = well.allocate(2)
+    # Independent gguf-py oracle fixture: deterministic packed trits followed
+    # by an F16 scale of 2.0 at bytes 52..53.
+    for i in range(52):
+        packed.unsafe_store(i, UInt8((i * 37 + 11) % 256))
+    packed.unsafe_store(52, UInt8(0))
+    packed.unsafe_store(53, UInt8(64))
+
+    dequantize_tq1_0_blocks(packed, 54, expanded, 256)
+    var indices = [
+        0, 1, 2, 3, 4, 5, 6, 7, 31, 32, 64, 128, 159, 160, 175, 176,
+        239, 240, 243, 244, 255,
+    ]
+    var expected = [
+        Float16(-2.0), Float16(-2.0), Float16(-2.0), Float16(0.0),
+        Float16(0.0), Float16(2.0), Float16(2.0), Float16(-2.0),
+        Float16(0.0), Float16(-2.0), Float16(0.0), Float16(0.0),
+        Float16(0.0), Float16(2.0), Float16(2.0), Float16(-2.0),
+        Float16(2.0), Float16(2.0), Float16(0.0), Float16(2.0),
+        Float16(-2.0),
+    ]
+    for i in range(len(indices)):
+        if expanded.unsafe_load(indices[i]) != expected[i]:
+            raise Error("TQ1_0 packed-trit fixture mismatch")
+    var sum = Float32(0.0)
+    for i in range(256):
+        sum += expanded.unsafe_load(i).cast[DType.float32]()
+    if sum != Float32(-4.0):
+        raise Error("TQ1_0 oracle block sum mismatch")
+
+    for i in range(256):
+        input_ptr.unsafe_store(i, Scalar[f16](1.0))
+    var input = RuneTensor[f16](1, 256, input_ptr, False)
+    var weights = RuneTensor[f16](
+        1,
+        256,
+        packed.unsafe_bitcast[Scalar[f16]](),
+        True,
+        CompressedFormatType(CompressedFormatType.TQ1_0),
+    )
+    var output = RuneTensor[f16](1, 1, output_ptr, False)
+    gemm_f16(input, weights, output)
+    if output.data.unsafe_load(0) != Scalar[f16](-4.0):
+        raise Error("TQ1_0 GEMM disagrees with independent oracle sum")
+
+    for i in range(256):
+        expanded.unsafe_store(i, Float16(99.0))
+    var rejected = False
+    try:
+        dequantize_tq1_0_blocks(packed, 53, expanded, 256)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("TQ1_0 accepted short packed storage")
+    for i in range(256):
+        if expanded.unsafe_load(i) != Float16(99.0):
+            raise Error("TQ1_0 short-input rejection mutated output")
+    print("TQ1_0 canonical 54-byte block and GEMM: PASS")

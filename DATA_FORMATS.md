@@ -226,11 +226,18 @@ Each tensor info record contains:
 | 13 | Q5_K | 5 | (K-quant, custom unpack) |
 | 14 | Q6_K | 6 | (K-quant, custom unpack) |
 | 15 | Q8_K | 8 | unsupported by this loader |
-| 16 | IQ2_XXS | ~2 | unsupported by this loader |
+| 16 | IQ2_XXS | 2.0625 | quantized, canonical host unpack |
 | 17 | IQ2_XS | ~2 | unsupported by this loader |
 | 18 | IQ3_XXS | ~3 | unsupported by this loader |
-| 19 | IQ1_S | ~1 | unsupported by this loader |
+| 19 | IQ1_S | 1.5625 | quantized, canonical host unpack |
 | 30 | BF16 | 16 | unsupported by this loader |
+| 34 | TQ1_0 | 1.6875 | quantized, canonical host unpack |
+
+TQ1_0 serializes 256 balanced ternary weights into 52 packed bytes followed by
+one F16 scale. Its exact stored rate is 1.6875 bits per weight including that
+scale; the BitNet 1.58-bit label refers to ternary information content, not the
+serialized GGML block size. `TERNARY_155BIT` is the core descriptor's legacy
+source-compatible alias for this on-disk format.
 
 ### Parser Validation Requirements
 

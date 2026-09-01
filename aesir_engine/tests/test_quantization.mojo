@@ -58,6 +58,13 @@ def test_compressed_format_enum() raises:
     if mapped_iq1.name() != "IQ1_S":
         print("FAIL: implemented IQ1_S tensor layout was not mapped")
         success = False
+    var mapped_tq1 = GGMLType.to_compressed_format(GGMLType.TQ1_0)
+    if mapped_tq1.name() != "TQ1_0":
+        print("FAIL: implemented TQ1_0 tensor layout was not mapped")
+        success = False
+    if CompressedFormatType(999).name() != "UNKNOWN":
+        print("FAIL: unknown compressed discriminant was mislabeled")
+        success = False
     var rejected_q8k = False
     try:
         _ = GGMLType.to_compressed_format(GGMLType.Q8_K)

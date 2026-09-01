@@ -219,3 +219,98 @@ def gemm_iq1_s_blocks(
                 row * out_features + output_index,
                 accumulator.cast[DType.float16](),
             )
+
+
+@always_inline
+def tq1_0_value(
+    data: Pointer[UInt8, MutUntrackedOrigin], base: Int, index: Int
+) -> Float32:
+    """Decode one value from canonical 54-byte GGML TQ1_0 blocks."""
+    var block = index // 256
+    var lane = index % 256
+    var block_base = base + block * 54
+    var scale = data.unsafe_offset(block_base + 52).unsafe_bitcast[
+        Float16
+    ]().unsafe_load().cast[DType.float32]()
+    var packed_offset: Int
+    var power_index: Int
+    if lane < 160:
+        power_index = lane // 32
+        packed_offset = lane % 32
+    elif lane < 240:
+        var local = lane - 160
+        power_index = local // 16
+        packed_offset = 32 + local % 16
+    else:
+        var local = lane - 240
+        power_index = local // 4
+        packed_offset = 48 + local % 4
+
+    var power = 1
+    for _ in range(power_index):
+        power *= 3
+    # Upstream intentionally performs this multiplication in UInt8 before
+    # extracting the base-3 digit from the rescaled byte representation.
+    var wrapped = (Int(data.unsafe_load(block_base + packed_offset)) * power) % 256
+    var trit = (wrapped * 3) >> 8
+    return Float32(trit - 1) * scale
+
+
+def dequantize_tq1_0_blocks(
+    data: Pointer[UInt8, MutUntrackedOrigin],
+    input_bytes: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(data) <= 1 or Int(output) <= 1:
+        raise Error("dequantize_tq1_0_blocks: storage pointers must be valid")
+    if output_elements <= 0 or output_elements % 256 != 0:
+        raise Error("dequantize_tq1_0_blocks: output must contain complete 256-value blocks")
+    var blocks = output_elements // 256
+    if input_bytes != blocks * 54:
+        raise Error("dequantize_tq1_0_blocks: input storage length mismatch")
+    for index in range(output_elements):
+        output.unsafe_store(
+            index, tq1_0_value(data, 0, index).cast[DType.float16]()
+        )
+
+
+def gemm_tq1_0_blocks(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    weights: Pointer[UInt8, MutUntrackedOrigin],
+    weight_bytes: Int,
+    in_features: Int,
+    out_features: Int,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    if Int(input) <= 1 or Int(weights) <= 1 or Int(output) <= 1:
+        raise Error("gemm_tq1_0_blocks: storage pointers must be valid")
+    if input_rows <= 0 or in_features <= 0 or out_features <= 0:
+        raise Error("gemm_tq1_0_blocks: dimensions must be positive")
+    if in_features % 256 != 0:
+        raise Error("gemm_tq1_0_blocks: in_features must use complete TQ1_0 blocks")
+    if input_elements != input_rows * in_features:
+        raise Error("gemm_tq1_0_blocks: input storage length mismatch")
+    if output_elements != input_rows * out_features:
+        raise Error("gemm_tq1_0_blocks: output storage length mismatch")
+    var bytes_per_row = (in_features // 256) * 54
+    if weight_bytes != out_features * bytes_per_row:
+        raise Error("gemm_tq1_0_blocks: weight storage length mismatch")
+
+    for row in range(input_rows):
+        for output_index in range(out_features):
+            var accumulator = Float32(0.0)
+            var weight_base = output_index * bytes_per_row
+            for input_index in range(in_features):
+                accumulator += input.unsafe_load(
+                    row * in_features + input_index
+                ).cast[DType.float32]() * tq1_0_value(
+                    weights, weight_base, input_index
+                )
+            output.unsafe_store(
+                row * out_features + output_index,
+                accumulator.cast[DType.float16](),
+            )

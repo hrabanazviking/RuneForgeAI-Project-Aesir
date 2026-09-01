@@ -30,14 +30,16 @@ struct GGMLType:
     comptime Q8_K = 15
     comptime IQ2_XXS = 16
     comptime IQ1_S = 19
+    comptime TQ1_0 = 34
 
     @staticmethod
     def to_compressed_format(ggml_type: UInt32) raises -> CompressedFormatType: ...
 ```
 
-`to_compressed_format()` maps only implemented GGML tensor layouts and raises
-for non-quantized, unknown, and reserved-but-unimplemented types. It never
-substitutes Q4_K_M for an unsupported value.
+`to_compressed_format()` maps only implemented GGML tensor layouts, including
+IQ2_XXS, IQ1_S, and TQ1_0, and raises for non-quantized, unknown, and
+reserved-but-unimplemented types. It never substitutes Q4_K_M for an
+unsupported value.
 
 ### `GGUFModelConfig`
 Validated Llama architecture and tokenizer-special-token metadata derived from

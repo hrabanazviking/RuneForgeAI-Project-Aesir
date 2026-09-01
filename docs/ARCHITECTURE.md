@@ -377,10 +377,11 @@ flowchart LR
     Gate -->|reserved descriptor| Refusal[mutation-free not-implemented error]
 ```
 
-The loader currently admits GGML IDs `2`, `3`, and `6` through `14`; ID `15`
-(Q8_K), upstream IQ types, and all other values are rejected. `CompressedFormatType`
-also contains reserved internal names for future work. A name in that descriptor
-does not establish an on-disk mapping, a decoder, or inference support.
+The loader currently admits GGML IDs `2`, `3`, `6` through `14`, `16`, `19`,
+and `34`; ID `15` (Q8_K) and all other values are rejected.
+`CompressedFormatType` also contains reserved internal names for future work.
+A name in that descriptor does not establish an on-disk mapping, a decoder, or
+full-model inference support.
 
 Q4_K_M has the repository's strongest quantized path and exact byte-span checks.
 The capability ledger records the evidence boundary for each other format.
@@ -391,10 +392,11 @@ W8A8, and native HQQ 4-bit `axis=1` matrix views with host
 dequantization/GEMM primitives. The EXL2 view consumes the official unshuffled
 packed tensors and restores activation-order input rows. These views are not
 yet populated by a model loader or dispatched to CUDA. Other HQQ/SmoothQuant
-variants and the custom ternary descriptor remain explicitly unavailable.
-IQ2_XXS and IQ1_S are owned by `core/extreme_quantization.mojo`, which reads
-their canonical 66-byte and 50-byte GGML blocks and admits GGUF tensor types 16
-and 19; model and CUDA integration remain outside those bounded host primitives.
+variants remain explicitly unavailable. IQ2_XXS, IQ1_S, and TQ1_0 are owned by
+`core/extreme_quantization.mojo`, which reads their canonical 66-byte, 50-byte,
+and 54-byte GGML blocks and admits GGUF tensor types 16, 19, and 34. The legacy
+`TERNARY_155BIT` descriptor aliases TQ1_0; model and CUDA integration remain
+outside these bounded host primitives.
 
 | Component | Owner | Contract |
 | :--- | :--- | :--- |
