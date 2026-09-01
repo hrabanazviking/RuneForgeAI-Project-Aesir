@@ -65,11 +65,11 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 72 |
+| `verified` | 71 |
 | `partial` | 21 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 19 |
+| `missing` | 20 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -894,13 +894,14 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 
 ### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels
 
-- **Status:** `verified`
+- **Status:** `missing`
 - **Owner:** core compute domain
 - **Claim sources:** GPTQ, AWQ, EXL2, HQQ, and SmoothQuant 4-bit/8-bit support (GPTQ_4BIT, GPTQ_8BIT, AWQ_4BIT, EXL2_VARBIT, HQQ, SMOOTHQUANT_INT8)
-- **Implementation evidence:** `gemm_gptq_4bit`, `gemm_gptq_8bit`, `gemm_awq_4bit`, `gemm_exl2`, `gemm_hqq`, and `gemm_smoothquant_int8` fused matrix-vector multiplication kernels and automatic format dispatches in `gemm_f16()` in `core/compute.mojo`.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_gptq_4bit_parity`, `quantization.fused_gptq_8bit_parity`, `quantization.fused_awq_4bit_parity`, `quantization.fused_exl2_parity`, `quantization.fused_hqq_parity`, `quantization.fused_smoothquant_int8_parity` in `test_gptq_awq_quantization.mojo`.
-- **Evidence boundary:** Verified bit-for-bit mathematical output parity between fused GPTQ/AWQ/EXL2/HQQ/SmoothQuant GEMM kernels and uncompressed `gemm_f16`.
-- **Audit:** Stage 56.1 Mythic Engineering Pass.
+- **Implementation evidence:** Format descriptors remain reserved. Direct dequantizers, fused GEMM entry points, `gemm_f16()`, and `dequantize_compressed_tensor()` reject these formats before output mutation because the repository has no scale, zero-point, group, activation-scale, variable-bit, or tensor-layout metadata for them.
+- **Executable evidence:** `E-MASTER` cases `quantization.external_dequant_boundaries`, `quantization.gptq_4bit_boundary`, `quantization.gptq_8bit_boundary`, `quantization.awq_4bit_boundary`, `quantization.exl2_boundary`, `quantization.hqq_boundary`, and `quantization.smoothquant_int8_boundary`.
+- **Evidence boundary:** Verified mutation-free refusal only. The former fixed-scale implementations and circular parity tests were removed; they did not establish compatibility with any external format.
+- **Next acceptance gate:** Parse each format's authoritative tensor metadata and exact byte layout, implement one format at a time, and compare dequantized values and model outputs against an independent implementation and real fixture.
+- **Audit:** Reality correction, September 1, 2026.
 
 ### AES-QNT-010 — Ternary and 1-bit extreme quantization transformation kernels
 

@@ -959,22 +959,11 @@ def dequantize_gptq_4bit(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int,
-):
-    """
-    ᚷᛈᛏᚴ·ᚵᛒᛁᛏ — The Second Strike of the Dark Forge (GPTQ 4-Bit Dequantization)
-    ═════════════════════════════════════════════════════════════════════════════════
-    Unpacks 4-bit packed nibbles into half-precision float values using GPTQ scale and zero-point offset curves.
-    """
-    var scale: Scalar[f16] = 0.05
-    var num_bytes = num_elements // 2
-    for i in range(num_bytes):
-        var b = data.unsafe_load(i)
-        out_ptr.unsafe_store(
-            i * 2, Scalar[f16]((b & 0x0F).cast[f16]()) * scale - 0.4
-        )
-        out_ptr.unsafe_store(
-            i * 2 + 1, Scalar[f16](((b >> 4) & 0x0F).cast[f16]()) * scale - 0.4
-        )
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("GPTQ dequantization requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
 
 
 @always_inline
@@ -982,22 +971,11 @@ def dequantize_awq_4bit(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int,
-):
-    """
-    ᚨᚹᚴ·ᚵᛒᛁᛏ — The Vision of Activation Sensitivity (AWQ 4-Bit Dequantization)
-    ════════════════════════════════════════════════════════════════════════════════
-    Unpacks Activation-aware Weight Quantization (AWQ) 4-bit nibbles with activation-protected channel scaling into f16 target buffers.
-    """
-    var scale: Scalar[f16] = 0.04
-    var num_bytes = num_elements // 2
-    for i in range(num_bytes):
-        var b = data.unsafe_load(i)
-        out_ptr.unsafe_store(
-            i * 2, Scalar[f16]((b & 0x0F).cast[f16]()) * scale - 0.32
-        )
-        out_ptr.unsafe_store(
-            i * 2 + 1, Scalar[f16](((b >> 4) & 0x0F).cast[f16]()) * scale - 0.32
-        )
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("AWQ dequantization requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
 
 
 @always_inline
@@ -1005,17 +983,11 @@ def dequantize_exl2(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int,
-):
-    """
-    ᛖᚲᛋᛚᛗᚨ·ᚢᛟ — The Variable Bitrate Weave (ExLlamaV2 EXL2 Dequantization)
-    ══════════════════════════════════════════════════════════════════════════
-    Unpacks ExLlamaV2 (EXL2) variable bitrate sub-byte packed weight streams into contiguous f16 activation memory.
-    """
-    var scale: Scalar[f16] = 0.02
-    for i in range(num_elements):
-        var b = data.unsafe_load(i // 2)
-        var val = (b & 0x0F) if (i % 2 == 0) else ((b >> 4) & 0x0F)
-        out_ptr.unsafe_store(i, Scalar[f16](val.cast[f16]()) * scale - 0.15)
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("EXL2 dequantization requires its variable-bit layout and tensor metadata; it is not implemented")
 
 
 @always_inline
@@ -1023,16 +995,11 @@ def dequantize_hqq(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int,
-):
-    """
-    ᚺᚴᚴ·ᛞᛖᚴᚢᚨᚾᛏ — The Half-Quadratic Alignment (HQQ Dequantization)
-    ═════════════════════════════════════════════════════════════════════
-    Performs Half-Quadratic Quantization (HQQ) fast dequantization mapping quantized integer weights back into f16 space.
-    """
-    var scale: Scalar[f16] = 0.025
-    for i in range(num_elements):
-        var b = data.unsafe_load(i)
-        out_ptr.unsafe_store(i, Scalar[f16](b.cast[f16]()) * scale - 0.5)
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("HQQ dequantization requires tensor-specific scale, zero, grouping, and packing metadata; it is not implemented")
 
 
 @always_inline
@@ -1040,16 +1007,11 @@ def dequantize_smoothquant_int8(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_elements: Int,
-):
-    """
-    ᛋᛗᛟᛟᛏᚺ·ᛠᛏ — The Cleansing Smoothing Stream (SmoothQuant INT8 Dequantization)
-    ═══════════════════════════════════════════════════════════════════════════════════
-    Dequantizes SmoothQuant INT8 symmetric activation/weight tensors using channel-wise scaling factors.
-    """
-    var scale: Scalar[f16] = 0.0078125
-    for i in range(num_elements):
-        var b = data.unsafe_load(i).cast[DType.int8]()
-        out_ptr.unsafe_store(i, Scalar[f16](b.cast[f16]()) * scale)
+) raises:
+    _ = data
+    _ = out_ptr
+    _ = num_elements
+    raise Error("SmoothQuant execution requires activation and weight scales with channel metadata; it is not implemented")
 
 
 @always_inline
@@ -1062,9 +1024,8 @@ def dequantize_compressed_tensor(
     """
     ᚲᛟᛗᛈᚱᛖᛋᛋᛖᛞ·ᚷᚨᛏᛖᚹᚨᚤ — The Gateway of Universal Dequantization (dequantize_compressed_tensor)
     ════════════════════════════════════════════════════════════════════════════════════════════════════
-    Unified Dequantization Gateway:
-    Dispatches compressed weight data to its specialized SIMD dequantization kernel
-    based on the format discriminant across all 21 compressed formats.
+    Dispatches only formats whose byte layout is implemented. External formats
+    that require tensor-specific metadata fail before touching the output buffer.
     """
     if format.value == CompressedFormatType.Q2_K:
         if num_elements < 256:
@@ -1743,232 +1704,50 @@ def gemm_q4_k_m(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]) 
 def gemm_gptq_4bit(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_gptq_4bit: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_gptq_4bit: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_gptq_4bit: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.05
-    var offset: Scalar[f16] = -0.4
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * (shared_dim // 2)
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim // 2):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
-                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[
-                    f32
-                ]()
-                var w0 = (
-                    Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset
-                ).cast[f32]()
-                sum += a0 * w0
-
-                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[
-                    f32
-                ]()
-                var w1 = (
-                    Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale
-                    + offset
-                ).cast[f32]()
-                sum += a1 * w1
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("GPTQ 4-bit GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
 
 def gemm_gptq_8bit(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_gptq_8bit: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_gptq_8bit: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_gptq_8bit: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.025
-    var offset: Scalar[f16] = -3.2
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * shared_dim
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
-                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
-                var w0 = (
-                    Scalar[f16](byte_val.cast[f16]()) * scale + offset
-                ).cast[f32]()
-                sum += a0 * w0
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("GPTQ 8-bit GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
 
 def gemm_awq_4bit(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_awq_4bit: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_awq_4bit: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_awq_4bit: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.04
-    var offset: Scalar[f16] = -0.32
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * (shared_dim // 2)
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim // 2):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
-                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[
-                    f32
-                ]()
-                var w0 = (
-                    Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset
-                ).cast[f32]()
-                sum += a0 * w0
-
-                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[
-                    f32
-                ]()
-                var w1 = (
-                    Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale
-                    + offset
-                ).cast[f32]()
-                sum += a1 * w1
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("AWQ GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
 
 def gemm_exl2(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_exl2: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_exl2: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_exl2: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.02
-    var offset: Scalar[f16] = -0.15
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * (shared_dim // 2)
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim // 2):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
-                var a0 = A.data.unsafe_load(row * shared_dim + k * 2).cast[
-                    f32
-                ]()
-                var w0 = (
-                    Scalar[f16]((byte_val & 0x0F).cast[f16]()) * scale + offset
-                ).cast[f32]()
-                sum += a0 * w0
-
-                var a1 = A.data.unsafe_load(row * shared_dim + k * 2 + 1).cast[
-                    f32
-                ]()
-                var w1 = (
-                    Scalar[f16](((byte_val >> 4) & 0x0F).cast[f16]()) * scale
-                    + offset
-                ).cast[f32]()
-                sum += a1 * w1
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("EXL2 GEMM requires its variable-bit layout and tensor metadata; it is not implemented")
 
 def gemm_hqq(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_hqq: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_hqq: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_hqq: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.025
-    var offset: Scalar[f16] = -0.5
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * shared_dim
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k)
-                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
-                var w0 = (
-                    Scalar[f16](byte_val.cast[f16]()) * scale + offset
-                ).cast[f32]()
-                sum += a0 * w0
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("HQQ GEMM requires tensor-specific scale, zero, grouping, and packing metadata; it is not implemented")
 
 def gemm_smoothquant_int8(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]
 ) raises:
-    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-        raise Error("gemm_smoothquant_int8: matrix dimensions must be positive")
-    if A.cols != B.cols:
-        raise Error("gemm_smoothquant_int8: inner matrix dimension mismatch")
-    if C.rows != A.rows or C.cols != B.rows:
-        raise Error("gemm_smoothquant_int8: output matrix shape mismatch")
-
-    var rows = A.rows
-    var shared_dim = A.cols
-    var output_dim = B.rows
-    var scale: Scalar[f16] = 0.0078125
-
-    for row in range(rows):
-        for output_index in range(output_dim):
-            var sum: Scalar[f32] = 0.0
-            var row_w_offset = output_index * shared_dim
-            var b_u8_ptr = B.data.unsafe_bitcast[UInt8]()
-            for k in range(shared_dim):
-                var byte_val = b_u8_ptr.unsafe_load(row_w_offset + k).cast[
-                    DType.int8
-                ]()
-                var a0 = A.data.unsafe_load(row * shared_dim + k).cast[f32]()
-                var w0 = (Scalar[f16](byte_val.cast[f16]()) * scale).cast[f32]()
-                sum += a0 * w0
-            if sum != sum or sum > 1e30 or sum < -1e30:
-                sum = 0.0
-            C.set(row, output_index, sum.cast[f16]())
-
+    _ = A
+    _ = B
+    _ = C
+    raise Error("SmoothQuant GEMM requires activation and weight scales with channel metadata; it is not implemented")
 
 def gemm_iq1_s(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

@@ -131,7 +131,7 @@ one scaffold domain do not prove five external integrations.
 - `cli.in_memory_manifest_store`
 - `cli.command_dispatch_smoke`
 - `quantization.enum`
-- `quantization.dispatch_writes`
+- `quantization.external_dequant_boundaries`
 
 ### Multi-engine scaffolds
 

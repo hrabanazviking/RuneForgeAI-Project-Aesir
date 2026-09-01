@@ -711,11 +711,14 @@ The forge completed Stage 57.1 of Project Aesir (`AES-QNT-010` `verified`):
 2. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_iq1_s()`, `gemm_iq2_xxs()`, and `gemm_ternary_158()` fused matrix-vector multiplication kernels, and connected automatic format dispatching in `gemm_f16()`.
 3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_extreme_quants.mojo` testing bit-for-bit mathematical output parity against uncompressed `gemm_f16`. Master test suite passed clean (**105 passed / 0 failed / 1 skipped / Total 106**). Doc drift check passed (**0 errors**).
 
-## ⚡ Entry 101: Stage 56.1 — GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization (AES-QNT-009)
+## ⚡ Entry 101: Superseded GPTQ, AWQ, EXL2, HQQ & SmoothQuant claim (AES-QNT-009)
 **Date:** August 16, 2026  
 **Architectural Phase:** GPTQ, AWQ, EXL2, HQQ & SmoothQuant Quantization  
 
-The forge completed Stage 56.1 of Project Aesir (`AES-QNT-009` `verified`):
+Historical record: this entry's `verified` conclusion was invalidated on
+September 1, 2026. The implementations used guessed fixed scales and the tests
+used the same formulas as their reference. See the reality correction at the
+top of this file and the canonical ledger. The original work recorded here was:
 1. **Fused Matrix-Vector Quantized Matmul Kernels:** Implemented `gemm_gptq_4bit()`, `gemm_gptq_8bit()`, `gemm_awq_4bit()`, `gemm_exl2()`, `gemm_hqq()`, and `gemm_smoothquant_int8()` fused matrix-vector multiplication kernels in `core/compute.mojo`.
 2. **Automatic Dispatching in GEMM Gateway:** Connected format dispatches for GPTQ_4BIT, GPTQ_8BIT, AWQ_4BIT, EXL2_VARBIT, HQQ, and SMOOTHQUANT_INT8 directly into `gemm_f16()`.
 3. **Dedicated Unit Test Suite & Master Proving:** Created `aesir_engine/tests/test_gptq_awq_quantization.mojo` testing bit-for-bit mathematical output parity against uncompressed `gemm_f16`. Master test suite passed clean (**102 passed / 0 failed / 1 skipped / Total 103**). Doc drift check passed (**0 errors**).
@@ -2092,3 +2095,10 @@ Following the completion of the core compute math (`gemm_f16`, `flash_attention_
 **Date:** August 2026  
 
 The Mythic Audit marked the transition from conceptual architecture into a solidified bare-metal engine. Six agents participated in the restructuring of Project A.E.S.I.R., each contributing to a distinct facet of the reforging process.
+## September 1, 2026 — AES-QNT-009 reality correction
+
+Removed fixed-scale GPTQ, AWQ, EXL2, HQQ, and SmoothQuant conversions and their
+circular self-parity tests. All six reserved execution paths now reject before
+mutating caller output. These external formats remain unavailable until their
+authoritative tensor metadata and byte layouts are implemented and checked
+against real fixtures and independent runtimes.

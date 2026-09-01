@@ -1,24 +1,10 @@
 # tests/test_quantization.mojo
-# Verification of compressed-format discriminants and toy write scaffolds
+# Verification of compressed-format discriminants and execution boundaries
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from core.mimir_well import CompressedFormatType, Scalar, f16
-from core.compute import (
-    dequantize_q2_k,
-    dequantize_q3_k,
-    dequantize_q4_0,
-    dequantize_q4_1,
-    dequantize_q5_0,
-    dequantize_q6_k,
-    dequantize_q8_0,
-    dequantize_gptq_4bit,
-    dequantize_awq_4bit,
-    dequantize_exl2,
-    dequantize_hqq,
-    dequantize_smoothquant_int8,
-    dequantize_compressed_tensor
-)
+from core.compute import dequantize_compressed_tensor
 
 def test_compressed_format_enum() raises:
     print("--- Testing CompressedFormatType (Format Discriminants) ---")
@@ -64,94 +50,42 @@ def test_compressed_format_enum() raises:
         raise Error("CompressedFormatType invariant mismatch")
 
 
-def test_dequantization_kernels() raises:
-    print("--- Testing toy compressed dispatch writes (not format compatibility) ---")
-    var success = True
+def assert_external_dequantization_rejected(
+    format: CompressedFormatType,
+    label: String,
+    input: Pointer[UInt8, MutUntrackedOrigin],
+    output: Pointer[Scalar[f16], MutUntrackedOrigin],
+) raises:
     var num_elements = 32
-    var in_bytes = alloc(Layout[UInt8](count=32)).unsafe_leak()
-    var out_f16 = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
-
     for i in range(32):
-        in_bytes.unsafe_store(i, UInt8(i * 7 % 256))
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch Q2_K
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q2_K), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: Q2_K dispatch did not write output")
-        success = False
-
+        output.unsafe_store(i, Scalar[f16](123.0))
+    var rejected = False
+    try:
+        dequantize_compressed_tensor(format, input, output, num_elements)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error(label + " dequantization was accepted without required metadata")
     for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
+        if output.unsafe_load(i) != Scalar[f16](123.0):
+            raise Error(label + " dequantization rejection mutated output")
 
-    # Dispatch Q4_0
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q4_0), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: Q4_0 dispatch did not write output")
-        success = False
 
+def test_dequantization_kernels() raises:
+    print("--- Testing external compressed-format dequantization boundaries ---")
+    var input = alloc(Layout[UInt8](count=32)).unsafe_leak()
+    var output = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
     for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-    
-    # Dispatch Q8_0
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.Q8_0), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: Q8_0 dispatch did not write output")
-        success = False
-
-    for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch GPTQ_4BIT
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.GPTQ_4BIT), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: GPTQ_4BIT dispatch did not write output")
-        success = False
-
-    for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch AWQ_4BIT
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.AWQ_4BIT), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: AWQ_4BIT dispatch did not write output")
-        success = False
-
-    for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch EXL2_VARBIT
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: EXL2_VARBIT dispatch did not write output")
-        success = False
-
-    for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch HQQ
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.HQQ), in_bytes, out_f16, num_elements)
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: HQQ dispatch did not write output")
-        success = False
-
-    for i in range(32):
-        out_f16.unsafe_store(i, Scalar[f16](123.0))
-
-    # Dispatch SMOOTHQUANT_INT8
-    dequantize_compressed_tensor(CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8), in_bytes, out_f16, num_elements)
-
-    if out_f16.unsafe_load(0) == Scalar[f16](123.0):
-        print("FAIL: SMOOTHQUANT_INT8 dispatch did not write output")
-        success = False
-
-    in_bytes.unsafe_free()
-    out_f16.unsafe_free()
-
-    if success:
-        print("toy compressed dispatch writes: PASS")
-    else:
-        raise Error("dequantization dispatch did not write deterministic output")
+        input.unsafe_store(i, UInt8(i * 7 % 256))
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.GPTQ_4BIT), "GPTQ_4BIT", input, output)
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.GPTQ_8BIT), "GPTQ_8BIT", input, output)
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.AWQ_4BIT), "AWQ_4BIT", input, output)
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), "EXL2_VARBIT", input, output)
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.HQQ), "HQQ", input, output)
+    assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8), "SMOOTHQUANT_INT8", input, output)
+    input.unsafe_free()
+    output.unsafe_free()
+    print("external compressed-format dequantization boundaries: PASS")
 
 
 def test_q4_k_m_block_dequantization() raises:

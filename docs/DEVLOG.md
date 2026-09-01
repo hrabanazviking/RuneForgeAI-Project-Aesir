@@ -1,3 +1,13 @@
+## 2026-09-01 — Removed invented external quantization execution
+
+GPTQ 4/8-bit, AWQ 4-bit, EXL2, HQQ, and SmoothQuant previously decoded
+arbitrary bytes with fixed constants that were not read from model metadata.
+Their tests built the reference output with the same formulas, so they proved
+only internal agreement. Those conversions and fused GEMMs now fail before
+output mutation. The format names remain reserved descriptors; `AES-QNT-009`
+is `missing` until exact layouts, real metadata, fixtures, and independent
+oracles exist.
+
 ## 2026-09-01 — Removed synthetic experimental inference stand-ins
 
 CIA no longer labels a DJB2-style string checksum as semantic execution state.

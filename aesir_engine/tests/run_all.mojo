@@ -163,12 +163,12 @@ from tests.test_k_quants_2_6 import (
     test_fused_q6_k_parity,
 )
 from tests.test_gptq_awq_quantization import (
-    test_fused_gptq_4bit_parity,
-    test_fused_gptq_8bit_parity,
-    test_fused_awq_4bit_parity,
-    test_fused_exl2_parity,
-    test_fused_hqq_parity,
-    test_fused_smoothquant_int8_parity,
+    test_gptq_4bit_boundary,
+    test_gptq_8bit_boundary,
+    test_awq_4bit_boundary,
+    test_exl2_boundary,
+    test_hqq_boundary,
+    test_smoothquant_int8_boundary,
 )
 from tests.test_extreme_quants import (
     test_fused_iq1_s_parity,
@@ -490,7 +490,7 @@ def main() raises:
     print("  -----------------------------------------")
     run_case(ledger, "quantization.enum", test_compressed_format_enum)
     run_case(
-        ledger, "quantization.dispatch_writes", test_dequantization_kernels
+        ledger, "quantization.external_dequant_boundaries", test_dequantization_kernels
     )
     run_case(
         ledger,
@@ -528,23 +528,23 @@ def main() raises:
     run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
     run_case(
         ledger,
-        "quantization.fused_gptq_4bit_parity",
-        test_fused_gptq_4bit_parity,
+        "quantization.gptq_4bit_boundary",
+        test_gptq_4bit_boundary,
     )
     run_case(
         ledger,
-        "quantization.fused_gptq_8bit_parity",
-        test_fused_gptq_8bit_parity,
+        "quantization.gptq_8bit_boundary",
+        test_gptq_8bit_boundary,
     )
     run_case(
-        ledger, "quantization.fused_awq_4bit_parity", test_fused_awq_4bit_parity
+        ledger, "quantization.awq_4bit_boundary", test_awq_4bit_boundary
     )
-    run_case(ledger, "quantization.fused_exl2_parity", test_fused_exl2_parity)
-    run_case(ledger, "quantization.fused_hqq_parity", test_fused_hqq_parity)
+    run_case(ledger, "quantization.exl2_boundary", test_exl2_boundary)
+    run_case(ledger, "quantization.hqq_boundary", test_hqq_boundary)
     run_case(
         ledger,
-        "quantization.fused_smoothquant_int8_parity",
-        test_fused_smoothquant_int8_parity,
+        "quantization.smoothquant_int8_boundary",
+        test_smoothquant_int8_boundary,
     )
     run_case(ledger, "quantization.fused_iq1_s_parity", test_fused_iq1_s_parity)
     run_case(

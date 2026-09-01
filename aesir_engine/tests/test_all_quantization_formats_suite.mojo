@@ -1,8 +1,8 @@
 """
-Project Aesir — Comprehensive All-Format Quantization Suite & Autotuner Test
-════════════════════════════════════════════════════════════════════════════
-Verifies metadata reporting, autotuning recommendations, and hardware gateway
-dispatching across all 25+ quantization formats supported by Project Aesir.
+Project Aesir — Quantization Descriptor & Dispatch Boundary Suite
+══════════════════════════════════════════════════════════════════
+Verifies descriptor reporting, implemented dispatch, and explicit rejection of
+external formats whose tensor metadata and byte layouts are not implemented.
 """
 
 from std.memory import Pointer
@@ -65,15 +65,24 @@ def test_autotune_quantized_gemm_dispatch() raises:
     if C1.data.unsafe_load(0) == Scalar[f16](0.0):
         raise Error("test_autotune_quantized_gemm_dispatch: FP8 output is zero")
 
-    # Test dispatching GPTQ_4BIT
+    # GPTQ descriptors exist, but execution must fail without GPTQ tensor metadata.
     var b2_bytes = well.allocate(N * K).unsafe_bitcast[UInt8]()
     for i in range(N * K):
         b2_bytes.unsafe_store(i, UInt8((i * 17) % 256))
     var B_gptq = RuneTensor[f16](N, K, b2_bytes.unsafe_bitcast[Scalar[f16]](), True, CompressedFormatType(CompressedFormatType.GPTQ_4BIT))
     var c2_ptr = well.allocate(M * N)
     var C2 = RuneTensor[f16](M, N, c2_ptr, False)
-    autotune_quantized_gemm(A, B_gptq, C2)
-    if C2.data.unsafe_load(0) == Scalar[f16](0.0):
-        raise Error("test_autotune_quantized_gemm_dispatch: GPTQ output is zero")
+    for i in range(M * N):
+        C2.data.unsafe_store(i, Scalar[f16](271.0))
+    var rejected = False
+    try:
+        autotune_quantized_gemm(A, B_gptq, C2)
+    except error:
+        rejected = "not implemented" in String(error)
+    if not rejected:
+        raise Error("test_autotune_quantized_gemm_dispatch: GPTQ execution was accepted")
+    for i in range(M * N):
+        if C2.data.unsafe_load(i) != Scalar[f16](271.0):
+            raise Error("test_autotune_quantized_gemm_dispatch: rejected GPTQ mutated output")
 
-    print("autotune_quantized_gemm hardware gateway dispatch: PASS")
+    print("quantized GEMM dispatch boundary: PASS")
