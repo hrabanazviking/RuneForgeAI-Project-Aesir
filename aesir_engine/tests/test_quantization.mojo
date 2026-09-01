@@ -86,11 +86,32 @@ def assert_external_dequantization_rejected(
             raise Error(label + " dequantization rejection mutated output")
 
 
+def assert_partial_block_rejected(
+    format: CompressedFormatType,
+    block_size: Int,
+    label: String,
+    input: Pointer[UInt8, MutUntrackedOrigin],
+    output: Pointer[Scalar[f16], MutUntrackedOrigin],
+) raises:
+    for i in range(256):
+        output.unsafe_store(i, Scalar[f16](143.0))
+    var rejected = False
+    try:
+        dequantize_compressed_tensor(format, input, output, block_size - 1)
+    except error:
+        rejected = "complete quantization blocks" in String(error)
+    if not rejected:
+        raise Error(label + " accepted a partial quantization block")
+    for i in range(256):
+        if output.unsafe_load(i) != Scalar[f16](143.0):
+            raise Error(label + " partial-block rejection mutated output")
+
+
 def test_dequantization_kernels() raises:
-    print("--- Testing external compressed-format dequantization boundaries ---")
-    var input = alloc(Layout[UInt8](count=32)).unsafe_leak()
-    var output = alloc(Layout[Scalar[f16]](count=32)).unsafe_leak()
-    for i in range(32):
+    print("--- Testing compressed-format dequantization boundaries ---")
+    var input = alloc(Layout[UInt8](count=512)).unsafe_leak()
+    var output = alloc(Layout[Scalar[f16]](count=256)).unsafe_leak()
+    for i in range(512):
         input.unsafe_store(i, UInt8(i * 7 % 256))
     assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.GPTQ_4BIT), "GPTQ_4BIT", input, output)
     assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.GPTQ_8BIT), "GPTQ_8BIT", input, output)
@@ -98,9 +119,16 @@ def test_dequantization_kernels() raises:
     assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.EXL2_VARBIT), "EXL2_VARBIT", input, output)
     assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.HQQ), "HQQ", input, output)
     assert_external_dequantization_rejected(CompressedFormatType(CompressedFormatType.SMOOTHQUANT_INT8), "SMOOTHQUANT_INT8", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q2_K), 256, "Q2_K", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q3_K_M), 256, "Q3_K", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q4_0), 32, "Q4_0", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q5_0), 32, "Q5_0", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q6_K), 256, "Q6_K", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q8_0), 32, "Q8_0", input, output)
+    assert_partial_block_rejected(CompressedFormatType(CompressedFormatType.Q4_K_M), 256, "Q4_K", input, output)
     input.unsafe_free()
     output.unsafe_free()
-    print("external compressed-format dequantization boundaries: PASS")
+    print("compressed-format dequantization boundaries: PASS")
 
 
 def test_q4_k_m_block_dequantization() raises:

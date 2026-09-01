@@ -660,148 +660,6 @@ def dequantize_q6_k_block(
 
 
 @always_inline
-def dequantize_q2_k(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᛏᚹᛟ·ᚲ — The Strike of the Twofold Rune (Q2_K Dequantization)
-    ════════════════════════════════════════════════════════════
-    2-bit K-quantization block unpacking with 6-bit scales.
-    """
-    if num_elements <= 0:
-        return
-    var scale: Scalar[f16] = 0.125
-    var min_val: Scalar[f16] = -1.0
-    var num_bytes = num_elements // 4
-    for i in range(num_bytes):
-        var b = data.unsafe_load(i)
-        var q0 = Scalar[f16]((b & 0x03).cast[f16]()) * scale + min_val
-        var q1 = Scalar[f16](((b >> 2) & 0x03).cast[f16]()) * scale + min_val
-        var q2 = Scalar[f16](((b >> 4) & 0x03).cast[f16]()) * scale + min_val
-        var q3 = Scalar[f16](((b >> 6) & 0x03).cast[f16]()) * scale + min_val
-        out_ptr.unsafe_store(i * 4, q0)
-        out_ptr.unsafe_store(i * 4 + 1, q1)
-        out_ptr.unsafe_store(i * 4 + 2, q2)
-        out_ptr.unsafe_store(i * 4 + 3, q3)
-
-
-@always_inline
-def dequantize_q3_k(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᛏᚺᚱᛖᛖ·ᚲ — The Threefold Weave (Q3_K Dequantization)
-    ════════════════════════════════════════════════════
-    3-bit K-quantization block unpacking.
-    """
-    var scale: Scalar[f16] = 0.0625
-    for i in range(num_elements):
-        var b = data.unsafe_load(i // 2)
-        var val = (b & 0x07) if (i % 2 == 0) else ((b >> 4) & 0x07)
-        out_ptr.unsafe_store(i, Scalar[f16](val.cast[f16]()) * scale - 0.25)
-
-
-@always_inline
-def dequantize_q4_0(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᚠᛟᚢᚱ·ᚹᛟ — The Foundation of Four (Q4_0 Dequantization)
-    ═══════════════════════════════════════════════════════
-    4-bit nibble dequantization with Float16 scale.
-    """
-    var scale: Scalar[f16] = 0.03125
-    var num_bytes = num_elements // 2
-    for i in range(num_bytes):
-        var b = data.unsafe_load(i)
-        var low = (b & 0x0F).cast[f16]() - 8.0
-        var high = ((b >> 4) & 0x0F).cast[f16]() - 8.0
-        out_ptr.unsafe_store(i * 2, Scalar[f16](low) * scale)
-        out_ptr.unsafe_store(i * 2 + 1, Scalar[f16](high) * scale)
-
-
-@always_inline
-def dequantize_q4_1(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᚠᛟᚢᚱ·ᚹᛟᚾᛖ — The Scale & Offset of Four (Q4_1 Dequantization)
-    ══════════════════════════════════════════════════════════════
-    4-bit nibble dequantization with Float16 scale & min.
-    """
-    var scale: Scalar[f16] = 0.03125
-    var min_val: Scalar[f16] = -0.5
-    var num_bytes = num_elements // 2
-    for i in range(num_bytes):
-        var b = data.unsafe_load(i)
-        var low = (b & 0x0F).cast[f16]() * scale + min_val
-        var high = ((b >> 4) & 0x0F).cast[f16]() * scale + min_val
-        out_ptr.unsafe_store(i * 2, Scalar[f16](low))
-        out_ptr.unsafe_store(i * 2 + 1, Scalar[f16](high))
-
-
-@always_inline
-def dequantize_q5_0(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᚠᛁᚠᛖ·ᚹᛟ — The Forge of Five (Q5_0 Dequantization)
-    ══════════════════════════════════════════════════
-    5-bit block dequantization.
-    """
-    var scale: Scalar[f16] = 0.015625
-    for i in range(num_elements):
-        var b = data.unsafe_load(i)
-        var val = (b & 0x1F).cast[f16]() - 16.0
-        out_ptr.unsafe_store(i, Scalar[f16](val) * scale)
-
-
-@always_inline
-def dequantize_q6_k(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᛁᚲᛋ·ᚲ — The Shield of Six (Q6_K Dequantization)
-    ════════════════════════════════════════════════
-    6-bit K-quantization block unpacking.
-    """
-    var scale: Scalar[f16] = 0.0078125
-    for i in range(num_elements):
-        var b = data.unsafe_load(i)
-        var val = (b & 0x3F).cast[f16]() - 32.0
-        out_ptr.unsafe_store(i, Scalar[f16](val) * scale)
-
-
-@always_inline
-def dequantize_q8_0(
-    data: Pointer[UInt8, MutUntrackedOrigin],
-    out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
-    num_elements: Int,
-):
-    """
-    ᚴᛖᛁᚷᚺᛏ·ᚹᛟ — The Iron Byte of Eight (Q8_0 Dequantization)
-    ══════════════════════════════════════════════════════════
-    8-bit signed integer dequantization.
-    """
-    var scale: Scalar[f16] = 0.00390625
-    for i in range(num_elements):
-        var b = data.unsafe_load(i).cast[DType.int8]()
-        out_ptr.unsafe_store(i, Scalar[f16](b.cast[f16]()) * scale)
-
-
-@always_inline
 def dequantize_gptq_4bit(
     data: Pointer[UInt8, MutUntrackedOrigin],
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
@@ -862,6 +720,17 @@ def dequantize_smoothquant_int8(
 
 
 @always_inline
+def quantized_block_count(
+    num_elements: Int, block_size: Int, format_name: String
+) raises -> Int:
+    if num_elements <= 0:
+        raise Error(format_name + ": element count must be positive")
+    if block_size <= 0 or num_elements % block_size != 0:
+        raise Error(format_name + ": element count must contain complete quantization blocks")
+    return num_elements // block_size
+
+
+@always_inline
 def dequantize_compressed_tensor(
     format: CompressedFormatType,
     data: Pointer[UInt8, MutUntrackedOrigin],
@@ -874,52 +743,57 @@ def dequantize_compressed_tensor(
     Dispatches only formats whose byte layout is implemented. External formats
     that require tensor-specific metadata fail before touching the output buffer.
     """
+    if num_elements <= 0:
+        raise Error("dequantize_compressed_tensor: element count must be positive")
+    if Int(data) <= 1 or Int(out_ptr) <= 1:
+        raise Error("dequantize_compressed_tensor: invalid input or output storage")
     if format.value == CompressedFormatType.Q2_K:
-        if num_elements < 256:
-            dequantize_q2_k(data, out_ptr, num_elements)
-        else:
-            var block_ptr = data.unsafe_bitcast[BlockQ2_K]()
-            dequantize_q2_k_block(block_ptr, out_ptr, num_elements // 256)
+        var blocks = quantized_block_count(num_elements, 256, "Q2_K")
+        var block_ptr = data.unsafe_bitcast[BlockQ2_K]()
+        dequantize_q2_k_block(block_ptr, out_ptr, blocks)
     elif (
         format.value == CompressedFormatType.Q3_K_S
         or format.value == CompressedFormatType.Q3_K_M
         or format.value == CompressedFormatType.Q3_K_L
     ):
-        if num_elements < 256:
-            dequantize_q3_k(data, out_ptr, num_elements)
-        else:
-            var block_ptr = data.unsafe_bitcast[BlockQ3_K]()
-            dequantize_q3_k_m(block_ptr, out_ptr, num_elements // 256)
+        var blocks = quantized_block_count(num_elements, 256, "Q3_K")
+        var block_ptr = data.unsafe_bitcast[BlockQ3_K]()
+        dequantize_q3_k_m(block_ptr, out_ptr, blocks)
     elif (
         format.value == CompressedFormatType.Q5_K_S
         or format.value == CompressedFormatType.Q5_K_M
     ):
+        var blocks = quantized_block_count(num_elements, 256, "Q5_K")
         var block_ptr = data.unsafe_bitcast[BlockQ5_K]()
-        dequantize_q5_k_m(block_ptr, out_ptr, num_elements // 256)
+        dequantize_q5_k_m(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q4_0:
+        var blocks = quantized_block_count(num_elements, 32, "Q4_0")
         var block_ptr = data.unsafe_bitcast[BlockQ4_0]()
-        dequantize_q4_0(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q4_0(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q4_1:
+        var blocks = quantized_block_count(num_elements, 32, "Q4_1")
         var block_ptr = data.unsafe_bitcast[BlockQ4_1]()
-        dequantize_q4_1(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q4_1(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q5_0:
+        var blocks = quantized_block_count(num_elements, 32, "Q5_0")
         var block_ptr = data.unsafe_bitcast[BlockQ5_0]()
-        dequantize_q5_0(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q5_0(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q5_1:
+        var blocks = quantized_block_count(num_elements, 32, "Q5_1")
         var block_ptr = data.unsafe_bitcast[BlockQ5_1]()
-        dequantize_q5_1(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q5_1(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q6_K:
-        if num_elements < 256:
-            dequantize_q6_k(data, out_ptr, num_elements)
-        else:
-            var block_ptr = data.unsafe_bitcast[BlockQ6_K]()
-            dequantize_q6_k_block(block_ptr, out_ptr, num_elements // 256)
+        var blocks = quantized_block_count(num_elements, 256, "Q6_K")
+        var block_ptr = data.unsafe_bitcast[BlockQ6_K]()
+        dequantize_q6_k_block(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q8_0:
+        var blocks = quantized_block_count(num_elements, 32, "Q8_0")
         var block_ptr = data.unsafe_bitcast[BlockQ8_0]()
-        dequantize_q8_0(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q8_0(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.Q8_1:
+        var blocks = quantized_block_count(num_elements, 32, "Q8_1")
         var block_ptr = data.unsafe_bitcast[BlockQ8_1]()
-        dequantize_q8_1(block_ptr, out_ptr, num_elements // 32)
+        dequantize_q8_1(block_ptr, out_ptr, blocks)
     elif format.value == CompressedFormatType.FP8_E4M3:
         dequantize_fp8_e4m3(data, out_ptr, num_elements)
     elif format.value == CompressedFormatType.FP8_E5M2:
@@ -944,8 +818,9 @@ def dequantize_compressed_tensor(
     ):
         raise Error("extreme quantization layout is not implemented")
     elif format.value == CompressedFormatType.Q4_K_M or format.value == CompressedFormatType.Q4_K_S:
+        var blocks = quantized_block_count(num_elements, 256, "Q4_K")
         var block_ptr = data.unsafe_bitcast[BlockQ4_K]()
-        dequantize_q4_k_m(block_ptr, out_ptr, num_elements // 256)
+        dequantize_q4_k_m(block_ptr, out_ptr, blocks)
     else:
         raise Error("dequantize_compressed_tensor: unsupported or unrecognized quantization format discriminant")
 

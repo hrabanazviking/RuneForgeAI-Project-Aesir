@@ -1,3 +1,11 @@
+## 2026-09-01 — Removed fixed-scale partial-block dequantizers
+
+Deleted byte-pointer Q2_K, Q3_K, Q4_0, Q4_1, Q5_0, Q6_K, and Q8_0 helpers that
+decoded arbitrary bytes with hard-coded scales instead of reading real block
+metadata. The compressed dispatcher now accepts only complete 32- or 256-value
+blocks for implemented layouts and rejects invalid storage or partial blocks
+before mutation.
+
 ## 2026-09-01 — Removed no-op quantization autotuning
 
 Deleted `QuantizationFormatInfo`, `get_quantization_format_info()`, and

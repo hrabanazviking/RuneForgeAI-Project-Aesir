@@ -826,9 +826,9 @@ synthetic transforms are not proof of general GGUF wire-layout compatibility.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** README q4_k_m and core compute interface
-- **Implementation evidence:** `dequantize_q4_k_m`, `dequantize_q2_k`, `silu`, and `geglu` in `core/compute.mojo` performing 32-element Q4_K_M sub-block unpacking (`lower_4` & `upper_4`), `scale * nibble + min_val` affine scaling, zero-blocks/zero-size safety checks (`num_blocks <= 0` / `T.size <= 0`), and SIMD store layout.
+- **Implementation evidence:** `dequantize_q4_k_m` in `core/compute.mojo` performs complete 256-element Q4_K block unpacking. `dequantize_compressed_tensor()` rejects invalid storage, nonpositive counts, and partial blocks before dispatch; fixed-scale byte helpers that bypassed real block metadata were removed.
 - **Executable evidence:** `E-MASTER` case `quantization.q4_k_m_dequantization` in `test_quantization.mojo`.
-- **Evidence boundary:** Verified Q4_K_M sub-block dequantization transformation math, zero-size kernel safety, and SIMD store layout.
+- **Evidence boundary:** Verified Q4_K block transformation math and mutation-free incomplete-block rejection. Real-model breadth remains scoped by `AES-QNT-003`.
 - **Audit:** AER-051, AER-052, AER-053.
 
 ### AES-QNT-003 — Real quantized-model inference
