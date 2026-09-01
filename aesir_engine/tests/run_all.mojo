@@ -163,7 +163,7 @@ from tests.test_k_quants_2_6 import (
     test_fused_q6_k_parity,
 )
 from tests.test_gptq_awq_quantization import (
-    test_gptq_4bit_boundary,
+    test_gptq_4bit_known_value,
     test_gptq_8bit_boundary,
     test_awq_4bit_boundary,
     test_exl2_boundary,
@@ -522,8 +522,8 @@ def main() raises:
     run_case(ledger, "quantization.fused_q6_k_parity", test_fused_q6_k_parity)
     run_case(
         ledger,
-        "quantization.gptq_4bit_boundary",
-        test_gptq_4bit_boundary,
+        "quantization.gptq_4bit_known_value",
+        test_gptq_4bit_known_value,
     )
     run_case(
         ledger,

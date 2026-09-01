@@ -667,8 +667,34 @@ def dequantize_q4_0(block_ptr: Pointer[BlockQ4_0, MutUntrackedOrigin], out_ptr: 
 
 The dispatcher rejects null/sentinel storage, nonpositive element counts,
 partial blocks, unknown descriptors, and reserved external/extreme formats
-before output mutation. GPTQ, AWQ, EXL2, HQQ, SmoothQuant, and IQ execution are
-not part of this interface.
+before output mutation. Metadata-bearing AutoGPTQ 4-bit matrices use the
+separate checked interface below; the generic byte-only dispatcher cannot carry
+their scale, zero-point, or grouping metadata.
+
+```mojo
+struct GPTQ4BitMatrix(Copyable, ImplicitlyCopyable):
+    var qweight: Pointer[UInt32, MutUntrackedOrigin]
+    var qweight_elements: Int
+    var qzeros: Pointer[UInt32, MutUntrackedOrigin]
+    var qzero_elements: Int
+    var scales: Pointer[Float16, MutUntrackedOrigin]
+    var scale_elements: Int
+    var g_idx: Pointer[Int32, MutUntrackedOrigin]
+    var g_idx_elements: Int
+    var in_features: Int
+    var out_features: Int
+    var group_size: Int
+    var group_count: Int
+    var has_g_idx: Bool
+
+def dequantize_gptq_4bit(matrix: GPTQ4BitMatrix, out_ptr: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+def gemm_gptq_4bit(input: Pointer[Float16, MutUntrackedOrigin], input_elements: Int, input_rows: Int, matrix: GPTQ4BitMatrix, output: Pointer[Float16, MutUntrackedOrigin], output_elements: Int) raises: ...
+```
+
+The view implements the AutoGPTQ 4-bit UInt32 packing and zero-minus-one rule,
+including optional `g_idx`, and requires exact backing-storage counts for every
+packed tensor, input, and output. GPTQ 8-bit, AWQ, EXL2, HQQ, SmoothQuant, and
+IQ execution are not yet part of this metadata-aware interface.
 
 
 ### Swarm Cluster Descriptors (`core/swarm.mojo`)

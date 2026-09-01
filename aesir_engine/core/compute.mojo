@@ -27,6 +27,11 @@ from .metal_gate import MetalGate
 from .intel_gate import IntelGate
 from .amd_gate import AMDGate
 from .npu_gate import NPUGate
+from .external_quantization import (
+    GPTQ4BitMatrix,
+    dequantize_gptq_4bit_matrix,
+    gemm_gptq_4bit_matrix,
+)
 
 comptime simd_w_f16 = 16
 comptime simd_w_f32 = 16
@@ -439,6 +444,16 @@ def dequantize_gptq_4bit(
     _ = out_ptr
     _ = num_elements
     raise Error("GPTQ dequantization requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
+
+
+@always_inline
+def dequantize_gptq_4bit(
+    matrix: GPTQ4BitMatrix,
+    out_ptr: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    """Dequantize a validated AutoGPTQ 4-bit matrix to `[out, in]` F16."""
+    dequantize_gptq_4bit_matrix(matrix, out_ptr, output_elements)
 
 
 @always_inline
@@ -1004,6 +1019,20 @@ def gemm_gptq_4bit(
     _ = B
     _ = C
     raise Error("GPTQ 4-bit GEMM requires format-specific scales, zero points, groups, and packing metadata; it is not implemented")
+
+
+def gemm_gptq_4bit(
+    input: Pointer[Float16, MutUntrackedOrigin],
+    input_elements: Int,
+    input_rows: Int,
+    matrix: GPTQ4BitMatrix,
+    output: Pointer[Float16, MutUntrackedOrigin],
+    output_elements: Int,
+) raises:
+    """Run A[M,K] x validated AutoGPTQ W[N,K] -> C[M,N]."""
+    gemm_gptq_4bit_matrix(
+        input, input_elements, input_rows, matrix, output, output_elements
+    )
 
 def gemm_gptq_8bit(
     A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]

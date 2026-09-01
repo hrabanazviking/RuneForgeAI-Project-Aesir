@@ -1,3 +1,21 @@
+## 2026-09-01 — Built the canonical AutoGPTQ 4-bit host primitive
+
+Added `GPTQ4BitMatrix`, a checked metadata-bearing view over AutoGPTQ's packed
+UInt32 weights, packed zero-minus-one values, per-group/per-output F16 scales,
+optional activation-order `g_idx`, and exact backing-storage counts. Restored
+public metadata-aware
+`dequantize_gptq_4bit()` and `gemm_gptq_4bit()` overloads with F32 accumulation.
+The counted regression builds raw packed words and compares both the expanded
+matrix and two GEMM rows with hand-computed values.
+The packing contract is traced to AutoGPTQ commit `9f7d37072917ab3a7545835f23e808294a542153`
+in `auto_gptq/nn_modules/qlinear/qlinear_cuda_old.py`.
+
+The generic byte-only and `RuneTensor` APIs still refuse GPTQ because those
+types cannot carry the required metadata. Safetensors/config loading, tensor
+attachment, CUDA kernels, external model fixtures, and full-model parity remain
+open work. `AES-QNT-009` advances from `missing` to `partial` on this narrow
+evidence.
+
 ## 2026-09-01 — Restored public K-quant dequantization APIs
 
 Added real format-specific Q2_K, Q3_K S/M/L, Q4_K, Q5_K S/M, and Q6_K

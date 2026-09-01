@@ -66,10 +66,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 69 |
-| `partial` | 21 |
+| `partial` | 22 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 22 |
+| `missing` | 21 |
 | **Total** | **112** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -895,14 +895,14 @@ and circular self-parity transforms were removed.
 
 ### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** core compute domain
 - **Claim sources:** GPTQ, AWQ, EXL2, HQQ, and SmoothQuant 4-bit/8-bit support (GPTQ_4BIT, GPTQ_8BIT, AWQ_4BIT, EXL2_VARBIT, HQQ, SMOOTHQUANT_INT8)
-- **Implementation evidence:** Format descriptors remain reserved. Direct dequantizers, fused GEMM entry points, `gemm_f16()`, and `dequantize_compressed_tensor()` reject these formats before output mutation because the repository has no scale, zero-point, group, activation-scale, variable-bit, or tensor-layout metadata for them.
-- **Executable evidence:** `E-MASTER` cases `quantization.external_dequant_boundaries`, `quantization.gptq_4bit_boundary`, `quantization.gptq_8bit_boundary`, `quantization.awq_4bit_boundary`, `quantization.exl2_boundary`, `quantization.hqq_boundary`, and `quantization.smoothquant_int8_boundary`.
-- **Evidence boundary:** Verified mutation-free refusal only. The former fixed-scale implementations and circular parity tests were removed; they did not establish compatibility with any external format.
-- **Next acceptance gate:** Parse each format's authoritative tensor metadata and exact byte layout, implement one format at a time, and compare dequantized values and model outputs against an independent implementation and real fixture.
-- **Audit:** Reality correction, September 1, 2026.
+- **Implementation evidence:** `core/external_quantization.mojo` implements the canonical AutoGPTQ 4-bit packed matrix contract: input-channel-packed UInt32 weights, separately packed zero-minus-one values, per-group/per-output F16 scales, optional activation-order `g_idx`, exact backing-storage counts, checked metadata, F16 dequantization, and F32-accumulating GEMM. `core/compute.mojo` restores metadata-aware `dequantize_gptq_4bit()` and `gemm_gptq_4bit()` overloads. The legacy byte-only/RuneTensor entry points still fail closed because they cannot carry the required metadata. GPTQ 8-bit, AWQ, EXL2, HQQ, and SmoothQuant remain mutation-free boundaries.
+- **Executable evidence:** `E-MASTER` case `quantization.gptq_4bit_known_value` checks raw packed words, independently hand-calculated dequantized values, two GEMM rows, activation-order groups, and fail-before-mutation invalid metadata. Cases `quantization.external_dequant_boundaries`, `quantization.gptq_8bit_boundary`, `quantization.awq_4bit_boundary`, `quantization.exl2_boundary`, `quantization.hqq_boundary`, and `quantization.smoothquant_int8_boundary` retain strict refusal coverage.
+- **Evidence boundary:** Verified the AutoGPTQ 4-bit host primitive and metadata validation. There is no safetensors/config loader, metadata attachment to `RuneTensor`, CUDA GPTQ kernel, external artifact fixture, or full-model parity evidence yet. No implementation claim is made for the other listed formats.
+- **Next acceptance gate:** Wire parsed GPTQ metadata into model tensors and add external-fixture parity, then implement and verify GPTQ 8-bit and AWQ using their distinct authoritative layouts before adding CUDA kernels.
+- **Audit:** AutoGPTQ 4-bit primitive milestone, September 1, 2026.
 
 ### AES-QNT-010 — Ternary and 1-bit extreme quantization transformation kernels
 
