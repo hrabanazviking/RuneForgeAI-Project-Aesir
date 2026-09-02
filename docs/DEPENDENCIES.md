@@ -8,9 +8,12 @@ prerequisite. No external inference engine or Python runtime is used for chat.
 The loader uses Linux libc file mapping and bounded process/file operations.
 Hugging Face transfers use the system `curl` (HTTPS certificate verification,
 redirect restrictions, optional parallel ranges) and `sha256sum` (GNU coreutils).
+Content-addressed model-store import and verification also use `sha256sum`,
+reading the exact inherited open descriptor through Linux procfs.
 These are separate executables invoked with argv, never a shell command string.
 They are justified because this toolchain has no maintained native HTTPS client;
-they remain isolated in `loader/huggingface.mojo`. Curl must support `--parallel`
+argv-only process execution is isolated in the loader and
+`core/posix_process.mojo`. Curl must support `--parallel`
 for `--connections > 1` (curl 7.66+). No executable is vendored.
 
 Test-only tools: Python standard library for orchestration, `tokenizers 0.22.2`

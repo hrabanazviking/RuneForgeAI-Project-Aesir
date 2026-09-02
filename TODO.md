@@ -356,15 +356,19 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 
 ### Persistent model store
 
-- [ ] **[partial, AES-CLI-004] Replace the seeded store with an empty durable
-  store:** Define content-addressed blob and versioned manifest layout.
-- [ ] Compute real digests and sizes from stored bytes; never ship fictional
-  defaults as observations.
+- [x] **[partial, AES-CLI-004] Add the content-addressed model store:** The
+  empty versioned catalog now owns immutable `blobs/sha256/<digest>` objects.
+  `create --model` hashes the exact opened inode, records its measured size,
+  deduplicates safely, and `verify` performs a full rehash.
+- [x] Compute real SHA-256 digests and sizes from imported bytes; recipe-only
+  manifests retain their explicitly unknown byte metadata.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
 - [x] **[partial, AES-CLI-005] Connect catalog output:** `list`, `show`, `create`, `cp`, and `rm` use the restart-safe recipe catalog with built-CLI process evidence.
 - [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
+- [ ] Add crash-safe orphan discovery and reference-aware blob garbage
+  collection; `rm` currently preserves immutable bytes.
 
 ### Network distribution
 

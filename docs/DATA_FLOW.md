@@ -15,7 +15,7 @@ flowchart LR
     Dispatch -->|run/chat --accel cuda| CUDA[Native CUDA profile]
     Dispatch -->|serve| Service[Authenticated loopback service]
     Dispatch -->|pull| Hub[Hugging Face downloader]
-    Dispatch -->|create/list/show/cp/rm| Store[Durable recipe catalog]
+    Dispatch -->|create/list/show/cp/rm/verify| Store[Durable catalog + SHA-256 blobs]
     Dispatch -->|config/hardware/compute| Inspect[Validation and observation]
     Dispatch -->|reserved command| Reject[Explicit unsupported error]
 ```
@@ -151,33 +151,39 @@ cooperative shutdown. It is not the legacy `BifrostGate` route scaffold and
 does not claim OpenAI, Ollama, or llama.cpp compatibility. Those legacy-shaped
 routes return HTTP 501.
 
-## Durable recipe catalog
+## Durable catalog and content-addressed blobs
 
 ```mermaid
 sequenceDiagram
     participant C as CLI process
     participant D as DurableModelStore
     participant F as .aesir/models/catalog.v1
+    participant B as .aesir/models/blobs/sha256/digest
 
-    C->>D: create/cp/rm or list/show
+    C->>D: create/cp/rm/verify or list/show
     D->>D: validate configured relative root
     alt mutation
         D->>D: create root and acquire directory lock
         D->>F: read bounded versioned catalog without following final symlink
         D->>D: parse strict count and delimiter-safe manifests
         D->>D: apply mutation to candidate state
+        opt create --model
+            D->>B: copy exact open inode, fsync, SHA-256, linkat publish
+            D->>B: verify existing digest before deduplication
+        end
         D->>F: stage, fsync, atomic rename, directory fsync
         D->>D: publish candidate in memory
     else read
         D->>F: reopen and strictly parse current catalog
     end
-    D-->>C: recipe records or explicit error
+    D-->>C: measured/recipe records or explicit error
 ```
 
-Catalog records contain validated Modelfile recipes and deterministic
-non-cryptographic fingerprints. They do not ingest, copy, hash, size, reference
-count, or delete GGUF bytes. `ps`, `stop`, upload, and live session ownership are
-not implemented.
+Catalog records contain validated Modelfile recipes. Recipe-only records use a
+deterministic non-cryptographic fingerprint. `create --model` records measured
+SHA-256 and size for an immutable shared blob, and `verify` performs a full
+rehash. Automatic pull registration, reference-aware garbage collection,
+`ps`, `stop`, upload, and live session ownership are not implemented.
 
 ## Standalone local primitives
 

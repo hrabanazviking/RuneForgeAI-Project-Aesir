@@ -261,7 +261,9 @@ def check_text_hygiene(paths: list[Path], errors: list[str]) -> None:
 def check_source_truth(errors: list[str]) -> None:
     signatures = {
         "aesir_engine/cli/repl.mojo": ["Aesir response to:"],
-        "aesir_engine/cli/manifest.mojo": ["sha256:", "4370000000"],
+        # A sha256: prefix is now admitted only after measured blob ingestion;
+        # retain the old fixed-size sentinel as the fabricated-state guard.
+        "aesir_engine/cli/manifest.mojo": ["4370000000"],
         "aesir_engine/core/swarm.mojo": ["secret-aesir-token"],
     }
     for name, forbidden in signatures.items():

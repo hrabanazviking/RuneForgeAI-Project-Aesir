@@ -1,3 +1,18 @@
+## 2026-09-02 — Added immutable SHA-256 model blobs
+
+Extended `DurableModelStore` from a recipe catalog into a content-addressed
+Linux model store. `create --model` opens the source without following its final
+symlink, copies the exact inode to owner-only staging, measures its size, hashes
+that descriptor through argv-only `sha256sum`, and exclusively publishes
+`blobs/sha256/<digest>`. Existing content is fully verified before
+deduplication. Catalog failure rolls back a blob first created by the failed
+transaction; `verify` performs an exact size and SHA-256 recheck. The focused
+Mojo regression covers persistence, deduplication, corruption, and missing
+blobs. The built CLI harness adds six concurrent import processes, confirms no
+lost catalog writes and one shared blob, and retains permission, rollback, and
+symlink checks. Automatic Hub registration, crash-orphan garbage collection,
+and live session ownership remain open.
+
 ## 2026-09-01 — Replaced the PagedKVCache counter with a real page table
 
 Rebuilt `PagedKVCache` as a bounded multi-sequence host page manager. It now

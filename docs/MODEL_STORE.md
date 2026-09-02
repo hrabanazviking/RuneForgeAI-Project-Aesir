@@ -1,12 +1,14 @@
-# Native Recipe Model Store
+# Native Content-Addressed Model Store
 
-Project Aesir has a restart-safe local catalog for validated Modelfile recipes.
-It is implemented in Mojo and used by separate native CLI processes. The
+Project Aesir has a restart-safe local catalog for validated Modelfile recipes
+and immutable model-byte blobs. It is implemented in Mojo and used by separate native CLI processes. The
 default root is `.aesir/models`; an explicit configuration file can select a
 different safe relative POSIX path through `storage.model_store_path`.
 
 ```bash
 aesir create stheno:roleplay --modelfile Modelfile
+aesir create stheno:stored --modelfile Modelfile --model ./model.gguf
+aesir verify stheno:stored
 aesir list
 aesir list --format json
 aesir show stheno:roleplay
@@ -18,13 +20,18 @@ Every command also accepts `--config <path>`. `--format text|json` applies to
 `list` and `show`. Unknown, duplicate, missing, or command-inapplicable options
 fail before a mutation.
 
-`create` parses the Modelfile and records its recipe. It does **not** copy the
-GGUF named by `FROM`, calculate a digest over model weights, or infer size,
-quantization, dimensions, or modification time. Those fields remain zero or
-`unknown` instead of presenting invented observations. `cp` and `rm` operate on
-recipe manifests only.
+Recipe-only `create` parses the Modelfile and records its recipe without
+pretending that `FROM` bytes were inspected. `create --model <path>` additionally
+opens a nonempty seekable source without following its final symlink, copies
+the exact opened inode into staged owner-only storage, computes SHA-256 over
+that descriptor, records the exact copied size, and publishes
+`blobs/sha256/<digest>` without replacement. Re-importing identical bytes
+verifies and shares the existing blob. `verify` reopens the addressed blob and
+checks both its size and full SHA-256. Quantization, architecture dimensions,
+and modification time remain `unknown` until a loader supplies measured values.
 
-The Linux catalog is bounded and versioned. Writers reload while holding an
+The Linux catalog and blob writer are bounded by their source files and
+versioned metadata. Writers reload while holding an
 exclusive directory lock, write a same-directory temporary file, synchronize
 it, atomically replace `catalog.v1`, and synchronize the directory. Catalog and
 configuration reads reject final symlinks; Modelfile reads are capped at 1 MiB
@@ -32,11 +39,21 @@ and also reject final symlinks. Created directories request mode `0700` and
 catalog files request `0600`. WSL files stored on a Windows-mounted filesystem
 remain subject to that mount's Windows ACL and metadata behavior.
 
+Blob hashing invokes `sha256sum` with an argv vector and no shell. The child
+inherits a duplicate of the exact open descriptor and reads it through procfs,
+so hashing does not resolve a replaceable caller path. Publication uses
+`linkat` under the locked store directory. If catalog publication fails, a blob
+created by that transaction is removed and the directory is synchronized.
+`cp` shares the digest. `rm` currently removes only the manifest and retains the
+immutable bytes until a crash-safe reachability garbage collector is built.
+
 The built-binary harness `scripts/test_native_model_store.py` proves empty
 startup, separate-process persistence, JSON output, create/show/copy/remove,
+exact digest/size, full verification, deduplication, six concurrent imports
+without lost catalog updates, same-size corruption, missing blobs,
 failed-mutation rollback, native Linux permissions, and final-symlink rejection.
 
-Content-addressed model-byte storage, SHA-256 and measured metadata, automatic
-registration after `pull`, garbage collection, a live process registry,
+Automatic registration after `pull`, crash orphan recovery/garbage collection,
+a live process registry,
 `ps`/`stop`, authenticated downloads, resume, and `push` remain unfinished and
 fail closed where commands exist.

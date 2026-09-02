@@ -71,11 +71,12 @@ def print_general_help():
     print("      Validate and show the selected configuration file.")
     print("  list|ls [--config path] [--format text|json]")
     print("  show <name[:tag]> [--config path] [--format text|json]")
-    print("  create <name[:tag]> --modelfile <path> [--config path]")
+    print("  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]")
+    print("  verify <name[:tag]> [--config path]")
     print("  cp <source[:tag]> <target[:tag]> [--config path]")
     print("  rm|delete <name[:tag]> [--config path]")
     print("      Restart-safe catalog operations; default store is .aesir/models.")
-    print("      create records a validated Modelfile recipe; it does not copy weights.")
+    print("      --model imports immutable SHA-256-addressed bytes; verify rehashes them.")
     print("  help, -h, --help")
     print("      Show this capability-aware help.")
     print("  -v, --version")
@@ -460,6 +461,7 @@ def _is_catalog_command(command: String) -> Bool:
         or command == "ls"
         or command == "show"
         or command == "create"
+        or command == "verify"
         or command == "cp"
         or command == "rm"
         or command == "delete"
@@ -472,10 +474,12 @@ def dispatch_catalog_command(args: List[String]) raises:
     var config_path = String("")
     var format = String("text")
     var modelfile_path = String("")
+    var model_path = String("")
     var positionals = List[String]()
     var seen_config = False
     var seen_format = False
     var seen_modelfile = False
+    var seen_model = False
     var index = 1
     while index < len(args):
         var token = args[index]
@@ -508,6 +512,15 @@ def dispatch_catalog_command(args: List[String]) raises:
             modelfile_path = args[index + 1]
             index += 2
             continue
+        if token == "--model":
+            if seen_model:
+                raise Error("duplicate catalog option: --model")
+            if index + 1 >= len(args):
+                raise Error("missing value for catalog option --model")
+            seen_model = True
+            model_path = args[index + 1]
+            index += 2
+            continue
         if token.startswith("-"):
             raise Error("unknown catalog option: " + token)
         positionals.append(token)
@@ -515,6 +528,8 @@ def dispatch_catalog_command(args: List[String]) raises:
 
     if command != "create" and seen_modelfile:
         raise Error("--modelfile applies only to create")
+    if command != "create" and seen_model:
+        raise Error("--model applies only to create")
     if command != "list" and command != "ls" and command != "show" and seen_format:
         raise Error("--format applies only to list and show")
 
@@ -536,11 +551,33 @@ def dispatch_catalog_command(args: List[String]) raises:
         return
     if command == "create":
         if len(positionals) != 1 or not seen_modelfile:
-            raise Error("Usage: aesir create <name[:tag]> --modelfile <path>")
-        durable.create_model(
-            positionals[0], _read_bounded_modelfile(modelfile_path)
+            raise Error(
+                "Usage: aesir create <name[:tag]> --modelfile <path> "
+                + "[--model <weights>]"
+            )
+        var modelfile_content = _read_bounded_modelfile(modelfile_path)
+        if seen_model:
+            var record = durable.ingest_model(
+                positionals[0], modelfile_content, model_path
+            )
+            print(
+                "Imported model bytes: " + positionals[0]
+                + " digest=" + record.digest
+                + " size=" + String(record.size_bytes)
+            )
+        else:
+            durable.create_model(positionals[0], modelfile_content)
+            print("Created model recipe: " + positionals[0])
+        return
+    if command == "verify":
+        if len(positionals) != 1:
+            raise Error("Usage: aesir verify <name[:tag]>")
+        var record = durable.verify_model(positionals[0])
+        print(
+            "Verified model bytes: " + positionals[0]
+            + " digest=" + record.digest
+            + " size=" + String(record.size_bytes)
         )
-        print("Created model recipe: " + positionals[0])
         return
     if command == "cp":
         if len(positionals) != 2:

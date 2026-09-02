@@ -12,6 +12,14 @@
 
 ## Public Structs & Functions
 
+### Bounded POSIX child execution
+
+`posix_process.mojo` exposes `run_checked_argv(args,
+max_output_bytes=16384)`. It rejects empty argv/NUL arguments and unsafe output
+limits, invokes `execvp` without a shell, drains bounded stdout, retries
+interrupted reads/waits, and rejects nonzero child status or truncated output.
+It is a Linux infrastructure primitive, not a command interpreter.
+
 ### Native hardware and inference admission
 
 `native_hardware.mojo` exposes `observe_host_memory()` and `observe_cpu_name()`

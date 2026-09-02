@@ -3,8 +3,9 @@
 > **Current supported command boundary — 2026-08-30:** `pull` downloads the
 > documented public pinned GGUF artifact; `chat --accel cuda` and
 > `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
-> native CUDA. Native recipe-catalog `create`, `list`, `show`, `cp`, and `rm`
-> persist through `DurableModelStore`; model-byte lifecycle, generic REPL
+> native CUDA. Native catalog `create`, `list`, `show`, `cp`, `rm`, and `verify`
+> persist through `DurableModelStore`; `create --model` imports measured
+> SHA-256-addressed bytes. Automatic pull registration, garbage collection, generic REPL
 > behavior, and compatibility surfaces below are not thereby implemented.
 > `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
 > Q4_K_S profile with an 8K context. CUDA single-shot `run` auto-detects either
@@ -57,8 +58,8 @@ def parse_modelfile(content: String) raises -> Modelfile: ...
 ---
 
 ### `ModelManifest` (`cli/manifest.mojo`)
-Preserves caller-supplied model metadata: model name, tag, non-cryptographic
-content fingerprint, optional byte size, quantization, structural dimensions,
+Preserves caller-supplied or measured model metadata: model name, tag,
+non-cryptographic recipe fingerprint or cryptographic blob digest, byte size, quantization, structural dimensions,
 modification timestamp, and raw Modelfile text. Creation does not invent model
 metadata that has not been measured.
 
@@ -103,6 +104,7 @@ struct RuneModelStore(Copyable):
     def list_models(self) raises -> List[ModelManifest]: ...
     def get_model(self, name: String) raises -> ModelManifest: ...
     def create_model(mut self, name: String, modelfile_content: String) raises: ...
+    def create_model_from_blob(mut self, name: String, modelfile_content: String, digest: String, size_bytes: Int64) raises: ...
     def copy_model(mut self, source: String, target: String) raises: ...
     def remove_model(mut self, name: String) raises -> Bool: ...
     def get_active_ps(self) raises -> List[ModelManifest]: ...
@@ -116,8 +118,11 @@ use it across process restarts. An absent catalog loads as empty; mutations stag
 sync it, atomically rename it, sync the containing directory, and publish the
 new in-memory state only after the durable commit succeeds. Catalog v1 is
 bounded, versioned, delimiter-safe, and rejects malformed records, duplicate
-identities, unsafe references, and unsupported versions. Model-byte blob
-ingestion remains outside this slice.
+identities, unsafe references, and unsupported versions. Blob ingestion copies
+a final-symlink-rejected, nonempty seekable source inode, hashes the exact open
+descriptor, and publishes `blobs/sha256/<digest>` without overwriting an
+existing entry. Existing entries are size/hash verified before deduplication;
+a catalog failure removes a blob newly published by that transaction.
 
 ```mojo
 struct DurableModelStore:
@@ -128,6 +133,8 @@ struct DurableModelStore:
     def list_models(self) raises -> List[ModelManifest]: ...
     def get_model(self, name: String) raises -> ModelManifest: ...
     def create_model(mut self, name: String, modelfile_content: String) raises: ...
+    def ingest_model(mut self, name: String, modelfile_content: String, source_path: String) raises -> BlobRecord: ...
+    def verify_model(self, name: String) raises -> BlobRecord: ...
     def copy_model(mut self, source: String, target: String) raises: ...
     def remove_model(mut self, name: String) raises: ...
 ```
@@ -234,8 +241,9 @@ fields on a single-shot run raises rather than being ignored.
 Main CLI router. Empty invocation, `help`, `--help`, `version`, configuration
 validation, and the real single-shot `run <model-path> [options] <prompt...>`
 path are implemented. `config [--config <path>]` reads and validates the
-selected schema and prints its normalized representation. Recipe-catalog
-commands are restart safe; `ps`, `stop`, `push`, model-byte ingestion,
+selected schema and prints its normalized representation. Catalog commands are
+restart safe; content-addressed import and verification are implemented. `ps`,
+`stop`, `push`, automatic pull registration,
 interactive `run`, multi-engine commands, and swarm commands raise stable
 unsupported errors and emit no success output.
 

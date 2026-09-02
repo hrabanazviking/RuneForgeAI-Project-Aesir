@@ -27,15 +27,51 @@ def _test_cstring(value: String) -> List[Int8]:
     return result^
 
 
-def _cleanup_owned_model_store(root: String) raises:
+def _cleanup_owned_model_store(
+    root: String, digest: String = String("")
+) raises:
     """Deletes only the model-store paths created by this test process."""
     if not root.startswith(".aesir-test-model-store-") or "/" in root:
         raise Error("refusing to clean a path not owned by the model-store test")
     var catalog_bytes = _test_cstring(root + "/catalog.v1")
+    var source_bytes = _test_cstring(root + "/source.bin")
+    var sha_directory_bytes = _test_cstring(root + "/blobs/sha256")
+    var blob_directory_bytes = _test_cstring(root + "/blobs")
     var root_bytes = _test_cstring(root)
     _ = external_call["unlink", Int32](catalog_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](source_bytes.unsafe_ptr())
+    if len(digest.bytes()) > 0:
+        var blob_bytes = _test_cstring(
+            root + "/blobs/sha256/" + String(digest[byte=7:])
+        )
+        _ = external_call["unlink", Int32](blob_bytes.unsafe_ptr())
+    _ = external_call["rmdir", Int32](sha_directory_bytes.unsafe_ptr())
+    _ = external_call["rmdir", Int32](blob_directory_bytes.unsafe_ptr())
     if external_call["rmdir", Int32](root_bytes.unsafe_ptr()) != 0:
         raise Error("failed to remove test-owned model-store directory")
+
+
+def _write_test_blob(path: String, content: String) raises:
+    var path_bytes = _test_cstring(path)
+    var fd = external_call["open64", Int32](
+        path_bytes.unsafe_ptr(), Int32(655553), Int32(384)
+    )
+    if fd < 0:
+        raise Error("unable to create test-owned model blob source")
+    var source = content.as_bytes()
+    var offset = 0
+    while offset < len(source):
+        var written = external_call["write", Int](
+            Int(fd), source.unsafe_ptr().unsafe_offset(offset), len(source) - offset
+        )
+        if written <= 0:
+            _ = external_call["close", Int32](fd)
+            raise Error("unable to write test-owned model blob source")
+        offset += written
+    if external_call["fsync", Int32](fd) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to synchronize test-owned model blob source")
+    _ = external_call["close", Int32](fd)
 
 
 def test_modelfile_parser() raises:
@@ -178,6 +214,7 @@ def test_model_manifest_store() raises:
         raise Error("refusing to reuse a pre-existing model-store test path")
 
     # The caller-approved cleanup scope begins only after absence is proven.
+    var stored_digest = String("")
     try:
         var durable = DurableModelStore(test_root)
         if len(durable.list_models()) != 0:
@@ -202,10 +239,75 @@ def test_model_manifest_store() raises:
         if len(removed_restart.list_models()) != 1:
             raise Error("durable catalog removal did not survive restart")
         _ = removed_restart.get_model("copied:stable")
+
+        var source_path = test_root + "/source.bin"
+        _write_test_blob(
+            source_path, "content-addressed-model-fixture\n"
+        )
+        var blob = removed_restart.ingest_model(
+            "blobbed:v1", mf_text, source_path
+        )
+        stored_digest = blob.digest
+        if (
+            blob.digest
+            != "sha256:9b3737096a1813f0580908da7a52fd6f04a5da9c5e207ccdf2c0483c2db47d96"
+            or blob.size_bytes != 32
+            or not blob.created
+        ):
+            raise Error("content-addressed ingestion metadata mismatch")
+        var verified = removed_restart.verify_model("blobbed:v1")
+        if verified.digest != blob.digest or verified.size_bytes != 32:
+            raise Error("stored model blob verification metadata mismatch")
+        var deduplicated = removed_restart.ingest_model(
+            "blobbed-copy:v1", mf_text, source_path
+        )
+        if deduplicated.digest != blob.digest or deduplicated.created:
+            raise Error("content-addressed ingestion did not deduplicate bytes")
+        var blob_restart = DurableModelStore(test_root)
+        var blob_manifest = blob_restart.get_model("blobbed:v1")
+        if (
+            blob_manifest.digest != blob.digest
+            or blob_manifest.size_bytes != 32
+        ):
+            raise Error("measured blob metadata did not survive restart")
+
+        var blob_path = (
+            test_root + "/blobs/sha256/" + String(blob.digest[byte=7:])
+        )
+        var blob_path_bytes = _test_cstring(blob_path)
+        var corrupt_fd = external_call["open64", Int32](
+            blob_path_bytes.unsafe_ptr(), Int32(655361), Int32(0)
+        )
+        if corrupt_fd < 0:
+            raise Error("unable to open test-owned blob for corruption check")
+        var corrupt_byte: List[Int8] = [Int8(88)]
+        if external_call["pwrite", Int](
+            corrupt_fd, corrupt_byte.unsafe_ptr(), 1, Int64(0)
+        ) != 1:
+            _ = external_call["close", Int32](corrupt_fd)
+            raise Error("unable to inject test-owned blob corruption")
+        _ = external_call["fsync", Int32](corrupt_fd)
+        _ = external_call["close", Int32](corrupt_fd)
+        var corruption_detected = False
+        try:
+            _ = blob_restart.verify_model("blobbed:v1")
+        except error:
+            corruption_detected = "SHA-256" in String(error)
+        if not corruption_detected:
+            raise Error("stored model blob corruption was not detected")
+        if external_call["unlink", Int32](blob_path_bytes.unsafe_ptr()) != 0:
+            raise Error("unable to remove test-owned blob for missing check")
+        var missing_blob_detected = False
+        try:
+            _ = blob_restart.verify_model("blobbed-copy:v1")
+        except error:
+            missing_blob_detected = "missing" in String(error)
+        if not missing_blob_detected:
+            raise Error("missing content-addressed blob was not detected")
     except error:
-        _cleanup_owned_model_store(test_root)
+        _cleanup_owned_model_store(test_root, stored_digest)
         raise error
-    _cleanup_owned_model_store(test_root)
+    _cleanup_owned_model_store(test_root, stored_digest)
 
     print("validated manifests & restart-safe durable catalog: PASS")
 

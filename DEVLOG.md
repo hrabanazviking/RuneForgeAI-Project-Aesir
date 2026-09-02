@@ -1,3 +1,14 @@
+## Entry 116: Immutable SHA-256 Model Blob Store
+**Date:** September 2, 2026
+
+`DurableModelStore` now imports exact source bytes through `create --model`,
+publishes immutable SHA-256-addressed blobs, records measured size, deduplicates
+existing content after full verification, and exposes `verify`. Counted Mojo
+and built-CLI tests cover restart, concurrent writers, corruption, missing
+blobs, rollback, permissions, and final-symlink rejection. Automatic pull
+registration, crash-safe garbage collection, and live-session ownership remain
+open.
+
 ## 2026-09-01 — Added bounded thought redaction and strict tool JSON
 
 Thought-block redaction now survives tags split across token text, preserves

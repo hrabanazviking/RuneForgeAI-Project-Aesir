@@ -99,10 +99,22 @@ separate process and proves restart state, machine-readable output, rollback,
 native-filesystem modes, and final-symlink rejection. Catalog/config reads are
 bounded and retry interrupted syscalls.
 
-The bug remains open for content-addressed model blobs, SHA-256 over source
-bytes, measured size/metadata, injected I/O faults, missing-blob handling,
-process-concurrency stress, and the separate live-session registry needed by
-`ps` and `stop`.
+## Content-Addressed Blob Repair
+
+`create --model` now copies a final-symlink-rejected source inode into
+owner-only staging, measures its exact byte count, hashes that exact open inode
+through an inherited descriptor, and publishes immutable
+`blobs/sha256/<digest>` storage with non-replacing `linkat`. Existing content is
+fully size/hash verified before deduplication. `verify` rehashes stored bytes,
+and a failed catalog transaction rolls back a blob first published by that
+transaction. The counted Mojo case covers restart, deduplication, corruption,
+and missing bytes. The built CLI harness adds six concurrent writer processes,
+permissions, rollback, and symlink evidence.
+
+The bug remains open for automatic pull registration, crash-orphan discovery,
+reference-aware garbage collection, injected faults at every sync/publication
+boundary, portability, and the separate live-session registry needed by `ps`
+and `stop`.
 
 ## Configuration Slice Contract
 

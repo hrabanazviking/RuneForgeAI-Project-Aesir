@@ -350,6 +350,31 @@ struct RuneModelStore(Copyable):
         if search_name not in self.model_keys:
             self.model_keys.append(search_name)
 
+    def create_model_from_blob(
+        mut self,
+        name: String,
+        modelfile_content: String,
+        digest: String,
+        size_bytes: Int64,
+    ) raises:
+        """Creates a manifest from measured immutable model bytes."""
+        if not digest.startswith("sha256:") or len(digest.bytes()) != 71:
+            raise Error("model blob digest must use sha256:<64 lowercase hex>")
+        for byte in String(digest[byte=7:]).as_bytes():
+            if not (
+                (byte >= 48 and byte <= 57)
+                or (byte >= 97 and byte <= 102)
+            ):
+                raise Error("model blob digest must be lowercase hexadecimal")
+        if size_bytes <= 0:
+            raise Error("model blob size must be positive")
+        var search_name = normalize_model_reference(name)
+        self.create_model(search_name, modelfile_content)
+        var manifest = self.catalog[search_name].copy()
+        manifest.digest = digest
+        manifest.size_bytes = size_bytes
+        self.catalog[search_name] = manifest
+
     def copy_model(mut self, source: String, target: String) raises:
         """Copies an existing model manifest to a new name/tag."""
         var source_name = normalize_model_reference(source)
