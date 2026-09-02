@@ -5,9 +5,11 @@
 publishes immutable SHA-256-addressed blobs, records measured size, deduplicates
 existing content after full verification, and exposes `verify`. Counted Mojo
 and built-CLI tests cover restart, concurrent writers, corruption, missing
-blobs, rollback, permissions, and final-symlink rejection. Automatic pull
-registration, crash-safe garbage collection, and live-session ownership remain
-open.
+blobs, rollback, permissions, and final-symlink rejection. Pinned `pull --name`
+now registers through expected digest/size admission; a live small-GGUF harness
+passed seven transfer, failure, protection, registration, and re-verification
+checks. Authenticated/resumable transfer, crash-safe garbage collection, and
+live-session ownership remain open.
 
 ## 2026-09-01 — Added bounded thought redaction and strict tool JSON
 

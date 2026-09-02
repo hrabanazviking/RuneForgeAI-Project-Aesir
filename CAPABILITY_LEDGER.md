@@ -582,10 +582,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish recipe fingerprints from measured `sha256:` blob identities. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, and imports nonempty seekable source files through `O_NOFOLLOW`. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, publishes immutable `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Catalog failure rolls back a blob newly created by that transaction.
+- **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish recipe fingerprints from measured `sha256:` blob identities. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, and imports nonempty seekable source files through `O_NOFOLLOW`. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, makes it owner-read-only, publishes `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Optional expected digest/size admission occurs before catalog mutation and rolls back a blob newly created by a rejected transaction.
 - **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, and the earlier catalog invariants. `scripts/test_native_model_store.py` proves independent-process restart, permissions, rollback, six concurrent blob/catalog writers without lost updates, single-blob deduplication, corruption, missing blobs, and final-symlink rejection through the built CLI.
-- **Evidence boundary:** The content-addressed store is implemented for the configured Linux target and requires `sha256sum` plus procfs for exact-inode hashing. Recipe-only manifests remain supported. Automatic pull-to-store registration, orphan discovery/garbage collection after process death, fault injection at every durability boundary, portability, binary distribution, and live-session ownership remain open.
-- **Next acceptance gate:** Connect pinned downloads directly to store transactions, add safe orphan enumeration/garbage collection and systematic I/O fault injection, then prove recovery at each commit boundary.
+- **Evidence boundary:** The content-addressed store and explicit pinned `pull --name` registration are implemented for the configured Linux target and require `sha256sum` plus procfs for exact-inode hashing. Recipe-only manifests remain supported. Orphan discovery/garbage collection after process death, fault injection at every durability boundary, portability, binary distribution, and live-session ownership remain open.
+- **Next acceptance gate:** Add safe orphan enumeration/garbage collection and systematic I/O fault injection, then prove recovery at each commit boundary.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
@@ -604,10 +604,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `create` now validates and durably records a Modelfile recipe. `push` remains fail closed.
-- **Executable evidence:** `E-MASTER` downloader/catalog admission cases, `E-STORE`, six live integrity/failure checks, and the full pinned Gemma and Stheno artifact downloads through `pull`.
-- **Evidence boundary:** Only public, pinned, single-GGUF Linux/WSL downloads are established. Catalog `create` records a recipe and deliberately reports unknown byte metadata; it does not ingest weights. No authentication, resume, upload, or automatic pull-to-store registration exists.
-- **Next acceptance gate:** Connect the existing pinned downloader to the content-addressed store, then add authenticated/resumable download and separately scoped upload contracts.
+- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `pull --name <name[:tag]>` preflights the selected store, then remeasures the downloaded inode inside the locked content-addressed transaction and requires the pinned digest/size before catalog mutation. `create` supports both recipe-only records and `--model` blob import. `push` remains fail closed.
+- **Executable evidence:** `E-MASTER` downloader/catalog admission cases, `E-STORE`, seven live integrity/failure/registration checks, and the full pinned Gemma and Stheno artifact downloads through `pull`. The small registered fixture and exact result are recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
+- **Evidence boundary:** Public, pinned, single-GGUF Linux/WSL downloads and explicit registration are established. The downloaded destination remains caller-owned, so registration currently creates separate protected store bytes. No authentication, resume, upload, or garbage collection exists.
+- **Next acceptance gate:** Add authenticated/resumable download, recovery/cancellation, store-aware staging that avoids a redundant retained destination when requested, and a separately scoped upload contract.
 - **Audit:** AER-064, AER-082, AER-003.
 
 ### AES-CLI-007 — `rm`, `cp`, `stop`, and runtime lifecycle semantics
@@ -1055,10 +1055,10 @@ and circular self-parity transforms were removed.
 - **Status:** `partial`
 - **Owner:** loader and CLI domains
 - **Claim sources:** built-in `pull` command
-- **Implementation evidence:** Native Mojo orchestration invokes curl and sha256sum with checked argv, HTTPS-only redirects, immutable revision, bounded transfers, optional parallel byte ranges, exact size/SHA-256 verification and atomic exclusive publication.
-- **Executable evidence:** `E-MASTER` admission/argv cases; six live download integrity, HTTP-failure and existing-file/symlink protection checks passed with both one and eight connections. Both pinned artifacts in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md` downloaded and verified in full through `pull`.
-- **Evidence boundary:** Public pinned single-GGUF artifacts on Linux/WSL; no authentication, restart/resume or model-store registration. System curl/sha256sum are explicit dependencies.
-- **Next acceptance gate:** Authentication, restart/resume, cancellation/recovery and store integration.
+- **Implementation evidence:** Native Mojo orchestration invokes curl and sha256sum with checked argv, HTTPS-only redirects, immutable revision, bounded transfers, optional parallel byte ranges, exact size/SHA-256 verification and atomic exclusive publication. Optional `--name` registration revalidates expected identity inside `DurableModelStore` before committing the manifest.
+- **Executable evidence:** `E-MASTER` admission/argv cases; seven live download integrity, HTTP-failure, existing-file/symlink protection, and store-registration checks. Both large pinned artifacts in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md` downloaded and verified in full through `pull`; the small registered fixture is recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
+- **Evidence boundary:** Public pinned single-GGUF artifacts and explicit store registration on Linux/WSL; no authentication or restart/resume. System curl/sha256sum are explicit dependencies.
+- **Next acceptance gate:** Authentication, restart/resume, cancellation/recovery, and store-aware transfer staging.
 - **Audit:** AER-082, AER-003.
 
 ### AES-ECO-004 — ONNX model parsing and execution

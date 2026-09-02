@@ -23,7 +23,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
-| Native content-addressed store | `create --model` imports measured immutable SHA-256 blobs; `verify` rehashes them, while `list`/`show`/`cp`/`rm` use the restart-safe catalog. Built-binary tests cover separate processes, concurrent writers, deduplication, corruption, missing blobs, persistence, and rollback; see the [model-store contract](MODEL_STORE.md). |
+| Native content-addressed store | `create --model` imports measured immutable SHA-256 blobs, pinned `pull --name` registers verified Hub bytes, and `verify` rehashes stored content. Built-binary tests cover separate processes, concurrent writers, deduplication, corruption, missing blobs, persistence, rollback, and one live external pull-to-store transaction; see the [model-store contract](MODEL_STORE.md). |
 | Automated checks | The counted suite reports 172 passed, 0 failed, and 1 explicit external-fixture skip (173 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 | CPU K-quant decoding | Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K use canonical GGML packed-byte layouts with complete-block validation and raw known-value regressions. Independent real-row parity covers Q4_K and Q6_K; general full-model compatibility is not claimed. |
 | Metadata-bearing host quantization | AutoGPTQ 4/8-bit, AutoAWQ GEMM 4-bit, EXL2 mixed 2/3/4/5/6/8-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 have checked host dequantization/GEMM primitives over their real packing metadata. These are bounded primitives, not model-loader or CUDA integration claims. |
@@ -57,7 +57,7 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   `context_exhausted` stop and no silent history truncation.
 - There is no independent full-model logit-parity proof, throughput/latency
   benchmark, hardware CI runner, resumable/authenticated Hub transfer,
-  automatic pull-to-store transaction, or production-service readiness claim.
+  authenticated/resumable Hub transfer or production-service readiness claim.
   Explicit `create --model` ingestion does copy and measure source bytes into
   immutable SHA-256-addressed storage; recipe-only creation remains available.
 - Host quantization tuning is an explicit API, not automatic inference dispatch.
@@ -104,5 +104,5 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
    profile.
 3. Generalize model admission only with per-architecture loader, tokenizer,
    kernel, and parity evidence.
-4. Connect pinned Hugging Face downloads directly to the content-addressed
-   store and add crash-safe orphan garbage collection.
+4. Add authenticated/resumable Hub transfer and crash-safe orphan garbage
+   collection.

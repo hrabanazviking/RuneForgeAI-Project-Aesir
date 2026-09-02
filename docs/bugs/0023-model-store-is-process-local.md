@@ -111,7 +111,8 @@ transaction. The counted Mojo case covers restart, deduplication, corruption,
 and missing bytes. The built CLI harness adds six concurrent writer processes,
 permissions, rollback, and symlink evidence.
 
-The bug remains open for automatic pull registration, crash-orphan discovery,
+Pinned `pull --name` registration now re-admits expected identity inside the
+store transaction and has live external fixture evidence. The bug remains open for crash-orphan discovery,
 reference-aware garbage collection, injected faults at every sync/publication
 boundary, portability, and the separate live-session registry needed by `ps`
 and `stop`.

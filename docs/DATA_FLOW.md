@@ -35,6 +35,7 @@ sequenceDiagram
     participant H as HuggingFaceSeer
     participant P as curl / sha256sum
     participant F as caller-selected filesystem
+    participant S as DurableModelStore
 
     U->>C: owner/name, filename, revision, size, SHA-256, output
     C->>C: validate flags, duplicates, ranges, path intent
@@ -49,13 +50,20 @@ sequenceDiagram
     H->>F: verify byte count and GGUF v3 header
     H->>P: calculate SHA-256 through checked argv
     H->>F: fsync and publish without overwrite
+    opt --name registration
+        C->>S: preflight selected store before transfer
+        C->>S: remeasure inode with pinned SHA-256/size admission
+        S->>S: publish immutable blob and atomic catalog record
+    end
     H-->>U: verified size, digest, and revision
 ```
 
 The downloader handles one public, pinned GGUF artifact. It does not use a
 shell, accept insecure redirects, overwrite a destination, populate engine
-memory, register the artifact in the recipe catalog, authenticate to the Hub,
-resume an interrupted transfer, or infer model compatibility from its name.
+memory, authenticate to the Hub, resume an interrupted transfer, or infer model
+compatibility from its name. Explicit `--name` registration copies the verified
+download into protected content-addressed storage; it does not remove the
+caller-owned destination.
 
 ## Native CPU GGUF inference
 
@@ -182,7 +190,7 @@ sequenceDiagram
 Catalog records contain validated Modelfile recipes. Recipe-only records use a
 deterministic non-cryptographic fingerprint. `create --model` records measured
 SHA-256 and size for an immutable shared blob, and `verify` performs a full
-rehash. Automatic pull registration, reference-aware garbage collection,
+rehash. Explicit pinned pull registration works; reference-aware garbage collection,
 `ps`, `stop`, upload, and live session ownership are not implemented.
 
 ## Standalone local primitives

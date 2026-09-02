@@ -1,7 +1,7 @@
 # cli/commands.mojo
 # Truthful Project Aesir CLI command dispatcher.
 
-from cli.manifest import ModelManifest, RuneModelStore
+from cli.manifest import ModelManifest, RuneModelStore, normalize_model_reference
 from cli.storage import DurableModelStore
 from cli.repl import run_single_shot
 from cli.options import CLIOptions, parse_cli_options
@@ -50,7 +50,8 @@ def print_general_help():
     print("      [--context N] [--device auto|N] [--reserve-mib N]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
-    print("      Download and verify a public pinned GGUF; never overwrite a file.")
+    print("      [--name <name[:tag]> [--config <path>]]")
+    print("      Download and verify a pinned GGUF; optionally register stored bytes.")
     print(
         "  run <model.gguf> [--max-tokens N] [--config path]"
         " [--accel auto|cpu|cuda] <prompt...>"
@@ -356,8 +357,68 @@ def format_ps_table(models: List[ModelManifest], is_json: Bool = False):
     format_model_table(models, is_json)
 
 
-def dispatch_pull(args: List[String]) raises:
-    """Parse explicit artifact identity before the loader performs any I/O."""
+struct PullRequest(Copyable):
+    """Validated syntax for one pinned Hub transfer and optional registration."""
+
+    var repository: String
+    var filename: String
+    var destination: String
+    var revision: String
+    var digest: String
+    var expected_size: Int
+    var connections: Int
+    var register_name: String
+    var config_path: String
+
+    def __init__(
+        out self,
+        repository: String,
+        filename: String,
+        destination: String,
+        revision: String,
+        digest: String,
+        expected_size: Int,
+        connections: Int,
+        register_name: String,
+        config_path: String,
+    ):
+        self.repository = repository
+        self.filename = filename
+        self.destination = destination
+        self.revision = revision
+        self.digest = digest
+        self.expected_size = expected_size
+        self.connections = connections
+        self.register_name = register_name
+        self.config_path = config_path
+
+    def __copyinit__(out self, existing: Self):
+        self.repository = existing.repository
+        self.filename = existing.filename
+        self.destination = existing.destination
+        self.revision = existing.revision
+        self.digest = existing.digest
+        self.expected_size = existing.expected_size
+        self.connections = existing.connections
+        self.register_name = existing.register_name
+        self.config_path = existing.config_path
+
+    def copy(self) -> Self:
+        return Self(
+            self.repository,
+            self.filename,
+            self.destination,
+            self.revision,
+            self.digest,
+            self.expected_size,
+            self.connections,
+            self.register_name,
+            self.config_path,
+        )
+
+
+def parse_pull_request(args: List[String]) raises -> PullRequest:
+    """Parses pull syntax without performing network or filesystem I/O."""
     if len(args) < 3:
         raise Error("pull requires repository and filename plus --revision, --sha256, --size")
     var revision = String("")
@@ -365,13 +426,16 @@ def dispatch_pull(args: List[String]) raises:
     var destination = String(args[2])
     var expected_size = 0
     var connections = 1
+    var register_name = String("")
+    var config_path = String("")
     var seen = List[String]()
     var index = 3
     while index < len(args):
         var option = args[index]
         if (option != "--revision" and option != "--sha256"
                 and option != "--size" and option != "--output"
-                and option != "--connections"):
+                and option != "--connections" and option != "--name"
+                and option != "--config"):
             raise Error("unknown pull option: " + option)
         for prior in seen:
             if prior == option:
@@ -388,6 +452,10 @@ def dispatch_pull(args: List[String]) raises:
             destination = value
         elif option == "--connections":
             connections = parse_positive_int(value)
+        elif option == "--name":
+            register_name = normalize_model_reference(value)
+        elif option == "--config":
+            config_path = value
         else:
             if len(value.bytes()) == 0:
                 raise Error("pull --size requires a positive byte count")
@@ -399,11 +467,60 @@ def dispatch_pull(args: List[String]) raises:
                     raise Error("pull --size overflows a 64-bit byte count")
                 expected_size = expected_size * 10 + digit
         index += 2
+    if len(config_path.bytes()) > 0 and len(register_name.bytes()) == 0:
+        raise Error("pull --config requires --name registration")
+    return PullRequest(
+        args[1],
+        args[2],
+        destination,
+        revision,
+        digest,
+        expected_size,
+        connections,
+        register_name,
+        config_path,
+    )
+
+
+def dispatch_pull(args: List[String]) raises:
+    """Downloads a pinned artifact and optionally registers measured bytes."""
+    var request = parse_pull_request(args)
+    var store_root = String("")
+    if len(request.register_name.bytes()) > 0:
+        var config = AesirConfig()
+        if len(request.config_path.bytes()) > 0:
+            config = load_config_file(request.config_path)
+        store_root = config.model_store_path
+        # Reject invalid/corrupt store state before beginning a large transfer.
+        _ = DurableModelStore(store_root)
     var hf = HuggingFaceSeer()
     _ = hf.download_hf_model(
-        args[1], args[2], destination, revision, digest, expected_size, connections
+        request.repository,
+        request.filename,
+        request.destination,
+        request.revision,
+        request.digest,
+        request.expected_size,
+        request.connections,
     )
-    print("Successfully downloaded and verified Hugging Face model: " + destination)
+    print(
+        "Successfully downloaded and verified Hugging Face model: "
+        + request.destination
+    )
+    if len(request.register_name.bytes()) > 0:
+        var durable = DurableModelStore(store_root)
+        var record = durable.ingest_model(
+            request.register_name,
+            "FROM \"sha256:" + request.digest + "\"",
+            request.destination,
+            "sha256:" + request.digest,
+            Int64(request.expected_size),
+        )
+        print(
+            "Registered model bytes: " + request.register_name
+            + " digest=" + record.digest
+            + " size=" + String(record.size_bytes)
+        )
 
 
 def _read_bounded_modelfile(path: String) raises -> String:

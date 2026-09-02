@@ -10,8 +10,12 @@ transaction; `verify` performs an exact size and SHA-256 recheck. The focused
 Mojo regression covers persistence, deduplication, corruption, and missing
 blobs. The built CLI harness adds six concurrent import processes, confirms no
 lost catalog writes and one shared blob, and retains permission, rollback, and
-symlink checks. Automatic Hub registration, crash-orphan garbage collection,
-and live session ownership remain open.
+symlink checks. Pinned `pull --name` now preflights the selected store and
+requires the expected Hub digest/size again inside locked ingestion. A live
+689,216-byte Q4_K_S fixture passed seven HTTPS, integrity, failure, symlink,
+registration, and re-verification checks. Blobs publish owner-read-only.
+Authenticated/resumable transfer, crash-orphan garbage collection, and live
+session ownership remain open.
 
 ## 2026-09-01 — Replaced the PagedKVCache counter with a real page table
 

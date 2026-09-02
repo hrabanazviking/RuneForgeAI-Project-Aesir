@@ -5,7 +5,8 @@
 > `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
 > native CUDA. Native catalog `create`, `list`, `show`, `cp`, `rm`, and `verify`
 > persist through `DurableModelStore`; `create --model` imports measured
-> SHA-256-addressed bytes. Automatic pull registration, garbage collection, generic REPL
+> SHA-256-addressed bytes, and pinned `pull --name` registers a verified Hub
+> artifact. Garbage collection, generic REPL
 > behavior, and compatibility surfaces below are not thereby implemented.
 > `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
 > Q4_K_S profile with an 8K context. CUDA single-shot `run` auto-detects either
@@ -133,7 +134,7 @@ struct DurableModelStore:
     def list_models(self) raises -> List[ModelManifest]: ...
     def get_model(self, name: String) raises -> ModelManifest: ...
     def create_model(mut self, name: String, modelfile_content: String) raises: ...
-    def ingest_model(mut self, name: String, modelfile_content: String, source_path: String) raises -> BlobRecord: ...
+    def ingest_model(mut self, name: String, modelfile_content: String, source_path: String, expected_digest: String = "", expected_size: Int64 = 0) raises -> BlobRecord: ...
     def verify_model(self, name: String) raises -> BlobRecord: ...
     def copy_model(mut self, source: String, target: String) raises: ...
     def remove_model(mut self, name: String) raises: ...
@@ -243,7 +244,7 @@ validation, and the real single-shot `run <model-path> [options] <prompt...>`
 path are implemented. `config [--config <path>]` reads and validates the
 selected schema and prints its normalized representation. Catalog commands are
 restart safe; content-addressed import and verification are implemented. `ps`,
-`stop`, `push`, automatic pull registration,
+`stop`, `push`, authenticated/resumable pull,
 interactive `run`, multi-engine commands, and swarm commands raise stable
 unsupported errors and emit no success output.
 
@@ -276,8 +277,12 @@ def dispatch_onnx_cli(args: List[String]) raises -> Bool: ...
 
 ### Native download and CUDA chat
 
-`pull <repo> <file.gguf> --revision <sha> --sha256 <digest> --size <bytes>
---output <path> [--connections 1..8]` retrieves and verifies a public model.
+`PullRequest` and `parse_pull_request()` validate the complete syntax without
+performing I/O. `pull <repo> <file.gguf> --revision <sha> --sha256 <digest>
+--size <bytes> --output <path> [--connections 1..8] [--name <name[:tag]>
+[--config <path>]]` retrieves and verifies a public model. `--name` preflights
+the selected store and admits the pinned identity again inside locked blob
+ingestion before catalog mutation.
 
 `chat <gemma4.gguf> --accel cuda [--prompts file] [--log file]
 [--max-tokens 16384] [--context 32768] [--system text]` supports persistent

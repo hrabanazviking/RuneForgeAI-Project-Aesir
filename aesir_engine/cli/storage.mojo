@@ -466,6 +466,8 @@ def _ingest_blob_locked(root_fd: Int32, source_path: String) raises -> BlobRecor
         buffer_owned = False
         if total != expected_size:
             raise Error("model blob source changed while it was being copied")
+        if external_call["fchmod", Int32](staged_fd, Int32(256)) != 0:
+            raise Error("unable to make staged model blob read-only")
         if external_call["fsync", Int32](staged_fd) != 0:
             raise Error("unable to synchronize staged model blob")
         var digest = _digest_open_fd(staged_fd)
@@ -654,8 +656,18 @@ struct DurableModelStore:
         name: String,
         modelfile_content: String,
         source_path: String,
+        expected_digest: String = String(""),
+        expected_size: Int64 = 0,
     ) raises -> BlobRecord:
         """Atomically links measured source bytes to a durable model manifest."""
+        if len(expected_digest.bytes()) > 0:
+            if not expected_digest.startswith("sha256:"):
+                raise Error("expected model blob digest must use sha256:<hex>")
+            _validate_sha256_hex(String(expected_digest[byte=7:]))
+            if expected_size <= 0:
+                raise Error("expected model blob size must be positive")
+        elif expected_size != 0:
+            raise Error("expected model blob size requires an expected digest")
         _ensure_store_root(self.root_path)
         var lock_fd = _lock_store_root(self.root_path)
         var candidate = RuneModelStore()
@@ -666,6 +678,13 @@ struct DurableModelStore:
             candidate = _load_store(self.root_path)
             record = _ingest_blob_locked(lock_fd, source_path)
             ingested = True
+            if len(expected_digest.bytes()) > 0 and (
+                record.digest != expected_digest
+                or record.size_bytes != expected_size
+            ):
+                raise Error(
+                    "model blob does not match its expected digest and size"
+                )
             candidate.create_model_from_blob(
                 name,
                 modelfile_content,

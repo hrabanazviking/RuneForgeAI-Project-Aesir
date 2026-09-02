@@ -7,7 +7,9 @@ No fixture, model, shell command, or expected response is fabricated.
 
 import argparse
 import hashlib
+import json
 import pathlib
+import stat
 import subprocess
 import tempfile
 
@@ -94,7 +96,50 @@ def main():
         if sentinel.read_text(encoding="utf-8") != "preserve existing data":
             raise AssertionError("existing symlink target was overwritten")
         print("[HF LIVE PASS] symlink destination preserved")
-        print("[HF LIVE SUMMARY] 6 passed, 0 failed")
+
+        config = root / "store-config.json"
+        config.write_text(
+            json.dumps({"storage": {"model_store_path": "store"}}),
+            encoding="utf-8",
+        )
+        registered_output = root / "registered.gguf"
+        registered = run(
+            base
+            + [
+                "--output",
+                str(registered_output),
+                "--name",
+                "live:v1",
+                "--config",
+                str(config),
+            ]
+        )
+        if "Registered model bytes: live:v1" not in registered.stdout:
+            raise AssertionError("successful registered pull omitted registration evidence")
+        shown = json.loads(
+            run(
+                [
+                    executable,
+                    "show",
+                    "live:v1",
+                    "--format",
+                    "json",
+                    "--config",
+                    str(config),
+                ]
+            ).stdout
+        )
+        if shown["digest"] != "sha256:" + args.sha256 or shown["size"] != args.size:
+            raise AssertionError("registered pull catalog identity mismatch")
+        run([executable, "verify", "live:v1", "--config", str(config)])
+        blob = root / "store" / "blobs" / "sha256" / args.sha256
+        if blob.read_bytes() != registered_output.read_bytes():
+            raise AssertionError("registered blob bytes differ from verified download")
+        if blob.stat().st_dev == pathlib.Path("/").stat().st_dev:
+            if stat.S_IMODE(blob.stat().st_mode) != 0o400:
+                raise AssertionError("registered blob is not owner-read-only")
+        print("[HF LIVE PASS] pinned pull registered and reverified in model store")
+        print("[HF LIVE SUMMARY] 7 passed, 0 failed")
 
 
 if __name__ == "__main__":

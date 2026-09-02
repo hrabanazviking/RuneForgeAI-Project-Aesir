@@ -9,6 +9,8 @@ different safe relative POSIX path through `storage.model_store_path`.
 aesir create stheno:roleplay --modelfile Modelfile
 aesir create stheno:stored --modelfile Modelfile --model ./model.gguf
 aesir verify stheno:stored
+aesir pull owner/repo model.gguf --revision COMMIT --sha256 DIGEST --size BYTES \
+  --name stheno:pinned --config aesir.config.json
 aesir list
 aesir list --format json
 aesir show stheno:roleplay
@@ -47,13 +49,20 @@ created by that transaction is removed and the directory is synchronized.
 `cp` shares the digest. `rm` currently removes only the manifest and retains the
 immutable bytes until a crash-safe reachability garbage collector is built.
 
+Pinned public Hub downloads accept `--name <name[:tag]>` and optional
+`--config <path>`. The CLI validates the selected store before transfer, then
+copies and remeasures the downloaded inode under the store lock and requires
+the pinned SHA-256/size before catalog mutation. The caller-selected download
+destination remains present, so this mode currently retains both the download
+and protected store copy. See the [live fixture evidence](evidence/hf-pull-store-2026-09-02.md).
+
 The built-binary harness `scripts/test_native_model_store.py` proves empty
 startup, separate-process persistence, JSON output, create/show/copy/remove,
 exact digest/size, full verification, deduplication, six concurrent imports
 without lost catalog updates, same-size corruption, missing blobs,
 failed-mutation rollback, native Linux permissions, and final-symlink rejection.
 
-Automatic registration after `pull`, crash orphan recovery/garbage collection,
-a live process registry,
+Authenticated/resumable transfer, store-aware staging without a redundant
+caller destination, crash orphan recovery/garbage collection, a live process registry,
 `ps`/`stop`, authenticated downloads, resume, and `push` remain unfinished and
 fail closed where commands exist.

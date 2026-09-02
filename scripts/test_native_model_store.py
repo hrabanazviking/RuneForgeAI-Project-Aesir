@@ -119,6 +119,8 @@ def check(binary: str) -> None:
         }.issubset(concurrent_names), "concurrent catalog commits lost an update"
         blobs = list((store / "blobs" / "sha256").iterdir())
         assert len(blobs) == 1, "identical concurrent imports were not deduplicated"
+        if store.stat().st_dev == Path("/").stat().st_dev:
+            assert stat.S_IMODE(blobs[0].stat().st_mode) == 0o400
 
         run("cp", "example:v1", "example:backup", *common)
         run("rm", "example:v1", *common)
@@ -151,10 +153,12 @@ def check(binary: str) -> None:
 
         blob = blobs[0]
         original = blob.read_bytes()
+        blob.chmod(0o600)
         blob.write_bytes(b"X" + original[1:])
         corrupted = run("verify", "weighted:v1", *common, ok=False)
         assert "SHA-256" in corrupted.stderr + corrupted.stdout
         blob.write_bytes(original)
+        blob.chmod(0o400)
         run("verify", "weighted:v1", *common)
         blob.unlink()
         missing_blob = run("verify", "weighted:v1", *common, ok=False)

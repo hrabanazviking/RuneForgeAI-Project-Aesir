@@ -8,6 +8,7 @@ from cli.commands import (
     collect_run_positionals,
     dispatch_command,
     effective_config,
+    parse_pull_request,
     require_verified_cpu_backend,
     validate_single_shot_config_support,
     validate_run_option_support,
@@ -35,11 +36,13 @@ def _cleanup_owned_model_store(
         raise Error("refusing to clean a path not owned by the model-store test")
     var catalog_bytes = _test_cstring(root + "/catalog.v1")
     var source_bytes = _test_cstring(root + "/source.bin")
+    var mismatch_source_bytes = _test_cstring(root + "/mismatch.bin")
     var sha_directory_bytes = _test_cstring(root + "/blobs/sha256")
     var blob_directory_bytes = _test_cstring(root + "/blobs")
     var root_bytes = _test_cstring(root)
     _ = external_call["unlink", Int32](catalog_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](source_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](mismatch_source_bytes.unsafe_ptr())
     if len(digest.bytes()) > 0:
         var blob_bytes = _test_cstring(
             root + "/blobs/sha256/" + String(digest[byte=7:])
@@ -132,6 +135,46 @@ def test_modelfile_parser() raises:
 
 def test_model_manifest_store() raises:
     print("--- Testing validated manifests & restart-safe durable catalog ---")
+    var pull_args: List[String] = [
+        "pull",
+        "owner/repository",
+        "model.gguf",
+        "--revision",
+        "0123456789012345678901234567890123456789",
+        "--sha256",
+        "9b3737096a1813f0580908da7a52fd6f04a5da9c5e207ccdf2c0483c2db47d96",
+        "--size",
+        "32",
+        "--connections",
+        "4",
+        "--name",
+        "stored:v1",
+        "--config",
+        "aesir.config.json",
+    ]
+    var pull_request = parse_pull_request(pull_args)
+    if (
+        pull_request.register_name != "stored:v1"
+        or pull_request.config_path != "aesir.config.json"
+        or pull_request.expected_size != 32
+        or pull_request.connections != 4
+    ):
+        raise Error("registered pull syntax parsing mismatch")
+    var unowned_pull_config_rejected = False
+    try:
+        _ = parse_pull_request(
+            [
+                "pull",
+                "owner/repository",
+                "model.gguf",
+                "--config",
+                "aesir.config.json",
+            ]
+        )
+    except error:
+        unowned_pull_config_rejected = "requires --name" in String(error)
+    if not unowned_pull_config_rejected:
+        raise Error("pull accepted a store config without registration intent")
     var store = RuneModelStore()
     if len(store.list_models()) != 0:
         raise Error("new model store must not contain fictional manifests")
@@ -263,6 +306,37 @@ def test_model_manifest_store() raises:
         )
         if deduplicated.digest != blob.digest or deduplicated.created:
             raise Error("content-addressed ingestion did not deduplicate bytes")
+        var mismatch_source_path = test_root + "/mismatch.bin"
+        _write_test_blob(
+            mismatch_source_path, "unexpected-model-blob-fixture\n"
+        )
+        var expected_identity_rejected = False
+        try:
+            _ = removed_restart.ingest_model(
+                "mismatch:v1",
+                mf_text,
+                mismatch_source_path,
+                "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+                30,
+            )
+        except error:
+            expected_identity_rejected = "expected digest and size" in String(error)
+        if not expected_identity_rejected:
+            raise Error("model ingestion accepted the wrong expected identity")
+        try:
+            _ = removed_restart.get_model("mismatch:v1")
+            raise Error("failed expected-identity admission mutated the catalog")
+        except error:
+            if "not found" not in String(error):
+                raise error
+        var rolled_back_blob = _test_cstring(
+            test_root
+            + "/blobs/sha256/f7053e5cd10c37b04d2d6db8f17bc3ede0e4d6912adfc54994c2b38aadcc40b0"
+        )
+        if external_call["access", Int32](
+            rolled_back_blob.unsafe_ptr(), 0
+        ) == 0:
+            raise Error("expected-identity failure leaked a new model blob")
         var blob_restart = DurableModelStore(test_root)
         var blob_manifest = blob_restart.get_model("blobbed:v1")
         if (
@@ -275,6 +349,10 @@ def test_model_manifest_store() raises:
             test_root + "/blobs/sha256/" + String(blob.digest[byte=7:])
         )
         var blob_path_bytes = _test_cstring(blob_path)
+        if external_call["chmod", Int32](
+            blob_path_bytes.unsafe_ptr(), Int32(384)
+        ) != 0:
+            raise Error("unable to unlock test-owned blob for corruption check")
         var corrupt_fd = external_call["open64", Int32](
             blob_path_bytes.unsafe_ptr(), Int32(655361), Int32(0)
         )

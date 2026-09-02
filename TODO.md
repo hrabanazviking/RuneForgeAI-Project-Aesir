@@ -375,10 +375,12 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [ ] **[partial, AES-ECO-003] Implement real Hugging Face HTTPS download:**
   Revisions, filenames, URL encoding, redirects, authentication, resume/range,
   timeouts, cancellation, byte counts, and errors.
-- [ ] Verify expected size/digest before atomic promotion into the model store.
+- [x] Verify expected size/digest again inside the locked store transaction
+  before atomic catalog promotion; mismatch rolls back a newly created blob.
 - [ ] Protect tokens/secrets from logs, command output, crash reports, and
   committed files.
-- [ ] Implement real registry `pull` only after transport and store exist.
+- [x] Connect public pinned `pull --name` to the content-addressed store and
+  prove it with a live external GGUF registration/reverification harness.
 - [ ] Scope `push` separately with authentication, conflict, retry, and integrity
   semantics; otherwise return explicit unsupported.
 - [ ] Implement `create` as real manifest/layer construction from a validated
