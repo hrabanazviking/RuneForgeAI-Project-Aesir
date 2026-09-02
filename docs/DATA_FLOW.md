@@ -168,7 +168,7 @@ sequenceDiagram
     participant F as .aesir/models/catalog.v1
     participant B as .aesir/models/blobs/sha256/digest
 
-    C->>D: create/cp/rm/verify or list/show
+    C->>D: create/cp/rm/verify/gc or list/show
     D->>D: validate configured relative root
     alt mutation
         D->>D: create root and acquire directory lock
@@ -190,8 +190,11 @@ sequenceDiagram
 Catalog records contain validated Modelfile recipes. Recipe-only records use a
 deterministic non-cryptographic fingerprint. `create --model` records measured
 SHA-256 and size for an immutable shared blob, and `verify` performs a full
-rehash. Explicit pinned pull registration works; reference-aware garbage collection,
-`ps`, `stop`, upload, and live session ownership are not implemented.
+rehash. Explicit pinned pull registration works. `gc` locks the store, validates
+the catalog reference set plus every NUL-delimited directory entry before its
+first unlink, removes only unreachable canonical blobs and abandoned stages, and
+syncs the directory. `ps`, `stop`, upload, and live session ownership are not
+implemented.
 
 ## Standalone local primitives
 

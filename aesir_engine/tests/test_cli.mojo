@@ -37,12 +37,23 @@ def _cleanup_owned_model_store(
     var catalog_bytes = _test_cstring(root + "/catalog.v1")
     var source_bytes = _test_cstring(root + "/source.bin")
     var mismatch_source_bytes = _test_cstring(root + "/mismatch.bin")
+    var orphan_blob_bytes = _test_cstring(
+        root
+        + "/blobs/sha256/f7053e5cd10c37b04d2d6db8f17bc3ede0e4d6912adfc54994c2b38aadcc40b0"
+    )
+    var stale_stage_bytes = _test_cstring(
+        root + "/blobs/sha256/.ingest.999.1.tmp"
+    )
+    var unexpected_bytes = _test_cstring(root + "/blobs/sha256/unexpected")
     var sha_directory_bytes = _test_cstring(root + "/blobs/sha256")
     var blob_directory_bytes = _test_cstring(root + "/blobs")
     var root_bytes = _test_cstring(root)
     _ = external_call["unlink", Int32](catalog_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](source_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](mismatch_source_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](orphan_blob_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](stale_stage_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](unexpected_bytes.unsafe_ptr())
     if len(digest.bytes()) > 0:
         var blob_bytes = _test_cstring(
             root + "/blobs/sha256/" + String(digest[byte=7:])
@@ -337,6 +348,50 @@ def test_model_manifest_store() raises:
             rolled_back_blob.unsafe_ptr(), 0
         ) == 0:
             raise Error("expected-identity failure leaked a new model blob")
+
+        var orphan = removed_restart.ingest_model(
+            "orphan:v1", mf_text, mismatch_source_path
+        )
+        if orphan.digest != (
+            "sha256:f7053e5cd10c37b04d2d6db8f17bc3ede0e4d6912adfc54994c2b38aadcc40b0"
+        ) or orphan.size_bytes != 30:
+            raise Error("garbage-collection fixture identity mismatch")
+        removed_restart.remove_model("orphan:v1")
+        var unexpected_path = test_root + "/blobs/sha256/unexpected"
+        _write_test_blob(unexpected_path, "do-not-delete-anything-yet")
+        var unsafe_directory_rejected = False
+        try:
+            _ = removed_restart.garbage_collect()
+        except error:
+            unsafe_directory_rejected = "unexpected entry" in String(error)
+        if not unsafe_directory_rejected:
+            raise Error("model blob collection accepted an unknown entry")
+        if external_call["access", Int32](rolled_back_blob.unsafe_ptr(), 0) != 0:
+            raise Error("failed collection deleted a blob before validation")
+        var unexpected_bytes = _test_cstring(unexpected_path)
+        if external_call["unlink", Int32](unexpected_bytes.unsafe_ptr()) != 0:
+            raise Error("unable to remove test-owned unexpected blob entry")
+        var stale_stage_path = (
+            test_root + "/blobs/sha256/.ingest.999.1.tmp"
+        )
+        _write_test_blob(stale_stage_path, "abandoned")
+        var collected = removed_restart.garbage_collect()
+        if (
+            collected.scanned_blobs != 2
+            or collected.referenced_blobs != 1
+            or collected.removed_blobs != 1
+            or collected.removed_stages != 1
+            or collected.reclaimed_bytes != 30
+        ):
+            raise Error("model blob garbage-collection accounting mismatch")
+        if external_call["access", Int32](rolled_back_blob.unsafe_ptr(), 0) == 0:
+            raise Error("garbage collection retained an unreachable blob")
+        var stale_stage_bytes = _test_cstring(stale_stage_path)
+        if external_call["access", Int32](
+            stale_stage_bytes.unsafe_ptr(), 0
+        ) == 0:
+            raise Error("garbage collection retained an abandoned stage")
+        _ = removed_restart.verify_model("blobbed:v1")
         var blob_restart = DurableModelStore(test_root)
         var blob_manifest = blob_restart.get_model("blobbed:v1")
         if (

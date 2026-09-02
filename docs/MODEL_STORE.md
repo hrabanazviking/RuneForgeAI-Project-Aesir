@@ -16,6 +16,7 @@ aesir list --format json
 aesir show stheno:roleplay
 aesir cp stheno:roleplay stheno:backup
 aesir rm stheno:roleplay
+aesir gc
 ```
 
 Every command also accepts `--config <path>`. `--format text|json` applies to
@@ -46,8 +47,19 @@ inherits a duplicate of the exact open descriptor and reads it through procfs,
 so hashing does not resolve a replaceable caller path. Publication uses
 `linkat` under the locked store directory. If catalog publication fails, a blob
 created by that transaction is removed and the directory is synchronized.
-`cp` shares the digest. `rm` currently removes only the manifest and retains the
-immutable bytes until a crash-safe reachability garbage collector is built.
+`cp` shares the digest. `rm` removes only the manifest; `gc` performs the
+separate destructive storage sweep.
+
+Garbage collection reloads the catalog while holding the same exclusive store
+lock used by imports and catalog commits. Before the first deletion it validates
+every catalog blob reference and exact size, enumerates the SHA-256 directory
+with NUL-delimited filenames, and rejects unknown names, symlinks, directories,
+FIFOs, missing references, and inconsistent sizes. It then removes only canonical
+64-lowercase-hex blobs that have no manifest reference plus strictly shaped
+`.ingest.<pid>.<attempt>.tmp` remnants, synchronizes the directory, and reports
+scanned/referenced/removed/stale/reclaimed counters. A failure after deletion has
+started can leave some unreachable files for the next idempotent run, but cannot
+delete a catalog-referenced blob based on the validated snapshot.
 
 Pinned public Hub downloads accept `--name <name[:tag]>` and optional
 `--config <path>`. The CLI validates the selected store before transfer, then
@@ -60,9 +72,12 @@ The built-binary harness `scripts/test_native_model_store.py` proves empty
 startup, separate-process persistence, JSON output, create/show/copy/remove,
 exact digest/size, full verification, deduplication, six concurrent imports
 without lost catalog updates, same-size corruption, missing blobs,
-failed-mutation rollback, native Linux permissions, and final-symlink rejection.
+failed-mutation rollback, native Linux permissions, final-symlink rejection,
+fail-before-delete directory validation, unreachable-blob collection, stale-stage
+cleanup, exact reclaimed-byte accounting, and referenced-blob retention.
 
 Authenticated/resumable transfer, store-aware staging without a redundant
-caller destination, crash orphan recovery/garbage collection, a live process registry,
+caller destination, systematic injected crash recovery at every filesystem
+boundary, a live process registry,
 `ps`/`stop`, authenticated downloads, resume, and `push` remain unfinished and
 fail closed where commands exist.

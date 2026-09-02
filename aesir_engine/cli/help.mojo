@@ -15,6 +15,7 @@ def get_help_overview() -> String:
     help_str += "  show <model>           Show detailed parameters and layer metadata for a model\n"
     help_str += "  ps                     List currently active model inference sessions\n"
     help_str += "  create <model> -f <file> Create new model manifest from Modelfile\n"
+    help_str += "  gc                     Remove unreferenced stored model blobs\n"
     help_str += "  config                 Manage or display aesir.config.toml settings\n"
     help_str += "  help [command]         Show general help or help for a specific command\n\n"
     help_str += "FLAGS & OPTIONS:\n"

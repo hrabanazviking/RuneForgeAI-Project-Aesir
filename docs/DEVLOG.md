@@ -1,3 +1,21 @@
+## 2026-09-02 — Added locked reference-aware model blob collection
+
+Added native `aesir gc` and `DurableModelStore.garbage_collect()`. The collector
+reloads the catalog under the store directory lock, derives the unique SHA-256
+reference set, enumerates the blob namespace through a duplicated directory
+descriptor with NUL framing, and validates every reference, entry name, file
+type, and exact size before its first unlink. It rejects unknown entries and
+unsafe file types, preserves all referenced digests, removes only unreachable
+canonical blobs and strict abandoned ingest stages, synchronizes the directory,
+and returns exact scanned/reference/removal/stage/reclaimed-byte counters.
+
+The counted Mojo regression and built multi-process CLI harness prove
+fail-before-delete behavior, shared-reference retention, unreachable-byte
+reclamation, stale-stage cleanup, and exact accounting while retaining the
+existing concurrent-import, corruption, rollback, and permission coverage.
+Systematic injected failure and process-crash recovery at every filesystem
+boundary remain open, so the wider catalog capability remains `partial`.
+
 ## 2026-09-02 — Added immutable SHA-256 model blobs
 
 Extended `DurableModelStore` from a recipe catalog into a content-addressed
@@ -14,8 +32,9 @@ symlink checks. Pinned `pull --name` now preflights the selected store and
 requires the expected Hub digest/size again inside locked ingestion. A live
 689,216-byte Q4_K_S fixture passed seven HTTPS, integrity, failure, symlink,
 registration, and re-verification checks. Blobs publish owner-read-only.
-Authenticated/resumable transfer, crash-orphan garbage collection, and live
-session ownership remain open.
+Authenticated/resumable transfer, systematic crash/fault recovery, and live
+session ownership remain open. Reference-aware garbage collection is recorded
+in the newer entry above.
 
 ## 2026-09-01 — Replaced the PagedKVCache counter with a real page table
 

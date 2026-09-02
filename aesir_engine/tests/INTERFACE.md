@@ -177,9 +177,11 @@ def test_swarm_cluster_task_dispatch() raises: ...
 `test_model_manifest_store()` covers the versioned restart-safe catalog plus
 content-addressed ingestion: exact SHA-256/size, owner-read-only publication,
 deduplication, restart persistence, expected-identity rollback without catalog
-or blob mutation, full verification, same-size corruption, missing blobs, and
+or blob mutation, full verification, same-size corruption, missing blobs,
+validate-before-delete GC failure, unreachable-blob and stale-stage collection,
+referenced-blob retention, exact reclaimed-byte accounting, and
 registered-pull syntax admission without network I/O. The separate built CLI
-harness adds concurrent processes; the opt-in live Hugging Face harness proves
+harness adds concurrent processes and the same GC lifecycle; the opt-in live Hugging Face harness proves
 one pinned external pull-to-store transaction.
 
 `test_forward_pass()` includes the Transformer-block construction contract:

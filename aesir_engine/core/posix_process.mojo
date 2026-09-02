@@ -15,10 +15,10 @@ def _process_cstring(value: String) raises -> List[Int8]:
     return result^
 
 
-def run_checked_argv(
+def run_checked_argv_bytes(
     args: List[String], max_output_bytes: Int = 16384
-) raises -> String:
-    """Executes an argv vector without a shell and returns bounded stdout."""
+) raises -> List[Byte]:
+    """Executes an argv vector without a shell and returns bounded raw stdout."""
     if len(args) == 0:
         raise Error("subprocess requires an executable")
     if max_output_bytes <= 0 or max_output_bytes > 16 * 1024 * 1024:
@@ -95,5 +95,16 @@ def run_checked_argv(
         )
     if output_invalid:
         raise Error("subprocess output exceeded its bound or could not be read")
+    return output^
+
+
+def run_checked_argv(
+    args: List[String], max_output_bytes: Int = 16384
+) raises -> String:
+    """Executes an argv vector and returns bounded NUL-terminated text stdout."""
+    var output = run_checked_argv_bytes(args, max_output_bytes)
+    for byte in output:
+        if byte == 0:
+            raise Error("subprocess text output contains NUL")
     output.append(0)
     return String(unsafe_from_utf8_ptr=output.unsafe_ptr())

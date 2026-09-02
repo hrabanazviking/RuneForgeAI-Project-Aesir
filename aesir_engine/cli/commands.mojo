@@ -74,6 +74,7 @@ def print_general_help():
     print("  show <name[:tag]> [--config path] [--format text|json]")
     print("  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]")
     print("  verify <name[:tag]> [--config path]")
+    print("  gc [--config path]")
     print("  cp <source[:tag]> <target[:tag]> [--config path]")
     print("  rm|delete <name[:tag]> [--config path]")
     print("      Restart-safe catalog operations; default store is .aesir/models.")
@@ -579,6 +580,7 @@ def _is_catalog_command(command: String) -> Bool:
         or command == "show"
         or command == "create"
         or command == "verify"
+        or command == "gc"
         or command == "cp"
         or command == "rm"
         or command == "delete"
@@ -694,6 +696,18 @@ def dispatch_catalog_command(args: List[String]) raises:
             "Verified model bytes: " + positionals[0]
             + " digest=" + record.digest
             + " size=" + String(record.size_bytes)
+        )
+        return
+    if command == "gc":
+        if len(positionals) != 0:
+            raise Error("Usage: aesir gc [--config path]")
+        var result = durable.garbage_collect()
+        print(
+            "Garbage collection: scanned=" + String(result.scanned_blobs)
+            + " referenced=" + String(result.referenced_blobs)
+            + " removed=" + String(result.removed_blobs)
+            + " stale_stages=" + String(result.removed_stages)
+            + " reclaimed_bytes=" + String(result.reclaimed_bytes)
         )
         return
     if command == "cp":

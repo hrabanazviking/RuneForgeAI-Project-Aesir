@@ -11,7 +11,8 @@ them.
 `storage.mojo` owns the restart-safe catalog and immutable SHA-256 blob store.
 It hashes the exact staged inode, deduplicates without replacement, and exposes
 full verification. Pinned pull registration uses the same measured transaction;
-authenticated/resumable transfer and garbage collection remain separate.
+`gc` performs a locked validate-before-delete reachability sweep. Authenticated
+and resumable transfer remain separate.
 
 See `INTERFACE.md` and `docs/NATIVE_RUNTIME.md` for supported commands and limits.
 Legacy model-store and service command names are not operational merely because

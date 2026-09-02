@@ -577,15 +577,15 @@ the complete ledger population.
 - **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
 - **Audit:** AER-060, AER-067.
 
-### AES-CLI-004 — Durable model catalog and incomplete blob store
+### AES-CLI-004 — Durable model catalog and content-addressed blob store
 
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
-- **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish recipe fingerprints from measured `sha256:` blob identities. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, and imports nonempty seekable source files through `O_NOFOLLOW`. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, makes it owner-read-only, publishes `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Optional expected digest/size admission occurs before catalog mutation and rolls back a blob newly created by a rejected transaction.
-- **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, and the earlier catalog invariants. `scripts/test_native_model_store.py` proves independent-process restart, permissions, rollback, six concurrent blob/catalog writers without lost updates, single-blob deduplication, corruption, missing blobs, and final-symlink rejection through the built CLI.
-- **Evidence boundary:** The content-addressed store and explicit pinned `pull --name` registration are implemented for the configured Linux target and require `sha256sum` plus procfs for exact-inode hashing. Recipe-only manifests remain supported. Orphan discovery/garbage collection after process death, fault injection at every durability boundary, portability, binary distribution, and live-session ownership remain open.
-- **Next acceptance gate:** Add safe orphan enumeration/garbage collection and systematic I/O fault injection, then prove recovery at each commit boundary.
+- **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish recipe fingerprints from measured `sha256:` blob identities. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, and imports nonempty seekable source files through `O_NOFOLLOW`. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, makes it owner-read-only, publishes `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Optional expected digest/size admission occurs before catalog mutation and rolls back a blob newly created by a rejected transaction. Locked `gc` derives reachability from the current catalog, validates the complete blob namespace before deletion, retains referenced bytes, removes unreachable canonical digests and strict abandoned stages, synchronizes the directory, and reports exact accounting.
+- **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, validate-before-delete GC failure, stale-stage cleanup, unreachable-byte reclamation, referenced-byte retention, exact GC counters, and the earlier catalog invariants. `scripts/test_native_model_store.py` proves the same lifecycle across independent processes plus permissions, rollback, six concurrent blob/catalog writers without lost updates, single-blob deduplication, corruption, missing blobs, and final-symlink rejection through the built CLI.
+- **Evidence boundary:** The content-addressed store, explicit pinned `pull --name` registration, and reference-aware `gc` are implemented for the configured Linux target and require `sha256sum`, GNU `find`, and procfs. Recipe-only manifests remain supported. Systematic process-crash and injected-I/O recovery at every durability boundary, portability, binary distribution, and live-session ownership remain open.
+- **Next acceptance gate:** Add systematic I/O/process-crash fault injection and prove recovery at each commit and collection boundary.
 - **Audit:** AER-061, AER-062, AER-063.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
@@ -593,10 +593,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** Native `list`/`ls`, `show`, `create`, `cp`, `rm`/`delete`, and `verify` commands use `DurableModelStore` and a caller-selected validated config. `create --model <path>` imports measured immutable bytes; recipe-only `create` remains available. Output comes from catalog records, JSON strings are escaped, and source/Modelfile inputs reject final symlinks. `ps` remains fail closed because no live process registry exists.
+- **Implementation evidence:** Native `list`/`ls`, `show`, `create`, `cp`, `rm`/`delete`, `verify`, and `gc` commands use `DurableModelStore` and a caller-selected validated config. `create --model <path>` imports measured immutable bytes; recipe-only `create` remains available. Output comes from catalog records, JSON strings are escaped, and source/Modelfile inputs reject final symlinks. `ps` remains fail closed because no live process registry exists.
 - **Executable evidence:** `E-MASTER` catalog cases and `E-STORE`; the latter executes each operation in a separate built-CLI process and checks restart state, JSON, rollback, permissions on native Linux storage, and symlink rejection.
-- **Evidence boundary:** Import, deduplicated storage, copy-by-reference, and full verification are real. `rm` removes a manifest but deliberately retains unreferenced immutable bytes until a crash-safe garbage collector exists. Commands do not report live processes. WSL DrvFS permissions remain governed by the mounted Windows filesystem.
-- **Next acceptance gate:** Add reference-aware garbage collection and a real live-session registry before implementing `ps` and `stop`.
+- **Evidence boundary:** Import, deduplicated storage, copy-by-reference, full verification, and explicit validate-before-delete garbage collection are real. `rm` removes a manifest and `gc` separately reclaims its bytes once no reference remains. Commands do not report live processes. WSL DrvFS permissions remain governed by the mounted Windows filesystem.
+- **Next acceptance gate:** Add a real live-session registry before implementing `ps` and `stop`, plus systematic collection fault injection.
 - **Audit:** AER-061, AER-064, AER-066.
 
 ### AES-CLI-006 — `pull`, `push`, and `create` operations
@@ -606,7 +606,7 @@ the complete ledger population.
 - **Claim sources:** CLI help and completed Ollama-suite TODO
 - **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `pull --name <name[:tag]>` preflights the selected store, then remeasures the downloaded inode inside the locked content-addressed transaction and requires the pinned digest/size before catalog mutation. `create` supports both recipe-only records and `--model` blob import. `push` remains fail closed.
 - **Executable evidence:** `E-MASTER` downloader/catalog admission cases, `E-STORE`, seven live integrity/failure/registration checks, and the full pinned Gemma and Stheno artifact downloads through `pull`. The small registered fixture and exact result are recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
-- **Evidence boundary:** Public, pinned, single-GGUF Linux/WSL downloads and explicit registration are established. The downloaded destination remains caller-owned, so registration currently creates separate protected store bytes. No authentication, resume, upload, or garbage collection exists.
+- **Evidence boundary:** Public, pinned, single-GGUF Linux/WSL downloads and explicit registration are established. The downloaded destination remains caller-owned, so registration currently creates separate protected store bytes. No authentication, resume, or upload exists; store garbage collection is a separate local command.
 - **Next acceptance gate:** Add authenticated/resumable download, recovery/cancellation, store-aware staging that avoids a redundant retained destination when requested, and a separately scoped upload contract.
 - **Audit:** AER-064, AER-082, AER-003.
 
@@ -615,10 +615,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI and runtime domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `cp` and `rm`/`delete` perform locked, restart-safe catalog mutations through staged file sync, atomic replacement and directory sync. Copies preserve a shared immutable SHA-256 blob reference. Removal preserves the blob until garbage collection can prove it unreferenced. `stop` remains unsupported and cannot claim process unload.
-- **Executable evidence:** `E-MASTER` durable catalog cases and `E-STORE` separate-process success and rollback checks.
-- **Evidence boundary:** Shared immutable blobs exist, but durable reference accounting/garbage collection and live process ownership do not.
-- **Next acceptance gate:** Crash-safe blob reachability/garbage collection plus a live-session registry with real in-use and stop semantics.
+- **Implementation evidence:** `cp` and `rm`/`delete` perform locked, restart-safe catalog mutations through staged file sync, atomic replacement and directory sync. Copies preserve a shared immutable SHA-256 blob reference. Removal preserves bytes until explicit `gc` proves them unreferenced under the store lock. `stop` remains unsupported and cannot claim process unload.
+- **Executable evidence:** `E-MASTER` durable catalog cases and `E-STORE` separate-process success, rollback, shared-reference retention, and reference-aware reclamation checks.
+- **Evidence boundary:** Shared immutable blobs and snapshot-based reachability collection exist; live process ownership and automatic in-use protection across processes do not.
+- **Next acceptance gate:** Add a live-session registry with real in-use and stop semantics and systematic crash recovery tests for collection.
 - **Audit:** AER-061 through AER-064.
 
 ### AES-CLI-008 — REPL slash-command state and interactive inference

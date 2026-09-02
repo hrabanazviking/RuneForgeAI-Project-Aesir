@@ -10,6 +10,8 @@ Hugging Face transfers use the system `curl` (HTTPS certificate verification,
 redirect restrictions, optional parallel ranges) and `sha256sum` (GNU coreutils).
 Content-addressed model-store import and verification also use `sha256sum`,
 reading the exact inherited open descriptor through Linux procfs.
+Model-store `gc` uses GNU `find` (findutils) over an inherited procfs directory
+descriptor with NUL-delimited output; it never interpolates a shell command.
 These are separate executables invoked with argv, never a shell command string.
 They are justified because this toolchain has no maintained native HTTPS client;
 argv-only process execution is isolated in the loader and

@@ -5,7 +5,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import Dict
-from core.posix_process import run_checked_argv
+from core.posix_process import run_checked_argv_bytes
 from config import validate_model_store_path
 from cli.manifest import (
     ModelManifest,
@@ -45,6 +45,46 @@ struct BlobRecord(Copyable):
 
     def copy(self) -> Self:
         return Self(self.digest, self.size_bytes, self.created)
+
+
+struct BlobGCResult(Copyable):
+    """Exact outcome of one locked content-addressed reachability sweep."""
+
+    var scanned_blobs: Int
+    var referenced_blobs: Int
+    var removed_blobs: Int
+    var removed_stages: Int
+    var reclaimed_bytes: Int64
+
+    def __init__(
+        out self,
+        scanned_blobs: Int,
+        referenced_blobs: Int,
+        removed_blobs: Int,
+        removed_stages: Int,
+        reclaimed_bytes: Int64,
+    ):
+        self.scanned_blobs = scanned_blobs
+        self.referenced_blobs = referenced_blobs
+        self.removed_blobs = removed_blobs
+        self.removed_stages = removed_stages
+        self.reclaimed_bytes = reclaimed_bytes
+
+    def __copyinit__(out self, existing: Self):
+        self.scanned_blobs = existing.scanned_blobs
+        self.referenced_blobs = existing.referenced_blobs
+        self.removed_blobs = existing.removed_blobs
+        self.removed_stages = existing.removed_stages
+        self.reclaimed_bytes = existing.reclaimed_bytes
+
+    def copy(self) -> Self:
+        return Self(
+            self.scanned_blobs,
+            self.referenced_blobs,
+            self.removed_blobs,
+            self.removed_stages,
+            self.reclaimed_bytes,
+        )
 
 
 def _cstring(value: String) -> List[Int8]:
@@ -326,9 +366,9 @@ def _digest_open_fd(fd: Int32) raises -> String:
     var inherited_fd = external_call["dup", Int32](fd)
     if inherited_fd < 0:
         raise Error("unable to duplicate model blob descriptor for hashing")
-    var output: String
+    var output: List[Byte]
     try:
-        output = run_checked_argv(
+        output = run_checked_argv_bytes(
             [
                 "sha256sum",
                 "--zero",
@@ -341,9 +381,13 @@ def _digest_open_fd(fd: Int32) raises -> String:
         _ = external_call["close", Int32](inherited_fd)
         raise error
     _ = external_call["close", Int32](inherited_fd)
-    if len(output.bytes()) < 66:
+    if len(output) < 66:
         raise Error("sha256sum returned a malformed model blob digest")
-    var digest = String(output[byte=0:64])
+    var digest_bytes = List[Int8]()
+    for index in range(64):
+        digest_bytes.append(Int8(output[index]))
+    digest_bytes.append(0)
+    var digest = String(unsafe_from_utf8_ptr=digest_bytes.unsafe_ptr())
     _validate_sha256_hex(digest)
     return digest
 
@@ -561,6 +605,115 @@ def _remove_new_blob_locked(root_fd: Int32, record: BlobRecord) raises:
         raise Error("unable to synchronize model blob rollback")
 
 
+def _is_stale_ingest_name(name: String) -> Bool:
+    if not name.startswith(".ingest.") or not name.endswith(".tmp"):
+        return False
+    var middle = String(name[byte=8 : len(name.bytes()) - 4])
+    var parts = middle.split(".")
+    if len(parts) != 2:
+        return False
+    for part in parts:
+        if len(part.bytes()) == 0:
+            return False
+        for byte in part.as_bytes():
+            if byte < 48 or byte > 57:
+                return False
+    return True
+
+
+def _is_sha256_name(name: String) -> Bool:
+    try:
+        _validate_sha256_hex(name)
+    except:
+        return False
+    return True
+
+
+def _is_recipe_fingerprint(digest: String) -> Bool:
+    if not digest.startswith("fnv1a64:") or len(digest.bytes()) != 24:
+        return False
+    for byte in String(digest[byte=8:]).as_bytes():
+        if not (
+            (byte >= 48 and byte <= 57) or (byte >= 97 and byte <= 102)
+        ):
+            return False
+    return True
+
+
+def _measure_regular_entry(
+    sha_directory_fd: Int32, name: String
+) raises -> Int64:
+    """Opens a non-symlink, non-directory entry and returns its exact size."""
+    var name_bytes = _cstring(name)
+    # Prove that the entry is not a directory before accepting it as a blob or
+    # abandoned ingest file. O_DIRECTORY | O_NOFOLLOW makes this test explicit.
+    var directory_probe = external_call["openat", Int32](
+        sha_directory_fd,
+        name_bytes.unsafe_ptr(),
+        Int32(720896),
+        Int32(0),
+    )
+    if directory_probe >= 0:
+        _ = external_call["close", Int32](directory_probe)
+        raise Error("model blob directory entry must be a regular file: " + name)
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC. O_NONBLOCK prevents a
+    # hostile FIFO from stalling collection; lseek then rejects non-files.
+    var fd = external_call["openat", Int32](
+        sha_directory_fd,
+        name_bytes.unsafe_ptr(),
+        Int32(657408),
+        Int32(0),
+    )
+    if fd < 0:
+        raise Error("unable to safely open model blob directory entry: " + name)
+    var size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
+    _ = external_call["close", Int32](fd)
+    if size < 0:
+        raise Error("model blob directory entry is not seekable: " + name)
+    return size
+
+
+def _list_blob_names(sha_directory_fd: Int32) raises -> List[String]:
+    """Lists raw directory entries through an inherited descriptor and NUL framing."""
+    var inherited_fd = external_call["dup", Int32](sha_directory_fd)
+    if inherited_fd < 0:
+        raise Error("unable to duplicate model blob directory for enumeration")
+    var output: List[Byte]
+    try:
+        output = run_checked_argv_bytes(
+            [
+                "find",
+                "-P",
+                "/proc/self/fd/" + String(inherited_fd) + "/.",
+                "-mindepth",
+                "1",
+                "-maxdepth",
+                "1",
+                "-printf",
+                "%f\\0",
+            ],
+            16 * 1024 * 1024,
+        )
+    except error:
+        _ = external_call["close", Int32](inherited_fd)
+        raise error
+    _ = external_call["close", Int32](inherited_fd)
+    var names = List[String]()
+    var current = List[Int8]()
+    for byte in output:
+        if byte == 0:
+            if len(current) == 0:
+                raise Error("model blob directory contains an empty entry name")
+            current.append(0)
+            names.append(String(unsafe_from_utf8_ptr=current.unsafe_ptr()))
+            current = List[Int8]()
+        else:
+            current.append(Int8(byte))
+    if len(current) != 0:
+        raise Error("model blob directory enumeration is not NUL terminated")
+    return names^
+
+
 def _sync_directory(root: String) raises:
     var root_bytes = _cstring(root)
     var directory_fd = external_call["open64", Int32](
@@ -725,6 +878,113 @@ struct DurableModelStore:
             raise error
         _ = external_call["close", Int32](lock_fd)
         return BlobRecord(manifest.digest, manifest.size_bytes, False)
+
+    def garbage_collect(mut self) raises -> BlobGCResult:
+        """Removes only blobs unreachable from a fully validated catalog."""
+        _ensure_store_root(self.root_path)
+        var lock_fd = _lock_store_root(self.root_path)
+        var sha_directory_fd: Int32 = -1
+        var candidate = RuneModelStore()
+        var references = Dict[String, Int64]()
+        var available_sizes = Dict[String, Int64]()
+        var blob_names = List[String]()
+        var stage_names = List[String]()
+        var scanned_blobs = 0
+        var removed_blobs = 0
+        var removed_stages = 0
+        var reclaimed_bytes: Int64 = 0
+        try:
+            candidate = _load_store(self.root_path)
+            for key in candidate.model_keys:
+                if key not in candidate.catalog:
+                    raise Error("model catalog key has no manifest: " + key)
+                var manifest = candidate.catalog[key]
+                if manifest.digest.startswith("sha256:"):
+                    var digest = String(manifest.digest[byte=7:])
+                    _validate_sha256_hex(digest)
+                    if manifest.size_bytes <= 0:
+                        raise Error(
+                            "SHA-256 model catalog record has no positive size"
+                        )
+                    if (
+                        digest in references
+                        and references[digest] != manifest.size_bytes
+                    ):
+                        raise Error(
+                            "model catalog assigns conflicting sizes to one blob"
+                        )
+                    references[digest] = manifest.size_bytes
+                elif _is_recipe_fingerprint(manifest.digest):
+                    if manifest.size_bytes != 0:
+                        raise Error(
+                            "recipe model catalog record has a nonzero byte size"
+                        )
+                else:
+                    raise Error("model catalog record has an unsupported digest")
+
+            sha_directory_fd = _open_sha256_directory(lock_fd)
+            var names = _list_blob_names(sha_directory_fd)
+            # Complete classification and type/size validation happens before
+            # the first unlink, so an unknown or unsafe entry fails closed.
+            for name in names:
+                if _is_sha256_name(name):
+                    var size = _measure_regular_entry(sha_directory_fd, name)
+                    available_sizes[name] = size
+                    blob_names.append(name)
+                    scanned_blobs += 1
+                elif _is_stale_ingest_name(name):
+                    _ = _measure_regular_entry(sha_directory_fd, name)
+                    stage_names.append(name)
+                else:
+                    raise Error(
+                        "model blob directory contains an unexpected entry: "
+                        + name
+                    )
+
+            for digest in references.keys():
+                if digest not in available_sizes:
+                    raise Error("referenced model blob is missing: sha256:" + digest)
+                if available_sizes[digest] != references[digest]:
+                    raise Error(
+                        "stored model blob size does not match its catalog record"
+                    )
+
+            for digest in blob_names:
+                if digest in references:
+                    continue
+                var digest_bytes = _cstring(digest)
+                if external_call["unlinkat", Int32](
+                    sha_directory_fd, digest_bytes.unsafe_ptr(), Int32(0)
+                ) != 0:
+                    raise Error("unable to remove unreachable model blob: " + digest)
+                removed_blobs += 1
+                reclaimed_bytes += available_sizes[digest]
+            for name in stage_names:
+                var name_bytes = _cstring(name)
+                if external_call["unlinkat", Int32](
+                    sha_directory_fd, name_bytes.unsafe_ptr(), Int32(0)
+                ) != 0:
+                    raise Error("unable to remove abandoned model blob stage: " + name)
+                removed_stages += 1
+            if (removed_blobs > 0 or removed_stages > 0) and external_call[
+                "fsync", Int32
+            ](sha_directory_fd) != 0:
+                raise Error("unable to synchronize model blob garbage collection")
+        except error:
+            if sha_directory_fd >= 0:
+                _ = external_call["close", Int32](sha_directory_fd)
+            _ = external_call["close", Int32](lock_fd)
+            raise error
+        _ = external_call["close", Int32](sha_directory_fd)
+        _ = external_call["close", Int32](lock_fd)
+        self.store = candidate^
+        return BlobGCResult(
+            scanned_blobs,
+            len(references),
+            removed_blobs,
+            removed_stages,
+            reclaimed_bytes,
+        )
 
     def copy_model(mut self, source: String, target: String) raises:
         _ensure_store_root(self.root_path)

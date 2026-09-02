@@ -112,10 +112,11 @@ and missing bytes. The built CLI harness adds six concurrent writer processes,
 permissions, rollback, and symlink evidence.
 
 Pinned `pull --name` registration now re-admits expected identity inside the
-store transaction and has live external fixture evidence. The bug remains open for crash-orphan discovery,
-reference-aware garbage collection, injected faults at every sync/publication
-boundary, portability, and the separate live-session registry needed by `ps`
-and `stop`.
+store transaction and has live external fixture evidence. Native `gc` now
+performs a locked, validate-before-delete reachability sweep with stale-stage
+cleanup and exact accounting. The bug remains open for injected process crashes
+and I/O faults at every sync/publication/collection boundary, portability, and
+the separate live-session registry needed by `ps` and `stop`.
 
 ## Configuration Slice Contract
 

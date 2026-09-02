@@ -1,6 +1,6 @@
 # Current project status
 
-**Current as of 2026-09-01.** This document is the concise operational entry
+**Current as of 2026-09-02.** This document is the concise operational entry
 point for Project A.E.S.I.R. It complements the detailed
 [capability ledger](../CAPABILITY_LEDGER.md), which is authoritative for every
 capability ID. Dated audits, roadmaps, vision documents, and external reference
@@ -23,7 +23,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
-| Native content-addressed store | `create --model` imports measured immutable SHA-256 blobs, pinned `pull --name` registers verified Hub bytes, and `verify` rehashes stored content. Built-binary tests cover separate processes, concurrent writers, deduplication, corruption, missing blobs, persistence, rollback, and one live external pull-to-store transaction; see the [model-store contract](MODEL_STORE.md). |
+| Native content-addressed store | `create --model` imports measured immutable SHA-256 blobs, pinned `pull --name` registers verified Hub bytes, `verify` rehashes stored content, and locked `gc` validates the complete namespace before reclaiming unreachable blobs and stale stages. Built-binary tests cover separate processes, concurrent writers, deduplication, corruption, missing blobs, persistence, rollback, fail-before-delete collection, and one live external pull-to-store transaction; see the [model-store contract](MODEL_STORE.md). |
 | Automated checks | The counted suite reports 172 passed, 0 failed, and 1 explicit external-fixture skip (173 total). Physical CUDA/model checks remain opt-in; hosted CI does not claim GPU execution. |
 | CPU K-quant decoding | Q2_K, Q3_K, Q4_K, Q5_K, and Q6_K use canonical GGML packed-byte layouts with complete-block validation and raw known-value regressions. Independent real-row parity covers Q4_K and Q6_K; general full-model compatibility is not claimed. |
 | Metadata-bearing host quantization | AutoGPTQ 4/8-bit, AutoAWQ GEMM 4-bit, EXL2 mixed 2/3/4/5/6/8-bit, static SmoothQuant W8A8, and HQQ 4-bit axis=1 have checked host dequantization/GEMM primitives over their real packing metadata. These are bounded primitives, not model-loader or CUDA integration claims. |
@@ -79,8 +79,8 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
 Use Linux or WSL2 with the locked Pixi environment, an NVIDIA driver, and
 enough free VRAM. Build, download, and chat using the commands in
 [GEMMA4_CUDA.md](GEMMA4_CUDA.md) or [STHENO_CUDA.md](STHENO_CUDA.md).
-The downloader requires `curl` and
-`sha256sum`; weights, binaries and raw runtime logs intentionally remain outside
+The downloader requires `curl` and `sha256sum`; model-store collection also
+requires GNU `find`. Weights, binaries and raw runtime logs intentionally remain outside
 Git. The readable Stheno conversation is published unchanged as Markdown evidence.
 
 ## Reading the rest of the repository
@@ -104,5 +104,5 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
    profile.
 3. Generalize model admission only with per-architecture loader, tokenizer,
    kernel, and parity evidence.
-4. Add authenticated/resumable Hub transfer and crash-safe orphan garbage
-   collection.
+4. Add authenticated/resumable Hub transfer and systematic model-store crash and
+   filesystem-fault recovery tests.

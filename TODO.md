@@ -367,8 +367,11 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and
   concurrent mutation semantics.
-- [ ] Add crash-safe orphan discovery and reference-aware blob garbage
-  collection; `rm` currently preserves immutable bytes.
+- [x] Add locked, reference-aware blob garbage collection. `gc` validates the
+  complete directory and every catalog size before deletion, removes unreachable
+  blobs and strict stale-stage names, synchronizes the directory, and reports
+  exact accounting. Systematic process-crash/fault injection at every filesystem
+  boundary remains open.
 
 ### Network distribution
 

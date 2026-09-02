@@ -34,6 +34,7 @@ def check(binary: str) -> None:
         config = root / "config.json"
         modelfile = root / "Modelfile"
         weights = root / "weights.bin"
+        orphan_weights = root / "orphan.bin"
         config.write_text(
             json.dumps({"storage": {"model_store_path": store.as_posix()}}, indent=2),
             encoding="utf-8",
@@ -45,6 +46,8 @@ def check(binary: str) -> None:
             encoding="utf-8",
         )
         weights.write_bytes(b"content-addressed-model-fixture\n")
+        orphan_payload = b"unreachable-model-blob\n"
+        orphan_weights.write_bytes(orphan_payload)
         common = ("--config", str(config))
 
         empty = json.loads(run("list", "--format", "json", *common).stdout)
@@ -122,6 +125,38 @@ def check(binary: str) -> None:
         if store.stat().st_dev == Path("/").stat().st_dev:
             assert stat.S_IMODE(blobs[0].stat().st_mode) == 0o400
 
+        run(
+            "create",
+            "orphan:v1",
+            "--modelfile",
+            str(modelfile),
+            "--model",
+            str(orphan_weights),
+            *common,
+        )
+        run("rm", "orphan:v1", *common)
+        blob_directory = store / "blobs" / "sha256"
+        blob_paths = list(blob_directory.iterdir())
+        assert len(blob_paths) == 2
+        orphan_blob = next(path for path in blob_paths if path != blobs[0])
+        unexpected = blob_directory / "unexpected"
+        unexpected.write_bytes(b"reject-before-unlink")
+        rejected_gc = run("gc", *common, ok=False)
+        rejected_output = rejected_gc.stderr + rejected_gc.stdout
+        assert "unexpected entry" in rejected_output, rejected_output
+        assert orphan_blob.is_file(), "failed GC deleted before full validation"
+        unexpected.unlink()
+        stale_stage = blob_directory / ".ingest.999.1.tmp"
+        stale_stage.write_bytes(b"abandoned")
+        collected = run("gc", *common)
+        assert "scanned=2" in collected.stdout
+        assert "referenced=1" in collected.stdout
+        assert "removed=1" in collected.stdout
+        assert "stale_stages=1" in collected.stdout
+        assert f"reclaimed_bytes={len(orphan_payload)}" in collected.stdout
+        assert not orphan_blob.exists() and not stale_stage.exists()
+        assert blobs[0].is_file(), "GC removed a catalog-referenced blob"
+
         run("cp", "example:v1", "example:backup", *common)
         run("rm", "example:v1", *common)
         restarted = json.loads(run("ls", "--format", "json", *common).stdout)
@@ -167,7 +202,7 @@ def check(binary: str) -> None:
     print(
         "PASS native model store: restart, JSON, create/show/cp/rm, "
         "blob digest/size, deduplication, concurrent commits, corruption, "
-        "missing blobs, rollback, permissions and symlink rejection"
+        "missing blobs, rollback, locked GC, permissions and symlink rejection"
     )
 
 

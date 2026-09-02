@@ -1,13 +1,14 @@
 # CLI Domain Interface Specification (`cli/`)
 
-> **Current supported command boundary — 2026-08-30:** `pull` downloads the
+> **Current supported command boundary — 2026-09-02:** `pull` downloads the
 > documented public pinned GGUF artifact; `chat --accel cuda` and
 > `run --accel cuda` execute the dense text-only Gemma 4 E4B Q4_K_M profile with
-> native CUDA. Native catalog `create`, `list`, `show`, `cp`, `rm`, and `verify`
+> native CUDA. Native catalog `create`, `list`, `show`, `cp`, `rm`, `verify`, and `gc`
 > persist through `DurableModelStore`; `create --model` imports measured
 > SHA-256-addressed bytes, and pinned `pull --name` registers a verified Hub
-> artifact. Garbage collection, generic REPL
-> behavior, and compatibility surfaces below are not thereby implemented.
+> artifact. `gc` performs a locked reference-aware sweep after full namespace
+> validation. Generic REPL behavior and compatibility surfaces below are not
+> thereby implemented.
 > `chat --accel cuda --profile llama3` additionally runs the admitted Stheno
 > Q4_K_S profile with an 8K context. CUDA single-shot `run` auto-detects either
 > profile. `hardware list` and `compute plan|explain` expose observed resources
@@ -123,7 +124,11 @@ identities, unsafe references, and unsupported versions. Blob ingestion copies
 a final-symlink-rejected, nonempty seekable source inode, hashes the exact open
 descriptor, and publishes `blobs/sha256/<digest>` without overwriting an
 existing entry. Existing entries are size/hash verified before deduplication;
-a catalog failure removes a blob newly published by that transaction.
+a catalog failure removes a blob newly published by that transaction. Garbage
+collection validates all catalog references and directory entries before its
+first deletion, then removes unreachable canonical blobs and abandoned stages.
+`BlobGCResult` reports `scanned_blobs`, `referenced_blobs`, `removed_blobs`,
+`removed_stages`, and `reclaimed_bytes` for the completed locked sweep.
 
 ```mojo
 struct DurableModelStore:
@@ -136,6 +141,7 @@ struct DurableModelStore:
     def create_model(mut self, name: String, modelfile_content: String) raises: ...
     def ingest_model(mut self, name: String, modelfile_content: String, source_path: String, expected_digest: String = "", expected_size: Int64 = 0) raises -> BlobRecord: ...
     def verify_model(self, name: String) raises -> BlobRecord: ...
+    def garbage_collect(mut self) raises -> BlobGCResult: ...
     def copy_model(mut self, source: String, target: String) raises: ...
     def remove_model(mut self, name: String) raises: ...
 ```
