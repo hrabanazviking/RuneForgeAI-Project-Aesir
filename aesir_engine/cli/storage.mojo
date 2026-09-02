@@ -12,6 +12,7 @@ from cli.manifest import (
     RuneModelStore,
     deserialize_manifest,
     normalize_model_reference,
+    validate_manifest_storage_identity,
 )
 
 
@@ -169,6 +170,9 @@ def serialize_catalog(store: RuneModelStore) raises -> String:
             raise Error("catalog contains duplicate key: " + key)
         seen[key] = True
         var manifest = store.catalog[key]
+        validate_manifest_storage_identity(
+            manifest.digest, manifest.size_bytes
+        )
         var normalized = normalize_model_reference(
             manifest.name + ":" + manifest.tag
         )
@@ -629,17 +633,6 @@ def _is_sha256_name(name: String) -> Bool:
     return True
 
 
-def _is_recipe_fingerprint(digest: String) -> Bool:
-    if not digest.startswith("fnv1a64:") or len(digest.bytes()) != 24:
-        return False
-    for byte in String(digest[byte=8:]).as_bytes():
-        if not (
-            (byte >= 48 and byte <= 57) or (byte >= 97 and byte <= 102)
-        ):
-            return False
-    return True
-
-
 def _measure_regular_entry(
     sha_directory_fd: Int32, name: String
 ) raises -> Int64:
@@ -899,6 +892,9 @@ struct DurableModelStore:
                 if key not in candidate.catalog:
                     raise Error("model catalog key has no manifest: " + key)
                 var manifest = candidate.catalog[key]
+                validate_manifest_storage_identity(
+                    manifest.digest, manifest.size_bytes
+                )
                 if manifest.digest.startswith("sha256:"):
                     var digest = String(manifest.digest[byte=7:])
                     _validate_sha256_hex(digest)
@@ -914,13 +910,6 @@ struct DurableModelStore:
                             "model catalog assigns conflicting sizes to one blob"
                         )
                     references[digest] = manifest.size_bytes
-                elif _is_recipe_fingerprint(manifest.digest):
-                    if manifest.size_bytes != 0:
-                        raise Error(
-                            "recipe model catalog record has a nonzero byte size"
-                        )
-                else:
-                    raise Error("model catalog record has an unsupported digest")
 
             sha_directory_fd = _open_sha256_directory(lock_fd)
             var names = _list_blob_names(sha_directory_fd)

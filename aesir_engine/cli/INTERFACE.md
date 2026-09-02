@@ -151,6 +151,8 @@ the corresponding validation and catalog-codec boundaries for callers and
 focused verification. Store-root validation delegates to the authoritative
 `AesirConfig.model_store_path` schema, whose relative default is
 `.aesir/models`.
+`validate_manifest_storage_identity` is the single recipe/blob digest-and-size
+invariant used by catalog decode, durable serialization, and collection.
 
 ---
 

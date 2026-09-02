@@ -1,3 +1,14 @@
+## 2026-09-02 — Coupled manifest digest schemes to stored-byte semantics
+
+Added one authoritative manifest storage-identity validator and applied it at
+catalog decode, durable serialization, and garbage-collection admission.
+Recipe records must now use exactly `fnv1a64:` plus 16 lowercase hex digits and
+zero observed bytes; stored blobs must use exactly `sha256:` plus 64 lowercase
+hex digits and a positive measured size. Unknown schemes, malformed widths,
+uppercase/non-hex text, and recipe/blob size contradictions fail before durable
+mutation or collection. Focused regressions cover unsupported schemes and
+recipe-size contradictions.
+
 ## 2026-09-02 — Added locked reference-aware model blob collection
 
 Added native `aesir gc` and `DurableModelStore.garbage_collect()`. The collector

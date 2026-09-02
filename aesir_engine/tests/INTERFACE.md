@@ -175,7 +175,7 @@ def test_swarm_cluster_task_dispatch() raises: ...
 ```
 
 `test_model_manifest_store()` covers the versioned restart-safe catalog plus
-content-addressed ingestion: exact SHA-256/size, owner-read-only publication,
+content-addressed ingestion: strict recipe/blob identity-size coupling, exact SHA-256/size, owner-read-only publication,
 deduplication, restart persistence, expected-identity rollback without catalog
 or blob mutation, full verification, same-size corruption, missing blobs,
 validate-before-delete GC failure, unreachable-blob and stale-stage collection,

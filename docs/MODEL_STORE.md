@@ -32,6 +32,9 @@ that descriptor, records the exact copied size, and publishes
 verifies and shares the existing blob. `verify` reopens the addressed blob and
 checks both its size and full SHA-256. Quantization, architecture dimensions,
 and modification time remain `unknown` until a loader supplies measured values.
+Catalog decoding and serialization enforce the identity/size coupling: recipe
+fingerprints are exactly 16 lowercase FNV-1a hex digits with size zero, while
+stored blobs are exactly 64 lowercase SHA-256 hex digits with positive size.
 
 The Linux catalog and blob writer are bounded by their source files and
 versioned metadata. Writers reload while holding an

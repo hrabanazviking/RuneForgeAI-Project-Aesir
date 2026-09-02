@@ -2,7 +2,7 @@
 # Verification of implemented CLI parsing and honest unsupported boundaries.
 
 from cli.modelfile import parse_modelfile
-from cli.manifest import RuneModelStore, ModelManifest
+from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
 from cli.storage import DurableModelStore, deserialize_catalog
 from cli.commands import (
     collect_run_positionals,
@@ -227,6 +227,26 @@ def test_model_manifest_store() raises:
         )
     if restored.digest != fetched.digest:
         raise Error("deserialized store manifest digest mismatch")
+    var invalid_digest_rejected = False
+    try:
+        _ = deserialize_manifest(
+            fetched.serialize().replace(
+                "DIGEST:" + fetched.digest, "DIGEST:unsupported:1234"
+            )
+        )
+    except error:
+        invalid_digest_rejected = "unsupported identity" in String(error)
+    if not invalid_digest_rejected:
+        raise Error("manifest decoder accepted an unsupported digest scheme")
+    var recipe_size_rejected = False
+    try:
+        _ = deserialize_manifest(
+            fetched.serialize().replace("SIZE:0", "SIZE:1")
+        )
+    except error:
+        recipe_size_rejected = "zero byte size" in String(error)
+    if not recipe_size_rejected:
+        raise Error("manifest decoder accepted bytes for a recipe fingerprint")
 
     # Test manifest removal
     if not store.remove_model("testmodel:v1"):

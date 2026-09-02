@@ -80,6 +80,36 @@ def compute_modelfile_fingerprint(content: String) -> String:
     return res
 
 
+def validate_manifest_storage_identity(
+    digest: String, size_bytes: Int64
+) raises:
+    """Couples each supported manifest identity scheme to its byte semantics."""
+    if size_bytes < 0:
+        raise Error("manifest size must not be negative")
+    var prefix_bytes: Int
+    var expected_digits: Int
+    if digest.startswith("fnv1a64:"):
+        prefix_bytes = 8
+        expected_digits = 16
+        if size_bytes != 0:
+            raise Error("recipe fingerprint requires an unknown zero byte size")
+    elif digest.startswith("sha256:"):
+        prefix_bytes = 7
+        expected_digits = 64
+        if size_bytes <= 0:
+            raise Error("SHA-256 blob identity requires a positive byte size")
+    else:
+        raise Error("manifest digest uses an unsupported identity scheme")
+    var digits = String(digest[byte=prefix_bytes:])
+    if len(digits.bytes()) != expected_digits:
+        raise Error("manifest digest has the wrong hexadecimal width")
+    for byte in digits.as_bytes():
+        if not (
+            (byte >= 48 and byte <= 57) or (byte >= 97 and byte <= 102)
+        ):
+            raise Error("manifest digest must use lowercase hexadecimal")
+
+
 struct ModelManifest(Copyable, ImplicitlyCopyable):
     """
     ModelManifest — ᛗᛟᛞᛖᛚ·ᛗᚨᚾᛁᚠᛖᛋᛏ — The Scroll of the Model:
@@ -267,6 +297,7 @@ def deserialize_manifest(raw: String) raises -> ModelManifest:
     validate_model_component(tag, "tag")
     if len(digest.bytes()) == 0:
         raise Error("manifest digest must not be empty")
+    validate_manifest_storage_identity(digest, size_bytes)
 
     var modelfile_content = String("\n").join(modelfile_lines)
     return ModelManifest(
