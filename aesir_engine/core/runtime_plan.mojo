@@ -1,7 +1,7 @@
 """Model admission and observed single-device selection for native sessions."""
 from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
-from core.llama3_profile import llama3_profile_for, validate_llama3
+from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.model_registry import ModelArchitectureRegistry
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
@@ -15,7 +15,7 @@ struct NativeModelPlan(Copyable):
     var memory: InferenceMemoryPlan
 
     def __init__(out self, path: String, requested_profile: String = "auto", context_length: Int = 0) raises:
-        if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3":
+        if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3" and requested_profile != "qwen3":
             raise Error("Unsupported native model profile")
         var model = PackedGGUF(path)
         var compatibility = ModelArchitectureRegistry.inspect(model, context_length)
@@ -25,15 +25,23 @@ struct NativeModelPlan(Copyable):
             if compatibility.status != "READY" or compatibility.native_profile == "":
                 raise Error(compatibility.friendly_error())
             self.profile = compatibility.native_profile
+        elif compatibility.status != "READY":
+            raise Error(compatibility.friendly_error())
+        elif compatibility.native_profile != self.profile:
+            raise Error(
+                "Requested native profile '" + self.profile
+                + "' does not match detected profile '"
+                + compatibility.native_profile + "'"
+            )
         self.context_length = context_length
-        if self.profile == "llama3":
-            var llama_profile = llama3_profile_for(model)
-            self.variant = "llama3-" + llama_profile.name
+        if self.profile == "llama3" or self.profile == "qwen3":
+            var dense_profile = dense_gqa_profile_for(model)
+            self.variant = self.profile + "-" + dense_profile.name
             if self.context_length == 0:
-                self.context_length = llama_profile.context_cap
-            validate_llama3(model, llama_profile, self.context_length)
+                self.context_length = compatibility.recommended_context
+            validate_dense_gqa(model, dense_profile, self.context_length)
             self.memory = llama3_memory_plan(
-                Int(model.source.file_size), self.context_length, llama_profile
+                Int(model.source.file_size), self.context_length, dense_profile
             )
         else:
             var gemma_profile = gemma4_profile_for(model)

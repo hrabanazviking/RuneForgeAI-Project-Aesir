@@ -47,7 +47,7 @@ def print_general_help():
     print("Implemented:")
     print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
-    print("  compute plan|explain <model.gguf> [--profile auto|gemma4|llama3]")
+    print("  compute plan|explain <model.gguf> [--profile auto|gemma4|llama3|qwen3]")
     print("      [--context N] [--device auto|N] [--reserve-mib N]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
@@ -60,9 +60,9 @@ def print_general_help():
         " [--accel auto|cpu|cuda] <prompt...>"
     )
     print(
-        "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3 single-shot inference."
+        "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference."
     )
-    print("  chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3]")
+    print("  chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3|qwen3]")
     print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
     print("      [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     print("      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]")
@@ -87,7 +87,7 @@ def print_general_help():
     print("  -v, --version")
     print("      Show the development version.\n")
     print("  serve <model.gguf> --accel cuda --api-key-file <private-file>")
-    print("      [--port 18434] [--profile auto|gemma4|llama3] [--context N]")
+    print("      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N]")
     print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
     print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
     print("  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]")

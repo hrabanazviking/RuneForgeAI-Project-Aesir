@@ -88,7 +88,7 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, mod
 
 def dispatch_cuda_chat(args: List[String]) raises:
     if len(args) < 2:
-        raise Error("usage: aesir chat <model.gguf> --accel cuda [--profile gemma4|llama3] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+        raise Error("usage: aesir chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3|qwen3] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     var prompts_path = String("")
     var log_path = String("")
     var system = String("You are a helpful assistant. Keep answers concise and remember the conversation accurately.")
@@ -145,7 +145,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     sampling.validate()
     if acceleration != "cuda":
         raise Error("Native chat requires explicit --accel cuda; CPU fallback is disabled")
-    if profile != "gemma4" and profile != "llama3" and profile != "auto":
+    if profile != "gemma4" and profile != "llama3" and profile != "qwen3" and profile != "auto":
         raise Error("Unsupported CUDA chat profile")
     if "--context" in seen and "--max-tokens" in seen and max_tokens >= context_length:
         raise Error("Chat context must leave room for input as well as max-tokens")
@@ -154,6 +154,11 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Llama 3 context must be within 2..8192")
         if "--max-tokens" in seen and max_tokens > 8192:
             raise Error("Llama 3 completion limit must be within 1..8192")
+    elif profile == "qwen3":
+        if "--context" in seen and (context_length < 2 or context_length > 32768):
+            raise Error("Qwen 3 context must be within 2..32768")
+        if "--max-tokens" in seen and max_tokens > 32768:
+            raise Error("Qwen 3 completion limit must be within 1..32768")
     var requested_context = context_length if "--context" in seen else 0
     var detected = NativeModelPlan(args[1], profile, requested_context)
     profile = detected.profile
@@ -163,6 +168,11 @@ def dispatch_cuda_chat(args: List[String]) raises:
             max_tokens = 8192
         if context_length > 8192 or max_tokens > 8192 or context_length < 2:
             raise Error("Llama 3 context and completion limits must be within 2..8192 and 1..8192")
+    elif profile == "qwen3":
+        if "--max-tokens" not in seen:
+            max_tokens = min(4096, context_length - 1)
+        if context_length > 32768 or max_tokens >= context_length or context_length < 2:
+            raise Error("Qwen 3 context must leave room for input and completion")
     else:
         if "--max-tokens" not in seen:
             max_tokens = 4096 if detected.variant == "gemma4-E2B" else 16384
@@ -185,7 +195,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var plan = NativeModelPlan(args[1], profile, context_length)
     device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
-    if profile == "llama3":
+    if profile == "llama3" or profile == "qwen3":
         run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
         _ = interrupts
         return
@@ -240,7 +250,7 @@ def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
     var transcript = ChatTranscript("")
     var plan = NativeModelPlan(path)
     var device_index = choose_native_cuda(plan.memory)
-    if plan.profile == "llama3":
+    if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(path, plan.context_length, device_index)
         _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
     else:
@@ -263,9 +273,9 @@ def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: Strin
 
 
 def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, model: String, speed: Float64, transcript: ChatTranscript) raises:
-    var memory = llama3_memory_plan(Int(session.model.source.file_size), session.context_length)
+    var memory = llama3_memory_plan(Int(session.model.source.file_size), session.context_length, session.profile)
     dashboard.update_observation(
-        model, "Llama 3 8B / CUDA", Float64(memory.device_bytes) / 1048576.0,
+        model, session.profile.label() + " / CUDA", Float64(memory.device_bytes) / 1048576.0,
         speed, 1, "native explicit buffers + session counters", monotonic_milliseconds(), session.position, session.context_length,
     )
     transcript.emit("\n" + dashboard.render_frame())
@@ -275,7 +285,7 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
     # Emit the admitted backend claim only after model validation and upload.
     var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
-    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=llama3-8B; layers=32/32; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
         render_tui(dashboard, session, path, 0.0, transcript)

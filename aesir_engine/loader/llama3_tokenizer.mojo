@@ -10,8 +10,8 @@ from loader.tokenizer import RuneWeaver, RuneStreamDecoder
 from loader.unicode_categories import llama_character_class
 
 
-def llama3_segments(text: String) -> List[String]:
-    """Implement the ordered Llama 3 regex alternatives over Unicode symbols."""
+def _native_gpt2_segments(text: String, digit_limit: Int) -> List[String]:
+    """Implements the shared Llama/Qwen GPT-2 regex without a regex runtime."""
     var helper = RuneWeaver()
     var chars = List[String]()
     helper._append_utf8_symbols(text, chars)
@@ -43,7 +43,10 @@ def llama3_segments(text: String) -> List[String]:
                     end += 1
         if end == i and classes[i] == 2:
             end = i + 1
-            while end < min(i + 3, len(chars)) and classes[end] == 2:
+            var digit_end = len(chars) if digit_limit == 0 else min(
+                i + digit_limit, len(chars)
+            )
+            while end < digit_end and classes[end] == 2:
                 end += 1
         if end == i:
             var first_punct = i + (1 if chars[i] == " " else 0)
@@ -76,19 +79,51 @@ def llama3_segments(text: String) -> List[String]:
     return output^
 
 
+def llama3_segments(text: String) -> List[String]:
+    return _native_gpt2_segments(text, 3)
+
+
+def qwen_segments(text: String) -> List[String]:
+    return _native_gpt2_segments(text, 0)
+
+
 struct Llama3Tokenizer:
+    var family: String
+    var digit_limit: Int
+    var ordinary_token_limit: Int
+    var direct_segment_lookup: Bool
     var vocabulary: RuneWeaver
     var ranks: Dict[String, Int]
     var byte_symbols: List[String]
     var symbol_bytes: Dict[String, Int]
 
     def __init__(out self, model: PackedGGUF) raises:
+        var architecture = model.text("general.architecture")
+        self.family = "llama3"
+        self.digit_limit = 3
+        self.ordinary_token_limit = 128000
+        self.direct_segment_lookup = True
+        var expected_pre = String("llama-bpe")
+        var expected_vocabulary = 128256
+        if architecture == "qwen3":
+            self.family = "qwen3"
+            self.digit_limit = 0
+            # Qwen 3 emits its <think>/</think> controls as visible text.
+            # IDs through 151668 are therefore decodable; later reserved IDs
+            # remain outside the admitted generation range.
+            self.ordinary_token_limit = 151669
+            self.direct_segment_lookup = False
+            expected_pre = "qwen2"
+            expected_vocabulary = 151936
+        elif architecture != "llama":
+            raise Error("Native GPT-2 BPE tokenizer does not support " + architecture)
         self.vocabulary = RuneWeaver()
         self.ranks = Dict[String, Int]()
         self.byte_symbols = List[String]()
         self.symbol_bytes = Dict[String, Int]()
-        if model.text("tokenizer.ggml.model") != "gpt2" or model.text("tokenizer.ggml.pre") != "llama-bpe":
-            raise Error("Native Llama 3 requires the llama-bpe GPT-2 tokenizer")
+        if (model.text("tokenizer.ggml.model") != "gpt2"
+                or model.text("tokenizer.ggml.pre") != expected_pre):
+            raise Error("Native " + self.family + " tokenizer metadata mismatch")
         var extra = 0
         for byte in range(256):
             var code = byte
@@ -100,8 +135,8 @@ struct Llama3Tokenizer:
             self.symbol_bytes[symbol] = byte
         var offset = model.array_offset("tokenizer.ggml.tokens", 8)
         var count = Int(model.source._read_u64(offset + 4))
-        if count != 128256:
-            raise Error("Llama 3 vocabulary size mismatch")
+        if count != expected_vocabulary:
+            raise Error("Native " + self.family + " vocabulary size mismatch")
         var cursor = offset + 12
         for token in range(count):
             var word = model.source._read_string(cursor)
@@ -110,30 +145,43 @@ struct Llama3Tokenizer:
         offset = model.array_offset("tokenizer.ggml.merges", 8)
         count = Int(model.source._read_u64(offset + 4))
         if count < 1 or count > 2000000:
-            raise Error("Llama 3 invalid merge count")
+            raise Error("Native " + self.family + " invalid merge count")
         cursor = offset + 12
         for rank in range(count):
             var pair = model.source._read_string(cursor)
             cursor = model.source._string_end(cursor)
             if pair not in self.ranks:
                 self.ranks[pair] = rank
-        self.vocabulary.set_special_tokens(0, model.integer("tokenizer.ggml.bos_token_id"), model.integer("tokenizer.ggml.eos_token_id"))
+        var bos_token = 151643
+        if self.family == "llama3":
+            bos_token = model.integer("tokenizer.ggml.bos_token_id")
+        self.vocabulary.set_special_tokens(
+            0, bos_token, model.integer("tokenizer.ggml.eos_token_id")
+        )
         self.vocabulary.validate_vocabulary()
-        if self.control("<|begin_of_text|>") != 128000 or self.control("<|start_header_id|>") != 128006 or self.control("<|end_header_id|>") != 128007 or self.control("<|eot_id|>") != 128009 or self.control("<|end_of_text|>") != 128001:
-            raise Error("Llama 3 control-token layout mismatch")
-        if self.vocabulary.bos_token_id != 128000 or self.vocabulary.eos_token_id not in (128001, 128009):
-            raise Error("Llama 3 BOS/EOS metadata mismatch")
+        if self.family == "llama3":
+            if self.control("<|begin_of_text|>") != 128000 or self.control("<|start_header_id|>") != 128006 or self.control("<|end_header_id|>") != 128007 or self.control("<|eot_id|>") != 128009 or self.control("<|end_of_text|>") != 128001:
+                raise Error("Llama 3 control-token layout mismatch")
+            if self.vocabulary.bos_token_id != 128000 or self.vocabulary.eos_token_id not in (128001, 128009):
+                raise Error("Llama 3 BOS/EOS metadata mismatch")
+        else:
+            if (self.control("<|endoftext|>") != 151643
+                    or self.control("<|im_start|>") != 151644
+                    or self.control("<|im_end|>") != 151645):
+                raise Error("Qwen 3 control-token layout mismatch")
+            if self.vocabulary.bos_token_id != 151643 or self.vocabulary.eos_token_id != 151645:
+                raise Error("Qwen 3 BOS/EOS metadata mismatch")
 
     def control(self, spelling: String) raises -> Int:
         if spelling not in self.vocabulary.token_to_id:
-            raise Error("Llama 3 missing control token " + spelling)
+            raise Error("Native " + self.family + " missing control token " + spelling)
         return self.vocabulary.token_to_id[spelling]
 
     def encode(self, text: String, add_bos: Bool = False) raises -> List[Int]:
         var output = List[Int]()
         if add_bos:
             output.append(self.vocabulary.bos_token_id)
-        var segments = llama3_segments(text)
+        var segments = _native_gpt2_segments(text, self.digit_limit)
         for segment in segments:
             var pieces = List[String]()
             var whole = String("")
@@ -142,7 +190,7 @@ struct Llama3Tokenizer:
                 whole += self.byte_symbols[Int(byte)]
             # Llama 3's ignore_merges profile admits a vocabulary segment
             # directly before considering ranked pair merges.
-            if whole in self.vocabulary.token_to_id:
+            if self.direct_segment_lookup and whole in self.vocabulary.token_to_id:
                 output.append(self.vocabulary.token_to_id[whole])
                 continue
             while len(pieces) > 1:
@@ -160,7 +208,7 @@ struct Llama3Tokenizer:
                 _ = pieces.pop(best + 1)
             for piece in pieces:
                 if piece not in self.vocabulary.token_to_id:
-                    raise Error("Llama BPE produced an unknown byte sequence")
+                    raise Error("Native " + self.family + " BPE produced an unknown byte sequence")
                 output.append(self.vocabulary.token_to_id[piece])
         return output^
 
@@ -171,7 +219,11 @@ struct Llama3Tokenizer:
 
     def append_header(self, mut tokens: List[Int], role: String) raises:
         if role != "system" and role != "user" and role != "assistant":
-            raise Error("Invalid Llama 3 role")
+            raise Error("Invalid native chat role")
+        if self.family == "qwen3":
+            tokens.append(self.control("<|im_start|>"))
+            self.append_text(tokens, role + "\n")
+            return
         tokens.append(self.control("<|start_header_id|>"))
         self.append_text(tokens, role)
         tokens.append(self.control("<|end_header_id|>"))
@@ -180,16 +232,20 @@ struct Llama3Tokenizer:
     def append_message(self, mut tokens: List[Int], role: String, text: String) raises:
         self.append_header(tokens, role)
         self.append_text(tokens, String(text.strip()))
-        tokens.append(self.control("<|eot_id|>"))
+        if self.family == "qwen3":
+            tokens.append(self.control("<|im_end|>"))
+            self.append_text(tokens, "\n")
+        else:
+            tokens.append(self.control("<|eot_id|>"))
 
     def decode(self, token: Int, mut decoder: RuneStreamDecoder) raises -> String:
-        if token < 0 or token >= 128000:
-            raise Error("Unexpected Llama 3 non-text output token")
+        if token < 0 or token >= self.ordinary_token_limit:
+            raise Error("Unexpected " + self.family + " non-text output token")
         var symbols = List[String]()
         self.vocabulary._append_utf8_symbols(self.vocabulary.vocab[token], symbols)
         var text = String("")
         for symbol in symbols:
             if symbol not in self.symbol_bytes:
-                raise Error("Llama 3 invalid byte-encoded output")
+                raise Error("Native " + self.family + " invalid byte-encoded output")
             text += decoder.decode_token(self.vocabulary.byte_to_hex_token(UInt8(self.symbol_bytes[symbol])))
         return text

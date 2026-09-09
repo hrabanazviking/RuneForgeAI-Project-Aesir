@@ -301,7 +301,7 @@ def dispatch_native_serve(args: List[String]) raises:
         else:
             raise Error("Unsupported service option")
         i += 2
-    if acceleration != "cuda" or (profile != "auto" and profile != "llama3" and profile != "gemma4"):
+    if acceleration != "cuda" or (profile != "auto" and profile != "llama3" and profile != "qwen3" and profile != "gemma4"):
         raise Error("Native service requires a supported CUDA profile; no CPU fallback")
     if ollama and "--port" not in seen:
         port = 11434
@@ -333,11 +333,11 @@ def dispatch_native_serve(args: List[String]) raises:
     device = choose_native_cuda(plan.memory, device, reserve)
     if not ollama:
         model_size = Int64(plan.memory.weights_bytes)
-    var family = "llama" if plan.profile == "llama3" else "gemma4"
-    var parameter_size = "8B" if plan.profile == "llama3" else ("2B" if plan.variant == "gemma4-E2B" else "4B")
+    var family = "llama" if plan.profile == "llama3" else ("qwen3" if plan.profile == "qwen3" else "gemma4")
+    var parameter_size = "8B" if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else ("2B" if plan.variant == "gemma4-E2B" else "4B"))
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
-    if plan.profile == "llama3":
+    if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info)
     else:

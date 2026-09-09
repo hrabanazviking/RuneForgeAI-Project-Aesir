@@ -45,7 +45,7 @@ def dispatch_hardware(args: List[String]) raises:
 
 def dispatch_compute(args: List[String]) raises:
     if len(args) < 3 or (args[1] != "plan" and args[1] != "explain"):
-        raise Error("usage: aesir compute plan|explain <model.gguf> [--profile auto|gemma4|llama3] [--context N] [--device auto|N] [--reserve-mib N]")
+        raise Error("usage: aesir compute plan|explain <model.gguf> [--profile auto|gemma4|llama3|qwen3] [--context N] [--device auto|N] [--reserve-mib N]")
     var profile = String("auto")
     var context = 0
     var device = -1

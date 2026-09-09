@@ -3,8 +3,9 @@ from core.model_registry import (
     ModelArchitectureRegistry,
     gguf_quantization_name,
     native_quantization_supported,
+    native_k_quantization_supported,
 )
-from core.llama3_profile import llama3_8b_profile
+from core.dense_gqa_profile import llama3_8b_profile, qwen3_0_6b_profile
 
 
 def test_model_architecture_registry() raises:
@@ -16,6 +17,14 @@ def test_model_architecture_registry() raises:
             or llama_profile.activation_elements(8192) != 441600
             or llama_profile.kv_elements(8192) != 536870912):
         raise Error("Llama 3 8B profile memory dimensions drifted")
+    var qwen_profile = qwen3_0_6b_profile()
+    if (qwen_profile.layer_count != 28 or qwen_profile.hidden_size != 1024
+            or qwen_profile.feed_forward_size != 3072
+            or not qwen_profile.qk_norm or not qwen_profile.neox_rope):
+        raise Error("Qwen 3 0.6B family profile drifted")
+    if (qwen_profile.query_width() != 2048 or qwen_profile.kv_width() != 1024
+            or qwen_profile.activation_elements(2048) != 200064):
+        raise Error("Qwen 3 0.6B profile workspace dimensions drifted")
     if gguf_quantization_name(15) != "Q4_K_M":
         raise Error("GGUF Q4_K_M file type mapping drifted")
     if gguf_quantization_name(17) != "Q5_K_M":
@@ -24,6 +33,8 @@ def test_model_architecture_registry() raises:
         raise Error("GGUF Q6_K file type mapping drifted")
     if not native_quantization_supported("Q5_K_S"):
         raise Error("native K-quant support policy drifted")
+    if not native_k_quantization_supported("Q6_K") or native_k_quantization_supported("F16"):
+        raise Error("native K-quant-only admission drifted")
 
     var gemma_e2b = ModelArchitectureRegistry.classify(
         "gemma4", "2B", 35, 1536, 131072, 15, ""
@@ -56,6 +67,15 @@ def test_model_architecture_registry() raises:
         raise Error("Qwen recognition drifted")
     if qwen.status != "NOT READY" or qwen.chat_template != "ChatML-compatible":
         raise Error("Qwen truthful readiness policy drifted")
+
+    var qwen_0_6b = ModelArchitectureRegistry.classify(
+        "qwen3", "0.6B", 28, 1024, 40960, 15, "<|im_start|>system"
+    )
+    if (qwen_0_6b.status != "READY" or qwen_0_6b.native_profile != "qwen3"
+            or qwen_0_6b.compatibility != "VERIFIED"):
+        raise Error("Qwen 3 0.6B native admission drifted")
+    if qwen_0_6b.recommended_context != 8192 or not qwen_0_6b.cuda_support:
+        raise Error("Qwen 3 0.6B practical defaults drifted")
 
     var mistral = ModelArchitectureRegistry.classify(
         "mistral", "7B", 32, 4096, 32768, 15, ""

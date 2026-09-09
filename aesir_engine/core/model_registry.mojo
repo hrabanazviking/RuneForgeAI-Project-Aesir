@@ -6,7 +6,7 @@ does not own tensors, CUDA resources, tokenization state, or generation loops.
 from loader.packed_gguf import PackedGGUF
 from loader.chat_template import RuneChatTemplate
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
-from core.llama3_profile import llama3_profile_for, validate_llama3
+from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 
 
@@ -41,6 +41,13 @@ def gguf_quantization_name(file_type: Int) -> String:
 
 def native_quantization_supported(name: String) -> Bool:
     return name == "Q4_K_S" or name == "Q4_K_M" or name == "Q5_K_S" or name == "Q5_K_M" or name == "Q6_K" or name == "F16" or name == "BF16" or name == "F32"
+
+
+def native_k_quantization_supported(name: String) -> Bool:
+    return (
+        name == "Q4_K_S" or name == "Q4_K_M"
+        or name == "Q5_K_S" or name == "Q5_K_M" or name == "Q6_K"
+    )
 
 
 struct ModelCompatibility(Copyable):
@@ -181,7 +188,7 @@ struct ModelArchitectureRegistry:
                 return result^
             result.model_variant = "8B"
             result.recommended_context = min(metadata_context, 8192)
-            if not native_quantization_supported(result.quantization) or result.quantization == "F16" or result.quantization == "BF16" or result.quantization == "F32":
+            if not native_k_quantization_supported(result.quantization):
                 result.reason = "The current Llama 3 adapter requires a supported K-quant GGUF."
                 result.status = "NOT READY"
                 return result^
@@ -205,9 +212,23 @@ struct ModelArchitectureRegistry:
             result.tensor_naming = architecture + "/blk.*"
             result.supported_quantizations = NATIVE_K_QUANTS
             result.recommended_context = min(metadata_context, 32768)
+            if architecture == "qwen3" and layers == 28 and hidden == 1024:
+                result.model_variant = "0.6B"
+                result.recommended_context = min(metadata_context, 8192)
+                result.native_profile = "qwen3"
+                if not native_k_quantization_supported(result.quantization):
+                    result.reason = "The Qwen 3 adapter requires a supported K-quant GGUF."
+                    result.status = "NOT READY"
+                    return result^
+                result.cuda_support = True
+                result.capability_flags = "text, chat, persistent-chat, cuda"
+                result.compatibility = "VERIFIED" if result.quantization == "Q4_K_M" else "COMPATIBLE"
+                result.status = "READY"
+                result.reason = "Matched the native Qwen 3 0.6B dense GQA profile."
+                return result^
             result.compatibility = "EXPERIMENTAL"
             result.status = "NOT READY"
-            result.reason = "Qwen is recognized, but its native CUDA adapter is not implemented yet."
+            result.reason = "Qwen is recognized, but this variant has no matching native profile yet."
             return result^
 
         if architecture == "mistral":
@@ -255,8 +276,8 @@ struct ModelArchitectureRegistry:
                 var gemma_memory = gemma4_profile_memory_plan(Int(model.source.file_size), context, profile)
                 result.estimated_vram_bytes = gemma_memory.device_bytes
             else:
-                var llama_profile = llama3_profile_for(model)
-                validate_llama3(model, llama_profile, context)
+                var llama_profile = dense_gqa_profile_for(model)
+                validate_dense_gqa(model, llama_profile, context)
                 var llama_memory = llama3_memory_plan(
                     Int(model.source.file_size), context, llama_profile
                 )

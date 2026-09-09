@@ -6,8 +6,8 @@ from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel, element_kernel, argmax_kernel
 from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
 from core.inference_memory import llama3_memory_plan
-from core.llama3_profile import (
-    Llama3Profile, llama3_profile_for, validate_llama3,
+from core.dense_gqa_profile import (
+    DenseGQAProfile, dense_gqa_profile_for, validate_dense_gqa,
     LLAMA3_8B_HIDDEN_SIZE, LLAMA3_8B_FEED_FORWARD_SIZE,
     LLAMA3_8B_KV_HEADS, LLAMA3_8B_HEAD_DIM, LLAMA3_8B_VOCABULARY_SIZE,
     LLAMA3_8B_CONTEXT_CAP,
@@ -32,7 +32,7 @@ comptime SCORES = LOGITS + LLAMA3_8B_VOCABULARY_SIZE
 
 struct Llama3CUDASession(ControlledTextSession):
     var model: PackedGGUF
-    var profile: Llama3Profile
+    var profile: DenseGQAProfile
     var tokenizer: Llama3Tokenizer
     var context: DeviceContext
     var weights: DeviceBuffer[DType.uint8]
@@ -53,6 +53,17 @@ struct Llama3CUDASession(ControlledTextSession):
     var sampler: NativeCUDASampler
     var control: GenerationControl
     var reset_required: Bool
+    var x_offset: Int
+    var norm_offset: Int
+    var query_offset: Int
+    var key_offset: Int
+    var value_offset: Int
+    var attention_offset: Int
+    var temporary_offset: Int
+    var up_offset: Int
+    var gate_offset: Int
+    var logits_offset: Int
+    var scores_offset: Int
 
     def __init__(out self, path: String, context_length: Int = LLAMA3_8B_CONTEXT_CAP,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
@@ -61,8 +72,19 @@ struct Llama3CUDASession(ControlledTextSession):
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
-        self.profile = llama3_profile_for(self.model)
-        validate_llama3(self.model, self.profile, context_length)
+        self.profile = dense_gqa_profile_for(self.model)
+        validate_dense_gqa(self.model, self.profile, context_length)
+        self.x_offset = 0
+        self.norm_offset = self.x_offset + self.profile.hidden_size
+        self.query_offset = self.norm_offset + self.profile.hidden_size
+        self.key_offset = self.query_offset + self.profile.query_width()
+        self.value_offset = self.key_offset + self.profile.kv_width()
+        self.attention_offset = self.value_offset + self.profile.kv_width()
+        self.temporary_offset = self.attention_offset + self.profile.query_width()
+        self.up_offset = self.temporary_offset + self.profile.hidden_size
+        self.gate_offset = self.up_offset + self.profile.feed_forward_size
+        self.logits_offset = self.gate_offset + self.profile.feed_forward_size
+        self.scores_offset = self.logits_offset + self.profile.vocabulary_size
         self.tokenizer = Llama3Tokenizer(self.model)
         self.context_length = context_length
         self.position = 0
@@ -108,7 +130,7 @@ struct Llama3CUDASession(ControlledTextSession):
         self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[name].offset), Int64(src), Int64(dst), Int64(self.profile.hidden_size), Int64(1), self.profile.normalization_epsilon, Float32(1), grid_dim=1, block_dim=128)
 
     def residual(self) raises:
-        self.context.enqueue_function[element_kernel](self.w(), self.a(), Int64(1), Int64(X), Int64(TEMP), Int64(X), Int64(self.profile.hidden_size), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        self.context.enqueue_function[element_kernel](self.w(), self.a(), Int64(1), Int64(self.x_offset), Int64(self.temporary_offset), Int64(self.x_offset), Int64(self.profile.hidden_size), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
 
     def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
         if not self.healthy:
@@ -118,34 +140,38 @@ struct Llama3CUDASession(ControlledTextSession):
         self.healthy = False
         self.sampler.record(token)
         var embedding = self.model.tensors["token_embd.weight"]
-        self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(X), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(self.x_offset), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
         for layer in range(self.profile.layer_count):
             var prefix = "blk." + String(layer) + "."
             var offset = layer * 2 * self.context_length * self.profile.kv_width()
-            self.norm(prefix + "attn_norm.weight", X, N)
-            self.matvec(prefix + "attn_q.weight", N, Q)
-            self.matvec(prefix + "attn_k.weight", N, K)
-            self.matvec(prefix + "attn_v.weight", N, V)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(Q), Int64(self.profile.attention_heads), Int64(self.position), grid_dim=(self.profile.attention_heads + 1) // 2, block_dim=128)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(K), Int64(self.profile.kv_heads), Int64(self.position), grid_dim=(self.profile.kv_heads + 1) // 2, block_dim=128)
-            self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(K), Int64(V), Int64(offset), Int64(self.context_length), Int64(self.position), grid_dim=self.profile.kv_heads, block_dim=128)
+            self.norm(prefix + "attn_norm.weight", self.x_offset, self.norm_offset)
+            self.matvec(prefix + "attn_q.weight", self.norm_offset, self.query_offset)
+            self.matvec(prefix + "attn_k.weight", self.norm_offset, self.key_offset)
+            self.matvec(prefix + "attn_v.weight", self.norm_offset, self.value_offset)
+            if self.profile.qk_norm:
+                self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_q_norm.weight"].offset), Int64(self.query_offset), Int64(self.query_offset), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.attention_heads, block_dim=128)
+                self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_k_norm.weight"].offset), Int64(self.key_offset), Int64(self.key_offset), Int64(self.profile.head_dim), Int64(self.profile.kv_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.kv_heads, block_dim=128)
+            self.context.enqueue_function[llama_rope](self.a(), Int64(self.query_offset), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.position), self.profile.rope_frequency_base, Int64(1 if self.profile.neox_rope else 0), grid_dim=(self.profile.query_width() // 2 + 127) // 128, block_dim=128)
+            self.context.enqueue_function[llama_rope](self.a(), Int64(self.key_offset), Int64(self.profile.head_dim), Int64(self.profile.kv_heads), Int64(self.position), self.profile.rope_frequency_base, Int64(1 if self.profile.neox_rope else 0), grid_dim=(self.profile.kv_width() // 2 + 127) // 128, block_dim=128)
+            self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(self.key_offset), Int64(self.value_offset), Int64(offset), Int64(self.context_length), Int64(self.profile.kv_width()), Int64(self.position), grid_dim=(self.profile.kv_width() + 127) // 128, block_dim=128)
             var count = self.position + 1
-            self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(Q), Int64(SCORES), Int64(offset), Int64(count), grid_dim=self.profile.kv_heads * count, block_dim=128)
-            self.context.enqueue_function[llama_softmax](self.a(), Int64(SCORES), Int64(count), grid_dim=self.profile.kv_heads, block_dim=128)
-            self.context.enqueue_function[llama_attention](self.a(), self.kv(), Int64(SCORES), Int64(ATT), Int64(offset), Int64(self.context_length), Int64(count), grid_dim=self.profile.attention_heads, block_dim=128)
-            self.matvec(prefix + "attn_output.weight", ATT, TEMP)
+            self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(self.query_offset), Int64(self.scores_offset), Int64(offset), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.attention_heads * count * 32 + 127) // 128, block_dim=128)
+            self.context.enqueue_function[llama_softmax](self.a(), Int64(self.scores_offset), Int64(count), Int64(self.profile.attention_heads), grid_dim=(self.profile.attention_heads * 32 + 127) // 128, block_dim=128)
+            self.context.enqueue_function[llama_attention](self.a(), self.kv(), Int64(self.scores_offset), Int64(self.attention_offset), Int64(offset), Int64(self.context_length), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.query_width() + 127) // 128, block_dim=128)
+            self.matvec(prefix + "attn_output.weight", self.attention_offset, self.temporary_offset)
             self.residual()
-            self.norm(prefix + "ffn_norm.weight", X, N)
-            self.matvec(prefix + "ffn_gate.weight", N, GATE)
-            self.matvec(prefix + "ffn_up.weight", N, UP)
-            self.context.enqueue_function[llama_silu](self.a(), Int64(GATE), Int64(UP), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
-            self.matvec(prefix + "ffn_down.weight", UP, TEMP)
+            self.norm(prefix + "ffn_norm.weight", self.x_offset, self.norm_offset)
+            self.matvec(prefix + "ffn_gate.weight", self.norm_offset, self.gate_offset)
+            self.matvec(prefix + "ffn_up.weight", self.norm_offset, self.up_offset)
+            self.context.enqueue_function[llama_silu](self.a(), Int64(self.gate_offset), Int64(self.up_offset), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
+            self.matvec(prefix + "ffn_down.weight", self.up_offset, self.temporary_offset)
             self.residual()
         var result = -1
         if need_logits:
-            self.norm("output_norm.weight", X, N)
-            self.matvec("output.weight", N, LOGITS)
-            self.sampler.select(self.a(), LOGITS, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
+            self.norm("output_norm.weight", self.x_offset, self.norm_offset)
+            var output_name = "token_embd.weight" if self.profile.tied_embeddings else "output.weight"
+            self.matvec(output_name, self.norm_offset, self.logits_offset)
+            self.sampler.select(self.a(), self.logits_offset, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
             result = Int(self.host_output[0])
@@ -167,10 +193,10 @@ struct Llama3CUDASession(ControlledTextSession):
         if max_tokens < 1 or max_tokens > self.profile.context_cap:
             raise Error("Llama 3 completion ceiling must be within 1.." + String(self.profile.context_cap))
         var tokens = List[Int]()
-        if self.position == 0:
+        if self.position == 0 and self.profile.add_bos:
             tokens.append(self.tokenizer.vocabulary.bos_token_id)
-            if system != "":
-                self.tokenizer.append_message(tokens, "system", system)
+        if self.position == 0 and system != "":
+            self.tokenizer.append_message(tokens, "system", system)
         self.tokenizer.append_message(tokens, "user", prompt)
         self.tokenizer.append_header(tokens, "assistant")
         if len(tokens) + 2 > self.context_length - self.position:
