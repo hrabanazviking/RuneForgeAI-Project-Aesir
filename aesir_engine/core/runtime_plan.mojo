@@ -2,6 +2,7 @@
 from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.llama3_cuda import validate_llama3
+from core.model_registry import ModelArchitectureRegistry
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
 from core.mimir_well import HardwareDiscoveryResult
@@ -17,16 +18,13 @@ struct NativeModelPlan(Copyable):
         if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3":
             raise Error("Unsupported native model profile")
         var model = PackedGGUF(path)
-        var architecture = model.text("general.architecture")
+        var compatibility = ModelArchitectureRegistry.inspect(model, context_length)
         self.profile = requested_profile
         self.variant = ""
         if self.profile == "auto":
-            if architecture == "gemma4":
-                self.profile = "gemma4"
-            elif architecture == "llama":
-                self.profile = "llama3"
-            else:
-                raise Error("No native CUDA profile for GGUF architecture: " + architecture)
+            if compatibility.status != "READY" or compatibility.native_profile == "":
+                raise Error(compatibility.friendly_error())
+            self.profile = compatibility.native_profile
         self.context_length = context_length
         if self.profile == "llama3":
             self.variant = "llama3-8B"

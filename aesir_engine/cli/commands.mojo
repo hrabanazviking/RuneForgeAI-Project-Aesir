@@ -16,6 +16,7 @@ from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
+from cli.model_inspect import dispatch_model_inspect
 from server.api import json_escape_string
 from std.ffi import external_call
 from std.memory import Pointer
@@ -52,6 +53,8 @@ def print_general_help():
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
     print("      [--name <name[:tag]> [--config <path>]]")
     print("      Download and verify a pinned GGUF; optionally register stored bytes.")
+    print("  inspect <model.gguf> [--format text|json] [--context N]")
+    print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print(
         "  run <model.gguf> [--max-tokens N] [--config path]"
         " [--accel auto|cpu|cuda] <prompt...>"
@@ -752,6 +755,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "pull":
         dispatch_pull(args)
+        return
+
+    if cmd == "inspect":
+        dispatch_model_inspect(args)
         return
 
     if cmd == "keygen":

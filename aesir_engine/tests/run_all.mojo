@@ -21,6 +21,7 @@ from tests.test_sampling_config import test_sampling_syntax, test_sampling_confi
 from tests.test_cuda_chat_admission import test_cuda_chat_admission
 from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_native_planning_cli_rejection
 from tests.test_gemma4_profile import test_gemma4_profiles
+from tests.test_model_registry import test_model_architecture_registry
 from tests.test_inference import (
     test_forward_pass,
     test_generation_stop_policy,
@@ -767,4 +768,5 @@ def main() raises:
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
-    ledger.finish(174)
+    run_case(ledger, "native.model_registry", test_model_architecture_registry)
+    ledger.finish(175)
