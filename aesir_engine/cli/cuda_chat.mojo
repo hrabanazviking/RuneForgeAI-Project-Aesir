@@ -1,9 +1,11 @@
 """Native CUDA chat orchestration and durable, exclusive transcript output."""
 from std.ffi import external_call
-from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda, NativeSamplingConfig, GenerationControl, bounded_decimal
+from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
+from cli.tui import AesirTUIDashboard
+from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 
 
 struct ChatTranscript:
@@ -61,18 +63,32 @@ def read_chat_line(interrupt_fd: Int = -1) raises -> String:
     return read_interruptible_line(interrupt_fd)
 
 
-def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises:
+def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> Float64:
     session.begin_turn(prompt, system, max_tokens)
+    var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
     while session.generating:
         transcript.emit(session.next_chunk())
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
+    var elapsed_ms = monotonic_milliseconds() - started_at
+    if elapsed_ms < 1:
+        elapsed_ms = 1
+    return Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms)
+
+
+def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, model: String, speed: Float64, transcript: ChatTranscript) raises:
+    var memory = gemma4_profile_memory_plan(Int(session.model.source.file_size), session.context_length, session.profile)
+    dashboard.update_observation(
+        model, "Gemma 4 " + session.profile.name + " / CUDA", Float64(memory.device_bytes) / 1048576.0,
+        speed, 1, "native explicit buffers + session counters", monotonic_milliseconds(), session.position, session.context_length,
+    )
+    transcript.emit("\n" + dashboard.render_frame())
 
 
 def dispatch_cuda_chat(args: List[String]) raises:
     if len(args) < 2:
-        raise Error("usage: aesir chat <model.gguf> --accel cuda [--profile gemma4|llama3] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+        raise Error("usage: aesir chat <model.gguf> --accel cuda [--profile gemma4|llama3] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     var prompts_path = String("")
     var log_path = String("")
     var system = String("You are a helpful assistant. Keep answers concise and remember the conversation accurately.")
@@ -84,16 +100,21 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var reserve_bytes = 268435456
     var sampling = NativeSamplingConfig()
     var timeout_ms = 0
+    var tui = False
     var seen = List[String]()
     var i = 2
     while i < len(args):
         var flag = args[i]
-        if i + 1 == len(args):
-            raise Error("Missing chat option value: " + flag)
         for old in seen:
             if old == flag:
                 raise Error("Duplicate chat option: " + flag)
         seen.append(flag)
+        if flag == "--tui":
+            tui = True
+            i += 1
+            continue
+        if i + 1 == len(args):
+            raise Error("Missing chat option value: " + flag)
         var value = args[i + 1]
         if flag == "--prompts":
             prompts_path = value
@@ -165,23 +186,30 @@ def dispatch_cuda_chat(args: List[String]) raises:
     device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
     if profile == "llama3":
-        run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms)
+        run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
         _ = interrupts
         return
     var session = Gemma4CUDASession(args[1], context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + args[1] + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    var dashboard = AesirTUIDashboard()
+    if tui:
+        render_tui(dashboard, session, args[1], 0.0, transcript)
     var turns = 0
     if prompts_path != "":
         for prompt in prompts:
             turns += 1
-            cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            if tui:
+                render_tui(dashboard, session, args[1], speed, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
         print("Enter a message; /help lists chat controls. Blank input/EOF ends the session.")
         _ = external_call["fflush", Int32](Int(0))
         while True:
+            print("You> ", end="")
+            _ = external_call["fflush", Int32](Int(0))
             var prompt = read_chat_line(interrupt_fd)
             if prompt == "" or prompt == "/bye":
                 break
@@ -194,8 +222,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 continue
             try:
-                cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
+                var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
                 turns += 1
+                if tui:
+                    render_tui(dashboard, session, args[1], speed, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
@@ -212,37 +242,58 @@ def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
     var device_index = choose_native_cuda(plan.memory)
     if plan.profile == "llama3":
         var session = Llama3CUDASession(path, plan.context_length, device_index)
-        cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
     else:
         var session = Gemma4CUDASession(path, plan.context_length, device_index)
-        cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
 
 
-def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises:
+def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> Float64:
     session.begin_turn(prompt, system, max_tokens)
+    var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
     while session.generating:
         transcript.emit(session.next_chunk())
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
+    var elapsed_ms = monotonic_milliseconds() - started_at
+    if elapsed_ms < 1:
+        elapsed_ms = 1
+    return Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms)
 
 
-def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456, sampling: NativeSamplingConfig = NativeSamplingConfig(), interrupt_fd: Int = -1, timeout_ms: Int = 0) raises:
+def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, model: String, speed: Float64, transcript: ChatTranscript) raises:
+    var memory = llama3_memory_plan(Int(session.model.source.file_size), session.context_length)
+    dashboard.update_observation(
+        model, "Llama 3 8B / CUDA", Float64(memory.device_bytes) / 1048576.0,
+        speed, 1, "native explicit buffers + session counters", monotonic_milliseconds(), session.position, session.context_length,
+    )
+    transcript.emit("\n" + dashboard.render_frame())
+
+
+def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456, sampling: NativeSamplingConfig = NativeSamplingConfig(), interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False) raises:
     # Emit the admitted backend claim only after model validation and upload.
     var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=llama3-8B; layers=32/32; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    var dashboard = AesirTUIDashboard()
+    if tui:
+        render_tui(dashboard, session, path, 0.0, transcript)
     var turns = 0
     if from_file:
         for prompt in prompts:
             turns += 1
-            cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            if tui:
+                render_tui(dashboard, session, path, speed, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
         print("Enter a message; /help lists chat controls. Blank input/EOF ends the session.")
         _ = external_call["fflush", Int32](Int(0))
         while True:
+            print("You> ", end="")
+            _ = external_call["fflush", Int32](Int(0))
             var prompt = read_chat_line(interrupt_fd)
             if prompt == "" or prompt == "/bye":
                 break
@@ -255,8 +306,10 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 continue
             try:
-                cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
+                var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
                 turns += 1
+                if tui:
+                    render_tui(dashboard, session, path, speed, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise

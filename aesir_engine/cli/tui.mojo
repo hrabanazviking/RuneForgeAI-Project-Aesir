@@ -15,6 +15,8 @@ struct AesirTUIDashboard:
     var memory_used_mb: Float64
     var token_speed_tps: Float64
     var active_sessions: Int
+    var context_used: Int
+    var context_max: Int
     var observation_source: String
     var observed_at_ms: Int
     var has_observation: Bool
@@ -25,6 +27,8 @@ struct AesirTUIDashboard:
         self.memory_used_mb = 0.0
         self.token_speed_tps = 0.0
         self.active_sessions = 0
+        self.context_used = 0
+        self.context_max = 0
         self.observation_source = String("")
         self.observed_at_ms = 0
         self.has_observation = False
@@ -38,6 +42,8 @@ struct AesirTUIDashboard:
         active_sessions: Int,
         observation_source: String,
         observed_at_ms: Int,
+        context_used: Int = 0,
+        context_max: Int = 0,
     ) raises:
         """Atomically validates and stores caller-observed runtime metrics."""
         if len(model_name.bytes()) == 0:
@@ -52,6 +58,8 @@ struct AesirTUIDashboard:
             raise Error("dashboard throughput observation must be finite and non-negative")
         if active_sessions < 0:
             raise Error("dashboard active session count must be non-negative")
+        if context_used < 0 or context_max < 0 or context_used > context_max:
+            raise Error("dashboard context observation is out of bounds")
         if observed_at_ms <= 0:
             raise Error("dashboard observation timestamp must be positive")
 
@@ -60,6 +68,8 @@ struct AesirTUIDashboard:
         self.memory_used_mb = memory_used_mb
         self.token_speed_tps = token_speed_tps
         self.active_sessions = active_sessions
+        self.context_used = context_used
+        self.context_max = context_max
         self.observation_source = observation_source
         self.observed_at_ms = observed_at_ms
         self.has_observation = True
@@ -71,6 +81,8 @@ struct AesirTUIDashboard:
         self.memory_used_mb = 0.0
         self.token_speed_tps = 0.0
         self.active_sessions = 0
+        self.context_used = 0
+        self.context_max = 0
         self.observation_source = String("")
         self.observed_at_ms = 0
         self.has_observation = False
@@ -97,13 +109,22 @@ struct AesirTUIDashboard:
             raise Error("dashboard throughput observation is invalid")
         if self.active_sessions < 0:
             raise Error("dashboard active session count is invalid")
+        if self.context_used < 0 or self.context_max < 0 or self.context_used > self.context_max:
+            raise Error("dashboard context observation is invalid")
 
         frame += "│ Observation Source: " + self.observation_source + "\n"
         frame += "│ Observed At (ms):   " + String(self.observed_at_ms) + "\n"
         frame += "│ Active Model:     " + self.model_name + "\n"
         frame += "│ Hardware Realm:   " + self.active_backend + "\n"
         frame += "│ Active Sessions:  " + String(self.active_sessions) + "\n"
+        if self.context_max > 0:
+            frame += "│ Context:          " + String(self.context_used) + " / " + String(self.context_max) + " tokens\n"
+        else:
+            frame += "│ Context:          unavailable\n"
         frame += "│ Memory Residency: " + String(self.memory_used_mb) + " MB\n"
-        frame += "│ Throughput Speed: " + String(self.token_speed_tps) + " tokens/sec\n"
+        if self.token_speed_tps > 0.0:
+            frame += "│ Throughput Speed: " + String(self.token_speed_tps) + " tokens/sec\n"
+        else:
+            frame += "│ Throughput Speed: not measured yet\n"
         frame += "└──────────────────────────────────────────────────────────────────────────────┘\n"
         return frame

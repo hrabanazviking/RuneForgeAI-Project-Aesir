@@ -72,10 +72,10 @@ def test_help_and_tui() raises:
         raise Error("test_help_and_tui: empty dashboard fabricated telemetry")
     dash.update_observation(
         "Llama-3-8B-Q4_K_M.gguf", "CUDA GPU", 4096.0, 12.5, 1,
-        "native-session", 1788210000000,
+        "native-session", 1788210000000, 512, 16384,
     )
     var frame = dash.render_frame()
-    if "OBSERVATION DASHBOARD" not in frame or "native-session" not in frame:
+    if "OBSERVATION DASHBOARD" not in frame or "native-session" not in frame or "512 / 16384 tokens" not in frame:
         raise Error("test_help_and_tui: TUI frame rendering failed")
 
     var rejected = False
