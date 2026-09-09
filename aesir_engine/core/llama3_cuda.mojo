@@ -6,63 +6,33 @@ from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel, element_kernel, argmax_kernel
 from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
 from core.inference_memory import llama3_memory_plan
+from core.llama3_profile import (
+    Llama3Profile, llama3_profile_for, validate_llama3,
+    LLAMA3_8B_HIDDEN_SIZE, LLAMA3_8B_FEED_FORWARD_SIZE,
+    LLAMA3_8B_KV_HEADS, LLAMA3_8B_HEAD_DIM, LLAMA3_8B_VOCABULARY_SIZE,
+    LLAMA3_8B_CONTEXT_CAP,
+)
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 
 comptime X = 0
-comptime N = X + 4096
-comptime Q = N + 4096
-comptime K = Q + 4096
-comptime V = K + 1024
-comptime ATT = V + 1024
-comptime TEMP = ATT + 4096
-comptime UP = TEMP + 4096
-comptime GATE = UP + 14336
-comptime LOGITS = GATE + 14336
-comptime SCORES = LOGITS + 128256
-
-
-def validate_llama3(model: PackedGGUF, context_length: Int) raises:
-    if model.text("general.architecture") != "llama":
-        raise Error("Native Llama 3 CUDA requires llama architecture")
-    var keys: List[String] = ["block_count", "embedding_length", "feed_forward_length", "attention.head_count", "attention.head_count_kv", "rope.dimension_count"]
-    var values: List[Int] = [32, 4096, 14336, 32, 8, 128]
-    for i in range(len(keys)):
-        if model.integer("llama." + keys[i]) != values[i]:
-            raise Error("Unsupported Llama 3 8B metadata: " + keys[i])
-    if context_length < 2 or context_length > min(8192, model.integer("llama.context_length")):
-        raise Error("Llama 3 CUDA context must be within 2..8192 tokens")
-    if model.floating("llama.rope.freq_base") != 500000 or model.floating("llama.attention.layer_norm_rms_epsilon") != Float32(1e-5):
-        raise Error("Unsupported Llama 3 RoPE or normalization")
-    if "llama.rope.scaling.type" in model.fields and model.text("llama.rope.scaling.type") != "none":
-        raise Error("Scaled Llama RoPE is not supported")
-    _ = model.require_tensor("token_embd.weight", 4096, 128256)
-    _ = model.require_tensor("output.weight", 4096, 128256)
-    _ = model.require_tensor("output_norm.weight", 4096)
-    for layer in range(32):
-        var prefix = "blk." + String(layer) + "."
-        _ = model.require_tensor(prefix + "attn_norm.weight", 4096)
-        _ = model.require_tensor(prefix + "ffn_norm.weight", 4096)
-        _ = model.require_tensor(prefix + "attn_q.weight", 4096, 4096)
-        _ = model.require_tensor(prefix + "attn_k.weight", 4096, 1024)
-        _ = model.require_tensor(prefix + "attn_v.weight", 4096, 1024)
-        _ = model.require_tensor(prefix + "attn_output.weight", 4096, 4096)
-        _ = model.require_tensor(prefix + "ffn_gate.weight", 4096, 14336)
-        _ = model.require_tensor(prefix + "ffn_up.weight", 4096, 14336)
-        _ = model.require_tensor(prefix + "ffn_down.weight", 14336, 4096)
-    # Exactly the dense bias-free profile; do not silently ignore extra tensors.
-    if len(model.tensors) != 291:
-        raise Error("Unsupported Llama 3 tensor set")
-    for name in model.tensors.keys():
-        var t = model.tensors[name]
-        if t.rows == 1 and t.kind != 0:
-            raise Error("Llama normalization tensors must be F32")
+comptime N = X + LLAMA3_8B_HIDDEN_SIZE
+comptime Q = N + LLAMA3_8B_HIDDEN_SIZE
+comptime K = Q + LLAMA3_8B_HIDDEN_SIZE
+comptime V = K + LLAMA3_8B_KV_HEADS * LLAMA3_8B_HEAD_DIM
+comptime ATT = V + LLAMA3_8B_KV_HEADS * LLAMA3_8B_HEAD_DIM
+comptime TEMP = ATT + LLAMA3_8B_HIDDEN_SIZE
+comptime UP = TEMP + LLAMA3_8B_HIDDEN_SIZE
+comptime GATE = UP + LLAMA3_8B_FEED_FORWARD_SIZE
+comptime LOGITS = GATE + LLAMA3_8B_FEED_FORWARD_SIZE
+comptime SCORES = LOGITS + LLAMA3_8B_VOCABULARY_SIZE
 
 
 struct Llama3CUDASession(ControlledTextSession):
     var model: PackedGGUF
+    var profile: Llama3Profile
     var tokenizer: Llama3Tokenizer
     var context: DeviceContext
     var weights: DeviceBuffer[DType.uint8]
@@ -84,14 +54,15 @@ struct Llama3CUDASession(ControlledTextSession):
     var control: GenerationControl
     var reset_required: Bool
 
-    def __init__(out self, path: String, context_length: Int = 8192,
+    def __init__(out self, path: String, context_length: Int = LLAMA3_8B_CONTEXT_CAP,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
                  sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
-        validate_llama3(self.model, context_length)
+        self.profile = llama3_profile_for(self.model)
+        validate_llama3(self.model, self.profile, context_length)
         self.tokenizer = Llama3Tokenizer(self.model)
         self.context_length = context_length
         self.position = 0
@@ -108,17 +79,17 @@ struct Llama3CUDASession(ControlledTextSession):
         self.context = DeviceContext(device_index, api="cuda")
         if self.context.api() != "cuda" or not self.context.is_compatible():
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
-        var memory = llama3_memory_plan(Int(self.model.source.file_size), context_length)
+        var memory = llama3_memory_plan(Int(self.model.source.file_size), context_length, self.profile)
         memory.admit_observed(Int(self.context.get_memory_info()[0]), reserve_bytes)
         self.weights = self.context.enqueue_create_buffer[DType.uint8](Int(self.model.source.file_size))
-        self.activations = self.context.enqueue_create_buffer[DType.float32](SCORES + 32 * context_length)
-        self.cache = self.context.enqueue_create_buffer[DType.float16](32 * 2 * context_length * 1024)
+        self.activations = self.context.enqueue_create_buffer[DType.float32](self.profile.activation_elements(context_length))
+        self.cache = self.context.enqueue_create_buffer[DType.float16](self.profile.kv_elements(context_length))
         self.output = self.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.context.enqueue_create_host_buffer[DType.int32](1)
-        self.sampler = NativeCUDASampler(self.context, 128256, sampling)
+        self.sampler = NativeCUDASampler(self.context, self.profile.vocabulary_size, sampling)
         var staging_bytes = upload_cuda_bytes(self.context, self.weights,
             self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), Int(self.model.source.file_size))
-        print("[CUDA] native Mojo Llama3; device=" + String(device_index) + " api=cuda layers=32/32 weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
+        print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.profile.layer_count) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))
@@ -134,51 +105,51 @@ struct Llama3CUDASession(ControlledTextSession):
         self.context.enqueue_function[matvec_kernel](self.w(), self.a(), Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(t.rows), Int64(src), Int64(dst), grid_dim=(t.rows * 32 + 127) // 128, block_dim=128)
 
     def norm(self, name: String, src: Int, dst: Int) raises:
-        self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[name].offset), Int64(src), Int64(dst), Int64(4096), Int64(1), Float32(1e-5), Float32(1), grid_dim=1, block_dim=128)
+        self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[name].offset), Int64(src), Int64(dst), Int64(self.profile.hidden_size), Int64(1), self.profile.normalization_epsilon, Float32(1), grid_dim=1, block_dim=128)
 
     def residual(self) raises:
-        self.context.enqueue_function[element_kernel](self.w(), self.a(), Int64(1), Int64(X), Int64(TEMP), Int64(X), Int64(4096), Float32(1), grid_dim=32, block_dim=128)
+        self.context.enqueue_function[element_kernel](self.w(), self.a(), Int64(1), Int64(X), Int64(TEMP), Int64(X), Int64(self.profile.hidden_size), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
 
     def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
         if not self.healthy:
             raise Error("CUDA session cannot be reused after an execution failure")
-        if token < 0 or token >= 128256 or self.position >= self.context_length:
+        if token < 0 or token >= self.profile.vocabulary_size or self.position >= self.context_length:
             raise Error("Llama 3 token/context bound exceeded")
         self.healthy = False
         self.sampler.record(token)
         var embedding = self.model.tensors["token_embd.weight"]
-        self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(4096), Int64(token), Int64(X), Float32(1), grid_dim=32, block_dim=128)
-        for layer in range(32):
+        self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(X), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        for layer in range(self.profile.layer_count):
             var prefix = "blk." + String(layer) + "."
-            var offset = layer * 2 * self.context_length * 1024
+            var offset = layer * 2 * self.context_length * self.profile.kv_width()
             self.norm(prefix + "attn_norm.weight", X, N)
             self.matvec(prefix + "attn_q.weight", N, Q)
             self.matvec(prefix + "attn_k.weight", N, K)
             self.matvec(prefix + "attn_v.weight", N, V)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(Q), Int64(32), Int64(self.position), grid_dim=16, block_dim=128)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(K), Int64(8), Int64(self.position), grid_dim=4, block_dim=128)
-            self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(K), Int64(V), Int64(offset), Int64(self.context_length), Int64(self.position), grid_dim=8, block_dim=128)
+            self.context.enqueue_function[llama_rope](self.a(), Int64(Q), Int64(self.profile.attention_heads), Int64(self.position), grid_dim=(self.profile.attention_heads + 1) // 2, block_dim=128)
+            self.context.enqueue_function[llama_rope](self.a(), Int64(K), Int64(self.profile.kv_heads), Int64(self.position), grid_dim=(self.profile.kv_heads + 1) // 2, block_dim=128)
+            self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(K), Int64(V), Int64(offset), Int64(self.context_length), Int64(self.position), grid_dim=self.profile.kv_heads, block_dim=128)
             var count = self.position + 1
-            self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(Q), Int64(SCORES), Int64(offset), Int64(count), grid_dim=8 * count, block_dim=128)
-            self.context.enqueue_function[llama_softmax](self.a(), Int64(SCORES), Int64(count), grid_dim=8, block_dim=128)
-            self.context.enqueue_function[llama_attention](self.a(), self.kv(), Int64(SCORES), Int64(ATT), Int64(offset), Int64(self.context_length), Int64(count), grid_dim=32, block_dim=128)
+            self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(Q), Int64(SCORES), Int64(offset), Int64(count), grid_dim=self.profile.kv_heads * count, block_dim=128)
+            self.context.enqueue_function[llama_softmax](self.a(), Int64(SCORES), Int64(count), grid_dim=self.profile.kv_heads, block_dim=128)
+            self.context.enqueue_function[llama_attention](self.a(), self.kv(), Int64(SCORES), Int64(ATT), Int64(offset), Int64(self.context_length), Int64(count), grid_dim=self.profile.attention_heads, block_dim=128)
             self.matvec(prefix + "attn_output.weight", ATT, TEMP)
             self.residual()
             self.norm(prefix + "ffn_norm.weight", X, N)
             self.matvec(prefix + "ffn_gate.weight", N, GATE)
             self.matvec(prefix + "ffn_up.weight", N, UP)
-            self.context.enqueue_function[llama_silu](self.a(), Int64(GATE), Int64(UP), Int64(14336), grid_dim=112, block_dim=128)
+            self.context.enqueue_function[llama_silu](self.a(), Int64(GATE), Int64(UP), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
             self.matvec(prefix + "ffn_down.weight", UP, TEMP)
             self.residual()
         var result = -1
         if need_logits:
             self.norm("output_norm.weight", X, N)
             self.matvec("output.weight", N, LOGITS)
-            self.sampler.select(self.a(), LOGITS, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), 128000, 128001, 128009)
+            self.sampler.select(self.a(), LOGITS, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
             result = Int(self.host_output[0])
-            if result < 0 or result >= 128256:
+            if result < 0 or result >= self.profile.vocabulary_size:
                 raise Error("Llama 3 CUDA produced non-finite logits")
         else:
             self.context.synchronize()
@@ -193,8 +164,8 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("CUDA session is busy or unusable")
         if prompt.byte_length() == 0 or prompt.byte_length() > 65536 or system.byte_length() > 65536:
             raise Error("Chat text exceeds admission bounds")
-        if max_tokens < 1 or max_tokens > 8192:
-            raise Error("Llama 3 completion ceiling must be within 1..8192")
+        if max_tokens < 1 or max_tokens > self.profile.context_cap:
+            raise Error("Llama 3 completion ceiling must be within 1.." + String(self.profile.context_cap))
         var tokens = List[Int]()
         if self.position == 0:
             tokens.append(self.tokenizer.vocabulary.bos_token_id)
@@ -261,7 +232,7 @@ struct Llama3CUDASession(ControlledTextSession):
             return ""
         # A pending prediction has not yet entered KV/history. Close the actual
         # assistant prefix with its native EOS so the next turn remains valid.
-        _ = self.forward(128009, False)
+        _ = self.forward(self.profile.end_of_turn_token_id, False)
         self.pending_token = -1
         self.finish_reason = reason
         self.generating = False
@@ -275,7 +246,7 @@ struct Llama3CUDASession(ControlledTextSession):
         if stop != "":
             return self.cancel(stop)
         var token = self.pending_token
-        if token == 128001 or token == 128009:
+        if token == self.profile.eos_token_id or token == self.profile.end_of_turn_token_id:
             _ = self.forward(token, False)
             self.finish_reason = "eos"
             self.generating = False
@@ -286,7 +257,7 @@ struct Llama3CUDASession(ControlledTextSession):
         var full = self.position + 2 >= self.context_length
         self.pending_token = self.forward(token, not limit and not full)
         if limit or full:
-            _ = self.forward(128009, False)
+            _ = self.forward(self.profile.end_of_turn_token_id, False)
             self.finish_reason = "context_exhausted" if full else "length"
             self.generating = False
             chunk += self.decoder.flush()

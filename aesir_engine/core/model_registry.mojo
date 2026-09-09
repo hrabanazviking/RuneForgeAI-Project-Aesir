@@ -6,7 +6,7 @@ does not own tensors, CUDA resources, tokenization state, or generation loops.
 from loader.packed_gguf import PackedGGUF
 from loader.chat_template import RuneChatTemplate
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
-from core.llama3_cuda import validate_llama3
+from core.llama3_profile import llama3_profile_for, validate_llama3
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 
 
@@ -255,8 +255,11 @@ struct ModelArchitectureRegistry:
                 var gemma_memory = gemma4_profile_memory_plan(Int(model.source.file_size), context, profile)
                 result.estimated_vram_bytes = gemma_memory.device_bytes
             else:
-                validate_llama3(model, context)
-                var llama_memory = llama3_memory_plan(Int(model.source.file_size), context)
+                var llama_profile = llama3_profile_for(model)
+                validate_llama3(model, llama_profile, context)
+                var llama_memory = llama3_memory_plan(
+                    Int(model.source.file_size), context, llama_profile
+                )
                 result.estimated_vram_bytes = llama_memory.device_bytes
         except:
             result.cuda_support = False

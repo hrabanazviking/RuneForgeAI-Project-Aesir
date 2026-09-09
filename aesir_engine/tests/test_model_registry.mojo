@@ -4,9 +4,18 @@ from core.model_registry import (
     gguf_quantization_name,
     native_quantization_supported,
 )
+from core.llama3_profile import llama3_8b_profile
 
 
 def test_model_architecture_registry() raises:
+    var llama_profile = llama3_8b_profile()
+    if (llama_profile.layer_count != 32 or llama_profile.hidden_size != 4096
+            or llama_profile.feed_forward_size != 14336):
+        raise Error("Llama 3 8B family profile dimensions drifted")
+    if (llama_profile.kv_width() != 1024
+            or llama_profile.activation_elements(8192) != 441600
+            or llama_profile.kv_elements(8192) != 536870912):
+        raise Error("Llama 3 8B profile memory dimensions drifted")
     if gguf_quantization_name(15) != "Q4_K_M":
         raise Error("GGUF Q4_K_M file type mapping drifted")
     if gguf_quantization_name(17) != "Q5_K_M":

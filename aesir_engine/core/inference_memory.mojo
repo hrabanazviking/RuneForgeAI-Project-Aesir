@@ -3,6 +3,7 @@ from core.native_hardware import observe_host_memory
 from core.sampling_config import sampling_device_bytes
 from core.cuda_upload import upload_staging_bytes
 from core.gemma4_profile import Gemma4Profile, gemma4_e4b_profile
+from core.llama3_profile import Llama3Profile, llama3_8b_profile
 
 
 def checked_bytes_sum(a: Int, b: Int) raises -> Int:
@@ -48,11 +49,18 @@ struct InferenceMemoryPlan(Copyable, ImplicitlyCopyable):
         self.admit(free_bytes, observe_host_memory().available_bytes, reserve_bytes)
 
 
-def llama3_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan:
-    if context < 2 or context > 8192:
-        raise Error("Llama 3 memory context must be in 2..8192")
-    return InferenceMemoryPlan(weights, 32 * 2 * context * 1024 * 2,
-                               (179456 + 32 * context) * 4 + sampling_device_bytes(128256))
+def llama3_memory_plan(weights: Int, context: Int,
+                       profile: Llama3Profile = llama3_8b_profile()) raises -> InferenceMemoryPlan:
+    if context < 2 or context > profile.context_cap:
+        raise Error(
+            profile.label() + " memory context must be in 2.."
+            + String(profile.context_cap)
+        )
+    return InferenceMemoryPlan(
+        weights, profile.kv_elements(context) * 2,
+        profile.activation_elements(context) * 4
+            + sampling_device_bytes(profile.vocabulary_size),
+    )
 
 
 def gemma4_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan:

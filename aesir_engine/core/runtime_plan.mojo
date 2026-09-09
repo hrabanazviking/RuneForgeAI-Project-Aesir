@@ -1,7 +1,7 @@
 """Model admission and observed single-device selection for native sessions."""
 from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
-from core.llama3_cuda import validate_llama3
+from core.llama3_profile import llama3_profile_for, validate_llama3
 from core.model_registry import ModelArchitectureRegistry
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
@@ -27,11 +27,14 @@ struct NativeModelPlan(Copyable):
             self.profile = compatibility.native_profile
         self.context_length = context_length
         if self.profile == "llama3":
-            self.variant = "llama3-8B"
+            var llama_profile = llama3_profile_for(model)
+            self.variant = "llama3-" + llama_profile.name
             if self.context_length == 0:
-                self.context_length = 8192
-            validate_llama3(model, self.context_length)
-            self.memory = llama3_memory_plan(Int(model.source.file_size), self.context_length)
+                self.context_length = llama_profile.context_cap
+            validate_llama3(model, llama_profile, self.context_length)
+            self.memory = llama3_memory_plan(
+                Int(model.source.file_size), self.context_length, llama_profile
+            )
         else:
             var gemma_profile = gemma4_profile_for(model)
             self.variant = "gemma4-" + gemma_profile.name
