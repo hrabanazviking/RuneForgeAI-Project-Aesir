@@ -35,6 +35,22 @@ readiness remain separate, unfinished work.
 
 ---
 
+### Sept-9-2026 Project A.E.S.I.R. update ⚙️🧠
+
+> **A.E.S.I.R. is beginning the transition from narrowly verified model-specific execution toward a broader model-family runtime.**
+
+Today's development sprint added the first architecture compatibility registry, moved Llama support onto a family-profile contract, introduced initial dense Qwen GGUF support, broadened the K-quant dispatch layer, added automatic tokenizer selection, and expanded model-name resolution across commands.
+
+The project also gained an initial Ollama-compatible offline service, moving A.E.S.I.R. closer to acting as a practical drop-in local inference backend rather than requiring applications to understand its internal runtime.
+
+The larger architectural direction is now becoming clear: shared transformer machinery, small model-family profiles, GGUF-driven detection, reusable quantization support, and familiar local APIs instead of separate hardcoded engines for every individual model.
+
+Verification, broader real-model testing, TUI polish, compatibility inspection, OpenAI-compatible APIs, resumable model downloads, and diagnostic tooling remain active work for the next development rounds.
+
+> *The forge is shifting from "this model runs" toward "A.E.S.I.R. understands model families." ⚔️*
+
+---
+
 ### Aug-30-2026 Project A.E.S.I.R. update ⚙️🔥
 
 > **A.E.S.I.R. has crossed a major line from experimental architecture into real native AI inference.**
