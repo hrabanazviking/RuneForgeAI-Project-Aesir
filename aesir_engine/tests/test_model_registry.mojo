@@ -4,6 +4,7 @@ from core.model_registry import (
     gguf_quantization_name,
     native_quantization_supported,
     native_k_quantization_supported,
+    qwen3_0_6b_quantization_verified,
 )
 from core.dense_gqa_profile import llama3_8b_profile, qwen3_0_6b_profile
 
@@ -35,6 +36,11 @@ def test_model_architecture_registry() raises:
         raise Error("native K-quant support policy drifted")
     if not native_k_quantization_supported("Q6_K") or native_k_quantization_supported("F16"):
         raise Error("native K-quant-only admission drifted")
+    if (not qwen3_0_6b_quantization_verified("Q4_K_M")
+            or not qwen3_0_6b_quantization_verified("Q5_K_M")
+            or not qwen3_0_6b_quantization_verified("Q6_K")
+            or qwen3_0_6b_quantization_verified("Q4_K_S")):
+        raise Error("Qwen physical K-quant evidence policy drifted")
 
     var gemma_e2b = ModelArchitectureRegistry.classify(
         "gemma4", "2B", 35, 1536, 131072, 15, ""
@@ -76,6 +82,14 @@ def test_model_architecture_registry() raises:
         raise Error("Qwen 3 0.6B native admission drifted")
     if qwen_0_6b.recommended_context != 8192 or not qwen_0_6b.cuda_support:
         raise Error("Qwen 3 0.6B practical defaults drifted")
+    var qwen_q5 = ModelArchitectureRegistry.classify(
+        "qwen3", "0.6B", 28, 1024, 40960, 17, "<|im_start|>system"
+    )
+    var qwen_q6 = ModelArchitectureRegistry.classify(
+        "qwen3", "0.6B", 28, 1024, 40960, 18, "<|im_start|>system"
+    )
+    if qwen_q5.compatibility != "VERIFIED" or qwen_q6.compatibility != "VERIFIED":
+        raise Error("Qwen Q5_K_M/Q6_K evidence classification drifted")
 
     var mistral = ModelArchitectureRegistry.classify(
         "mistral", "7B", 32, 4096, 32768, 15, ""

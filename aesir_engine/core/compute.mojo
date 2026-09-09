@@ -5,7 +5,7 @@
 # We bypass the bloated abstractions of Midgard, striking the silicon directly
 # through SIMD and parallelized runic operations.
 
-from core.gemma4_kernels import packed_value
+from core.packed_quantization import packed_value
 from std.math import exp, max, sqrt, cos, sin, isinf, isnan
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout

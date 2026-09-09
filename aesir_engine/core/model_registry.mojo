@@ -50,6 +50,11 @@ def native_k_quantization_supported(name: String) -> Bool:
     )
 
 
+def qwen3_0_6b_quantization_verified(name: String) -> Bool:
+    """Physical generation witnesses currently pinned for this profile."""
+    return name == "Q4_K_M" or name == "Q5_K_M" or name == "Q6_K"
+
+
 struct ModelCompatibility(Copyable):
     var name: String
     var architecture: String
@@ -222,7 +227,7 @@ struct ModelArchitectureRegistry:
                     return result^
                 result.cuda_support = True
                 result.capability_flags = "text, chat, persistent-chat, cuda"
-                result.compatibility = "VERIFIED" if result.quantization == "Q4_K_M" else "COMPATIBLE"
+                result.compatibility = "VERIFIED" if qwen3_0_6b_quantization_verified(result.quantization) else "COMPATIBLE"
                 result.status = "READY"
                 result.reason = "Matched the native Qwen 3 0.6B dense GQA profile."
                 return result^
