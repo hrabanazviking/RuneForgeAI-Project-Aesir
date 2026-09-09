@@ -2,6 +2,7 @@
 from core.native_hardware import observe_host_memory
 from core.sampling_config import sampling_device_bytes
 from core.cuda_upload import upload_staging_bytes
+from core.gemma4_profile import Gemma4Profile, gemma4_e4b_profile
 
 
 def checked_bytes_sum(a: Int, b: Int) raises -> Int:
@@ -55,8 +56,16 @@ def llama3_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan
 
 
 def gemma4_memory_plan(weights: Int, context: Int) raises -> InferenceMemoryPlan:
-    if context < 2 or context > 32768:
-        raise Error("Gemma 4 memory context must be in 2..32768")
-    # Only first 24 layers own KV: twenty local windows and four global caches.
-    var kv = (20 * 2 * 512 * 2 * 256 + 4 * 2 * context * 2 * 512) * 4
-    return InferenceMemoryPlan(weights, kv, (322048 + 8 * context) * 4 + sampling_device_bytes(262144))
+    return gemma4_profile_memory_plan(weights, context, gemma4_e4b_profile())
+
+
+def gemma4_profile_memory_plan(weights: Int, context: Int,
+                               profile: Gemma4Profile) raises -> InferenceMemoryPlan:
+    if context < 2 or context > profile.context_cap:
+        raise Error(profile.label() + " memory context must be in 2.." + String(profile.context_cap))
+    var kv_elements = 0
+    for layer in range(profile.layer_count - profile.shared_kv_layers):
+        var capacity = 512 if profile.is_local(layer) else context
+        kv_elements += 2 * capacity * profile.kv_heads * profile.head_dim(layer)
+    var kv = kv_elements * 4
+    return InferenceMemoryPlan(weights, kv, (326144 + 8 * context) * 4 + sampling_device_bytes(262144))

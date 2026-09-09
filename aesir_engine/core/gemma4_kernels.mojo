@@ -199,34 +199,42 @@ def cache_kernel(a: Floats, kv: Floats, key_arg: Int64, value_arg: Int64, offset
         kv.unsafe_store(offset + capacity * width + slot * width + i, a.unsafe_load(value + i))
 
 
-def scores_kernel(a: Floats, kv: Floats, query_arg: Int64, scores_arg: Int64, offset_arg: Int64, capacity_arg: Int64, width_arg: Int64, start_arg: Int64, count_arg: Int64):
+def scores_kernel(a: Floats, kv: Floats, query_arg: Int64, scores_arg: Int64,
+                  offset_arg: Int64, capacity_arg: Int64, width_arg: Int64,
+                  query_heads_arg: Int64, kv_heads_arg: Int64,
+                  start_arg: Int64, count_arg: Int64):
     var query = Int(query_arg)
     var scores = Int(scores_arg)
     var offset = Int(offset_arg)
     var capacity = Int(capacity_arg)
     var width = Int(width_arg)
+    var query_heads = Int(query_heads_arg)
+    var kv_heads = Int(kv_heads_arg)
     var start = Int(start_arg)
     var count = Int(count_arg)
     var item = Int(global_idx.x) // 32
     var lane = Int(global_idx.x) % 32
-    if item < 8 * count:
+    if item < query_heads * count:
         var head = item // count
+        var kv_head = head * kv_heads // query_heads
         var t = item % count
         var slot = (start + t) % capacity
         var total: Float32 = 0
         for j in range(lane, width, 32):
-            total += a.unsafe_load(query + head * width + j) * kv.unsafe_load(offset + slot * 2 * width + head // 4 * width + j)
+            total += a.unsafe_load(query + head * width + j) * kv.unsafe_load(offset + slot * kv_heads * width + kv_head * width + j)
         total = warp.sum(total)
         if lane == 0:
             a.unsafe_store(scores + item, total)
 
 
-def softmax_kernel(a: Floats, scores_arg: Int64, count_arg: Int64):
+def softmax_kernel(a: Floats, scores_arg: Int64, count_arg: Int64,
+                   query_heads_arg: Int64):
     var scores = Int(scores_arg)
     var count = Int(count_arg)
+    var query_heads = Int(query_heads_arg)
     var head = Int(global_idx.x) // 32
     var lane = Int(global_idx.x) % 32
-    if head < 8:
+    if head < query_heads:
         var maximum: Float32 = -3.4028235e38
         for t in range(lane, count, 32):
             maximum = max(maximum, a.unsafe_load(scores + head * count + t))
@@ -240,23 +248,29 @@ def softmax_kernel(a: Floats, scores_arg: Int64, count_arg: Int64):
             a.unsafe_store(index, exp(a.unsafe_load(index) - maximum) / total)
 
 
-def attention_kernel(a: Floats, kv: Floats, scores_arg: Int64, dst_arg: Int64, offset_arg: Int64, capacity_arg: Int64, width_arg: Int64, start_arg: Int64, count_arg: Int64):
+def attention_kernel(a: Floats, kv: Floats, scores_arg: Int64, dst_arg: Int64,
+                     offset_arg: Int64, capacity_arg: Int64, width_arg: Int64,
+                     query_heads_arg: Int64, kv_heads_arg: Int64,
+                     start_arg: Int64, count_arg: Int64):
     var scores = Int(scores_arg)
     var dst = Int(dst_arg)
     var offset = Int(offset_arg)
     var capacity = Int(capacity_arg)
     var width = Int(width_arg)
+    var query_heads = Int(query_heads_arg)
+    var kv_heads = Int(kv_heads_arg)
     var start = Int(start_arg)
     var count = Int(count_arg)
     var i = Int(global_idx.x)
-    if i < 8 * width:
+    if i < query_heads * width:
         var head = i // width
+        var kv_head = head * kv_heads // query_heads
         var j = i % width
         var total: Float32 = 0
-        var base = offset + capacity * 2 * width + head // 4 * width + j
+        var base = offset + capacity * kv_heads * width + kv_head * width + j
         for t in range(count):
             var slot = (start + t) % capacity
-            total += a.unsafe_load(scores + head * count + t) * kv.unsafe_load(base + slot * 2 * width)
+            total += a.unsafe_load(scores + head * count + t) * kv.unsafe_load(base + slot * kv_heads * width)
         a.unsafe_store(dst + i, total)
 
 

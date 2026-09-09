@@ -16,7 +16,7 @@ struct Gemma4Tokenizer:
         var offset = model.array_offset("tokenizer.ggml.tokens", 8)
         var count = Int(model.source._read_u64(offset + 4))
         if count != 262144:
-            raise Error("Gemma 4 E4B vocabulary size mismatch")
+            raise Error("Gemma 4 vocabulary size mismatch")
         var cursor = offset + 12
         for token in range(count):
             var word = model.source._read_string(cursor)

@@ -1,14 +1,15 @@
 """Model admission and observed single-device selection for native sessions."""
 from loader.packed_gguf import PackedGGUF
-from core.gemma4_cuda import validate_gemma4
+from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.llama3_cuda import validate_llama3
-from core.inference_memory import InferenceMemoryPlan, gemma4_memory_plan, llama3_memory_plan
+from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
 from core.mimir_well import HardwareDiscoveryResult
 
 
 struct NativeModelPlan(Copyable):
     var profile: String
+    var variant: String
     var context_length: Int
     var memory: InferenceMemoryPlan
 
@@ -18,6 +19,7 @@ struct NativeModelPlan(Copyable):
         var model = PackedGGUF(path)
         var architecture = model.text("general.architecture")
         self.profile = requested_profile
+        self.variant = ""
         if self.profile == "auto":
             if architecture == "gemma4":
                 self.profile = "gemma4"
@@ -26,14 +28,19 @@ struct NativeModelPlan(Copyable):
             else:
                 raise Error("No native CUDA profile for GGUF architecture: " + architecture)
         self.context_length = context_length
-        if self.context_length == 0:
-            self.context_length = 8192 if self.profile == "llama3" else 32768
         if self.profile == "llama3":
+            self.variant = "llama3-8B"
+            if self.context_length == 0:
+                self.context_length = 8192
             validate_llama3(model, self.context_length)
             self.memory = llama3_memory_plan(Int(model.source.file_size), self.context_length)
         else:
-            validate_gemma4(model, self.context_length)
-            self.memory = gemma4_memory_plan(Int(model.source.file_size), self.context_length)
+            var gemma_profile = gemma4_profile_for(model)
+            self.variant = "gemma4-" + gemma_profile.name
+            if self.context_length == 0:
+                self.context_length = gemma_profile.context_cap
+            validate_gemma4(model, gemma_profile, self.context_length)
+            self.memory = gemma4_profile_memory_plan(Int(model.source.file_size), self.context_length, gemma_profile)
 
 
 def select_planned_cuda(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,

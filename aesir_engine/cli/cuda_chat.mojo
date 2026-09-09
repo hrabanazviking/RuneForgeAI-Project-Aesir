@@ -76,10 +76,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var prompts_path = String("")
     var log_path = String("")
     var system = String("You are a helpful assistant. Keep answers concise and remember the conversation accurately.")
-    var max_tokens = 16384
-    var context_length = 32768
+    var max_tokens = 0
+    var context_length = 0
     var acceleration = String("")
-    var profile = String("gemma4")
+    var profile = String("auto")
     var device_index = -1
     var reserve_bytes = 268435456
     var sampling = NativeSamplingConfig()
@@ -126,20 +126,27 @@ def dispatch_cuda_chat(args: List[String]) raises:
         raise Error("Native chat requires explicit --accel cuda; CPU fallback is disabled")
     if profile != "gemma4" and profile != "llama3" and profile != "auto":
         raise Error("Unsupported CUDA chat profile")
-    if profile == "auto":
-        var requested_context = context_length if "--context" in seen else 0
-        var detected = NativeModelPlan(args[1], "auto", requested_context)
-        profile = detected.profile
-        context_length = detected.context_length
+    if "--context" in seen and "--max-tokens" in seen and max_tokens >= context_length:
+        raise Error("Chat context must leave room for input as well as max-tokens")
     if profile == "llama3":
-        if "--context" not in seen:
-            context_length = 8192
+        if "--context" in seen and (context_length < 2 or context_length > 8192):
+            raise Error("Llama 3 context must be within 2..8192")
+        if "--max-tokens" in seen and max_tokens > 8192:
+            raise Error("Llama 3 completion limit must be within 1..8192")
+    var requested_context = context_length if "--context" in seen else 0
+    var detected = NativeModelPlan(args[1], profile, requested_context)
+    profile = detected.profile
+    context_length = detected.context_length
+    if profile == "llama3":
         if "--max-tokens" not in seen:
             max_tokens = 8192
         if context_length > 8192 or max_tokens > 8192 or context_length < 2:
             raise Error("Llama 3 context and completion limits must be within 2..8192 and 1..8192")
-    elif max_tokens >= context_length:
-        raise Error("Chat context must leave room for input as well as max-tokens")
+    else:
+        if "--max-tokens" not in seen:
+            max_tokens = 4096 if detected.variant == "gemma4-E2B" else 16384
+        if max_tokens >= context_length:
+            raise Error("Chat context must leave room for input as well as max-tokens")
     var prompts = List[String]()
     if prompts_path != "":
         with open(prompts_path, "r") as source:
@@ -163,7 +170,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
         return
     var session = Gemma4CUDASession(args[1], context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
-    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + args[1] + "\n\nbackend=cuda; model=gemma4-E4B; layers=42/42; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + args[1] + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var turns = 0
     if prompts_path != "":
         for prompt in prompts:

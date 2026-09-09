@@ -105,18 +105,65 @@ struct PackedGGUF:
                 if a.offset < b.offset + b.byte_count and b.offset < a.offset + a.byte_count:
                     raise Error("Packed GGUF: overlapping tensors")
 
+    def _integer_value(self, key: String, kind: Int, offset: Int) raises -> Int:
+        if kind == 4:
+            return Int(self.source._read_u32(offset))
+        if kind == 5:
+            var signed32 = self.source._read_i32(offset)
+            if signed32 < 0:
+                raise Error("Packed GGUF: negative integer " + key)
+            return Int(signed32)
+        if kind == 7:
+            return Int(self.source.mmap_ptr.unsafe_load(offset))
+        if kind == 10:
+            var unsigned64 = self.source._read_u64(offset)
+            if unsigned64 > UInt64(9223372036854775807):
+                raise Error("Packed GGUF: integer exceeds native range " + key)
+            return Int(unsigned64)
+        if kind == 11:
+            var signed64 = Int64(self.source._read_u64(offset))
+            if signed64 < 0:
+                raise Error("Packed GGUF: negative integer " + key)
+            return Int(signed64)
+        raise Error("Packed GGUF: expected integer/bool " + key + "; type=" + String(kind))
+
     def integer(self, key: String, default: Int = -1) raises -> Int:
         if key not in self.fields:
             if default >= 0:
                 return default
             raise Error("Packed GGUF: missing metadata " + key)
-        var kind = self.field_types[key]
+        return self._integer_value(key, self.field_types[key], self.fields[key])
+
+    def uniform_integer_array(self, key: String, count: Int) raises -> Int:
+        if self.field_types.get(key, -1) != 9:
+            raise Error("Packed GGUF: expected integer array " + key)
         var offset = self.fields[key]
-        if kind == 4:
-            return Int(self.source._read_u32(offset))
-        if kind == 7:
-            return Int(self.source.mmap_ptr.unsafe_load(offset))
-        raise Error("Packed GGUF: expected integer/bool " + key)
+        var element_kind = Int(self.source._read_u32(offset))
+        var actual_count = Int(self.source._read_u64(offset + 4))
+        if count <= 0 or actual_count != count:
+            raise Error("Packed GGUF: integer array length mismatch " + key)
+        var cursor = offset + 12
+        var expected = self._integer_value(key, element_kind, cursor)
+        for _ in range(actual_count):
+            if self._integer_value(key, element_kind, cursor) != expected:
+                raise Error("Packed GGUF: non-uniform integer array " + key)
+            cursor = self.source.skip_value(UInt32(element_kind), cursor)
+        return expected
+
+    def integer_array(self, key: String, count: Int) raises -> List[Int]:
+        if self.field_types.get(key, -1) != 9:
+            raise Error("Packed GGUF: expected integer array " + key)
+        var offset = self.fields[key]
+        var element_kind = Int(self.source._read_u32(offset))
+        var actual_count = Int(self.source._read_u64(offset + 4))
+        if count <= 0 or actual_count != count:
+            raise Error("Packed GGUF: integer array length mismatch " + key)
+        var values = List[Int]()
+        var cursor = offset + 12
+        for _ in range(actual_count):
+            values.append(self._integer_value(key, element_kind, cursor))
+            cursor = self.source.skip_value(UInt32(element_kind), cursor)
+        return values^
 
     def floating(self, key: String) raises -> Float32:
         if self.field_types.get(key, -1) != 6:

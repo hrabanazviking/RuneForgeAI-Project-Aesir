@@ -29,7 +29,7 @@ def test_native_memory_counts() raises:
     if llama.kv_bytes != 1073741824 or llama.activation_bytes != 2576896 or llama.device_bytes != 5768987684:
         raise Error("Llama 8K buffer accounting mismatch")
     var gemma = gemma4_memory_plan(4977171584, 32768)
-    if gemma.kv_bytes != 1115684864 or gemma.activation_bytes != 3682816:
+    if gemma.kv_bytes != 1115684864 or gemma.activation_bytes != 3699200:
         raise Error("Gemma local/global buffer accounting mismatch")
     if llama.host_upload_bytes != 4759777828 or llama.host_staging_bytes != 67108864:
         raise Error("Host admission must account for mapped weights and bounded staging")
