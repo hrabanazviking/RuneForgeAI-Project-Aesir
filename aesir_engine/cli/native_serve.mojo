@@ -6,8 +6,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession, NativeModelPlan,
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option
 from cli.interrupts import ChatInterrupts
-from cli.storage import DurableModelStore
-from cli.manifest import normalize_model_reference
+from cli.model_reference import resolve_model_reference
 from server.local_protocol import FlatJSON, LocalHTTPHead
 from server.local_transport import (listen_local, accept_local, load_service_key,
                                     receive_head, receive_body, send_local)
@@ -249,7 +248,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
 
 def dispatch_native_serve(args: List[String]) raises:
     if len(args) < 2:
-        raise Error("Usage: aesir serve <model.gguf> --accel cuda --api-key-file <private-file> | aesir serve <model-name> --accel cuda --ollama")
+        raise Error("Usage: aesir serve <model> --accel cuda --api-key-file <private-file> | aesir serve <model-name> --accel cuda --ollama")
     var key_path = String("")
     var acceleration = String("")
     var profile = String("auto")
@@ -312,20 +311,15 @@ def dispatch_native_serve(args: List[String]) raises:
     var key = String("")
     if not ollama:
         key = load_service_key(key_path)
-    var model_path = args[1]
-    var model_name = args[1]
-    var digest = String("")
-    var model_size: Int64 = 0
+    var resolved = resolve_model_reference(args[1], model_store)
+    if ollama and not resolved.from_catalog:
+        raise Error("Ollama service requires a registered model name")
+    var model_path = resolved.path
+    var model_name = resolved.catalog_name if resolved.from_catalog else args[1]
+    var digest = resolved.digest
+    var model_size: Int64 = resolved.size_bytes
     var modified_at = String("1970-01-01T00:00:00Z")
-    var modelfile = String("")
-    if ollama:
-        var durable = DurableModelStore(model_store)
-        var manifest = durable.get_model(args[1])
-        model_name = normalize_model_reference(args[1])
-        model_path = durable.resolve_model_path(model_name)
-        digest = manifest.digest
-        model_size = manifest.size_bytes
-        modelfile = manifest.modelfile_content
+    var modelfile = resolved.modelfile_content
     var interrupts = ChatInterrupts(True)
     var plan = NativeModelPlan(model_path, profile, context)
     if token_limit >= plan.context_length:

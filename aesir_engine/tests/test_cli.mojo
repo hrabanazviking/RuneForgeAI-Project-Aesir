@@ -4,6 +4,7 @@
 from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
 from cli.storage import DurableModelStore, deserialize_catalog
+from cli.model_reference import resolve_model_reference
 from cli.commands import (
     collect_run_positionals,
     dispatch_command,
@@ -332,6 +333,18 @@ def test_model_manifest_store() raises:
         var verified = removed_restart.verify_model("blobbed:v1")
         if verified.digest != blob.digest or verified.size_bytes != 32:
             raise Error("stored model blob verification metadata mismatch")
+        var resolved_name = resolve_model_reference("blobbed:v1", test_root)
+        if (not resolved_name.from_catalog
+                or resolved_name.catalog_name != "blobbed:v1"
+                or resolved_name.digest != blob.digest
+                or "/blobs/sha256/" not in resolved_name.path):
+            raise Error("catalog model-name resolution mismatch")
+        var resolved_path = resolve_model_reference(source_path, test_root)
+        if resolved_path.from_catalog or resolved_path.path != source_path:
+            raise Error("explicit model path was mistaken for a catalog name")
+        var missing_path = resolve_model_reference("missing.gguf", test_root)
+        if missing_path.from_catalog or missing_path.path != "missing.gguf":
+            raise Error("missing GGUF path was mistaken for a catalog name")
         var deduplicated = removed_restart.ingest_model(
             "blobbed-copy:v1", mf_text, source_path
         )

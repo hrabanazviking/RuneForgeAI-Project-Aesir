@@ -1,6 +1,7 @@
 """Read-only GGUF model inspection backed by the architecture registry."""
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry, ModelCompatibility
+from cli.model_reference import resolve_model_reference
 from server.api import json_escape_string
 
 
@@ -85,12 +86,14 @@ def _print_inspection_text(result: ModelCompatibility):
 
 
 def dispatch_model_inspect(args: List[String]) raises:
-    """Parses and executes `aesir inspect <model.gguf>`."""
+    """Parses and executes `aesir inspect <model>`."""
     var model_path = String("")
     var format = String("text")
     var context = 0
+    var model_store = String(".aesir/models")
     var seen_format = False
     var seen_context = False
+    var seen_model_store = False
     var index = 1
     while index < len(args):
         var token = args[index]
@@ -110,16 +113,24 @@ def dispatch_model_inspect(args: List[String]) raises:
             context = _inspect_positive_int(args[index + 1])
             index += 2
             continue
+        if token == "--model-store":
+            if seen_model_store or index + 1 >= len(args):
+                raise Error("inspect requires one value for --model-store")
+            seen_model_store = True
+            model_store = args[index + 1]
+            index += 2
+            continue
         if token.startswith("-"):
             raise Error("unknown inspect option: " + token)
         if model_path != "":
-            raise Error("inspect accepts exactly one model path")
+            raise Error("inspect accepts exactly one model reference")
         model_path = token
         index += 1
     if model_path == "":
-        raise Error("Usage: aesir inspect <model.gguf> [--format text|json] [--context N]")
+        raise Error("Usage: aesir inspect <model> [--format text|json] [--context N] [--model-store path]")
 
-    var model = PackedGGUF(model_path)
+    var resolved = resolve_model_reference(model_path, model_store)
+    var model = PackedGGUF(resolved.path)
     var result = ModelArchitectureRegistry.inspect(model, context)
     if format == "json":
         _print_inspection_json(result)

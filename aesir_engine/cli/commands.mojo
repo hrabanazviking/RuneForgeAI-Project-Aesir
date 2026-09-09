@@ -3,6 +3,7 @@
 
 from cli.manifest import ModelManifest, RuneModelStore, normalize_model_reference
 from cli.storage import DurableModelStore
+from cli.model_reference import resolve_model_reference
 from cli.repl import run_single_shot
 from cli.options import CLIOptions, parse_cli_options
 from cli.multi_engine import (
@@ -47,24 +48,24 @@ def print_general_help():
     print("Implemented:")
     print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
-    print("  compute plan|explain <model.gguf> [--profile auto|gemma4|llama3|qwen3]")
-    print("      [--context N] [--device auto|N] [--reserve-mib N]")
+    print("  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]")
+    print("      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]")
     print("  pull <owner/repo> <filename.gguf> --revision <commit-sha>")
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
     print("      [--name <name[:tag]> [--config <path>]]")
     print("      Download and verify a pinned GGUF; optionally register stored bytes.")
-    print("  inspect <model.gguf> [--format text|json] [--context N]")
+    print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print(
-        "  run <model.gguf> [--max-tokens N] [--config path]"
+        "  run <model> [--max-tokens N] [--config path]"
         " [--accel auto|cpu|cuda] <prompt...>"
     )
     print(
         "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference."
     )
-    print("  chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3|qwen3]")
+    print("  chat <model> --accel cuda [--profile auto|gemma4|llama3|qwen3]")
     print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
-    print("      [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+    print("      [--model-store path] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     print("      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]")
     print("      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation")
     print("      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]")
@@ -86,7 +87,7 @@ def print_general_help():
     print("      Show this capability-aware help.")
     print("  -v, --version")
     print("      Show the development version.\n")
-    print("  serve <model.gguf> --accel cuda --api-key-file <private-file>")
+    print("  serve <model> --accel cuda --api-key-file <private-file>")
     print("      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N]")
     print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
     print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
@@ -800,8 +801,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         var positionals = collect_run_positionals(args)
         if len(positionals) < 1:
             raise Error(
-                "'run' requires a model path. Usage: aesir run "
-                + String("<model.gguf> [--max-tokens N] <prompt...>")
+                "'run' requires a model reference. Usage: aesir run "
+                + String("<model> [--max-tokens N] <prompt...>")
             )
         var model_name = positionals[0]
         if len(positionals) < 2:
@@ -824,10 +825,11 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         var trimmed_prompt = String(prompt.strip())
         if len(trimmed_prompt.bytes()) == 0:
             raise Error("single-shot run prompt text must not be empty")
+        var resolved = resolve_model_reference(model_name, config.model_store_path)
         if config.acceleration_backend == "cuda":
-            cuda_single_shot(model_name, trimmed_prompt, options.max_tokens)
+            cuda_single_shot(resolved.path, trimmed_prompt, options.max_tokens)
         else:
-            run_single_shot(model_name, trimmed_prompt, options.max_tokens)
+            run_single_shot(resolved.path, trimmed_prompt, options.max_tokens)
         return
 
     if cmd == "ps":

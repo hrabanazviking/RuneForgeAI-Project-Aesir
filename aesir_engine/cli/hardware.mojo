@@ -1,5 +1,6 @@
 """CLI presentation of observed resources and executable native model plans."""
 from aesir import NativeModelPlan, choose_native_cuda, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
+from cli.model_reference import resolve_model_reference
 
 
 def parse_device_index(value: String) raises -> Int:
@@ -45,11 +46,12 @@ def dispatch_hardware(args: List[String]) raises:
 
 def dispatch_compute(args: List[String]) raises:
     if len(args) < 3 or (args[1] != "plan" and args[1] != "explain"):
-        raise Error("usage: aesir compute plan|explain <model.gguf> [--profile auto|gemma4|llama3|qwen3] [--context N] [--device auto|N] [--reserve-mib N]")
+        raise Error("usage: aesir compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3] [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]")
     var profile = String("auto")
     var context = 0
     var device = -1
     var reserve = 268435456
+    var model_store = String(".aesir/models")
     var seen = List[String]()
     var i = 3
     while i < len(args):
@@ -68,10 +70,13 @@ def dispatch_compute(args: List[String]) raises:
             device = parse_device_index(value)
         elif flag == "--reserve-mib":
             reserve = parse_reserve_bytes(value)
+        elif flag == "--model-store":
+            model_store = value
         else:
             raise Error("Unknown compute option: " + flag)
         i += 2
-    var plan = NativeModelPlan(args[2], profile, context)
+    var resolved = resolve_model_reference(args[2], model_store)
+    var plan = NativeModelPlan(resolved.path, profile, context)
     print("profile=" + plan.profile + " context=" + String(plan.context_length))
     print("weights_bytes=" + String(plan.memory.weights_bytes)
           + " kv_bytes=" + String(plan.memory.kv_bytes)

@@ -5,6 +5,7 @@ from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
+from cli.model_reference import resolve_model_reference
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 
 
@@ -88,7 +89,7 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, mod
 
 def dispatch_cuda_chat(args: List[String]) raises:
     if len(args) < 2:
-        raise Error("usage: aesir chat <model.gguf> --accel cuda [--profile auto|gemma4|llama3|qwen3] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+        raise Error("usage: aesir chat <model> --accel cuda [--profile auto|gemma4|llama3|qwen3] [--model-store path] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
     var prompts_path = String("")
     var log_path = String("")
     var system = String("You are a helpful assistant. Keep answers concise and remember the conversation accurately.")
@@ -101,6 +102,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var sampling = NativeSamplingConfig()
     var timeout_ms = 0
     var tui = False
+    var model_store = String(".aesir/models")
     var seen = List[String]()
     var i = 2
     while i < len(args):
@@ -137,6 +139,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
             device_index = parse_device_index(value)
         elif flag == "--reserve-mib":
             reserve_bytes = parse_reserve_bytes(value)
+        elif flag == "--model-store":
+            model_store = value
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
@@ -159,8 +163,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Qwen 3 context must be within 2..32768")
         if "--max-tokens" in seen and max_tokens > 32768:
             raise Error("Qwen 3 completion limit must be within 1..32768")
+    var resolved = resolve_model_reference(args[1], model_store)
+    var model_path = resolved.path
     var requested_context = context_length if "--context" in seen else 0
-    var detected = NativeModelPlan(args[1], profile, requested_context)
+    var detected = NativeModelPlan(model_path, profile, requested_context)
     profile = detected.profile
     context_length = detected.context_length
     if profile == "llama3":
@@ -192,26 +198,26 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Chat prompt file has no turns")
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
-    var plan = NativeModelPlan(args[1], profile, context_length)
+    var plan = NativeModelPlan(model_path, profile, context_length)
     device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
     if profile == "llama3" or profile == "qwen3":
-        run_llama_chat(args[1], context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
+        run_llama_chat(model_path, context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
         _ = interrupts
         return
-    var session = Gemma4CUDASession(args[1], context_length, device_index, reserve_bytes, sampling)
+    var session = Gemma4CUDASession(model_path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
-    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + args[1] + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + resolved.requested + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
-        render_tui(dashboard, session, args[1], 0.0, transcript)
+        render_tui(dashboard, session, resolved.requested, 0.0, transcript)
     var turns = 0
     if prompts_path != "":
         for prompt in prompts:
             turns += 1
             var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
             if tui:
-                render_tui(dashboard, session, args[1], speed, transcript)
+                render_tui(dashboard, session, resolved.requested, speed, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
@@ -235,7 +241,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
                 var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
                 turns += 1
                 if tui:
-                    render_tui(dashboard, session, args[1], speed, transcript)
+                    render_tui(dashboard, session, resolved.requested, speed, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
