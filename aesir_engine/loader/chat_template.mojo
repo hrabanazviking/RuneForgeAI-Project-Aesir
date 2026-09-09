@@ -1,5 +1,47 @@
-# loader/chat_template.mojo
-# GGUF Chat Template & Multi-Turn Message Formatting Engine for Project Aesir
+"""GGUF chat-template detection and metadata-driven tokenizer selection."""
+
+
+struct NativeTokenizerSelection(Copyable):
+    var tokenizer_family: String
+    var format_style: String
+
+    def __init__(out self, tokenizer_family: String, format_style: String):
+        self.tokenizer_family = tokenizer_family
+        self.format_style = format_style
+
+    @staticmethod
+    def from_metadata(architecture: String, tokenizer_model: String,
+                      tokenizer_pre: String,
+                      jinja_template: String) raises -> Self:
+        var family = tokenizer_model if tokenizer_model != "" else "unknown"
+        var expected = String("unknown")
+        if architecture == "gemma4":
+            family = "Gemma BPE"
+            expected = "gemma"
+            if tokenizer_model != "gemma4":
+                raise Error("Gemma 4 requires tokenizer.ggml.model=gemma4")
+        elif architecture == "llama":
+            family = "Llama 3 BPE"
+            expected = "llama3"
+            if tokenizer_model != "gpt2" or tokenizer_pre != "llama-bpe":
+                raise Error("Llama 3 requires gpt2/llama-bpe tokenizer metadata")
+        elif architecture == "qwen2" or architecture == "qwen3":
+            family = "Qwen BPE"
+            expected = "chatml"
+            if tokenizer_model != "gpt2" or tokenizer_pre != "qwen2":
+                raise Error("Qwen requires gpt2/qwen2 tokenizer metadata")
+
+        var detected = RuneChatTemplate.detect_template_family(jinja_template)
+        if jinja_template == "":
+            detected = expected
+        elif detected == "unknown" and expected != "unknown":
+            raise Error("unrecognized tokenizer.chat_template for " + architecture)
+        elif expected != "unknown" and detected != expected:
+            raise Error(
+                "tokenizer.chat_template selects " + detected
+                + " but architecture requires " + expected
+            )
+        return Self(family, detected)
 
 struct ChatMessage(Copyable):
     """A single conversation turn with a role and content payload."""
@@ -37,7 +79,8 @@ struct RuneChatTemplate(Copyable):
 
     @staticmethod
     def detect_template_family(jinja_template: String) -> String:
-        if "start_of_turn" in jinja_template or "gemma" in jinja_template:
+        if ("start_of_turn" in jinja_template or "gemma" in jinja_template
+                or "<|turn>" in jinja_template or "<turn|>" in jinja_template):
             return "gemma"
         elif "<|im_start|>" in jinja_template or "im_start" in jinja_template:
             return "chatml"
@@ -45,8 +88,7 @@ struct RuneChatTemplate(Copyable):
             return "llama3"
         elif "[INST]" in jinja_template or "INST" in jinja_template or "<<SYS>>" in jinja_template:
             return "llama2"
-        else:
-            return "chatml"
+        return "unknown"
 
     @staticmethod
     def escape_control_tokens(content: String) -> String:

@@ -4,7 +4,7 @@ The registry describes what a model is and whether this build can run it. It
 does not own tensors, CUDA resources, tokenization state, or generation loops.
 """
 from loader.packed_gguf import PackedGGUF
-from loader.chat_template import RuneChatTemplate
+from loader.chat_template import RuneChatTemplate, NativeTokenizerSelection
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
@@ -271,6 +271,24 @@ struct ModelArchitectureRegistry:
         var observed_name = _optional_text(model, "general.name")
         if observed_name != "":
             result.name = observed_name
+        try:
+            var selection = NativeTokenizerSelection.from_metadata(
+                architecture,
+                _optional_text(model, "tokenizer.ggml.model"),
+                _optional_text(model, "tokenizer.ggml.pre"),
+                _optional_text(model, "tokenizer.chat_template"),
+            )
+            result.tokenizer_family = selection.tokenizer_family
+            result.chat_template = (
+                "ChatML-compatible" if selection.format_style == "chatml"
+                else selection.format_style
+            )
+        except error:
+            result.cuda_support = False
+            result.status = "NOT READY"
+            result.compatibility = "UNSUPPORTED"
+            result.reason = "Tokenizer/chat-template metadata mismatch: " + String(error)
+            return result^
         if result.status != "READY":
             return result^
         var context = requested_context if requested_context != 0 else result.recommended_context

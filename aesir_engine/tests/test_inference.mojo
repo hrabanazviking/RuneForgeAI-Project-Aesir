@@ -1,5 +1,5 @@
 from loader.gguf import GGUFSeer
-from loader.chat_template import ChatMessage, RuneChatTemplate
+from loader.chat_template import ChatMessage, RuneChatTemplate, NativeTokenizerSelection
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
@@ -239,6 +239,25 @@ def test_chat_template() raises:
         raise Error("Template auto-detection failed for Llama-3 Jinja2 metadata")
     if RuneChatTemplate.detect_template_family("[INST] <<SYS>>") != "llama2":
         raise Error("Template auto-detection failed for Llama-2 Jinja2 metadata")
+    if RuneChatTemplate.detect_template_family("{{ '<|turn>' + role + '<turn|>' }}") != "gemma":
+        raise Error("Template auto-detection failed for Gemma turn controls")
+    if RuneChatTemplate.detect_template_family("{{ messages | join }}") != "unknown":
+        raise Error("Unknown template was silently treated as ChatML")
+    var qwen_selection = NativeTokenizerSelection.from_metadata(
+        "qwen3", "gpt2", "qwen2", "{{ '<|im_start|>' + role }}"
+    )
+    if (qwen_selection.tokenizer_family != "Qwen BPE"
+            or qwen_selection.format_style != "chatml"):
+        raise Error("Qwen tokenizer/template selection failed")
+    var contradiction_rejected = False
+    try:
+        _ = NativeTokenizerSelection.from_metadata(
+            "qwen3", "gpt2", "qwen2", "{{ '<|start_header_id|>' + role }}"
+        )
+    except error:
+        contradiction_rejected = "requires chatml" in String(error)
+    if not contradiction_rejected:
+        raise Error("Contradictory Qwen chat template was not rejected")
 
     # 3. ChatML Format
     var messages = List[ChatMessage]()
