@@ -3,6 +3,13 @@
 **Date:** September 9, 2026  
 **Goal for Today:** Make Project Aesir practically usable as a standalone local Gemma 4 E2B Q4_K_M runtime with a 16,384-token maximum context and an Ollama-compatible local API.
 
+**Sprint status:** Core goal completed on `codex/gemma4-e2b-offline-sprint`.
+Native E2B CUDA inference, persistent 16K chat, the session-backed TUI, durable
+`gemma4-e2b:latest` resolution, and all five required non-streaming Ollama
+endpoints passed. OpenAI compatibility and NDJSON streaming remain optional
+follow-up work. See
+[`docs/evidence/gemma4-e2b-offline-sprint-2026-09-09.md`](docs/evidence/gemma4-e2b-offline-sprint-2026-09-09.md).
+
 ## Primary Goal
 
 Make Project Aesir practically usable today as a standalone local Gemma 4 E2B
