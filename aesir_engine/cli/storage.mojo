@@ -778,6 +778,14 @@ struct DurableModelStore:
     def get_model(self, name: String) raises -> ModelManifest:
         return _load_store(self.root_path).get_model(name)
 
+    def resolve_model_path(self, name: String) raises -> String:
+        """Verifies and resolves a catalog identity to its immutable blob path."""
+        var manifest = self.get_model(name)
+        if not manifest.digest.startswith("sha256:"):
+            raise Error("model recipe has no installed weight blob: " + name)
+        _ = self.verify_model(name)
+        return self.root_path + "/" + BLOB_DIRECTORY + "/" + SHA256_DIRECTORY + "/" + String(manifest.digest[byte=7:])
+
     def create_model(
         mut self, name: String, modelfile_content: String
     ) raises:

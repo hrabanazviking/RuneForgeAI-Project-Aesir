@@ -1,10 +1,53 @@
 # Native local inference service
 
-**Verified scope, 2026-08-31:** Linux x86-64/WSL2, one loaded native CUDA model,
-IPv4 loopback, authenticated HTTP/1.1, stateless text generation. Both the
-Stheno Q4_K_S and Gemma 4 E4B Q4_K_M profiles passed real socket/model tests on
-the RTX 4070 Laptop GPU. This is not an OpenAI/Ollama compatibility server or
-a claim of readiness for public, multi-tenant deployment.
+**Verified scope, 2026-09-09:** Linux x86-64/WSL2, one loaded native CUDA model,
+IPv4 loopback, stateless text generation. The authenticated Aesir endpoint
+remains available. A separate Ollama-compatible mode was verified with the
+native Gemma 4 E2B Q4_K_M profile at 16,384 context on an RTX 4070 Laptop GPU.
+Neither mode is ready for public or multi-tenant deployment.
+
+## Ollama-compatible offline mode
+
+Install a model into the durable catalog once, while the GGUF is available:
+
+```bash
+.aesir/aesir create gemma4-e2b:latest \
+  --modelfile Modelfile.gemma4-e2b \
+  --model .aesir/models/gemma-4-E2B-it-Q4_K_M.gguf
+```
+
+The import copies and hashes the model into `.aesir/models/blobs/sha256/`, then
+atomically publishes `gemma4-e2b:latest` in `catalog.v1`. Later launches resolve
+and rehash that immutable blob without network access:
+
+```bash
+.aesir/aesir serve gemma4-e2b:latest --accel cuda --ollama \
+  --context 16384 --max-tokens 256
+```
+
+This binds only `127.0.0.1:11434` and intentionally uses no bearer key so local
+Ollama clients can connect. It implements `GET /api/version`, `GET /api/tags`,
+`POST /api/show`, `POST /api/generate`, and `POST /api/chat`. Generation and
+chat require `"stream":false`; NDJSON streaming is not implemented. Recognized
+`options` are `num_ctx`, `temperature`, `top_k`, `top_p`, `min_p`, `seed`, and
+`repeat_penalty`. Unknown fields/options and contexts above the loaded service
+context fail explicitly. Chat accepts bounded `system`, `user`, and `assistant`
+messages and requires the final message to be from the user.
+
+```bash
+curl -sS -H 'Content-Type: application/json' \
+  -d '{"model":"gemma4-e2b","prompt":"What is two plus two?","stream":false,"options":{"num_ctx":16384}}' \
+  http://127.0.0.1:11434/api/generate
+
+curl -sS -H 'Content-Type: application/json' \
+  -d '{"model":"gemma4-e2b","messages":[{"role":"user","content":"Hello"}],"stream":false}' \
+  http://127.0.0.1:11434/api/chat
+```
+
+The mode is single-session and one-request-at-a-time. Each HTTP generation
+resets KV history; clients send prior messages again to `/api/chat`. It does not
+implement Ollama pull/create/delete/copy, embeddings, tool calls, multimodal
+messages, remote listening, or streaming.
 
 ## Start and call
 

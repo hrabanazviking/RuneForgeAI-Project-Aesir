@@ -1,6 +1,8 @@
 # Native Gemma 4 CUDA download and chat
 
-Aesir runs dense text-only Gemma 4 E4B Q4_K_M using its own Mojo kernels.
+Aesir runs dense text-only Gemma 4 E4B and E2B Q4_K_M using one parameterized
+set of its own Mojo kernels. E2B is capped at 16,384 context positions; E4B
+retains its 32,768 cap.
 There is no llama.cpp subprocess, Python inference, remote API, or CPU model
 fallback. Host code handles tokenization, file I/O and kernel scheduling; packed
 weights, model arithmetic, activations, KV cache and greedy token selection stay
@@ -34,6 +36,25 @@ curl and sha256sum; see [dependencies](DEPENDENCIES.md). Interrupted downloads
 are not resumable yet. Weights are not committed to Git.
 
 ## Interactive and repeatable conversations
+
+For the offline E2B profile installed by the September 9 sprint:
+
+```bash
+.aesir/aesir chat .aesir/models/gemma-4-E2B-it-Q4_K_M.gguf \
+  --accel cuda --context 16384 --max-tokens 4096 --tui
+```
+
+The TUI reads the live native session. It shows the detected E2B profile, CUDA
+backend, exact explicitly allocated device-buffer bytes, context used/maximum,
+and measured decode throughput. `/help`, `/show`, `/clear`, `/set`, and `/bye`
+remain available.
+
+The tested E2B artifact is
+`unsloth/gemma-4-E2B-it-GGUF/gemma-4-E2B-it-Q4_K_M.gguf` at revision
+`0314792d7f1f7e229411f620751375812bb9faf2`, exactly 3,106,738,272 bytes with
+SHA-256 `740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8`.
+Its GGUF records 6,144-wide FFNs for the first 15 layers and 12,288-wide FFNs
+for the 20 shared-KV layers; runtime validation follows those measured arrays.
 
 ```bash
 .aesir/aesir chat .aesir/models/gemma-4-E4B-it-Q4_K_M.gguf \

@@ -1,0 +1,8 @@
+FROM gemma-4-E2B-it-Q4_K_M.gguf
+PARAMETER num_ctx 16384
+PARAMETER temperature 0.0
+PARAMETER top_k 40
+PARAMETER top_p 0.95
+PARAMETER min_p 0.0
+PARAMETER repeat_penalty 1.0
+SYSTEM You are a helpful local assistant. Keep answers concise and remember the conversation accurately.

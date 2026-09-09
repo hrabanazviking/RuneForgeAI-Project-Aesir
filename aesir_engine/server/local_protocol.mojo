@@ -162,6 +162,50 @@ struct FlatJSON:
         _ = output
         return result
 
+    def number(mut self) raises -> String:
+        """Consumes one strict JSON number and returns its source spelling."""
+        self.space()
+        var start = self.position
+        if self.peek() == 45:
+            self.position += 1
+        if self.peek() == 48:
+            self.position += 1
+        elif self.peek() >= 49 and self.peek() <= 57:
+            while self.peek() >= 48 and self.peek() <= 57:
+                self.position += 1
+        else:
+            raise Error("Expected JSON number")
+        if self.peek() == 46:
+            self.position += 1
+            var first = self.position
+            while self.peek() >= 48 and self.peek() <= 57:
+                self.position += 1
+            if self.position == first:
+                raise Error("JSON fraction requires digits")
+        if self.peek() == 101 or self.peek() == 69:
+            self.position += 1
+            if self.peek() == 43 or self.peek() == 45:
+                self.position += 1
+            var first = self.position
+            while self.peek() >= 48 and self.peek() <= 57:
+                self.position += 1
+            if self.position == first:
+                raise Error("JSON exponent requires digits")
+        if self.position - start > 64:
+            raise Error("JSON number exceeds limit")
+        return String(self.source[byte=start:self.position])
+
+    def boolean(mut self) raises -> Bool:
+        """Consumes a JSON boolean; null is deliberately unsupported."""
+        self.space()
+        if self.position + 4 <= self.source.byte_length() and String(self.source[byte=self.position:self.position + 4]) == "true":
+            self.position += 4
+            return True
+        if self.position + 5 <= self.source.byte_length() and String(self.source[byte=self.position:self.position + 5]) == "false":
+            self.position += 5
+            return False
+        raise Error("Expected JSON boolean")
+
     def fields(mut self) raises -> List[JSONField]:
         self.take(123)
         self.space()
@@ -183,36 +227,7 @@ struct FlatJSON:
                     value = self.string()
                 else:
                     kind = "number"
-                    # Preserve strict JSON numeric syntax for later range checks.
-                    var start = self.position
-                    if self.peek() == 45:
-                        self.position += 1
-                    if self.peek() == 48:
-                        self.position += 1
-                    elif self.peek() >= 49 and self.peek() <= 57:
-                        while self.peek() >= 48 and self.peek() <= 57:
-                            self.position += 1
-                    else:
-                        raise Error("Expected JSON string or number")
-                    if self.peek() == 46:
-                        self.position += 1
-                        var first = self.position
-                        while self.peek() >= 48 and self.peek() <= 57:
-                            self.position += 1
-                        if self.position == first:
-                            raise Error("JSON fraction requires digits")
-                    if self.peek() == 101 or self.peek() == 69:
-                        self.position += 1
-                        if self.peek() == 43 or self.peek() == 45:
-                            self.position += 1
-                        var first = self.position
-                        while self.peek() >= 48 and self.peek() <= 57:
-                            self.position += 1
-                        if self.position == first:
-                            raise Error("JSON exponent requires digits")
-                    if self.position - start > 64:
-                        raise Error("JSON number exceeds limit")
-                    value = String(self.source[byte=start:self.position])
+                    value = self.number()
                 fields.append(JSONField(name, value, kind))
                 self.space()
                 if self.peek() != 44:
@@ -242,7 +257,7 @@ struct LocalHTTPHead:
     var length: Int
     var status: Int
 
-    def __init__(out self, head: String, port: Int, key: String) raises:
+    def __init__(out self, head: String, port: Int, key: String, require_auth: Bool = True) raises:
         self.method = ""
         self.path = ""
         self.authorization = ""
@@ -299,7 +314,7 @@ struct LocalHTTPHead:
                 self.status = 403
         if host != "127.0.0.1:" + String(port) and host != "localhost:" + String(port):
             self.status = 403
-        if not constant_time_equal(self.authorization, "Bearer " + key):
+        if require_auth and not constant_time_equal(self.authorization, "Bearer " + key):
             self.status = 401
         if self.length > 131072:
             self.status = 413

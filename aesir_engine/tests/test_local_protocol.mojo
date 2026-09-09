@@ -2,6 +2,7 @@
 from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
 from cli.native_serve import GenerateRequest
 from server.local_transport import c_path_bytes
+from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_show
 
 
 def test_local_path_bounds() raises:
@@ -37,6 +38,30 @@ def test_local_json() raises:
             rejected = True
         if not rejected:
             raise Error("Malformed JSON accepted")
+    var generate = OllamaRequest("{\"model\":\"gemma4-e2b:latest\",\"prompt\":\"Halló\",\"stream\":false,\"options\":{\"num_ctx\":16384,\"temperature\":0.7,\"top_k\":20,\"top_p\":0.9,\"min_p\":0.05,\"seed\":42,\"repeat_penalty\":1.1}}")
+    if generate.model != "gemma4-e2b:latest" or generate.prompt != "Halló" or generate.stream or generate.num_ctx != 16384 or generate.sampling.top_k != 20:
+        raise Error("Ollama generate request parsing failed")
+    var chat = OllamaRequest("{\"model\":\"gemma4-e2b\",\"stream\":false,\"messages\":[{\"role\":\"system\",\"content\":\"Be brief.\"},{\"role\":\"user\",\"content\":\"Hello\"},{\"role\":\"assistant\",\"content\":\"Hi\"},{\"role\":\"user\",\"content\":\"Offline?\"}]}")
+    if not chat.has_messages or chat.system != "Be brief." or "Assistant: Hi" not in chat.chat_prompt or not chat.chat_prompt.endswith("User: Offline?\n"):
+        raise Error("Ollama chat request parsing failed")
+    var info = OllamaModelInfo("gemma4-e2b:latest", "sha256:abc", 3106738272, "Q4_K_M", "2026-09-09T00:00:00Z", "FROM gemma", "gemma4", "2B")
+    if "gemma4-e2b:latest" not in ollama_tags(info) or "num_ctx 16384" not in ollama_show(info, 16384):
+        raise Error("Ollama model response serialization failed")
+    var ollama_cases: List[String] = [
+        "{\"model\":\"m\",\"messages\":[]}",
+        "{\"model\":\"m\",\"messages\":[{\"role\":\"assistant\",\"content\":\"x\"}]}",
+        "{\"model\":\"m\",\"options\":{\"mirostat\":1}}",
+        "{\"model\":\"m\",\"stream\":null}",
+        "{\"model\":\"m\",\"messages\":[{\"role\":\"tool\",\"content\":\"x\"}]}",
+    ]
+    for source in ollama_cases:
+        var rejected = False
+        try:
+            _ = OllamaRequest(source)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Unsupported Ollama JSON accepted")
 
 
 def test_local_http() raises:
@@ -47,6 +72,8 @@ def test_local_http() raises:
         raise Error("Valid local request rejected")
     if LocalHTTPHead(head, 18434, "wrong-key").status != 401:
         raise Error("Wrong key accepted")
+    if LocalHTTPHead(head.replace("Authorization: Bearer test-key\r\n", ""), 18434, "", False).status != 200:
+        raise Error("Explicit loopback compatibility mode still required authentication")
     if LocalHTTPHead(head, 18435, key).status != 403:
         raise Error("Untrusted Host accepted")
     var cases: List[String] = ["GET / HTTP/1.0\r\n\r\n", "GET / HTTP/1.1\n\n", "GET / HTTP/1.1\r\nHost: a\r\nHost: b\r\n\r\n", "GET / HTTP/1.1\r\nTransfer-Encoding: chunked\r\n\r\n", "GET / HTTP/1.1\r\n X: folded\r\n\r\n", "GET / HTTP/1.1\r\nContent-Length: -1\r\n\r\n", "GET / HTTP/1.1\r\nX: a\nInjected: b\r\n\r\n"]
