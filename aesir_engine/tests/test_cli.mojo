@@ -5,6 +5,7 @@ from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
 from cli.storage import DurableModelStore, deserialize_catalog
 from cli.model_reference import resolve_model_reference
+from cli.model_selector import render_model_selector, selected_model_reference
 from cli.commands import (
     collect_run_positionals,
     dispatch_command,
@@ -543,6 +544,23 @@ def test_cli_command_dispatch() raises:
     print("--- Testing operational CLI command dispatchers & boundaries ---")
 
     var store = RuneModelStore()
+
+    var selector_models = List[ModelManifest]()
+    selector_models.append(ModelManifest("gemma", "latest", "", 1024, "Q4_K_M"))
+    selector_models.append(ModelManifest("qwen", "q6", "", 2048, "Q6_K"))
+    var selector_frame = render_model_selector(selector_models)
+    if "gemma:latest" not in selector_frame or "qwen:q6" not in selector_frame:
+        raise Error("installed-model selector omitted a catalog entry")
+    if (selected_model_reference(selector_models, "") != "gemma:latest"
+            or selected_model_reference(selector_models, "2") != "qwen:q6"):
+        raise Error("installed-model selector choice mapping drifted")
+    var bad_selection_rejected = False
+    try:
+        _ = selected_model_reference(selector_models, "3")
+    except:
+        bad_selection_rejected = True
+    if not bad_selection_rejected:
+        raise Error("installed-model selector accepted an out-of-range choice")
 
     var help_args = List[String]()
     help_args.append("help")

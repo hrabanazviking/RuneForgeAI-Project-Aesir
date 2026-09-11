@@ -63,9 +63,10 @@ def print_general_help():
     print(
         "      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference."
     )
-    print("  chat <model> --accel cuda [--profile auto|gemma4|llama3|qwen3]")
+    print("  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]")
     print("      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)")
     print("      [--model-store path] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+    print("      Omit model to choose an installed catalog model interactively.")
     print("      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]")
     print("      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation")
     print("      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]")

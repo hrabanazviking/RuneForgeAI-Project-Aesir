@@ -93,7 +93,20 @@ struct ChatInterrupts:
             _ = external_call["pthread_sigmask", Int32](Int32(2), Int(self.old_mask.unsafe_ptr()), Int(0))
 
 
-def read_interruptible_line(fd: Int) raises -> String:
+struct InterruptibleLine:
+    """One stdin line with cancellation and EOF kept distinct from blank input."""
+
+    var text: String
+    var interrupted: Bool
+    var eof: Bool
+
+    def __init__(out self, text: String, interrupted: Bool, eof: Bool):
+        self.text = text
+        self.interrupted = interrupted
+        self.eof = eof
+
+
+def read_interruptible_line_result(fd: Int) raises -> InterruptibleLine:
     var bytes = List[Int8]()
     var input_byte = InlineArray[Int8, 1](fill=0)
     while True:
@@ -107,11 +120,18 @@ def read_interruptible_line(fd: Int) raises -> String:
             raise Error("Chat input poll failed")
         if descriptors[1] >> 48 != 0:
             _ = consume_interrupts(fd)
-            return ""
+            return InterruptibleLine("", True, False)
         var count = external_call["read", Int](Int(0), input_byte.unsafe_ptr(), Int(1))
         if count < 0:
             raise Error("Chat input read failed")
-        if count == 0 or input_byte[0] == 10:
+        if count == 0:
+            if len(bytes) == 0:
+                return InterruptibleLine("", False, True)
+            bytes.append(0)
+            return InterruptibleLine(
+                String(unsafe_from_utf8_ptr=bytes.unsafe_ptr()), False, True
+            )
+        if input_byte[0] == 10:
             break
         if input_byte[0] == 0:
             raise Error("Chat input contains NUL")
@@ -120,4 +140,12 @@ def read_interruptible_line(fd: Int) raises -> String:
         if len(bytes) > 65536:
             raise Error("Chat input line exceeds 64 KiB")
     bytes.append(0)
-    return String(unsafe_from_utf8_ptr=bytes.unsafe_ptr())
+    return InterruptibleLine(
+        String(unsafe_from_utf8_ptr=bytes.unsafe_ptr()), False, False
+    )
+
+
+def read_interruptible_line(fd: Int) raises -> String:
+    """Compatibility wrapper: chat treats interruption and EOF as session end."""
+    var result = read_interruptible_line_result(fd)
+    return result.text

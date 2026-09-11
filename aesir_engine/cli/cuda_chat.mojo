@@ -6,6 +6,7 @@ from cli.sampling import with_sampling_option, sampling_option_name
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference
+from cli.model_selector import choose_installed_model
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 
 
@@ -88,8 +89,7 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, mod
 
 
 def dispatch_cuda_chat(args: List[String]) raises:
-    if len(args) < 2:
-        raise Error("usage: aesir chat <model> --accel cuda [--profile auto|gemma4|llama3|qwen3] [--model-store path] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]")
+    var model_reference = String("")
     var prompts_path = String("")
     var log_path = String("")
     var system = String("You are a helpful assistant. Keep answers concise and remember the conversation accurately.")
@@ -104,7 +104,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var tui = False
     var model_store = String(".aesir/models")
     var seen = List[String]()
-    var i = 2
+    var i = 1
+    if i < len(args) and not args[i].startswith("-"):
+        model_reference = args[i]
+        i += 1
     while i < len(args):
         var flag = args[i]
         for old in seen:
@@ -163,7 +166,11 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Qwen 3 context must be within 2..32768")
         if "--max-tokens" in seen and max_tokens > 32768:
             raise Error("Qwen 3 completion limit must be within 1..32768")
-    var resolved = resolve_model_reference(args[1], model_store)
+    var interrupts = ChatInterrupts()
+    var interrupt_fd = interrupts.fd
+    if model_reference == "":
+        model_reference = choose_installed_model(model_store, interrupt_fd)
+    var resolved = resolve_model_reference(model_reference, model_store)
     var model_path = resolved.path
     var requested_context = context_length if "--context" in seen else 0
     var detected = NativeModelPlan(model_path, profile, requested_context)
@@ -196,8 +203,6 @@ def dispatch_cuda_chat(args: List[String]) raises:
                     prompts.append(prompt)
         if len(prompts) == 0:
             raise Error("Chat prompt file has no turns")
-    var interrupts = ChatInterrupts()
-    var interrupt_fd = interrupts.fd
     var plan = NativeModelPlan(model_path, profile, context_length)
     device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
