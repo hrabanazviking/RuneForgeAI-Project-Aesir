@@ -14,7 +14,9 @@ from server.local_transport import (listen_local, accept_local, load_service_key
 from server.api import build_http_response, json_escape_string
 from server.ollama import (OllamaRequest, OllamaModelInfo, ollama_version,
                            ollama_catalog_tags, ollama_show, ollama_ps,
-                           ollama_generate_response, ollama_chat_response)
+                           ollama_generate_response, ollama_chat_response,
+                           ollama_done_reason)
+from server.openai import OpenAIRequest, OpenAIGate, openai_created_unix
 
 
 struct GenerateRequest:
@@ -139,6 +141,13 @@ def ollama_catalog_models(model_store: String,
     return models^
 
 
+def openai_catalog_names(catalog: List[OllamaModelInfo]) -> List[String]:
+    var names = List[String]()
+    for model in catalog:
+        names.append(model.name)
+    return names^
+
+
 def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: String,
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
@@ -222,6 +231,75 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             if request.stream:
                                 body += "\n"
                                 content_type = "application/x-ndjson"
+                            status = 200
+                    elif head.method == "GET" and head.path == "/v1/models":
+                        body = OpenAIGate.format_model_catalog(
+                            openai_catalog_names(catalog), openai_created_unix()
+                        )
+                    elif head.method == "POST" and (head.path == "/v1/chat/completions" or head.path == "/v1/completions"):
+                        status = 400
+                        var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
+                        receiving = False
+                        var request = OpenAIRequest(raw)
+                        if not ollama_model_matches(request.model, model.name):
+                            status = 404
+                        elif head.path == "/v1/chat/completions" and not request.has_messages:
+                            status = 400
+                        elif head.path == "/v1/completions" and request.prompt.byte_length() == 0:
+                            status = 400
+                        else:
+                            var request_tokens = (
+                                token_limit if request.max_tokens == 0
+                                else request.max_tokens
+                            )
+                            if request_tokens < 1 or request_tokens > token_limit:
+                                raise Error("OpenAI completion exceeds service token limit")
+                            session.reset()
+                            session.configure_sampling(request.sampling)
+                            session.configure_control(timeout_ms, interrupt_fd)
+                            status = 422
+                            generation_started = True
+                            var prompt = (
+                                request.chat_prompt
+                                if head.path == "/v1/chat/completions"
+                                else request.prompt
+                            )
+                            session.begin_turn(prompt, request.system, request_tokens)
+                            print("[request=" + String(sequence) + " phase=generation]")
+                            _ = external_call["fflush", Int32](Int(0))
+                            var answer = String("")
+                            status = 500
+                            while session.status().generating:
+                                answer += session.next_chunk()
+                                if answer.byte_length() > 1048576:
+                                    _ = session.cancel()
+                                    status = 413
+                                    raise Error("Native response exceeded 1 MiB")
+                            var state = session.status()
+                            var created = openai_created_unix()
+                            var finish = ollama_done_reason(state.finish_reason)
+                            var request_id = "cmpl-aesir-" + String(sequence)
+                            if head.path == "/v1/chat/completions":
+                                body = OpenAIGate.format_chat_completion(
+                                    request_id, created, model.name, answer, finish,
+                                    state.prompt_tokens, state.generated_tokens,
+                                )
+                            else:
+                                body = OpenAIGate.format_completion(
+                                    request_id, created, model.name, answer, finish,
+                                    state.prompt_tokens, state.generated_tokens,
+                                )
+                            if request.stream:
+                                if head.path == "/v1/chat/completions":
+                                    body = OpenAIGate.format_chat_chunk(
+                                        request_id, created, model.name, answer, finish
+                                    )
+                                else:
+                                    body = OpenAIGate.format_completion_chunk(
+                                        request_id, created, model.name, answer, finish
+                                    )
+                                body += "data: [DONE]\n\n"
+                                content_type = "text/event-stream"
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"ready\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context) + "}"

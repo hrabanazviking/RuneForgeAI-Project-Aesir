@@ -3,6 +3,7 @@ from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
 from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
 from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps
+from server.openai import OpenAIRequest, OpenAIGate
 
 
 def test_local_path_bounds() raises:
@@ -44,6 +45,18 @@ def test_local_json() raises:
     var chat = OllamaRequest("{\"model\":\"gemma4-e2b\",\"stream\":false,\"messages\":[{\"role\":\"system\",\"content\":\"Be brief.\"},{\"role\":\"user\",\"content\":\"Hello\"},{\"role\":\"assistant\",\"content\":\"Hi\"},{\"role\":\"user\",\"content\":\"Offline?\"}]}")
     if not chat.has_messages or chat.system != "Be brief." or "Assistant: Hi" not in chat.chat_prompt or not chat.chat_prompt.endswith("User: Offline?\n"):
         raise Error("Ollama chat request parsing failed")
+    var openai_chat = OpenAIRequest("{\"model\":\"gemma4-e2b\",\"stream\":true,\"max_tokens\":32,\"temperature\":0.7,\"top_p\":0.9,\"messages\":[{\"role\":\"system\",\"content\":\"Be brief.\"},{\"role\":\"user\",\"content\":\"Offline?\"}]}")
+    if (not openai_chat.has_messages or not openai_chat.stream
+            or openai_chat.max_tokens != 32
+            or openai_chat.system != "Be brief."
+            or not openai_chat.chat_prompt.endswith("User: Offline?\n")):
+        raise Error("OpenAI chat request parsing failed")
+    var openai_models = List[String]()
+    openai_models.append("gemma4-e2b:latest")
+    openai_models.append("qwen:latest")
+    var openai_catalog = OpenAIGate.format_model_catalog(openai_models, 1789130000)
+    if "gemma4-e2b:latest" not in openai_catalog or "qwen:latest" not in openai_catalog:
+        raise Error("OpenAI catalog response omitted a model")
     var info = OllamaModelInfo("gemma4-e2b:latest", "sha256:abc", 3106738272, "Q4_K_M", "2026-09-09T00:00:00Z", "FROM gemma", "gemma4", "2B")
     if "gemma4-e2b:latest" not in ollama_tags(info) or "num_ctx 16384" not in ollama_show(info, 16384):
         raise Error("Ollama model response serialization failed")
