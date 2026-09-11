@@ -54,6 +54,7 @@ def print_general_help():
     print("      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]")
     print("      [--name <name[:tag]> [--config <path>]]")
     print("      Download and verify a pinned GGUF; optionally register stored bytes.")
+    print("      Default single-connection pulls resume verified partial downloads.")
     print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print(

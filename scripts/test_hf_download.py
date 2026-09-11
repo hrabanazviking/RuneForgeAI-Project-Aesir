@@ -59,6 +59,14 @@ def main():
             raise AssertionError("verified transfer metadata missing")
         print("[HF LIVE PASS] HTTPS, pinned identity, checksum, literal argv path")
 
+        resumed = root / "resumed.gguf"
+        partial = pathlib.Path(str(resumed) + ".part." + args.sha256)
+        partial.write_bytes(contents[: max(1, len(contents) // 3)])
+        run(base + ["--output", str(resumed)])
+        if resumed.read_bytes() != contents or partial.exists():
+            raise AssertionError("resumed transfer differed or retained its partial file")
+        print("[HF LIVE PASS] identity-bound partial transfer resumed and verified")
+
         run(base + ["--output", str(output)], "cannot publish download")
         if output.read_bytes() != contents:
             raise AssertionError("existing completed destination changed")
@@ -139,7 +147,7 @@ def main():
             if stat.S_IMODE(blob.stat().st_mode) != 0o400:
                 raise AssertionError("registered blob is not owner-read-only")
         print("[HF LIVE PASS] pinned pull registered and reverified in model store")
-        print("[HF LIVE SUMMARY] 7 passed, 0 failed")
+        print("[HF LIVE SUMMARY] 8 passed, 0 failed")
 
 
 if __name__ == "__main__":

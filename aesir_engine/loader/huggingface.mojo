@@ -282,7 +282,8 @@ struct HuggingFaceSeer:
         ══════════════════════════════════════════════════════════════════════════
         Download a public pinned GGUF, verify it, and atomically create dest_path.
         Requires system curl and sha256sum. Never overwrites an existing file.
-        Failed staging files are removed; interrupted processes may leave .part files.
+        Single-connection transfers resume from a locked deterministic .part file.
+        Completed bytes are still published only after size, header, and SHA-256 checks.
         """
         if len(repo_id.bytes()) == 0 or len(filename.bytes()) == 0:
             raise Error("HuggingFaceSeer.download_hf_model: repo_id and filename must not be empty")
@@ -300,11 +301,29 @@ struct HuggingFaceSeer:
             out_file = filename
 
         var target = _hf_cstring(out_file)
-        var staged = _hf_cstring(out_file + ".part.XXXXXX")
-        var fd = external_call["mkstemp", Int32](staged.unsafe_ptr())
+        if external_call["access", Int32](target.unsafe_ptr(), 0) == 0:
+            raise Error("Hugging Face cannot publish download; destination may exist")
+        var staged = _hf_cstring(
+            out_file + (
+                ".part." + expected_sha256
+                if connections == 1 else ".part.XXXXXX"
+            )
+        )
+        var fd: Int32
+        if connections == 1:
+            # Linux O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, owner-only mode.
+            fd = external_call["open64", Int32](
+                staged.unsafe_ptr(), Int32(655426), Int32(384)
+            )
+            if fd >= 0 and external_call["flock", Int32](fd, 6) != 0:
+                _ = external_call["close", Int32](fd)
+                fd = -1
+        else:
+            fd = external_call["mkstemp", Int32](staged.unsafe_ptr())
         if fd < 0:
-            raise Error("Hugging Face cannot create staging file; check output directory")
+            raise Error("Hugging Face cannot lock staging file; another pull may be active")
         var staged_path = String(unsafe_from_utf8_ptr=staged.unsafe_ptr())
+        var preserve_partial = False
         try:
             # -q disables user curlrc, including hidden insecure/proxy/output options.
             var args: List[String] = [
@@ -316,7 +335,16 @@ struct HuggingFaceSeer:
                 "--url", url,
             ]
             if connections == 1:
-                _ = _hf_run_checked(args)
+                args.append("--continue-at")
+                args.append("-")
+                try:
+                    _ = _hf_run_checked(args)
+                except error:
+                    var partial_size = external_call["lseek", Int64](
+                        fd, Int64(0), Int32(2)
+                    )
+                    preserve_partial = partial_size > 0 and partial_size < Int64(expected_size)
+                    raise error
             else:
                 _hf_transfer(url, staged_path, fd, expected_size, connections)
             var actual_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
@@ -343,7 +371,8 @@ struct HuggingFaceSeer:
                 raise Error("Hugging Face cannot publish download; destination may exist")
         except error:
             _ = external_call["close", Int32](fd)
-            _ = external_call["unlink", Int32](staged.unsafe_ptr())
+            if not preserve_partial:
+                _ = external_call["unlink", Int32](staged.unsafe_ptr())
             raise error
         _ = external_call["close", Int32](fd)
         if external_call["unlink", Int32](staged.unsafe_ptr()) != 0:
