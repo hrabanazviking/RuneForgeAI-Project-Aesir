@@ -19,7 +19,7 @@ from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, t
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
 from tests.test_sampling_config import test_sampling_syntax, test_sampling_config_rejection, test_sampling_config_updates
 from tests.test_cuda_chat_admission import test_cuda_chat_admission
-from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_native_planning_cli_rejection
+from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_automatic_context_sequence, test_native_planning_cli_rejection
 from tests.test_gemma4_profile import test_gemma4_profiles
 from tests.test_model_registry import test_model_architecture_registry
 from tests.test_inference import (
@@ -255,6 +255,7 @@ def main() raises:
     run_case(ledger, "hardware.inference_memory_counts", test_native_memory_counts)
     run_case(ledger, "hardware.inference_memory_rejection", test_native_memory_rejection)
     run_case(ledger, "hardware.native_device_selection", test_native_device_selection)
+    run_case(ledger, "hardware.automatic_context_sequence", test_automatic_context_sequence)
     run_case(ledger, "hardware.planning_cli_rejection", test_native_planning_cli_rejection)
 
     print("==============================================")
@@ -769,4 +770,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(175)
+    ledger.finish(176)

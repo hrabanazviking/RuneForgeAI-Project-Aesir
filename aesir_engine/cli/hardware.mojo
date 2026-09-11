@@ -1,5 +1,5 @@
 """CLI presentation of observed resources and executable native model plans."""
-from aesir import NativeModelPlan, choose_native_cuda, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
+from aesir import choose_native_cuda_plan, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
 from cli.model_reference import resolve_model_reference
 
 
@@ -76,7 +76,10 @@ def dispatch_compute(args: List[String]) raises:
             raise Error("Unknown compute option: " + flag)
         i += 2
     var resolved = resolve_model_reference(args[2], model_store)
-    var plan = NativeModelPlan(resolved.path, profile, context)
+    var selection = choose_native_cuda_plan(
+        resolved.path, profile, context, device, reserve
+    )
+    var plan = selection.plan.copy()
     print("profile=" + plan.profile + " context=" + String(plan.context_length))
     print("weights_bytes=" + String(plan.memory.weights_bytes)
           + " kv_bytes=" + String(plan.memory.kv_bytes)
@@ -85,12 +88,12 @@ def dispatch_compute(args: List[String]) raises:
           + " host_staging_bytes=" + String(plan.memory.host_staging_bytes)
           + " host_mapping_and_upload_bytes=" + String(plan.memory.host_upload_bytes)
           + " reserve_bytes=" + String(reserve))
-    var selected = choose_native_cuda(plan.memory, device, reserve)
     var host = observe_host_memory()
     if reserve > host.available_bytes or plan.memory.host_upload_bytes > host.available_bytes - reserve:
         raise Error("Plan rejected: insufficient host upload memory")
-    print("selected=cuda:" + String(selected) + " cpu_offload=0")
+    print("selected=cuda:" + String(selection.device_index) + " cpu_offload=0")
     print("reason=compatible device with sufficient observed memory"
-          + ("; highest free memory among fitting devices" if device < 0 else "; explicit device selection"))
+          + ("; highest free memory among fitting devices" if device < 0 else "; explicit device selection")
+          + ("; context reduced to fit observed free memory" if selection.context_adjusted else ""))
     print("This validates tensor profile and explicit buffers, not tokenizer compatibility or allocation success.")
     print("No weights uploaded. Driver/tokenizer overhead uses reserve; memory is rechecked at session creation.")

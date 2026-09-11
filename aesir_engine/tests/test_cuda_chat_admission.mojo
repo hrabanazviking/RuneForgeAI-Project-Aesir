@@ -1,7 +1,12 @@
 """Invalid CUDA chat requests must fail before opening a model or transcript."""
-from cli.cuda_chat import dispatch_cuda_chat
+from cli.cuda_chat import dispatch_cuda_chat, default_chat_max_tokens
 
 def test_cuda_chat_admission() raises:
+    if (default_chat_max_tokens("llama3", "llama3-8B", 8192) != 4096
+            or default_chat_max_tokens("qwen3", "qwen3-0.6B", 2048) != 1024
+            or default_chat_max_tokens("gemma4", "gemma4-E2B", 16384) != 4096
+            or default_chat_max_tokens("gemma4", "gemma4-E4B", 32768) != 16384):
+        raise Error("Automatic chat reply budget drifted")
     var cases: List[String] = [
         "chat missing.gguf --accel cpu",
         "chat missing.gguf --accel cuda --context 16384 --max-tokens 16384",

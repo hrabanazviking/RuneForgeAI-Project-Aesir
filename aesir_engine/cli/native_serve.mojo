@@ -1,8 +1,8 @@
 """Native loopback HTTP orchestration over the serialized CUDA contract."""
 from std.ffi import external_call
-from aesir import (Gemma4CUDASession, Llama3CUDASession, NativeModelPlan,
+from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    NativeSamplingConfig, ControlledTextSession, GenerationControl,
-                   choose_native_cuda, bounded_decimal, monotonic_milliseconds)
+                   choose_native_cuda_plan, bounded_decimal, monotonic_milliseconds)
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option
 from cli.interrupts import ChatInterrupts
@@ -321,10 +321,13 @@ def dispatch_native_serve(args: List[String]) raises:
     var modified_at = String("1970-01-01T00:00:00Z")
     var modelfile = resolved.modelfile_content
     var interrupts = ChatInterrupts(True)
-    var plan = NativeModelPlan(model_path, profile, context)
+    var selection = choose_native_cuda_plan(
+        model_path, profile, context, device, reserve
+    )
+    var plan = selection.plan.copy()
     if token_limit >= plan.context_length:
         raise Error("Service token limit must leave context for the prompt")
-    device = choose_native_cuda(plan.memory, device, reserve)
+    device = selection.device_index
     if not ollama:
         model_size = Int64(plan.memory.weights_bytes)
     var family = "llama" if plan.profile == "llama3" else ("qwen3" if plan.profile == "qwen3" else "gemma4")

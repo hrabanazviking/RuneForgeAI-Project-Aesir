@@ -1,6 +1,6 @@
 """Native CUDA chat orchestration and durable, exclusive transcript output."""
 from std.ffi import external_call
-from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
+from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda_plan, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
@@ -59,6 +59,17 @@ def chat_positive_int(text: String) raises -> Int:
     if result <= 0 or result > 32768:
         raise Error("Chat integer option must be in 1..32768")
     return result
+
+
+def default_chat_max_tokens(profile: String, variant: String,
+                            context_length: Int) raises -> Int:
+    """Keeps at least half of an automatic context available for prompt/history."""
+    if context_length < 2:
+        raise Error("Chat context must contain at least two tokens")
+    var family_cap = 4096
+    if profile == "gemma4" and variant != "gemma4-E2B":
+        family_cap = 16384
+    return min(family_cap, context_length // 2)
 
 
 def read_chat_line(interrupt_fd: Int = -1) raises -> String:
@@ -173,22 +184,32 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var resolved = resolve_model_reference(model_reference, model_store)
     var model_path = resolved.path
     var requested_context = context_length if "--context" in seen else 0
-    var detected = NativeModelPlan(model_path, profile, requested_context)
+    var selection = choose_native_cuda_plan(
+        model_path, profile, requested_context, device_index, reserve_bytes
+    )
+    var detected = selection.plan.copy()
+    device_index = selection.device_index
     profile = detected.profile
     context_length = detected.context_length
     if profile == "llama3":
         if "--max-tokens" not in seen:
-            max_tokens = 8192
-        if context_length > 8192 or max_tokens > 8192 or context_length < 2:
-            raise Error("Llama 3 context and completion limits must be within 2..8192 and 1..8192")
+            max_tokens = default_chat_max_tokens(
+                profile, detected.variant, context_length
+            )
+        if context_length > 8192 or max_tokens >= context_length or context_length < 2:
+            raise Error("Llama 3 context must leave room for input and completion")
     elif profile == "qwen3":
         if "--max-tokens" not in seen:
-            max_tokens = min(4096, context_length - 1)
+            max_tokens = default_chat_max_tokens(
+                profile, detected.variant, context_length
+            )
         if context_length > 32768 or max_tokens >= context_length or context_length < 2:
             raise Error("Qwen 3 context must leave room for input and completion")
     else:
         if "--max-tokens" not in seen:
-            max_tokens = 4096 if detected.variant == "gemma4-E2B" else 16384
+            max_tokens = default_chat_max_tokens(
+                profile, detected.variant, context_length
+            )
         if max_tokens >= context_length:
             raise Error("Chat context must leave room for input as well as max-tokens")
     var prompts = List[String]()
@@ -203,8 +224,6 @@ def dispatch_cuda_chat(args: List[String]) raises:
                     prompts.append(prompt)
         if len(prompts) == 0:
             raise Error("Chat prompt file has no turns")
-    var plan = NativeModelPlan(model_path, profile, context_length)
-    device_index = choose_native_cuda(plan.memory, device_index, reserve_bytes)
     var transcript = ChatTranscript(log_path)
     if profile == "llama3" or profile == "qwen3":
         run_llama_chat(model_path, context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
@@ -259,8 +278,9 @@ def dispatch_cuda_chat(args: List[String]) raises:
 
 def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
     var transcript = ChatTranscript("")
-    var plan = NativeModelPlan(path)
-    var device_index = choose_native_cuda(plan.memory)
+    var selection = choose_native_cuda_plan(path)
+    var plan = selection.plan.copy()
+    var device_index = selection.device_index
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(path, plan.context_length, device_index)
         _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)

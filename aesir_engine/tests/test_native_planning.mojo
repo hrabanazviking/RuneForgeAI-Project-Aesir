@@ -1,7 +1,7 @@
 """Injected memory and device policy evidence; no physical hardware claims."""
 from core.native_hardware import parse_linux_memory, bounded_decimal
 from core.inference_memory import InferenceMemoryPlan, llama3_memory_plan, gemma4_memory_plan
-from core.runtime_plan import select_planned_cuda
+from core.runtime_plan import select_planned_cuda, next_automatic_context
 from core.mimir_well import HardwareDiscoveryResult, PhysicalDevice, GPURealmType, DiscoveryStatus
 from tests.test_hardware_discovery import make_device
 from cli.hardware import dispatch_compute, dispatch_hardware
@@ -75,6 +75,21 @@ def test_native_device_selection() raises:
             rejected = True
         if not rejected:
             raise Error("Unavailable/incompatible device selected")
+
+
+def test_automatic_context_sequence() raises:
+    if (next_automatic_context(32768) != 16384
+            or next_automatic_context(8192) != 4096
+            or next_automatic_context(3000) != 2048
+            or next_automatic_context(2048) != 0):
+        raise Error("Automatic context fallback sequence drifted")
+    var rejected = False
+    try:
+        _ = next_automatic_context(1)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Automatic context accepted an invalid starting value")
 
 
 def test_native_planning_cli_rejection() raises:

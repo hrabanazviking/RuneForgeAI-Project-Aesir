@@ -1,4 +1,5 @@
 """Model admission and observed single-device selection for native sessions."""
+from std.math import max
 from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
@@ -52,6 +53,29 @@ struct NativeModelPlan(Copyable):
             self.memory = gemma4_profile_memory_plan(Int(model.source.file_size), self.context_length, gemma_profile)
 
 
+struct NativeCUDASelection(Copyable):
+    """A model/context plan paired with the CUDA device that can admit it."""
+
+    var plan: NativeModelPlan
+    var device_index: Int
+    var context_adjusted: Bool
+
+    def __init__(out self, plan: NativeModelPlan, device_index: Int,
+                 context_adjusted: Bool):
+        self.plan = plan.copy()
+        self.device_index = device_index
+        self.context_adjusted = context_adjusted
+
+
+def next_automatic_context(context: Int) raises -> Int:
+    """Returns the next useful fallback context, or zero when none remains."""
+    if context < 2:
+        raise Error("Automatic context requires a valid starting context")
+    if context <= 2048:
+        return 0
+    return max(2048, context // 2)
+
+
 def select_planned_cuda(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
                         requested_index: Int, reserve_bytes: Int) raises -> Int:
     discovered.validate()
@@ -81,3 +105,43 @@ def choose_native_cuda(memory: InferenceMemoryPlan, requested_index: Int = -1,
                        reserve_bytes: Int = 268435456) raises -> Int:
     return select_planned_cuda(memory, CUDAGate.discover_physical_devices(),
                                requested_index, reserve_bytes)
+
+
+def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
+                            requested_context: Int = 0,
+                            requested_index: Int = -1,
+                            reserve_bytes: Int = 268435456) raises -> NativeCUDASelection:
+    """Selects the largest recommended context that observed CUDA memory fits.
+
+    An explicit context is never changed. Automatic contexts step down by powers
+    of two to a practical 2K floor, preserving the user's device and reserve.
+    """
+    if requested_index < -1 or reserve_bytes < 0:
+        raise Error("Invalid device selection or memory reserve")
+    var discovered = CUDAGate.discover_physical_devices()
+    discovered.validate()
+    var plan = NativeModelPlan(path, requested_profile, requested_context)
+    if requested_context != 0:
+        return NativeCUDASelection(
+            plan, select_planned_cuda(
+                plan.memory, discovered, requested_index, reserve_bytes
+            ), False
+        )
+    var original_context = plan.context_length
+    while True:
+        try:
+            return NativeCUDASelection(
+                plan, select_planned_cuda(
+                    plan.memory, discovered, requested_index, reserve_bytes
+                ), plan.context_length != original_context
+            )
+        except:
+            var next_context = next_automatic_context(plan.context_length)
+            if next_context == 0:
+                raise Error(
+                    "No compatible CUDA device fits this model with the "
+                    + String(reserve_bytes)
+                    + "-byte reserve, even at the automatic 2048-token context; "
+                    + "choose another device/model or lower --reserve-mib"
+                )
+            plan = NativeModelPlan(path, plan.profile, next_context)

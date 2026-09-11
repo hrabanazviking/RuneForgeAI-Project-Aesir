@@ -71,7 +71,7 @@ def print_general_help():
     print("      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation")
     print("      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]")
     print("      Interactive: /help /show /clear /set <setting> <value> /bye")
-    print("      Defaults (reply/context): Gemma E4B 16384/32768; E2B 4096/16384; Llama 3 8192/8192.")
+    print("      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.")
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
     print("  config [--config <path>] [--format json|text]")
     print("      Validate and show the selected configuration file.")
