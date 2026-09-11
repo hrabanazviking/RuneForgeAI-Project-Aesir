@@ -46,7 +46,7 @@ The project also gained an initial Ollama-compatible offline service, moving A.E
 
 The larger architectural direction is now becoming clear: shared transformer machinery, small model-family profiles, GGUF-driven detection, reusable quantization support, and familiar local APIs instead of separate hardcoded engines for every individual model.
 
-This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and Q6_K, path-free TUI model selection, memory-aware defaults, OpenAI-compatible text APIs, resumable pinned downloads, an offline-safe `aesir doctor` command, exact-token conversation save/load, and durable model aliases/favorites. Hot switching, embeddings, and remaining management endpoints remain active work.
+This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and Q6_K, path-free TUI model selection, memory-aware defaults, OpenAI-compatible text APIs, resumable pinned downloads, an offline-safe `aesir doctor` command, exact-token conversation save/load, durable model aliases/favorites, and `/model` hot switching across native CUDA families. Embeddings and remaining management endpoints remain active work.
 
 > *The forge is shifting from "this model runs" toward "A.E.S.I.R. understands model families." ⚔️*
 
@@ -58,7 +58,7 @@ This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and 
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **181 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
+The current automated test suite is at **182 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 

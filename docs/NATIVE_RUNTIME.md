@@ -175,6 +175,12 @@ Interactive commands run between turns:
   prompt remain. KV storage is reused behind a reset position, not securely
   erased; no old positions are attended before replacement.
 - `/new`: synonym for `/clear`, including the readable conversation journal.
+- `/model <name-or-alias-or-path>`: validate a READY native CUDA target, unload
+  the current session, and replace the process image before loading the new
+  model. PID, terminal/stdin, transcript, system prompt, device/reserve,
+  sampling settings, timeout, and explicit context/completion preferences are
+  preserved. Conversation/KV/history and sampler draw position reset. Invalid
+  or already-loaded targets leave the current session active.
 - `/save <new-file>`: exclusively publish a checksummed v1 snapshot containing
   exact committed token IDs, sampler draw position, readable turns, and the
   SHA-256 identity of the exact open model inode. Existing files are never

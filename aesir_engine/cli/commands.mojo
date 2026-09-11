@@ -80,7 +80,7 @@ def print_general_help():
     print("      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]")
     print("      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation")
     print("      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]")
-    print("      Interactive: /help /show /clear /new /save <new-file> /load <file>")
+    print("      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>")
     print("      /export <new-markdown> /set <setting> <value> /bye")
     print("      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.")
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")

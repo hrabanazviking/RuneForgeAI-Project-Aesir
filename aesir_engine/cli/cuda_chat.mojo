@@ -16,13 +16,18 @@ from cli.conversation import (
     require_conversation_compatible,
     save_conversation,
 )
+from loader.packed_gguf import PackedGGUF
+from core.model_registry import ModelArchitectureRegistry
 
 
 struct ChatTranscript:
     var fd: Int32
 
-    def __init__(out self, path: String) raises:
+    def __init__(out self, path: String, inherited_fd: Int = -1) raises:
         self.fd = -1
+        if inherited_fd >= 0:
+            self.fd = Int32(inherited_fd)
+            return
         if path != "":
             var bytes = List[Int8]()
             for byte in path.as_bytes():
@@ -67,6 +72,113 @@ struct ChatTurnResult(Copyable):
     def __copyinit__(out self, existing: Self):
         self.tokens_per_second = existing.tokens_per_second
         self.assistant = existing.assistant
+
+
+struct ChatSwitchRequest(Copyable):
+    var target: String
+    var sampling: NativeSamplingConfig
+    var timeout_ms: Int
+
+    def __init__(
+        out self, target: String, sampling: NativeSamplingConfig,
+        timeout_ms: Int,
+    ):
+        self.target = target
+        self.sampling = sampling
+        self.timeout_ms = timeout_ms
+
+    def __copyinit__(out self, existing: Self):
+        self.target = existing.target
+        self.sampling = existing.sampling
+        self.timeout_ms = existing.timeout_ms
+
+
+def requested_model_switch(
+    command: String, current_path: String, model_store: String
+) raises -> String:
+    """Validates a switch target without allocating its CUDA session."""
+    var target = parse_model_switch(command)
+    var resolved = resolve_model_reference(target, model_store)
+    if resolved.path == current_path:
+        raise Error("Requested model is already loaded")
+    var model = PackedGGUF(resolved.path)
+    var compatibility = ModelArchitectureRegistry.inspect(model)
+    if compatibility.status != "READY" or not compatibility.cuda_support:
+        raise Error(compatibility.friendly_error())
+    return target
+
+
+def exec_chat_model_switch(
+    target: String, model_store: String, device_index: Int,
+    reserve_bytes: Int, requested_context: Int, requested_max_tokens: Int,
+    system: String, sampling: NativeSamplingConfig, timeout_ms: Int,
+    tui: Bool, transcript_fd: Int32,
+) raises:
+    """Replaces this process image so MAX CUDA starts from a clean runtime."""
+    var arguments = List[String]()
+    arguments.append("aesir")
+    arguments.append("chat")
+    arguments.append(target)
+    arguments.append("--accel")
+    arguments.append("cuda")
+    arguments.append("--profile")
+    arguments.append("auto")
+    arguments.append("--device")
+    arguments.append(String(device_index))
+    arguments.append("--reserve-mib")
+    arguments.append(String(reserve_bytes // 1048576))
+    arguments.append("--model-store")
+    arguments.append(model_store)
+    arguments.append("--system")
+    arguments.append(system)
+    arguments.append("--temperature")
+    arguments.append(String(sampling.temperature))
+    arguments.append("--top-k")
+    arguments.append(String(sampling.top_k))
+    arguments.append("--top-p")
+    arguments.append(String(sampling.top_p))
+    arguments.append("--min-p")
+    arguments.append(String(sampling.min_p))
+    arguments.append("--repeat-penalty")
+    arguments.append(String(sampling.repetition_penalty))
+    arguments.append("--repeat-last-n")
+    arguments.append(String(sampling.repeat_last_n))
+    arguments.append("--seed")
+    arguments.append(String(sampling.seed))
+    arguments.append("--timeout-ms")
+    arguments.append(String(timeout_ms))
+    if requested_context > 0:
+        arguments.append("--context")
+        arguments.append(String(requested_context))
+    if requested_max_tokens > 0:
+        arguments.append("--max-tokens")
+        arguments.append(String(requested_max_tokens))
+    if tui:
+        arguments.append("--tui")
+    if transcript_fd >= 0:
+        arguments.append("--resume-log-fd")
+        arguments.append(String(transcript_fd))
+    var bytes = List[List[Int8]]()
+    for argument in arguments:
+        var encoded = List[Int8]()
+        for byte in argument.as_bytes():
+            encoded.append(Int8(byte))
+        encoded.append(0)
+        bytes.append(encoded^)
+    var pointers = List[Int]()
+    for index in range(len(bytes)):
+        pointers.append(Int(bytes[index].unsafe_ptr()))
+    pointers.append(0)
+    var executable = List[Int8]()
+    for byte in String("/proc/self/exe").as_bytes():
+        executable.append(Int8(byte))
+    executable.append(0)
+    _ = external_call["execv", Int32](
+        executable.unsafe_ptr(), pointers.unsafe_ptr()
+    )
+    _ = bytes
+    _ = executable
+    raise Error("Unable to replace the CUDA runtime for model switching")
 
 
 def chat_positive_int(text: String) raises -> Int:
@@ -141,6 +253,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var timeout_ms = 0
     var tui = False
     var model_store = String(".aesir/models")
+    var inherited_log_fd = -1
     var seen = List[String]()
     var i = 1
     if i < len(args) and not args[i].startswith("-"):
@@ -182,6 +295,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
             reserve_bytes = parse_reserve_bytes(value)
         elif flag == "--model-store":
             model_store = value
+        elif flag == "--resume-log-fd":
+            inherited_log_fd = bounded_decimal(value)
+            if inherited_log_fd < 3:
+                raise Error("Internal resumed log descriptor is invalid")
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
@@ -208,37 +325,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var interrupt_fd = interrupts.fd
     if model_reference == "":
         model_reference = choose_installed_model(model_store, interrupt_fd)
-    var resolved = resolve_model_reference(model_reference, model_store)
-    var model_path = resolved.path
     var requested_context = context_length if "--context" in seen else 0
-    var selection = choose_native_cuda_plan(
-        model_path, profile, requested_context, device_index, reserve_bytes
-    )
-    var detected = selection.plan.copy()
-    device_index = selection.device_index
-    profile = detected.profile
-    context_length = detected.context_length
-    if profile == "llama3":
-        if "--max-tokens" not in seen:
-            max_tokens = default_chat_max_tokens(
-                profile, detected.variant, context_length
-            )
-        if context_length > 8192 or max_tokens >= context_length or context_length < 2:
-            raise Error("Llama 3 context must leave room for input and completion")
-    elif profile == "qwen3":
-        if "--max-tokens" not in seen:
-            max_tokens = default_chat_max_tokens(
-                profile, detected.variant, context_length
-            )
-        if context_length > 32768 or max_tokens >= context_length or context_length < 2:
-            raise Error("Qwen 3 context must leave room for input and completion")
-    else:
-        if "--max-tokens" not in seen:
-            max_tokens = default_chat_max_tokens(
-                profile, detected.variant, context_length
-            )
-        if max_tokens >= context_length:
-            raise Error("Chat context must leave room for input as well as max-tokens")
+    var requested_max_tokens = max_tokens if "--max-tokens" in seen else 0
     var prompts = List[String]()
     if prompts_path != "":
         with open(prompts_path, "r") as source:
@@ -251,32 +339,88 @@ def dispatch_cuda_chat(args: List[String]) raises:
                     prompts.append(prompt)
         if len(prompts) == 0:
             raise Error("Chat prompt file has no turns")
-    var transcript = ChatTranscript(log_path)
-    if profile == "llama3" or profile == "qwen3":
-        run_llama_chat(model_path, context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui, resolved.digest)
-        _ = interrupts
-        return
+    if inherited_log_fd >= 0 and log_path != "":
+        raise Error("Internal resumed log descriptor conflicts with --log")
+    var transcript = ChatTranscript(log_path, inherited_log_fd)
+    var selection_profile = profile
+    while True:
+        var resolved = resolve_model_reference(model_reference, model_store)
+        var selection = choose_native_cuda_plan(
+            resolved.path, selection_profile, requested_context,
+            device_index, reserve_bytes,
+        )
+        var detected = selection.plan.copy()
+        device_index = selection.device_index
+        context_length = detected.context_length
+        max_tokens = requested_max_tokens
+        if requested_max_tokens == 0:
+            max_tokens = default_chat_max_tokens(
+                detected.profile, detected.variant, context_length
+            )
+        if detected.profile == "llama3":
+            if context_length > 8192 or max_tokens >= context_length or context_length < 2:
+                raise Error("Llama 3 context must leave room for input and completion")
+        elif detected.profile == "qwen3":
+            if context_length > 32768 or max_tokens >= context_length or context_length < 2:
+                raise Error("Qwen 3 context must leave room for input and completion")
+        elif max_tokens >= context_length:
+            raise Error("Chat context must leave room for input as well as max-tokens")
+
+        var switch: ChatSwitchRequest
+        if detected.profile == "llama3" or detected.profile == "qwen3":
+            switch = run_llama_chat(
+                resolved.path, context_length, max_tokens, system, prompts,
+                prompts_path != "", transcript, device_index, reserve_bytes,
+                sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
+                resolved.requested, model_store,
+            )
+        else:
+            switch = run_gemma_chat(
+                resolved.path, context_length, max_tokens, system, prompts,
+                prompts_path != "", transcript, device_index, reserve_bytes,
+                sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
+                resolved.requested, model_store,
+            )
+        if switch.target == "":
+            break
+        transcript.emit("\n[previous model unloaded; switching to " + switch.target + "]\n")
+        transcript.flush()
+        exec_chat_model_switch(
+            switch.target, model_store, device_index, reserve_bytes,
+            requested_context, requested_max_tokens, system, switch.sampling,
+            switch.timeout_ms, tui, transcript.fd,
+        )
+    _ = interrupts
+
+
+def run_gemma_chat(
+    model_path: String, context_length: Int, max_tokens: Int, system: String,
+    prompts: List[String], from_file: Bool, transcript: ChatTranscript,
+    device_index: Int, reserve_bytes: Int, sampling: NativeSamplingConfig,
+    interrupt_fd: Int, timeout_ms: Int, tui: Bool, known_digest: String,
+    model_label: String, model_store: String,
+) raises -> ChatSwitchRequest:
     var session = Gemma4CUDASession(model_path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
-    var conversation_identity = resolved.digest
+    var conversation_identity = known_digest
     if conversation_identity == "":
         conversation_identity = "path:" + model_path
     var conversation = ConversationState(
         conversation_identity, "gemma4", context_length, system,
         session.sampler.config.description(),
     )
-    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + resolved.requested + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + model_label + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
-        render_tui(dashboard, session, resolved.requested, 0.0, transcript)
+        render_tui(dashboard, session, model_label, 0.0, transcript)
     var turns = 0
-    if prompts_path != "":
+    if from_file:
         for prompt in prompts:
             turns += 1
             var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
             conversation.append_turn(prompt, result.assistant)
             if tui:
-                render_tui(dashboard, session, resolved.requested, result.tokens_per_second, transcript)
+                render_tui(dashboard, session, model_label, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
@@ -290,6 +434,17 @@ def dispatch_cuda_chat(args: List[String]) raises:
                 break
             if prompt.startswith("/"):
                 try:
+                    if prompt.startswith("/model"):
+                        var next_model = requested_model_switch(
+                            prompt, model_path, model_store
+                        )
+                        transcript.emit("\n[model switch requested: " + next_model + "; conversation will reset]\n")
+                        transcript.emit("\nCompleted turns: " + String(turns) + "\n")
+                        transcript.flush()
+                        return ChatSwitchRequest(
+                            next_model, session.sampler.config,
+                            session.control.timeout_ms,
+                        )
                     chat_control(session, prompt, transcript, conversation)
                 except error:
                     if not session.healthy:
@@ -301,7 +456,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
                 conversation.append_turn(prompt, result.assistant)
                 turns += 1
                 if tui:
-                    render_tui(dashboard, session, resolved.requested, result.tokens_per_second, transcript)
+                    render_tui(dashboard, session, model_label, result.tokens_per_second, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
@@ -309,7 +464,9 @@ def dispatch_cuda_chat(args: List[String]) raises:
             _ = consume_interrupts(interrupt_fd)
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
-    _ = interrupts
+    return ChatSwitchRequest(
+        "", session.sampler.config, session.control.timeout_ms
+    )
 
 
 def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
@@ -354,7 +511,15 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, mod
     transcript.emit("\n" + dashboard.render_frame())
 
 
-def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456, sampling: NativeSamplingConfig = NativeSamplingConfig(), interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False, known_digest: String = String("")) raises:
+def run_llama_chat(
+    path: String, context_length: Int, max_tokens: Int, system: String,
+    prompts: List[String], from_file: Bool, transcript: ChatTranscript,
+    device_index: Int = 0, reserve_bytes: Int = 268435456,
+    sampling: NativeSamplingConfig = NativeSamplingConfig(),
+    interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False,
+    known_digest: String = String(""), model_label: String = String(""),
+    model_store: String = String(".aesir/models"),
+) raises -> ChatSwitchRequest:
     # Emit the admitted backend claim only after model validation and upload.
     var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
@@ -365,10 +530,11 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
         conversation_identity, session.profile.architecture, context_length, system,
         session.sampler.config.description(),
     )
-    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
+    var display_model = model_label if model_label != "" else path
+    transcript.emit("# Aesir native CUDA conversation\n\nModel: " + display_model + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
-        render_tui(dashboard, session, path, 0.0, transcript)
+        render_tui(dashboard, session, display_model, 0.0, transcript)
     var turns = 0
     if from_file:
         for prompt in prompts:
@@ -376,7 +542,7 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
             var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
             conversation.append_turn(prompt, result.assistant)
             if tui:
-                render_tui(dashboard, session, path, result.tokens_per_second, transcript)
+                render_tui(dashboard, session, display_model, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
@@ -390,6 +556,17 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
                 break
             if prompt.startswith("/"):
                 try:
+                    if prompt.startswith("/model"):
+                        var next_model = requested_model_switch(
+                            prompt, path, model_store
+                        )
+                        transcript.emit("\n[model switch requested: " + next_model + "; conversation will reset]\n")
+                        transcript.emit("\nCompleted turns: " + String(turns) + "\n")
+                        transcript.flush()
+                        return ChatSwitchRequest(
+                            next_model, session.sampler.config,
+                            session.control.timeout_ms,
+                        )
                     chat_control(session, prompt, transcript, conversation)
                 except error:
                     if not session.healthy:
@@ -401,7 +578,7 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
                 conversation.append_turn(prompt, result.assistant)
                 turns += 1
                 if tui:
-                    render_tui(dashboard, session, path, result.tokens_per_second, transcript)
+                    render_tui(dashboard, session, display_model, result.tokens_per_second, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
@@ -409,6 +586,9 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
             _ = consume_interrupts(interrupt_fd)
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
+    return ChatSwitchRequest(
+        "", session.sampler.config, session.control.timeout_ms
+    )
 
 
 def _chat_command_path(command: String, prefix: String) raises -> String:
@@ -420,6 +600,10 @@ def _chat_command_path(command: String, prefix: String) raises -> String:
     return String(path)
 
 
+def parse_model_switch(command: String) raises -> String:
+    return _chat_command_path(command, "/model")
+
+
 def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises:
     if command == "/show":
         transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
@@ -428,7 +612,7 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         conversation.clear()
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /new /bye; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)
@@ -477,7 +661,7 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         conversation.clear()
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /new /bye; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)

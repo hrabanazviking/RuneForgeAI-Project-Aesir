@@ -664,6 +664,12 @@ Aesir unloads one model and loads another without exiting the application.
 
 This gives it more of an LM Studio-style experience while staying terminal-native and lightweight.
 
+**Implemented 2026-09-11:** `/model <name-or-alias-or-path>` validates the next
+native CUDA model before releasing the current session, preserves the same PID,
+terminal and user settings through a fresh CUDA runtime image, and starts a new
+model-specific conversation without overlapping GPU allocations. Physical
+Gemma → Qwen → Gemma switching passed in one chat task.
+
 ---
 
 ## 18. Performance Auto-Profiling

@@ -29,6 +29,15 @@ reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
 
+Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
+lifecycle, not either concrete session. It resolves and inspects the target
+while the current session remains recoverable, returns the accepted request out
+of that session's scope, then uses a same-PID `execv` image replacement before
+the next plan/load. The handoff preserves terminal input, settings, signal
+bootstrap state, and an inherited transcript descriptor while deliberately
+discarding model-specific conversation/KV state. This avoids overlapping GPU
+allocations and the observed MAX sequential-context deadlock.
+
 `cli/conversation.mojo` owns the bounded checksummed v1 snapshot codec,
 exclusive owner-private file publication, loading, and readable Markdown
 export. Snapshots bind the exact committed token IDs and sampler draw position

@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Round 2 model preferences, September 11, 2026
+**Ledger version:** Round 2 CUDA model switching, September 11, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 181 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 182, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 182 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 183, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 72 |
+| `verified` | 73 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **115** |
+| **Total** | **116** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -674,6 +674,17 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `cli.model_preferences_codec`, `cli.favorite_model_selection`, and the extended `cli.manifest_store_restart` cover codec round trips, checksum corruption, alias validation, stable ordering, visible marking, restart persistence, and alias-to-canonical-blob resolution. The built CLI physically persisted `gemma -> gemma4-e2b:latest`, marked the canonical model as favorite, listed both records, and used `aesir inspect gemma` to reach the real Gemma 4 E2B catalog blob.
 - **Evidence boundary:** Preferences are local to one model-store root. Aliases target installed catalog identities and do not apply to explicit paths. Removing a catalog model can leave a stale preference, which fails closed when resolved; no automatic pruning, cross-device synchronization, nested aliases, or general user-settings system is claimed.
 - **Next acceptance gate:** Prune or report stale preferences during catalog mutation/doctor, add crash-injection and concurrent-process harnesses, and integrate aliases/favorites into hot-switch controls.
+- **Audit:** Round 2 physical and counted verification, 2026-09-11.
+
+### AES-CLI-013 — Interactive native CUDA model hot switching
+
+- **Status:** `verified`
+- **Owner:** CLI CUDA-chat lifecycle, model resolution, and process handoff domains
+- **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
+- **Implementation evidence:** `/model <name-or-alias-or-path>` resolves and inspects a READY CUDA target while the current session remains healthy. The accepted request returns out of the concrete Gemma or dense-GQA session scope, releasing model-specific resources. A same-PID `execv` process-image handoff then starts the target with a fresh MAX CUDA runtime while preserving terminal/stdin, signal bootstrap state, model-store selection, device/reserve, system prompt, sampling settings, timeout, explicit context/completion preferences, TUI mode, and an inherited durable transcript descriptor. Conversation tokens, KV, repetition history, and sampler draw position intentionally reset.
+- **Executable evidence:** `E-MASTER` case `cli.cuda_model_switch_syntax` covers accepted alias/path syntax and malformed controls. The opt-in `scripts/test_native_model_switch.py` physical harness switched Gemma 4 E2B → Qwen 3 0.6B Q4_K_M → Gemma 4 E2B inside one chat task, preserved interactive temperature and timeout changes, retained one transcript, and rejected same-model and missing-file requests before unloading the healthy current session.
+- **Evidence boundary:** This is Linux `/proc/self/exe` plus `execv` process-image switching for interactive native CUDA chat. It preserves PID and user-facing application continuity but does not preserve conversation state, loaded kernels, or open resources other than the explicit transcript descriptor. Prompt-file mode treats `/model` literally. Windows-native operation, crash recovery during handoff, encrypted transcript descriptors, background model pools, and zero-latency switching are not claimed.
+- **Next acceptance gate:** Add an integration test that samples before and after switching, a machine-observed PID/VRAM timeline, optional conversation-save prompting, and a portable process-handoff abstraction.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ## 11. Server and Protocol Surfaces
@@ -1359,7 +1370,7 @@ and circular self-parity transforms were removed.
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-011 |
-| CLI/model management | AES-CLI-001 through AES-CLI-012 |
+| CLI/model management | AES-CLI-001 through AES-CLI-013 |
 | Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |
 | Quantization | AES-QNT-001 through AES-QNT-011 |

@@ -142,6 +142,7 @@ def test_gpu_gemm_parity() raises: ...
 def test_modelfile_parser() raises: ...
 def test_model_manifest_store() raises: ...
 def test_cli_command_dispatch() raises: ...
+def test_cuda_model_switch_syntax() raises: ...
 
 # tests/test_model_preferences.mojo
 def test_model_preferences_codec() raises: ...
@@ -193,6 +194,11 @@ corruption and path-shaped alias rejection, stable favorite-first selection,
 and visible favorite marking. The catalog restart case additionally proves that
 preferences survive process-local reconstruction and that an alias resolves to
 the canonical verified content-addressed blob.
+
+`test_cuda_model_switch_syntax()` verifies the interactive model-control grammar.
+The opt-in `scripts/test_native_model_switch.py` harness performs physical
+Gemma → Qwen → Gemma CUDA switching in one task, checks persistent settings and
+one inherited transcript, and proves invalid targets reject before unload.
 
 `test_forward_pass()` includes the Transformer-block construction contract:
 missing, empty, and address-1 layer weights fail before inference; the legacy

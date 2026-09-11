@@ -1,5 +1,24 @@
 """Invalid CUDA chat requests must fail before opening a model or transcript."""
-from cli.cuda_chat import dispatch_cuda_chat, default_chat_max_tokens
+from cli.cuda_chat import (
+    dispatch_cuda_chat,
+    default_chat_max_tokens,
+    parse_model_switch,
+)
+
+
+def test_cuda_model_switch_syntax() raises:
+    if parse_model_switch("/model gemma") != "gemma":
+        raise Error("model switch parser changed a valid alias")
+    if parse_model_switch("/model /models/qwen.gguf") != "/models/qwen.gguf":
+        raise Error("model switch parser changed a valid path")
+    for invalid in ["/model", "/models gemma", "/model   "]:
+        var rejected = False
+        try:
+            _ = parse_model_switch(invalid)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("model switch parser accepted malformed syntax")
 
 def test_cuda_chat_admission() raises:
     if (default_chat_max_tokens("llama3", "llama3-8B", 8192) != 4096

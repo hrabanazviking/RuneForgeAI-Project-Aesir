@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 181 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 182 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
@@ -49,7 +49,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 182 reportable cases, it prints unique
+and continues with later cases. After all 183 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -57,10 +57,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 181
+[SUMMARY] Passed: 182
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 182
+[SUMMARY] Total: 183
 [SUMMARY] Status: PASS
 ```
 
@@ -68,7 +68,7 @@ The historical Forge 0B negative gate deliberately corrupted the F16 type expect
 The runner recorded `gguf.type_constants` as failed, continued through the final
 swarm case, reported 48/1/1/50, and exited 1 after the summary. Exact restoration
 returned that Forge's suite to 49/0/1/50 and exit 0. Later stages expanded the
-current baseline to 181/0/1/182; the consistency checker mechanically keeps
+current baseline to 182/0/1/183; the consistency checker mechanically keeps
 the runner total and capability ledger synchronized.
 
 ## How to Run

@@ -1,3 +1,22 @@
+## 2026-09-11 — Added native CUDA model hot switching
+
+Interactive native chat now accepts `/model <name-or-alias-or-path>`. The active
+concrete session returns the validated request, allowing all of its model and
+CUDA buffers to leave scope before Aesir loads the target. A direct second MAX
+CUDA context in one process deadlocked under physical testing, so the final
+boundary uses `execv` to replace the process image while preserving PID,
+terminal/stdin, signal semantics, user settings, and the open durable transcript
+descriptor. This guarantees a fresh CUDA runtime and prevents old/new model
+allocations from overlapping. Conversation, KV, repetition history, and sampler
+draw position intentionally start fresh for the new model.
+
+The physical harness switched Gemma 4 E2B → Qwen 3 0.6B Q4_K_M → Gemma 4 E2B
+without leaving the chat task. Temperature and timeout changes survived both
+switches, and the single transcript recorded each unload/load boundary. Same-
+model and invalid-file requests were rejected while the healthy current session
+remained available. The counted suite stands at 182 passed, 0 failed, and 1
+explicit external fixture skip (183 total).
+
 ## 2026-09-11 — Added durable model aliases and favorites
 
 Added `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite`
