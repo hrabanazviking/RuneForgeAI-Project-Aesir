@@ -6,6 +6,7 @@ from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
 from cli.storage import DurableModelStore, deserialize_catalog
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import render_model_selector, selected_model_reference
+from cli.model_preferences import DurableModelPreferences
 from cli.commands import (
     collect_run_positionals,
     dispatch_command,
@@ -37,6 +38,7 @@ def _cleanup_owned_model_store(
     if not root.startswith(".aesir-test-model-store-") or "/" in root:
         raise Error("refusing to clean a path not owned by the model-store test")
     var catalog_bytes = _test_cstring(root + "/catalog.v1")
+    var preferences_bytes = _test_cstring(root + "/preferences.v1")
     var source_bytes = _test_cstring(root + "/source.bin")
     var mismatch_source_bytes = _test_cstring(root + "/mismatch.bin")
     var orphan_blob_bytes = _test_cstring(
@@ -51,6 +53,7 @@ def _cleanup_owned_model_store(
     var blob_directory_bytes = _test_cstring(root + "/blobs")
     var root_bytes = _test_cstring(root)
     _ = external_call["unlink", Int32](catalog_bytes.unsafe_ptr())
+    _ = external_call["unlink", Int32](preferences_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](source_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](mismatch_source_bytes.unsafe_ptr())
     _ = external_call["unlink", Int32](orphan_blob_bytes.unsafe_ptr())
@@ -340,6 +343,20 @@ def test_model_manifest_store() raises:
                 or resolved_name.digest != blob.digest
                 or "/blobs/sha256/" not in resolved_name.path):
             raise Error("catalog model-name resolution mismatch")
+        var preference_store = DurableModelPreferences(test_root)
+        preference_store.set_alias("local", "blobbed:v1", removed_restart.store)
+        var favorite_name = preference_store.add_favorite("local", removed_restart.store)
+        if favorite_name != "blobbed:v1":
+            raise Error("favorite alias did not resolve to canonical model identity")
+        var restarted_preferences = DurableModelPreferences(test_root).load()
+        if (restarted_preferences.resolve("local") != "blobbed:v1"
+                or not restarted_preferences.is_favorite("blobbed:v1")):
+            raise Error("model aliases and favorites did not survive restart")
+        var resolved_alias = resolve_model_reference("local", test_root)
+        if (not resolved_alias.from_catalog
+                or resolved_alias.catalog_name != "blobbed:v1"
+                or resolved_alias.digest != blob.digest):
+            raise Error("durable model alias did not reach its canonical blob")
         var resolved_path = resolve_model_reference(source_path, test_root)
         if resolved_path.from_catalog or resolved_path.path != source_path:
             raise Error("explicit model path was mistaken for a catalog name")

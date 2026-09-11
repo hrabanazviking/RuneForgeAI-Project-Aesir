@@ -100,6 +100,25 @@ and chooses the corresponding defaults. Model-specific shapes and tokenizers
 still have to pass admission. Unsupported GGUFs do not become supported merely
 because their architecture string says `llama`.
 
+## Model aliases and favorites
+
+Aliases and favorites live beside the catalog in `.aesir/models/preferences.v1`
+by default. They never duplicate or rename immutable model blobs.
+
+```bash
+aesir alias gemma gemma4-e2b:latest
+aesir favorite gemma
+aesir aliases
+aesir favorites
+aesir chat gemma --accel cuda
+```
+
+Use `unalias gemma` or `unfavorite gemma` to remove a preference. The commands
+accept either `--model-store <path>` or `--config <path>`. Alias targets and
+favorites must identify installed catalog models. Path-free `aesir chat` shows
+favorites first and marks them with `★`; explicit filesystem paths remain
+unchanged by preference resolution.
+
 ## Native sampling and interactive controls
 
 Both CUDA chat profiles accept these independent options:

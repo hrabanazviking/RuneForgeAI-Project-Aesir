@@ -19,6 +19,7 @@ from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
 from cli.model_inspect import dispatch_model_inspect
 from cli.doctor import dispatch_doctor
+from cli.model_preferences import DurableModelPreferences
 from server.api import json_escape_string
 from std.ffi import external_call
 from std.memory import Pointer
@@ -60,6 +61,11 @@ def print_general_help():
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print("  doctor [model] [--model-store path]")
     print("      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.")
+    print("  alias <short-name> <model> [--model-store path] | aliases")
+    print("  unalias <short-name> [--model-store path]")
+    print("  favorite <model-or-alias> [--model-store path] | favorites")
+    print("  unfavorite <model-or-alias> [--model-store path]")
+    print("      Durable local shortcuts and favorite-first interactive selection.")
     print(
         "  run <model> [--max-tokens N] [--config path]"
         " [--accel auto|cpu|cuda] <prompt...>"
@@ -735,10 +741,106 @@ def dispatch_catalog_command(args: List[String]) raises:
     print("Removed model recipe: " + positionals[0])
 
 
+def _is_preference_command(command: String) -> Bool:
+    return command in ("alias", "aliases", "unalias", "favorite", "favorites", "unfavorite")
+
+
+def dispatch_preference_command(args: List[String]) raises:
+    """Mutates or reports user model preferences without changing the catalog."""
+    var command = args[0]
+    var config_path = String("")
+    var model_store = String("")
+    var positionals = List[String]()
+    var seen_config = False
+    var seen_store = False
+    var index = 1
+    while index < len(args):
+        var token = args[index]
+        if token == "--config" or token == "-c":
+            if seen_config:
+                raise Error("duplicate preference option: " + token)
+            if index + 1 >= len(args):
+                raise Error("missing value for preference option " + token)
+            seen_config = True
+            config_path = args[index + 1]
+            index += 2
+            continue
+        if token == "--model-store":
+            if seen_store:
+                raise Error("duplicate preference option: --model-store")
+            if index + 1 >= len(args):
+                raise Error("missing value for preference option --model-store")
+            seen_store = True
+            model_store = args[index + 1]
+            index += 2
+            continue
+        if token.startswith("-"):
+            raise Error("unknown preference option: " + token)
+        positionals.append(token)
+        index += 1
+    if seen_config and seen_store:
+        raise Error("use either --config or --model-store, not both")
+    var config = AesirConfig()
+    if seen_config:
+        config = load_config_file(config_path)
+    if not seen_store:
+        model_store = config.model_store_path
+
+    var durable = DurableModelStore(model_store)
+    var preferences_store = DurableModelPreferences(model_store)
+    if command == "aliases":
+        if len(positionals) != 0:
+            raise Error("Usage: aesir aliases [--model-store path]")
+        var preferences = preferences_store.load()
+        if len(preferences.alias_keys) == 0:
+            print("No model aliases configured.")
+            return
+        print("ALIAS\tMODEL")
+        for alias_name in preferences.alias_keys:
+            print(alias_name + "\t" + preferences.aliases[alias_name])
+        return
+    if command == "favorites":
+        if len(positionals) != 0:
+            raise Error("Usage: aesir favorites [--model-store path]")
+        var preferences = preferences_store.load()
+        if len(preferences.favorites) == 0:
+            print("No favorite models configured.")
+            return
+        print("FAVORITE MODEL")
+        for favorite in preferences.favorites:
+            print("★ " + favorite)
+        return
+    if command == "alias":
+        if len(positionals) != 2:
+            raise Error("Usage: aesir alias <short-name> <model> [--model-store path]")
+        preferences_store.set_alias(positionals[0], positionals[1], durable.store)
+        print("Model alias saved: " + positionals[0] + " -> " + normalize_model_reference(positionals[1]))
+        return
+    if command == "unalias":
+        if len(positionals) != 1:
+            raise Error("Usage: aesir unalias <short-name> [--model-store path]")
+        preferences_store.remove_alias(positionals[0])
+        print("Model alias removed: " + positionals[0])
+        return
+    if command == "favorite":
+        if len(positionals) != 1:
+            raise Error("Usage: aesir favorite <model-or-alias> [--model-store path]")
+        var canonical = preferences_store.add_favorite(positionals[0], durable.store)
+        print("Favorite model saved: " + canonical)
+        return
+    if len(positionals) != 1:
+        raise Error("Usage: aesir unfavorite <model-or-alias> [--model-store path]")
+    var canonical = preferences_store.remove_favorite(positionals[0])
+    print("Favorite model removed: " + canonical)
+
+
 def dispatch_command(args: List[String]) raises:
     """Routes implemented commands, using durable state where required."""
     if len(args) > 0 and _is_catalog_command(args[0]):
         dispatch_catalog_command(args)
+        return
+    if len(args) > 0 and _is_preference_command(args[0]):
+        dispatch_preference_command(args)
         return
     var store = RuneModelStore()
     dispatch_command(args, store)
@@ -752,6 +854,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
         return
 
     var cmd = args[0]
+
+    if _is_preference_command(cmd):
+        dispatch_preference_command(args)
+        return
 
     if cmd == "help" or cmd == "-h" or cmd == "--help":
         print_general_help()

@@ -582,6 +582,11 @@ Then:
 aesir chat gemma
 ```
 
+**Implemented 2026-09-11:** aliases and favorites persist in a checksummed
+metadata layer separate from model manifests and blobs. `gemma` now resolves to
+the installed `gemma4-e2b:latest` catalog model, favorites are visibly marked
+and ordered first in path-free selection, and list/remove commands are included.
+
 ---
 
 ## 15. Persist User Settings
@@ -796,22 +801,22 @@ Round 2 is about making **local model use broad, smooth, discoverable, and pleas
 Before declaring Round 2 complete, verify:
 
 ```text
-[ ] Existing verified Gemma 4 E4B support still passes
-[ ] Gemma 4 E2B support still passes
-[ ] Existing Llama 3 support still passes
-[ ] At least one Qwen-family model runs successfully
-[ ] Multiple supported K-quants load and generate correctly
-[ ] GGUF architecture detection works
-[ ] Chat template selection works automatically
-[ ] aesir inspect gives useful diagnostics
-[ ] Friendly unsupported-model errors work
-[ ] TUI model selection works without typing file paths
-[ ] Ollama-compatible clients can discover and chat with models
-[ ] OpenAI-compatible clients can discover and chat with models
-[ ] Downloads can resume after interruption
-[ ] aesir doctor reports useful system/model state
-[ ] Existing tests remain green
-[ ] New compatibility tests are added for every newly claimed family
+[x] Existing verified Gemma 4 E4B support still passes
+[x] Gemma 4 E2B support still passes
+[x] Existing Llama 3 support still passes
+[x] At least one Qwen-family model runs successfully
+[x] Multiple supported K-quants load and generate correctly
+[x] GGUF architecture detection works
+[x] Chat template selection works automatically
+[x] aesir inspect gives useful diagnostics
+[x] Friendly unsupported-model errors work
+[x] TUI model selection works without typing file paths
+[x] Ollama-compatible clients can discover and chat with models
+[x] OpenAI-compatible clients can discover and chat with models
+[x] Downloads can resume after interruption
+[x] aesir doctor reports useful system/model state
+[x] Existing tests remain green
+[x] New compatibility tests are added for every newly claimed family
 ```
 
 ---

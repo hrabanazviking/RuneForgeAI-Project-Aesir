@@ -47,6 +47,16 @@ append the existing architecture-registry inspection for one model. It does
 not contact a listening socket or the public internet, and neither API
 listeners nor network access are prerequisites for offline inference readiness.
 
+## Model preferences
+
+`cli/model_preferences.mojo` owns aliases and favorites as a separate bounded,
+checksummed, atomically replaced `preferences.v1` record under the model-store
+root. Alias values are canonical installed `name:tag` identities; they do not
+create manifests or duplicate blobs. `cli/model_reference.mojo` applies aliases
+only to non-path references, and `cli/model_selector.mojo` builds a stable
+favorite-first view without mutating durable catalog order. The commands are
+`alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite`.
+
 ## Public Structs & Functions
 
 ### `Modelfile` (`cli/modelfile.mojo`)

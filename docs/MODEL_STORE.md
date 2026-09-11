@@ -17,11 +17,24 @@ aesir show stheno:roleplay
 aesir cp stheno:roleplay stheno:backup
 aesir rm stheno:roleplay
 aesir gc
+aesir alias gemma stheno:stored
+aesir favorite gemma
+aesir aliases
+aesir favorites
 ```
 
 Every command also accepts `--config <path>`. `--format text|json` applies to
 `list` and `show`. Unknown, duplicate, missing, or command-inapplicable options
 fail before a mutation.
+
+Aliases and favorites are user preferences, not catalog identities. They live
+in a separate bounded, checksummed `preferences.v1` file under the same store
+root. Writers share the store directory lock and use owner-private staged,
+synchronized, atomic replacement. Alias targets must be installed catalog
+models; resolution always returns the canonical `name:tag` before opening and
+verifying its blob. Favorites keep their insertion order, appear before other
+models in path-free chat selection, and are marked with `★`. Use `unalias` and
+`unfavorite` to remove them. An explicit filesystem path bypasses aliases.
 
 Recipe-only `create` parses the Modelfile and records its recipe without
 pretending that `FROM` bytes were inspected. `create --model <path>` additionally
@@ -79,8 +92,8 @@ failed-mutation rollback, native Linux permissions, final-symlink rejection,
 fail-before-delete directory validation, unreachable-blob collection, stale-stage
 cleanup, exact reclaimed-byte accounting, and referenced-blob retention.
 
-Authenticated/resumable transfer, store-aware staging without a redundant
+Authenticated transfer, store-aware staging without a redundant
 caller destination, systematic injected crash recovery at every filesystem
 boundary, a live process registry,
-`ps`/`stop`, authenticated downloads, resume, and `push` remain unfinished and
+`ps`/`stop`, authenticated downloads, and `push` remain unfinished and
 fail closed where commands exist.

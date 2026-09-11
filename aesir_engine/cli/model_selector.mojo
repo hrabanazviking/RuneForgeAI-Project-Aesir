@@ -1,10 +1,27 @@
 """Installed-model selector for path-free native chat startup."""
 from cli.manifest import ModelManifest
 from cli.storage import DurableModelStore
+from cli.model_preferences import ModelPreferences, DurableModelPreferences
 from cli.interrupts import read_interruptible_line_result
 
 
-def render_model_selector(models: List[ModelManifest]) raises -> String:
+def prioritize_favorite_models(
+    models: List[ModelManifest], preferences: ModelPreferences
+) -> List[ModelManifest]:
+    """Returns a stable favorite-first view without mutating catalog order."""
+    var ordered = List[ModelManifest]()
+    for model in models:
+        if preferences.is_favorite(model.name + ":" + model.tag):
+            ordered.append(model)
+    for model in models:
+        if not preferences.is_favorite(model.name + ":" + model.tag):
+            ordered.append(model)
+    return ordered^
+
+
+def render_model_selector(
+    models: List[ModelManifest], preferences: ModelPreferences = ModelPreferences()
+) raises -> String:
     if len(models) == 0:
         raise Error("No installed models; use aesir pull --name or aesir create --model")
     var frame = String("┌──────────────── PROJECT A.E.S.I.R. ────────────────┐\n")
@@ -18,6 +35,7 @@ def render_model_selector(models: List[ModelManifest]) raises -> String:
         )
         frame += (
             "│ " + ("> " if index == 0 else "  ") + String(index + 1) + ". "
+            + ("★ " if preferences.is_favorite(model.name + ":" + model.tag) else "  ")
             + model.name + ":" + model.tag + "   " + quantization
             + "   " + model.size_formatted() + "\n"
         )
@@ -46,8 +64,11 @@ def selected_model_reference(models: List[ModelManifest], choice: String) raises
 
 
 def choose_installed_model(model_store: String, interrupt_fd: Int) raises -> String:
-    var models = DurableModelStore(model_store).list_models()
-    print(render_model_selector(models), end="")
+    var preferences = DurableModelPreferences(model_store).load()
+    var models = prioritize_favorite_models(
+        DurableModelStore(model_store).list_models(), preferences
+    )
+    print(render_model_selector(models, preferences), end="")
     print("Select model [1]: ", end="")
     var input = read_interruptible_line_result(interrupt_fd)
     if input.interrupted:

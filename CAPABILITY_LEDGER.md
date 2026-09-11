@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Round 2 diagnostics, September 11, 2026
+**Ledger version:** Round 2 model preferences, September 11, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 179 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 180, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 181 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 182, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 71 |
+| `verified` | 72 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **114** |
+| **Total** | **115** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -663,6 +663,17 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `cli.conversation_codec` and `cli.conversation_compatibility` cover Unicode/newline round trips, exact token preservation, checksum corruption, unsnapshotted-turn rejection, and model/context mismatch refusal. Physical Gemma 4 E2B and Qwen 3 0.6B sessions each generated, saved, reset to position zero, reloaded to the exact saved position, and retained the saved turn count; Gemma then continued as turn two with the prior answer in context.
 - **Evidence boundary:** Snapshots restore conversation KV and repetition/sampling sequence only for the same exact model bytes, native profile, context, system prompt, and sampling settings. Files are explicit caller paths and never overwrite. There is no automatic chat directory, listing, rename/delete UI, cross-context migration, encrypted storage, or crash injection at each filesystem syscall.
 - **Next acceptance gate:** Add managed chat naming/listing, automatic save checkpoints, injected write/crash recovery, and a physical sampled continuation replay oracle for both session families.
+- **Audit:** Round 2 physical and counted verification, 2026-09-11.
+
+### AES-CLI-012 — Durable model aliases and favorites
+
+- **Status:** `verified`
+- **Owner:** CLI model-preferences, model-reference, and selector domains
+- **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
+- **Implementation evidence:** `cli/model_preferences.mojo` stores validated alias-to-canonical mappings and canonical favorites in a bounded, FNV-1a-checksummed `preferences.v1` record. Mutations share the model-store directory lock, stage owner-private files, synchronize content, atomically replace the record, and synchronize the directory. `cli/model_reference.mojo` resolves non-path shortcuts before canonical blob verification. `cli/model_selector.mojo` creates a stable favorite-first view and marks favorites without mutating catalog order. `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite` expose the lifecycle.
+- **Executable evidence:** `E-MASTER` cases `cli.model_preferences_codec`, `cli.favorite_model_selection`, and the extended `cli.manifest_store_restart` cover codec round trips, checksum corruption, alias validation, stable ordering, visible marking, restart persistence, and alias-to-canonical-blob resolution. The built CLI physically persisted `gemma -> gemma4-e2b:latest`, marked the canonical model as favorite, listed both records, and used `aesir inspect gemma` to reach the real Gemma 4 E2B catalog blob.
+- **Evidence boundary:** Preferences are local to one model-store root. Aliases target installed catalog identities and do not apply to explicit paths. Removing a catalog model can leave a stale preference, which fails closed when resolved; no automatic pruning, cross-device synchronization, nested aliases, or general user-settings system is claimed.
+- **Next acceptance gate:** Prune or report stale preferences during catalog mutation/doctor, add crash-injection and concurrent-process harnesses, and integrate aliases/favorites into hot-switch controls.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ## 11. Server and Protocol Surfaces
@@ -1348,7 +1359,7 @@ and circular self-parity transforms were removed.
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-011 |
-| CLI/model management | AES-CLI-001 through AES-CLI-009 |
+| CLI/model management | AES-CLI-001 through AES-CLI-012 |
 | Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |
 | Quantization | AES-QNT-001 through AES-QNT-011 |

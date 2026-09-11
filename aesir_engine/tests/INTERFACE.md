@@ -143,6 +143,10 @@ def test_modelfile_parser() raises: ...
 def test_model_manifest_store() raises: ...
 def test_cli_command_dispatch() raises: ...
 
+# tests/test_model_preferences.mojo
+def test_model_preferences_codec() raises: ...
+def test_model_favorite_selection() raises: ...
+
 # tests/test_quantization.mojo (Slice 10)
 def test_compressed_format_enum() raises: ...
 def test_dequantization_kernels() raises: ...
@@ -183,6 +187,12 @@ referenced-blob retention, exact reclaimed-byte accounting, and
 registered-pull syntax admission without network I/O. The separate built CLI
 harness adds concurrent processes and the same GC lifecycle; the opt-in live Hugging Face harness proves
 one pinned external pull-to-store transaction.
+
+The model-preference cases cover bounded checksummed alias/favorite records,
+corruption and path-shaped alias rejection, stable favorite-first selection,
+and visible favorite marking. The catalog restart case additionally proves that
+preferences survive process-local reconstruction and that an alias resolves to
+the canonical verified content-addressed blob.
 
 `test_forward_pass()` includes the Transformer-block construction contract:
 missing, empty, and address-1 layer weights fail before inference; the legacy

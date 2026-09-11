@@ -202,6 +202,10 @@ from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
 )
+from tests.test_model_preferences import (
+    test_model_preferences_codec,
+    test_model_favorite_selection,
+)
 from tests.test_quantization import (
     test_compressed_format_enum,
     test_dequantization_kernels,
@@ -498,6 +502,8 @@ def main() raises:
     run_case(
         ledger, "cli.conversation_compatibility", test_conversation_compatibility
     )
+    run_case(ledger, "cli.model_preferences_codec", test_model_preferences_codec)
+    run_case(ledger, "cli.favorite_model_selection", test_model_favorite_selection)
     print("")
 
     # --- Compressed Format Scaffolds ---
@@ -784,4 +790,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(180)
+    ledger.finish(182)

@@ -1,3 +1,19 @@
+## 2026-09-11 — Added durable model aliases and favorites
+
+Added `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite`
+commands over a separate bounded, checksummed `preferences.v1` layer. Aliases
+store canonical installed catalog identities rather than duplicating manifests
+or model blobs. Model-name resolution now accepts those shortcuts everywhere
+that uses the shared resolver, and path-free chat presents favorites first with
+a visible star while preserving catalog order inside each group.
+
+The physical local catalog now has `gemma -> gemma4-e2b:latest` and marks that
+Gemma model as a favorite; `aesir inspect gemma` reached and verified the real
+catalog blob. Restart tests prove preferences survive a fresh store instance
+and alias resolution reaches the canonical SHA-256-addressed blob. The counted
+suite stands at 181 passed, 0 failed, and 1 explicit external fixture skip (182
+total).
+
 ## 2026-09-11 — Added exact-token conversation save, load, new, and export
 
 Native CUDA chat now supports `/save <new-file>`, `/load <file>`, `/new`, and

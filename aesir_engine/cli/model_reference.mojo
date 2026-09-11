@@ -2,6 +2,7 @@
 from std.ffi import external_call
 from cli.storage import DurableModelStore
 from cli.manifest import normalize_model_reference
+from cli.model_preferences import DurableModelPreferences
 
 
 struct ResolvedModelReference(Copyable):
@@ -49,7 +50,8 @@ def resolve_model_reference(reference: String,
         return ResolvedModelReference(reference, reference)
 
     var durable = DurableModelStore(model_store)
-    var catalog_name = normalize_model_reference(reference)
+    var preferences = DurableModelPreferences(model_store).load()
+    var catalog_name = preferences.resolve(reference)
     var manifest = durable.get_model(catalog_name)
     var path = durable.resolve_model_path(catalog_name)
     return ResolvedModelReference(
