@@ -1,3 +1,19 @@
+## 2026-09-11 — Added offline-safe system and model diagnosis
+
+Added `aesir doctor [model] [--model-store path]`. The system report uses real
+MAX CUDA discovery, hashes each installed catalog blob through the existing
+store verifier, distinguishes installed weights from recipe-only entries,
+observes filesystem capacity through argv-only POSIX `df`, and reads the Linux
+socket table without contacting listeners. It deliberately does not probe the
+public network, and local API listeners are informative rather than required
+for offline inference readiness. An optional model reference appends the
+existing architecture-registry diagnosis.
+
+The built command reported the physical RTX 4070 Laptop GPU, verified the real
+Gemma 4 E2B catalog blob, and classified the model `VERIFIED` / `READY`. The
+counted suite now stands at 177 passed, 0 failed, and 1 explicit external
+fixture skip (178 total).
+
 ## 2026-09-11 — Round 2 model adoption and offline usability checkpoint
 
 Advanced the native runtime from path-driven model-specific use toward a

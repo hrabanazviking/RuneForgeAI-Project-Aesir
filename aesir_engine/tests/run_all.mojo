@@ -194,6 +194,10 @@ from tests.test_cli import (
     test_repl_session_and_slash_commands,
     test_cli_flag_options_parser,
 )
+from tests.test_doctor import (
+    test_doctor_observations,
+    test_doctor_readiness_policy,
+)
 from tests.test_quantization import (
     test_compressed_format_enum,
     test_dequantization_kernels,
@@ -484,6 +488,8 @@ def main() raises:
         ledger, "cli.repl_session_state", test_repl_session_and_slash_commands
     )
     run_case(ledger, "cli.flag_options_parser", test_cli_flag_options_parser)
+    run_case(ledger, "cli.doctor_observations", test_doctor_observations)
+    run_case(ledger, "cli.doctor_readiness", test_doctor_readiness_policy)
     print("")
 
     # --- Compressed Format Scaffolds ---
@@ -770,4 +776,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(176)
+    ledger.finish(178)

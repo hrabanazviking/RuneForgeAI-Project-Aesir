@@ -28,6 +28,17 @@ reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
 
+## Native diagnostics
+
+`cli/doctor.mojo` owns parsing and presentation for `aesir doctor [model]
+[--model-store path]`. Linux disk and socket-table observations live in
+`core/native_diagnostics.mojo`; CUDA facts come through the engine facade, and
+catalog integrity comes from `DurableModelStore`. The command rehashes every
+installed catalog blob, identifies recipe-only entries separately, and can
+append the existing architecture-registry inspection for one model. It does
+not contact a listening socket or the public internet, and neither API
+listeners nor network access are prerequisites for offline inference readiness.
+
 ## Public Structs & Functions
 
 ### `Modelfile` (`cli/modelfile.mojo`)

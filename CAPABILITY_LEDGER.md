@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** GPU-9, September 1, 2026
+**Ledger version:** Round 2 diagnostics, September 11, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run aesir_engine/tests/run_all.mojo` | 172 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 173, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 177 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 178, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 69 |
+| `verified` | 70 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **112** |
+| **Total** | **113** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -642,6 +642,17 @@ the complete ledger population.
 - **Evidence boundary:** Configuration validation, option-safe positional parsing, CPU selection, and fail-closed option/config intent are connected. Sampling/safety/experimental application, output formatting, service/model-store option owners, stable exit-code schemas, and Ollama differential parity are not complete; these combinations reject explicitly instead of succeeding without effect.
 - **Next acceptance gate:** Connect or reject every remaining accepted option at its owning operation, apply supported sampling/safety configuration to generation, and pass differential syntax/error/exit-code fixtures.
 - **Audit:** AER-003, AER-059 through AER-068.
+
+### AES-CLI-010 — Offline-safe system and model diagnosis
+
+- **Status:** `verified`
+- **Owner:** CLI presentation, core Linux observation, CUDA discovery, and durable catalog domains
+- **Claim sources:** Round 2 model adoption and usability plan; CLI help
+- **Implementation evidence:** `cli/doctor.mojo` reports the current Mojo process, validated MAX CUDA discovery, the first compatible GPU and observed memory, durable catalog readability, installed versus recipe-only entries, full SHA-256 verification failures, available filesystem capacity, and kernel-observed port 11434 listener state. `core/native_diagnostics.mojo` owns bounded POSIX `df -Pk` parsing and read-only `/proc/net/tcp*` observation. `doctor <model>` delegates model analysis to the existing architecture registry. Internet access and API endpoint identity are explicitly not probed.
+- **Executable evidence:** `E-MASTER` cases `cli.doctor_observations` and `cli.doctor_readiness` cover hexadecimal port parsing, LISTEN-state discrimination, disk-column selection, byte formatting, offline readiness, missing-model, broken-model, and missing-CUDA policy. The built command physically observed the RTX 4070 Laptop GPU, rehashed the installed Gemma 4 E2B blob, reported `SYSTEM READY`, and produced a `VERIFIED` / `READY` model-specific diagnosis.
+- **Evidence boundary:** Linux/WSL procfs and POSIX `df` are required. A listener observation proves only a socket on port 11434, not its application identity; the command does not contact the listener or public network. Full catalog verification can take time because every installed blob is rehashed. Readiness means local CUDA inference prerequisites are present, not that an API server is running.
+- **Next acceptance gate:** Add stable machine-readable output, explicit CPU-only readiness policy, endpoint-aware loopback health probes if requested, and filesystem fault fixtures around catalog diagnosis.
+- **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ## 11. Server and Protocol Surfaces
 

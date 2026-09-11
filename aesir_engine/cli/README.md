@@ -12,7 +12,9 @@ them.
 It hashes the exact staged inode, deduplicates without replacement, and exposes
 full verification. Pinned pull registration uses the same measured transaction;
 `gc` performs a locked validate-before-delete reachability sweep. Authenticated
-and resumable transfer remain separate.
+transfer remains separate; pinned single-stream pulls resume SHA-bound partial
+files. `doctor.mojo` presents read-mostly CUDA, storage, disk, listener, and
+model-specific diagnosis while core owns Linux observations.
 
 See `INTERFACE.md` and `docs/NATIVE_RUNTIME.md` for supported commands and limits.
 Legacy model-store and service command names are not operational merely because

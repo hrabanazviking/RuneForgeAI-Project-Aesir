@@ -46,7 +46,7 @@ The project also gained an initial Ollama-compatible offline service, moving A.E
 
 The larger architectural direction is now becoming clear: shared transformer machinery, small model-family profiles, GGUF-driven detection, reusable quantization support, and familiar local APIs instead of separate hardcoded engines for every individual model.
 
-This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and Q6_K, path-free TUI model selection, memory-aware defaults, OpenAI-compatible text APIs, and resumable pinned downloads. Diagnostic tooling, conversation persistence, aliases/favorites, hot switching, embeddings, and remaining management endpoints remain active work.
+This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and Q6_K, path-free TUI model selection, memory-aware defaults, OpenAI-compatible text APIs, resumable pinned downloads, and an offline-safe `aesir doctor` command. Conversation persistence, aliases/favorites, hot switching, embeddings, and remaining management endpoints remain active work.
 
 > *The forge is shifting from "this model runs" toward "A.E.S.I.R. understands model families." ⚔️*
 
@@ -58,7 +58,7 @@ This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and 
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **175 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
+The current automated test suite is at **177 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 
@@ -143,7 +143,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
  * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
-* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe catalog commands are operational: `create --model` imports exact bytes into an immutable SHA-256-addressed blob store, `verify` rehashes the stored inode, pinned `pull --name` registers a verified Hub artifact, and `gc` reclaims unreachable blobs after full locked validation. Authentication/resume, `ps`/`stop`, and compatibility APIs remain unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
+* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe catalog commands are operational: `create --model` imports exact bytes into an immutable SHA-256-addressed blob store, `verify` rehashes the stored inode, pinned `pull --name` registers a verified Hub artifact, and `gc` reclaims unreachable blobs after full locked validation. `aesir doctor` checks CUDA, storage integrity, disk visibility, local listeners, and model compatibility without requiring internet access. Ollama/OpenAI model discovery and text/chat generation work on the native loopback service; authentication, `ps`/`stop`, embeddings, and remaining management endpoints remain unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
 * **Accelerator & Swarm Matrix:** The native CUDA Gemma and Llama 3 profiles are real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)
