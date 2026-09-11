@@ -195,6 +195,16 @@ def ollama_tags(model: OllamaModelInfo) -> String:
     return "{\"models\":[{\"name\":\"" + json_escape_string(model.name) + "\",\"model\":\"" + json_escape_string(model.name) + "\",\"modified_at\":\"" + json_escape_string(model.modified_at) + "\",\"size\":" + String(model.size_bytes) + ",\"digest\":\"" + json_escape_string(model.digest) + "\",\"details\":" + ollama_details(model) + "}]}"
 
 
+def ollama_catalog_tags(models: List[OllamaModelInfo]) -> String:
+    var body = String("{\"models\":[")
+    for index in range(len(models)):
+        if index != 0:
+            body += ","
+        var model = models[index]
+        body += "{\"name\":\"" + json_escape_string(model.name) + "\",\"model\":\"" + json_escape_string(model.name) + "\",\"modified_at\":\"" + json_escape_string(model.modified_at) + "\",\"size\":" + String(model.size_bytes) + ",\"digest\":\"" + json_escape_string(model.digest) + "\",\"details\":" + ollama_details(model) + "}"
+    return body + "]}"
+
+
 def ollama_show(model: OllamaModelInfo, context: Int) -> String:
     return "{\"license\":\"\",\"modelfile\":\"" + json_escape_string(model.modelfile) + "\",\"parameters\":\"num_ctx " + String(context) + "\",\"template\":\"\",\"details\":" + ollama_details(model) + ",\"model_info\":{\"general.architecture\":\"" + json_escape_string(model.family) + "\",\"aesir.context_length\":" + String(context) + "}}"
 

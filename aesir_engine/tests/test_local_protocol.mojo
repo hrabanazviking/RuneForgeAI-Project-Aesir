@@ -1,8 +1,8 @@
 """Pure bounded-protocol adversarial checks; physical service tests are separate."""
 from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
-from cli.native_serve import GenerateRequest
+from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
-from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_show, ollama_ps
+from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps
 
 
 def test_local_path_bounds() raises:
@@ -50,6 +50,12 @@ def test_local_json() raises:
     var running = ollama_ps(info, 3323822692, 16384)
     if "\"size_vram\":3323822692" not in running or "\"context_length\":16384" not in running:
         raise Error("Ollama running-model response serialization failed")
+    var catalog = List[OllamaModelInfo]()
+    catalog.append(info)
+    catalog.append(OllamaModelInfo("qwen:latest", "sha256:def", 495107776, "Q6_K", "2026-09-11T00:00:00Z", "FROM qwen", "qwen3", "0.6B"))
+    var tags = ollama_catalog_tags(catalog)
+    if "gemma4-e2b:latest" not in tags or "qwen:latest" not in tags:
+        raise Error("Ollama catalog tags omitted an installed model")
     var ollama_cases: List[String] = [
         "{\"model\":\"m\",\"messages\":[]}",
         "{\"model\":\"m\",\"messages\":[{\"role\":\"assistant\",\"content\":\"x\"}]}",
@@ -88,6 +94,11 @@ def test_local_http() raises:
             rejected = True
         if not rejected:
             raise Error("Malformed HTTP accepted")
+    var stream_response = local_response(
+        200, "{\"done\":true}\n", True, "application/x-ndjson"
+    )
+    if "Content-Type: application/x-ndjson" not in stream_response:
+        raise Error("Ollama streaming response lost its NDJSON media type")
 
 
 def main() raises:
