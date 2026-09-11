@@ -942,6 +942,9 @@ No model transform, inference equivalence or hardware speed claim exists.
 uploads packed weights once and owns device-only activations/KV. It is exported
 through `aesir.mojo`. `begin_turn(prompt, system, max_tokens)` admits a complete
 turn without truncating history; `next_chunk()` advances greedy CUDA generation
+and records every successfully committed token. `conversation_tokens()` returns
+that exact host-side record, while `restore_conversation(tokens, draws)` admits
+and replays a prevalidated stream only into an empty healthy session.
 and returns complete UTF-8 text while `generating` is true. Read-only observations
 include `position`, `prompt_tokens`, `generated_tokens`, `max_new_tokens` and
 `finish_reason`. Errors propagate and execution failures poison reuse.
@@ -958,6 +961,7 @@ tokenization and scheduling only. This profile is distinct from the older F16
 8B profile and owns packed GPU weights, F32 activations and F16 KV. Its
 `begin_turn`/`next_chunk` interface and observations match the Gemma session.
 Completion ceilings are 1..8192; the context includes input and output.
+Exact-token snapshot and empty-session restore follow the same contract.
 Admission reserves at least one response token and a closing token. Generation
 reports `eos`, `length`, or `context_exhausted`, preserving all previous KV.
 Rejected input leaves position unchanged; CUDA execution failure poisons reuse.

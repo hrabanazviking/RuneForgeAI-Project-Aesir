@@ -52,6 +52,7 @@ struct Gemma4CUDASession(ControlledTextSession):
     var max_new_tokens: Int
     var pending_token: Int
     var finish_reason: String
+    var committed_tokens: List[Int]
     var decoder: RuneStreamDecoder
     var sampler: NativeCUDASampler
     var control: GenerationControl
@@ -81,6 +82,7 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.max_new_tokens = 0
         self.pending_token = -1
         self.finish_reason = ""
+        self.committed_tokens = List[Int]()
         self.decoder = RuneStreamDecoder()
         self.kv_offsets = List[Int]()
         var cache_elements = 0
@@ -201,6 +203,7 @@ struct Gemma4CUDASession(ControlledTextSession):
         else:
             self.context.synchronize()
         self.position += 1
+        self.committed_tokens.append(token)
         self.healthy = True
         return result
 
@@ -258,10 +261,38 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.prompt_tokens = 0
         self.pending_token = -1
         self.finish_reason = "reset"
+        self.committed_tokens.clear()
         self.reset_required = False
         self.control.deadline_ms = 0
         self.decoder = RuneStreamDecoder()
         self.healthy = True
+
+    def conversation_tokens(self) -> List[Int]:
+        """Returns the exact token stream already committed to conversation KV."""
+        return self.committed_tokens.copy()
+
+    def restore_conversation(
+        mut self, tokens: List[Int], sampler_draws: Int
+    ) raises:
+        """Replays one validated exact token stream into an empty session."""
+        if not self.healthy or self.generating or self.position != 0:
+            raise Error("Conversation restore requires an empty healthy CUDA session")
+        if len(tokens) > self.context_length:
+            raise Error("Saved conversation exceeds this session context")
+        if sampler_draws < 0:
+            raise Error("Saved sampler draw count must not be negative")
+        for token in tokens:
+            if token < 0 or token >= self.profile.vocabulary_size:
+                raise Error("Saved conversation token is outside the model vocabulary")
+        for token in tokens:
+            _ = self.forward(token, False)
+        self.sampler.draws = UInt64(sampler_draws)
+        self.pending_token = -1
+        self.prompt_tokens = 0
+        self.generated_tokens = 0
+        self.max_new_tokens = 0
+        self.finish_reason = "restored"
+        self.control.deadline_ms = 0
 
     def configure_sampling(mut self, sampling: NativeSamplingConfig) raises:
         if not self.healthy or self.generating:

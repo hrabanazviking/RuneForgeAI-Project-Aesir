@@ -155,6 +155,16 @@ Interactive commands run between turns:
   draw sequence, while keeping the model loaded. Current settings and system
   prompt remain. KV storage is reused behind a reset position, not securely
   erased; no old positions are attended before replacement.
+- `/new`: synonym for `/clear`, including the readable conversation journal.
+- `/save <new-file>`: exclusively publish a checksummed v1 snapshot containing
+  exact committed token IDs, sampler draw position, readable turns, and the
+  SHA-256 identity of the exact open model inode. Existing files are never
+  overwritten.
+- `/load <file>`: require the same model digest, profile, context, system prompt,
+  and sampling settings before resetting and replaying exact tokens into GPU KV.
+  The loader never reconstructs model state by retokenizing exported prose.
+- `/export <new-markdown>`: exclusively publish a readable Markdown copy of the
+  current user and assistant turns. It is not a restorable snapshot.
 - `/help` and `/bye`: show controls or exit.
 
 The repetition window is fixed when a session is created. Invalid controls and

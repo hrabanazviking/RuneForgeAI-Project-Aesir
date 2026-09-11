@@ -9,12 +9,16 @@ import tempfile
 def check(binary, model, profile, output):
     creative = "Invent one short title for a moonlit sea voyage."
     arithmetic = "What is two plus two? Answer with one word."
-    commands = ["/show", "word " * 600, creative, "/clear", creative,
-                "/set top-k 0", "/set repeat-last-n 8", "/set temperature 0",
-                "/set repeat-penalty 1", "/clear", arithmetic, "/show",
-                "/clear", arithmetic, "/bye"]
     with tempfile.TemporaryDirectory(prefix="aesir-chat-controls-") as tmp:
         log = Path(tmp) / "conversation.md"
+        snapshot = Path(tmp) / "conversation.aesir"
+        exported = Path(tmp) / "conversation-export.md"
+        commands = ["/show", "word " * 600, creative,
+                    f"/save {snapshot}", f"/export {exported}", "/new",
+                    f"/load {snapshot}", "/show", "/clear", creative,
+                    "/set top-k 0", "/set repeat-last-n 8", "/set temperature 0",
+                    "/set repeat-penalty 1", "/clear", arithmetic, "/show",
+                    "/clear", arithmetic, "/bye"]
         result = subprocess.run([binary, "chat", model, "--profile", profile,
             "--accel", "cuda", "--device", "0", "--context", "512",
             "--max-tokens", "64", "--temperature", "0.8", "--top-k", "40",
@@ -26,7 +30,7 @@ def check(binary, model, profile, output):
             (Path(output) / f"{profile}-controls.log").write_text(result.stdout + result.stderr, encoding="utf-8")
         assert result.returncode == 0, result.stdout + result.stderr
         transcript = log.read_text(encoding="utf-8")
-        emitted = result.stdout.replace("Enter a message; /help lists chat controls. Blank input/EOF ends the session.\n", "")
+        emitted = result.stdout.replace("Enter a message; /help lists chat controls. Blank input/EOF ends the session.\n", "").replace("You> ", "")
         assert transcript in emitted, "Durable transcript differs from emitted transcript"
         replies = re.findall(r"Assistant: (.*?)\n\n\[turn=", transcript, re.S)
         assert len(replies) == 4 and all(text.strip() for text in replies), replies
@@ -36,16 +40,20 @@ def check(binary, model, profile, output):
         assert transcript.count("[control rejected:") == 2, transcript
         assert transcript.count("[turn rejected:") == 1, transcript
         assert "context_used=0; context_limit=512" in transcript
+        assert "conversation loaded:" in transcript and "turns=1; context_used=" in transcript
         assert "sampling=greedy; temperature=0.0" in transcript
         assert "Completed turns: 4" in transcript
         assert transcript.count("backend=cuda cpu_offload=0]") == 4
+        assert snapshot.read_text(encoding="utf-8").startswith("AESIR_CONVERSATION_V1\n")
+        readable = exported.read_text(encoding="utf-8")
+        assert creative in readable and replies[0] in readable
         # Existing log protection must fail without modifying the transcript.
         retry = subprocess.run([binary, "chat", model, "--accel", "cuda",
             "--profile", profile, "--context", "512", "--max-tokens", "64",
             "--log", str(log)], input="/bye\n", text=True, capture_output=True, timeout=60)
         assert retry.returncode != 0 and "Cannot create transcript" in retry.stdout + retry.stderr
         assert log.read_text(encoding="utf-8") == transcript
-    print(f"PASS: {profile} physical CUDA sampled and greedy replay; invalid controls/prompt recovery; durable exclusive log")
+    print(f"PASS: {profile} physical CUDA sampled and greedy replay; exact-token save/load; invalid controls/prompt recovery; durable exclusive outputs")
 
 
 def main():

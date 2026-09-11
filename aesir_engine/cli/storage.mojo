@@ -396,6 +396,13 @@ def _digest_open_fd(fd: Int32) raises -> String:
     return digest
 
 
+def digest_open_fd(fd: Int32) raises -> String:
+    """Returns the SHA-256 identity of the exact caller-owned open inode."""
+    if fd < 0:
+        raise Error("cannot hash an invalid model descriptor")
+    return "sha256:" + _digest_open_fd(fd)
+
+
 def _verify_blob_fd(fd: Int32, digest: String, size_bytes: Int64) raises:
     var actual_size = external_call["lseek", Int64](
         fd, Int64(0), Int32(2)

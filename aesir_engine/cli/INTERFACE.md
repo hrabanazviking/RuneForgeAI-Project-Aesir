@@ -23,10 +23,18 @@
 ## Native CUDA chat controls
 
 `cli/sampling.mojo` validates native sampling flags and interactive setting
-values. `cuda_chat.mojo` owns `/help`, `/show`, `/clear`, `/set` and `/bye`,
+values. `cuda_chat.mojo` owns `/help`, `/show`, `/clear`, `/new`, `/save`,
+`/load`, `/export`, `/set` and `/bye`,
 reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
+
+`cli/conversation.mojo` owns the bounded checksummed v1 snapshot codec,
+exclusive owner-private file publication, loading, and readable Markdown
+export. Snapshots bind the exact committed token IDs and sampler draw position
+to the open model inode's SHA-256, profile, context, system prompt, and sampling
+identity. Compatibility is checked before reset; core session restore then
+replays validated tokens into empty KV without sampling or retokenizing text.
 
 ## Native diagnostics
 

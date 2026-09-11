@@ -1,3 +1,19 @@
+## 2026-09-11 — Added exact-token conversation save, load, new, and export
+
+Native CUDA chat now supports `/save <new-file>`, `/load <file>`, `/new`, and
+`/export <new-markdown>`. Snapshots preserve the exact committed model token
+stream and sampler draw position instead of reconstructing KV from decoded
+prose. They also carry the SHA-256 identity of the exact open model inode,
+profile, context, system prompt, sampling identity, and readable turns under a
+bounded checksummed v1 codec. Load validates every session-defining field before
+resetting and replaying tokens into GPU KV; save and export publish only to new
+owner-private files and synchronize the file and parent directory.
+
+Physical Gemma 4 E2B and Qwen 3 0.6B sessions each generated a turn, saved,
+cleared to position zero, loaded back to the exact prior context position, and
+continued or exposed the restored turn count. The counted suite now stands at
+179 passed, 0 failed, and 1 explicit external fixture skip (180 total).
+
 ## 2026-09-11 — Added offline-safe system and model diagnosis
 
 Added `aesir doctor [model] [--model-store path]`. The system report uses real

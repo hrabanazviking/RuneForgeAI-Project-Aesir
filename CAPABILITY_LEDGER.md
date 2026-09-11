@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 177 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 178, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 179 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 180, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -65,12 +65,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 70 |
+| `verified` | 71 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **113** |
+| **Total** | **114** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -652,6 +652,17 @@ the complete ledger population.
 - **Executable evidence:** `E-MASTER` cases `cli.doctor_observations` and `cli.doctor_readiness` cover hexadecimal port parsing, LISTEN-state discrimination, disk-column selection, byte formatting, offline readiness, missing-model, broken-model, and missing-CUDA policy. The built command physically observed the RTX 4070 Laptop GPU, rehashed the installed Gemma 4 E2B blob, reported `SYSTEM READY`, and produced a `VERIFIED` / `READY` model-specific diagnosis.
 - **Evidence boundary:** Linux/WSL procfs and POSIX `df` are required. A listener observation proves only a socket on port 11434, not its application identity; the command does not contact the listener or public network. Full catalog verification can take time because every installed blob is rehashed. Readiness means local CUDA inference prerequisites are present, not that an API server is running.
 - **Next acceptance gate:** Add stable machine-readable output, explicit CPU-only readiness policy, endpoint-aware loopback health probes if requested, and filesystem fault fixtures around catalog diagnosis.
+- **Audit:** Round 2 physical and counted verification, 2026-09-11.
+
+### AES-CLI-011 — Exact-token native conversation persistence
+
+- **Status:** `verified`
+- **Owner:** CLI conversation storage and native CUDA session domains
+- **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
+- **Implementation evidence:** `cli/conversation.mojo` defines a bounded, FNV-1a-checksummed v1 record containing model SHA-256, profile, context, system and sampling identities, sampler draw position, exact committed token IDs, and readable turns. Save and Markdown export use owner-private exclusive creation, full writes, file sync, and parent-directory sync; load uses bounded no-follow reads. Both CUDA session types record tokens only after successful `forward`, clear them with KV reset, and restore validated tokens into an empty session without sampling or text retokenization. `/save`, `/load`, `/new`, and `/export` are interactive between-turn controls.
+- **Executable evidence:** `E-MASTER` cases `cli.conversation_codec` and `cli.conversation_compatibility` cover Unicode/newline round trips, exact token preservation, checksum corruption, unsnapshotted-turn rejection, and model/context mismatch refusal. Physical Gemma 4 E2B and Qwen 3 0.6B sessions each generated, saved, reset to position zero, reloaded to the exact saved position, and retained the saved turn count; Gemma then continued as turn two with the prior answer in context.
+- **Evidence boundary:** Snapshots restore conversation KV and repetition/sampling sequence only for the same exact model bytes, native profile, context, system prompt, and sampling settings. Files are explicit caller paths and never overwrite. There is no automatic chat directory, listing, rename/delete UI, cross-context migration, encrypted storage, or crash injection at each filesystem syscall.
+- **Next acceptance gate:** Add managed chat naming/listing, automatic save checkpoints, injected write/crash recovery, and a physical sampled continuation replay oracle for both session families.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ## 11. Server and Protocol Surfaces

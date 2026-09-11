@@ -7,7 +7,15 @@ from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptibl
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import choose_installed_model
+from cli.storage import digest_open_fd
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
+from cli.conversation import (
+    ConversationState,
+    export_conversation,
+    load_conversation,
+    require_conversation_compatible,
+    save_conversation,
+)
 
 
 struct ChatTranscript:
@@ -48,6 +56,19 @@ struct ChatTranscript:
             _ = external_call["close", Int32](self.fd)
 
 
+struct ChatTurnResult(Copyable):
+    var tokens_per_second: Float64
+    var assistant: String
+
+    def __init__(out self, tokens_per_second: Float64, assistant: String):
+        self.tokens_per_second = tokens_per_second
+        self.assistant = assistant
+
+    def __copyinit__(out self, existing: Self):
+        self.tokens_per_second = existing.tokens_per_second
+        self.assistant = existing.assistant
+
+
 def chat_positive_int(text: String) raises -> Int:
     var result = 0
     if text.byte_length() == 0:
@@ -76,18 +97,24 @@ def read_chat_line(interrupt_fd: Int = -1) raises -> String:
     return read_interruptible_line(interrupt_fd)
 
 
-def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> Float64:
+def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> ChatTurnResult:
     session.begin_turn(prompt, system, max_tokens)
     var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
+    var assistant = String("")
     while session.generating:
-        transcript.emit(session.next_chunk())
+        var chunk = session.next_chunk()
+        assistant += chunk
+        transcript.emit(chunk)
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
     var elapsed_ms = monotonic_milliseconds() - started_at
     if elapsed_ms < 1:
         elapsed_ms = 1
-    return Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms)
+    return ChatTurnResult(
+        Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms),
+        assistant,
+    )
 
 
 def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, model: String, speed: Float64, transcript: ChatTranscript) raises:
@@ -226,11 +253,18 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Chat prompt file has no turns")
     var transcript = ChatTranscript(log_path)
     if profile == "llama3" or profile == "qwen3":
-        run_llama_chat(model_path, context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui)
+        run_llama_chat(model_path, context_length, max_tokens, system, prompts, prompts_path != "", transcript, device_index, reserve_bytes, sampling, interrupt_fd, timeout_ms, tui, resolved.digest)
         _ = interrupts
         return
     var session = Gemma4CUDASession(model_path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
+    var conversation_identity = resolved.digest
+    if conversation_identity == "":
+        conversation_identity = "path:" + model_path
+    var conversation = ConversationState(
+        conversation_identity, "gemma4", context_length, system,
+        session.sampler.config.description(),
+    )
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + resolved.requested + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
@@ -239,9 +273,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
     if prompts_path != "":
         for prompt in prompts:
             turns += 1
-            var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            conversation.append_turn(prompt, result.assistant)
             if tui:
-                render_tui(dashboard, session, resolved.requested, speed, transcript)
+                render_tui(dashboard, session, resolved.requested, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
@@ -255,17 +290,18 @@ def dispatch_cuda_chat(args: List[String]) raises:
                 break
             if prompt.startswith("/"):
                 try:
-                    chat_control(session, prompt, transcript)
+                    chat_control(session, prompt, transcript, conversation)
                 except error:
                     if not session.healthy:
                         raise
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 continue
             try:
-                var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
+                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
+                conversation.append_turn(prompt, result.assistant)
                 turns += 1
                 if tui:
-                    render_tui(dashboard, session, resolved.requested, speed, transcript)
+                    render_tui(dashboard, session, resolved.requested, result.tokens_per_second, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
@@ -289,18 +325,24 @@ def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
         _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
 
 
-def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> Float64:
+def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> ChatTurnResult:
     session.begin_turn(prompt, system, max_tokens)
     var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
+    var assistant = String("")
     while session.generating:
-        transcript.emit(session.next_chunk())
+        var chunk = session.next_chunk()
+        assistant += chunk
+        transcript.emit(chunk)
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
     var elapsed_ms = monotonic_milliseconds() - started_at
     if elapsed_ms < 1:
         elapsed_ms = 1
-    return Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms)
+    return ChatTurnResult(
+        Float64(session.generated_tokens) * 1000.0 / Float64(elapsed_ms),
+        assistant,
+    )
 
 
 def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, model: String, speed: Float64, transcript: ChatTranscript) raises:
@@ -312,10 +354,17 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, mod
     transcript.emit("\n" + dashboard.render_frame())
 
 
-def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456, sampling: NativeSamplingConfig = NativeSamplingConfig(), interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False) raises:
+def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: String, prompts: List[String], from_file: Bool, transcript: ChatTranscript, device_index: Int = 0, reserve_bytes: Int = 268435456, sampling: NativeSamplingConfig = NativeSamplingConfig(), interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False, known_digest: String = String("")) raises:
     # Emit the admitted backend claim only after model validation and upload.
     var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
+    var conversation_identity = known_digest
+    if conversation_identity == "":
+        conversation_identity = "path:" + path
+    var conversation = ConversationState(
+        conversation_identity, session.profile.architecture, context_length, system,
+        session.sampler.config.description(),
+    )
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + path + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
@@ -324,9 +373,10 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
     if from_file:
         for prompt in prompts:
             turns += 1
-            var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            conversation.append_turn(prompt, result.assistant)
             if tui:
-                render_tui(dashboard, session, path, speed, transcript)
+                render_tui(dashboard, session, path, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
                 break
     else:
@@ -340,17 +390,18 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
                 break
             if prompt.startswith("/"):
                 try:
-                    chat_control(session, prompt, transcript)
+                    chat_control(session, prompt, transcript, conversation)
                 except error:
                     if not session.healthy:
                         raise
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 continue
             try:
-                var speed = cuda_chat_turn(session, prompt, system, max_tokens, turns + 1, transcript)
+                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
+                conversation.append_turn(prompt, result.assistant)
                 turns += 1
                 if tui:
-                    render_tui(dashboard, session, path, speed, transcript)
+                    render_tui(dashboard, session, path, result.tokens_per_second, transcript)
             except error:
                 if not session.healthy or session.generating:
                     raise
@@ -360,14 +411,46 @@ def run_llama_chat(path: String, context_length: Int, max_tokens: Int, system: S
     transcript.flush()
 
 
-def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript) raises:
+def _chat_command_path(command: String, prefix: String) raises -> String:
+    if not command.startswith(prefix + " "):
+        raise Error("Usage: " + prefix + " <new-path>")
+    var path = String(command[byte=len(prefix.bytes()) + 1:]).strip()
+    if path == "":
+        raise Error("Usage: " + prefix + " <new-path>")
+    return String(path)
+
+
+def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises:
     if command == "/show":
-        transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
-    elif command == "/clear":
+        transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
+    elif command == "/clear" or command == "/new":
         session.reset()
+        conversation.clear()
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /bye; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit("\n/help /show /clear /new /bye; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+    elif command.startswith("/save"):
+        var path = _chat_command_path(command, "/save")
+        conversation.model_identity = digest_open_fd(session.model.source.fd)
+        conversation.tokens = session.conversation_tokens()
+        conversation.sampler_draws = Int(session.sampler.draws)
+        conversation.sampling_identity = session.sampler.config.description()
+        save_conversation(path, conversation)
+        transcript.emit("\n[conversation saved: " + path + "]\n")
+    elif command.startswith("/load"):
+        var path = _chat_command_path(command, "/load")
+        var loaded = load_conversation(path)
+        conversation.model_identity = digest_open_fd(session.model.source.fd)
+        conversation.sampling_identity = session.sampler.config.description()
+        require_conversation_compatible(loaded, conversation)
+        session.reset()
+        session.restore_conversation(loaded.tokens, loaded.sampler_draws)
+        conversation = loaded^
+        transcript.emit("\n[conversation loaded: " + path + "; turns=" + String(len(conversation.turns)) + "; context_used=" + String(session.position) + "]\n")
+    elif command.startswith("/export"):
+        var path = _chat_command_path(command, "/export")
+        export_conversation(path, conversation)
+        transcript.emit("\n[conversation exported: " + path + "]\n")
     elif command.startswith("/set "):
         var words = command.split(" ")
         if len(words) != 3:
@@ -379,20 +462,44 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
             return
         var config = with_sampling_option(session.sampler.config, String(words[1]), String(words[2]))
         session.configure_sampling(config)
+        conversation.sampling_identity = session.sampler.config.description()
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
         raise Error("Unknown chat command; use /help")
     transcript.flush()
 
 
-def chat_control(mut session: Llama3CUDASession, command: String, transcript: ChatTranscript) raises:
+def chat_control(mut session: Llama3CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises:
     if command == "/show":
-        transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
-    elif command == "/clear":
+        transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
+    elif command == "/clear" or command == "/new":
         session.reset()
+        conversation.clear()
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /bye; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit("\n/help /show /clear /new /bye; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+    elif command.startswith("/save"):
+        var path = _chat_command_path(command, "/save")
+        conversation.model_identity = digest_open_fd(session.model.source.fd)
+        conversation.tokens = session.conversation_tokens()
+        conversation.sampler_draws = Int(session.sampler.draws)
+        conversation.sampling_identity = session.sampler.config.description()
+        save_conversation(path, conversation)
+        transcript.emit("\n[conversation saved: " + path + "]\n")
+    elif command.startswith("/load"):
+        var path = _chat_command_path(command, "/load")
+        var loaded = load_conversation(path)
+        conversation.model_identity = digest_open_fd(session.model.source.fd)
+        conversation.sampling_identity = session.sampler.config.description()
+        require_conversation_compatible(loaded, conversation)
+        session.reset()
+        session.restore_conversation(loaded.tokens, loaded.sampler_draws)
+        conversation = loaded^
+        transcript.emit("\n[conversation loaded: " + path + "; turns=" + String(len(conversation.turns)) + "; context_used=" + String(session.position) + "]\n")
+    elif command.startswith("/export"):
+        var path = _chat_command_path(command, "/export")
+        export_conversation(path, conversation)
+        transcript.emit("\n[conversation exported: " + path + "]\n")
     elif command.startswith("/set "):
         var words = command.split(" ")
         if len(words) != 3:
@@ -404,6 +511,7 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
             return
         var config = with_sampling_option(session.sampler.config, String(words[1]), String(words[2]))
         session.configure_sampling(config)
+        conversation.sampling_identity = session.sampler.config.description()
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
         raise Error("Unknown chat command; use /help")
