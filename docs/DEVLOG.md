@@ -1,3 +1,33 @@
+## 2026-09-11 — Round 2 model adoption and offline usability checkpoint
+
+Advanced the native runtime from path-driven model-specific use toward a
+GGUF-aware local platform. Added the architecture compatibility registry,
+family profiles, initial dense Qwen 3 execution, architecture-neutral K-quant
+dispatch, automatic tokenizer/chat-template selection, `aesir inspect`, and
+catalog-name resolution across inspect, planning, run, chat, and serve.
+Qwen 3 0.6B Q4_K_M, Q5_K_M, and Q6_K were each hash-pinned and physically
+generated on CUDA.
+
+Normal chat can now start without a model path through an installed-model
+selector. Native planning chooses the highest recommended context that fits
+observed CUDA memory and the requested reserve, while explicit context values
+remain authoritative; automatic reply budgets preserve half the context for
+prompt and history. A real Llama 3/Stheno session demonstrated 8K-to-2K
+adaptation under a deliberately larger reserve.
+
+The loopback service now supports Ollama discovery, show, generate, chat, and
+running-model reporting, including one-event NDJSON, plus OpenAI-compatible
+model discovery, chat completions, and text completions with JSON or SSE. These
+routes were exercised against real Gemma CUDA inference. Pinned single-stream
+Hugging Face pulls now resume from an exclusively locked, SHA-bound partial
+file and still publish only after exact size, GGUF v3 header, and SHA-256
+verification; the live network/storage harness passes 8/8 checks.
+
+The counted suite stands at 175 passed, 0 failed, and 1 explicit external
+fixture skip (176 total). Next strict-priority work begins with `aesir doctor`,
+then conversation persistence, aliases/favorites, and hot model switching;
+embeddings and the remaining Ollama management endpoints are still open.
+
 ## 2026-09-02 — Coupled manifest digest schemes to stored-byte semantics
 
 Added one authoritative manifest storage-identity validator and applied it at

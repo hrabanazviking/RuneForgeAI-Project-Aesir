@@ -29,9 +29,10 @@ temperature/top-k/top-p/min-p sampling, repetition penalties and explicit
 reset/settings controls. Model loading uses at most 64 MiB pinned staging;
 the runtime guide records independent GPU checks and measured host RAM savings.
 [Native local serving](docs/NATIVE_SERVICE.md) now connects authenticated, bounded
-HTTP requests to either loaded CUDA model. Chat also supports cooperative
-Ctrl+C cancellation and deadlines. Compatibility APIs and public deployment
-readiness remain separate, unfinished work.
+HTTP requests to loaded CUDA models. Chat also supports cooperative Ctrl+C
+cancellation and deadlines. The loopback service exposes working Ollama and
+OpenAI-compatible model discovery and text-generation routes; embeddings,
+remaining model-management routes, and public deployment remain unfinished.
 
 ---
 
@@ -45,7 +46,7 @@ The project also gained an initial Ollama-compatible offline service, moving A.E
 
 The larger architectural direction is now becoming clear: shared transformer machinery, small model-family profiles, GGUF-driven detection, reusable quantization support, and familiar local APIs instead of separate hardcoded engines for every individual model.
 
-Verification, broader real-model testing, TUI polish, compatibility inspection, OpenAI-compatible APIs, resumable model downloads, and diagnostic tooling remain active work for the next development rounds.
+This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and Q6_K, path-free TUI model selection, memory-aware defaults, OpenAI-compatible text APIs, and resumable pinned downloads. Diagnostic tooling, conversation persistence, aliases/favorites, hot switching, embeddings, and remaining management endpoints remain active work.
 
 > *The forge is shifting from "this model runs" toward "A.E.S.I.R. understands model families." ⚔️*
 
@@ -57,7 +58,7 @@ Verification, broader real-model testing, TUI polish, compatibility inspection, 
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **172 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
+The current automated test suite is at **175 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 
