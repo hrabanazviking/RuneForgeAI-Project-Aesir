@@ -12,7 +12,7 @@ from server.local_transport import (listen_local, accept_local, load_service_key
                                     receive_head, receive_body, send_local)
 from server.api import build_http_response, json_escape_string
 from server.ollama import (OllamaRequest, OllamaModelInfo, ollama_version,
-                           ollama_tags, ollama_show,
+                           ollama_tags, ollama_show, ollama_ps,
                            ollama_generate_response, ollama_chat_response)
 
 
@@ -115,7 +115,7 @@ def ollama_model_matches(requested: String, loaded: String) -> Bool:
 def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: String,
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
-        model: OllamaModelInfo) raises:
+        model: OllamaModelInfo, device_bytes: Int) raises:
     var listener = listen_local(port)
     var stop = GenerationControl(0, interrupt_fd)
     var sequence = 0
@@ -141,6 +141,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         body = ollama_version()
                     elif ollama and head.method == "GET" and head.path == "/api/tags":
                         body = ollama_tags(model)
+                    elif ollama and head.method == "GET" and head.path == "/api/ps":
+                        body = ollama_ps(model, device_bytes, context)
                     elif ollama and head.method == "POST" and head.path == "/api/show":
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -336,8 +338,8 @@ def dispatch_native_serve(args: List[String]) raises:
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, plan.memory.device_bytes)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, plan.memory.device_bytes)
     _ = interrupts

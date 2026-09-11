@@ -199,6 +199,13 @@ def ollama_show(model: OllamaModelInfo, context: Int) -> String:
     return "{\"license\":\"\",\"modelfile\":\"" + json_escape_string(model.modelfile) + "\",\"parameters\":\"num_ctx " + String(context) + "\",\"template\":\"\",\"details\":" + ollama_details(model) + ",\"model_info\":{\"general.architecture\":\"" + json_escape_string(model.family) + "\",\"aesir.context_length\":" + String(context) + "}}"
 
 
+def ollama_ps(model: OllamaModelInfo, size_vram: Int,
+              context_length: Int) raises -> String:
+    if size_vram <= 0 or context_length < 2:
+        raise Error("Ollama running-model metrics must be positive")
+    return "{\"models\":[{\"name\":\"" + json_escape_string(model.name) + "\",\"model\":\"" + json_escape_string(model.name) + "\",\"size\":" + String(model.size_bytes) + ",\"digest\":\"" + json_escape_string(model.digest) + "\",\"details\":" + ollama_details(model) + ",\"expires_at\":\"9999-12-31T23:59:59Z\",\"size_vram\":" + String(size_vram) + ",\"context_length\":" + String(context_length) + "}]}"
+
+
 def ollama_done_reason(reason: String) -> String:
     if reason == "eos":
         return "stop"

@@ -2,7 +2,7 @@
 from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
 from cli.native_serve import GenerateRequest
 from server.local_transport import c_path_bytes
-from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_show
+from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_show, ollama_ps
 
 
 def test_local_path_bounds() raises:
@@ -47,6 +47,9 @@ def test_local_json() raises:
     var info = OllamaModelInfo("gemma4-e2b:latest", "sha256:abc", 3106738272, "Q4_K_M", "2026-09-09T00:00:00Z", "FROM gemma", "gemma4", "2B")
     if "gemma4-e2b:latest" not in ollama_tags(info) or "num_ctx 16384" not in ollama_show(info, 16384):
         raise Error("Ollama model response serialization failed")
+    var running = ollama_ps(info, 3323822692, 16384)
+    if "\"size_vram\":3323822692" not in running or "\"context_length\":16384" not in running:
+        raise Error("Ollama running-model response serialization failed")
     var ollama_cases: List[String] = [
         "{\"model\":\"m\",\"messages\":[]}",
         "{\"model\":\"m\",\"messages\":[{\"role\":\"assistant\",\"content\":\"x\"}]}",
