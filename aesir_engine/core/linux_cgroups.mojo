@@ -15,7 +15,11 @@ def read_kernel_observation(path: String, required: Bool = True) raises -> Strin
             raise Error("Kernel observation path contains NUL")
         name.append(Int8(byte))
     name.append(0)
-    var fd = external_call["open64", Int32](name.unsafe_ptr(), Int32(524288), Int32(0))
+    # O_RDONLY | O_NONBLOCK | O_CLOEXEC prevents an unexpected kernel-visible
+    # endpoint from stalling memory admission during open.
+    var fd = external_call["open64", Int32](
+        name.unsafe_ptr(), Int32(526336), Int32(0)
+    )
     _ = name
     if fd < 0:
         var error = external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]().unsafe_load()

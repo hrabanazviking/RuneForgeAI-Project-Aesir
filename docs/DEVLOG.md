@@ -12,9 +12,10 @@ The 183-case master suite remains at 182 passed, 0 failed, and one explicit
 external-fixture skip. New FIFO regressions cover conversation, preferences,
 ONNX, StateVault, and transcript descriptors; the built-CLI
 `scripts/test_special_file_admission.py` proof covers configuration, GGUF,
-Modelfile, source and installed model blobs, and catalog state under a five-second
-anti-stall deadline. Physical Gemma → Qwen → Gemma CUDA switching also passed
-with one continuous transcript after descriptor hardening.
+resumable-download staging, Modelfile, source and installed model blobs, and
+catalog state under a five-second anti-stall deadline. Physical Gemma → Qwen →
+Gemma CUDA switching also passed with one continuous transcript after descriptor
+hardening.
 
 ## 2026-09-11 — Added native CUDA model hot switching
 

@@ -3,6 +3,7 @@
 
 from std.ffi import external_call
 from std.memory import Pointer
+from std.collections import InlineArray
 
 
 def _hf_cstring(value: String) raises -> List[Int8]:
@@ -311,10 +312,19 @@ struct HuggingFaceSeer:
         )
         var fd: Int32
         if connections == 1:
-            # Linux O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC, owner-only mode.
+            # Linux O_RDWR | O_CREAT | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC.
             fd = external_call["open64", Int32](
-                staged.unsafe_ptr(), Int32(655426), Int32(384)
+                staged.unsafe_ptr(), Int32(657474), Int32(384)
             )
+            if fd >= 0:
+                var stat = InlineArray[UInt64, 18](fill=0)
+                if (external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0
+                        or stat[3] & 61440 != 32768
+                        or stat[3] >> 32 != UInt64(external_call["geteuid", UInt32]())):
+                    _ = external_call["close", Int32](fd)
+                    raise Error(
+                        "Hugging Face staging file must be an owner-held regular file"
+                    )
             if fd >= 0 and external_call["flock", Int32](fd, 6) != 0:
                 _ = external_call["close", Int32](fd)
                 fd = -1

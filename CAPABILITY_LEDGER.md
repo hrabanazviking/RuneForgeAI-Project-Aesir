@@ -42,7 +42,7 @@ Run commands from the repository root unless stated otherwise.
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
-| `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
+| `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, resumable-download staging, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
 Pinned `E-REAL` fixture and oracle:

@@ -71,6 +71,27 @@ def main() -> None:
 
         run_rejected(binary, root, ["config", "--config", str(fifo)], "regular file")
         run_rejected(binary, root, ["inspect", str(fifo)], "regular file")
+        staged_digest = "0" * 64
+        staged = Path(str(root / "download.gguf") + ".part." + staged_digest)
+        os.mkfifo(staged, 0o600)
+        run_rejected(
+            binary,
+            root,
+            [
+                "pull",
+                "owner/repository",
+                "model.gguf",
+                "--revision",
+                "0" * 40,
+                "--sha256",
+                staged_digest,
+                "--size",
+                "24",
+                "--output",
+                str(root / "download.gguf"),
+            ],
+            "owner-held regular file",
+        )
         run_rejected(
             binary,
             root,
@@ -137,8 +158,8 @@ def main() -> None:
         )
 
     print(
-        "PASS: configuration, GGUF, Modelfile, source/installed blob, "
-        "and catalog FIFOs rejected"
+        "PASS: configuration, GGUF, download staging, Modelfile, "
+        "source/installed blob, and catalog FIFOs rejected"
     )
 
 

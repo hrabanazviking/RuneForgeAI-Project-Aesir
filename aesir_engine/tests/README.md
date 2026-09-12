@@ -30,8 +30,9 @@ The `tests` domain holds the master test runner and domain-specific verification
 - **`test_compute.mojo`:** Unit tests for GEMM, Flash Attention-2, SiLU, GeGLU, and Q4_K_M dequantization.
 - **`test_gguf.mojo`:** Unit tests for malformed GGUF rejection and `GGMLType` constants.
 - **`scripts/test_special_file_admission.py`:** Built-CLI anti-stall proof for
-  FIFO-shaped configuration, GGUF, Modelfile, source/installed blob, and catalog
-  inputs; CI enforces a five-second deadline per rejected operation.
+  FIFO-shaped configuration, GGUF, resumable-download staging, Modelfile,
+  source/installed blob, and catalog inputs; CI enforces a five-second deadline
+  per rejected operation.
 - **`test_tokenizer.mojo`:** Unit tests for `RuneWeaver` token encoding/decoding.
 - **`test_real_gguf.mojo`:** Opt-in external-fixture proof for metadata,
   zero-copy F16 mapping, F32 normalization conversion, tokenizer parity, and
