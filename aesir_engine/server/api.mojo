@@ -56,8 +56,15 @@ def json_escape_string(val: String) -> String:
     var bytes = val.as_bytes()
     var hex_digits = String("0123456789abcdef")
     var res = String("")
+    var chunk_start = 0
     for i in range(len(bytes)):
         var b = bytes[i]
+        if b >= 0x20 and b != 0x22 and b != 0x5C:
+            continue
+        # Slice only at ASCII boundaries. Slicing each byte separately splits
+        # multibyte UTF-8 (including diagnostic checkmarks and model names).
+        if i > chunk_start:
+            res += String(val[byte=chunk_start : i])
         if b == 0x22: # "
             res += String("\\\"")
         elif b == 0x5C: # \
@@ -72,8 +79,9 @@ def json_escape_string(val: String) -> String:
             var hi = Int((b >> 4) & 0xF)
             var lo = Int(b & 0xF)
             res += String("\\u00") + String(hex_digits[byte=hi : hi + 1]) + String(hex_digits[byte=lo : lo + 1])
-        else:
-            res += String(val[byte=i : i + 1])
+        chunk_start = i + 1
+    if chunk_start < len(bytes):
+        res += String(val[byte=chunk_start : len(bytes)])
     return res
 
 

@@ -646,6 +646,15 @@ the complete ledger population.
 
 ### AES-CLI-010 — Offline-safe system and model diagnosis
 
+- **S02 extension (2026-09-12):** `doctor --format json` emits a single version-1
+  prerequisite-scoped report, null unknown observations, actionable issue codes,
+  observed disk path and optional embedded model inspection/error. Text and JSON
+  share observations; findings return reports while invalid syntax fails.
+  Built `scripts/test_native_doctor.py` covers Unicode metadata, standalone
+  inspection parity, recipe/installed counts, missing blobs, corrupt catalog,
+  optional model failures and format rejection. Added to CI. Integration also
+  exposed and fixed shared JSON escaping that split multibyte UTF-8 characters.
+
 - **S01 correction (2026-09-12):** Readiness counts installed SHA-256 entries,
   never recipe-only entries, validates store syntax before discovery, and labels
   its scope as CUDA/storage prerequisites rather than tested model execution.
@@ -659,7 +668,7 @@ the complete ledger population.
 - **Implementation evidence:** `cli/doctor.mojo` reports the current Mojo process, validated MAX CUDA discovery, the first compatible GPU and observed memory, durable catalog readability, installed versus recipe-only entries, full SHA-256 verification failures, available filesystem capacity, and kernel-observed port 11434 listener state. `core/native_diagnostics.mojo` owns bounded POSIX `df -Pk` parsing and read-only `/proc/net/tcp*` observation. `doctor <model>` delegates model analysis to the existing architecture registry. Internet access and API endpoint identity are explicitly not probed.
 - **Executable evidence:** `E-MASTER` cases `cli.doctor_observations` and `cli.doctor_readiness` cover hexadecimal port parsing, LISTEN-state discrimination, disk-column selection, byte formatting, offline readiness, missing-model, broken-model, and missing-CUDA policy. The built command physically observed the RTX 4070 Laptop GPU, rehashed the installed Gemma 4 E2B blob, reported `SYSTEM READY`, and produced a `VERIFIED` / `READY` model-specific diagnosis.
 - **Evidence boundary:** Linux/WSL procfs and POSIX `df` are required. A listener observation proves only a socket on port 11434, not its application identity; the command does not contact the listener or public network. Full catalog verification can take time because every installed blob is rehashed. Readiness means local CUDA inference prerequisites are present, not that an API server is running.
-- **Next acceptance gate:** Add stable machine-readable output, explicit CPU-only readiness policy, endpoint-aware loopback health probes if requested, and filesystem fault fixtures around catalog diagnosis.
+- **Next acceptance gate:** Explicit CPU-only readiness policy, endpoint-aware loopback health probes if requested, and deeper filesystem fault fixtures around catalog diagnosis; stable machine-readable output is implemented in S02.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ### AES-CLI-011 — Exact-token native conversation persistence

@@ -1,3 +1,16 @@
+## 2026-09-12 — Application program S02: structured diagnostics
+
+Doctor now renders text or versioned JSON from the same observation pass.
+Machine-readable results preserve unknown values, unreadable-store counts,
+broken model details, observed disk path, stable issue codes and suggested
+actions. Optional inspection is embedded rather than printing a second JSON
+document; errors remain diagnostic findings in both output formats. Model
+inspection and prerequisite readiness explicitly do not prove execution.
+Built integration exposed a pre-existing shared JSON-escaping defect: bytewise
+String slicing split UTF-8 codepoints and crashed on diagnostic checkmarks.
+The escaper now copies intact spans between ASCII escapes; mixed Unicode and
+quoted metadata regression cases protect diagnostics and other JSON callers.
+
 ## 2026-09-12 — Application program S01: truthful prerequisites
 
 Published the 48-slice application gameplan and activated hourly continuation.

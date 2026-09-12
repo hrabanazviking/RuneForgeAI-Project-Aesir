@@ -350,6 +350,11 @@ def test_json_escape_string() raises:
     var escaped = json_escape_string(raw)
     if "\\\"world\\\"" not in escaped or "\\nnext\\\\line\\ttab" not in escaped:
         raise Error("json_escape_string failed to escape special characters: got '" + escaped + "'")
+    var unicode_raw = String("✓æ🛠\"日本語\\\n終")
+    if json_escape_string(unicode_raw) != "✓æ🛠\\\"日本語\\\\\\n終":
+        raise Error("JSON escaper split multibyte UTF-8 at ASCII escape boundaries")
+    if json_escape_string("") != "" or json_escape_string("æ") != "æ":
+        raise Error("JSON escaper lost an empty or trailing Unicode chunk")
     print("JSON string escaper: PASS")
 
 def test_request_context_and_structured_errors() raises:

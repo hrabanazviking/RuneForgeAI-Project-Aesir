@@ -48,7 +48,7 @@ replays validated tokens into empty KV without sampling or retokenizing text.
 ## Native diagnostics
 
 `cli/doctor.mojo` owns parsing and presentation for `aesir doctor [model]
-[--model-store path]`. Linux disk and socket-table observations live in
+[--model-store path] [--format text|json]`. Linux disk and socket-table observations live in
 `core/native_diagnostics.mojo`; CUDA facts come through the engine facade, and
 catalog integrity comes from `DurableModelStore`. The command rehashes every
 installed catalog blob, identifies recipe-only entries separately, and can
@@ -58,6 +58,24 @@ listeners nor network access are prerequisites for offline inference readiness.
 Readiness requires at least one installed SHA-256 blob, not just a recipe;
 it describes CUDA/storage prerequisites, not model execution compatibility.
 Store arguments are validated before hardware discovery.
+
+JSON output is one document with `schema_version: 1`, `scope:
+"cuda_storage_prerequisites"`, `ready`, and `execution_tested: false`.
+`cuda`, `store`, `disk`, and `api` hold observations; unknown byte counts,
+unreadable-store counts and unobserved listeners are `null`. Disk capacity names
+the observed path, including `.` when the requested store does not yet exist.
+`issues` contains stable codes and suggested actions. `model` is null when
+omitted, otherwise contains `reference`, `inspection_ok`, `execution_tested`,
+`result` (the existing inspection schema), and `error`. Successful inspection
+does not imply a supported model or tested execution; inspect its compatibility
+fields. Root readiness deliberately remains prerequisite-only.
+
+Diagnostic findings, including optional model-inspection failures, return a
+report and successful command exit in both formats. Invalid command options are
+execution errors and return nonzero; they do not emit a partial JSON report.
+Scripts must inspect `ready`, `issues`, and optional `model` fields rather than
+treating a zero exit as proof of inference readiness. Observations are collected
+once per invocation and neither format performs external network probes.
 
 ## Model preferences
 

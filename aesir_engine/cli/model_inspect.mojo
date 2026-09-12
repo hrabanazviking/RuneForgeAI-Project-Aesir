@@ -29,8 +29,8 @@ def _json_field(name: String, value: String) -> String:
     return '"' + name + '":"' + json_escape_string(value) + '"'
 
 
-def _print_inspection_json(result: ModelCompatibility):
-    print(
+def model_inspection_json(result: ModelCompatibility) -> String:
+    return (
         "{"
         + _json_field("name", result.name) + ","
         + _json_field("architecture", result.architecture) + ","
@@ -60,7 +60,7 @@ def _print_inspection_json(result: ModelCompatibility):
     )
 
 
-def _print_inspection_text(result: ModelCompatibility):
+def print_model_inspection_text(result: ModelCompatibility):
     print("Model:                   " + result.name)
     print("Architecture:            " + result.architecture)
     print("Family / variant:        " + result.family + " / " + result.model_variant)
@@ -83,6 +83,12 @@ def _print_inspection_text(result: ModelCompatibility):
     print("Compatibility:           " + result.compatibility)
     print("Status:                  " + result.status)
     print("Reason:                  " + result.reason)
+
+
+def inspect_model_reference(reference: String, model_store: String) raises -> ModelCompatibility:
+    var resolved = resolve_model_reference(reference, model_store)
+    var model = PackedGGUF(resolved.path)
+    return ModelArchitectureRegistry.inspect(model, 0)
 
 
 def dispatch_model_inspect(args: List[String]) raises:
@@ -133,6 +139,6 @@ def dispatch_model_inspect(args: List[String]) raises:
     var model = PackedGGUF(resolved.path)
     var result = ModelArchitectureRegistry.inspect(model, context)
     if format == "json":
-        _print_inspection_json(result)
+        print(model_inspection_json(result))
     else:
-        _print_inspection_text(result)
+        print_model_inspection_text(result)

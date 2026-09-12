@@ -230,7 +230,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S01 — Doctor readiness
 
-- Status: verified; included in this slice's push checkpoint.
+- Status: done; verified and pushed as `f21cecc`.
 - Decision: readiness here describes CUDA/storage prerequisites only; require
   installed weights rather than a recipe count and expose that scope clearly.
 - Gate: focused policy tests plus a built CLI against isolated recipe-only and
@@ -245,13 +245,24 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S02 — Structured diagnostics
 
-- Status: queued.
+- Status: verified; awaiting this slice's push checkpoint.
 - Decision: collect one report, render text/JSON from the same observations;
   `schema_version: 1`, unknown observations as null, explicit prerequisites scope,
   errors retained in structured fields. Optional model inspection belongs inside
   that document. Diagnostic status remains separate from command execution errors.
 - Gate: built CLI output parsed by Python `json.loads`; strict option errors,
   missing/corrupt model stores, optional model failure and text/JSON agreement.
+- Implementation decision: reuse the single observation pass for both renderers;
+  embed registry inspection without redirecting or reparsing console output.
+  Root `ready` is explicitly scoped to CUDA/storage prerequisites, with model
+  inspection success reported separately (never an execution proof).
+- Evidence: final native build and `scripts/test_native_doctor.py --binary
+  .aesir/aesir-s02` passed, including inspect-result parity and Unicode metadata;
+  existing native-model-store harness passed; counted suite 182 pass, 0 fail,
+  1 external-fixture skip (183 total); doc-drift gate passed.
+- Bug found and resolved: shared JSON escaping sliced multibyte UTF-8 into
+  invalid one-byte Strings. Span-based escaping now passes mixed Unicode and
+  ASCII-control regressions; the built diagnostic harness is part of CI.
 
 ### S03–S48
 

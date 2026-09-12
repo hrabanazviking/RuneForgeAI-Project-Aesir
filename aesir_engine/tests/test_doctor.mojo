@@ -6,10 +6,15 @@ from core.native_diagnostics import (
     parse_hex_port,
     proc_tcp_has_listener,
 )
-from cli.doctor import doctor_system_ready, dispatch_doctor
+from cli.doctor import doctor_system_ready, dispatch_doctor, doctor_json_bytes, DoctorIssue
 
 
 def test_doctor_observations() raises:
+    if doctor_json_bytes(-1) != "null" or doctor_json_bytes(0) != "0" or doctor_json_bytes(1024) != "1024":
+        raise Error("doctor JSON unknown/zero byte observations drifted")
+    var issue = DoctorIssue("quoted", "✓ æ 🛠 a\"b\n")
+    if issue.to_json() != '{"code":"quoted","action":"✓ æ 🛠 a\\"b\\n"}':
+        raise Error("doctor issue JSON escaped incorrectly")
     if parse_hex_port("2CAA") != 11434:
         raise Error("doctor hexadecimal TCP port parsing drifted")
     var bad_hex_rejected = False

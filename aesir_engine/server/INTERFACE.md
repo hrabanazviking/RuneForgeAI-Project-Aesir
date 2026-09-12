@@ -21,6 +21,12 @@ legacy primitives/formatters, not an exposed compatibility service.
 
 ## Public Structs & Functions
 
+`api.mojo::json_escape_string` preserves complete UTF-8 spans and escapes JSON
+quotes, backslashes, and ASCII control characters. It is shared by CLI JSON
+renderers and protocol formatters; callers provide admitted `String` values.
+Unicode regression coverage includes mixed 2/3/4-byte characters adjacent to
+escaped ASCII controls, including the built doctor/inspection report paths.
+
 ### `BifrostGate`
 POSIX socket and HTTP framing primitives. OpenAI-, Ollama-, llama.cpp-, and
 Swarm-shaped operational routes return HTTP 501; unknown paths return HTTP 404.

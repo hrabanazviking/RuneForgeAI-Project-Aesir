@@ -60,7 +60,7 @@ def print_general_help():
     print("      Default single-connection pulls resume verified partial downloads.")
     print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
-    print("  doctor [model] [--model-store path]")
+    print("  doctor [model] [--model-store path] [--format text|json]")
     print("      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.")
     print("  alias <short-name> <model> [--model-store path] | aliases")
     print("  unalias <short-name> [--model-store path]")
