@@ -8,6 +8,9 @@
 
 # RuneForgeAI: Project A.E.S.I.R.
 
+[Active application gameplan: 48 ordered implementation slices](BEST_IN_CLASS_GAMEPLAN.md)
+defines the current build sequence, release gates, and automatic continuation.
+
 > **Advanced Edge System for Interface and Response**
 
 **A bare-metal Mojo inference engine designed for local sovereignty.**

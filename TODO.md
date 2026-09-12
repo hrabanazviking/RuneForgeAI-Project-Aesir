@@ -1,5 +1,9 @@
 # Project A.E.S.I.R. — Evidence-Backed TODO
 
+Current program: [best-in-class application gameplan](BEST_IN_CLASS_GAMEPLAN.md).
+Its S01–S48 sequence drives new work; this backlog retains detailed historical
+items and the capability ledger retains present-tense implementation authority.
+
 This backlog is governed by [`CAPABILITY_LEDGER.md`](CAPABILITY_LEDGER.md) and
 [`PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md`](PROJECT_AESIR_REALITY_AUDIT_AND_BUILDOUT_REPORT.md).
 Execution order and anti-fabrication file rules are defined in
