@@ -1,9 +1,12 @@
 """Invalid CUDA chat requests must fail before opening a model or transcript."""
 from cli.cuda_chat import (
+    ChatTranscript,
     dispatch_cuda_chat,
     default_chat_max_tokens,
     parse_model_switch,
 )
+from std.collections import InlineArray
+from std.ffi import external_call
 
 
 def test_cuda_model_switch_syntax() raises:
@@ -19,6 +22,21 @@ def test_cuda_model_switch_syntax() raises:
             rejected = True
         if not rejected:
             raise Error("model switch parser accepted malformed syntax")
+
+    # Process-image handoff may inherit only an owner-held writable regular
+    # transcript. In particular, a pipe must not become a trusted log sink.
+    var descriptors = InlineArray[Int32, 2](fill=-1)
+    if external_call["pipe2", Int32](descriptors.unsafe_ptr(), Int32(0)) != 0:
+        raise Error("unable to create transcript descriptor test fixture")
+    var descriptor_rejected = False
+    try:
+        _ = ChatTranscript("", Int(descriptors[1]))
+    except error:
+        descriptor_rejected = "writable regular file" in String(error)
+    _ = external_call["close", Int32](descriptors[0])
+    _ = external_call["close", Int32](descriptors[1])
+    if not descriptor_rejected:
+        raise Error("transcript handoff accepted a pipe descriptor")
 
 def test_cuda_chat_admission() raises:
     if (default_chat_max_tokens("llama3", "llama3-8B", 8192) != 4096

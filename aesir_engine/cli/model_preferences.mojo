@@ -2,7 +2,7 @@
 
 from std.ffi import external_call
 from std.memory import Pointer
-from std.collections import Dict
+from std.collections import Dict, InlineArray
 from config import validate_model_store_path
 from cli.manifest import RuneModelStore, normalize_model_reference, validate_model_component
 
@@ -233,12 +233,24 @@ def deserialize_model_preferences(raw: String) raises -> ModelPreferences:
 
 def _read_preferences(root_fd: Int32) raises -> ModelPreferences:
     var name = _pref_cstring(PREFERENCES_FILE)
-    var fd = external_call["openat", Int32](root_fd, name.unsafe_ptr(), Int32(655360), Int32(0))
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC.
+    var fd = external_call["openat", Int32](root_fd, name.unsafe_ptr(), Int32(657408), Int32(0))
     if fd < 0:
         var errno_pointer = external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]()
         if errno_pointer.unsafe_load() == 2:
             return ModelPreferences()
         raise Error("unable to open model preferences")
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to inspect model preferences")
+    var mode = stat[3] & 4294967295
+    if mode & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("model preferences must be a regular file")
+    if stat[6] == 0 or stat[6] > MAX_PREFERENCES_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("model preferences must contain 1..1048576 bytes")
     var bytes = List[Byte]()
     var buffer = List[Byte]()
     buffer.resize(4096, 0)

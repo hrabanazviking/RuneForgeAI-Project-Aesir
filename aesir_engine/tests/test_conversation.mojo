@@ -3,9 +3,19 @@
 from cli.conversation import (
     ConversationState,
     deserialize_conversation,
+    load_conversation,
     require_conversation_compatible,
     serialize_conversation,
 )
+from std.ffi import external_call
+
+
+def _conversation_test_cstring(value: String) -> List[Int8]:
+    var result = List[Int8]()
+    for byte in value.as_bytes():
+        result.append(Int8(byte))
+    result.append(0)
+    return result^
 
 
 def _conversation_fixture() raises -> ConversationState:
@@ -63,6 +73,27 @@ def test_conversation_codec() raises:
         corruption_rejected = "checksum" in String(error)
     if not corruption_rejected:
         raise Error("conversation checksum corruption was not rejected")
+
+    # A caller-selected FIFO must be rejected after a nonblocking open instead
+    # of hanging while waiting for a writer.
+    var fifo_path = (
+        "/tmp/aesir-conversation-fifo-test-"
+        + String(external_call["getpid", Int32]())
+    )
+    var fifo_bytes = _conversation_test_cstring(fifo_path)
+    if external_call["access", Int32](fifo_bytes.unsafe_ptr(), 0) == 0:
+        raise Error("conversation FIFO test path already exists")
+    if external_call["mkfifo", Int32](fifo_bytes.unsafe_ptr(), Int32(384)) != 0:
+        raise Error("unable to create conversation FIFO test fixture")
+    var fifo_rejected = False
+    try:
+        _ = load_conversation(fifo_path)
+    except error:
+        fifo_rejected = "regular file" in String(error)
+    if external_call["unlink", Int32](fifo_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove conversation FIFO test fixture")
+    if not fifo_rejected:
+        raise Error("conversation loader accepted a FIFO")
 
 
 def test_conversation_compatibility() raises:

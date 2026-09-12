@@ -1,5 +1,6 @@
 """Native CUDA chat orchestration and durable, exclusive transcript output."""
 from std.ffi import external_call
+from std.collections import InlineArray
 from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda_plan, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
@@ -26,6 +27,21 @@ struct ChatTranscript:
     def __init__(out self, path: String, inherited_fd: Int = -1) raises:
         self.fd = -1
         if inherited_fd >= 0:
+            var stat = InlineArray[UInt64, 18](fill=0)
+            if external_call["fstat", Int32](Int32(inherited_fd), stat.unsafe_ptr()) != 0:
+                raise Error("Cannot inspect resumed transcript descriptor")
+            var mode = stat[3] & 4294967295
+            var flags = external_call["fcntl", Int32](
+                Int32(inherited_fd), Int32(3), Int64(0)
+            )
+            if (mode & 61440 != 32768
+                    or stat[3] >> 32 != UInt64(external_call["geteuid", UInt32]())
+                    or flags < 0 or flags & 3 == 0):
+                raise Error("Resumed transcript must be an owner-held writable regular file")
+            if external_call["lseek64", Int64](
+                Int32(inherited_fd), Int64(0), Int32(2)
+            ) < 0:
+                raise Error("Cannot seek resumed transcript to its append position")
             self.fd = Int32(inherited_fd)
             return
         if path != "":

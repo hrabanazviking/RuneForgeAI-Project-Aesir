@@ -2,6 +2,7 @@
 
 from std.ffi import external_call
 from std.memory import Pointer
+from std.collections import InlineArray
 from core.observation_integer import bounded_decimal
 
 
@@ -314,9 +315,22 @@ def save_conversation(path: String, state: ConversationState) raises:
 
 def load_conversation(path: String) raises -> ConversationState:
     var encoded = _path_bytes(path)
-    var fd = external_call["open64", Int32](encoded.unsafe_ptr(), Int32(655360), Int32(0))
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC. O_NONBLOCK prevents a
+    # caller-selected FIFO from stalling before regular-file admission.
+    var fd = external_call["open64", Int32](encoded.unsafe_ptr(), Int32(657408), Int32(0))
     if fd < 0:
         raise Error("Cannot open conversation snapshot: " + path)
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("Cannot inspect conversation snapshot")
+    var mode = stat[3] & 4294967295
+    if mode & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("Conversation snapshot must be a regular file")
+    if stat[6] == 0 or stat[6] > MAX_CONVERSATION_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("Conversation snapshot must contain 1..16777216 bytes")
     var output = List[Byte]()
     var buffer = List[Byte]()
     buffer.resize(4096, 0)
