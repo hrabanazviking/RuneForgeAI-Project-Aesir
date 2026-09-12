@@ -141,12 +141,23 @@ def _vault_atomic_write(path: String, content: String) raises:
 
 def _vault_read(path: String) raises -> String:
     var encoded_path = _vault_cstring(path)
-    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC: the marker cannot be a symlink.
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC: the marker cannot be a
+    # symlink or a blocking special file.
     var fd = external_call["open64", Int32](
-        encoded_path.unsafe_ptr(), Int32(655360), Int32(0)
+        encoded_path.unsafe_ptr(), Int32(657408), Int32(0)
     )
     if fd < 0:
         raise Error("StateVault cannot open checkpoint")
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("StateVault cannot inspect checkpoint")
+    if stat[3] & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("StateVault checkpoint must be a regular file")
+    if stat[6] == 0 or stat[6] > MAX_VAULT_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("StateVault checkpoint must contain 1 through 4096 bytes")
     var buffer_alloc = alloc(Layout[Int8](count=MAX_VAULT_BYTES + 1))
     var buffer = buffer_alloc^.unsafe_leak()
     var size = 0

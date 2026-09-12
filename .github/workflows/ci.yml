@@ -39,6 +39,9 @@ jobs:
       - name: Prove Restart-Safe Native Model Catalog
         run: python3 scripts/test_native_model_store.py --binary /tmp/aesir-ci-build
 
+      - name: Prove Special-File Admission Fails Closed
+        run: python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ci-build
+
       - name: Compile Opt-In CUDA Probes Without Claiming GPU Execution
         run: |
           pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_sampling.mojo -o /tmp/aesir-sampling-probe

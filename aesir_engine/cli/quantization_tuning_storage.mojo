@@ -3,6 +3,7 @@
 from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
+from std.collections import InlineArray
 
 from core.quantization_autotuner import QuantizedGEMMAutotuner
 
@@ -94,9 +95,9 @@ def _sync_tuning_root(root: String) raises:
 
 def _read_tuning_cache(path: String) raises -> String:
     var path_bytes = _tuning_cstring(path)
-    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC
     var fd = external_call["open64", Int32](
-        path_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+        path_bytes.unsafe_ptr(), Int32(657408), Int32(0)
     )
     if fd < 0:
         var errno_pointer = external_call[
@@ -105,6 +106,16 @@ def _read_tuning_cache(path: String) raises -> String:
         if errno_pointer.unsafe_load() == 2:
             return String("")
         raise Error("unable to open quantization tuning cache")
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to inspect quantization tuning cache")
+    if stat[3] & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("quantization tuning cache must be a regular file")
+    if stat[6] == 0 or stat[6] > MAX_TUNING_CACHE_FILE_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("quantization tuning cache must contain 1 byte through 1 MiB")
     var content = List[Int8]()
     var buffer_alloc = alloc(Layout[Int8](count=4096))
     var buffer = buffer_alloc^.unsafe_leak()
@@ -222,7 +233,7 @@ struct DurableQuantizationTuningCache(Copyable):
     def load(self, mut tuner: QuantizedGEMMAutotuner) raises -> Bool:
         _ensure_tuning_root(self.root_path)
         var lock_fd = _lock_tuning_root(self.root_path)
-        var content = String("")
+        var content: String
         try:
             content = _read_tuning_cache(
                 self.root_path + "/" + TUNING_CACHE_FILE

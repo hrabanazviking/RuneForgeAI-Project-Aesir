@@ -3,12 +3,21 @@
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
+from std.ffi import external_call
 from core.mimir_well import Scalar, f16
 from core.error_guard import ErrorGuard
 from core.state_vault import StateVault
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.supervisor import SelfHealingSupervisor
+
+
+def _resilience_test_cstring(value: String) -> List[Int8]:
+    var output = List[Int8]()
+    for byte in value.as_bytes():
+        output.append(Int8(byte))
+    output.append(0)
+    return output^
 
 def test_error_guard() raises:
     print("--- Testing ErrorGuard (Pointer & Logit Sanitization) ---")
@@ -103,7 +112,10 @@ def test_state_vault() raises:
         success = False
 
     # Test disk file checkpointing
-    var tmp_path = String("/tmp/aesir_vault_test.chk")
+    var tmp_path = (
+        "/tmp/aesir-vault-test-"
+        + String(external_call["getpid", Int32]()) + ".chk"
+    )
     var _3 = vault.save_checkpoint_to_disk(tmp_path, 256, 32, 2000)
     var loaded_vault = StateVault()
     var loaded_chk = loaded_vault.load_checkpoint_from_disk(tmp_path)
@@ -128,6 +140,22 @@ def test_state_vault() raises:
         or loaded_vault.active_checkpoint.checksum != prior.checksum
     ):
         print("FAIL: StateVault malformed load was accepted or mutated active state")
+        success = False
+
+    var tmp_path_bytes = _resilience_test_cstring(tmp_path)
+    if external_call["unlink", Int32](tmp_path_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove StateVault regular test fixture")
+    if external_call["mkfifo", Int32](tmp_path_bytes.unsafe_ptr(), Int32(384)) != 0:
+        raise Error("unable to create StateVault FIFO test fixture")
+    var fifo_rejected = False
+    try:
+        _ = loaded_vault.load_checkpoint_from_disk(tmp_path)
+    except error:
+        fifo_rejected = "regular file" in String(error)
+    if external_call["unlink", Int32](tmp_path_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove StateVault FIFO test fixture")
+    if not fifo_rejected:
+        print("FAIL: StateVault accepted a FIFO checkpoint")
         success = False
 
     if success:

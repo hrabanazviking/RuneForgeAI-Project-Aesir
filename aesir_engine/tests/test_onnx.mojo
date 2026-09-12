@@ -116,6 +116,29 @@ def test_onnx_seer_header_validation() raises:
     if file_seer.ir_version != 9 or file_seer.num_nodes != 1:
         raise Error("ONNXModelSeer file parser metadata mismatch")
 
+    var fifo_path = (
+        "/tmp/aesir-onnx-fifo-test-"
+        + String(external_call["getpid", Int32]())
+    )
+    var fifo = List[Int8]()
+    for byte in fifo_path.as_bytes():
+        fifo.append(Int8(byte))
+    fifo.append(0)
+    if external_call["access", Int32](fifo.unsafe_ptr(), 0) == 0:
+        raise Error("ONNX FIFO test path already exists")
+    if external_call["mkfifo", Int32](fifo.unsafe_ptr(), Int32(384)) != 0:
+        raise Error("unable to create ONNX FIFO test fixture")
+    var fifo_rejected = False
+    try:
+        var fifo_seer = ONNXModelSeer(fifo_path)
+        _ = fifo_seer.parse_onnx_header()
+    except error:
+        fifo_rejected = "regular file" in String(error)
+    if external_call["unlink", Int32](fifo.unsafe_ptr()) != 0:
+        raise Error("unable to remove ONNX FIFO test fixture")
+    if not fifo_rejected:
+        raise Error("ONNX loader accepted a FIFO")
+
     # A failed parse must leave previously committed metadata untouched.
     var truncated: List[UInt8] = [0x08, 0x09, 0x12, 0x05, 0x61]
     var truncated_ptr = _fixture_bytes(truncated)

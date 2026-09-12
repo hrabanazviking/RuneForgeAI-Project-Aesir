@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Round 2 CUDA model switching, September 11, 2026
+**Ledger version:** Round 2 persistence admission audit, September 12, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -42,6 +42,7 @@ Run commands from the repository root unless stated otherwise.
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
+| `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
 Pinned `E-REAL` fixture and oracle:
@@ -358,7 +359,7 @@ the complete ledger population.
 - **Owner:** loader and tokenizer domains
 - **Claim sources:** broad README “GGUF parsing” wording; TODO loader state refactoring
 - **Implementation evidence:** `GGUFSeer` implements explicit 6-phase `GGUFState` machine (`UNOPENED`, `HEADER_PARSED`, `TENSORS_MAPPED`, `VALIDATED`, `FAILED`, `CLOSED`), fail-closed resource cleanup (`_cleanup()`), and duplicate metadata key rejection.
-- **Executable evidence:** `E-MASTER` case `gguf.malformed_model_rejection` and `test_loader_state_machine` in `test_gguf.mojo`.
+- **Executable evidence:** `E-MASTER` case `gguf.malformed_model_rejection`, `test_loader_state_machine` in `test_gguf.mojo`, and `E-SPECIAL` direct-GGUF FIFO rejection.
 - **Evidence boundary:** Loader lifecycle state machine, resource cleanup guarantees, and duplicate key rejection; does not claim arbitrary unmapped architectures or quantized loading.
 - **Next acceptance gate:** Multi-architecture GGUF format generalized tensor mappings.
 - **Audit:** AER-036 through AER-042.
@@ -583,7 +584,7 @@ the complete ledger population.
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
 - **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish exact 16-hex `fnv1a64:` recipe fingerprints with zero observed bytes from exact 64-hex measured `sha256:` blob identities with positive size; decode, durable serialization, and collection share this invariant. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, and imports nonempty seekable source files through `O_NOFOLLOW`. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, makes it owner-read-only, publishes `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Optional expected digest/size admission occurs before catalog mutation and rolls back a blob newly created by a rejected transaction. Locked `gc` derives reachability from the current catalog, validates the complete blob namespace before deletion, retains referenced bytes, removes unreachable canonical digests and strict abandoned stages, synchronizes the directory, and reports exact accounting.
-- **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, validate-before-delete GC failure, stale-stage cleanup, unreachable-byte reclamation, referenced-byte retention, exact GC counters, and the earlier catalog invariants. `scripts/test_native_model_store.py` proves the same lifecycle across independent processes plus permissions, rollback, six concurrent blob/catalog writers without lost updates, single-blob deduplication, corruption, missing blobs, and final-symlink rejection through the built CLI.
+- **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, validate-before-delete GC failure, stale-stage cleanup, unreachable-byte reclamation, referenced-byte retention, exact GC counters, and the earlier catalog invariants. `scripts/test_native_model_store.py` proves the same lifecycle across independent processes plus permissions, rollback, six concurrent blob/catalog writers without lost updates, single-blob deduplication, corruption, missing blobs, and final-symlink rejection through the built CLI. `E-SPECIAL` proves catalog, source-blob, and installed-blob FIFOs fail closed without blocking.
 - **Evidence boundary:** The content-addressed store, explicit pinned `pull --name` registration, and reference-aware `gc` are implemented for the configured Linux target and require `sha256sum`, GNU `find`, and procfs. Recipe-only manifests remain supported. Systematic process-crash and injected-I/O recovery at every durability boundary, portability, binary distribution, and live-session ownership remain open.
 - **Next acceptance gate:** Add systematic I/O/process-crash fault injection and prove recovery at each commit and collection boundary.
 - **Audit:** AER-061, AER-062, AER-063.
@@ -1111,7 +1112,7 @@ and circular self-parity transforms were removed.
 - **Owner:** loader and optional ecosystem domains
 - **Claim sources:** completed multi-engine TODO; loader interface
 - **Implementation evidence:** Native Mojo safely opens and read-only maps an ONNX file, decodes bounded protobuf wire data, extracts real IR/producer/default-domain opset metadata, walks `GraphProto.node` entries, counts inputs/outputs, validates UTF-8 and recognizes a declared operator metadata subset. Parsing is transactional; malformed/truncated/overflowing data and unrecognized operators are rejected. Initializer mapping and execution raise unsupported.
-- **Executable evidence:** `E-MASTER` cases `onnx.model_seer`, `onnx.recognized_operators`, `multi_engine.onnx_unavailable`, and `multi_engine.cli_unsupported`; the parser case covers in-memory and file-backed valid wire fixtures, truncation, sentinel pointers, state rollback and unknown operators.
+- **Executable evidence:** `E-MASTER` cases `onnx.model_seer`, `onnx.recognized_operators`, `multi_engine.onnx_unavailable`, and `multi_engine.cli_unsupported`; the parser case covers in-memory and file-backed valid wire fixtures, FIFO refusal, truncation, sentinel pointers, state rollback and unknown operators.
 - **Evidence boundary:** The fixture proves protobuf metadata decoding only. TensorProto initializers, attributes, graph type/shape validation, planning, kernels, ONNX Runtime comparison and CLI execution are not implemented.
 - **Next acceptance gate:** Parse a pinned ONNX conformance model including tensors/types/shapes/attributes, execute a deliberately bounded operator subset, and compare outputs with ONNX Runtime.
 - **Audit:** AER-081, AER-003.
@@ -1178,7 +1179,7 @@ and circular self-parity transforms were removed.
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO
 - **Implementation evidence:** `StateVault` stores non-negative token-position and prompt-count markers with an observed or explicit positive timestamp. Its bounded versioned disk record uses a deterministic corruption checksum, strict field order/count/decimal parsing, final-symlink refusal on reads, staged file sync, atomic same-directory replacement, and parent-directory sync. Failed validation/read/write does not replace the active in-memory marker.
-- **Executable evidence:** `E-MASTER` cases `resilience.state_vault_marker` and `resilience.durable_state_vault` cover observed timestamps, bounds, restart loading, malformed-record refusal, checksum corruption, invalid fields, and state non-mutation.
+- **Executable evidence:** `E-MASTER` cases `resilience.state_vault_marker` and `resilience.durable_state_vault` cover observed timestamps, bounds, restart loading, malformed-record and FIFO refusal, checksum corruption, invalid fields, and state non-mutation.
 - **Evidence boundary:** This records two positions; it does not snapshot model weights, tensors, KV data, sampler state, processes, threads, or sockets. FNV-1a detects ordinary corruption but is not authentication. Writers are not locked or coordinated across processes.
 - **Next acceptance gate:** Define a complete session-state schema and ownership model, add authenticated records if the marker crosses a trust boundary, serialize concurrent writers, and prove injected write/sync/permission/restart failures.
 - **Audit:** AER-106.

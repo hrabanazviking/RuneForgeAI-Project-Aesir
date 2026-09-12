@@ -3,6 +3,7 @@
 
 from std.ffi import external_call
 from std.memory import Pointer
+from std.collections import InlineArray
 from core.mimir_well import MimirWell
 
 comptime MAX_ONNX_STRING_BYTES = 1024 * 1024
@@ -263,13 +264,22 @@ struct ONNXModelSeer:
         for byte in self.model_path.as_bytes():
             path.append(Int8(byte))
         path.append(0)
-        var fd = external_call["open64", Int32](path.unsafe_ptr(), Int32(0xA0000), Int32(0))
+        var fd = external_call["open64", Int32](
+            path.unsafe_ptr(), Int32(0xA0800), Int32(0)
+        )
         if fd < 0:
             raise Error("Failed to safely open ONNX model: " + self.model_path)
-        var file_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
-        if file_size <= 0:
+        var stat = InlineArray[UInt64, 18](fill=0)
+        if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+            _ = external_call["close", Int32](fd)
+            raise Error("Failed to inspect ONNX model")
+        if stat[3] & 61440 != 32768:
+            _ = external_call["close", Int32](fd)
+            raise Error("ONNX model must be a regular file")
+        if stat[6] == 0 or stat[6] > 9223372036854775807:
             _ = external_call["close", Int32](fd)
             raise Error("ONNX model has an invalid file size")
+        var file_size = Int64(stat[6])
         var mapped = external_call["mmap", Int](Int(0), file_size, Int32(1), Int32(2), fd, Int64(0))
         if mapped == -1:
             _ = external_call["close", Int32](fd)

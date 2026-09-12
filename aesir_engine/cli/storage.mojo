@@ -4,7 +4,7 @@
 from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
-from std.collections import Dict
+from std.collections import Dict, InlineArray
 from core.posix_process import run_checked_argv_bytes
 from config import validate_model_store_path
 from cli.manifest import (
@@ -221,10 +221,10 @@ def deserialize_catalog(raw: String) raises -> RuneModelStore:
 
 def _read_optional_text(path: String) raises -> String:
     var path_bytes = _cstring(path)
-    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC. A catalog must be the named file,
-    # never a final symlink selected by another process.
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC. A catalog must be the
+    # named regular file, never a blocking special file or final symlink.
     var fd = external_call["open64", Int32](
-        path_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+        path_bytes.unsafe_ptr(), Int32(657408), Int32(0)
     )
     if fd < 0:
         var errno_pointer = external_call[
@@ -233,6 +233,16 @@ def _read_optional_text(path: String) raises -> String:
         if errno_pointer.unsafe_load() == 2:
             return String("")
         raise Error("unable to open model catalog: " + path)
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to inspect model catalog: " + path)
+    if stat[3] & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("model catalog must be a regular file: " + path)
+    if stat[6] == 0 or stat[6] > MAX_CATALOG_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("model catalog must contain 1 byte through 16 MiB")
     var content = List[Int8]()
     var buffer_alloc = alloc(Layout[Int8](count=4096))
     var buffer = buffer_alloc^.unsafe_leak()
@@ -418,15 +428,22 @@ def _open_blob_by_digest(
 ) raises -> Int32:
     _validate_sha256_hex(digest)
     var digest_bytes = _cstring(digest)
-    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC.
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC.
     var fd = external_call["openat", Int32](
         sha_directory_fd,
         digest_bytes.unsafe_ptr(),
-        Int32(655360),
+        Int32(657408),
         Int32(0),
     )
     if fd < 0:
         raise Error("referenced model blob is missing: sha256:" + digest)
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to inspect referenced model blob: sha256:" + digest)
+    if stat[3] & 61440 != 32768 or stat[6] == 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("referenced model blob must be a nonempty regular file: sha256:" + digest)
     return fd
 
 
@@ -440,23 +457,22 @@ def _ingest_blob_locked(root_fd: Int32, source_path: String) raises -> BlobRecor
     ):
         raise Error("model blob source path must contain 1..4095 non-NUL bytes")
     var source_bytes = _cstring(clean_source)
-    # O_RDONLY | O_NOFOLLOW | O_CLOEXEC rejects a final symlink.
+    # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC rejects special files and
+    # a final symlink before any potentially blocking read.
     var source_fd = external_call["open64", Int32](
-        source_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+        source_bytes.unsafe_ptr(), Int32(657408), Int32(0)
     )
     if source_fd < 0:
         raise Error("unable to open model blob source: " + clean_source)
-    var expected_size = external_call["lseek", Int64](
-        source_fd, Int64(0), Int32(2)
-    )
-    if expected_size <= 0:
+    var source_stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](source_fd, source_stat.unsafe_ptr()) != 0:
         _ = external_call["close", Int32](source_fd)
-        raise Error("model blob source must be a non-empty seekable file")
-    if external_call["lseek", Int64](
-        source_fd, Int64(0), Int32(0)
-    ) != 0:
+        raise Error("unable to inspect model blob source")
+    if (source_stat[3] & 61440 != 32768 or source_stat[6] == 0
+            or source_stat[6] > 9223372036854775807):
         _ = external_call["close", Int32](source_fd)
-        raise Error("unable to rewind model blob source")
+        raise Error("model blob source must be a non-empty regular file")
+    var expected_size = Int64(source_stat[6])
 
     var sha_directory_fd: Int32 = -1
     var staged_fd: Int32 = -1

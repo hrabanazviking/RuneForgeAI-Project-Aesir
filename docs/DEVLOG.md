@@ -1,3 +1,21 @@
+## 2026-09-12 — Persistence readers now reject blocking special files
+
+A repository-wide admission audit found that several bounded local readers
+rejected final symlinks but could still block while opening a FIFO. Configuration,
+Modelfile, catalog, model-blob, tuning-cache, StateVault, GGUF, ONNX, conversation,
+and model-preference reads now use nonblocking opens and admit only regular files
+before reading or mapping bytes. Resumed chat transcripts additionally prove the
+inherited descriptor is owner-held, writable, regular, and seekable to its append
+position.
+
+The 183-case master suite remains at 182 passed, 0 failed, and one explicit
+external-fixture skip. New FIFO regressions cover conversation, preferences,
+ONNX, StateVault, and transcript descriptors; the built-CLI
+`scripts/test_special_file_admission.py` proof covers configuration, GGUF,
+Modelfile, source and installed model blobs, and catalog state under a five-second
+anti-stall deadline. Physical Gemma → Qwen → Gemma CUDA switching also passed
+with one continuous transcript after descriptor hardening.
+
 ## 2026-09-11 — Added native CUDA model hot switching
 
 Interactive native chat now accepts `/model <name-or-alias-or-path>`. The active

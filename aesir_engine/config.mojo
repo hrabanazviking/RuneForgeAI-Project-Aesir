@@ -5,7 +5,7 @@ from std.math import isinf, isnan
 from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
-from std.collections import Dict
+from std.collections import Dict, InlineArray
 
 
 comptime MAX_CONFIG_BYTES = 1024 * 1024
@@ -549,14 +549,24 @@ def load_config_file(path: String) raises -> AesirConfig:
         path_bytes.append(Int8(source[index]))
     path_bytes.append(0)
 
-    # Linux O_RDONLY | O_NOFOLLOW | O_CLOEXEC. A configuration path must name
-    # a file rather than an attacker-substituted final symlink.
+    # Linux O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC. A configuration
+    # path must name a bounded regular file, never a blocking special file.
     var fd = external_call["open64", Int32](
-        path_bytes.unsafe_ptr(), Int32(655360), Int32(0)
+        path_bytes.unsafe_ptr(), Int32(657408), Int32(0)
     )
     _ = path_bytes
     if fd < 0:
         raise Error("unable to read configuration '" + clean_path + "'")
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0:
+        _ = external_call["close", Int32](fd)
+        raise Error("unable to inspect configuration '" + clean_path + "'")
+    if stat[3] & 61440 != 32768:
+        _ = external_call["close", Int32](fd)
+        raise Error("configuration must be a regular file: " + clean_path)
+    if stat[6] == 0 or stat[6] > MAX_CONFIG_BYTES:
+        _ = external_call["close", Int32](fd)
+        raise Error("configuration must contain 1 byte through 1 MiB")
 
     var content_bytes = List[Int8]()
     var buffer_alloc = alloc(Layout[Int8](count=4096))

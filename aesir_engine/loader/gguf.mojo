@@ -1,7 +1,7 @@
 # loader/gguf.mojo
 # Bounds-checked GGUF v3 loader with real mmap-backed F16 tensor views.
 
-from std.collections import Dict
+from std.collections import Dict, InlineArray
 from std.ffi import external_call
 from std.memory import Pointer, bitcast
 
@@ -401,15 +401,23 @@ struct GGUFSeer:
         for index in range(len(source)):
             path_bytes.append(Int8(source[index]))
         path_bytes.append(0)
-        self.fd = external_call["open64", Int32](path_bytes.unsafe_ptr(), Int32(0), Int32(0))
+        # O_RDONLY | O_NONBLOCK | O_CLOEXEC. Final symlinks remain supported so
+        # cataloged model links work, but their targets must be regular files.
+        self.fd = external_call["open64", Int32](
+            path_bytes.unsafe_ptr(), Int32(526336), Int32(0)
+        )
         _ = path_bytes
         if self.fd < 0:
             raise Error("Failed to open GGUF model: " + self.file_path)
 
-        self.file_size = external_call["lseek", Int64](self.fd, Int64(0), Int32(2))
-        _ = external_call["lseek", Int64](self.fd, Int64(0), Int32(0))
-        if self.file_size < 24:
+        var stat = InlineArray[UInt64, 18](fill=0)
+        if external_call["fstat", Int32](self.fd, stat.unsafe_ptr()) != 0:
+            raise Error("Failed to inspect GGUF model")
+        if stat[3] & 61440 != 32768:
+            raise Error("GGUF model must be a regular file")
+        if stat[6] < 24 or stat[6] > 9223372036854775807:
             raise Error("GGUF file is smaller than the v3 header")
+        self.file_size = Int64(stat[6])
 
         var mapped_address = external_call["mmap", Int](
             Int(0), self.file_size, Int32(1), Int32(1), self.fd, Int64(0)
