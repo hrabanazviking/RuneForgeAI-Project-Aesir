@@ -45,6 +45,8 @@ struct ChatTranscript:
             self.fd = Int32(inherited_fd)
             return
         if path != "":
+            if path.byte_length() >= 4096:
+                raise Error("Transcript path must contain at most 4095 bytes")
             var bytes = List[Int8]()
             for byte in path.as_bytes():
                 if byte == 0:

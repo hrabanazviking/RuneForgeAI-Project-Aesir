@@ -23,6 +23,14 @@ def test_gguf_parsing() raises:
         raise Error("GGUFSeer accepted a zero-tensor model fixture")
     if seer.state != GGUFState.FAILED:
         raise Error("Failed GGUFSeer parse must transition state to FAILED")
+    var nul_seer = GGUFSeer("model.gguf\0ignored")
+    rejected = False
+    try:
+        nul_seer.mmap_and_load(well)
+    except error:
+        rejected = "non-NUL" in String(error)
+    if not rejected or nul_seer.state != GGUFState.FAILED:
+        raise Error("GGUFSeer accepted a NUL-truncated model path")
     print("GGUFSeer malformed-model rejection & FAILED state transition: PASS")
 
 def test_loader_state_machine() raises:

@@ -398,6 +398,8 @@ struct GGUFSeer:
     def _open_and_map(mut self) raises:
         var path_bytes = List[Int8]()
         var source = self.file_path.as_bytes()
+        if len(source) == 0 or len(source) >= 4096 or "\0" in self.file_path:
+            raise Error("GGUF model path must contain 1..4095 non-NUL bytes")
         for index in range(len(source)):
             path_bytes.append(Int8(source[index]))
         path_bytes.append(0)

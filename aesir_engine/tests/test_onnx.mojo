@@ -138,6 +138,14 @@ def test_onnx_seer_header_validation() raises:
         raise Error("unable to remove ONNX FIFO test fixture")
     if not fifo_rejected:
         raise Error("ONNX loader accepted a FIFO")
+    var nul_path_rejected = False
+    try:
+        var nul_seer = ONNXModelSeer("fixture.onnx\0ignored")
+        _ = nul_seer.parse_onnx_header()
+    except error:
+        nul_path_rejected = "non-NUL" in String(error)
+    if not nul_path_rejected:
+        raise Error("ONNX loader accepted a NUL-truncated model path")
 
     # A failed parse must leave previously committed metadata untouched.
     var truncated: List[UInt8] = [0x08, 0x09, 0x12, 0x05, 0x61]

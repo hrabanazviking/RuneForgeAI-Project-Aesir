@@ -914,6 +914,14 @@ def test_cli_flag_options_parser() raises:
     if not missing_config_rejected:
         raise Error("missing configuration file was accepted")
 
+    var nul_config_rejected = False
+    try:
+        _ = load_config_file("aesir.config.json\0ignored")
+    except error:
+        nul_config_rejected = "non-NUL" in String(error)
+    if not nul_config_rejected:
+        raise Error("configuration loader accepted a NUL-truncated path")
+
     # Every globally parsed option without a single-shot owner must fail before
     # model loading instead of being silently ignored.
     assert_run_option_rejected("--verbose")

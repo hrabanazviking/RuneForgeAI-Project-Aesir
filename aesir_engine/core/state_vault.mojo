@@ -12,8 +12,8 @@ comptime MAX_VAULT_BYTES = 4096
 
 
 def _vault_cstring(value: String) raises -> List[Int8]:
-    if len(value.bytes()) == 0:
-        raise Error("StateVault path must not be empty")
+    if len(value.bytes()) == 0 or len(value.bytes()) >= 4096:
+        raise Error("StateVault path must contain 1..4095 bytes")
     var result = List[Int8]()
     for byte in value.as_bytes():
         if byte == 0:

@@ -258,8 +258,10 @@ struct ONNXModelSeer:
 
     def parse_onnx_header(mut self) raises -> Bool:
         """Safely maps model_path, parses metadata, then releases the mapping."""
-        if len(self.model_path.as_bytes()) == 0:
-            raise Error("ONNX model path must not be empty")
+        if (len(self.model_path.as_bytes()) == 0
+                or len(self.model_path.as_bytes()) >= 4096
+                or "\0" in self.model_path):
+            raise Error("ONNX model path must contain 1..4095 non-NUL bytes")
         var path = List[Int8]()
         for byte in self.model_path.as_bytes():
             path.append(Int8(byte))

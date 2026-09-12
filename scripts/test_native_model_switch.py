@@ -1,4 +1,4 @@
-"""Opt-in physical CUDA proof for in-process Gemma/Qwen model switching."""
+"""Opt-in physical CUDA proof for same-PID process-image model switching."""
 
 import argparse
 from pathlib import Path

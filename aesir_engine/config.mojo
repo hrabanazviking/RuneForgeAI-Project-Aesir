@@ -538,8 +538,9 @@ def parse_config_json(json_content: String) raises -> AesirConfig:
 def load_config_file(path: String) raises -> AesirConfig:
     """Reads, validates, and records one caller-selected configuration file."""
     var clean_path = String(path.strip())
-    if len(clean_path.bytes()) == 0:
-        raise Error("configuration path must not be empty")
+    if (len(clean_path.bytes()) == 0 or len(clean_path.bytes()) >= 4096
+            or "\0" in clean_path):
+        raise Error("configuration path must contain 1..4095 non-NUL bytes")
 
     # Use the repository's existing POSIX boundary instead of mixing the
     # standard-library FileHandle symbol with GGUF's direct mmap/open FFI.
