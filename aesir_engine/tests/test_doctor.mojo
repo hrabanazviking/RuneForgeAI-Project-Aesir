@@ -6,7 +6,7 @@ from core.native_diagnostics import (
     parse_hex_port,
     proc_tcp_has_listener,
 )
-from cli.doctor import doctor_system_ready
+from cli.doctor import doctor_system_ready, dispatch_doctor
 
 
 def test_doctor_observations() raises:
@@ -49,3 +49,20 @@ def test_doctor_readiness_policy() raises:
         raise Error("doctor reported readiness with a broken model")
     if doctor_system_ready(False, True, 3, 0, True, 1024):
         raise Error("doctor reported CUDA readiness without a compatible GPU")
+    if doctor_system_ready(True, False, 3, 0, True, 1024):
+        raise Error("doctor reported readiness with an unreadable store")
+    if doctor_system_ready(True, True, 3, 0, False, 1024):
+        raise Error("doctor reported readiness with unknown disk availability")
+    if doctor_system_ready(True, True, 3, 0, True, 0):
+        raise Error("doctor reported readiness with no available disk space")
+    # Recipe entries never count as installed weights, even in a readable store.
+    var recipe_only_installed_count = 0
+    if doctor_system_ready(True, True, recipe_only_installed_count, 0, True, 1024):
+        raise Error("doctor reported readiness for a recipe-only catalog")
+    var rejected_store = False
+    try:
+        dispatch_doctor(["doctor", "--model-store", ""])
+    except:
+        rejected_store = True
+    if not rejected_store:
+        raise Error("doctor accepted an empty store path")

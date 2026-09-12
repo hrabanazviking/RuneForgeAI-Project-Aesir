@@ -646,6 +646,13 @@ the complete ledger population.
 
 ### AES-CLI-010 — Offline-safe system and model diagnosis
 
+- **S01 correction (2026-09-12):** Readiness counts installed SHA-256 entries,
+  never recipe-only entries, validates store syntax before discovery, and labels
+  its scope as CUDA/storage prerequisites rather than tested model execution.
+  `scripts/test_native_doctor.py --binary .aesir/aesir-s01` passed isolated empty
+  and recipe-only stores plus invalid/duplicate store flags. Counted suite:
+  182 pass, 0 fail, 1 external-fixture skip; native build and doc-drift gate pass.
+
 - **Status:** `verified`
 - **Owner:** CLI presentation, core Linux observation, CUDA discovery, and durable catalog domains
 - **Claim sources:** Round 2 model adoption and usability plan; CLI help

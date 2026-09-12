@@ -221,18 +221,27 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### Plan publication
 
-- Status: prepared for initial push.
+- Status: done; published to `main` as `54cdeae`.
 - Acceptance: 48 ordered slices, ownership, dependencies, gates, release criteria,
   risk register, and per-slice push/continuation contract established.
 - Next: S01, then S02, then S03. Continue in listed order thereafter.
+- Continuation: hourly thread heartbeat `aesir-sequential-application-build`
+  is active; execution requires the desktop host and available usage/network.
 
 ### S01 — Doctor readiness
 
-- Status: queued.
+- Status: verified; included in this slice's push checkpoint.
 - Decision: readiness here describes CUDA/storage prerequisites only; require
   installed weights rather than a recipe count and expose that scope clearly.
 - Gate: focused policy tests plus a built CLI against isolated recipe-only and
   empty stores; no inference/GPU run is required to prove a negative readiness.
+- Implementation: installed-count policy, early store validation, explicit
+  prerequisite-only scope, expanded negative policy tests and isolated built-CLI
+  harness `scripts/test_native_doctor.py`.
+- Evidence: CUDA-targeted main build succeeded; counted suite 182 passed,
+  0 failed, 1 external-fixture skip (183 total). `python3
+  scripts/test_native_doctor.py --binary .aesir/aesir-s01` passed; doc-drift gate
+  passed with existing legacy-artifact warnings only.
 
 ### S02 — Structured diagnostics
 

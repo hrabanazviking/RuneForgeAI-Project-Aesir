@@ -1,6 +1,7 @@
 """Truthful, read-mostly system and model diagnosis for Project Aesir."""
 
 from aesir import CUDAGate
+from config import validate_model_store_path
 from cli.storage import DurableModelStore
 from cli.model_inspect import dispatch_model_inspect
 from core.native_diagnostics import (
@@ -13,16 +14,16 @@ from core.native_diagnostics import (
 def doctor_system_ready(
     cuda_ready: Bool,
     store_ok: Bool,
-    model_count: Int,
+    installed_model_count: Int,
     broken_models: Int,
     disk_known: Bool,
     disk_available_bytes: Int,
 ) -> Bool:
-    """Defines readiness without requiring a server or internet connection."""
+    """Checks CUDA/storage prerequisites, not model execution compatibility."""
     return (
         cuda_ready
         and store_ok
-        and model_count > 0
+        and installed_model_count > 0
         and broken_models == 0
         and disk_known
         and disk_available_bytes > 0
@@ -58,6 +59,8 @@ def dispatch_doctor(args: List[String]) raises:
             raise Error("doctor accepts at most one model reference")
         model_reference = token
         index += 1
+
+    model_store = validate_model_store_path(model_store)
 
     var cuda_ready = False
     var cuda_detail: String
@@ -148,12 +151,13 @@ def dispatch_doctor(args: List[String]) raises:
     var ready = doctor_system_ready(
         cuda_ready,
         store_ok,
-        model_count,
+        installed_count,
         broken_models,
         disk_known,
         disk_available,
     )
     print("\n" + ("SYSTEM READY" if ready else "SYSTEM NEEDS ATTENTION"))
+    print("Scope: CUDA/storage prerequisites only; model execution not tested.")
 
     if model_reference != "":
         print("\nModel-specific diagnosis\n")

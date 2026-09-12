@@ -55,6 +55,9 @@ installed catalog blob, identifies recipe-only entries separately, and can
 append the existing architecture-registry inspection for one model. It does
 not contact a listening socket or the public internet, and neither API
 listeners nor network access are prerequisites for offline inference readiness.
+Readiness requires at least one installed SHA-256 blob, not just a recipe;
+it describes CUDA/storage prerequisites, not model execution compatibility.
+Store arguments are validated before hardware discovery.
 
 ## Model preferences
 

@@ -1,3 +1,12 @@
+## 2026-09-12 — Application program S01: truthful prerequisites
+
+Published the 48-slice application gameplan and activated hourly continuation.
+Doctor no longer counts recipe-only entries as installed models. Store paths
+are rejected before hardware discovery, and the report explicitly distinguishes
+CUDA/storage prerequisites from tested model execution. Expanded policy tests
+and an isolated built-CLI harness cover empty/recipe-only stores and malformed
+store options. CUDA-targeted build and counted suite passed (182/0/1 skip).
+
 ## Entry 116: Immutable SHA-256 Model Blob Store
 **Date:** September 2, 2026
 
