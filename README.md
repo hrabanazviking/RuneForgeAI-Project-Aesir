@@ -14,6 +14,8 @@ defines the current build sequence, release gates, and automatic continuation.
 The built Linux/WSL CLI now offers `aesir home --model-store .aesir/models`:
 a terminal menu for chat, catalog browsing, diagnostics and repair preview.
 Plain `aesir` opens Home only in a terminal; redirected invocations keep help.
+For a verified current local build, use `python3 scripts/launch.py --build`,
+then `python3 scripts/launch.py`. See [local launch](docs/LOCAL_LAUNCH.md).
 
 > **Advanced Edge System for Interface and Response**
 

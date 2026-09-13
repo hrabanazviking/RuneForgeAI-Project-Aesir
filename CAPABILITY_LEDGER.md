@@ -66,12 +66,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 74 |
+| `verified` | 75 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **117** |
+| **Total** | **118** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -150,6 +150,25 @@ the complete ledger population.
 - **Evidence boundary:** New extension/signature-based artifact debt and unregistered/malformed fixture provenance are rejected, but the 32 deletion-blocked legacy files remain tracked. Deep file-format validation, secret-content scanning, generated-asset license verification, release signing/SBOM, and full-history scanning remain open.
 - **Next acceptance gate:** Obtain approval for and remove exact legacy paths, expand content/license/release gates, preserve canonical assets, and prove a clean checkout before promotion.
 - **Audit:** AER-098, AER-099, AER-103.
+
+### AES-FND-008 — Prepared-checkout offline build and terminal launch
+
+- **Status:** `verified`
+- **Owner:** repository launch/build scripts
+- **Claim sources:** S06a; `docs/LOCAL_LAUNCH.md`
+- **Implementation evidence:** `scripts/launch.py` explicitly builds with frozen,
+  no-install, offline Pixi flags; serializes staged publication; checks source
+  and executable fingerprints before replacing itself with the native app.
+- **Executable evidence:** `python3 scripts/test_launch.py` (nine passing isolated
+  plumbing tests); actual `python3 scripts/launch.py --build`;
+  `python3 scripts/test_native_launch.py`; native Home help through
+  `unshare -Urn python3 scripts/launch.py -- home --help`.
+- **Evidence boundary:** Prepared trusted Linux/WSL checkout, not an installer,
+  signed release, hostile-filesystem guarantee or full dependency-integrity
+  audit. Four runtime library paths are checked, not all transitive dependencies.
+  No new physical inference, Windows wrapper or desktop integration proof.
+- **Next acceptance gate:** S06b Windows/desktop entry, cold-host and offline
+  inference witnesses; S12 dependency preparation manifest.
 
 ## 5. Memory, Tensor, Cache, and Ownership
 
@@ -1423,7 +1442,7 @@ and circular self-parity transforms were removed.
 
 | Claim family | Canonical entries |
 |---|---|
-| Build/runtime foundation | AES-FND-001 through AES-FND-007 |
+| Build/runtime foundation | AES-FND-001 through AES-FND-008 |
 | Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-006 |
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |

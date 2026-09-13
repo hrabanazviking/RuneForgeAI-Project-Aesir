@@ -224,7 +224,7 @@ Every row is initially queued unless the execution record says otherwise.
 - Status: done; published to `main` as `54cdeae`.
 - Acceptance: 48 ordered slices, ownership, dependencies, gates, release criteria,
   risk register, and per-slice push/continuation contract established.
-- Next: publish S05, then S06. Continue in listed order thereafter.
+- Next: S06 launch helpers. Continue in listed order thereafter.
 - Continuation: hourly thread heartbeat `aesir-sequential-application-build`
   is active; execution requires the desktop host and available usage/network.
 
@@ -326,7 +326,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S05 — Interactive home launcher
 
-- Status: verified; push pending.
+- Status: done; verified and pushed as `5c147af`.
 - Boundary: `cli/home.mojo` owns a plain terminal home menu; main routes explicit
   `home` and no-argument terminal launches there. Redirected no-argument calls
   retain help, while explicit nonterminal home rejects immediately. Strict
@@ -350,7 +350,30 @@ Every row is initially queued unless the execution record says otherwise.
   Counted suite: 182 pass, 0 fail, 1 existing fixture skip (183 total).
   PTY checks also verify child exit statuses, SIGTERM recovery and reaping.
 
-### S06–S48
+### S06 — Local launch helpers
+
+- Status: active; split into S06a verified-build terminal entry and S06b
+  Windows/WSL and desktop integration, preserving the parent acceptance gate.
+- S06a boundary: repository-owned Python build/launch plumbing only, never
+  inference. Explicit `--build` uses the installed Pixi environment with
+  frozen/no-install/offline flags. Normal launch never invokes a package manager.
+  A source/toolchain-input fingerprint and executable digest reject absent,
+  stale or modified builds; launch anchors relative model paths to this repo.
+  Publication is locked and staged; failed builds preserve the prior artifact.
+- S06a gate: isolated fixtures cover spaces/metacharacters in paths and argv,
+  missing runtime/build, corruption, source edits, failed/interrupted builds,
+  concurrent publication and child status. Build actual source and launch Home
+  help through the helper without network. Desktop/Windows and physical offline
+  inference remain separate gates, not inferred from fixture output.
+- S06a results: nine isolated `python3 scripts/test_launch.py` tests pass;
+  `python3 scripts/launch.py --build` builds actual source without installing;
+  `python3 scripts/test_native_launch.py` passes real Home PTY/redirected checks.
+  `unshare -Urn python3 scripts/launch.py -- home --help` passes with external
+  networking unavailable. Engine source unchanged since S05's 182/0/1 suite.
+  Full `unshare -Urn python3 scripts/test_native_launch.py` also passed.
+  S06a verified, push pending; S06b still queued.
+
+### S07–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

@@ -1,3 +1,17 @@
+## 2026-09-13 — Application program S06a: verified local launch
+
+Added explicit offline/no-install build and normal package-manager-free launch
+in `scripts/launch.py`. Source/lock/manifest/helper/location fingerprint plus
+executable checksum reject stale artifacts. Prepared runtime libraries are
+checked by path. Failed, source-raced and cancelled builds preserve the prior
+artifact; concurrent publication is locked. Native terminal ownership transfers
+by exec. Nine isolated tests passed, including compiler interruption/reaping,
+corrupt/special files, missing dependencies and literal argument forwarding.
+Actual source built successfully through the helper and native Home passed the
+launcher PTY harness. Home help also ran in `unshare -Urn` with no external
+network interface; the complete native-launch PTY harness also passed in that
+isolated namespace. No new physical inference claim; Windows/desktop remains S06b.
+
 ## 2026-09-13 — Application program S05: terminal home
 
 Added `aesir home --model-store <path>` and terminal-only automatic Home for

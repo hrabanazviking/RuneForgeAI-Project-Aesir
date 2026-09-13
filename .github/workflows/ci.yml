@@ -48,6 +48,9 @@ jobs:
       - name: Prove Home Launcher PTY and Redirected Input
         run: python3 scripts/test_native_home.py --binary /tmp/aesir-ci-build
 
+      - name: Prove Offline Build and Launch Plumbing
+        run: python3 scripts/test_launch.py
+
       - name: Prove Special-File Admission Fails Closed
         run: python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ci-build
 
