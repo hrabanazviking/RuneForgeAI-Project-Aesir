@@ -224,7 +224,7 @@ Every row is initially queued unless the execution record says otherwise.
 - Status: done; published to `main` as `54cdeae`.
 - Acceptance: 48 ordered slices, ownership, dependencies, gates, release criteria,
   risk register, and per-slice push/continuation contract established.
-- Next: finish the S04 push checkpoint, then S05. Continue in listed order thereafter.
+- Next: publish S05, then S06. Continue in listed order thereafter.
 - Continuation: hourly thread heartbeat `aesir-sequential-application-build`
   is active; execution requires the desktop host and available usage/network.
 
@@ -296,7 +296,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S04 — Preference health and safe repair
 
-- Status: verified; confirm this checkpoint on remote `main`, then resume S05.
+- Status: done; verified and pushed as `92a00ac`.
 - Design: `repair-preferences` defaults to a read-only dry run; only `--apply`
   removes aliases/favorites whose target no longer exists in the catalog.
   Recipe-only targets are reported but preserved. Missing/corrupt blobs do not
@@ -324,7 +324,33 @@ Every row is initially queued unless the execution record says otherwise.
   and fixed both. Independent re-review was unavailable after the reviewer
   session disappeared; no independent approval of the final patch is claimed.
 
-### S05–S48
+### S05 — Interactive home launcher
+
+- Status: verified; push pending.
+- Boundary: `cli/home.mojo` owns a plain terminal home menu; main routes explicit
+  `home` and no-argument terminal launches there. Redirected no-argument calls
+  retain help, while explicit nonterminal home rejects immediately. Strict
+  `--model-store` parsing and `--help` work before interactive setup.
+- Actions: start CUDA chat, list catalog, run doctor, preview preference repair,
+  show command help, quit. Display catalog/installed/recipe counts without GPU
+  startup or hashing; errors are visible and do not create or repair files.
+- Process ownership: execute each action as an argv-only attached child of the
+  current binary, inherit terminal/environment, wait and reap. This keeps GPU
+  session lifetime and same-PID chat model-switch exec confined to the child.
+  No shell, implicit network access, hidden downloads, or persistent daemon.
+- Gate: Python PTY harness covers initial/default/custom stores, redirected
+  stdin/stdout, no-model/recipe-only, invalid choices/flags, chat failure return,
+  Ctrl+C and EOF. Native build, previous CLI regressions and counted suite pass.
+  Real successful GPU conversation remains the existing chat path; this slice
+  must not claim a new physical inference proof from dummy model fixtures.
+
+- Results: CUDA-targeted native build passed; `test_native_home.py`,
+  `test_native_preferences.py`, `test_native_doctor.py` and
+  `test_native_model_store.py` passed against `.aesir/aesir-s05`.
+  Counted suite: 182 pass, 0 fail, 1 existing fixture skip (183 total).
+  PTY checks also verify child exit statuses, SIGTERM recovery and reaping.
+
+### S06–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

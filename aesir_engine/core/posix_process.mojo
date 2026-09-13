@@ -15,6 +15,45 @@ def _process_cstring(value: String) raises -> List[Int8]:
     return result^
 
 
+def run_attached_argv(args: List[String]) raises -> Int:
+    """Runs an argv-only child with inherited terminal streams and reaps it.
+
+    Returns a shell-style exit code (128 + signal for signaled children).
+    Signal setup belongs to the executable; no Mojo work occurs after fork
+    except exec/_exit, and no shell interprets arguments.
+    """
+    if len(args) == 0:
+        raise Error("attached subprocess requires an executable")
+    var buffers = List[List[Int8]]()
+    for arg in args:
+        buffers.append(_process_cstring(arg))
+    var pointers = List[Int]()
+    for index in range(len(buffers)):
+        pointers.append(Int(buffers[index].unsafe_ptr()))
+    pointers.append(0)
+    var program = pointers[0]
+    var pid = external_call["fork", Int32]()
+    if pid == 0:
+        _ = external_call["execvp", Int32](program, pointers.unsafe_ptr())
+        _ = buffers
+        external_call["_exit", NoneType](Int32(127))
+    if pid < 0:
+        raise Error("attached subprocess creation failed")
+    var status: Int32 = 0
+    while True:
+        var waited = external_call["waitpid", Int32](pid, Pointer(to=status), Int32(0))
+        if waited == pid:
+            break
+        if waited < 0:
+            var error_pointer = external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]()
+            if error_pointer.unsafe_load() == 4:
+                continue
+        raise Error("attached subprocess wait failed")
+    _ = buffers
+    var signal = Int(status) & 127
+    return 128 + signal if signal != 0 else (Int(status) >> 8) & 255
+
+
 def run_checked_argv_bytes(
     args: List[String], max_output_bytes: Int = 16384
 ) raises -> List[Byte]:

@@ -1,3 +1,19 @@
+## 2026-09-13 — Application program S05: terminal home
+
+Added `aesir home --model-store <path>` and terminal-only automatic Home for
+empty launches. Redirected empty launches keep command help; explicit Home
+requires interactive stdin/stdout and provides noninteractive `--help`.
+The menu reports installed/recipe counts and offers chat, list, doctor, repair
+preview, help and quit. Child-process actions inherit terminal streams and
+return status to the parent; GPU session and model-switch exec lifetime stays
+in the child. Home does not implicitly import, mutate preferences or start a
+server. PTY tests exercise navigation, cancellation, EOF, failed model loading,
+empty/recipe-only/corrupt stores and script-safe behavior.
+CUDA-targeted build and home/preferences/doctor/catalog process harnesses
+passed; counted suite: 182 pass, 0 fail, 1 existing fixture skip (183 total).
+SIGTERM child exit 143 and reaping are checked. No new successful physical
+GPU conversation is claimed by the launcher fixtures.
+
 ## 2026-09-13 — Application program S04: preference health
 
 Added `repair-preferences` with a no-write default preview and explicit `--apply`.

@@ -11,6 +11,10 @@
 [Active application gameplan: 48 ordered implementation slices](BEST_IN_CLASS_GAMEPLAN.md)
 defines the current build sequence, release gates, and automatic continuation.
 
+The built Linux/WSL CLI now offers `aesir home --model-store .aesir/models`:
+a terminal menu for chat, catalog browsing, diagnostics and repair preview.
+Plain `aesir` opens Home only in a terminal; redirected invocations keep help.
+
 > **Advanced Edge System for Interface and Response**
 
 **A bare-metal Mojo inference engine designed for local sovereignty.**

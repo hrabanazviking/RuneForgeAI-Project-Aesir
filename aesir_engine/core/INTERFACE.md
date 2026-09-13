@@ -20,6 +20,12 @@ limits, invokes `execvp` without a shell, drains bounded stdout, retries
 interrupted reads/waits, and rejects nonzero child status or truncated output.
 It is a Linux infrastructure primitive, not a command interpreter.
 
+`run_attached_argv(args)` instead inherits stdin/stdout/stderr, waits for and
+reaps the child, and returns its exit code (128 plus signal for signal death).
+It validates argv strings before fork and runs exec/_exit only in the child.
+It supplies no shell, output capture, timeout, or signal policy; the executable
+and launched command own interactive cancellation and process signal setup.
+
 ### Native hardware and inference admission
 
 `native_hardware.mojo` exposes `observe_host_memory()` and `observe_cpu_name()`

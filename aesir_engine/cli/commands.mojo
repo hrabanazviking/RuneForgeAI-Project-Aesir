@@ -49,6 +49,7 @@ def print_general_help():
     print("Usage:")
     print("  aesir [command] [flags]\n")
     print("Implemented:")
+    print("  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal")
     print("  keygen <new-private-file> — create an OS-random service key without overwriting")
     print("  hardware list — observed CPU/CUDA devices and backend availability")
     print("  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]")

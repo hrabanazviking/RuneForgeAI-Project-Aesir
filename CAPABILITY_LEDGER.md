@@ -66,12 +66,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 73 |
+| `verified` | 74 |
 | `partial` | 25 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 18 |
-| **Total** | **116** |
+| **Total** | **117** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -722,6 +722,29 @@ the complete ledger population.
 - **Evidence boundary:** This is Linux `/proc/self/exe` plus `execv` process-image switching for interactive native CUDA chat. It preserves PID and user-facing application continuity but does not preserve conversation state, loaded kernels, or open resources other than the explicit transcript descriptor. Prompt-file mode treats `/model` literally. Windows-native operation, crash recovery during handoff, encrypted transcript descriptors, background model pools, and zero-latency switching are not claimed.
 - **Next acceptance gate:** Add an integration test that samples before and after switching, a machine-observed PID/VRAM timeline, optional conversation-save prompting, and a portable process-handoff abstraction.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
+
+### AES-CLI-014 — Interactive terminal home launcher
+
+- **Status:** `verified`
+- **Owner:** CLI home, executable routing, attached POSIX child execution
+- **Claim sources:** Application gameplan S05; CLI help
+- **Implementation evidence:** `main` routes explicit `home` and terminal-only
+  empty launches to `cli/home.mojo`. Strict store parsing precedes interactive
+  setup. Home displays catalog counts and launches chat/list/doctor/repair-preview
+  through argv-only attached children, then reaps and reports their exit.
+  GPU state and chat model-switch exec remain in the child; command help and
+  menu cancellation stay local. No implicit import, repair application, or daemon.
+- **Executable evidence:** `scripts/test_native_home.py` uses real PTYs and
+  redirected streams to exercise first-run/custom/recipe-only/corrupt stores,
+  menu choices, chat selection failure/cancellation, child signal exit/reaping,
+  EOF and unchanged durable files. The native build and counted suite are gates.
+- **Evidence boundary:** Linux/WSL terminals and `/proc/self/exe` only. Fixtures
+  do not establish successful GPU inference or physical model-switch behavior
+  through Home; existing direct chat proofs remain separate. No graphical UI
+  or Windows-native launcher is claimed. Parent shutdown supervision and job
+  control beyond the documented foreground workflow remain unverified.
+- **Next acceptance gate:** Windows/WSL launch helpers (S06), richer terminal
+  UX/accessibility (S33/S34), and a physical Home-to-chat conversation witness.
 
 ## 11. Server and Protocol Surfaces
 
@@ -1406,7 +1429,7 @@ and circular self-parity transforms were removed.
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
 | Inference/generation | AES-GEN-001 through AES-GEN-011 |
-| CLI/model management | AES-CLI-001 through AES-CLI-013 |
+| CLI/model management | AES-CLI-001 through AES-CLI-014 |
 | Server/protocols | AES-SRV-001 through AES-SRV-010 |
 | Embeddings/RAG | AES-RAG-001 through AES-RAG-005 |
 | Quantization | AES-QNT-001 through AES-QNT-011 |

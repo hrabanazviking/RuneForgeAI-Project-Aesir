@@ -4,6 +4,7 @@
 from std.sys import argv
 from cli.commands import dispatch_command, print_general_help
 from cli.interrupts import prepare_chat_process
+from cli.home import dispatch_home, home_terminal_available
 
 
 def main() raises:
@@ -15,8 +16,13 @@ def main() raises:
         for i in range(1, len(raw_args)):
             cli_args.append(raw_args[i])
 
-    # An empty invocation is a discovery request, not an implicit request to
-    # start an unsupported daemon. The dispatcher renders actionable help.
+    # Home owns interactive launch only; redirected invocation keeps CLI help.
+    if len(cli_args) == 0 and home_terminal_available():
+        dispatch_home(["home"])
+        return
+    if len(cli_args) > 0 and cli_args[0] == "home":
+        dispatch_home(cli_args)
+        return
     if len(cli_args) > 0 and cli_args[0] == "chat":
         prepare_chat_process()
     if len(cli_args) > 0 and cli_args[0] == "serve":

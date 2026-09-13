@@ -20,6 +20,24 @@
 
 ---
 
+## Interactive home launcher
+
+The executable opens `cli/home.mojo` for `aesir home [--model-store path]` or
+an empty invocation with both stdin and stdout attached to terminals. Empty
+redirected invocations retain command help; explicit redirected `home` fails
+immediately with guidance. `home --help` is available without a terminal.
+`main` owns this routing, while embedded `dispatch_command([])` retains help.
+
+Home reports installed/recipe counts without GPU allocation or model hashing.
+It offers CUDA chat, catalog listing, doctor, repair preview, command help and
+quit. Every external action uses an attached child of the current executable
+with explicit argv and the selected store. Children inherit terminal streams
+and environment; their exit is reaped and displayed before returning to Home.
+Chat GPU state and model-switch `execv` stay in the child process. Home itself
+does not become a resident inference server. Ctrl+C cancels menu input, and
+EOF/quit exits. Child cancellation follows that child's existing policy.
+Model imports and preference repair application are never implicit menu actions.
+
 ## Native CUDA chat controls
 
 `cli/sampling.mojo` validates native sampling flags and interactive setting
