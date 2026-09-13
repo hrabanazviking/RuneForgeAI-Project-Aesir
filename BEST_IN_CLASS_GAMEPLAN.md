@@ -224,7 +224,7 @@ Every row is initially queued unless the execution record says otherwise.
 - Status: done; published to `main` as `54cdeae`.
 - Acceptance: 48 ordered slices, ownership, dependencies, gates, release criteria,
   risk register, and per-slice push/continuation contract established.
-- Next: finish the S03 push checkpoint, then S04. Continue in listed order thereafter.
+- Next: finish the S04 push checkpoint, then S05. Continue in listed order thereafter.
 - Continuation: hourly thread heartbeat `aesir-sequential-application-build`
   is active; execution requires the desktop host and available usage/network.
 
@@ -266,7 +266,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S03 — Explicit catalog store selection
 
-- Status: verified; confirm this checkpoint on remote `main`, then resume S04.
+- Status: done; verified and pushed as `2e13fd4`.
 - Design: extend the existing catalog dispatcher, not storage internals. Accept
   exactly one of `--config`/`-c` or `--model-store`; reject duplicates and mixed
   selectors before opening config/store paths. Neither means `.aesir/models`.
@@ -282,7 +282,7 @@ Every row is initially queued unless the execution record says otherwise.
 - [x] Implement strict selector parsing and shared path validation.
 - [x] Build `.aesir/aesir-s03`; run catalog and doctor harnesses, counted suite,
   and `scripts/check_doc_drift.py`; document real results.
-- [ ] Push this verified slice and confirm remote `main` before starting S04.
+- [x] Push this verified slice and confirm remote `main` before starting S04.
 - Verification: native main build succeeded; both selector modes passed the
   existing restart/concurrency/import/verify/GC harness plus new selector cases;
   built doctor harness passed; counted suite 182 passed, 0 failed, 1 existing
@@ -294,7 +294,37 @@ Every row is initially queued unless the execution record says otherwise.
   and malformed configs. Extended built harness passed; independent re-review
   confirmed both test gaps closed with no new findings (static review only).
 
-### S04–S48
+### S04 — Preference health and safe repair
+
+- Status: verified; confirm this checkpoint on remote `main`, then resume S05.
+- Design: `repair-preferences` defaults to a read-only dry run; only `--apply`
+  removes aliases/favorites whose target no longer exists in the catalog.
+  Recipe-only targets are reported but preserved. Missing/corrupt blobs do not
+  authorize deleting shortcuts. Doctor text/JSON reports findings separately
+  from CUDA/storage readiness. Interactive selection excludes recipe entries.
+- Transaction: load catalog and preferences after acquiring the existing root
+  lock, pin catalog reading to that descriptor, and publish only changed
+  preferences. Dry run and failures leave all durable files untouched.
+- Test-first gate: built-process harness on S03 must fail for missing command;
+  S04 build must pass preview/apply/idempotence/corruption/store-isolation and
+  lock-contention cases, alongside doctor/catalog harnesses and counted suite.
+- Review-driven fixes: reproduced an embedded-NUL catalog being accepted as an
+  empty catalog and authorizing wrong pruning; raw and hex-decoded NUL bytes
+  now fail before String conversion in catalog and preference readers. Missing
+  preferences are disclosed as unconfigured and block repair. Broader UTF-8
+  codec admission remains S09; this is not completion of that slice.
+- Selector integration also exposed scientific-notation truncation reporting a
+  22-byte fixture as gigabytes. Model size display now uses the tested shared
+  binary-unit formatter. Recipe-only choices are filtered before prompting.
+- Evidence: final `.aesir/aesir-s04` build passed; preference/selector, doctor,
+  and both catalog-selection harnesses passed. Counted suite: 182 pass, 0 fail,
+  1 existing external-fixture skip (183 total). Doc-drift and whitespace gates
+  passed with existing legacy-artifact warnings only. Initial independent review
+  found the NUL and missing-preferences gaps; main-agent verification reproduced
+  and fixed both. Independent re-review was unavailable after the reviewer
+  session disappeared; no independent approval of the final patch is claimed.
+
+### S05–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

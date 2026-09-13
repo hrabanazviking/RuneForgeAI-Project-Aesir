@@ -1,13 +1,15 @@
 """Verification for model aliases, favorites, and selector ordering."""
 
-from cli.manifest import ModelManifest
+from cli.manifest import ModelManifest, RuneModelStore
 from cli.model_preferences import (
     DurableModelPreferences,
     ModelPreferences,
     deserialize_model_preferences,
     serialize_model_preferences,
+    audit_model_preferences,
+    stale_preference_count,
 )
-from cli.model_selector import prioritize_favorite_models, render_model_selector
+from cli.model_selector import prioritize_favorite_models, render_model_selector, installed_model_choices
 from std.ffi import external_call
 
 
@@ -93,6 +95,30 @@ def test_model_preferences_codec() raises:
 
 
 def test_model_favorite_selection() raises:
+    if ModelManifest("tiny", "latest", "", 22, "unknown").size_formatted() != "22 bytes":
+        raise Error("model size formatter inflated a byte-sized fixture into gigabytes")
+    var catalog = RuneModelStore()
+    catalog.create_model("recipe", "FROM local.gguf\n")
+    catalog.create_model_from_blob("weighted", "FROM local.gguf\n", "sha256:" + String("a") * 64, 32)
+    var health_preferences = ModelPreferences()
+    health_preferences.set_alias("gone-alias", "gone")
+    health_preferences.set_alias("recipe-alias", "recipe")
+    health_preferences.set_alias("live-alias", "weighted")
+    health_preferences.add_favorite("gone")
+    health_preferences.add_favorite("weighted")
+    var findings = audit_model_preferences(health_preferences, catalog)
+    if len(findings) != 3 or stale_preference_count(findings) != 2:
+        raise Error("preference health did not distinguish missing targets from recipes")
+    if findings[0].reason != "missing_model" or findings[1].reason != "recipe_only":
+        raise Error("preference health reasons or ordering drifted")
+    if len(health_preferences.alias_keys) != 3 or len(health_preferences.favorites) != 2:
+        raise Error("preference audit mutated its inputs")
+    var mixed = List[ModelManifest]()
+    mixed.append(ModelManifest("recipe", "latest", "fnv1a64:0000000000000000", 0, "unknown"))
+    mixed.append(ModelManifest("weighted", "latest", "sha256:" + String("a") * 64, 32, "unknown"))
+    var choices = installed_model_choices(mixed)
+    if len(choices) != 1 or choices[0].name != "weighted":
+        raise Error("installed selector offered a recipe-only entry")
     var models = List[ModelManifest]()
     models.append(ModelManifest("gemma", "latest", "", 1024, "Q4_K_M"))
     models.append(ModelManifest("qwen", "q6", "", 2048, "Q6_K"))

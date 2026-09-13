@@ -5,6 +5,15 @@ from cli.model_preferences import ModelPreferences, DurableModelPreferences
 from cli.interrupts import read_interruptible_line_result
 
 
+def installed_model_choices(models: List[ModelManifest]) -> List[ModelManifest]:
+    """Filters recipes; actual blob verification still occurs during resolution."""
+    var installed = List[ModelManifest]()
+    for model in models:
+        if model.digest.startswith("sha256:"):
+            installed.append(model)
+    return installed^
+
+
 def prioritize_favorite_models(
     models: List[ModelManifest], preferences: ModelPreferences
 ) -> List[ModelManifest]:
@@ -66,7 +75,7 @@ def selected_model_reference(models: List[ModelManifest], choice: String) raises
 def choose_installed_model(model_store: String, interrupt_fd: Int) raises -> String:
     var preferences = DurableModelPreferences(model_store).load()
     var models = prioritize_favorite_models(
-        DurableModelStore(model_store).list_models(), preferences
+        installed_model_choices(DurableModelStore(model_store).list_models()), preferences
     )
     print(render_model_selector(models, preferences), end="")
     print("Select model [1]: ", end="")

@@ -1,3 +1,27 @@
+## 2026-09-13 — Application program S04: preference health
+
+Added `repair-preferences` with a no-write default preview and explicit `--apply`.
+Only shortcuts whose targets are absent from a readable catalog are pruned;
+recipe shortcuts and references to missing weight files remain. Repair reloads
+catalog/preferences under the shared root lock and reads the catalog through
+the pinned directory descriptor. Missing/corrupt records block repair; no-op
+repairs preserve the existing preferences file. Doctor reports structured and
+text findings, and interactive selection now excludes recipe-only entries.
+The built regression initially failed against S03 with the expected missing
+command error. A dedicated harness covers preview/apply, unchanged unrelated
+data, corruption, missing catalog, no-op inode preservation and locked recheck.
+Review exposed a raw-NUL catalog truncation that could authorize removing live
+shortcuts. Reproduced before fixing; catalog/preferences readers now reject raw
+and encoded NUL bytes before C-string conversion. Unconfigured preferences are
+reported explicitly and cannot be silently initialized by repair. A selector
+fixture also exposed tiny sizes formatted as gigabytes by truncating floating
+point scientific notation; display now uses the shared binary-unit formatter.
+Final S04 build and preference/doctor/catalog integration harnesses passed;
+counted suite 182 pass, 0 fail, 1 existing fixture skip. Doc-drift passed with
+pre-existing legacy-artifact warnings. Initial independent review found two
+issues which were reproduced and fixed; final independent re-review was
+unavailable because the reviewer session was no longer accessible.
+
 ## 2026-09-13 — Application program S03: explicit catalog stores
 
 Catalog commands now accept `--model-store` as an alternative to `--config`/`-c`.

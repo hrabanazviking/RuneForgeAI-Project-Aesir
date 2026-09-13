@@ -3,6 +3,7 @@
 
 from std.collections import Dict
 from cli.modelfile import parse_modelfile
+from core.native_diagnostics import human_bytes
 
 
 def validate_model_component(component: String, label: String) raises:
@@ -175,11 +176,7 @@ struct ModelManifest(Copyable, ImplicitlyCopyable):
         )
 
     def size_formatted(self) -> String:
-        var gb = Float64(self.size_bytes) / (1024.0 * 1024.0 * 1024.0)
-        var s = String(gb)
-        if len(s.bytes()) > 4:
-            return String(s[byte=0:4]) + String(" GB")
-        return s + String(" GB")
+        return human_bytes(Int(self.size_bytes))
 
     def serialize(self) -> String:
         """Serializes ModelManifest to text format."""

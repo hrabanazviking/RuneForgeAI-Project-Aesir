@@ -19,7 +19,7 @@ from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
 from cli.model_inspect import dispatch_model_inspect
 from cli.doctor import dispatch_doctor
-from cli.model_preferences import DurableModelPreferences
+from cli.model_preferences import DurableModelPreferences, stale_preference_count
 from server.api import json_escape_string
 from std.ffi import external_call
 from std.memory import Pointer
@@ -66,6 +66,8 @@ def print_general_help():
     print("  unalias <short-name> [--model-store path]")
     print("  favorite <model-or-alias> [--model-store path] | favorites")
     print("  unfavorite <model-or-alias> [--model-store path]")
+    print("  repair-preferences [--dry-run|--apply] [--model-store path | --config file]")
+    print("      Preview by default; --apply removes only shortcuts to missing catalog models.")
     print("      Durable local shortcuts and favorite-first interactive selection.")
     print(
         "  run <model> [--max-tokens N] [--config path]"
@@ -767,7 +769,7 @@ def dispatch_catalog_command(args: List[String]) raises:
 
 
 def _is_preference_command(command: String) -> Bool:
-    return command in ("alias", "aliases", "unalias", "favorite", "favorites", "unfavorite")
+    return command in ("alias", "aliases", "unalias", "favorite", "favorites", "unfavorite", "repair-preferences")
 
 
 def dispatch_preference_command(args: List[String]) raises:
@@ -778,9 +780,18 @@ def dispatch_preference_command(args: List[String]) raises:
     var positionals = List[String]()
     var seen_config = False
     var seen_store = False
+    var seen_repair_mode = False
+    var apply_repair = False
     var index = 1
     while index < len(args):
         var token = args[index]
+        if token == "--apply" or token == "--dry-run":
+            if command != "repair-preferences" or seen_repair_mode:
+                raise Error("use one --apply or --dry-run option only with repair-preferences")
+            seen_repair_mode = True
+            apply_repair = token == "--apply"
+            index += 1
+            continue
         if token == "--config" or token == "-c":
             if seen_config:
                 raise Error("duplicate preference option: " + token)
@@ -810,6 +821,16 @@ def dispatch_preference_command(args: List[String]) raises:
         config = load_config_file(config_path)
     if not seen_store:
         model_store = config.model_store_path
+
+    if command == "repair-preferences":
+        if len(positionals) != 0:
+            raise Error("Usage: aesir repair-preferences [--dry-run|--apply] [--model-store path | --config file]")
+        var findings = DurableModelPreferences(model_store).audit_and_repair(apply_repair)
+        print("APPLIED" if apply_repair else "DRY RUN — no files changed")
+        for finding in findings:
+            print(finding.kind + " " + finding.name + " -> " + finding.target + " [" + finding.reason + "]")
+        print(("Removed " if apply_repair else "Would remove ") + String(stale_preference_count(findings)) + " stale shortcuts; recipe-only targets preserved.")
+        return
 
     var durable = DurableModelStore(model_store)
     var preferences_store = DurableModelPreferences(model_store)

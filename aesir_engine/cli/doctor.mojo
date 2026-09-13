@@ -3,6 +3,7 @@
 from aesir import CUDAGate
 from config import validate_model_store_path
 from cli.storage import DurableModelStore
+from cli.model_preferences import DurableModelPreferences, PreferenceFinding, stale_preference_count
 from cli.model_inspect import inspect_model_reference, model_inspection_json, print_model_inspection_text
 from core.model_registry import ModelCompatibility
 from server.api import json_escape_string
@@ -146,6 +147,15 @@ def dispatch_doctor(args: List[String]) raises:
     except error:
         store_detail = "✗ " + String(error)
 
+    var preferences_ok = False
+    var preferences_error = String("")
+    var preference_findings = List[PreferenceFinding]()
+    try:
+        preference_findings = DurableModelPreferences(model_store).audit_and_repair()
+        preferences_ok = True
+    except error:
+        preferences_error = String(error)
+
     var disk_known = False
     var disk_available = -1
     var disk_path = model_store
@@ -182,6 +192,13 @@ def dispatch_doctor(args: List[String]) raises:
             model_error = String(error)
 
     var issues = List[DoctorIssue]()
+    if not preferences_ok:
+        issues.append(_doctor_issue("preferences_unavailable", "Check the catalog and preferences record before using shortcuts; no automatic repair was attempted."))
+    elif len(preference_findings) > 0:
+        if stale_preference_count(preference_findings) > 0:
+            issues.append(_doctor_issue("stale_preferences", "Preview repair-preferences for this model store; --apply removes only missing-target shortcuts."))
+        if len(preference_findings) > stale_preference_count(preference_findings):
+            issues.append(_doctor_issue("recipe_preferences", "Some shortcuts target recipes without installed weights; import the intended bytes before selecting them."))
     if not cuda_ready:
         issues.append(_doctor_issue("cuda_unavailable", "Check hardware list and the supported NVIDIA/WSL driver setup."))
     if not store_ok:
@@ -239,6 +256,19 @@ def dispatch_doctor(args: List[String]) raises:
         output += ',"observed_path":' + (_json_string(disk_path) if disk_known else "null") + '}'
         output += ',"api":{"port":11434,"listener_observed":'
         output += (_json_bool(listener) if listener_known else "null") + ',"endpoints_probed":false}'
+        output += ',"preferences":{"readable":' + _json_bool(preferences_ok)
+        output += ',"stale_count":' + (String(stale_preference_count(preference_findings)) if preferences_ok else "null")
+        output += ',"error":' + ("null" if preferences_ok else _json_string(preferences_error))
+        output += ',"findings":['
+        for i in range(len(preference_findings)):
+            if i > 0:
+                output += ","
+            var finding = preference_findings[i].copy()
+            output += '{"kind":' + _json_string(finding.kind)
+            output += ',"name":' + _json_string(finding.name)
+            output += ',"target":' + _json_string(finding.target)
+            output += ',"reason":' + _json_string(finding.reason) + '}'
+        output += ']}'
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -261,6 +291,11 @@ def dispatch_doctor(args: List[String]) raises:
     _print_doctor_row("Installed weights", String(installed_count))
     _print_doctor_row("Recipe-only entries", String(recipe_count))
     _print_doctor_row("Broken models", String(broken_models))
+    _print_doctor_row("Stale shortcuts", String(stale_preference_count(preference_findings)) if preferences_ok else "unknown")
+    if not preferences_ok:
+        print("  preferences: " + preferences_error)
+    for finding in preference_findings:
+        print("  " + finding.kind + " " + finding.name + " -> " + finding.target + " [" + finding.reason + "]")
     for broken in broken_names:
         print("  broken: " + broken)
     _print_doctor_row("Network", "not probed (offline-safe)")

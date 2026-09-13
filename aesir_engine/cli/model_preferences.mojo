@@ -5,6 +5,7 @@ from std.memory import Pointer
 from std.collections import Dict, InlineArray
 from config import validate_model_store_path
 from cli.manifest import RuneModelStore, normalize_model_reference, validate_model_component
+from cli.storage import load_catalog_at_locked_root
 
 
 comptime PREFERENCES_FILE = "preferences.v1"
@@ -45,10 +46,13 @@ def _pref_hex_decode(value: String) raises -> String:
     var output = List[Int8]()
     var source = value.as_bytes()
     for index in range(0, len(source), 2):
-        output.append(Int8(
+        var decoded = (
             (_pref_hex_nibble(Int(source[index])) << 4)
             | _pref_hex_nibble(Int(source[index + 1]))
-        ))
+        )
+        if decoded == 0:
+            raise Error("model preferences contain an encoded NUL byte")
+        output.append(Int8(decoded))
     output.append(0)
     return String(unsafe_from_utf8_ptr=output.unsafe_ptr())
 
@@ -231,13 +235,15 @@ def deserialize_model_preferences(raw: String) raises -> ModelPreferences:
     return preferences^
 
 
-def _read_preferences(root_fd: Int32) raises -> ModelPreferences:
+def _read_preferences(root_fd: Int32, require_existing: Bool = False) raises -> ModelPreferences:
     var name = _pref_cstring(PREFERENCES_FILE)
     # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC.
     var fd = external_call["openat", Int32](root_fd, name.unsafe_ptr(), Int32(657408), Int32(0))
     if fd < 0:
         var errno_pointer = external_call["__errno_location", Pointer[Int32, MutUntrackedOrigin]]()
         if errno_pointer.unsafe_load() == 2:
+            if require_existing:
+                raise Error("model preferences are not configured; create an alias or favorite first")
             return ModelPreferences()
         raise Error("unable to open model preferences")
     var stat = InlineArray[UInt64, 18](fill=0)
@@ -267,6 +273,8 @@ def _read_preferences(root_fd: Int32) raises -> ModelPreferences:
             if len(bytes) + count > MAX_PREFERENCES_BYTES:
                 raise Error("model preferences exceed 1 MiB")
             for index in range(count):
+                if buffer[index] == 0:
+                    raise Error("model preferences contain an embedded NUL byte")
                 bytes.append(buffer[index])
     except error:
         _ = external_call["close", Int32](fd)
@@ -315,6 +323,44 @@ def _write_preferences(root_fd: Int32, preferences: ModelPreferences) raises:
         raise Error("model preferences directory synchronization failed")
 
 
+@fieldwise_init
+struct PreferenceFinding(Copyable):
+    var kind: String
+    var name: String
+    var target: String
+    var reason: String
+
+
+def preference_target_status(target: String, catalog: RuneModelStore) raises -> String:
+    if target not in catalog.catalog:
+        return "missing_model"
+    if not catalog.catalog[target].digest.startswith("sha256:"):
+        return "recipe_only"
+    return "installed"
+
+
+def audit_model_preferences(preferences: ModelPreferences, catalog: RuneModelStore) raises -> List[PreferenceFinding]:
+    var findings = List[PreferenceFinding]()
+    for key in preferences.alias_keys:
+        var target = preferences.aliases[key]
+        var reason = preference_target_status(target, catalog)
+        if reason != "installed":
+            findings.append(PreferenceFinding("alias", key, target, reason))
+    for favorite in preferences.favorites:
+        var reason = preference_target_status(favorite, catalog)
+        if reason != "installed":
+            findings.append(PreferenceFinding("favorite", favorite, favorite, reason))
+    return findings^
+
+
+def stale_preference_count(findings: List[PreferenceFinding]) -> Int:
+    var count = 0
+    for finding in findings:
+        if finding.reason == "missing_model":
+            count += 1
+    return count
+
+
 struct DurableModelPreferences:
     var root_path: String
 
@@ -338,6 +384,32 @@ struct DurableModelPreferences:
             raise error
         _ = external_call["close", Int32](root_fd)
         return result^
+
+    def audit_and_repair(self, apply: Bool = False) raises -> List[PreferenceFinding]:
+        """Reports one locked snapshot; only explicit apply prunes missing targets."""
+        var root_fd = self._open_root()
+        if external_call["flock", Int32](root_fd, 2) != 0:
+            _ = external_call["close", Int32](root_fd)
+            raise Error("unable to lock model preferences")
+        var findings: List[PreferenceFinding]
+        try:
+            var catalog = load_catalog_at_locked_root(root_fd)
+            var preferences = _read_preferences(root_fd, True)
+            findings = audit_model_preferences(preferences, catalog)
+            if apply and stale_preference_count(findings) > 0:
+                for finding in findings:
+                    if finding.reason != "missing_model":
+                        continue
+                    if finding.kind == "alias":
+                        preferences.remove_alias(finding.name)
+                    else:
+                        preferences.remove_favorite(finding.target)
+                _write_preferences(root_fd, preferences)
+        except error:
+            _ = external_call["close", Int32](root_fd)
+            raise error
+        _ = external_call["close", Int32](root_fd)
+        return findings^
 
     def set_alias(self, alias_name: String, canonical: String, catalog: RuneModelStore) raises:
         var clean_alias = validate_alias_name(alias_name)

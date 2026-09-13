@@ -93,11 +93,41 @@ once per invocation and neither format performs external network probes.
 
 `cli/model_preferences.mojo` owns aliases and favorites as a separate bounded,
 checksummed, atomically replaced `preferences.v1` record under the model-store
-root. Alias values are canonical installed `name:tag` identities; they do not
+root. Alias values are canonical catalog `name:tag` identities; they do not
 create manifests or duplicate blobs. `cli/model_reference.mojo` applies aliases
 only to non-path references, and `cli/model_selector.mojo` builds a stable
 favorite-first view without mutating durable catalog order. The commands are
 `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite`.
+
+`repair-preferences [--dry-run|--apply] [--model-store path | --config file]`
+defaults to a dry run. It reports `missing_model` and `recipe_only` findings
+for aliases and favorites. Only `--apply` removes missing-model shortcuts;
+recipe-only shortcuts and references to temporarily missing/corrupt weight
+blobs are preserved. It never removes model bytes or manifests. Invalid modes,
+duplicate/mixed modes, and mode flags on other preference commands fail.
+
+`DurableModelPreferences.audit_and_repair` obtains the same directory flock as
+catalog writers, then reloads both records. `storage.load_catalog_at_locked_root`
+reads the catalog through `/proc/self/fd/<root-fd>` so the decision and preference
+publication use the pinned directory. A missing or invalid catalog is an error,
+not permission to prune all shortcuts. Invalid preferences also fail without
+repair. Missing preferences are explicitly unconfigured (`readable: false` in
+doctor), not a healthy empty record; ordinary alias/favorite creation still
+initializes preferences normally. Raw and hex-encoded NUL bytes in catalog or
+preference records are rejected before null-terminated conversion. Full strict
+UTF-8 admission for all persistence codecs remains S09.
+Only a changed explicit repair publishes a replacement preferences
+record; previews and no-ops do not stage files. Cooperative writers share this
+lock; this is not a claim of crash-injection or hostile concurrent-writer proof.
+
+Doctor adds a `preferences` object with `readable`, `stale_count` (null if
+unavailable), `error`, and `findings` (`kind`, `name`, `target`, `reason`).
+Unavailable records are disclosed; they are not silently treated as clean.
+Shortcut health remains separate from root CUDA/storage prerequisite readiness.
+The interactive model chooser filters recipe-only catalog entries before
+favorite ordering and numbering; blob verification still occurs at resolution.
+Model sizes use the shared binary-unit formatter, without truncating scientific
+notation into a misleading gigabyte figure for small models.
 
 ## Public Structs & Functions
 

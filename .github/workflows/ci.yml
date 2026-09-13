@@ -42,6 +42,9 @@ jobs:
       - name: Prove Offline Diagnostic Text and JSON Contracts
         run: python3 scripts/test_native_doctor.py --binary /tmp/aesir-ci-build
 
+      - name: Prove Preference Diagnosis and Explicit Repair
+        run: python3 scripts/test_native_preferences.py --binary /tmp/aesir-ci-build
+
       - name: Prove Special-File Admission Fails Closed
         run: python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ci-build
 

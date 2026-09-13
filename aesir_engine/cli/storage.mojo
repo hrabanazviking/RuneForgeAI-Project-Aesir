@@ -131,6 +131,8 @@ def _hex_decode(value: String) raises -> String:
     for index in range(0, len(source), 2):
         var high = _hex_nibble(Int(source[index]))
         var low = _hex_nibble(Int(source[index + 1]))
+        if high == 0 and low == 0:
+            raise Error("catalog manifest contains an encoded NUL byte")
         decoded.append(Int8((high << 4) | low))
     decoded.append(0)
     return String(unsafe_from_utf8_ptr=decoded.unsafe_ptr())
@@ -266,7 +268,12 @@ def _read_optional_text(path: String) raises -> String:
             _ = external_call["close", Int32](fd)
             raise Error("model catalog exceeds the 16 MiB limit")
         for index in range(Int(read_count)):
-            content.append(buffer.unsafe_load(index))
+            var byte = buffer.unsafe_load(index)
+            if byte == 0:
+                buffer.unsafe_free()
+                _ = external_call["close", Int32](fd)
+                raise Error("model catalog contains an embedded NUL byte")
+            content.append(byte)
     buffer.unsafe_free()
     _ = external_call["close", Int32](fd)
     content.append(0)
@@ -782,6 +789,20 @@ def _load_store(root: String) raises -> RuneModelStore:
     var raw = _read_optional_text(root + "/" + CATALOG_FILE)
     if len(raw.bytes()) == 0:
         return RuneModelStore()
+    return deserialize_catalog(raw)
+
+
+def load_catalog_at_locked_root(root_fd: Int32) raises -> RuneModelStore:
+    """Reads an existing catalog through the caller's locked Linux root inode.
+
+    The caller retains the root descriptor and flock for the entire transaction.
+    Missing catalog is an error here: it must not justify pruning preferences.
+    """
+    if root_fd < 0:
+        raise Error("invalid locked model-store descriptor")
+    var raw = _read_optional_text("/proc/self/fd/" + String(root_fd) + "/" + CATALOG_FILE)
+    if raw == "":
+        raise Error("preference diagnosis requires an existing readable catalog")
     return deserialize_catalog(raw)
 
 

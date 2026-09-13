@@ -690,13 +690,26 @@ the complete ledger population.
 
 ### AES-CLI-012 — Durable model aliases and favorites
 
+- **S04 extension (2026-09-13):** Doctor reports shortcut health in text/JSON.
+  `repair-preferences` defaults to a dry run; explicit `--apply` prunes only
+  references to absent catalog entries. Recipe-only and missing-blob references
+  are retained. The repair reloads both records under the shared directory lock
+  and reads catalog data through the pinned root descriptor; absent or invalid
+  catalogs block repair. Unchanged preferences are not rewritten. The model
+  chooser now filters recipe-only entries before favorite ordering/numbering.
+  `scripts/test_native_preferences.py` exercises built-process preview/apply,
+  retention, other-store preservation, corruption rejection and locked recheck.
+  Final S04 build and this harness passed, including raw/encoded NUL refusal,
+  missing-record refusal, chooser filtering and exact small-size display;
+  doctor/catalog harnesses and counted suite passed (182/0/1 skip).
+
 - **Status:** `verified`
 - **Owner:** CLI model-preferences, model-reference, and selector domains
 - **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
 - **Implementation evidence:** `cli/model_preferences.mojo` stores validated alias-to-canonical mappings and canonical favorites in a bounded, FNV-1a-checksummed `preferences.v1` record. Mutations share the model-store directory lock, stage owner-private files, synchronize content, atomically replace the record, and synchronize the directory. `cli/model_reference.mojo` resolves non-path shortcuts before canonical blob verification. `cli/model_selector.mojo` creates a stable favorite-first view and marks favorites without mutating catalog order. `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite` expose the lifecycle.
 - **Executable evidence:** `E-MASTER` cases `cli.model_preferences_codec`, `cli.favorite_model_selection`, and the extended `cli.manifest_store_restart` cover codec round trips, checksum corruption, alias validation, stable ordering, visible marking, restart persistence, and alias-to-canonical-blob resolution. The built CLI physically persisted `gemma -> gemma4-e2b:latest`, marked the canonical model as favorite, listed both records, and used `aesir inspect gemma` to reach the real Gemma 4 E2B catalog blob.
 - **Evidence boundary:** Preferences are local to one model-store root. Aliases target installed catalog identities and do not apply to explicit paths. Removing a catalog model can leave a stale preference, which fails closed when resolved; no automatic pruning, cross-device synchronization, nested aliases, or general user-settings system is claimed.
-- **Next acceptance gate:** Prune or report stale preferences during catalog mutation/doctor, add crash-injection and concurrent-process harnesses, and integrate aliases/favorites into hot-switch controls.
+- **Next acceptance gate:** Crash-injection, strict text admission (S09), broader concurrent-process stress, and alias-shadowing policy. S04 implements explicit pruning and doctor findings; its concurrency proof is a bounded lock/reload witness, not a general stress campaign.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ### AES-CLI-013 — Interactive native CUDA model hot switching
