@@ -1,3 +1,18 @@
+## 2026-09-13 — Application program S06b: Windows/desktop entry plumbing
+
+Added the PowerShell WSL launcher with optional distribution, prerequisite
+checks, explicit build/check modes and literal UTF-8 JSON/base64 argv transport.
+It preserves native status and does not install dependencies, change policies
+or shut down WSL. Both isolated failure/argument contracts and actual WSL
+transport pass on PowerShell 5.1 and 7, including empty/Unicode/quoted arguments
+and a checkout path with spaces/apostrophe. Native Home help and build freshness
+checks pass through the actual Windows wrapper. Added opt-in, no-overwrite
+desktop entry export; Gio/GLib parses and executes the encoded-path command
+against a fake app. Four Linux platform tests and nine prior launcher tests pass.
+CI runs platform and PowerShell contracts; missing Gio is an explicit skip.
+S06 remains open for coordinated cold-host/WSL and graphical desktop witnesses;
+no claim of physical offline inference or Windows-native engine support.
+
 ## 2026-09-13 — Application program S06a: verified local launch
 
 Added explicit offline/no-install build and normal package-manager-free launch

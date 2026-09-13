@@ -163,12 +163,18 @@ the complete ledger population.
   plumbing tests); actual `python3 scripts/launch.py --build`;
   `python3 scripts/test_native_launch.py`; native Home help through
   `unshare -Urn python3 scripts/launch.py -- home --help`.
+- **Platform-entry evidence:** `scripts/test_windows_launch.ps1` and actual WSL
+  transport `scripts/test_native_windows_launch.ps1` pass on PowerShell 5.1/7;
+  `scripts/launch.ps1 -Check` and native Home help pass in the prepared checkout.
+  `python3 scripts/test_platform_launch.py` passes four bridge/export cases,
+  including independent Gio/GLib desktop parsing and literal-path execution.
 - **Evidence boundary:** Prepared trusted Linux/WSL checkout, not an installer,
   signed release, hostile-filesystem guarantee or full dependency-integrity
   audit. Four runtime library paths are checked, not all transitive dependencies.
-  No new physical inference, Windows wrapper or desktop integration proof.
-- **Next acceptance gate:** S06b Windows/desktop entry, cold-host and offline
-  inference witnesses; S12 dependency preparation manifest.
+  Windows uses WSL, not a Windows-native engine. Desktop command parsing/export
+  is verified, not graphical terminal launch. No new physical inference proof.
+- **Next acceptance gate:** S06 cold-host/WSL startup and graphical desktop
+  click-through; offline inference witnesses; S12 dependency preparation manifest.
 
 ## 5. Memory, Tensor, Cache, and Ownership
 

@@ -16,6 +16,8 @@ a terminal menu for chat, catalog browsing, diagnostics and repair preview.
 Plain `aesir` opens Home only in a terminal; redirected invocations keep help.
 For a verified current local build, use `python3 scripts/launch.py --build`,
 then `python3 scripts/launch.py`. See [local launch](docs/LOCAL_LAUNCH.md).
+Windows users can launch the prepared WSL build with `./scripts/launch.ps1`;
+use `-Build` for an explicit offline rebuild and `-Check` to verify freshness.
 
 > **Advanced Edge System for Interface and Response**
 

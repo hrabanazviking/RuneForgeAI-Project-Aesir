@@ -51,6 +51,15 @@ jobs:
       - name: Prove Offline Build and Launch Plumbing
         run: python3 scripts/test_launch.py
 
+      - name: Prove WSL Bridge and Desktop Export Contracts
+        # System Python can use the runner's Gio bindings, when available.
+        # A missing binding is reported as a skip, not desktop execution proof.
+        run: /usr/bin/python3 scripts/test_platform_launch.py
+
+      - name: Prove PowerShell Launch Contracts Without Requiring WSL
+        shell: pwsh
+        run: ./scripts/test_windows_launch.ps1
+
       - name: Prove Special-File Admission Fails Closed
         run: python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ci-build
 

@@ -371,7 +371,27 @@ Every row is initially queued unless the execution record says otherwise.
   `unshare -Urn python3 scripts/launch.py -- home --help` passes with external
   networking unavailable. Engine source unchanged since S05's 182/0/1 suite.
   Full `unshare -Urn python3 scripts/test_native_launch.py` also passed.
-  S06a verified, push pending; S06b still queued.
+  S06a done; pushed as `679aeb1`.
+- S06b active contract: Windows PowerShell wrapper selects an optional prepared
+  WSL distribution, checks WSL/Python availability and delegates to the existing
+  launcher. Encode app argv as UTF-8 JSON/base64 across Windows native quoting;
+  a strict Linux bridge decodes data, never shell code. Preserve terminal streams
+  and exit status. No installation, distro shutdown, registry or shortcut writes.
+  Export an opt-in Linux `Terminal=true` desktop entry without overwriting files.
+- S06b gates: Windows PowerShell argument/failure fixtures and actual WSL Home
+  help/check; Linux desktop parsing and literal-path fixtures; prior launch tests
+  and network-isolated native Home. Cold-machine/graphical desktop interaction
+  cannot be inferred from parser tests and must remain an explicit open gate.
+- S06b results: both PowerShell contract and actual WSL transport harnesses
+  passed on PowerShell 5.1 and 7. Native Home help, `-Check` and error exit 1
+  passed through the real Windows wrapper. Four Linux platform tests (including
+  Gio/GLib parsing) and nine launcher tests pass. Network-isolated native Home
+  PTY harness passed again. Engine source remains unchanged from S05.
+  Implementation sub-slice verified; push pending.
+- Remaining S06 parent gates: coordinated cold-host/WSL startup and graphical
+  desktop click-through. No active WSL sessions were terminated; no desktop UI
+  witness is inferred from parser execution. Keep S06 open until those witnesses
+  exist. Next independent development is S07, subject to its listed dependencies.
 
 ### S07–S48
 
