@@ -11,7 +11,7 @@ from cli.multi_engine import (
     dispatch_exl2_cli,
     dispatch_onnx_cli,
 )
-from config import AesirConfig, load_config_file
+from config import AesirConfig, load_config_file, validate_model_store_path
 from cli.native_serve import dispatch_native_serve
 from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
@@ -95,6 +95,7 @@ def print_general_help():
     print("  cp <source[:tag]> <target[:tag]> [--config path]")
     print("  rm|delete <name[:tag]> [--config path]")
     print("      Restart-safe catalog operations; default store is .aesir/models.")
+    print("      Select a store with --model-store path OR --config file (not both).")
     print("      --model imports immutable SHA-256-addressed bytes; verify rehashes them.")
     print("  help, -h, --help")
     print("      Show this capability-aware help.")
@@ -621,6 +622,7 @@ def dispatch_catalog_command(args: List[String]) raises:
     """Executes one catalog command against configured restart-safe state."""
     var command = args[0]
     var config_path = String("")
+    var store_path = String("")
     var format = String("text")
     var modelfile_path = String("")
     var model_path = String("")
@@ -629,9 +631,17 @@ def dispatch_catalog_command(args: List[String]) raises:
     var seen_format = False
     var seen_modelfile = False
     var seen_model = False
+    var seen_store = False
     var index = 1
     while index < len(args):
         var token = args[index]
+        if token == "--model-store":
+            if seen_store or index + 1 >= len(args):
+                raise Error("catalog requires one value for --model-store")
+            seen_store = True
+            store_path = validate_model_store_path(args[index + 1])
+            index += 2
+            continue
         if token == "--config" or token == "-c":
             if seen_config:
                 raise Error("duplicate catalog option: " + token)
@@ -682,9 +692,13 @@ def dispatch_catalog_command(args: List[String]) raises:
     if command != "list" and command != "ls" and command != "show" and seen_format:
         raise Error("--format applies only to list and show")
 
+    if seen_config and seen_store:
+        raise Error("catalog --config and --model-store are mutually exclusive")
     var config = AesirConfig()
     if seen_config:
         config = load_config_file(config_path)
+    if seen_store:
+        config.model_store_path = store_path
     var durable = DurableModelStore(config.model_store_path)
     var is_json = format == "json"
 

@@ -591,6 +591,12 @@ the complete ledger population.
 
 ### AES-CLI-005 — `list`, `show`, `ps`, `create`, `cp`, and `rm` operational CLI output
 
+- **S03 extension (2026-09-13):** Catalog commands accept either a validated
+  direct `--model-store` or `--config`/`-c`, rejecting duplicate/mixed selectors
+  before store access. Default and config-only behavior are unchanged. The
+  built catalog harness exercises all operations with each selector, separate
+  store isolation, and mutation-free rejection of malformed/conflicting flags.
+
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** CLI help and completed Ollama-suite TODO

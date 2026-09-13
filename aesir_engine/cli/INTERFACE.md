@@ -45,6 +45,18 @@ to the open model inode's SHA-256, profile, context, system prompt, and sampling
 identity. Compatibility is checked before reset; core session restore then
 replays validated tokens into empty KV without sampling or retokenizing text.
 
+## Catalog store selection
+
+`list`/`ls`, `show`, `create`, `verify`, `gc`, `cp`, and `rm`/`delete`
+accept `--model-store <relative-path>` or `--config <file>` (`-c`). These
+selectors are mutually exclusive, including when they would name the same
+store; duplicate selectors are errors. With neither, the store remains
+`.aesir/models`. Config-only calls retain `storage.model_store_path` behavior.
+Direct paths use the shared safe relative POSIX path validator. Invalid or
+conflicting selectors fail before config loading or durable-store access;
+they cannot silently select a store for a mutation. This changes command
+selection only, not catalog format or transaction semantics.
+
 ## Native diagnostics
 
 `cli/doctor.mojo` owns parsing and presentation for `aesir doctor [model]

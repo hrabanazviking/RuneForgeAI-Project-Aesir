@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 
 
-def check(binary: str) -> None:
+def check(binary: str, direct_store: bool = False) -> None:
     def run(*arguments: str, ok: bool = True) -> subprocess.CompletedProcess[str]:
         result = subprocess.run(
             [binary, *arguments],
@@ -48,7 +48,7 @@ def check(binary: str) -> None:
         weights.write_bytes(b"content-addressed-model-fixture\n")
         orphan_payload = b"unreachable-model-blob\n"
         orphan_weights.write_bytes(orphan_payload)
-        common = ("--config", str(config))
+        common = ("--model-store", store.as_posix()) if direct_store else ("--config", str(config))
 
         empty = json.loads(run("list", "--format", "json", *common).stdout)
         assert empty == [], "absent catalog did not read as empty"
@@ -167,6 +167,20 @@ def check(binary: str) -> None:
         assert "not found" in missing.stderr + missing.stdout
 
         before = catalog.read_bytes()
+        for bad_options in [
+            ("--model-store", ""),
+            ("--model-store", "../unsafe"),
+            ("--model-store",),
+            ("--model-store", store.as_posix(), "--model-store", store.as_posix()),
+            ("--config", str(config), "-c", str(config)),
+            ("--config", str(config), "--model-store", store.as_posix()),
+            ("--model-store", store.as_posix(), "--config", str(config)),
+        ]:
+            run("rm", "example:backup", *bad_options, ok=False)
+            assert catalog.read_bytes() == before, "invalid store selector changed catalog"
+        other_store = root / "other-store"
+        other = json.loads(run("list", "--format", "json", "--model-store", str(other_store)).stdout)
+        assert other == [], "explicit store selection leaked another store's catalog"
         run("cp", "missing:v1", "never:created", *common, ok=False)
         assert catalog.read_bytes() == before, "failed mutation changed the catalog"
         assert not list(store.glob(".catalog.tmp.*")), "staged catalog leaked"
@@ -206,7 +220,68 @@ def check(binary: str) -> None:
     )
 
 
+def check_selection_isolation(binary: str) -> None:
+    binary = str(Path(binary).resolve())
+    with tempfile.TemporaryDirectory(prefix="aesir-store-selection-") as directory:
+        root = Path(directory)
+
+        def run(*args: str, error: str | None = None) -> str:
+            result = subprocess.run(
+                [binary, *args], cwd=root, capture_output=True, text=True,
+                timeout=30, check=False,
+            )
+            if error is None:
+                assert result.returncode == 0, result.stderr or result.stdout
+            else:
+                assert result.returncode != 0
+                assert error in result.stderr + result.stdout, result.stderr or result.stdout
+            return result.stdout
+
+        stores = ["store-a", "store-b", ".aesir/models"]
+        (root / "Modelfile").write_text("FROM weights.bin\n", encoding="utf-8")
+        (root / "weights.bin").write_bytes(b"isolated-selection-fixture\n")
+        (root / "config.json").write_text(
+            json.dumps({"storage": {"model_store_path": "store-b"}}), encoding="utf-8"
+        )
+        (root / "bad-config.json").write_text("malformed", encoding="utf-8")
+        for store in stores:
+            run("create", "shared:v1", "--modelfile", "Modelfile", "--model", "weights.bin",
+                "--model-store", store)
+
+        def snapshot(store: str) -> dict[str, bytes]:
+            path = root / store
+            return {str(file.relative_to(path)): file.read_bytes()
+                    for file in path.rglob("*") if file.is_file()}
+
+        initial = {store: snapshot(store) for store in stores}
+        for config in ("config.json", "missing-config.json", "bad-config.json"):
+            for options in (("--config", config, "--model-store", "store-a"),
+                            ("--model-store", "store-a", "-c", config)):
+                run("rm", "shared:v1", *options, error="mutually exclusive")
+            run("gc", "--config", config, "-c", config, error="duplicate catalog option")
+        run("gc", "--model-store", "store-a", "--model-store", "store-b",
+            error="requires one value for --model-store")
+        assert {store: snapshot(store) for store in stores} == initial
+
+        # Positive direct/config/default mutations all target matching names;
+        # selecting the wrong store would otherwise appear to succeed.
+        for selected, options in [("store-a", ("--model-store", "store-a")),
+                                  ("store-b", ("-c", "config.json")),
+                                  (".aesir/models", ())]:
+            untouched = {store: snapshot(store) for store in stores if store != selected}
+            for operation in [("cp", "shared:v1", "backup:v1"),
+                              ("rm", "shared:v1"), ("delete", "backup:v1"), ("gc",)]:
+                run(*operation, *options)
+                assert {store: snapshot(store) for store in untouched} == untouched
+            assert json.loads(run("list", "--format", "json", *options)) == []
+            assert not list((root / selected / "blobs" / "sha256").iterdir())
+    print("PASS store selection: direct/config/default mutation isolation and pre-open conflicts")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", required=True)
-    check(parser.parse_args().binary)
+    binary = parser.parse_args().binary
+    check(binary, direct_store=True)
+    check(binary, direct_store=False)
+    check_selection_isolation(binary)

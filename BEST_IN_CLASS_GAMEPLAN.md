@@ -224,7 +224,7 @@ Every row is initially queued unless the execution record says otherwise.
 - Status: done; published to `main` as `54cdeae`.
 - Acceptance: 48 ordered slices, ownership, dependencies, gates, release criteria,
   risk register, and per-slice push/continuation contract established.
-- Next: S01, then S02, then S03. Continue in listed order thereafter.
+- Next: finish the S03 push checkpoint, then S04. Continue in listed order thereafter.
 - Continuation: hourly thread heartbeat `aesir-sequential-application-build`
   is active; execution requires the desktop host and available usage/network.
 
@@ -245,7 +245,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S02 — Structured diagnostics
 
-- Status: verified; awaiting this slice's push checkpoint.
+- Status: done; verified and pushed as `86acb71`.
 - Decision: collect one report, render text/JSON from the same observations;
   `schema_version: 1`, unknown observations as null, explicit prerequisites scope,
   errors retained in structured fields. Optional model inspection belongs inside
@@ -264,7 +264,37 @@ Every row is initially queued unless the execution record says otherwise.
   invalid one-byte Strings. Span-based escaping now passes mixed Unicode and
   ASCII-control regressions; the built diagnostic harness is part of CI.
 
-### S03–S48
+### S03 — Explicit catalog store selection
+
+- Status: verified; confirm this checkpoint on remote `main`, then resume S04.
+- Design: extend the existing catalog dispatcher, not storage internals. Accept
+  exactly one of `--config`/`-c` or `--model-store`; reject duplicates and mixed
+  selectors before opening config/store paths. Neither means `.aesir/models`.
+  Reuse `validate_model_store_path`; retain config-only behavior. Explicit
+  rejection avoids silently targeting the wrong store during `rm` or `gc`.
+- Files: `aesir_engine/cli/commands.mojo` owns parsing and help;
+  `scripts/test_native_model_store.py` owns built-process store isolation tests;
+  CLI interface/ledger/devlog record the contract.
+- [x] Extend catalog harness to run all operations with both selectors and
+  reject invalid/mixed/duplicate options without mutating the isolated catalog.
+- [x] Run against `.aesir/aesir-s02`; observed the direct-selector case fail
+  with `unknown catalog option: --model-store`.
+- [x] Implement strict selector parsing and shared path validation.
+- [x] Build `.aesir/aesir-s03`; run catalog and doctor harnesses, counted suite,
+  and `scripts/check_doc_drift.py`; document real results.
+- [ ] Push this verified slice and confirm remote `main` before starting S04.
+- Verification: native main build succeeded; both selector modes passed the
+  existing restart/concurrency/import/verify/GC harness plus new selector cases;
+  built doctor harness passed; counted suite 182 passed, 0 failed, 1 existing
+  external-fixture skip (183 total). Doc-drift and diff-whitespace gates passed
+  with existing legacy-artifact warnings.
+- Review-driven additions: seeded separate direct/config/default stores with
+  matching model names, checked every unselected store's catalog/blob bytes
+  after copy/remove/GC, and asserted selector-specific diagnostics with missing
+  and malformed configs. Extended built harness passed; independent re-review
+  confirmed both test gaps closed with no new findings (static review only).
+
+### S04–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

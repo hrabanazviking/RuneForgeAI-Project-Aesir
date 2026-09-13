@@ -1,3 +1,17 @@
+## 2026-09-13 — Application program S03: explicit catalog stores
+
+Catalog commands now accept `--model-store` as an alternative to `--config`/`-c`.
+Mixed and duplicate selectors fail before storage access, preserving the
+existing default and config-only behavior. Extended the actual-process catalog
+harness to exercise both selection paths, wrong-store isolation, and unchanged
+catalog bytes after rejected mutation options. The regression failed against
+S02 with the expected unknown-option error before implementation.
+Native build, both selector-mode catalog harness runs, populated three-store
+mutation isolation, pre-open conflict diagnostics, doctor harness and doc drift
+passed. Counted suite: 182 pass, 0 fail, 1 existing external-fixture skip.
+Independent review identified two test gaps; additional process tests closed
+both, with no remaining findings in the re-review.
+
 ## 2026-09-12 — Application program S02: structured diagnostics
 
 Doctor now renders text or versioned JSON from the same observation pass.
