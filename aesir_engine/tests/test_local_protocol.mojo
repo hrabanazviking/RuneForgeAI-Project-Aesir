@@ -1,5 +1,5 @@
 """Pure bounded-protocol adversarial checks; physical service tests are separate."""
-from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8
+from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8, resolve_request_token_limit, require_loaded_context
 from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
 from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps
@@ -190,6 +190,9 @@ def test_sampling_default_precedence() raises:
 
 
 def test_local_generation_request() raises:
+    if GenerateRequest('{"prompt":"x"}', 512, 1000).max_tokens != 512:
+        raise Error("Native request ignored the resolved service reply default above 256")
+    test_request_limit_precedence()
     test_sampling_default_precedence()
     test_native_recipe_precedence()
     var valid = GenerateRequest("{\"prompt\":\"Halló 🌊\",\"seed\":18446744073709551615,\"max_tokens\":16}", 64, 1000)
@@ -211,6 +214,87 @@ def test_local_generation_request() raises:
             rejected = True
         if not rejected:
             raise Error("Unsupported generation request accepted")
+
+
+def test_request_limit_precedence() raises:
+    var ceilings: List[Int] = [1, 64, 256, 512, 32768]
+    for ceiling in ceilings:
+        var requests: List[Int] = [0, 1, ceiling]
+        for requested in requests:
+            var native_body = String('{"prompt":"x"')
+            var openai_body = String('{"model":"m","prompt":"x"')
+            var ollama_body = String('{"model":"m","prompt":"x"')
+            if requested != 0:
+                native_body += ',"max_tokens":' + String(requested)
+                openai_body += ',"max_tokens":' + String(requested)
+                ollama_body += ',"options":{"num_predict":' + String(requested) + '}'
+            var native = GenerateRequest(native_body + '}', ceiling, 1000)
+            var openai = OpenAIRequest(openai_body + '}')
+            var ollama = OllamaRequest(ollama_body + '}')
+            var expected = ceiling if requested == 0 else requested
+            if native.max_tokens != expected or resolve_request_token_limit(openai.max_tokens, ceiling) != expected or resolve_request_token_limit(ollama.num_predict, ceiling) != expected:
+                raise Error("Request token precedence differs across native/OpenAI/Ollama")
+        for adapter in range(3):
+            var rejected = False
+            try:
+                if adapter == 0:
+                    _ = GenerateRequest('{"prompt":"x","max_tokens":' + String(ceiling + 1) + '}', ceiling, 1000)
+                elif adapter == 1:
+                    var request = OpenAIRequest('{"model":"m","max_tokens":' + String(ceiling + 1) + '}')
+                    _ = resolve_request_token_limit(request.max_tokens, ceiling)
+                else:
+                    var request = OllamaRequest('{"model":"m","options":{"num_predict":' + String(ceiling + 1) + '}}')
+                    _ = resolve_request_token_limit(request.num_predict, ceiling)
+            except:
+                rejected = True
+            if not rejected:
+                raise Error("Request escaped service token ceiling")
+        if GenerateRequest('{"prompt":"next"}', ceiling, 1000).max_tokens != ceiling:
+            raise Error("Previous request changed the service reply default")
+    var invalid: List[String] = ["0", "-1", "-2", "1.5", "1e2", "true", "null", "\"1\"", "9223372036854775808"]
+    for value in invalid:
+        for adapter in range(3):
+            var rejected = False
+            try:
+                if adapter == 0:
+                    _ = GenerateRequest('{"prompt":"x","max_tokens":' + value + '}', 512, 1000)
+                elif adapter == 1:
+                    _ = OpenAIRequest('{"model":"m","max_tokens":' + value + '}')
+                else:
+                    _ = OllamaRequest('{"model":"m","options":{"num_predict":' + value + '}}')
+            except:
+                rejected = True
+            if not rejected:
+                raise Error("Invalid explicit request token limit accepted: " + value)
+    var invalid_ceilings: List[Int] = [0, -1, 32769]
+    for value in invalid_ceilings:
+        var rejected = False
+        try:
+            _ = resolve_request_token_limit(1, value)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Invalid service token ceiling accepted")
+    require_loaded_context(0, 1024)
+    require_loaded_context(1024, 1024)
+    var mismatched_contexts: List[Int] = [-1, 1, 512, 2048]
+    for value in mismatched_contexts:
+        var rejected = False
+        try:
+            require_loaded_context(value, 1024)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Service accepted an unapplied context resize")
+    var invalid_contexts: List[String] = ["0", "1", "-1", "32769", "1.5", "null"]
+    for value in invalid_contexts:
+        var rejected = False
+        try:
+            _ = OllamaRequest('{"model":"m","options":{"num_ctx":' + value + '}}')
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Invalid explicit Ollama context accepted")
 
 
 def test_native_recipe_precedence() raises:

@@ -29,9 +29,12 @@ This binds only `127.0.0.1:11434` and intentionally uses no bearer key so local
 Ollama clients can connect. It implements `GET /api/version`, `GET /api/tags`,
 `POST /api/show`, `POST /api/generate`, and `POST /api/chat`. Generation and
 chat require `"stream":false`; NDJSON streaming is not implemented. Recognized
-`options` are `num_ctx`, `temperature`, `top_k`, `top_p`, `min_p`, `seed`, and
-`repeat_penalty`. Unknown fields/options and contexts above the loaded service
-context fail explicitly. Chat accepts bounded `system`, `user`, and `assistant`
+`options` are `num_ctx`, `num_predict`, `temperature`, `top_k`, `top_p`, `min_p`,
+`seed`, and `repeat_penalty`. Explicit `num_ctx` must equal the loaded service
+context; smaller contexts are not silently accepted as if applied. Omit it to
+use the loaded context. Explicit `num_predict` must be a positive integer at
+most the resolved service reply ceiling; zero and negative/unbounded modes are
+unsupported. Unknown fields/options fail explicitly. Chat accepts bounded `system`, `user`, and `assistant`
 messages and requires the final message to be from the user.
 
 ```bash
@@ -82,6 +85,15 @@ and seed 99 still present in its effective policy. The next request without
 sampling fields starts again from temperature 0.8, top-k 20 and seed 99.
 
 ### Authenticated service
+
+Across the native, OpenAI and Ollama generation routes, an omitted reply count
+inherits the resolved startup reply default/ceiling (recipe `num_predict`, then
+explicit `serve --max-tokens`; otherwise 256). A request may lower but never
+raise that limit, using native/OpenAI `max_tokens` or Ollama
+`options.num_predict`. Explicit zero is not omission. These limits are checked
+before session reset; one request cannot change the next request's defaults.
+This replaces the native route's previous implicit cap of 256 when the startup
+default was higher. Context still needs room for both input and reply.
 
 Build the native executable as described in [the runtime guide](NATIVE_RUNTIME.md).
 Create a random service key natively in a protected Linux directory. The file must be a
@@ -146,9 +158,9 @@ and valid UTF-16 surrogate pairs. Malformed Unicode and NUL are rejected.
 |---|---|
 | `prompt` | Required nonempty string, at most 64 KiB decoded UTF-8. |
 | `system` | Optional string, at most 64 KiB; defaults to a concise helpful assistant. |
-| `max_tokens` | Positive integer, at most the server's `--max-tokens` ceiling; defaults to the smaller of 256 and that ceiling. Context admission can reject a request even below this limit. |
+| `max_tokens` | Positive integer, at most the resolved startup reply ceiling; omission inherits that ceiling (256 unless configured by recipe/CLI). Context admission can reject a request even below this limit. |
 | `timeout_ms` | Positive integer no greater than the server's `--timeout-ms` limit; defaults to that limit. Clients cannot disable it. |
-| `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed` | Same native sampling bounds/defaults as [chat](NATIVE_RUNTIME.md). Counts/seeds are unsigned decimal integers; floating controls use unsigned decimal notation, without exponents. Repetition window stays 64. |
+| `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed` | Same native sampling bounds/defaults as [chat](NATIVE_RUNTIME.md). Counts/seeds are unsigned decimal integers; floating controls use unsigned decimal notation, without exponents. Repetition window stays at its resolved startup value. |
 
 Each admitted generation resets logical history and sampling state. This API
 does not retain a conversation, share KV prefixes or offer session IDs. Loaded

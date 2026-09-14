@@ -640,7 +640,15 @@ the complete ledger population.
   tests compare config/recipe/CLI/API precedence and field-presence retention;
   actual processes cover selected-store isolation, malformed/unsupported config,
   zeros, omitted fields, selector aliases, symlinks/FIFOs and unchanged data.
-- **Layering boundary:** Session/token unification remains open. Preview is
+- **S07b4a request limits:** Native/OpenAI/Ollama generation routes share reply
+  ceiling resolution; omission inherits startup defaults, positive request
+  counts may only lower the ceiling. Ollama options.num_predict is wired to
+  begin_turn. Explicit num_ctx must match the allocated context; smaller values
+  are no longer accepted without effect. Both checks precede session reset.
+  Counted cross-adapter policy/parser tests, fresh native build and existing
+  settings/service admission harnesses pass (full suite 182/0/1). No new physical
+  HTTP inference or independent-client compatibility proof is claimed.
+- **Remaining layering boundary:** Session handoff remains open. Preview is
   before hardware planning: it proves neither architecture, capacity nor inference.
   Physical recipe-based conversation/model-switch witnesses remain unverified.
 - **Audit:** AER-060, AER-067.

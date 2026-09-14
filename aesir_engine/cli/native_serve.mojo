@@ -10,7 +10,7 @@ from cli.native_settings import resolve_native_settings, native_settings_json, l
 from cli.interrupts import ChatInterrupts
 from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
-from server.local_protocol import FlatJSON, LocalHTTPHead
+from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token_limit, require_loaded_context
 from server.local_transport import (listen_local, accept_local, load_service_key,
                                     receive_head, receive_body, send_local)
 from server.api import build_http_response, json_escape_string
@@ -36,7 +36,7 @@ struct GenerateRequest:
             raise Error("Default system prompt exceeds 64 KiB")
         self.prompt = ""
         self.system = default_system
-        self.max_tokens = min(256, token_limit)
+        self.max_tokens = resolve_request_token_limit(0, token_limit)
         self.timeout_ms = timeout_limit
         self.sampling = defaults
         var parser = FlatJSON(body)
@@ -70,8 +70,9 @@ struct GenerateRequest:
                     raise Error("Unknown generation field")
         if self.prompt.byte_length() == 0:
             raise Error("Generation requires a nonempty prompt")
-        if self.max_tokens < 1 or self.max_tokens > token_limit:
-            raise Error("Generation token count exceeds service limit")
+        if self.max_tokens < 1:
+            raise Error("Generation token count must be positive")
+        self.max_tokens = resolve_request_token_limit(self.max_tokens, token_limit)
         if self.timeout_ms < 1 or self.timeout_ms > timeout_limit:
             raise Error("Generation deadline exceeds service limit")
         self.sampling.validate()
@@ -207,20 +208,20 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var request = OllamaRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
-                        elif request.num_ctx != 0 and (request.num_ctx < 2 or request.num_ctx > context):
-                            status = 400
                         elif head.path == "/api/generate" and (not request.has_prompt or request.prompt.byte_length() == 0):
                             status = 400
                         elif head.path == "/api/chat" and not request.has_messages:
                             status = 400
                         else:
+                            require_loaded_context(request.num_ctx, context)
+                            var request_tokens = resolve_request_token_limit(request.num_predict, token_limit)
                             session.reset()
                             session.configure_sampling(request.sampling)
                             session.configure_control(timeout_ms, interrupt_fd)
                             status = 422
                             generation_started = True
                             var prompt = request.prompt if head.path == "/api/generate" else request.chat_prompt
-                            session.begin_turn(prompt, request.system, token_limit)
+                            session.begin_turn(prompt, request.system, request_tokens)
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
@@ -257,12 +258,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         elif head.path == "/v1/completions" and request.prompt.byte_length() == 0:
                             status = 400
                         else:
-                            var request_tokens = (
-                                token_limit if request.max_tokens == 0
-                                else request.max_tokens
-                            )
-                            if request_tokens < 1 or request_tokens > token_limit:
-                                raise Error("OpenAI completion exceeds service token limit")
+                            var request_tokens = resolve_request_token_limit(request.max_tokens, token_limit)
                             session.reset()
                             session.configure_sampling(request.sampling)
                             session.configure_control(timeout_ms, interrupt_fd)

@@ -18,6 +18,7 @@ struct OllamaRequest:
     var chat_prompt: String
     var stream: Bool
     var num_ctx: Int
+    var num_predict: Int
     var sampling: NativeSamplingConfig
     var has_prompt: Bool
     var has_messages: Bool
@@ -32,6 +33,7 @@ struct OllamaRequest:
         self.chat_prompt = ""
         self.stream = True
         self.num_ctx = 0
+        self.num_predict = 0
         self.sampling = defaults
         self.has_prompt = False
         self.has_messages = False
@@ -94,6 +96,12 @@ struct OllamaRequest:
                 var value = parser.number()
                 if name == "num_ctx":
                     self.num_ctx = bounded_decimal(value)
+                    if self.num_ctx < 2 or self.num_ctx > 32768:
+                        raise Error("Ollama num_ctx must be within 2..32768")
+                elif name == "num_predict":
+                    self.num_predict = bounded_decimal(value)
+                    if self.num_predict < 1 or self.num_predict > 32768:
+                        raise Error("Ollama num_predict must be within 1..32768")
                 elif name == "temperature" or name == "seed":
                     self.sampling = with_sampling_option(self.sampling, name, value)
                 elif name == "top_k":

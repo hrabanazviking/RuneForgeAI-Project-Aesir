@@ -466,10 +466,27 @@ Every row is initially queued unless the execution record says otherwise.
   Focused CLI/protocol tests and counted suite pass (182 pass, 0 fail, 1 existing
   fixture skip). Service settings, both catalog selectors and special-file
   admission pass; doc drift/whitespace checks pass with existing artifact
-  warnings. S07b3 verified; push pending. Next: S07b4 session handoff and token
+  warnings. S07b3 done; verified and pushed as `07f0aeb`. Next: S07b4 session handoff and token
   precedence audit. The existing float-to-text handoff needs round-trip tests
   for exponent-formatted/small values before claiming lossless settings across
   `/model`. No new physical inference or config-backed model-switch proof.
+- S07b4a active contract: align native/OpenAI/Ollama reply-limit resolution.
+  An omitted request limit inherits the resolved service default/ceiling;
+  an explicit positive limit may only lower it. Wire Ollama options.num_predict
+  to that same policy, refusing zero/negative/unbounded modes. Stop accepting
+  ignored smaller Ollama num_ctx values: only omission or the exact loaded
+  context is supported, with refusal before session reset. Keep immutable
+  startup limits and default service ceiling 256. Gate: table-driven parser and
+  shared policy tests across all adapters, no mutation after rejection, full
+  counted suite, native build and service/settings regressions. No new wire
+  parity or physical inference claim. S07b4b remains float handoff round trips.
+- S07b4a results: focused regression reproduced native omission resolving to
+  256 instead of configured 512. Shared limit policy now passes cross-adapter
+  tables for ceilings 1/64/256/512/32768, omission/override/overflow, malformed
+  explicit values and context mismatch refusal. Fresh offline native build,
+  settings/service process harnesses and counted suite pass (182/0/1).
+  Doc drift and whitespace checks pass with existing artifact warnings.
+  Verified; push pending. Session handoff is next; S07 remains active.
 
 ### S08–S48
 

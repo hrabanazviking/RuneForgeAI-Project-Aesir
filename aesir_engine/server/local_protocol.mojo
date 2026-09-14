@@ -6,6 +6,23 @@ OpenAI compatibility. Transport must pass exactly the declared body bytes.
 from core.observation_integer import bounded_decimal
 
 
+def resolve_request_token_limit(requested: Int, ceiling: Int) raises -> Int:
+    """Zero is an internal omission sentinel, never an explicit wire value."""
+    if ceiling < 1 or ceiling > 32768:
+        raise Error("Service token ceiling must be within 1..32768")
+    if requested < 0 or requested > ceiling:
+        raise Error("Generation token count exceeds service limit")
+    return ceiling if requested == 0 else requested
+
+
+def require_loaded_context(requested: Int, loaded: Int) raises:
+    """The allocated session cannot apply a per-request context resize."""
+    if loaded < 2 or loaded > 32768:
+        raise Error("Loaded service context is outside supported bounds")
+    if requested != 0 and requested != loaded:
+        raise Error("Request num_ctx must equal the loaded service context")
+
+
 def valid_utf8(text: String) -> Bool:
     var bytes = text.as_bytes()
     var i = 0

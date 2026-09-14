@@ -1,3 +1,21 @@
+## 2026-09-14 — Application program S07b4a: request limits
+
+Reproduced a native request inheriting 256 tokens when the resolved service
+default was 512. Native/OpenAI/Ollama generation now use shared reply-limit
+resolution: omission inherits the immutable startup ceiling; explicit positive
+counts can lower but not raise it. Added bounded Ollama options.num_predict
+and passed its resolved value to begin_turn. Explicit zero/negative modes reject.
+Ollama num_ctx must equal the loaded context; smaller values previously passed
+without effect and now reject before session reset. Native defaults above 256
+intentionally change to match configured intent; unchanged startup default is 256.
+
+Focused parser/policy tests, fresh offline build, settings/service process
+regressions and full counted suite pass (182/0/1). Cross-adapter tables cover
+five ceilings, omission, overrides, overflow, malformed values and context
+mismatches. Documentation reflects the changed defaults and fixed allocation
+boundary. No new physical API inference or independent-client parity proof.
+Next is lossless sampling handoff; S07 remains incomplete.
+
 ## 2026-09-14 — Application program S07b3: explicit config layering
 
 Chat and serve now accept one `--config`/`-c` or `--model-store` selector.

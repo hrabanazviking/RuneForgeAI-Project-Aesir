@@ -33,6 +33,22 @@ Existing supported-field sets are unchanged: OpenAI permits temperature/top_p/
 seed; native and Ollama additionally permit top_k/min_p/repeat_penalty.
 Requests cannot change repeat_last_n after allocation.
 
+### Request reply and context limits (S07b4a)
+
+`local_protocol.mojo::resolve_request_token_limit` owns the shared immutable
+service reply ceiling policy: omission inherits it; a positive request may
+lower it but never exceed it. The ceiling is bounded to 1..32768. Zero is only
+an internal omission sentinel; native/OpenAI max_tokens and Ollama
+options.num_predict reject explicit zero, negative modes and non-integer input.
+Native request defaults no longer truncate configured ceilings above 256.
+All three generation routes validate limits before resetting their session.
+
+`require_loaded_context` admits omission or the exact allocated context only.
+Ollama num_ctx parses explicit 2..32768, then the generation route checks exact
+agreement; smaller requests are rejected, not accepted without effect. Other
+adapters still do not expose request-time context resize. Parser/policy tests
+are not physical inference or complete third-party API compatibility proof.
+
 S07b2 supplies recipe/CLI system defaults to the request parsers as well.
 An explicit native/Ollama `system` value (including empty text), or OpenAI chat
 system messages, overrides the baseline rather than appending to it. Without an
