@@ -6,7 +6,8 @@ from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_ca
 from server.openai import OpenAIRequest, OpenAIGate
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
-from cli.native_settings import resolve_native_settings
+from cli.native_settings import resolve_native_settings, native_config_sampling
+from config import parse_config_json
 
 
 def test_local_path_bounds() raises:
@@ -213,8 +214,24 @@ def test_local_generation_request() raises:
 
 
 def test_native_recipe_precedence() raises:
-    var content = String("FROM m.gguf\nPARAMETER temperature 0.8\nPARAMETER top_k 12\nPARAMETER top_p 0.7\nPARAMETER min_p 0.1\nPARAMETER repeat_penalty 1.2\nPARAMETER repeat_last_n 128\nPARAMETER seed 99\nPARAMETER num_ctx 1024\nPARAMETER num_predict 64\nSYSTEM Keep SYSTEM literal\n")
+    var config = parse_config_json('{"sampling":{"temperature":0.4,"top_p":0.6}}')
+    var baseline = native_config_sampling(config)
     var none = List[String]()
+    var partial = resolve_native_settings("FROM m.gguf\nPARAMETER temperature 0.8", NativeSamplingConfig(), none, 0, 64, "", baseline)
+    if partial.sampling.temperature != Float32(0.8) or partial.sampling.top_p != Float32(0.6):
+        raise Error("Recipe override discarded unrelated config fields")
+    var cli_flags: List[String] = ["--temperature"]
+    var cli_layer = resolve_native_settings("FROM m.gguf\nPARAMETER temperature 0.8", NativeSamplingConfig(), cli_flags, 0, 64, "", baseline)
+    if cli_layer.sampling.temperature != 0 or cli_layer.sampling.top_p != Float32(0.6):
+        raise Error("CLI override discarded unrelated config fields")
+    var native_request = GenerateRequest('{"prompt":"x","top_p":0.5}', 64, 1000, cli_layer.sampling)
+    var ollama_request = OllamaRequest('{"model":"m","prompt":"x","options":{"top_p":0.5}}', cli_layer.sampling)
+    var openai_request = OpenAIRequest('{"model":"m","prompt":"x","top_p":0.5}', cli_layer.sampling)
+    if native_request.sampling.description() != ollama_request.sampling.description() or native_request.sampling.description() != openai_request.sampling.description() or native_request.sampling.temperature != 0 or native_request.sampling.top_p != 0.5:
+        raise Error("Config/recipe/CLI/request precedence differs across adapters")
+    if baseline.temperature != Float32(0.4) or baseline.top_p != Float32(0.6) or cli_layer.sampling.top_p != Float32(0.6):
+        raise Error("Resolution mutated an earlier settings layer")
+    var content = String("FROM m.gguf\nPARAMETER temperature 0.8\nPARAMETER top_k 12\nPARAMETER top_p 0.7\nPARAMETER min_p 0.1\nPARAMETER repeat_penalty 1.2\nPARAMETER repeat_last_n 128\nPARAMETER seed 99\nPARAMETER num_ctx 1024\nPARAMETER num_predict 64\nSYSTEM Keep SYSTEM literal\n")
     var recipe = resolve_native_settings(content, NativeSamplingConfig(), none, 0, 256, "fallback")
     var expected = NativeSamplingConfig(0.8, 12, 0.7, 0.1, 1.2, 128, 99)
     if recipe.sampling.description() != expected.description() or recipe.context != 1024 or recipe.max_tokens != 64 or recipe.system != "Keep SYSTEM literal" or not recipe.has_system:

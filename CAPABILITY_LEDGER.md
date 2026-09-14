@@ -507,8 +507,8 @@ the complete ledger population.
   field rejection. `test_native_service_settings.py` passes actual-process
   pre-key admission for all flags; build and counted suite pass (182/0/1).
   This proves settings resolution/admission, not a new physical HTTP inference
-  witness. Configuration-file layering and remaining session/token precedence
-  gates remain open; S07b2 adds native recipe startup resolution below.
+  witness. S07b2/b3 add native recipe/config startup resolution below;
+  remaining session/token precedence gates remain open.
 - **Additional bounded component:** `SkaldbrodirDetector` computes exact periodicity over at most 64 caller-supplied token IDs, emits intervention tiers, and requires two terminal observations before `INF-016`. The counted paradigm test covers repeated-token termination and a non-repeating sequence.
 - **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. SKÁLDBRØÐIR is not connected to generation and does not itself apply a penalty or stop a session. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
 - **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets, and measured integration of repetition intervention signals.
@@ -629,7 +629,18 @@ the complete ledger population.
   normal-start rejection of unsupported recipes, zero/empty overrides and
   unchanged stored data. Fresh native build, full suite (182/0/1), service/Home,
   recipe and model-store process regressions pass.
-- **Layering boundary:** Configuration-file precedence remains open. Preview is
+- **S07b3 config resolution:** Explicit `--config`/`-c` on chat/serve selects
+  the catalog root and applies only present temperature/top_p fields below
+  recipe and CLI settings. Duplicate/conflicting selectors, unconnected
+  non-neutral intent and values invalid for native Float32 fail before model,
+  key, prompt-file or transcript access. No implicit config loading. The shared
+  config reader also rejects raw NUL bytes before String conversion.
+- **S07b3 evidence:** Fresh offline build, full suite (182/0/1), extended settings
+  harness, service/catalog/special-file regressions and doc drift pass. Counted
+  tests compare config/recipe/CLI/API precedence and field-presence retention;
+  actual processes cover selected-store isolation, malformed/unsupported config,
+  zeros, omitted fields, selector aliases, symlinks/FIFOs and unchanged data.
+- **Layering boundary:** Session/token unification remains open. Preview is
   before hardware planning: it proves neither architecture, capacity nor inference.
   Physical recipe-based conversation/model-switch witnesses remain unverified.
 - **Audit:** AER-060, AER-067.
@@ -702,6 +713,9 @@ the complete ledger population.
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
 - **Implementation evidence:** `CLIOptions` in `cli/options.mojo` records explicit presence for every parsed flag; `dispatch_command()` in `cli/commands.mojo` separates recognized options from model/prompt positionals, validates command applicability, validates and prints caller-selected configuration files, applies CLI acceleration precedence, and rejects non-CPU or non-neutral unconnected intent before model loading. `ConfigJSONParser` enforces the bounded nested schema, JSON strings/Unicode/numbers/booleans, duplicate and unknown-field rejection, section ownership, ranges, EOF, and no trailing commas/content. Parsed options include `--verbose` (`-v`), `--format json|text`, `--keepalive <duration>` (`5m`, `1h`), `--modelfile <path>` (`-f`), `--raw`, `--insecure`, `--max-tokens N`, configuration, acceleration, safety, experimental, and TUI intent.
 - **Executable evidence:** `E-MASTER` cases `cli.truthful_command_boundaries`, `cli.flag_options_parser`, and `paradigms.config_and_json`; the CLI case includes compact JSON, escaped section names, exponents, duplicates, structural errors, wrong types/sections, ranges, trailing data and surrogate rejection. Built-CLI smoke tests cover normalized JSON output, default and explicit config loading, missing files, unsupported accelerator rejection, and command-inapplicable options.
+- **S07b3 extension:** Native chat/serve now consume explicitly present config
+  temperature/top_p and the selected catalog root (see AES-CLI-003). This does
+  not connect single-shot sampling or the reserved safety/experimental fields.
 - **Evidence boundary:** Configuration validation, option-safe positional parsing, CPU selection, and fail-closed option/config intent are connected. Sampling/safety/experimental application, output formatting, service/model-store option owners, stable exit-code schemas, and Ollama differential parity are not complete; these combinations reject explicitly instead of succeeding without effect.
 - **Next acceptance gate:** Connect or reject every remaining accepted option at its owning operation, apply supported sampling/safety configuration to generation, and pass differential syntax/error/exit-code fixtures.
 - **Audit:** AER-003, AER-059 through AER-068.

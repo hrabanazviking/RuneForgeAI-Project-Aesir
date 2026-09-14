@@ -70,17 +70,32 @@ config is passed both to the allocated session and to the service's immutable
 request baseline. Each request copies that baseline before applying explicit
 fields; request-specific changes never become defaults for the next request.
 `repeat-last-n` is a startup-only allocation choice. Native recipe layering is
-described below; config files and remaining session/token precedence gates are
-separate S07 follow-ups.
+described below; remaining session/token precedence gates are separate S07
+follow-ups.
 
-## Native recipe and explicit-CLI settings
+## Native config, recipe and explicit-CLI settings
 
 `cli/native_settings.mojo` owns a shared pre-planning resolver used by chat and
-serve. Native defaults are overlaid by the registered model's recipe, then only
-explicit CLI fields. Stored `num_ctx`/`num_predict` request context/reply limits;
+serve. Native defaults are overlaid by explicitly present JSON config sampling,
+then the registered model's recipe, then only explicit CLI fields.
+Stored `num_ctx`/`num_predict` request context/reply limits;
 the seven native sampling parameters and `SYSTEM` are applied. Explicit zero
 temperature/seed and empty CLI/recipe system prompts are preserved. Direct GGUF
 paths have no stored recipe. FROM identifies recipe metadata, not a second load.
+
+Chat/serve accept one `--config file` (`-c`) or `--model-store path`, never both.
+Alias-normalized duplicate and conflicting selectors fail before config access.
+Only explicitly selected files are loaded, once before model selection, keys,
+prompt files and transcripts. The existing JSON schema connects temperature,
+top_p and storage.model_store_path; omitted sampling fields do not materialize
+the config container's neutral defaults. No new schema fields are introduced.
+Native sampling validation rejects Float32 overflow, positive temperature
+underflow and top_p outside (0, 1] even if higher-priority layers override them.
+Non-neutral unconnected hardware/safety/experimental/interface settings reject;
+hardware.acceleration_backend accepts only auto/cuda and still requires explicit
+`--accel cuda`. The config path is not reread across model-switch exec: current
+effective sampling and the selected store are carried by the existing handoff.
+See `docs/CONFIGURATION.md` for exact scope and normalization semantics.
 
 Strict native parsing accepts FROM, PARAMETER, SYSTEM and LICENSE; TEMPLATE,
 MESSAGE, unknown directives, duplicate singleton directives, custom stops,

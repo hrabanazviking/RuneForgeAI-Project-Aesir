@@ -1,3 +1,23 @@
+## 2026-09-14 — Application program S07b3: explicit config layering
+
+Chat and serve now accept one `--config`/`-c` or `--model-store` selector.
+The existing config schema's explicitly present temperature/top_p fields layer
+below native recipes and explicit CLI settings. Omission preserves native
+defaults, including top_p 0.95; no implicit config reads or new schema fields.
+Native validation rejects unconnected non-neutral settings, invalid Float32
+values and ambiguous selectors before key/model/transcript/prompt access.
+Field presence is retained by the parser; normalized config output intentionally
+materializes defaults and is documented as not presence-preserving.
+
+The extended process harness fails against the previous binary, then passes
+against the fresh offline build. Cross-adapter precedence assertions, full suite
+(182 pass, 0 fail, 1 existing skip), service flags, both model-store selectors,
+special-file admission and doc drift pass. Regression work also found and fixed
+raw NUL bytes truncating config-file content before validation; config command
+and native consumers now reject that input without changing files. No physical
+inference or config-backed switch witness is claimed. Remaining S07 session/token
+work includes proving float serialization across the model-switch handoff.
+
 ## 2026-09-14 — Application program S07b2: native recipe precedence
 
 Added a shared native-settings resolver for stored recipe sampling, num_ctx,

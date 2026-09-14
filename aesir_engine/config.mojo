@@ -59,6 +59,8 @@ struct AesirConfig:
     var num_gpu_layers: Int  # Number of model layers offloaded to GPU/NPU (-1 = all)
     var temperature: Float64  # Default sampling temperature
     var top_p: Float64  # Default top-p nucleus sampling cutoff
+    var temperature_was_set: Bool  # Omission must not replace native defaults
+    var top_p_was_set: Bool
     var model_store_path: String  # Relative root for durable catalog/blob state
     var config_path: String  # Source path of loaded configuration file
 
@@ -76,6 +78,8 @@ struct AesirConfig:
         self.num_gpu_layers = 0
         self.temperature = 0.0
         self.top_p = 1.0
+        self.temperature_was_set = False
+        self.top_p_was_set = False
         self.model_store_path = String(".aesir/models")
         self.config_path = String("aesir.config.json")
 
@@ -431,8 +435,10 @@ struct ConfigJSONParser:
             self.config.model_store_path = validate_model_store_path(self._string())
         elif section == "sampling" and key == "temperature":
             self.config.temperature = self._float(key)
+            self.config.temperature_was_set = True
         elif section == "sampling" and key == "top_p":
             self.config.top_p = self._float(key)
+            self.config.top_p_was_set = True
         else:
             raise Error("unknown configuration field " + section + "." + key)
 
@@ -524,6 +530,8 @@ struct ConfigJSONParser:
         result.num_gpu_layers = self.config.num_gpu_layers
         result.temperature = self.config.temperature
         result.top_p = self.config.top_p
+        result.temperature_was_set = self.config.temperature_was_set
+        result.top_p_was_set = self.config.top_p_was_set
         result.model_store_path = self.config.model_store_path
         result.config_path = self.config.config_path
         return result^
@@ -590,6 +598,10 @@ def load_config_file(path: String) raises -> AesirConfig:
             _ = external_call["close", Int32](fd)
             raise Error("configuration exceeds the 1 MiB limit")
         for index in range(Int(read_count)):
+            if buffer.unsafe_load(index) == 0:
+                buffer.unsafe_free()
+                _ = external_call["close", Int32](fd)
+                raise Error("configuration contains a NUL byte")
             content_bytes.append(buffer.unsafe_load(index))
     buffer.unsafe_free()
     _ = external_call["close", Int32](fd)

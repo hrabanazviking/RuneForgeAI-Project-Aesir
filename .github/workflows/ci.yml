@@ -54,7 +54,7 @@ jobs:
       - name: Prove Duplicate Recipe Rejection Preserves Catalog
         run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build
 
-      - name: Prove Native Recipe and CLI Settings Precedence
+      - name: Prove Native Config Recipe and CLI Settings Precedence
         run: python3 scripts/test_native_settings.py --binary /tmp/aesir-ci-build
 
       - name: Prove Offline Build and Launch Plumbing

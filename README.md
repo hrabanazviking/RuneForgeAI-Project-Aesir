@@ -19,7 +19,9 @@ then `python3 scripts/launch.py`. See [local launch](docs/LOCAL_LAUNCH.md).
 Windows users can launch the prepared WSL build with `./scripts/launch.ps1`;
 use `-Build` for an explicit offline rebuild and `-Check` to verify freshness.
 Registered native recipes now supply chat/service settings, with explicit CLI
-overrides. Add `--show-settings` to `chat <model> --accel cuda` or `serve <model>
+overrides. `--config file` adds JSON temperature/top_p defaults beneath recipes
+and selects the catalog store; it cannot be combined with `--model-store`.
+Add `--show-settings` to `chat <model> --accel cuda` or `serve <model>
 --accel cuda` to preview those settings without loading a model.
 
 > **Advanced Edge System for Interface and Response**

@@ -442,7 +442,34 @@ Every row is initially queued unless the execution record says otherwise.
   from the target recipe. No physical recipe switch is claimed.
   Fresh offline launcher build, counted suite (182/0/1), native settings,
   service settings, Home, recipe admission and model-store harnesses pass.
-  S07b2 verified; push pending. Next: S07b3 configuration-file layering.
+  S07b2 done; verified and pushed as `0d8dfb4`.
+- S07b3 active contract: connect the existing JSON configuration schema to
+  chat/serve using explicit `--config`/`-c`, mutually exclusive with
+  `--model-store`. Resolve native defaults < explicitly present config sampling
+  < stored recipe < explicit CLI; request overrides retain S07a behavior.
+  Config owns its existing temperature/top_p fields and catalog root; no implicit
+  config discovery or new schema fields. Track field presence so `{}` does not
+  replace native top_p with the config container's neutral default. Reject
+  unsupported non-neutral hardware/safety/experimental/interface intent before
+  model/transcript/key access, even in previews. Preserve existing single-shot
+  and catalog semantics. Validate native Float32 representability before overlay.
+  Gate: `scripts/test_native_settings.py --binary .aesir/launch/aesir` covers
+  config/recipe/CLI precedence, omitted/zero fields, selector conflicts, invalid
+  and special-file configs, refusal before side effects and no implicit reads;
+  focused CLI/protocol tests, full counted suite, fresh offline launcher build,
+  catalog/service regressions and doc drift. Session/token unification remains
+  a separate S07 follow-up; no physical inference proof from previews.
+- S07b3 results: the previous binary fails the new harness on unknown chat
+  `--config`; fresh offline build passes config/recipe/CLI/API-mode previews,
+  presence/zero overrides, selected-store isolation and all refusal/no-write
+  cases. Found and fixed raw NUL truncation in the shared config file reader.
+  Focused CLI/protocol tests and counted suite pass (182 pass, 0 fail, 1 existing
+  fixture skip). Service settings, both catalog selectors and special-file
+  admission pass; doc drift/whitespace checks pass with existing artifact
+  warnings. S07b3 verified; push pending. Next: S07b4 session handoff and token
+  precedence audit. The existing float-to-text handoff needs round-trip tests
+  for exponent-formatted/small values before claiming lossless settings across
+  `/model`. No new physical inference or config-backed model-switch proof.
 
 ### S08–S48
 

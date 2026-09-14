@@ -4,7 +4,7 @@ from std.collections import InlineArray
 from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda_plan, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
-from cli.native_settings import resolve_native_settings, native_settings_json
+from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference
@@ -278,6 +278,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var timeout_ms = 0
     var tui = False
     var show_settings = False
+    var config_path = String("")
     var model_store = String(".aesir/models")
     var inherited_log_fd = -1
     var seen = List[String]()
@@ -287,6 +288,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
         i += 1
     while i < len(args):
         var flag = args[i]
+        if flag == "-c":
+            flag = "--config"
         for old in seen:
             if old == flag:
                 raise Error("Duplicate chat option: " + flag)
@@ -325,6 +328,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
             reserve_bytes = parse_reserve_bytes(value)
         elif flag == "--model-store":
             model_store = value
+        elif flag == "--config":
+            config_path = value
         elif flag == "--resume-log-fd":
             inherited_log_fd = bounded_decimal(value)
             if inherited_log_fd < 3:
@@ -351,12 +356,16 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Qwen 3 context must be within 2..32768")
         if "--max-tokens" in seen and max_tokens > 32768:
             raise Error("Qwen 3 completion limit must be within 1..32768")
+    var config = load_native_config(config_path, seen)
+    var config_sampling = native_config_sampling(config)
+    if "--config" in seen:
+        model_store = config.model_store_path
     if show_settings:
         if model_reference == "":
             raise Error("Settings preview requires an explicit model reference")
         var resolved = resolve_model_reference(model_reference, model_store)
         print(native_settings_json(resolve_native_settings(resolved.modelfile_content,
-            sampling, seen, context_length, max_tokens, system)))
+            sampling, seen, context_length, max_tokens, system, config_sampling)))
         return
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
@@ -383,7 +392,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     while True:
         var resolved = resolve_model_reference(model_reference, model_store)
         var effective = resolve_native_settings(resolved.modelfile_content,
-            sampling, seen, requested_context, requested_max_tokens, system)
+            sampling, seen, requested_context, requested_max_tokens, system, config_sampling)
         var selection = choose_native_cuda_plan(
             resolved.path, selection_profile, effective.context,
             device_index, reserve_bytes,

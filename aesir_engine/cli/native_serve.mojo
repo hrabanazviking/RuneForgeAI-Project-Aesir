@@ -6,7 +6,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession,
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.sampling_options import with_sampling_option
 from cli.sampling import sampling_option_name
-from cli.native_settings import resolve_native_settings, native_settings_json
+from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
 from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
@@ -384,10 +384,13 @@ def dispatch_native_serve(args: List[String]) raises:
     var sampling = NativeSamplingConfig()
     var system = String("")
     var show_settings = False
+    var config_path = String("")
     var seen = List[String]()
     var i = 2
     while i < len(args):
         var flag = args[i]
+        if flag == "-c":
+            flag = "--config"
         if flag in seen:
             raise Error("Missing or duplicate service option")
         seen.append(flag)
@@ -424,6 +427,8 @@ def dispatch_native_serve(args: List[String]) raises:
             token_limit = bounded_decimal(value)
         elif flag == "--model-store":
             model_store = value
+        elif flag == "--config":
+            config_path = value
         elif flag == "--system":
             system = value
         elif sampling_option_name(flag) != "":
@@ -439,6 +444,10 @@ def dispatch_native_serve(args: List[String]) raises:
         raise Error("Native service requires valid authentication mode, port, and context")
     if timeout_ms < 1 or timeout_ms > 3600000 or io_timeout_ms < 1 or io_timeout_ms > 30000 or token_limit < 1 or token_limit > 32768:
         raise Error("Invalid native service deadline or token limit")
+    var config = load_native_config(config_path, seen)
+    var config_sampling = native_config_sampling(config)
+    if "--config" in seen:
+        model_store = config.model_store_path
     var key = String("")
     if not ollama and not show_settings:
         key = load_service_key(key_path)
@@ -446,7 +455,7 @@ def dispatch_native_serve(args: List[String]) raises:
     if ollama and not resolved.from_catalog:
         raise Error("Ollama service requires a registered model name")
     var effective = resolve_native_settings(resolved.modelfile_content,
-        sampling, seen, context, token_limit, system)
+        sampling, seen, context, token_limit, system, config_sampling)
     if show_settings:
         print(native_settings_json(effective))
         return

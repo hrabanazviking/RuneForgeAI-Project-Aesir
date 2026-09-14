@@ -875,6 +875,8 @@ def test_cli_flag_options_parser() raises:
     )
     if (
         compact.acceleration_backend != "cuda"
+        or not compact.temperature_was_set
+        or not compact.top_p_was_set
         or compact.num_gpu_layers != -1
         or compact.max_threads != 4
         or not compact.thinking_enabled
@@ -883,6 +885,10 @@ def test_cli_flag_options_parser() raises:
         or compact.top_p != 0.95
     ):
         raise Error("strict compact configuration values were not preserved")
+    var absent_sampling = parse_config_json("{}")
+    var explicit_zero = parse_config_json('{"sampling":{"temperature":0}}')
+    if absent_sampling.temperature_was_set or absent_sampling.top_p_was_set or not explicit_zero.temperature_was_set or explicit_zero.top_p_was_set:
+        raise Error("Configuration lost explicit zero versus omission")
 
     assert_config_json_rejected(
         '{"hardware":{"max_threads":1,}}', "an object trailing comma"

@@ -3,6 +3,39 @@ from core.sampling_config import NativeSamplingConfig
 from core.sampling_options import with_sampling_option, sampling_uint
 from cli.modelfile import parse_modelfile
 from server.api import json_escape_string
+from config import AesirConfig, load_config_file
+
+
+def load_native_config(path: String, seen: List[String]) raises -> AesirConfig:
+    """Resolve explicit selection only, rejecting ambiguity before file access."""
+    if "--config" in seen:
+        if "--model-store" in seen:
+            raise Error("Native --config and --model-store are mutually exclusive")
+        return load_config_file(path)
+    return AesirConfig()
+
+
+def native_config_sampling(config: AesirConfig) raises -> NativeSamplingConfig:
+    """Admit only connected intent; keep neutral legacy schema fields inert."""
+    if config.acceleration_backend != "auto" and config.acceleration_backend != "cuda":
+        raise Error("Native configuration requires auto or cuda acceleration_backend")
+    if config.target_npu != "auto" or config.num_gpu_layers != 0 or config.max_threads != 0:
+        raise Error("Native configuration does not support target_npu, num_gpu_layers or max_threads overrides")
+    if config.skaldbrodir_enabled or config.thinking_enabled:
+        raise Error("Native configuration safety switches are not connected")
+    if config.cia_enabled or config.wic_enabled or config.nsfi_enabled or config.mqari_enabled:
+        raise Error("Native configuration experimental switches are not connected")
+    if config.tui_enabled:
+        raise Error("Native configuration tui_enabled is not connected; use chat --tui")
+    var sampling = NativeSamplingConfig()
+    if config.temperature_was_set:
+        sampling.temperature = Float32(config.temperature)
+        if config.temperature > 0 and sampling.temperature == 0:
+            raise Error("Configuration temperature underflows native Float32")
+    if config.top_p_was_set:
+        sampling.top_p = Float32(config.top_p)
+    sampling.validate()
+    return sampling
 
 
 struct NativeSettings(Copyable, ImplicitlyCopyable):
@@ -29,9 +62,11 @@ def native_recipe_count(value: String) raises -> Int:
 
 
 def resolve_native_settings(content: String, cli: NativeSamplingConfig,
-        seen: List[String], context: Int, max_tokens: Int, system: String) raises -> NativeSettings:
+        seen: List[String], context: Int, max_tokens: Int, system: String,
+        config_sampling: NativeSamplingConfig = NativeSamplingConfig()) raises -> NativeSettings:
     cli.validate()
-    var result = NativeSettings(NativeSamplingConfig(), context, max_tokens, system, "--system" in seen)
+    config_sampling.validate()
+    var result = NativeSettings(config_sampling, context, max_tokens, system, "--system" in seen)
     if content != "":
         var recipe = parse_modelfile(content, True)
         if recipe.system_prompt.byte_length() > 65536:
