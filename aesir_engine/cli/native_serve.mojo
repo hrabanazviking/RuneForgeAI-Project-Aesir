@@ -4,7 +4,8 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    NativeSamplingConfig, ControlledTextSession, GenerationControl,
                    choose_native_cuda_plan, bounded_decimal, monotonic_milliseconds)
 from cli.hardware import parse_device_index, parse_reserve_bytes
-from cli.sampling import with_sampling_option
+from core.sampling_options import with_sampling_option
+from cli.sampling import sampling_option_name
 from cli.interrupts import ChatInterrupts
 from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
@@ -26,12 +27,14 @@ struct GenerateRequest:
     var timeout_ms: Int
     var sampling: NativeSamplingConfig
 
-    def __init__(out self, body: String, token_limit: Int, timeout_limit: Int) raises:
+    def __init__(out self, body: String, token_limit: Int, timeout_limit: Int,
+                 defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        defaults.validate()
         self.prompt = ""
         self.system = "You are a helpful assistant. Keep answers concise."
         self.max_tokens = min(256, token_limit)
         self.timeout_ms = timeout_limit
-        self.sampling = NativeSamplingConfig()
+        self.sampling = defaults
         var parser = FlatJSON(body)
         var fields = parser.fields()
         for field in fields:
@@ -152,7 +155,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
         model: OllamaModelInfo, catalog: List[OllamaModelInfo],
-        device_bytes: Int) raises:
+        device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+    sampling_defaults.validate()
     var listener = listen_local(port)
     var stop = GenerationControl(0, interrupt_fd)
     var sequence = 0
@@ -185,7 +189,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OllamaRequest(raw)
+                        var request = OllamaRequest(raw, sampling_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         else:
@@ -195,7 +199,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OllamaRequest(raw)
+                        var request = OllamaRequest(raw, sampling_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         elif request.num_ctx != 0 and (request.num_ctx < 2 or request.num_ctx > context):
@@ -240,7 +244,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OpenAIRequest(raw)
+                        var request = OpenAIRequest(raw, sampling_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         elif head.path == "/v1/chat/completions" and not request.has_messages:
@@ -307,7 +311,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = GenerateRequest(raw, token_limit, timeout_ms)
+                        var request = GenerateRequest(raw, token_limit, timeout_ms, sampling_defaults)
                         session.reset()
                         session.configure_sampling(request.sampling)
                         session.configure_control(request.timeout_ms, interrupt_fd)
@@ -371,6 +375,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var token_limit = 256
     var ollama = False
     var model_store = String(".aesir/models")
+    var sampling = NativeSamplingConfig()
     var seen = List[String]()
     var i = 2
     while i < len(args):
@@ -407,6 +412,8 @@ def dispatch_native_serve(args: List[String]) raises:
             token_limit = bounded_decimal(value)
         elif flag == "--model-store":
             model_store = value
+        elif sampling_option_name(flag) != "":
+            sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
             raise Error("Unsupported service option")
         i += 2
@@ -450,9 +457,9 @@ def dispatch_native_serve(args: List[String]) raises:
     else:
         catalog.append(model_info)
     if plan.profile == "llama3" or plan.profile == "qwen3":
-        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes)
+        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling)
     else:
-        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes)
+        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling)
     _ = interrupts

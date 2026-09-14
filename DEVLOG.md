@@ -1,3 +1,17 @@
+## 2026-09-14 — Application program S07a: service sampling defaults
+
+Moved pure sampling value parsing/update validation from CLI into core while
+preserving the CLI adapter. Added all seven native sampling flags to `serve`.
+The startup policy configures allocation and becomes an immutable baseline for
+native/OpenAI/Ollama requests; explicit fields override it without contaminating
+subsequent requests. Existing per-protocol unsupported fields remain rejected,
+including request-time repetition-window changes. Cross-adapter tables cover
+three baselines, six native/Ollama fields and three OpenAI fields, zero values,
+inheritance, invalid defaults and unchanged baselines. Native build, full suite
+(182 pass, 0 fail, 1 existing fixture skip), service flag admission and Home PTY
+regressions pass. Recipe/config and token/context layering remain S07 follow-ups;
+no new physical inference or external API parity claim.
+
 ## 2026-09-13 — Application program S06b: Windows/desktop entry plumbing
 
 Added the PowerShell WSL launcher with optional distribution, prerequisite

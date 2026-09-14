@@ -108,6 +108,8 @@ def print_general_help():
     print("      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N]")
     print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
     print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
+    print("      Sampling defaults: --temperature, --top-k, --top-p, --min-p,")
+    print("      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.")
     print("  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]")
     print("      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback")
     print("      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.")

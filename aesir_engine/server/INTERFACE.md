@@ -21,6 +21,18 @@ legacy primitives/formatters, not an exposed compatibility service.
 
 ## Public Structs & Functions
 
+### Sampling precedence (S07a)
+
+`OpenAIRequest` and `OllamaRequest` accept an optional validated
+`NativeSamplingConfig` baseline. The native `GenerateRequest` does likewise.
+Construction copies it, then applies only supplied fields using core sampling
+validation; explicit zero temperature/seed are not treated as missing. The
+loaded service passes the same startup baseline to every request, independently
+of the last session policy. No protocol imports CLI sampling syntax anymore.
+Existing supported-field sets are unchanged: OpenAI permits temperature/top_p/
+seed; native and Ollama additionally permit top_k/min_p/repeat_penalty.
+Requests cannot change repeat_last_n after allocation.
+
 `api.mojo::json_escape_string` preserves complete UTF-8 spans and escapes JSON
 quotes, backslashes, and ASCII control characters. It is shared by CLI JSON
 renderers and protocol formatters; callers provide admitted `String` values.

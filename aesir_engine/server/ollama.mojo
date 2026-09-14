@@ -6,7 +6,7 @@ service are represented here. Unknown request fields and options fail closed.
 from aesir import NativeSamplingConfig, bounded_decimal
 from std.collections import InlineArray
 from std.ffi import external_call
-from cli.sampling import with_sampling_option
+from core.sampling_options import with_sampling_option
 from server.api import json_escape_string
 from server.local_protocol import FlatJSON
 
@@ -22,14 +22,15 @@ struct OllamaRequest:
     var has_prompt: Bool
     var has_messages: Bool
 
-    def __init__(out self, body: String) raises:
+    def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        defaults.validate()
         self.model = ""
         self.prompt = ""
         self.system = ""
         self.chat_prompt = ""
         self.stream = True
         self.num_ctx = 0
-        self.sampling = NativeSamplingConfig()
+        self.sampling = defaults
         self.has_prompt = False
         self.has_messages = False
         var parser = FlatJSON(body)

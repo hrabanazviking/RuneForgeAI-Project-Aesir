@@ -40,8 +40,8 @@ Model imports and preference repair application are never implicit menu actions.
 
 ## Native CUDA chat controls
 
-`cli/sampling.mojo` validates native sampling flags and interactive setting
-values. `cuda_chat.mojo` owns `/help`, `/show`, `/clear`, `/new`, `/save`,
+`cli/sampling.mojo` maps native sampling flags and re-exports core value
+validation for interactive settings. `cuda_chat.mojo` owns `/help`, `/show`, `/clear`, `/new`, `/save`,
 `/load`, `/export`, `/set` and `/bye`,
 reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
@@ -62,6 +62,15 @@ export. Snapshots bind the exact committed token IDs and sampler draw position
 to the open model inode's SHA-256, profile, context, system prompt, and sampling
 identity. Compatibility is checked before reset; core session restore then
 replays validated tokens into empty KV without sampling or retokenizing text.
+
+## Native service sampling defaults
+
+`serve` accepts the same seven native sampling flags as `chat`. The resulting
+config is passed both to the allocated session and to the service's immutable
+request baseline. Each request copies that baseline before applying explicit
+fields; request-specific changes never become defaults for the next request.
+`repeat-last-n` is a startup-only allocation choice. Recipe/config layering and
+token/context precedence are separate S07 follow-ups, not implied here.
 
 ## Catalog store selection
 

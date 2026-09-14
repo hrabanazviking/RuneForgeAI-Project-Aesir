@@ -51,6 +51,24 @@ messages, remote listening, or streaming.
 
 ## Start and call
 
+### Sampling defaults and request overrides
+
+`serve` accepts `--temperature`, `--top-k`, `--top-p`, `--min-p`,
+`--repeat-penalty`, `--repeat-last-n` and `--seed`, with the same native grammar,
+ranges and defaults as `chat`. Repetition-window size is fixed at startup.
+For sampling, precedence is native defaults < explicit serve flags < explicit
+request fields. Omitted request fields inherit the service baseline, not the
+previous request's settings; temperature 0 and seed 0 are explicit overrides.
+Unsupported request fields still fail instead of being silently ignored.
+Recipe/config defaults and token/context precedence are not unified by S07a.
+
+For example, starting with `--temperature 0.8 --top-k 20 --seed 99` and sending
+an OpenAI request with `"temperature":0` uses greedy temperature with top-k 20
+and seed 99 still present in its effective policy. The next request without
+sampling fields starts again from temperature 0.8, top-k 20 and seed 99.
+
+### Authenticated service
+
 Build the native executable as described in [the runtime guide](NATIVE_RUNTIME.md).
 Create a random service key natively in a protected Linux directory. The file must be a
 regular file owned by the current effective user, with no group/other permission

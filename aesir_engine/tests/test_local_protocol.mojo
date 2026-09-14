@@ -4,6 +4,8 @@ from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
 from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps
 from server.openai import OpenAIRequest, OpenAIGate
+from core.sampling_config import NativeSamplingConfig
+from cli.sampling import with_sampling_option
 
 
 def test_local_path_bounds() raises:
@@ -122,7 +124,71 @@ def main() raises:
     print("PASS bounded JSON and HTTP rejection")
 
 
+def test_sampling_default_precedence() raises:
+    var baselines = List[NativeSamplingConfig]()
+    baselines.append(NativeSamplingConfig())
+    baselines.append(NativeSamplingConfig(0.8, 12, 0.7, 0.1, 1.2, 128, 99))
+    baselines.append(NativeSamplingConfig(1, 256, 1, 1, 0.5, 8192, UInt64(18446744073709551615)))
+    var names: List[String] = ["temperature", "top_p", "seed", "top_k", "min_p", "repeat_penalty"]
+    var cli_names: List[String] = ["temperature", "top-p", "seed", "top-k", "min-p", "repeat-penalty"]
+    var values: List[String] = ["0", "0.5", "0", "20", "0.25", "1.1"]
+    for baseline in baselines:
+        var original = baseline.description()
+        for index in range(len(names)):
+            var field = "\"" + names[index] + "\":" + values[index]
+            var expected = with_sampling_option(baseline, cli_names[index], values[index])
+            var native = GenerateRequest("{\"prompt\":\"x\"," + field + "}", 64, 1000, baseline)
+            var ollama = OllamaRequest("{\"model\":\"m\",\"prompt\":\"x\",\"options\":{" + field + "}}", baseline)
+            if native.sampling.description() != expected.description() or ollama.sampling.description() != expected.description():
+                raise Error("CLI/native/Ollama sampling precedence differs: " + names[index])
+            if index < 3:
+                var openai = OpenAIRequest("{\"model\":\"m\",\"prompt\":\"x\"," + field + "}", baseline)
+                if openai.sampling.description() != expected.description():
+                    raise Error("CLI/OpenAI sampling precedence differs: " + names[index])
+            else:
+                var rejected = False
+                try:
+                    _ = OpenAIRequest("{\"model\":\"m\",\"prompt\":\"x\"," + field + "}", baseline)
+                except:
+                    rejected = True
+                if not rejected:
+                    raise Error("OpenAI accepted an unsupported sampling field")
+        var native = GenerateRequest("{\"prompt\":\"next\"}", 64, 1000, baseline)
+        var ollama = OllamaRequest("{\"model\":\"m\",\"prompt\":\"next\"}", baseline)
+        var openai = OpenAIRequest("{\"model\":\"m\",\"prompt\":\"next\"}", baseline)
+        if native.sampling.description() != original or ollama.sampling.description() != original or openai.sampling.description() != original or baseline.description() != original:
+            raise Error("Request sampling leaked into immutable defaults or later requests")
+    for adapter in range(3):
+        var invalid = NativeSamplingConfig()
+        invalid.top_k = 0
+        var rejected = False
+        try:
+            if adapter == 0:
+                _ = GenerateRequest("{\"prompt\":\"x\"}", 64, 1000, invalid)
+            elif adapter == 1:
+                _ = OllamaRequest("{\"model\":\"m\"}", invalid)
+            else:
+                _ = OpenAIRequest("{\"model\":\"m\"}", invalid)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Invalid service sampling defaults accepted")
+        rejected = False
+        try:
+            if adapter == 0:
+                _ = GenerateRequest("{\"prompt\":\"x\",\"repeat_last_n\":12}", 64, 1000)
+            elif adapter == 1:
+                _ = OllamaRequest("{\"model\":\"m\",\"options\":{\"repeat_last_n\":12}}")
+            else:
+                _ = OpenAIRequest("{\"model\":\"m\",\"repeat_last_n\":12}")
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Request changed session-owned repetition window")
+
+
 def test_local_generation_request() raises:
+    test_sampling_default_precedence()
     var valid = GenerateRequest("{\"prompt\":\"Halló 🌊\",\"seed\":18446744073709551615,\"max_tokens\":16}", 64, 1000)
     if valid.prompt != "Halló 🌊" or valid.sampling.seed != UInt64(18446744073709551615) or valid.max_tokens != 16:
         raise Error("Native generation request lost text or integer precision")

@@ -5,7 +5,7 @@ from server.api import json_escape_string
 from server.local_protocol import FlatJSON
 from core.sampling_config import NativeSamplingConfig
 from core.native_hardware import bounded_decimal
-from cli.sampling import with_sampling_option
+from core.sampling_options import with_sampling_option
 from std.collections import InlineArray
 from std.ffi import external_call
 
@@ -22,14 +22,15 @@ struct OpenAIRequest:
     var sampling: NativeSamplingConfig
     var has_messages: Bool
 
-    def __init__(out self, body: String) raises:
+    def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        defaults.validate()
         self.model = ""
         self.prompt = ""
         self.system = ""
         self.chat_prompt = ""
         self.stream = False
         self.max_tokens = 0
-        self.sampling = NativeSamplingConfig()
+        self.sampling = defaults
         self.has_messages = False
         var parser = FlatJSON(body)
         parser.take(123)

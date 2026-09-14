@@ -46,6 +46,11 @@ mapping/staging/output in host admission. See `docs/NATIVE_RUNTIME.md`.
 
 ### Native CUDA sampling and session controls
 
+`core/sampling_options.mojo` owns the pure unsigned decimal/UInt64 grammar and
+copy-on-update `with_sampling_option` validation shared by CLI, interactive
+sessions and protocol parsers. It depends only on the core sampling policy;
+HTTP/CLI naming and accepted-field sets remain with their adapters.
+
 `NativeSamplingConfig` owns validated temperature/top-k/top-p/min-p/repetition
 and UInt64 seed policy. Both CUDA constructors accept `sampling` after
 `reserve_bytes`; default construction preserves greedy selection.

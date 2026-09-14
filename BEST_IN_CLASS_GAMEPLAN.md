@@ -387,13 +387,35 @@ Every row is initially queued unless the execution record says otherwise.
   passed through the real Windows wrapper. Four Linux platform tests (including
   Gio/GLib parsing) and nine launcher tests pass. Network-isolated native Home
   PTY harness passed again. Engine source remains unchanged from S05.
-  Implementation sub-slice verified; push pending.
+  Implementation sub-slice done; pushed as `0c76d82`.
 - Remaining S06 parent gates: coordinated cold-host/WSL startup and graphical
   desktop click-through. No active WSL sessions were terminated; no desktop UI
   witness is inferred from parser execution. Keep S06 open until those witnesses
   exist. Next independent development is S07, subject to its listed dependencies.
 
-### S07–S48
+### S07 — Generation settings and precedence
+
+- Status: active. S03 dependency was published as `2e13fd4`; S06's physical
+  launch witnesses do not block this independent settings work.
+- S07a contract: move pure native sampling parsing/update validation to core,
+  retaining the CLI adapter. Add `serve` sampling flags as immutable service
+  defaults. Native/OpenAI/Ollama request constructors inherit that baseline and
+  override only supplied fields; request N cannot change request N+1 defaults.
+  Explicit zero temperature/seed are real overrides. Unsupported API fields
+  remain rejected, including repetition-window changes after allocation.
+- Gate: cross-adapter table tests compare full effective settings, default
+  inheritance, explicit zero, unsupported fields and no source mutation. Native
+  CLI errors must reject invalid flags before key/model access. Build and full
+  counted suite pass. No new physical inference or external API parity claim.
+- S07b remains recipe/config layering and effective-settings reporting; token,
+  context and session precedence still need explicit completion evidence.
+- S07a results: focused `test_local_protocol.mojo` passed; explicit offline
+  `python3 scripts/launch.py --build` rebuilt the current launcher executable.
+  Full counted suite passed 182/0/1 (183 total). Built
+  `test_native_service_settings.py` and `test_native_home.py` passed against
+  `.aesir/launch/aesir`. S07a verified; push pending. S07 remains active.
+
+### S08–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

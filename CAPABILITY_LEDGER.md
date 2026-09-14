@@ -499,6 +499,15 @@ the complete ledger population.
 - **Claim sources:** native CUDA chat controls; sampler stack
 - **Implementation evidence:** `NativeSamplingConfig`, `NativeCUDASampler` and native CUDA partition/merge kernels implement stable exact top-k (1..256), temperature, min-p, nucleus filtering, SplitMix64 seeds and device repetition history. Both CUDA model sessions and `chat` use this implementation. Plain greedy remains the default.
 - **Executable evidence:** Three counted configuration/parser tests plus `scripts/test_cuda_sampling.py`: 896 physical CUDA selections match an independent CPU sort/probability reference across 14 cases, including reset/replay, masked EOS, ties, non-finite rejection and repetition eviction. Pinned CPU greedy token parity remains passing.
+- **S07a settings evidence:** Pure sampling value parsing lives in core, with a
+  CLI flag adapter. `serve` accepts all seven native sampling defaults and passes
+  the immutable baseline to native/OpenAI/Ollama request parsers. The counted
+  `local_service.request` test compares full settings across three baselines,
+  explicit zero overrides, inheritance, later-request isolation and unsupported
+  field rejection. `test_native_service_settings.py` passes actual-process
+  pre-key admission for all flags; build and counted suite pass (182/0/1).
+  This proves settings resolution/admission, not a new physical HTTP inference
+  witness. Recipe/config layering and token/context precedence remain open.
 - **Additional bounded component:** `SkaldbrodirDetector` computes exact periodicity over at most 64 caller-supplied token IDs, emits intervention tiers, and requires two terminal observations before `INF-016`. The counted paradigm test covers repeated-token termination and a non-repeating sequence.
 - **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. SKÁLDBRØÐIR is not connected to generation and does not itself apply a penalty or stop a session. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
 - **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets, and measured integration of repetition intervention signals.
