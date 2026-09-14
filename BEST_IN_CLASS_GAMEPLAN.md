@@ -413,7 +413,21 @@ Every row is initially queued unless the execution record says otherwise.
   `python3 scripts/launch.py --build` rebuilt the current launcher executable.
   Full counted suite passed 182/0/1 (183 total). Built
   `test_native_service_settings.py` and `test_native_home.py` passed against
-  `.aesir/launch/aesir`. S07a verified; push pending. S07 remains active.
+  `.aesir/launch/aesir`. S07a done; pushed as `b5805f3`. S07 remains active.
+- S07b1 active: before runtime layering, harden the existing generic Modelfile
+  conversion. Use strict bounded numeric parsing, reject unknown conversion
+  parameters and duplicate PARAMETER entries, preserve literal parameter values,
+  and make the conversion's context/default token limit explicit. Do not alter
+  legacy parse_int/parse_float consumers or claim native recipe execution.
+  Gate: malformed/overflow/zero/UInt64 boundary tests, duplicates, literal stop
+  values, known unsupported fields, default and explicit context bounds; full
+  counted suite, fresh build and existing model-store process regressions.
+- S07b1 results: regression failed before implementation on accepted
+  `temperature 0.8junk`; focused CLI tests now pass. Fresh offline launcher build
+  and counted suite pass (182 passed, 0 failed, 1 existing fixture skip).
+  Native recipe admission and complete model-store harnesses pass; doc drift
+  passes with pre-existing artifact warnings. S07b1 verified, push pending.
+  Next is native recipe/config layering, not S08; S07 remains incomplete.
 
 ### S08–S48
 

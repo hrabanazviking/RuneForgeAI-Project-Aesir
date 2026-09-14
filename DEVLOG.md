@@ -1,3 +1,18 @@
+## 2026-09-14 — Application program S07b1: recipe admission before layering
+
+Reproduced generic recipe conversion accepting `temperature 0.8junk`. Conversion
+now uses strict core numeric parsing, checks signed-count range, preserves full
+UInt64 seeds, handles signed presence/frequency penalties and applies min_p.
+Unknown conversion parameters fail. Its explicit positive context controls the
+omitted token limit (min(16000, context)); explicit oversized limits still fail.
+Duplicate PARAMETER keys no longer overwrite silently, and literal key/directive
+words inside values are preserved rather than globally removed. Generic ranges
+remain distinct from native CUDA ranges; legacy parsing helpers were not changed.
+Focused tests, fresh offline build and full suite pass (182/0/1). Native recipe
+rejection preserves existing catalog bytes; all model-store process regressions
+and doc-drift checks pass. No native recipe/config layering or new physical
+inference claim is made by this prerequisite fix.
+
 ## 2026-09-14 — Application program S07a: service sampling defaults
 
 Moved pure sampling value parsing/update validation from CLI into core while

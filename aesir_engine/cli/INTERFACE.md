@@ -175,7 +175,7 @@ struct Modelfile(Copyable):
     def __init__(out self): ...
     def __init__(out self, from_model: String, parameters: Dict[String, String], system_prompt: String, template: String, license_info: String, messages: List[String]): ...
     def copy(self) -> Self: ...
-    def to_generation_config(self) raises -> GenerationConfig: ...
+    def to_generation_config(self, context_length: Int = 4096) raises -> GenerationConfig: ...
 ```
 
 ### `parse_modelfile` (`cli/modelfile.mojo`)
@@ -184,6 +184,24 @@ Parses raw Modelfile text content into a structured `Modelfile` runestone. Handl
 ```mojo
 def parse_modelfile(content: String) raises -> Modelfile: ...
 ```
+
+Duplicate `PARAMETER` keys (including repeated `stop`) are rejected, not
+last-write-wins. Parameter extraction removes only the directive/key prefixes;
+literal occurrences of those words within a quoted value are preserved.
+Users must resolve duplicate settings explicitly; existing files are not edited.
+
+Generic `to_generation_config(context_length=4096)` recognizes `num_predict`,
+`temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `presence_penalty`,
+`frequency_penalty`, `stop`, and `seed`; unknown conversion parameters fail.
+Numbers use the bounded core unsigned decimal/UInt64 grammar, with an optional
+minus only for presence/frequency penalties. Count conversion checks Int range;
+seeds preserve full UInt64 precision. Omitted token limit is
+`min(16000, context_length)`; explicit limits are validated, never clamped.
+Context must be positive. The generic config's ranges remain distinct from
+native CUDA limits. `num_ctx` is not consumed here: pass context explicitly.
+This conversion does not yet imply native chat/service recipe layering.
+Legacy permissive `parse_int`/`parse_float` helpers and their other consumers
+are unchanged by this bounded admission fix.
 
 ---
 

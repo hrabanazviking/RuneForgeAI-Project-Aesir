@@ -3,6 +3,20 @@
 
 from std.collections import Dict
 from aesir import GenerationConfig
+from core.sampling_options import sampling_uint, sampling_decimal
+
+
+def generation_recipe_int(value: String) raises -> Int:
+    var number = sampling_uint(value)
+    if number > UInt64(9223372036854775807):
+        raise Error("Recipe integer exceeds Int range")
+    return Int(number)
+
+
+def generation_recipe_penalty(value: String) raises -> Float32:
+    if value.startswith("-"):
+        return -sampling_decimal(String(value[byte=1:]))
+    return sampling_decimal(value)
 
 
 @always_inline
@@ -134,28 +148,36 @@ struct Modelfile(Copyable):
             self.messages.copy()
         )
 
-    def to_generation_config(self) raises -> GenerationConfig:
+    def to_generation_config(self, context_length: Int = 4096) raises -> GenerationConfig:
         """Converts parsed Modelfile parameters into a validated GenerationConfig."""
-        var config = GenerationConfig()
+        if context_length < 1:
+            raise Error("Recipe conversion context must be positive")
+        var supported: List[String] = ["num_predict", "temperature", "top_k", "top_p", "min_p", "repeat_penalty", "presence_penalty", "frequency_penalty", "stop", "seed"]
+        for name in self.parameters.keys():
+            if name not in supported:
+                raise Error("Unsupported GenerationConfig recipe parameter: " + name)
+        var config = GenerationConfig(max_new_tokens=min(16000, context_length))
         if "num_predict" in self.parameters:
-            config.max_new_tokens = parse_int(self.parameters["num_predict"])
+            config.max_new_tokens = generation_recipe_int(self.parameters["num_predict"])
         if "temperature" in self.parameters:
-            config.temperature = parse_float(self.parameters["temperature"])
+            config.temperature = sampling_decimal(self.parameters["temperature"])
         if "top_k" in self.parameters:
-            config.top_k = parse_int(self.parameters["top_k"])
+            config.top_k = generation_recipe_int(self.parameters["top_k"])
         if "top_p" in self.parameters:
-            config.top_p = parse_float(self.parameters["top_p"])
+            config.top_p = sampling_decimal(self.parameters["top_p"])
+        if "min_p" in self.parameters:
+            config.min_p = sampling_decimal(self.parameters["min_p"])
         if "repeat_penalty" in self.parameters:
-            config.repetition_penalty = parse_float(self.parameters["repeat_penalty"])
+            config.repetition_penalty = sampling_decimal(self.parameters["repeat_penalty"])
         if "presence_penalty" in self.parameters:
-            config.presence_penalty = parse_float(self.parameters["presence_penalty"])
+            config.presence_penalty = generation_recipe_penalty(self.parameters["presence_penalty"])
         if "frequency_penalty" in self.parameters:
-            config.frequency_penalty = parse_float(self.parameters["frequency_penalty"])
+            config.frequency_penalty = generation_recipe_penalty(self.parameters["frequency_penalty"])
         if "stop" in self.parameters:
             config.stop_strings.append(self.parameters["stop"])
         if "seed" in self.parameters:
-            config.seed = UInt64(parse_int(self.parameters["seed"]))
-        config.validate()
+            config.seed = sampling_uint(self.parameters["seed"])
+        config.validate(context_length)
         return config^
 
 
@@ -230,11 +252,13 @@ def parse_modelfile(content: String) raises -> Modelfile:
             else:
                 modelfile.license_info = unescape_string(strip_quotes(val_str))
         elif line.startswith("PARAMETER "):
-            var param_line = String(line.replace("PARAMETER ", "").strip())
-            var parts = param_line.split(" ")
-            if len(parts) >= 2:
-                var key = String(parts[0]).strip()
-                var raw_val_str = String(param_line.replace(String(key) + " ", "").strip())
+            var param_line = String(String(line[byte=10:]).strip())
+            var separator = param_line.find(" ")
+            if separator > 0 and separator + 1 < param_line.byte_length():
+                var key = String(param_line[byte=0:separator])
+                if key in modelfile.parameters:
+                    raise Error("Duplicate Modelfile PARAMETER: " + key)
+                var raw_val_str = String(String(param_line[byte=separator + 1:]).strip())
                 var val = unescape_string(strip_quotes(raw_val_str))
                 modelfile.parameters[String(key)] = String(val)
             else:

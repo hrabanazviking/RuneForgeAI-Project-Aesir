@@ -51,6 +51,9 @@ jobs:
       - name: Prove Service Sampling Flag Admission
         run: python3 scripts/test_native_service_settings.py --binary /tmp/aesir-ci-build
 
+      - name: Prove Duplicate Recipe Rejection Preserves Catalog
+        run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build
+
       - name: Prove Offline Build and Launch Plumbing
         run: python3 scripts/test_launch.py
 

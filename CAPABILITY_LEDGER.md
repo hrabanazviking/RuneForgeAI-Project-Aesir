@@ -609,7 +609,16 @@ the complete ledger population.
 - **Claim sources:** TODO complete Ollama command suite; CLI interface
 - **Implementation evidence:** `parse_modelfile()` in `cli/modelfile.mojo` supporting single/double/triple-quote multiline directives (`SYSTEM`, `TEMPLATE`, `LICENSE`), escape unescaping, and `to_generation_config()` conversion.
 - **Executable evidence:** `E-MASTER` case `cli.modelfile_parser` in `test_cli.mojo`.
+- **S07b1 admission:** Conversion uses bounded core numeric grammar rather than
+  digit-skipping legacy helpers, validates explicit context/token limits,
+  preserves UInt64 seeds and applies min_p. Unknown conversion parameters and
+  duplicate PARAMETER keys fail; quoted parameter text is not globally replaced.
+  Regression first reproduced acceptance of `temperature 0.8junk`; focused
+  parser tests pass after the fix. Native catalog rejection is covered by
+  `scripts/test_native_recipe_settings.py`.
 - **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
+- **Layering boundary:** Generic conversion is not native recipe application;
+  chat/service recipe/config precedence remains an active S07 follow-up.
 - **Audit:** AER-060, AER-067.
 
 ### AES-CLI-004 — Durable model catalog and content-addressed blob store

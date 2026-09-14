@@ -138,6 +138,7 @@ def test_modelfile_parser() raises:
         raise Error("to_generation_config top_k mismatch")
 
     # Test missing FROM validation
+    test_modelfile_setting_admission()
     var missing_from = False
     try:
         _ = parse_modelfile("PARAMETER temperature 0.5")
@@ -147,6 +148,55 @@ def test_modelfile_parser() raises:
         raise Error("parse_modelfile must fail when FROM directive is missing")
 
     print("Modelfile directive parser & GenerationConfig integration: PASS")
+
+
+def test_modelfile_setting_admission() raises:
+    var cases: List[String] = [
+        "temperature 0.8junk", "temperature NaN", "temperature 1.2.3",
+        "top_k 1x2", "top_k 9223372036854775808", "num_predict 18446744073709551616",
+        "seed -1", "seed 18446744073709551616", "top_p 1e-1",
+        "presence_penalty -1junk", "frequency_penalty +1", "unknown_option 1",
+        "min_p 1.1", "num_ctx 16384", "temperature 99999999999999999999999999999999999999999999999999",
+    ]
+    for parameter in cases:
+        var rejected = False
+        try:
+            var recipe = parse_modelfile("FROM m.gguf\nPARAMETER " + parameter)
+            _ = recipe.to_generation_config()
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Malformed recipe setting accepted: " + parameter)
+    var duplicate = False
+    try:
+        _ = parse_modelfile("FROM m.gguf\nPARAMETER temperature 0.1\nPARAMETER temperature 0.9")
+    except:
+        duplicate = True
+    if not duplicate:
+        raise Error("Duplicate recipe parameter silently overwritten")
+    var literal = parse_modelfile("FROM m.gguf\nPARAMETER stop \"stop here PARAMETER now\"")
+    if literal.parameters["stop"] != "stop here PARAMETER now":
+        raise Error("Recipe parameter text was globally replaced")
+    var bounded = parse_modelfile("FROM m.gguf\nPARAMETER seed 18446744073709551615\nPARAMETER presence_penalty -1.5\nPARAMETER frequency_penalty -0.25")
+    var config = bounded.to_generation_config()
+    if config.seed != UInt64(18446744073709551615) or config.max_new_tokens != 4096 or config.presence_penalty != -1.5 or config.frequency_penalty != -0.25:
+        raise Error("Recipe defaults or signed penalty/seed boundaries corrupted")
+    var zero = parse_modelfile("FROM m.gguf\nPARAMETER temperature 0\nPARAMETER seed 0\nPARAMETER top_k 0")
+    var zeros = zero.to_generation_config()
+    if zeros.seed != 0 or zeros.temperature != 0 or zeros.top_k != 0:
+        raise Error("Explicit recipe zeros treated as omitted")
+    var context_recipe = parse_modelfile("FROM m.gguf\nPARAMETER min_p 0.1")
+    var small = context_recipe.to_generation_config(128)
+    if small.max_new_tokens != 128 or small.min_p != Float32(0.1):
+        raise Error("Explicit conversion context or min-p ignored")
+    var explicit_limit = parse_modelfile("FROM m.gguf\nPARAMETER num_predict 129")
+    var too_large = False
+    try:
+        _ = explicit_limit.to_generation_config(128)
+    except:
+        too_large = True
+    if not too_large:
+        raise Error("Explicit recipe limit silently clamped")
 
 
 def test_model_manifest_store() raises:
