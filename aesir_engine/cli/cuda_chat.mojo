@@ -4,6 +4,7 @@ from std.collections import InlineArray
 from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda_plan, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from cli.sampling import with_sampling_option, sampling_option_name
+from cli.native_settings import resolve_native_settings, native_settings_json
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference
@@ -119,6 +120,12 @@ def requested_model_switch(
     var resolved = resolve_model_reference(target, model_store)
     if resolved.path == current_path:
         raise Error("Requested model is already loaded")
+    # Reject unsupported/malformed recipe intent while the current session is
+    # still alive. Context/reply combination depends on retained explicit flags
+    # and is checked by the next outer launch, as is hardware fit.
+    var retained_limits: List[String] = ["--context", "--max-tokens"]
+    _ = resolve_native_settings(resolved.modelfile_content, NativeSamplingConfig(),
+        retained_limits, 0, 0, "")
     var model = PackedGGUF(resolved.path)
     var compatibility = ModelArchitectureRegistry.inspect(model)
     if compatibility.status != "READY" or not compatibility.cuda_support:
@@ -270,6 +277,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var sampling = NativeSamplingConfig()
     var timeout_ms = 0
     var tui = False
+    var show_settings = False
     var model_store = String(".aesir/models")
     var inherited_log_fd = -1
     var seen = List[String]()
@@ -285,6 +293,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
         seen.append(flag)
         if flag == "--tui":
             tui = True
+            i += 1
+            continue
+        if flag == "--show-settings":
+            show_settings = True
             i += 1
             continue
         if i + 1 == len(args):
@@ -339,6 +351,13 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Qwen 3 context must be within 2..32768")
         if "--max-tokens" in seen and max_tokens > 32768:
             raise Error("Qwen 3 completion limit must be within 1..32768")
+    if show_settings:
+        if model_reference == "":
+            raise Error("Settings preview requires an explicit model reference")
+        var resolved = resolve_model_reference(model_reference, model_store)
+        print(native_settings_json(resolve_native_settings(resolved.modelfile_content,
+            sampling, seen, context_length, max_tokens, system)))
+        return
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
     if model_reference == "":
@@ -363,15 +382,17 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var selection_profile = profile
     while True:
         var resolved = resolve_model_reference(model_reference, model_store)
+        var effective = resolve_native_settings(resolved.modelfile_content,
+            sampling, seen, requested_context, requested_max_tokens, system)
         var selection = choose_native_cuda_plan(
-            resolved.path, selection_profile, requested_context,
+            resolved.path, selection_profile, effective.context,
             device_index, reserve_bytes,
         )
         var detected = selection.plan.copy()
         device_index = selection.device_index
         context_length = detected.context_length
-        max_tokens = requested_max_tokens
-        if requested_max_tokens == 0:
+        max_tokens = effective.max_tokens
+        if effective.max_tokens == 0:
             max_tokens = default_chat_max_tokens(
                 detected.profile, detected.variant, context_length
             )
@@ -387,16 +408,16 @@ def dispatch_cuda_chat(args: List[String]) raises:
         var switch: ChatSwitchRequest
         if detected.profile == "llama3" or detected.profile == "qwen3":
             switch = run_llama_chat(
-                resolved.path, context_length, max_tokens, system, prompts,
+                resolved.path, context_length, max_tokens, effective.system, prompts,
                 prompts_path != "", transcript, device_index, reserve_bytes,
-                sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
+                effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
                 resolved.requested, model_store,
             )
         else:
             switch = run_gemma_chat(
-                resolved.path, context_length, max_tokens, system, prompts,
+                resolved.path, context_length, max_tokens, effective.system, prompts,
                 prompts_path != "", transcript, device_index, reserve_bytes,
-                sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
+                effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
                 resolved.requested, model_store,
             )
         if switch.target == "":
@@ -405,7 +426,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
         transcript.flush()
         exec_chat_model_switch(
             switch.target, model_store, device_index, reserve_bytes,
-            requested_context, requested_max_tokens, system, switch.sampling,
+            requested_context, requested_max_tokens, effective.system, switch.sampling,
             switch.timeout_ms, tui, transcript.fd,
         )
     _ = interrupts

@@ -69,8 +69,38 @@ replays validated tokens into empty KV without sampling or retokenizing text.
 config is passed both to the allocated session and to the service's immutable
 request baseline. Each request copies that baseline before applying explicit
 fields; request-specific changes never become defaults for the next request.
-`repeat-last-n` is a startup-only allocation choice. Recipe/config layering and
-token/context precedence are separate S07 follow-ups, not implied here.
+`repeat-last-n` is a startup-only allocation choice. Native recipe layering is
+described below; config files and remaining session/token precedence gates are
+separate S07 follow-ups.
+
+## Native recipe and explicit-CLI settings
+
+`cli/native_settings.mojo` owns a shared pre-planning resolver used by chat and
+serve. Native defaults are overlaid by the registered model's recipe, then only
+explicit CLI fields. Stored `num_ctx`/`num_predict` request context/reply limits;
+the seven native sampling parameters and `SYSTEM` are applied. Explicit zero
+temperature/seed and empty CLI/recipe system prompts are preserved. Direct GGUF
+paths have no stored recipe. FROM identifies recipe metadata, not a second load.
+
+Strict native parsing accepts FROM, PARAMETER, SYSTEM and LICENSE; TEMPLATE,
+MESSAGE, unknown directives, duplicate singleton directives, custom stops,
+presence/frequency penalties and other unsupported parameters are rejected.
+Invalid numeric recipe values are rejected even when a CLI flag overrides them.
+The permissive catalog grammar remains separate so recipes can still be stored
+and inspected without claiming they are natively executable.
+
+`chat <model> --accel cuda --show-settings` and `serve <model> --accel cuda
+--show-settings` emit one versioned JSON object from this resolver. No GPU
+session, listener, key, transcript or prompt file is opened. Catalog references
+still resolve/verify their stored blobs. Context/reply request 0 means automatic,
+not an observed capacity. Preview does not inspect model architecture or establish
+execution/fit; direct-path preview can describe a nonexistent path's defaults.
+
+During `/model`, target recipe syntax/value support is checked before the current
+session is released. Existing handoff retains current sampling/system as explicit
+CLI values; only originally explicit context/reply limits carry over, so otherwise
+the target recipe supplies those requests. Final combined limits and hardware fit
+are checked after handoff. Physical switches with recipes remain unverified.
 
 ## Catalog store selection
 
@@ -182,7 +212,7 @@ struct Modelfile(Copyable):
 Parses raw Modelfile text content into a structured `Modelfile` runestone. Handles multiline triple quotes `"""..."""` and escape unescaping. Raises catchable `Error` if `FROM` directive is missing.
 
 ```mojo
-def parse_modelfile(content: String) raises -> Modelfile: ...
+def parse_modelfile(content: String, strict_native: Bool = False) raises -> Modelfile: ...
 ```
 
 Duplicate `PARAMETER` keys (including repeated `stop`) are rejected, not
@@ -199,7 +229,7 @@ seeds preserve full UInt64 precision. Omitted token limit is
 `min(16000, context_length)`; explicit limits are validated, never clamped.
 Context must be positive. The generic config's ranges remain distinct from
 native CUDA limits. `num_ctx` is not consumed here: pass context explicitly.
-This conversion does not yet imply native chat/service recipe layering.
+This generic conversion is separate from the native recipe resolver above.
 Legacy permissive `parse_int`/`parse_float` helpers and their other consumers
 are unchanged by this bounded admission fix.
 

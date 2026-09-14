@@ -6,6 +6,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession,
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.sampling_options import with_sampling_option
 from cli.sampling import sampling_option_name
+from cli.native_settings import resolve_native_settings, native_settings_json
 from cli.interrupts import ChatInterrupts
 from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
@@ -28,10 +29,13 @@ struct GenerateRequest:
     var sampling: NativeSamplingConfig
 
     def __init__(out self, body: String, token_limit: Int, timeout_limit: Int,
-                 defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+                 defaults: NativeSamplingConfig = NativeSamplingConfig(),
+                 default_system: String = "You are a helpful assistant. Keep answers concise.") raises:
         defaults.validate()
+        if default_system.byte_length() > 65536:
+            raise Error("Default system prompt exceeds 64 KiB")
         self.prompt = ""
-        self.system = "You are a helpful assistant. Keep answers concise."
+        self.system = default_system
         self.max_tokens = min(256, token_limit)
         self.timeout_ms = timeout_limit
         self.sampling = defaults
@@ -155,7 +159,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
         model: OllamaModelInfo, catalog: List[OllamaModelInfo],
-        device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+        device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
+        system_defaults: String = "", has_system_defaults: Bool = False) raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var stop = GenerationControl(0, interrupt_fd)
@@ -189,7 +194,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OllamaRequest(raw, sampling_defaults)
+                        var request = OllamaRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         else:
@@ -199,7 +204,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OllamaRequest(raw, sampling_defaults)
+                        var request = OllamaRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         elif request.num_ctx != 0 and (request.num_ctx < 2 or request.num_ctx > context):
@@ -244,7 +249,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OpenAIRequest(raw, sampling_defaults)
+                        var request = OpenAIRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         elif head.path == "/v1/chat/completions" and not request.has_messages:
@@ -311,7 +316,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = GenerateRequest(raw, token_limit, timeout_ms, sampling_defaults)
+                        var request = GenerateRequest(raw, token_limit, timeout_ms, sampling_defaults,
+                            system_defaults if has_system_defaults else "You are a helpful assistant. Keep answers concise.")
                         session.reset()
                         session.configure_sampling(request.sampling)
                         session.configure_control(request.timeout_ms, interrupt_fd)
@@ -376,6 +382,8 @@ def dispatch_native_serve(args: List[String]) raises:
     var ollama = False
     var model_store = String(".aesir/models")
     var sampling = NativeSamplingConfig()
+    var system = String("")
+    var show_settings = False
     var seen = List[String]()
     var i = 2
     while i < len(args):
@@ -383,6 +391,10 @@ def dispatch_native_serve(args: List[String]) raises:
         if flag in seen:
             raise Error("Missing or duplicate service option")
         seen.append(flag)
+        if flag == "--show-settings":
+            show_settings = True
+            i += 1
+            continue
         if flag == "--ollama":
             ollama = True
             i += 1
@@ -412,6 +424,8 @@ def dispatch_native_serve(args: List[String]) raises:
             token_limit = bounded_decimal(value)
         elif flag == "--model-store":
             model_store = value
+        elif flag == "--system":
+            system = value
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
@@ -421,16 +435,24 @@ def dispatch_native_serve(args: List[String]) raises:
         raise Error("Native service requires a supported CUDA profile; no CPU fallback")
     if ollama and "--port" not in seen:
         port = 11434
-    if (not ollama and key_path == "") or (ollama and key_path != "") or port < 1024 or port > 65535 or context < 0 or context > 32768:
+    if (not show_settings and not ollama and key_path == "") or (ollama and key_path != "") or port < 1024 or port > 65535 or context < 0 or context > 32768:
         raise Error("Native service requires valid authentication mode, port, and context")
     if timeout_ms < 1 or timeout_ms > 3600000 or io_timeout_ms < 1 or io_timeout_ms > 30000 or token_limit < 1 or token_limit > 32768:
         raise Error("Invalid native service deadline or token limit")
     var key = String("")
-    if not ollama:
+    if not ollama and not show_settings:
         key = load_service_key(key_path)
     var resolved = resolve_model_reference(args[1], model_store)
     if ollama and not resolved.from_catalog:
         raise Error("Ollama service requires a registered model name")
+    var effective = resolve_native_settings(resolved.modelfile_content,
+        sampling, seen, context, token_limit, system)
+    if show_settings:
+        print(native_settings_json(effective))
+        return
+    sampling = effective.sampling
+    context = effective.context
+    token_limit = effective.max_tokens
     var model_path = resolved.path
     var model_name = resolved.catalog_name if resolved.from_catalog else args[1]
     var digest = resolved.digest
@@ -458,8 +480,8 @@ def dispatch_native_serve(args: List[String]) raises:
         catalog.append(model_info)
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system)
     _ = interrupts

@@ -33,6 +33,13 @@ Existing supported-field sets are unchanged: OpenAI permits temperature/top_p/
 seed; native and Ollama additionally permit top_k/min_p/repeat_penalty.
 Requests cannot change repeat_last_n after allocation.
 
+S07b2 supplies recipe/CLI system defaults to the request parsers as well.
+An explicit native/Ollama `system` value (including empty text), or OpenAI chat
+system messages, overrides the baseline rather than appending to it. Without an
+override, recipe SYSTEM or service `--system` is inherited. Default baseline
+strings are bounded to 64 KiB. No-recipe/no-CLI calls retain each endpoint's
+previous system default. Existing restrictions on empty chat messages remain.
+
 `api.mojo::json_escape_string` preserves complete UTF-8 spans and escapes JSON
 quotes, backslashes, and ASCII control characters. It is shared by CLI JSON
 renderers and protocol formatters; callers provide admitted `String` values.

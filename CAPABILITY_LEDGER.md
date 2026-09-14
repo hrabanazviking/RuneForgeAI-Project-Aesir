@@ -507,7 +507,8 @@ the complete ledger population.
   field rejection. `test_native_service_settings.py` passes actual-process
   pre-key admission for all flags; build and counted suite pass (182/0/1).
   This proves settings resolution/admission, not a new physical HTTP inference
-  witness. Recipe/config layering and token/context precedence remain open.
+  witness. Configuration-file layering and remaining session/token precedence
+  gates remain open; S07b2 adds native recipe startup resolution below.
 - **Additional bounded component:** `SkaldbrodirDetector` computes exact periodicity over at most 64 caller-supplied token IDs, emits intervention tiers, and requires two terminal observations before `INF-016`. The counted paradigm test covers repeated-token termination and a non-repeating sequence.
 - **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. SKÁLDBRØÐIR is not connected to generation and does not itself apply a penalty or stop a session. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
 - **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets, and measured integration of repetition intervention signals.
@@ -617,8 +618,20 @@ the complete ledger population.
   parser tests pass after the fix. Native catalog rejection is covered by
   `scripts/test_native_recipe_settings.py`.
 - **Evidence boundary:** Implements Modelfile multiline parsing, directive validation, and `GenerationConfig` integration; does not claim binary blob store distribution.
-- **Layering boundary:** Generic conversion is not native recipe application;
-  chat/service recipe/config precedence remains an active S07 follow-up.
+- **S07b2 native resolution:** `cli/native_settings.mojo` applies stored native
+  sampling, num_ctx, num_predict and SYSTEM to chat/serve before planning, with
+  explicit CLI overrides. Strict native directive/parameter admission is separate
+  from generic conversion. Versioned `--show-settings` previews use that same
+  resolver without sessions/listeners. API system values/messages override the
+  recipe/service baseline; empty native/Ollama overrides remain explicit.
+- **S07b2 evidence:** Counted `local_service.request` covers precedence and system
+  overrides. `scripts/test_native_settings.py` verifies actual chat/serve previews,
+  normal-start rejection of unsupported recipes, zero/empty overrides and
+  unchanged stored data. Fresh native build, full suite (182/0/1), service/Home,
+  recipe and model-store process regressions pass.
+- **Layering boundary:** Configuration-file precedence remains open. Preview is
+  before hardware planning: it proves neither architecture, capacity nor inference.
+  Physical recipe-based conversation/model-switch witnesses remain unverified.
 - **Audit:** AER-060, AER-067.
 
 ### AES-CLI-004 — Durable model catalog and content-addressed blob store

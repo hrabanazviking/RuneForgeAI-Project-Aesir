@@ -1,3 +1,22 @@
+## 2026-09-14 — Application program S07b2: native recipe precedence
+
+Added a shared native-settings resolver for stored recipe sampling, num_ctx,
+num_predict and SYSTEM. Explicit CLI values override only their fields, including
+zero temperature/seed and empty system prompts. Native chat and serve consume
+the result before planning. API system fields/messages override recipe/service
+defaults. Strict native recipe mode rejects unsupported directives/parameters,
+duplicate singleton directives and trailing multiline text. FROM/SYSTEM/LICENSE
+prefix extraction preserves literal occurrences inside values. Generic catalog
+parsing remains separate. Settings previews use the same resolver without GPU,
+listener, key, prompt-file or transcript access. Catalog blob verification still
+occurs; direct-path preview does not establish file existence or architecture.
+Model-switch target recipe syntax/value support is checked before teardown;
+hardware fit and combined limits remain next-launch checks.
+Fresh build, full suite (182 pass, 0 fail, 1 existing skip), native settings,
+service flags, Home, recipe admission and model-store regressions pass. No durable
+data changed during previews/rejections. Config layering remains S07b3; physical
+recipe inference/model-switch witnesses remain unverified.
+
 ## 2026-09-14 — Application program S07b1: recipe admission before layering
 
 Reproduced generic recipe conversion accepting `temperature 0.8junk`. Conversion

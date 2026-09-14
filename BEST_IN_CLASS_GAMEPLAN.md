@@ -426,8 +426,23 @@ Every row is initially queued unless the execution record says otherwise.
   `temperature 0.8junk`; focused CLI tests now pass. Fresh offline launcher build
   and counted suite pass (182 passed, 0 failed, 1 existing fixture skip).
   Native recipe admission and complete model-store harnesses pass; doc drift
-  passes with pre-existing artifact warnings. S07b1 verified, push pending.
+  passes with pre-existing artifact warnings. S07b1 done; pushed as `7de7c5b`.
   Next is native recipe/config layering, not S08; S07 remains incomplete.
+- S07b2 active: apply stored native recipe sampling, num_ctx, num_predict and
+  SYSTEM to chat/serve with explicit CLI overrides. Strict native conversion
+  rejects unsupported directives/parameters before planning or GPU allocation.
+  Add `--show-settings` with an explicit model for pre-planning JSON preview;
+  it opens no model session, transcript or listener. Test real process previews,
+  cross-command settings, API system-default overrides, strict rejections and
+  untouched catalog bytes. Config-file layering remains S07b3.
+- S07b2 results: native recipe/CLI resolver is used by chat and serve. Unsupported
+  target recipe syntax/values are checked before model-switch teardown; final
+  hardware fit/combined limits remain next-launch checks. Current sampling/system
+  are preserved by the existing handoff; non-explicit context/reply requests come
+  from the target recipe. No physical recipe switch is claimed.
+  Fresh offline launcher build, counted suite (182/0/1), native settings,
+  service settings, Home, recipe admission and model-store harnesses pass.
+  S07b2 verified; push pending. Next: S07b3 configuration-file layering.
 
 ### S08–S48
 

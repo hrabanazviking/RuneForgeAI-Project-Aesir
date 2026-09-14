@@ -56,11 +56,21 @@ messages, remote listening, or streaming.
 `serve` accepts `--temperature`, `--top-k`, `--top-p`, `--min-p`,
 `--repeat-penalty`, `--repeat-last-n` and `--seed`, with the same native grammar,
 ranges and defaults as `chat`. Repetition-window size is fixed at startup.
-For sampling, precedence is native defaults < explicit serve flags < explicit
+For sampling, precedence is native defaults < stored native recipe < explicit serve flags < explicit
 request fields. Omitted request fields inherit the service baseline, not the
 previous request's settings; temperature 0 and seed 0 are explicit overrides.
 Unsupported request fields still fail instead of being silently ignored.
-Recipe/config defaults and token/context precedence are not unified by S07a.
+S07b2 applies stored recipe `num_ctx`, `num_predict`, seven native sampling
+parameters and `SYSTEM`. Explicit service flags override those fields; use
+`--system ""` to explicitly clear a recipe prompt. Request system values/messages
+override the configured baseline. Unsupported native recipe directives/settings
+fail before allocation, including custom TEMPLATE/MESSAGE, stops and presence/
+frequency penalties. Configuration-file layering remains a separate follow-up.
+
+Use `serve <model> --accel cuda --show-settings` to inspect the resolved startup
+requests as JSON without opening a listener or reading an API key. Chat exposes
+the same preview. A zero context/reply request means automatic; preview is not
+hardware planning, model architecture validation or successful inference.
 
 For example, starting with `--temperature 0.8 --top-k 20 --seed 99` and sending
 an OpenAI request with `"temperature":0` uses greedy temperature with top-k 20

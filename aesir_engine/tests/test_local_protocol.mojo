@@ -6,6 +6,7 @@ from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_ca
 from server.openai import OpenAIRequest, OpenAIGate
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
+from cli.native_settings import resolve_native_settings
 
 
 def test_local_path_bounds() raises:
@@ -189,6 +190,7 @@ def test_sampling_default_precedence() raises:
 
 def test_local_generation_request() raises:
     test_sampling_default_precedence()
+    test_native_recipe_precedence()
     var valid = GenerateRequest("{\"prompt\":\"Halló 🌊\",\"seed\":18446744073709551615,\"max_tokens\":16}", 64, 1000)
     if valid.prompt != "Halló 🌊" or valid.sampling.seed != UInt64(18446744073709551615) or valid.max_tokens != 16:
         raise Error("Native generation request lost text or integer precision")
@@ -208,3 +210,43 @@ def test_local_generation_request() raises:
             rejected = True
         if not rejected:
             raise Error("Unsupported generation request accepted")
+
+
+def test_native_recipe_precedence() raises:
+    var content = String("FROM m.gguf\nPARAMETER temperature 0.8\nPARAMETER top_k 12\nPARAMETER top_p 0.7\nPARAMETER min_p 0.1\nPARAMETER repeat_penalty 1.2\nPARAMETER repeat_last_n 128\nPARAMETER seed 99\nPARAMETER num_ctx 1024\nPARAMETER num_predict 64\nSYSTEM Keep SYSTEM literal\n")
+    var none = List[String]()
+    var recipe = resolve_native_settings(content, NativeSamplingConfig(), none, 0, 256, "fallback")
+    var expected = NativeSamplingConfig(0.8, 12, 0.7, 0.1, 1.2, 128, 99)
+    if recipe.sampling.description() != expected.description() or recipe.context != 1024 or recipe.max_tokens != 64 or recipe.system != "Keep SYSTEM literal" or not recipe.has_system:
+        raise Error("Native recipe controls not applied")
+    var flags: List[String] = ["--temperature", "--seed", "--system", "--context", "--max-tokens"]
+    var cli = NativeSamplingConfig()
+    cli.seed = 0
+    var overridden = resolve_native_settings(content, cli, flags, 2048, 128, "")
+    expected.temperature = 0
+    expected.seed = 0
+    if overridden.sampling.description() != expected.description() or overridden.context != 2048 or overridden.max_tokens != 128 or overridden.system != "" or not overridden.has_system:
+        raise Error("Explicit CLI recipe overrides lost zero/empty or inherited fields")
+    var empty = resolve_native_settings("FROM m.gguf\nSYSTEM \"\"", cli, none, 0, 0, "fallback")
+    if empty.system != "" or not empty.has_system:
+        raise Error("Explicit empty recipe SYSTEM was lost")
+    var invalid: List[String] = ["PARAMETER temperature NaN", "PARAMETER num_ctx 1", "PARAMETER num_ctx 32769", "PARAMETER num_predict 0", "PARAMETER stop end", "PARAMETER presence_penalty 0.1", "TEMPLATE custom", "MESSAGE user hi", "ADAPTER path", "SYSTEM one\nSYSTEM two", "FROM other.gguf", "SYSTEM \"\"\"start\nend\"\"\" trailing"]
+    for line in invalid:
+        var rejected = False
+        try:
+            _ = resolve_native_settings("FROM m.gguf\n" + line, cli, flags, 2048, 128, "")
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Unsupported or invalid native recipe accepted: " + line)
+    var base = NativeSamplingConfig()
+    var native = GenerateRequest("{\"prompt\":\"x\"}", 64, 1000, base, "recipe system")
+    var ollama = OllamaRequest("{\"model\":\"m\",\"prompt\":\"x\"}", base, "recipe system")
+    var openai = OpenAIRequest("{\"model\":\"m\",\"prompt\":\"x\"}", base, "recipe system")
+    if native.system != "recipe system" or ollama.system != "recipe system" or openai.system != "recipe system":
+        raise Error("API request omitted recipe system baseline")
+    var explicit_native = GenerateRequest("{\"prompt\":\"x\",\"system\":\"\"}", 64, 1000, base, "recipe system")
+    var explicit_ollama = OllamaRequest("{\"model\":\"m\",\"system\":\"\"}", base, "recipe system")
+    var explicit_openai = OpenAIRequest("{\"model\":\"m\",\"messages\":[{\"role\":\"system\",\"content\":\"request system\"},{\"role\":\"user\",\"content\":\"x\"}]}", base, "recipe system")
+    if explicit_native.system != "" or explicit_ollama.system != "" or explicit_openai.system != "request system":
+        raise Error("Request system override was concatenated with or lost to baseline")

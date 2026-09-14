@@ -101,6 +101,7 @@ struct Modelfile(Copyable):
     var from_model: String
     var parameters: Dict[String, String]
     var system_prompt: String
+    var system_was_set: Bool
     var template: String
     var license_info: String
     var messages: List[String]
@@ -109,6 +110,7 @@ struct Modelfile(Copyable):
         self.from_model = String("")
         self.parameters = Dict[String, String]()
         self.system_prompt = String("")
+        self.system_was_set = False
         self.template = String("")
         self.license_info = String("")
         self.messages = List[String]()
@@ -120,11 +122,13 @@ struct Modelfile(Copyable):
         system_prompt: String,
         template: String,
         license_info: String,
-        messages: List[String]
+        messages: List[String],
+        system_was_set: Bool = False,
     ):
         self.from_model = from_model
         self.parameters = parameters.copy()
         self.system_prompt = system_prompt
+        self.system_was_set = system_was_set
         self.template = template
         self.license_info = license_info
         self.messages = messages.copy()
@@ -133,6 +137,7 @@ struct Modelfile(Copyable):
         self.from_model = existing.from_model
         self.parameters = existing.parameters.copy()
         self.system_prompt = existing.system_prompt
+        self.system_was_set = existing.system_was_set
         self.template = existing.template
         self.license_info = existing.license_info
         self.messages = existing.messages.copy()
@@ -145,7 +150,8 @@ struct Modelfile(Copyable):
             self.system_prompt,
             self.template,
             self.license_info,
-            self.messages.copy()
+            self.messages.copy(),
+            self.system_was_set,
         )
 
     def to_generation_config(self, context_length: Int = 4096) raises -> GenerationConfig:
@@ -181,7 +187,7 @@ struct Modelfile(Copyable):
         return config^
 
 
-def parse_modelfile(content: String) raises -> Modelfile:
+def parse_modelfile(content: String, strict_native: Bool = False) raises -> Modelfile:
     """
     Parses a raw Modelfile text string into a structured Modelfile runestone.
     Supports single-quoted, double-quoted, and triple-quoted multiline directives.
@@ -193,6 +199,7 @@ def parse_modelfile(content: String) raises -> Modelfile:
     var in_multiline = False
     var multiline_directive = String("")
     var multiline_buffer = String("")
+    var seen_directives = List[String]()
 
     for i in range(len(lines)):
         var raw_line = String(lines[i])
@@ -201,6 +208,8 @@ def parse_modelfile(content: String) raises -> Modelfile:
         if in_multiline:
             if "\"\"\"" in line:
                 var end_idx = line.find("\"\"\"")
+                if strict_native and String(String(line[byte=end_idx + 3:]).strip()) != "":
+                    raise Error("Trailing text after native recipe multiline value")
                 multiline_buffer += "\n" + String(line[byte=0 : end_idx])
                 var final_val = unescape_string(String(multiline_buffer.strip()))
                 if multiline_directive == "SYSTEM":
@@ -221,11 +230,24 @@ def parse_modelfile(content: String) raises -> Modelfile:
         if len(line.bytes()) == 0 or line.startswith("#"):
             continue
 
+        if strict_native:
+            var space = line.find(" ")
+            var directive = String(line[byte=0:space]) if space > 0 else line
+            if directive != "FROM" and directive != "SYSTEM" and directive != "LICENSE" and directive != "PARAMETER":
+                raise Error("Unsupported native recipe directive: " + directive)
+            if directive != "PARAMETER":
+                if directive in seen_directives:
+                    raise Error("Duplicate native recipe directive: " + directive)
+                seen_directives.append(directive)
+            if space < 1:
+                raise Error("Native recipe directive requires a value")
+
         if line.startswith("FROM "):
-            var val = unescape_string(strip_quotes(String(line.replace("FROM ", "").strip())))
+            var val = unescape_string(strip_quotes(String(line[byte=5:])))
             modelfile.from_model = val
         elif line.startswith("SYSTEM "):
-            var val_str = String(line.replace("SYSTEM ", "").strip())
+            modelfile.system_was_set = True
+            var val_str = String(String(line[byte=7:]).strip())
             var val_blen = len(val_str.bytes())
             if val_str.startswith("\"\"\"") and not val_str.endswith("\"\"\""):
                 in_multiline = True
@@ -243,7 +265,7 @@ def parse_modelfile(content: String) raises -> Modelfile:
             else:
                 modelfile.template = unescape_string(strip_quotes(val_str))
         elif line.startswith("LICENSE "):
-            var val_str = String(line.replace("LICENSE ", "").strip())
+            var val_str = String(String(line[byte=8:]).strip())
             var val_blen = len(val_str.bytes())
             if val_str.startswith("\"\"\"") and not val_str.endswith("\"\"\""):
                 in_multiline = True

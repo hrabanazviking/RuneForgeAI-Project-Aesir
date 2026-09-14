@@ -22,8 +22,10 @@ struct OpenAIRequest:
     var sampling: NativeSamplingConfig
     var has_messages: Bool
 
-    def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig()) raises:
+    def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
+        if default_system.byte_length() > 65536:
+            raise Error("Default system prompt exceeds 64 KiB")
         self.model = ""
         self.prompt = ""
         self.system = ""
@@ -83,6 +85,8 @@ struct OpenAIRequest:
                 or self.system.byte_length() > 65536
                 or self.chat_prompt.byte_length() > 65536):
             raise Error("OpenAI request text exceeds 64 KiB")
+        if self.system == "":
+            self.system = default_system
         self.sampling.validate()
 
     def _parse_messages(mut self, mut parser: FlatJSON) raises:
