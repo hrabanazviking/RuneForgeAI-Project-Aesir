@@ -21,6 +21,12 @@ def check(binary: str) -> None:
             assert (result.returncode == 0) == ok, result.stderr or result.stdout
             return result.stdout
 
+        def run_failure(*args: str, model_store: str = "store") -> str:
+            result = subprocess.run([binary, *args, "--model-store", model_store],
+                                    cwd=root, capture_output=True, text=True, timeout=30)
+            assert result.returncode != 0, result.stdout
+            return result.stdout + result.stderr
+
         (root / "Modelfile").write_text("FROM local.gguf\n", encoding="utf-8")
         (root / "weights.bin").write_bytes(b"local-weights-fixture\n")
         for name in ("live", "gone", "recipe"):
@@ -86,6 +92,22 @@ def check(binary: str) -> None:
         encoded_nul_catalog = snapshot()
         run("repair-preferences", "--apply", ok=False)
         assert snapshot() == encoded_nul_catalog
+        encoded_lines = intact_catalog.decode().splitlines()
+        encoded_lines[2] += "ff"
+        catalog_path.write_text("\n".join(encoded_lines), encoding="utf-8")
+        encoded_utf8_catalog = snapshot()
+        assert "UTF-8" in run_failure("repair-preferences", "--apply")
+        assert snapshot() == encoded_utf8_catalog
+        catalog_path.write_bytes(intact_catalog)
+        catalog_path.write_bytes(intact_catalog + b"\xff")
+        invalid_utf8_catalog = snapshot()
+        assert "UTF-8" in run_failure("repair-preferences", "--apply")
+        assert snapshot() == invalid_utf8_catalog, "malformed UTF-8 catalog authorized pruning"
+        catalog_path.write_bytes(intact_catalog)
+        catalog_path.write_bytes(intact_catalog + b"hidden")
+        trailing_catalog = snapshot()
+        run("repair-preferences", "--apply", ok=False)
+        assert snapshot() == trailing_catalog, "trailing catalog data authorized pruning"
         catalog_path.write_bytes(intact_catalog)
         intact_preferences = pref.read_bytes()
         pref.write_bytes(intact_preferences + b"\x00hidden")
@@ -102,6 +124,24 @@ def check(binary: str) -> None:
         encoded_nul_preferences = snapshot()
         run("repair-preferences", "--apply", ok=False)
         assert snapshot() == encoded_nul_preferences
+        preference_lines = intact_preferences.decode().splitlines()
+        preference_lines[2] += "ff"
+        payload = "\n".join(preference_lines[:-1]) + "\n"
+        checksum = 14695981039346656037
+        for byte in payload.encode():
+            checksum = ((checksum ^ byte) * 1099511628211) & ((1 << 64) - 1)
+        pref.write_text(payload + f"CHECKSUM:{checksum:016x}\n", encoding="utf-8")
+        encoded_utf8_preferences = snapshot()
+        assert "UTF-8" in run_failure("repair-preferences", "--apply")
+        assert snapshot() == encoded_utf8_preferences
+        pref.write_bytes(intact_preferences + b"\xff")
+        invalid_utf8_preferences = snapshot()
+        assert "UTF-8" in run_failure("repair-preferences", "--apply")
+        assert snapshot() == invalid_utf8_preferences, "malformed UTF-8 preferences mutated durable data"
+        pref.write_bytes(intact_preferences + b"hidden")
+        trailing_preferences = snapshot()
+        run("repair-preferences", "--apply", ok=False)
+        assert snapshot() == trailing_preferences, "trailing preferences data mutated durable data"
         pref.unlink()
         no_preferences = snapshot()
         run("repair-preferences", ok=False)

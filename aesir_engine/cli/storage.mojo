@@ -6,6 +6,7 @@ from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.collections import Dict, InlineArray
 from core.posix_process import run_checked_argv_bytes
+from core.text_admission import admit_text_bytes
 from config import validate_model_store_path
 from cli.manifest import (
     ModelManifest,
@@ -127,15 +128,12 @@ def _hex_decode(value: String) raises -> String:
         raise Error("catalog entry contains an odd number of hex digits")
     if len(source) > 8 * 1024 * 1024:
         raise Error("catalog manifest exceeds the 4 MiB decoded limit")
-    var decoded = List[Int8]()
+    var decoded = List[Byte]()
     for index in range(0, len(source), 2):
         var high = _hex_nibble(Int(source[index]))
         var low = _hex_nibble(Int(source[index + 1]))
-        if high == 0 and low == 0:
-            raise Error("catalog manifest contains an encoded NUL byte")
-        decoded.append(Int8((high << 4) | low))
-    decoded.append(0)
-    return String(unsafe_from_utf8_ptr=decoded.unsafe_ptr())
+        decoded.append(Byte((high << 4) | low))
+    return admit_text_bytes(decoded, "catalog manifest", 4 * 1024 * 1024)
 
 
 def _parse_count(value: String) raises -> Int:
@@ -245,39 +243,34 @@ def _read_optional_text(path: String) raises -> String:
     if stat[6] == 0 or stat[6] > MAX_CATALOG_BYTES:
         _ = external_call["close", Int32](fd)
         raise Error("model catalog must contain 1 byte through 16 MiB")
-    var content = List[Int8]()
-    var buffer_alloc = alloc(Layout[Int8](count=4096))
-    var buffer = buffer_alloc^.unsafe_leak()
+    var content = List[Byte]()
+    var buffer = List[Byte]()
+    buffer.resize(4096, 0)
     var offset = Int(0)
-    while True:
-        var read_count = external_call["pread", Int](fd, buffer, 4096, offset)
-        if read_count < 0:
-            var errno_pointer = external_call[
-                "__errno_location", Pointer[Int32, MutUntrackedOrigin]
-            ]()
-            if errno_pointer.unsafe_load() == 4:
-                continue
-            buffer.unsafe_free()
-            _ = external_call["close", Int32](fd)
-            raise Error("failed while reading model catalog: " + path)
-        if read_count == 0:
-            break
-        offset += Int(read_count)
-        if len(content) + Int(read_count) > MAX_CATALOG_BYTES:
-            buffer.unsafe_free()
-            _ = external_call["close", Int32](fd)
-            raise Error("model catalog exceeds the 16 MiB limit")
-        for index in range(Int(read_count)):
-            var byte = buffer.unsafe_load(index)
-            if byte == 0:
-                buffer.unsafe_free()
-                _ = external_call["close", Int32](fd)
-                raise Error("model catalog contains an embedded NUL byte")
-            content.append(byte)
-    buffer.unsafe_free()
+    try:
+        while True:
+            var read_count = external_call["pread", Int](
+                fd, buffer.unsafe_ptr(), 4096, offset
+            )
+            if read_count < 0:
+                var errno_pointer = external_call[
+                    "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+                ]()
+                if errno_pointer.unsafe_load() == 4:
+                    continue
+                raise Error("failed while reading model catalog: " + path)
+            if read_count == 0:
+                break
+            offset += Int(read_count)
+            if len(content) + Int(read_count) > MAX_CATALOG_BYTES:
+                raise Error("model catalog exceeds the 16 MiB limit")
+            for index in range(Int(read_count)):
+                content.append(buffer[index])
+    except error:
+        _ = external_call["close", Int32](fd)
+        raise error
     _ = external_call["close", Int32](fd)
-    content.append(0)
-    return String(unsafe_from_utf8_ptr=content.unsafe_ptr())
+    return admit_text_bytes(content, "model catalog", MAX_CATALOG_BYTES)
 
 
 def _write_all(fd: Int32, content: String) raises:
@@ -722,16 +715,17 @@ def _list_blob_names(sha_directory_fd: Int32) raises -> List[String]:
         raise error
     _ = external_call["close", Int32](inherited_fd)
     var names = List[String]()
-    var current = List[Int8]()
+    var current = List[Byte]()
     for byte in output:
         if byte == 0:
             if len(current) == 0:
                 raise Error("model blob directory contains an empty entry name")
-            current.append(0)
-            names.append(String(unsafe_from_utf8_ptr=current.unsafe_ptr()))
-            current = List[Int8]()
+            names.append(admit_text_bytes(
+                current, "model blob directory entry", 255
+            ))
+            current = List[Byte]()
         else:
-            current.append(Int8(byte))
+            current.append(byte)
     if len(current) != 0:
         raise Error("model blob directory enumeration is not NUL terminated")
     return names^

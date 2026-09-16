@@ -25,6 +25,10 @@ path must be a relative POSIX path using safe components; its default is
 
 Configuration files are limited to 1 MiB, must be valid UTF-8, and are opened
 without following a final symlink; raw NUL bytes and special files reject.
+The shared persisted-text boundary validates raw bytes before Mojo String
+construction, including overlong/truncated forms, surrogate encodings and code
+points above U+10FFFF. The JSON parser must then consume the complete document;
+appended non-whitespace data rejects.
 `aesir config --config <path> --format json`
 validates the input and prints the normalized schema. Catalog commands also
 accept `--config <path>` for the store root.

@@ -58,6 +58,12 @@ and also reject final symlinks. Created directories request mode `0700` and
 catalog files request `0600`. WSL files stored on a Windows-mounted filesystem
 remain subject to that mount's Windows ACL and metadata behavior.
 
+Catalog and preference records cross the shared persisted-text boundary before
+parsing. Raw bytes and decoded hex payloads must be NUL-free canonical UTF-8;
+truncation, overlong forms, surrogate encodings and values above U+10FFFF
+reject. Exact count/checksum parsing rejects trailing hidden data. Read or
+decode failure occurs before a repair or mutation publishes candidate state.
+
 Blob hashing invokes `sha256sum` with an argv vector and no shell. The child
 inherits a duplicate of the exact open descriptor and reads it through procfs,
 so hashing does not resolve a replaceable caller path. Publication uses

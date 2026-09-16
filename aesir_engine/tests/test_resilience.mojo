@@ -19,6 +19,21 @@ def _resilience_test_cstring(value: String) -> List[Int8]:
     output.append(0)
     return output^
 
+
+def _resilience_write_bytes(path: String, content: List[Byte]) raises:
+    var encoded = _resilience_test_cstring(path)
+    var fd = external_call["open64", Int32](
+        encoded.unsafe_ptr(), Int32(577), Int32(384)
+    )
+    if fd < 0:
+        raise Error("unable to create StateVault byte fixture")
+    var written = external_call["write", Int](
+        Int(fd), content.unsafe_ptr(), len(content)
+    )
+    var closed = external_call["close", Int32](fd)
+    if written != len(content) or closed != 0:
+        raise Error("unable to write StateVault byte fixture")
+
 def test_error_guard() raises:
     print("--- Testing ErrorGuard (Pointer & Logit Sanitization) ---")
     var success = True
@@ -140,6 +155,20 @@ def test_state_vault() raises:
         or loaded_vault.active_checkpoint.checksum != prior.checksum
     ):
         print("FAIL: StateVault malformed load was accepted or mutated active state")
+        success = False
+
+    _resilience_write_bytes(tmp_path, [Byte(237), Byte(160), Byte(128)])
+    var utf8_rejected = False
+    try:
+        _ = loaded_vault.load_checkpoint_from_disk(tmp_path)
+    except error:
+        utf8_rejected = "UTF-8" in String(error)
+    if (
+        not utf8_rejected
+        or loaded_vault.active_checkpoint.token_pos != prior.token_pos
+        or loaded_vault.active_checkpoint.checksum != prior.checksum
+    ):
+        print("FAIL: StateVault malformed UTF-8 mutated active state")
         success = False
 
     var tmp_path_bytes = _resilience_test_cstring(tmp_path)

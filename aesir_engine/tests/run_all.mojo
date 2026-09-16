@@ -23,6 +23,7 @@ from tests.test_cuda_chat_admission import (
     test_cuda_model_switch_syntax,
 )
 from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_automatic_context_sequence, test_native_planning_cli_rejection
+from tests.test_text_admission import test_persisted_text_admission
 from tests.test_gemma4_profile import test_gemma4_profiles
 from tests.test_model_registry import test_model_architecture_registry
 from tests.test_inference import (
@@ -272,6 +273,7 @@ def main() raises:
     run_case(ledger, "hardware.native_device_selection", test_native_device_selection)
     run_case(ledger, "hardware.automatic_context_sequence", test_automatic_context_sequence)
     run_case(ledger, "hardware.planning_cli_rejection", test_native_planning_cli_rejection)
+    run_case(ledger, "storage.persisted_text_admission", test_persisted_text_admission)
 
     print("==============================================")
     print("  ⚡ Project Aesir — The Grand Proving ⚡")
@@ -794,4 +796,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(183)
+    ledger.finish(184)

@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Round 2 persistence admission audit, September 12, 2026
+**Ledger version:** Application S09 persisted-text admission, September 16, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 182 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 183, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 183 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 184, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
@@ -673,6 +673,11 @@ the complete ledger population.
 
 ### AES-CLI-004 — Durable model catalog and content-addressed blob store
 
+- **S09 text-admission extension:** Catalog bytes and decoded manifest payloads
+  pass strict bounded NUL-free UTF-8 admission before parsing. Built-process
+  fixtures prove raw/encoded malformed UTF-8 and trailing data reject without
+  authorizing preference repair or changing test-owned durable bytes.
+
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
@@ -734,6 +739,11 @@ the complete ledger population.
 
 ### AES-CLI-009 — CLI flag parsing
 
+- **S09 text-admission extension:** Configuration bytes pass the shared strict
+  UTF-8/NUL boundary before JSON parsing; complete JSON consumption still rejects
+  trailing data. The built settings harness proves malformed input causes no
+  durable writes.
+
 - **Status:** `partial`
 - **Owner:** CLI domain
 - **Claim sources:** README Bifrost/Ollama wording; TODO “Complete Ollama Terminal Command Suite”
@@ -775,6 +785,10 @@ the complete ledger population.
 
 ### AES-CLI-011 — Exact-token native conversation persistence
 
+- **S09 text-admission extension:** Snapshot bytes and every decoded text field
+  pass shared strict UTF-8/NUL admission. Counted file fixtures cover malformed
+  UTF-8 and trailing hidden data before any session state can be returned.
+
 - **Status:** `verified`
 - **Owner:** CLI conversation storage and native CUDA session domains
 - **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
@@ -785,6 +799,10 @@ the complete ledger population.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ### AES-CLI-012 — Durable model aliases and favorites
+
+- **S09 text-admission extension:** Preference bytes and decoded alias/favorite
+  values pass strict UTF-8/NUL admission. Built-process raw/encoded malformed
+  UTF-8 and trailing-data fixtures fail without rewriting any durable record.
 
 - **S04 extension (2026-09-13):** Doctor reports shortcut health in text/JSON.
   `repair-preferences` defaults to a dry run; explicit `--apply` prunes only
@@ -805,7 +823,7 @@ the complete ledger population.
 - **Implementation evidence:** `cli/model_preferences.mojo` stores validated alias-to-canonical mappings and canonical favorites in a bounded, FNV-1a-checksummed `preferences.v1` record. Mutations share the model-store directory lock, stage owner-private files, synchronize content, atomically replace the record, and synchronize the directory. `cli/model_reference.mojo` resolves non-path shortcuts before canonical blob verification. `cli/model_selector.mojo` creates a stable favorite-first view and marks favorites without mutating catalog order. `alias`, `aliases`, `unalias`, `favorite`, `favorites`, and `unfavorite` expose the lifecycle.
 - **Executable evidence:** `E-MASTER` cases `cli.model_preferences_codec`, `cli.favorite_model_selection`, and the extended `cli.manifest_store_restart` cover codec round trips, checksum corruption, alias validation, stable ordering, visible marking, restart persistence, and alias-to-canonical-blob resolution. The built CLI physically persisted `gemma -> gemma4-e2b:latest`, marked the canonical model as favorite, listed both records, and used `aesir inspect gemma` to reach the real Gemma 4 E2B catalog blob.
 - **Evidence boundary:** Preferences are local to one model-store root. Aliases target installed catalog identities and do not apply to explicit paths. Removing a catalog model can leave a stale preference, which fails closed when resolved; no automatic pruning, cross-device synchronization, nested aliases, or general user-settings system is claimed.
-- **Next acceptance gate:** Crash-injection, strict text admission (S09), broader concurrent-process stress, and alias-shadowing policy. S04 implements explicit pruning and doctor findings; its concurrency proof is a bounded lock/reload witness, not a general stress campaign.
+- **Next acceptance gate:** Crash-injection, broader concurrent-process stress, and alias-shadowing policy. S04 implements explicit pruning and doctor findings; its concurrency proof is a bounded lock/reload witness, not a general stress campaign. Strict text admission is complete in S09.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.
 
 ### AES-CLI-013 — Interactive native CUDA model hot switching
@@ -1339,8 +1357,8 @@ and circular self-parity transforms were removed.
 - **Status:** `verified`
 - **Owner:** core resilience domain
 - **Claim sources:** completed resilience TODO
-- **Implementation evidence:** `StateVault` stores non-negative token-position and prompt-count markers with an observed or explicit positive timestamp. Its bounded versioned disk record uses a deterministic corruption checksum, strict field order/count/decimal parsing, final-symlink refusal on reads, staged file sync, atomic same-directory replacement, and parent-directory sync. Failed validation/read/write does not replace the active in-memory marker.
-- **Executable evidence:** `E-MASTER` cases `resilience.state_vault_marker` and `resilience.durable_state_vault` cover observed timestamps, bounds, restart loading, malformed-record and FIFO refusal, checksum corruption, invalid fields, and state non-mutation.
+- **Implementation evidence:** `StateVault` stores non-negative token-position and prompt-count markers with an observed or explicit positive timestamp. Its bounded versioned disk record uses a deterministic corruption checksum, strict field order/count/decimal parsing, shared strict persisted-text admission, final-symlink refusal on reads, staged file sync, atomic same-directory replacement, and parent-directory sync. Failed validation/read/write does not replace the active in-memory marker.
+- **Executable evidence:** `E-MASTER` cases `resilience.state_vault_marker` and `resilience.durable_state_vault` cover observed timestamps, bounds, restart loading, malformed-record, malformed-UTF-8 and FIFO refusal, checksum corruption, invalid fields, and state non-mutation.
 - **Evidence boundary:** This records two positions; it does not snapshot model weights, tensors, KV data, sampler state, processes, threads, or sockets. FNV-1a detects ordinary corruption but is not authentication. Writers are not locked or coordinated across processes.
 - **Next acceptance gate:** Define a complete session-state schema and ownership model, add authenticated records if the marker crosses a trust boundary, serialize concurrent writers, and prove injected write/sync/permission/restart failures.
 - **Audit:** AER-106.

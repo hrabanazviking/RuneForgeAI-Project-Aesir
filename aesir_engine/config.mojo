@@ -4,7 +4,7 @@
 from std.math import isinf, isnan
 from std.ffi import external_call
 from std.memory import Pointer
-from std.memory.alloc import alloc, Layout
+from core.text_admission import admit_text_bytes
 from std.collections import Dict, InlineArray
 
 
@@ -577,41 +577,33 @@ def load_config_file(path: String) raises -> AesirConfig:
         _ = external_call["close", Int32](fd)
         raise Error("configuration must contain 1 byte through 1 MiB")
 
-    var content_bytes = List[Int8]()
-    var buffer_alloc = alloc(Layout[Int8](count=4096))
-    var buffer = buffer_alloc^.unsafe_leak()
-    while True:
-        var read_count = external_call["read", Int](Int(fd), buffer, 4096)
-        if read_count < 0:
-            var errno_pointer = external_call[
-                "__errno_location", Pointer[Int32, MutUntrackedOrigin]
-            ]()
-            if errno_pointer.unsafe_load() == 4:
-                continue
-            buffer.unsafe_free()
-            _ = external_call["close", Int32](fd)
-            raise Error("failed while reading configuration '" + clean_path + "'")
-        if read_count == 0:
-            break
-        if len(content_bytes) + read_count > MAX_CONFIG_BYTES:
-            buffer.unsafe_free()
-            _ = external_call["close", Int32](fd)
-            raise Error("configuration exceeds the 1 MiB limit")
-        for index in range(Int(read_count)):
-            if buffer.unsafe_load(index) == 0:
-                buffer.unsafe_free()
-                _ = external_call["close", Int32](fd)
-                raise Error("configuration contains a NUL byte")
-            content_bytes.append(buffer.unsafe_load(index))
-    buffer.unsafe_free()
+    var content_bytes = List[Byte]()
+    var buffer = List[Byte]()
+    buffer.resize(4096, 0)
+    try:
+        while True:
+            var read_count = external_call["read", Int](Int(fd), buffer.unsafe_ptr(), 4096)
+            if read_count < 0:
+                var errno_pointer = external_call[
+                    "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+                ]()
+                if errno_pointer.unsafe_load() == 4:
+                    continue
+                raise Error("failed while reading configuration '" + clean_path + "'")
+            if read_count == 0:
+                break
+            if len(content_bytes) + read_count > MAX_CONFIG_BYTES:
+                raise Error("configuration exceeds the 1 MiB limit")
+            for index in range(Int(read_count)):
+                content_bytes.append(buffer[index])
+    except error:
+        _ = external_call["close", Int32](fd)
+        raise error
     _ = external_call["close", Int32](fd)
 
-    content_bytes.append(0)
-    var content = String(unsafe_from_utf8_ptr=content_bytes.unsafe_ptr())
-    _ = content_bytes
-
-    if len(content.bytes()) == 0:
-        raise Error("configuration file is empty: " + clean_path)
+    var content = admit_text_bytes(
+        content_bytes, "configuration", MAX_CONFIG_BYTES
+    )
 
     var config = parse_config_json(content)
     config.config_path = clean_path

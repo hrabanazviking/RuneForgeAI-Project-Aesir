@@ -1,3 +1,20 @@
+## 2026-09-16 — Application program S09: shared persisted-text admission
+
+Added one core byte-admission contract before Mojo String construction for
+configuration, catalog, preference, conversation and StateVault records. It
+rejects NUL, malformed/truncated/overlong UTF-8, surrogate encodings, values
+above U+10FFFF, emptiness and configured size overflow. Hex-decoded catalog,
+preference and conversation payloads use the same validator, closing the path
+where an ASCII envelope could hide malformed text.
+
+Schema parsers continue to own field order, checksums and complete consumption,
+so appended trailing data rejects before publication. Counted tests cover UTF-8
+boundary classes plus malformed conversation/StateVault files and active-state
+non-mutation. Fresh built-process settings, model-store and preference harnesses
+passed; raw/encoded malformed UTF-8 and trailing catalog/preference bytes leave
+all test-owned durable files unchanged. Fresh build and full suite pass
+(183/0/1, 184 total). This closes S09; S10 crash injection is next.
+
 ## 2026-09-16 — Application program S08b: exact observed fit explanations
 
 Replaced Boolean-only memory fit reporting with a shared, overflow-safe

@@ -552,7 +552,24 @@ Every row is initially queued unless the execution record says otherwise.
   arithmetic operand. No allocation or inference is inferred. S08 is complete;
   next is S09 shared text admission.
 
-### S09–S48
+### S09 — Shared persisted-text admission
+
+- Status: done. `core/text_admission.mojo` owns the bounded byte-to-String
+  boundary for configuration, catalog, preference, conversation and StateVault
+  records. It rejects raw NUL, malformed/truncated/overlong UTF-8, surrogate
+  encodings and values above U+10FFFF before String construction. Catalog,
+  preference and conversation hex payloads pass through the same contract after
+  decoding. Format parsers retain exact record counts/checksums and reject
+  appended trailing data before state publication.
+- Evidence: the new counted boundary corpus covers valid 1/2/3/4-byte edges,
+  NUL, lone continuations, overlong forms, truncation, surrogates, out-of-range
+  code points and size limits. Conversation and StateVault file fixtures reject
+  malformed UTF-8 without changing active state. Built-process config, catalog
+  and preference harnesses reject raw/encoded malformed UTF-8 and trailing data
+  while preserving every test-owned durable byte. Fresh offline build and full
+  suite pass (183/0/1, 184 total). S09 is complete; next is S10 crash injection.
+
+### S10–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

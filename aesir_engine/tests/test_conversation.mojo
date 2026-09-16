@@ -18,6 +18,21 @@ def _conversation_test_cstring(value: String) -> List[Int8]:
     return result^
 
 
+def _write_conversation_test_bytes(path: String, content: List[Byte]) raises:
+    var encoded = _conversation_test_cstring(path)
+    var fd = external_call["open64", Int32](
+        encoded.unsafe_ptr(), Int32(577), Int32(384)
+    )
+    if fd < 0:
+        raise Error("unable to create conversation byte fixture")
+    var written = external_call["write", Int](
+        Int(fd), content.unsafe_ptr(), len(content)
+    )
+    var closed = external_call["close", Int32](fd)
+    if written != len(content) or closed != 0:
+        raise Error("unable to write conversation byte fixture")
+
+
 def _conversation_fixture() raises -> ConversationState:
     var state = ConversationState(
         "sha256:0123456789abcdef",
@@ -73,6 +88,30 @@ def test_conversation_codec() raises:
         corruption_rejected = "checksum" in String(error)
     if not corruption_rejected:
         raise Error("conversation checksum corruption was not rejected")
+
+    var trailing_rejected = False
+    try:
+        _ = deserialize_conversation(encoded + "hidden")
+    except:
+        trailing_rejected = True
+    if not trailing_rejected:
+        raise Error("conversation parser accepted trailing hidden data")
+
+    var byte_path = (
+        "/tmp/aesir-conversation-byte-test-"
+        + String(external_call["getpid", Int32]())
+    )
+    _write_conversation_test_bytes(byte_path, [Byte(255), Byte(254)])
+    var utf8_rejected = False
+    try:
+        _ = load_conversation(byte_path)
+    except error:
+        utf8_rejected = "UTF-8" in String(error)
+    var byte_path_bytes = _conversation_test_cstring(byte_path)
+    if external_call["unlink", Int32](byte_path_bytes.unsafe_ptr()) != 0:
+        raise Error("unable to remove conversation byte fixture")
+    if not utf8_rejected:
+        raise Error("conversation loader accepted malformed UTF-8")
 
     # A caller-selected FIFO must be rejected after a nonblocking open instead
     # of hanging while waiting for a writer.

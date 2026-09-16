@@ -4,6 +4,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from std.collections import InlineArray
 from core.observation_integer import bounded_decimal
+from core.text_admission import admit_text_bytes
 
 
 comptime CONVERSATION_HEADER = "AESIR_CONVERSATION_V1"
@@ -131,12 +132,13 @@ def _hex_nibble(byte: Int) raises -> Int:
 def _hex_decode(text: String) raises -> String:
     if len(text.bytes()) % 2 != 0:
         raise Error("Conversation text contains odd-length hex")
-    var output = List[Int8]()
+    var output = List[Byte]()
     var source = text.as_bytes()
     for index in range(0, len(source), 2):
-        output.append(Int8((_hex_nibble(Int(source[index])) << 4) | _hex_nibble(Int(source[index + 1]))))
-    output.append(0)
-    return String(unsafe_from_utf8_ptr=output.unsafe_ptr())
+        output.append(Byte((_hex_nibble(Int(source[index])) << 4) | _hex_nibble(Int(source[index + 1]))))
+    return admit_text_bytes(
+        output, "conversation text", 1024 * 1024, allow_empty=True
+    )
 
 
 def _checksum(payload: String) -> UInt64:
@@ -352,8 +354,9 @@ def load_conversation(path: String) raises -> ConversationState:
         _ = external_call["close", Int32](fd)
         raise error
     _ = external_call["close", Int32](fd)
-    output.append(0)
-    return deserialize_conversation(String(unsafe_from_utf8_ptr=output.unsafe_ptr()))
+    return deserialize_conversation(admit_text_bytes(
+        output, "conversation snapshot", MAX_CONVERSATION_BYTES
+    ))
 
 
 def export_conversation(path: String, state: ConversationState) raises:

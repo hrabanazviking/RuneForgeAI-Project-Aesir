@@ -196,6 +196,14 @@ first unlink, removes only unreachable canonical blobs and abandoned stages, and
 syncs the directory. `ps`, `stop`, upload, and live session ownership are not
 implemented.
 
+All persisted text paths cross `core/text_admission.mojo` after bounded file
+reads and before parser access. Configuration, catalog, preferences,
+conversation snapshots and StateVault markers reject NUL and non-scalar or
+non-canonical UTF-8 before String construction. Catalog manifests, preference
+values and conversation fields cross the same boundary again after hex decode.
+Format owners then enforce exact schema/checksum/record counts, so trailing
+bytes cannot become hidden committed state.
+
 ## Standalone local primitives
 
 - `StateVault` persists a strict versioned marker containing token position,

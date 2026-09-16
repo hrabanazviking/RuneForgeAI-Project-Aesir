@@ -3,8 +3,8 @@
 from std.collections import InlineArray
 from std.ffi import external_call
 from std.memory import Pointer
-from std.memory.alloc import alloc, Layout
 from core.observation_integer import bounded_decimal
+from core.text_admission import admit_text_bytes
 
 
 comptime VAULT_HEADER = "AESIR_STATE_MARKER_V1"
@@ -158,12 +158,13 @@ def _vault_read(path: String) raises -> String:
     if stat[6] == 0 or stat[6] > MAX_VAULT_BYTES:
         _ = external_call["close", Int32](fd)
         raise Error("StateVault checkpoint must contain 1 through 4096 bytes")
-    var buffer_alloc = alloc(Layout[Int8](count=MAX_VAULT_BYTES + 1))
-    var buffer = buffer_alloc^.unsafe_leak()
+    var buffer = List[Byte]()
+    buffer.resize(MAX_VAULT_BYTES + 1, 0)
     var size = 0
     while True:
         var count = external_call["pread", Int](
-            fd, buffer.unsafe_offset(size), MAX_VAULT_BYTES + 1 - size,
+            fd, buffer.unsafe_ptr().unsafe_offset(size),
+            MAX_VAULT_BYTES + 1 - size,
             Int64(size),
         )
         if count < 0:
@@ -172,27 +173,23 @@ def _vault_read(path: String) raises -> String:
             ]()
             if errno_ptr.unsafe_load() == 4:
                 continue
-            buffer.unsafe_free()
             _ = external_call["close", Int32](fd)
             raise Error("StateVault checkpoint read failed")
         if count == 0:
             break
         size += count
         if size > MAX_VAULT_BYTES:
-            buffer.unsafe_free()
             _ = external_call["close", Int32](fd)
             raise Error("StateVault checkpoint exceeds 4096 bytes")
     var close_result = external_call["close", Int32](fd)
     if close_result != 0:
-        buffer.unsafe_free()
         raise Error("StateVault checkpoint close failed")
     if size == 0:
-        buffer.unsafe_free()
         raise Error("StateVault checkpoint is empty")
-    buffer.unsafe_store(size, 0)
-    var content = String(unsafe_from_utf8_ptr=buffer)
-    buffer.unsafe_free()
-    return content
+    var content = List[Byte]()
+    for index in range(size):
+        content.append(buffer[index])
+    return admit_text_bytes(content, "StateVault checkpoint", MAX_VAULT_BYTES)
 
 
 struct VaultCheckpoint(Copyable, ImplicitlyCopyable):

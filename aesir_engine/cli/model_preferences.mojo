@@ -6,6 +6,7 @@ from std.collections import Dict, InlineArray
 from config import validate_model_store_path
 from cli.manifest import RuneModelStore, normalize_model_reference, validate_model_component
 from cli.storage import load_catalog_at_locked_root
+from core.text_admission import admit_text_bytes
 
 
 comptime PREFERENCES_FILE = "preferences.v1"
@@ -43,18 +44,17 @@ def _pref_hex_nibble(code: Int) raises -> Int:
 def _pref_hex_decode(value: String) raises -> String:
     if len(value.bytes()) % 2 != 0:
         raise Error("model preferences contain odd-length hex")
-    var output = List[Int8]()
+    var output = List[Byte]()
     var source = value.as_bytes()
     for index in range(0, len(source), 2):
         var decoded = (
             (_pref_hex_nibble(Int(source[index])) << 4)
             | _pref_hex_nibble(Int(source[index + 1]))
         )
-        if decoded == 0:
-            raise Error("model preferences contain an encoded NUL byte")
-        output.append(Int8(decoded))
-    output.append(0)
-    return String(unsafe_from_utf8_ptr=output.unsafe_ptr())
+        output.append(Byte(decoded))
+    return admit_text_bytes(
+        output, "model preference value", MAX_PREFERENCES_BYTES
+    )
 
 
 def _pref_checksum(payload: String) -> UInt64:
@@ -273,15 +273,14 @@ def _read_preferences(root_fd: Int32, require_existing: Bool = False) raises -> 
             if len(bytes) + count > MAX_PREFERENCES_BYTES:
                 raise Error("model preferences exceed 1 MiB")
             for index in range(count):
-                if buffer[index] == 0:
-                    raise Error("model preferences contain an embedded NUL byte")
                 bytes.append(buffer[index])
     except error:
         _ = external_call["close", Int32](fd)
         raise error
     _ = external_call["close", Int32](fd)
-    bytes.append(0)
-    return deserialize_model_preferences(String(unsafe_from_utf8_ptr=bytes.unsafe_ptr()))
+    return deserialize_model_preferences(admit_text_bytes(
+        bytes, "model preferences", MAX_PREFERENCES_BYTES
+    ))
 
 
 def _write_preferences(root_fd: Int32, preferences: ModelPreferences) raises:

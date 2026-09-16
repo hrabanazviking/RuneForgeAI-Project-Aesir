@@ -12,6 +12,17 @@
 
 ## Public Structs & Functions
 
+### Persisted text admission
+
+`text_admission.mojo` owns the raw-byte boundary for persisted text. Its
+`admit_text_bytes()` checks the caller's byte limit, emptiness policy, NUL and
+strict UTF-8 before constructing a Mojo String. UTF-8 admission rejects lone
+continuations, truncation, overlong forms, surrogate encodings and values above
+U+10FFFF. File readers own safe open/read/close mechanics; format parsers own
+schema, checksums and complete input consumption. Configuration, catalog,
+preferences, conversation snapshots and StateVault markers use this boundary;
+decoded hex text is re-admitted after decoding.
+
 ### Bounded POSIX child execution
 
 `posix_process.mojo` exposes `run_checked_argv(args,
