@@ -31,7 +31,8 @@ def _json_field(name: String, value: String) -> String:
 
 def model_inspection_json(result: ModelCompatibility) -> String:
     return (
-        "{"
+        '{"schema_version":1,"scope":"gguf_metadata_and_native_layout",'
+        + '"execution_tested":false,'
         + _json_field("name", result.name) + ","
         + _json_field("architecture", result.architecture) + ","
         + _json_field("family", result.family) + ","
@@ -48,6 +49,9 @@ def model_inspection_json(result: ModelCompatibility) -> String:
         + _json_field("supported_quantizations", result.supported_quantizations) + ","
         + '"metadata_context":' + String(result.metadata_context) + ","
         + '"recommended_context":' + String(result.recommended_context) + ","
+        + '"requested_context":' + String(result.requested_context) + ","
+        + '"evaluated_context":' + String(result.evaluated_context) + ","
+        + _json_field("tensor_validation", result.tensor_validation) + ","
         + '"estimated_vram_bytes":' + String(result.estimated_vram_bytes) + ","
         + '"cuda_support":' + _json_bool(result.cuda_support) + ","
         + '"cpu_support":' + _json_bool(result.cpu_support) + ","
@@ -61,6 +65,8 @@ def model_inspection_json(result: ModelCompatibility) -> String:
 
 
 def print_model_inspection_text(result: ModelCompatibility):
+    print("Inspection scope:        GGUF metadata and native tensor layout")
+    print("Execution tested:        no")
     print("Model:                   " + result.name)
     print("Architecture:            " + result.architecture)
     print("Family / variant:        " + result.family + " / " + result.model_variant)
@@ -76,6 +82,9 @@ def print_model_inspection_text(result: ModelCompatibility):
     print("Supported quantizations: " + result.supported_quantizations)
     print("Metadata context:        " + String(result.metadata_context))
     print("Recommended context:     " + String(result.recommended_context))
+    print("Requested context:       " + String(result.requested_context))
+    print("Evaluated context:       " + String(result.evaluated_context))
+    print("Tensor validation:       " + result.tensor_validation)
     print("Estimated VRAM bytes:    " + String(result.estimated_vram_bytes))
     print("CUDA support:            " + ("yes" if result.cuda_support else "no"))
     print("CPU support:             " + ("yes" if result.cpu_support else "no"))

@@ -7,6 +7,7 @@ from core.model_registry import (
     qwen3_0_6b_quantization_verified,
 )
 from core.dense_gqa_profile import llama3_8b_profile, qwen3_0_6b_profile
+from cli.model_inspect import model_inspection_json
 
 
 def test_model_architecture_registry() raises:
@@ -51,6 +52,21 @@ def test_model_architecture_registry() raises:
         raise Error("Gemma 4 E2B readiness drifted")
     if gemma_e2b.recommended_context != 16384 or not gemma_e2b.cuda_support:
         raise Error("Gemma 4 E2B capability policy drifted")
+    if gemma_e2b.tensor_validation != "not_run" or gemma_e2b.requested_context != 0:
+        raise Error("Classification fabricated tensor/context inspection evidence")
+    gemma_e2b.requested_context = 4096
+    gemma_e2b.evaluated_context = 4096
+    gemma_e2b.tensor_validation = "passed"
+    gemma_e2b.estimated_vram_bytes = 123456
+    var report = model_inspection_json(gemma_e2b)
+    if ('"schema_version":1' not in report
+            or '"scope":"gguf_metadata_and_native_layout"' not in report
+            or '"execution_tested":false' not in report
+            or '"requested_context":4096' not in report
+            or '"evaluated_context":4096' not in report
+            or '"tensor_validation":"passed"' not in report
+            or '"estimated_vram_bytes":123456' not in report):
+        raise Error("Versioned model inspection report omitted evidence boundaries")
 
     var gemma_e4b = ModelArchitectureRegistry.classify(
         "gemma4", "4B", 42, 2560, 131072, 17, ""

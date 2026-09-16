@@ -1,3 +1,22 @@
+## 2026-09-16 — Application program S08a: truthful model inspection
+
+Versioned `aesir inspect --format json` as schema 1 with explicit
+`gguf_metadata_and_native_layout` scope and `execution_tested: false`. Reports
+now distinguish metadata, recommended, requested and evaluated contexts plus
+`tensor_validation` (`not_run`, `passed`, `failed`). Recognized native profiles
+retain the exact bounded loader/profile failure instead of collapsing missing
+metadata or tensors into one generic mismatch. Text and JSON share one result.
+
+Counted classification/schema regressions pass across family, variant and
+quantization boundaries. The built doctor/inspect harness covers Unicode-only
+metadata, an unknown architecture, and a recognized Gemma profile deliberately
+missing layout metadata; exact failure detail remains machine-readable. Fresh
+offline build and full suite pass (182/0/1). Read-only checks of the installed
+Gemma 4 E2B Q4_K_M and Qwen 3 0.6B Q4_K_M at context 4096 report
+READY/VERIFIED, passed tensor validation and 3,172,434,532 / 868,304,068 planned
+device bytes. No GPU fit, allocation or inference is inferred. S08b will own
+observed host/device fit explanations.
+
 ## 2026-09-16 — Application program S07b4b: exact model-switch handoff
 
 Reproduced `/model` handoff failure for a valid small Float32: standard String

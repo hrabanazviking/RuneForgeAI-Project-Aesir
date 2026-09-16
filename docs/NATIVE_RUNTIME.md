@@ -15,6 +15,15 @@ aesir chat model.gguf --accel cuda --profile auto --device auto \
 aesir run model.gguf --accel cuda --max-tokens 32 "Hello"
 ```
 
+`aesir inspect <model> --format json` emits a versioned read-only report scoped
+to GGUF metadata and native tensor layout. It reports family, variant,
+quantization, metadata/recommended/requested/evaluated contexts, native profile,
+tensor-validation state and exact planned buffer bytes. `execution_tested` is
+always false: inspection opens no CUDA context and proves neither observed fit,
+allocation nor inference. Unsupported models retain family/quantization reasons;
+recognized profiles retain the specific metadata/tensor validation error.
+Use `compute explain` for observed host/device fit decisions.
+
 `hardware list` reads the Linux CPU model and `MemTotal`/`MemAvailable` from
 procfs, then enumerates CUDA through MAX. Missing CUDA is reported separately
 from the usable CPU path. GPU memory values are attributed to

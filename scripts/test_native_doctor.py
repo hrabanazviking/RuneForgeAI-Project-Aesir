@@ -75,7 +75,45 @@ def check(binary: str) -> None:
         assert inspected["model"]["result"]["name"] == 'Rune ✓ æ 🛠 "fixture"'
         standalone = json.loads(run("inspect", "./metadata.gguf", "--format", "json"))
         assert standalone == inspected["model"]["result"]
+        assert standalone["schema_version"] == 1
+        assert standalone["scope"] == "gguf_metadata_and_native_layout"
+        assert standalone["execution_tested"] is False
+        assert standalone["tensor_validation"] == "not_run"
+        assert standalone["requested_context"] == 0 and standalone["evaluated_context"] == 0
         assert not standalone["cuda_support"]
+
+        def gguf_metadata(fields):
+            encoded = b""
+            for key, value in fields:
+                encoded += gguf_string(key)
+                if isinstance(value, str):
+                    encoded += struct.pack("<I", 8) + gguf_string(value)
+                else:
+                    encoded += struct.pack("<II", 4, value)
+            result = struct.pack("<4sIQQ", b"GGUF", 3, 0, len(fields)) + encoded
+            return result + bytes((-len(result)) % 32)
+
+        (root / "unsupported.gguf").write_bytes(gguf_metadata([
+            ("general.architecture", "fimbul"), ("general.name", "Unknown fixture"),
+            ("general.file_type", 15), ("fimbul.block_count", 12),
+            ("fimbul.embedding_length", 768), ("fimbul.context_length", 2048),
+        ]))
+        unsupported = json.loads(run("inspect", "./unsupported.gguf", "--format", "json"))
+        assert unsupported["status"] == "UNSUPPORTED" and unsupported["family"] == "unknown"
+        assert unsupported["tensor_validation"] == "not_run" and unsupported["execution_tested"] is False
+
+        (root / "layout.gguf").write_bytes(gguf_metadata([
+            ("general.architecture", "gemma4"), ("general.name", "Broken layout fixture"),
+            ("general.size_label", "2B"), ("general.file_type", 15),
+            ("gemma4.block_count", 35), ("gemma4.embedding_length", 1536),
+            ("gemma4.context_length", 131072), ("tokenizer.ggml.model", "gemma4"),
+        ]))
+        layout = json.loads(run("inspect", "./layout.gguf", "--format", "json", "--context", "4096"))
+        assert layout["status"] == "NOT READY" and layout["cuda_support"] is False
+        assert layout["requested_context"] == 4096 and layout["evaluated_context"] == 4096
+        assert layout["tensor_validation"] == "failed" and layout["estimated_vram_bytes"] == 0
+        assert layout["reason"].startswith("Native metadata/tensor validation failed:")
+        assert "Packed GGUF:" in layout["reason"], layout
 
         (root / "weights.bin").write_bytes(b"not-a-gguf-but-trusted-local-bytes\n")
         run("create", "weighted:v1", "--modelfile", "Modelfile", "--model", "weights.bin",

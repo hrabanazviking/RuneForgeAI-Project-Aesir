@@ -398,6 +398,17 @@ the complete ledger population.
 - **Executable evidence:** pinned Gemma E4B Q4_K_M and Stheno Q4_K_S artifacts were parsed, loaded and executed; each passed 35 independent real-weight quantized matvec checks. See `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md`.
 - **Evidence boundary:** This is not a general quantized-GGUF loader. Established admission is limited to the two documented dense profiles and their tensor layouts.
 - **Next acceptance gate:** Per-architecture metadata/layout contracts, additional real fixtures, and independent logits/tokens for each admitted model family.
+- **S08a inspection extension:** `aesir inspect` schema v1 explicitly scopes
+  evidence to GGUF metadata/native layout and reports execution_tested=false,
+  requested/evaluated contexts and tensor validation state. Recognized layout
+  failures retain the exact bounded loader/profile error. Synthetic process
+  fixtures cover unknown architecture, recognized-but-invalid Gemma layout and
+  Unicode metadata; counted classification tests cover family/variant/
+  quantization boundaries and versioned serialization. Installed Gemma 4 E2B
+  Q4_K_M and Qwen 3 0.6B Q4_K_M inspect READY/VERIFIED at context 4096 with
+  exact planned device bytes 3,172,434,532 and 868,304,068. This is read-only
+  metadata/layout validation; observed memory fit and successful inference
+  remain separate gates.
 - **Audit:** AER-051 through AER-054.
 
 ## 8. Tokenization and Decoding

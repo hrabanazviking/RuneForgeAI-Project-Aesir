@@ -136,6 +136,26 @@ conflicting selectors fail before config loading or durable-store access;
 they cannot silently select a store for a mutation. This changes command
 selection only, not catalog format or transaction semantics.
 
+## Model inspection evidence
+
+`inspect <model> [--context N] [--format text|json] [--model-store path]`
+maps bounded GGUF metadata and applies the architecture registry plus the exact
+native profile/tensor validator. JSON is schema version 1 with scope
+`gguf_metadata_and_native_layout` and `execution_tested: false`. It distinguishes
+metadata context, recommended context, caller-requested context and the context
+actually evaluated. `tensor_validation` is `not_run`, `passed`, or `failed`;
+unsupported families/variants/quantizations remain `not_run` because no native
+layout contract applies. Successful validation includes exact planned device
+buffer bytes, but does not observe a GPU or establish fit/allocation/inference.
+
+When a recognized profile fails metadata/tensor validation, `reason` retains the
+bounded loader/profile error (including the failing metadata or tensor name)
+instead of replacing it with a generic mismatch. This is diagnostic detail from
+local model structure, not untrusted code execution. Text and JSON render the
+same `ModelCompatibility` result. Catalog references still rehash their blob
+before inspection; direct paths use the loader's no-follow regular-file boundary.
+Observed device/host fit explanation belongs to `compute explain` and S08b.
+
 ## Native diagnostics
 
 `cli/doctor.mojo` owns parsing and presentation for `aesir doctor [model]

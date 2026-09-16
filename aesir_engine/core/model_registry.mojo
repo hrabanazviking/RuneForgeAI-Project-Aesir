@@ -72,6 +72,9 @@ struct ModelCompatibility(Copyable):
     var supported_quantizations: String
     var metadata_context: Int
     var recommended_context: Int
+    var requested_context: Int
+    var evaluated_context: Int
+    var tensor_validation: String
     var cuda_support: Bool
     var cpu_support: Bool
     var capability_flags: String
@@ -98,6 +101,9 @@ struct ModelCompatibility(Copyable):
         self.supported_quantizations = ""
         self.metadata_context = 0
         self.recommended_context = 0
+        self.requested_context = 0
+        self.evaluated_context = 0
+        self.tensor_validation = "not_run"
         self.cuda_support = False
         self.cpu_support = False
         self.capability_flags = "inspection"
@@ -257,6 +263,8 @@ struct ModelArchitectureRegistry:
 
     @staticmethod
     def inspect(model: PackedGGUF, requested_context: Int = 0) raises -> ModelCompatibility:
+        if requested_context < 0:
+            raise Error("Model inspection context cannot be negative")
         var architecture = _optional_text(model, "general.architecture")
         var prefix = architecture + "."
         var result = Self.classify(
@@ -269,6 +277,7 @@ struct ModelArchitectureRegistry:
             _optional_text(model, "tokenizer.chat_template"),
         )
         var observed_name = _optional_text(model, "general.name")
+        result.requested_context = requested_context
         if observed_name != "":
             result.name = observed_name
         try:
@@ -292,6 +301,7 @@ struct ModelArchitectureRegistry:
         if result.status != "READY":
             return result^
         var context = requested_context if requested_context != 0 else result.recommended_context
+        result.evaluated_context = context
         try:
             if result.native_profile == "gemma4":
                 var profile = gemma4_profile_for(model)
@@ -305,10 +315,12 @@ struct ModelArchitectureRegistry:
                     Int(model.source.file_size), context, llama_profile
                 )
                 result.estimated_vram_bytes = llama_memory.device_bytes
-        except:
+            result.tensor_validation = "passed"
+        except error:
             result.cuda_support = False
             result.status = "NOT READY"
             result.compatibility = "UNSUPPORTED"
-            result.reason = "Metadata or tensor layout does not match the registered native adapter."
+            result.tensor_validation = "failed"
+            result.reason = "Native metadata/tensor validation failed: " + String(error)
             result.estimated_vram_bytes = 0
         return result^

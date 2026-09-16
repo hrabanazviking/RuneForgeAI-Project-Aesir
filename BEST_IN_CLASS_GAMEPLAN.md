@@ -508,7 +508,32 @@ Every row is initially queued unless the execution record says otherwise.
   whitespace gates pass with existing artifact warnings. Physical recipe/config
   switching was not rerun. This completion record closes S07 on push; next S08.
 
-### S08–S48
+### S08 — Model inspection and fit explanation
+
+- Status: active; split into inspection truth (S08a) and observed fit decisions
+  (S08b), preserving the parent gate. S07 was published as `3e58c83`.
+- S08a contract: version the existing inspect JSON as metadata/layout evidence,
+  not execution proof. Report requested/evaluated context and native tensor
+  validation state. Preserve exact bounded loader/profile failure text instead
+  of replacing all layout failures with one generic reason. Keep unsupported
+  family/variant/quantization distinctions and read-only catalog resolution.
+  Gate: classification boundary tables, JSON parse/schema parity, malformed and
+  unsupported real-process fixtures, fresh build/full suite, and read-only
+  inspection of available installed Gemma/Qwen models. Do not claim memory fit,
+  allocation or inference from inspection. S08b owns device/host fit reasons.
+- S08a results: JSON schema v1 and text now expose metadata/layout scope,
+  execution_tested=false, requested/evaluated contexts and tensor-validation
+  state. Recognized layout failures preserve the exact bounded validator error.
+  Counted family/variant/quantization/schema tests pass; synthetic built-process
+  fixtures pass for Unicode metadata, unknown architecture and recognized Gemma
+  with missing layout metadata. Fresh offline build, doctor harness and full
+  counted suite pass (182/0/1). Read-only inspection of installed Gemma 4 E2B
+  Q4_K_M and Qwen 3 0.6B Q4_K_M at context 4096 reports READY/VERIFIED,
+  tensor_validation=passed and planned device bytes 3,172,434,532 and 868,304,068
+  respectively. This does not observe fit or execute inference. S08a verified;
+  push pending. Next S08b observed fit reasons.
+
+### S09–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each
