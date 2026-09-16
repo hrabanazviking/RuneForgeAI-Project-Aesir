@@ -156,6 +156,19 @@ same `ModelCompatibility` result. Catalog references still rehash their blob
 before inspection; direct paths use the loader's no-follow regular-file boundary.
 Observed device/host fit explanation belongs to `compute explain` and S08b.
 
+## Native memory-fit explanation
+
+`compute plan|explain <model>` applies one shared checked fit contract to the
+selected CUDA device and host upload allowance. Its output includes stable
+reason codes and exact required, observed available, reserve, usable, deficit
+and headroom byte counts. The arithmetic checks reserve before evaluating
+`required <= available - reserve`, avoiding subtraction overflow. Selection
+errors preserve a cause for each considered device, including incompatible API,
+compatibility failure, native address-range overflow and a missing requested
+index. Automatic context exhaustion retains the final fit evidence. The report
+is a raceable planning snapshot and neither uploads weights nor proves that a
+later allocation or inference will succeed.
+
 ## Native diagnostics
 
 `cli/doctor.mojo` owns parsing and presentation for `aesir doctor [model]

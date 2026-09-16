@@ -1,3 +1,22 @@
+## 2026-09-16 — Application program S08b: exact observed fit explanations
+
+Replaced Boolean-only memory fit reporting with a shared, overflow-safe
+`MemoryFitExplanation` contract. Device and host decisions now retain stable
+reason codes and exact required, observed available, reserve, usable, deficit
+and headroom bytes. CUDA selection records wrong-API, incompatible,
+out-of-range and absent-device causes; automatic context exhaustion preserves
+the final per-device evidence. `compute plan|explain` renders the selected
+device snapshot and independently observed host result before any upload.
+
+Counted fixtures cover exact fits, one-byte deficits, reserve-over-available,
+the maximum signed-byte boundary and absent explicit devices. The full suite
+passes (182/0/1), and a fresh offline build passed. Observed RTX checks at
+context 4096 reported 3,001,580,956 bytes of device headroom for installed
+Gemma 4 E2B Q4_K_M and 5,305,711,420 for Qwen 3 0.6B Q4_K_M. A deliberate
+16 GiB reserve failed with `device_reserve_exceeds_available` and exact values.
+These are raceable planning snapshots, not allocation or inference proof. This
+closes S08; S09 shared text admission is next.
+
 ## 2026-09-16 — Application program S08a: truthful model inspection
 
 Versioned `aesir inspect --format json` as schema 1 with explicit

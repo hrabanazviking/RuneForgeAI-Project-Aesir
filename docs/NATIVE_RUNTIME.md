@@ -40,6 +40,19 @@ CUDA device. They do not upload weights or promise tokenizer compatibility.
 memory, breaking ties in enumeration order; this is not a speed benchmark.
 An explicit device never falls through to another device or to CPU.
 
+Each accepted device and host result includes a stable reason code and the exact
+`required_bytes`, observed `available_bytes`, `reserve_bytes`, derived
+`usable_bytes`, `deficit_bytes` and `headroom_bytes`. The checked rule is
+`required <= available - reserve`; reserve is compared first so subtraction
+cannot underflow. Success uses `device_fit` / `host_fit`. Rejections distinguish
+`*_reserve_exceeds_available` from `*_required_exceeds_usable`; device selection
+also retains wrong-API, incompatible, native-range and absent-index reasons.
+When automatic context reaches its 2K floor, its error retains the final
+per-device arithmetic. These values are one raceable observation, not a memory
+reservation, allocation success, or inference result.
+The same fit contract is used again by native session admission immediately
+before allocation, so a changed observation fails with the same reason schema.
+
 The same buffer calculation runs immediately before either CUDA session
 allocates. The default reserve is 256 MiB. Driver, allocator and tokenizer
 overhead are not exact model-buffer counts; memory observations can race with

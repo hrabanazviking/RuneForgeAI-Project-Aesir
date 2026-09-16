@@ -510,7 +510,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S08 — Model inspection and fit explanation
 
-- Status: active; split into inspection truth (S08a) and observed fit decisions
+- Status: done; split into inspection truth (S08a) and observed fit decisions
   (S08b), preserving the parent gate. S07 was published as `3e58c83`.
 - S08a contract: version the existing inspect JSON as metadata/layout evidence,
   not execution proof. Report requested/evaluated context and native tensor
@@ -530,8 +530,27 @@ Every row is initially queued unless the execution record says otherwise.
   counted suite pass (182/0/1). Read-only inspection of installed Gemma 4 E2B
   Q4_K_M and Qwen 3 0.6B Q4_K_M at context 4096 reports READY/VERIFIED,
   tensor_validation=passed and planned device bytes 3,172,434,532 and 868,304,068
-  respectively. This does not observe fit or execute inference. S08a verified;
-  push pending. Next S08b observed fit reasons.
+  respectively. This does not observe fit or execute inference. S08a was
+  published as `5e88bcf`.
+- S08b contract: make every host/device fit decision expose stable reason codes
+  and the exact overflow-safe inequality inputs: required, observed available,
+  reserve, usable, deficit and headroom bytes. Preserve automatic/explicit CUDA
+  selection and fail-closed behavior; retain per-device causes when no device
+  fits. Gate with exact-fit, one-byte-deficit, reserve-over-available, maximum
+  signed-byte and absent-device fixtures, the full counted suite, a fresh
+  offline build, and observed explanations for the installed Gemma/Qwen models.
+- S08b results: the planner now returns `MemoryFitExplanation` evidence instead
+  of reducing admission to a Boolean. Selection retains incompatible, wrong-API,
+  out-of-range, absent-device and arithmetic rejection causes; automatic-context
+  exhaustion preserves the final fit evidence. `compute plan|explain` prints
+  device and host reason codes plus required/available/reserve/usable/deficit/
+  headroom bytes from the same selection snapshot. Counted boundary regressions
+  and the full suite pass (182/0/1); a fresh offline build passed. On the observed
+  RTX host, installed Gemma 4 E2B and Qwen 3 0.6B at context 4096 reported exact
+  device headroom of 3,001,580,956 and 5,305,711,420 bytes. A deliberate 16 GiB
+  reserve rejected with `device_reserve_exceeds_available` and retained every
+  arithmetic operand. No allocation or inference is inferred. S08 is complete;
+  next is S09 shared text admission.
 
 ### S09–S48
 

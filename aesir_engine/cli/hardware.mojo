@@ -1,5 +1,5 @@
 """CLI presentation of observed resources and executable native model plans."""
-from aesir import choose_native_cuda_plan, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
+from aesir import choose_native_cuda_plan, explain_host_fit, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
 from cli.model_reference import resolve_model_reference
 
 
@@ -89,8 +89,11 @@ def dispatch_compute(args: List[String]) raises:
           + " host_mapping_and_upload_bytes=" + String(plan.memory.host_upload_bytes)
           + " reserve_bytes=" + String(reserve))
     var host = observe_host_memory()
-    if reserve > host.available_bytes or plan.memory.host_upload_bytes > host.available_bytes - reserve:
-        raise Error("Plan rejected: insufficient host upload memory")
+    var host_fit = explain_host_fit(plan.memory, host.available_bytes, reserve)
+    print("device_fit " + selection.device_fit.describe())
+    print("host_fit " + host_fit.describe())
+    if not host_fit.fits:
+        raise Error("Plan rejected: " + host_fit.describe())
     print("selected=cuda:" + String(selection.device_index) + " cpu_offload=0")
     print("reason=compatible device with sufficient observed memory"
           + ("; highest free memory among fitting devices" if device < 0 else "; explicit device selection")

@@ -104,7 +104,9 @@ The native [configuration contract](docs/CONFIGURATION.md) documents the strict
 JSON schema, validation behavior, and which settings currently affect runtime.
 `aesir inspect <model> --format json` provides versioned, read-only GGUF
 metadata/layout evidence; it explicitly does not claim model execution or
-hardware fit. Use `aesir compute explain` for observed fit planning.
+hardware fit. Use `aesir compute explain` for observed fit planning with stable
+host/device reason codes and exact required, available, reserve, usable, deficit
+and headroom byte counts.
 
 The runtime contains no Python imports and uses direct POSIX memory mapping for
 its verified local CPU slice. No general performance, maximum-utilization, or

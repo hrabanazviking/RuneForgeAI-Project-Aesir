@@ -4,7 +4,7 @@ from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.model_registry import ModelArchitectureRegistry
-from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
+from core.inference_memory import MemoryFitExplanation, InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
 from core.mimir_well import HardwareDiscoveryResult
 
@@ -59,12 +59,33 @@ struct NativeCUDASelection(Copyable):
     var plan: NativeModelPlan
     var device_index: Int
     var context_adjusted: Bool
+    var device_fit: MemoryFitExplanation
 
     def __init__(out self, plan: NativeModelPlan, device_index: Int,
-                 context_adjusted: Bool):
+                 context_adjusted: Bool, device_fit: MemoryFitExplanation):
         self.plan = plan.copy()
         self.device_index = device_index
         self.context_adjusted = context_adjusted
+        self.device_fit = device_fit.copy()
+
+
+struct PlannedCUDADevice(Copyable):
+    var device_index: Int
+    var fit: MemoryFitExplanation
+
+    def __init__(out self, device_index: Int, fit: MemoryFitExplanation):
+        self.device_index = device_index
+        self.fit = fit.copy()
+
+
+def explain_device_fit(memory: InferenceMemoryPlan, free_bytes: Int,
+                       reserve_bytes: Int) raises -> MemoryFitExplanation:
+    return memory.explain_device_fit(free_bytes, reserve_bytes)
+
+
+def explain_host_fit(memory: InferenceMemoryPlan, available_bytes: Int,
+                     reserve_bytes: Int) raises -> MemoryFitExplanation:
+    return memory.explain_host_fit(available_bytes, reserve_bytes)
 
 
 def next_automatic_context(context: Int) raises -> Int:
@@ -76,29 +97,60 @@ def next_automatic_context(context: Int) raises -> Int:
     return max(2048, context // 2)
 
 
-def select_planned_cuda(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
-                        requested_index: Int, reserve_bytes: Int) raises -> Int:
+def select_planned_cuda_with_fit(
+    memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
+    requested_index: Int, reserve_bytes: Int
+) raises -> PlannedCUDADevice:
     discovered.validate()
     if requested_index < -1 or reserve_bytes < 0:
         raise Error("Invalid device selection or memory reserve")
     var selected = -1
     var most_free = -1
+    var selected_fit = MemoryFitExplanation(
+        False, "device_not_selected", memory.device_bytes, 0,
+        reserve_bytes, 0, memory.device_bytes, 0
+    )
+    var candidates = String("")
+    var requested_seen = False
     for device in discovered.devices:
         if requested_index >= 0 and device.backend_index != requested_index:
             continue
-        if device.api != "cuda" or not device.capabilities.is_compatible:
+        requested_seen = True
+        var label = "cuda:" + String(device.backend_index) + "="
+        if device.api != "cuda":
+            candidates += label + "device_api_not_cuda(api=" + device.api + ");"
+            continue
+        if not device.capabilities.is_compatible:
+            candidates += label + "device_incompatible;"
             continue
         var free = device.capabilities.free_memory_bytes
         if free > UInt(9223372036854775807):
-            raise Error("Device memory exceeds native address range")
-        if memory.fits(Int(free), reserve_bytes) and Int(free) > most_free:
+            candidates += label + "device_memory_exceeds_native_range;"
+            continue
+        var fit = explain_device_fit(memory, Int(free), reserve_bytes)
+        if not fit.fits:
+            candidates += label + fit.describe() + ";"
+        elif Int(free) > most_free:
             selected = device.backend_index
             most_free = Int(free)
+            selected_fit = fit.copy()
     if selected < 0:
-        raise Error("No compatible CUDA device fits the requested model/context/reserve (device="
-                    + String(requested_index) + "); discovery=" + discovered.status.name()
-                    + ": " + discovered.message + "; no CPU fallback")
-    return selected
+        if requested_index >= 0 and not requested_seen:
+            candidates += "cuda:" + String(requested_index) + "=requested_device_not_found;"
+        raise Error(
+            "No compatible CUDA device fits the requested model/context/reserve (device="
+            + String(requested_index) + "); candidates=" + candidates
+            + " discovery=" + discovered.status.name() + ": " + discovered.message
+            + "; no CPU fallback"
+        )
+    return PlannedCUDADevice(selected, selected_fit)
+
+
+def select_planned_cuda(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
+                        requested_index: Int, reserve_bytes: Int) raises -> Int:
+    return select_planned_cuda_with_fit(
+        memory, discovered, requested_index, reserve_bytes
+    ).device_index
 
 
 def choose_native_cuda(memory: InferenceMemoryPlan, requested_index: Int = -1,
@@ -122,26 +174,31 @@ def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
     discovered.validate()
     var plan = NativeModelPlan(path, requested_profile, requested_context)
     if requested_context != 0:
+        var selected = select_planned_cuda_with_fit(
+            plan.memory, discovered, requested_index, reserve_bytes
+        )
         return NativeCUDASelection(
-            plan, select_planned_cuda(
-                plan.memory, discovered, requested_index, reserve_bytes
-            ), False
+            plan, selected.device_index, False, selected.fit
         )
     var original_context = plan.context_length
     while True:
         try:
-            return NativeCUDASelection(
-                plan, select_planned_cuda(
-                    plan.memory, discovered, requested_index, reserve_bytes
-                ), plan.context_length != original_context
+            var selected = select_planned_cuda_with_fit(
+                plan.memory, discovered, requested_index, reserve_bytes
             )
-        except:
+            return NativeCUDASelection(
+                plan, selected.device_index,
+                plan.context_length != original_context, selected.fit
+            )
+        except error:
+            var final_fit_error = String(error)
             var next_context = next_automatic_context(plan.context_length)
             if next_context == 0:
                 raise Error(
                     "No compatible CUDA device fits this model with the "
                     + String(reserve_bytes)
                     + "-byte reserve, even at the automatic 2048-token context; "
-                    + "choose another device/model or lower --reserve-mib"
+                    + "choose another device/model or lower --reserve-mib; final_fit="
+                    + final_fit_error
                 )
             plan = NativeModelPlan(path, plan.profile, next_context)

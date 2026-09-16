@@ -1,7 +1,7 @@
 """Injected memory and device policy evidence; no physical hardware claims."""
 from core.native_hardware import parse_linux_memory, bounded_decimal
 from core.inference_memory import InferenceMemoryPlan, llama3_memory_plan, gemma4_memory_plan
-from core.runtime_plan import select_planned_cuda, next_automatic_context
+from core.runtime_plan import explain_device_fit, explain_host_fit, select_planned_cuda, next_automatic_context
 from core.mimir_well import HardwareDiscoveryResult, PhysicalDevice, GPURealmType, DiscoveryStatus
 from tests.test_hardware_discovery import make_device
 from cli.hardware import dispatch_compute, dispatch_hardware
@@ -38,6 +38,42 @@ def test_native_memory_counts() raises:
 def test_native_memory_rejection() raises:
     var plan = InferenceMemoryPlan(100, 200, 300)
     plan.admit(704, 304, 100)
+    var exact_device = explain_device_fit(plan, 704, 100)
+    var exact_host = explain_host_fit(plan, 304, 100)
+    if (not exact_device.fits or exact_device.reason_code != "device_fit"
+            or exact_device.usable_bytes != 604 or exact_device.headroom_bytes != 0
+            or not exact_host.fits or exact_host.reason_code != "host_fit"
+            or exact_host.usable_bytes != 204 or exact_host.headroom_bytes != 0):
+        raise Error("Exact-fit memory explanation mismatch")
+    var device_short = explain_device_fit(plan, 703, 100)
+    var device_reserve = explain_device_fit(plan, 100, 101)
+    var host_short = explain_host_fit(plan, 303, 100)
+    if (device_short.reason_code != "device_required_exceeds_usable"
+            or device_short.deficit_bytes != 1 or device_short.usable_bytes != 603
+            or device_reserve.reason_code != "device_reserve_exceeds_available"
+            or device_reserve.usable_bytes != 0 or device_reserve.deficit_bytes != 604
+            or host_short.reason_code != "host_required_exceeds_usable"
+            or host_short.deficit_bytes != 1 or host_short.usable_bytes != 203):
+        raise Error("Rejected memory explanation lost exact arithmetic")
+    var wide = explain_device_fit(plan, 9223372036854775807, 100)
+    if not wide.fits or wide.headroom_bytes != 9223372036854775103:
+        raise Error("Memory explanation overflow boundary mismatch")
+    var admission_detail = String("")
+    try:
+        plan.admit(703, 304, 100)
+    except error:
+        admission_detail = String(error)
+    if ("code=device_required_exceeds_usable" not in admission_detail
+            or "deficit_bytes=1" not in admission_detail):
+        raise Error("CUDA session admission did not use shared fit evidence")
+    admission_detail = ""
+    try:
+        plan.admit(704, 303, 100)
+    except error:
+        admission_detail = String(error)
+    if ("code=host_required_exceeds_usable" not in admission_detail
+            or "deficit_bytes=1" not in admission_detail):
+        raise Error("Host session admission did not use shared fit evidence")
     if plan.fits(703, 100) or plan.fits(100, 101):
         raise Error("Memory admission ignored reserve")
     var cases: List[Int] = [0, 1, 2]
@@ -62,11 +98,23 @@ def test_native_device_selection() raises:
         var device = make_device(GPURealmType(GPURealmType.NVIDIA_CUDA), i, Int64(i), "injected:" + String(i), "cuda", i != 2)
         device.capabilities.free_memory_bytes = UInt((i + 1) * 1000)
         devices.append(device^)
+    var hip = make_device(
+        GPURealmType(GPURealmType.AMD_ROCM_HIP), 3, Int64(3),
+        "injected:3", "hip"
+    )
+    devices.append(hip^)
+    var huge = make_device(
+        GPURealmType(GPURealmType.NVIDIA_CUDA), 4, Int64(4),
+        "injected:4", "cuda"
+    )
+    huge.capabilities.total_memory_bytes = UInt(9223372036854775808)
+    huge.capabilities.free_memory_bytes = UInt(9223372036854775808)
+    devices.append(huge^)
     var discovered = HardwareDiscoveryResult(DiscoveryStatus(DiscoveryStatus.SUCCESS), "injected devices", devices)
     var memory = InferenceMemoryPlan(100, 200, 300)
     if select_planned_cuda(memory, discovered, -1, 100) != 1 or select_planned_cuda(memory, discovered, 0, 100) != 0:
         raise Error("Explicit/automatic selection mismatch")
-    var bad: List[Int] = [2, 3, -2]
+    var bad: List[Int] = [2, 3, 4, 5, -2]
     for index in bad:
         var rejected = False
         try:
@@ -75,6 +123,42 @@ def test_native_device_selection() raises:
             rejected = True
         if not rejected:
             raise Error("Unavailable/incompatible device selected")
+    var detail = String("")
+    try:
+        _ = select_planned_cuda(memory, discovered, 0, 397)
+    except error:
+        detail = String(error)
+    if ("code=device_required_exceeds_usable" not in detail
+            or "required_bytes=604" not in detail
+            or "available_bytes=1000" not in detail
+            or "reserve_bytes=397" not in detail
+            or "usable_bytes=603" not in detail
+            or "deficit_bytes=1" not in detail):
+        raise Error("Device rejection did not retain exact fit evidence")
+    detail = ""
+    try:
+        _ = select_planned_cuda(memory, discovered, 9, 100)
+    except error:
+        detail = String(error)
+    if "requested_device_not_found" not in detail:
+        raise Error("Missing requested device reason was not retained")
+    var reason_cases: List[Int] = [2, 3, 4, 0]
+    var expected: List[String] = [
+        "device_incompatible", "device_api_not_cuda(api=hip)",
+        "device_memory_exceeds_native_range",
+        "code=device_reserve_exceeds_available"
+    ]
+    for i in range(len(reason_cases)):
+        detail = ""
+        try:
+            _ = select_planned_cuda(
+                memory, discovered, reason_cases[i],
+                1001 if reason_cases[i] == 0 else 100
+            )
+        except error:
+            detail = String(error)
+        if expected[i] not in detail:
+            raise Error("Device rejection reason was not retained: " + expected[i])
 
 
 def test_automatic_context_sequence() raises:
