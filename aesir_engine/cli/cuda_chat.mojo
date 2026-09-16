@@ -3,7 +3,7 @@ from std.ffi import external_call
 from std.collections import InlineArray
 from aesir import Gemma4CUDASession, Llama3CUDASession, NativeModelPlan, choose_native_cuda_plan, NativeSamplingConfig, GenerationControl, bounded_decimal, monotonic_milliseconds
 from cli.hardware import parse_device_index, parse_reserve_bytes
-from cli.sampling import with_sampling_option, sampling_option_name
+from cli.sampling import with_sampling_option, sampling_option_name, sampling_decimal_text
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
@@ -133,13 +133,18 @@ def requested_model_switch(
     return target
 
 
-def exec_chat_model_switch(
+def build_chat_model_switch_arguments(
     target: String, model_store: String, device_index: Int,
     reserve_bytes: Int, requested_context: Int, requested_max_tokens: Int,
     system: String, sampling: NativeSamplingConfig, timeout_ms: Int,
     tui: Bool, transcript_fd: Int32,
-) raises:
-    """Replaces this process image so MAX CUDA starts from a clean runtime."""
+) raises -> List[String]:
+    """Builds the exact process-image handoff without performing execv."""
+    sampling.validate()
+    if reserve_bytes < 0 or reserve_bytes % 1048576 != 0:
+        raise Error("Model switch reserve must be a nonnegative whole MiB")
+    if requested_context < 0 or requested_max_tokens < 0 or timeout_ms < 0:
+        raise Error("Model switch settings must be nonnegative")
     var arguments = List[String]()
     arguments.append("aesir")
     arguments.append("chat")
@@ -157,15 +162,15 @@ def exec_chat_model_switch(
     arguments.append("--system")
     arguments.append(system)
     arguments.append("--temperature")
-    arguments.append(String(sampling.temperature))
+    arguments.append(sampling_decimal_text(sampling.temperature))
     arguments.append("--top-k")
     arguments.append(String(sampling.top_k))
     arguments.append("--top-p")
-    arguments.append(String(sampling.top_p))
+    arguments.append(sampling_decimal_text(sampling.top_p))
     arguments.append("--min-p")
-    arguments.append(String(sampling.min_p))
+    arguments.append(sampling_decimal_text(sampling.min_p))
     arguments.append("--repeat-penalty")
-    arguments.append(String(sampling.repetition_penalty))
+    arguments.append(sampling_decimal_text(sampling.repetition_penalty))
     arguments.append("--repeat-last-n")
     arguments.append(String(sampling.repeat_last_n))
     arguments.append("--seed")
@@ -183,6 +188,20 @@ def exec_chat_model_switch(
     if transcript_fd >= 0:
         arguments.append("--resume-log-fd")
         arguments.append(String(transcript_fd))
+    return arguments^
+
+
+def exec_chat_model_switch(
+    target: String, model_store: String, device_index: Int,
+    reserve_bytes: Int, requested_context: Int, requested_max_tokens: Int,
+    system: String, sampling: NativeSamplingConfig, timeout_ms: Int,
+    tui: Bool, transcript_fd: Int32,
+) raises:
+    """Replaces this process image so MAX CUDA starts from a clean runtime."""
+    var arguments = build_chat_model_switch_arguments(
+        target, model_store, device_index, reserve_bytes, requested_context,
+        requested_max_tokens, system, sampling, timeout_ms, tui, transcript_fd,
+    )
     var bytes = List[List[Int8]]()
     for argument in arguments:
         var encoded = List[Int8]()

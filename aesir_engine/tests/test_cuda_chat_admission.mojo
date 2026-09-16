@@ -1,10 +1,13 @@
 """Invalid CUDA chat requests must fail before opening a model or transcript."""
 from cli.cuda_chat import (
     ChatTranscript,
+    build_chat_model_switch_arguments,
     dispatch_cuda_chat,
     default_chat_max_tokens,
     parse_model_switch,
 )
+from core.sampling_config import NativeSamplingConfig
+from core.sampling_options import sampling_decimal
 from std.collections import InlineArray
 from std.ffi import external_call
 
@@ -37,6 +40,36 @@ def test_cuda_model_switch_syntax() raises:
     _ = external_call["close", Int32](descriptors[1])
     if not descriptor_rejected:
         raise Error("transcript handoff accepted a pipe descriptor")
+
+    var sampling = NativeSamplingConfig(
+        Float32(0.000001), 17, Float32(0.0000001), Float32(0.00000001),
+        Float32(1.000001), 257, UInt64(18446744073709551615),
+    )
+    var handoff = build_chat_model_switch_arguments(
+        "next", "private/models", 2, 536870912, 4096, 128, "", sampling,
+        1234, True, Int32(9),
+    )
+    var names: List[String] = [
+        "--temperature", "--top-p", "--min-p", "--repeat-penalty",
+    ]
+    var expected: List[Float32] = [
+        sampling.temperature, sampling.top_p, sampling.min_p,
+        sampling.repetition_penalty,
+    ]
+    for field in range(len(names)):
+        var found = False
+        for index in range(len(handoff) - 1):
+            if handoff[index] == names[field]:
+                found = True
+                var text = handoff[index + 1]
+                if "e" in text or "E" in text or sampling_decimal(text) != expected[field]:
+                    raise Error("Model switch sampling handoff changed " + names[field])
+        if not found:
+            raise Error("Model switch omitted " + names[field])
+    if ("--context" not in handoff or "--max-tokens" not in handoff
+            or "--tui" not in handoff or "--resume-log-fd" not in handoff
+            or handoff[1] != "chat" or handoff[2] != "next"):
+        raise Error("Model switch lost non-sampling handoff settings")
 
 def test_cuda_chat_admission() raises:
     if (default_chat_max_tokens("llama3", "llama3-8B", 8192) != 4096

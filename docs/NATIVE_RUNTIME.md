@@ -142,7 +142,16 @@ aesir chat model.gguf --accel cuda --profile auto --context 8192 \
 CLI fractional values use unsigned decimal syntax such as `0.8` (no signs,
 exponents, NaN or infinity). Duplicate, unknown and out-of-range flags fail
 before model/transcript I/O. `run` and the legacy configuration-file sampler
-are separate surfaces; these flags currently belong to native CUDA `chat`.
+are separate surfaces. Native CUDA `chat` and `serve` accept these startup
+flags; interactive `/set` belongs to chat.
+
+When `/model` replaces the process image, its four floating controls are
+rendered as exponent-free unsigned decimals that the same strict CLI parser
+accepts. The formatter verifies exact Float32 round trip across the boundary;
+small values such as `0.000001` no longer become rejected `1e-06` handoff text.
+This internal formatting does not widen public syntax. Counts and seeds retain
+their integer representation, while conversation state and sampler draw index
+still reset as documented below.
 
 Repetition penalties apply once to each token present in the last N processed
 tokens, including prompt and framing tokens: positive logits are divided by

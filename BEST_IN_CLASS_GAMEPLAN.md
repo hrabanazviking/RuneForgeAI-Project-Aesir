@@ -395,7 +395,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S07 — Generation settings and precedence
 
-- Status: active. S03 dependency was published as `2e13fd4`; S06's physical
+- Status: done. S03 dependency was published as `2e13fd4`; S06's physical
   launch witnesses do not block this independent settings work.
 - S07a contract: move pure native sampling parsing/update validation to core,
   retaining the CLI adapter. Add `serve` sampling flags as immutable service
@@ -486,7 +486,27 @@ Every row is initially queued unless the execution record says otherwise.
   explicit values and context mismatch refusal. Fresh offline native build,
   settings/service process harnesses and counted suite pass (182/0/1).
   Doc drift and whitespace checks pass with existing artifact warnings.
-  Verified; push pending. Session handoff is next; S07 remains active.
+  Done; verified and pushed as `50bde3e`. Session handoff is next; S07 remains active.
+- S07b4b active contract: serialize finite nonnegative native Float32 sampling
+  values into the existing bounded unsigned-decimal CLI grammar for `/model`
+  handoff. Expand exponent notation from Float64 formatting and verify numerical
+  round trips; canonicalize signed zero to zero. Use it for the four floating
+  controls only; preserve seed/count integer paths and process-image lifecycle.
+  Gate: reproduce current small-value handoff refusal, boundary/stratified IEEE
+  value round trips, malformed/negative/nonfinite rejection, counted suite,
+  native build and process settings/Home regressions. No new physical model
+  switch claim; no widening of public sampling syntax.
+- S07b4b results: the focused regression reproduced `String(Float32(0.000001))`
+  becoming exponent notation rejected by the unchanged public parser. The core
+  handoff formatter now expands exponent form, bounds output and verifies exact
+  UInt32 bit round trip before exec; signed zero becomes `0`. A 1,031-value
+  stratified positive finite Float32 corpus covers every exponent plus selected
+  mantissas, subnormals and maximum finite value; negative/NaN/infinity reject.
+  Counted model-switch tests verify four floating argv controls plus preserved
+  non-sampling controls. Focused sampling, fresh offline build, settings/Home
+  process regressions and full counted suite pass (182/0/1). Doc drift and
+  whitespace gates pass with existing artifact warnings. Physical recipe/config
+  switching was not rerun. This completion record closes S07 on push; next S08.
 
 ### S08–S48
 

@@ -1,5 +1,5 @@
 """CLI flag adapter; pure value parsing belongs to core sampling policy."""
-from core.sampling_options import sampling_uint, sampling_decimal, with_sampling_option
+from core.sampling_options import sampling_uint, sampling_decimal, sampling_decimal_text, with_sampling_option
 
 
 def sampling_option_name(flag: String) -> String:

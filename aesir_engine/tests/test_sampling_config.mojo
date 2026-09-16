@@ -1,7 +1,7 @@
 """Hardware-independent sampling validation; no inference capability claims."""
 from std.memory import bitcast
 from core.sampling_config import NativeSamplingConfig
-from cli.sampling import sampling_decimal, sampling_uint, with_sampling_option
+from cli.sampling import sampling_decimal, sampling_decimal_text, sampling_uint, with_sampling_option
 
 
 def test_sampling_syntax() raises:
@@ -66,6 +66,39 @@ def test_sampling_config_rejection() raises:
 
 
 def test_sampling_config_updates() raises:
+    var bit_patterns: List[UInt32] = [
+        0, 0x80000000, 1, 2, 0x00000100, 0x007fffff, 0x00800000,
+        0x00800001, 0x3f000000, 0x3f800000, 0x3f800001, 0x41200000,
+        0x4b000001, 0x7f000000, 0x7f7fffff,
+    ]
+    for exponent in range(1, 255):
+        bit_patterns.append(UInt32(exponent << 23))
+        bit_patterns.append(UInt32((exponent << 23) | 1))
+        bit_patterns.append(UInt32((exponent << 23) | 0x003fffff))
+        bit_patterns.append(UInt32((exponent << 23) | 0x007fffff))
+    for bits in bit_patterns:
+        var value = bitcast[DType.float32](bits)
+        var text = sampling_decimal_text(value)
+        if text.byte_length() == 0 or text.byte_length() > 64 or "e" in text or "E" in text or "+" in text or "-" in text:
+            raise Error("Sampling handoff text escaped the public decimal grammar")
+        var parsed = sampling_decimal(text)
+        if value == 0:
+            if text != "0":
+                raise Error("Sampling handoff did not canonicalize signed zero")
+        elif parsed != value:
+            raise Error("Sampling handoff changed a finite Float32 value")
+    var invalid_values: List[Float32] = [
+        -1, bitcast[DType.float32](UInt32(0x7f800000)),
+        bitcast[DType.float32](UInt32(0x7fc00000)),
+    ]
+    for value in invalid_values:
+        var rejected = False
+        try:
+            _ = sampling_decimal_text(value)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Sampling handoff accepted negative or nonfinite input")
     var original = NativeSamplingConfig()
     var changed = with_sampling_option(original, "temperature", "0.8")
     changed = with_sampling_option(changed, "seed", "0")
@@ -78,3 +111,10 @@ def test_sampling_config_updates() raises:
         rejected = True
     if not rejected:
         raise Error("Unknown sampling update accepted")
+
+
+def main() raises:
+    test_sampling_syntax()
+    test_sampling_config_rejection()
+    test_sampling_config_updates()
+    print("PASS native sampling syntax, validation and round trips")

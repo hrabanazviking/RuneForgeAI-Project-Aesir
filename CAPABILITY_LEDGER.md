@@ -507,8 +507,8 @@ the complete ledger population.
   field rejection. `test_native_service_settings.py` passes actual-process
   pre-key admission for all flags; build and counted suite pass (182/0/1).
   This proves settings resolution/admission, not a new physical HTTP inference
-  witness. S07b2/b3 add native recipe/config startup resolution below;
-  remaining session/token precedence gates remain open.
+  witness. S07b2 through S07b4 add native recipe/config startup resolution,
+  cross-adapter request limits and exact model-switch settings handoff below.
 - **Additional bounded component:** `SkaldbrodirDetector` computes exact periodicity over at most 64 caller-supplied token IDs, emits intervention tiers, and requires two terminal observations before `INF-016`. The counted paradigm test covers repeated-token termination and a non-repeating sequence.
 - **Evidence boundary:** One NVIDIA host/toolchain and two documented CUDA profiles; no general CPU sampler integration, cross-device bit identity, optimized throughput, grammar or service integration claim. SKÁLDBRØÐIR is not connected to generation and does not itself apply a penalty or stop a session. Full policy and reproduction commands: `docs/NATIVE_RUNTIME.md`.
 - **Next acceptance gate:** Larger independent distributions and model-quality evaluations, optimized device selection, model-specific default presets, and measured integration of repetition intervention signals.
@@ -648,7 +648,14 @@ the complete ledger population.
   Counted cross-adapter policy/parser tests, fresh native build and existing
   settings/service admission harnesses pass (full suite 182/0/1). No new physical
   HTTP inference or independent-client compatibility proof is claimed.
-- **Remaining layering boundary:** Session handoff remains open. Preview is
+- **S07b4b session handoff:** Floating sampler controls now cross `/model` exec
+  as exponent-free, at-most-64-byte unsigned decimal text that exactly round
+  trips the source Float32 bits. The unchanged public parser still rejects
+  exponent syntax. Counted tests cover 1,031 stratified positive finite bit
+  patterns, signed zero canonicalization, invalid values, four handoff controls
+  and retained non-sampling argv. The earlier physical switch witness remains;
+  recipe/config-backed physical switching was not rerun.
+- **Layering boundary:** Preview is
   before hardware planning: it proves neither architecture, capacity nor inference.
   Physical recipe-based conversation/model-switch witnesses remain unverified.
 - **Audit:** AER-060, AER-067.
@@ -797,6 +804,12 @@ the complete ledger population.
 - **Claim sources:** Round 2 model adoption and usability plan; native runtime guide
 - **Implementation evidence:** `/model <name-or-alias-or-path>` resolves and inspects a READY CUDA target while the current session remains healthy. The accepted request returns out of the concrete Gemma or dense-GQA session scope, releasing model-specific resources. A same-PID `execv` process-image handoff then starts the target with a fresh MAX CUDA runtime while preserving terminal/stdin, signal bootstrap state, model-store selection, device/reserve, system prompt, sampling settings, timeout, explicit context/completion preferences, TUI mode, and an inherited durable transcript descriptor. Conversation tokens, KV, repetition history, and sampler draw position intentionally reset.
 - **Executable evidence:** `E-MASTER` case `cli.cuda_model_switch_syntax` covers accepted alias/path syntax and malformed controls. The opt-in `scripts/test_native_model_switch.py` physical harness switched Gemma 4 E2B → Qwen 3 0.6B Q4_K_M → Gemma 4 E2B inside one chat task, preserved interactive temperature and timeout changes, retained one transcript, and rejected same-model and missing-file requests before unloading the healthy current session.
+- **S07b4b handoff evidence:** `build_chat_model_switch_arguments()` exposes the
+  exact pre-exec argv for pure testing. Floating values use the shared exact
+  decimal serializer, eliminating exponent-formatted small values that the next
+  process would reject. The counted model-switch case checks all four floating
+  fields plus context, reply limit, TUI and transcript settings. This extends
+  construction evidence; it is not a new physical switch run.
 - **Evidence boundary:** This is Linux `/proc/self/exe` plus `execv` process-image switching for interactive native CUDA chat. It preserves PID and user-facing application continuity but does not preserve conversation state, loaded kernels, or open resources other than the explicit transcript descriptor. Prompt-file mode treats `/model` literally. Windows-native operation, crash recovery during handoff, encrypted transcript descriptors, background model pools, and zero-latency switching are not claimed.
 - **Next acceptance gate:** Add an integration test that samples before and after switching, a machine-observed PID/VRAM timeline, optional conversation-save prompting, and a portable process-handoff abstraction.
 - **Audit:** Round 2 physical and counted verification, 2026-09-11.

@@ -1,3 +1,22 @@
+## 2026-09-16 — Application program S07b4b: exact model-switch handoff
+
+Reproduced `/model` handoff failure for a valid small Float32: standard String
+formatting emitted `1e-06`, while the deliberately strict next-process CLI
+accepts unsigned decimal notation only. Added a core serializer that expands
+exponent form, canonicalizes signed zero, enforces the 64-byte grammar bound and
+checks exact bit-level Float32 round trip before exec. Public syntax remains
+unchanged. Integer counts and UInt64 seeds retain their existing paths.
+
+Extracted exact handoff argv construction for pure counted verification. The
+tests cover four floating sampling controls, context/reply preferences, TUI,
+transcript descriptor and 1,031 stratified positive finite Float32 values across
+all exponent classes, selected mantissas, subnormals and maximum finite value;
+negative/NaN/infinity reject. Focused sampling, fresh offline build, settings and
+Home process regressions, full suite (182 pass, 0 fail, 1 existing skip), doc
+drift and whitespace checks pass. No new physical model-switch witness is
+claimed. With request limits and config/recipe/API precedence already verified,
+this closes S07; S08 model inspection/explanation is next.
+
 ## 2026-09-14 — Application program S07b4a: request limits
 
 Reproduced a native request inheriting 256 tokens when the resolved service

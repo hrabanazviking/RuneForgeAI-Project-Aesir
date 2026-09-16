@@ -1,5 +1,6 @@
 """Pure native sampling value grammar shared by CLI, sessions and protocols."""
 from std.math import isfinite
+from std.memory import bitcast
 from core.sampling_config import NativeSamplingConfig
 
 
@@ -40,6 +41,82 @@ def sampling_decimal(text: String) raises -> Float32:
     if digits == 0 or not isfinite(result):
         raise Error("Sampling value must be a finite decimal")
     return result
+
+
+def _sampling_exponent(text: String) raises -> Int:
+    if text.byte_length() == 0:
+        raise Error("Sampling exponent is empty")
+    var negative = False
+    var index = 0
+    var source = text.as_bytes()
+    if source[0] == 43 or source[0] == 45:
+        negative = source[0] == 45
+        index = 1
+    if index == len(source):
+        raise Error("Sampling exponent has no digits")
+    var result = 0
+    while index < len(source):
+        var byte = source[index]
+        if byte < 48 or byte > 57 or result > 999:
+            raise Error("Sampling exponent is malformed or excessive")
+        result = result * 10 + Int(byte - 48)
+        index += 1
+    return -result if negative else result
+
+
+def sampling_decimal_text(value: Float32) raises -> String:
+    """Returns exact Float32 text accepted by the strict public CLI grammar."""
+    if not isfinite(value) or value < 0:
+        raise Error("Sampling handoff value must be finite and nonnegative")
+    if value == 0:
+        return "0"
+    var raw = String(value)
+    var exponent_at = -1
+    var decimal_at = -1
+    var source = raw.as_bytes()
+    for index in range(len(source)):
+        if source[index] == 46:
+            if decimal_at >= 0:
+                raise Error("Sampling formatter produced multiple decimal points")
+            decimal_at = index
+        elif source[index] == 101 or source[index] == 69:
+            exponent_at = index
+            break
+        elif source[index] < 48 or source[index] > 57:
+            raise Error("Sampling formatter produced unsupported text")
+    if exponent_at < 0:
+        if bitcast[DType.uint32](sampling_decimal(raw)) != bitcast[DType.uint32](value):
+            raise Error("Sampling decimal handoff did not round-trip")
+        return raw
+
+    var exponent = _sampling_exponent(String(raw[byte=exponent_at + 1:]))
+    var digits = String("")
+    var digits_before = 0
+    for index in range(exponent_at):
+        if source[index] == 46:
+            digits_before = digits.byte_length()
+        else:
+            digits += String(raw[byte=index : index + 1])
+    if decimal_at < 0:
+        digits_before = digits.byte_length()
+    var position = digits_before + exponent
+    var output: String
+    if position <= 0:
+        output = "0."
+        for _ in range(-position):
+            output += "0"
+        output += digits
+    elif position >= digits.byte_length():
+        output = digits
+        for _ in range(position - digits.byte_length()):
+            output += "0"
+    else:
+        output = String(digits[byte=0:position]) + "." + String(digits[byte=position:])
+    if output.byte_length() > 64:
+        raise Error("Sampling decimal handoff exceeds the CLI grammar bound")
+    if bitcast[DType.uint32](sampling_decimal(output)) != bitcast[DType.uint32](value):
+        raise Error("Sampling decimal handoff did not round-trip")
+    return output
 
 
 def with_sampling_option(config: NativeSamplingConfig, name: String, value: String) raises -> NativeSamplingConfig:

@@ -54,7 +54,13 @@ of that session's scope, then uses a same-PID `execv` image replacement before
 the next plan/load. The handoff preserves terminal input, settings, signal
 bootstrap state, and an inherited transcript descriptor while deliberately
 discarding model-specific conversation/KV state. This avoids overlapping GPU
-allocations and the observed MAX sequential-context deadlock.
+allocations and the observed MAX sequential-context deadlock. Floating sampling
+controls cross the exec boundary as exponent-free unsigned decimal text from
+`core/sampling_options.mojo::sampling_decimal_text`. It expands the standard
+Float32 formatter's exponent form, enforces the existing 64-byte public grammar,
+and verifies exact bit-level round trip before exec. Signed zero becomes `0`;
+negative/nonfinite values fail. The public CLI still rejects exponent notation.
+Count and seed handoff remains integer text.
 
 `cli/conversation.mojo` owns the bounded checksummed v1 snapshot codec,
 exclusive owner-private file publication, loading, and readable Markdown
@@ -69,9 +75,8 @@ replays validated tokens into empty KV without sampling or retokenizing text.
 config is passed both to the allocated session and to the service's immutable
 request baseline. Each request copies that baseline before applying explicit
 fields; request-specific changes never become defaults for the next request.
-`repeat-last-n` is a startup-only allocation choice. Native recipe layering is
-described below; remaining session/token precedence gates are separate S07
-follow-ups.
+`repeat-last-n` is a startup-only allocation choice. Native recipe/config
+layering and request limits are described below.
 
 ## Native config, recipe and explicit-CLI settings
 
@@ -115,7 +120,9 @@ During `/model`, target recipe syntax/value support is checked before the curren
 session is released. Existing handoff retains current sampling/system as explicit
 CLI values; only originally explicit context/reply limits carry over, so otherwise
 the target recipe supplies those requests. Final combined limits and hardware fit
-are checked after handoff. Physical switches with recipes remain unverified.
+are checked after handoff. Float sampling fields are serialized without exponent
+notation and tested across stratified finite Float32 values. Physical switches
+with recipes/config remain unverified.
 
 ## Catalog store selection
 
