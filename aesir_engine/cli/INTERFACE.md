@@ -385,6 +385,15 @@ focused verification. Store-root validation delegates to the authoritative
 `validate_manifest_storage_identity` is the single recipe/blob digest-and-size
 invariant used by catalog decode, durable serialization, and collection.
 
+`scripts/test_catalog_crash_atomicity.py` is the Linux process-crash evidence
+for the catalog commit protocol. Its test-only interposition shim kills the
+unmodified native binary after successful staged write, staged-file `fsync`,
+rename, and directory `fsync`. Restart must expose exactly the old catalog for
+pre-rename kills or the complete new catalog for post-rename kills, and a later
+mutation must still succeed. This is not sudden-power-loss, injected-error, or
+garbage-collection crash proof; pre-rename staging remnants are currently
+ignored rather than automatically removed.
+
 ---
 
 ### `RuneREPL` (`cli/repl.mojo`)

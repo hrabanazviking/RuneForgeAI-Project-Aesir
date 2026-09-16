@@ -569,7 +569,26 @@ Every row is initially queued unless the execution record says otherwise.
   while preserving every test-owned durable byte. Fresh offline build and full
   suite pass (183/0/1, 184 total). S09 is complete; next is S10 crash injection.
 
-### S10–S48
+### S10 — Catalog commit crash injection
+
+- Status: done. A Linux-only process harness compiles a test-owned
+  `LD_PRELOAD` shim, performs a real native `cp` catalog mutation, and sends
+  `SIGKILL` immediately after successful staged write, staged-file `fsync`,
+  atomic rename, or store-directory `fsync`. Each stage starts from the same
+  independently created old catalog and is compared byte-for-byte with an
+  independently committed new catalog.
+- Evidence: pre-rename kills restart with exactly the old record; post-rename
+  kills restart with exactly the complete new record. No stage exposes empty,
+  partial, or unknown catalog bytes, and every restarted store accepts a later
+  mutation. The shim writes an out-of-store marker through direct syscalls so
+  the harness proves the intended boundary was reached. The fresh current
+  native binary passed all four stages; the harness is now a hosted Linux CI gate.
+  This is process-crash evidence, not a simulated sudden-power-loss/filesystem
+  durability proof. Pre-rename kills can leave an ignored private staging file;
+  automatic root-stage cleanup and garbage-collection fault injection remain
+  open. S10 is complete; next is S11 resumable-download hardening.
+
+### S11–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

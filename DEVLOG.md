@@ -1,3 +1,22 @@
+## 2026-09-16 — Application program S10: catalog commit crash injection
+
+Added a Linux process-crash harness around the real native catalog transaction.
+A test-only `LD_PRELOAD` shim identifies the exact catalog stage descriptor and
+path, records the reached boundary outside the store through direct syscalls,
+then sends `SIGKILL` immediately after staged write, staged-file `fsync`, atomic
+rename, or store-directory `fsync`. The application has no production crash
+switch or test-hook branch.
+
+Each stage begins from identical independently committed old/new catalog bytes.
+Pre-rename kills restart into exactly the old record; post-rename kills restart
+into exactly the complete new record. No empty, partial, or unknown bytes are
+accepted, and each restarted store remains writable. The harness compiles with
+warnings as errors, passed all four stages against the fresh current native binary,
+and is now a hosted Linux CI gate. This proves process-kill atomic visibility,
+not sudden-power-loss durability. Private pre-rename staging remnants are
+ignored but not yet automatically removed; collection fault injection remains
+open. This closes S10; S11 resumable-download hardening is next.
+
 ## 2026-09-16 — Application program S09: shared persisted-text admission
 
 Added one core byte-admission contract before Mojo String construction for

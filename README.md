@@ -1034,6 +1034,10 @@ Add `--show-settings` to `chat <model> --accel cuda` or `serve <model>
 Configuration, catalog, preference, conversation and checkpoint text now share
 one strict pre-parse NUL/UTF-8 admission boundary; format parsers separately
 require complete records so appended data cannot be silently ignored.
+The native catalog transaction also has a deterministic Linux process-crash
+gate: forced kills after write, file sync, rename and directory sync restart
+with exactly the old or complete new record and remain writable. This is not a
+claim about sudden power loss on every filesystem.
 
 > **Advanced Edge System for Interface and Response**
 

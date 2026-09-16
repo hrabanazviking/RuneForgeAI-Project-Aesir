@@ -98,8 +98,19 @@ failed-mutation rollback, native Linux permissions, final-symlink rejection,
 fail-before-delete directory validation, unreachable-blob collection, stale-stage
 cleanup, exact reclaimed-byte accounting, and referenced-blob retention.
 
+`python3 scripts/test_catalog_crash_atomicity.py --binary /path/to/aesir` compiles a
+test-only Linux `LD_PRELOAD` shim and kills the real catalog writer immediately
+after staged write, staged-file `fsync`, rename, and store-directory `fsync`.
+Each restart must expose byte-for-byte either the independently committed old
+catalog or the independently committed complete new catalog, and must accept a
+later mutation. The shim records which boundary was reached outside the model
+store; no production crash switch is compiled into Aesir. This proves process
+kill atomic visibility on the exercised filesystem, not sudden-power-loss
+durability. A pre-rename crash may leave a private `.catalog.tmp.*` file that is
+never read as catalog state and is not yet automatically removed.
+
 Authenticated transfer, store-aware staging without a redundant
-caller destination, systematic injected crash recovery at every filesystem
-boundary, a live process registry,
+caller destination, injected I/O failures and collection-boundary crash
+recovery, safe stale root-stage cleanup, a live process registry,
 `ps`/`stop`, authenticated downloads, and `push` remain unfinished and
 fail closed where commands exist.

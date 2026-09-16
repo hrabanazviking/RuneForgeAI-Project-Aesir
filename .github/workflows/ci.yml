@@ -39,6 +39,9 @@ jobs:
       - name: Prove Restart-Safe Native Model Catalog
         run: python3 scripts/test_native_model_store.py --binary /tmp/aesir-ci-build
 
+      - name: Prove Catalog Commit Crash Atomicity
+        run: python3 scripts/test_catalog_crash_atomicity.py --binary /tmp/aesir-ci-build
+
       - name: Prove Offline Diagnostic Text and JSON Contracts
         run: python3 scripts/test_native_doctor.py --binary /tmp/aesir-ci-build
 
