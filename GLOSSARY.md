@@ -2,7 +2,7 @@
 
 (GLOSSARY.md)
 
-**Purpose:** Maps Norse mythological terms used throughout the Project A.E.S.I.R. codebase to their technical equivalents. Agents unfamiliar with Norse mythology should consult this document before assuming the meaning of any named component, module, or variable.
+**Purpose:** Maps Norse mythological terms used throughout Volmarr's projects to their technical equivalents. Agents unfamiliar with Norse mythology should consult this document before assuming the meaning of any named component, module, or variable.
 
 **Rule:** Never guess a mythic name's technical function. Always cross-reference this document. If a name is not listed here, it has not yet been catalogued — investigate the source and add an entry.
 
