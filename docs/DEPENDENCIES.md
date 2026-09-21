@@ -20,6 +20,13 @@ argv-only process execution is isolated in the loader and
 `core/posix_process.mojo`. Curl must support `--parallel`
 for `--connections > 1` (curl 7.66+). No executable is vendored.
 
+`scripts/offline.py prepare` records SHA-256 and byte size for itself,
+`aesir.config.json`, `pixi.lock`, the prepared Mojo compiler, the four named MAX
+runtime libraries used by the launch check, the native executable, the selected
+catalog blobs, and the currently resolved Pixi executable/version. This is a
+bounded prepared-checkout inventory;
+it does not enumerate every ELF/system/driver transitive dependency.
+
 Test-only tools: Python standard library for orchestration, `tokenizers 0.22.2`
 for independently generated tokenizer fixtures, and `gguf 0.19.0` with NumPy
 for independent real-weight dequantization/matvec expectations. These are never

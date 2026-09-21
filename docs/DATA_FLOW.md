@@ -26,6 +26,26 @@ loading. `run` selects the CPU path or one of the two native CUDA profiles.
 `chat` is CUDA-only. Reserved daemon, process-control, push, external-engine,
 ONNX-execution, and swarm commands fail explicitly.
 
+## Offline preparation and verification
+
+```mermaid
+flowchart LR
+    Prepare[offline.py prepare] --> Build[launch.py --build\nfrozen + no-install + offline]
+    Prepare --> Catalog[Selected durable catalog models\nfull native verify]
+    Prepare --> Manifest[Private v1 manifest\nbuild + dependency + model pins + capacity]
+    Check[offline.py check] --> Manifest
+    Check --> BuildCheck[launch.py --check\noptional offline rebuild]
+    Check --> ArtifactCheck[Exact file/Pixi/model SHA-256 + size checks]
+    Check -->|optional| Inference[Bounded native run]
+    ArtifactCheck --> Missing[Aggregate incomplete artifacts by stable name]
+```
+
+Preparation consumes only already installed dependencies and model bytes; it
+does not download, install, or accept licenses. Normal check verifies the
+prepared build and all recorded artifacts. Optional `--rebuild` exercises the
+locked compiler cache and optional `--inference` runs one selected pinned model
+only after every integrity/capacity gate passes.
+
 ## Public Hugging Face GGUF download
 
 ```mermaid

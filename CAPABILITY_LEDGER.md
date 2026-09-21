@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Application S11 resumable-download hardening, September 21, 2026
+**Ledger version:** Application S12 offline preparation workflow, September 21, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -44,6 +44,7 @@ Run commands from the repository root unless stated otherwise.
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
 | `E-CRASH` | `python3 scripts/test_catalog_crash_atomicity.py --binary /tmp/aesir-ledger-build` | A test-only Linux interposition shim kills the real catalog writer after staged write, staged-file sync, rename, and directory sync; restart exposes exactly the old or complete new catalog and remains writable. |
 | `E-HF-RESUME` | `python3 scripts/test_hf_download_resilience.py --binary /tmp/aesir-ledger-build` | A controlled no-network curl fixture proves exact partial continuation, corrupt-partial rejection, complete-partial reuse, exact-inode publication after path replacement on native Linux storage, destination-race non-overwrite, hard-link rejection, and parallel assembly. |
+| `E-OFFLINE` | `python3 scripts/test_offline_preparation.py` | Four isolated workflow cases prove manifest creation, rebuild/check/inference dispatch, named aggregate failures for missing runtime/model artifacts, requested-model rejection, and tamper rejection. |
 | `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, resumable-download staging, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
@@ -157,26 +158,40 @@ the complete ledger population.
 
 - **Status:** `verified`
 - **Owner:** repository launch/build scripts
-- **Claim sources:** S06a; `docs/LOCAL_LAUNCH.md`
+- **Claim sources:** S06a, S12; `docs/LOCAL_LAUNCH.md`
 - **Implementation evidence:** `scripts/launch.py` explicitly builds with frozen,
   no-install, offline Pixi flags; serializes staged publication; checks source
   and executable fingerprints before replacing itself with the native app.
+  `scripts/offline.py prepare` verifies named catalog models, records their exact
+  SHA-256/size pins, records the locked build/runtime/Pixi identities and disk
+  reserve, then atomically writes a local versioned manifest. `check` reports
+  every incomplete artifact by name and can request a cold offline rebuild and
+  bounded inference witness.
 - **Executable evidence:** `python3 scripts/test_launch.py` (nine passing isolated
   plumbing tests); actual `python3 scripts/launch.py --build`;
   `python3 scripts/test_native_launch.py`; native Home help through
-  `unshare -Urn python3 scripts/launch.py -- home --help`.
+  `unshare -Urn python3 scripts/launch.py -- home --help`; `E-OFFLINE`; and a
+  physical `unshare -Urn ... offline.py check --rebuild --inference` run that
+  rebuilt from the locked cache, rehashed the installed 3,106,738,272-byte
+  Gemma 4 E2B pin and generated one CUDA token with no outbound network.
 - **Platform-entry evidence:** `scripts/test_windows_launch.ps1` and actual WSL
   transport `scripts/test_native_windows_launch.ps1` pass on PowerShell 5.1/7;
   `scripts/launch.ps1 -Check` and native Home help pass in the prepared checkout.
   `python3 scripts/test_platform_launch.py` passes four bridge/export cases,
   including independent Gio/GLib desktop parsing and literal-path execution.
 - **Evidence boundary:** Prepared trusted Linux/WSL checkout, not an installer,
-  signed release, hostile-filesystem guarantee or full dependency-integrity
-  audit. Four runtime library paths are checked, not all transitive dependencies.
+  signed release, hostile-filesystem guarantee or full transitive-dependency
+  audit. The manifest pins Pixi, Mojo, the lockfile, four named runtime libraries,
+  the native executable and selected catalog blobs; system libraries and the
+  NVIDIA driver remain observed prerequisites rather than packaged artifacts.
   Windows uses WSL, not a Windows-native engine. Desktop command parsing/export
-  is verified, not graphical terminal launch. No new physical inference proof.
+  is verified, not graphical terminal launch. The network-isolated witness uses
+  the already prepared checkout/model, not a clean-machine installer. Manifest
+  creation requests owner-only mode; WSL DrvFS applies its mounted Windows
+  permission semantics.
 - **Next acceptance gate:** S06 cold-host/WSL startup and graphical desktop
-  click-through; offline inference witnesses; S12 dependency preparation manifest.
+  click-through; then S39 signed/reproducible package and transitive dependency
+  inventory.
 
 ## 5. Memory, Tensor, Cache, and Ownership
 

@@ -1,5 +1,15 @@
 # Project Aesir: Target Architecture and Implemented Shapes
 
+## Offline preparation ownership — 2026-09-21
+
+`scripts/offline.py` is packaging/orchestration code. It composes the existing
+offline launcher and native durable-model commands; it does not parse GGUF,
+perform inference, download artifacts, or own model-store transactions. Its v1
+manifest pins the prepared application set and its optional inference witness
+executes the same native CLI used normally. `scripts/launch.py` remains the sole
+build/freshness owner, and `DurableModelStore` remains the sole catalog/blob
+verification owner.
+
 ## Native local service ownership — 2026-08-31
 
 `main` prepares process signal ownership; `cli/native_serve.mojo` owns options,

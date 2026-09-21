@@ -608,7 +608,24 @@ Every row is initially queued unless the execution record says otherwise.
   the digest gate fails closed and publishes nothing. This does not prove
   authenticated or resumable parallel transfer.
 
-### S12–S48
+### S12 — Explicit offline preparation manifest
+
+- Status: done. `scripts/offline.py prepare` performs the frozen/no-install/
+  offline build, verifies every requested catalog model, and writes a versioned
+  private manifest containing source/build identity, Pixi, lockfile, Mojo,
+  runtime-library and model SHA-256/size pins plus disk-capacity facts. `check`
+  verifies the exact artifact set, aggregates missing/corrupt items by stable
+  names, and optionally proves an offline rebuild and bounded inference.
+- Evidence: four isolated workflow cases pass, including named simultaneous
+  `file:mojo` and `model:alpha:latest` failures and binary/manifest tamper
+  rejection. On the prepared WSL host, `prepare` pinned the installed
+  3,106,738,272-byte Gemma 4 E2B record. Inside a fresh user/network namespace
+  with outbound networking unavailable, `check --rebuild --inference` rebuilt
+  from the locked cache, verified every recorded dependency and model byte, and
+  generated one native CUDA token (`OK`). This is a prepared-checkout witness,
+  not an installer, clean-machine proof, driver package or signed release.
+
+### S13–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

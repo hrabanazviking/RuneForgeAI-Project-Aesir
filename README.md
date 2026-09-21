@@ -341,6 +341,19 @@ python3 scripts/launch.py --check
 
 A normal launch deliberately does not rebuild or download dependencies behind your back. If source files changed, rebuild explicitly.
 
+To pin everything needed for a disconnected session—including selected catalog
+models—and then verify it by name:
+
+```bash
+python3 scripts/offline.py prepare --model gemma4-e2b:latest --model-store .aesir/models
+python3 scripts/offline.py check --rebuild
+```
+
+Add `--inference --inference-model gemma4-e2b:latest` to the check for a bounded
+real inference witness. Preparation never downloads weights or accepts a model
+license; install the intended model bytes while connected first. See
+[`docs/LOCAL_LAUNCH.md`](docs/LOCAL_LAUNCH.md) for the manifest contract.
+
 ---
 
 # 5. Open A.E.S.I.R. Home

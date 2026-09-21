@@ -66,6 +66,9 @@ jobs:
       - name: Prove Offline Build and Launch Plumbing
         run: python3 scripts/test_launch.py
 
+      - name: Prove Offline Preparation Manifest Contracts
+        run: python3 scripts/test_offline_preparation.py
+
       - name: Prove WSL Bridge and Desktop Export Contracts
         # System Python can use the runner's Gio bindings, when available.
         # A missing binding is reported as a skip, not desktop execution proof.

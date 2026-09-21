@@ -27,6 +27,42 @@ published. Concurrent builds serialize; a failed or cancelled compiler leaves
 the prior executable and manifest untouched. A publication crash can leave a
 checksum mismatch, which requires rebuilding rather than running unchecked.
 
+## Prepare for a disconnected session
+
+While the required model bytes are already installed and the machine is still
+connected, create an explicit offline manifest:
+
+```sh
+python3 scripts/offline.py prepare \
+  --model gemma4-e2b:latest \
+  --model-store .aesir/models
+```
+
+Repeat `--model` for every model needed offline. Preparation does not choose a
+license, download weights, or install dependencies. It performs the existing
+offline build, fully verifies each named catalog blob, checks the requested disk
+reserve, and records exact source/build, Pixi, lockfile, Mojo, runtime-library,
+and model identities in `.aesir/offline-preparation.v1.json`. The writer requests
+mode 0600; WSL DrvFS may expose mount-controlled Windows permission bits instead.
+Missing requested models are reported by catalog name.
+
+Before disconnecting—or after disconnecting—verify the set:
+
+```sh
+python3 scripts/offline.py check
+python3 scripts/offline.py check --rebuild
+python3 scripts/offline.py check --rebuild --inference \
+  --inference-model gemma4-e2b:latest --accel cuda --max-tokens 1
+```
+
+The first command is the normal integrity check. `--rebuild` additionally proves
+the locked environment/cache can compile without installation or network use.
+`--inference` performs a bounded real model run after every artifact passes.
+Failures are aggregated as stable names such as `dependency:pixi`, `file:mojo`,
+`model:gemma4-e2b:latest`, and `capacity:disk_free`. The manifest is an integrity
+inventory for this trusted prepared checkout, not a signature, installer,
+transitive system-library inventory, model-license grant, or driver package.
+
 ## Start locally
 
 ```sh

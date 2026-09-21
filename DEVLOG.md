@@ -1,3 +1,24 @@
+## 2026-09-21 — Application program S12: explicit offline preparation
+
+Added `scripts/offline.py prepare|check` as the boundary between connected
+preparation and a disconnected expedition. Preparation uses the existing
+frozen/no-install/offline build, verifies each requested durable-catalog model,
+and atomically records source/build, Pixi, lockfile, Mojo, four runtime library,
+model digest/size and disk-reserve identities. The writer requests mode 0600;
+effective permissions on WSL DrvFS remain mount-controlled. Check revalidates
+the exact artifact set, aggregates every incomplete item by name, and can
+request a cold offline rebuild plus bounded native inference. It never installs
+dependencies or downloads model bytes.
+
+Four isolated workflow regressions pass, including simultaneous named missing
+runtime/model failures and tamper rejection. A physical manifest pinned the
+installed 3,106,738,272-byte Gemma 4 E2B model. Running `check --rebuild
+--inference` inside `unshare -Urn` rebuilt from the locked cache, rehashed the
+model and generated one CUDA token (`OK`) with outbound networking unavailable.
+This proves the prepared WSL checkout, not clean-machine installation, full
+transitive system dependencies, driver packaging or a signed release. This
+closes S12; S13 model lifecycle is next.
+
 ## 2026-09-21 — Application program S11: resumable-download inode hardening
 
 Bound the Hugging Face download lifecycle to one opened staging inode. The
