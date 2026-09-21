@@ -118,6 +118,77 @@ def _hf_validate_hex(value: String, length: Int, label: String) raises:
             raise Error("Hugging Face " + label + " must be lowercase hexadecimal")
 
 
+def _hf_errno() -> Int32:
+    return external_call[
+        "__errno_location", Pointer[Int32, MutUntrackedOrigin]
+    ]().unsafe_load()
+
+
+def _hf_parent_path(path: String) -> String:
+    var last_slash = -1
+    for index in range(len(path.bytes())):
+        if path.as_bytes()[index] == 47:
+            last_slash = index
+    if last_slash < 0:
+        return "."
+    if last_slash == 0:
+        return "/"
+    return String(path[byte=0:last_slash])
+
+
+def _hf_filename(path: String) raises -> String:
+    if len(path.bytes()) == 0 or len(path.bytes()) >= 4096 or "\0" in path:
+        raise Error("Hugging Face output path must contain 1..4095 non-NUL bytes")
+    var last_slash = -1
+    for index in range(len(path.bytes())):
+        if path.as_bytes()[index] == 47:
+            last_slash = index
+    var name = path if last_slash < 0 else String(path[byte=last_slash + 1:])
+    if name == "" or name == "." or name == "..":
+        raise Error("Hugging Face output filename is invalid")
+    return name
+
+
+def _hf_same_inode(
+    directory_fd: Int32, name: List[Int8], device: UInt64, inode: UInt64,
+) -> Bool:
+    var stat = InlineArray[UInt64, 18](fill=0)
+    # AT_SYMLINK_NOFOLLOW: a replacement symlink must never compare equal.
+    if external_call["fstatat", Int32](
+        directory_fd, name.unsafe_ptr(), stat.unsafe_ptr(), Int32(256)
+    ) != 0:
+        return False
+    return stat[0] == device and stat[1] == inode and stat[3] & 61440 == 32768
+
+
+def _hf_unlink_stage_if_same(
+    directory_fd: Int32, name: List[Int8], device: UInt64, inode: UInt64,
+) -> Int32:
+    """Return 1 when removed, 0 when replaced/missing, and -1 on unlink error."""
+    if not _hf_same_inode(directory_fd, name, device, inode):
+        return 0
+    if external_call["unlinkat", Int32](
+        directory_fd, name.unsafe_ptr(), Int32(0)
+    ) != 0:
+        return -1
+    return 1
+
+
+def _hf_run_with_open_fd(var args: List[String], fd: Int32) raises -> String:
+    """Expose one exact open inode to a checked child through inherited procfs."""
+    var inherited_fd = external_call["dup", Int32](fd)
+    if inherited_fd < 0:
+        raise Error("Hugging Face cannot inherit staging descriptor")
+    args.append("/proc/self/fd/" + String(inherited_fd))
+    try:
+        var result = _hf_run_checked(args)
+        _ = external_call["close", Int32](inherited_fd)
+        return result^
+    except error:
+        _ = external_call["close", Int32](inherited_fd)
+        raise error
+
+
 def _hf_transfer(
     url: String, path: String, fd: Int32, expected_size: Int, connections: Int,
 ) raises:
@@ -126,8 +197,8 @@ def _hf_transfer(
     Each range must have exactly the requested byte length. Servers ignoring
     Range fail closed. The caller verifies the complete file's SHA-256.
     """
-    var part_paths = List[String]()
     var part_fds = List[Int32]()
+    var inherited_fds = List[Int32]()
     var part_sizes = List[Int]()
     var args: List[String] = ["curl", "-q", "--parallel", "--parallel-immediate",
                               "--parallel-max", String(connections), "--fail-early"]
@@ -141,8 +212,17 @@ def _hf_transfer(
             var part_fd = external_call["mkstemp", Int32](part.unsafe_ptr())
             if part_fd < 0:
                 raise Error("Hugging Face range staging creation failed")
+            # Range mode is not resumable. Remove every temporary pathname
+            # before curl starts and expose only the inherited exact inode.
+            if external_call["unlink", Int32](part.unsafe_ptr()) != 0:
+                _ = external_call["close", Int32](part_fd)
+                raise Error("Hugging Face range staging unlink failed")
+            var inherited_fd = external_call["dup", Int32](part_fd)
+            if inherited_fd < 0:
+                _ = external_call["close", Int32](part_fd)
+                raise Error("Hugging Face range descriptor inheritance failed")
             part_fds.append(part_fd)
-            part_paths.append(String(unsafe_from_utf8_ptr=part.unsafe_ptr()))
+            inherited_fds.append(inherited_fd)
             part_sizes.append(size)
             if index > 0:
                 args.append("--next")
@@ -151,7 +231,8 @@ def _hf_transfer(
                 "--proto", "=https", "--proto-redir", "=https",
                 "--connect-timeout", "30", "--max-time", "7200",
                 "--speed-limit", "1024", "--speed-time", "120",
-                "--max-filesize", String(size), "--output", part_paths[index],
+                "--max-filesize", String(size), "--output",
+                "/proc/self/fd/" + String(inherited_fd),
                 "--range", String(cursor) + "-" + String(cursor + size - 1),
                 "--url", url,
             ]
@@ -159,6 +240,9 @@ def _hf_transfer(
                 args.append(arg)
             cursor += size
         _ = _hf_run_checked(args)
+        for inherited_fd in inherited_fds:
+            _ = external_call["close", Int32](inherited_fd)
+        inherited_fds = List[Int32]()
         for index in range(connections):
             var part_fd = part_fds[index]
             var actual_size = external_call["lseek", Int64](part_fd, Int64(0), Int32(2))
@@ -178,16 +262,14 @@ def _hf_transfer(
                     raise Error("Hugging Face range assembly failed")
                 remaining -= copied
     except error:
+        for inherited_fd in inherited_fds:
+            _ = external_call["close", Int32](inherited_fd)
         for index in range(len(part_fds)):
             _ = external_call["close", Int32](part_fds[index])
-            var part = _hf_cstring(part_paths[index])
-            _ = external_call["unlink", Int32](part.unsafe_ptr())
         raise error
     var cleanup_failed = False
     for index in range(len(part_fds)):
-        _ = external_call["close", Int32](part_fds[index])
-        var part = _hf_cstring(part_paths[index])
-        if external_call["unlink", Int32](part.unsafe_ptr()) != 0:
+        if external_call["close", Int32](part_fds[index]) != 0:
             cleanup_failed = True
     if cleanup_failed:
         raise Error("Hugging Face range staging cleanup failed")
@@ -301,92 +383,161 @@ struct HuggingFaceSeer:
         if len(out_file.bytes()) == 0:
             out_file = filename
 
-        var target = _hf_cstring(out_file)
-        if external_call["access", Int32](target.unsafe_ptr(), 0) == 0:
+        var target_name = _hf_filename(out_file)
+        var parent_path = _hf_parent_path(out_file)
+        var parent = _hf_cstring(parent_path)
+        # O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC.
+        var directory_fd = external_call["open64", Int32](
+            parent.unsafe_ptr(), Int32(720896), Int32(0)
+        )
+        if directory_fd < 0:
+            raise Error("Hugging Face output parent must be a safe directory")
+        var target = _hf_cstring(target_name)
+        var target_stat = InlineArray[UInt64, 18](fill=0)
+        if external_call["fstatat", Int32](
+            directory_fd, target.unsafe_ptr(), target_stat.unsafe_ptr(), Int32(256)
+        ) == 0:
+            _ = external_call["close", Int32](directory_fd)
             raise Error("Hugging Face cannot publish download; destination may exist")
-        var staged = _hf_cstring(
-            out_file + (
-                ".part." + expected_sha256
-                if connections == 1 else ".part.XXXXXX"
-            )
+        if _hf_errno() != 2:
+            _ = external_call["close", Int32](directory_fd)
+            raise Error("Hugging Face cannot inspect download destination")
+
+        var stage_name = target_name + (
+            ".part." + expected_sha256
+            if connections == 1 else ".part.XXXXXX"
+        )
+        var staged = _hf_cstring(stage_name)
+        var staged_path = (
+            "/" + stage_name if parent_path == "/"
+            else parent_path + "/" + stage_name
         )
         var fd: Int32
         if connections == 1:
             # Linux O_RDWR | O_CREAT | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC.
-            fd = external_call["open64", Int32](
-                staged.unsafe_ptr(), Int32(657474), Int32(384)
+            fd = external_call["openat64", Int32](
+                directory_fd, staged.unsafe_ptr(), Int32(657474), Int32(384)
+            )
+        else:
+            # Resolve the temporary name beneath the already opened parent;
+            # the caller's parent pathname may be renamed or replaced now.
+            staged_path = (
+                "/proc/self/fd/" + String(directory_fd) + "/" + stage_name
+            )
+            var staged_full = _hf_cstring(staged_path)
+            fd = external_call["mkostemp", Int32](
+                staged_full.unsafe_ptr(), Int32(524288)
             )
             if fd >= 0:
-                var stat = InlineArray[UInt64, 18](fill=0)
-                if (external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0
-                        or stat[3] & 61440 != 32768
-                        or stat[3] >> 32 != UInt64(external_call["geteuid", UInt32]())):
-                    _ = external_call["close", Int32](fd)
-                    raise Error(
-                        "Hugging Face staging file must be an owner-held regular file"
-                    )
-            if fd >= 0 and external_call["flock", Int32](fd, 6) != 0:
-                _ = external_call["close", Int32](fd)
-                fd = -1
-        else:
-            fd = external_call["mkstemp", Int32](staged.unsafe_ptr())
+                staged_path = String(unsafe_from_utf8_ptr=staged_full.unsafe_ptr())
+                stage_name = _hf_filename(staged_path)
+                staged = _hf_cstring(stage_name)
         if fd < 0:
+            _ = external_call["close", Int32](directory_fd)
             raise Error("Hugging Face cannot lock staging file; another pull may be active")
-        var staged_path = String(unsafe_from_utf8_ptr=staged.unsafe_ptr())
+        var stat = InlineArray[UInt64, 18](fill=0)
+        if (external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0
+                or stat[3] & 61440 != 32768
+                or stat[3] >> 32 != UInt64(external_call["geteuid", UInt32]())
+                or stat[2] != 1):
+            _ = external_call["close", Int32](fd)
+            _ = external_call["close", Int32](directory_fd)
+            raise Error(
+                "Hugging Face staging file must be a single-link owner-held regular file"
+            )
+        if external_call["flock", Int32](fd, 6) != 0:
+            _ = external_call["close", Int32](fd)
+            _ = external_call["close", Int32](directory_fd)
+            raise Error("Hugging Face cannot lock staging file; another pull may be active")
+        var staged_device = stat[0]
+        var staged_inode = stat[1]
         var preserve_partial = False
         try:
-            # -q disables user curlrc, including hidden insecure/proxy/output options.
-            var args: List[String] = [
-                "curl", "-q", "--fail", "--location", "--silent", "--show-error",
-                "--proto", "=https", "--proto-redir", "=https",
-                "--connect-timeout", "30", "--max-time", "7200",
-                "--speed-limit", "1024", "--speed-time", "120",
-                "--max-filesize", String(expected_size), "--output", staged_path,
-                "--url", url,
-            ]
             if connections == 1:
-                args.append("--continue-at")
-                args.append("-")
-                try:
-                    _ = _hf_run_checked(args)
-                except error:
-                    var partial_size = external_call["lseek", Int64](
-                        fd, Int64(0), Int32(2)
-                    )
-                    preserve_partial = partial_size > 0 and partial_size < Int64(expected_size)
-                    raise error
+                var partial_size = external_call["lseek", Int64](
+                    fd, Int64(0), Int32(2)
+                )
+                if partial_size < 0 or partial_size > Int64(expected_size):
+                    raise Error("Hugging Face partial size is outside the pinned artifact")
+                if partial_size < Int64(expected_size):
+                    # -q disables user curlrc, including hidden insecure/proxy/output options.
+                    var args: List[String] = [
+                        "curl", "-q", "--fail", "--location", "--silent", "--show-error",
+                        "--proto", "=https", "--proto-redir", "=https",
+                        "--connect-timeout", "30", "--max-time", "7200",
+                        "--speed-limit", "1024", "--speed-time", "120",
+                        "--max-filesize", String(expected_size),
+                        "--continue-at", "-", "--url", url, "--output",
+                    ]
+                    try:
+                        _ = _hf_run_with_open_fd(args^, fd)
+                    except error:
+                        var interrupted_size = external_call["lseek", Int64](
+                            fd, Int64(0), Int32(2)
+                        )
+                        preserve_partial = (
+                            interrupted_size > 0
+                            and interrupted_size < Int64(expected_size)
+                            and _hf_same_inode(
+                                directory_fd, staged, staged_device, staged_inode
+                            )
+                        )
+                        raise error
             else:
                 _hf_transfer(url, staged_path, fd, expected_size, connections)
             var actual_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
             if actual_size != Int64(expected_size):
                 raise Error("Hugging Face downloaded size mismatch: expected "
                             + String(expected_size) + ", received " + String(actual_size))
-            _ = external_call["lseek", Int64](fd, Int64(0), Int32(0))
             var header = List[Byte]()
             header.resize(8, 0)
-            if external_call["read", Int](Int(fd), header.unsafe_ptr(), Int(8)) != 8:
+            if external_call["pread", Int](
+                fd, header.unsafe_ptr(), Int(8), Int64(0)
+            ) != 8:
                 raise Error("Hugging Face GGUF header read failed")
             if (header[0] != 71 or header[1] != 71 or header[2] != 85
                     or header[3] != 70 or header[4] != 3 or header[5] != 0
                     or header[6] != 0 or header[7] != 0):
                 raise Error("Hugging Face download is not GGUF v3")
-            var digest_args: List[String] = ["sha256sum", "--zero", "--", staged_path]
-            var digest = _hf_run_checked(digest_args)
+            var digest_args: List[String] = ["sha256sum", "--zero", "--"]
+            var digest = _hf_run_with_open_fd(digest_args^, fd)
             if len(digest.bytes()) < 64 or String(digest[byte=0:64]) != expected_sha256:
                 raise Error("Hugging Face downloaded SHA-256 mismatch")
             if external_call["fsync", Int32](fd) != 0:
                 raise Error("Hugging Face staging synchronization failed")
-            # link publishes without replacing files/symlinks created concurrently.
-            if external_call["link", Int32](staged.unsafe_ptr(), target.unsafe_ptr()) != 0:
+            # Publish the exact verified descriptor, not a replaceable stage path.
+            var proc_path = _hf_cstring("/proc/self/fd/" + String(fd))
+            if external_call["linkat", Int32](
+                Int32(-100), proc_path.unsafe_ptr(), directory_fd,
+                target.unsafe_ptr(), Int32(1024)
+            ) != 0:
                 raise Error("Hugging Face cannot publish download; destination may exist")
+            var published_stat = InlineArray[UInt64, 18](fill=0)
+            if (external_call["fstatat", Int32](
+                    directory_fd, target.unsafe_ptr(), published_stat.unsafe_ptr(),
+                    Int32(256)
+                ) != 0 or published_stat[0] != staged_device
+                    or published_stat[1] != staged_inode):
+                raise Error("Hugging Face published inode identity mismatch")
+            if external_call["fsync", Int32](directory_fd) != 0:
+                raise Error("Hugging Face output directory synchronization failed")
         except error:
             _ = external_call["close", Int32](fd)
             if not preserve_partial:
-                _ = external_call["unlink", Int32](staged.unsafe_ptr())
+                _ = _hf_unlink_stage_if_same(
+                    directory_fd, staged, staged_device, staged_inode
+                )
+            _ = external_call["close", Int32](directory_fd)
             raise error
         _ = external_call["close", Int32](fd)
-        if external_call["unlink", Int32](staged.unsafe_ptr()) != 0:
+        var cleanup = _hf_unlink_stage_if_same(
+            directory_fd, staged, staged_device, staged_inode
+        )
+        _ = external_call["close", Int32](directory_fd)
+        if cleanup < 0:
             raise Error("Hugging Face file published but staging cleanup failed")
+        if cleanup == 0:
+            print("[HF] staging pathname changed; foreign entry preserved")
         print("[HF] verified bytes=" + String(expected_size)
               + " sha256=" + expected_sha256 + " revision=" + revision)
         return True

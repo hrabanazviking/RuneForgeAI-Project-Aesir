@@ -83,7 +83,7 @@ The model-store tools can currently create/import entries, list models, show inf
 
 ### Model downloading
 
-A.E.S.I.R. has native tooling for pinned Hugging Face GGUF downloads. The download path validates expected file size and SHA-256 information before treating a pinned artifact as verified. Newer work also includes resumable pinned downloads.
+A.E.S.I.R. has native tooling for pinned Hugging Face GGUF downloads. The download path validates expected file size and SHA-256 information before treating a pinned artifact as verified. Default single-connection pulls continue a safe deterministic partial and bind transfer, validation, sync, and publication to one opened inode.
 
 ### Hardware and memory planning
 
@@ -844,7 +844,7 @@ Stored model bytes are measured and addressed using SHA-256. Identical model byt
 
 ### 8. Pinned Hugging Face downloads
 
-The CLI can download pinned public Hugging Face model artifacts while validating revision, expected byte count, and SHA-256 information. Current development also includes resumable pinned download work.
+The CLI can download pinned public Hugging Face model artifacts while validating revision, expected byte count, and SHA-256 information. Default single-connection pulls resume bounded identity-named partials and publish the exact verified inode without overwriting a destination.
 
 This is intentionally stricter than treating "the download completed" as proof that the expected model was received.
 

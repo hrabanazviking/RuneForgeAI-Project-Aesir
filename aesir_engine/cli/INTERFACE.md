@@ -492,7 +492,7 @@ validation, and the real single-shot `run <model-path> [options] <prompt...>`
 path are implemented. `config [--config <path>]` reads and validates the
 selected schema and prints its normalized representation. Catalog commands are
 restart safe; content-addressed import and verification are implemented. `ps`,
-`stop`, `push`, authenticated/resumable pull,
+`stop`, `push`, authenticated pull, resumable parallel pull,
 interactive `run`, multi-engine commands, and swarm commands raise stable
 unsupported errors and emit no success output.
 

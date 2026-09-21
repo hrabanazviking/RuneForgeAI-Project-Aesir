@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. current data flows
 
-**Current as of September 1, 2026.** This map describes executable paths in the
+**Current as of September 21, 2026.** This map describes executable paths in the
 current repository. The [capability ledger](../CAPABILITY_LEDGER.md) remains the
 authority for evidence status and limits. Vision documents describe direction;
 they do not add runtime edges to this map.
@@ -41,15 +41,15 @@ sequenceDiagram
     C->>C: validate flags, duplicates, ranges, path intent
     C->>H: download_hf_model(...)
     H->>H: validate exact repository identity and immutable pin
-    H->>F: create exclusive staged file
-    H->>P: checked argv; HTTPS-only download
+    H->>F: open and lock deterministic partial; pin parent and stage descriptors
+    H->>P: checked argv; HTTPS-only transfer to inherited stage descriptor
     opt 2..8 connections
         H->>P: bounded HTTP byte ranges
         H->>F: verify each range and assemble in order
     end
-    H->>F: verify byte count and GGUF v3 header
-    H->>P: calculate SHA-256 through checked argv
-    H->>F: fsync and publish without overwrite
+    H->>F: verify byte count and GGUF v3 header through opened descriptor
+    H->>P: calculate SHA-256 through inherited descriptor
+    H->>F: fsync and hard-link exact verified inode without overwrite
     opt --name registration
         C->>S: preflight selected store before transfer
         C->>S: remeasure inode with pinned SHA-256/size admission
@@ -58,11 +58,14 @@ sequenceDiagram
     H-->>U: verified size, digest, and revision
 ```
 
-The downloader handles one public, pinned GGUF artifact. It does not use a
-shell, accept insecure redirects, overwrite a destination, populate engine
-memory, authenticate to the Hub, resume an interrupted transfer, or infer model
-compatibility from its name. Explicit `--name` registration copies the verified
-download into protected content-addressed storage; it does not remove the
+The downloader handles one public, pinned GGUF artifact. Its default
+single-connection mode safely continues an owned, regular, single-link partial;
+an interrupted transfer preserves only a correctly bounded partial whose path
+still names the locked inode. Parallel mode restarts from zero. The downloader
+does not use a shell, accept insecure redirects, overwrite a destination,
+populate engine memory, authenticate to the Hub, or infer model compatibility
+from its name. Explicit `--name` registration copies and remeasures the verified
+download in protected content-addressed storage; it does not remove the
 caller-owned destination.
 
 ## Native CPU GGUF inference

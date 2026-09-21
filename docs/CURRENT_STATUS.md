@@ -1,6 +1,6 @@
 # Current project status
 
-**Current as of 2026-09-16.** This document is the concise operational entry
+**Current as of 2026-09-21.** This document is the concise operational entry
 point for Project A.E.S.I.R. It complements the detailed
 [capability ledger](../CAPABILITY_LEDGER.md), which is authoritative for every
 capability ID. Dated audits, roadmaps, vision documents, and external reference
@@ -19,7 +19,7 @@ Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
 | CPU inference | A pinned GGUF v3 Llama F16 fixture runs through the native Mojo CPU path. The integration check verifies metadata, tokenizer IDs, 32 greedy tokens, decoded text, stop behavior, a context boundary, and pool restoration. |
 | Native CUDA Gemma chat | The dense, text-only `unsloth/gemma-4-E4B-it-GGUF` **Q4_K_M** profile runs through native Mojo CUDA kernels on the observed RTX 4070 Laptop GPU. All 42 layers, packed weights, activations, KV cache, and native token selection remain on the GPU; host code only handles scheduling, tokenization, and I/O. |
 | Native CUDA Stheno chat | `bartowski/L3-8B-Stheno-v3.2-GGUF` **Q4_K_S** runs through a separate native 32-layer Llama 3 session, with F16 KV and an 8,192-position context. All 20 roleplay exchanges completed with natural EOS, 5,152 generated tokens and 6,514 context positions used. The [unedited conversation](evidence/stheno-roleplay-20.md) preserves both its connected story and model continuity imperfections. |
-| Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, and exclusive atomic publication. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
+| Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, safe single-connection restart continuation, and exclusive atomic publication of the exact verified inode. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Persistent chat and logs | `aesir chat ... --accel cuda` keeps one native CUDA session loaded across prompts and writes a durable transcript. A checked run completed 20 exchanges with a 16,384-token completion ceiling on each turn, 20 natural EOS stops, 693 generated tokens, and 1,535 context positions. |
 | Cooperative cancellation | Both native CUDA sessions support deadlines and Ctrl+C. Generation interruption closes the turn; interrupted prefill requires explicit `/clear`. Both real-model recovery probes pass; no in-flight kernel preemption. |
 | Native local HTTP service | Authenticated loopback `serve` executes stateless requests on either loaded CUDA model, with strict HTTP/JSON bounds, I/O/generation deadlines and cooperative shutdown. Both real-model socket tests pass; see [service contract](NATIVE_SERVICE.md). |
@@ -56,8 +56,8 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
   Its 8,192-new-token ceiling is bounded by remaining context, with an explicit
   `context_exhausted` stop and no silent history truncation.
 - There is no independent full-model logit-parity proof, throughput/latency
-  benchmark, hardware CI runner, resumable/authenticated Hub transfer,
-  authenticated/resumable Hub transfer or production-service readiness claim.
+  benchmark, hardware CI runner, authenticated Hub transfer, resumable parallel
+  transfer, or production-service readiness claim.
   Explicit `create --model` ingestion does copy and measure source bytes into
   immutable SHA-256-addressed storage; recipe-only creation remains available.
 - Host quantization tuning is an explicit API, not automatic inference dispatch.
@@ -104,5 +104,5 @@ Git. The readable Stheno conversation is published unchanged as Markdown evidenc
    profile.
 3. Generalize model admission only with per-architecture loader, tokenizer,
    kernel, and parity evidence.
-4. Harden resumable Hub transfer against path/inode replacement, then add
-   injected model-store I/O and collection-crash recovery tests.
+4. Add injected model-store I/O and collection-crash recovery tests, then an
+   explicit offline preparation/check workflow.

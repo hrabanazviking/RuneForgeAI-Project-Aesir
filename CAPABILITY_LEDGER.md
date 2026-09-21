@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Application S10 catalog crash injection, September 16, 2026
+**Ledger version:** Application S11 resumable-download hardening, September 21, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -43,6 +43,7 @@ Run commands from the repository root unless stated otherwise.
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
 | `E-CRASH` | `python3 scripts/test_catalog_crash_atomicity.py --binary /tmp/aesir-ledger-build` | A test-only Linux interposition shim kills the real catalog writer after staged write, staged-file sync, rename, and directory sync; restart exposes exactly the old or complete new catalog and remains writable. |
+| `E-HF-RESUME` | `python3 scripts/test_hf_download_resilience.py --binary /tmp/aesir-ledger-build` | A controlled no-network curl fixture proves exact partial continuation, corrupt-partial rejection, complete-partial reuse, exact-inode publication after path replacement on native Linux storage, destination-race non-overwrite, hard-link rejection, and parallel assembly. |
 | `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, resumable-download staging, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
@@ -716,10 +717,10 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** CLI and model-distribution domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, optional byte ranges, and atomic exclusive publication. `pull --name <name[:tag]>` preflights the selected store, then remeasures the downloaded inode inside the locked content-addressed transaction and requires the pinned digest/size before catalog mutation. `create` supports both recipe-only records and `--model` blob import. `push` remains fail closed.
-- **Executable evidence:** `E-MASTER` downloader/catalog admission cases, `E-STORE`, seven live integrity/failure/registration checks, and the full pinned Gemma and Stheno artifact downloads through `pull`. The small registered fixture and exact result are recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
-- **Evidence boundary:** Public, pinned, single-GGUF Linux/WSL downloads and explicit registration are established. The downloaded destination remains caller-owned, so registration currently creates separate protected store bytes. No authentication, resume, or upload exists; store garbage collection is a separate local command.
-- **Next acceptance gate:** Add authenticated/resumable download, recovery/cancellation, store-aware staging that avoids a redundant retained destination when requested, and a separately scoped upload contract.
+- **Implementation evidence:** `pull` is a real built-in public-GGUF downloader with checked argv execution, HTTPS-only redirects, pinning, digest/size validation, resumable single-connection partials, optional nonresumable byte ranges, and atomic exclusive publication. Transfer, header inspection, digest verification, sync and publication stay bound to one opened stage inode. `pull --name <name[:tag]>` preflights the selected store, then remeasures the downloaded inode inside the locked content-addressed transaction and requires the pinned digest/size before catalog mutation. `create` supports both recipe-only records and `--model` blob import. `push` remains fail closed.
+- **Executable evidence:** `E-MASTER`, `E-STORE`, `E-HF-RESUME`, eight live integrity/resume/failure/registration checks, and the full pinned Gemma and Stheno artifact downloads through `pull`. The small registered fixture and exact result are recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
+- **Evidence boundary:** Public, pinned, single-GGUF Linux/WSL downloads, safe single-connection restart continuation, and explicit registration are established. Exact path-replacement publication is proved on native Linux storage; WSL DrvFS may instead invalidate the opened descriptor and fail closed. The downloaded destination remains caller-owned, so registration currently creates separate protected store bytes. No authentication or upload exists; multi-connection transfers restart from zero and store garbage collection is a separate local command.
+- **Next acceptance gate:** Add authentication, explicit cancellation UX, store-aware staging that avoids a redundant retained destination when requested, and a separately scoped upload contract.
 - **Audit:** AER-064, AER-082, AER-003.
 
 ### AES-CLI-007 — `rm`, `cp`, `stop`, and runtime lifecycle semantics
@@ -1286,10 +1287,10 @@ and circular self-parity transforms were removed.
 - **Status:** `partial`
 - **Owner:** loader and CLI domains
 - **Claim sources:** built-in `pull` command
-- **Implementation evidence:** Native Mojo orchestration invokes curl and sha256sum with checked argv, HTTPS-only redirects, immutable revision, bounded transfers, optional parallel byte ranges, exact size/SHA-256 verification and atomic exclusive publication. Optional `--name` registration revalidates expected identity inside `DurableModelStore` before committing the manifest.
-- **Executable evidence:** `E-MASTER` admission/argv cases; seven live download integrity, HTTP-failure, existing-file/symlink protection, and store-registration checks. Both large pinned artifacts in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md` downloaded and verified in full through `pull`; the small registered fixture is recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
-- **Evidence boundary:** Public pinned single-GGUF artifacts and explicit store registration on Linux/WSL; no authentication or restart/resume. System curl/sha256sum are explicit dependencies.
-- **Next acceptance gate:** Authentication, restart/resume, cancellation/recovery, and store-aware transfer staging.
+- **Implementation evidence:** Native Mojo orchestration invokes curl and sha256sum with checked argv, HTTPS-only redirects, immutable revision, bounded transfers, resumable single-connection partials, optional parallel byte ranges, and exact size/SHA-256 verification. The parent directory and stage file are pinned by descriptors; transfer, header read, hash, file sync and exclusive hard-link publication act on the opened inode. Foreign replacement entries are not unlinked. Optional `--name` registration revalidates expected identity inside `DurableModelStore` before committing the manifest.
+- **Executable evidence:** `E-MASTER`, `E-HF-RESUME`, `E-SPECIAL`, and eight live download integrity/resume/HTTP-failure/existing-file/symlink/store-registration checks. Both large pinned artifacts in `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md` downloaded and verified in full through `pull`; the small registered fixture is recorded in `docs/evidence/hf-pull-store-2026-09-02.md`.
+- **Evidence boundary:** Public pinned single-GGUF artifacts, single-connection restart continuation and explicit store registration on Linux/WSL. Exact publication after path replacement is proved on native Linux storage; non-POSIX WSL DrvFS rename behavior may cause a safe checksum failure instead. Multi-connection transfers are nonresumable. No authentication exists. System curl, sha256sum and Linux procfs are explicit dependencies.
+- **Next acceptance gate:** Authentication, explicit cancellation UX, and store-aware transfer staging.
 - **Audit:** AER-082, AER-003.
 
 ### AES-ECO-004 — ONNX model parsing and execution

@@ -162,9 +162,12 @@ struct RuneWeaver:
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
 Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv
 subprocesses, HTTPS-only redirects, bounded time/size, optional parallel ranges,
-exact SHA-256/size checks and atomic exclusive publication. Existing files and
-symlinks are never overwritten. Authentication, restart/resume and model-store
-registration remain unsupported.
+exact SHA-256/size checks and atomic exclusive publication. Default
+single-connection transfers resume an identity-bound deterministic partial;
+transfer, validation, sync and publication remain attached to the same opened
+inode. Existing files, symlinks and foreign replacement entries are never
+overwritten. Authentication and loader-owned model-store registration remain
+unsupported; parallel transfers restart rather than resume.
 
 ```mojo
 struct HuggingFaceSeer:

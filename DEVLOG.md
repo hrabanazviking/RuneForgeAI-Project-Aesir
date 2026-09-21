@@ -1,3 +1,25 @@
+## 2026-09-21 — Application program S11: resumable-download inode hardening
+
+Bound the Hugging Face download lifecycle to one opened staging inode. The
+downloader now pins the output parent and deterministic partial descriptors;
+curl writes through an inherited procfs descriptor, header inspection uses the
+opened file, sha256sum reads that descriptor, and publication hard-links the
+verified inode into the pinned parent without overwrite. Resume admission
+requires a regular current-owner single-link partial, and cleanup removes a
+stage name only when it still resolves to the opened device/inode. Destination
+races and foreign replacement entries are preserved.
+
+A controlled no-network curl fixture passed interruption and exact resume,
+corrupt/complete partial handling, stage replacement, destination race,
+hard-link rejection, and descriptor-bound parallel assembly. The pinned
+689,216-byte public HTTPS fixture passed all eight live checks, special-file
+admission passed, and the full counted suite passed 183/0/1 (184 total). Exact
+publication after path replacement is proved on native Linux storage. WSL
+DrvFS may instead invalidate an open descriptor across rename, in which case
+the digest gate fails closed and nothing is published. Authentication and
+resumable parallel transfer remain open. This closes S11; S12 offline
+preparation is next.
+
 ## 2026-09-16 — Application program S10: catalog commit crash injection
 
 Added a Linux process-crash harness around the real native catalog transaction.

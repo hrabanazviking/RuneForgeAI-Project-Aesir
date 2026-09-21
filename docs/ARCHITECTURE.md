@@ -211,7 +211,7 @@ graph TD
 
 ### 10. `loader/huggingface.mojo` — `HuggingFaceSeer` (Slice 13)
 - **Role:** Hugging Face public-repository identity validation, pinned resolve-URL construction, and verified GGUF file download orchestration.
-- **Implementation:** `parse_hf_repo` normalizes the exact `hf.co` and `huggingface.co` forms. `is_hf_tag` requires one safe `owner/name` identity and rejects unrelated schemes/hosts and malformed paths. `download_hf_model` invokes `curl` and `sha256sum` through checked argv, enforces HTTPS-only redirects, an immutable 40-hex revision, expected size, SHA-256, GGUF v3 header, bounded optional ranges, and exclusive atomic file publication. It writes one public GGUF to disk; it does not populate `MimirWell`, register the model, authenticate, resume, or establish compatibility with any architecture merely named by a repository.
+- **Implementation:** `parse_hf_repo` normalizes the exact `hf.co` and `huggingface.co` forms. `is_hf_tag` requires one safe `owner/name` identity and rejects unrelated schemes/hosts and malformed paths. `download_hf_model` invokes `curl` and `sha256sum` through checked argv, enforces HTTPS-only redirects, an immutable 40-hex revision, expected size, SHA-256, GGUF v3 header, resumable single-connection partials, bounded optional nonresumable ranges, and exclusive atomic file publication. The parent directory and partial are pinned by descriptors; transfer, validation, sync and hard-link publication act on the opened inode. It writes one public GGUF to disk; it does not populate `MimirWell`, register the model, authenticate, or establish compatibility with an architecture merely named by a repository.
 
 ### 11. `server/api.mojo` & `server/openai.mojo` — Bifrost Gate Server & Gateway (Slice 10 & 11)
 - **Role:** HTTP transport framing, POSIX socket server, OpenAI REST API endpoint routing, request correlation tracking, and JSON string escaping.
@@ -466,7 +466,7 @@ The HuggingFace Hub Integration & Mobile Model Downloader domain layer provides 
 graph TD
     CLI[aesir pull hf.co/...<br/>cli/commands.mojo] -->|1. is_hf_tag & parse_hf_repo| HFSeer[HuggingFaceSeer<br/>loader/huggingface.mojo]
     HFSeer -->|2. build_download_url| CDN[HuggingFace CDN<br/>https://huggingface.co/.../resolve/main/]
-    HFSeer -->|3. download_hf_model stream| Disk[Local Storage & MimirWell]
+    HFSeer -->|3. descriptor-bound download + verify| Disk[Caller-owned verified GGUF]
     CLI -->|4. create_model| Store[RuneModelStore Catalog<br/>cli/manifest.mojo]
 ```
 

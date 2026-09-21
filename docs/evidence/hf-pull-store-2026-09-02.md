@@ -19,13 +19,23 @@ python3 scripts/test_hf_download.py \
   --size 689216
 ```
 
-Result: **7 passed, 0 failed**. The harness proved pinned HTTPS download and an
+Result on the current eight-case harness: **8 passed, 0 failed**. The harness
+proved pinned HTTPS download and an identity-bound partial resume with an
 independent Python digest/size oracle, literal argv handling, preservation of an
 existing destination, checksum rejection, size rejection, HTTP failure,
 symlink-target preservation, `pull --name` registration, restart catalog
 lookup, full stored-blob verification, exact byte equality, and owner-read-only
 mode on a native Linux filesystem.
 
-This establishes one public pinned GGUF pull-to-store transaction on Linux/WSL.
-It does not establish authentication, resumable transfer, arbitrary model
-compatibility, garbage collection, or portability.
+The same pinned artifact passed again on 2026-09-21 after S11's descriptor-bound
+resume hardening. The no-network controlled harness
+`scripts/test_hf_download_resilience.py` also proved exact continuation after
+interruption, corrupt and hard-linked partial rejection, complete-partial reuse,
+destination-race non-overwrite, parallel assembly, and publication of the exact
+verified inode after staging-path replacement on native Linux storage.
+
+This establishes one public pinned GGUF pull-to-store transaction plus bounded
+single-connection resume on Linux/WSL. It does not establish authentication,
+arbitrary model compatibility, resumable parallel transfer, garbage collection,
+or portability. WSL DrvFS may turn adversarial rename of an open partial into a
+safe checksum failure rather than successful exact-inode publication.

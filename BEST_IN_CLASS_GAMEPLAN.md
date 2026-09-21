@@ -588,7 +588,27 @@ Every row is initially queued unless the execution record says otherwise.
   automatic root-stage cleanup and garbage-collection fault injection remain
   open. S10 is complete; next is S11 resumable-download hardening.
 
-### S11–S48
+### S11 — Resumable-download inode hardening
+
+- Status: done. The downloader pins the output parent and deterministic partial
+  with open descriptors. Curl, GGUF header inspection, SHA-256 verification,
+  file sync and exclusive hard-link publication operate on the same opened
+  inode. Partial reuse requires a regular current-owner single-link file; safe
+  interruption preserves only an incomplete partial whose name still resolves
+  to that inode. Foreign stage replacements and destination races are preserved
+  without overwrite. Parallel range files are descriptor-bound but restart from
+  zero.
+- Evidence: the controlled no-network fixture passed interruption/resume,
+  corrupt and complete partials, staging-path replacement, destination race,
+  hard-link rejection and three-range assembly. The pinned 689,216-byte public
+  HTTPS artifact passed all eight live download/resume/failure/registration
+  checks. Special-file admission passed; the full counted suite passed 183/0/1
+  (184 total). Exact-inode replacement publication is proved on native Linux
+  storage. WSL DrvFS may instead invalidate an open descriptor across rename;
+  the digest gate fails closed and publishes nothing. This does not prove
+  authenticated or resumable parallel transfer.
+
+### S12–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

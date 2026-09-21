@@ -7,7 +7,9 @@ prerequisite. No external inference engine or Python runtime is used for chat.
 
 The loader uses Linux libc file mapping and bounded process/file operations.
 Hugging Face transfers use the system `curl` (HTTPS certificate verification,
-redirect restrictions, optional parallel ranges) and `sha256sum` (GNU coreutils).
+redirect restrictions, resume, optional parallel ranges), `sha256sum` (GNU
+coreutils), and Linux procfs descriptor paths so transfer, verification and
+publication remain bound to the opened staging inode.
 Content-addressed model-store import and verification also use `sha256sum`,
 reading the exact inherited open descriptor through Linux procfs.
 Model-store `gc` uses GNU `find` (findutils) over an inherited procfs directory
