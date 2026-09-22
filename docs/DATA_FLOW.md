@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. current data flows
 
-**Current as of September 21, 2026.** This map describes executable paths in the
+**Current as of September 22, 2026.** This map describes executable paths in the
 current repository. The [capability ledger](../CAPABILITY_LEDGER.md) remains the
 authority for evidence status and limits. Vision documents describe direction;
 they do not add runtime edges to this map.
@@ -61,6 +61,28 @@ flowchart LR
 The library does not interpret token state beyond validating the native record;
 native `/load` remains the only owner of complete compatibility admission and KV
 mutation. Names are metadata, never filesystem paths.
+
+## Native conversation autosave
+
+```mermaid
+sequenceDiagram
+    participant C as Native CUDA chat
+    participant A as ConversationAutosave
+    participant D as Private locked directory
+    C->>A: begin(next turn)
+    A->>D: atomic synced inflight marker
+    C->>C: generate and commit turn to session
+    C->>A: commit(exact tokens, draws, readable turns)
+    A->>D: exclusive synced generation-N.aesir
+    A->>D: atomic checksummed current manifest
+    A->>D: remove only evicted manifest-owned generations
+    Note over C,D: restart loads current through native compatibility and KV restore
+    Note over A,D: stale inflight identifies an interrupted generation
+```
+
+The manifest, not directory enumeration, defines committed and retention-owned
+files. A crash before manifest publication leaves the previous generation
+authoritative; a crash after publication recovers the new complete generation.
 
 ## Public Hugging Face GGUF download
 

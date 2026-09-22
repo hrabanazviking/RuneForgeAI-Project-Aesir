@@ -240,6 +240,31 @@ The library validates the complete native snapshot before returning it. The
 native loader remains authoritative for system prompt, sampling identity and KV
 restore compatibility. Library operations never overwrite names or exports.
 
+Optional native crash-recovery autosave is separate from the named library:
+
+```bash
+mkdir -p -m 700 "$HOME/.local/state/aesir/sessions/saga"
+aesir chat MODEL --accel cuda \
+  --autosave-dir "$HOME/.local/state/aesir/sessions/saga" --autosave-retain 3
+```
+
+`--autosave-retain` accepts 1..64 and defaults to 3. The caller creates one
+owner-held directory per session; group/world permissions and symlink roots are
+rejected. Before generation, chat atomically records an inflight generation.
+After a completed turn it snapshots exact tokens and sampler position, syncs a
+new immutable generation, atomically advances the checksummed manifest, then
+removes only generations named by the prior manifest and outside the requested
+retention window. `/clear`, `/new`, `/load`, and sampling changes also commit a
+state generation. Restart with the same full model/profile/context/system/
+sampling identity restores the latest committed generation before accepting a
+new prompt and visibly identifies an interrupted generation.
+
+Autosave does not overwrite or weaken native snapshot compatibility. Corrupt or
+missing authoritative records fail closed. Model switching is rejected while
+autosave is enabled because cross-model recovery policy belongs to S15. The
+process-kill proof covers Linux process death and filesystem sync ordering, not
+sudden-power-loss behavior on every filesystem or encrypted storage.
+
 The repetition window is fixed when a session is created. Invalid controls and
 prompts that cannot fit the remaining context are reported without changing
 healthy history; the user can clear explicitly and continue. CUDA execution

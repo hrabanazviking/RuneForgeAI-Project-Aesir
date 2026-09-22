@@ -76,7 +76,18 @@ python3 scripts/conversations.py export "My saga — chapter one" --output .aesi
 ```
 
 `open` prints the validated native snapshot path for `/load`. The library never
-overwrites a name or export and does not silently autosave live chat.
+overwrites a name or export. Native chat can separately opt into crash-recovery
+autosave generations:
+
+```bash
+mkdir -p -m 700 "$HOME/.local/state/aesir/sessions/saga"
+aesir chat MODEL --accel cuda \
+  --autosave-dir "$HOME/.local/state/aesir/sessions/saga" --autosave-retain 3
+```
+
+The directory must already exist, belong to the current user, and have no
+group/world permissions. A restart with the same compatible model and options
+restores the latest committed generation and reports any interrupted turn.
 
 ### A friendlier terminal Home screen
 
@@ -1115,7 +1126,7 @@ This round now includes physical Qwen 3 verification across Q4_K_M, Q5_K_M, and 
 
 The engine is now running actual GGUF models through native Mojo code on both CPU and NVIDIA CUDA, with working GPU-resident inference for Gemma 4 E4B and Llama 3 8B Stheno. The Stheno test completed a full 20-exchange roleplay conversation while keeping the model, activations, and KV cache on the GPU.
 
-The current automated test suite is at **183 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
+The current automated test suite is at **184 passed, 0 failed, and 1 explicit external-fixture skip**, and the project now includes native Hugging Face model downloading, persistent CUDA chat sessions, hardware detection, memory planning, a growing set of checked quantization kernels, an opt-in measured host quantization tuner, and a growing hardware abstraction layer. The [capability ledger](CAPABILITY_LEDGER.md) defines the exact evidence boundary for each feature.
 
 The next major frontier is broadening A.E.S.I.R. beyond NVIDIA: AMD GPUs and shared-memory APUs, Intel GPUs, Apple Silicon/Metal, NPUs, heterogeneous CPU+GPU+NPU execution, and eventually multi-device scheduling.
 

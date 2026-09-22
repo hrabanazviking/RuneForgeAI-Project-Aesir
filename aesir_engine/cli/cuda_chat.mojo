@@ -18,6 +18,10 @@ from cli.conversation import (
     require_conversation_compatible,
     save_conversation,
 )
+from cli.conversation_autosave import (
+    ConversationAutosave,
+    validate_conversation_autosave,
+)
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry
 
@@ -282,6 +286,43 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Gemma4CUDASession, mod
     transcript.emit("\n" + dashboard.render_frame())
 
 
+def _capture_gemma_conversation(
+    session: Gemma4CUDASession, mut conversation: ConversationState
+) raises:
+    conversation.model_identity = digest_open_fd(session.model.source.fd)
+    conversation.tokens = session.conversation_tokens()
+    conversation.sampler_draws = Int(session.sampler.draws)
+    conversation.sampling_identity = session.sampler.config.description()
+
+
+def _restore_gemma_autosave(
+    mut autosave: ConversationAutosave, mut session: Gemma4CUDASession,
+    mut conversation: ConversationState, transcript: ChatTranscript,
+) raises -> Int:
+    if not autosave.enabled():
+        return 0
+    _capture_gemma_conversation(session, conversation)
+    if autosave.has_checkpoint():
+        var loaded = autosave.load_latest()
+        require_conversation_compatible(loaded, conversation)
+        session.reset()
+        session.restore_conversation(loaded.tokens, loaded.sampler_draws)
+        conversation = loaded^
+        transcript.emit(
+            "\n[autosave recovered: turns=" + String(len(conversation.turns))
+            + "; context_used=" + String(session.position) + "]\n"
+        )
+    var interrupted = autosave.interrupted_generation()
+    if interrupted > 0:
+        transcript.emit(
+            "\n[autosave interrupted generation identified: generation="
+            + String(interrupted) + "; turn="
+            + String(autosave.interrupted_turn_number()) + "]\n"
+        )
+    autosave.discard_interrupted()
+    return len(conversation.turns)
+
+
 def dispatch_cuda_chat(args: List[String]) raises:
     var model_reference = String("")
     var prompts_path = String("")
@@ -300,6 +341,8 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var config_path = String("")
     var model_store = String(".aesir/models")
     var inherited_log_fd = -1
+    var autosave_dir = String("")
+    var autosave_retain = 3
     var seen = List[String]()
     var i = 1
     if i < len(args) and not args[i].startswith("-"):
@@ -353,12 +396,20 @@ def dispatch_cuda_chat(args: List[String]) raises:
             inherited_log_fd = bounded_decimal(value)
             if inherited_log_fd < 3:
                 raise Error("Internal resumed log descriptor is invalid")
+        elif flag == "--autosave-dir":
+            autosave_dir = value
+        elif flag == "--autosave-retain":
+            autosave_retain = chat_positive_int(value)
+            if autosave_retain > 64:
+                raise Error("Autosave retention must be within 1..64")
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
             raise Error("Unknown chat option: " + flag)
         i += 2
     sampling.validate()
+    if "--autosave-retain" in seen and autosave_dir == "":
+        raise Error("--autosave-retain requires --autosave-dir")
     if acceleration != "cuda":
         raise Error("Native chat requires explicit --accel cuda; CPU fallback is disabled")
     if profile != "gemma4" and profile != "llama3" and profile != "qwen3" and profile != "auto":
@@ -386,6 +437,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
         print(native_settings_json(resolve_native_settings(resolved.modelfile_content,
             sampling, seen, context_length, max_tokens, system, config_sampling)))
         return
+    validate_conversation_autosave(autosave_dir, autosave_retain)
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
     if model_reference == "":
@@ -439,14 +491,14 @@ def dispatch_cuda_chat(args: List[String]) raises:
                 resolved.path, context_length, max_tokens, effective.system, prompts,
                 prompts_path != "", transcript, device_index, reserve_bytes,
                 effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
-                resolved.requested, model_store,
+                resolved.requested, model_store, autosave_dir, autosave_retain,
             )
         else:
             switch = run_gemma_chat(
                 resolved.path, context_length, max_tokens, effective.system, prompts,
                 prompts_path != "", transcript, device_index, reserve_bytes,
                 effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
-                resolved.requested, model_store,
+                resolved.requested, model_store, autosave_dir, autosave_retain,
             )
         if switch.target == "":
             break
@@ -466,6 +518,7 @@ def run_gemma_chat(
     device_index: Int, reserve_bytes: Int, sampling: NativeSamplingConfig,
     interrupt_fd: Int, timeout_ms: Int, tui: Bool, known_digest: String,
     model_label: String, model_store: String,
+    autosave_dir: String = String(""), autosave_retain: Int = 3,
 ) raises -> ChatSwitchRequest:
     var session = Gemma4CUDASession(model_path, context_length, device_index, reserve_bytes, sampling)
     session.configure_control(timeout_ms, interrupt_fd)
@@ -476,16 +529,22 @@ def run_gemma_chat(
         conversation_identity, "gemma4", context_length, system,
         session.sampler.config.description(),
     )
+    var autosave = ConversationAutosave(autosave_dir, autosave_retain)
+    var turns = _restore_gemma_autosave(
+        autosave, session, conversation, transcript
+    )
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + model_label + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
         render_tui(dashboard, session, model_label, 0.0, transcript)
-    var turns = 0
     if from_file:
         for prompt in prompts:
             turns += 1
+            autosave.begin(turns)
             var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
             conversation.append_turn(prompt, result.assistant)
+            _capture_gemma_conversation(session, conversation)
+            autosave.commit(conversation)
             if tui:
                 render_tui(dashboard, session, model_label, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
@@ -500,8 +559,11 @@ def run_gemma_chat(
             if prompt == "" or prompt == "/bye":
                 break
             if prompt.startswith("/"):
+                var state_changed = False
                 try:
                     if prompt.startswith("/model"):
+                        if autosave.enabled():
+                            raise Error("Model switching is unavailable while conversation autosave is enabled")
                         var next_model = requested_model_switch(
                             prompt, model_path, model_store
                         )
@@ -512,20 +574,33 @@ def run_gemma_chat(
                             next_model, session.sampler.config,
                             session.control.timeout_ms,
                         )
-                    chat_control(session, prompt, transcript, conversation)
+                    state_changed = chat_control(
+                        session, prompt, transcript, conversation
+                    )
                 except error:
                     if not session.healthy:
                         raise
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
+                if state_changed:
+                    _capture_gemma_conversation(session, conversation)
+                    autosave.checkpoint(
+                        conversation, len(conversation.turns)
+                    )
                 continue
             try:
+                autosave.begin(len(conversation.turns) + 1)
                 var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
                 conversation.append_turn(prompt, result.assistant)
+                _capture_gemma_conversation(session, conversation)
+                autosave.commit(conversation)
                 turns += 1
                 if tui:
                     render_tui(dashboard, session, model_label, result.tokens_per_second, transcript)
             except error:
-                if not session.healthy or session.generating:
+                if (
+                    not session.healthy or session.generating
+                    or autosave.interrupted_generation() > 0
+                ):
                     raise
                 transcript.emit("\n[turn rejected: " + String(error) + "]\n")
             _ = consume_interrupts(interrupt_fd)
@@ -578,6 +653,43 @@ def render_tui(mut dashboard: AesirTUIDashboard, session: Llama3CUDASession, mod
     transcript.emit("\n" + dashboard.render_frame())
 
 
+def _capture_llama_conversation(
+    session: Llama3CUDASession, mut conversation: ConversationState
+) raises:
+    conversation.model_identity = digest_open_fd(session.model.source.fd)
+    conversation.tokens = session.conversation_tokens()
+    conversation.sampler_draws = Int(session.sampler.draws)
+    conversation.sampling_identity = session.sampler.config.description()
+
+
+def _restore_llama_autosave(
+    mut autosave: ConversationAutosave, mut session: Llama3CUDASession,
+    mut conversation: ConversationState, transcript: ChatTranscript,
+) raises -> Int:
+    if not autosave.enabled():
+        return 0
+    _capture_llama_conversation(session, conversation)
+    if autosave.has_checkpoint():
+        var loaded = autosave.load_latest()
+        require_conversation_compatible(loaded, conversation)
+        session.reset()
+        session.restore_conversation(loaded.tokens, loaded.sampler_draws)
+        conversation = loaded^
+        transcript.emit(
+            "\n[autosave recovered: turns=" + String(len(conversation.turns))
+            + "; context_used=" + String(session.position) + "]\n"
+        )
+    var interrupted = autosave.interrupted_generation()
+    if interrupted > 0:
+        transcript.emit(
+            "\n[autosave interrupted generation identified: generation="
+            + String(interrupted) + "; turn="
+            + String(autosave.interrupted_turn_number()) + "]\n"
+        )
+    autosave.discard_interrupted()
+    return len(conversation.turns)
+
+
 def run_llama_chat(
     path: String, context_length: Int, max_tokens: Int, system: String,
     prompts: List[String], from_file: Bool, transcript: ChatTranscript,
@@ -586,6 +698,7 @@ def run_llama_chat(
     interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False,
     known_digest: String = String(""), model_label: String = String(""),
     model_store: String = String(".aesir/models"),
+    autosave_dir: String = String(""), autosave_retain: Int = 3,
 ) raises -> ChatSwitchRequest:
     # Emit the admitted backend claim only after model validation and upload.
     var session = Llama3CUDASession(path, context_length, device_index, reserve_bytes, sampling)
@@ -597,17 +710,23 @@ def run_llama_chat(
         conversation_identity, session.profile.architecture, context_length, system,
         session.sampler.config.description(),
     )
+    var autosave = ConversationAutosave(autosave_dir, autosave_retain)
+    var turns = _restore_llama_autosave(
+        autosave, session, conversation, transcript
+    )
     var display_model = model_label if model_label != "" else path
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + display_model + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
         render_tui(dashboard, session, display_model, 0.0, transcript)
-    var turns = 0
     if from_file:
         for prompt in prompts:
             turns += 1
+            autosave.begin(turns)
             var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
             conversation.append_turn(prompt, result.assistant)
+            _capture_llama_conversation(session, conversation)
+            autosave.commit(conversation)
             if tui:
                 render_tui(dashboard, session, display_model, result.tokens_per_second, transcript)
             if consume_interrupts(interrupt_fd):
@@ -622,8 +741,11 @@ def run_llama_chat(
             if prompt == "" or prompt == "/bye":
                 break
             if prompt.startswith("/"):
+                var state_changed = False
                 try:
                     if prompt.startswith("/model"):
+                        if autosave.enabled():
+                            raise Error("Model switching is unavailable while conversation autosave is enabled")
                         var next_model = requested_model_switch(
                             prompt, path, model_store
                         )
@@ -634,20 +756,33 @@ def run_llama_chat(
                             next_model, session.sampler.config,
                             session.control.timeout_ms,
                         )
-                    chat_control(session, prompt, transcript, conversation)
+                    state_changed = chat_control(
+                        session, prompt, transcript, conversation
+                    )
                 except error:
                     if not session.healthy:
                         raise
                     transcript.emit("\n[control rejected: " + String(error) + "]\n")
+                if state_changed:
+                    _capture_llama_conversation(session, conversation)
+                    autosave.checkpoint(
+                        conversation, len(conversation.turns)
+                    )
                 continue
             try:
+                autosave.begin(len(conversation.turns) + 1)
                 var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
                 conversation.append_turn(prompt, result.assistant)
+                _capture_llama_conversation(session, conversation)
+                autosave.commit(conversation)
                 turns += 1
                 if tui:
                     render_tui(dashboard, session, display_model, result.tokens_per_second, transcript)
             except error:
-                if not session.healthy or session.generating:
+                if (
+                    not session.healthy or session.generating
+                    or autosave.interrupted_generation() > 0
+                ):
                     raise
                 transcript.emit("\n[turn rejected: " + String(error) + "]\n")
             _ = consume_interrupts(interrupt_fd)
@@ -671,12 +806,14 @@ def parse_model_switch(command: String) raises -> String:
     return _chat_command_path(command, "/model")
 
 
-def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises:
+def chat_control(mut session: Gemma4CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises -> Bool:
+    var state_changed = False
     if command == "/show":
         transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
     elif command == "/clear" or command == "/new":
         session.reset()
         conversation.clear()
+        state_changed = True
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
@@ -697,6 +834,7 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
         session.reset()
         session.restore_conversation(loaded.tokens, loaded.sampler_draws)
         conversation = loaded^
+        state_changed = True
         transcript.emit("\n[conversation loaded: " + path + "; turns=" + String(len(conversation.turns)) + "; context_used=" + String(session.position) + "]\n")
     elif command.startswith("/export"):
         var path = _chat_command_path(command, "/export")
@@ -710,22 +848,26 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
             session.configure_control(bounded_decimal(String(words[2])), session.control.cancel_fd)
             transcript.emit("\n[timeout_ms=" + String(session.control.timeout_ms) + "]\n")
             transcript.flush()
-            return
+            return False
         var config = with_sampling_option(session.sampler.config, String(words[1]), String(words[2]))
         session.configure_sampling(config)
         conversation.sampling_identity = session.sampler.config.description()
+        state_changed = True
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
         raise Error("Unknown chat command; use /help")
     transcript.flush()
+    return state_changed
 
 
-def chat_control(mut session: Llama3CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises:
+def chat_control(mut session: Llama3CUDASession, command: String, transcript: ChatTranscript, mut conversation: ConversationState) raises -> Bool:
+    var state_changed = False
     if command == "/show":
         transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
     elif command == "/clear" or command == "/new":
         session.reset()
         conversation.clear()
+        state_changed = True
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
         transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
@@ -746,6 +888,7 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
         session.reset()
         session.restore_conversation(loaded.tokens, loaded.sampler_draws)
         conversation = loaded^
+        state_changed = True
         transcript.emit("\n[conversation loaded: " + path + "; turns=" + String(len(conversation.turns)) + "; context_used=" + String(session.position) + "]\n")
     elif command.startswith("/export"):
         var path = _chat_command_path(command, "/export")
@@ -759,11 +902,13 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
             session.configure_control(bounded_decimal(String(words[2])), session.control.cancel_fd)
             transcript.emit("\n[timeout_ms=" + String(session.control.timeout_ms) + "]\n")
             transcript.flush()
-            return
+            return False
         var config = with_sampling_option(session.sampler.config, String(words[1]), String(words[2]))
         session.configure_sampling(config)
         conversation.sampling_identity = session.sampler.config.description()
+        state_changed = True
         transcript.emit("\n[sampling=" + session.sampler.config.description() + "]\n")
     else:
         raise Error("Unknown chat command; use /help")
     transcript.flush()
+    return state_changed

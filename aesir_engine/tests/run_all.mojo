@@ -206,6 +206,7 @@ from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
 )
+from tests.test_conversation_autosave import test_conversation_autosave_generations
 from tests.test_model_preferences import (
     test_model_preferences_codec,
     test_model_favorite_selection,
@@ -507,6 +508,10 @@ def main() raises:
     run_case(
         ledger, "cli.conversation_compatibility", test_conversation_compatibility
     )
+    run_case(
+        ledger, "cli.conversation_autosave_generations",
+        test_conversation_autosave_generations,
+    )
     run_case(ledger, "cli.model_preferences_codec", test_model_preferences_codec)
     run_case(ledger, "cli.favorite_model_selection", test_model_favorite_selection)
     print("")
@@ -796,4 +801,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(184)
+    ledger.finish(185)

@@ -16,8 +16,20 @@ verification owner.
 owner. `scripts/conversations.py` owns only user-facing library lifecycle:
 bounded names, stable entry IDs, metadata agreement, locking, restart discovery,
 rename and readable export. It never reconstructs tokens, mutates a live CUDA
-session or weakens native compatibility checks. S14 will own autosave generation
-and recovery policy rather than hiding that policy in the library index.
+session or weakens native compatibility checks. Autosave generation and
+recovery policy remains a separate native layer rather than being hidden in the
+library index.
+
+## Conversation autosave ownership — 2026-09-22
+
+`cli/conversation_autosave.mojo` owns optional Linux crash-recovery policy over
+the native snapshot codec: one private locked directory, immutable synced
+generations, a checksummed atomic current manifest, an inflight marker, and
+manifest-derived retention. `cuda_chat.mojo` marks generation intent before a
+turn, captures exact session state only after the turn commits, and restores
+through the existing native compatibility and KV replay boundary. The autosave
+layer never tokenizes prose, changes inference semantics, scans arbitrary files,
+or deletes names not established by its own authoritative records.
 
 ## Native local service ownership — 2026-08-31
 

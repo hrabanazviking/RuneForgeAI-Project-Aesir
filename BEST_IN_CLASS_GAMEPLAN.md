@@ -645,7 +645,32 @@ Every row is initially queued unless the execution record says otherwise.
   delete UI; interrupted staging directories are ignored, not reclaimed. S14
   owns autosave generations and crash recovery.
 
-### S14–S48
+### S14 — Optional crash-recovery autosave
+
+- Status: done. Native CUDA chat accepts `--autosave-dir` plus bounded
+  `--autosave-retain`. `cli/conversation_autosave.mojo` locks one caller-created
+  private directory, records synced inflight intent before generation, publishes
+  immutable exact-token snapshots before a checksummed atomic manifest, and
+  evicts only generations named by the previous authoritative manifest. Restart
+  loads the newest committed generation through the existing full native
+  compatibility and KV-replay boundary and reports interrupted generation/turn
+  identity. Reset, explicit load and sampling mutations also checkpoint.
+- Evidence: the counted native case proves three-generation recovery, retention
+  of two, interruption detection, and preservation of an unrelated sentinel.
+  A separate-process harness SIGKILLs the compiled native probe after durable
+  generation-two intent; restart recovers committed turn one, identifies turn
+  two as interrupted, rejects symlink/nonprivate roots and a concurrent second
+  owner without hanging, removes only owned interruption state, and rejects a
+  checksum-corrupt current manifest. Main builds, named-library/offline
+  regressions pass, and the counted suite passes 184/0/1 (185 total).
+- Boundary: the autosave directory must already exist, be owner-held and have no
+  group/world permissions. This is Linux process-crash evidence on the tested
+  filesystem, not sudden-power-loss proof or physical post-crash CUDA
+  continuation. Full identity mismatches fail closed. Model switching while
+  autosave is enabled is deliberately rejected; generation-error and switch
+  recovery belong to S15.
+
+### S15–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

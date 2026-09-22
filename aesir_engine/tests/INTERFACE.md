@@ -19,6 +19,14 @@ Hosted CI compiles these probes but never runs them without a GPU.
 sampled/greedy replay, reset, rejected settings/prompts and protected logs.
 No synthetic logits or transfer buffers count as full-model inference evidence.
 
+`test_conversation_autosave.mojo` is a hardware-free native transaction test
+for generation ordering, latest-state recovery, bounded retention, interruption
+markers, and preservation of unrelated files. `scripts/test_conversation_autosave.py`
+SIGKILLs the compiled probe after its inflight marker is durable, then proves a
+fresh process recovers the prior committed turn, identifies the interruption,
+and rejects a corrupted authoritative manifest. This is process-crash evidence,
+not sudden-power-loss or physical CUDA continuation evidence.
+
 ## Public Test Modules
 
 ```mojo

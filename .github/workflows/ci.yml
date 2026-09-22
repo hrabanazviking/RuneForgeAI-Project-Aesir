@@ -72,6 +72,11 @@ jobs:
       - name: Prove Named Conversation Library Contracts
         run: python3 scripts/test_conversation_library.py
 
+      - name: Prove Conversation Autosave Crash Recovery
+        run: |
+          pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_conversation_autosave.mojo -o /tmp/aesir-autosave-probe
+          python3 scripts/test_conversation_autosave.py --binary /tmp/aesir-autosave-probe
+
       - name: Prove WSL Bridge and Desktop Export Contracts
         # System Python can use the runner's Gio bindings, when available.
         # A missing binding is reported as a skip, not desktop execution proof.

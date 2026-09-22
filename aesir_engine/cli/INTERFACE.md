@@ -74,6 +74,15 @@ IDs, locking, restart listing, rename, compatibility-filtered open, and
 exclusive readable export. It does not import Mojo modules, mutate CUDA state,
 or replace the native `/load` compatibility boundary.
 
+`cli/conversation_autosave.mojo` owns the opt-in atomic-generation layer over
+that codec. It locks one caller-created private directory, writes a synced
+inflight marker before generation, publishes immutable snapshots before an
+atomic checksummed manifest, and evicts only generation names present in the
+prior authoritative manifest. `cuda_chat.mojo` restores the latest snapshot
+only through `require_conversation_compatible` and core KV replay. Autosave is
+not the named library, does not scan arbitrary directory contents, and does not
+permit model switching in this slice.
+
 ## Native service sampling defaults
 
 `serve` accepts the same seven native sampling flags as `chat`. The resulting
@@ -538,6 +547,7 @@ the selected store and admits the pinned identity again inside locked blob
 ingestion before catalog mutation.
 
 `chat <gemma4.gguf> --accel cuda [--prompts file] [--log file]
+[--autosave-dir private-directory] [--autosave-retain 1..64]
 [--max-tokens 16384] [--context 32768] [--system text]` supports persistent
 interactive input or one turn per nonempty UTF-8 file line. `--log` creates an
 exclusive transcript and synchronizes it after each turn. No existing transcript

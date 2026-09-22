@@ -1,3 +1,26 @@
+## 2026-09-22 — Application program S14: crash-recovery autosave generations
+
+Added opt-in native chat autosave through `--autosave-dir` and
+`--autosave-retain`. The new native owner locks a caller-created private
+directory, syncs an inflight marker before generation, publishes immutable
+exact-token snapshots before atomically advancing a checksummed manifest, and
+derives every retention deletion from previously committed manifest IDs. Chat
+recovers only through the existing model/profile/context/system/sampling
+compatibility check and exact-token KV replay. Completed turns and successful
+clear/load/sampling mutations checkpoint; model switching is rejected while
+autosave is active until S15 defines that lifecycle.
+
+The counted generation test preserves an unrelated sentinel while retaining the
+latest two of three commits and recovering the latest state. A fresh-process
+harness SIGKILLed the native probe after durable turn-two intent, then recovered
+committed turn one and identified generation/turn two as interrupted. Owned
+cleanup preserved the sentinel, a concurrent owner failed without hanging, and
+manifest corruption failed closed. The main
+binary builds and the counted suite passes 184/0/1 (185 total). This proves
+Linux process-kill recovery on the tested filesystem, not sudden-power-loss or
+physical post-crash CUDA continuation. S15 error/switch lifecycle recovery is
+next.
+
 ## 2026-09-22 — Application program S13: named conversation library
 
 Added a separate-process named library over the native exact-token snapshot
