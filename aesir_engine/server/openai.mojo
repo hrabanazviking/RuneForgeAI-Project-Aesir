@@ -244,15 +244,22 @@ struct OpenAIGate:
         res += String(created_unix)
         res += ",\"model\":\""
         res += json_escape_string(model)
-        res += "\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\""
-        res += json_escape_string(text)
-        res += "\"}"
         if len(finish_reason.bytes()) > 0:
-            res += ",\"finish_reason\":\""
+            res += "\",\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\""
             res += json_escape_string(finish_reason)
             res += "\""
+        else:
+            res += "\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\""
+            res += json_escape_string(text)
+            res += "\"},\"finish_reason\":null"
         res += "}]}\n\n"
         return res
+
+    @staticmethod
+    def format_chat_role_chunk(request_id: String, created_unix: Int,
+                               model: String) raises -> String:
+        OpenAIGate._validate_identity(request_id, created_unix, model)
+        return "data: {\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"chat.completion.chunk\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"index\":0,\"delta\":{\"role\":\"assistant\"},\"finish_reason\":null}]}\n\n"
 
     @staticmethod
     def format_completion(
@@ -276,9 +283,10 @@ struct OpenAIGate:
         finish_reason: String,
     ) raises -> String:
         OpenAIGate._validate_identity(request_id, created_unix, model)
-        OpenAIGate._validate_finish_reason(finish_reason, False)
+        OpenAIGate._validate_finish_reason(finish_reason, True)
         OpenAIGate._validate_text(text)
-        return "data: {\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":\"" + json_escape_string(finish_reason) + "\"}]}\n\n"
+        var finish = "null" if finish_reason == "" else "\"" + json_escape_string(finish_reason) + "\""
+        return "data: {\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":" + finish + "}]}\n\n"
 
     @staticmethod
     def format_models_list(

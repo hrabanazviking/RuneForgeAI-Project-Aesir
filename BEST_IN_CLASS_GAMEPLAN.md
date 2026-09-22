@@ -786,7 +786,45 @@ Every row is initially queued unless the execution record says otherwise.
   incomplete stream. Disconnection, slow-receiver backpressure and correct
   incremental OpenAI SSE/Ollama NDJSON are S19 gates, not claimed here.
 
-### S19–S48
+### S19 — Incremental OpenAI and Ollama compatibility streams
+
+- Status: implemented and verified on the installed Gemma 4 E2B Q4_K_M CUDA
+  model. This is the v1 matrix's bounded text-only subset, not full SDK or
+  external-server parity.
+- `/v1/chat/completions` and `/v1/completions` now send SSE while native
+  decoding runs. Chat begins with an assistant-role delta, intermediate choices
+  carry `finish_reason:null`, the terminal choice carries an empty delta/text
+  and observed `stop`/`length`, then one `[DONE]`. `/api/generate` and
+  `/api/chat` send nonempty `done:false` NDJSON text/message records during
+  decoding and one observed counted `done:true` record. All records use
+  complete UTF-8 from `next_chunk()`. Non-streaming JSON remains supported.
+- Stream headers are close-delimited, no `Content-Length`; all writes use the
+  nonblocking bounded send loop. Failed writes cancel active generation so
+  the next request can use a healthy reset session. After headers, deadlines
+  emit sanitized `Gateway Timeout` SSE/NDJSON error frames without a success
+  terminal marker; response limit/internal failures have separate sanitized
+  frames. Errors before headers keep ordinary status/JSON shapes.
+- Evidence: fresh `sm_89` build; `scripts/test_compat_streaming.py` through
+  Python's standard HTTP client observed 64 incremental content records for
+  each OpenAI and Ollama generation/chat path, about four seconds between
+  first text and final record, parsed terminal and `[DONE]` framing, and saw
+  reset-peer recovery in about 0.12 seconds in each mode. A slow client with a
+  short reply completed within the bounded reply and left the service healthy;
+  an independent 1 MiB no-reader socket probe forced the same transport's
+  300 ms write deadline (observed 301 ms). Separate real-model 4.5-second
+  generation deadlines yielded 29 prior OpenAI SSE events and 30 prior Ollama
+  NDJSON records, then sanitized timeout error frames, no success terminal,
+  and successful next-request recovery. The counted suite reported 185 passed,
+  0 failed, 1 skipped, 186 total. The 29-case API corpus passed against the
+  final S19 build.
+- Limits: only Gemma E2B on one NVIDIA host is physically covered. A short
+  reply may fit kernel socket buffers even when an application stops reading;
+  the forced no-reader probe separately proves the write deadline once buffers
+  fill. These checks do not establish official SDK parity, remote/public
+  deployment safety, all model families, tools, embeddings, multimodal input,
+  or streaming usage options. S20 owns bounded multi-client queueing.
+
+### S20–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

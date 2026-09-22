@@ -55,6 +55,17 @@ def test_openai_api_formatter() raises:
     if "\"created\":1788210000" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted supplied observation time")
         success = False
+    if "\"finish_reason\":null" not in chunk_resp:
+        print("FAIL: OpenAI intermediate chunk omitted null finish reason")
+        success = False
+    var role_resp = OpenAIGate.format_chat_role_chunk("chatcmpl-observed-17", 1788210000, "aesir:latest")
+    var finish_resp = OpenAIGate.format_chat_chunk("chatcmpl-observed-17", 1788210000, "aesir:latest", "", "stop")
+    var completion_resp = OpenAIGate.format_completion_chunk("chatcmpl-observed-17", 1788210000, "aesir:latest", "Hello", "")
+    if ("\"role\":\"assistant\"" not in role_resp or "\"delta\":{}" not in finish_resp
+            or "\"finish_reason\":\"stop\"" not in finish_resp
+            or "\"finish_reason\":null" not in completion_resp):
+        print("FAIL: OpenAI stream role/content/final frame contract drifted")
+        success = False
 
     var models_resp = OpenAIGate.format_models_list(
         "aesir:latest", 1788210000, "local-operator"

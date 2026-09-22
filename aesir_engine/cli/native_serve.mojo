@@ -13,11 +13,12 @@ from cli.storage import DurableModelStore
 from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token_limit, require_loaded_context
 from server.local_transport import (listen_local, accept_local, load_service_key,
                                     receive_head, receive_body, send_local,
-                                    send_native_stream_head)
+                                    send_native_stream_head, send_stream_head)
 from server.api import build_http_response, json_escape_string
 from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ollama_version,
                            ollama_catalog_tags, ollama_show, ollama_ps,
                            ollama_generate_response, ollama_chat_response,
+                           ollama_generate_chunk, ollama_chat_chunk,
                            ollama_done_reason)
 from server.openai import OpenAIRequest, OpenAIGate, openai_created_unix
 
@@ -188,6 +189,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
             var receiving = True
             var generation_started = False
             var response_started = False
+            var stream_kind = String("")
             try:
                 var deadline = start + io_timeout_ms
                 var head = LocalHTTPHead(receive_head(client.fd, deadline, interrupt_fd), port, key, not ollama)
@@ -238,21 +240,33 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
                             status = 500
+                            if request.stream:
+                                response_started = True
+                                stream_kind = "ollama"
+                                send_stream_head(client.fd, "application/x-ndjson", io_timeout_ms, interrupt_fd)
                             while session.status().generating:
-                                answer += session.next_chunk()
+                                var chunk = session.next_chunk()
+                                answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
                                     status = 413
                                     raise Error("Native response exceeded 1 MiB")
+                                if request.stream and chunk.byte_length() > 0:
+                                    send_local(client.fd,
+                                        ollama_generate_chunk(model.name, chunk)
+                                        if head.path == "/api/generate"
+                                        else ollama_chat_chunk(model.name, chunk),
+                                        io_timeout_ms, interrupt_fd)
                             var state = session.status()
+                            if state.finish_reason == "timeout":
+                                raise Error("Ollama generation deadline exceeded")
                             var elapsed = monotonic_milliseconds() - start
                             if head.path == "/api/generate":
-                                body = ollama_generate_response(model.name, answer, state.finish_reason, state.prompt_tokens, state.generated_tokens, elapsed)
+                                body = ollama_generate_response(model.name, "" if request.stream else answer, state.finish_reason, state.prompt_tokens, state.generated_tokens, elapsed)
                             else:
-                                body = ollama_chat_response(model.name, answer, state.finish_reason, state.prompt_tokens, state.generated_tokens, elapsed)
+                                body = ollama_chat_response(model.name, "" if request.stream else answer, state.finish_reason, state.prompt_tokens, state.generated_tokens, elapsed)
                             if request.stream:
-                                body += "\n"
-                                content_type = "application/x-ndjson"
+                                send_local(client.fd, body + "\n", io_timeout_ms, interrupt_fd)
                             status = 200
                     elif head.method == "GET" and head.path == "/v1/models":
                         body = OpenAIGate.format_model_catalog(
@@ -290,17 +304,40 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
                             status = 500
+                            var created = openai_created_unix()
+                            var request_id = "cmpl-aesir-" + String(sequence)
+                            if request.stream:
+                                response_started = True
+                                stream_kind = "openai"
+                                send_stream_head(client.fd, "text/event-stream", io_timeout_ms, interrupt_fd)
+                                if head.path == "/v1/chat/completions":
+                                    send_local(client.fd, OpenAIGate.format_chat_role_chunk(
+                                        request_id, created, model.name), io_timeout_ms, interrupt_fd)
                             while session.status().generating:
-                                answer += session.next_chunk()
+                                var chunk = session.next_chunk()
+                                answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
                                     status = 413
                                     raise Error("Native response exceeded 1 MiB")
+                                if request.stream and chunk.byte_length() > 0:
+                                    send_local(client.fd,
+                                        OpenAIGate.format_chat_chunk(request_id, created, model.name, chunk)
+                                        if head.path == "/v1/chat/completions"
+                                        else OpenAIGate.format_completion_chunk(request_id, created, model.name, chunk, ""),
+                                        io_timeout_ms, interrupt_fd)
                             var state = session.status()
-                            var created = openai_created_unix()
+                            if state.finish_reason == "timeout":
+                                raise Error("OpenAI generation deadline exceeded")
                             var finish = ollama_done_reason(state.finish_reason)
-                            var request_id = "cmpl-aesir-" + String(sequence)
-                            if head.path == "/v1/chat/completions":
+                            if request.stream:
+                                send_local(client.fd,
+                                    OpenAIGate.format_chat_chunk(request_id, created, model.name, "", finish)
+                                    if head.path == "/v1/chat/completions"
+                                    else OpenAIGate.format_completion_chunk(request_id, created, model.name, "", finish),
+                                    io_timeout_ms, interrupt_fd)
+                                send_local(client.fd, "data: [DONE]\n\n", io_timeout_ms, interrupt_fd)
+                            elif head.path == "/v1/chat/completions":
                                 body = OpenAIGate.format_chat_completion(
                                     request_id, created, model.name, answer, finish,
                                     state.prompt_tokens, state.generated_tokens,
@@ -310,17 +347,6 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     request_id, created, model.name, answer, finish,
                                     state.prompt_tokens, state.generated_tokens,
                                 )
-                            if request.stream:
-                                if head.path == "/v1/chat/completions":
-                                    body = OpenAIGate.format_chat_chunk(
-                                        request_id, created, model.name, answer, finish
-                                    )
-                                else:
-                                    body = OpenAIGate.format_completion_chunk(
-                                        request_id, created, model.name, answer, finish
-                                    )
-                                body += "data: [DONE]\n\n"
-                                content_type = "text/event-stream"
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"ready\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context) + "}"
@@ -342,6 +368,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 500
                         if request.stream:
                             response_started = True
+                            stream_kind = "native"
                             send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
                         while session.status().generating:
                             var chunk = session.next_chunk()
@@ -373,6 +400,18 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     status = 500
                 elif generation_started and session.status().finish_reason == "timeout":
                     status = 504
+                if response_started:
+                    try:
+                        var message = "Gateway Timeout" if status == 504 else ("Content Too Large" if status == 413 else "Internal Server Error")
+                        if stream_kind == "openai":
+                            var kind = "timeout_error" if status == 504 else ("response_limit_error" if status == 413 else "server_error")
+                            send_local(client.fd, "data: {\"error\":{\"message\":\"" + message + "\",\"type\":\"" + kind + "\"}}\n\n", io_timeout_ms, interrupt_fd)
+                        elif stream_kind == "ollama":
+                            send_local(client.fd, "{\"error\":\"" + message + "\"}\n", io_timeout_ms, interrupt_fd)
+                        elif stream_kind == "native":
+                            send_local(client.fd, "{\"error\":{\"code\":" + String(status) + ",\"message\":\"" + message + "\"}}\n", io_timeout_ms, interrupt_fd)
+                    except:
+                        pass
             if not response_started:
                 try:
                     send_local(client.fd, local_response(status, body, ollama, content_type), io_timeout_ms, interrupt_fd)

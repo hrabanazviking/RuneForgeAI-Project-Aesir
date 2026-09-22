@@ -278,7 +278,15 @@ def ollama_generate_response(model: String, answer: String, finish_reason: Strin
     return "{\"model\":\"" + json_escape_string(model) + "\",\"created_at\":\"" + ollama_created_at() + "\",\"response\":\"" + json_escape_string(answer) + "\",\"done\":true,\"done_reason\":\"" + json_escape_string(ollama_done_reason(finish_reason)) + "\",\"context\":[],\"total_duration\":" + String(elapsed_ms * 1000000) + ",\"load_duration\":0,\"prompt_eval_count\":" + String(prompt_tokens) + ",\"prompt_eval_duration\":0,\"eval_count\":" + String(generated_tokens) + ",\"eval_duration\":" + String(elapsed_ms * 1000000) + "}"
 
 
+def ollama_generate_chunk(model: String, text: String) raises -> String:
+    return "{\"model\":\"" + json_escape_string(model) + "\",\"created_at\":\"" + ollama_created_at() + "\",\"response\":\"" + json_escape_string(text) + "\",\"done\":false}\n"
+
+
 def ollama_chat_response(model: String, answer: String, finish_reason: String,
                          prompt_tokens: Int, generated_tokens: Int,
                          elapsed_ms: Int) raises -> String:
     return "{\"model\":\"" + json_escape_string(model) + "\",\"created_at\":\"" + ollama_created_at() + "\",\"message\":{\"role\":\"assistant\",\"content\":\"" + json_escape_string(answer) + "\",\"images\":null},\"done\":true,\"done_reason\":\"" + json_escape_string(ollama_done_reason(finish_reason)) + "\",\"total_duration\":" + String(elapsed_ms * 1000000) + ",\"load_duration\":0,\"prompt_eval_count\":" + String(prompt_tokens) + ",\"prompt_eval_duration\":0,\"eval_count\":" + String(generated_tokens) + ",\"eval_duration\":" + String(elapsed_ms * 1000000) + "}"
+
+
+def ollama_chat_chunk(model: String, text: String) raises -> String:
+    return "{\"model\":\"" + json_escape_string(model) + "\",\"created_at\":\"" + ollama_created_at() + "\",\"message\":{\"role\":\"assistant\",\"content\":\"" + json_escape_string(text) + "\"},\"done\":false}\n"

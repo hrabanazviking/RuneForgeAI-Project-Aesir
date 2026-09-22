@@ -190,10 +190,18 @@ def send_local(fd: Int32, data: String, timeout_ms: Int, cancel_fd: Int) raises:
     _ = bytes
 
 
-def send_native_stream_head(fd: Int32, timeout_ms: Int, cancel_fd: Int) raises:
-    """Start a close-delimited HTTP/1.1 NDJSON response before decoding ends."""
+def send_stream_head(fd: Int32, content_type: String,
+                     timeout_ms: Int, cancel_fd: Int) raises:
+    """Start a close-delimited HTTP/1.1 response before decoding ends."""
+    if content_type != "application/x-ndjson" and content_type != "text/event-stream":
+        raise Error("Unsupported streaming media type")
     send_local(fd,
-        "HTTP/1.1 200 OK\r\nContent-Type: application/x-ndjson\r\n"
+        "HTTP/1.1 200 OK\r\nContent-Type: " + content_type + "\r\n"
         + "Cache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\n"
         + "Connection: close\r\n\r\n",
         timeout_ms, cancel_fd)
+
+
+def send_native_stream_head(fd: Int32, timeout_ms: Int, cancel_fd: Int) raises:
+    """Retain the native entry point for its independent S18 test contract."""
+    send_stream_head(fd, "application/x-ndjson", timeout_ms, cancel_fd)

@@ -47,21 +47,33 @@ def check_case(port, token, model, case):
         response = connection.getresponse()
         raw = response.read()
         assert response.status == case["status"], (case["id"], response.status, raw[:500])
-        assert int(response.getheader("Content-Length")) == len(raw), case["id"]
+        framing = case.get("framing")
+        if framing:
+            assert response.getheader("Content-Length") is None, case["id"]
+        else:
+            assert int(response.getheader("Content-Length")) == len(raw), case["id"]
         assert response.getheader("Connection") == "close", case["id"]
         assert response.getheader("Cache-Control") == "no-store", case["id"]
         assert response.getheader("Content-Type").split(";")[0] == case.get("content_type", "application/json"), case["id"]
         if token:
             assert token.encode() not in raw, case["id"]
-        framing = case.get("framing")
-        if framing == "sse-final":
-            events = [line[6:] for line in raw.decode().splitlines() if line.startswith("data: ")]
-            assert len(events) == 2 and events[-1] == "[DONE]", (case["id"], events)
-            data = json.loads(events[0])
-        elif framing == "ndjson-final":
+        if framing == "sse-incremental":
+            events = [event for event in raw.decode().split("\n\n") if event]
+            assert len(events) >= 3 and events[-1] == "data: [DONE]", (case["id"], events)
+            assert all(event.startswith("data: {") and "\n" not in event for event in events[:-1]), case["id"]
+            records = [json.loads(event[6:]) for event in events[:-1]]
+            data = records[-1]
+            assert type(data["choices"][0]["finish_reason"]) is str, case["id"]
+            assert all(item["choices"][0]["finish_reason"] is None for item in records[:-1]), case["id"]
+            assert any((item["choices"][0].get("delta", {}).get("content") or item["choices"][0].get("text"))
+                       for item in records[:-1]), case["id"]
+        elif framing == "ndjson-incremental":
             lines = raw.decode().splitlines()
-            assert len(lines) == 1 and raw.endswith(b"\n"), (case["id"], raw[:500])
-            data = json.loads(lines[0])
+            assert len(lines) >= 2 and raw.endswith(b"\n"), (case["id"], raw[:500])
+            records = [json.loads(line) for line in lines]
+            assert all(item["done"] is False for item in records[:-1]), case["id"]
+            assert records[-1]["done"] is True, case["id"]
+            data = records[-1]
         else:
             data = json.loads(raw)
         for path, kind in case.get("fields", {}).items():

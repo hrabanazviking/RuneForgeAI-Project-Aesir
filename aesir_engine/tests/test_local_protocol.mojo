@@ -2,7 +2,7 @@
 from server.local_protocol import FlatJSON, LocalHTTPHead, valid_utf8, resolve_request_token_limit, require_loaded_context
 from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
-from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps
+from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps, ollama_generate_chunk, ollama_chat_chunk
 from server.openai import OpenAIRequest, OpenAIGate
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
@@ -67,6 +67,9 @@ def test_local_json() raises:
     var running = ollama_ps(info, 3323822692, 16384)
     if "\"size_vram\":3323822692" not in running or "\"context_length\":16384" not in running:
         raise Error("Ollama running-model response serialization failed")
+    if ("\"response\":\"Halló\",\"done\":false" not in ollama_generate_chunk(info.name, "Halló")
+            or "\"content\":\"Halló\"" not in ollama_chat_chunk(info.name, "Halló")):
+        raise Error("Ollama incremental record serialization failed")
     var catalog = List[OllamaModelInfo]()
     catalog.append(info)
     catalog.append(OllamaModelInfo("qwen:latest", "sha256:def", 495107776, "Q6_K", "2026-09-11T00:00:00Z", "FROM qwen", "qwen3", "0.6B"))

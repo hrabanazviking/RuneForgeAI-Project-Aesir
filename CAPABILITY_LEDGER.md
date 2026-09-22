@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Application S18 native incremental streaming, September 22, 2026
+**Ledger version:** Application S19 compatibility streaming, September 22, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -40,8 +40,10 @@ Run commands from the repository root unless stated otherwise.
 | `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 185 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 186, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
-| `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 27 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and final-record compatibility framing. Does not download a model or prove full external compatibility. |
+| `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
 | `E-NATIVE-STREAM` | `python3 scripts/test_native_streaming.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | On the installed Gemma CUDA model, independently reads native NDJSON during decoding, observes first text before final, checks UTF-8/JSON records, deterministic non-streamed text/count replay and a separate EOS terminal record. |
+| `E-COMPAT-STREAM` | `python3 scripts/test_compat_streaming.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an installed Gemma CUDA model, a standard-library client parses incremental OpenAI chat/completion SSE and Ollama chat/generate NDJSON, tests reset-peer cancellation and next-request recovery, checks a slow reader, and forces post-header deadlines that produce sanitized error frames without success terminals. |
+| `E-BACKPRESSURE` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/probe_stream_backpressure.mojo` | A nonreading socketpair with a small send buffer forces a 1 MiB transport write past the send buffer; the nonblocking service send loop exits at its configured 300 ms deadline. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
 | `E-CATALOG-LIFECYCLE` | `python3 scripts/test_catalog_lifecycle.py --binary /tmp/aesir-ledger-build` | A real pre-v1 delimiter fixture migrates atomically into an empty store; six concurrent writers preserve every record; backup is synchronized, non-overwriting and symlink-safe; valid restore repairs corrupt current state; FIFO, malformed and missing-blob backups do not publish a catalog. |
@@ -938,7 +940,7 @@ the complete ledger population.
 - **Claim sources:** server interface
 - **Implementation evidence:** `write_all_bytes()` in `server/api.mojo` looping socket writes for partial write recovery; `build_http_response()`, `build_sse_chunk()`, and `build_http_chunk()` framing helpers.
 - **Executable evidence:** `E-MASTER` case `server.http_response_framing` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Legacy tests cover framing and narrow send behavior, not production streaming safety. Live serving uses nonblocking bounded `send_local` with SIGPIPE suppression; no streaming endpoint is exposed.
+- **Evidence boundary:** Legacy tests alone cover framing and narrow send behavior. Live serving separately uses nonblocking bounded `send_local` with SIGPIPE suppression; the S19 real-model and forced no-reader probes cover only the stated local streaming cases.
 - **Audit:** AER-073, AER-074, AER-075.
 
 ### AES-SRV-004 — Raw file-descriptor generation chunk forwarding
@@ -957,9 +959,9 @@ the complete ledger population.
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
 - **Implementation evidence:** `OpenAIGate` bounds and escapes caller-observed JSON/SSE data; `cli/native_serve.mojo` now supplies actual request identity, time, model and usage for a bounded completion/chat route subset. The disconnected legacy router in `server/api.mojo` still returns 501.
-- **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway`; the independently authored v1 HTTP corpus exercises model list, chat/completion, errors and one final SSE event on a real CUDA service.
-- **Evidence boundary:** These live routes are a narrow subset, not complete OpenAI compatibility. SSE still buffers generation into one final event; S19 incremental adapters/client-level conformance remain open.
-- **Next acceptance gate:** Incremental SSE, disconnect/backpressure behavior and independent SDK fixtures.
+- **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway`; `E-API-CONTRACT` and `E-COMPAT-STREAM` exercise model list, chat/completion, errors and incremental SSE on a real CUDA service.
+- **Evidence boundary:** These live routes are a narrow subset, not complete OpenAI compatibility. Official SDK breadth, tools, multimodal input and streaming usage options remain unproved/unsupported.
+- **Next acceptance gate:** Independent SDK fixtures and broader protocol conformance.
 - **Audit:** AER-078, AER-079.
 
 ### AES-SRV-006 — OpenAI-compatible REST execution
@@ -968,9 +970,9 @@ the complete ledger population.
 - **Owner:** server and facade domains
 - **Claim sources:** completed multi-engine TODO and server interface
 - **Implementation evidence:** the live CLI service parses bounded `/v1/models`, `/v1/completions` and `/v1/chat/completions` requests, invokes the loaded CUDA model and reports measured usage. The disconnected legacy router remains unsupported.
-- **Executable evidence:** real-model `scripts/test_api_contract_v1.py` covers successful replies, final SSE framing and unsupported-field rejection.
-- **Evidence boundary:** One loaded text model, one choice, strict field subset, final-only SSE, no embeddings or tool calls. No full external-client compatibility claim.
-- **Next acceptance gate:** S19 incremental SSE, disconnect/backpressure and independent SDK conformance.
+- **Executable evidence:** `E-API-CONTRACT` and `E-COMPAT-STREAM` cover successful replies, incremental SSE terminal framing, reset-peer cancellation and unsupported-field rejection.
+- **Evidence boundary:** One loaded text model, one choice, strict field subset, no embeddings or tool calls. No full external-client compatibility claim.
+- **Next acceptance gate:** Official-client conformance, wider model families and streaming usage options.
 - **Audit:** AER-078, AER-079, AER-003.
 
 ### AES-SRV-007 — llama.cpp HTTP compatibility routes
@@ -990,9 +992,9 @@ the complete ledger population.
 - **Owner:** server, CLI, store, and inference domains
 - **Claim sources:** README “Ollama API compatible”; CLI serve banners
 - **Implementation evidence:** `--ollama` serves a bounded `/api/version`, `/api/tags`, `/api/ps`, `/api/show`, `/api/generate` and `/api/chat` subset against one loaded catalog model. Unknown fields/options are rejected.
-- **Executable evidence:** real-model `scripts/test_api_contract_v1.py` exercises routes, JSON/NDJSON final records and negative cases.
-- **Evidence boundary:** No pull/create/delete, embeddings, tools, multimodal input, remote access or genuine incremental NDJSON yet; not drop-in Ollama compatibility.
-- **Next acceptance gate:** S19 incremental NDJSON and independent client/differential fixtures.
+- **Executable evidence:** `E-API-CONTRACT` and `E-COMPAT-STREAM` exercise routes, incremental JSON/NDJSON records, terminal counts, reset-peer cancellation and negative cases.
+- **Evidence boundary:** No pull/create/delete, embeddings, tools, multimodal input or remote access; not drop-in Ollama compatibility. Only the installed Gemma model is physically checked here.
+- **Next acceptance gate:** Independent Ollama-client/differential fixtures and broader model coverage.
 - **Audit:** AER-069 through AER-081.
 
 ### AES-SRV-009 — Concurrent, bounded, secure service operation
@@ -1001,7 +1003,7 @@ the complete ledger population.
 - **Owner:** service and security domains
 - **Implementation evidence:** The native local service adds strict input limits, owner-only key admission, authentication, loopback-only binding, bounded I/O, cooperative cancellation/deadlines and privacy-preserving request logs.
 - **Executable evidence:** `local_service.json`, `local_service.http`, `local_service.request`; `scripts/test_native_service.py` with both real CUDA models.
-- **Evidence boundary:** One active stateless request, backlog 8, no parallel scheduling, incremental OpenAI/Ollama adapter, TLS, rate limiter, user quotas, remote access or public production claim. Native-only incremental NDJSON exists but does not prove slow-client/disconnect safety.
+- **Evidence boundary:** One active stateless request, backlog 8, no parallel scheduling, TLS, rate limiter, user quotas, remote access or public production claim. Local reset-peer and forced no-reader transport probes do not amount to a public-service security assessment.
 - **Next acceptance gate:** Sustained load/fuzz/security assessment, explicit multi-client scheduling, deployment lifecycle, and separately tested compatibility protocols.
 
 ### AES-SRV-010 — Authenticated native loopback CUDA generation

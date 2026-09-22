@@ -112,7 +112,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 
 - [x] **[verified, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
 - [x] **[verified, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
-- [ ] **[partial, AES-SRV-006] Live OpenAI REST API Engine Connection:** Live bounded chat execution exists; genuine incremental SSE and independent-client conformance remain open.
+- [ ] **[partial, AES-SRV-006] Live OpenAI REST API Engine Connection:** Live bounded chat execution and incremental SSE exist; official-client conformance and broader API features remain open.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
 
@@ -421,14 +421,14 @@ The legacy formatters below are not exposed compatibility APIs.
 
 - [ ] Choose one first compatibility API and record its exact supported version,
   endpoints, schemas, and exclusions.
-- [ ] **[partial, AES-SRV-005] [partial, AES-SRV-006] OpenAI:** Parse typed requests,
-  invoke real inference/embeddings, calculate usage, emit compliant errors and
-  SSE, and pass official-client/wire tests.
+- [ ] **[partial, AES-SRV-005] [partial, AES-SRV-006] OpenAI:** Extend the live
+  text-only request/response subset, usage/error contracts and incremental SSE
+  with official-client tests; embeddings remain a separate unshipped capability.
 - [ ] **[missing, AES-SRV-007] llama.cpp server:** Connect real tokenize,
   detokenize, completion, health, props, slots, and metrics only where supported;
   pass differential tests against a pinned server.
-- [ ] **[partial, AES-SRV-008] Ollama HTTP:** Implement selected generate/chat/
-  model endpoints and NDJSON semantics; pass real-client differential tests.
+- [ ] **[partial, AES-SRV-008] Ollama HTTP:** Extend the live generate/chat/model
+  subset and incremental NDJSON with real-client differential tests.
 - [ ] **[verified, AES-SRV-004] Streaming:** Extend the narrowly verified framing
   utilities: pick protocol framing, use stateful
   UTF-8 decoding, escape chunks, handle partial writes/backpressure/disconnect,

@@ -42,7 +42,7 @@ returns 404; context or generation admission can return 422. Native errors are
 `{"error":{"code":N,"message":"..."}}`; Ollama-mode errors are
 `{"error":"..."}`. Error messages intentionally do not echo request data.
 
-## Streaming state at v1 (S18 additive native extension)
+## Streaming state at v1 (S18/S19 additive extensions)
 
 Native `/v1/generate` `stream:false` returns one JSON response. `stream:true`
 returns `application/x-ndjson` over a close-delimited HTTP/1.1 response without
@@ -53,12 +53,26 @@ The first text record is sent during decoding, before the final record.
 If a connection fails after headers, it can end without a terminal record;
 clients must treat that as incomplete rather than as a successful generation.
 
-OpenAI `stream: true` still returns **one final** `data: ...` SSE event followed
-by `data: [DONE]`; Ollama `stream: true`
-(the default) returns **one final** NDJSON line. The service buffers generation
-before writing either compatibility response. These are final-record wire
-formats, **not incremental token streaming**; do not use them to infer
-time-to-first-token, progress or cancellation semantics. S19 remains open.
+OpenAI `stream:true` returns close-delimited `text/event-stream` with a
+single-line JSON `data:` event for each complete text piece. Chat begins with
+an assistant-role delta; intermediate choices have `finish_reason:null`;
+the terminal choice has an empty delta/text and an observed `stop` or `length`
+finish reason, then exactly one `data: [DONE]` event. Ollama `stream:true`
+(the default) returns close-delimited `application/x-ndjson` with nonempty
+`done:false` text/message records and one `done:true` record carrying observed
+counts, duration and `done_reason`. A short response can be wholly queued in
+the kernel even if a client stops reading; writes have a bounded deadline once
+backpressure actually fills the socket buffer.
+
+Pre-header validation errors retain the mode's JSON error shape and status.
+After headers, a generation/serialization failure emits a sanitized SSE error
+event or NDJSON `error` line when delivery is still possible. A generation
+deadline is `Gateway Timeout` (`timeout_error` in SSE); response-size overflow
+is `Content Too Large`; other execution failures are `Internal Server Error`.
+These failures end **without** a
+success terminal/DONE marker. A disconnect may prevent even the error record.
+Clients must require the successful terminal marker and treat EOF otherwise as
+incomplete. This remains a bounded Aesir subset, not full external API parity.
 
 ## Reproduce
 
