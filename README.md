@@ -93,6 +93,15 @@ uncommitted autosave intent. Interrupted prefill explicitly requires `/clear`.
 Invalid model switches fail before unload; a target startup failure after unload
 names the previous model to restart instead of pretending rollback succeeded.
 
+The local model catalog also supports one-way legacy migration and explicit,
+non-overwriting backups with validate-before-replace restore:
+
+```bash
+aesir catalog migrate ./legacy.catalog --model-store .aesir/models
+aesir catalog backup ./catalog.backup --model-store .aesir/models
+aesir catalog restore ./catalog.backup --model-store .aesir/models
+```
+
 ### A friendlier terminal Home screen
 
 The built application now has a terminal-oriented Home interface:

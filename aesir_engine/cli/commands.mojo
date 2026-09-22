@@ -97,6 +97,8 @@ def print_general_help():
     print("  show <name[:tag]> [--config path] [--format text|json]")
     print("  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]")
     print("  verify <name[:tag]> [--config path]")
+    print("  catalog migrate|backup|restore <path> [--model-store path | --config file]")
+    print("      One-way legacy import and immutable validate-before-replace snapshots.")
     print("  gc [--config path]")
     print("  cp <source[:tag]> <target[:tag]> [--config path]")
     print("  rm|delete <name[:tag]> [--config path]")
@@ -621,6 +623,7 @@ def _is_catalog_command(command: String) -> Bool:
         or command == "show"
         or command == "create"
         or command == "verify"
+        or command == "catalog"
         or command == "gc"
         or command == "cp"
         or command == "rm"
@@ -709,8 +712,36 @@ def dispatch_catalog_command(args: List[String]) raises:
         config = load_config_file(config_path)
     if seen_store:
         config.model_store_path = store_path
-    var durable = DurableModelStore(config.model_store_path)
+    var catalog_action = String("")
+    if command == "catalog":
+        if len(positionals) != 2:
+            raise Error(
+                "Usage: aesir catalog migrate|backup|restore <path> "
+                "[--model-store path | --config file]"
+            )
+        catalog_action = positionals[0]
+        if (catalog_action != "migrate" and catalog_action != "backup"
+                and catalog_action != "restore"):
+            raise Error("catalog action must be migrate, backup, or restore")
+    var durable = DurableModelStore(
+        config.model_store_path,
+        command == "catalog" and catalog_action != "backup",
+    )
     var is_json = format == "json"
+
+    if command == "catalog":
+        if seen_format or seen_modelfile or seen_model:
+            raise Error("catalog lifecycle accepts only store selection options")
+        if catalog_action == "backup":
+            durable.backup_catalog(positionals[1])
+            print("Catalog backup created: " + positionals[1])
+        elif catalog_action == "restore":
+            durable.restore_catalog(positionals[1])
+            print("Catalog restored atomically from: " + positionals[1])
+        else:
+            durable.migrate_legacy_catalog(positionals[1])
+            print("Legacy catalog migrated atomically from: " + positionals[1])
+        return
 
     if command == "list" or command == "ls":
         if len(positionals) != 0:

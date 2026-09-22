@@ -219,6 +219,33 @@ def deserialize_catalog(raw: String) raises -> RuneModelStore:
     return store^
 
 
+def deserialize_legacy_catalog(raw: String) raises -> RuneModelStore:
+    """Strictly imports the pre-v1 delimiter schema without preserving it."""
+    if len(raw.bytes()) == 0 or len(raw.bytes()) > MAX_CATALOG_BYTES:
+        raise Error("legacy model catalog must contain 1 byte through 16 MiB")
+    if not raw.startswith("===MANIFEST==="):
+        raise Error("legacy model catalog is missing its manifest delimiter")
+    var blocks = raw.split("===MANIFEST===")
+    var store = RuneModelStore()
+    for index in range(1, len(blocks)):
+        var block = String(blocks[index].strip())
+        if block == "":
+            raise Error("legacy model catalog contains an empty manifest")
+        if len(store.model_keys) >= MAX_CATALOG_ENTRIES:
+            raise Error("legacy model catalog exceeds the supported entry limit")
+        var manifest = deserialize_manifest(block)
+        var key = normalize_model_reference(
+            manifest.name + ":" + manifest.tag
+        )
+        if key in store.catalog:
+            raise Error("legacy model catalog contains duplicate identity: " + key)
+        store.catalog[key] = manifest.copy()
+        store.model_keys.append(key)
+    if len(store.model_keys) == 0:
+        raise Error("legacy model catalog contains no manifests")
+    return store^
+
+
 def _read_optional_text(path: String) raises -> String:
     var path_bytes = _cstring(path)
     # O_RDONLY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC. A catalog must be the
@@ -293,6 +320,51 @@ def _write_all(fd: Int32, content: String) raises:
         if written == 0:
             raise Error("failed while writing staged model catalog")
         offset += Int(written)
+
+
+def _read_required_catalog_file(path: String, label: String) raises -> String:
+    if path == "" or path.byte_length() > 4095:
+        raise Error(label + " path must contain 1..4095 bytes")
+    var raw = _read_optional_text(path)
+    if raw == "":
+        raise Error(label + " file does not exist: " + path)
+    return raw
+
+
+def _write_exclusive_catalog_file(path: String, content: String) raises:
+    """Publishes one owner-private backup without replacing any path."""
+    if path == "" or path.byte_length() > 4095:
+        raise Error("catalog backup path must contain 1..4095 bytes")
+    var path_bytes = _cstring(path)
+    # O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC. O_EXCL prevents following an
+    # existing symlink and makes backup publication explicitly non-overwriting.
+    var fd = external_call["open64", Int32](
+        path_bytes.unsafe_ptr(), Int32(524481), Int32(384)
+    )
+    if fd < 0:
+        raise Error("catalog backup destination must be new: " + path)
+    try:
+        _write_all(fd, content)
+        if external_call["fsync", Int32](fd) != 0:
+            raise Error("unable to synchronize catalog backup")
+    except error:
+        _ = external_call["close", Int32](fd)
+        _ = external_call["unlink", Int32](path_bytes.unsafe_ptr())
+        raise error
+    if external_call["close", Int32](fd) != 0:
+        _ = external_call["unlink", Int32](path_bytes.unsafe_ptr())
+        raise Error("unable to close catalog backup")
+    var slash = -1
+    var path_source = path.as_bytes()
+    for index in range(len(path_source)):
+        if path_source[index] == 47:
+            slash = index
+    var parent = String(".")
+    if slash == 0:
+        parent = "/"
+    elif slash > 0:
+        parent = String(path[byte=0:slash])
+    _sync_directory(parent)
 
 
 def _ensure_store_root(root: String) raises:
@@ -800,15 +872,35 @@ def load_catalog_at_locked_root(root_fd: Int32) raises -> RuneModelStore:
     return deserialize_catalog(raw)
 
 
+def _validate_catalog_blobs_locked(
+    root_fd: Int32, store: RuneModelStore,
+) raises:
+    """Validates every referenced immutable blob before catalog replacement."""
+    for key in store.model_keys:
+        if key not in store.catalog:
+            raise Error("catalog key has no manifest: " + key)
+        var manifest = store.catalog[key]
+        validate_manifest_storage_identity(manifest.digest, manifest.size_bytes)
+        if manifest.digest.startswith("sha256:"):
+            _verify_blob_locked(
+                root_fd, manifest.digest, manifest.size_bytes
+            )
+
+
 struct DurableModelStore:
     """Restart-safe catalog whose mutations commit through atomic replacement."""
 
     var root_path: String
     var store: RuneModelStore
 
-    def __init__(out self, root_path: String) raises:
+    def __init__(
+        out self, root_path: String, allow_unreadable_catalog: Bool = False,
+    ) raises:
         self.root_path = validate_store_root(root_path)
-        self.store = _load_store(self.root_path)
+        if allow_unreadable_catalog:
+            self.store = RuneModelStore()
+        else:
+            self.store = _load_store(self.root_path)
 
     def list_models(self) raises -> List[ModelManifest]:
         return _load_store(self.root_path).list_models()
@@ -1048,6 +1140,61 @@ struct DurableModelStore:
             candidate.remove_model_checked(name)
             _atomic_write_catalog(
                 self.root_path, serialize_catalog(candidate), catalog_replaced
+            )
+        except error:
+            _ = external_call["close", Int32](lock_fd)
+            raise error
+        _ = external_call["close", Int32](lock_fd)
+        self.store = candidate^
+
+    def backup_catalog(self, destination: String) raises:
+        """Writes one validated, immutable v1 catalog snapshot."""
+        _ensure_store_root(self.root_path)
+        var lock_fd = _lock_store_root(self.root_path)
+        try:
+            var candidate = _load_store(self.root_path)
+            var encoded = serialize_catalog(candidate)
+            _write_exclusive_catalog_file(destination, encoded)
+        except error:
+            _ = external_call["close", Int32](lock_fd)
+            raise error
+        _ = external_call["close", Int32](lock_fd)
+
+    def restore_catalog(mut self, source: String) raises:
+        """Validates a backup completely, then atomically replaces catalog.v1."""
+        var raw = _read_required_catalog_file(source, "catalog backup")
+        var candidate = deserialize_catalog(raw)
+        # Canonical reserialization catches internal identity drift before the
+        # destination directory or its current catalog can be mutated.
+        var encoded = serialize_catalog(candidate)
+        _ensure_store_root(self.root_path)
+        var lock_fd = _lock_store_root(self.root_path)
+        var catalog_replaced = False
+        try:
+            _validate_catalog_blobs_locked(lock_fd, candidate)
+            _atomic_write_catalog(
+                self.root_path, encoded, catalog_replaced
+            )
+        except error:
+            _ = external_call["close", Int32](lock_fd)
+            raise error
+        _ = external_call["close", Int32](lock_fd)
+        self.store = candidate^
+
+    def migrate_legacy_catalog(mut self, source: String) raises:
+        """Imports the delimiter schema only into a catalog-free destination."""
+        var raw = _read_required_catalog_file(source, "legacy catalog")
+        var candidate = deserialize_legacy_catalog(raw)
+        var encoded = serialize_catalog(candidate)
+        _ensure_store_root(self.root_path)
+        var lock_fd = _lock_store_root(self.root_path)
+        var catalog_replaced = False
+        try:
+            if _read_optional_text(self.root_path + "/" + CATALOG_FILE) != "":
+                raise Error("legacy migration requires a catalog-free destination")
+            _validate_catalog_blobs_locked(lock_fd, candidate)
+            _atomic_write_catalog(
+                self.root_path, encoded, catalog_replaced
             )
         except error:
             _ = external_call["close", Int32](lock_fd)

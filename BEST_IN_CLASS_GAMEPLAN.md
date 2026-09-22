@@ -704,7 +704,31 @@ Every row is initially queued unless the execution record says otherwise.
   models, not deliberate target-load OOM; switch assertions now recognize
   pre-unload rejection.
 
-### S16–S48
+### S16 — Catalog migration, backup, restore and contention
+
+- Status: done. `aesir catalog migrate` strictly imports the pre-v1 delimiter
+  schema only into a catalog-free destination and publishes canonical v1 through
+  the existing locked staged-write/fsync/rename/directory-fsync transaction.
+  `catalog backup` creates one owner-private synchronized snapshot without
+  overwrite. `catalog restore` can repair an unreadable current catalog, but
+  parses/canonicalizes the complete backup and rehashes all referenced blobs
+  before atomically replacing catalog state.
+- Evidence: `scripts/test_catalog_lifecycle.py` builds a real legacy fixture,
+  migrates it, launches six concurrent native writers and observes all seven
+  records, proves backup non-overwrite, restores over deliberately corrupt
+  current bytes, and rejects a symlink destination, FIFO source, truncated
+  snapshot, and valid snapshot whose blob is absent without publishing
+  destination catalog state. The full
+  pre-existing native model-store harness passes in direct/config/default modes,
+  and the four-boundary SIGKILL catalog harness still exposes only old or complete
+  new state and remains writable.
+- Boundary: backups contain catalog metadata, not model blobs or preferences;
+  restore requires referenced blobs to exist under the destination root.
+  Migration is one-way and refuses nonempty destinations. Evidence covers
+  process crashes on the tested Linux filesystem, not arbitrary power-loss or
+  injected device/fsync failure.
+
+### S17–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

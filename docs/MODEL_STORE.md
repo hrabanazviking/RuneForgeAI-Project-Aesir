@@ -9,6 +9,9 @@ different safe relative POSIX path through `storage.model_store_path`.
 aesir create stheno:roleplay --modelfile Modelfile
 aesir create stheno:stored --modelfile Modelfile --model ./model.gguf
 aesir verify stheno:stored
+aesir catalog migrate ./legacy.catalog --model-store .aesir/models
+aesir catalog backup ./catalog.backup --model-store .aesir/models
+aesir catalog restore ./catalog.backup --model-store .aesir/models
 aesir pull owner/repo model.gguf --revision COMMIT --sha256 DIGEST --size BYTES \
   --name stheno:pinned --config aesir.config.json
 aesir list
@@ -26,6 +29,21 @@ aesir favorites
 Every command also accepts `--config <path>`. `--format text|json` applies to
 `list` and `show`. Unknown, duplicate, missing, or command-inapplicable options
 fail before a mutation.
+
+`catalog migrate` is a one-way import for the pre-v1
+`===MANIFEST===` delimiter format. It accepts only a catalog-free destination,
+strictly validates every manifest and duplicate identity, verifies referenced
+blobs under the destination lock, then publishes canonical `catalog.v1` through
+the normal staged-file sync, atomic replacement, and directory sync path.
+
+`catalog backup` locks and reloads the authoritative catalog, canonicalizes it,
+and creates one owner-private synchronized v1 snapshot without overwriting any
+existing path. `catalog restore` accepts only a complete strict v1 snapshot. It
+parses and canonicalizes the whole source before touching the destination,
+then locks the store, rehashes every referenced blob, and atomically replaces
+the catalog. Restore can therefore repair an unreadable current catalog, but it
+cannot fabricate missing model bytes. Preferences are intentionally outside the
+catalog snapshot and are not migrated, backed up, or restored by these commands.
 
 Aliases and favorites are user preferences, not catalog identities. They live
 in a separate bounded, checksummed `preferences.v1` file under the same store
@@ -97,6 +115,12 @@ without lost catalog updates, same-size corruption, missing blobs,
 failed-mutation rollback, native Linux permissions, final-symlink rejection,
 fail-before-delete directory validation, unreachable-blob collection, stale-stage
 cleanup, exact reclaimed-byte accounting, and referenced-blob retention.
+
+`scripts/test_catalog_lifecycle.py` builds a real legacy fixture, migrates it,
+runs six simultaneous native writers against the migrated store, creates a
+non-overwriting backup, repairs a deliberately corrupt current catalog through
+restore, and proves malformed or missing-blob backups leave `catalog.v1`
+unchanged or absent. It also rejects a second migration into a nonempty store.
 
 `python3 scripts/test_catalog_crash_atomicity.py --binary /path/to/aesir` compiles a
 test-only Linux `LD_PRELOAD` shim and kills the real catalog writer immediately
