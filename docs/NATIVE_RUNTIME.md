@@ -260,17 +260,32 @@ sampling identity restores the latest committed generation before accepting a
 new prompt and visibly identifies an interrupted generation.
 
 Autosave does not overwrite or weaken native snapshot compatibility. Corrupt or
-missing authoritative records fail closed. Model switching is rejected while
-autosave is enabled because cross-model recovery policy belongs to S15. The
-process-kill proof covers Linux process death and filesystem sync ordering, not
-sudden-power-loss behavior on every filesystem or encrypted storage.
+missing authoritative records fail closed. Model switching remains rejected
+while autosave is enabled: generations are intentionally bound to one exact
+model identity, and no cross-model migration is implied. The process-kill proof
+covers Linux process death and filesystem sync ordering, not sudden-power-loss
+behavior on every filesystem or encrypted storage.
 
 The repetition window is fixed when a session is created. Invalid controls and
 prompts that cannot fit the remaining context are reported without changing
-healthy history; the user can clear explicitly and continue. CUDA execution
-failures still poison the session and terminate. Prompt-file lines are literal
-user messages, including slash-prefixed text. Transcripts include successful
-settings/reset events and rejection messages and never overwrite existing files.
+healthy history; any uncommitted autosave intent is removed. Interrupted
+prefill keeps the loaded session only when it is healthy and idle, and reports
+that `/clear` is mandatory before another prompt. A failure after a turn has
+closed never invites a blind retry: the process terminates and restart recovery
+remains authoritative about durable state. CUDA execution failures still poison
+the session and terminate. Prompt-file lines are literal user messages,
+including slash-prefixed text. Transcripts include successful settings/reset
+events and rejection messages and never overwrite existing files.
+
+Model-switch targets are validated while the current session is still alive.
+Invalid, incompatible, or unreadable targets are rejected before unload and the
+current session continues. A valid switch deliberately unwinds the old session,
+then uses same-PID `execv` so the target starts in a clean CUDA runtime. The
+handoff privately carries the previous model reference. If target planning,
+allocation, model load, or autosave restore then fails, the terminal error says
+that the previous session was unloaded, conversation state was reset, and names
+the previous reference to restart. It does not claim automatic rollback across
+the process-image boundary.
 
 ### Sampling verification
 
@@ -307,6 +322,9 @@ cleanly. Interrupted prompt ingestion is different: partial KV state cannot be
 rolled back safely for every profile. Chat reports `reset_required=True` and
 rejects subsequent prompts until the user explicitly requests `/clear`.
 Execution failures remain fatal; cancellation never revives a failed device.
+The recovery classifier also distinguishes a prefill timeout from a turn that
+already closed in KV, preventing a post-output log/autosave error from being
+misreported as an uncommitted prompt.
 
 The Linux executable bootstraps `chat` through `/proc/self/exe` once when needed,
 preserving arguments/environment/PID while making pre-main MAX workers inherit

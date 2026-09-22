@@ -206,6 +206,7 @@ from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
 )
+from tests.test_chat_recovery import test_chat_recovery_policy
 from tests.test_conversation_autosave import test_conversation_autosave_generations
 from tests.test_model_preferences import (
     test_model_preferences_codec,
@@ -686,6 +687,7 @@ def main() raises:
     run_case(ledger, "huggingface.pinned_admission", test_hf_pinned_download_admission)
     run_case(ledger, "cli.cuda_chat_admission", test_cuda_chat_admission)
     run_case(ledger, "cli.cuda_model_switch_syntax", test_cuda_model_switch_syntax)
+    run_case(ledger, "cli.chat_recovery_policy", test_chat_recovery_policy)
     run_case(
         ledger,
         "huggingface.download_parameter_boundary",
@@ -801,4 +803,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(185)
+    ledger.finish(186)

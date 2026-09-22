@@ -47,7 +47,7 @@ def test_cuda_model_switch_syntax() raises:
     )
     var handoff = build_chat_model_switch_arguments(
         "next", "private/models", 2, 536870912, 4096, 128, "", sampling,
-        1234, True, Int32(9),
+        1234, True, Int32(9), "previous",
     )
     var names: List[String] = [
         "--temperature", "--top-p", "--min-p", "--repeat-penalty",
@@ -68,6 +68,7 @@ def test_cuda_model_switch_syntax() raises:
             raise Error("Model switch omitted " + names[field])
     if ("--context" not in handoff or "--max-tokens" not in handoff
             or "--tui" not in handoff or "--resume-log-fd" not in handoff
+            or "--switch-origin" not in handoff or "previous" not in handoff
             or handoff[1] != "chat" or handoff[2] != "next"):
         raise Error("Model switch lost non-sampling handoff settings")
 
@@ -109,6 +110,8 @@ def test_cuda_chat_admission() raises:
         except error:
             if "Failed to open GGUF" in String(error) or "Cannot create transcript" in String(error):
                 raise Error("Invalid chat options reached file operations")
+            if "model session startup" in String(error):
+                raise Error("Invalid chat options were mislabeled as startup failure")
             rejected = True
         if not rejected:
             raise Error("Invalid CUDA chat request was accepted")

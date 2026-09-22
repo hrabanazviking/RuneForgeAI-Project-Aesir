@@ -22,6 +22,13 @@ from cli.conversation_autosave import (
     ConversationAutosave,
     validate_conversation_autosave,
 )
+from cli.chat_recovery import (
+    ChatStartupState,
+    ChatTurnAttempt,
+    chat_runtime_failure_instruction,
+    chat_startup_failure_instruction,
+    decide_chat_turn_recovery,
+)
 from loader.packed_gguf import PackedGGUF
 from core.model_registry import ModelArchitectureRegistry
 
@@ -141,7 +148,7 @@ def build_chat_model_switch_arguments(
     target: String, model_store: String, device_index: Int,
     reserve_bytes: Int, requested_context: Int, requested_max_tokens: Int,
     system: String, sampling: NativeSamplingConfig, timeout_ms: Int,
-    tui: Bool, transcript_fd: Int32,
+    tui: Bool, transcript_fd: Int32, switch_origin: String = String(""),
 ) raises -> List[String]:
     """Builds the exact process-image handoff without performing execv."""
     sampling.validate()
@@ -192,6 +199,9 @@ def build_chat_model_switch_arguments(
     if transcript_fd >= 0:
         arguments.append("--resume-log-fd")
         arguments.append(String(transcript_fd))
+    if switch_origin != "":
+        arguments.append("--switch-origin")
+        arguments.append(switch_origin)
     return arguments^
 
 
@@ -199,12 +209,13 @@ def exec_chat_model_switch(
     target: String, model_store: String, device_index: Int,
     reserve_bytes: Int, requested_context: Int, requested_max_tokens: Int,
     system: String, sampling: NativeSamplingConfig, timeout_ms: Int,
-    tui: Bool, transcript_fd: Int32,
+    tui: Bool, transcript_fd: Int32, current_model: String,
 ) raises:
     """Replaces this process image so MAX CUDA starts from a clean runtime."""
     var arguments = build_chat_model_switch_arguments(
         target, model_store, device_index, reserve_bytes, requested_context,
         requested_max_tokens, system, sampling, timeout_ms, tui, transcript_fd,
+        current_model,
     )
     var bytes = List[List[Int8]]()
     for argument in arguments:
@@ -226,7 +237,11 @@ def exec_chat_model_switch(
     )
     _ = bytes
     _ = executable
-    raise Error("Unable to replace the CUDA runtime for model switching")
+    raise Error(
+        "Unable to replace the CUDA runtime for model switching; the current "
+        "session has ended. Restart Aesir with model reference '"
+        + current_model + "'; no target turn was committed"
+    )
 
 
 def chat_positive_int(text: String) raises -> Int:
@@ -257,7 +272,7 @@ def read_chat_line(interrupt_fd: Int = -1) raises -> String:
     return read_interruptible_line(interrupt_fd)
 
 
-def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> ChatTurnResult:
+def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript, mut attempt: ChatTurnAttempt) raises -> ChatTurnResult:
     session.begin_turn(prompt, system, max_tokens)
     var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
@@ -266,6 +281,7 @@ def cuda_chat_turn(mut session: Gemma4CUDASession, prompt: String, system: Strin
         var chunk = session.next_chunk()
         assistant += chunk
         transcript.emit(chunk)
+    attempt.closed = True
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
     var elapsed_ms = monotonic_milliseconds() - started_at
@@ -324,6 +340,29 @@ def _restore_gemma_autosave(
 
 
 def dispatch_cuda_chat(args: List[String]) raises:
+    """Runs chat behind one startup/runtime failure boundary."""
+    var startup = ChatStartupState()
+    try:
+        _dispatch_cuda_chat(args, startup)
+    except error:
+        if not startup.admitted:
+            raise
+        var reason = String(error)
+        if startup.ready:
+            raise Error(
+                chat_runtime_failure_instruction(startup.current_model)
+                + "; cause: " + reason
+            )
+        raise Error(
+            chat_startup_failure_instruction(
+                startup.current_model, startup.previous_model
+            ) + "; cause: " + reason
+        )
+
+
+def _dispatch_cuda_chat(
+    args: List[String], mut startup: ChatStartupState,
+) raises:
     var model_reference = String("")
     var prompts_path = String("")
     var log_path = String("")
@@ -396,6 +435,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
             inherited_log_fd = bounded_decimal(value)
             if inherited_log_fd < 3:
                 raise Error("Internal resumed log descriptor is invalid")
+        elif flag == "--switch-origin":
+            if value == "" or value.byte_length() > 4096:
+                raise Error("Internal model-switch origin is invalid")
+            startup.previous_model = value
         elif flag == "--autosave-dir":
             autosave_dir = value
         elif flag == "--autosave-retain":
@@ -442,6 +485,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
     var interrupt_fd = interrupts.fd
     if model_reference == "":
         model_reference = choose_installed_model(model_store, interrupt_fd)
+    startup.current_model = model_reference
     var requested_context = context_length if "--context" in seen else 0
     var requested_max_tokens = max_tokens if "--max-tokens" in seen else 0
     var prompts = List[String]()
@@ -458,7 +502,10 @@ def dispatch_cuda_chat(args: List[String]) raises:
             raise Error("Chat prompt file has no turns")
     if inherited_log_fd >= 0 and log_path != "":
         raise Error("Internal resumed log descriptor conflicts with --log")
+    if startup.previous_model != "":
+        startup.admitted = True
     var transcript = ChatTranscript(log_path, inherited_log_fd)
+    startup.admitted = True
     var selection_profile = profile
     while True:
         var resolved = resolve_model_reference(model_reference, model_store)
@@ -489,14 +536,14 @@ def dispatch_cuda_chat(args: List[String]) raises:
         if detected.profile == "llama3" or detected.profile == "qwen3":
             switch = run_llama_chat(
                 resolved.path, context_length, max_tokens, effective.system, prompts,
-                prompts_path != "", transcript, device_index, reserve_bytes,
+                prompts_path != "", transcript, startup, device_index, reserve_bytes,
                 effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
                 resolved.requested, model_store, autosave_dir, autosave_retain,
             )
         else:
             switch = run_gemma_chat(
                 resolved.path, context_length, max_tokens, effective.system, prompts,
-                prompts_path != "", transcript, device_index, reserve_bytes,
+                prompts_path != "", transcript, startup, device_index, reserve_bytes,
                 effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
                 resolved.requested, model_store, autosave_dir, autosave_retain,
             )
@@ -507,7 +554,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
         exec_chat_model_switch(
             switch.target, model_store, device_index, reserve_bytes,
             requested_context, requested_max_tokens, effective.system, switch.sampling,
-            switch.timeout_ms, tui, transcript.fd,
+            switch.timeout_ms, tui, transcript.fd, model_reference,
         )
     _ = interrupts
 
@@ -515,6 +562,7 @@ def dispatch_cuda_chat(args: List[String]) raises:
 def run_gemma_chat(
     model_path: String, context_length: Int, max_tokens: Int, system: String,
     prompts: List[String], from_file: Bool, transcript: ChatTranscript,
+    mut startup: ChatStartupState,
     device_index: Int, reserve_bytes: Int, sampling: NativeSamplingConfig,
     interrupt_fd: Int, timeout_ms: Int, tui: Bool, known_digest: String,
     model_label: String, model_store: String,
@@ -533,6 +581,7 @@ def run_gemma_chat(
     var turns = _restore_gemma_autosave(
         autosave, session, conversation, transcript
     )
+    startup.ready = True
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + model_label + "\n\nbackend=cuda; model=gemma4-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
     if tui:
@@ -541,7 +590,8 @@ def run_gemma_chat(
         for prompt in prompts:
             turns += 1
             autosave.begin(turns)
-            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var attempt = ChatTurnAttempt()
+            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript, attempt)
             conversation.append_turn(prompt, result.assistant)
             _capture_gemma_conversation(session, conversation)
             autosave.commit(conversation)
@@ -560,8 +610,9 @@ def run_gemma_chat(
                 break
             if prompt.startswith("/"):
                 var state_changed = False
+                var model_switch_command = prompt.startswith("/model")
                 try:
-                    if prompt.startswith("/model"):
+                    if model_switch_command:
                         if autosave.enabled():
                             raise Error("Model switching is unavailable while conversation autosave is enabled")
                         var next_model = requested_model_switch(
@@ -580,16 +631,23 @@ def run_gemma_chat(
                 except error:
                     if not session.healthy:
                         raise
-                    transcript.emit("\n[control rejected: " + String(error) + "]\n")
+                    if model_switch_command:
+                        transcript.emit(
+                            "\n[model switch rejected before unload; current "
+                            "session remains active: " + String(error) + "]\n"
+                        )
+                    else:
+                        transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 if state_changed:
                     _capture_gemma_conversation(session, conversation)
                     autosave.checkpoint(
                         conversation, len(conversation.turns)
                     )
                 continue
+            var attempt = ChatTurnAttempt()
+            autosave.begin(len(conversation.turns) + 1)
             try:
-                autosave.begin(len(conversation.turns) + 1)
-                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
+                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript, attempt)
                 conversation.append_turn(prompt, result.assistant)
                 _capture_gemma_conversation(session, conversation)
                 autosave.commit(conversation)
@@ -597,13 +655,22 @@ def run_gemma_chat(
                 if tui:
                     render_tui(dashboard, session, model_label, result.tokens_per_second, transcript)
             except error:
-                if (
-                    not session.healthy or session.generating
-                    or autosave.interrupted_generation() > 0
-                ):
-                    raise
-                transcript.emit("\n[turn rejected: " + String(error) + "]\n")
-            _ = consume_interrupts(interrupt_fd)
+                var recovery = decide_chat_turn_recovery(
+                    session.healthy, session.generating,
+                    session.reset_required, autosave.interrupted_generation(),
+                    attempt.closed,
+                )
+                if recovery.discard_inflight:
+                    autosave.discard_interrupted()
+                if not recovery.continue_session:
+                    raise Error(recovery.instruction + "; cause: " + String(error))
+                transcript.emit(
+                    "\n[" + recovery.instruction + "; cause: "
+                    + String(error) + "]\n"
+                )
+            if (consume_interrupts(interrupt_fd)
+                    and session.finish_reason != "cancelled"):
+                break
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
     return ChatSwitchRequest(
@@ -618,13 +685,15 @@ def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
     var device_index = selection.device_index
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(path, plan.context_length, device_index)
-        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+        var attempt = ChatTurnAttempt()
+        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript, attempt)
     else:
         var session = Gemma4CUDASession(path, plan.context_length, device_index)
-        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript)
+        var attempt = ChatTurnAttempt()
+        _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript, attempt)
 
 
-def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript) raises -> ChatTurnResult:
+def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript, mut attempt: ChatTurnAttempt) raises -> ChatTurnResult:
     session.begin_turn(prompt, system, max_tokens)
     var started_at = monotonic_milliseconds()
     transcript.emit("\n## Turn " + String(number) + "\n\nUser: " + prompt + "\n\nAssistant: ")
@@ -633,6 +702,7 @@ def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: Strin
         var chunk = session.next_chunk()
         assistant += chunk
         transcript.emit(chunk)
+    attempt.closed = True
     transcript.emit("\n\n[turn=" + String(number) + " prompt_tokens=" + String(session.prompt_tokens) + " generated_tokens=" + String(session.generated_tokens) + " context_used=" + String(session.position) + " max_new_tokens=" + String(session.max_new_tokens) + " finish=" + session.finish_reason + " backend=cuda cpu_offload=0]\n")
     transcript.flush()
     var elapsed_ms = monotonic_milliseconds() - started_at
@@ -693,6 +763,7 @@ def _restore_llama_autosave(
 def run_llama_chat(
     path: String, context_length: Int, max_tokens: Int, system: String,
     prompts: List[String], from_file: Bool, transcript: ChatTranscript,
+    mut startup: ChatStartupState,
     device_index: Int = 0, reserve_bytes: Int = 268435456,
     sampling: NativeSamplingConfig = NativeSamplingConfig(),
     interrupt_fd: Int = -1, timeout_ms: Int = 0, tui: Bool = False,
@@ -714,6 +785,7 @@ def run_llama_chat(
     var turns = _restore_llama_autosave(
         autosave, session, conversation, transcript
     )
+    startup.ready = True
     var display_model = model_label if model_label != "" else path
     transcript.emit("# Aesir native CUDA conversation\n\nModel: " + display_model + "\n\nbackend=cuda; model=" + session.profile.architecture + "-" + session.profile.name + "; layers=" + String(session.profile.layer_count) + "/" + String(session.profile.layer_count) + "; cpu_offload=0; context=" + String(context_length) + "; max_new_tokens=" + String(max_tokens) + "; kv=f16; sampling=" + sampling.description() + "; timeout_ms=" + String(timeout_ms) + "\n\nSystem: " + system + "\n")
     var dashboard = AesirTUIDashboard()
@@ -723,7 +795,8 @@ def run_llama_chat(
         for prompt in prompts:
             turns += 1
             autosave.begin(turns)
-            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript)
+            var attempt = ChatTurnAttempt()
+            var result = cuda_chat_turn(session, prompt, system, max_tokens, turns, transcript, attempt)
             conversation.append_turn(prompt, result.assistant)
             _capture_llama_conversation(session, conversation)
             autosave.commit(conversation)
@@ -742,8 +815,9 @@ def run_llama_chat(
                 break
             if prompt.startswith("/"):
                 var state_changed = False
+                var model_switch_command = prompt.startswith("/model")
                 try:
-                    if prompt.startswith("/model"):
+                    if model_switch_command:
                         if autosave.enabled():
                             raise Error("Model switching is unavailable while conversation autosave is enabled")
                         var next_model = requested_model_switch(
@@ -762,16 +836,23 @@ def run_llama_chat(
                 except error:
                     if not session.healthy:
                         raise
-                    transcript.emit("\n[control rejected: " + String(error) + "]\n")
+                    if model_switch_command:
+                        transcript.emit(
+                            "\n[model switch rejected before unload; current "
+                            "session remains active: " + String(error) + "]\n"
+                        )
+                    else:
+                        transcript.emit("\n[control rejected: " + String(error) + "]\n")
                 if state_changed:
                     _capture_llama_conversation(session, conversation)
                     autosave.checkpoint(
                         conversation, len(conversation.turns)
                     )
                 continue
+            var attempt = ChatTurnAttempt()
+            autosave.begin(len(conversation.turns) + 1)
             try:
-                autosave.begin(len(conversation.turns) + 1)
-                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript)
+                var result = cuda_chat_turn(session, prompt, system, max_tokens, len(conversation.turns) + 1, transcript, attempt)
                 conversation.append_turn(prompt, result.assistant)
                 _capture_llama_conversation(session, conversation)
                 autosave.commit(conversation)
@@ -779,13 +860,22 @@ def run_llama_chat(
                 if tui:
                     render_tui(dashboard, session, display_model, result.tokens_per_second, transcript)
             except error:
-                if (
-                    not session.healthy or session.generating
-                    or autosave.interrupted_generation() > 0
-                ):
-                    raise
-                transcript.emit("\n[turn rejected: " + String(error) + "]\n")
-            _ = consume_interrupts(interrupt_fd)
+                var recovery = decide_chat_turn_recovery(
+                    session.healthy, session.generating,
+                    session.reset_required, autosave.interrupted_generation(),
+                    attempt.closed,
+                )
+                if recovery.discard_inflight:
+                    autosave.discard_interrupted()
+                if not recovery.continue_session:
+                    raise Error(recovery.instruction + "; cause: " + String(error))
+                transcript.emit(
+                    "\n[" + recovery.instruction + "; cause: "
+                    + String(error) + "]\n"
+                )
+            if (consume_interrupts(interrupt_fd)
+                    and session.finish_reason != "cancelled"):
+                break
     transcript.emit("\nCompleted turns: " + String(turns) + "\n")
     transcript.flush()
     return ChatSwitchRequest(

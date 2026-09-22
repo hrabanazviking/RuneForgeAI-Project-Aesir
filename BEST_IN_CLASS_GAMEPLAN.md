@@ -670,7 +670,41 @@ Every row is initially queued unless the execution record says otherwise.
   autosave is enabled is deliberately rejected; generation-error and switch
   recovery belong to S15.
 
-### S15–S48
+### S15 — Native chat lifecycle recovery
+
+- Status: done. Both native session families now use one phase-based recovery
+  policy. Healthy idle rejection removes only uncommitted autosave intent and
+  continues; interrupted prefill reports the mandatory `/clear` gate. Unhealthy
+  or in-flight execution terminates. A close marker set immediately after the
+  generation loop prevents transcript/autosave finalization failure from being
+  called an uncommitted turn or inviting a blind retry.
+- Model-switch decision: target validation remains inside the live old-session
+  scope, so invalid/incompatible targets preserve it. Once a valid switch has
+  unwound that scope, same-PID `execv` carries the prior model reference into
+  target startup. Planning/allocation/load/restore failure then states that the
+  old session was unloaded and conversation reset and names the prior reference
+  to restart. Automatic rollback is deliberately not claimed across the process
+  image boundary. Autosave-bound switching remains rejected because generations
+  are exact-model state, not a migration format.
+- Evidence: main builds; `scripts/test_chat_recovery.py` drives initial and
+  post-switch model-load failures through separate built processes and verifies
+  nonzero exact restart instructions. Counted
+  `cli.chat_recovery_policy` injects initial allocation, switched load, prefill
+  timeout, unhealthy generation and post-close finalization states, verifies no
+  false commit/retry decision, and proves inherited transcript descriptor cleanup
+  during error unwind. The installed-model physical probes pass same-PID
+  Gemma→Qwen→Gemma switching and Gemma cancellation, next-turn recovery,
+  prefill-timeout `/clear`, and idle Ctrl+C. The latter exposed and closed a
+  post-turn signal race that had drained an idle interrupt without exiting. The
+  complete suite passes 185/0/1 (186 total).
+- Boundary: allocation and timeout policy are hardware-independent fault
+  injections; this slice did not deliberately exhaust the physical GPU or add
+  allocator leak instrumentation. Failed-session resources unwind by native
+  scope or process exit. The physical probes remain opt-in and exercise installed
+  models, not deliberate target-load OOM; switch assertions now recognize
+  pre-unload rejection.
+
+### S16–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

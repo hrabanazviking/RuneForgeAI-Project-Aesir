@@ -53,7 +53,8 @@ def main():
         assert transcript.count("# Aesir native CUDA conversation") == 3, transcript
         assert transcript.count("[model switch requested:") == 2, transcript
         assert transcript.count("[previous model unloaded; switching to") == 2, transcript
-        assert transcript.count("[control rejected:") == 2, transcript
+        assert transcript.count("[model switch rejected before unload;") == 2, transcript
+        assert transcript.count("current session remains active") == 2, transcript
         assert "already loaded" in transcript, transcript
         assert "Failed to open GGUF" in transcript, transcript
         assert "model=gemma4-E2B" in transcript, transcript
