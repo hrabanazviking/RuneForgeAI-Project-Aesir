@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. Canonical Capability Ledger
 
-**Ledger version:** Application S16 catalog lifecycle, September 22, 2026
+**Ledger version:** Application S18 native incremental streaming, September 22, 2026
 
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R. Vision documents describe desired direction; task files and
@@ -40,6 +40,8 @@ Run commands from the repository root unless stated otherwise.
 | `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 185 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 186, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
+| `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 27 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and final-record compatibility framing. Does not download a model or prove full external compatibility. |
+| `E-NATIVE-STREAM` | `python3 scripts/test_native_streaming.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | On the installed Gemma CUDA model, independently reads native NDJSON during decoding, observes first text before final, checks UTF-8/JSON records, deterministic non-streamed text/count replay and a separate EOS terminal record. |
 | `E-CLI` | `/tmp/aesir-ledger-build run /path/to/stories260K.F16.gguf --max-tokens 32 One day, Timmy went to` | The built single-shot CLI executes the pinned real model and emits the verified 32-token completion. |
 | `E-STORE` | `python3 scripts/test_native_model_store.py --binary /tmp/aesir-ledger-build` | Separate native CLI processes perform empty-start, create/list/show/copy/remove, rollback, permission and symlink checks against a caller-owned temporary catalog. |
 | `E-CATALOG-LIFECYCLE` | `python3 scripts/test_catalog_lifecycle.py --binary /tmp/aesir-ledger-build` | A real pre-v1 delimiter fixture migrates atomically into an empty store; six concurrent writers preserve every record; backup is synchronized, non-overwriting and symlink-safe; valid restore repairs corrupt current state; FIFO, malformed and missing-blob backups do not publish a catalog. |
@@ -74,10 +76,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 75 |
-| `partial` | 25 |
+| `partial` | 27 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 18 |
+| `missing` | 16 |
 | **Total** | **118** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -954,21 +956,21 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** server protocol domain
 - **Claim sources:** multi-engine TODO; server interface
-- **Implementation evidence:** `OpenAIGate` in `server/openai.mojo` bounds and escapes local JSON/SSE response data, validates finish reasons, and requires caller-observed request identity, creation time, model identity and measured token counts. It no longer inserts fixed success-shaped identity, time, or usage fields. OpenAI-shaped HTTP routes in `server/api.mojo` return HTTP 501.
-- **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway` in `test_multi_engine.mojo`.
-- **Evidence boundary:** A validated data serializer and fail-closed routes do not establish OpenAI request parsing, execution, streaming semantics, usage measurement, or client compatibility.
-- **Next acceptance gate:** Connect real request parsing and execution, then pass official-client protocol fixtures.
+- **Implementation evidence:** `OpenAIGate` bounds and escapes caller-observed JSON/SSE data; `cli/native_serve.mojo` now supplies actual request identity, time, model and usage for a bounded completion/chat route subset. The disconnected legacy router in `server/api.mojo` still returns 501.
+- **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway`; the independently authored v1 HTTP corpus exercises model list, chat/completion, errors and one final SSE event on a real CUDA service.
+- **Evidence boundary:** These live routes are a narrow subset, not complete OpenAI compatibility. SSE still buffers generation into one final event; S19 incremental adapters/client-level conformance remain open.
+- **Next acceptance gate:** Incremental SSE, disconnect/backpressure behavior and independent SDK fixtures.
 - **Audit:** AER-078, AER-079.
 
 ### AES-SRV-006 — OpenAI-compatible REST execution
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** server and facade domains
 - **Claim sources:** completed multi-engine TODO and server interface
-- **Implementation evidence:** known OpenAI-shaped routes return HTTP 501 unsupported; no successful response is fabricated.
-- **Executable evidence:** `E-MASTER` case `multi_engine.http_unsupported_responses`.
-- **Evidence boundary:** Correct HTTP rejection is not OpenAI API execution or conformance.
-- **Next acceptance gate:** Parse requests, validate parameters, invoke real generation/embeddings, stream standards-compliant SSE, compute usage, and pass client-level conformance tests.
+- **Implementation evidence:** the live CLI service parses bounded `/v1/models`, `/v1/completions` and `/v1/chat/completions` requests, invokes the loaded CUDA model and reports measured usage. The disconnected legacy router remains unsupported.
+- **Executable evidence:** real-model `scripts/test_api_contract_v1.py` covers successful replies, final SSE framing and unsupported-field rejection.
+- **Evidence boundary:** One loaded text model, one choice, strict field subset, final-only SSE, no embeddings or tool calls. No full external-client compatibility claim.
+- **Next acceptance gate:** S19 incremental SSE, disconnect/backpressure and independent SDK conformance.
 - **Audit:** AER-078, AER-079, AER-003.
 
 ### AES-SRV-007 — llama.cpp HTTP compatibility routes
@@ -984,13 +986,13 @@ the complete ledger population.
 
 ### AES-SRV-008 — Ollama HTTP API compatibility
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** server, CLI, store, and inference domains
 - **Claim sources:** README “Ollama API compatible”; CLI serve banners
-- **Implementation evidence:** a simple Ollama-shaped terminal response helper exists, but no complete request parsing or endpoint semantics.
-- **Executable evidence:** no Ollama client or differential conformance suite.
-- **Evidence boundary:** Listening on the conventional port and printing “drop-in” do not establish compatibility.
-- **Next acceptance gate:** Define a supported Ollama API version/endpoints and pass real client tests for generate/chat/models/pull/status/errors/streaming.
+- **Implementation evidence:** `--ollama` serves a bounded `/api/version`, `/api/tags`, `/api/ps`, `/api/show`, `/api/generate` and `/api/chat` subset against one loaded catalog model. Unknown fields/options are rejected.
+- **Executable evidence:** real-model `scripts/test_api_contract_v1.py` exercises routes, JSON/NDJSON final records and negative cases.
+- **Evidence boundary:** No pull/create/delete, embeddings, tools, multimodal input, remote access or genuine incremental NDJSON yet; not drop-in Ollama compatibility.
+- **Next acceptance gate:** S19 incremental NDJSON and independent client/differential fixtures.
 - **Audit:** AER-069 through AER-081.
 
 ### AES-SRV-009 — Concurrent, bounded, secure service operation
@@ -999,7 +1001,7 @@ the complete ledger population.
 - **Owner:** service and security domains
 - **Implementation evidence:** The native local service adds strict input limits, owner-only key admission, authentication, loopback-only binding, bounded I/O, cooperative cancellation/deadlines and privacy-preserving request logs.
 - **Executable evidence:** `local_service.json`, `local_service.http`, `local_service.request`; `scripts/test_native_service.py` with both real CUDA models.
-- **Evidence boundary:** One active stateless request, backlog 8, no parallel scheduling, streaming endpoint, TLS, rate limiter, user quotas, remote access or public production claim.
+- **Evidence boundary:** One active stateless request, backlog 8, no parallel scheduling, incremental OpenAI/Ollama adapter, TLS, rate limiter, user quotas, remote access or public production claim. Native-only incremental NDJSON exists but does not prove slow-client/disconnect safety.
 - **Next acceptance gate:** Sustained load/fuzz/security assessment, explicit multi-client scheduling, deployment lifecycle, and separately tested compatibility protocols.
 
 ### AES-SRV-010 — Authenticated native loopback CUDA generation
@@ -1008,7 +1010,7 @@ the complete ledger population.
 - **Owner:** CLI orchestration, server transport/protocol, facade session contract, core CUDA execution.
 - **Implementation evidence:** `cli/native_serve.mojo` invokes `ControlledTextSession` through the facade. `server/local_protocol.mojo` owns bounded HTTP/flat JSON; `server/local_transport.mojo` owns private-file authentication input and nonblocking loopback sockets. `serve` no longer opens and immediately closes the old socket scaffold.
 - **Executable evidence:** Both real-model HTTP probes pass at context 512 and max 64 new tokens: authentication/Host/origin checks, observed binding/masks, arithmetic, stateless seeded replay, malformed/oversized requests, slow-client deadlines, prefill recovery, reset-peer handling and active SIGINT/SIGTERM shutdown.
-- **Evidence boundary:** Native `/health` and `/v1/generate`, one loaded model, serialized stateless nonstreaming responses, Linux x86-64/NVIDIA. OpenAI/Ollama compatibility and arbitrary device/model support remain unimplemented.
+- **Evidence boundary:** Native `/health` and `/v1/generate`, one loaded model, serialized stateless generation, Linux x86-64/NVIDIA. The S18 native `stream:true` path sends UTF-8-safe NDJSON while decoding and a measured terminal record; an independent real-Gemma fixture observed 64 text records over 4 seconds before final and an EOS case. Other CUDA families, disconnect/backpressure and full OpenAI/Ollama compatibility remain unproved.
 - **Reproduction and threat model:** [Native service guide](docs/NATIVE_SERVICE.md).
 - **Native setup hardening:** `keygen` obtains a 256-bit OS-random key and publishes it exclusively through a synced private file in the opened parent directory. The external no-GPU probe verifies exact/Unicode paths, existing-file/symlink preservation, a four-process race and cleanup; hosted CI runs it. Four counted service cases include explicit C-path termination/bounds.
 

@@ -112,7 +112,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 
 - [x] **[verified, AES-CPU-008] Multi-head GQA/MQA Execution Integration:** Extend `incremental_causal_attention` with full multi-head caching and GQA ratio scaling across custom GGUF architectures.
 - [x] **[verified, AES-GEN-009] Stop Reason Policy Integration:** Implement full stop token and sequence policy parsing for multi-token streaming generation.
-- [x] **[missing, AES-SRV-006] Live OpenAI REST API Engine Connection:** Connect live GGUF engine execution to the `/v1/chat/completions` endpoint for real-time streaming inference.
+- [ ] **[partial, AES-SRV-006] Live OpenAI REST API Engine Connection:** Live bounded chat execution exists; genuine incremental SSE and independent-client conformance remain open.
 
 ## Forge 0 — Restore Truth Before Expanding Runtime Claims
 
@@ -144,7 +144,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   storage or process mutations that occurred only in an ephemeral seeded list.
 - [x] **[partial, AES-CLI-008] Correct REPL output:** The legacy sample loop is
   bounded; native Gemma/Llama CUDA chat supplies separate real interactive paths.
-- [x] **[missing, AES-SRV-006] Correct OpenAI route output:** Stop returning a
+- [x] **[partial, AES-SRV-006] Correct OpenAI route output:** Stop returning a
   fixed assistant response as successful inference.
 - [x] **[missing, AES-SRV-007] Correct llama.cpp route output:** Remove fixed
   completion/token/detokenize/health/metrics responses and parity wording.
@@ -421,13 +421,13 @@ The legacy formatters below are not exposed compatibility APIs.
 
 - [ ] Choose one first compatibility API and record its exact supported version,
   endpoints, schemas, and exclusions.
-- [ ] **[partial, AES-SRV-005] [missing, AES-SRV-006] OpenAI:** Parse typed requests,
+- [ ] **[partial, AES-SRV-005] [partial, AES-SRV-006] OpenAI:** Parse typed requests,
   invoke real inference/embeddings, calculate usage, emit compliant errors and
   SSE, and pass official-client/wire tests.
 - [ ] **[missing, AES-SRV-007] llama.cpp server:** Connect real tokenize,
   detokenize, completion, health, props, slots, and metrics only where supported;
   pass differential tests against a pinned server.
-- [ ] **[missing, AES-SRV-008] Ollama HTTP:** Implement selected generate/chat/
+- [ ] **[partial, AES-SRV-008] Ollama HTTP:** Implement selected generate/chat/
   model endpoints and NDJSON semantics; pass real-client differential tests.
 - [ ] **[verified, AES-SRV-004] Streaming:** Extend the narrowly verified framing
   utilities: pick protocol framing, use stateful

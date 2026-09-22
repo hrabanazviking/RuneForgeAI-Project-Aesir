@@ -124,7 +124,7 @@ def check(binary, model, profile, output_dir):
                 second = request("POST", "/v1/generate", sampled)
                 assert first[0] == second[0] == 200 and first[1] == second[1], "stateless seeded replay failed"
                 replies.append(first[1])
-                for body in [b'{"prompt":"x","prompt":"y"}', b'{"prompt":"x","stream":true}',
+                for body in [b'{"prompt":"x","prompt":"y"}', b'{"prompt":"x","stream":1}',
                              b'{"prompt":"x","max_tokens":0}', b'{"prompt":"x","max_tokens":65}',
                              b'{"prompt":"x","timeout_ms":0}', b'{"prompt":"x","temperature":"0.8"}',
                              b'{"prompt":"\xff"}', b'{"prompt":"\\uD800"}', b'{}{}']:

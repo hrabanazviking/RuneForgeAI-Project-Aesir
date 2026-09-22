@@ -12,7 +12,8 @@ from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
 from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token_limit, require_loaded_context
 from server.local_transport import (listen_local, accept_local, load_service_key,
-                                    receive_head, receive_body, send_local)
+                                    receive_head, receive_body, send_local,
+                                    send_native_stream_head)
 from server.api import build_http_response, json_escape_string
 from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ollama_version,
                            ollama_catalog_tags, ollama_show, ollama_ps,
@@ -26,6 +27,7 @@ struct GenerateRequest:
     var system: String
     var max_tokens: Int
     var timeout_ms: Int
+    var stream: Bool
     var sampling: NativeSamplingConfig
 
     def __init__(out self, body: String, token_limit: Int, timeout_limit: Int,
@@ -38,6 +40,7 @@ struct GenerateRequest:
         self.system = default_system
         self.max_tokens = resolve_request_token_limit(0, token_limit)
         self.timeout_ms = timeout_limit
+        self.stream = False
         self.sampling = defaults
         var parser = FlatJSON(body)
         var fields = parser.fields()
@@ -49,6 +52,10 @@ struct GenerateRequest:
                     self.prompt = field.value
                 else:
                     self.system = field.value
+            elif field.name == "stream":
+                if field.kind != "boolean":
+                    raise Error("Generation stream must be a JSON boolean")
+                self.stream = field.value == "true"
             else:
                 if field.kind != "number":
                     raise Error("Generation controls must be JSON numbers")
@@ -180,6 +187,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
             var content_type = String("application/json")
             var receiving = True
             var generation_started = False
+            var response_started = False
             try:
                 var deadline = start + io_timeout_ms
                 var head = LocalHTTPHead(receive_head(client.fd, deadline, interrupt_fd), port, key, not ollama)
@@ -332,18 +340,32 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         _ = external_call["fflush", Int32](Int(0))
                         var answer = String("")
                         status = 500
+                        if request.stream:
+                            response_started = True
+                            send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
                         while session.status().generating:
-                            answer += session.next_chunk()
+                            var chunk = session.next_chunk()
+                            answer += chunk
                             if answer.byte_length() > 1048576:
                                 _ = session.cancel()
                                 status = 413
                                 raise Error("Native response exceeded 1 MiB")
+                            if request.stream and chunk.byte_length() > 0:
+                                send_local(client.fd, "{\"text\":\"" + json_escape_string(chunk) + "\",\"done\":false}\n", io_timeout_ms, interrupt_fd)
                         var state = session.status()
-                        body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}"
+                        if request.stream:
+                            send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}\n", io_timeout_ms, interrupt_fd)
+                        else:
+                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}"
                         status = 200
                     else:
                         status = 404
             except error:
+                if response_started and session.status().generating:
+                    try:
+                        _ = session.cancel()
+                    except:
+                        pass
                 # Never echo credentials, request contents, paths or driver errors.
                 if receiving and "deadline" in String(error):
                     status = 408
@@ -351,11 +373,12 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     status = 500
                 elif generation_started and session.status().finish_reason == "timeout":
                     status = 504
-            try:
-                send_local(client.fd, local_response(status, body, ollama, content_type), io_timeout_ms, interrupt_fd)
-            except:
-                # Disconnects/slow readers cannot poison a healthy session.
-                print("[request=" + String(sequence) + " response=not_delivered]")
+            if not response_started:
+                try:
+                    send_local(client.fd, local_response(status, body, ollama, content_type), io_timeout_ms, interrupt_fd)
+                except:
+                    # Disconnects/slow readers cannot poison a healthy session.
+                    print("[request=" + String(sequence) + " response=not_delivered]")
             print("[request=" + String(sequence) + " status=" + String(status) +
                   " elapsed_ms=" + String(monotonic_milliseconds() - start) + "]")
             _ = external_call["fflush", Int32](Int(0))

@@ -11,7 +11,7 @@ at a time and close every HTTP/1.1 connection after its response.
 | Route | Native mode (bearer required) | `--ollama` mode (no bearer) | Successful body |
 |---|---|---|---|
 | `GET /health` | Yes | 404 | JSON `status`, `backend`, `cpu_offload`, `profile`, `context`; loaded-service readiness only. |
-| `POST /v1/generate` | Yes | 404 | JSON `text`, `finish_reason`, `prompt_tokens`, `generated_tokens`, `context_used`, `backend`, `cpu_offload`. |
+| `POST /v1/generate` | Yes | 404 | Default JSON `text`, `finish_reason`, `prompt_tokens`, `generated_tokens`, `context_used`, `backend`, `cpu_offload`; `stream:true` uses incremental NDJSON text records and a counted terminal record. |
 | `GET /v1/models` | Yes | Yes | JSON `object: "list"`, `data[]` with `id`, `object: "model"`, `created`, `owned_by`. Catalog visibility does not mean every listed model is loaded; generation serves only the currently loaded model. |
 | `POST /v1/completions` | Yes | Yes | JSON `id`, `object: "text_completion"`, `created`, `model`, one `choices[]` item and `usage`. |
 | `POST /v1/chat/completions` | Yes | Yes | JSON `id`, `object: "chat.completion"`, `created`, `model`, one assistant `choices[]` item and `usage`. |
@@ -26,7 +26,7 @@ at a time and close every HTTP/1.1 connection after its response.
 
 | Request | Accepted top-level fields | Constraints and explicit exclusions |
 |---|---|---|
-| Native generate | `prompt`, `system`, `max_tokens`, `timeout_ms`, `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed` | Nonempty prompt. `stream`, `messages`, `tools`, `format`, `images`, `logprobs`, unknown or duplicate fields are rejected. No session ID/history. |
+| Native generate | `prompt`, `system`, `max_tokens`, `timeout_ms`, `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed`, `stream` | Nonempty prompt. `stream` is a JSON boolean, default `false`. `messages`, `tools`, `format`, `images`, `logprobs`, unknown or duplicate fields are rejected. No session ID/history. |
 | OpenAI completion | `model`, `prompt`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n` | `model` must identify the loaded model; `n` must be 1. `best_of`, `stop`, `logprobs`, `echo`, `suffix`, `response_format`, `tools`, unknown or duplicate fields are rejected. |
 | OpenAI chat | `model`, `messages`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. Tool/function roles, arrays or multimodal content, `response_format`, `tools`, `tool_choice`, `stop`, `logprobs`, `stream_options`, unknown or duplicate fields are rejected. |
 | Ollama show | `model` or `name` | Loaded model only; no remote lookup. |
@@ -42,15 +42,23 @@ returns 404; context or generation admission can return 422. Native errors are
 `{"error":{"code":N,"message":"..."}}`; Ollama-mode errors are
 `{"error":"..."}`. Error messages intentionally do not echo request data.
 
-## Streaming state at v1
+## Streaming state at v1 (S18 additive native extension)
 
-`stream: false` returns one JSON response. OpenAI `stream: true` returns **one
-final** `data: ...` SSE event followed by `data: [DONE]`; Ollama `stream: true`
+Native `/v1/generate` `stream:false` returns one JSON response. `stream:true`
+returns `application/x-ndjson` over a close-delimited HTTP/1.1 response without
+`Content-Length`: each complete UTF-8 text piece is
+`{"text":"...","done":false}\n`, followed by one
+`{"text":"","done":true,"finish_reason":"...","prompt_tokens":N,"generated_tokens":N,"context_used":N,"backend":"cuda","cpu_offload":0}\n`.
+The first text record is sent during decoding, before the final record.
+If a connection fails after headers, it can end without a terminal record;
+clients must treat that as incomplete rather than as a successful generation.
+
+OpenAI `stream: true` still returns **one final** `data: ...` SSE event followed
+by `data: [DONE]`; Ollama `stream: true`
 (the default) returns **one final** NDJSON line. The service buffers generation
-before writing either response. These are final-record wire formats, **not
-incremental token streaming**; do not use them to infer time-to-first-token,
-progress or cancellation semantics. `/v1/generate` rejects `stream` outright.
-S18/S19 will change this only after their separate gates pass.
+before writing either compatibility response. These are final-record wire
+formats, **not incremental token streaming**; do not use them to infer
+time-to-first-token, progress or cancellation semantics. S19 remains open.
 
 ## Reproduce
 

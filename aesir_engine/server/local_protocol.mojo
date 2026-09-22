@@ -242,6 +242,9 @@ struct FlatJSON:
                 if self.peek() == 34:
                     kind = "string"
                     value = self.string()
+                elif self.peek() == 116 or self.peek() == 102:
+                    kind = "boolean"
+                    value = "true" if self.boolean() else "false"
                 else:
                     kind = "number"
                     value = self.number()

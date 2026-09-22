@@ -163,6 +163,7 @@ and valid UTF-16 surrogate pairs. Malformed Unicode and NUL are rejected.
 | `system` | Optional string, at most 64 KiB; defaults to a concise helpful assistant. |
 | `max_tokens` | Positive integer, at most the resolved startup reply ceiling; omission inherits that ceiling (256 unless configured by recipe/CLI). Context admission can reject a request even below this limit. |
 | `timeout_ms` | Positive integer no greater than the server's `--timeout-ms` limit; defaults to that limit. Clients cannot disable it. |
+| `stream` | Optional JSON boolean, default `false`. `true` sends incremental UTF-8-safe NDJSON text records and a final counted record over a close-delimited response. See the [v1 matrix](API_SUPPORT_MATRIX_V1.md). |
 | `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed` | Same native sampling bounds/defaults as [chat](NATIVE_RUNTIME.md). Counts/seeds are unsigned decimal integers; floating controls use unsigned decimal notation, without exponents. Repetition window stays at its resolved startup value. |
 
 Each admitted generation resets logical history and sampling state. This API
@@ -207,7 +208,7 @@ No engine error, request body or key value is echoed in an error response.
   responses or credentials. Model-loading diagnostics still identify the model.
 
 There is no TLS, remote access, rate limiter, per-user quota, multi-tenant
-isolation, audit-log persistence, incremental streaming response API, deployment supervisor
+isolation, audit-log persistence, incremental OpenAI/Ollama streaming response APIs, deployment supervisor
 or independent security assessment. A local user who can read the key can use
 the model. Do not publish this port through a proxy/tunnel and assume these
 controls establish an Internet-facing service.

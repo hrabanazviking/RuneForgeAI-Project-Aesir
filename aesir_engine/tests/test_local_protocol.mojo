@@ -198,12 +198,16 @@ def test_local_generation_request() raises:
     var valid = GenerateRequest("{\"prompt\":\"Halló 🌊\",\"seed\":18446744073709551615,\"max_tokens\":16}", 64, 1000)
     if valid.prompt != "Halló 🌊" or valid.sampling.seed != UInt64(18446744073709551615) or valid.max_tokens != 16:
         raise Error("Native generation request lost text or integer precision")
+    if not GenerateRequest('{"prompt":"x","stream":true}', 64, 1000).stream:
+        raise Error("Native generation streaming flag was not accepted")
+    if GenerateRequest('{"prompt":"x","stream":false}', 64, 1000).stream:
+        raise Error("Native generation false streaming flag was not preserved")
     var cases: List[String] = [
         "{}", "{\"prompt\":1}", "{\"prompt\":\"\"}", "{\"prompt\":\"x\",\"seed\":18446744073709551616}",
         "{\"prompt\":\"x\",\"max_tokens\":0}", "{\"prompt\":\"x\",\"max_tokens\":65}",
         "{\"prompt\":\"x\",\"timeout_ms\":0}", "{\"prompt\":\"x\",\"timeout_ms\":1001}",
         "{\"prompt\":\"x\",\"top_k\":257}", "{\"prompt\":\"x\",\"top_p\":0}",
-        "{\"prompt\":\"x\",\"stream\":true}", "{\"prompt\":\"x\",\"temperature\":\"0.8\"}",
+        "{\"prompt\":\"x\",\"stream\":1}", "{\"prompt\":\"x\",\"temperature\":\"0.8\"}",
         "{\"prompt\":\"x\",\"unknown\":1}", "{\"prompt\":\"x\",\"temperature\":-1}",
     ]
     for body in cases:

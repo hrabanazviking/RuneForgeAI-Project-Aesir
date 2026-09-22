@@ -753,13 +753,40 @@ Every row is initially queued unless the execution record says otherwise.
   `python scripts/check_doc_drift.py` passed with only pre-existing
   deletion-approval warnings. The fixture corpus and Python runner also passed
   JSON and syntax validation.
-- Limits: these are bounded Aesir subsets, not complete Ollama/OpenAI
-  compatibility. `stream:true` currently buffers all generation and sends only
-  one final NDJSON/SSE record. The S18/S19 first-token, disconnect and
-  backpressure gates remain open. This run did not test every model family,
+- Limits at S17: these are bounded Aesir subsets, not complete Ollama/OpenAI
+  compatibility. `stream:true` buffered all generation and sent only one final
+  NDJSON/SSE record. The S18/S19 first-token, disconnect and backpressure
+  gates were open. This run did not test every model family,
   client SDK, cross-platform host or network threat scenario.
 
-### S18–S48
+### S18 — Native incremental generation transport
+
+- Status: implemented and verified on the installed Gemma 4 E2B Q4_K_M CUDA
+  model. The v1 API matrix records this additive native-only stream contract;
+  the OpenAI/Ollama adapters remain S19.
+- `GenerateRequest` accepts a strict JSON boolean `stream`, defaulting to
+  `false`; numeric/string values still fail. `FlatJSON.fields` recognizes
+  booleans without relaxing non-boolean control admission. The native route
+  uses `ControlledTextSession.next_chunk()` (complete UTF-8 output from the
+  model decoder), sends a close-delimited NDJSON header before decode, writes
+  each nonempty text chunk immediately, and sends one terminal record with
+  observed finish reason, counts, context and backend. Non-streaming responses
+  retain their prior shape. Once headers are sent, failures do not append a
+  second HTTP response; an interrupted active generation is cancelled.
+- Evidence: fresh `mojo build --target-accelerator sm_89` succeeded;
+  `scripts/test_native_streaming.py` on the real RTX 4070/Gemma E2B model
+  observed 64 text records with first-to-final separation about 4 seconds,
+  independently decoded every line as UTF-8/JSON, checked terminal counts,
+  deterministic text/count replay against non-streaming output, and separately
+  verified an EOS terminal record. The counted suite reported 185 passed,
+  0 failed, 1 skipped, 186 total. The v1 request/response corpus passed all
+  27 independently authored HTTP cases against the S18 build.
+- Limits: physical incremental evidence is on Gemma E2B only. Connection-close
+  framing requires EOF to end the response; a missing `done:true` means an
+  incomplete stream. Disconnection, slow-receiver backpressure and correct
+  incremental OpenAI SSE/Ollama NDJSON are S19 gates, not claimed here.
+
+### S19–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each
