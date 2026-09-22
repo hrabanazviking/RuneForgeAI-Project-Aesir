@@ -1,3 +1,24 @@
+## 2026-09-22 — Application program S13: named conversation library
+
+Added a separate-process named library over the native exact-token snapshot
+contract. `scripts/conversations.py` provides explicit save, list, open, rename
+and Markdown export. It normalizes bounded Unicode names to NFC, uses random
+stable entry IDs rather than filenames derived from user text, serializes
+mutations under a library lock, publishes new entries and renamed metadata with
+file/directory sync, and refuses every implicit overwrite.
+
+Every listing/open re-parses the native FNV-checksummed v1 snapshot and requires
+metadata, SHA-256, model, profile, context, token count and turn count to agree.
+Open can require a caller's expected model/profile/context before exposing the
+path used by native `/load`. Five fresh-process cases pass restart discovery,
+Unicode names, duplicate handling, corruption, incompatibility, rename and
+exclusive export. A previously generated native Qwen snapshot was imported,
+rediscovered and compatibility-opened through a fresh temporary library. This
+is not a new inference or restore witness, live-chat autosave or full compatibility restore:
+the native loader still owns system/sampling/KV admission. There is no delete
+command, encrypted storage or stale-stage collection. This closes S13; S14
+autosave generations are next.
+
 ## 2026-09-21 — Application program S12: explicit offline preparation
 
 Added `scripts/offline.py prepare|check` as the boundary between connected

@@ -65,6 +65,19 @@ A.E.S.I.R. can keep a supported CUDA model loaded and hold an interactive chat s
 
 It also supports conversation save/load behavior, model selection, aliases, favorites, and model switching in the newer CLI work.
 
+Saved exact-token snapshots can be organized without renaming arbitrary files:
+
+```bash
+python3 scripts/conversations.py save "My saga" --snapshot .aesir/saga.aesir
+python3 scripts/conversations.py list
+python3 scripts/conversations.py open "My saga" --expect-model sha256:YOUR_MODEL_DIGEST
+python3 scripts/conversations.py rename "My saga" "My saga — chapter one"
+python3 scripts/conversations.py export "My saga — chapter one" --output .aesir/saga.md
+```
+
+`open` prints the validated native snapshot path for `/load`. The library never
+overwrites a name or export and does not silently autosave live chat.
+
 ### A friendlier terminal Home screen
 
 The built application now has a terminal-oriented Home interface:

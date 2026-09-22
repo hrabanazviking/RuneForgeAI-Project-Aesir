@@ -69,6 +69,9 @@ jobs:
       - name: Prove Offline Preparation Manifest Contracts
         run: python3 scripts/test_offline_preparation.py
 
+      - name: Prove Named Conversation Library Contracts
+        run: python3 scripts/test_conversation_library.py
+
       - name: Prove WSL Bridge and Desktop Export Contracts
         # System Python can use the runner's Gio bindings, when available.
         # A missing binding is reported as a skip, not desktop execution proof.

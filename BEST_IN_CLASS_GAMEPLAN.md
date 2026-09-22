@@ -612,7 +612,7 @@ Every row is initially queued unless the execution record says otherwise.
 
 - Status: done. `scripts/offline.py prepare` performs the frozen/no-install/
   offline build, verifies every requested catalog model, and writes a versioned
-  private manifest containing source/build identity, Pixi, lockfile, Mojo,
+  local manifest containing source/build identity, Pixi, lockfile, Mojo,
   runtime-library and model SHA-256/size pins plus disk-capacity facts. `check`
   verifies the exact artifact set, aggregates missing/corrupt items by stable
   names, and optionally proves an offline rebuild and bounded inference.
@@ -625,7 +625,27 @@ Every row is initially queued unless the execution record says otherwise.
   generated one native CUDA token (`OK`). This is a prepared-checkout witness,
   not an installer, clean-machine proof, driver package or signed release.
 
-### S13–S48
+### S13 — Named conversation library
+
+- Status: done. `scripts/conversations.py` manages validated native v1 snapshots
+  under stable random entry IDs with bounded NFC Unicode names. Explicit
+  `save`, `list`, `open`, `rename`, and `export` commands share one library
+  lock; snapshot and metadata identities are revalidated on every discovery.
+  Save and export never overwrite. Open can require the exact model, profile and
+  context before returning the snapshot path for native `/load`.
+- Evidence: five separate-process cases pass restart discovery, Unicode naming,
+  duplicate refusal, rename, Markdown export, destination non-overwrite,
+  checksum corruption rejection and incompatible-model refusal. A previously
+  generated native Qwen snapshot was also imported into a fresh library,
+  rediscovered in a new process and compatibility-opened under its recorded
+  model/profile/context. The existing
+  counted native codec/compatibility cases continue to own exact-token restore
+  and complete system/sampling/model compatibility. The library imports an
+  explicit snapshot rather than silently autosaving a live chat. It has no
+  delete UI; interrupted staging directories are ignored, not reclaimed. S14
+  owns autosave generations and crash recovery.
+
+### S14–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

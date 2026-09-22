@@ -46,6 +46,22 @@ prepared build and all recorded artifacts. Optional `--rebuild` exercises the
 locked compiler cache and optional `--inference` runs one selected pinned model
 only after every integrity/capacity gate passes.
 
+## Named conversation lifecycle
+
+```mermaid
+flowchart LR
+    Chat[Native CUDA chat] -->|/save explicit path| Snapshot[Checksummed exact-token v1 snapshot]
+    Snapshot -->|conversations.py save + validate| Library[Locked named library]
+    Library --> List[List / rename]
+    Library --> Open[Open with optional model/profile/context expectation]
+    Open -->|validated snapshot_path| Load[Native /load compatibility + KV restore]
+    Library --> Export[Exclusive readable Markdown export]
+```
+
+The library does not interpret token state beyond validating the native record;
+native `/load` remains the only owner of complete compatibility admission and KV
+mutation. Names are metadata, never filesystem paths.
+
 ## Public Hugging Face GGUF download
 
 ```mermaid

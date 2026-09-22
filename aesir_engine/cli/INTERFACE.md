@@ -68,6 +68,11 @@ export. Snapshots bind the exact committed token IDs and sampler draw position
 to the open model inode's SHA-256, profile, context, system prompt, and sampling
 identity. Compatibility is checked before reset; core session restore then
 replays validated tokens into empty KV without sampling or retokenizing text.
+`scripts/conversations.py` is the separate named-library presentation layer. It
+imports only validated snapshots and owns bounded Unicode names, stable entry
+IDs, locking, restart listing, rename, compatibility-filtered open, and
+exclusive readable export. It does not import Mojo modules, mutate CUDA state,
+or replace the native `/load` compatibility boundary.
 
 ## Native service sampling defaults
 

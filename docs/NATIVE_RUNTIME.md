@@ -223,6 +223,23 @@ Interactive commands run between turns:
   current user and assistant turns. It is not a restorable snapshot.
 - `/help` and `/bye`: show controls or exit.
 
+To organize explicit `/save` snapshots by a human name, use the separate named
+library manager:
+
+```bash
+python3 scripts/conversations.py save "Saga – 世界" --snapshot .aesir/saga.aesir
+python3 scripts/conversations.py list
+python3 scripts/conversations.py open "Saga – 世界" \
+  --expect-model sha256:MODEL_DIGEST --expect-profile llama3 --expect-context 8192
+python3 scripts/conversations.py rename "Saga – 世界" "Saga II – 世界"
+python3 scripts/conversations.py export "Saga II – 世界" --output .aesir/saga-2.md
+```
+
+The `open` JSON contains `snapshot_path`; pass that path to interactive `/load`.
+The library validates the complete native snapshot before returning it. The
+native loader remains authoritative for system prompt, sampling identity and KV
+restore compatibility. Library operations never overwrite names or exports.
+
 The repetition window is fixed when a session is created. Invalid controls and
 prompts that cannot fit the remaining context are reported without changing
 healthy history; the user can clear explicitly and continue. CUDA execution

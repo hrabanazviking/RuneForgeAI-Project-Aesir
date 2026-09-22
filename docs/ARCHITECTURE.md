@@ -10,6 +10,15 @@ executes the same native CLI used normally. `scripts/launch.py` remains the sole
 build/freshness owner, and `DurableModelStore` remains the sole catalog/blob
 verification owner.
 
+## Named conversation library ownership — 2026-09-22
+
+`cli/conversation.mojo` remains the native snapshot codec and exact-token restore
+owner. `scripts/conversations.py` owns only user-facing library lifecycle:
+bounded names, stable entry IDs, metadata agreement, locking, restart discovery,
+rename and readable export. It never reconstructs tokens, mutates a live CUDA
+session or weakens native compatibility checks. S14 will own autosave generation
+and recovery policy rather than hiding that policy in the library index.
+
 ## Native local service ownership — 2026-08-31
 
 `main` prepares process signal ownership; `cli/native_serve.mojo` owns options,
