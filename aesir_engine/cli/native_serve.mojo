@@ -14,7 +14,7 @@ from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token
 from server.local_transport import (listen_local, accept_local, load_service_key,
                                     receive_head, receive_body, send_local)
 from server.api import build_http_response, json_escape_string
-from server.ollama import (OllamaRequest, OllamaModelInfo, ollama_version,
+from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ollama_version,
                            ollama_catalog_tags, ollama_show, ollama_ps,
                            ollama_generate_response, ollama_chat_response,
                            ollama_done_reason)
@@ -195,7 +195,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
-                        var request = OllamaRequest(raw, sampling_defaults, system_defaults)
+                        var request = OllamaShowRequest(raw)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
                         else:
@@ -208,6 +208,10 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var request = OllamaRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
+                        elif head.path == "/api/generate" and request.has_messages:
+                            status = 400
+                        elif head.path == "/api/chat" and request.has_prompt:
+                            status = 400
                         elif head.path == "/api/generate" and (not request.has_prompt or request.prompt.byte_length() == 0):
                             status = 400
                         elif head.path == "/api/chat" and not request.has_messages:
@@ -253,6 +257,10 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var request = OpenAIRequest(raw, sampling_defaults, system_defaults)
                         if not ollama_model_matches(request.model, model.name):
                             status = 404
+                        elif head.path == "/v1/chat/completions" and request.has_prompt:
+                            status = 400
+                        elif head.path == "/v1/completions" and request.has_messages:
+                            status = 400
                         elif head.path == "/v1/chat/completions" and not request.has_messages:
                             status = 400
                         elif head.path == "/v1/completions" and request.prompt.byte_length() == 0:

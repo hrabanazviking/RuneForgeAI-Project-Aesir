@@ -11,6 +11,27 @@ from server.api import json_escape_string
 from server.local_protocol import FlatJSON
 
 
+struct OllamaShowRequest:
+    """Only model identity is meaningful for /api/show; reject ignored controls."""
+    var model: String
+
+    def __init__(out self, body: String) raises:
+        self.model = ""
+        var parser = FlatJSON(body)
+        parser.take(123)
+        parser.space()
+        if parser.peek() != 125:
+            var name = parser.string()
+            if name != "model" and name != "name":
+                raise Error("Unsupported Ollama show field")
+            parser.take(58)
+            self.model = parser.string()
+        parser.take(125)
+        parser.space()
+        if parser.peek() != -1 or self.model.byte_length() == 0 or self.model.byte_length() > 256:
+            raise Error("Ollama show requires one bounded model name")
+
+
 struct OllamaRequest:
     var model: String
     var prompt: String

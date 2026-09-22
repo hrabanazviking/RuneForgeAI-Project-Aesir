@@ -21,6 +21,7 @@ struct OpenAIRequest:
     var max_tokens: Int
     var sampling: NativeSamplingConfig
     var has_messages: Bool
+    var has_prompt: Bool
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -34,6 +35,7 @@ struct OpenAIRequest:
         self.max_tokens = 0
         self.sampling = defaults
         self.has_messages = False
+        self.has_prompt = False
         var parser = FlatJSON(body)
         parser.take(123)
         parser.space()
@@ -49,6 +51,7 @@ struct OpenAIRequest:
                     self.model = parser.string()
                 elif name == "prompt":
                     self.prompt = parser.string()
+                    self.has_prompt = True
                 elif name == "messages":
                     self._parse_messages(parser)
                     self.has_messages = True
@@ -235,20 +238,20 @@ struct OpenAIGate:
         OpenAIGate._validate_identity(request_id, created_unix, model)
         OpenAIGate._validate_finish_reason(finish_reason, True)
         OpenAIGate._validate_text(text)
-        var res = String("data: {\n  \"id\": \"")
+        var res = String("data: {\"id\":\"")
         res += json_escape_string(request_id)
-        res += "\",\n  \"object\": \"chat.completion.chunk\",\n  \"created\": "
+        res += "\",\"object\":\"chat.completion.chunk\",\"created\":"
         res += String(created_unix)
-        res += ",\n  \"model\": \""
+        res += ",\"model\":\""
         res += json_escape_string(model)
-        res += "\",\n  \"choices\": [\n    {\n      \"index\": 0,\n      \"delta\": {\n        \"content\": \""
+        res += "\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\""
         res += json_escape_string(text)
-        res += "\"\n      }"
+        res += "\"}"
         if len(finish_reason.bytes()) > 0:
-            res += ",\n      \"finish_reason\": \""
+            res += ",\"finish_reason\":\""
             res += json_escape_string(finish_reason)
             res += "\""
-        res += "\n    }\n  ]\n}\n\n"
+        res += "}]}\n\n"
         return res
 
     @staticmethod

@@ -27,8 +27,9 @@ and rehash that immutable blob without network access:
 
 This binds only `127.0.0.1:11434` and intentionally uses no bearer key so local
 Ollama clients can connect. It implements `GET /api/version`, `GET /api/tags`,
-`POST /api/show`, `POST /api/generate`, and `POST /api/chat`. Generation and
-chat require `"stream":false`; NDJSON streaming is not implemented. Recognized
+`GET /api/ps`, `POST /api/show`, `POST /api/generate`, and `POST /api/chat`. Generation and
+chat accept `"stream":true` by default, but currently return only one final
+NDJSON record after generation; there are no incremental token events. Recognized
 `options` are `num_ctx`, `num_predict`, `temperature`, `top_k`, `top_p`, `min_p`,
 `seed`, and `repeat_penalty`. Explicit `num_ctx` must equal the loaded service
 context; smaller contexts are not silently accepted as if applied. Omit it to
@@ -50,7 +51,9 @@ curl -sS -H 'Content-Type: application/json' \
 The mode is single-session and one-request-at-a-time. Each HTTP generation
 resets KV history; clients send prior messages again to `/api/chat`. It does not
 implement Ollama pull/create/delete/copy, embeddings, tool calls, multimodal
-messages, remote listening, or streaming.
+messages, remote listening, or incremental streaming. See the
+[versioned API support matrix](API_SUPPORT_MATRIX_V1.md) for the exact route and
+field subset, including the OpenAI-style routes available in both modes.
 
 ## Start and call
 
@@ -204,7 +207,7 @@ No engine error, request body or key value is echoed in an error response.
   responses or credentials. Model-loading diagnostics still identify the model.
 
 There is no TLS, remote access, rate limiter, per-user quota, multi-tenant
-isolation, audit-log persistence, streaming response API, deployment supervisor
+isolation, audit-log persistence, incremental streaming response API, deployment supervisor
 or independent security assessment. A local user who can read the key can use
 the model. Do not publish this port through a proxy/tunnel and assume these
 controls establish an Internet-facing service.

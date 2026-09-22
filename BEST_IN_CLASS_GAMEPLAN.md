@@ -728,7 +728,38 @@ Every row is initially queued unless the execution record says otherwise.
   process crashes on the tested Linux filesystem, not arbitrary power-loss or
   injected device/fsync failure.
 
-### S17–S48
+### S17 — Versioned local API support contract
+
+- Status: implemented and verified on the installed Gemma 4 E2B Q4_K_M CUDA
+  model.
+- Added `docs/API_SUPPORT_MATRIX_V1.md` and an independently authored 27-case
+  JSON request/response corpus with a standard-library HTTP runner. The matrix
+  names route availability by service mode, accepted fields, explicit exclusions,
+  success/error shapes and the current final-record-only streaming behavior.
+  The corpus checks native bearer admission, exact content type/framing, model
+  catalog, generation/chat/completion responses, usage arithmetic and rejection
+  of known unsupported fields/options against a running real CUDA service.
+  Route-specific admission rejects otherwise parsed but silently ignored
+  prompt/message fields, and `/api/show` now accepts only model identity.
+- A live fixture exposed malformed OpenAI chat SSE: pretty-printed JSON was
+  placed after only one `data:` prefix. The serializer now emits a single-line
+  JSON event, and its Mojo regression assertion checks that shape. Updated the
+  older native service test's obsolete expectation that `/v1/models` was 404.
+- Evidence: fresh `mojo build --target-accelerator sm_89` succeeded; the v1
+  fixture runner passed all 13 native/OpenAI cases and 14 Ollama cases against
+  the existing `gemma4-e2b:latest` catalog model on the RTX 4070 Laptop GPU;
+  `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo`
+  reported 185 passed, 0 failed, 1 skipped, 186 total;
+  `python scripts/check_doc_drift.py` passed with only pre-existing
+  deletion-approval warnings. The fixture corpus and Python runner also passed
+  JSON and syntax validation.
+- Limits: these are bounded Aesir subsets, not complete Ollama/OpenAI
+  compatibility. `stream:true` currently buffers all generation and sends only
+  one final NDJSON/SSE record. The S18/S19 first-token, disconnect and
+  backpressure gates remain open. This run did not test every model family,
+  client SDK, cross-platform host or network threat scenario.
+
+### S18–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

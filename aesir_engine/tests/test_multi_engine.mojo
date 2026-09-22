@@ -49,10 +49,10 @@ def test_openai_api_formatter() raises:
     var chunk_resp = OpenAIGate.format_chat_chunk(
         "chatcmpl-observed-17", 1788210000, "aesir:latest", "Hello"
     )
-    if "data: {" not in chunk_resp or "\"content\": \"Hello\"" not in chunk_resp:
+    if not chunk_resp.startswith("data: {") or "\"content\":\"Hello\"" not in chunk_resp or "\n\n" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted its SSE prefix or supplied content")
         success = False
-    if "\"created\": 1788210000" not in chunk_resp:
+    if "\"created\":1788210000" not in chunk_resp:
         print("FAIL: OpenAIGate chunk omitted supplied observation time")
         success = False
 

@@ -110,7 +110,9 @@ def check(binary, model, profile, output_dir):
                 assert status == 200 and health["profile"] == profile and health["context"] == 512
                 assert request("GET", "/health", extra={"Host": "attacker.invalid"})[0] == 403
                 assert request("GET", "/health", extra={"Origin": "https://attacker.invalid"})[0] == 403
-                assert request("GET", "/v1/models")[0] == 404  # no compatibility claim
+                status, models = request("GET", "/v1/models")
+                assert status == 200 and models["object"] == "list"
+                assert any(item["id"] == model for item in models["data"])
                 arithmetic = {"prompt": "What is two plus two? Answer with one word.", "max_tokens": 16}
                 status, answer = request("POST", "/v1/generate", arithmetic)
                 assert status == 200 and "four" in answer["text"].lower(), (status, answer)
