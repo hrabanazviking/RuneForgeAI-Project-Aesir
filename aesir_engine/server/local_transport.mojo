@@ -128,6 +128,49 @@ def accept_local(listener: Int32, cancel_fd: Int) raises -> OwnedFD:
             raise Error("Cannot accept native service client")
 
 
+def accept_local_ready(listener: Int32) raises -> Int32:
+    """Nonblocking admission probe; -1 means no pending connection."""
+    var descriptors = InlineArray[UInt64, 1](fill=0)
+    descriptors[0] = UInt64(UInt32(listener)) | (UInt64(1) << 32)
+    var ready = external_call["poll", Int32](descriptors.unsafe_ptr(), UInt64(1), Int32(0))
+    if ready < 0:
+        if io_errno() == 4:
+            return -1
+        raise Error("Service admission poll failed")
+    if ready == 0:
+        return -1
+    var fd = external_call["accept4", Int32](listener, Int(0), Int(0), Int32(526336))
+    if fd < 0 and (io_errno() == 4 or io_errno() == 11):
+        return -1
+    if fd < 0:
+        raise Error("Cannot accept native service client")
+    return fd
+
+
+def client_disconnected(fd: Int32) -> Bool:
+    """Peek without consuming request bytes; stale queued peers lose their slot."""
+    var descriptors = InlineArray[UInt64, 1](fill=0)
+    descriptors[0] = UInt64(UInt32(fd)) | (UInt64(8193) << 32)
+    var ready = external_call["poll", Int32](descriptors.unsafe_ptr(), UInt64(1), Int32(0))
+    if ready > 0 and (descriptors[0] >> 48) & UInt64(8248) != 0:
+        # POLLRDHUP/POLLHUP/POLLERR/POLLNVAL detect FIN even with unread bytes.
+        return True
+    var byte = InlineArray[Int8, 1](fill=0)
+    var count = external_call["recv", Int64](fd, byte.unsafe_ptr(), Int(1), 66)
+    return count == 0 or (count < 0 and io_errno() != 4 and io_errno() != 11)
+
+
+def discard_available_input(fd: Int32):
+    """Consume already-arrived request bytes before an early busy close."""
+    var bytes = InlineArray[Int8, 4096](fill=0)
+    var discarded = 0
+    while discarded < 139264:
+        var count = external_call["recv", Int64](fd, bytes.unsafe_ptr(), Int(4096), 64)
+        if count <= 0:
+            return
+        discarded += Int(count)
+
+
 def receive_head(fd: Int32, deadline: Int, cancel_fd: Int) raises -> String:
     # One-byte reads avoid accidentally consuming a body before authentication.
     # Headers are capped at 8 KiB and local service concurrency is one.

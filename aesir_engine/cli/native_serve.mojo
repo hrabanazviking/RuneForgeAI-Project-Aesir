@@ -11,7 +11,9 @@ from cli.interrupts import ChatInterrupts
 from cli.model_reference import resolve_model_reference
 from cli.storage import DurableModelStore
 from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token_limit, require_loaded_context
-from server.local_transport import (listen_local, accept_local, load_service_key,
+from server.local_transport import (OwnedFD, listen_local, accept_local,
+                                    accept_local_ready, client_disconnected,
+                                    discard_available_input, load_service_key,
                                     receive_head, receive_body, send_local,
                                     send_native_stream_head, send_stream_head)
 from server.api import build_http_response, json_escape_string
@@ -113,6 +115,8 @@ def local_response(code: Int, body: String, ollama: Bool = False,
         reason = "Unprocessable Content"
     elif code == 500:
         reason = "Internal Server Error"
+    elif code == 503:
+        reason = "Service Unavailable"
     elif code == 504:
         reason = "Gateway Timeout"
     var payload = body
@@ -127,7 +131,70 @@ def local_response(code: Int, body: String, ollama: Bool = False,
     var extra = String("Cache-Control: no-store\r\nX-Content-Type-Options: nosniff\r\n")
     if code == 401:
         extra += "WWW-Authenticate: Bearer\r\n"
+    elif code == 503:
+        extra += "Retry-After: 1\r\n"
     return response.replace("Connection: close\r\n", extra + "Connection: close\r\n")
+
+
+struct PendingClient:
+    var client: OwnedFD
+    var admitted_ms: Int
+
+    def __init__(out self, var owned: OwnedFD, admitted_ms: Int):
+        self.client = owned^
+        self.admitted_ms = admitted_ms
+
+    def detach(mut self) raises -> OwnedFD:
+        var fd = self.client.fd
+        self.client.fd = -1
+        return OwnedFD(fd)
+
+
+def admit_pending(listener: Int32, mut pending: List[PendingClient],
+                  queue_limit: Int, queue_timeout_ms: Int, io_timeout_ms: Int,
+                  interrupt_fd: Int, ollama: Bool) raises:
+    """FIFO admission at decoder boundaries, with bounded work per probe."""
+    var index = 0
+    while index < len(pending):
+        if client_disconnected(pending[index].client.fd):
+            print("[queue cancelled slot=" + String(index) + "]")
+            _ = pending.pop(index)
+        elif monotonic_milliseconds() - pending[index].admitted_ms >= queue_timeout_ms:
+            try:
+                discard_available_input(pending[index].client.fd)
+                send_local(pending[index].client.fd, local_response(503, "", ollama),
+                           min(io_timeout_ms, 500), interrupt_fd)
+            except:
+                pass
+            _ = pending.pop(index)
+            print("[queue expired]")
+        else:
+            index += 1
+    for _ in range(16):
+        var fd = accept_local_ready(listener)
+        if fd < 0:
+            break
+        if len(pending) >= queue_limit:
+            try:
+                discard_available_input(fd)
+                send_local(fd, local_response(503, "", ollama),
+                           min(io_timeout_ms, 500), interrupt_fd)
+                print("[queue rejected status=503]")
+            except:
+                print("[queue rejection_not_delivered]")
+            _ = external_call["close", Int32](fd)
+        else:
+            var incoming = OwnedFD(fd)
+            pending.append(PendingClient(incoming^, monotonic_milliseconds()))
+            print("[queue admitted depth=" + String(len(pending)) + "]")
+        _ = external_call["fflush", Int32](Int(0))
+
+
+def next_client(listener: Int32, mut pending: List[PendingClient],
+                interrupt_fd: Int) raises -> PendingClient:
+    if len(pending) > 0:
+        return pending.pop(0)
+    return PendingClient(accept_local(listener, interrupt_fd), monotonic_milliseconds())
 
 
 def ollama_model_matches(requested: String, loaded: String) -> Bool:
@@ -169,18 +236,32 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
         model: OllamaModelInfo, catalog: List[OllamaModelInfo],
         device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
-        system_defaults: String = "", has_system_defaults: Bool = False) raises:
+        system_defaults: String = "", has_system_defaults: Bool = False,
+        queue_limit: Int = 4, queue_timeout_ms: Int = 30000) raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var stop = GenerationControl(0, interrupt_fd)
     var sequence = 0
+    var pending = List[PendingClient]()
     print(("Ollama-compatible" if ollama else "Native") + " inference ready at http://127.0.0.1:" + String(port) +
           "; authentication=" + ("none-loopback-only" if ollama else "required") + "; backend=cuda; profile=" + profile +
-          "; concurrency=1; context=" + String(context) + "; max_tokens=" + String(token_limit))
+          "; concurrency=1; queue_limit=" + String(queue_limit) +
+          "; queue_timeout_ms=" + String(queue_timeout_ms) +
+          "; context=" + String(context) + "; max_tokens=" + String(token_limit))
     _ = external_call["fflush", Int32](Int(0))
     while stop.stop_reason() == "":
         try:
-            var client = accept_local(listener.fd, interrupt_fd)
+            var next = next_client(listener.fd, pending, interrupt_fd)
+            var queued_ms = monotonic_milliseconds() - next.admitted_ms
+            var client = next.detach()
+            if queued_ms >= queue_timeout_ms:
+                try:
+                    discard_available_input(client.fd)
+                    send_local(client.fd, local_response(503, "", ollama),
+                               min(io_timeout_ms, 500), interrupt_fd)
+                except:
+                    pass
+                continue
             sequence += 1
             var start = monotonic_milliseconds()
             var status = 400
@@ -246,6 +327,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 send_stream_head(client.fd, "application/x-ndjson", io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
+                                admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                                 answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
@@ -315,6 +397,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                         request_id, created, model.name), io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
+                                admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                                 answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
@@ -372,6 +455,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
                         while session.status().generating:
                             var chunk = session.next_chunk()
+                            admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                             answer += chunk
                             if answer.byte_length() > 1048576:
                                 _ = session.cancel()
@@ -445,6 +529,8 @@ def dispatch_native_serve(args: List[String]) raises:
     var timeout_ms = 30000
     var io_timeout_ms = 5000
     var token_limit = 256
+    var queue_limit = 4
+    var queue_timeout_ms = 30000
     var ollama = False
     var model_store = String(".aesir/models")
     var sampling = NativeSamplingConfig()
@@ -491,6 +577,10 @@ def dispatch_native_serve(args: List[String]) raises:
             io_timeout_ms = bounded_decimal(value)
         elif flag == "--max-tokens":
             token_limit = bounded_decimal(value)
+        elif flag == "--queue-limit":
+            queue_limit = bounded_decimal(value)
+        elif flag == "--queue-timeout-ms":
+            queue_timeout_ms = bounded_decimal(value)
         elif flag == "--model-store":
             model_store = value
         elif flag == "--config":
@@ -510,6 +600,8 @@ def dispatch_native_serve(args: List[String]) raises:
         raise Error("Native service requires valid authentication mode, port, and context")
     if timeout_ms < 1 or timeout_ms > 3600000 or io_timeout_ms < 1 or io_timeout_ms > 30000 or token_limit < 1 or token_limit > 32768:
         raise Error("Invalid native service deadline or token limit")
+    if queue_limit < 1 or queue_limit > 8 or queue_timeout_ms < 100 or queue_timeout_ms > 60000:
+        raise Error("Invalid native service queue limit or deadline")
     var config = load_native_config(config_path, seen)
     var config_sampling = native_config_sampling(config)
     if "--config" in seen:
@@ -555,8 +647,8 @@ def dispatch_native_serve(args: List[String]) raises:
         catalog.append(model_info)
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
     _ = interrupts

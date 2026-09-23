@@ -824,7 +824,39 @@ Every row is initially queued unless the execution record says otherwise.
   deployment safety, all model families, tools, embeddings, multimodal input,
   or streaming usage options. S20 owns bounded multi-client queueing.
 
-### S20–S48
+### S20 — Bounded local admission for one resident model
+
+- Status: done (verified and pushed with this completion record).
+- Contract: one generation mutates the resident CUDA session at a time. The
+  service admits a FIFO of 1..8 waiting sockets (default 4), with a configurable
+  100..60000 ms queue wait (default 30000). Overflow and expired waiters get
+  HTTP 503 plus `Retry-After: 1`; disconnected peers relinquish slots. Admission
+  is probed between decode steps, never from another GPU thread. Every accepted
+  generation still resets KV and sampling state before a new turn.
+- Implementation: `server/local_transport.mojo` owns nonblocking accept,
+  peer-half-close detection and bounded early-response input draining;
+  `cli/native_serve.mojo` owns the FIFO, expiry, status mapping and CLI limits.
+  Rejected sockets use a single raw descriptor until the response attempt ends
+  so a temporary owner cannot close the descriptor before the 503 write.
+- Evidence: the final `sm_89` build and opt-in
+  `scripts/test_native_queue.py --binary <built-aesir> --model
+  gemma4-e2b:latest` passed on the installed Gemma E2B/RTX 4070 WSL host:
+  two queued clients completed in FIFO order, a third received HTTP 503, a
+  1-second waiter expired during active generation, a disconnected waiter
+  released its slot, and a deterministic prompt gave identical output before
+  and after another client's distinct prompt. The counted suite reported 185
+  passed, 0 failed, 1 skipped, 186 total. The v1 HTTP corpus passed all 29
+  fixtures on the final service build before the half-close-only follow-up;
+  the queue integration and final build were rerun after that fix. Documentation
+  drift and its self-test passed, with pre-existing artifact-deletion warnings.
+- Limits: actual concurrent-client proof is in loopback Ollama mode with one
+  model/host. Admission cannot run during model load, prompt prefill or a stalled
+  kernel; the kernel backlog and client timeouts still matter. Overload is
+  detected before route/auth parsing. Logical request isolation is proven by
+  reset and deterministic outputs, not secure GPU memory erasure or hostile
+  multi-tenant isolation. No public listener, batching or worker pool is claimed.
+
+### S21–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

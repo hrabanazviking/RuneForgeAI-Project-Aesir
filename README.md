@@ -633,15 +633,15 @@ POST /api/generate
 POST /api/chat
 ```
 
-## Important limitation: streaming is not implemented yet
+## Streaming and concurrent local clients
 
-Requests to generation/chat currently need:
-
-```json
-"stream": false
-```
-
-A client that requires Ollama's streaming NDJSON behavior will not yet be fully compatible.
+Ollama generation/chat now support incremental NDJSON when `"stream": true`
+(the default). `"stream": false` returns one JSON response. The service runs
+one generation at a time, admits a FIFO queue of four waiting sockets by
+default, and returns HTTP 503 when that queue is full or a waiter expires.
+Use `--queue-limit 1..8` and `--queue-timeout-ms 100..60000` to set these
+bounds. This is a loopback-only subset, not full Ollama compatibility; see
+[the exact service contract](docs/NATIVE_SERVICE.md).
 
 The service also does not yet provide the complete Ollama model-management, embeddings, tool-calling, multimodal, or remote-listening surface.
 

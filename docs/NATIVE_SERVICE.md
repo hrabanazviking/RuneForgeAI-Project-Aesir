@@ -1,6 +1,6 @@
 # Native local inference service
 
-**Verified scope, 2026-09-09:** Linux x86-64/WSL2, one loaded native CUDA model,
+**Verified scope, 2026-09-22:** Linux x86-64/WSL2, one loaded native CUDA model,
 IPv4 loopback, stateless text generation. The authenticated Aesir endpoint
 remains available. A separate Ollama-compatible mode was verified with the
 native Gemma 4 E2B Q4_K_M profile at 16,384 context on an RTX 4070 Laptop GPU.
@@ -48,8 +48,9 @@ curl -sS -H 'Content-Type: application/json' \
   http://127.0.0.1:11434/api/chat
 ```
 
-The mode is single-session and one-request-at-a-time. Each HTTP generation
-resets KV history; clients send prior messages again to `/api/chat`. It does not
+The mode has one resident session and one active generation, with a bounded
+FIFO of waiting local sockets. Each HTTP generation resets KV history; clients
+send prior messages again to `/api/chat`. It does not
 implement Ollama pull/create/delete/copy, embeddings, tool calls, multimodal
 messages or remote listening. See the
 [versioned API support matrix](API_SUPPORT_MATRIX_V1.md) for the exact route and
@@ -182,8 +183,20 @@ No engine error, request body or key value is echoed in an error response.
 
 ## Bounds and threat model
 
-- Exactly one active request; kernel listen backlog 8. Queued clients can time
-  out while another request runs. There is no worker pool, batching or fair queue.
+- Exactly one active request and one resident model. `--queue-limit` admits
+  1..8 waiting sockets (default 4) in FIFO order; `--queue-timeout-ms` bounds
+  their admission wait to 100..60000 ms (default 30000). A full or expired
+  queue replies HTTP 503 with `Retry-After: 1`; timed-out and disconnected
+  waiters are removed without entering generation. The defaults apply in both
+  Ollama and authenticated modes; `--io-timeout-ms` separately bounds reads and
+  writes once a request starts. No worker pool or batching is provided.
+- Admission is probed at token decode boundaries. During model load/prefill or
+  a stalled kernel, clients first wait in the kernel's backlog of 8 and may
+  hit their own connection timeout before an application-level 503. A busy
+  response can precede route/auth parsing and reveals only local service
+  availability. The queue is local-loopback only, not a multi-tenant security
+  boundary. A generation reset separates sequential requests but does not
+  securely erase GPU memory.
 - Headers: 8 KiB maximum, 64 fields, 1 KiB per value. Bodies: 128 KiB maximum.
   Decoded generated text: 1 MiB maximum before JSON escaping.
 - One strict HTTP/1.1 request per connection, mandatory local `Host`, explicit
