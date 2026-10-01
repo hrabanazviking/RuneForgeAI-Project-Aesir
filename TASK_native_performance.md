@@ -46,3 +46,16 @@ Publish and deploy validated improvements with baseline/comparison artifacts and
 reproducible commands. Performance is an ongoing engineering objective: report
 measured achieved gains and precise remaining bottlenecks rather than claiming
 universal optimality or parity with Ollama without evidence.
+
+## Next measured slice: exact prefix reuse
+
+The block reader completed 15 real HTTP samples with replies/counts identical to
+the archived binary and 2.95–3.00x faster warm medians. Physical reference blocks
+and 35 independent real-weight rows passed. The prepared layer plan compiles.
+Next add single-session bounded exact-token prefix reuse across reset, with a
+disable switch for fresh-prefill measurements. Rebuild sampler history and leave
+at least the final prompt token for fresh logits. Reuse only healthy synchronized
+KV from the same model/session; mismatches stop reuse immediately. Preserve
+token-boundary cancellation and poisoned-session behavior. Test diverging input,
+sampling-policy changes, timeout/reset and independent fresh-session equivalence.
+Cached and uncached measurements must remain separately identified.
