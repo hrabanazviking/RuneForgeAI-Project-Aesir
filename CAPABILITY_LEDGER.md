@@ -1297,15 +1297,25 @@ and circular self-parity transforms were removed.
 - **Claim sources:** native CUDA Gemma 4 and Llama 3 profiles and existing F16 GEMM
 - **Implementation evidence:** `Gemma4CUDASession` owns packed device weights, activations, per-layer/global/shared KV, native quantized matvec, norms, RoPE, attention, GELU/PLE, logits and GPU greedy selection. It is exported by `aesir.mojo` and reached by `chat --accel cuda` and `run --accel cuda`. There is no CPU model fallback or external inference engine. The detached legacy `MAXGate` reports no devices and refuses graph execution rather than substituting a host scalar GEMM.
 - **Executable evidence:** RTX 4070 Laptop GPU: all 42 dense Gemma 4 E4B layers executed, 35 independent real-weight CUDA matvec comparisons passed (maximum error `1.3113022e-06`), tokenizer parity passed, and 20 exchanges with a 16,384 completion ceiling retained corrected facts across the 512-token attention boundary. Existing F16 CUDA GEMM exact/tail tests also passed. `E-MASTER` case `paradigms.max_gate_boundary` proves the detached gateway does not fabricate availability or mutate output. See `docs/GEMMA4_CUDA.md` for commands and limits.
-- **Evidence boundary:** Dense text-only E4B Q4_K_M and Llama 3 Stheno Q4_K_S profiles on one observed NVIDIA host. Full-model independent logit parity, long maximum-length generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. Host tokenization/I/O remains on CPU.
+- **Evidence boundary:** Dense text-only E4B Q4_K_M and Llama 3 Stheno Q4_K_S profiles on one observed NVIDIA host. Independent logits for these profiles, long maximum-length generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. The separate narrow 3B logit gate is recorded below. Host tokenization/I/O remains on CPU.
 - **Llama 3 evidence:** `Llama3CUDASession` implements all 32 layers with native CUDA packed weights, F32 activations and F16 KV. Fifteen independent tokenizer cases and framing passed, including three whole-segment lookup regressions; 35 real-weight dot products and 34,816 CUDA RoPE/SiLU/GQA values matched independent references. Boundary-position RoPE precision was corrected on-device. See `docs/STHENO_CUDA.md` for the final conversation acceptance status.
 - **2026-10-01 Turing/3B extension:** All 28 layers of the installed Llama 3.2
   3B Q4_K_M model execute natively with tied weights and scaled RoPE. A dedicated
   residual-add kernel avoids the observed shared Gemma tanh PTX failure. Q4_K/Q6_K
   specialization passes the same 35 real-weight oracle values; 52,210 physical
-  RoPE/residual/SiLU/GQA values match independent NumPy calculations. Full-model
+  RoPE/residual/SiLU/GQA values match independent NumPy calculations. Broader
   logits, Gemma on Turing and arbitrary GPU/model support remain unproved.
-- **Next acceptance gate:** Broader model/hardware coverage, independent full-model logits, long-generation/context tests and broader-profile batched prefill.
+- **First independent 3B logit gate (2026-10-01):** The opt-in native probe and
+  pinned CPU llama-cpp-python reference compare 513024 final-prompt logits across
+  four public cases, exact input IDs through 1070 tokens, context 4096/F16 KV.
+  An explicit independently expanded F32 artifact preserves the packed weight
+  values. All cases pass predeclared 0.05 maximum / 0.005 RMS / matching-argmax
+  budgets; actual worst errors are 0.0127416 / 0.0017844. The initial same-byte
+  packed CPU reference fails these budgets and is preserved, with Q8_K activation
+  arithmetic explaining the reference difference. Production compute/weights are
+  unchanged. [Operation and evidence](docs/SPEED_MEASUREMENT.md). Status stays
+  partial: this does not cover every decode position or certify quality parity.
+- **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
@@ -1536,7 +1546,7 @@ and circular self-parity transforms were removed.
 - **Implementation evidence:** `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` enforcing parameter validation (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) and rejecting unsupported benchmark/runtime surfaces.
 - **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported` in `test_multi_engine.mojo`.
 - **Evidence boundary:** Checked dispatcher rejection remains separate from the narrow real HTTP comparator below. No general benchmark dispatcher or speed superiority is established.
-- **Next acceptance gate:** Extend the narrow comparator to controlled residency, varied queries, first-token/uncached-load measurements and a validated native speed improvement; connect any public benchmark dispatcher only after its own contract passes.
+- **Next acceptance gate:** Complete cache/residency isolation and multi-session varied-query/quality coverage, detailed first-token/uncached-load attribution and a validated native speed improvement; connect any public benchmark dispatcher only after its own contract passes.
 - **Audit:** AER-101, AER-003.
 - **2026-10-01 measured subset:** `scripts/benchmark_second_brain.py` records
   paired native/Ollama HTTP wall time, fixed public prompts, warmup, raw samples,
@@ -1575,6 +1585,17 @@ and circular self-parity transforms were removed.
   equations. The new comparator refuses invalid/mismatched evidence. Status stays
   partial; full logits, batched prefill and broader devices/models remain open.
   See [efficiency operation and verification](docs/NATIVE_EFFICIENCY.md).
+
+- **First SPD-00 measurement slice (2026-10-01):** Portable 32/128/256 ceilings,
+  balanced/seeded/grouped order, observed loaded/as-is residency, full redacted
+  replies, strict identity/count/JSON admission, and failure-aware ratios are
+  connected to installed services. Fourteen real-socket/synthetic protocol tests
+  and nine numerical/CSV/artifact-publication tests pass. A physical sm_75 probe
+  measures fresh prefill/decode host intervals, logical tensor traffic and checked
+  nonuniform D2D copies (238.42 GB/s). The four-vector independent 3B gate is
+  recorded under AES-ACC-008. [Evidence and scope](docs/evidence/speed-measurement-2026-10-01/README.md).
+  Full SPD-00 tracing/cache/residency/quality gates and an overall provider lead
+  remain open; this slice changes measurement, not production inference kernels.
 
 
 - **Long-token subset (2026-10-01):** Checked compact DenseBufferLayout accounts

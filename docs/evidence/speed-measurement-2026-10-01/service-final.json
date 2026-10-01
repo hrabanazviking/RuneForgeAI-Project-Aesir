@@ -1,0 +1,12 @@
+{
+  "native_service_active": true,
+  "pid": 456665,
+  "status": "ready",
+  "backend": "cuda",
+  "model": "llama3.2:3b",
+  "context": 4096,
+  "max_tokens": 256,
+  "running_and_validated_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "current_source_fingerprint": "fd5b5e971fb8d6405ce064b680fc8fc5e2af089532c5b92652ff158fb579622f",
+  "limits": "Ready service and binary identity; inference separately observed in the completed provider series."
+}

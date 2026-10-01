@@ -1,0 +1,13 @@
+[
+  {
+    "pid": 570176,
+    "runner": "llama-server",
+    "observed_flags": {
+      "model_basename": "sha256-dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--port": "45751",
+      "--cache-type-k": "q8_0",
+      "--cache-type-v": "q8_0",
+      "--flash-attn": "auto"
+    }
+  }
+]

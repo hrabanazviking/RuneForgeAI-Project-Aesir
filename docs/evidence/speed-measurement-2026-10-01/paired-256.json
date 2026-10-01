@@ -1,0 +1,892 @@
+{
+  "schema_version": 2,
+  "model": "llama3.2:3b",
+  "context": 4096,
+  "max_tokens": 256,
+  "suite": "extended",
+  "samples_per_case": 3,
+  "system": "You are concise.",
+  "sampling": "greedy, repeat_penalty=1",
+  "order": "balanced",
+  "order_seed": 42,
+  "residency": "loaded",
+  "native_process_identity_observed": true,
+  "os": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "samples": [
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "warmup",
+      "repeat_index": 0,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 17.026655185996788,
+      "reply": {
+        "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+        "finish_reason": "eos",
+        "prompt_tokens": 1070,
+        "generated_tokens": 146,
+        "context_used": 1217,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 146,
+      "prompt_tokens": 1070,
+      "finish_reason": "eos",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+      "text_sha256": "e64460a10fea0dc12d341e9ff2bb8fc9f35507e6bad7ac03b12128c66c4d4658",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 0
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "warmup",
+      "repeat_index": 0,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 3.776445095994859,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:31:51.390752067Z",
+        "message": {
+          "role": "assistant",
+          "content": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis."
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3774782132,
+        "load_duration": 269631203,
+        "prompt_eval_count": 1090,
+        "prompt_eval_duration": 24737000,
+        "eval_count": 167,
+        "eval_duration": 3433249000
+      },
+      "generated_tokens": 167,
+      "prompt_tokens": 1090,
+      "finish_reason": "stop",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis.",
+      "text_sha256": "b7e45e572af4240e90ae8c0a2d03039bfe22572c6bafde6982fc78958faf82c3",
+      "load_duration_ns": 269631203,
+      "prompt_eval_duration_ns": 24737000,
+      "decode_duration_ns": 3433249000,
+      "sequence_index": 1
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 1,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 3.757587293002871,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:31:55.148610817Z",
+        "message": {
+          "role": "assistant",
+          "content": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis."
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3756059152,
+        "load_duration": 274200027,
+        "prompt_eval_count": 1090,
+        "prompt_eval_duration": 19817000,
+        "eval_count": 167,
+        "eval_duration": 3443126000
+      },
+      "generated_tokens": 167,
+      "prompt_tokens": 1090,
+      "finish_reason": "stop",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis.",
+      "text_sha256": "b7e45e572af4240e90ae8c0a2d03039bfe22572c6bafde6982fc78958faf82c3",
+      "load_duration_ns": 274200027,
+      "prompt_eval_duration_ns": 19817000,
+      "decode_duration_ns": 3443126000,
+      "sequence_index": 2
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 1,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 4.253751006006496,
+      "reply": {
+        "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+        "finish_reason": "eos",
+        "prompt_tokens": 1070,
+        "generated_tokens": 146,
+        "context_used": 1217,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 146,
+      "prompt_tokens": 1070,
+      "finish_reason": "eos",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+      "text_sha256": "e64460a10fea0dc12d341e9ff2bb8fc9f35507e6bad7ac03b12128c66c4d4658",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 3
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 2,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 4.250864732995979,
+      "reply": {
+        "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+        "finish_reason": "eos",
+        "prompt_tokens": 1070,
+        "generated_tokens": 146,
+        "context_used": 1217,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 146,
+      "prompt_tokens": 1070,
+      "finish_reason": "eos",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+      "text_sha256": "e64460a10fea0dc12d341e9ff2bb8fc9f35507e6bad7ac03b12128c66c4d4658",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 4
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 2,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 3.763255444006063,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:07.416580465Z",
+        "message": {
+          "role": "assistant",
+          "content": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis."
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3761400802,
+        "load_duration": 264016392,
+        "prompt_eval_count": 1090,
+        "prompt_eval_duration": 21426000,
+        "eval_count": 167,
+        "eval_duration": 3457944000
+      },
+      "generated_tokens": 167,
+      "prompt_tokens": 1090,
+      "finish_reason": "stop",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis.",
+      "text_sha256": "b7e45e572af4240e90ae8c0a2d03039bfe22572c6bafde6982fc78958faf82c3",
+      "load_duration_ns": 264016392,
+      "prompt_eval_duration_ns": 21426000,
+      "decode_duration_ns": 3457944000,
+      "sequence_index": 5
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 3,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 3.722184746991843,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:11.13932527Z",
+        "message": {
+          "role": "assistant",
+          "content": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis."
+        },
+        "done": true,
+        "done_reason": "stop",
+        "total_duration": 3720662687,
+        "load_duration": 271515951,
+        "prompt_eval_count": 1090,
+        "prompt_eval_duration": 19971000,
+        "eval_count": 167,
+        "eval_duration": 3411205000
+      },
+      "generated_tokens": 167,
+      "prompt_tokens": 1090,
+      "finish_reason": "stop",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. New material is appended to the graph through a queue, which allows for a controlled and systematic addition of new data. This process also includes a check for duplicate content, preventing the introduction of redundant or outdated information. Furthermore, the graph is embedded in the same vector space, enabling the efficient comparison and integration of new material with existing knowledge. In the event of failed imports, the system can inspect and retry the process safely, minimizing the risk of data corruption or loss. This approach ensures that the knowledge graph remains a reliable and trustworthy source of information, with sources available for citation and referencing. By incorporating these reliability principles, the knowledge graph can maintain its accuracy and consistency over time, providing a solid foundation for further research and analysis.",
+      "text_sha256": "b7e45e572af4240e90ae8c0a2d03039bfe22572c6bafde6982fc78958faf82c3",
+      "load_duration_ns": 271515951,
+      "prompt_eval_duration_ns": 19971000,
+      "decode_duration_ns": 3411205000,
+      "sequence_index": 6
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "warm",
+      "repeat_index": 3,
+      "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+      "request": {
+        "prompt": "A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. Summarize the reliability principles in a detailed paragraph.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 4.2771057070058305,
+      "reply": {
+        "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+        "finish_reason": "eos",
+        "prompt_tokens": 1070,
+        "generated_tokens": 146,
+        "context_used": 1217,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 146,
+      "prompt_tokens": 1070,
+      "finish_reason": "eos",
+      "text": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain reliable and trustworthy, providing a solid foundation for further analysis, research, or decision-making.",
+      "text_sha256": "e64460a10fea0dc12d341e9ff2bb8fc9f35507e6bad7ac03b12128c66c4d4658",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 7
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "warmup",
+      "repeat_index": 0,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 7.2095696779870195,
+      "reply": {
+        "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+        "finish_reason": "length",
+        "prompt_tokens": 52,
+        "generated_tokens": 256,
+        "context_used": 309,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 52,
+      "finish_reason": "length",
+      "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+      "text_sha256": "771724ca338a9201a85997bcf60a3e35092953afce1617859d2b64605bddba44",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 8
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "warmup",
+      "repeat_index": 0,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 5.234631643994362,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:27.861300059Z",
+        "message": {
+          "role": "assistant",
+          "content": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge"
+        },
+        "done": true,
+        "done_reason": "length",
+        "total_duration": 5233058829,
+        "load_duration": 269651351,
+        "prompt_eval_count": 72,
+        "prompt_eval_duration": 20323000,
+        "eval_count": 256,
+        "eval_duration": 4859280000
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 72,
+      "finish_reason": "length",
+      "text": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge",
+      "text_sha256": "e4725e51b56c571ffed4b13a04603ea17bbad9f15f4123f4969a3a4b283c22ae",
+      "load_duration_ns": 269651351,
+      "prompt_eval_duration_ns": 20323000,
+      "decode_duration_ns": 4859280000,
+      "sequence_index": 9
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 1,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 5.215631836006651,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:33.076901528Z",
+        "message": {
+          "role": "assistant",
+          "content": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge"
+        },
+        "done": true,
+        "done_reason": "length",
+        "total_duration": 5213558494,
+        "load_duration": 271079264,
+        "prompt_eval_count": 72,
+        "prompt_eval_duration": 20155000,
+        "eval_count": 256,
+        "eval_duration": 4888507000
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 72,
+      "finish_reason": "length",
+      "text": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge",
+      "text_sha256": "e4725e51b56c571ffed4b13a04603ea17bbad9f15f4123f4969a3a4b283c22ae",
+      "load_duration_ns": 271079264,
+      "prompt_eval_duration_ns": 20155000,
+      "decode_duration_ns": 4888507000,
+      "sequence_index": 10
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 1,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 6.801923582999734,
+      "reply": {
+        "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+        "finish_reason": "length",
+        "prompt_tokens": 52,
+        "generated_tokens": 256,
+        "context_used": 309,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 52,
+      "finish_reason": "length",
+      "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+      "text_sha256": "771724ca338a9201a85997bcf60a3e35092953afce1617859d2b64605bddba44",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 11
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 2,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 6.801436060995911,
+      "reply": {
+        "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+        "finish_reason": "length",
+        "prompt_tokens": 52,
+        "generated_tokens": 256,
+        "context_used": 309,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 52,
+      "finish_reason": "length",
+      "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+      "text_sha256": "771724ca338a9201a85997bcf60a3e35092953afce1617859d2b64605bddba44",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 12
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 2,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 5.181882033997681,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:51.863113433Z",
+        "message": {
+          "role": "assistant",
+          "content": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge"
+        },
+        "done": true,
+        "done_reason": "length",
+        "total_duration": 5180125386,
+        "load_duration": 271705066,
+        "prompt_eval_count": 72,
+        "prompt_eval_duration": 21922000,
+        "eval_count": 256,
+        "eval_duration": 4872045000
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 72,
+      "finish_reason": "length",
+      "text": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge",
+      "text_sha256": "e4725e51b56c571ffed4b13a04603ea17bbad9f15f4123f4969a3a4b283c22ae",
+      "load_duration_ns": 271705066,
+      "prompt_eval_duration_ns": 21922000,
+      "decode_duration_ns": 4872045000,
+      "sequence_index": 13
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 3,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "model": "llama3.2:3b",
+        "stream": false,
+        "messages": [
+          {
+            "role": "system",
+            "content": "You are concise."
+          },
+          {
+            "role": "user",
+            "content": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring."
+          }
+        ],
+        "options": {
+          "temperature": 0,
+          "num_ctx": 4096,
+          "num_predict": 256,
+          "top_k": 40,
+          "top_p": 1,
+          "repeat_penalty": 1,
+          "seed": 42
+        },
+        "keep_alive": "10m"
+      },
+      "seconds": 5.15931276298943,
+      "reply": {
+        "model": "llama3.2:3b",
+        "created_at": "2026-10-01T19:32:57.022500606Z",
+        "message": {
+          "role": "assistant",
+          "content": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge"
+        },
+        "done": true,
+        "done_reason": "length",
+        "total_duration": 5157436090,
+        "load_duration": 277207937,
+        "prompt_eval_count": 72,
+        "prompt_eval_duration": 19438000,
+        "eval_count": 256,
+        "eval_duration": 4848278000
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 72,
+      "finish_reason": "length",
+      "text": "Designing a Reliable Knowledge Graph Ingestion Pipeline\n=====================================================\n\nA knowledge graph ingestion pipeline is a critical component of a knowledge graph system, responsible for collecting, processing, and integrating data from various sources. A reliable pipeline ensures the accuracy, completeness, and consistency of the knowledge graph. Here's a detailed guide on designing a reliable knowledge graph ingestion pipeline, covering key aspects such as queues, validation, duplicates, provenance, retries, backpressure, and monitoring.\n\n### 1. Queue Design\n\nA queue is a fundamental component of a knowledge graph ingestion pipeline. It acts as a buffer between the data source and the processing system, allowing for decoupling and scalability.\n\n*   **Message Queue**: Choose a message queue like Apache Kafka, RabbitMQ, or Amazon SQS that can handle high volumes of data and provides features like message persistence, scalability, and fault tolerance.\n*   **Queue Architecture**: Design a queue architecture with multiple brokers or nodes to ensure high availability and scalability. Use a load balancer to distribute incoming messages across the brokers.\n*   **Message Format**: Define a standard message format that includes essential metadata such as source, timestamp, and data.\n\n### 2. Data Validation\n\nData validation is crucial to ensure the quality and accuracy of the knowledge",
+      "text_sha256": "e4725e51b56c571ffed4b13a04603ea17bbad9f15f4123f4969a3a4b283c22ae",
+      "load_duration_ns": 277207937,
+      "prompt_eval_duration_ns": 19438000,
+      "decode_duration_ns": 4848278000,
+      "sequence_index": 14
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "warm",
+      "repeat_index": 3,
+      "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+      "request": {
+        "prompt": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+        "system": "You are concise.",
+        "max_tokens": 256,
+        "temperature": 0
+      },
+      "seconds": 6.809526185999857,
+      "reply": {
+        "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+        "finish_reason": "length",
+        "prompt_tokens": 52,
+        "generated_tokens": 256,
+        "context_used": 309,
+        "backend": "cuda",
+        "cpu_offload": 0,
+        "model": "llama3.2:3b",
+        "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      },
+      "generated_tokens": 256,
+      "prompt_tokens": 52,
+      "finish_reason": "length",
+      "text": "Designing a reliable knowledge graph ingestion pipeline involves several key components that work together to ensure data accuracy, completeness, and consistency. Here's a detailed explanation of how to design such a pipeline, covering queues, validation, duplicates, provenance, retries, backpressure, and monitoring:\n\n**Overview**\n\nA knowledge graph ingestion pipeline is responsible for collecting, processing, and loading data into a knowledge graph database. The pipeline should be designed to handle large volumes of data, ensure data quality, and provide a scalable and fault-tolerant architecture.\n\n**Components**\n\n1. **Data Sources**: These are the systems that generate data for the knowledge graph, such as APIs, files, or databases.\n2. **Ingestion Queue**: A message queue that receives data from the data sources and stores it temporarily before processing.\n3. **Data Processing**: This is where the data is transformed, validated, and enriched before being loaded into the knowledge graph.\n4. **Knowledge Graph**: The database that stores the knowledge graph data.\n5. **Monitoring and Alerting**: Tools that track the pipeline's performance, detect issues, and trigger alerts.\n\n**Design Considerations**\n\n1. **Data Validation**: Validate data at multiple stages to ensure accuracy, completeness, and consistency. This includes checking data formats",
+      "text_sha256": "771724ca338a9201a85997bcf60a3e35092953afce1617859d2b64605bddba44",
+      "load_duration_ns": null,
+      "prompt_eval_duration_ns": null,
+      "decode_duration_ns": null,
+      "sequence_index": 15
+    }
+  ],
+  "errors": [],
+  "limits": "Installed-service HTTP wall times. First appearance can reuse prefixes. Templates/KV may differ; declared blob equality is not API model attestation. Provider durations are reported, not independently validated. First-token/CPU-enqueue/GPU-only time and quality parity are not established. Bootstrap intervals require independent sessions and adequate samples before lead claims.",
+  "aesir_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "aesir_source_fingerprint": "89bc30a0b406ef998f0488f10277a625d8354cf300bd57ad9936228ab3deac22",
+  "aesir_revision": "2f630ade3cd426fd14753ddcd530084b07a265b6",
+  "aesir_worktree_dirty": true,
+  "native_health": {
+    "status": "ready",
+    "backend": "cuda",
+    "cpu_offload": 0,
+    "profile": "llama3",
+    "context": 4096,
+    "model": "llama3.2:3b",
+    "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "max_tokens": 256,
+    "generation_timeout_ms": 45000,
+    "capabilities": {
+      "text_generation": true,
+      "embeddings": false,
+      "exact_prefix_reuse": true
+    },
+    "prefill_batch": 4,
+    "queue_limit": 2
+  },
+  "model_weights": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "cache_policy": {
+    "native_exact_prefix_reuse": true,
+    "ollama_cache_disabled": null,
+    "first_appearance_is_cache_disabled": false
+  },
+  "native_process_executable_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "comparator_blob_matches_native": true,
+  "ollama_version": {
+    "version": "0.0.0"
+  },
+  "ollama_preload_reply": {
+    "model": "llama3.2:3b",
+    "created_at": "2026-10-01T19:31:30.556210325Z",
+    "message": {
+      "role": "assistant",
+      "content": ""
+    },
+    "done": true,
+    "done_reason": "load"
+  },
+  "ollama_residency_before": {
+    "models": [
+      {
+        "name": "llama3.2:3b",
+        "model": "llama3.2:3b",
+        "size": 2387291236,
+        "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "3.2B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-10-01T15:41:30.556305894-04:00",
+        "size_vram": 2216354119,
+        "context_length": 4096
+      }
+    ]
+  },
+  "gpu_before": {
+    "observed": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB, 4694 MiB, 65, 1800 MHz, 5500 MHz, 38.66 W",
+    "unix_seconds": 1790883090.5876966
+  },
+  "gpu_after": {
+    "observed": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB, 4694 MiB, 67, 1290 MHz, 5500 MHz, 61.29 W",
+    "unix_seconds": 1790883183.8732913
+  },
+  "failed_samples": 0,
+  "medians_seconds": {
+    "aesir": {
+      "long_context": 4.253751006006496,
+      "sustained_generation": 6.801923582999734
+    },
+    "ollama": {
+      "long_context": 3.757587293002871,
+      "sustained_generation": 5.181882033997681
+    }
+  },
+  "distributions_seconds": {
+    "aesir": {
+      "long_context": {
+        "n": 3,
+        "median": 4.253751006006496,
+        "p95_observed": 4.2771057070058305,
+        "median_bootstrap_95": [
+          4.250864732995979,
+          4.2771057070058305
+        ],
+        "small_sample": true
+      },
+      "sustained_generation": {
+        "n": 3,
+        "median": 6.801923582999734,
+        "p95_observed": 6.809526185999857,
+        "median_bootstrap_95": [
+          6.801436060995911,
+          6.809526185999857
+        ],
+        "small_sample": true
+      }
+    },
+    "ollama": {
+      "long_context": {
+        "n": 3,
+        "median": 3.757587293002871,
+        "p95_observed": 3.763255444006063,
+        "median_bootstrap_95": [
+          3.722184746991843,
+          3.763255444006063
+        ],
+        "small_sample": true
+      },
+      "sustained_generation": {
+        "n": 3,
+        "median": 5.181882033997681,
+        "p95_observed": 5.215631836006651,
+        "median_bootstrap_95": [
+          5.15931276298943,
+          5.215631836006651
+        ],
+        "small_sample": true
+      }
+    }
+  },
+  "speed_ratios": {
+    "long_context": {
+      "ollama_over_aesir": null,
+      "equal_required_output_counts": false,
+      "quality_parity_established": false,
+      "certified_lead": false
+    },
+    "sustained_generation": {
+      "ollama_over_aesir": 0.7618259703694592,
+      "equal_required_output_counts": true,
+      "quality_parity_established": false,
+      "certified_lead": false
+    }
+  }
+}

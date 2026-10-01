@@ -381,3 +381,30 @@ context and compares 641280 full logits, five completions, exact-token restore a
 invalid-tile non-mutation. Native sequential logits are a regression reference,
 not an external whole-model oracle. CI compiles opt-in probes; physical execution
 and speed require separate hardware evidence. See docs/NATIVE_LONG_TOKENS.md.
+
+## SPD-00 actual-call timing and independent logit export
+
+test_cuda_measurement.mojo admits only the strict Llama 3.2 3B fixture and uses
+one owning CUDA context, context4096, prefix disabled and four-token prefill.
+It exports all 128256 final-prompt logits and exact input IDs in four public cases,
+then preserves three export-free fresh repeats per case. CSV requires a final
+completion marker. begin_turn/decode-loop/first-visible timings use synchronized
+actual calls and include host/native work; they are not isolated GPU kernel times.
+
+measurement_kernels.mojo owns the checked equal/nonempty D2D transfer helper.
+Two bounded nonuniform spans produce 20 timings; every copied word is verified.
+Validated tensor descriptors provide logical minimum projection/norm/embedding/
+RoPE/KV accounting. This conditional bandwidth reference cannot prove a hard
+hardware ceiling or decoder speed. CI compiles the probe; local CUDA execution
+and the optional independent CPU numerical gate remain separate physical checks.
+
+scripts/check_llama3_logits.py owns strict CSV validation, independent F32 reference
+and unchanged predeclared numerical budgets. scripts/test_check_llama3_logits.py
+uses synthetic evidence solely to prove rejection/scoring contracts. See
+[the measurement manual](../../docs/SPEED_MEASUREMENT.md).
+
+The existing server.posix_socket master case requests an OS-assigned port only
+in its test-owned sockaddr, then verifies the bound address with getsockname.
+Production BifrostGate still requires an explicit port in 1..65535; constructor
+zero rejection, nonblocking setup and close semantics remain asserted. The test
+does not require the live native service's 18434 socket to be stopped.

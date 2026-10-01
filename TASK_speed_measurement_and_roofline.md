@@ -67,3 +67,22 @@ negative control, relevant CUDA compile/execution, doc/fixture/hygiene checks.
 Rebuild/check the launcher when required, preserve ready supervision, push main,
 verify remote SHA and exact CI, and provide operator instructions plus publication
 receipt. Runtime ledger remains partial outside the narrowly exercised subset.
+
+## Grounded reference refinement
+
+After the packed CPU comparison failed the predeclared numerical budgets, source
+inspection identified Q8_K activation dots in that independent packed reference.
+Keep the failure and original budgets. The same test-only oracle may own an
+explicit, new F32 expansion artifact through a supplied authoritative quantizer,
+with source/derived/converter hashes and sufficient host resources. It never
+replaces production weights. measurement_kernels.mojo owns the connected checked
+D2D helper for the probe. Its API and the oracle validation get focused tests.
+
+## Local verification collision refinement
+
+The master suite's existing POSIX bind test hardcodes 18434, now owned by the
+authorized live native service. Fix only that test to request an OS-assigned
+ephemeral port in its test-owned sockaddr and verify the assigned address with
+getsockname. Preserve production constructor port-zero rejection and all service
+settings. Retain the original master failure and rerun the complete gate; never
+stop the live service or hide this failure to obtain a passing report.

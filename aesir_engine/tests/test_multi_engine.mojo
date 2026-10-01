@@ -3,6 +3,7 @@
 
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
+from std.ffi import external_call
 from core.mimir_well import MimirWell, Scalar, f16
 from core.grammar import GBNFGrammar
 from core.speculative import SpeculativeEngine
@@ -255,7 +256,12 @@ def test_posix_socket_server() raises:
     if not invalid_port_rejected:
         raise Error("BifrostGate allowed port 0 initialization")
 
-    var server = BifrostGate(18434)
+    var server = BifrostGate(1)
+    # The production constructor still rejects zero. This test-owned sockaddr
+    # requests an OS-assigned port, avoiding collisions with managed services
+    # and the race caused by releasing a separately probed "free" fixed port.
+    server.addr_ptr.unsafe_store(1, 0)
+    server.port = 0
     if not server.is_valid():
         raise Error("BifrostGate socket creation failed: invalid file descriptor")
     if not server.set_nonblocking(True):
@@ -264,7 +270,15 @@ def test_posix_socket_server() raises:
     if not server.start():
         server.close()
         raise Error("BifrostGate start listening failed")
+    var observed_address = InlineArray[Int16, 8](fill=0)
+    var observed_size = InlineArray[Int32, 1](fill=16)
+    var observed = external_call["getsockname", Int32](
+        server.server_fd, observed_address.unsafe_ptr().unsafe_bitcast[Int8](),
+        observed_size.unsafe_ptr(),
+    )
     server.close()
+    if observed != 0 or observed_size[0] != 16 or observed_address[1] == 0:
+        raise Error("BifrostGate OS-assigned listener address was not observed")
     if server.is_valid():
         raise Error("BifrostGate close failed to reset file descriptor")
     print("bare-metal POSIX socket bind/listen setup & options: PASS")

@@ -1,7 +1,7 @@
 # AESIR speed-lead roadmap
 
 Established 2026-10-01. Owner: native compute, runtime and measurement domains.
-Status: **published plan; future work is not implemented or verified by this document**.
+Status: **active plan; first SPD-00 measurement slice implemented, full gates open**.
 
 Volmarr's objective is to make AESIR substantially faster than Ollama while
 preserving useful answers, stable operation and the second-brain integrations.
@@ -14,7 +14,11 @@ This is the focused speed track within [BEST_IN_CLASS_GAMEPLAN.md](BEST_IN_CLASS
 It supplies the next performance work orders without replacing the application
 program. [CAPABILITY_LEDGER.md](CAPABILITY_LEDGER.md) owns current capabilities;
 [AI.rules.part2.md](AI.rules.part2.md) owns evidence and failure rules. All SPD
-items below are planned work, including items referring to existing primitives.
+items below retain open acceptance gates, including items referring to existing
+primitives. The first implemented SPD-00 slice is documented in
+[SPEED_MEASUREMENT.md](docs/SPEED_MEASUREMENT.md): portable provider controls,
+checked physical stage/traffic measurements and four independent 3B logit vectors.
+It changes measurement, not inference kernels, and earns no general speed lead.
 
 ## 1. Measured starting point
 
@@ -471,6 +475,10 @@ Do not implement all future techniques in one patch.
 - [x] Define parity, 2× lead and 3× stretch acceptance targets.
 - [x] Map owners, dependencies, precision/memory contracts and release gates.
 - [ ] SPD-00: implement fair modes, independent logits and hardware feasibility.
+- [x] First SPD-00 slice: portable balanced 32/128/256 measurements, complete
+  redacted evidence, physical stage/traffic/D2D checks and four strict-3B
+  final-prompt vectors versus an independent F32-expanded CPU reference.
+  [Results and remaining SPD-00 gates](docs/evidence/speed-measurement-2026-10-01/README.md).
 - [ ] SPD-01: implement and validate genuine matrix prefill.
 - [ ] SPD-02: prove and integrate the sm_75 Tensor-Core candidate.
 - [ ] SPD-03: prove causal fused attention.
@@ -491,15 +499,17 @@ variables with deployment values without publishing credentials.
 
 ```sh
 python3 scripts/launch.py --check
-python3 scripts/benchmark_second_brain.py --ollama "$OLLAMA_ORIGIN" --key-file "$AESIR_KEY_FILE" --model llama3.2:3b --ollama-gguf "$OLLAMA_GGUF" --context 4096 --samples 3 --output paired-32.json
+python3 scripts/benchmark_second_brain.py --ollama "$OLLAMA_ORIGIN" --key-file "$AESIR_KEY_FILE" --model llama3.2:3b --ollama-gguf "$OLLAMA_GGUF" --context 4096 --samples 3 --order grouped --residency as-is --output paired-32.json
 python3 scripts/benchmark_native.py --binary .aesir/launch/aesir --model llama3.2:3b --suite extended --max-tokens 128 --samples 3 --no-prefix-cache --output native-extended.json
 ```
 
-The paired script currently fixes its output ceiling at 32 and has no explicit
-cache-disable mode. The archived 128-token paired JSON came from an isolated
-measurement harness; SPD-00 must integrate that coverage into portable owned
-tooling. The native extended command measures AESIR alone and cannot establish a
-provider speed ranking.
+The baseline paired script fixed its output ceiling at 32. The first SPD-00
+slice now owns portable 32/128/256 controls, explicit order/residency and an
+observed native cache-disable intent; it cannot disable Ollama caching. The
+historical grouped/as-is command above preserves baseline policy. The original
+archived 128-token paired JSON came from an isolated measurement harness; refreshed
+portable evidence and commands are in docs/SPEED_MEASUREMENT.md. The native
+extended command measures AESIR alone and cannot establish a provider speed ranking.
 The native extended command starts a separate benchmark process and requires
 verified VRAM headroom. Schedule its isolated GPU-residency session; do not add
 it to already resident providers when the combined budget cannot fit. It does

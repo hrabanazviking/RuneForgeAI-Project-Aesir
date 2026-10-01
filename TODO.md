@@ -5,6 +5,12 @@
   3× stretch goals, ownership, dependencies and numerical/recovery gates.
 - [ ] SPD-00: integrate fair 32/128/256-token provider modes, independent
   full-model logits, stage timings and a measured hardware feasibility decision.
+- [x] First SPD-00 slice: portable balanced/seeded provider modes, full redacted
+  replies and failure-aware scoring; physical native stage/traffic/D2D measurements;
+  independent F32-expanded CPU reference for four strict-3B final-prompt vectors.
+  See [measurement operation](docs/SPEED_MEASUREMENT.md). Preserve packed-reference
+  failures and fixed budgets. Detailed tracing, complete cache/residency isolation,
+  second-session lead certification and broader numerical/quality gates stay open.
 - [ ] SPD-01/02: validate genuine matrix prefill and physical sm_75 Tensor-Core
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
@@ -12,8 +18,9 @@
 - [ ] SPD-08–10: validate concurrent throughput, thermal/recovery/memory soak
   and the complete refreshed provider lead before integration policy changes.
 
-This is a planning publication. Runtime capability statuses stay governed by the
-ledger. The focused SPD track fits inside the wider S01–S48 application program.
+The first measurement slice is implemented; the overall speed-lead program remains
+open. Runtime capability statuses stay governed by the ledger. The focused SPD
+track fits inside the wider S01–S48 application program.
 
 ## 2026-10-01 long-token and buffer acceptance
 
@@ -27,8 +34,9 @@ ledger. The focused SPD track fits inside the wider S01–S48 application progra
 - [x] Complete controlled fresh-prompt speed evidence, retaining raw failures
   and whole-response/count equality. Final remote CI/deployment are separately
   recorded by exact revision and binary checksum in publication artifacts.
-- [ ] Extend whole-model coverage to maximum context, longer generation, other
-  profiles/devices and an independent external full-model logit oracle.
+- [ ] Extend whole-model coverage to maximum context, longer generation and other
+  profiles/devices. The first SPD-00 oracle covers four 3B final-prompt vectors;
+  broader independent full-model coverage remains open.
 
 # Project A.E.S.I.R. — Evidence-Backed TODO
 

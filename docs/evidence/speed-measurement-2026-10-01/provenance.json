@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "owner": "performance scripts and opt-in tests",
+  "purpose": "First SPD-00 provider/stage/traffic/full-logit evidence; no new inference optimization",
+  "consumers": [
+    "docs/SPEED_MEASUREMENT.md",
+    "CAPABILITY_LEDGER.md",
+    "scripts/check_llama3_logits.py"
+  ],
+  "license_boundary": "Project-authored public prompts and measurement reports; model bytes are not redistributed. Model weights retain their upstream Llama 3.2 terms; reference/converter dependencies retain their own licenses.",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "runtime_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "physical_probe_sha256": "539893831512031cf67ce0d8b9d2fadcfd31d2b70fd323e06587de4b3ecfe5f8",
+  "original_probe_sha256": "13d90006e5fcd822f5a9f698a03e4fad039559728c06d6521413be2c88b12d49",
+  "measured_parent_revision": "2f630ade3cd426fd14753ddcd530084b07a265b6",
+  "measurement_worktree_dirty": true,
+  "source_files_sha256": {
+    "aesir_engine/tests/test_cuda_measurement.mojo": "33332c09370475afabb5ec20aded9b82b4adff6343fb4fb4d85c31ce485849a5",
+    "aesir_engine/tests/measurement_kernels.mojo": "a134db97a5c9bd4a238ec8f05352e39808e0ec0460ad9fdb33275ee056ec3029",
+    "scripts/check_llama3_logits.py": "ea29a173ab59622f8b7753bb292f91deca8c682ca726ea15ebcc121051e7f5d3",
+    "scripts/benchmark_second_brain.py": "eaf5a1df54f0f2a4335581d0e503f2e250852ca5100d54cd2972c8a5226b12a2",
+    "aesir_engine/tests/test_multi_engine.mojo": "4a76c24dfe8a7418dfd0bfcdbb88b499987b30ec20fe4c1556cd01c3584a09e6"
+  },
+  "source_identity_boundary": "Measurements run while this implementation was being completed on the scoped parent revision. Production binary is unchanged. Final source hashes describe the published tools; 32/128 series preceded the terminal-flag guard, and all saved Ollama terminals were independently revalidated as done=true. Derivation preceded the exclusive staging wrapper; real expansion hashes/logs and synthetic filesystem race tests establish separate boundaries.",
+  "native_pid": 456665,
+  "native_pid_socket_ownership": "Observed ss listener on 127.0.0.1:18434 owned by PID 456665; /proc executable hash matches validated local build.",
+  "csv_schema": "META/TRAFFIC/BANDWIDTH/BANDWIDTH_CHECK/INPUT/LOGIT/CASE/PASS, version 1",
+  "provider_schema_version": 2,
+  "oracle_schema_version": 1,
+  "sanitization": "Tool redacts native credentials and conversion source/destination paths. Copies are byte-identical to generated reports; no further payload or timing transformations. Private corpus, keys and absolute machine paths were checked absent. Added master/negative diagnostic logs mask checkout paths; their source hashes and transformations are separately listed.",
+  "boundaries": [
+    "Single Linux x86-64/sm_75 GPU host, four final-prompt 3B vectors through 1070 input tokens; no broad quality claim.",
+    "Provider ordering balanced, residency loaded; current caches enabled, templates and KV precision differ, one independent session per output ceiling.",
+    "D2D bandwidth and logical bytes are a conditional reference, not profiler counters or a guaranteed maximum.",
+    "Failed setup and packed-reference comparisons preserved; tolerances unchanged.",
+    "Original CSV used uniform copy data; final authoritative CSV uses nonuniform data and full word verification.",
+    "Large raw CSVs live in local outputs; original and derived models and probe binaries stay outside Git. No publicly downloadable large-CSV archive is claimed."
+  ],
+  "assets": [
+    {
+      "file": "oracle-setup-failure.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "e34c6cbb83a4be1c9dbe6b68c22155caa7eacf305b705c7f4db20fc07ba87224",
+      "bytes": 30503
+    },
+    {
+      "file": "oracle-packed-failure.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "4cccb908ebee4734879bae0ebee84c449efcd1ce64f82a0aa1485ee2046528ed",
+      "bytes": 32032
+    },
+    {
+      "file": "oracle-f32-derivation.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+      "bytes": 74725
+    },
+    {
+      "file": "oracle-final.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "10e08fb133919003c16581c8634d58ef7e61bef384ed4a4d77786407602bf83e",
+      "bytes": 32244
+    },
+    {
+      "file": "paired-32.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "946086bfd4698e36590f36dfa2a62176d81d922b443517c4b63904673b7a54a2",
+      "bytes": 64051
+    },
+    {
+      "file": "paired-128.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "cb7a7547fbaf4bfad15e1ff99e81caf964a0d4bd45f2275d529cf9b5ea9b9292",
+      "bytes": 396013
+    },
+    {
+      "file": "paired-256.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "5bb16655336448336ab287ee95a526cfbd79aa3b4d48ff70c1d3dfb1dec5c0cf",
+      "bytes": 160825
+    },
+    {
+      "file": "ollama-runner-observed.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "f9bae96b83790e1d2b90c8b6947ea2c756d637110d35ba8b3e0e1e60d0007136",
+      "bytes": 308
+    },
+    {
+      "file": "provider-tests.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "92b15f1eea8eeb4573b1fba5196b5424d49628c52acb3f380260776497e29bfd",
+      "bytes": 114
+    },
+    {
+      "file": "oracle-tests.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "7ca57fff39ddcd698806f291801317c50a78234cbcff485b15a77228d4f57427",
+      "bytes": 107
+    },
+    {
+      "file": "comparator-tests.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6",
+      "bytes": 102
+    },
+    {
+      "file": "native-final.csv",
+      "storage": "local user outputs only; regenerate with documented command",
+      "sha256": "5c2c398d5729d01fc82e8f6c773c01b0758b672f1186b319d087d64ac95dad89",
+      "bytes": 12305037
+    },
+    {
+      "file": "native-original.csv",
+      "storage": "local user outputs only; regenerate with documented command",
+      "sha256": "20a0e381e796a9600b779a616b226952bd62940042e1ffb4fe163872cac9c989",
+      "bytes": 12305039
+    },
+    {
+      "file": "master-final.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "a3adc98ea298a86f400d044336f4a2039404b1c529b565d4287b5f5524e47602",
+      "bytes": 34499,
+      "source_sha256": "a3adc98ea298a86f400d044336f4a2039404b1c529b565d4287b5f5524e47602",
+      "transformation": "None; byte-identical."
+    },
+    {
+      "file": "master-port-collision.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "f61aa0a0aef866db5db217e988eba4384ee4893b773665fc2717e6a4dbd4a9bc",
+      "bytes": 34703,
+      "source_sha256": "f4acbe37b14b9409121d9eeb22010cc2bb6e9f713a1e52ba8ea07094568f4459",
+      "transformation": "Checkout path masked in tool diagnostics; measurements unchanged."
+    },
+    {
+      "file": "negative-control.txt",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "999513dbb9ae8fc05af5f236acf385930b24496aa761edf5e7715badc8980622",
+      "bytes": 729,
+      "source_sha256": "559f4e46ef1df07046269e92a237b3b94d6cd7ba1966b71418bb0a798b9cdf0a",
+      "transformation": "Checkout path masked in tool diagnostics; measurements unchanged."
+    },
+    {
+      "file": "service-final.json",
+      "storage": "tracked public evidence and local outputs",
+      "sha256": "d4847cce5a0fe354353d176c230ff2b76c82266f486f551cdd1a4cf42228f17d",
+      "bytes": 484,
+      "source_sha256": "d4847cce5a0fe354353d176c230ff2b76c82266f486f551cdd1a4cf42228f17d",
+      "transformation": "None; byte-identical."
+    }
+  ]
+}

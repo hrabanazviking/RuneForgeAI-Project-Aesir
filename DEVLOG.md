@@ -1,3 +1,38 @@
+## 2026-10-01 — Sigrún: first SPD-00 measurement and independent 3B logits
+
+Added portable 32/128/256 provider suites with balanced/seeded/grouped order,
+observed residency, complete redacted replies, strict JSON/identity/count/terminal
+admission and failure-aware scoring. Fourteen real-socket/synthetic protocol tests
+and nine CSV/numerical/artifact-publication tests pass. The existing master socket
+test's collision with the active 18434 service is fixed by requesting and observing
+a test-owned OS-assigned port. The first master failure is preserved; production
+constructor/service policy is unchanged. The opt-in native probe uses one CUDA
+context and bounded checked D2D spans; every nonuniform copied word
+is verified. Host-monotonic actual-call timing isolates fresh prefill and generation
+loops from full-logit export/printing, with explicit attribution limits.
+
+Four strict-3B final-prompt vectors (513024 values through 1070 input tokens) pass
+the unchanged independent 0.05 maximum / 0.005 RMS / matching-argmax budgets.
+Actual worst errors are 0.0127416 / 0.0017844. The test-only pinned CPU reference
+uses explicit F32 expansion of the original packed weight values. Initial setup
+and packed-CPU numerical failures are retained; the latter's Q8_K activation dots
+are a different arithmetic reference. Original production compute/weights stay
+unchanged; neither Python nor an external engine enters native inference.
+
+Fresh 1070-token native prefill median is 12.687 seconds versus 3.615 seconds for
+128-token generation. Checked D2D bandwidth is 238.42 GB/s; logical active packed
+traffic supplies an 8.44 ms conditional reference, not a guaranteed hardware
+ceiling. All 84 refreshed installed-service requests complete. Cached 32-token
+text slightly favors native in this session; sustained 128/256 still favors
+Ollama. The long 256-ceiling case reaches unequal early EOS and is unscored.
+No quality parity, general speed lead, policy change or new faster kernel claimed.
+
+Read docs/SPEED_MEASUREMENT.md and its public evidence folder for operation,
+derivation, retained failures, hashes and remaining gates. Whole SPD-00 remains
+open for detailed tracing, full cache/residency isolation and multi-session/wider
+quality coverage before SPD-01 matrix prefill. Final local gates, pushed revision
+and exact remote CI are separate publication receipts.
+
 ## 2026-10-01 — Sigrún: measured AESIR speed-lead roadmap
 
 Published a documentation-only performance program in ROADMAP_AESIR_SPEED_LEAD.md.

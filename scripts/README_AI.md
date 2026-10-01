@@ -1,8 +1,9 @@
 # Aesir build, deployment and verification tooling
 
 These Python programs prepare, launch or independently test the native Mojo
-engine. They never supply model inference or substitute Ollama answers for
-native execution. launch.py owns the frozen offline build/checksum gate.
+engine. They never supply production native inference or substitute Ollama answers
+for native execution. Optional independent CPU inference is explicitly test-only.
+launch.py owns the frozen offline build/checksum gate.
 second_brain_service.py validates an explicit policy and registered model through
 that gate and the native settings preview, then writes one new user-systemd unit.
 It refuses overwrites, does not create or disclose keys, and does not enable the
@@ -36,3 +37,10 @@ NumPy 2.4.4. See ../docs/NATIVE_LONG_TOKENS.md for buffer cost and recovery limi
 
 The optional stress benchmark suite exercises a 3150-token public prompt and
 128-token output ceiling at context4096; preserve standard/extended defaults.
+
+For the connected SPD-00 tools, schemas, optional independent CPU oracle, safe
+F32 reference expansion and failure-aware provider modes, read [INTERFACE.md](INTERFACE.md)
+and [the measurement manual](../docs/SPEED_MEASUREMENT.md). The optional reference
+is exclusively test-side. It never supplies native production inference. Balanced
+provider ordering is the new default; grouped mode reproduces historical ordering.
+All broad speed/quality/controlled-cache gates remain explicitly scoped.
