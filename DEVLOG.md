@@ -1,3 +1,26 @@
+## 2026-10-01 — Sigrún: bounded long-token prefill and compact buffers
+
+Strict Llama3.2 3B now uses four-token layer-major CUDA prefill. Each aligned
+Q4/Q5/Q6 weight block is decoded once for four independent original-order sums.
+Checked disjoint intermediates share scores/logits, adding396KiB; KV stays F16
+and unchanged. Final prompt logits remain fresh. Only synchronized tiles commit;
+GPU failure poisons reuse and cooperative controls poll at four-token boundaries.
+Other dense profiles keep sequential defaults; explicit unsupported four fails.
+Facade owns exported memory reporting; authenticated health exposes actual batch.
+
+Fresh237/32 work drops6.354 to3.500s;1070/128 drops29.565 to16.261s;3150/128
+drops96.501 to52.037s. All26 fresh and20 cached paired replies/counts match.
+Cached timings remain roughly flat/slightly slower; no decode-only win claimed.
+Attention mixed-history trace drops4.8890 to2.0455ms, with small-history/register
+tradeoffs documented. Ready GPU2468 versus2466MiB. Real native full-logit parity
+covers641280 values, independent long-attention65536 values, projection2952rows/
+5616guards and35 real dot products. Master187/0/1,total188; negative control,
+seven prefix/reset cases, service faults and29 API fixtures pass. Build cleanup
+retains the exact measured checksum. Full external logits, maximum-context full
+inference, broad devices/models and context recreation remain separate gates.
+See docs/NATIVE_LONG_TOKENS.md and its raw evidence. Final remote CI/deployment
+are separately recorded by exact revision and binary checksum.
+
 ## 2026-10-01 — Sigrún: native kernel efficiency and evidence gates
 
 Packed byte fields now use proven bounded Int32 arithmetic while every pointer,

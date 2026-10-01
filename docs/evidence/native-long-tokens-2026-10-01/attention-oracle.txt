@@ -1,0 +1,25 @@
+PASS count=1 heads=8: 1024 values, max_absolute_error=2.23606017e-07
+PASS count=1 heads=24: 3072 values, max_absolute_error=3.0896622e-07
+PASS count=1 heads=32: 4096 values, max_absolute_error=3.0896622e-07
+PASS count=7 heads=8: 1024 values, max_absolute_error=2.18851822e-07
+PASS count=7 heads=24: 3072 values, max_absolute_error=2.18851822e-07
+PASS count=7 heads=32: 4096 values, max_absolute_error=2.18851822e-07
+PASS count=31 heads=8: 1024 values, max_absolute_error=9.73514293e-08
+PASS count=31 heads=24: 3072 values, max_absolute_error=9.73514293e-08
+PASS count=31 heads=32: 4096 values, max_absolute_error=9.73514293e-08
+PASS count=32 heads=8: 1024 values, max_absolute_error=9.77497724e-08
+PASS count=32 heads=24: 3072 values, max_absolute_error=9.77497724e-08
+PASS count=32 heads=32: 4096 values, max_absolute_error=9.77497724e-08
+PASS count=33 heads=8: 1024 values, max_absolute_error=8.86974802e-08
+PASS count=33 heads=24: 3072 values, max_absolute_error=9.20488052e-08
+PASS count=33 heads=32: 4096 values, max_absolute_error=9.20488052e-08
+PASS count=1024 heads=8: 1024 values, max_absolute_error=2.07669823e-08
+PASS count=1024 heads=24: 3072 values, max_absolute_error=2.07669823e-08
+PASS count=1024 heads=32: 4096 values, max_absolute_error=2.07669823e-08
+PASS count=4096 heads=8: 1024 values, max_absolute_error=1.41743921e-08
+PASS count=4096 heads=24: 3072 values, max_absolute_error=1.41743921e-08
+PASS count=4096 heads=32: 4096 values, max_absolute_error=1.41743921e-08
+PASS count=8192 heads=8: 1024 values, max_absolute_error=1.27354952e-08
+PASS count=8192 heads=24: 3072 values, max_absolute_error=1.28155065e-08
+PASS count=8192 heads=32: 4096 values, max_absolute_error=1.28155065e-08
+PASS: 65536 physical long-attention values, independent maximum_absolute_error=3.0896622e-07

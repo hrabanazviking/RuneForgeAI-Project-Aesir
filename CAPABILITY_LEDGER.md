@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 186 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 187, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 187 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 188, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
@@ -1305,7 +1305,7 @@ and circular self-parity transforms were removed.
   specialization passes the same 35 real-weight oracle values; 52,210 physical
   RoPE/residual/SiLU/GQA values match independent NumPy calculations. Full-model
   logits, Gemma on Turing and arbitrary GPU/model support remain unproved.
-- **Next acceptance gate:** Broader model/hardware coverage, independent full-model logits, long-generation/context tests and optimized batched prefill.
+- **Next acceptance gate:** Broader model/hardware coverage, independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
@@ -1575,6 +1575,23 @@ and circular self-parity transforms were removed.
   equations. The new comparator refuses invalid/mismatched evidence. Status stays
   partial; full logits, batched prefill and broader devices/models remain open.
   See [efficiency operation and verification](docs/NATIVE_EFFICIENCY.md).
+
+
+- **Long-token subset (2026-10-01):** Checked compact DenseBufferLayout accounts
+  for four disjoint token spans with shared logits/scores; its strict 3B tile adds
+  405504 bytes while preserving F16 KV. Layer-major four-token prefill decodes
+  aligned Q4/Q5/Q6 weights once per tile and preserves causal KV, sampling order
+  and synchronized commits. The real 3B fixture passes 641280 exact native
+  sequential/tiled logits, five completions, restored continuation and invalid
+  tile non-mutation. Fresh1070/128 and3150/128 requests improve1.82/1.85x,
+  while46 paired fresh/cached replies match and cached timings remain near flat.
+  Four projection covers 2952 scalar-reference rows/5616 guards.
+  Long attention passes 24 exact reference cases and 65536 independent NumPy
+  values up to synthetic history8192 (maximum absolute error3.0896622e-7).
+  Pure buffer admission, seven prefix/deadline/reset completions, real service
+  faults and 29 API fixtures pass. Status stays partial: native regression logits
+  do not certify independent external full-model logits, maximum-context full
+  inference or broader models/devices. See [long-token manual](docs/NATIVE_LONG_TOKENS.md).
 
 
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety

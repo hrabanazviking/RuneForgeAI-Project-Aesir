@@ -107,3 +107,7 @@ very long contexts and in-process CUDA context recreation remain open. Preserve
 process replacement for model switching and fail-closed poisoned-session behavior.
 Keep the existing second-brain provider policy until representative paired
 measurements justify a change. No universal optimality or broad Ollama advantage.
+
+The subsequent bounded four-token prefill and compact scratch slice is documented
+in [NATIVE_LONG_TOKENS.md](NATIVE_LONG_TOKENS.md). Earlier no-extra-buffer claims
+above apply to the preceding arithmetic/RMS slice.

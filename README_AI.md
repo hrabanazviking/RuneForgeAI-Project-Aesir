@@ -20,7 +20,8 @@ local physical tests must prove their actual execution separately.
 
 Rebuild after final Mojo edits. Serialize GPU probes and benchmarks. Preserve
 all raw failures, compare identical model/control/request/reply work and verify
-the exact pushed CI revision. Leave full-model independent logits, true batched
-prefill, broader-device speeds and locked-runtime context recreation open until
+the exact pushed CI revision. For four-token 3B prefill and compact checked buffers read
+docs/NATIVE_LONG_TOKENS.md. Leave full-model independent logits, broader-profile
+batched prefill, broader-device speeds and locked-runtime context recreation open until
 their own acceptance gates pass. Keep private API keys and source corpus out of
 repository commits, reports and prompts.

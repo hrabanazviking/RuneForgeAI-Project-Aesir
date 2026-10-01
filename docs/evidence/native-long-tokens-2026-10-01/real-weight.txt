@@ -1,0 +1,2 @@
+[CUDA] native Mojo Llama 3.2 3B; device=0 api=cuda layers=28/28 weights_bytes=2019377376 kv_bytes=58720256 context=512 host_staging_bytes=67108864 cpu_offload=0
+CUDA packed Q4_K/Q5_K/Q6_K parity: PASS; cases= 35 max_absolute_error= 2.9802322e-07

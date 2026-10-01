@@ -1,0 +1,14 @@
+[CUDA] native Mojo Llama 3.2 3B; device=0 api=cuda layers=28/28 weights_bytes=2019377376 kv_bytes=58720256 context=512 host_staging_bytes=67108864 cpu_offload=0
+prefix case 0 enabled False
+prefix case 1 enabled False
+prefix case 2 enabled False
+prefix case 3 enabled False
+prefix case 4 enabled False
+prefix case 5 enabled False
+prefix case 0 enabled True
+prefix case 1 enabled True
+prefix case 2 enabled True
+prefix case 3 enabled True
+prefix case 4 enabled True
+prefix case 5 enabled True
+PASS: seven cached/fresh CUDA replies, divergence/system isolation, sampled replay and timeout/reset recovery

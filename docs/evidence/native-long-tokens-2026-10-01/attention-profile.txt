@@ -1,0 +1,37 @@
+==453670== NVPROF is profiling process 453670, command: <local-evidence>/attention-probe
+==453670== Profiling application: <local-evidence>/attention-probe
+==453670== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   77.29%  25.728ms        48  536.01us  1.2800us  5.1687ms  [CUDA memcpy HtoD]
+                   14.69%  4.8890ms        24  203.71us  2.8160us  1.0436ms  core_llama3_kernels_llama_atte6A6A6A6A_3c8bf4d90fb53fc3
+                    6.14%  2.0455ms        24  85.228us  2.8800us  417.96us  core_llama3_kernels_llama_atte6A6A6A6A_a6bf5d922a2cbd18
+                    1.88%  627.20us        24  26.133us  1.9200us  165.57us  [CUDA memcpy DtoH]
+      API calls:   82.54%  910.44ms         1  910.44ms  910.44ms  910.44ms  cuMemAllocHost
+                   13.65%  150.59ms         1  150.59ms  150.59ms  150.59ms  cuDevicePrimaryCtxRetain
+                    2.93%  32.340ms        25  1.2936ms  3.5570us  6.6969ms  cuStreamSynchronize
+                    0.36%  3.9626ms        48  82.554us  1.4720us  216.34us  cuMemAlloc
+                    0.27%  3.0153ms        48  62.818us  2.6650us  194.34us  cuMemFree
+                    0.06%  641.16us        48  13.357us  2.7750us  44.243us  cuLaunchKernelEx
+                    0.05%  573.69us        48  11.951us  2.5250us  34.395us  cuMemcpyHtoDAsync
+                    0.03%  280.52us       144  1.9480us     631ns  18.474us  cuMemCreate
+                    0.02%  259.50us         2  129.75us  99.557us  159.94us  cuModuleLoadDataEx
+                    0.02%  248.36us       207  1.1990us     341ns  10.480us  cuEventQuery
+                    0.02%  207.33us       144  1.4390us     330ns  10.870us  cuEventRecord
+                    0.01%  112.53us       603     186ns      80ns  6.2220us  cuStreamIsCapturing
+                    0.01%  104.79us        24  4.3660us  2.8850us  6.8430us  cuMemcpyDtoHAsync
+                    0.01%  98.498us       936     105ns      70ns  2.7650us  cuCtxGetCurrent
+                    0.00%  42.549us         1  42.549us  42.549us  42.549us  cuStreamCreate
+                    0.00%  24.977us         1  24.977us  24.977us  24.977us  cuStreamDestroy
+                    0.00%  20.408us         1  20.408us  20.408us  20.408us  cuMemAddressReserve
+                    0.00%  17.795us       144     123ns      80ns     381ns  cuGetErrorName
+                    0.00%  12.940us       144      89ns      71ns     211ns  cuGetErrorString
+                    0.00%  3.9870us         4     996ns     401ns  1.7130us  cuEventCreate
+                    0.00%  3.9170us         1  3.9170us  3.9170us  3.9170us  cuDeviceGetPCIBusId
+                    0.00%  2.5850us         5     517ns     150ns  1.1220us  cuDeviceGetAttribute
+                    0.00%  2.3140us         2  1.1570us     110ns  2.2040us  cuMemGetAllocationGranularity
+                    0.00%  1.5130us         2     756ns     131ns  1.3820us  cuDeviceGet
+                    0.00%  1.0120us         2     506ns     121ns     891ns  cuDeviceGetCount
+                    0.00%     992ns         1     992ns     992ns     992ns  cuDriverGetVersion
+                    0.00%     961ns         2     480ns     330ns     631ns  cuModuleGetFunction
+                    0.00%     821ns         1     821ns     821ns     821ns  cuCtxSetCurrent
+                    0.00%     771ns         2     385ns     200ns     571ns  cuFuncSetAttribute

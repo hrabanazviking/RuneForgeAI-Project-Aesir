@@ -30,6 +30,13 @@ def validate(report):
             or health["capabilities"]["exact_prefix_reuse"] != report["prefix_cache"]
             or report["prefix_cache_requested"] != report["prefix_cache"]):
         raise ValueError("Invalid native model or policy identity")
+    batch = health.get("prefill_batch", 1)
+    requested = report.get("prefill_batch_requested")
+    if type(batch) is not int or batch not in (1, 4):
+        raise ValueError("Invalid observed prefill policy")
+    if requested is not None and (type(requested) is not int
+                                  or requested not in (1, 4) or requested != batch):
+        raise ValueError("Requested and observed prefill policy mismatch")
     groups = {}
     for sample in report["samples"]:
         seconds = sample["seconds"]
@@ -60,12 +67,20 @@ def validate(report):
     return groups
 
 
-def compare(before, after):
+def compare(before, after, allow_prefill_change=False):
     old, new = validate(before), validate(after)
     if before.get("suite", "standard") != after.get("suite", "standard"):
         raise ValueError("Comparison benchmark suite mismatch")
+    old_health, new_health = before["health"].copy(), after["health"].copy()
+    old_batch, new_batch = old_health.pop("prefill_batch", 1), new_health.pop("prefill_batch", 1)
+    if old_batch not in (1, 4) or new_batch not in (1, 4):
+        raise ValueError("Invalid observed prefill policy")
+    if old_batch != new_batch and not allow_prefill_change:
+        raise ValueError("Prefill policy changed without explicit comparison intent")
+    if old_health != new_health:
+        raise ValueError("Comparison health policy mismatch")
     for field in ("model", "context", "samples_per_case", "system", "max_tokens",
-                  "sampling", "prefix_cache", "health"):
+                  "sampling", "prefix_cache"):
         if before[field] != after[field]:
             raise ValueError("Comparison policy mismatch: " + field)
     if list(old) != list(new) or len(before["samples"]) != len(after["samples"]):
@@ -84,6 +99,7 @@ def compare(before, after):
             "after_binary_sha256": after["binary_sha256"],
             "model_digest": before["health"]["model_digest"],
             "prefix_cache": before["prefix_cache"],
+            "before_prefill_batch": old_batch, "after_prefill_batch": new_batch,
             "matched_replies": len(before["samples"]), "cases": cases,
             "limits": "Same-policy native HTTP wall time; excludes one warmup per case. Small samples and device/thermal variance apply. No independent full-model logits or broad model/device speed claim."}
 
@@ -92,11 +108,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--before", required=True, type=Path)
     parser.add_argument("--after", required=True, type=Path)
+    parser.add_argument("--allow-prefill-batch-change", action="store_true")
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     with args.output.open("x", encoding="utf-8") as target:
         try:
-            result = compare(json.loads(args.before.read_text()), json.loads(args.after.read_text()))
+            result = compare(json.loads(args.before.read_text()), json.loads(args.after.read_text()), args.allow_prefill_batch_change)
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
             result = {"status": "failed", "reason": str(error)}
         json.dump(result, target, indent=2)

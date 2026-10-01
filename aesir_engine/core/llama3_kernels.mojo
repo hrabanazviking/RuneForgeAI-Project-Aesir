@@ -145,3 +145,32 @@ def llama_attention(a: Floats, kv: Halves, scores_arg: Int64, dst_arg: Int64,
         for t in range(Int(count_arg)):
             total += a.unsafe_load(Int(scores_arg) + head * Int(count_arg) + t) * kv.unsafe_load(base + t * kv_width).cast[DType.float32]()
         a.unsafe_store(Int(dst_arg) + i, total)
+
+
+def llama_attention_tiled(a: Floats, kv: Halves, scores_arg: Int64, dst_arg: Int64,
+                    offset_arg: Int64, capacity_arg: Int64, count_arg: Int64,
+                    head_dim_arg: Int64, query_heads_arg: Int64,
+                    kv_heads_arg: Int64):
+    """Four independent KV loads, original chronological F32 accumulation."""
+    var i = Int(global_idx.x)
+    var head_dim = Int(head_dim_arg)
+    var count = Int(count_arg)
+    var kv_width = Int(kv_heads_arg) * head_dim
+    if i < Int(query_heads_arg) * head_dim:
+        var head = i // head_dim
+        var kv_head = head * Int(kv_heads_arg) // Int(query_heads_arg)
+        var base = Int(offset_arg) + Int(capacity_arg) * kv_width + kv_head * head_dim + i % head_dim
+        var scores = Int(scores_arg) + head * count
+        var total: Float32 = 0
+        for t in range(0, count // 4 * 4, 4):
+            var v0 = a.unsafe_load(scores + t) * kv.unsafe_load(base + t * kv_width).cast[DType.float32]()
+            var v1 = a.unsafe_load(scores + t + 1) * kv.unsafe_load(base + (t + 1) * kv_width).cast[DType.float32]()
+            var v2 = a.unsafe_load(scores + t + 2) * kv.unsafe_load(base + (t + 2) * kv_width).cast[DType.float32]()
+            var v3 = a.unsafe_load(scores + t + 3) * kv.unsafe_load(base + (t + 3) * kv_width).cast[DType.float32]()
+            total += v0
+            total += v1
+            total += v2
+            total += v3
+        for t in range(count // 4 * 4, count):
+            total += a.unsafe_load(scores + t) * kv.unsafe_load(base + t * kv_width).cast[DType.float32]()
+        a.unsafe_store(Int(dst_arg) + i, total)

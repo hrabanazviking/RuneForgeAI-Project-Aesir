@@ -1,3 +1,18 @@
+## 2026-10-01 long-token and buffer acceptance
+
+- [x] Publish task contract before implementation; preserve working binary.
+- [x] Add bounded four-token prefill only for exercised strict 3B profile.
+- [x] Check compact disjoint spans, actual bytes, context/tile bounds and overflow.
+- [x] Physically compare all native sequential/tiled logits in five cases,
+  greedy/seeded replies and exact-token restore continuation.
+- [x] Prove four-projection tails, long-attention reference/independent equations,
+  invalid-tile non-mutation and deadline/reset/API recovery.
+- [x] Complete controlled fresh-prompt speed evidence, retaining raw failures
+  and whole-response/count equality. Final remote CI/deployment are separately
+  recorded by exact revision and binary checksum in publication artifacts.
+- [ ] Extend whole-model coverage to maximum context, longer generation, other
+  profiles/devices and an independent external full-model logit oracle.
+
 # Project A.E.S.I.R. — Evidence-Backed TODO
 
 ## Native efficiency follow-up — 2026-10-01

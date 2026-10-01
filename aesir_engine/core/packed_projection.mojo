@@ -8,6 +8,7 @@ from std.memory import Pointer
 from std.gpu import global_idx
 from std.gpu.primitives import warp
 from core.packed_quantization import Bytes, packed_block_group
+from std.collections import InlineArray
 
 comptime ProjectionFloats = Pointer[Float32, MutUntrackedOrigin]
 
@@ -36,3 +37,32 @@ def block_matvec_kernel[kind: Int](
         total = warp.sum(total)
         if lane == 0:
             a.unsafe_store(Int(dst_arg) + row, total)
+
+
+def four_matvec_kernel[kind: Int](
+    w: Bytes, a: ProjectionFloats, base_arg: Int64, columns_arg: Int64,
+    rows_arg: Int64, src_arg: Int64, dst_arg: Int64, stride_arg: Int64
+):
+    """Decode once for four independent original-order row dot products."""
+    comptime assert kind == 12 or kind == 13 or kind == 14
+    comptime block_bytes = 144 if kind == 12 else (176 if kind == 13 else 210)
+    var row = Int(global_idx.x) // 32
+    var lane = Int(global_idx.x) % 32
+    var columns = Int(columns_arg)
+    if row < Int(rows_arg):
+        var totals = InlineArray[Float32, 4](fill=0)
+        var first = Int(base_arg) + row * (columns // 256) * block_bytes
+        for block in range(columns // 256):
+            var p = first + block * block_bytes
+            var d = w.unsafe_offset(p + (208 if kind == 14 else 0)).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+            var dmin: Float32 = 0
+            comptime if kind != 14:
+                dmin = w.unsafe_offset(p + 2).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+            comptime for group in range(8):
+                var value = packed_block_group[kind, group](w, p, lane, d, dmin)
+                comptime for token in range(4):
+                    totals[token] += value * a.unsafe_load(Int(src_arg) + token * Int(stride_arg) + block * 256 + group * 32 + lane)
+        comptime for token in range(4):
+            var total = warp.sum(totals[token])
+            if lane == 0:
+                a.unsafe_store(Int(dst_arg) + token * Int(stride_arg) + row, total)

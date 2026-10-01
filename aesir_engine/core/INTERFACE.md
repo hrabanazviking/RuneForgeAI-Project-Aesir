@@ -1059,3 +1059,23 @@ weight spans and in-place/disjoint activation spans. It schedules four independe
 loads per tile, preserving the scalar lane sum and final warp reduction. Production
 norm_at selects 128/3072/4096; other widths retain norm_kernel. No extra GPU buffer
 or public transport/state contract is introduced. See docs/NATIVE_EFFICIENCY.md.
+
+## Bounded four-token prefill and compact spans (2026-10-01)
+
+DenseBufferLayout(profile, context, requested=0) owns checked additions/products,
+profile context bounds and disjoint per-token intermediates, followed by shared
+logits and scores. effective_prefill_batch accepts auto/1/4; auto selects four
+only for strict Llama 3.2 3B, one for other dense profiles. Unsupported explicit
+four raises. token_base validates allocated tile bounds. Byte counts feed native
+memory admission. Llama3CUDASession adds prefill_batch=0 and buffers observations.
+
+project_four borrows validated tensor spans and decodes aligned Q4/Q5/Q6 blocks
+once for four original-order accumulators; fallback invokes existing projections.
+prefill_four(tokens,start) validates all four IDs/bounds before mutation, marks
+unhealthy before enqueue, preserves per-token causal KV order and commits only
+after synchronization. Shared scores never outlive their token's queued attention.
+Final prompt logits remain fresh. begin_turn and restore_conversation use complete
+tiles when admitted. Deadline/cancellation checks bound prefill to four-token
+boundaries; failure poison and interrupted-prefill reset remain required.
+llama_attention_tiled preserves chronological F32 accumulation with F16 values
+and guarded tails; original kernels remain. See docs/NATIVE_LONG_TOKENS.md.

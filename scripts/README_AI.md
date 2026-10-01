@@ -27,3 +27,12 @@ request/reply sequences and actual model/policy identity, recomputes warm median
 and refuses ratios on errors or mismatch. Its synthetic mutation tests prove only
 evidence validation. check_dense_normalization.py is an independent standard-library
 oracle for physical probe output. See ../docs/NATIVE_EFFICIENCY.md for commands.
+
+benchmark_native.py --prefill-batch 1|4 requests and verifies observed startup
+policy. compare_native_benchmarks.py --allow-prefill-batch-change allows only that
+declared change while preserving all other policy and complete-response gates.
+check_long_attention.py independently verifies the physical CSV with test-only
+NumPy 2.4.4. See ../docs/NATIVE_LONG_TOKENS.md for buffer cost and recovery limits.
+
+The optional stress benchmark suite exercises a 3150-token public prompt and
+128-token output ceiling at context4096; preserve standard/extended defaults.

@@ -1,0 +1,1 @@
+PASS: CUDA Q4_K/Q5_K/Q6_K block/reference exact parity; 2952 rows, 5616 tail guards

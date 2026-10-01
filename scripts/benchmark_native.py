@@ -36,6 +36,11 @@ EXTENDED_PROMPTS = {
 }
 
 
+STRESS_PROMPTS = {
+    "near_context": PROMPTS["long_prompt"].split("Summarize the reliability", 1)[0] * 15
+                    + "Summarize the reliability principles in a detailed paragraph.",
+}
+
 def request(port, key, payload=None):
     connection = http.client.HTTPConnection("127.0.0.1", port, timeout=180)
     started = time.perf_counter()
@@ -55,14 +60,14 @@ def request(port, key, payload=None):
 
 
 def measure(args):
-    prompts = EXTENDED_PROMPTS if args.suite == "extended" else PROMPTS
+    prompts = {"standard": PROMPTS, "extended": EXTENDED_PROMPTS, "stress": STRESS_PROMPTS}[args.suite]
     binary = args.binary.resolve(strict=True)
     with binary.open("rb") as stream:
         identity = hashlib.file_digest(stream, "sha256").hexdigest()
     report = {"binary_sha256": identity, "model": args.model,
               "context": args.context, "samples_per_case": args.samples,
               "system": "You are concise.", "max_tokens": args.max_tokens,
-              "suite": args.suite,
+              "suite": args.suite, "prefill_batch_requested": args.prefill_batch,
               "prefix_cache_requested": not args.no_prefix_cache,
               "sampling": "temperature=0; repetition_penalty=1; seed=42",
               "samples": [], "errors": [],
@@ -84,6 +89,8 @@ def measure(args):
                 "--context", str(args.context), "--max-tokens", str(args.max_tokens),
                 "--temperature", "0", "--timeout-ms", "120000",
             ]
+            if args.prefill_batch is not None:
+                command.extend(["--prefill-batch", str(args.prefill_batch)])
             if args.no_prefix_cache:
                 command.append("--no-prefix-cache")
             process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT)
@@ -103,6 +110,8 @@ def measure(args):
                     time.sleep(.1)
                 if health.get("model") != args.model or health.get("context") != args.context:
                     raise ValueError("Loaded model/context differs from requested benchmark")
+                if args.prefill_batch is not None and health.get("prefill_batch", 1) != args.prefill_batch:
+                    raise ValueError("Native service ignored explicit prefill policy")
                 report["readiness_seconds"] = time.perf_counter() - started
                 report["health"] = health
                 report["prefix_cache"] = health.get("capabilities", {}).get("exact_prefix_reuse")
@@ -175,7 +184,8 @@ def main():
     parser.add_argument("--model", required=True)
     parser.add_argument("--context", type=int, default=4096)
     parser.add_argument("--samples", type=int, default=3)
-    parser.add_argument("--suite", choices=("standard", "extended"), default="standard")
+    parser.add_argument("--prefill-batch", type=int, choices=(1, 4))
+    parser.add_argument("--suite", choices=("standard", "extended", "stress"), default="standard")
     parser.add_argument("--max-tokens", type=int, default=32)
     parser.add_argument("--no-prefix-cache", action="store_true")
     parser.add_argument("--output", required=True, type=Path)

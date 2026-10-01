@@ -245,3 +245,7 @@ one session and serializes all mutation; this does not make sessions thread-safe
 `serve` is a foreground loopback command requiring an API key file; `daemon`
 remains rejected. SIGINT/SIGTERM terminate cooperatively. API details and
 production limitations are in `docs/NATIVE_SERVICE.md`.
+
+The facade also exports llama3_memory_plan(weights,context,profile,prefill_batch=0)
+for actual loaded dense scratch accounting. CLI imports this facade rather than
+compute internals; profile admission and arithmetic remain owned by core.

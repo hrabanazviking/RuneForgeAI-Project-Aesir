@@ -121,6 +121,8 @@ and timeout/reset recovery. Native-service and API probes separately cover actua
 authenticated sockets, seeded replay, rejection, deadlines, disconnects, shutdown
 and streaming. Hosted CI compiles physical probes without claiming GPU execution.
 
-Further acceptance work includes batched matrix prefill, representative long-context
-attention, full independent logits, broader models/devices and context recreation.
+The strict 3B four-token prefill and synthetic long-attention gates are now in
+[NATIVE_LONG_TOKENS.md](NATIVE_LONG_TOKENS.md). Further acceptance work includes
+broader-profile batching, maximum-context whole-model inference, full independent
+logits, broader models/devices and context recreation.
 No universal optimality, CPU speed, Gemma-on-Turing or all-model/device claim.

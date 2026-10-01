@@ -1,0 +1,15 @@
+[CASE FAIL] negative_control.intentional_failure :: intentional CI negative-control failure
+
+==============================================
+  Grand Proving Counted Summary
+==============================================
+Failure details:
+ - negative_control.intentional_failure :: intentional CI negative-control failure
+[SUMMARY] Passed: 0
+[SUMMARY] Failed: 1
+[SUMMARY] Skipped: 0
+[SUMMARY] Total: 1
+[SUMMARY] Status: FAIL
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Grand Proving recorded one or more failed cases
+<local-checkout>/.pixi/envs/default/bin/mojo: error: execution exited with a non-zero result: 1

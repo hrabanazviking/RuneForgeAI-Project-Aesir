@@ -369,3 +369,15 @@ divergence, system framing, seeded sampling, repetition settings and deadline/re
 recovery. It does not prove in-process CUDA context recreation. The separate real
 GGUF row oracle and HTTP/service probes remain required. CI compiles these probes;
 physical execution requires the documented compatible device and supplied model.
+
+## Long-token and buffer probes (2026-10-01)
+
+core.dense_buffer_layout is a pure counted master case for compact checked spans,
+byte counts, context/tile/default bounds and overflow. test_four_projection.mojo
+executes 2952 exact reference rows/5616 guards. test_long_attention.mojo covers
+24 chronological reference cases and emits 65536 complete values for independent
+check_long_attention.py (NumPy 2.4.4). test_cuda_prefill.mojo uses one owning CUDA
+context and compares 641280 full logits, five completions, exact-token restore and
+invalid-tile non-mutation. Native sequential logits are a regression reference,
+not an external whole-model oracle. CI compiles opt-in probes; physical execution
+and speed require separate hardware evidence. See docs/NATIVE_LONG_TOKENS.md.

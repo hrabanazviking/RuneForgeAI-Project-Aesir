@@ -31,6 +31,26 @@ class ComparisonTests(unittest.TestCase):
         self.assertEqual(result["matched_replies"], 3)
         self.assertEqual(result["cases"]["test"]["speed_ratio"], 2)
 
+    def test_explicit_prefill_change_keeps_reply_and_policy_gates(self):
+        a, b = evidence(), evidence()
+        b["health"]["prefill_batch"] = 4
+        with self.assertRaises(ValueError):
+            compare(a, b)
+        self.assertEqual(compare(a, b, True)["after_prefill_batch"], 4)
+        b["samples"][1]["reply"]["text"] = "Five."
+        with self.assertRaises(ValueError):
+            compare(a, b, True)
+
+    def test_prefill_admission_intent_is_not_ignored(self):
+        for observed, requested in ((True, None), (2, None), (4, 1), (1, 4),
+                                    (4, True), (4, "4")):
+            with self.subTest(observed=observed, requested=requested):
+                a, b = evidence(), evidence()
+                b["health"]["prefill_batch"] = observed
+                b["prefill_batch_requested"] = requested
+                with self.assertRaises(ValueError):
+                    compare(a, b, True)
+
     def test_fail_closed_mutations(self):
         mutations = [
             lambda r: r["errors"].append("Timeout"),

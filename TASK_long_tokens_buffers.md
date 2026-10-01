@@ -55,3 +55,16 @@ TODO, DEVLOG and human/AI manuals. Keep broad models/devices, full independent
 external model logits, quantized KV and in-process context recreation unverified
 until their own gates pass. Numerical equivalence to Aesir's sequential reference
 is distinct from an independent external whole-model oracle.
+
+## Implemented outcome and evidence
+
+Four-token prefill, checked compact spans, shared logits/scores, chronological
+attention scheduling and explicit observed batch controls are implemented.
+Physical gates, exact native full logits, independent long-attention math,
+real weights and service/API recovery pass. Fresh long-prompt requests improve
+1.82–1.85x in this controlled subset; cached requests remain roughly flat.
+Scratch adds396KiB and KV is unchanged. Source/scalar references are preserved.
+See docs/NATIVE_LONG_TOKENS.md and docs/evidence/native-long-tokens-2026-10-01.md
+for actual checksums, measurements, development failures, limits and commands.
+Final remote CI and live deployment are separately verified by exact publication
+revision and binary checksum; they are not inferred from the local gates.

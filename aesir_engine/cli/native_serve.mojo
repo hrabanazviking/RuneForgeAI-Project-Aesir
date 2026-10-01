@@ -2,7 +2,8 @@
 from std.ffi import external_call
 from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    NativeSamplingConfig, ControlledTextSession, GenerationControl,
-                   choose_native_cuda_plan, bounded_decimal, monotonic_milliseconds)
+                   choose_native_cuda_plan, bounded_decimal, monotonic_milliseconds,
+                   llama3_memory_plan)
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.sampling_options import with_sampling_option
 from cli.sampling import sampling_option_name
@@ -238,7 +239,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
-        prefix_cache: Bool = False) raises:
+        prefix_cache: Bool = False, prefill_batch: Int = 1) raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var stop = GenerationControl(0, interrupt_fd)
@@ -435,7 +436,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + "},\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "POST" and head.path == "/v1/generate":
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -536,6 +537,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var queue_timeout_ms = 30000
     var ollama = False
     var prefix_cache = True
+    var prefill_batch = 0
     var model_store = String(".aesir/models")
     var sampling = NativeSamplingConfig()
     var system = String("")
@@ -585,6 +587,10 @@ def dispatch_native_serve(args: List[String]) raises:
             io_timeout_ms = bounded_decimal(value)
         elif flag == "--max-tokens":
             token_limit = bounded_decimal(value)
+        elif flag == "--prefill-batch":
+            prefill_batch = bounded_decimal(value)
+            if prefill_batch != 1 and prefill_batch != 4:
+                raise Error("Native prefill batch must be one or four")
         elif flag == "--queue-limit":
             queue_limit = bounded_decimal(value)
         elif flag == "--queue-timeout-ms":
@@ -639,6 +645,8 @@ def dispatch_native_serve(args: List[String]) raises:
         model_path, profile, context, device, reserve
     )
     var plan = selection.plan.copy()
+    if prefill_batch == 4 and (plan.profile != "llama3" or plan.variant != "llama3-3B"):
+        raise Error("Four-token prefill is admitted only for the exercised 3B profile")
     if token_limit >= plan.context_length:
         raise Error("Service token limit must leave context for the prompt")
     device = selection.device_index
@@ -654,8 +662,8 @@ def dispatch_native_serve(args: List[String]) raises:
     else:
         catalog.append(model_info)
     if plan.profile == "llama3" or plan.profile == "qwen3":
-        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache)
+        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)

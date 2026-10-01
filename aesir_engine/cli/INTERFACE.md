@@ -626,3 +626,12 @@ adds capabilities.exact_prefix_reuse for the loaded session. Gemma remains false
 Sampling preview describes model settings, not transport/cache policy. Persistent
 Llama chat uses DenseGQAProfile.conversation_profile() for snapshot family instead
 of the GGUF architecture key; existing llama3 snapshots retain compatibility.
+
+## Observed prefill policy (2026-10-01)
+
+serve accepts --prefill-batch 1|4 as a nonduplicable startup option; malformed/
+unsupported numbers fail before key/model access. Strict 3B dense sessions default
+to four; other dense profiles retain one and reject explicit four. Gemma retains
+its own session path. Authenticated health adds actual prefill_batch, and loaded
+device-byte reporting uses actual session layout. The HTTP request/response
+contracts remain compatible. See docs/NATIVE_LONG_TOKENS.md.

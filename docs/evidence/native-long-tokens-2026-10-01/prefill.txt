@@ -1,0 +1,2 @@
+[CUDA] native Mojo Llama 3.2 3B; device=0 api=cuda layers=28/28 weights_bytes=2019377376 kv_bytes=58720256 context=512 host_staging_bytes=67108864 cpu_offload=0
+PASS: 641280 exact sequential/batched logits, five greedy/seeded completions, exact-token restore continuation and mutation-free invalid prefill

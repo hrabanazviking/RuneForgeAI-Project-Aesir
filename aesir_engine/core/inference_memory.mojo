@@ -4,6 +4,7 @@ from core.sampling_config import sampling_device_bytes
 from core.cuda_upload import upload_staging_bytes
 from core.gemma4_profile import Gemma4Profile, gemma4_e4b_profile
 from core.dense_gqa_profile import DenseGQAProfile, llama3_8b_profile
+from core.dense_buffers import DenseBufferLayout
 
 
 def checked_bytes_sum(a: Int, b: Int) raises -> Int:
@@ -129,7 +130,8 @@ struct InferenceMemoryPlan(Copyable, ImplicitlyCopyable):
 
 
 def llama3_memory_plan(weights: Int, context: Int,
-                       profile: DenseGQAProfile = llama3_8b_profile()) raises -> InferenceMemoryPlan:
+                       profile: DenseGQAProfile = llama3_8b_profile(),
+                       prefill_batch: Int = 0) raises -> InferenceMemoryPlan:
     if context < 2 or context > profile.context_cap:
         raise Error(
             profile.label() + " memory context must be in 2.."
@@ -137,7 +139,7 @@ def llama3_memory_plan(weights: Int, context: Int,
         )
     return InferenceMemoryPlan(
         weights, profile.kv_elements(context) * 2,
-        profile.activation_elements(context) * 4
+        DenseBufferLayout(profile, context, prefill_batch).elements * 4
             + sampling_device_bytes(profile.vocabulary_size),
     )
 

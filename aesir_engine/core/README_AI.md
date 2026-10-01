@@ -23,3 +23,11 @@ arithmetic may narrow only within the proved small range; addresses remain wide.
 Expanded physical parity and the independent RMS checker are required. Use the
 fail-closed benchmark comparator rather than trusting reported summary medians.
 See project-root docs/NATIVE_EFFICIENCY.md.
+
+For four-token prefill, read project-root docs/NATIVE_LONG_TOKENS.md. Keep
+DenseBufferLayout checked before allocation, per-token live spans disjoint and
+scores/logits shared only after queued consumers. Never expose future KV inside
+a tile. Only synchronized tiles commit; failures poison reuse. Batch four defaults
+only to the exercised strict 3B profile. Preserve batch one and scalar references.
+Full native sequential/tiled logits are regression evidence, not an external
+whole-model oracle. Poll deadlines at at most four-token prefill boundaries.

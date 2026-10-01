@@ -8,7 +8,7 @@ def main() raises:
     if len(args) != 3:
         raise Error("usage: test_llama3_quant_parity <model.gguf> <oracle.csv>")
     var session = Llama3CUDASession(args[1], 512)
-    var staging = session.context.enqueue_create_host_buffer[DType.float32](session.profile.activation_elements(512))
+    var staging = session.context.enqueue_create_host_buffer[DType.float32](session.buffers.elements)
     for i in range(session.profile.feed_forward_size):
         staging[i] = Float32((i * 7) % 29 - 14) / 16.0
     session.context.enqueue_copy(session.activations, staging)

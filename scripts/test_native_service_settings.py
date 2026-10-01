@@ -23,6 +23,12 @@ def main():
 
         missing_key = run([])
         assert run(["--no-prefix-cache"]) == missing_key
+        for batch in ("1", "4"):
+            assert run(["--prefill-batch", batch]) == missing_key
+        for batch in ("0", "2", "8", "-1", "NaN"):
+            output = run(["--prefill-batch", batch])
+            assert output != missing_key and any(message in output for message in ("prefill batch must", "Expected an unsigned decimal integer")), output
+        assert "duplicate service option" in run(["--prefill-batch", "1", "--prefill-batch", "4"])
         assert "duplicate service option" in run(["--no-prefix-cache", "--no-prefix-cache"])
         assert "Cannot open native service descriptor" in missing_key, missing_key
         valid = [("--temperature", "0.8"), ("--top-k", "20"), ("--top-p", "0.7"),
