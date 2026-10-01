@@ -1557,6 +1557,13 @@ and circular self-parity transforms were removed.
   counts, with warm medians 2.95–3.00x faster. Broader profile/device performance,
   full logits, batched prefill and in-process CUDA context recreation remain open.
   See [native performance manual](docs/NATIVE_PERFORMANCE.md). Status stays partial.
+- **Final controlled measurements:** The exact final binary passes 30 matching
+  cached/uncached replies against the archived 15-case sequence. Fresh-prefill
+  medians improve 2.97–3.02x; retained matching prefixes improve 5.56–21.11x.
+  Actual first long-prompt cost remains 9.746 seconds. The paired provider subset
+  favors native cached arithmetic but Ollama retains the 32-token advantage.
+  [Raw evidence and constraints](docs/evidence/native-performance-2026-10-01.md).
+
 
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 

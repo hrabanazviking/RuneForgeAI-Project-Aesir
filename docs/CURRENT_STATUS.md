@@ -1,3 +1,15 @@
+## Native performance update — 2026-10-01
+
+Dense GQA now uses prepared descriptors, block K-quant projections and bounded
+exact-prefix reuse. Physical 3B/RTX2060 measurements improve fresh prefill about
+3x and cached repeats 5.6–21.1x over the archived binary, preserving complete
+responses. See [manual](NATIVE_PERFORMANCE.md) and
+[evidence](evidence/native-performance-2026-10-01.md) for actual counts and limits.
+The supervised native backend runs with compatible APIs; Bifröst keeps Ollama
+as default because its 32-token comparison remains faster. Gemma dispatch,
+embeddings and corpus are unchanged. Broader model/device speed and in-process
+CUDA context recreation remain unverified.
+
 # Current project status
 
 **Current as of 2026-10-01.** This document is the concise operational entry

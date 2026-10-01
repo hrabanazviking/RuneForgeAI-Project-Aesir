@@ -1,3 +1,17 @@
+## 2026-10-01 — Final performance evidence and publication corrections
+
+Final fresh-prefill medians improve 2.97–3.02x. Repeated exact prefixes improve
+5.56–21.11x versus the archived uncached binary; all 30 final whole replies/counts
+match its corresponding 15 baseline samples. Actual initial long-prompt cost is
+9.746 s with caching available, versus the 1.460 s repeat median. Same-model paired
+provider measurements favor native only for short cached arithmetic; Ollama remains
+faster for the 32-token cases and stays Bifröst's default. No universal speed claim.
+Two persistent chat turns now complete. The ledger's old E-MASTER count was repaired
+after drift failed, and the new CI prefix probe's missing package search root was
+corrected to the documented -I aesir_engine. No native numerical code changed in
+these publication corrections. Detailed raw observations and limitations are in
+docs/evidence/native-performance-2026-10-01.md.
+
 ## 2026-10-01 — Measured native projections, prepared execution and prefix reuse
 
 Real CUDA profiling found packed projections dominating GPU work. Added block

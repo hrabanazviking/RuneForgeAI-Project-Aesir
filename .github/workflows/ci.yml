@@ -93,8 +93,8 @@ jobs:
         run: |
           pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_sampling.mojo -o /tmp/aesir-sampling-probe
           pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_upload.mojo -o /tmp/aesir-upload-probe
-          pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_packed_projection.mojo -o /tmp/aesir-projection-probe
-          pixi run mojo build --target-accelerator sm_89 aesir_engine/tests/test_cuda_prompt_prefix.mojo -o /tmp/aesir-prefix-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_packed_projection.mojo -o /tmp/aesir-projection-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_cuda_prompt_prefix.mojo -o /tmp/aesir-prefix-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

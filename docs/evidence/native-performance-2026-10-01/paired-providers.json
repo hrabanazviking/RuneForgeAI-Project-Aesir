@@ -1,0 +1,249 @@
+{
+  "model": "llama3.2:3b",
+  "model_weights": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "context": 4096,
+  "max_tokens": 32,
+  "sampling": "greedy, repeat_penalty=1",
+  "os": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+  "ollama_version": {
+    "version": "0.0.0"
+  },
+  "aesir_revision": "0980c88d5668b4ef2d6e885700bb0699ba3fff78",
+  "aesir_worktree_dirty": false,
+  "aesir_binary_sha256": "d1ee3ba2e84f9b89923a32356e89dac262d44146c6a17316edcaa142d4e6f536",
+  "aesir_source_fingerprint": "31aab9387d45ee4559567d8dc06a5a3c7bbb84473ea91c96ad4443aa97a9df53",
+  "comparator_blob_matches_native": true,
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB, 4686 MiB",
+  "medians_seconds": {
+    "aesir": {
+      "short": 0.15403581550344825,
+      "passage": 1.3547314325005573,
+      "longer_prompt": 1.409831076500268
+    },
+    "ollama": {
+      "short": 0.3204530365037499,
+      "passage": 0.8679099805012811,
+      "longer_prompt": 0.8841989749998902
+    }
+  },
+  "samples": [
+    {
+      "provider": "aesir",
+      "case": "short",
+      "phase": "warmup",
+      "seconds": 1.2709366269991733,
+      "generated_tokens": 2,
+      "finish_reason": "eos",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 30,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "short",
+      "phase": "warm",
+      "seconds": 0.15373508100310573,
+      "generated_tokens": 2,
+      "finish_reason": "eos",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 30,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "short",
+      "phase": "warm",
+      "seconds": 0.15433655000379076,
+      "generated_tokens": 2,
+      "finish_reason": "eos",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 30,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "ollama",
+      "case": "short",
+      "phase": "warmup",
+      "seconds": 4.52712242200505,
+      "generated_tokens": 3,
+      "finish_reason": "stop",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 50,
+      "load_duration_ns": 4348760094,
+      "decode_duration_ns": 51008000
+    },
+    {
+      "provider": "ollama",
+      "case": "short",
+      "phase": "warm",
+      "seconds": 0.31984130900673335,
+      "generated_tokens": 3,
+      "finish_reason": "stop",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 50,
+      "load_duration_ns": 251077902,
+      "decode_duration_ns": 36588000
+    },
+    {
+      "provider": "ollama",
+      "case": "short",
+      "phase": "warm",
+      "seconds": 0.32106476400076644,
+      "generated_tokens": 3,
+      "finish_reason": "stop",
+      "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+      "prompt_tokens": 50,
+      "load_duration_ns": 254003983,
+      "decode_duration_ns": 36253000
+    },
+    {
+      "provider": "aesir",
+      "case": "passage",
+      "phase": "warmup",
+      "seconds": 2.1176509850047296,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+      "prompt_tokens": 37,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "passage",
+      "phase": "warm",
+      "seconds": 1.3542750060005346,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+      "prompt_tokens": 37,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "passage",
+      "phase": "warm",
+      "seconds": 1.35518785900058,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+      "prompt_tokens": 37,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "ollama",
+      "case": "passage",
+      "phase": "warmup",
+      "seconds": 0.894827461001114,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+      "prompt_tokens": 57,
+      "load_duration_ns": 261990862,
+      "decode_duration_ns": 569138000
+    },
+    {
+      "provider": "ollama",
+      "case": "passage",
+      "phase": "warm",
+      "seconds": 0.8788225949974731,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+      "prompt_tokens": 57,
+      "load_duration_ns": 264547550,
+      "decode_duration_ns": 577564000
+    },
+    {
+      "provider": "ollama",
+      "case": "passage",
+      "phase": "warm",
+      "seconds": 0.8569973660050891,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+      "prompt_tokens": 57,
+      "load_duration_ns": 256762570,
+      "decode_duration_ns": 566740000
+    },
+    {
+      "provider": "aesir",
+      "case": "longer_prompt",
+      "phase": "warmup",
+      "seconds": 9.389127351001662,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "db5014338da154e2b517ee9b68e54f5af960b77c19a5b35114ca6290ec08f30e",
+      "prompt_tokens": 237,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "longer_prompt",
+      "phase": "warm",
+      "seconds": 1.410239052005636,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "db5014338da154e2b517ee9b68e54f5af960b77c19a5b35114ca6290ec08f30e",
+      "prompt_tokens": 237,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "longer_prompt",
+      "phase": "warm",
+      "seconds": 1.4094231009948999,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "db5014338da154e2b517ee9b68e54f5af960b77c19a5b35114ca6290ec08f30e",
+      "prompt_tokens": 237,
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "ollama",
+      "case": "longer_prompt",
+      "phase": "warmup",
+      "seconds": 1.0053306000045268,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "a808640afde5e55f51950856b710424c026e3a626fc8763bce65f158499db9a5",
+      "prompt_tokens": 257,
+      "load_duration_ns": 254307123,
+      "decode_duration_ns": 590074000
+    },
+    {
+      "provider": "ollama",
+      "case": "longer_prompt",
+      "phase": "warm",
+      "seconds": 0.8815991559968097,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "a808640afde5e55f51950856b710424c026e3a626fc8763bce65f158499db9a5",
+      "prompt_tokens": 257,
+      "load_duration_ns": 262503804,
+      "decode_duration_ns": 584402000
+    },
+    {
+      "provider": "ollama",
+      "case": "longer_prompt",
+      "phase": "warm",
+      "seconds": 0.8867987940029707,
+      "generated_tokens": 32,
+      "finish_reason": "length",
+      "text_sha256": "a808640afde5e55f51950856b710424c026e3a626fc8763bce65f158499db9a5",
+      "prompt_tokens": 257,
+      "load_duration_ns": 266857886,
+      "decode_duration_ns": 583275000
+    }
+  ],
+  "failed_samples": 0,
+  "limits": "HTTP wall time; warmup may include lazy JIT/model load. GGUF equality is hashed only when --ollama-gguf is supplied. Native F16 KV versus configured Ollama KV. No full-logit parity, first-token or cold-load claim."
+}

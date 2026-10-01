@@ -59,3 +59,21 @@ KV from the same model/session; mismatches stop reuse immediately. Preserve
 token-boundary cancellation and poisoned-session behavior. Test diverging input,
 sampling-policy changes, timeout/reset and independent fresh-session equivalence.
 Cached and uncached measurements must remain separately identified.
+
+## Measured result and follow-through
+
+Final cache-disabled medians improve 2.97–3.02x; repeated exact prefixes improve
+5.56–21.11x over the archived uncached binary. All 30 final replies match baseline
+text/counts/finish state. Physical independent rows, reference blocks, sampled/
+greedy prefix equivalence, deadline/reset, native HTTP faults, 29 API fixtures
+and two persistent chat turns pass. Source/build identities and every raw sample
+are published with the performance manual and evidence report. Supervised native,
+Bifröst and watcher services are restored; Bifröst keeps faster Ollama for its
+usual 32-token workload. New benchmarks are standalone supervisor/measurement
+tools and never substitute provider inference. Fresh final CI remains a gate.
+
+Publication corrections preserve runtime code: synchronize E-MASTER to total187
+and give new hosted probes the explicit package search root used locally. Context
+recreation stalled in a two-context harness; retain process replacement and leave
+its runtime/vendor investigation open. Batched prefill/full logits/broader models,
+long-context attention and devices remain future acceptance work.
