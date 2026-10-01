@@ -22,6 +22,9 @@ function Assert-True($Condition, $Message) {
     }
 }
 function Reset-Test($Failure = 0, $Missing = $false) {
+    # A deliberately checked child failure belongs to the completed test case.
+    # GitHub's pwsh runner propagates a leftover LASTEXITCODE even after PASS.
+    $global:LASTEXITCODE = 0
     & $module { param($f, $m) $script:calls.Clear(); $script:failureAt = $f; $script:missingWsl = $m } $Failure $Missing
 }
 function Expect-Failure($Action, $Text) {
@@ -68,4 +71,5 @@ Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -AppArgs @([string][char]
 Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -AppArgs @(('a' * 25000)) } 'budget'
 Expect-Failure { Invoke-AesirWindowsLaunch -Root $root -Distribution "bad`nname" } 'unsupported'
 Assert-True ((& $module { $script:calls.Count }) -eq 0) 'rejected options reached WSL'
+Assert-True ($LASTEXITCODE -eq 0) 'intentional test failure leaked to harness exit status'
 Write-Output 'PASS Windows launch: literal argv, mode transport, WSL/Python failures, exit status and preflight validation'

@@ -1,3 +1,13 @@
+## 2026-10-01 — Clear intentional PowerShell test exit state between cases
+
+The hosted audit exposed a pre-existing launcher harness error: every assertion
+passed, but the deliberately injected LASTEXITCODE=19 survived later preflight
+tests and made the runner exit nonzero. Reset-Test now clears test-owned state
+between cases, with a final no-leak assertion. The production wrapper still
+forwards application failure and the harness still checks status 19 before reset.
+The [bug record](bugs/0029-powershell-test-exit-state.md) defines the full hosted
+acceptance gate without claiming physical WSL execution.
+
 ## 2026-10-01 — Native Turing second-brain connection, with measured speed limits
 
 Admitted the installed Llama 3.2 3B Q4_K_M layout rather than weakening the 8B
