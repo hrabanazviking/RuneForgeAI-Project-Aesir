@@ -1,7 +1,8 @@
 """Physical CUDA outputs for independent NumPy RoPE/SiLU/F16-GQA checks."""
 from max.gpu.host import DeviceContext
 from core.gemma4_kernels import Floats
-from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
+from core.llama3_kernels import Halves, llama_residual, llama_scaled_rope, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
+from core.packed_quantization import Bytes
 
 def main() raises:
     var ctx = DeviceContext(0, api="cuda")
@@ -11,6 +12,29 @@ def main() raises:
     var ap = Floats(unsafe_from_address=Int(a.unsafe_ptr()))
     var kp = Halves(unsafe_from_address=Int(kv.unsafe_ptr()))
     var positions: List[Int] = [0, 1, 127, 8191]
+    var factors = ctx.enqueue_create_buffer[DType.float32](64)
+    var factor_host = ctx.enqueue_create_host_buffer[DType.float32](64)
+    for i in range(64):
+        factor_host[i] = Float32(1 + i % 5)
+    ctx.enqueue_copy(factors, factor_host)
+    for position in positions:
+        for i in range(40000):
+            host[i] = Float32(i % 97 - 48) / 16
+        ctx.enqueue_copy(a, host)
+        ctx.enqueue_function[llama_scaled_rope](Bytes(unsafe_from_address=Int(factors.unsafe_ptr())),
+            ap, Int64(0), Int64(128), Int64(32), Int64(position), Float32(500000), Int64(0), Int64(0), grid_dim=16, block_dim=128)
+        ctx.enqueue_copy(host, a)
+        ctx.synchronize()
+        for i in range(4096):
+            print("scaled_rope," + String(position) + "," + String(i) + "," + String(host[i]))
+    for i in range(40000):
+        host[i] = Float32(i % 97 - 48) / 16
+    ctx.enqueue_copy(a, host)
+    ctx.enqueue_function[llama_residual](ap, Int64(0), Int64(4096), Int64(0), Int64(1003), grid_dim=8, block_dim=128)
+    ctx.enqueue_copy(host, a)
+    ctx.synchronize()
+    for i in range(1010):
+        print("residual,0," + String(i) + "," + String(host[i]))
     for position in positions:
         for i in range(40000):
             host[i] = Float32(i % 97 - 48) / 16

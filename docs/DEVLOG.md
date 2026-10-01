@@ -1,3 +1,23 @@
+## 2026-10-01 — Native Turing second-brain connection, with measured speed limits
+
+Admitted the installed Llama 3.2 3B Q4_K_M layout rather than weakening the 8B
+profile. Tied output weights and per-frequency RoPE divisors are explicit checked
+contracts. A dedicated Llama residual-add kernel fixes the observed sm_75 invalid
+PTX error caused by Gemma's tanh instruction. Compile-time Q4_K/Q6_K matvec
+specialization retains numerical order and reduces measured native latency by
+15–17%. It still trails Ollama; the integration keeps the faster default.
+
+Native HTTP health and nonstreamed replies expose actual model identity and
+capability boundaries. A policy-driven, build-checked user service owns restart;
+Bifröst independently owns bounded chat routing and observable fallback. Actual
+native HyDE, outage/circuit recovery and a 14.406-second supervised SIGKILL
+recovery passed. Source counts remain 1237 documents/49006 chunks. Physical
+proofs include 52,210 primitive comparisons, 35 real-weight dot products, real
+HTTP fault recovery and 29 authored live API cases; the counted sm_75 suite has
+185 passed/0 failed/1 explicit external-fixture skip. The negative control fails
+for its intended case. See [setup](SECOND_BRAIN.md) and
+[full evidence and limitations](evidence/second-brain-2026-10-01.md).
+
 ## 2026-09-12 — Persistence readers now reject blocking special files
 
 A repository-wide admission audit found that several bounded local readers

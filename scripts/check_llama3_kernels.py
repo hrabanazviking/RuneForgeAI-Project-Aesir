@@ -17,6 +17,12 @@ for position in (0, 1, 127, 8191):
     rotated = np.stack((pairs[..., 0] * np.cos(angles) - pairs[..., 1] * np.sin(angles),
                         pairs[..., 0] * np.sin(angles) + pairs[..., 1] * np.cos(angles)), axis=-1)
     expected['rope', position] = rotated.ravel()
+    scaled_angles = angles / (1 + np.arange(64) % 5)
+    expected["scaled_rope", position] = np.stack((
+        pairs[..., 0] * np.cos(scaled_angles) - pairs[..., 1] * np.sin(scaled_angles),
+        pairs[..., 0] * np.sin(scaled_angles) + pairs[..., 1] * np.cos(scaled_angles)), axis=-1).ravel()
+expected["residual", 0] = base[:1010].copy()
+expected["residual", 0][:1003] += base[4096:5099]
 expected['silu', 0] = base[:14336] / (1 + np.exp(-base[:14336])) * base[16000:30336]
 keys, values = [], []
 for t in range(7):

@@ -18,6 +18,16 @@ def main() raises:
         raise Error("usage: test_llama3_profile <model.gguf>")
     var model = PackedGGUF(args[1])
     validate_dense_gqa(model, dense_gqa_profile_for(model), 8192)
+    if dense_gqa_profile_for(model).rope_factors:
+        var factors = model.tensors["rope_freqs.weight"]
+        model.tensors["rope_freqs.weight"] = PackedTensor(
+            factors.offset, factors.columns - 1, factors.rows, factors.kind, factors.byte_count)
+        require_rejection(model, 8192)
+        model.tensors["rope_freqs.weight"] = PackedTensor(
+            factors.offset, factors.columns, factors.rows, 1, factors.byte_count)
+        require_rejection(model, 8192)
+        model.tensors["rope_freqs.weight"] = factors
+        validate_dense_gqa(model, dense_gqa_profile_for(model), 8192)
     require_rejection(model, 0)
     require_rejection(model, 1)
     require_rejection(model, 8193)

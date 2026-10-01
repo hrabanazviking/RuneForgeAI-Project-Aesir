@@ -335,3 +335,15 @@ general performance benchmark. Commands and artifact pins are documented in
 it proves admission of the documented profile and rejection of eight mutated
 metadata/tensor/context cases. Its mutations affect only the in-memory index,
 never the mapped model file.
+
+## Second-brain Turing evidence (2026-10-01)
+
+The existing model-registry counted cases now include the strict 3B layout and
+COMPATIBLE classification. `inspect_llama3_kernels.mojo` plus the independent
+NumPy checker exercises scaled RoPE at positions 0, 1, 127 and 8191 and residual
+addition including alias/tail cases, alongside existing SiLU/GQA checks. This is
+physical GPU primitive evidence over constructed inputs, not whole-model parity.
+The generalized profile and quant-parity probes admit the real tied-weight 3B
+GGUF, reject incompatible RoPE metadata and compare 35 real-weight dot products
+against a separately generated GGUF/NumPy oracle. Actual live socket tests and
+benchmarks are separate opt-in checks in ../../docs/evidence/second-brain-2026-10-01.md.

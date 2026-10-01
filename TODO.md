@@ -11,7 +11,7 @@ Execution order and anti-fabrication file rules are defined in
 An enum, interface, banner, synthetic happy path, or predetermined output never
 counts as completion of an external capability.
 
-Latest completed native profile: Stheno Q4_K_S download, Llama 3 CUDA inference
+Earlier completed native profile: Stheno Q4_K_S download, Llama 3 CUDA inference
 and 20-turn roleplay with an 8K ceiling. See [the evidence and remaining
 limits](docs/STHENO_CUDA.md). General model support, full-model logit parity,
 and optimized batched prefill remain future work. Native CUDA sampling now has
@@ -43,6 +43,21 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - A verified narrow primitive may still have unchecked hardening/generalization
   tasks. “Verified” does not mean production-ready.
 - The canonical five-value status vocabulary lives in `CAPABILITY_LEDGER.md`.
+
+## Second-brain integration — 2026-10-01
+
+- [x] Strict Llama 3.2 3B Q4_K_M with tied weights and scaled RoPE on sm_75;
+  Turing residual PTX repair; 35 real-weight and 52,210 primitive comparisons.
+- [x] Add truthful native model/capability discovery and a checked user-service
+  recipe; actual HTTP faults and supervisor restart proved in the
+  [second-brain evidence](docs/evidence/second-brain-2026-10-01.md).
+- [x] Connect independent Bifröst chat routing with bounded admission, explicit
+  fallback/circuit recovery and unchanged corpus embeddings. Live read-only
+  corpus and recovery checks pass; default remains measured faster Ollama.
+- [x] Measure generic versus specialized Q4_K/Q6_K kernels: 15–17% lower native
+  warm HTTP latency; observed baseline/optimized native text/count replay matches.
+- [ ] Beat Ollama on representative same-weight workloads. Native remains slower;
+  batched prefill, prefix reuse and measured kernel/scheduling work are open.
 
 ## Verified Forge Milestones
 
@@ -166,7 +181,7 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   recovery entry point without reporting recovery of state that was never lost.
 - [x] **[missing, AES-SWM-003] [missing, AES-SWM-004] [missing, AES-SWM-005] Correct swarm output:** Remove fixed
   peers, VRAM, health, join, dispatch, and remote execution success.
-- [x] **[missing, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
+- [x] **[partial, AES-OPS-001] Delete fabricated benchmark numbers:** Retain no
   tokens/s, perplexity, model size, backend, or utilization number that was not
   measured by a recorded harness.
 - [x] Add negative tests proving unsupported branches fail nonzero and cannot
@@ -636,7 +651,7 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Benchmarks and efficiency
 
-- [ ] **[missing, AES-OPS-001] Build a real benchmark harness:** Timer, token
+- [ ] **[partial, AES-OPS-001] Build a real benchmark harness:** Timer, token
   accounting, correctness gate, warmup, repeated samples/statistics, raw output,
   hardware/software/model/prompt metadata, and reproducibility command.
 - [ ] **[missing, AES-OPS-002] Measure latency, throughput, memory, utilization,

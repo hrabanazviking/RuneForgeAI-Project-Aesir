@@ -8,13 +8,24 @@ from std.gpu import global_idx
 from std.gpu.primitives import warp
 from std.math import exp, log, cos, sin, sqrt, floor
 from core.gemma4_kernels import Floats
+from core.packed_quantization import Bytes
 
 comptime Halves = Pointer[Float16, MutUntrackedOrigin]
 
 
-def llama_rope(a: Floats, src_arg: Int64, width_arg: Int64, heads_arg: Int64,
+def llama_residual(a: Floats, src_arg: Int64, other_arg: Int64,
+                   dst_arg: Int64, count_arg: Int64):
+    """Only addition; Llama does not need Gemma's PTX-7 tanh instructions."""
+    var i = Int(global_idx.x)
+    if i < Int(count_arg):
+        a.unsafe_store(Int(dst_arg) + i,
+            a.unsafe_load(Int(src_arg) + i) + a.unsafe_load(Int(other_arg) + i))
+
+
+@always_inline
+def _llama_rope_pair(a: Floats, src_arg: Int64, width_arg: Int64, heads_arg: Int64,
                position_arg: Int64, frequency_base_arg: Float32,
-               neox_arg: Int64):
+               neox_arg: Int64, factor: Float32):
     var i = Int(global_idx.x)
     var width = Int(width_arg)
     var half = width // 2
@@ -25,7 +36,7 @@ def llama_rope(a: Floats, src_arg: Int64, width_arg: Int64, heads_arg: Int64,
         # activations and output remain F32 on the same CUDA device.
         var theta = Float64(position_arg) * exp(
             -log(Float64(frequency_base_arg)) * Float64(2 * j) / Float64(width)
-        )
+        ) / Float64(factor)
         var period = Float64(6.2831853071795864769)
         var reduced = (theta - floor(theta / period) * period).cast[DType.float32]()
         var c = cos(reduced)
@@ -36,6 +47,26 @@ def llama_rope(a: Floats, src_arg: Int64, width_arg: Int64, heads_arg: Int64,
         var y = a.unsafe_load(second)
         a.unsafe_store(first, x * c - y * s)
         a.unsafe_store(second, x * s + y * c)
+
+
+def llama_rope(a: Floats, src_arg: Int64, width_arg: Int64, heads_arg: Int64,
+               position_arg: Int64, frequency_base_arg: Float32,
+               neox_arg: Int64):
+    _llama_rope_pair(a, src_arg, width_arg, heads_arg, position_arg,
+                     frequency_base_arg, neox_arg, Float32(1))
+
+
+def llama_scaled_rope(w: Bytes, a: Floats, src_arg: Int64, width_arg: Int64,
+                      heads_arg: Int64, position_arg: Int64,
+                      frequency_base_arg: Float32, neox_arg: Int64,
+                      factors_arg: Int64):
+    """Read validated GGUF F32 frequency divisors on the owning CUDA stream."""
+    var half = Int(width_arg) // 2
+    var i = Int(global_idx.x)
+    if i < Int(heads_arg) * half:
+        var factor = w.unsafe_offset(Int(factors_arg)).unsafe_bitcast[Float32]().unsafe_load(i % half)
+        _llama_rope_pair(a, src_arg, width_arg, heads_arg, position_arg,
+                         frequency_base_arg, neox_arg, factor)
 
 
 def llama_silu(a: Floats, gate_arg: Int64, up_arg: Int64, count_arg: Int64):

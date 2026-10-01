@@ -1,5 +1,6 @@
 """Profiles and strict tensor contracts for dense GQA transformer adapters."""
 from loader.packed_gguf import PackedGGUF
+from std.math import isfinite
 
 
 comptime LLAMA3_8B_LAYER_COUNT = 32
@@ -34,6 +35,7 @@ struct DenseGQAProfile(Copyable):
     var neox_rope: Bool
     var tied_embeddings: Bool
     var add_bos: Bool
+    var rope_factors: Bool
 
     def __init__(out self, family: String, architecture: String, name: String,
                  layer_count: Int, hidden_size: Int, feed_forward_size: Int,
@@ -43,7 +45,7 @@ struct DenseGQAProfile(Copyable):
                  end_of_turn_token_id: Int, rope_frequency_base: Float32,
                  normalization_epsilon: Float32, expected_tensor_count: Int,
                  qk_norm: Bool, neox_rope: Bool, tied_embeddings: Bool,
-                 add_bos: Bool):
+                 add_bos: Bool, rope_factors: Bool = False):
         self.family = family
         self.architecture = architecture
         self.name = name
@@ -65,6 +67,7 @@ struct DenseGQAProfile(Copyable):
         self.neox_rope = neox_rope
         self.tied_embeddings = tied_embeddings
         self.add_bos = add_bos
+        self.rope_factors = rope_factors
 
     def query_width(self) -> Int:
         return self.attention_heads * self.head_dim
@@ -105,12 +108,23 @@ def qwen3_0_6b_profile() -> DenseGQAProfile:
     )
 
 
+def llama3_2_3b_profile() -> DenseGQAProfile:
+    """Llama 3.2 3B with tied output weights and GGUF RoPE factors."""
+    return DenseGQAProfile(
+        "Llama 3.2", "llama", "3B", 28, 3072, 8192, 24, 8, 128,
+        128256, 8192, 128000, 128001, 128009,
+        500000, Float32(1e-5), 255, False, False, True, True, True,
+    )
+
+
 def dense_gqa_profile_for(model: PackedGGUF) raises -> DenseGQAProfile:
     var architecture = model.text("general.architecture")
     var layers = model.integer(architecture + ".block_count")
     var hidden = model.integer(architecture + ".embedding_length")
     if architecture == "llama" and layers == 32 and hidden == 4096:
         return llama3_8b_profile()
+    if architecture == "llama" and layers == 28 and hidden == 3072:
+        return llama3_2_3b_profile()
     if architecture == "qwen3" and layers == 28 and hidden == 1024:
         return qwen3_0_6b_profile()
     raise Error(
@@ -171,6 +185,14 @@ def validate_dense_gqa(model: PackedGGUF, profile: DenseGQAProfile,
         "token_embd.weight", profile.hidden_size, profile.vocabulary_size
     )
     _ = model.require_tensor("output_norm.weight", profile.hidden_size)
+    if profile.rope_factors:
+        var factors = model.require_tensor("rope_freqs.weight", profile.head_dim // 2)
+        if factors.kind != 0:
+            raise Error("RoPE factors must be F32")
+        for i in range(profile.head_dim // 2):
+            var factor = model.source._read_f32(factors.offset + i * 4)
+            if not isfinite(factor) or factor <= 0:
+                raise Error("RoPE factors must be finite and positive")
     if profile.tied_embeddings:
         if "output.weight" in model.tensors:
             raise Error(profile.label() + " requires tied output embeddings")

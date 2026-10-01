@@ -191,13 +191,14 @@ struct ModelArchitectureRegistry:
             result.tensor_naming = "llama/blk.*"
             result.supported_quantizations = NATIVE_K_QUANTS
             result.native_profile = "llama3"
-            if layers != 32 or hidden != 4096:
+            if not ((layers == 32 and hidden == 4096)
+                    or (layers == 28 and hidden == 3072)):
                 result.model_variant = size_label if size_label != "" else String(layers) + "L/" + String(hidden) + "d"
-                result.reason = "Llama is recognized, but this build only has the strict 8B native profile."
+                result.reason = "Llama is recognized, but no strict native variant profile matches."
                 result.compatibility = "EXPERIMENTAL"
                 result.status = "NOT READY"
                 return result^
-            result.model_variant = "8B"
+            result.model_variant = "3B" if layers == 28 else "8B"
             result.recommended_context = min(metadata_context, 8192)
             if not native_k_quantization_supported(result.quantization):
                 result.reason = "The current Llama 3 adapter requires a supported K-quant GGUF."
@@ -205,9 +206,9 @@ struct ModelArchitectureRegistry:
                 return result^
             result.cuda_support = True
             result.capability_flags = "text, chat, persistent-chat, cuda"
-            result.compatibility = "VERIFIED" if result.quantization == "Q4_K_S" else "COMPATIBLE"
+            result.compatibility = "VERIFIED" if layers == 32 and result.quantization == "Q4_K_S" else "COMPATIBLE"
             result.status = "READY"
-            result.reason = "Matched the native Llama 3 8B profile."
+            result.reason = "Matched a native Llama 3 variant profile."
             return result^
 
         if architecture == "qwen2" or architecture == "qwen3":

@@ -605,3 +605,14 @@ syncs the staged file, atomically renames it, and syncs the directory. `load()`
 returns false for an absent record and transactionally restores a present valid
 record. Callers still supply the build fingerprint; automatic runtime wiring is
 outside this storage interface.
+
+## Second-brain service discovery (2026-10-01)
+
+Authenticated native `GET /health` reports session healthy status, loaded model
+name/digest, allocated context, max_tokens, generation_timeout_ms, queue_limit and
+capabilities `{text_generation:true, embeddings:false}`. Nonstreamed native
+`POST /v1/generate` adds model/model_digest to its existing fields; the streaming
+terminal remains unchanged. Compatibility metadata reports 3B for the admitted
+3B layout. Deployment tooling writes a new user-systemd unit, reusing native
+settings admission and launcher build checks; it never supplies inference.
+See ../../docs/SECOND_BRAIN.md for the tested Turing model, defaults and limits.

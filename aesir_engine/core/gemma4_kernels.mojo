@@ -46,6 +46,22 @@ def matvec_kernel(w: Bytes, a: Floats, base_arg: Int64, kind_arg: Int64, columns
             a.unsafe_store(dst + row, total)
 
 
+def packed_matvec_kernel[kind: Int](w: Bytes, a: Floats, base_arg: Int64,
+        columns_arg: Int64, rows_arg: Int64, src_arg: Int64, dst_arg: Int64):
+    """Specialize validated Q4_K/Q6_K reads, preserving the reduction order."""
+    comptime assert kind == 12 or kind == 14
+    var row = Int(global_idx.x) // 32
+    var lane = Int(global_idx.x) % 32
+    if row < Int(rows_arg):
+        var total: Float32 = 0
+        for col in range(lane, Int(columns_arg), 32):
+            total += packed_value(w, Int(base_arg), kind,
+                row * Int(columns_arg) + col) * a.unsafe_load(Int(src_arg) + col)
+        total = warp.sum(total)
+        if lane == 0:
+            a.unsafe_store(Int(dst_arg) + row, total)
+
+
 def norm_kernel(w: Bytes, a: Floats, weight_arg: Int64, src_arg: Int64, dst_arg: Int64, width_arg: Int64, groups_arg: Int64, epsilon: Float32, scale: Float32):
     var weight = Int(weight_arg)
     var src = Int(src_arg)

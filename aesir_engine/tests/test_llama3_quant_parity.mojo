@@ -8,8 +8,8 @@ def main() raises:
     if len(args) != 3:
         raise Error("usage: test_llama3_quant_parity <model.gguf> <oracle.csv>")
     var session = Llama3CUDASession(args[1], 512)
-    var staging = session.context.enqueue_create_host_buffer[DType.float32](SCORES + 32 * 512)
-    for i in range(14336):
+    var staging = session.context.enqueue_create_host_buffer[DType.float32](session.profile.activation_elements(512))
+    for i in range(session.profile.feed_forward_size):
         staging[i] = Float32((i * 7) % 29 - 14) / 16.0
     session.context.enqueue_copy(session.activations, staging)
     session.context.synchronize()
@@ -28,13 +28,13 @@ def main() raises:
             var row = parse_int(String(fields[1]))
             var expected = parse_float(String(fields[2]))
             if name != previous:
-                session.matvec(name, 0, LOGITS)
+                session.matvec(name, 0, session.logits_offset)
                 session.context.enqueue_copy(staging, session.activations)
                 session.context.synchronize()
                 previous = name
             if row < 0 or row >= session.model.tensors[name].rows:
                 raise Error("Parity oracle row out of range")
-            var actual = staging[LOGITS + row]
+            var actual = staging[session.logits_offset + row]
             var difference = abs(actual - expected)
             largest = max(largest, difference)
             if difference > 0.0002 + 0.00002 * abs(expected):

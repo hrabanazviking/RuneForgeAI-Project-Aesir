@@ -1,5 +1,23 @@
 # Project Aesir: Target Architecture and Implemented Shapes
 
+## Bifröst second-brain boundary — 2026-10-01
+
+The native dense-GQA core additionally admits a strict Llama 3.2 3B layout with
+28 layers, tied output weights and 64 positive F32 RoPE factors. Llama uses its
+own residual-add kernel, avoiding an observed Turing invalid-PTX failure in the
+shared Gemma element kernel. Q4_K/Q6_K matvec specialization preserves lane
+accumulation/reduction order. These changes run through the existing facade and
+session, with no Python or external inference substitution.
+
+Native health and nonstreamed generation expose loaded model identity; native
+health separately declares text generation and absent embeddings. Python
+`scripts/second_brain_service.py` owns only validated user-unit publication over
+`scripts/launch.py`'s build freshness gate. Systemd owns process restart. Bifröst's
+separate inference router owns chat selection, bounded admission and observable
+fallback. Its original Ollama embedding identity and source database remain
+unchanged. See [SECOND_BRAIN.md](SECOND_BRAIN.md) for the operational contract;
+this does not establish general model/GPU support or a speed advantage.
+
 ## Offline preparation ownership — 2026-09-21
 
 `scripts/offline.py` is packaging/orchestration code. It composes the existing

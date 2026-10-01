@@ -78,10 +78,10 @@ the complete ledger population.
 | Status | Count |
 |---|---:|
 | `verified` | 75 |
-| `partial` | 27 |
+| `partial` | 28 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
-| `missing` | 16 |
+| `missing` | 15 |
 | **Total** | **118** |
 
 ## 4. Foundation, Build, and Test Truth
@@ -419,9 +419,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** loader and quantization domains
 - **Claim sources:** README q4_k_m support; completed TODO quantized-format matrix
-- **Implementation evidence:** `PackedGGUF` performs bounded metadata and tensor-index parsing for the Gemma 4 E4B and dense Llama 3 8B profiles, admitting their Q4_K/Q5_K/Q6_K/F32/F16/BF16 storage. Architecture-specific core admission validates every required shape before upload.
+- **Implementation evidence:** `PackedGGUF` performs bounded metadata and tensor-index parsing for the Gemma 4 E4B and dense Llama 3 8B/3B profiles, admitting their Q4_K/Q5_K/Q6_K/F32/F16/BF16 storage. Architecture-specific core admission validates every required shape before upload.
 - **Executable evidence:** pinned Gemma E4B Q4_K_M and Stheno Q4_K_S artifacts were parsed, loaded and executed; each passed 35 independent real-weight quantized matvec checks. See `docs/GEMMA4_CUDA.md` and `docs/STHENO_CUDA.md`.
-- **Evidence boundary:** This is not a general quantized-GGUF loader. Established admission is limited to the two documented dense profiles and their tensor layouts.
+- **Evidence boundary:** This is not a general quantized-GGUF loader. Established admission is limited to the individually documented dense profiles and their tensor layouts.
 - **Next acceptance gate:** Per-architecture metadata/layout contracts, additional real fixtures, and independent logits/tokens for each admitted model family.
 - **S08a inspection extension:** `aesir inspect` schema v1 explicitly scopes
   evidence to GGUF metadata/native layout and reports execution_tested=false,
@@ -435,6 +435,13 @@ the complete ledger population.
   metadata/layout validation; observed memory fit and successful inference
   remain separate gates.
 - **Audit:** AER-051 through AER-054.
+
+- **2026-10-01 3B extension:** The strict Llama 3.2 3B Q4_K_M layout with tied
+  output weights and 64 finite positive F32 RoPE factors was admitted and executed
+  on sm_75 RTX 2060 Max-Q. Thirty-five independently generated real-weight dot
+  products pass, maximum absolute error 2.9802322e-7. Registry classification stays
+  COMPATIBLE; arbitrary 3B quantizations and whole-model logits remain unproved.
+  See [SECOND_BRAIN.md](docs/SECOND_BRAIN.md).
 
 ## 8. Tokenization and Decoding
 
@@ -1016,6 +1023,15 @@ the complete ledger population.
 - **Reproduction and threat model:** [Native service guide](docs/NATIVE_SERVICE.md).
 - **Native setup hardening:** `keygen` obtains a 256-bit OS-random key and publishes it exclusively through a synced private file in the opened parent directory. The external no-GPU probe verifies exact/Unicode paths, existing-file/symlink preservation, a four-process race and cleanup; hosted CI runs it. Four counted service cases include explicit C-path termination/bounds.
 
+- **2026-10-01 Turing integration:** Authenticated health derives session status
+  and exposes loaded model/digest, token/deadline/queue policy and explicit absent
+  embeddings; nonstreamed generation adds loaded identity. The actual 3B native
+  socket harness and all 29 native/Ollama/OpenAI-subset HTTP contract cases pass.
+  A build-checked private user unit recovers from SIGKILL, changes PID, rehashes and
+  reloads the model, and generates a fresh answer. Bifröst native HyDE and explicit
+  Ollama outage/circuit recovery pass without corpus changes. Same-host scope only;
+  crashed requests are not replayed. See the [evidence record](docs/evidence/second-brain-2026-10-01.md).
+
 ## 12. Embeddings and RAG
 
 ### AES-RAG-001 — Cosine similarity for tested F16 vectors
@@ -1283,6 +1299,12 @@ and circular self-parity transforms were removed.
 - **Executable evidence:** RTX 4070 Laptop GPU: all 42 dense Gemma 4 E4B layers executed, 35 independent real-weight CUDA matvec comparisons passed (maximum error `1.3113022e-06`), tokenizer parity passed, and 20 exchanges with a 16,384 completion ceiling retained corrected facts across the 512-token attention boundary. Existing F16 CUDA GEMM exact/tail tests also passed. `E-MASTER` case `paradigms.max_gate_boundary` proves the detached gateway does not fabricate availability or mutate output. See `docs/GEMMA4_CUDA.md` for commands and limits.
 - **Evidence boundary:** Dense text-only E4B Q4_K_M and Llama 3 Stheno Q4_K_S profiles on one observed NVIDIA host. Full-model independent logit parity, long maximum-length generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. Host tokenization/I/O remains on CPU.
 - **Llama 3 evidence:** `Llama3CUDASession` implements all 32 layers with native CUDA packed weights, F32 activations and F16 KV. Fifteen independent tokenizer cases and framing passed, including three whole-segment lookup regressions; 35 real-weight dot products and 34,816 CUDA RoPE/SiLU/GQA values matched independent references. Boundary-position RoPE precision was corrected on-device. See `docs/STHENO_CUDA.md` for the final conversation acceptance status.
+- **2026-10-01 Turing/3B extension:** All 28 layers of the installed Llama 3.2
+  3B Q4_K_M model execute natively with tied weights and scaled RoPE. A dedicated
+  residual-add kernel avoids the observed shared Gemma tanh PTX failure. Q4_K/Q6_K
+  specialization passes the same 35 real-weight oracle values; 52,210 physical
+  RoPE/residual/SiLU/GQA values match independent NumPy calculations. Full-model
+  logits, Gemma on Turing and arbitrary GPU/model support remain unproved.
 - **Next acceptance gate:** Broader model/hardware coverage, independent full-model logits, long-generation/context tests and optimized batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
@@ -1508,14 +1530,23 @@ and circular self-parity transforms were removed.
 
 ### AES-OPS-001 — Measured performance benchmarking & CLI dispatcher validation
 
-- **Status:** `missing`
+- **Status:** `partial`
 - **Owner:** performance and CLI domains
 - **Claim sources:** llama-bench CLI surface and high-performance README language
 - **Implementation evidence:** `dispatch_llama_cli()`, `dispatch_exl2_cli()`, and `dispatch_onnx_cli()` in `cli/multi_engine.mojo` enforcing parameter validation (`len(args) == 0 -> raises Error("CLI dispatcher arguments must not be empty")`) and rejecting unsupported benchmark/runtime surfaces.
 - **Executable evidence:** `E-MASTER` case `multi_engine.cli_unsupported` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Checked rejection is not a measured benchmark or performance claim.
-- **Next acceptance gate:** Add reproducible warmup, workload, environment, statistics, and independent comparison methodology.
+- **Evidence boundary:** Checked dispatcher rejection remains separate from the narrow real HTTP comparator below. No general benchmark dispatcher or speed superiority is established.
+- **Next acceptance gate:** Extend the narrow comparator to controlled residency, varied queries, first-token/uncached-load measurements and a validated native speed improvement; connect any public benchmark dispatcher only after its own contract passes.
 - **Audit:** AER-101, AER-003.
+- **2026-10-01 measured subset:** `scripts/benchmark_second_brain.py` records
+  paired native/Ollama HTTP wall time, fixed public prompts, warmup, raw samples,
+  medians, model/context/sampling policy, binary/source identity and failures.
+  Optional comparator-blob hashing establishes equal local GGUF bytes. The
+  specialized native passage median is 8.107 seconds versus 9.596 before, with
+  eight matching native reply/count hashes. Ollama is still faster (0.930 seconds
+  in that pair, 1.535 in a later repeat). Native/Ollama chat templates and KV/prefix
+  policy differ; full logits, first-token, long-context and broad speed claims
+  remain unproved. [Evidence and reproduction](docs/evidence/second-brain-2026-10-01.md).
 
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 

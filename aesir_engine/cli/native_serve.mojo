@@ -432,7 +432,9 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 )
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
-                        body = "{\"status\":\"ready\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context) + "}"
+                        body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
+                        body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false},\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "POST" and head.path == "/v1/generate":
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -467,7 +469,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         if request.stream:
                             send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}\n", io_timeout_ms, interrupt_fd)
                         else:
-                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}"
+                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\"}"
                         status = 200
                     else:
                         status = 404
@@ -637,7 +639,7 @@ def dispatch_native_serve(args: List[String]) raises:
     if not ollama:
         model_size = Int64(plan.memory.weights_bytes)
     var family = "llama" if plan.profile == "llama3" else ("qwen3" if plan.profile == "qwen3" else "gemma4")
-    var parameter_size = "8B" if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else ("2B" if plan.variant == "gemma4-E2B" else "4B"))
+    var parameter_size = ("3B" if plan.variant == "llama3-3B" else "8B") if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else ("2B" if plan.variant == "gemma4-E2B" else "4B"))
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
     var catalog = List[OllamaModelInfo]()

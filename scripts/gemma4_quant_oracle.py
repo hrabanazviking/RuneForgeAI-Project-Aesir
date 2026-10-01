@@ -16,7 +16,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--model', required=True)
     p.add_argument('--output', required=True)
-    p.add_argument('--profile', choices=['gemma4', 'llama3'], default='gemma4')
+    p.add_argument('--profile', choices=['gemma4', 'llama3', 'llama3.2-3b'], default='gemma4')
     args = p.parse_args()
     reader = GGUFReader(args.model)
     by_name = {t.name: t for t in reader.tensors}
@@ -28,6 +28,10 @@ def main():
         names = ['token_embd.weight', 'output.weight', 'blk.0.attn_v.weight',
                  'blk.0.ffn_down.weight', 'blk.5.attn_q.weight',
                  'blk.17.ffn_gate.weight', 'blk.31.ffn_down.weight']
+    if args.profile == 'llama3.2-3b':
+        names = ["token_embd.weight", "blk.0.attn_q.weight", "blk.0.attn_v.weight",
+                 "blk.0.ffn_down.weight", "blk.5.attn_q.weight",
+                 "blk.17.ffn_gate.weight", "blk.27.ffn_down.weight"]
     with open(args.model, 'rb') as model, open(args.output, 'x', newline='', encoding='utf-8') as out:
         writer = csv.writer(out, lineterminator='\n')
         for name in names:

@@ -1,0 +1,83 @@
+{
+  "normal_search": {
+    "hyde_used": false,
+    "mode": "hybrid",
+    "hits": 1
+  },
+  "native_hyde": {
+    "hyde_used": true,
+    "mode": "hybrid",
+    "hits": 1
+  },
+  "fallback_requests": [
+    {
+      "hyde_used": true,
+      "mode": "hybrid",
+      "hits": 1
+    },
+    {
+      "hyde_used": true,
+      "mode": "hybrid",
+      "hits": 1
+    },
+    {
+      "hyde_used": true,
+      "mode": "hybrid",
+      "hits": 1
+    }
+  ],
+  "outage": {
+    "configured_provider": "aesir",
+    "fallback_provider": "ollama",
+    "last_provider": "ollama",
+    "last_error": "unavailable",
+    "circuit": "open",
+    "retry_after_seconds": 27.3,
+    "ready": false,
+    "embeddings_provider": "ollama"
+  },
+  "recovered_hyde": {
+    "hyde_used": true,
+    "mode": "hybrid",
+    "hits": 1
+  },
+  "recovered": {
+    "configured_provider": "aesir",
+    "fallback_provider": "ollama",
+    "last_provider": "aesir",
+    "last_error": null,
+    "circuit": "closed",
+    "retry_after_seconds": 0,
+    "ready": true,
+    "embeddings_provider": "ollama"
+  },
+  "supervisor": {
+    "pid_changed": true,
+    "restart_count_increased": true,
+    "readiness_seconds": 14.40626604600402,
+    "next_generation_passed": true
+  },
+  "final_default_hyde": {
+    "hyde_used": true,
+    "mode": "hybrid",
+    "hits": 1
+  },
+  "final": {
+    "counts": {
+      "documents": 1237,
+      "chunks": 49006
+    },
+    "fingerprint": "v3_49006_49006",
+    "inference": {
+      "configured_provider": "ollama",
+      "fallback_provider": null,
+      "last_provider": "ollama",
+      "last_error": null,
+      "circuit": "closed",
+      "retry_after_seconds": 0,
+      "ready": true,
+      "embeddings_provider": "ollama"
+    },
+    "native_supervised_available": true
+  }
+}

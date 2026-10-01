@@ -1,0 +1,442 @@
+{
+  "classification": "observed physical HTTP benchmark; not a synthetic fixture",
+  "provenance_notice": "Both measurements use uncommitted implementation over the recorded task-contract commit. Baseline binary was not archived; its hash is unavailable. Measurements are retained as captured.",
+  "baseline_implementation": "Strict 3B, scaled RoPE and Turing residual fixes; generic runtime-kind matvec",
+  "optimized_implementation": "Same native fixes; compile-time Q4_K/Q6_K matvec specialization",
+  "baseline": {
+    "model": "llama3.2:3b",
+    "model_weights": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "context": 4096,
+    "max_tokens": 32,
+    "sampling": "greedy, repeat_penalty=1",
+    "os": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+    "ollama_version": {
+      "version": "0.0.0"
+    },
+    "aesir_revision": "cb1f6728ab960a5aa817bf3887b2fa068162ae61",
+    "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB, 4886 MiB",
+    "medians_seconds": {
+      "aesir": {
+        "short": 4.236840354002197,
+        "passage": 9.595942031999584
+      },
+      "ollama": {
+        "short": 0.3470136059986544,
+        "passage": 0.9626024390017847
+      }
+    },
+    "samples": [
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warmup",
+        "seconds": 4.255923841999902,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 4.224335318998783,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 4.236840354002197,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 4.239819078997243,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warmup",
+        "seconds": 0.36086497100041015,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 276773361,
+        "decode_duration_ns": 42951000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.3478893950014026,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 275842899,
+        "decode_duration_ns": 39158000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.3470136059986544,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 271570864,
+        "decode_duration_ns": 40237000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.3390369369953987,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 265662185,
+        "decode_duration_ns": 37015000
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warmup",
+        "seconds": 9.513402075994236,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 9.561423874998582,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 9.595942031999584,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 9.61093521300063,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warmup",
+        "seconds": 0.9914767410009517,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 286363640,
+        "decode_duration_ns": 621945000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9583863080042647,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 302671132,
+        "decode_duration_ns": 618166000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9626024390017847,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 303410567,
+        "decode_duration_ns": 617965000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9704708349963767,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 296278598,
+        "decode_duration_ns": 640171000
+      }
+    ],
+    "limits": "HTTP wall time; warmup may include lazy JIT/model load. Same GGUF; native F16 KV versus configured Ollama KV. No full-logit parity, first-token or cold-load claim."
+  },
+  "optimized": {
+    "model": "llama3.2:3b",
+    "model_weights": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "context": 4096,
+    "max_tokens": 32,
+    "sampling": "greedy, repeat_penalty=1",
+    "os": "Linux-7.0.0-31-generic-x86_64-with-glibc2.43",
+    "ollama_version": {
+      "version": "0.0.0"
+    },
+    "aesir_revision": "cb1f6728ab960a5aa817bf3887b2fa068162ae61",
+    "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB, 4684 MiB",
+    "medians_seconds": {
+      "aesir": {
+        "short": 3.524788698006887,
+        "passage": 8.107126640003116
+      },
+      "ollama": {
+        "short": 0.34284796900465153,
+        "passage": 0.9298221060016658
+      }
+    },
+    "samples": [
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warmup",
+        "seconds": 3.5941703659991617,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 3.5036164299963275,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 3.524788698006887,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 3.534369990004052,
+        "generated_tokens": 2,
+        "finish_reason": "eos",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 30,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warmup",
+        "seconds": 0.37742836099641863,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 269349286,
+        "decode_duration_ns": 44602000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.3395725489972392,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 267856702,
+        "decode_duration_ns": 39976000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.34536145399761153,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 267882731,
+        "decode_duration_ns": 40668000
+      },
+      {
+        "provider": "ollama",
+        "case": "short",
+        "phase": "warm",
+        "seconds": 0.34284796900465153,
+        "generated_tokens": 3,
+        "finish_reason": "stop",
+        "text_sha256": "2f7820a5325de01510971fb541180d3730df116b28942068bb1e5a7040528833",
+        "prompt_tokens": 50,
+        "load_duration_ns": 265099372,
+        "decode_duration_ns": 41948000
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warmup",
+        "seconds": 8.013769418001175,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 8.057276687999547,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 8.107126640003116,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "aesir",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 8.119496150997293,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "d47378c88905ea06b65a5ac946d26d712201de7132d8b46c481cfd304953aa1a",
+        "prompt_tokens": 37,
+        "load_duration_ns": null,
+        "decode_duration_ns": null
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warmup",
+        "seconds": 0.9796636210012366,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 275775974,
+        "decode_duration_ns": 625468000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9298221060016658,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 277166146,
+        "decode_duration_ns": 619855000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9422804630012251,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 276364125,
+        "decode_duration_ns": 629369000
+      },
+      {
+        "provider": "ollama",
+        "case": "passage",
+        "phase": "warm",
+        "seconds": 0.9280849130009301,
+        "generated_tokens": 32,
+        "finish_reason": "length",
+        "text_sha256": "5b6983e69bbd05b162726081e0ee1245f63be215f891d5a2659400966450365b",
+        "prompt_tokens": 57,
+        "load_duration_ns": 268151955,
+        "decode_duration_ns": 623227000
+      }
+    ],
+    "limits": "HTTP wall time; warmup may include lazy JIT/model load. Same GGUF; native F16 KV versus configured Ollama KV. No full-logit parity, first-token or cold-load claim."
+  }
+}

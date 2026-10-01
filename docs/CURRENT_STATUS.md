@@ -1,6 +1,6 @@
 # Current project status
 
-**Current as of 2026-09-22.** This document is the concise operational entry
+**Current as of 2026-10-01.** This document is the concise operational entry
 point for Project A.E.S.I.R. It complements the detailed
 [capability ledger](../CAPABILITY_LEDGER.md), which is authoritative for every
 capability ID. Dated audits, roadmaps, vision documents, and external reference
@@ -12,13 +12,14 @@ Native hardware reporting and model memory planning are connected to both
 CUDA sessions, including device selection and automatic profile detection for
 CUDA `run`. See [runtime controls and limits](NATIVE_RUNTIME.md).
 
-Project A.E.S.I.R. has a real CPU path and two native CUDA model profiles:
+Project A.E.S.I.R. has a real CPU path and the native CUDA profiles documented below:
 
 | Capability | Status and evidence |
 |---|---|
 | CPU inference | A pinned GGUF v3 Llama F16 fixture runs through the native Mojo CPU path. The integration check verifies metadata, tokenizer IDs, 32 greedy tokens, decoded text, stop behavior, a context boundary, and pool restoration. |
 | Native CUDA Gemma chat | The dense, text-only `unsloth/gemma-4-E4B-it-GGUF` **Q4_K_M** profile runs through native Mojo CUDA kernels on the observed RTX 4070 Laptop GPU. All 42 layers, packed weights, activations, KV cache, and native token selection remain on the GPU; host code only handles scheduling, tokenization, and I/O. |
 | Native CUDA Stheno chat | `bartowski/L3-8B-Stheno-v3.2-GGUF` **Q4_K_S** runs through a separate native 32-layer Llama 3 session, with F16 KV and an 8,192-position context. All 20 roleplay exchanges completed with natural EOS, 5,152 generated tokens and 6,514 context positions used. The [unedited conversation](evidence/stheno-roleplay-20.md) preserves both its connected story and model continuity imperfections. |
+| Native CUDA Llama 3.2 3B / Bifröst | The installed Q4_K_M GGUF runs on sm_75 RTX 2060 Max-Q with tied weights and scaled RoPE. Authenticated service, real HTTP faults, Bifröst HyDE/fallback/circuit recovery and supervised restart pass. Embeddings remain Ollama. Native is still slower than Ollama; [setup and limits](SECOND_BRAIN.md). |
 | Built-in Hugging Face download | `aesir pull` downloads public, pinned GGUF artifacts with HTTPS-only redirects, immutable revision, byte-count and SHA-256 validation, safe single-connection restart continuation, and exclusive atomic publication of the exact verified inode. Both the 4,977,171,584-byte Gemma artifact and 4,692,668,960-byte Stheno artifact were downloaded and verified natively; exact pins are in their guides below. |
 | Offline preparation | `scripts/offline.py prepare` records the exact build/runtime/Pixi/model identities and disk reserve for selected installed models; `check` aggregates missing artifacts by name and can prove an offline rebuild plus bounded inference. A network-isolated WSL check rebuilt, rehashed the installed Gemma 4 E2B pin, and generated one native CUDA token. |
 | Named conversation library | Explicit save/list/open/rename/export commands organize validated exact-token snapshots under bounded Unicode names. Restart discovery, corruption and compatibility refusal, and destination non-overwrite have separate-process evidence. |
@@ -42,8 +43,8 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
 ## Current limits
 
 - CUDA support covers **dense, text-only Gemma 4 E4B Q4_K_M and Llama 3 8B
-  Stheno Q4_K_S profiles** on the
-  observed NVIDIA/WSL2 setup. It is not general GGUF, multimodal, MoE,
+  Stheno Q4_K_S profiles**, plus the independently exercised **Llama 3.2 3B
+  Q4_K_M on Turing/Linux**. Each hardware/model combination has its own evidence. It is not general GGUF, multimodal, MoE,
   multi-GPU, NPU, AMD, Intel, Metal, or cross-platform accelerator support.
 - CUDA errors fail the session. There is no CPU model fallback and no external
   inference backend. GPU utilization was observed as high as 100%; utilization
@@ -59,9 +60,11 @@ observations are in [GEMMA4_CUDA.md](GEMMA4_CUDA.md) and
 - Stheno's 8,192-position context includes the whole conversation and replies.
   Its 8,192-new-token ceiling is bounded by remaining context, with an explicit
   `context_exhausted` stop and no silent history truncation.
-- There is no independent full-model logit-parity proof, throughput/latency
-  benchmark, hardware CI runner, authenticated Hub transfer, resumable parallel
-  transfer, or production-service readiness claim.
+- There is no independent full-model logit-parity proof, hardware CI runner,
+  authenticated Hub transfer, resumable parallel transfer, or production-service
+  readiness claim. The narrow same-weight second-brain HTTP benchmark is recorded
+  in [its evidence report](evidence/second-brain-2026-10-01.md); it demonstrates
+  a remaining native speed disadvantage rather than general performance superiority.
   Explicit `create --model` ingestion does copy and measure source bytes into
   immutable SHA-256-addressed storage; recipe-only creation remains available.
 - Host quantization tuning is an explicit API, not automatic inference dispatch.

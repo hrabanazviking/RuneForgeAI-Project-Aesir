@@ -40,3 +40,20 @@ downstream outage behavior without adding test data to the production corpus.
 
 The result must distinguish integration/recovery improvements from remaining
 native compute bottlenecks. No blanket speed or production-readiness claim.
+
+## Recorded outcome — 2026-10-01
+
+Implemented and physically checked native 3B admission, scaled RoPE, Turing
+residual repair, packed-weight specialization, truthful model/capability health,
+private supervised service and separate Bifröst chat routing. Bifröst native HyDE,
+outage fallback/circuit recovery and native SIGKILL restart passed without source
+changes. Detailed commands and measurements are in docs/SECOND_BRAIN.md and
+its evidence report. Cold process readiness was measured with existing OS/driver
+caches; warm short/passage/237-prompt-token requests were compared.
+
+The faster-than-Ollama objective remains unmet. The 32-token native passage fell
+from 9.596 to 8.107 seconds, but the corresponding Ollama measurement was 0.930
+seconds (1.535 seconds in a later repeat). Default Bifröst chat remains Ollama;
+Aesir is supervised and explicitly selectable. Batched prefill, prefix caching,
+further packed-weight optimization and representative varied-query measurement
+remain required before claiming or deploying a native speed advantage.

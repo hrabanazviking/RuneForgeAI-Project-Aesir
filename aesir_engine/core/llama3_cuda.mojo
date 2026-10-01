@@ -1,10 +1,10 @@
-"""Persistent native CUDA inference for the admitted Llama 3 8B GGUF profile."""
+"""Persistent native CUDA inference for admitted dense GQA GGUF profiles."""
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from loader.packed_gguf import PackedGGUF
 from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
-from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel, element_kernel, argmax_kernel
-from core.llama3_kernels import Halves, llama_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
+from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, packed_matvec_kernel, norm_kernel, element_kernel, argmax_kernel
+from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention
 from core.inference_memory import llama3_memory_plan
 from core.dense_gqa_profile import (
     DenseGQAProfile, dense_gqa_profile_for, validate_dense_gqa,
@@ -126,13 +126,43 @@ struct Llama3CUDASession(ControlledTextSession):
 
     def matvec(self, name: String, src: Int, dst: Int) raises:
         var t = self.model.tensors[name]
-        self.context.enqueue_function[matvec_kernel](self.w(), self.a(), Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(t.rows), Int64(src), Int64(dst), grid_dim=(t.rows * 32 + 127) // 128, block_dim=128)
+        var grid = (t.rows * 32 + 127) // 128
+        if t.kind == 12:
+            self.context.enqueue_function[packed_matvec_kernel[12]](self.w(), self.a(),
+                Int64(t.offset), Int64(t.columns), Int64(t.rows), Int64(src),
+                Int64(dst), grid_dim=grid, block_dim=128)
+        elif t.kind == 14:
+            self.context.enqueue_function[packed_matvec_kernel[14]](self.w(), self.a(),
+                Int64(t.offset), Int64(t.columns), Int64(t.rows), Int64(src),
+                Int64(dst), grid_dim=grid, block_dim=128)
+        else:
+            self.context.enqueue_function[matvec_kernel](self.w(), self.a(),
+                Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(t.rows),
+                Int64(src), Int64(dst), grid_dim=grid, block_dim=128)
 
     def norm(self, name: String, src: Int, dst: Int) raises:
         self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[name].offset), Int64(src), Int64(dst), Int64(self.profile.hidden_size), Int64(1), self.profile.normalization_epsilon, Float32(1), grid_dim=1, block_dim=128)
 
     def residual(self) raises:
-        self.context.enqueue_function[element_kernel](self.w(), self.a(), Int64(1), Int64(self.x_offset), Int64(self.temporary_offset), Int64(self.x_offset), Int64(self.profile.hidden_size), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+        self.context.enqueue_function[llama_residual](self.a(),
+            Int64(self.x_offset), Int64(self.temporary_offset), Int64(self.x_offset),
+            Int64(self.profile.hidden_size),
+            grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
+
+    def rotate(self, offset: Int, heads: Int) raises:
+        var grid = (heads * self.profile.head_dim // 2 + 127) // 128
+        if self.profile.rope_factors:
+            self.context.enqueue_function[llama_scaled_rope](self.w(), self.a(),
+                Int64(offset), Int64(self.profile.head_dim), Int64(heads),
+                Int64(self.position), self.profile.rope_frequency_base,
+                Int64(1 if self.profile.neox_rope else 0),
+                Int64(self.model.tensors["rope_freqs.weight"].offset),
+                grid_dim=grid, block_dim=128)
+        else:
+            self.context.enqueue_function[llama_rope](self.a(), Int64(offset),
+                Int64(self.profile.head_dim), Int64(heads), Int64(self.position),
+                self.profile.rope_frequency_base,
+                Int64(1 if self.profile.neox_rope else 0), grid_dim=grid, block_dim=128)
 
     def forward(mut self, token: Int, need_logits: Bool = True) raises -> Int:
         if not self.healthy:
@@ -153,8 +183,8 @@ struct Llama3CUDASession(ControlledTextSession):
             if self.profile.qk_norm:
                 self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_q_norm.weight"].offset), Int64(self.query_offset), Int64(self.query_offset), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.attention_heads, block_dim=128)
                 self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_k_norm.weight"].offset), Int64(self.key_offset), Int64(self.key_offset), Int64(self.profile.head_dim), Int64(self.profile.kv_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.kv_heads, block_dim=128)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(self.query_offset), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.position), self.profile.rope_frequency_base, Int64(1 if self.profile.neox_rope else 0), grid_dim=(self.profile.query_width() // 2 + 127) // 128, block_dim=128)
-            self.context.enqueue_function[llama_rope](self.a(), Int64(self.key_offset), Int64(self.profile.head_dim), Int64(self.profile.kv_heads), Int64(self.position), self.profile.rope_frequency_base, Int64(1 if self.profile.neox_rope else 0), grid_dim=(self.profile.kv_width() // 2 + 127) // 128, block_dim=128)
+            self.rotate(self.query_offset, self.profile.attention_heads)
+            self.rotate(self.key_offset, self.profile.kv_heads)
             self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(self.key_offset), Int64(self.value_offset), Int64(offset), Int64(self.context_length), Int64(self.profile.kv_width()), Int64(self.position), grid_dim=(self.profile.kv_width() + 127) // 128, block_dim=128)
             var count = self.position + 1
             self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(self.query_offset), Int64(self.scores_offset), Int64(offset), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.attention_heads * count * 32 + 127) // 128, block_dim=128)

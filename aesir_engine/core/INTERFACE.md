@@ -1011,3 +1011,21 @@ one session and serializes all mutation; this does not make sessions thread-safe
 `serve` is a foreground loopback command requiring an API key file; `daemon`
 remains rejected. SIGINT/SIGTERM terminate cooperatively. API details and
 production limitations are in `docs/NATIVE_SERVICE.md`.
+
+## Strict Llama 3.2 3B extension (2026-10-01)
+
+`dense_gqa_profile.mojo::llama3_2_3b_profile()` admits the documented 28-layer,
+3072-hidden, 8192-FFN, 24-query/8-KV-head, 128-head-dimension, 128256-vocabulary
+layout, with an 8192 context ceiling and 255 tensors. It requires tied output
+embeddings plus 64 finite positive F32 `rope_freqs.weight` divisors. Core admission
+checks all shapes and metadata before allocation. Registry COMPATIBLE/READY is
+layout classification rather than universal execution certification.
+
+`llama3_kernels.mojo::llama_residual` supplies alias-safe tail-bounded addition.
+`llama_scaled_rope` applies GGUF factors to F64 angles before phase reduction and
+F32 output; unscaled `llama_rope` retains its existing signature. Session `rotate`
+selects the profile's path. `gemma4_kernels.mojo::packed_matvec_kernel[kind]` admits
+compile-time Q4_K/Q6_K only; Llama dispatch selects it for kinds 12/14, retaining
+the generic path for other admitted kinds. Scalar/lane accumulation order is
+unchanged. Physical operation and real-weight checks are distinct from full-model
+logit parity. See ../../docs/SECOND_BRAIN.md and its evidence report.

@@ -6,11 +6,23 @@ from core.model_registry import (
     native_k_quantization_supported,
     qwen3_0_6b_quantization_verified,
 )
-from core.dense_gqa_profile import llama3_8b_profile, qwen3_0_6b_profile
+from core.dense_gqa_profile import llama3_8b_profile, llama3_2_3b_profile, qwen3_0_6b_profile
 from cli.model_inspect import model_inspection_json
 
 
 def test_model_architecture_registry() raises:
+    var small = llama3_2_3b_profile()
+    if (small.layer_count != 28 or small.hidden_size != 3072
+            or small.query_width() != 3072 or small.kv_width() != 1024
+            or small.expected_tensor_count != 255 or not small.tied_embeddings
+            or not small.rope_factors or small.context_cap != 8192):
+        raise Error("Llama 3.2 3B layout policy drifted")
+    var small_report = ModelArchitectureRegistry.classify(
+        "llama", "3B", 28, 3072, 131072, 15, ""
+    )
+    if (small_report.status != "READY" or small_report.model_variant != "3B"
+            or small_report.compatibility != "COMPATIBLE"):
+        raise Error("Llama 3.2 3B admission policy drifted")
     var llama_profile = llama3_8b_profile()
     if (llama_profile.layer_count != 32 or llama_profile.hidden_size != 4096
             or llama_profile.feed_forward_size != 14336):

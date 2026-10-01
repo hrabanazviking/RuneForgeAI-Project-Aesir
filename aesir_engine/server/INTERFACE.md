@@ -147,3 +147,13 @@ outputs are never deleted or replaced. Contents are never printed. All POSIX
 path pointers refer to explicitly terminated, owned byte buffers. The native
 key probe runs in CI without a GPU; crash/persistence limits are documented in
 `docs/NATIVE_SERVICE.md`.
+
+## Loaded capability discovery (2026-10-01)
+
+Native `/health` derives ready/failed from the loaded session and adds model,
+model_digest, max_tokens, generation_timeout_ms, queue_limit and explicit text/
+embedding capability flags. Identity is JSON escaped. Nonstreamed native
+generation exposes the same model identity. Streaming's terminal schema and the
+existing authentication/framing/queue policies are unchanged. These are additive
+fields, not new remote routes; consumers must check finish status before accepting
+text. See ../../docs/SECOND_BRAIN.md for the bounded same-host Bifröst connection.
