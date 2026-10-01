@@ -57,3 +57,14 @@ seconds (1.535 seconds in a later repeat). Default Bifröst chat remains Ollama;
 Aesir is supervised and explicitly selectable. Batched prefill, prefix caching,
 further packed-weight optimization and representative varied-query measurement
 remain required before claiming or deploying a native speed advantage.
+
+## CI follow-through contract — 2026-10-01
+
+The implementation's hosted build/master/native checks passed, but the existing
+PowerShell launcher contract harness left its intentionally injected native
+failure code in global LASTEXITCODE after its assertions passed. The earlier
+task-contract workflow also failed. Repair the harness's per-case reset, preserving
+its assertion that real launcher status 19 propagates. Do not clear production
+launcher failures or force unconditional success. Acceptance is the entire hosted
+workflow succeeding with the negative-control and all subsequent gates executed.
+This is mocked WSL argv/status evidence, not physical Windows/WSL GPU execution.
