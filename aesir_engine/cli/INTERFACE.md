@@ -616,3 +616,13 @@ terminal remains unchanged. Compatibility metadata reports 3B for the admitted
 3B layout. Deployment tooling writes a new user-systemd unit, reusing native
 settings admission and launcher build checks; it never supplies inference.
 See ../../docs/SECOND_BRAIN.md for the tested Turing model, defaults and limits.
+
+## Native cache policy (2026-10-01)
+
+serve accepts --no-prefix-cache as a no-value, nonduplicable option before key/
+model allocation. It disables exact-prefix KV reuse for dense GQA sessions; other
+service contracts and response token counts stay compatible. Authenticated health
+adds capabilities.exact_prefix_reuse for the loaded session. Gemma remains false.
+Sampling preview describes model settings, not transport/cache policy. Persistent
+Llama chat uses DenseGQAProfile.conversation_profile() for snapshot family instead
+of the GGUF architecture key; existing llama3 snapshots retain compatibility.

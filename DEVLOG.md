@@ -1,3 +1,24 @@
+## 2026-10-01 — Measured native projections, prepared execution and prefix reuse
+
+Real CUDA profiling found packed projections dominating GPU work. Added block
+Q4/Q5/Q6 decoding that preserves lane accumulation/reduction, retaining scalar
+references. Dense GQA prepares layer descriptors once. Exact-prefix reuse stays
+within one model/session, rebuilds current sampling history and always recomputes
+final logits; --no-prefix-cache supports fresh-prefill evidence. Logical reset,
+poisoning, context bounds, authentication, deadlines and service schemas remain.
+Fixed Llama persistent chat using the GGUF architecture as snapshot family.
+
+Physical gates: 63 synthetic rows/tail guards; 35 independent real-weight rows
+(max error 2.9802322e-7); seven cached/fresh completions with changed input/system,
+sampling/repetition and timeout recovery; native service faults and 29 authored
+HTTP contract cases. Pre-cache whole replies match in all 15 paired native
+samples, with 2.95–3.00x warm gains. The master has 186 pass/0 fail/1 external skip;
+negative control exits 1. Hosted CI compiles new physical probes without claiming
+GPU execution. Final cache/fresh measurements and exact pushed CI are separate
+publication evidence. Two-context recreation stalled in a harness; single-context
+service/process replacement remains the tested ownership boundary. See manual,
+interfaces and TASK_native_performance.md for scope and limitations.
+
 ## 2026-09-22 — Application program S14: crash-recovery autosave generations
 
 Added opt-in native chat autosave through `--autosave-dir` and

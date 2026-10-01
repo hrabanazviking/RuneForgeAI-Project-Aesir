@@ -12,6 +12,10 @@ from cli.model_inspect import model_inspection_json
 
 def test_model_architecture_registry() raises:
     var small = llama3_2_3b_profile()
+    if (small.conversation_profile() != "llama3"
+            or llama3_8b_profile().conversation_profile() != "llama3"
+            or qwen3_0_6b_profile().conversation_profile() != "qwen3"):
+        raise Error("Native snapshot profile confused GGUF architecture with family")
     if (small.layer_count != 28 or small.hidden_size != 3072
             or small.query_width() != 3072 or small.kv_width() != 1024
             or small.expected_tensor_count != 255 or not small.tied_embeddings

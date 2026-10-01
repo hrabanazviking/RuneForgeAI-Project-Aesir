@@ -778,7 +778,7 @@ def run_llama_chat(
     if conversation_identity == "":
         conversation_identity = "path:" + path
     var conversation = ConversationState(
-        conversation_identity, session.profile.architecture, context_length, system,
+        conversation_identity, session.profile.conversation_profile(), context_length, system,
         session.sampler.config.description(),
     )
     var autosave = ConversationAutosave(autosave_dir, autosave_retain)

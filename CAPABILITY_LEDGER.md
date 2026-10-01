@@ -1548,6 +1548,16 @@ and circular self-parity transforms were removed.
   policy differ; full logits, first-token, long-context and broad speed claims
   remain unproved. [Evidence and reproduction](docs/evidence/second-brain-2026-10-01.md).
 
+- **Additional measured subset (2026-10-01):** Prepared dense GQA descriptors,
+  row-aligned block projections and bounded exact-prefix reuse are connected to
+  native Llama/Qwen sessions. The installed 3B model passed 35 independent real
+  dot products, 63 synthetic Q4/Q5/Q6 exact-reference rows, seven cached/fresh
+  completions with sampling/system/deadline recovery, and real service/API probes.
+  Fifteen pre-cache HTTP samples match the archived binary's complete replies and
+  counts, with warm medians 2.95–3.00x faster. Broader profile/device performance,
+  full logits, batched prefill and in-process CUDA context recreation remain open.
+  See [native performance manual](docs/NATIVE_PERFORMANCE.md). Status stays partial.
+
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 
 - **Status:** `missing`

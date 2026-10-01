@@ -1,5 +1,21 @@
 # Project A.E.S.I.R. — Evidence-Backed TODO
 
+## Native performance milestone — 2026-10-01
+
+- [x] **[partial, AES-OPS-001]** Profile real 3B CUDA work and optimize packed
+  projections without changing reference accumulation; preserve exact whole
+  replies across the archived/new binaries. Prepare layer descriptors once.
+- [x] **[partial, AES-OPS-001]** Add bounded exact-prefix reuse with cache-disable
+  control, fresh final logits, rebuilt sampler state and physical recovery gates.
+- [x] Repair persistent Llama snapshot family mapping after actual chat failure.
+- [ ] Implement and physically validate true batched matrix prefill, full independent
+  logits, representative long-context attention and broader profile/device speeds.
+- [ ] Isolate/fix locked-runtime in-process CUDA context recreation; retain process
+  replacement for model switching until that gate passes.
+
+See [native performance manual](docs/NATIVE_PERFORMANCE.md). This milestone does
+not establish universal optimality, all-model/device speed or an Ollama advantage.
+
 Current program: [best-in-class application gameplan](BEST_IN_CLASS_GAMEPLAN.md).
 Its S01–S48 sequence drives new work; this backlog retains detailed historical
 items and the capability ledger retains present-tense implementation authority.

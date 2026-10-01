@@ -1029,3 +1029,22 @@ compile-time Q4_K/Q6_K only; Llama dispatch selects it for kinds 12/14, retainin
 the generic path for other admitted kinds. Scalar/lane accumulation order is
 unchanged. Physical operation and real-weight checks are distinct from full-model
 logit parity. See ../../docs/SECOND_BRAIN.md and its evidence report.
+
+## Prepared dense GQA execution and exact prefix reuse (2026-10-01)
+
+prepare_dense_gqa_layers(model, profile) requires strict prior validation and
+returns tensor descriptors borrowed by the owning session. project(tensor, src,
+dst) selects row-aligned block_matvec_kernel[kind] for Q4_K/Q5_K/Q6_K; the
+quantization owner supplies packed_block_group[kind, group]. Scalar reference
+kernels remain. Warp/lane accumulation order and GPU workspace remain unchanged.
+
+DenseGQAProfile.conversation_profile() maps GGUF llama to native llama3 and
+preserves Qwen. Llama3CUDASession(..., prefix_cache=True) retains one context-bounded
+committed token list across logical reset, from healthy synchronized KV only.
+reusable_prompt_prefix(cached, prompt) returns matching slots capped below the
+last prompt token, whose activations/logits always recompute. Current sampler
+history is rebuilt and synchronized before commitment. Model/position/tokenizer/
+RoPE remain fixed; reused_prompt_tokens observes actual reused slots. Disabling
+the constructor flag forces full prefill. Logical reset still empties all public
+conversation/sampler/decoder/control state. This is ephemeral reuse, not secure
+erasure or disk persistence. See docs/NATIVE_PERFORMANCE.md at the project root.

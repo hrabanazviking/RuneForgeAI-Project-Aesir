@@ -1,6 +1,6 @@
 """Persistent native CUDA inference for admitted dense GQA GGUF profiles."""
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from loader.packed_gguf import PackedGGUF
+from loader.packed_gguf import PackedGGUF, PackedTensor
 from loader.llama3_tokenizer import Llama3Tokenizer
 from loader.tokenizer import RuneStreamDecoder
 from core.gemma4_kernels import Bytes, Floats, embedding_kernel, matvec_kernel, packed_matvec_kernel, norm_kernel, element_kernel, argmax_kernel
@@ -14,6 +14,9 @@ from core.dense_gqa_profile import (
 )
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
+from core.packed_projection import block_matvec_kernel
+from core.dense_gqa_execution import DenseGQALayer, prepare_dense_gqa_layers
+from core.prompt_prefix import reusable_prompt_prefix
 from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 
@@ -33,6 +36,11 @@ comptime SCORES = LOGITS + LLAMA3_8B_VOCABULARY_SIZE
 struct Llama3CUDASession(ControlledTextSession):
     var model: PackedGGUF
     var profile: DenseGQAProfile
+    var layers: List[DenseGQALayer]
+    var embedding_tensor: PackedTensor
+    var output_tensor: PackedTensor
+    var output_norm: Int
+    var rope_factors_offset: Int
     var tokenizer: Llama3Tokenizer
     var context: DeviceContext
     var weights: DeviceBuffer[DType.uint8]
@@ -50,6 +58,9 @@ struct Llama3CUDASession(ControlledTextSession):
     var pending_token: Int
     var finish_reason: String
     var committed_tokens: List[Int]
+    var cached_tokens: List[Int]
+    var prefix_cache: Bool
+    var reused_prompt_tokens: Int
     var decoder: RuneStreamDecoder
     var sampler: NativeCUDASampler
     var control: GenerationControl
@@ -68,13 +79,21 @@ struct Llama3CUDASession(ControlledTextSession):
 
     def __init__(out self, path: String, context_length: Int = LLAMA3_8B_CONTEXT_CAP,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
-                 sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
+                 sampling: NativeSamplingConfig = NativeSamplingConfig(),
+                 prefix_cache: Bool = True) raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
         self.model = PackedGGUF(path)
         self.profile = dense_gqa_profile_for(self.model)
         validate_dense_gqa(self.model, self.profile, context_length)
+        self.layers = prepare_dense_gqa_layers(self.model, self.profile)
+        self.embedding_tensor = self.model.tensors["token_embd.weight"]
+        self.output_tensor = self.model.tensors["token_embd.weight" if self.profile.tied_embeddings else "output.weight"]
+        self.output_norm = self.model.tensors["output_norm.weight"].offset
+        self.rope_factors_offset = -1
+        if self.profile.rope_factors:
+            self.rope_factors_offset = self.model.tensors["rope_freqs.weight"].offset
         self.x_offset = 0
         self.norm_offset = self.x_offset + self.profile.hidden_size
         self.query_offset = self.norm_offset + self.profile.hidden_size
@@ -99,6 +118,9 @@ struct Llama3CUDASession(ControlledTextSession):
         self.pending_token = -1
         self.finish_reason = ""
         self.committed_tokens = List[Int]()
+        self.cached_tokens = List[Int]()
+        self.prefix_cache = prefix_cache
+        self.reused_prompt_tokens = 0
         self.decoder = RuneStreamDecoder()
         self.context = DeviceContext(device_index, api="cuda")
         if self.context.api() != "cuda" or not self.context.is_compatible():
@@ -125,23 +147,32 @@ struct Llama3CUDASession(ControlledTextSession):
         return Halves(unsafe_from_address=Int(self.cache.unsafe_ptr()))
 
     def matvec(self, name: String, src: Int, dst: Int) raises:
-        var t = self.model.tensors[name]
+        self.project(self.model.tensors[name], src, dst)
+
+    def project(self, t: PackedTensor, src: Int, dst: Int) raises:
         var grid = (t.rows * 32 + 127) // 128
-        if t.kind == 12:
-            self.context.enqueue_function[packed_matvec_kernel[12]](self.w(), self.a(),
+        if t.kind == 12 and t.columns % 256 == 0:
+            self.context.enqueue_function[block_matvec_kernel[12]](self.w(), self.a(),
                 Int64(t.offset), Int64(t.columns), Int64(t.rows), Int64(src),
                 Int64(dst), grid_dim=grid, block_dim=128)
-        elif t.kind == 14:
-            self.context.enqueue_function[packed_matvec_kernel[14]](self.w(), self.a(),
+        elif t.kind == 14 and t.columns % 256 == 0:
+            self.context.enqueue_function[block_matvec_kernel[14]](self.w(), self.a(),
                 Int64(t.offset), Int64(t.columns), Int64(t.rows), Int64(src),
                 Int64(dst), grid_dim=grid, block_dim=128)
+        elif t.kind == 13 and t.columns % 256 == 0:
+            self.context.enqueue_function[block_matvec_kernel[13]](self.w(), self.a(),
+                Int64(t.offset), Int64(t.columns), Int64(t.rows), Int64(src), Int64(dst),
+                grid_dim=grid, block_dim=128)
         else:
             self.context.enqueue_function[matvec_kernel](self.w(), self.a(),
                 Int64(t.offset), Int64(t.kind), Int64(t.columns), Int64(t.rows),
                 Int64(src), Int64(dst), grid_dim=grid, block_dim=128)
 
     def norm(self, name: String, src: Int, dst: Int) raises:
-        self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[name].offset), Int64(src), Int64(dst), Int64(self.profile.hidden_size), Int64(1), self.profile.normalization_epsilon, Float32(1), grid_dim=1, block_dim=128)
+        self.norm_at(self.model.tensors[name].offset, src, dst, self.profile.hidden_size)
+
+    def norm_at(self, weight: Int, src: Int, dst: Int, width: Int, groups: Int = 1) raises:
+        self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(width), Int64(groups), self.profile.normalization_epsilon, Float32(1), grid_dim=(groups * 32 + 127) // 128, block_dim=128)
 
     def residual(self) raises:
         self.context.enqueue_function[llama_residual](self.a(),
@@ -156,7 +187,7 @@ struct Llama3CUDASession(ControlledTextSession):
                 Int64(offset), Int64(self.profile.head_dim), Int64(heads),
                 Int64(self.position), self.profile.rope_frequency_base,
                 Int64(1 if self.profile.neox_rope else 0),
-                Int64(self.model.tensors["rope_freqs.weight"].offset),
+                Int64(self.rope_factors_offset),
                 grid_dim=grid, block_dim=128)
         else:
             self.context.enqueue_function[llama_rope](self.a(), Int64(offset),
@@ -171,18 +202,18 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("Llama 3 token/context bound exceeded")
         self.healthy = False
         self.sampler.record(token)
-        var embedding = self.model.tensors["token_embd.weight"]
+        var embedding = self.embedding_tensor
         self.context.enqueue_function[embedding_kernel](self.w(), self.a(), Int64(embedding.offset), Int64(embedding.kind), Int64(self.profile.hidden_size), Int64(token), Int64(self.x_offset), Float32(1), grid_dim=(self.profile.hidden_size + 127) // 128, block_dim=128)
         for layer in range(self.profile.layer_count):
-            var prefix = "blk." + String(layer) + "."
+            var plan = self.layers[layer]
             var offset = layer * 2 * self.context_length * self.profile.kv_width()
-            self.norm(prefix + "attn_norm.weight", self.x_offset, self.norm_offset)
-            self.matvec(prefix + "attn_q.weight", self.norm_offset, self.query_offset)
-            self.matvec(prefix + "attn_k.weight", self.norm_offset, self.key_offset)
-            self.matvec(prefix + "attn_v.weight", self.norm_offset, self.value_offset)
+            self.norm_at(plan.attention_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
+            self.project(plan.query, self.norm_offset, self.query_offset)
+            self.project(plan.key, self.norm_offset, self.key_offset)
+            self.project(plan.value, self.norm_offset, self.value_offset)
             if self.profile.qk_norm:
-                self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_q_norm.weight"].offset), Int64(self.query_offset), Int64(self.query_offset), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.attention_heads, block_dim=128)
-                self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(self.model.tensors[prefix + "attn_k_norm.weight"].offset), Int64(self.key_offset), Int64(self.key_offset), Int64(self.profile.head_dim), Int64(self.profile.kv_heads), self.profile.normalization_epsilon, Float32(1), grid_dim=self.profile.kv_heads, block_dim=128)
+                self.norm_at(plan.query_norm, self.query_offset, self.query_offset, self.profile.head_dim, self.profile.attention_heads)
+                self.norm_at(plan.key_norm, self.key_offset, self.key_offset, self.profile.head_dim, self.profile.kv_heads)
             self.rotate(self.query_offset, self.profile.attention_heads)
             self.rotate(self.key_offset, self.profile.kv_heads)
             self.context.enqueue_function[llama_cache](self.a(), self.kv(), Int64(self.key_offset), Int64(self.value_offset), Int64(offset), Int64(self.context_length), Int64(self.profile.kv_width()), Int64(self.position), grid_dim=(self.profile.kv_width() + 127) // 128, block_dim=128)
@@ -190,19 +221,18 @@ struct Llama3CUDASession(ControlledTextSession):
             self.context.enqueue_function[llama_scores](self.a(), self.kv(), Int64(self.query_offset), Int64(self.scores_offset), Int64(offset), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.attention_heads * count * 32 + 127) // 128, block_dim=128)
             self.context.enqueue_function[llama_softmax](self.a(), Int64(self.scores_offset), Int64(count), Int64(self.profile.attention_heads), grid_dim=(self.profile.attention_heads * 32 + 127) // 128, block_dim=128)
             self.context.enqueue_function[llama_attention](self.a(), self.kv(), Int64(self.scores_offset), Int64(self.attention_offset), Int64(offset), Int64(self.context_length), Int64(count), Int64(self.profile.head_dim), Int64(self.profile.attention_heads), Int64(self.profile.kv_heads), grid_dim=(self.profile.query_width() + 127) // 128, block_dim=128)
-            self.matvec(prefix + "attn_output.weight", self.attention_offset, self.temporary_offset)
+            self.project(plan.attention_output, self.attention_offset, self.temporary_offset)
             self.residual()
-            self.norm(prefix + "ffn_norm.weight", self.x_offset, self.norm_offset)
-            self.matvec(prefix + "ffn_gate.weight", self.norm_offset, self.gate_offset)
-            self.matvec(prefix + "ffn_up.weight", self.norm_offset, self.up_offset)
+            self.norm_at(plan.feed_forward_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
+            self.project(plan.gate, self.norm_offset, self.gate_offset)
+            self.project(plan.up, self.norm_offset, self.up_offset)
             self.context.enqueue_function[llama_silu](self.a(), Int64(self.gate_offset), Int64(self.up_offset), Int64(self.profile.feed_forward_size), grid_dim=(self.profile.feed_forward_size + 127) // 128, block_dim=128)
-            self.matvec(prefix + "ffn_down.weight", self.up_offset, self.temporary_offset)
+            self.project(plan.down, self.up_offset, self.temporary_offset)
             self.residual()
         var result = -1
         if need_logits:
-            self.norm("output_norm.weight", self.x_offset, self.norm_offset)
-            var output_name = "token_embd.weight" if self.profile.tied_embeddings else "output.weight"
-            self.matvec(output_name, self.norm_offset, self.logits_offset)
+            self.norm_at(self.output_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
+            self.project(self.output_tensor, self.norm_offset, self.logits_offset)
             self.sampler.select(self.a(), self.logits_offset, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
@@ -240,6 +270,10 @@ struct Llama3CUDASession(ControlledTextSession):
         self.finish_reason = ""
         self.decoder = RuneStreamDecoder()
         self.control.start()
+        var reuse = 0
+        self.reused_prompt_tokens = 0
+        if self.position == 0 and self.prefix_cache:
+            reuse = reusable_prompt_prefix(self.cached_tokens, tokens)
         for i in range(len(tokens)):
             var reason: String
             try:
@@ -253,18 +287,34 @@ struct Llama3CUDASession(ControlledTextSession):
                 self.finish_reason = reason
                 self.pending_token = -1
                 raise Error("CUDA prefill " + reason + "; explicit reset required")
-            self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
+            if i < reuse:
+                # Exact model/token/position equality preserves KV. Rebuild the
+                # current request's history instead of inheriting old sampling
+                # state. Synchronize before committing any reused token; an
+                # execution failure leaves healthy=False and prevents reuse.
+                self.healthy = False
+                self.sampler.record(tokens[i])
+                self.context.synchronize()
+                self.position += 1
+                self.committed_tokens.append(tokens[i])
+                self.reused_prompt_tokens += 1
+                self.healthy = True
+            else:
+                self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
         self.generating = True
 
     def reset(mut self) raises:
         if not self.healthy or self.generating:
             raise Error("Cannot reset a busy or failed CUDA session")
         self.healthy = False
+        if self.prefix_cache:
+            self.cached_tokens = self.committed_tokens.copy()
         self.sampler.clear()
         self.context.synchronize()
         self.position = 0
         self.generated_tokens = 0
         self.prompt_tokens = 0
+        self.reused_prompt_tokens = 0
         self.pending_token = -1
         self.finish_reason = "reset"
         self.committed_tokens.clear()

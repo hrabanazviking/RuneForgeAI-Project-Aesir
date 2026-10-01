@@ -22,6 +22,8 @@ def main():
             return result.stdout + result.stderr
 
         missing_key = run([])
+        assert run(["--no-prefix-cache"]) == missing_key
+        assert "duplicate service option" in run(["--no-prefix-cache", "--no-prefix-cache"])
         assert "Cannot open native service descriptor" in missing_key, missing_key
         valid = [("--temperature", "0.8"), ("--top-k", "20"), ("--top-p", "0.7"),
                  ("--min-p", "0.1"), ("--repeat-penalty", "1.2"),

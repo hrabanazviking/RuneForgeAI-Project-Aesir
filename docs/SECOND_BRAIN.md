@@ -279,3 +279,11 @@ Next performance gates are batched prefill, measured packed-weight kernel work
 and prefix caching, each with independent numerical checks and a quiescent
 same-weight comparison. The current optimization preserves reduction order and
 all eight observed native baseline/optimized reply counts and text hashes.
+
+## Native performance update
+
+The newer block projections, prepared layer plan and bounded exact-prefix reuse
+are documented in [NATIVE_PERFORMANCE.md](NATIVE_PERFORMANCE.md). They preserve
+existing providers, embeddings, authentication and service APIs. Keep fresh-prefill
+and repeated-prefix speed claims separate. The supervised native unit uses the
+new defaults after rebuilding/restarting; Bifröst provider policy is independent.

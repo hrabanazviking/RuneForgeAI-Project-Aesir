@@ -88,6 +88,10 @@ struct DenseGQAProfile(Copyable):
     def label(self) -> String:
         return self.family + " " + self.name
 
+    def conversation_profile(self) -> String:
+        """Snapshot family uses native profile names, not GGUF architecture keys."""
+        return "llama3" if self.architecture == "llama" else self.architecture
+
 
 def llama3_8b_profile() -> DenseGQAProfile:
     return DenseGQAProfile(

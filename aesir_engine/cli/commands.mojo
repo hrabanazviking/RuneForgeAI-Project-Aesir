@@ -110,7 +110,7 @@ def print_general_help():
     print("  -v, --version")
     print("      Show the development version.\n")
     print("  serve <model> --accel cuda --api-key-file <private-file>")
-    print("      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N]")
+    print("      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]")
     print("      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]")
     print("      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only")
     print("      Sampling defaults: --temperature, --top-k, --top-p, --min-p,")

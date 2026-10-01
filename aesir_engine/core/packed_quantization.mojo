@@ -11,6 +11,43 @@ comptime Bytes = Pointer[UInt8, MutUntrackedOrigin]
 
 
 @always_inline
+def packed_block_group[kind: Int, group: Int](
+    w: Bytes, p: Int, lane: Int, d: Float32, dmin: Float32
+) -> Float32:
+    """One lane's value in a validated 256-element K block.
+
+    The projection owner hoists block addressing and half scales. Compile-time
+    groups remove per-element division and quantization branches. Keep exactly
+    packed_value's arithmetic order, including integer Q4/Q5 scale products.
+    """
+    comptime assert kind == 12 or kind == 13 or kind == 14
+    comptime assert group >= 0 and group < 8
+    comptime if kind == 14:
+        comptime half = group // 4
+        comptime within = group % 4
+        var low = Int(w.unsafe_load(p + half * 64 + within % 2 * 32 + lane))
+        low = (low >> (4 * (within // 2))) & 15
+        var high = (Int(w.unsafe_load(p + 128 + half * 32 + lane)) >> (2 * within)) & 3
+        var scale = w.unsafe_offset(p + 192).unsafe_bitcast[Int8]().unsafe_load(
+            half * 8 + within * 2 + lane // 16)
+        return d * Float32(scale) * Float32((low | (high << 4)) - 32)
+    else:
+        var scale: Int
+        var minimum: Int
+        comptime if group < 4:
+            scale = Int(w.unsafe_load(p + 4 + group)) & 63
+            minimum = Int(w.unsafe_load(p + 8 + group)) & 63
+        else:
+            scale = (Int(w.unsafe_load(p + 8 + group)) & 15) | ((Int(w.unsafe_load(p + group)) >> 6) << 4)
+            minimum = (Int(w.unsafe_load(p + 8 + group)) >> 4) | ((Int(w.unsafe_load(p + 4 + group)) >> 6) << 4)
+        comptime quants = 16 if kind == 12 else 48
+        var q = (Int(w.unsafe_load(p + quants + group // 2 * 32 + lane)) >> (4 * (group % 2))) & 15
+        comptime if kind == 13:
+            q += ((Int(w.unsafe_load(p + 16 + lane)) >> group) & 1) * 16
+        return d * Float32(scale * q) - dmin * Float32(minimum)
+
+
+@always_inline
 def packed_value(w: Bytes, base: Int, kind: Int, index: Int) -> Float32:
     if kind == 0:
         return w.unsafe_offset(base).unsafe_bitcast[Float32]().unsafe_load(index)

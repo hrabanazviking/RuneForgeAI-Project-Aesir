@@ -347,3 +347,18 @@ The generalized profile and quant-parity probes admit the real tied-weight 3B
 GGUF, reject incompatible RoPE metadata and compare 35 real-weight dot products
 against a separately generated GGUF/NumPy oracle. Actual live socket tests and
 benchmarks are separate opt-in checks in ../../docs/evidence/second-brain-2026-10-01.md.
+
+## Native performance probes (2026-10-01)
+
+The counted master adds core.prompt_prefix_exact and covers snapshot-family
+mapping in native.model_registry. Expected count is 187: 186 pass and one skipped
+external fixture on the exercised host. Negative control must still exit nonzero.
+
+test_packed_projection.mojo is an opt-in physical Q4/Q5/Q6 exact scalar-reference
+comparison over 63 synthetic rows, three widths and row/tail guards. It is not
+external model evidence. test_cuda_prompt_prefix.mojo takes a real model path and
+compares seven cache-disabled/enabled completions in one context, including
+divergence, system framing, seeded sampling, repetition settings and deadline/reset
+recovery. It does not prove in-process CUDA context recreation. The separate real
+GGUF row oracle and HTTP/service probes remain required. CI compiles these probes;
+physical execution requires the documented compatible device and supplied model.
