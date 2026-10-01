@@ -1,3 +1,18 @@
+## 2026-10-01 — Sigrún: measured AESIR speed-lead roadmap
+
+Published a documentation-only performance program in ROADMAP_AESIR_SPEED_LEAD.md.
+The preserved 40-request installed-service baseline uses the same GGUF bytes;
+new long input takes 13.559 s versus Ollama 3.325 s and repeated short-input
+128-token output takes 3.314 s versus 2.719 s. Template/KV/cache and small-sample
+limits remain explicit. Per-case parity, 2× lead and 3× stretch targets are future
+gates, with a measured traffic ceiling, matrix prefill, conditional sm_75
+Tensor-Core execution, attention/decode/launch/cache work, verified speculation,
+and robustness/release ownership. SPD-00 is the next implementation work order.
+
+Added public report provenance/schema and links from contributor orientation,
+backlog, README and performance budgets. No runtime, model, service, lock or
+capability status changes. Final publication and exact CI are recorded separately.
+
 ## 2026-10-01 — Sigrún: bounded long-token prefill and compact buffers
 
 Strict Llama3.2 3B now uses four-token layer-major CUDA prefill. Each aligned

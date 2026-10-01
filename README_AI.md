@@ -25,3 +25,11 @@ docs/NATIVE_LONG_TOKENS.md. Leave full-model independent logits, broader-profile
 batched prefill, broader-device speeds and locked-runtime context recreation open until
 their own acceptance gates pass. Keep private API keys and source corpus out of
 repository commits, reports and prompts.
+
+The focused performance program is [ROADMAP_AESIR_SPEED_LEAD.md](ROADMAP_AESIR_SPEED_LEAD.md).
+Start new speed work with SPD-00: fair provider modes, independent full-model
+logits, stage timing and the actual device traffic ceiling. The installed baseline
+shows new long input and sustained output still lag Ollama; near-parity cached
+32-token cases do not certify a general lead. The per-case 2×/3× goals are future
+acceptance targets, and SPD items remain unimplemented until their own gates pass.
+The wider BEST_IN_CLASS_GAMEPLAN.md program and current ledger retain authority.

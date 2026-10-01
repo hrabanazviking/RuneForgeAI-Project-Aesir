@@ -1,0 +1,35 @@
+{
+  "ollama_runner_observed_flags": [
+    {
+      "--model": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "-c": "4096",
+      "--cache-type-k": "q8_0",
+      "--cache-type-v": "q8_0"
+    }
+  ],
+  "ollama_ps": {
+    "models": [
+      {
+        "name": "llama3.2:3b",
+        "model": "llama3.2:3b",
+        "size": 2387291236,
+        "digest": "a80c4f17acd55265feec403c7aef86be0c25983ab279d83f3bcd3abbcb5b8b72",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "llama",
+          "families": [
+            "llama"
+          ],
+          "parameter_size": "3.2B",
+          "quantization_level": "Q4_K_M"
+        },
+        "expires_at": "2026-10-01T09:21:18.63862192-04:00",
+        "size_vram": 2216354119,
+        "context_length": 4096
+      }
+    ]
+  },
+  "same_host_tailnet_listener": true,
+  "expected_blob_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+}

@@ -1,3 +1,20 @@
+## 2026-10-01 — Measured speed-lead program
+
+- [x] Document the installed-provider baseline and publish the focused
+  [AESIR speed-lead roadmap](ROADMAP_AESIR_SPEED_LEAD.md), with per-case 2× goals,
+  3× stretch goals, ownership, dependencies and numerical/recovery gates.
+- [ ] SPD-00: integrate fair 32/128/256-token provider modes, independent
+  full-model logits, stage timings and a measured hardware feasibility decision.
+- [ ] SPD-01/02: validate genuine matrix prefill and physical sm_75 Tensor-Core
+  support in the locked toolchain before promoting either path.
+- [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
+  cache/buffer use and verified speculative decode when the ceiling requires it.
+- [ ] SPD-08–10: validate concurrent throughput, thermal/recovery/memory soak
+  and the complete refreshed provider lead before integration policy changes.
+
+This is a planning publication. Runtime capability statuses stay governed by the
+ledger. The focused SPD track fits inside the wider S01–S48 application program.
+
 ## 2026-10-01 long-token and buffer acceptance
 
 - [x] Publish task contract before implementation; preserve working binary.

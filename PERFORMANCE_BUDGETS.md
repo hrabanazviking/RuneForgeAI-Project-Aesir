@@ -6,6 +6,16 @@
 > CUDA telemetry in [docs/GEMMA4_CUDA.md](docs/GEMMA4_CUDA.md) establishes
 > execution on one GPU, not performance.
 
+## Measured local speed program — 2026-10-01
+
+[ROADMAP_AESIR_SPEED_LEAD.md](ROADMAP_AESIR_SPEED_LEAD.md) owns the focused
+Llama 3.2 3B / RTX 2060 Max-Q speed program, its observed installed-provider
+baseline, per-case parity/2×/3× targets and quality/recovery acceptance gates.
+Its hardware is distinct from the proposed tiers below. Archived whole-request
+wall times do not validate the generic decode/load/power budgets in this document.
+Those tier tables and automatic regression enforcement remain proposed until
+scoped executable evidence exists; they are not current CI performance gates.
+
 ## Authority
 
 This document defines the numerical performance targets for Project Æsir. Every optimization decision is judged against these numbers. Every claim of "fast" or "efficient" is meaningless until measured against the budgets defined here.

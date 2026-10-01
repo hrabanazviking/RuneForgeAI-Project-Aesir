@@ -1,0 +1,230 @@
+{
+  "model": "llama3.2:3b",
+  "model_weights": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "context": 4096,
+  "max_tokens": 128,
+  "aesir_health": {
+    "status": "ready",
+    "backend": "cuda",
+    "cpu_offload": 0,
+    "profile": "llama3",
+    "context": 4096,
+    "model": "llama3.2:3b",
+    "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "max_tokens": 256,
+    "generation_timeout_ms": 45000,
+    "capabilities": {
+      "text_generation": true,
+      "embeddings": false,
+      "exact_prefix_reuse": true
+    },
+    "prefill_batch": 4,
+    "queue_limit": 2
+  },
+  "samples": [
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "first",
+      "seconds": 13.558913423999911,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1070,
+      "text_sha256": "a431a6c553df459aa91beb526e0e24d2bd482903a5ebfa8a92a13373b0816d17",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 3.5487301709945314,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1070,
+      "text_sha256": "a431a6c553df459aa91beb526e0e24d2bd482903a5ebfa8a92a13373b0816d17",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 3.5570922269980656,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1070,
+      "text_sha256": "a431a6c553df459aa91beb526e0e24d2bd482903a5ebfa8a92a13373b0816d17",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 3.5722713920113165,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1070,
+      "text_sha256": "a431a6c553df459aa91beb526e0e24d2bd482903a5ebfa8a92a13373b0816d17",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "first",
+      "seconds": 3.324745302001247,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1090,
+      "text_sha256": "f3f4402e2c62449dd7ac109d0dc5c7fe494a7fb3aa359a2024dfad75ebb3428e",
+      "load_duration_ns": 265356265,
+      "decode_duration_ns": 2571495000
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 2.900755135997315,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1090,
+      "text_sha256": "3ffcf4f949e7efed109cc4e44ac97ebf35ebce1e37f7aebfd8109eb9036a735e",
+      "load_duration_ns": 259586559,
+      "decode_duration_ns": 2602824000
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 2.8688167439977406,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1090,
+      "text_sha256": "3ffcf4f949e7efed109cc4e44ac97ebf35ebce1e37f7aebfd8109eb9036a735e",
+      "load_duration_ns": 257805901,
+      "decode_duration_ns": 2575150000
+    },
+    {
+      "provider": "ollama",
+      "case": "long_context",
+      "phase": "repeat",
+      "seconds": 2.8484874040004797,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 1090,
+      "text_sha256": "3ffcf4f949e7efed109cc4e44ac97ebf35ebce1e37f7aebfd8109eb9036a735e",
+      "load_duration_ns": 261139290,
+      "decode_duration_ns": 2550133000
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "first",
+      "seconds": 3.6982742910040542,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 52,
+      "text_sha256": "1030e91431c32ac7330b2061d8e096f6ac7e042ec9afb98075efa5c345db99a0",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 3.3091483830066863,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 52,
+      "text_sha256": "1030e91431c32ac7330b2061d8e096f6ac7e042ec9afb98075efa5c345db99a0",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 3.314368078004918,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 52,
+      "text_sha256": "1030e91431c32ac7330b2061d8e096f6ac7e042ec9afb98075efa5c345db99a0",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "aesir",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 3.325323615994421,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 52,
+      "text_sha256": "1030e91431c32ac7330b2061d8e096f6ac7e042ec9afb98075efa5c345db99a0",
+      "load_duration_ns": null,
+      "decode_duration_ns": null
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "first",
+      "seconds": 2.768652482991456,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 72,
+      "text_sha256": "bad2cbb3e01ba6a85e7a80da227e595a40535f98ef117f90e3d01296fbe5cb24",
+      "load_duration_ns": 261223598,
+      "decode_duration_ns": 2364916000
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 2.737003823000123,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 72,
+      "text_sha256": "1efa30ed7ff79243a77384d31aaa370a17eec949eefe54f4357b9b4018813e62",
+      "load_duration_ns": 276513250,
+      "decode_duration_ns": 2413758000
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 2.719278944990947,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 72,
+      "text_sha256": "1efa30ed7ff79243a77384d31aaa370a17eec949eefe54f4357b9b4018813e62",
+      "load_duration_ns": 277547589,
+      "decode_duration_ns": 2397344000
+    },
+    {
+      "provider": "ollama",
+      "case": "sustained_generation",
+      "phase": "repeat",
+      "seconds": 2.7114210949948756,
+      "generated_tokens": 128,
+      "finish_reason": "length",
+      "prompt_tokens": 72,
+      "text_sha256": "1efa30ed7ff79243a77384d31aaa370a17eec949eefe54f4357b9b4018813e62",
+      "load_duration_ns": 277278124,
+      "decode_duration_ns": 2399742000
+    }
+  ],
+  "errors": [],
+  "limits": "Actual installed providers, first appearance and repeated exact prompts. Both already loaded; prefixes can overlap earlier requests. Templates and KV types differ. Wall time includes prompt processing and generated output, not decode-only throughput.",
+  "medians_seconds": {
+    "aesir": {
+      "long_context": 3.5570922269980656,
+      "sustained_generation": 3.314368078004918
+    },
+    "ollama": {
+      "long_context": 2.8688167439977406,
+      "sustained_generation": 2.719278944990947
+    }
+  }
+}
