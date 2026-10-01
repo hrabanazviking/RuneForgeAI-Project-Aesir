@@ -20,3 +20,10 @@ process. Reports retain its hash, actual capabilities, replies, all timings and
 failures. --no-prefix-cache distinguishes fresh prefill from repeated prefixes.
 Run measurements while other GPU tests are idle. It owns its temporary process
 and key, not the supervised deployment. See ../docs/NATIVE_PERFORMANCE.md.
+
+The optional extended suite and --max-tokens exercise larger public prompts and
+sustained generation. compare_native_benchmarks.py requires complete identical
+request/reply sequences and actual model/policy identity, recomputes warm medians
+and refuses ratios on errors or mismatch. Its synthetic mutation tests prove only
+evidence validation. check_dense_normalization.py is an independent standard-library
+oracle for physical probe output. See ../docs/NATIVE_EFFICIENCY.md for commands.

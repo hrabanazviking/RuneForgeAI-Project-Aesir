@@ -1,0 +1,30 @@
+{
+  "verified_utc": "2026-10-01T12:01:23.795311+00:00",
+  "native": {
+    "ready": true,
+    "model": "llama3.2:3b",
+    "context": 4096,
+    "prefix_cache": true,
+    "arithmetic_verified": true,
+    "generated_tokens": 2
+  },
+  "bifrost": {
+    "database_ready": true,
+    "embeddings_provider_ready": true,
+    "chat_provider": "ollama",
+    "fingerprint": "v3_49006_49006",
+    "documents": 1237,
+    "chunks": 49006
+  },
+  "skein": {
+    "built": true,
+    "running": false,
+    "n_entities": 8586,
+    "n_relations": 26339
+  },
+  "services": [
+    "active",
+    "active",
+    "active"
+  ]
+}

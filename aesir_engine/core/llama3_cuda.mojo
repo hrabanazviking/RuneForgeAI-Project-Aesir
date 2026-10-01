@@ -15,6 +15,7 @@ from core.dense_gqa_profile import (
 from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.packed_projection import block_matvec_kernel
+from core.dense_normalization import dense_norm_kernel
 from core.dense_gqa_execution import DenseGQALayer, prepare_dense_gqa_layers
 from core.prompt_prefix import reusable_prompt_prefix
 from core.sampling_config import NativeSamplingConfig
@@ -172,7 +173,14 @@ struct Llama3CUDASession(ControlledTextSession):
         self.norm_at(self.model.tensors[name].offset, src, dst, self.profile.hidden_size)
 
     def norm_at(self, weight: Int, src: Int, dst: Int, width: Int, groups: Int = 1) raises:
-        self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(width), Int64(groups), self.profile.normalization_epsilon, Float32(1), grid_dim=(groups * 32 + 127) // 128, block_dim=128)
+        if width == 3072:
+            self.context.enqueue_function[dense_norm_kernel[3072]](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(groups), self.profile.normalization_epsilon, grid_dim=(groups * 32 + 127) // 128, block_dim=128)
+        elif width == 4096:
+            self.context.enqueue_function[dense_norm_kernel[4096]](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(groups), self.profile.normalization_epsilon, grid_dim=(groups * 32 + 127) // 128, block_dim=128)
+        elif width == 128:
+            self.context.enqueue_function[dense_norm_kernel[128]](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(groups), self.profile.normalization_epsilon, grid_dim=(groups * 32 + 127) // 128, block_dim=128)
+        else:
+            self.context.enqueue_function[norm_kernel](self.w(), self.a(), Int64(weight), Int64(src), Int64(dst), Int64(width), Int64(groups), self.profile.normalization_epsilon, Float32(1), grid_dim=(groups * 32 + 127) // 128, block_dim=128)
 
     def residual(self) raises:
         self.context.enqueue_function[llama_residual](self.a(),

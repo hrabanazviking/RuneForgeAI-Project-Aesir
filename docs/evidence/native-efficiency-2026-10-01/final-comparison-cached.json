@@ -1,0 +1,36 @@
+{
+  "status": "passed",
+  "before_binary_sha256": "d1ee3ba2e84f9b89923a32356e89dac262d44146c6a17316edcaa142d4e6f536",
+  "after_binary_sha256": "997a0c00defb75e1429702708609c56bf2ed15bb6782ac63917f679d168e02b3",
+  "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "prefix_cache": true,
+  "matched_replies": 15,
+  "cases": {
+    "arithmetic": {
+      "before_median_seconds": 0.15569824199701543,
+      "after_median_seconds": 0.09474405000219122,
+      "speed_ratio": 1.6433564112301984
+    },
+    "graph": {
+      "before_median_seconds": 1.3621288044996618,
+      "after_median_seconds": 0.8255894594985875,
+      "speed_ratio": 1.649886379759421
+    },
+    "long_prompt": {
+      "before_median_seconds": 1.4111264739985927,
+      "after_median_seconds": 0.8604428249964258,
+      "speed_ratio": 1.640000280093514
+    },
+    "code": {
+      "before_median_seconds": 1.2726897675020155,
+      "after_median_seconds": 0.7669547439982125,
+      "speed_ratio": 1.6594066044462483
+    },
+    "unicode": {
+      "before_median_seconds": 1.3971728774995427,
+      "after_median_seconds": 0.8433833429990045,
+      "speed_ratio": 1.6566284941451492
+    }
+  },
+  "limits": "Same-policy native HTTP wall time; excludes one warmup per case. Small samples and device/thermal variance apply. No independent full-model logits or broad model/device speed claim."
+}

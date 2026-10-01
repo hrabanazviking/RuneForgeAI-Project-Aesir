@@ -29,6 +29,12 @@ PROMPTS = {
     "unicode": "Briefly explain what the Norse word Bifröst means. Use the spelling Bifröst.",
 }
 
+EXTENDED_PROMPTS = {
+    "long_context": PROMPTS["long_prompt"].split("Summarize the reliability", 1)[0] * 5
+                    + "Summarize the reliability principles in a detailed paragraph.",
+    "sustained_generation": "Explain, in detail, how to design a reliable knowledge graph ingestion pipeline. Discuss queues, validation, duplicates, provenance, retries, backpressure and monitoring.",
+}
+
 
 def request(port, key, payload=None):
     connection = http.client.HTTPConnection("127.0.0.1", port, timeout=180)
@@ -49,12 +55,14 @@ def request(port, key, payload=None):
 
 
 def measure(args):
+    prompts = EXTENDED_PROMPTS if args.suite == "extended" else PROMPTS
     binary = args.binary.resolve(strict=True)
     with binary.open("rb") as stream:
         identity = hashlib.file_digest(stream, "sha256").hexdigest()
     report = {"binary_sha256": identity, "model": args.model,
               "context": args.context, "samples_per_case": args.samples,
-              "system": "You are concise.", "max_tokens": 32,
+              "system": "You are concise.", "max_tokens": args.max_tokens,
+              "suite": args.suite,
               "prefix_cache_requested": not args.no_prefix_cache,
               "sampling": "temperature=0; repetition_penalty=1; seed=42",
               "samples": [], "errors": [],
@@ -73,7 +81,7 @@ def measure(args):
             command = [
                 str(binary), "serve", args.model, "--accel", "cuda",
                 "--api-key-file", str(keyfile), "--port", str(port),
-                "--context", str(args.context), "--max-tokens", "32",
+                "--context", str(args.context), "--max-tokens", str(args.max_tokens),
                 "--temperature", "0", "--timeout-ms", "120000",
             ]
             if args.no_prefix_cache:
@@ -103,7 +111,7 @@ def measure(args):
                 report["gpu"] = subprocess.check_output([
                     "nvidia-smi", "--query-gpu=name,driver_version,memory.total,memory.used",
                     "--format=csv,noheader"], text=True).strip()
-                for case, prompt in PROMPTS.items():
+                for case, prompt in prompts.items():
                     for index in range(args.samples + 1):
                         sample = {"case": case, "prompt": prompt,
                                   "phase": "warmup" if index == 0 else "warm"}
@@ -111,7 +119,7 @@ def measure(args):
                         try:
                             elapsed, status, reply = request(port, key, {
                                 "prompt": prompt, "system": report["system"],
-                                "max_tokens": 32, "temperature": 0})
+                                "max_tokens": args.max_tokens, "temperature": 0})
                             sample.update(seconds=elapsed, status=status, reply=reply)
                             if (status != 200 or reply.get("backend") != "cuda"
                                     or reply.get("model") != args.model
@@ -152,7 +160,7 @@ def measure(args):
         # Engine logs omit prompts and credentials. Redact defensively anyway.
         report["service_log"] = (root / "service.log").read_text(errors="replace").replace(key, "[REDACTED]").replace(str(root), "[temporary]")
     report["medians_seconds"] = {}
-    for case in PROMPTS:
+    for case in prompts:
         good = [sample["seconds"] for sample in report["samples"]
                 if sample["case"] == case and sample["phase"] == "warm"
                 and "failure_category" not in sample]
@@ -167,11 +175,15 @@ def main():
     parser.add_argument("--model", required=True)
     parser.add_argument("--context", type=int, default=4096)
     parser.add_argument("--samples", type=int, default=3)
+    parser.add_argument("--suite", choices=("standard", "extended"), default="standard")
+    parser.add_argument("--max-tokens", type=int, default=32)
     parser.add_argument("--no-prefix-cache", action="store_true")
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if not 1 <= args.samples <= 10 or not 512 <= args.context <= 8192:
         parser.error("Use 1..10 samples and context 512..8192")
+    if not 1 <= args.max_tokens <= 256:
+        parser.error("Use 1..256 output tokens")
     # Exclusive reservation fails before GPU work and preserves failure artifacts.
     with args.output.open("x", encoding="utf-8") as output:
         report = measure(args)

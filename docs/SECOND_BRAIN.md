@@ -9,12 +9,16 @@ HyDE search passages and cluster labels, with an explicitly configured Ollama
 fallback and automatic circuit recovery.
 
 **Ollama remains the default Bifröst chat engine on the measured machine.**
-Aesir's specialized packed-weight kernels reduced its warm HTTP latency by
-15–17%, but it still takes about 8.1 seconds for the tested 32-token passage,
-versus 0.93 seconds for Ollama in that series (1.53 seconds in a later repeat). Choose Aesir for native-engine development
-and integration testing; use the measured faster engine for ordinary work.
-The [measurement record](evidence/second-brain-2026-10-01.md) gives exact scope,
-commands and limitations. Faster-than-Ollama inference remains an open task.
+Native kernel and prefix improvements now make repeated 32-token passages
+competitive: 0.838 s native versus 0.874 s Ollama, and repeated longer prompts
+0.876 s versus 0.892 s in the latest small paired series. Observed first passage
+requests took 1.306 s versus 0.918 s, and first longer prompts 5.820 s versus
+1.003 s. Retained-prefix reuse changes the work, and the providers use different
+chat templates and KV formats even though GGUF bytes match. Keep the existing
+provider policy for ordinary new prompts; native is a working explicit option.
+See [current efficiency evidence](evidence/native-efficiency-2026-10-01.md) and
+[reproducible operation](NATIVE_EFFICIENCY.md). Earlier 8.1 s native measurements
+in the integration record are historical. No general Ollama-superiority claim.
 
 Embeddings continue using the original Ollama `nomic-embed-text` model. Aesir's
 text generation does not implement that embedding space. Existing database
@@ -209,7 +213,7 @@ or authentication rejection does not fall back. After cooldown, a subsequent
 request tests the primary and closes the circuit on success. No background retry
 storm or automatic destructive repair is introduced.
 
-For the measured faster default, set `VIEWER_CHAT_BACKEND=ollama`, set its chat
+For the existing default policy, set `VIEWER_CHAT_BACKEND=ollama`, set its chat
 origin to the actual Ollama address, and use `VIEWER_CHAT_FALLBACK=none`.
 Aesir's service can remain available for explicitly selected native work.
 

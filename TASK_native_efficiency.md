@@ -46,3 +46,18 @@ Publish raw reproducible evidence and a portable human report. Reject speculativ
 speed changes that fail correctness or representative timing. No universal
 optimality or general Ollama/device/model superiority claim is authorized by a
 narrow benchmark. Further slices require their own stated evidence and scope.
+
+## Achieved slice
+
+The final binary 997a0c00 narrows only proven byte fields and schedules fixed RMS
+loads in four-value tiles. Standard fresh/cache medians improve another 1.62–1.66x;
+extended 1070-prompt/128-output improves 1.60x and sustained 128-output 1.63x. All 34
+paired whole replies/counts match with zero benchmark failures. Device allocation
+and host HWM remain effectively unchanged. Independent real rows, 233472 RMS
+values, 738 projection reference rows, prefix/deadline replay, service faults and
+29 API cases pass. Master 186/0/1, negative control, doc/fixture and evidence
+mutation gates pass. Supervised native readiness is restored. Native cached
+provider timings now edge the small Ollama pair; first new prompts remain more
+expensive, so Bifröst keeps its default. The Scribe updates both engines' operator
+guidance with current measurements; no Bifröst runtime/data change is required.
+Exact publication CI and final deployment snapshot complete the release gate.

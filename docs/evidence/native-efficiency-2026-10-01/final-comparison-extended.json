@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "before_binary_sha256": "d1ee3ba2e84f9b89923a32356e89dac262d44146c6a17316edcaa142d4e6f536",
+  "after_binary_sha256": "997a0c00defb75e1429702708609c56bf2ed15bb6782ac63917f679d168e02b3",
+  "model_digest": "sha256:dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "prefix_cache": false,
+  "matched_replies": 4,
+  "cases": {
+    "long_context": {
+      "before_median_seconds": 48.25516024100216,
+      "after_median_seconds": 30.16985027800547,
+      "speed_ratio": 1.599449775068367
+    },
+    "sustained_generation": {
+      "before_median_seconds": 7.465344700998685,
+      "after_median_seconds": 4.57109035099711,
+      "speed_ratio": 1.6331649842296903
+    }
+  },
+  "limits": "Same-policy native HTTP wall time; excludes one warmup per case. Small samples and device/thermal variance apply. No independent full-model logits or broad model/device speed claim."
+}

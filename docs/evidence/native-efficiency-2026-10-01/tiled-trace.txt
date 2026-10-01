@@ -1,0 +1,50 @@
+==422315== NVPROF is profiling process 422315, command: .aesir/launch/aesir run llama3.2:3b --accel cuda --max-tokens 8 What is two plus two? Answer with one word.
+==422315== Profiling application: .aesir/launch/aesir run llama3.2:3b --accel cuda --max-tokens 8 What is two plus two? Answer with one word.
+==422315== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   50.63%  430.58ms      4032  106.79us  26.113us  223.27us  core_packed_projection_block_m6A6A6A6A_755fea54cf20fad1
+                   35.91%  305.38ms        31  9.8510ms  916.65us  10.800ms  [CUDA memcpy HtoD]
+                    8.83%  75.093ms       675  111.25us  25.344us  2.3912ms  core_packed_projection_block_m6A6A6A6A_71b5269aac05bb11
+                    1.98%  16.855ms      1347  12.513us  11.393us  15.072us  core_dense_normalization_dense6A6A6A6A_3f13c764a16a0e97
+                    1.10%  9.3200ms      1344  6.9340us  6.0480us  11.073us  core_llama3_kernels_llama_scal6A6A6A6A_f9d8c4752fca0dc0
+                    0.36%  3.0539ms      1344  2.2720us  2.0480us  2.8480us  core_llama3_kernels_llama_resi6A6A6A6A_3883ecf011529460
+                    0.27%  2.3031ms       672  3.4270us  2.5600us  4.7050us  core_llama3_kernels_llama_atte6A6A6A6A_3c8bf4d90fb53fc3
+                    0.24%  2.0039ms       672  2.9810us  2.6240us  3.4880us  core_llama3_kernels_llama_scor6A6A6A6A_a235264d73eaa09f
+                    0.22%  1.8694ms       672  2.7810us  2.5600us  3.4240us  core_llama3_kernels_llama_silu6A6A6A6A_ab2877e480b0edfd
+                    0.17%  1.4413ms       672  2.1440us  1.8880us  2.6240us  core_llama3_kernels_llama_soft6A6A6A6A_7fd119a9d9bc8739
+                    0.14%  1.1846ms         3  394.87us  394.72us  395.11us  core_gemma4_kernels_argmax_ker6A6A6A6A_d03fb3143cce253b
+                    0.14%  1.1706ms       672  1.7420us  1.5670us  2.1770us  core_llama3_kernels_llama_cach6A6A6A6A_35dd7bc25fbc72be
+                    0.01%  56.704us        24  2.3620us  2.1760us  2.7840us  core_cuda_sampling_sampling_re6A6A6A6A_3b998fa8edcf579b
+                    0.01%  52.928us        24  2.2050us  1.8560us  3.2330us  core_gemma4_kernels_embedding_6A6A6A6A_3ed88dd7ce6a190f
+                    0.00%  4.7360us         3  1.5780us  1.1840us  2.3360us  [CUDA memcpy DtoH]
+                    0.00%  4.1920us         1  4.1920us  4.1920us  4.1920us  [CUDA memset]
+      API calls:   46.43%  879.15ms         1  879.15ms  879.15ms  879.15ms  cuMemAllocHost
+                   41.85%  792.54ms        56  14.153ms  7.7550us  25.414ms  cuStreamSynchronize
+                    8.41%  159.29ms         1  159.29ms  159.29ms  159.29ms  cuDevicePrimaryCtxRetain
+                    1.70%  32.158ms     12153  2.6460us  2.1640us  482.54us  cuLaunchKernelEx
+                    1.27%  23.988ms        13  1.8452ms  55.063us  22.294ms  cuModuleLoadDataEx
+                    0.10%  1.9003ms         8  237.54us  1.5120us  1.2551ms  cuMemFree
+                    0.07%  1.4195ms     12302     115ns      80ns  15.309us  cuStreamIsCapturing
+                    0.06%  1.2296ms     12354      99ns      70ns  6.6620us  cuCtxGetCurrent
+                    0.05%  929.85us        31  29.995us  24.216us  51.296us  cuMemcpyHtoDAsync
+                    0.04%  680.06us         9  75.561us  1.5330us  321.84us  cuMemAlloc
+                    0.00%  57.517us         2  28.758us  19.416us  38.101us  cuStreamCreate
+                    0.00%  51.503us        27  1.9070us     621ns  23.394us  cuMemCreate
+                    0.00%  31.268us         1  31.268us  31.268us  31.268us  cuMemAddressReserve
+                    0.00%  29.435us         1  29.435us  29.435us  29.435us  cuMemsetD32Async
+                    0.00%  27.302us         3  9.1000us  4.5690us  12.945us  cuMemcpyDtoHAsync
+                    0.00%  20.858us        13  1.6040us     340ns  6.4620us  cuEventRecord
+                    0.00%  12.394us        12  1.0320us     361ns  6.7030us  cuEventQuery
+                    0.00%  5.7900us         1  5.7900us  5.7900us  5.7900us  cuStreamDestroy
+                    0.00%  5.4790us        13     421ns     260ns  1.4530us  cuModuleGetFunction
+                    0.00%  4.6180us         1  4.6180us  4.6180us  4.6180us  cuDeviceGetPCIBusId
+                    0.00%  3.4060us         6     567ns      81ns  1.6030us  cuDriverGetVersion
+                    0.00%  3.3070us        13     254ns     160ns     662ns  cuFuncSetAttribute
+                    0.00%  3.2300us        27     119ns      80ns     461ns  cuGetErrorName
+                    0.00%  3.1560us         2  1.5780us     972ns  2.1840us  cuEventCreate
+                    0.00%  3.0670us         9     340ns      80ns  1.0820us  cuDeviceGetAttribute
+                    0.00%  2.4950us         2  1.2470us     100ns  2.3950us  cuMemGetAllocationGranularity
+                    0.00%  2.2110us        27      81ns      70ns     110ns  cuGetErrorString
+                    0.00%     982ns         1     982ns     982ns     982ns  cuCtxSetCurrent
+                    0.00%     942ns         2     471ns     110ns     832ns  cuDeviceGetCount
+                    0.00%     531ns         2     265ns     110ns     421ns  cuDeviceGet

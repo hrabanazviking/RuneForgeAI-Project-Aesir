@@ -1,0 +1,1 @@
+PASS native serve sampling: all seven flags, combined admission, pre-key rejection and no writes

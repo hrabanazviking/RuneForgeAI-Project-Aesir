@@ -1,0 +1,750 @@
+[CASE PASS] hardware.host_memory
+[CASE PASS] hardware.inference_memory_counts
+[CASE PASS] hardware.inference_memory_rejection
+[CASE PASS] hardware.native_device_selection
+[CASE PASS] hardware.automatic_context_sequence
+[CASE PASS] hardware.planning_cli_rejection
+[CASE PASS] storage.persisted_text_admission
+==============================================
+  ⚡ Project Aesir — The Grand Proving ⚡
+==============================================
+
+  [DOMAIN] Core Compute Kernels
+  -----------------------------------------
+--- Testing gemm_f16 (The Anvil's Strike) ---
+gemm_f16: PASS
+[CASE PASS] compute.gemm_f16
+--- Testing flash_attention_2 (The Gaze of Odin) ---
+flash_attention_2: PASS
+[CASE PASS] compute.flash_attention_2
+--- Testing silu (The Bending of the Branch) ---
+silu: PASS
+[CASE PASS] compute.silu
+--- Testing geglu (The Binding of the Gates) ---
+geglu: PASS
+[CASE PASS] compute.geglu
+canonical Q4_K dequantization: PASS
+[CASE PASS] compute.dequantize_q4_k
+
+  [DOMAIN] GGUFSeer Loader
+  -----------------------------------------
+--- Testing GGUFSeer validation (The Runecaster's Vision) ---
+GGUFSeer malformed-model rejection & FAILED state transition: PASS
+[CASE PASS] gguf.malformed_model_rejection
+--- Testing GGMLType Constants ---
+GGMLType: PASS
+[CASE PASS] gguf.type_constants
+
+  [DOMAIN] RuneWeaver Tokenizer
+  -----------------------------------------
+--- Testing RuneWeaver ---
+Fallback tokens count: 11
+BPE merged tokens count: 3
+RuneWeaver vocabulary validation: PASS
+RuneWeaver: PASS
+[CASE PASS] tokenizer.synthetic_bpe
+--- Testing Profiled Linear BPE Tokenizer Merge Performance ---
+Profiled linear BPE tokenizer merge performance: PASS
+[CASE PASS] tokenizer.linear_bpe_perf
+--- Testing MimirWell Allocation Telemetry & Arena Recycling ---
+MimirWell allocation telemetry & arena recycling: PASS
+[CASE PASS] memory.telemetry_and_recycling
+
+  [DOMAIN] The Loom of Fate (Inference)
+  -----------------------------------------
+--- Testing forward_pass (The Loom of Fate) ---
+Next token generated: 0
+forward_pass: PASS
+[CASE PASS] inference.synthetic_forward
+--- Testing deterministic generation stop policy ---
+deterministic generation stop policy: PASS
+[CASE PASS] inference.stop_policy
+unsupported runtime configurations: PASS
+[CASE PASS] inference.unsupported_runtime_config
+--- Testing KVCache (The Waters of Mímisbrunnr) ---
+--- Testing KVCache Ring-Buffer Rotation ---
+KVCache ring-buffer rotation: PASS
+PagedKVCache multi-sequence allocation, exhaustion, and reuse: PASS
+KVCache instantiation: PASS
+KVCache token append: PASS
+MimirWell memory exhaustion error: PASS
+KVCache slice bounds: PASS
+KVCache state accumulation: PASS
+test_kv_cache: PASS
+[CASE PASS] inference.kv_cache
+
+  [DOMAIN] Logical Host Tensor Partitioning
+  -----------------------------------------
+--- Testing configured logical host topology ---
+--- Testing Honest Accelerator Hardware Discovery & Capability Matrix ---
+honest accelerator hardware discovery: PASS
+--- Testing Multi-Device GQA Head Partitioning ---
+multi-device GQA head partitioning: PASS
+logical host topology: PASS
+[CASE PASS] sharding.logical_host_topology
+--- Testing ShardTensor (The Thread Slice) ---
+ShardTensor: PASS
+[CASE PASS] sharding.tensor_descriptor
+--- Testing Tensor Partitioning (Rows & Cols) ---
+Tensor Partitioning (Rows/Cols): PASS
+[CASE PASS] sharding.row_column_partition
+--- Testing all_reduce_sum (The Convergence of Shards) ---
+all_reduce_sum: PASS
+[CASE PASS] sharding.host_all_reduce
+--- Testing sequential host-shard GEMM parity ---
+sequential host-shard GEMM parity: PASS
+[CASE PASS] sharding.host_gemm_parity
+
+  [DOMAIN] Local Vector and RAG Building Blocks
+  -----------------------------------------
+--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---
+cosine_similarity: PASS
+[CASE PASS] rag.cosine_similarity
+--- Testing MimirStore (Insertion & k-NN Vector Search) ---
+MimirStore (insertion & k-NN): PASS
+[CASE PASS] rag.in_memory_store
+--- Testing Query Embedding Extraction (Mean-Pooled Token Vectors) ---
+Query Embedding Extraction: PASS
+[CASE PASS] rag.query_embedding
+--- Testing Corpus Ingestion & Deterministic Text Chunking ---
+Corpus Ingestion & Text Chunking: PASS
+[CASE PASS] rag.corpus_ingestion
+--- Testing End-to-End RAG Grounded Context & Citation Budgeting ---
+End-to-End RAG Grounded Context & Citation Budgeting: PASS
+[CASE PASS] rag.local_retrieval_prompt
+RAG Engine Integration: SKIP (requires a validated real GGUF fixture)
+[CASE SKIP] rag.real_engine_integration :: requires a validated external GGUF fixture
+
+  [DOMAIN] NPU Descriptors and Unsupported Execution Gateway
+  -----------------------------------------
+--- Testing reserved NPU backend discriminants ---
+NPUBackendType: PASS
+[CASE PASS] npu.enum
+--- Testing no fabricated NPU discovery ---
+no fabricated NPU discovery: PASS
+[CASE PASS] npu.no_fabricated_detection
+--- Testing NPU-labeled host buffer descriptor ---
+NPU-labeled host buffer descriptor: PASS
+[CASE PASS] npu.host_buffer_view
+--- Testing host 8-wide SIMD helper parity ---
+host 8-wide SIMD helper parity: PASS
+[CASE PASS] npu.host_simd8_parity
+--- Testing unsupported NPU execution gateway ---
+unsupported NPU execution gateway: PASS
+[CASE PASS] npu.unsupported_execution
+--- Testing NPUGate driver & runtime availability ---
+NPU Backend HAILO_10: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend QUALCOMM_HEXAGON: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend ARM_NEON: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend JETSON_NVIDIA: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend APPLE_NEURAL_ENGINE: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend GENERIC_NPU: UNAVAILABLE on current host platform (Fail-Closed)
+NPU Backend INTEL_NPU: UNAVAILABLE on current host platform (Fail-Closed)
+NPUGate driver & runtime availability: PASS
+[CASE PASS] npu.npu_gate_availability
+--- Testing gemm_f16_npu shape mismatch handling ---
+gemm_f16_npu shape mismatch handling: PASS
+[CASE PASS] npu.npu_gemm_dispatch_bounds
+--- Testing NPU realm error gateways ---
+NPU realm error gateways: PASS
+[CASE PASS] npu.npu_realm_unsupported_gateways
+
+  [DOMAIN] GPU Descriptors and Unsupported Physical Gateways
+  -----------------------------------------
+--- Testing reserved GPU realm discriminants ---
+GPURealmType: PASS
+[CASE PASS] gpu.enum
+--- Testing no fabricated GPU discovery ---
+no fabricated GPU discovery: PASS
+[CASE PASS] gpu.no_fabricated_detection
+--- Testing GPU-labeled host buffer descriptor ---
+GPU-labeled host buffer descriptor: PASS
+[CASE PASS] gpu.host_buffer_view
+--- Testing unsupported GPU execution gateway ---
+unsupported GPU execution gateway: PASS
+[CASE PASS] gpu.unsupported_execution
+discovery failure status classification: PASS
+[CASE PASS] gpu.discovery_status_classification
+physical device admission invariants: PASS
+[CASE PASS] gpu.physical_device_admission
+topology discovery accumulation: PASS
+[CASE PASS] gpu.discovery_accumulation
+topology stable device selection: PASS
+[CASE PASS] gpu.stable_device_selection
+CUDA resource budget accounting: PASS
+[CASE PASS] gpu.resource_budget_accounting
+CUDA resource budget transactional rejection: PASS
+[CASE PASS] gpu.resource_budget_transaction
+CUDA resource budget overflow and rollback: PASS
+[CASE PASS] gpu.resource_budget_rollback
+CUDA resource policy admission: PASS
+[CASE PASS] gpu.resource_policy_admission
+CUDA GEMM plan counts and launch: PASS
+[CASE PASS] gpu.cuda_gemm_plan_counts
+CUDA GEMM plan shape rejection: PASS
+[CASE PASS] gpu.cuda_gemm_plan_shape_rejection
+CUDA GEMM plan overflow and ABI rejection: PASS
+[CASE PASS] gpu.cuda_gemm_plan_abi_rejection
+CUDA GEMM batch budget transaction: PASS
+[CASE PASS] gpu.cuda_gemm_batch_transaction
+--- Testing truthful CUDA runtime and physical device discovery ---
+CUDA physical devices observed through MAX: 1
+[CASE PASS] gpu.cuda_gate_availability
+--- Testing gemm_f16_gpu shape mismatch handling ---
+[CASE PASS] gpu.cuda_gemm_dispatch_bounds
+--- Testing unsupported GPU realm error gateways ---
+[CASE PASS] gpu.cuda_realm_unsupported_gateways
+--- Testing MetalGate driver & framework availability ---
+Apple Metal Framework: UNAVAILABLE on current host platform (Fail-Closed)
+MetalGate driver & framework availability: PASS
+[CASE PASS] gpu.metal_gate_availability
+--- Testing gemm_f16_gpu Metal shape mismatch handling ---
+gemm_f16_gpu Metal shape mismatch handling: PASS
+[CASE PASS] gpu.metal_gemm_dispatch_bounds
+--- Testing Apple Metal realm error gateways ---
+Apple Metal realm error gateways: PASS
+[CASE PASS] gpu.metal_realm_unsupported_gateways
+--- Testing IntelGate driver & runtime availability ---
+Intel Level Zero: UNAVAILABLE on current host platform (Fail-Closed)
+IntelGate driver & runtime availability: PASS
+[CASE PASS] gpu.intel_gate_availability
+--- Testing gemm_f16_gpu Intel shape mismatch handling ---
+gemm_f16_gpu Intel shape mismatch handling: PASS
+[CASE PASS] gpu.intel_gemm_dispatch_bounds
+--- Testing Intel Level Zero realm error gateways ---
+Intel Level Zero realm error gateways: PASS
+[CASE PASS] gpu.intel_realm_unsupported_gateways
+--- Testing AMDGate driver & runtime availability ---
+AMD ROCm HIP: UNAVAILABLE on current host platform (Fail-Closed)
+AMDGate driver & runtime availability: PASS
+[CASE PASS] gpu.amd_gate_availability
+--- Testing gemm_f16_gpu AMD shape mismatch handling ---
+gemm_f16_gpu AMD shape mismatch handling: PASS
+[CASE PASS] gpu.amd_gemm_dispatch_bounds
+--- Testing AMD ROCm HIP realm error gateways ---
+AMD ROCm HIP realm error gateways: PASS
+[CASE PASS] gpu.amd_realm_unsupported_gateways
+--- Testing non-positive VRAM / NPU allocation rejection ---
+non-positive VRAM / NPU allocation rejection: PASS
+[CASE PASS] gpu.resilience_allocation_rejection
+--- Testing non-positive GEMM dimension rejection ---
+non-positive GEMM dimension rejection: PASS
+[CASE PASS] gpu.resilience_dimension_rejection
+--- Testing fail-closed error barriers and arena integrity ---
+fail-closed error barriers and arena integrity: PASS
+[CASE PASS] gpu.resilience_error_barriers
+
+  [DOMAIN] Implemented CLI and Unsupported Boundaries
+  -----------------------------------------
+--- Testing Modelfile directive parser, quoting & GenerationConfig conversion ---
+Modelfile directive parser & GenerationConfig integration: PASS
+[CASE PASS] cli.modelfile_parser
+--- Testing validated manifests & restart-safe durable catalog ---
+validated manifests & restart-safe durable catalog: PASS
+[CASE PASS] cli.manifest_store_restart
+--- Testing operational CLI command dispatchers & boundaries ---
+==========================================================================
+  Project Aesir CLI — verified local GGUF run + development surfaces
+==========================================================================
+Usage:
+  aesir [command] [flags]
+
+Implemented:
+  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal
+  keygen <new-private-file> — create an OS-random service key without overwriting
+  hardware list — observed CPU/CUDA devices and backend availability
+  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]
+      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]
+  pull <owner/repo> <filename.gguf> --revision <commit-sha>
+      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]
+      [--name <name[:tag]> [--config <path>]]
+      Download and verify a pinned GGUF; optionally register stored bytes.
+      Default single-connection pulls resume verified partial downloads.
+  inspect <model> [--format text|json] [--context N] [--model-store path]
+      Report architecture, adapter readiness, capabilities, and memory estimate.
+  doctor [model] [--model-store path] [--format text|json]
+      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.
+  alias <short-name> <model> [--model-store path] | aliases
+  unalias <short-name> [--model-store path]
+  favorite <model-or-alias> [--model-store path] | favorites
+  unfavorite <model-or-alias> [--model-store path]
+  repair-preferences [--dry-run|--apply] [--model-store path | --config file]
+      Preview by default; --apply removes only shortcuts to missing catalog models.
+      Durable local shortcuts and favorite-first interactive selection.
+  run <model> [--max-tokens N] [--config path] [--accel auto|cpu|cuda] <prompt...>
+      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference.
+  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]
+      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)
+      [--model-store path | --config file] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]
+      Omit model to choose an installed catalog model interactively.
+      --show-settings with an explicit model previews native config/recipe/CLI settings as JSON; no GPU load.
+      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]
+      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation
+      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]
+      [--autosave-dir existing-private-directory] [--autosave-retain 1..64]
+      Optional crash recovery; restores the latest compatible committed generation.
+      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>
+      /export <new-markdown> /set <setting> <value> /bye
+      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.
+      Persistent CUDA text chat; one user turn per nonempty prompt-file line.
+  config [--config <path>] [--format json|text]
+      Validate and show the selected configuration file.
+  list|ls [--config path] [--format text|json]
+  show <name[:tag]> [--config path] [--format text|json]
+  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]
+  verify <name[:tag]> [--config path]
+  catalog migrate|backup|restore <path> [--model-store path | --config file]
+      One-way legacy import and immutable validate-before-replace snapshots.
+  gc [--config path]
+  cp <source[:tag]> <target[:tag]> [--config path]
+  rm|delete <name[:tag]> [--config path]
+      Restart-safe catalog operations; default store is .aesir/models.
+      Select a store with --model-store path OR --config file (not both).
+      --model imports immutable SHA-256-addressed bytes; verify rehashes them.
+  help, -h, --help
+      Show this capability-aware help.
+  -v, --version
+      Show the development version.
+
+  serve <model> --accel cuda --api-key-file <private-file>
+      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]
+      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]
+      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only
+      Sampling defaults: --temperature, --top-k, --top-p, --min-p,
+      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.
+      --system text overrides the stored recipe; --show-settings previews without a listener or key.
+      [--model-store path | --config file]; -c aliases --config; no implicit config loading.
+  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]
+      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback
+      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.
+Reserved but unsupported:
+  daemon; interactive run; ps
+  push; stop
+  llama-cli; llama-server; llama-bench; exl2; onnx; swarm
+See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.
+==========================================================================
+  Project Aesir CLI — verified local GGUF run + development surfaces
+==========================================================================
+Usage:
+  aesir [command] [flags]
+
+Implemented:
+  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal
+  keygen <new-private-file> — create an OS-random service key without overwriting
+  hardware list — observed CPU/CUDA devices and backend availability
+  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]
+      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]
+  pull <owner/repo> <filename.gguf> --revision <commit-sha>
+      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]
+      [--name <name[:tag]> [--config <path>]]
+      Download and verify a pinned GGUF; optionally register stored bytes.
+      Default single-connection pulls resume verified partial downloads.
+  inspect <model> [--format text|json] [--context N] [--model-store path]
+      Report architecture, adapter readiness, capabilities, and memory estimate.
+  doctor [model] [--model-store path] [--format text|json]
+      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.
+  alias <short-name> <model> [--model-store path] | aliases
+  unalias <short-name> [--model-store path]
+  favorite <model-or-alias> [--model-store path] | favorites
+  unfavorite <model-or-alias> [--model-store path]
+  repair-preferences [--dry-run|--apply] [--model-store path | --config file]
+      Preview by default; --apply removes only shortcuts to missing catalog models.
+      Durable local shortcuts and favorite-first interactive selection.
+  run <model> [--max-tokens N] [--config path] [--accel auto|cpu|cuda] <prompt...>
+      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference.
+  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]
+      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)
+      [--model-store path | --config file] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]
+      Omit model to choose an installed catalog model interactively.
+      --show-settings with an explicit model previews native config/recipe/CLI settings as JSON; no GPU load.
+      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]
+      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation
+      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]
+      [--autosave-dir existing-private-directory] [--autosave-retain 1..64]
+      Optional crash recovery; restores the latest compatible committed generation.
+      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>
+      /export <new-markdown> /set <setting> <value> /bye
+      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.
+      Persistent CUDA text chat; one user turn per nonempty prompt-file line.
+  config [--config <path>] [--format json|text]
+      Validate and show the selected configuration file.
+  list|ls [--config path] [--format text|json]
+  show <name[:tag]> [--config path] [--format text|json]
+  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]
+  verify <name[:tag]> [--config path]
+  catalog migrate|backup|restore <path> [--model-store path | --config file]
+      One-way legacy import and immutable validate-before-replace snapshots.
+  gc [--config path]
+  cp <source[:tag]> <target[:tag]> [--config path]
+  rm|delete <name[:tag]> [--config path]
+      Restart-safe catalog operations; default store is .aesir/models.
+      Select a store with --model-store path OR --config file (not both).
+      --model imports immutable SHA-256-addressed bytes; verify rehashes them.
+  help, -h, --help
+      Show this capability-aware help.
+  -v, --version
+      Show the development version.
+
+  serve <model> --accel cuda --api-key-file <private-file>
+      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]
+      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]
+      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only
+      Sampling defaults: --temperature, --top-k, --top-p, --min-p,
+      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.
+      --system text overrides the stored recipe; --show-settings previews without a listener or key.
+      [--model-store path | --config file]; -c aliases --config; no implicit config loading.
+  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]
+      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback
+      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.
+Reserved but unsupported:
+  daemon; interactive run; ps
+  push; stop
+  llama-cli; llama-server; llama-bench; exl2; onnx; swarm
+See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.
+Validated configuration: aesir.config.json
+{
+  "hardware": {
+    "acceleration_backend": "auto",
+    "target_npu": "auto",
+    "num_gpu_layers": 0,
+    "max_threads": 0
+  },
+  "safety": {
+    "skaldbrodir_enabled": false,
+    "thinking_enabled": false
+  },
+  "experimental_paradigms": {
+    "cia_enabled": false,
+    "wic_enabled": false,
+    "nsfi_enabled": false,
+    "mqari_enabled": false
+  },
+  "interface": {
+    "tui_enabled": false
+  },
+  "storage": {
+    "model_store_path": ".aesir/models"
+  },
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0
+  }
+}
+operational CLI command dispatchers & boundaries: PASS
+[CASE PASS] cli.truthful_command_boundaries
+--- Testing RuneREPL session state, slash commands & stream execution ---
+Available REPL Slash Commands:
+  /? , /help         - Show this help message
+  /set parameter val - Set session parameter (e.g. /set temp 0.8)
+  /show [modelfile]  - Show model information and current config
+  /clear             - Clear chat conversation context
+  /bye , /exit       - Exit the REPL session
+Set temperature to 0.8
+Set top_k to 50
+Model:        aesir-chat:latest
+System:       You are Aesir, a sovereign LLM inference engine.
+Temperature:  0.8
+Top K:        50
+Top P:        0.9
+Max Tokens:   16000
+History Turns:1
+Conversation context cleared.
+Farewell from Project Aesir.
+Set temperature to 0.0
+Set top_k to 0
+RuneREPL session state & slash commands: PASS
+[CASE PASS] cli.repl_session_state
+--- Testing CLIOptions flag parser, duration conversion & JSON output ---
+CLIOptions flag parser, duration conversion & JSON output: PASS
+[CASE PASS] cli.flag_options_parser
+[CASE PASS] cli.doctor_observations
+[CASE PASS] cli.doctor_readiness
+[CASE PASS] cli.conversation_codec
+[CASE PASS] core.prompt_prefix_exact
+[CASE PASS] cli.conversation_compatibility
+conversation autosave generations: PASS
+[CASE PASS] cli.conversation_autosave_generations
+model preference codec and validation: PASS
+[CASE PASS] cli.model_preferences_codec
+favorite-first model selection: PASS
+[CASE PASS] cli.favorite_model_selection
+
+  [DOMAIN] Compressed Format Scaffolds
+  -----------------------------------------
+--- Testing CompressedFormatType (Format Discriminants) ---
+CompressedFormatType: PASS
+[CASE PASS] quantization.enum
+--- Testing compressed-format dequantization boundaries ---
+compressed-format dequantization boundaries: PASS
+[CASE PASS] quantization.external_dequant_boundaries
+raw Q4_K_M matvec: PASS
+[CASE PASS] quantization.fused_q4_k_m_parity
+--- Testing fused Q4_0 GEMM parity against uncompressed gemm_f16 ---
+fused Q4_0 GEMM parity: PASS
+[CASE PASS] quantization.fused_q4_0_parity
+--- Testing fused Q4_1 GEMM parity against uncompressed gemm_f16 ---
+gemm_f16: A.rows: 1 A.cols: 32 B.rows: 1 B.cols: 32 B.is_quant: True
+fused Q4_1 GEMM parity: PASS
+[CASE PASS] quantization.fused_q4_1_parity
+raw Q5_0 matvec: PASS
+[CASE PASS] quantization.fused_q5_0_parity
+--- Testing fused Q5_1 GEMM parity against uncompressed gemm_f16 ---
+fused Q5_1 GEMM parity: PASS
+[CASE PASS] quantization.fused_q5_1_parity
+raw Q8_0 matvec: PASS
+[CASE PASS] quantization.fused_q8_0_parity
+raw Q8_1 matvec: PASS
+[CASE PASS] quantization.fused_q8_1_parity
+raw FP8 E4M3 matvec: PASS
+[CASE PASS] quantization.fused_fp8_e4m3_parity
+raw FP8 E5M2 matvec: PASS
+[CASE PASS] quantization.fused_fp8_e5m2_parity
+raw Q3_K_S matvec: PASS
+[CASE PASS] quantization.fused_q3_k_s_parity
+raw Q3_K_M matvec: PASS
+[CASE PASS] quantization.fused_q3_k_m_parity
+raw Q3_K_L matvec: PASS
+[CASE PASS] quantization.fused_q3_k_l_parity
+raw Q5_K_S matvec: PASS
+[CASE PASS] quantization.fused_q5_k_s_parity
+raw Q5_K_M matvec: PASS
+[CASE PASS] quantization.fused_q5_k_m_parity
+raw Q2_K matvec: PASS
+[CASE PASS] quantization.fused_q2_k_parity
+raw Q6_K matvec: PASS
+[CASE PASS] quantization.fused_q6_k_parity
+GPTQ_4BIT canonical AutoGPTQ dequantization and GEMM: PASS
+[CASE PASS] quantization.gptq_4bit_known_value
+GPTQ_8BIT canonical AutoGPTQ dequantization and GEMM: PASS
+[CASE PASS] quantization.gptq_8bit_known_value
+AWQ_4BIT canonical AutoAWQ GEMM layout and execution: PASS
+[CASE PASS] quantization.awq_4bit_known_value
+EXL2_VARBIT explicit mutation-free rejection: PASS
+EXL2 canonical 2/3/4/5/6/8-bit packing and execution: PASS
+[CASE PASS] quantization.exl2_mixedbit_known_value
+HQQ 4-bit axis=1 native packing and execution: PASS
+[CASE PASS] quantization.hqq_4bit_axis1_known_value
+SMOOTHQUANT_INT8 static W8A8 execution: PASS
+[CASE PASS] quantization.smoothquant_int8_known_value
+IQ1_S canonical 50-byte block and GEMM: PASS
+[CASE PASS] quantization.iq1_s_known_value
+IQ2_XXS canonical 66-byte block and GEMM: PASS
+[CASE PASS] quantization.iq2_xxs_known_value
+TQ1_0 canonical 54-byte block and GEMM: PASS
+[CASE PASS] quantization.tq1_0_known_value
+truthful all-format quantization metadata: PASS
+[CASE PASS] quantization.format_metadata
+measured correctness-gated quantized GEMM autotuner: PASS
+[CASE PASS] quantization.measured_autotuner
+--- Testing Dequantizer Invalid Bounds Rejection ---
+dequantizer invalid bounds rejection: PASS
+[CASE PASS] quantization.hardening_zero_and_null_bounds
+--- Testing Quantized GEMM Invalid Dimension Rejection ---
+quantized GEMM invalid dimension rejection: PASS
+[CASE PASS] quantization.hardening_invalid_dimensions
+--- Testing Unrecognized Format Self-Healing Fallback ---
+unrecognized format strict rejection: PASS
+[CASE PASS] quantization.hardening_unrecognized_format
+--- Testing FP8 & Quantized NaN / Corrupt Weight Sanitization ---
+FP8 & quantized NaN / corrupt weight sanitization: PASS
+[CASE PASS] quantization.hardening_nan_sanitization
+--- Testing RuneTensor Q4_K_M quantization metadata ---
+RuneTensor Q4_K_M quantization metadata: PASS
+[CASE PASS] quantization.tensor_mapping_metadata
+
+  [DOMAIN] Formatter and Unsupported Ecosystem Boundaries
+  -----------------------------------------
+--- Testing OpenAIGate caller-observed JSON serialization ---
+OpenAIGate: PASS
+[CASE PASS] multi_engine.openai_formatter
+--- Testing fail-closed legacy grammar boundary ---
+fail-closed legacy grammar boundary: PASS
+[CASE PASS] multi_engine.grammar_mask
+--- Testing fail-closed legacy speculative boundary ---
+fail-closed legacy speculative boundary: PASS
+[CASE PASS] multi_engine.speculative_acceptance
+--- Testing honest ONNX execution boundary ---
+honest ONNX execution boundary: PASS
+[CASE PASS] multi_engine.onnx_unavailable
+--- Testing unsupported multi-engine CLI dispatchers ---
+unsupported multi-engine CLI dispatchers: PASS
+[CASE PASS] multi_engine.cli_unsupported
+--- Testing honest unsupported HTTP responses ---
+honest unsupported HTTP responses: PASS
+[CASE PASS] multi_engine.http_unsupported_responses
+--- Testing bare-metal POSIX socket bind/listen setup & options ---
+Bifrost socket listener open on http://127.0.0.1:18434; no model-backed service loop is attached
+bare-metal POSIX socket bind/listen setup & options: PASS
+[CASE PASS] server.posix_socket
+--- Testing HTTP/1.1 request parser & route dispatcher ---
+HTTP/1.1 request parser & route dispatcher: PASS
+[CASE PASS] server.http_parser
+--- Testing HTTP/1.1 response framing & streaming utilities ---
+HTTP/1.1 response framing & streaming utilities: PASS
+[CASE PASS] server.http_response_framing
+--- Testing fail-closed OpenAI REST compatibility boundaries ---
+OpenAI REST API Gateway: PASS
+[CASE PASS] server.openai_rest_gateway
+
+  [DOMAIN] Local Resilience & Concurrency Matrix
+  -----------------------------------------
+--- Testing ErrorGuard (Pointer & Logit Sanitization) ---
+ErrorGuard: PASS
+[CASE PASS] resilience.error_guard
+--- Testing StateVault in-memory marker ---
+StateVault in-memory & disk durable checkpoint: PASS
+[CASE PASS] resilience.state_vault_marker
+--- Testing StateVault Marker Checkpoints & Corruption Detection ---
+StateVault marker checkpoints & corruption detection: PASS
+[CASE PASS] resilience.durable_state_vault
+--- Testing AesirEventBus last-event marker ---
+AesirEventBus last-event marker: PASS
+[CASE PASS] resilience.event_bus_marker
+--- Testing AesirEventBus Pub/Sub & Subscriptions ---
+AesirEventBus pub/sub & subscriptions: PASS
+[CASE PASS] resilience.event_bus_pub_sub
+--- Testing RuneThreadPool state scaffold ---
+RuneThreadPool state scaffold: PASS
+[CASE PASS] resilience.thread_pool_stub
+--- Testing Bounded Task Descriptors & Unsupported Workers ---
+Bounded task descriptors & unsupported workers: PASS
+[CASE PASS] resilience.task_descriptor_queue
+--- Testing Unsupported Supervisor Recovery Boundary ---
+unsupported supervisor recovery boundary: PASS
+[CASE PASS] resilience.supervisor_recovery_unsupported
+
+  [DOMAIN] Hugging Face Download Admission and Process Safety
+  -----------------------------------------
+--- Testing HuggingFaceSeer Repo Tag Parsing ---
+HuggingFace Tag Parsing: PASS
+[CASE PASS] huggingface.tag_parser
+--- Testing HuggingFace CDN Download URL Builder ---
+HuggingFace CDN URL Builder: PASS
+[CASE PASS] huggingface.url_builder
+[CASE PASS] huggingface.argv_safety
+[CASE PASS] huggingface.pinned_admission
+[CASE PASS] cli.cuda_chat_admission
+[CASE PASS] cli.cuda_model_switch_syntax
+[CASE PASS] cli.chat_recovery_policy
+--- Testing Hugging Face download parameter boundary ---
+Hugging Face download parameter boundary: PASS
+[CASE PASS] huggingface.download_parameter_boundary
+
+  [DOMAIN] Swarm Protocol & Distributed Mesh Matrix
+  -----------------------------------------
+--- Testing SwarmNodeRole Discriminants ---
+SwarmNodeRole Discriminants: PASS
+[CASE PASS] swarm.role_enum
+--- Testing caller-supplied PeerNode capacity arithmetic ---
+caller-supplied PeerNode capacity arithmetic: PASS
+[CASE PASS] swarm.peer_metrics
+--- Testing caller-supplied peer selection primitive ---
+caller-supplied peer selection primitive: PASS
+[CASE PASS] swarm.registry_load_balancer
+--- Testing unsupported swarm network operations ---
+unsupported swarm network operations: PASS
+[CASE PASS] swarm.network_unsupported
+--- Testing Swarm Node Identity Authentication ---
+Swarm node identity authentication: PASS
+[CASE PASS] swarm.node_authentication
+--- Testing Unsupported Swarm Join, Leave, and Heartbeat Boundaries ---
+Unsupported swarm join, leave, and heartbeat boundaries: PASS
+[CASE PASS] swarm.join_leave_heartbeat
+--- Testing Remote Swarm Inference Dispatch ---
+Remote swarm inference dispatch: PASS
+[CASE PASS] swarm.remote_inference_dispatch
+
+  [DOMAIN] System Paradigms, Safety Protocols and Framework Controls
+  -----------------------------------------
+test_config_and_json: PASS
+[CASE PASS] paradigms.config_and_json
+test_cli_flags: PASS
+[CASE PASS] paradigms.cli_flags
+test_help_and_tui: PASS
+[CASE PASS] paradigms.help_and_tui
+test_skaldbrodir_doom_loop: PASS
+[CASE PASS] paradigms.skaldbrodir_doom_loop
+test_thinking_redaction: PASS
+[CASE PASS] paradigms.thinking_redaction
+test_tool_use_json: PASS
+[CASE PASS] paradigms.tool_use_json
+test_smart_failure_diagnostics: PASS
+[CASE PASS] paradigms.failure_diagnostics
+test_max_gate_boundary: PASS
+[CASE PASS] paradigms.max_gate_boundary
+test_experimental_paradigms: PASS
+[CASE PASS] paradigms.experimental_paradigms
+
+  [DOMAIN] ONNX Protobuf & Operator Dispatcher Subset
+  -----------------------------------------
+--- Testing ONNX recognized metadata operator subset ---
+ONNX recognized metadata operator subset: PASS
+[CASE PASS] onnx.recognized_operators
+--- Testing bounded ONNX ModelProto metadata parser ---
+bounded ONNX ModelProto metadata parser: PASS
+[CASE PASS] onnx.model_seer
+
+  [DOMAIN] EXL2 Descriptor and Unsupported Runtime Boundary
+  -----------------------------------------
+--- Testing unavailable EXL2 execution contract ---
+unavailable EXL2 execution contract: PASS
+[CASE PASS] exl2.cuda_contract
+--- Testing honest EXL2 descriptor boundary ---
+honest EXL2 descriptor boundary: PASS
+[CASE PASS] exl2.model_seer
+
+  [DOMAIN] llama.cpp Unsupported Compatibility Boundary
+  -----------------------------------------
+--- Testing unavailable llama.cpp subcommand boundary ---
+unavailable llama.cpp subcommand boundary: PASS
+[CASE PASS] llama_cpp_cli.subcommands
+--- Testing unavailable llama.cpp argument parser ---
+unavailable llama.cpp argument parser: PASS
+[CASE PASS] llama_cpp_cli.arg_parsing
+
+  [DOMAIN] GBNF Grammar Parser & Automaton
+  -----------------------------------------
+--- Testing GBNF Rule Construction & Automaton ---
+GBNF rule construction: PASS
+[CASE PASS] gbnf.rule_construction
+--- Testing bounded token-text grammar masking ---
+bounded token-text grammar masking: PASS
+[CASE PASS] gbnf.token_validation_masking
+
+  [DOMAIN] Speculative Decoding Engine
+  -----------------------------------------
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+[CASE PASS] speculative.proposal_verification
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+[CASE PASS] speculative.rejection_rollback
+
+[CASE PASS] sampling.strict_syntax
+[CASE PASS] sampling.config_rejection
+[CASE PASS] sampling.config_updates
+[CASE PASS] upload.staging_bounds
+[CASE PASS] upload.host_admission
+[CASE PASS] cgroup.paths
+[CASE PASS] cgroup.hierarchy
+[CASE PASS] cgroup.rejection
+[CASE PASS] control.deadline
+[CASE PASS] control.admission
+[CASE PASS] control.sigint
+[CASE PASS] local_service.json
+[CASE PASS] local_service.http
+[CASE PASS] local_service.request
+[CASE PASS] local_service.c_paths
+[CASE PASS] native.gemma4_profiles
+[CASE PASS] native.model_registry
+
+==============================================
+  Grand Proving Counted Summary
+==============================================
+[SUMMARY] Passed: 186
+[SUMMARY] Failed: 0
+[SUMMARY] Skipped: 1
+[SUMMARY] Total: 187
+[SUMMARY] Status: PASS
+Scaffold checks are not external capability proof.
+==============================================

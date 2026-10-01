@@ -1,3 +1,29 @@
+## 2026-10-01 — Sigrún: native kernel efficiency and evidence gates
+
+Packed byte fields now use proven bounded Int32 arithmetic while every pointer,
+span and index stays wide. Fixed-width RMS uses four independent values per
+register tile, preserving lane accumulation and warp reduction. Original scalar
+kernels and unsupported-width fallbacks remain. An intermediate whole-vector
+register approach was refined after weak RMS timing; the final RMS trace improves
+3.18x. No extra GPU workspace, KV allocation or transport/state changes.
+
+Same-policy native HTTP improves another 1.62–1.64x uncached and 1.64–1.66x with
+matching retained prefixes. Extended 1070-prompt/128-output drops 48.255 to 30.170 s;
+sustained 128-output drops 7.465 to 4.571 s. All 34 paired complete replies/counts match.
+GPU allocation is 2466 MiB and host HWM remains about 3.35 GiB. The evidence comparator
+requires complete matching model/control/reply sequences and refuses failure
+reports. Extended benchmark controls preserve the original default suite.
+
+Physical gates pass 738 reference projection rows / 1404 guard cells, 233472 RMS
+values (independent maximum error 3.31862988e-7), 35 real dot products (maximum
+error 2.9802322e-7), seven prefix/sampling/deadline recovery completions, native
+service faults and 29 API fixtures. Counted master 186/0/1, total 187; negative
+control exits 1; documentation/fixture/evidence-validation gates pass. Hosted CI
+compiles probes but does not claim GPU execution. Manuals, raw artifacts and
+scope are in docs/NATIVE_EFFICIENCY.md, its evidence report and TASK_native_efficiency.md.
+Full independent logits, batched prefill, broad devices/models and locked-runtime
+context recreation remain open. Final remote CI/deployment are separate gates.
+
 ## 2026-10-01 — Final performance evidence and publication corrections
 
 Final fresh-prefill medians improve 2.97–3.02x. Repeated exact prefixes improve

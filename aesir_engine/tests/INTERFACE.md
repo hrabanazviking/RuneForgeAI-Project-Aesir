@@ -350,6 +350,13 @@ benchmarks are separate opt-in checks in ../../docs/evidence/second-brain-2026-1
 
 ## Native performance probes (2026-10-01)
 
+The efficiency follow-up extends packed projection to 738 exact reference rows,
+1404 tail guards, six widths and row counts crossing block boundaries.
+test_dense_normalization.mojo emits 233472 physical values after 48 exact-reference
+and span-guard cases; scripts/check_dense_normalization.py independently checks
+the equations. Hosted CI only compiles these opt-in physical probes. Independent
+real-weight and full service/recovery gates remain separate requirements.
+
 The counted master adds core.prompt_prefix_exact and covers snapshot-family
 mapping in native.model_registry. Expected count is 187: 186 pass and one skipped
 external fixture on the exercised host. Negative control must still exit nonzero.

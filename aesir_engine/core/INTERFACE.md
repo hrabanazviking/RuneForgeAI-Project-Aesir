@@ -1048,3 +1048,14 @@ RoPE remain fixed; reused_prompt_tokens observes actual reused slots. Disabling
 the constructor flag forces full prefill. Logical reset still empties all public
 conversation/sampler/decoder/control state. This is ephemeral reuse, not secure
 erasure or disk persistence. See docs/NATIVE_PERFORMANCE.md at the project root.
+
+## Dense kernel efficiency (2026-10-01)
+
+packed_block_group keeps addresses/indices in Int and uses Int32 for unpacked
+byte fields only; the largest Q5 scale*q product is 1953. Float arithmetic order,
+wide span admission and packed_value reference ownership remain unchanged.
+dense_norm_kernel[width] requires a positive width divisible by 128, admitted F32
+weight spans and in-place/disjoint activation spans. It schedules four independent
+loads per tile, preserving the scalar lane sum and final warp reduction. Production
+norm_at selects 128/3072/4096; other widths retain norm_kernel. No extra GPU buffer
+or public transport/state contract is introduced. See docs/NATIVE_EFFICIENCY.md.

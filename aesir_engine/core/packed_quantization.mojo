@@ -20,30 +20,32 @@ def packed_block_group[kind: Int, group: Int](
     groups remove per-element division and quantization branches. Keep exactly
     packed_value's arithmetic order, including integer Q4/Q5 scale products.
     """
+    # Quant fields are bytes: scale*q <= 63*31 = 1953. Only byte
+    # arithmetic narrows; every address, span and index remains machine-width.
     comptime assert kind == 12 or kind == 13 or kind == 14
     comptime assert group >= 0 and group < 8
     comptime if kind == 14:
         comptime half = group // 4
         comptime within = group % 4
-        var low = Int(w.unsafe_load(p + half * 64 + within % 2 * 32 + lane))
-        low = (low >> (4 * (within // 2))) & 15
-        var high = (Int(w.unsafe_load(p + 128 + half * 32 + lane)) >> (2 * within)) & 3
+        var low = Int32(w.unsafe_load(p + half * 64 + within % 2 * 32 + lane))
+        low = (low >> Int32(4 * (within // 2))) & 15
+        var high = (Int32(w.unsafe_load(p + 128 + half * 32 + lane)) >> Int32(2 * within)) & 3
         var scale = w.unsafe_offset(p + 192).unsafe_bitcast[Int8]().unsafe_load(
             half * 8 + within * 2 + lane // 16)
         return d * Float32(scale) * Float32((low | (high << 4)) - 32)
     else:
-        var scale: Int
-        var minimum: Int
+        var scale: Int32
+        var minimum: Int32
         comptime if group < 4:
-            scale = Int(w.unsafe_load(p + 4 + group)) & 63
-            minimum = Int(w.unsafe_load(p + 8 + group)) & 63
+            scale = Int32(w.unsafe_load(p + 4 + group)) & 63
+            minimum = Int32(w.unsafe_load(p + 8 + group)) & 63
         else:
-            scale = (Int(w.unsafe_load(p + 8 + group)) & 15) | ((Int(w.unsafe_load(p + group)) >> 6) << 4)
-            minimum = (Int(w.unsafe_load(p + 8 + group)) >> 4) | ((Int(w.unsafe_load(p + 4 + group)) >> 6) << 4)
+            scale = (Int32(w.unsafe_load(p + 8 + group)) & 15) | ((Int32(w.unsafe_load(p + group)) >> 6) << 4)
+            minimum = (Int32(w.unsafe_load(p + 8 + group)) >> 4) | ((Int32(w.unsafe_load(p + 4 + group)) >> 6) << 4)
         comptime quants = 16 if kind == 12 else 48
-        var q = (Int(w.unsafe_load(p + quants + group // 2 * 32 + lane)) >> (4 * (group % 2))) & 15
+        var q = (Int32(w.unsafe_load(p + quants + group // 2 * 32 + lane)) >> Int32(4 * (group % 2))) & 15
         comptime if kind == 13:
-            q += ((Int(w.unsafe_load(p + 16 + lane)) >> group) & 1) * 16
+            q += ((Int32(w.unsafe_load(p + 16 + lane)) >> Int32(group)) & 1) * 16
         return d * Float32(scale * q) - dmin * Float32(minimum)
 
 

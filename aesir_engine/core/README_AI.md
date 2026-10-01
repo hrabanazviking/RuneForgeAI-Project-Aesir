@@ -16,3 +16,10 @@ deployment. Compilation, synthetic checks or fluent answers do not promote broad
 model/hardware support. Rebuild after Mojo edits; benchmark with other GPU work
 idle and retain failures. See project-root docs/NATIVE_PERFORMANCE.md for evidence,
 commands, memory/control semantics and context-recreation limits.
+
+Dense normalization uses four-value register tiles at admitted 128/3072/4096
+widths; preserve lane summation and in-place/disjoint ownership. Quant byte
+arithmetic may narrow only within the proved small range; addresses remain wide.
+Expanded physical parity and the independent RMS checker are required. Use the
+fail-closed benchmark comparator rather than trusting reported summary medians.
+See project-root docs/NATIVE_EFFICIENCY.md.

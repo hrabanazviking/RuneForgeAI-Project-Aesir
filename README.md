@@ -1,4 +1,4 @@
-> **2026-10-01: Bifröst integration on Turing.** Native Llama 3.2 3B Q4_K_M now runs on the exercised RTX 2060 Max-Q. [Setup and limits](docs/SECOND_BRAIN.md) and [actual performance evidence](docs/evidence/second-brain-2026-10-01.md). Ollama remains the measured faster Bifröst default.
+> **2026-10-01: native CUDA efficiency.** The exercised Llama 3.2 3B/RTX 2060 subset is another 1.60–1.66x faster than the preceding release, with matching complete replies and unchanged GPU allocation. [Operation and verification](docs/NATIVE_EFFICIENCY.md). Bifröst keeps its existing Ollama provider policy; native/Ollama templates and cache policies differ. [Second-brain setup](docs/SECOND_BRAIN.md).
 
 > Project A.E.S.I.R. is an experimental native-Mojo engine for running local AI models directly on your own hardware, and it is evolving from a working low-level inference engine into a practical backend that ordinary AI applications can eventually use.
 

@@ -1,5 +1,9 @@
 # Native performance and exact prefix reuse
 
+The subsequent kernel-efficiency slice and fail-closed evidence comparator are
+documented in [Native kernel efficiency](NATIVE_EFFICIENCY.md). The original
+measurements below remain historical evidence for the earlier release.
+
 The 2026-10-01 optimization executes inside native Mojo CUDA. Python tools only
 supervise and measure the binary. Physical evidence applies to Llama 3.2 3B
 Q4_K_M on the installed 6 GiB RTX 2060 (sm_75).

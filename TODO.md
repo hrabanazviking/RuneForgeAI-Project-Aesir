@@ -1,5 +1,19 @@
 # Project A.E.S.I.R. — Evidence-Backed TODO
 
+## Native efficiency follow-up — 2026-10-01
+
+- [x] **[partial, AES-OPS-001]** Bound quant byte arithmetic to Int32 while
+  preserving wide spans and reference float order; schedule RMS loads in small
+  fixed-width tiles. Physical projection/RMS references and independent equations
+  pass. Same-policy whole replies match in all 34 paired HTTP benchmark samples.
+- [x] Measure standard cache-disabled and cached work plus 1070-token prefill and
+  128-token sustained output. Achieved another 1.60–1.66x on this model/device.
+- [x] Add a fail-closed evidence comparator and extended benchmark controls;
+  mismatched replies/settings/models/failures cannot publish speed ratios.
+
+See [efficiency operation and verification](docs/NATIVE_EFFICIENCY.md). The open
+batched-prefill/full-logit/device/context-recreation gates below remain open.
+
 ## Native performance milestone — 2026-10-01
 
 - [x] **[partial, AES-OPS-001]** Profile real 3B CUDA work and optimize packed

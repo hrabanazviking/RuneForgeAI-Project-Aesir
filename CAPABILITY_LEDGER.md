@@ -1564,6 +1564,18 @@ and circular self-parity transforms were removed.
   favors native cached arithmetic but Ollama retains the 32-token advantage.
   [Raw evidence and constraints](docs/evidence/native-performance-2026-10-01.md).
 
+- **Further efficiency subset (2026-10-01):** Int32 quant byte arithmetic retains
+  wide addresses and reference float order; four-value fixed RMS tiles retain the
+  scalar lane sum and warp reduction. Standard uncached medians improve another
+  1.62–1.64x and cached medians 1.64–1.66x versus binary d1ee3ba2. The extended
+  1070-prompt/128-output case improves 1.60x; sustained 128-output improves 1.63x.
+  All 34 paired whole replies/counts match. GPU allocation remains 2466 MiB in
+  these processes. Expanded physical probes prove 738 synthetic projection rows,
+  1404 tail guards and 233472 RMS values versus exact references/independent
+  equations. The new comparator refuses invalid/mismatched evidence. Status stays
+  partial; full logits, batched prefill and broader devices/models remain open.
+  See [efficiency operation and verification](docs/NATIVE_EFFICIENCY.md).
+
 
 ### AES-OPS-002 — Resource-efficiency, REPL parameter bounds & runtime safety
 
