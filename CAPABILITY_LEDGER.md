@@ -1444,7 +1444,17 @@ and circular self-parity transforms were removed.
   [Evidence](docs/evidence/turing-batched-elementwise-2026-10-02/README.md).
   No added global workspace, production definitions/admission or provider status
   change. Enabled controls on this new strategy remain a separate physical gate.
-- **Next acceptance gate:** Enabled-control recovery for the newly batched fixture and owned stage tracing; broader causal attention/model/hardware/persisted/context/runtime prefill gates remain open.
+- **Enabled batched controls (2026-10-02):** Actual strategy2 pre-expired/10ms/
+  owned-SIGINT/invalid-fd aborts at0/2/8/0 synchronized layers. Healthy drains
+  preserve uncommitted position/IDs and require explicit reset; three reuse
+  operations refuse without mutation. Reset preserves allocations/weights and
+  all513024 recovered values per owner equal accepted2 F32 bytes. All9792 guards,
+  caller-owned signal consumption/mask and observer-exception poison/refusal
+  gates pass. Eleven portable control contracts additionally bind matching
+  strategy/full independent source/scope/CSV/report hashes, including mutation/
+  interrupt failure retention. [Evidence](docs/evidence/turing-batched-controls-2026-10-02/README.md).
+  No hard real-time/GPU-fault-repair/runtime/provider promotion or speed score.
+- **Next acceptance gate:** Owned stage tracing for the accepted batched path; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -12,13 +12,14 @@ import re
 from launch import digest
 from profile_native_cuda import read_text
 from check_turing_activations import f32
-from check_turing_model_prefill import parse as reference_parse
+from check_turing_model_prefill import parse as reference_parse, attention_variant, reference_fields
 from check_llama3_logits import VOCABULARY
 
 
 def reference(path,report_path,model_sha):
     data = reference_parse(path)
-    text = read_text(report_path,5*1024*1024); report = json.loads(text)
+    text = read_text(report_path,5*1024*1024)
+    report = json.loads(text,object_pairs_hook=reference_fields,parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite control source")))
     if (type(report.get("schema")) is not int or report["schema"] != 1 or
         report.get("passed") is not True or report.get("speed_scored") is not True or
         report.get("collection_complete") is not True or data["activation_precision"] != 0 or
@@ -26,7 +27,15 @@ def reference(path,report_path,model_sha):
         report.get("independent_reference",{}).get("passed") is not True or
         report.get("numerical_budget") != dict(max_absolute_error=.05,max_rms_error=.005,same_full_vocabulary_argmax=True)):
         raise ValueError("Control reference is not bound to accepted original-mode0 independent evidence")
-    return data["cases"][1],dict(csv_sha256=data["csv_sha256"],report_sha256=hashlib.sha256(text.encode()).hexdigest())
+    if report.get("attention_variant") != data.get("attention_variant") or report.get("full_model_values_per_mode") != 4*VOCABULARY or report.get("invalid_tiles") != 8 or report.get("guards") != 4352:
+        raise ValueError("Control source variant/scope/totals mismatch")
+    cases = report["independent_reference"].get("cases",[])
+    if len(cases) != 4 or any(c.get(mode,{}).get("passed") is not True for c in cases for mode in ("native","matrix")):
+        raise ValueError("Control source lacks every independent owner/case")
+    proof = dict(csv_sha256=data["csv_sha256"],report_sha256=hashlib.sha256(text.encode()).hexdigest(),attention_variant=data.get("attention_variant"))
+    if digest(path) != proof["csv_sha256"] or digest(report_path) != proof["report_sha256"]:
+        raise ValueError("Control reference changed during admission")
+    return dict(data["cases"][1],attention_variant=data.get("attention_variant")),proof
 
 
 def parse(path,golden):
@@ -36,7 +45,10 @@ def parse(path,golden):
     row = next(reader)
     if not row or not row[0].startswith("[CUDA]") or "api=cuda" not in row[0] or "cpu_offload=0" not in row[0]:
         raise ValueError("Missing native CUDA control identity")
-    if next(reader) != ["META","1","fixture_controls","1536","32",str(VOCABULARY),"4","1"]:
+    row = next(reader); variant = attention_variant(row)
+    if variant is not None: row = next(reader)
+    if variant != golden.get("attention_variant"): raise ValueError("Control strategy differs from accepted source")
+    if row != ["META","1","fixture_controls","1536","32",str(VOCABULARY),"4","1"]:
         raise ValueError("Wrong control fixture metadata")
     if len(golden["input_ids"]) != 37: raise ValueError("Wrong accepted public recovery case")
     for ordinal,token in enumerate(golden["input_ids"]):
@@ -76,10 +88,10 @@ def parse(path,golden):
     if next(reader) != ["MASK_RESTORED","1"] or next(reader) != ["COMPLETE","fixture_controls","4",str(4*VOCABULARY),"1","9792","1"]:
         raise ValueError("Control mask restoration or complete totals failed")
     if next(reader,None) is not None: raise ValueError("Trailing control evidence")
-    return dict(schema=1,passed=all(c["byte_identical"] for c in cases),collection_complete=True,speed_claim=False,
+    return dict(schema=1,passed=all(c["byte_identical"] for c in cases),collection_complete=True,speed_claim=False,attention_variant=variant,
                 csv_sha256=hashlib.sha256(text.encode()).hexdigest(),recovered_values_per_mode=4*VOCABULARY,
                 guards=9792,poisoned_exception_cases=1,owner_mask_restored=True,cases=cases,
-                limits="Test-only strict3B/context1536 mode0 cooperative layer boundaries. 10ms deadline is not hard real time. SIGINT delivered to the owning test thread after8 synced layers. Exact accepted case1 vectors after explicit reset, with preserved allocations. Unexpected observer exception proves poison policy, not an actual GPU-fault repair. No production/generation/restore/concurrency/provider or speed claim.")
+                limits="Test-only strict3B/context1536 original precision0 with explicit execution strategy binding and cooperative layer boundaries. 10ms deadline is not hard real time. SIGINT delivered to the owning test thread after8 synced layers. Exact accepted case1 vectors after explicit reset, with preserved allocations. Unexpected observer exception proves poison policy, not an actual GPU-fault repair. No production/concurrency/provider or speed claim.")
 
 
 def main():
@@ -97,8 +109,10 @@ def main():
             report = parse(args.csv,golden)
             report.update(model_sha256=args.model_sha256,accepted_reference=proof)
             if digest(args.model) != args.model_sha256: raise ValueError("Control model changed during read")
+            if digest(args.csv) != report["csv_sha256"] or digest(args.reference_csv) != proof["csv_sha256"] or digest(args.reference_report) != proof["report_sha256"]:
+                raise ValueError("Control capture or accepted reference changed during validation")
             if not report["passed"]: report["error"] = "Recovered complete vectors differ; control acceptance withheld"
-        except Exception as error:
+        except (Exception,KeyboardInterrupt) as error:
             report.update(passed=False,error=f"{type(error).__name__}: {error}")
         json.dump(report,stream,indent=2,allow_nan=False);stream.write("\n")
     print("PASS: cooperative fixture control/recovery" if report["passed"] else "FAIL: "+report["error"])

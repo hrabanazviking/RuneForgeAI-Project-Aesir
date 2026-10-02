@@ -2912,3 +2912,25 @@ Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
 [operation](docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md) and complete evidence.
 No runtime32/provider promotion. Next physically earn enabled controls/recovery
 on the new strategy before attention/stage/runtime gates.
+
+## 2026-10-02 — Sigrún: strategy-bound batched control recovery
+
+Scoped/pushed9f46530 before code. Existing real control collector now accepts
+optional explicit0/1/2 with flag validation before signal ownership, preserving
+legacy omission. Matching optional marker/source variant, full independent scope/
+owner/case/budget/totals and strict JSON/parsed-byte hashes own acceptance.
+Capture/source/model rehashes and KeyboardInterrupt preserve failed reports.
+Eleven portable control contracts plus all legacy model/grid/decode/checkpoint
+contracts pass; master190 passes/zero fails/one skip.
+
+Actual new2 pre-expired/10ms/owned-SIGINT/invalid-fd aborts at0/2/8/0 synced
+layers. Healthy drains keep position/IDs uncommitted, require reset and refuse
+reuse without mutation. Reset clears32 uncommitted sampler IDs with allocations/
+weights unchanged; all513024 recovered values per owner match accepted2 actual
+F32 bytes. All9792 guards, caller signal/mask and observer-poison/four refusals
+pass. Both target/master/normal builds precede owned capture; strict validation
+reuses independent source quality through exact bytes. All durations unscored.
+Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
+[operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md) and full evidence. Cooperative
+only; no GPU-fault repair, runtime32/provider promotion. Next earn owned stage
+tracing and wider context/concurrency/soak gates.

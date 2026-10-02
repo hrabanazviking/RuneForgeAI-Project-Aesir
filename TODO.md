@@ -103,6 +103,14 @@
   independent/sample/state/bit/source/guard conditions. Master190 passes/one skip;
   seven portable grid contracts pass. [Operation](docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md).
   Next earn enabled controls/recovery on this new strategy before promotion.
+- [x] SPD-04 enabled controls for new batched strategy2: actual pre-expired/
+  10ms/owned-SIGINT/invalid-fd aborts at0/2/8/0 synced layers, explicit reset
+  clears uncommitted sampler state with allocations intact. All513024 recovered
+  values per owner equal accepted2 bytes;9792 guards/mask/poison/refusal checks
+  pass. Eleven control contracts bind matching strategy/full source/hash and
+  preserve mutation/interrupt failures. [Operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md).
+  Cooperative only; broader context/concurrency/soak/runtime/provider gates open.
+  Next earn owned stage tracing for the accepted batched path.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

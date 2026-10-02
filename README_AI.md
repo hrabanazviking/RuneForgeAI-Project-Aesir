@@ -72,3 +72,8 @@ The next optional independent normalization/residual/SiLU strategy2 is documente
 in docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md. Keep original entry definitions,
 actual row/strategy admission, full source/vector/cache/continuation gates and
 production policy intact. Physical fixture evidence does not promote providers.
+
+Enabled-control evidence for optional strategy2 is documented in
+docs/NATIVE_TURING_BATCHED_CONTROLS.md. Preserve actual layer/mask/state/byte
+recovery and strict matching-source admission. Physical GPU-fault repair, broader
+context/concurrency/runtime/provider support remain separate gates.

@@ -1,6 +1,7 @@
 """Control evidence fails closed on state/identity/mask/complete-vector drift."""
 from array import array
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -28,10 +29,10 @@ def fixture(delta=0):
 
 
 class Contracts(unittest.TestCase):
-    def parse(self,text):
+    def parse(self,text,variant=None):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/"capture";path.write_text(text)
-            with patch.object(check,"VOCABULARY",4): return check.parse(path,golden())
+            with patch.object(check,"VOCABULARY",4): return check.parse(path,dict(golden(),attention_variant=variant))
 
     def test_complete_recovery_and_no_speed_claim(self):
         report = self.parse(fixture())
@@ -74,24 +75,54 @@ class Contracts(unittest.TestCase):
             with self.assertRaises((ValueError,StopIteration)): self.parse(text)
 
     def test_accepted_reference_binding(self):
-        report = dict(schema=1,passed=True,speed_scored=True,collection_complete=True,csv_sha256="csv",model_sha256="model",independent_reference=dict(passed=True),numerical_budget=dict(max_absolute_error=.05,max_rms_error=.005,same_full_vocabulary_argmax=True))
+        report = dict(schema=1,passed=True,speed_scored=True,collection_complete=True,csv_sha256="csv",model_sha256="model",full_model_values_per_mode=4*check.VOCABULARY,invalid_tiles=8,guards=4352,independent_reference=dict(passed=True,cases=[dict(native=dict(passed=True),matrix=dict(passed=True)) for _ in range(4)]),numerical_budget=dict(max_absolute_error=.05,max_rms_error=.005,same_full_vocabulary_argmax=True))
         data = dict(activation_precision=0,csv_sha256="csv",cases=[golden()]*4)
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)/"report"
+            capture=Path(directory)/"csv";capture.write_bytes(b"csv")
+            data["csv_sha256"]=hashlib.sha256(b"csv").hexdigest();report["csv_sha256"]=data["csv_sha256"]
             with patch.object(check,"reference_parse",return_value=data):
-                path.write_text(json.dumps(report));self.assertEqual(check.reference(None,path,"model")[0]["input_ids"],[1]*37)
-                for key,value in (("passed",False),("schema",True),("csv_sha256","wrong"),("model_sha256","wrong"),("independent_reference",dict(passed=False))):
+                path.write_text(json.dumps(report));self.assertEqual(check.reference(capture,path,"model")[0]["input_ids"],[1]*37)
+                for key,value in (("passed",False),("schema",True),("csv_sha256","wrong"),("model_sha256","wrong"),("independent_reference",dict(passed=False)),("guards",4351),("attention_variant",2)):
                     altered = dict(report);altered[key]=value;path.write_text(json.dumps(altered))
-                    with self.assertRaises(ValueError): check.reference(None,path,"model")
+                    with self.assertRaises(ValueError): check.reference(capture,path,"model")
+                path.write_text(json.dumps(report).replace('"schema": 1','"schema": 1, "schema": 1'))
+                with self.assertRaises(ValueError):check.reference(capture,path,"model")
 
     def test_failed_cli_report_is_complete_and_exclusive(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory);capture=root/"capture";capture.write_text(fixture(.125));output=root/"result"
             args = ["check",str(capture),"--reference-csv","unused","--reference-report","unused","--model","unused","--model-sha256","a"*64,"--output",str(output)]
-            with patch("sys.argv",args),patch.object(check,"VOCABULARY",4),patch.object(check,"digest",return_value="a"*64),patch.object(check,"reference",return_value=(golden(),{})):
+            with patch("sys.argv",args),patch.object(check,"VOCABULARY",4),patch.object(check,"digest",side_effect=lambda path:hashlib.sha256(capture.read_bytes()).hexdigest() if path==capture else "a"*64),patch.object(check,"reference",return_value=(golden(),dict(csv_sha256="a"*64,report_sha256="a"*64))):
                 self.assertEqual(check.main(),1)
                 report=json.loads(output.read_text());self.assertFalse(report["passed"]);self.assertTrue(report["collection_complete"])
                 with self.assertRaises(FileExistsError): check.main()
+
+
+    def test_variant_identity_duplicate_late_and_unknown_metadata(self):
+        head,body=fixture().split("\n",1)
+        for variant in (0,1,2):
+            marker=f"ATTENTION,rope_cache_grid,{variant},32\n" if variant<2 else "ATTENTION,rope_cache_elementwise_grid,1,32\n"
+            text=head+"\n"+marker+body
+            self.assertTrue(self.parse(text,variant)["passed"])
+            with self.assertRaises(ValueError):self.parse(text)
+            for bad in (head+"\n"+marker+marker+body,fixture()+marker,text.replace(",32\n",",64\n",1),head+"\nATTENTION,rope_cache_grid,2,32\n"+body):
+                with self.assertRaises(ValueError):self.parse(bad,variant)
+
+    def test_source_mutation_interrupt_and_exclusive_failure_reporting(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);capture=root/"capture";capture.write_text(fixture());output=root/"result"
+            args=["check",str(capture),"--reference-csv","source","--reference-report","source-report","--model","model","--model-sha256","a"*64,"--output",str(output)]
+            proof=dict(csv_sha256="a"*64,report_sha256="a"*64)
+            values=["a"*64,"a"*64,hashlib.sha256(capture.read_bytes()).hexdigest(),"changed"]
+            with patch("sys.argv",args),patch.object(check,"VOCABULARY",4),patch.object(check,"digest",side_effect=values),patch.object(check,"reference",return_value=(golden(),proof)):
+                self.assertEqual(check.main(),1)
+            report=json.loads(output.read_text());self.assertTrue(report["collection_complete"]);self.assertFalse(report["passed"])
+            self.assertIn("changed",report["error"]);self.assertFalse(report["speed_claim"])
+            args[-1]=str(root/"interrupt")
+            with patch("sys.argv",args),patch.object(check,"digest",return_value="a"*64),patch.object(check,"reference",side_effect=KeyboardInterrupt):
+                self.assertEqual(check.main(),1)
+            report=json.loads((root/"interrupt").read_text());self.assertFalse(report["collection_complete"]);self.assertIn("KeyboardInterrupt",report["error"])
 
 
 if __name__ == "__main__": unittest.main()

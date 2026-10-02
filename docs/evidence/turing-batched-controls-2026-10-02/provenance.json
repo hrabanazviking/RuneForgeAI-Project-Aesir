@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "9f46530725b63edc287d5e51dc0e254417955e6a",
+  "accepted_source_revision": "7f662229b14da4ca8a1c02ba938aa327b37e7c15",
+  "builds": [
+    {
+      "name": "check",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T12:14:34.762691+00:00",
+      "ended_utc": "2026-10-02T12:14:34.877796+00:00",
+      "wall_seconds": 0.11511354602407664
+    },
+    {
+      "name": "master",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T12:13:41.235897+00:00",
+      "ended_utc": "2026-10-02T12:14:14.043516+00:00",
+      "wall_seconds": 32.80762465202133
+    },
+    {
+      "name": "normal",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T12:14:14.043851+00:00",
+      "ended_utc": "2026-10-02T12:14:34.762168+00:00",
+      "wall_seconds": 20.718340610008454
+    },
+    {
+      "name": "sm_75",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_fixture_controls.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-batched-controls-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T12:12:47.763896+00:00",
+      "ended_utc": "2026-10-02T12:13:14.674073+00:00",
+      "wall_seconds": 26.910170167975593
+    },
+    {
+      "name": "sm_89",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_fixture_controls.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-batched-controls-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T12:13:14.674545+00:00",
+      "ended_utc": "2026-10-02T12:13:41.235312+00:00",
+      "wall_seconds": 26.560782607004512
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-batched-controls-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "2"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-02T12:16:02.408505+00:00",
+    "ended_utc": "2026-10-02T12:16:08.890025+00:00",
+    "wall_seconds": 6.481518226995831,
+    "performance_scored": false,
+    "binary_sha256": "aebac921ed8693577262d7a1c83ddfa6dd945becbfa228da0f1c17e4d8663dc3",
+    "csv_sha256": "1cfde8ce1c0af3881ce49ae332bb49027c6ee673b31cb320e9ba117e696aae6c",
+    "csv_bytes": 25864783
+  },
+  "validation": {
+    "argv": [
+      "python3",
+      "scripts/check_turing_fixture_controls.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-batched-controls-strategy2.csv",
+      "--reference-csv",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.csv",
+      "--reference-report",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.json",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-batched-controls-strategy2.json"
+    ],
+    "exit_code": 0,
+    "started_utc": "2026-10-02T12:16:08.911753+00:00",
+    "ended_utc": "2026-10-02T12:16:13.837879+00:00",
+    "wall_seconds": 4.926142003008863,
+    "performance_scored": false
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-batched-controls-build-check.json",
+      "bytes": 254,
+      "sha256": "c334119920c7e936f990b7bb5cf0db9cc709203230ca1043e04822cdc3a395a5"
+    },
+    {
+      "name": "turing-batched-controls-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-batched-controls-build-master.json",
+      "bytes": 401,
+      "sha256": "6a2e8c04f84fb0eeb1077c91a9fb67a59eba5e8c4b24e630b74256cd393d0f5a"
+    },
+    {
+      "name": "turing-batched-controls-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-batched-controls-build-normal.json",
+      "bytes": 283,
+      "sha256": "4d8215c4c730299a17484a679d316271eb767780b1c38c43d6bac0d2ad40ed1e"
+    },
+    {
+      "name": "turing-batched-controls-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-batched-controls-build-sm_75.json",
+      "bytes": 564,
+      "sha256": "b0d71664d82a764b32bf94756bfa71177bd6b1d1c275ec3628218bbf62b91fa9"
+    },
+    {
+      "name": "turing-batched-controls-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-batched-controls-build-sm_89.json",
+      "bytes": 564,
+      "sha256": "75d696ea6e36d3981f25978acc6a7c0db3b8234a4261f68440d28abddd9dd2df"
+    },
+    {
+      "name": "turing-batched-controls-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-batched-controls-sm_75",
+      "bytes": 5304176,
+      "sha256": "aebac921ed8693577262d7a1c83ddfa6dd945becbfa228da0f1c17e4d8663dc3"
+    },
+    {
+      "name": "turing-batched-controls-sm_89",
+      "bytes": 5304176,
+      "sha256": "6c8bdd2011d25af9d6efe6b0649c1846bd545bad54cd8ebd124f89df950d3a2e"
+    },
+    {
+      "name": "turing-batched-controls-strategy2-process.json",
+      "bytes": 656,
+      "sha256": "2ae672189cc51a74f7862ae2e733567036fc1b057e8754209e0a7e0708e808d0"
+    },
+    {
+      "name": "turing-batched-controls-strategy2-validation-process.json",
+      "bytes": 1006,
+      "sha256": "ae9826891f1fed6b86ad3597b38b0808e66d08308135759dddf03f6776d67d39"
+    },
+    {
+      "name": "turing-batched-controls-strategy2-validation.txt",
+      "bytes": 43,
+      "sha256": "0c98b69acbbea9f5e59ebe2008c86b43582925fdddcae946de7ad5d65760d2f2"
+    },
+    {
+      "name": "turing-batched-controls-strategy2.csv",
+      "bytes": 25864783,
+      "sha256": "1cfde8ce1c0af3881ce49ae332bb49027c6ee673b31cb320e9ba117e696aae6c"
+    },
+    {
+      "name": "turing-batched-controls-strategy2.json",
+      "bytes": 2981,
+      "sha256": "88f3935f01fe7a04c0510c48a8b62b5d2e700e4fc1cb6aba5aec5c7bed218a6e"
+    },
+    {
+      "name": "turing-batched-controls-strategy2.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/test_turing_fixture_controls.mojo": "4fedd518639ea8313a2b40becd14f1976cec71baed6c6eac1ca876d364f8eb2f",
+    "scripts/check_turing_fixture_controls.py": "818743d472f8a25fd17065639fc5580973f79abb965e3bf862b08bf433b2f0d5",
+    "scripts/test_check_turing_fixture_controls.py": "7275d1d7b91f6faef35c482a69e2bcfc8d8b89637830d88f6e2efd659cc12d39"
+  },
+  "limits": "Original strict3B/context1536/F16KV/sm75 strategy2 cooperative enabled controls only. Exact recovered bytes bind complete independently passed strategy2 source. No hard real-time deadline, physical GPU-fault repair, production32, broader contexts/devices, maximum history/window wrap, concurrent/disconnect/soak, persisted/context recreation or provider score. All durations unscored; portable labels preserve actual raw private receipts."
+}

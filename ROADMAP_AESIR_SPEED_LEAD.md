@@ -432,6 +432,16 @@ seven portable grid contracts pass. Production stays unchanged. Next physically
 exercise enabled-control recovery on strategy2, then earn owned stage tracing
 before further attention/runtime work. Provider comparisons remain separate.
 
+Strategy2 enabled controls now physically earn pre-expired/10ms/owned-SIGINT/
+invalid-fd aborts at0/2/8/0 synchronized layers, reset-required refusal and exact
+allocation-preserving recovery. All513024 recovered values per owner match the
+accepted independent2 source;9792 guards/mask/poison checks pass. Eleven portable
+control contracts bind full source scope/variant/hash and retain mutation/interrupt
+failures. [Operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md). Cooperative controls
+are not hard real time or GPU-fault repair. Production stays unchanged; next earn
+owned stage tracing before further attention/runtime changes, with broader
+context/concurrency/soak and provider gates still open.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

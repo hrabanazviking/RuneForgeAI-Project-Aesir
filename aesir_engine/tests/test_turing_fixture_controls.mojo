@@ -94,11 +94,14 @@ def abort_case(mut f: TuringPrefillFixture,tokens: List[Int],index: Int,fd: Int)
     recovered(f,tokens,index)
 
 
-def exercise(path: String) raises:
+def exercise(path: String,flag: Int = 0,explicit: Bool = False) raises:
     var interrupts = ChatInterrupts()
-    var f = TuringPrefillFixture(path)
+    var f = TuringPrefillFixture(path,0,Bool(flag>0),Bool(flag==2))
     var tokens = inputs(f,"Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.")
     if len(tokens) != 37: raise Error("Recovery public prompt changed")
+    if explicit:
+        if flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
+        else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,fixture_controls,1536,32,128256,4,1")
     for i in range(len(tokens)): print("INPUT,"+String(i)+","+String(tokens[i]))
     for index in range(4): abort_case(f,tokens,index,interrupts.fd)
@@ -118,12 +121,14 @@ def exercise(path: String) raises:
 
 def main() raises:
     var args = argv()
-    if len(args) != 2: raise Error("usage: test_turing_fixture_controls MODEL.gguf")
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_fixture_controls MODEL.gguf [STRATEGY]")
+    var flag = Int(args[2]) if len(args) == 3 else 0
+    if flag < 0 or flag > 2: raise Error("Control fixture strategy must be0/1/2")
     var before = InlineArray[UInt64,16](fill=0)
     var after = InlineArray[UInt64,16](fill=0)
     if external_call["pthread_sigmask",Int32](Int32(0),Int(0),Int(before.unsafe_ptr())) != 0:
         raise Error("Cannot observe original owner mask")
-    exercise(args[1])
+    exercise(args[1],flag,len(args)==3)
     if external_call["pthread_sigmask",Int32](Int32(0),Int(0),Int(after.unsafe_ptr())) != 0:
         raise Error("Cannot observe restored owner mask")
     for i in range(16):

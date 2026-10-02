@@ -183,3 +183,8 @@ SiLU rows and binds actual successful host enqueue counts. Seven grid contracts
 preserve legacy0/1 and refuse unknown tags, wrong counts/reference chains and
 strategy drift. Master stays190 passes/one skip. Read
 ../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; physical evidence stays opt-in.
+
+The enabled-control probe now accepts explicit strategy2 and preserves legacy
+omission. Complete abort/reset/poison/guard/mask proofs bind the matching accepted
+source. Read ../../docs/NATIVE_TURING_BATCHED_CONTROLS.md. Hosted compilation
+remains separate from physical controls; master count stays190/0/1.

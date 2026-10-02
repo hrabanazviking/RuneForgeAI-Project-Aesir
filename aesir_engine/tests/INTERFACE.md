@@ -544,3 +544,11 @@ global workspace. Counters reset on fresh runs. Plans bind actual strategy2
 before reset; scalar/default paths stay unchanged. Shared collectors accept flag2
 and its distinct ATTENTION marker, exporting actual elementwise host counts. Read
 ../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md for full state/source acceptance.
+
+## Enabled batched fixture controls
+
+The physical control collector accepts optional0/1/2 before caller-owned signal
+mask setup. Explicit marker binds recovered vectors to the matching independently
+accepted strategy. Existing deadline/SIGINT/invalid-fd/reset/refusal/poison/guard
+records remain mandatory. No new recovery fallback. Read
+../../docs/NATIVE_TURING_BATCHED_CONTROLS.md; actual GPU faults remain unproved.

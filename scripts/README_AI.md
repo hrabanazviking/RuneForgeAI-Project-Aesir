@@ -140,3 +140,8 @@ Explicit elementwise strategy2 requires its distinct metadata, exact actual host
 counts and independently accepted strategy1 source; original0/1 behavior stays.
 Every model/CSV/report/byte/cache/state/numerical gate remains before scoring.
 Read ../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md. Seven grid contracts pass.
+
+Control validation now binds exact execution variant and complete independent
+source scope/cases/hash before recovered-byte acceptance. Capture/source/model
+hashes recheck; interruptions preserve unsuccessful reports without speed claims.
+Read ../docs/NATIVE_TURING_BATCHED_CONTROLS.md; eleven portable contracts pass.

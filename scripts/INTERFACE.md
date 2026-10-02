@@ -206,3 +206,13 @@ vector/ID/cache/model/report identity. Streamed decode/checkpoint share the stri
 marker and every prior quality/replay/source gate. Seven portable grid contracts
 include complete streamed2 and explicit source-chain/counter refusal. Read
 ../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; no provider promotion.
+
+## Strategy-bound control recovery admission
+
+Control reference now requires matching source variant/scope/totals and every
+independent owner/case, strict duplicate/nonfinite JSON and exact parsed CSV/report
+hashes. parse admits only known optional variant before META and matching golden
+identity. main rehashes capture/source/model afterward and retains KeyboardInterrupt
+failures. All reports keep speed_claim=False. Eleven portable control contracts
+include strategy/metadata/source-mutation/interrupt/exclusive failures. Read
+../docs/NATIVE_TURING_BATCHED_CONTROLS.md before interpreting acceptance.
