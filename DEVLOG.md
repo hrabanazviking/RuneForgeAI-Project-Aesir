@@ -2828,3 +2828,23 @@ before serialized GPU work, CPU oracles afterward. Normal binary stays f3442a1e;
 active authenticated readiness/exact pushed CI are separate. Next earn generation/
 sampling/restore quality before production32 admission/provider lead. Read
 operation/evidence; all rejected precision refinements remain rejected.
+
+## 2026-10-02 — Sigrún: complete decode and seeded replay quality
+
+The original mode0 isolated matrix fixture completes all96 declared prediction
+frames after public37/1070 prefixes, greedy32/seeded16 caps. Every12312576 logit
+value per owner passes unchanged independent CPU/native .05/.005/argmax gates;
+all actual sampled choices agree and every owner's fresh replay is bit-exact.
+Complete committed IDs/history/draws and4352 fixture guards pass. The collector
+retains one case's pinned host snapshots,32833536bytes, and adds no global device
+workspace. A strict regular/no-follow streaming checker bounds2GiB/1024-byte
+lines, retains every complete metric/failure and verifies public-ID/model/derived/
+converter identities, same-descriptor EOF and before/after model hashes. Nine
+portable adversarial contracts cover identity/state/finish/vectors/replay/bounds
+and complete model-change/interruption/cleanup failure reports. sm75/sm89 probes
+compile, master189 passes/one skip. Initial wrong master command is retained;
+explicit master passes. All builds finish before GPU capture, CPU oracle afterward.
+Normal binary stays f3442a1e and readiness stays ready/prefill4. No speed score,
+free-running matrix trajectory, general sampling equivalence, restoration or
+production32/provider promotion. Next preserve original execution boundaries
+across reset/restoration. Read operation/evidence and exact publication receipts.

@@ -326,6 +326,15 @@ gates preserve1.676x long fixture prefill. [Operation](docs/NATIVE_TURING_FIXTUR
 Next earn generation/sampling/restore quality before production32 admission or
 provider scoring. Control durations are unscored; broader context stays open.
 
+The next complete decode gate passes96 prediction frames/all12312576 logits per
+mode after public37/1070 prefixes, greedy32/seeded16 caps. Both owners pass every
+unchanged independent/native budget; all actual sampled choices agree and own
+fresh replay is F32-bit exact. Committed IDs/history/draws and4352 fixture guards
+pass. [Operation](docs/NATIVE_TURING_DECODE_QUALITY.md). Streaming admission bounds
+the680806792-byte raw file and retains every frame metric. No throughput/provider
+ratio; trajectories are native-forced. Next preserve exact execution boundaries
+across reset/restoration before production32 admission and broader context gates.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

@@ -72,6 +72,12 @@
   observer exception poisons reuse. Master189 passes/one skip; disabled mode0
   independent gates preserve1.676x fixture prefill. Generation/sampling/restore
   and production admission/provider gates remain separate.
+- [x] SPD-01/02 complete post-prefill decode/seeded replay:96 frames/all12312576
+  logits per mode pass unchanged CPU/native budgets after public37/1070 prefixes.
+  Greedy32/seeded16 actual samples agree and own fresh vectors replay bit-exactly;
+  complete committed IDs/state/draws and4352 guards pass. Bounded streaming
+  validation retains all metrics without a speed score. Next separately preserve
+  execution boundaries across restoration before production32/provider admission.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

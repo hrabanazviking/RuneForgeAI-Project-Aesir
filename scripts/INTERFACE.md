@@ -151,3 +151,19 @@ case1, including signed zero. Numerical failures retain complete exclusive
 reports; speed_claim is alwaysFalse. Nine adversarial contracts cover identity,
 state, mask, vectors, signed zero and binding. Read
 ../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; this is test-only control evidence.
+
+## check_turing_decode_quality.py
+
+Records owns O_NOFOLLOW/O_NONBLOCK regular admission,2GiB byte cap,1024-byte
+lines, bounded fields, same-descriptor EOF stability and streamed SHA. parse
+requires ordered CUDA/policies/exact public-ID hashes/frames/complete finite F32
+vectors/replay/guards/actual finish/totals, at most96 first-round predictions.
+Only a frame's vectors/numerical scratch survive during comparison. case retains
+every native/matrix choice and fixed numerical metric, even on quality failure.
+CPUReference owns pinned test-only CPU F32 inference, context4096/F16KV/zero
+GPU/four threads and exact native-forced IDs. main verifies original/derived/
+converter provenance and before/after hashes, closes the oracle and publishes an
+exclusive complete/partial failure report. Exit0 requires every original .05/.005/
+argmax gate plus actual sample equality and exact own replay. speed_scored=False
+always. Nine portable contracts are synthetic evidence validation only. Read
+../docs/NATIVE_TURING_DECODE_QUALITY.md; no runtime/provider/restore promotion.

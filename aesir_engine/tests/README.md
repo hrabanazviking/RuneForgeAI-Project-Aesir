@@ -145,3 +145,13 @@ real SIGINT, invalid descriptors, full recovered vectors/guards and signal mask
 restoration. Default disabled behavior retains complete independent model and
 byte-regression gates. Read ../../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; no
 production control/admission or hard real-time claim follows from this fixture.
+
+## Complete decode and seeded replay
+
+test_turing_decode_quality.mojo exports complete128256 paired logits per
+prediction after existing public37/1070-token prefixes, greedy32/seeded16 caps.
+Native chosen IDs feed both owners; matrix choices remain evidence. Exact own
+F32-bit replay, all committed IDs/state/draws and4352 fixture guards are required.
+One-case pinned snapshots cap31.313MiB with no added device workspace. Read
+../../docs/NATIVE_TURING_DECODE_QUALITY.md. Hosted compilation never proves GPU
+execution; bounded streaming CPU/native/sample/replay gates own acceptance.

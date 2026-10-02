@@ -106,3 +106,13 @@ guard, refusal, ownership, poison and mask records are mandatory. Complete
 numerical failures remain exclusive reports, with no control speed score. Read
 ../docs/NATIVE_TURING_FIXTURE_CONTROLS.md before changing gates or interpreting
 control/recovery acceptance as production behavior.
+
+## Complete decode quality
+
+check_turing_decode_quality.py streams regular/no-follow CSV<=2GiB, one bounded
+line/frame at a time. Every policy/public-ID digest/state/vector/replay/guard and
+actual EOS/cap total is required. Fixed independent/native .05/.005/argmax and
+actual sampled-choice equality plus own exact replay own acceptance. Exclusive
+reports retain every complete numerical failure; speed_scored staysFalse. Pinned
+CPU oracle runs only after GPU captures and hashes original/derived models before/
+after. Read ../docs/NATIVE_TURING_DECODE_QUALITY.md; production is never imported.

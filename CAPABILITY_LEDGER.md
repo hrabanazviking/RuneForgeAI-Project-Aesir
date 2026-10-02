@@ -1403,7 +1403,16 @@ and circular self-parity transforms were removed.
   preserve1.676x long fixture prefill. [Evidence](docs/evidence/turing-fixture-controls-2026-10-02/README.md).
   No hard deadline, actual GPU-fault repair or production/provider promotion;
   generation/sampling/restore and broader contexts remain separate gates.
-- **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
+- **Fixture decode/replay acceptance (2026-10-02):** Public37/1070-token prefixes
+  each complete greedy32/seeded16 caps; all12312576 logit values per mode pass
+  unchanged independent/native .05/.005/argmax gates. All96 actual sample choices
+  agree, own fresh vectors replay bit-exactly, committed IDs/state/draws and4352
+  fixture guards pass. Worst matrix/CPU max.02834225/RMS.0039867654. Nine portable
+  streaming contracts pass; no whole680806792-byte CSV load or speed score.
+  [Evidence](docs/evidence/turing-decode-quality-2026-10-02/README.md). Native-forced
+  trajectories only; restoration, production32 admission, broader contexts and
+  provider lead remain open. Status stays partial.
+- **Next acceptance gate:** Broader model/hardware coverage, persisted restoration, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -1,0 +1,290 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "373da9d3f20909895554346dd08156fd4c34e934",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "reference_derivation": {
+    "snapshot_sha256": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "original_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "derived_sha256": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "converter_sha256": "208fcacd9b4264cacdc9783efc5b3361ac775372469edc12b48747e6b9c4dbff",
+    "derived_bytes": 12858837216
+  },
+  "gpu_capture": {
+    "argv": [
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe",
+      "/home/volmarr/ai/RuneForgeAI-Project-Aesir/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+    ],
+    "binary_sha256": "dc28d0fa65fb7d935a5cfa3c074ef6234ac413cca205203d821f712583cb1dcb",
+    "started_utc": "2026-10-02T09:59:02.945605+00:00",
+    "performance_scored": false,
+    "exit_code": 0,
+    "ended_utc": "2026-10-02T10:01:05.907815+00:00",
+    "wall_seconds": 122.96742497998639,
+    "csv_bytes": 680806792,
+    "csv_sha256": "f373879e7f4fa04ff2ba9b4ff41a29a0503c79865ef9a64e01ff12be07c717aa"
+  },
+  "cpu_oracle": {
+    "argv": [
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-measurement/oracle-env/bin/python",
+      "scripts/check_turing_decode_quality.py",
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-final.csv",
+      "--model",
+      "/home/volmarr/ai/RuneForgeAI-Project-Aesir/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--output",
+      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-final.json"
+    ],
+    "started_utc": "2026-10-02T10:02:06.185254+00:00",
+    "performance_scored": false,
+    "exit_code": 0,
+    "ended_utc": "2026-10-02T10:05:40.324281+00:00",
+    "wall_seconds": 214.1390612469986
+  },
+  "builds": [
+    {
+      "name": "check",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T09:58:04.655327+00:00",
+      "ended_utc": "2026-10-02T09:58:04.770330+00:00",
+      "wall_seconds": 0.11503963402356021
+    },
+    {
+      "name": "master-final",
+      "argv": [
+        "/home/volmarr/.pixi/bin/pixi",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T09:57:11.028315+00:00",
+      "ended_utc": "2026-10-02T09:57:44.235918+00:00",
+      "wall_seconds": 33.20763626100961
+    },
+    {
+      "name": "master",
+      "argv": [
+        "/home/volmarr/.pixi/bin/pixi",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "test"
+      ],
+      "exit_code": 1,
+      "started_utc": "2026-10-02T09:56:29.878139+00:00",
+      "ended_utc": "2026-10-02T09:56:29.992682+00:00",
+      "wall_seconds": 0.11456918201292865
+    },
+    {
+      "name": "normal",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T09:57:44.236350+00:00",
+      "ended_utc": "2026-10-02T09:58:04.654881+00:00",
+      "wall_seconds": 20.418560799997067
+    },
+    {
+      "name": "sm75",
+      "argv": [
+        "/home/volmarr/.pixi/bin/pixi",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T09:55:36.052555+00:00",
+      "ended_utc": "2026-10-02T09:56:01.356786+00:00",
+      "wall_seconds": 25.30426077899756
+    },
+    {
+      "name": "sm89",
+      "argv": [
+        "/home/volmarr/.pixi/bin/pixi",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe-sm89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T09:56:01.357229+00:00",
+      "ended_utc": "2026-10-02T09:56:29.877651+00:00",
+      "wall_seconds": 28.52045229700161
+    }
+  ],
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "cpu_offload": 0,
+    "prefill_batch": 4,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-decode-build-check.json",
+      "bytes": 254,
+      "sha256": "2b8b3f9216b95ba2187d24af0ab8135b0903daed96cfeeb455aa8fdd5a257b96"
+    },
+    {
+      "name": "turing-decode-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-decode-build-first.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-decode-build-master-final.json",
+      "bytes": 407,
+      "sha256": "388e22284024f16bcaaef1ab3840d38ae6d62205ffa57ceb24da44a3dace7dd0"
+    },
+    {
+      "name": "turing-decode-build-master-final.txt",
+      "bytes": 34578,
+      "sha256": "ead8f37dea8608be058f8569d7f05764a8c8945d91bb20b5eaa85a1825dc00bc"
+    },
+    {
+      "name": "turing-decode-build-master.json",
+      "bytes": 312,
+      "sha256": "8e0efc20a4527d9dadd774b66e82b1b91965fbfa0cc91cd3a317152e966e6307"
+    },
+    {
+      "name": "turing-decode-build-master.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-decode-build-normal.json",
+      "bytes": 283,
+      "sha256": "19a279c7a634483e7486513afaa2314dd38e2ac0cb5c3ed90f5d41d794650845"
+    },
+    {
+      "name": "turing-decode-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-decode-build-sm75.json",
+      "bytes": 550,
+      "sha256": "a6380320bcda32b159076352da721348b44147967f4bf229039e1d476436db2f"
+    },
+    {
+      "name": "turing-decode-build-sm75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-decode-build-sm89.json",
+      "bytes": 555,
+      "sha256": "5cf7b5a53e00df504ee7c8278b313394180de0b6777038736bce18f20e8feb36"
+    },
+    {
+      "name": "turing-decode-build-sm89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-decode-checker-at-first-oracle.py",
+      "bytes": 14158,
+      "sha256": "e78b024fca11580887716b92ec1bb467e7d8457aab0e618fc54b38d81a398af2"
+    },
+    {
+      "name": "turing-decode-final.csv",
+      "bytes": 680806792,
+      "sha256": "f373879e7f4fa04ff2ba9b4ff41a29a0503c79865ef9a64e01ff12be07c717aa"
+    },
+    {
+      "name": "turing-decode-final.json",
+      "bytes": 200318,
+      "sha256": "0a6b47078527b42c3203f40b0f76d787213f3969041fb2ca2c8a8702a3d56915"
+    },
+    {
+      "name": "turing-decode-oracle-process.json",
+      "bytes": 1163,
+      "sha256": "82dfe33c197a57c0e7993349ebb032b5696fd5ed580ee20458caabbdaa96cb21"
+    },
+    {
+      "name": "turing-decode-oracle.txt",
+      "bytes": 151,
+      "sha256": "ab78b326e0c4b4dabce9767f31ac8093a691f4614e8be769c8f02bab78e7deb2"
+    },
+    {
+      "name": "turing-decode-portable-final.txt",
+      "bytes": 269,
+      "sha256": "b9f6a15dbed3615803576063895c2dd3db027bf65f0876cd06895013b87a0f58"
+    },
+    {
+      "name": "turing-decode-probe",
+      "bytes": 5227024,
+      "sha256": "dc28d0fa65fb7d935a5cfa3c074ef6234ac413cca205203d821f712583cb1dcb"
+    },
+    {
+      "name": "turing-decode-probe-sm89",
+      "bytes": 5227024,
+      "sha256": "64ee35cf0f382143b463f3c5026285008e6cfd6ff26585497b0c10b964345f42"
+    },
+    {
+      "name": "turing-decode-process.json",
+      "bytes": 639,
+      "sha256": "d280237c397ec026e2e4178f7395ac4f811c178d80b863af8fc26c34008c59af"
+    },
+    {
+      "name": "turing-decode-readiness-before.json",
+      "bytes": 197,
+      "sha256": "6446485116317ee4aea2f959a4e3f95b178fbb89fbfc66039d173bf751f3187c"
+    }
+  ],
+  "limits": "Physical mode0 only. Process wall times unscored. Initial pixi run test invoked no registered master task and exited1; retained, corrected explicit master189/0/1 command passes. The later checker KeyboardInterrupt-report enhancement changes no healthy numerical/structural/sampling calculation; portable interruption/cleanup failure paths are checked. No production32 or restore/provider promotion.",
+  "reviewed_sources": {
+    "aesir_engine/tests/test_turing_decode_quality.mojo": "f28f5d23bfe463d70f3463c4450207b51f5689418469a32443dccd7a9939a699",
+    "scripts/check_turing_decode_quality.py": "78fdbdf5b7265b4311478ec06114923fa82a428113418b6c134a529d77f1b51b",
+    "scripts/test_check_turing_decode_quality.py": "9d5c0f8cc8e4ebe0b87e72ba5f3ed396eda437178af16ee8bfb6fc583dd3f729"
+  }
+}

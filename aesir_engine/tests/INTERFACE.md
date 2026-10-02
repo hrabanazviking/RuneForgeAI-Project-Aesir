@@ -498,3 +498,14 @@ ID/position commit; unexpected execution/observer errors poison reuse. Default
 disabled queue policy remains intact. Thin observer is test-only. The physical
 control probe exports all recovered vectors/guard/mask/state proofs; read
 ../../docs/NATIVE_TURING_FIXTURE_CONTROLS.md before expanding control or recovery.
+
+
+test_turing_decode_quality.mojo owns mode0 post-prefill prediction evidence for
+public37/1070-token prefixes under greedy32 and explicit seeded16 caps. prepare
+resets/configures both existing samplers; advance teacher-forces the native
+choice. causal verifies every committed ID, state records actual choice/history/
+draw position and collect exports every F32 logit plus actual EOS/cap completion.
+Fresh own replay compares all vector bits, choices and state, continuing the
+first round's recorded IDs. Pinned snapshots cap32833536bytes per case, no extra
+device workspace. Read ../../docs/NATIVE_TURING_DECODE_QUALITY.md; no throughput/
+provider score, free-running matrix, restoration or production32 admission.

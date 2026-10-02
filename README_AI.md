@@ -50,3 +50,10 @@ candidate to default inference. Primitive evidence does not meet full-model gate
 Matrix staging tuning preserves the original optional32/32 tile; no tested
 four-token candidate earns promotion. Read docs/evidence/matrix-tile-tuning-2026-10-01/README.md.
 Next large-gain prerequisite is actual locked-runtime sm_75 Tensor-Core math.
+
+The optional Turing fixture now has separately documented primitive, full-model,
+ownership, cooperative-control and post-prefill decode/replay gates. Read
+docs/NATIVE_TURING_DECODE_QUALITY.md and current SPD-02 evidence for the latest
+boundary. All96 declared native-forced greedy/seeded prediction frames pass;
+normal production admission remains one/four. Preserve exact execution boundaries
+for the next reset/restoration gate before runtime32 admission or provider claims.
