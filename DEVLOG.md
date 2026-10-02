@@ -1,3 +1,18 @@
+## 2026-10-01 — Sigrún: original packed-weight Turing matrix precision and speed gate
+
+The optional public MMA candidate reads original packed values with bounded
+matrix spans and zero added device workspace. Single F16 weight conversion
+fails the fixed synthetic budget; its source/binary/CSV remain. A documented
+split-weight high/residual refinement passes all1,658,880 native values,2100
+selected independent dots,144 synthetic tails and12 invalid spans. Activations
+still convert once to F16; arbitrary full-model quality is open. All28 actual
+speed cases lose across batches4/8/16/32. No default promotion. Eight portable
+mode/budget/legacy schema checks and optional probe builds pass. All compilation
+ends before the final scored capture. Preserve every560 paired samples.
+Read docs/NATIVE_PACKED_TURING_MATRIX.md and physical evidence. Continue with
+separately scoped coalesced shared staging, not a full-model speed declaration.
+Exact GitHub publication/CI and unchanged service readiness are separate records.
+
 ## 2026-10-01 — Sigrún: physical Turing MMA target correction
 
 The locked public MMA binding failed LLVM selection because the pinned RTX2060

@@ -258,6 +258,13 @@ real-weight precision/speed claim. [Operation](docs/NATIVE_TURING_MMA.md).
 The next slice must validate original packed Q4_K/Q5_K/Q6_K projections with
 bounded F16 conversion, fixed numerical budgets and complete equal-work timing.
 
+That first packed candidate now passes1,658,880 complete native-reference values,
+2100 selected independent dots,144 synthetic tails and12 rejected spans after
+split-weight F16 high/residual refinement. The initial single-component precision
+failure remains. All28 measured shape/batch speed cases lose; no promotion.
+[Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Next measure coalesced shared
+staging, preserving budgets and strict references. Full-model gates remain open.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

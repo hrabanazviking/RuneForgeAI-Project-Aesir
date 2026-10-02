@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "Mojo1.0.0/MAX26.5.0 frozen; optional gguf0.19.0/NumPy2.4.4 oracle",
+  "target": "explicit sm_75 +ptx65 for public MMA; original model bytes",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "initial_failure": "Single F16 weight conversion failed fixed synthetic per-value budget before real timing; raw source/binary/CSV preserved",
+  "precision_refinement": "F16 weight high plus F16 residual; two public F32 MMA calls, activation once-converted F16. Current binary-fraction inputs are representable; full-model activation quality open. No budget change.",
+  "controlled_capture": "All host compilation and owned GPU work ended before the final full capture. Ten alternating pairs, three calls per sample, resident warmed model. No score from failed attempt.",
+  "raw_files": {
+    "packed-turing-first.csv": {
+      "sha256": "c3f67a5eb67fc691ab49efc238beeb1e4c3324adce8cb0e2a8937d99a2247415",
+      "bytes": 409
+    },
+    "packed-turing-first-process.json": {
+      "sha256": "e30408572e2d26a9040dd3a0d4908a2a1dcf53d238753fcad48bf0c90f6a21f8",
+      "bytes": 53
+    },
+    "packed-turing-single-original.mojo": {
+      "sha256": "5485696bbc2283baff05b1320d9260344be75f3ddd5cd221cd9c77af66165f7a",
+      "bytes": 3651
+    },
+    "packed-turing-single-original-probe": {
+      "sha256": "e6e195ea577380a7126852be99ff75a8463144e16c97b61e3e479e8d0ea68579",
+      "bytes": 711632
+    },
+    "packed-turing-split-final.csv": {
+      "sha256": "a56dddad7cfa353e7a1e4cc409e3f8f83cc59f5c37ef95bada50e448748c8213",
+      "bytes": 63843777
+    },
+    "packed-turing-split-process.json": {
+      "sha256": "aa37b55deac2b3d0c059cd40c897dcc6da27883d5b8f796319c98e4824cd4350",
+      "bytes": 53
+    },
+    "packed-turing-split-probe": {
+      "sha256": "09fe547cbc81672ac1e6e508d6403a39908022fcc4eca41161651a5f80ae6215",
+      "bytes": 740688
+    },
+    "packed-turing-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "packed-turing-split-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "packed-turing-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "packed-turing-legacy-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "7e48b3a74557f1c544e6e0ecc382b6503a0b9b1364e30086880c1f6c57ca4b4b",
+    "aesir_engine/tests/test_packed_turing_matrix.mojo": "58f2bc9cfec665001821f2635051e0b96a2850c1ed14d6c58cfd2115f23c0bd2",
+    "aesir_engine/tests/test_packed_matrix.mojo": "455449e422338de0a2cf3533f004938ffe94c516e9488fc39a26189e8d3f64a4",
+    "scripts/check_packed_matrix.py": "8ca0bd1310bc4adf75d45be6150341812d0f4b690e5e9f3c2b437ce2d3d77bd1",
+    "scripts/test_check_packed_matrix.py": "2f5ec33f7653a73388939f08ebb396cac7f1da6ecb009ab40f258d91175c5a69"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "limits": "All28 speed cases lose; no default dispatch, full-model quality/speed lead or new hardware support."
+}

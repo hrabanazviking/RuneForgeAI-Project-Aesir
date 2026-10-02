@@ -1105,3 +1105,11 @@ pinned +ptx63. No library/driver/PTX patch or software substitution. Actual
 borrowed span/offset, bounded counts and warp shapes reject before construction/
 enqueue. Tails are warp uniform. See project-root docs/NATIVE_TURING_MMA.md for
 pinned compatibility, exact physical outputs, failures and instruction limits.
+
+packed_turing_matrix.mojo adds optional project_turing[kind,batch], reusing actual
+borrowed matrix-span admission and original packed_value equations. Warp16x8
+row/token tails zero-pad; F16 high/residual weight operands use two public MMA
+calls with F32 accumulation and once-converted F16 activations. No extra device
+workspace or production dispatch. Fixed primitive gates pass, every measured
+speed case loses. Arbitrary full-model activation quality remains open. Read
+project-root docs/NATIVE_PACKED_TURING_MATRIX.md before refining or integrating.

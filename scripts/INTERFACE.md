@@ -86,3 +86,10 @@ Every50688 output must match independent integer numerator/256 equations, with
 admitted text snapshot; exclusive JSON retains failure/exit1. Six adversarial
 tests prove evidence/special-file admission only. Physical target/instruction/
 hardware identities are separate; see ../docs/NATIVE_TURING_MMA.md.
+
+Matrix parser MODE,turing_mma_split_weight_f16_f32 declares16x8 output geometry;
+it cannot mix with staged-input TILE metadata. Unknown/duplicate/late modes reject.
+Legacy SIMT defaults remain valid. Reports name the candidate and geometry meaning
+and hash the admitted text snapshot. Eight portable tests pass. Precision budgets
+are unchanged. Read ../docs/NATIVE_PACKED_TURING_MATRIX.md for complete native
+versus selected-independent coverage and retained speed rejection.

@@ -1337,6 +1337,13 @@ and circular self-parity transforms were removed.
   JIT failures remain; no installed dependency or production target is patched.
   [Operation](docs/NATIVE_TURING_MMA.md). Real-weight F16 quality and full-model
   acceleration remain open; the existing capability status stays partial.
+- **Optional packed Turing candidate (2026-10-01):** Split-weight F16 high/residual
+  operands and public F32-accumulating MMA pass all1,658,880 native-reference
+  outputs and2100 selected independent real dots under unchanged primitive
+  budgets.144 synthetic tails/12 invalid spans pass. Initial single-F16 precision
+  failure remains. All28 timing cases lose, with no inference promotion.
+  [Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Full-model activation precision,
+  control/state and provider-speed gates remain open; status stays partial.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

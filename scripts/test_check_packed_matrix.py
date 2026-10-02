@@ -74,6 +74,20 @@ class Contracts(unittest.TestCase):
             with self.assertRaises(ValueError):
                 check.independent([], Path("unused"))
 
+    def test_turing_mode_and_mixed_layout_rejection(self):
+        marker = "MODE,turing_mma_split_weight_f16_f32"
+        new = fixture().replace("SYNTHETIC,144,0", marker+"\nSYNTHETIC,144,0")
+        cases = self.parse(new)
+        self.assertEqual(cases[0]["candidate"], marker.split(",")[1])
+        self.assertEqual(cases[0]["tile"], (16, 8))
+        for text in (new.replace(marker,"MODE,unknown"),
+                     new.replace(marker,marker+"\n"+marker),
+                     new.replace(marker,"TILE,32,32\n"+marker),
+                     new.replace(marker,marker+"\nTILE,32,32"),
+                     new.replace("SYNTHETIC,144,0","SYNTHETIC,144,0\n"+marker)):
+            with self.assertRaises(ValueError):
+                self.parse(text)
+
 
 if __name__ == "__main__":
     unittest.main()

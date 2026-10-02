@@ -431,3 +431,10 @@ F32 values; final PASS is mandatory. check_turing_mma.py independently checks
 every output with integer equations. See ../../docs/NATIVE_TURING_MMA.md for the
 isolated target, initial failures and separate instruction/trace/hardware proof.
 Hosted compilation earns no physical or full-model speed/precision capability.
+
+test_packed_turing_matrix.mojo reuses synthetic/real_batch/exercise through an
+explicit turing=True template selector; SIMT defaults remain unchanged. MODE
+identifies split-weight F16/F32 computation. It repeats144 synthetic tails,
+12 invalid spans, all1,658,880 native output pairs and560 alternating equal-work
+timings. Selected independent2100 real dots pass fixed budgets; all speeds lose.
+Read ../../docs/NATIVE_PACKED_TURING_MATRIX.md for evidence/precision boundaries.

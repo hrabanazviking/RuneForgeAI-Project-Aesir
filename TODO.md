@@ -28,6 +28,10 @@
   all50688 independent exact outputs,5400 guards and9 invalid-span rejections
   on actual sm_75. An isolated PTX6.5 target resolves the pinned PTX6.3 mismatch;
   no library/driver/dependency patch. [Operation](docs/NATIVE_TURING_MMA.md).
+- [x] SPD-01/02 optional original packed-weight MMA: split-weight refinement
+  passes all1,658,880 native values/2100 selected independent dots after the first
+  F16 conversion fails. All28 speed cases lose; no default promotion.
+  [Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Next measure shared staging.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

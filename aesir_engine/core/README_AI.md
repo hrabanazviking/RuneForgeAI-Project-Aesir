@@ -42,3 +42,9 @@ RTX2060 target's PTX6.3 incompatibility with m16n8k8. Keep it isolated; do not
 patch installed libraries, locks, drivers or generated PTX. Read project-root
 docs/NATIVE_TURING_MMA.md. Exact synthetic output proves only the physical
 primitive; real-weight F16 quality and full-model speed remain open.
+
+The optional packed Turing matrix passes fixed native/selected-independent
+primitive budgets only after split-weight F16 refinement. It is slower in all
+28 measured cases. Keep defaults/references; read project-root
+docs/NATIVE_PACKED_TURING_MATRIX.md for activation-conversion limits and next
+shared-staging gates. Never turn a primitive precision pass into model quality.

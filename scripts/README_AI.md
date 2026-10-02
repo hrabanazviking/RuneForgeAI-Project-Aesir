@@ -60,3 +60,8 @@ equations and complete guard/count evidence. Do not loosen its zero-error budget
 for formatter loss; export F32 values through Float64 text. Read
 ../docs/NATIVE_TURING_MMA.md for target correction, physical evidence boundaries
 and the separate real-weight quality/speed prerequisite.
+
+The packed Turing mode shares check_packed_matrix.py without loosening budgets.
+Its original single-F16 attempt fails; split weights pass primitive precision
+but every speed case loses. Read ../docs/NATIVE_PACKED_TURING_MATRIX.md. MODE and
+TILE metadata cannot mix; original SIMT evidence remains accepted.
