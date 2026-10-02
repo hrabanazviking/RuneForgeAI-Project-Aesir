@@ -95,6 +95,14 @@
   portable contracts pass. Production admission stays one/four. [Operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md).
   Next batch independent normalization/residual/SiLU launches under exact state.
 
+- [x] SPD-04 optional batched RMS/residual/SiLU: separate3072/33824 strided
+  RMS sibling and disjoint cell grids preserve every complete vector/cache byte.
+  Long actual elementwise host calls5321 versus original149801 plan; fresh
+  native/fixture medians12.8261/6.94205s earn1.84759x exploratory fixture ratio.
+  Complete96-frame decode/eight-frame checkpoint gates repeat all original
+  independent/sample/state/bit/source/guard conditions. Master190 passes/one skip;
+  seven portable grid contracts pass. [Operation](docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md).
+  Next earn enabled controls/recovery on this new strategy before promotion.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

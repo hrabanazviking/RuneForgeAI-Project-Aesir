@@ -533,3 +533,14 @@ close; unscored with no persistent cache dump. FixtureReplayPlan/restore bind
 strategy0/1 before reset; native strategy stays0. Decode/checkpoint optional final
 flag emits strict ATTENTION metadata; omission stays legacy. Read
 ../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md before measurement or promotion.
+
+## Batched elementwise strategy2
+
+TuringPrefillFixture adds elementwise=False, elementwise_calls and
+execution_strategy0/1/2. Explicit2 requires batched rotary/cache and precision0
+before load/every tile. norm_rows groups four independent warps per CTA; residual
+and silu rows retain original arithmetic and stream dependencies without extra
+global workspace. Counters reset on fresh runs. Plans bind actual strategy2
+before reset; scalar/default paths stay unchanged. Shared collectors accept flag2
+and its distinct ATTENTION marker, exporting actual elementwise host counts. Read
+../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md for full state/source acceptance.

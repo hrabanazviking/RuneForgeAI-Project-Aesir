@@ -83,6 +83,15 @@ def test_turing_replay_plan() raises:
     if not refused: raise Error("Replay strategy drift was admitted")
 
 
+    var grouped = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,2)
+    grouped.admit(1,100,200,300,64,2)
+    for strategy in [0,1,3]:
+        refused = False
+        try: grouped.admit(1,100,200,300,64,strategy)
+        except: refused = True
+        if not refused: raise Error("Elementwise replay strategy drift admitted")
+
+
 def main() raises:
     test_turing_replay_plan()
     print("PASS: copied/checksummed replay plan mutation geometry and owner admission")

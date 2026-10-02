@@ -421,6 +421,17 @@ pass. Production binary/prefill policy stays unchanged. Next batch independent
 normalization/residual/SiLU operations without changing each token's arithmetic;
 fused attention, broader controls/hardware/runtime32 and provider gates stay open.
 
+The next SPD-04 optional elementwise slice groups independent3072/33824 RMS
+rows and residual/SiLU cells without changing token arithmetic or device workspace.
+Every complete model vector/ID/cache byte matches accepted strategy1; all96 decode/
+eight checkpoint independent/sample/state/own-bit/source gates repeat. Actual long
+host elementwise calls are5321 versus the original149801 plan; rotary/cache stays
+3192. Fresh native/fixture medians12.8261/6.94205s give1.84759x exploratory ratio.
+[Operation](docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md). Master190 passes/one skip;
+seven portable grid contracts pass. Production stays unchanged. Next physically
+exercise enabled-control recovery on strategy2, then earn owned stage tracing
+before further attention/runtime work. Provider comparisons remain separate.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

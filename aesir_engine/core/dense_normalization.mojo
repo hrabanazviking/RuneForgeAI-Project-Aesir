@@ -51,3 +51,45 @@ def dense_norm_kernel[width: Int](
             a.unsafe_store(dst + 32, v1)
             a.unsafe_store(dst + 64, v2)
             a.unsafe_store(dst + 96, v3)
+
+
+# Explicit row-strided sibling; keep the ordinary entry/reference unchanged.
+def dense_norm_strided_kernel[width: Int, token_stride: Int](
+    w: Bytes, a: ProjectionFloats, weight_arg: Int64, src_arg: Int64,
+    dst_arg: Int64, groups_arg: Int64, epsilon: Float32
+):
+    comptime assert width > 0 and width % 128 == 0
+    comptime assert token_stride >= width
+    var group = Int(global_idx.x) // 32
+    var lane = Int(global_idx.x) % 32
+    if group < Int(groups_arg):
+        var total: Float32 = 0
+        comptime for chunk in range(width // 128):
+            var base = Int(src_arg) + group * token_stride + chunk * 128 + lane
+            var v0 = a.unsafe_load(base)
+            var v1 = a.unsafe_load(base + 32)
+            var v2 = a.unsafe_load(base + 64)
+            var v3 = a.unsafe_load(base + 96)
+            total += v0 * v0
+            total += v1 * v1
+            total += v2 * v2
+            total += v3 * v3
+        var inv = 1.0 / sqrt(warp.sum(total) / Float32(width) + epsilon)
+        comptime for chunk in range(width // 128):
+            var index = chunk * 128 + lane
+            var src = Int(src_arg) + group * token_stride + index
+            var dst = Int(dst_arg) + group * token_stride + index
+            var v0 = a.unsafe_load(src) * inv
+            var v1 = a.unsafe_load(src + 32) * inv
+            var v2 = a.unsafe_load(src + 64) * inv
+            var v3 = a.unsafe_load(src + 96) * inv
+            if Int(weight_arg) >= 0:
+                var weight = w.unsafe_offset(Int(weight_arg)).unsafe_bitcast[Float32]()
+                v0 *= weight.unsafe_load(index)
+                v1 *= weight.unsafe_load(index + 32)
+                v2 *= weight.unsafe_load(index + 64)
+                v3 *= weight.unsafe_load(index + 96)
+            a.unsafe_store(dst, v0)
+            a.unsafe_store(dst + 32, v1)
+            a.unsafe_store(dst + 64, v2)
+            a.unsafe_store(dst + 96, v3)

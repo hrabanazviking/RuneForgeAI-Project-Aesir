@@ -67,3 +67,8 @@ For the next optional rotary/cache launch reduction, read
 [batched operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md). Default fixture
 strategy stays0; explicit1 must preserve complete vectors/cache hashes, existing
 decode/replay/checkpoint gates and exact source/strategy binding before scoring.
+
+The next optional independent normalization/residual/SiLU strategy2 is documented
+in docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md. Keep original entry definitions,
+actual row/strategy admission, full source/vector/cache/continuation gates and
+production policy intact. Physical fixture evidence does not promote providers.

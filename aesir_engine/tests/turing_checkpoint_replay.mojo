@@ -9,7 +9,7 @@ def owner(f: TuringPrefillFixture,mode: Int) raises -> List[Int]:
     if mode != 0 and mode != 1: raise Error("Unknown replay owner")
     if mode == 0:
         return [Int(f.native.weights.unsafe_ptr()),Int(f.native.activations.unsafe_ptr()),Int(f.native.cache.unsafe_ptr()),f.native.sampler.config.repeat_last_n,0]
-    return [Int(f.native.weights.unsafe_ptr()),Int(f.activations.unsafe_ptr()),Int(f.cache.unsafe_ptr()),f.sampler.config.repeat_last_n,Int(f.batched_rope_cache)]
+    return [Int(f.native.weights.unsafe_ptr()),Int(f.activations.unsafe_ptr()),Int(f.cache.unsafe_ptr()),f.sampler.config.repeat_last_n,f.execution_strategy()]
 
 
 def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:

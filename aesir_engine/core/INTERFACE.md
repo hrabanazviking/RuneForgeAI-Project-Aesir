@@ -1150,3 +1150,13 @@ operations for admitted test-owned grid wrappers. They retain original global-x,
 F64-angle/F32-trig/divisor and F16 cache-cell arithmetic; caller owns validated
 extents/divisors and disjoint rows. Existing production entry bodies remain intact.
 Read project-root docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md before calling them.
+
+## Optional row-strided elementwise kernels
+
+dense_norm_strided_kernel[width,token_stride] keeps original chronological F32
+warp RMS arithmetic with admitted group*stride addressing. Compile-time width
+positive/divisible128 and stride>=width; caller owns groups/physical spans. Old
+dense_norm_kernel entry stays intact. Public inline llama_residual_cell and
+llama_silu_cell reuse original operations for disjoint grid-y rows. Read
+project-root docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; only3072/33824 has
+strict fixture physical evidence, with no production dispatch admission.

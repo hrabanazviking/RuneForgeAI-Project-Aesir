@@ -1,0 +1,870 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_scored": false,
+  "cases": [
+    {
+      "index": 0,
+      "input_ids": [
+        128000,
+        128006,
+        9125,
+        128007,
+        271,
+        2675,
+        527,
+        64694,
+        13,
+        128009,
+        128006,
+        882,
+        128007,
+        271,
+        849,
+        21435,
+        1268,
+        264,
+        6677,
+        4876,
+        34161,
+        9477,
+        11,
+        15086,
+        323,
+        872,
+        6029,
+        13,
+        9842,
+        2380,
+        23719,
+        13,
+        128009,
+        128006,
+        78191,
+        128007,
+        271,
+        32,
+        6677,
+        4876,
+        374,
+        264,
+        34030,
+        12827,
+        430
+      ],
+      "checkpoint_ids_match_source": true,
+      "baseline": [
+        {
+          "native_choice": 9477,
+          "matrix_choice": 9477,
+          "position": 46,
+          "history": 46,
+          "draws": 0
+        },
+        {
+          "native_choice": 11,
+          "matrix_choice": 11,
+          "position": 47,
+          "history": 47,
+          "draws": 0
+        },
+        {
+          "native_choice": 15086,
+          "matrix_choice": 15086,
+          "position": 48,
+          "history": 48,
+          "draws": 0
+        },
+        {
+          "native_choice": 11,
+          "matrix_choice": 11,
+          "position": 49,
+          "history": 49,
+          "draws": 0
+        }
+      ],
+      "frames": [
+        {
+          "baseline": {
+            "native_choice": 9477,
+            "matrix_choice": 9477,
+            "position": 46,
+            "history": 46,
+            "draws": 0
+          },
+          "replay": {
+            "native_choice": 9477,
+            "matrix_choice": 9477,
+            "position": 46,
+            "history": 46,
+            "draws": 0
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0028170347213745117,
+            "rms_error": 0.0007016698781463428,
+            "native_argmax": 9477,
+            "reference_argmax": 9477,
+            "reference_to_native_kl_at_temperature_1": 3.1386985686791976e-08,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0028170347213745117,
+            "rms_error": 0.0007016698781463428,
+            "native_argmax": 9477,
+            "reference_argmax": 9477,
+            "reference_to_native_kl_at_temperature_1": 3.1386985686791976e-08,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0032033920288085938,
+              "rms_error": 0.000643529530694976,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 8.888824405909555e-08,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004210352897644043,
+              "rms_error": 0.0008230795317573255,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 7.264742777239782e-08,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0032033920288085938,
+              "rms_error": 0.000643529530694976,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 8.888824405909555e-08,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004210352897644043,
+              "rms_error": 0.0008230795317573255,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 7.264742777239782e-08,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 47,
+            "history": 47,
+            "draws": 0
+          },
+          "replay": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 47,
+            "history": 47,
+            "draws": 0
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0023136138916015625,
+            "rms_error": 0.00047741953363702376,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.7939461155140133e-08,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0023136138916015625,
+            "rms_error": 0.00047741953363702376,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.7939461155140133e-08,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004679679870605469,
+              "rms_error": 0.0009091254352644461,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 2.193292299940864e-07,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.005176544189453125,
+              "rms_error": 0.0010712385049178414,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 1.7857214237787803e-07,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004679679870605469,
+              "rms_error": 0.0009091254352644461,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 2.193292299940864e-07,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.005176544189453125,
+              "rms_error": 0.0010712385049178414,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 1.7857214237787803e-07,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 15086,
+            "matrix_choice": 15086,
+            "position": 48,
+            "history": 48,
+            "draws": 0
+          },
+          "replay": {
+            "native_choice": 15086,
+            "matrix_choice": 15086,
+            "position": 48,
+            "history": 48,
+            "draws": 0
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.002581775188446045,
+            "rms_error": 0.0005330730968807391,
+            "native_argmax": 15086,
+            "reference_argmax": 15086,
+            "reference_to_native_kl_at_temperature_1": 1.6814828017476431e-09,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.002581775188446045,
+            "rms_error": 0.0005330730968807391,
+            "native_argmax": 15086,
+            "reference_argmax": 15086,
+            "reference_to_native_kl_at_temperature_1": 1.6814828017476431e-09,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.00897216796875,
+              "rms_error": 0.0016683992107144583,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 4.196912325378522e-08,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.009345054626464844,
+              "rms_error": 0.0016755041788418096,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 5.276441473636927e-08,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.00897216796875,
+              "rms_error": 0.0016683992107144583,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 4.196912325378522e-08,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.009345054626464844,
+              "rms_error": 0.0016755041788418096,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 5.276441473636927e-08,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 49,
+            "history": 49,
+            "draws": 0
+          },
+          "replay": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 49,
+            "history": 49,
+            "draws": 0
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0040988922119140625,
+            "rms_error": 0.0006149917010825995,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.5172447323069105e-08,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0040988922119140625,
+            "rms_error": 0.0006149917010825995,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.5172447323069105e-08,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0069217681884765625,
+              "rms_error": 0.0007576813540103438,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 5.799923963511935e-09,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004532337188720703,
+              "rms_error": 0.0008848382591146728,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 8.978844099672902e-09,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0069217681884765625,
+              "rms_error": 0.0007576813540103438,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 5.799923963511935e-09,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004532337188720703,
+              "rms_error": 0.0008848382591146728,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 8.978844099672902e-09,
+              "passed": true
+            }
+          }
+        }
+      ],
+      "checkpoint": {
+        "native_choice": 34161,
+        "matrix_choice": 34161,
+        "position": 45,
+        "history": 45,
+        "draws": 0
+      },
+      "checkpoint_choices_match_source": true
+    },
+    {
+      "index": 1,
+      "input_ids": [
+        128000,
+        128006,
+        9125,
+        128007,
+        271,
+        2675,
+        527,
+        64694,
+        13,
+        128009,
+        128006,
+        882,
+        128007,
+        271,
+        849,
+        21435,
+        1268,
+        264,
+        6677,
+        4876,
+        34161,
+        9477,
+        11,
+        15086,
+        323,
+        872,
+        6029,
+        13,
+        9842,
+        2380,
+        23719,
+        13,
+        128009,
+        128006,
+        78191,
+        128007,
+        271,
+        32,
+        6677,
+        4876,
+        374,
+        264,
+        34030,
+        12827,
+        430
+      ],
+      "checkpoint_ids_match_source": true,
+      "baseline": [
+        {
+          "native_choice": 9477,
+          "matrix_choice": 9477,
+          "position": 46,
+          "history": 46,
+          "draws": 10
+        },
+        {
+          "native_choice": 311,
+          "matrix_choice": 311,
+          "position": 47,
+          "history": 47,
+          "draws": 11
+        },
+        {
+          "native_choice": 15086,
+          "matrix_choice": 15086,
+          "position": 48,
+          "history": 48,
+          "draws": 12
+        },
+        {
+          "native_choice": 11,
+          "matrix_choice": 11,
+          "position": 49,
+          "history": 49,
+          "draws": 13
+        }
+      ],
+      "frames": [
+        {
+          "baseline": {
+            "native_choice": 9477,
+            "matrix_choice": 9477,
+            "position": 46,
+            "history": 46,
+            "draws": 10
+          },
+          "replay": {
+            "native_choice": 9477,
+            "matrix_choice": 9477,
+            "position": 46,
+            "history": 46,
+            "draws": 10
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0028170347213745117,
+            "rms_error": 0.0007016698781463428,
+            "native_argmax": 9477,
+            "reference_argmax": 9477,
+            "reference_to_native_kl_at_temperature_1": 3.1386985686791976e-08,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0028170347213745117,
+            "rms_error": 0.0007016698781463428,
+            "native_argmax": 9477,
+            "reference_argmax": 9477,
+            "reference_to_native_kl_at_temperature_1": 3.1386985686791976e-08,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0032033920288085938,
+              "rms_error": 0.000643529530694976,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 8.888824405909555e-08,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004210352897644043,
+              "rms_error": 0.0008230795317573255,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 7.264742777239782e-08,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.0032033920288085938,
+              "rms_error": 0.000643529530694976,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 8.888824405909555e-08,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004210352897644043,
+              "rms_error": 0.0008230795317573255,
+              "native_argmax": 9477,
+              "reference_argmax": 9477,
+              "reference_to_native_kl_at_temperature_1": 7.264742777239782e-08,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 311,
+            "matrix_choice": 311,
+            "position": 47,
+            "history": 47,
+            "draws": 11
+          },
+          "replay": {
+            "native_choice": 311,
+            "matrix_choice": 311,
+            "position": 47,
+            "history": 47,
+            "draws": 11
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0023136138916015625,
+            "rms_error": 0.00047741953363702376,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.7939461155140133e-08,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0023136138916015625,
+            "rms_error": 0.00047741953363702376,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.7939461155140133e-08,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004679679870605469,
+              "rms_error": 0.0009091254352644461,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 2.193292299940864e-07,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.005176544189453125,
+              "rms_error": 0.0010712385049178414,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 1.7857214237787803e-07,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004679679870605469,
+              "rms_error": 0.0009091254352644461,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 2.193292299940864e-07,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.005176544189453125,
+              "rms_error": 0.0010712385049178414,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 1.7857214237787803e-07,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 15086,
+            "matrix_choice": 15086,
+            "position": 48,
+            "history": 48,
+            "draws": 12
+          },
+          "replay": {
+            "native_choice": 15086,
+            "matrix_choice": 15086,
+            "position": 48,
+            "history": 48,
+            "draws": 12
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0036907196044921875,
+            "rms_error": 0.0005555949760209749,
+            "native_argmax": 15086,
+            "reference_argmax": 15086,
+            "reference_to_native_kl_at_temperature_1": 1.0857138242659344e-07,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.0036907196044921875,
+            "rms_error": 0.0005555949760209749,
+            "native_argmax": 15086,
+            "reference_argmax": 15086,
+            "reference_to_native_kl_at_temperature_1": 1.0857138242659344e-07,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.007333278656005859,
+              "rms_error": 0.0013014773719183447,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 2.075209824165842e-07,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.006392002105712891,
+              "rms_error": 0.0013206105316942397,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 4.5870084919837036e-07,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.007333278656005859,
+              "rms_error": 0.0013014773719183447,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 2.075209824165842e-07,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.006392002105712891,
+              "rms_error": 0.0013206105316942397,
+              "native_argmax": 15086,
+              "reference_argmax": 15086,
+              "reference_to_native_kl_at_temperature_1": 4.5870084919837036e-07,
+              "passed": true
+            }
+          }
+        },
+        {
+          "baseline": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 49,
+            "history": 49,
+            "draws": 13
+          },
+          "replay": {
+            "native_choice": 11,
+            "matrix_choice": 11,
+            "position": 49,
+            "history": 49,
+            "draws": 13
+          },
+          "bit_mismatches": [
+            0,
+            0
+          ],
+          "own_replay_passed": true,
+          "baseline_source_choices_match": true,
+          "sample_equal": true,
+          "native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.004070281982421875,
+            "rms_error": 0.0010409134976921042,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.9237902492486168e-07,
+            "passed": true
+          },
+          "replay_native_comparison": {
+            "values": 128256,
+            "maximum_absolute_error": 0.004070281982421875,
+            "rms_error": 0.0010409134976921042,
+            "native_argmax": 11,
+            "reference_argmax": 11,
+            "reference_to_native_kl_at_temperature_1": 1.9237902492486168e-07,
+            "passed": true
+          },
+          "greedy_argmax_passed": true,
+          "independent": {
+            "native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004473209381103516,
+              "rms_error": 0.0007193665917703386,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 7.443391882930565e-07,
+              "passed": true
+            },
+            "matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.00484466552734375,
+              "rms_error": 0.0013769327590458507,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 3.781319378728009e-07,
+              "passed": true
+            },
+            "restored_native": {
+              "values": 128256,
+              "maximum_absolute_error": 0.004473209381103516,
+              "rms_error": 0.0007193665917703386,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 7.443391882930565e-07,
+              "passed": true
+            },
+            "restored_matrix": {
+              "values": 128256,
+              "maximum_absolute_error": 0.00484466552734375,
+              "rms_error": 0.0013769327590458507,
+              "native_argmax": 11,
+              "reference_argmax": 11,
+              "reference_to_native_kl_at_temperature_1": 3.781319378728009e-07,
+              "passed": true
+            }
+          }
+        }
+      ],
+      "checkpoint": {
+        "native_choice": 34161,
+        "matrix_choice": 34161,
+        "position": 45,
+        "history": 45,
+        "draws": 9
+      },
+      "checkpoint_choices_match_source": true
+    }
+  ],
+  "numerical_budget": {
+    "max_absolute_error": 0.05,
+    "max_rms_error": 0.005,
+    "same_full_vocabulary_argmax": true
+  },
+  "limits": "Same-process owning-context mode0 reset/replay only, strict3B/context1536/F16KV, public37 plus eight scalar IDs and four continuation frames/policy. Native-forced original boundaries and seeds. No persisted format/crash recovery/context recreation/production32/concurrency/provider score.",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "reference_derivation": {
+    "snapshot_sha256": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "original_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "derived_sha256": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "converter_sha256": "208fcacd9b4264cacdc9783efc5b3361ac775372469edc12b48747e6b9c4dbff",
+    "derived_bytes": 12858837216
+  },
+  "independent_reference": {
+    "llama_cpp_python": "0.3.23",
+    "numpy": "2.4.4",
+    "library_sha256": "6eb185cfd6d6812d4de4c0ed64ab41afba969261682323a7eef33de3c89fb46e",
+    "requested_gpu_layers": 0,
+    "context": 4096,
+    "kv": "f16",
+    "batch": 128,
+    "threads": 4,
+    "weight_mode": "dequantized_f32"
+  },
+  "native_banner": "[CUDA] native Mojo Llama 3.2 3B; device=0 api=cuda layers=28/28 weights_bytes=2019377376 kv_bytes=176160768 context=1536 host_staging_bytes=67108864 cpu_offload=0",
+  "attention_variant": 2,
+  "csv_sha256": "fb0f0e967a27eb224317a24dbf8e6cf0f7aa5945a0958bf8107a43fa4369bc51",
+  "csv_bytes": 95727327,
+  "accepted_source": {
+    "sha256": "0a6b47078527b42c3203f40b0f76d787213f3969041fb2ca2c8a8702a3d56915",
+    "csv_sha256": "f373879e7f4fa04ff2ba9b4ff41a29a0503c79865ef9a64e01ff12be07c717aa"
+  },
+  "full_model_values_per_mode": 1026048,
+  "guards": 4352,
+  "invalid_plan_refusals": 12,
+  "native_quality_passed": true,
+  "replay_passed": true,
+  "source_binding_passed": true,
+  "independent_reference_passed": true
+}

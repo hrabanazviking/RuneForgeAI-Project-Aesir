@@ -127,9 +127,11 @@ def main() raises:
     var args = argv()
     if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [BATCHED]")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag != 0 and flag != 1: raise Error("Batched rotary/cache flag must be0/1")
-    var f = TuringPrefillFixture(args[1],0,Bool(flag))
-    if len(args) == 3: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
+    if flag < 0 or flag > 2: raise Error("Batched rotary/cache flag must be0/1/2")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag==2))
+    if len(args) == 3:
+        if flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
+        else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,turing_checkpoint,1536,128256,2,4")
     for index in range(2):
         var p = policy(index)

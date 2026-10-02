@@ -1432,7 +1432,19 @@ and circular self-parity transforms were removed.
   reset; master190 passes/one skip and six new portable contracts pass. [Evidence](docs/evidence/turing-batched-rope-cache-2026-10-02/README.md).
   No added global workspace, production kernel/body/admission or provider status
   promotion. Full cache hashing/export and continuation durations are unscored.
-- **Next acceptance gate:** Batch remaining independent normalization/residual/SiLU launches under exact state; broader causal attention/model/hardware/persisted/context/runtime prefill gates remain open.
+- **Optional batched elementwise (2026-10-02):** Separate3072/33824 strided
+  RMS sibling groups four warps per CTA; disjoint residual/SiLU cells retain each
+  token's original arithmetic and stream dependencies. Every513024-value model
+  owner/public ID/F32 byte and full guarded-F16-cache SHA equals accepted1.
+  Long actual elementwise host calls5321 versus original149801 plan, unchanged
+  rotary/cache3192 calls. Fresh native/fixture medians12.8261/6.94205s earn1.84759x
+  exploratory fixture ratio; all32 raw timings remain. Complete96-frame decode/
+  eight-frame checkpoint independently repeat original quality/sample/state/bit/
+  source/guard gates. Master190 passes/one skip and seven grid contracts pass.
+  [Evidence](docs/evidence/turing-batched-elementwise-2026-10-02/README.md).
+  No added global workspace, production definitions/admission or provider status
+  change. Enabled controls on this new strategy remain a separate physical gate.
+- **Next acceptance gate:** Enabled-control recovery for the newly batched fixture and owned stage tracing; broader causal attention/model/hardware/persisted/context/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -195,3 +195,14 @@ failure JSON. Streamed decode/checkpoint parse shares strict metadata without
 changing fixed quality/replay/source gates. Six portable grid contracts include
 complete streamed variant and duplicate/late rejection. Read
 ../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md.
+
+## Elementwise strategy2 evidence
+
+attention_variant additionally maps the distinct rope_cache_elementwise_grid,1,32
+marker to internal2; old rotary/cache2 remains unsupported. Model parse requires
+exact ELEMENTWISE counts from admitted causal boundaries plus final norm. New2
+fixture_reference requires explicit independently accepted1 with complete exact
+vector/ID/cache/model/report identity. Streamed decode/checkpoint share the strict
+marker and every prior quality/replay/source gate. Seven portable grid contracts
+include complete streamed2 and explicit source-chain/counter refusal. Read
+../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; no provider promotion.

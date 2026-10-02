@@ -135,3 +135,8 @@ recheck after the oracle and failed rescoring clears all old ratios. Decode and
 checkpoint streams admit only a single known marker before META. Six portable
 contracts include complete-stream duplicate/late refusal. Read
 ../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md; no provider-speed promotion follows.
+
+Explicit elementwise strategy2 requires its distinct metadata, exact actual host
+counts and independently accepted strategy1 source; original0/1 behavior stays.
+Every model/CSV/report/byte/cache/state/numerical gate remains before scoring.
+Read ../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md. Seven grid contracts pass.

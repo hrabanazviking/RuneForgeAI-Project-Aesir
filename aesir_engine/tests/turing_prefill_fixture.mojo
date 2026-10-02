@@ -5,8 +5,9 @@ from core.dense_buffers import DenseBufferLayout
 from tests.turing_fixture_plan import TuringFixturePlan
 from tests.turing_fixture_control import FixtureControl
 from tests.batched_rope_cache import batched_rope, batched_scaled_rope, batched_cache
+from tests.batched_elementwise import batched_residual, batched_silu
 from core.dense_gqa_execution import DenseGQALayer
-from core.dense_normalization import dense_norm_kernel
+from core.dense_normalization import dense_norm_kernel, dense_norm_strided_kernel
 from core.packed_projection import ProjectionFloats, four_matvec_kernel, block_matvec_kernel
 from core.packed_turing_matrix import project_turing_staged
 from core.gemma4_kernels import embedding_kernel
@@ -36,10 +37,15 @@ struct TuringPrefillFixture:
     var activation_precision: Int
     var batched_rope_cache: Bool
     var rope_cache_calls: Int
+    var batched_elementwise: Bool
+    var elementwise_calls: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
+        if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
+        self.batched_elementwise = elementwise
+        self.elementwise_calls = 0
         self.activation_precision = precision
         self.batched_rope_cache = batched
         self.rope_cache_calls = 0
@@ -68,8 +74,21 @@ struct TuringPrefillFixture:
     def kv(self) -> Halves:
         return Halves(unsafe_from_address=Int(self.cache.unsafe_ptr())).unsafe_offset(16)
 
-    def norm(self,weight: Int,src: Int,dst: Int) raises:
+    def norm(mut self,weight: Int,src: Int,dst: Int) raises:
         self.native.context.enqueue_function[dense_norm_kernel[3072]](self.native.w(),self.a(),Int64(weight),Int64(src),Int64(dst),Int64(1),self.native.profile.normalization_epsilon,grid_dim=1,block_dim=128)
+        self.elementwise_calls += 1
+
+    def norm_rows(mut self,weight: Int,src: Int,dst: Int,count: Int) raises:
+        if self.batched_elementwise and count > 1:
+            self.native.context.enqueue_function[dense_norm_strided_kernel[3072,33824]](self.native.w(),self.a(),Int64(weight),Int64(src),Int64(dst),Int64(count),self.native.profile.normalization_epsilon,grid_dim=(count+3)//4,block_dim=128)
+            self.elementwise_calls += 1
+        else:
+            for token in range(count):
+                var base = self.layout.token_base(token)
+                self.norm(weight,base+src,base+dst)
+
+    def execution_strategy(self) -> Int:
+        return 2 if self.batched_elementwise else Int(self.batched_rope_cache)
 
     def project_kind[kind: Int](self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool) raises:
         if matrix and count == 32:
@@ -132,33 +151,53 @@ struct TuringPrefillFixture:
             self.native.context.enqueue_function[llama_softmax](self.a(),Int64(self.layout.scores),Int64(causal),Int64(24),grid_dim=6,block_dim=128)
             self.native.context.enqueue_function[llama_attention_tiled](self.a(),self.kv(),Int64(self.layout.scores),Int64(base+self.layout.attention),Int64(offset),Int64(1536),Int64(causal),Int64(128),Int64(24),Int64(8),grid_dim=24,block_dim=128)
 
-    def residual(self,base: Int) raises:
+    def residual(mut self,base: Int) raises:
         self.native.context.enqueue_function[llama_residual](self.a(),Int64(base),Int64(base+self.layout.temporary),Int64(base),Int64(3072),grid_dim=24,block_dim=128)
+        self.elementwise_calls += 1
+
+    def residual_rows(mut self,count: Int) raises:
+        if self.batched_elementwise and count > 1:
+            self.native.context.enqueue_function[batched_residual](self.a(),Int64(0),Int64(self.layout.temporary),Int64(0),Int64(3072),Int64(self.layout.stride),grid_dim=(24,count),block_dim=128)
+            self.elementwise_calls += 1
+        else:
+            for token in range(count): self.residual(self.layout.token_base(token))
+
+    def silu_rows(mut self,count: Int) raises:
+        if self.batched_elementwise and count > 1:
+            self.native.context.enqueue_function[batched_silu](self.a(),Int64(self.layout.gate),Int64(self.layout.up),Int64(8192),Int64(self.layout.stride),grid_dim=(64,count),block_dim=128)
+            self.elementwise_calls += 1
+        else:
+            for token in range(count):
+                var base = self.layout.token_base(token)
+                self.native.context.enqueue_function[llama_silu](self.a(),Int64(base+self.layout.gate),Int64(base+self.layout.up),Int64(8192),grid_dim=64,block_dim=128)
+                self.elementwise_calls += 1
 
     def layer(mut self,plan: DenseGQALayer,index: Int,count: Int) raises:
-        for token in range(count):
-            var base = self.layout.token_base(token)
-            self.norm(plan.attention_norm,base,base+self.layout.norm)
+        self.norm_rows(plan.attention_norm,0,self.layout.norm,count)
         self.project(plan.query,self.layout.norm,self.layout.query,count,True)
         self.project(plan.key,self.layout.norm,self.layout.key,count)
         self.project(plan.value,self.layout.norm,self.layout.value,count)
         self.attention(index,count)
         self.project(plan.attention_output,self.layout.attention,self.layout.temporary,count,True)
-        for token in range(count):
-            var base = self.layout.token_base(token)
-            self.residual(base)
-            self.norm(plan.feed_forward_norm,base,base+self.layout.norm)
+        if self.batched_elementwise and count > 1:
+            self.residual_rows(count)
+            self.norm_rows(plan.feed_forward_norm,0,self.layout.norm,count)
+        else:
+            for token in range(count):
+                var base = self.layout.token_base(token)
+                self.residual(base)
+                self.norm(plan.feed_forward_norm,base,base+self.layout.norm)
         self.project(plan.gate,self.layout.norm,self.layout.gate,count,True)
         self.project(plan.up,self.layout.norm,self.layout.up,count,True)
-        for token in range(count):
-            var base = self.layout.token_base(token)
-            self.native.context.enqueue_function[llama_silu](self.a(),Int64(base+self.layout.gate),Int64(base+self.layout.up),Int64(8192),grid_dim=64,block_dim=128)
+        self.silu_rows(count)
         self.project(plan.down,self.layout.up,self.layout.temporary,count,True)
-        for token in range(count): self.residual(self.layout.token_base(token))
+        self.residual_rows(count)
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
         if not self.healthy or not self.native.healthy or (count != 1 and count != 4 and count != 32) or (need_logits and count != 1):
             raise Error("Matrix fixture tile/policy is not admitted")
+        if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
+            raise Error("Fixture execution flags drifted outside admitted precision/strategy")
         self.control.admit()
         if start < 0 or start > len(tokens)-count or self.position < 0 or self.position > 1536-count:
             raise Error("Matrix fixture token/context bounds exceeded")
@@ -231,6 +270,7 @@ struct TuringPrefillFixture:
         self.position = 0
         self.committed.clear()
         self.rope_cache_calls = 0
+        self.elementwise_calls = 0
         self.control.reset()
         self.healthy = True
 

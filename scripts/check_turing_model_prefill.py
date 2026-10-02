@@ -20,6 +20,7 @@ from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MA
 
 def attention_variant(row):
     if not row or row[0] != "ATTENTION": return None
+    if row == ["ATTENTION", "rope_cache_elementwise_grid", "1", "32"]: return 2
     if row not in (["ATTENTION", "rope_cache_grid", "0", "32"], ["ATTENTION", "rope_cache_grid", "1", "32"]):
         raise ValueError("Unknown batched rotary/cache identity")
     return int(row[2])
@@ -32,6 +33,11 @@ def rope_cache_calls(count, variant):
         size = 32 if remaining >= 32 else 4 if remaining >= 4 else 1
         remaining -= size; tiles += 1
     return tiles * 3 * 28
+
+
+def elementwise_calls(count, variant):
+    tiles = count if variant < 2 else rope_cache_calls(count, variant)//84
+    return tiles*5*28+1
 
 
 def reference_fields(pairs):
@@ -93,6 +99,10 @@ def parse(path):
         if variant is not None:
             calls = rope_cache_calls(count, variant)
             if next(reader) != ["ENQUEUE", str(index), str(calls)]: raise ValueError("Actual rotary/cache host enqueue count mismatch")
+            if variant == 2:
+                cells = elementwise_calls(count,variant)
+                if next(reader) != ["ELEMENTWISE",str(index),str(cells)]: raise ValueError("Actual elementwise host enqueue count mismatch")
+                case["elementwise_host_enqueues"] = cells
             cache = next(reader)
             if len(cache) != 4 or cache[:3] != ["CACHE", str(index), "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", cache[3]): raise ValueError("Incomplete guarded cache identity")
             case.update(rope_cache_host_enqueues=calls, guarded_cache_sha256=cache[3])
@@ -120,6 +130,8 @@ def fixture_reference(data, csv_path, report_path, model_sha):
         raise ValueError("Fixture reference lacks every independent owner/case")
     if data["attention_variant"] == 1 and reference["attention_variant"] != 0:
         raise ValueError("Batched variant requires explicit independently accepted scalar-cache baseline")
+    if data["attention_variant"] == 2 and reference["attention_variant"] != 1:
+        raise ValueError("Elementwise variant requires explicit independently accepted rotary/cache baseline")
     results = []
     for current, before in zip(data["cases"], reference["cases"]):
         ids = current["input_ids"] == before["input_ids"]
@@ -177,7 +189,8 @@ def summarize(data):
                 invalid_tiles=8, guards=4352,
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),
                 cases=[dict(input_ids=c["input_ids"], native_comparison=c["native_comparison"], timings=c["timings"], prefill_speed_ratio=None,
-                            **({k: c[k] for k in ("rope_cache_host_enqueues", "guarded_cache_sha256")} if data["attention_variant"] is not None else {})) for c in data["cases"]],
+                            **({k: c[k] for k in ("rope_cache_host_enqueues", "guarded_cache_sha256")} if data["attention_variant"] is not None else {}),
+                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] == 2 else {})) for c in data["cases"]],
                 limits="Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion.")
 
 

@@ -17,9 +17,11 @@ from test_check_turing_checkpoint_replay import fixture as checkpoint_fixture, s
 
 
 def grid(variant):
-    text = fixture().replace("META,1,4,1536,32,f16,8", f"ATTENTION,rope_cache_grid,{variant},32\nMETA,1,4,1536,32,f16,8")
+    marker = f"ATTENTION,rope_cache_grid,{variant},32" if variant < 2 else "ATTENTION,rope_cache_elementwise_grid,1,32"
+    text = fixture().replace("META,1,4,1536,32,f16,8", marker+"\nMETA,1,4,1536,32,f16,8")
     for index in range(4):
         text = text.replace(f"GUARD,{index},1088,0\n", f"GUARD,{index},1088,0\nENQUEUE,{index},168\nCACHE,{index},176160832," + "a" * 64 + "\n")
+        if variant == 2: text = text.replace(f"ENQUEUE,{index},168\n", f"ENQUEUE,{index},168\nELEMENTWISE,{index},281\n")
     return text
 
 
@@ -87,6 +89,20 @@ class Contracts(unittest.TestCase):
                 with self.assertRaises(ValueError): module.attention_variant(["ATTENTION","rope_cache_grid",str(value),"32"])
         self.assertIsNone(check.attention_variant(["META"]))
 
+    def test_elementwise_counts_and_reference_chain_require_accepted_strategy_one(self):
+        self.assertEqual([check.elementwise_calls(n,2) for n in (30,37,31,1070)],[1261,421,1401,5321])
+        self.assertEqual([check.elementwise_calls(n,1) for n in (30,37,31,1070)],[4201,5181,4341,149801])
+        data = self.parse(grid(2)); reference = self.path.with_name("reference"); proof = self.path.with_name("report")
+        for variant in (1,0):
+            reference.write_text(grid(variant)); report = check.summarize(check.parse(reference))
+            report.update(model_sha256="m",passed=True,independent_reference=dict(passed=True,cases=[dict(native=dict(passed=True),matrix=dict(passed=True)) for _ in range(4)]))
+            proof.write_text(json.dumps(report))
+            if variant == 1: self.assertTrue(check.fixture_reference(data,reference,proof,"m")["passed"])
+            else:
+                with self.assertRaises(ValueError): check.fixture_reference(data,reference,proof,"m")
+        for old,new in (("ELEMENTWISE,0,281","ELEMENTWISE,0,282"),("ELEMENTWISE,0,281\n",""),("rope_cache_elementwise_grid,1,32","rope_cache_elementwise_grid,2,32"),("rope_cache_elementwise_grid,1,32","rope_cache_grid,2,32")):
+            with self.assertRaises(ValueError): self.parse(grid(2).replace(old,new))
+
     def test_complete_streamed_parsers_bind_variant_and_refuse_duplicate_or_late(self):
         identity = hashlib.sha256(struct.pack("<II",1,2)).hexdigest()
         for module,fixture_fn,oracle in ((decode,decode_fixture,DecodeOracle),(checkpoint,checkpoint_fixture,CheckpointOracle)):
@@ -99,8 +115,8 @@ class Contracts(unittest.TestCase):
                 def parse(text):
                     self.path.write_text(text)
                     return module.parse(self.path,oracle()) if module is decode else module.parse(self.path,dict(sha256="c"*64,csv_sha256="f"*64,cases=source()["cases"][:2]),oracle())
-                for flag in (0,1):
-                    marker = f"ATTENTION,rope_cache_grid,{flag},32\n"
+                for flag in (0,1,2):
+                    marker = f"ATTENTION,rope_cache_grid,{flag},32\n" if flag < 2 else "ATTENTION,rope_cache_elementwise_grid,1,32\n"
                     text = fixture_fn(); head,body = text.split("\n",1)
                     report = parse(head+"\n"+marker+body)
                     self.assertTrue(report["passed"]); self.assertEqual(report["attention_variant"],flag)

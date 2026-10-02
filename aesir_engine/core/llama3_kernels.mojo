@@ -92,6 +92,23 @@ def llama_cache_cell(a: Floats, kv: Halves, key_arg: Int64, value_arg: Int64,
         kv.unsafe_store(slot + Int(capacity_arg) * width, a.unsafe_load(Int(value_arg) + i).cast[DType.float16]())
 
 
+@always_inline
+def llama_residual_cell(a: Floats, src: Int64, other: Int64, dst: Int64, count: Int64):
+    """Reusable addition; caller owns admitted disjoint token spans."""
+    var i = Int(global_idx.x)
+    if i < Int(count):
+        a.unsafe_store(Int(dst)+i,a.unsafe_load(Int(src)+i)+a.unsafe_load(Int(other)+i))
+
+
+@always_inline
+def llama_silu_cell(a: Floats, gate_arg: Int64, up_arg: Int64, count_arg: Int64):
+    """Reusable original SiLU order; caller owns admitted gate/up spans."""
+    var i = Int(global_idx.x)
+    if i < Int(count_arg):
+        var gate = a.unsafe_load(Int(gate_arg)+i)
+        a.unsafe_store(Int(up_arg)+i,gate/(1+exp(-gate))*a.unsafe_load(Int(up_arg)+i))
+
+
 def llama_silu(a: Floats, gate_arg: Int64, up_arg: Int64, count_arg: Int64):
     var i = Int(global_idx.x)
     if i < Int(count_arg):

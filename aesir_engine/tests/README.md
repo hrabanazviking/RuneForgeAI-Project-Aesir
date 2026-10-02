@@ -177,3 +177,9 @@ flags preserve legacy omission and all complete quality/state/bit gates; replay
 strategy drift refuses before reset. Read
 ../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md. Portable master remains190
 passing cases/one explicit skip; opt-in physical collectors run separately.
+
+The explicit elementwise strategy2 additionally batches independent RMS/residual/
+SiLU rows and binds actual successful host enqueue counts. Seven grid contracts
+preserve legacy0/1 and refuse unknown tags, wrong counts/reference chains and
+strategy drift. Master stays190 passes/one skip. Read
+../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; physical evidence stays opt-in.

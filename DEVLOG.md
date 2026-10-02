@@ -2891,3 +2891,24 @@ Normal binary f3442a1e remains authenticated ready/prefill4/cpuoffload0. Product
 admission remains one/four; no provider lead. Read
 [operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md) and its complete evidence.
 Next scope independent elementwise launch reduction under exact state gates.
+
+## 2026-10-02 — Sigrún: exact-state batched RMS/residual/SiLU
+
+Scoped/pushed4e58c1d before code. Separate3072/33824 strided RMS kernel retains
+original chronological warp sums; four warps normalize four rows per CTA.
+Public inline residual/SiLU cells retain original arithmetic and disjoint grid-y
+rows/stream dependencies. Old production definitions stay intact; no new global
+workspace. Explicit strategy2 preflights flags/precision and sealed actual owner
+before tile/reset. Seven portable grid contracts and all old model/decode/
+checkpoint contracts pass; master190 passes/zero failures/one skip.
+
+All513024 complete model values per owner/public IDs and full F16 cache hashes
+match accepted1 exactly. Actual long elementwise host calls5321 versus original
+149801 plan; native/fixture medians12.8261/6.94205s yield1.84759x exploratory ratio.
+All32 timings remain. Complete96 decode/eight checkpoint frames repeat every
+fixed CPU/native/sample/state/own-bit/source/guard gate. All sm75/sm89/master/
+normal builds finish before serialized GPU captures, CPU references afterward.
+Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
+[operation](docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md) and complete evidence.
+No runtime32/provider promotion. Next physically earn enabled controls/recovery
+on the new strategy before attention/stage/runtime gates.

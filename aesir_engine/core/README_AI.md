@@ -81,3 +81,8 @@ Optional batched fixture wrappers call public inline llama_rope_transform and
 llama_cache_cell, avoiding reuse of enqueued kernel entry points. Preserve old
 entry bodies, exact arithmetic and caller span/causality admission. No production
 dispatch change. Read ../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md.
+
+The optional strided RMS sibling and public residual/SiLU cell helpers preserve
+existing entry definitions. Caller admission owns disjoint rows, finite validated
+weight metadata and exact arithmetic/replay gates. Read
+../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md before changing or integrating.
