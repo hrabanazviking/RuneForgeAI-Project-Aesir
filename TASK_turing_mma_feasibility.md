@@ -9,8 +9,20 @@ slice tests the locked Mojo1.0.0/MAX26.5.0 public mma API on actual sm_75.
 
 Public MAX26.5 source maps FP16 vectors of lengths4/2 with F32 accumulators4
 onto llvm.nvvm.mma.m16n8k8.row.col.f32.f32. NVIDIA documents this F16 shape as
-sm_75-capable; the newer16x8x16 shape needs sm_80. Use the supported public API
-and authoritative fragment mapping, not a new guessed ABI or inline assembly.
+sm_75-capable; the newer16x8x16 shape needs sm_80. Start with the public API
+and authoritative fragment mapping. The physical sm_75 build of that public
+binding failed with an LLVM instruction-selection error (exit139), retained
+outside Git, including a second unoptimized-IR attempt. LLVM's authoritative
+intrinsic definition confirms half2 operands, so changing them to integers in
+that intrinsic would invent an incorrect signature. Do not do that.
+
+Amended before workaround implementation: permit the matching locked std.sys
+inlined_assembly API to emit the documented m16n8k8 row/col F16/F32 instruction,
+using explicit packed32-bit operand registers and four F32 output registers.
+Its matching transitional register-pack helper stays isolated in this optional
+version-locked probe; no driver C ABI, dependency upgrade, software substitution
+or production dispatch. Preserve the original public-call source/build failure,
+verify emitted PTX and physically execute complete independent output checks.
 Physically execute dynamic nonuniform/signed/identity matrices and accumulation
 chains, multiple warps and warp-uniform tails. Every output and guard must match
 independent CPU rational equations exactly for deliberately exact binary inputs.
