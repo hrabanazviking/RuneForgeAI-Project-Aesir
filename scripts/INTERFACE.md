@@ -93,3 +93,7 @@ Legacy SIMT defaults remain valid. Reports name the candidate and geometry meani
 and hash the admitted text snapshot. Eight portable tests pass. Precision budgets
 are unchanged. Read ../docs/NATIVE_PACKED_TURING_MATRIX.md for complete native
 versus selected-independent coverage and retained speed rejection.
+
+MODE,turing_mma_staged_f16_f32,rows admits only16/32/64 with declared CTA/output/
+staged-input geometry semantics. All prior complete/budget/model gates remain;
+mixed/duplicate/late/unsupported mode metadata rejects. Nine portable tests pass.

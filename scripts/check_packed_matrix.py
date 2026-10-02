@@ -52,6 +52,11 @@ def parse(path):
         tag = row[0]
         if row == ["MODE", "turing_mma_split_weight_f16_f32"] and not synthetic and not mode_seen and not tile_seen:
             candidate = row[1]; mode_seen = True; tile = (16, 8)
+        elif tag == "MODE" and len(row) == 3 and row[1] == "turing_mma_staged_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            staged_rows = int(row[2])
+            if staged_rows not in (16, 32, 64):
+                raise ValueError("Unsupported staged Turing rows")
+            candidate = row[1]; mode_seen = True; tile = (staged_rows, 8)
         elif tag == "TILE" and len(row) == 3 and not synthetic and not tile_seen and not mode_seen:
             tile = tuple(map(int, row[1:]))
             if tile[0] not in (8, 16, 32) or tile[1] not in (32, 64, 128) or (tile[0] + 32) * (tile[1] + 1) * 4 > 49152:
@@ -168,7 +173,9 @@ def main():
                 raise ValueError("Independent real-weight primitive budget failed")
             report.update(tile_rows=cases[0]["tile"][0], tile_columns=cases[0]["tile"][1],
                           candidate=cases[0]["candidate"],
+                          tile_rows_meaning="CTA weight rows" if cases[0]["candidate"] != "turing_mma_split_weight_f16_f32" else "warp weight rows",
                           tile_columns_meaning="output token columns" if cases[0]["candidate"] != "simt_shared" else "staged input columns",
+                          staged_input_columns=32 if cases[0]["candidate"] == "turing_mma_staged_f16_f32" else None,
                           model_sha256=a.model_sha256, csv_sha256=cases[0]["csv_sha256"], oracle=oracle,
                           native_outputs=sum(len(c["actual"]) for c in cases), independent_outputs=sum(r["outputs"] for r in oracle),
                           limits="Primitive evidence only. Five selected real rows per tensor/batch; full native-reference output coverage. Host-monotonic launch/synchronize timing, warmed weights, one physical session. No model-level quality/speed or default dispatch change.")

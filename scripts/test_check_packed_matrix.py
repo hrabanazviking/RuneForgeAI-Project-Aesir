@@ -88,6 +88,18 @@ class Contracts(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.parse(text)
 
+    def test_staged_turing_geometry_and_mode_rejection(self):
+        for rows in (16,32,64):
+            marker = f"MODE,turing_mma_staged_f16_f32,{rows}"
+            text = fixture().replace("SYNTHETIC,144,0",marker+"\nSYNTHETIC,144,0")
+            self.assertEqual(self.parse(text)[0]["tile"],(rows,8))
+        for marker in ("MODE,turing_mma_staged_f16_f32,8", "MODE,turing_mma_staged_f16_f32,128",
+                       "MODE,turing_mma_staged_f16_f32,99999999", "MODE,turing_mma_staged_f16_f32,32,extra",
+                       "MODE,turing_mma_staged_f16_f32,16\nMODE,turing_mma_split_weight_f16_f32",
+                       "MODE,turing_mma_staged_f16_f32,16\nTILE,32,32"):
+            with self.assertRaises(ValueError):
+                self.parse(fixture().replace("SYNTHETIC,144,0",marker+"\nSYNTHETIC,144,0"))
+
 
 if __name__ == "__main__":
     unittest.main()

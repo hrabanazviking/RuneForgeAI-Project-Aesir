@@ -438,3 +438,9 @@ identifies split-weight F16/F32 computation. It repeats144 synthetic tails,
 12 invalid spans, all1,658,880 native output pairs and560 alternating equal-work
 timings. Selected independent2100 real dots pass fixed budgets; all speeds lose.
 Read ../../docs/NATIVE_PACKED_TURING_MATRIX.md for evidence/precision boundaries.
+
+test_turing_shared_staging.mojo exercises explicit16/32/64 CTA rows through
+staged_rows with original SIMT/direct defaults unchanged and conflicting selector
+combinations rejected at compile time. Each repeats every synthetic/span/native/
+selected-independent/timing gate; combined native count is4,976,640. All budgets
+pass; speed gains are larger-batch primitive evidence only. MODE records rows.

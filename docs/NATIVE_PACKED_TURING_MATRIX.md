@@ -99,3 +99,51 @@ context tails and paired service speed remain separate future gates.
 Read [the physical MMA prerequisite](NATIVE_TURING_MMA.md),
 [existing matrix gates](NATIVE_MATRIX_CANDIDATE.md) and this slice's evidence.
 Exact pushed revision and CI are recorded in publication receipts.
+
+## Coalesced shared-staging refinement
+
+The separately scoped staged candidate retains the direct implementation and
+all references. It decodes original packed_block_group values in coalesced
+32-column lanes, stages F16 high/residual weight rows and F16 input rows with
+pitch33, then reuses these operands in public m16n8k8. CTA row tiles16/32/64 use
+one/two/four warps, each owning16 rows and iterating8-token output groups. Every
+thread takes both barriers per section; inactive rows/tokens store zeros and
+unowned outputs remain untouched. Shared bytes=(2*rows+batch)*33*2, at most10560
+bytes for64 rows/batch32. There is no additional global device workspace.
+
+After all compilation ends, repeat this probe for each ROW_TILE=16/32/64 and
+use the same complete checker/oracle command above, with new artifact paths:
+
+```bash
+pixi run --frozen --no-install --offline mojo build -I aesir_engine \
+  --target-accelerator sm_75 aesir_engine/tests/test_turing_shared_staging.mojo \
+  -o "$ARTIFACTS/staged-turing-probe"
+timeout 300 "$ARTIFACTS/staged-turing-probe" "$MODEL" "$ROW_TILE" \
+  > "$ARTIFACTS/staged-$ROW_TILE.csv" 2>&1
+```
+
+MODE,turing_mma_staged_f16_f32,ROW_TILE owns explicit configuration identity.
+Only16/32/64 are admitted; mode/TILE mixtures and duplicate/late/unknown modes
+reject. Reports distinguish CTA weight rows, eight output-token columns and
+32 staged-input columns. Nine portable evidence tests pass; CI compiles only.
+SIMT defaults and the previous direct Turing selector stay unchanged.
+
+All three configurations pass unchanged budgets:4,976,640 complete native values,
+6300 selected independent real dots,432 synthetic tails,36 invalid spans and
+1680 paired timing records. Each capture uses the same warmup, input formula,
+original bytes, alternating order and full-output gates, with compilation idle.
+
+| CTA rows | Shared bytes at batch32 | Best batch4 ratio | Best batch32 ratio |
+|---|---:|---:|---:|
+| 16 | 4224 | .318 | .860 |
+| 32 | 6336 | .328 | 1.506 |
+| 64 | 10560 | .294 | 1.920 |
+
+Best means the best of seven physical tensor shapes, not a whole-model score.
+Every batch4 shape still loses. At rows64/batch32, Q/K/V/output/gate/up/down
+ratios are1.782/1.054/.771/1.797/1.920/1.876/1.524. V still loses and original
+batch-four control remains default. The32/64-row candidates earn shape-specific
+larger-batch primitive gains only. No full-model activation quality, cancellation/
+state integration or provider lead is established. Complete samples and raw hashes
+are retained in the staging evidence. Next measure wider input staging while
+preserving budgets; do not assume barrier/register/occupancy causes from ratios.

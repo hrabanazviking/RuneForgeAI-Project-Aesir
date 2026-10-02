@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "frozen Mojo1.0.0/MAX26.5.0; gguf0.19.0/NumPy2.4.4 test oracle",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "rows": [
+    16,
+    32,
+    64
+  ],
+  "staged_input_columns": 32,
+  "warp_mma_shape": [
+    16,
+    8,
+    8
+  ],
+  "max_shared_bytes": 10560,
+  "precision_budgets": {
+    "scaled_per_value": 0.002,
+    "normalized_rms": 0.0002
+  },
+  "combined_counts": {
+    "native_outputs": 4976640,
+    "selected_independent_outputs": 6300,
+    "synthetic_cases": 432,
+    "invalid_spans": 36,
+    "paired_timing_records": 1680
+  },
+  "controlled_capture": "All host compilation ended before final captures; owned GPU processes serialized16/32/64; independent CPU oracle runs only after all GPU captures end. Same original bytes/input formula/warmup/alternating order. No scored subset.",
+  "raw_files": {
+    "turing-staging-probe": {
+      "sha256": "c582f6f85f3f833e3d9f2a75620b6745cefc8bcf6a05d6fd092fb89e890e1058",
+      "bytes": 7694120
+    },
+    "turing-staging-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-staging-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-staging-legacy-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-staged-16-final.csv": {
+      "sha256": "a954f16955c8cc7d926794524632942971c3473515f3b3f57b30e9ae5bcd971c",
+      "bytes": 63843813
+    },
+    "turing-staged-16-process.json": {
+      "sha256": "309f8012d1dbd11e8bdf51f3da323d52a546353a4750af1abb43f3e489ff8cab",
+      "bytes": 54
+    },
+    "turing-staged-16-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-staged-32-final.csv": {
+      "sha256": "22b58208058dd172ee498e336844b4111c8754603b7a8535f6faea11b086de5c",
+      "bytes": 63843836
+    },
+    "turing-staged-32-process.json": {
+      "sha256": "856c296bdea20cf41aef9b8911905d6dd509422e226aec29e9c9e8f056742545",
+      "bytes": 54
+    },
+    "turing-staged-32-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-staged-64-final.csv": {
+      "sha256": "31ba289f8936c49b3df26a7cd98343cf1c949637d27123186982e19399c379f9",
+      "bytes": 63843845
+    },
+    "turing-staged-64-process.json": {
+      "sha256": "e1d58a2d30a4e4cd2839c8ab85933a192f23206a99984bd8e2072ef399cd0062",
+      "bytes": 54
+    },
+    "turing-staged-64-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    }
+  },
+  "sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "035ba36fd1d3ab630761097d3ace0d03201748cecb4ca31ad092c91cc2c98ea9",
+    "aesir_engine/tests/test_turing_shared_staging.mojo": "116046d2e463db86955d6b7b69539e81971ef0a630462052910e71851dd19b49",
+    "aesir_engine/tests/test_packed_matrix.mojo": "bdbb8e8a25816c29a90275e80400031e78eaca9f2efaecce9c1b362195159b1b",
+    "scripts/check_packed_matrix.py": "4e84fa85814039f7be62cad77086e625f50b94ce9910d9ef16ec6b8cf1fd8c38",
+    "scripts/test_check_packed_matrix.py": "289c5506c46f83ab472b0a792ce7c2388e631b913ba3cdae1e028297eef44dac"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "limits": "All batch4 cases lose. Rows64/batch32 FFN gate ratio1.92; V loses. No default dispatch, full-model F16 activation quality/control/recovery/provider lead."
+}

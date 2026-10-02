@@ -1,3 +1,18 @@
+## 2026-10-01 — Sigrún: coalesced shared Turing matrix staging
+
+Added optional16/32/64-row CTAs with coalesced original32-column decoding,
+padded F16 high/residual/input storage and all-thread section barriers. Shared
+bytes cap10560; no extra global workspace or production dispatch. All three
+configurations pass4,976,640 native outputs,6300 selected independent real dots,
+432 synthetic tails,36 rejected spans and1680 complete paired timing records.
+All compilation ends before captures; GPU work serializes and independent CPU
+oracles run afterward. Nine portable mode/geometry/legacy tests pass. Rows64/
+batch32 reaches1.92x FFN gate and other shape-specific gains, while V and every
+batch4 shape still lose. Preserve direct/reference paths and broader activation/
+full-model/state/control/provider gates. Read docs/NATIVE_PACKED_TURING_MATRIX.md
+and physical staging evidence. Next measure wider staging rather than promote
+an unearned default. Exact publication/CI/readiness are separate receipts.
+
 ## 2026-10-01 — Sigrún: original packed-weight Turing matrix precision and speed gate
 
 The optional public MMA candidate reads original packed values with bounded

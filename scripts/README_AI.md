@@ -65,3 +65,6 @@ The packed Turing mode shares check_packed_matrix.py without loosening budgets.
 Its original single-F16 attempt fails; split weights pass primitive precision
 but every speed case loses. Read ../docs/NATIVE_PACKED_TURING_MATRIX.md. MODE and
 TILE metadata cannot mix; original SIMT evidence remains accepted.
+
+Staged Turing MODE additionally requires an admitted CTA row count. Keep fixed
+budgets and distinguish larger-batch primitive gains from production speed.

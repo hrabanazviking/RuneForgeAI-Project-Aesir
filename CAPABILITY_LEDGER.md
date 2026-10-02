@@ -1344,6 +1344,12 @@ and circular self-parity transforms were removed.
   failure remains. All28 timing cases lose, with no inference promotion.
   [Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Full-model activation precision,
   control/state and provider-speed gates remain open; status stays partial.
+- **Shared Turing refinement (2026-10-01):** Three bounded CTA row choices pass
+  all4,976,640 native values/6300 selected independent dots and432 synthetic tails.
+  The64-row/batch32 FFN gate primitive reaches1.92x existing equal work, with
+  shape-specific gains. V and every batch4 shape still lose. Shared bytes<=10560;
+  no global workspace or production dispatch. Same operation manual/evidence
+  retains every1680 sample; no full-model/control/provider promotion.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

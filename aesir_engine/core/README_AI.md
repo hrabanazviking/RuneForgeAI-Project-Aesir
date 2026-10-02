@@ -48,3 +48,8 @@ primitive budgets only after split-weight F16 refinement. It is slower in all
 28 measured cases. Keep defaults/references; read project-root
 docs/NATIVE_PACKED_TURING_MATRIX.md for activation-conversion limits and next
 shared-staging gates. Never turn a primitive precision pass into model quality.
+
+Shared Turing staging uses optional16/32/64-row CTAs, all-thread barriers and
+bounded10560-byte padded F16 operand storage. All three primitive gates pass;
+rows64/batch32 earns up to1.92x shape-specific speed, but V and every batch4
+shape still lose. Preserve direct/reference paths and full-model/control gates.

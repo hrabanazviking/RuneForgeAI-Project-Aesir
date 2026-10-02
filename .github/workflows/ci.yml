@@ -122,6 +122,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_matrix_tile_tuning.mojo -o /tmp/aesir-matrix-tuning-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_mma.mojo -o /tmp/aesir-turing-mma-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_packed_turing_matrix.mojo -o /tmp/aesir-packed-turing-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_shared_staging.mojo -o /tmp/aesir-staged-turing-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

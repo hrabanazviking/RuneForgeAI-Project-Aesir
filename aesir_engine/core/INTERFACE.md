@@ -1113,3 +1113,11 @@ calls with F32 accumulation and once-converted F16 activations. No extra device
 workspace or production dispatch. Fixed primitive gates pass, every measured
 speed case loses. Arbitrary full-model activation quality remains open. Read
 project-root docs/NATIVE_PACKED_TURING_MATRIX.md before refining or integrating.
+
+project_turing_staged[kind,batch,tile_rows] adds explicitly separate16/32/64-row
+CTA choices. Coalesced32-column packed_block_group decoding stages F16 high/low
+weights and inputs at padded33 pitch; shared bytes<=10560. Every thread executes
+both barriers, including tails; all consumed cells initialize and inactive outputs
+do not store. Each warp owns16x8 outputs and retains per-token F32 accumulators.
+No global workspace or normal inference dispatch. The same admission/budgets
+apply; batch4 still loses and only larger-batch shapes earn primitive gains.

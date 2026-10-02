@@ -32,6 +32,10 @@
   passes all1,658,880 native values/2100 selected independent dots after the first
   F16 conversion fails. All28 speed cases lose; no default promotion.
   [Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Next measure shared staging.
+- [x] SPD-01/02 shared Turing staging: three CTA choices pass4,976,640 native
+  values/6300 selected independent dots and all guards. Rows64/batch32 earns up
+  to1.92x primitive speed; V and every batch4 shape still lose. No promotion.
+  Next measure wider staging before full-model/control integration.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

@@ -265,6 +265,13 @@ failure remains. All28 measured shape/batch speed cases lose; no promotion.
 [Operation](docs/NATIVE_PACKED_TURING_MATRIX.md). Next measure coalesced shared
 staging, preserving budgets and strict references. Full-model gates remain open.
 
+The shared-staging refinement passes three row choices/all4,976,640 native values
+and6300 selected independent dots. Rows64/batch32 ratios are1.782/1.054/.771/
+1.797/1.920/1.876/1.524 across Q/K/V/output/gate/up/down. Every batch4 shape
+still loses. These are larger-batch primitive gains only; production remains
+strict. Next measure wider staging, then separately earn full-model precision,
+state/control/recovery and provider gates. Same operation manual owns reproduction.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research
