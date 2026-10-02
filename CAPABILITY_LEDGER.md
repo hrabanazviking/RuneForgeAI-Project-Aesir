@@ -1363,6 +1363,14 @@ and circular self-parity transforms were removed.
   use representative FFN-normalized sources; output/gate/up/down use actual
   operands, and batch32 repeats four sources. [Evidence](docs/evidence/turing-activations-2026-10-01/README.md).
   No complete-model, control/state or timing/provider promotion; status stays partial.
+- **Isolated matrix-model gate (2026-10-01):** Four public final-prompt vectors,
+  all513024 values per mode, pass fixed independent .05/.005/matching-argmax
+  gates through1070 input IDs. Exact repeats/commits, eight invalid tiles and4352
+  guarded cells pass. Fresh long prefill median12.717s versus7.578s, ratio1.678,
+  in an isolated32-token native fixture. Tail-only small cases lose slightly.
+  [Evidence](docs/evidence/turing-model-prefill-2026-10-01/README.md). Normal
+  core/CLI/service admission remains unchanged; control/generation/restore,
+  broader context/quality and provider lead remain open. Status stays partial.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

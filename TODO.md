@@ -45,6 +45,12 @@
   under unchanged budgets. Almost every source value requires F16 rounding.
   Q/K/V use representative FFN-normalized inputs; batch32 repeats four sources.
   No full-model quality/speed promotion. Next scope bounded full-model prefill.
+- [x] SPD-01/02 isolated whole-model matrix prefill: all513024 logits per mode
+  pass fixed independent .05-max/.005-RMS/matching-argmax gates through1070
+  input tokens. Exact repeats/commits and4352 guards pass; long fresh prefill
+  improves12.717s to7.578s in this fixture. Small tail-only cases lose slightly.
+  Normal policy stays unchanged. Next measure activation-residual precision/cost,
+  then separately earn runtime/control/generation/restore/provider gates.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

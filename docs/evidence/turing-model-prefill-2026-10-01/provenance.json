@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "frozen Mojo1.0.0/MAX26.5.0; llama-cpp-python0.3.23/NumPy2.4.4 test oracle",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "controlled_capture": "All host compilation ended before final owned GPU capture; CPU full-model oracle follows GPU work. One warm/export pair then three alternating fresh pairs; every sample remains. Original input IDs match SPD-00.",
+  "raw_files": {
+    "turing-model-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-model-first-fixture.mojo": {
+      "sha256": "a3babc8e12e286077a8838a06cafad4d1fd266264b703d276aa71729d9410e39",
+      "bytes": 11961
+    },
+    "turing-model-first-probe": {
+      "sha256": "89978f82c0bdc7f39befa102e6bb4488513a4cc840c5d35f46db52604187d263",
+      "bytes": 1438736
+    },
+    "turing-model-original-process.json": {
+      "sha256": "893a0f27f542be5fe8eb459e979ecdcfb77599b8a0b71fcbd554c57a17ca727c",
+      "bytes": 52
+    },
+    "turing-model-original.csv": {
+      "sha256": "5b81268f5185394cb15b10a83070345c32c9038d3cf0e3a0b52132ea89546a18",
+      "bytes": 6613760
+    },
+    "turing-model-padded-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-model-padded-oracle.txt": {
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318",
+      "bytes": 151
+    },
+    "turing-model-padded-probe": {
+      "sha256": "d11d69af31b0aa5b01cb412b12395983de6f9afb5d8c8336a486e8363e2d0452",
+      "bytes": 1438792
+    },
+    "turing-model-padded-process.json": {
+      "sha256": "889080be6ab7e05eb9c1c39aa3a82c64cb7468a073b9617df29dc678e86f782c",
+      "bytes": 53
+    },
+    "turing-model-padded-production-rebuild.txt": {
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b",
+      "bytes": 100
+    },
+    "turing-model-padded-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-model-padded-sm89-compile": {
+      "sha256": "131892dacd7bf5b40b3f5a98b61cab9e1446fc71e360cd800a36e389942d7834",
+      "bytes": 1438792
+    },
+    "turing-model-padded.csv": {
+      "sha256": "49747cca164e639534d456abf621cdd6e6bd123f8525ec5cf1e5affd3c7aec4c",
+      "bytes": 26268893
+    },
+    "turing-model-padded.json": {
+      "sha256": "d2701c5b08f553196fa22a8fb3a93754caad3cbc7e3dd45b1b91cd3897e8afca",
+      "bytes": 28442
+    },
+    "turing-model-probe": {
+      "sha256": "89978f82c0bdc7f39befa102e6bb4488513a4cc840c5d35f46db52604187d263",
+      "bytes": 1438736
+    },
+    "turing-model-production-rebuild.txt": {
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b",
+      "bytes": 100
+    },
+    "turing-model-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-model-sm89-compile": {
+      "sha256": "1d936ef3e7d5bb313c44870b68dbc9d71b57c34d56beef0ae756894d216ae8f6",
+      "bytes": 1438736
+    }
+  },
+  "sources": {
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "5a89341621309fd80e8ed5d10399aafcbc14ef31f8566b8a5c9fb30a025fdc5d",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "159074fc9a5429fcde144c9a07be8f6a51a1a55ddb9ca2efd3b9a9eda0fec7a2",
+    "scripts/check_turing_model_prefill.py": "6929a7dd5f9d5486c7ca9b65db623260c87998c5417f4230828309f7070c4743",
+    "scripts/test_check_turing_model_prefill.py": "bf9b6100eccf9fc66f9952da9fdbb3bd258dffa4372c2f89b6f6eb572f89f459"
+  },
+  "reference_derivation": {
+    "snapshot_sha256": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "original_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "derived_sha256": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "converter_sha256": "208fcacd9b4264cacdc9783efc5b3361ac775372469edc12b48747e6b9c4dbff",
+    "derived_bytes": 12858837216
+  },
+  "original_input_ids_match_spd00": true,
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "limits": "Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion."
+}

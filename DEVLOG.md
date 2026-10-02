@@ -2749,3 +2749,18 @@ constructor/build-flag errors remain; corrected builds pass. Production binary
 remains f3442a1e and active readiness is checked separately. Read the operation
 manual/evidence; no model/control/speed promotion. Next scope bounded whole-model
 prefill. Exact pushed CI is a separate receipt.
+## 2026-10-01 — Sigrún: isolated whole-model matrix prefill acceptance
+
+Added independently owned checked32-token scratch, F16 KV/sampler and guarded
+padding in a test-only fixture sharing immutable normal weights/context. The
+first unpadded guarded layout fails admission before a large tile; preserve it.
+Checked32-value padding repairs the ownership mismatch without relaxing spans.
+All513024 final-prompt logits per mode pass fixed independent .05/.005/argmax
+gates through1070 input IDs, with exact repeats/commits, eight invalid tiles and
+4352 guarded cells. All32 timing records remain; first warm pair is unscored.
+Fresh long prefill improves12.717s to7.578s (1.678x), while30/31-token tail-only
+cases lose slightly. Eight adversarial evidence/scoring contracts pass. Normal
+production binary stays f3442a1e; active readiness/exact pushed CI are separate.
+No generation/control/restore/provider integration. Long independent RMS .00398677
+is close enough to its fixed limit to justify the next activation-residual
+precision/cost refinement. Read operation/evidence for boundaries and full samples.

@@ -116,3 +116,16 @@ original model digest before/after reading and exclusively preserves full failed
 numeric reports/exit1. Nine adversarial contracts cover drift, source identity,
 complete failures, special files and false metrics. No production inference or
 full-model quality/timing claim. Read ../docs/NATIVE_TURING_ACTIVATIONS.md.
+
+## check_turing_model_prefill.py
+
+parse requires bounded regular/no-follow ordered actual-CUDA CSV, four exact
+input streams and complete paired F32 logit vectors, all32 alternating samples,
+committed positions, repeat checks, guards and totals. summarize never passes
+collection automatically. provenance binds original/derived/converter identities.
+independent uses pinned test-only CPU F32 inference for every final-prompt value;
+main checks model hashes before/after and exclusively retains complete failures.
+score withholds every ratio until all .05-max/.005-RMS/matching-argmax gates pass,
+then excludes the one warm pair per prompt. Eight portable adversarial contracts
+prove evidence/scoring only. No runtime inference/provider/decode promotion.
+Read ../docs/NATIVE_TURING_MODEL_PREFILL.md.

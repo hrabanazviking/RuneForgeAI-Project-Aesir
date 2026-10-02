@@ -79,3 +79,10 @@ rounding them to F16 or regenerating a test recipe. COMPLETE means collection,
 not success; preserve every numeric failure and fixed budget. Read
 ../docs/NATIVE_TURING_ACTIVATIONS.md for actual-versus-representative operands,
 selected independent coverage and broader full-model/control acceptance.
+
+check_turing_model_prefill.py gates every complete matrix/reference final-prompt
+logit against the independently derived test-only F32 CPU model. Preserve fixed
+budgets, exact original/derived hashes and derivation proof; withhold all speed
+ratios on any numerical/identity/repeat/guard failure. Read
+../docs/NATIVE_TURING_MODEL_PREFILL.md. A fixture pass does not expand normal
+batch admission or establish generation, cancellation, restore or provider speed.

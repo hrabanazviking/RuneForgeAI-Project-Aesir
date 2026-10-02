@@ -459,3 +459,12 @@ Q/K/V normalized inputs are representative FFN norms, while output/gate/up/down
 use actual operands. COMPLETE means collection only; numerical failures remain
 in full output and require check_turing_activations.py. No timing/model-quality
 claim or production inference capture hook. Read ../../docs/NATIVE_TURING_ACTIVATIONS.md.
+
+turing_prefill_fixture.mojo owns isolated checked32-token scratch/guarded F16 KV
+and sampler while sharing a normal reference session's immutable weights/context.
+Normal buffers/admission are never changed. test_turing_model_prefill.mojo runs
+four public prompts, all513024 final logits per mode, exact repeats/committed IDs,
+eight mutation-free rejections and32 warm/scored alternating timing records.
+COMPLETE means collection; independent CPU/full-native budgets own acceptance.
+No generation/control/restore/runtime promotion. Read
+../../docs/NATIVE_TURING_MODEL_PREFILL.md before refining or integrating.

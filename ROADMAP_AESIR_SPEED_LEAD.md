@@ -284,6 +284,15 @@ repeats four sources. [Operation](docs/NATIVE_TURING_ACTIVATIONS.md). This is
 precision-only; next scope bounded whole-model prefill and earn independent
 logit/state/control/recovery gates before any default or provider promotion.
 
+The isolated whole-model fixture now passes all513024 final-prompt values per
+mode under fixed independent .05-max/.005-RMS/matching-argmax gates. All repeats,
+commits, eight invalid tiles and4352 guards pass. Long1070-token fresh prefill
+median falls12.717s to7.578s, ratio1.678; 30/31-token tail-only cases lose slightly.
+[Operation](docs/NATIVE_TURING_MODEL_PREFILL.md). This is not runtime integration
+or a complete-request/provider lead. Long-case independent RMS .00398677 is
+closer to the limit than the native reference; next explicitly gate an activation-
+residual precision/cost refinement before runtime/control/generation/restore work.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research
