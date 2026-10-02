@@ -85,7 +85,7 @@ def parse(path):
     meta = next(reader); precision = 0
     if meta == ["META", "1", "turing_native_f32", "64", "32", "12"]:
         pass
-    elif len(meta) == 7 and meta[:5] == ["META", "1", "turing_native_f32_split", "64", "32"] and meta[5] in ("1", "2") and meta[6] == "12":
+    elif len(meta) == 7 and meta[:5] == ["META", "1", "turing_native_f32_split", "64", "32"] and meta[5] in ("1", "2", "3", "4") and meta[6] == "12":
         precision = int(meta[5])
     else:
         raise ValueError("Wrong activation mode or invalid-span count")

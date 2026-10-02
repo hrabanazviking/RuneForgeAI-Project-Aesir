@@ -76,6 +76,36 @@ def project_turing[kind: Int,batch: Int](ctx: DeviceContext,
         Int64(src),Int64(dst),Int64(stride),Int64(tokens),grid_dim=(tiles+3)//4,block_dim=128)
 
 
+def accumulate_staged[precision: Int](top: SIMD[DType.float16,4],low: SIMD[DType.float16,4],
+    high_input: SIMD[DType.float16,2],low_input: SIMD[DType.float16,2],
+    total: SIMD[DType.float32,4]) -> SIMD[DType.float32,4]:
+    """Scaled corrections start at zero; legacy accumulation order is unchanged."""
+    var intermediate = SIMD[DType.float32,4](0)
+    var result = SIMD[DType.float32,4](0)
+    comptime if precision <= 2:
+        mma(intermediate,top,high_input,total)
+        mma(result,low,high_input,intermediate)
+        comptime if precision != 0:
+            mma(intermediate,top,low_input,result)
+            comptime if precision == 2:
+                mma(result,low,low_input,intermediate)
+            else: result = intermediate
+    else:
+        var zero = SIMD[DType.float32,4](0)
+        comptime if precision == 3:
+            mma(result,top,high_input,total)
+        else:
+            mma(result,top,high_input,zero)
+            result += total
+        mma(intermediate,low,high_input,zero)
+        result += intermediate*Float32(1.0/4096.0)
+        mma(intermediate,top,low_input,zero)
+        result += intermediate*Float32(1.0/4096.0)
+        mma(intermediate,low,low_input,zero)
+        result += intermediate*Float32(1.0/16777216.0)
+    return result
+
+
 def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int = 32,activation_precision: Int = 0](w: Bytes,
     a: ProjectionFloats,base_arg: Int64,columns_arg: Int64,rows_arg: Int64,
     src_arg: Int64,dst_arg: Int64,stride_arg: Int64,tokens_arg: Int64):
@@ -84,9 +114,10 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int =
     comptime assert tile_rows == 16 or tile_rows == 32 or tile_rows == 64
     comptime assert tile_columns == 32 or tile_columns == 64 or tile_columns == 128
     comptime assert tile_rows != 16 or tile_columns == 32
-    comptime assert activation_precision >= 0 and activation_precision <= 2
+    comptime assert activation_precision >= 0 and activation_precision <= 4
     comptime assert activation_precision == 0 or (tile_rows == 64 and tile_columns == 32)
     comptime input_rows = batch*(1+Int(activation_precision != 0))
+    comptime residual_scale = Float32(4096 if activation_precision >= 3 else 1)
     comptime assert (2*tile_rows+input_rows)*(tile_columns+1)*2 <= 49152
     comptime pitch = tile_columns+1
     comptime warps = tile_rows//16
@@ -123,7 +154,7 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int =
                         value = packed_block_group[kind,source_group](w,p,lane,d,dmin)
                     var top = value.cast[DType.float16]()
                     high.unsafe_store(local_row*pitch+subgroup*32+lane,top)
-                    low.unsafe_store(local_row*pitch+subgroup*32+lane,(value-top.cast[DType.float32]()).cast[DType.float16]())
+                    low.unsafe_store(local_row*pitch+subgroup*32+lane,((value-top.cast[DType.float32]())*residual_scale).cast[DType.float16]())
                 comptime for part in range(batch//warps):
                     var token = own_warp+part*warps
                     var value: Float32 = 0
@@ -132,7 +163,7 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int =
                     var top_input = value.cast[DType.float16]()
                     inputs.unsafe_store(token*pitch+subgroup*32+lane,top_input)
                     comptime if activation_precision != 0:
-                        inputs.unsafe_store((batch+token)*pitch+subgroup*32+lane,(value-top_input.cast[DType.float32]()).cast[DType.float16]())
+                        inputs.unsafe_store((batch+token)*pitch+subgroup*32+lane,((value-top_input.cast[DType.float32]())*residual_scale).cast[DType.float16]())
             barrier()
             comptime for token_tile in range(token_tiles):
                 comptime for step in range(tile_columns//8):
@@ -152,17 +183,7 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int =
                             activation[element] = inputs.unsafe_load(token*pitch+step*8+member*2+element)
                             comptime if activation_precision != 0:
                                 activation_low[element] = inputs.unsafe_load((batch+token)*pitch+step*8+member*2+element)
-                    var intermediate = SIMD[DType.float32,4](0)
-                    var result = SIMD[DType.float32,4](0)
-                    mma(intermediate,top,activation,totals[token_tile])
-                    mma(result,residual,activation,intermediate)
-                    comptime if activation_precision != 0:
-                        mma(intermediate,top,activation_low,result)
-                        comptime if activation_precision == 2:
-                            mma(result,residual,activation_low,intermediate)
-                        else:
-                            result = intermediate
-                    totals[token_tile] = result
+                    totals[token_tile] = accumulate_staged[activation_precision](top,residual,activation,activation_low,totals[token_tile])
             # No lane may overwrite staging before every warp consumes it.
             barrier()
     comptime for token_tile in range(token_tiles):

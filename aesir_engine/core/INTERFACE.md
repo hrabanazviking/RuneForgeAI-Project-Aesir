@@ -1135,3 +1135,10 @@ F16 rows; three/four public MMA terms respectively omit/include the low-low term
 All consumed cells initialize and both barriers remain. Shared bytes<=12672 for
 split batch32. No extra global workspace, default promotion or relaxed budget.
 Read project-root docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before choosing a mode.
+
+Precision 3/4 use the same rows64/columns32 and12672-byte ceiling, storing both
+residual operands multiplied by4096 before F16 conversion. accumulate_staged
+starts each correction MMA from zero and rescales by4096 or16777216 before F32
+addition. Mode3 accumulates high-high into the old total; mode4 adds its separate
+product. Legacy0/1/2 order stays intact. No new global allocation or production
+admission. Read project-root docs/NATIVE_TURING_SCALED_RESIDUAL.md for fixed gates.

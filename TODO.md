@@ -56,6 +56,11 @@
   miss the stricter predeclared .0005 native-model RMS target. Four terms reduce
   long deviation about4.03x; retain all96 timing records and withhold failed
   ratios. Next measure scaled residual representation without relaxing budgets.
+- [x] SPD-01/02 scaled residual representation: modes3/4 improve captured
+  projection RMS but miss the unchanged .0005 complete-model native goal. All
+  original independent budgets pass; retain all96 timings and withhold failed
+  ratios. Next harden checked workspace/profile/device admission for the original
+  passing matrix candidate before production memory/control/generation gates.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

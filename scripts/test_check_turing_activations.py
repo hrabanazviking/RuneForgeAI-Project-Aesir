@@ -49,10 +49,10 @@ class Contracts(unittest.TestCase):
     def test_explicit_split_identity_and_legacy_default(self):
         old = "META,1,turing_native_f32,64,32,12"
         self.assertEqual(self.parse(fixture())["activation_precision"], 0)
-        for precision in (1, 2):
+        for precision in (1, 2, 3, 4):
             new = f"META,1,turing_native_f32_split,64,32,{precision},12"
             self.assertEqual(self.parse(fixture().replace(old, new))["activation_precision"], precision)
-        for precision in (0, 3, -1):
+        for precision in (0, 5, -1):
             with self.assertRaises(ValueError):
                 self.parse(fixture().replace(old, f"META,1,turing_native_f32_split,64,32,{precision},12"))
 

@@ -2779,3 +2779,20 @@ All compilation ends before serialized captures; CPU oracles follow. Normal
 binary stays f3442a1e; active readiness/exact pushed CI are separate. Next scope
 scaled residual representation/accumulation under unchanged budgets. Read manual
 and evidence for accepted original versus rejected refinement boundaries.
+
+## 2026-10-02 — Sigrún: scaled residual experiments retained as rejected
+
+Added exact power-of-two scaled weight/input residuals and two separate correction
+accumulation orders, preserving legacy defaults, checked12672-byte shared ceiling
+and no global workspace. Extracted the small accumulation helper to keep every
+function under100 lines. Three captured sessions pass5,971,968 native values and
+7560 independent dots; complete model sessions retain every old independent gate,
+exact repeats/commits and13056 guards. Scaled mode4 captured RMS improves about241x,
+but modes3/4 long native RMS .00113806/.00122564 miss unchanged stricter .0005.
+Both rejected modes withhold every ratio; all96 raw timings remain. sm75/sm89 and
+legacy probes compile, ten/nine portable contracts pass. All host compilation
+ends before GPU captures, CPU oracles afterward. Normal binary stays f3442a1e;
+active readiness and exact pushed CI are separate. Next harden checked fixture
+workspace/profile/device admission for original passing mode0, then separately
+earn production memory/control/generation/restore/provider gates. No inferred
+hardware cause or budget relaxation. Read operation/evidence for complete limits.

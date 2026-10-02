@@ -29,7 +29,7 @@ def parse(path):
     meta = next(reader); precision = 0
     if meta == ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
         pass
-    elif len(meta) == 8 and meta[:6] == ["META", "1", str(VOCABULARY), "1536", "32", "f16"] and meta[6] in ("1", "2") and meta[7] == "8":
+    elif len(meta) == 8 and meta[:6] == ["META", "1", str(VOCABULARY), "1536", "32", "f16"] and meta[6] in ("1", "2", "3", "4") and meta[7] == "8":
         precision = int(meta[6])
     else:
         raise ValueError("Wrong matrix-model metadata")

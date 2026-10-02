@@ -475,3 +475,9 @@ three/four-term kernels for nonzero modes; no normal session buffer/dispatch is
 changed. Complete source/output/guard/repeat/timing gates stay mandatory. Nonzero
 full-model native-reference RMS additionally must be<=.0005. Read
 ../../docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before measuring or promoting.
+
+Explicit precision3/4 extend both probes and the fixture with scaled weight/input
+residuals and distinct high-high accumulation orders. Complete captured/model
+coverage and .0005 native-reference RMS requirement stay unchanged. Unknown
+precision rejects before fixture allocation. No normal runtime admission change.
+Read ../../docs/NATIVE_TURING_SCALED_RESIDUAL.md for representation and gates.

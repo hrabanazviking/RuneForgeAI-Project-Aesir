@@ -92,3 +92,9 @@ Ten captured-input/nine model contracts cover it and stricter .0005 native-model
 RMS acceptance. Both nonzero physical modes miss that extra gate; preserve full
 failed reports and withheld ratios, including clearing stale scores on rescoring.
 Read ../docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before the next refinement.
+## Scaled residual evidence
+
+The bounded captured/model checkers admit explicit precision3/4 metadata while
+preserving legacy0/1/2. Complete gates remain unchanged, including nonzero
+native-model RMS<=.0005 and removal of every score on failure. Read
+../docs/NATIVE_TURING_SCALED_RESIDUAL.md before claiming acceptance or speed.

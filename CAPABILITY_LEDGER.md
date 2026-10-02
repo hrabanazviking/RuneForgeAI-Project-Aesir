@@ -1379,6 +1379,14 @@ and circular self-parity transforms were removed.
   and every ratio is withheld. [Evidence](docs/evidence/turing-activation-residual-2026-10-02/README.md).
   All96 raw timing records remain. Next separately scope scaled residual storage;
   no normal admission or status promotion follows.
+- **Scaled residual experiment (2026-10-02):** Three captured-input sessions pass
+  all5,971,968 native values/7560 independent dots. Every original independent
+  model gate and13056 guards pass, but modes3/4 long native RMS .00113806/
+  .00122564 miss the unchanged stricter .0005 goal. Both are rejected and their
+  speed ratios withheld, with all96 timings retained. Captured mode4 RMS improves
+  about241x without earning complete-model acceptance. [Evidence](docs/evidence/turing-scaled-residual-2026-10-02/README.md).
+  Next harden checked workspace/profile/device admission for original passing
+  mode0. Normal runtime admission and partial status remain unchanged.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

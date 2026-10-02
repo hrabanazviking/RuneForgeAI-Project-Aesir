@@ -300,6 +300,15 @@ about4.03x to.00072338. All96 timings remain; failed ratios are withheld and no
 mode is promoted. [Operation](docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md). Next
 scope scaled residual storage/accumulation and retain the same stricter gate.
 
+The scaled residual experiment now passes all captured-input and original
+independent model budgets, but both modes miss that unchanged stricter goal.
+Captured RMS improves to.00000468/.000000394 while long native-model RMS stays
+.00113806/.00122564. Preserve all96 timings with failed speed ratios withheld;
+finer isolated projection precision does not earn full-model acceptance.
+[Operation](docs/NATIVE_TURING_SCALED_RESIDUAL.md). Next harden checked fixture
+workspace/profile/device admission for the original passing matrix candidate,
+then separately earn production memory/control/generation/restore/provider gates.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

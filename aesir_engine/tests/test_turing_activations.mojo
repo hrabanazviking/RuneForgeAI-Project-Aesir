@@ -135,4 +135,6 @@ def main() raises:
     if precision == 0: run[0](args[1])
     elif precision == 1: run[1](args[1])
     elif precision == 2: run[2](args[1])
-    else: raise Error("Activation precision must be0/1/2")
+    elif precision == 3: run[3](args[1])
+    elif precision == 4: run[4](args[1])
+    else: raise Error("Activation precision must be0/1/2/3/4")

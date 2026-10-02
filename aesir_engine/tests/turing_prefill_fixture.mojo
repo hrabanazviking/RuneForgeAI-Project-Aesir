@@ -27,7 +27,7 @@ struct TuringPrefillFixture:
     var activation_precision: Int
 
     def __init__(out self,path: String,precision: Int = 0) raises:
-        if precision < 0 or precision > 2: raise Error("Fixture activation precision must be0/1/2")
+        if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         self.activation_precision = precision
         self.native = Llama3CUDASession(path,1536,prefix_cache=False,prefill_batch=4)
         if self.native.profile.hidden_size != 3072 or self.native.profile.feed_forward_size != 8192 or self.native.profile.layer_count != 28 or self.native.profile.vocabulary_size != 128256:
@@ -75,6 +75,10 @@ struct TuringPrefillFixture:
                 project_turing_staged[kind,32,64,32,1](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
             elif self.activation_precision == 2:
                 project_turing_staged[kind,32,64,32,2](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            elif self.activation_precision == 3:
+                project_turing_staged[kind,32,64,32,3](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            elif self.activation_precision == 4:
+                project_turing_staged[kind,32,64,32,4](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
             else:
                 project_turing_staged[kind,32,64](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
         elif count == 4 or count == 32:

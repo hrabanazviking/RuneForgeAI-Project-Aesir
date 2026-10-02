@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-02",
+  "toolchain": "Mojo1.0.0/MAX26.5.0 pinned Pixi",
+  "gpu": "RTX2060MaxQ sm75,595.91.07",
+  "controlled_capture": "All compilation finished before serialized activation0/3/4,model0/3/4; independent CPU oracles afterward. Process wall durations unscored.",
+  "residual_scale": 4096,
+  "max_shared_bytes": 12672,
+  "refinement_native_rms_goal": 0.0005,
+  "refinements_accepted": false,
+  "raw_files": {
+    "turing-scaled-activation-0-final.csv": {
+      "bytes": 115083742,
+      "sha256": "3e64bba7c2aa72df89196eab746acafd855f483cd82f2b3da2a7eb49a697cd2e"
+    },
+    "turing-scaled-activation-0-final.json": {
+      "bytes": 25796,
+      "sha256": "f944c4e0878a52f3d1c62ba94885e05c046168ea4773e4e3a989c2e0ef2a1fee"
+    },
+    "turing-scaled-activation-0-oracle.txt": {
+      "bytes": 35,
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e"
+    },
+    "turing-scaled-activation-0-process.json": {
+      "bytes": 517,
+      "sha256": "440b57a707b308e77da163d93f04ba748bcb41e94d0df6bc645f8cb27e63833f"
+    },
+    "turing-scaled-activation-3-final.csv": {
+      "bytes": 115084249,
+      "sha256": "73ea86ea060fcd7552b1b0dedb79793320f64197f5055ef16ada7a125c7351f7"
+    },
+    "turing-scaled-activation-3-final.json": {
+      "bytes": 25808,
+      "sha256": "ffa2e0bff0308f8b83c6fc3145b6986321dc5c7a57126a1f30053e0a346dde1b"
+    },
+    "turing-scaled-activation-3-oracle.txt": {
+      "bytes": 35,
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e"
+    },
+    "turing-scaled-activation-3-process.json": {
+      "bytes": 518,
+      "sha256": "5c06ede93a0d16817fd615bec40db85ea56433807d6105e7ca9b205632a05be2"
+    },
+    "turing-scaled-activation-4-final.csv": {
+      "bytes": 115085097,
+      "sha256": "47be75afe33a0035c4d82afb2a95f1977dede94a4bd6510b6b804166ededff76"
+    },
+    "turing-scaled-activation-4-final.json": {
+      "bytes": 25824,
+      "sha256": "aec546cf0f17a168667d8bbe3379525b797b1e906069666ed46929820d6301c7"
+    },
+    "turing-scaled-activation-4-oracle.txt": {
+      "bytes": 35,
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e"
+    },
+    "turing-scaled-activation-4-process.json": {
+      "bytes": 518,
+      "sha256": "08b83ccb21b9b47288b7825e19865513eae3517b8493203342a0f879b7c6009a"
+    },
+    "turing-scaled-activation-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-scaled-activation-probe": {
+      "bytes": 5522576,
+      "sha256": "1fe8c3e64c734a7538454961cdf56f41a351ae043caedb7f350df75750a88e40"
+    },
+    "turing-scaled-activation-sm89-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-scaled-activation-sm89-compile": {
+      "bytes": 5522576,
+      "sha256": "ce5bf03b3f314b682a959d9f663205d1b4a6b680d23d6d3d9cabc4876ef9b8ac"
+    },
+    "turing-scaled-legacy-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-scaled-legacy-compile": {
+      "bytes": 7700408,
+      "sha256": "43dfb1fba0397ddad534fbfa1850561fabaac80ea0be854bb9a8e9dbeef82795"
+    },
+    "turing-scaled-model-0-final.csv": {
+      "bytes": 26268897,
+      "sha256": "eedbb712cf1cd7f91708b21545836331d8b20ecc88ac5ee9affeba4c747c4145"
+    },
+    "turing-scaled-model-0-final.json": {
+      "bytes": 28479,
+      "sha256": "833bd15898fbb2899e73f73163b3ff3a436e96fa7abc1111052328e58344b7ff"
+    },
+    "turing-scaled-model-0-oracle.txt": {
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    "turing-scaled-model-0-process.json": {
+      "bytes": 511,
+      "sha256": "5d9c854ca42ed6affb184866494cdd2adffbbb1c7ceeed707551f99e713ee3ba"
+    },
+    "turing-scaled-model-3-final.csv": {
+      "bytes": 26268467,
+      "sha256": "8496baf6d2d12647e7c6cfbcc41d26568262786d06780babbe90e7f63da9e1d6"
+    },
+    "turing-scaled-model-3-final.json": {
+      "bytes": 28113,
+      "sha256": "909e92d68267c2995a4e5b99cdc09c4c8b42a6d7f6cd1f41ff3293cd5f6962f5"
+    },
+    "turing-scaled-model-3-oracle.txt": {
+      "bytes": 181,
+      "sha256": "f46a2547ae58685a9b5d5625aa349ff4443690f82686407213faceae7dcca6ac"
+    },
+    "turing-scaled-model-3-process.json": {
+      "bytes": 513,
+      "sha256": "965e5a8d20aeb7f0a992869192c60f4c3bed887ac07a6d4f5f151efe6facd010"
+    },
+    "turing-scaled-model-4-final.csv": {
+      "bytes": 26269079,
+      "sha256": "88409799426faaa2e93dafb98c8aff384827b0274e6ab6495ac4789a9237a0e2"
+    },
+    "turing-scaled-model-4-final.json": {
+      "bytes": 28104,
+      "sha256": "f6fcede8560fef59fbae9c8a234b3818e645f4db1db7b2dd130e26d98f4c4046"
+    },
+    "turing-scaled-model-4-oracle.txt": {
+      "bytes": 181,
+      "sha256": "f46a2547ae58685a9b5d5625aa349ff4443690f82686407213faceae7dcca6ac"
+    },
+    "turing-scaled-model-4-process.json": {
+      "bytes": 513,
+      "sha256": "a06b895f1c1cfcc67bd7729c3c94e7b1e4d8ca83adb5715bae7496ef6667c0be"
+    },
+    "turing-scaled-model-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-scaled-model-probe": {
+      "bytes": 5209760,
+      "sha256": "a9b971eb5633f235dcf942cac9ef4aebcaf84256ce48580e00844bf4bc471a9e"
+    },
+    "turing-scaled-model-sm89-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-scaled-model-sm89-compile": {
+      "bytes": 5209760,
+      "sha256": "9157cf4345c2c4af15d4b293383b6cb778f0d4c8f1db4b980b07c26ddd79f573"
+    },
+    "turing-scaled-production-rebuild.txt": {
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    }
+  },
+  "sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "63abff66571717d31547f4353ccc377682d1ef1eab84e560a8fbaa5b633a4763",
+    "aesir_engine/tests/test_turing_activations.mojo": "bb22e0bf504b1f7353ed6fc1d6e86d03fcc2f2a419fa528b1f5bf99dd214b74e",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "d244b7a85ffe3c58c212041594f918e3e377f95465df30599c0793fdc1cc4eeb",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "e887987471c0f38cdb2ba83f78fd4056fc555957020a2190eeb5c0d288f85810",
+    "scripts/check_turing_activations.py": "cf232632229480ba9cb55affd07d315262db8074ead3e90f444b8597a476aea4",
+    "scripts/check_turing_model_prefill.py": "69a58fba062dd501ca35ad859f8506388ed3e39d79f32739bdb92649fb0616e5",
+    "scripts/test_check_turing_activations.py": "e22bdc2a39bcac1bd9269a156e1c4520425e2da541fb2afd60032b5da7d15a41",
+    "scripts/test_check_turing_model_prefill.py": "4033536c31f3bb119198c95f2432e5b3f3f947eaff9192eac4abc0625ca5862e"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "authenticated_health_ready": "ready",
+  "limits": "Test-only strict3B Q4_K/Q6_K captured operands and context1536/F16KV isolated prefill; no runtime/control/generation/restore/concurrency/provider or broader-model promotion. Both modes miss the unchanged stricter native-model gate. All failed speed ratios withheld."
+}

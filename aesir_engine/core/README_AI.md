@@ -68,3 +68,11 @@ Unscaled input residual modes1/2 pass captured-input and original independent
 model budgets but miss their stricter .0005 native-model RMS target. Do not promote
 either or expose a failed speed score. Read project-root
 docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md; next measure scaled corrections.
+## Scaled residual experiment
+
+The optional staged Turing kernel supports explicit precision3/4 at rows64/width32
+with the same bounded shared storage. Both residual operands scale by4096 before
+F16 storage; zero-accumulator correction products rescale before F32 addition.
+Legacy0/1/2 and normal inference stay unchanged. Complete original and tighter
+numerical gates still decide acceptance; read
+../../docs/NATIVE_TURING_SCALED_RESIDUAL.md before refining or integrating.
