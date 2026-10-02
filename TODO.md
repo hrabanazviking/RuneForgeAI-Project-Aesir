@@ -66,6 +66,12 @@
   actual span rechecked before tiles. Master188 passes/one skip; new mode0 full
   vectors match previous bytes and independent gates, preserving1.676x long
   fixture prefill. Next separately earn larger-tile control/recovery gates.
+- [x] SPD-01/02 larger-tile fixture controls/recovery: actual deadline/SIGINT/
+  invalid-descriptor aborts preserve uncommitted position/IDs and require explicit
+  reset; recovered complete vectors match prior bytes and allocations. Unexpected
+  observer exception poisons reuse. Master189 passes/one skip; disabled mode0
+  independent gates preserve1.676x fixture prefill. Generation/sampling/restore
+  and production admission/provider gates remain separate.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

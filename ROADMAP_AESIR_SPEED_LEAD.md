@@ -317,6 +317,15 @@ prefill. [Operation](docs/NATIVE_TURING_FIXTURE_ADMISSION.md). Next separately
 scope cooperative larger-tile controls/recovery before production generation,
 restore and provider admission. Normal one/four policy remains unchanged.
 
+The isolated fixture now earns cooperative control/reset gates: real10ms timeout
+after2 layers, real SIGINT after8, and pre-expired/invalid-descriptor aborts have
+no partial ID/position commits. Explicit reset preserves buffers and all recovered
+case1 bytes; observer exceptions poison reuse and signal mask restores. Master189
+passes/one skip,9792 control guards and disabled-mode0 independent/byte-regression
+gates preserve1.676x long fixture prefill. [Operation](docs/NATIVE_TURING_FIXTURE_CONTROLS.md).
+Next earn generation/sampling/restore quality before production32 admission or
+provider scoring. Control durations are unscored; broader context stays open.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

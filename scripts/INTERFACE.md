@@ -141,3 +141,13 @@ Ten captured-input and nine model contracts cover these boundaries. Read
 Precision3/4 identify scaled residual candidates; legacy0/1/2 remain admitted.
 Every original and tighter model gate still owns scoring, with every failed ratio
 withheld. Read ../docs/NATIVE_TURING_SCALED_RESIDUAL.md before interpreting results.
+## check_turing_fixture_controls.py
+
+Bounded regular/no-follow ordered CSV admission requires actual CUDA identity,
+four exact control states, caller-owned SIGINT, reset/refusal/poison/guard/mask
+proofs and every recovered F32 value. Accepted independent original-mode0 JSON
+must bind its reference CSV/model and fixed budgets. Recovered bytes must equal
+case1, including signed zero. Numerical failures retain complete exclusive
+reports; speed_claim is alwaysFalse. Nine adversarial contracts cover identity,
+state, mask, vectors, signed zero and binding. Read
+../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; this is test-only control evidence.

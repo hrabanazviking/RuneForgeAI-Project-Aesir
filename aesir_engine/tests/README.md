@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 188 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 189 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
@@ -53,7 +53,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 189 reportable cases, it prints unique
+and continues with later cases. After all 190 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -61,10 +61,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 188
+[SUMMARY] Passed: 189
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 189
+[SUMMARY] Total: 190
 [SUMMARY] Status: PASS
 ```
 
@@ -136,3 +136,12 @@ observed headroom before extra allocation. Every tile rechecks all layout fields
 and actual buffer lengths. Pure portable tests do not prove GPU execution; repeat
 full independent logits and byte-identical prior mode0 vectors after changes.
 Read ../../docs/NATIVE_TURING_FIXTURE_ADMISSION.md before expanding this plan.
+## Matrix fixture controls
+
+The pure FixtureControl policy and enabled layer checkpoints reuse native
+GenerationControl. Abort requires explicit reset after healthy stream drain;
+unexpected failures poison reuse. The owned physical probe covers deadlines,
+real SIGINT, invalid descriptors, full recovered vectors/guards and signal mask
+restoration. Default disabled behavior retains complete independent model and
+byte-regression gates. Read ../../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; no
+production control/admission or hard real-time claim follows from this fixture.

@@ -2811,3 +2811,20 @@ prefill12.8666s/7.6763s preserves1.676x fixture speed. Production binary stays
 f3442a1e; authenticated active readiness and exact pushed CI are separate.
 Next scope larger-tile cooperative controls/recovery before production generation/
 restore/provider admission. Read operation/evidence; broader context stays open.
+## 2026-10-02 — Sigrún: cooperative larger-tile fixture controls and reset
+
+Reused native deadline/poll policy with pure start/abort/reset state and enabled
+owning-stream layer checkpoints. Disabled queue policy stays intact. Actual10ms
+deadline stops after2 layers, real SIGINT after8 and pre-expired/invalid poll
+before layers. No partial ID/position commit; uncommitted sampler history requires
+explicit reset. All513024 recovered values per mode match prior case1 bytes,
+weights/buffer identity remains and9792 guard checks pass. One unexpected
+observer exception after1 layer poisons four reuse/reset operations; owner mask
+restores. This is exception policy, not actual GPU-fault repair or hard real time.
+Master189 passes/one skip, nine control/nine model contracts pass and sm75/sm89
+probes compile. Disabled mode0 independent/complete-byte regression preserves
+1.676x long fixture prefill, with all32 raw samples retained. Compilation finishes
+before serialized GPU work, CPU oracles afterward. Normal binary stays f3442a1e;
+active authenticated readiness/exact pushed CI are separate. Next earn generation/
+sampling/restore quality before production32 admission/provider lead. Read
+operation/evidence; all rejected precision refinements remain rejected.

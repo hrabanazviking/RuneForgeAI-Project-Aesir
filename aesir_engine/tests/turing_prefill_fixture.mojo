@@ -3,6 +3,7 @@ from max.gpu.host import DeviceBuffer, HostBuffer, DeviceAttribute
 from core.llama3_cuda import Llama3CUDASession
 from core.dense_buffers import DenseBufferLayout
 from tests.turing_fixture_plan import TuringFixturePlan
+from tests.turing_fixture_control import FixtureControl
 from core.dense_gqa_execution import DenseGQALayer
 from core.dense_normalization import dense_norm_kernel
 from core.packed_projection import ProjectionFloats, four_matvec_kernel, block_matvec_kernel
@@ -14,9 +15,14 @@ from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
 
 
+def ignore_layer(layer: Int) raises:
+    _ = layer
+
+
 struct TuringPrefillFixture:
     var native: Llama3CUDASession
     var buffer_plan: TuringFixturePlan
+    var control: FixtureControl
     var layout: DenseBufferLayout
     var activations: DeviceBuffer[DType.float32]
     var cache: DeviceBuffer[DType.float16]
@@ -31,6 +37,7 @@ struct TuringPrefillFixture:
     def __init__(out self,path: String,precision: Int = 0) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         self.activation_precision = precision
+        self.control = FixtureControl()
         self.native = Llama3CUDASession(path,1536,prefix_cache=False,prefill_batch=4)
         self.buffer_plan = TuringFixturePlan(self.native.profile,self.native.buffers,
             Int(self.native.context.get_attribute(DeviceAttribute.COMPUTE_CAPABILITY_MAJOR)),
@@ -130,6 +137,7 @@ struct TuringPrefillFixture:
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
         if not self.healthy or not self.native.healthy or (count != 1 and count != 4 and count != 32) or (need_logits and count != 1):
             raise Error("Matrix fixture tile/policy is not admitted")
+        self.control.admit()
         if start < 0 or start > len(tokens)-count or self.position < 0 or self.position > 1536-count:
             raise Error("Matrix fixture token/context bounds exceeded")
         self.buffer_plan.admit_buffers(self.layout,len(self.activations),len(self.cache))
@@ -137,19 +145,55 @@ struct TuringPrefillFixture:
             if tokens[start+i] < 0 or tokens[start+i] >= 128256:
                 raise Error("Matrix fixture token outside vocabulary")
 
-    def step(mut self,tokens: List[Int],start: Int,count: Int,need_logits: Bool = False) raises:
+    def configure_control(mut self,timeout_ms: Int = 0,cancel_fd: Int = -1) raises:
+        if not self.healthy or not self.native.healthy:
+            raise Error("Cannot configure a busy or failed matrix fixture")
+        self.control.configure(timeout_ms,cancel_fd)
+
+    def start_control(mut self) raises:
+        if not self.healthy or not self.native.healthy:
+            raise Error("Cannot start control on a busy or failed matrix fixture")
+        self.control.start()
+
+    def drain_control_abort(mut self,reason: String) raises:
+        self.healthy = False
+        self.native.context.synchronize()
+        self.control.aborted(reason)
+        self.healthy = True
+
+    def checkpoint(mut self) raises:
+        var reason: String
+        try: reason = self.control.stop_reason()
+        except:
+            self.drain_control_abort("control_error")
+            raise
+        if reason != "":
+            self.drain_control_abort(reason)
+            raise Error("Matrix fixture "+reason+"; explicit reset required")
+
+    def step(mut self,tokens: List[Int],start: Int,count: Int,need_logits: Bool = False,
+        layer_observer: def(Int) thin raises = ignore_layer) raises:
         self.admit(tokens,start,count,need_logits)
+        self.control.completed_layers = 0
+        if self.control.enabled(): self.checkpoint()
         self.healthy = False
         for token in range(count):
             self.sampler.record(tokens[start+token])
             self.native.context.enqueue_function[embedding_kernel](self.native.w(),self.a(),Int64(self.native.embedding_tensor.offset),Int64(self.native.embedding_tensor.kind),Int64(3072),Int64(tokens[start+token]),Int64(self.layout.token_base(token)),Float32(1),grid_dim=24,block_dim=128)
-        for layer in range(28): self.layer(self.native.layers[layer],layer,count)
+        for layer in range(28):
+            self.layer(self.native.layers[layer],layer,count)
+            if self.control.enabled():
+                self.native.context.synchronize()
+                self.control.completed_layers = layer+1
+                layer_observer(layer+1)
+                self.checkpoint()
         if need_logits:
             self.norm(self.native.output_norm,0,self.layout.norm)
             self.project(self.native.output_tensor,self.layout.norm,self.layout.logits,1)
             self.sampler.select(self.a(),self.layout.logits,self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](),self.native.profile.ordinary_token_limit,self.native.profile.eos_token_id,self.native.profile.end_of_turn_token_id)
             self.native.context.enqueue_copy(self.host_output,self.output)
         self.native.context.synchronize()
+        if self.control.enabled(): self.checkpoint()
         if need_logits and (self.host_output[0] < 0 or self.host_output[0] >= 128256):
             raise Error("Matrix model produced nonfinite sampled logits")
         for token in range(count): self.committed.append(tokens[start+token])
@@ -163,6 +207,7 @@ struct TuringPrefillFixture:
         self.native.context.synchronize()
         self.position = 0
         self.committed.clear()
+        self.control.reset()
         self.healthy = True
 
     def guards(self) raises:

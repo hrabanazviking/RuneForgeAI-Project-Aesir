@@ -490,3 +490,11 @@ workspace allocation. It retains checked1247520 F32/88080416 F16 element counts,
 every tile, admit_buffers rejects any layout-field or actual-length drift.
 The registered portable case covers all13 fields, headroom and hostile identity.
 Read ../../docs/NATIVE_TURING_FIXTURE_ADMISSION.md; runtime promotion stays open.
+
+FixtureControl reuses native GenerationControl and owns enabled/start/abort/reset
+policy. Enabled TuringPrefillFixture checkpoints after each owning-stream synced
+layer and before commit. Healthy drain requires explicit reset with no partial
+ID/position commit; unexpected execution/observer errors poison reuse. Default
+disabled queue policy remains intact. Thin observer is test-only. The physical
+control probe exports all recovered vectors/guard/mask/state proofs; read
+../../docs/NATIVE_TURING_FIXTURE_CONTROLS.md before expanding control or recovery.

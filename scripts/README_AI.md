@@ -98,3 +98,11 @@ The bounded captured/model checkers admit explicit precision3/4 metadata while
 preserving legacy0/1/2. Complete gates remain unchanged, including nonzero
 native-model RMS<=.0005 and removal of every score on failure. Read
 ../docs/NATIVE_TURING_SCALED_RESIDUAL.md before claiming acceptance or speed.
+## Matrix fixture control evidence
+
+The bounded control checker binds original accepted independent evidence to its
+CSV/model and compares every recovered F32 byte, including signed zero. State,
+guard, refusal, ownership, poison and mask records are mandatory. Complete
+numerical failures remain exclusive reports, with no control speed score. Read
+../docs/NATIVE_TURING_FIXTURE_CONTROLS.md before changing gates or interpreting
+control/recovery acceptance as production behavior.

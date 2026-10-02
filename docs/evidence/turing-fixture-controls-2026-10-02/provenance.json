@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "toolchain": "Mojo1.0.0/MAX26.5.0 locked Pixi",
+  "physical_device": "RTX2060MaxQ sm75,595.91.07",
+  "master": {
+    "passed": 189,
+    "failed": 0,
+    "skipped": 1,
+    "total": 190
+  },
+  "control": {
+    "recovered_values_per_mode": 513024,
+    "guard_checks": 9792,
+    "deadline_ms": 10,
+    "deadline_completed_layers": 2,
+    "sigint_completed_layers": 8,
+    "partial_id_position_commits": 0,
+    "allocations_preserved": true,
+    "mask_restored": true,
+    "unexpected_observer_poisoned": true
+  },
+  "controlled_capture": "All compilation finishes before serialized control then disabled-mode0 model captures. CPU checkers/oracles afterward. Control process walls unscored. Original numerical budgets and complete F32 bytes preserved.",
+  "raw_files": {
+    "turing-controls-control-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-controls-control-checker.txt": {
+      "bytes": 43,
+      "sha256": "0c98b69acbbea9f5e59ebe2008c86b43582925fdddcae946de7ad5d65760d2f2"
+    },
+    "turing-controls-control-final.json": {
+      "bytes": 2887,
+      "sha256": "02cb9b4be03b5cecc71c86be37b95aaecc98ceb6e79f0315fbce5d32bf67df99"
+    },
+    "turing-controls-control-first-process.json": {
+      "bytes": 507,
+      "sha256": "b2357dca895caf5067485e74c9d0d2222d6063c7ac3f68f57cb4a1ff1454f3ce"
+    },
+    "turing-controls-control-first.csv": {
+      "bytes": 25864740,
+      "sha256": "2fc421cb3e338306de3bbf5d0beaa900ec02a6c19f989f62e3cd164b80b65993"
+    },
+    "turing-controls-control-probe": {
+      "bytes": 5226456,
+      "sha256": "b32f205014ad3a3f248449a5a5b55734408d60963c0ffb69dc1cf67324fd7648"
+    },
+    "turing-controls-control-sm89-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-controls-control-sm89-compile": {
+      "bytes": 5226456,
+      "sha256": "b8fb1ef8e4f876934d97d81f0e4687d014286532923348034a507ed640e65f30"
+    },
+    "turing-controls-master-test.txt": {
+      "bytes": 34578,
+      "sha256": "ead8f37dea8608be058f8569d7f05764a8c8945d91bb20b5eaa85a1825dc00bc"
+    },
+    "turing-controls-model-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-controls-model-final-process.json": {
+      "bytes": 514,
+      "sha256": "c7b9583223aea7eb32e12de40e3b6ab597686b7bdd4768cf1a88ab4efca9aa32"
+    },
+    "turing-controls-model-final.csv": {
+      "bytes": 26268896,
+      "sha256": "59b0b71d3996eb6a87835940e26d528ded55ce1bdfc2a30c9244b23c30030ade"
+    },
+    "turing-controls-model-final.json": {
+      "bytes": 28476,
+      "sha256": "e72ab40204eda55fa5b0e000f24e23f328b43cdd7235ed9cd766ea9d7d5424fe"
+    },
+    "turing-controls-model-oracle.txt": {
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    "turing-controls-model-probe": {
+      "bytes": 5215728,
+      "sha256": "19e212f069fb0158a1a7b8ac580df618136d6db5c116a3e190c907691438f755"
+    },
+    "turing-controls-model-regression.json": {
+      "bytes": 1603,
+      "sha256": "03f28e890f884af524c48cd1adb77e9efc9b1444042617e29e86b23795ff28d6"
+    },
+    "turing-controls-model-sm89-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-controls-model-sm89-compile": {
+      "bytes": 5215728,
+      "sha256": "de5b037c573e4392bd5b51147fbb6752c850eb5749e37981fd78f48e29350c20"
+    },
+    "turing-controls-production-build.txt": {
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    }
+  },
+  "sources": {
+    "aesir_engine/tests/turing_fixture_control.mojo": "ec9ae2b5bc9a4abf47dd53463af804e3d0eec7369a81efc4fb893ca72a4929af",
+    "aesir_engine/tests/test_turing_fixture_control.mojo": "932ca33dc5a8de942f1b6b5fd6810536bdfbbc8a4bc4516c5a5038a43cd60e3c",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "3d7ad6e1cdd77450bec29ab61a5f1ccadf8c66ba2157ea5ab766e73d3bab3099",
+    "aesir_engine/tests/test_turing_fixture_controls.mojo": "cdfbad5ac4ce1f03bd474f7e43366367e9c2c13761d8edcc6242e1680946c46f",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "e887987471c0f38cdb2ba83f78fd4056fc555957020a2190eeb5c0d288f85810",
+    "aesir_engine/tests/run_all.mojo": "edef37add7d125a0eb8e30dd6921ada9ae6b263c2746ead94c56a414297fd124",
+    "scripts/check_turing_fixture_controls.py": "817d049e2b06237d2af8e1c1ebf82101e3b8b248a2b3adb77224aa30678cd3f2",
+    "scripts/test_check_turing_fixture_controls.py": "46932401274acf280a710f143fb19ce3c5189f7e33a7104c1b7bfd4ff63f84b8",
+    ".github/workflows/ci.yml": "30f6939986c9c4f4c241263cf07b649ee78bb0982cfbd398285d1239821627a1"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "authenticated_health_ready": "ready",
+  "limits": "Test-only strict3B/context1536 mode0 layer-cooperative checking. No hard real time/preemption, actual GPU-fault repair, production admission/generation/restore/concurrency/broader-context/provider promotion. Caller owns cancellation descriptor; rejected precision modes remain rejected."
+}
