@@ -293,6 +293,13 @@ or a complete-request/provider lead. Long-case independent RMS .00398677 is
 closer to the limit than the native reference; next explicitly gate an activation-
 residual precision/cost refinement before runtime/control/generation/restore work.
 
+The unscaled activation-residual refinement now passes all captured-input and
+original independent model budgets, but both candidates miss the additional
+predeclared .0005 native-reference RMS goal. Four terms reduce long deviation
+about4.03x to.00072338. All96 timings remain; failed ratios are withheld and no
+mode is promoted. [Operation](docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md). Next
+scope scaled residual storage/accumulation and retain the same stricter gate.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

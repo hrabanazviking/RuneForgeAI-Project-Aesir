@@ -46,6 +46,16 @@ class Contracts(unittest.TestCase):
         self.assertEqual(len(data["cases"]), 28)
         self.assertTrue(all(not c["native_error"]["passed"] for c in data["cases"]))
 
+    def test_explicit_split_identity_and_legacy_default(self):
+        old = "META,1,turing_native_f32,64,32,12"
+        self.assertEqual(self.parse(fixture())["activation_precision"], 0)
+        for precision in (1, 2):
+            new = f"META,1,turing_native_f32_split,64,32,{precision},12"
+            self.assertEqual(self.parse(fixture().replace(old, new))["activation_precision"], precision)
+        for precision in (0, 3, -1):
+            with self.assertRaises(ValueError):
+                self.parse(fixture().replace(old, f"META,1,turing_native_f32_split,64,32,{precision},12"))
+
     def test_wrong_mode_replay_and_source_identity(self):
         for old, new in (("META,1,turing_native_f32,64,32,12", "META,1,turing_native_f32,64,64,12"),
                          ("STATE,0,4,1,2,3,4", "STATE,0,5,1,2,3,4"),

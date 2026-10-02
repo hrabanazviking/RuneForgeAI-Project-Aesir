@@ -45,7 +45,7 @@ def capture(mut s: Llama3CUDASession, state: Int) raises -> List[Float32]:
     return sources^
 
 
-def project_case[kind: Int,batch: Int](mut s: Llama3CUDASession, sources: List[Float32],
+def project_case[kind: Int,batch: Int,precision: Int = 0](mut s: Llama3CUDASession, sources: List[Float32],
     state: Int,index: Int,name: String,source: Int) raises -> Int:
     var t = s.model.tensors[name]
     var width = s.profile.hidden_size
@@ -65,7 +65,7 @@ def project_case[kind: Int,batch: Int](mut s: Llama3CUDASession, sources: List[F
             h[token*stride+col] = sources[source_base+(token%4)*columns+col]
     s.context.enqueue_copy(a,h)
     reference[kind,batch](s.context,s.weights,a,t.offset,columns,t.rows,reference_offset,stride,batch)
-    project_turing_staged[kind,batch,64](s.context,s.weights,a,t.offset,columns,t.rows,0,dst,stride,batch)
+    project_turing_staged[kind,batch,64,32,precision](s.context,s.weights,a,t.offset,columns,t.rows,0,dst,stride,batch)
     s.context.enqueue_copy(h,a)
     s.context.synchronize()
     print("CASE,"+String(index)+","+String(state)+","+name+","+String(kind)+","+String(columns)+","+String(t.rows)+","+String(batch)+","+String(t.offset)+","+String(source))
@@ -95,7 +95,7 @@ def project_case[kind: Int,batch: Int](mut s: Llama3CUDASession, sources: List[F
     return batch*t.rows
 
 
-def cases[batch: Int](mut s: Llama3CUDASession,sources: List[Float32],state: Int,
+def cases[batch: Int,precision: Int = 0](mut s: Llama3CUDASession,sources: List[Float32],state: Int,
     mut index: Int,mut values: Int) raises:
     var names: List[String] = ["blk.27.attn_q.weight","blk.27.attn_k.weight","blk.27.attn_v.weight",
         "blk.27.attn_output.weight","blk.27.ffn_gate.weight","blk.27.ffn_up.weight","blk.27.ffn_down.weight"]
@@ -103,27 +103,36 @@ def cases[batch: Int](mut s: Llama3CUDASession,sources: List[Float32],state: Int
         var t = s.model.tensors[names[i]]
         var source = 1 if i == 3 else (2 if i == 6 else 0)
         if t.kind == 12:
-            values += project_case[12,batch](s,sources,state,index,names[i],source)
+            values += project_case[12,batch,precision](s,sources,state,index,names[i],source)
         elif t.kind == 14:
-            values += project_case[14,batch](s,sources,state,index,names[i],source)
+            values += project_case[14,batch,precision](s,sources,state,index,names[i],source)
         else:
             raise Error("Unexpected activation fixture quantization")
         index += 1
 
 
-def main() raises:
-    var args = argv()
-    if len(args) != 2:
-        raise Error("usage: test_turing_activations MODEL.gguf")
-    var s = Llama3CUDASession(args[1],512,prefix_cache=False,prefill_batch=4)
+def run[precision: Int](path: String) raises:
+    var s = Llama3CUDASession(path,512,prefix_cache=False,prefill_batch=4)
     if s.profile.hidden_size != 3072 or s.profile.feed_forward_size != 8192 or s.profile.layer_count != 28:
         raise Error("Activation gate requires strict3B fixture")
     span_guards()
-    print("META,1,turing_native_f32,64,32,12")
+    comptime if precision == 0: print("META,1,turing_native_f32,64,32,12")
+    else: print("META,1,turing_native_f32_split,64,32,"+String(precision)+",12")
     var index = 0
     var values = 0
     for state in range(2):
         var sources = capture(s,state)
-        cases[4](s,sources,state,index,values)
-        cases[32](s,sources,state,index,values)
+        cases[4,precision](s,sources,state,index,values)
+        cases[32,precision](s,sources,state,index,values)
     print("COMPLETE,activation,"+String(index)+","+String(values)+",114688,12")
+
+
+def main() raises:
+    var args = argv()
+    if len(args) != 2 and len(args) != 3:
+        raise Error("usage: test_turing_activations MODEL.gguf [ACTIVATION_PRECISION]")
+    var precision = Int(args[2]) if len(args) == 3 else 0
+    if precision == 0: run[0](args[1])
+    elif precision == 1: run[1](args[1])
+    elif precision == 2: run[2](args[1])
+    else: raise Error("Activation precision must be0/1/2")

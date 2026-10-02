@@ -124,10 +124,12 @@ def measure(mut f: TuringPrefillFixture,index: Int,prompt: String) raises:
 
 def main() raises:
     var args = argv()
-    if len(args) != 2: raise Error("usage: test_turing_model_prefill MODEL.gguf")
-    var fixture = TuringPrefillFixture(args[1])
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_model_prefill MODEL.gguf [ACTIVATION_PRECISION]")
+    var precision = Int(args[2]) if len(args) == 3 else 0
+    var fixture = TuringPrefillFixture(args[1],precision)
     invalid_tiles(fixture)
-    print("META,1,128256,1536,32,f16,8")
+    if precision == 0: print("META,1,128256,1536,32,f16,8")
+    else: print("META,1,128256,1536,32,f16,"+String(precision)+",8")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.",
         "Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.",

@@ -1,0 +1,200 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-02",
+  "toolchain": "frozen Mojo1.0.0/MAX26.5.0; gguf0.19.0/llama-cpp-python0.3.23/NumPy2.4.4 test oracles",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "controlled_capture": "All host compilation ends before serialized activation0/1/2 then model0/1/2 GPU captures; all independent CPU oracles follow. Complete samples/values preserved.",
+  "max_shared_bytes": 12672,
+  "refinement_native_rms_goal": 0.0005,
+  "refinements_accepted": false,
+  "raw_files": {
+    "turing-residual-activation-0-final.csv": {
+      "sha256": "3e64bba7c2aa72df89196eab746acafd855f483cd82f2b3da2a7eb49a697cd2e",
+      "bytes": 115083742,
+      "modified_utc": "2026-10-02T03:46:32.859308+00:00"
+    },
+    "turing-residual-activation-0-final.json": {
+      "sha256": "f944c4e0878a52f3d1c62ba94885e05c046168ea4773e4e3a989c2e0ef2a1fee",
+      "bytes": 25796,
+      "modified_utc": "2026-10-02T03:55:37.468529+00:00"
+    },
+    "turing-residual-activation-0-oracle.txt": {
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e",
+      "bytes": 35,
+      "modified_utc": "2026-10-02T03:55:37.512738+00:00"
+    },
+    "turing-residual-activation-0-process.json": {
+      "sha256": "dd1a26084f56c93890d1710a8a047750ea659718463a49331ca3246d0cdaca3f",
+      "bytes": 53,
+      "modified_utc": "2026-10-02T03:46:33.353772+00:00"
+    },
+    "turing-residual-activation-1-final.csv": {
+      "sha256": "feebb707d7d960c21771a9f3f31caec350f033bbed58b508c8cde1f9284e0c46",
+      "bytes": 115083388,
+      "modified_utc": "2026-10-02T03:46:42.695987+00:00"
+    },
+    "turing-residual-activation-1-final.json": {
+      "sha256": "cbbc805792acaac676d7e355d645ad6b1d53afc85e6b41c85915f7b0b8107e4e",
+      "bytes": 25818,
+      "modified_utc": "2026-10-02T03:55:52.077054+00:00"
+    },
+    "turing-residual-activation-1-oracle.txt": {
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e",
+      "bytes": 35,
+      "modified_utc": "2026-10-02T03:55:52.119181+00:00"
+    },
+    "turing-residual-activation-1-process.json": {
+      "sha256": "a9ee0c8ea3005d403f039cf7364565f4613159f5952c44800f75f38df4dce8fd",
+      "bytes": 53,
+      "modified_utc": "2026-10-02T03:46:43.193205+00:00"
+    },
+    "turing-residual-activation-2-final.csv": {
+      "sha256": "25f4c491d7218583fca0c1a9d84c32af1472b3b85ae14fb96e68390b4f6682a4",
+      "bytes": 115083931,
+      "modified_utc": "2026-10-02T03:46:52.526666+00:00"
+    },
+    "turing-residual-activation-2-final.json": {
+      "sha256": "9a72a860486f9edc447d6b2c83f79ebca13dd6f4f250c0008267909edeeed71e",
+      "bytes": 25819,
+      "modified_utc": "2026-10-02T03:56:06.589581+00:00"
+    },
+    "turing-residual-activation-2-oracle.txt": {
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e",
+      "bytes": 35,
+      "modified_utc": "2026-10-02T03:56:06.632285+00:00"
+    },
+    "turing-residual-activation-2-process.json": {
+      "sha256": "e619765872e300476cbae8998f8975ac00f68b8caefc4859a83229d3c480a910",
+      "bytes": 51,
+      "modified_utc": "2026-10-02T03:46:53.034188+00:00"
+    },
+    "turing-residual-activation-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_utc": "2026-10-02T03:41:53.822422+00:00"
+    },
+    "turing-residual-activation-probe": {
+      "sha256": "5494c103f1ea31601d81732c58c47ff9cab5560abf6d13b812ae7cb9c7d888d3",
+      "bytes": 3225848,
+      "modified_utc": "2026-10-02T03:42:57.394346+00:00"
+    },
+    "turing-residual-activation-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_utc": "2026-10-02T03:41:53.822319+00:00"
+    },
+    "turing-residual-activation-sm89-compile": {
+      "sha256": "5fbe90408c401a62f749db4d2973f8973aa538be9a16bbd7f2395c3dd2296475",
+      "bytes": 3225848,
+      "modified_utc": "2026-10-02T03:42:58.309316+00:00"
+    },
+    "turing-residual-legacy-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_utc": "2026-10-02T03:41:53.828422+00:00"
+    },
+    "turing-residual-legacy-compile": {
+      "sha256": "b6332556c5384f1973899eac24f4e2116c06c1cc80ee50b1c6c4375783a22bcb",
+      "bytes": 7700408,
+      "modified_utc": "2026-10-02T03:43:12.091866+00:00"
+    },
+    "turing-residual-model-0-final.csv": {
+      "sha256": "6f9186c39e7ad7ab2b1d075316f96bc753ddf7c01ab901e9b87339764dbd786d",
+      "bytes": 26268899,
+      "modified_utc": "2026-10-02T03:48:25.947614+00:00"
+    },
+    "turing-residual-model-0-final.json": {
+      "sha256": "c88fd3831a80c0af8ed0887baba474e6d9eb9f99f40b87d3b6b1b76d79fcbd36",
+      "bytes": 28478,
+      "modified_utc": "2026-10-02T03:56:57.753917+00:00"
+    },
+    "turing-residual-model-0-oracle.txt": {
+      "sha256": "820bbca9e947a5f4284bbb12d690918351afcc93f58ba97e9c007dacb7572bb3",
+      "bytes": 151,
+      "modified_utc": "2026-10-02T03:56:57.805716+00:00"
+    },
+    "turing-residual-model-0-process.json": {
+      "sha256": "e985c681e78af9d4eee2ccaca537345c832ba8191f289075a16f9540e446e1d7",
+      "bytes": 53,
+      "modified_utc": "2026-10-02T03:48:26.430778+00:00"
+    },
+    "turing-residual-model-1-final.csv": {
+      "sha256": "c9b696124e6625c73186a944b701d0562a47b0eb5333d4600a384dc303056121",
+      "bytes": 26268657,
+      "modified_utc": "2026-10-02T03:50:06.174340+00:00"
+    },
+    "turing-residual-model-1-final.json": {
+      "sha256": "1ec439c5ae7b1099806280a6a3f16a21dc8b82bc30942215471911a09a1f2150",
+      "bytes": 28106,
+      "modified_utc": "2026-10-02T03:57:49.223242+00:00"
+    },
+    "turing-residual-model-1-oracle.txt": {
+      "sha256": "b43e86b1e5a28dee5d4a88e6788654da07b3b30b1aea68beca9f3b091d347303",
+      "bytes": 181,
+      "modified_utc": "2026-10-02T03:57:49.276989+00:00"
+    },
+    "turing-residual-model-1-process.json": {
+      "sha256": "c517f2085f42bd26d51bcde97976e4c5630b1bc406f61093e0df5c9501b95581",
+      "bytes": 54,
+      "modified_utc": "2026-10-02T03:50:06.645238+00:00"
+    },
+    "turing-residual-model-2-final.csv": {
+      "sha256": "a3a560872d24eaecce8e444a588275392639dd6d1a95a41998ff25b01ad04995",
+      "bytes": 26268689,
+      "modified_utc": "2026-10-02T03:51:45.975081+00:00"
+    },
+    "turing-residual-model-2-final.json": {
+      "sha256": "704fe4b5346a60cfe677852b97eabeb816079d6ff44b6f86db2775db2ec6daff",
+      "bytes": 28107,
+      "modified_utc": "2026-10-02T03:58:41.194551+00:00"
+    },
+    "turing-residual-model-2-oracle.txt": {
+      "sha256": "b43e86b1e5a28dee5d4a88e6788654da07b3b30b1aea68beca9f3b091d347303",
+      "bytes": 181,
+      "modified_utc": "2026-10-02T03:58:41.250721+00:00"
+    },
+    "turing-residual-model-2-process.json": {
+      "sha256": "24006a67371933d4ad9e8f4b41ec423fee4726b89e1bb9b334f49b2b947b27f3",
+      "bytes": 53,
+      "modified_utc": "2026-10-02T03:51:46.454062+00:00"
+    },
+    "turing-residual-model-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_utc": "2026-10-02T03:38:39.581767+00:00"
+    },
+    "turing-residual-model-probe": {
+      "sha256": "b285099e073bf9acf2fbdfd529bd62aaf1a8b01d94c749c839344f0662dcf4df",
+      "bytes": 3017408,
+      "modified_utc": "2026-10-02T03:39:09.031805+00:00"
+    },
+    "turing-residual-model-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_utc": "2026-10-02T03:41:53.822422+00:00"
+    },
+    "turing-residual-model-sm89-compile": {
+      "sha256": "30d30a573d21ee22aac14fcbcb3605256cc742e9e6bbd1a4aa3e7a6d270cd43d",
+      "bytes": 3017408,
+      "modified_utc": "2026-10-02T03:42:55.167418+00:00"
+    },
+    "turing-residual-production-rebuild.txt": {
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b",
+      "bytes": 100,
+      "modified_utc": "2026-10-02T03:42:45.916721+00:00"
+    }
+  },
+  "sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "c94e450fdc4c902c61b515a3fc1d29864704682f0eeeff5bab92f4237a2bd3fd",
+    "aesir_engine/tests/test_turing_activations.mojo": "c5e081dafc77e2ca30423d75e76cff1f0f08d900c69fbaa5d883237a9018a1b9",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "9c0e6dfc4742879c21ab4161c01763ce2ec52405ffdfbb2b7f356838b3bdb739",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "e887987471c0f38cdb2ba83f78fd4056fc555957020a2190eeb5c0d288f85810",
+    "scripts/check_turing_activations.py": "daf896b48528a2ed512963a10fad2535e6e8de57ecad78516da1c63d224f249a",
+    "scripts/check_turing_model_prefill.py": "54370b662088b75dd400e9ee5de5efd152f87d94e09cf9c16c14561849f3a077",
+    "scripts/test_check_turing_activations.py": "b1d9d542e731520603e1dfac6fc7678d30d5d563c1c36f2fcb8bf397282a198e",
+    "scripts/test_check_turing_model_prefill.py": "ae8c063ddf10c8753fa15abb8bb1fec2a429cdfee939f0cb5286e1cbf3433dc5"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "limits": "Captured/original independent model gates pass; both nonzero modes fail stricter native-model RMS goal. No failed ratios or normal runtime/control/provider promotion. Broader Q5/profile split coverage remains unproved."
+}

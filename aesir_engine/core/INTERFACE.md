@@ -1128,3 +1128,10 @@ The optional fourth template parameter tile_columns retains default32 and admits
 Coalesced32-column subgroups initialize every consumed cell before both barriers.
 All four wider choices pass unchanged gates but underperform prior32-column
 staging. Geometry alone never selects production dispatch or expands quality scope.
+
+The optional fifth activation_precision parameter defaults0. Values1/2 admit
+only CTA rows64/input columns32. Same shared input allocation stores high/residual
+F16 rows; three/four public MMA terms respectively omit/include the low-low term.
+All consumed cells initialize and both barriers remain. Shared bytes<=12672 for
+split batch32. No extra global workspace, default promotion or relaxed budget.
+Read project-root docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before choosing a mode.

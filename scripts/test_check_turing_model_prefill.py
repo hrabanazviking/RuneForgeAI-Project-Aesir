@@ -96,6 +96,20 @@ class Contracts(unittest.TestCase):
             value["reference_expansion"]["exit_code"] = 1; path.write_text(json.dumps(value))
             with self.assertRaises(ValueError): check.provenance(path, "source", "derived")
 
+    def test_split_identity_and_stricter_native_precision_gate(self):
+        old = "META,1,4,1536,32,f16,8"
+        for precision in (1, 2):
+            data = self.parse(fixture().replace(old, f"META,1,4,1536,32,f16,{precision},8"))
+            report = check.summarize(data); report["independent_reference"] = dict(passed=True)
+            check.score(report); self.assertTrue(report["passed"])
+            report["cases"][0]["native_comparison"]["rms_error"] = .0006
+            check.score(report); self.assertFalse(report["passed"])
+            self.assertFalse(report["speed_scored"])
+            self.assertTrue(all(c["prefill_speed_ratio"] is None for c in report["cases"]))
+        for precision in (0, 3, -1):
+            with self.assertRaises(ValueError):
+                self.parse(fixture().replace(old, f"META,1,4,1536,32,f16,{precision},8"))
+
 
 if __name__ == "__main__":
     unittest.main()

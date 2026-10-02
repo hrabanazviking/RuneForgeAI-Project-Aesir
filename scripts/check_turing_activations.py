@@ -82,7 +82,12 @@ def parse(path):
     cuda = next(reader)
     if not cuda or not cuda[0].startswith("[CUDA]") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
         raise ValueError("Missing actual native CUDA identity")
-    if next(reader) != ["META", "1", "turing_native_f32", "64", "32", "12"]:
+    meta = next(reader); precision = 0
+    if meta == ["META", "1", "turing_native_f32", "64", "32", "12"]:
+        pass
+    elif len(meta) == 7 and meta[:5] == ["META", "1", "turing_native_f32_split", "64", "32"] and meta[5] in ("1", "2") and meta[6] == "12":
+        precision = int(meta[5])
+    else:
         raise ValueError("Wrong activation mode or invalid-span count")
     sources = {}; states = []; cases = []
     for state in range(2):
@@ -105,7 +110,7 @@ def parse(path):
         raise ValueError("Activation collection totals mismatch")
     if next(reader, None) is not None:
         raise ValueError("Trailing activation evidence")
-    return dict(cases=cases, sources=sources, states=states, native_outputs=outputs,
+    return dict(cases=cases, sources=sources, states=states, activation_precision=precision, native_outputs=outputs,
                 source_values=inputs, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
 
 
@@ -148,6 +153,7 @@ def summary(data):
             except OverflowError:
                 overflow += 1
     return dict(schema=1, passed=False, collection_complete=True, full_model_quality_claim=False,
+                activation_precision=data["activation_precision"],
                 speed_claim=False, csv_sha256=data["csv_sha256"], states=data["states"],
                 native_outputs=data["native_outputs"], source_values=data["source_values"],
                 non_f16_representable_inputs=rounded, f16_overflow_inputs=overflow,

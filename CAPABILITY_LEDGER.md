@@ -1371,6 +1371,14 @@ and circular self-parity transforms were removed.
   [Evidence](docs/evidence/turing-model-prefill-2026-10-01/README.md). Normal
   core/CLI/service admission remains unchanged; control/generation/restore,
   broader context/quality and provider lead remain open. Status stays partial.
+- **Activation-residual refinement (2026-10-02):** Three precision sessions pass
+  all5,971,968 captured native values/7560 selected independent dots. Every
+  original independent .05/.005/argmax model gate passes, with exact repeats/
+  commits and13056 guards. Three/four-term long native RMS .00092567/.00072338
+  misses the additional predeclared .0005 target; both refinements are rejected
+  and every ratio is withheld. [Evidence](docs/evidence/turing-activation-residual-2026-10-02/README.md).
+  All96 raw timing records remain. Next separately scope scaled residual storage;
+  no normal admission or status promotion follows.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

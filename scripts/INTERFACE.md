@@ -129,3 +129,11 @@ score withholds every ratio until all .05-max/.005-RMS/matching-argmax gates pas
 then excludes the one warm pair per prompt. Eight portable adversarial contracts
 prove evidence/scoring only. No runtime inference/provider/decode promotion.
 Read ../docs/NATIVE_TURING_MODEL_PREFILL.md.
+
+Both captured-input/model checkers preserve legacy precision0 metadata and admit
+only explicit precision1/2 extensions. Unknown/mixed/duplicate/late identity
+rejects. Nonzero model score additionally requires native-reference RMS<=.0005,
+while all old budgets remain. Every rescoring attempt clears earlier medians/
+ratios before acceptance, so a later failure cannot retain a stale speed claim.
+Ten captured-input and nine model contracts cover these boundaries. Read
+../docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md for precision/cost acceptance.

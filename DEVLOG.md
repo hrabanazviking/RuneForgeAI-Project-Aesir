@@ -2764,3 +2764,18 @@ production binary stays f3442a1e; active readiness/exact pushed CI are separate.
 No generation/control/restore/provider integration. Long independent RMS .00398677
 is close enough to its fixed limit to justify the next activation-residual
 precision/cost refinement. Read operation/evidence for boundaries and full samples.
+## 2026-10-02 — Sigrún: activation-residual precision rejection retained
+
+Added explicit optional three/four-term input-residual modes with checked12672-byte
+shared storage, unchanged original defaults/references and no global workspace.
+Three captured-input sessions pass5,971,968 native values/7560 selected independent
+dots; three complete-model sessions pass every old .05/.005/argmax budget and
+exact repeats/commits/13056 guards. Nonzero long native RMS .00092567/.00072338
+misses the tighter predeclared .0005 goal, so both refinements are rejected and
+all failed speed ratios withheld. Four terms improve deviation4.03x without
+earning promotion. All96 timing records/raw attempts remain. Ten/nine portable
+contracts include identity, tighter gates and removal of stale scores on rescoring.
+All compilation ends before serialized captures; CPU oracles follow. Normal
+binary stays f3442a1e; active readiness/exact pushed CI are separate. Next scope
+scaled residual representation/accumulation under unchanged budgets. Read manual
+and evidence for accepted original versus rejected refinement boundaries.

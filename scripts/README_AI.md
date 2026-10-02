@@ -86,3 +86,9 @@ budgets, exact original/derived hashes and derivation proof; withhold all speed
 ratios on any numerical/identity/repeat/guard failure. Read
 ../docs/NATIVE_TURING_MODEL_PREFILL.md. A fixture pass does not expand normal
 batch admission or establish generation, cancellation, restore or provider speed.
+
+Explicit input-residual metadata preserves legacy precision0 and admits1/2 only.
+Ten captured-input/nine model contracts cover it and stricter .0005 native-model
+RMS acceptance. Both nonzero physical modes miss that extra gate; preserve full
+failed reports and withheld ratios, including clearing stale scores on rescoring.
+Read ../docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before the next refinement.

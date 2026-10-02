@@ -63,3 +63,8 @@ Two ordinary native final-layer captures now pass fixed projection budgets for
 all1,990,656 outputs and2520 selected independent dots. Read project-root
 docs/NATIVE_TURING_ACTIVATIONS.md for source/repetition limits. This does not
 replace complete-model precision, causal state, control or provider gates.
+
+Unscaled input residual modes1/2 pass captured-input and original independent
+model budgets but miss their stricter .0005 native-model RMS target. Do not promote
+either or expose a failed speed score. Read project-root
+docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md; next measure scaled corrections.

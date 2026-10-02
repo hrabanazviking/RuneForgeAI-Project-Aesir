@@ -468,3 +468,10 @@ eight mutation-free rejections and32 warm/scored alternating timing records.
 COMPLETE means collection; independent CPU/full-native budgets own acceptance.
 No generation/control/restore/runtime promotion. Read
 ../../docs/NATIVE_TURING_MODEL_PREFILL.md before refining or integrating.
+
+Both activation/model probes accept optional final precision0/1/2, with legacy
+zero metadata/defaults preserved. The owning fixture selects explicit staged
+three/four-term kernels for nonzero modes; no normal session buffer/dispatch is
+changed. Complete source/output/guard/repeat/timing gates stay mandatory. Nonzero
+full-model native-reference RMS additionally must be<=.0005. Read
+../../docs/NATIVE_TURING_ACTIVATION_RESIDUAL.md before measuring or promoting.

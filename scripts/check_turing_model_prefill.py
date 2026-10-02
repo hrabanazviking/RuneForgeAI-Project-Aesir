@@ -26,7 +26,12 @@ def parse(path):
     cuda = next(reader)
     if not cuda or not cuda[0].startswith("[CUDA]") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
         raise ValueError("Missing actual native CUDA identity")
-    if next(reader) != ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
+    meta = next(reader); precision = 0
+    if meta == ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
+        pass
+    elif len(meta) == 8 and meta[:6] == ["META", "1", str(VOCABULARY), "1536", "32", "f16"] and meta[6] in ("1", "2") and meta[7] == "8":
+        precision = int(meta[6])
+    else:
         raise ValueError("Wrong matrix-model metadata")
     cases = []
     for index in range(4):
@@ -63,7 +68,7 @@ def parse(path):
         raise ValueError("Matrix-model collection totals mismatch")
     if next(reader, None) is not None:
         raise ValueError("Trailing matrix-model evidence")
-    return dict(cases=cases, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
+    return dict(cases=cases, activation_precision=precision, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
 
 
 def independent(data, model, threads):
@@ -106,6 +111,7 @@ def provenance(path, original_sha, reference_sha):
 
 def summarize(data):
     return dict(schema=1, passed=False, collection_complete=True, speed_scored=False,
+                activation_precision=data["activation_precision"],
                 csv_sha256=data["csv_sha256"], full_model_values_per_mode=4 * VOCABULARY,
                 invalid_tiles=8, guards=4352,
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),
@@ -114,11 +120,20 @@ def summarize(data):
 
 
 def score(report):
+    for c in report["cases"]:
+        c["prefill_speed_ratio"] = None
+        c.pop("native_prefill_median_seconds", None)
+        c.pop("matrix_prefill_median_seconds", None)
     report["passed"] = all(c["native_comparison"]["passed"] for c in report["cases"]) and report["independent_reference"]["passed"]
+    if report["activation_precision"] != 0:
+        report["native_refinement_rms_budget"] = .0005
+        report["native_refinement_passed"] = all(c["native_comparison"]["rms_error"] <= .0005 for c in report["cases"])
+        report["passed"] = report["passed"] and report["native_refinement_passed"]
     report["speed_scored"] = report["passed"]
     if not report["passed"]:
         report["error"] = "Fixed complete-model quality gate failed; timing ratios withheld"
         return
+    report.pop("error", None)
     for c in report["cases"]:
         native = [s["seconds"] for s in c["timings"] if s["mode"] == 0 and s["sample"] != 0]
         matrix = [s["seconds"] for s in c["timings"] if s["mode"] == 1 and s["sample"] != 0]

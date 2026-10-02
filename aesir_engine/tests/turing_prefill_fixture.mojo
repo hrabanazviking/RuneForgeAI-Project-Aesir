@@ -24,8 +24,11 @@ struct TuringPrefillFixture:
     var position: Int
     var healthy: Bool
     var committed: List[Int]
+    var activation_precision: Int
 
-    def __init__(out self,path: String) raises:
+    def __init__(out self,path: String,precision: Int = 0) raises:
+        if precision < 0 or precision > 2: raise Error("Fixture activation precision must be0/1/2")
+        self.activation_precision = precision
         self.native = Llama3CUDASession(path,1536,prefix_cache=False,prefill_batch=4)
         if self.native.profile.hidden_size != 3072 or self.native.profile.feed_forward_size != 8192 or self.native.profile.layer_count != 28 or self.native.profile.vocabulary_size != 128256:
             raise Error("Matrix model fixture requires strict3B")
@@ -68,7 +71,12 @@ struct TuringPrefillFixture:
 
     def project_kind[kind: Int](self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool) raises:
         if matrix and count == 32:
-            project_turing_staged[kind,32,64](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            if self.activation_precision == 1:
+                project_turing_staged[kind,32,64,32,1](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            elif self.activation_precision == 2:
+                project_turing_staged[kind,32,64,32,2](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            else:
+                project_turing_staged[kind,32,64](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
         elif count == 4 or count == 32:
             for start in range(0,count,4):
                 self.native.context.enqueue_function[four_matvec_kernel[kind]](self.native.w(),self.a(),Int64(t.offset),Int64(t.columns),Int64(t.rows),Int64(start*self.layout.stride+src),Int64(start*self.layout.stride+dst),Int64(self.layout.stride),grid_dim=(t.rows+3)//4,block_dim=128)

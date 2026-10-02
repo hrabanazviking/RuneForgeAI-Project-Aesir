@@ -51,6 +51,11 @@
   improves12.717s to7.578s in this fixture. Small tail-only cases lose slightly.
   Normal policy stays unchanged. Next measure activation-residual precision/cost,
   then separately earn runtime/control/generation/restore/provider gates.
+- [x] SPD-01/02 activation-residual precision/cost: both three/four-term
+  candidates pass captured-input and original independent model budgets, but
+  miss the stricter predeclared .0005 native-model RMS target. Four terms reduce
+  long deviation about4.03x; retain all96 timing records and withhold failed
+  ratios. Next measure scaled residual representation without relaxing budgets.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
