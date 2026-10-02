@@ -8,13 +8,14 @@ from core.dense_buffers import DenseBufferLayout
 def owner(f: TuringPrefillFixture,mode: Int) raises -> List[Int]:
     if mode != 0 and mode != 1: raise Error("Unknown replay owner")
     if mode == 0:
-        return [Int(f.native.weights.unsafe_ptr()),Int(f.native.activations.unsafe_ptr()),Int(f.native.cache.unsafe_ptr()),f.native.sampler.config.repeat_last_n]
-    return [Int(f.native.weights.unsafe_ptr()),Int(f.activations.unsafe_ptr()),Int(f.cache.unsafe_ptr()),f.sampler.config.repeat_last_n]
+        return [Int(f.native.weights.unsafe_ptr()),Int(f.native.activations.unsafe_ptr()),Int(f.native.cache.unsafe_ptr()),f.native.sampler.config.repeat_last_n,0]
+    return [Int(f.native.weights.unsafe_ptr()),Int(f.activations.unsafe_ptr()),Int(f.cache.unsafe_ptr()),f.sampler.config.repeat_last_n,Int(f.batched_rope_cache)]
 
 
 def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
     var identity = owner(f,plan.mode)
-    plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3])
+    plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3],identity[4])
+    if f.activation_precision != 0: raise Error("Checkpoint replay admits original precision0 only")
     if not f.healthy or not f.native.healthy or f.native.generating or f.native.reset_required or f.control.enabled() or f.control.reset_required or f.native.control.timeout_ms != 0 or f.native.control.cancel_fd != -1:
         raise Error("Replay requires an idle healthy uncontrolled owner")
     admit_fixture_profile(f.native.profile)
@@ -47,7 +48,7 @@ def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
         if plan.mode == 0: f.native.sampler.draws = plan.draws
         else: f.sampler.draws = plan.draws
         var after = owner(f,plan.mode)
-        plan.admit(plan.mode,after[0],after[1],after[2],after[3])
+        plan.admit(plan.mode,after[0],after[1],after[2],after[3],after[4])
     except:
         if plan.mode == 0: f.native.healthy = False
         else: f.healthy = False

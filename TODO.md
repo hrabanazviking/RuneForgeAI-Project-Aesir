@@ -85,6 +85,16 @@
   plans refuse without mutation;4352 guards pass. Master190 passes/one skip.
   In-memory same-context only; persisted/long-history/runtime/provider gates open.
   Next scope bounded batched causal attention/launch reduction under exact vectors.
+
+- [x] SPD-03/04 optional batched rotary/cache launches: four/32 grid-y rows retain
+  original arithmetic/causal reads, exact513024 logits per model owner and all
+  full guarded-cache hashes. Long actual host calls reduce89880 to3192; fresh
+  native/fixture medians13.0394/7.43515s give1.75375x exploratory fixture gain.
+  Complete96-frame decode and eight-frame checkpoint gates repeat every unchanged
+  CPU/sample/state/bit/source/guard condition. Master190 passes/one skip; six new
+  portable contracts pass. Production admission stays one/four. [Operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md).
+  Next batch independent normalization/residual/SiLU launches under exact state.
+
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

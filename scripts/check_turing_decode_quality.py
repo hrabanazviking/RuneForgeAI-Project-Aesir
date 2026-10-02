@@ -15,7 +15,7 @@ import struct
 from launch import digest
 from check_turing_activations import f32
 from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MAX_RMS_ERROR
-from check_turing_model_prefill import provenance
+from check_turing_model_prefill import provenance, attention_variant
 
 MAX_BYTES = 2 * 1024**3
 MAX_LINE = 1024
@@ -177,7 +177,9 @@ def parse(path, oracle=None, report=None):
         if len(cuda) != 1 or not cuda[0].startswith("[CUDA] native Mojo ") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
             raise ValueError("Missing actual native CUDA identity")
         report["native_banner"] = cuda[0]
-        records.expect(["META", "1", "turing_decode", "1536", str(VOCABULARY), "4", "2"])
+        row = records.next(); report["attention_variant"] = attention_variant(row)
+        if report["attention_variant"] is not None: row = records.next()
+        if row != ["META", "1", "turing_decode", "1536", str(VOCABULARY), "4", "2"]: raise ValueError("Wrong decode metadata")
         policy_rows(records)
         for index in range(4): case(records, report, index, oracle)
         total = sum(c["evaluated_frames"] for c in report["cases"])

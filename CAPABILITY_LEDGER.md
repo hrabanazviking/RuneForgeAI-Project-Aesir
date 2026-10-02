@@ -1421,7 +1421,18 @@ and circular self-parity transforms were removed.
   pass. Master190 passes/one skip and nine streaming contracts pass. [Evidence](docs/evidence/turing-checkpoint-replay-2026-10-02/README.md).
   Same process/context in-memory replay only; persisted schema/context recreation/
   long-history/runtime32/provider gates remain open. No time score/status promotion.
-- **Next acceptance gate:** Bounded batched causal attention/launch reduction under exact vectors; broader model/hardware coverage, persisted restoration, wider context/full-model tests and runtime batched prefill.
+- **Optional batched rotary/cache (2026-10-02):** Disjoint four/32 grid-y rows
+  reuse original F64/F32 rotation and F16 stores before unchanged causal reads.
+  Both complete513024-value model owners/public IDs match prior accepted bytes;
+  all176160832-byte guarded-cache hashes match. Actual host rotary/cache calls
+  reduce89880 to3192 on1070 inputs. Fresh native/fixture medians13.0394/7.43515s
+  earn1.75375x exploratory fixture ratio, with all64 baseline/new raw timings.
+  Complete96-frame decode and eight-frame checkpoint independently pass unchanged
+  numerical/sample/state/own-bit/source/guard gates. Strategy drift refuses before
+  reset; master190 passes/one skip and six new portable contracts pass. [Evidence](docs/evidence/turing-batched-rope-cache-2026-10-02/README.md).
+  No added global workspace, production kernel/body/admission or provider status
+  promotion. Full cache hashing/export and continuation durations are unscored.
+- **Next acceptance gate:** Batch remaining independent normalization/residual/SiLU launches under exact state; broader causal attention/model/hardware/persisted/context/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

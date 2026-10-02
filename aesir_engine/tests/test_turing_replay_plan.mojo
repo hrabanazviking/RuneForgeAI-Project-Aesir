@@ -12,7 +12,7 @@ def fresh() raises -> FixtureReplayPlan:
 def test_turing_replay_plan() raises:
     var plan = fresh()
     plan.admit(0,100,200,300,64)
-    for mutation in range(18):
+    for mutation in range(19):
         var broken = fresh()
         if mutation == 0: broken.mode = 1
         elif mutation == 1: broken.context += 1
@@ -31,6 +31,7 @@ def test_turing_replay_plan() raises:
         elif mutation == 14: broken.config.repeat_last_n += 1
         elif mutation == 15: broken.config.seed += 1
         elif mutation == 16: broken.draws += 1
+        elif mutation == 17: broken.strategy = 1
         else: broken.checksum += 1
         var rejected = False
         try: broken.admit(0,100,200,300,64)
@@ -74,6 +75,12 @@ def test_turing_replay_plan() raises:
     var sampled = NativeSamplingConfig(temperature=.7,seed=1234)
     var matrix = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9)
     matrix.admit(1,100,200,300,64)
+    var batched = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,1)
+    batched.admit(1,100,200,300,64,1)
+    var refused = False
+    try: batched.admit(1,100,200,300,64,0)
+    except: refused = True
+    if not refused: raise Error("Replay strategy drift was admitted")
 
 
 def main() raises:

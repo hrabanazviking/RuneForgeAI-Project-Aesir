@@ -13,7 +13,7 @@ from profile_native_cuda import read_text
 from check_turing_activations import f32
 from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MAX_RMS_ERROR
 from check_turing_decode_quality import Records, integer, CPUReference, INPUT_HASHES, policy_rows
-from check_turing_model_prefill import provenance
+from check_turing_model_prefill import provenance, attention_variant
 
 MAX_BYTES = 256 * 1024**2
 PREFIX = 37
@@ -145,7 +145,9 @@ def parse(path, source, oracle=None, report=None):
         cuda = records.next()
         if len(cuda) != 1 or not cuda[0].startswith("[CUDA] native Mojo ") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]: raise ValueError("Missing actual native CUDA identity")
         report["native_banner"] = cuda[0]
-        records.expect(["META", "1", "turing_checkpoint", "1536", str(VOCABULARY), "2", "4"])
+        row = records.next(); report["attention_variant"] = attention_variant(row)
+        if report["attention_variant"] is not None: row = records.next()
+        if row != ["META", "1", "turing_checkpoint", "1536", str(VOCABULARY), "2", "4"]: raise ValueError("Wrong checkpoint metadata")
         policy_rows(records)
         for index in range(2): case(records, report, index, source["cases"][index], oracle)
         records.expect(["COMPLETE", "turing_checkpoint", "2", "8", str(8 * VOCABULARY), "4352", "12"])

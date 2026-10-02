@@ -70,7 +70,7 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
     var matrix_owner = owner(f,1)
     var pending = Int(f.native.host_output[0])
     var n = FixtureReplayPlan(0,native_owner[0],native_owner[1],native_owner[2],committed,tiles(0),pending,f.native.sampler.config,f.native.sampler.draws)
-    var m = FixtureReplayPlan(1,matrix_owner[0],matrix_owner[1],matrix_owner[2],committed,tiles(1),pending,f.sampler.config,f.sampler.draws)
+    var m = FixtureReplayPlan(1,matrix_owner[0],matrix_owner[1],matrix_owner[2],committed,tiles(1),pending,f.sampler.config,f.sampler.draws,matrix_owner[4])
     print("CASE,"+String(index)+",37,45,4")
     for i in range(len(committed)): print("INPUT,"+String(index)+","+String(i)+","+String(committed[i]))
     for mode in range(2):
@@ -125,8 +125,11 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
 
 def main() raises:
     var args = argv()
-    if len(args) != 2: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf")
-    var f = TuringPrefillFixture(args[1])
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [BATCHED]")
+    var flag = Int(args[2]) if len(args) == 3 else 0
+    if flag != 0 and flag != 1: raise Error("Batched rotary/cache flag must be0/1")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag))
+    if len(args) == 3: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,turing_checkpoint,1536,128256,2,4")
     for index in range(2):
         var p = policy(index)

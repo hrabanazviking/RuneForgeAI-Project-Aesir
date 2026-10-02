@@ -1142,3 +1142,11 @@ starts each correction MMA from zero and rescales by4096 or16777216 before F32
 addition. Mode3 accumulates high-high into the old total; mode4 adds its separate
 product. Legacy0/1/2 order stays intact. No new global allocation or production
 admission. Read project-root docs/NATIVE_TURING_SCALED_RESIDUAL.md for fixed gates.
+
+## Optional batched rotary/cache device operations
+
+llama_rope_transform and llama_cache_cell are public always-inline device-only
+operations for admitted test-owned grid wrappers. They retain original global-x,
+F64-angle/F32-trig/divisor and F16 cache-cell arithmetic; caller owns validated
+extents/divisors and disjoint rows. Existing production entry bodies remain intact.
+Read project-root docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md before calling them.

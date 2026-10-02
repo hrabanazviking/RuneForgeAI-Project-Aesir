@@ -167,3 +167,13 @@ The owned physical collector compares every continuation F32 bit before/after
 reset for greedy/seeded public37-ID history, with12 mutation-free plan refusals.
 Read ../../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md. Same-context memory only;
 persisted formats/context recreation/runtime32 and provider gates remain open.
+
+## Batched rotary/cache evidence ownership
+
+The opt-in grid-y collector records actual host enqueue calls and full guarded
+cache SHA using an unscored synchronized host copy/anonymous memfd. Original
+precision0 and checked disjoint rows remain mandatory. Decode/checkpoint optional
+flags preserve legacy omission and all complete quality/state/bit gates; replay
+strategy drift refuses before reset. Read
+../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md. Portable master remains190
+passing cases/one explicit skip; opt-in physical collectors run separately.

@@ -522,3 +522,14 @@ draws. Unexpected replay exceptions poison reuse. test_turing_checkpoint_replay
 exports full before/after vectors/states/guards and12 pre-reset damaged-plan
 refusals. Read ../../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md; same owning context
 only, no new persisted schema, process recovery, runtime32 or speed score.
+
+## Optional batched rotary/cache fixture
+
+TuringPrefillFixture adds precision0-only batched=False and rope_cache_calls;
+grid-y wrappers batch disjoint four/32-token rotary/cache rows before unchanged
+causal attention. Scalar and disabled paths retain old kernels. guarded_cache_digest
+owns synchronized full F16 host copy, anonymous memfd/exact-FD SHA and all-path
+close; unscored with no persistent cache dump. FixtureReplayPlan/restore bind
+strategy0/1 before reset; native strategy stays0. Decode/checkpoint optional final
+flag emits strict ATTENTION metadata; omission stays legacy. Read
+../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md before measurement or promotion.

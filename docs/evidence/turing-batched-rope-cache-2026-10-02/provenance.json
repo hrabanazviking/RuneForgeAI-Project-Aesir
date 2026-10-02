@@ -1,0 +1,688 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "fb73503388a68c1a64c9d81d722e114567930d72",
+  "builds": [
+    {
+      "name": "check",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:31:02.775037+00:00",
+      "ended_utc": "2026-10-02T11:31:02.889889+00:00",
+      "wall_seconds": 0.1148690239933785
+    },
+    {
+      "name": "checkpoint-sm_75",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-checkpoint-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:28:05.716609+00:00",
+      "ended_utc": "2026-10-02T11:28:32.217462+00:00",
+      "wall_seconds": 26.50086654399638
+    },
+    {
+      "name": "checkpoint-sm_89",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-checkpoint-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:28:32.217921+00:00",
+      "ended_utc": "2026-10-02T11:28:58.867617+00:00",
+      "wall_seconds": 26.649711726000533
+    },
+    {
+      "name": "decode-sm_75",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-decode-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:27:13.352713+00:00",
+      "ended_utc": "2026-10-02T11:27:39.657172+00:00",
+      "wall_seconds": 26.304475065000588
+    },
+    {
+      "name": "decode-sm_89",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-decode-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:27:39.657717+00:00",
+      "ended_utc": "2026-10-02T11:28:05.716142+00:00",
+      "wall_seconds": 26.058435396989807
+    },
+    {
+      "name": "master",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:28:58.868062+00:00",
+      "ended_utc": "2026-10-02T11:30:29.761821+00:00",
+      "wall_seconds": 90.8937735039799
+    },
+    {
+      "name": "model-sm_75",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_batched_rope_cache.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-model-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:26:18.461875+00:00",
+      "ended_utc": "2026-10-02T11:26:44.121352+00:00",
+      "wall_seconds": 25.659470006998163
+    },
+    {
+      "name": "model-sm_89",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_batched_rope_cache.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-model-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:26:44.121869+00:00",
+      "ended_utc": "2026-10-02T11:27:13.352366+00:00",
+      "wall_seconds": 29.230539972981205
+    },
+    {
+      "name": "normal",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:30:29.762214+00:00",
+      "ended_utc": "2026-10-02T11:31:02.774650+00:00",
+      "wall_seconds": 33.01244959500036
+    }
+  ],
+  "gpu_captures": [
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-model-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "0"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:32:21.259852+00:00",
+      "ended_utc": "2026-10-02T11:33:55.168597+00:00",
+      "wall_seconds": 93.90875724400394,
+      "performance_scored": false,
+      "binary_sha256": "918a4d902a04156d9a56aea2ba1f934a7819ac6fcc58ff663d15c110371e8b8f",
+      "csv_sha256": "cccdbffcdb00ede7c8010e2538b1073c8b1bb4f66ccb5195646890fe4461b2e7",
+      "csv_bytes": 26269319
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-model-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "1"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:33:55.192774+00:00",
+      "ended_utc": "2026-10-02T11:35:30.712823+00:00",
+      "wall_seconds": 95.52007736000814,
+      "performance_scored": false,
+      "binary_sha256": "918a4d902a04156d9a56aea2ba1f934a7819ac6fcc58ff663d15c110371e8b8f",
+      "csv_sha256": "b5a242bdb37616e90c04c59eacc8cdb3af8de6bc100ef0ff3e739b50e1bf0394",
+      "csv_bytes": 26269315
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-decode-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "1"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:35:30.734842+00:00",
+      "ended_utc": "2026-10-02T11:37:34.371113+00:00",
+      "wall_seconds": 123.63628242799314,
+      "performance_scored": false,
+      "binary_sha256": "18ed40ce163f2bd4e1e1a6098733317abbc501f2c292bd841ce3f63bf594d644",
+      "csv_sha256": "2be9dfa51611444cb70399c667abb05bd52e3dea06f63a69dfd3750e20355a50",
+      "csv_bytes": 680806823
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-accepted-checkpoint-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "1"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:37:34.800863+00:00",
+      "ended_utc": "2026-10-02T11:37:45.896561+00:00",
+      "wall_seconds": 11.095708847016795,
+      "performance_scored": false,
+      "binary_sha256": "427bd4e51f2f6aad85027d1794462f363610203db22eb8fded9dc1c15f71bceb",
+      "csv_sha256": "a595da31fb62893b3227f004cbfcda278ec5cde02a811cba8839bfd45da664c3",
+      "csv_bytes": 95727315
+    }
+  ],
+  "cpu_oracles": [
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "scripts/check_turing_model_prefill.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model0.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--reference-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-fixture-admission-model-final.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-fixture-admission-model-final.json",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model0.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:37:45.961874+00:00",
+      "ended_utc": "2026-10-02T11:38:40.746017+00:00",
+      "wall_seconds": 54.78415641299216,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "scripts/check_turing_model_prefill.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model1.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--reference-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model0.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model0.json",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-model1.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:38:40.746650+00:00",
+      "ended_utc": "2026-10-02T11:39:35.273813+00:00",
+      "wall_seconds": 54.527175420022104,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "scripts/check_turing_decode_quality.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-decode1.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-decode1.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:39:35.274430+00:00",
+      "ended_utc": "2026-10-02T11:43:10.187667+00:00",
+      "wall_seconds": 214.91324987099506,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "scripts/check_turing_checkpoint_replay.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-checkpoint1.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--accepted-report",
+        "[AESIR_REPOSITORY]/docs/evidence/turing-decode-quality-2026-10-02/decode.json",
+        "--accepted-report-sha256",
+        "0a6b47078527b42c3203f40b0f76d787213f3969041fb2ca2c8a8702a3d56915",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-grid-checkpoint1.json"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T11:43:10.188083+00:00",
+      "ended_utc": "2026-10-02T11:43:47.511532+00:00",
+      "wall_seconds": 37.32346480002161,
+      "performance_scored": false
+    }
+  ],
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-grid-accepted-build-check.json",
+      "bytes": 253,
+      "sha256": "d40f0138013246fd0cd6864cae65fd15400d17e73741ea92968d260d8d818b2c"
+    },
+    {
+      "name": "turing-grid-accepted-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-grid-accepted-build-checkpoint-sm_75.json",
+      "bytes": 583,
+      "sha256": "282d98ef89097da911c1d49bccb6409c2cc1d6f5a22e6b34d0d602ea8ae472d7"
+    },
+    {
+      "name": "turing-grid-accepted-build-checkpoint-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-checkpoint-sm_89.json",
+      "bytes": 584,
+      "sha256": "032486b5174d6f7617bb0c85a73c887bf756a00861f7377956bcad26c52994d7"
+    },
+    {
+      "name": "turing-grid-accepted-build-checkpoint-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-decode-sm_75.json",
+      "bytes": 573,
+      "sha256": "76a74d8747b1fa6884f721de0d70087333c6cdb67d1ea6cd94e0975d1795e731"
+    },
+    {
+      "name": "turing-grid-accepted-build-decode-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-decode-sm_89.json",
+      "bytes": 573,
+      "sha256": "04e515563a805a319e93b38e657ed1a3723d79d739ac1196dbfe297264e2a8f0"
+    },
+    {
+      "name": "turing-grid-accepted-build-decode-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-master.json",
+      "bytes": 400,
+      "sha256": "1f79d72b0bb87d95b36d20081728b38737ecd5a6f95ad7ac52a606b0c8ac282b"
+    },
+    {
+      "name": "turing-grid-accepted-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-grid-accepted-build-model-sm_75.json",
+      "bytes": 575,
+      "sha256": "498b2512ea978678a724e545d5d902086744e82af6b10e96e7bebf41cde5a3d4"
+    },
+    {
+      "name": "turing-grid-accepted-build-model-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-model-sm_89.json",
+      "bytes": 575,
+      "sha256": "0b6fd39a5717e3651f765977527c62a4e920398c8a0941e85fa40545f782d637"
+    },
+    {
+      "name": "turing-grid-accepted-build-model-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-accepted-build-normal.json",
+      "bytes": 282,
+      "sha256": "96e2598e5219bb27a757aba3e862a0dc42b38c4603377a832a12fecc0647e319"
+    },
+    {
+      "name": "turing-grid-accepted-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-grid-accepted-checkpoint-sm_75",
+      "bytes": 5280824,
+      "sha256": "427bd4e51f2f6aad85027d1794462f363610203db22eb8fded9dc1c15f71bceb"
+    },
+    {
+      "name": "turing-grid-accepted-checkpoint-sm_89",
+      "bytes": 5280824,
+      "sha256": "32c0c9b7deab99feeff888b0a35ddc8aacd808c2323f5ef2f1b3613628b0c07e"
+    },
+    {
+      "name": "turing-grid-accepted-decode-sm_75",
+      "bytes": 5262272,
+      "sha256": "18ed40ce163f2bd4e1e1a6098733317abbc501f2c292bd841ce3f63bf594d644"
+    },
+    {
+      "name": "turing-grid-accepted-decode-sm_89",
+      "bytes": 5262272,
+      "sha256": "250306e618864c68fea59b091c31aa95fe1e138392a4aedcdf1b282c660cb6d5"
+    },
+    {
+      "name": "turing-grid-accepted-model-sm_75",
+      "bytes": 5262160,
+      "sha256": "918a4d902a04156d9a56aea2ba1f934a7819ac6fcc58ff663d15c110371e8b8f"
+    },
+    {
+      "name": "turing-grid-accepted-model-sm_89",
+      "bytes": 5262160,
+      "sha256": "2ae6b5dbfe84af3e54d83233c8dbd808406458c243db4816eaa15b3526b8a43d"
+    },
+    {
+      "name": "turing-grid-build-first.txt",
+      "bytes": 2131,
+      "sha256": "c604e48775fc7aab813978ea9b28b471bef883449a4ff694a3f4aeac2f15db0c"
+    },
+    {
+      "name": "turing-grid-build-model-sm_75.json",
+      "bytes": 566,
+      "sha256": "614d6ed56fbcb453c732173632a0ee7abbe03cf1d67029b02ce367a42bcb13da"
+    },
+    {
+      "name": "turing-grid-build-model-sm_75.txt",
+      "bytes": 926,
+      "sha256": "76da0ebf718e051cf11f22ccc9df9a884818a371bea8f7d751ce4085c2f87a4f"
+    },
+    {
+      "name": "turing-grid-build-second.txt",
+      "bytes": 992,
+      "sha256": "24d7cd8c0e3ce7be0b43d9db58b27ceade946a8d234deaff4ef16fc8eb44354c"
+    },
+    {
+      "name": "turing-grid-checkpoint1-oracle-process.json",
+      "bytes": 1412,
+      "sha256": "5dcd088107128316c257e80e01375cd7a377808dbe52c3f73dbfed463fbe79b5"
+    },
+    {
+      "name": "turing-grid-checkpoint1-oracle.txt",
+      "bytes": 153,
+      "sha256": "dd07231467d946cd3a4b003c8af433c317a67a0e6e8b2b845cccdabec07624f2"
+    },
+    {
+      "name": "turing-grid-checkpoint1-process.json",
+      "bytes": 665,
+      "sha256": "4f3b15c1ae82321ee1f3b351d9c5a23393ecce22ab5b52ba75ea40da323eec6d"
+    },
+    {
+      "name": "turing-grid-checkpoint1.csv",
+      "bytes": 95727315,
+      "sha256": "a595da31fb62893b3227f004cbfcda278ec5cde02a811cba8839bfd45da664c3"
+    },
+    {
+      "name": "turing-grid-checkpoint1.json",
+      "bytes": 28380,
+      "sha256": "32a8613b5dd8a60b4712c08ea8271904e80170db1aa44e87166bcba426467183"
+    },
+    {
+      "name": "turing-grid-checkpoint1.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-decode1-oracle-process.json",
+      "bytes": 1164,
+      "sha256": "89709077caab64442bb5a83c5109c1dda919f2e7d68ea2b432f1812ccd9fea34"
+    },
+    {
+      "name": "turing-grid-decode1-oracle.txt",
+      "bytes": 151,
+      "sha256": "ab78b326e0c4b4dabce9767f31ac8093a691f4614e8be769c8f02bab78e7deb2"
+    },
+    {
+      "name": "turing-grid-decode1-process.json",
+      "bytes": 662,
+      "sha256": "0093e30d9ce535ae5037abfc8c399c5c7d0a14cc233d08a42076888e15c36ed6"
+    },
+    {
+      "name": "turing-grid-decode1.csv",
+      "bytes": 680806823,
+      "sha256": "2be9dfa51611444cb70399c667abb05bd52e3dea06f63a69dfd3750e20355a50"
+    },
+    {
+      "name": "turing-grid-decode1.json",
+      "bytes": 200344,
+      "sha256": "5897f772bc4fead7728a47f68be407e90518a0f90e6860e1a24893af6b5a9991"
+    },
+    {
+      "name": "turing-grid-decode1.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-final-build-model-sm_75.json",
+      "bytes": 572,
+      "sha256": "7a9fc4e6123cc4831b81a9fd34aaa11632adf02e4275d8e832bd50ff85eb4fe6"
+    },
+    {
+      "name": "turing-grid-final-build-model-sm_75.txt",
+      "bytes": 1705,
+      "sha256": "f53a7666acfbad0656384a810f842303e0d400da35a85fd8d8354a7cb950e8f8"
+    },
+    {
+      "name": "turing-grid-first-guarded_cache_digest.mojo",
+      "bytes": 1423,
+      "sha256": "ec0b5ece12899b076297a45b02ec84d4b6e51877b75317c5d804cd55c9830384"
+    },
+    {
+      "name": "turing-grid-first-turing_prefill_fixture.mojo",
+      "bytes": 16053,
+      "sha256": "0c2e1a009b59ef8ef7aa0219eb06c4a7d522af963fff3c016e63e8c8bca3f38c"
+    },
+    {
+      "name": "turing-grid-model0-oracle-process.json",
+      "bytes": 1432,
+      "sha256": "ff46fb7a49425f7a58476032d48460e8c3d9d2318dae69960157313ad48fe278"
+    },
+    {
+      "name": "turing-grid-model0-oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "turing-grid-model0-process.json",
+      "bytes": 659,
+      "sha256": "72c5ba45ecd9e5c2bd99b178e510767605f2d2b805845a7aa11a2c22718ff230"
+    },
+    {
+      "name": "turing-grid-model0.csv",
+      "bytes": 26269319,
+      "sha256": "cccdbffcdb00ede7c8010e2538b1073c8b1bb4f66ccb5195646890fe4461b2e7"
+    },
+    {
+      "name": "turing-grid-model0.json",
+      "bytes": 30128,
+      "sha256": "b52faf32802932b26d0a295b137a33b1d37a0079ecd32f71229874b0b8dbd8ed"
+    },
+    {
+      "name": "turing-grid-model0.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-model1-oracle-process.json",
+      "bytes": 1397,
+      "sha256": "45e65090152cbf85133c634b5412e544f57bfe754183422fcf3acb43147762e7"
+    },
+    {
+      "name": "turing-grid-model1-oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "turing-grid-model1-process.json",
+      "bytes": 659,
+      "sha256": "a9c3d4bb1576b44506e14df305acfdfd6659dfb2c76eb3aff064dadc5e2327d8"
+    },
+    {
+      "name": "turing-grid-model1.csv",
+      "bytes": 26269315,
+      "sha256": "b5a242bdb37616e90c04c59eacc8cdb3af8de6bc100ef0ff3e739b50e1bf0394"
+    },
+    {
+      "name": "turing-grid-model1.json",
+      "bytes": 30127,
+      "sha256": "6c2d1a6d74969006fc2abf47fa6445e79f22428a97696dc499ebca266a85c4d8"
+    },
+    {
+      "name": "turing-grid-model1.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-grid-portable-final.txt",
+      "bytes": 663,
+      "sha256": "84ce123361c90d370e3b552de2fb4b37b74156b1880472eb6b5e99aeafef7d74"
+    },
+    {
+      "name": "turing-grid-second-fixture.mojo",
+      "bytes": 16069,
+      "sha256": "45f3f0717ce4ee7fd20796f807242d7f4426da542ae5c33fa4cb43ab6e69ddb1"
+    },
+    {
+      "name": "turing-grid-third-digest.mojo",
+      "bytes": 1430,
+      "sha256": "378b1f94c2f3b797fdb83ad765841d541df0cddd222c6936555202e03ae98ddf"
+    },
+    {
+      "name": "turing-grid-third-wrapper.mojo",
+      "bytes": 1091,
+      "sha256": "35551f5a2ccfeee03f3cf5a2337926b50bcaafcaeee005eeb52d1510c23a52a4"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/core/llama3_kernels.mojo": "3609024d25a796f2277eaf102ffc9e38ebce18d015ef42dd34e4608745f21f97",
+    "aesir_engine/tests/batched_rope_cache.mojo": "022245e6d8b5a550f9033d9463a9cb462a62033a7a8886ea9eb1d4513b5308a2",
+    "aesir_engine/tests/guarded_cache_digest.mojo": "17eb1cf9dec114be33ff8ffb22702581a3a61720eb5f7beca6916a1656cfe8b1",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "c1317a3e5c9ed549603e09fbd833792a4c2969bc544aec389a1a873b4ca04c43",
+    "aesir_engine/tests/turing_replay_plan.mojo": "d52b7e195e9c43ebeec53c61e1407646d109ee10135655513252c5251138bc00",
+    "aesir_engine/tests/turing_checkpoint_replay.mojo": "0458342f7681de485daf5772473a531c4394e8e6c5fccca021b9648400380492",
+    "aesir_engine/tests/test_turing_batched_rope_cache.mojo": "aa6e78aa9eb095a6227ea841608228d248ca1171f6478bf8b39aa4dd8c7d1b47",
+    "aesir_engine/tests/test_turing_decode_quality.mojo": "147c9340a8e401f8302ccb07271e669bbec06b9e730a653b692c24d0a53496dc",
+    "aesir_engine/tests/test_turing_checkpoint_replay.mojo": "d2f50cf36932ea2529349b92ba8794e2567b6c37a44273f6d4ec214a99fe2b8b",
+    "scripts/check_turing_model_prefill.py": "0709aaeff83ce13a34d592c293e450bc2ce3cce5264c1bc83d87bc647f10c8cd",
+    "scripts/check_turing_decode_quality.py": "be9543824fc9a4d4e64fdf840cad4ca3caa7de0d6579d9db68ba0eca791b26f8",
+    "scripts/check_turing_checkpoint_replay.py": "9b261acf5c48fe8ccfd124fd41d17f65984071310bfa0534d388bca481eb51ea",
+    "scripts/test_check_turing_grid_metadata.py": "c4e9f848185a806504ce79ebcd528b0c282df524cb654203c0652b83b0b68330"
+  },
+  "limits": "Optional strict3B/context1536/F16KV/sm75, native-to-fixture exploratory speed only. Actual host rotary/cache calls are not GPU profiler counters. Full synchronized cache digest/copy/export and replay/CPU/process durations unscored. No runtime32/provider lead/general hardware/persisted recovery promotion. Preserve failed mutable-borrow/ABI/compiler-entry attempts and separate inline-operation/write ABI corrections. Portable labels preserve raw private receipt identities outside Git."
+}

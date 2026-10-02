@@ -69,6 +69,29 @@ def llama_scaled_rope(w: Bytes, a: Floats, src_arg: Int64, width_arg: Int64,
                          frequency_base_arg, neox_arg, factor)
 
 
+@always_inline
+def llama_rope_transform(a: Floats, src_arg: Int64, width_arg: Int64,
+                         heads_arg: Int64, position_arg: Int64,
+                         frequency_base_arg: Float32, neox_arg: Int64,
+                         factor: Float32):
+    """Reusable device operation; caller validates extents and factor first."""
+    _llama_rope_pair(a, src_arg, width_arg, heads_arg, position_arg,
+                     frequency_base_arg, neox_arg, factor)
+
+
+@always_inline
+def llama_cache_cell(a: Floats, kv: Halves, key_arg: Int64, value_arg: Int64,
+                      offset_arg: Int64, capacity_arg: Int64, width_arg: Int64,
+                      position_arg: Int64):
+    """Reusable per-x-lane store; caller owns disjoint admitted cache rows."""
+    var i = Int(global_idx.x)
+    var width = Int(width_arg)
+    if i < width:
+        var slot = Int(offset_arg) + Int(position_arg) * width + i
+        kv.unsafe_store(slot, a.unsafe_load(Int(key_arg) + i).cast[DType.float16]())
+        kv.unsafe_store(slot + Int(capacity_arg) * width, a.unsafe_load(Int(value_arg) + i).cast[DType.float16]())
+
+
 def llama_silu(a: Floats, gate_arg: Int64, up_arg: Int64, count_arg: Int64):
     var i = Int(global_idx.x)
     if i < Int(count_arg):

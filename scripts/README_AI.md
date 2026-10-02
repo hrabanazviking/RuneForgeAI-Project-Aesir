@@ -126,3 +126,12 @@ CPU/native budget and sample/own replay gate remains mandatory; complete failure
 retain all metrics, with speed_scored=False. Read ../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md.
 Nine portable contracts prove parser behavior only. Records additionally accepts
 a smaller explicit byte allowance; default decode2GiB semantics stay unchanged.
+
+## Batched rotary/cache validation
+
+Explicit attention variant0/1 requires a matching independently accepted source
+CSV/report and exact vector/ID/cache identity before model speed scoring. Hashes
+recheck after the oracle and failed rescoring clears all old ratios. Decode and
+checkpoint streams admit only a single known marker before META. Six portable
+contracts include complete-stream duplicate/late refusal. Read
+../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md; no provider-speed promotion follows.

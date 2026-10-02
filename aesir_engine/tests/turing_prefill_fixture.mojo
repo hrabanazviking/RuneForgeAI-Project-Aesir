@@ -4,6 +4,7 @@ from core.llama3_cuda import Llama3CUDASession
 from core.dense_buffers import DenseBufferLayout
 from tests.turing_fixture_plan import TuringFixturePlan
 from tests.turing_fixture_control import FixtureControl
+from tests.batched_rope_cache import batched_rope, batched_scaled_rope, batched_cache
 from core.dense_gqa_execution import DenseGQALayer
 from core.dense_normalization import dense_norm_kernel
 from core.packed_projection import ProjectionFloats, four_matvec_kernel, block_matvec_kernel
@@ -33,10 +34,15 @@ struct TuringPrefillFixture:
     var healthy: Bool
     var committed: List[Int]
     var activation_precision: Int
+    var batched_rope_cache: Bool
+    var rope_cache_calls: Int
 
-    def __init__(out self,path: String,precision: Int = 0) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
+        if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         self.activation_precision = precision
+        self.batched_rope_cache = batched
+        self.rope_cache_calls = 0
         self.control = FixtureControl()
         self.native = Llama3CUDASession(path,1536,prefix_cache=False,prefill_batch=4)
         self.buffer_plan = TuringFixturePlan(self.native.profile,self.native.buffers,
@@ -89,20 +95,36 @@ struct TuringPrefillFixture:
         elif t.kind == 14: self.project_kind[14](t,src,dst,count,matrix)
         else: raise Error("Matrix fixture requires an admitted packed projection")
 
-    def rotate(self,offset: Int,heads: Int,position: Int) raises:
+    def rotate(mut self,offset: Int,heads: Int,position: Int) raises:
         if self.native.profile.rope_factors:
             self.native.context.enqueue_function[llama_scaled_rope](self.native.w(),self.a(),Int64(offset),Int64(128),Int64(heads),Int64(position),self.native.profile.rope_frequency_base,Int64(1 if self.native.profile.neox_rope else 0),Int64(self.native.rope_factors_offset),grid_dim=(heads*64+127)//128,block_dim=128)
         else:
             self.native.context.enqueue_function[llama_rope](self.a(),Int64(offset),Int64(128),Int64(heads),Int64(position),self.native.profile.rope_frequency_base,Int64(1 if self.native.profile.neox_rope else 0),grid_dim=(heads*64+127)//128,block_dim=128)
+        self.rope_cache_calls += 1
 
-    def attention(self,layer: Int,count: Int) raises:
+    def rotate_batch(mut self,offset: Int,heads: Int,count: Int) raises:
+        if self.native.profile.rope_factors:
+            self.native.context.enqueue_function[batched_scaled_rope](self.native.w(),self.a(),Int64(offset),Int64(128),Int64(heads),Int64(self.position),self.native.profile.rope_frequency_base,Int64(1 if self.native.profile.neox_rope else 0),Int64(self.native.rope_factors_offset),Int64(self.layout.stride),grid_dim=((heads*64+127)//128,count),block_dim=128)
+        else:
+            self.native.context.enqueue_function[batched_rope](self.a(),Int64(offset),Int64(128),Int64(heads),Int64(self.position),self.native.profile.rope_frequency_base,Int64(1 if self.native.profile.neox_rope else 0),Int64(self.layout.stride),grid_dim=((heads*64+127)//128,count),block_dim=128)
+        self.rope_cache_calls += 1
+
+    def attention(mut self,layer: Int,count: Int) raises:
         var offset = layer*2*1536*1024
+        var batched = self.batched_rope_cache and count > 1
+        if batched:
+            self.rotate_batch(self.layout.query,24,count)
+            self.rotate_batch(self.layout.key,8,count)
+            self.native.context.enqueue_function[batched_cache](self.a(),self.kv(),Int64(self.layout.key),Int64(self.layout.value),Int64(offset),Int64(1536),Int64(1024),Int64(self.position),Int64(self.layout.stride),grid_dim=(8,count),block_dim=128)
+            self.rope_cache_calls += 1
         for token in range(count):
             var base = self.layout.token_base(token)
             var position = self.position+token
-            self.rotate(base+self.layout.query,24,position)
-            self.rotate(base+self.layout.key,8,position)
-            self.native.context.enqueue_function[llama_cache](self.a(),self.kv(),Int64(base+self.layout.key),Int64(base+self.layout.value),Int64(offset),Int64(1536),Int64(1024),Int64(position),grid_dim=8,block_dim=128)
+            if not batched:
+                self.rotate(base+self.layout.query,24,position)
+                self.rotate(base+self.layout.key,8,position)
+                self.native.context.enqueue_function[llama_cache](self.a(),self.kv(),Int64(base+self.layout.key),Int64(base+self.layout.value),Int64(offset),Int64(1536),Int64(1024),Int64(position),grid_dim=8,block_dim=128)
+                self.rope_cache_calls += 1
             # Only positions0..position are visible. Shared scores are consumed
             # on this stream before the next token, including inside32 tiles.
             var causal = position+1
@@ -113,7 +135,7 @@ struct TuringPrefillFixture:
     def residual(self,base: Int) raises:
         self.native.context.enqueue_function[llama_residual](self.a(),Int64(base),Int64(base+self.layout.temporary),Int64(base),Int64(3072),grid_dim=24,block_dim=128)
 
-    def layer(self,plan: DenseGQALayer,index: Int,count: Int) raises:
+    def layer(mut self,plan: DenseGQALayer,index: Int,count: Int) raises:
         for token in range(count):
             var base = self.layout.token_base(token)
             self.norm(plan.attention_norm,base,base+self.layout.norm)
@@ -181,7 +203,8 @@ struct TuringPrefillFixture:
             self.sampler.record(tokens[start+token])
             self.native.context.enqueue_function[embedding_kernel](self.native.w(),self.a(),Int64(self.native.embedding_tensor.offset),Int64(self.native.embedding_tensor.kind),Int64(3072),Int64(tokens[start+token]),Int64(self.layout.token_base(token)),Float32(1),grid_dim=24,block_dim=128)
         for layer in range(28):
-            self.layer(self.native.layers[layer],layer,count)
+            var plan = self.native.layers[layer]
+            self.layer(plan,layer,count)
             if self.control.enabled():
                 self.native.context.synchronize()
                 self.control.completed_layers = layer+1
@@ -207,6 +230,7 @@ struct TuringPrefillFixture:
         self.native.context.synchronize()
         self.position = 0
         self.committed.clear()
+        self.rope_cache_calls = 0
         self.control.reset()
         self.healthy = True
 

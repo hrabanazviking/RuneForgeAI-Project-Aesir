@@ -2867,3 +2867,27 @@ binary stays f3442a1e, ready/prefill4. Same-process/context memory only; no pers
 schema/context recreation/long-history/runtime32/provider promotion or time score.
 Next scope bounded batched causal attention/launch reduction under exact existing
 vectors before broader runtime admission. Read operation/evidence/publication.
+
+## 2026-10-02 — Sigrún: exact-state batched rotary/cache launches
+
+Scoped/pushed fb73503 before code. Optional four/32 grid-y wrappers reuse public
+inline F64/F32 rotary and F16 cache-cell operations, preserving production entry
+bodies, original causal reads and all allocation/commit/control gates. Master190
+passes/zero failures/one skip. Six new portable contracts refuse bad/mixed/late
+metadata, incorrect host counts/cache/hash/source scope and strategy drift.
+
+Both full model runs match earlier accepted513024-vector bytes/IDs; all four full
+F16 cache hashes match. Batched long actual host calls89880->3192; admitted fresh
+native/fixture medians13.0394/7.43515s yield1.75375x exploratory ratio. All64 raw
+timings and complete numerical metrics remain. Full96-frame decode/eight-frame
+checkpoint pass original CPU/native/sample/state/own-bit/source/guard gates.
+Unscored synchronized cache host copy/anonymous memfd owns exact descriptor and
+all-path close. Model source reports additionally require every independent case,
+matching scope, strict JSON fields and before/after artifact hashes.
+
+Preserve mutable/borrow/compiler-entry/write-ABI failed attempts; all corrected
+sm75/sm89/master/normal builds finish before serialized GPU work, then CPU oracle.
+Normal binary f3442a1e remains authenticated ready/prefill4/cpuoffload0. Production
+admission remains one/four; no provider lead. Read
+[operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md) and its complete evidence.
+Next scope independent elementwise launch reduction under exact state gates.

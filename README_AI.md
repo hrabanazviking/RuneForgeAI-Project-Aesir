@@ -62,3 +62,8 @@ Exact-boundary owning-context checkpoint replay now passes both declared policie
 read docs/NATIVE_TURING_CHECKPOINT_REPLAY.md. Persisted schema/context recreation/
 long-history gates remain open. Next scope bounded batched causal attention and
 launch reduction under exact existing vectors, before broader runtime admission.
+
+For the next optional rotary/cache launch reduction, read
+[batched operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md). Default fixture
+strategy stays0; explicit1 must preserve complete vectors/cache hashes, existing
+decode/replay/checkpoint gates and exact source/strategy binding before scoring.

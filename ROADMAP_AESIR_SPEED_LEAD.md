@@ -410,6 +410,17 @@ control responsiveness are proved.
 **Exit:** reduced CPU gaps/launch counts, matching numerical/state behavior,
 measured first-token/request improvement and no deadline/disconnect regression.
 
+The first SPD-03/04 optional grid-y rotary/cache slice passes exact complete
+model vector/ID/full-cache identity and repeats all96 decode/eight checkpoint
+quality/sample/state/bit/source gates. Actual long rotary/cache host enqueue
+calls drop89880 to3192, with unchanged device workspace and causal queries.
+Fresh native/fixture medians13.0394/7.43515s earn1.75375x exploratory fixture
+ratio; all64 baseline/new timings remain. [Operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md).
+Master190 passes/one skip and six new portable metadata/cache/source contracts
+pass. Production binary/prefill policy stays unchanged. Next batch independent
+normalization/residual/SiLU operations without changing each token's arithmetic;
+fused attention, broader controls/hardware/runtime32 and provider gates stay open.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

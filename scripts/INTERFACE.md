@@ -182,3 +182,16 @@ the reference and preserves exclusive complete/partial failure reports. Exit0
 requires every unchanged independent/native budget, source/sample/state/exact own
 replay gate; all outcomes speed_scored=False. Nine synthetic portable contracts
 do not prove GPU work. Read ../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md.
+
+## Batched rotary/cache evidence
+
+attention_variant admits only one explicit0/1 grid32 identity before META.
+Model parse binds actual rotary/cache host calls and176160832-byte guarded-cache
+hashes; score requires fixture_reference fixed independent report/model/CSV
+identity, exact native/matrix F32 bytes/IDs and cache equivalence before any ratio.
+New1 requires explicit accepted baseline0; baseline0 may bind prior legacy0.
+CSV/report/model hashes recheck after CPU comparison; KeyboardInterrupt preserves
+failure JSON. Streamed decode/checkpoint parse shares strict metadata without
+changing fixed quality/replay/source gates. Six portable grid contracts include
+complete streamed variant and duplicate/late rejection. Read
+../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md.

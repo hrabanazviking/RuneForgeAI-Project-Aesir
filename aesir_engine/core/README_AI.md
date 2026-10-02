@@ -76,3 +76,8 @@ F16 storage; zero-accumulator correction products rescale before F32 addition.
 Legacy0/1/2 and normal inference stay unchanged. Complete original and tighter
 numerical gates still decide acceptance; read
 ../../docs/NATIVE_TURING_SCALED_RESIDUAL.md before refining or integrating.
+
+Optional batched fixture wrappers call public inline llama_rope_transform and
+llama_cache_cell, avoiding reuse of enqueued kernel entry points. Preserve old
+entry bodies, exact arithmetic and caller span/causality admission. No production
+dispatch change. Read ../../docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md.

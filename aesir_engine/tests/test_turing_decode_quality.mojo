@@ -108,8 +108,11 @@ def collect(mut f: TuringPrefillFixture,index: Int,tokens: List[Int],choice: Int
 
 def main() raises:
     var args = argv()
-    if len(args) != 2: raise Error("usage: test_turing_decode_quality MODEL.gguf")
-    var f = TuringPrefillFixture(args[1])
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_decode_quality MODEL.gguf [BATCHED]")
+    var flag = Int(args[2]) if len(args) == 3 else 0
+    if flag != 0 and flag != 1: raise Error("Batched rotary/cache flag must be0/1")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag))
+    if len(args) == 3: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,turing_decode,1536,128256,4,2")
     for choice in range(2):
         var p = policy(choice)
