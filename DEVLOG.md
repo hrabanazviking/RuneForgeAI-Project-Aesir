@@ -2796,3 +2796,18 @@ active readiness and exact pushed CI are separate. Next harden checked fixture
 workspace/profile/device admission for original passing mode0, then separately
 earn production memory/control/generation/restore/provider gates. No inferred
 hardware cause or budget relaxation. Read operation/evidence for complete limits.
+## 2026-10-02 — Sigrún: checked matrix fixture ownership and device admission
+
+Extracted a pure test-owned strict geometry/canonical layout/observed device and
+headroom plan, preserving original guarded counts and181961416-byte allowance.
+Every tile rejects any layout-field or actual-length drift before GPU/sampler
+mutation. Added one portable hostile-metadata case; master188 passes/zero failures/
+one explicit skip. All13 fields, context/device/precision, reference preservation,
+token bounds and exact headroom are covered. sm75/sm89 model probes compile.
+A new physical mode0 collection passes all independent logits/repeats/commits/
+eight invalid tiles/4352 guards. Every complete native/matrix F32 vector and ID
+is byte-identical to the prior accepted session. All32 samples remain; long
+prefill12.8666s/7.6763s preserves1.676x fixture speed. Production binary stays
+f3442a1e; authenticated active readiness and exact pushed CI are separate.
+Next scope larger-tile cooperative controls/recovery before production generation/
+restore/provider admission. Read operation/evidence; broader context stays open.

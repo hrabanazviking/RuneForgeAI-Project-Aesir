@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 182 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 188 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
@@ -53,7 +53,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 183 reportable cases, it prints unique
+and continues with later cases. After all 189 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -61,10 +61,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 182
+[SUMMARY] Passed: 188
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 183
+[SUMMARY] Total: 189
 [SUMMARY] Status: PASS
 ```
 
@@ -128,3 +128,11 @@ be registered before admission. Run `python3 scripts/check_fixture_manifest.py`
 from the repository root to validate classifications, provenance, consumers,
 storage boundaries, byte sizes, and SHA-256 values. The directory currently
 contains only its policy README and no payload data.
+## Matrix fixture ownership
+
+The test-only TuringFixturePlan admits exercised context1536/strict3B geometry,
+observed CUDA capability7.5, canonical normal layout, exact guarded counts and
+observed headroom before extra allocation. Every tile rechecks all layout fields
+and actual buffer lengths. Pure portable tests do not prove GPU execution; repeat
+full independent logits and byte-identical prior mode0 vectors after changes.
+Read ../../docs/NATIVE_TURING_FIXTURE_ADMISSION.md before expanding this plan.

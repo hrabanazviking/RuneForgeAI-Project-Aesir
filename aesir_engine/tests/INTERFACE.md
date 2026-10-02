@@ -481,3 +481,12 @@ residuals and distinct high-high accumulation orders. Complete captured/model
 coverage and .0005 native-reference RMS requirement stay unchanged. Unknown
 precision rejects before fixture allocation. No normal runtime admission change.
 Read ../../docs/NATIVE_TURING_SCALED_RESIDUAL.md for representation and gates.
+
+TuringFixturePlan owns the isolated context1536/strict3B guarded32-token plan.
+Every normal reference layout field must match its canonical four-token plan;
+observed CUDA capability7.5 and450396872 free bytes are required before extra
+workspace allocation. It retains checked1247520 F32/88080416 F16 element counts,
+181961416-byte allowance and256MiB reserve, preserving native buffers. Before
+every tile, admit_buffers rejects any layout-field or actual-length drift.
+The registered portable case covers all13 fields, headroom and hostile identity.
+Read ../../docs/NATIVE_TURING_FIXTURE_ADMISSION.md; runtime promotion stays open.

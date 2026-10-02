@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "passed": true,
+  "previous_csv_sha256": "eedbb712cf1cd7f91708b21545836331d8b20ecc88ac5ee9affeba4c747c4145",
+  "current_csv_sha256": "acc7597ac160402626d9d85ea14490daf0a32fd52350cdfe3c04ce3da2d1c896",
+  "cases": [
+    {
+      "input_count": 30,
+      "paired_values": 128256,
+      "byte_identical": true,
+      "vector_sha256": {
+        "native": "60f407d5a98d179f00bc9e90efff3bb92735fd355d06e6e58f95b721050bf81e",
+        "logits": "60f407d5a98d179f00bc9e90efff3bb92735fd355d06e6e58f95b721050bf81e"
+      }
+    },
+    {
+      "input_count": 37,
+      "paired_values": 128256,
+      "byte_identical": true,
+      "vector_sha256": {
+        "native": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+        "logits": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c"
+      }
+    },
+    {
+      "input_count": 31,
+      "paired_values": 128256,
+      "byte_identical": true,
+      "vector_sha256": {
+        "native": "4f46aa29231b0063e727bd8cc3e6694a80c95b885747add348ac96080ac7f6d6",
+        "logits": "4f46aa29231b0063e727bd8cc3e6694a80c95b885747add348ac96080ac7f6d6"
+      }
+    },
+    {
+      "input_count": 1070,
+      "paired_values": 128256,
+      "byte_identical": true,
+      "vector_sha256": {
+        "native": "31282f4612682b2321489c541c33bd4d860e951f81004faef9a9ebc55917d74e",
+        "logits": "3ba69554bc192383bb50658436c79b04d2ab2d666781ba43255d9d66c25fafc5"
+      }
+    }
+  ],
+  "limits": "Exact F32 vector and ID regression on one host; new complete independent oracle is separate. Timings are never compared for equality."
+}

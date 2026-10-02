@@ -309,6 +309,14 @@ finer isolated projection precision does not earn full-model acceptance.
 workspace/profile/device admission for the original passing matrix candidate,
 then separately earn production memory/control/generation/restore/provider gates.
 
+The original passing matrix fixture now uses a strict pure workspace plan with
+observed capability7.5, canonical layout/headroom and every physical span/field
+rechecked before tiles. Master188 passes/one fixture skip; new mode0 independent
+gates and byte-identical complete prior vectors preserve1.676x long fixture
+prefill. [Operation](docs/NATIVE_TURING_FIXTURE_ADMISSION.md). Next separately
+scope cooperative larger-tile controls/recovery before production generation,
+restore and provider admission. Normal one/four policy remains unchanged.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

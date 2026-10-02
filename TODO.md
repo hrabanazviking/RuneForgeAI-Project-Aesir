@@ -61,6 +61,11 @@
   original independent budgets pass; retain all96 timings and withhold failed
   ratios. Next harden checked workspace/profile/device admission for the original
   passing matrix candidate before production memory/control/generation gates.
+- [x] SPD-01/02 fixture workspace/device admission: strict full geometry and
+  observed capability7.5, checked canonical layout/headroom, every field and
+  actual span rechecked before tiles. Master188 passes/one skip; new mode0 full
+  vectors match previous bytes and independent gates, preserving1.676x long
+  fixture prefill. Next separately earn larger-tile control/recovery gates.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

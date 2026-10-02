@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "toolchain": "Mojo1.0.0/MAX26.5.0 locked Pixi",
+  "physical_device": "RTX2060MaxQ sm75; fixture admits actual DeviceContext attribute7.5 before extra buffers",
+  "master": {
+    "passed": 188,
+    "failed": 0,
+    "skipped": 1,
+    "total": 189
+  },
+  "plan": {
+    "context": 1536,
+    "batch": 32,
+    "stride": 33824,
+    "activation_elements": 1247520,
+    "cache_elements": 88080416,
+    "device_bytes": 181961416,
+    "reserve_bytes": 268435456,
+    "required_free_bytes": 450396872
+  },
+  "controlled_capture": "All master/build processes finish before one owned original-mode0 GPU collection. Independent CPU oracle follows; exact earlier mode0 vector regression is separately recorded. Earlier focused host test is retained; final master coverage is authoritative.",
+  "raw_files": {
+    "turing-fixture-admission-model-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-fixture-admission-model-final.csv": {
+      "bytes": 26268895,
+      "sha256": "acc7597ac160402626d9d85ea14490daf0a32fd52350cdfe3c04ce3da2d1c896"
+    },
+    "turing-fixture-admission-model-final.json": {
+      "bytes": 28479,
+      "sha256": "a470468c955db27ebc5be4f851818c5632223572c270102b5a02bca1b721171a"
+    },
+    "turing-fixture-admission-model-oracle.txt": {
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    "turing-fixture-admission-model-probe": {
+      "bytes": 5209984,
+      "sha256": "ee76902f57582ea3dd53e8b2b15908be0f64a6ed57ea1f3a02f3349be58572e6"
+    },
+    "turing-fixture-admission-model-process.json": {
+      "bytes": 522,
+      "sha256": "347e5697359f3f96ab6d9f38316d9010a270dcfd0903dd74257dc33dfb0b627f"
+    },
+    "turing-fixture-admission-model-sm89-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "turing-fixture-admission-model-sm89-compile": {
+      "bytes": 5209984,
+      "sha256": "9213c611039621d1741e96ac743e3381b620f3665c51fbb309313a3f490c8d3c"
+    },
+    "turing-fixture-admission-production-build.txt": {
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    "turing-fixture-admission-regression.json": {
+      "bytes": 1601,
+      "sha256": "6226903ff71afe6d1de433dcb872de1b7cca703e815ba2e5f658270c0302c23d"
+    },
+    "turing-fixture-plan-host-test.txt": {
+      "bytes": 78,
+      "sha256": "54bd89d038133f10df5a71142320522e40c5852503ffeff8a9d8f79f24ab5aed"
+    },
+    "turing-fixture-plan-master-test.txt": {
+      "bytes": 34537,
+      "sha256": "ea71e566e00075126f0abcc5d5e32d4b6fd4a7e7a3be2638a43422727f3ede9e"
+    }
+  },
+  "sources": {
+    "aesir_engine/tests/turing_fixture_plan.mojo": "cfcd6153ff1465a8861fd9bab9adc67b70283332ebe54b0c7c27a106315eed3a",
+    "aesir_engine/tests/test_turing_fixture_plan.mojo": "a1f8a15fd9656cdc6b899cdf65e3478ac3cb475d39f1b1382a7cea5d754ad7ff",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "4ce1a268558d50f7d120add964be35decd2b9e84896f0e2110743c2238e7b2ae",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "e887987471c0f38cdb2ba83f78fd4056fc555957020a2190eeb5c0d288f85810",
+    "aesir_engine/tests/run_all.mojo": "a72b584a6be5a43dab65762dfd0a803cda5de69cef3c22f410a1306ed7b59dc5",
+    "scripts/check_turing_model_prefill.py": "69a58fba062dd501ca35ad859f8506388ed3e39d79f32739bdb92649fb0616e5"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "authenticated_health_ready": "ready",
+  "limits": "Test-only strict3B context1536/F16KV; no production admission/control/generation/restore/concurrency/provider or broader-context promotion. Shared immutable model weights; no added global workspace."
+}

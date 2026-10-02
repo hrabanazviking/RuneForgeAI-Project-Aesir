@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 187 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 188, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 188 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 189, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
@@ -1387,6 +1387,13 @@ and circular self-parity transforms were removed.
   about241x without earning complete-model acceptance. [Evidence](docs/evidence/turing-scaled-residual-2026-10-02/README.md).
   Next harden checked workspace/profile/device admission for original passing
   mode0. Normal runtime admission and partial status remain unchanged.
+- **Fixture ownership admission (2026-10-02):** Exact strict3B/context1536 geometry,
+  observed capability7.5, canonical normal layout, checked headroom and every
+  actual field/span reject drift before extra allocation or tile mutation.
+  Master188 cases pass/one fixture skip. New complete mode0 independent gates
+  and byte-identical previous vectors preserve1.676x long fixture prefill, with
+  all4352 guards/eight invalid tiles. [Evidence](docs/evidence/turing-fixture-admission-2026-10-02/README.md).
+  Normal policy/status remain unchanged; larger-tile control/recovery gates follow.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

@@ -208,6 +208,7 @@ from tests.test_conversation import (
 )
 from tests.test_prompt_prefix import test_prompt_prefix
 from tests.test_dense_buffers import test_dense_buffers
+from tests.test_turing_fixture_plan import test_turing_fixture_plan
 from tests.test_chat_recovery import test_chat_recovery_policy
 from tests.test_conversation_autosave import test_conversation_autosave_generations
 from tests.test_model_preferences import (
@@ -510,6 +511,7 @@ def main() raises:
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
+    run_case(ledger, "tests.turing_fixture_plan", test_turing_fixture_plan)
     run_case(
         ledger, "cli.conversation_compatibility", test_conversation_compatibility
     )
@@ -807,4 +809,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(188)
+    ledger.finish(189)

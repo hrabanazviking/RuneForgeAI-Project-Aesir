@@ -1,7 +1,8 @@
 """Isolated matrix-prefill fixture; normal session buffers/policy stay untouched."""
-from max.gpu.host import DeviceBuffer, HostBuffer
+from max.gpu.host import DeviceBuffer, HostBuffer, DeviceAttribute
 from core.llama3_cuda import Llama3CUDASession
-from core.dense_buffers import DenseBufferLayout, buffer_add, buffer_mul
+from core.dense_buffers import DenseBufferLayout
+from tests.turing_fixture_plan import TuringFixturePlan
 from core.dense_gqa_execution import DenseGQALayer
 from core.dense_normalization import dense_norm_kernel
 from core.packed_projection import ProjectionFloats, four_matvec_kernel, block_matvec_kernel
@@ -9,12 +10,13 @@ from core.packed_turing_matrix import project_turing_staged
 from core.gemma4_kernels import embedding_kernel
 from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention_tiled
 from core.cuda_sampling import NativeCUDASampler
-from core.sampling_config import NativeSamplingConfig, sampling_device_bytes
+from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
 
 
 struct TuringPrefillFixture:
     var native: Llama3CUDASession
+    var buffer_plan: TuringFixturePlan
     var layout: DenseBufferLayout
     var activations: DeviceBuffer[DType.float32]
     var cache: DeviceBuffer[DType.float16]
@@ -30,26 +32,13 @@ struct TuringPrefillFixture:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         self.activation_precision = precision
         self.native = Llama3CUDASession(path,1536,prefix_cache=False,prefill_batch=4)
-        if self.native.profile.hidden_size != 3072 or self.native.profile.feed_forward_size != 8192 or self.native.profile.layer_count != 28 or self.native.profile.vocabulary_size != 128256:
-            raise Error("Matrix model fixture requires strict3B")
-        # This independent test layout never expands normal admission or mutates
-        # native.buffers. All per-token offsets remain the validated normal ones.
-        self.layout = self.native.buffers
-        self.layout.batch = 32
-        # Borrowed matrix admission counts the physical16-value guard prefix
-        # inside a token stride; keep checked padding beyond the live FFN span.
-        self.layout.stride = buffer_add(self.layout.stride,32)
-        self.layout.logits = buffer_mul(self.layout.stride,32)
-        self.layout.scores = buffer_add(self.layout.logits,128256)
-        self.layout.elements = buffer_add(self.layout.scores,buffer_mul(24,1536))
-        var a_count = buffer_add(self.layout.elements,32)
-        var kv_count = buffer_add(self.native.profile.kv_elements(1536),32)
-        var bytes = buffer_add(buffer_mul(a_count,4),buffer_mul(kv_count,2))
-        bytes = buffer_add(bytes,buffer_add(sampling_device_bytes(128256),8))
-        if buffer_add(bytes,268435456) > Int(self.native.context.get_memory_info()[0]):
-            raise Error("Matrix fixture exceeds observed device headroom")
-        self.activations = self.native.context.enqueue_create_buffer[DType.float32](a_count)
-        self.cache = self.native.context.enqueue_create_buffer[DType.float16](kv_count)
+        self.buffer_plan = TuringFixturePlan(self.native.profile,self.native.buffers,
+            Int(self.native.context.get_attribute(DeviceAttribute.COMPUTE_CAPABILITY_MAJOR)),
+            Int(self.native.context.get_attribute(DeviceAttribute.COMPUTE_CAPABILITY_MINOR)),
+            Int(self.native.context.get_memory_info()[0]),precision)
+        self.layout = self.buffer_plan.layout
+        self.activations = self.native.context.enqueue_create_buffer[DType.float32](self.buffer_plan.activation_elements)
+        self.cache = self.native.context.enqueue_create_buffer[DType.float16](self.buffer_plan.cache_elements)
         self.sampler = NativeCUDASampler(self.native.context,128256,NativeSamplingConfig())
         self.output = self.native.context.enqueue_create_buffer[DType.int32](1)
         self.host_output = self.native.context.enqueue_create_host_buffer[DType.int32](1)
@@ -143,8 +132,7 @@ struct TuringPrefillFixture:
             raise Error("Matrix fixture tile/policy is not admitted")
         if start < 0 or start > len(tokens)-count or self.position < 0 or self.position > 1536-count:
             raise Error("Matrix fixture token/context bounds exceeded")
-        if len(self.activations) != self.layout.elements+32 or len(self.cache) != self.native.profile.kv_elements(1536)+32:
-            raise Error("Matrix fixture actual buffer span disagrees with plan")
+        self.buffer_plan.admit_buffers(self.layout,len(self.activations),len(self.cache))
         for i in range(count):
             if tokens[start+i] < 0 or tokens[start+i] >= 128256:
                 raise Error("Matrix fixture token outside vocabulary")
