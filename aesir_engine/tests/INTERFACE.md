@@ -419,3 +419,8 @@ allocation but includes actual launches/synchronize. check_packed_matrix.py uses
 gguf 0.19.0/NumPy 2.4.4 for 2100 selected independent real-weight Float64 dots. Six
 portable adversarial tests prove evidence rejection only. Hosted CI compiles the
 probe; physical execution is separately recorded. No model-level speed claim.
+
+The separate test_matrix_tile_tuning.mojo owns five explicit staging choices;
+original probe owns32/32. Each repeats144 synthetic tails,12 span rejections,
+complete real output/oracle/timing gates. TILE identity is validated by the checker;
+legacy CSV defaults32/32. Seven portable rejection tests pass. Hosted CI only compiles.

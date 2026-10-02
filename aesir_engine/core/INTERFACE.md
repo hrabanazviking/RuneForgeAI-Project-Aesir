@@ -1090,3 +1090,8 @@ Column-chronological F32 accumulation has a predeclared bounded-error primitive
 contract; it is not exact warp parity. Existing format/projection owners remain.
 Only the physical opt-in probe calls it; default inference/control policy does
 not use it. Read docs/NATIVE_MATRIX_CANDIDATE.md from the project root.
+
+Optional matrix tile_rows=8/16/32 and tile_columns=32/64/128 are compile-time
+parameters with original32/32 defaults. Shared bytes are bounded<=49152. Inactive
+output threads still synchronize; full row/token tails and buffer admission apply.
+No tuned choice is default inference. Read the matrix manual for physical rejection.

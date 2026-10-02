@@ -82,3 +82,26 @@ The first design loses at batch 4 on every real shape. Batch 32 modestly wins so
 larger Q/output/FFN shapes but loses K/V. Next: reduce staging/barrier cost and
 measure tile/occupancy choices, then a separate full-model/control integration
 gate if viable. Neither 2x prefill nor an overall Ollama lead is earned here.
+
+## Explicit shared-tile tuning
+
+Optional tile_rows=8/16/32 and tile_columns=32/64/128 retain the original32/32
+compile-time defaults. Staging uses (rows+batch)*(columns+1)*4 shared bytes, with
+an enforced49152-byte block ceiling. Inactive output threads still participate
+in both barriers and never read/write outside the shared/output tile. Changing
+staging does not change chronological F32 accumulation or primitive budgets.
+
+```sh
+pixi run --frozen --no-install --offline mojo build -I aesir_engine \
+  --target-accelerator sm_75 aesir_engine/tests/test_matrix_tile_tuning.mojo \
+  -o /your/new-tuning-probe
+/your/new-tuning-probe /your/registered-3b-model 32 64 > /your/new-tuning.csv
+```
+
+Declared physical tuning choices are32/64,32/128,16/64,16/128,8/128. Use the
+original probe for32/32. TILE,rows,columns metadata precedes synthetic/case
+records; legacy CSV without TILE explicitly means32/32. Duplicate/unsupported
+metadata fails. Each configuration repeats all physical/oracle/timing gates.
+Compile first, then serialize GPU captures; host compilation must be idle during
+scoring. Final six-choice evidence rejects every batch4 shape for promotion;
+maximum observed batch32 benefit is about1.29x. No default inference changes.

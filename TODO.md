@@ -20,6 +20,10 @@
   reference values and 2100 selected independent dots pass fixed primitive
   budgets. It loses at batch 4 and is not promoted. Batch 32 gains are modest
   and shape-specific. See [candidate operation](docs/NATIVE_MATRIX_CANDIDATE.md).
+- [x] SPD-01 shared-tile tuning: six configurations repeat all primitive gates,
+  preserving 9,953,280 real native-reference values and 12600 selected independent
+  dots. Every batch-four candidate loses; default stays strict reference.
+  [Physical evidence](docs/evidence/matrix-tile-tuning-2026-10-01/README.md).
 - [ ] SPD-01/02: validate genuine matrix prefill and physical sm_75 Tensor-Core
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

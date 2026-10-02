@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "controlled_host_compile_idle": true,
+  "native_outputs": 9953280,
+  "independent_selected_outputs": 12600,
+  "synthetic_cases": 864,
+  "invalid_span_cases": 72,
+  "paired_timing_records": 3360,
+  "configs": [
+    {
+      "rows": 32,
+      "columns": 32,
+      "max_batch4_ratio": 0.4462248351522478,
+      "max_batch32_ratio": 1.255299532292868,
+      "shared_bytes_batch32": 8448,
+      "default_promoted": false
+    },
+    {
+      "rows": 32,
+      "columns": 64,
+      "max_batch4_ratio": 0.4330487047352328,
+      "max_batch32_ratio": 1.290266361147806,
+      "shared_bytes_batch32": 16640,
+      "default_promoted": false
+    },
+    {
+      "rows": 32,
+      "columns": 128,
+      "max_batch4_ratio": 0.3883775490553792,
+      "max_batch32_ratio": 0.7189948131794968,
+      "shared_bytes_batch32": 33024,
+      "default_promoted": false
+    },
+    {
+      "rows": 16,
+      "columns": 64,
+      "max_batch4_ratio": 0.45707018615952355,
+      "max_batch32_ratio": 0.8090376682154994,
+      "shared_bytes_batch32": 12480,
+      "default_promoted": false
+    },
+    {
+      "rows": 16,
+      "columns": 128,
+      "max_batch4_ratio": 0.458786257857574,
+      "max_batch32_ratio": 0.8336298579158374,
+      "shared_bytes_batch32": 24768,
+      "default_promoted": false
+    },
+    {
+      "rows": 8,
+      "columns": 128,
+      "max_batch4_ratio": 0.4946278941172175,
+      "max_batch32_ratio": 0.8616235366041048,
+      "shared_bytes_batch32": 20640,
+      "default_promoted": false
+    }
+  ],
+  "artifacts": {
+    "controlled-tile-32-32.csv": {
+      "bytes": 63841800,
+      "sha256": "617a94ca81a7bf94249b5cf65f4e846cc53f942ca5ad7b84d4314be757e4441d"
+    },
+    "controlled-tile-32-32.json": {
+      "bytes": 42207,
+      "sha256": "889e5fd5721c6117201a6e42bcdb068bbba0fe28955320a2ef0394c111f5ce9e"
+    },
+    "controlled-tile-32-64.csv": {
+      "bytes": 63841807,
+      "sha256": "73dc769e0bcd8252593f84826daab050feb138398196b1f47fa280a1cb82dae6"
+    },
+    "controlled-tile-32-64.json": {
+      "bytes": 42194,
+      "sha256": "fc58f96472703d2d96199dbf0c1505aa4b14fc92d28110156d6a8823da82c604"
+    },
+    "controlled-tile-32-128.csv": {
+      "bytes": 63841813,
+      "sha256": "f75726e798a38385a169d8ba5118fed2abd7ff590de13e2585d7d13cc1571ef1"
+    },
+    "controlled-tile-32-128.json": {
+      "bytes": 42189,
+      "sha256": "97e3cffc19af06123d4799e736ade400ecf5cbfcd902e05c53271d1994f22dba"
+    },
+    "controlled-tile-16-64.csv": {
+      "bytes": 63841834,
+      "sha256": "7be0979262373a0501da580b39511a5a92140e0211806c0dd2d6290563cfd266"
+    },
+    "controlled-tile-16-64.json": {
+      "bytes": 42254,
+      "sha256": "cc55c0b0c48438bc96ed12df698605bb3ce3d6749c666abd9dea83fac098e9f0"
+    },
+    "controlled-tile-16-128.csv": {
+      "bytes": 63841827,
+      "sha256": "3f59cb497d9a8e43a6b869a58c6ecacb73bd431db36200dd2d2a96412e5e52a8"
+    },
+    "controlled-tile-16-128.json": {
+      "bytes": 42223,
+      "sha256": "f8306d0a3ac8d125347227426285f4249b0d249cea775af8017191964f461a51"
+    },
+    "controlled-tile-8-128.csv": {
+      "bytes": 63841832,
+      "sha256": "d3aebaafd7b8355fe9660ca316b996182c8134d82887634e1ff914e43be7beee"
+    },
+    "controlled-tile-8-128.json": {
+      "bytes": 42205,
+      "sha256": "63cb27c3bc9054b12998bf67410e6ddbb13c5ddb67f32d6a018f281dbcacc385"
+    },
+    "tile-16-128.csv": {
+      "bytes": 63841818,
+      "sha256": "483db7154c13993082527b488b6a600f0e983bc341b2701f4db14390e6fe0bc1",
+      "score_status": "exploratory; first sweep overlaps default-probe host compilation, excluded from final scoring"
+    },
+    "tile-32-64.csv": {
+      "bytes": 63841813,
+      "sha256": "724929b3eb310433d74030ec61f102cf30dae6db9e4dd1b57832a2dc2674f86d",
+      "score_status": "exploratory; first sweep overlaps default-probe host compilation, excluded from final scoring"
+    },
+    "tile-8-128.csv": {
+      "bytes": 63841831,
+      "sha256": "43c132e0775d92cd19247d3f3c10258f6c271f90f4e2bd6e4c4c73c3dd2884b0",
+      "score_status": "exploratory; first sweep overlaps default-probe host compilation, excluded from final scoring"
+    },
+    "tile-16-64.csv": {
+      "bytes": 63841787,
+      "sha256": "50ed728ce6190cd824343bed3e7951a51b90a2ed3ec6363c16487f0a0b154a23",
+      "score_status": "exploratory; first sweep overlaps default-probe host compilation, excluded from final scoring"
+    },
+    "tile-32-128.csv": {
+      "bytes": 63841815,
+      "sha256": "b37cd77eee79ec24c660827786f56e78ad8a332671cc4f42970196759ab0b0ae",
+      "score_status": "exploratory; first sweep overlaps default-probe host compilation, excluded from final scoring"
+    },
+    "matrix-tuning-probe": {
+      "bytes": 8388312,
+      "sha256": "0c5cb8491680b5b24cd41b99e8a376b4669b22d7600f6e2e0448fec5ade3a732"
+    },
+    "matrix-default-final": {
+      "bytes": 2614344,
+      "sha256": "52229e2b30ebd9c278b8431de31bca84f9db530d9a1e4e6d2c4b325625a7d2eb"
+    },
+    "matrix-tuning-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "matrix-default-build.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

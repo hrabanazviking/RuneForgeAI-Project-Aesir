@@ -46,3 +46,7 @@ service speed scores. The 2023 schema admission does not prove other versions.
 The optional shared packed matrix experiment is documented in
 docs/NATIVE_MATRIX_CANDIDATE.md. Do not connect the first slower batch-four
 candidate to default inference. Primitive evidence does not meet full-model gates.
+
+Matrix staging tuning preserves the original optional32/32 tile; no tested
+four-token candidate earns promotion. Read docs/evidence/matrix-tile-tuning-2026-10-01/README.md.
+Next large-gain prerequisite is actual locked-runtime sm_75 Tensor-Core math.

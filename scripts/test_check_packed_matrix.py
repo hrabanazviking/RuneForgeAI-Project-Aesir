@@ -58,6 +58,17 @@ class Contracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             check.errors([float("inf")], [1])
 
+    def test_tile_identity_and_legacy_compatibility(self):
+        legacy = self.parse(fixture())
+        self.assertEqual(legacy[0]["tile"], (32, 32))
+        new = fixture().replace("SYNTHETIC,144,0", "TILE,16,128\nSYNTHETIC,144,0")
+        self.assertEqual(self.parse(new)[0]["tile"], (16, 128))
+        for text in (new.replace("TILE,16,128", "TILE,7,128"),
+                     new.replace("TILE,16,128", "TILE,16,128\nTILE,16,128"),
+                     new.replace("TILE,16,128", "TILE,16,99999999")):
+            with self.assertRaises(ValueError):
+                self.parse(text)
+
     def test_versions_rejected_before_import(self):
         with patch.object(check.importlib.metadata, "version", return_value="unsupported"):
             with self.assertRaises(ValueError):

@@ -217,7 +217,11 @@ First optional SIMT shared-tile candidate is [implemented and physically checked
 Complete native-reference values and selected independent real-weight dots pass
 fixed primitive budgets. Batch 4 loses every tested shape, so dispatch is unchanged.
 Batch 32 gains up to about 1.27x on FFN in this session but K/V still lose. Larger
-shared-column/row tuning is next; full-model/control integration remains open.
+shared-column/row tuning now exercises six bounded choices. Every batch-four
+choice loses; no default promotion. Best batch32 FFN reaches about1.29x in this
+session. [Tuning evidence](docs/evidence/matrix-tile-tuning-2026-10-01/README.md).
+The next prerequisite is physical Turing Tensor-Core execution; full-model/control
+integration remains open.
 
 The four-token path shares weight decoding but still launches many token-local
 operations and performs independent scalar/warp dot products. Treat it as the

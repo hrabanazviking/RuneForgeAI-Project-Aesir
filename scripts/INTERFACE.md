@@ -73,3 +73,7 @@ checks original model hash and independent GGUF descriptors/dequantized values
 for five selected rows per tensor/batch through gguf 0.19.0/NumPy 2.4.4. Exclusive
 JSON output retains failures. No production import, inference, model writes or
 whole-model quality/speed certification. See ../docs/NATIVE_MATRIX_CANDIDATE.md.
+
+Matrix CSV optionally begins TILE,rows,columns; omission retains original32/32.
+Admission rejects duplicate, late, oversized or unsupported staging metadata and
+reports observed tile identity. Actual descriptors/numerical budgets do not change.

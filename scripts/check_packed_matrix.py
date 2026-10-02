@@ -35,6 +35,8 @@ def parse(path):
     synthetic = False
     cuda = False
     complete = False
+    tile = (32, 32)
+    tile_seen = False
     for row in csv.reader(io.StringIO(text)):
         if row and row[0].startswith("[CUDA]") and not synthetic:
             if cuda or "api=cuda" not in row[0] or "cpu_offload=0" not in row[0]:
@@ -44,7 +46,12 @@ def parse(path):
         if complete or not row:
             raise ValueError("Unexpected trailing/empty matrix record")
         tag = row[0]
-        if tag == "SYNTHETIC" and row == ["SYNTHETIC", "144", "0"] and not synthetic:
+        if tag == "TILE" and len(row) == 3 and not synthetic and not tile_seen:
+            tile = tuple(map(int, row[1:]))
+            if tile[0] not in (8, 16, 32) or tile[1] not in (32, 64, 128) or (tile[0] + 32) * (tile[1] + 1) * 4 > 49152:
+                raise ValueError("Unsupported matrix tile")
+            tile_seen = True
+        elif tag == "SYNTHETIC" and row == ["SYNTHETIC", "144", "0"] and not synthetic:
             synthetic = True
         elif tag == "CASE" and len(row) == 8 and synthetic:
             index = int(row[1]); kind, columns, rows, batch, offset = map(int, row[3:])
@@ -55,7 +62,7 @@ def parse(path):
             if cases:
                 validate(cases[-1])
             cases.append({"index": index, "name": row[2], "kind": kind, "columns": columns,
-                          "rows": rows, "batch": batch, "offset": offset,
+                          "rows": rows, "batch": batch, "offset": offset, "tile": tile,
                           "reference": array("d"), "actual": array("d"), "timings": {}, "guards": None})
         elif tag == "VALUE" and len(row) == 6 and cases:
             c = cases[-1]; index, token, r = map(int, row[1:4])
@@ -152,7 +159,7 @@ def main():
             cases = parse(a.csv); oracle = independent(cases, a.model)
             if not all(r["candidate"]["passed"] and r["reference"]["passed"] for r in oracle):
                 raise ValueError("Independent real-weight primitive budget failed")
-            report.update(model_sha256=a.model_sha256, csv_sha256=digest(a.csv), oracle=oracle,
+            report.update(tile_rows=cases[0]["tile"][0], tile_columns=cases[0]["tile"][1], model_sha256=a.model_sha256, csv_sha256=digest(a.csv), oracle=oracle,
                           native_outputs=sum(len(c["actual"]) for c in cases), independent_outputs=sum(r["outputs"] for r in oracle),
                           limits="Primitive evidence only. Five selected real rows per tensor/batch; full native-reference output coverage. Host-monotonic launch/synchronize timing, warmed weights, one physical session. No model-level quality/speed or default dispatch change.")
             summary = []

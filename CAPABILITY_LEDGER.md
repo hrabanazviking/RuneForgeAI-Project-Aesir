@@ -1326,7 +1326,10 @@ and circular self-parity transforms were removed.
   independent Float64 dots and 144 synthetic tail cases under fixed primitive
   budgets. Batch 4 is slower, so no normal inference dispatch is changed.
   [Evidence](docs/evidence/packed-matrix-2026-10-01/README.md). Full-model matrix
-  integration and a general faster prefill capability remain unearned.
+  integration and a general faster prefill capability remain unearned. Subsequent
+  six-choice shared-tile tuning passes all fixed primitive gates but no batch-four
+  speed gate; [rejection evidence](docs/evidence/matrix-tile-tuning-2026-10-01/README.md)
+  is retained. No tuned choice enters default inference.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

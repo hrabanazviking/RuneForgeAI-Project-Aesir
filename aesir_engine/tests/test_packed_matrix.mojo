@@ -37,7 +37,7 @@ def reference[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.u
                 grid_dim=(rows + 3) // 4, block_dim=128)
 
 
-def exercise[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.uint8],
+def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32](ctx: DeviceContext, w: DeviceBuffer[DType.uint8],
     base: Int, columns: Int, rows: Int, tokens: Int, case_index: Int, name: String, real: Bool) raises -> Int:
     var span = ((rows + 31) // 32) * 32
     var src = 17
@@ -59,7 +59,7 @@ def exercise[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.ui
         ctx.enqueue_function[block_matvec_kernel[kind]](wp, shifted, Int64(base), Int64(columns),
             Int64(rows), Int64(token * stride), Int64(token * stride + reference_offset - src),
             grid_dim=(rows + 3) // 4, block_dim=128)
-    project_matrix[kind,batch](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
+    project_matrix[kind,batch,tile_rows,tile_columns](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
     ctx.enqueue_copy(h,a)
     ctx.synchronize()
     var normalized_sum: Float64 = 0
@@ -99,7 +99,7 @@ def exercise[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.ui
                 h[token * stride + col] = Float32((col * 7 + token * 13) % 29 - 14) / 16.0
         ctx.enqueue_copy(a,h)
         for _ in range(2):
-            project_matrix[kind,batch](ctx,w,a,base,columns,rows,0,dst,stride,batch)
+            project_matrix[kind,batch,tile_rows,tile_columns](ctx,w,a,base,columns,rows,0,dst,stride,batch)
             reference[kind,batch](ctx,w,a,base,columns,rows,reference_offset,stride,batch)
         ctx.synchronize()
         for sample in range(10):
@@ -110,7 +110,7 @@ def exercise[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.ui
                     if mode == 0:
                         reference[kind,batch](ctx,w,a,base,columns,rows,reference_offset,stride,batch)
                     else:
-                        project_matrix[kind,batch](ctx,w,a,base,columns,rows,0,dst,stride,batch)
+                        project_matrix[kind,batch,tile_rows,tile_columns](ctx,w,a,base,columns,rows,0,dst,stride,batch)
                 ctx.synchronize()
                 var elapsed = seconds() - started
                 if elapsed <= 0 or not isfinite(elapsed):
@@ -119,7 +119,7 @@ def exercise[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.ui
     return rows * tokens
 
 
-def synthetic[kind: Int,batch: Int](ctx: DeviceContext) raises:
+def synthetic[kind: Int,batch: Int, tile_rows: Int = 32, tile_columns: Int = 32](ctx: DeviceContext) raises:
     comptime bytes = 144 if kind == 12 else (176 if kind == 13 else 210)
     for columns in [256,512,3072,8192]:
         for rows in [1,7,33]:
@@ -137,29 +137,24 @@ def synthetic[kind: Int,batch: Int](ctx: DeviceContext) raises:
                     h[p+2] = 0
                     h[p+3] = 40
             ctx.enqueue_copy(w,h)
-            _ = exercise[kind,batch](ctx,w,32,columns,rows,batch-1,0,"synthetic",False)
+            _ = exercise[kind,batch,tile_rows,tile_columns](ctx,w,32,columns,rows,batch-1,0,"synthetic",False)
 
 
-def real_batch[batch: Int](mut s: Llama3CUDASession, mut case_index: Int, mut values: Int) raises:
+def real_batch[batch: Int, tile_rows: Int = 32, tile_columns: Int = 32](mut s: Llama3CUDASession, mut case_index: Int, mut values: Int) raises:
     for name in ["blk.0.attn_q.weight", "blk.0.attn_k.weight", "blk.0.attn_v.weight",
                  "blk.0.attn_output.weight", "blk.0.ffn_gate.weight", "blk.0.ffn_up.weight", "blk.0.ffn_down.weight"]:
         var t = s.model.tensors[name]
         if t.kind == 12:
-            values += exercise[12,batch](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
+            values += exercise[12,batch,tile_rows,tile_columns](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
         elif t.kind == 14:
-            values += exercise[14,batch](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
+            values += exercise[14,batch,tile_rows,tile_columns](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
         else:
             raise Error("Unexpected real tensor quantization")
         case_index += 1
 
 
-def main() raises:
-    var args = argv()
-    if len(args) != 2:
-        raise Error("usage: test_packed_matrix MODEL.gguf")
-    var s = Llama3CUDASession(args[1],512,prefix_cache=False,prefill_batch=4)
-    if s.profile.hidden_size != 3072 or s.profile.layer_count != 28:
-        raise Error("Matrix candidate requires strict 3B fixture")
+
+def span_guards[tile_rows: Int = 32, tile_columns: Int = 32]() raises:
     for invalid in range(12):
         var base = 0
         var columns = 256
@@ -184,11 +179,20 @@ def main() raises:
         else: dst = 512
         var rejected = False
         try:
-            admit_matrix[12,4](weight_bytes,elements,base,columns,rows,src,dst,stride,tokens)
+            admit_matrix[12,4,tile_rows,tile_columns](weight_bytes,elements,base,columns,rows,src,dst,stride,tokens)
         except:
             rejected = True
         if not rejected:
             raise Error("Invalid matrix span was admitted")
+
+def main() raises:
+    var args = argv()
+    if len(args) != 2:
+        raise Error("usage: test_packed_matrix MODEL.gguf")
+    var s = Llama3CUDASession(args[1],512,prefix_cache=False,prefill_batch=4)
+    if s.profile.hidden_size != 3072 or s.profile.layer_count != 28:
+        raise Error("Matrix candidate requires strict 3B fixture")
+    span_guards()
     comptime for batch in [4,8,16,32]:
         synthetic[12,batch](s.context)
         synthetic[13,batch](s.context)

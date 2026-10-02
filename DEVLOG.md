@@ -1,3 +1,16 @@
+## 2026-10-01 — Sigrún: controlled shared-matrix staging rejection
+
+Added bounded row/column staging choices with original32/32 defaults. Every
+thread still takes barriers; inactive/tail output threads do not touch unowned
+spans. Six controlled configurations pass all9,953,280 native-reference outputs,
+12600 selected independent dots,864 synthetic tails and72 invalid spans under
+unchanged budgets. All3360 paired timing records are retained. The first
+exploratory sweep overlaps host compilation and is excluded; final captures run
+with compilation idle. Every batch4 candidate loses. Best batch32 FFN result is
+about1.29x; no default integration. Seven portable evidence tests pass. Continue
+the locked sm_75 Tensor-Core feasibility prerequisite rather than promote a slower
+SIMT shape. Operation/evidence and exact CI publication are separately recorded.
+
 ## 2026-10-01 — Sigrún: first physically gated matrix candidate
 
 Added an optional bounded F32 SIMT packed matrix tile and physical probe, retaining

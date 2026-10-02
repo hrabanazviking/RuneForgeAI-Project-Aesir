@@ -116,6 +116,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_cuda_prefill.mojo -o /tmp/aesir-prefill-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_cuda_measurement.mojo -o /tmp/aesir-measurement-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_packed_matrix.mojo -o /tmp/aesir-matrix-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_matrix_tile_tuning.mojo -o /tmp/aesir-matrix-tuning-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash
