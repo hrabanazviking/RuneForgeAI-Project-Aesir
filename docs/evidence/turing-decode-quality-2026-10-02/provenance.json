@@ -12,8 +12,8 @@
   },
   "gpu_capture": {
     "argv": [
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe",
-      "/home/volmarr/ai/RuneForgeAI-Project-Aesir/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-decode-probe",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
     ],
     "binary_sha256": "dc28d0fa65fb7d935a5cfa3c074ef6234ac413cca205203d821f712583cb1dcb",
     "started_utc": "2026-10-02T09:59:02.945605+00:00",
@@ -26,21 +26,21 @@
   },
   "cpu_oracle": {
     "argv": [
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-measurement/oracle-env/bin/python",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
       "scripts/check_turing_decode_quality.py",
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-final.csv",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-decode-final.csv",
       "--model",
-      "/home/volmarr/ai/RuneForgeAI-Project-Aesir/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
       "--model-sha256",
       "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
       "--reference-model",
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-measurement/reference-f32.gguf",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
       "--reference-sha256",
       "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
       "--reference-provenance",
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
       "--output",
-      "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-final.json"
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-decode-final.json"
     ],
     "started_utc": "2026-10-02T10:02:06.185254+00:00",
     "performance_scored": false,
@@ -64,7 +64,7 @@
     {
       "name": "master-final",
       "argv": [
-        "/home/volmarr/.pixi/bin/pixi",
+        "[PIXI]",
         "run",
         "--frozen",
         "--no-install",
@@ -83,7 +83,7 @@
     {
       "name": "master",
       "argv": [
-        "/home/volmarr/.pixi/bin/pixi",
+        "[PIXI]",
         "run",
         "--frozen",
         "--no-install",
@@ -112,7 +112,7 @@
     {
       "name": "sm75",
       "argv": [
-        "/home/volmarr/.pixi/bin/pixi",
+        "[PIXI]",
         "run",
         "--frozen",
         "--no-install",
@@ -125,7 +125,7 @@
         "sm_75",
         "aesir_engine/tests/test_turing_decode_quality.mojo",
         "-o",
-        "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe"
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-decode-probe"
       ],
       "exit_code": 0,
       "started_utc": "2026-10-02T09:55:36.052555+00:00",
@@ -135,7 +135,7 @@
     {
       "name": "sm89",
       "argv": [
-        "/home/volmarr/.pixi/bin/pixi",
+        "[PIXI]",
         "run",
         "--frozen",
         "--no-install",
@@ -148,7 +148,7 @@
         "sm_89",
         "aesir_engine/tests/test_turing_decode_quality.mojo",
         "-o",
-        "/home/volmarr/Documents/Codex/2026-09-30/ok-2/work/aesir-trace/turing-decode-probe-sm89"
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-decode-probe-sm89"
       ],
       "exit_code": 0,
       "started_utc": "2026-10-02T09:56:01.357229+00:00",
@@ -286,5 +286,6 @@
     "aesir_engine/tests/test_turing_decode_quality.mojo": "f28f5d23bfe463d70f3463c4450207b51f5689418469a32443dccd7a9939a699",
     "scripts/check_turing_decode_quality.py": "78fdbdf5b7265b4311478ec06114923fa82a428113418b6c134a529d77f1b51b",
     "scripts/test_check_turing_decode_quality.py": "9d5c0f8cc8e4ebe0b87e72ba5f3ed396eda437178af16ee8bfb6fc583dd3f729"
-  }
+  },
+  "publication_paths": "Command path placeholders are portable labels; unchanged raw process receipt hashes bind actual private paths outside Git."
 }
