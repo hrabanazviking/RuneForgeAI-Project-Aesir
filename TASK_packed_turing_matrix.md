@@ -43,3 +43,15 @@ Push the reviewed slice and verify exact CI. Next choose measured kernel/layout
 refinement if it loses, or separately scoped full-model precision/state/control/
 restore/cancellation/provider gates if it wins. Never promote on compiler success
 or a single primitive ratio.
+
+## Precision refinement after the first physical rejection
+
+The initial single-F16 weight conversion compiles and executes, but fails the
+fixed synthetic per-value budget before real-shape timing. Preserve that failure.
+Before implementing refinement, keep the same budgets and explicitly represent
+each decoded weight by F16 high plus F16 residual (value-F32(high)), using two
+public MMA calls per8-column step. Activation still converts once to F16; the
+current exact binary test inputs are representable and broader full-model
+activation-conversion quality remains open. No larger workspace or model copy.
+Record the refined mode distinctly so evidence never describes the rejected
+single-component path as passing.
