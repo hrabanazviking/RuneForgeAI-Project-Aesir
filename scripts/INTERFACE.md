@@ -103,3 +103,16 @@ columns64/128 with shared bytes<=49152. Ten portable contracts preserve legacy
 32-column staging and reject unsupported/mixed/duplicate/late geometry. Reports
 distinguish eight output-token columns from actual staged-input width. No budget,
 model hash, complete-count or output-coverage gate is relaxed.
+
+## check_turing_activations.py
+
+parse requires ordered bounded regular/no-follow CSV with two exact replay
+states, six complete four-token F32 sources,28 projection cases and every
+output/whole guard/native metric/final count. Exact finite F32 text is mandatory.
+Completion is distinct from numerical acceptance; summary never automatically
+passes. independent validates original descriptors and selected Float64 dots from
+exported original inputs using pinned test-only gguf/NumPy. main verifies the
+original model digest before/after reading and exclusively preserves full failed
+numeric reports/exit1. Nine adversarial contracts cover drift, source identity,
+complete failures, special files and false metrics. No production inference or
+full-model quality/timing claim. Read ../docs/NATIVE_TURING_ACTIVATIONS.md.

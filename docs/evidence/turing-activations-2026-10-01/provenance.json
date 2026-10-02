@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "frozen Mojo1.0.0/MAX26.5.0; gguf0.19.0/NumPy2.4.4 test oracle",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "precision_budgets": {
+    "scaled_per_value": 0.002,
+    "normalized_rms": 0.0002
+  },
+  "controlled_capture": "All host compilation ended before one owned physical capture; independent CPU oracle follows GPU work. No timing score.",
+  "raw_files": {
+    "turing-activation-build-final.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-activation-build.txt": {
+      "sha256": "b52268886139d3bb6962d691ec4911582a22f44ed7ec2b8cc66bceed8de585d5",
+      "bytes": 2376
+    },
+    "turing-activation-original-oracle.txt": {
+      "sha256": "2ee58be4654af63c803c2f13949730c6bf5847a869f41a291dbe72d2ae3e4c2e",
+      "bytes": 35
+    },
+    "turing-activation-original-process.json": {
+      "sha256": "2819cb3d1a6ad6b743971c1499e580e7d53f2bf6a84ef3974aa1fe27408306e4",
+      "bytes": 53
+    },
+    "turing-activation-original.csv": {
+      "sha256": "3e64bba7c2aa72df89196eab746acafd855f483cd82f2b3da2a7eb49a697cd2e",
+      "bytes": 115083742
+    },
+    "turing-activation-original.json": {
+      "sha256": "2a9bc95ae04360537bb36b3744f3ab55233555d32ee965ad090a84868aef35ca",
+      "bytes": 25767
+    },
+    "turing-activation-probe": {
+      "sha256": "45bf0320a0947c4afbad5280237a290492067c5208ac796e794ab7f479cd2746",
+      "bytes": 1425360
+    },
+    "turing-activation-production-rebuild-final.txt": {
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b",
+      "bytes": 100
+    },
+    "turing-activation-production-rebuild.txt": {
+      "sha256": "94e9228ab379ae02d09f361c371cee76e54fc0b3eacc938b20676cd6494a0873",
+      "bytes": 119
+    },
+    "turing-activation-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-activation-sm89-compile": {
+      "sha256": "7fc5059b9cb5ba59ea44defbe0de234277feb71de55c7eb772f44f52da6551d6",
+      "bytes": 1425360
+    }
+  },
+  "sources": {
+    "aesir_engine/tests/test_turing_activations.mojo": "6ea389b48994121f8977e854c942fc6ab8e8a36849ba512c0c7dbb87d86a2809",
+    "scripts/check_turing_activations.py": "0f7d586d3bb34acddc74d6ac55f607e7da71cd3a64fb2da7e200aaedd40ebf85",
+    "scripts/test_check_turing_activations.py": "75934ab10f7c359fbf20639092364c84420aa525feaa3d6adfa738aba32fd798"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "limits": "Two final-layer native replay captures only. Q/K/V use representative FFN-normalized vectors; output/gate/up/down use their actual final-layer operands. Batch32 repeats four sources. Full native output coverage; independent checks select five real rows per tensor/case. No complete-model quality, timing, control/state or provider promotion."
+}

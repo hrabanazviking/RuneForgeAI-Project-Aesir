@@ -2735,3 +2735,17 @@ worse than the previous32-column capture: best batch32 ratio1.304 versus1.920.
 No hardware cause or model/provider lead follows. Production binary stays
 f3442a1e and the active service is checked separately. Next gate ordinary F32
 activation precision before full-model integration. Exact push/CI is separate.
+## 2026-10-01 — Sigrún: captured ordinary F32 activation gate
+
+Added an optional owned native replay capture and independent complete-result
+checker. Two final-layer captures preserve114688 original F32 source values;
+114677 require F16 rounding, none overflows, maximum magnitude27.140867. All
+1,990,656 complete native outputs and2520 selected independent dots pass the
+unchanged .002/.0002 budgets; every input/guard and12 invalid spans pass. Q/K/V
+use representative FFN norms; output/gate/up/down use actual operands, batch32
+repeats four sources. COMPLETE only certifies collection; failures are retained
+in exclusive complete reports/exit1. Nine adversarial tests pass. Initial list
+constructor/build-flag errors remain; corrected builds pass. Production binary
+remains f3442a1e and active readiness is checked separately. Read the operation
+manual/evidence; no model/control/speed promotion. Next scope bounded whole-model
+prefill. Exact pushed CI is a separate receipt.

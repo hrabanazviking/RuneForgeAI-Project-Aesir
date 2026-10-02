@@ -40,6 +40,11 @@
   native values/8400 selected independent dots and all guards. Wider timing is
   worse than prior32-column staging; retain its default and complete samples.
   Next gate ordinary F32 activation precision before full-model integration.
+- [x] SPD-01/02 captured ordinary native F32 inputs: two public final-layer
+  captures pass1,990,656 full native outputs and2520 selected independent dots
+  under unchanged budgets. Almost every source value requires F16 rounding.
+  Q/K/V use representative FFN-normalized inputs; batch32 repeats four sources.
+  No full-model quality/speed promotion. Next scope bounded full-model prefill.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

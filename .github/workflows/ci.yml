@@ -72,7 +72,9 @@ jobs:
         run: python3 scripts/test_check_packed_matrix.py
 
       - name: Prove Turing MMA Evidence Admission
-        run: python3 scripts/test_check_turing_mma.py
+        run: |
+          python3 scripts/test_check_turing_mma.py
+          python3 scripts/test_check_turing_activations.py
 
       - name: Prove Duplicate Recipe Rejection Preserves Catalog
         run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build
@@ -124,6 +126,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_packed_turing_matrix.mojo -o /tmp/aesir-packed-turing-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_shared_staging.mojo -o /tmp/aesir-staged-turing-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_wide_staging.mojo -o /tmp/aesir-wide-turing-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_activations.mojo -o /tmp/aesir-turing-activation-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

@@ -451,3 +451,11 @@ time. Four configurations repeat576 synthetic tails,48 rejected spans,6,635,520
 full native values,8400 selected independent dots and2240 paired timing records.
 All budgets pass, wider timing loses to prior32-column staging, and no default
 is promoted. MODE records separate CTA rows and staged-input columns.
+
+test_turing_activations.mojo captures three final-layer source buffers after two
+unchanged native four-token prompt replays. Seven layer27 projections at batch4/
+32 compare all outputs and preserve input/guards;32 repeats the four sources.
+Q/K/V normalized inputs are representative FFN norms, while output/gate/up/down
+use actual operands. COMPLETE means collection only; numerical failures remain
+in full output and require check_turing_activations.py. No timing/model-quality
+claim or production inference capture hook. Read ../../docs/NATIVE_TURING_ACTIVATIONS.md.

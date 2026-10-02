@@ -1356,6 +1356,13 @@ and circular self-parity transforms were removed.
   bytes<=41280; wider choices underperform prior32-column staging. Default remains
   unchanged. [Evidence](docs/evidence/turing-wide-staging-2026-10-01/README.md).
   Ordinary F32 activation and full-model/control/provider quality gates stay open.
+- **Captured F32 input gate (2026-10-01):** Two actual native final-layer public
+  prompt captures pass all1,990,656 complete projection outputs and2520 selected
+  independent dots under unchanged budgets, with114688 exact exported source
+  values/whole guards.114677 inputs require F16 rounding; none overflows. Q/K/V
+  use representative FFN-normalized sources; output/gate/up/down use actual
+  operands, and batch32 repeats four sources. [Evidence](docs/evidence/turing-activations-2026-10-01/README.md).
+  No complete-model, control/state or timing/provider promotion; status stays partial.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

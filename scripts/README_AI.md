@@ -73,3 +73,9 @@ Wide staged MODE additionally records explicit64/128 input columns and admits
 only32/64 CTA rows. Preserve legacy defaults and rejection semantics; ten portable
 contracts cover configuration identity. Wider physical timings do not beat the
 prior32-column result. Arbitrary full-model activation quality remains open.
+
+check_turing_activations.py checks captured ordinary native F32 inputs without
+rounding them to F16 or regenerating a test recipe. COMPLETE means collection,
+not success; preserve every numeric failure and fixed budget. Read
+../docs/NATIVE_TURING_ACTIVATIONS.md for actual-versus-representative operands,
+selected independent coverage and broader full-model/control acceptance.

@@ -58,3 +58,8 @@ Wider optional64/128-column staging passes four complete primitive gates but
 loses to the prior32-column choice. Keep the32-column default, bounded41280-byte
 maximum and explicit geometry. Test ordinary F32 activation precision before
 full-model integration; binary-fraction inputs cannot establish that gate.
+
+Two ordinary native final-layer captures now pass fixed projection budgets for
+all1,990,656 outputs and2520 selected independent dots. Read project-root
+docs/NATIVE_TURING_ACTIVATIONS.md for source/repetition limits. This does not
+replace complete-model precision, causal state, control or provider gates.

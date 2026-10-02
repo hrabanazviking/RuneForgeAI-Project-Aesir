@@ -276,6 +276,14 @@ retained. Keep32-column staging and next gate ordinary F32 activation precision,
 then separately earn full-model/state/control/recovery and provider gates.
 Same operation manual owns reproduction; no hardware cause is inferred.
 
+The subsequent ordinary-F32 activation gate passes two captured native final-layer
+replays: all1,990,656 outputs and2520 selected independent Float64 dots under fixed
+budgets.114677 of114688 source values require F16 rounding; no overflow. Q/K/V
+use representative FFN norms, other projections use actual operands and batch32
+repeats four sources. [Operation](docs/NATIVE_TURING_ACTIVATIONS.md). This is
+precision-only; next scope bounded whole-model prefill and earn independent
+logit/state/control/recovery gates before any default or provider promotion.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research
