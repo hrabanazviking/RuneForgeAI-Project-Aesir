@@ -54,3 +54,9 @@ attachment or privilege/dependency changes belong in this tool.
 The experimental packed matrix CSV oracle is check_packed_matrix.py. Read
 ../docs/NATIVE_MATRIX_CANDIDATE.md for complete native-reference versus selected
 independent real-weight coverage. Primitive timing never earns a service lead.
+
+check_turing_mma.py checks every synthetic binary output with independent integer
+equations and complete guard/count evidence. Do not loosen its zero-error budget
+for formatter loss; export F32 values through Float64 text. Read
+../docs/NATIVE_TURING_MMA.md for target correction, physical evidence boundaries
+and the separate real-weight quality/speed prerequisite.

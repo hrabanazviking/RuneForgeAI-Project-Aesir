@@ -36,3 +36,9 @@ The optional packed_matrix candidate is physically exercised only by its probe.
 It is slower at batch4 and must not replace default projections. See the project
 root docs/NATIVE_MATRIX_CANDIDATE.md for predeclared budgets, bounded shared memory
 and selected independent real-weight coverage. Full-model integration stays open.
+
+The optional Turing gate uses explicit PTX6.5/sm_75 to correct the pinned
+RTX2060 target's PTX6.3 incompatibility with m16n8k8. Keep it isolated; do not
+patch installed libraries, locks, drivers or generated PTX. Read project-root
+docs/NATIVE_TURING_MMA.md. Exact synthetic output proves only the physical
+primitive; real-weight F16 quality and full-model speed remain open.

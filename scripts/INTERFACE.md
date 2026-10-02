@@ -77,3 +77,12 @@ whole-model quality/speed certification. See ../docs/NATIVE_MATRIX_CANDIDATE.md.
 Matrix CSV optionally begins TILE,rows,columns; omission retains original32/32.
 Admission rejects duplicate, late, oversized or unsupported staging metadata and
 reports observed tile identity. Actual descriptors/numerical budgets do not change.
+
+## check_turing_mma.py
+
+parse admits ordered regular UTF-8<=8MiB CSV with nonblocking/no-follow opening.
+Every50688 output must match independent integer numerator/256 equations, with
+108 cases,5400 guards,9 rejected spans and final completion. SHA hashes the
+admitted text snapshot; exclusive JSON retains failure/exit1. Six adversarial
+tests prove evidence/special-file admission only. Physical target/instruction/
+hardware identities are separate; see ../docs/NATIVE_TURING_MMA.md.

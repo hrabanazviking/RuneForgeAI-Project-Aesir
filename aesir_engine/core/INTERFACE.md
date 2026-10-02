@@ -1095,3 +1095,13 @@ Optional matrix tile_rows=8/16/32 and tile_columns=32/64/128 are compile-time
 parameters with original32/32 defaults. Shared bytes are bounded<=49152. Inactive
 output threads still synchronize; full row/token tails and buffer admission apply.
 No tuned choice is default inference. Read the matrix manual for physical rejection.
+
+## Optional physical Turing MMA gate
+
+turing_mma_probe.mojo owns turing_ptx65_target and launch_mma. Only the opt-in
+test calls it. Public MMA uses documented F16A4/B2/F32C4 m16n8k8 fragments;
+isolated DeviceFunction uses the matching RTX2060 layout with +ptx65 rather than
+pinned +ptx63. No library/driver/PTX patch or software substitution. Actual
+borrowed span/offset, bounded counts and warp shapes reject before construction/
+enqueue. Tails are warp uniform. See project-root docs/NATIVE_TURING_MMA.md for
+pinned compatibility, exact physical outputs, failures and instruction limits.

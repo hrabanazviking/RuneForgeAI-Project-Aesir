@@ -24,7 +24,11 @@
   preserving 9,953,280 real native-reference values and 12600 selected independent
   dots. Every batch-four candidate loses; default stays strict reference.
   [Physical evidence](docs/evidence/matrix-tile-tuning-2026-10-01/README.md).
-- [ ] SPD-01/02: validate genuine matrix prefill and physical sm_75 Tensor-Core
+- [x] SPD-02 physical primitive prerequisite: public m16n8k8 F16/F32 MMA passes
+  all50688 independent exact outputs,5400 guards and9 invalid-span rejections
+  on actual sm_75. An isolated PTX6.5 target resolves the pinned PTX6.3 mismatch;
+  no library/driver/dependency patch. [Operation](docs/NATIVE_TURING_MMA.md).
+- [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
   cache/buffer use and verified speculative decode when the ceiling requires it.

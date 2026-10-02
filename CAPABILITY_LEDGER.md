@@ -1330,6 +1330,13 @@ and circular self-parity transforms were removed.
   six-choice shared-tile tuning passes all fixed primitive gates but no batch-four
   speed gate; [rejection evidence](docs/evidence/matrix-tile-tuning-2026-10-01/README.md)
   is retained. No tuned choice enters default inference.
+- **Optional Turing prerequisite (2026-10-01):** Public m16n8k8 F16/F32 MMA
+  executes on actual sm_75 with an isolated matching PTX6.5 target. All50688
+  independent exact synthetic outputs,5400 guards and9 invalid spans pass.
+  Offline emitted-PTX disassembly includes HMMA.1688.F32. Pinned PTX6.3 compile/
+  JIT failures remain; no installed dependency or production target is patched.
+  [Operation](docs/NATIVE_TURING_MMA.md). Real-weight F16 quality and full-model
+  acceleration remain open; the existing capability status stays partial.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

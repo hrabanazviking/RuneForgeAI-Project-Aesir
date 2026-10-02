@@ -1,3 +1,18 @@
+## 2026-10-01 — Sigrún: physical Turing MMA target correction
+
+The locked public MMA binding failed LLVM selection because the pinned RTX2060
+configuration emits PTX6.3. A retained diagnostic assembly attempt compiled but
+failed physical CUDA JIT; installed ptxas explicitly requires6.5 for m16n8k8.
+The final public API uses an isolated DeviceFunction target with the matching
+layout and +ptx65/sm_75, without patches/upgrades or assembly fallback. All50688
+physical results pass independent exact integer equations;5400 guards and9
+invalid spans pass. An initial F32 formatter loss is preserved and corrected by
+Float64 text export. Emitted PTX/offline disassembly identifies HMMA.1688.F32.
+Six portable adversarial tests pass. Owned trace admission, publication and exact
+CI are separately recorded. No real-weight/full-model quality or speed claim.
+Read docs/NATIVE_TURING_MMA.md and its evidence for scope and failure history.
+Continue with a separately scoped packed-weight Tensor-Core projection candidate.
+
 ## 2026-10-01 — Sigrún: controlled shared-matrix staging rejection
 
 Added bounded row/column staging choices with original32/32 defaults. Every

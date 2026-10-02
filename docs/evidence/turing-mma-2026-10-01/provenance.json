@@ -1,0 +1,264 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "Mojo1.0.0/MAX26.5.0 frozen lock",
+  "target": "sm_75, explicit +ptx65; matching RTX2060 layout",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "accepted": {
+    "schema": 1,
+    "passed": true,
+    "cases": 108,
+    "outputs": 50688,
+    "guards": 5400,
+    "invalid_metadata_cases": 9,
+    "max_absolute_error": 0.0,
+    "csv_sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+    "limits": "Exact synthetic binary operands only. Physical source/lowering/hardware identity is recorded separately. No real-weight F16 quality, full-model acceleration or speed-lead claim."
+  },
+  "failures": [
+    {
+      "kind": "public API default target",
+      "result": "LLVM selection error, exit139, twice"
+    },
+    {
+      "kind": "assembly diagnostic",
+      "result": "CUDA_ERROR_INVALID_PTX; observed PTX6.3 rejected by ptxas below6.5"
+    },
+    {
+      "kind": "initial native CSV",
+      "result": "Independent checker rejected default F32 formatter loss; native equations passed"
+    },
+    {
+      "kind": "owned full stdout trace",
+      "result": "StringIds stdout exceeds16384 per-string bound"
+    },
+    {
+      "kind": "exec-only trace",
+      "result": "Nsight retains Python image name; strict identity rejected"
+    },
+    {
+      "kind": "child long basename trace",
+      "result": "Linux15-character process name differs; strict identity rejected"
+    },
+    {
+      "kind": "short basename child trace",
+      "result": "Strict interval rejection: initial CUDA API timestamps outside reported ANALYSIS_DETAILS interval; no admitted timeline"
+    }
+  ],
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "files": {
+    "turing-mma-final-probe": {
+      "sha256": "b37f9ee5af12a3192a5881acc27806fee50db4e4901aef56bd13d52976f7bf8e",
+      "bytes": 110120
+    },
+    "turing-mma-complete.csv": {
+      "sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+      "bytes": 1266846
+    },
+    "turing-mma-ptx65-emitted.ptx": {
+      "sha256": "577d5a91769d6ae133fe049acd60fab8583f5ab02ecbf5a5848e4a751f4932fb",
+      "bytes": 9027
+    },
+    "turing-mma-ptx65-observed.cubin": {
+      "sha256": "4eb93de7efdf11e24854c0bf3fc3b1a149a5f56ee18fcb57282c32925ba34636",
+      "bytes": 10088
+    },
+    "turing-mma-sass.txt": {
+      "sha256": "78290e78574cf2153bac75f81918a9978df20cc52e786d352aba986e13ecf800",
+      "bytes": 101298
+    },
+    "turing-mma-build.txt": {
+      "sha256": "4198873482f832cce8a154a1e14b345ca8a6c5253a91c92a268799d3ad4af433",
+      "bytes": 684
+    },
+    "turing-mma-llvm-build.txt": {
+      "sha256": "8ee0c53b074922b8a2643e3b4c68e899a2d351f4c4d2415fac6767e399a7a925",
+      "bytes": 684
+    },
+    "turing-mma-public-original.mojo": {
+      "sha256": "36b6cf98da9ce037865181657f7eeaf557134ecf0e0b72aff99328c6f0ce7e47",
+      "bytes": 3853
+    },
+    "turing-mma-assembly-attempt.mojo": {
+      "sha256": "4f3e4fea68c5a72ce80e0864754f57e0f83f0b596a614601fc792aa561f0c537",
+      "bytes": 4985
+    },
+    "turing-mma-emitted.ptx": {
+      "sha256": "741da5457552d475589ddc015aaf5e9c6f4dcd4f8796891d358052e5d382db37",
+      "bytes": 9187
+    },
+    "turing-mma-ptxas.txt": {
+      "sha256": "b80cd63c4d4cd4a9de899bca767c1f7c8fbac981f204139e7de0ecf319fe35a0",
+      "bytes": 262
+    },
+    "turing-mma-final.csv": {
+      "sha256": "01c3ef1c760af784a35a5a44d3a09d9e6547b96be79773c7844db40582a259b3",
+      "bytes": 408
+    },
+    "turing-mma-final.json": {
+      "sha256": "a50a7070f6bd9b2d85b2f45f47cc36666fc834363fdfd8385b5ba800771cec1b",
+      "bytes": 89
+    },
+    "turing-mma-ptx65-final.csv": {
+      "sha256": "25765c0749ae69a7f13460f286610be87942c48299e583e037714ab8f23e1362",
+      "bytes": 1265022
+    },
+    "turing-mma-ptx65-final.json": {
+      "sha256": "c596d39b4e23148da5b127ab5cd46e8e21682fc9d41dcadb3027e35678d03c52",
+      "bytes": 108
+    },
+    "mma-owned-trace/capture.nsys-rep": {
+      "sha256": "0f081f04a9ba2838245402fd7985e603bd5a8f5addd1e0af1a9ce09537c8dcae",
+      "bytes": 747880
+    },
+    "mma-owned-trace/capture.qdstrm": {
+      "sha256": "c1940117bf5e4972f8fcd1e5a6caeda7de240edffcf12c5a59c68816d737f649",
+      "bytes": 3908538
+    },
+    "mma-owned-trace/capture.sqlite": {
+      "sha256": "7c142bd596a13510b8f1bc73bc43b919d5fe1b3c20aea5c8c201949af07eaa23",
+      "bytes": 2269184
+    },
+    "mma-owned-trace/export.txt": {
+      "sha256": "e086d24d93c0238a7e964ac786cb3b7202f9b27e8b66752954cc69ae5cebad70",
+      "bytes": 8101
+    },
+    "mma-owned-trace/import.txt": {
+      "sha256": "204a5244626125d2d4709f2eb198280e4ea210ac5b9fe91db7501ce1edc97da2",
+      "bytes": 687
+    },
+    "mma-owned-trace/native.csv": {
+      "sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+      "bytes": 1266846
+    },
+    "mma-owned-trace/profile-process.json": {
+      "sha256": "588af97a10c96ff665c28fe88913920fc6b7a39eaaa42d39fa722c992c9c50ba",
+      "bytes": 53
+    },
+    "mma-owned-trace/profiled.txt": {
+      "sha256": "1c7fde240999d58a5e770b1fddca7e31d0aa5d4a645efe48b86e8cf0a15cb13f",
+      "bytes": 1267159
+    },
+    "mma-direct-trace/capture.nsys-rep": {
+      "sha256": "3481901d4d3c733077b66e8cc776d6b5343efed76becb09b026b03e2f5159f27",
+      "bytes": 369627
+    },
+    "mma-direct-trace/capture.qdstrm": {
+      "sha256": "81d0efa3778ba788cdeb5180f0b0f1a051943a8e4697aee0f28a5b453db41870",
+      "bytes": 3610866
+    },
+    "mma-direct-trace/capture.sqlite": {
+      "sha256": "097382aeca27a57cde29421e0badee3316baedacfb2a2c0b29827219c9b4d0cb",
+      "bytes": 995328
+    },
+    "mma-direct-trace/export.txt": {
+      "sha256": "c15f12cf4a2f9b39725f843dad2c70fcd9255501ab9863a6198b04fa830c7c12",
+      "bytes": 8101
+    },
+    "mma-direct-trace/import.txt": {
+      "sha256": "99b54d6b133e09ddbede3cd86eacb318ab4170678fd0e3307cc2588eeef3cfc6",
+      "bytes": 688
+    },
+    "mma-direct-trace/launch.py": {
+      "sha256": "70e07576e9ffd9ef4b97ba9b07d56228fc9099311ec7983383845e4f2c08ee6f",
+      "bytes": 155
+    },
+    "mma-direct-trace/native.csv": {
+      "sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+      "bytes": 1266846
+    },
+    "mma-direct-trace/profile-process.json": {
+      "sha256": "a1d9a8054b6971f6f9a6df9e4883261e3d95125ababec11b6bc446f06219d032",
+      "bytes": 54
+    },
+    "mma-direct-trace/profiled.txt": {
+      "sha256": "98442b9c9053d65ec8cf60d454afbe72863198c420690aa8148685df34c05ef5",
+      "bytes": 314
+    },
+    "mma-child-trace/capture.nsys-rep": {
+      "sha256": "55c7b4534ff65f759a970be93212477581cff8296879ad900615e2049eb59042",
+      "bytes": 367393
+    },
+    "mma-child-trace/capture.qdstrm": {
+      "sha256": "4e047090ecd252efeb803decaceb01fce8f07fa68fbe71a17bc5ee48d1bb9343",
+      "bytes": 3608073
+    },
+    "mma-child-trace/capture.sqlite": {
+      "sha256": "1141cd8a074b71df91e8e1bf12723b76216263deb8d722185952be512fb47287",
+      "bytes": 991232
+    },
+    "mma-child-trace/export.txt": {
+      "sha256": "7870884f7b15e069b5b9e8981acaf8b6259bcd9274d8e96690e733aa18352406",
+      "bytes": 8101
+    },
+    "mma-child-trace/import.txt": {
+      "sha256": "40dea934644b126c9af1c31e1350252c83a3e77a380b8443e19ec5bad9ffa349",
+      "bytes": 687
+    },
+    "mma-child-trace/launch.py": {
+      "sha256": "d21363b2fcc905b2af8a8a578047d4a51fd6418f36e8094995a9c2effb754d92",
+      "bytes": 201
+    },
+    "mma-child-trace/native.csv": {
+      "sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+      "bytes": 1266846
+    },
+    "mma-child-trace/profile-process.json": {
+      "sha256": "199956939bc335e4b6ca5f072e52a755f70350ff7b8acf3f56a42e5320a96591",
+      "bytes": 53
+    },
+    "mma-child-trace/profiled.txt": {
+      "sha256": "1f89343e5a223a7f34925e8138e51233fcffb269461dff66682932c8104cbb1f",
+      "bytes": 313
+    },
+    "mma-final-trace/capture.nsys-rep": {
+      "sha256": "e72503853436a9a02a1782efb87530c39c5df071b7ff7134a4c5f4040f6520f3",
+      "bytes": 368160
+    },
+    "mma-final-trace/capture.qdstrm": {
+      "sha256": "43daec724734c3ada8d24286fe9f0a8de3c42eec009bc2b7186e51a2ec26096a",
+      "bytes": 3609518
+    },
+    "mma-final-trace/capture.sqlite": {
+      "sha256": "0359f5d1f16f55d9a58051313378e6313686477cfa796850cb14e4401079746b",
+      "bytes": 991232
+    },
+    "mma-final-trace/export.txt": {
+      "sha256": "7870884f7b15e069b5b9e8981acaf8b6259bcd9274d8e96690e733aa18352406",
+      "bytes": 8101
+    },
+    "mma-final-trace/import.txt": {
+      "sha256": "d281971c7d709d413dec62bb97dc8eea65bc691c11a2e3d0dfc1ae69c3a49514",
+      "bytes": 687
+    },
+    "mma-final-trace/launch.py": {
+      "sha256": "d21363b2fcc905b2af8a8a578047d4a51fd6418f36e8094995a9c2effb754d92",
+      "bytes": 201
+    },
+    "mma-final-trace/mma-probe": {
+      "sha256": "b37f9ee5af12a3192a5881acc27806fee50db4e4901aef56bd13d52976f7bf8e",
+      "bytes": 110120
+    },
+    "mma-final-trace/native.csv": {
+      "sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+      "bytes": 1266846
+    },
+    "mma-final-trace/profile-process.json": {
+      "sha256": "aef7cacc9cf7f4facd6fc1fbf438c4519c9309c902e75bc99b8021a275397de9",
+      "bytes": 53
+    },
+    "mma-final-trace/profiled.txt": {
+      "sha256": "67cba504f448b2811fa6c2debb14a7437480c3c1e4b84073618e680d551578d3",
+      "bytes": 313
+    }
+  },
+  "native_sources": {
+    "aesir_engine/core/turing_mma_probe.mojo": "767811a80ce2d47bd0521817525221d546cdc09c920ccd47f80c2b376f0d88b0",
+    "aesir_engine/tests/test_turing_mma.mojo": "8c3cbd2347c107c5e86ddd5b6ae7bdcb2e5943a0b5d7d7077c4fe62272da024a",
+    "scripts/check_turing_mma.py": "a888bd02fa14ef6c4c3573df3d5386d7948534bab2eb2db7c022057235b323d1",
+    "scripts/test_check_turing_mma.py": "c9b2d783b51c29ff4a856c6e404d406b99f8b3294879b1c262365648267712ff"
+  },
+  "profiled_csv_matches_complete": true,
+  "instruction": "PTX6.5 sm_75 public mma m16n8k8; offline exact-PTX SASS HMMA.1688.F32",
+  "limits": "No fully admitted timeline, counters, speed score, real-weight F16 quality or full-model integration"
+}

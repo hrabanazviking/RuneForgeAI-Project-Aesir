@@ -248,6 +248,16 @@ still require the actual paired whole-request results.
 
 ### SPD-02 — Prove Tensor-Core prefill on Turing
 
+Physical prerequisite completed2026-10-01: public m16n8k8 F16/F32 MMA on the
+locked toolchain passes all50688 exact independent synthetic outputs,5400 guards
+and9 invalid spans. The pinned RTX2060 target's +ptx63 caused LLVM selection and
+PTX JIT failures; the isolated matching +ptx65/sm_75 DeviceFunction target works.
+Offline emitted-PTX disassembly contains HMMA.1688.F32. Initial compile/JIT,
+CSV-formatter and trace-admission failures are retained. No default dispatch or
+real-weight precision/speed claim. [Operation](docs/NATIVE_TURING_MMA.md).
+The next slice must validate original packed Q4_K/Q5_K/Q6_K projections with
+bounded F16 conversion, fixed numerical budgets and complete equal-work timing.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

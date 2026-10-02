@@ -424,3 +424,10 @@ The separate test_matrix_tile_tuning.mojo owns five explicit staging choices;
 original probe owns32/32. Each repeats144 synthetic tails,12 span rejections,
 complete real output/oracle/timing gates. TILE identity is validated by the checker;
 legacy CSV defaults32/32. Seven portable rejection tests pass. Hosted CI only compiles.
+
+test_turing_mma.mojo owns108 exact-binary cases, all50688 equations,5400 guards
+and9 invalid metadata rejections. Complete Float64-text export preserves actual
+F32 values; final PASS is mandatory. check_turing_mma.py independently checks
+every output with integer equations. See ../../docs/NATIVE_TURING_MMA.md for the
+isolated target, initial failures and separate instruction/trace/hardware proof.
+Hosted compilation earns no physical or full-model speed/precision capability.

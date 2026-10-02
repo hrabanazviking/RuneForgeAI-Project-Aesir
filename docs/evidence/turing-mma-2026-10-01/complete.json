@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "passed": true,
+  "cases": 108,
+  "outputs": 50688,
+  "guards": 5400,
+  "invalid_metadata_cases": 9,
+  "max_absolute_error": 0.0,
+  "csv_sha256": "996de3b0589c6b3090a96e934f1adb1f86bf7917cee656f9241481b66f92f1a1",
+  "limits": "Exact synthetic binary operands only. Physical source/lowering/hardware identity is recorded separately. No real-weight F16 quality, full-model acceleration or speed-lead claim."
+}
