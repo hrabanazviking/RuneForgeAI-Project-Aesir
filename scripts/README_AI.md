@@ -116,3 +116,13 @@ actual sampled-choice equality plus own exact replay own acceptance. Exclusive
 reports retain every complete numerical failure; speed_scored staysFalse. Pinned
 CPU oracle runs only after GPU captures and hashes original/derived models before/
 after. Read ../docs/NATIVE_TURING_DECODE_QUALITY.md; production is never imported.
+
+## Checkpoint continuation evidence
+
+check_turing_checkpoint_replay.py streams ordered no-follow CSV<=256MiB and
+verifies actual before/after F32 bytes, printed bit counts, every state/tile/ID/
+refusal/guard and prior accepted public trajectory binding. Every unchanged
+CPU/native budget and sample/own replay gate remains mandatory; complete failures
+retain all metrics, with speed_scored=False. Read ../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md.
+Nine portable contracts prove parser behavior only. Records additionally accepts
+a smaller explicit byte allowance; default decode2GiB semantics stay unchanged.

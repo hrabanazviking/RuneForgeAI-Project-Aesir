@@ -335,6 +335,16 @@ the680806792-byte raw file and retains every frame metric. No throughput/provide
 ratio; trajectories are native-forced. Next preserve exact execution boundaries
 across reset/restoration before production32 admission and broader context gates.
 
+Owning-context checkpoint replay now preserves exact captured tile boundaries:
+greedy/seeded public37 plus eight-scalar histories each continue four predictions
+before/after reset. All1026048 logits per mode pass unchanged independent/native
+budgets, prior accepted source binding and actual own F32 bits. Twelve damaged
+plans refuse before mutation, allocations remain and4352 guards pass. Master190
+passes/one skip. [Operation](docs/NATIVE_TURING_CHECKPOINT_REPLAY.md). This earns
+in-memory same-context replay only; persisted schema/context recreation/long-
+history/runtime32/provider gates remain. Next scope bounded batched causal
+attention/launch reduction under exact existing vectors before broader admission.
+
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,
 then all model projection shapes. Current online TensorCore APIs are research

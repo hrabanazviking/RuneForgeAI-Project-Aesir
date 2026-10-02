@@ -37,7 +37,7 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 189 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 190, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 190 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 191, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
 | `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
@@ -1412,7 +1412,16 @@ and circular self-parity transforms were removed.
   [Evidence](docs/evidence/turing-decode-quality-2026-10-02/README.md). Native-forced
   trajectories only; restoration, production32 admission, broader contexts and
   provider lead remain open. Status stays partial.
-- **Next acceptance gate:** Broader model/hardware coverage, persisted restoration, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
+- **Owning-context checkpoint replay (2026-10-02):** Copied/checksummed exact
+  tile/ID/policy/draw/pending/allocation plans refuse damage before reset/GPU work.
+  Greedy/seeded public37 plus eight-scalar checkpoints each produce four before/
+  after predictions; all1026048 logits per mode pass unchanged independent/
+  native budgets, accepted-source/sample binding and actual own F32 bits.
+  Twelve damaged-plan refusals preserve state/allocations;4352 fixture guards
+  pass. Master190 passes/one skip and nine streaming contracts pass. [Evidence](docs/evidence/turing-checkpoint-replay-2026-10-02/README.md).
+  Same process/context in-memory replay only; persisted schema/context recreation/
+  long-history/runtime32/provider gates remain open. No time score/status promotion.
+- **Next acceptance gate:** Bounded batched causal attention/launch reduction under exact vectors; broader model/hardware coverage, persisted restoration, wider context/full-model tests and runtime batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -29,12 +29,15 @@ EOS = (128001, 128009)
 
 class Records:
     """One bounded line at a time on the same no-follow regular descriptor."""
-    def __init__(self, path):
+    def __init__(self, path, maximum=None):
+        self.maximum = MAX_BYTES if maximum is None else maximum
+        if type(self.maximum) is not int or not 1 <= self.maximum <= MAX_BYTES:
+            raise ValueError("Invalid bounded stream allowance")
         fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
         self.source = os.fdopen(fd, "rb")
         try:
             self.before = os.fstat(fd)
-            if not stat.S_ISREG(self.before.st_mode) or not 0 < self.before.st_size <= MAX_BYTES:
+            if not stat.S_ISREG(self.before.st_mode) or not 0 < self.before.st_size <= self.maximum:
                 raise ValueError("Decode stream must be a bounded regular file")
         except BaseException:
             self.source.close()
@@ -51,7 +54,7 @@ class Records:
             if optional: return None
             raise ValueError("Incomplete decode evidence")
         self.bytes += len(line)
-        if len(line) > MAX_LINE or self.bytes > MAX_BYTES or not line.endswith(b"\n"):
+        if len(line) > MAX_LINE or self.bytes > self.maximum or not line.endswith(b"\n"):
             raise ValueError("Decode line/stream exceeded bounds or lacks newline")
         self.hash.update(line)
         row = next(csv.reader([line.decode("utf-8", errors="strict")], strict=True))

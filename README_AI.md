@@ -57,3 +57,8 @@ docs/NATIVE_TURING_DECODE_QUALITY.md and current SPD-02 evidence for the latest
 boundary. All96 declared native-forced greedy/seeded prediction frames pass;
 normal production admission remains one/four. Preserve exact execution boundaries
 for the next reset/restoration gate before runtime32 admission or provider claims.
+
+Exact-boundary owning-context checkpoint replay now passes both declared policies;
+read docs/NATIVE_TURING_CHECKPOINT_REPLAY.md. Persisted schema/context recreation/
+long-history gates remain open. Next scope bounded batched causal attention and
+launch reduction under exact existing vectors, before broader runtime admission.

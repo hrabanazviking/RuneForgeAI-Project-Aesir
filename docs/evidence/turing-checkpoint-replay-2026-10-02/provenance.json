@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "627247d990ed09b1a87a0de63adde3d5050f9a69",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "reference_derivation": {
+    "snapshot_sha256": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "original_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "derived_sha256": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "converter_sha256": "208fcacd9b4264cacdc9783efc5b3361ac775372469edc12b48747e6b9c4dbff",
+    "derived_bytes": 12858837216
+  },
+  "accepted_source": {
+    "sha256": "0a6b47078527b42c3203f40b0f76d787213f3969041fb2ca2c8a8702a3d56915",
+    "csv_sha256": "f373879e7f4fa04ff2ba9b4ff41a29a0503c79865ef9a64e01ff12be07c717aa"
+  },
+  "builds": [
+    {
+      "name": "check",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T10:29:51.012838+00:00",
+      "ended_utc": "2026-10-02T10:29:51.127852+00:00",
+      "wall_seconds": 0.115039298980264
+    },
+    {
+      "name": "master",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T10:27:59.448735+00:00",
+      "ended_utc": "2026-10-02T10:29:30.040992+00:00",
+      "wall_seconds": 90.59228635099134
+    },
+    {
+      "name": "normal",
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T10:29:30.041566+00:00",
+      "ended_utc": "2026-10-02T10:29:51.012340+00:00",
+      "wall_seconds": 20.97080215200549
+    },
+    {
+      "name": "sm75",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-checkpoint-probe"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T10:27:04.615690+00:00",
+      "ended_utc": "2026-10-02T10:27:30.429256+00:00",
+      "wall_seconds": 25.813596549996873
+    },
+    {
+      "name": "sm89",
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-checkpoint-probe-sm89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-02T10:27:30.429784+00:00",
+      "ended_utc": "2026-10-02T10:27:59.448250+00:00",
+      "wall_seconds": 29.018498318997445
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-checkpoint-probe",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+    ],
+    "binary_sha256": "0d66b3031a6729292d84ead15773c3da1f39728ecf22a3c1d2fe69654812af26",
+    "started_utc": "2026-10-02T10:31:12.426446+00:00",
+    "performance_scored": false,
+    "exit_code": 0,
+    "ended_utc": "2026-10-02T10:31:23.171323+00:00",
+    "wall_seconds": 10.744878165016416,
+    "csv_bytes": 95727284,
+    "csv_sha256": "b637919c641f4b646d0f468f81a08b71829d19afbe5fed81cb53eff6bf9ccc39"
+  },
+  "cpu_oracle": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "scripts/check_turing_checkpoint_replay.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-checkpoint-final.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--accepted-report",
+      "[AESIR_REPOSITORY]/docs/evidence/turing-decode-quality-2026-10-02/decode.json",
+      "--accepted-report-sha256",
+      "0a6b47078527b42c3203f40b0f76d787213f3969041fb2ca2c8a8702a3d56915",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-checkpoint-final.json"
+    ],
+    "started_utc": "2026-10-02T10:33:24.227742+00:00",
+    "performance_scored": false,
+    "exit_code": 0,
+    "ended_utc": "2026-10-02T10:34:00.700067+00:00",
+    "wall_seconds": 36.472333740006434
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-checkpoint-build-check.json",
+      "bytes": 252,
+      "sha256": "4c885a6c0be5ba2ca91b36c6789a31b71e5d473365d15d7ec64fd2d67c1cc664"
+    },
+    {
+      "name": "turing-checkpoint-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-checkpoint-build-first.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-checkpoint-build-master.json",
+      "bytes": 401,
+      "sha256": "df6833a661dc3014af55a9d1999426cc329c8a02bdb69c7e38cf5069a0e4410f"
+    },
+    {
+      "name": "turing-checkpoint-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-checkpoint-build-normal.json",
+      "bytes": 282,
+      "sha256": "8455f80882635db8e604bb73c6a35deb9bafe1c5a4d442c2cabd0e588bca6746"
+    },
+    {
+      "name": "turing-checkpoint-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-checkpoint-build-sm75.json",
+      "bytes": 558,
+      "sha256": "57fb68626036dc3218164fd68a3561dd41713e785872dd38889f97ec5e0a5b16"
+    },
+    {
+      "name": "turing-checkpoint-build-sm75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-checkpoint-build-sm89.json",
+      "bytes": 563,
+      "sha256": "f10012dae942df75eaaaf6893f22f9e2f6a4862ccf9f26c8ecbbb02612a78208"
+    },
+    {
+      "name": "turing-checkpoint-build-sm89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-checkpoint-final.csv",
+      "bytes": 95727284,
+      "sha256": "b637919c641f4b646d0f468f81a08b71829d19afbe5fed81cb53eff6bf9ccc39"
+    },
+    {
+      "name": "turing-checkpoint-final.json",
+      "bytes": 28354,
+      "sha256": "a211ed9d0be36b9c172a058494cc4c54eb90c23a113893c32721ba1d39b696d0"
+    },
+    {
+      "name": "turing-checkpoint-legacy-decode.txt",
+      "bytes": 269,
+      "sha256": "0ecf0cd6f1d0e1086a02225d0b7db2266d0b92336239f952e6d3499480d1f446"
+    },
+    {
+      "name": "turing-checkpoint-oracle-process.json",
+      "bytes": 1413,
+      "sha256": "d66098680a56d4608e911c56653330ec33a446f6070eeb553e1777f8247a4703"
+    },
+    {
+      "name": "turing-checkpoint-oracle.txt",
+      "bytes": 153,
+      "sha256": "dd07231467d946cd3a4b003c8af433c317a67a0e6e8b2b845cccdabec07624f2"
+    },
+    {
+      "name": "turing-checkpoint-portable-final.txt",
+      "bytes": 183,
+      "sha256": "215929dd8b61795728c6435d274c877012ffd387ee5eae255eefb7d293243890"
+    },
+    {
+      "name": "turing-checkpoint-probe",
+      "bytes": 5249432,
+      "sha256": "0d66b3031a6729292d84ead15773c3da1f39728ecf22a3c1d2fe69654812af26"
+    },
+    {
+      "name": "turing-checkpoint-probe-sm89",
+      "bytes": 5249432,
+      "sha256": "e51b76ce7ef80bc5c60cf62cbf96c1ec274fe90343eed5b6b2397b948ac3eba7"
+    },
+    {
+      "name": "turing-checkpoint-process.json",
+      "bytes": 642,
+      "sha256": "baff5f3b4a5ef8bfef62d7eb077b186894f418b4bed7213d2d31bb7599b06ae6"
+    },
+    {
+      "name": "turing-replay-plan-final.txt",
+      "bytes": 75,
+      "sha256": "8b3fd04dfbd890f5af406f62755e939e57f74fcf2dfb612f7216a30afa8e06c1"
+    },
+    {
+      "name": "turing-replay-plan-first.mojo",
+      "bytes": 3891,
+      "sha256": "21603a15f42d85e25674ff4fcc48efb5430c9227e9937c6707e192fffbff8f45"
+    },
+    {
+      "name": "turing-replay-plan-first.txt",
+      "bytes": 739,
+      "sha256": "e1fb6a1bc205a8e40c58af3607aa12c1b3c82a0c0ccc588733ead706f1efec30"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/turing_replay_plan.mojo": "4708e9d1dbbc2b494f190223325d12f76cb8bb373fa3bd695e9d77b5ee3f39e1",
+    "aesir_engine/tests/turing_checkpoint_replay.mojo": "af18ee5ffb1b3190037dfd768de38ec0c6dac55ded01c3c9108119439d729b17",
+    "aesir_engine/tests/test_turing_replay_plan.mojo": "737defd632638f3053ed3d701c9e4d457d4eacab75eb299ef4141e4eaeafa418",
+    "aesir_engine/tests/test_turing_checkpoint_replay.mojo": "eba9b36b35854bcd8d598a5c6760c0f2ae4262c49f93eaecc74b1ab0ec7d0d93",
+    "scripts/check_turing_checkpoint_replay.py": "e39fb8f00a7dad881757f3808d819a04fd246330a84be78f7426a4d6cef61135",
+    "scripts/test_check_turing_checkpoint_replay.py": "0431022328454b9534d155fce2c8da23a90ed6a0c914fc91278c3ee4f240501b"
+  },
+  "limits": "Owning-process/context in-memory plan only. Actual pending native choice has not entered KV. No persisted format, context recreation, physical GPU-fault repair, production32/concurrency/provider score. First pure compilation failed an Int-to-UInt64 shift operand; source/log retained and typed correction passes. Portable labels preserve actual private raw receipt hashes outside Git."
+}

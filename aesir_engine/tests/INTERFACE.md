@@ -509,3 +509,16 @@ Fresh own replay compares all vector bits, choices and state, continuing the
 first round's recorded IDs. Pinned snapshots cap32833536bytes per case, no extra
 device workspace. Read ../../docs/NATIVE_TURING_DECODE_QUALITY.md; no throughput/
 provider score, free-running matrix, restoration or production32 admission.
+
+
+FixtureReplayPlan owns copied nonempty committed IDs/1/four/32 counts, context/
+vocabulary, actual allocation identities, pending choice, config/draws and FNV64
+mutation seal. admit revalidates every field/value and owner/window before reset.
+Native mode0 rejects32; matrix mode1 permits it. Pure registered tests have no GPU
+allocation. turing_checkpoint_replay.restore preflights paired idle/healthy/control
+state and actual canonical native/fixture spans, then resets/replays exact counts
+without sampling, synchronizes/verifies exact IDs/history/position and restores
+draws. Unexpected replay exceptions poison reuse. test_turing_checkpoint_replay
+exports full before/after vectors/states/guards and12 pre-reset damaged-plan
+refusals. Read ../../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md; same owning context
+only, no new persisted schema, process recovery, runtime32 or speed score.

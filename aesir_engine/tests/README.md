@@ -3,7 +3,7 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
-- **`run_all.mojo`:** Master orchestrator registering 189 executable named cases
+- **`run_all.mojo`:** Master orchestrator registering 190 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,
   `test_gemma4_quant_parity.mojo`, and `inspect_gemma4.mojo` are opt-in physical
@@ -53,7 +53,7 @@ was verified to exit 1; restoring it returned the focused test and master suite
 to exit 0.
 
 The runner catches errors only at each named case boundary, records the failure,
-and continues with later cases. After all 190 reportable cases, it prints unique
+and continues with later cases. After all 191 reportable cases, it prints unique
 `[SUMMARY]` keys and raises if any case failed or the expected total is wrong.
 The RAG external-fixture boundary is counted as one skip, and real model
 execution remains the opt-in test below.
@@ -61,10 +61,10 @@ execution remains the opt-in test below.
 A normal baseline run reports:
 
 ```text
-[SUMMARY] Passed: 189
+[SUMMARY] Passed: 190
 [SUMMARY] Failed: 0
 [SUMMARY] Skipped: 1
-[SUMMARY] Total: 190
+[SUMMARY] Total: 191
 [SUMMARY] Status: PASS
 ```
 
@@ -155,3 +155,15 @@ F32-bit replay, all committed IDs/state/draws and4352 fixture guards are require
 One-case pinned snapshots cap31.313MiB with no added device workspace. Read
 ../../docs/NATIVE_TURING_DECODE_QUALITY.md. Hosted compilation never proves GPU
 execution; bounded streaming CPU/native/sample/replay gates own acceptance.
+
+## Exact-boundary checkpoint replay
+
+The pure FixtureReplayPlan copies IDs/tiles and seals every policy/owner/value
+with a mutation checksum. A counted portable case checks mutation, foreign owner
+and hostile token/tile/policy/draw admission. turing_checkpoint_replay.restore
+preflights before explicit reset/GPU work, replays the recorded boundaries without
+sampling and restores validated draw state only after exact commit/synchronization.
+The owned physical collector compares every continuation F32 bit before/after
+reset for greedy/seeded public37-ID history, with12 mutation-free plan refusals.
+Read ../../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md. Same-context memory only;
+persisted formats/context recreation/runtime32 and provider gates remain open.

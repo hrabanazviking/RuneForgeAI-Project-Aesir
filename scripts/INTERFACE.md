@@ -167,3 +167,18 @@ exclusive complete/partial failure report. Exit0 requires every original .05/.00
 argmax gate plus actual sample equality and exact own replay. speed_scored=False
 always. Nine portable contracts are synthetic evidence validation only. Read
 ../docs/NATIVE_TURING_DECODE_QUALITY.md; no runtime/provider/restore promotion.
+
+## check_turing_checkpoint_replay.py
+
+accepted owns bounded no-follow SHA-pinned/duplicate/nonfinite rejecting decode
+JSON, requiring complete independent mode0 acceptance and unchanged budgets.
+parse uses Records with a smaller256MiB allowance and exact ordered policies/
+public checkpoint IDs/tile boundaries/pending/state/guards/12 refusals/eight
+continuation frames/full vectors/totals. case binds source choices, counts actual
+F32-bit differences including signed zero and retains every numeric/replay failure.
+CPUReference reuses pinned zero-GPU F32 inference on recorded native causal IDs.
+main hashes original/derived models and accepted report before/after, always closes
+the reference and preserves exclusive complete/partial failure reports. Exit0
+requires every unchanged independent/native budget, source/sample/state/exact own
+replay gate; all outcomes speed_scored=False. Nine synthetic portable contracts
+do not prove GPU work. Read ../docs/NATIVE_TURING_CHECKPOINT_REPLAY.md.

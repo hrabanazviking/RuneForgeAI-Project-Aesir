@@ -2848,3 +2848,22 @@ Normal binary stays f3442a1e and readiness stays ready/prefill4. No speed score,
 free-running matrix trajectory, general sampling equivalence, restoration or
 production32/provider promotion. Next preserve original execution boundaries
 across reset/restoration. Read operation/evidence and exact publication receipts.
+
+## 2026-10-02 — Sigrún: exact-boundary owning-context checkpoint replay
+
+Added a pure copied/checksummed token/tile/policy/draw/pending/owner plan and a
+preflighted test-only reset/replay gateway. It preserves original four/32/four/
+scalar boundaries, applies no sampling during KV replay and restores draw state
+after owning-stream synchronization/exact commits. Foreign/damaged plans refuse
+before reset/GPU work; unexpected replay failures poison reuse. Master190 passes/
+one skip, with mutation/owner/geometry/token/tile/policy/draw admission coverage.
+A physical public37 plus eight-scalar checkpoint compares four greedy/seeded
+continuation predictions before/after: all1026048 logits per mode pass independent
+budgets/source/sample binding and actual own F32 bits;12 damaged-plan refusals and
+4352 guards pass. Nine streaming contracts include signed zero/true bit counts,
+source/model binding and complete failures. sm75/sm89 build before capture, CPU
+oracle afterward; initial typed-shift compiler failure/source remains. Normal
+binary stays f3442a1e, ready/prefill4. Same-process/context memory only; no persisted
+schema/context recreation/long-history/runtime32/provider promotion or time score.
+Next scope bounded batched causal attention/launch reduction under exact existing
+vectors before broader runtime admission. Read operation/evidence/publication.

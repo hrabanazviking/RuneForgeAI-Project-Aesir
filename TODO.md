@@ -78,6 +78,13 @@
   complete committed IDs/state/draws and4352 guards pass. Bounded streaming
   validation retains all metrics without a speed score. Next separately preserve
   execution boundaries across restoration before production32/provider admission.
+- [x] SPD-01/02 owning-context checkpoint replay: copied/sealed exact tile/ID/
+  policy/draw/pending/owner plans preflight before reset/GPU. Four continuations
+  per greedy/seeded45-ID checkpoint pass1026048 logits per mode, unchanged
+  independent/native/source/sample gates and actual own F32 bits. Twelve damaged
+  plans refuse without mutation;4352 guards pass. Master190 passes/one skip.
+  In-memory same-context only; persisted/long-history/runtime/provider gates open.
+  Next scope bounded batched causal attention/launch reduction under exact vectors.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
