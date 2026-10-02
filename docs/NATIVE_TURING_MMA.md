@@ -1,7 +1,7 @@
 # Physical Turing MMA prerequisite
 
-This optional probe exercises locked Mojo1.0.0/MAX26.5.0 public MMA on the
-observed RTX2060 Max-Q sm_75. It loads no weights and changes no inference
+This optional probe exercises locked Mojo 1.0.0/MAX 26.5.0 public MMA on the
+observed RTX 2060 Max-Q sm_75. It loads no weights and changes no inference
 dispatch. Real packed-weight precision, full-model quality and speed gates
 remain open. Compilation alone does not prove physical execution.
 
@@ -13,16 +13,16 @@ same public operation. Inactive tails branch uniformly by warp. No software
 substitution exists. core/turing_mma_probe.mojo owns checked output-span/count/
 block admission and the optional target, called only by test_turing_mma.mojo.
 
-Pinned stdlib RTX2060 uses +ptx63,+sm_75. Its public MMA build failed LLVM
+Pinned stdlib RTX 2060 uses +ptx63,+sm_75. Its public MMA build failed LLVM
 instruction selection. A diagnostic assembly experiment compiled but CUDA JIT
-rejected it; installed ptxas rejected the emitted PTX6.3 because this shape
+rejected it; installed ptxas rejected the emitted PTX 6.3 because this shape
 needs6.5. Final code retains the public MMA API and constructs a DeviceFunction
-with the matching RTX2060 target layout and +ptx65,+sm_75. No installed library,
+with the matching RTX 2060 target layout and +ptx65,+sm_75. No installed library,
 driver, dependency, permission, emitted PTX or production target is patched.
 Internal _TargetType and MLIR target schema are pinned compatibility surfaces;
 revisit them explicitly if the lock changes. All initial failures remain.
 
-Actual borrowed length, nonnegative offset, tiles1..64, steps1..16, cases0..5
+Actual borrowed length, nonnegative offset, tiles 1..64, steps1..16, cases 0..5
 and block32/128 reject before function construction/enqueue. Subtraction bounds
 the output span. Warp tails never touch inactive outputs. The type-checked
 DeviceFunction interface owns launch and context lifetime.
@@ -46,8 +46,8 @@ The native probe checks every value against Float64 equations before PASS.
 Actual F32 results export through Float64 text. The first default F32 formatter
 rounded correct1.01953125 to1.0195312 and failed independent admission; preserve
 that failure, do not loosen the budget. Independent stdlib integer numerator/256
-equations import no native code and check all50688 values. The108 ordered cases
-cover identity/five signed nonuniform cases, tiles1/3/7, blocks32/128 and chains
+equations import no native code and check all 50688 values. The108 ordered cases
+cover identity/five signed nonuniform cases, tiles 1/3/7, blocks 32/128 and chains
 1/3/7. Required totals include5400 guards and9 invalid metadata rejections.
 Deliberately exact binary inputs/results have a predeclared zero-error budget;
 this does not cover real F16 weight/activation conversion.

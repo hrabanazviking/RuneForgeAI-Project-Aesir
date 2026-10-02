@@ -53,3 +53,8 @@ Shared Turing staging uses optional16/32/64-row CTAs, all-thread barriers and
 bounded10560-byte padded F16 operand storage. All three primitive gates pass;
 rows64/batch32 earns up to1.92x shape-specific speed, but V and every batch4
 shape still lose. Preserve direct/reference paths and full-model/control gates.
+
+Wider optional64/128-column staging passes four complete primitive gates but
+loses to the prior32-column choice. Keep the32-column default, bounded41280-byte
+maximum and explicit geometry. Test ordinary F32 activation precision before
+full-model integration; binary-fraction inputs cannot establish that gate.

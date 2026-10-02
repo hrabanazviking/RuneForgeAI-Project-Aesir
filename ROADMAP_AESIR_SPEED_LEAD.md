@@ -269,8 +269,12 @@ The shared-staging refinement passes three row choices/all4,976,640 native value
 and6300 selected independent dots. Rows64/batch32 ratios are1.782/1.054/.771/
 1.797/1.920/1.876/1.524 across Q/K/V/output/gate/up/down. Every batch4 shape
 still loses. These are larger-batch primitive gains only; production remains
-strict. Next measure wider staging, then separately earn full-model precision,
-state/control/recovery and provider gates. Same operation manual owns reproduction.
+strict. Wider staging now passes all four choices,6,635,520 native values and8400
+selected independent dots, but its best batch32 ratio1.304 is below the prior
+32-column session's1.920. This is a measured rejection, with all2240 timings
+retained. Keep32-column staging and next gate ordinary F32 activation precision,
+then separately earn full-model/state/control/recovery and provider gates.
+Same operation manual owns reproduction; no hardware cause is inferred.
 
 Confirm that the locked Mojo/MAX toolchain can compile and physically execute an
 appropriate sm_75 matrix primitive. Start with a minimal real matrix smoke test,

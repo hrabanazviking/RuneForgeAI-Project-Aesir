@@ -97,3 +97,9 @@ versus selected-independent coverage and retained speed rejection.
 MODE,turing_mma_staged_f16_f32,rows admits only16/32/64 with declared CTA/output/
 staged-input geometry semantics. All prior complete/budget/model gates remain;
 mixed/duplicate/late/unsupported mode metadata rejects. Nine portable tests pass.
+
+MODE,turing_mma_staged_wide_f16_f32,rows,columns admits only rows32/64 and
+columns64/128 with shared bytes<=49152. Ten portable contracts preserve legacy
+32-column staging and reject unsupported/mixed/duplicate/late geometry. Reports
+distinguish eight output-token columns from actual staged-input width. No budget,
+model hash, complete-count or output-coverage gate is relaxed.

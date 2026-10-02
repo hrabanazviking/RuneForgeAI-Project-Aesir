@@ -100,6 +100,21 @@ class Contracts(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.parse(fixture().replace("SYNTHETIC,144,0",marker+"\nSYNTHETIC,144,0"))
 
+    def test_wide_geometry_bounds_and_legacy_stage(self):
+        for rows in (32,64):
+            for columns in (64,128):
+                marker = f"MODE,turing_mma_staged_wide_f16_f32,{rows},{columns}"
+                c = self.parse(fixture().replace("SYNTHETIC,144,0",marker+"\nSYNTHETIC,144,0"))[0]
+                self.assertEqual(c["tile"],(rows,8))
+                self.assertEqual(c["staged_input_columns"],columns)
+        for marker in ("MODE,turing_mma_staged_wide_f16_f32,16,128",
+                       "MODE,turing_mma_staged_wide_f16_f32,64,32",
+                       "MODE,turing_mma_staged_wide_f16_f32,128,128",
+                       "MODE,turing_mma_staged_wide_f16_f32,64,256",
+                       "MODE,turing_mma_staged_wide_f16_f32,32,128\nMODE,turing_mma_staged_f16_f32,32"):
+            with self.assertRaises(ValueError):
+                self.parse(fixture().replace("SYNTHETIC,144,0",marker+"\nSYNTHETIC,144,0"))
+
 
 if __name__ == "__main__":
     unittest.main()

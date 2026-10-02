@@ -1,7 +1,7 @@
 # Optional original packed-weight Turing matrix candidate
 
-The physical public m16n8k8 prerequisite passes on locked Mojo1.0.0/MAX26.5.0
-and RTX2060 Max-Q sm_75. This slice applies it to original Q4_K/Q5_K/Q6_K bytes,
+The physical public m16n8k8 prerequisite passes on locked Mojo 1.0.0/MAX 26.5.0
+and RTX 2060 Max-Q sm_75. This slice applies it to original Q4_K/Q5_K/Q6_K bytes,
 with bounded spans and no full F16 model copy. It passes the fixed primitive
 precision gate but loses every measured speed case, so inference is unchanged.
 
@@ -22,9 +22,9 @@ scaled per-value<=0.002 and normalized RMS<=0.0002; they are primitive budgets,
 not exact scalar parity or a full-model quality declaration.
 
 The candidate reuses matrix span admission for actual weight/activation lengths,
-columns256..14336 aligned256, rows1..128256, batch4/8/16/32, token count1..batch,
+columns 256..14336 aligned256, rows 1..128256, batch 4/8/16/32, token count1..batch,
 base/offset/stride bounds and disjoint input/output spans. Products are bounded
-before enqueue. Only this optional DeviceFunction uses the proved sm_75/PTX6.5
+before enqueue. Only this optional DeviceFunction uses the proved sm_75/PTX 6.5
 target. No installed-library, driver, dependency or generated-PTX patch. No
 additional device workspace is allocated by the candidate. Scalar/block/four
 references and production prefill/control/recovery policy stay available.
@@ -35,7 +35,18 @@ Use the prepared frozen environment, physical sm_75 device and new private
 artifact paths outside Git. Resolve the original model bytes/hash explicitly.
 Finish all host compilation and other owned GPU work before scored capture:
 
+Set ARTIFACTS to a new private directory outside the checkout, MODEL to the
+explicit original GGUF blob, MODEL_SHA to its verified lowercase SHA-256 and
+ORACLE_PYTHON to a prepared interpreter with exactly gguf0.19.0/NumPy2.4.4.
+These are test artifacts/dependencies, not production model conversion. The
+checks below stop on unset inputs. JSON outputs are exclusive, so choose new
+names for every repeat; never replace failed evidence.
+
 ```bash
+: "${ARTIFACTS:?set a new private artifact directory outside Git}"
+: "${MODEL:?set the original GGUF path}"
+: "${MODEL_SHA:?set its verified SHA-256}"
+: "${ORACLE_PYTHON:?set the prepared independent oracle interpreter}"
 pixi run --frozen --no-install --offline mojo build -I aesir_engine \
   --target-accelerator sm_75 aesir_engine/tests/test_packed_turing_matrix.mojo \
   -o "$ARTIFACTS/packed-turing-probe"
@@ -49,9 +60,9 @@ python3 scripts/test_check_packed_matrix.py
 
 The test reuses the existing physical harness through explicit turing=True;
 existing SIMT defaults are unchanged. All 144 synthetic cases exercise three
-formats, columns256/512/3072/8192, rows1/7/33 and batches4/8/16/32 with token
+formats, columns 256/512/3072/8192, rows 1/7/33 and batches4/8/16/32 with token
 tails. Every input and unowned span remains unchanged. Twelve malformed spans
-reject. Real layer-zero Q/K/V/output/FFN gate/up/down shapes produce all1,658,880
+reject. Real layer-zero Q/K/V/output/FFN gate/up/down shapes produce all 1,658,880
 native-reference output pairs. The original strict3B model exercises Q4_K and
 Q6_K real tensors; Q5_K coverage here is synthetic. The optional independent
 gguf0.19.0/NumPy2.4.4 oracle checks five selected rows per tensor/batch, totaling
@@ -70,7 +81,7 @@ the new probe and existing SIMT probes without claiming physical execution.
 ## Observed result and acceptance boundary
 
 All native outputs, selected independent dots, synthetic tails and guards pass.
-Worst selected independent scaled/RMS errors are approximately1.171e-5/5.077e-6.
+Worst selected independent scaled/RMS errors are approximately 1.171e-5/5.077e-6.
 All28 actual shape/batch cases lose. Ratios are existing four-token work divided
 by this candidate; below1 means slower:
 
@@ -105,11 +116,11 @@ Exact pushed revision and CI are recorded in publication receipts.
 The separately scoped staged candidate retains the direct implementation and
 all references. It decodes original packed_block_group values in coalesced
 32-column lanes, stages F16 high/residual weight rows and F16 input rows with
-pitch33, then reuses these operands in public m16n8k8. CTA row tiles16/32/64 use
+pitch 33, then reuses these operands in public m16n8k8. CTA row tiles 16/32/64 use
 one/two/four warps, each owning16 rows and iterating8-token output groups. Every
 thread takes both barriers per section; inactive rows/tokens store zeros and
 unowned outputs remain untouched. Shared bytes=(2*rows+batch)*33*2, at most10560
-bytes for64 rows/batch32. There is no additional global device workspace.
+bytes for 64 rows/batch 32. There is no additional global device workspace.
 
 After all compilation ends, repeat this probe for each ROW_TILE=16/32/64 and
 use the same complete checker/oracle command above, with new artifact paths:
@@ -133,17 +144,66 @@ All three configurations pass unchanged budgets:4,976,640 complete native values
 1680 paired timing records. Each capture uses the same warmup, input formula,
 original bytes, alternating order and full-output gates, with compilation idle.
 
-| CTA rows | Shared bytes at batch32 | Best batch4 ratio | Best batch32 ratio |
+| CTA rows | Shared bytes at batch 32 | Best batch 4 ratio | Best batch 32 ratio |
 |---|---:|---:|---:|
 | 16 | 4224 | .318 | .860 |
 | 32 | 6336 | .328 | 1.506 |
 | 64 | 10560 | .294 | 1.920 |
 
 Best means the best of seven physical tensor shapes, not a whole-model score.
-Every batch4 shape still loses. At rows64/batch32, Q/K/V/output/gate/up/down
+Every batch 4 shape still loses. At rows 64/batch 32, Q/K/V/output/gate/up/down
 ratios are1.782/1.054/.771/1.797/1.920/1.876/1.524. V still loses and original
 batch-four control remains default. The32/64-row candidates earn shape-specific
 larger-batch primitive gains only. No full-model activation quality, cancellation/
 state integration or provider lead is established. Complete samples and raw hashes
 are retained in the staging evidence. Next measure wider input staging while
 preserving budgets; do not assume barrier/register/occupancy causes from ratios.
+
+## Wider staged-input experiment
+
+The optional tile_columns parameter defaults to 32. Four new explicit choices
+combine CTA rows 32/64 with input columns 64/128; rows 16 retains only width 32.
+Padded pitch is columns+1. Shared bytes=(2*rows+batch)*(columns+1)*2 must remain
+at most 49152; the largest exercised choice uses 41280 bytes. Every coalesced
+32-column subgroup initializes high/residual weights and inputs before the
+section barrier, then public eight-column MMA steps consume them in order.
+The second barrier precedes reuse. No additional global workspace is allocated.
+
+Set ROW_TILE and INPUT_COLUMNS to one of these four choices, compile once,
+finish all compilation, then capture and independently check each separately:
+
+```bash
+pixi run --frozen --no-install --offline mojo build -I aesir_engine \
+  --target-accelerator sm_75 aesir_engine/tests/test_turing_wide_staging.mojo \
+  -o "$ARTIFACTS/wide-turing-probe"
+timeout 300 "$ARTIFACTS/wide-turing-probe" "$MODEL" "$ROW_TILE" "$INPUT_COLUMNS" \
+  > "$ARTIFACTS/wide-$ROW_TILE-$INPUT_COLUMNS.csv" 2>&1
+"$ORACLE_PYTHON" scripts/check_packed_matrix.py \
+  "$ARTIFACTS/wide-$ROW_TILE-$INPUT_COLUMNS.csv" --model "$MODEL" \
+  --model-sha256 "$MODEL_SHA" \
+  --output "$ARTIFACTS/wide-$ROW_TILE-$INPUT_COLUMNS.json"
+```
+
+MODE,turing_mma_staged_wide_f16_f32,rows,columns declares actual input width
+separately from eight output-token columns. Ten portable contracts reject
+unsupported, mixed, duplicate and late identities and retain prior schemas.
+All four configurations pass unchanged budgets and complete gates: 6,635,520
+native values, 8400 selected independent dots, 576 synthetic tails, 48 invalid
+spans and 2240 paired timing records. GPU work is serialized after compilation;
+independent CPU oracles run afterward. Every sample is preserved.
+
+| CTA rows | Input columns | Shared bytes, batch 32 | Best batch 4 ratio | Best batch 32 ratio |
+|---|---:|---:|---:|---:|
+| 32 | 64 | 12480 | .249 | 1.188 |
+| 32 | 128 | 24768 | .232 | .803 |
+| 64 | 64 | 20800 | .209 | 1.304 |
+| 64 | 128 | 41280 | .148 | .941 |
+
+Best means best of seven shapes, and every batch 4 shape loses. Wider choices
+are worse than prior 32-column staging in these complete physical sessions.
+Keep width 32; larger shared tiles have earned no default or quality promotion.
+The measurements do not identify register, barrier or occupancy causes. Next
+gate ordinary F32 activation precision, then full-model logits, state/control,
+recovery and complete paired service speed. Binary-fraction primitive inputs
+are insufficient evidence for those gates.
+[Reviewed wider evidence](evidence/turing-wide-staging-2026-10-01/README.md).

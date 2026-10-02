@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-01",
+  "toolchain": "frozen Mojo1.0.0/MAX26.5.0; gguf0.19.0/NumPy2.4.4 test oracle",
+  "gpu": "NVIDIA GeForce RTX 2060 with Max-Q Design, 6144 MiB, 595.91.07, 7.5",
+  "configurations": [
+    [
+      32,
+      64
+    ],
+    [
+      32,
+      128
+    ],
+    [
+      64,
+      64
+    ],
+    [
+      64,
+      128
+    ]
+  ],
+  "warp_mma_shape": [
+    16,
+    8,
+    8
+  ],
+  "max_shared_bytes": 41280,
+  "precision_budgets": {
+    "scaled_per_value": 0.002,
+    "normalized_rms": 0.0002
+  },
+  "combined_counts": {
+    "native_outputs": 6635520,
+    "selected_independent_outputs": 8400,
+    "synthetic_cases": 576,
+    "invalid_spans": 48,
+    "paired_timing_records": 2240
+  },
+  "controlled_capture": "All compilation ended before final captures; owned GPU processes serialized32/64,32/128,64/64,64/128; CPU oracles run after all GPU work. Same original model/input/warmup/order and complete samples.",
+  "raw_files": {
+    "turing-wide-32-128-final.csv": {
+      "sha256": "ad462b5d63ff54ec9962475bc60a92be8849a3cfa25efe3529d21494185c131c",
+      "bytes": 63843800
+    },
+    "turing-wide-32-128-final.json": {
+      "sha256": "473e5fdda90931944e5799c7c34731816a1555cfbbbef4fb3140a7389b038cbc",
+      "bytes": 42350
+    },
+    "turing-wide-32-128-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-wide-32-128-process.json": {
+      "sha256": "2d614717f14220d55b80acc63bf6e8ae1b10cb07135732383bbaeae70b253877",
+      "bytes": 54
+    },
+    "turing-wide-32-64-final.csv": {
+      "sha256": "704821974e434736886d97e4542b646e11e13d6f3af637166ad946be60bbf2ce",
+      "bytes": 63843835
+    },
+    "turing-wide-32-64-final.json": {
+      "sha256": "3645a12e920731a5a0fe0aebf9e628a335042697ebac0b3788762c2ebd3db818",
+      "bytes": 42355
+    },
+    "turing-wide-32-64-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-wide-32-64-process.json": {
+      "sha256": "032859e326ff5ba601c2391f34ac3d450a77f9b56ea3b8ca66b3693518e5512e",
+      "bytes": 54
+    },
+    "turing-wide-64-128-final.csv": {
+      "sha256": "721cea74c7657493eaf6805c8d885dd2ea6ca42272fe57e67bd8915388797131",
+      "bytes": 63843795
+    },
+    "turing-wide-64-128-final.json": {
+      "sha256": "4a3fa670c4d150485d4c72f9a5f1bb193d13fdc444483da9588ec5936793319a",
+      "bytes": 42300
+    },
+    "turing-wide-64-128-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-wide-64-128-process.json": {
+      "sha256": "76ec7bd2d0e687d45c9455b34ef563c42c40097ba9ced120e32930014ce58de4",
+      "bytes": 54
+    },
+    "turing-wide-64-64-final.csv": {
+      "sha256": "27838b26847f0c4d7e9da60eec50fd30cf0b0b99131740b76c80e8fdfcfa5405",
+      "bytes": 63843803
+    },
+    "turing-wide-64-64-final.json": {
+      "sha256": "aa60b89c68b6a9500565d361fbbb37bb8ef3576bb883e70cf4a43accc8944241",
+      "bytes": 42363
+    },
+    "turing-wide-64-64-oracle.txt": {
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7",
+      "bytes": 32
+    },
+    "turing-wide-64-64-process.json": {
+      "sha256": "50a7f90245a34f6c33a681f8bbb86cd28d1e1102f66306de78656b2d696f624e",
+      "bytes": 54
+    },
+    "turing-wide-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-wide-compat32-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-wide-compat32-compile": {
+      "sha256": "112ff9d86d7973f38cea35ef0df957f04e74ba30900f8bb265258ed8486a2dbc",
+      "bytes": 7698944
+    },
+    "turing-wide-probe": {
+      "sha256": "7f74694dcfb91e70598182ca4205c6292d55666f059b4be4d14c702a1d9534f4",
+      "bytes": 9898504
+    },
+    "turing-wide-production-rebuild.txt": {
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b",
+      "bytes": 100
+    },
+    "turing-wide-sm89-build.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "turing-wide-sm89-compile": {
+      "sha256": "1c0f3476492f2bdd6fed525900643d61145cfc647ea7fbbcc8b2ae4018d4fc1c",
+      "bytes": 9898504
+    }
+  },
+  "sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "33f976208d5eef2090ec5783f19be5535d7d59d369101f412ae55033bef2215f",
+    "aesir_engine/tests/test_turing_wide_staging.mojo": "efb54b308d0a63675e9338d658771a7dfda18e58fb6867aee3f505bac2b25788",
+    "aesir_engine/tests/test_packed_matrix.mojo": "fececb8466f386265114bf56bfe402dfebc5b364d20e3d55c059cb16a15958fd",
+    "scripts/check_packed_matrix.py": "6302cd82245968445344a910c98549ca44e78dd6ac6e51915488f508ea4ce8d5",
+    "scripts/test_check_packed_matrix.py": "3e65a41745c2a129140f5c816d6b139457c098008e22db2ad8bb8a15930d13bb"
+  },
+  "production_binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "authenticated_health_status": 200,
+  "limits": "All batch4 cases lose; wider choices worse than earlier32-column captures. No default, full-model activation quality/control/recovery or provider lead."
+}

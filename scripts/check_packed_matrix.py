@@ -40,6 +40,7 @@ def parse(path):
     tile_seen = False
     candidate = "simt_shared"
     mode_seen = False
+    staged_input_columns = None
     snapshot_sha256 = hashlib.sha256(text.encode("utf-8")).hexdigest()
     for row in csv.reader(io.StringIO(text)):
         if row and row[0].startswith("[CUDA]") and not synthetic:
@@ -56,7 +57,12 @@ def parse(path):
             staged_rows = int(row[2])
             if staged_rows not in (16, 32, 64):
                 raise ValueError("Unsupported staged Turing rows")
-            candidate = row[1]; mode_seen = True; tile = (staged_rows, 8)
+            candidate = row[1]; mode_seen = True; tile = (staged_rows, 8); staged_input_columns = 32
+        elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_wide_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            staged_rows, staged_columns = map(int, row[2:])
+            if staged_rows not in (32,64) or staged_columns not in (64,128) or (2*staged_rows+32)*(staged_columns+1)*2 > 49152:
+                raise ValueError("Unsupported wide Turing geometry")
+            candidate = row[1]; mode_seen = True; tile = (staged_rows,8); staged_input_columns = staged_columns
         elif tag == "TILE" and len(row) == 3 and not synthetic and not tile_seen and not mode_seen:
             tile = tuple(map(int, row[1:]))
             if tile[0] not in (8, 16, 32) or tile[1] not in (32, 64, 128) or (tile[0] + 32) * (tile[1] + 1) * 4 > 49152:
@@ -75,6 +81,7 @@ def parse(path):
             cases.append({"index": index, "name": row[2], "kind": kind, "columns": columns,
                           "rows": rows, "batch": batch, "offset": offset, "tile": tile,
                           "candidate": candidate, "csv_sha256": snapshot_sha256,
+                          "staged_input_columns": staged_input_columns,
                           "reference": array("d"), "actual": array("d"), "timings": {}, "guards": None})
         elif tag == "VALUE" and len(row) == 6 and cases:
             c = cases[-1]; index, token, r = map(int, row[1:4])
@@ -175,7 +182,7 @@ def main():
                           candidate=cases[0]["candidate"],
                           tile_rows_meaning="CTA weight rows" if cases[0]["candidate"] != "turing_mma_split_weight_f16_f32" else "warp weight rows",
                           tile_columns_meaning="output token columns" if cases[0]["candidate"] != "simt_shared" else "staged input columns",
-                          staged_input_columns=32 if cases[0]["candidate"] == "turing_mma_staged_f16_f32" else None,
+                          staged_input_columns=cases[0]["staged_input_columns"],
                           model_sha256=a.model_sha256, csv_sha256=cases[0]["csv_sha256"], oracle=oracle,
                           native_outputs=sum(len(c["actual"]) for c in cases), independent_outputs=sum(r["outputs"] for r in oracle),
                           limits="Primitive evidence only. Five selected real rows per tensor/batch; full native-reference output coverage. Host-monotonic launch/synchronize timing, warmed weights, one physical session. No model-level quality/speed or default dispatch change.")

@@ -68,3 +68,8 @@ TILE metadata cannot mix; original SIMT evidence remains accepted.
 
 Staged Turing MODE additionally requires an admitted CTA row count. Keep fixed
 budgets and distinguish larger-batch primitive gains from production speed.
+
+Wide staged MODE additionally records explicit64/128 input columns and admits
+only32/64 CTA rows. Preserve legacy defaults and rejection semantics; ten portable
+contracts cover configuration identity. Wider physical timings do not beat the
+prior32-column result. Arbitrary full-model activation quality remains open.

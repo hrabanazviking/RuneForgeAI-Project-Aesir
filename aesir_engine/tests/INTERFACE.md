@@ -444,3 +444,10 @@ staged_rows with original SIMT/direct defaults unchanged and conflicting selecto
 combinations rejected at compile time. Each repeats every synthetic/span/native/
 selected-independent/timing gate; combined native count is4,976,640. All budgets
 pass; speed gains are larger-batch primitive evidence only. MODE records rows.
+
+test_turing_wide_staging.mojo owns only rows32/64 with input columns64/128.
+staged_columns defaults32; an unused nondefault selector is rejected at compile
+time. Four configurations repeat576 synthetic tails,48 rejected spans,6,635,520
+full native values,8400 selected independent dots and2240 paired timing records.
+All budgets pass, wider timing loses to prior32-column staging, and no default
+is promoted. MODE records separate CTA rows and staged-input columns.

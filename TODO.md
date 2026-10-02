@@ -35,7 +35,11 @@
 - [x] SPD-01/02 shared Turing staging: three CTA choices pass4,976,640 native
   values/6300 selected independent dots and all guards. Rows64/batch32 earns up
   to1.92x primitive speed; V and every batch4 shape still lose. No promotion.
-  Next measure wider staging before full-model/control integration.
+  Wider staging evidence follows; full-model/control integration stays open.
+- [x] SPD-01/02 wider shared-input staging: all four configurations pass6,635,520
+  native values/8400 selected independent dots and all guards. Wider timing is
+  worse than prior32-column staging; retain its default and complete samples.
+  Next gate ordinary F32 activation precision before full-model integration.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

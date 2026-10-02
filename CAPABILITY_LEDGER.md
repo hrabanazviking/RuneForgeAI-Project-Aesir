@@ -1350,6 +1350,12 @@ and circular self-parity transforms were removed.
   shape-specific gains. V and every batch4 shape still lose. Shared bytes<=10560;
   no global workspace or production dispatch. Same operation manual/evidence
   retains every1680 sample; no full-model/control/provider promotion.
+- **Wider Turing refinement (2026-10-01):** Four explicit32/64-row and64/128-input
+  choices pass all6,635,520 native values,8400 selected independent dots,576
+  synthetic tails and48 rejected spans. All2240 timing records remain. Shared
+  bytes<=41280; wider choices underperform prior32-column staging. Default remains
+  unchanged. [Evidence](docs/evidence/turing-wide-staging-2026-10-01/README.md).
+  Ordinary F32 activation and full-model/control/provider quality gates stay open.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

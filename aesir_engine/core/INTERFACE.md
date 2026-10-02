@@ -1121,3 +1121,10 @@ both barriers, including tails; all consumed cells initialize and inactive outpu
 do not store. Each warp owns16x8 outputs and retains per-token F32 accumulators.
 No global workspace or normal inference dispatch. The same admission/budgets
 apply; batch4 still loses and only larger-batch shapes earn primitive gains.
+
+The optional fourth template parameter tile_columns retains default32 and admits
+64/128 only for CTA rows32/64. Padded pitch is columns+1; shared bytes are
+(2*rows+batch)*(columns+1)*2<=49152, at most41280 in the exercised wider probe.
+Coalesced32-column subgroups initialize every consumed cell before both barriers.
+All four wider choices pass unchanged gates but underperform prior32-column
+staging. Geometry alone never selects production dispatch or expands quality scope.

@@ -76,19 +76,22 @@ def project_turing[kind: Int,batch: Int](ctx: DeviceContext,
         Int64(src),Int64(dst),Int64(stride),Int64(tokens),grid_dim=(tiles+3)//4,block_dim=128)
 
 
-def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int](w: Bytes,
+def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int = 32](w: Bytes,
     a: ProjectionFloats,base_arg: Int64,columns_arg: Int64,rows_arg: Int64,
     src_arg: Int64,dst_arg: Int64,stride_arg: Int64,tokens_arg: Int64):
     comptime assert kind == 12 or kind == 13 or kind == 14
     comptime assert batch == 4 or batch == 8 or batch == 16 or batch == 32
     comptime assert tile_rows == 16 or tile_rows == 32 or tile_rows == 64
-    comptime assert (2*tile_rows+batch)*33*2 <= 10560
+    comptime assert tile_columns == 32 or tile_columns == 64 or tile_columns == 128
+    comptime assert tile_rows != 16 or tile_columns == 32
+    comptime assert (2*tile_rows+batch)*(tile_columns+1)*2 <= 49152
+    comptime pitch = tile_columns+1
     comptime warps = tile_rows//16
     comptime token_tiles = (batch+7)//8
     comptime block_bytes = 144 if kind == 12 else (176 if kind == 13 else 210)
-    var high = stack_allocation[tile_rows*33,Float16,address_space=AddressSpace.SHARED]()
-    var low = stack_allocation[tile_rows*33,Float16,address_space=AddressSpace.SHARED]()
-    var inputs = stack_allocation[batch*33,Float16,address_space=AddressSpace.SHARED]()
+    var high = stack_allocation[tile_rows*pitch,Float16,address_space=AddressSpace.SHARED]()
+    var low = stack_allocation[tile_rows*pitch,Float16,address_space=AddressSpace.SHARED]()
+    var inputs = stack_allocation[batch*pitch,Float16,address_space=AddressSpace.SHARED]()
     var tid = Int(thread_idx.x)
     var lane = tid%32
     var own_warp = tid//32
@@ -99,45 +102,47 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int](w: Bytes,
     var columns = Int(columns_arg)
     var totals = InlineArray[SIMD[DType.float32,4],token_tiles](fill=SIMD[DType.float32,4](0))
     for block in range(columns//256):
-        comptime for section in range(8):
+        comptime for section in range(256//tile_columns):
             # Coalesced original 32-column format decoding; every shared cell
             # consumed below is initialized, including inactive rows/tokens.
-            comptime for part in range(16):
-                var local_row = own_warp+part*warps
-                var row = first_row+local_row
-                var value: Float32 = 0
-                if row < rows:
-                    var p = Int(base_arg)+(row*(columns//256)+block)*block_bytes
-                    var d = w.unsafe_offset(p+(208 if kind==14 else 0)).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-                    var dmin: Float32 = 0
-                    comptime if kind != 14:
-                        dmin = w.unsafe_offset(p+2).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-                    value = packed_block_group[kind,section](w,p,lane,d,dmin)
-                var top = value.cast[DType.float16]()
-                high.unsafe_store(local_row*33+lane,top)
-                low.unsafe_store(local_row*33+lane,(value-top.cast[DType.float32]()).cast[DType.float16]())
-            comptime for part in range(batch//warps):
-                var token = own_warp+part*warps
-                var value: Float32 = 0
-                if token < Int(tokens_arg):
-                    value = a.unsafe_load(Int(src_arg)+token*Int(stride_arg)+block*256+section*32+lane)
-                inputs.unsafe_store(token*33+lane,value.cast[DType.float16]())
+            comptime for subgroup in range(tile_columns//32):
+                comptime source_group = section*(tile_columns//32)+subgroup
+                comptime for part in range(16):
+                    var local_row = own_warp+part*warps
+                    var row = first_row+local_row
+                    var value: Float32 = 0
+                    if row < rows:
+                        var p = Int(base_arg)+(row*(columns//256)+block)*block_bytes
+                        var d = w.unsafe_offset(p+(208 if kind==14 else 0)).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+                        var dmin: Float32 = 0
+                        comptime if kind != 14:
+                            dmin = w.unsafe_offset(p+2).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+                        value = packed_block_group[kind,source_group](w,p,lane,d,dmin)
+                    var top = value.cast[DType.float16]()
+                    high.unsafe_store(local_row*pitch+subgroup*32+lane,top)
+                    low.unsafe_store(local_row*pitch+subgroup*32+lane,(value-top.cast[DType.float32]()).cast[DType.float16]())
+                comptime for part in range(batch//warps):
+                    var token = own_warp+part*warps
+                    var value: Float32 = 0
+                    if token < Int(tokens_arg):
+                        value = a.unsafe_load(Int(src_arg)+token*Int(stride_arg)+block*256+source_group*32+lane)
+                    inputs.unsafe_store(token*pitch+subgroup*32+lane,value.cast[DType.float16]())
             barrier()
             comptime for token_tile in range(token_tiles):
-                comptime for step in range(4):
+                comptime for step in range(tile_columns//8):
                     var top = SIMD[DType.float16,4](0)
                     var residual = SIMD[DType.float16,4](0)
                     var activation = SIMD[DType.float16,2](0)
                     comptime for element in range(4):
                         var local_row = own_warp*16+group+element//2*8
-                        var position = local_row*33+step*8+member*2+element%2
+                        var position = local_row*pitch+step*8+member*2+element%2
                         top[element] = high.unsafe_load(position)
                         residual[element] = low.unsafe_load(position)
                     var token = token_tile*8+group
                     # Padding the four-token shape to eight remains warp safe.
                     if token < batch:
                         comptime for element in range(2):
-                            activation[element] = inputs.unsafe_load(token*33+step*8+member*2+element)
+                            activation[element] = inputs.unsafe_load(token*pitch+step*8+member*2+element)
                     var intermediate = SIMD[DType.float32,4](0)
                     var result = SIMD[DType.float32,4](0)
                     mma(intermediate,top,activation,totals[token_tile])
@@ -153,7 +158,7 @@ def staged_turing_kernel[kind: Int,batch: Int,tile_rows: Int](w: Bytes,
                 a.unsafe_store(Int(dst_arg)+token*Int(stride_arg)+row,totals[token_tile][element])
 
 
-def project_turing_staged[kind: Int,batch: Int,tile_rows: Int](ctx: DeviceContext,
+def project_turing_staged[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int = 32](ctx: DeviceContext,
     weights: DeviceBuffer[DType.uint8],activation: DeviceBuffer[DType.float32],
     base: Int,columns: Int,rows: Int,src: Int,dst: Int,stride: Int,tokens: Int) raises:
     """All-span admission before optional shared-stage launch; no global workspace."""
@@ -161,7 +166,7 @@ def project_turing_staged[kind: Int,batch: Int,tile_rows: Int](ctx: DeviceContex
     admit_matrix[kind,batch](len(weights),len(activation),base,columns,rows,src,dst,stride,tokens)
     var wp = Bytes(unsafe_from_address=Int(weights.unsafe_ptr()))
     var ap = ProjectionFloats(unsafe_from_address=Int(activation.unsafe_ptr()))
-    var function = DeviceFunction[staged_turing_kernel[kind,batch,tile_rows],
+    var function = DeviceFunction[staged_turing_kernel[kind,batch,tile_rows,tile_columns],
         TypeList.of[Bytes,ProjectionFloats,Int64,Int64,Int64,Int64,Int64,Int64,Int64](),
         target=turing_ptx65_target()](ctx)
     ctx.enqueue_function(function,wp,ap,Int64(base),Int64(columns),Int64(rows),

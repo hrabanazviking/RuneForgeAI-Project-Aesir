@@ -2722,3 +2722,16 @@ circular self-parity tests. All six reserved execution paths now reject before
 mutating caller output. These external formats remain unavailable until their
 authoritative tensor metadata and byte layouts are implemented and checked
 against real fixtures and independent runtimes.
+## 2026-10-01 — Sigrún: wider Turing staging measured rejection
+
+Added explicit64/128 staged-input widths for32/64 CTA rows while retaining32 as
+default. Shared storage is bounded41280 bytes; all consumed cells initialize and
+all threads take both barriers. All four configurations pass6,635,520 complete
+native values,8400 selected independent dots,576 synthetic tails,48 rejected
+spans and2240 paired timing records under unchanged budgets. Compilation ends
+before serialized captures; independent CPU oracles follow all GPU work. Ten
+portable contracts preserve legacy identity and fail closed. Wider timings are
+worse than the previous32-column capture: best batch32 ratio1.304 versus1.920.
+No hardware cause or model/provider lead follows. Production binary stays
+f3442a1e and the active service is checked separately. Next gate ordinary F32
+activation precision before full-model integration. Exact push/CI is separate.
