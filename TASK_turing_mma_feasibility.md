@@ -23,6 +23,14 @@ Its matching transitional register-pack helper stays isolated in this optional
 version-locked probe; no driver C ABI, dependency upgrade, software substitution
 or production dispatch. Preserve the original public-call source/build failure,
 verify emitted PTX and physically execute complete independent output checks.
+The assembly experiment compiled but device admission failed INVALID_PTX.
+Observed output is .version6.3, .targetsm_75; installed ptxas specifically rejects
+the instruction below6.5. Matching stdlib RTX2060 target source confirms +ptx63.
+Amendment before target implementation: prefer the original public mma binding
+with an isolated explicit sm_75 target retaining the matching documented layout
+and +ptx65 feature. MAX's enqueue target parameter and Modular's target-definition
+guide own this interface. Preserve all assembly/JIT failures, do not patch emitted
+PTX or installed libraries. The target override belongs only to this optional gate.
 Physically execute dynamic nonuniform/signed/identity matrices and accumulation
 chains, multiple warps and warp-uniform tails. Every output and guard must match
 independent CPU rational equations exactly for deliberately exact binary inputs.
