@@ -408,3 +408,14 @@ in its test-owned sockaddr, then verifies the bound address with getsockname.
 Production BifrostGate still requires an explicit port in 1..65535; constructor
 zero rejection, nonblocking setup and close semantics remain asserted. The test
 does not require the live native service's 18434 socket to be stopped.
+
+## Optional packed matrix primitive evidence
+
+test_packed_matrix.mojo owns 144 synthetic tail/guard cases, 12 invalid span
+rejections, 1,658,880 complete real native-reference values and 560 paired timing
+records across 28 cases. Mandatory final PASS marker bounds completion. It owns
+one strict 3B CUDA context; no live service changes. Timing excludes printing and
+allocation but includes actual launches/synchronize. check_packed_matrix.py uses
+gguf 0.19.0/NumPy 2.4.4 for 2100 selected independent real-weight Float64 dots. Six
+portable adversarial tests prove evidence rejection only. Hosted CI compiles the
+probe; physical execution is separately recorded. No model-level speed claim.

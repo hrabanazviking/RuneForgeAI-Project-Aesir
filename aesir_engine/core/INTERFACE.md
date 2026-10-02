@@ -1079,3 +1079,14 @@ tiles when admitted. Deadline/cancellation checks bound prefill to four-token
 boundaries; failure poison and interrupted-prefill reset remain required.
 llama_attention_tiled preserves chronological F32 accumulation with F16 values
 and guarded tails; original kernels remain. See docs/NATIVE_LONG_TOKENS.md.
+
+## Optional SPD-01 packed matrix candidate
+
+packed_matrix.mojo owns project_matrix[kind,batch] for 4/8/16/32-token SIMT tiles.
+It admits actual borrowed buffer spans, bounded shape/alignment, nonoverlapping
+input/output and token strides before enqueue. Fixed 32-row/32-column shared
+staging is at most 8448 bytes per block. Every thread participates in barriers.
+Column-chronological F32 accumulation has a predeclared bounded-error primitive
+contract; it is not exact warp parity. Existing format/projection owners remain.
+Only the physical opt-in probe calls it; default inference/control policy does
+not use it. Read docs/NATIVE_MATRIX_CANDIDATE.md from the project root.

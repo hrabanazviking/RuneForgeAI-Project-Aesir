@@ -31,3 +31,8 @@ a tile. Only synchronized tiles commit; failures poison reuse. Batch four defaul
 only to the exercised strict 3B profile. Preserve batch one and scalar references.
 Full native sequential/tiled logits are regression evidence, not an external
 whole-model oracle. Poll deadlines at at most four-token prefill boundaries.
+
+The optional packed_matrix candidate is physically exercised only by its probe.
+It is slower at batch4 and must not replace default projections. See the project
+root docs/NATIVE_MATRIX_CANDIDATE.md for predeclared budgets, bounded shared memory
+and selected independent real-weight coverage. Full-model integration stays open.

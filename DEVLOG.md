@@ -1,3 +1,19 @@
+## 2026-10-01 — Sigrún: first physically gated matrix candidate
+
+Added an optional bounded F32 SIMT packed matrix tile and physical probe, retaining
+all original scalar/block/four kernels. Real layer-zero Q/K/V/output/FFN shapes
+at batches4/8/16/32 pass 1,658,880 complete native-reference values and 2100 selected
+independent gguf0.19.0/NumPy2.4.4 Float64 dots under predeclared scaled0.002/RMS0.0002
+budgets.144 synthetic tails preserve inputs/guards;12 invalid spans reject before
+enqueue. All560 paired timing records and initial build/measurement artifacts remain.
+Six portable evidence tests pass. The first build's reserved-word failure is retained.
+
+Batch4 is slower on every tested shape; default inference is deliberately unchanged.
+Batch32 gives modest Q/output/FFN gains but K/V still lose. Continue shared-column
+staging/row tuning in the next slice before any full-model/control integration.
+CI compiles the optional probe and tests CSV gates without claiming GPU execution.
+Read docs/NATIVE_MATRIX_CANDIDATE.md and evidence; exact pushed CI is separate.
+
 ## 2026-10-01 — Sigrún: owned native CUDA timeline slice
 
 Added optional owned-process Nsight capture and a bounded read-only SQLite

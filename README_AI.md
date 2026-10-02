@@ -42,3 +42,7 @@ The wider BEST_IN_CLASS_GAMEPLAN.md program and current ledger retain authority.
 For actual owned CUDA timeline evidence, read docs/NATIVE_CUDA_TRACE.md. Preserve
 raw traces privately; profiled wall time and overlapping API duration are not
 service speed scores. The 2023 schema admission does not prove other versions.
+
+The optional shared packed matrix experiment is documented in
+docs/NATIVE_MATRIX_CANDIDATE.md. Do not connect the first slower batch-four
+candidate to default inference. Primitive evidence does not meet full-model gates.

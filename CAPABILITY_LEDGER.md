@@ -1321,6 +1321,12 @@ and circular self-parity transforms were removed.
   evidence. Split-package importer recovery needs no installation or permission
   changes. [Evidence](docs/evidence/native-cuda-trace-2026-10-01/README.md). This is
   instrumentation evidence, not faster compute or broad CUDA certification.
+- **Optional matrix primitive (2026-10-01):** Native shared-tile SIMT candidate
+  physically passes 1,658,880 complete real native-reference outputs, 2100 selected
+  independent Float64 dots and 144 synthetic tail cases under fixed primitive
+  budgets. Batch 4 is slower, so no normal inference dispatch is changed.
+  [Evidence](docs/evidence/packed-matrix-2026-10-01/README.md). Full-model matrix
+  integration and a general faster prefill capability remain unearned.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

@@ -63,3 +63,13 @@ races; query-only/authorizer/VM limits prohibit mutable or input-supplied SQL.
 API and GPU intervals overlap; uncovered time has no inferred cause. No automatic
 prefill/decode or per-layer attribution. See [the operator manual](../docs/NATIVE_CUDA_TRACE.md)
 for resource limits, exit codes, artifact privacy and exercised physical scope.
+
+## check_packed_matrix.py
+
+Optional test-only primitive oracle. parse requires bounded regular ordered CSV,
+actual CUDA marker, complete 28 cases/all values/guards/560 timings and final totals.
+errors applies predeclared scaled 0.002/normalized-RMS 0.0002 budgets. independent
+checks original model hash and independent GGUF descriptors/dequantized values
+for five selected rows per tensor/batch through gguf 0.19.0/NumPy 2.4.4. Exclusive
+JSON output retains failures. No production import, inference, model writes or
+whole-model quality/speed certification. See ../docs/NATIVE_MATRIX_CANDIDATE.md.

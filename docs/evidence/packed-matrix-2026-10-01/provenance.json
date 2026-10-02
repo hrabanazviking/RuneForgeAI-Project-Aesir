@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "original_model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "toolchain": "locked Mojo1.0.0/MAX26.5.0",
+  "physical": "RTX2060MaxQ/sm_75/Linux; separate native context512",
+  "independent": "gguf0.19.0/NumPy2.4.4 selected5 real rows/tensor/batch; Float64 dot",
+  "full_model_promoted": false,
+  "retained_failure": "First probe build failed because ref is a Mojo keyword; renamed before execution. First numerical/speed run retained.",
+  "artifacts": {
+    "matrix-original.csv": {
+      "bytes": 63841799,
+      "sha256": "e1c77d23fd6aacacf965c8f2874a0ecb0f318824c2952c2a8c228dc865d17279"
+    },
+    "matrix-original.json": {
+      "bytes": 42195,
+      "sha256": "49898201f77efd11915c071d19ca3ece4f4d9217b79228d0e3f50c45a110b655"
+    },
+    "matrix-final.csv": {
+      "bytes": 63841810,
+      "sha256": "2c67721e47341115e0573bcc9653d395e142760b7b445784c33996293fed6a96"
+    },
+    "matrix-final.json": {
+      "bytes": 42188,
+      "sha256": "f5129a93540043a5e7bbb143562eae3bf2ec35f84d3c04f14c415dd609c4bd78"
+    },
+    "matrix-probe-final": {
+      "bytes": 2365808,
+      "sha256": "5336f0ceb699c484a91dfb44eff9bc049add9bf2497002a5d0f63d3e3e2a38e5"
+    },
+    "matrix-build.txt": {
+      "bytes": 302,
+      "sha256": "b8807dbf14eedf13ff90b0d09be4edc95c8a4b76d5fcf203883cc18f5a6b87a0"
+    },
+    "matrix-build-v2.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "matrix-build-final.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "matrix-hosted-compile": {
+      "bytes": 2361656,
+      "sha256": "3e593829af54f448f9ad785e893abd286bf115251e6a4ea8e27967d8d62505c2"
+    }
+  }
+}

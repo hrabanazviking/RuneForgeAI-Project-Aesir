@@ -50,3 +50,7 @@ read-only check_cuda_trace.py. Read ../docs/NATIVE_CUDA_TRACE.md first: raw trac
 stay outside Git, profiler time is never a speed score, and only matching complete
 native replies plus actual admitted kernel/launch rows can pass. No live service
 attachment or privilege/dependency changes belong in this tool.
+
+The experimental packed matrix CSV oracle is check_packed_matrix.py. Read
+../docs/NATIVE_MATRIX_CANDIDATE.md for complete native-reference versus selected
+independent real-weight coverage. Primitive timing never earns a service lead.
