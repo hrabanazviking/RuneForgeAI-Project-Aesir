@@ -2,8 +2,9 @@
 
 Established 2026-10-01. Authorized by Volmarr's repeated implement/verify/push
 instruction. Mythic Engineering sequential roles; no new approval is needed.
-Current measurement trace slice is c34ebf4; exact CI is pending before this
-candidate's implementation. The production executable is f3442a1e, unchanged.
+Current measurement trace slice is c34ebf4, with portable-manual correction
+a76b7c9. Exact remote CI runs separately; repair any failures before a validated
+publication claim. Independent candidate work may proceed while remote builds run. The production executable is f3442a1e, unchanged.
 
 ## Problem, scope and outcome
 

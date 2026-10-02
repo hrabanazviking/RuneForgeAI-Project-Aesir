@@ -33,8 +33,8 @@ artifact directories; reports contain their SHA-256 hashes and sizes. Initial
 import/export and parser-admission failures are retained with hashes in
 retained-failures.json. Twenty-three portable parser/transcript/process ownership
 checks pass; provider14, numerical9 and repository/fixture gates also pass.
-Initial pushed CI passed executable/evidence tests but rejected a machine-local
-manual path. The manual is corrected to describe the installed relative component.
+Initial pushed CI passed executable/evidence tests but rejected a slash-separated prose label that matched the machine-local
+path hygiene pattern. The manual is corrected to describe the installed relative component.
 Exact corrected CI and publication receipt are recorded separately.
 
 Operation/resource/privacy/identity boundaries: [manual](../../NATIVE_CUDA_TRACE.md).
