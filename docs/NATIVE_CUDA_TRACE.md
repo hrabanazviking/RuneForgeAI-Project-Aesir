@@ -35,14 +35,14 @@ loading, inference and profiler teardown; **profiled time is not a speed score**
 CPU sampling/context-switch tracing is disabled. CUDA trace alone needs no GPU
 performance counters or privilege changes. For split Linux packages, Nsight can
 capture `.qdstrm` yet fail to locate its installed host importer. The tool uses
-the matching `/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter` when present;
+the matching installed `host-linux-x64/QdstrmImporter` when present;
 `--importer` provides an explicit installed path. Its version must match exactly.
 No overwrite flag is used. Raw capture and the original importer failure remain.
 
 ## Artifacts and interpretation
 
 The new directory is private (0700). Children inherit an environment allowlist
-for runtime/home/cache/CUDA paths, not arbitrary credential variables. Full raw
+for runtime, user home, cache and CUDA paths, not arbitrary credential variables. Full raw
 `.qdstrm`, `.nsys-rep`, SQLite export, complete transcripts, importer/export logs
 and `report.json` stay local. **Review metadata before sharing raw traces**: the
 profiler records machine/process information. Public summaries contain only

@@ -9,7 +9,10 @@ split-package launcher failure without installation/privilege changes; initial
 failure artifacts remain. Twenty-three portable identity/schema/interval/correlation,
 transcript and owned-child tests pass, alongside related measurement and hygiene
 checks. Native executable/compute and supervised service remain unchanged.
-SPD-00 is still partial for semantic stage/cache/residency and broader quality.
+First pushed CI caught a machine-local absolute path in the manual after all
+executable/evidence checks passed. The portable wording is corrected; retain the
+failed run and verify corrected exact CI. SPD-00 is still partial for semantic
+stage/cache/residency and broader quality.
 See docs/NATIVE_CUDA_TRACE.md and public evidence; exact publication/CI receipt
 is separate. Continue to a physically gated packed matrix-prefill candidate.
 
