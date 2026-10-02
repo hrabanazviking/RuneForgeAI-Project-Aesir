@@ -45,3 +45,21 @@ derivation provenance. Each real reference is closed even after comparison error
 Exit 0 requires complete physical data and every independent numerical case to
 pass unchanged budgets. Exit 1 preserves failure/error evidence and never certifies
 numerical support or speed. Unsupported reference versions fail before evaluation.
+
+## profile_native_cuda.py / check_cuda_trace.py
+
+The optional capture wrapper owns a separate strict-3B CLI process, exclusive
+private artifact directory, explicit prompt/policy and bounded child lifetime.
+It checks the launcher/catalog/model digest, observed VRAM and installed tool
+identity before GPU operations. Matching complete profiled/unprofiled replies
+gate non-mutation. A matching installed importer handles split-package location
+failure. No attach, unrelated service stop, installation or permission changes.
+
+`analyze` owns read-only bounded Nsight 2023 SQLite admission. It accepts concrete
+tables, one actual CUDA process/device and unique successful launch/kernel
+correlations, validates timestamps and emits GPU interval unions and recorded
+kernel/API/copy groups. Linux descriptor paths close final-file replacement
+races; query-only/authorizer/VM limits prohibit mutable or input-supplied SQL.
+API and GPU intervals overlap; uncovered time has no inferred cause. No automatic
+prefill/decode or per-layer attribution. See [the operator manual](../docs/NATIVE_CUDA_TRACE.md)
+for resource limits, exit codes, artifact privacy and exercised physical scope.

@@ -1,7 +1,7 @@
 # AESIR speed-lead roadmap
 
 Established 2026-10-01. Owner: native compute, runtime and measurement domains.
-Status: **active plan; first SPD-00 measurement slice implemented, full gates open**.
+Status: **active plan; SPD-00 measurement and native timeline slices implemented, full gates open**.
 
 Volmarr's objective is to make AESIR substantially faster than Ollama while
 preserving useful answers, stable operation and the second-brain integrations.
@@ -19,6 +19,11 @@ primitives. The first implemented SPD-00 slice is documented in
 [SPEED_MEASUREMENT.md](docs/SPEED_MEASUREMENT.md): portable provider controls,
 checked physical stage/traffic measurements and four independent 3B logit vectors.
 It changes measurement, not inference kernels, and earns no general speed lead.
+The next [owned CUDA timeline slice](docs/NATIVE_CUDA_TRACE.md) physically admits
+30224/450082 matching kernel launches for short/long prompts. Projections dominate
+measured GPU work; long scores/attention are secondary. Raw trace/process overhead
+is kept separate from service scores. Semantic stage, cache/residency and broad
+quality/second-session gates remain open.
 
 ## 1. Measured starting point
 

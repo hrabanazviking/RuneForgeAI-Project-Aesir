@@ -1,3 +1,18 @@
+## 2026-10-01 — Sigrún: owned native CUDA timeline slice
+
+Added optional owned-process Nsight capture and a bounded read-only SQLite
+analyzer. Two actual short/long strict-3B cases match complete unprofiled replies
+and counts, with 30224/450082 uniquely matched successful kernel launches. Packed
+projections dominate physical GPU time; long attention is secondary. Profiler
+wall overhead is explicitly unscored. Existing matching importer recovered the
+split-package launcher failure without installation/privilege changes; initial
+failure artifacts remain. Twenty-three portable identity/schema/interval/correlation,
+transcript and owned-child tests pass, alongside related measurement and hygiene
+checks. Native executable/compute and supervised service remain unchanged.
+SPD-00 is still partial for semantic stage/cache/residency and broader quality.
+See docs/NATIVE_CUDA_TRACE.md and public evidence; exact publication/CI receipt
+is separate. Continue to a physically gated packed matrix-prefill candidate.
+
 ## 2026-10-01 — Sigrún: first SPD-00 measurement and independent 3B logits
 
 Added portable 32/128/256 provider suites with balanced/seeded/grouped order,

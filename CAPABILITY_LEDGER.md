@@ -1315,6 +1315,12 @@ and circular self-parity transforms were removed.
   arithmetic explaining the reference difference. Production compute/weights are
   unchanged. [Operation and evidence](docs/SPEED_MEASUREMENT.md). Status stays
   partial: this does not cover every decode position or certify quality parity.
+- **Owned native CUDA trace (2026-10-01):** Two matched unprofiled/profiled public
+  CLI cases admit 30224/450082 successful unique launch/kernel correlations and
+  actual API/copy intervals. A bounded read-only parser rejects incomplete/foreign
+  evidence. Split-package importer recovery needs no installation or permission
+  changes. [Evidence](docs/evidence/native-cuda-trace-2026-10-01/README.md). This is
+  instrumentation evidence, not faster compute or broad CUDA certification.
 - **Next acceptance gate:** Broader model/hardware coverage, wider independent full-model logits, long-generation/context tests and broader-profile batched prefill.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 

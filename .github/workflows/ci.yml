@@ -65,6 +65,9 @@ jobs:
           python3 scripts/test_benchmark_second_brain.py
           python3 scripts/test_check_llama3_logits.py
 
+      - name: Prove Owned CUDA Trace Evidence Admission
+        run: python3 scripts/test_check_cuda_trace.py
+
       - name: Prove Duplicate Recipe Rejection Preserves Catalog
         run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build
 

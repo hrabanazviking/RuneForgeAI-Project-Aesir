@@ -9,8 +9,13 @@
   replies and failure-aware scoring; physical native stage/traffic/D2D measurements;
   independent F32-expanded CPU reference for four strict-3B final-prompt vectors.
   See [measurement operation](docs/SPEED_MEASUREMENT.md). Preserve packed-reference
-  failures and fixed budgets. Detailed tracing, complete cache/residency isolation,
+  failures and fixed budgets. The owned CUDA timeline slice below resolves first
+  actual kernel/API tracing. Complete cache/residency isolation,
   second-session lead certification and broader numerical/quality gates stay open.
+- [x] SPD-00 owned native CUDA trace: matched short/long public replies, validated
+  kernel/API/copy rows, non-overwriting raw evidence and split-package importer
+  recovery. See [trace operation](docs/NATIVE_CUDA_TRACE.md). Detailed semantic
+  stage attribution, cache/residency and broad quality gates remain open.
 - [ ] SPD-01/02: validate genuine matrix prefill and physical sm_75 Tensor-Core
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

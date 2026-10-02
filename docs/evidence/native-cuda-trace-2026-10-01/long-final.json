@@ -1,0 +1,293 @@
+{
+  "schema": 1,
+  "passed": true,
+  "profiling_is_speed_score": false,
+  "binary_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "observed_free_vram_bytes": 3429892096,
+  "required_free_vram_bytes": 3026010336,
+  "nsight_version": "NVIDIA Nsight Systems version 2023.4.4.54-234433681190v0",
+  "unprofiled": {
+    "exit": 0,
+    "wall_seconds": 20.716797347995453
+  },
+  "profiled": {
+    "exit": 0,
+    "wall_seconds": 29.139201801997842
+  },
+  "completion": {
+    "prompt_tokens": 1070,
+    "generated_tokens": 128,
+    "context_used": 1199,
+    "finish": "length",
+    "answer": "The reliability principles of a knowledge graph are centered around ensuring the integrity and accuracy of the information it contains. The graph is designed to link documents, entities, and passages that support each connection, with sources remaining available for citation. This approach allows for transparency and accountability, as the sources of information can be verified and referenced. The graph also incorporates a queue to append new material, which is checked for duplicate content and embedded in the same vector space, ensuring consistency and coherence. Furthermore, failed imports can be inspected and retried safely, minimizing the risk of errors or inconsistencies. This robust approach to knowledge graph construction and maintenance enables the graph to remain"
+  },
+  "importer": {
+    "version": "NVIDIA Nsight Systems 2023.4.4.54-234433681190v0",
+    "sha256": "208558bc24e7181f3f04f009f292337f46d3ffd75c51ab1212bc6b8b53f9ad4f",
+    "explicit_fallback": true
+  },
+  "trace": {
+    "schema": 1,
+    "exporter": "2023.4.4.54",
+    "process": {
+      "pid": 681903,
+      "name": "aesir"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+      "compute": "7.5",
+      "bytes": 6017515520
+    },
+    "capture_ns": 21814971335,
+    "kernel_count": 450082,
+    "kernel_window_ns": 16125259613,
+    "gpu_busy_in_kernel_window_ns": 15788065536,
+    "uncovered_in_kernel_window_ns": 337194077,
+    "kernel_groups": {
+      "core_packed_projection_four_ma6A6A6A6A_52d17741bd3f0d2b": {
+        "count": 44856,
+        "total_ns": 8121701540
+      },
+      "core_packed_projection_block_m6A6A6A6A_755fea54cf20fad1": {
+        "count": 22008,
+        "total_ns": 2231734083
+      },
+      "core_packed_projection_four_ma6A6A6A6A_2d1994eb3a806a92": {
+        "count": 7476,
+        "total_ns": 1335131971
+      },
+      "core_llama3_kernels_llama_scor6A6A6A6A_a235264d73eaa09f": {
+        "count": 33572,
+        "total_ns": 1139739540
+      },
+      "core_llama3_kernels_llama_atte6A6A6A6A_a6bf5d922a2cbd18": {
+        "count": 33572,
+        "total_ns": 812471870
+      },
+      "core_packed_projection_block_m6A6A6A6A_71b5269aac05bb11": {
+        "count": 3796,
+        "total_ns": 659131438
+      },
+      "core_dense_normalization_dense6A6A6A6A_3f13c764a16a0e97": {
+        "count": 67272,
+        "total_ns": 583991647
+      },
+      "core_llama3_kernels_llama_scal6A6A6A6A_f9d8c4752fca0dc0": {
+        "count": 67144,
+        "total_ns": 425608025
+      },
+      "core_llama3_kernels_llama_soft6A6A6A6A_7fd119a9d9bc8739": {
+        "count": 33572,
+        "total_ns": 165033620
+      },
+      "core_llama3_kernels_llama_resi6A6A6A6A_3883ecf011529460": {
+        "count": 67144,
+        "total_ns": 123352926
+      },
+      "core_llama3_kernels_llama_silu6A6A6A6A_ab2877e480b0edfd": {
+        "count": 33572,
+        "total_ns": 77939915
+      },
+      "core_llama3_kernels_llama_cach6A6A6A6A_35dd7bc25fbc72be": {
+        "count": 33572,
+        "total_ns": 56101410
+      },
+      "core_gemma4_kernels_argmax_ker6A6A6A6A_d03fb3143cce253b": {
+        "count": 128,
+        "total_ns": 50908084
+      },
+      "core_cuda_sampling_sampling_re6A6A6A6A_3b998fa8edcf579b": {
+        "count": 1199,
+        "total_ns": 2804584
+      },
+      "core_gemma4_kernels_embedding_6A6A6A6A_3ed88dd7ce6a190f": {
+        "count": 1199,
+        "total_ns": 2248744
+      }
+    },
+    "api_groups": {
+      "cuStreamSynchronize": {
+        "count": 430,
+        "total_ns": 12567921439,
+        "return_values": {
+          "0": 430
+        }
+      },
+      "cuLaunchKernelEx": {
+        "count": 450082,
+        "total_ns": 3308779603,
+        "return_values": {
+          "0": 450082
+        }
+      },
+      "cuMemAllocHost_v2": {
+        "count": 1,
+        "total_ns": 894506775,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuStreamIsCapturing": {
+        "count": 450607,
+        "total_ns": 64321590,
+        "return_values": {
+          "0": 450607
+        }
+      },
+      "cuModuleLoadDataEx": {
+        "count": 15,
+        "total_ns": 27087933,
+        "return_values": {
+          "0": 15
+        }
+      },
+      "cuMemFree_v2": {
+        "count": 8,
+        "total_ns": 1764963,
+        "return_values": {
+          "0": 8
+        }
+      },
+      "cuMemcpyDtoHAsync_v2": {
+        "count": 128,
+        "total_ns": 1025110,
+        "return_values": {
+          "0": 128
+        }
+      },
+      "cuMemcpyHtoDAsync_v2": {
+        "count": 31,
+        "total_ns": 789368,
+        "return_values": {
+          "0": 31
+        }
+      },
+      "cuMemAlloc_v2": {
+        "count": 9,
+        "total_ns": 665146,
+        "return_values": {
+          "0": 9
+        }
+      },
+      "cuStreamCreate": {
+        "count": 2,
+        "total_ns": 57718,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuMemsetD32Async": {
+        "count": 1,
+        "total_ns": 55744,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuMemCreate": {
+        "count": 27,
+        "total_ns": 50924,
+        "return_values": {
+          "101": 27
+        }
+      },
+      "cuMemAddressReserve": {
+        "count": 1,
+        "total_ns": 26199,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuEventRecord": {
+        "count": 13,
+        "total_ns": 23075,
+        "return_values": {
+          "0": 13
+        }
+      },
+      "cuEventQuery": {
+        "count": 12,
+        "total_ns": 21782,
+        "return_values": {
+          "0": 12
+        }
+      },
+      "cuEventCreate": {
+        "count": 2,
+        "total_ns": 5350,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuStreamDestroy": {
+        "count": 1,
+        "total_ns": 3987,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuMemGetAllocationGranularity": {
+        "count": 2,
+        "total_ns": 2524,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuCtxSetCurrent": {
+        "count": 1,
+        "total_ns": 891,
+        "return_values": {
+          "0": 1
+        }
+      }
+    },
+    "copies_by_kind": {
+      "1": {
+        "count": 31,
+        "bytes": 2019377376,
+        "total_ns": 304442164
+      },
+      "2": {
+        "count": 128,
+        "bytes": 512,
+        "total_ns": 166139
+      }
+    },
+    "limits": "Profiled timings only. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer labels or separate prefill/decode boundary. No quality or speed-lead certification."
+  },
+  "artifacts": {
+    "export.txt": {
+      "bytes": 8101,
+      "sha256": "f056bbd5dcd63289f4fec0036ab3eec999feb1fc3bfeeb1881877643a16360eb"
+    },
+    "capture.nsys-rep": {
+      "bytes": 30972410,
+      "sha256": "f90531374e8e3f7edbd8df622360eefc7a4f9abd9de9f8474b26931131b37ee0"
+    },
+    "capture.qdstrm": {
+      "bytes": 30690576,
+      "sha256": "a869507dc5dadb64ef38d0af423d9671b7320f0362d1652c63ae3f6bfe579d59"
+    },
+    "prompt.txt": {
+      "bytes": 5942,
+      "sha256": "a9cfac453c9369a3868f79c54ad8268e89cb83bbb34fee10dacea9bd1f02ce1b"
+    },
+    "unprofiled.txt": {
+      "bytes": 7378,
+      "sha256": "7d5d4d940d38c49b18fceb4e1f076ddd4aec1e8d64e1ddffea791ab04511a088"
+    },
+    "profiled.txt": {
+      "bytes": 7686,
+      "sha256": "e7674c978633f0b546ece86e29c904483e693e64254848c7d9a3355da2b84659"
+    },
+    "capture.sqlite": {
+      "bytes": 72888320,
+      "sha256": "0689f4d4300959e0b93f701c439f9a9739ed054b23cb4836a83b361cc4f5d320"
+    },
+    "import.txt": {
+      "bytes": 7972,
+      "sha256": "5a0700757c74a494e1e3b56c9797544254ef697b3d378d74342a9dee22e45b7a"
+    }
+  },
+  "wall_time_ratio_profiled_over_unprofiled": 1.4065495410571913
+}

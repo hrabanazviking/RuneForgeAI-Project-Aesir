@@ -38,3 +38,7 @@ acceptance targets. The first SPD-00 measurement slice is implemented; detailed
 tracing, complete cache/residency controls and multi-session quality/lead gates
 remain open. Read docs/SPEED_MEASUREMENT.md and its evidence before SPD-01 work.
 The wider BEST_IN_CLASS_GAMEPLAN.md program and current ledger retain authority.
+
+For actual owned CUDA timeline evidence, read docs/NATIVE_CUDA_TRACE.md. Preserve
+raw traces privately; profiled wall time and overlapping API duration are not
+service speed scores. The 2023 schema admission does not prove other versions.

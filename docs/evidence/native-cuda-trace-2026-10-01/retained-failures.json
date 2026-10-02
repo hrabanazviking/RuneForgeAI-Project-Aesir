@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "first_import_failure": "Split-package launcher could not find installed matching importer; recovered explicitly without installations.",
+  "parser_admission_correction": "First parser rejected a valid empty non-name StringIds value; final parser permits dictionary empties and rejects empty referenced names.",
+  "artifacts": {
+    "small-capture.txt": {
+      "bytes": 1239,
+      "sha256": "29031ea618e732d3ee88d8d680b0f832db0671ff6762539df92bfe45a51b6b05"
+    },
+    "small-export.txt": {
+      "bytes": 116,
+      "sha256": "3a8c2dd752b0ecf8e5ea4fcb22646e1b98354bc4ca547e8adb9a1e20c6e85d78"
+    },
+    "small.qdstrm": {
+      "bytes": 5378026,
+      "sha256": "a9ab0f8b521a9d64ff1c8de9239e9f2a28d13d89503fca93ab5356edb21e5c31"
+    },
+    "small-checked.json": {
+      "bytes": 62,
+      "sha256": "e3d7a42a5dae6e72c53d19afcf4a2b443beee34196997cd766fbcf77bdb1a193"
+    }
+  }
+}

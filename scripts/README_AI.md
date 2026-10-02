@@ -44,3 +44,9 @@ and [the measurement manual](../docs/SPEED_MEASUREMENT.md). The optional referen
 is exclusively test-side. It never supplies native production inference. Balanced
 provider ordering is the new default; grouped mode reproduces historical ordering.
 All broad speed/quality/controlled-cache gates remain explicitly scoped.
+
+For optional owned-process CUDA tracing, use profile_native_cuda.py and the
+read-only check_cuda_trace.py. Read ../docs/NATIVE_CUDA_TRACE.md first: raw traces
+stay outside Git, profiler time is never a speed score, and only matching complete
+native replies plus actual admitted kernel/launch rows can pass. No live service
+attachment or privilege/dependency changes belong in this tool.
