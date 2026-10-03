@@ -36,3 +36,21 @@ manual/evidence/ledger/TODO/roadmap/devlog. Push and exact CI before claiming CI
 If both lose, reject them and preserve defaults. If one wins targeted batch32 FFN,
 ordinary actual-F32/captured/full-model/decode/replay/control gates remain a separate
 next slice before optional fixture selection or production/provider claims.
+
+## Physical resource failure amendment before refinement
+
+The initial128 collector passes all fixed gates and original F32 bits; batch32
+down gains about8% while gate/up lose. The initial256 probe fails its first actual
+kernel launch with CUDA_ERROR_LAUNCH_OUT_OF_RESOURCES. Preserve exact source,
+binary,partial CSV/process receipts and failed oracle JSON outside Git. There is
+no256 timing or numerical acceptance. Do not assume register/shared occupancy
+cause or repair by reducing unrelated budget/toolchain constraints.
+
+Refine public kernel/wrapper and collector to128 only. Reject256 before model
+load/GPU, with no silent fallback. Checker admits128 complete three-owner evidence
+only; preserve partial rejected256 historical evidence separately. Shared maximum
+becomes19008 bytes,256 threads. Rebuild all seven gates before new final128 capture,
+then independent oracle; do not score the initial capture as final changed-source
+proof. Add actual CLI256 rejection receipt. Narrow down-only captured real-F32
+and full-model gates are the next slice if the final128 down gain repeats. Do not
+select128 for gate/up or promote all larger rows from one winning shape.
