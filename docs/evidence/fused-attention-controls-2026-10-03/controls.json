@@ -1,0 +1,110 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_claim": false,
+  "attention_variant": 4,
+  "csv_sha256": "d1993387805c39d4587be9295655dc8cf12e095f679ad7976743bd74014e8b48",
+  "recovered_values_per_mode": 513024,
+  "guards": 9792,
+  "poisoned_exception_cases": 1,
+  "owner_mask_restored": true,
+  "cases": [
+    {
+      "reason": "timeout",
+      "completed_layers": 0,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 0,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 0,
+      "recovered_down128_host_enqueues": 28,
+      "abort_fused_attention_host_enqueues": 0,
+      "abort_original_attention_queries": 0,
+      "recovered_fused_attention_host_enqueues": 56,
+      "recovered_original_attention_queries": 28
+    },
+    {
+      "reason": "timeout",
+      "completed_layers": 2,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 32,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 2,
+      "recovered_down128_host_enqueues": 28,
+      "abort_fused_attention_host_enqueues": 2,
+      "abort_original_attention_queries": 0,
+      "recovered_fused_attention_host_enqueues": 56,
+      "recovered_original_attention_queries": 28
+    },
+    {
+      "reason": "cancelled",
+      "completed_layers": 8,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 32,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 8,
+      "recovered_down128_host_enqueues": 28,
+      "abort_fused_attention_host_enqueues": 8,
+      "abort_original_attention_queries": 0,
+      "recovered_fused_attention_host_enqueues": 56,
+      "recovered_original_attention_queries": 28
+    },
+    {
+      "reason": "control_error",
+      "completed_layers": 0,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 0,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 0,
+      "recovered_down128_host_enqueues": 28,
+      "abort_fused_attention_host_enqueues": 0,
+      "abort_original_attention_queries": 0,
+      "recovered_fused_attention_host_enqueues": 56,
+      "recovered_original_attention_queries": 28
+    }
+  ],
+  "poison_down128_host_enqueues": 1,
+  "control_capable": true,
+  "poison_fused_attention_host_enqueues": 1,
+  "poison_original_attention_queries": 0,
+  "limits": "Test-only strict3B/context1536 original precision0 with explicit execution strategy binding and cooperative layer boundaries. 10ms deadline is not hard real time. SIGINT delivered to the owning test thread after8 synced layers. Exact accepted case1 vectors after explicit reset, with preserved allocations. Unexpected observer exception proves poison policy, not an actual GPU-fault repair. No production/concurrency/provider or speed claim.",
+  "binary_sha256": "d930af7b1f27d97f49625617ba79b80ba0b7f89405c353279b17945288183190",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "accepted_reference": {
+    "passed": true,
+    "attention_variant": 4,
+    "control_capable": true,
+    "csv_sha256": "17bd98c1022895acf4be9124ef0197c0fd760b3945ee565c61f560ad1515a7fd",
+    "report_sha256": "0072483112462b3f996961cc65507efe412dbdd1058dd4f63cbcd0cfd01747bc",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "binary_sha256": "1886f7c1826ce972dc44942c32c53441815e78bf038bd97649c94082d6e9f5ab"
+  }
+}

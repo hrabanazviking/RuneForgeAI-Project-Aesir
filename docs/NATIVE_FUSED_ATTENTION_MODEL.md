@@ -112,3 +112,7 @@ Task MD before the next change. Read [primitive ownership](NATIVE_FUSED_CAUSAL_A
 and [prior model acceptance](NATIVE_TURING_DOWN_MODEL.md). The live authenticated
 prefill4 service stays ready with unchanged f3442a1e binary. Exact CI/push receipts
 are separate from physical numerical acceptance.
+
+Explicit cooperative fused_controls capability now has a separate
+[control and reset recovery gate](NATIVE_FUSED_ATTENTION_CONTROLS.md). Ordinary
+source/default4 profiles and control-capable4 sealed replay remain separately gated.

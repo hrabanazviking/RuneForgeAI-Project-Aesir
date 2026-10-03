@@ -109,3 +109,7 @@ normal service retains its original binary and prefill4. Hosted compilation and
 portable adversarial tests are distinct from physical GPU/CPU evidence.
 
 [Retained measurement](evidence/fused-attention-decode-2026-10-03/README.md).
+
+Explicit cooperative fused_controls capability now has a separate
+[control and reset recovery gate](NATIVE_FUSED_ATTENTION_CONTROLS.md). Ordinary
+source/default4 profiles and control-capable4 sealed replay remain separately gated.

@@ -60,7 +60,8 @@ def reference_fields(pairs):
     return result
 
 
-def parse(path,allow_fused=False):
+def parse(path,allow_fused=False,allow_fused_controls=False):
+    if allow_fused_controls and not allow_fused: raise ValueError("Fused control metadata requires explicit fused strategy")
     text = read_text(path, 64 * 1024 * 1024)
     if len(text.encode("utf-8")) > 64 * 1024 * 1024:
         raise ValueError("Model CSV grew beyond byte admission")
@@ -83,6 +84,8 @@ def parse(path,allow_fused=False):
         raise ValueError("Incomplete fused model pre-step refusal evidence")
     control_capable = False
     first_case = next(reader)
+    if variant == 4 and allow_fused_controls and first_case == ["CONTROL_CAPABLE","4","1"]:
+        control_capable = True; first_case = next(reader)
     if variant == 3 and first_case == ["CONTROL_CAPABLE","3","1"]:
         control_capable = True; first_case = next(reader)
     cases = []
@@ -142,7 +145,18 @@ def parse(path,allow_fused=False):
     return dict(cases=cases, activation_precision=precision, attention_variant=variant, control_capable=control_capable, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
 
 
-def fixture_reference(data, csv_path, report_path, model_sha):
+def fixture_reference(data, csv_path, report_path, model_sha, *, reference_binary=None):
+    if data["attention_variant"] == 4 and data["control_capable"]:
+        from check_turing_down_source import accepted_model
+        reference, proof = accepted_model(csv_path, report_path, model_sha, fused=True, binary=reference_binary)
+        flags = []
+        for current, before in zip(data["cases"], reference["cases"], strict=True):
+            equal = dict(input_ids_equal=current["input_ids"] == before["input_ids"],
+                native_f32_bytes_equal=current["native"].tobytes() == before["native"].tobytes(),
+                matrix_f32_bytes_equal=current["logits"].tobytes() == before["logits"].tobytes(),
+                guarded_cache_identity_passed=current["guarded_cache_sha256"] == before["guarded_cache_sha256"])
+            flags.append(dict(equal, passed=all(equal.values())))
+        return dict(proof, cases=flags, passed=all(c["passed"] for c in flags))
     reference = parse(csv_path); text = read_text(report_path, 5 * 1024**2)
     report_sha = hashlib.sha256(text.encode("utf-8")).hexdigest()
     if digest(csv_path) != reference["csv_sha256"] or digest(report_path) != report_sha:
@@ -298,7 +312,11 @@ def main():
     parser.add_argument("--reference-csv", type=Path); parser.add_argument("--reference-report", type=Path)
     parser.add_argument("--fused-attention",action="store_true",help="Explicit full-model strategy4 gate; defaults remain closed")
     parser.add_argument("--binary",type=Path);parser.add_argument("--binary-sha256")
+    parser.add_argument("--fused-controls",action="store_true",help="Explicit disabled-control but capable4 model gate")
+    parser.add_argument("--reference-binary",type=Path)
     args = parser.parse_args()
+    if args.fused_controls and (not args.fused_attention or args.reference_binary is None):
+        parser.error("Fused controls require explicit fused strategy and actual predecessor binary")
     if (args.reference_csv is None) != (args.reference_report is None): parser.error("Fixture reference requires both CSV/report")
     if not 1 <= args.threads <= 16 or any(not re.fullmatch(r"[0-9a-f]{64}", value) for value in (args.model_sha256, args.reference_sha256)):
         parser.error("Lowercase SHA-256 identities and1..16 reference threads required")
@@ -312,13 +330,15 @@ def main():
                 raise ValueError("Derived reference size mismatch")
             if args.fused_attention and (args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}",args.binary_sha256) or digest(args.binary)!=args.binary_sha256):
                 raise ValueError("Fused model requires exact probe binary identity before admission")
-            data = parse(args.csv,allow_fused=args.fused_attention); report = summarize(data)
+            data = parse(args.csv,allow_fused=args.fused_attention,allow_fused_controls=args.fused_controls); report = summarize(data)
             if args.fused_attention and data["attention_variant"]!=4:raise ValueError("Fused opt-in requires actual strategy4 capture")
-            if data["attention_variant"]==4:report["limits"] += " Explicit fused four/32 attention retains original single-token path; actual source3 complete F32/cache/ID/counter/CPU scope is required. Controls/tracing/generation/replay remain closed."
+            if args.fused_controls and not data["control_capable"]: raise ValueError("Fused controls opt-in requires actual capable4 marker")
+            if data["attention_variant"]==4:report["limits"] += " Explicit fused four/32 attention retains original single-token path; complete fixed source F32/cache/ID/counter/CPU scope and binary identities are required. Control-capable4 needs its separate enabled recovery gate; tracing and runtime admission remain closed."
             if data["attention_variant"]==4:report["binary_sha256"]=args.binary_sha256
             if data["attention_variant"] is not None:
                 if args.reference_csv is None: raise ValueError("Explicit rotary/cache evidence requires accepted fixture reference")
-                report["fixture_reference"] = fixture_reference(data, args.reference_csv, args.reference_report, args.model_sha256)
+                report["fixture_reference"] = fixture_reference(data, args.reference_csv, args.reference_report, args.model_sha256,
+                    **({"reference_binary": args.reference_binary} if args.fused_controls else {}))
             report.update(model_sha256=args.model_sha256, reference_derivation=derived,
                           independent_reference=independent(data, args.reference_model, args.threads))
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256:
@@ -331,6 +351,8 @@ def main():
                 raise ValueError("Accepted fixture reference changed during oracle")
             if data["attention_variant"]==4 and digest(args.binary)!=args.binary_sha256:
                 raise ValueError("Fused model probe binary changed during oracle")
+            if args.fused_controls and digest(args.reference_binary) != report["fixture_reference"]["binary_sha256"]:
+                raise ValueError("Fused default4 predecessor binary changed during oracle")
             score(report)
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False, speed_scored=False, error=f"{type(error).__name__}: {error}")

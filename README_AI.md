@@ -1,3 +1,8 @@
+For explicit strategy4 cooperative cancellation/reset recovery, read
+docs/NATIVE_FUSED_ATTENTION_CONTROLS.md. Fresh capable-but-disabled4 model retains
+complete source4 bits/cache/CPU; enabled abort/recovery/poison/counter/mask gates
+pass. Capability remains optional; next earn owned fused stage tracing and breadth.
+
 For explicit strategy4 sealed owning-context replay, read
 docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md. Full vectors/bits/state/source/CPU/
 allocation/counter gates pass, ordinary4 stays closed without capability.

@@ -11,8 +11,11 @@ def closed_features(mut f: TuringPrefillFixture) raises:
     var activation = Int(f.activations.unsafe_ptr())
     var cache = Int(f.cache.unsafe_ptr())
     var weights = Int(f.native.weights.unsafe_ptr())
+    var capability = f.fused_controls
     for feature in range(3):
         var refused = False
+        if capability and feature == 0:f.fused_controls = False
+        if capability and feature == 1:f.down128_controls = True
         if feature == 2:f.trace_projections = True
         try:
             if feature == 0:f.configure_control(1)
@@ -20,6 +23,8 @@ def closed_features(mut f: TuringPrefillFixture) raises:
             else:f.step(tokens,0,32)
         except:refused = True
         f.trace_projections = False
+        f.fused_controls = capability
+        f.down128_controls = False
         if not refused or not f.healthy or not f.native.healthy or f.position != 0 or f.sampler.position != 0 or len(f.committed) != 0 or f.control.enabled() or f.down128_calls != 0 or f.rope_cache_calls != 0 or f.elementwise_calls != 0 or f.fused_attention_calls != 0 or f.original_attention_queries != 0:
             raise Error("Ungated fused feature changed owner state/counters")
         if Int(f.activations.unsafe_ptr()) != activation or Int(f.cache.unsafe_ptr()) != cache or Int(f.native.weights.unsafe_ptr()) != weights:
@@ -38,13 +43,18 @@ def main() raises:
     if len(args) == 3 and args[2] == "reject-tracing":
         var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,True,True)
         raise Error("Invalid fused tracing capability was admitted")
-    if len(args) != 2:raise Error("usage: test_fused_attention_model MODEL.gguf")
-    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True)
+    if len(args) == 3 and args[2] == "reject-fused-controls":
+        var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,False,True)
+        raise Error("Invalid fused controls were admitted")
+    var capable = len(args) == 3 and args[2] == "control-capable"
+    if len(args) != 2 and not capable:raise Error("usage: test_fused_attention_model MODEL.gguf [control-capable]")
+    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,capable)
     invalid_tiles(f)
     closed_features(f)
     print("ATTENTION,rope_cache_elementwise_down128_fused,1,32")
     print("META,1,128256,1536,32,f16,8")
     print("ADMISSION,4,3,0")
+    if capable:print("CONTROL_CAPABLE,4,1")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.","Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.","Write one sentence about a silver ship beneath Bifröst.",long_prompt]
     for index in range(4):

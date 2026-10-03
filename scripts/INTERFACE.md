@@ -434,3 +434,17 @@ Explicit source4 report/accepted decode binary/current binary SHA fences and str
 all-four source numeric/causal/counter scope remain default-closed/exclusive with3.
 Nine adversarial contracts/master190/one skip; unscored same-process replay only.
 Read ../docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md. Next earn enabled control recovery before runtime/provider breadth.
+
+## Explicit strategy4 cooperative control recovery
+
+Final fused_controls=False preserves ordinary4 configure/start refusal. True is
+exclusive with legacy3 control/trace flags, requires admitted4 and keeps tracing/
+control-capable4 sealed replay closed. Fresh disabled-but-capable4 model retains
+all513024 source4 F32 bits/IDs/full cache/CPU/own bits/4352 guards/eight invalid/
+32 timing records, actual counters and current/source binary SHA. Explicit marker/
+CLI/source keywords stay default-closed. Enabled pre-expired/10ms/owned SIGINT/
+invalid-fd aborts drain healthy/uncommitted/reset-required work; allocation-preserving
+reset recovers full source vectors. Observer exception poisons/refuses all reuse.
+Actual layer down/fused/original counters, caller mask and9792 guards bind recovery.
+Fifteen model/control adversarial contracts/master190/one skip. Read ../docs/NATIVE_FUSED_ATTENTION_CONTROLS.md.
+No enabled-control speed score or general fault repair/runtime/provider admission.

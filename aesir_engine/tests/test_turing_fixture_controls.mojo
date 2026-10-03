@@ -24,6 +24,12 @@ def refusal(mut f: TuringPrefillFixture,tokens: List[Int],poisoned: Bool) raises
     var sampler = f.sampler.position
     var reason = f.control.reason
     var healthy = f.healthy
+    var down = f.down128_calls
+    var fused = f.fused_attention_calls
+    var original = f.original_attention_queries
+    var weight = Int(f.native.weights.unsafe_ptr())
+    var activation = Int(f.activations.unsafe_ptr())
+    var cache = Int(f.cache.unsafe_ptr())
     for operation in range(4 if poisoned else 3):
         var rejected = False
         try:
@@ -34,6 +40,8 @@ def refusal(mut f: TuringPrefillFixture,tokens: List[Int],poisoned: Bool) raises
         except: rejected = True
         if not rejected or f.position != 0 or len(f.committed) != 0 or f.sampler.position != sampler or f.control.reason != reason or f.healthy != healthy:
             raise Error("Interrupted fixture reuse mutated uncommitted state")
+        if f.fused_attention and (down != f.down128_calls or fused != f.fused_attention_calls or original != f.original_attention_queries or weight != Int(f.native.weights.unsafe_ptr()) or activation != Int(f.activations.unsafe_ptr()) or cache != Int(f.cache.unsafe_ptr())):
+            raise Error("Fused control reuse refusal changed counters/allocations")
         rejects += 1
     return rejects
 
@@ -57,6 +65,7 @@ def recovered(mut f: TuringPrefillFixture,tokens: List[Int],index: Int) raises:
         print("LOGIT,"+String(index)+","+String(i)+","+String(Float64(native[i]))+","+String(Float64(matrix[i])))
     f.guards()
     if f.down128: print("RECOVERED_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
+    if f.fused_attention: print("RECOVERED_FUSED_ATTENTION,"+String(index)+","+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     print("GUARD,"+String(index)+",1088,0")
 
 
@@ -87,6 +96,7 @@ def abort_case(mut f: TuringPrefillFixture,tokens: List[Int],index: Int,fd: Int)
     print("CONTROL,"+String(index)+","+reason+","+String(layers)+",0,0,"+String(sampler)+",1,1")
     f.guards()
     if f.down128: print("ABORT_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
+    if f.fused_attention: print("ABORT_FUSED_ATTENTION,"+String(index)+","+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     print("ABORT_GUARD,"+String(index)+",1088,0")
     print("REFUSAL,"+String(index)+","+String(refusal(f,tokens,False))+",0")
     if index == 2:
@@ -98,11 +108,12 @@ def abort_case(mut f: TuringPrefillFixture,tokens: List[Int],index: Int,fd: Int)
 
 def exercise(path: String,flag: Int = 0,explicit: Bool = False) raises:
     var interrupts = ChatInterrupts()
-    var f = TuringPrefillFixture(path,0,Bool(flag>0),Bool(flag>=2),Bool(flag==3),Bool(flag==3))
+    var f = TuringPrefillFixture(path,0,Bool(flag>0),Bool(flag>=2),Bool(flag>=3),Bool(flag==3),False,Bool(flag==4),Bool(flag==4))
     var tokens = inputs(f,"Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.")
     if len(tokens) != 37: raise Error("Recovery public prompt changed")
     if explicit:
-        if flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
+        if flag == 4: print("ATTENTION,rope_cache_elementwise_down128_fused,1,32")
+        elif flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
         elif flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
         else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,fixture_controls,1536,32,128256,4,1")
@@ -119,6 +130,7 @@ def exercise(path: String,flag: Int = 0,explicit: Bool = False) raises:
     print("POISON,1,0,0,32,0,"+String(refusal(f,tokens,True))+",0")
     f.guards()
     if f.down128: print("POISON_DOWN_ROWS128,"+String(f.down128_calls))
+    if f.fused_attention: print("POISON_FUSED_ATTENTION,"+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     print("POISON_GUARD,1088,0")
     _ = interrupts
 
@@ -127,7 +139,7 @@ def main() raises:
     var args = argv()
     if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_fixture_controls MODEL.gguf [STRATEGY]")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag < 0 or flag > 3: raise Error("Control fixture strategy must be0/1/2/3")
+    if flag < 0 or flag > 4: raise Error("Control fixture strategy must be0/1/2/3/4")
     var before = InlineArray[UInt64,16](fill=0)
     var after = InlineArray[UInt64,16](fill=0)
     if external_call["pthread_sigmask",Int32](Int32(0),Int(0),Int(before.unsafe_ptr())) != 0:

@@ -1027,6 +1027,11 @@ The legacy formatters below are not exposed compatibility APIs.
   counters pass. Nine contracts/master190/one skip; explicit plan/live/source
   capability/current and accepted decode binary hashes. No speed score.
   [Operation](docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md).
-- [ ] SPD-03 strategy4
-  enabled-control recovery and broader context/device/concurrency/soak/runtime/
+- [x] SPD-03 strategy4 enabled-control recovery: final default-false capability,
+  fresh disabled4 full source4 bits/IDs/cache/CPU/binary gate; healthy synced
+  uncommitted/reset-required timeout/cancel/fd aborts, preserved allocations and
+  all513024 recovered vectors/9792 guards/actual layer counters/caller mask plus
+  observer poison policy pass.15 adversarial contracts/master190/one skip.
+  [Operation](docs/NATIVE_FUSED_ATTENTION_CONTROLS.md). No enabled-control speed score.
+- [ ] SPD-03 strategy4 owned tracing/control-capable sealed replay and broader context/device/concurrency/soak/runtime/
   refreshed-provider acceptance before production selection.

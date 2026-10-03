@@ -21,12 +21,13 @@ def fixed_comparison(value):
     return type(a) is int and type(b) is int and a == b and 0 <= a < VOCABULARY
 
 
-def accepted_model(csv_path, report_path, model_sha, *, fused=False, binary=None):
+def accepted_model(csv_path, report_path, model_sha, *, fused=False, binary=None, fused_controls=False):
     """Retain complete vectors, but never trust an acceptance Boolean alone."""
+    if fused_controls and not fused: raise ValueError("Fused control source requires explicit fused strategy")
     variant = 4 if fused else 3
     binary_sha = digest(binary) if fused and binary is not None else None
     if fused and binary_sha is None: raise ValueError("Fused source requires actual model binary")
-    data = parse(csv_path, allow_fused=fused)
+    data = parse(csv_path, allow_fused=fused, allow_fused_controls=fused_controls)
     text = read_text(report_path, 5 * 1024**2)
     report = json.loads(text, object_pairs_hook=reference_fields,
         parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite down source")))
@@ -43,7 +44,7 @@ def accepted_model(csv_path, report_path, model_sha, *, fused=False, binary=None
     if (type(report.get("control_capable", False)) is not bool or
         report.get("control_capable", False) != data["control_capable"]):
         raise ValueError("Down source control capability differs from actual capture")
-    if fused and (report.get("binary_sha256") != binary_sha or data["control_capable"]):
+    if fused and (report.get("binary_sha256") != binary_sha or data["control_capable"] != fused_controls):
         raise ValueError("Fused source binary identity or closed capability mismatch")
     cpu = report.get("independent_reference", {})
     if (cpu.get("passed") is not True or type(cpu.get("requested_gpu_layers")) is not int or cpu["requested_gpu_layers"] != 0 or
@@ -52,11 +53,13 @@ def accepted_model(csv_path, report_path, model_sha, *, fused=False, binary=None
         not re.fullmatch(r"[0-9a-f]{64}", cpu.get("library_sha256", ""))):
         raise ValueError("Down source lacks pinned zero-GPU F32 independent identity")
     predecessor = report.get("fixture_reference", {})
-    if (predecessor.get("passed") is not True or type(predecessor.get("attention_variant")) is not int or predecessor["attention_variant"] != variant - 1 or
+    if (predecessor.get("passed") is not True or type(predecessor.get("attention_variant")) is not int or predecessor["attention_variant"] != (4 if fused_controls else variant - 1) or
         any(not re.fullmatch(r"[0-9a-f]{64}", predecessor.get(key, "")) for key in ("csv_sha256", "report_sha256")) or
         len(predecessor.get("cases", [])) != 4 or any(any(c.get(key) is not True for key in
             ("input_ids_equal", "native_f32_bytes_equal", "matrix_f32_bytes_equal", "guarded_cache_identity_passed", "passed")) for c in predecessor["cases"])):
         raise ValueError("Down source lacks exact accepted strategy2 predecessor")
+    if fused_controls and (predecessor.get("control_capable") is not False or not re.fullmatch(r"[0-9a-f]{64}", predecessor.get("binary_sha256", ""))):
+        raise ValueError("Fused capable source lacks exact closed default4 predecessor binary")
     declared, independent = report.get("cases", []), cpu.get("cases", [])
     if len(declared) != 4 or len(independent) != 4: raise ValueError("Down source case coverage incomplete")
     for source, case, oracle in zip(data["cases"], declared, independent, strict=True):

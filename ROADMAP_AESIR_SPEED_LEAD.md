@@ -431,6 +431,16 @@ Nine contracts/master190/one skip; [operation](docs/NATIVE_FUSED_ATTENTION_CHECK
 No speed score, persisted format or context recreation. Next earn enabled-control
 reset/recovery, then broader runtime/provider acceptance; SPD-03 remains open.
 
+Strategy4 enabled cooperative controls now have a default-false capability and
+fresh disabled-but-capable full-model/source4/CPU/bits/cache/binary gate. Actual
+pre-expired/10ms/owned-SIGINT/invalid-fd aborts leave healthy uncommitted reset-
+required work; explicit allocation-preserving reset reproduces all513024 vectors
+per owner. Actual layer counters/mask/9792 guards and unexpected-observer poison
+policy pass;15 adversarial contracts/master190/one skip. [Operation](docs/NATIVE_FUSED_ATTENTION_CONTROLS.md).
+Enabled control times remain unscored; tracing/control-capable4 sealed replay and
+broader contexts/devices/concurrency/soak/runtime/provider gates remain separate.
+Next earn owned fused stage tracing; SPD-03 and speed objective remain open.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

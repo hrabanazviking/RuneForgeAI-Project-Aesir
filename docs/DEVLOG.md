@@ -1,3 +1,16 @@
+## 2026-10-03 — optional strategy4 cooperative control recovery
+
+Task5b5ec58 preceded code. Forge added final default-false fused_controls capability
+with pre-model/pure flag admission, legacy3/trace exclusion and original layer abort/
+drain/reset/poison behavior. Auditor gates fresh disabled-capable4 full source4 F32/
+cache/ID/CPU/current/predecessor binary scope, then physical healthy cooperative
+abort/reset allocation-preserving source-vector recovery, actual down/fused/original
+counters, caller signal ownership/mask/9792 guards and observer-exception poison.
+All513024 recovered values per owner pass;15 adversarial model/control contracts,
+legacy gates/master190/zero fails/one skip and eight builds precede GPU/CPU/GPU/
+validation. Scribe publishes detailed MD/evidence; Cartographer keeps owned trace/
+control-capable replay/broader runtime/provider gates open. Normal service unchanged.
+
 ## 2026-10-03 — explicit strategy4 sealed owning-context replay
 
 Task4416d3a preceded code. Forge added copied default-false plan capability and

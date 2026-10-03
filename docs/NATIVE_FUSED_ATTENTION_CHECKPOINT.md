@@ -118,3 +118,7 @@ capabilities. Next earn cooperative control cancellation/reset/recovery before
 broader runtime integration. Hosted compilation is separate from physical proof.
 
 [Retained measurement](evidence/fused-attention-checkpoint-2026-10-03/README.md).
+
+Explicit cooperative fused_controls capability now has a separate
+[control and reset recovery gate](NATIVE_FUSED_ATTENTION_CONTROLS.md). Ordinary
+source/default4 profiles and control-capable4 sealed replay remain separately gated.

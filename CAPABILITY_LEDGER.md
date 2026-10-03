@@ -1610,7 +1610,16 @@ and circular self-parity transforms were removed.
   skip; source report/accepted decode binary/current binary SHA before/after.
   Ordinary4/source readers stay closed without opt-in; same-process/unscored only.
   [Evidence](docs/evidence/fused-attention-checkpoint-2026-10-03/README.md).
-- **Next acceptance gate:** Strategy4 enabled control recovery, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
+- **Fused cooperative controls (2026-10-03):** Optional final fused_controls
+  capability retains ordinary4 refusal, excludes legacy control/trace flags and
+  control-capable4 sealed replay. Fresh disabled-capable4 full-model vectors/IDs/
+  cache/CPU/own bits/guards/timings match accepted default4 with actual current/
+  predecessor binary SHA. Enabled healthy synced abort/reset recovery retains
+  all513024 source vectors per owner/allocations/actual layer counters/mask/9792
+  guards. Unexpected observer exception poisons/refuses all reuse.15 adversarial
+  contracts/master190/one skip; enabled times unscored, not GPU-fault repair.
+  [Evidence](docs/evidence/fused-attention-controls-2026-10-03/README.md).
+- **Next acceptance gate:** Strategy4 owned tracing and control-capable sealed replay, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

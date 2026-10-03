@@ -16,6 +16,7 @@ def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
     var identity = owner(f,plan.mode)
     plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3],identity[4],f.fused_attention and plan.mode == 1)
     f.admit_execution_strategy()
+    if f.fused_controls: raise Error("Control-capable fused replay requires separate acceptance")
     if f.activation_precision != 0: raise Error("Checkpoint replay admits original precision0 only")
     if not f.healthy or not f.native.healthy or f.native.generating or f.native.reset_required or f.control.enabled() or f.control.reset_required or f.native.control.timeout_ms != 0 or f.native.control.cancel_fd != -1:
         raise Error("Replay requires an idle healthy uncontrolled owner")

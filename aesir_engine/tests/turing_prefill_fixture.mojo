@@ -47,10 +47,11 @@ struct TuringPrefillFixture:
     var down128_controls: Bool
     var down128_tracing: Bool
     var fused_attention: Bool
+    var fused_controls: Bool
     var fused_attention_calls: Int
     var original_attention_queries: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
@@ -58,9 +59,11 @@ struct TuringPrefillFixture:
             raise Error("Down128 requires original precision0 and batched elementwise strategy")
         if down128_controls and not down128: raise Error("Down128 controls require admitted down128 strategy")
         if down128_tracing and not down128: raise Error("Down128 tracing requires admitted down128 strategy")
+        if fused_controls and not fused_attention: raise Error("Fused controls require admitted fused attention strategy")
         if fused_attention and (not down128 or precision != 0 or not batched or not elementwise or down128_controls or down128_tracing):
             raise Error("Fused attention requires original down128 strategy with controls/tracing closed")
         self.fused_attention = fused_attention
+        self.fused_controls = fused_controls
         self.fused_attention_calls = 0
         self.original_attention_queries = 0
         self.down128_tracing = down128_tracing
@@ -255,14 +258,15 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
-        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or self.trace_projections or self.control.enabled()):
+        if self.fused_controls and not self.fused_attention: raise Error("Fused control capability drifted outside its strategy")
+        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or self.trace_projections or (self.control.enabled() and not self.fused_controls)):
             raise Error("Fused attention requires uncontrolled untraced original down128 strategy")
         if self.down128_controls and not self.down128: raise Error("Down128 control capability drifted outside its strategy")
         if self.down128_tracing and not self.down128: raise Error("Down128 tracing capability drifted outside its strategy")
         if self.trace_projections and self.control.enabled(): raise Error("Projection tracing cannot enable cooperative controls")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
-        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not self.down128_tracing) or (self.control.enabled() and not self.down128_controls)):
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not self.down128_tracing) or (self.control.enabled() and not (self.down128_controls or self.fused_controls))):
             raise Error("Down128 requires original elementwise strategy and explicit control/trace capabilities")
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
@@ -278,8 +282,8 @@ struct TuringPrefillFixture:
                 raise Error("Matrix fixture token outside vocabulary")
 
     def configure_control(mut self,timeout_ms: Int = 0,cancel_fd: Int = -1) raises:
-        if self.fused_attention: raise Error("Fused attention enabled controls require separate acceptance")
-        if self.down128 and not self.down128_controls: raise Error("Down128 enabled controls require separate acceptance")
+        if self.fused_attention and not self.fused_controls: raise Error("Fused attention enabled controls require separate acceptance")
+        if self.down128 and not (self.down128_controls or self.fused_controls): raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot configure a busy or failed matrix fixture")
         self.admit_execution_strategy()
@@ -287,8 +291,8 @@ struct TuringPrefillFixture:
         self.control.configure(timeout_ms,cancel_fd)
 
     def start_control(mut self) raises:
-        if self.fused_attention: raise Error("Fused attention enabled controls require separate acceptance")
-        if self.down128 and not self.down128_controls: raise Error("Down128 enabled controls require separate acceptance")
+        if self.fused_attention and not self.fused_controls: raise Error("Fused attention enabled controls require separate acceptance")
+        if self.down128 and not (self.down128_controls or self.fused_controls): raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot start control on a busy or failed matrix fixture")
         self.admit_execution_strategy()
