@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_claim": false,
+  "attention_variant": 3,
+  "csv_sha256": "85980aa5c9148600c4505b6d275271a32b17a77fbd5d3217f473bf0a17faf5fe",
+  "recovered_values_per_mode": 513024,
+  "guards": 9792,
+  "poisoned_exception_cases": 1,
+  "owner_mask_restored": true,
+  "cases": [
+    {
+      "reason": "timeout",
+      "completed_layers": 0,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 0,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 0,
+      "recovered_down128_host_enqueues": 28
+    },
+    {
+      "reason": "timeout",
+      "completed_layers": 2,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 32,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 2,
+      "recovered_down128_host_enqueues": 28
+    },
+    {
+      "reason": "cancelled",
+      "completed_layers": 8,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 32,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 8,
+      "recovered_down128_host_enqueues": 28
+    },
+    {
+      "reason": "control_error",
+      "completed_layers": 0,
+      "position_before_reset": 0,
+      "uncommitted_sampler_position": 0,
+      "reset_required": true,
+      "vector_mismatches": {
+        "native": 0,
+        "matrix": 0
+      },
+      "byte_identical": true,
+      "native_sha256": "964e6009f9276e0eda19aa6181ad7ff84b30788b214890f4447b39a8adf3a649",
+      "matrix_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+      "abort_down128_host_enqueues": 0,
+      "recovered_down128_host_enqueues": 28
+    }
+  ],
+  "poison_down128_host_enqueues": 1,
+  "control_capable": true,
+  "limits": "Test-only strict3B/context1536 original precision0 with explicit execution strategy binding and cooperative layer boundaries. 10ms deadline is not hard real time. SIGINT delivered to the owning test thread after8 synced layers. Exact accepted case1 vectors after explicit reset, with preserved allocations. Unexpected observer exception proves poison policy, not an actual GPU-fault repair. No production/concurrency/provider or speed claim.",
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "accepted_reference": {
+    "passed": true,
+    "attention_variant": 3,
+    "control_capable": true,
+    "csv_sha256": "c22433e0d9452913ee439e6d5ab3da8a70a6320c0f5d3ec2c29e692384debf42",
+    "report_sha256": "e7d9f7df73e1907090d9e279fb204006deb9acd5c9121e23353444ed8dea16be",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+  }
+}

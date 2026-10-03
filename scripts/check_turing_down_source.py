@@ -37,6 +37,9 @@ def accepted_model(csv_path, report_path, model_sha):
         report.get("numerical_budget") != budget or report.get("full_model_values_per_mode") != 4 * VOCABULARY or
         report.get("invalid_tiles") != 8 or report.get("guards") != 4352):
         raise ValueError("Down source lacks exact complete accepted strategy3 scope")
+    if (type(report.get("control_capable", False)) is not bool or
+        report.get("control_capable", False) != data["control_capable"]):
+        raise ValueError("Down source control capability differs from actual capture")
     cpu = report.get("independent_reference", {})
     if (cpu.get("passed") is not True or type(cpu.get("requested_gpu_layers")) is not int or cpu["requested_gpu_layers"] != 0 or
         cpu.get("context") != 4096 or cpu.get("kv") != "f16" or cpu.get("batch") != 128 or cpu.get("threads") != 4 or
@@ -56,7 +59,7 @@ def accepted_model(csv_path, report_path, model_sha):
         if (any(case.get(key) != source[key] for key in keys) or case.get("native_comparison") != source["native_comparison"] or
             not fixed_comparison(source["native_comparison"]) or any(not fixed_comparison(oracle.get(owner)) for owner in ("native", "matrix"))):
             raise ValueError("Down source complete numerical/counter/cache/ID coverage mismatch")
-    proof = dict(passed=True, attention_variant=3, csv_sha256=data["csv_sha256"],
+    proof = dict(passed=True, attention_variant=3, control_capable=data["control_capable"], csv_sha256=data["csv_sha256"],
         report_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(), model_sha256=model_sha)
     if digest(csv_path) != proof["csv_sha256"] or digest(report_path) != proof["report_sha256"]:
         raise ValueError("Down model source changed during admission")

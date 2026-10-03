@@ -196,3 +196,13 @@ counts28 and18 actual unchanged-state/owner refusals accompany all eight full-
 vocabulary continuation frames/four owners/4352 guards. Rehash all artifacts and
 retain interrupts/cleanup failures. Read ../docs/NATIVE_TURING_DOWN_CHECKPOINT.md;
 no elapsed/persisted/crash/production promotion. Controls/tracing remain closed3.
+
+Down128 cooperative controls require separate default-disabled capability and
+explicit --down128 source validation. First collect optional control-capable
+model mode and independently accept exact prior2/prior3 full vectors/cache/IDs.
+Capability marker and report Boolean must match; old incapable3 source refuses.
+Actual abort/recovery/poison down counts and unchanged control/state/guard/byte/
+allocation/owned-signal/mask/hash contracts own acceptance. Six portable contracts
+pass; keep all failed artifacts including the initial synthetic fixture typo.
+Read ../docs/NATIVE_TURING_DOWN_CONTROLS.md; no GPU-fault repair, hard deadline,
+production32/provider score. Projection tracing remains closed for3.

@@ -315,3 +315,18 @@ remain. Opt-in rehashes current CSV/derivation/models and re-admits exact source
 report after oracle; cleanup interrupts publish failed exclusive JSON too. Legacy
 schemas remain. Read ../docs/NATIVE_TURING_DOWN_CHECKPOINT.md; never a speed score,
 persisted/crash/context-recreated or production32 admission.
+
+## Capability-bound down128 cooperative control admission
+
+Model parse optionally admits CONTROL_CAPABLE,3,1 once immediately after strategy3
+admission; report stores Boolean control_capable, absent marker means False.
+accepted_model verifies exact CSV/report Boolean agreement, preserving old3.
+Control reference/parse add allow_down=False and CLI --down128. True requires
+complete accepted3 numeric/source/counter/cache/ID/predecessor/zero-GPU F32 model
+with actual capability True; ordinary3 source refuses. Actual aborted down counts
+equal synced layers, recovered28 and poison1; source F32 bytes including signed
+zero/reset/history/health/refusals/allocations/SIGINT/mask/9792 guards remain.
+Opt-in requires final newline; source/model/current capture rehash after validation.
+All reports stay exclusive/failure-aware and control speed_claim=False. Read
+../docs/NATIVE_TURING_DOWN_CONTROLS.md. Six portable contracts; never GPU-fault
+repair/hard real time/production/provider promotion.

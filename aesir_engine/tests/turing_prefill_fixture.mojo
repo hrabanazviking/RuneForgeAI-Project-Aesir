@@ -43,13 +43,16 @@ struct TuringPrefillFixture:
     var trace_projections: Bool
     var down128: Bool
     var down128_calls: Int
+    var down128_controls: Bool
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
         if down128 and (precision != 0 or not batched or not elementwise):
             raise Error("Down128 requires original precision0 and batched elementwise strategy")
+        if down128_controls and not down128: raise Error("Down128 controls require admitted down128 strategy")
+        self.down128_controls = down128_controls
         self.down128 = down128
         self.down128_calls = 0
         self.batched_elementwise = elementwise
@@ -232,9 +235,10 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
+        if self.down128_controls and not self.down128: raise Error("Down128 control capability drifted outside its strategy")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
-        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.trace_projections or self.control.enabled()):
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.trace_projections or (self.control.enabled() and not self.down128_controls)):
             raise Error("Down128 admits only uncontrolled untraced original elementwise model gate")
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
@@ -250,15 +254,17 @@ struct TuringPrefillFixture:
                 raise Error("Matrix fixture token outside vocabulary")
 
     def configure_control(mut self,timeout_ms: Int = 0,cancel_fd: Int = -1) raises:
-        if self.down128: raise Error("Down128 enabled controls require separate acceptance")
+        if self.down128 and not self.down128_controls: raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot configure a busy or failed matrix fixture")
+        self.admit_execution_strategy()
         self.control.configure(timeout_ms,cancel_fd)
 
     def start_control(mut self) raises:
-        if self.down128: raise Error("Down128 enabled controls require separate acceptance")
+        if self.down128 and not self.down128_controls: raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot start control on a busy or failed matrix fixture")
+        self.admit_execution_strategy()
         self.control.start()
 
     def drain_control_abort(mut self,reason: String) raises:

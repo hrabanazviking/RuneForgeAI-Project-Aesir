@@ -68,9 +68,13 @@ def parse(path):
     if variant is not None and precision != 0: raise ValueError("Batched rotary/cache mixed with rejected precision refinement")
     if variant == 3 and (not text.endswith("\n") or next(reader) != ["ADMISSION","3","2","0"]):
         raise ValueError("Incomplete down128 pre-step refusal evidence")
+    control_capable = False
+    first_case = next(reader)
+    if variant == 3 and first_case == ["CONTROL_CAPABLE","3","1"]:
+        control_capable = True; first_case = next(reader)
     cases = []
     for index in range(4):
-        row = next(reader)
+        row = first_case if index == 0 else next(reader)
         if len(row) != 3 or row[:2] != ["CASE", str(index)] or not 2 <= int(row[2]) <= 1536:
             raise ValueError("Matrix-model case identity/context mismatch")
         count = int(row[2]); ids = []
@@ -118,7 +122,7 @@ def parse(path):
         raise ValueError("Matrix-model collection totals mismatch")
     if next(reader, None) is not None:
         raise ValueError("Trailing matrix-model evidence")
-    return dict(cases=cases, activation_precision=precision, attention_variant=variant, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
+    return dict(cases=cases, activation_precision=precision, attention_variant=variant, control_capable=control_capable, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
 
 
 def fixture_reference(data, csv_path, report_path, model_sha):
@@ -212,7 +216,7 @@ def provenance(path, original_sha, reference_sha):
 def summarize(data):
     return dict(schema=1, passed=False, collection_complete=True, speed_scored=False,
                 activation_precision=data["activation_precision"],
-                attention_variant=data["attention_variant"],
+                attention_variant=data["attention_variant"], control_capable=data["control_capable"],
                 csv_sha256=data["csv_sha256"], full_model_values_per_mode=4 * VOCABULARY,
                 invalid_tiles=8, guards=4352,
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),

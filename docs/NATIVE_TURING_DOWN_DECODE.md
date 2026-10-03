@@ -100,5 +100,6 @@ Process/export/oracle times are unscored; `speed_scored` is always false. It doe
 not prove free-running candidate generation, persisted checkpoint restoration,
 enabled-control recovery, production32, other contexts/devices, concurrency/soak
 or an Ollama/provider lead. Strategy3 [sealed owning-context replay](NATIVE_TURING_DOWN_CHECKPOINT.md) now has
-an explicit source-bound gate; enabled controls/tracing remain closed. Portable adversarial tests
+an explicit source-bound gate. [Cooperative controls](NATIVE_TURING_DOWN_CONTROLS.md)
+require separate default-disabled capability; tracing remains closed. Portable adversarial tests
 prove evidence admission only; hosted target compilation is not GPU execution.

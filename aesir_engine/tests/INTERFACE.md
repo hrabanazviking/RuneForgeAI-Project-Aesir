@@ -631,3 +631,19 @@ restored owners retain exact actual F32 bits, independent/sample/state/guards.
 Default0/1/2 schema/math remains. GPU/replay exceptions still poison actual owner.
 Read ../../docs/NATIVE_TURING_DOWN_CHECKPOINT.md; no persisted/crash/context-
 recreated/runtime/elapsed admission. Enabled controls/tracing remain closed3.
+
+## Explicit down128 control capability and recovery
+
+TuringPrefillFixture adds final down128_controls=False. True requires down128
+before model load, pure execution flags before step/configure/start/replay reset
+and original precision0/batched/elementwise geometry. Ordinary down128 still
+refuses enabled controls; True uses existing synchronized cooperative checkpoints/
+drain/reset-required/healthy recovery and unexpected failure poison. Tracing stays
+closed. No new device workspace/math. Existing model collector optional
+control-capable mode exports CONTROL_CAPABLE,3,1, tests negative settings/trace
+refusal and all original disabled source vectors/cache/state/timings. Defaults stay.
+Control collector explicit3 constructs capability True; actual abort down counts
+must equal completed layers, recovered counts28 and poison1. All four aborts/
+513024 recovered values per owner/9792 guards/owned SIGINT/mask/reset/allocations/
+refusals remain. Read ../../docs/NATIVE_TURING_DOWN_CONTROLS.md; no GPU-fault repair,
+hard real time, production32/concurrency/provider gate. Hosted compile is not GPU.

@@ -12,7 +12,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
         var refused = False
         if feature == 1: f.trace_projections = True
         try:
-            if feature == 0: f.configure_control(1)
+            if feature == 0: f.configure_control(-1 if f.down128_controls else 1)
             else: f.step(tokens,0,32)
         except: refused = True
         f.trace_projections = False
@@ -26,13 +26,18 @@ def main() raises:
     if len(args) == 3 and args[2] == "reject-flags":
         var invalid = TuringPrefillFixture(args[1],0,False,False,True)
         raise Error("Invalid down flags were admitted")
-    if len(args) != 2: raise Error("usage: test_turing_down_model MODEL.gguf")
-    var f = TuringPrefillFixture(args[1],0,True,True,True)
+    if len(args) == 3 and args[2] == "reject-controls":
+        var invalid = TuringPrefillFixture(args[1],0,False,False,False,True)
+        raise Error("Invalid control capability was admitted")
+    if len(args) != 2 and (len(args) != 3 or args[2] != "control-capable"):
+        raise Error("usage: test_turing_down_model MODEL.gguf [control-capable]")
+    var f = TuringPrefillFixture(args[1],0,True,True,True,len(args)==3)
     invalid_tiles(f)
     closed_features(f)
     print("ATTENTION,rope_cache_elementwise_down128,1,32")
     print("META,1,128256,1536,32,f16,8")
     print("ADMISSION,3,2,0")
+    if f.down128_controls: print("CONTROL_CAPABLE,3,1")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.","Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.","Write one sentence about a silver ship beneath Bifröst.",long_prompt]
     for index in range(4):

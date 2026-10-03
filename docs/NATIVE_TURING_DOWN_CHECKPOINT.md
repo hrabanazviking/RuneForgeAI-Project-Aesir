@@ -99,5 +99,7 @@ public policies and boundaries. It does not prove a persisted format, process-
 crash recovery, context recreation, broader histories/devices, free-running
 candidate quality, enabled controls, production32/concurrency/soak or provider
 speed. `speed_scored` is always false; process/export/oracle timings are unscored.
-Strategy3 enabled controls and tracing remain closed. Portable tests prove
+Checkpoint replay requires idle uncontrolled ownership. Strategy3 [cooperative
+controls](NATIVE_TURING_DOWN_CONTROLS.md) have a separate default-disabled capability;
+projection tracing remains closed. Portable tests prove
 admission only; hosted compilation never counts as physical GPU execution.

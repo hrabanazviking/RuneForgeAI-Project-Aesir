@@ -18,8 +18,9 @@ resets with fresh fixture state. Gate/up/Q/output stay original64; K/V and four/
 scalar tails retain native references. There is no additional device workspace or
 production selection. The candidate shares at most19008 bytes across256 threads.
 
-Strategy3 refuses enabled controls and projection tracing before GPU or owner
-mutation. [Decode/sample](NATIVE_TURING_DOWN_DECODE.md) and [sealed owning-context
+Ordinary strategy3 refuses enabled controls and projection tracing before GPU
+or owner mutation. Explicit [control capability](NATIVE_TURING_DOWN_CONTROLS.md)
+now has a separate cooperative recovery gate; tracing remains closed. [Decode/sample](NATIVE_TURING_DOWN_DECODE.md) and [sealed owning-context
 replay](NATIVE_TURING_DOWN_CHECKPOINT.md) now have explicit source-bound gates.
 Default shared metadata readers keep refusing3; explicit decode/checkpoint
 validation requires its complete accepted source. Production defaults stay unchanged.
@@ -99,5 +100,6 @@ counters/source/failure/scoring behavior, without claiming GPU execution.
 
 The passing narrow strategy remains opt-in. Decode/sample trajectories and sealed
 owning-context replay now have their separate explicit gates; enabled control
-recovery is next. Broader contexts/devices/concurrency/soak and refreshed provider
+recovery now has an explicit default-disabled capability gate. Owned strategy3
+projection tracing is next. Broader contexts/devices/concurrency/soak and refreshed provider
 comparisons remain separate. Original defaults and served policy remain available.

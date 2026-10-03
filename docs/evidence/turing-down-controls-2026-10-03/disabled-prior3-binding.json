@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "accepted_source": {
+    "passed": true,
+    "attention_variant": 3,
+    "control_capable": false,
+    "csv_sha256": "fb686e2ae3f6eb926c7d30fcf91a5cc5892c926c8319a54fd2eca3779f246f09",
+    "report_sha256": "bf66de5fb7b78f3cef38991ca0a2d36813fc7effeaaa849a400a57ce3f46237d",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+  },
+  "control_capable_source": {
+    "passed": true,
+    "attention_variant": 3,
+    "control_capable": true,
+    "csv_sha256": "c22433e0d9452913ee439e6d5ab3da8a70a6320c0f5d3ec2c29e692384debf42",
+    "report_sha256": "e7d9f7df73e1907090d9e279fb204006deb9acd5c9121e23353444ed8dea16be",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+  },
+  "cases": [
+    {
+      "input_ids_equal": true,
+      "native_f32_bytes_equal": true,
+      "matrix_f32_bytes_equal": true,
+      "guarded_cache_identity_passed": true,
+      "passed": true
+    },
+    {
+      "input_ids_equal": true,
+      "native_f32_bytes_equal": true,
+      "matrix_f32_bytes_equal": true,
+      "guarded_cache_identity_passed": true,
+      "passed": true
+    },
+    {
+      "input_ids_equal": true,
+      "native_f32_bytes_equal": true,
+      "matrix_f32_bytes_equal": true,
+      "guarded_cache_identity_passed": true,
+      "passed": true
+    },
+    {
+      "input_ids_equal": true,
+      "native_f32_bytes_equal": true,
+      "matrix_f32_bytes_equal": true,
+      "guarded_cache_identity_passed": true,
+      "passed": true
+    }
+  ],
+  "speed_scored": false
+}

@@ -1,3 +1,28 @@
+## 2026-10-03 — Sigrún: explicit down128 cooperative recovery capability
+
+Scoped/pushed5455dbe before code. Final down128_controls=False preserves ordinary
+strategy3 refusal; explicit True requires down strategy/profile/flags before
+model/configure/start/step/replay reset. Tracing stays closed. Disabled capable
+collector/source Boolean marker passes complete513024 vectors/IDs/full cache
+against accepted2/prior3 plus unchanged CPU/own bits/4352 guards/eight invalid
+tiles/32 paired timings. Long native/new12.70594/6.83303s=1.85949x exploratory;
+no cross-capture time ratio. Actual control abort/down layers0/2/8/0 drain healthy/
+reset-required/uncommitted; reset recovers all513024 exact values per owner/down28
+with allocations/IDs/SIGINT owner/mask/refusals/9792 guards intact. Unexpected
+observer poisons at1 layer/down call and refuses reuse/reset. No GPU-fault repair.
+
+Six portable contracts plus legacy gates/master190 passes/one skip. Capability/
+complete numeric/source/state/actual counts/signed-zero/after-validation hashes/
+interrupt/exclusive failure reports own acceptance. Initial unanchored synthetic
+GUARD replacement failed; retained source/log/receipt, corrected line anchor and
+passed all tests without ever using it as physical evidence. All eight builds
+precede serial disabled GPU/pinned oracle/prior3 binding/owned control validation;
+pre-model invalid capability/strategy refuse. Normal f3442a1e stays active/
+authenticated ready/prefill4/cpuoffload0. Read [operation](docs/NATIVE_TURING_DOWN_CONTROLS.md)
+and full evidence. Next own3 projection tracing/bottleneck before next speed
+experiment; hard real time/production32/broader-context/concurrency/soak/provider
+remain separate. Exact push/CI receipts are separate.
+
 ## 2026-10-03 — Sigrún: sealed down128 replay with pure pre-reset flags
 
 Scoped/pushed27ceb40 before code. Pure copied/checksummed plans admit matrix3,

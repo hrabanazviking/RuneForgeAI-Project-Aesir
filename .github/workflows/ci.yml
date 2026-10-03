@@ -87,6 +87,7 @@ jobs:
           python3 scripts/test_check_turing_down_model.py
           python3 scripts/test_check_turing_down_decode.py
           python3 scripts/test_check_turing_down_checkpoint.py
+          python3 scripts/test_check_turing_down_controls.py
 
       - name: Prove Duplicate Recipe Rejection Preserves Catalog
         run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build

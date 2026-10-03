@@ -16,7 +16,13 @@ from check_turing_model_prefill import parse as reference_parse, attention_varia
 from check_llama3_logits import VOCABULARY
 
 
-def reference(path,report_path,model_sha):
+def reference(path,report_path,model_sha,*,allow_down=False):
+    if allow_down:
+        from check_turing_down_source import accepted_model
+        data, proof = accepted_model(path, report_path, model_sha)
+        if proof["control_capable"] is not True:
+            raise ValueError("Down controls require accepted control-capable disabled model")
+        return dict(data["cases"][1],attention_variant=3,control_capable=True),proof
     data = reference_parse(path)
     text = read_text(report_path,5*1024*1024)
     report = json.loads(text,object_pairs_hook=reference_fields,parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite control source")))
@@ -38,14 +44,17 @@ def reference(path,report_path,model_sha):
     return dict(data["cases"][1],attention_variant=data.get("attention_variant")),proof
 
 
-def parse(path,golden):
+def parse(path,golden,*,allow_down=False):
     text = read_text(path,64*1024*1024)
     if len(text.encode()) > 64*1024*1024: raise ValueError("Control CSV grew beyond admission")
+    if allow_down and not text.endswith("\n"): raise ValueError("Incomplete down control newline")
     reader = iter(csv.reader(io.StringIO(text)))
     row = next(reader)
     if not row or not row[0].startswith("[CUDA]") or "api=cuda" not in row[0] or "cpu_offload=0" not in row[0]:
         raise ValueError("Missing native CUDA control identity")
-    row = next(reader); variant = attention_variant(row)
+    row = next(reader); variant = attention_variant(row,allow_down=allow_down)
+    if allow_down and (variant != 3 or golden.get("control_capable") is not True):
+        raise ValueError("Down control strategy/capability differs from accepted source")
     if variant is not None: row = next(reader)
     if variant != golden.get("attention_variant"): raise ValueError("Control strategy differs from accepted source")
     if row != ["META","1","fixture_controls","1536","32",str(VOCABULARY),"4","1"]:
@@ -63,6 +72,8 @@ def parse(path,golden):
         layers = int(row[3])
         if str(layers) != row[3] or (index == 1 and not 0 < layers < 28) or (index == 2 and layers != 8) or (index in (0,3) and layers != 0):
             raise ValueError("Wrong actual control layer boundary")
+        if allow_down and next(reader) != ["ABORT_DOWN_ROWS128",str(index),str(layers)]:
+            raise ValueError("Actual down abort count differs from completed layers")
         if next(reader) != ["ABORT_GUARD",str(index),"1088","0"] or next(reader) != ["REFUSAL",str(index),"3","0"]:
             raise ValueError("Abort guard or reset-required refusal failed")
         if index == 2 and next(reader) != ["SIGINT_OWNER","2","1","0"]:
@@ -75,6 +86,8 @@ def parse(path,golden):
             if len(row) != 5 or row[:3] != ["LOGIT",str(index),str(token)]:
                 raise ValueError("Incomplete/duplicate/out-of-order recovered vectors")
             native.append(f32(row[3])); matrix.append(f32(row[4]))
+        if allow_down and next(reader) != ["RECOVERED_DOWN_ROWS128",str(index),"28"]:
+            raise ValueError("Actual down recovery enqueue count differs from source")
         if next(reader) != ["GUARD",str(index),"1088","0"]:
             raise ValueError("Recovered fixture guards failed")
         differences = dict(native=sum(a != b for a,b in zip(native,golden["native"],strict=True)),
@@ -82,8 +95,13 @@ def parse(path,golden):
         cases.append(dict(reason=reason,completed_layers=layers,position_before_reset=0,
                           uncommitted_sampler_position=int(sampler),reset_required=True,
                           vector_mismatches=differences,byte_identical=native.tobytes()==golden["native"].tobytes() and matrix.tobytes()==golden["logits"].tobytes(),
-                          native_sha256=hashlib.sha256(native.tobytes()).hexdigest(),matrix_sha256=hashlib.sha256(matrix.tobytes()).hexdigest()))
-    if next(reader) != ["POISON","1","0","0","32","0","4","0"] or next(reader) != ["POISON_GUARD","1088","0"]:
+                          native_sha256=hashlib.sha256(native.tobytes()).hexdigest(),matrix_sha256=hashlib.sha256(matrix.tobytes()).hexdigest(),
+                          **({"abort_down128_host_enqueues":layers,"recovered_down128_host_enqueues":28} if allow_down else {})))
+    if next(reader) != ["POISON","1","0","0","32","0","4","0"]:
+        raise ValueError("Unexpected exception did not poison fixture and refuse reuse/reset")
+    if allow_down and next(reader) != ["POISON_DOWN_ROWS128","1"]:
+        raise ValueError("Actual down poison count differs from observer boundary")
+    if next(reader) != ["POISON_GUARD","1088","0"]:
         raise ValueError("Unexpected exception did not poison fixture and refuse reuse/reset")
     if next(reader) != ["MASK_RESTORED","1"] or next(reader) != ["COMPLETE","fixture_controls","4",str(4*VOCABULARY),"1","9792","1"]:
         raise ValueError("Control mask restoration or complete totals failed")
@@ -91,6 +109,7 @@ def parse(path,golden):
     return dict(schema=1,passed=all(c["byte_identical"] for c in cases),collection_complete=True,speed_claim=False,attention_variant=variant,
                 csv_sha256=hashlib.sha256(text.encode()).hexdigest(),recovered_values_per_mode=4*VOCABULARY,
                 guards=9792,poisoned_exception_cases=1,owner_mask_restored=True,cases=cases,
+                **({"poison_down128_host_enqueues":1,"control_capable":True} if allow_down else {}),
                 limits="Test-only strict3B/context1536 original precision0 with explicit execution strategy binding and cooperative layer boundaries. 10ms deadline is not hard real time. SIGINT delivered to the owning test thread after8 synced layers. Exact accepted case1 vectors after explicit reset, with preserved allocations. Unexpected observer exception proves poison policy, not an actual GPU-fault repair. No production/concurrency/provider or speed claim.")
 
 
@@ -99,14 +118,15 @@ def main():
     parser.add_argument("csv",type=Path); parser.add_argument("--reference-csv",type=Path,required=True)
     parser.add_argument("--reference-report",type=Path,required=True); parser.add_argument("--model",type=Path,required=True)
     parser.add_argument("--model-sha256",required=True); parser.add_argument("--output",type=Path,required=True)
+    parser.add_argument("--down128",action="store_true",help="Explicit control-capable strategy3 recovery")
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{64}",args.model_sha256): parser.error("Lowercase model SHA-256 required")
     with args.output.open("x",encoding="utf-8") as stream:
         report = dict(schema=1,passed=False,collection_complete=False,speed_claim=False)
         try:
             if digest(args.model) != args.model_sha256: raise ValueError("Control model checksum mismatch")
-            golden,proof = reference(args.reference_csv,args.reference_report,args.model_sha256)
-            report = parse(args.csv,golden)
+            golden,proof = reference(args.reference_csv,args.reference_report,args.model_sha256,allow_down=args.down128)
+            report = parse(args.csv,golden,allow_down=args.down128)
             report.update(model_sha256=args.model_sha256,accepted_reference=proof)
             if digest(args.model) != args.model_sha256: raise ValueError("Control model changed during read")
             if digest(args.csv) != report["csv_sha256"] or digest(args.reference_csv) != proof["csv_sha256"] or digest(args.reference_report) != proof["report_sha256"]:

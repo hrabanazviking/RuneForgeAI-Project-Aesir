@@ -504,6 +504,15 @@ passes/one skip; explicit accepted3 full96 source and all artifact rehashes bind
 acceptance. [Operation](docs/NATIVE_TURING_DOWN_CHECKPOINT.md). Preliminary capture
 stays; final explicitly checks counters/allocations after each refusal. Next earn
 strategy3 enabled cooperative recovery; no persisted/crash/production/provider gate.
+Separate default-disabled down128 control capability now earns cooperative
+healthy drain/reset recovery: actual0/2/8/0 synced layers/down calls, source-exact
+513024 recovered values per owner/allocations/uncommitted IDs/owned SIGINT/mask/
+9792 guards and observer poison/refusals at1. Disabled capable full model matches
+prior2/prior3 vectors/IDs/cache and unchanged CPU/own-bit gates; long paired
+12.70594/6.83303s=1.85949x exploratory, never a historical time comparison.
+Six contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_DOWN_CONTROLS.md).
+No hard real-time/GPU-fault repair/production/provider admission. Next own updated
+strategy3 projection tracing before another measured kernel speed experiment.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

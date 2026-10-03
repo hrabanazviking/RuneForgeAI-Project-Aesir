@@ -1537,7 +1537,21 @@ and circular self-parity transforms were removed.
   counter/allocation comparisons after each refusal. [Evidence](docs/evidence/turing-down-checkpoint-2026-10-03/README.md).
   Same-process owning-context replay only, always unscored; no persisted/crash/
   context recreation/free-running candidate/controls/tracing/runtime/provider gate.
-- **Next acceptance gate:** Strategy3 enabled-control recovery gate; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down128 opt-in cooperative recovery (2026-10-03):** Separate final capability
+  False preserves ordinary down128 refusal; True preflights down/profile/flags
+  before model/configure/start/step/replay reset. Disabled capable source retains
+  all513024 native/matrix F32 values/IDs/full cache against prior2/prior3, unchanged
+  CPU/own fresh bits/4352 guards/eight invalid tiles/32 paired records. Explicit
+  capability/source Boolean/numeric/hash proof binds controls. Actual healthy
+  aborts at0/2/8/0 synced layers/down calls require reset/uncommitted state; three
+  reuse refusals preserve state. Reset recovers all513024 exact values per owner,
+  down28, actual allocations and owned SIGINT/mask. Observer poison at1 layer/call
+  refuses four reuse/reset operations; all9792 guards pass. Six contracts/master190
+  passes/one skip. [Evidence](docs/evidence/turing-down-controls-2026-10-03/README.md).
+  Disabled long paired native/new12.70594/6.83303s=1.85949x exploratory only;
+  control speed_claim=False. No hard real time/GPU-fault repair/production32/
+  broader-context/device/concurrency/soak/free-running/persisted/provider gate.
+- **Next acceptance gate:** Owned strategy3 projection tracing and next measured bottleneck experiment; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

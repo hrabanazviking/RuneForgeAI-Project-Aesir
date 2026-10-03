@@ -56,6 +56,7 @@ def recovered(mut f: TuringPrefillFixture,tokens: List[Int],index: Int) raises:
     for i in range(128256):
         print("LOGIT,"+String(index)+","+String(i)+","+String(Float64(native[i]))+","+String(Float64(matrix[i])))
     f.guards()
+    if f.down128: print("RECOVERED_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     print("GUARD,"+String(index)+",1088,0")
 
 
@@ -85,6 +86,7 @@ def abort_case(mut f: TuringPrefillFixture,tokens: List[Int],index: Int,fd: Int)
         raise Error("Control did not stop at the declared physical layer boundary")
     print("CONTROL,"+String(index)+","+reason+","+String(layers)+",0,0,"+String(sampler)+",1,1")
     f.guards()
+    if f.down128: print("ABORT_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     print("ABORT_GUARD,"+String(index)+",1088,0")
     print("REFUSAL,"+String(index)+","+String(refusal(f,tokens,False))+",0")
     if index == 2:
@@ -96,11 +98,12 @@ def abort_case(mut f: TuringPrefillFixture,tokens: List[Int],index: Int,fd: Int)
 
 def exercise(path: String,flag: Int = 0,explicit: Bool = False) raises:
     var interrupts = ChatInterrupts()
-    var f = TuringPrefillFixture(path,0,Bool(flag>0),Bool(flag==2))
+    var f = TuringPrefillFixture(path,0,Bool(flag>0),Bool(flag>=2),Bool(flag==3),Bool(flag==3))
     var tokens = inputs(f,"Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.")
     if len(tokens) != 37: raise Error("Recovery public prompt changed")
     if explicit:
-        if flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
+        if flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
+        elif flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
         else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,fixture_controls,1536,32,128256,4,1")
     for i in range(len(tokens)): print("INPUT,"+String(i)+","+String(tokens[i]))
@@ -115,6 +118,7 @@ def exercise(path: String,flag: Int = 0,explicit: Bool = False) raises:
         raise Error("Unexpected observer failure did not poison fixture")
     print("POISON,1,0,0,32,0,"+String(refusal(f,tokens,True))+",0")
     f.guards()
+    if f.down128: print("POISON_DOWN_ROWS128,"+String(f.down128_calls))
     print("POISON_GUARD,1088,0")
     _ = interrupts
 
@@ -123,7 +127,7 @@ def main() raises:
     var args = argv()
     if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_fixture_controls MODEL.gguf [STRATEGY]")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag < 0 or flag > 2: raise Error("Control fixture strategy must be0/1/2")
+    if flag < 0 or flag > 3: raise Error("Control fixture strategy must be0/1/2/3")
     var before = InlineArray[UInt64,16](fill=0)
     var after = InlineArray[UInt64,16](fill=0)
     if external_call["pthread_sigmask",Int32](Int32(0),Int(0),Int(before.unsafe_ptr())) != 0:

@@ -172,6 +172,17 @@
   [Operation](docs/NATIVE_TURING_DOWN_CHECKPOINT.md). Preliminary accepted capture
   stays; final strengthens explicit refusal counter/allocation comparisons.
   Next earn strategy3 cooperative control recovery; no elapsed/crash/production gate.
+- [x] SPD-01/04 down-only128 opt-in cooperative controls: default-disabled
+  capability preserves ordinary3 refusal. Disabled capable model matches all
+  prior2/prior3 F32/IDs/full cache and unchanged CPU/own-bit/4352-guard gates.
+  Four real aborts at0/2/8/0 synced layers/down calls recover exact513024 values
+  per owner after reset, preserve allocations/IDs/owned SIGINT/mask/refusals and
+  9792 guards. Observer exception poisons at1 layer/call and refuses reuse/reset.
+  Six portable contracts/master190 passes/one skip; actual capability/source/hash
+  gates/negative pre-model refusals pass. Disabled long paired native/new
+  12.70594/6.83303s=1.85949x exploratory; enabled control time unscored.
+  [Operation](docs/NATIVE_TURING_DOWN_CONTROLS.md). Next earn owned3 projection
+  tracing before next measured speed change; production/broader/provider gates stay.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded
