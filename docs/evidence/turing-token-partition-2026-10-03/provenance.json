@@ -1,0 +1,1074 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "8833a70",
+  "first_builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:32:57.362020+00:00",
+      "ended_utc": "2026-10-03T10:32:57.476886+00:00",
+      "wall_seconds": 0.114886657014722,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_large_rows.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-down-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:31:34.468578+00:00",
+      "ended_utc": "2026-10-03T10:32:02.634454+00:00",
+      "wall_seconds": 28.16591073901509,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:32:02.634979+00:00",
+      "ended_utc": "2026-10-03T10:32:36.641826+00:00",
+      "wall_seconds": 34.006870743003674,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:32:36.642163+00:00",
+      "ended_utc": "2026-10-03T10:32:57.361601+00:00",
+      "wall_seconds": 20.71946241002297,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:30:55.017296+00:00",
+      "ended_utc": "2026-10-03T10:31:34.468031+00:00",
+      "wall_seconds": 39.45078045601258,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_token_partition.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:28:50.758069+00:00",
+      "ended_utc": "2026-10-03T10:29:52.651581+00:00",
+      "wall_seconds": 61.89353798600496,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_token_partition.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:29:52.652025+00:00",
+      "ended_utc": "2026-10-03T10:30:55.016851+00:00",
+      "wall_seconds": 62.364852647995576,
+      "performance_scored": false
+    }
+  ],
+  "final_builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:36:49.288207+00:00",
+      "ended_utc": "2026-10-03T10:36:49.403241+00:00",
+      "wall_seconds": 0.11506078200181946,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_large_rows.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-down-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:35:34.680655+00:00",
+      "ended_utc": "2026-10-03T10:35:55.218838+00:00",
+      "wall_seconds": 20.538204062002478,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:35:55.219159+00:00",
+      "ended_utc": "2026-10-03T10:36:28.917889+00:00",
+      "wall_seconds": 33.69874946202617,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:36:28.918204+00:00",
+      "ended_utc": "2026-10-03T10:36:49.287786+00:00",
+      "wall_seconds": 20.369607482018182,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:35:07.363932+00:00",
+      "ended_utc": "2026-10-03T10:35:34.680253+00:00",
+      "wall_seconds": 27.316344746999675,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_token_partition.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:33:53.605573+00:00",
+      "ended_utc": "2026-10-03T10:34:30.254877+00:00",
+      "wall_seconds": 36.64933284401195,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_token_partition.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:34:30.255361+00:00",
+      "ended_utc": "2026-10-03T10:35:07.363455+00:00",
+      "wall_seconds": 37.108125087979715,
+      "performance_scored": false
+    }
+  ],
+  "static_conflict_refusal": {
+    "argv": [
+      "[PIXI]",
+      "run",
+      "--frozen",
+      "--no-install",
+      "--offline",
+      "mojo",
+      "build",
+      "-I",
+      "aesir_engine",
+      "--target-accelerator",
+      "sm_75",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-conflict.mojo",
+      "-o",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-conflict"
+    ],
+    "exit_code": 1,
+    "started_utc": "2026-10-03T10:36:49.404045+00:00",
+    "ended_utc": "2026-10-03T10:36:53.430269+00:00",
+    "wall_seconds": 4.026236964971758,
+    "performance_scored": false,
+    "expected_refusal": true
+  },
+  "invalid_processes": {
+    "invalid-tokens-process": {
+      "exit": 1,
+      "wall_seconds": 0.016061394999269396,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+        "/nonexistent/model.gguf",
+        "64",
+        "4"
+      ],
+      "started_utc": "2026-10-03T10:37:25.385529+00:00",
+      "ended_utc": "2026-10-03T10:37:25.401637+00:00",
+      "performance_scored": false
+    },
+    "invalid-rows-process": {
+      "exit": 1,
+      "wall_seconds": 0.01630476099671796,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+        "/nonexistent/model.gguf",
+        "32",
+        "8"
+      ],
+      "started_utc": "2026-10-03T10:37:25.368734+00:00",
+      "ended_utc": "2026-10-03T10:37:25.385099+00:00",
+      "performance_scored": false
+    }
+  },
+  "processes": {
+    "rows64-tokens8": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "64",
+          "8"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T10:37:25.402016+00:00",
+        "ended_utc": "2026-10-03T10:37:39.001509+00:00",
+        "wall_seconds": 13.59951573802391,
+        "performance_scored": false,
+        "binary_sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+        "csv_sha256": "ccd593385b3a605dd62e1930ba328e0f4b188dee738500ebec5d53adbd86af61"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 20.267590744013432,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8.json"
+        ],
+        "started_utc": "2026-10-03T10:38:20.969986+00:00",
+        "ended_utc": "2026-10-03T10:38:41.237627+00:00",
+        "performance_scored": false
+      },
+      "oracle-final": {
+        "exit": 0,
+        "wall_seconds": 19.96918938899762,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8-final.json"
+        ],
+        "started_utc": "2026-10-03T10:42:38.648405+00:00",
+        "ended_utc": "2026-10-03T10:42:58.617665+00:00",
+        "performance_scored": false
+      }
+    },
+    "rows64-tokens16": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "64",
+          "16"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T10:37:39.090108+00:00",
+        "ended_utc": "2026-10-03T10:37:53.341534+00:00",
+        "wall_seconds": 14.251448009017622,
+        "performance_scored": false,
+        "binary_sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+        "csv_sha256": "ba34133d3a5a1e5e30081f3f35a11aebf9e856657ff3d2edd17346bcc6a6a33b"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 20.019766290002735,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16.json"
+        ],
+        "started_utc": "2026-10-03T10:38:41.238122+00:00",
+        "ended_utc": "2026-10-03T10:39:01.257948+00:00",
+        "performance_scored": false
+      },
+      "oracle-final": {
+        "exit": 0,
+        "wall_seconds": 19.768797830009134,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16-final.json"
+        ],
+        "started_utc": "2026-10-03T10:42:58.619954+00:00",
+        "ended_utc": "2026-10-03T10:43:18.388808+00:00",
+        "performance_scored": false
+      }
+    },
+    "rows128-tokens8": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "128",
+          "8"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T10:37:53.436666+00:00",
+        "ended_utc": "2026-10-03T10:38:06.736169+00:00",
+        "wall_seconds": 13.299522788001923,
+        "performance_scored": false,
+        "binary_sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+        "csv_sha256": "383672511fcb5a14d87ec52912fef74f114c2175da06edcbb92ed08a3335e7da"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 20.26104909501737,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8.json"
+        ],
+        "started_utc": "2026-10-03T10:39:01.258540+00:00",
+        "ended_utc": "2026-10-03T10:39:21.519625+00:00",
+        "performance_scored": false
+      },
+      "oracle-final": {
+        "exit": 0,
+        "wall_seconds": 19.818218119005905,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8-final.json"
+        ],
+        "started_utc": "2026-10-03T10:43:18.391094+00:00",
+        "ended_utc": "2026-10-03T10:43:38.209372+00:00",
+        "performance_scored": false
+      }
+    },
+    "rows128-tokens16": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "128",
+          "16"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T10:38:06.829618+00:00",
+        "ended_utc": "2026-10-03T10:38:20.880711+00:00",
+        "wall_seconds": 14.05110678699566,
+        "performance_scored": false,
+        "binary_sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+        "csv_sha256": "6c700df2b3636785ecbcbc306cfbfbdb20205913fc0307e0cab22f7cbec2549f"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 20.218996423995122,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16.json"
+        ],
+        "started_utc": "2026-10-03T10:39:21.520004+00:00",
+        "ended_utc": "2026-10-03T10:39:41.739040+00:00",
+        "performance_scored": false
+      },
+      "oracle-final": {
+        "exit": 0,
+        "wall_seconds": 20.118673795979703,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16.csv",
+          "--partition-tokens",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75",
+          "--binary-sha256",
+          "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16-final.json"
+        ],
+        "started_utc": "2026-10-03T10:43:38.212026+00:00",
+        "ended_utc": "2026-10-03T10:43:58.330747+00:00",
+        "performance_scored": false
+      }
+    }
+  },
+  "physical_source_preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_partition.mojo": "0ccef5c89960e8ddc219e7cb83d51b29cbe4d5193b38d24b2877ea395e127727",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_token_partition.mojo": "de6c93dde1a858d5ec6cb6fc76e35ef68661034dc20e45086bba4f48d551ab38",
+    "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py": "994fcdb9e36c2504f6810e959a275b07c433d0e865d51708c9cf4c46f99901ec",
+    "[AESIR_REPOSITORY]/scripts/test_check_turing_token_partition.py": "b1d18def92852f29d6e373e8ea1b928ba33eee7b5091f3f068242b6d12250cf6",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7253a1c7225682cae32c65b859ff3d5189fa55bccaf00b41893b1d9f47e379fa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_89": "4174a5445de90a89da6431e9c79c57a9b63912419007410de5a5818739500e9c"
+  },
+  "physical_source_postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_partition.mojo": "0ccef5c89960e8ddc219e7cb83d51b29cbe4d5193b38d24b2877ea395e127727",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_token_partition.mojo": "de6c93dde1a858d5ec6cb6fc76e35ef68661034dc20e45086bba4f48d551ab38",
+    "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py": "994fcdb9e36c2504f6810e959a275b07c433d0e865d51708c9cf4c46f99901ec",
+    "[AESIR_REPOSITORY]/scripts/test_check_turing_token_partition.py": "b1d18def92852f29d6e373e8ea1b928ba33eee7b5091f3f068242b6d12250cf6",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7253a1c7225682cae32c65b859ff3d5189fa55bccaf00b41893b1d9f47e379fa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_89": "4174a5445de90a89da6431e9c79c57a9b63912419007410de5a5818739500e9c"
+  },
+  "strengthened_checker_preflight": {
+    "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py": "22f423ca72b289ab7ee71d4504d013ad133f0a9ac2ee07bc800119e8b8f4750b",
+    "[AESIR_REPOSITORY]/scripts/test_check_turing_token_partition.py": "e24087aa01d9730b450511f390a5d48a43c17ccd5dd1788a8ebce127af9d06fc",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_partition.mojo": "0ccef5c89960e8ddc219e7cb83d51b29cbe4d5193b38d24b2877ea395e127727",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8.csv": "ccd593385b3a605dd62e1930ba328e0f4b188dee738500ebec5d53adbd86af61",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16.csv": "ba34133d3a5a1e5e30081f3f35a11aebf9e856657ff3d2edd17346bcc6a6a33b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8.csv": "383672511fcb5a14d87ec52912fef74f114c2175da06edcbb92ed08a3335e7da",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16.csv": "6c700df2b3636785ecbcbc306cfbfbdb20205913fc0307e0cab22f7cbec2549f"
+  },
+  "strengthened_checker_postflight": {
+    "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py": "22f423ca72b289ab7ee71d4504d013ad133f0a9ac2ee07bc800119e8b8f4750b",
+    "[AESIR_REPOSITORY]/scripts/test_check_turing_token_partition.py": "e24087aa01d9730b450511f390a5d48a43c17ccd5dd1788a8ebce127af9d06fc",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_partition.mojo": "0ccef5c89960e8ddc219e7cb83d51b29cbe4d5193b38d24b2877ea395e127727",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-sm_75": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens8.csv": "ccd593385b3a605dd62e1930ba328e0f4b188dee738500ebec5d53adbd86af61",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows64-tokens16.csv": "ba34133d3a5a1e5e30081f3f35a11aebf9e856657ff3d2edd17346bcc6a6a33b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens8.csv": "383672511fcb5a14d87ec52912fef74f114c2175da06edcbb92ed08a3335e7da",
+    "[CHAT_WORKSPACE]/work/aesir-trace/turing-token-partition-final/rows128-tokens16.csv": "6c700df2b3636785ecbcbc306cfbfbdb20205913fc0307e0cab22f7cbec2549f"
+  },
+  "refinement": "Exact source-derived guard/input/unowned coverage added after all initial runs validated and source fences passed. Initial checker/tests/reports retained. Unchanged native code/binary/CSV, new exclusive complete CPU revalidation yields identical accepted results.",
+  "original_core_quantization_retained_verbatim": true,
+  "oracle_versions": {
+    "numpy": "2.4.4",
+    "gguf": "0.19.0"
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-token-partition-before-exclusive-sm_75",
+      "bytes": 12242464,
+      "sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c"
+    },
+    {
+      "name": "turing-token-partition-before-exclusive-sm_89",
+      "bytes": 12242464,
+      "sha256": "4174a5445de90a89da6431e9c79c57a9b63912419007410de5a5818739500e9c"
+    },
+    {
+      "name": "turing-token-partition-before-exclusive-test_packed_matrix.mojo",
+      "bytes": 17770,
+      "sha256": "c4279b5ea0946ab83e2e8be9d6925afd49d98d4c5a34ac47dc3a67c8c8e38c42"
+    },
+    {
+      "name": "turing-token-partition-conflict-compile.json",
+      "bytes": 652,
+      "sha256": "c1eb0301420825c8ada85ddb81d6757ab6aab11762ab3a014eab8d88d1348d78"
+    },
+    {
+      "name": "turing-token-partition-conflict-compile.txt",
+      "bytes": 2208,
+      "sha256": "abe713cd41cd96d3499fdbe586baaff4cd8e30f1db9ca6159a5151e8bdf8fce5"
+    },
+    {
+      "name": "turing-token-partition-conflict.mojo",
+      "bytes": 349,
+      "sha256": "ccccca9a6742256472e1ebc8a79b1fa66cf33a8d85b8e4d6125245b2611165ad"
+    },
+    {
+      "name": "turing-token-partition-down-original-sm_75",
+      "bytes": 4873776,
+      "sha256": "d469725e0b239953c8163ae9ed89d2facee8d6d6e1419c98e9ea07a71395c8ae"
+    },
+    {
+      "name": "turing-token-partition-final/invalid-rows-process.json",
+      "bytes": 355,
+      "sha256": "2cd8581327a3af0655b6a4cac36762c29ec66d9c4c9089d284bebcd4884aa8d8"
+    },
+    {
+      "name": "turing-token-partition-final/invalid-rows.txt",
+      "bytes": 206,
+      "sha256": "d1f9931eee55aed58eea50d42bf61b4505f46953e76bc28a3b6109b0ee765613"
+    },
+    {
+      "name": "turing-token-partition-final/invalid-tokens-process.json",
+      "bytes": 356,
+      "sha256": "204a2dcc3ccf1439e34a971837f4d64c0908356833f0604d8b0b51fc9d4022d7"
+    },
+    {
+      "name": "turing-token-partition-final/invalid-tokens.txt",
+      "bytes": 206,
+      "sha256": "d1f9931eee55aed58eea50d42bf61b4505f46953e76bc28a3b6109b0ee765613"
+    },
+    {
+      "name": "turing-token-partition-final/postflight.json",
+      "bytes": 1432,
+      "sha256": "1ae7527e0248b2d148362b19c3b845e5926fa1bd13e6814a82bdb91c20b1881e"
+    },
+    {
+      "name": "turing-token-partition-final/preflight.json",
+      "bytes": 1432,
+      "sha256": "1ae7527e0248b2d148362b19c3b845e5926fa1bd13e6814a82bdb91c20b1881e"
+    },
+    {
+      "name": "turing-token-partition-final/revalidation-postflight.json",
+      "bytes": 1538,
+      "sha256": "073b1ab3306b503f08ef108ac55e7855c40b69a4ea28a05c4abb04a4d332ca14"
+    },
+    {
+      "name": "turing-token-partition-final/revalidation-preflight.json",
+      "bytes": 1538,
+      "sha256": "073b1ab3306b503f08ef108ac55e7855c40b69a4ea28a05c4abb04a4d332ca14"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-final.json",
+      "bytes": 69686,
+      "sha256": "b80e23e7b9383dc05c8f2ae3c77c16e424f02fae7f28e0bc0560de6b721acfe1"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-gpu-process.json",
+      "bytes": 654,
+      "sha256": "97c243ae9036bc473cebbd1b2f26d230a4f69f3688639e84a99dccf955ba243b"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-oracle-final-process.json",
+      "bytes": 1134,
+      "sha256": "fe7b8137f7075355652808e6cf691511981a71fd0f7756c17afa8a232db33ab1"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-oracle-final.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-oracle-process.json",
+      "bytes": 1128,
+      "sha256": "8ff14e8a1f5479b75ae940fb47ce027928a97a751eb35ff498ed7989bcc51926"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16.csv",
+      "bytes": 125723282,
+      "sha256": "6c700df2b3636785ecbcbc306cfbfbdb20205913fc0307e0cab22f7cbec2549f"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens16.json",
+      "bytes": 69686,
+      "sha256": "b80e23e7b9383dc05c8f2ae3c77c16e424f02fae7f28e0bc0560de6b721acfe1"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-final.json",
+      "bytes": 69641,
+      "sha256": "2da397aa5a7f535113eeaa4aa566e737822fb66c48360bf99af6a5dc682651ac"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-gpu-process.json",
+      "bytes": 654,
+      "sha256": "f6868836a2d9e7859e19aca03195cfd49519015b1571e8abfe3165e9d2dc3575"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-oracle-final-process.json",
+      "bytes": 1132,
+      "sha256": "524d3d63d92a863aaa024a0f61278dbf1760060ae26097a9ad9298a26f7b39ca"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-oracle-final.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-oracle-process.json",
+      "bytes": 1125,
+      "sha256": "8b0abac288d5095e634cc98756068b430e6e3d2e811fbdf9471da61affa41f8d"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8.csv",
+      "bytes": 125723230,
+      "sha256": "383672511fcb5a14d87ec52912fef74f114c2175da06edcbb92ed08a3335e7da"
+    },
+    {
+      "name": "turing-token-partition-final/rows128-tokens8.json",
+      "bytes": 69641,
+      "sha256": "2da397aa5a7f535113eeaa4aa566e737822fb66c48360bf99af6a5dc682651ac"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-final.json",
+      "bytes": 69726,
+      "sha256": "c81fd05a8f27133f67a200c8f2af44fb4544b367491e7dec97eea951347a796f"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-gpu-process.json",
+      "bytes": 654,
+      "sha256": "81310506171f39e8a2ba9213b763e85a9d287fc38f4d8c4546a8cc8536cd3446"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-oracle-final-process.json",
+      "bytes": 1132,
+      "sha256": "cba11477bf4009fdf2497a2a893b392dffc91fddaa084040f961d816bb0b9de8"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-oracle-final.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-oracle-process.json",
+      "bytes": 1126,
+      "sha256": "33fae38238d86b02f4b2295e34755671d3b7fb15f036e7c0d43e5f9700dd3193"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16.csv",
+      "bytes": 125723319,
+      "sha256": "ba34133d3a5a1e5e30081f3f35a11aebf9e856657ff3d2edd17346bcc6a6a33b"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens16.json",
+      "bytes": 69726,
+      "sha256": "c81fd05a8f27133f67a200c8f2af44fb4544b367491e7dec97eea951347a796f"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-final.json",
+      "bytes": 69668,
+      "sha256": "1c1b1cf6e76dbf64a8bfd5f39b343f37bfffd8d0bba7f6c9443a3e150bdbd539"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-gpu-process.json",
+      "bytes": 652,
+      "sha256": "89004fe4b53f1b462eeb48749252ede75988719e9b28a9c52a1248b377ee3556"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-oracle-final-process.json",
+      "bytes": 1129,
+      "sha256": "aab78e38c0d16faaffb7a7c773fb7d1080299b25d9cd697ebafebd1885e084ce"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-oracle-final.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-oracle-process.json",
+      "bytes": 1124,
+      "sha256": "ba003302e3b34171ed6152036e806516774f632696edcc95b0b841be53e427f8"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8.csv",
+      "bytes": 125723234,
+      "sha256": "ccd593385b3a605dd62e1930ba328e0f4b188dee738500ebec5d53adbd86af61"
+    },
+    {
+      "name": "turing-token-partition-final/rows64-tokens8.json",
+      "bytes": 69668,
+      "sha256": "1c1b1cf6e76dbf64a8bfd5f39b343f37bfffd8d0bba7f6c9443a3e150bdbd539"
+    },
+    {
+      "name": "turing-token-partition-final-build-check.json",
+      "bytes": 264,
+      "sha256": "fef67705a4820c0ffaa8003100b215219af776525293c88f326d32c857b0c592"
+    },
+    {
+      "name": "turing-token-partition-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-token-partition-final-build-down-original.json",
+      "bytes": 582,
+      "sha256": "1e51b54b0e8eabd8cd3c66ffc4caaa3795e4a0de0a7181b421253d889af6811f"
+    },
+    {
+      "name": "turing-token-partition-final-build-down-original.txt",
+      "bytes": 467,
+      "sha256": "27f7db529b9ba64c94d9477fdaf7230f8bff95f1d9a6d56bb327aaea35ece4e8"
+    },
+    {
+      "name": "turing-token-partition-final-build-master.json",
+      "bytes": 413,
+      "sha256": "21907f7070904674420b0b91a0641eb6c64875ab6026a501000c1a52af2d010b"
+    },
+    {
+      "name": "turing-token-partition-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-token-partition-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "4ca8c1aa7f23acf667a1de28ccd7b180f9257f86433945b0bff0fb6e39893bbd"
+    },
+    {
+      "name": "turing-token-partition-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-token-partition-final-build-original.json",
+      "bytes": 581,
+      "sha256": "6f3f2dfee68becf973eb69be721e412b2a089a84cf5f43bb3d2b52bcba5cd3f9"
+    },
+    {
+      "name": "turing-token-partition-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-token-partition-final-build-sm_75.json",
+      "bytes": 573,
+      "sha256": "38e971f4a14e71d857d6fc293b6a5fd7c9db6be3ee5bfde1569456d4a23201b1"
+    },
+    {
+      "name": "turing-token-partition-final-build-sm_75.txt",
+      "bytes": 472,
+      "sha256": "896a81c2face35ef9aa6dc9dd1489ffc8e8bb9d37406c14388b886665f10583c"
+    },
+    {
+      "name": "turing-token-partition-final-build-sm_89.json",
+      "bytes": 574,
+      "sha256": "92bb72f98f9fc27814e055e832830d676bba0309d7b97ae2d6fbefddcad53429"
+    },
+    {
+      "name": "turing-token-partition-final-build-sm_89.txt",
+      "bytes": 472,
+      "sha256": "896a81c2face35ef9aa6dc9dd1489ffc8e8bb9d37406c14388b886665f10583c"
+    },
+    {
+      "name": "turing-token-partition-initial-check_packed_matrix.py",
+      "bytes": 20318,
+      "sha256": "994fcdb9e36c2504f6810e959a275b07c433d0e865d51708c9cf4c46f99901ec"
+    },
+    {
+      "name": "turing-token-partition-initial-test_check_turing_token_partition.py",
+      "bytes": 7333,
+      "sha256": "b1d18def92852f29d6e373e8ea1b928ba33eee7b5091f3f068242b6d12250cf6"
+    },
+    {
+      "name": "turing-token-partition-original-sm_75",
+      "bytes": 7723224,
+      "sha256": "57f50e4e280480aa0e90a5d69edf50b093b9c2de1bba53b9d1128e728f25060d"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-check.json",
+      "bytes": 266,
+      "sha256": "ab7dbd55f6b34f40f9247453e839e12452b81fd2de5ad5197b41e316f4849b25"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-down-original.json",
+      "bytes": 583,
+      "sha256": "f693369b188d4d649c970b2b692f3eb096f3ca46b7577554ace17c4f42b6bac7"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-down-original.txt",
+      "bytes": 467,
+      "sha256": "27f7db529b9ba64c94d9477fdaf7230f8bff95f1d9a6d56bb327aaea35ece4e8"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-master.json",
+      "bytes": 412,
+      "sha256": "a1c2de815dcc560f0b61f1d94e4cbc65b22b1fecf25f71a8ffb8e015a04b190b"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "e73d758abc3ebc7e1711f53440ce9c79f029c1fe3b3389b39e17590c24dd8959"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-original.json",
+      "bytes": 582,
+      "sha256": "5a8a6215f4060a59e44b7aa7b64dfea11e5321ac111da81816eea25a2c5be91c"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-sm_75.json",
+      "bytes": 573,
+      "sha256": "ce496d1b5e4238b65263a8f876b2a88f8714ed724e678489927458a53daa907d"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-sm_75.txt",
+      "bytes": 472,
+      "sha256": "896a81c2face35ef9aa6dc9dd1489ffc8e8bb9d37406c14388b886665f10583c"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-sm_89.json",
+      "bytes": 574,
+      "sha256": "0880413c5f92748717d3281e47e4433f3f765b62cc6230d885ec38e7e018024d"
+    },
+    {
+      "name": "turing-token-partition-second-final-build-sm_89.txt",
+      "bytes": 472,
+      "sha256": "896a81c2face35ef9aa6dc9dd1489ffc8e8bb9d37406c14388b886665f10583c"
+    },
+    {
+      "name": "turing-token-partition-sm_75",
+      "bytes": 12242464,
+      "sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c"
+    },
+    {
+      "name": "turing-token-partition-sm_89",
+      "bytes": 12242464,
+      "sha256": "4174a5445de90a89da6431e9c79c57a9b63912419007410de5a5818739500e9c"
+    }
+  ],
+  "limits": "Optional primitive row64/128 token8/16 logical4/8/16/32 width32 one warmed physical sm75 session. Original MMA comparator64 except canonical down32 original128; native owner covers actual model key/value policy. All ratios are same-session primitives. No measured registers/occupancy/spills/resource reduction or full-model/provider/default selection claim. All failed unit output/first builds/refinement input/output preserved."
+}

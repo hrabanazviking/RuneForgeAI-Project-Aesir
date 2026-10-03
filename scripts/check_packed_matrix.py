@@ -10,6 +10,7 @@ from pathlib import Path
 import statistics
 import hashlib
 import struct
+import re
 
 from launch import digest
 from profile_native_cuda import read_text
@@ -29,7 +30,8 @@ def number(value):
     return result
 
 
-def parse(path):
+def parse(path, *, allow_partition=False):
+    if type(allow_partition) is not bool: raise ValueError("Partition capability must be Boolean")
     # CSV size bound before reading prevents FIFO/symlink and unbounded admission.
     text = read_text(path, 256 * 1024 * 1024)
     import io
@@ -44,6 +46,7 @@ def parse(path):
     staged_input_columns = None
     cached_headers = False
     paired_original = False
+    partition_tokens = None
     snapshot_sha256 = hashlib.sha256(text.encode("utf-8")).hexdigest()
     for row in csv.reader(io.StringIO(text)):
         if row and row[0].startswith("[CUDA]") and not synthetic:
@@ -79,6 +82,11 @@ def parse(path):
             if loop_rows not in (64,128) or width != 32 or not text.endswith("\n"):
                 raise ValueError("Unsupported/incomplete bounded loop geometry")
             candidate=row[1];mode_seen=True;tile=(loop_rows,8);staged_input_columns=32;paired_original=True
+        elif tag == "MODE" and len(row) == 5 and row[1] == "turing_mma_token_partition_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            partition_rows, partition_tokens, width = map(int,row[2:])
+            if not allow_partition or partition_rows not in (64,128) or partition_tokens not in (8,16) or width != 32 or not text.endswith("\n"):
+                raise ValueError("Unsupported/incomplete explicit token partition geometry")
+            candidate=row[1];mode_seen=True;tile=(partition_rows,8);staged_input_columns=32;paired_original=True
         elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_wide_f16_f32" and not synthetic and not mode_seen and not tile_seen:
             staged_rows, staged_columns = map(int, row[2:])
             if staged_rows not in (32,64) or staged_columns not in (64,128) or (2*staged_rows+32)*(staged_columns+1)*2 > 49152:
@@ -105,8 +113,21 @@ def parse(path):
                           "staged_input_columns": staged_input_columns,
                           "cached_headers": cached_headers, "paired_original": paired_original, "original": array("d"),
                           "reference": array("d"), "actual": array("d"), "timings": {}, "guards": None})
+        elif tag == "PARTITION" and cases and partition_tokens is not None:
+            c=cases[-1]
+            expected=["PARTITION",str(c["index"]),str(tile[0]),str(partition_tokens),str((c["rows"]+tile[0]-1)//tile[0]),str((c["batch"]+partition_tokens-1)//partition_tokens),str(tile[0]//16*32),"1"]
+            if row != expected or c.get("partition_dispatch") is not None or c["actual"] or c["guards"] is not None:
+                raise ValueError("Partition case dispatch geometry/count/order differs from wrapper")
+            c["partition_dispatch"]=dict(token_tile=partition_tokens,grid_x=int(row[4]),grid_y=int(row[5]),block_x=int(row[6]),host_enqueues=1)
+        elif tag == "SELECTED" and cases and partition_tokens is not None:
+            c=cases[-1]
+            selected=128 if c["batch"]==32 and c["columns"]==8192 and c["rows"]==3072 else 64
+            if row != ["SELECTED",str(c["index"]),str(selected),"32"] or c.get("partition_dispatch") is None or c.get("selected_original_rows") is not None or c["actual"] or c["guards"] is not None:
+                raise ValueError("Selected original case rows/order differs from source")
+            c["selected_original_rows"]=selected
         elif tag == "VALUE" and cases and len(row) == (7 if paired_original else 6):
             c = cases[-1]; index, token, r = map(int, row[1:4])
+            if partition_tokens is not None and c.get("selected_original_rows") is None: raise ValueError("Missing partition/selected dispatch before values")
             position = len(c["actual"])
             if index != c["index"] or token != position // c["rows"] or r != position % c["rows"] or position >= c["rows"] * c["batch"] or c["guards"] is not None:
                 raise ValueError("Duplicate/out-of-order/late matrix value")
@@ -119,6 +140,10 @@ def parse(path):
             c = cases[-1]
             if int(row[1]) != c["index"] or int(row[2]) < 1 or row[3] != "0" or c["guards"] is not None or len(c["actual"]) != c["rows"] * c["batch"]:
                 raise ValueError("Incomplete/failed guard evidence")
+            if partition_tokens is not None:
+                span=(c["rows"]+31)//32*32
+                expected_guards=c["batch"]*(c["columns"]+2*span+60-2*c["rows"])
+                if int(row[2])!=expected_guards: raise ValueError("Partition guard/input/unowned coverage count changed")
             c["guards"] = int(row[2])
         elif tag == "TIME" and len(row) == 6 and cases:
             c = cases[-1]; index, mode, sample, iterations = map(int, row[1:5]); value = number(row[5])
@@ -137,6 +162,7 @@ def parse(path):
             validate(cases[-1]); complete = True
         else:
             raise ValueError("Unexpected matrix CSV record")
+    if allow_partition and partition_tokens is None: raise ValueError("Explicit partition cannot admit a legacy candidate")
     if not complete or not cuda:
         raise ValueError("Missing complete matrix marker")
     return cases
@@ -204,15 +230,24 @@ def independent(cases, model):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--partition-tokens", action="store_true")
+    p.add_argument("--binary", type=Path)
+    p.add_argument("--binary-sha256")
     p.add_argument("csv", type=Path); p.add_argument("--model", type=Path, required=True)
     p.add_argument("--model-sha256", required=True); p.add_argument("--output", type=Path, required=True)
     a = p.parse_args()
     with a.output.open("x", encoding="utf-8") as stream:
         report = {"schema": 1, "passed": False, "full_model_speed_claim": False}
         try:
+            if a.partition_tokens:
+                if a.binary is None or not re.fullmatch(r"[0-9a-f]{64}",a.binary_sha256 or "") or digest(a.binary)!=a.binary_sha256:
+                    raise ValueError("Explicit partition requires actual binary identity")
+                report["binary_sha256"]=a.binary_sha256
+            elif a.binary is not None or a.binary_sha256 is not None:
+                raise ValueError("Binary identity flags belong to explicit partition")
             if digest(a.model) != a.model_sha256:
                 raise ValueError("Matrix oracle source checksum mismatch")
-            cases = parse(a.csv); oracle = independent(cases, a.model)
+            cases = parse(a.csv,allow_partition=a.partition_tokens); oracle = independent(cases, a.model)
             paired = cases[0]["paired_original"]
             accepted = all(r["candidate"]["passed"] and r["reference"]["passed"] and (not paired or r["original"]["passed"]) for r in oracle)
             if paired:
@@ -240,11 +275,17 @@ def main():
                     ratio=statistics.median(original)/statistics.median(candidate) if accepted else None
                     summary[-1].update(original_seconds=original,original_to_candidate_ratio=ratio,original_f32_bits_equal=c["original_f32_bits_equal"],original_native_error=errors(c["original"],c["reference"]))
                     if cases[0]["cached_headers"]:summary[-1]["original_to_cached_ratio"]=ratio
+            if a.partition_tokens:
+                report["partition_tokens"]=cases[0]["partition_dispatch"]["token_tile"]
+                report["original_scope"]="Original packed MMA row64, canonical down32 row128; native four-reference owner covers model key/value policy separately"
+                for c,r in zip(cases,summary,strict=True):
+                    r.update(partition_dispatch=c["partition_dispatch"],selected_original_rows=c["selected_original_rows"])
             report.update(passed=accepted, collection_complete=True, cached_headers=cases[0]["cached_headers"], paired_original=paired, cases=summary)
             if accepted and any(not math.isfinite(c[k]) or c[k] <= 0 for c in summary for k in ("speed_ratio", "original_to_candidate_ratio") if k in c):
                 raise ValueError("Nonfinite matrix ratio; all complete cases withheld")
             if digest(a.model) != a.model_sha256 or digest(a.csv) != cases[0]["csv_sha256"]:
                 raise ValueError("Matrix source/capture changed during independent validation")
+            if a.partition_tokens and digest(a.binary)!=a.binary_sha256: raise ValueError("Partition binary changed during validation")
             if not accepted:report["error"]="Complete native/original-bit/independent matrix gates failed; all ratios withheld"
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False,error=f"{type(error).__name__}: {error}")

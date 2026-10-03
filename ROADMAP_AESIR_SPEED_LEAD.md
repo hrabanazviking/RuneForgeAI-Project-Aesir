@@ -605,6 +605,12 @@ Next measure fewer token accumulators per CTA in an isolated FFN experiment;
 original arithmetic, complete bit/oracle/guards and all finite paired samples gate
 selection. Broader runtime/device/context/production/soak/provider gates stay open.
 
+Four isolated row64/128/token8/16 partitions pass complete original bits/fixed
+numeric/independent dots/guard/finite paired record/source identity gates. No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment.
+[Operation](docs/NATIVE_TURING_TOKEN_PARTITION.md). Primitive timings and source
+geometry are not model quality/speed, measured occupancy/resources or a provider
+lead. Old production/fused4 selections stay; broader acceptance remains open.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

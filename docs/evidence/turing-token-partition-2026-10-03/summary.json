@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "numerical_passed": true,
+  "production_selected": false,
+  "full_model_speed_claim": false,
+  "values_per_configuration": 1658880,
+  "independent_dots_per_configuration": 2100,
+  "guards_per_configuration": 1622640,
+  "best_original_to_candidate_ratio": 1.2936012070790275,
+  "canonical_ffn_wins": [],
+  "decision": "No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment."
+}

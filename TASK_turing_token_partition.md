@@ -55,3 +55,11 @@ from a primitive ratio alone. If an actual canonical batch32 FFN candidate beats
 both current owners, next earn non-dyadic captured activation/full-model acceptance;
 otherwise retain rejection and choose the next measured experiment. General
 context/device/concurrency/soak/provider speed leadership remains open.
+
+Baseline clarification during implementation: the third owner is the original
+packed MMA family, with down128 only for canonical down batch32 and staged64
+otherwise. Model strategy4 key/value still selects native four-reference, which
+is the separate first timing/numeric owner here. Do not describe the staged
+key/value comparator as selected model dispatch. New template parameters must
+refuse a simultaneous legacy staged/cached/large/narrow/loop/Turing candidate;
+retain a negative compilation receipt for that conflict before physical capture.

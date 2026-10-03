@@ -1044,3 +1044,9 @@ The legacy formatters below are not exposed compatibility APIs.
   Nine contracts/master190 passes/one skip/seven builds; actual fused grid24x4/32,
   block128/register46/static16384. [Operation](docs/NATIVE_FUSED_ATTENTION_TRACE.md).
   Next measure per-CTA token partitioning to reduce FFN accumulation live state.
+
+- [x] SPD-01/04 four bounded token partitions: complete144/12 synthetic/refusals,
+  1,658,880 outputs/2100 independent dots/840 rotated timing records per variant
+  pass original bits/fixed numeric/guards/hash gates. Seven contracts/master190/
+  one skip and target/original build gates pass. No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment.
+  [Operation](docs/NATIVE_TURING_TOKEN_PARTITION.md).

@@ -1,3 +1,27 @@
+## 2026-10-03 — Sigrún: bounded token-partition matrix experiment
+
+Task8833a70 preceded code. Long owned fused trace identified FFN57.1693% of summed
+kernel time; per-CTA token8/16 and row64/128 partition hypothesis preserves original
+packed width32 high/residual two-MMA math/order/barriers and disjoint global tokens.
+Original core definitions remain; one checked2D enqueue, no workspace/runtime choice.
+Harness optional parameters keep legacy defaults, actual original down128 only for
+canonical down32, staged64 otherwise; native four-reference remains separate.
+
+Four variants pass144 synthetic/12 span refusals, all1,658,880 full values per
+owner/2100 selected pinned independent dots/all guards/840 rotated samples each.
+Complete actual UInt32 original bits and fixed .002/.0002 errors gate every ratio.
+Seven hostile contracts retain numeric/bit failures and atomically clear all ratios
+on any source/binary/hash/nonfinite score fault. All first and final builds/logs
+remain; review added explicit conflict admission and negative static compilation
+before GPU. Initial synthetic mocked CSV hash and output-path collision corrected
+before physical capture; failed log retained. Exact guard coverage refinement was independently revalidated into new exclusive reports against unchanged native binary/CSV; original accepted reports stay. Final seven builds precede serial
+four GPU captures, then serial CPU validators. Source/code/binary/model hashes agree.
+Master190/one skip and legacy gates pass. Normal authenticated original f3442a1e
+remains ready/prefill4/cpuoffload0. No measured occupancy/register/spill claim.
+
+No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment.
+[Operation](docs/NATIVE_TURING_TOKEN_PARTITION.md). Exact push/CI receipts separate.
+
 ## 2026-10-03 — Sigrún: owned fused attention and projection trace
 
 Task d39df82 preceded code. Separate final trace capability admits only exclusive

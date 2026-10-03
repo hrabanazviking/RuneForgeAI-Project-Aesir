@@ -1,0 +1,2546 @@
+{
+  "schema": 1,
+  "passed": true,
+  "full_model_speed_claim": false,
+  "binary_sha256": "335c4f9593be3fe72a99244793eef540e21ac35b058d282d02b28f5f64d8657c",
+  "tile_rows": 64,
+  "tile_columns": 8,
+  "candidate": "turing_mma_token_partition_f16_f32",
+  "tile_rows_meaning": "CTA weight rows",
+  "tile_columns_meaning": "output token columns",
+  "staged_input_columns": 32,
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "csv_sha256": "ba34133d3a5a1e5e30081f3f35a11aebf9e856657ff3d2edd17346bcc6a6a33b",
+  "oracle": [
+    {
+      "case": 0,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.695287499219212e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.3981008198463208e-07,
+        "normalized_rms": 6.182145025969712e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.695287499219212e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 1,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 3.6791190779150913e-06,
+        "normalized_rms": 1.9914022941181337e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.653182783578554e-07,
+        "normalized_rms": 8.858949226910518e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.6791190779150913e-06,
+        "normalized_rms": 1.9914022941181337e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 2,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 1.3458982383391982e-06,
+        "normalized_rms": 6.599692629833014e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.573924430050389e-08,
+        "normalized_rms": 2.8265471757315207e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 1.3458982383391982e-06,
+        "normalized_rms": 6.599692629833014e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 3,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 1.5758009688883884e-06,
+        "normalized_rms": 6.756817764893006e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 4.948046289157762e-08,
+        "normalized_rms": 2.9380403081889877e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 1.5758009688883884e-06,
+        "normalized_rms": 6.756817764893006e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 4,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 3.922658544051704e-06,
+        "normalized_rms": 1.7659863474104883e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 9.49402096113836e-08,
+        "normalized_rms": 4.1705633034887085e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.922658544051704e-06,
+        "normalized_rms": 1.7659863474104883e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 5,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 3.3528994839742065e-06,
+        "normalized_rms": 1.563947887569482e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.275646588959251e-08,
+        "normalized_rms": 3.1180411738940056e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.3528994839742065e-06,
+        "normalized_rms": 1.563947887569482e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 6,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 20,
+      "candidate": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 5.076737913780474e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.7856454490042466e-07,
+        "normalized_rms": 1.1833438050861696e-07,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 5.076737913780474e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 7,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.5321962079269746e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.0662992933776553e-07,
+        "normalized_rms": 7.71910534998917e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.5321962079269746e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 8,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 4.629975760112295e-06,
+        "normalized_rms": 2.2068728012241625e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.653182783578554e-07,
+        "normalized_rms": 7.90280233025601e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 4.629975760112295e-06,
+        "normalized_rms": 2.2068728012241625e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 9,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 2.390600995658375e-06,
+        "normalized_rms": 8.74524252686231e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.573924430050389e-08,
+        "normalized_rms": 2.6005993611397165e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 2.390600995658375e-06,
+        "normalized_rms": 8.74524252686231e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 10,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 1.8939000542011345e-06,
+        "normalized_rms": 8.29083971580501e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.2685458345674711e-07,
+        "normalized_rms": 3.30438593866023e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 1.8939000542011345e-06,
+        "normalized_rms": 8.29083971580501e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 11,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 3.922658544051704e-06,
+        "normalized_rms": 1.7117042448246363e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.2270688670202824e-07,
+        "normalized_rms": 4.962566230613569e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.922658544051704e-06,
+        "normalized_rms": 1.7117042448246363e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 12,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 3.3528994839742065e-06,
+        "normalized_rms": 1.5956136303349523e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.1744591745037349e-07,
+        "normalized_rms": 3.968496548370268e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.3528994839742065e-06,
+        "normalized_rms": 1.5956136303349523e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 13,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 40,
+      "candidate": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 4.365218701364447e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.7856454490042466e-07,
+        "normalized_rms": 1.1121642470685937e-07,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 4.365218701364447e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 14,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.074826696077805e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.1214418911421527e-07,
+        "normalized_rms": 7.284239804118736e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.074826696077805e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 15,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 5.67508244742045e-06,
+        "normalized_rms": 2.0888559778854013e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.57596659986049e-07,
+        "normalized_rms": 1.1095860753150236e-07,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 5.67508244742045e-06,
+        "normalized_rms": 2.0888559778854013e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 16,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 2.390600995658375e-06,
+        "normalized_rms": 8.516147511047045e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.5795274189142e-08,
+        "normalized_rms": 2.7039193191885246e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 2.390600995658375e-06,
+        "normalized_rms": 8.516147511047045e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 17,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 2.8717634683382395e-06,
+        "normalized_rms": 9.043256697270155e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.2685458345674711e-07,
+        "normalized_rms": 3.094997022723641e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 2.8717634683382395e-06,
+        "normalized_rms": 9.043256697270155e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 18,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 4.0018644078663325e-06,
+        "normalized_rms": 1.756704579707458e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.2270688670202824e-07,
+        "normalized_rms": 4.672001250141932e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 4.0018644078663325e-06,
+        "normalized_rms": 1.756704579707458e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 19,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 3.471966578016448e-06,
+        "normalized_rms": 1.5514947364816221e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.1744591745037349e-07,
+        "normalized_rms": 3.846393273861944e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.471966578016448e-06,
+        "normalized_rms": 1.5514947364816221e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 20,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 80,
+      "candidate": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 4.099685322699759e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.825806435293495e-07,
+        "normalized_rms": 1.0430486337522482e-07,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 9.529189136254574e-06,
+        "normalized_rms": 4.099685322699759e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 21,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.0093367069642372e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 3.795281887730704e-07,
+        "normalized_rms": 8.025932294148291e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 8.860545256514754e-06,
+        "normalized_rms": 2.0093367069642372e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 22,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 5.67508244742045e-06,
+        "normalized_rms": 2.0339751465220046e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.57596659986049e-07,
+        "normalized_rms": 9.980265477255723e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 5.67508244742045e-06,
+        "normalized_rms": 2.0339751465220046e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 23,
+      "rows": [
+        0,
+        1,
+        17,
+        512,
+        1023
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 3.832317705269475e-06,
+        "normalized_rms": 9.734567733550204e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 7.5795274189142e-08,
+        "normalized_rms": 2.4612375603793724e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.832317705269475e-06,
+        "normalized_rms": 9.734567733550204e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 24,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 2.9259226418563745e-06,
+        "normalized_rms": 9.106577652765985e-07,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.2685458345674711e-07,
+        "normalized_rms": 2.8439818431064126e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 2.9259226418563745e-06,
+        "normalized_rms": 9.106577652765985e-07,
+        "passed": true
+      }
+    },
+    {
+      "case": 25,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 4.0018644078663325e-06,
+        "normalized_rms": 1.7643587650384341e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.472313998288789e-07,
+        "normalized_rms": 4.895954497483562e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 4.0018644078663325e-06,
+        "normalized_rms": 1.7643587650384341e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 26,
+      "rows": [
+        0,
+        1,
+        17,
+        4096,
+        8191
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 3.471966578016448e-06,
+        "normalized_rms": 1.5305623553640934e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 1.788666164546118e-07,
+        "normalized_rms": 3.8075214475542055e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 3.471966578016448e-06,
+        "normalized_rms": 1.5305623553640934e-06,
+        "passed": true
+      }
+    },
+    {
+      "case": 27,
+      "rows": [
+        0,
+        1,
+        17,
+        1536,
+        3071
+      ],
+      "outputs": 160,
+      "candidate": {
+        "maximum_scaled_error": 1.1699544234731452e-05,
+        "normalized_rms": 4.2041665992674684e-06,
+        "passed": true
+      },
+      "reference": {
+        "maximum_scaled_error": 2.825806435293495e-07,
+        "normalized_rms": 9.716396313242412e-08,
+        "passed": true
+      },
+      "original": {
+        "maximum_scaled_error": 1.1699544234731452e-05,
+        "normalized_rms": 4.2041665992674684e-06,
+        "passed": true
+      }
+    }
+  ],
+  "native_outputs": 1658880,
+  "independent_outputs": 2100,
+  "limits": "Primitive evidence only. Five selected real rows per tensor/batch; full native-reference output coverage. Host-monotonic launch/synchronize timing, warmed weights, one physical session. No model-level quality/speed or default dispatch change.",
+  "partition_tokens": 16,
+  "original_scope": "Original packed MMA row64, canonical down32 row128; native four-reference owner covers model key/value policy separately",
+  "collection_complete": true,
+  "cached_headers": false,
+  "paired_original": true,
+  "cases": [
+    {
+      "name": "blk.0.attn_q.weight",
+      "batch": 4,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00017316432786174119,
+        0.00017350167036056519,
+        0.00017313099427459142,
+        0.00017270000535063446,
+        0.00017361833791558942,
+        0.00017350133081587651,
+        0.00017363533455257615,
+        0.0001734146693100532,
+        0.00017324433429166675,
+        0.00017314733122475445
+      ],
+      "candidate_seconds": [
+        0.0006503143328397224,
+        0.0006535636687961718,
+        0.0006513630020587394,
+        0.0006526520010083914,
+        0.0006506183320501199,
+        0.0006532296732378503,
+        0.0006531026641217371,
+        0.0006507986593836298,
+        0.0006499536684714258,
+        0.0006534203324311724
+      ],
+      "speed_ratio": 0.26583973557539964,
+      "native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 1.97013650873284e-06,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.0005956286622676998,
+        0.0005939423378246526,
+        0.0006033866666257381,
+        0.0006026416667737067,
+        0.0005924090025170395,
+        0.0006005980055003116,
+        0.0005955620047946771,
+        0.0005996296725546321,
+        0.0005971580006492635,
+        0.0005970013347299149
+      ],
+      "original_to_candidate_ratio": 0.9157558253320979,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 1.97013650873284e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_k.weight",
+      "batch": 4,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        6.617066295196612e-05,
+        6.554599773759644e-05,
+        6.566633237525821e-05,
+        6.563266894469659e-05,
+        6.582666537724435e-05,
+        6.607700682555635e-05,
+        6.613067428891857e-05,
+        6.782033597119153e-05,
+        6.652467224436502e-05,
+        6.957667452904086e-05
+      ],
+      "candidate_seconds": [
+        0.00043154133406157297,
+        0.0004333213340335836,
+        0.0004330976613952468,
+        0.0004324329978165527,
+        0.00043205566665468115,
+        0.00043337833873617154,
+        0.0004329173340617369,
+        0.0004322893316081415,
+        0.0004347339951588462,
+        0.0004320056662739565
+      ],
+      "speed_ratio": 0.1527793729823978,
+      "native_error": {
+        "maximum_scaled_error": 1.0562810552631844e-05,
+        "normalized_rms": 1.938012343150804e-06,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.0004257539985701442,
+        0.0004259976655400048,
+        0.00042654533172026277,
+        0.00042610467062331736,
+        0.0004259843359856556,
+        0.00042661533613378805,
+        0.0004274503347308685,
+        0.0004258140009672691,
+        0.00042587099596858025,
+        0.00042610799816126627
+      ],
+      "original_to_candidate_ratio": 0.9846905984467448,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.0562810552631844e-05,
+        "normalized_rms": 1.938012343150804e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_v.weight",
+      "batch": 4,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        6.376266052636008e-05,
+        6.361233924205105e-05,
+        6.39963351810972e-05,
+        6.49183348286897e-05,
+        6.335533301656444e-05,
+        6.414699601009488e-05,
+        6.474132533185184e-05,
+        6.414666616668303e-05,
+        6.36356611115237e-05,
+        6.35256680349509e-05
+      ],
+      "candidate_seconds": [
+        0.00041171765769831836,
+        0.0004187540034763515,
+        0.00041173433419317007,
+        0.0004084046619633834,
+        0.000418817672956114,
+        0.00041197466392380494,
+        0.00041347433580085635,
+        0.00041768900700844824,
+        0.0004029880025579284,
+        0.0004101243296948572
+      ],
+      "speed_ratio": 0.15510210037709726,
+      "native_error": {
+        "maximum_scaled_error": 3.75963451101e-06,
+        "normalized_rms": 7.738667855778339e-07,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.0004179526586085558,
+        0.00041945866541936994,
+        0.00041593232890591025,
+        0.00041833333671092987,
+        0.0004183870041742921,
+        0.0004172613359211634,
+        0.00041866066749207675,
+        0.0004193719942122698,
+        0.00041646633568840724,
+        0.00041752866430518526
+      ],
+      "original_to_candidate_ratio": 1.0152687383909391,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 3.75963451101e-06,
+        "normalized_rms": 7.738667855778339e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_output.weight",
+      "batch": 4,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00011898933250146608,
+        0.00011874566553160548,
+        0.00011847499990835786,
+        0.00011903299794842799,
+        0.00011879566591233015,
+        0.000118722333960856,
+        0.00011852199289326866,
+        0.00011905300198122859,
+        0.00011847832744630675,
+        0.00011908299832915266
+      ],
+      "candidate_seconds": [
+        0.0004413263328994314,
+        0.00044234833330847323,
+        0.0004424753327233096,
+        0.000441536996125554,
+        0.00044299600025018054,
+        0.00044255866669118404,
+        0.00044137333558561903,
+        0.0004408986618121465,
+        0.0004414699991078426,
+        0.00044360400837225217
+      ],
+      "speed_ratio": 0.268746774647837,
+      "native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.496094857792088e-07,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.00041927533069004613,
+        0.0004206443263683468,
+        0.0004239269959119459,
+        0.0004268893292949845,
+        0.0004219033386713515,
+        0.00042395399456533295,
+        0.0004214559933946778,
+        0.00042460499874626595,
+        0.0004159686601875971,
+        0.0004261646730204423
+      ],
+      "original_to_candidate_ratio": 0.956945778390623,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.496094857792088e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_gate.weight",
+      "batch": 4,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0003011673300837477,
+        0.00030103366589173675,
+        0.00030059300479479134,
+        0.0003006830035398404,
+        0.0003006263286806643,
+        0.0003003690023130427,
+        0.0003003993382056554,
+        0.0003013709986892839,
+        0.00030092999804764986,
+        0.0002676413278095424
+      ],
+      "candidate_seconds": [
+        0.001081120998909076,
+        0.0010804430057760328,
+        0.0010820193371425073,
+        0.001077941667366152,
+        0.001076168332171316,
+        0.0010812779946718365,
+        0.0010808336664922535,
+        0.001081431672597925,
+        0.0009829940002722044,
+        0.0009604453419645628
+      ],
+      "speed_ratio": 0.27821950791215605,
+      "native_error": {
+        "maximum_scaled_error": 6.514326150968206e-06,
+        "normalized_rms": 1.4738907904511141e-06,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.0011487243270191054,
+        0.0011480796674732119,
+        0.0011656659965713818,
+        0.001152661667826275,
+        0.001152501334824289,
+        0.001159557665232569,
+        0.0011614716689412792,
+        0.0011608836648520082,
+        0.0011499666628272582,
+        0.0010324699978809804
+      ],
+      "original_to_candidate_ratio": 1.0665746927399478,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.514326150968206e-06,
+        "normalized_rms": 1.4738907904511141e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_up.weight",
+      "batch": 4,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00024437432875856757,
+        0.0002445443339335422,
+        0.0002439599969269087,
+        0.0002440103271510452,
+        0.00026096199871972203,
+        0.00026173666507626575,
+        0.00026072132944439846,
+        0.00026933766397026676,
+        0.0002690203352055202,
+        0.0002696150040719658
+      ],
+      "candidate_seconds": [
+        0.0008861326690142354,
+        0.0008819213350458691,
+        0.000882706333262225,
+        0.0008794900010495136,
+        0.000903739002145206,
+        0.0009425313425405571,
+        0.0009404376711851606,
+        0.0009648500029773762,
+        0.0009660186672893664,
+        0.0009705440024845302
+      ],
+      "speed_ratio": 0.28288142655118914,
+      "native_error": {
+        "maximum_scaled_error": 6.674102537459263e-06,
+        "normalized_rms": 1.4281042886128546e-06,
+        "passed": true
+      },
+      "guards": 12528,
+      "original_seconds": [
+        0.0009741843290006121,
+        0.0009737703270123651,
+        0.0009693886580256125,
+        0.0009790363352900993,
+        0.0010264219987827043,
+        0.0010347909992560744,
+        0.0010254399967379868,
+        0.0010474783290798466,
+        0.0010608966695144773,
+        0.001052691009438907
+      ],
+      "original_to_candidate_ratio": 1.1126168252715558,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.674102537459263e-06,
+        "normalized_rms": 1.4281042886128546e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_down.weight",
+      "batch": 4,
+      "rows": 3072,
+      "columns": 8192,
+      "reference_seconds": [
+        0.0002527429993885259,
+        0.000250759330810979,
+        0.0002510399984506269,
+        0.0002515043306630105,
+        0.00027047299469510716,
+        0.0002702123310882598,
+        0.00027089066376599175,
+        0.0002797373357073714,
+        0.0002795200077040742,
+        0.00027810732717625797
+      ],
+      "candidate_seconds": [
+        0.0008962183395245423,
+        0.0008904339920263737,
+        0.000887542002601549,
+        0.0009045303255940477,
+        0.0009676653329127779,
+        0.0009797476620102923,
+        0.0010044876641283433,
+        0.001008501664424936,
+        0.0010142189955028396,
+        0.0010032786619073402
+      ],
+      "speed_ratio": 0.27764286630157053,
+      "native_error": {
+        "maximum_scaled_error": 2.0252673132715768e-05,
+        "normalized_rms": 4.8712137086341865e-06,
+        "passed": true
+      },
+      "guards": 33008,
+      "original_seconds": [
+        0.0009940613332825403,
+        0.0009931096671304356,
+        0.0009963023282277088,
+        0.001068193339354669,
+        0.0010642530008529623,
+        0.0010668109947194655,
+        0.0011001166615945597,
+        0.0010977756658879418,
+        0.0011001466676437606,
+        0.0010923689987976104
+      ],
+      "original_to_candidate_ratio": 1.0963284827820896,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 2.0252673132715768e-05,
+        "normalized_rms": 4.8712137086341865e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_q.weight",
+      "batch": 8,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00019279100039663413,
+        0.0001931883355913063,
+        0.00019320866946751872,
+        0.0001931416627485305,
+        0.00019277100606511036,
+        0.00019292799212659398,
+        0.00019304133214366934,
+        0.00019313500767263272,
+        0.00019281433196738362,
+        0.0001928109947281579
+      ],
+      "candidate_seconds": [
+        0.0003643019978577892,
+        0.0003677753362959872,
+        0.00036621600156649947,
+        0.00036583499362071353,
+        0.0003677053318824619,
+        0.0003664893350408723,
+        0.0003655076725408435,
+        0.00036725433892570436,
+        0.0003651269944384694,
+        0.0003654509976816674
+      ],
+      "speed_ratio": 0.5272437669066435,
+      "native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 2.0830054990103947e-06,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.0003386106691323221,
+        0.00033922533233029145,
+        0.00033312700300787884,
+        0.00033713799590865773,
+        0.0003378526695693533,
+        0.00033442300627939403,
+        0.0003387710021343082,
+        0.0003369376645423472,
+        0.00033640299807302654,
+        0.00033951233490370214
+      ],
+      "original_to_candidate_ratio": 0.9220541600457637,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 2.0830054990103947e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_k.weight",
+      "batch": 8,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        7.234567116635542e-05,
+        7.245900148215394e-05,
+        7.284633466042578e-05,
+        7.193132963341971e-05,
+        7.231532557246585e-05,
+        7.2589338136216e-05,
+        7.223200130586822e-05,
+        7.232866482809186e-05,
+        7.255232776515186e-05,
+        7.248233305290341e-05
+      ],
+      "candidate_seconds": [
+        0.00024831166956573725,
+        0.0002481413345473508,
+        0.0002485953348999222,
+        0.0002489263327637066,
+        0.0002492066608586659,
+        0.00024746666895225644,
+        0.0002479376659418146,
+        0.000248655667140459,
+        0.00024883600417524576,
+        0.000249113334575668
+      ],
+      "speed_ratio": 0.29121041899227773,
+      "native_error": {
+        "maximum_scaled_error": 1.1226334443847588e-05,
+        "normalized_rms": 2.1563278371390604e-06,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.00021300533747610947,
+        0.0002139236700410644,
+        0.00020485333516262472,
+        0.00020980600190038481,
+        0.00021528999786823988,
+        0.00020553466553489366,
+        0.00021253799786791205,
+        0.00021093499769146243,
+        0.00020537799961554507,
+        0.00021297567097159723
+      ],
+      "original_to_candidate_ratio": 0.8516282397053565,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.1226334443847588e-05,
+        "normalized_rms": 2.1563278371390604e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_v.weight",
+      "batch": 8,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        6.994766105587284e-05,
+        6.96969994654258e-05,
+        7.015466690063477e-05,
+        6.968033267185092e-05,
+        6.934332971771558e-05,
+        6.92663403848807e-05,
+        6.909266812726855e-05,
+        6.98810035828501e-05,
+        6.965733094451328e-05,
+        6.916300238420565e-05
+      ],
+      "candidate_seconds": [
+        0.00022693833064598343,
+        0.00023508699572024247,
+        0.00022202899951177338,
+        0.00022728199837729335,
+        0.0002300810010638088,
+        0.00023121299454942346,
+        0.00022648400045000017,
+        0.00023175733319173256,
+        0.00021903699962422252,
+        0.00022322799971637627
+      ],
+      "speed_ratio": 0.30676227969801795,
+      "native_error": {
+        "maximum_scaled_error": 3.75963451101e-06,
+        "normalized_rms": 7.783785872212988e-07,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.0002641280007082969,
+        0.000264909661685427,
+        0.0002627720047409336,
+        0.00026449532985376817,
+        0.0002636270073708147,
+        0.00026122599956579506,
+        0.00026395766568991047,
+        0.00026378400313357514,
+        0.00026310266306002933,
+        0.00026424799580127
+      ],
+      "original_to_candidate_ratio": 1.161862724106391,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 3.75963451101e-06,
+        "normalized_rms": 7.783785872212988e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_output.weight",
+      "batch": 8,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00019320166514565548,
+        0.00019325833030355474,
+        0.0001929480058606714,
+        0.00019315166476493081,
+        0.00019236000177140036,
+        0.00019263065769337118,
+        0.00019267734023742378,
+        0.00019277767084228495,
+        0.00019245700483831266,
+        0.0001928276615217328
+      ],
+      "candidate_seconds": [
+        0.00036602233497736353,
+        0.0003693749992332111,
+        0.00036718066742954153,
+        0.00036303000524640083,
+        0.0003676416721039762,
+        0.0003672543292244275,
+        0.0003669873403850943,
+        0.0003685803385451436,
+        0.0003670370012211303,
+        0.00036623900329383713
+      ],
+      "speed_ratio": 0.5251921178533803,
+      "native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.58563035078368e-07,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.0003381033311598003,
+        0.00033716133718068403,
+        0.00033485700259916484,
+        0.0003388210025150329,
+        0.0003402740015493085,
+        0.00033428266760893166,
+        0.0003379863337613642,
+        0.0003415593334163229,
+        0.00033472000116792816,
+        0.00033823000073122483
+      ],
+      "original_to_candidate_ratio": 0.9208300123908301,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.58563035078368e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_gate.weight",
+      "batch": 8,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0004905783280264586,
+        0.0004919076648851236,
+        0.0004902946626922736,
+        0.0004910326679237187,
+        0.000551536000178506,
+        0.0005505706649273634,
+        0.0005501736692773799,
+        0.0005704983292768399,
+        0.0005706016672775149,
+        0.0005706616696746399
+      ],
+      "candidate_seconds": [
+        0.0009323223299967746,
+        0.000927433332738777,
+        0.0009411123367802551,
+        0.0009330406707401077,
+        0.0009514180031449845,
+        0.0010358063348879416,
+        0.0010323663300368935,
+        0.0010749096691142768,
+        0.0010718236638543506,
+        0.0010575703248226394
+      ],
+      "speed_ratio": 0.5548709684783181,
+      "native_error": {
+        "maximum_scaled_error": 6.834063676951557e-06,
+        "normalized_rms": 1.4780108687321277e-06,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.0008355446722513685,
+        0.0008384096630228063,
+        0.0008370373398065567,
+        0.0008250050013884902,
+        0.0009142550018926462,
+        0.000916532997507602,
+        0.0009216426697093993,
+        0.0009511043317615986,
+        0.0009351810052370032,
+        0.0009328266605734825
+      ],
+      "original_to_candidate_ratio": 0.9228765288531983,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.834063676951557e-06,
+        "normalized_rms": 1.4780108687321277e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_up.weight",
+      "batch": 8,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0005096576642245054,
+        0.0005107463318078468,
+        0.0005100750034519782,
+        0.0005366316666671386,
+        0.0005452610009039441,
+        0.000546977670940881,
+        0.0005512219989517083,
+        0.0005507916600132982,
+        0.0005554133288872739,
+        0.000555497002399837
+      ],
+      "candidate_seconds": [
+        0.0009695553356626382,
+        0.0009565376676619053,
+        0.0009982356665811192,
+        0.0010046980072123308,
+        0.0010187743367472042,
+        0.001028626332602774,
+        0.0010403076691242557,
+        0.0010362203368761886,
+        0.0010283419978804886,
+        0.0010353586597678561
+      ],
+      "speed_ratio": 0.5335498786117936,
+      "native_error": {
+        "maximum_scaled_error": 6.674102537459263e-06,
+        "normalized_rms": 1.4259217071057455e-06,
+        "passed": true
+      },
+      "guards": 25056,
+      "original_seconds": [
+        0.0008583436623060455,
+        0.0008543533331248909,
+        0.000852843668932716,
+        0.0009003723292456319,
+        0.0008923343266360462,
+        0.0009003893355838954,
+        0.0009161323347749809,
+        0.0009156979989105215,
+        0.0009285586711484939,
+        0.0009248050046153367
+      ],
+      "original_to_candidate_ratio": 0.8796577089289019,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.674102537459263e-06,
+        "normalized_rms": 1.4259217071057455e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_down.weight",
+      "batch": 8,
+      "rows": 3072,
+      "columns": 8192,
+      "reference_seconds": [
+        0.0005186746614829948,
+        0.0005188279998643944,
+        0.0005184606707189232,
+        0.0005181133359049758,
+        0.0005592740005037437,
+        0.0005590803339146078,
+        0.0005596579964427898,
+        0.0005597146616006891,
+        0.0005596713356984159,
+        0.0005544249919087937
+      ],
+      "candidate_seconds": [
+        0.0009762450063135475,
+        0.0009557163381638626,
+        0.0009612033318262547,
+        0.0009721670066937804,
+        0.0010073496669065207,
+        0.0010494883366239567,
+        0.001043123338604346,
+        0.0010470203415025026,
+        0.001035402005072683,
+        0.0010348476644139737
+      ],
+      "speed_ratio": 0.5452486440687903,
+      "native_error": {
+        "maximum_scaled_error": 2.0252673132715768e-05,
+        "normalized_rms": 4.851801251616712e-06,
+        "passed": true
+      },
+      "guards": 66016,
+      "original_seconds": [
+        0.001101268668814252,
+        0.0011038233351428062,
+        0.0011033593424751114,
+        0.0011047353424752753,
+        0.0011886223413360615,
+        0.001186308004738142,
+        0.0011882849988372375,
+        0.001186234663085391,
+        0.00118349965972205,
+        0.0011764829978346825
+      ],
+      "original_to_candidate_ratio": 1.1556095100911508,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 2.0252673132715768e-05,
+        "normalized_rms": 4.851801251616712e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_q.weight",
+      "batch": 16,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0003846869997990628,
+        0.00038478700056051213,
+        0.00038493433385156095,
+        0.00038500433826508623,
+        0.0003848370009412368,
+        0.00039890699554234743,
+        0.00040983732712144655,
+        0.00040939000124732655,
+        0.00041011132998391986,
+        0.0004099943325854838
+      ],
+      "candidate_seconds": [
+        0.00036992933019064367,
+        0.00037496200335832935,
+        0.0003682860018064578,
+        0.00036920132697559893,
+        0.000374537999353682,
+        0.00038669066270813346,
+        0.00039303266870168346,
+        0.0003914996632374823,
+        0.00038608266428733867,
+        0.00038629333721473813
+      ],
+      "speed_ratio": 1.0300464179487716,
+      "native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 2.0529850017901163e-06,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.0003637509944383055,
+        0.00036510366286771995,
+        0.00036351066470767063,
+        0.0003664196701720357,
+        0.00036527067034815747,
+        0.0003608926684440424,
+        0.0003857456613332033,
+        0.0003848139992138992,
+        0.00038311399597053725,
+        0.00038544499936203164
+      ],
+      "original_to_candidate_ratio": 0.9614289037510977,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.3624895720887394e-05,
+        "normalized_rms": 2.0529850017901163e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_k.weight",
+      "batch": 16,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00014218299960096678,
+        0.00014213599691477916,
+        0.00014188233762979507,
+        0.00014205932772407928,
+        0.00014123765868134797,
+        0.0001417119929101318,
+        0.00014221967042734226,
+        0.0001420726669797053,
+        0.00014198933301183084,
+        0.00014224966677526632
+      ],
+      "candidate_seconds": [
+        0.0002690469943142186,
+        0.0002687329930874209,
+        0.0002684960005960117,
+        0.0002687099913600832,
+        0.0002686999990449597,
+        0.0002687096712179482,
+        0.00026884999048585695,
+        0.00026970166557778913,
+        0.00026883667063278455,
+        0.0002686093309118102
+      ],
+      "speed_ratio": 0.5286737438686163,
+      "native_error": {
+        "maximum_scaled_error": 1.2295399831440988e-05,
+        "normalized_rms": 2.1439025523076384e-06,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.00021723666577599943,
+        0.00022615333242962757,
+        0.00022570933409345648,
+        0.00021579733584076166,
+        0.0002173603376528869,
+        0.0002213080006185919,
+        0.00021210400154814124,
+        0.00021806167205795646,
+        0.0002192906686104834,
+        0.00022603666487460336
+      ],
+      "original_to_candidate_ratio": 0.8137650938323099,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.2295399831440988e-05,
+        "normalized_rms": 2.1439025523076384e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_v.weight",
+      "batch": 16,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00013519967130074897,
+        0.00013724033487960696,
+        0.0001348823328347256,
+        0.00013690300208205977,
+        0.00013702000918177268,
+        0.00013652567092018822,
+        0.00013607466826215386,
+        0.0001372506667394191,
+        0.0001358243365151187,
+        0.00013615165759498873
+      ],
+      "candidate_seconds": [
+        0.00025273332721553743,
+        0.00025725533487275243,
+        0.0002527933296126624,
+        0.00025193532928824425,
+        0.0002572050046486159,
+        0.00025355166872031987,
+        0.00025239599441799027,
+        0.00025696766291124124,
+        0.00025194832899918157,
+        0.000252355666210254
+      ],
+      "speed_ratio": 0.5393925816415349,
+      "native_error": {
+        "maximum_scaled_error": 5.353863030701673e-06,
+        "normalized_rms": 7.789566577346355e-07,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.00027659133775159717,
+        0.0002759599980587761,
+        0.0002748246673339357,
+        0.00027660800454517204,
+        0.0002771056703447054,
+        0.00027532899791064364,
+        0.00027625399525277317,
+        0.00027813733322545886,
+        0.0002737190031136076,
+        0.0002770353263864915
+      ],
+      "original_to_candidate_ratio": 1.093602731996488,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 5.353863030701673e-06,
+        "normalized_rms": 7.789566577346355e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_output.weight",
+      "batch": 16,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00038507767021656036,
+        0.0003847536669733624,
+        0.0003852546603108446,
+        0.000384553325905775,
+        0.0003847070038318634,
+        0.0003847806656267494,
+        0.0004022363379287223,
+        0.0004207143307818721,
+        0.0004207646707072854,
+        0.0004211653334399064
+      ],
+      "candidate_seconds": [
+        0.00037390366196632385,
+        0.00037494866410270333,
+        0.00037600732563684386,
+        0.0003693650069180876,
+        0.000373813333377863,
+        0.00036903433889771503,
+        0.0004081743342491488,
+        0.00040649132764277357,
+        0.00040184899504917365,
+        0.00039471566560678184
+      ],
+      "speed_ratio": 1.0258022321582094,
+      "native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.62096578736979e-07,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.00036454266713311273,
+        0.0003641086708133419,
+        0.0003672813278778146,
+        0.0003631699946708977,
+        0.0003642786662870397,
+        0.0003641216705242793,
+        0.00039723732819159824,
+        0.00039803199858094257,
+        0.000394875998608768,
+        0.0003948259982280433
+      ],
+      "original_to_candidate_ratio": 0.9745231478408536,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.62096578736979e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_gate.weight",
+      "batch": 16,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.000977516998924936,
+        0.0009936839924193919,
+        0.0009933800029102713,
+        0.000993396999547258,
+        0.0011167709987300138,
+        0.0011359203393415858,
+        0.0011373729988311727,
+        0.0011365950049366802,
+        0.0011359839991200715,
+        0.0011374063324183226
+      ],
+      "candidate_seconds": [
+        0.0011609236729176093,
+        0.0011684713341916602,
+        0.0011772513292574633,
+        0.0012632756649206083,
+        0.0012940933326414477,
+        0.001300505333347246,
+        0.0013058586628176272,
+        0.0013129353368033965,
+        0.0013073313263400148,
+        0.00130443933691519
+      ],
+      "speed_ratio": 0.8682234241468679,
+      "native_error": {
+        "maximum_scaled_error": 7.008740775840069e-06,
+        "normalized_rms": 1.4794313396654319e-06,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.000869751995196566,
+        0.0008987326582428068,
+        0.0008953263362248739,
+        0.000988310668617487,
+        0.0009902976744342595,
+        0.0009919006649094324,
+        0.00100740633206442,
+        0.0010198526627694566,
+        0.0010100046638399363,
+        0.0010221473348792642
+      ],
+      "original_to_candidate_ratio": 0.7639710778115114,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 7.008740775840069e-06,
+        "normalized_rms": 1.4794313396654319e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_up.weight",
+      "batch": 16,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0009785290070188541,
+        0.0009827670000959188,
+        0.0010691286685566108,
+        0.0010685273252117138,
+        0.0011910936736967415,
+        0.0011916580066705744,
+        0.0011585863345923524,
+        0.0011336929940929015,
+        0.0011262556654401124,
+        0.0011260853401230027
+      ],
+      "candidate_seconds": [
+        0.0011705516662914306,
+        0.0011639093378713976,
+        0.0012296526595794905,
+        0.0012377310000980894,
+        0.0013422703292841713,
+        0.0013563229974048834,
+        0.0013182483283647646,
+        0.001319156998458008,
+        0.0013042923334675531,
+        0.0012969183347498376
+      ],
+      "speed_ratio": 0.8658818115284156,
+      "native_error": {
+        "maximum_scaled_error": 6.977405607677456e-06,
+        "normalized_rms": 1.4262100468330734e-06,
+        "passed": true
+      },
+      "guards": 50112,
+      "original_seconds": [
+        0.000878668671551471,
+        0.000882025002889956,
+        0.0009472469973843545,
+        0.0009513383362597475,
+        0.0010468436618490766,
+        0.0010660460005359103,
+        0.0010379903251305223,
+        0.001019398992260297,
+        0.0010010276746470481,
+        0.0010374226646187406
+      ],
+      "original_to_candidate_ratio": 0.7767255038562267,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.977405607677456e-06,
+        "normalized_rms": 1.4262100468330734e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_down.weight",
+      "batch": 16,
+      "rows": 3072,
+      "columns": 8192,
+      "reference_seconds": [
+        0.0010028713343975444,
+        0.0010462856638090063,
+        0.0010824033330815535,
+        0.0010834253334905952,
+        0.0011863813366896163,
+        0.0011689086677506566,
+        0.0011637460071748744,
+        0.0011548123341829826,
+        0.0011538103378067415,
+        0.0011543049962104608
+      ],
+      "candidate_seconds": [
+        0.0010480856581125408,
+        0.0010622993383246164,
+        0.001114901000012954,
+        0.0011551996673612546,
+        0.0012127340014558285,
+        0.0012004209953981142,
+        0.001191394335667913,
+        0.001188295000853638,
+        0.0012018636625725776,
+        0.0011891766625922173
+      ],
+      "speed_ratio": 0.9708276946072494,
+      "native_error": {
+        "maximum_scaled_error": 2.066571592017251e-05,
+        "normalized_rms": 4.851050712172039e-06,
+        "passed": true
+      },
+      "guards": 132032,
+      "original_seconds": [
+        0.001115555331731836,
+        0.001117268664529547,
+        0.0011999666652021308,
+        0.0013102699983088921,
+        0.0013083733307818572,
+        0.0013119433327422787,
+        0.001285821005391578,
+        0.001279195334063843,
+        0.0012806179972055058,
+        0.00127889799963062
+      ],
+      "original_to_candidate_ratio": 1.0766956219193005,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 2.066571592017251e-05,
+        "normalized_rms": 4.851050712172039e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 1,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_q.weight",
+      "batch": 32,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0007699350050340096,
+        0.0007691333303228021,
+        0.0007686893319866309,
+        0.0007696413279821476,
+        0.0008952429925557226,
+        0.0008944916674712052,
+        0.0008954600004168848,
+        0.0009374386669757465,
+        0.0009367039989835272,
+        0.000937107998955374
+      ],
+      "candidate_seconds": [
+        0.0007479669972478101,
+        0.0007560290008162459,
+        0.0007515873391336451,
+        0.0007504050057226171,
+        0.0007660476646075646,
+        0.000846659007947892,
+        0.0008487159987756362,
+        0.0008678983334296694,
+        0.0008810296615896126,
+        0.0008817410077123592
+      ],
+      "speed_ratio": 1.1097707292244021,
+      "native_error": {
+        "maximum_scaled_error": 1.4770303700371118e-05,
+        "normalized_rms": 1.9945986715577685e-06,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.0004366043334205945,
+        0.0004314010050923874,
+        0.00043437367033523816,
+        0.0004334149998612702,
+        0.000496306000665451,
+        0.0004938180015111963,
+        0.0004978019957585881,
+        0.0005154786728477726,
+        0.0005185076734051108,
+        0.0005185276677366346
+      ],
+      "original_to_candidate_ratio": 0.6139516993550479,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.4770303700371118e-05,
+        "normalized_rms": 1.9945986715577685e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_k.weight",
+      "batch": 32,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        0.000282495670641462,
+        0.00028288300381973386,
+        0.00028249199385754764,
+        0.000282098325745513,
+        0.0002829796673419575,
+        0.00028265600364344817,
+        0.0002818576661714663,
+        0.00028204799552137655,
+        0.0002819479947599272,
+        0.00028239866757454973
+      ],
+      "candidate_seconds": [
+        0.0003289559972472489,
+        0.00032970400449509424,
+        0.0003288856726915886,
+        0.0003311369994965692,
+        0.00032877566021246213,
+        0.00032927967064703506,
+        0.00032852500832329196,
+        0.0003295136654439072,
+        0.0003291263322656353,
+        0.00032882899783241254
+      ],
+      "speed_ratio": 0.8583890435870423,
+      "native_error": {
+        "maximum_scaled_error": 1.6065584594870748e-05,
+        "normalized_rms": 2.1027025478102554e-06,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.00026894366601482034,
+        0.0002700223315817614,
+        0.00026883333339355886,
+        0.0002676176663953811,
+        0.00026763467273364466,
+        0.000267721334239468,
+        0.0002684359981988867,
+        0.0002673306638219704,
+        0.0002663956741647174,
+        0.0002692573373982062
+      ],
+      "original_to_candidate_ratio": 0.8147268333966983,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 1.6065584594870748e-05,
+        "normalized_rms": 2.1027025478102554e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_v.weight",
+      "batch": 32,
+      "rows": 1024,
+      "columns": 3072,
+      "reference_seconds": [
+        0.00028046866646036506,
+        0.0002779573357353608,
+        0.0002789523277897388,
+        0.0002794363341915111,
+        0.0002824723390707125,
+        0.0002803349925670773,
+        0.00027682499300378066,
+        0.0002752590031983952,
+        0.0002738529971490304,
+        0.00027899900063251454
+      ],
+      "candidate_seconds": [
+        0.000334943673806265,
+        0.00034368665850100416,
+        0.0003338050058421989,
+        0.00033406199266513187,
+        0.0003434863271346937,
+        0.00033355799193183583,
+        0.0003336313335845868,
+        0.00034416766720823944,
+        0.0003334110078867525,
+        0.0003343626740388572
+      ],
+      "speed_ratio": 0.8347258205977327,
+      "native_error": {
+        "maximum_scaled_error": 5.353863030701673e-06,
+        "normalized_rms": 7.778882632985527e-07,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.0003742206608876586,
+        0.0003739666717592627,
+        0.0003665363377270599,
+        0.0003743140065732102,
+        0.00037396700160267454,
+        0.00036666633483643335,
+        0.0003743143267153452,
+        0.0003741073305718601,
+        0.00036728800235626596,
+        0.00037522233712176484
+      ],
+      "original_to_candidate_ratio": 1.1191602725604057,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 5.353863030701673e-06,
+        "normalized_rms": 7.778882632985527e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 16,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.attn_output.weight",
+      "batch": 32,
+      "rows": 3072,
+      "columns": 3072,
+      "reference_seconds": [
+        0.0007704259963550916,
+        0.0007694306647560248,
+        0.0007694673355824003,
+        0.0008089880090362082,
+        0.0008415056605978558,
+        0.0008414623346955826,
+        0.0008405070014608403,
+        0.0009280043304897845,
+        0.000927389667291815,
+        0.0009291063373287519
+      ],
+      "candidate_seconds": [
+        0.0007524723284101734,
+        0.0007581393292639405,
+        0.0007507156697101891,
+        0.0008047536636392275,
+        0.0008052879905638596,
+        0.0008042126622361442,
+        0.0008722600080848982,
+        0.0008759203386337807,
+        0.0008727343326124052,
+        0.0008715720032341778
+      ],
+      "speed_ratio": 1.044674423028476,
+      "native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.625673840165976e-07,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.0004339526737264047,
+        0.00043273033224977553,
+        0.000434172999424239,
+        0.00047058133835283417,
+        0.00047252166162555415,
+        0.00046407566211807233,
+        0.0005125299988624951,
+        0.0005105160040936122,
+        0.0005126100052924206,
+        0.0005163936681735019
+      ],
+      "original_to_candidate_ratio": 0.5857631058900712,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.293358742034049e-06,
+        "normalized_rms": 9.625673840165976e-07,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_gate.weight",
+      "batch": 32,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.001958817660730953,
+        0.002153512332976485,
+        0.002213625004515052,
+        0.002451938004620994,
+        0.002433616997829328,
+        0.0023387093388009816,
+        0.002339006333689516,
+        0.002294259330180163,
+        0.0022960593341849744,
+        0.0023856470070313662
+      ],
+      "candidate_seconds": [
+        0.0019845260054959604,
+        0.002053578665557628,
+        0.0021399840091665587,
+        0.002361144336949413,
+        0.0023346583281333246,
+        0.002230416333380466,
+        0.002224759324841822,
+        0.0022272703354246914,
+        0.0022445263360471777,
+        0.002256027665377284
+      ],
+      "speed_ratio": 1.0397250900158632,
+      "native_error": {
+        "maximum_scaled_error": 7.846140787541905e-06,
+        "normalized_rms": 1.4778027315678862e-06,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.001117890002205968,
+        0.0011244556614353012,
+        0.0011812553372389327,
+        0.0013455726633158822,
+        0.0012976196691549073,
+        0.0012937293310339253,
+        0.001242840332755198,
+        0.0012448909983504564,
+        0.0012380716701348622,
+        0.001263058327216034
+      ],
+      "original_to_candidate_ratio": 0.5580767595252423,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 7.846140787541905e-06,
+        "normalized_rms": 1.4778027315678862e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_up.weight",
+      "batch": 32,
+      "rows": 8192,
+      "columns": 3072,
+      "reference_seconds": [
+        0.001956773999457558,
+        0.002193531002073238,
+        0.0021942986641079187,
+        0.002369026003483062,
+        0.002406963671091944,
+        0.002373337328511601,
+        0.0023634256698035947,
+        0.0022857766695475825,
+        0.0022751236683689058,
+        0.002407010664076855
+      ],
+      "candidate_seconds": [
+        0.0019834073318634182,
+        0.0021134540050600967,
+        0.002152480330551043,
+        0.00233191333245486,
+        0.0023049526692678532,
+        0.0022636853294291845,
+        0.002254832002411907,
+        0.002280045999214053,
+        0.002218033332610503,
+        0.0022896239922071495
+      ],
+      "speed_ratio": 1.0289220994216786,
+      "native_error": {
+        "maximum_scaled_error": 6.977405607677456e-06,
+        "normalized_rms": 1.4245959492368252e-06,
+        "passed": true
+      },
+      "guards": 100224,
+      "original_seconds": [
+        0.0011796820035669953,
+        0.0011732436638946335,
+        0.0011677366661994408,
+        0.001298641999407361,
+        0.0012822109953655552,
+        0.0012697343384691824,
+        0.001268221327336505,
+        0.0012510593320863943,
+        0.001228610674540202,
+        0.001277181669138372
+      ],
+      "original_to_candidate_ratio": 0.5575458661340149,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 6.977405607677456e-06,
+        "normalized_rms": 1.4245959492368252e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 128,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 64
+    },
+    {
+      "name": "blk.0.ffn_down.weight",
+      "batch": 32,
+      "rows": 3072,
+      "columns": 8192,
+      "reference_seconds": [
+        0.002087538993995016,
+        0.0023905696677199253,
+        0.0023273979992760965,
+        0.002361598667145396,
+        0.0023661073355469853,
+        0.0023355199955403805,
+        0.0023285670031327754,
+        0.002307851663014541,
+        0.002307704669268181,
+        0.0023471183279373995
+      ],
+      "candidate_seconds": [
+        0.0020962119936787835,
+        0.0023189689964056015,
+        0.002295698669816678,
+        0.0023230400014047823,
+        0.0023256216663867235,
+        0.002293484673524896,
+        0.0023480166661708304,
+        0.002340806337694327,
+        0.0023245393337371447,
+        0.0023186553347234926
+      ],
+      "speed_ratio": 1.004756130561829,
+      "native_error": {
+        "maximum_scaled_error": 2.066571592017251e-05,
+        "normalized_rms": 4.851440245700145e-06,
+        "passed": true
+      },
+      "guards": 264064,
+      "original_seconds": [
+        0.001246066327439621,
+        0.001462772333373626,
+        0.0014437770005315542,
+        0.001445930664582799,
+        0.0014440873346757144,
+        0.0014548343315254897,
+        0.0014667896612081677,
+        0.001449220668291673,
+        0.0014098329993430525,
+        0.001475970328707869
+      ],
+      "original_to_candidate_ratio": 0.6236849894604045,
+      "original_f32_bits_equal": true,
+      "original_native_error": {
+        "maximum_scaled_error": 2.066571592017251e-05,
+        "normalized_rms": 4.851440245700145e-06,
+        "passed": true
+      },
+      "partition_dispatch": {
+        "token_tile": 16,
+        "grid_x": 48,
+        "grid_y": 2,
+        "block_x": 128,
+        "host_enqueues": 1
+      },
+      "selected_original_rows": 128
+    }
+  ]
+}

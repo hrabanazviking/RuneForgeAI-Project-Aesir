@@ -1,3 +1,7 @@
+Read docs/NATIVE_TURING_TOKEN_PARTITION.md for isolated disjoint per-CTA token
+partition measurements, complete original bits/oracle/guards and atomic timing
+scoring. Default runtime/kernel selections remain separately gated.
+
 Read docs/NATIVE_FUSED_ATTENTION_TRACE.md for explicit source-bound strategy4
 owned projection/attention resources. Complete full-session admission precedes
 chronological successful launch attribution; profile durations are unscored.

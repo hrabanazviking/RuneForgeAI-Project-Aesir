@@ -12,12 +12,13 @@ from max.gpu.host import DeviceContext, DeviceBuffer
 from core.packed_matrix import project_matrix, admit_matrix
 from core.packed_turing_matrix import project_turing, project_turing_staged, project_turing_large_rows, project_turing_narrow
 from core.packed_turing_loop import project_turing_loop
+from core.packed_turing_partition import project_turing_partition
 from core.packed_projection import four_matvec_kernel, block_matvec_kernel, ProjectionFloats
 from core.packed_quantization import Bytes
 from core.llama3_cuda import Llama3CUDASession
 
 
-def candidate[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int,turing: Bool,staged_rows: Int,staged_columns: Int,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0](
+def candidate[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int,turing: Bool,staged_rows: Int,staged_columns: Int,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0,partition_rows: Int = 0,token_tile: Int = 0](
     ctx: DeviceContext,w: DeviceBuffer[DType.uint8],a: DeviceBuffer[DType.float32],
     base: Int,columns: Int,rows: Int,src: Int,dst: Int,stride: Int,tokens: Int) raises:
     """Explicit opt-in dispatch; existing SIMT harness defaults stay unchanged."""
@@ -26,7 +27,11 @@ def candidate[kind: Int,batch: Int,tile_rows: Int,tile_columns: Int,turing: Bool
     comptime assert not (cache_headers and large_rows != 0)
     comptime assert narrow_rows == 0 or (not cache_headers and large_rows == 0 and not turing)
     comptime assert loop_rows == 0 or (not cache_headers and large_rows == 0 and narrow_rows == 0 and not turing)
-    comptime if loop_rows != 0:
+    comptime assert partition_rows == 0 or ((partition_rows == 64 or partition_rows == 128) and (token_tile == 8 or token_tile == 16) and staged_rows == 0 and staged_columns == 32 and not cache_headers and large_rows == 0 and narrow_rows == 0 and loop_rows == 0 and not turing)
+    comptime assert partition_rows != 0 or token_tile == 0
+    comptime if partition_rows != 0:
+        project_turing_partition[kind,batch,partition_rows,token_tile](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
+    elif loop_rows != 0:
         project_turing_loop[kind,batch,loop_rows](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
     elif narrow_rows != 0:
         project_turing_narrow[kind,batch,narrow_rows](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
@@ -63,7 +68,16 @@ def reference[kind: Int, batch: Int](ctx: DeviceContext, w: DeviceBuffer[DType.u
                 grid_dim=(rows + 3) // 4, block_dim=128)
 
 
-def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0](ctx: DeviceContext, w: DeviceBuffer[DType.uint8],
+def selected_original[kind: Int,batch: Int](ctx: DeviceContext,w: DeviceBuffer[DType.uint8],a: DeviceBuffer[DType.float32],
+    base: Int,columns: Int,rows: Int,src: Int,dst: Int,stride: Int,tokens: Int) raises:
+    """Source-selected original: down128 only at canonical down batch32."""
+    if batch == 32 and columns == 8192 and rows == 3072:
+        project_turing_large_rows[kind,batch,128](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
+    else:
+        project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
+
+
+def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0,partition_rows: Int = 0,token_tile: Int = 0](ctx: DeviceContext, w: DeviceBuffer[DType.uint8],
     base: Int, columns: Int, rows: Int, tokens: Int, case_index: Int, name: String, real: Bool) raises -> Int:
     var span = ((rows + 31) // 32) * 32
     var src = 17
@@ -86,19 +100,26 @@ def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
             Int64(rows), Int64(token * stride), Int64(token * stride + reference_offset - src),
             grid_dim=(rows + 3) // 4, block_dim=128)
     var native_snapshot = List[Float32]()
-    comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0:
+    comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0:
         ctx.enqueue_copy(h,a)
         ctx.synchronize()
         for token in range(tokens):
             for row in range(rows): native_snapshot.append(h[token*stride+reference_offset+row])
-        project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,src,reference_offset,stride,tokens)
-    candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
+        comptime if partition_rows != 0:
+            selected_original[kind,batch](ctx,w,a,base,columns,rows,src,reference_offset,stride,tokens)
+        else:
+            project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,src,reference_offset,stride,tokens)
+    candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](ctx,w,a,base,columns,rows,src,dst,stride,tokens)
     ctx.enqueue_copy(h,a)
     ctx.synchronize()
     var normalized_sum: Float64 = 0
     var guards = 0
     if real:
         print("CASE," + String(case_index) + "," + name + "," + String(kind) + "," + String(columns) + "," + String(rows) + "," + String(batch) + "," + String(base))
+        comptime if partition_rows != 0:
+            var original_rows = 128 if batch == 32 and columns == 8192 and rows == 3072 else 64
+            print("PARTITION,"+String(case_index)+","+String(partition_rows)+","+String(token_tile)+","+String((rows+partition_rows-1)//partition_rows)+","+String((tokens+token_tile-1)//token_tile)+","+String(partition_rows//16*32)+",1")
+            print("SELECTED,"+String(case_index)+","+String(original_rows)+",32")
     for token in range(batch):
         for i in range(stride):
             var in_src = i >= src and i < src + columns and token < tokens
@@ -116,7 +137,7 @@ def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
                 var actual = h[token * stride + dst + row]
                 var expected = h[token * stride + reference_offset + row]
                 var staged = expected
-                comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0:
+                comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0:
                     expected = native_snapshot[token*rows+row]
                     if Pointer(to=actual).unsafe_bitcast[UInt32]()[] != Pointer(to=staged).unsafe_bitcast[UInt32]()[]:
                         raise Error("Paired candidate changed original staged F32 bits")
@@ -125,7 +146,7 @@ def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
                     raise Error("Matrix primitive exceeded predeclared per-output error: kind="+String(kind)+", columns="+String(columns)+", rows="+String(rows)+", batch="+String(batch)+", token="+String(token)+", row="+String(row)+", reference="+String(Float64(expected))+", actual="+String(Float64(actual)))
                 normalized_sum += error * error
                 if real:
-                    comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0:
+                    comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0:
                         print("VALUE,"+String(case_index)+","+String(token)+","+String(row)+","+String(Float64(expected))+","+String(Float64(actual))+","+String(Float64(staged)))
                     else:
                         print("VALUE," + String(case_index) + "," + String(token) + "," + String(row) + "," + String(expected) + "," + String(actual))
@@ -140,23 +161,29 @@ def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
                 h[token * stride + col] = Float32((col * 7 + token * 13) % 29 - 14) / 16.0
         ctx.enqueue_copy(a,h)
         for _ in range(2):
-            candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](ctx,w,a,base,columns,rows,0,dst,stride,batch)
+            candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](ctx,w,a,base,columns,rows,0,dst,stride,batch)
             reference[kind,batch](ctx,w,a,base,columns,rows,reference_offset,stride,batch)
-            comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0:
-                project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
+            comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0:
+                comptime if partition_rows != 0:
+                    selected_original[kind,batch](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
+                else:
+                    project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
         ctx.synchronize()
         for sample in range(10):
-            for step in range(3 if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 else 2):
-                var mode = (sample + step) % (3 if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 else 2)
+            for step in range(3 if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0 else 2):
+                var mode = (sample + step) % (3 if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0 else 2)
                 var started = seconds()
                 for _ in range(3):
                     if mode == 0:
                         reference[kind,batch](ctx,w,a,base,columns,rows,reference_offset,stride,batch)
                     elif mode == 1:
-                        candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](ctx,w,a,base,columns,rows,0,dst,stride,batch)
+                        candidate[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](ctx,w,a,base,columns,rows,0,dst,stride,batch)
                     else:
-                        comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0:
-                            project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
+                        comptime if cache_headers or large_rows != 0 or narrow_rows != 0 or loop_rows != 0 or partition_rows != 0:
+                            comptime if partition_rows != 0:
+                                selected_original[kind,batch](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
+                            else:
+                                project_turing_staged[kind,batch,64,32](ctx,w,a,base,columns,rows,0,reference_offset,stride,batch)
                         else:
                             raise Error("Unexpected matrix timing owner")
                 ctx.synchronize()
@@ -167,7 +194,7 @@ def exercise[kind: Int, batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
     return rows * tokens
 
 
-def synthetic[kind: Int,batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0](ctx: DeviceContext) raises:
+def synthetic[kind: Int,batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0,partition_rows: Int = 0,token_tile: Int = 0](ctx: DeviceContext) raises:
     comptime bytes = 144 if kind == 12 else (176 if kind == 13 else 210)
     for columns in [256,512,3072,8192]:
         for rows in [1,7,33]:
@@ -185,17 +212,17 @@ def synthetic[kind: Int,batch: Int, tile_rows: Int = 32, tile_columns: Int = 32,
                     h[p+2] = 0
                     h[p+3] = 40
             ctx.enqueue_copy(w,h)
-            _ = exercise[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](ctx,w,32,columns,rows,batch-1,0,"synthetic",False)
+            _ = exercise[kind,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](ctx,w,32,columns,rows,batch-1,0,"synthetic",False)
 
 
-def real_batch[batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0](mut s: Llama3CUDASession, mut case_index: Int, mut values: Int) raises:
+def real_batch[batch: Int, tile_rows: Int = 32, tile_columns: Int = 32, turing: Bool = False,staged_rows: Int = 0,staged_columns: Int = 32,cache_headers: Bool = False,large_rows: Int = 0,narrow_rows: Int = 0,loop_rows: Int = 0,partition_rows: Int = 0,token_tile: Int = 0](mut s: Llama3CUDASession, mut case_index: Int, mut values: Int) raises:
     for name in ["blk.0.attn_q.weight", "blk.0.attn_k.weight", "blk.0.attn_v.weight",
                  "blk.0.attn_output.weight", "blk.0.ffn_gate.weight", "blk.0.ffn_up.weight", "blk.0.ffn_down.weight"]:
         var t = s.model.tensors[name]
         if t.kind == 12:
-            values += exercise[12,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
+            values += exercise[12,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
         elif t.kind == 14:
-            values += exercise[14,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
+            values += exercise[14,batch,tile_rows,tile_columns,turing,staged_rows,staged_columns,cache_headers,large_rows,narrow_rows,loop_rows,partition_rows,token_tile](s.context,s.weights,t.offset,t.columns,t.rows,batch,case_index,name,True)
         else:
             raise Error("Unexpected real tensor quantization")
         case_index += 1

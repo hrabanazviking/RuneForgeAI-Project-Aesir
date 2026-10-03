@@ -461,3 +461,18 @@ one successful child correlation/kernel, exact wrapper/grid/block and full resou
 are mandatory. Old trace schemas remain; all timings are diagnostic. Read ../docs/NATIVE_FUSED_ATTENTION_TRACE.md.
 Nine hostile contracts, serial plain/profiled37/1070, both target/original builds
 and master190 passes/one skip are separately recorded.
+
+## Optional bounded token-partition primitive
+
+Separate packed_turing_partition owns original format12/13/14, row64/128, token8/16,
+logical4/8/16/32 and width32; one 2D enqueue owns disjoint token rows, original
+ordered high/residual MMA and both barriers. Checked complete spans precede launch.
+Harness final parameters default0 and refuse conflicting legacy candidates. Full
+native/candidate/selected-original MMA vectors, UInt32 bits, guards, pinned independent
+dots and840 rotated records gate any primitive ratio. Original MMA down128 applies
+only to canonical down batch32; staged64 elsewhere. Model key/value four-reference
+is the separate native owner. New marker/dispatch parser is default-closed, requires
+explicit CLI and actual binary hash before/after; complete failures retain metrics
+and atomically clear ratios. Seven hostile contracts plus physical gates remain
+separate from hosted compile/master190/one skip. No runtime/model selection change.
+Read ../docs/NATIVE_TURING_TOKEN_PARTITION.md.

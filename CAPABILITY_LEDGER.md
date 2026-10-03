@@ -2075,3 +2075,14 @@ selection. Broader runtime/device/context/production/soak/provider gates stay op
 
 [Physical evidence](docs/evidence/fused-attention-trace-2026-10-03/README.md).
 This refines existing AES-ACC-008/010 and introduces no general new verified capability.
+
+### Token-partition primitive refinement — 2026-10-03
+
+Four isolated row64/128/token8/16 partitions pass complete original bits/fixed
+numeric/independent dots/guard/finite paired record/source identity gates. No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment.
+[Operation](docs/NATIVE_TURING_TOKEN_PARTITION.md). Primitive timings and source
+geometry are not model quality/speed, measured occupancy/resources or a provider
+lead. Old production/fused4 selections stay; broader acceptance remains open.
+
+[Evidence](docs/evidence/turing-token-partition-2026-10-03/README.md).
+Existing AES-ACC-008 experiment only; no general capability promotion.
