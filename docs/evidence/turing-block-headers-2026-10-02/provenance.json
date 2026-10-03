@@ -1,0 +1,302 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "6aa9c4ab9566d9c4342853a733d677f10a08d26f",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:52:29.350610+00:00",
+      "ended_utc": "2026-10-03T02:52:29.465744+00:00",
+      "wall_seconds": 0.11517365902545862,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:51:35.831567+00:00",
+      "ended_utc": "2026-10-03T02:52:09.030764+00:00",
+      "wall_seconds": 33.199224152980605,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:52:09.031186+00:00",
+      "ended_utc": "2026-10-03T02:52:29.350037+00:00",
+      "wall_seconds": 20.318882763996953,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:50:57.393910+00:00",
+      "ended_utc": "2026-10-03T02:51:35.831077+00:00",
+      "wall_seconds": 38.43719579599565,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_block_headers.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:49:58.908323+00:00",
+      "ended_utc": "2026-10-03T02:50:28.122952+00:00",
+      "wall_seconds": 29.21466188400518,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_block_headers.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:50:28.123500+00:00",
+      "ended_utc": "2026-10-03T02:50:57.393420+00:00",
+      "wall_seconds": 29.269951941008912,
+      "performance_scored": false
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+    ],
+    "exit": 0,
+    "started_utc": "2026-10-03T02:56:50.808129+00:00",
+    "ended_utc": "2026-10-03T02:57:08.067780+00:00",
+    "wall_seconds": 17.25964512201608,
+    "performance_scored": false,
+    "binary_sha256": "9783456e15e9031bcee24c1db2bb0c0d017730eb0356476d072665c3806f42d1",
+    "csv_sha256": "ff71552eec53a808b3972a895f2bc40bd31dceae09b4dce219d8fd7b0de8417a"
+  },
+  "oracle": {
+    "exit": 0,
+    "wall_seconds": 20.012206268002046,
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-final/complete.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-block-headers-final/complete.json"
+    ],
+    "started_utc": "2026-10-03T02:57:08.154756+00:00",
+    "ended_utc": "2026-10-03T02:57:28.167006+00:00",
+    "performance_scored": false
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "original_kernel_definition_unchanged": true,
+  "artifacts": [
+    {
+      "name": "turing-block-headers-failed-harness.mojo",
+      "bytes": 13372,
+      "sha256": "3e377cdb6da86b3d412f2af9ae2e15896f7029b3a151ab9cb3e6a4a70d72c870"
+    },
+    {
+      "name": "turing-block-headers-final/complete.csv",
+      "bytes": 125721950,
+      "sha256": "ff71552eec53a808b3972a895f2bc40bd31dceae09b4dce219d8fd7b0de8417a"
+    },
+    {
+      "name": "turing-block-headers-final/complete.json",
+      "bytes": 63887,
+      "sha256": "0fa2d8a6f6c9c2fe06b06ca75023c747ada61c8ee34875488cb79397042764f5"
+    },
+    {
+      "name": "turing-block-headers-final/gpu-process.json",
+      "bytes": 614,
+      "sha256": "6d2996f401bc1e764aa4c51dda3aa9646381ae1fe8dc6455cd5373921d7f72fd"
+    },
+    {
+      "name": "turing-block-headers-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-block-headers-final/oracle-process.json",
+      "bytes": 872,
+      "sha256": "643871a50562f22422a62049014f862e00f72f1f7934b1555ae3bd94363ab6f7"
+    },
+    {
+      "name": "turing-block-headers-final/oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-block-headers-final-build-check.json",
+      "bytes": 266,
+      "sha256": "187102f34afff8e2d30b9a92a331d3d66a7397bc2f09aad11cd75508d6dc2a67"
+    },
+    {
+      "name": "turing-block-headers-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-block-headers-final-build-master.json",
+      "bytes": 413,
+      "sha256": "ab0f6b56a6310f0610e01b506b208fb62e503d6dc0a4fd27fbf04a979ca09499"
+    },
+    {
+      "name": "turing-block-headers-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-block-headers-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "6038b9965d69aca9ab6e7d79e563af01c720f68b683fc76f5513d1380ea3584e"
+    },
+    {
+      "name": "turing-block-headers-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-block-headers-final-build-original.json",
+      "bytes": 579,
+      "sha256": "2ee142279039075920d5a7e927016b883e5aee85c0e57ce47996bf43571006bb"
+    },
+    {
+      "name": "turing-block-headers-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-block-headers-final-build-sm_75.json",
+      "bytes": 569,
+      "sha256": "0c95fcbc3ce43730b4e96edcc5cb07debcc27b21a8f8d0e66bb9e1cbaeeedcc5"
+    },
+    {
+      "name": "turing-block-headers-final-build-sm_75.txt",
+      "bytes": 470,
+      "sha256": "941353df2c0b0b4cdba9960b60e54a7b3df0ebb9ea18ff4cccc6c32cd6236e98"
+    },
+    {
+      "name": "turing-block-headers-final-build-sm_89.json",
+      "bytes": 570,
+      "sha256": "7a18b289e35eb5693d3327fec27d4694d0bb96b67da070fc5aa19cb871b0164a"
+    },
+    {
+      "name": "turing-block-headers-final-build-sm_89.txt",
+      "bytes": 470,
+      "sha256": "941353df2c0b0b4cdba9960b60e54a7b3df0ebb9ea18ff4cccc6c32cd6236e98"
+    },
+    {
+      "name": "turing-block-headers-first-build.txt",
+      "bytes": 909,
+      "sha256": "dfbf2aa7310d208b43820340083be984ee6f3f68127b84ad52d69a4b06ef1464"
+    },
+    {
+      "name": "turing-block-headers-first-sm_75",
+      "bytes": 4779432,
+      "sha256": "6b1421ba64ea094e4c01d98bb6145e09c2db956e69d1a3f525788af6ad147fb7"
+    },
+    {
+      "name": "turing-block-headers-initial-core.mojo",
+      "bytes": 13620,
+      "sha256": "cad433ecd3f576e7d62aeb46719eff2daa84138eedc89636eac2e5e323ed045b"
+    },
+    {
+      "name": "turing-block-headers-original-sm_75",
+      "bytes": 7706904,
+      "sha256": "7f7624d3bc21ed8546fcc936089318343ecc3690cc8e895cf89a70ac6c950204"
+    },
+    {
+      "name": "turing-block-headers-second-build.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-block-headers-sm_75",
+      "bytes": 4775384,
+      "sha256": "9783456e15e9031bcee24c1db2bb0c0d017730eb0356476d072665c3806f42d1"
+    },
+    {
+      "name": "turing-block-headers-sm_89",
+      "bytes": 4775384,
+      "sha256": "92da78aed68d332e41161e9838b1bb02c98abb61c2be8bf445340c2f5d49fc0f"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "a8ddd6867029c7fb4e6d1516a3a4a6b643e03a0e3d9cd7d19b4a7e63193ab258",
+    "aesir_engine/tests/test_packed_matrix.mojo": "8e129df36145b0609f86c6ef692c88c5f9d9f377bebad97a91f700cf6a02153b",
+    "aesir_engine/tests/test_turing_block_headers.mojo": "229218dcb8a54d7209599d37d3907072f880365f7afb4f1c4912f75490b4b606",
+    "scripts/check_packed_matrix.py": "a8317a8540773508a969b03a88b66ec33c955cb53a5687cf2874be622f2ccb1d",
+    "scripts/test_check_packed_matrix.py": "59c5007413ebc3bcd20dae7b4c21e0215ddb597a2fcb190e8ce827ec828eb74a",
+    ".github/workflows/ci.yml": "3081202bed8b7734e637361e82d3d4dd3337b1c6b61f0b6e84eb391f472af03f"
+  },
+  "limits": "Primitive exact original-staged bits and selected independent dots only; one warmed physical session. Full model/source/control/provider gates do not follow. Header reuse slows batch32 FFN, so default remains False. No register/occupancy cause inferred from ratios; raw private receipts retained."
+}

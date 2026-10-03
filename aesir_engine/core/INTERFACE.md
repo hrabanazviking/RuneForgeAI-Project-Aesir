@@ -1160,3 +1160,13 @@ dense_norm_kernel entry stays intact. Public inline llama_residual_cell and
 llama_silu_cell reuse original operations for disjoint grid-y rows. Read
 project-root docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md; only3072/33824 has
 strict fixture physical evidence, with no production dispatch admission.
+
+## Optional packed-block header reuse
+
+project_turing_staged adds final cache_headers:Bool=False. True admits only
+precision0/rows64/width32 and selects a separate cached_header_turing_kernel;
+original staged entry stays intact. Per-thread bounded16-element F32 d/dmin arrays
+reuse scales across eight sections, Q6 only d, inactive rows zero. All original
+decoding/conversion/barrier/MMA/store order and span admission remain; shared
+maximum10560/no new global device buffer. Exact original bits pass, but batch32
+FFN speed loses; keep False. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md.

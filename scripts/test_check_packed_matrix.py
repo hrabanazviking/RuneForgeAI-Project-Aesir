@@ -20,6 +20,21 @@ def fixture():
     return "\n".join(records) + "\n"
 
 
+def header_fixture():
+    records=["[CUDA] synthetic api=cuda cpu_offload=0","MODE,turing_mma_staged_header_cache_f16_f32,64,32","SYNTHETIC,144,0"]
+    count=0
+    for batch in check.BATCHES:
+        for name in check.NAMES:
+            records.append(f"CASE,{count},{name},12,256,1,{batch},32")
+            records.extend(f"VALUE,{count},{token},0,1,1,1" for token in range(batch))
+            records.append(f"GUARD,{count},20,0")
+            for sample in range(10):
+                for step in range(3):records.append(f"TIME,{count},{(sample+step)%3},{sample},3,0.001")
+            count+=1
+    records.append("PASS,matrix,28,420,840")
+    return "\n".join(records)+"\n"
+
+
 class Contracts(unittest.TestCase):
     def parse(self, text):
         with tempfile.TemporaryDirectory() as directory:
@@ -29,6 +44,54 @@ class Contracts(unittest.TestCase):
 
     def test_complete_synthetic_schema(self):
         self.assertEqual(len(self.parse(fixture())), 28)
+
+    def test_complete_header_three_owner_bits_and_rotation(self):
+        cases=self.parse(header_fixture())
+        self.assertTrue(all(c['original_f32_bits_equal'] and len(c['timings'])==30 for c in cases))
+        zero=header_fixture().replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,0,-0,0')
+        self.assertFalse(self.parse(zero)[0]['original_f32_bits_equal'])
+        failed=header_fixture().replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,2,1')
+        self.assertEqual(len(self.parse(failed)),28)
+        self.assertFalse(self.parse(failed)[0]['original_f32_bits_equal'])
+
+    def test_header_mode_values_timings_and_totals_refuse(self):
+        for old,new in [('64,32','32,32'),('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,1'),
+                        ('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,1,0.1'),
+                        ('TIME,0,2,0,3,0.001','TIME,0,2,1,3,0.001'),
+                        ('PASS,matrix,28,420,840','PASS,matrix,28,420,560')]:
+            with self.subTest(old=old),self.assertRaises(ValueError):self.parse(header_fixture().replace(old,new,1))
+        with self.assertRaises(ValueError):self.parse(header_fixture().rstrip('\n'))
+
+    def run_header_main(self,text,output,*,changed=False,interrupted=False):
+        import sys
+        import json
+        csv=output.parent/'input.csv';csv.write_text(text)
+        digest=check.digest(csv)
+        oracle=[dict(candidate=dict(passed=True),reference=dict(passed=True),original=dict(passed=True),outputs=1) for _ in range(28)]
+        argv=['check',str(csv),'--model',str(csv),'--model-sha256',digest,'--output',str(output)]
+        values=[digest,digest,digest]
+        if changed:values[-1]='c'*64
+        side_effect=KeyboardInterrupt if interrupted else values
+        with patch.object(sys,'argv',argv),patch.object(check,'digest',side_effect=side_effect),patch.object(check,'independent',return_value=oracle):
+            status=check.main()
+        return status,json.loads(output.read_text())
+
+    def test_header_complete_failure_retains_metrics_clears_all_ratios(self):
+        with tempfile.TemporaryDirectory() as d:
+            status,r=self.run_header_main(header_fixture().replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,2,1'),Path(d)/'failed.json')
+            self.assertEqual(status,1);self.assertTrue(r['collection_complete']);self.assertEqual(len(r['cases']),28)
+            self.assertTrue(all(c['speed_ratio'] is None and c['original_to_cached_ratio'] is None for c in r['cases']))
+
+    def test_header_changed_capture_interrupt_and_exclusive(self):
+        with tempfile.TemporaryDirectory() as d:
+            output=Path(d)/'changed.json';status,r=self.run_header_main(header_fixture(),output,changed=True)
+            self.assertEqual(status,1);self.assertTrue(r['collection_complete'])
+            self.assertTrue(all(c['speed_ratio'] is None and c['original_to_cached_ratio'] is None for c in r['cases']))
+            before=output.read_bytes()
+            with self.assertRaises(FileExistsError):self.run_header_main(header_fixture(),output)
+            self.assertEqual(output.read_bytes(),before)
+            status,r=self.run_header_main(header_fixture(),Path(d)/'interrupt.json',interrupted=True)
+            self.assertEqual(status,1);self.assertIn('KeyboardInterrupt',r['error'])
 
     def test_incomplete_and_trailing(self):
         for text in (fixture().replace("PASS,matrix,28,420,560\n", ""), fixture() + "extra\n", fixture().replace("[CUDA] synthetic api=cuda cpu_offload=0\n", ""),

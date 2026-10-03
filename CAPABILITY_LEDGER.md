@@ -1474,7 +1474,15 @@ and circular self-parity transforms were removed.
   FFN gate/up/down3.46973s (52.04% recorded kernel duration), down largest1.26654s.
   [Evidence](docs/evidence/turing-projection-trace-2026-10-02/README.md).
   No speed score/per-layer timing or new arithmetic/buffer/dispatch/promotion.
-- **Next acceptance gate:** Bounded FFN packed-block decoding/staging under unchanged accumulation and complete-source/primitive/model gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Header reuse rejection (2026-10-02):** Separate optional rows64/width32/
+  precision0 cached-header kernel preserves original entry and all1658880 output
+  bits,2100 selected independent dots,144 synthetic/12 invalid spans/1622640
+  guards. Thirty rotating three-owner records per case retain840 timings.
+  Batch32 gate/up/down original-to-cached .6843/.6890/.9025 reject the speed
+  candidate; cache_headers stays False. Fourteen portable contracts/master190
+  passes/one skip. [Evidence](docs/evidence/turing-block-headers-2026-10-02/README.md).
+  No measured register/occupancy cause, full-model or provider promotion.
+- **Next acceptance gate:** Larger CTA row reuse under bounded shared storage and exact original accumulation/bits, followed by complete-source/primitive/model gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

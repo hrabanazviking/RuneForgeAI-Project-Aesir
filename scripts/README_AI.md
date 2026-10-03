@@ -156,3 +156,9 @@ Control validation now binds exact execution variant and complete independent
 source scope/cases/hash before recovered-byte acceptance. Capture/source/model
 hashes recheck; interruptions preserve unsuccessful reports without speed claims.
 Read ../docs/NATIVE_TURING_BATCHED_CONTROLS.md; eleven portable contracts pass.
+
+The explicit header-cache primitive schema binds three complete owners and840
+rotating samples. Complete numerical failures retain every error but clear ratios;
+model/CSV mutation and KeyboardInterrupt stay failed. Legacy schemas remain.
+Read ../docs/NATIVE_TURING_BLOCK_HEADERS.md. The physically bit-exact candidate
+loses target batch32 FFN speed and remains disabled.

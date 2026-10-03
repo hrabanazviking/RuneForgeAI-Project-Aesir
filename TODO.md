@@ -125,6 +125,13 @@
   Long batch32 FFN gate/up/down3.46973s (52.04% recorded kernel duration), down
   largest1.26654s. No speed score. [Operation](docs/NATIVE_TURING_PROJECTION_TRACE.md).
   Next scope bounded FFN packed-block decoding/staging with original accumulation.
+- [x] SPD-01 bounded block-header reuse: separate default-disabled kernel keeps
+  all1658880 cached/original F32 bits and2100 independent dots within fixed
+  gates;144 synthetic/12 invalid spans/1622640 guards/840 timings pass. Batch32
+  gate/up/down old-to-cached ratios .6843/.6890/.9025 reject this speed candidate.
+  Fourteen portable contracts/master190 passes/one skip; defaults remain original.
+  [Operation](docs/NATIVE_TURING_BLOCK_HEADERS.md). Next scope larger CTA row reuse
+  under exact original bits and bounded shared storage.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

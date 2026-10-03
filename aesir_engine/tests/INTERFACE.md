@@ -566,3 +566,12 @@ mask setup. Explicit marker binds recovered vectors to the matching independentl
 accepted strategy. Existing deadline/SIGINT/invalid-fd/reset/refusal/poison/guard
 records remain mandatory. No new recovery fallback. Read
 ../../docs/NATIVE_TURING_BATCHED_CONTROLS.md; actual GPU faults remain unproved.
+
+## Three-owner primitive header experiment
+
+The primitive harness adds final cache_headers=False. True snapshots native
+values on bounded host storage, then compares cached/original bits using existing
+two device output spans. New test_turing_block_headers exports exact Float64 text
+for native/cached/original,144 synthetic/12 invalid spans/all guards and840
+rotating ten-sample three-owner records. Legacy defaults/schemas remain. Explicit
+mode binds rows64/width32. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md.

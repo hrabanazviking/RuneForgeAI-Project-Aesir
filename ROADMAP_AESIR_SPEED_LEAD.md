@@ -459,8 +459,14 @@ F32/cache/committed state/guards remain; eight attribution/nine probe contracts
 pass. [Operation](docs/NATIVE_TURING_PROJECTION_TRACE.md). Long batch32 gate/up/down
 GPU duration totals3.46973s (52.04% recorded kernel duration), with down1.26654s.
 No synchronization/arithmetic/device-buffer/dispatch change or timing score.
-Next scope bounded FFN packed-block decoding/staging, preserving original
-accumulation and complete-source/primitive/model gates before scoring/promoting.
+Bounded per-thread block-header reuse now passes all1658880 original output bits,
+2100 selected independent dots,144 synthetic/12 invalid spans/1622640 guards.
+All840 rotating native/cached/original timing records remain. Batch32 gate/up/down
+old-to-cached .6843/.6890/.9025 reject it as a speed improvement; default remains
+False. Fourteen portable contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_BLOCK_HEADERS.md).
+Register pressure/occupancy cause is not measured. Next scope larger CTA row reuse
+with bounded shared storage and exact original accumulation/bits, then complete
+source/primitive/model gates before scoring/promoting.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

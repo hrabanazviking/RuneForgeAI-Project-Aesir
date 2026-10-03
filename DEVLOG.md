@@ -1,3 +1,18 @@
+## 2026-10-02 — Sigrún: exact header-reuse experiment rejects slower staging
+
+Separate default-disabled rows64/width32/precision0 kernel caches each packed
+block's16 per-thread d/dmin headers before eight original sections. Original
+entry definition stays intact; no extra device/shared/global buffer. All1658880
+original output bits/2100 selected independent dots/144 synthetic/12 invalid
+spans/1622640 guards pass. All840 rotating three-owner samples remain. Batch32
+gate/up/down original-to-cached ratios .6843/.6890/.9025 mean roughly46.1%/45.1%/
+10.8% slower, rejecting this speed candidate without changing defaults. No
+register/occupancy cause inferred. Fourteen portable contracts/master190 passes/
+one skip and both targets/legacy/normal/check finish before GPU/oracle. Failed
+Float32.bitcast prototype is retained. Active ready/prefill4/cpuoffload0/normal
+f3442a1e remain. Next scope larger CTA row reuse under exact bits/bounded shared
+storage. Read docs/NATIVE_TURING_BLOCK_HEADERS.md; push/CI receipts separate.
+
 ## 2026-10-02 — Sigrún: actual projection attribution before matrix tuning
 
 Default-disabled labels bind actual tensor offset/kind/shape and source32/4/1

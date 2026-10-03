@@ -235,3 +235,14 @@ identity. main rehashes capture/source/model afterward and retains KeyboardInter
 failures. All reports keep speed_claim=False. Eleven portable control contracts
 include strategy/metadata/source-mutation/interrupt/exclusive failures. Read
 ../docs/NATIVE_TURING_BATCHED_CONTROLS.md before interpreting acceptance.
+
+## Cached-header primitive admission
+
+check_packed_matrix admits only explicit header-cache64/32 mode with seven-field
+exact finite F32 VALUE records, ordered native/cached/original samples,30 rotating
+TIME records per case/840 total and final newline. validate preserves complete
+new numerical failures; main retains all original/native/independent errors and
+clears every ratio on failure, source mutation or interruption. Every model/CSV
+digest rechecks after the pinned oracle. Fourteen portable matrix contracts
+include signed-zero, rotation, source mutation and exclusive report refusal.
+Read ../docs/NATIVE_TURING_BLOCK_HEADERS.md; no full-model/provider proof.

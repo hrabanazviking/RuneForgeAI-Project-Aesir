@@ -86,3 +86,8 @@ The optional strided RMS sibling and public residual/SiLU cell helpers preserve
 existing entry definitions. Caller admission owns disjoint rows, finite validated
 weight metadata and exact arithmetic/replay gates. Read
 ../../docs/NATIVE_TURING_BATCHED_ELEMENTWISE.md before changing or integrating.
+
+Header reuse is an explicit compile-time cache_headers=False experiment with a
+separate rows64/width32/precision0 entry. All original staged F32 bits pass, but
+target batch32 FFN timings lose, so keep False. No register/occupancy cause is
+proved. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md before refinement.
