@@ -75,6 +75,14 @@ hashes and matching strategy2 independent acceptance. All durations are unscored
 exclusive reports retain numerical, changed-artifact and interruption failures.
 See [range operation](../docs/NATIVE_TURING_PREFILL_TRACE.md).
 
+Optional projection_tiles lets already-admitted outer-range kernels project
+through exact successful API correlations into disjoint same-thread child ranges.
+cuda_projection_ranges.attribute checks strict source-derived range/kernel counts,
+complete launch containment and known projection prefixes, returning per-stage/
+batch actual geometry/count/duration. No asynchronous GPU interval is clipped to
+its CPU enqueue range. Checker --projection-ranges binds explicit STAGES,1 on both
+plain/profiled inputs. Read [attribution operation](../docs/NATIVE_TURING_PROJECTION_TRACE.md).
+
 ## check_packed_matrix.py
 
 Optional test-only primitive oracle. parse requires bounded regular ordered CSV,

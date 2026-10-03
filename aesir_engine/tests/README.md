@@ -9,6 +9,11 @@ directly, retain full-session raw traces and strict actual process identity,
 select only the synchronized semantic range after all rows validate. Exported
 complete F32/cache bytes must equal independently admitted source; no speed score.
 
+Explicit projection tracing stays disabled by default. The direct probe can bind
+actual loaded tensors to query/key/value/output/gate/up/down/head and batch1/4/32;
+read docs/NATIVE_TURING_PROJECTION_TRACE.md. Child CPU ranges only label enqueues;
+successful correlations project GPU duration without changing synchronization.
+
 - **`run_all.mojo`:** Master orchestrator registering 190 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,

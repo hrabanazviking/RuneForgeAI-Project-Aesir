@@ -7,6 +7,10 @@ PID to a unique NVTX range after all full-session CUDA rows validate. Preserve
 failed time-domain exports, excluded initialization/export counts and unscored
 durations. Wrong source/strategy/owner/range or changed artifacts withhold admission.
 
+Explicit --projection-ranges additionally requires both STAGES,1 markers and
+complete source-derived disjoint child ranges with exact successful launch/kernel
+attribution. See [projection operation](../docs/NATIVE_TURING_PROJECTION_TRACE.md).
+
 These Python programs prepare, launch or independently test the native Mojo
 engine. They never supply production native inference or substitute Ollama answers
 for native execution. Optional independent CPU inference is explicitly test-only.

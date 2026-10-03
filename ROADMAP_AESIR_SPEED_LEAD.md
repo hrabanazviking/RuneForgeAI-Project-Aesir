@@ -453,6 +453,15 @@ are unscored and shared kernel names do not distinguish individual projections.
 Next earn explicit projection-range attribution before choosing another matrix
 kernel change; all production/provider/broader-runtime gates stay separate.
 
+Actual tensor-bound projection attribution now passes589/7449 disjoint child
+ranges and981/20385 successful projection kernels for public37/1070. All source
+F32/cache/committed state/guards remain; eight attribution/nine probe contracts
+pass. [Operation](docs/NATIVE_TURING_PROJECTION_TRACE.md). Long batch32 gate/up/down
+GPU duration totals3.46973s (52.04% recorded kernel duration), with down1.26654s.
+No synchronization/arithmetic/device-buffer/dispatch change or timing score.
+Next scope bounded FFN packed-block decoding/staging, preserving original
+accumulation and complete-source/primitive/model gates before scoring/promoting.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

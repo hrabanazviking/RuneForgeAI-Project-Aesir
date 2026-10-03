@@ -51,6 +51,16 @@ class Contracts(unittest.TestCase):
         result = check.parse(self.path, self.golden, 1)
         self.assertFalse(result["passed"]); self.assertEqual(result["values"], 3)
 
+    def test_projection_marker_explicit_missing_wrong_or_late(self):
+        with self.assertRaises(ValueError):check.parse(self.path,self.golden,1,True)
+        text=self.text.replace('STATE,','STAGES,1\nSTATE,')
+        self.path.write_text(text)
+        self.assertTrue(check.parse(self.path,self.golden,1,True)['projection_ranges'])
+        with self.assertRaises(ValueError):check.parse(self.path,self.golden,1,False)
+        for text in [text.replace('STAGES,1','STAGES,2'),text.replace('STAGES,1\n','')+'STAGES,1\n',text.replace('STAGES,1','STAGES,1\nSTAGES,1')]:
+            self.path.write_text(text)
+            with self.assertRaises((ValueError,StopIteration)):check.parse(self.path,self.golden,1,True)
+
     def test_special_file_input(self):
         import os
         path = self.root / "fifo"; os.mkfifo(path)

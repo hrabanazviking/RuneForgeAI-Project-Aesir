@@ -15,6 +15,7 @@ from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled
 from core.cuda_sampling import NativeCUDASampler
 from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
+from tests.projection_trace import projection_push, projection_pop, same_projection_tensor
 
 
 def ignore_layer(layer: Int) raises:
@@ -39,6 +40,7 @@ struct TuringPrefillFixture:
     var rope_cache_calls: Int
     var batched_elementwise: Bool
     var elementwise_calls: Int
+    var trace_projections: Bool
 
     def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
@@ -46,6 +48,7 @@ struct TuringPrefillFixture:
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
         self.batched_elementwise = elementwise
         self.elementwise_calls = 0
+        self.trace_projections = False
         self.activation_precision = precision
         self.batched_rope_cache = batched
         self.rope_cache_calls = 0
@@ -108,11 +111,29 @@ struct TuringPrefillFixture:
         else:
             self.native.context.enqueue_function[block_matvec_kernel[kind]](self.native.w(),self.a(),Int64(t.offset),Int64(t.columns),Int64(t.rows),Int64(src),Int64(dst),grid_dim=(t.rows+3)//4,block_dim=128)
 
-    def project(self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool = False) raises:
-        if t.kind == 12: self.project_kind[12](t,src,dst,count,matrix)
-        elif t.kind == 13: self.project_kind[13](t,src,dst,count,matrix)
-        elif t.kind == 14: self.project_kind[14](t,src,dst,count,matrix)
-        else: raise Error("Matrix fixture requires an admitted packed projection")
+    def project(self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool = False,stage: String = "head") raises:
+        if self.trace_projections:
+            var owned = stage == "head" and same_projection_tensor(t,self.native.output_tensor) and count == 1
+            for layer in self.native.layers:
+                owned = owned or (stage == "query" and same_projection_tensor(t,layer.query))
+                owned = owned or (stage == "key" and same_projection_tensor(t,layer.key))
+                owned = owned or (stage == "value" and same_projection_tensor(t,layer.value))
+                owned = owned or (stage == "output" and same_projection_tensor(t,layer.attention_output))
+                owned = owned or (stage == "gate" and same_projection_tensor(t,layer.gate))
+                owned = owned or (stage == "up" and same_projection_tensor(t,layer.up))
+                owned = owned or (stage == "down" and same_projection_tensor(t,layer.down))
+            if not owned or self.execution_strategy() != 2 or self.activation_precision != 0:
+                raise Error("Projection trace label disagrees with actual tensor/strategy owner")
+            projection_push(stage,count)
+        try:
+            if t.kind == 12: self.project_kind[12](t,src,dst,count,matrix)
+            elif t.kind == 13: self.project_kind[13](t,src,dst,count,matrix)
+            elif t.kind == 14: self.project_kind[14](t,src,dst,count,matrix)
+            else: raise Error("Matrix fixture requires an admitted packed projection")
+        except:
+            if self.trace_projections: projection_pop()
+            raise
+        if self.trace_projections: projection_pop()
 
     def rotate(mut self,offset: Int,heads: Int,position: Int) raises:
         if self.native.profile.rope_factors:
@@ -174,11 +195,11 @@ struct TuringPrefillFixture:
 
     def layer(mut self,plan: DenseGQALayer,index: Int,count: Int) raises:
         self.norm_rows(plan.attention_norm,0,self.layout.norm,count)
-        self.project(plan.query,self.layout.norm,self.layout.query,count,True)
-        self.project(plan.key,self.layout.norm,self.layout.key,count)
-        self.project(plan.value,self.layout.norm,self.layout.value,count)
+        self.project(plan.query,self.layout.norm,self.layout.query,count,True,"query")
+        self.project(plan.key,self.layout.norm,self.layout.key,count,False,"key")
+        self.project(plan.value,self.layout.norm,self.layout.value,count,False,"value")
         self.attention(index,count)
-        self.project(plan.attention_output,self.layout.attention,self.layout.temporary,count,True)
+        self.project(plan.attention_output,self.layout.attention,self.layout.temporary,count,True,"output")
         if self.batched_elementwise and count > 1:
             self.residual_rows(count)
             self.norm_rows(plan.feed_forward_norm,0,self.layout.norm,count)
@@ -187,10 +208,10 @@ struct TuringPrefillFixture:
                 var base = self.layout.token_base(token)
                 self.residual(base)
                 self.norm(plan.feed_forward_norm,base,base+self.layout.norm)
-        self.project(plan.gate,self.layout.norm,self.layout.gate,count,True)
-        self.project(plan.up,self.layout.norm,self.layout.up,count,True)
+        self.project(plan.gate,self.layout.norm,self.layout.gate,count,True,"gate")
+        self.project(plan.up,self.layout.norm,self.layout.up,count,True,"up")
         self.silu_rows(count)
-        self.project(plan.down,self.layout.up,self.layout.temporary,count,True)
+        self.project(plan.down,self.layout.up,self.layout.temporary,count,True,"down")
         self.residual_rows(count)
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:

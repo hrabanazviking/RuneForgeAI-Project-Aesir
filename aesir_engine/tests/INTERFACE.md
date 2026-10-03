@@ -8,6 +8,12 @@ enqueue counts, guarded-cache SHA and guards export outside. No runtime dispatch
 or numerical kernel changes. Read docs/NATIVE_TURING_PREFILL_TRACE.md; hosted
 compile is not hardware execution, and profiler durations are never speed scores.
 
+Optional explicit projection tracing binds each actual loaded tensor's complete
+offset/kind/shape to query/key/value/output/gate/up/down/head and batch1/4/32.
+Default remains disabled; only the direct probe owns globally loaded NVTX. No
+new buffers/arithmetic/synchronization. Read docs/NATIVE_TURING_PROJECTION_TRACE.md
+for source-bound launch projection and callback failure/poison scope.
+
 Native CUDA opt-in evidence is documented in `docs/GEMMA4_CUDA.md`:
 `test_gemma4_cuda.mojo` executes the actual dense model,
 `test_gemma4_quant_parity.mojo` compares physical GPU matvec results against

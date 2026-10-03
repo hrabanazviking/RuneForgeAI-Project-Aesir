@@ -1,3 +1,18 @@
+## 2026-10-02 — Sigrún: actual projection attribution before matrix tuning
+
+Default-disabled labels bind actual tensor offset/kind/shape and source32/4/1
+tiling. Both public plain/profiled cases preserve513024 complete source F32/cache/
+committed-state values/4352 guards.589/7449 child ranges attribute981/20385 actual
+successful projection kernels through exact launch correlations, without adding
+synchronization or clipping asynchronous GPU intervals. Batch32 key/value require
+their eight original four-token launches per range. Eight attribution/nine probe
+contracts and all previous gates pass; master190 passes/one skip. Long batch32
+FFN gate/up/down totals3.46973s (52.04% observed kernel duration); down1.26654s is
+largest. All profiler time remains unscored. No numerical/device-buffer/dispatch
+change, production32 or provider claim. Next scope bounded FFN block decoding/
+staging with original accumulation. Read docs/NATIVE_TURING_PROJECTION_TRACE.md;
+exact push/CI receipts are separate.
+
 ## 2026-10-02 — Sigrún: owned inference-only strategy2 timeline
 
 Added a direct native NVTX probe and bounded source/ownership/range checker.

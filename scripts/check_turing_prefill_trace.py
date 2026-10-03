@@ -21,7 +21,7 @@ from check_llama3_logits import VOCABULARY
 RANGE = "aesir.fixture.prefill"
 
 
-def parse(path, golden, case):
+def parse(path, golden, case, projection_ranges=False):
     text = read_text(path, 16 * 1024**2)
     if len(text.encode()) > 16 * 1024**2 or not text.endswith("\n"):
         raise ValueError("Trace CSV exceeds byte limit or lacks complete final line")
@@ -36,6 +36,8 @@ def parse(path, golden, case):
             not re.fullmatch(r"[1-9][0-9]{0,9}", row[4]) or row[5] != RANGE):
         raise ValueError("Wrong trace strategy/case/PID/range")
     pid = int(row[4]); count = len(golden["input_ids"])
+    if projection_ranges and next(reader) != ["STAGES","1"]:
+        raise ValueError("Missing explicit projection diagnostic marker")
     if next(reader) != ["STATE", *([str(count)] * 4)]:
         raise ValueError("Trace lost exact committed positions")
     for index, token in enumerate(golden["input_ids"]):
@@ -58,7 +60,7 @@ def parse(path, golden, case):
     if next(reader, None) is not None:
         raise ValueError("Trailing trace evidence")
     identical = values.tobytes() == golden["logits"].tobytes()
-    return dict(passed=identical and cache, case=case, pid=pid, values=VOCABULARY,
+    return dict(passed=identical and cache, case=case, pid=pid, values=VOCABULARY, projection_ranges=projection_ranges,
                 input_tokens=count, f32_bytes_equal=identical, guarded_cache_equal=cache,
                 guards=1088, csv_sha256=hashlib.sha256(text.encode()).hexdigest(),
                 f32_sha256=hashlib.sha256(values.tobytes()).hexdigest())
@@ -76,6 +78,7 @@ def main():
     parser.add_argument("--reference-csv", type=Path, required=True)
     parser.add_argument("--reference-report", type=Path, required=True)
     parser.add_argument("--case", type=int, choices=(1, 3), required=True)
+    parser.add_argument("--projection-ranges", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     report = dict(schema=1, passed=False, collection_complete=False, speed_scored=False)
@@ -92,14 +95,20 @@ def main():
             if source["csv_sha256"] != proof["csv_sha256"]:
                 raise ValueError("Trace source changed during admission")
             golden = source["cases"][args.case]
-            unprofiled = parse(args.unprofiled, golden, args.case)
-            profiled = parse(args.profiled, golden, args.case)
+            unprofiled = parse(args.unprofiled, golden, args.case,args.projection_ranges)
+            profiled = parse(args.profiled, golden, args.case,args.projection_ranges)
             report.update(probe_collection_complete=True, unprofiled=unprofiled, profiled=profiled,
                           model_sha256=args.model_sha256, binary_sha256=args.binary_sha256,
                           accepted_reference=proof)
             sqlite_sha = digest(args.sqlite)
+            tiles = None
+            if args.projection_ranges:
+                tiles = {1:1,4:0,32:0};remaining=len(golden["input_ids"])-1
+                while remaining:
+                    size = 32 if remaining >= 32 else (4 if remaining >= 4 else 1)
+                    tiles[size] += 1;remaining -= size
             trace = analyze(args.sqlite, args.binary.name,
-                            expected_pid=profiled["pid"], nvtx_range=RANGE)
+                            expected_pid=profiled["pid"], nvtx_range=RANGE,projection_tiles=tiles)
             if trace["gpu"]["compute"] != "7.5":
                 raise ValueError("Trace differs from admitted physical capability7.5")
             report.update(collection_complete=True, unprofiled=unprofiled, profiled=profiled,

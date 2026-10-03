@@ -118,6 +118,13 @@
   Retain rejected NVTX-triggered/UTC time-domain exports. No timing score.
   Long observed staged matrix kernels65.43%, attention21.47%; next earn explicit
   projection attribution before another kernel change. [Operation](docs/NATIVE_TURING_PREFILL_TRACE.md).
+- [x] SPD-00/01/04 actual projection attribution: tensor-bound default-disabled
+  NVTX labels and source32/4/1 plans attribute589/7449 child ranges to981/20385
+  actual projection kernels in public37/1070 traces. All513024 source F32/cache/
+  state values/4352 guards remain; eight attribution/nine probe contracts pass.
+  Long batch32 FFN gate/up/down3.46973s (52.04% recorded kernel duration), down
+  largest1.26654s. No speed score. [Operation](docs/NATIVE_TURING_PROJECTION_TRACE.md).
+  Next scope bounded FFN packed-block decoding/staging with original accumulation.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

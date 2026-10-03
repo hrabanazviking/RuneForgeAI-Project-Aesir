@@ -1,0 +1,537 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "2d6dbf71b87a804ac45ed8aad7d7a6b26c02a882",
+  "accepted_source_revision": "7f662229b14da4ca8a1c02ba938aa327b37e7c15",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:32:58.445355+00:00",
+      "ended_utc": "2026-10-03T02:32:58.560550+00:00",
+      "wall_seconds": 0.1152252949832473,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:32:05.271477+00:00",
+      "ended_utc": "2026-10-03T02:32:38.173320+00:00",
+      "wall_seconds": 32.90187156898901,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:32:38.173811+00:00",
+      "ended_utc": "2026-10-03T02:32:58.444758+00:00",
+      "wall_seconds": 20.270975691004423,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:31:13.815125+00:00",
+      "ended_utc": "2026-10-03T02:31:39.217801+00:00",
+      "wall_seconds": 25.402705068991054,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T02:31:39.218254+00:00",
+      "ended_utc": "2026-10-03T02:32:05.271008+00:00",
+      "wall_seconds": 26.052781470003538,
+      "performance_scored": false
+    }
+  ],
+  "processes": [
+    {
+      "exit": 0,
+      "wall_seconds": 0.11455889799981378,
+      "argv": [
+        "/usr/bin/nsys",
+        "export",
+        "--type=sqlite",
+        "--force-overwrite=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture.sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T02:33:33.456578+00:00",
+      "ended_utc": "2026-10-03T02:33:33.571193+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 0.1145861889817752,
+      "argv": [
+        "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+        "--input-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture.qdstrm",
+        "--output-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T02:33:33.341500+00:00",
+      "ended_utc": "2026-10-03T02:33:33.456148+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 6.383136591000948,
+      "argv": [
+        "/usr/bin/nsys",
+        "profile",
+        "--trace=cuda,nvtx",
+        "--capture-range=none",
+        "--sample=none",
+        "--cpuctxsw=none",
+        "--force-overwrite=false",
+        "--stats=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/profiled.csv",
+        "1"
+      ],
+      "started_utc": "2026-10-03T02:33:26.957753+00:00",
+      "ended_utc": "2026-10-03T02:33:33.340950+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 3.474297648004722,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/unprofiled.csv",
+        "1"
+      ],
+      "started_utc": "2026-10-03T02:33:23.482770+00:00",
+      "ended_utc": "2026-10-03T02:33:26.957198+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 5.629960447986377,
+      "argv": [
+        "python3",
+        "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+        "--unprofiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/unprofiled.csv",
+        "--profiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/profiled.csv",
+        "--sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/capture.sqlite",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "--binary-sha256",
+        "cb90d7654234fde5edf32b4a43c653b3927bb4979fa4bf886bc854c84e7f0b15",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.json",
+        "--case",
+        "1",
+        "--projection-ranges",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case1/complete.json"
+      ],
+      "started_utc": "2026-10-03T02:33:33.578809+00:00",
+      "ended_utc": "2026-10-03T02:33:39.208872+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 1.0170828950067516,
+      "argv": [
+        "/usr/bin/nsys",
+        "export",
+        "--type=sqlite",
+        "--force-overwrite=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture.sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T02:34:04.221723+00:00",
+      "ended_utc": "2026-10-03T02:34:05.238859+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 1.0171183009806555,
+      "argv": [
+        "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+        "--input-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture.qdstrm",
+        "--output-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T02:34:03.204126+00:00",
+      "ended_utc": "2026-10-03T02:34:04.221305+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 14.25480049502221,
+      "argv": [
+        "/usr/bin/nsys",
+        "profile",
+        "--trace=cuda,nvtx",
+        "--capture-range=none",
+        "--sample=none",
+        "--cpuctxsw=none",
+        "--force-overwrite=false",
+        "--stats=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "3",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/profiled.csv",
+        "1"
+      ],
+      "started_utc": "2026-10-03T02:33:48.948794+00:00",
+      "ended_utc": "2026-10-03T02:34:03.203642+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 9.738813529984327,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "3",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/unprofiled.csv",
+        "1"
+      ],
+      "started_utc": "2026-10-03T02:33:39.209578+00:00",
+      "ended_utc": "2026-10-03T02:33:48.948470+00:00",
+      "performance_scored": false
+    },
+    {
+      "exit": 0,
+      "wall_seconds": 6.683423105016118,
+      "argv": [
+        "python3",
+        "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+        "--unprofiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/unprofiled.csv",
+        "--profiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/profiled.csv",
+        "--sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/capture.sqlite",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-projection-trace",
+        "--binary-sha256",
+        "cb90d7654234fde5edf32b4a43c653b3927bb4979fa4bf886bc854c84e7f0b15",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.json",
+        "--case",
+        "3",
+        "--projection-ranges",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-projection-trace-final-case3/complete.json"
+      ],
+      "started_utc": "2026-10-03T02:34:05.247178+00:00",
+      "ended_utc": "2026-10-03T02:34:11.930693+00:00",
+      "performance_scored": false
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "aesir-turing-projection-trace",
+      "bytes": 5159160,
+      "sha256": "cb90d7654234fde5edf32b4a43c653b3927bb4979fa4bf886bc854c84e7f0b15"
+    },
+    {
+      "name": "turing-projection-trace-final-build-check.json",
+      "bytes": 265,
+      "sha256": "efa6d1732005eeb974cd5040a1d13f092aa7d5b68ff5078e463b7bb02319941c"
+    },
+    {
+      "name": "turing-projection-trace-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-projection-trace-final-build-master.json",
+      "bytes": 412,
+      "sha256": "6849faa6f82b4aca379be6c3e8201f7e95fd7c9fec7bf6e6a29bd21b09971dda"
+    },
+    {
+      "name": "turing-projection-trace-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-projection-trace-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "294f9ffbc0d4b5e9a351478f82e991861ca641c56af8f77d871d2baa1ac946fc"
+    },
+    {
+      "name": "turing-projection-trace-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-projection-trace-final-build-sm_75.json",
+      "bytes": 573,
+      "sha256": "7a22443c781d5b5a0b28ba330233be9ec5c155e501ec4b72604ef7d3fcebba8d"
+    },
+    {
+      "name": "turing-projection-trace-final-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-final-build-sm_89.json",
+      "bytes": 573,
+      "sha256": "69bdbd922239c704763cd75a1ae46eeea8cafde96ab98173326225123c60afd3"
+    },
+    {
+      "name": "turing-projection-trace-final-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/capture.nsys-rep",
+      "bytes": 630513,
+      "sha256": "f2eddf45a1ca039289bbc5bbc9a9d348068f0dc4a8c7611aedb52e7c61ba0be2"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/capture.qdstrm",
+      "bytes": 3859693,
+      "sha256": "5fd1aa2b07e7ba745443a52694972c589f0affa863c9dfd30b82c7f0d31bc788"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/capture.sqlite",
+      "bytes": 1667072,
+      "sha256": "3fc2e781b376eb53a394063c5afea9f6240130b619d8873856003a7c3a72c087"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/complete.json",
+      "bytes": 11505,
+      "sha256": "80eef7297b4914f860855ab1032da428e3fa5c369e99bbfed5f81e31c34f9c61"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/export-process.json",
+      "bytes": 546,
+      "sha256": "aa2d063b503a82dacb76da166d58fa3514a5afe3189e0686069953ef24d2b43d"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/export.txt",
+      "bytes": 8101,
+      "sha256": "5e6e59d962a5248275f4eb7458e87314dd13447be0ab8fe7359f4b10b5c33447"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/import-process.json",
+      "bytes": 551,
+      "sha256": "78dd7c152c97864ba83de2b4785164664386edf93fe8ddc6dc87286c86515e74"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/import.txt",
+      "bytes": 707,
+      "sha256": "9b0973ef8add8ebc4aca69f349af79c1c9ba3176af7522e8b42ba64f819e6020"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/profiled-process.json",
+      "bytes": 891,
+      "sha256": "0d5950ff355e499b27a9e773d87adfbb6cc3194471b9fce8bff7e562b96b5a93"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/profiled.csv",
+      "bytes": 3883900,
+      "sha256": "2a65d70a6302049567a842ac9660f44fee166c162969f714380f028cb7699051"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/profiled.txt",
+      "bytes": 333,
+      "sha256": "e6b5971bfd7680be06ec2230ffdd83511615b0263a1fa5a69b9715f16ba8255f"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/unprofiled-process.json",
+      "bytes": 585,
+      "sha256": "ae1f08946cfd7ca08e367cf1aef9bce048f83e4708b5fd6179df6bdaf17f19eb"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/unprofiled.csv",
+      "bytes": 3883900,
+      "sha256": "dd41c5033ea41f7c3e451201ec49e9a5084385df7f9680b473b5ad67d2144d7f"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/validation-process.json",
+      "bytes": 1620,
+      "sha256": "e68a87fed0a1e4cbcce9e570fefd9ae814bca7d0ea59b66a39ddf44fe06b2f1d"
+    },
+    {
+      "name": "turing-projection-trace-final-case1/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/capture.nsys-rep",
+      "bytes": 9538355,
+      "sha256": "7938f9e1e33d2457fc2e5f7e059badfeabb17cad8cb3822072c8ca057b5eb314"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/capture.qdstrm",
+      "bytes": 11735085,
+      "sha256": "971cdbdeb1e9dfba7c5843814c2439cbe57173ec9e3891e2e87659027751d624"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/capture.sqlite",
+      "bytes": 23040000,
+      "sha256": "f8e3d9faf0f4bbfb02534389a26ef7a9a7a9e9941acb298ae8aacc292c092963"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/complete.json",
+      "bytes": 11613,
+      "sha256": "2f622e23c14081158429045dda5b705523afbf94dcfde07d281dd8501c7fa637"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/export-process.json",
+      "bytes": 545,
+      "sha256": "f13024cc397c46e184dd5d5ca624d32fa4f6462ce2780f2a6a8439bcfaebfead"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/export.txt",
+      "bytes": 8101,
+      "sha256": "af82c9800789f46e44bce16545eb762e4829bc19af863745216e8a19e9dc66ff"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/import-process.json",
+      "bytes": 551,
+      "sha256": "062039cf938d56cf5ed66c0eb9ce47607d996bf2a8aba33b3ab802a53e538ac3"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/import.txt",
+      "bytes": 3623,
+      "sha256": "e386d57f468eb38ecf4569a14452823aeaae7a64794a178d476fc78aeca3dc04"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/profiled-process.json",
+      "bytes": 891,
+      "sha256": "9200db899ec66830966a5fbb340cc2d716ea73c4e20caa35eb2cdd14138cc28d"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/profiled.csv",
+      "bytes": 3963115,
+      "sha256": "61b51fa91f8ea60bafa20fb94a4415fba05c57a35021db7f6b1c89a2f693cff1"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/profiled.txt",
+      "bytes": 333,
+      "sha256": "c76e0784bf87eb53630fb2aaa5a81f594b97da8901e75d1948c0b337c0139ff2"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/unprofiled-process.json",
+      "bytes": 585,
+      "sha256": "2164550fb260a0b51510750c72f94428bbd76781343387b8af2aa8884d695eef"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/unprofiled.csv",
+      "bytes": 3963115,
+      "sha256": "c8f47f476b08814d699947a851845f0885e8e4959ac1b8e9165c4903d5ba4d52"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/validation-process.json",
+      "bytes": 1620,
+      "sha256": "2d33a937af4997e014e3be2224ce4373312a8dad29adc91af218803c4d087561"
+    },
+    {
+      "name": "turing-projection-trace-final-case3/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-first-build.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-projection-trace-sm_89",
+      "bytes": 5159160,
+      "sha256": "4edc6eba87119196b8da7ce5e45d9baf824abb0b8bc04679cd463c1a842d7ab8"
+    }
+  ],
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "limits": "Original strict3B/context1536/F16KV/sm75 strategy2 public37/1070 only. Tensor offset/kind/shape plus source complete F32/cache/ID/state identity bind diagnostic projection ranges. Full-session outer ownership precedes same-thread exact launch-correlation child attribution. All durations unscored; no new arithmetic/buffer/sync/dispatch. No per-layer timing, new independent inference, production32, broader context/device/concurrency/soak/persistence or provider claim."
+}

@@ -1,0 +1,394 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_scored": false,
+  "probe_collection_complete": true,
+  "unprofiled": {
+    "passed": true,
+    "case": 3,
+    "pid": 1108331,
+    "values": 128256,
+    "projection_ranges": true,
+    "input_tokens": 1070,
+    "f32_bytes_equal": true,
+    "guarded_cache_equal": true,
+    "guards": 1088,
+    "csv_sha256": "c8f47f476b08814d699947a851845f0885e8e4959ac1b8e9165c4903d5ba4d52",
+    "f32_sha256": "3ba69554bc192383bb50658436c79b04d2ab2d666781ba43255d9d66c25fafc5"
+  },
+  "profiled": {
+    "passed": true,
+    "case": 3,
+    "pid": 1108417,
+    "values": 128256,
+    "projection_ranges": true,
+    "input_tokens": 1070,
+    "f32_bytes_equal": true,
+    "guarded_cache_equal": true,
+    "guards": 1088,
+    "csv_sha256": "61b51fa91f8ea60bafa20fb94a4415fba05c57a35021db7f6b1c89a2f693cff1",
+    "f32_sha256": "3ba69554bc192383bb50658436c79b04d2ab2d666781ba43255d9d66c25fafc5"
+  },
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "binary_sha256": "cb90d7654234fde5edf32b4a43c653b3927bb4979fa4bf886bc854c84e7f0b15",
+  "accepted_reference": {
+    "csv_sha256": "68def115be2e36a17c754345fd50a005bc204b3cee1fcd1ed540c19ce52911fb",
+    "report_sha256": "bf9201887eb75c5a5221b1480347db5b828138ae3bdb3a8d141d459e95a1d97e",
+    "attention_variant": 2
+  },
+  "trace": {
+    "schema": 1,
+    "exporter": "2023.4.4.54",
+    "process": {
+      "pid": 1108417,
+      "name": "aesir-turing-projection-trace"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+      "compute": "7.5",
+      "bytes": 6017515520
+    },
+    "capture_ns": 10330432533,
+    "kernel_count": 120919,
+    "scope": "owned_nvtx_prefill",
+    "complete_capture_kernel_count": 120919,
+    "excluded_kernel_count": 0,
+    "projection_attribution": {
+      "passed": true,
+      "cpu_range_count": 7449,
+      "kernel_count": 20385,
+      "groups": {
+        "down.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 9589842,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 3072,
+          "columns": 8192
+        },
+        "down.b32": {
+          "kernel_count": 924,
+          "gpu_total_ns": 1266541544,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 3072,
+          "columns": 8192
+        },
+        "down.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 26030371,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 3072,
+          "columns": 8192
+        },
+        "gate.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 9482930,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "gate.b32": {
+          "kernel_count": 924,
+          "gpu_total_ns": 1100835615,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "gate.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 25898725,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "head.b1": {
+          "kernel_count": 1,
+          "gpu_total_ns": 2381580,
+          "cpu_range_count": 1,
+          "batch": 1,
+          "rows": 128256,
+          "columns": 3072
+        },
+        "key.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 1598728,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 1024,
+          "columns": 3072
+        },
+        "key.b32": {
+          "kernel_count": 7392,
+          "gpu_total_ns": 308748138,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 1024,
+          "columns": 3072
+        },
+        "key.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 4109903,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 1024,
+          "columns": 3072
+        },
+        "output.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 3793879,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "output.b32": {
+          "kernel_count": 924,
+          "gpu_total_ns": 446307488,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "output.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 10146386,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "query.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 3786737,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "query.b32": {
+          "kernel_count": 924,
+          "gpu_total_ns": 447513272,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "query.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 10059696,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 3072,
+          "columns": 3072
+        },
+        "up.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 9482258,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "up.b32": {
+          "kernel_count": 924,
+          "gpu_total_ns": 1102354412,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "up.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 25923399,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 8192,
+          "columns": 3072
+        },
+        "value.b1": {
+          "kernel_count": 56,
+          "gpu_total_ns": 1541865,
+          "cpu_range_count": 56,
+          "batch": 1,
+          "rows": 1024,
+          "columns": 3072
+        },
+        "value.b32": {
+          "kernel_count": 7392,
+          "gpu_total_ns": 293496647,
+          "cpu_range_count": 924,
+          "batch": 32,
+          "rows": 1024,
+          "columns": 3072
+        },
+        "value.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 4125583,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "rows": 1024,
+          "columns": 3072
+        }
+      },
+      "tiles": {
+        "1": 2,
+        "4": 3,
+        "32": 33
+      },
+      "limits": "GPU duration projects successful launches through exact CUDA correlations. Child CPU ranges do not synchronize or contain asynchronous GPU intervals. Durations overlap APIs; no service speed score or per-layer timing."
+    },
+    "kernel_window_ns": 6748428741,
+    "gpu_busy_in_kernel_window_ns": 6667880336,
+    "uncovered_in_kernel_window_ns": 80548405,
+    "kernel_groups": {
+      "core_packed_turing_matrix_stag6A6A6A6A_d3cdbd5ae2abdeff": {
+        "count": 4158,
+        "total_ns": 3683281791
+      },
+      "core_llama3_kernels_llama_scor6A6A6A6A_a235264d73eaa09f": {
+        "count": 29960,
+        "total_ns": 779318241
+      },
+      "core_packed_turing_matrix_stag6A6A6A6A_cd9ffb6b6653cdb3": {
+        "count": 462,
+        "total_ns": 680270540
+      },
+      "core_packed_projection_four_ma6A6A6A6A_52d17741bd3f0d2b": {
+        "count": 11592,
+        "total_ns": 547022183
+      },
+      "core_llama3_kernels_llama_atte6A6A6A6A_a6bf5d922a2cbd18": {
+        "count": 29960,
+        "total_ns": 537741935
+      },
+      "core_packed_projection_four_ma6A6A6A6A_2d1994eb3a806a92": {
+        "count": 3780,
+        "total_ns": 161516665
+      },
+      "core_llama3_kernels_llama_soft6A6A6A6A_7fd119a9d9bc8739": {
+        "count": 29960,
+        "total_ns": 116741264
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_9edad2449f19dc31": {
+        "count": 2016,
+        "total_ns": 65599532
+      },
+      "core_packed_projection_block_m6A6A6A6A_755fea54cf20fad1": {
+        "count": 336,
+        "total_ns": 33883567
+      },
+      "core_dense_normalization_dense6A6A6A6A_2237709dd64a8fad": {
+        "count": 2016,
+        "total_ns": 24877221
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_b0fdf43cdbb4dc6e": {
+        "count": 1008,
+        "total_ns": 12335301
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_892fbf964b7bd330": {
+        "count": 2016,
+        "total_ns": 8680400
+      },
+      "core_packed_projection_block_m6A6A6A6A_71b5269aac05bb11": {
+        "count": 57,
+        "total_ns": 7774252
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_8b96c7437a529a5f": {
+        "count": 1008,
+        "total_ns": 2212251
+      },
+      "core_cuda_sampling_sampling_re6A6A6A6A_3b998fa8edcf579b": {
+        "count": 1070,
+        "total_ns": 1974175
+      },
+      "core_gemma4_kernels_embedding_6A6A6A6A_3ed88dd7ce6a190f": {
+        "count": 1070,
+        "total_ns": 1715709
+      },
+      "core_dense_normalization_dense6A6A6A6A_3f13c764a16a0e97": {
+        "count": 113,
+        "total_ns": 1336231
+      },
+      "core_llama3_kernels_llama_scal6A6A6A6A_f9d8c4752fca0dc0": {
+        "count": 112,
+        "total_ns": 721962
+      },
+      "core_gemma4_kernels_argmax_ker6A6A6A6A_d03fb3143cce253b": {
+        "count": 1,
+        "total_ns": 394050
+      },
+      "core_llama3_kernels_llama_resi6A6A6A6A_3883ecf011529460": {
+        "count": 112,
+        "total_ns": 242942
+      },
+      "core_llama3_kernels_llama_silu6A6A6A6A_ab2877e480b0edfd": {
+        "count": 56,
+        "total_ns": 148801
+      },
+      "core_llama3_kernels_llama_cach6A6A6A6A_35dd7bc25fbc72be": {
+        "count": 56,
+        "total_ns": 91323
+      }
+    },
+    "api_groups": {
+      "cuLaunchKernelEx": {
+        "count": 120919,
+        "total_ns": 4369130167,
+        "return_values": {
+          "0": 120919
+        }
+      },
+      "cuStreamSynchronize": {
+        "count": 39,
+        "total_ns": 2184462045,
+        "return_values": {
+          "0": 39
+        }
+      },
+      "cuModuleLoadDataEx": {
+        "count": 22,
+        "total_ns": 33787751,
+        "return_values": {
+          "0": 22
+        }
+      },
+      "cuStreamIsCapturing": {
+        "count": 120980,
+        "total_ns": 17452694,
+        "return_values": {
+          "0": 120980
+        }
+      },
+      "cuMemcpyDtoHAsync_v2": {
+        "count": 1,
+        "total_ns": 10479,
+        "return_values": {
+          "0": 1
+        }
+      }
+    },
+    "copies_by_kind": {
+      "2": {
+        "count": 1,
+        "bytes": 4,
+        "total_ns": 2304
+      }
+    },
+    "owned_nvtx_range": {
+      "name": "aesir.fixture.prefill",
+      "start_ns": 2363016895,
+      "end_ns": 9111617811,
+      "duration_ns": 6748600916,
+      "global_tid": 300071129246145
+    },
+    "limits": "Profiled timings only. Optional named range selects observed prefill launches after full-capture validation. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer projection labels or quality/speed-lead certification."
+  },
+  "sqlite_sha256": "f8e3d9faf0f4bbfb02534389a26ef7a9a7a9e9941acb298ae8aacc292c092963",
+  "limits": "One inference-only same-thread synchronized NVTX range, original strict3B/context1536/F16KV/sm75 optional strategy2. All source F32/cache bytes retained. Kernel groups are observed names; shared projection names do not separate Q/K/V/FFN. API/GPU durations overlap; uncovered time has no inferred cause. No speed score, production32, broader context/device/concurrency/soak or provider lead."
+}

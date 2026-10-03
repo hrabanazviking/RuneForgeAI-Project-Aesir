@@ -31,7 +31,7 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
@@ -123,12 +123,15 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             if expected_pid is not None and integer(expected_pid, 1) != process[0][1]:
                 raise ValueError("CUDA process differs from native probe PID")
             owned_range = None
+            nvtx_rows = []
+            if projection_tiles is not None and nvtx_range is None:
+                raise ValueError("Projection attribution requires owned outer range")
             if nvtx_range is not None:
                 if type(nvtx_range) is not str or not 1 <= len(nvtx_range) <= 128:
                     raise ValueError("Invalid expected NVTX range")
                 candidates = []
-                for start, end, kind, tid, end_tid, text, text_id in rows(
-                        "NVTX_EVENTS", "start,end,eventType,globalTid,endGlobalTid,text,textId"):
+                nvtx_rows = rows("NVTX_EVENTS", "start,end,eventType,globalTid,endGlobalTid,text,textId")
+                for start, end, kind, tid, end_tid, text, text_id in nvtx_rows:
                     if (text is not None and (type(text) is not str or len(text) > 16384)) or (
                             text is not None and text_id is not None):
                         raise ValueError("Invalid or ambiguous NVTX label")
@@ -153,6 +156,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             api_groups = defaultdict(lambda: {"count": 0, "total_ns": 0, "return_values": {}})
             launches = {}
             selected_launches = set()
+            launch_records = {}
             for start, end, tid, correlation, key, status in rows(
                     "CUPTI_ACTIVITY_KIND_RUNTIME", "start,end,globalTid,correlationId,nameId,returnValue"):
                 interval(start, end)
@@ -173,10 +177,12 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                     if owned_range is not None and start < owned_range[1] and end > owned_range[0] and not selected:
                         raise ValueError("Kernel launch crosses owned NVTX thread/range")
                     launches[correlation] = start
+                    launch_records[correlation] = (start,end,tid)
                     if selected: selected_launches.add(correlation)
             active = []
             matched = set()
             kernel_intervals = []
+            selected_kernels = []
             for start, end, device, context, stream, correlation, owner, key in kernels:
                 interval(start, end)
                 integer(context, 1); integer(stream); integer(correlation, 1)
@@ -193,6 +199,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 group = groups[kernel_name]
                 group["count"] += 1; group["total_ns"] += end - start
                 kernel_intervals.append((start, end))
+                selected_kernels.append((correlation,kernel_name,start,end))
                 active.append((start, end))
             if matched != set(launches):
                 raise ValueError("Incomplete launch/kernel trace")
@@ -224,6 +231,10 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             last = max(e for _, e in kernel_intervals)
             clipped = [(max(s, first), min(e, last)) for s, e in active if s < last and e > first]
             busy = union_ns(clipped)
+            projection = None
+            if projection_tiles is not None:
+                from cuda_projection_ranges import attribute
+                projection = attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles)
             return {"schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
                     "process": {"pid": process[0][1], "name": expected_executable},
                     "gpu": {"name": gpu[0][1], "compute": f"{gpu[0][2]}.{gpu[0][3]}", "bytes": gpu[0][4]},
@@ -231,6 +242,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                     "scope": "complete_capture" if owned_range is None else "owned_nvtx_prefill",
                     "complete_capture_kernel_count": len(kernels),
                     "excluded_kernel_count": len(kernels) - len(kernel_intervals),
+                    "projection_attribution": projection,
                     "kernel_window_ns": last - first, "gpu_busy_in_kernel_window_ns": busy,
                     "uncovered_in_kernel_window_ns": last - first - busy,
                     "kernel_groups": dict(sorted(groups.items(), key=lambda p: -p[1]["total_ns"])),

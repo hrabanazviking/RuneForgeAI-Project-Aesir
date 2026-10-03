@@ -1464,7 +1464,17 @@ and circular self-parity transforms were removed.
   30 trace and eight source/report contracts pass. [Evidence](docs/evidence/turing-prefill-trace-2026-10-02/README.md).
   Original arithmetic/production one/four admission remain unchanged; shared
   kernel names do not certify per-projection attribution or service speed.
-- **Next acceptance gate:** Explicit projection-range attribution to choose further matrix tuning; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Projection attribution (2026-10-02):** Default-disabled NVTX labels bind
+  actual loaded tensor offset/kind/shape and source32/4/1 tiling. Public37/1070
+  preserve all513024 source F32/cache/state values/4352 guards;589/7449 disjoint
+  same-thread child ranges attribute981/20385 successful projection kernels.
+  Exact launch correlations project asynchronous GPU durations without adding
+  synchronization or clipping. Eight attribution/nine probe contracts pass;
+  all original trace/model/control/decode/checkpoint gates remain. Long batch32
+  FFN gate/up/down3.46973s (52.04% recorded kernel duration), down largest1.26654s.
+  [Evidence](docs/evidence/turing-projection-trace-2026-10-02/README.md).
+  No speed score/per-layer timing or new arithmetic/buffer/dispatch/promotion.
+- **Next acceptance gate:** Bounded FFN packed-block decoding/staging under unchanged accumulation and complete-source/primitive/model gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

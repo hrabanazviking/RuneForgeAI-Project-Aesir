@@ -7,6 +7,11 @@ and committed state bind independent source acceptance. Trace time is unscored,
 shared kernel names do not certify per-projection labels, and production remains
 one/four. Retain all rejected profiler time-domain attempts.
 
+For next matrix tuning use docs/NATIVE_TURING_PROJECTION_TRACE.md first. Default-
+disabled projection labels bind actual tensors and source32/4/1 plans; complete
+launch correlations give per-stage/batch attribution without synchronization or
+speed scores. Missing/extra/overlapping/foreign-thread ranges withhold admission.
+
 Read TODO.md, CAPABILITY_LEDGER.md, AI.rules.part2.md, RULES.AI.md and the owning
 INTERFACE.md before changing code. The capability ledger owns present-tense truth;
 historical roadmaps and attractive filenames are not evidence of runtime support.
