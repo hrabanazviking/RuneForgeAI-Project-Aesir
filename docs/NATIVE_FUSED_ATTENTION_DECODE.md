@@ -102,8 +102,9 @@ reference cleanup. Retry into fresh destinations and preserve all failed artifac
 This gate proves these native-forced greedy/seeded trajectories and fresh own
 replay. It does not certify arbitrary free-running candidate trajectories,
 persisted checkpoint restore, enabled control recovery, production32, broader
-context/device/concurrency/soak or provider speed. Strategy4 sealed replay plans
-and control/trace capabilities stay closed for separate gates. The authenticated
+context/device/concurrency/soak or provider speed. Strategy4 sealed replay plans require the separate explicit
+[owning-context gate](NATIVE_FUSED_ATTENTION_CHECKPOINT.md); control/trace
+capabilities stay closed for separate gates. The authenticated
 normal service retains its original binary and prefill4. Hosted compilation and
 portable adversarial tests are distinct from physical GPU/CPU evidence.
 

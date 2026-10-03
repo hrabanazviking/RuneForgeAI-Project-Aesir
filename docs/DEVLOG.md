@@ -1,3 +1,16 @@
+## 2026-10-03 — explicit strategy4 sealed owning-context replay
+
+Task4416d3a preceded code. Forge added copied default-false plan capability and
+actual live capability in pre-reset/enqueue ownership admission; ordinary4 and
+legacy seals/defaults remain. Auditor physically checks45-ID checkpoints/eight
+complete continuation frames/all four F32 vector bytes/CPU/source choices/sample/
+state/4352 guards and28 owner/health/state/counter-preserving refusals. Actual
+fused56/down28/original252/364 bind reset/tile plan. Source report and accepted/
+current binary hashes join complete all-four causal/numeric/CPU scope; nine
+adversarial contracts/master190/zero fails/one skip pass. Scribe publishes operation/
+evidence/owners; Cartographer keeps enabled controls/runtime/provider gates open.
+Builds precede GPU then CPU. Same-process replay unscored; normal service unchanged.
+
 ## 2026-10-03 — source-bound strategy4 causal decode
 
 Task7e922e8 preceded native/Python code. Forge extended optional4 collector with

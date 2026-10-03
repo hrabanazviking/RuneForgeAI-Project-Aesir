@@ -1,3 +1,8 @@
+For explicit strategy4 sealed owning-context replay, read
+docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md. Full vectors/bits/state/source/CPU/
+allocation/counter gates pass, ordinary4 stays closed without capability.
+No speed score; next earn enabled cooperative control recovery.
+
 For strategy4 greedy/seeded generation quality, read
 docs/NATIVE_FUSED_ATTENTION_DECODE.md. Complete causal frames/own F32 bits/CPU/
 source/state/counters pass; current and source binaries are hash-bound.

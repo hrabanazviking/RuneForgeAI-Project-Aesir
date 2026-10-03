@@ -37,7 +37,7 @@ pixi run --frozen --no-install --offline mojo build -I aesir_engine \
 Use an exclusive private capture (`open("x")`) and a bounded supervisor retaining
 stderr/exit/binary/model/CSV hashes. Shell redirection alone does not enforce new
 destinations. Finish both target/original/master/normal/check builds before serial
-GPU collection, then run the independent CPU oracle. Invalid strategy4 refuses
+GPU collection, then run the independent CPU oracle. Invalid strategy5 refuses
 before model loading/CUDA, including with a nonexistent model path. Flags0/1/2
 and omitted0 preserve their prior schemas and behavior.
 
@@ -103,3 +103,6 @@ Checkpoint replay requires idle uncontrolled ownership. Strategy3 [cooperative
 controls](NATIVE_TURING_DOWN_CONTROLS.md) have a separate default-disabled capability;
 projection tracing remains closed. Portable tests prove
 admission only; hosted compilation never counts as physical GPU execution.
+
+Strategy4 has a separate explicit plan/live/source/binary gate documented in
+[NATIVE_FUSED_ATTENTION_CHECKPOINT.md](NATIVE_FUSED_ATTENTION_CHECKPOINT.md).

@@ -112,6 +112,28 @@ def test_turing_replay_plan() raises:
     except: refused = True
     if not refused: raise Error("Native replay strategy3 admitted")
 
+    var fused = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,4,True)
+    fused.admit(1,100,200,300,64,4,True)
+    for mismatch in range(4):
+        refused = False
+        try:
+            fused.admit(1,100,200,300,64,3 if mismatch == 0 else 4,False if mismatch == 1 else True)
+            if mismatch == 2:
+                fused.fused_capable = False
+                fused.admit(1,100,200,300,64,4,True)
+            elif mismatch == 3:
+                fused.checksum += 1
+                fused.admit(1,100,200,300,64,4,True)
+        except: refused = True
+        if mismatch == 2: fused.fused_capable = True
+        if mismatch == 3: fused.checksum -= 1
+        if not refused: raise Error("Fused replay capability/strategy/seal drift admitted")
+    for bad_mode in [0,1]:
+        refused = False
+        try: _ = FixtureReplayPlan(bad_mode,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,3 if bad_mode else 4,True)
+        except: refused = True
+        if not refused: raise Error("Fused capability admitted native or legacy plan")
+
 
 def main() raises:
     test_turing_replay_plan()

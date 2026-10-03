@@ -1601,7 +1601,16 @@ and circular self-parity transforms were removed.
   and current binary SHA before/after. Default4 readers/sealed replay/control/trace
   remain closed; process times unscored.
   [Evidence](docs/evidence/fused-attention-decode-2026-10-03/README.md).
-- **Next acceptance gate:** Strategy4 owning-context sealed replay and enabled control recovery, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
+- **Fused sealed replay (2026-10-03):** Explicit copied plan/live4 capability
+  binds pre-reset/enqueue allocation/profile/span/health admission.45-ID two-policy
+  checkpoints/eight full continuation frames per owner retain all four vectors/
+  UInt32 baseline/restored bits/source samples/state/independent CPU/4352 guards.
+  28 damaged-plan/flag refusals preserve owners/health/state/counters; actual down28/
+  fused56/original252/364 bind tile/reset boundaries. Nine contracts/master190/one
+  skip; source report/accepted decode binary/current binary SHA before/after.
+  Ordinary4/source readers stay closed without opt-in; same-process/unscored only.
+  [Evidence](docs/evidence/fused-attention-checkpoint-2026-10-03/README.md).
+- **Next acceptance gate:** Strategy4 enabled control recovery, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -13,7 +13,8 @@ Count1 uses original scores/softmax/value kernels. No additional buffers or glob
 score workspace are allocated. `fused_attention_calls` counts successful fused
 enqueues; `original_attention_queries` counts actual original per-query dispatch.
 Both reset with the existing fixture counters. Controls and tracing stay closed,
-and sealed replay strategy4 remains unsupported until a separate replay gate.
+and sealed replay4 requires the separate explicit
+[owning-context gate](NATIVE_FUSED_ATTENTION_CHECKPOINT.md).
 
 ## What has physically passed
 

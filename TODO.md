@@ -1021,6 +1021,12 @@ The legacy formatters below are not exposed compatibility APIs.
   original-query counters pass. Eleven contracts/master190/one skip; exclusive
   source CSV/report/binary and current binary before/after hash fences.
   [Operation](docs/NATIVE_FUSED_ATTENTION_DECODE.md). No speed score.
-- [ ] SPD-03 strategy4 owning-context sealed replay,
+- [x] SPD-03 strategy4 sealed owning-context replay:45-ID checkpoints/eight
+  full continuation frames/all four vectors/actual UInt32 bits/CPU/source choices/
+  sample/state/4352 guards/28 mutation-free refusals and down/fused/original
+  counters pass. Nine contracts/master190/one skip; explicit plan/live/source
+  capability/current and accepted decode binary hashes. No speed score.
+  [Operation](docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md).
+- [ ] SPD-03 strategy4
   enabled-control recovery and broader context/device/concurrency/soak/runtime/
   refreshed-provider acceptance before production selection.

@@ -422,6 +422,15 @@ closed. [Operation](docs/NATIVE_FUSED_ATTENTION_DECODE.md). No speed score or
 production selection. Next earn owning-context sealed replay and enabled-control
 recovery; SPD-03 and the overall speed objective stay open.
 
+Strategy4 sealed owning-context replay now passes45-ID checkpoints/eight full
+continuation frames per owner with exact baseline/restored UInt32 bits/CPU/source
+choices/sample/state/4352 guards and28 mutation-free refusals. Actual down28/
+fused56 and original queries252/364 bind boundaries. Ordinary4 stays closed without
+explicit plan/live/source capabilities and current/accepted decode binary SHA.
+Nine contracts/master190/one skip; [operation](docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md).
+No speed score, persisted format or context recreation. Next earn enabled-control
+reset/recovery, then broader runtime/provider acceptance; SPD-03 remains open.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

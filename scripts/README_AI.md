@@ -297,3 +297,16 @@ ID/numeric/CPU/predecessor proof. Default readers and sealed replay4 stay closed
 Eleven portable contracts plus physical complete GPU/independent CPU gates;
 no speed scoring or production selection. Read ../docs/NATIVE_FUSED_ATTENTION_DECODE.md. Next earn owning-context
 sealed replay and enabled controls before broader runtime/provider acceptance.
+
+## Explicit strategy4 sealed owning-context replay
+
+FixtureReplayPlan final default-false fused capability preserves ordinary0..3
+seal/default4 refusal. Explicit mode1/strategy4 plan and actual live capability
+bind pre-reset/enqueue admission. Physical45-ID checkpoints/eight continuation
+frames retain all four full vectors/UInt32 bytes/CPU/source choices/samples/state/
+4352 guards;28 damaged-plan/flag refusals preserve actual owners/health/counters.
+Actual down28/fused56 stay and original queries252/364 bind reset/tile plan.
+Explicit source4 report/accepted decode binary/current binary SHA fences and strict
+all-four source numeric/causal/counter scope remain default-closed/exclusive with3.
+Nine adversarial contracts/master190/one skip; unscored same-process replay only.
+Read ../docs/NATIVE_FUSED_ATTENTION_CHECKPOINT.md. Next earn enabled control recovery before runtime/provider breadth.
