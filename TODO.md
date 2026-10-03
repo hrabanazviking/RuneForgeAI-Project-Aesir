@@ -132,6 +132,13 @@
   Fourteen portable contracts/master190 passes/one skip; defaults remain original.
   [Operation](docs/NATIVE_TURING_BLOCK_HEADERS.md). Next scope larger CTA row reuse
   under exact original bits and bounded shared storage.
+- [x] SPD-01 larger row CTA sharing: final128 passes1658880 exact original bits/
+  2100 independent dots/144 synthetic/12 invalid spans/1622640 guards/840 timings.
+  Batch32 down gains1.10414x, gate/up lose .76896/.76027 old-to-new. Initial256
+  physical resource failure is retained and admission removed; actual pre-model
+  refusal passes. Sixteen portable contracts/master190 passes/one skip.
+  [Operation](docs/NATIVE_TURING_LARGE_ROWS.md). Next gate narrow down-only real-F32
+  activation/full-model support before any fixture selection.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

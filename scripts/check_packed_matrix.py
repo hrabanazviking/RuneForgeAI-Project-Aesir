@@ -43,6 +43,7 @@ def parse(path):
     mode_seen = False
     staged_input_columns = None
     cached_headers = False
+    paired_original = False
     snapshot_sha256 = hashlib.sha256(text.encode("utf-8")).hexdigest()
     for row in csv.reader(io.StringIO(text)):
         if row and row[0].startswith("[CUDA]") and not synthetic:
@@ -62,7 +63,12 @@ def parse(path):
             candidate = row[1]; mode_seen = True; tile = (staged_rows, 8); staged_input_columns = 32
         elif row == ["MODE","turing_mma_staged_header_cache_f16_f32","64","32"] and not synthetic and not mode_seen and not tile_seen:
             if not text.endswith("\n"):raise ValueError("Incomplete final header-cache line")
-            candidate=row[1];mode_seen=True;tile=(64,8);staged_input_columns=32;cached_headers=True
+            candidate=row[1];mode_seen=True;tile=(64,8);staged_input_columns=32;cached_headers=True;paired_original=True
+        elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_large_rows_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            large_rows, width = map(int,row[2:])
+            if large_rows != 128 or width != 32 or not text.endswith("\n"):
+                raise ValueError("Unsupported/incomplete larger row geometry")
+            candidate=row[1];mode_seen=True;tile=(large_rows,8);staged_input_columns=32;paired_original=True
         elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_wide_f16_f32" and not synthetic and not mode_seen and not tile_seen:
             staged_rows, staged_columns = map(int, row[2:])
             if staged_rows not in (32,64) or staged_columns not in (64,128) or (2*staged_rows+32)*(staged_columns+1)*2 > 49152:
@@ -87,18 +93,18 @@ def parse(path):
                           "rows": rows, "batch": batch, "offset": offset, "tile": tile,
                           "candidate": candidate, "csv_sha256": snapshot_sha256,
                           "staged_input_columns": staged_input_columns,
-                          "cached_headers": cached_headers, "original": array("d"),
+                          "cached_headers": cached_headers, "paired_original": paired_original, "original": array("d"),
                           "reference": array("d"), "actual": array("d"), "timings": {}, "guards": None})
-        elif tag == "VALUE" and cases and len(row) == (7 if cached_headers else 6):
+        elif tag == "VALUE" and cases and len(row) == (7 if paired_original else 6):
             c = cases[-1]; index, token, r = map(int, row[1:4])
             position = len(c["actual"])
             if index != c["index"] or token != position // c["rows"] or r != position % c["rows"] or position >= c["rows"] * c["batch"] or c["guards"] is not None:
                 raise ValueError("Duplicate/out-of-order/late matrix value")
             c["reference"].append(number(row[4])); c["actual"].append(number(row[5]))
-            if cached_headers:
+            if paired_original:
                 c["original"].append(number(row[6]))
                 if any(struct.unpack("f",struct.pack("f",number(v)))[0] != number(v) for v in row[4:]):
-                    raise ValueError("Header-cache export is not exact F32")
+                    raise ValueError("Paired original export is not exact F32")
         elif tag == "GUARD" and len(row) == 4 and cases:
             c = cases[-1]
             if int(row[1]) != c["index"] or int(row[2]) < 1 or row[3] != "0" or c["guards"] is not None or len(c["actual"]) != c["rows"] * c["batch"]:
@@ -106,14 +112,14 @@ def parse(path):
             c["guards"] = int(row[2])
         elif tag == "TIME" and len(row) == 6 and cases:
             c = cases[-1]; index, mode, sample, iterations = map(int, row[1:5]); value = number(row[5])
-            if c["guards"] is None or index != c["index"] or mode not in ((0,1,2) if cached_headers else (0,1)) or not 0 <= sample < 10 or iterations != 3 or value <= 0 or (mode, sample) in c["timings"]:
+            if c["guards"] is None or index != c["index"] or mode not in ((0,1,2) if paired_original else (0,1)) or not 0 <= sample < 10 or iterations != 3 or value <= 0 or (mode, sample) in c["timings"]:
                 raise ValueError("Invalid or duplicate matrix timing")
-            if cached_headers:
+            if paired_original:
                 ordinal=len(c["timings"]);expected_sample=ordinal//3;expected_mode=(expected_sample+ordinal%3)%3
-                if (sample,mode) != (expected_sample,expected_mode):raise ValueError("Header timing owner rotation/order mismatch")
+                if (sample,mode) != (expected_sample,expected_mode):raise ValueError("Paired timing owner rotation/order mismatch")
             c["timings"][mode, sample] = value / iterations
         elif tag == "PASS" and len(row) == 5 and len(cases) == 28:
-            if row[1] != "matrix" or list(map(int, row[2:])) != [28, sum(len(c["actual"]) for c in cases), 840 if cached_headers else 560]:
+            if row[1] != "matrix" or list(map(int, row[2:])) != [28, sum(len(c["actual"]) for c in cases), 840 if paired_original else 560]:
                 raise ValueError("Matrix completion totals mismatch")
             validate(cases[-1]); complete = True
         else:
@@ -138,9 +144,9 @@ def errors(actual, expected):
 
 
 def validate(c):
-    if c["guards"] is None or len(c["actual"]) != c["rows"] * c["batch"] or len(c["timings"]) != (30 if c["cached_headers"] else 20):
+    if c["guards"] is None or len(c["actual"]) != c["rows"] * c["batch"] or len(c["timings"]) != (30 if c["paired_original"] else 20):
         raise ValueError("Incomplete matrix case")
-    if c["cached_headers"]:
+    if c["paired_original"]:
         if len(c["original"]) != len(c["actual"]):raise ValueError("Incomplete original-staged header vectors")
         c["original_f32_bits_equal"] = all(struct.pack("f",a)==struct.pack("f",b) for a,b in zip(c["actual"],c["original"],strict=True))
     elif not errors(c["actual"], c["reference"])["passed"]:
@@ -175,10 +181,10 @@ def independent(cases, model):
             dots = activations @ weights
             for token in range(c["batch"]):
                 expected.append(float(dots[token])); actual.append(c["actual"][token * c["rows"] + row]); native.append(c["reference"][token * c["rows"] + row])
-                if c["cached_headers"]:original.append(c["original"][token*c["rows"]+row])
+                if c["paired_original"]:original.append(c["original"][token*c["rows"]+row])
         result.append({"case": c["index"], "rows": selected, "outputs": len(actual),
                        "candidate": errors(actual, expected), "reference": errors(native, expected)})
-        if c["cached_headers"]:result[-1]["original"] = errors(original,expected)
+        if c["paired_original"]:result[-1]["original"] = errors(original,expected)
     # Memmaps are read-only; do not modify source model or publisher artifacts.
     return result
 
@@ -194,9 +200,9 @@ def main():
             if digest(a.model) != a.model_sha256:
                 raise ValueError("Matrix oracle source checksum mismatch")
             cases = parse(a.csv); oracle = independent(cases, a.model)
-            cached = cases[0]["cached_headers"]
-            accepted = all(r["candidate"]["passed"] and r["reference"]["passed"] and (not cached or r["original"]["passed"]) for r in oracle)
-            if cached:
+            paired = cases[0]["paired_original"]
+            accepted = all(r["candidate"]["passed"] and r["reference"]["passed"] and (not paired or r["original"]["passed"]) for r in oracle)
+            if paired:
                 accepted = accepted and all(c["original_f32_bits_equal"] and errors(c["actual"],c["reference"])["passed"] and errors(c["original"],c["reference"])["passed"] for c in cases)
             elif not accepted:
                 raise ValueError("Independent real-weight primitive budget failed")
@@ -216,10 +222,12 @@ def main():
                                 "reference_seconds": baseline, "candidate_seconds": candidate,
                                 "speed_ratio": statistics.median(baseline) / statistics.median(candidate) if accepted else None,
                                 "native_error": errors(c["actual"], c["reference"]), "guards": c["guards"]})
-                if cached:
+                if paired:
                     original=[c["timings"][2,i] for i in range(10)]
-                    summary[-1].update(original_seconds=original,original_to_cached_ratio=statistics.median(original)/statistics.median(candidate) if accepted else None,original_f32_bits_equal=c["original_f32_bits_equal"],original_native_error=errors(c["original"],c["reference"]))
-            report.update(passed=accepted, collection_complete=True, cached_headers=cached, cases=summary)
+                    ratio=statistics.median(original)/statistics.median(candidate) if accepted else None
+                    summary[-1].update(original_seconds=original,original_to_candidate_ratio=ratio,original_f32_bits_equal=c["original_f32_bits_equal"],original_native_error=errors(c["original"],c["reference"]))
+                    if cases[0]["cached_headers"]:summary[-1]["original_to_cached_ratio"]=ratio
+            report.update(passed=accepted, collection_complete=True, cached_headers=cases[0]["cached_headers"], paired_original=paired, cases=summary)
             if digest(a.model) != a.model_sha256 or digest(a.csv) != cases[0]["csv_sha256"]:
                 raise ValueError("Matrix source/capture changed during independent validation")
             if not accepted:report["error"]="Complete native/original-bit/independent matrix gates failed; all ratios withheld"
@@ -228,6 +236,7 @@ def main():
             for case in report.get("cases",[]):
                 case["speed_ratio"]=None
                 if "original_to_cached_ratio" in case:case["original_to_cached_ratio"]=None
+                if "original_to_candidate_ratio" in case:case["original_to_candidate_ratio"]=None
         json.dump(report, stream, indent=2); stream.write("\n")
     print("PASS: matrix primitive evidence" if report["passed"] else "FAIL: " + report["error"])
     return 0 if report["passed"] else 1

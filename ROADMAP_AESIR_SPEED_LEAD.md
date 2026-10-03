@@ -464,9 +464,15 @@ Bounded per-thread block-header reuse now passes all1658880 original output bits
 All840 rotating native/cached/original timing records remain. Batch32 gate/up/down
 old-to-cached .6843/.6890/.9025 reject it as a speed improvement; default remains
 False. Fourteen portable contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_BLOCK_HEADERS.md).
-Register pressure/occupancy cause is not measured. Next scope larger CTA row reuse
-with bounded shared storage and exact original accumulation/bits, then complete
-source/primitive/model gates before scoring/promoting.
+Register pressure/occupancy cause is not measured. Separate128-row CTA sharing
+now passes1658880 original F32 bits/2100 selected independent dots/144 synthetic/
+12 spans/1622640 guards/840 rotating records. Batch32 down gains1.10414x, while
+gate/up .76896/.76027 old-to-new lose. Initial256 physical resource failure is
+retained and final admission removed, with actual pre-model refusal. Maximum
+shared19008/threads256; no new global workspace or production selection. Sixteen
+portable contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_LARGE_ROWS.md).
+Next gate narrow down-only ordinary real-F32/captured and full-model support before
+optional fixture selection; no general larger-row/provider claim follows.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

@@ -1,3 +1,18 @@
+## 2026-10-02 — Sigrún: narrow larger-row down gain with resource refusal
+
+Separate128 CTA shares original padded F16 inputs across eight row warps/256
+threads, maximum19008 shared bytes. Existing core stays verbatim. Final1658880
+original F32 bits/2100 independent dots/144 synthetic/12 spans/1622640 guards/840
+three-owner records pass. Batch32 down gains1.10414x, but gate/up .76896/.76027
+lose; keep original default selection. Initial256 fails first physical launch
+with CUDA_ERROR_LAUNCH_OUT_OF_RESOURCES: preserve all source/binary/partial failure
+and remove256 from kernel/wrapper/CLI/checker. Actual256 with nonexistent model
+refuses before model/GPU. Sixteen portable contracts/master190 passes/one skip;
+all seven builds precede final GPU/oracle. Normal f3442a1e/ready/prefill4 remains.
+No inferred register cause or full-model/provider claim. Next gate down-only real
+F32 activation and complete model. Read docs/NATIVE_TURING_LARGE_ROWS.md; exact
+push/CI receipts are separate.
+
 ## 2026-10-02 — Sigrún: exact header-reuse experiment rejects slower staging
 
 Separate default-disabled rows64/width32/precision0 kernel caches each packed

@@ -246,3 +246,13 @@ clears every ratio on failure, source mutation or interruption. Every model/CSV
 digest rechecks after the pinned oracle. Fourteen portable matrix contracts
 include signed-zero, rotation, source mutation and exclusive report refusal.
 Read ../docs/NATIVE_TURING_BLOCK_HEADERS.md; no full-model/provider proof.
+
+## Paired larger-row primitive admission
+
+Explicit staged_large_rows128/32 mode shares strict seven-field exact F32 values
+and30 rotating records/840 total. paired_original binds exact original64 bits;
+cached_headers stays False. Original_to_candidate_ratio compares same-capture
+owners, while header legacy retains original_to_cached_ratio alias. Complete
+failures/source mutation/interruption clear both aliases and native ratios.128
+only;256 refuses metadata. Sixteen portable contracts pass. Read
+../docs/NATIVE_TURING_LARGE_ROWS.md before interpreting primitive acceptance.

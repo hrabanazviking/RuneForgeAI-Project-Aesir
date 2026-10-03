@@ -1482,7 +1482,16 @@ and circular self-parity transforms were removed.
   candidate; cache_headers stays False. Fourteen portable contracts/master190
   passes/one skip. [Evidence](docs/evidence/turing-block-headers-2026-10-02/README.md).
   No measured register/occupancy cause, full-model or provider promotion.
-- **Next acceptance gate:** Larger CTA row reuse under bounded shared storage and exact original accumulation/bits, followed by complete-source/primitive/model gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Larger row CTA experiment (2026-10-02):** Separate128-row sibling shares
+  padded F16 inputs across eight warps/256 threads, maximum19008 shared bytes.
+  Original core definitions stay verbatim. Final1658880 original F32 bits/2100
+  selected independent dots/144 synthetic/12 spans/1622640 guards/840 rotating
+  records pass. Batch32 down improves1.10414x; gate/up .76896/.76027 lose. Initial
+  256 launch fails CUDA_ERROR_LAUNCH_OUT_OF_RESOURCES; all evidence stays and final
+  kernel/wrapper/CLI/checker remove256 admission, physically refusing pre-model.
+  Sixteen portable contracts/master190 passes/one skip. [Evidence](docs/evidence/turing-large-rows-2026-10-02/README.md).
+  Narrow primitive result only; no full-model/runtime/provider promotion.
+- **Next acceptance gate:** Down-only128 ordinary real-F32/captured and full-model gates before optional fixture selection; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

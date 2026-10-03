@@ -142,6 +142,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_batched_rope_cache.mojo -o /tmp/aesir-turing-grid-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_prefill_trace.mojo -o /tmp/aesir-turing-prefill-trace-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_block_headers.mojo -o /tmp/aesir-turing-block-headers-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_large_rows.mojo -o /tmp/aesir-turing-large-rows-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

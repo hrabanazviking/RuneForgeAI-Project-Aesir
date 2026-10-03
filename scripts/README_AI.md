@@ -162,3 +162,8 @@ rotating samples. Complete numerical failures retain every error but clear ratio
 model/CSV mutation and KeyboardInterrupt stay failed. Legacy schemas remain.
 Read ../docs/NATIVE_TURING_BLOCK_HEADERS.md. The physically bit-exact candidate
 loses target batch32 FFN speed and remains disabled.
+
+Larger-row mode admits128/32 only after retained physical256 resource rejection.
+paired_original proves exact original64 bits, original_to_candidate_ratio compares
+paired owners and failure clears every ratio. Header-cache alias/legacy two-owner
+schemas remain. Read ../docs/NATIVE_TURING_LARGE_ROWS.md; sixteen contracts pass.

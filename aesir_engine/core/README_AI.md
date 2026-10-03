@@ -91,3 +91,8 @@ Header reuse is an explicit compile-time cache_headers=False experiment with a
 separate rows64/width32/precision0 entry. All original staged F32 bits pass, but
 target batch32 FFN timings lose, so keep False. No register/occupancy cause is
 proved. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md before refinement.
+
+The separate128-row CTA experiment preserves original entries and accumulation,
+with maximum19008 shared bytes/256 threads and guarded ceil input work for batch4.
+Initial256 fails physical launch and is rejected before model/GPU in the collector.
+Keep old runtime selection. Read ../../docs/NATIVE_TURING_LARGE_ROWS.md.

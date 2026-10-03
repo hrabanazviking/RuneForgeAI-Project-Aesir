@@ -93,6 +93,27 @@ class Contracts(unittest.TestCase):
             status,r=self.run_header_main(header_fixture(),Path(d)/'interrupt.json',interrupted=True)
             self.assertEqual(status,1);self.assertIn('KeyboardInterrupt',r['error'])
 
+    def test_large_rows_complete_bits_metadata_and_rotation(self):
+        for rows in (128,):
+            text=header_fixture().replace('turing_mma_staged_header_cache_f16_f32,64,32',f'turing_mma_staged_large_rows_f16_f32,{rows},32')
+            cases=self.parse(text)
+            self.assertTrue(all(c['paired_original'] and not c['cached_headers'] and c['original_f32_bits_equal'] for c in cases))
+            self.assertEqual(cases[0]['tile'],(rows,8))
+            for old,new in [(f'{rows},32','64,32'),(f'{rows},32','256,32'),(f'{rows},32',f'{rows},64'),('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,1'),('TIME,0,2,0,3,0.001','TIME,0,1,0,3,0.001')]:
+                with self.subTest(rows=rows,old=old),self.assertRaises(ValueError):self.parse(text.replace(old,new,1))
+            with self.assertRaises(ValueError):self.parse(text.rstrip('\n'))
+
+    def test_large_rows_complete_failure_and_source_mutation_withhold_ratios(self):
+        text=header_fixture().replace('turing_mma_staged_header_cache_f16_f32,64,32','turing_mma_staged_large_rows_f16_f32,128,32')
+        with tempfile.TemporaryDirectory() as d:
+            status,r=self.run_header_main(text,Path(d)/'pass.json')
+            self.assertEqual(status,0);self.assertTrue(r['paired_original']);self.assertFalse(r['cached_headers'])
+            self.assertTrue(all(c['original_to_candidate_ratio']==1 and 'original_to_cached_ratio' not in c for c in r['cases']))
+            for name,t,changed in [('bits',text.replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,2,1'),False),('changed',text,True)]:
+                status,r=self.run_header_main(t,Path(d)/(name+'.json'),changed=changed)
+                self.assertEqual(status,1);self.assertEqual(len(r['cases']),28)
+                self.assertTrue(all(c['speed_ratio'] is None and c['original_to_candidate_ratio'] is None for c in r['cases']))
+
     def test_incomplete_and_trailing(self):
         for text in (fixture().replace("PASS,matrix,28,420,560\n", ""), fixture() + "extra\n", fixture().replace("[CUDA] synthetic api=cuda cpu_offload=0\n", ""),
                      fixture().replace("VALUE,0,0,0,1,1\n", ""),

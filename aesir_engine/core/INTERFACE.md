@@ -1170,3 +1170,13 @@ reuse scales across eight sections, Q6 only d, inactive rows zero. All original
 decoding/conversion/barrier/MMA/store order and span admission remain; shared
 maximum10560/no new global device buffer. Exact original bits pass, but batch32
 FFN speed loses; keep False. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md.
+
+## Optional larger row CTA staging
+
+project_turing_large_rows[kind,batch,tile_rows] admits only128/width32/precision0
+through a separate large_row_turing_kernel. Existing entries remain intact. Eight
+warps each own16 output rows with original packed/F16/MMA/barrier order. Ceil
+input work guards token<batch before shared stores, including batch4. Maximum
+shared19008/threads256/no added global workspace. Initial256 physical resource
+failure is retained and256 admission removed. Read
+../../docs/NATIVE_TURING_LARGE_ROWS.md before refinement or selection.

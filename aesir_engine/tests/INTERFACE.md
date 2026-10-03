@@ -575,3 +575,12 @@ two device output spans. New test_turing_block_headers exports exact Float64 tex
 for native/cached/original,144 synthetic/12 invalid spans/all guards and840
 rotating ten-sample three-owner records. Legacy defaults/schemas remain. Explicit
 mode binds rows64/width32. Read ../../docs/NATIVE_TURING_BLOCK_HEADERS.md.
+
+## Larger row three-owner primitive experiment
+
+The harness adds large_rows=0; explicit128 selects the separate public wrapper,
+mutually excluding header cache. Native snapshot/original64/new exact F32 exports
+and three-owner rotation reuse the existing bounded two-output device storage.
+New test_turing_large_rows admits CLI128 before model load;256 is rejected after
+a retained physical resource failure. All144 synthetic/12 invalid span/real full
+output/guard/840 sample gates remain. Read ../../docs/NATIVE_TURING_LARGE_ROWS.md.
