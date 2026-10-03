@@ -1,5 +1,12 @@
 # Aesir build, deployment and verification tooling
 
+For owned synchronized strategy2 prefill traces, read
+[range operation](../docs/NATIVE_TURING_PREFILL_TRACE.md). The native probe exports
+complete source-bound vectors/cache/state and actual PID; the checker binds that
+PID to a unique NVTX range after all full-session CUDA rows validate. Preserve
+failed time-domain exports, excluded initialization/export counts and unscored
+durations. Wrong source/strategy/owner/range or changed artifacts withhold admission.
+
 These Python programs prepare, launch or independently test the native Mojo
 engine. They never supply production native inference or substitute Ollama answers
 for native execution. Optional independent CPU inference is explicitly test-only.

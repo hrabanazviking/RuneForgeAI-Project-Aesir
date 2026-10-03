@@ -1,5 +1,12 @@
 # Project Aesir contributor orientation
 
+For the optional accepted strategy2 inference-only CUDA timeline, read
+docs/NATIVE_TURING_PREFILL_TRACE.md. Original full-session ownership/timestamp/
+correlation gates precede named-range selection; complete actual F32/cache bytes
+and committed state bind independent source acceptance. Trace time is unscored,
+shared kernel names do not certify per-projection labels, and production remains
+one/four. Retain all rejected profiler time-domain attempts.
+
 Read TODO.md, CAPABILITY_LEDGER.md, AI.rules.part2.md, RULES.AI.md and the owning
 INTERFACE.md before changing code. The capability ledger owns present-tense truth;
 historical roadmaps and attractive filenames are not evidence of runtime support.

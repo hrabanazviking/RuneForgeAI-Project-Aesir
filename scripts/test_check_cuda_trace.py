@@ -84,6 +84,73 @@ class Contracts(unittest.TestCase):
     def test_wrong_executable(self):
         self.rejects("UPDATE PROCESSES SET name='ollama'")
 
+    def owned_range(self):
+        self.mutate("""CREATE TABLE NVTX_EVENTS(start,end,eventType,globalTid,endGlobalTid,text,textId);
+                    INSERT INTO NVTX_EVENTS VALUES(100,500,59,16777217,NULL,'aesir.fixture.prefill',NULL);""")
+
+    def test_exact_probe_pid_and_range(self):
+        self.owned_range()
+        result = check.analyze(self.path, expected_pid=1, nvtx_range="aesir.fixture.prefill")
+        self.assertEqual(result["owned_nvtx_range"]["duration_ns"], 400)
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, expected_pid=2, nvtx_range="aesir.fixture.prefill")
+
+    def test_missing_or_duplicate_range(self):
+        self.owned_range()
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="missing")
+        self.mutate("INSERT INTO NVTX_EVENTS SELECT * FROM NVTX_EVENTS")
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+
+    def test_range_type_owner_and_completion(self):
+        for sql in ("UPDATE NVTX_EVENTS SET eventType=60", "UPDATE NVTX_EVENTS SET end=NULL",
+                    "UPDATE NVTX_EVENTS SET globalTid=33554433",
+                    "UPDATE NVTX_EVENTS SET endGlobalTid=16777218"):
+            with self.subTest(sql=sql):
+                self.owned_range()
+                self.mutate(sql)
+                with self.assertRaises(ValueError):
+                    check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+                self.mutate("DROP TABLE NVTX_EVENTS")
+
+    def test_launch_thread_and_range(self):
+        self.owned_range()
+        self.mutate("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET globalTid=16777218 WHERE correlationId=1")
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+        self.mutate("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET globalTid=16777217; UPDATE NVTX_EVENTS SET start=121")
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+
+    def test_work_outside_synchronized_range(self):
+        self.owned_range()
+        self.mutate("UPDATE NVTX_EVENTS SET end=420")
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+        self.mutate("UPDATE NVTX_EVENTS SET end=500; UPDATE CUPTI_ACTIVITY_KIND_MEMCPY SET end=501")
+        with self.assertRaises(ValueError):
+            check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+
+    def test_registered_range_string(self):
+        self.owned_range()
+        self.mutate("INSERT INTO StringIds VALUES(4,'aesir.fixture.prefill'); UPDATE NVTX_EVENTS SET text=NULL,textId=4")
+        self.assertEqual(check.analyze(self.path, nvtx_range="aesir.fixture.prefill")["kernel_count"], 2)
+
+    def test_outside_work_retained_and_fully_validated(self):
+        self.owned_range()
+        self.mutate("""INSERT INTO CUPTI_ACTIVITY_KIND_RUNTIME VALUES(510,520,16777217,4,1,0);
+                    INSERT INTO CUPTI_ACTIVITY_KIND_KERNEL VALUES(530,630,0,1,1,4,16777216,2);""")
+        result = check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+        self.assertEqual(result["kernel_count"], 2)
+        self.assertEqual(result["complete_capture_kernel_count"], 3)
+        self.assertEqual(result["excluded_kernel_count"], 1)
+        self.mutate("UPDATE CUPTI_ACTIVITY_KIND_KERNEL SET shortName=999 WHERE correlationId=4")
+        with self.assertRaises(ValueError): check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+        self.mutate("UPDATE CUPTI_ACTIVITY_KIND_KERNEL SET shortName=2 WHERE correlationId=4")
+        self.mutate("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=1 WHERE correlationId=4")
+        with self.assertRaises(ValueError): check.analyze(self.path, nvtx_range="aesir.fixture.prefill")
+
     def test_unknown_name(self):
         self.rejects("UPDATE CUPTI_ACTIVITY_KIND_KERNEL SET shortName=99")
 

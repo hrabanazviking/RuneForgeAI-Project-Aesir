@@ -1,5 +1,13 @@
 # Tests Domain Interface Specification
 
+`test_turing_prefill_trace.mojo` owns an opt-in direct native process and new0600
+CSV. Installed NVTX symbols load dynamically before model work; fresh strategy2
+case1/3 prefill is enclosed by one same-thread named range after reset/sync and
+before synchronized pop. Complete actual committed IDs/state/F32 vectors, host
+enqueue counts, guarded-cache SHA and guards export outside. No runtime dispatch
+or numerical kernel changes. Read docs/NATIVE_TURING_PREFILL_TRACE.md; hosted
+compile is not hardware execution, and profiler durations are never speed scores.
+
 Native CUDA opt-in evidence is documented in `docs/GEMMA4_CUDA.md`:
 `test_gemma4_cuda.mojo` executes the actual dense model,
 `test_gemma4_quant_parity.mojo` compares physical GPU matvec results against

@@ -1454,7 +1454,17 @@ and circular self-parity transforms were removed.
   strategy/full independent source/scope/CSV/report hashes, including mutation/
   interrupt failure retention. [Evidence](docs/evidence/turing-batched-controls-2026-10-02/README.md).
   No hard real-time/GPU-fault-repair/runtime/provider promotion or speed score.
-- **Next acceptance gate:** Owned stage tracing for the accepted batched path; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Owned prefill timeline (2026-10-02):** Public37/1070 plain/profiled strategy2
+  preserves all513024 complete source F32 values, full guarded-cache hashes,
+  actual committed IDs/state/host counts and4352 guards. Full-session CUDA owner/
+  timestamp/unique-successful-correlation validation precedes same-thread named
+  NVTX selection;4837/120919 kernels pass. Original NVTX-triggered and UTC export
+  time-domain failures remain rejected. Long observed staged matrix durations
+  account65.43%, attention21.47%, without a speed score. Master190 passes/one skip,
+  30 trace and eight source/report contracts pass. [Evidence](docs/evidence/turing-prefill-trace-2026-10-02/README.md).
+  Original arithmetic/production one/four admission remain unchanged; shared
+  kernel names do not certify per-projection attribution or service speed.
+- **Next acceptance gate:** Explicit projection-range attribution to choose further matrix tuning; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

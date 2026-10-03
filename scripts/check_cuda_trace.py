@@ -31,7 +31,7 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir"):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
@@ -120,6 +120,30 @@ def analyze(path, expected_executable="aesir"):
                     process[0][2]).name != expected_executable:
                 raise ValueError("CUDA executable identity mismatch")
             integer(process[0][1], 1)
+            if expected_pid is not None and integer(expected_pid, 1) != process[0][1]:
+                raise ValueError("CUDA process differs from native probe PID")
+            owned_range = None
+            if nvtx_range is not None:
+                if type(nvtx_range) is not str or not 1 <= len(nvtx_range) <= 128:
+                    raise ValueError("Invalid expected NVTX range")
+                candidates = []
+                for start, end, kind, tid, end_tid, text, text_id in rows(
+                        "NVTX_EVENTS", "start,end,eventType,globalTid,endGlobalTid,text,textId"):
+                    if (text is not None and (type(text) is not str or len(text) > 16384)) or (
+                            text is not None and text_id is not None):
+                        raise ValueError("Invalid or ambiguous NVTX label")
+                    label = text if text_id is None else name(text_id)
+                    if label == nvtx_range:
+                        # Nsight2023 event type59 is a completed same-thread push/pop.
+                        if kind != 59 or end is None or end_tid not in (None, tid):
+                            raise ValueError("Incomplete or foreign-thread NVTX range")
+                        interval(start, end); integer(tid, 1)
+                        if (tid >> 24) << 24 != pid:
+                            raise ValueError("Foreign NVTX process")
+                        candidates.append((start, end, tid))
+                if len(candidates) != 1:
+                    raise ValueError("Expected exactly one named NVTX prefill range")
+                owned_range = candidates[0]
             gpu = [r for r in rows("TARGET_INFO_GPU", "id,name,computeMajor,computeMinor,totalMemory")
                    if r[0] in devices]
             if len(gpu) != 1 or type(gpu[0][1]) is not str:
@@ -128,6 +152,7 @@ def analyze(path, expected_executable="aesir"):
             groups = defaultdict(lambda: {"count": 0, "total_ns": 0})
             api_groups = defaultdict(lambda: {"count": 0, "total_ns": 0, "return_values": {}})
             launches = {}
+            selected_launches = set()
             for start, end, tid, correlation, key, status in rows(
                     "CUPTI_ACTIVITY_KIND_RUNTIME", "start,end,globalTid,correlationId,nameId,returnValue"):
                 interval(start, end)
@@ -135,24 +160,37 @@ def analyze(path, expected_executable="aesir"):
                 if (tid >> 24) << 24 != pid:
                     raise ValueError("Foreign CUDA API process")
                 label = name(key)
-                group = api_groups[label]
-                group["count"] += 1; group["total_ns"] += end - start
-                returns = group["return_values"]
-                returns[str(status)] = returns.get(str(status), 0) + 1
+                selected = owned_range is None or (
+                    tid == owned_range[2] and owned_range[0] <= start < end <= owned_range[1])
+                if selected:
+                    group = api_groups[label]
+                    group["count"] += 1; group["total_ns"] += end - start
+                    returns = group["return_values"]
+                    returns[str(status)] = returns.get(str(status), 0) + 1
                 if "LaunchKernel" in label:
                     if correlation in launches or status != 0:
                         raise ValueError("Duplicate or failed CUDA kernel launch")
+                    if owned_range is not None and start < owned_range[1] and end > owned_range[0] and not selected:
+                        raise ValueError("Kernel launch crosses owned NVTX thread/range")
                     launches[correlation] = start
+                    if selected: selected_launches.add(correlation)
             active = []
             matched = set()
             kernel_intervals = []
             for start, end, device, context, stream, correlation, owner, key in kernels:
                 interval(start, end)
                 integer(context, 1); integer(stream); integer(correlation, 1)
+                kernel_name = name(key)
                 if correlation not in launches or correlation in matched or launches[correlation] > start:
                     raise ValueError("Unmatched, repeated or reversed kernel correlation")
                 matched.add(correlation)
-                group = groups[name(key)]
+                if correlation not in selected_launches:
+                    if owned_range is not None and start < owned_range[1] and end > owned_range[0]:
+                        raise ValueError("Unselected kernel overlaps owned NVTX range")
+                    continue
+                if owned_range is not None and not owned_range[0] <= start < end <= owned_range[1]:
+                    raise ValueError("Kernel outside synchronized NVTX range")
+                group = groups[kernel_name]
                 group["count"] += 1; group["total_ns"] += end - start
                 kernel_intervals.append((start, end))
                 active.append((start, end))
@@ -164,6 +202,10 @@ def analyze(path, expected_executable="aesir"):
                 interval(start, end); integer(size, 1); integer(kind)
                 if owner != pid:
                     raise ValueError("Foreign CUDA copy process")
+                if owned_range is not None and not owned_range[0] <= start < end <= owned_range[1]:
+                    if start < owned_range[1] and end > owned_range[0]:
+                        raise ValueError("Copy crosses synchronized NVTX range")
+                    continue
                 group = copies[str(kind)]
                 group["count"] += 1; group["bytes"] += size; group["total_ns"] += end - start
                 active.append((start, end))
@@ -171,7 +213,13 @@ def analyze(path, expected_executable="aesir"):
                 interval(start, end)
                 if owner != pid:
                     raise ValueError("Foreign CUDA memset process")
+                if owned_range is not None and not owned_range[0] <= start < end <= owned_range[1]:
+                    if start < owned_range[1] and end > owned_range[0]:
+                        raise ValueError("Memset crosses synchronized NVTX range")
+                    continue
                 active.append((start, end))
+            if not kernel_intervals:
+                raise ValueError("No actual kernels inside owned scope")
             first = min(s for s, _ in kernel_intervals)
             last = max(e for _, e in kernel_intervals)
             clipped = [(max(s, first), min(e, last)) for s, e in active if s < last and e > first]
@@ -179,13 +227,19 @@ def analyze(path, expected_executable="aesir"):
             return {"schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
                     "process": {"pid": process[0][1], "name": expected_executable},
                     "gpu": {"name": gpu[0][1], "compute": f"{gpu[0][2]}.{gpu[0][3]}", "bytes": gpu[0][4]},
-                    "capture_ns": duration, "kernel_count": len(kernels),
+                    "capture_ns": duration, "kernel_count": len(kernel_intervals),
+                    "scope": "complete_capture" if owned_range is None else "owned_nvtx_prefill",
+                    "complete_capture_kernel_count": len(kernels),
+                    "excluded_kernel_count": len(kernels) - len(kernel_intervals),
                     "kernel_window_ns": last - first, "gpu_busy_in_kernel_window_ns": busy,
                     "uncovered_in_kernel_window_ns": last - first - busy,
                     "kernel_groups": dict(sorted(groups.items(), key=lambda p: -p[1]["total_ns"])),
                     "api_groups": dict(sorted(api_groups.items(), key=lambda p: -p[1]["total_ns"])),
                     "copies_by_kind": dict(copies),
-                    "limits": "Profiled timings only. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer labels or separate prefill/decode boundary. No quality or speed-lead certification."}
+                    "owned_nvtx_range": None if owned_range is None else {
+                        "name": nvtx_range, "start_ns": owned_range[0], "end_ns": owned_range[1],
+                        "duration_ns": owned_range[1] - owned_range[0], "global_tid": owned_range[2]},
+                    "limits": "Profiled timings only. Optional named range selects observed prefill launches after full-capture validation. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer projection labels or quality/speed-lead certification."}
     finally:
         os.close(fd)
 

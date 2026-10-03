@@ -66,7 +66,9 @@ jobs:
           python3 scripts/test_check_llama3_logits.py
 
       - name: Prove Owned CUDA Trace Evidence Admission
-        run: python3 scripts/test_check_cuda_trace.py
+        run: |
+          python3 scripts/test_check_cuda_trace.py
+          python3 scripts/test_check_turing_prefill_trace.py
 
       - name: Prove Matrix Primitive Evidence Admission
         run: python3 scripts/test_check_packed_matrix.py
@@ -137,6 +139,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_decode_quality.mojo -o /tmp/aesir-turing-decode-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_checkpoint_replay.mojo -o /tmp/aesir-turing-checkpoint-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_batched_rope_cache.mojo -o /tmp/aesir-turing-grid-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_prefill_trace.mojo -o /tmp/aesir-turing-prefill-trace-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

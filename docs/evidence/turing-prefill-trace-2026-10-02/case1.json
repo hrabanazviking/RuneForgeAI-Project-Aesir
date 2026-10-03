@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_scored": false,
+  "probe_collection_complete": true,
+  "unprofiled": {
+    "passed": true,
+    "case": 1,
+    "pid": 1102949,
+    "values": 128256,
+    "input_tokens": 37,
+    "f32_bytes_equal": true,
+    "guarded_cache_equal": true,
+    "guards": 1088,
+    "csv_sha256": "cbebd911dea43d928aac798f4d1bf03696fe64b4d3b0a34cfcf4ad157e2d30ee",
+    "f32_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c"
+  },
+  "profiled": {
+    "passed": true,
+    "case": 1,
+    "pid": 1103064,
+    "values": 128256,
+    "input_tokens": 37,
+    "f32_bytes_equal": true,
+    "guarded_cache_equal": true,
+    "guards": 1088,
+    "csv_sha256": "02d3a110b7992bac5a6232dfdb9317560a052057178fe641b3562aeac831baee",
+    "f32_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c"
+  },
+  "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+  "binary_sha256": "4b57cabe1a23e0eca0cb2651942cc98786f03d36a29486337c86b0c21addaeeb",
+  "accepted_reference": {
+    "csv_sha256": "68def115be2e36a17c754345fd50a005bc204b3cee1fcd1ed540c19ce52911fb",
+    "report_sha256": "bf9201887eb75c5a5221b1480347db5b828138ae3bdb3a8d141d459e95a1d97e",
+    "attention_variant": 2
+  },
+  "trace": {
+    "schema": 1,
+    "exporter": "2023.4.4.54",
+    "process": {
+      "pid": 1103064,
+      "name": "aesir-turing-prefill-trace"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+      "compute": "7.5",
+      "bytes": 6017515520
+    },
+    "capture_ns": 3830381052,
+    "kernel_count": 4837,
+    "scope": "owned_nvtx_prefill",
+    "complete_capture_kernel_count": 4837,
+    "excluded_kernel_count": 0,
+    "kernel_window_ns": 273741508,
+    "gpu_busy_in_kernel_window_ns": 266819712,
+    "uncovered_in_kernel_window_ns": 6921796,
+    "kernel_groups": {
+      "core_packed_turing_matrix_stag6A6A6A6A_d3cdbd5ae2abdeff": {
+        "count": 126,
+        "total_ns": 147626973
+      },
+      "core_packed_projection_four_ma6A6A6A6A_52d17741bd3f0d2b": {
+        "count": 504,
+        "total_ns": 46114740
+      },
+      "core_packed_turing_matrix_stag6A6A6A6A_cd9ffb6b6653cdb3": {
+        "count": 14,
+        "total_ns": 25207433
+      },
+      "core_packed_projection_block_m6A6A6A6A_755fea54cf20fad1": {
+        "count": 168,
+        "total_ns": 16785692
+      },
+      "core_packed_projection_four_ma6A6A6A6A_2d1994eb3a806a92": {
+        "count": 140,
+        "total_ns": 10052885
+      },
+      "core_packed_projection_block_m6A6A6A6A_71b5269aac05bb11": {
+        "count": 29,
+        "total_ns": 5045920
+      },
+      "core_llama3_kernels_llama_scor6A6A6A6A_a235264d73eaa09f": {
+        "count": 1036,
+        "total_ns": 3207321
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_9edad2449f19dc31": {
+        "count": 112,
+        "total_ns": 3142479
+      },
+      "core_llama3_kernels_llama_atte6A6A6A6A_a6bf5d922a2cbd18": {
+        "count": 1036,
+        "total_ns": 3002998
+      },
+      "core_llama3_kernels_llama_soft6A6A6A6A_7fd119a9d9bc8739": {
+        "count": 1036,
+        "total_ns": 2195924
+      },
+      "core_dense_normalization_dense6A6A6A6A_2237709dd64a8fad": {
+        "count": 112,
+        "total_ns": 1532365
+      },
+      "core_dense_normalization_dense6A6A6A6A_3f13c764a16a0e97": {
+        "count": 57,
+        "total_ns": 672740
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_b0fdf43cdbb4dc6e": {
+        "count": 56,
+        "total_ns": 523843
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_892fbf964b7bd330": {
+        "count": 112,
+        "total_ns": 435808
+      },
+      "core_gemma4_kernels_argmax_ker6A6A6A6A_d03fb3143cce253b": {
+        "count": 1,
+        "total_ns": 393378
+      },
+      "core_llama3_kernels_llama_scal6A6A6A6A_f9d8c4752fca0dc0": {
+        "count": 56,
+        "total_ns": 360002
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_8b96c7437a529a5f": {
+        "count": 56,
+        "total_ns": 123199
+      },
+      "core_llama3_kernels_llama_resi6A6A6A6A_3883ecf011529460": {
+        "count": 56,
+        "total_ns": 121252
+      },
+      "core_gemma4_kernels_embedding_6A6A6A6A_3ed88dd7ce6a190f": {
+        "count": 37,
+        "total_ns": 82755
+      },
+      "core_llama3_kernels_llama_silu6A6A6A6A_ab2877e480b0edfd": {
+        "count": 28,
+        "total_ns": 73857
+      },
+      "core_cuda_sampling_sampling_re6A6A6A6A_3b998fa8edcf579b": {
+        "count": 37,
+        "total_ns": 72737
+      },
+      "core_llama3_kernels_llama_cach6A6A6A6A_35dd7bc25fbc72be": {
+        "count": 28,
+        "total_ns": 45411
+      }
+    },
+    "api_groups": {
+      "cuLaunchKernelEx": {
+        "count": 4837,
+        "total_ns": 150416687,
+        "return_values": {
+          "0": 4837
+        }
+      },
+      "cuStreamSynchronize": {
+        "count": 4,
+        "total_ns": 86930453,
+        "return_values": {
+          "0": 4
+        }
+      },
+      "cuModuleLoadDataEx": {
+        "count": 22,
+        "total_ns": 30196312,
+        "return_values": {
+          "0": 22
+        }
+      },
+      "cuStreamIsCapturing": {
+        "count": 4863,
+        "total_ns": 703675,
+        "return_values": {
+          "0": 4863
+        }
+      },
+      "cuMemcpyDtoHAsync_v2": {
+        "count": 1,
+        "total_ns": 11111,
+        "return_values": {
+          "0": 1
+        }
+      }
+    },
+    "copies_by_kind": {
+      "2": {
+        "count": 1,
+        "bytes": 4,
+        "total_ns": 2464
+      }
+    },
+    "owned_nvtx_range": {
+      "name": "aesir.fixture.prefill",
+      "start_ns": 2319232458,
+      "end_ns": 2593143119,
+      "duration_ns": 273910661,
+      "global_tid": 299981320803544
+    },
+    "limits": "Profiled timings only. Optional named range selects observed prefill launches after full-capture validation. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer projection labels or quality/speed-lead certification."
+  },
+  "sqlite_sha256": "f4ceee86d9f7a250998fde147688013b3c213a154bbee577225de8e7e8793359",
+  "limits": "One inference-only same-thread synchronized NVTX range, original strict3B/context1536/F16KV/sm75 optional strategy2. All source F32/cache bytes retained. Kernel groups are observed names; shared projection names do not separate Q/K/V/FFN. API/GPU durations overlap; uncovered time has no inferred cause. No speed score, production32, broader context/device/concurrency/soak or provider lead."
+}

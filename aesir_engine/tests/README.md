@@ -3,6 +3,12 @@
 ## Domain Overview
 The `tests` domain holds the master test runner and domain-specific verification scripts.
 
+The optional owned strategy2 prefill trace probe and its source/range gates are
+documented in `docs/NATIVE_TURING_PREFILL_TRACE.md`. Execute the compiled binary
+directly, retain full-session raw traces and strict actual process identity,
+select only the synchronized semantic range after all rows validate. Exported
+complete F32/cache bytes must equal independently admitted source; no speed score.
+
 - **`run_all.mojo`:** Master orchestrator registering 190 executable named cases
   and one explicit external-fixture skip.
 - **Native Gemma CUDA evidence:** `test_gemma4_cuda.mojo`,

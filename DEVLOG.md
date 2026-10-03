@@ -1,3 +1,18 @@
+## 2026-10-02 — Sigrún: owned inference-only strategy2 timeline
+
+Added a direct native NVTX probe and bounded source/ownership/range checker.
+All513024 plain/profiled values across public37/1070 retain accepted strategy2
+F32/cache/committed-state/count/guard identity. Full-session owner/timestamp/
+successful-correlation gates precede one same-thread synchronized prefill range;
+4837/120919 kernels pass. The installed triggered-capture exporter mismatches
+activity/session coordinates, including UTC export: both failures remain and
+full-session semantic selection resolves transport without clipping/rebasing.
+Observed long matrix kernels65.43%, attention21.47%; uncovered time has no proved
+cause. Master190 passes/one skip,30 trace/eight source contracts and both targets
+pass. Production binary/readiness remains unchanged. No speed score or shared-
+name projection attribution. Next earn explicit projection labels before tuning.
+Read docs/NATIVE_TURING_PREFILL_TRACE.md and its evidence; exact push/CI separate.
+
 ## 2026-10-01 — Sigrún: coalesced shared Turing matrix staging
 
 Added optional16/32/64-row CTAs with coalesced original32-column decoding,

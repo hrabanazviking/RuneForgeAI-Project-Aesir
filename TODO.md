@@ -111,6 +111,13 @@
   preserve mutation/interrupt failures. [Operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md).
   Cooperative only; broader context/concurrency/soak/runtime/provider gates open.
   Next earn owned stage tracing for the accepted batched path.
+- [x] SPD-00/04 owned inference-only strategy2 timeline: public37/1070 plain/
+  profiled cases preserve all513024 source F32 values, full guarded-cache hashes,
+  committed IDs/state/counts and4352 guards. Full-session ownership/correlation
+  gates precede same-thread named NVTX selection;4837/120919 kernels pass.
+  Retain rejected NVTX-triggered/UTC time-domain exports. No timing score.
+  Long observed staged matrix kernels65.43%, attention21.47%; next earn explicit
+  projection attribution before another kernel change. [Operation](docs/NATIVE_TURING_PREFILL_TRACE.md).
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

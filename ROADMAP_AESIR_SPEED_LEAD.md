@@ -442,6 +442,17 @@ are not hard real time or GPU-fault repair. Production stays unchanged; next ear
 owned stage tracing before further attention/runtime changes, with broader
 context/concurrency/soak and provider gates still open.
 
+Owned strategy2 inference-only tracing now passes public37/1070 source-bound
+plain/profiled cases, all513024 exact F32 values/full-cache hashes/committed state
+and4352 guards. Full-session owner/timestamp/correlation gates precede one named
+same-thread synchronized NVTX range;4837/120919 kernels pass. Rejected triggered/
+UTC exports retain their actual coordinate mismatch; no clipping or rebasing.
+Long observed staged-matrix durations account65.43%, attention21.47%, with small
+uncovered timeline. [Operation](docs/NATIVE_TURING_PREFILL_TRACE.md). Durations
+are unscored and shared kernel names do not distinguish individual projections.
+Next earn explicit projection-range attribution before choosing another matrix
+kernel change; all production/provider/broader-runtime gates stay separate.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

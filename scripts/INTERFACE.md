@@ -64,6 +64,17 @@ API and GPU intervals overlap; uncovered time has no inferred cause. No automati
 prefill/decode or per-layer attribution. See [the operator manual](../docs/NATIVE_CUDA_TRACE.md)
 for resource limits, exit codes, artifact privacy and exercised physical scope.
 
+`analyze` optionally binds an expected native PID and one named completed
+same-thread NVTX range. Every full-session CUDA row still passes original
+ownership/timestamp/correlation admission before range selection. Selected launch
+correlations, GPU work and groups explicitly belong to that range; crossing work
+refuses and excluded kernel counts remain. Legacy callers retain complete scope.
+`check_turing_prefill_trace.py` additionally binds plain/profiled complete source
+F32/cache bytes, IDs/state/host counts/guards, exact binary/model/source/SQLite
+hashes and matching strategy2 independent acceptance. All durations are unscored;
+exclusive reports retain numerical, changed-artifact and interruption failures.
+See [range operation](../docs/NATIVE_TURING_PREFILL_TRACE.md).
+
 ## check_packed_matrix.py
 
 Optional test-only primitive oracle. parse requires bounded regular ordered CSV,
