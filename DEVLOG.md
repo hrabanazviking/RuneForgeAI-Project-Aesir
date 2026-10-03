@@ -1,3 +1,25 @@
+## 2026-10-03 — Sigrún: bounded runtime staging rejected on all timing cases
+
+Scoped/pushedec5c5de before code. Separate packed_turing_loop module loops exactly
+8 packed groups at original32-column width, mechanically retaining format12/13/14
+quant arithmetic, guarded shared cells, F16 high/residual conversion, chronological
+F32 public MMA and both barriers. Original packed core/quantization bodies stay
+verbatim; final loop_rows=0 harness defaults remain. Both64/128 configs pass144
+synthetic/12 span refusals/1658880 full native/candidate/original64 F32 bits/2100
+selected independent dots/1622640 guards/840 rotated ten-sample timing records.
+All56 original64 comparisons lose; best.826220 rows128/batch32/down. No selection,
+observed register/occupancy cause or historical128 time comparison is inferred.
+
+Twenty-two portable contracts and master190 passes/one skip; both targets/original/
+header/master/normal/check precede serial GPU captures then pinned GGUF/NumPy CPU
+oracles. Existing finite atomic scores preserve complete failures; actual invalid256
+with nonexistent model refuses pre-CUDA. All source/model/binary/CSV/process/build
+hashes stay, and unchanged normal f3442a1e remains active/authenticated ready/
+prefill4/cpuoffload0. Read [operation](docs/NATIVE_TURING_LOOP_STAGING.md) and complete
+evidence. Next scope paired FFN gate/up input staging reuse; broader actual-F32/
+full-model/generation/replay/control/context/device/concurrency/soak/provider gates
+remain separate. Exact push/CI receipts are separate.
+
 ## 2026-10-03 — Sigrún: narrower staging passes numerics, loses every timing
 
 Scoped/pushed6b3ecd7 before code. Separate16-column rows64/128 native kernels

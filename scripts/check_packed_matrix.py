@@ -74,6 +74,11 @@ def parse(path):
             if narrow_rows not in (64,128) or width != 16 or not text.endswith("\n"):
                 raise ValueError("Unsupported/incomplete narrow staging geometry")
             candidate=row[1];mode_seen=True;tile=(narrow_rows,8);staged_input_columns=16;paired_original=True
+        elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_loop_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            loop_rows, width = map(int,row[2:])
+            if loop_rows not in (64,128) or width != 32 or not text.endswith("\n"):
+                raise ValueError("Unsupported/incomplete bounded loop geometry")
+            candidate=row[1];mode_seen=True;tile=(loop_rows,8);staged_input_columns=32;paired_original=True
         elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_wide_f16_f32" and not synthetic and not mode_seen and not tile_seen:
             staged_rows, staged_columns = map(int, row[2:])
             if staged_rows not in (32,64) or staged_columns not in (64,128) or (2*staged_rows+32)*(staged_columns+1)*2 > 49152:

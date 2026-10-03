@@ -984,3 +984,9 @@ The legacy formatters below are not exposed compatibility APIs.
   underflow/ratio overflow with complete metrics retained.
   [Operation](docs/NATIVE_TURING_NARROW_STAGING.md). Next keep proven32-column
   width and measure bounded loop structure.
+
+- [x] SPD-01/02 bounded runtime-group32 staging: both64/128 numerical/bit/guard/
+  independent gates pass, all56 original64 comparisons lose (best.826220); no
+  promotion.22 portable contracts/master190/one skip.
+  [Operation](docs/NATIVE_TURING_LOOP_STAGING.md). Next test paired FFN gate/up
+  input staging reuse under independent complete bytes/span/timing gates.

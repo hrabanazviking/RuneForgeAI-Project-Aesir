@@ -1566,7 +1566,14 @@ and circular self-parity transforms were removed.
   shared5440/9792 bytes is not observed register/occupancy proof. Nineteen portable
   contracts/master190/one skip, finite atomic underflow/overflow failure retention.
   [Evidence](docs/evidence/turing-narrow-staging-2026-10-03/README.md).
-- **Next acceptance gate:** Keep32-column width and measure bounded staging loop structure; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Bounded runtime-group32 staging (2026-10-03):** Separate optional module
+  retains original quantization/core bodies and sequential F32 MMA. Both64/128
+  configs pass144 synthetic/12 spans/1658880 complete original64 F32 bits/2100
+  independent dots/1622640 guards/840 rotated times. All56 original64 comparisons
+  lose (best.826220); no promotion or inferred register/occupancy cause.22 portable
+  contracts/master190/one skip and finite atomic failure retention.
+  [Evidence](docs/evidence/turing-loop-staging-2026-10-03/README.md).
+- **Next acceptance gate:** Paired FFN gate/up input staging reuse with independent complete bytes/span/timing gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

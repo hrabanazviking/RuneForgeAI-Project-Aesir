@@ -225,3 +225,16 @@ production dispatch remain. Native probe validates geometry before load. Explici
 MODE narrow metadata requires complete native/candidate/original64 F32 bits,
 unchanged oracle/guard/840 rotated timing gates. Read ../../docs/NATIVE_TURING_NARROW_STAGING.md;19 portable contracts
 retain complete failures/hash drift/interrupt/exclusive reports.
+
+## Optional bounded runtime-group32-column staging
+
+Separate core/packed_turing_loop.mojo imports original accumulation/target/span
+helpers and preserves original packed core/quantization modules verbatim. Internal
+runtime-group0..7/lane0..31 decode matches original equations; kind12/13/14 and
+rows64/128/batch4/8/16/32/precision0 remain static. Shared32 width/both barriers/
+chronological F32 public MMA/guarded cells stay; no global workspace or production
+selection. Final loop_rows=0 harness dispatch is exclusive with cached/large/narrow
+flags. Explicit loop metadata requires full original64 F32 bits, unchanged native/
+independent/guard/840 rotated finite timing gates. Both numeric configs pass; all56
+original64 comparisons lose.22 portable contracts/master190/one skip. Read ../../docs/NATIVE_TURING_LOOP_STAGING.md;
+no register/occupancy/cause/provider claim follows.

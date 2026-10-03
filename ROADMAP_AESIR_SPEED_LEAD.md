@@ -532,6 +532,12 @@ positive timing underflow/nonfinite ratios fail atomically with complete metrics
 [Operation](docs/NATIVE_TURING_NARROW_STAGING.md). Next retain32-column staging
 and measure bounded loop structure under the same gates.
 
+Bounded runtime-group32-column staging passes both64/128 complete numeric/bit/
+independent/guard gates, but loses all56 original64 comparisons (best.826220).
+No selection/resource cause.22 portable contracts/master190/one skip; all complete
+finite scores/failures remain. [Operation](docs/NATIVE_TURING_LOOP_STAGING.md).
+Next test paired FFN gate/up input staging reuse, preserving original outputs.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

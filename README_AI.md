@@ -1,3 +1,7 @@
+For rejected bounded runtime-group staging, read docs/NATIVE_TURING_LOOP_STAGING.md.
+Both64/128 complete numeric gates pass but all56 original64 elapsed comparisons
+lose. Keep original selection; next scope paired FFN gate/up staging reuse.
+
 For the rejected16-column primitive speed experiment, read
 docs/NATIVE_TURING_NARROW_STAGING.md. Both64/128 numerical gates pass, but all56
 original64 elapsed comparisons lose; lower shared bytes alone earns no selection.

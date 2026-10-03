@@ -1,0 +1,404 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "ec5c5de",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:40:30.222983+00:00",
+      "ended_utc": "2026-10-03T05:40:30.337984+00:00",
+      "wall_seconds": 0.11501785297878087,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_block_headers.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-headers-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:39:10.085840+00:00",
+      "ended_utc": "2026-10-03T05:39:36.941330+00:00",
+      "wall_seconds": 26.855530748987803,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:39:36.941927+00:00",
+      "ended_utc": "2026-10-03T05:40:10.251728+00:00",
+      "wall_seconds": 33.309819505986525,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:40:10.252032+00:00",
+      "ended_utc": "2026-10-03T05:40:30.222526+00:00",
+      "wall_seconds": 19.970521559007466,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:38:31.793677+00:00",
+      "ended_utc": "2026-10-03T05:39:10.085370+00:00",
+      "wall_seconds": 38.291744674002985,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_loop_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:37:32.316868+00:00",
+      "ended_utc": "2026-10-03T05:38:02.529168+00:00",
+      "wall_seconds": 30.212329492991557,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_loop_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:38:02.529650+00:00",
+      "ended_utc": "2026-10-03T05:38:31.793204+00:00",
+      "wall_seconds": 29.26358260199777,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "64": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "64"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T07:26:54.357627+00:00",
+        "ended_utc": "2026-10-03T07:27:04.701291+00:00",
+        "wall_seconds": 10.343694602983305,
+        "performance_scored": false,
+        "binary_sha256": "883e89bdf8146d30c91c97be909f49c24b37eccf1685d8b8a72851b99fbbd5e6",
+        "csv_sha256": "224ddc87d0fc19ebd66116e1fdb8c1fd82c75eedc53fc04af810227855707240"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 19.767761079012416,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-final/rows64.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-final/rows64.json"
+        ],
+        "started_utc": "2026-10-03T07:27:15.211345+00:00",
+        "ended_utc": "2026-10-03T07:27:34.979146+00:00",
+        "performance_scored": false
+      }
+    },
+    "128": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "128"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T07:27:04.787509+00:00",
+        "ended_utc": "2026-10-03T07:27:15.128698+00:00",
+        "wall_seconds": 10.34121698202216,
+        "performance_scored": false,
+        "binary_sha256": "883e89bdf8146d30c91c97be909f49c24b37eccf1685d8b8a72851b99fbbd5e6",
+        "csv_sha256": "99bc019b30ad56051396e93ee4c2ae2a447ce600f2d809241987ba0e7c1df28a"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 19.819515893002972,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-final/rows128.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-loop-staging-final/rows128.json"
+        ],
+        "started_utc": "2026-10-03T07:27:34.979667+00:00",
+        "ended_utc": "2026-10-03T07:27:54.799230+00:00",
+        "performance_scored": false
+      }
+    }
+  },
+  "pre_model_rejected256": {
+    "exit": 1,
+    "wall_seconds": 0.016229111002758145,
+    "started_utc": "2026-10-03T07:26:54.340864+00:00",
+    "ended_utc": "2026-10-03T07:26:54.357190+00:00",
+    "performance_scored": false
+  },
+  "original_core_module_retained_verbatim": true,
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "aesir_engine/tests/test_packed_matrix.mojo": "dc38637109adaa1cf8e173dac657edf3925dce92a3d4baf4a810c569f3e15b46",
+    "aesir_engine/core/packed_turing_loop.mojo": "3ccd4f07436fc9fc4a7e90f150873e070097ed61acef45a163e5280993b65665",
+    "aesir_engine/tests/test_turing_loop_staging.mojo": "2b711aa26bc1d0b401db3dcff8c71c0a0947a2e9131be30cd39b73407b684318",
+    "scripts/check_packed_matrix.py": "533c459a8dd243081c36eedf2dc272454302df6f53f3df03de22c809c0579324",
+    "scripts/test_check_packed_matrix.py": "2a8468ea696d06b6a6929d872a74ba94f0386bfe306959250f2924208d6a7ee1",
+    ".github/workflows/ci.yml": "460027f28e22125bdfd170ae2e5bd3ac20004d09f38bf4d8c33acf6c9b8bacf7",
+    "aesir_engine/core/packed_quantization.mojo": "13b9d738746f4ac6a31d3b3797a39816c822734ca841a145b73f5d955c2aa20c"
+  },
+  "artifacts": [
+    {
+      "name": "turing-loop-staging-final/rejected256-process.json",
+      "bytes": 191,
+      "sha256": "461873467c65f92c01e83033f70d21e1e2bf0dea1b9bca3c1158112ca82af227"
+    },
+    {
+      "name": "turing-loop-staging-final/rejected256.txt",
+      "bytes": 195,
+      "sha256": "67a133e8f07692a13ef939a13031f9f30fa6da7d4ae992c60fff5392b46d35ed"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128-gpu-process.json",
+      "bytes": 624,
+      "sha256": "932919a4598a88baf6bf466402d97430c85614c413ef4d82c9c949404d2d05f6"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128-oracle-process.json",
+      "bytes": 868,
+      "sha256": "037f8221e4e6bb5653c217380bedd3cec60bbc7ff02623fe66512735ceaea057"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128.csv",
+      "bytes": 125721916,
+      "sha256": "99bc019b30ad56051396e93ee4c2ae2a447ce600f2d809241987ba0e7c1df28a"
+    },
+    {
+      "name": "turing-loop-staging-final/rows128.json",
+      "bytes": 63940,
+      "sha256": "df5acbe61a434792c603e1243287f7da084326e1de25b4335522c0c0145d81f3"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64-gpu-process.json",
+      "bytes": 624,
+      "sha256": "d1a168239bb689ffe940fc09c60bd7761b27d59801a82b07b0e3b3f91306d832"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64-oracle-process.json",
+      "bytes": 866,
+      "sha256": "c836e0a361ba2f0a63a10ec3ec6986fa2e1cadf33bbcaf59ddc7c617d5af242b"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64.csv",
+      "bytes": 125721922,
+      "sha256": "224ddc87d0fc19ebd66116e1fdb8c1fd82c75eedc53fc04af810227855707240"
+    },
+    {
+      "name": "turing-loop-staging-final/rows64.json",
+      "bytes": 63964,
+      "sha256": "e655221220cf29617053fadefbebb353a7749676ad2da0ca00053225d9648612"
+    },
+    {
+      "name": "turing-loop-staging-final-build-check.json",
+      "bytes": 266,
+      "sha256": "7cca870be2c06618b1758d60d6e0e1941655eacd9619d17072be4c4338c8e4bd"
+    },
+    {
+      "name": "turing-loop-staging-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-loop-staging-final-build-headers.json",
+      "bytes": 577,
+      "sha256": "d16c307b67477c35151afb1a37f0a9153aef0263263b0f726395878998f5e98d"
+    },
+    {
+      "name": "turing-loop-staging-final-build-headers.txt",
+      "bytes": 470,
+      "sha256": "941353df2c0b0b4cdba9960b60e54a7b3df0ebb9ea18ff4cccc6c32cd6236e98"
+    },
+    {
+      "name": "turing-loop-staging-final-build-master.json",
+      "bytes": 413,
+      "sha256": "06d1c5937aca9efb70704d9eeff5e5836e91b3a65533e5657a3410febaddd819"
+    },
+    {
+      "name": "turing-loop-staging-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-loop-staging-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "bb4a05375f813f973e071fa6f6a8385a703a24806c0205ddf27275b94d997713"
+    },
+    {
+      "name": "turing-loop-staging-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-loop-staging-final-build-original.json",
+      "bytes": 579,
+      "sha256": "4d822b08163630921e4a44790a531f77c5af6dcbc0e1cb6672d79972408833e2"
+    },
+    {
+      "name": "turing-loop-staging-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-loop-staging-final-build-sm_75.json",
+      "bytes": 568,
+      "sha256": "684f8ca405d926f72d4534aa68d318cdf0cace161410e8baae76312bbab8ccd4"
+    },
+    {
+      "name": "turing-loop-staging-final-build-sm_75.txt",
+      "bytes": 469,
+      "sha256": "7580eda3cde4d8c3c67154e10e2789a1065afa6636440a46259faa2706e1b0ba"
+    },
+    {
+      "name": "turing-loop-staging-final-build-sm_89.json",
+      "bytes": 567,
+      "sha256": "cba66bea2df8d2a6aa9dda2884c3836eb95794bb9c24d9fff66d441bdc1d6be2"
+    },
+    {
+      "name": "turing-loop-staging-final-build-sm_89.txt",
+      "bytes": 469,
+      "sha256": "7580eda3cde4d8c3c67154e10e2789a1065afa6636440a46259faa2706e1b0ba"
+    },
+    {
+      "name": "turing-loop-staging-headers-sm_75",
+      "bytes": 4778904,
+      "sha256": "360dc2a1337cdb82b159b238115f3c0d3b8fcbb31f0c04bf41b885ff3c4b1d5c"
+    },
+    {
+      "name": "turing-loop-staging-original-sm_75",
+      "bytes": 7716544,
+      "sha256": "38f01e4798017c38fefdbb7f3cb5c56994fcc65ff526ddf5c76f02a3c9010bfc"
+    },
+    {
+      "name": "turing-loop-staging-sm_75",
+      "bytes": 4203344,
+      "sha256": "883e89bdf8146d30c91c97be909f49c24b37eccf1685d8b8a72851b99fbbd5e6"
+    },
+    {
+      "name": "turing-loop-staging-sm_89",
+      "bytes": 4203344,
+      "sha256": "94e9d37f24223ece1d370f6de72bcba273fd2763e436d9182bba283c1768dc21"
+    }
+  ],
+  "limits": "Optional synthetic primitive bounded runtime-group32-column staging atrows64/128. Complete exact original64 bits/native fixed budgets/selected original-weight independent dots; all timings warmed launch/synchronize one physical session. Shared10560/19008 arrays are defined source counts, not a captured resource/register/occupancy proof. No previous12832/cross-capture ratio or whole-model/production/provider promotion. Numeric acceptance and any useful speed are distinct.",
+  "original_quantization_retained_verbatim": true
+}
