@@ -128,3 +128,10 @@ before code, retain failures and exact pushed-commit CI receipts.
 passes all96 full frames/fixed CPU/own bits/state/source vectors/counts. Old readers
 stay closed; the separate accepted-small helper requires explicit capability and
 actual source binary. Next sealed replay5; all broader acceptance stays open.
+
+### Subsequent sealed replay gate
+
+[Explicit owning-context replay5](NATIVE_SMALL_ATTENTION_CHECKPOINT.md) now passes
+full vectors/actual bits/source samples/state/CPU/guards and40 mutation-free
+refusals. Default small_replay=False stays closed; explicit plan/live/source gates
+required. Next separate cooperative controls/tracing and broader acceptance.

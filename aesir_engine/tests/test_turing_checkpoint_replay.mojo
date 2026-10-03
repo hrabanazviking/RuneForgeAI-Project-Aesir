@@ -43,15 +43,19 @@ def reject_damage(mut f: TuringPrefillFixture,mut plan: FixtureReplayPlan) raise
     var calls = f.down128_calls
     var sealed_strategy = plan.strategy
     var sealed_fused = plan.fused_capable
+    var sealed_small = plan.small_capable
+    var small_calls = f.small_attention_calls
     var fused_calls = f.fused_attention_calls
     var original_queries = f.original_attention_queries
-    for damage in range(6 if f.fused_attention else 4 if f.down128 else 3):
+    for damage in range(8 if f.small_attention else 6 if f.fused_attention else 4 if f.down128 else 3):
         if damage == 0: plan.tiles[0] -= 1
         elif damage == 1: plan.weights += 1
         elif damage == 2: plan.draws += 1
         elif damage == 3: plan.strategy = (plan.strategy+1)%4
         elif damage == 4: plan.fused_capable = not plan.fused_capable
-        else: plan.activation += 1
+        elif damage == 5: plan.activation += 1
+        elif damage == 6: plan.small_capable = not plan.small_capable
+        else: plan.cache += 1
         var rejected = False
         try: restore(f,plan)
         except: rejected = True
@@ -60,7 +64,9 @@ def reject_damage(mut f: TuringPrefillFixture,mut plan: FixtureReplayPlan) raise
         elif damage == 2: plan.draws -= 1
         elif damage == 3: plan.strategy = sealed_strategy
         elif damage == 4: plan.fused_capable = sealed_fused
-        else: plan.activation -= 1
+        elif damage == 5: plan.activation -= 1
+        elif damage == 6: plan.small_capable = sealed_small
+        else: plan.cache -= 1
         if not rejected or not f.healthy or not f.native.healthy:
             raise Error("Invalid replay plan was accepted or poisoned a healthy owner")
         var after = values(f)
@@ -73,7 +79,7 @@ def reject_damage(mut f: TuringPrefillFixture,mut plan: FixtureReplayPlan) raise
             for i in range(5):
                 if native_owner[i] != native_after[i] or matrix_owner[i] != matrix_after[i]:
                     raise Error("Invalid down128 replay plan changed actual buffer/sampler owner")
-        if f.fused_attention and (fused_calls != f.fused_attention_calls or original_queries != f.original_attention_queries):
+        if f.fused_attention and (small_calls != f.small_attention_calls or fused_calls != f.fused_attention_calls or original_queries != f.original_attention_queries):
             raise Error("Invalid fused replay changed actual attention counters")
         history(f,plan.tokens)
 
@@ -83,16 +89,21 @@ def reject_flag_drift(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raise
     var native_owner = owner(f,0)
     var matrix_owner = owner(f,1)
     var calls = f.down128_calls
+    var small_calls = f.small_attention_calls
     var fused_calls = f.fused_attention_calls
     var original_queries = f.original_attention_queries
-    for drift in range(2 if f.fused_attention else 1):
+    for drift in range(4 if f.small_attention else 2 if f.fused_attention else 1):
         if drift == 0: f.batched_elementwise = False
-        else: f.fused_attention = False
+        elif drift == 1: f.fused_attention = False
+        elif drift == 2: f.small_attention = False
+        else: f.small_replay = False
         var refused = False
         try: restore(f,plan)
         except: refused = True
         if drift == 0: f.batched_elementwise = True
-        else: f.fused_attention = True
+        elif drift == 1: f.fused_attention = True
+        elif drift == 2: f.small_attention = True
+        else: f.small_replay = True
         if not refused or not f.healthy or not f.native.healthy or calls != f.down128_calls:
             raise Error("Down128 replay flag drift mutated or poisoned owner")
         var after = values(f)
@@ -103,7 +114,7 @@ def reject_flag_drift(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raise
         for i in range(5):
             if native_owner[i] != native_after[i] or matrix_owner[i] != matrix_after[i]:
                 raise Error("Down128 flag refusal changed buffer/sampler owner")
-        if fused_calls != f.fused_attention_calls or original_queries != f.original_attention_queries:
+        if small_calls != f.small_attention_calls or fused_calls != f.fused_attention_calls or original_queries != f.original_attention_queries:
             raise Error("Fused replay flag drift changed actual attention counters")
         history(f,plan.tokens)
 
@@ -121,7 +132,7 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
     var matrix_owner = owner(f,1)
     var pending = Int(f.native.host_output[0])
     var n = FixtureReplayPlan(0,native_owner[0],native_owner[1],native_owner[2],committed,tiles(0),pending,f.native.sampler.config,f.native.sampler.draws)
-    var m = FixtureReplayPlan(1,matrix_owner[0],matrix_owner[1],matrix_owner[2],committed,tiles(1),pending,f.sampler.config,f.sampler.draws,matrix_owner[4],f.fused_attention)
+    var m = FixtureReplayPlan(1,matrix_owner[0],matrix_owner[1],matrix_owner[2],committed,tiles(1),pending,f.sampler.config,f.sampler.draws,matrix_owner[4],f.fused_attention,f.small_replay)
     print("CASE,"+String(index)+",37,45,4")
     for i in range(len(committed)): print("INPUT,"+String(index)+","+String(i)+","+String(committed[i]))
     for mode in range(2):
@@ -131,12 +142,13 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
             print("TILE,"+String(index)+","+String(mode)+","+String(i)+","+String(start)+","+String(counts[i]))
             start += counts[i]
     if f.down128: print("DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
+    if f.small_attention: print("SMALL_ATTENTION,"+String(index)+","+String(f.small_attention_calls)+","+String(f.original_attention_queries))
     if f.fused_attention: print("FUSED_ATTENTION,"+String(index)+","+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     record("CHECKPOINT",index,8,values(f))
     reject_damage(f,n)
     reject_damage(f,m)
     if f.down128: reject_flag_drift(f,m)
-    print("REFUSAL,"+String(index)+","+String(14 if f.fused_attention else 9 if f.down128 else 6)+",45,45,1")
+    print("REFUSAL,"+String(index)+","+String(20 if f.small_attention else 14 if f.fused_attention else 9 if f.down128 else 6)+",45,45,1")
     var native = f.native.context.enqueue_create_host_buffer[DType.float32](4*128256)
     var matrix = f.native.context.enqueue_create_host_buffer[DType.float32](4*128256)
     var baseline = List[List[Int]]()
@@ -161,6 +173,7 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
     var restored = values(f)
     print("RESTORED,"+String(index)+",45,45,45,45,"+String(restored[6])+","+String(restored[7])+","+String(n.pending)+",1")
     if f.down128: print("RESTORED_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
+    if f.small_attention: print("RESTORED_SMALL_ATTENTION,"+String(index)+","+String(f.small_attention_calls)+","+String(f.original_attention_queries))
     if f.fused_attention: print("RESTORED_FUSED_ATTENTION,"+String(index)+","+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     pending = n.pending
     expected = committed.copy()
@@ -176,18 +189,23 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
             print("LOGIT,"+String(index)+","+String(step)+","+String(i)+","+String(Float64(native[step*128256+i]))+","+String(Float64(matrix[step*128256+i]))+","+String(Float64(nv[i]))+","+String(Float64(mv[i])))
         pending = baseline[step][0]
     f.guards()
+    if f.small_attention: print("REPLAY_SMALL_ATTENTION,"+String(index)+","+String(f.small_attention_calls)+","+String(f.original_attention_queries))
     if f.fused_attention: print("REPLAY_FUSED_ATTENTION,"+String(index)+","+String(f.fused_attention_calls)+","+String(f.original_attention_queries))
     print("GUARD,"+String(index)+",1,1088,0")
 
 
 def main() raises:
     var args = argv()
-    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [STRATEGY0/1/2/3/4]")
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [STRATEGY0/1/2/3/4/5]")
+    if args[1] == "reject-small-replay":
+        _ = TuringPrefillFixture("NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",0,True,True,True,False,False,True,False,False,False,True)
+        raise Error("Invalid small replay constructor admitted")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag < 0 or flag > 4: raise Error("Checkpoint execution strategy must be0/1/2/3/4")
-    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag>=2),Bool(flag>=3),False,False,Bool(flag==4))
+    if flag < 0 or flag > 5: raise Error("Checkpoint execution strategy must be0/1/2/3/4/5")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag>=2),Bool(flag>=3),False,False,Bool(flag>=4),False,False,Bool(flag==5),Bool(flag==5))
     if len(args) == 3:
-        if flag == 4: print("ATTENTION,rope_cache_elementwise_down128_fused,1,32")
+        if flag == 5: print("ATTENTION,rope_cache_elementwise_down128_small,1,32")
+        elif flag == 4: print("ATTENTION,rope_cache_elementwise_down128_fused,1,32")
         elif flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
         elif flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
         else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
@@ -196,4 +214,4 @@ def main() raises:
         var p = policy(index)
         print("POLICY,"+String(index)+","+String(Float64(p.temperature))+","+String(p.top_k)+","+String(Float64(p.top_p))+","+String(Float64(p.min_p))+","+String(Float64(p.repetition_penalty))+","+String(p.repeat_last_n)+","+String(p.seed))
     for index in range(2): collect(f,index)
-    print("COMPLETE,turing_checkpoint,2,8,1026048,4352,"+String(28 if f.fused_attention else 18 if f.down128 else 12))
+    print("COMPLETE,turing_checkpoint,2,8,1026048,4352,"+String(40 if f.small_attention else 28 if f.fused_attention else 18 if f.down128 else 12))

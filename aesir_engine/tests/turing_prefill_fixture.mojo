@@ -50,12 +50,13 @@ struct TuringPrefillFixture:
     var fused_attention: Bool
     var fused_controls: Bool
     var fused_tracing: Bool
+    var small_replay: Bool
     var small_attention: Bool
     var small_attention_calls: Int
     var fused_attention_calls: Int
     var original_attention_queries: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False,small_attention: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False,small_attention: Bool = False,small_replay: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
@@ -69,6 +70,8 @@ struct TuringPrefillFixture:
         if fused_tracing and (not fused_attention or fused_controls): raise Error("Fused tracing requires exclusive admitted fused strategy")
         if small_attention and (not fused_attention or fused_controls or fused_tracing):
             raise Error("Small attention requires original fused strategy with controls/tracing closed")
+        if small_replay and not small_attention: raise Error("Small replay requires admitted small attention capability")
+        self.small_replay = small_replay
         self.small_attention = small_attention
         self.small_attention_calls = 0
         self.fused_tracing = fused_tracing
@@ -279,6 +282,7 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
+        if self.small_replay and not self.small_attention: raise Error("Small replay capability drifted outside small strategy")
         if self.small_attention and (not self.fused_attention or self.fused_controls or self.fused_tracing):
             raise Error("Small attention capability drifted outside closed original fused strategy")
         if self.fused_tracing and (not self.fused_attention or self.fused_controls): raise Error("Fused tracing capability drifted outside exclusive strategy")

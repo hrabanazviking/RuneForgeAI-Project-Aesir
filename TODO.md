@@ -1066,5 +1066,11 @@ The legacy formatters below are not exposed compatibility APIs.
   draws/state/4352 guards/actual small/down/closed-fused/scalar counters pass.
   Twelve hostile contracts/master190/seven builds/strict source/current binary
   and all after-fences. [Operation](docs/NATIVE_SMALL_ATTENTION_DECODE.md).
-- [ ] SPD-03 small-score sealed owning-context replay, then separate control/trace/
+- [x] SPD-03 small-score sealed owning-context replay:45-ID checkpoints/eight
+  full continuation frames/1026048 values per baseline/restored owner/UInt32 bits/
+  source choices/state/fixed CPU/4352 guards/40 mutation-free refusals/actual down/
+  small/closed-fused/scalar counts. Ten hostile contracts/master190/seven builds,
+  explicit plan/live/source/current binary gates. No speed score.
+  [Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
+- [ ] SPD-03 small-score enabled cooperative control recovery/tracing, then
   runtime/context/device/concurrency/soak/refreshed provider acceptance.

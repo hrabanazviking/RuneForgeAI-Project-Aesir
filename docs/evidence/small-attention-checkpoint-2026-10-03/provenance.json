@@ -1,0 +1,601 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "f8e661825320fea7c1bae8295bbf580822977a21",
+  "accepted_source_revision": "988f27687269c3ae53bbf3347be2a7d38c8c37bd",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:55:31.007065+00:00",
+      "ended_utc": "2026-10-03T13:55:31.121771+00:00",
+      "wall_seconds": 0.11471337100374512,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:53:38.495243+00:00",
+      "ended_utc": "2026-10-03T13:55:10.385746+00:00",
+      "wall_seconds": 91.89051823000773,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:55:10.386134+00:00",
+      "ended_utc": "2026-10-03T13:55:31.006656+00:00",
+      "wall_seconds": 20.620537336013513,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-original"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:52:34.640734+00:00",
+      "ended_utc": "2026-10-03T13:53:08.528414+00:00",
+      "wall_seconds": 33.887692399002844,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:51:33.956045+00:00",
+      "ended_utc": "2026-10-03T13:52:03.924876+00:00",
+      "wall_seconds": 29.968827517004684,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:52:03.925349+00:00",
+      "ended_utc": "2026-10-03T13:52:34.640282+00:00",
+      "wall_seconds": 30.714948469016235,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-source-model"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:53:08.528873+00:00",
+      "ended_utc": "2026-10-03T13:53:38.494801+00:00",
+      "wall_seconds": 29.965927415993065,
+      "performance_scored": false
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "5"
+    ],
+    "exit": 0,
+    "started_utc": "2026-10-03T13:56:36.306254+00:00",
+    "ended_utc": "2026-10-03T13:56:46.898922+00:00",
+    "wall_seconds": 10.592693749989849,
+    "performance_scored": false,
+    "binary_sha256": "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd",
+    "csv_sha256": "d7096e931b3ef3a4a8dc3d446b9620e1368285e64436dd16460c8da8d4865d23"
+  },
+  "oracle": {
+    "exit": 0,
+    "wall_seconds": 36.87036020902451,
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "[AESIR_REPOSITORY]/scripts/check_turing_checkpoint_replay.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-final/complete.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--small-attention",
+      "--accepted-report",
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.json",
+      "--accepted-report-sha256",
+      "755d345d459d3f99b1ca8f37383fbff6e5e77643b96f197a338c61c756d3e1d0",
+      "--accepted-binary",
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75",
+      "--binary",
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75",
+      "--binary-sha256",
+      "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-final/complete.json"
+    ],
+    "started_utc": "2026-10-03T13:56:56.015380+00:00",
+    "ended_utc": "2026-10-03T13:57:32.885808+00:00",
+    "performance_scored": false
+  },
+  "pre_model_refused_strategy": {
+    "exit": 1,
+    "wall_seconds": 0.016037869994761422,
+    "started_utc": "2026-10-03T13:56:36.240930+00:00",
+    "ended_utc": "2026-10-03T13:56:36.257023+00:00",
+    "performance_scored": false
+  },
+  "pre_model_refused_capability": {
+    "exit": 1,
+    "wall_seconds": 0.016039253998314962,
+    "started_utc": "2026-10-03T13:56:36.257518+00:00",
+    "ended_utc": "2026-10-03T13:56:36.273602+00:00",
+    "performance_scored": false
+  },
+  "independent_worst": {
+    "native": {
+      "maximum_absolute_error": 0.00897216796875,
+      "rms_error": 0.0016683992107144583
+    },
+    "matrix": {
+      "maximum_absolute_error": 0.009345054626464844,
+      "rms_error": 0.0016755041788418096
+    },
+    "restored_native": {
+      "maximum_absolute_error": 0.00897216796875,
+      "rms_error": 0.0016683992107144583
+    },
+    "restored_matrix": {
+      "maximum_absolute_error": 0.009345054626464844,
+      "rms_error": 0.0016755041788418096
+    },
+    "matrix_vs_native": {
+      "maximum_absolute_error": 0.0040988922119140625,
+      "rms_error": 0.0010409134976921042
+    }
+  },
+  "preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_checkpoint_replay.mojo": "49d21b5e433e87bf909819863c14ef57193cc2363ed27f664c4d9a2b38403b44",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_replay_plan.mojo": "801b851f3accb1c41feb9ef86c27cd16d81c60876fa81e38a23919e34a8426d3",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "1471560021999c80f73039e58eb7e3380f1c5767eaa836bcb378ecf503f3897e",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_replay_plan.mojo": "3591b0af32345f23b030fa41f0e11ec0e6b98086c032944855c354bb3d9ae6cc",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "bf106a8ee266b2b3504ab4bf6b4887e2d66ade71629917314a639f301e064365",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_checkpoint_replay.py": "b6462626cc3bd3d7fe260e2a6ffe7a863e19d3120adb4f30e4177b8441089c68",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_checkpoint.py": "17e5e784b752a3b8c635930ecf8d2b66db9bf1737d3c5b697bb55558cdb0cdc5",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "1ee296bc223547d30fb9da22242c7e11fb35f11c72a64dbe5ba5e68f5ab10649",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75": "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.csv": "fc648f2d3589537188549bff143c32459944f2a7f20e564aa1131aaced349acb",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.json": "755d345d459d3f99b1ca8f37383fbff6e5e77643b96f197a338c61c756d3e1d0",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_89": "f3beb96dc321d972b56a3b41fe7140a357b9fb4522f16efa49bc86372b636294",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-original": "dbf609d44feb50ccb1f9c1011cd6ad618d74edf75c62edc1d3a902c970e97435",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-source-model": "0f20733c6941b88d0a5eaddb107fedf2c71e9187265a9a5e03bc7336a953b7b0"
+  },
+  "after_gpu": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_checkpoint_replay.mojo": "49d21b5e433e87bf909819863c14ef57193cc2363ed27f664c4d9a2b38403b44",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_replay_plan.mojo": "801b851f3accb1c41feb9ef86c27cd16d81c60876fa81e38a23919e34a8426d3",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "1471560021999c80f73039e58eb7e3380f1c5767eaa836bcb378ecf503f3897e",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_replay_plan.mojo": "3591b0af32345f23b030fa41f0e11ec0e6b98086c032944855c354bb3d9ae6cc",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "bf106a8ee266b2b3504ab4bf6b4887e2d66ade71629917314a639f301e064365",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_checkpoint_replay.py": "b6462626cc3bd3d7fe260e2a6ffe7a863e19d3120adb4f30e4177b8441089c68",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_checkpoint.py": "17e5e784b752a3b8c635930ecf8d2b66db9bf1737d3c5b697bb55558cdb0cdc5",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "1ee296bc223547d30fb9da22242c7e11fb35f11c72a64dbe5ba5e68f5ab10649",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75": "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.csv": "fc648f2d3589537188549bff143c32459944f2a7f20e564aa1131aaced349acb",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.json": "755d345d459d3f99b1ca8f37383fbff6e5e77643b96f197a338c61c756d3e1d0",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_89": "f3beb96dc321d972b56a3b41fe7140a357b9fb4522f16efa49bc86372b636294",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-original": "dbf609d44feb50ccb1f9c1011cd6ad618d74edf75c62edc1d3a902c970e97435",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-source-model": "0f20733c6941b88d0a5eaddb107fedf2c71e9187265a9a5e03bc7336a953b7b0"
+  },
+  "postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_checkpoint_replay.mojo": "49d21b5e433e87bf909819863c14ef57193cc2363ed27f664c4d9a2b38403b44",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_replay_plan.mojo": "801b851f3accb1c41feb9ef86c27cd16d81c60876fa81e38a23919e34a8426d3",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "1471560021999c80f73039e58eb7e3380f1c5767eaa836bcb378ecf503f3897e",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_replay_plan.mojo": "3591b0af32345f23b030fa41f0e11ec0e6b98086c032944855c354bb3d9ae6cc",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "bf106a8ee266b2b3504ab4bf6b4887e2d66ade71629917314a639f301e064365",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_checkpoint_replay.py": "b6462626cc3bd3d7fe260e2a6ffe7a863e19d3120adb4f30e4177b8441089c68",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_checkpoint.py": "17e5e784b752a3b8c635930ecf8d2b66db9bf1737d3c5b697bb55558cdb0cdc5",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "1ee296bc223547d30fb9da22242c7e11fb35f11c72a64dbe5ba5e68f5ab10649",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_75": "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.csv": "fc648f2d3589537188549bff143c32459944f2a7f20e564aa1131aaced349acb",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.json": "755d345d459d3f99b1ca8f37383fbff6e5e77643b96f197a338c61c756d3e1d0",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-sm_89": "f3beb96dc321d972b56a3b41fe7140a357b9fb4522f16efa49bc86372b636294",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-original": "dbf609d44feb50ccb1f9c1011cd6ad618d74edf75c62edc1d3a902c970e97435",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-checkpoint-source-model": "0f20733c6941b88d0a5eaddb107fedf2c71e9187265a9a5e03bc7336a953b7b0"
+  },
+  "review_note": "Initial synthetic fixture insertion matched suffixes and then emitted a blank record. Exact newline anchors corrected before physical; both failed logs and test snapshots retained. Seven builds precede serial GPU/CPU; no native changes during capture.",
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "small-attention-checkpoint-build-check.json",
+      "bytes": 266,
+      "sha256": "b1463b5ddcc1835ba38b30264bbe6fce17e915c330d64812a1e5487c40bf1b42"
+    },
+    {
+      "name": "small-attention-checkpoint-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "small-attention-checkpoint-build-master.json",
+      "bytes": 412,
+      "sha256": "c32367342d7c045eb7ad10ca447d845f34e57febc1987c81747d5fd33faaf4d5"
+    },
+    {
+      "name": "small-attention-checkpoint-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "small-attention-checkpoint-build-normal.json",
+      "bytes": 294,
+      "sha256": "00bbdd3c3ddf9607b758f52ae83c9c82f367e0a078a2077c10f239257c060d18"
+    },
+    {
+      "name": "small-attention-checkpoint-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "small-attention-checkpoint-build-original.json",
+      "bytes": 633,
+      "sha256": "05b4d754f39ee55824e57560d7337179246f20776d792f99156afaf3f8ef46fa"
+    },
+    {
+      "name": "small-attention-checkpoint-build-original.txt",
+      "bytes": 442,
+      "sha256": "d114cfee099abe3de038655973f967e4237b2cd6a0378628a2d1e4dfeae86f45"
+    },
+    {
+      "name": "small-attention-checkpoint-build-sm_75.json",
+      "bytes": 580,
+      "sha256": "666c6fe8a9e3d7a199dc4eaed19fa316180a8d1fefec0f9a2ec3a192e7683330"
+    },
+    {
+      "name": "small-attention-checkpoint-build-sm_75.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "small-attention-checkpoint-build-sm_89.json",
+      "bytes": 580,
+      "sha256": "26a68cfe040c8c17a1ecdc3d19096afd3fa3d2f6ede448649c42f68f7841e423"
+    },
+    {
+      "name": "small-attention-checkpoint-build-sm_89.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "small-attention-checkpoint-build-source-model.json",
+      "bytes": 584,
+      "sha256": "5779261a6e3475d806a73a0dd42926d2dfada0261b7c81041e86427d0be47c35"
+    },
+    {
+      "name": "small-attention-checkpoint-build-source-model.txt",
+      "bytes": 475,
+      "sha256": "3a9fbb39422554b6c9c4a02a5b457f7c64de566d14c7e9d11fdbd7c439641562"
+    },
+    {
+      "name": "small-attention-checkpoint-final/accepted-source.json",
+      "bytes": 85918,
+      "sha256": "60032e2c8838570d5652c805a770647d4abc4c8d0193f05a85fa3a7abde31864"
+    },
+    {
+      "name": "small-attention-checkpoint-final/after-gpu.json",
+      "bytes": 3957,
+      "sha256": "a65e8025cf4ee7a369e2ad760be48cfbe01ce0c00a8e583898722d0e7aa9bb95"
+    },
+    {
+      "name": "small-attention-checkpoint-final/complete.csv",
+      "bytes": 95727786,
+      "sha256": "d7096e931b3ef3a4a8dc3d446b9620e1368285e64436dd16460c8da8d4865d23"
+    },
+    {
+      "name": "small-attention-checkpoint-final/complete.json",
+      "bytes": 29566,
+      "sha256": "604fda2c496762de652b8dc9eadf939f653a84094ca503c530990facebf3ba4a"
+    },
+    {
+      "name": "small-attention-checkpoint-final/gpu-process.json",
+      "bytes": 630,
+      "sha256": "6c255f81693c3b291b7d3888ea0c3550c33123873e282cd9f64f772cc258aea4"
+    },
+    {
+      "name": "small-attention-checkpoint-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-attention-checkpoint-final/oracle-process.json",
+      "bytes": 1853,
+      "sha256": "7b0d75d41ff312703c9324b18a73acf05b8794a2876898412a1e3b175e67eec6"
+    },
+    {
+      "name": "small-attention-checkpoint-final/oracle.txt",
+      "bytes": 153,
+      "sha256": "dd07231467d946cd3a4b003c8af433c317a67a0e6e8b2b845cccdabec07624f2"
+    },
+    {
+      "name": "small-attention-checkpoint-final/postflight.json",
+      "bytes": 3957,
+      "sha256": "a65e8025cf4ee7a369e2ad760be48cfbe01ce0c00a8e583898722d0e7aa9bb95"
+    },
+    {
+      "name": "small-attention-checkpoint-final/preflight.json",
+      "bytes": 3957,
+      "sha256": "a65e8025cf4ee7a369e2ad760be48cfbe01ce0c00a8e583898722d0e7aa9bb95"
+    },
+    {
+      "name": "small-attention-checkpoint-final/rejected-capability-process.json",
+      "bytes": 191,
+      "sha256": "c6e449980e171e6af42a7a31cc3833fa1f13e4436252233090b8ddbba8d96833"
+    },
+    {
+      "name": "small-attention-checkpoint-final/rejected-capability.txt",
+      "bytes": 227,
+      "sha256": "c3fe301afac281ba9268b2bf96a2a05eab9a824c6b320b38bcc38ca559d25cbd"
+    },
+    {
+      "name": "small-attention-checkpoint-final/rejected-strategy-process.json",
+      "bytes": 191,
+      "sha256": "ba925d2a6e866c57e6008e189566edaba19c3eee0fb1aced2d5bc38f7f032e90"
+    },
+    {
+      "name": "small-attention-checkpoint-final/rejected-strategy.txt",
+      "bytes": 218,
+      "sha256": "5c8f2494b9d3fd6ac9627e4418bc18607d5c7347eac0ff29e52bd0b76c0046de"
+    },
+    {
+      "name": "small-attention-checkpoint-final-portable.txt",
+      "bytes": 3932,
+      "sha256": "cfb4ccc05452b88a94a480aba56dd2b981b88e787a6865a9eb52d5a85e5388f5"
+    },
+    {
+      "name": "small-attention-checkpoint-initial-check_turing_checkpoint_replay.py",
+      "bytes": 25778,
+      "sha256": "867f8b4ce9ba7a3ab1ee8a8b210591b37ea991e0812822b5f3c310e02f3178a8"
+    },
+    {
+      "name": "small-attention-checkpoint-initial-portable.txt",
+      "bytes": 10281,
+      "sha256": "910403d76fb87b9c7d723ca5f6b622cf7e0a4ab792c3b9968729d2a541cab14d"
+    },
+    {
+      "name": "small-attention-checkpoint-initial-test_check_small_attention_checkpoint.py",
+      "bytes": 15149,
+      "sha256": "3d7f778ab271c2aec37c47f406894f40bd1989a94fbe3cfd319ba47defda79e0"
+    },
+    {
+      "name": "small-attention-checkpoint-original",
+      "bytes": 6015584,
+      "sha256": "dbf609d44feb50ccb1f9c1011cd6ad618d74edf75c62edc1d3a902c970e97435"
+    },
+    {
+      "name": "small-attention-checkpoint-original-checker.py",
+      "bytes": 22694,
+      "sha256": "793b02fc5c6780a282f5220691ca4a203c649fd18c5728bccc0f625cea3fe9b8"
+    },
+    {
+      "name": "small-attention-checkpoint-original-test_turing_checkpoint_replay.mojo",
+      "bytes": 10615,
+      "sha256": "9ea666cb3b18269ee48ca8cf3f11725ff931ab4b650995c0638e3eb0efbc829a"
+    },
+    {
+      "name": "small-attention-checkpoint-original-test_turing_replay_plan.mojo",
+      "bytes": 6302,
+      "sha256": "e0ba78d494fa3898ed2530579935cb222af168fd515315992b8e5e5ca8631477"
+    },
+    {
+      "name": "small-attention-checkpoint-original-turing_checkpoint_replay.mojo",
+      "bytes": 3693,
+      "sha256": "27d51077edd7a6ffe5d0fa735e4876ab7fa15b0ea4821643fe1c9affa88064b4"
+    },
+    {
+      "name": "small-attention-checkpoint-original-turing_prefill_fixture.mojo",
+      "bytes": 27772,
+      "sha256": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00"
+    },
+    {
+      "name": "small-attention-checkpoint-original-turing_replay_plan.mojo",
+      "bytes": 4564,
+      "sha256": "454d82d33f519df5ec63a3b54c886d14694a48e4095d59607b929b40dfbd9121"
+    },
+    {
+      "name": "small-attention-checkpoint-original.mojo",
+      "bytes": 10615,
+      "sha256": "9ea666cb3b18269ee48ca8cf3f11725ff931ab4b650995c0638e3eb0efbc829a"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_fused_attention_checkpoint.txt",
+      "bytes": 3342,
+      "sha256": "f6b5426fe5f2abde6ae4f0fb8a14cf4e3a62d2097c1b71abd601d440986c8f78"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_fused_attention_controls_model.txt",
+      "bytes": 753,
+      "sha256": "509833c0ae538939201b74c17ccf4597c891fb91939b952438222a7adde5223b"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_fused_attention_decode.txt",
+      "bytes": 5820,
+      "sha256": "7ea0706e4e67d1a3fe7ee81249b04cdc718b3e9b840a203ab58b7ee01688de38"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_small_attention_decode.txt",
+      "bytes": 5827,
+      "sha256": "0dbbffa2c2b291a3423e148fc408fd45cb26b936159b4623ec81a7b022f69c15"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_small_attention_model.txt",
+      "bytes": 2047,
+      "sha256": "50063f876c61b08f3de2f77d8fc4eb9421ab79ddfe1189e5f90dcbbdea7d0d78"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_turing_checkpoint_replay.txt",
+      "bytes": 183,
+      "sha256": "0a4aacd4def242a6bae64160ecf85a1719d4d837e468f5254f187bd0314b5c80"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_turing_down_checkpoint.txt",
+      "bytes": 629,
+      "sha256": "97a39b632721c54f552a5631d104607e5ded0c2838b4d42a8228e736cf66f18e"
+    },
+    {
+      "name": "small-attention-checkpoint-portable-test_check_turing_fixture_controls.txt",
+      "bytes": 287,
+      "sha256": "fc9d218b2bf1ce237108e8360e7edb8ad689793f527e9809d7beb10dea9b47d6"
+    },
+    {
+      "name": "small-attention-checkpoint-second-portable.txt",
+      "bytes": 9379,
+      "sha256": "8d8919a5c16be66697bc09d8ea54fd4e31058d8d920cb9e722b84c6f80ad0383"
+    },
+    {
+      "name": "small-attention-checkpoint-second-tests.py",
+      "bytes": 15153,
+      "sha256": "0928e7bf3dcfdddb161f44ee5f78ef0151459cd273e472793b23bf2102dff35c"
+    },
+    {
+      "name": "small-attention-checkpoint-sm_75",
+      "bytes": 6019888,
+      "sha256": "c98b9fc1a57aad899b57c94147372a1b7f8a17e665f3114c6e776da10e1f9abd"
+    },
+    {
+      "name": "small-attention-checkpoint-sm_89",
+      "bytes": 6019888,
+      "sha256": "f3beb96dc321d972b56a3b41fe7140a357b9fb4522f16efa49bc86372b636294"
+    },
+    {
+      "name": "small-attention-checkpoint-source-model",
+      "bytes": 6003016,
+      "sha256": "0f20733c6941b88d0a5eaddb107fedf2c71e9187265a9a5e03bc7336a953b7b0"
+    },
+    {
+      "name": "small-attention-checkpoint-third-portable.txt",
+      "bytes": 3932,
+      "sha256": "0005246b868b98b3139359a501684f8b397ebb9c40d52f098ef39761c85ef981"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/test_turing_checkpoint_replay.mojo": "49d21b5e433e87bf909819863c14ef57193cc2363ed27f664c4d9a2b38403b44",
+    "aesir_engine/tests/turing_replay_plan.mojo": "801b851f3accb1c41feb9ef86c27cd16d81c60876fa81e38a23919e34a8426d3",
+    "aesir_engine/tests/turing_checkpoint_replay.mojo": "1471560021999c80f73039e58eb7e3380f1c5767eaa836bcb378ecf503f3897e",
+    "aesir_engine/tests/test_turing_replay_plan.mojo": "3591b0af32345f23b030fa41f0e11ec0e6b98086c032944855c354bb3d9ae6cc",
+    "scripts/check_turing_checkpoint_replay.py": "b6462626cc3bd3d7fe260e2a6ffe7a863e19d3120adb4f30e4177b8441089c68",
+    "scripts/test_check_small_attention_checkpoint.py": "17e5e784b752a3b8c635930ecf8d2b66db9bf1737d3c5b697bb55558cdb0cdc5",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "bf106a8ee266b2b3504ab4bf6b4887e2d66ade71629917314a639f301e064365",
+    "aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    ".github/workflows/ci.yml": "1ee296bc223547d30fb9da22242c7e11fb35f11c72a64dbe5ba5e68f5ab10649"
+  },
+  "limits": "Same-process owning-context mode0 reset/replay only, strict3B/context1536/F16KV, public37 plus eight scalar IDs and four continuation frames/policy. Native-forced original boundaries and seeds. No persisted format/crash recovery/context recreation/production32/concurrency/provider score."
+}

@@ -134,6 +134,33 @@ def test_turing_replay_plan() raises:
         except: refused = True
         if not refused: raise Error("Fused capability admitted native or legacy plan")
 
+    var small = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,5,True,True)
+    small.admit(1,100,200,300,64,5,True,True)
+    for mismatch in range(6):
+        refused = False
+        try:
+            small.admit(1,100,200,300,64,4 if mismatch == 0 else 5,False if mismatch == 1 else True,False if mismatch == 2 else True)
+            if mismatch == 3:
+                small.small_capable = False
+                small.admit(1,100,200,300,64,5,True,True)
+            elif mismatch == 4:
+                small.checksum += 1
+                small.admit(1,100,200,300,64,5,True,True)
+            elif mismatch == 5:
+                small.cache += 1
+                small.admit(1,100,200,300,64,5,True,True)
+        except: refused = True
+        if mismatch == 3: small.small_capable = True
+        if mismatch == 4: small.checksum -= 1
+        if mismatch == 5: small.cache -= 1
+        if not refused: raise Error("Small replay capability/strategy/seal/cache drift admitted")
+    for variant in range(5):
+        refused = False
+        try: _ = FixtureReplayPlan(0 if variant == 0 else 1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,4 if variant == 1 else 5,False if variant == 2 else True,False if variant == 3 else True)
+        except: refused = True
+        if variant < 4 and not refused: raise Error("Small replay missing capability/native/legacy combination admitted")
+        if variant == 4 and refused: raise Error("Explicit small replay combination refused")
+
 
 def main() raises:
     test_turing_replay_plan()

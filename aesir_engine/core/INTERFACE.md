@@ -1297,3 +1297,18 @@ one skip/all seven builds pass before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_DECODE.md. No speed score or normal selection.
 Next sealed owning-context replay5, then separate controls/tracing and broader
 runtime/context/device/concurrency/soak/provider gates.
+
+## Explicit small-score sealed owning-context replay
+
+Final small_replay=False fixture and small_capable=False plan flags require admitted
+small5 plus original fused, explicit mode1/strategy5. Old seals/defaults remain.
+Plan/live capabilities and full owner/seal/geometry/sampler/health/flags admission
+precede reset/configuration/enqueue. Physical45-ID checkpoints/eight continuation
+frames/all four full vectors/exact UInt32 bits/source choices/state/fixed CPU/
+4352 guards/40 allocation-health-state-counter-preserving refusals pass. Actual
+down28/small56/fused0/original252→364 bind reset/dispatch. Explicit exclusive source5
+report SHA/actual accepted generation binary/current binary and all after-fences;
+typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one skip/
+seven builds before serial GPU/CPU. Read project-root
+docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
+selection/persisted/crash/context recreation claim. Next separate controls/tracing.

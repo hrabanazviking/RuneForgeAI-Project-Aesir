@@ -13,9 +13,10 @@ def owner(f: TuringPrefillFixture,mode: Int) raises -> List[Int]:
 
 
 def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
-    if f.small_attention: raise Error("Small attention sealed replay requires separate acceptance")
+    if f.small_attention and not f.small_replay: raise Error("Small attention sealed replay requires separate acceptance")
+    f.admit_execution_strategy()
     var identity = owner(f,plan.mode)
-    plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3],identity[4],f.fused_attention and plan.mode == 1)
+    plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3],identity[4],f.fused_attention and plan.mode == 1,f.small_replay and f.small_attention and plan.mode == 1)
     f.admit_execution_strategy()
     if f.fused_controls or f.fused_tracing: raise Error("Control/trace-capable fused replay requires separate acceptance")
     if f.activation_precision != 0: raise Error("Checkpoint replay admits original precision0 only")
@@ -51,7 +52,7 @@ def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
         if plan.mode == 0: f.native.sampler.draws = plan.draws
         else: f.sampler.draws = plan.draws
         var after = owner(f,plan.mode)
-        plan.admit(plan.mode,after[0],after[1],after[2],after[3],after[4],f.fused_attention and plan.mode == 1)
+        plan.admit(plan.mode,after[0],after[1],after[2],after[3],after[4],f.fused_attention and plan.mode == 1,f.small_replay and f.small_attention and plan.mode == 1)
     except:
         if plan.mode == 0: f.native.healthy = False
         else: f.healthy = False

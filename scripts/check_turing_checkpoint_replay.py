@@ -29,10 +29,10 @@ def unique(pairs):
     return result
 
 
-def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, binary=None):
-    if allow_down and allow_fused: raise ValueError("Checkpoint source strategies are exclusive")
-    binary_sha = digest(binary) if allow_fused and binary is not None else None
-    if allow_fused and binary_sha is None: raise ValueError("Fused checkpoint requires actual accepted decode binary")
+def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, allow_small=False, binary=None):
+    if sum((allow_down,allow_fused,allow_small))>1: raise ValueError("Checkpoint source strategies are exclusive")
+    binary_sha = digest(binary) if (allow_fused or allow_small) and binary is not None else None
+    if (allow_fused or allow_small) and binary_sha is None: raise ValueError("Fused checkpoint requires actual accepted decode binary")
     text = read_text(path, 1024**2)
     if hashlib.sha256(text.encode()).hexdigest() != identity: raise ValueError("Accepted decode report identity changed")
     value = json.loads(text, object_pairs_hook=unique, parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite accepted report")))
@@ -43,11 +43,11 @@ def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, 
     if value["numerical_budget"] != dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True):
         raise ValueError("Accepted source changed numerical budgets")
     if len(value["cases"]) != 4 or not re.fullmatch(r"[0-9a-f]{64}", value["csv_sha256"]): raise ValueError("Incomplete accepted source identity")
-    if allow_down or allow_fused:
-        variant = 4 if allow_fused else 3
+    if allow_down or allow_fused or allow_small:
+        variant = 5 if allow_small else 4 if allow_fused else 3
         from check_turing_down_source import fixed_comparison
         cpu = value.get("independent_reference", {})
-        proof = value.get("accepted_fused_model" if allow_fused else "accepted_down_model", {})
+        proof = value.get("accepted_small_model" if allow_small else "accepted_fused_model" if allow_fused else "accepted_down_model", {})
         if (type(value.get("schema")) is not int or type(value.get("activation_precision")) is not int or
             type(value.get("attention_variant")) is not int or value["attention_variant"] != variant or value.get("model_source_passed") is not True or
             proof.get("passed") is not True or proof.get("attention_variant") != variant or proof.get("model_sha256") != model_sha or
@@ -57,18 +57,34 @@ def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, 
             cpu.get("weight_mode") != "dequantized_f32" or cpu.get("numpy") != "2.4.4" or cpu.get("llama_cpp_python") != "0.3.23" or
             not re.fullmatch(r"[0-9a-f]{64}", cpu.get("library_sha256", "")) or value.get("guards") != 4352):
             raise ValueError("Checkpoint requires exact explicit source/model and zero-GPU F32 identity")
-        if allow_fused and (type(proof.get("attention_variant")) is not int or proof.get("control_capable") is not False or
+        if (allow_fused or allow_small) and (type(proof.get("attention_variant")) is not int or proof.get("control_capable") is not False or
             value.get("binary_sha256") != binary_sha or not re.fullmatch(r"[0-9a-f]{64}", proof.get("binary_sha256", ""))):
             raise ValueError("Fused accepted decode/model binary identity mismatch")
-    elif value.get("attention_variant") in (3, 4):
-        raise ValueError("Strategy3/4 checkpoint source requires explicit opt-in")
+    elif value.get("attention_variant") in (3, 4, 5):
+        raise ValueError("Strategy3/4/5 checkpoint source requires explicit opt-in")
+    if allow_small:
+        if value["numerical_budget"].get("same_full_vocabulary_argmax") is not True or any(type(cpu.get(k)) is not int for k in ("context","batch","threads")):
+            raise ValueError("Noncanonical small source CPU scope/budget")
+        if any(type(value.get(k)) is not int for k in ("schema","activation_precision","attention_variant","evaluated_frames","full_model_values_per_mode","guards")) or proof.get("source4_binary_sha256") is None or not re.fullmatch(r"[0-9a-f]{64}",proof["source4_binary_sha256"]):
+            raise ValueError("Small checkpoint requires canonical totals and source4 binary identity")
     for index, case in enumerate(value["cases"]):
         frames = 16 if index % 2 else 32
+        if allow_small:
+            if any(type(case.get(k)) is not int for k in ("index","policy","cap","evaluated_frames")):
+                raise ValueError("Noncanonical small source case counters")
+            for item in case["frames"]+case["replay"]:
+                fields=("native_choice","matrix_choice","position","history","draws")
+                if any(type(item.get(k)) is not int for k in fields) or any(not 0<=item[k]<VOCABULARY for k in ("native_choice","matrix_choice")):
+                    raise ValueError("Noncanonical small source causal IDs/state")
+            if any(f["native_choice"]!=f["matrix_choice"] or (not index%2 and (f["native_choice"]!=f["native_comparison"]["reference_argmax"] or f["matrix_choice"]!=f["native_comparison"]["native_argmax"])) for f in case["frames"]):
+                raise ValueError("Small source choices disagree with actual samples/greedy argmax")
+            if any(type(item.get(k)) is not int for item in case["replay"] for k in ("native_replay_bit_mismatches","matrix_replay_bit_mismatches")):
+                raise ValueError("Noncanonical small source replay bit counters")
         if case["index"] != index or case["policy"] != index % 2 or case["cap"] != frames or len(case["frames"]) != frames or len(case["replay"]) != frames or case["finish_reason"] != "length": raise ValueError("Accepted source policy/frame mismatch")
         for f in case["frames"]:
             if not f["sample_equal"] or not f["greedy_argmax_passed"] or not f["native_comparison"]["passed"] or not all(v["passed"] for v in f["independent"].values()): raise ValueError("Failed source frame")
         if not all(f["passed"] for f in case["replay"]): raise ValueError("Failed source replay")
-        if allow_down or allow_fused:
+        if allow_down or allow_fused or allow_small:
             ids = case["input_ids"]
             if any(type(token) is not int or not 0 <= token < VOCABULARY for token in ids):
                 raise ValueError("Checkpoint source input IDs invalid")
@@ -82,10 +98,13 @@ def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, 
                 any(not fixed_comparison(f["native_comparison"]) or set(f["independent"]) != {"native", "matrix"} or
                     any(not fixed_comparison(c) for c in f["independent"].values()) for f in case["frames"])):
                 raise ValueError("Checkpoint source numerical/counter coverage mismatch")
-            if allow_fused:
+            if allow_fused or allow_small:
                 fused, original = fused_attention_calls(count)
                 required = dict(fused_attention_host_enqueues=fused, original_attention_queries=original,
                     replay_fused_attention_host_enqueues=fused, replay_original_attention_queries=original+(frames-1)*28)
+                if allow_small:
+                    required.update(small_attention_host_enqueues=fused,replay_small_attention_host_enqueues=fused,
+                        fused_attention_host_enqueues=0,replay_fused_attention_host_enqueues=0)
                 if any(type(case.get(k)) is not int or case[k] != v for k,v in required.items()):
                     raise ValueError("Fused accepted source attention counter mismatch")
             for step, (frame, replay) in enumerate(zip(case["frames"], case["replay"], strict=True)):
@@ -97,10 +116,10 @@ def accepted(path, identity, model_sha, *, allow_down=False, allow_fused=False, 
                     any(replay.get(k) != 0 for k in ("native_replay_bit_mismatches", "matrix_replay_bit_mismatches"))):
                     raise ValueError("Checkpoint source causal/sample/replay state mismatch")
 
-    if allow_fused and digest(binary) != binary_sha: raise ValueError("Accepted decode binary changed during admission")
+    if (allow_fused or allow_small) and digest(binary) != binary_sha: raise ValueError("Accepted decode binary changed during admission")
     return dict(sha256=identity, csv_sha256=value["csv_sha256"], cases=value["cases"][:2],
-        **({"attention_variant": 4 if allow_fused else 3} if allow_down or allow_fused else {}),
-        **({"binary_sha256": binary_sha} if allow_fused else {}))
+        **({"attention_variant": 5 if allow_small else 4 if allow_fused else 3} if allow_down or allow_fused or allow_small else {}),
+        **({"binary_sha256": binary_sha} if allow_fused or allow_small else {}))
 
 
 def counts(mode):
@@ -155,8 +174,9 @@ def case(records, report, index, source, oracle):
             records.expect(["TILE", str(index), str(mode), str(ordinal), str(offset), str(count)])
             offset += count
         if offset != CHECKPOINT: raise ValueError("Checkpoint plan total changed")
-    fused = report.get("attention_variant") == 4
-    down = report.get("attention_variant") in (3, 4)
+    fused = report.get("attention_variant") in (4,5)
+    small = report.get("attention_variant") == 5
+    down = report.get("attention_variant") in (3,4,5)
     calls = ((PREFIX-1)//32)*28
     if down:
         records.expect(["DOWN_ROWS128", str(index), str(calls)])
@@ -164,12 +184,15 @@ def case(records, report, index, source, oracle):
     if fused:
         fused_calls, original = fused_attention_calls(PREFIX)
         original += (CHECKPOINT-PREFIX)*28
-        records.expect(["FUSED_ATTENTION", str(index), str(fused_calls), str(original)])
-        result.update(fused_attention_host_enqueues=fused_calls, original_attention_queries=original)
+        if small:
+            records.expect(["SMALL_ATTENTION",str(index),str(fused_calls),str(original)])
+            result["small_attention_host_enqueues"]=fused_calls
+        records.expect(["FUSED_ATTENTION", str(index), "0" if small else str(fused_calls), str(original)])
+        result.update(fused_attention_host_enqueues=0 if small else fused_calls, original_attention_queries=original)
     cp = state(records.next(), "CHECKPOINT", index, 8, CHECKPOINT)
     result["checkpoint"] = cp
     result["checkpoint_choices_match_source"] = all(cp[k] == source["frames"][8][k] for k in ("native_choice", "matrix_choice"))
-    records.expect(["REFUSAL", str(index), "14" if fused else "9" if down else "6", str(CHECKPOINT), str(CHECKPOINT), "1"])
+    records.expect(["REFUSAL", str(index), "20" if small else "14" if fused else "9" if down else "6", str(CHECKPOINT), str(CHECKPOINT), "1"])
     for step in range(4): result["baseline"].append(state(records.next(), "BASE", index, step, CHECKPOINT + 1 + step))
     records.expect(["GUARD", str(index), "0", "1088", "0"])
     draws = "9" if index else "0"
@@ -178,8 +201,11 @@ def case(records, report, index, source, oracle):
         records.expect(["RESTORED_DOWN_ROWS128", str(index), str(calls)])
         result["restored_down128_host_enqueues"] = calls
     if fused:
-        records.expect(["RESTORED_FUSED_ATTENTION", str(index), str(fused_calls), str(original)])
-        result.update(restored_fused_attention_host_enqueues=fused_calls, restored_original_attention_queries=original)
+        if small:
+            records.expect(["RESTORED_SMALL_ATTENTION",str(index),str(fused_calls),str(original)])
+            result["restored_small_attention_host_enqueues"]=fused_calls
+        records.expect(["RESTORED_FUSED_ATTENTION", str(index), "0" if small else str(fused_calls), str(original)])
+        result.update(restored_fused_attention_host_enqueues=0 if small else fused_calls, restored_original_attention_queries=original)
     if oracle is not None: oracle.begin(ids); oracle.advance(cp["native_choice"])
     for step, baseline in enumerate(result["baseline"]):
         again = state(records.next(), "REPLAY", index, step, CHECKPOINT + 1 + step)
@@ -201,8 +227,11 @@ def case(records, report, index, source, oracle):
         del nv, mv, nr, mr
         if oracle is not None and step < 3: oracle.advance(baseline["native_choice"])
     if fused:
-        records.expect(["REPLAY_FUSED_ATTENTION", str(index), str(fused_calls), str(original+4*28)])
-        result.update(replay_fused_attention_host_enqueues=fused_calls, replay_original_attention_queries=original+4*28)
+        if small:
+            records.expect(["REPLAY_SMALL_ATTENTION",str(index),str(fused_calls),str(original+4*28)])
+            result["replay_small_attention_host_enqueues"]=fused_calls
+        records.expect(["REPLAY_FUSED_ATTENTION", str(index), "0" if small else str(fused_calls), str(original+4*28)])
+        result.update(replay_fused_attention_host_enqueues=0 if small else fused_calls, replay_original_attention_queries=original+4*28)
     records.expect(["GUARD", str(index), "1", "1088", "0"])
 
 
@@ -212,25 +241,27 @@ def initial_report():
                 limits="Same-process owning-context mode0 reset/replay only, strict3B/context1536/F16KV, public37 plus eight scalar IDs and four continuation frames/policy. Native-forced original boundaries and seeds. No persisted format/crash recovery/context recreation/production32/concurrency/provider score.")
 
 
-def parse(path, source, oracle=None, report=None, *, allow_down=False, allow_fused=False):
-    if allow_down and allow_fused: raise ValueError("Checkpoint strategies are exclusive")
+def parse(path, source, oracle=None, report=None, *, allow_down=False, allow_fused=False, allow_small=False):
+    if sum((allow_down,allow_fused,allow_small))>1: raise ValueError("Checkpoint strategies are exclusive")
     report = initial_report() if report is None else report
     records = Records(path, MAX_BYTES)
     try:
         cuda = records.next()
         if len(cuda) != 1 or not cuda[0].startswith("[CUDA] native Mojo ") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]: raise ValueError("Missing actual native CUDA identity")
         report["native_banner"] = cuda[0]
-        row = records.next(); report["attention_variant"] = attention_variant(row, allow_down=allow_down, allow_fused=allow_fused)
+        row = records.next(); report["attention_variant"] = attention_variant(row, allow_down=allow_down, allow_fused=allow_fused,allow_small=allow_small)
         if allow_down and (report["attention_variant"] != 3 or source.get("attention_variant") != 3):
             raise ValueError("Down checkpoint strategy differs from accepted source")
         if allow_fused and (report["attention_variant"] != 4 or source.get("attention_variant") != 4):
             raise ValueError("Fused checkpoint strategy differs from accepted source")
+        if allow_small and (report["attention_variant"]!=5 or source.get("attention_variant")!=5):
+            raise ValueError("Small checkpoint strategy differs from accepted source")
         if report["attention_variant"] is not None: row = records.next()
         if row != ["META", "1", "turing_checkpoint", "1536", str(VOCABULARY), "2", "4"]: raise ValueError("Wrong checkpoint metadata")
         policy_rows(records)
         for index in range(2): case(records, report, index, source["cases"][index], oracle)
-        records.expect(["COMPLETE", "turing_checkpoint", "2", "8", str(8 * VOCABULARY), "4352", "28" if allow_fused else "18" if allow_down else "12"])
-        report.update(csv_sha256=records.finish(), csv_bytes=records.bytes, collection_complete=True, accepted_source=dict(sha256=source["sha256"], csv_sha256=source["csv_sha256"], **({"binary_sha256": source["binary_sha256"]} if allow_fused else {})), full_model_values_per_mode=8 * VOCABULARY, guards=4352, invalid_plan_refusals=28 if allow_fused else 18 if allow_down else 12)
+        records.expect(["COMPLETE", "turing_checkpoint", "2", "8", str(8 * VOCABULARY), "4352", "40" if allow_small else "28" if allow_fused else "18" if allow_down else "12"])
+        report.update(csv_sha256=records.finish(), csv_bytes=records.bytes, collection_complete=True, accepted_source=dict(sha256=source["sha256"], csv_sha256=source["csv_sha256"], **({"binary_sha256": source["binary_sha256"]} if allow_fused or allow_small else {})), full_model_values_per_mode=8 * VOCABULARY, guards=4352, invalid_plan_refusals=40 if allow_small else 28 if allow_fused else 18 if allow_down else 12)
         score(report)
         return report
     finally: records.close()
@@ -254,11 +285,12 @@ def main():
     for name in ("model-sha256", "reference-sha256", "accepted-report-sha256"): options.add_argument("--" + name, required=True)
     options.add_argument("--down128", action="store_true", help="Explicit accepted strategy3 owning-context replay")
     options.add_argument("--fused-attention", action="store_true", help="Explicit source-bound strategy4 replay")
+    options.add_argument("--small-attention",action="store_true",help="Explicit source-bound strategy5 sealed replay")
     for name in ("accepted-binary", "binary"): options.add_argument("--"+name, type=Path)
     options.add_argument("--binary-sha256")
     args = options.parse_args()
-    if args.down128 and args.fused_attention: options.error("Down/fused strategies are exclusive")
-    if args.fused_attention and (args.accepted_binary is None or args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}", args.binary_sha256)):
+    if sum((args.down128,args.fused_attention,args.small_attention))>1: options.error("Checkpoint strategies are exclusive")
+    if (args.fused_attention or args.small_attention) and (args.accepted_binary is None or args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}", args.binary_sha256)):
         options.error("Fused checkpoint requires actual accepted/current binaries and current SHA256")
     if any(not re.fullmatch(r"[0-9a-f]{64}", v) for v in (args.model_sha256, args.reference_sha256, args.accepted_report_sha256)): options.error("Explicit lowercase SHA-256 identities required")
     with args.output.open("x", encoding="utf-8") as output:
@@ -267,22 +299,22 @@ def main():
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256: raise ValueError("Original/derived reference checksum mismatch")
             derived = provenance(args.reference_provenance, args.model_sha256, args.reference_sha256)
             if args.reference_model.stat().st_size != derived["derived_bytes"]: raise ValueError("Derived reference size mismatch")
-            if args.fused_attention:
+            if args.fused_attention or args.small_attention:
                 if digest(args.binary) != args.binary_sha256: raise ValueError("Current fused checkpoint binary checksum mismatch")
                 report["binary_sha256"] = args.binary_sha256
-            source = accepted(args.accepted_report, args.accepted_report_sha256, args.model_sha256, allow_down=args.down128, allow_fused=args.fused_attention, binary=args.accepted_binary)
+            source = accepted(args.accepted_report, args.accepted_report_sha256, args.model_sha256, allow_down=args.down128, allow_fused=args.fused_attention, allow_small=args.small_attention, binary=args.accepted_binary)
             report.update(model_sha256=args.model_sha256, reference_derivation=derived)
             oracle = CPUReference(args.reference_model); report["independent_reference"] = oracle.identity
-            parse(args.csv, source, oracle, report, allow_down=args.down128, allow_fused=args.fused_attention)
+            parse(args.csv, source, oracle, report, allow_down=args.down128, allow_fused=args.fused_attention,allow_small=args.small_attention)
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256: raise ValueError("Original/derived model changed during oracle")
             if args.down128 and (digest(args.csv) != report["csv_sha256"] or digest(args.reference_provenance) != derived["snapshot_sha256"]):
                 raise ValueError("Down checkpoint capture/derivation changed during oracle")
-            if args.fused_attention and any(digest(p) != h for p,h in ((args.csv, report["csv_sha256"]),
+            if (args.fused_attention or args.small_attention) and any(digest(p) != h for p,h in ((args.csv, report["csv_sha256"]),
                 (args.reference_provenance, derived["snapshot_sha256"]), (args.binary, args.binary_sha256),
                 (args.accepted_binary, source["binary_sha256"]))):
                 raise ValueError("Fused checkpoint capture/derivation/binaries changed during oracle")
             accepted(args.accepted_report, args.accepted_report_sha256, args.model_sha256, allow_down=args.down128,
-                allow_fused=args.fused_attention, binary=args.accepted_binary)
+                allow_fused=args.fused_attention, allow_small=args.small_attention, binary=args.accepted_binary)
         except (Exception, KeyboardInterrupt) as error: report.update(passed=False, error=f"{type(error).__name__}: {error}")
         finally:
             if oracle is not None:

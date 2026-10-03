@@ -104,3 +104,10 @@ devices/concurrency/soak or provider/Ollama speed. The normal authenticated serv
 stays ready with prefill4/cpu_offload0. Next earn owning-context sealed replay5,
 then separate control/trace and broader runtime/provider acceptance.
 [Complete evidence](evidence/small-attention-decode-2026-10-03/README.md).
+
+### Subsequent sealed replay gate
+
+[Explicit owning-context replay5](NATIVE_SMALL_ATTENTION_CHECKPOINT.md) now passes
+full vectors/actual bits/source samples/state/CPU/guards and40 mutation-free
+refusals. Default small_replay=False stays closed; explicit plan/live/source gates
+required. Next separate cooperative controls/tracing and broader acceptance.

@@ -2132,3 +2132,19 @@ runtime/context/device/concurrency/soak/refreshed provider acceptance.
 
 [Evidence](docs/evidence/small-attention-decode-2026-10-03/README.md).
 Refines AES-ACC-008/010; no general capability or provider speed promotion.
+
+### Small-score sealed replay refinement — 2026-10-03
+
+Small-score5 sealed owning-context replay passes both45-ID checkpoints/eight
+continuation frames/1026048 values per baseline/restored owner/actual UInt32 bits/
+source samples/state/fixed CPU/4352 guards/40 mutation-free refusals. Default-false
+plan/live capabilities preserve original seals, bind pre-reset allocation/geometry/
+sampler/flags/health. Down28/small56/fused0/original252→364 bind exact boundaries.
+Ten hostile contracts/master190/one skip/seven builds precede serial GPU/CPU;
+explicit source5 report SHA/actual accepted/current binaries and complete after-fences.
+[Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md). No speed score or persisted/
+crash/context recreation/normal selection claim. Next separate cooperative controls/
+tracing and broader runtime/context/device/concurrency/soak/refreshed provider gates.
+
+[Evidence](docs/evidence/small-attention-checkpoint-2026-10-03/README.md).
+Refines AES-ACC-008/010; no general new capability/provider speed promotion.

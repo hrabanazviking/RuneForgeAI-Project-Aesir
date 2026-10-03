@@ -475,6 +475,18 @@ source CPU/cache/ID/count/typed-integer admission bind all after-fences.
 Next earn sealed owning-context replay5, then separate controls/tracing and broader
 runtime/context/device/concurrency/soak/refreshed provider acceptance.
 
+
+Small-score5 sealed owning-context replay passes both45-ID checkpoints/eight
+continuation frames/1026048 values per baseline/restored owner/actual UInt32 bits/
+source samples/state/fixed CPU/4352 guards/40 mutation-free refusals. Default-false
+plan/live capabilities preserve original seals, bind pre-reset allocation/geometry/
+sampler/flags/health. Down28/small56/fused0/original252→364 bind exact boundaries.
+Ten hostile contracts/master190/one skip/seven builds precede serial GPU/CPU;
+explicit source5 report SHA/actual accepted/current binaries and complete after-fences.
+[Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md). No speed score or persisted/
+crash/context recreation/normal selection claim. Next separate cooperative controls/
+tracing and broader runtime/context/device/concurrency/soak/refreshed provider gates.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

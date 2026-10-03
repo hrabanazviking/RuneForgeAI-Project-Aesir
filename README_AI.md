@@ -1,3 +1,7 @@
+For optional5 sealed owning-context replay, read
+docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Explicit plan/live/source/binary gates
+pass complete vectors/bits/state/CPU/guards. No speed score. Next controls/tracing.
+
 For optional5 causal generation and source admission, read
 docs/NATIVE_SMALL_ATTENTION_DECODE.md. Full greedy/seeded frames/own bits/state/
 CPU/source/current binary gates pass. No speed score. Next sealed replay5.

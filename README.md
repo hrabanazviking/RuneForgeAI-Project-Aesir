@@ -1443,3 +1443,7 @@ Optional [small-score causal generation](docs/NATIVE_SMALL_ATTENTION_DECODE.md)
 passes full source-bound greedy/seeded frame quality, exact own replay/state and
 fixed independent CPU gates. The next gate is sealed owning-context replay5;
 normal selection and runtime/provider speed remain separate.
+
+Optional [small-score sealed replay](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md)
+passes full source-bound continuation quality, exact restored bytes/state and
+mutation-free plan refusals. Next separate controls/tracing and broader gates.

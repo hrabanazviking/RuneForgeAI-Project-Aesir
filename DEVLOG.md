@@ -1,3 +1,19 @@
+## 2026-10-03 — Sigrún: explicit small-score sealed owning-context replay
+
+Taskf8e6618 preceded code. Final default-false fixture/plan capabilities bind
+small5/actual fused and original seal compatibility. Owner/geometry/seal/sampler/
+flags/health admission precedes mutation.45-ID checkpoints/eight continuation
+frames/full1026048 F32 per baseline/restored owner/exact UInt32 bytes/source
+samples/state/fixed CPU/4352 guards/40 mutation-free refusals/actual dispatch pass.
+Explicit exclusive source5 report SHA/actual source/current binaries, typed source
+totals/state/IDs/CPU scope and all after-fences bind. Ten hostile contracts/legacy
+suites/master190/one skip/seven builds precede serial GPU/CPU. Initial fixture
+suffix/blank-record insertion errors corrected with exact newline anchors before
+physical; failed logs/test snapshots retained. Normal authenticated prefill4 stays
+ready. No speed score/persisted/crash/context recreation claim. Next separate
+controls/tracing/broader acceptance. [Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
+Exact pushed commit CI is separate.
+
 ## 2026-10-03 — Sigrún: source-bound small-score causal generation
 
 Taskdb33ba8 preceded code. Optional5 uses small prefill and original scalar decode;
