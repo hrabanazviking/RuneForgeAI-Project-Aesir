@@ -1,3 +1,7 @@
+For optional5 causal generation and source admission, read
+docs/NATIVE_SMALL_ATTENTION_DECODE.md. Full greedy/seeded frames/own bits/state/
+CPU/source/current binary gates pass. No speed score. Next sealed replay5.
+
 Read docs/NATIVE_TURING_TOKEN_PARTITION.md for isolated disjoint per-CTA token
 partition measurements, complete original bits/oracle/guards and atomic timing
 scoring. Default runtime/kernel selections remain separately gated.

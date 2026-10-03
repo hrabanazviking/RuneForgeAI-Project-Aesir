@@ -1061,5 +1061,10 @@ The legacy formatters below are not exposed compatibility APIs.
   own bits/source4/independent CPU gate: all513024 per owner/4352 guards/8 invalid
   tiles/12 live refusals/32 timings pass, strict actual current/source binaries.
   [Operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Seven hostile contracts/master190.
-- [ ] SPD-03 small-score causal generation/state, then separate replay/control/trace/
+- [x] SPD-03 small-score causal generation/state: all96 full frames/12312576 F32
+  per owner/source5 initial bits/independent CPU/own UInt32 replay/samples/history/
+  draws/state/4352 guards/actual small/down/closed-fused/scalar counters pass.
+  Twelve hostile contracts/master190/seven builds/strict source/current binary
+  and all after-fences. [Operation](docs/NATIVE_SMALL_ATTENTION_DECODE.md).
+- [ ] SPD-03 small-score sealed owning-context replay, then separate control/trace/
   runtime/context/device/concurrency/soak/refreshed provider acceptance.

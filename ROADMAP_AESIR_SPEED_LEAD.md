@@ -463,6 +463,18 @@ small-fixture exploratory prefill only, not historical4/new5 or Ollama/request r
 Next earn causal generation and source-bound state, sealed replay, enabled controls/
 tracing, then broader runtime/device/context/concurrency/soak/provider acceptance.
 
+
+Optional small-score5 causal generation now passes all96 full-vocabulary frames/
+12312576 F32 values per owner, initial accepted5 bytes, unchanged independent
+CPU/max/RMS/argmax, native-forced causal IDs, exact samples/history/draws/state,
+own UInt32 fresh replay/4352 guards and actual small/down/closed-fused/scalar
+counters. Twelve hostile contracts/master190/one skip/all seven builds precede
+serial GPU/CPU. Explicit exclusive source triplet/current binary and strict full
+source CPU/cache/ID/count/typed-integer admission bind all after-fences.
+[Operation](docs/NATIVE_SMALL_ATTENTION_DECODE.md). No speed score/normal selection.
+Next earn sealed owning-context replay5, then separate controls/tracing and broader
+runtime/context/device/concurrency/soak/refreshed provider acceptance.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

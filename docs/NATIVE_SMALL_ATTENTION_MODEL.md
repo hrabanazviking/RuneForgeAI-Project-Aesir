@@ -121,3 +121,10 @@ device/concurrency/soak and refreshed fair provider comparisons. A planning road
 and narrower accepted fixture do not finish the speed objective. Publish Task MD
 before code, retain failures and exact pushed-commit CI receipts.
 [Complete evidence](evidence/small-attention-model-2026-10-03/README.md).
+
+### Subsequent generation gate
+
+[Explicit source-bound causal generation5](NATIVE_SMALL_ATTENTION_DECODE.md) now
+passes all96 full frames/fixed CPU/own bits/state/source vectors/counts. Old readers
+stay closed; the separate accepted-small helper requires explicit capability and
+actual source binary. Next sealed replay5; all broader acceptance stays open.

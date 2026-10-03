@@ -1,3 +1,18 @@
+## 2026-10-03 — Sigrún: source-bound small-score causal generation
+
+Taskdb33ba8 preceded code. Optional5 uses small prefill and original scalar decode;
+actual small/down/closed-fused/original counters bind initial and replay plans.
+Full96 frames/12312576 values per owner/source5 initial F32 bytes/independent CPU/
+own UInt32 replay/samples/history/draws/state/4352 guards pass. New accepted-small
+helper reparses/recomputes complete four-case source, fixed native/CPU/cache/IDs/
+counts/timings/prior4 proof and actual binary. One hostile test exposed Boolean/
+integer equality; strict integer totals/counters/IDs fixed before physical, retained
+failed log/source. Twelve contracts/legacy suites/master190/one skip/seven builds
+precede serial GPU/CPU and complete source/binary/model/provenance fences. Normal
+authenticated original prefill4 remains ready. No speed score. Next sealed replay5,
+then separate controls/tracing/broader/runtime/provider gates. Exact CI separate.
+[Operation](docs/NATIVE_SMALL_ATTENTION_DECODE.md).
+
 ## 2026-10-03 — Sigrún: source-bound small-score whole-model prefill
 
 Task541cb27 preceded code. Final default-false small capability selects explicit5

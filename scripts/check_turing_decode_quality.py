@@ -118,7 +118,7 @@ def vectors(records, index, step):
     return native, matrix
 
 
-def case(records, report, index, oracle, down_source=None, fused_source=None):
+def case(records, report, index, oracle, down_source=None, fused_source=None, small_source=None):
     count, choice = INPUT_COUNTS[index], index % 2
     cap = 16 if choice else 32
     records.expect(["CASE", str(index), str(count), str(choice), str(cap)])
@@ -131,7 +131,7 @@ def case(records, report, index, oracle, down_source=None, fused_source=None):
     if identity != INPUT_HASHES[index // 2]: raise ValueError("Public decode input identity changed")
     result = dict(index=index, input_ids=ids, input_sha256=identity, policy=choice, cap=cap, frames=[], replay=[])
     report["cases"].append(result)
-    model_source = fused_source if fused_source is not None else down_source
+    model_source = small_source if small_source is not None else fused_source if fused_source is not None else down_source
     if model_source is not None:
         golden = model_source["cases"][1 if index < 2 else 3]
         if ids != golden["input_ids"]: raise ValueError("Down decode IDs differ from accepted model source")
@@ -142,6 +142,11 @@ def case(records, report, index, oracle, down_source=None, fused_source=None):
         fused, original = fused_attention_calls(count)
         records.expect(["FUSED_ATTENTION", str(index), str(fused), str(original)])
         result.update(fused_attention_host_enqueues=fused, original_attention_queries=original)
+    if small_source is not None:
+        small,original=fused_attention_calls(count)
+        records.expect(["SMALL_ATTENTION",str(index),str(small),str(original)])
+        records.expect(["FUSED_ATTENTION",str(index),"0",str(original)])
+        result.update(small_attention_host_enqueues=small,fused_attention_host_enqueues=0,original_attention_queries=original)
     if oracle is not None: oracle.begin(ids)
     row = records.next()
     for step in range(cap):
@@ -180,6 +185,11 @@ def case(records, report, index, oracle, down_source=None, fused_source=None):
         replay_original = original + (frames - 1) * 28
         records.expect(["REPLAY_FUSED_ATTENTION", str(index), str(fused), str(replay_original)])
         result.update(replay_fused_attention_host_enqueues=fused, replay_original_attention_queries=replay_original)
+    if small_source is not None:
+        replay_original=original+(frames-1)*28
+        records.expect(["REPLAY_SMALL_ATTENTION",str(index),str(small),str(replay_original)])
+        records.expect(["REPLAY_FUSED_ATTENTION",str(index),"0",str(replay_original)])
+        result.update(replay_small_attention_host_enqueues=small,replay_fused_attention_host_enqueues=0,replay_original_attention_queries=replay_original)
     records.expect(["REPLAY_END", str(index), str(frames), finish])
     records.expect(["GUARD", str(index), "1088", "0"])
 
@@ -190,8 +200,8 @@ def initial_report():
                 cases=[], limits="Test-only strict3B/context1536/F16KV on native-forced causal IDs. Public37/1070 prefixes; greedy32 and seeded16 caps; exact own replay. Sample equality covers these cases only. No speed/provider score, free-running matrix trajectory, persisted restoration, production32 admission or concurrency claim.")
 
 
-def parse(path, oracle=None, report=None, *, down_source=None, fused_source=None):
-    if down_source is not None and fused_source is not None: raise ValueError("Decode source strategies are exclusive")
+def parse(path, oracle=None, report=None, *, down_source=None, fused_source=None, small_source=None):
+    if sum(v is not None for v in (down_source,fused_source,small_source))>1: raise ValueError("Decode source strategies are exclusive")
     report = initial_report() if report is None else report
     records = Records(path)
     try:
@@ -199,15 +209,16 @@ def parse(path, oracle=None, report=None, *, down_source=None, fused_source=None
         if len(cuda) != 1 or not cuda[0].startswith("[CUDA] native Mojo ") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
             raise ValueError("Missing actual native CUDA identity")
         report["native_banner"] = cuda[0]
-        row = records.next(); report["attention_variant"] = attention_variant(row, allow_down=down_source is not None, allow_fused=fused_source is not None)
+        row = records.next(); report["attention_variant"] = attention_variant(row, allow_down=down_source is not None, allow_fused=fused_source is not None,allow_small=small_source is not None)
         if down_source is not None and report["attention_variant"] != 3:
             raise ValueError("Explicit down source requires strategy3 decode")
         if fused_source is not None and report["attention_variant"] != 4:
             raise ValueError("Explicit fused source requires strategy4 decode")
+        if small_source is not None and report["attention_variant"]!=5:raise ValueError("Explicit small source requires strategy5 decode")
         if report["attention_variant"] is not None: row = records.next()
         if row != ["META", "1", "turing_decode", "1536", str(VOCABULARY), "4", "2"]: raise ValueError("Wrong decode metadata")
         policy_rows(records)
-        for index in range(4): case(records, report, index, oracle, down_source, fused_source)
+        for index in range(4): case(records, report, index, oracle, down_source, fused_source, small_source)
         total = sum(c["evaluated_frames"] for c in report["cases"])
         if not 4 <= total <= MAX_FRAMES: raise ValueError("Decode frame bound exceeded")
         records.expect(["COMPLETE", "turing_decode", "4", str(total), str(total * VOCABULARY), "4352", "2"])
@@ -225,8 +236,8 @@ def score(report):
     report["replay_passed"] = bool(frames) and all(r["passed"] for c in report["cases"] for r in c["replay"])
     report["independent_reference_passed"] = bool(frames) and all("independent" in f and all(v["passed"] for v in f["independent"].values()) for f in frames)
     report["passed"] = report["collection_complete"] and report["native_quality_passed"] and report["replay_passed"] and report["independent_reference_passed"]
-    if report.get("attention_variant") in (3, 4):
-        source_key = "accepted_fused_model" if report["attention_variant"] == 4 else "accepted_down_model"
+    if report.get("attention_variant") in (3, 4, 5):
+        source_key = "accepted_small_model" if report["attention_variant"]==5 else "accepted_fused_model" if report["attention_variant"] == 4 else "accepted_down_model"
         report["model_source_passed"] = (len(report["cases"]) == 4 and report.get(source_key, {}).get("passed") is True
             and all(c.get("model_source_vectors_passed") is True for c in report["cases"]))
         report["passed"] = report["passed"] and report["model_source_passed"]
@@ -271,8 +282,14 @@ def main():
     for name in ("model-sha256", "reference-sha256"): options.add_argument("--" + name, required=True)
     for name in ("down-model-csv", "down-model-report"): options.add_argument("--" + name, type=Path)
     for name in ("fused-model-csv", "fused-model-report", "fused-model-binary", "binary"): options.add_argument("--" + name, type=Path)
+    for name in ("small-model-csv","small-model-report","small-model-binary"):options.add_argument("--"+name,type=Path)
     options.add_argument("--binary-sha256")
     args = options.parse_args()
+    small_args=(args.small_model_csv,args.small_model_report,args.small_model_binary)
+    if any(p is not None for p in small_args):
+        if any(p is None for p in small_args):options.error("Small source requires CSV/report/actual binary together")
+        if any(p is not None for p in (args.down_model_csv,args.down_model_report,args.fused_model_csv,args.fused_model_report,args.fused_model_binary)):options.error("Small/down/fused sources are exclusive")
+        if args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}",args.binary_sha256):options.error("Strategy5 requires current binary and explicit lowercase SHA-256")
     fused_args = (args.fused_model_csv, args.fused_model_report, args.fused_model_binary)
     if any(p is not None for p in fused_args):
         if any(p is None for p in fused_args): options.error("Fused source requires CSV/report/actual binary together")
@@ -289,7 +306,7 @@ def main():
             derived = provenance(args.reference_provenance, args.model_sha256, args.reference_sha256)
             if args.reference_model.stat().st_size != derived["derived_bytes"]: raise ValueError("Derived reference size mismatch")
             report.update(model_sha256=args.model_sha256, reference_derivation=derived)
-            down_source = None; fused_source = None
+            down_source = None; fused_source = None; small_source=None
             if args.fused_model_csv is not None:
                 if digest(args.binary) != args.binary_sha256: raise ValueError("Current fused decode binary checksum mismatch")
                 report["binary_sha256"] = args.binary_sha256
@@ -301,9 +318,15 @@ def main():
                 from check_turing_down_source import accepted_model
                 down_source, proof = accepted_model(args.down_model_csv, args.down_model_report, args.model_sha256)
                 report["accepted_down_model"] = proof
+            if args.small_model_csv is not None:
+                if digest(args.binary)!=args.binary_sha256:raise ValueError("Current small decode binary checksum mismatch")
+                report["binary_sha256"]=args.binary_sha256
+                from check_small_attention_source import accepted_model
+                small_source,proof=accepted_model(args.small_model_csv,args.small_model_report,args.model_sha256,small=True,binary=args.small_model_binary)
+                report["accepted_small_model"]=proof
             oracle = CPUReference(args.reference_model)
             report["independent_reference"] = oracle.identity
-            parse(args.csv, oracle, report, down_source=down_source, fused_source=fused_source)
+            parse(args.csv, oracle, report, down_source=down_source, fused_source=fused_source,small_source=small_source)
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256: raise ValueError("Original/derived model changed during oracle")
             if down_source is not None:
                 expected = ((args.csv, report["csv_sha256"]), (args.reference_provenance, derived["snapshot_sha256"]),
@@ -316,6 +339,11 @@ def main():
                     (args.fused_model_binary, proof["binary_sha256"]), (args.binary, args.binary_sha256))
                 if any(digest(path) != sha for path, sha in expected):
                     raise ValueError("Fused decode capture/derivation/source/binary changed during oracle")
+            if small_source is not None:
+                expected=((args.csv,report["csv_sha256"]),(args.reference_provenance,derived["snapshot_sha256"]),
+                    (args.small_model_csv,proof["csv_sha256"]),(args.small_model_report,proof["report_sha256"]),
+                    (args.small_model_binary,proof["binary_sha256"]),(args.binary,args.binary_sha256))
+                if any(digest(path)!=sha for path,sha in expected):raise ValueError("Small decode capture/derivation/source/binary changed during oracle")
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False, error=f"{type(error).__name__}: {error}")
         finally:

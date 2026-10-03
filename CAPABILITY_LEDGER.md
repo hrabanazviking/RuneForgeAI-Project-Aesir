@@ -2116,3 +2116,19 @@ tracing, then broader runtime/device/context/concurrency/soak/provider acceptanc
 
 [Evidence](docs/evidence/small-attention-model-2026-10-03/README.md).
 Refines existing AES-ACC-008/010; no general new capability promotion.
+
+### Small-score causal generation refinement — 2026-10-03
+
+Optional small-score5 causal generation now passes all96 full-vocabulary frames/
+12312576 F32 values per owner, initial accepted5 bytes, unchanged independent
+CPU/max/RMS/argmax, native-forced causal IDs, exact samples/history/draws/state,
+own UInt32 fresh replay/4352 guards and actual small/down/closed-fused/scalar
+counters. Twelve hostile contracts/master190/one skip/all seven builds precede
+serial GPU/CPU. Explicit exclusive source triplet/current binary and strict full
+source CPU/cache/ID/count/typed-integer admission bind all after-fences.
+[Operation](docs/NATIVE_SMALL_ATTENTION_DECODE.md). No speed score/normal selection.
+Next earn sealed owning-context replay5, then separate controls/tracing and broader
+runtime/context/device/concurrency/soak/refreshed provider acceptance.
+
+[Evidence](docs/evidence/small-attention-decode-2026-10-03/README.md).
+Refines AES-ACC-008/010; no general capability or provider speed promotion.

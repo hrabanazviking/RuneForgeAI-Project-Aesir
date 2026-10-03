@@ -826,3 +826,19 @@ unchanged independent zero-GPU F32-expanded oracle reruns. Every after-hash/nume
 source/nonfinite failure clears all scores, retains exclusive reports. Seven hostile
 contracts join CI; read project-root docs/NATIVE_SMALL_ATTENTION_MODEL.md. New mode
 controls/replay/tracing/generation/runtime/context/device/provider gates stay open.
+
+## Explicit small-score causal generation
+
+Optional5 now retains full96 native-forced greedy/seeded frames/12312576 values
+per owner, source5 initial F32 bytes, independent fixed CPU budgets, exact own
+UInt32 replay/sample/history/draws/state/4352 guards. Actual small56/1008 and
+down28/924 stay; fused0 is mandatory and scalar original queries advance28 per
+generated token. Strict accepted-small helper requires actual model5 CSV/report/
+binary, full parsed/recomputed four-case vectors/cache/IDs/counts/timings/fixed
+CPU and complete source4 predecessor proof; typed integer totals/counters/IDs.
+Explicit exclusive small source triplet plus current binary/SHA and all eight
+after-fences bind. Defaults/old loaders reject5. Twelve hostile contracts/master190/
+one skip/all seven builds pass before serial GPU/CPU. Read project-root
+docs/NATIVE_SMALL_ATTENTION_DECODE.md. No speed score or normal selection.
+Next sealed owning-context replay5, then separate controls/tracing and broader
+runtime/context/device/concurrency/soak/provider gates.

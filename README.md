@@ -1438,3 +1438,8 @@ Optional [small-score model prefill](docs/NATIVE_SMALL_ATTENTION_MODEL.md)
 now passes complete source4 F32/cache/IDs/counts and unchanged independent CPU
 quality. This explicit test fixture keeps normal selection and new generation/
 replay/control/trace/runtime/provider gates separate.
+
+Optional [small-score causal generation](docs/NATIVE_SMALL_ATTENTION_DECODE.md)
+passes full source-bound greedy/seeded frame quality, exact own replay/state and
+fixed independent CPU gates. The next gate is sealed owning-context replay5;
+normal selection and runtime/provider speed remain separate.

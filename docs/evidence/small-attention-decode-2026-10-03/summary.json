@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "passed": true,
+  "speed_scored": false,
+  "production_selected": false,
+  "frames": 96,
+  "values_per_owner": 12312576,
+  "guards": 4352,
+  "source5_initial_f32_equal": true,
+  "own_uint32_replay_passed": true,
+  "independent_worst": {
+    "native": {
+      "maximum_absolute_error": 0.0156402587890625,
+      "rms_error": 0.0026899043589861337
+    },
+    "matrix": {
+      "maximum_absolute_error": 0.028342247009277344,
+      "rms_error": 0.003986765366484171
+    },
+    "matrix_vs_native": {
+      "maximum_absolute_error": 0.02740192413330078,
+      "rms_error": 0.0029158001815167063
+    }
+  },
+  "limits": "Test-only strict3B/context1536/F16KV on native-forced causal IDs. Public37/1070 prefixes; greedy32 and seeded16 caps; exact own replay. Sample equality covers these cases only. No speed/provider score, free-running matrix trajectory, persisted restoration, production32 admission or concurrency claim."
+}

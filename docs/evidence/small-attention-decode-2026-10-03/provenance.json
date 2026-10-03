@@ -1,0 +1,495 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "db33ba8f5d8475a21df237249e4a4953296d3f5e",
+  "accepted_model_revision": "8f0a5c34822acd9f767f7dd678aa11761bf76165",
+  "builds": {
+    "sm_75": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:26:58.924764+00:00",
+      "ended_utc": "2026-10-03T13:27:28.598043+00:00",
+      "wall_seconds": 29.673275289998855,
+      "performance_scored": false
+    },
+    "sm_89": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:27:28.598532+00:00",
+      "ended_utc": "2026-10-03T13:27:58.179225+00:00",
+      "wall_seconds": 29.58070577000035,
+      "performance_scored": false
+    },
+    "original": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-original"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:27:58.179616+00:00",
+      "ended_utc": "2026-10-03T13:28:30.760805+00:00",
+      "wall_seconds": 32.58120515799965,
+      "performance_scored": false
+    },
+    "source-model": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-source-model"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:28:30.761230+00:00",
+      "ended_utc": "2026-10-03T13:28:38.597158+00:00",
+      "wall_seconds": 7.83592583698919,
+      "performance_scored": false
+    },
+    "master": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:28:38.597495+00:00",
+      "ended_utc": "2026-10-03T13:29:11.496811+00:00",
+      "wall_seconds": 32.89933479699539,
+      "performance_scored": false
+    },
+    "normal": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:29:11.497308+00:00",
+      "ended_utc": "2026-10-03T13:29:31.665992+00:00",
+      "wall_seconds": 20.168700142006855,
+      "performance_scored": false
+    },
+    "check": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:29:31.666512+00:00",
+      "ended_utc": "2026-10-03T13:29:31.782430+00:00",
+      "wall_seconds": 0.11592594999819994,
+      "performance_scored": false
+    }
+  },
+  "processes": {
+    "gpu": {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "5"
+      ],
+      "exit": 0,
+      "started_utc": "2026-10-03T13:36:39.992019+00:00",
+      "ended_utc": "2026-10-03T13:38:35.815066+00:00",
+      "wall_seconds": 115.82306928597973,
+      "performance_scored": false,
+      "binary_sha256": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+      "csv_sha256": "fc648f2d3589537188549bff143c32459944f2a7f20e564aa1131aaced349acb"
+    },
+    "oracle": {
+      "exit": 0,
+      "wall_seconds": 216.65361214001314,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--small-model-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.csv",
+        "--small-model-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.json",
+        "--small-model-binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75",
+        "--binary-sha256",
+        "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-final/complete.json"
+      ],
+      "started_utc": "2026-10-03T13:38:45.245446+00:00",
+      "ended_utc": "2026-10-03T13:42:21.899094+00:00",
+      "performance_scored": false
+    }
+  },
+  "pre_model_refused": {
+    "exit": 1,
+    "wall_seconds": 0.016071149002527818,
+    "started_utc": "2026-10-03T13:36:38.520974+00:00",
+    "ended_utc": "2026-10-03T13:36:38.537093+00:00",
+    "performance_scored": false
+  },
+  "preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_decode_quality.mojo": "e6678c1d9d186cdb241b6c2aaf44662f6f660dbc985c1bc43b76e0deedd9cb63",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_source.py": "883914e428f078e4509adbe31e53fe1695a69cb222b4c6740d24f6ed853c76d4",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_decode.py": "e4bfe6cc92ce4bbff296138b87c9d6626aefd98c60070913f7e40f2fea363d57",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "01b407dd7f440a6fd9b725cbe930be953f64e2664ece3f319df683c8fef9927e",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.csv": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.json": "22395c06b4cc62444ff063ba439cfcef89f3922c5ff0daabb284f56e23932a27",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_89": "2b3af9eb4c82b07a214546833bcfa8ac2e33f701bc1527574bc991d4933e9e0a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-original": "83ecac0958d25310cc727595b03987de13562587fa35fe987d16f4f1b2d8e881",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-source-model": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660"
+  },
+  "after_gpu": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_decode_quality.mojo": "e6678c1d9d186cdb241b6c2aaf44662f6f660dbc985c1bc43b76e0deedd9cb63",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_source.py": "883914e428f078e4509adbe31e53fe1695a69cb222b4c6740d24f6ed853c76d4",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_decode.py": "e4bfe6cc92ce4bbff296138b87c9d6626aefd98c60070913f7e40f2fea363d57",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "01b407dd7f440a6fd9b725cbe930be953f64e2664ece3f319df683c8fef9927e",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.csv": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.json": "22395c06b4cc62444ff063ba439cfcef89f3922c5ff0daabb284f56e23932a27",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_89": "2b3af9eb4c82b07a214546833bcfa8ac2e33f701bc1527574bc991d4933e9e0a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-original": "83ecac0958d25310cc727595b03987de13562587fa35fe987d16f4f1b2d8e881",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-source-model": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660"
+  },
+  "postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_decode_quality.mojo": "e6678c1d9d186cdb241b6c2aaf44662f6f660dbc985c1bc43b76e0deedd9cb63",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "7feede819bd9feaabfd6057e54452f1cd6485d7e196afaeaca9568917ac5bea2",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_source.py": "883914e428f078e4509adbe31e53fe1695a69cb222b4c6740d24f6ed853c76d4",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_decode.py": "e4bfe6cc92ce4bbff296138b87c9d6626aefd98c60070913f7e40f2fea363d57",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "01b407dd7f440a6fd9b725cbe930be953f64e2664ece3f319df683c8fef9927e",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_75": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.csv": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.json": "22395c06b4cc62444ff063ba439cfcef89f3922c5ff0daabb284f56e23932a27",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-sm_89": "2b3af9eb4c82b07a214546833bcfa8ac2e33f701bc1527574bc991d4933e9e0a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-original": "83ecac0958d25310cc727595b03987de13562587fa35fe987d16f4f1b2d8e881",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-decode-source-model": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660"
+  },
+  "review_note": "Initial hostile test exposed JSON false comparing equal to integer zero in Python source validation. Explicit integer totals/counters/IDs corrected before physical; initial failed test log and validator retained. A guessed legacy contract filename failed; actual legacy contract was then run successfully, both logs retained. All seven builds completed before serial GPU/CPU; no native changes during capture.",
+  "normal_readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "small-attention-decode-build-check.json",
+      "bytes": 266,
+      "sha256": "919121e77ed1334c0ffb44a7fa5453fc3ad64276528a825da7ad1c2c2848a2ac"
+    },
+    {
+      "name": "small-attention-decode-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "small-attention-decode-build-master.json",
+      "bytes": 412,
+      "sha256": "9eecdd569058289b1c6f73b06255018281421ebb9c1e638053d3b0d0ca43ef5a"
+    },
+    {
+      "name": "small-attention-decode-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "small-attention-decode-build-normal.json",
+      "bytes": 294,
+      "sha256": "4ae47e7e3b5d4b2441e1dff40634ec024304b74caccaa9b72e54971ecf516e90"
+    },
+    {
+      "name": "small-attention-decode-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "small-attention-decode-build-original.json",
+      "bytes": 624,
+      "sha256": "1dcaddf05d1ad3fc22a5df4a0cade2b95302cf6957a290f23ff8a48a0659519a"
+    },
+    {
+      "name": "small-attention-decode-build-original.txt",
+      "bytes": 395,
+      "sha256": "194ef302d5250b4a33fde79dab0e7bee33fcf9e824911fa98256fe0d8fb9d53c"
+    },
+    {
+      "name": "small-attention-decode-build-sm_75.json",
+      "bytes": 573,
+      "sha256": "6119de05d66fbcccd88d3469c173b882056203e0dbc82ec9f5d47fd98df039da"
+    },
+    {
+      "name": "small-attention-decode-build-sm_75.txt",
+      "bytes": 475,
+      "sha256": "4b0dcf103bee58eb561284e1e1d2c2c38017834bf502f7e74fd626dab9b48d23"
+    },
+    {
+      "name": "small-attention-decode-build-sm_89.json",
+      "bytes": 572,
+      "sha256": "15a06619d2198f5579fda46031ed8ae4a0695339531452da1b91a5529946e1fa"
+    },
+    {
+      "name": "small-attention-decode-build-sm_89.txt",
+      "bytes": 475,
+      "sha256": "4b0dcf103bee58eb561284e1e1d2c2c38017834bf502f7e74fd626dab9b48d23"
+    },
+    {
+      "name": "small-attention-decode-build-source-model.json",
+      "bytes": 578,
+      "sha256": "47829e64150a981491df96e2283f6bcf0d4e5315174b3c919464b8b6578bd266"
+    },
+    {
+      "name": "small-attention-decode-build-source-model.txt",
+      "bytes": 475,
+      "sha256": "3a9fbb39422554b6c9c4a02a5b457f7c64de566d14c7e9d11fdbd7c439641562"
+    },
+    {
+      "name": "small-attention-decode-final/accepted-source.json",
+      "bytes": 514,
+      "sha256": "41a7284f5f4fa34afd47ad555d4859397a4e11107dced1ab4029bed6cd7c92a6"
+    },
+    {
+      "name": "small-attention-decode-final/after-gpu.json",
+      "bytes": 3289,
+      "sha256": "ae508d8b0413dacc94bd82b527d2e82474ce11048bed612edceb5d61b11dabf3"
+    },
+    {
+      "name": "small-attention-decode-final/complete.csv",
+      "bytes": 680807468,
+      "sha256": "fc648f2d3589537188549bff143c32459944f2a7f20e564aa1131aaced349acb"
+    },
+    {
+      "name": "small-attention-decode-final/complete.json",
+      "bytes": 202601,
+      "sha256": "755d345d459d3f99b1ca8f37383fbff6e5e77643b96f197a338c61c756d3e1d0"
+    },
+    {
+      "name": "small-attention-decode-final/gpu-process.json",
+      "bytes": 626,
+      "sha256": "5b02fc0a51ef5d71480e8e3dfeb74e0bf1838a7b64aacf228ac9c047a531e3cf"
+    },
+    {
+      "name": "small-attention-decode-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-attention-decode-final/oracle-process.json",
+      "bytes": 1850,
+      "sha256": "fb7d382528139d81949b56ec41acdc11f87a68efe74d6c2695cb5a4f0324e940"
+    },
+    {
+      "name": "small-attention-decode-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "ab78b326e0c4b4dabce9767f31ac8093a691f4614e8be769c8f02bab78e7deb2"
+    },
+    {
+      "name": "small-attention-decode-final/postflight.json",
+      "bytes": 3289,
+      "sha256": "ae508d8b0413dacc94bd82b527d2e82474ce11048bed612edceb5d61b11dabf3"
+    },
+    {
+      "name": "small-attention-decode-final/preflight.json",
+      "bytes": 3289,
+      "sha256": "ae508d8b0413dacc94bd82b527d2e82474ce11048bed612edceb5d61b11dabf3"
+    },
+    {
+      "name": "small-attention-decode-final/rejected-strategy-process.json",
+      "bytes": 191,
+      "sha256": "6adac307d1f8cac960f4719e635d48344ca62549c4a44965f0d46d646ff5749e"
+    },
+    {
+      "name": "small-attention-decode-final/rejected-strategy.txt",
+      "bytes": 214,
+      "sha256": "5a7d73a23e99c5534f8ceed7418778e7f5c173fec14864d8a37bd833eb834ff6"
+    },
+    {
+      "name": "small-attention-decode-initial-check_small_attention_source.py",
+      "bytes": 4169,
+      "sha256": "1bafd0773144013db13fc77a4e59c25a8e0ec47513666dcde0836a01980fffcd"
+    },
+    {
+      "name": "small-attention-decode-initial-portable.txt",
+      "bytes": 6562,
+      "sha256": "b198beba7f2ef22a6d041cbf34990dd296ea4d364e6b634c2b2f91aef862fc8b"
+    },
+    {
+      "name": "small-attention-decode-original",
+      "bytes": 5983592,
+      "sha256": "83ecac0958d25310cc727595b03987de13562587fa35fe987d16f4f1b2d8e881"
+    },
+    {
+      "name": "small-attention-decode-original.mojo",
+      "bytes": 7455,
+      "sha256": "44111adfe9a51932d4af574a0ed01acfd9c3035da0ee056351ba8043882c03fe"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_fused_attention_controls_model.txt",
+      "bytes": 753,
+      "sha256": "28786eba9bdf79dee4aa9b3485e608f012521731fb92543aa7f0905d7bd52db0"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_fused_attention_decode.txt",
+      "bytes": 5820,
+      "sha256": "060464ca1ff6bf87019a1f1ccdfde4fdc0d37b7aea2ef6588df0a8b1dde101bf"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_fused_attention_model.txt",
+      "bytes": 679,
+      "sha256": "1397d06947614b55dc4f6840f86b7fc750b930389e99075078f4bafdfc35b941"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_small_attention_decode.txt",
+      "bytes": 5827,
+      "sha256": "6ce688b272630c9231d5f5f169925c35b7be82f8c6391dde7b7ed27f5f1b4c1a"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_small_attention_model.txt",
+      "bytes": 2047,
+      "sha256": "c73964b06333b6dc4f8b64c610ea13674bd425b7017f1a41e56fc9ed7554c5c2"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_turing_checkpoint_replay.txt",
+      "bytes": 183,
+      "sha256": "94f3734ec73d1c5a90ccb67c6397ebbbce9b1ad2fd597cb99aeafc4aeb69904b"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_turing_decode_quality.txt",
+      "bytes": 269,
+      "sha256": "3ef60c1ae5840ca600c44eda092bd7e2f734efe64f21e124ba4b04c377e1bf83"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_turing_down_decode.txt",
+      "bytes": 1519,
+      "sha256": "7f623f5bfc16a487d68ce0e09faaa361f18105401b01383ab76c61dc3e5aec4d"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_turing_down_decode_quality.txt",
+      "bytes": 156,
+      "sha256": "696ad4a72fd105994353fa02e589b20ade402a227f54aaf2a2534f72f9910772"
+    },
+    {
+      "name": "small-attention-decode-portable-test_check_turing_fixture_controls.txt",
+      "bytes": 287,
+      "sha256": "fb1df00976b7ceee3d65fddcd97762a2e44f22d9efee4bde501aebf984320a1f"
+    },
+    {
+      "name": "small-attention-decode-sm_75",
+      "bytes": 5987800,
+      "sha256": "6612d4b8fd680293130f49f661c7aeade44812935d1ac805608ddfa26415cca1"
+    },
+    {
+      "name": "small-attention-decode-sm_89",
+      "bytes": 5987800,
+      "sha256": "2b3af9eb4c82b07a214546833bcfa8ac2e33f701bc1527574bc991d4933e9e0a"
+    },
+    {
+      "name": "small-attention-decode-source-model",
+      "bytes": 6002832,
+      "sha256": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660"
+    }
+  ],
+  "limits": "Test-only strict3B/context1536/F16KV on native-forced causal IDs. Public37/1070 prefixes; greedy32 and seeded16 caps; exact own replay. Sample equality covers these cases only. No speed/provider score, free-running matrix trajectory, persisted restoration, production32 admission or concurrency claim."
+}
