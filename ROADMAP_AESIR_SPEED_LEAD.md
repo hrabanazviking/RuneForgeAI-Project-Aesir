@@ -1,7 +1,7 @@
 # AESIR speed-lead roadmap
 
 Established 2026-10-01. Owner: native compute, runtime and measurement domains.
-Status: **active plan; SPD-00 measurement and native timeline slices implemented, full gates open**.
+Status: **active plan; optional strategy5 model, generation and sealed replay gates implemented; release/provider gates open**.
 
 Volmarr's objective is to make AESIR substantially faster than Ollama while
 preserving useful answers, stable operation and the second-brain integrations.
@@ -19,11 +19,35 @@ primitives. The first implemented SPD-00 slice is documented in
 [SPEED_MEASUREMENT.md](docs/SPEED_MEASUREMENT.md): portable provider controls,
 checked physical stage/traffic measurements and four independent 3B logit vectors.
 It changes measurement, not inference kernels, and earns no general speed lead.
-The next [owned CUDA timeline slice](docs/NATIVE_CUDA_TRACE.md) physically admits
+The subsequent [owned CUDA timeline slice](docs/NATIVE_CUDA_TRACE.md) physically admits
 30224/450082 matching kernel launches for short/long prompts. Projections dominate
 measured GPU work; long scores/attention are secondary. Raw trace/process overhead
 is kept separate from service scores. Semantic stage, cache/residency and broad
 quality/second-session gates remain open.
+
+## Current implementation frontier — 2026-10-03
+
+The optional small-score strategy5 now passes complete model/source/cache quality,
+96 full causal generation frames and sealed owning-context replay. The latest
+implementation slices are [generation988f276](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/commit/988f27687269c3ae53bbf3347be2a7d38c8c37bd)
+and [replay131e673](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/commit/131e673f9aa4790c6f7b5840e31b7dae96a591a3).
+Local target/master/normal builds, complete physical GPU/independent CPU and
+repository consistency gates pass; exact hosted CI receipts remain separate.
+
+| Area | Current accepted scope | Remaining release gate |
+| --- | --- | --- |
+| SPD-00 | Balanced provider evidence, independent F32 quality and hardware traffic baseline | Full semantic/cache/residency parity and additional fair sessions |
+| SPD-01/02 | Packed Tensor-Core primitives and optional strict3B model/generation/replay fixtures | Broader models/devices, runtime selection and provider lead |
+| SPD-03 | Original fused4 model/generation/replay/controls/tracing; small-score5 model/generation/sealed replay | Cooperative controls5, owned tracing5, then runtime breadth |
+| SPD-04 | Batched rotary/cache/elementwise/down and owned launch/resource evidence | Further measured launch/transfer work and separately proven graph support |
+| SPD-05–10 | Defined work orders and acceptance targets | Sustained decode lead, cache/speculation/concurrency/soak and second-brain production acceptance |
+
+The next implementation is **cooperative control recovery for strategy5**, detailed
+in section6. New generation/replay slices score correctness and robustness; they
+produce no new inference-speed ratio or AESIR/Ollama comparison. The normal service
+still uses its admitted original prefill4 path. Full roadmap completion and the
+2× provider lead remain open. Earlier "next" statements below record the boundary
+at each historical slice; use this frontier and section6 for current execution.
 
 ## 1. Measured starting point
 
@@ -807,7 +831,40 @@ occupancy important tuning considerations; measure them rather than maximizing
 registers or tile size by intuition. [Turing guide](https://docs.nvidia.com/cuda/turing-tuning-guide/index.html),
 [CUDA best practices](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html).
 
-## 6. Exact next implementation work order
+## 6. Current next implementation work order
+
+The current native fixture frontier is **strategy5 cooperative control recovery**.
+Strategy5 already passes [complete model/source/cache acceptance](docs/NATIVE_SMALL_ATTENTION_MODEL.md),
+[causal generation](docs/NATIVE_SMALL_ATTENTION_DECODE.md) and
+[sealed owning-context replay](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
+Those are narrow physical test gates; normal production selection remains open.
+
+- Publish `TASK_small_attention_controls.md` before code under the standing
+  sequential slice authorization. Read the fixture/control/test/script owners.
+- Add an explicit default-false strategy5 control capability. Preserve existing
+  default refusals and0..4 capabilities. Constructor/runtime admission must precede
+  model access or mutation. Keep trace and control-capable replay separate.
+- First establish a fresh disabled-control capable5 full-model gate against the
+  actual accepted default5 CSV/report/binary: all513024 F32 values per owner,
+  complete cache/IDs/own bits/counters/guards and unchanged independent CPU quality.
+- Then exercise pre-expired and cooperative mid-tile timeout, owned cancellation
+  and invalid-descriptor aborts. Preserve allocation/health, leave aborted tiles
+  uncommitted, require reset before reuse and reproduce all recovered source vectors.
+  Distinguish known synchronized aborts from observer exceptions that poison health.
+- Bind actual small/down/closed-fused/original counters, sampler/history/draws,
+  caller signal mask, source/current binaries and complete artifact after-fences.
+  Add hostile portable contracts; finish all builds before serial GPU then CPU.
+- Publish operation/evidence/owners/TODO/ledger, verify normal readiness, push,
+  and retain exact implementation-commit CI. Enabled-control timing stays unscored.
+- After this gate, earn owned strategy5 tracing and choose the next measured
+  speed experiment. Broader runtime/context/device/concurrency/soak and refreshed
+  fair provider comparisons precede normal selection or a general speed-lead claim.
+
+### Original first work order, retained for provenance
+
+The original SPD-00 measurement slice and subsequent matrix/Tensor-Core/attention
+fixture slices are documented above. The work order below records how this roadmap
+started; it is not the current next task.
 
 Start with **SPD-00**, followed by SPD-01 and the small SPD-02 capability spike.
 Do not implement all future techniques in one patch.
@@ -840,7 +897,9 @@ Do not implement all future techniques in one patch.
   [Results and remaining SPD-00 gates](docs/evidence/speed-measurement-2026-10-01/README.md).
 - [ ] SPD-01: implement and validate genuine matrix prefill.
 - [ ] SPD-02: prove and integrate the sm_75 Tensor-Core candidate.
-- [ ] SPD-03: prove causal fused attention.
+- [ ] SPD-03: complete causal attention release acceptance. Original4 and small5
+  narrower physical fixture gates pass as listed in the current frontier;
+  small5 controls/tracing and broader runtime/device/context/provider gates remain.
 - [ ] SPD-04: reduce measured launch/transfer overhead; validate graph support.
 - [ ] SPD-05: reach decode parity and then the declared lead.
 - [ ] SPD-06: validate cache/layout/precision and bounded buffer reuse.
