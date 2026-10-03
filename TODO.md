@@ -1050,3 +1050,12 @@ The legacy formatters below are not exposed compatibility APIs.
   pass original bits/fixed numeric/guards/hash gates. Seven contracts/master190/
   one skip and target/original build gates pass. No canonical batch32 FFN candidate beats both comparison owners in this session. Keep selected kernels and retain this experiment; choose the next measured bottleneck experiment.
   [Operation](docs/NATIVE_TURING_TOKEN_PARTITION.md).
+
+- [x] SPD-03 small-score isolated primitive: all33 cases/1142784 outputs per owner/
+  full original UInt32 bits/pinned unchanged CPU/906066 guards/full query+KV/
+  17 refusals/660 samples, and all2178 complete profiled resources/correlations/PID.
+  Static shared16384→6144 is62.5% smaller; no normal selector/model/provider claim.
+  [Operation](docs/NATIVE_SMALL_FUSED_ATTENTION.md).10+8 hostile contracts/master190;
+  retained interval/executable capture refusals; six final builds precede fresh GPU.
+- [ ] SPD-03 small-score default-disabled actual model/full cache/IDs/logits/counters/
+  own bits/source4/independent CPU gate, then separate runtime/generation/replay/control.

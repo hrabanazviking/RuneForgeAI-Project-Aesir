@@ -345,3 +345,20 @@ explicit CLI and actual binary hash before/after; complete failures retain metri
 and atomically clear ratios. Seven hostile contracts plus physical gates remain
 separate from hosted compile/master190/one skip. No runtime/model selection change.
 Read ../../docs/NATIVE_TURING_TOKEN_PARTITION.md.
+
+## Optional bounded small-score attention primitive
+
+Separate `fused_small_attention.mojo` reuses original complete span admission,
+then visible<=1536 independently of actual KV capacity<=4096. `attend_small[batch]`
+keeps original24/8/128 GQA math/barriers/128-thread grid and no global workspace;
+16384→6144 static shared bytes are observed over all2178 profiled kernels.
+No model/runtime selector change. `test_small_fused_attention.mojo` owns exclusive
+0600 CSV/actual PID/33 cases/17 pure refusals/full F32 bits/immutable inputs/exact
+guards/660 warmed rotated samples. Startup wait precedes CUDA and is unscored.
+`check_small_fused_attention.py` covers every output with pinned Float64 CPU and
+fixed budgets; profiled mode clears scores. `check_small_attention_resources.py`
+binds all full plain/profile bits and CPU source identity to complete launch/resource
+counts/PID/binary/five artifact hashes. New analyzer fused_primitive flag requires
+resources and excludes all model/range flags; old schemas stay.10+8 hostile contracts
+join CI. Read project-root operation at project-root docs/NATIVE_SMALL_FUSED_ATTENTION.md before
+changing bounds/math; whole-model/state/production/provider gates remain separate.

@@ -1428,3 +1428,8 @@ The Heathen Third Path and Cyber-Viking Solarpunk philosophy merges **ancient No
 
 For the exercised 3B four-token prefill, compact checked buffers, actual startup
 policy and physical long-prompt evidence, read [the long-token manual](docs/NATIVE_LONG_TOKENS.md).
+
+Optional [small-score attention experiment](docs/NATIVE_SMALL_FUSED_ATTENTION.md)
+passes complete original F32/CPU/guard and full-session observed shared-resource
+gates. It reduces static score storage62.5%; timings are exploratory primitives.
+Normal inference/service selection stays unchanged; model/provider gates remain.

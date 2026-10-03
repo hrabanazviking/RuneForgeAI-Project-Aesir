@@ -1,0 +1,1319 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "5a02709",
+  "final_builds": {
+    "sm_75": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_fused_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:47:41.944543+00:00",
+      "ended_utc": "2026-10-03T12:47:47.678567+00:00",
+      "wall_seconds": 5.734071154001867,
+      "performance_scored": false
+    },
+    "sm_89": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_small_fused_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:47:47.679201+00:00",
+      "ended_utc": "2026-10-03T12:47:53.462100+00:00",
+      "wall_seconds": 5.782927452994045,
+      "performance_scored": false
+    },
+    "original": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_fused_causal_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:47:53.462563+00:00",
+      "ended_utc": "2026-10-03T12:47:54.981378+00:00",
+      "wall_seconds": 1.5188628300093114,
+      "performance_scored": false
+    },
+    "master": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:47:54.981889+00:00",
+      "ended_utc": "2026-10-03T12:48:27.632006+00:00",
+      "wall_seconds": 32.65014716301812,
+      "performance_scored": false
+    },
+    "normal": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:48:27.632515+00:00",
+      "ended_utc": "2026-10-03T12:48:47.500835+00:00",
+      "wall_seconds": 19.86834197602002,
+      "performance_scored": false
+    },
+    "check": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:48:47.501263+00:00",
+      "ended_utc": "2026-10-03T12:48:47.616197+00:00",
+      "wall_seconds": 0.11496130700106733,
+      "performance_scored": false
+    }
+  },
+  "processes": {
+    "unprofiled": {
+      "exit": 0,
+      "wall_seconds": 6.181292540975846,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.csv"
+      ],
+      "started_utc": "2026-10-03T12:49:56.726208+00:00",
+      "ended_utc": "2026-10-03T12:50:02.907535+00:00",
+      "performance_scored": false
+    },
+    "profiled": {
+      "exit": 0,
+      "wall_seconds": 8.93984257298871,
+      "argv": [
+        "/usr/bin/nsys",
+        "profile",
+        "--trace=cuda",
+        "--capture-range=none",
+        "--sample=none",
+        "--cpuctxsw=none",
+        "--force-overwrite=false",
+        "--stats=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.csv"
+      ],
+      "started_utc": "2026-10-03T12:50:02.907877+00:00",
+      "ended_utc": "2026-10-03T12:50:11.847756+00:00",
+      "performance_scored": false
+    },
+    "import": {
+      "exit": 0,
+      "wall_seconds": 0.11463839298812672,
+      "argv": [
+        "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+        "--input-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.qdstrm",
+        "--output-file",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T12:50:11.848307+00:00",
+      "ended_utc": "2026-10-03T12:50:11.962985+00:00",
+      "performance_scored": false
+    },
+    "export": {
+      "exit": 0,
+      "wall_seconds": 0.06459732700022869,
+      "argv": [
+        "/usr/bin/nsys",
+        "export",
+        "--type=sqlite",
+        "--force-overwrite=false",
+        "--output=[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.nsys-rep"
+      ],
+      "started_utc": "2026-10-03T12:50:11.963410+00:00",
+      "ended_utc": "2026-10-03T12:50:12.028044+00:00",
+      "performance_scored": false
+    },
+    "unprofiled-validation": {
+      "exit": 0,
+      "wall_seconds": 4.526756942999782,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.csv",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "--binary-sha256",
+        "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.json"
+      ],
+      "started_utc": "2026-10-03T12:50:12.108789+00:00",
+      "ended_utc": "2026-10-03T12:50:16.635590+00:00",
+      "performance_scored": false
+    },
+    "profiled-validation": {
+      "exit": 0,
+      "wall_seconds": 4.5767845649970695,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.csv",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "--binary-sha256",
+        "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.json",
+        "--unscored"
+      ],
+      "started_utc": "2026-10-03T12:50:16.636182+00:00",
+      "ended_utc": "2026-10-03T12:50:21.213016+00:00",
+      "performance_scored": false
+    },
+    "resource-validation": {
+      "exit": 0,
+      "wall_seconds": 5.178023229003884,
+      "argv": [
+        "python3",
+        "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py",
+        "--unprofiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.csv",
+        "--profiled",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.json",
+        "--sqlite",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.sqlite",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "--binary-sha256",
+        "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/resources.json"
+      ],
+      "started_utc": "2026-10-03T12:50:21.213530+00:00",
+      "ended_utc": "2026-10-03T12:50:26.391603+00:00",
+      "performance_scored": false
+    }
+  },
+  "invalid_processes": {
+    "noargs": {
+      "exit": 1,
+      "wall_seconds": 0.016114726982777938,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75"
+      ],
+      "started_utc": "2026-10-03T12:49:56.659490+00:00",
+      "ended_utc": "2026-10-03T12:49:56.675658+00:00",
+      "performance_scored": false
+    },
+    "extra": {
+      "exit": 1,
+      "wall_seconds": 0.016086924995761365,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/invalid.csv",
+        "extra"
+      ],
+      "started_utc": "2026-10-03T12:49:56.676183+00:00",
+      "ended_utc": "2026-10-03T12:49:56.692311+00:00",
+      "performance_scored": false
+    },
+    "existing": {
+      "exit": 1,
+      "wall_seconds": 0.016196941025555134,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/reserved.csv"
+      ],
+      "started_utc": "2026-10-03T12:49:56.693138+00:00",
+      "ended_utc": "2026-10-03T12:49:56.709373+00:00",
+      "performance_scored": false
+    },
+    "symlink": {
+      "exit": 1,
+      "wall_seconds": 0.015981939010089263,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/symlink.csv"
+      ],
+      "started_utc": "2026-10-03T12:49:56.709820+00:00",
+      "ended_utc": "2026-10-03T12:49:56.725834+00:00",
+      "performance_scored": false
+    }
+  },
+  "preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "d4538133f685c5bf6596095ef9bdedf2c37d8eab1ba3b5b37217130e340c2441",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+    "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "438568371c7312218575dce40c873564ea01e355f3989bd99dcae934cf597925",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+  },
+  "after_gpu": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "d4538133f685c5bf6596095ef9bdedf2c37d8eab1ba3b5b37217130e340c2441",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+    "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "438568371c7312218575dce40c873564ea01e355f3989bd99dcae934cf597925",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+  },
+  "before_validation": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "d4538133f685c5bf6596095ef9bdedf2c37d8eab1ba3b5b37217130e340c2441",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+    "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "438568371c7312218575dce40c873564ea01e355f3989bd99dcae934cf597925",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.csv": "8138d28c79519d297f7b741a4ffb54f465b4c2df1d0470cebddf17d25c1d84e6",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.csv": "92d9def2effc6ba0090f83289015a9e144cfefdf4d4ec9fa2187c01ebec1f973",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.sqlite": "ee7307eeddc98c82aaed0a0ffc7f670ecde1a332e94cb219f2b109200051934b"
+  },
+  "postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "d4538133f685c5bf6596095ef9bdedf2c37d8eab1ba3b5b37217130e340c2441",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+    "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+    "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+    "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "438568371c7312218575dce40c873564ea01e355f3989bd99dcae934cf597925",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/unprofiled.csv": "8138d28c79519d297f7b741a4ffb54f465b4c2df1d0470cebddf17d25c1d84e6",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/profiled.csv": "92d9def2effc6ba0090f83289015a9e144cfefdf4d4ec9fa2187c01ebec1f973",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-third-final/capture.sqlite": "ee7307eeddc98c82aaed0a0ffc7f670ecde1a332e94cb219f2b109200051934b"
+  },
+  "retained_refused_captures": [
+    {
+      "directory": "small-fused-attention-final",
+      "resource_refusal": {
+        "schema": 1,
+        "passed": false,
+        "collection_complete": false,
+        "speed_scored": false,
+        "speed_promoted": false,
+        "full_model_speed_claim": false,
+        "error": "ValueError: CUDA interval outside capture"
+      },
+      "preflight": {
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "7f7ad4abe3295551c1dd015005204f820b1073983e232bcd4dda4c5c9acf7869",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+        "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+        "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "cbaf5cd28dc334dc4f564434085fb475723455d5eee54751310b7e84ff491550",
+        "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+        "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+        "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+        "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+      },
+      "postflight": {
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "7f7ad4abe3295551c1dd015005204f820b1073983e232bcd4dda4c5c9acf7869",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+        "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+        "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "cbaf5cd28dc334dc4f564434085fb475723455d5eee54751310b7e84ff491550",
+        "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+        "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+        "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+        "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+      }
+    },
+    {
+      "directory": "small-fused-attention-second-final",
+      "resource_refusal": {
+        "schema": 1,
+        "passed": false,
+        "collection_complete": false,
+        "speed_scored": false,
+        "speed_promoted": false,
+        "full_model_speed_claim": false,
+        "error": "ValueError: CUDA executable identity mismatch"
+      },
+      "preflight": {
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "7f7ad4abe3295551c1dd015005204f820b1073983e232bcd4dda4c5c9acf7869",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+        "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+        "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+        "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+        "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+        "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+        "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+      },
+      "postflight": {
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+        "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_fused_attention.mojo": "7f7ad4abe3295551c1dd015005204f820b1073983e232bcd4dda4c5c9acf7869",
+        "[AESIR_REPOSITORY]/aesir_engine/tests/test_packed_matrix.mojo": "8b8b209222868eaf63f7a6e58687e59760bf7709510643ba022587ab7eca7090",
+        "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+        "[AESIR_REPOSITORY]/scripts/check_small_fused_attention.py": "1506b2c13c63e856df81f4982b64759ab1bdccc6527817a43cd1349931e07fb0",
+        "[AESIR_REPOSITORY]/scripts/check_small_attention_resources.py": "de44b3704c5a32b43656bc3698e49b6ce23f4783179b6bbbe7ce425f04f3409f",
+        "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "1664c1e8e2239d104b763be98a0ed9cc8a21efde1af4d19920c57c47216deca9",
+        "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_fused_attention.py": "47394e878f8b215bbdad8b318fbd901c6b60a16ae900cab20d3f533c74c5c545",
+        "[AESIR_REPOSITORY]/scripts/test_check_small_attention_resources.py": "641a351b122d1d49e2754c6afc219d1ebd6423b073be304de7db61a3290c45ab",
+        "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "7e3cbba66734ffc574e163d0977b9bfbe692ea3db47eadf896d6692c55f67fa8",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_75": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-sm_89": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-original-sm_75": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+        "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b"
+      }
+    }
+  ],
+  "initial_binary_reconstruction": {
+    "sm_75": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_fused_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-initial-canonical-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:53:19.860632+00:00",
+      "ended_utc": "2026-10-03T12:53:21.430580+00:00",
+      "wall_seconds": 1.5699299669940956,
+      "performance_scored": false,
+      "sha256": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+      "initial_recorded_sha256": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000",
+      "byte_identical_reconstruction": true
+    },
+    "sm_89": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_small_fused_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-fused-attention-initial-canonical-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T12:53:21.430945+00:00",
+      "ended_utc": "2026-10-03T12:53:22.950083+00:00",
+      "wall_seconds": 1.5191485949908383,
+      "performance_scored": false,
+      "sha256": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+      "initial_recorded_sha256": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9",
+      "byte_identical_reconstruction": true
+    }
+  },
+  "archive_note": "The final rebuild reused current binary output paths. Initial collector sources and raw evidence stayed. Exact initial75/89 binaries were reconstructed from the canonical archived source after final physical validation and archived; SHA matches both initial captures. A first reconstruction from a different source path differed and remains retained. Final native source was restored byte-identically; final binaries/captures unchanged.",
+  "oracle_versions": {
+    "numpy": "2.4.4"
+  },
+  "normal_readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "small-fused-attention-build-check.json",
+      "bytes": 266,
+      "sha256": "d8db630f3a6b7bcd5e61c139c74527e63cb85d7322428763a07d3ce691c4c589"
+    },
+    {
+      "name": "small-fused-attention-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "small-fused-attention-build-master.json",
+      "bytes": 413,
+      "sha256": "18890de2205449d7e2facc1fa62e39692990d55f0a430d1de0ef47f31090661b"
+    },
+    {
+      "name": "small-fused-attention-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "small-fused-attention-build-normal.json",
+      "bytes": 294,
+      "sha256": "1f5b14386a5e134a15a88c5bfabf56b0c9b0b18ee55257dba3a1db0d82f23719"
+    },
+    {
+      "name": "small-fused-attention-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "small-fused-attention-build-original.json",
+      "bytes": 582,
+      "sha256": "5731ef46bece10e077ba8d4fa5e40fa647c8df6048a13dc105875c1b30b05a8b"
+    },
+    {
+      "name": "small-fused-attention-build-original.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-build-sm_75.json",
+      "bytes": 571,
+      "sha256": "f54700e6633d49a0bbacf3de01d71013c613ff6e9658f3b5abf680d14b63501f"
+    },
+    {
+      "name": "small-fused-attention-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-build-sm_89.json",
+      "bytes": 572,
+      "sha256": "3eb942f427cbd2c6470c8ec6edeba52acee9589c1bb8b0c8b2156ff1fe8f7fa3"
+    },
+    {
+      "name": "small-fused-attention-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final/after-gpu.json",
+      "bytes": 2686,
+      "sha256": "4f0dd8d2c4830696ad24a834fecd7cfb8e72ebfe4a450fc69295f075a8b64d66"
+    },
+    {
+      "name": "small-fused-attention-final/before-validation.json",
+      "bytes": 3221,
+      "sha256": "bc9850824141b986ed1b8041f502195e52419e5dd741256fa2fa49c74afe7b05"
+    },
+    {
+      "name": "small-fused-attention-final/capture.nsys-rep",
+      "bytes": 505303,
+      "sha256": "46e812c9ca49999ebbba3ee840d4d9fc0260962abd0e95db5d5a5b02bbc9fb4c"
+    },
+    {
+      "name": "small-fused-attention-final/capture.qdstrm",
+      "bytes": 3746073,
+      "sha256": "a6640845ccccf4a2889c17cf279d5f4490c45e3f2811084f98c10285f407c63f"
+    },
+    {
+      "name": "small-fused-attention-final/capture.sqlite",
+      "bytes": 1306624,
+      "sha256": "3fd3bc32cf1abb90aacce66004078b6f8f77107593694cdb3943912a2ac1818b"
+    },
+    {
+      "name": "small-fused-attention-final/export-process.json",
+      "bytes": 530,
+      "sha256": "16a3960f7bfc798e72d4204fbd3dad3209de5059bd5d34051fbcb0259f9dd9fa"
+    },
+    {
+      "name": "small-fused-attention-final/export.txt",
+      "bytes": 8101,
+      "sha256": "04713ad4ede060d4554450c5b02d4819bfd1cf98c12cba76da7b4a2e42c557f4"
+    },
+    {
+      "name": "small-fused-attention-final/import-process.json",
+      "bytes": 536,
+      "sha256": "3abace49d2372c8686b277378197b8a21dfec295676a454f0ecbd7c85885ff4a"
+    },
+    {
+      "name": "small-fused-attention-final/import.txt",
+      "bytes": 537,
+      "sha256": "8fbb20ea1db76a572f9ea4289f9213a228dee8f9ea2e0df31cd9433b823a49e1"
+    },
+    {
+      "name": "small-fused-attention-final/postflight-after-failed-resource.json",
+      "bytes": 2686,
+      "sha256": "4f0dd8d2c4830696ad24a834fecd7cfb8e72ebfe4a450fc69295f075a8b64d66"
+    },
+    {
+      "name": "small-fused-attention-final/preflight.json",
+      "bytes": 2686,
+      "sha256": "4f0dd8d2c4830696ad24a834fecd7cfb8e72ebfe4a450fc69295f075a8b64d66"
+    },
+    {
+      "name": "small-fused-attention-final/profiled-process.json",
+      "bytes": 708,
+      "sha256": "0a6614a4e58f800ee3a5d35eb0186fabf080f217059cc3e1090444bdca39c9bf"
+    },
+    {
+      "name": "small-fused-attention-final/profiled-validation-process.json",
+      "bytes": 857,
+      "sha256": "ca61d81d883aa7168bec158ffa76c9cb77f2ec0e6586616538d7a887a4e74d0f"
+    },
+    {
+      "name": "small-fused-attention-final/profiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final/profiled.csv",
+      "bytes": 54833331,
+      "sha256": "f43d2b00942dbcb9629667e38808777f9eef1cb989014270c301ee0e3807a9d9"
+    },
+    {
+      "name": "small-fused-attention-final/profiled.json",
+      "bytes": 44261,
+      "sha256": "50ead52d4e027570f00b60c0845f5286900b650ed92da0b7874cd31d6d262374"
+    },
+    {
+      "name": "small-fused-attention-final/profiled.txt",
+      "bytes": 325,
+      "sha256": "6fdbfa79ba8ba703730de78747735cf6fb8296754103f7f2ec32ab5558823c7b"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-existing-process.json",
+      "bytes": 416,
+      "sha256": "b5c7cb66b8eb39a13395cf9c15fd99cebfe38bdd8de53c1c707dce4150d90dee"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-existing.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-extra-process.json",
+      "bytes": 427,
+      "sha256": "0d90ceec6b84977e08b8363c64bed60cea7021953160503de7cf0823b25fa630"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-extra.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-noargs-process.json",
+      "bytes": 305,
+      "sha256": "cfaba6b0c248dae698bc4115d53f4f1ba1c3e8e9ab1fa6d8e924dfc3c3698880"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-noargs.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-symlink-process.json",
+      "bytes": 414,
+      "sha256": "9c0741c6cceaef63e9ae74a7b26345c6df9bd549209d490d44553649dbf50ec3"
+    },
+    {
+      "name": "small-fused-attention-final/rejected-symlink.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-final/reserved.csv",
+      "bytes": 10,
+      "sha256": "7ee0e7f63b9b65e302add82986c18196ecb8da0121575e4733219572eeac2712"
+    },
+    {
+      "name": "small-fused-attention-final/resource-validation-process.json",
+      "bytes": 1181,
+      "sha256": "1f0c3679ee9b3fd821ceb8af503c4fd3c4b839dd6f615723e6ced8991b342563"
+    },
+    {
+      "name": "small-fused-attention-final/resource-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final/resources.json",
+      "bytes": 212,
+      "sha256": "96e392a60354f53f394bab4d4b433100fd3b4aef1aec01aaa29f955a35a2cf4e"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled-process.json",
+      "bytes": 416,
+      "sha256": "c188bb3dc833725fbd292721d8eec3a9abca8b83fbe8e6a488d48f0e5421f4dc"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled-validation-process.json",
+      "bytes": 844,
+      "sha256": "6a08e5e210f532137b6f5995ec060562e03ce0126c0848832655c96bd8cebdc2"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled.csv",
+      "bytes": 54833304,
+      "sha256": "90434e4a7c91fb4b585891ed551658c955e7af036385dba55703f0de3c1e5295"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled.json",
+      "bytes": 44707,
+      "sha256": "fc2e41e3b0be6e2cdfd0a09c9f978c6c739b85d90541487f9d7bc44b0c9c6bfa"
+    },
+    {
+      "name": "small-fused-attention-final/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final-build-check.json",
+      "bytes": 266,
+      "sha256": "cd8f5750123c0abd12dab0dc3338fa35fe391917babd0309fd0fb20be51afb7f"
+    },
+    {
+      "name": "small-fused-attention-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "small-fused-attention-final-build-master.json",
+      "bytes": 412,
+      "sha256": "080687dadf7b3826a52371758235c33d3beee8a86cf44753415929b99fcb6d0d"
+    },
+    {
+      "name": "small-fused-attention-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "small-fused-attention-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "5ef9b9ac1758b750f47e9a7014dc826453b3fba5915fff8b77c875c337bc0054"
+    },
+    {
+      "name": "small-fused-attention-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "small-fused-attention-final-build-original.json",
+      "bytes": 582,
+      "sha256": "ac414907d1cfe285c18965b6b36c712e0ee7bcf4c0ae6f9702277071b56caa2f"
+    },
+    {
+      "name": "small-fused-attention-final-build-original.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final-build-sm_75.json",
+      "bytes": 571,
+      "sha256": "10b445712b6008b2b69b4857ebc1b666cd43ec7a39507cc8260439907e4697e0"
+    },
+    {
+      "name": "small-fused-attention-final-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "a1cc5a3f1ef2b33def98008950dd39149ce299bd7aabcc09b071146d2efb93f7"
+    },
+    {
+      "name": "small-fused-attention-final-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-final-test_small_fused_attention.mojo",
+      "bytes": 8614,
+      "sha256": "d4538133f685c5bf6596095ef9bdedf2c37d8eab1ba3b5b37217130e340c2441"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_75",
+      "bytes": 196352,
+      "sha256": "56fa53604ca0c49d7579a107b92b1993a00a74a9f81a9dd9dac1885ca8b31000"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_75.json",
+      "bytes": 808,
+      "sha256": "64b8350c00562c0a29e4107fd14b955b2f3ca368503a2765a556aa93f8ba8d6d"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_89",
+      "bytes": 196352,
+      "sha256": "291cae4799b432cbf1346cdc2c4c026135563722472a8ea4aa763f2d9d8ba9c9"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_89.json",
+      "bytes": 808,
+      "sha256": "9d85813a884c381253a33080ad57cba66909f30b48e40f1ad3ef61cab11af8b0"
+    },
+    {
+      "name": "small-fused-attention-initial-canonical-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-initial-check_small_attention_resources.py",
+      "bytes": 9063,
+      "sha256": "cbaf5cd28dc334dc4f564434085fb475723455d5eee54751310b7e84ff491550"
+    },
+    {
+      "name": "small-fused-attention-initial-reconstruction-sm_75.json",
+      "bytes": 896,
+      "sha256": "5b7fac8f477a734b6d4c8eb7b0bdfb7995e45c34ca711aa8ced4fd20e7c249f0"
+    },
+    {
+      "name": "small-fused-attention-initial-reconstruction-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-initial-sm_75",
+      "bytes": 196352,
+      "sha256": "9b7cb50de55491d6c13b8991d5cbd22d986745f6b8f9ac6a39199b8c5dff94e1"
+    },
+    {
+      "name": "small-fused-attention-initial-test_small_fused_attention.mojo",
+      "bytes": 8330,
+      "sha256": "7f7ad4abe3295551c1dd015005204f820b1073983e232bcd4dda4c5c9acf7869"
+    },
+    {
+      "name": "small-fused-attention-original-sm_75",
+      "bytes": 195544,
+      "sha256": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_cuda_trace.txt",
+      "bytes": 129,
+      "sha256": "03b477cebaa2934fd977ba2494931725e0c9336021af0bdff876de28bab5384f"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_checkpoint.txt",
+      "bytes": 3202,
+      "sha256": "eea0153e279d4bf2363ea20bf90f98fa8f473167af82febd03ee101b40b10cb1"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_controls.txt",
+      "bytes": 2427,
+      "sha256": "d6d016b35b9d2230a52fd246bf32b4c5b2f0df644654c4d970ded4904e0cea58"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_controls_model.txt",
+      "bytes": 753,
+      "sha256": "28786eba9bdf79dee4aa9b3485e608f012521731fb92543aa7f0905d7bd52db0"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_decode.txt",
+      "bytes": 4830,
+      "sha256": "271e1fc603840382445f182d89d8a14ba1d39b6f63b03cc52ee46125af31354b"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_model.txt",
+      "bytes": 679,
+      "sha256": "391c150dc118cb23961e0c7fa792d8a9d759ef1ac8d428e2add59376a21b05f1"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_attention_trace.txt",
+      "bytes": 107,
+      "sha256": "e45b533cde56c3c802fe93b54f57685458df96a4fadf9bae65b41c3d11d25dbb"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_fused_causal_attention.txt",
+      "bytes": 107,
+      "sha256": "ca76ae23d74a4f8311220fb98bf9133410292fe2127b0b3238e002043c23db77"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_small_attention_resources.txt",
+      "bytes": 106,
+      "sha256": "22eea1afdaa98fd070b0902c97a7065bf170d8b3fafc1afac564820cfe93ef18"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_small_fused_attention.txt",
+      "bytes": 109,
+      "sha256": "45629e08d8c41ba474e149425cf4477b6ed2d14afbd48b41a5dea35ddb36ae32"
+    },
+    {
+      "name": "small-fused-attention-portable-test_check_turing_down_projection_trace.txt",
+      "bytes": 109,
+      "sha256": "79df89c1275396d97b472c355017fe5c3369eacc7d16c42ed8963bcd5a4391c3"
+    },
+    {
+      "name": "small-fused-attention-second-final/after-gpu.json",
+      "bytes": 2686,
+      "sha256": "690491c7f3a511e2e11710fb5e0297affeca85f55bfa5dd69ed6229b25156069"
+    },
+    {
+      "name": "small-fused-attention-second-final/before-validation.json",
+      "bytes": 3242,
+      "sha256": "a1806f500f8681900186d081ee25e97bba562ecd28334ca8af0ed377661a1d37"
+    },
+    {
+      "name": "small-fused-attention-second-final/capture.nsys-rep",
+      "bytes": 506592,
+      "sha256": "acd3dc2351341d9ffc2ee3d3faccdac9aac08ef8708735a44b1431cb60ceeeae"
+    },
+    {
+      "name": "small-fused-attention-second-final/capture.qdstrm",
+      "bytes": 3748240,
+      "sha256": "6cbeae9f28bef957ff7827216267c25d595d0242aecfa4e9f64a1e4c2a947e38"
+    },
+    {
+      "name": "small-fused-attention-second-final/capture.sqlite",
+      "bytes": 1335296,
+      "sha256": "25cfc4f5ceefe5860b0ff9bf87a42cf8dea04fa39dfca319efe4872769fa593c"
+    },
+    {
+      "name": "small-fused-attention-second-final/export-process.json",
+      "bytes": 544,
+      "sha256": "6181907ad6b76fe0cc04a771d9303940548026c188621308372335dd5a679646"
+    },
+    {
+      "name": "small-fused-attention-second-final/export.txt",
+      "bytes": 8101,
+      "sha256": "67f30ef40138d19c678a88249b7e257bc4321b87e7f9cd9ae5f1f9c21cbfcd99"
+    },
+    {
+      "name": "small-fused-attention-second-final/import-process.json",
+      "bytes": 550,
+      "sha256": "2b06288077d852d6f44d601e324b6eb837b9eb5471d9fadcf57912d44cd57cd5"
+    },
+    {
+      "name": "small-fused-attention-second-final/import.txt",
+      "bytes": 544,
+      "sha256": "b7fa6a0cf7f46af7aeec85e89e6ba817ed59996d7b862c855647cc3257ce1b40"
+    },
+    {
+      "name": "small-fused-attention-second-final/postflight-after-failed-resource.json",
+      "bytes": 2686,
+      "sha256": "690491c7f3a511e2e11710fb5e0297affeca85f55bfa5dd69ed6229b25156069"
+    },
+    {
+      "name": "small-fused-attention-second-final/preflight.json",
+      "bytes": 2686,
+      "sha256": "690491c7f3a511e2e11710fb5e0297affeca85f55bfa5dd69ed6229b25156069"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled-process.json",
+      "bytes": 811,
+      "sha256": "aa60e0c7206f28b64948ba6e9a7c9c0773ed64fd12044e84571012f66e509d35"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled-validation-process.json",
+      "bytes": 871,
+      "sha256": "bf6f0a89fa0953c40f46bc0ad0b1682131428d2733be38eb9773cb32144e0ccb"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled.csv",
+      "bytes": 54833310,
+      "sha256": "11ba5a88b3e5705f29061275f9f6bdb585eb824891110544e00ac0e92d534186"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled.json",
+      "bytes": 44264,
+      "sha256": "5f61a339a7d70b4e2dee913fccbf6e4867d79db20cfaaabf77ea2f466415f502"
+    },
+    {
+      "name": "small-fused-attention-second-final/profiled.txt",
+      "bytes": 332,
+      "sha256": "fc6bf193d783f192367f25b35f503f71b696e7315058425beb8a8dcbf903fa63"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-existing-process.json",
+      "bytes": 423,
+      "sha256": "077092ab4a67c05d1ad5d510fee09ebc082a8fa0cfbd91e4765d7b421fcf6209"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-existing.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-extra-process.json",
+      "bytes": 435,
+      "sha256": "97b3fbf62eadcb493ccb466395572992f989ab606d9e578c6350ab02d82181a3"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-extra.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-noargs-process.json",
+      "bytes": 304,
+      "sha256": "e42adc5101f10f8345878930f928852d0c0f346e1b0c62f005b1b38b121743e1"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-noargs.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-symlink-process.json",
+      "bytes": 421,
+      "sha256": "b9f51b49e825a90651771d28b64bc4b0744a6a8b4c4f66960ed340c2c2cce317"
+    },
+    {
+      "name": "small-fused-attention-second-final/rejected-symlink.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-second-final/reserved.csv",
+      "bytes": 10,
+      "sha256": "7ee0e7f63b9b65e302add82986c18196ecb8da0121575e4733219572eeac2712"
+    },
+    {
+      "name": "small-fused-attention-second-final/resource-validation-process.json",
+      "bytes": 1216,
+      "sha256": "a135975e74342d9233c0c60e98cc26013c3bfd498ab0ebba0dc27734f76cbb80"
+    },
+    {
+      "name": "small-fused-attention-second-final/resource-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-second-final/resources.json",
+      "bytes": 216,
+      "sha256": "dbc5a0f3c54b7687a3be9a58f7dc956e1b9a417e1f5af6a3f8e3f73fecb8a243"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled-process.json",
+      "bytes": 422,
+      "sha256": "f83e2711479b6f97c9935678857592ca7ddcd2cd72ecd52febedd6f160e8d64f"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled-validation-process.json",
+      "bytes": 857,
+      "sha256": "21ebb9f4cfa0a89b949f89b51fe6bf64a4f057745ec33066be4ec4eac7cca73a"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled.csv",
+      "bytes": 54833328,
+      "sha256": "b786e8243fe9381fdc0d6fe0d6f8084713104fb4cef8d3f7ea47a5c9fd7ddd04"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled.json",
+      "bytes": 44720,
+      "sha256": "da31b3fbb33bf09322789f8a3b98c55c9f2ba33a2e6a4318b5f4d8324eb1728d"
+    },
+    {
+      "name": "small-fused-attention-second-final/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-sm_75",
+      "bytes": 196456,
+      "sha256": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9"
+    },
+    {
+      "name": "small-fused-attention-sm_89",
+      "bytes": 196456,
+      "sha256": "438568371c7312218575dce40c873564ea01e355f3989bd99dcae934cf597925"
+    },
+    {
+      "name": "small-fused-attention-third-final/after-gpu.json",
+      "bytes": 2686,
+      "sha256": "87227a3d9fb24dade51510698f13fb519912dc3c0398aaf8b0e9f4603b29eec6"
+    },
+    {
+      "name": "small-fused-attention-third-final/before-validation.json",
+      "bytes": 3239,
+      "sha256": "924a4aa7aaee791b9fc08cde8d1892cc3e5bc585b003fef56833d496ea473bc6"
+    },
+    {
+      "name": "small-fused-attention-third-final/capture.nsys-rep",
+      "bytes": 506017,
+      "sha256": "368865c1ce8e0ed1b0214ca428f5e925538391fd99df81a628edf6fbcbcb48f2"
+    },
+    {
+      "name": "small-fused-attention-third-final/capture.qdstrm",
+      "bytes": 3748396,
+      "sha256": "f092233883c2af34fefa6784f327f1b3a9159dbecdad9d2853f333084e88f233"
+    },
+    {
+      "name": "small-fused-attention-third-final/capture.sqlite",
+      "bytes": 1339392,
+      "sha256": "ee7307eeddc98c82aaed0a0ffc7f670ecde1a332e94cb219f2b109200051934b"
+    },
+    {
+      "name": "small-fused-attention-third-final/export-process.json",
+      "bytes": 542,
+      "sha256": "0adc41da047f755d6b7585c23a4c8760442f4149715cb6ebbd22333ad5d9eba5"
+    },
+    {
+      "name": "small-fused-attention-third-final/export.txt",
+      "bytes": 8101,
+      "sha256": "ef50f39bea18981e920500fc12170672aa651150342b5dd1185ed8941aebd5cf"
+    },
+    {
+      "name": "small-fused-attention-third-final/import-process.json",
+      "bytes": 548,
+      "sha256": "71497f1d598ff558c7434518653596c9f0b5425e3cf888b43ec2443e577081a1"
+    },
+    {
+      "name": "small-fused-attention-third-final/import.txt",
+      "bytes": 543,
+      "sha256": "06eb275bcd6bc58fcb9e73a9fb4db0cf90017408f4cdeacdfc1c67b2f742c8e0"
+    },
+    {
+      "name": "small-fused-attention-third-final/postflight.json",
+      "bytes": 3239,
+      "sha256": "924a4aa7aaee791b9fc08cde8d1892cc3e5bc585b003fef56833d496ea473bc6"
+    },
+    {
+      "name": "small-fused-attention-third-final/preflight.json",
+      "bytes": 2686,
+      "sha256": "87227a3d9fb24dade51510698f13fb519912dc3c0398aaf8b0e9f4603b29eec6"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled-process.json",
+      "bytes": 719,
+      "sha256": "f6b2507f7a41cee0690f97cd816751a5e878a517724e1fa4187b0835536cf940"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled-validation-process.json",
+      "bytes": 870,
+      "sha256": "e6d408e7bca02a1ce619246f370a856d71b81b409d57d7654b54fcabdc0b4f5d"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled.csv",
+      "bytes": 54833316,
+      "sha256": "92d9def2effc6ba0090f83289015a9e144cfefdf4d4ec9fa2187c01ebec1f973"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled.json",
+      "bytes": 44272,
+      "sha256": "96acfd7715bbfba29f40603f18a6b2d88ab631a7df2d8425b5649ca388f28e8d"
+    },
+    {
+      "name": "small-fused-attention-third-final/profiled.txt",
+      "bytes": 331,
+      "sha256": "de6a3a4b181935f12e5996f6c16b9fa11a980798ec994610b4849915c0eab722"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-existing-process.json",
+      "bytes": 422,
+      "sha256": "769d17d9d6f4beb924841ec9bf965ff3035982a5228f6bb17e7ecbc49bf56691"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-existing.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-extra-process.json",
+      "bytes": 434,
+      "sha256": "1ad1d2697872d4b00470615f9c9d19b7092dad287ecbaf410de28a28e6008dbb"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-extra.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-noargs-process.json",
+      "bytes": 305,
+      "sha256": "5991fcdc23fdfc9f8bffda7d5b0b14dd66e0e82faebadbdf144a27e4c89459a2"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-noargs.txt",
+      "bytes": 211,
+      "sha256": "65d09b428aea702c455a8ea42f3987736311353614fd2b4770f44a21fb69158c"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-symlink-process.json",
+      "bytes": 421,
+      "sha256": "ced3acf93808b84797c55560e273797c6f108891477cfaedd7e6aae6cccc5a73"
+    },
+    {
+      "name": "small-fused-attention-third-final/rejected-symlink.txt",
+      "bytes": 210,
+      "sha256": "d4b5b5e2f71ea5aa79f062545de1ea862e1ee889cd71f0cefb499fe692c06059"
+    },
+    {
+      "name": "small-fused-attention-third-final/reserved.csv",
+      "bytes": 10,
+      "sha256": "7ee0e7f63b9b65e302add82986c18196ecb8da0121575e4733219572eeac2712"
+    },
+    {
+      "name": "small-fused-attention-third-final/resource-validation-process.json",
+      "bytes": 1211,
+      "sha256": "b739e2b30ea33914d74e0843f41bbdb7368199572643e8594e9ec8d45db5347c"
+    },
+    {
+      "name": "small-fused-attention-third-final/resource-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-third-final/resources.json",
+      "bytes": 14881,
+      "sha256": "0160d02a0c50b325af0564ac963449b385b264364bccc51dec7f7d54e1eeee97"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled-process.json",
+      "bytes": 421,
+      "sha256": "2a4816f00517d857c3ce902a9c6c65a3e764ac789aca7c9502243d1713ef941e"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled-validation-process.json",
+      "bytes": 855,
+      "sha256": "8c9ab8b0a59c804e95ae7d45e2f066fc998dc92040308ef9311f025e8d2e8146"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled-validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled.csv",
+      "bytes": 54833307,
+      "sha256": "8138d28c79519d297f7b741a4ffb54f465b4c2df1d0470cebddf17d25c1d84e6"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled.json",
+      "bytes": 44736,
+      "sha256": "a98b012eda4c7b23054d2245de5b6c7f9f39d825e3dda914ebeeaeeb8591d7ff"
+    },
+    {
+      "name": "small-fused-attention-third-final/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "limits": "One warmed sm75 deterministic primitive session; no model/request/provider/occupancy/spill/cause or aggregate VRAM claim."
+}

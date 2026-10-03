@@ -2086,3 +2086,18 @@ lead. Old production/fused4 selections stay; broader acceptance remains open.
 
 [Evidence](docs/evidence/turing-token-partition-2026-10-03/README.md).
 Existing AES-ACC-008 experiment only; no general capability promotion.
+
+### Bounded small-score primitive refinement — 2026-10-03
+
+Separate small-score attention passes all33 cases/full original F32 bits/NumPy
+Float64 outputs/exact guards/immutable query+KV cells/660 rotated finite records.
+Full identical-binary profile bits/PID and all2178 resource/launch correlations prove
+static16384→6144 bytes,62.5% smaller per-CTA score storage. Profile timings unscored;
+plain timings exploratory.10+8 hostile contracts/master190 and all six final builds
+pass. Original kernel/model/runtime selection stays. [Operation](docs/NATIVE_SMALL_FUSED_ATTENTION.md).
+Next earn source-bound actual default-disabled small-score whole-model logits/cache/
+IDs/counters/own bits/independent CPU quality before broader integration. Scalar decode
+and context/device/concurrency/soak/production32/refreshed provider lead stay separate.
+
+[Evidence](docs/evidence/small-fused-attention-2026-10-03/README.md).
+Refines AES-ACC-010; no general new capability promotion.

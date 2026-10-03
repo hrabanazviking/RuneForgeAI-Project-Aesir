@@ -31,16 +31,18 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False, fused_attention=False):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False, fused_attention=False, fused_primitive=False):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
     Export must be closed, without WAL/journal sidecars; query_only and an authorizer
     deny writes and executable extensions. No database-provided SQL is executed.
     """
+    if type(fused_primitive) is not bool or (fused_primitive and (not record_resources or down128 or fused_attention or projection_tiles is not None or nvtx_range is not None)):
+        raise ValueError("Fused primitive resources require exclusive complete capture admission")
     if type(fused_attention) is not bool or (fused_attention and not (down128 and record_resources and projection_tiles is not None)):
         raise ValueError("Fused attention resources require explicit owned down projection path")
-    if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not down128):
+    if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not (down128 or fused_primitive)):
         raise ValueError("Kernel resources require explicit owned down projection path")
     path = Path(path).absolute()
     for suffix in ("-wal", "-shm", "-journal"):
@@ -250,6 +252,16 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 attention = attention_attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
                 projection["attention_variant"] = 4
             extra = {"fused_attention_attribution": attention} if fused_attention else {}
+            if fused_primitive:
+                from cuda_projection_ranges import RESOURCE_FIELDS
+                resource_groups = {}
+                for correlation,name,start,end in selected_kernels:
+                    record = resources[correlation]
+                    signature = (name,*(record[k] for k in RESOURCE_FIELDS))
+                    group = resource_groups.setdefault(signature,dict(kernel=name,resources=record.copy(),kernel_count=0,gpu_total_ns=0))
+                    group["kernel_count"] += 1
+                    group["gpu_total_ns"] += end-start
+                extra["primitive_resource_distributions"] = [resource_groups[k] for k in sorted(resource_groups)]
             return {**extra, "schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
                     "process": {"pid": process[0][1], "name": expected_executable},
                     "gpu": {"name": gpu[0][1], "compute": f"{gpu[0][2]}.{gpu[0][3]}", "bytes": gpu[0][4]},

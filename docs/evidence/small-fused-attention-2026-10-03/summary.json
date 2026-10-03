@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "passed": true,
+  "production_selected": false,
+  "full_model_speed_claim": false,
+  "static_shared_bytes": {
+    "original": 16384,
+    "small": 6144
+  },
+  "shared_score_reduction_percent": 62.5,
+  "values_per_owner": 1142784,
+  "guards_per_capture": 906066,
+  "complete_profile_kernels": 2178,
+  "long1070_primitive_ratios": [
+    {
+      "batch": 1,
+      "tokens": 1,
+      "original_to_small_ratio": 1.0007730363491565
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "original_to_small_ratio": 1.000245249335528
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "original_to_small_ratio": 1.5791609303581875
+    }
+  ],
+  "limits": "One warmed sm75 deterministic primitive session; no model/request/provider/occupancy/spill/cause or aggregate VRAM claim."
+}

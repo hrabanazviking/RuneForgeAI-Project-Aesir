@@ -72,6 +72,7 @@ jobs:
           python3 scripts/test_cuda_projection_ranges.py
           python3 scripts/test_check_turing_down_projection_trace.py
           python3 scripts/test_check_fused_attention_trace.py
+          python3 scripts/test_check_small_attention_resources.py
 
       - name: Prove Matrix Primitive Evidence Admission
         run: |
@@ -79,6 +80,7 @@ jobs:
           python3 scripts/test_check_turing_paired_ffn.py
           python3 scripts/test_check_turing_token_partition.py
           python3 scripts/test_check_fused_causal_attention.py
+          python3 scripts/test_check_small_fused_attention.py
           python3 scripts/test_check_fused_attention_model.py
 
       - name: Prove Turing MMA Evidence Admission
@@ -161,6 +163,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_paired_ffn.mojo -o /tmp/aesir-turing-paired-ffn-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_token_partition.mojo -o /tmp/aesir-turing-token-partition-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_fused_causal_attention.mojo -o /tmp/aesir-fused-causal-attention-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_small_fused_attention.mojo -o /tmp/aesir-small-fused-attention-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_fused_attention_model.mojo -o /tmp/aesir-fused-attention-model-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_loop_staging.mojo -o /tmp/aesir-turing-loop-staging-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_narrow_staging.mojo -o /tmp/aesir-turing-narrow-staging-probe

@@ -59,3 +59,23 @@ devlog, verify unchanged authenticated normal prefill4 readiness, commit/push/ex
 CI. If bounded attention improves, next earn actual full-model source/cache/ID/
 CPU/counters acceptance before selector integration. Broader context/device/control/
 replay/concurrency/soak/provider leadership stays open.
+
+## Capture refinement after the first complete vectors
+
+Initial plain/profile captures and both complete NumPy validations pass. The full
+trace validator rejects initial runtime calls at449ms preceding exporter analysis
+start610ms. Every2178 kernel fits the interval; do not weaken full runtime bounds.
+Retain original raw capture, rejected JSON, logs, source snapshots and all fences.
+Repeat into a fresh private directory from unchanged native binaries after the
+profiler starts an owned shell that waits one second then execs the exact native
+collector. This delays CUDA initialization within the complete capture interval,
+without partial-range triggers or changing math/native/runtime. The actual native
+PID remains mandatory. Bind observed small wrapper prefix ending_sma explicitly.
+All builds remain completed before fresh serial plain/profile GPU and CPU gates.
+
+The shell-exec capture fixes interval containment but fails exact executable
+identity because Nsight retains bash process naming. Retain that second capture
+and refusal too. Final collector waits one second through checked native usleep
+(after pure admissions/CSV reservation, before context), outside all warmed timing
+samples. Keep argc2 and all mode/output/math contracts. Directly profile the actual
+collector; rebuild all six gates before fresh serial plain/profile/CPU runs.

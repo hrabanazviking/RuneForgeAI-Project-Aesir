@@ -1,3 +1,19 @@
+## 2026-10-03 — Sigrún: bounded small-score fused attention
+
+Task5a02709 preceded code. Separate optional native1536 F32 shared-score kernel
+preserves original GQA math/order/barriers/full allocation guards and capacity4096;
+visible1537 refuses before enqueue. Original kernel/selectors remain. Native owned
+CSV/PID retains complete outputs/immutable inputs/exact guard and finite timing data.
+First full resource trace rejects pre-analysis initialization; delayed shell capture
+rejects exec identity. Preserve both; checked native startup wait outside timings and
+six new builds enable direct complete capture without weakening any gate. Full CUDA
+rows/resources/correlations/process validation precedes source count distributions.
+Actual static16384/6144 footprint, complete plain/profile bits/CPU source and all
+five artifact fences pass.10+8 hostile contracts/legacy suites/master190 pass.
+Normal original authenticated prefill4 remains ready. Primitive speed is exploratory;
+no occupancy/spill/cause/model/provider promotion. Next earn actual model source4.
+[Operation](docs/NATIVE_SMALL_FUSED_ATTENTION.md). Exact push/CI receipts separate.
+
 ## 2026-10-03 — Sigrún: bounded token-partition matrix experiment
 
 Task8833a70 preceded code. Long owned fused trace identified FFN57.1693% of summed

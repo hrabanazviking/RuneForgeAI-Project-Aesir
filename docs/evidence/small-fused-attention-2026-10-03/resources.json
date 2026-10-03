@@ -1,0 +1,533 @@
+{
+  "schema": 1,
+  "passed": true,
+  "collection_complete": true,
+  "speed_scored": false,
+  "speed_promoted": false,
+  "full_model_speed_claim": false,
+  "values_per_owner": 1142784,
+  "binary_sha256": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+  "unprofiled_csv_sha256": "8138d28c79519d297f7b741a4ffb54f465b4c2df1d0470cebddf17d25c1d84e6",
+  "profiled_csv_sha256": "92d9def2effc6ba0090f83289015a9e144cfefdf4d4ec9fa2187c01ebec1f973",
+  "cpu_report_sha256": "a98b012eda4c7b23054d2245de5b6c7f9f39d825e3dda914ebeeaeeb8591d7ff",
+  "sqlite_sha256": "ee7307eeddc98c82aaed0a0ffc7f670ecde1a332e94cb219f2b109200051934b",
+  "resource_validation": {
+    "passed": true,
+    "kernel_count": 2178,
+    "static_shared_bytes": {
+      "original": 16384,
+      "small": 6144
+    },
+    "source_launches": [
+      {
+        "owner": "core_fused_causal_attention_fu",
+        "tokens": 1,
+        "count": 429
+      },
+      {
+        "owner": "core_fused_causal_attention_fu",
+        "tokens": 4,
+        "count": 330
+      },
+      {
+        "owner": "core_fused_causal_attention_fu",
+        "tokens": 31,
+        "count": 33
+      },
+      {
+        "owner": "core_fused_causal_attention_fu",
+        "tokens": 32,
+        "count": 297
+      },
+      {
+        "owner": "core_fused_small_attention_sma",
+        "tokens": 1,
+        "count": 429
+      },
+      {
+        "owner": "core_fused_small_attention_sma",
+        "tokens": 4,
+        "count": 330
+      },
+      {
+        "owner": "core_fused_small_attention_sma",
+        "tokens": 31,
+        "count": 33
+      },
+      {
+        "owner": "core_fused_small_attention_sma",
+        "tokens": 32,
+        "count": 297
+      }
+    ],
+    "recorded_resource_distributions": [
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 1,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 429,
+        "gpu_total_ns": 58182924
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 4,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 330,
+        "gpu_total_ns": 57882126
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 31,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 33,
+        "gpu_total_ns": 1451405
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 32,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 297,
+        "gpu_total_ns": 347798925
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 1,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 429,
+        "gpu_total_ns": 58104571
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 4,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 330,
+        "gpu_total_ns": 57863010
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 31,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 33,
+        "gpu_total_ns": 996261
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 32,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 297,
+        "gpu_total_ns": 222076119
+      }
+    ]
+  },
+  "trace": {
+    "primitive_resource_distributions": [
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 1,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 429,
+        "gpu_total_ns": 58182924
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 4,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 330,
+        "gpu_total_ns": 57882126
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 31,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 33,
+        "gpu_total_ns": 1451405
+      },
+      {
+        "kernel": "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 16384,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 32,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 297,
+        "gpu_total_ns": 347798925
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 1,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 429,
+        "gpu_total_ns": 58104571
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 4,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 330,
+        "gpu_total_ns": 57863010
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 31,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 33,
+        "gpu_total_ns": 996261
+      },
+      {
+        "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+        "resources": {
+          "registers_per_thread": 46,
+          "static_shared_bytes": 6144,
+          "dynamic_shared_bytes": 0,
+          "local_bytes_per_thread": 0,
+          "legacy_local_bytes_total_deprecated": 17694720,
+          "grid_x": 24,
+          "grid_y": 32,
+          "grid_z": 1,
+          "block_x": 128,
+          "block_y": 1,
+          "block_z": 1
+        },
+        "kernel_count": 297,
+        "gpu_total_ns": 222076119
+      }
+    ],
+    "schema": 1,
+    "exporter": "2023.4.4.54",
+    "process": {
+      "pid": 1304002,
+      "name": "small-fused-attention-sm_75"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+      "compute": "7.5",
+      "bytes": 6017515520
+    },
+    "capture_ns": 6582947955,
+    "kernel_count": 2178,
+    "scope": "complete_capture",
+    "complete_capture_kernel_count": 2178,
+    "excluded_kernel_count": 0,
+    "projection_attribution": null,
+    "recorded_resource_kernel_count": 2178,
+    "kernel_window_ns": 3474978441,
+    "gpu_busy_in_kernel_window_ns": 838864033,
+    "uncovered_in_kernel_window_ns": 2636114408,
+    "kernel_groups": {
+      "core_fused_causal_attention_fu6A6A6A6A_aeedce7b22b5ee7a": {
+        "count": 1089,
+        "total_ns": 465315380
+      },
+      "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9": {
+        "count": 1089,
+        "total_ns": 339039961
+      }
+    },
+    "api_groups": {
+      "cuMemAllocHost_v2": {
+        "count": 1,
+        "total_ns": 882717971,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuStreamSynchronize": {
+        "count": 727,
+        "total_ns": 835130583,
+        "return_values": {
+          "0": 727
+        }
+      },
+      "cuLaunchKernelEx": {
+        "count": 2178,
+        "total_ns": 7795931,
+        "return_values": {
+          "0": 2178
+        }
+      },
+      "cuMemFree_v2": {
+        "count": 66,
+        "total_ns": 5236921,
+        "return_values": {
+          "0": 66
+        }
+      },
+      "cuMemAlloc_v2": {
+        "count": 66,
+        "total_ns": 4424391,
+        "return_values": {
+          "0": 66
+        }
+      },
+      "cuMemcpyHtoDAsync_v2": {
+        "count": 66,
+        "total_ns": 867767,
+        "return_values": {
+          "0": 66
+        }
+      },
+      "cuStreamIsCapturing": {
+        "count": 3633,
+        "total_ns": 619078,
+        "return_values": {
+          "0": 3633
+        }
+      },
+      "cuMemCreate": {
+        "count": 198,
+        "total_ns": 410003,
+        "return_values": {
+          "101": 198
+        }
+      },
+      "cuEventQuery": {
+        "count": 306,
+        "total_ns": 372358,
+        "return_values": {
+          "0": 198,
+          "600": 108
+        }
+      },
+      "cuEventRecord": {
+        "count": 198,
+        "total_ns": 321848,
+        "return_values": {
+          "0": 198
+        }
+      },
+      "cuModuleLoadDataEx": {
+        "count": 2,
+        "total_ns": 292087,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuMemcpyDtoHAsync_v2": {
+        "count": 66,
+        "total_ns": 260325,
+        "return_values": {
+          "0": 66
+        }
+      },
+      "cuStreamCreate": {
+        "count": 1,
+        "total_ns": 49904,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuMemAddressReserve": {
+        "count": 1,
+        "total_ns": 14888,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuStreamDestroy": {
+        "count": 1,
+        "total_ns": 6783,
+        "return_values": {
+          "0": 1
+        }
+      },
+      "cuMemGetAllocationGranularity": {
+        "count": 2,
+        "total_ns": 2444,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuEventCreate": {
+        "count": 2,
+        "total_ns": 1674,
+        "return_values": {
+          "0": 2
+        }
+      },
+      "cuCtxSetCurrent": {
+        "count": 1,
+        "total_ns": 1282,
+        "return_values": {
+          "0": 1
+        }
+      }
+    },
+    "copies_by_kind": {
+      "1": {
+        "count": 66,
+        "bytes": 112358532,
+        "total_ns": 17068841
+      },
+      "2": {
+        "count": 66,
+        "bytes": 112358532,
+        "total_ns": 17459243
+      }
+    },
+    "owned_nvtx_range": null,
+    "limits": "Profiled timings only. Optional named range selects observed prefill launches after full-capture validation. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer projection labels or quality/speed-lead certification."
+  },
+  "limits": "Entire actual primitive PID capture, all full source F32 bits/guards/CPU numeric gates. Profile durations diagnostic only. Recorded resources do not certify occupancy, spills, causes, model speed or provider leadership."
+}

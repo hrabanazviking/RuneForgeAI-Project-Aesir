@@ -441,6 +441,17 @@ Enabled control times remain unscored; tracing/control-capable4 sealed replay an
 broader contexts/devices/concurrency/soak/runtime/provider gates remain separate.
 Next earn owned fused stage tracing; SPD-03 and speed objective remain open.
 
+
+Separate small-score attention passes all33 cases/full original F32 bits/NumPy
+Float64 outputs/exact guards/immutable query+KV cells/660 rotated finite records.
+Full identical-binary profile bits/PID and all2178 resource/launch correlations prove
+static16384→6144 bytes,62.5% smaller per-CTA score storage. Profile timings unscored;
+plain timings exploratory.10+8 hostile contracts/master190 and all six final builds
+pass. Original kernel/model/runtime selection stays. [Operation](docs/NATIVE_SMALL_FUSED_ATTENTION.md).
+Next earn source-bound actual default-disabled small-score whole-model logits/cache/
+IDs/counters/own bits/independent CPU quality before broader integration. Scalar decode
+and context/device/concurrency/soak/production32/refreshed provider lead stay separate.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse
