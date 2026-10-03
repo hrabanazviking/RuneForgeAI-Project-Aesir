@@ -396,3 +396,16 @@ immutability pass. All780 rotated times remain; full4/32 improve but long single
 queries lose. Nine contracts/master190/one skip. Retained parse failure and
 preliminary accepted capture precede rebuilt final stride refinement. Read
 ../docs/NATIVE_FUSED_CAUSAL_ATTENTION.md. Actual model/full-model/state/runtime/provider gates remain separate.
+
+## Explicit fused-attention complete-model gate
+
+Final fused_attention=False capability selects strategy4 only with original
+precision0/batched rotary/elementwise/down128 and controls/tracing closed before
+model loading or step mutation. Count4/32 use checked owned fused attention after
+ordered cache writes; count1 keeps original kernels. Actual counters reset and
+record fused196/56/196/1008, original queries56/28/84/56. All513024 current F32
+values per owner/IDs/full F16 cache match accepted3, unchanged CPU budgets/own
+bits/4352 guards/eight invalid tiles/32 timings pass. Seven contracts/master190
+and one skip. Explicit CLI/source3/binary/after-hash gates preserve default
+reader/strategy4 replay refusal. Read ../docs/NATIVE_FUSED_ATTENTION_MODEL.md; broader state/runtime/provider
+gates remain separate.

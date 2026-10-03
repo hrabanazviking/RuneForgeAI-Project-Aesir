@@ -18,8 +18,9 @@ from check_turing_activations import f32
 from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MAX_RMS_ERROR
 
 
-def attention_variant(row,allow_down=False):
+def attention_variant(row,allow_down=False,allow_fused=False):
     if not row or row[0] != "ATTENTION": return None
+    if allow_fused and row == ["ATTENTION","rope_cache_elementwise_down128_fused","1","32"]: return 4
     if allow_down and row == ["ATTENTION","rope_cache_elementwise_down128","1","32"]: return 3
     if row == ["ATTENTION", "rope_cache_elementwise_grid", "1", "32"]: return 2
     if row not in (["ATTENTION", "rope_cache_grid", "0", "32"], ["ATTENTION", "rope_cache_grid", "1", "32"]):
@@ -41,6 +42,16 @@ def elementwise_calls(count, variant):
     return tiles*5*28+1
 
 
+def fused_attention_calls(count):
+    remaining=count-1;fused=0;original=1
+    while remaining:
+        size=32 if remaining>=32 else 4 if remaining>=4 else 1
+        remaining-=size
+        if size>1:fused+=1
+        else:original+=1
+    return fused*28,original*28
+
+
 def reference_fields(pairs):
     result = {}
     for key, value in pairs:
@@ -49,7 +60,7 @@ def reference_fields(pairs):
     return result
 
 
-def parse(path):
+def parse(path,allow_fused=False):
     text = read_text(path, 64 * 1024 * 1024)
     if len(text.encode("utf-8")) > 64 * 1024 * 1024:
         raise ValueError("Model CSV grew beyond byte admission")
@@ -57,7 +68,7 @@ def parse(path):
     cuda = next(reader)
     if not cuda or not cuda[0].startswith("[CUDA]") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
         raise ValueError("Missing actual native CUDA identity")
-    meta = next(reader); precision = 0; variant = attention_variant(meta,allow_down=True)
+    meta = next(reader); precision = 0; variant = attention_variant(meta,allow_down=True,allow_fused=allow_fused)
     if variant is not None: meta = next(reader)
     if meta == ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
         pass
@@ -68,6 +79,8 @@ def parse(path):
     if variant is not None and precision != 0: raise ValueError("Batched rotary/cache mixed with rejected precision refinement")
     if variant == 3 and (not text.endswith("\n") or next(reader) != ["ADMISSION","3","2","0"]):
         raise ValueError("Incomplete down128 pre-step refusal evidence")
+    if variant == 4 and (not text.endswith("\n") or any(len(line)>1024 for line in text.splitlines()) or next(reader) != ["ADMISSION","4","3","0"]):
+        raise ValueError("Incomplete fused model pre-step refusal evidence")
     control_capable = False
     first_case = next(reader)
     if variant == 3 and first_case == ["CONTROL_CAPABLE","3","1"]:
@@ -106,14 +119,18 @@ def parse(path):
         if variant is not None:
             calls = rope_cache_calls(count, variant)
             if next(reader) != ["ENQUEUE", str(index), str(calls)]: raise ValueError("Actual rotary/cache host enqueue count mismatch")
-            if variant in (2,3):
+            if variant in (2,3,4):
                 cells = elementwise_calls(count,variant)
                 if next(reader) != ["ELEMENTWISE",str(index),str(cells)]: raise ValueError("Actual elementwise host enqueue count mismatch")
                 case["elementwise_host_enqueues"] = cells
-            if variant == 3:
+            if variant in (3,4):
                 down = ((count-1)//32)*28
                 if next(reader) != ["DOWN_ROWS128",str(index),str(down)]:raise ValueError("Actual down128 selected enqueue count mismatch")
                 case["down128_host_enqueues"] = down
+            if variant == 4:
+                fused,original=fused_attention_calls(count)
+                if next(reader) != ["FUSED_ATTENTION",str(index),str(fused),str(original)]:raise ValueError("Actual fused/original attention enqueue count mismatch")
+                case.update(fused_attention_host_enqueues=fused,original_attention_queries=original)
             cache = next(reader)
             if len(cache) != 4 or cache[:3] != ["CACHE", str(index), "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", cache[3]): raise ValueError("Incomplete guarded cache identity")
             case.update(rope_cache_host_enqueues=calls, guarded_cache_sha256=cache[3])
@@ -143,8 +160,9 @@ def fixture_reference(data, csv_path, report_path, model_sha):
         raise ValueError("Batched variant requires explicit independently accepted scalar-cache baseline")
     if data["attention_variant"] == 2 and reference["attention_variant"] != 1:
         raise ValueError("Elementwise variant requires explicit independently accepted rotary/cache baseline")
-    if data["attention_variant"] == 3:
-        if reference["attention_variant"] != 2:raise ValueError("Down128 requires explicitly accepted elementwise strategy2")
+    if data["attention_variant"] in (3,4):
+        parent=2 if data["attention_variant"]==3 else 3
+        if reference["attention_variant"] != parent:raise ValueError("Down/fused model requires explicitly accepted predecessor strategy")
         def fixed(value):
             if not isinstance(value,dict) or value.get("passed") is not True or value.get("values") != VOCABULARY:return False
             for key,limit in (("maximum_absolute_error",MAX_ABSOLUTE_ERROR),("rms_error",MAX_RMS_ERROR)):
@@ -164,6 +182,19 @@ def fixture_reference(data, csv_path, report_path, model_sha):
                 or declared.get("input_ids")!=before["input_ids"]
                 or any(declared.get(key)!=before[key] for key in ("rope_cache_host_enqueues","elementwise_host_enqueues","guarded_cache_sha256"))):
                 raise ValueError("Down128 source numerical/counter/cache/ID coverage mismatch")
+    if data["attention_variant"] == 4:
+        # Pre-capability accepted strategy3 reports omit this field; their CSV
+        # must still prove the disabled default, never an enabled marker.
+        capability=report.get("control_capable",False)
+        if type(capability) is not bool or capability != reference["control_capable"]:
+            raise ValueError("Fused source capability differs from parsed predecessor")
+        source=report.get("fixture_reference",{})
+        flags=("input_ids_equal","native_f32_bytes_equal","matrix_f32_bytes_equal","guarded_cache_identity_passed","passed")
+        if source.get("passed") is not True or source.get("attention_variant")!=2 or len(source.get("cases",[]))!=4 or any(c.get(k) is not True for c in source["cases"] for k in flags):
+            raise ValueError("Fused source lacks complete accepted predecessor byte/cache gate")
+        for before,declared in zip(reference["cases"],report["cases"],strict=True):
+            if declared.get("down128_host_enqueues")!=before["down128_host_enqueues"]:
+                raise ValueError("Fused source actual down counters disagree")
     results = []
     for current, before in zip(data["cases"], reference["cases"]):
         ids = current["input_ids"] == before["input_ids"]
@@ -222,8 +253,9 @@ def summarize(data):
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),
                 cases=[dict(input_ids=c["input_ids"], native_comparison=c["native_comparison"], timings=c["timings"], prefill_speed_ratio=None,
                             **({k: c[k] for k in ("rope_cache_host_enqueues", "guarded_cache_sha256")} if data["attention_variant"] is not None else {}),
-                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3) else {}),
-                            **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] == 3 else {})) for c in data["cases"]],
+                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3,4) else {}),
+                            **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] in (3,4) else {}),
+                            **({k:c[k] for k in ("fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==4 else {})) for c in data["cases"]],
                 limits="Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion.")
 
 
@@ -264,6 +296,8 @@ def main():
     parser.add_argument("--reference-sha256", required=True); parser.add_argument("--reference-provenance", type=Path, required=True)
     parser.add_argument("--threads", type=int, default=4); parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--reference-csv", type=Path); parser.add_argument("--reference-report", type=Path)
+    parser.add_argument("--fused-attention",action="store_true",help="Explicit full-model strategy4 gate; defaults remain closed")
+    parser.add_argument("--binary",type=Path);parser.add_argument("--binary-sha256")
     args = parser.parse_args()
     if (args.reference_csv is None) != (args.reference_report is None): parser.error("Fixture reference requires both CSV/report")
     if not 1 <= args.threads <= 16 or any(not re.fullmatch(r"[0-9a-f]{64}", value) for value in (args.model_sha256, args.reference_sha256)):
@@ -276,7 +310,12 @@ def main():
             derived = provenance(args.reference_provenance, args.model_sha256, args.reference_sha256)
             if args.reference_model.stat().st_size != derived["derived_bytes"]:
                 raise ValueError("Derived reference size mismatch")
-            data = parse(args.csv); report = summarize(data)
+            if args.fused_attention and (args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}",args.binary_sha256) or digest(args.binary)!=args.binary_sha256):
+                raise ValueError("Fused model requires exact probe binary identity before admission")
+            data = parse(args.csv,allow_fused=args.fused_attention); report = summarize(data)
+            if args.fused_attention and data["attention_variant"]!=4:raise ValueError("Fused opt-in requires actual strategy4 capture")
+            if data["attention_variant"]==4:report["limits"] += " Explicit fused four/32 attention retains original single-token path; actual source3 complete F32/cache/ID/counter/CPU scope is required. Controls/tracing/generation/replay remain closed."
+            if data["attention_variant"]==4:report["binary_sha256"]=args.binary_sha256
             if data["attention_variant"] is not None:
                 if args.reference_csv is None: raise ValueError("Explicit rotary/cache evidence requires accepted fixture reference")
                 report["fixture_reference"] = fixture_reference(data, args.reference_csv, args.reference_report, args.model_sha256)
@@ -290,6 +329,8 @@ def main():
                 raise ValueError("Original-to-F32 provenance changed during oracle")
             if data["attention_variant"] is not None and (digest(args.reference_csv) != report["fixture_reference"]["csv_sha256"] or digest(args.reference_report) != report["fixture_reference"]["report_sha256"]):
                 raise ValueError("Accepted fixture reference changed during oracle")
+            if data["attention_variant"]==4 and digest(args.binary)!=args.binary_sha256:
+                raise ValueError("Fused model probe binary changed during oracle")
             score(report)
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False, speed_scored=False, error=f"{type(error).__name__}: {error}")

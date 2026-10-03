@@ -1,3 +1,8 @@
+For optional strategy4 full-model prefill, read docs/NATIVE_FUSED_ATTENTION_MODEL.md.
+All complete source3 F32/cache/IDs and independent CPU gates pass; actual four/32
+fused attention retains original singles. Explicit binary/source/CLI admission
+only; no production/provider lead or generation/replay/control gate yet.
+
 For the bounded shared-score causal GQA primitive, read
 docs/NATIVE_FUSED_CAUSAL_ATTENTION.md. Complete original bits/independent math
 pass. Full4/32 improve, long single-query work loses. No selection; next prove

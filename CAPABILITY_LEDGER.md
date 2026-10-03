@@ -1583,7 +1583,17 @@ and circular self-parity transforms were removed.
   checker failure and successful new report on unchanged physical CSV.
   [Evidence](docs/evidence/turing-paired-ffn-2026-10-03/README.md).
   Deterministic inputs checked natively, not actual model activations.
-- **Next acceptance gate:** Independent bounded causal attention math and guard gates; broader model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Fused attention complete model (2026-10-03):** Final default-disabled
+  capability requires original strategy3 flags with controls/tracing closed.
+  Count4/32 uses checked actual F32 query/canonical attention/full layer cache,
+  count1 original path. Actual fused196/56/196/1008 and original queries56/28/84/56
+  reset and bind tile plan. All513024 full logits per owner/IDs/full guarded F16
+  cache match accepted3 exactly, unchanged CPU .05/.005/argmax and own repeat/
+  4352 guards/eight invalid tiles/32 paired timings pass. Seven contracts/master190
+  and one skip; source3 full CPU/bytes/cache/counters plus binary before/after
+  bind explicit CLI4 while default readers/replay/controls/tracing stay closed.
+  [Evidence](docs/evidence/fused-attention-model-2026-10-03/README.md).
+- **Next acceptance gate:** Strategy4 causal generation/sample/replay/control gates, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

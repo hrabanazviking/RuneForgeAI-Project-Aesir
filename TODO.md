@@ -1008,3 +1008,13 @@ The legacy formatters below are not exposed compatibility APIs.
 - [ ] SPD-03 actual model Q/K/V or source-bound full-model exact state/CPU
   quality; generation/replay/controls/context/device/concurrency/soak/runtime
   gates before production selection. Keep original slow-case path.
+
+- [x] SPD-03 optional strategy4 full-model prefill: all513024 values per owner
+  retain source3 F32 bits/IDs/full cache; independent CPU/own-repeat/4352 guards/
+  eight invalid tiles/32 paired timings pass. Actual fused196/56/196/1008 and
+  original queries56/28/84/56 prove selection. Seven contracts/master190/one skip.
+  Explicit CLI/binary/source/after-hash gates; controls/tracing/replay4 closed.
+  [Operation](docs/NATIVE_FUSED_ATTENTION_MODEL.md).
+- [ ] SPD-03 strategy4 causal greedy/seeded generation, owning-context replay,
+  enabled-control recovery and broader context/device/concurrency/soak/runtime/
+  refreshed-provider acceptance before production selection.

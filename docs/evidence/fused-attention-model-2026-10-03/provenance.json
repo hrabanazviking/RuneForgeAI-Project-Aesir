@@ -1,0 +1,647 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "28fa4e8",
+  "accepted_source_revision": "79f300058fefb61d6e5d63d659c1bf26b59fee7b",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:35:12.477476+00:00",
+      "ended_utc": "2026-10-03T08:35:12.592151+00:00",
+      "wall_seconds": 0.1146917590231169,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:34:19.298303+00:00",
+      "ended_utc": "2026-10-03T08:34:52.102591+00:00",
+      "wall_seconds": 32.804319337010384,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:34:52.102957+00:00",
+      "ended_utc": "2026-10-03T08:35:12.476963+00:00",
+      "wall_seconds": 20.3740335929906,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_down_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-original3-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:35:49.326371+00:00",
+      "ended_utc": "2026-10-03T08:36:19.051748+00:00",
+      "wall_seconds": 29.72540680199745,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_batched_rope_cache.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:33:49.975854+00:00",
+      "ended_utc": "2026-10-03T08:34:19.297797+00:00",
+      "wall_seconds": 29.32196997498977,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_fused_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:32:47.970641+00:00",
+      "ended_utc": "2026-10-03T08:33:17.642289+00:00",
+      "wall_seconds": 29.671694976015715,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_fused_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T08:33:17.642986+00:00",
+      "ended_utc": "2026-10-03T08:33:49.975245+00:00",
+      "wall_seconds": 32.33230196501245,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "preliminary": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T08:37:25.351213+00:00",
+        "ended_utc": "2026-10-03T08:38:53.279565+00:00",
+        "wall_seconds": 87.9283689679869,
+        "performance_scored": false,
+        "binary_sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+        "csv_sha256": "2d8dbb36abad40f0263d4373b1ef5db5dee307d5f223d075ea9500e808c7fec1"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 55.117875167983584,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-final/complete.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-model",
+          "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+          "--reference-sha256",
+          "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+          "--reference-provenance",
+          "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--fused-attention",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-final/complete.json"
+        ],
+        "started_utc": "2026-10-03T08:38:53.303292+00:00",
+        "ended_utc": "2026-10-03T08:39:48.421210+00:00",
+        "performance_scored": false
+      },
+      "reject-flags": {
+        "exit": 1,
+        "wall_seconds": 0.015943208010867238,
+        "started_utc": "2026-10-03T08:37:25.302029+00:00",
+        "ended_utc": "2026-10-03T08:37:25.318057+00:00",
+        "performance_scored": false
+      },
+      "reject-controls": {
+        "exit": 1,
+        "wall_seconds": 0.01633634400786832,
+        "started_utc": "2026-10-03T08:37:25.318424+00:00",
+        "ended_utc": "2026-10-03T08:37:25.334828+00:00",
+        "performance_scored": false
+      },
+      "reject-tracing": {
+        "exit": 1,
+        "wall_seconds": 0.015804779017344117,
+        "started_utc": "2026-10-03T08:37:25.335068+00:00",
+        "ended_utc": "2026-10-03T08:37:25.350901+00:00",
+        "performance_scored": false
+      }
+    },
+    "final": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T08:43:36.255847+00:00",
+        "ended_utc": "2026-10-03T08:45:04.527802+00:00",
+        "wall_seconds": 88.27197700800025,
+        "performance_scored": false,
+        "binary_sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+        "csv_sha256": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 54.984170767012984,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-model",
+          "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+          "--reference-sha256",
+          "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+          "--reference-provenance",
+          "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--fused-attention",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+          "--binary-sha256",
+          "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json"
+        ],
+        "started_utc": "2026-10-03T08:45:04.553900+00:00",
+        "ended_utc": "2026-10-03T08:45:59.538112+00:00",
+        "performance_scored": false
+      },
+      "reject-flags": {
+        "exit": 1,
+        "wall_seconds": 0.016223271988565102,
+        "started_utc": "2026-10-03T08:43:27.577787+00:00",
+        "ended_utc": "2026-10-03T08:43:27.594089+00:00",
+        "performance_scored": false
+      },
+      "reject-controls": {
+        "exit": 1,
+        "wall_seconds": 0.0161479210073594,
+        "started_utc": "2026-10-03T08:43:27.594521+00:00",
+        "ended_utc": "2026-10-03T08:43:27.610713+00:00",
+        "performance_scored": false
+      },
+      "reject-tracing": {
+        "exit": 1,
+        "wall_seconds": 0.016069593984866515,
+        "started_utc": "2026-10-03T08:43:27.611115+00:00",
+        "ended_utc": "2026-10-03T08:43:27.627222+00:00",
+        "performance_scored": false
+      }
+    }
+  },
+  "preflight": {
+    "binary_sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "sources": {
+      "aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+      "aesir_engine/tests/test_fused_attention_model.mojo": "80d69d1360ef3b2fb339d123f476176565547a83acbecd52b293041fe6857812",
+      "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+      "scripts/check_turing_model_prefill.py": "eca66d0a367c0e63bcda826d740f96797fef23132ddf71bfc4ee14691ba42e34",
+      "scripts/test_check_fused_attention_model.py": "57c1026420979e49729daebe4d2dffd5e97f9547fb535992d608517a77d96b44"
+    },
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "reference_model_sha256": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "source_csv_sha256": "fb686e2ae3f6eb926c7d30fcf91a5cc5892c926c8319a54fd2eca3779f246f09",
+    "source_report_sha256": "bf66de5fb7b78f3cef38991ca0a2d36813fc7effeaaa849a400a57ce3f46237d",
+    "started_utc": "2026-10-03T08:43:36.255686+00:00"
+  },
+  "postflight": {
+    "binary_sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "sources": {
+      "aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+      "aesir_engine/tests/test_fused_attention_model.mojo": "80d69d1360ef3b2fb339d123f476176565547a83acbecd52b293041fe6857812",
+      "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+      "scripts/check_turing_model_prefill.py": "eca66d0a367c0e63bcda826d740f96797fef23132ddf71bfc4ee14691ba42e34",
+      "scripts/test_check_fused_attention_model.py": "57c1026420979e49729daebe4d2dffd5e97f9547fb535992d608517a77d96b44"
+    },
+    "ended_utc": "2026-10-03T08:45:59.549474+00:00"
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+    "aesir_engine/tests/test_fused_attention_model.mojo": "80d69d1360ef3b2fb339d123f476176565547a83acbecd52b293041fe6857812",
+    "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "scripts/check_turing_model_prefill.py": "eca66d0a367c0e63bcda826d740f96797fef23132ddf71bfc4ee14691ba42e34",
+    "scripts/test_check_fused_attention_model.py": "57c1026420979e49729daebe4d2dffd5e97f9547fb535992d608517a77d96b44",
+    ".github/workflows/ci.yml": "bb408c79ee5c62bac3a61160013fd1dae4729852be02d452826aeb972716dc85"
+  },
+  "artifacts": [
+    {
+      "name": "fused-attention-model-binary-fence-failed-test-source.py",
+      "bytes": 7791,
+      "sha256": "8f71f890c3e4aee6aa53df91fe952fbd5d637ceafd68d373a18c3abb318384ac"
+    },
+    {
+      "name": "fused-attention-model-binary-fence-final-portable.txt",
+      "bytes": 679,
+      "sha256": "391c150dc118cb23961e0c7fa792d8a9d759ef1ac8d428e2add59376a21b05f1"
+    },
+    {
+      "name": "fused-attention-model-binary-fence-portable.txt",
+      "bytes": 1510,
+      "sha256": "f88549766ae243aa6a2baf7d3649157716e54807cbed74cf9fa98b37a621ca14"
+    },
+    {
+      "name": "fused-attention-model-final/complete.csv",
+      "bytes": 26269595,
+      "sha256": "2d8dbb36abad40f0263d4373b1ef5db5dee307d5f223d075ea9500e808c7fec1"
+    },
+    {
+      "name": "fused-attention-model-final/complete.json",
+      "bytes": 30974,
+      "sha256": "fcad109bf4a2d597626cf86e1000c374a69eacf1be7f5868616c9a7717fc93e6"
+    },
+    {
+      "name": "fused-attention-model-final/gpu-process.json",
+      "bytes": 614,
+      "sha256": "79a732a19cbbb7ed1d46634961a9b3244aa2d68e2587a9827f5e00a5d3e97ac0"
+    },
+    {
+      "name": "fused-attention-model-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-model-final/oracle-process.json",
+      "bytes": 1524,
+      "sha256": "67dd4fd8b33d835a6ebc092112b0e153d2531be94a8eab65fbf0f88b0f43339f"
+    },
+    {
+      "name": "fused-attention-model-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "fused-attention-model-final/reject-controls-process.json",
+      "bytes": 190,
+      "sha256": "7a63ac42d50104e9d104f688d45c4edac00d94cfe91029b6741717ed612186c2"
+    },
+    {
+      "name": "fused-attention-model-final/reject-controls.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-final/reject-flags-process.json",
+      "bytes": 191,
+      "sha256": "b765cf6d46c354c3692d5aa1e784a590c8cc489e0d3b1d0e0f1e3409e37c84a6"
+    },
+    {
+      "name": "fused-attention-model-final/reject-flags.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-final/reject-tracing-process.json",
+      "bytes": 191,
+      "sha256": "cbc60e1115daf890493e92da9e0bb87f63313258ea1459fb40d486cfb82041d6"
+    },
+    {
+      "name": "fused-attention-model-final/reject-tracing.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-final-build-check.json",
+      "bytes": 265,
+      "sha256": "4ac8d826a20d048120e58601da0814dd92173055248619722c08038b43247fde"
+    },
+    {
+      "name": "fused-attention-model-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-attention-model-final-build-master.json",
+      "bytes": 413,
+      "sha256": "78c8568d73c2d19108014b97c85ed38b2ba6bfbb60d2ad960007dd2651c97cbb"
+    },
+    {
+      "name": "fused-attention-model-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-attention-model-final-build-normal.json",
+      "bytes": 292,
+      "sha256": "fcdf555db4d1e484a34278fdce15fdfeb91e0d4a070336556d2ebb7a09d94928"
+    },
+    {
+      "name": "fused-attention-model-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-attention-model-final-build-old3.json",
+      "bytes": 577,
+      "sha256": "450d46b7b578e2559ef1a08664850b5ed66459af735eac1fd781775d2c697038"
+    },
+    {
+      "name": "fused-attention-model-final-build-old3.txt",
+      "bytes": 471,
+      "sha256": "c4be92c37f32b5161874750a508c05c1ec15c625da5a7119e646960ea4be86b2"
+    },
+    {
+      "name": "fused-attention-model-final-build-original.json",
+      "bytes": 584,
+      "sha256": "4a695ca7945320ffa40b5177c05349dbfb098d585d9147733dcd9ca514ff7ebf"
+    },
+    {
+      "name": "fused-attention-model-final-build-original.txt",
+      "bytes": 479,
+      "sha256": "a34671be828a3017e1c5914e77675858b70364767d2a7b571da27a814e47a9ca"
+    },
+    {
+      "name": "fused-attention-model-final-build-sm_75.json",
+      "bytes": 572,
+      "sha256": "eceaea5ee6b67aefed9cc14abba4b1ff63abb55dfb7e6c1273d6fb78c6bf26a4"
+    },
+    {
+      "name": "fused-attention-model-final-build-sm_75.txt",
+      "bytes": 475,
+      "sha256": "552a985749ccba6dfefcadfbb9031500f8b91d9d4f2551053d93405be4910718"
+    },
+    {
+      "name": "fused-attention-model-final-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "5bafef029b6be28cf8ea79cb6b37afe8fcd18eeb59d538c08cb2bd46cde119e3"
+    },
+    {
+      "name": "fused-attention-model-final-build-sm_89.txt",
+      "bytes": 475,
+      "sha256": "552a985749ccba6dfefcadfbb9031500f8b91d9d4f2551053d93405be4910718"
+    },
+    {
+      "name": "fused-attention-model-final-legacy-test_check_turing_down_model.py.txt",
+      "bytes": 240,
+      "sha256": "b403b35719336d142bccf1c04e932828cfb87a9f39c4886791e463c18c658d2c"
+    },
+    {
+      "name": "fused-attention-model-final-legacy-test_check_turing_grid_metadata.py.txt",
+      "bytes": 105,
+      "sha256": "241cc9082c83d984731b53f41545cad3c6b096bfe0c9fb86a478828ea495fcbc"
+    },
+    {
+      "name": "fused-attention-model-final-legacy-test_check_turing_model_prefill.py.txt",
+      "bytes": 107,
+      "sha256": "31fee74ca91764ff428912a09870cbe01b998b86899b47ff32b2bbbf7fdc0d92"
+    },
+    {
+      "name": "fused-attention-model-final-portable.txt",
+      "bytes": 614,
+      "sha256": "f9446179b1e4ca34eb5567636db8e82f48fdcea95609314c5abb76202012ee46"
+    },
+    {
+      "name": "fused-attention-model-final-sources-before.json",
+      "bytes": 594,
+      "sha256": "3f8b8efb1a4e5a9ea43ebca05f31ed7a0ce04389a3c6b9c6b6c7da1678b8b2a6"
+    },
+    {
+      "name": "fused-attention-model-initial-build.txt",
+      "bytes": 475,
+      "sha256": "552a985749ccba6dfefcadfbb9031500f8b91d9d4f2551053d93405be4910718"
+    },
+    {
+      "name": "fused-attention-model-initial-portable.txt",
+      "bytes": 614,
+      "sha256": "880c25e52a0fe3f710f9edf3afa6816da53c8a822d4a75369940e9b2c1b7d44d"
+    },
+    {
+      "name": "fused-attention-model-initial-sm_75",
+      "bytes": 5962240,
+      "sha256": "2a64228c7110584e8269f1dd55a572a2617e79754f8aeb4e79d01d0a57f3f8fe"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_down_checkpoint.py.txt",
+      "bytes": 629,
+      "sha256": "df9a333136b4232310d52f3059d480e7749db9114a9c47698d4b2c8cd623509c"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_down_controls.py.txt",
+      "bytes": 514,
+      "sha256": "604ad0bf04668a4fd420d89eda89618d672903d78c014431de279f4ec423f097"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_down_decode.py.txt",
+      "bytes": 1124,
+      "sha256": "2f42b1747cd55ddfaaaee81a9431ae3cccbe58ad349b15389c6391df34b3c84b"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_down_model.py.txt",
+      "bytes": 240,
+      "sha256": "240eba654cd195384b72288bfd7398ec9eaded46ff783e51770a528047237b42"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_down_projection_trace.py.txt",
+      "bytes": 109,
+      "sha256": "3f3f3304ca08cbefa0be379efcc861313b5d5c3eaedad20509a59f96173e50b4"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_grid_metadata.py.txt",
+      "bytes": 105,
+      "sha256": "fd49aba5f35c938be43436424bc3c2f9f2397a091da4f7e2a3cf10e5b4ba5abf"
+    },
+    {
+      "name": "fused-attention-model-legacy-test_check_turing_model_prefill.py.txt",
+      "bytes": 107,
+      "sha256": "ca18ffc8e8fdc6b71e49e9b4fd64e04661daa3243fb767d57a64ce80ea2d7b63"
+    },
+    {
+      "name": "fused-attention-model-original-sm_75",
+      "bytes": 5957904,
+      "sha256": "eeca46813ba8b80e3f1fbce4f0fff2958c515de1b3882af2a271998b27ad9162"
+    },
+    {
+      "name": "fused-attention-model-original3-sm_75",
+      "bytes": 5962112,
+      "sha256": "7d38e005fb98a9317d8a32f53a1840f03a0fd9e8c2d9bc827321c09f0677f584"
+    },
+    {
+      "name": "fused-attention-model-pre-binary-fence-check_turing_model_prefill.py",
+      "bytes": 23478,
+      "sha256": "c1d91e4a9a892084ea9d44069b2ff08fe1c1329116601f17fe849b9a0cff7683"
+    },
+    {
+      "name": "fused-attention-model-pre-binary-fence-test_check_fused_attention_model.py",
+      "bytes": 7721,
+      "sha256": "114f43110882f8f5af66a53e596c31fb7ea6aafe8b75c190c4aefa0b28029821"
+    },
+    {
+      "name": "fused-attention-model-second-final/complete.csv",
+      "bytes": 26269600,
+      "sha256": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc"
+    },
+    {
+      "name": "fused-attention-model-second-final/complete.json",
+      "bytes": 31066,
+      "sha256": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6"
+    },
+    {
+      "name": "fused-attention-model-second-final/gpu-process.json",
+      "bytes": 615,
+      "sha256": "3a4943dae206546831fe0a9b8a9bad508c53b7f0d7dfc0aa6fa2b9fd5dc12012"
+    },
+    {
+      "name": "fused-attention-model-second-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-model-second-final/oracle-process.json",
+      "bytes": 1747,
+      "sha256": "0893aca0a4d47b4f30b0d749a7f9e03fec01263d3a8e8ec8014800863b20eb45"
+    },
+    {
+      "name": "fused-attention-model-second-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "fused-attention-model-second-final/postflight.json",
+      "bytes": 761,
+      "sha256": "d8c804404a70c61d86d3dffdcdee98703e083720213bd13158ba41b01b8162e0"
+    },
+    {
+      "name": "fused-attention-model-second-final/preflight.json",
+      "bytes": 1130,
+      "sha256": "1d121413300915ae2eb316a07fbfd8207a7b1597e5c5fa9121e74f243d6e9f8a"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-controls-process.json",
+      "bytes": 189,
+      "sha256": "f6afd859477249d64aee7036763ff11d2eee50a90d642ec64290365617041e42"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-controls.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-flags-process.json",
+      "bytes": 191,
+      "sha256": "97093f9a3b15f684cfec0d6e8ddf2bbe9160192674646c9e2765db828708efde"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-flags.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-tracing-process.json",
+      "bytes": 191,
+      "sha256": "5780ee173d901a7e275264b8f5e0c66c9f7a60c490e0596c6f249232106c5633"
+    },
+    {
+      "name": "fused-attention-model-second-final/reject-tracing.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-model-sm_75",
+      "bytes": 5962240,
+      "sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa"
+    },
+    {
+      "name": "fused-attention-model-sm_89",
+      "bytes": 5962240,
+      "sha256": "5b71f71ac9e2adeaa117d7cdf9a7cb07e8b7e319f684a9693eba5de7607732b3"
+    }
+  ],
+  "retained_refinements": "Preliminary complete GPU/CPU source3 exact-state proof retained. Final validator requires exact binary before/after; fresh supervised capture adds actual source/binary/model/predecessor preflight and postflight on unchanged compiled native source, allseven builds precede both captures. Failed binary-mutation portable mock changed digest tosame expected f value; fixed0 mutation, failed source/log retained. Historical source3 omitted control capability only for parsed disabled default.",
+  "limits": "Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion. Explicit fused four/32 attention retains original single-token path; actual source3 complete F32/cache/ID/counter/CPU scope is required. Controls/tracing/generation/replay remain closed."
+}

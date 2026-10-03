@@ -403,6 +403,15 @@ using shared memory. Keep the existing chronological kernel as a reference.
 lower measured workspace/traffic and end-to-end gain. Synthetic 8192-history
 attention alone cannot certify whole-model maximum-context operation.
 
+Explicit strategy4 full-model prefill now retains all513024 F32 values per
+owner/IDs/full cache against accepted3 with independent unchanged CPU/own bits/
+4352 guards/eight invalid tiles/32 paired times. Actual four/32 fused counts and
+original singles bind the plan, controls/tracing/replay4 remain closed. Seven
+contracts/master190/one skip; exact binary/source/CLI/after-hash fences.
+[Operation](docs/NATIVE_FUSED_ATTENTION_MODEL.md). This is same-capture native4/
+optional4 exploratory prefill, not a previous3/new4 or Ollama ratio. Next earn
+causal greedy/seeded generation and source-bound state gates; SPD-03 stays open.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

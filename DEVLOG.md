@@ -1,3 +1,26 @@
+## 2026-10-03 — Sigrún: explicit fused attention full-model state gate
+
+Scoped/pushed28fa4e8 before code. Final default-disabled fused capability selects
+strategy4 only under original3 flags with control/trace capabilities closed before
+load/mutation. Actual checked query/cache/span bindings enqueue fused four/32
+after batched RoPE/cache; scalar original stays. Actual fused196/56/196/1008 and
+original queries56/28/84/56 reset. All513024 complete F32 values per owner/IDs/full
+F16 cache match accepted3 exactly; unchanged zero-GPU F32 model .05/.005/argmax,
+own fresh bits/4352 guards/eight invalid tiles/32 times pass. No new workspace
+or production selection. Three pre-model flag refusals and three prohibited
+feature refusals preserve healthy empty state/counters/allocations.
+
+Seven new contracts and legacy gates/master190/one skip pass. Default parser/
+shared readers refuse4; explicit CLI requires source3 complete CPU/numeric/byte/
+cache/counter proof and exact binary before/after. Historical source3 omitted
+control capability only for parsed disabled default. First full run retained;
+final artifact audit adds binary fence/preflight/postflight and recaptures on
+unchanged native binaries after allseven builds. Portable digest-mutation mock
+initially reused expected f-hash, corrected to0-hash with failed source/log saved.
+Read [operation](docs/NATIVE_FUSED_ATTENTION_MODEL.md). Normal f3442a1e remains
+active/authenticated ready/prefill4/cpuoffload0. Next causal greedy/seeded decode;
+replay/controls/context/device/concurrency/soak/runtime/provider gates remain open.
+
 ## 2026-10-03 — Sigrún: bounded fused causal attention primitive
 
 Scoped/pushed d8d8f47 before code. Native optional24/8/128 GQA shares4096 F32
