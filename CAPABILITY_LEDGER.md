@@ -2058,3 +2058,20 @@ interrupted prefill. Three counted cases and both real-model CLI probes pass.
 See [runtime contract and reproduction](docs/NATIVE_RUNTIME.md#cancellation-and-deadlines).
 This does not establish kernel preemption, concurrent session mutation, SIGTERM
 graceful shutdown, cross-platform signal handling or production serving.
+
+### Fused strategy4 owned trace refinement — 2026-10-03
+
+Optional fused4 now earns complete source-bound owned attention/projection traces:
+plain/profiled37/1070 full F32/cache/IDs/state/guards agree, all1869/32215 kernel
+resources validate before589/7449 projection ranges and56/1008 fused children.
+Long FFN3.456781s/6.046571s=57.1693% of summed kernels; fused attention.814218s
+=13.4658%, diagnostic only. Exact observed fused grid24x4/32/block128/register46/
+static16384, full chronological source interleaving and one successful launch/kernel
+per child pass. Nine contracts/master190/one skip/seven builds; no occupancy/spill/
+delay/provider cause claim. [Operation](docs/NATIVE_FUSED_ATTENTION_TRACE.md).
+Next measure fewer token accumulators per CTA in an isolated FFN experiment;
+original arithmetic, complete bit/oracle/guards and all finite paired samples gate
+selection. Broader runtime/device/context/production/soak/provider gates stay open.
+
+[Physical evidence](docs/evidence/fused-attention-trace-2026-10-03/README.md).
+This refines existing AES-ACC-008/010 and introduces no general new verified capability.

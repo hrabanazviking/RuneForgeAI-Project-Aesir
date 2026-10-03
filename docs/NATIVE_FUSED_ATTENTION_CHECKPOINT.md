@@ -122,3 +122,7 @@ broader runtime integration. Hosted compilation is separate from physical proof.
 Explicit cooperative fused_controls capability now has a separate
 [control and reset recovery gate](NATIVE_FUSED_ATTENTION_CONTROLS.md). Ordinary
 source/default4 profiles and control-capable4 sealed replay remain separately gated.
+
+Exclusive fused_tracing capability now has a separate
+[owned attention/projection trace gate](NATIVE_FUSED_ATTENTION_TRACE.md).
+Ordinary4/control4 profiles stay separate; trace-capable4 control/replay remains closed.

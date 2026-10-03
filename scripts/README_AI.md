@@ -324,3 +324,16 @@ reset recovers full source vectors. Observer exception poisons/refuses all reuse
 Actual layer down/fused/original counters, caller mask and9792 guards bind recovery.
 Fifteen model/control adversarial contracts/master190/one skip. Read ../docs/NATIVE_FUSED_ATTENTION_CONTROLS.md.
 No enabled-control speed score or general fault repair/runtime/provider admission.
+
+## Explicit fused attention owned tracing
+
+Final fused_tracing=False requires exclusive original fused4/down128/rotary/elementwise
+before model/step; default4 tracing and trace-capable4 control/replay remain closed.
+Actual fused4/32 enqueue has balanced owned attention ranges beside existing actual
+tensor projection ranges. Full source default4 CSV/report/actual binary and complete
+F32/cache/ID/state/guard/count equality precede full-session process/runtime/kernel/
+resource admission. Explicit source tile/stage/interleaved attention chronology,
+one successful child correlation/kernel, exact wrapper/grid/block and full resources
+are mandatory. Old trace schemas remain; all timings are diagnostic. Read ../docs/NATIVE_FUSED_ATTENTION_TRACE.md.
+Nine hostile contracts, serial plain/profiled37/1070, both target/original builds
+and master190 passes/one skip are separately recorded.

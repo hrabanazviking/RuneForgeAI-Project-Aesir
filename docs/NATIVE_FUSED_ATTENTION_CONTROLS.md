@@ -130,3 +130,7 @@ models/contexts/devices, production32, concurrency/soak and provider lead remain
 separate. Next earn owned fused stage tracing before broader runtime selection.
 
 [Retained evidence](evidence/fused-attention-controls-2026-10-03/README.md).
+
+Exclusive fused_tracing capability now has a separate
+[owned attention/projection trace gate](NATIVE_FUSED_ATTENTION_TRACE.md).
+Ordinary4/control4 profiles stay separate; trace-capable4 control/replay remains closed.

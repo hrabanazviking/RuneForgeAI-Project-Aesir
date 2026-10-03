@@ -1,0 +1,846 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "d39df82",
+  "accepted_source_revision": "d075edef40d17ec52458a2f39250fc41a1386811",
+  "source_preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "d5180518a63c6b84d3a64aa41db8200f250902dc281e2cb8c5593a745c0b4f05",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_prefill_trace.mojo": "6c2985b2e74d49429eb54e9db90d25a95aad9cabab0d2cde081cf7caa759d6c4",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/projection_trace.mojo": "132a44c03ceb3e574ae50899d5961c779146bd93516f0df05c0f9c377df00036",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "36125465207e61858bbe2b0561a6f7c38c26d4f3047b4dd34b63e66dc59d6edc",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py": "dfef39151f7476a7686eeaa3f880d9df20fa036f9443a82a0038877e29ac11b0",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "7189d80f2779448221e0b8eb4f3f52eb36f32fa7aeb0f09ca8dc61bd35685603",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/cuda_fused_attention_ranges.py": "02438d6cabd730d3f23ff3b45e33b663d5c6df6de0e2d1649947d71ecf417de4",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/test_check_fused_attention_trace.py": "0f21956abe87a32111764cde8ffb5994adfa838a1d51bec29929bebf79f1453f",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "fd9ea7821c9d7ac2932767ca52b1c315c9b7a9346b0619aa89ddbc29e9e28bac",
+    "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace": "de723ef2729062dc8962c23669cf6b0b1ca409200517c5d54218826648afdc5a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6"
+  },
+  "source_postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "d5180518a63c6b84d3a64aa41db8200f250902dc281e2cb8c5593a745c0b4f05",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_prefill_trace.mojo": "6c2985b2e74d49429eb54e9db90d25a95aad9cabab0d2cde081cf7caa759d6c4",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/projection_trace.mojo": "132a44c03ceb3e574ae50899d5961c779146bd93516f0df05c0f9c377df00036",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "36125465207e61858bbe2b0561a6f7c38c26d4f3047b4dd34b63e66dc59d6edc",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py": "dfef39151f7476a7686eeaa3f880d9df20fa036f9443a82a0038877e29ac11b0",
+    "[AESIR_REPOSITORY]/scripts/check_cuda_trace.py": "7189d80f2779448221e0b8eb4f3f52eb36f32fa7aeb0f09ca8dc61bd35685603",
+    "[AESIR_REPOSITORY]/scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "[AESIR_REPOSITORY]/scripts/cuda_fused_attention_ranges.py": "02438d6cabd730d3f23ff3b45e33b663d5c6df6de0e2d1649947d71ecf417de4",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/test_check_fused_attention_trace.py": "0f21956abe87a32111764cde8ffb5994adfa838a1d51bec29929bebf79f1453f",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "fd9ea7821c9d7ac2932767ca52b1c315c9b7a9346b0619aa89ddbc29e9e28bac",
+    "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace": "de723ef2729062dc8962c23669cf6b0b1ca409200517c5d54218826648afdc5a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6"
+  },
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:11:50.504735+00:00",
+      "ended_utc": "2026-10-03T10:11:50.619563+00:00",
+      "wall_seconds": 0.11484635202214122,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:10:45.689374+00:00",
+      "ended_utc": "2026-10-03T10:10:56.885025+00:00",
+      "wall_seconds": 11.195676807983546,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:10:56.885438+00:00",
+      "ended_utc": "2026-10-03T10:11:30.386117+00:00",
+      "wall_seconds": 33.500700261996826,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:11:30.386517+00:00",
+      "ended_utc": "2026-10-03T10:11:50.504251+00:00",
+      "wall_seconds": 20.11776607000502,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:10:14.009893+00:00",
+      "ended_utc": "2026-10-03T10:10:45.689083+00:00",
+      "wall_seconds": 31.67921126500005,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:09:17.230489+00:00",
+      "ended_utc": "2026-10-03T10:09:45.495437+00:00",
+      "wall_seconds": 28.264984059002018,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T10:09:45.495753+00:00",
+      "ended_utc": "2026-10-03T10:10:14.009309+00:00",
+      "wall_seconds": 28.513585818000138,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "1": {
+      "export-process": {
+        "exit": 0,
+        "wall_seconds": 0.064327489992138,
+        "argv": [
+          "/usr/bin/nsys",
+          "export",
+          "--type=sqlite",
+          "--force-overwrite=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture.sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T10:12:32.125884+00:00",
+        "ended_utc": "2026-10-03T10:12:32.190236+00:00",
+        "performance_scored": false
+      },
+      "profiled-process": {
+        "exit": 0,
+        "wall_seconds": 6.332506471982924,
+        "argv": [
+          "/usr/bin/nsys",
+          "profile",
+          "--trace=cuda,nvtx",
+          "--capture-range=none",
+          "--sample=none",
+          "--cpuctxsw=none",
+          "--force-overwrite=false",
+          "--stats=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "1",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/profiled.csv",
+          "1",
+          "4"
+        ],
+        "started_utc": "2026-10-03T10:12:25.677774+00:00",
+        "ended_utc": "2026-10-03T10:12:32.010329+00:00",
+        "performance_scored": false
+      },
+      "unprofiled-process": {
+        "exit": 0,
+        "wall_seconds": 3.5245005729957484,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "1",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/unprofiled.csv",
+          "1",
+          "4"
+        ],
+        "started_utc": "2026-10-03T10:12:22.152802+00:00",
+        "ended_utc": "2026-10-03T10:12:25.677356+00:00",
+        "performance_scored": false
+      },
+      "validation-process": {
+        "exit": 0,
+        "wall_seconds": 4.375838978012325,
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "--binary-sha256",
+          "de723ef2729062dc8962c23669cf6b0b1ca409200517c5d54218826648afdc5a",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json",
+          "--reference-binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+          "--case",
+          "1",
+          "--projection-ranges",
+          "--fused-attention",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/complete.json"
+        ],
+        "started_utc": "2026-10-03T10:12:32.190560+00:00",
+        "ended_utc": "2026-10-03T10:12:36.566481+00:00",
+        "performance_scored": false
+      },
+      "import-process": {
+        "exit": 0,
+        "wall_seconds": 0.11472616699757054,
+        "argv": [
+          "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+          "--input-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture.qdstrm",
+          "--output-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case1/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T10:12:32.010909+00:00",
+        "ended_utc": "2026-10-03T10:12:32.125683+00:00",
+        "performance_scored": false
+      }
+    },
+    "3": {
+      "export-process": {
+        "exit": 0,
+        "wall_seconds": 0.3150848809746094,
+        "argv": [
+          "/usr/bin/nsys",
+          "export",
+          "--type=sqlite",
+          "--force-overwrite=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture.sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T10:12:58.464813+00:00",
+        "ended_utc": "2026-10-03T10:12:58.779945+00:00",
+        "performance_scored": false
+      },
+      "profiled-process": {
+        "exit": 0,
+        "wall_seconds": 12.546760413999436,
+        "argv": [
+          "/usr/bin/nsys",
+          "profile",
+          "--trace=cuda,nvtx",
+          "--capture-range=none",
+          "--sample=none",
+          "--cpuctxsw=none",
+          "--force-overwrite=false",
+          "--stats=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "3",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/profiled.csv",
+          "1",
+          "4"
+        ],
+        "started_utc": "2026-10-03T10:12:45.652157+00:00",
+        "ended_utc": "2026-10-03T10:12:58.198977+00:00",
+        "performance_scored": false
+      },
+      "unprofiled-process": {
+        "exit": 0,
+        "wall_seconds": 9.084671042015543,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "3",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/unprofiled.csv",
+          "1",
+          "4"
+        ],
+        "started_utc": "2026-10-03T10:12:36.567013+00:00",
+        "ended_utc": "2026-10-03T10:12:45.651742+00:00",
+        "performance_scored": false
+      },
+      "validation-process": {
+        "exit": 0,
+        "wall_seconds": 4.879227237979649,
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+          "--binary-sha256",
+          "de723ef2729062dc8962c23669cf6b0b1ca409200517c5d54218826648afdc5a",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json",
+          "--reference-binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+          "--case",
+          "3",
+          "--projection-ranges",
+          "--fused-attention",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/complete.json"
+        ],
+        "started_utc": "2026-10-03T10:12:58.780367+00:00",
+        "ended_utc": "2026-10-03T10:13:03.659765+00:00",
+        "performance_scored": false
+      },
+      "import-process": {
+        "exit": 0,
+        "wall_seconds": 0.26487707198248245,
+        "argv": [
+          "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+          "--input-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture.qdstrm",
+          "--output-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/case3/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T10:12:58.199442+00:00",
+        "ended_utc": "2026-10-03T10:12:58.464372+00:00",
+        "performance_scored": false
+      }
+    }
+  },
+  "invalid_processes": {
+    "rejected-capability3-process": {
+      "exit": 1,
+      "wall_seconds": 0.016661821020534262,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability",
+        "3"
+      ],
+      "started_utc": "2026-10-03T10:12:22.135489+00:00",
+      "ended_utc": "2026-10-03T10:12:22.152183+00:00",
+      "performance_scored": false
+    },
+    "rejected-capability1-process": {
+      "exit": 1,
+      "wall_seconds": 0.016086513991467655,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability",
+        "1"
+      ],
+      "started_utc": "2026-10-03T10:12:22.102671+00:00",
+      "ended_utc": "2026-10-03T10:12:22.118793+00:00",
+      "performance_scored": false
+    },
+    "rejected-capability2-process": {
+      "exit": 1,
+      "wall_seconds": 0.016006232996005565,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability",
+        "2"
+      ],
+      "started_utc": "2026-10-03T10:12:22.119211+00:00",
+      "ended_utc": "2026-10-03T10:12:22.135255+00:00",
+      "performance_scored": false
+    },
+    "rejected-stages-process": {
+      "exit": 1,
+      "wall_seconds": 0.016169608978088945,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/stages.csv",
+        "0",
+        "4"
+      ],
+      "started_utc": "2026-10-03T10:12:22.052911+00:00",
+      "ended_utc": "2026-10-03T10:12:22.069126+00:00",
+      "performance_scored": false
+    },
+    "rejected-capability0-process": {
+      "exit": 1,
+      "wall_seconds": 0.01618409701040946,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-invalid-capability",
+        "0"
+      ],
+      "started_utc": "2026-10-03T10:12:22.086147+00:00",
+      "ended_utc": "2026-10-03T10:12:22.102377+00:00",
+      "performance_scored": false
+    },
+    "rejected-explicit2-process": {
+      "exit": 1,
+      "wall_seconds": 0.01609583100071177,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/explicit2.csv",
+        "1",
+        "2"
+      ],
+      "started_utc": "2026-10-03T10:12:22.069481+00:00",
+      "ended_utc": "2026-10-03T10:12:22.085620+00:00",
+      "performance_scored": false
+    },
+    "rejected-strategy-process": {
+      "exit": 1,
+      "wall_seconds": 0.016278433002298698,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-fused-attention-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-trace-final/strategy.csv",
+        "1",
+        "5"
+      ],
+      "started_utc": "2026-10-03T10:12:22.036015+00:00",
+      "ended_utc": "2026-10-03T10:12:22.052375+00:00",
+      "performance_scored": false
+    }
+  },
+  "artifacts": [
+    {
+      "name": "aesir-fused-attention-trace",
+      "bytes": 5812904,
+      "sha256": "de723ef2729062dc8962c23669cf6b0b1ca409200517c5d54218826648afdc5a"
+    },
+    {
+      "name": "fused-attention-trace-final/accepted-source.json",
+      "bytes": 419,
+      "sha256": "c9e07c726de02fb68da0ef79d65eb36f4a72e9cfed74c1a6ab734b49443ad2dc"
+    },
+    {
+      "name": "fused-attention-trace-final/capability0.txt",
+      "bytes": 226,
+      "sha256": "f8aa021c2475ee87c8d3949062df39fde631d641f022b7a87c7ee3d31577dba3"
+    },
+    {
+      "name": "fused-attention-trace-final/capability1.txt",
+      "bytes": 226,
+      "sha256": "f8aa021c2475ee87c8d3949062df39fde631d641f022b7a87c7ee3d31577dba3"
+    },
+    {
+      "name": "fused-attention-trace-final/capability2.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-trace-final/capability3.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/capture.nsys-rep",
+      "bytes": 437069,
+      "sha256": "4667d2af1434df8a6e13bc4b21536dd26b7210ef7beeceb0637756aa84e8f425"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/capture.qdstrm",
+      "bytes": 3676971,
+      "sha256": "c2075baf805de3e8645820abdf457de7573effb87a6b06ad8285094833a3fa16"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/capture.sqlite",
+      "bytes": 1191936,
+      "sha256": "2348b1266cb9fb2fb1a13f44d84967085d09eda84cee510fb144518a5ccc9cbe"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/complete.json",
+      "bytes": 34458,
+      "sha256": "c431f0f500838ddc2c6cdc467ed21f44baa53b45f23ce185a0f7253298746de2"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/export-process.json",
+      "bytes": 540,
+      "sha256": "701ff1e1b11d7a4e31a0f309a2dce0d1b04b345046d75e839800823ad520fe2d"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/export.txt",
+      "bytes": 8101,
+      "sha256": "8ca9c7784582c6ad6738892ed8e1d6cc9e36a3c2ac557505f0c55f0c8edc99bc"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/import-process.json",
+      "bytes": 548,
+      "sha256": "54f95747e288055a37d66eb41503db9df40127cd666c0b8455fd259e7e660af6"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/import.txt",
+      "bytes": 624,
+      "sha256": "f4711dea8bd28f163b3e9d90114d8b2fa12f01c36e68dcca2597e66fecffb690"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/profiled-process.json",
+      "bytes": 894,
+      "sha256": "fbdb7dfb70b4573079356140124f446ee0ddce04be6d014fbe9c39936e1d163a"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/profiled.csv",
+      "bytes": 3883955,
+      "sha256": "c2a301f65e14bf51a0706a9d468a52bc687c274983cfb6e6538931996532ec31"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/profiled.txt",
+      "bytes": 331,
+      "sha256": "065dd171b110c89e969c0eb2e8195947ba757eafe18cb459b9ac5ec4526365ea"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/unprofiled-process.json",
+      "bytes": 591,
+      "sha256": "0e290181960bc3e16f044c2cf759f1da59722db683c1a849d825f014fdcad01d"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/unprofiled.csv",
+      "bytes": 3883955,
+      "sha256": "efff5ad864e6c9ad57279536b50cdef731d4dfc2915fef0927242b0ed2f94d20"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/validation-process.json",
+      "bytes": 1795,
+      "sha256": "2accf7a16f7481b3a7106091f4508849cb704be9efb1f7739da0eabedf427310"
+    },
+    {
+      "name": "fused-attention-trace-final/case1/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/capture.nsys-rep",
+      "bytes": 2564169,
+      "sha256": "01bc02645f4f1535939830a53132db7f38924f487feb4bd24802af6f47f20343"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/capture.qdstrm",
+      "bytes": 5600546,
+      "sha256": "70dbec804dd31d6a048c9b4d30e1c42acaf29c270c795510375ceee89b0b557c"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/capture.sqlite",
+      "bytes": 6619136,
+      "sha256": "66354c9c5f06ca5a85876ec1613046aabc8c399807343f8a9ab850588fda4049"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/complete.json",
+      "bytes": 34610,
+      "sha256": "ccce2d5c1de361fa8ce9f298d239f04114caf853dcc4868f12b648d75b4abe92"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/export-process.json",
+      "bytes": 541,
+      "sha256": "e2f8a73379d5eb7643c70dc6be0c2ee354072ba04d04315ba92a9068a2d9c4a0"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/export.txt",
+      "bytes": 8101,
+      "sha256": "e7e8e6fbb2406d586d55a06edce06a1fd58d8a85bcda81a79c02a3419ab25922"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/import-process.json",
+      "bytes": 548,
+      "sha256": "cc09e63dbb41b6775606c5a6f39635c02440763f6d0dd5938fbda6df900e9588"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/import.txt",
+      "bytes": 1515,
+      "sha256": "3245b3b96a033ae2bb06a13d6a1290a066173b13bcca9a66d9a502bc5841d30d"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/profiled-process.json",
+      "bytes": 895,
+      "sha256": "8b0c1ec17cacfbaaa872605e7d98afe9207f57dafdf8fd3cd653515efae16949"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/profiled.csv",
+      "bytes": 3963173,
+      "sha256": "0464fb4fb8afd7c15fb35b2abf83c6aa3c645125b714227f16c1ac401d213336"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/profiled.txt",
+      "bytes": 331,
+      "sha256": "3da6394c524225a98639bc41a59585440570538ea5e4a97898a8502ba864335c"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/unprofiled-process.json",
+      "bytes": 590,
+      "sha256": "baf21402524cbe4b4d050c7d81dcce7d4e57a061b1b47edceec8333262bae318"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/unprofiled.csv",
+      "bytes": 3963173,
+      "sha256": "cda5d7c40a0b06dd04abcaf77e1bfeca58fe2309406b203bb6a2c8fc44136c33"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/validation-process.json",
+      "bytes": 1795,
+      "sha256": "441c04f36addd8d054887746b1c0c4b30b55478c9cb2cd74d27bfdb829c42b53"
+    },
+    {
+      "name": "fused-attention-trace-final/case3/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-trace-final/explicit2.txt",
+      "bytes": 218,
+      "sha256": "db294534eada18ac009f7e50d2ef6b34da7f592f37dc1c45cb6ae67444629702"
+    },
+    {
+      "name": "fused-attention-trace-final/postflight.json",
+      "bytes": 2729,
+      "sha256": "98a30fc44a09f73efbba56b32a53903f92fcb0a1c16aa2b987ed5d98b0f1926e"
+    },
+    {
+      "name": "fused-attention-trace-final/preflight.json",
+      "bytes": 2729,
+      "sha256": "98a30fc44a09f73efbba56b32a53903f92fcb0a1c16aa2b987ed5d98b0f1926e"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-capability0-process.json",
+      "bytes": 326,
+      "sha256": "3237633460eb61c7cef57d5d08d6f90aa8c7834e3768978202bdb8152fa7969c"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-capability1-process.json",
+      "bytes": 327,
+      "sha256": "bd64dca60cd6ce42b8267783568e7cd1d11ca27529c62ac1d83af31c48478c86"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-capability2-process.json",
+      "bytes": 327,
+      "sha256": "328e88e1695681c015d60ee8c35d2c37d9c9c1ac38d501fa2226247572058e85"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-capability3-process.json",
+      "bytes": 327,
+      "sha256": "fcd4f054666f5aeb3313e93d47f62931631b438a8e04e23326cb1d3e662b4f4c"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-explicit2-process.json",
+      "bytes": 474,
+      "sha256": "f0d2ca6e99754b446ccc5e303ddd26efa00cc6cddc51b57f9241a11a18184c04"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-stages-process.json",
+      "bytes": 472,
+      "sha256": "c8c6a9aad77693fa32997c15302211540fca39cb3a06160cc6ae5d64193d2f16"
+    },
+    {
+      "name": "fused-attention-trace-final/rejected-strategy-process.json",
+      "bytes": 474,
+      "sha256": "87924f8e053d87f0eaa832bf44b4593f5905eef6e5d1a5ca5f3b1f50e041e03f"
+    },
+    {
+      "name": "fused-attention-trace-final/stages.txt",
+      "bytes": 218,
+      "sha256": "db294534eada18ac009f7e50d2ef6b34da7f592f37dc1c45cb6ae67444629702"
+    },
+    {
+      "name": "fused-attention-trace-final/strategy.txt",
+      "bytes": 197,
+      "sha256": "ae7ad0db56d4be644ac1954480870e74486ec6cd7800050209f357c487ac3b40"
+    },
+    {
+      "name": "fused-attention-trace-final-build-check.json",
+      "bytes": 266,
+      "sha256": "2ad62a1647ddbf5b9697fcd7eefd1e6f864125d05741e16c3273e76359d4747c"
+    },
+    {
+      "name": "fused-attention-trace-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-attention-trace-final-build-invalid-capability.json",
+      "bytes": 643,
+      "sha256": "06ad22bb535e7892757c477ed1e86f464294aeeedfba1d9b8db5d882a9a276b0"
+    },
+    {
+      "name": "fused-attention-trace-final-build-invalid-capability.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-trace-final-build-master.json",
+      "bytes": 413,
+      "sha256": "2e4e6385b30edbd6face6bd183bdddcab5ce9dafa299a53038d93111be62a599"
+    },
+    {
+      "name": "fused-attention-trace-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-attention-trace-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "e9bdc1aefdac91d4b8d14b812a37c6df93db9b153c0098358f1e10a489fdc008"
+    },
+    {
+      "name": "fused-attention-trace-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-attention-trace-final-build-original.json",
+      "bytes": 628,
+      "sha256": "5904dcc1d6f0a29924a0da6007e8ebe439d6fc72ccca641a591ae926c8650b2c"
+    },
+    {
+      "name": "fused-attention-trace-final-build-original.txt",
+      "bytes": 437,
+      "sha256": "9c7782ed65224928b0dbddf7fb5b1c15b978bf2a3c77c5d1ec9c0bb1e94e835b"
+    },
+    {
+      "name": "fused-attention-trace-final-build-sm_75.json",
+      "bytes": 571,
+      "sha256": "308ceec8173c9fc6b26193afec9dc2dd4f4873e4a3fa14fa006b1e849ded6359"
+    },
+    {
+      "name": "fused-attention-trace-final-build-sm_75.txt",
+      "bytes": 474,
+      "sha256": "5442563cf5410ef6d93183d622aa50e14d709b0ffe4dac4f0fba4f8e4e721cbf"
+    },
+    {
+      "name": "fused-attention-trace-final-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "8e48bd8acdeffb736f7b4202bbb96edd37360541f007043209f61e3f84eb5447"
+    },
+    {
+      "name": "fused-attention-trace-final-build-sm_89.txt",
+      "bytes": 474,
+      "sha256": "5442563cf5410ef6d93183d622aa50e14d709b0ffe4dac4f0fba4f8e4e721cbf"
+    },
+    {
+      "name": "fused-attention-trace-invalid-capability",
+      "bytes": 283400,
+      "sha256": "3e0bcebd48d669e33298ca6576746ba4b3bb51570f73786fd18b26e994a503da"
+    },
+    {
+      "name": "fused-attention-trace-invalid-capability.mojo",
+      "bytes": 264,
+      "sha256": "bdd93f86ae3a88e9460c66ff8e049f0dc77a3f1e0a962707541d3bc9f4ce6d3c"
+    },
+    {
+      "name": "fused-attention-trace-original-sm_75",
+      "bytes": 5808784,
+      "sha256": "c6e35005a70065d2437ab0520a367b330dc34c754f38b6e3bb19c210cdaf33df"
+    },
+    {
+      "name": "fused-attention-trace-original.mojo",
+      "bytes": 4194,
+      "sha256": "1f982aec711bc8b93c335010c3d1bcb69aecc5f993519686d6962d33b2ff09e2"
+    },
+    {
+      "name": "fused-attention-trace-sm_89",
+      "bytes": 5812904,
+      "sha256": "eddcb0b6defb267c14005141bc357ce74501c19c0120b38eb4a70b255f3a121a"
+    }
+  ],
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "limits": "Optional strict3B/context1536/precision0/F16 KV/sm75 strategy4 trace-only capability. Default/control-capable4 source gates remain separate. Every process/profiler duration diagnostic and unscored. No occupancy/spill/cause/uncovered-delay/provider lead. Complete source bits/cache/state carry accepted fixed CPU/prior3 scope. Predicate and imported TestCase alias collection corrected before final builds/physical capture; tool history retains initial failed output."
+}

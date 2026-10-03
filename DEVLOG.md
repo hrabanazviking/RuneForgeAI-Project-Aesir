@@ -1,3 +1,30 @@
+## 2026-10-03 — Sigrún: owned fused attention and projection trace
+
+Task d39df82 preceded code. Separate final trace capability admits only exclusive
+original fused4; default4 tracing and trace-capable4 control/replay remain closed.
+Balanced owned fused enqueue ranges join actual tensor projections. Source default4
+full numeric/CPU/prior3 bytes/cache/IDs/actual binary gates plain/profiled full F32,
+cache, state, counters and4352 combined guards. Complete actual1869/32215 kernel
+resources precede589/7449 projection ranges with981/20385 kernels and56/1008 exact
+interleaved attention children. Observed fused prefix/grid/block and one successful
+contained launch/kernel per child pass; GPU intervals remain whole asynchronous.
+
+Long FFN3.456781s of6.046571s=57.1693% summed kernel time; fused attention.814218s
+=13.4658%, diagnostic/unscored. Recorded fused46 registers/static16384/grid24x4/32
+/block128/dynamic0/local-per-thread0; deprecated legacy total remains raw. No
+occupancy/spill/cause/uncovered-delay/service speed claim. Nine hostile contracts
+plus legacy gates/master190/one skip and seven builds pass before serial physical
+captures. Matching installed importer recovers split-package raw profiles; all
+logs/exports/source/binary/artifact pre/post hashes retained. Seven actual invalid
+flags/capabilities refuse before model/CUDA; CLI also refuses before library/CSV.
+
+A capability predicate was corrected during review before builds; an initial unit
+entrypoint discovered imported TestCase alias collection, corrected to module imports
+before GPU capture. Original normal f3442a1e is authenticated ready/prefill4.
+Default4 replay and controls exact36-step CI succeeded. Next measure per-CTA token
+partitioning in FFN projections under original math/bit/oracle/guard/timing gates.
+Read [operation](docs/NATIVE_FUSED_ATTENTION_TRACE.md). Publication/exact CI separate.
+
 ## 2026-10-03 — Sigrún: explicit fused attention full-model state gate
 
 Scoped/pushed28fa4e8 before code. Final default-disabled fused capability selects

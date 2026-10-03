@@ -1,3 +1,7 @@
+Read docs/NATIVE_FUSED_ATTENTION_TRACE.md for explicit source-bound strategy4
+owned projection/attention resources. Complete full-session admission precedes
+chronological successful launch attribution; profile durations are unscored.
+
 For explicit strategy4 cooperative cancellation/reset recovery, read
 docs/NATIVE_FUSED_ATTENTION_CONTROLS.md. Fresh capable-but-disabled4 model retains
 complete source4 bits/cache/CPU; enabled abort/recovery/poison/counter/mask gates

@@ -593,6 +593,18 @@ No selection/resource cause.22 portable contracts/master190/one skip; all comple
 finite scores/failures remain. [Operation](docs/NATIVE_TURING_LOOP_STAGING.md).
 Next test paired FFN gate/up input staging reuse, preserving original outputs.
 
+Optional fused4 now earns complete source-bound owned attention/projection traces:
+plain/profiled37/1070 full F32/cache/IDs/state/guards agree, all1869/32215 kernel
+resources validate before589/7449 projection ranges and56/1008 fused children.
+Long FFN3.456781s/6.046571s=57.1693% of summed kernels; fused attention.814218s
+=13.4658%, diagnostic only. Exact observed fused grid24x4/32/block128/register46/
+static16384, full chronological source interleaving and one successful launch/kernel
+per child pass. Nine contracts/master190/one skip/seven builds; no occupancy/spill/
+delay/provider cause claim. [Operation](docs/NATIVE_FUSED_ATTENTION_TRACE.md).
+Next measure fewer token accumulators per CTA in an isolated FFN experiment;
+original arithmetic, complete bit/oracle/guards and all finite paired samples gate
+selection. Broader runtime/device/context/production/soak/provider gates stay open.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

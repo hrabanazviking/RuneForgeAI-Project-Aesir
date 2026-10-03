@@ -16,7 +16,7 @@ from core.fused_causal_attention import attend_fused
 from core.cuda_sampling import NativeCUDASampler
 from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
-from tests.projection_trace import projection_push, projection_pop, same_projection_tensor
+from tests.projection_trace import projection_push, projection_pop, attention_push, same_projection_tensor
 
 
 def ignore_layer(layer: Int) raises:
@@ -48,10 +48,11 @@ struct TuringPrefillFixture:
     var down128_tracing: Bool
     var fused_attention: Bool
     var fused_controls: Bool
+    var fused_tracing: Bool
     var fused_attention_calls: Int
     var original_attention_queries: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
@@ -62,6 +63,8 @@ struct TuringPrefillFixture:
         if fused_controls and not fused_attention: raise Error("Fused controls require admitted fused attention strategy")
         if fused_attention and (not down128 or precision != 0 or not batched or not elementwise or down128_controls or down128_tracing):
             raise Error("Fused attention requires original down128 strategy with controls/tracing closed")
+        if fused_tracing and (not fused_attention or fused_controls): raise Error("Fused tracing requires exclusive admitted fused strategy")
+        self.fused_tracing = fused_tracing
         self.fused_attention = fused_attention
         self.fused_controls = fused_controls
         self.fused_attention_calls = 0
@@ -147,7 +150,7 @@ struct TuringPrefillFixture:
                 owned = owned or (stage == "gate" and same_projection_tensor(t,layer.gate))
                 owned = owned or (stage == "up" and same_projection_tensor(t,layer.up))
                 owned = owned or (stage == "down" and same_projection_tensor(t,layer.down))
-            if not owned or (self.execution_strategy() != 2 and not (self.execution_strategy() == 3 and self.down128_tracing)) or self.activation_precision != 0:
+            if not owned or (self.execution_strategy() != 2 and not ((self.execution_strategy() == 3 and self.down128_tracing) or (self.execution_strategy() == 4 and self.fused_tracing))) or self.activation_precision != 0:
                 raise Error("Projection trace label disagrees with actual tensor/strategy owner")
             projection_push(stage,count)
         try:
@@ -194,9 +197,15 @@ struct TuringPrefillFixture:
             self.native.context.enqueue_function[batched_cache](self.a(),self.kv(),Int64(self.layout.key),Int64(self.layout.value),Int64(offset),Int64(1536),Int64(1024),Int64(self.position),Int64(self.layout.stride),grid_dim=(8,count),block_dim=128)
             self.rope_cache_calls += 1
         if self.fused_attention and batched:
-            if count == 4: attend_fused[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
-            elif count == 32: attend_fused[32](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
-            else: raise Error("Fused attention requires admitted four/32 rows")
+            if count != 4 and count != 32: raise Error("Fused attention requires admitted four/32 rows")
+            if self.trace_projections: attention_push(count)
+            try:
+                if count == 4: attend_fused[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
+                else: attend_fused[32](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
+            except:
+                if self.trace_projections: projection_pop()
+                raise
+            if self.trace_projections: projection_pop()
             self.fused_attention_calls += 1
             return
         for token in range(count):
@@ -258,15 +267,16 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
+        if self.fused_tracing and (not self.fused_attention or self.fused_controls): raise Error("Fused tracing capability drifted outside exclusive strategy")
         if self.fused_controls and not self.fused_attention: raise Error("Fused control capability drifted outside its strategy")
-        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or self.trace_projections or (self.control.enabled() and not self.fused_controls)):
+        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or (self.trace_projections and not self.fused_tracing) or (self.control.enabled() and not self.fused_controls)):
             raise Error("Fused attention requires uncontrolled untraced original down128 strategy")
         if self.down128_controls and not self.down128: raise Error("Down128 control capability drifted outside its strategy")
         if self.down128_tracing and not self.down128: raise Error("Down128 tracing capability drifted outside its strategy")
         if self.trace_projections and self.control.enabled(): raise Error("Projection tracing cannot enable cooperative controls")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
-        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not self.down128_tracing) or (self.control.enabled() and not (self.down128_controls or self.fused_controls))):
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not (self.down128_tracing or self.fused_tracing)) or (self.control.enabled() and not (self.down128_controls or self.fused_controls))):
             raise Error("Down128 requires original elementwise strategy and explicit control/trace capabilities")
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:

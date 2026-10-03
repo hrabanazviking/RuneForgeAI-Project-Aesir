@@ -31,13 +31,15 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False, fused_attention=False):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
     Export must be closed, without WAL/journal sidecars; query_only and an authorizer
     deny writes and executable extensions. No database-provided SQL is executed.
     """
+    if type(fused_attention) is not bool or (fused_attention and not (down128 and record_resources and projection_tiles is not None)):
+        raise ValueError("Fused attention resources require explicit owned down projection path")
     if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not down128):
         raise ValueError("Kernel resources require explicit owned down projection path")
     path = Path(path).absolute()
@@ -242,7 +244,13 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             if projection_tiles is not None:
                 from cuda_projection_ranges import attribute
                 projection = attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,down128=down128,resources=resources)
-            return {"schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
+            attention = None
+            if fused_attention:
+                from cuda_fused_attention_ranges import attribute as attention_attribute
+                attention = attention_attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
+                projection["attention_variant"] = 4
+            extra = {"fused_attention_attribution": attention} if fused_attention else {}
+            return {**extra, "schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
                     "process": {"pid": process[0][1], "name": expected_executable},
                     "gpu": {"name": gpu[0][1], "compute": f"{gpu[0][2]}.{gpu[0][3]}", "bytes": gpu[0][4]},
                     "capture_ns": duration, "kernel_count": len(kernel_intervals),

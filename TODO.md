@@ -1035,3 +1035,12 @@ The legacy formatters below are not exposed compatibility APIs.
   [Operation](docs/NATIVE_FUSED_ATTENTION_CONTROLS.md). No enabled-control speed score.
 - [ ] SPD-03 strategy4 owned tracing/control-capable sealed replay and broader context/device/concurrency/soak/runtime/
   refreshed-provider acceptance before production selection.
+
+- [x] SPD-03/04 explicit fused4 owned trace: public37/1070 plain/profiled full
+  source bits/cache/IDs/state/counters and4352 combined guards pass. Complete
+  1869/32215 kernel resources precede589/7449 projection ranges with981/20385
+  projection kernels plus56/1008 owned fused kernels. Long FFN3.456781s of
+  6.046571s=57.1693%, fused attention.814218s=13.4658%, diagnostic/unscored.
+  Nine contracts/master190 passes/one skip/seven builds; actual fused grid24x4/32,
+  block128/register46/static16384. [Operation](docs/NATIVE_FUSED_ATTENTION_TRACE.md).
+  Next measure per-CTA token partitioning to reduce FFN accumulation live state.
