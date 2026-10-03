@@ -96,3 +96,8 @@ The separate128-row CTA experiment preserves original entries and accumulation,
 with maximum19008 shared bytes/256 threads and guarded ceil input work for batch4.
 Initial256 fails physical launch and is rejected before model/GPU in the collector.
 Keep old runtime selection. Read ../../docs/NATIVE_TURING_LARGE_ROWS.md.
+
+Down-only128 now passes ordinary captured-F32 projection gates, with every new/
+original bit and actual accepted source/native/original byte preserved. This
+leaves full model/cache/state and later control/replay/provider gates open.
+Read ../../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md before selecting the candidate.

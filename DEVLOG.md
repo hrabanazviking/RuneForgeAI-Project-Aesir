@@ -1,3 +1,18 @@
+## 2026-10-02 — Sigrún: down-only128 real F32 precision and source binding
+
+New native collector reuses unchanged normal four-token public capture. Only
+batch32 final-layer down selects128; all1990656 new/original output bits and
+native/original accepted bytes plus114688 actual source operands/states match
+accepted precision0. Fixed native/original/2520 selected independent dots and
+1938600 guards/12 spans pass. Ten portable contracts bind source report complete
+scope/totals/budgets/rows/model/CSV/state, exact F32 signed-zero bytes and all
+after-oracle source/capture/model rehashes; complete/partial/interrupt failures
+remain exclusive/unscored. Master190 passes/one skip and all six builds precede
+serial GPU/pinned oracle. Normal f3442a1e/ready/prefill4 stays. Two final-layer
+captures/batch32 repeated four/QKV representative inputs limit scope. No speed
+score/full-model/control/provider promotion. Next complete down-only model/cache/
+state gate. Read docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; exact push/CI separate.
+
 ## 2026-10-02 — Sigrún: narrow larger-row down gain with resource refusal
 
 Separate128 CTA shares original padded F16 inputs across eight row warps/256

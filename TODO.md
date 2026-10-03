@@ -139,6 +139,13 @@
   refusal passes. Sixteen portable contracts/master190 passes/one skip.
   [Operation](docs/NATIVE_TURING_LARGE_ROWS.md). Next gate narrow down-only real-F32
   activation/full-model support before any fixture selection.
+- [x] SPD-01 narrow down-only128 actual-F32 gate: two public normal captures retain
+  all114688 accepted source inputs/states and1990656 native/original/new F32 bytes.
+  All2520 selected independent dots/1938600 guards/12 spans pass unchanged budgets;
+  only two batch32 down cases select128. Ten portable contracts/master190 passes/
+  one skip, strict source report/model/capture rehash and failure retention pass.
+  [Operation](docs/NATIVE_TURING_DOWN_ACTIVATIONS.md). No speed score/full-model
+  promotion. Next gate complete down-only model/cache/state before selection.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

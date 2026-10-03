@@ -471,8 +471,15 @@ gate/up .76896/.76027 old-to-new lose. Initial256 physical resource failure is
 retained and final admission removed, with actual pre-model refusal. Maximum
 shared19008/threads256; no new global workspace or production selection. Sixteen
 portable contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_LARGE_ROWS.md).
-Next gate narrow down-only ordinary real-F32/captured and full-model support before
-optional fixture selection; no general larger-row/provider claim follows.
+Narrow down-only ordinary real-F32 gate now passes1990656 original output bits,
+all114688 actual accepted source operands/states/native/original bytes,2520
+selected independent dots/1938600 guards/12 spans. Only two batch32 final-layer
+down cases select128. Strict complete accepted source report/totals/budget/hash
+and after-oracle source/model/capture identities bind acceptance; ten portable
+contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_DOWN_ACTIVATIONS.md).
+Batch32 repeats four captures/QKV representative FFN norm remain limitations;
+no speed score or complete-model/provider promotion follows. Next gate complete
+down-only model/cache/state before optional fixture selection.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

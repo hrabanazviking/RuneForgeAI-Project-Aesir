@@ -1491,7 +1491,16 @@ and circular self-parity transforms were removed.
   kernel/wrapper/CLI/checker remove256 admission, physically refusing pre-model.
   Sixteen portable contracts/master190 passes/one skip. [Evidence](docs/evidence/turing-large-rows-2026-10-02/README.md).
   Narrow primitive result only; no full-model/runtime/provider promotion.
-- **Next acceptance gate:** Down-only128 ordinary real-F32/captured and full-model gates before optional fixture selection; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down-only captured F32 gate (2026-10-02):** Only batch32 final-layer down
+  selects128; all1990656 new/original F32 bits, native/original accepted bytes and
+  114688 actual public source inputs/states match prior precision0 proof. Fixed
+  native/original/2520 independent dots/1938600 guards/12 spans pass. Strict source
+  full report/totals/budget/row/model/CSV/state identities and all after-oracle
+  capture/source/model rehashes bind acceptance. Ten portable contracts/master190
+  passes/one skip. [Evidence](docs/evidence/turing-down-activations-2026-10-02/README.md).
+  Two final-layer captures, batch32 repeated four/QKV representative FFN norm;
+  no full-model/state/control/speed/provider promotion.
+- **Next acceptance gate:** Down-only128 complete-model/cache/state gates before optional fixture selection; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

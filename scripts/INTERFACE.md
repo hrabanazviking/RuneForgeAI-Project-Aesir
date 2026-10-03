@@ -256,3 +256,15 @@ owners, while header legacy retains original_to_cached_ratio alias. Complete
 failures/source mutation/interruption clear both aliases and native ratios.128
 only;256 refuses metadata. Sixteen portable contracts pass. Read
 ../docs/NATIVE_TURING_LARGE_ROWS.md before interpreting primitive acceptance.
+
+## Source-bound down-only128 activation admission
+
+check_turing_down_activations parses bounded strict three-owner F32 sources and
+all28 ordered cases, derives down128 only for13/27 and recomputes metrics/guards/
+bits. reference requires fixed independently accepted precision0 scope/numerical
+case/row totals/model/CSV/report/state identity, then exact current causal/source/
+native/original F32 bytes/descriptors. independent reuses pinned real-weight
+oracle for new/native/original; main rehashes model/current/source CSV/report
+afterward, preserving complete/partial/mutation/interrupt failures exclusively.
+All reports speed_claim/full_model_quality_claim False. Ten portable contracts
+pass. Read ../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; no model/provider promotion.

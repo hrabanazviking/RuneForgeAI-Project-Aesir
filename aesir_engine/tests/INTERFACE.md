@@ -584,3 +584,11 @@ and three-owner rotation reuse the existing bounded two-output device storage.
 New test_turing_large_rows admits CLI128 before model load;256 is rejected after
 a retained physical resource failure. All144 synthetic/12 invalid span/real full
 output/guard/840 sample gates remain. Read ../../docs/NATIVE_TURING_LARGE_ROWS.md.
+
+## Down-only128 actual-F32 activation gate
+
+test_turing_down_activations reuses unchanged public normal four-token capture.
+Only batch32 final-layer down selects128; collection has28 total cases and exactly two down128 selections. Existing two output spans plus
+bounded native host snapshot export all native/new/original F32, actual state/
+operands/guards/12 invalid spans with strict new metadata. No timing/default
+change. Read ../../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md.

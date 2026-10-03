@@ -167,3 +167,9 @@ Larger-row mode admits128/32 only after retained physical256 resource rejection.
 paired_original proves exact original64 bits, original_to_candidate_ratio compares
 paired owners and failure clears every ratio. Header-cache alias/legacy two-owner
 schemas remain. Read ../docs/NATIVE_TURING_LARGE_ROWS.md; sixteen contracts pass.
+
+The separate down-only128 activation checker binds every current actual source/
+state/native/original F32 byte to accepted precision0 capture/report, requires
+fixed numerical/totals/independent coverage and preserves all failures. Reports
+never score speed or claim full-model quality. Read
+../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; ten portable contracts pass.
