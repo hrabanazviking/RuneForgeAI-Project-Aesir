@@ -13,6 +13,7 @@ def owner(f: TuringPrefillFixture,mode: Int) raises -> List[Int]:
 
 
 def restore(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
+    if f.small_attention: raise Error("Small attention sealed replay requires separate acceptance")
     var identity = owner(f,plan.mode)
     plan.admit(plan.mode,identity[0],identity[1],identity[2],identity[3],identity[4],f.fused_attention and plan.mode == 1)
     f.admit_execution_strategy()

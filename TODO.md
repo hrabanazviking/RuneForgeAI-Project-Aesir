@@ -1057,5 +1057,9 @@ The legacy formatters below are not exposed compatibility APIs.
   Static shared16384→6144 is62.5% smaller; no normal selector/model/provider claim.
   [Operation](docs/NATIVE_SMALL_FUSED_ATTENTION.md).10+8 hostile contracts/master190;
   retained interval/executable capture refusals; six final builds precede fresh GPU.
-- [ ] SPD-03 small-score default-disabled actual model/full cache/IDs/logits/counters/
-  own bits/source4/independent CPU gate, then separate runtime/generation/replay/control.
+- [x] SPD-03 small-score default-disabled actual model/full cache/IDs/logits/counters/
+  own bits/source4/independent CPU gate: all513024 per owner/4352 guards/8 invalid
+  tiles/12 live refusals/32 timings pass, strict actual current/source binaries.
+  [Operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Seven hostile contracts/master190.
+- [ ] SPD-03 small-score causal generation/state, then separate replay/control/trace/
+  runtime/context/device/concurrency/soak/refreshed provider acceptance.

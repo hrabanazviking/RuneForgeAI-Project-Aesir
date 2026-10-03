@@ -2101,3 +2101,18 @@ and context/device/concurrency/soak/production32/refreshed provider lead stay se
 
 [Evidence](docs/evidence/small-fused-attention-2026-10-03/README.md).
 Refines AES-ACC-010; no general new capability promotion.
+
+### Small-score model refinement — 2026-10-03
+
+Optional small-score strategy5 now passes all513024 full F32 values per owner,
+exact own bits and accepted4 bytes/cache/IDs/counts, unchanged independent zero-GPU
+CPU/max/RMS/argmax,4352 guards/eight invalid tiles/12 live feature refusals and all
+32 finite paired records. Default-false capability and strict actual current/source
+binaries keep old selectors. Seven hostile contracts/master190/one skip/all seven
+builds; [operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Same-capture native-four/
+small-fixture exploratory prefill only, not historical4/new5 or Ollama/request ratio.
+Next earn causal generation and source-bound state, sealed replay, enabled controls/
+tracing, then broader runtime/device/context/concurrency/soak/provider acceptance.
+
+[Evidence](docs/evidence/small-attention-model-2026-10-03/README.md).
+Refines existing AES-ACC-008/010; no general new capability promotion.

@@ -1,3 +1,20 @@
+## 2026-10-03 — Sigrún: source-bound small-score whole-model prefill
+
+Task541cb27 preceded code. Final default-false small capability selects explicit5
+only with original fused/down128/rotary/elementwise precision0, no controls/tracing.
+Actual small/fused/scalar counts separate; count4/32 small and singles original.
+Twelve allocation/state-preserving live refusals include native-plan replay before
+reset; old0..4 interfaces remain. All513024 per owner exact own/source4 bytes/IDs/
+full guarded KV/counts, independent pinned zero-GPU F32 quality,4352 guards/eight
+invalid tiles/32 finite records pass. Reader/CLI require exact actual current and
+accepted default4 source binaries/full fixed CPU/prior3 gates; all after-fences bind.
+Initial reduced mutation text mismatch fixed/asserted before physical; failed log/
+source remain. Seven hostile contracts/legacy suites/master190 and seven builds
+precede serial GPU/CPU. Normal original authenticated prefill4 remains ready.
+No historical4/new5, Ollama/request, runtime or general lead claim. Next generation,
+then replay/control/trace/broader gates. [Operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md).
+Exact push/CI receipts separate.
+
 ## 2026-10-03 — Sigrún: bounded small-score fused attention
 
 Task5a02709 preceded code. Separate optional native1536 F32 shared-score kernel

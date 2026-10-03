@@ -21,7 +21,7 @@ code remain. Small-score enabled controls, traces and sealed replay stay closed;
 refuse replay before owner reset or sampling mutation. Existing default4 accepted
 control/trace/replay policies must remain available.
 
-A separate direct native collector exports explicit small strategy marker/eleven
+A separate direct native collector exports explicit small strategy marker/twelve
 mutation-free live feature refusals/eight invalid tiles/all513024 complete F32
 values per original native-four and small-matrix owner/IDs/full guarded-cache digest/
 4352 guards/32 rotated warmed prefill samples. Every case repeats exact own bits.
@@ -56,3 +56,6 @@ fences. Publish detailed MD/manual/owners/retained evidence/TODO/roadmap/ledger/
 verify unchanged authenticated normal prefill4 readiness, commit/push/exact CI.
 Next earn causal generation and owning-context replay, then controls/tracing/runtime
 and fair refreshed provider gates. Broader contexts/devices/concurrency/soak stay open.
+
+The twelfth live refusal supplies a valid native-owner replay plan and proves the
+small fixture rejects restore before owner reset; existing default replay stays.

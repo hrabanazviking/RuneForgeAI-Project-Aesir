@@ -18,8 +18,10 @@ from check_turing_activations import f32
 from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MAX_RMS_ERROR
 
 
-def attention_variant(row,allow_down=False,allow_fused=False):
+def attention_variant(row,allow_down=False,allow_fused=False,allow_small=False):
+    if type(allow_small) is not bool or (allow_small and allow_fused):raise ValueError("Small model requires exclusive explicit strategy")
     if not row or row[0] != "ATTENTION": return None
+    if allow_small and row == ["ATTENTION","rope_cache_elementwise_down128_small","1","32"]:return 5
     if allow_fused and row == ["ATTENTION","rope_cache_elementwise_down128_fused","1","32"]: return 4
     if allow_down and row == ["ATTENTION","rope_cache_elementwise_down128","1","32"]: return 3
     if row == ["ATTENTION", "rope_cache_elementwise_grid", "1", "32"]: return 2
@@ -60,7 +62,8 @@ def reference_fields(pairs):
     return result
 
 
-def parse(path,allow_fused=False,allow_fused_controls=False):
+def parse(path,allow_fused=False,allow_fused_controls=False,allow_small=False):
+    if type(allow_small) is not bool or (allow_small and (allow_fused or allow_fused_controls)):raise ValueError("Small model requires exclusive explicit strategy")
     if allow_fused_controls and not allow_fused: raise ValueError("Fused control metadata requires explicit fused strategy")
     text = read_text(path, 64 * 1024 * 1024)
     if len(text.encode("utf-8")) > 64 * 1024 * 1024:
@@ -69,7 +72,7 @@ def parse(path,allow_fused=False,allow_fused_controls=False):
     cuda = next(reader)
     if not cuda or not cuda[0].startswith("[CUDA]") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
         raise ValueError("Missing actual native CUDA identity")
-    meta = next(reader); precision = 0; variant = attention_variant(meta,allow_down=True,allow_fused=allow_fused)
+    meta = next(reader); precision = 0; variant = attention_variant(meta,allow_down=True,allow_fused=allow_fused,allow_small=allow_small)
     if variant is not None: meta = next(reader)
     if meta == ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
         pass
@@ -82,6 +85,8 @@ def parse(path,allow_fused=False,allow_fused_controls=False):
         raise ValueError("Incomplete down128 pre-step refusal evidence")
     if variant == 4 and (not text.endswith("\n") or any(len(line)>1024 for line in text.splitlines()) or next(reader) != ["ADMISSION","4","3","0"]):
         raise ValueError("Incomplete fused model pre-step refusal evidence")
+    if variant == 5 and (not text.endswith("\n") or any(len(line)>1024 for line in text.splitlines()) or next(reader) != ["ADMISSION","5","12","0"]):
+        raise ValueError("Incomplete small model pre-step refusal evidence")
     control_capable = False
     first_case = next(reader)
     if variant == 4 and allow_fused_controls and first_case == ["CONTROL_CAPABLE","4","1"]:
@@ -122,11 +127,11 @@ def parse(path,allow_fused=False,allow_fused_controls=False):
         if variant is not None:
             calls = rope_cache_calls(count, variant)
             if next(reader) != ["ENQUEUE", str(index), str(calls)]: raise ValueError("Actual rotary/cache host enqueue count mismatch")
-            if variant in (2,3,4):
+            if variant in (2,3,4,5):
                 cells = elementwise_calls(count,variant)
                 if next(reader) != ["ELEMENTWISE",str(index),str(cells)]: raise ValueError("Actual elementwise host enqueue count mismatch")
                 case["elementwise_host_enqueues"] = cells
-            if variant in (3,4):
+            if variant in (3,4,5):
                 down = ((count-1)//32)*28
                 if next(reader) != ["DOWN_ROWS128",str(index),str(down)]:raise ValueError("Actual down128 selected enqueue count mismatch")
                 case["down128_host_enqueues"] = down
@@ -134,6 +139,11 @@ def parse(path,allow_fused=False,allow_fused_controls=False):
                 fused,original=fused_attention_calls(count)
                 if next(reader) != ["FUSED_ATTENTION",str(index),str(fused),str(original)]:raise ValueError("Actual fused/original attention enqueue count mismatch")
                 case.update(fused_attention_host_enqueues=fused,original_attention_queries=original)
+            if variant == 5:
+                small,original=fused_attention_calls(count)
+                if next(reader) != ["SMALL_ATTENTION",str(index),str(small),str(original)] or next(reader) != ["FUSED_ATTENTION",str(index),"0",str(original)]:
+                    raise ValueError("Actual small/original/closed fused attention enqueue count mismatch")
+                case.update(small_attention_host_enqueues=small,fused_attention_host_enqueues=0,original_attention_queries=original)
             cache = next(reader)
             if len(cache) != 4 or cache[:3] != ["CACHE", str(index), "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", cache[3]): raise ValueError("Incomplete guarded cache identity")
             case.update(rope_cache_host_enqueues=calls, guarded_cache_sha256=cache[3])
@@ -146,9 +156,13 @@ def parse(path,allow_fused=False,allow_fused_controls=False):
 
 
 def fixture_reference(data, csv_path, report_path, model_sha, *, reference_binary=None):
-    if data["attention_variant"] == 4 and data["control_capable"]:
+    if data["attention_variant"] == 5 or (data["attention_variant"] == 4 and data["control_capable"]):
         from check_turing_down_source import accepted_model
         reference, proof = accepted_model(csv_path, report_path, model_sha, fused=True, binary=reference_binary)
+        if data["attention_variant"] == 5:
+            for current,before in zip(data["cases"],reference["cases"],strict=True):
+                if any(current[k]!=before[k] for k in ("rope_cache_host_enqueues","elementwise_host_enqueues","down128_host_enqueues","original_attention_queries")) or current["small_attention_host_enqueues"]!=before["fused_attention_host_enqueues"] or current["fused_attention_host_enqueues"]!=0:
+                    raise ValueError("Small model dispatch disagrees with actual accepted original4 plan")
         flags = []
         for current, before in zip(data["cases"], reference["cases"], strict=True):
             equal = dict(input_ids_equal=current["input_ids"] == before["input_ids"],
@@ -267,9 +281,10 @@ def summarize(data):
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),
                 cases=[dict(input_ids=c["input_ids"], native_comparison=c["native_comparison"], timings=c["timings"], prefill_speed_ratio=None,
                             **({k: c[k] for k in ("rope_cache_host_enqueues", "guarded_cache_sha256")} if data["attention_variant"] is not None else {}),
-                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3,4) else {}),
-                            **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] in (3,4) else {}),
-                            **({k:c[k] for k in ("fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==4 else {})) for c in data["cases"]],
+                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3,4,5) else {}),
+                            **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] in (3,4,5) else {}),
+                            **({k:c[k] for k in ("fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==4 else {}),
+                            **({k:c[k] for k in ("small_attention_host_enqueues","fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==5 else {})) for c in data["cases"]],
                 limits="Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion.")
 
 
@@ -314,7 +329,10 @@ def main():
     parser.add_argument("--binary",type=Path);parser.add_argument("--binary-sha256")
     parser.add_argument("--fused-controls",action="store_true",help="Explicit disabled-control but capable4 model gate")
     parser.add_argument("--reference-binary",type=Path)
+    parser.add_argument("--small-attention",action="store_true",help="Explicit original4-source small-score model gate; defaults remain closed")
     args = parser.parse_args()
+    if args.small_attention and (args.fused_attention or args.fused_controls or args.reference_binary is None or args.reference_csv is None or args.reference_report is None):
+        parser.error("Small model requires exclusive strategy and actual accepted original4 source triplet")
     if args.fused_controls and (not args.fused_attention or args.reference_binary is None):
         parser.error("Fused controls require explicit fused strategy and actual predecessor binary")
     if (args.reference_csv is None) != (args.reference_report is None): parser.error("Fixture reference requires both CSV/report")
@@ -328,17 +346,19 @@ def main():
             derived = provenance(args.reference_provenance, args.model_sha256, args.reference_sha256)
             if args.reference_model.stat().st_size != derived["derived_bytes"]:
                 raise ValueError("Derived reference size mismatch")
-            if args.fused_attention and (args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}",args.binary_sha256) or digest(args.binary)!=args.binary_sha256):
+            if (args.fused_attention or args.small_attention) and (args.binary is None or args.binary_sha256 is None or not re.fullmatch(r"[0-9a-f]{64}",args.binary_sha256) or digest(args.binary)!=args.binary_sha256):
                 raise ValueError("Fused model requires exact probe binary identity before admission")
-            data = parse(args.csv,allow_fused=args.fused_attention,allow_fused_controls=args.fused_controls); report = summarize(data)
+            data = parse(args.csv,allow_fused=args.fused_attention,allow_fused_controls=args.fused_controls,allow_small=args.small_attention); report = summarize(data)
             if args.fused_attention and data["attention_variant"]!=4:raise ValueError("Fused opt-in requires actual strategy4 capture")
+            if args.small_attention and data["attention_variant"]!=5:raise ValueError("Small opt-in requires actual strategy5 capture")
             if args.fused_controls and not data["control_capable"]: raise ValueError("Fused controls opt-in requires actual capable4 marker")
             if data["attention_variant"]==4:report["limits"] += " Explicit fused four/32 attention retains original single-token path; complete fixed source F32/cache/ID/counter/CPU scope and binary identities are required. Control-capable4 needs its separate enabled recovery gate; tracing and runtime admission remain closed."
-            if data["attention_variant"]==4:report["binary_sha256"]=args.binary_sha256
+            if data["attention_variant"]==5:report["limits"] += " Explicit bounded small-score four/32 attention, actual default4 source binary/full F32/cache/IDs/counters and unchanged zero-GPU CPU quality required. Original scalar path stays. Controls/tracing/replay/runtime remain closed; no historical4/new5 or provider ratio."
+            if data["attention_variant"] in (4,5):report["binary_sha256"]=args.binary_sha256
             if data["attention_variant"] is not None:
                 if args.reference_csv is None: raise ValueError("Explicit rotary/cache evidence requires accepted fixture reference")
                 report["fixture_reference"] = fixture_reference(data, args.reference_csv, args.reference_report, args.model_sha256,
-                    **({"reference_binary": args.reference_binary} if args.fused_controls else {}))
+                    **({"reference_binary": args.reference_binary} if args.fused_controls or args.small_attention else {}))
             report.update(model_sha256=args.model_sha256, reference_derivation=derived,
                           independent_reference=independent(data, args.reference_model, args.threads))
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256:
@@ -349,9 +369,9 @@ def main():
                 raise ValueError("Original-to-F32 provenance changed during oracle")
             if data["attention_variant"] is not None and (digest(args.reference_csv) != report["fixture_reference"]["csv_sha256"] or digest(args.reference_report) != report["fixture_reference"]["report_sha256"]):
                 raise ValueError("Accepted fixture reference changed during oracle")
-            if data["attention_variant"]==4 and digest(args.binary)!=args.binary_sha256:
+            if data["attention_variant"] in (4,5) and digest(args.binary)!=args.binary_sha256:
                 raise ValueError("Fused model probe binary changed during oracle")
-            if args.fused_controls and digest(args.reference_binary) != report["fixture_reference"]["binary_sha256"]:
+            if (args.fused_controls or args.small_attention) and digest(args.reference_binary) != report["fixture_reference"]["binary_sha256"]:
                 raise ValueError("Fused default4 predecessor binary changed during oracle")
             score(report)
         except (Exception, KeyboardInterrupt) as error:

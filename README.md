@@ -1433,3 +1433,8 @@ Optional [small-score attention experiment](docs/NATIVE_SMALL_FUSED_ATTENTION.md
 passes complete original F32/CPU/guard and full-session observed shared-resource
 gates. It reduces static score storage62.5%; timings are exploratory primitives.
 Normal inference/service selection stays unchanged; model/provider gates remain.
+
+Optional [small-score model prefill](docs/NATIVE_SMALL_ATTENTION_MODEL.md)
+now passes complete source4 F32/cache/IDs/counts and unchanged independent CPU
+quality. This explicit test fixture keeps normal selection and new generation/
+replay/control/trace/runtime/provider gates separate.

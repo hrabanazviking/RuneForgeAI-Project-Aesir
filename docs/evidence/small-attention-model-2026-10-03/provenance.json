@@ -1,0 +1,663 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "541cb27",
+  "builds": {
+    "sm_75": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:07:43.141723+00:00",
+      "ended_utc": "2026-10-03T13:08:16.684672+00:00",
+      "wall_seconds": 33.542949038994266,
+      "performance_scored": false
+    },
+    "sm_89": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_small_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:08:16.685153+00:00",
+      "ended_utc": "2026-10-03T13:08:50.169998+00:00",
+      "wall_seconds": 33.48487305600429,
+      "performance_scored": false
+    },
+    "original": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_fused_attention_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-original"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:08:50.170571+00:00",
+      "ended_utc": "2026-10-03T13:09:19.787566+00:00",
+      "wall_seconds": 29.61701284800074,
+      "performance_scored": false
+    },
+    "primitive": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_small_fused_attention.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-primitive"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:09:19.788081+00:00",
+      "ended_utc": "2026-10-03T13:09:21.457700+00:00",
+      "wall_seconds": 1.6696113389916718,
+      "performance_scored": false
+    },
+    "master": {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:09:21.458149+00:00",
+      "ended_utc": "2026-10-03T13:09:54.013636+00:00",
+      "wall_seconds": 32.555508815014036,
+      "performance_scored": false
+    },
+    "normal": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:09:54.014144+00:00",
+      "ended_utc": "2026-10-03T13:10:14.033796+00:00",
+      "wall_seconds": 20.019670326000778,
+      "performance_scored": false
+    },
+    "check": {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T13:10:14.034213+00:00",
+      "ended_utc": "2026-10-03T13:10:14.149437+00:00",
+      "wall_seconds": 0.11523950900300406,
+      "performance_scored": false
+    }
+  },
+  "processes": {
+    "gpu": {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      ],
+      "exit": 0,
+      "started_utc": "2026-10-03T13:11:32.770671+00:00",
+      "ended_utc": "2026-10-03T13:12:59.496584+00:00",
+      "wall_seconds": 86.72592714600614,
+      "performance_scored": false,
+      "csv_sha256": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d"
+    },
+    "oracle": {
+      "exit": 0,
+      "wall_seconds": 54.3295897479984,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--reference-model",
+        "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+        "--reference-sha256",
+        "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+        "--reference-provenance",
+        "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+        "--reference-csv",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv",
+        "--reference-report",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json",
+        "--reference-binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+        "--small-attention",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "--binary-sha256",
+        "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-final/complete.json"
+      ],
+      "started_utc": "2026-10-03T13:13:08.341507+00:00",
+      "ended_utc": "2026-10-03T13:14:02.671138+00:00",
+      "performance_scored": false
+    }
+  },
+  "invalid_processes": {
+    "reject-fused-process": {
+      "exit": 1,
+      "wall_seconds": 0.01602291301242076,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-fused"
+      ],
+      "started_utc": "2026-10-03T13:11:32.654493+00:00",
+      "ended_utc": "2026-10-03T13:11:32.670571+00:00",
+      "performance_scored": false
+    },
+    "reject-tracing-process": {
+      "exit": 1,
+      "wall_seconds": 0.015971798013197258,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-tracing"
+      ],
+      "started_utc": "2026-10-03T13:11:32.687649+00:00",
+      "ended_utc": "2026-10-03T13:11:32.703657+00:00",
+      "performance_scored": false
+    },
+    "reject-precision-process": {
+      "exit": 1,
+      "wall_seconds": 0.016150161012774333,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-precision"
+      ],
+      "started_utc": "2026-10-03T13:11:32.720755+00:00",
+      "ended_utc": "2026-10-03T13:11:32.736953+00:00",
+      "performance_scored": false
+    },
+    "reject-down-process": {
+      "exit": 1,
+      "wall_seconds": 0.01602871500654146,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-down"
+      ],
+      "started_utc": "2026-10-03T13:11:32.704142+00:00",
+      "ended_utc": "2026-10-03T13:11:32.720212+00:00",
+      "performance_scored": false
+    },
+    "reject-controls-process": {
+      "exit": 1,
+      "wall_seconds": 0.01619662798475474,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-controls"
+      ],
+      "started_utc": "2026-10-03T13:11:32.671035+00:00",
+      "ended_utc": "2026-10-03T13:11:32.687275+00:00",
+      "performance_scored": false
+    },
+    "reject-batched-process": {
+      "exit": 1,
+      "wall_seconds": 0.01599374899524264,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "reject-batched"
+      ],
+      "started_utc": "2026-10-03T13:11:32.737472+00:00",
+      "ended_utc": "2026-10-03T13:11:32.753501+00:00",
+      "performance_scored": false
+    },
+    "extra": {
+      "exit": 1,
+      "wall_seconds": 0.016122369997901842,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75",
+        "NONEXISTENT_MODEL_MUST_NOT_BE_OPENED",
+        "invalid-extra"
+      ],
+      "started_utc": "2026-10-03T13:11:32.753929+00:00",
+      "ended_utc": "2026-10-03T13:11:32.770094+00:00",
+      "performance_scored": false
+    }
+  },
+  "preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_attention_model.mojo": "9486e7a42a5ad2e40351399efd376b93ec438c34f4bc48756543cbd4f4dcaa5d",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_attention_model.mojo": "c70fc15f721d36855a8055f4bc200918567d73fc7863da80fa331c9a2ad4f933",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_model_prefill.mojo": "21546fff55ae62f2734de91e20c3c3373720e70477953fd83fc49a0102da808f",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "27d51077edd7a6ffe5d0fa735e4876ab7fa15b0ea4821643fe1c9affa88064b4",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_model.py": "fc42f03ce6afd90397fc723ad3838b090b698460947776330ac3854f66da9948",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "9729533810a11c3183b967c5e2f86f6e1eb1f4a38b9397ab7ab0f45d03588dd2",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_89": "4d1a87ffb097cedc488ac3987dcba4dd446f4fcfef90657578234e004679ed05",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-original": "1968fd047a8087c448e6fc04482814c651b048de6a68ee80e58b41a4abf77cc3",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-primitive": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa"
+  },
+  "after_gpu": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_attention_model.mojo": "9486e7a42a5ad2e40351399efd376b93ec438c34f4bc48756543cbd4f4dcaa5d",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_attention_model.mojo": "c70fc15f721d36855a8055f4bc200918567d73fc7863da80fa331c9a2ad4f933",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_model_prefill.mojo": "21546fff55ae62f2734de91e20c3c3373720e70477953fd83fc49a0102da808f",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "27d51077edd7a6ffe5d0fa735e4876ab7fa15b0ea4821643fe1c9affa88064b4",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_model.py": "fc42f03ce6afd90397fc723ad3838b090b698460947776330ac3854f66da9948",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "9729533810a11c3183b967c5e2f86f6e1eb1f4a38b9397ab7ab0f45d03588dd2",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_89": "4d1a87ffb097cedc488ac3987dcba4dd446f4fcfef90657578234e004679ed05",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-original": "1968fd047a8087c448e6fc04482814c651b048de6a68ee80e58b41a4abf77cc3",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-primitive": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa"
+  },
+  "postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "b0eec768946df9c45c6858164a5682d5f3ac66eb5b0dc5d503cf3ddc728e6b00",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_small_attention_model.mojo": "9486e7a42a5ad2e40351399efd376b93ec438c34f4bc48756543cbd4f4dcaa5d",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_fused_attention_model.mojo": "c70fc15f721d36855a8055f4bc200918567d73fc7863da80fa331c9a2ad4f933",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_model_prefill.mojo": "21546fff55ae62f2734de91e20c3c3373720e70477953fd83fc49a0102da808f",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_checkpoint_replay.mojo": "27d51077edd7a6ffe5d0fa735e4876ab7fa15b0ea4821643fe1c9affa88064b4",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_small_attention.mojo": "3129566df6270440a256537c81312787be0916cc771d54ffd2f8f90f63d18758",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "e8171223a78db9cc195ac8d22c721438f0611d117c4d649b1d59d6e44bc9863f",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "ff0588131264c9404e0f8d80395cfde80c76847cb31e4c9640973a4500e34291",
+    "[AESIR_REPOSITORY]/scripts/test_check_small_attention_model.py": "fc42f03ce6afd90397fc723ad3838b090b698460947776330ac3854f66da9948",
+    "[AESIR_REPOSITORY]/.github/workflows/ci.yml": "9729533810a11c3183b967c5e2f86f6e1eb1f4a38b9397ab7ab0f45d03588dd2",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_75": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-sm_89": "4d1a87ffb097cedc488ac3987dcba4dd446f4fcfef90657578234e004679ed05",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-original": "1968fd047a8087c448e6fc04482814c651b048de6a68ee80e58b41a4abf77cc3",
+    "[CHAT_WORKSPACE]/work/aesir-trace/small-attention-model-primitive": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9",
+    "[AESIR_REPOSITORY]/.aesir/launch/aesir": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf": "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa"
+  },
+  "accepted_source": {
+    "passed": true,
+    "attention_variant": 4,
+    "control_capable": false,
+    "csv_sha256": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "report_sha256": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "binary_sha256": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa"
+  },
+  "original_core_kernels_retained_verbatim": true,
+  "review_note": "Reduced hostile test value strings initially did not occur in their fixture. Exact existing text and explicit mutation-presence assertions corrected before physical work; failed log/source retained. All seven builds completed before serial GPU/CPU; no native changes during physical work.",
+  "normal_readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "small-attention-model-build-check.json",
+      "bytes": 266,
+      "sha256": "b024a585d5d454c3d19a057be55d82b0118a9dfc65d763cc3641fcb07bcd809a"
+    },
+    {
+      "name": "small-attention-model-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "small-attention-model-build-master.json",
+      "bytes": 413,
+      "sha256": "3783f9b071de60800315c9d99ec057c2cd8980472bb9697e3ba622a9dc2a5438"
+    },
+    {
+      "name": "small-attention-model-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "small-attention-model-build-normal.json",
+      "bytes": 294,
+      "sha256": "d28223426f654452745545104508d3511d7872f67b58cabe4c38ccc06acb820e"
+    },
+    {
+      "name": "small-attention-model-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "small-attention-model-build-original.json",
+      "bytes": 574,
+      "sha256": "9fa7a323d28da6433e7c04b10b7269d19bb12647b9703ae32ca8fcb5c0797740"
+    },
+    {
+      "name": "small-attention-model-build-original.txt",
+      "bytes": 475,
+      "sha256": "552a985749ccba6dfefcadfbb9031500f8b91d9d4f2551053d93405be4910718"
+    },
+    {
+      "name": "small-attention-model-build-primitive.json",
+      "bytes": 576,
+      "sha256": "60982d26431ed796a4986adb97e5ec9b788ad0f795dd66991492259dc58826ae"
+    },
+    {
+      "name": "small-attention-model-build-primitive.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-attention-model-build-sm_75.json",
+      "bytes": 572,
+      "sha256": "ea8c3ba30d636ce431939a03a4a52d0bfdefe09f786e5a091ed030ffa41e33a4"
+    },
+    {
+      "name": "small-attention-model-build-sm_75.txt",
+      "bytes": 475,
+      "sha256": "3a9fbb39422554b6c9c4a02a5b457f7c64de566d14c7e9d11fdbd7c439641562"
+    },
+    {
+      "name": "small-attention-model-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "48a70379085a46ff7900b2a210d2c53d41ecfc31526bf7d6696de861d734c4f2"
+    },
+    {
+      "name": "small-attention-model-build-sm_89.txt",
+      "bytes": 475,
+      "sha256": "3a9fbb39422554b6c9c4a02a5b457f7c64de566d14c7e9d11fdbd7c439641562"
+    },
+    {
+      "name": "small-attention-model-final/accepted-source.json",
+      "bytes": 419,
+      "sha256": "c9e07c726de02fb68da0ef79d65eb36f4a72e9cfed74c1a6ab734b49443ad2dc"
+    },
+    {
+      "name": "small-attention-model-final/after-gpu.json",
+      "bytes": 3634,
+      "sha256": "d6e744bf52de9503cbee18fbd65319d8b896c24661e48a08ca1508fbd3b3662c"
+    },
+    {
+      "name": "small-attention-model-final/complete.csv",
+      "bytes": 26269697,
+      "sha256": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d"
+    },
+    {
+      "name": "small-attention-model-final/complete.json",
+      "bytes": 31522,
+      "sha256": "22395c06b4cc62444ff063ba439cfcef89f3922c5ff0daabb284f56e23932a27"
+    },
+    {
+      "name": "small-attention-model-final/gpu-process.json",
+      "bytes": 528,
+      "sha256": "a24895bfae4b5cf3e685c59c0ffdbc29835c2e8b3cbdbbae4a74b07b2c78b78a"
+    },
+    {
+      "name": "small-attention-model-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "small-attention-model-final/invalid-extra-process.json",
+      "bytes": 370,
+      "sha256": "48518794b540760e40b36bed2e879148f3754301e55b4fbe662ada85fa71e3d1"
+    },
+    {
+      "name": "small-attention-model-final/invalid-extra.txt",
+      "bytes": 214,
+      "sha256": "011166df78bc1c768b51ee2440475752a8681aeaa8814e46e43306c95aebd33a"
+    },
+    {
+      "name": "small-attention-model-final/oracle-process.json",
+      "bytes": 1877,
+      "sha256": "9ad492718034c4b077be276b2e9ff4ba76ada49aac20889028218a23562187ef"
+    },
+    {
+      "name": "small-attention-model-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "small-attention-model-final/postflight.json",
+      "bytes": 3634,
+      "sha256": "d6e744bf52de9503cbee18fbd65319d8b896c24661e48a08ca1508fbd3b3662c"
+    },
+    {
+      "name": "small-attention-model-final/preflight.json",
+      "bytes": 3634,
+      "sha256": "d6e744bf52de9503cbee18fbd65319d8b896c24661e48a08ca1508fbd3b3662c"
+    },
+    {
+      "name": "small-attention-model-final/reject-batched-process.json",
+      "bytes": 370,
+      "sha256": "bcf9d168ed9165fc2b89cb9062d0b74256dd92052c37bb4f7eb075a5c5a6158f"
+    },
+    {
+      "name": "small-attention-model-final/reject-batched.txt",
+      "bytes": 229,
+      "sha256": "882694ac505aca083af7a739fb44a0a9c0a32c89a7ac5c2e0278a4534f00841f"
+    },
+    {
+      "name": "small-attention-model-final/reject-controls-process.json",
+      "bytes": 371,
+      "sha256": "5297831bebc2b1ff3a13e1a3485d48a9b2ea36aee5c63cab048c6bcc66dfbb53"
+    },
+    {
+      "name": "small-attention-model-final/reject-controls.txt",
+      "bytes": 247,
+      "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+    },
+    {
+      "name": "small-attention-model-final/reject-down-process.json",
+      "bytes": 367,
+      "sha256": "71eddc1680e27f7b878e8b1b5ea5996de8584549ba4aa76dbc2d0f3583323591"
+    },
+    {
+      "name": "small-attention-model-final/reject-down.txt",
+      "bytes": 249,
+      "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+    },
+    {
+      "name": "small-attention-model-final/reject-fused-process.json",
+      "bytes": 368,
+      "sha256": "c18dbaedad5fdbfd12111539844adbf33069371ff5c4799a8944bccd12a47d5c"
+    },
+    {
+      "name": "small-attention-model-final/reject-fused.txt",
+      "bytes": 247,
+      "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+    },
+    {
+      "name": "small-attention-model-final/reject-precision-process.json",
+      "bytes": 373,
+      "sha256": "471f020d29be804056df139e75c337559fa606006641515db07ad7bd6760244d"
+    },
+    {
+      "name": "small-attention-model-final/reject-precision.txt",
+      "bytes": 219,
+      "sha256": "ad2512a3d555e57ddc9c1d8d09bb26d80d1b3fb522c61500b2f85ec594ee6bb1"
+    },
+    {
+      "name": "small-attention-model-final/reject-tracing-process.json",
+      "bytes": 371,
+      "sha256": "2921095bc48e5badf8f1e02731c62520bbcd25bfefe4baf28f021e5a1a7bfe72"
+    },
+    {
+      "name": "small-attention-model-final/reject-tracing.txt",
+      "bytes": 247,
+      "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+    },
+    {
+      "name": "small-attention-model-initial-portable.txt",
+      "bytes": 3717,
+      "sha256": "86e70cab66cdd4ff72e5559e84139536afb64a51b5d6ba83887076e3a6eb34ae"
+    },
+    {
+      "name": "small-attention-model-initial-test_check_small_attention_model.py",
+      "bytes": 9247,
+      "sha256": "5515838469fedcbc93e49d85c2ff142773a1299f7b4939af7a5a829314229acb"
+    },
+    {
+      "name": "small-attention-model-original",
+      "bytes": 5983568,
+      "sha256": "1968fd047a8087c448e6fc04482814c651b048de6a68ee80e58b41a4abf77cc3"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_checkpoint.txt",
+      "bytes": 3202,
+      "sha256": "304e02f36a233b99570e36f3bda85c0881d42362a2d7e3455b32f59152bac283"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_controls.txt",
+      "bytes": 2427,
+      "sha256": "0488ba8e3b74e2bf41d623c64b377fe11f6c2d605e1c84539c639cf32ff1caa3"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_controls_model.txt",
+      "bytes": 753,
+      "sha256": "8a12139c6dc818ec5b900865554ffaa617ff66597c1081e248acef9a8192f452"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_decode.txt",
+      "bytes": 4830,
+      "sha256": "8058e3174568d5e7a12b64b697cf28c4b9c2f17143a1b372f5adecb2e1206abd"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_model.txt",
+      "bytes": 679,
+      "sha256": "601dae802ca2759e7cf6101daf092799d0eae3c203578d58ea9dcef4142a7003"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_fused_attention_trace.txt",
+      "bytes": 107,
+      "sha256": "e1f6245c7745a47069127da3e1abd791812ad38d09b538c994a09423200d2ddb"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_small_attention_model.txt",
+      "bytes": 2047,
+      "sha256": "9e68cf933e86990331cb7abdd9a5db3fc46dfd7f9953eea74e9b4bf6ffc6eb70"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_small_attention_resources.txt",
+      "bytes": 106,
+      "sha256": "b5267b5d5fbe405fccfd846aff0ce9e4fe5ec5849eccdb102120a4ae2665b0b0"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_small_fused_attention.txt",
+      "bytes": 109,
+      "sha256": "9d5cbf50af2b5d43b53292e22efa8ffa4ca03168aabba92fa0d3e90b2ff6a317"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_turing_checkpoint_replay.txt",
+      "bytes": 183,
+      "sha256": "94f3734ec73d1c5a90ccb67c6397ebbbce9b1ad2fd597cb99aeafc4aeb69904b"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_turing_decode_quality.txt",
+      "bytes": 269,
+      "sha256": "3ef60c1ae5840ca600c44eda092bd7e2f734efe64f21e124ba4b04c377e1bf83"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_turing_down_model.txt",
+      "bytes": 240,
+      "sha256": "d4aa4e3e5694e2fa180288415f2c3c9c801df89291423681f46bc6b32fc4955f"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_turing_fixture_controls.txt",
+      "bytes": 287,
+      "sha256": "d1eed11800002eec94f8e72d3bd4caceeb36118a43e318a24435931695eca964"
+    },
+    {
+      "name": "small-attention-model-portable-test_check_turing_model_prefill.txt",
+      "bytes": 107,
+      "sha256": "ca18ffc8e8fdc6b71e49e9b4fd64e04661daa3243fb767d57a64ce80ea2d7b63"
+    },
+    {
+      "name": "small-attention-model-primitive",
+      "bytes": 196456,
+      "sha256": "a0856d349ddb0ef83298ef5fae6ca746cf9c6d432a96bd94752b888165f37bb9"
+    },
+    {
+      "name": "small-attention-model-sm_75",
+      "bytes": 6002832,
+      "sha256": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660"
+    },
+    {
+      "name": "small-attention-model-sm_89",
+      "bytes": 6002832,
+      "sha256": "4d1a87ffb097cedc488ac3987dcba4dd446f4fcfef90657578234e004679ed05"
+    }
+  ],
+  "limits": "Optional same-session fresh native-four versus small-score matrix fixture. No historical4/new5, normal request or Ollama/provider/production lead."
+}

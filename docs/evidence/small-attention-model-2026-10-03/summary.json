@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "passed": true,
+  "production_selected": false,
+  "values_per_owner": 513024,
+  "source4_complete_f32_cache_ids_equal": true,
+  "guards": 4352,
+  "invalid_tiles": 8,
+  "closed_feature_refusals": 12,
+  "exploratory_current_native_four_to_small_prefill": [
+    {
+      "input_tokens": 30,
+      "native_seconds": 0.3282808340154588,
+      "small_seconds": 0.3213913070212584,
+      "ratio": 1.0214365692029894
+    },
+    {
+      "input_tokens": 37,
+      "native_seconds": 0.39003395999316126,
+      "small_seconds": 0.21572445699712262,
+      "ratio": 1.8080191992248873
+    },
+    {
+      "input_tokens": 31,
+      "native_seconds": 0.35130824899533764,
+      "small_seconds": 0.3444613820174709,
+      "ratio": 1.0198770234787
+    },
+    {
+      "input_tokens": 1070,
+      "native_seconds": 12.63971576699987,
+      "small_seconds": 5.9480308489874005,
+      "ratio": 2.1250252542237016
+    }
+  ],
+  "limits": "Optional same-session fresh native-four versus small-score matrix fixture. No historical4/new5, normal request or Ollama/provider/production lead."
+}

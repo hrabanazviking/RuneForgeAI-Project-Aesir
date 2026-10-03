@@ -13,6 +13,7 @@ from core.packed_turing_matrix import project_turing_staged, project_turing_larg
 from core.gemma4_kernels import embedding_kernel
 from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention_tiled
 from core.fused_causal_attention import attend_fused
+from core.fused_small_attention import attend_small
 from core.cuda_sampling import NativeCUDASampler
 from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
@@ -49,10 +50,12 @@ struct TuringPrefillFixture:
     var fused_attention: Bool
     var fused_controls: Bool
     var fused_tracing: Bool
+    var small_attention: Bool
+    var small_attention_calls: Int
     var fused_attention_calls: Int
     var original_attention_queries: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False,small_attention: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
@@ -64,6 +67,10 @@ struct TuringPrefillFixture:
         if fused_attention and (not down128 or precision != 0 or not batched or not elementwise or down128_controls or down128_tracing):
             raise Error("Fused attention requires original down128 strategy with controls/tracing closed")
         if fused_tracing and (not fused_attention or fused_controls): raise Error("Fused tracing requires exclusive admitted fused strategy")
+        if small_attention and (not fused_attention or fused_controls or fused_tracing):
+            raise Error("Small attention requires original fused strategy with controls/tracing closed")
+        self.small_attention = small_attention
+        self.small_attention_calls = 0
         self.fused_tracing = fused_tracing
         self.fused_attention = fused_attention
         self.fused_controls = fused_controls
@@ -118,6 +125,7 @@ struct TuringPrefillFixture:
                 self.norm(weight,base+src,base+dst)
 
     def execution_strategy(self) -> Int:
+        if self.small_attention: return 5
         if self.fused_attention: return 4
         return 3 if self.down128 else (2 if self.batched_elementwise else Int(self.batched_rope_cache))
 
@@ -200,13 +208,17 @@ struct TuringPrefillFixture:
             if count != 4 and count != 32: raise Error("Fused attention requires admitted four/32 rows")
             if self.trace_projections: attention_push(count)
             try:
-                if count == 4: attend_fused[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
+                if self.small_attention:
+                    if count == 4: attend_small[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
+                    else: attend_small[32](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
+                elif count == 4: attend_fused[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
                 else: attend_fused[32](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
             except:
                 if self.trace_projections: projection_pop()
                 raise
             if self.trace_projections: projection_pop()
-            self.fused_attention_calls += 1
+            if self.small_attention: self.small_attention_calls += 1
+            else: self.fused_attention_calls += 1
             return
         for token in range(count):
             var base = self.layout.token_base(token)
@@ -267,6 +279,8 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
+        if self.small_attention and (not self.fused_attention or self.fused_controls or self.fused_tracing):
+            raise Error("Small attention capability drifted outside closed original fused strategy")
         if self.fused_tracing and (not self.fused_attention or self.fused_controls): raise Error("Fused tracing capability drifted outside exclusive strategy")
         if self.fused_controls and not self.fused_attention: raise Error("Fused control capability drifted outside its strategy")
         if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or (self.trace_projections and not self.fused_tracing) or (self.control.enabled() and not self.fused_controls)):
@@ -366,6 +380,7 @@ struct TuringPrefillFixture:
         self.elementwise_calls = 0
         self.down128_calls = 0
         self.fused_attention_calls = 0
+        self.small_attention_calls = 0
         self.original_attention_queries = 0
         self.control.reset()
         self.healthy = True

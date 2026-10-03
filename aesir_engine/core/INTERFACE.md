@@ -1265,3 +1265,19 @@ counts/PID/binary/five artifact hashes. New analyzer fused_primitive flag requir
 resources and excludes all model/range flags; old schemas stay.10+8 hostile contracts
 join CI. Read project-root operation at project-root docs/NATIVE_SMALL_FUSED_ATTENTION.md before
 changing bounds/math; whole-model/state/production/provider gates remain separate.
+
+## Explicit small-score whole-model prefill
+
+Final small_attention=False is an exclusive test-only strategy5 requiring original
+fused/down128/rotary/elementwise precision0 and no control/trace capabilities.
+Count4/32 enqueue attend_small; singles remain original. Separate small/fused/scalar
+counters reset.12 state/allocation-preserving refusals include a valid native replay
+plan; restore rejects5 before owner mutation. No original0..4 or normal selection
+change. New probe exports all513024 F32 per owner/IDs/full cache/4352 guards/32
+records and own exact bits. Explicit reader allow_small/CLI--small-attention require
+actual current binary and accepted default4 source CSV/report/binary/full fixed CPU/
+prior3 byte/cache/ID/counter proof. Every current value/cache/ID and tile count binds;
+unchanged independent zero-GPU F32-expanded oracle reruns. Every after-hash/numeric/
+source/nonfinite failure clears all scores, retains exclusive reports. Seven hostile
+contracts join CI; read project-root docs/NATIVE_SMALL_ATTENTION_MODEL.md. New mode
+controls/replay/tracing/generation/runtime/context/device/provider gates stay open.
