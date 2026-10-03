@@ -602,4 +602,16 @@ Strategy3 refuses enabled controls/tracing pre-step and existing replay plans
 refuse3. Project is mut for its counter, final vocabulary descriptor copied to
 avoid aliasing. Shared fresh-repeat checks compare actual F32 bits. New collector
 exports full source/cache/ID vectors, admission and actual down counts; default
-collectors remain0/1/2. Read ../../docs/NATIVE_TURING_DOWN_MODEL.md.
+model collectors remain0/1/2. Read ../../docs/NATIVE_TURING_DOWN_MODEL.md.
+
+## Explicit down128 decode collection
+
+Existing test_turing_decode_quality.mojo accepts final optional strategy3, with
+pre-model0/1/2/3 admission. Omission/default and prior flags preserve prior schema.
+New3 requires original precision0/batched/elementwise/down128 and distinct marker.
+Actual initial DOWN_ROWS128/replay REPLAY_DOWN_ROWS128 counters remain28/924:
+scalar decode cannot add128-row calls. Existing four public prefix/policy cases,
+96 full-vocabulary frames/native-forced causal IDs, EOS/caps/guards/sample/draw/
+state and actual own fresh F32-bit replay remain unchanged. No added GPU workspace.
+Read ../../docs/NATIVE_TURING_DOWN_DECODE.md; hosted compile is not GPU evidence,
+no speed score/production selection. Sealed replay/enabled controls remain closed3.

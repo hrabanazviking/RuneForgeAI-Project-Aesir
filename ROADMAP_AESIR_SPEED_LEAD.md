@@ -487,7 +487,14 @@ Long paired native/new12.66775/6.80087s=1.86267x exploratory ratio, without an
 old2/new3 or provider score. Eight contracts/master190 passes/one skip; atomic
 finite scores/derivation-source-model-capture rehashes preserve failure evidence.
 [Operation](docs/NATIVE_TURING_DOWN_MODEL.md). Strategy3 stays opt-in; next earn
-decode/sample, owning-context replay and enabled-control recovery before selection.
+owning-context replay and enabled-control recovery before selection. Explicit3
+now passes all96 full-vocabulary native-forced greedy/seeded decode frames,
+12312576 F32 values per owner, unchanged independent/native budgets/sample/state/
+4352 guards and exact own fresh bits. Initial vectors bind accepted3 source;
+actual down counts28/924 remain after replay. Nine portable contracts/master190
+passes/one skip. Source numeric/owner/predecessor and all post-oracle artifact
+hashes bind acceptance, including cleanup interrupts. [Operation](docs/NATIVE_TURING_DOWN_DECODE.md).
+This is unscored trajectory proof, not free-running/production/provider promotion.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

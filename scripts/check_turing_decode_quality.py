@@ -118,7 +118,7 @@ def vectors(records, index, step):
     return native, matrix
 
 
-def case(records, report, index, oracle):
+def case(records, report, index, oracle, down_source=None):
     count, choice = INPUT_COUNTS[index], index % 2
     cap = 16 if choice else 32
     records.expect(["CASE", str(index), str(count), str(choice), str(cap)])
@@ -131,12 +131,21 @@ def case(records, report, index, oracle):
     if identity != INPUT_HASHES[index // 2]: raise ValueError("Public decode input identity changed")
     result = dict(index=index, input_ids=ids, input_sha256=identity, policy=choice, cap=cap, frames=[], replay=[])
     report["cases"].append(result)
+    if down_source is not None:
+        golden = down_source["cases"][1 if index < 2 else 3]
+        if ids != golden["input_ids"]: raise ValueError("Down decode IDs differ from accepted model source")
+        calls = ((count - 1) // 32) * 28
+        records.expect(["DOWN_ROWS128", str(index), str(calls)])
+        result["down128_host_enqueues"] = calls
     if oracle is not None: oracle.begin(ids)
     row = records.next()
     for step in range(cap):
         observed = state(row, "STEP", index, step, count, choice)
         records.expect(["CAUSAL", str(index), str(step), str(count + step), "0"])
         native, matrix = vectors(records, index, step)
+        if down_source is not None and step == 0:
+            result["model_source_vectors_passed"] = (native.tobytes() == golden["native"].tobytes()
+                and matrix.tobytes() == golden["logits"].tobytes())
         comparison = compare_case(matrix, native)
         observed.update(native_comparison=comparison, sample_equal=observed["native_choice"] == observed["matrix_choice"])
         observed["greedy_argmax_passed"] = bool(choice) or (observed["native_choice"] == comparison["reference_argmax"] and observed["matrix_choice"] == comparison["native_argmax"])
@@ -159,6 +168,9 @@ def case(records, report, index, oracle):
         records.expect(["CAUSAL", str(index), str(step), str(count + step), "0"])
         again["passed"] = (again["native_choice"], again["matrix_choice"]) == (first["native_choice"], first["matrix_choice"]) and again["native_replay_bit_mismatches"] == again["matrix_replay_bit_mismatches"] == 0
         result["replay"].append(again)
+    if down_source is not None:
+        records.expect(["REPLAY_DOWN_ROWS128", str(index), str(calls)])
+        result["replay_down128_host_enqueues"] = calls
     records.expect(["REPLAY_END", str(index), str(frames), finish])
     records.expect(["GUARD", str(index), "1088", "0"])
 
@@ -169,7 +181,7 @@ def initial_report():
                 cases=[], limits="Test-only strict3B/context1536/F16KV on native-forced causal IDs. Public37/1070 prefixes; greedy32 and seeded16 caps; exact own replay. Sample equality covers these cases only. No speed/provider score, free-running matrix trajectory, persisted restoration, production32 admission or concurrency claim.")
 
 
-def parse(path, oracle=None, report=None):
+def parse(path, oracle=None, report=None, *, down_source=None):
     report = initial_report() if report is None else report
     records = Records(path)
     try:
@@ -177,11 +189,13 @@ def parse(path, oracle=None, report=None):
         if len(cuda) != 1 or not cuda[0].startswith("[CUDA] native Mojo ") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
             raise ValueError("Missing actual native CUDA identity")
         report["native_banner"] = cuda[0]
-        row = records.next(); report["attention_variant"] = attention_variant(row)
+        row = records.next(); report["attention_variant"] = attention_variant(row, allow_down=down_source is not None)
+        if down_source is not None and report["attention_variant"] != 3:
+            raise ValueError("Explicit down source requires strategy3 decode")
         if report["attention_variant"] is not None: row = records.next()
         if row != ["META", "1", "turing_decode", "1536", str(VOCABULARY), "4", "2"]: raise ValueError("Wrong decode metadata")
         policy_rows(records)
-        for index in range(4): case(records, report, index, oracle)
+        for index in range(4): case(records, report, index, oracle, down_source)
         total = sum(c["evaluated_frames"] for c in report["cases"])
         if not 4 <= total <= MAX_FRAMES: raise ValueError("Decode frame bound exceeded")
         records.expect(["COMPLETE", "turing_decode", "4", str(total), str(total * VOCABULARY), "4352", "2"])
@@ -199,6 +213,10 @@ def score(report):
     report["replay_passed"] = bool(frames) and all(r["passed"] for c in report["cases"] for r in c["replay"])
     report["independent_reference_passed"] = bool(frames) and all("independent" in f and all(v["passed"] for v in f["independent"].values()) for f in frames)
     report["passed"] = report["collection_complete"] and report["native_quality_passed"] and report["replay_passed"] and report["independent_reference_passed"]
+    if report.get("attention_variant") == 3:
+        report["model_source_passed"] = (len(report["cases"]) == 4 and report.get("accepted_down_model", {}).get("passed") is True
+            and all(c.get("model_source_vectors_passed") is True for c in report["cases"]))
+        report["passed"] = report["passed"] and report["model_source_passed"]
     if not report["passed"]: report["error"] = "Complete fixed decode quality/replay/independent gate failed"
     else: report.pop("error", None)
 
@@ -238,7 +256,10 @@ def main():
     options.add_argument("csv", type=Path)
     for name in ("model", "reference-model", "reference-provenance", "output"): options.add_argument("--" + name, type=Path, required=True)
     for name in ("model-sha256", "reference-sha256"): options.add_argument("--" + name, required=True)
+    for name in ("down-model-csv", "down-model-report"): options.add_argument("--" + name, type=Path)
     args = options.parse_args()
+    if (args.down_model_csv is None) != (args.down_model_report is None):
+        options.error("Both down-model CSV and report are required for strategy3")
     if any(not re.fullmatch(r"[0-9a-f]{64}", v) for v in (args.model_sha256, args.reference_sha256)): options.error("Explicit lowercase SHA-256 identities required")
     with args.output.open("x", encoding="utf-8") as output:
         report = initial_report(); oracle = None
@@ -247,16 +268,26 @@ def main():
             derived = provenance(args.reference_provenance, args.model_sha256, args.reference_sha256)
             if args.reference_model.stat().st_size != derived["derived_bytes"]: raise ValueError("Derived reference size mismatch")
             report.update(model_sha256=args.model_sha256, reference_derivation=derived)
+            down_source = None
+            if args.down_model_csv is not None:
+                from check_turing_down_source import accepted_model
+                down_source, proof = accepted_model(args.down_model_csv, args.down_model_report, args.model_sha256)
+                report["accepted_down_model"] = proof
             oracle = CPUReference(args.reference_model)
             report["independent_reference"] = oracle.identity
-            parse(args.csv, oracle, report)
+            parse(args.csv, oracle, report, down_source=down_source)
             if digest(args.model) != args.model_sha256 or digest(args.reference_model) != args.reference_sha256: raise ValueError("Original/derived model changed during oracle")
+            if down_source is not None:
+                expected = ((args.csv, report["csv_sha256"]), (args.reference_provenance, derived["snapshot_sha256"]),
+                    (args.down_model_csv, proof["csv_sha256"]), (args.down_model_report, proof["report_sha256"]))
+                if any(digest(path) != sha for path, sha in expected):
+                    raise ValueError("Down decode capture/derivation/source changed during oracle")
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False, error=f"{type(error).__name__}: {error}")
         finally:
             if oracle is not None:
                 try: oracle.close()
-                except Exception as error: report.update(passed=False, error=f"Reference cleanup failed: {type(error).__name__}: {error}")
+                except (Exception, KeyboardInterrupt) as error: report.update(passed=False, error=f"Reference cleanup failed: {type(error).__name__}: {error}")
         json.dump(report, output, indent=2, allow_nan=False); output.write("\n")
     print("PASS: complete decode quality and replay" if report["passed"] else "FAIL: " + report["error"])
     return 0 if report["passed"] else 1

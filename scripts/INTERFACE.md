@@ -272,7 +272,7 @@ pass. Read ../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; no model/provider promotio
 ## Model-only down128 strategy3 admission
 
 attention_variant adds allow_down=False; only model parse opts True for distinct
-strategy3. Shared decode/checkpoint/control/trace consumers still refuse. Parse
+strategy3. Default shared decode/checkpoint/control/trace consumers still refuse. Parse
 requires new admission/final newline/down source count, original elementwise and
 cache records. Fixture reference3 requires explicit2 with full fixed CPU metrics/
 values/argmax and zero-GPU F32 scope plus native comparisons/IDs/counters/cache.
@@ -281,3 +281,23 @@ provenance and clears every ratio/median on exceptions. Score computes all finit
 medians/ratios before publishing any, so an overflow rejects all cases atomically.
 Eight portable down contracts and prior contracts pass. Read
 ../docs/NATIVE_TURING_DOWN_MODEL.md; no provider/runtime selection.
+
+## Explicit source-bound down128 decode validation
+
+check_turing_down_source.accepted_model returns complete strategy3 model data and
+exact admitted CSV/report/model SHA proof. Strict JSON/complete case/counter/ID/
+cache/numeric coverage, .05-max/.005-RMS/argmax metrics, pinned zero-GPU expanded-
+F32 identity and accepted strategy2 predecessor are mandatory; acceptance Boolean
+alone is insufficient. Source hashes recheck before returning, with64MiB CSV/
+5MiB JSON bounds through existing readers.
+
+check_turing_decode_quality.parse adds keyword-only down_source=None. Default
+refuses3; explicit source requires3, exact public IDs, source-derived initial/
+replay down counts and source case1/3 starting F32 bytes, including signed zero.
+Numerical source mismatches retain all complete frame metrics and fail acceptance.
+CLI requires paired --down-model-csv/--down-model-report arguments. Every frame
+retains independent/native full-vector budgets, sample/greedy/state/causal/replay
+contracts. After oracle, original/derived/current CSV/derivation/source CSV/report
+hashes recheck for the opt-in. All reports stay exclusive/unscored; interrupted
+reference cleanup now also publishes failure. Original0/1/2 evidence stays valid.
+Read ../docs/NATIVE_TURING_DOWN_DECODE.md for schema, limits and separate gates.

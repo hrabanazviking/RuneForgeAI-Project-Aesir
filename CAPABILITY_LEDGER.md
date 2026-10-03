@@ -1510,7 +1510,21 @@ and circular self-parity transforms were removed.
   Eight contracts/master190 passes/one skip; scores atomic/finite and derivation/
   source/capture/model hashes recheck. [Evidence](docs/evidence/turing-down-model-2026-10-02/README.md).
   No old2/new3 timing ratio, trajectory/replay/control/trace/runtime/provider claim.
-- **Next acceptance gate:** Strategy3 decode/sample, owning-context replay and enabled-control gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down128 decode/sample trajectory (2026-10-03):** Explicit strategy3 passes all
+  96 frames/12312576 F32 values per owner, public37/1070 greedy32/seeded16,
+  unchanged .05-max/.005-RMS/argmax CPU/native gates, sample equality, causal IDs/
+  positions/history/draws,4352 guards and exact own fresh F32-bit replay. Initial
+  vectors equal accepted3 model case1/3 bytes including signed zero; actual down
+  calls remain28/924 after replay. Matrix CPU worst .028342247/.003986765.
+  Nine adversarial contracts/master190 passes/one skip. Explicit accepted3 source
+  complete numeric/owner/counter/cache/ID/predecessor proof, strict JSON and all
+  post-oracle artifact hashes bind acceptance; cleanup interrupts publish failure.
+  [Evidence](docs/evidence/turing-down-decode-2026-10-03/README.md). Native-forced
+  trajectory only, always unscored. No free-running candidate, sealed strategy3
+  replay/enabled-control/production32/broader context/device/concurrency/soak/provider
+  admission. Normal f3442a1e remains active/authenticated ready/prefill4.
+
+- **Next acceptance gate:** Strategy3 owning-context replay and enabled-control gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

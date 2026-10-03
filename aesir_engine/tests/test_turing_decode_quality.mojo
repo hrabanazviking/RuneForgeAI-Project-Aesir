@@ -66,6 +66,7 @@ def collect(mut f: TuringPrefillFixture,index: Int,tokens: List[Int],choice: Int
     print("CASE,"+String(index)+","+String(len(tokens))+","+String(choice)+","+String(cap))
     for i in range(len(tokens)): print("INPUT,"+String(index)+","+String(i)+","+String(tokens[i]))
     prepare(f,tokens,configuration)
+    if f.down128: print("DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     var targets = List[Int]()
     var expected = tokens.copy()
     var finish = String("length")
@@ -100,6 +101,7 @@ def collect(mut f: TuringPrefillFixture,index: Int,tokens: List[Int],choice: Int
         if step+1 < len(targets):
             advance(f,targets[step])
             expected.append(targets[step])
+    if f.down128: print("REPLAY_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     print("REPLAY_END,"+String(index)+","+String(len(targets))+","+finish)
     f.guards()
     print("GUARD,"+String(index)+",1088,0")
@@ -108,12 +110,13 @@ def collect(mut f: TuringPrefillFixture,index: Int,tokens: List[Int],choice: Int
 
 def main() raises:
     var args = argv()
-    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_decode_quality MODEL.gguf [BATCHED]")
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_decode_quality MODEL.gguf [STRATEGY0/1/2/3]")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag < 0 or flag > 2: raise Error("Batched rotary/cache flag must be0/1/2")
-    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag==2))
+    if flag < 0 or flag > 3: raise Error("Decode execution strategy must be0/1/2/3")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag>=2),Bool(flag==3))
     if len(args) == 3:
-        if flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
+        if flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
+        elif flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
         else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,turing_decode,1536,128256,4,2")
     for choice in range(2):

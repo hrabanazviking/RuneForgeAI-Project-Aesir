@@ -154,6 +154,14 @@
   provider score. Eight portable contracts/master190 passes/one skip, atomic
   finite scoring/provenance rehash/failure retention pass. [Operation](docs/NATIVE_TURING_DOWN_MODEL.md).
   Next earn strategy3 decode/sample/replay/enabled-control gates before selection.
+- [x] SPD-01/04 down-only128 decode/sample gate: all96 complete frames and
+  12312576 F32 values per owner pass fixed independent/native quality, samples,
+  causal state, exact own fresh bits,4352 guards and accepted3 initial vectors.
+  Actual initial/replay down counts28/924; nine portable contracts plus previous
+  gates/master190 passes/one skip. Source numeric/predecessor/hash admission and
+  after-oracle all-artifact rehash/interrupt cleanup retain failures; no speed
+  score or production selection. [Operation](docs/NATIVE_TURING_DOWN_DECODE.md).
+  Next earn strategy3 sealed owning-context replay and enabled-control recovery.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

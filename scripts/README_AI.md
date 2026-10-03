@@ -174,8 +174,16 @@ fixed numerical/totals/independent coverage and preserves all failures. Reports
 never score speed or claim full-model quality. Read
 ../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; ten portable contracts pass.
 
-Down128 metadata is opt-in only in complete model parse; shared readers refuse3.
+Down128 metadata is explicit in complete model parse; default shared readers refuse3.
 Require full accepted strategy2 numeric/zero-GPU F32 source plus exact vectors/
 IDs/cache/counters before unchanged independent budgets and paired native/new
 scores. Rehash derivation/model/current/accepted sources afterward; atomic scores
 withhold every ratio on overflow/failure. Read ../docs/NATIVE_TURING_DOWN_MODEL.md.
+
+Explicit strategy3 decode validation additionally requires paired accepted3 model
+CSV/report and complete source numerical/counter/cache/ID/predecessor acceptance.
+Initial native/matrix F32 vectors bind to that source including signed zero;
+initial/replay actual down counts remain source-derived. Complete frame/independent/
+causal/sample/bit replay and post-oracle all-artifact hashes gate acceptance.
+Cleanup interrupts retain failed JSON. No elapsed score or production selection.
+Read ../docs/NATIVE_TURING_DOWN_DECODE.md; checkpoint/control/trace stay closed3.

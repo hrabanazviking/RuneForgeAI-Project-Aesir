@@ -1,3 +1,25 @@
+## 2026-10-03 — Sigrún: source-bound down128 decode and sampled replay
+
+Scoped/pushed07c8ebb before code. Explicit flag3 preserves original0/1/2 schema,
+math/buffers/defaults and exports actual down calls after initial/replay prefixes.
+All96 native-forced frames/12312576 values per owner pass fixed independent/native
+full-vocabulary budgets, equal greedy/seeded samples/causal history/state/draws/
+4352 guards and exact own fresh F32 bits. Initial vectors bind accepted3 full
+model bytes including signed zero; scalar decode leaves down calls28/924. Matrix
+CPU worst .028342247/.003986765; no quality budget change or elapsed score.
+
+Nine portable contracts plus all prior model/grid/decode/checkpoint/control/trace
+checks pass; master190 passes/zero fails/one skip. Full source numeric/counter/
+cache/ID/owner/predecessor/strict JSON admission and post-oracle capture/derivation/
+source/weight rehashes retain complete/partial/interrupt failures. Reference
+cleanup interruption now publishes failed JSON too. Actual strategy4/nonexistent
+model refuses pre-load/CUDA. All six builds precede serial GPU/pinned CPU oracle;
+normal f3442a1e stays active/authenticated ready/prefill4/cpuoffload0. Read
+[operation](docs/NATIVE_TURING_DOWN_DECODE.md) and complete evidence. Next earn
+sealed owning-context replay and enabled-control recovery; production32/free-
+running/broader-context/concurrency/soak/provider gates stay separate. Exact push/
+CI receipts are separate.
+
 ## 2026-10-02 — Sigrún: complete down-only model gate and atomic scores
 
 Default-disabled strategy3 requires original batched elementwise flags and binds
