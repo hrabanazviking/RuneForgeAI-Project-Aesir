@@ -1,3 +1,19 @@
+## 2026-10-02 — Sigrún: complete down-only model gate and atomic scores
+
+Default-disabled strategy3 requires original batched elementwise flags and binds
+actual loaded FFN-down/count32/canonical spans. All513024 native/matrix values,
+actual IDs/state/full guarded-cache hashes equal accepted2; unchanged CPU budgets/
+own fresh F32 bits/4352 guards/eight invalid tiles pass. Actual down calls0/28/0/924
+and pre-model/pre-step closed feature refusals pass. Long paired native/new
+12.66775/6.80087s=1.86267x exploratory fixture ratio; no old2/new3/provider score.
+Model alone opts into3; decode/checkpoint/control/trace/replay keep refusal. Eight
+contracts/master190 passes/one skip; atomic finite scores, derivation/source/model/
+capture rehash and complete failed metrics remain. Failed mutable-self/output
+alias source/compile receipt stays; descriptor copy resolves ownership. All six
+final builds precede GPU/oracle; normal f3442a1e/ready/prefill4 stays. Next earn3
+decode/sample/replay/enabled-control. Read docs/NATIVE_TURING_DOWN_MODEL.md; exact
+push/CI receipts are separate.
+
 ## 2026-10-02 — Sigrún: down-only128 real F32 precision and source binding
 
 New native collector reuses unchanged normal four-token public capture. Only

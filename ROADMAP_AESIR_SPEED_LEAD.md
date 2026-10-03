@@ -478,8 +478,16 @@ down cases select128. Strict complete accepted source report/totals/budget/hash
 and after-oracle source/model/capture identities bind acceptance; ten portable
 contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_DOWN_ACTIVATIONS.md).
 Batch32 repeats four captures/QKV representative FFN norm remain limitations;
-no speed score or complete-model/provider promotion follows. Next gate complete
-down-only model/cache/state before optional fixture selection.
+no speed score or complete-model/provider promotion follows from that gate alone.
+Down-only complete-model strategy3 now passes all513024 native/matrix values per
+owner, actual IDs/state and full guarded-cache hashes exactly against accepted2.
+Unchanged CPU budgets/own fresh F32 bits/4352 guards/eight invalid tiles pass;
+actual down calls0/28/0/924, bad flags and closed control/trace admission pass.
+Long paired native/new12.66775/6.80087s=1.86267x exploratory ratio, without an
+old2/new3 or provider score. Eight contracts/master190 passes/one skip; atomic
+finite scores/derivation-source-model-capture rehashes preserve failure evidence.
+[Operation](docs/NATIVE_TURING_DOWN_MODEL.md). Strategy3 stays opt-in; next earn
+decode/sample, owning-context replay and enabled-control recovery before selection.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

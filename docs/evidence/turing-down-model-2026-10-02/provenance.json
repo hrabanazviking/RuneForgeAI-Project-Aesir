@@ -1,0 +1,324 @@
+{
+  "schema": 1,
+  "date": "2026-10-02",
+  "task_commit": "55ecdf57128875af46f4ba192656ab9a64dd6731",
+  "accepted_source_revision": "7f662229b14da4ca8a1c02ba938aa327b37e7c15",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:44:06.456904+00:00",
+      "ended_utc": "2026-10-03T03:44:06.571974+00:00",
+      "wall_seconds": 0.11509539000689983,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:43:13.176122+00:00",
+      "ended_utc": "2026-10-03T03:43:45.832237+00:00",
+      "wall_seconds": 32.65615669399267,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:43:45.832859+00:00",
+      "ended_utc": "2026-10-03T03:44:06.456444+00:00",
+      "wall_seconds": 20.623614347015973,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_batched_rope_cache.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-second-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:42:43.054030+00:00",
+      "ended_utc": "2026-10-03T03:43:13.175731+00:00",
+      "wall_seconds": 30.12172565999208,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_down_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-second-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:41:38.783935+00:00",
+      "ended_utc": "2026-10-03T03:42:11.020438+00:00",
+      "wall_seconds": 32.23653431501589,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_down_model.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-second-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T03:42:11.020932+00:00",
+      "ended_utc": "2026-10-03T03:42:43.053558+00:00",
+      "wall_seconds": 32.032653661008226,
+      "performance_scored": false
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-second-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+    ],
+    "exit": 0,
+    "started_utc": "2026-10-03T03:47:44.756343+00:00",
+    "ended_utc": "2026-10-03T03:49:14.800500+00:00",
+    "wall_seconds": 90.04419566201977,
+    "performance_scored": false,
+    "binary_sha256": "ed34eecb922a3520d5f3b5f8b782ea71fafea44c8aceec12d3ad503730bb9a47",
+    "csv_sha256": "fb686e2ae3f6eb926c7d30fcf91a5cc5892c926c8319a54fd2eca3779f246f09"
+  },
+  "oracle": {
+    "exit": 0,
+    "wall_seconds": 54.77185283700237,
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--reference-csv",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.csv",
+      "--reference-report",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-elementwise-model2.json",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json"
+    ],
+    "started_utc": "2026-10-03T03:49:14.824589+00:00",
+    "ended_utc": "2026-10-03T03:50:09.596493+00:00",
+    "performance_scored": false
+  },
+  "pre_model_refused_flags": {
+    "exit": 1,
+    "wall_seconds": 0.016266336984699592,
+    "started_utc": "2026-10-03T03:47:44.739653+00:00",
+    "ended_utc": "2026-10-03T03:47:44.756004+00:00",
+    "performance_scored": false
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-down-model-failed-alias-fixture.mojo",
+      "bytes": 21917,
+      "sha256": "2f13092d7d4fd8d0a662ba013367d3e34c08b0cc0287437f24998beb457ed607"
+    },
+    {
+      "name": "turing-down-model-failed-alias-probe.mojo",
+      "bytes": 2623,
+      "sha256": "b944bf2161bb2bee37fbcd743ee553fdbe250c4bd05b955d63468afe84a2a5bc"
+    },
+    {
+      "name": "turing-down-model-final/complete.csv",
+      "bytes": 26269491,
+      "sha256": "fb686e2ae3f6eb926c7d30fcf91a5cc5892c926c8319a54fd2eca3779f246f09"
+    },
+    {
+      "name": "turing-down-model-final/complete.json",
+      "bytes": 30425,
+      "sha256": "bf66de5fb7b78f3cef38991ca0a2d36813fc7effeaaa849a400a57ce3f46237d"
+    },
+    {
+      "name": "turing-down-model-final/gpu-process.json",
+      "bytes": 618,
+      "sha256": "3622a1d29138c39481b72da8e837cced71927bee9bc4e1ad9027a7345c6c63d8"
+    },
+    {
+      "name": "turing-down-model-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-model-final/oracle-process.json",
+      "bytes": 1476,
+      "sha256": "0bd63acea2984d6016b132c8987ef49c315c503b7ad4c9cd66ed659b1f2b1912"
+    },
+    {
+      "name": "turing-down-model-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "6ee5ad701a76d24be6a39996eaec1c7423b7ed4a651da6e47593f7c3c9362318"
+    },
+    {
+      "name": "turing-down-model-final/rejected-flags-process.json",
+      "bytes": 191,
+      "sha256": "4fc64b3187dae8e35139379fd2cd50485ede5ac275ffd8c64990db59b3092aec"
+    },
+    {
+      "name": "turing-down-model-final/rejected-flags.txt",
+      "bytes": 239,
+      "sha256": "3f7bce426762ec398c81ac6496ea0e1b9d47d3a81ae947618549a838c2095854"
+    },
+    {
+      "name": "turing-down-model-final-build-sm_75.json",
+      "bytes": 563,
+      "sha256": "4270f8a7cf4657aaf06aee8b48963aebe8ff7532762e6e7b0a6dbf18856d55b4"
+    },
+    {
+      "name": "turing-down-model-final-build-sm_75.txt",
+      "bytes": 1028,
+      "sha256": "1a8aa2f269b8b4f1703e15ad1f4ee6ca7bb26aa92e1fe5f965d978a28b235b54"
+    },
+    {
+      "name": "turing-down-model-second-final-build-check.json",
+      "bytes": 266,
+      "sha256": "40a4e9d1f12ec1786a0b0cdc3c3b1ed12e4de0793b60765c7cc85ac17e20c20e"
+    },
+    {
+      "name": "turing-down-model-second-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-down-model-second-final-build-master.json",
+      "bytes": 412,
+      "sha256": "c4ca37482b224c0c5ddef6ea81bd4f8c47cdea76a59f63ccd04e8c1c7a3c3043"
+    },
+    {
+      "name": "turing-down-model-second-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-down-model-second-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "0d8371b1944b7301abd371e7d21a3e5dc9abd1953d9e06d8ed218ea39b7cd048"
+    },
+    {
+      "name": "turing-down-model-second-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-down-model-second-final-build-original.json",
+      "bytes": 587,
+      "sha256": "1e8e3916a56d6d1a5b391ea26ac92aa5657dcd57d161d118e529e2f306b16089"
+    },
+    {
+      "name": "turing-down-model-second-final-build-original.txt",
+      "bytes": 479,
+      "sha256": "a34671be828a3017e1c5914e77675858b70364767d2a7b571da27a814e47a9ca"
+    },
+    {
+      "name": "turing-down-model-second-final-build-sm_75.json",
+      "bytes": 570,
+      "sha256": "891ce22f4e4d71fa574795b88d36fb4165146f804d9b4a67ea00cbd6ae6417e8"
+    },
+    {
+      "name": "turing-down-model-second-final-build-sm_75.txt",
+      "bytes": 471,
+      "sha256": "c4be92c37f32b5161874750a508c05c1ec15c625da5a7119e646960ea4be86b2"
+    },
+    {
+      "name": "turing-down-model-second-final-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "6eef0d77e5eea1021b09ebf6c0c4afdeab356431c2c8f5a6b046d2050575a213"
+    },
+    {
+      "name": "turing-down-model-second-final-build-sm_89.txt",
+      "bytes": 471,
+      "sha256": "c4be92c37f32b5161874750a508c05c1ec15c625da5a7119e646960ea4be86b2"
+    },
+    {
+      "name": "turing-down-model-second-original-sm_75",
+      "bytes": 5936448,
+      "sha256": "d7aee8e4645f08c71cec94611f0f41c69a64b726e95656671d0797f2aa55fa53"
+    },
+    {
+      "name": "turing-down-model-second-sm_75",
+      "bytes": 5940176,
+      "sha256": "ed34eecb922a3520d5f3b5f8b782ea71fafea44c8aceec12d3ad503730bb9a47"
+    },
+    {
+      "name": "turing-down-model-second-sm_89",
+      "bytes": 5940176,
+      "sha256": "9620016922dfc63e7462f7b7ec1c95b0ece8e6a9dae172911dccd3008d95e5ee"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "dcb1cf0262bd3a4e0e6bdd8acf793f823856c119aebb712b0c7d10ce4d350c1a",
+    "aesir_engine/tests/test_turing_down_model.mojo": "b944bf2161bb2bee37fbcd743ee553fdbe250c4bd05b955d63468afe84a2a5bc",
+    "aesir_engine/tests/test_turing_model_prefill.mojo": "21546fff55ae62f2734de91e20c3c3373720e70477953fd83fc49a0102da808f",
+    "scripts/check_turing_model_prefill.py": "50eb8c7bbfe918ae83e73dd2f25a3d6273860829b34d93ed371193f64ac7f0e7",
+    "scripts/test_check_turing_down_model.py": "94a1a9621282323c023fdb64bf6ce084cce89cee97a383a473632cccdd7487bb",
+    ".github/workflows/ci.yml": "77cf98ae23e0dd71736bf5210d0fd231f80c74416267950b3128ce5e479f13f0"
+  },
+  "limits": "Strict3B/context1536/F16KV/sm75 precision0 strategy3 down-only128; complete source2 logits/IDs/cache/independent CPU and actual own fresh F32-bit repeats. Exploratory same-capture native/new timing only; no historical2/new3 ratio, decode/sample/replay/control/trace/production/provider admission. Defaults and normal service stay unchanged; failed mutable alias prototype preserved."
+}

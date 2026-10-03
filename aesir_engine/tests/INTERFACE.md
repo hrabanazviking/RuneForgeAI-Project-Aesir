@@ -592,3 +592,14 @@ Only batch32 final-layer down selects128; collection has28 total cases and exact
 bounded native host snapshot export all native/new/original F32, actual state/
 operands/guards/12 invalid spans with strict new metadata. No timing/default
 change. Read ../../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md.
+
+## Down-only128 complete model strategy3
+
+TuringPrefillFixture adds final down128=False/counter; True requires precision0
+plus original batched elementwise strategy. Only loaded down/count32/canonical
+up-to-temporary spans select128; counter increments after enqueue/resets fresh.
+Strategy3 refuses enabled controls/tracing pre-step and existing replay plans
+refuse3. Project is mut for its counter, final vocabulary descriptor copied to
+avoid aliasing. Shared fresh-repeat checks compare actual F32 bits. New collector
+exports full source/cache/ID vectors, admission and actual down counts; default
+collectors remain0/1/2. Read ../../docs/NATIVE_TURING_DOWN_MODEL.md.

@@ -1500,7 +1500,17 @@ and circular self-parity transforms were removed.
   passes/one skip. [Evidence](docs/evidence/turing-down-activations-2026-10-02/README.md).
   Two final-layer captures, batch32 repeated four/QKV representative FFN norm;
   no full-model/state/control/speed/provider promotion.
-- **Next acceptance gate:** Down-only128 complete-model/cache/state gates before optional fixture selection; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down128 full-model strategy3 (2026-10-02):** Default-disabled128 selects only
+  loaded FFN-down/count32/canonical spans, precision0/batched elementwise required.
+  All513024 native/matrix F32 values per owner, actual IDs/committed state and all
+  full guarded-cache hashes match accepted2. Fixed CPU budgets/own fresh F32 bits/
+  4352 guards/eight invalid tiles pass; actual down calls0/28/0/924. Pre-model bad
+  flags and pre-step trace/control refuse without mutation; replay/other readers
+  still refuse3. Long paired12.66775/6.80087s=1.86267x exploratory native/new ratio.
+  Eight contracts/master190 passes/one skip; scores atomic/finite and derivation/
+  source/capture/model hashes recheck. [Evidence](docs/evidence/turing-down-model-2026-10-02/README.md).
+  No old2/new3 timing ratio, trajectory/replay/control/trace/runtime/provider claim.
+- **Next acceptance gate:** Strategy3 decode/sample, owning-context replay and enabled-control gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

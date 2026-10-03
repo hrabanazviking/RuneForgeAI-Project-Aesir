@@ -18,8 +18,9 @@ from check_turing_activations import f32
 from check_llama3_logits import compare_case, VOCABULARY, MAX_ABSOLUTE_ERROR, MAX_RMS_ERROR
 
 
-def attention_variant(row):
+def attention_variant(row,allow_down=False):
     if not row or row[0] != "ATTENTION": return None
+    if allow_down and row == ["ATTENTION","rope_cache_elementwise_down128","1","32"]: return 3
     if row == ["ATTENTION", "rope_cache_elementwise_grid", "1", "32"]: return 2
     if row not in (["ATTENTION", "rope_cache_grid", "0", "32"], ["ATTENTION", "rope_cache_grid", "1", "32"]):
         raise ValueError("Unknown batched rotary/cache identity")
@@ -56,7 +57,7 @@ def parse(path):
     cuda = next(reader)
     if not cuda or not cuda[0].startswith("[CUDA]") or "api=cuda" not in cuda[0] or "cpu_offload=0" not in cuda[0]:
         raise ValueError("Missing actual native CUDA identity")
-    meta = next(reader); precision = 0; variant = attention_variant(meta)
+    meta = next(reader); precision = 0; variant = attention_variant(meta,allow_down=True)
     if variant is not None: meta = next(reader)
     if meta == ["META", "1", str(VOCABULARY), "1536", "32", "f16", "8"]:
         pass
@@ -65,6 +66,8 @@ def parse(path):
     else:
         raise ValueError("Wrong matrix-model metadata")
     if variant is not None and precision != 0: raise ValueError("Batched rotary/cache mixed with rejected precision refinement")
+    if variant == 3 and (not text.endswith("\n") or next(reader) != ["ADMISSION","3","2","0"]):
+        raise ValueError("Incomplete down128 pre-step refusal evidence")
     cases = []
     for index in range(4):
         row = next(reader)
@@ -99,10 +102,14 @@ def parse(path):
         if variant is not None:
             calls = rope_cache_calls(count, variant)
             if next(reader) != ["ENQUEUE", str(index), str(calls)]: raise ValueError("Actual rotary/cache host enqueue count mismatch")
-            if variant == 2:
+            if variant in (2,3):
                 cells = elementwise_calls(count,variant)
                 if next(reader) != ["ELEMENTWISE",str(index),str(cells)]: raise ValueError("Actual elementwise host enqueue count mismatch")
                 case["elementwise_host_enqueues"] = cells
+            if variant == 3:
+                down = ((count-1)//32)*28
+                if next(reader) != ["DOWN_ROWS128",str(index),str(down)]:raise ValueError("Actual down128 selected enqueue count mismatch")
+                case["down128_host_enqueues"] = down
             cache = next(reader)
             if len(cache) != 4 or cache[:3] != ["CACHE", str(index), "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", cache[3]): raise ValueError("Incomplete guarded cache identity")
             case.update(rope_cache_host_enqueues=calls, guarded_cache_sha256=cache[3])
@@ -132,6 +139,27 @@ def fixture_reference(data, csv_path, report_path, model_sha):
         raise ValueError("Batched variant requires explicit independently accepted scalar-cache baseline")
     if data["attention_variant"] == 2 and reference["attention_variant"] != 1:
         raise ValueError("Elementwise variant requires explicit independently accepted rotary/cache baseline")
+    if data["attention_variant"] == 3:
+        if reference["attention_variant"] != 2:raise ValueError("Down128 requires explicitly accepted elementwise strategy2")
+        def fixed(value):
+            if not isinstance(value,dict) or value.get("passed") is not True or value.get("values") != VOCABULARY:return False
+            for key,limit in (("maximum_absolute_error",MAX_ABSOLUTE_ERROR),("rms_error",MAX_RMS_ERROR)):
+                n=value.get(key)
+                if isinstance(n,bool) or not isinstance(n,(int,float)) or not math.isfinite(n) or not 0<=n<=limit:return False
+            a=value.get("native_argmax");b=value.get("reference_argmax")
+            return type(a) is int and type(b) is int and a==b and 0<=a<VOCABULARY
+        cpu=report["independent_reference"]
+        if (type(cpu.get("requested_gpu_layers")) is not int or cpu["requested_gpu_layers"]!=0 or cpu.get("context")!=4096
+            or cpu.get("kv")!="f16" or cpu.get("batch")!=128 or cpu.get("weight_mode")!="dequantized_f32"
+            or cpu.get("numpy")!="2.4.4" or cpu.get("llama_cpp_python")!="0.3.23"
+            or not re.fullmatch(r"[0-9a-f]{64}",cpu.get("library_sha256","")) or len(report.get("cases",[]))!=4):
+            raise ValueError("Down128 source lacks declared zero-GPU F32 independent scope")
+        for before,declared,independent_case in zip(reference["cases"],report["cases"],cases,strict=True):
+            if (declared.get("native_comparison")!=before["native_comparison"] or not fixed(before["native_comparison"])
+                or any(not fixed(independent_case.get(mode)) for mode in ("native","matrix"))
+                or declared.get("input_ids")!=before["input_ids"]
+                or any(declared.get(key)!=before[key] for key in ("rope_cache_host_enqueues","elementwise_host_enqueues","guarded_cache_sha256"))):
+                raise ValueError("Down128 source numerical/counter/cache/ID coverage mismatch")
     results = []
     for current, before in zip(data["cases"], reference["cases"]):
         ids = current["input_ids"] == before["input_ids"]
@@ -190,7 +218,8 @@ def summarize(data):
                 numerical_budget=dict(max_absolute_error=MAX_ABSOLUTE_ERROR, max_rms_error=MAX_RMS_ERROR, same_full_vocabulary_argmax=True),
                 cases=[dict(input_ids=c["input_ids"], native_comparison=c["native_comparison"], timings=c["timings"], prefill_speed_ratio=None,
                             **({k: c[k] for k in ("rope_cache_host_enqueues", "guarded_cache_sha256")} if data["attention_variant"] is not None else {}),
-                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] == 2 else {})) for c in data["cases"]],
+                            **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3) else {}),
+                            **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] == 3 else {})) for c in data["cases"]],
                 limits="Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion.")
 
 
@@ -211,11 +240,17 @@ def score(report):
         report["error"] = "Fixed complete-model quality gate failed; timing ratios withheld"
         return
     report.pop("error", None)
+    medians=[]
     for c in report["cases"]:
-        native = [s["seconds"] for s in c["timings"] if s["mode"] == 0 and s["sample"] != 0]
-        matrix = [s["seconds"] for s in c["timings"] if s["mode"] == 1 and s["sample"] != 0]
-        c.update(native_prefill_median_seconds=statistics.median(native), matrix_prefill_median_seconds=statistics.median(matrix),
-                 prefill_speed_ratio=statistics.median(native) / statistics.median(matrix))
+        native = statistics.median(s["seconds"] for s in c["timings"] if s["mode"] == 0 and s["sample"] != 0)
+        matrix = statistics.median(s["seconds"] for s in c["timings"] if s["mode"] == 1 and s["sample"] != 0)
+        ratio=native/matrix
+        if not all(math.isfinite(v) and v>0 for v in (native,matrix,ratio)):
+            report.update(passed=False,speed_scored=False,error="Unbounded prefill timing ratio; all scores withheld")
+            return
+        medians.append((native,matrix,ratio))
+    for c,(native,matrix,ratio) in zip(report["cases"],medians,strict=True):
+        c.update(native_prefill_median_seconds=native,matrix_prefill_median_seconds=matrix,prefill_speed_ratio=ratio)
 
 
 def main():
@@ -247,11 +282,16 @@ def main():
                 raise ValueError("Original/derived model changed during oracle")
             if digest(args.csv) != data["csv_sha256"]:
                 raise ValueError("Complete model CSV changed during oracle")
+            if digest(args.reference_provenance) != derived["snapshot_sha256"]:
+                raise ValueError("Original-to-F32 provenance changed during oracle")
             if data["attention_variant"] is not None and (digest(args.reference_csv) != report["fixture_reference"]["csv_sha256"] or digest(args.reference_report) != report["fixture_reference"]["report_sha256"]):
                 raise ValueError("Accepted fixture reference changed during oracle")
             score(report)
         except (Exception, KeyboardInterrupt) as error:
             report.update(passed=False, speed_scored=False, error=f"{type(error).__name__}: {error}")
+            for c in report.get("cases",[]):
+                c["prefill_speed_ratio"]=None
+                c.pop("native_prefill_median_seconds",None);c.pop("matrix_prefill_median_seconds",None)
         json.dump(report, stream, indent=2, allow_nan=False); stream.write("\n")
     print("PASS: complete-model matrix prefill gate" if report["passed"] else "FAIL: " + report["error"])
     return 0 if report["passed"] else 1

@@ -84,6 +84,7 @@ jobs:
           python3 scripts/test_check_turing_decode_quality.py
           python3 scripts/test_check_turing_checkpoint_replay.py
           python3 scripts/test_check_turing_grid_metadata.py
+          python3 scripts/test_check_turing_down_model.py
 
       - name: Prove Duplicate Recipe Rejection Preserves Catalog
         run: python3 scripts/test_native_recipe_settings.py --binary /tmp/aesir-ci-build
@@ -145,6 +146,7 @@ jobs:
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_block_headers.mojo -o /tmp/aesir-turing-block-headers-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_large_rows.mojo -o /tmp/aesir-turing-large-rows-probe
           pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_down_activations.mojo -o /tmp/aesir-turing-down-activations-probe
+          pixi run mojo build -I aesir_engine --target-accelerator sm_89 aesir_engine/tests/test_turing_down_model.mojo -o /tmp/aesir-turing-down-model-probe
 
       - name: Prove Fail-Closed Test Semantics
         shell: bash

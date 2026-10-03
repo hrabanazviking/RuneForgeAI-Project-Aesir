@@ -268,3 +268,16 @@ oracle for new/native/original; main rehashes model/current/source CSV/report
 afterward, preserving complete/partial/mutation/interrupt failures exclusively.
 All reports speed_claim/full_model_quality_claim False. Ten portable contracts
 pass. Read ../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; no model/provider promotion.
+
+## Model-only down128 strategy3 admission
+
+attention_variant adds allow_down=False; only model parse opts True for distinct
+strategy3. Shared decode/checkpoint/control/trace consumers still refuse. Parse
+requires new admission/final newline/down source count, original elementwise and
+cache records. Fixture reference3 requires explicit2 with full fixed CPU metrics/
+values/argmax and zero-GPU F32 scope plus native comparisons/IDs/counters/cache.
+All current vectors/cache remain exact. Main additionally rehashes derivation
+provenance and clears every ratio/median on exceptions. Score computes all finite
+medians/ratios before publishing any, so an overflow rejects all cases atomically.
+Eight portable down contracts and prior contracts pass. Read
+../docs/NATIVE_TURING_DOWN_MODEL.md; no provider/runtime selection.

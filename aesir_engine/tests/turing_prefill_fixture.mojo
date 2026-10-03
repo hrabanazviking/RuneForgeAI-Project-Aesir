@@ -9,7 +9,7 @@ from tests.batched_elementwise import batched_residual, batched_silu
 from core.dense_gqa_execution import DenseGQALayer
 from core.dense_normalization import dense_norm_kernel, dense_norm_strided_kernel
 from core.packed_projection import ProjectionFloats, four_matvec_kernel, block_matvec_kernel
-from core.packed_turing_matrix import project_turing_staged
+from core.packed_turing_matrix import project_turing_staged, project_turing_large_rows
 from core.gemma4_kernels import embedding_kernel
 from core.llama3_kernels import Halves, llama_residual, llama_rope, llama_scaled_rope, llama_silu, llama_cache, llama_scores, llama_softmax, llama_attention_tiled
 from core.cuda_sampling import NativeCUDASampler
@@ -41,11 +41,17 @@ struct TuringPrefillFixture:
     var batched_elementwise: Bool
     var elementwise_calls: Int
     var trace_projections: Bool
+    var down128: Bool
+    var down128_calls: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
+        if down128 and (precision != 0 or not batched or not elementwise):
+            raise Error("Down128 requires original precision0 and batched elementwise strategy")
+        self.down128 = down128
+        self.down128_calls = 0
         self.batched_elementwise = elementwise
         self.elementwise_calls = 0
         self.trace_projections = False
@@ -91,7 +97,7 @@ struct TuringPrefillFixture:
                 self.norm(weight,base+src,base+dst)
 
     def execution_strategy(self) -> Int:
-        return 2 if self.batched_elementwise else Int(self.batched_rope_cache)
+        return 3 if self.down128 else (2 if self.batched_elementwise else Int(self.batched_rope_cache))
 
     def project_kind[kind: Int](self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool) raises:
         if matrix and count == 32:
@@ -111,7 +117,7 @@ struct TuringPrefillFixture:
         else:
             self.native.context.enqueue_function[block_matvec_kernel[kind]](self.native.w(),self.a(),Int64(t.offset),Int64(t.columns),Int64(t.rows),Int64(src),Int64(dst),grid_dim=(t.rows+3)//4,block_dim=128)
 
-    def project(self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool = False,stage: String = "head") raises:
+    def project(mut self,t: PackedTensor,src: Int,dst: Int,count: Int,matrix: Bool = False,stage: String = "head") raises:
         if self.trace_projections:
             var owned = stage == "head" and same_projection_tensor(t,self.native.output_tensor) and count == 1
             for layer in self.native.layers:
@@ -125,6 +131,17 @@ struct TuringPrefillFixture:
             if not owned or self.execution_strategy() != 2 or self.activation_precision != 0:
                 raise Error("Projection trace label disagrees with actual tensor/strategy owner")
             projection_push(stage,count)
+        if self.down128 and matrix and count == 32 and stage == "down":
+            var owned = False
+            for layer in self.native.layers: owned = owned or same_projection_tensor(t,layer.down)
+            if not owned or t.columns != 8192 or t.rows != 3072 or src != self.layout.up or dst != self.layout.temporary:
+                raise Error("Down128 projection disagrees with actual tensor/canonical spans")
+            if t.kind == 12: project_turing_large_rows[12,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            elif t.kind == 13: project_turing_large_rows[13,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            elif t.kind == 14: project_turing_large_rows[14,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+            else: raise Error("Down128 requires admitted original packed format")
+            self.down128_calls += 1
+            return
         try:
             if t.kind == 12: self.project_kind[12](t,src,dst,count,matrix)
             elif t.kind == 13: self.project_kind[13](t,src,dst,count,matrix)
@@ -219,6 +236,8 @@ struct TuringPrefillFixture:
             raise Error("Matrix fixture tile/policy is not admitted")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.trace_projections or self.control.enabled()):
+            raise Error("Down128 admits only uncontrolled untraced original elementwise model gate")
         self.control.admit()
         if start < 0 or start > len(tokens)-count or self.position < 0 or self.position > 1536-count:
             raise Error("Matrix fixture token/context bounds exceeded")
@@ -228,11 +247,13 @@ struct TuringPrefillFixture:
                 raise Error("Matrix fixture token outside vocabulary")
 
     def configure_control(mut self,timeout_ms: Int = 0,cancel_fd: Int = -1) raises:
+        if self.down128: raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot configure a busy or failed matrix fixture")
         self.control.configure(timeout_ms,cancel_fd)
 
     def start_control(mut self) raises:
+        if self.down128: raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot start control on a busy or failed matrix fixture")
         self.control.start()
@@ -272,7 +293,8 @@ struct TuringPrefillFixture:
                 self.checkpoint()
         if need_logits:
             self.norm(self.native.output_norm,0,self.layout.norm)
-            self.project(self.native.output_tensor,self.layout.norm,self.layout.logits,1)
+            var output_tensor = self.native.output_tensor
+            self.project(output_tensor,self.layout.norm,self.layout.logits,1)
             self.sampler.select(self.a(),self.layout.logits,self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](),self.native.profile.ordinary_token_limit,self.native.profile.eos_token_id,self.native.profile.end_of_turn_token_id)
             self.native.context.enqueue_copy(self.host_output,self.output)
         self.native.context.synchronize()
@@ -292,6 +314,7 @@ struct TuringPrefillFixture:
         self.committed.clear()
         self.rope_cache_calls = 0
         self.elementwise_calls = 0
+        self.down128_calls = 0
         self.control.reset()
         self.healthy = True
 

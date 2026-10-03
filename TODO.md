@@ -146,6 +146,14 @@
   one skip, strict source report/model/capture rehash and failure retention pass.
   [Operation](docs/NATIVE_TURING_DOWN_ACTIVATIONS.md). No speed score/full-model
   promotion. Next gate complete down-only model/cache/state before selection.
+- [x] SPD-01/04 down-only128 complete model strategy3: all513024 native/matrix
+  values/owner, actual IDs/state/full guarded-cache hashes match accepted2;
+  unchanged CPU budgets/own fresh F32 bits/4352 guards/eight invalid tiles pass.
+  Actual down calls0/28/0/924 and closed trace/control admission pass. Long paired
+  native/new12.66775/6.80087s=1.86267x exploratory fixture ratio; no old2/new3 or
+  provider score. Eight portable contracts/master190 passes/one skip, atomic
+  finite scoring/provenance rehash/failure retention pass. [Operation](docs/NATIVE_TURING_DOWN_MODEL.md).
+  Next earn strategy3 decode/sample/replay/enabled-control gates before selection.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

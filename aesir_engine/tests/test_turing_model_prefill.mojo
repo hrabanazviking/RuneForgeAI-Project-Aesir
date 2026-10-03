@@ -1,6 +1,7 @@
 """Isolated complete-model prefill collection; quality is independently gated."""
 from std.sys import argv
 from std.math import isfinite
+from std.memory import Pointer
 from tests.turing_prefill_fixture import TuringPrefillFixture
 from tests.test_packed_matrix import seconds
 
@@ -109,7 +110,9 @@ def measure(mut f: TuringPrefillFixture,index: Int,prompt: String) raises:
             else:
                 for i in range(128256):
                     var expected = baseline[i] if mode == 0 else matrix[i]
-                    if values[i] != expected: raise Error("Fresh prefill repeat changed a complete logit")
+                    var actual = values[i]
+                    if Pointer(to=actual).unsafe_bitcast[UInt32]()[] != Pointer(to=expected).unsafe_bitcast[UInt32]()[]:
+                        raise Error("Fresh prefill repeat changed complete F32 logit bits")
     f.guards()
     print("CASE,"+String(index)+","+String(len(tokens)))
     for i in range(len(tokens)): print("INPUT,"+String(index)+","+String(i)+","+String(tokens[i]))

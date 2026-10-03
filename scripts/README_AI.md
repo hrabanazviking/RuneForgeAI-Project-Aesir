@@ -173,3 +173,9 @@ state/native/original F32 byte to accepted precision0 capture/report, requires
 fixed numerical/totals/independent coverage and preserves all failures. Reports
 never score speed or claim full-model quality. Read
 ../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md; ten portable contracts pass.
+
+Down128 metadata is opt-in only in complete model parse; shared readers refuse3.
+Require full accepted strategy2 numeric/zero-GPU F32 source plus exact vectors/
+IDs/cache/counters before unchanged independent budgets and paired native/new
+scores. Rehash derivation/model/current/accepted sources afterward; atomic scores
+withhold every ratio on overflow/failure. Read ../docs/NATIVE_TURING_DOWN_MODEL.md.
