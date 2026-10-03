@@ -56,3 +56,16 @@ without relaxing gates or claiming success. Update owner interfaces/manual,
 ledger/TODO/roadmap/devlog, retain unchanged production binary/readiness, push
 and verify exact implementation CI. Broader context/concurrency/soak/persistence,
 production32 and refreshed Ollama lead remain separate acceptance gates.
+
+## Capture-mode correction after physical reproduction
+
+Installed2023.4.4 NVTX-triggered capture exports activity/range timestamps in a
+capture-relative coordinate system while ANALYSIS_DETAILS retains session times;
+UTC export also preserves that mismatch. Both rejected exports remain private.
+Use full-session CUDA/NVTX capture instead, with the same native semantic range.
+Validate every original full-session row/owner/correlation/timestamp first, then
+select complete successful launches on the named range thread and their actual
+GPU work. Retain excluded initialization/export kernel counts. Reject boundary-
+crossing operations; no timestamp rebasing or clipping. Scope every returned group
+and union explicitly to the selected prefill. Keep reset outside the semantic
+range. This changes capture transport only, not arithmetic or acceptance budgets.
