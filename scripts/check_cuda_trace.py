@@ -31,13 +31,15 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
     Export must be closed, without WAL/journal sidecars; query_only and an authorizer
     deny writes and executable extensions. No database-provided SQL is executed.
     """
+    if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not down128):
+        raise ValueError("Kernel resources require explicit owned down projection path")
     path = Path(path).absolute()
     for suffix in ("-wal", "-shm", "-journal"):
         if Path(str(path) + suffix).exists():
@@ -203,6 +205,11 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 active.append((start, end))
             if matched != set(launches):
                 raise ValueError("Incomplete launch/kernel trace")
+            resources = None
+            if record_resources:
+                from cuda_projection_ranges import resource_records
+                resources = resource_records(rows("CUPTI_ACTIVITY_KIND_KERNEL",
+                    "correlationId,registersPerThread,staticSharedMemory,dynamicSharedMemory,localMemoryPerThread,localMemoryTotal,gridX,gridY,gridZ,blockX,blockY,blockZ"),matched)
             copies = defaultdict(lambda: {"count": 0, "bytes": 0, "total_ns": 0})
             for start, end, owner, size, kind in rows("CUPTI_ACTIVITY_KIND_MEMCPY",
                                                      "start,end,globalPid,bytes,copyKind", False):
@@ -234,7 +241,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             projection = None
             if projection_tiles is not None:
                 from cuda_projection_ranges import attribute
-                projection = attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles)
+                projection = attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,down128=down128,resources=resources)
             return {"schema": 1, "exporter": meta["EXPORT_PRODUCT_VERSION"],
                     "process": {"pid": process[0][1], "name": expected_executable},
                     "gpu": {"name": gpu[0][1], "compute": f"{gpu[0][2]}.{gpu[0][3]}", "bytes": gpu[0][4]},
@@ -243,6 +250,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                     "complete_capture_kernel_count": len(kernels),
                     "excluded_kernel_count": len(kernels) - len(kernel_intervals),
                     "projection_attribution": projection,
+                    "recorded_resource_kernel_count": len(resources) if resources is not None else None,
                     "kernel_window_ns": last - first, "gpu_busy_in_kernel_window_ns": busy,
                     "uncovered_in_kernel_window_ns": last - first - busy,
                     "kernel_groups": dict(sorted(groups.items(), key=lambda p: -p[1]["total_ns"])),

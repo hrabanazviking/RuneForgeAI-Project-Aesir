@@ -70,6 +70,7 @@ jobs:
           python3 scripts/test_check_cuda_trace.py
           python3 scripts/test_check_turing_prefill_trace.py
           python3 scripts/test_cuda_projection_ranges.py
+          python3 scripts/test_check_turing_down_projection_trace.py
 
       - name: Prove Matrix Primitive Evidence Admission
         run: python3 scripts/test_check_packed_matrix.py

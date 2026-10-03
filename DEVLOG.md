@@ -1,3 +1,25 @@
+## 2026-10-03 — Sigrún: owned down128 projection resource evidence
+
+Scoped/pushed8edb855 before code. Separate final trace capability admits explicit3
+with stages1 while defaults2/ordinary down3/production4 stay. Down dispatch joins
+balanced try/pop cleanup; no arithmetic/buffer change. Exact accepted3 source F32
+bits/cache/IDs/counts/guards gate both physical plain/profiled cases before full-
+session CUDA owner/time/correlation/resource validation and ordered child launch
+projection. Long120919 kernels/7449 ranges/20385 projection launches account for
+all work; gate/up/down3.452520s of6.648634s=51.9283% diagnostic. Actual down32
+records grid24/block256/register255/static19008; local totals are deprecated/raw,
+not spills, occupancy or a256 failure cause. No service ratio is scored.
+
+Ten adversarial contracts plus legacy gates/master190/one skip pass. Initial test
+found nonexact synthetic F32 and a reused expected variable; preserve failed source/
+logs, fix before physical capture. Final validation additionally checks integer
+NVTX metadata and excluded resource rows; original reports stay, revalidation uses
+new exclusive paths. Matching installed importer recovers reports; all seven
+builds precede serial GPU runs. Four actual invalid flags/capabilities refuse
+before model/CUDA; CLI flags precede output/NVTX. Normal f3442a1e remains active/
+authenticated ready/prefill4/cpuoffload0. Read [operation](docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md).
+Next measure narrower shared staging; exact push/CI receipts remain separate.
+
 ## 2026-10-03 — Sigrún: explicit down128 cooperative recovery capability
 
 Scoped/pushed5455dbe before code. Final down128_controls=False preserves ordinary

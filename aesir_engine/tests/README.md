@@ -199,3 +199,16 @@ The enabled-control probe now accepts explicit strategy2 and preserves legacy
 omission. Complete abort/reset/poison/guard/mask proofs bind the matching accepted
 source. Read ../../docs/NATIVE_TURING_BATCHED_CONTROLS.md. Hosted compilation
 remains separate from physical controls; master count stays190/0/1.
+
+## Explicit down128 projection trace capability
+
+Final down128_tracing=False requires down before model load when enabled. Default
+down3 stays closed to tracing; explicit3 owned probe requires STAGES1 and refuses
+enabled controls. Balanced project try/pop now includes down128 dispatch, preserving
+math/counter order and poison behavior. TRACE3/DOWN_ROWS12828 or924/DOWN_TILE128,32
+bind actual full F32/cache/IDs/state/counts/guards to accepted3 source. Default2
+probe/checker remains. Complete full-session owner/correlation/resource validation
+precedes ordered source child attribution; selected wrapper prefixes/grid/block
+and per-kernel recorded resource distributions are explicit, never an occupancy/
+spill/cause/speed claim. Read ../../docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md; ten adversarial contracts plus physical
+plain/profiled cases and master190/one skip pass.

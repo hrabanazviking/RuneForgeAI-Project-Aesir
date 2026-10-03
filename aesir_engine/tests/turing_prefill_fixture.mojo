@@ -44,14 +44,17 @@ struct TuringPrefillFixture:
     var down128: Bool
     var down128_calls: Int
     var down128_controls: Bool
+    var down128_tracing: Bool
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
         if down128 and (precision != 0 or not batched or not elementwise):
             raise Error("Down128 requires original precision0 and batched elementwise strategy")
         if down128_controls and not down128: raise Error("Down128 controls require admitted down128 strategy")
+        if down128_tracing and not down128: raise Error("Down128 tracing requires admitted down128 strategy")
+        self.down128_tracing = down128_tracing
         self.down128_controls = down128_controls
         self.down128 = down128
         self.down128_calls = 0
@@ -131,25 +134,25 @@ struct TuringPrefillFixture:
                 owned = owned or (stage == "gate" and same_projection_tensor(t,layer.gate))
                 owned = owned or (stage == "up" and same_projection_tensor(t,layer.up))
                 owned = owned or (stage == "down" and same_projection_tensor(t,layer.down))
-            if not owned or self.execution_strategy() != 2 or self.activation_precision != 0:
+            if not owned or (self.execution_strategy() != 2 and not (self.execution_strategy() == 3 and self.down128_tracing)) or self.activation_precision != 0:
                 raise Error("Projection trace label disagrees with actual tensor/strategy owner")
             projection_push(stage,count)
-        if self.down128 and matrix and count == 32 and stage == "down":
-            var owned = False
-            for layer in self.native.layers: owned = owned or same_projection_tensor(t,layer.down)
-            if not owned or t.columns != 8192 or t.rows != 3072 or src != self.layout.up or dst != self.layout.temporary:
-                raise Error("Down128 projection disagrees with actual tensor/canonical spans")
-            if t.kind == 12: project_turing_large_rows[12,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
-            elif t.kind == 13: project_turing_large_rows[13,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
-            elif t.kind == 14: project_turing_large_rows[14,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
-            else: raise Error("Down128 requires admitted original packed format")
-            self.down128_calls += 1
-            return
         try:
-            if t.kind == 12: self.project_kind[12](t,src,dst,count,matrix)
-            elif t.kind == 13: self.project_kind[13](t,src,dst,count,matrix)
-            elif t.kind == 14: self.project_kind[14](t,src,dst,count,matrix)
-            else: raise Error("Matrix fixture requires an admitted packed projection")
+            if self.down128 and matrix and count == 32 and stage == "down":
+                var owned = False
+                for layer in self.native.layers: owned = owned or same_projection_tensor(t,layer.down)
+                if not owned or t.columns != 8192 or t.rows != 3072 or src != self.layout.up or dst != self.layout.temporary:
+                    raise Error("Down128 projection disagrees with actual tensor/canonical spans")
+                if t.kind == 12: project_turing_large_rows[12,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+                elif t.kind == 13: project_turing_large_rows[13,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+                elif t.kind == 14: project_turing_large_rows[14,32,128](self.native.context,self.native.weights,self.activations,t.offset,t.columns,t.rows,src+16,dst+16,self.layout.stride,32)
+                else: raise Error("Down128 requires admitted original packed format")
+                self.down128_calls += 1
+            else:
+                if t.kind == 12: self.project_kind[12](t,src,dst,count,matrix)
+                elif t.kind == 13: self.project_kind[13](t,src,dst,count,matrix)
+                elif t.kind == 14: self.project_kind[14](t,src,dst,count,matrix)
+                else: raise Error("Matrix fixture requires an admitted packed projection")
         except:
             if self.trace_projections: projection_pop()
             raise
@@ -236,10 +239,12 @@ struct TuringPrefillFixture:
 
     def admit_execution_strategy(self) raises:
         if self.down128_controls and not self.down128: raise Error("Down128 control capability drifted outside its strategy")
+        if self.down128_tracing and not self.down128: raise Error("Down128 tracing capability drifted outside its strategy")
+        if self.trace_projections and self.control.enabled(): raise Error("Projection tracing cannot enable cooperative controls")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
-        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.trace_projections or (self.control.enabled() and not self.down128_controls)):
-            raise Error("Down128 admits only uncontrolled untraced original elementwise model gate")
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not self.down128_tracing) or (self.control.enabled() and not self.down128_controls)):
+            raise Error("Down128 requires original elementwise strategy and explicit control/trace capabilities")
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
         if not self.healthy or not self.native.healthy or (count != 1 and count != 4 and count != 32) or (need_logits and count != 1):
@@ -258,6 +263,7 @@ struct TuringPrefillFixture:
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot configure a busy or failed matrix fixture")
         self.admit_execution_strategy()
+        if self.trace_projections and (timeout_ms != 0 or cancel_fd != -1): raise Error("Projection tracing cannot configure enabled controls")
         self.control.configure(timeout_ms,cancel_fd)
 
     def start_control(mut self) raises:

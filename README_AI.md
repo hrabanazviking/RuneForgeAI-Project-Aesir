@@ -1,3 +1,8 @@
+For the explicit strategy3 resource/owned projection extension, read
+docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md. Recordings guide experiments only;
+complete source bits/cache/state and full-session correlation/resource gates
+precede attribution. Default strategy2 and production4 stay unchanged.
+
 # Project Aesir contributor orientation
 
 For the optional accepted strategy2 inference-only CUDA timeline, read

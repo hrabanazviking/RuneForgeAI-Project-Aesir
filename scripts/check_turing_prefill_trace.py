@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind owned inference-only trace to complete accepted strategy2 bytes; unscored."""
+"""Bind owned inference-only trace to complete explicit accepted strategy2/3 bytes; unscored."""
 import argparse
 from array import array
 import csv
@@ -13,6 +13,7 @@ import sqlite3
 from launch import digest
 from profile_native_cuda import read_text
 from check_cuda_trace import analyze
+from check_turing_down_source import accepted_model
 from check_turing_activations import f32
 from check_turing_fixture_controls import reference
 from check_turing_model_prefill import parse as source_parse, rope_cache_calls, elementwise_calls
@@ -21,7 +22,10 @@ from check_llama3_logits import VOCABULARY
 RANGE = "aesir.fixture.prefill"
 
 
-def parse(path, golden, case, projection_ranges=False):
+def parse(path, golden, case, projection_ranges=False, *, allow_down=False):
+    if type(allow_down) is not bool or (allow_down and not projection_ranges):
+        raise ValueError("Down trace requires explicit projection ranges")
+    strategy = 3 if allow_down else 2
     text = read_text(path, 16 * 1024**2)
     if len(text.encode()) > 16 * 1024**2 or not text.endswith("\n"):
         raise ValueError("Trace CSV exceeds byte limit or lacks complete final line")
@@ -32,7 +36,7 @@ def parse(path, golden, case, projection_ranges=False):
     if not row or not row[0].startswith("[CUDA]") or "api=cuda" not in row[0] or "cpu_offload=0" not in row[0]:
         raise ValueError("Missing native CUDA trace identity")
     row = next(reader)
-    if (len(row) != 6 or row[:4] != ["TRACE", "1", "2", str(case)] or
+    if (len(row) != 6 or row[:4] != ["TRACE", "1", str(strategy), str(case)] or
             not re.fullmatch(r"[1-9][0-9]{0,9}", row[4]) or row[5] != RANGE):
         raise ValueError("Wrong trace strategy/case/PID/range")
     pid = int(row[4]); count = len(golden["input_ids"])
@@ -51,6 +55,9 @@ def parse(path, golden, case, projection_ranges=False):
         values.append(f32(row[2]))
     if next(reader) != ["ENQUEUE", str(rope_cache_calls(count, 2)), str(elementwise_calls(count, 2))]:
         raise ValueError("Trace host enqueue counts changed")
+    if allow_down:
+        if next(reader) != ["DOWN_ROWS128", str((count-1)//32*28)] or next(reader) != ["DOWN_TILE", "128", "32"]:
+            raise ValueError("Down trace dispatch counts/selected tile changed")
     row = next(reader)
     if len(row) != 3 or row[:2] != ["CACHE", "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", row[2]):
         raise ValueError("Trace cache record incomplete")
@@ -61,6 +68,7 @@ def parse(path, golden, case, projection_ranges=False):
         raise ValueError("Trailing trace evidence")
     identical = values.tobytes() == golden["logits"].tobytes()
     return dict(passed=identical and cache, case=case, pid=pid, values=VOCABULARY, projection_ranges=projection_ranges,
+                attention_variant=strategy, down128_host_enqueues=(count-1)//32*28 if allow_down else None,
                 input_tokens=count, f32_bytes_equal=identical, guarded_cache_equal=cache,
                 guards=1088, csv_sha256=hashlib.sha256(text.encode()).hexdigest(),
                 f32_sha256=hashlib.sha256(values.tobytes()).hexdigest())
@@ -79,6 +87,7 @@ def main():
     parser.add_argument("--reference-report", type=Path, required=True)
     parser.add_argument("--case", type=int, choices=(1, 3), required=True)
     parser.add_argument("--projection-ranges", action="store_true")
+    parser.add_argument("--down128", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     report = dict(schema=1, passed=False, collection_complete=False, speed_scored=False)
@@ -88,15 +97,19 @@ def main():
                 raise ValueError("Expected exact model/binary SHA256")
             if digest(args.model) != args.model_sha256 or digest(args.binary) != args.binary_sha256:
                 raise ValueError("Model/binary identity mismatch")
-            _, proof = reference(args.reference_csv, args.reference_report, args.model_sha256)
-            if proof["attention_variant"] != 2:
-                raise ValueError("Trace requires accepted strategy2")
-            source = source_parse(args.reference_csv)
+            if args.down128:
+                if not args.projection_ranges: raise ValueError("Down trace requires explicit projection ranges")
+                source, proof = accepted_model(args.reference_csv, args.reference_report, args.model_sha256)
+            else:
+                _, proof = reference(args.reference_csv, args.reference_report, args.model_sha256)
+                if proof["attention_variant"] != 2:
+                    raise ValueError("Trace requires accepted strategy2")
+                source = source_parse(args.reference_csv)
             if source["csv_sha256"] != proof["csv_sha256"]:
                 raise ValueError("Trace source changed during admission")
             golden = source["cases"][args.case]
-            unprofiled = parse(args.unprofiled, golden, args.case,args.projection_ranges)
-            profiled = parse(args.profiled, golden, args.case,args.projection_ranges)
+            unprofiled = parse(args.unprofiled, golden, args.case,args.projection_ranges,allow_down=args.down128)
+            profiled = parse(args.profiled, golden, args.case,args.projection_ranges,allow_down=args.down128)
             report.update(probe_collection_complete=True, unprofiled=unprofiled, profiled=profiled,
                           model_sha256=args.model_sha256, binary_sha256=args.binary_sha256,
                           accepted_reference=proof)
@@ -108,7 +121,7 @@ def main():
                     size = 32 if remaining >= 32 else (4 if remaining >= 4 else 1)
                     tiles[size] += 1;remaining -= size
             trace = analyze(args.sqlite, args.binary.name,
-                            expected_pid=profiled["pid"], nvtx_range=RANGE,projection_tiles=tiles)
+                            expected_pid=profiled["pid"], nvtx_range=RANGE,projection_tiles=tiles,down128=args.down128,record_resources=args.down128)
             if trace["gpu"]["compute"] != "7.5":
                 raise ValueError("Trace differs from admitted physical capability7.5")
             report.update(collection_complete=True, unprofiled=unprofiled, profiled=profiled,
@@ -122,8 +135,8 @@ def main():
                 raise ValueError("Trace artifact changed during validation")
             report["passed"] = unprofiled["passed"] and profiled["passed"]
             report["limits"] = ("One inference-only same-thread synchronized NVTX range, original strict3B/"
-                                "context1536/F16KV/sm75 optional strategy2. All source F32/cache bytes retained. "
-                                "Kernel groups are observed names; shared projection names do not separate Q/K/V/FFN. "
+                                "context1536/F16KV/sm75 explicit strategy2/3. All source F32/cache bytes retained. "
+                                "Explicit stage attribution uses successful launch correlations and owned tensors. Recorded resource fields do not infer occupancy/spills or a failure cause. "
                                 "API/GPU durations overlap; uncovered time has no inferred cause. No speed score, "
                                 "production32, broader context/device/concurrency/soak or provider lead.")
         except (ValueError, OSError, KeyError, StopIteration, csv.Error, sqlite3.Error, KeyboardInterrupt) as error:

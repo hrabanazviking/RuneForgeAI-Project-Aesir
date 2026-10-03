@@ -8,10 +8,13 @@ from tests.guarded_cache_digest import guarded_cache_digest
 
 def main() raises:
     var args = argv()
-    if len(args) != 4 and len(args) != 5:
-        raise Error("usage: test_turing_prefill_trace MODEL.gguf CASE[1|3] NEW.csv [STAGES:0|1]")
-    var stages = Int(args[4]) if len(args) == 5 else 0
+    if len(args) != 4 and len(args) != 5 and len(args) != 6:
+        raise Error("usage: test_turing_prefill_trace MODEL.gguf CASE[1|3] NEW.csv [STAGES:0|1] [STRATEGY:3]")
+    var stages = Int(args[4]) if len(args) >= 5 else 0
     if stages != 0 and stages != 1: raise Error("Projection trace flag must be0/1")
+    var strategy = Int(args[5]) if len(args) == 6 else 2
+    if strategy != 2 and strategy != 3: raise Error("Trace strategy must be2/3")
+    if len(args) == 6 and (strategy != 3 or stages != 1): raise Error("Explicit strategy3 requires projection stages1")
     var index = Int(args[2])
     if index != 1 and index != 3: raise Error("Trace supports accepted public case1/3 only")
     var lib = OwnedDLHandle("libnvToolsExt.so.1")
@@ -25,7 +28,7 @@ def main() raises:
         _ = external_call["close",Int32](fd)
         raise Error("Cannot direct owned trace output")
     if external_call["close",Int32](fd) != 0: raise Error("Cannot close owned trace descriptor")
-    var f = TuringPrefillFixture(args[1],0,True,True)
+    var f = TuringPrefillFixture(args[1],0,True,True,strategy == 3,False,strategy == 3)
     f.trace_projections = Bool(stages)
     var prompt = "Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences."
     if index == 3:
@@ -56,12 +59,15 @@ def main() raises:
     var values = logits(f,1)
     f.guards()
     var cache = guarded_cache_digest(f)
-    print("TRACE,1,2,"+String(index)+","+String(external_call["getpid",Int32]())+",aesir.fixture.prefill")
+    print("TRACE,1,"+String(strategy)+","+String(index)+","+String(external_call["getpid",Int32]())+",aesir.fixture.prefill")
     if stages: print("STAGES,1")
     print("STATE,"+String(len(tokens))+","+String(f.position)+","+String(f.sampler.position)+","+String(len(f.committed)))
     for i in range(len(f.committed)): print("INPUT,"+String(i)+","+String(f.committed[i]))
     for i in range(128256): print("LOGIT,"+String(i)+","+String(Float64(values[i])))
     print("ENQUEUE,"+String(f.rope_cache_calls)+","+String(f.elementwise_calls))
+    if strategy == 3:
+        print("DOWN_ROWS128,"+String(f.down128_calls))
+        print("DOWN_TILE,128,32")
     print("CACHE,"+String(len(f.cache)*2)+","+cache)
     print("GUARD,1088,0")
     print("COMPLETE,prefill_trace,128256")

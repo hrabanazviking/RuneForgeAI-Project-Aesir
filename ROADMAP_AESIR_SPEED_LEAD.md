@@ -514,6 +514,16 @@ Six contracts/master190 passes/one skip. [Operation](docs/NATIVE_TURING_DOWN_CON
 No hard real-time/GPU-fault repair/production/provider admission. Next own updated
 strategy3 projection tracing before another measured kernel speed experiment.
 
+Explicit3 now earns owned projection/resource tracing: complete plain/profiled
+source F32/cache/ID/count/guard equality, full-session kernel/resource correlation
+coverage and exact ordered child ownership. Long120919 kernels/7449 ranges/20385
+projection launches; gate/up/down sum3.452520s of6.648634s (51.9283%) diagnostic.
+Down32 actual24 blocks/256 threads records255 registers and19008 static shared;
+legacy local total stays deprecated/raw. Ten contracts/master190 passes/one skip.
+[Operation](docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md). No occupancy/spill/cause
+or cross-capture speed ratio. Next measure narrower shared staging under original
+bit/oracle/guard/timing gates; production/profile/device/provider admission stays open.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

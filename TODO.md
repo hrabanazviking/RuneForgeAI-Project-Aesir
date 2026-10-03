@@ -967,3 +967,12 @@ The legacy formatters below are not exposed compatibility APIs.
 - [ ] Create a roadmap to make Project A.E.S.I.R. the number one best and most popular Local-LLM-Inference-Server on Earth Midgard, and then carry out that roadmap till it turns into manifest reality.
 - [ ] Create a roadmap to get all AI harnesses to have support for using Project A.E.S.I.R. and follow that roadmap till it turns into manifest reality!
 - [ ] Create a roadmap to get RuneForgeAI so well known that all the Cyber-Viking skalds in all the Nine Worlds are writing poetry to sing its praises! Follow that roadmap till it becomes manifest reality!
+
+- [x] SPD-00/04 explicit strategy3 projection resources: public37/1070 plain/
+  profiled vectors/cache/IDs/state match accepted3 exactly. Full4837/120919 kernels
+  and recorded resources precede589/7449 ordered ranges and981/20385 projection
+  correlations. Down32 selects actual grid24/block256/static19008/register255;
+  gate/up/down long3.452520s of6.648634s summed kernels (51.9283%). Ten contracts/
+  master190 passes/one skip. No cause/occupancy/spill/service ratio inferred.
+  [Operation](docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md). Next measure narrower
+  shared staging as a register/resource experiment, retaining original kernels.

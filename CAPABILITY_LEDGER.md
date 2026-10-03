@@ -1551,7 +1551,15 @@ and circular self-parity transforms were removed.
   Disabled long paired native/new12.70594/6.83303s=1.85949x exploratory only;
   control speed_claim=False. No hard real time/GPU-fault repair/production32/
   broader-context/device/concurrency/soak/free-running/persisted/provider gate.
-- **Next acceptance gate:** Owned strategy3 projection tracing and next measured bottleneck experiment; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down128 owned projection/resource trace (2026-10-03):** Explicit default-disabled
+  trace capability and balanced down dispatch preserve full source F32/cache/IDs/
+  counters/guards on plain/profiled37/1070. Full4837/120919 kernel resources and
+  unique successful correlations precede589/7449 exact ordered child ranges and
+  981/20385 projection kernels. Down32 grid24/block256/static19008/register255;
+  gate/up/down long51.9283% summed kernel time is diagnostic only. Ten contracts/
+  master190 passes/one skip; no occupancy/spill/256-failure cause/service ratio.
+  [Evidence](docs/evidence/turing-down-projection-trace-2026-10-03/README.md).
+- **Next acceptance gate:** Measured narrower shared staging resource/speed experiment; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

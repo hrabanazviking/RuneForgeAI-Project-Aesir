@@ -1,0 +1,857 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "8edb855",
+  "accepted_source_revision": "79f300058fefb61d6e5d63d659c1bf26b59fee7b",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:18:34.726968+00:00",
+      "ended_utc": "2026-10-03T05:18:34.841884+00:00",
+      "wall_seconds": 0.11493646900635213,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-invalid-capability.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-invalid-capability"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:17:31.514646+00:00",
+      "ended_utc": "2026-10-03T05:17:41.355381+00:00",
+      "wall_seconds": 9.840783979016123,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:17:41.355799+00:00",
+      "ended_utc": "2026-10-03T05:18:14.458654+00:00",
+      "wall_seconds": 33.102878748992225,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:18:14.459012+00:00",
+      "ended_utc": "2026-10-03T05:18:34.726619+00:00",
+      "wall_seconds": 20.267631818016525,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:17:00.632707+00:00",
+      "ended_utc": "2026-10-03T05:17:31.514216+00:00",
+      "wall_seconds": 30.881534601998283,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:16:03.904024+00:00",
+      "ended_utc": "2026-10-03T05:16:32.021108+00:00",
+      "wall_seconds": 28.117124364012852,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_prefill_trace.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:16:32.021570+00:00",
+      "ended_utc": "2026-10-03T05:17:00.632368+00:00",
+      "wall_seconds": 28.61083439498907,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "1": {
+      "export-process": {
+        "exit": 0,
+        "wall_seconds": 0.1146535389998462,
+        "argv": [
+          "/usr/bin/nsys",
+          "export",
+          "--type=sqlite",
+          "--force-overwrite=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T05:19:27.192928+00:00",
+        "ended_utc": "2026-10-03T05:19:27.307633+00:00",
+        "performance_scored": false
+      },
+      "profiled-process": {
+        "exit": 0,
+        "wall_seconds": 6.382919589988887,
+        "argv": [
+          "/usr/bin/nsys",
+          "profile",
+          "--trace=cuda,nvtx",
+          "--capture-range=none",
+          "--sample=none",
+          "--cpuctxsw=none",
+          "--force-overwrite=false",
+          "--stats=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "1",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/profiled.csv",
+          "1",
+          "3"
+        ],
+        "started_utc": "2026-10-03T05:19:20.694244+00:00",
+        "ended_utc": "2026-10-03T05:19:27.077218+00:00",
+        "performance_scored": false
+      },
+      "unprofiled-process": {
+        "exit": 0,
+        "wall_seconds": 3.524130972014973,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "1",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/unprofiled.csv",
+          "1",
+          "3"
+        ],
+        "started_utc": "2026-10-03T05:19:17.169609+00:00",
+        "ended_utc": "2026-10-03T05:19:20.693840+00:00",
+        "performance_scored": false
+      },
+      "validation-process": {
+        "exit": 0,
+        "wall_seconds": 4.326451889006421,
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "--binary-sha256",
+          "926f2385d350cbf7b01b9dbf42b93b95198ef3ded98bf98cc40d8f9325368595",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--case",
+          "1",
+          "--projection-ranges",
+          "--down128",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/complete.json"
+        ],
+        "started_utc": "2026-10-03T05:19:27.314981+00:00",
+        "ended_utc": "2026-10-03T05:19:31.641533+00:00",
+        "performance_scored": false
+      },
+      "import-process": {
+        "exit": 0,
+        "wall_seconds": 0.11474250597530045,
+        "argv": [
+          "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+          "--input-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.qdstrm",
+          "--output-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T05:19:27.077756+00:00",
+        "ended_utc": "2026-10-03T05:19:27.192560+00:00",
+        "performance_scored": false
+      },
+      "validation-final-process": {
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case1/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "--binary-sha256",
+          "926f2385d350cbf7b01b9dbf42b93b95198ef3ded98bf98cc40d8f9325368595",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--case",
+          "1",
+          "--projection-ranges",
+          "--down128",
+          "--output",
+          "work/aesir-trace/turing-down-projection-trace-final-case1/complete-final.json"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T05:20:24.442992+00:00",
+        "ended_utc": "2026-10-03T05:20:28.818591+00:00",
+        "wall_seconds": 4.375634074007394,
+        "performance_scored": false
+      }
+    },
+    "3": {
+      "export-process": {
+        "exit": 0,
+        "wall_seconds": 1.0171654689766,
+        "argv": [
+          "/usr/bin/nsys",
+          "export",
+          "--type=sqlite",
+          "--force-overwrite=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T05:19:56.701750+00:00",
+        "ended_utc": "2026-10-03T05:19:57.718965+00:00",
+        "performance_scored": false
+      },
+      "profiled-process": {
+        "exit": 0,
+        "wall_seconds": 14.454740240005776,
+        "argv": [
+          "/usr/bin/nsys",
+          "profile",
+          "--trace=cuda,nvtx",
+          "--capture-range=none",
+          "--sample=none",
+          "--cpuctxsw=none",
+          "--force-overwrite=false",
+          "--stats=false",
+          "--output=[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "3",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/profiled.csv",
+          "1",
+          "3"
+        ],
+        "started_utc": "2026-10-03T05:19:41.328949+00:00",
+        "ended_utc": "2026-10-03T05:19:55.783741+00:00",
+        "performance_scored": false
+      },
+      "unprofiled-process": {
+        "exit": 0,
+        "wall_seconds": 9.686475144000724,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "3",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/unprofiled.csv",
+          "1",
+          "3"
+        ],
+        "started_utc": "2026-10-03T05:19:31.642096+00:00",
+        "ended_utc": "2026-10-03T05:19:41.328625+00:00",
+        "performance_scored": false
+      },
+      "validation-process": {
+        "exit": 0,
+        "wall_seconds": 6.0793968770012725,
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "--binary-sha256",
+          "926f2385d350cbf7b01b9dbf42b93b95198ef3ded98bf98cc40d8f9325368595",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--case",
+          "3",
+          "--projection-ranges",
+          "--down128",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/complete.json"
+        ],
+        "started_utc": "2026-10-03T05:19:57.726207+00:00",
+        "ended_utc": "2026-10-03T05:20:03.805695+00:00",
+        "performance_scored": false
+      },
+      "import-process": {
+        "exit": 0,
+        "wall_seconds": 0.9169744570099283,
+        "argv": [
+          "/usr/lib/nsight-systems/host-linux-x64/QdstrmImporter",
+          "--input-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.qdstrm",
+          "--output-file",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.nsys-rep"
+        ],
+        "started_utc": "2026-10-03T05:19:55.784211+00:00",
+        "ended_utc": "2026-10-03T05:19:56.701252+00:00",
+        "performance_scored": false
+      },
+      "validation-final-process": {
+        "argv": [
+          "python3",
+          "[AESIR_REPOSITORY]/scripts/check_turing_prefill_trace.py",
+          "--unprofiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/unprofiled.csv",
+          "--profiled",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/profiled.csv",
+          "--sqlite",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-case3/capture.sqlite",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+          "--binary-sha256",
+          "926f2385d350cbf7b01b9dbf42b93b95198ef3ded98bf98cc40d8f9325368595",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--reference-csv",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.csv",
+          "--reference-report",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-model-final/complete.json",
+          "--case",
+          "3",
+          "--projection-ranges",
+          "--down128",
+          "--output",
+          "work/aesir-trace/turing-down-projection-trace-final-case3/complete-final.json"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T05:20:28.819711+00:00",
+        "ended_utc": "2026-10-03T05:20:34.799800+00:00",
+        "wall_seconds": 5.980118042993126,
+        "performance_scored": false
+      }
+    }
+  },
+  "invalid_processes": {
+    "rejected-capability-process": {
+      "exit": 1,
+      "wall_seconds": 0.016107478004414588,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-invalid-capability"
+      ],
+      "started_utc": "2026-10-03T05:20:03.856351+00:00",
+      "ended_utc": "2026-10-03T05:20:03.872501+00:00",
+      "performance_scored": false
+    },
+    "rejected-stages-process": {
+      "exit": 1,
+      "wall_seconds": 0.016167982015758753,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-invalid/stages.csv",
+        "0",
+        "3"
+      ],
+      "started_utc": "2026-10-03T05:20:03.823089+00:00",
+      "ended_utc": "2026-10-03T05:20:03.839317+00:00",
+      "performance_scored": false
+    },
+    "rejected-explicit2-process": {
+      "exit": 1,
+      "wall_seconds": 0.016084375005448237,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-invalid/explicit2.csv",
+        "1",
+        "2"
+      ],
+      "started_utc": "2026-10-03T05:20:03.839775+00:00",
+      "ended_utc": "2026-10-03T05:20:03.855907+00:00",
+      "performance_scored": false
+    },
+    "rejected-strategy-process": {
+      "exit": 1,
+      "wall_seconds": 0.016236119001405314,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/aesir-turing-down-projection-trace",
+        "/nonexistent/model.gguf",
+        "1",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-projection-trace-final-invalid/strategy.csv",
+        "1",
+        "4"
+      ],
+      "started_utc": "2026-10-03T05:20:03.806261+00:00",
+      "ended_utc": "2026-10-03T05:20:03.822556+00:00",
+      "performance_scored": false
+    }
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "39cdc53a01f24657f0a4b2026dc0710dc49590773457b240f1256a6bf17777b3",
+    "aesir_engine/tests/test_turing_prefill_trace.mojo": "1f982aec711bc8b93c335010c3d1bcb69aecc5f993519686d6962d33b2ff09e2",
+    "aesir_engine/tests/projection_trace.mojo": "b3d8b54968be8d08190ebdd3065290cd53ebae3f3f5c72ebe83aca95630e7fdc",
+    "aesir_engine/core/packed_turing_matrix.mojo": "86d62f0b48fe24235a240eabf5a8c19236c3b074a1418e584512e701d594d28b",
+    "scripts/check_cuda_trace.py": "fc70ac0faabc66d7771f03c37015e5ea7b49bb2f4d1c7f0422a487f76cd5a9bd",
+    "scripts/cuda_projection_ranges.py": "986a99d0f7b509dcf6714f20c0fe2ad4c0389a12598bd28d7c1259630c67f586",
+    "scripts/check_turing_prefill_trace.py": "b24b69f2b6da747682916272df83a894da0e0932481620cdf8f666173aa30b94",
+    "scripts/check_turing_down_source.py": "84da8575a77a72362dbd6baca0d1c97b88cac894558ec0da5bd28decee807761",
+    "scripts/test_check_turing_down_projection_trace.py": "ada7d6ccd6407af35d1210c2b90ea3b50ef765e35c80d4c4c438911917f116e4",
+    ".github/workflows/ci.yml": "61a650090a296c12ccfbb9519e48b856c80e38ad704e8c4ed85ccaa692ec9299"
+  },
+  "artifacts": [
+    {
+      "name": "aesir-turing-down-projection-trace",
+      "bytes": 5787096,
+      "sha256": "926f2385d350cbf7b01b9dbf42b93b95198ef3ded98bf98cc40d8f9325368595"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-check.json",
+      "bytes": 266,
+      "sha256": "1a3cf8fc6696835cdde9bd2b69d23dc52e472102353fb8189cfa9961268adcab"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-invalid-capability.json",
+      "bytes": 656,
+      "sha256": "f66feb41c1b28585b7c2be4aa5a7354a77fd7b646753489d3ac8a0e0865f16c8"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-invalid-capability.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-master.json",
+      "bytes": 413,
+      "sha256": "3837feb6d16cd0f33770f527837af74378ddbb76c715ea8185ecd558319b069c"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "ef3d89034a17cd5e8c52409b27e307b2ab2c0d47118163f6c6589f1d0c38edde"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-original.json",
+      "bytes": 643,
+      "sha256": "38d874cfdb4408fb5d5112a7e23bad840f5e0e04a211a89da443bbaf4b7a5951"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-original.txt",
+      "bytes": 444,
+      "sha256": "b263628296fd4dc565ef22b666dcdba5b19fd21baa3dd718f14980f839714334"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-sm_75.json",
+      "bytes": 578,
+      "sha256": "2a8e347dcb05351b4450baad4c5e52e352bc7e156d4f8d172bc75846a26b4742"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-sm_75.txt",
+      "bytes": 474,
+      "sha256": "5442563cf5410ef6d93183d622aa50e14d709b0ffe4dac4f0fba4f8e4e721cbf"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-sm_89.json",
+      "bytes": 577,
+      "sha256": "7662cfe25bf946a3e52ebdfc3560d77ac49e900c688ef99e00ef098e10587961"
+    },
+    {
+      "name": "turing-down-projection-trace-final-build-sm_89.txt",
+      "bytes": 474,
+      "sha256": "5442563cf5410ef6d93183d622aa50e14d709b0ffe4dac4f0fba4f8e4e721cbf"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/capture.nsys-rep",
+      "bytes": 628048,
+      "sha256": "edab79cc850a4d9820d4da056bfccd5b6b8479577e3c5a2f55f92c1f33bb2ef4"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/capture.qdstrm",
+      "bytes": 3858321,
+      "sha256": "6fb92f9bb6db2189e55c0498438d960d26655a209688145d965bfb1a74d523d7"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/capture.sqlite",
+      "bytes": 1654784,
+      "sha256": "e406c350b9e31ef902e0b109d0f0514506d0ec367502e235e0534f536af07e31"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/complete-final.json",
+      "bytes": 31753,
+      "sha256": "18c177156e50efe65b516d92cd9ccc3d5e6d584235f4ef7f334b532c163c9768"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/complete.json",
+      "bytes": 31753,
+      "sha256": "18c177156e50efe65b516d92cd9ccc3d5e6d584235f4ef7f334b532c163c9768"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/export-process.json",
+      "bytes": 555,
+      "sha256": "155933fdd62648b323c7ed1104fb4c1dfd5cd6441767c973be0ad3fb8bbca8f2"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/export.txt",
+      "bytes": 8101,
+      "sha256": "f023c2631fd651b8ab2b02b017c2aa8025f507312e91bc40666cc09b26a8715f"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/import-process.json",
+      "bytes": 562,
+      "sha256": "2d1dea759885bc95e6f0e129e92d75c69b09c326933345bbbea3613308526be1"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/import.txt",
+      "bytes": 631,
+      "sha256": "9b213017c6d24d7370ff10ba618b084543f0dd61ef7236424e293fe69f7b6b22"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/profiled-process.json",
+      "bytes": 915,
+      "sha256": "2c5b2fdf42015c7566273fef7efdb8c90c8f6611b7d71fe24d59e2c114b6caee"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/profiled.csv",
+      "bytes": 3883933,
+      "sha256": "1ab649f706387862b98ad8d1a761b9169173c520356ea16973a4dc3dfecc0528"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/profiled.txt",
+      "bytes": 338,
+      "sha256": "f77cd994a8ea5c81c74264315e41dc2212afd7e78bcdce56cb9d1b0932ed9d0c"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/unprofiled-process.json",
+      "bytes": 604,
+      "sha256": "19802fbd29f7e9b07f8fc5b29b31152f60c474d64ed7436ac2e0719202ea03ab"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/unprofiled.csv",
+      "bytes": 3883933,
+      "sha256": "2c96e3ca13361be81914744d7176ee3beb6620793fa0d1b681fcf0566dc9d0d8"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/validation-final-process.json",
+      "bytes": 1636,
+      "sha256": "f221d44a52176ac6a880761926c9be7d8bc5d1a88504dc7f2717412b3e682285"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/validation-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/validation-process.json",
+      "bytes": 1676,
+      "sha256": "ad1e5ca656f830af5f85b2eb4f8172740e9b6bce5b607ba94d059506f4797ac6"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case1/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/capture.nsys-rep",
+      "bytes": 9564597,
+      "sha256": "747420cb07875aaf7a0f0a882e0e64ff9412b3ff149aaf6c3d5e10ff7cf21f72"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/capture.qdstrm",
+      "bytes": 11745083,
+      "sha256": "0fa45ecb195cbe24034ea3d7924fa97a195a7491fa2aa8a01711c4b9caef6207"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/capture.sqlite",
+      "bytes": 22532096,
+      "sha256": "7663d01476e54a751641f9bc5cd5560bd1a0e8c0a3f32b2b3018d6cb69b00789"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/complete-final.json",
+      "bytes": 31899,
+      "sha256": "b495d91d4191a98da5bfa424dac756422ec8fbc5ea5e43a1818f3b7d7567541d"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/complete.json",
+      "bytes": 31899,
+      "sha256": "b495d91d4191a98da5bfa424dac756422ec8fbc5ea5e43a1818f3b7d7567541d"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/export-process.json",
+      "bytes": 552,
+      "sha256": "fe86afa4d711dde3c869a531b06866e352cbfc36ef9ff6333fc0f67fcf097af5"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/export.txt",
+      "bytes": 8101,
+      "sha256": "591fc4d6b418e8abbd4ea1ef9c20287f1991e76a6b66fcd5f61b8c5b794b7a0b"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/import-process.json",
+      "bytes": 561,
+      "sha256": "9d36172acebe712026b8521ca276f9000d40a4ff648a0cb2599057053fa0be75"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/import.txt",
+      "bytes": 3709,
+      "sha256": "1cdbc94a2ff4bb20d8482f87154b86cea7c03b1cd705c5413cec1b11a804922a"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/profiled-process.json",
+      "bytes": 916,
+      "sha256": "93dff9d6d073aa7cbe213bc906fb1de88207d2e5b1d5260e04edf7428d6f1173"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/profiled.csv",
+      "bytes": 3963149,
+      "sha256": "fe74058d8a2f7fb7573647852228215cd49940e92b286b0b01f396cb6a39e481"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/profiled.txt",
+      "bytes": 338,
+      "sha256": "34c76100e6afc341ca108be0d8ebb23ce2f8d39e9a8054a9ada021f331ec4087"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/unprofiled-process.json",
+      "bytes": 604,
+      "sha256": "843d7d2ab933fb85f1f1ce9309a3aead88aacdb7025d4fed4bd6b53457766970"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/unprofiled.csv",
+      "bytes": 3963149,
+      "sha256": "6bd086acd650e7883e6bc7428c79c58f48763d75c4dad301cd134cc004dfe0c4"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/unprofiled.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/validation-final-process.json",
+      "bytes": 1636,
+      "sha256": "946b7f083ca44104e1c2d3d39703b0b57bd2b294d1818c4baf7f86f7bf80133e"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/validation-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/validation-process.json",
+      "bytes": 1677,
+      "sha256": "e7d3437ed7eb39db5bab60f8b1b80d2d7a77136c9c17222c23690d555b97da85"
+    },
+    {
+      "name": "turing-down-projection-trace-final-case3/validation.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/capability.txt",
+      "bytes": 220,
+      "sha256": "a39ca859d08c843ecd3af513c2dea573dc959d68c08199df0fe06f9dc219f82b"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/explicit2.txt",
+      "bytes": 216,
+      "sha256": "58d2daff74469f6ecb27009ba2af124f00a071332444ec0409deacc300c15f30"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/rejected-capability-process.json",
+      "bytes": 325,
+      "sha256": "851eda4466801599e808ca242b48dc46c0cb7fd1b7160c1c167658c94ccd9b2c"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/rejected-explicit2-process.json",
+      "bytes": 497,
+      "sha256": "add4321e859ef2613ed0411f7347bfdf01dad6f64b7d91a90a80df04f914de10"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/rejected-stages-process.json",
+      "bytes": 494,
+      "sha256": "954531ce1c42fe08f7b266c3dc9cab1570c7d829cbe4ea8b8841f6f6db20f3c7"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/rejected-strategy-process.json",
+      "bytes": 496,
+      "sha256": "660f59335b6fb805e7201aa6589edface650c4ec15264546de29c1caa13bab92"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/stages.txt",
+      "bytes": 216,
+      "sha256": "58d2daff74469f6ecb27009ba2af124f00a071332444ec0409deacc300c15f30"
+    },
+    {
+      "name": "turing-down-projection-trace-final-invalid/strategy.txt",
+      "bytes": 195,
+      "sha256": "0cefd99f5af7c2c63c6f8df27c52f68d268805867c4f0268d00c163f55f1b4e2"
+    },
+    {
+      "name": "turing-down-projection-trace-initial-cuda_projection_ranges.py",
+      "bytes": 7450,
+      "sha256": "cba73a9eb1504a3e6e6a043ae1f45449538ac430f195be2967d9950f9d92bb77"
+    },
+    {
+      "name": "turing-down-projection-trace-initial-portable.json",
+      "bytes": 89,
+      "sha256": "cc3a88488cbc9ff2f8463b123ad5d08ca6ed57ab16c8afdad62a817f01cba03b"
+    },
+    {
+      "name": "turing-down-projection-trace-initial-portable.txt",
+      "bytes": 2739,
+      "sha256": "018596f2c56b3ca18b3a9b61b021196461a7fce609ee8009f1c2568b59301b4b"
+    },
+    {
+      "name": "turing-down-projection-trace-initial-test_check_turing_down_projection_trace.py",
+      "bytes": 10646,
+      "sha256": "7c02d81d661227f329bbe93516625d440cafce33f890e8013663f8a8df2bbead"
+    },
+    {
+      "name": "turing-down-projection-trace-invalid-capability",
+      "bytes": 29768,
+      "sha256": "f8a08afd8a1b3ad717f20e5e6d1e4213d39331fcbd127a541c2c899022572372"
+    },
+    {
+      "name": "turing-down-projection-trace-invalid-capability.mojo",
+      "bytes": 171,
+      "sha256": "ac2980d00987447415eac5d2b284bd6ff2f8d4a61b7683904582e58a9f602bf2"
+    },
+    {
+      "name": "turing-down-projection-trace-original-sm_75",
+      "bytes": 5786672,
+      "sha256": "1a186f53079ea71ba14094e3a6b9be3cc07ca8c356a14f9a54e38b3673a234f4"
+    },
+    {
+      "name": "turing-down-projection-trace-original.mojo",
+      "bytes": 3740,
+      "sha256": "511deb7dbe210735c149184378d7bed5608e03f67f5affb83a118503d79edc90"
+    },
+    {
+      "name": "turing-down-projection-trace-sm_89",
+      "bytes": 5787096,
+      "sha256": "aaeab54302d603ecd5c8d680fdf1f82c34c0b5ea3e3650701a1969e5d7e5ee45"
+    }
+  ],
+  "limits": "Optional original strict3B/context1536/F16KV/sm75 explicit trace3 with stages1/control disabled. Every profiler/process duration diagnostic/unscored. Complete source quality inherited through exact logits/cache/state; resources are recorded requirements/reserved values and raw deprecated legacy local total, not occupancy/spills/256 failure cause. No production32/provider promotion. Initial portable failures and original validation reports retained; final validator separately rechecks integer metadata/excluded resources."
+}
