@@ -998,3 +998,13 @@ The legacy formatters below are not exposed compatibility APIs.
   Ten contracts/master190/one skip; retained checker-formula failure and new
   exclusive successful revalidation. [Operation](docs/NATIVE_TURING_PAIRED_FFN.md).
   Next isolate causal attention under independent complete math/guard gates.
+
+- [x] **[verified, AES-ACC-010] SPD-03 bounded shared-score causal primitive:**
+  39 cases /1370112 complete original F32 bits and independent outputs /364518
+  guards/full query and KV input immutability/16 span refusals/all780 rotated
+  times pass. Full4/32 improve in one capture; long single queries lose. No
+  selection. Nine contracts/master190/one skip, checked fixture33824 stride.
+  [Operation](docs/NATIVE_FUSED_CAUSAL_ATTENTION.md).
+- [ ] SPD-03 actual model Q/K/V or source-bound full-model exact state/CPU
+  quality; generation/replay/controls/context/device/concurrency/soak/runtime
+  gates before production selection. Keep original slow-case path.

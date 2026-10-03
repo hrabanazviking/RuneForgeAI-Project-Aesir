@@ -378,6 +378,16 @@ causal attention; whole-model/runtime/provider promotion remains separate.
 
 ### SPD-03 — Reduce long-attention memory and launch work
 
+The first bounded shared-score CUDA GQA primitive preserves original arithmetic
+and uses no global score workspace. All39 cases/1370112 exact F32 and independent
+Float64 outputs/364518 guards/full immutable query/KV inputs pass. Full4/32
+improve in one capture; long single-query histories lose, so keep their original
+path. All780 rotated records remain, nine contracts pass, no production selection.
+[Operation](docs/NATIVE_FUSED_CAUSAL_ATTENTION.md). Next earn actual model/source-
+bound full logits/cache/IDs/causal state and CPU quality before broader integration.
+Online-softmax arithmetic and full SPD-03 acceptance remain open.
+
+
 Profile scores, softmax and value reduction together. Evaluate a tiled causal
 online-softmax attention kernel that avoids a full materialized score matrix and
 reduces repeated GQA K/V reads. Reuse each admitted KV head across its query group

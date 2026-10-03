@@ -1,3 +1,8 @@
+For the bounded shared-score causal GQA primitive, read
+docs/NATIVE_FUSED_CAUSAL_ATTENTION.md. Complete original bits/independent math
+pass. Full4/32 improve, long single-query work loses. No selection; next prove
+actual model/source-bound complete state before integration.
+
 For the isolated paired FFN decision, read docs/NATIVE_TURING_PAIRED_FFN.md.
 Complete original F32 bits and independent dots pass. Batch4 loses native and
 batch32 loses staged; no selection. Next scope causal attention.

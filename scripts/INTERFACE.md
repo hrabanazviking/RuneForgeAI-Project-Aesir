@@ -383,3 +383,16 @@ loses staged, so no candidate selection. Ten adversarial contracts/master190
 passes/one skip. Failed guard-formula checker report is retained; corrected
 validation uses unchanged GPU data and a new exclusive report. Read ../docs/NATIVE_TURING_PAIRED_FFN.md.
 Actual model activation/full-model/runtime/provider gates remain separate.
+
+## Optional bounded fused causal GQA
+
+core/fused_causal_attention owns strict24/8/128 shape and pure causal F32/F16
+span/alias admission, followed by a compatible CUDA-context fence. Allocation
+bounds admit fixture stride33824 safely. One128-thread CTA per head/query uses
+4096 shared F32 scores and original dot/softmax/value arithmetic; no global
+workspace or production selection. All39 cases/1370112 complete original F32
+bits and independent Float64 outputs/364518 guards/full query and KV input
+immutability pass. All780 rotated times remain; full4/32 improve but long single
+queries lose. Nine contracts/master190/one skip. Retained parse failure and
+preliminary accepted capture precede rebuilt final stride refinement. Read
+../docs/NATIVE_FUSED_CAUSAL_ATTENTION.md. Actual model/full-model/state/runtime/provider gates remain separate.

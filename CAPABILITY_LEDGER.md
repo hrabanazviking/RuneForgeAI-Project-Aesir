@@ -77,12 +77,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 75 |
+| `verified` | 76 |
 | `partial` | 28 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
-| **Total** | **118** |
+| **Total** | **119** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -1596,6 +1596,31 @@ and circular self-parity transforms were removed.
 - **Evidence boundary:** OS mmap into CPU virtual memory is not direct storage-to-VRAM access.
 - **Next acceptance gate:** Specify an achievable backend-specific memory contract and prove mapping/transfer behavior, lifetime, synchronization, and measured copies on hardware.
 - **Audit:** AER-003, AER-039, AER-094.
+
+### AES-ACC-010 — Bounded shared-score causal CUDA GQA primitive
+
+- **Status:** `verified`
+- **Owner:** core attention and measurement domains
+- **Claim sources:** SPD-03 and docs/NATIVE_FUSED_CAUSAL_ATTENTION.md
+- **Implementation evidence:** Optional fused_causal_attention uses4096 shared
+  F32 scores per128-thread CTA for24/8/128 GQA, original score/softmax/value
+  arithmetic and all stage barriers. Pure borrowed-span/alias/causal admission
+  plus compatible CUDA fence precede enqueue. Allocation-bound stride admits33824.
+- **Executable evidence:** Locked opt-in native probe and check_fused_causal_attention
+  full NumPy2.4.4 Float64 oracle: all39 cases/1370112 outputs per owner/original
+  F32 bits/364518 guards/full1370112 query and82194432 KV cells/16 refusals/780
+  rotated timing records pass on RTX2060 Max-Q sm75. Nine portable contracts,
+  master190 passes/one explicit skip; hosted compile is distinct from physical proof.
+- **Evidence boundary:** Deterministic exact dyadic/zero/large-logit inputs,
+  history endpoints1..4096, batch capacities1/4/32 with tested partial tails;
+  no actual model Q/K/V or general shape claim. Full4/32 improve in one physical
+  session, long single-query histories lose. No selection or service/provider
+  promotion; defined shared count is not observed occupancy/register evidence.
+  [Complete evidence](docs/evidence/fused-causal-attention-2026-10-03/README.md).
+- **Next acceptance gate:** Actual model/source-bound complete logits/cache/IDs/
+  causal/sample/CPU quality; generation/replay/controls/context/device/concurrency/
+  soak/runtime gates, retaining the original single-token path.
+- **Audit:** AER-047, AER-048, AER-112.
 
 ## 15. External Ecosystems
 

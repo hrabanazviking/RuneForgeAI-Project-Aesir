@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "numerical_passed": true,
+  "speed_promoted": false,
+  "production_selected": false,
+  "full_model_speed_claim": false,
+  "cases": [
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 0,
+      "native_to_fused_ratio": 1.8460651845566831
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 30,
+      "native_to_fused_ratio": 0.9646402964337862
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 31,
+      "native_to_fused_ratio": 1.0505785522194657
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 32,
+      "native_to_fused_ratio": 0.9973042469409908
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 36,
+      "native_to_fused_ratio": 0.8881322939407444
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 254,
+      "native_to_fused_ratio": 0.5436779904247706
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 255,
+      "native_to_fused_ratio": 0.539873851685592
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 256,
+      "native_to_fused_ratio": 0.48749691547005997
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 1069,
+      "native_to_fused_ratio": 0.36315311965449476
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 1534,
+      "native_to_fused_ratio": 0.36614497105338534
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 1535,
+      "native_to_fused_ratio": 0.3381480552260886
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 4094,
+      "native_to_fused_ratio": 0.36830021522451695
+    },
+    {
+      "batch": 1,
+      "tokens": 1,
+      "prefix": 4095,
+      "native_to_fused_ratio": 0.3672627143290368
+    },
+    {
+      "batch": 4,
+      "tokens": 1,
+      "prefix": 0,
+      "native_to_fused_ratio": 1.812244307545693
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 27,
+      "native_to_fused_ratio": 3.40709137641028
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 28,
+      "native_to_fused_ratio": 3.3891077291743654
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 29,
+      "native_to_fused_ratio": 3.006910026658002
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 33,
+      "native_to_fused_ratio": 3.1017125870228086
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 251,
+      "native_to_fused_ratio": 1.7853756646220635
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 252,
+      "native_to_fused_ratio": 1.6305252659496523
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 253,
+      "native_to_fused_ratio": 1.7826892235961027
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 1066,
+      "native_to_fused_ratio": 1.3899200227381732
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 1531,
+      "native_to_fused_ratio": 1.2927380327988618
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 1532,
+      "native_to_fused_ratio": 1.3880285397228882
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 4091,
+      "native_to_fused_ratio": 1.3980497615698066
+    },
+    {
+      "batch": 4,
+      "tokens": 4,
+      "prefix": 4092,
+      "native_to_fused_ratio": 1.302234925616799
+    },
+    {
+      "batch": 32,
+      "tokens": 1,
+      "prefix": 0,
+      "native_to_fused_ratio": 1.7968792002298832
+    },
+    {
+      "batch": 32,
+      "tokens": 31,
+      "prefix": 0,
+      "native_to_fused_ratio": 6.84834646288992
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 0,
+      "native_to_fused_ratio": 6.262835438640052
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 1,
+      "native_to_fused_ratio": 6.576180420685752
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 5,
+      "native_to_fused_ratio": 5.953005252369413
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 223,
+      "native_to_fused_ratio": 2.063176102448805
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 224,
+      "native_to_fused_ratio": 2.305080719292816
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 225,
+      "native_to_fused_ratio": 2.3073474932947255
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 1038,
+      "native_to_fused_ratio": 1.4076247577081296
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 1503,
+      "native_to_fused_ratio": 1.5235543629105008
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 1504,
+      "native_to_fused_ratio": 1.5257783374878149
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 4063,
+      "native_to_fused_ratio": 1.4325739837120923
+    },
+    {
+      "batch": 32,
+      "tokens": 32,
+      "prefix": 4064,
+      "native_to_fused_ratio": 1.5461974955262348
+    }
+  ],
+  "decision": "Full4/32 improve in isolated capture; long single-query work loses. Keep original single-token path and earn actual model/source-bound full-state gates before selection."
+}

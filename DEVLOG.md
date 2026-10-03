@@ -1,3 +1,25 @@
+## 2026-10-03 — Sigrún: bounded fused causal attention primitive
+
+Scoped/pushed d8d8f47 before code. Native optional24/8/128 GQA shares4096 F32
+scores per128-thread head/query CTA, retaining original dot/softmax/value order,
+causal prefix and both stage barriers. Pure checked F32/F16 spans and query/
+output aliases plus CUDA-context fence precede enqueue; fixture33824 stride
+admitted through actual allocation bounds. Original attention kernels remain
+verbatim. All39 cases/1370112 full original F32 bits and independent Float64
+outputs/364518 guards/full1370112 query and82194432 KV input cells/16 hostile
+metadata cases pass. All780 alternating timing records remain; full4/32 improve,
+long single-query histories lose. No default/model/provider selection.
+
+Nine contracts/master190 pass/one skip. Reserved ref parse failure retained and
+fixed. Complete rebuild after context fence precedes preliminary accepted GPU
+run; final audit replaces arbitrary32768 stride ceiling with checked actual
+allocation bounds/valid33824 and rebuilds allsix targets/checks before fresh
+GPU capture then independent oracle. Every preliminary source/binary/report and
+final artifact/hash/UTC receipt remains. Normal f3442a1e authenticated service
+stays ready/prefill4/cpuoffload0. Read [operation](docs/NATIVE_FUSED_CAUSAL_ATTENTION.md).
+Next actual model/source-bound full-state gate; generation/replay/control/
+context/device/concurrency/soak/runtime/provider acceptance remains open.
+
 ## 2026-10-03 — Sigrún: paired FFN complete, no selection
 
 Scoped/pushed b3e0ae5 before code. Isolated same-kind paired kernel shares one

@@ -1,0 +1,848 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "d8d8f47",
+  "builds": {
+    "": [
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--check"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:12:11.709934+00:00",
+        "ended_utc": "2026-10-03T08:12:11.825033+00:00",
+        "wall_seconds": 0.11512454698095098,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "run",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/run_all.mojo"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:11:18.634768+00:00",
+        "ended_utc": "2026-10-03T08:11:51.740270+00:00",
+        "wall_seconds": 33.105532621004386,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--build",
+          "--target",
+          "sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:11:51.740749+00:00",
+        "ended_utc": "2026-10-03T08:12:11.709312+00:00",
+        "wall_seconds": 19.96859912999207,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_turing_shared_staging.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-original-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:11:11.048677+00:00",
+        "ended_utc": "2026-10-03T08:11:18.634304+00:00",
+        "wall_seconds": 7.585651154018706,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:11:03.697498+00:00",
+        "ended_utc": "2026-10-03T08:11:05.366197+00:00",
+        "wall_seconds": 1.6687311670102645,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-sm_89"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:11:05.366710+00:00",
+        "ended_utc": "2026-10-03T08:11:11.048287+00:00",
+        "wall_seconds": 5.6816024760191794,
+        "performance_scored": false
+      }
+    ],
+    "-second": [
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--check"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:14:04.450277+00:00",
+        "ended_utc": "2026-10-03T08:14:04.565142+00:00",
+        "wall_seconds": 0.1148853900085669,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "run",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/run_all.mojo"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:13:10.973168+00:00",
+        "ended_utc": "2026-10-03T08:13:43.977658+00:00",
+        "wall_seconds": 33.0045099289855,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--build",
+          "--target",
+          "sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:13:43.977968+00:00",
+        "ended_utc": "2026-10-03T08:14:04.449850+00:00",
+        "wall_seconds": 20.471906944992952,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_turing_shared_staging.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-original-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:13:03.340121+00:00",
+        "ended_utc": "2026-10-03T08:13:10.972735+00:00",
+        "wall_seconds": 7.632640643976629,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:12:51.923905+00:00",
+        "ended_utc": "2026-10-03T08:12:57.658448+00:00",
+        "wall_seconds": 5.734577488998184,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-sm_89"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:12:57.658987+00:00",
+        "ended_utc": "2026-10-03T08:13:03.339607+00:00",
+        "wall_seconds": 5.68066082400037,
+        "performance_scored": false
+      }
+    ],
+    "-third": [
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--check"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:19:10.908782+00:00",
+        "ended_utc": "2026-10-03T08:19:11.023844+00:00",
+        "wall_seconds": 0.11509015699266456,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "run",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/run_all.mojo"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:18:16.383191+00:00",
+        "ended_utc": "2026-10-03T08:18:50.135554+00:00",
+        "wall_seconds": 33.752390662994,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "python3",
+          "scripts/launch.py",
+          "--build",
+          "--target",
+          "sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:18:50.136030+00:00",
+        "ended_utc": "2026-10-03T08:19:10.908193+00:00",
+        "wall_seconds": 20.772204416018212,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_turing_shared_staging.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-original-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:18:08.546273+00:00",
+        "ended_utc": "2026-10-03T08:18:16.382763+00:00",
+        "wall_seconds": 7.836517044983339,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_75",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-sm_75"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:17:56.630167+00:00",
+        "ended_utc": "2026-10-03T08:18:02.359364+00:00",
+        "wall_seconds": 5.72924157397938,
+        "performance_scored": false
+      },
+      {
+        "argv": [
+          "[PIXI]",
+          "run",
+          "--frozen",
+          "--no-install",
+          "--offline",
+          "mojo",
+          "build",
+          "-I",
+          "aesir_engine",
+          "--target-accelerator",
+          "sm_89",
+          "aesir_engine/tests/test_fused_causal_attention.mojo",
+          "-o",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-sm_89"
+        ],
+        "exit_code": 0,
+        "started_utc": "2026-10-03T08:18:02.359744+00:00",
+        "ended_utc": "2026-10-03T08:18:08.545724+00:00",
+        "wall_seconds": 6.186020656983601,
+        "performance_scored": false
+      }
+    ]
+  },
+  "processes": {
+    "preliminary": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-sm_75"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T08:14:37.484201+00:00",
+        "ended_utc": "2026-10-03T08:14:45.317504+00:00",
+        "wall_seconds": 7.833317459007958,
+        "performance_scored": false,
+        "binary_sha256": "cf76a63c05244de69bd1dd524d390f52c2085e057de0bf8104aa46bbd621c6ae",
+        "csv_sha256": "c8fac9126c6d7e53333101b386abf07070b88ce5c5d5516bb3a2b5e7ccf77b92",
+        "sources_before": {
+          "aesir_engine/core/fused_causal_attention.mojo": "e64f6d6103619151f1081d97429b1f2f731f84c642c32e4099d4b3d1efb8fa1f",
+          "aesir_engine/tests/test_fused_causal_attention.mojo": "eb12c4ead13d9ee7ab7e118896b7929ea5b9a35ab53e51e5272e00614afdcb38",
+          "aesir_engine/core/llama3_kernels.mojo": "7742aa9f7dd4d80a379626d80bf806fcc0d08a5d14838b6bdf748fff53dbf19b"
+        },
+        "sources_after": {
+          "aesir_engine/core/fused_causal_attention.mojo": "e64f6d6103619151f1081d97429b1f2f731f84c642c32e4099d4b3d1efb8fa1f",
+          "aesir_engine/tests/test_fused_causal_attention.mojo": "eb12c4ead13d9ee7ab7e118896b7929ea5b9a35ab53e51e5272e00614afdcb38",
+          "aesir_engine/core/llama3_kernels.mojo": "7742aa9f7dd4d80a379626d80bf806fcc0d08a5d14838b6bdf748fff53dbf19b"
+        },
+        "device_observation": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 6.532453975989483,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-final/complete.csv",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-sm_75",
+          "--binary-sha256",
+          "cf76a63c05244de69bd1dd524d390f52c2085e057de0bf8104aa46bbd621c6ae",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-second-final/complete.json"
+        ],
+        "started_utc": "2026-10-03T08:14:45.392350+00:00",
+        "ended_utc": "2026-10-03T08:14:51.924856+00:00",
+        "performance_scored": false,
+        "oracle_thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1"
+        }
+      },
+      "rejected-argv": {
+        "exit": 1,
+        "wall_seconds": 0.016134387988131493
+      }
+    },
+    "final": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-sm_75"
+        ],
+        "exit": 0,
+        "error": null,
+        "started_utc": "2026-10-03T08:21:24.930726+00:00",
+        "ended_utc": "2026-10-03T08:21:32.815033+00:00",
+        "wall_seconds": 7.884289720008383,
+        "performance_scored": false,
+        "binary_sha256": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+        "csv_sha256": "e64532f700e7a7cda6512de175a04e84a02c659c33bf3ad6131becb042387665",
+        "sources_before": {
+          "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+          "aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+          "aesir_engine/core/llama3_kernels.mojo": "7742aa9f7dd4d80a379626d80bf806fcc0d08a5d14838b6bdf748fff53dbf19b"
+        },
+        "sources_after": {
+          "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+          "aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+          "aesir_engine/core/llama3_kernels.mojo": "7742aa9f7dd4d80a379626d80bf806fcc0d08a5d14838b6bdf748fff53dbf19b"
+        },
+        "device_observation": "NVIDIA GeForce RTX 2060 with Max-Q Design, 595.91.07, 6144 MiB"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 6.431547451007646,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_fused_causal_attention.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-final/complete.csv",
+          "--binary",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-sm_75",
+          "--binary-sha256",
+          "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/fused-causal-attention-third-final/complete.json"
+        ],
+        "started_utc": "2026-10-03T08:21:32.887277+00:00",
+        "ended_utc": "2026-10-03T08:21:39.318879+00:00",
+        "performance_scored": false,
+        "oracle_thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1"
+        }
+      },
+      "rejected-argv": {
+        "exit": 1,
+        "wall_seconds": 0.016028656013077125
+      }
+    }
+  },
+  "original_attention_kernels_retained_verbatim": true,
+  "retained_refinements": "Reserved ref failed parsing; rename. Then explicit CUDA-context fence and all six builds before preliminary accepted physical data. Arbitrary32768 stride ceiling replaced by checked actual allocation bounds, valid33824 admitted; allsix final builds before new physical capture/CPU oracle. No artifact overwritten; preliminary report/timings also published.",
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "aesir_engine/tests/test_fused_causal_attention.mojo": "7604f6caee062276a699e8ff308488593e0157555511a6bdf0abe7e7417d50c1",
+    "scripts/check_fused_causal_attention.py": "7360c9c02399a5b79e46685949652a2d67b8b370f183dc8fade5f0b713abeb94",
+    "scripts/test_check_fused_causal_attention.py": "5ae11c43107c4c000abe937ac31dc005dfdfc2538509a99db700f9712ecf0698",
+    ".github/workflows/ci.yml": "5495d9ec9a76b120bd4783ca2645be19d3d0e093c0fe09f6b86fd454a030523d"
+  },
+  "artifacts": [
+    {
+      "name": "fused-causal-attention-final-build-check.json",
+      "bytes": 266,
+      "sha256": "a1034c11c09277f53d75b47c6e367bc5fe507132fac9ce69974e9a289309c509"
+    },
+    {
+      "name": "fused-causal-attention-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-causal-attention-final-build-master.json",
+      "bytes": 413,
+      "sha256": "23984e3c276ab7c1126130b44957fd38e2230a2b923154c075aed61b22708641"
+    },
+    {
+      "name": "fused-causal-attention-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-causal-attention-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "9a65a5eab3496e1be97c3a704c6fd5e91ac6e4f65adbf38a582ebcd52452dafa"
+    },
+    {
+      "name": "fused-causal-attention-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-causal-attention-final-build-original.json",
+      "bytes": 581,
+      "sha256": "5cbe76fb676a60e915acf92173fb4fd097cb22f85c2f4957023d4953b65268ce"
+    },
+    {
+      "name": "fused-causal-attention-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "fused-causal-attention-final-build-sm_75.json",
+      "bytes": 574,
+      "sha256": "399f175b918efeab6dc4326dde5ef74ff4841d96f1acc52fb592e2d61ad0bda3"
+    },
+    {
+      "name": "fused-causal-attention-final-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-final-build-sm_89.json",
+      "bytes": 574,
+      "sha256": "7b22fdd29e4a90d27e94fa08340bfd19a4c0bde26b20003ff5c4041bdf7f7f8e"
+    },
+    {
+      "name": "fused-causal-attention-final-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-final-portable.txt",
+      "bytes": 107,
+      "sha256": "ca76ae23d74a4f8311220fb98bf9133410292fe2127b0b3238e002043c23db77"
+    },
+    {
+      "name": "fused-causal-attention-final-source-before.json",
+      "bytes": 478,
+      "sha256": "9cdde58d0901e59be54568928936aeb74380efc026acc93a9701f39e81d056b5"
+    },
+    {
+      "name": "fused-causal-attention-initial-build.txt",
+      "bytes": 300,
+      "sha256": "ee6e6b27f9fdde83bc989de291acf3d650e16a423f7833b8bba4acb94d236af5"
+    },
+    {
+      "name": "fused-causal-attention-initial-fused_causal_attention.mojo",
+      "bytes": 4389,
+      "sha256": "046e84e8bcb8674c3be912ff187228108cc9ebcfde09473f141295847785ae30"
+    },
+    {
+      "name": "fused-causal-attention-initial-portable.txt",
+      "bytes": 107,
+      "sha256": "203e8d11dc9529763cb172c4d4acdffe3b67db7d123ed6f2223ef9c377a8923b"
+    },
+    {
+      "name": "fused-causal-attention-initial-test_fused_causal_attention.mojo",
+      "bytes": 8152,
+      "sha256": "8b1bde0a96a76f1960830362d6b2122698a7f6780993502f58ea4e7e2cbb1004"
+    },
+    {
+      "name": "fused-causal-attention-original-sm_75",
+      "bytes": 7716544,
+      "sha256": "38f01e4798017c38fefdbb7f3cb5c56994fcc65ff526ddf5c76f02a3c9010bfc"
+    },
+    {
+      "name": "fused-causal-attention-parse-fixed-build.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-parse-fixed-sm_75",
+      "bytes": 195392,
+      "sha256": "674b1ce093e1e554ea7c0ff552b3cd88bf018ce96db351a25fd575972f172b73"
+    },
+    {
+      "name": "fused-causal-attention-pre-context-fence-core.mojo",
+      "bytes": 4389,
+      "sha256": "046e84e8bcb8674c3be912ff187228108cc9ebcfde09473f141295847785ae30"
+    },
+    {
+      "name": "fused-causal-attention-pre-stride-refinement-fused_causal_attention.mojo",
+      "bytes": 4518,
+      "sha256": "e64f6d6103619151f1081d97429b1f2f731f84c642c32e4099d4b3d1efb8fa1f"
+    },
+    {
+      "name": "fused-causal-attention-pre-stride-refinement-test_fused_causal_attention.mojo",
+      "bytes": 8201,
+      "sha256": "eb12c4ead13d9ee7ab7e118896b7929ea5b9a35ab53e51e5272e00614afdcb38"
+    },
+    {
+      "name": "fused-causal-attention-second-final/complete.csv",
+      "bytes": 65071652,
+      "sha256": "c8fac9126c6d7e53333101b386abf07070b88ce5c5d5516bb3a2b5e7ccf77b92"
+    },
+    {
+      "name": "fused-causal-attention-second-final/complete.json",
+      "bytes": 52434,
+      "sha256": "3483ff660db1791c8e0677ec41ca56aa6119a173070acacda5e877a5f57939a8"
+    },
+    {
+      "name": "fused-causal-attention-second-final/gpu-process.json",
+      "bytes": 1361,
+      "sha256": "7b7ce70f4b4d1d2aa1c92829b3240a7e37922045bd103c3afa1d18f1b8195529"
+    },
+    {
+      "name": "fused-causal-attention-second-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-second-final/oracle-process.json",
+      "bytes": 990,
+      "sha256": "158a2a7388747745329d38db26b78ff4afe5d8070b0c1b8a79078db049bdcfe0"
+    },
+    {
+      "name": "fused-causal-attention-second-final/oracle.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-second-final/rejected-argv-process.json",
+      "bytes": 56,
+      "sha256": "38b2bdaf64643497396c45a69b872d197c63ac1174dbf5bc89eb8bc6a81208da"
+    },
+    {
+      "name": "fused-causal-attention-second-final/rejected-argv.txt",
+      "bytes": 204,
+      "sha256": "8f64d147780fbb7ce5146109c75163550a6fc027bdab49262d1bfbbf937d0e6d"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-check.json",
+      "bytes": 265,
+      "sha256": "971e081e1ca4333eeb49ec668fd589ac0393fd7cc7d122bffff25444d867d484"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-master.json",
+      "bytes": 411,
+      "sha256": "904c1458a01ade12d39da04958a19c9d0922782dfba0947b9c9adc6d24a46da3"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "b7b637f0e3c3273167ea570fad19bed015c02a6d238b56d0575644b63d4bb7bc"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-original.json",
+      "bytes": 588,
+      "sha256": "649eb1617983b8b57462d048c899d47de5a65176f02745af4b873213229ee7b9"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-sm_75.json",
+      "bytes": 580,
+      "sha256": "98be23db87e4d339e3871f9a8304baf3692df42674cb5f9fe2f0d982c17214ee"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-sm_89.json",
+      "bytes": 579,
+      "sha256": "b1143c7666b2ed143020b6c3ef6f57efb5e988d396ef3a694bf1cc1cce6109f4"
+    },
+    {
+      "name": "fused-causal-attention-second-final-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-second-original-sm_75",
+      "bytes": 7716544,
+      "sha256": "38f01e4798017c38fefdbb7f3cb5c56994fcc65ff526ddf5c76f02a3c9010bfc"
+    },
+    {
+      "name": "fused-causal-attention-second-sm_75",
+      "bytes": 195544,
+      "sha256": "cf76a63c05244de69bd1dd524d390f52c2085e057de0bf8104aa46bbd621c6ae"
+    },
+    {
+      "name": "fused-causal-attention-second-sm_89",
+      "bytes": 195544,
+      "sha256": "cb81fa0e2192ea65d2ea06fa555345aaba6febf31f7672127f60bfbd459c00b8"
+    },
+    {
+      "name": "fused-causal-attention-sm_75",
+      "bytes": 195392,
+      "sha256": "674b1ce093e1e554ea7c0ff552b3cd88bf018ce96db351a25fd575972f172b73"
+    },
+    {
+      "name": "fused-causal-attention-sm_89",
+      "bytes": 195392,
+      "sha256": "39c423ec01d9c8623e0bff3c42ce05e4d573e906ceaff59f50d7d38e0e1c722e"
+    },
+    {
+      "name": "fused-causal-attention-third-final/complete.csv",
+      "bytes": 65071640,
+      "sha256": "e64532f700e7a7cda6512de175a04e84a02c659c33bf3ad6131becb042387665"
+    },
+    {
+      "name": "fused-causal-attention-third-final/complete.json",
+      "bytes": 52460,
+      "sha256": "956ef11355226721223e181c4a4db82544d12ac2cd47957aa9b8b0633cdb7e71"
+    },
+    {
+      "name": "fused-causal-attention-third-final/gpu-process.json",
+      "bytes": 1360,
+      "sha256": "e8def3dce749f5daf2aa62e20e39cca33acb287961368d81c791210c80249ae1"
+    },
+    {
+      "name": "fused-causal-attention-third-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-third-final/oracle-process.json",
+      "bytes": 987,
+      "sha256": "146a9551453f17f41539aafd2662c2c14c4a703d29b74048659858481eee7212"
+    },
+    {
+      "name": "fused-causal-attention-third-final/oracle.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-third-final/rejected-argv-process.json",
+      "bytes": 56,
+      "sha256": "da7aaa43c0bb82e456db472a39acc73ef2e79832b24f8f33100d4393f9cec610"
+    },
+    {
+      "name": "fused-causal-attention-third-final/rejected-argv.txt",
+      "bytes": 204,
+      "sha256": "8f64d147780fbb7ce5146109c75163550a6fc027bdab49262d1bfbbf937d0e6d"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-check.json",
+      "bytes": 266,
+      "sha256": "7a4a19f4f82b355cd788948857ff76f24fde90365e9dea7117b550b3dcccceb6"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-master.json",
+      "bytes": 410,
+      "sha256": "950ebe6c0cc187827843bb377b8f312cee8e84472470aa9abfd5abb15753c885"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "8102b4796d37efaa647aa42be680e1097fa02415f8d03b54c584d4fbba4feb1b"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-original.json",
+      "bytes": 587,
+      "sha256": "9901b0b37e4e7741ed4e9a06d51369c02263093c50235ce83e42142f7cea6227"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-sm_75.json",
+      "bytes": 578,
+      "sha256": "3598bdf8cdd985cf204be6fbc0779dd2285d557fefb97f7152ac8c60de0272f9"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-sm_75.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-sm_89.json",
+      "bytes": 579,
+      "sha256": "1de3f221837624ff20b487403e5cd063f114724193b963d59d385bfbc39dece6"
+    },
+    {
+      "name": "fused-causal-attention-third-final-build-sm_89.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-causal-attention-third-original-sm_75",
+      "bytes": 7716544,
+      "sha256": "38f01e4798017c38fefdbb7f3cb5c56994fcc65ff526ddf5c76f02a3c9010bfc"
+    },
+    {
+      "name": "fused-causal-attention-third-portable.txt",
+      "bytes": 107,
+      "sha256": "203e8d11dc9529763cb172c4d4acdffe3b67db7d123ed6f2223ef9c377a8923b"
+    },
+    {
+      "name": "fused-causal-attention-third-sm_75",
+      "bytes": 195544,
+      "sha256": "f79c6475e9b1098656d015a6aa404e0d8fe1329aa836c4ee4748cf8deca59860"
+    },
+    {
+      "name": "fused-causal-attention-third-sm_89",
+      "bytes": 195544,
+      "sha256": "ee1994ad0fe441d09870a11b765c19b694f16c5ee742f338db27d6b83432c552"
+    }
+  ],
+  "limits": "Opt-in24/8/128 GQA, bounded shared4096 scores, deterministic inputs natively checked immutable in full, not actual model Q/K/V. Every causal output original F32 bits and independent Float64 fixed .002/.0002 budgets; all guards/inputs/rotated timings. One physical primitive session, no model/production/provider promotion."
+}
