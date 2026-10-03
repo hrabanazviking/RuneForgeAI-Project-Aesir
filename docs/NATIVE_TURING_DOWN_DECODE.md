@@ -27,10 +27,11 @@ private evidence directory. Pass an explicit model path and strategy3:
 
 The supervisor must exclusively create the CSV (`open("x")`), bound the child
 lifetime, retain stderr and record actual exit/binary/capture hashes. The shell
-example alone does not ensure exclusive creation. Invalid strategy4 refuses
+example alone does not ensure exclusive creation. Invalid strategy5 refuses
 before model loading, including when the model path does not exist. Flags0/1/2
 keep their prior schema and selection; omitted flag retains original0. New3 is
-explicit and default-disabled. No production settings, device workspace or GPU
+explicit and default-disabled. Strategy4 now has a separate explicit source/binary
+gate documented in [fused decode](NATIVE_FUSED_ATTENTION_DECODE.md). No production settings, device workspace or GPU
 arithmetic changes are introduced by the collector.
 
 Public37/1070-token chat prefixes use greedy32 and seeded16 policies. Seeded

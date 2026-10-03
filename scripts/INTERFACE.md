@@ -409,3 +409,15 @@ bits/4352 guards/eight invalid tiles/32 timings pass. Seven contracts/master190
 and one skip. Explicit CLI/source3/binary/after-hash gates preserve default
 reader/strategy4 replay refusal. Read ../docs/NATIVE_FUSED_ATTENTION_MODEL.md; broader state/runtime/provider
 gates remain separate.
+
+## Explicit strategy4 causal decode quality
+
+The opt-in collector accepts4 with closed controls/tracing and original scalar
+attention. Full greedy/seeded native-forced causal frames, exact UInt32 fresh
+replay/state/guards and actual initial/replay fused/original/down counters bind
+the plan. Explicit accepted model4 CSV/report/binary triplet is exclusive with3;
+source and current binary before/after hashes join full source scope/counter/cache/
+ID/numeric/CPU/predecessor proof. Default readers and sealed replay4 stay closed.
+Eleven portable contracts plus physical complete GPU/independent CPU gates;
+no speed scoring or production selection. Read ../docs/NATIVE_FUSED_ATTENTION_DECODE.md. Next earn owning-context
+sealed replay and enabled controls before broader runtime/provider acceptance.

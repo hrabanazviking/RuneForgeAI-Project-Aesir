@@ -1015,6 +1015,12 @@ The legacy formatters below are not exposed compatibility APIs.
   original queries56/28/84/56 prove selection. Seven contracts/master190/one skip.
   Explicit CLI/binary/source/after-hash gates; controls/tracing/replay4 closed.
   [Operation](docs/NATIVE_FUSED_ATTENTION_MODEL.md).
-- [ ] SPD-03 strategy4 causal greedy/seeded generation, owning-context replay,
+- [x] SPD-03 strategy4 causal greedy/seeded generation: all96 full frames /
+  12312576 values per owner / independent CPU / own UInt32 fresh replay / exact
+  source4 initial bits / causal samples/state /4352 guards / actual fused/down/
+  original-query counters pass. Eleven contracts/master190/one skip; exclusive
+  source CSV/report/binary and current binary before/after hash fences.
+  [Operation](docs/NATIVE_FUSED_ATTENTION_DECODE.md). No speed score.
+- [ ] SPD-03 strategy4 owning-context sealed replay,
   enabled-control recovery and broader context/device/concurrency/soak/runtime/
   refreshed-provider acceptance before production selection.

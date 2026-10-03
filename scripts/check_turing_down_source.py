@@ -1,4 +1,4 @@
-"""Accepted strategy3 complete model source for explicit test-only consumers."""
+"""Accepted strategy3/explicit4 complete model source for explicit test-only consumers."""
 import hashlib
 import json
 import math
@@ -21,9 +21,12 @@ def fixed_comparison(value):
     return type(a) is int and type(b) is int and a == b and 0 <= a < VOCABULARY
 
 
-def accepted_model(csv_path, report_path, model_sha):
+def accepted_model(csv_path, report_path, model_sha, *, fused=False, binary=None):
     """Retain complete vectors, but never trust an acceptance Boolean alone."""
-    data = parse(csv_path)
+    variant = 4 if fused else 3
+    binary_sha = digest(binary) if fused and binary is not None else None
+    if fused and binary_sha is None: raise ValueError("Fused source requires actual model binary")
+    data = parse(csv_path, allow_fused=fused)
     text = read_text(report_path, 5 * 1024**2)
     report = json.loads(text, object_pairs_hook=reference_fields,
         parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite down source")))
@@ -31,8 +34,8 @@ def accepted_model(csv_path, report_path, model_sha):
     if (type(report.get("schema")) is not int or report["schema"] != 1 or
         any(report.get(key) is not True for key in ("passed", "collection_complete", "speed_scored")) or
         type(report.get("activation_precision")) is not int or report["activation_precision"] != 0 or
-        type(report.get("attention_variant")) is not int or report["attention_variant"] != 3 or
-        data["activation_precision"] != 0 or data["attention_variant"] != 3 or
+        type(report.get("attention_variant")) is not int or report["attention_variant"] != variant or
+        data["activation_precision"] != 0 or data["attention_variant"] != variant or
         report.get("model_sha256") != model_sha or report.get("csv_sha256") != data["csv_sha256"] or
         report.get("numerical_budget") != budget or report.get("full_model_values_per_mode") != 4 * VOCABULARY or
         report.get("invalid_tiles") != 8 or report.get("guards") != 4352):
@@ -40,6 +43,8 @@ def accepted_model(csv_path, report_path, model_sha):
     if (type(report.get("control_capable", False)) is not bool or
         report.get("control_capable", False) != data["control_capable"]):
         raise ValueError("Down source control capability differs from actual capture")
+    if fused and (report.get("binary_sha256") != binary_sha or data["control_capable"]):
+        raise ValueError("Fused source binary identity or closed capability mismatch")
     cpu = report.get("independent_reference", {})
     if (cpu.get("passed") is not True or type(cpu.get("requested_gpu_layers")) is not int or cpu["requested_gpu_layers"] != 0 or
         cpu.get("context") != 4096 or cpu.get("kv") != "f16" or cpu.get("batch") != 128 or cpu.get("threads") != 4 or
@@ -47,7 +52,7 @@ def accepted_model(csv_path, report_path, model_sha):
         not re.fullmatch(r"[0-9a-f]{64}", cpu.get("library_sha256", ""))):
         raise ValueError("Down source lacks pinned zero-GPU F32 independent identity")
     predecessor = report.get("fixture_reference", {})
-    if (predecessor.get("passed") is not True or type(predecessor.get("attention_variant")) is not int or predecessor["attention_variant"] != 2 or
+    if (predecessor.get("passed") is not True or type(predecessor.get("attention_variant")) is not int or predecessor["attention_variant"] != variant - 1 or
         any(not re.fullmatch(r"[0-9a-f]{64}", predecessor.get(key, "")) for key in ("csv_sha256", "report_sha256")) or
         len(predecessor.get("cases", [])) != 4 or any(any(c.get(key) is not True for key in
             ("input_ids_equal", "native_f32_bytes_equal", "matrix_f32_bytes_equal", "guarded_cache_identity_passed", "passed")) for c in predecessor["cases"])):
@@ -56,11 +61,15 @@ def accepted_model(csv_path, report_path, model_sha):
     if len(declared) != 4 or len(independent) != 4: raise ValueError("Down source case coverage incomplete")
     for source, case, oracle in zip(data["cases"], declared, independent, strict=True):
         keys = ("input_ids", "rope_cache_host_enqueues", "elementwise_host_enqueues", "down128_host_enqueues", "guarded_cache_sha256")
+        if fused: keys += ("fused_attention_host_enqueues", "original_attention_queries")
         if (any(case.get(key) != source[key] for key in keys) or case.get("native_comparison") != source["native_comparison"] or
             not fixed_comparison(source["native_comparison"]) or any(not fixed_comparison(oracle.get(owner)) for owner in ("native", "matrix"))):
             raise ValueError("Down source complete numerical/counter/cache/ID coverage mismatch")
-    proof = dict(passed=True, attention_variant=3, control_capable=data["control_capable"], csv_sha256=data["csv_sha256"],
+    proof = dict(passed=True, attention_variant=variant, control_capable=data["control_capable"], csv_sha256=data["csv_sha256"],
         report_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(), model_sha256=model_sha)
+    if fused:
+        proof["binary_sha256"] = binary_sha
+        if digest(binary) != binary_sha: raise ValueError("Fused model binary changed during admission")
     if digest(csv_path) != proof["csv_sha256"] or digest(report_path) != proof["report_sha256"]:
         raise ValueError("Down model source changed during admission")
     return data, proof

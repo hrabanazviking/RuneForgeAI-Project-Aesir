@@ -91,6 +91,7 @@ jobs:
           python3 scripts/test_check_turing_grid_metadata.py
           python3 scripts/test_check_turing_down_model.py
           python3 scripts/test_check_turing_down_decode.py
+          python3 scripts/test_check_fused_attention_decode.py
           python3 scripts/test_check_turing_down_checkpoint.py
           python3 scripts/test_check_turing_down_controls.py
 

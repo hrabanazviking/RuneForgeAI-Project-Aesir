@@ -1,0 +1,368 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "7e922e8813951f1fb1b2be745b54e52dfb0d68f2",
+  "accepted_source_revision": "d075edef40d17ec52458a2f39250fc41a1386811",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:10:42.133208+00:00",
+      "ended_utc": "2026-10-03T09:10:42.248239+00:00",
+      "wall_seconds": 0.1150488979765214,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:09:48.819261+00:00",
+      "ended_utc": "2026-10-03T09:10:21.517040+00:00",
+      "wall_seconds": 32.69783600399387,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:10:21.517520+00:00",
+      "ended_utc": "2026-10-03T09:10:42.132838+00:00",
+      "wall_seconds": 20.6153389379906,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:09:15.931117+00:00",
+      "ended_utc": "2026-10-03T09:09:48.818825+00:00",
+      "wall_seconds": 32.887734618008835,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:08:15.712007+00:00",
+      "ended_utc": "2026-10-03T09:08:45.848878+00:00",
+      "wall_seconds": 30.136901219986612,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_decode_quality.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T09:08:45.849376+00:00",
+      "ended_utc": "2026-10-03T09:09:15.930683+00:00",
+      "wall_seconds": 30.081336202012608,
+      "performance_scored": false
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "4"
+    ],
+    "exit": 0,
+    "started_utc": "2026-10-03T09:12:29.997447+00:00",
+    "ended_utc": "2026-10-03T09:14:26.815923+00:00",
+    "wall_seconds": 116.81849335398874,
+    "performance_scored": false,
+    "binary_sha256": "2863fa21c3426e1b2d5c8111f61dca51b0a520327839bc97b092fbd78c033d72",
+    "csv_sha256": "5286885ed68ddd39e276f3f12073f6ee25b2dd9a53165274b7995d17d661aa3d"
+  },
+  "oracle": {
+    "exit": 0,
+    "wall_seconds": 220.64739158700104,
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-final/complete.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--fused-model-csv",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv",
+      "--fused-model-report",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json",
+      "--fused-model-binary",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75",
+      "--binary",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_75",
+      "--binary-sha256",
+      "2863fa21c3426e1b2d5c8111f61dca51b0a520327839bc97b092fbd78c033d72",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-final/complete.json"
+    ],
+    "started_utc": "2026-10-03T09:14:27.288802+00:00",
+    "ended_utc": "2026-10-03T09:18:07.936258+00:00",
+    "performance_scored": false
+  },
+  "pre_model_refused_strategy": {
+    "exit": 1,
+    "wall_seconds": 0.0160605089913588,
+    "started_utc": "2026-10-03T09:12:29.980950+00:00",
+    "ended_utc": "2026-10-03T09:12:29.997060+00:00",
+    "performance_scored": false
+  },
+  "independent_worst": {
+    "native": {
+      "maximum_absolute_error": 0.0156402587890625,
+      "rms_error": 0.0026899043589861337
+    },
+    "matrix": {
+      "maximum_absolute_error": 0.028342247009277344,
+      "rms_error": 0.003986765366484171
+    },
+    "matrix_vs_native": {
+      "maximum_absolute_error": 0.02740192413330078,
+      "rms_error": 0.0029158001815167063
+    }
+  },
+  "preflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_decode_quality.mojo": "44111adfe9a51932d4af574a0ed01acfd9c3035da0ee056351ba8043882c03fe",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "acd72c5487b7cb49c0660cbea2972bbef295f4f84eae4bd0b59c5361137d6f77",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "0d65bf6b385171da3dfa80657b76b89bf4b7b031b1d3d1b310c1f42a0ff37327",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "eca66d0a367c0e63bcda826d740f96797fef23132ddf71bfc4ee14691ba42e34",
+    "[AESIR_REPOSITORY]/scripts/test_check_fused_attention_decode.py": "f4d13918de7e70fcf6a96777e1b756e4e92f00632c992447edd38ed1fc2d918a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_75": "2863fa21c3426e1b2d5c8111f61dca51b0a520327839bc97b092fbd78c033d72",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9"
+  },
+  "postflight": {
+    "[AESIR_REPOSITORY]/aesir_engine/tests/test_turing_decode_quality.mojo": "44111adfe9a51932d4af574a0ed01acfd9c3035da0ee056351ba8043882c03fe",
+    "[AESIR_REPOSITORY]/aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+    "[AESIR_REPOSITORY]/aesir_engine/core/fused_causal_attention.mojo": "9764c988433d7c58527ca6b77f367f2ae2dce8cc3c50455a97438ce0183d6dc3",
+    "[AESIR_REPOSITORY]/scripts/check_turing_decode_quality.py": "acd72c5487b7cb49c0660cbea2972bbef295f4f84eae4bd0b59c5361137d6f77",
+    "[AESIR_REPOSITORY]/scripts/check_turing_down_source.py": "0d65bf6b385171da3dfa80657b76b89bf4b7b031b1d3d1b310c1f42a0ff37327",
+    "[AESIR_REPOSITORY]/scripts/check_turing_model_prefill.py": "eca66d0a367c0e63bcda826d740f96797fef23132ddf71bfc4ee14691ba42e34",
+    "[AESIR_REPOSITORY]/scripts/test_check_fused_attention_decode.py": "f4d13918de7e70fcf6a96777e1b756e4e92f00632c992447edd38ed1fc2d918a",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-decode-sm_75": "2863fa21c3426e1b2d5c8111f61dca51b0a520327839bc97b092fbd78c033d72",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-sm_75": "e97236a1f7d1cf7d7811e80da679e60534fac3e0c3735ed265de7ba81614c3aa",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.csv": "f9aec953bcc47c97cc685f233754017e88ded452e62b61d020d97ae626ca15cc",
+    "[CHAT_WORKSPACE]/work/aesir-trace/fused-attention-model-second-final/complete.json": "7a6df50c8c1611b572acb3ac3465bf6b0c1538b3d7a57fb133f9787c27467ee6",
+    "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json": "9325ff2a1d58cd5334f1423d8db2eaffc631dd853785ed287a37f48b51dec5a9"
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "fused-attention-decode-final/complete.csv",
+      "bytes": 680807252,
+      "sha256": "5286885ed68ddd39e276f3f12073f6ee25b2dd9a53165274b7995d17d661aa3d"
+    },
+    {
+      "name": "fused-attention-decode-final/complete.json",
+      "bytes": 202140,
+      "sha256": "9d4fad664c22bc364992d51f62476e6e1845997f850a210d0ebb95b13a16bed3"
+    },
+    {
+      "name": "fused-attention-decode-final/gpu-process.json",
+      "bytes": 626,
+      "sha256": "2762506e8d94e4abb9506c7350fbc75f0aab0a3c414cb894e23fee426ccebd46"
+    },
+    {
+      "name": "fused-attention-decode-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "fused-attention-decode-final/oracle-process.json",
+      "bytes": 1864,
+      "sha256": "b821e7642231e250d91d88e05a4b6c88ae7aaccb1b83ab3151a4ce9b58419ab0"
+    },
+    {
+      "name": "fused-attention-decode-final/oracle.txt",
+      "bytes": 151,
+      "sha256": "ab78b326e0c4b4dabce9767f31ac8093a691f4614e8be769c8f02bab78e7deb2"
+    },
+    {
+      "name": "fused-attention-decode-final/postflight.json",
+      "bytes": 1987,
+      "sha256": "2ea7f6c29869ed236edcc551c09a1008c7aed76091231ce08a566e67b0db603d"
+    },
+    {
+      "name": "fused-attention-decode-final/preflight.json",
+      "bytes": 1987,
+      "sha256": "2ea7f6c29869ed236edcc551c09a1008c7aed76091231ce08a566e67b0db603d"
+    },
+    {
+      "name": "fused-attention-decode-final/rejected-strategy-process.json",
+      "bytes": 189,
+      "sha256": "b9b3b525e75cd53cea36c3012ab982948739185f1d03a82162622f9a69d03452"
+    },
+    {
+      "name": "fused-attention-decode-final/rejected-strategy.txt",
+      "bytes": 212,
+      "sha256": "be670fca0e187d4b19b81f54597613a596c515b49ea476cdac6efd157815d29b"
+    },
+    {
+      "name": "fused-attention-decode-final-build-check.json",
+      "bytes": 265,
+      "sha256": "43ca1199cdbb53c7939d942eb187b8ed8f72d53da423d6a0158795dcc0158fb2"
+    },
+    {
+      "name": "fused-attention-decode-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "fused-attention-decode-final-build-master.json",
+      "bytes": 412,
+      "sha256": "910fe17582a4ee33443a8057de824a8d2f5fd898a2b444095afc026f9f68cd3d"
+    },
+    {
+      "name": "fused-attention-decode-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "fused-attention-decode-final-build-normal.json",
+      "bytes": 292,
+      "sha256": "8bc4e1bb00fc5dd888e5e183e05a85d2e49d4bb93afe8b67ad35d33b70c58f6b"
+    },
+    {
+      "name": "fused-attention-decode-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "fused-attention-decode-final-build-original.json",
+      "bytes": 631,
+      "sha256": "f2d99ad0126eaec3014e75f6a7282213d1408d550042afd7afe5e64ecb1a4d30"
+    },
+    {
+      "name": "fused-attention-decode-final-build-original.txt",
+      "bytes": 395,
+      "sha256": "81c246f98501524d103561e68fde01c556bf9ed3ce67c84dd593b6fb8b7470fb"
+    },
+    {
+      "name": "fused-attention-decode-final-build-sm_75.json",
+      "bytes": 573,
+      "sha256": "de862b05d04f2c84c9b3b7c69ada556dd269eb8290f883881905a41f4ad34848"
+    },
+    {
+      "name": "fused-attention-decode-final-build-sm_75.txt",
+      "bytes": 475,
+      "sha256": "4b0dcf103bee58eb561284e1e1d2c2c38017834bf502f7e74fd626dab9b48d23"
+    },
+    {
+      "name": "fused-attention-decode-final-build-sm_89.json",
+      "bytes": 573,
+      "sha256": "3037b00c040c988ed1278021819e935c5bf07524de9f545cb087bd001e150cdf"
+    },
+    {
+      "name": "fused-attention-decode-final-build-sm_89.txt",
+      "bytes": 475,
+      "sha256": "4b0dcf103bee58eb561284e1e1d2c2c38017834bf502f7e74fd626dab9b48d23"
+    },
+    {
+      "name": "fused-attention-decode-original-sm_75",
+      "bytes": 5958168,
+      "sha256": "fc19bc973597b6717e54f27cbfde2323bec16592c766c462f325f8fe0b06ab72"
+    },
+    {
+      "name": "fused-attention-decode-original.mojo",
+      "bytes": 7047,
+      "sha256": "e3fbdf15c13ee6395feecccb868ad9d32ee6e81fc17a65b18d9a569929dd84ae"
+    },
+    {
+      "name": "fused-attention-decode-sm_75",
+      "bytes": 5966480,
+      "sha256": "2863fa21c3426e1b2d5c8111f61dca51b0a520327839bc97b092fbd78c033d72"
+    },
+    {
+      "name": "fused-attention-decode-sm_89",
+      "bytes": 5966480,
+      "sha256": "9cb4cb49dbcffe8d794a95c218c7b3ebb36e943b020b1531e13d358e1b050f89"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/test_turing_decode_quality.mojo": "44111adfe9a51932d4af574a0ed01acfd9c3035da0ee056351ba8043882c03fe",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "4735c74dd50489d8fed8e39e805f3d316cb5ec5f375d9ba0b0334a5b4e2209d6",
+    "scripts/check_turing_decode_quality.py": "acd72c5487b7cb49c0660cbea2972bbef295f4f84eae4bd0b59c5361137d6f77",
+    "scripts/check_turing_down_source.py": "0d65bf6b385171da3dfa80657b76b89bf4b7b031b1d3d1b310c1f42a0ff37327",
+    "scripts/test_check_fused_attention_decode.py": "f4d13918de7e70fcf6a96777e1b756e4e92f00632c992447edd38ed1fc2d918a",
+    ".github/workflows/ci.yml": "8ff8bd694471735f7c30a0bac7e5a84e21c957283c940544865c77a780618ddf"
+  },
+  "limits": "Test-only strict3B/context1536/F16KV on native-forced causal IDs. Public37/1070 prefixes; greedy32 and seeded16 caps; exact own replay. Sample equality covers these cases only. No speed/provider score, free-running matrix trajectory, persisted restoration, production32 admission or concurrency claim."
+}

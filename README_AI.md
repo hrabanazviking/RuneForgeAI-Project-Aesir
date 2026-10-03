@@ -1,7 +1,13 @@
+For strategy4 greedy/seeded generation quality, read
+docs/NATIVE_FUSED_ATTENTION_DECODE.md. Complete causal frames/own F32 bits/CPU/
+source/state/counters pass; current and source binaries are hash-bound.
+No speed score; next earn sealed replay and enabled control recovery.
+
 For optional strategy4 full-model prefill, read docs/NATIVE_FUSED_ATTENTION_MODEL.md.
 All complete source3 F32/cache/IDs and independent CPU gates pass; actual four/32
 fused attention retains original singles. Explicit binary/source/CLI admission
-only; no production/provider lead or generation/replay/control gate yet.
+only; causal decode now has a separate source/binary gate documented below.
+Owning-context sealed replay/control and production/provider lead remain open.
 
 For the bounded shared-score causal GQA primitive, read
 docs/NATIVE_FUSED_CAUSAL_ATTENTION.md. Complete original bits/independent math

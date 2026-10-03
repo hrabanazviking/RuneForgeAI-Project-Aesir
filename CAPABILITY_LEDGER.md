@@ -1593,7 +1593,15 @@ and circular self-parity transforms were removed.
   and one skip; source3 full CPU/bytes/cache/counters plus binary before/after
   bind explicit CLI4 while default readers/replay/controls/tracing stay closed.
   [Evidence](docs/evidence/fused-attention-model-2026-10-03/README.md).
-- **Next acceptance gate:** Strategy4 causal generation/sample/replay/control gates, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
+- **Fused attention causal decode (2026-10-03):** All96 frames/12312576 full
+  values per owner retain source4 initial F32 bits, independent fixed CPU budgets,
+  native-forced causal IDs, greedy/seeded samples/state, fresh own UInt32 replay
+  and4352 guards. Actual fused/down counters stay while scalar original queries
+  advance. Eleven contracts/master190/one skip; explicit exclusive source triplet
+  and current binary SHA before/after. Default4 readers/sealed replay/control/trace
+  remain closed; process times unscored.
+  [Evidence](docs/evidence/fused-attention-decode-2026-10-03/README.md).
+- **Next acceptance gate:** Strategy4 owning-context sealed replay and enabled control recovery, then broader model/hardware/persisted/context/concurrency/soak/runtime prefill/provider acceptance.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

@@ -412,6 +412,16 @@ contracts/master190/one skip; exact binary/source/CLI/after-hash fences.
 optional4 exploratory prefill, not a previous3/new4 or Ollama ratio. Next earn
 causal greedy/seeded generation and source-bound state gates; SPD-03 stays open.
 
+Strategy4 causal generation now passes all96 full-vocabulary frames/12312576
+values per owner on public37/1070 greedy32/seeded16 prefixes, native-forced IDs,
+independent unchanged CPU budgets, exact own UInt32 fresh replay/state/samples/
+4352 guards. Initial vectors match accepted model4; actual fused56/1008 stay,
+original queries advance only for scalar decode. Eleven portable contracts/master190
+and one skip; exclusive source triplet/current binary/hash fences keep defaults
+closed. [Operation](docs/NATIVE_FUSED_ATTENTION_DECODE.md). No speed score or
+production selection. Next earn owning-context sealed replay and enabled-control
+recovery; SPD-03 and the overall speed objective stay open.
+
 ### SPD-04 — Reduce CPU launch and synchronization overhead
 
 Use SPD-00 traces to decide whether enqueue/synchronization is significant. Fuse

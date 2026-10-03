@@ -1,3 +1,15 @@
+## 2026-10-03 — source-bound strategy4 causal decode
+
+Task7e922e8 preceded native/Python code. Forge extended optional4 collector with
+actual fused/original counters and original scalar attention. Auditor bound full
+source4 scope/numerical/cache/IDs/predecessor proof and source/current binary SHA,
+retained strict streaming/exclusive/interrupted failures and added11 adversarial
+contracts. All96 physical full-vocabulary greedy/seeded causal frames pass fixed
+CPU/sample/state/own-bit/guard/source gates. Cartographer keeps sealed replay/
+controls/runtime/provider gates open. Scribe publishes operation/evidence/owners.
+All builds precede GPU then CPU; master190/zero fails/one skip. Normal binary and
+authenticated prefill4 service remain unchanged. No speed score for this slice.
+
 ## 2026-10-01 — Clear intentional PowerShell test exit state between cases
 
 The hosted audit exposed a pre-existing launcher harness error: every assertion
