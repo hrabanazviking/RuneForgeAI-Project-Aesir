@@ -224,7 +224,7 @@
     "aesir_engine/tests/test_turing_paired_ffn.mojo": "db83bcf263b3b7efb0064c821ba707c674e34f63c2815e8e5f26829a0582b326",
     "scripts/check_turing_paired_ffn.py": "e942f759e172de4ed932991be39f931bafda7b78369c97a853c029cf3aa38292",
     "scripts/test_check_turing_paired_ffn.py": "ccae11bd2d26726157b653074e1f9d77de9abf7b70ec304ddef13a652729bd69",
-    ".github/workflows/ci.yml": "a5c780a02da789f7607f945be5c08102b3fef24f9df9d20b75104343220a06f8"
+    ".github/workflows/ci.yml": "ceaf5e9c3d316f49a4ba7cc4eaa8fe176259be7100d434fa5ddc83f9e453bfc9"
   },
   "artifacts": [
     {
@@ -387,5 +387,6 @@
     "gguf": "0.19.0",
     "numpy": "2.4.4"
   },
-  "limits": "Original strict3B gate/up same-kind Q4, paired64 rows per tensor/32 columns, warmed primitive one session. Synthetic same-kind Q4/Q5/Q6 distinct from real pair. Inputs use natively checked deterministic public pattern. Exact original F32 bits plus fixed native/selected CPU Float64 budgets, complete guard/span/timing gates. No model-level/default/provider promotion."
+  "limits": "Original strict3B gate/up same-kind Q4, paired64 rows per tensor/32 columns, warmed primitive one session. Synthetic same-kind Q4/Q5/Q6 distinct from real pair. Inputs use natively checked deterministic public pattern. Exact original F32 bits plus fixed native/selected CPU Float64 budgets, complete guard/span/timing gates. No model-level/default/provider promotion.",
+  "post_publication_ci_correction": "Initial ab25283 included opt-in probe compilation but omitted portable test command. Add test_check_turing_paired_ffn.py to existing Matrix Primitive Evidence step before exact final CI acceptance."
 }

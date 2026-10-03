@@ -12,6 +12,8 @@ GPU then pinned oracle. Initial guard formula125 should be112; preserve failed
 report/source/log, correct validator/tests and revalidate unchanged GPU CSV
 into new exclusive report. Normal authenticated prefill4 remains ready with
 unchanged f3442a1e binary. Read [operation](docs/NATIVE_TURING_PAIRED_FFN.md).
+Final audit caught the missing portable CI invocation after ab25283; add it
+to the existing matrix step and update provenance before exact final CI acceptance.
 Next bound independent causal attention math; exact push/CI receipts and broader
 actual-activation/full-model/runtime/provider gates remain separate.
 

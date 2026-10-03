@@ -73,7 +73,9 @@ jobs:
           python3 scripts/test_check_turing_down_projection_trace.py
 
       - name: Prove Matrix Primitive Evidence Admission
-        run: python3 scripts/test_check_packed_matrix.py
+        run: |
+          python3 scripts/test_check_packed_matrix.py
+          python3 scripts/test_check_turing_paired_ffn.py
 
       - name: Prove Turing MMA Evidence Admission
         run: |
