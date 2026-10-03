@@ -495,6 +495,15 @@ actual down counts28/924 remain after replay. Nine portable contracts/master190
 passes/one skip. Source numeric/owner/predecessor and all post-oracle artifact
 hashes bind acceptance, including cleanup interrupts. [Operation](docs/NATIVE_TURING_DOWN_DECODE.md).
 This is unscored trajectory proof, not free-running/production/provider promotion.
+Explicit3 now also earns sealed same-process owning-context reset/replay for two
+45-ID checkpoints and eight continuation frames/all1026048 values per owner/four
+baseline-restored owners. Exact actual F32 bits/state/sample/draw/tile/allocations/
+source/CPU gates and4352 guards pass; down calls28 before/after and18 damaged-plan/
+flag refusals stay healthy/unmutated before reset. Seven contracts/master190
+passes/one skip; explicit accepted3 full96 source and all artifact rehashes bind
+acceptance. [Operation](docs/NATIVE_TURING_DOWN_CHECKPOINT.md). Preliminary capture
+stays; final explicitly checks counters/allocations after each refusal. Next earn
+strategy3 enabled cooperative recovery; no persisted/crash/production/provider gate.
 
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 

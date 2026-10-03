@@ -598,8 +598,8 @@ change. Read ../../docs/NATIVE_TURING_DOWN_ACTIVATIONS.md.
 TuringPrefillFixture adds final down128=False/counter; True requires precision0
 plus original batched elementwise strategy. Only loaded down/count32/canonical
 up-to-temporary spans select128; counter increments after enqueue/resets fresh.
-Strategy3 refuses enabled controls/tracing pre-step and existing replay plans
-refuse3. Project is mut for its counter, final vocabulary descriptor copied to
+Strategy3 refuses enabled controls/tracing pre-step. Sealed replay plans now
+admit3 through explicit owning-context admission. Project is mut for its counter, final vocabulary descriptor copied to
 avoid aliasing. Shared fresh-repeat checks compare actual F32 bits. New collector
 exports full source/cache/ID vectors, admission and actual down counts; default
 model collectors remain0/1/2. Read ../../docs/NATIVE_TURING_DOWN_MODEL.md.
@@ -614,4 +614,20 @@ scalar decode cannot add128-row calls. Existing four public prefix/policy cases,
 96 full-vocabulary frames/native-forced causal IDs, EOS/caps/guards/sample/draw/
 state and actual own fresh F32-bit replay remain unchanged. No added GPU workspace.
 Read ../../docs/NATIVE_TURING_DOWN_DECODE.md; hosted compile is not GPU evidence,
-no speed score/production selection. Sealed replay/enabled controls remain closed3.
+no speed score/production selection. Explicit sealed replay has its separate gate;
+enabled controls remain closed3.
+
+## Down128 sealed owning-context checkpoint replay
+
+FixtureReplayPlan admits matching matrix3 while native remains0 and unsupported4
+refuses; copied/checksummed tokens/tiles/config/draws/owner identities remain.
+Counted pure test includes positive3 and owner/strategy/seal/native-mode refusal.
+TuringPrefillFixture.admit_execution_strategy is one pure flag admission shared
+by step and replay gateway before reset/config mutation. Existing checkpoint
+collector adds explicit3, actual before/restored down counts28 and18 total damaged
+plan/flag refusals with healthy sampled/committed state/counter/buffer ownership
+unchanged. Two policies/eight full-vocabulary continuations/all four baseline/
+restored owners retain exact actual F32 bits, independent/sample/state/guards.
+Default0/1/2 schema/math remains. GPU/replay exceptions still poison actual owner.
+Read ../../docs/NATIVE_TURING_DOWN_CHECKPOINT.md; no persisted/crash/context-
+recreated/runtime/elapsed admission. Enabled controls/tracing remain closed3.

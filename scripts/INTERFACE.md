@@ -301,3 +301,17 @@ contracts. After oracle, original/derived/current CSV/derivation/source CSV/repo
 hashes recheck for the opt-in. All reports stay exclusive/unscored; interrupted
 reference cleanup now also publishes failure. Original0/1/2 evidence stays valid.
 Read ../docs/NATIVE_TURING_DOWN_DECODE.md for schema, limits and separate gates.
+
+## Explicit down128 owning-context checkpoint admission
+
+check_turing_checkpoint_replay.accepted and parse add keyword allow_down=False;
+CLI --down128 explicitly requires matching3 capture/SHA-bound accepted3 decode
+source. All96 source numeric/sample/causal/replay/initial-model/counter/public-ID
+metrics, pinned zero-GPU F32 identity and model proof are mandatory; defaults
+refuse3. New capture requires actual initial/restored28 down calls,18 damaged-plan/
+flag refusals and original8 full-vocabulary frames/four owners/4352 guards. Fixed
+independent budgets, actual signed-zero bit counts/causal/sample/source choices
+remain. Opt-in rehashes current CSV/derivation/models and re-admits exact source
+report after oracle; cleanup interrupts publish failed exclusive JSON too. Legacy
+schemas remain. Read ../docs/NATIVE_TURING_DOWN_CHECKPOINT.md; never a speed score,
+persisted/crash/context-recreated or production32 admission.

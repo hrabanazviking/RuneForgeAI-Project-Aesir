@@ -18,11 +18,11 @@ resets with fresh fixture state. Gate/up/Q/output stay original64; K/V and four/
 scalar tails retain native references. There is no additional device workspace or
 production selection. The candidate shares at most19008 bytes across256 threads.
 
-Strategy3 currently refuses enabled controls and projection tracing before GPU or
-owner mutation. Existing replay plans admit only0/1/2 and refuse3. Shared trace,
-decode, checkpoint and control readers refuse3 metadata; only the complete model
-parser explicitly opts in. Generation/sample/replay/control gates remain separate.
-The normal served binary and its one/four prefill policy continue to operate.
+Strategy3 refuses enabled controls and projection tracing before GPU or owner
+mutation. [Decode/sample](NATIVE_TURING_DOWN_DECODE.md) and [sealed owning-context
+replay](NATIVE_TURING_DOWN_CHECKPOINT.md) now have explicit source-bound gates.
+Default shared metadata readers keep refusing3; explicit decode/checkpoint
+validation requires its complete accepted source. Production defaults stay unchanged.
 
 `test_turing_down_model.mojo MODEL` explicitly selects strategy3. It reuses the
 original four public30/37/31/1070 prompts, full128256-value vectors per case/owner,
@@ -78,7 +78,8 @@ The distinct marker is `ATTENTION,rope_cache_elementwise_down128,1,32`, followed
 by original META and `ADMISSION,3,2,0`. New captures require final newline. Every
 source-derived DOWN_ROWS128, ENQUEUE and ELEMENTWISE count, full vector, actual
 state/input IDs, cache hash, repeat result, timing/guard/invalid-tile total remains
-mandatory. Only the model parser opts into3; other consumers keep default refusal.
+mandatory. Model parse admits3; other consumers keep default refusal unless their explicit
+source-bound decode/checkpoint gate is selected.
 
 The strategy2 source must have matching model/CSV/report identities, fixed full
 CPU numerical scope/values/argmax/budget, exact zero-GPU F32 reference declaration,
@@ -96,7 +97,7 @@ Partial/structural/interrupted failures remain unsuccessful in exclusive JSON;
 existing reports are never overwritten. Eight portable contracts cover metadata/
 counters/source/failure/scoring behavior, without claiming GPU execution.
 
-The passing narrow strategy remains opt-in. Decode/sample trajectories, owning-
-context checkpoint replay and enabled control recovery must be earned next for3;
-broader contexts/devices/concurrency/soak and refreshed provider comparisons remain
-separate. The existing default0/1/2 source and served policy remain available.
+The passing narrow strategy remains opt-in. Decode/sample trajectories and sealed
+owning-context replay now have their separate explicit gates; enabled control
+recovery is next. Broader contexts/devices/concurrency/soak and refreshed provider
+comparisons remain separate. Original defaults and served policy remain available.

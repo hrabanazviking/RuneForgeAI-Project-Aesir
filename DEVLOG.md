@@ -1,3 +1,27 @@
+## 2026-10-03 — Sigrún: sealed down128 replay with pure pre-reset flags
+
+Scoped/pushed27ceb40 before code. Pure copied/checksummed plans admit matrix3,
+native0 only; counted test proves matching owner/seal/strategy4/native-mode fences.
+Shared pure execution flags now gate step/replay before reset/config mutation.
+Explicit collector/validator3 binds exactly accepted3 complete96-frame decode
+source numeric/causal/replay/model/counter/public identities/zero-GPU F32 proof.
+Two45-ID checkpoints/eight continuation frames/all1026048 values per four owners
+pass unchanged CPU/native budgets, actual F32 bits/sample/causal/config/draw/tile/
+allocation/source/4352 guards. Matrix CPU worst .009345055/.001675504; down calls28
+before/after. Eighteen damaged-plan/flag refusals stay healthy/unmutated before reset.
+
+Seven portable contracts plus legacy gates/master190 passes/one skip. Opt-in
+current CSV/derivation/models/source report rehash/re-admission and interrupted
+cleanup preserve failed exclusive reports. Invalid4/nonexistent model refuses
+pre-load/CUDA. Preliminary accepted capture/source/binary stays; review added
+explicit allocation/counter comparison after every damaged plan, then rebuilt
+all six gates before final serial GPU/pinned oracle. Final CSV bits match the
+preliminary capture. Normal f3442a1e stays active/authenticated ready/prefill4/
+cpuoffload0. Read [operation](docs/NATIVE_TURING_DOWN_CHECKPOINT.md) and evidence.
+Next earn strategy3 cooperative controls; no elapsed/persisted/crash/context-
+recreated/production32/free-running/broader/concurrency/soak/provider promotion.
+Exact push/CI receipts are separate.
+
 ## 2026-10-03 — Sigrún: source-bound down128 decode and sampled replay
 
 Scoped/pushed07c8ebb before code. Explicit flag3 preserves original0/1/2 schema,

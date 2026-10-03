@@ -91,6 +91,27 @@ def test_turing_replay_plan() raises:
         except: refused = True
         if not refused: raise Error("Elementwise replay strategy drift admitted")
 
+    var down = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,3)
+    down.admit(1,100,200,300,64,3)
+    for strategy in [0,1,2,4]:
+        refused = False
+        try: down.admit(1,100,200,300,64,strategy)
+        except: refused = True
+        if not refused: raise Error("Down128 replay strategy drift admitted")
+    down.strategy = 2
+    refused = False
+    try: down.admit(1,100,200,300,64,2)
+    except: refused = True
+    if not refused: raise Error("Down128 replay changed seal admitted")
+    refused = False
+    try: _ = FixtureReplayPlan(1,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,4)
+    except: refused = True
+    if not refused: raise Error("Unsupported replay strategy4 admitted")
+    refused = False
+    try: _ = FixtureReplayPlan(0,100,200,300,matrix_ids,matrix_tiles,10,sampled,9,3)
+    except: refused = True
+    if not refused: raise Error("Native replay strategy3 admitted")
+
 
 def main() raises:
     test_turing_replay_plan()

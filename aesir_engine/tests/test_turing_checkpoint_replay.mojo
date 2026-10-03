@@ -38,22 +38,58 @@ def history(f: TuringPrefillFixture,expected: List[Int]) raises:
 
 def reject_damage(mut f: TuringPrefillFixture,mut plan: FixtureReplayPlan) raises:
     var before = values(f)
-    for damage in range(3):
+    var native_owner = owner(f,0)
+    var matrix_owner = owner(f,1)
+    var calls = f.down128_calls
+    var sealed_strategy = plan.strategy
+    for damage in range(4 if f.down128 else 3):
         if damage == 0: plan.tiles[0] -= 1
         elif damage == 1: plan.weights += 1
-        else: plan.draws += 1
+        elif damage == 2: plan.draws += 1
+        else: plan.strategy = (plan.strategy+1)%4
         var rejected = False
         try: restore(f,plan)
         except: rejected = True
         if damage == 0: plan.tiles[0] += 1
         elif damage == 1: plan.weights -= 1
-        else: plan.draws -= 1
+        elif damage == 2: plan.draws -= 1
+        else: plan.strategy = sealed_strategy
         if not rejected or not f.healthy or not f.native.healthy:
             raise Error("Invalid replay plan was accepted or poisoned a healthy owner")
         var after = values(f)
         for i in range(8):
             if after[i] != before[i]: raise Error("Invalid replay plan mutated sampled/committed state")
+        if f.down128:
+            var native_after = owner(f,0)
+            var matrix_after = owner(f,1)
+            if calls != f.down128_calls: raise Error("Invalid down128 replay plan changed enqueue counter")
+            for i in range(5):
+                if native_owner[i] != native_after[i] or matrix_owner[i] != matrix_after[i]:
+                    raise Error("Invalid down128 replay plan changed actual buffer/sampler owner")
         history(f,plan.tokens)
+
+
+def reject_flag_drift(mut f: TuringPrefillFixture,plan: FixtureReplayPlan) raises:
+    var before = values(f)
+    var native_owner = owner(f,0)
+    var matrix_owner = owner(f,1)
+    var calls = f.down128_calls
+    f.batched_elementwise = False
+    var refused = False
+    try: restore(f,plan)
+    except: refused = True
+    f.batched_elementwise = True
+    if not refused or not f.healthy or not f.native.healthy or calls != f.down128_calls:
+        raise Error("Down128 replay flag drift mutated or poisoned owner")
+    var after = values(f)
+    var native_after = owner(f,0)
+    var matrix_after = owner(f,1)
+    for i in range(8):
+        if before[i] != after[i]: raise Error("Down128 flag refusal changed sampled/committed state")
+    for i in range(5):
+        if native_owner[i] != native_after[i] or matrix_owner[i] != matrix_after[i]:
+            raise Error("Down128 flag refusal changed buffer/sampler owner")
+    history(f,plan.tokens)
 
 
 def collect(mut f: TuringPrefillFixture,index: Int) raises:
@@ -79,10 +115,12 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
         for i in range(len(counts)):
             print("TILE,"+String(index)+","+String(mode)+","+String(i)+","+String(start)+","+String(counts[i]))
             start += counts[i]
+    if f.down128: print("DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     record("CHECKPOINT",index,8,values(f))
     reject_damage(f,n)
     reject_damage(f,m)
-    print("REFUSAL,"+String(index)+",6,45,45,1")
+    if f.down128: reject_flag_drift(f,m)
+    print("REFUSAL,"+String(index)+","+String(9 if f.down128 else 6)+",45,45,1")
     var native = f.native.context.enqueue_create_host_buffer[DType.float32](4*128256)
     var matrix = f.native.context.enqueue_create_host_buffer[DType.float32](4*128256)
     var baseline = List[List[Int]]()
@@ -106,6 +144,7 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
     history(f,committed)
     var restored = values(f)
     print("RESTORED,"+String(index)+",45,45,45,45,"+String(restored[6])+","+String(restored[7])+","+String(n.pending)+",1")
+    if f.down128: print("RESTORED_DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))
     pending = n.pending
     expected = committed.copy()
     for step in range(4):
@@ -125,16 +164,17 @@ def collect(mut f: TuringPrefillFixture,index: Int) raises:
 
 def main() raises:
     var args = argv()
-    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [BATCHED]")
+    if len(args) != 2 and len(args) != 3: raise Error("usage: test_turing_checkpoint_replay MODEL.gguf [STRATEGY0/1/2/3]")
     var flag = Int(args[2]) if len(args) == 3 else 0
-    if flag < 0 or flag > 2: raise Error("Batched rotary/cache flag must be0/1/2")
-    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag==2))
+    if flag < 0 or flag > 3: raise Error("Checkpoint execution strategy must be0/1/2/3")
+    var f = TuringPrefillFixture(args[1],0,Bool(flag>0),Bool(flag>=2),Bool(flag==3))
     if len(args) == 3:
-        if flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
+        if flag == 3: print("ATTENTION,rope_cache_elementwise_down128,1,32")
+        elif flag == 2: print("ATTENTION,rope_cache_elementwise_grid,1,32")
         else: print("ATTENTION,rope_cache_grid,"+String(flag)+",32")
     print("META,1,turing_checkpoint,1536,128256,2,4")
     for index in range(2):
         var p = policy(index)
         print("POLICY,"+String(index)+","+String(Float64(p.temperature))+","+String(p.top_k)+","+String(Float64(p.top_p))+","+String(Float64(p.min_p))+","+String(Float64(p.repetition_penalty))+","+String(p.repeat_last_n)+","+String(p.seed))
     for index in range(2): collect(f,index)
-    print("COMPLETE,turing_checkpoint,2,8,1026048,4352,12")
+    print("COMPLETE,turing_checkpoint,2,8,1026048,4352,"+String(18 if f.down128 else 12))

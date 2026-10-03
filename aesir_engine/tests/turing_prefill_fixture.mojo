@@ -231,13 +231,16 @@ struct TuringPrefillFixture:
         self.project(plan.down,self.layout.up,self.layout.temporary,count,True,"down")
         self.residual_rows(count)
 
-    def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
-        if not self.healthy or not self.native.healthy or (count != 1 and count != 4 and count != 32) or (need_logits and count != 1):
-            raise Error("Matrix fixture tile/policy is not admitted")
+    def admit_execution_strategy(self) raises:
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
         if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.trace_projections or self.control.enabled()):
             raise Error("Down128 admits only uncontrolled untraced original elementwise model gate")
+
+    def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
+        if not self.healthy or not self.native.healthy or (count != 1 and count != 4 and count != 32) or (need_logits and count != 1):
+            raise Error("Matrix fixture tile/policy is not admitted")
+        self.admit_execution_strategy()
         self.control.admit()
         if start < 0 or start > len(tokens)-count or self.position < 0 or self.position > 1536-count:
             raise Error("Matrix fixture token/context bounds exceeded")

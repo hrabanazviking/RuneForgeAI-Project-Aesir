@@ -186,4 +186,13 @@ Initial native/matrix F32 vectors bind to that source including signed zero;
 initial/replay actual down counts remain source-derived. Complete frame/independent/
 causal/sample/bit replay and post-oracle all-artifact hashes gate acceptance.
 Cleanup interrupts retain failed JSON. No elapsed score or production selection.
-Read ../docs/NATIVE_TURING_DOWN_DECODE.md; checkpoint/control/trace stay closed3.
+Read ../docs/NATIVE_TURING_DOWN_DECODE.md; default checkpoint/control/trace readers
+refuse3.
+
+Checkpoint --down128 is the explicit sealed owning-context3 validation gate.
+Require SHA-bound accepted3 decode full96 numeric/sample/causal/replay/initial-
+model/source counters and zero-GPU F32 identity. Current initial/restored down
+counts28 and18 actual unchanged-state/owner refusals accompany all eight full-
+vocabulary continuation frames/four owners/4352 guards. Rehash all artifacts and
+retain interrupts/cleanup failures. Read ../docs/NATIVE_TURING_DOWN_CHECKPOINT.md;
+no elapsed/persisted/crash/production promotion. Controls/tracing remain closed3.

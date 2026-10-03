@@ -162,6 +162,16 @@
   after-oracle all-artifact rehash/interrupt cleanup retain failures; no speed
   score or production selection. [Operation](docs/NATIVE_TURING_DOWN_DECODE.md).
   Next earn strategy3 sealed owning-context replay and enabled-control recovery.
+- [x] SPD-01/04 down-only128 sealed owning-context replay: two45-ID greedy/seeded
+  checkpoints/eight continued frames/1026048 values per owner/four baseline-
+  restored owners pass exact actual bits/causal/sample/draw/config/allocation/
+  tile/source/independent budgets and4352 guards. Down calls28 before/after;
+  18 damaged-plan/flag refusals preserve healthy state/counters/owners before
+  reset. Seven portable contracts/master190 passes/one skip; pure3 owner/seal/
+  strategy4/native-mode refusal and all-artifact rehash/cleanup interrupts pass.
+  [Operation](docs/NATIVE_TURING_DOWN_CHECKPOINT.md). Preliminary accepted capture
+  stays; final strengthens explicit refusal counter/allocation comparisons.
+  Next earn strategy3 cooperative control recovery; no elapsed/crash/production gate.
 - [ ] SPD-01/02: validate real packed-weight matrix prefill and full-model
   support in the locked toolchain before promoting either path.
 - [ ] SPD-03–07: improve attention, launch overhead, sustained decode, bounded

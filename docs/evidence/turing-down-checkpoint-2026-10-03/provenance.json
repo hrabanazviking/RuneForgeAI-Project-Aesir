@@ -1,0 +1,466 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "27ceb4098ddc21ec43f145a7e1228a872616c0eb",
+  "accepted_source_revision": "bf544f1a62f65c70df8050b5cb53dc54357a3400",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:31:53.213976+00:00",
+      "ended_utc": "2026-10-03T04:31:53.328810+00:00",
+      "wall_seconds": 0.11485859300591983,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:30:58.989793+00:00",
+      "ended_utc": "2026-10-03T04:31:32.644024+00:00",
+      "wall_seconds": 33.65425600900198,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:31:32.644490+00:00",
+      "ended_utc": "2026-10-03T04:31:53.213473+00:00",
+      "wall_seconds": 20.56900780001888,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-original.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:30:51.707746+00:00",
+      "ended_utc": "2026-10-03T04:30:58.989467+00:00",
+      "wall_seconds": 7.281741676008096,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:29:52.962974+00:00",
+      "ended_utc": "2026-10-03T04:30:22.192975+00:00",
+      "wall_seconds": 29.230032861989457,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_checkpoint_replay.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T04:30:22.193475+00:00",
+      "ended_utc": "2026-10-03T04:30:51.707267+00:00",
+      "wall_seconds": 29.513819184998283,
+      "performance_scored": false
+    }
+  ],
+  "gpu_capture": {
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-sm_75",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "3"
+    ],
+    "exit": 0,
+    "started_utc": "2026-10-03T04:33:06.839540+00:00",
+    "ended_utc": "2026-10-03T04:33:17.434343+00:00",
+    "wall_seconds": 10.594830709014786,
+    "performance_scored": false,
+    "binary_sha256": "9ec07213d70392471b63d387c4aacea59969239ae6bf48ad4b45e36c22a1e640",
+    "csv_sha256": "205096cf40846b4b12fc0a9f51cb1667ac7c803235694ba4a09ef30c554a2d30"
+  },
+  "oracle": {
+    "exit": 0,
+    "wall_seconds": 36.67271361601888,
+    "argv": [
+      "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+      "[AESIR_REPOSITORY]/scripts/check_turing_checkpoint_replay.py",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-final/complete.csv",
+      "--model",
+      "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--model-sha256",
+      "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+      "--reference-model",
+      "[CHAT_WORKSPACE]/work/aesir-measurement/reference-f32.gguf",
+      "--reference-sha256",
+      "b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b",
+      "--reference-provenance",
+      "[CHAT_WORKSPACE]/outputs/aesir-measurement/oracle-f32-derivation.json",
+      "--down128",
+      "--accepted-report",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-decode-final/complete.json",
+      "--accepted-report-sha256",
+      "b5e7e01e7fe33ead8396bae988f03a6a5ee7440868c13c17234d41e7ce53647f",
+      "--output",
+      "[CHAT_WORKSPACE]/work/aesir-trace/turing-down-checkpoint-second-final/complete.json"
+    ],
+    "started_utc": "2026-10-03T04:33:17.503967+00:00",
+    "ended_utc": "2026-10-03T04:33:54.176732+00:00",
+    "performance_scored": false
+  },
+  "pre_model_refused_strategy": {
+    "exit": 1,
+    "wall_seconds": 0.01611197501188144,
+    "started_utc": "2026-10-03T04:33:06.822978+00:00",
+    "ended_utc": "2026-10-03T04:33:06.839161+00:00",
+    "performance_scored": false
+  },
+  "independent_worst": {
+    "native": {
+      "maximum_absolute_error": 0.00897216796875,
+      "rms_error": 0.0016683992107144583
+    },
+    "matrix": {
+      "maximum_absolute_error": 0.009345054626464844,
+      "rms_error": 0.0016755041788418096
+    },
+    "restored_native": {
+      "maximum_absolute_error": 0.00897216796875,
+      "rms_error": 0.0016683992107144583
+    },
+    "restored_matrix": {
+      "maximum_absolute_error": 0.009345054626464844,
+      "rms_error": 0.0016755041788418096
+    }
+  },
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "artifacts": [
+    {
+      "name": "turing-down-checkpoint-final/complete.csv",
+      "bytes": 95727420,
+      "sha256": "205096cf40846b4b12fc0a9f51cb1667ac7c803235694ba4a09ef30c554a2d30"
+    },
+    {
+      "name": "turing-down-checkpoint-final/complete.json",
+      "bytes": 28538,
+      "sha256": "da8a9574315236f013994a76934d57c86ff61569a0333105109bc742ce9a58ab"
+    },
+    {
+      "name": "turing-down-checkpoint-final/gpu-process.json",
+      "bytes": 625,
+      "sha256": "92e9c23bac5a08fbfc82d373a874cd313437e347fd065f28c0f43f6ce14f103c"
+    },
+    {
+      "name": "turing-down-checkpoint-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-checkpoint-final/oracle-process.json",
+      "bytes": 1495,
+      "sha256": "16818039cccd7203e670694a7389f7bdc8bd25322410c0fd882b9befcc5b4019"
+    },
+    {
+      "name": "turing-down-checkpoint-final/oracle.txt",
+      "bytes": 153,
+      "sha256": "dd07231467d946cd3a4b003c8af433c317a67a0e6e8b2b845cccdabec07624f2"
+    },
+    {
+      "name": "turing-down-checkpoint-final/rejected-strategy-process.json",
+      "bytes": 191,
+      "sha256": "458ed9725497a2781be09fd7e002126ba273d3c4703b9b4958f5ecc94cf08e08"
+    },
+    {
+      "name": "turing-down-checkpoint-final/rejected-strategy.txt",
+      "bytes": 214,
+      "sha256": "c2ec956567339d134c4df9fa2166180b0639674057372cd1a40e3d1437d379b0"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-check.json",
+      "bytes": 266,
+      "sha256": "805148d4f9233843407d1076190d1cb842a80cdb543d06750b22ff18991491e3"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-master.json",
+      "bytes": 412,
+      "sha256": "307067646d7727a542e696dadc7cc0aecb6fd12c0275f55d9c9fc3a57d3854a2"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "1e615410b99f07ed34b25efcb2a7c20e3c9c340261a0ed3c2e2cfaa38b0ca440"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-original.json",
+      "bytes": 631,
+      "sha256": "aa70f40c98807e3e6fac21119dbbdc82e7850e52c01ed5bb9fef9257882735ee"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-original.txt",
+      "bytes": 438,
+      "sha256": "e379ccbc58f2d642ca350d3558706d8f85a511dad0eb40ab5acd971210b48697"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-sm_75.json",
+      "bytes": 576,
+      "sha256": "8076af890eb5f3c98616789aeb630384aabe8e27de0dbca20852963200bb2588"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-sm_75.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-sm_89.json",
+      "bytes": 575,
+      "sha256": "a17cadabab20ac1061b163a717675df2a32d54de5eeff6ea9c61e4962302104e"
+    },
+    {
+      "name": "turing-down-checkpoint-final-build-sm_89.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "turing-down-checkpoint-initial-test_turing_checkpoint_replay.mojo",
+      "bytes": 8320,
+      "sha256": "2d4fec4c41cae4bdd5f9e2b8cff26214d8ca6bcd1fb2046d761114f5754d1051"
+    },
+    {
+      "name": "turing-down-checkpoint-initial-turing_checkpoint_replay.mojo",
+      "bytes": 3396,
+      "sha256": "96b500326596fbb55c45dac9ed42f823cc0f582bd342ba916e7e7cf91877086a"
+    },
+    {
+      "name": "turing-down-checkpoint-initial-turing_prefill_fixture.mojo",
+      "bytes": 22051,
+      "sha256": "89bfe549d62feb9c7d0a2aef35a4a96379a505d2a0ce17953927f6f333e250ef"
+    },
+    {
+      "name": "turing-down-checkpoint-initial-turing_replay_plan.mojo",
+      "bytes": 4195,
+      "sha256": "4437e861ecb21eb35e271691dd962b1ad5455cbabc54c2d7f3da28b4445dba2d"
+    },
+    {
+      "name": "turing-down-checkpoint-original-sm_75",
+      "bytes": 5959024,
+      "sha256": "a1a3429aee9e417d13f1f099584050ae5a5c14d5973a92587c23e83b40958bda"
+    },
+    {
+      "name": "turing-down-checkpoint-original.mojo",
+      "bytes": 6805,
+      "sha256": "da71c6868ed531a20953c36b823512f5d2f2ea2c2705aaad69ecc03533dfecc1"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/complete.csv",
+      "bytes": 95727420,
+      "sha256": "205096cf40846b4b12fc0a9f51cb1667ac7c803235694ba4a09ef30c554a2d30"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/complete.json",
+      "bytes": 28538,
+      "sha256": "da8a9574315236f013994a76934d57c86ff61569a0333105109bc742ce9a58ab"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/gpu-process.json",
+      "bytes": 633,
+      "sha256": "098407cce8135c3635e438821514bf58e21ba52c3abf291f9ff36ff7a806998c"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/oracle-process.json",
+      "bytes": 1509,
+      "sha256": "3f1d1063e6802794037cb368c74035174f7beedc395848c546c528340ea7b1e9"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/oracle.txt",
+      "bytes": 153,
+      "sha256": "dd07231467d946cd3a4b003c8af433c317a67a0e6e8b2b845cccdabec07624f2"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/rejected-strategy-process.json",
+      "bytes": 190,
+      "sha256": "301042cd6f4262efdc7e8dd9d8b4939682e3a944f4046c9c9a301164b61f862b"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final/rejected-strategy.txt",
+      "bytes": 214,
+      "sha256": "c2ec956567339d134c4df9fa2166180b0639674057372cd1a40e3d1437d379b0"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-check.json",
+      "bytes": 266,
+      "sha256": "a568414fa5519cfaf821b43baafcfc1acd85063b6f8ca202d00c9cc36da56bb2"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-master.json",
+      "bytes": 412,
+      "sha256": "554d0f48847e939fb166bf77c0779c67b6e908bc46fd3a1ba4c4c20386414664"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "8588f908ec3590ab89656b2227ff3ccc859b6be331f08f539c705a4cf37d4d0c"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-original.json",
+      "bytes": 637,
+      "sha256": "b15269afc14c57a8781f673e9998f06e87310bd07cd49a4c0a8109359e426032"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-original.txt",
+      "bytes": 438,
+      "sha256": "e379ccbc58f2d642ca350d3558706d8f85a511dad0eb40ab5acd971210b48697"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-sm_75.json",
+      "bytes": 583,
+      "sha256": "322eb48f17e50b02d2b4faa31dcbeab3287d4a9e014b9be13d80e75914a8489a"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-sm_75.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-sm_89.json",
+      "bytes": 583,
+      "sha256": "be63c2f6f9fcb53f44e3d79135c2eda82ab20dc704c69dceb56e7790e28da9be"
+    },
+    {
+      "name": "turing-down-checkpoint-second-final-build-sm_89.txt",
+      "bytes": 478,
+      "sha256": "5d757f3e97b8b167fc94509d5615e14e190d173a396eca453ff3042f04171049"
+    },
+    {
+      "name": "turing-down-checkpoint-second-original-sm_75",
+      "bytes": 5959024,
+      "sha256": "a1a3429aee9e417d13f1f099584050ae5a5c14d5973a92587c23e83b40958bda"
+    },
+    {
+      "name": "turing-down-checkpoint-second-sm_75",
+      "bytes": 5963712,
+      "sha256": "9ec07213d70392471b63d387c4aacea59969239ae6bf48ad4b45e36c22a1e640"
+    },
+    {
+      "name": "turing-down-checkpoint-second-sm_89",
+      "bytes": 5963712,
+      "sha256": "09f0b277aa292e379130170de8e6bfd25cec879c04a445e777094c5e577e646c"
+    },
+    {
+      "name": "turing-down-checkpoint-sm_75",
+      "bytes": 5963600,
+      "sha256": "10669dd9a23653232b315a337d455ecc35be19af29671ec6ecddf529f7f2901b"
+    },
+    {
+      "name": "turing-down-checkpoint-sm_89",
+      "bytes": 5963600,
+      "sha256": "1d917d75e4aff8d3c1191833d309acaeede24f6a517b0b833c23e2c36cea4af9"
+    }
+  ],
+  "reviewed_sources": {
+    "aesir_engine/tests/test_turing_checkpoint_replay.mojo": "764c70c4871949016973c9777141ccc1e81e653e43bc5f76bdca9be586b9623f",
+    "aesir_engine/tests/turing_replay_plan.mojo": "4437e861ecb21eb35e271691dd962b1ad5455cbabc54c2d7f3da28b4445dba2d",
+    "aesir_engine/tests/test_turing_replay_plan.mojo": "c5637dcb32be1d633e0e348529112b6f1b779f6fb4b58c567700ff6085e93b1d",
+    "aesir_engine/tests/turing_checkpoint_replay.mojo": "96b500326596fbb55c45dac9ed42f823cc0f582bd342ba916e7e7cf91877086a",
+    "aesir_engine/tests/turing_prefill_fixture.mojo": "89bfe549d62feb9c7d0a2aef35a4a96379a505d2a0ce17953927f6f333e250ef",
+    "scripts/check_turing_checkpoint_replay.py": "0462781e05c69ac6f42bfd33b56e2f2425d2c5ea35c9331dad211b3614441e62",
+    "scripts/test_check_turing_down_checkpoint.py": "592135464de80c61fd3f60ec0efddd1ac630ce68536ca5ff266757ec1acda7b6",
+    ".github/workflows/ci.yml": "53411e7d9e137e79385cda0bd0729fc25ee2251e9ce5e4b4d25851f0d1833bd3"
+  },
+  "limits": "Test-only strict3B/context1536/F16KV/sm75 precision0 strategy3 sealed owning-context reset/replay; public37 plus eight native scalar choices makes45 IDs, two policies/four continuations each/all four full-vocabulary owners. Exact bits/causal/sample/state/draw/allocations/18 pre-reset refusals and accepted3 source/CPU gates. No elapsed score, persisted/crash/context-recreated/free-running candidate/enabled-control/production32/broader-context/concurrency/soak/provider admission. Preliminary accepted capture retained; review strengthened allocation/counter comparisons after every damaged plan before final build/capture."
+}

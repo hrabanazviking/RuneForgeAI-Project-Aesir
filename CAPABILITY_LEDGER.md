@@ -1524,7 +1524,20 @@ and circular self-parity transforms were removed.
   replay/enabled-control/production32/broader context/device/concurrency/soak/provider
   admission. Normal f3442a1e remains active/authenticated ready/prefill4.
 
-- **Next acceptance gate:** Strategy3 owning-context replay and enabled-control gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Down128 sealed owning-context replay (2026-10-03):** Two45-ID checkpoints/
+  eight continuations/1026048 full-vocabulary values per native/matrix/restored
+  owner pass exact F32 bits, causal/sample/draw/config/allocations/tile/source/
+  independent .05-max/.005-RMS/argmax gates and4352 guards. Matrix CPU worst
+  .009345055/.001675504; down calls28 before/after. Pure strategy3 owner/seal/
+  unsupported4/native-mode admission and execution flags check before reset.
+  Eighteen damaged-plan/flag refusals preserve healthy state/counters/ownership.
+  Seven portable contracts/master190 passes/one skip. Explicit SHA-bound3 full96
+  decode/model/numeric/causal/replay/source proof and all post-oracle artifact
+  hashes gate acceptance. Preliminary capture retained; final strengthens explicit
+  counter/allocation comparisons after each refusal. [Evidence](docs/evidence/turing-down-checkpoint-2026-10-03/README.md).
+  Same-process owning-context replay only, always unscored; no persisted/crash/
+  context recreation/free-running candidate/controls/tracing/runtime/provider gate.
+- **Next acceptance gate:** Strategy3 enabled-control recovery gate; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

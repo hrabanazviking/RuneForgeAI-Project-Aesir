@@ -64,7 +64,7 @@ SHA256 identities and its retained expansion receipt. Then:
 ```
 
 Both down-model arguments are required together. Default decode validation and
-shared checkpoint/control/trace metadata readers continue refusing strategy3.
+default shared checkpoint/control/trace metadata readers continue refusing strategy3.
 `check_turing_down_source.accepted_model` admits a complete accepted strategy3
 model source, not a passed Boolean alone. It binds actual CSV/report/model hashes,
 four complete cases, counters/IDs/cache/numeric coverage, unchanged fixed budgets,
@@ -99,6 +99,6 @@ This is a narrow teacher-forced trajectory and exact own fresh replay gate.
 Process/export/oracle times are unscored; `speed_scored` is always false. It does
 not prove free-running candidate generation, persisted checkpoint restoration,
 enabled-control recovery, production32, other contexts/devices, concurrency/soak
-or an Ollama/provider lead. Strategy3 replay plans and enabled controls/tracing
-remain closed until their separate physical gates. Portable adversarial tests
+or an Ollama/provider lead. Strategy3 [sealed owning-context replay](NATIVE_TURING_DOWN_CHECKPOINT.md) now has
+an explicit source-bound gate; enabled controls/tracing remain closed. Portable adversarial tests
 prove evidence admission only; hosted target compilation is not GPU execution.

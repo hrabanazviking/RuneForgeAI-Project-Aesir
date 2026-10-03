@@ -42,7 +42,7 @@ struct FixtureReplayPlan:
 
     def structure(self) raises:
         self.config.validate()
-        if self.strategy < 0 or self.strategy > 2 or (self.mode == 0 and self.strategy != 0):
+        if self.strategy < 0 or self.strategy > 3 or (self.mode == 0 and self.strategy != 0):
             raise Error("Replay execution strategy is unsupported")
         if (self.mode != 0 and self.mode != 1) or self.context != 1536 or self.vocabulary != 128256:
             raise Error("Replay mode/context/vocabulary mismatch")
