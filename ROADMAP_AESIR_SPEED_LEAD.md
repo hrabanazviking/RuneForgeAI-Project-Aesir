@@ -369,6 +369,13 @@ measured fresh-prefill gain beyond SPD-01. If the lock cannot support it, record
 the blocker; an isolated toolchain-change task needs compile/ABI/platform evidence.
 Do not silently upgrade dependencies or assume Ampere/Hopper-only mechanisms.
 
+The isolated paired FFN experiment preserves all983040 output bits per owner,
+600 independent dots and6720 guards. Ten contracts pass; all120 rotated timings
+remain. Batch4 beats two staged calls but loses the native path; batch32 loses
+the existing staged pair (.778242). It earns no selection.
+[Operation](docs/NATIVE_TURING_PAIRED_FFN.md). The next slice moves to bounded
+causal attention; whole-model/runtime/provider promotion remains separate.
+
 ### SPD-03 — Reduce long-attention memory and launch work
 
 Profile scores, softmax and value reduction together. Evaluate a tiled causal

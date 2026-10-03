@@ -1573,7 +1573,17 @@ and circular self-parity transforms were removed.
   lose (best.826220); no promotion or inferred register/occupancy cause.22 portable
   contracts/master190/one skip and finite atomic failure retention.
   [Evidence](docs/evidence/turing-loop-staging-2026-10-03/README.md).
-- **Next acceptance gate:** Paired FFN gate/up input staging reuse with independent complete bytes/span/timing gates; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Paired gate/up primitive (2026-10-03):** Separate optional same-kind kernel
+  shares input staging across64 rows per tensor. Both original spans and pair
+  weight/output alias fences run before enqueue. Real Q4/Q4 passes983040 values
+  per owner with original F32 bits, fixed native budgets/600 independent dots,
+  6720 guards/144 synthetic pairs/12 spans/all120 rotated timings. Batch4 beats
+  staged (1.136289) but loses native; batch32 loses staged (.778242). No selection.
+  Ten portable contracts/master190/one skip; retained incorrect guard-formula
+  checker failure and successful new report on unchanged physical CSV.
+  [Evidence](docs/evidence/turing-paired-ffn-2026-10-03/README.md).
+  Deterministic inputs checked natively, not actual model activations.
+- **Next acceptance gate:** Independent bounded causal attention math and guard gates; broader model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights

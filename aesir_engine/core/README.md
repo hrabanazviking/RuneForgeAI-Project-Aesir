@@ -35,3 +35,17 @@ flags. Explicit loop metadata requires full original64 F32 bits, unchanged nativ
 independent/guard/840 rotated finite timing gates. Both numeric configs pass; all56
 original64 comparisons lose.22 portable contracts/master190/one skip. Read ../../docs/NATIVE_TURING_LOOP_STAGING.md;
 no register/occupancy/cause/provider claim follows.
+
+## Optional paired FFN primitive
+
+Separate packed_turing_pair owns pure two-matrix admission and an opt-in paired
+64-row-per-tensor / 32-column kernel. Same-kind12/13/14 and batch4/8/16/32 only;
+weight/output aliases refuse before enqueue. Original quant/MMA equations and
+all initialized shared tails/barriers remain; no global workspace or selection.
+Real Q4/Q4 gate/up passes 983040 complete values per owner, original F32 bits,
+600 independent dots, 6720 guards, 144 synthetic pairs and 12 span refusals.
+All120 rotated timings remain. Batch4 beats staged but loses native; batch32
+loses staged, so no candidate selection. Ten adversarial contracts/master190
+passes/one skip. Failed guard-formula checker report is retained; corrected
+validation uses unchanged GPU data and a new exclusive report. Read ../../docs/NATIVE_TURING_PAIRED_FFN.md.
+Actual model activation/full-model/runtime/provider gates remain separate.

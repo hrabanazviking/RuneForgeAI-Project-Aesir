@@ -1,3 +1,20 @@
+## 2026-10-03 — Sigrún: paired FFN complete, no selection
+
+Scoped/pushed b3e0ae5 before code. Isolated same-kind paired kernel shares one
+F16 input tile across64 gate and64 up rows per CTA, eight warps/256 threads,
+original32-column quant/MMA order. Pure original-span and weight/output alias
+fences precede enqueue. All983040 real Q4 outputs per owner retain original
+F32 bits; 600 selected Float64 dots/6720 guards/144 synthetic pairs/12 hostile
+spans pass. All120 rotated timing records remain. Batch4 staged/pair1.136289
+loses native; batch32 staged/pair.778242 loses staged. No selection or inferred
+resource cause. Ten contracts/master190 passes/one skip; allseven builds before
+GPU then pinned oracle. Initial guard formula125 should be112; preserve failed
+report/source/log, correct validator/tests and revalidate unchanged GPU CSV
+into new exclusive report. Normal authenticated prefill4 remains ready with
+unchanged f3442a1e binary. Read [operation](docs/NATIVE_TURING_PAIRED_FFN.md).
+Next bound independent causal attention math; exact push/CI receipts and broader
+actual-activation/full-model/runtime/provider gates remain separate.
+
 ## 2026-10-03 — Sigrún: bounded runtime staging rejected on all timing cases
 
 Scoped/pushedec5c5de before code. Separate packed_turing_loop module loops exactly

@@ -990,3 +990,11 @@ The legacy formatters below are not exposed compatibility APIs.
   promotion.22 portable contracts/master190/one skip.
   [Operation](docs/NATIVE_TURING_LOOP_STAGING.md). Next test paired FFN gate/up
   input staging reuse under independent complete bytes/span/timing gates.
+
+- [x] SPD-01/02 paired FFN gate/up experiment: 983040 complete values per owner,
+  original F32 bits, 600 independent dots, 6720 guards, 144 synthetic pairs,
+  12 span refusals and all120 rotated timings pass. Batch4 original/pair1.136289
+  loses native; batch32 original/pair0.778242 loses staged. No selection.
+  Ten contracts/master190/one skip; retained checker-formula failure and new
+  exclusive successful revalidation. [Operation](docs/NATIVE_TURING_PAIRED_FFN.md).
+  Next isolate causal attention under independent complete math/guard gates.

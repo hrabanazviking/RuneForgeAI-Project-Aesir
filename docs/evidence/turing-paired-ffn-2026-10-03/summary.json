@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "numerical_passed": true,
+  "speed_promoted": false,
+  "production_selected": false,
+  "full_model_speed_claim": false,
+  "best_original_to_pair_ratio": 1.1362888263296331,
+  "cases": [
+    {
+      "batch": 4,
+      "native_to_pair_ratio": 0.3000245583900858,
+      "original_to_pair_ratio": 1.1362888263296331
+    },
+    {
+      "batch": 8,
+      "native_to_pair_ratio": 0.548782391064107,
+      "original_to_pair_ratio": 0.9640933673840952
+    },
+    {
+      "batch": 16,
+      "native_to_pair_ratio": 0.9428740117951605,
+      "original_to_pair_ratio": 0.8584146104286465
+    },
+    {
+      "batch": 32,
+      "native_to_pair_ratio": 1.391089339374657,
+      "original_to_pair_ratio": 0.7782418681992394
+    }
+  ],
+  "decision": "No batch beats both available comparison owners; batch4 loses native, batch32 loses staged. Next independent bounded causal attention."
+}

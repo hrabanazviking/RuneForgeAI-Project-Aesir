@@ -1,0 +1,391 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "b3e0ae5",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:42:35.897367+00:00",
+      "ended_utc": "2026-10-03T07:42:36.012253+00:00",
+      "wall_seconds": 0.11490229098126292,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_block_headers.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-headers-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:41:36.291597+00:00",
+      "ended_utc": "2026-10-03T07:41:43.275680+00:00",
+      "wall_seconds": 6.9841075069853105,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:41:43.276054+00:00",
+      "ended_utc": "2026-10-03T07:42:15.928292+00:00",
+      "wall_seconds": 32.65226679298212,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:42:15.928883+00:00",
+      "ended_utc": "2026-10-03T07:42:35.896896+00:00",
+      "wall_seconds": 19.96804217400495,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:41:28.757163+00:00",
+      "ended_utc": "2026-10-03T07:41:36.291077+00:00",
+      "wall_seconds": 7.533941884001251,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_paired_ffn.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:40:28.398776+00:00",
+      "ended_utc": "2026-10-03T07:40:58.733617+00:00",
+      "wall_seconds": 30.334864219999872,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_paired_ffn.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T07:40:58.733982+00:00",
+      "ended_utc": "2026-10-03T07:41:28.756773+00:00",
+      "wall_seconds": 30.02281478999066,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "gpu": {
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-sm_75",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+      ],
+      "exit": 0,
+      "error": null,
+      "started_utc": "2026-10-03T07:45:29.961176+00:00",
+      "ended_utc": "2026-10-03T07:45:40.855147+00:00",
+      "wall_seconds": 10.893971315003,
+      "performance_scored": false,
+      "binary_sha256": "4187880028f2f24bba13a4dc00ccb16a0199759a89f4ccd10cb6c5944ccb5a63",
+      "csv_sha256": "b181f627ebae39a6a437b510de5c57b0ef0ad8ae7cd6206c52f3c5816aacf21c"
+    },
+    "oracle": {
+      "exit": 1,
+      "wall_seconds": 1.9695520309905987,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_turing_paired_ffn.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-final/complete.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-sm_75",
+        "--binary-sha256",
+        "4187880028f2f24bba13a4dc00ccb16a0199759a89f4ccd10cb6c5944ccb5a63",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-final/complete.json"
+      ],
+      "started_utc": "2026-10-03T07:45:40.914702+00:00",
+      "ended_utc": "2026-10-03T07:45:42.884302+00:00",
+      "performance_scored": false
+    },
+    "oracle-final": {
+      "exit": 0,
+      "wall_seconds": 14.853783185011707,
+      "argv": [
+        "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+        "[AESIR_REPOSITORY]/scripts/check_turing_paired_ffn.py",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-final/complete.csv",
+        "--model",
+        "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--model-sha256",
+        "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+        "--binary",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-sm_75",
+        "--binary-sha256",
+        "4187880028f2f24bba13a4dc00ccb16a0199759a89f4ccd10cb6c5944ccb5a63",
+        "--output",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-paired-ffn-final/complete-final.json"
+      ],
+      "started_utc": "2026-10-03T07:54:32.870618+00:00",
+      "ended_utc": "2026-10-03T07:54:47.724470+00:00",
+      "performance_scored": false
+    }
+  },
+  "failed_initial_report": {
+    "schema": 1,
+    "passed": false,
+    "collection_complete": false,
+    "full_model_speed_claim": false,
+    "speed_promoted": false,
+    "error": "ValueError: Pair guard count/failure changed"
+  },
+  "correction": "Validator fixed guard formula 125 ->112 fixed cells; portable reduced fixture305 ->292. Unchanged native source/binary/GPU capture, separate exclusive revalidation.",
+  "original_core_quantization_retained_verbatim": true,
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "cpu_offload": 0,
+    "prefill_batch": 4,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/core/packed_turing_pair.mojo": "7933dc979c42e626b7409a7e417bb1a8d358a480512c952319eb30cba6ccb5ee",
+    "aesir_engine/tests/test_turing_paired_ffn.mojo": "db83bcf263b3b7efb0064c821ba707c674e34f63c2815e8e5f26829a0582b326",
+    "scripts/check_turing_paired_ffn.py": "e942f759e172de4ed932991be39f931bafda7b78369c97a853c029cf3aa38292",
+    "scripts/test_check_turing_paired_ffn.py": "ccae11bd2d26726157b653074e1f9d77de9abf7b70ec304ddef13a652729bd69",
+    ".github/workflows/ci.yml": "a5c780a02da789f7607f945be5c08102b3fef24f9df9d20b75104343220a06f8"
+  },
+  "artifacts": [
+    {
+      "name": "turing-paired-ffn-final/complete-final.json",
+      "bytes": 15457,
+      "sha256": "8df45c50daab1eb59a3353e139f3f6635794b0bbf6e719c301a06cf1e44d6cd9"
+    },
+    {
+      "name": "turing-paired-ffn-final/complete.csv",
+      "bytes": 75757237,
+      "sha256": "b181f627ebae39a6a437b510de5c57b0ef0ad8ae7cd6206c52f3c5816aacf21c"
+    },
+    {
+      "name": "turing-paired-ffn-final/complete.json",
+      "bytes": 190,
+      "sha256": "012791e563faf5263b940812fd5dea354067f97e194d152e687df8b497e98867"
+    },
+    {
+      "name": "turing-paired-ffn-final/gpu-process.json",
+      "bytes": 626,
+      "sha256": "c46e4b014c454019023080d6ccdf444924a7f8592878892960bbec84ae689985"
+    },
+    {
+      "name": "turing-paired-ffn-final/gpu-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-paired-ffn-final/oracle-final-process.json",
+      "bytes": 1081,
+      "sha256": "4517a59993471c4f85f06a3432a96310ed01f2abe1270730a32964341b79b695"
+    },
+    {
+      "name": "turing-paired-ffn-final/oracle-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-paired-ffn-final/oracle-process.json",
+      "bytes": 1075,
+      "sha256": "84242fb6714af1833e25290874c3d9ea91f3643d3b0ecd32f04b62e083ef5a75"
+    },
+    {
+      "name": "turing-paired-ffn-final/oracle.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-check.json",
+      "bytes": 266,
+      "sha256": "8bb3bc4db48b7aadb051de0560f9bb4afb8dee12e42240e0dbaf16ef1e50db19"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-headers.json",
+      "bytes": 575,
+      "sha256": "9fbf5aadd187988a4a46f5fe649eeed153abd3eb36416209c5df7a5a5d157770"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-headers.txt",
+      "bytes": 470,
+      "sha256": "941353df2c0b0b4cdba9960b60e54a7b3df0ebb9ea18ff4cccc6c32cd6236e98"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-master.json",
+      "bytes": 412,
+      "sha256": "93ae2cc5194b8836f26d5725cb2ab21fb69af2c73d711b47525e188a1606e07a"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-normal.json",
+      "bytes": 293,
+      "sha256": "840fae357530f389e253c28a81946d070e3014eb0c08c7d9b99d4072e4cd79ef"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-original.json",
+      "bytes": 576,
+      "sha256": "94b672dd917e06e2d0cca0187806ef70f0b64d5357ef9458f9b2e186b4768553"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-sm_75.json",
+      "bytes": 564,
+      "sha256": "24bb282b3d86c4d85e6fca1403909b6a294cb361a71f7262bc154aa371ec7ae2"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-sm_75.txt",
+      "bytes": 363,
+      "sha256": "98e5bb78c4213070085f4ca7930b73815e53339c37192b692887e7683cf4e7ed"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-sm_89.json",
+      "bytes": 563,
+      "sha256": "b3bf4afe30a6635434fac111651da55de6802f17980f89dd895ff9f5b701ad92"
+    },
+    {
+      "name": "turing-paired-ffn-final-build-sm_89.txt",
+      "bytes": 363,
+      "sha256": "98e5bb78c4213070085f4ca7930b73815e53339c37192b692887e7683cf4e7ed"
+    },
+    {
+      "name": "turing-paired-ffn-final-portable.txt",
+      "bytes": 109,
+      "sha256": "87f1ae458e6d1d46a428078a154fbbcad6bac4f7263c5eff0ec3464055fbb84c"
+    },
+    {
+      "name": "turing-paired-ffn-headers-sm_75",
+      "bytes": 4778904,
+      "sha256": "360dc2a1337cdb82b159b238115f3c0d3b8fcbb31f0c04bf41b885ff3c4b1d5c"
+    },
+    {
+      "name": "turing-paired-ffn-initial-check_turing_paired_ffn.py",
+      "bytes": 9446,
+      "sha256": "5604c7c195e720ad35623efc2b474d33bbda7f7d6dec8a54fd752239f9644c5d"
+    },
+    {
+      "name": "turing-paired-ffn-initial-portable.txt",
+      "bytes": 1134,
+      "sha256": "722ede1e51f03894d4b03409f2e3fbb9e09d23cb96d3d5fe2470d8c297900211"
+    },
+    {
+      "name": "turing-paired-ffn-initial-test_check_turing_paired_ffn.py",
+      "bytes": 7241,
+      "sha256": "372d80a02b26071eb8319a2b6ac4009da94ddb2369a9b8a378e13423e69983aa"
+    },
+    {
+      "name": "turing-paired-ffn-original-sm_75",
+      "bytes": 7716544,
+      "sha256": "38f01e4798017c38fefdbb7f3cb5c56994fcc65ff526ddf5c76f02a3c9010bfc"
+    },
+    {
+      "name": "turing-paired-ffn-sm_75",
+      "bytes": 4807368,
+      "sha256": "4187880028f2f24bba13a4dc00ccb16a0199759a89f4ccd10cb6c5944ccb5a63"
+    },
+    {
+      "name": "turing-paired-ffn-sm_89",
+      "bytes": 4807368,
+      "sha256": "f349b9b5e4695fe445325f6faae577cc885812ab2d480eddc31ea5ef63a9ab76"
+    }
+  ],
+  "oracle_versions": {
+    "gguf": "0.19.0",
+    "numpy": "2.4.4"
+  },
+  "limits": "Original strict3B gate/up same-kind Q4, paired64 rows per tensor/32 columns, warmed primitive one session. Synthetic same-kind Q4/Q5/Q6 distinct from real pair. Inputs use natively checked deterministic public pattern. Exact original F32 bits plus fixed native/selected CPU Float64 budgets, complete guard/span/timing gates. No model-level/default/provider promotion."
+}

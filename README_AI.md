@@ -1,3 +1,7 @@
+For the isolated paired FFN decision, read docs/NATIVE_TURING_PAIRED_FFN.md.
+Complete original F32 bits and independent dots pass. Batch4 loses native and
+batch32 loses staged; no selection. Next scope causal attention.
+
 For rejected bounded runtime-group staging, read docs/NATIVE_TURING_LOOP_STAGING.md.
 Both64/128 complete numeric gates pass but all56 original64 elapsed comparisons
 lose. Keep original selection; next scope paired FFN gate/up staging reuse.
