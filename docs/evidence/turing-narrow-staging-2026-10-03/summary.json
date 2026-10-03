@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "numerical_passed": true,
+  "speed_promoted": false,
+  "best_original64_to_candidate_ratio": 0.9462550658862761,
+  "best_case": {
+    "rows": 64,
+    "name": "blk.0.ffn_down.weight",
+    "batch": 8
+  },
+  "winning_cases": [],
+  "full_model_speed_claim": false,
+  "production_selected": false
+}

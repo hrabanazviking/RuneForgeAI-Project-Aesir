@@ -114,6 +114,45 @@ class Contracts(unittest.TestCase):
                 self.assertEqual(status,1);self.assertEqual(len(r['cases']),28)
                 self.assertTrue(all(c['speed_ratio'] is None and c['original_to_candidate_ratio'] is None for c in r['cases']))
 
+    def test_narrow_staging_geometry_original_bits_and_rotation(self):
+        for rows in (64,128):
+            text=header_fixture().replace('turing_mma_staged_header_cache_f16_f32,64,32',f'turing_mma_staged_narrow_f16_f32,{rows},16')
+            cases=self.parse(text)
+            self.assertEqual(cases[0]['tile'],(rows,8));self.assertEqual(cases[0]['staged_input_columns'],16)
+            self.assertTrue(all(c['paired_original'] and not c['cached_headers'] and c['original_f32_bits_equal'] for c in cases))
+            for old,new in [(f'{rows},16','32,16'),(f'{rows},16','256,16'),(f'{rows},16',f'{rows},32'),('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,1'),('TIME,0,2,0,3,0.001','TIME,0,1,0,3,0.001')]:
+                with self.subTest(rows=rows,old=old),self.assertRaises(ValueError):self.parse(text.replace(old,new,1))
+            with self.assertRaises(ValueError):self.parse(text.rstrip('\n'))
+            signed=text.replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,0,-0.0,0')
+            self.assertFalse(self.parse(signed)[0]['original_f32_bits_equal'])
+
+    def test_narrow_complete_failures_interrupt_and_hash_changes_withhold_ratios(self):
+        for rows in (64,128):
+            text=header_fixture().replace('turing_mma_staged_header_cache_f16_f32,64,32',f'turing_mma_staged_narrow_f16_f32,{rows},16')
+            with tempfile.TemporaryDirectory() as d:
+                output=Path(d)/'pass.json';status,r=self.run_header_main(text,output)
+                self.assertEqual(status,0);self.assertEqual(r['staged_input_columns'],16)
+                self.assertTrue(all(c['original_to_candidate_ratio']==1 for c in r['cases']))
+                for name,t,changed,interrupted in [('bits',text.replace('VALUE,0,0,0,1,1,1','VALUE,0,0,0,1,2,1'),False,False),('changed',text,True,False),('interrupt',text,False,True)]:
+                    status,r=self.run_header_main(t,Path(d)/(name+'.json'),changed=changed,interrupted=interrupted)
+                    self.assertEqual(status,1);self.assertFalse(r['full_model_speed_claim'])
+                    self.assertTrue(all(c['speed_ratio'] is None and c['original_to_candidate_ratio'] is None for c in r.get('cases',[])))
+                before=output.read_bytes()
+                with self.assertRaises(FileExistsError):self.run_header_main(text,output)
+                self.assertEqual(before,output.read_bytes())
+
+    def test_nonfinite_narrow_ratio_withholds_all_complete_cases(self):
+        import re
+        text=header_fixture().replace('turing_mma_staged_header_cache_f16_f32,64,32','turing_mma_staged_narrow_f16_f32,64,16')
+        text=re.sub(r'(TIME,[0-9]+,1,[0-9]+,3,)0.001',r'\g<1>3e-323',text)
+        with tempfile.TemporaryDirectory() as d:
+            status,r=self.run_header_main(text,Path(d)/'overflow.json')
+            self.assertEqual(status,1);self.assertTrue(r['collection_complete']);self.assertEqual(len(r['cases']),28)
+            self.assertIn('Nonfinite matrix ratio',r['error'])
+            self.assertTrue(all(c['speed_ratio'] is None and c['original_to_candidate_ratio'] is None for c in r['cases']))
+        underflow=text.replace('3e-323','5e-324')
+        with self.assertRaises(ValueError):self.parse(underflow)
+
     def test_incomplete_and_trailing(self):
         for text in (fixture().replace("PASS,matrix,28,420,560\n", ""), fixture() + "extra\n", fixture().replace("[CUDA] synthetic api=cuda cpu_offload=0\n", ""),
                      fixture().replace("VALUE,0,0,0,1,1\n", ""),

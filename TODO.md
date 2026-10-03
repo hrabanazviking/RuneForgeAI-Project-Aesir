@@ -976,3 +976,11 @@ The legacy formatters below are not exposed compatibility APIs.
   master190 passes/one skip. No cause/occupancy/spill/service ratio inferred.
   [Operation](docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md). Next measure narrower
   shared staging as a register/resource experiment, retaining original kernels.
+
+- [x] SPD-01/02 isolated16-column staging: rows64/128 preserve complete1658880
+  F32 bits per configuration/2100 independent dots/1622640 guards/840 timings;
+  all56 same-capture comparisons lose to original64 (best.946255), no promotion.
+  Nineteen contracts/master190/one skip; finite atomic scores now reject per-call
+  underflow/ratio overflow with complete metrics retained.
+  [Operation](docs/NATIVE_TURING_NARROW_STAGING.md). Next keep proven32-column
+  width and measure bounded loop structure.

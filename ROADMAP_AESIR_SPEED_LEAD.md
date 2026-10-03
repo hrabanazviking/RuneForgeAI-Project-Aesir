@@ -524,6 +524,14 @@ legacy local total stays deprecated/raw. Ten contracts/master190 passes/one skip
 or cross-capture speed ratio. Next measure narrower shared staging under original
 bit/oracle/guard/timing gates; production/profile/device/provider admission stays open.
 
+The narrower16-column staging experiment passes all complete numerical/bit/guard/
+selected-independent gates for64/128 rows, but loses all56 original64 comparisons
+(best.946255). No selection/promotion. Defined shared reduction alone earns no
+speed/register/occupancy claim. Nineteen portable contracts additionally make
+positive timing underflow/nonfinite ratios fail atomically with complete metrics.
+[Operation](docs/NATIVE_TURING_NARROW_STAGING.md). Next retain32-column staging
+and measure bounded loop structure under the same gates.
+
 ### SPD-05 — Optimize sustained decode against the measured bottleneck
 
 Treat single-token decode as a separate shape from prompt matrix processing.

@@ -1180,3 +1180,16 @@ input work guards token<batch before shared stores, including batch4. Maximum
 shared19008/threads256/no added global workspace. Initial256 physical resource
 failure is retained and256 admission removed. Read
 ../../docs/NATIVE_TURING_LARGE_ROWS.md before refinement or selection.
+
+## Optional16-column staging experiment
+
+Separate narrow_turing_kernel/project_turing_narrow siblings retain all previous
+packed Turing definitions verbatim. Rows64/128, columns16, original precision0 and
+format12/13/14 share initialized guarded cells and original sequential F32 MMA;
+half-group lane selection and extra barriers are explicit. Defined shared5440/
+9792 bytes atbatch32 do not prove registers/occupancy/speed. Final narrow_rows=0
+primitive harness extension stays exclusive with cached/large paths; default and
+production dispatch remain. Native probe validates geometry before load. Explicit
+MODE narrow metadata requires complete native/candidate/original64 F32 bits,
+unchanged oracle/guard/840 rotated timing gates. Read ../../docs/NATIVE_TURING_NARROW_STAGING.md;19 portable contracts
+retain complete failures/hash drift/interrupt/exclusive reports.

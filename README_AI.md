@@ -1,3 +1,8 @@
+For the rejected16-column primitive speed experiment, read
+docs/NATIVE_TURING_NARROW_STAGING.md. Both64/128 numerical gates pass, but all56
+original64 elapsed comparisons lose; lower shared bytes alone earns no selection.
+Preserve its evidence and use32-column width for the next loop-structure experiment.
+
 For the explicit strategy3 resource/owned projection extension, read
 docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md. Recordings guide experiments only;
 complete source bits/cache/state and full-session correlation/resource gates

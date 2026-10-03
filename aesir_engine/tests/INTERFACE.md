@@ -660,3 +660,16 @@ precedes ordered source child attribution; selected wrapper prefixes/grid/block
 and per-kernel recorded resource distributions are explicit, never an occupancy/
 spill/cause/speed claim. Read ../../docs/NATIVE_TURING_DOWN_PROJECTION_TRACE.md; ten adversarial contracts plus physical
 plain/profiled cases and master190/one skip pass.
+
+## Optional16-column staging experiment
+
+Separate narrow_turing_kernel/project_turing_narrow siblings retain all previous
+packed Turing definitions verbatim. Rows64/128, columns16, original precision0 and
+format12/13/14 share initialized guarded cells and original sequential F32 MMA;
+half-group lane selection and extra barriers are explicit. Defined shared5440/
+9792 bytes atbatch32 do not prove registers/occupancy/speed. Final narrow_rows=0
+primitive harness extension stays exclusive with cached/large paths; default and
+production dispatch remain. Native probe validates geometry before load. Explicit
+MODE narrow metadata requires complete native/candidate/original64 F32 bits,
+unchanged oracle/guard/840 rotated timing gates. Read ../../docs/NATIVE_TURING_NARROW_STAGING.md;19 portable contracts
+retain complete failures/hash drift/interrupt/exclusive reports.

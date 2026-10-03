@@ -1,0 +1,401 @@
+{
+  "schema": 1,
+  "date": "2026-10-03",
+  "task_commit": "6b3ecd7",
+  "builds": [
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:31:13.464986+00:00",
+      "ended_utc": "2026-10-03T05:31:13.579988+00:00",
+      "wall_seconds": 0.11502177099464461,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_block_headers.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-headers-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:29:51.827088+00:00",
+      "ended_utc": "2026-10-03T05:30:19.295536+00:00",
+      "wall_seconds": 27.46847315202467,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "run",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/run_all.mojo"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:30:19.295910+00:00",
+      "ended_utc": "2026-10-03T05:30:53.297080+00:00",
+      "wall_seconds": 34.001185866014566,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/launch.py",
+        "--build",
+        "--target",
+        "sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:30:53.297306+00:00",
+      "ended_utc": "2026-10-03T05:31:13.464603+00:00",
+      "wall_seconds": 20.167322763008997,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_shared_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-original-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:29:12.964784+00:00",
+      "ended_utc": "2026-10-03T05:29:51.826845+00:00",
+      "wall_seconds": 38.86207502899924,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_75",
+        "aesir_engine/tests/test_turing_narrow_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-sm_75"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:27:26.320633+00:00",
+      "ended_utc": "2026-10-03T05:28:19.236862+00:00",
+      "wall_seconds": 52.916257532982854,
+      "performance_scored": false
+    },
+    {
+      "argv": [
+        "[PIXI]",
+        "run",
+        "--frozen",
+        "--no-install",
+        "--offline",
+        "mojo",
+        "build",
+        "-I",
+        "aesir_engine",
+        "--target-accelerator",
+        "sm_89",
+        "aesir_engine/tests/test_turing_narrow_staging.mojo",
+        "-o",
+        "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-sm_89"
+      ],
+      "exit_code": 0,
+      "started_utc": "2026-10-03T05:28:19.237283+00:00",
+      "ended_utc": "2026-10-03T05:29:12.964330+00:00",
+      "wall_seconds": 53.72707372700097,
+      "performance_scored": false
+    }
+  ],
+  "processes": {
+    "64": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "64"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T05:31:30.888891+00:00",
+        "ended_utc": "2026-10-03T05:31:49.955575+00:00",
+        "wall_seconds": 19.066702562995488,
+        "performance_scored": false,
+        "binary_sha256": "b286afc4b98374b2d98ecd2453ec2c786ab3bdc7a6616f6ee813bbe68febd8b1",
+        "csv_sha256": "7c2e20fea67b3a78d06ad5525bc49e89a20c314f33280cc44c004e0a8cbd9949"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 20.12014578600065,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-final/rows64.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-final/rows64.json"
+        ],
+        "started_utc": "2026-10-03T05:32:08.196533+00:00",
+        "ended_utc": "2026-10-03T05:32:28.316721+00:00",
+        "performance_scored": false
+      }
+    },
+    "128": {
+      "gpu": {
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-sm_75",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "128"
+        ],
+        "exit": 0,
+        "started_utc": "2026-10-03T05:31:50.044552+00:00",
+        "ended_utc": "2026-10-03T05:32:08.108530+00:00",
+        "wall_seconds": 18.063998455007095,
+        "performance_scored": false,
+        "binary_sha256": "b286afc4b98374b2d98ecd2453ec2c786ab3bdc7a6616f6ee813bbe68febd8b1",
+        "csv_sha256": "9b2e1aa3801606ee026b79bf487ab60f5231243e9e8683ca3ae0dc7c7011e315"
+      },
+      "oracle": {
+        "exit": 0,
+        "wall_seconds": 19.82019603898516,
+        "argv": [
+          "[CHAT_WORKSPACE]/work/aesir-measurement/oracle-env/bin/python",
+          "[AESIR_REPOSITORY]/scripts/check_packed_matrix.py",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-final/rows128.csv",
+          "--model",
+          "[AESIR_REPOSITORY]/.aesir/models/blobs/sha256/dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--model-sha256",
+          "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+          "--output",
+          "[CHAT_WORKSPACE]/work/aesir-trace/turing-narrow-staging-final/rows128.json"
+        ],
+        "started_utc": "2026-10-03T05:32:28.317210+00:00",
+        "ended_utc": "2026-10-03T05:32:48.137452+00:00",
+        "performance_scored": false
+      }
+    }
+  },
+  "pre_model_rejected256": {
+    "exit": 1,
+    "wall_seconds": 0.016270744003122672,
+    "started_utc": "2026-10-03T05:31:30.872307+00:00",
+    "ended_utc": "2026-10-03T05:31:30.888662+00:00",
+    "performance_scored": false
+  },
+  "original_core_module_retained_verbatim": true,
+  "readiness": {
+    "http": 200,
+    "status": "ready",
+    "prefill_batch": 4,
+    "cpu_offload": 0,
+    "normal_sha256": "f3442a1e5915cb43ec4da8a0f885ff38710a02b6ef795515dbe1f72c36ceda2b",
+    "service_active": "active"
+  },
+  "reviewed_sources": {
+    "aesir_engine/core/packed_turing_matrix.mojo": "60e27f6159ab01dad6f75ace10315b480d26bdca73690bf0816068778b38c24d",
+    "aesir_engine/tests/test_packed_matrix.mojo": "072e7395c643344836d4310fe8b781eebc8548327d820de6b7ef86e52ba61358",
+    "aesir_engine/tests/test_turing_narrow_staging.mojo": "13c3f22f1b2ce34216e9857d101d927dc2118e3b71cc9a477b32becb068fedeb",
+    "scripts/check_packed_matrix.py": "d290a71919bffc1b87e569e252a6476f30ea1a4a52372c7b88b2d6806a973762",
+    "scripts/test_check_packed_matrix.py": "b9f94322fef92be6a84c6b1e30af8bf79fa8fe65abbd29beb38563324dbe8d7b",
+    ".github/workflows/ci.yml": "601ca82d06872b5d3e914b99f2399c86a07e909b8f9a46a0c2d5437dcf19d319"
+  },
+  "artifacts": [
+    {
+      "name": "turing-narrow-staging-final/rejected256-process.json",
+      "bytes": 191,
+      "sha256": "db4a6521a91b978353be262bf3d5e2c665eb25f253f6b32a4e27c882e544595b"
+    },
+    {
+      "name": "turing-narrow-staging-final/rejected256.txt",
+      "bytes": 197,
+      "sha256": "055ffee7ee65947b52b8ac3e5bde60a1e97a8ecd8d06d8cafa1477c403c22608"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128-gpu-process.json",
+      "bytes": 627,
+      "sha256": "193eb32d20698a3275ea78fbe41fe020c03ca3dc9ebd560d3d0d4960bfdee5ef"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128-oracle-process.json",
+      "bytes": 871,
+      "sha256": "34d8830a300bc34d236fed690b8daf90d242be29f06a2e58bccfcd47619529c6"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128.csv",
+      "bytes": 125721922,
+      "sha256": "9b2e1aa3801606ee026b79bf487ab60f5231243e9e8683ca3ae0dc7c7011e315"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows128.json",
+      "bytes": 63966,
+      "sha256": "98078fa0c7496ab7c827522f9ae6a7e33f230df592c94d0ce680ec4876ba211c"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64-gpu-process.json",
+      "bytes": 626,
+      "sha256": "f6fad2bae8175c757792152d587630aaa1cacdb4626cf78d56850fd2b4956581"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64-oracle-process.json",
+      "bytes": 869,
+      "sha256": "df6067c36914ba544d18d0114c4d0be112cc810299754624db84456764ce8d17"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64-oracle.txt",
+      "bytes": 32,
+      "sha256": "bb3748c98c49043067a45c77214a2800d379ff485b40509371e40dc57b247aa7"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64.csv",
+      "bytes": 125721889,
+      "sha256": "7c2e20fea67b3a78d06ad5525bc49e89a20c314f33280cc44c004e0a8cbd9949"
+    },
+    {
+      "name": "turing-narrow-staging-final/rows64.json",
+      "bytes": 63958,
+      "sha256": "3941cbfdf54f7b17bcf3cd79b6cd078ed92b1cc5c182dee8152b04882dd62e89"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-check.json",
+      "bytes": 266,
+      "sha256": "b16da2f7dc0a3133db942fe3e3b94c040e075393c0b2a00bd73321c4343a0c7c"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-check.txt",
+      "bytes": 80,
+      "sha256": "25afc4b235bc6a021569fedf130875c22f1b0f808247686a720fbed99cf15554"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-headers.json",
+      "bytes": 578,
+      "sha256": "a3f44e96a0949a7f962f9f63785b0bd954c26e3335562917614a5f3ee2899d9f"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-headers.txt",
+      "bytes": 470,
+      "sha256": "941353df2c0b0b4cdba9960b60e54a7b3df0ebb9ea18ff4cccc6c32cd6236e98"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-master.json",
+      "bytes": 413,
+      "sha256": "d6c6ecbfdecf3beb76cac3fa8b38158215d1dc0d0b5c89d4bc1cbdfdd121629c"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-master.txt",
+      "bytes": 34615,
+      "sha256": "2b6db86750f3ae9ef804292afc85be4a73990c6ad20b217dcafa3bfbb6506363"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-normal.json",
+      "bytes": 294,
+      "sha256": "70903cd7a208b8f30e03fd969a2fb799f9fc7aa8a82cbbbea98656f71463cdb9"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-normal.txt",
+      "bytes": 100,
+      "sha256": "5dc9c377402376e391ae246b42ae315de3dcd2322799de4303ac294d720e2a0b"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-original.json",
+      "bytes": 580,
+      "sha256": "581008b6dee21723afeafb7f7870c48a9ef89925623d1796144184b99b171a2c"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-original.txt",
+      "bytes": 471,
+      "sha256": "16c1bb365ce8b79abb08639e0ff694525f522c5ba422b8fae220478ca9fed56f"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-sm_75.json",
+      "bytes": 572,
+      "sha256": "a7354f3415482b86e36c40378f119d9290a7c575c2faa21e7777331e625f9bac"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-sm_75.txt",
+      "bytes": 471,
+      "sha256": "76eb1422dd9e14d0d1c629bf8dd0bf0bd8a7c850f8d9942a5e6e5cca4fd1fc13"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-sm_89.json",
+      "bytes": 571,
+      "sha256": "c18ca7c3ecfb13b4b29b23309225fa7d2e63ef0cc3d0dd4f3606f6b104712e44"
+    },
+    {
+      "name": "turing-narrow-staging-final-build-sm_89.txt",
+      "bytes": 471,
+      "sha256": "76eb1422dd9e14d0d1c629bf8dd0bf0bd8a7c850f8d9942a5e6e5cca4fd1fc13"
+    },
+    {
+      "name": "turing-narrow-staging-headers-sm_75",
+      "bytes": 4777760,
+      "sha256": "eaaa584edc3794c501e6765ef3a3e7185394b61a2ed0af76609525ae5c82e6d5"
+    },
+    {
+      "name": "turing-narrow-staging-original-sm_75",
+      "bytes": 7713392,
+      "sha256": "846a84dd2ce36ab007015b5541a288bed3beb7d9b4b0dac33d3f6ea844c0b4fd"
+    },
+    {
+      "name": "turing-narrow-staging-sm_75",
+      "bytes": 10402600,
+      "sha256": "b286afc4b98374b2d98ecd2453ec2c786ab3bdc7a6616f6ee813bbe68febd8b1"
+    },
+    {
+      "name": "turing-narrow-staging-sm_89",
+      "bytes": 10402600,
+      "sha256": "7451df1fd1113d9e8f80d14bdf885fd73c5b35ebf85edfcdc5550a529baa217f"
+    }
+  ],
+  "limits": "Optional synthetic primitive16-column staging atrows64/128. Complete exact original64 bits/native fixed budgets/selected original-weight independent dots; all timings warmed launch/synchronize one physical session. Shared array sizes are defined source counts, not a captured resource/register/occupancy proof. No previous12832/cross-capture ratio or whole-model/production/provider promotion. Numeric acceptance and any useful speed are distinct."
+}

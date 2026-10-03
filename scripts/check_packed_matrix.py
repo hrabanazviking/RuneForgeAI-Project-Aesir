@@ -69,6 +69,11 @@ def parse(path):
             if large_rows != 128 or width != 32 or not text.endswith("\n"):
                 raise ValueError("Unsupported/incomplete larger row geometry")
             candidate=row[1];mode_seen=True;tile=(large_rows,8);staged_input_columns=32;paired_original=True
+        elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_narrow_f16_f32" and not synthetic and not mode_seen and not tile_seen:
+            narrow_rows, width = map(int,row[2:])
+            if narrow_rows not in (64,128) or width != 16 or not text.endswith("\n"):
+                raise ValueError("Unsupported/incomplete narrow staging geometry")
+            candidate=row[1];mode_seen=True;tile=(narrow_rows,8);staged_input_columns=16;paired_original=True
         elif tag == "MODE" and len(row) == 4 and row[1] == "turing_mma_staged_wide_f16_f32" and not synthetic and not mode_seen and not tile_seen:
             staged_rows, staged_columns = map(int, row[2:])
             if staged_rows not in (32,64) or staged_columns not in (64,128) or (2*staged_rows+32)*(staged_columns+1)*2 > 49152:
@@ -117,7 +122,10 @@ def parse(path):
             if paired_original:
                 ordinal=len(c["timings"]);expected_sample=ordinal//3;expected_mode=(expected_sample+ordinal%3)%3
                 if (sample,mode) != (expected_sample,expected_mode):raise ValueError("Paired timing owner rotation/order mismatch")
-            c["timings"][mode, sample] = value / iterations
+            per_call = value / iterations
+            if not math.isfinite(per_call) or per_call <= 0:
+                raise ValueError("Matrix per-call timing underflow/nonfinite")
+            c["timings"][mode, sample] = per_call
         elif tag == "PASS" and len(row) == 5 and len(cases) == 28:
             if row[1] != "matrix" or list(map(int, row[2:])) != [28, sum(len(c["actual"]) for c in cases), 840 if paired_original else 560]:
                 raise ValueError("Matrix completion totals mismatch")
@@ -228,6 +236,8 @@ def main():
                     summary[-1].update(original_seconds=original,original_to_candidate_ratio=ratio,original_f32_bits_equal=c["original_f32_bits_equal"],original_native_error=errors(c["original"],c["reference"]))
                     if cases[0]["cached_headers"]:summary[-1]["original_to_cached_ratio"]=ratio
             report.update(passed=accepted, collection_complete=True, cached_headers=cases[0]["cached_headers"], paired_original=paired, cases=summary)
+            if accepted and any(not math.isfinite(c[k]) or c[k] <= 0 for c in summary for k in ("speed_ratio", "original_to_candidate_ratio") if k in c):
+                raise ValueError("Nonfinite matrix ratio; all complete cases withheld")
             if digest(a.model) != a.model_sha256 or digest(a.csv) != cases[0]["csv_sha256"]:
                 raise ValueError("Matrix source/capture changed during independent validation")
             if not accepted:report["error"]="Complete native/original-bit/independent matrix gates failed; all ratios withheld"

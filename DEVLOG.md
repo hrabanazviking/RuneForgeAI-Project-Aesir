@@ -1,3 +1,27 @@
+## 2026-10-03 — Sigrún: narrower staging passes numerics, loses every timing
+
+Scoped/pushed6b3ecd7 before code. Separate16-column rows64/128 native kernels
+preserve all previous definitions verbatim, every guarded shared cell, original
+packed half-group equations and chronological F32 MMA. Defined shared5440/9792
+bytes atbatch32 uses fewer bytes, with more barriers/half-lane stores. Those are
+tradeoffs, not a demonstrated cause. Both configurations pass all144 synthetic/
+12 invalid spans/1658880 full native-candidate-original64 F32 bits/2100 selected
+independent dots/1622640 guards/840 rotated samples. All56 same-capture timing
+comparisons lose to original64; best.946255. Batch32 new64 gate/up/down ratios
+.474031/.438121/.658040; new128 .545667/.549575/.840446. No speed promotion or
+historical128 comparison. Numerical success is distinct from useful speed.
+
+Nineteen portable contracts/master190 passes/one skip; both targets/original/
+headers/master/normal/check finish before two serial GPU captures then pinned
+CPU dots. Added atomic rejection of per-call underflow/nonfinite ratio overflow,
+retaining all28 complete cases and clearing every failed score; regression passes.
+Actual256 with nonexistent model refuses pre-CUDA. All binary/model/CSV/source/
+process/build hashes and unchanged active/authenticated normal readiness remain.
+Read [operation](docs/NATIVE_TURING_NARROW_STAGING.md) and full retained evidence.
+Next keep proven32-column staging and measure bounded loop structure. Broader
+actual F32/full-model/generation/replay/control/device/context/soak/provider gates
+remain separate; exact push/CI receipts are separate.
+
 ## 2026-10-03 — Sigrún: owned down128 projection resource evidence
 
 Scoped/pushed8edb855 before code. Separate final trace capability admits explicit3

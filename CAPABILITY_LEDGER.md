@@ -1559,7 +1559,14 @@ and circular self-parity transforms were removed.
   gate/up/down long51.9283% summed kernel time is diagnostic only. Ten contracts/
   master190 passes/one skip; no occupancy/spill/256-failure cause/service ratio.
   [Evidence](docs/evidence/turing-down-projection-trace-2026-10-03/README.md).
-- **Next acceptance gate:** Measured narrower shared staging resource/speed experiment; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
+- **Narrow16-column primitive experiment (2026-10-03):** Both64/128 rows pass
+  complete1658880 native/candidate/original64 F32 bits/2100 selected dots/1622640
+  guards/144 synthetic/12 spans/840 rotated timings per configuration. All56
+  original64 comparisons lose (best.946255); no speed/default promotion. Defined
+  shared5440/9792 bytes is not observed register/occupancy proof. Nineteen portable
+  contracts/master190/one skip, finite atomic underflow/overflow failure retention.
+  [Evidence](docs/evidence/turing-narrow-staging-2026-10-03/README.md).
+- **Next acceptance gate:** Keep32-column width and measure bounded staging loop structure; broader causal attention/model/hardware/persisted/context/concurrency/soak/runtime prefill gates remain open.
 - **Audit:** AER-043, AER-094, AER-095, AER-003.
 
 ### AES-ACC-009 — Direct mmap-to-GPU zero-copy model weights
