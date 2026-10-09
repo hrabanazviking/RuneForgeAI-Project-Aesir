@@ -1073,4 +1073,8 @@ The legacy formatters below are not exposed compatibility APIs.
   explicit plan/live/source/current binary gates. No speed score.
   [Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
 - [ ] SPD-03 small-score enabled cooperative control recovery/tracing, then
-  runtime/context/device/concurrency/soak/refreshed provider acceptance.
+  runtime/context/device/concurrency/soak/refreshed provider acceptance. Active
+  contract: [TASK_small_attention_controls.md](TASK_small_attention_controls.md).
+  Default-false small-control admission, collector/checker path and portable
+  evidence are in progress; physical source-bound model/device acceptance remains
+  required before this item can be closed.

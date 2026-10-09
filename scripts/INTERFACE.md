@@ -170,6 +170,12 @@ case1, including signed zero. Numerical failures retain complete exclusive
 reports; speed_claim is alwaysFalse. Nine adversarial contracts cover identity,
 state, mask, vectors, signed zero and binding. Read
 ../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; this is test-only control evidence.
+Explicit `--small-attention` separately admits strategy5 only with the
+`rope_cache_elementwise_down128_small_controls` marker, accepted disabled-control
+model5 source/binary and actual current binary/SHA. It verifies small/down/closed-
+fused/original dispatch counts and exact recovered vectors; default readers remain
+closed. Read `../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md`. Compilation and
+synthetic contracts do not establish physical strategy5 recovery.
 
 ## check_turing_decode_quality.py
 

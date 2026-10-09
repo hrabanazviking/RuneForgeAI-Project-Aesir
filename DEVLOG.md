@@ -3343,3 +3343,25 @@ Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
 [operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md) and full evidence. Cooperative
 only; no GPU-fault repair, runtime32/provider promotion. Next earn owned stage
 tracing and wider context/concurrency/soak gates.
+
+## 2026-10-09 — Strategy5 cooperative controls in progress
+
+Published the 500-slice expansion roadmap and strategy5 control task contract on
+`docs/cross-cutting-500-slice-roadmap`. Added a separate default-false
+`small_controls` fixture capability, constructor-sealed capability admission,
+control-capable replay refusal, strategy5 collector marker/counts, and explicit
+strategy5 source/current binary admission in the control checker. The accepted
+capability ledger status remains unchanged.
+
+Portable control contracts pass (45 focused tests across strategy5, strategy4,
+strategy3, model and checkpoint checkers); the strategy5 control collector,
+checkpoint replay and small-model test targets compile for sm_75. Two constructor
+combinations refuse before nonexistent-model access. `check_doc_drift.py` passes.
+The accepted disabled-controls strategy5 model artifacts were located and their
+source, current binary and report hashes verified against the existing four-case
+acceptance. This is the predecessor baseline, not a capable-but-disabled controls
+capture. No physical strategy5 controls-capable disabled baseline, abort,
+reset/recovery or independent CPU capture has been run. The authenticated local
+AESIR service is currently using the RTX 2060. Keep the roadmap slice open until
+the new source-bound physical evidence and exact hosted CI are recorded. No speed
+claim or production selection change.

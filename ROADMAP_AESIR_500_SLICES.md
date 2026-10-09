@@ -606,6 +606,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 
 ## Status
 
-- AES500-001: contract and roadmap published; task contract is the current active work order.
-- AES500-002 onward: planned; not started unless an implementation receipt is recorded in the corresponding task/evidence document.
+- AES500-001: contract and roadmap published on the feature branch.
+- AES500-004 (strategy5 control implementation) has source, checker and portable
+  contract-test work in progress. Physical model/device acceptance remains open;
+  this is not a completed capability or closed roadmap slice.
+- AES500-002/003 and remaining gates are planned; record evidence in the
+  corresponding task/evidence document before marking any slice complete.
 - This document does not change any capability status.
