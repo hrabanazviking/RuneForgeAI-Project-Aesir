@@ -19,7 +19,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
     replay_tiles.append(1)
     var replay = FixtureReplayPlan(0,weights,Int(f.native.activations.unsafe_ptr()),
         Int(f.native.cache.unsafe_ptr()),replay_tokens,replay_tiles,1,f.native.sampler.config,UInt64(0))
-    for feature in range(13):
+    for feature in range(12):
         if feature == 2:f.trace_projections = True
         elif feature == 3:f.fused_controls = True
         elif feature == 4:f.fused_tracing = True
@@ -29,14 +29,11 @@ def closed_features(mut f: TuringPrefillFixture) raises:
         elif feature == 8:f.down128 = False
         elif feature == 9:f.batched_elementwise = False
         elif feature == 10:f.batched_rope_cache = False
-        elif feature == 12:
-            f.small_controls = True
         var refused = False
         try:
             if feature == 0:f.configure_control(1)
             elif feature == 1:f.start_control()
             elif feature == 11:restore(f,replay)
-            elif feature == 12:f.start_control()
             else:f.step(tokens,0,32)
         except:refused = True
         f.trace_projections = False
@@ -48,7 +45,6 @@ def closed_features(mut f: TuringPrefillFixture) raises:
         f.down128 = True
         f.batched_elementwise = True
         f.batched_rope_cache = True
-        f.small_controls = False
         if not refused or not f.small_attention or f.execution_strategy() != 5 or not f.healthy or not f.native.healthy or f.position != 0 or f.native.position != 0 or f.sampler.position != 0 or f.native.sampler.position != 0 or len(f.committed) != 0 or len(f.native.conversation_tokens()) != 0 or f.control.enabled() or f.control.reset_required or f.down128_calls != 0 or f.rope_cache_calls != 0 or f.elementwise_calls != 0 or f.fused_attention_calls != 0 or f.small_attention_calls != 0 or f.original_attention_queries != 0:
             raise Error("Ungated small feature changed owner state/counters")
         if Int(f.activations.unsafe_ptr()) != activation or Int(f.cache.unsafe_ptr()) != cache or Int(f.native.weights.unsafe_ptr()) != weights:
@@ -83,13 +79,19 @@ def main() raises:
         if args[2] == "reject-controls-with-tracing":
             var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,True,True,False,True)
             raise Error("Small controls with tracing admitted")
-    if len(args) != 2:raise Error("usage: test_small_attention_model MODEL.gguf")
-    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True)
+        if args[2] == "reject-controls-with-replay":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,True,True)
+            raise Error("Small controls with replay admitted")
+    if len(args) != 2 and len(args) != 3:raise Error("usage: test_small_attention_model MODEL.gguf [controls-disabled]")
+    var capable = len(args) == 3 and args[2] == "controls-disabled"
+    if len(args) == 3 and not capable: raise Error("Unknown small model mode")
+    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,False,capable)
     invalid_tiles(f)
-    closed_features(f)
+    if not capable: closed_features(f)
     print("ATTENTION,rope_cache_elementwise_down128_small,1,32")
     print("META,1,128256,1536,32,f16,8")
     print("ADMISSION,5,12,0")
+    if capable: print("CONTROL_CAPABLE,5,1,DISABLED")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.","Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.","Write one sentence about a silver ship beneath Bifröst.",long_prompt]
     for index in range(4):

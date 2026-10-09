@@ -2148,3 +2148,16 @@ tracing and broader runtime/context/device/concurrency/soak/refreshed provider g
 
 [Evidence](docs/evidence/small-attention-checkpoint-2026-10-03/README.md).
 Refines AES-ACC-008/010; no general new capability/provider speed promotion.
+
+### Small-score cooperative controls refinement — 2026-10-09
+
+The strategy5 fixture's explicit default-false `small_controls` capability passes
+fresh capable-but-disabled full-model/source/cache/ID/CPU acceptance and physical
+pre-expired/mid-tile timeout, owned cancellation, invalid-descriptor, reset and
+recovery/poison cases for the documented strict3B/sm75/context1536 scope. Every
+recovered vector is byte-identical; guards and caller signal-mask restoration
+pass. [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
+[evidence](docs/evidence/small-attention-controls-2026-10-09/README.md).
+Controls remain fixture-only; no normal selector, persistence/context-recreation,
+CUDA-fault repair, general runtime, or provider-speed capability is promoted.
+Next: owned small-score strategy5 tracing.

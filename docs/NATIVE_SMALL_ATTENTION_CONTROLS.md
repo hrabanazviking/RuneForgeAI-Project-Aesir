@@ -2,12 +2,11 @@
 
 ## Status
 
-The implementation contract is active. A default-false `small_controls` fixture
-capability and strategy5 collector/checker path are being added under
-`TASK_small_attention_controls.md`. Portable checker and owning Mojo build gates
-have passed locally. Physical model-bound timeout, cancellation and recovery has
-not been collected or accepted. This page is an operation contract, not evidence
-that the capability is complete.
+The strategy5 cooperative-controls fixture gate passed on 2026-10-09 for the
+documented model/device/source scope. The implementation uses a default-false
+`small_controls` capability. The source-bound full-model baseline, independent
+CPU comparison, physical abort/reset/recovery collection and strict checker passed;
+the receipt is in `evidence/small-attention-controls-2026-10-09/README.md`.
 
 Normal model/service selection remains on the existing admitted path. Strategy5
 controls do not imply strategy5 runtime readiness, tracing, production admission,
@@ -32,6 +31,30 @@ The mode is explicit:
 - The checker verifies all four complete recovery vectors against the accepted
   source, small/down/closed-fused/scalar dispatch counts, control state, reset,
   allocation identity, guard regions, caller signal mask and artifact hashes.
+
+## Capable-but-disabled source baseline
+
+The complete-model probe has an explicit `controls-disabled` mode. It enables
+the sealed `small_controls` capability while leaving the request control object
+disabled. Ordinary invocations do not receive that capability. Bind this mode to
+the accepted strategy5 source triplet and the current probe binary:
+
+```sh
+"$ARTIFACTS/small-model" "$MODEL" controls-disabled > "$ARTIFACTS/disabled.csv"
+python3 scripts/check_turing_model_prefill.py "$ARTIFACTS/disabled.csv" \
+  --model "$MODEL" --model-sha256 "$MODEL_SHA256" \
+  --reference-model "$REFERENCE_MODEL" --reference-sha256 "$REFERENCE_SHA256" \
+  --reference-provenance "$REFERENCE_PROVENANCE" \
+  --reference-csv "$SMALL_SOURCE_CSV" --reference-report "$SMALL_SOURCE_REPORT" \
+  --reference-binary "$SMALL_SOURCE_BINARY" --small-controls \
+  --binary "$ARTIFACTS/small-model" --binary-sha256 "$SMALL_MODEL_BINARY_SHA256" \
+  --output "$ARTIFACTS/disabled.json"
+```
+
+The checker requires the capable-but-disabled marker, then compares all four
+current cases against accepted strategy5 native/matrix bytes, cache digests, IDs
+and dispatch counts before running the pinned zero-GPU CPU oracle. The accepted
+strategy5 source itself must remain control-disabled.
 
 ## Required physical acceptance
 
@@ -70,13 +93,13 @@ python3 scripts/check_turing_fixture_controls.py "$ARTIFACTS/controls.csv" \
 
 The native collector needs the exact real fixture model. The checker requires
 the accepted model5 source to remain disabled-controls, and binds model, source
-CSV/report/binary, current binary and capture before and after validation. Hosted
-CI compilation is not physical control evidence.
+CSV/report/binary, current binary and capture before and after validation. The
+accepted 2026-10-09 run is recorded in
+[the physical evidence receipt](evidence/small-attention-controls-2026-10-09/README.md).
+Hosted CI compilation is not physical control evidence.
 
 ## Completion boundary
 
-Only after the source-bound CPU and physical gates pass may this page record
-accepted counts, hashes, vectors, run conditions and limitations. Passing these
-tests establishes only cooperative recovery for this fixture, model and device.
-Persisted restore, context recreation, broader concurrency/soak, tracing, normal
-selection and provider speed remain separate gates.
+Passing this gate establishes only cooperative recovery for this fixture, model
+and device. Persisted restore, context recreation, broader concurrency/soak,
+tracing, normal selection and provider speed remain separate gates.

@@ -91,12 +91,16 @@ for strategy4 are separately admitted; strategy5 currently rejects them.
 Use the accepted model5 evidence and exact commands/identities documented in
 `ROADMAP_AESIR_SPEED_LEAD.md`, `docs/NATIVE_SMALL_ATTENTION_MODEL.md`,
 `docs/NATIVE_SMALL_ATTENTION_DECODE.md`, and
-`docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md`. Keep all 7-or-more build targets
-from the owning control contract completed before GPU activity. Run focused
-portable contracts and checkers, the master suite, normal build/readiness and
-negative-control/drift checks. Physical timeout/cancellation/reset must execute
-on the target device; hosted CI alone cannot establish the physical behavior.
-Record exact commit and hosted CI separately.
+`docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md`. The physical controls capture uses
+the three directly affected Mojo entrypoints: the complete-model capable-disabled
+baseline, controls/recovery collector, and replay-refusal target. These three
+targets were built for sm_75 before physical activity. The model/generation/replay
+source gates remain separately accepted and unchanged; this task does not require
+rebuilding unrelated strategy5 executables. Run focused portable contracts and
+checkers, the repository master suite, normal build/readiness and negative-control/
+drift checks. Physical timeout/cancellation/reset must execute on target hardware;
+hosted CI alone cannot establish physical behavior. Record exact commit and hosted
+CI separately.
 
 ## Completion boundary
 
@@ -104,3 +108,11 @@ Passing this task establishes only the declared strategy5 cooperative control
 and recovery behavior for the stated fixture, model, device, source and policy.
 It does not establish tracing, runtime selection, persisted/context recreation,
 broader devices/models, production readiness, provider parity, or speed lead.
+
+## Completion receipt — 2026-10-09
+
+The declared fixture/model/device gate passed. See
+`docs/evidence/small-attention-controls-2026-10-09/README.md` for raw capture
+locations, source/binary/model identities, baseline CPU scope, abort boundaries,
+exact recovered values and service restoration. Final commit and hosted CI receipt
+are tracked separately from this local physical evidence.

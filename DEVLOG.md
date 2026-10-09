@@ -3344,7 +3344,7 @@ Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
 only; no GPU-fault repair, runtime32/provider promotion. Next earn owned stage
 tracing and wider context/concurrency/soak gates.
 
-## 2026-10-09 — Strategy5 cooperative controls in progress
+## 2026-10-09 — Strategy5 cooperative controls accepted for fixture scope
 
 Published the 500-slice expansion roadmap and strategy5 control task contract on
 `docs/cross-cutting-500-slice-roadmap`. Added a separate default-false
@@ -3353,15 +3353,18 @@ control-capable replay refusal, strategy5 collector marker/counts, and explicit
 strategy5 source/current binary admission in the control checker. The accepted
 capability ledger status remains unchanged.
 
-Portable control contracts pass (45 focused tests across strategy5, strategy4,
-strategy3, model and checkpoint checkers); the strategy5 control collector,
-checkpoint replay and small-model test targets compile for sm_75. Two constructor
-combinations refuse before nonexistent-model access. `check_doc_drift.py` passes.
-The accepted disabled-controls strategy5 model artifacts were located and their
-source, current binary and report hashes verified against the existing four-case
-acceptance. This is the predecessor baseline, not a capable-but-disabled controls
-capture. No physical strategy5 controls-capable disabled baseline, abort,
-reset/recovery or independent CPU capture has been run. The authenticated local
-AESIR service is currently using the RTX 2060. Keep the roadmap slice open until
-the new source-bound physical evidence and exact hosted CI are recorded. No speed
-claim or production selection change.
+The three owning targets (capable-disabled model baseline, controls collector and
+checkpoint replay refusal) compile for sm_75 before GPU use. The fresh capable-
+but-disabled source5 baseline passed all four cases and the independent zero-GPU
+CPU gate. Physical timeout/cancellation/invalid-fd aborts stopped at0/2/8/0
+synced layers; explicit reset recovered all513024 native and matrix values per
+case byte-for-byte. Observer failure poisoned the owner;9792 guards and signal
+mask restoration passed. Evidence and hashes are in
+`docs/evidence/small-attention-controls-2026-10-09/README.md`.
+
+The 46 focused portable contracts, Python compilation, doc-drift and whitespace
+checks pass. The normal service binary was rebuilt after fixture-source changes;
+`aesir-brain.service` returned authenticated status200/ready, CUDA, context4096,
+prefill4 and cpu_offload0. Controls stay test-only/default-disabled. No speed,
+GPU-fault repair or production-selection claim. Hosted CI is pending for the
+final pushed revision; the next slice is owned strategy5 tracing.

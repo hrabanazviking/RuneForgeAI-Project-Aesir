@@ -82,6 +82,7 @@ jobs:
           python3 scripts/test_check_fused_causal_attention.py
           python3 scripts/test_check_small_fused_attention.py
           python3 scripts/test_check_small_attention_model.py
+          python3 scripts/test_check_small_attention_controls.py
           python3 scripts/test_check_fused_attention_model.py
 
       - name: Prove Turing MMA Evidence Admission

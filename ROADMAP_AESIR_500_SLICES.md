@@ -64,7 +64,7 @@ The capability ledger's current count and evidence commands are a snapshot. Re-r
 
 ## Complete indexed backlog
 
-Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. Slice 001 is active; subsequent slices begin only when their prerequisites are reviewed.
+Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. Slices AES500-001 through AES500-010 close the strategy5 cooperative-controls work order; AES500-011 starts owned strategy5 tracing.
 
 | Slice | Phase | Work item | Owner | Depends on | Deliverable and acceptance gate |
 |---:|---|---|---|---|---|
@@ -78,16 +78,16 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 | AES500-008 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — independent-review | cuda | AES500-007 | Have the Auditor reconcile source, evidence and capability wording; no unsubstantiated maturity or performance claim remains. |
 | AES500-009 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — documentation | cuda | AES500-008 | Synchronize task, interface, ledger, TODO and devlog owners; links resolve and evidence boundaries are stated. |
 | AES500-010 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — release-gate | cuda | AES500-009 | Rebuild from the pinned toolchain, run declared suites, inspect the final diff, commit and push this slice, then verify the exact remote revision and hosted CI. |
-| AES500-011 | CUDA kernels and strategy admission | context and stream ownership — contract | cuda | AES500-010 | Publish the exact owner, inputs, outputs, invariants, exclusions and acceptance commands; reviewer confirms the slice is independently scoped. |
-| AES500-012 | CUDA kernels and strategy admission | context and stream ownership — baseline | cuda | AES500-011 | Capture a reproducible pre-change baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
-| AES500-013 | CUDA kernels and strategy admission | context and stream ownership — interface | cuda | AES500-012 | Make the owning interface explicit and validate accepted/rejected inputs without changing unrelated public behavior. |
-| AES500-014 | CUDA kernels and strategy admission | context and stream ownership — implementation | cuda | AES500-013 | Implement only the named behavior; compile or execute the owning path and show every failure remains explicit. |
-| AES500-015 | CUDA kernels and strategy admission | context and stream ownership — unit-evidence | cuda | AES500-014 | Add focused executable evidence for normal, boundary and malformed cases; all assertions are tied to the named contract. |
-| AES500-016 | CUDA kernels and strategy admission | context and stream ownership — integration-evidence | cuda | AES500-015 | Exercise the adjacent owning domains end to end with exact state/output comparisons and no orphan wiring. |
-| AES500-017 | CUDA kernels and strategy admission | context and stream ownership — adversarial-evidence | cuda | AES500-016 | Run hostile bounds, interruption, mutation, resource and cleanup cases relevant to the slice; reject unsafe cases before mutation. |
-| AES500-018 | CUDA kernels and strategy admission | context and stream ownership — independent-review | cuda | AES500-017 | Have the Auditor reconcile source, evidence and capability wording; no unsubstantiated maturity or performance claim remains. |
-| AES500-019 | CUDA kernels and strategy admission | context and stream ownership — documentation | cuda | AES500-018 | Synchronize task, interface, ledger, TODO and devlog owners; links resolve and evidence boundaries are stated. |
-| AES500-020 | CUDA kernels and strategy admission | context and stream ownership — release-gate | cuda | AES500-019 | Rebuild from the pinned toolchain, run declared suites, inspect the final diff, commit and push this slice, then verify the exact remote revision and hosted CI. |
+| AES500-011 | CUDA kernels and strategy admission | strategy5 owned tracing — contract | cuda | AES500-010 | Publish the exact trace owner, events, sources, invariants, exclusions and acceptance commands; reviewer confirms the slice is independently scoped. |
+| AES500-012 | CUDA kernels and strategy admission | strategy5 owned tracing — baseline | cuda | AES500-011 | Capture a reproducible untraced strategy5 baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
+| AES500-013 | CUDA kernels and strategy admission | strategy5 owned tracing — interface | cuda | AES500-012 | Make the trace capability and event interface explicit; reject unsupported capability combinations without mutation. |
+| AES500-014 | CUDA kernels and strategy admission | strategy5 owned tracing — implementation | cuda | AES500-013 | Implement only the named trace behavior; compile or execute the owning path and show every failure remains explicit. |
+| AES500-015 | CUDA kernels and strategy admission | strategy5 owned tracing — unit-evidence | cuda | AES500-014 | Add focused executable evidence for event identity, ordering, boundaries and malformed cases. |
+| AES500-016 | CUDA kernels and strategy admission | strategy5 owned tracing — integration-evidence | cuda | AES500-015 | Correlate real strategy5 source work with owned trace events and exact state/output comparisons. |
+| AES500-017 | CUDA kernels and strategy admission | strategy5 owned tracing — adversarial-evidence | cuda | AES500-016 | Run hostile bounds, interruption, mutation, resource and cleanup cases relevant to tracing. |
+| AES500-018 | CUDA kernels and strategy admission | strategy5 owned tracing — independent-review | cuda | AES500-017 | Have the Auditor reconcile source, trace evidence and capability wording; no unsubstantiated maturity or performance claim remains. |
+| AES500-019 | CUDA kernels and strategy admission | strategy5 owned tracing — documentation | cuda | AES500-018 | Synchronize task, interface, ledger, TODO and devlog owners; links resolve and evidence boundaries are stated. |
+| AES500-020 | CUDA kernels and strategy admission | strategy5 owned tracing — release-gate | cuda | AES500-019 | Rebuild from the pinned toolchain, run declared suites, inspect the final diff, commit and push this slice, then verify the exact remote revision and hosted CI. |
 | AES500-021 | CUDA kernels and strategy admission | allocation lifetime tracking — contract | cuda | AES500-020 | Publish the exact owner, inputs, outputs, invariants, exclusions and acceptance commands; reviewer confirms the slice is independently scoped. |
 | AES500-022 | CUDA kernels and strategy admission | allocation lifetime tracking — baseline | cuda | AES500-021 | Capture a reproducible pre-change baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
 | AES500-023 | CUDA kernels and strategy admission | allocation lifetime tracking — interface | cuda | AES500-022 | Make the owning interface explicit and validate accepted/rejected inputs without changing unrelated public behavior. |
@@ -600,16 +600,15 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - Observer exceptions poison health and refuse reuse/reset. Bind sampler/history/draws, signal mask, source/current binaries and all after-fences.
 - Finish all builds before serial physical GPU work followed by independent CPU work. Update owning contracts, TODO, ledger, operation evidence and devlog only to the exact demonstrated scope.
 
-### AES500-004 — Strategy5 owned tracing
+### AES500-011 — Strategy5 owned tracing
 
 - Begin only after control recovery acceptance. Attribute actual strategy5 work to owned resources and complete source-bound sessions; timing stays unscored until the relevant measurement contract is met.
 
 ## Status
 
-- AES500-001: contract and roadmap published on the feature branch.
-- AES500-004 (strategy5 control implementation) has source, checker and portable
-  contract-test work in progress. Physical model/device acceptance remains open;
-  this is not a completed capability or closed roadmap slice.
-- AES500-002/003 and remaining gates are planned; record evidence in the
-  corresponding task/evidence document before marking any slice complete.
+- AES500-001 through AES500-009: strategy5 control contract, baseline, interface,
+  implementation, unit/integration/adversarial evidence, review and documentation
+  are complete for the declared fixture/model/device; see the task and evidence.
+- AES500-010: release gate is pending final commit/push and exact hosted CI.
+- AES500-011: strategy5 owned tracing contract is the next active slice.
 - This document does not change any capability status.

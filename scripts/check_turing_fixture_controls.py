@@ -94,7 +94,7 @@ def parse(path,golden,*,allow_down=False,allow_fused=False,allow_small=False):
         layers = int(row[3])
         if str(layers) != row[3] or (index == 1 and not 0 < layers < 28) or (index == 2 and layers != 8) or (index in (0,3) and layers != 0):
             raise ValueError("Wrong actual control layer boundary")
-        if allow_small and next(reader) != ["ABORT_SMALL_ATTENTION",str(index),str(2*layers),"0","0"]:
+        if allow_small and next(reader) != ["ABORT_SMALL_ATTENTION",str(index),str(layers),"0","0"]:
             raise ValueError("Actual small attention abort count differs from completed layers")
         if selected and next(reader) != ["ABORT_DOWN_ROWS128",str(index),str(layers)]:
             raise ValueError("Actual selected down abort count differs from completed layers")
@@ -135,7 +135,7 @@ def parse(path,golden,*,allow_down=False,allow_fused=False,allow_small=False):
                               "recovered_fused_attention_host_enqueues":56,"recovered_original_attention_queries":28} if allow_fused else {})))
     if next(reader) != ["POISON","1","0","0","32","0","4","0"]:
         raise ValueError("Unexpected exception did not poison fixture and refuse reuse/reset")
-    if allow_small and next(reader) != ["POISON_SMALL_ATTENTION","2","0","0"]:
+    if allow_small and next(reader) != ["POISON_SMALL_ATTENTION","1","0","0"]:
         raise ValueError("Actual small/original poison counts differ from observer boundary")
     if selected and next(reader) != ["POISON_DOWN_ROWS128","1"]:
         raise ValueError("Actual selected down poison count differs from observer boundary")

@@ -1072,9 +1072,14 @@ The legacy formatters below are not exposed compatibility APIs.
   small/closed-fused/scalar counts. Ten hostile contracts/master190/seven builds,
   explicit plan/live/source/current binary gates. No speed score.
   [Operation](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
-- [ ] SPD-03 small-score enabled cooperative control recovery/tracing, then
+- [x] SPD-03 small-score enabled cooperative control recovery: fresh capable-but-
+  disabled model baseline, independent CPU, pre-expired/mid-tile timeout, owned
+  SIGINT, invalid-fd, explicit reset/recovery, poison/refusal, exact vectors,
+  guards, signal mask, all three sm_75 target builds and focused portable checks.
+  [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
+  [evidence](docs/evidence/small-attention-controls-2026-10-09/README.md).
+  Fixture-only; no production selection or speed promotion.
+- [ ] SPD-03 owned strategy5 tracing, then
   runtime/context/device/concurrency/soak/refreshed provider acceptance. Active
-  contract: [TASK_small_attention_controls.md](TASK_small_attention_controls.md).
-  Default-false small-control admission, collector/checker path and portable
-  evidence are in progress; physical source-bound model/device acceptance remains
-  required before this item can be closed.
+  work order: the next strategy5 tracing contract. Control recovery is closed for
+  its declared fixture/model/device scope; broader runtime/provider gates remain.

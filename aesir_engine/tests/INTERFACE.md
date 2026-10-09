@@ -864,13 +864,12 @@ The small-score strategy5 fixture adds final `small_controls=False`. True requir
 the already admitted small5 strategy and excludes fused4 controls, all tracing,
 and control-capable replay. `configure_control`, `start_control`, tile admission
 and replay admission validate the capability before mutation. Default small5
-continues to refuse enabled controls; a separate explicit collector mode5 may
-exercise the existing synchronized cooperative abort/reset machinery. It must
+continues to refuse enabled controls; a separate explicit collector mode5
+exercises the existing synchronized cooperative abort/reset machinery. It must
 preserve strategy5 dispatch counts (`small_attention`, closed fused-attention,
 original scalar), complete vectors, state, allocations and guards through abort
 and recovery. Strategy5 remains a test fixture; enabled-control timing is unscored.
 Read project-root `TASK_small_attention_controls.md` and
 `docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the active contract and final
-evidence boundary. Physical timeout/cancellation/recovery requires the accepted
-model and target device; compilation and synthetic checker cases do not establish
-that gate.
+evidence boundary. The scoped physical gate passes for the accepted strict3B
+model and RTX2060 sm75; this does not admit normal runtime selection.

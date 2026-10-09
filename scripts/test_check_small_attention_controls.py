@@ -22,7 +22,7 @@ def fixture(delta=0):
     for index, layers in enumerate((0, 3, 8, 0)):
         text = text.replace(
             f"ABORT_GUARD,{index},",
-            f"ABORT_SMALL_ATTENTION,{index},{2 * layers},0,0\n"
+            f"ABORT_SMALL_ATTENTION,{index},{layers},0,0\n"
             f"ABORT_DOWN_ROWS128,{index},{layers}\n"
             f"ABORT_FUSED_ATTENTION,{index},0,0\nABORT_GUARD,{index},",
         )
@@ -34,7 +34,7 @@ def fixture(delta=0):
         )
     text = text.replace(
         "POISON_GUARD,",
-        "POISON_SMALL_ATTENTION,2,0,0\nPOISON_DOWN_ROWS128,1\n"
+        "POISON_SMALL_ATTENTION,1,0,0\nPOISON_DOWN_ROWS128,1\n"
         "POISON_FUSED_ATTENTION,0,0\nPOISON_GUARD,",
     )
     return text
@@ -57,9 +57,9 @@ class SmallAttentionControls(unittest.TestCase):
 
     def test_small_dispatch_and_closed_fused_counts_are_mandatory(self):
         for old, new in (
-            ("ABORT_SMALL_ATTENTION,1,6,0,0", "ABORT_SMALL_ATTENTION,1,7,0,0"),
+            ("ABORT_SMALL_ATTENTION,1,3,0,0", "ABORT_SMALL_ATTENTION,1,7,0,0"),
             ("RECOVERED_SMALL_ATTENTION,0,56,0,28", "RECOVERED_SMALL_ATTENTION,0,55,0,28"),
-            ("POISON_SMALL_ATTENTION,2,0,0", "POISON_SMALL_ATTENTION,1,0,0"),
+            ("POISON_SMALL_ATTENTION,1,0,0", "POISON_SMALL_ATTENTION,2,0,0"),
             ("ABORT_FUSED_ATTENTION,0,0,0", "ABORT_FUSED_ATTENTION,0,1,0"),
             ("RECOVERED_FUSED_ATTENTION,0,0,28", "RECOVERED_FUSED_ATTENTION,0,0,27"),
             ("POISON_FUSED_ATTENTION,0,0", "POISON_FUSED_ATTENTION,1,0"),

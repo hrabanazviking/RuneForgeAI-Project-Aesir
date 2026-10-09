@@ -45,6 +45,14 @@ class Contracts(unittest.TestCase):
             with self.assertRaises(ValueError):module.attention_variant(MARKER.split(','))
         with self.assertRaises(ValueError):source_check.accepted_model(path, self.root/'unused', 'a'*64, fused=True, binary=self.previous_binary)
 
+    def test_capable_but_disabled_marker_requires_explicit_mode(self):
+        text=fixture().replace('CASE,0,2\n','CONTROL_CAPABLE,5,1,DISABLED\nCASE,0,2\n',1)
+        path=self.root/'capture';path.write_text(text)
+        with self.assertRaises(ValueError):check.parse(path,allow_small=True)
+        self.assertTrue(check.parse(path,allow_small=True,allow_small_controls=True)['control_capable'])
+        path.write_text(text.replace('CONTROL_CAPABLE,5,1,DISABLED','CONTROL_CAPABLE,5,0,ENABLED'))
+        with self.assertRaises(ValueError):check.parse(path,allow_small=True,allow_small_controls=True)
+
     def test_complete_mode_admission_counters_and_closed_capabilities(self):
         for a,b in [('ADMISSION,5,12,0', 'ADMISSION,5,11,0'), ('ADMISSION,5,12,0\n',''),
                     ('ADMISSION,5,12,0\n','ADMISSION,5,12,0\nCONTROL_CAPABLE,4,1\n'),

@@ -1,7 +1,7 @@
 # AESIR speed-lead roadmap
 
 Established 2026-10-01. Owner: native compute, runtime and measurement domains.
-Status: **active plan; optional strategy5 model, generation and sealed replay gates implemented; release/provider gates open**.
+Status: **active plan; optional strategy5 model, generation, sealed replay and cooperative-control fixture gates pass; tracing and release/provider gates remain open**.
 
 Volmarr's objective is to make AESIR substantially faster than Ollama while
 preserving useful answers, stable operation and the second-brain integrations.
@@ -25,10 +25,11 @@ measured GPU work; long scores/attention are secondary. Raw trace/process overhe
 is kept separate from service scores. Semantic stage, cache/residency and broad
 quality/second-session gates remain open.
 
-## Current implementation frontier — 2026-10-03
+## Current implementation frontier — 2026-10-09
 
 The optional small-score strategy5 now passes complete model/source/cache quality,
-96 full causal generation frames and sealed owning-context replay. The latest
+96 full causal generation frames, sealed owning-context replay and source-bound
+cooperative control recovery. The latest
 implementation slices are [generation988f276](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/commit/988f27687269c3ae53bbf3347be2a7d38c8c37bd)
 and [replay131e673](https://github.com/hrabanazviking/RuneForgeAI-Project-Aesir/commit/131e673f9aa4790c6f7b5840e31b7dae96a591a3).
 Local target/master/normal builds, complete physical GPU/independent CPU and
@@ -38,12 +39,13 @@ repository consistency gates pass; exact hosted CI receipts remain separate.
 | --- | --- | --- |
 | SPD-00 | Balanced provider evidence, independent F32 quality and hardware traffic baseline | Full semantic/cache/residency parity and additional fair sessions |
 | SPD-01/02 | Packed Tensor-Core primitives and optional strict3B model/generation/replay fixtures | Broader models/devices, runtime selection and provider lead |
-| SPD-03 | Original fused4 model/generation/replay/controls/tracing; small-score5 model/generation/sealed replay | Cooperative controls5, owned tracing5, then runtime breadth |
+| SPD-03 | Original fused4 model/generation/replay/controls/tracing; small-score5 model/generation/sealed replay/controls | Owned tracing5, then runtime breadth |
 | SPD-04 | Batched rotary/cache/elementwise/down and owned launch/resource evidence | Further measured launch/transfer work and separately proven graph support |
 | SPD-05–10 | Defined work orders and acceptance targets | Sustained decode lead, cache/speculation/concurrency/soak and second-brain production acceptance |
 
-The next implementation is **cooperative control recovery for strategy5**, detailed
-in section6. New generation/replay slices score correctness and robustness; they
+The next implementation is **owned strategy5 tracing**; publish its task contract
+after the controls release gate's exact hosted CI is verified. New
+generation/replay/control slices score correctness and robustness; they
 produce no new inference-speed ratio or AESIR/Ollama comparison. The normal service
 still uses its admitted original prefill4 path. Full roadmap completion and the
 2× provider lead remain open. Earlier "next" statements below record the boundary
@@ -831,32 +833,36 @@ occupancy important tuning considerations; measure them rather than maximizing
 registers or tile size by intuition. [Turing guide](https://docs.nvidia.com/cuda/turing-tuning-guide/index.html),
 [CUDA best practices](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html).
 
-## 6. Current next implementation work order
+## 6. Completed strategy5 cooperative-control work order — 2026-10-09
 
-The current native fixture frontier is **strategy5 cooperative control recovery**.
+The current native fixture frontier is **strategy5 owned tracing**. Cooperative
+control recovery is accepted only for its exact test fixture/model/device scope.
 Strategy5 already passes [complete model/source/cache acceptance](docs/NATIVE_SMALL_ATTENTION_MODEL.md),
 [causal generation](docs/NATIVE_SMALL_ATTENTION_DECODE.md) and
 [sealed owning-context replay](docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md).
 Those are narrow physical test gates; normal production selection remains open.
 
-- Publish `TASK_small_attention_controls.md` before code under the standing
-  sequential slice authorization. Read the fixture/control/test/script owners.
-- Add an explicit default-false strategy5 control capability. Preserve existing
-  default refusals and0..4 capabilities. Constructor/runtime admission must precede
-  model access or mutation. Keep trace and control-capable replay separate.
-- First establish a fresh disabled-control capable5 full-model gate against the
+- The strategy5 controls contract and implementation are recorded in
+  `TASK_small_attention_controls.md` and
+  `docs/evidence/small-attention-controls-2026-10-09/README.md`.
+- Added an explicit default-false strategy5 control capability. Existing
+  default refusals and0..4 capabilities remain. Constructor/runtime admission
+  precedes model access or mutation. Trace and control-capable replay stay separate.
+- The accepted gate established a fresh controls-capable-but-disabled strategy5
+  full-model baseline against the
   actual accepted default5 CSV/report/binary: all513024 F32 values per owner,
   complete cache/IDs/own bits/counters/guards and unchanged independent CPU quality.
-- Then exercise pre-expired and cooperative mid-tile timeout, owned cancellation
-  and invalid-descriptor aborts. Preserve allocation/health, leave aborted tiles
-  uncommitted, require reset before reuse and reproduce all recovered source vectors.
-  Distinguish known synchronized aborts from observer exceptions that poison health.
-- Bind actual small/down/closed-fused/original counters, sampler/history/draws,
-  caller signal mask, source/current binaries and complete artifact after-fences.
-  Add hostile portable contracts; finish all builds before serial GPU then CPU.
-- Publish operation/evidence/owners/TODO/ledger, verify normal readiness, push,
-  and retain exact implementation-commit CI. Enabled-control timing stays unscored.
-- After this gate, earn owned strategy5 tracing and choose the next measured
+- Physical cases exercised pre-expired and cooperative mid-tile timeout, owned
+  cancellation and invalid-descriptor aborts. They preserve allocations/health,
+  leave tiles uncommitted, require reset and reproduce all source vectors. Observer
+  exceptions poison health.
+- The collector/checker binds actual small/down/closed-fused/original counters,
+  sampler/history/draws, caller signal mask, source/current binaries and artifact
+  after-fences. Three directly affected targets were built before serial GPU work;
+  focused portable and documentation gates pass.
+- Operation/evidence/TODO and normal readiness are recorded. Enabled-control
+  timing stays unscored; no production capability or speed promotion follows.
+- Next earn owned strategy5 tracing and choose the next measured
   speed experiment. Broader runtime/context/device/concurrency/soak and refreshed
   fair provider comparisons precede normal selection or a general speed-lead claim.
 

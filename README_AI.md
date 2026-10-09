@@ -132,11 +132,14 @@ for the next reset/restoration gate before runtime32 admission or provider claim
 
 Exact-boundary owning-context checkpoint replay now passes both declared policies;
 read docs/NATIVE_TURING_CHECKPOINT_REPLAY.md. Persisted schema/context recreation/
-long-history gates remain open. For the strict3B small-score strategy5 frontier,
-read [the active control/recovery contract](TASK_small_attention_controls.md)
-and [the 500-slice expansion roadmap](ROADMAP_AESIR_500_SLICES.md). Strategy5
-control recovery and owned tracing remain separate opt-in gates; normal service
-selection stays unchanged.
+and long-history gates remain open.
+
+For the strict3B small-score strategy5 frontier, read [the accepted cooperative
+controls operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md), [the physical
+evidence receipt](docs/evidence/small-attention-controls-2026-10-09/README.md),
+and [the 500-slice expansion roadmap](ROADMAP_AESIR_500_SLICES.md). Owned
+strategy5 tracing is the next opt-in gate; normal service selection stays
+unchanged.
 
 For the next optional rotary/cache launch reduction, read
 [batched operation](docs/NATIVE_TURING_BATCHED_ROPE_CACHE.md). Default fixture

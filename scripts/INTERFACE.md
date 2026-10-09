@@ -174,8 +174,9 @@ Explicit `--small-attention` separately admits strategy5 only with the
 `rope_cache_elementwise_down128_small_controls` marker, accepted disabled-control
 model5 source/binary and actual current binary/SHA. It verifies small/down/closed-
 fused/original dispatch counts and exact recovered vectors; default readers remain
-closed. Read `../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md`. Compilation and
-synthetic contracts do not establish physical strategy5 recovery.
+closed. `check_turing_model_prefill.py --small-controls` separately verifies the
+capable-but-disabled four-case model/source/cache/CPU baseline. Read
+`../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` and the physical evidence receipt.
 
 ## check_turing_decode_quality.py
 
