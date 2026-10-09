@@ -15,9 +15,10 @@ AESIR is a native Mojo inference project with a capability ledger and a large
 reality-first backlog. Existing optional CUDA strategies have narrow physical
 and numerical evidence, but this does not establish general speed leadership,
 production admission, broad model/device support, or all planned roadmap
-capabilities. `TODO.md` identifies bounded causal attention as the next measured
-speed experiment after the existing paired-FFN gate, and the ledger remains the
-present-tense authority.
+capabilities. `ROADMAP_AESIR_SPEED_LEAD.md` identifies strategy5 cooperative
+control recovery as the current native fixture frontier. Strategy5 already has
+narrow model, causal-generation and sealed-replay evidence; control recovery and
+owned tracing remain open. The ledger remains the present-tense authority.
 
 ## Goal
 
@@ -25,9 +26,11 @@ Publish a dependency-ordered 500-slice program that spans correctness,
 performance, model support, runtime/service, security, portability, usability,
 operations, and ecosystem integrations. Each slice must name an owner/domain,
 prerequisites, a concrete deliverable, measurable acceptance evidence, and a
-claim boundary. Execute slice 001 as a default-disabled bounded causal-attention
-candidate with independent math and memory-guard evidence; do not promote it or
-claim a speed lead without its full gates.
+claim boundary. Execute slice 001 as default-disabled strategy5 cooperative
+control recovery; preserve ordinary selection and prove disabled acceptance,
+abort/reset recovery, health/poison boundaries and source-bound evidence before
+tracing or promotion. Do not claim a speed lead from this correctness/recovery
+slice.
 
 ## Invariants
 
@@ -48,12 +51,16 @@ claim a speed lead without its full gates.
 
 ## First-Slice Acceptance
 
-1. Candidate remains opt-in and leaves normal strategy selection untouched.
-2. Independent reference math and complete output comparisons pass fixed budgets.
-3. Invalid spans, bounds, guards, and relevant causal/mask edge cases fail safely.
-4. No candidate promotion without actual full-model and recovery/control gates.
-5. Record all failures and timings; do not report speed unless the predeclared
-   matched measurement gate passes.
+1. Capability remains default-false and ordinary strategy selection is unchanged.
+2. Fresh disabled-control strategy5 matches accepted model5 source across logits,
+   cache, IDs, own bits, counters, guards and independent CPU quality.
+3. Pre-expired and cooperative mid-tile timeout, owned cancellation and invalid
+   descriptor aborts preserve allocations, leave tiles uncommitted and recover
+   exact vectors after explicit reset.
+4. Observer exceptions poison health and refuse reuse/reset; strategy4 and normal
+   admission boundaries remain unchanged.
+5. No promotion or speed claim; preserve all failure evidence and source/binary
+   identities.
 
 ## Workflow
 
