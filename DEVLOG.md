@@ -3723,3 +3723,12 @@ signal so the parent sees signal(9) (honest audit trail).
 
 **In flight:** H146 10-kill test (5/10, all ≤2.4s), H159 no-silent-fallback audit,
 H151–H154 PRÓF suites, H158 30-min supervised run, H160 review.
+
+**H159 audit (2026-10-10 ~13:30 EDT): 20/20 PASS** — every degrade/fallback path
+emits its structured event; zero silent paths. Fixed in-slice: (1) h158-run
+crashed ENOENT when out-dir missing → now creates it; (2) live register poll on
+healthy device emitted nothing → added RegisterPollClean telemetry; (3) D3hot
+device reads BAR0+0x018C as 0x7FFFFFFF — decoder flags undocumented bits per
+H087 (never ignore, never mislabel), documented in ERROR_TAXONOMY.md.
+**H146: 10/10 SIGKILL restarts ≤2.4s.** **H153: 3/3 removals clean.**
+**H154: 500/500 DMA corruptions caught, 0 escapes.**
