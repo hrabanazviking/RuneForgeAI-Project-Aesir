@@ -193,7 +193,6 @@ def store_raw(path: String, data: List[UInt8]) raises:
     fh.close()
 
 
-def main() raises:
 """
 
 
@@ -902,13 +901,19 @@ def main():
 
     chunks = [MOJO_HEADER]
     verifiers = []
+    calls = []
     for case in corpus["cases"]:
         casedir = os.path.join(workdir, case["id"])
         os.makedirs(casedir, exist_ok=True)
         emitter = EMITTERS[case["kernel"]]
         code, verify = emitter(case, casedir)
-        chunks.append(code)
+        fname = "case_" + case["id"]
+        indented = "\n".join(
+            ("    " + ln) if ln.strip() else ln for ln in code.split("\n"))
+        chunks.append("def %s() raises:%s" % (fname, indented))
+        calls.append("    %s()" % fname)
         verifiers.append((case["id"], verify, casedir))
+    chunks.append("def main() raises:\n" + "\n".join(calls))
 
     gen_path = os.path.join(workdir, "oracle_gen.mojo")
     with open(gen_path, "w") as f:
