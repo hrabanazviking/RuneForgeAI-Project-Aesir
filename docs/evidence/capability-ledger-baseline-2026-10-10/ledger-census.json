@@ -94,6 +94,86 @@
       "repeated_ids": []
     }
   },
+  "extension_field_occurrences": 80,
+  "extension_label_counts": {
+    "2026-10-01 3B extension": 1,
+    "2026-10-01 Turing integration": 1,
+    "2026-10-01 Turing/3B extension": 1,
+    "2026-10-01 measured subset": 1,
+    "Activation-residual refinement (2026-10-02)": 1,
+    "Additional bounded component": 1,
+    "Additional measured subset (2026-10-01)": 1,
+    "Bounded allocation-lifetime evidence (AES500-021–029)": 1,
+    "Bounded runtime-group32 staging (2026-10-03)": 1,
+    "Captured F32 input gate (2026-10-01)": 1,
+    "Container admission": 1,
+    "Down-only captured F32 gate (2026-10-02)": 1,
+    "Down128 decode/sample trajectory (2026-10-03)": 1,
+    "Down128 full-model strategy3 (2026-10-02)": 1,
+    "Down128 opt-in cooperative recovery (2026-10-03)": 1,
+    "Down128 owned projection/resource trace (2026-10-03)": 1,
+    "Down128 sealed owning-context replay (2026-10-03)": 1,
+    "Enabled batched controls (2026-10-02)": 1,
+    "Final controlled measurements": 1,
+    "First SPD-00 measurement slice (2026-10-01)": 1,
+    "First independent 3B logit gate (2026-10-01)": 1,
+    "Fixture control/reset acceptance (2026-10-02)": 1,
+    "Fixture decode/replay acceptance (2026-10-02)": 1,
+    "Fixture ownership admission (2026-10-02)": 1,
+    "Further efficiency subset (2026-10-01)": 1,
+    "Fused attention causal decode (2026-10-03)": 1,
+    "Fused attention complete model (2026-10-03)": 1,
+    "Fused cooperative controls (2026-10-03)": 1,
+    "Fused sealed replay (2026-10-03)": 1,
+    "Header reuse rejection (2026-10-02)": 1,
+    "Isolated matrix-model gate (2026-10-01)": 1,
+    "Larger row CTA experiment (2026-10-02)": 1,
+    "Layering boundary": 1,
+    "Legacy implementation evidence": 1,
+    "Llama 3 evidence": 1,
+    "Long-token subset (2026-10-01)": 1,
+    "Narrow16-column primitive experiment (2026-10-03)": 1,
+    "Native service evidence": 1,
+    "Native setup hardening": 1,
+    "Observation formatter evidence": 1,
+    "Optional Turing prerequisite (2026-10-01)": 1,
+    "Optional batched elementwise (2026-10-02)": 1,
+    "Optional batched rotary/cache (2026-10-02)": 1,
+    "Optional matrix primitive (2026-10-01)": 1,
+    "Optional packed Turing candidate (2026-10-01)": 1,
+    "Owned native CUDA trace (2026-10-01)": 1,
+    "Owned prefill timeline (2026-10-02)": 1,
+    "Owning-context checkpoint replay (2026-10-02)": 1,
+    "Paired gate/up primitive (2026-10-03)": 1,
+    "Platform-entry evidence": 1,
+    "Projection attribution (2026-10-02)": 1,
+    "Reproduction and threat model": 1,
+    "Runtime integration": 1,
+    "S01 correction (2026-09-12)": 1,
+    "S02 extension (2026-09-12)": 1,
+    "S03 extension (2026-09-13)": 1,
+    "S04 extension (2026-09-13)": 1,
+    "S07a settings evidence": 1,
+    "S07b1 admission": 1,
+    "S07b2 evidence": 1,
+    "S07b2 native resolution": 1,
+    "S07b3 config resolution": 1,
+    "S07b3 evidence": 1,
+    "S07b3 extension": 1,
+    "S07b4a request limits": 1,
+    "S07b4b handoff evidence": 1,
+    "S07b4b session handoff": 1,
+    "S08a inspection extension": 1,
+    "S08b fit-evidence extension": 1,
+    "S09 text-admission extension": 4,
+    "S10 crash-injection extension": 1,
+    "S15 lifecycle extension": 1,
+    "S16 lifecycle extension": 1,
+    "Scaled residual experiment (2026-10-02)": 1,
+    "Shared Turing refinement (2026-10-01)": 1,
+    "Upload integration": 1,
+    "Wider Turing refinement (2026-10-01)": 1
+  },
   "entries": [
     {
       "id": "AES-FND-001",
@@ -110,6 +190,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 89
     },
     {
@@ -127,6 +208,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 100
     },
     {
@@ -144,6 +226,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 111
     },
     {
@@ -161,6 +244,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 122
     },
     {
@@ -178,6 +262,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 132
     },
     {
@@ -195,6 +280,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 143
     },
     {
@@ -212,6 +298,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 154
     },
     {
@@ -229,6 +316,9 @@
         "Next acceptance gate": 1,
         "Audit": 0
       },
+      "extension_fields": [
+        "Platform-entry evidence"
+      ],
       "line": 165
     },
     {
@@ -246,6 +336,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 206
     },
     {
@@ -263,6 +354,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 217
     },
     {
@@ -280,6 +372,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 228
     },
     {
@@ -297,6 +390,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 239
     },
     {
@@ -314,6 +408,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 250
     },
     {
@@ -331,6 +426,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 260
     },
     {
@@ -348,6 +444,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 273
     },
     {
@@ -365,6 +462,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 284
     },
     {
@@ -382,6 +480,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 295
     },
     {
@@ -399,6 +498,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 306
     },
     {
@@ -416,6 +516,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 317
     },
     {
@@ -433,6 +534,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 328
     },
     {
@@ -450,6 +552,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 339
     },
     {
@@ -467,6 +570,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 349
     },
     {
@@ -484,6 +588,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 362
     },
     {
@@ -501,6 +606,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 373
     },
     {
@@ -518,6 +624,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 384
     },
     {
@@ -535,6 +642,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 395
     },
     {
@@ -552,6 +660,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 406
     },
     {
@@ -569,6 +678,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S08a inspection extension",
+        "2026-10-01 3B extension"
+      ],
       "line": 417
     },
     {
@@ -586,6 +699,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 448
     },
     {
@@ -603,6 +717,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 459
     },
     {
@@ -620,6 +735,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 470
     },
     {
@@ -637,6 +753,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 481
     },
     {
@@ -654,6 +771,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 494
     },
     {
@@ -671,6 +789,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 505
     },
     {
@@ -688,6 +807,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 516
     },
     {
@@ -705,6 +825,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 527
     },
     {
@@ -722,6 +843,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S07a settings evidence",
+        "Additional bounded component"
+      ],
       "line": 538
     },
     {
@@ -739,6 +864,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 560
     },
     {
@@ -756,6 +882,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 571
     },
     {
@@ -773,6 +900,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 582
     },
     {
@@ -790,6 +918,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 593
     },
     {
@@ -807,6 +936,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 603
     },
     {
@@ -824,6 +954,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 614
     },
     {
@@ -841,6 +972,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 627
     },
     {
@@ -858,6 +990,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 638
     },
     {
@@ -875,6 +1008,16 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [
+        "S07b1 admission",
+        "S07b2 native resolution",
+        "S07b2 evidence",
+        "S07b3 config resolution",
+        "S07b3 evidence",
+        "S07b4a request limits",
+        "S07b4b session handoff",
+        "Layering boundary"
+      ],
       "line": 649
     },
     {
@@ -892,6 +1035,11 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S10 crash-injection extension",
+        "S09 text-admission extension",
+        "S16 lifecycle extension"
+      ],
       "line": 706
     },
     {
@@ -909,6 +1057,9 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S03 extension (2026-09-13)"
+      ],
       "line": 734
     },
     {
@@ -926,6 +1077,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 751
     },
     {
@@ -943,6 +1095,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 762
     },
     {
@@ -960,6 +1113,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 773
     },
     {
@@ -977,6 +1131,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S07b3 extension"
+      ],
       "line": 784
     },
     {
@@ -994,6 +1152,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S02 extension (2026-09-12)",
+        "S01 correction (2026-09-12)"
+      ],
       "line": 803
     },
     {
@@ -1011,6 +1173,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S15 lifecycle extension"
+      ],
       "line": 830
     },
     {
@@ -1028,6 +1194,10 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S09 text-admission extension",
+        "S04 extension (2026-09-13)"
+      ],
       "line": 853
     },
     {
@@ -1045,6 +1215,9 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "S07b4b handoff evidence"
+      ],
       "line": 881
     },
     {
@@ -1062,6 +1235,7 @@
         "Next acceptance gate": 1,
         "Audit": 0
       },
+      "extension_fields": [],
       "line": 898
     },
     {
@@ -1079,6 +1253,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 923
     },
     {
@@ -1096,6 +1271,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 933
     },
     {
@@ -1113,6 +1289,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 943
     },
     {
@@ -1130,6 +1307,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 953
     },
     {
@@ -1147,6 +1325,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 963
     },
     {
@@ -1164,6 +1343,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 974
     },
     {
@@ -1181,6 +1361,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 985
     },
     {
@@ -1198,6 +1379,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 996
     },
     {
@@ -1215,6 +1397,7 @@
         "Next acceptance gate": 1,
         "Audit": 0
       },
+      "extension_fields": [],
       "line": 1007
     },
     {
@@ -1232,6 +1415,11 @@
         "Next acceptance gate": 0,
         "Audit": 0
       },
+      "extension_fields": [
+        "Reproduction and threat model",
+        "Native setup hardening",
+        "2026-10-01 Turing integration"
+      ],
       "line": 1016
     },
     {
@@ -1249,6 +1437,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1037
     },
     {
@@ -1266,6 +1455,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1047
     },
     {
@@ -1283,6 +1473,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1057
     },
     {
@@ -1300,6 +1491,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1068
     },
     {
@@ -1317,6 +1509,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1079
     },
     {
@@ -1334,6 +1527,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1100
     },
     {
@@ -1351,6 +1545,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1110
     },
     {
@@ -1368,6 +1563,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1120
     },
     {
@@ -1385,6 +1581,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1131
     },
     {
@@ -1402,6 +1599,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1141
     },
     {
@@ -1419,6 +1617,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1151
     },
     {
@@ -1436,6 +1635,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1161
     },
     {
@@ -1453,6 +1653,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1171
     },
     {
@@ -1470,6 +1671,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1181
     },
     {
@@ -1487,6 +1689,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1192
     },
     {
@@ -1504,6 +1707,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1203
     },
     {
@@ -1521,6 +1725,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1216
     },
     {
@@ -1538,6 +1743,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1226
     },
     {
@@ -1555,6 +1761,12 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "Runtime integration",
+        "S08b fit-evidence extension",
+        "Upload integration",
+        "Container admission"
+      ],
       "line": 1236
     },
     {
@@ -1572,6 +1784,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1251
     },
     {
@@ -1589,6 +1802,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1262
     },
     {
@@ -1606,6 +1820,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1272
     },
     {
@@ -1623,6 +1838,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1283
     },
     {
@@ -1640,6 +1856,46 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "Bounded allocation-lifetime evidence (AES500-021–029)",
+        "Llama 3 evidence",
+        "2026-10-01 Turing/3B extension",
+        "First independent 3B logit gate (2026-10-01)",
+        "Owned native CUDA trace (2026-10-01)",
+        "Optional matrix primitive (2026-10-01)",
+        "Optional Turing prerequisite (2026-10-01)",
+        "Optional packed Turing candidate (2026-10-01)",
+        "Shared Turing refinement (2026-10-01)",
+        "Wider Turing refinement (2026-10-01)",
+        "Captured F32 input gate (2026-10-01)",
+        "Isolated matrix-model gate (2026-10-01)",
+        "Activation-residual refinement (2026-10-02)",
+        "Scaled residual experiment (2026-10-02)",
+        "Fixture ownership admission (2026-10-02)",
+        "Fixture control/reset acceptance (2026-10-02)",
+        "Fixture decode/replay acceptance (2026-10-02)",
+        "Owning-context checkpoint replay (2026-10-02)",
+        "Optional batched rotary/cache (2026-10-02)",
+        "Optional batched elementwise (2026-10-02)",
+        "Enabled batched controls (2026-10-02)",
+        "Owned prefill timeline (2026-10-02)",
+        "Projection attribution (2026-10-02)",
+        "Header reuse rejection (2026-10-02)",
+        "Larger row CTA experiment (2026-10-02)",
+        "Down-only captured F32 gate (2026-10-02)",
+        "Down128 full-model strategy3 (2026-10-02)",
+        "Down128 decode/sample trajectory (2026-10-03)",
+        "Down128 sealed owning-context replay (2026-10-03)",
+        "Down128 opt-in cooperative recovery (2026-10-03)",
+        "Down128 owned projection/resource trace (2026-10-03)",
+        "Narrow16-column primitive experiment (2026-10-03)",
+        "Bounded runtime-group32 staging (2026-10-03)",
+        "Paired gate/up primitive (2026-10-03)",
+        "Fused attention complete model (2026-10-03)",
+        "Fused attention causal decode (2026-10-03)",
+        "Fused sealed replay (2026-10-03)",
+        "Fused cooperative controls (2026-10-03)"
+      ],
       "line": 1293
     },
     {
@@ -1657,6 +1913,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1626
     },
     {
@@ -1674,6 +1931,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1637
     },
     {
@@ -1691,6 +1949,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1664
     },
     {
@@ -1708,6 +1967,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1674
     },
     {
@@ -1725,6 +1985,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1684
     },
     {
@@ -1742,6 +2003,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1695
     },
     {
@@ -1759,6 +2021,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1706
     },
     {
@@ -1776,6 +2039,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1717
     },
     {
@@ -1793,6 +2057,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1728
     },
     {
@@ -1810,6 +2075,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1739
     },
     {
@@ -1827,6 +2093,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1752
     },
     {
@@ -1844,6 +2111,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1762
     },
     {
@@ -1861,6 +2129,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1773
     },
     {
@@ -1878,6 +2147,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1784
     },
     {
@@ -1895,6 +2165,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1795
     },
     {
@@ -1912,6 +2183,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1806
     },
     {
@@ -1929,6 +2201,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1819
     },
     {
@@ -1946,6 +2219,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1829
     },
     {
@@ -1963,6 +2237,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1839
     },
     {
@@ -1980,6 +2255,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1849
     },
     {
@@ -1997,6 +2273,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1859
     },
     {
@@ -2014,6 +2291,14 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "2026-10-01 measured subset",
+        "Additional measured subset (2026-10-01)",
+        "Final controlled measurements",
+        "Further efficiency subset (2026-10-01)",
+        "First SPD-00 measurement slice (2026-10-01)",
+        "Long-token subset (2026-10-01)"
+      ],
       "line": 1871
     },
     {
@@ -2031,6 +2316,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1948
     },
     {
@@ -2048,6 +2334,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1959
     },
     {
@@ -2065,6 +2352,11 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [
+        "Native service evidence",
+        "Legacy implementation evidence",
+        "Observation formatter evidence"
+      ],
       "line": 1970
     },
     {
@@ -2082,6 +2374,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1983
     },
     {
@@ -2099,6 +2392,7 @@
         "Next acceptance gate": 0,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 1994
     },
     {
@@ -2116,6 +2410,7 @@
         "Next acceptance gate": 1,
         "Audit": 1
       },
+      "extension_fields": [],
       "line": 2005
     }
   ]

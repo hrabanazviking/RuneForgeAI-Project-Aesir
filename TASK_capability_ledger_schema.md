@@ -35,6 +35,9 @@ Each parsed capability entry has exactly these fields:
 8. `evidence_boundary`: nonempty statement of what the evidence does not prove;
 9. `next_acceptance_gate`: next gate or `null` when absent in Markdown;
 10. `audit`: related audit IDs or `null` when absent in Markdown.
+11. `extensions`: ordered `{label, value}` objects for supplemental metadata
+    fields such as dated implementation/evidence extensions; no extension is
+    discarded or promoted into a canonical field.
 
 The output document carries `schema_version: 1` and a deterministically ordered
 `capabilities` array ordered by their source appearance. All keys are present
@@ -44,8 +47,9 @@ gates in 32 entries, audits in 4, claim sources in 2, and implementation
 evidence in 1. These absences are preserved, not bulk-filled. Baseline work
 records exact IDs and checks whether alternate field labels need explicit
 mapping. Export values preserve Markdown wording with only continuation
-whitespace normalized at field boundaries. No claims, status, or evidence are
-synthesized by the exporter.
+line endings normalized to LF and outer field whitespace trimmed. Internal
+continuation newlines and Markdown are preserved. No claims, status, or evidence
+are synthesized by the exporter.
 
 ## Invariants
 
@@ -55,17 +59,27 @@ synthesized by the exporter.
   `evidence_boundary` appear exactly once per entry and are nonempty.
 - Optional source fields appear at most once per entry; absent source fields
   become JSON `null`, never fabricated placeholder evidence.
-- Field order in Markdown does not affect parsing. A field's nonblank
-  continuation lines belong to it until the next recognized field or heading.
+- Supplemental labeled fields are preserved in source order under
+  `extensions`; repeated extension labels remain separate array elements.
+- Field order in Markdown does not affect parsing. Any top-level `- **Label:**`
+  row, canonical or supplemental, starts a field and ends the previous field;
+  indented field-like lines remain continuation content. Blank lines between a
+  field and the next field are retained internally; outer field whitespace is
+  trimmed.
 - Markdown links, code spans, punctuation, and inline references remain text; the
   exporter does not interpret them as executable content.
 - Duplicate IDs, unknown status values, missing fields, repeated fields, and
   malformed headings fail before any output is published.
 - Parsing does not silently repair, infer, or promote entries.
 - Deterministic input yields UTF-8 JSON with two-space indentation, a final
-  newline, source-order entries, byte-identical output, and stable diagnostics.
+  newline, source-order entries, extension-order preservation, byte-identical
+  output, and stable diagnostics.
 - The full ledger is validated before publication; failed validation leaves an
-  existing destination untouched (temporary file plus atomic replace).
+  existing destination untouched (same-directory temporary file plus atomic
+  replace). Temporary files are removed after write/replace failures. Export
+  rejects an output path resolving to or sharing an inode with the input.
+- A heading-like top-level `### AES-...` line that does not match the canonical
+  ID/name form is rejected, not consumed as preceding field continuation.
 - The existing repository drift checker and TODO-to-ledger status validation
   remain active and retain their current behavior.
 - The schema does not decide whether evidence is true; it validates required
@@ -85,8 +99,8 @@ synthesized by the exporter.
 The implementation and later evidence gates will establish these interfaces:
 
 ```sh
-python3 scripts/ledger_schema.py --check CAPABILITY_LEDGER.md
-python3 scripts/ledger_schema.py --export-json CAPABILITY_LEDGER.md --output /tmp/aesir-capability-ledger.json
+python3 scripts/ledger_schema.py check CAPABILITY_LEDGER.md
+python3 scripts/ledger_schema.py export-json CAPABILITY_LEDGER.md --output /tmp/aesir-capability-ledger.json
 python3 scripts/test_ledger_schema.py
 python3 scripts/check_doc_drift.py
 ```
@@ -112,7 +126,9 @@ The pre-implementation census is preserved in
 entries, with 76 verified, 28 partial, and 15 missing statuses. All entries have
 status, owner, executable evidence, and evidence boundary fields. Optional
 source fields are absent in 2 claim-source, 1 implementation-evidence, 32 next-
-gate, and 4 audit entries; exact IDs and per-entry field counts are in the
+gate, and 4 audit entries. The census also records 80 supplemental metadata
+occurrences across 77 distinct labels, preserving exact per-entry order without
+promoting them to canonical fields. Exact IDs and field-label counts are in the
 machine-readable census. Three census runs produced identical bytes and the
 existing drift checker passed. This is a structural snapshot, not an evidence
 truth evaluation.

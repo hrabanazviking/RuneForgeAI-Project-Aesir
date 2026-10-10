@@ -559,3 +559,70 @@ correlations with canonical grid/block geometry. This mode is separate from the
 strategy4 one-kernel-per-child path; asynchronous intervals are never clipped.
 All durations are diagnostic and unscored. Read
 `../docs/NATIVE_SMALL_ATTENTION_TRACE.md`.
+
+## Capability ledger schema (AES500-031–040)
+
+`CAPABILITY_LEDGER.md` remains the editable capability-status authority.
+`ledger_schema.py` parses its UTF-8 Markdown into an immutable ordered tuple and
+may export derived JSON for tooling. It does not write or normalize the source
+ledger. The baseline census is
+`docs/evidence/capability-ledger-baseline-2026-10-10/`.
+
+```python
+@dataclass(frozen=True)
+class LedgerExtension:
+    label: str
+    value: str
+
+@dataclass(frozen=True)
+class CapabilityEntry:
+    id: str
+    name: str
+    status: str
+    owner: str
+    claim_sources: str | None
+    implementation_evidence: str | None
+    executable_evidence: str
+    evidence_boundary: str
+    next_acceptance_gate: str | None
+    audit: str | None
+    extensions: tuple[LedgerExtension, ...]
+
+@dataclass(frozen=True)
+class LedgerDiagnostic:
+    source: str
+    line: int
+    message: str
+
+def parse_ledger_text(
+    text: str, source: str = "<memory>"
+) -> tuple[CapabilityEntry, ...]: ...  # raises LedgerSchemaError(diagnostics)
+
+def parse_ledger_path(path: Path) -> tuple[CapabilityEntry, ...]: ...
+def render_ledger_json(entries: tuple[CapabilityEntry, ...]) -> str: ...
+def export_ledger_json(input_path: Path, output_path: Path) -> None: ...
+```
+
+The canonical labels are recognized independent of order. Every top-level
+`- **Label:**` row, canonical or supplemental, begins a field and terminates the
+previous one; indented field-like lines remain value text. Wrapped lines and
+intervening blank lines belong to the field. The parser trims only outer field
+whitespace, normalizes line endings to LF, and preserves interior line breaks
+and Markdown. Supplemental labeled fields are retained, in order, as extension
+records. A missing optional canonical field maps to JSON `null`; required
+fields, duplicate IDs, duplicate canonical fields, invalid statuses, and
+malformed capability headings produce stable `source:line: message` diagnostics.
+A heading-like top-level line beginning with `### AES-` that does not match the
+stable ID/name form is malformed. Empty ledgers are rejected. Parsing
+accumulates all discoverable errors before raising and never returns a partial
+entry list.
+
+JSON has `schema_version: 1` and source-ordered `capabilities`. It is UTF-8,
+two-space indented, and ends with one newline. `check INPUT` validates only;
+`export-json INPUT --output OUTPUT` validates fully before writing a temporary
+file in the destination directory and atomically replacing the destination.
+The exporter rejects output resolving to or sharing an inode with the input
+ledger, removes temporary files after failed writes/replaces, and leaves any
+existing output untouched on validation failure. These interface rules do not
+establish that the Markdown evidence itself is true; capability review remains
+with the ledger owners.

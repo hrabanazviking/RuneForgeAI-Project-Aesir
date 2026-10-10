@@ -41,10 +41,13 @@ def main() -> int:
         end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
         block = text[start:end]
         present: Counter[str] = Counter()
+        labels: list[str] = []
         for line in block.splitlines():
             field_match = FIELD_LINE.match(line)
             if field_match:
-                present[field_match.group(1)] += 1
+                label = field_match.group(1)
+                present[label] += 1
+                labels.append(label)
         status_matches = STATUS.findall(block)
         status = status_matches[0] if len(status_matches) == 1 else None
         if status is not None:
@@ -56,6 +59,7 @@ def main() -> int:
                 "status": status,
                 "status_field_count": present["Status"],
                 "field_counts": {field: present[field] for field in FIELDS},
+                "extension_fields": [label for label in labels if label not in FIELDS],
                 "line": text.count("\n", 0, start) + 1,
             }
         )
@@ -71,6 +75,9 @@ def main() -> int:
         }
 
     duplicate_ids = sorted(identifier for identifier, count in id_counts.items() if count > 1)
+    extension_counts = Counter(
+        label for entry in entries for label in entry["extension_fields"]
+    )
     payload = {
         "baseline_schema_version": 1,
         "source": "CAPABILITY_LEDGER.md",
@@ -79,6 +86,8 @@ def main() -> int:
         "duplicate_ids": duplicate_ids,
         "status_counts": dict(sorted(status_counts.items())),
         "field_census": field_census,
+        "extension_field_occurrences": sum(extension_counts.values()),
+        "extension_label_counts": dict(sorted(extension_counts.items())),
         "entries": entries,
     }
     json.dump(payload, sys.stdout, ensure_ascii=False, indent=2)
