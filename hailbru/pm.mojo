@@ -151,21 +151,29 @@ def pm_assert_state(
     arch: String, sysfs_root: String, bdf: String, target: Int
 ) raises -> String:
     # Transition and then verify by BOTH the PMCSR field and the sysfs
-    # power_state file; returns the verified state name.
+    # power_state file; the file is polled because the kernel updates it
+    # asynchronously after the PMCSR write lands (observed 2026-10-10:
+    # PMCSR=D0 while power_state still read D3hot). Returns the verified
+    # state name.
     pm_set_state(arch, sysfs_root, bdf, target)
     var pmcap = find_pm_cap(arch, sysfs_root, bdf)
-    var pmcsr_state = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap) & 0x3
-    var ps = pm_read_power_state_file(arch, sysfs_root, bdf)
     var want = pm_state_name(target)
-    if pmcsr_state != target or ps != want:
-        raise herror(
-            "PowerTransitionFailed",
-            bdf
-            + " state mismatch after transition: pmcsr="
-            + pm_state_name(pmcsr_state)
-            + " power_state="
-            + ps
-            + " want="
-            + want,
-        )
-    return want
+    var deadline = os_clock_ms(arch) + 5000
+    var pmcsr_state = -1
+    var ps = ""
+    while os_clock_ms(arch) < deadline:
+        pmcsr_state = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap) & 0x3
+        ps = pm_read_power_state_file(arch, sysfs_root, bdf)
+        if pmcsr_state == target and ps == want:
+            return want
+        _ = os_sleep_ms(arch, 25)
+    raise herror(
+        "PowerTransitionFailed",
+        bdf
+        + " state mismatch after transition: pmcsr="
+        + pm_state_name(pmcsr_state)
+        + " power_state="
+        + ps
+        + " want="
+        + want,
+    )
