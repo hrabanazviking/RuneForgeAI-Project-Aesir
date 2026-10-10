@@ -186,8 +186,8 @@ H060 GO (review doc). **No slices killed.**
 - [ ] H056 — Sampler: top-p (nucleus)
 - [ ] H057 — Sampler: repetition penalty
 - [ ] H058 — TEST-ONLY (PRÓF): CPU pipeline smoke test
-- [ ] H059 — CPU inference with a real small open LLM
-- [ ] H060 — C3 review: ARMVEGR CPU pipeline verdict (F1 core complete)
+- [x] H059 — CPU inference with a real small open LLM (BLOCKED — see Blocker log)
+- [x] H060 — C3 review: ARMVEGR CPU pipeline verdict (F1 core complete) — VERDICT: F1-CORE-NOT-READY
 
 ## Campaign 4 — Hailbrú Driver (H061–H080)
 - Status: not started
@@ -211,4 +211,23 @@ H060 GO (review doc). **No slices killed.**
 - Status: not started — H184 needs GO
 
 ## Blocker log
-(none yet)
+
+### 2026-10-10 — H059 BLOCKED: TinyLlama inference incoherent output
+
+**Status:** Blocked, remediation slices H059R1–R3 named in `docs/armvegr/C3_REVIEW.md`.
+
+**What was done:** Built `armvegr/infer.mojo` (TinyLlama + Inference), Q6_K support
+(`armvegr/quant.mojo`, `armvegr/gguf_loader.mojo`), driver `tests/c3_h059_infer.mojo`.
+Fixed 3 real bugs: (1) `fp16_from_bits` subnormal flush zeroed Q6_K scales;
+(2) driver double-forwarded last prompt token; (3) RoPE called with theta instead
+of ln_theta. Verified: Q6_K matches Python, gemv correct, RoPE correct in isolation,
+all 201 tensors load, tokenizer correct.
+
+**Failure:** Output incoherent ("Hello" → "nederbörd"; chat prompt → Cyrillic
+fragments). Logit distribution peaked (entropy 4.73) but wrong. Root cause not
+isolated — suspects: weight layout/transpose, RoPE application, attention, or
+corrupted model file. Requires differential debug vs reference (H059R1).
+
+**Commit:** 2027a08 (H059 scaffolding + Q6_K, marked BLOCKED).
+**Review:** `docs/armvegr/C3_REVIEW.md` (H060) — verdict F1-CORE-NOT-READY.
+

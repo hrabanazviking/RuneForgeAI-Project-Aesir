@@ -3495,3 +3495,35 @@ pre-packed panels with the same micro-kernel in the same order. 6-tensor test
 model: plan JSON byte-identical on repeat runs (determinism PASS); packed_b vs
 naive and packed_a vs naive both max abs err 0.0 (<= 1e-3). Evidence in test
 output (tests/c3_h045_layout.mojo H045-ALL-PASS on Mimir).
+
+## 2026-10-10 — MÍMISBRUNNR H059 (BLOCKED): TinyLlama inference scaffolding + Q6_K
+
+New `armvegr/infer.mojo`: `TinyLlama` struct (loads + dequantizes all 201
+tensors to FP16) + `Inference` struct (decode loop: embedding → 22×
+[RMSNorm → GQA attention with RoPE → residual → RMSNorm → SwiGLU FFN →
+residual] → final norm → LM head → sampler). New `tests/c3_h059_infer.mojo`
+driver.
+
+Q6_K support added to `armvegr/quant.mojo` (`q6k_to_fp16`: 210B blocks,
+ql[128]+qh[64]+scales[16]+d; signed 6-bit quants, w = d*scale*q_signed)
+and `armvegr/gguf_loader.mojo` (dtype 14 dispatch). Verified: Mojo Q6_K
+matches Python reference (<1e-4).
+
+Three real bugs fixed: (1) `fp16_from_bits` flushed subnormals to zero —
+Q6_K scales can be subnormal (bits=851 → 5e-5), now handled correctly;
+(2) driver forwarded last prompt token twice; (3) `rope_fp16` called with
+theta=10000 instead of ln_theta=log(10000)≈9.21.
+
+Components verified: gemv correct, RoPE correct in isolation, all 201
+tensors load, tokenizer correct. Yet output incoherent ("Hello" →
+"nederbörd"; chat prompt → Cyrillic fragments). Logit entropy 4.73
+(peaked but wrong). Root cause not isolated; requires differential debug
+vs reference. Marked BLOCKED per fail-closed law. Evidence: commit 2027a08.
+
+## 2026-10-10 — MÍMISBRUNNR H060: C3 review verdict
+
+`docs/armvegr/C3_REVIEW.md` written. Per-component tables for H041–H059.
+L2/L3/L9 confirmed (no Python in shipped path, no HEF, zero cuda_* edits).
+VERDICT: F1-CORE-NOT-READY — H059 blocked, remediation slices H059R1–R3
+named (differential debug, fix+verify coherence, Mimir cross-check).
+H041–H058 complete and verified; Q6_K correct; inference scaffolding sound.

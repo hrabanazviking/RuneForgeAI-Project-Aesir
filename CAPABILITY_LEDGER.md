@@ -2427,3 +2427,24 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Executable evidence:** `tests/c3_h045_layout.mojo` (TEST-ONLY):
   byte-identical plan JSON on repeat runs; packed_b/packed_a vs naive GEMM
   max abs err 0.0 (<= 1e-3) on Mimir.
+
+### AES-LOAD-059 — Q6_K dequantizer (H059 partial)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/quant.mojo` (`q6k_to_fp16`), `armvegr/gguf_loader.mojo` (dtype 14 dispatch).
+- **Executable evidence:** Mojo Q6_K matches Python reference implementation (<1e-4 max abs diff on TinyLlama `output.weight`); `fp16_from_bits` subnormal handling fixed (was flushing Q6_K scales to zero).
+
+### AES-INFER-059 — TinyLlama inference pipeline (H059)
+
+- **Status:** `blocked`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/infer.mojo` (TinyLlama + Inference structs), `tests/c3_h059_infer.mojo` (driver).
+- **Executable evidence:** All 201 tensors load; components verified (gemv, RoPE, tokenizer). Output incoherent — root cause not isolated. Remediation: H059R1–R3 (differential debug vs reference, fix+verify, Mimir cross-check). See `docs/armvegr/C3_REVIEW.md`.
+
+### AES-C3-REVIEW — Campaign C3 verdict (H060)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `docs/armvegr/C3_REVIEW.md` — per-component tables, L2/L3/L9 confirmation, C3 VERDICT section.
+- **Executable evidence:** Review document; verdict **F1-CORE-NOT-READY** (H059 blocked, remediation named). H041–H058 complete and verified.
