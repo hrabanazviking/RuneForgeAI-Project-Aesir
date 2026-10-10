@@ -837,3 +837,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   runs were also pending. No hosted pass is claimed. This gate is pushed with
   the pending CI evidence preserved, so AES500-071 begins next per roadmap
   policy while remote validation continues.
+- AES500-071 defines the current `RuneTensor` contract as an exactly 2D,
+  contiguous row-major descriptor with implied element strides `(cols, 1)`.
+  Arbitrary strides, rank changes and allocation-span proof are explicitly
+  deferred to separately contracted work.
+- AES500-071 independent review passed after clarifying that quantization
+  arguments are copied, not validated, by `RuneTensor.checked()`.

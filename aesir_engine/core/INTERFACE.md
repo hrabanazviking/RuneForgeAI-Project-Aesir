@@ -105,7 +105,8 @@ struct MimirWell:
 ```
 
 ### `RuneTensor[type: DType]`
-Zero-copy tensor descriptor wrapping pointer offsets. Enforces positive shape dimensions and provides checked indexing.
+Zero-copy tensor descriptor wrapping pointer offsets. `checked()` enforces
+positive shape dimensions and provides checked indexing.
 
 ```mojo
 struct RuneTensor[type: DType]:
@@ -128,6 +129,11 @@ struct RuneTensor[type: DType]:
 wrapped shape products, and null/address-1 pointers. The non-raising initializer
 is an explicitly unchecked internal view primitive used by copy and slice paths;
 callers must already own its shape, pointer, and lifetime invariants.
+AES500-071 specifies the current layout exactly: rank two, contiguous row-major,
+with implied element strides `(cols, 1)` and offset `r * cols + c`. No explicit
+stride fields, arbitrary-stride indexing, or allocation-capacity proof exists.
+Raw `get`/`set` do not add coordinate checks; use the checked variants where
+that coordinate validation is required. See `TASK_rune_tensor_2d_layout.md`.
 
 ### Canonical GGML K-quant bytes
 
