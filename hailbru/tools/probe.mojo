@@ -296,6 +296,35 @@ def cmd_regs_probe(arch: String, args: List[String]) raises:
     )
 
 
+def cmd_regs_coherency(arch: String, args: List[String]) raises:
+    # H068 (Sólrún re-scope per H005 §6): 50 repeated 16-bit reads of the
+    # vendor-ID mirror at BAR0+0x0098 — a side-effect-free, read-only
+    # register — each expected to return 0x1e60. Stability of all 50
+    # proves the register path is coherent without touching device state.
+    # Needs root (sysfs resource mmap) and the device in D0.
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = get_flag(args, "--bdf", "")
+    if bdf == "":
+        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
+    var bad = 0
+    for i in range(50):
+        var v = reg_read16(m, FWREG_VENDOR_MIRROR())
+        if v != UInt16(0x1E60):
+            bad += 1
+    unmap_bar(arch, m)
+    if bad != 0:
+        raise herror(
+            "DmaError",
+            "coherency check: " + String(bad) + "/50 reads != 0x1e60",
+        )
+    emit(
+        arch,
+        "SELFTEST regs-coherency: 50/50 reads of BAR0+0x0098 returned "
+        "0x1e60 — OK",
+    )
+
+
 def cmd_bdf_selftest(arch: String, args: List[String]) raises:
     _ = args
     var good = parse_bdf("0001:01:00.0")
@@ -750,7 +779,7 @@ def main() raises:
         raise herror(
             "BadSysfs",
             "usage: probe <discover|identity|bars|link|mechanism|"
-            "fwcheck|regs-probe|regs-selftest|dma-selftest|irq-selftest|"
+            "fwcheck|regs-probe|regs-coherency|regs-selftest|dma-selftest|irq-selftest|"
             "boot-selftest|ready-selftest|sha256-selftest|vfio-negative|"
             "uio-step|bdf-selftest|fw-stage-selftest> [flags]",
         )
@@ -769,6 +798,8 @@ def main() raises:
         cmd_fwcheck(arch, argv)
     elif sub == "regs-probe":
         cmd_regs_probe(arch, argv)
+    elif sub == "regs-coherency":
+        cmd_regs_coherency(arch, argv)
     elif sub == "regs-selftest":
         cmd_regs_selftest(arch, argv)
     elif sub == "dma-selftest":
