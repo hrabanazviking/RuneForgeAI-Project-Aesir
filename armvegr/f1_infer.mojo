@@ -99,9 +99,10 @@ def _json_escape(s: String) -> String:
 
 def _write_text_file(path: String, text: String) raises:
     var src = text.as_bytes()
+    var path_bs = path.as_bytes()
     var pb = List[Int8]()
-    for i in range(len(src)):
-        pb.append(Int8(src[i]))
+    for i in range(len(path_bs)):
+        pb.append(Int8(path_bs[i]))
     pb.append(0)
     # O_WRONLY|O_CREAT|O_TRUNC = 577.
     var fd = external_call["open64", Int32](
