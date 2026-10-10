@@ -65,7 +65,7 @@ def _req_arg(args: List[String], name: String) raises -> String:
     return v
 
 
-def _get_int(args: List[String], name: String, default: Int) -> Int:
+def _get_int(args: List[String], name: String, default: Int) raises -> Int:
     var v = _get_arg(args, name, String(""))
     if v == "":
         return default
