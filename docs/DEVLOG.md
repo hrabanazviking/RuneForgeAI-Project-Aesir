@@ -25,6 +25,18 @@ checks and special-file/crash gates are documented in
 and its linked evidence. No external hash-oracle or sudden-power-loss claim is
 made.
 
+AES500-231..239 define and document atomic model registration. The contract
+requires expected digest/size to match the exact opened source bytes before
+catalog publication; failures before rename remove only a newly published blob,
+while a post-rename directory-sync error retains the referenced object and
+reports uncertain durability. Evidence covers a 37-byte fixture, separate
+process registration/restart, deduplication, concurrent commits, mismatch
+rollback, lifecycle interaction, and process kills at four catalog boundaries.
+The gates do not establish sudden-power-loss durability or cross-filesystem
+behavior. Primary review was recorded; independent review was unavailable and
+is not claimed. See [`TASK_atomic_model_registration.md`](../TASK_atomic_model_registration.md)
+and its dated evidence links.
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

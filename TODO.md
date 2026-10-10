@@ -634,6 +634,12 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   expected digest/size must match measured source bytes. See
   [blob identity contract](TASK_content_addressed_blob_identity.md) and
   [integration evidence](docs/evidence/blob-identity-integration-2026-10-10/README.md).
+- [x] Define atomic model-registration visibility and rollback: expected
+  identity is checked against measured bytes before catalog publication; mismatch
+  rolls back only a newly published blob, while post-rename sync uncertainty
+  retains the referenced blob. See
+  [registration contract](TASK_atomic_model_registration.md) and
+  [adversarial evidence](docs/evidence/atomic-registration-adversarial-2026-10-10/README.md).
 - [x] **[partial, AES-CLI-005] Connect catalog output:** `list`, `show`, `create`, `cp`, and `rm` use the restart-safe recipe catalog with built-CLI process evidence.
 - [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and

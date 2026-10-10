@@ -744,6 +744,14 @@ the complete ledger population.
   ingest-pair contract are documented in the CLI interface; unit, native
   integration, corruption/missing-blob, FIFO/symlink and recovery receipts are
   linked from [the identity contract](TASK_content_addressed_blob_identity.md).
+- **AES500-231..238 atomic registration evidence:** `ingest_model` validates
+  expected identity against measured bytes before catalog publication; mismatch
+  rolls back only a newly published blob, and post-rename sync uncertainty
+  retains the referenced blob. Unit, separate-process registration/restart,
+  dedup/concurrent-writer, lifecycle and four-boundary process-kill receipts are
+  linked from [the registration contract](TASK_atomic_model_registration.md).
+  These checks do not establish sudden-power-loss durability or cross-filesystem
+  guarantees; independent review was unavailable and is not claimed.
 
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
