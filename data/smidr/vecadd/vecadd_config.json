@@ -1,0 +1,11 @@
+{
+  "format": "SMIDR-CFG",
+  "version": 1,
+  "op": "vecadd",
+  "seed": 12345,
+  "dtype": "fp16",
+  "nelems": 64,
+  "layout": "contiguous-1d",
+  "files": ["vecadd_a.bin", "vecadd_b.bin", "vecadd_expected.bin"],
+  "notes": "SMIDR-CFG v1 host-side test config (see H019 manifest). NOT a HEF. Chip executability UNPROVEN."
+}

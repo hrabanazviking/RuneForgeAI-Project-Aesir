@@ -1,0 +1,1 @@
+{"tool": "mbping", "h102": true, "submitted": 1, "completed": 0, "validated": 0, "sequence_matched_1_to_1": false, "avg_ms": 0, "max_ms": 0, "golden_clean": true, "golden_diff": "", "board_name": "", "fw_version": "", "first_error": "iteration 0: no completion within timeout", "pass": false}
