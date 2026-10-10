@@ -1451,3 +1451,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-161 Unicode normalization contract: `TASK_unicode_normalization_policy.md`
   defines preservation, ASCII-space marker behavior, owning path, and explicit
   Unicode/malformed-input scope limits before edits.
+
+- [x] AES500-162 Unicode baseline: composed/decomposed canonical forms retain
+  distinct exact byte-token vectors; source/tool hashes and limits are recorded.
+  Master suite 223/0/1 (224 total).

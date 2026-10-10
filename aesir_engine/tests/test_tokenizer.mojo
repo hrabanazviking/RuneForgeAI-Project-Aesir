@@ -223,3 +223,20 @@ def test_byte_bpe_merge_negative_scores() raises:
     if len(tie) != 2 or tie[0] != 4 or tie[1] != 3:
         raise Error("equal negative BPE scores did not preserve leftmost tie")
     print("PASS: BPE negative-score ranking and tie boundary")
+
+def test_unicode_normalization_baseline() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("<0xC3>", 11)
+    weaver.add_token("<0xA9>", 12)
+    weaver.add_token("<0x65>", 13)
+    weaver.add_token("<0xCC>", 14)
+    weaver.add_token("<0x81>", 15)
+    var composed = weaver.encode("é", False)
+    var decomposed = weaver.encode("é", False)
+    if len(composed) != 2 or composed[0] != 11 or composed[1] != 12:
+        raise Error("composed Unicode byte vector changed")
+    if len(decomposed) != 3 or decomposed[0] != 13 or decomposed[1] != 14 or decomposed[2] != 15:
+        raise Error("decomposed Unicode byte vector changed")
+    if len(composed) == len(decomposed):
+        raise Error("Unicode canonical forms were unexpectedly normalized together")
+    print("PASS: RuneWeaver preserves composed and decomposed Unicode byte vectors")

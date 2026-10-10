@@ -3892,3 +3892,8 @@ Defined RuneWeaver input preservation: no implicit normalization, with only the
 existing vocabulary-driven ASCII-space marker rewrite. Canonically equivalent
 strings may produce different token vectors; Unicode conformance and malformed
 UTF-8 remain separate.
+
+
+AES500-162 captures composed/decomposed `é` as distinct byte-token vectors,
+confirming no implicit canonical normalization in this path. Master suite: 223
+passed, zero failed, one skipped (224 total).
