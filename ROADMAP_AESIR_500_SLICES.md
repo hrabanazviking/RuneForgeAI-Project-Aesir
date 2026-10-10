@@ -698,6 +698,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-039 synchronizes the parser interface, task contract and roadmap with
   repository-checker integration, 0600 output mode on the tested platform, and
   the atomic-visibility versus parent-directory durability boundary.
+- AES500-041 publishes `TASK_todo_ledger_reference_integrity.md`; it pins the
+  existing explicit-tag semantics and excludes completion inference from
+  checkbox state or untagged prose.
 
 ## Status
 
