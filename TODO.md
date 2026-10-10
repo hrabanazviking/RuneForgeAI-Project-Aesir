@@ -1277,3 +1277,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   baseline, interface, scalar, cache, and tile-boundary evidence. F16 partial
   output rounding and pointer/index safety remain open. Agent service hit its
   thread cap, so no independent subagent pass is claimed; see review receipt.
+- [x] AES500-119 causal attention documentation sync: task/interface and
+  AES-CPU-005 ledger entry describe implemented inclusive causal prefixes and
+  link bounded scalar/cache/tile evidence without broad numeric or safety claims.

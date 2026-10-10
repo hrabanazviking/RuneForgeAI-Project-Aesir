@@ -212,6 +212,12 @@ partial-output stores, unchecked index/pointer safety, exceptional values, and
 accelerator behavior. Independent agents were unavailable due the app thread
 cap; the review receipt makes no independent-approval claim.
 
+AES500-119 synchronizes task, interface, and AES-CPU-005 ledger wording with
+the causal prefix now enforced by source. The capability remains bounded to
+the scalar sample, cache integration, and one tile edge; F16 rounding, pointer
+safety, broader exceptional/numerical policy, and accelerator behavior stay
+open.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

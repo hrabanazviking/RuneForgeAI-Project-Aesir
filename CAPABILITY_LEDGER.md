@@ -330,10 +330,10 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** TODO fused Flash Attention-2; README technical specifications
-- **Implementation evidence:** `flash_attention_2` in `aesir_engine/core/compute.mojo` combines online softmax, SRAM-tiling, and scalar tail loops for unaligned `head_dim` sizes alongside shape/span contract validation.
-- **Executable evidence:** `E-MASTER` cases `compute.flash_attention_2` and `compute.unaligned_flash_attention` in `test_compute.mojo`.
-- **Evidence boundary:** CPU tiled online-softmax kernel contract and scalar tail safety; target accelerator FlashAttention-2 GPU/NPU kernels remain separate.
-- **Next acceptance gate:** Multi-query mask variants and CUDA/Metal fused-kernel implementation.
+- **Implementation evidence:** `flash_attention_2` in `aesir_engine/core/compute.mojo` combines an inclusive `j <= i` causal prefix with online softmax, 32-key tiling, and scalar tail loops, after shape admission.
+- **Executable evidence:** `E-MASTER` cases `compute.flash_attention_2`, `compute.unaligned_flash_attention`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, and `compute.attention_adversarial`.
+- **Evidence boundary:** Causal-prefix semantics are checked for deterministic small CPU corpora, including one width-3 scalar oracle and one sequence-33 tile boundary. Repeated F16 partial-output stores remain; no broad numerical bound, raw-pointer safety, exceptional-value policy, accelerator parity, performance, or model-quality claim is made.
+- **Next acceptance gate:** Expand randomized causal reference coverage, head-width/sequence matrix, exceptional-value policy, and pointer/index safety before wider CPU claims; target accelerator kernels remain separate.
 - **Audit:** AER-048, AER-112.
 
 ### AES-CPU-006 — SiLU activation for tested values

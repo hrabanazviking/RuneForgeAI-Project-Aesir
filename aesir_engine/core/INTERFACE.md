@@ -845,6 +845,12 @@ def dequantize_q6_k_block(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Poi
 def dequantize_q4_0(block_ptr: Pointer[BlockQ4_0, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int): ...
 ```
 
+CPU `flash_attention_2` uses inclusive causal prefixes: output row `i` consumes
+only K/V positions `0..i`. AES500-112 preserves the prior all-row behavior;
+AES500-114 adds the mask. The scalar, cache-integration, and 32-key boundary
+evidence and remaining limits are documented in
+`TASK_causal_attention_reference_suite.md`.
+
 CPU `apply_rope` mutates Q and K in place. It requires nonnegative start
 position, positive even head width, positive tensor rows and columns, and each
 tensor's columns divisible by `head_dim`. Q/K row counts and head counts are
@@ -1463,9 +1469,3 @@ typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one s
 seven builds before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
 selection/persisted/crash/context recreation claim. Next separate controls/tracing.
-CPU `flash_attention_2` is intended to produce inclusive causal-prefix
-attention: output row `i` may consume only K/V rows `0..i`. The current source
-does not apply this mask and consumes every row through `seq_len` for each
-query; AES500-112 captures that gap before implementation. See
-`TASK_causal_attention_reference_suite.md` for its shape, numerical, and
-evidence boundaries.

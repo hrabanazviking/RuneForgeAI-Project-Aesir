@@ -88,5 +88,5 @@ raw-pointer/index safety remain open.
 ## Acceptance
 
 The contract names the owner, desired attention window, shape and numerical
-rules, current missing mask, evidence sequence, and explicit non-claims. No
-kernel code changes in AES500-111.
+rules, the historical missing mask, evidence sequence, and explicit non-claims.
+AES500-111 changed no kernel code; AES500-114 later implemented the mask.
