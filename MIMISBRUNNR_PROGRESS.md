@@ -324,6 +324,7 @@ H060 GO (review doc). **No slices killed.**
   `docs/plunder/HAILO_BRINGUP_GUIDE.md` (Path F = UIO-real),
   `docs/hailbru/FAILURE_MODES.md` (18 modes).
   Code: `hailbru/fwboot.mojo` (firmware boot engine), real `uio_irq_wait`,
+- Coordinator: merged `mimisbrunnr-c5-h081-h100` → main as 83c8fc0 (--no-ff), pushed, remote HEAD verified. 18/20 slices done; H093 soak re-run + H097 1-hour baseline are honest gaps carried to C6. Device left sane (hailo1x bound, D3hot).
   `probe fw-boot` / `probe fw-msi-test`. Data: `data/hailbru/c5_20261010/`.
   F3 items: H064/H065/H069/H074 real via UIO; H075 implemented-not-fired
   (device already booted); H066 not demonstrated; H086 open.
