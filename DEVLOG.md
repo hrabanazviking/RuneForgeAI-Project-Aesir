@@ -3801,3 +3801,9 @@ Added host-index guards for UInt64 dimensions, row/column product, current tenso
 byte-size multiplications, and absolute data offsets. F32 conversion pool bounds
 now avoid offset-plus-count overflow. The sm_89 native build and focused GGUF
 module pass; quantized block divisibility remains open.
+
+
+AES500-145 adds hostile boundaries for host-index dimension conversion,
+row/column product, F16 byte size, and aligned absolute-offset addition. Each
+rejects before descriptor insertion and cleans mapping state; focused module
+passes.

@@ -45,3 +45,8 @@ The synthetic tensor-record builder and `mmap_and_load` test interface cover ran
 ## AES500-144 implementation receipt
 
 The parser rejects UInt64 dimensions above signed host `Int` range before conversion; `_map_tensor` checks positive shape/product overflow and absolute-offset addition before arithmetic; `_tensor_byte_size` guards multiplication for F16/F32 and current block-size branches; F32 pool admission now compares requested elements to `capacity - offset` after validating the offset. Native sm_89 build and the focused GGUF module pass. This does not resolve quantization block divisibility or all GGML type byte layouts.
+
+
+## AES500-145 arithmetic unit evidence
+
+Four hostile directory fixtures cover UInt64::MAX dimension admission, a two-dimensional 3,037,000,500 × 3,037,000,500 element-product overflow, F16 byte-size overflow above `Int::MAX / 2`, and a 32-byte-aligned relative offset whose addition to `data_offset` overflows. Each asserts its specific diagnostic, no tensor descriptor, FAILED state, and mmap cleanup. The focused Mojo module passes.

@@ -1383,3 +1383,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   supported byte-size multiplications, absolute data offset and F32 pool bound
   now use checked/subtraction-based guards. Native build and focused GGUF module
   pass; block divisibility/layout coverage remains separate.
+
+- [x] AES500-145 GGUF tensor arithmetic unit evidence: hostile UInt64 dimension,
+  element product, F16 byte size, and aligned absolute offset all reject before
+  tensor-map mutation with cleanup. Focused module passes; registered as
+  `gguf.tensor_directory_adversarial`.

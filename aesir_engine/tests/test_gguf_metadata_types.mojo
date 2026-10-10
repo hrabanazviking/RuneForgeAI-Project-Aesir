@@ -27,6 +27,7 @@ def make_metadata_file(
     target_type: UInt32,
     tensor_rank: UInt32 = 0,
     tensor_dim: UInt64 = 1,
+    tensor_offset: UInt64 = 0,
 ) raises -> String:
     var bytes = List[UInt8]()
     bytes.append(0x47)
@@ -81,7 +82,7 @@ def make_metadata_file(
         for _ in range(Int(tensor_rank)):
             append_u64(bytes, tensor_dim)
         append_u32(bytes, 1)
-        append_u64(bytes, 0)
+        append_u64(bytes, tensor_offset)
         while len(bytes) % 32 != 0:
             bytes.append(0)
         bytes.append(0)
@@ -233,8 +234,41 @@ def test_gguf_tensor_directory_interface() raises:
     print("PASS: GGUF tensor rank and positive dimension interface matrix")
 
 
+def tensor_arithmetic_probe(
+    rank: UInt32,
+    dimension: UInt64,
+    tensor_offset: UInt64,
+    expected_error: String,
+) raises:
+    var path = make_metadata_file("extension.label", 8, rank, dimension, tensor_offset)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(128)
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if expected_error not in error_text:
+        raise Error("tensor arithmetic diagnostic differs: " + error_text)
+    if "fixture.weight" in seer.tensors:
+        raise Error("rejected tensor arithmetic mutated tensor map")
+    if seer.state != 4 or seer.is_mapped or seer.is_loaded:
+        raise Error("tensor arithmetic rejection did not clean loader state")
+
+
+def test_gguf_tensor_directory_adversarial() raises:
+    tensor_arithmetic_probe(1, UInt64(18446744073709551615), 0, "dimension exceeds host index")
+    tensor_arithmetic_probe(2, UInt64(3037000500), 0, "element count overflows host index")
+    tensor_arithmetic_probe(1, UInt64(4611686018427387904), 0, "byte size overflows host index")
+    tensor_arithmetic_probe(1, 1, UInt64(9223372036854775776), "absolute offset overflows host index")
+    print("PASS: GGUF tensor directory arithmetic hostile boundaries")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
     test_gguf_metadata_type_integration()
     test_gguf_tensor_directory_baseline()
     test_gguf_tensor_directory_interface()
+    test_gguf_tensor_directory_adversarial()
