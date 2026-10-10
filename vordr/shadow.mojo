@@ -99,10 +99,10 @@ def shadow_verify_tile(
     gemm_micro_8x8(ap, bp, acc_fast, kc, 8)
     gemm_scalar_tile(ap, bp, acc_ref, 8, 8, kc, 8)
     if hook_corrupt:
-        acc_fast[unsafe_offset=0] = acc_fast[0] + Float32(1000.0)
+        acc_fast[unsafe_offset=0] = acc_fast[unsafe_offset=0] + Float32(1000.0)
     var worst = Float64(0)
     for i in range(64):
-        var d = Float64(acc_fast[i] - acc_ref[i])
+        var d = Float64(acc_fast[unsafe_offset=i] - acc_ref[unsafe_offset=i])
         if d < 0:
             d = -d
         if d > worst:

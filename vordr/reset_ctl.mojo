@@ -39,10 +39,9 @@ def vordr_reset(
         )
         var sfields = String("\"steps\": [")
         for i in range(len(rep.steps)):
-            var st = rep.steps[i]
             sfields += (
-                "{\"name\": \"" + st.name + "\", \"ms\": "
-                + String(st.ms) + "}"
+                "{\"name\": \"" + rep.steps[i].name + "\", \"ms\": "
+                + String(rep.steps[i].ms) + "}"
                 + (", " if i + 1 < len(rep.steps) else "")
             )
         sfields += "]"
