@@ -107,8 +107,19 @@ def check(binary, model, profile, output_dir):
                 for task in Path(f"/proc/{process.pid}/task").iterdir():
                     mask = next(line.split()[1] for line in task.joinpath("status").read_text().splitlines()
                                 if line.startswith("SigBlk:"))
-                    assert int(mask, 16) & 16386 == 16386, "worker signal mask is unsafe"
+                assert int(mask, 16) & 16386 == 16386, "worker signal mask is unsafe"
                 assert request("GET", "/health", authorized=False)[0] == 401
+                rejected_credential_marker = "REJECTED-BEARER-CANARY-" + secrets.token_hex(16)
+                status, rejected_auth = request(
+                    "GET", "/health", authorized=False,
+                    extra={"Authorization": "Bearer " + rejected_credential_marker},
+                )
+                assert status == 401 and rejected_credential_marker not in json.dumps(rejected_auth), "rejected credential echoed"
+                prompt_error_marker = "MALFORMED-PROMPT-CANARY-" + secrets.token_hex(16)
+                status, rejected_body = request("POST", "/v1/generate", {
+                    "prompt": prompt_error_marker, "temperature": "not-a-number",
+                })
+                assert status == 400 and prompt_error_marker not in json.dumps(rejected_body), "malformed prompt echoed"
                 status, health = request("GET", "/health")
                 assert status == 200 and health["profile"] == profile and health["context"] == 512
                 assert request("GET", "/health", extra={"Host": "attacker.invalid"})[0] == 403
@@ -160,6 +171,8 @@ def check(binary, model, profile, output_dir):
                 assert "Native inference service stopped" in logfile.read_text()
                 assert token not in logfile.read_text(), "credential leaked in logs"
                 assert sampled["prompt"] not in logfile.read_text(), "prompt leaked in logs"
+                assert rejected_credential_marker not in logfile.read_text(), "rejected credential leaked in logs"
+                assert prompt_error_marker not in logfile.read_text(), "malformed prompt leaked in logs"
                 print(f"PASS {profile}: authenticated real CUDA HTTP, replay, framing/Unicode rejection, slow-client limits, deadline recovery, shutdown")
             finally:
                 if process.poll() is None:

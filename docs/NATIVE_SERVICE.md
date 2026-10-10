@@ -239,6 +239,10 @@ Mojo. The test creates temporary keys and owned processes, checks `/proc` for
 actual loopback binding and worker signal masks, exercises real generation and
 seeded replay, rejects unsafe key files and malformed protocol inputs, forces
 slow-client and prefill deadlines, then verifies recovery and active shutdown.
+The service probe also sends unique canaries in a rejected bearer credential
+and malformed prompt body and asserts that neither error response nor service
+log contains them. This integration probe requires the pinned real GGUF fixtures
+and available CUDA device; adding assertions does not itself run that probe.
 Tests use context 512, a 64-token ceiling and a 300 ms I/O deadline to make bounds
 observable on the available GPU. They do not prove service operation at every
 possible context size or under sustained load. Four counted protocol/request/path
