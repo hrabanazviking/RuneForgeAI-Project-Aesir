@@ -81,3 +81,15 @@ exact-head hosted release gate.
 
 No runtime, production device, memory-reuse, leak-freedom, crash-recovery or
 performance claim is made by this contract document.
+
+## Accepted bounded outcome
+
+The implementation and evidence chain are recorded in
+`TASK_cuda_allocation_lifetime_implementation.md`,
+`TASK_cuda_allocation_lifetime_integration.md`, and the four receipts under
+`docs/evidence/cuda-allocation-lifetime-*-2026-10-10/`. AES500-028's independent
+review confirms the synchronous single-host-thread tracker behavior and the
+per-GEMM owner/pending assertions. It does not establish arbitrary copy/double
+release behavior outside the exercised Mojo ownership paths, concurrent tracker
+mutation, or release safety after failed asynchronous operations. AES500-030
+remains the pinned release gate.

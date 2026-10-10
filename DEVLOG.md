@@ -3382,3 +3382,24 @@ unprofiled complete F32 logits remain byte-identical. Checker and documentation
 consistency checks pass locally. The current service remains separate from this
 fixture-only trace evidence. No speed, occupancy, provider-lead or production
 selection claim is made; AES500-020 exact-head hosted CI is the release gate.
+
+## 2026-10-10 — CUDA allocation lifetime evidence
+
+AES500-021–029 define and exercise bounded logical allocation accounting for
+the selected synchronous GPU-2/GPU-3 paths. The tracker assigns session-local
+IDs, counts logical live owners/bytes, records known pending work, and separates
+owner destruction after successful fences from destruction with pending work.
+CPU-only adversarial cases cover invalid registration, arithmetic and ID
+exhaustion, negative pending work, underflow, and destruction counter/byte
+saturation. The RTX 2060 Max-Q GPU-3 probe confirms three distinct registered
+owners, live accounting during each successful GEMM, zero pending counts after
+the executor synchronizes, parity for two shapes, and a clean post-scope
+destruction receipt. Local master suite: 191 passed, zero failed, one optional
+fixture skip. Evidence links and limits are recorded in
+`CAPABILITY_LEDGER.md` and `aesir_engine/core/INTERFACE.md`.
+
+This is single-host-thread diagnostic evidence for the exercised synchronous
+paths. It does not establish concurrent payload mutation, an implicit stream
+fence on destruction, asynchronous teardown safety, allocator reuse, driver
+memory return, or arbitrary raw-buffer ownership. Per-slice commits are pushed;
+exact-head hosted CI remains the release gate before this work order closes.

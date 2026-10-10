@@ -375,9 +375,12 @@ production contexts or buffers whose lifetime extends beyond discovery.
 ### `CUDAResourceBudget`, `CUDAF16Allocation`, and `CUDADeviceResources` (GPU-2)
 
 `core/cuda_resources.mojo` owns the selected CUDA context and real MAX-managed
-F16 resource lifecycle. These are move-only project wrappers: the underlying
-MAX context, pinned-host buffer, and device buffer are reference-counted and
-released by their `Deinitable` lifecycles after queued stream work completes.
+F16 resource lifecycle. These are move-only project wrappers; the underlying
+MAX context, pinned-host buffer, and device buffer use their `Deinitable`
+lifecycles. This contract does not claim that wrapper destruction inserts an
+implicit stream fence. The logical tracker classifies a destruction as fenced
+only when its known pending-work count is zero after the owning code has
+successfully synchronized.
 
 ```mojo
 struct CUDAResourceBudget(Copyable):
@@ -410,6 +413,8 @@ struct CUDAF16Allocation:
     var allocation_id: Int
     var synchronization_count: Int
     var pending_work_count: Int
+    var tracker: ArcPointer[CUDAAllocationTracker]
+    var is_registered: Bool
 
     def set_host(mut self, index: Int, value: Scalar[f16]) raises: ...
     def get_host(self, index: Int) raises -> Scalar[f16]: ...
@@ -427,6 +432,11 @@ struct CUDAAllocationTracker(Movable):
     var fenced_owner_destroyed_bytes: Int
     var unfenced_owner_destroyed_count: Int
     var accounting_error: Bool
+
+    def reserve_id(mut self) raises -> Int: ...
+    def validate_registration(self, count: Int, total_bytes: Int) raises: ...
+    def register(mut self, size_bytes: Int) raises: ...
+    def owner_destroyed(mut self, size_bytes: Int, pending_work_count: Int): ...
 
 struct CUDADeviceResources:
     var context: DeviceContext
@@ -448,10 +458,12 @@ owner destruction after known queued work has been synchronized. Destruction
 with known pending work is counted separately. It does not decrease the
 monotonic policy reservation, promise allocator reuse or driver-memory return,
 or guard arbitrary direct use of the currently exposed `device_buffer` field.
+The proof is limited to the exercised synchronous GPU-2/GPU-3 paths and
+CPU-only tracker accounting cases in the linked AES500 evidence receipts.
 Tracker payload mutation is single-host-thread scoped; `ArcPointer` protects
 shared ownership but not concurrent mutation of its payload. These counters are
-lifecycle diagnostics, not a thread-safe allocator or a complete observer of
-untracked raw-buffer use.
+lifecycle diagnostics, not a thread-safe allocator, an async-teardown guarantee,
+or a complete observer of untracked raw-buffer use.
 
 ### `CUDAGemmPlan` and `CUDAF16GemmExecutor` (GPU-3)
 

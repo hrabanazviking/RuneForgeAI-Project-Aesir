@@ -655,6 +655,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   for the exercised synchronous GEMM path. It added a live-count assertion
   immediately after each execution and rebound the physical receipt to a fresh
   run of that exact source; no async or concurrent guarantee is inferred.
+- AES500-029 synchronizes the core interface, capability evidence boundary,
+  first-accelerator TODO, task contract, roadmap progress, and devlog. The ledger
+  remains partial for GPU execution and explicitly limits allocation lifecycle
+  claims to the exercised synchronous single-host-thread paths.
 
 ## Status
 

@@ -776,6 +776,11 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] Connect GPU-2 resource ownership to one reusable production-core CUDA F16
   GEMM and prove exact/tolerance parity, rejected-request safety, repeatability,
   and a deliberate post-kernel mismatch on physical hardware.
+- [x] Add bounded GPU-2/GPU-3 allocation-lifetime diagnostics, CPU adversarial
+  accounting evidence, and physical synchronous-path integration receipts;
+  retain single-host-thread, no-implicit-fence, no-driver-reuse boundaries
+  (`AES500-021` through `AES500-029`; see
+  `TASK_cuda_allocation_lifetime_tracking.md`).
 - [ ] Connect the kernel to one real-model inference slice and preserve token/
   logit parity.
 - [x] Record reproducible GPU-0 through GPU-3 physical commands, device/toolchain
