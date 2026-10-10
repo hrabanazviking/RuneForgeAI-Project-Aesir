@@ -3601,3 +3601,19 @@ Docs: `docs/hailbru/PHASE_B_GATE.md` (NO-GO), `docs/hailbru/C4_REVIEW.md` (NOT-R
 `docs/hailbru/F3_UNBLOCK_RUNBOOK.md`, `docs/plunder/HAILO_FW_LOAD_REGISTERS.md`, `hailbru/API.md`.
 `data/hailbru/*.json` evidence snapshots written.
 VERDICT: Phase-B gate NO-GO — IOMMU DMA, device MSI, firmware boot F3-banked behind kernel rebuild.
+
+## 2026-10-10 — MÍMISBRUNNR C5 COMPLETE (READY_FW)
+
+Kernel rebuild succeeded: Mimir on `6.12.112-v8-16k-hailo+`. Sólrún
+audit addendum corrected the recon: VFIO BLOCKED for 0001:01:00.0 (no
+IOMMU group, no CONFIG_VFIO_NOIOMMU); UIO is the real path.
+Executed for real: UIO bind/unbind/restore (/dev/uio0), BAR0/BAR4
+writable mapping, ATR programming, a genuine device MSI (count=1),
+scu_fw.bin header parsing (magic 0xE905DAAB), firmware-booted
+verification (ATR1==0x200000). Full 3-stage flash implemented
+(`hailbru/fwboot.mojo`, `probe fw-boot`) but not fired — the vendor
+driver had already booted the firmware; fail-safe refusal is correct.
+Phase C gate: 100/100 cycles (mean 113.6 ms), 10/10 golden, 20/20 PM,
+100/100 health → READY_FW. 28/28 tests green. Device left sane
+(hailo1x bound, D3hot, FW loaded). Open: H086 (FW version), H066
+(phys-DMA demo), H093 re-run, H097 1-hour baseline.

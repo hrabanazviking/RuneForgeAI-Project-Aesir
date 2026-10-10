@@ -317,7 +317,16 @@ H060 GO (review doc). **No slices killed.**
   This is ambition-with-honesty, not a skipped avenue.
 
 ## Campaign 5 — Bring-up & Firmware (H081–H100)
-- Status: in progress (worker session 0aaa7b6a-330d-4534-859f-d41eea30f930, 2026-10-10)
+- Status: COMPLETE (worker session 0aaa7b6a-330d-4534-859f-d41eea30f930, 2026-10-10).
+  VERDICT: READY_FW — Phase D may proceed to H111. 28/28 tests green.
+  Docs: `docs/hailbru/PHASE_C_GATE.md` (PASS), `docs/hailbru/C5_REVIEW.md`,
+  `docs/hailbru/F3_UNBLOCK_RUNBOOK.md` (§0 unblock MET with corrections),
+  `docs/plunder/HAILO_BRINGUP_GUIDE.md` (Path F = UIO-real),
+  `docs/hailbru/FAILURE_MODES.md` (18 modes).
+  Code: `hailbru/fwboot.mojo` (firmware boot engine), real `uio_irq_wait`,
+  `probe fw-boot` / `probe fw-msi-test`. Data: `data/hailbru/c5_20261010/`.
+  F3 items: H064/H065/H069/H074 real via UIO; H075 implemented-not-fired
+  (device already booted); H066 not demonstrated; H086 open.
 
 ### SÓLRÚN AUDIT — C5 pre-execution (2026-10-10)
 Phase-B gate NO-GO stands: no VFIO/UIO, no IOMMU DMA, no device MSI, no
