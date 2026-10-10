@@ -30,8 +30,10 @@ performance, model support, runtime/service, security, portability, usability,
 operations, and ecosystem integrations. Each slice must name an owner/domain,
 prerequisites, a concrete deliverable, measurable acceptance evidence, and a
 claim boundary. AES500-001 was the contract gate; the strategy5 control
-implementation and physical fixture receipt are recorded across AES500-002..009
-in the roadmap. AES500-010 remains the separate hosted release-verification
+implementation and physical fixture receipt were historically grouped across
+AES500-002..009. AES500-002 now has its own independently executed 2026-10-10
+COUNTS1/STATE1 baseline and receipt; current independent gates 003..009 continue
+from that accepted input. AES500-010 remains the separate hosted release-verification
 gate. Continue from the current frontier one independently committed and pushed
 slice at a time. Do not claim a speed lead from correctness/recovery evidence.
 
@@ -77,3 +79,20 @@ reviewable increments; commit and push each completed slice separately, verify
 its exact remote revision and hosted CI status, then continue while the next
 slice is well-defined and its required gates are available. Record unavailable
 external gates as pending without claiming completion.
+
+## Independently executed AES500-002 — 2026-10-10
+
+`TASK_small_attention_controls_baseline.md` and
+`docs/evidence/small-attention-controls-baseline-2026-10-10/README.md` bind the
+current capture to the preserved pre-control source triplet and an exact source
+hash inventory. Actual per-run disabled/reset/health/position observations and
+executed refusal counts replace label-only acceptance for the fresh gate. All
+513,024 values per owner, cache/IDs/counters/guards and the pinned independent
+CPU quality pass. Quality acceptance withholds speed scores, ratios and medians.
+The initially active service is restored and authenticated health passes.
+
+All 48 focused Python contracts and the explicit sm_89 master (249 passed,
+zero failed, one skipped) pass; normal launcher and shared-helper builds pass.
+These are current local observations. Historical default-target PTX failures
+and exact hosted release status remain separately stated. Continue next with
+AES500-003's independently scoped interface contract, execution and push.

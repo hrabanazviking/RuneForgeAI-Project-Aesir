@@ -85,17 +85,36 @@ def parse(path,allow_fused=False,allow_fused_controls=False,allow_small=False,al
         raise ValueError("Incomplete down128 pre-step refusal evidence")
     if variant == 4 and (not text.endswith("\n") or any(len(line)>1024 for line in text.splitlines()) or next(reader) != ["ADMISSION","4","3","0"]):
         raise ValueError("Incomplete fused model pre-step refusal evidence")
-    if variant == 5 and (not text.endswith("\n") or any(len(line)>1024 for line in text.splitlines()) or next(reader) != ["ADMISSION","5","12","0"]):
-        raise ValueError("Incomplete small model pre-step refusal evidence")
+    admission_counts = None
+    if variant == 5:
+        admission = next(reader)
+        if not text.endswith("\n") or any(len(line) > 1024 for line in text.splitlines()):
+            raise ValueError("Incomplete small model evidence")
+        if admission in (["ADMISSION", "5", "COUNTS1", "8", "0"],
+                         ["ADMISSION", "5", "COUNTS1", "8", "13"]):
+            admission_counts = dict(invalid_tiles=8, closed_features=int(admission[4]))
+        elif admission != ["ADMISSION", "5", "12", "0"]:
+            raise ValueError("Incomplete small model executed refusal counts")
     control_capable = False
+    control_state_observed = False
     first_case = next(reader)
     if variant == 4 and allow_fused_controls and first_case == ["CONTROL_CAPABLE","4","1"]:
         control_capable = True; first_case = next(reader)
-    if variant == 5 and allow_small_controls and first_case == ["CONTROL_CAPABLE","5","1","DISABLED"]:
-        control_capable = True; first_case = next(reader)
+    if variant == 5 and allow_small_controls and first_case in (
+        ["CONTROL_CAPABLE", "5", "1", "DISABLED"],
+        ["CONTROL_CAPABLE", "5", "1", "DISABLED", "STATE1"],
+    ):
+        control_capable = True
+        control_state_observed = len(first_case) == 5
+        first_case = next(reader)
     if variant == 3 and first_case == ["CONTROL_CAPABLE","3","1"]:
         control_capable = True; first_case = next(reader)
+    if admission_counts is not None and admission_counts["closed_features"] != (0 if control_capable else 13):
+        raise ValueError("Small model executed feature counts disagree with capability")
+    if control_state_observed and admission_counts is None:
+        raise ValueError("STATE1 requires observed COUNTS1 admission metadata")
     cases = []
+    owner_positions = [0, 0]
     for index in range(4):
         row = first_case if index == 0 else next(reader)
         if len(row) != 3 or row[:2] != ["CASE", str(index)] or not 2 <= int(row[2]) <= 1536:
@@ -113,6 +132,7 @@ def parse(path,allow_fused=False,allow_fused_controls=False,allow_small=False,al
                 raise ValueError("Incomplete/duplicate/out-of-order complete logits")
             native.append(f32(row[3])); matrix.append(f32(row[4]))
         times = []
+        control_states = []
         for sample in range(4):
             for step in range(2):
                 mode = (sample + step) % 2; row = next(reader)
@@ -122,10 +142,31 @@ def parse(path,allow_fused=False,allow_fused_controls=False,allow_small=False,al
                 if not math.isfinite(elapsed) or elapsed <= 0:
                     raise ValueError("Invalid actual matrix prefill timing")
                 times.append(dict(mode=mode, sample=sample, seconds=elapsed, committed_position=count, repeat_logit_mismatches=0))
+                if control_state_observed:
+                    owner_positions[mode] = count
+                    state = next(reader)
+                    matrix_position, native_position = owner_positions[1], owner_positions[0]
+                    expected = ["CONTROL_STATE", str(index), str(mode), str(sample),
+                                "1", "1", "0", "0", "1", "1"] + [
+                                    str(matrix_position), str(native_position),
+                                    str(matrix_position), str(native_position),
+                                    str(matrix_position), str(native_position)]
+                    if state != expected:
+                        raise ValueError("Disabled controls capability/health/reset/owner state mismatch")
+                    control_states.append(dict(mode=mode, sample=sample,
+                        capable=True, admitted=True, enabled=False,
+                        reset_required=False, fixture_healthy=True, native_healthy=True,
+                        fixture_position=matrix_position, native_position=native_position,
+                        fixture_sampler_position=matrix_position,
+                        native_sampler_position=native_position,
+                        fixture_committed_length=matrix_position,
+                        native_committed_length=native_position))
         if next(reader) != ["GUARD", str(index), "1088", "0"]:
             raise ValueError("Matrix model guarded buffers incomplete or failed")
         case = dict(input_ids=ids, native=native, logits=matrix, timings=times,
                     native_comparison=compare_case(matrix, native))
+        if control_state_observed:
+            case["disabled_control_states"] = control_states
         if variant is not None:
             calls = rope_cache_calls(count, variant)
             if next(reader) != ["ENQUEUE", str(index), str(calls)]: raise ValueError("Actual rotary/cache host enqueue count mismatch")
@@ -154,7 +195,12 @@ def parse(path,allow_fused=False,allow_fused_controls=False,allow_small=False,al
         raise ValueError("Matrix-model collection totals mismatch")
     if next(reader, None) is not None:
         raise ValueError("Trailing matrix-model evidence")
-    return dict(cases=cases, activation_precision=precision, attention_variant=variant, control_capable=control_capable, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
+    result = dict(cases=cases, activation_precision=precision, attention_variant=variant, control_capable=control_capable, csv_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
+    if control_state_observed:
+        result["control_state_observed"] = True
+    if admission_counts is not None:
+        result["admission_counts"] = admission_counts
+    return result
 
 
 def fixture_reference(data, csv_path, report_path, model_sha, *, reference_binary=None):
@@ -301,7 +347,10 @@ def summarize(data):
                             **({"elementwise_host_enqueues":c["elementwise_host_enqueues"]} if data["attention_variant"] in (2,3,4,5) else {}),
                             **({"down128_host_enqueues":c["down128_host_enqueues"]} if data["attention_variant"] in (3,4,5) else {}),
                             **({k:c[k] for k in ("fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==4 else {}),
-                            **({k:c[k] for k in ("small_attention_host_enqueues","fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==5 else {})) for c in data["cases"]],
+                            **({k:c[k] for k in ("small_attention_host_enqueues","fused_attention_host_enqueues","original_attention_queries")} if data["attention_variant"]==5 else {}),
+                            **({"disabled_control_states": c["disabled_control_states"]} if data.get("control_state_observed") else {})) for c in data["cases"]],
+                **({"control_state_observed": True} if data.get("control_state_observed") else {}),
+                **({"admission_counts": data["admission_counts"]} if "admission_counts" in data else {}),
                 limits="Isolated native test orchestration only, context1536/F16 KV. Four public final-prompt vectors through1070 inputs. Batch32 Q/output/FFN uses staged Turing MMA, K/V and four/scalar tails use F32 references. One unscored warm/export pair then three alternating fresh pairs. No runtime admission, generation/restore/cancellation/concurrency, decode/provider lead or second-session promotion.")
 
 
@@ -317,11 +366,13 @@ def score(report):
         report["native_refinement_rms_budget"] = .0005
         report["native_refinement_passed"] = all(c["native_comparison"]["rms_error"] <= .0005 for c in report["cases"])
         report["passed"] = report["passed"] and report["native_refinement_passed"]
-    report["speed_scored"] = report["passed"]
+    report["speed_scored"] = report["passed"] and not report.get("control_state_observed", False)
     if not report["passed"]:
         report["error"] = "Fixed complete-model quality gate failed; timing ratios withheld"
         return
     report.pop("error", None)
+    if report.get("control_state_observed"):
+        return
     medians=[]
     for c in report["cases"]:
         native = statistics.median(s["seconds"] for s in c["timings"] if s["mode"] == 0 and s["sample"] != 0)
@@ -369,7 +420,8 @@ def main():
             data = parse(args.csv,allow_fused=args.fused_attention,allow_fused_controls=args.fused_controls,allow_small=args.small_attention or args.small_controls,allow_small_controls=args.small_controls); report = summarize(data)
             if args.fused_attention and data["attention_variant"]!=4:raise ValueError("Fused opt-in requires actual strategy4 capture")
             if (args.small_attention or args.small_controls) and data["attention_variant"]!=5:raise ValueError("Small opt-in requires actual strategy5 capture")
-            if args.small_controls and data["control_capable"] is not True:raise ValueError("Small controls baseline requires capable-but-disabled marker")
+            if args.small_controls and (data["control_capable"] is not True or data.get("control_state_observed") is not True):
+                raise ValueError("Small controls baseline requires STATE1 observed disabled/health/owner state")
             if args.fused_controls and not data["control_capable"]: raise ValueError("Fused controls opt-in requires actual capable4 marker")
             if data["attention_variant"]==4:report["limits"] += " Explicit fused four/32 attention retains original single-token path; complete fixed source F32/cache/ID/counter/CPU scope and binary identities are required. Control-capable4 needs its separate enabled recovery gate; tracing and runtime admission remain closed."
             if data["attention_variant"]==5:report["limits"] += " Explicit bounded small-score four/32 attention, actual default4 source binary/full F32/cache/IDs/counters and unchanged zero-GPU CPU quality required. Original scalar path stays. Controls/tracing/replay/runtime remain closed; no historical4/new5 or provider ratio."

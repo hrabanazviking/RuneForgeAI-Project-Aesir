@@ -23,6 +23,37 @@ def fixture():
     return text
 
 
+def capable_fixture(vary_counts=False):
+    """Reduced parser evidence only; state observations never prove execution."""
+    rows = []
+    owner_positions = [0, 0]
+    text = fixture().replace('ADMISSION,5,12,0', 'ADMISSION,5,COUNTS1,8,0')
+    if vary_counts:
+        for old, new in (
+            ('CASE,1,2', 'CASE,1,3'),
+            ('INPUT,1,1,2', 'INPUT,1,1,2\nINPUT,1,2,2'),
+            ('ENQUEUE,1,168', 'ENQUEUE,1,252'),
+            ('ELEMENTWISE,1,281', 'ELEMENTWISE,1,421'),
+            ('SMALL_ATTENTION,1,0,56', 'SMALL_ATTENTION,1,0,84'),
+            ('FUSED_ATTENTION,1,0,56', 'FUSED_ATTENTION,1,0,84'),
+        ):
+            text = text.replace(old, new)
+    for row in text.splitlines():
+        if vary_counts and row.startswith('TIME,1,'):
+            columns = row.split(','); columns[5] = '3'; row = ','.join(columns)
+        if row.startswith('CASE,0,'):
+            rows.append('CONTROL_CAPABLE,5,1,DISABLED,STATE1')
+        rows.append(row)
+        if row.startswith('TIME,'):
+            _, index, mode, sample, _, count, _ = row.split(',')
+            owner_positions[int(mode)] = int(count)
+            matrix, native = map(str, (owner_positions[1], owner_positions[0]))
+            rows.append(','.join(['CONTROL_STATE', index, mode, sample,
+                                  '1', '1', '0', '0', '1', '1',
+                                  matrix, native, matrix, native, matrix, native]))
+    return '\n'.join(rows) + '\n'
+
+
 class Contracts(unittest.TestCase):
     def setUp(self):
         original_contracts.Contracts.setUp(self)
@@ -52,6 +83,79 @@ class Contracts(unittest.TestCase):
         self.assertTrue(check.parse(path,allow_small=True,allow_small_controls=True)['control_capable'])
         path.write_text(text.replace('CONTROL_CAPABLE,5,1,DISABLED','CONTROL_CAPABLE,5,0,ENABLED'))
         with self.assertRaises(ValueError):check.parse(path,allow_small=True,allow_small_controls=True)
+
+    def test_observed_disabled_state_preserves_every_owner_snapshot(self):
+        path = self.root/'capture'
+        path.write_text(capable_fixture())
+        data = check.parse(path, allow_small=True, allow_small_controls=True)
+        self.assertTrue(data['control_state_observed'])
+        snapshots = [s for c in data['cases'] for s in c['disabled_control_states']]
+        self.assertEqual(len(snapshots), 32)
+        self.assertEqual(snapshots[0]['fixture_position'], 0)
+        self.assertEqual(snapshots[0]['native_position'], 2)
+        self.assertTrue(all(not s['enabled'] and not s['reset_required'] for s in snapshots))
+        summary = check.summarize(data)
+        self.assertTrue(summary['control_state_observed'])
+        self.assertEqual(summary['cases'][0]['disabled_control_states'], data['cases'][0]['disabled_control_states'])
+
+    def test_observed_state_rejects_each_identity_flag_and_owner_drift(self):
+        text = capable_fixture()
+        original_state = 'CONTROL_STATE,0,0,0,1,1,0,0,1,1,0,2,0,2,0,2'
+        self.assertIn(original_state, text)
+        for field in range(1, 16):
+            state = original_state.split(',')
+            state[field] = '1' if state[field] == '0' else '0'
+            path = self.root/'capture'
+            path.write_text(text.replace(original_state, ','.join(state), 1))
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                check.parse(path, allow_small=True, allow_small_controls=True)
+
+    def test_observed_state_carries_unselected_owner_across_case_boundaries(self):
+        text = capable_fixture(vary_counts=True)
+        path = self.root/'capture'; path.write_text(text)
+        data = check.parse(path, allow_small=True, allow_small_controls=True)
+        self.assertEqual(data['cases'][1]['disabled_control_states'][0]['fixture_position'], 2)
+        self.assertEqual(data['cases'][1]['disabled_control_states'][0]['native_position'], 3)
+        self.assertEqual(data['cases'][2]['disabled_control_states'][0]['fixture_position'], 3)
+        self.assertEqual(data['cases'][2]['disabled_control_states'][0]['native_position'], 2)
+        path.write_text(text.replace('CONTROL_STATE,2,0,0,1,1,0,0,1,1,3,2,3,2,3,2',
+                                     'CONTROL_STATE,2,0,0,1,1,0,0,1,1,0,2,0,2,0,2'))
+        with self.assertRaises(ValueError):
+            check.parse(path, allow_small=True, allow_small_controls=True)
+        for replacement in ('01', 'True', '-1', '1.0'):
+            path.write_text(text.replace('CONTROL_STATE,0,0,0,1,1,0',
+                                         f'CONTROL_STATE,0,0,0,{replacement},1,0', 1))
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                check.parse(path, allow_small=True, allow_small_controls=True)
+
+    def test_observed_state_requires_order_completeness_and_version(self):
+        text = capable_fixture()
+        state = 'CONTROL_STATE,0,0,0,1,1,0,0,1,1,0,2,0,2,0,2\n'
+        for changed in (text.replace(state, '', 1),
+                        text.replace(state, state + state, 1),
+                        text.replace('CONTROL_CAPABLE,5,1,DISABLED,STATE1',
+                                     'CONTROL_CAPABLE,5,1,DISABLED,STATE2'),
+                        text.replace('CONTROL_STATE,0,0,0', 'CONTROL_STATE,0,1,0', 1),
+                        text + state):
+            path = self.root/'capture'; path.write_text(changed)
+            with self.assertRaises((ValueError, StopIteration)):
+                check.parse(path, allow_small=True, allow_small_controls=True)
+
+    def test_observed_admission_counts_cannot_invent_skipped_feature_checks(self):
+        text = capable_fixture()
+        marker = 'ADMISSION,5,COUNTS1,8,0'
+        for changed in ('ADMISSION,5,12,0', 'ADMISSION,5,COUNTS1,7,0',
+                        'ADMISSION,5,COUNTS1,8,13', 'ADMISSION,5,COUNTS2,8,0',
+                        'ADMISSION,5,COUNTS1,08,0', ''):
+            path = self.root/'capture'; path.write_text(text.replace(marker, changed, 1))
+            with self.subTest(changed=changed), self.assertRaises((ValueError, StopIteration)):
+                check.parse(path, allow_small=True, allow_small_controls=True)
+        path.write_text(fixture().replace('ADMISSION,5,12,0', 'ADMISSION,5,COUNTS1,8,13'))
+        self.assertEqual(check.parse(path, allow_small=True)['admission_counts'],
+                         dict(invalid_tiles=8, closed_features=13))
+        path.write_text(fixture().replace('ADMISSION,5,12,0', 'ADMISSION,5,COUNTS1,8,0'))
+        with self.assertRaises(ValueError):
+            check.parse(path, allow_small=True)
 
     def test_complete_mode_admission_counters_and_closed_capabilities(self):
         for a,b in [('ADMISSION,5,12,0', 'ADMISSION,5,11,0'), ('ADMISSION,5,12,0\n',''),
@@ -95,17 +199,36 @@ class Contracts(unittest.TestCase):
         for t in r['cases'][-1]['timings']:t['seconds'] = 1e308 if t['mode'] == 0 else 5e-324
         check.score(r);self.assertFalse(r['passed']);self.assertTrue(all(c['prefill_speed_ratio'] is None and 'native_prefill_median_seconds' not in c for c in r['cases']))
 
-    def run_main(self,change=None,interrupt=False,explicit=True):
-        capture = self.root/'capture';capture.write_text(fixture());data = check.parse(capture,allow_small=True)
+    def run_main(self,change=None,interrupt=False,explicit=True,controls=False,legacy=False):
+        text = capable_fixture() if controls else fixture()
+        if legacy:
+            text = text.replace('ADMISSION,5,COUNTS1,8,0', 'ADMISSION,5,12,0')
+            text = '\n'.join(row for row in text.replace(',DISABLED,STATE1', ',DISABLED').splitlines()
+                             if not row.startswith('CONTROL_STATE,')) + '\n'
+        capture = self.root/'capture';capture.write_text(text);data = check.parse(capture,allow_small=True,allow_small_controls=controls)
         model = self.root/'model';model.write_bytes(b'x');derived = self.root/'derived';derived.write_bytes(b'y');csv,path,_ = self.proof()
-        out = self.root/f'report-{change}-{interrupt}-{explicit}'
+        out = self.root/f'report-{change}-{interrupt}-{explicit}-{controls}-{legacy}'
         values = ['a'*64,'e'*64,'f'*64,'a'*64,'e'*64,data['csv_sha256'],'d'*64,'b'*64,'c'*64,'f'*64,'9'*64]
         if change is not None:values[change] = '0'*64
         args = ['check',str(capture),'--model',str(model),'--model-sha256','a'*64,'--reference-model',str(derived),'--reference-sha256','e'*64,'--reference-provenance',str(self.root/'provenance'),'--reference-csv',str(csv),'--reference-report',str(path),'--output',str(out)]
-        if explicit:args += ['--small-attention','--binary',str(self.root/'binary'),'--binary-sha256','f'*64,'--reference-binary',str(self.previous_binary)]
+        if explicit:args += ['--small-controls' if controls else '--small-attention','--binary',str(self.root/'binary'),'--binary-sha256','f'*64,'--reference-binary',str(self.previous_binary)]
         with patch.object(sys,'argv',args),patch.object(check,'digest',side_effect=values),patch.object(check,'provenance',return_value={'derived_bytes':1,'snapshot_sha256':'d'*64}),patch.object(check,'fixture_reference',return_value={'passed':True,'csv_sha256':'b'*64,'report_sha256':'c'*64,'binary_sha256':'9'*64}),patch.object(check,'independent',side_effect=KeyboardInterrupt if interrupt else None,return_value={'passed':True}):
             status = check.main()
         return status,json.loads(out.read_text()),args,out
+
+    def test_current_controls_cli_requires_observed_state_not_legacy_label(self):
+        status, report, _, _ = self.run_main(controls=True, legacy=True)
+        self.assertEqual(status, 1)
+        self.assertIn('STATE1 observed', report['error'])
+        self.assertFalse(report['speed_scored'])
+        status, report, _, _ = self.run_main(controls=True)
+        self.assertEqual(status, 0)
+        self.assertTrue(report['control_state_observed'])
+        self.assertEqual(sum(len(c['disabled_control_states']) for c in report['cases']), 32)
+        self.assertEqual(report['admission_counts'], dict(invalid_tiles=8, closed_features=0))
+        self.assertFalse(report['speed_scored'])
+        self.assertTrue(all(c['prefill_speed_ratio'] is None and 'native_prefill_median_seconds' not in c
+                            for c in report['cases']))
 
     def test_every_after_hash_and_interrupt_keep_complete_failed_evidence(self):
         for index in range(3,11):

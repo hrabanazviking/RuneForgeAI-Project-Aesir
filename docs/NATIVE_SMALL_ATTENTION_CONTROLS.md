@@ -2,11 +2,18 @@
 
 ## Status
 
-The strategy5 cooperative-controls fixture gate passed on 2026-10-09 for the
-documented model/device/source scope. The implementation uses a default-false
-`small_controls` capability. The source-bound full-model baseline, independent
-CPU comparison, physical abort/reset/recovery collection and strict checker passed;
-the receipt is in `evidence/small-attention-controls-2026-10-09/README.md`.
+The historical strategy5 cooperative-controls acceptance passed on 2026-10-09
+for the documented model/device/source scope. Its receipt is preserved at
+`evidence/small-attention-controls-2026-10-09/README.md`; that capture predates
+the strengthened state-observation gate described here. The current gate uses a
+default-false `small_controls` capability and requires explicit capability,
+admission, enabled, reset, fixture-health and native-health state observations
+from the collector. The legacy receipt's capable-disabled label alone does not
+satisfy the strengthened current gate. The fresh 2026-10-10 disabled baseline
+passes COUNTS1/STATE1, complete source and fixed independent CPU quality; see
+[its receipt](evidence/small-attention-controls-baseline-2026-10-10/README.md).
+That execution observes disabled owners only; enabled abort/recovery remains
+evidence from the separate historical control receipt.
 
 Normal model/service selection remains on the existing admitted path. Strategy5
 controls do not imply strategy5 runtime readiness, tracing, production admission,
@@ -51,10 +58,26 @@ python3 scripts/check_turing_model_prefill.py "$ARTIFACTS/disabled.csv" \
   --output "$ARTIFACTS/disabled.json"
 ```
 
-The checker requires the capable-but-disabled marker, then compares all four
-current cases against accepted strategy5 native/matrix bytes, cache digests, IDs
-and dispatch counts before running the pinned zero-GPU CPU oracle. The accepted
-strategy5 source itself must remain control-disabled.
+The current checker requires a `CONTROL_CAPABLE,5,1,DISABLED,STATE1` marker,
+`ADMISSION,5,COUNTS1,8,0` for capable mode, and an actual `CONTROL_STATE` row
+after each `TIME` row before comparing all four current cases against accepted
+strategy5 native/matrix bytes, cache digests, IDs and dispatch counts and
+running the pinned zero-GPU CPU oracle. `COUNTS1,8,0` records eight validated
+tile refusals and zero skipped feature checks. The ordinary current collector
+uses `COUNTS1,8,13`. Historical `ADMISSION,5,12,0` remains parseable under the
+legacy format, but cannot be reused for a new STATE1 acceptance. The accepted
+strategy5 source itself must remain control-disabled. Each `CONTROL_STATE` row
+has 16 total CSV fields: the `CONTROL_STATE` record tag plus 15 payload fields
+(`index`, `mode`, `sample`; six booleans `capable`, `admitted`, `enabled`,
+`reset_required`, `fixture_healthy`, `native_healthy`; and six counts for native
+positions, sampler positions, and committed lengths for both owners). This binds
+the disabled claim to observed owner state rather than the marker label.
+
+STATE1 capable-disabled reports preserve raw timing measurements but set
+`speed_scored=false` and withhold timing ratios. Quality comparison may still set
+`passed=true`; that field does not enable performance scoring. Acceptance
+requires a fresh capture with both COUNTS1 and STATE1, its independent checker
+result, and a dated evidence receipt.
 
 ## Required physical acceptance
 
@@ -94,8 +117,10 @@ python3 scripts/check_turing_fixture_controls.py "$ARTIFACTS/controls.csv" \
 The native collector needs the exact real fixture model. The checker requires
 the accepted model5 source to remain disabled-controls, and binds model, source
 CSV/report/binary, current binary and capture before and after validation. The
-accepted 2026-10-09 run is recorded in
+historical 2026-10-09 run is recorded in
 [the physical evidence receipt](evidence/small-attention-controls-2026-10-09/README.md).
+It remains acceptance under its then-current evidence contract; the strengthened
+STATE1 disabled-baseline gate now has the distinct accepted 2026-10-10 capture.
 Hosted CI compilation is not physical control evidence.
 
 ## Completion boundary

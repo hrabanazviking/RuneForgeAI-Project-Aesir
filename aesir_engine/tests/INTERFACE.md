@@ -824,7 +824,7 @@ changing bounds/math; whole-model/state/production/provider gates remain separat
 Final small_attention=False is an exclusive test-only strategy5 requiring original
 fused/down128/rotary/elementwise precision0 and no control/trace capabilities.
 Count4/32 enqueue attend_small; singles remain original. Separate small/fused/scalar
-counters reset.12 state/allocation-preserving refusals include a valid native replay
+counters reset. The current ordinary collector counts thirteen state/allocation-preserving refusals, including unauthorized small tracing and a valid native replay
 plan; restore rejects5 before owner mutation. No original0..4 or normal selection
 change. New probe exports all513024 F32 per owner/IDs/full cache/4352 guards/32
 records and own exact bits. Explicit reader allow_small/CLI--small-attention require
@@ -879,8 +879,22 @@ original scalar), complete vectors, state, allocations and guards through abort
 and recovery. Strategy5 remains a test fixture; enabled-control timing is unscored.
 Read project-root `TASK_small_attention_controls.md` and
 `docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the active contract and final
-evidence boundary. The scoped physical gate passes for the accepted strict3B
-model and RTX2060 sm75; this does not admit normal runtime selection.
+evidence boundary. Current collectors emit marker
+`CONTROL_CAPABLE,5,1,DISABLED,STATE1` and emit a `CONTROL_STATE` row after each
+`TIME` row. The row has 16 total CSV fields: its record tag plus 15 payload
+fields for index/mode/sample, capability/admission/enabled/reset-required/
+fixture-health/native-health booleans, and native positions, sampler positions
+and committed lengths for both owners. This proves actual disabled and healthy
+owner state; the 2026-10-09 receipt remains historical acceptance and its
+label-only capable-disabled capture does not meet the strengthened current gate.
+The capable-mode `ADMISSION,5,COUNTS1,8,0` record binds eight validated tile
+refusals and zero skipped feature checks; ordinary collection uses
+`COUNTS1,8,13`. Historical `ADMISSION,5,12,0` remains parseable only under the
+legacy format and cannot be reused for STATE1 acceptance. Current reports retain
+raw timings but withhold timing ratios and set `speed_scored=false`, even when
+`passed=true`. Acceptance requires a fresh COUNTS1/STATE1 capture and receipt.
+The scoped physical gate passed for the accepted strict3B model and RTX2060
+sm75 under the earlier contract; this does not admit normal runtime selection.
 
 ## Explicit small-score strategy5 owned tracing
 

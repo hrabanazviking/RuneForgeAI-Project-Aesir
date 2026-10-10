@@ -6,7 +6,7 @@
 
 This roadmap decomposes broad AESIR growth into 500 small, dependency-ordered work slices across truth/evidence, memory, compute, format support, model quality, lifecycle, service, retrieval, quantization, CUDA, portability, security, performance, user experience, operations, advanced research and release stewardship. It is based on the current repository backlog and documented architecture, not a promise that every platform, model, or provider can be supported.
 
-The roadmap groups 50 work programs into 17 phases. Each program has ten gates: contract, baseline, interface, implementation, unit evidence, integration evidence, adversarial evidence, independent review, documentation, and release gate. A slice is one program crossed with one gate; the resulting IDs are stable `AES500-NNN`. The gate definitions below specify the minimum evidence expected. A program's domain is its owner. The previous slice is a sequencing dependency; work may be parallelized only when its contract explicitly permits it.
+The roadmap groups 50 work programs into 18 phases. Each program has ten gates: contract, baseline, interface, implementation, unit evidence, integration evidence, adversarial evidence, independent review, documentation, and release gate. A slice is one program crossed with one gate; the resulting IDs are stable `AES500-NNN`. The gate definitions below specify the minimum evidence expected. A program's domain is its owner. The previous slice is a sequencing dependency; work may be parallelized only when its contract explicitly permits it.
 
 Rules for execution:
 
@@ -64,12 +64,12 @@ The capability ledger's current count and evidence commands are a snapshot. Re-r
 
 ## Complete indexed backlog
 
-Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. AES500-001 is the historical contract gate. The strategy5 control implementation and physical fixture proof are recorded in AES500-002..009, while AES500-010 remains a separate hosted release-verification gate; AES500-011 starts owned strategy5 tracing.
+Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. AES500-001 is the historical contract gate. AES500-002 now has an independently executed strengthened baseline and dated receipt. Historical grouped control evidence remains relevant to AES500-003..009; those rows still require their own current acceptance and push. AES500-010 remains a separate hosted release-verification gate; AES500-011 starts owned strategy5 tracing.
 
 | Slice | Phase | Work item | Owner | Depends on | Deliverable and acceptance gate |
 |---:|---|---|---|---|---|
 | AES500-001 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — contract | cuda | Existing strategy5 model/generation/replay gates | Complete: contract in `TASK_small_attention_controls.md`, first pushed as `3c7f40f` before implementation `b8d1443`; six-role Mythic contract review completed 2026-10-10. Exact contract-only acceptance commands are recorded below. |
-| AES500-002 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — baseline | cuda | AES500-001 | Capture a reproducible pre-change baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
+| AES500-002 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — baseline | cuda | AES500-001 | Complete: fresh 2026-10-10 COUNTS1/STATE1 capable-disabled capture passes exact historical source bytes/cache/IDs/counters, 32 owner snapshots, 4,352 guards and pinned independent CPU quality. Receipt: `docs/evidence/small-attention-controls-baseline-2026-10-10/README.md`; no speed score. |
 | AES500-003 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — interface | cuda | AES500-002 | Make the owning interface explicit and validate accepted/rejected inputs without changing unrelated public behavior. |
 | AES500-004 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — implementation | cuda | AES500-003 | Implement only the named behavior; compile or execute the owning path and show every failure remains explicit. |
 | AES500-005 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — unit-evidence | cuda | AES500-004 | Add focused executable evidence for normal, boundary and malformed cases; all assertions are tied to the named contract. |
@@ -588,18 +588,33 @@ This documentation-only contract gate was committed as `3c7f40f` before the late
 - **Contract-only verification:** `git show --stat --oneline 3c7f40f`; `git show --format= --name-only 3c7f40f`; `git merge-base --is-ancestor 3c7f40f b8d1443`; `python3 scripts/test_check_doc_drift.py`; `python3 scripts/check_doc_drift.py`; `git diff --check`.
 - **Claim boundary:** planning/contract only; no control recovery, runtime readiness, production selection or performance claim is established.
 
-### AES500-002 — Disabled-control strategy5 baseline
+### AES500-002 — Disabled-control strategy5 baseline (complete)
 
-- Fresh disabled-control capable5 run is source-bound to accepted model5 CSV/report/binary.
-- Compare all 513,024 F32 values per owner, complete cache/IDs/own bits/counters/guards and unchanged independent CPU quality.
-- Re-read section 6 of `ROADMAP_AESIR_SPEED_LEAD.md` for exact source identities and approved commands; retain all failures and use fresh exclusive output paths.
+- The independently executed 2026-10-10 current-source baseline uses COUNTS1
+  executed counts and 32 STATE1 owner observations. Its complete receipt is
+  [the dated baseline evidence](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md).
+- All 513,024 F32 values per owner, exact historical source bytes/cache/IDs/
+  counters, repeated-output bits, 4,352 guards and fixed independent CPU quality
+  pass. The actual capable-mode refusal counts are eight tiles and zero feature
+  checks; skipped checks are not counted as executed evidence.
+- The original pre-control 2026-10-03 source triplet and earlier provisional
+  capture remain distinct and unmodified. Input/source hashes remain unchanged
+  across the fresh capture/checker; the normal service is restored and healthy.
+- All 48 owning/adjacent Python contracts and the explicit sm_89 master suite
+  (249 passed, zero failed, one skipped) pass. Quality acceptance carries no
+  timing score, ratios or medians. Exact hosted CI remains separately observed.
 
-### AES500-003 — Strategy5 cooperative abort and recovery implementation
+### AES500-003 — Strategy5 controls interface (next independent gate)
 
-- Add a default-false capability without changing ordinary strategy selection or strategies 0–4.
-- Prove pre-expired and cooperative mid-tile timeout, owned cancellation, and invalid-descriptor abort; aborted tiles remain uncommitted, allocations remain stable, explicit reset is required, and recovered vectors match accepted source.
-- Observer exceptions poison health and refuse reuse/reset. Bind sampler/history/draws, signal mask, source/current binaries and all after-fences.
-- Finish all builds before serial physical GPU work followed by independent CPU work. Update owning contracts, TODO, ledger, operation evidence and devlog only to the exact demonstrated scope.
+- Make the default-false, exclusively admitted small-control capability and
+  cooperative request/reset interface explicit.
+- Execute constructor rejection modes against a nonexistent model path and
+  validate exact errors before model loading or CUDA resource work.
+- Bind the accepted capable-disabled scope to AES500-002's actual current binary
+  and source inventory; do not infer enabled abort/recovery from interface proof.
+- Publish a separate task contract, receipt and commit/push for this gate.
+  Historical enabled-control evidence does not substitute for current interface
+  execution or its independently reviewed acceptance.
 
 ### AES500-011 — Strategy5 owned tracing
 
@@ -779,12 +794,14 @@ This documentation-only contract gate was committed as `3c7f40f` before the late
 - AES500-001: contract-only documentation gate is complete in `3c7f40f`, before
   implementation. Six-role contract review and current-status synchronization
   are recorded in this roadmap.
-- AES500-002..009: existing strategy5 controls baseline/interface/implementation,
-  test evidence, review and documentation are documented in
-  `TASK_small_attention_controls.md` and the dated physical receipt. Historically
-  these artifacts were grouped rather than committed once per roadmap row; do
-  not infer an independent commit for every row. Physical evidence is limited to
-  its declared fixture/model/device.
+- AES500-002: the strengthened baseline is independently executed and accepted
+  with COUNTS1/STATE1 on 2026-10-10. Its task, actual report and dated receipt
+  distinguish the historical source and provisional attempt.
+- AES500-003..009: historical interface/implementation, test evidence, review
+  and documentation remain in `TASK_small_attention_controls.md` and the dated
+  2026-10-09 receipt. Those artifacts were grouped rather than committed once
+  per roadmap row; do not infer current independent completion for every row.
+  Physical evidence remains limited to its declared fixture/model/device.
 - AES500-010: implementation/evidence commits are pushed; the exact hosted
   release gate remains unverified because no matching hosted Actions run for
   those historical SHAs was visible in the current query.

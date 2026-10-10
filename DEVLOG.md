@@ -1,3 +1,31 @@
+## 2026-10-10 — AES500-002: observed disabled-control baseline
+
+The independently executed strategy5 capable-disabled baseline now records
+actual owner state and executed refusal counts. Review found that the legacy
+capability label did not observe enabled/reset/health state and a fixed admission
+count represented skipped checks as executed. Optional STATE1 snapshots after
+all 32 runs and COUNTS1 8/0 capable counts correct those evidence defects;
+ordinary current source counts 8/13. Inference algorithms and admission policy
+are unchanged. Adversarial parser contracts cover field/order/cardinality,
+owner carryover, canonical counts, version/mode mismatch and legacy CLI refusal.
+
+The fresh sm_75 capture and pinned zero-GPU CPU oracle pass all513024 F32 values
+per owner, exact historical source/cache/IDs/counters,4352 guards and fixed
+.05 maximum/.005 RMS/matching-argmax quality limits. Observed worst absolute
+error is .021598339080810547 and RMS .003986765366484171. Input and all272
+source/toolchain hashes remain unchanged; the initially active service is
+restored to authenticated ready/CUDA/context4096/prefill4/offload0 health.
+The report passes quality while withholding speed scores, ratios and medians.
+
+All48 owning/adjacent Python contracts pass; explicit sm_89 master reports249
+passed/0failed/1skip (250total). The fused-model sm_75 compatibility build and
+normal sm_89 launcher build/check pass. The default-target PTX failure remains
+separate. Historical source and provisional pre-COUNTS1 artifacts are retained
+without alteration. Final independent reviews reconcile the fresh receipt;
+exact remote revision and hosted CI are observed after push. See
+`docs/evidence/small-attention-controls-baseline-2026-10-10/README.md`.
+Continue with independently scoped AES500-003 interface evidence.
+
 ## 2026-10-10 — AES500-061–069: Checked bounded spans
 
 Added `core/checked_span.mojo::checked_span`, a pure subtraction-first

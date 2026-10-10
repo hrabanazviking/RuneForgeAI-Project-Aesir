@@ -1096,7 +1096,9 @@ The legacy formatters below are not exposed compatibility APIs.
   retained interval/executable capture refusals; six final builds precede fresh GPU.
 - [x] SPD-03 small-score default-disabled actual model/full cache/IDs/logits/counters/
   own bits/source4/independent CPU gate: all513024 per owner/4352 guards/8 invalid
-  tiles/12 live refusals/32 timings pass, strict actual current/source binaries.
+  tiles/legacy `ADMISSION,5,12,0` metadata/32 timings pass in the dated
+  2026-10-03 receipt, strict actual current/source binaries. Current COUNTS1
+  collectors separately record executed refusal counts.
   [Operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Seven hostile contracts/master190.
 - [x] SPD-03 small-score causal generation/state: all96 full frames/12312576 F32
   per owner/source5 initial bits/independent CPU/own UInt32 replay/samples/history/
@@ -1116,6 +1118,13 @@ The legacy formatters below are not exposed compatibility APIs.
   [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
   [evidence](docs/evidence/small-attention-controls-2026-10-09/README.md).
   Fixture-only; no production selection or speed promotion.
+- [x] AES500-002 independently executed observed disabled-control baseline:
+  fresh COUNTS1 actual 8/0 refusals, 32 STATE1 owner snapshots, full source5
+  bytes/cache/IDs/counters/guards and unchanged fixed CPU quality. Service
+  restored with authenticated ready/CUDA/context4096/prefill4/offload0 health.
+  [Evidence](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md).
+  No speed score or fresh enabled-control revalidation; next independent gate
+  is AES500-003 interface admission and rejection evidence.
 - [x] SPD-03 owned strategy5 tracing for the declared public37/public1070
   fixture scope: implementation, adversarial checker contracts, independent
   review correction and physical attribution are recorded in the trace evidence

@@ -95,3 +95,25 @@ AES500-002, then observe its exact remote revision and hosted CI status.
 This gate establishes reproducibility of the declared disabled-control baseline
 for one fixture/model/device. Enabled abort/recovery, tracing, current full-suite
 success, runtime promotion and provider speed require their separate gates.
+
+## Accepted execution — 2026-10-10
+
+The fresh sm_75 build, controls-disabled capture, service stop/start and pinned
+CPU checker all exit zero. Current binary SHA-256 is
+`8a9e6a5a0ac3dc5009746b51a5621c6da4b87542cbad979054588a8ebfdca8a8`;
+CSV is `e825a77271b63a8315ca4f2fdcf44000589b279496f317ef997d4694cc1e37a6`;
+report is `2b9c6c43ab3e33478d7167614428a5afe9f2ab2a5077383da5546df6f9d57544`.
+The [dated receipt](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md)
+contains exact arguments, source/model/toolchain identities, unchanged
+before/after hashes, observed 32 owner states, eight actual tile refusals, full
+source/CPU acceptance and authenticated service restoration. The provisional
+pre-COUNTS1 physical attempt is retained with its own hashes, not accepted for
+this gate. No speed score or fresh enabled-control acceptance is claimed.
+
+All 48 owning/adjacent Python contracts pass. The explicit sm_89 master passes
+249 tests, zero failures and one explicit skip; shared-helper sm_75 compatibility
+and normal sm_89 launcher build/check pass. This explicit-target master result
+supersedes no historical failure at another target. The six Mythic roles
+contributed contract/source/evidence review; final independent Architect/Auditor
+and Skald reviews reconcile the actual current receipt. Commit/push and exact
+hosted revision status are observed after this local acceptance.

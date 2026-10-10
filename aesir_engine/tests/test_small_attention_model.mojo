@@ -7,7 +7,7 @@ from tests.turing_replay_plan import FixtureReplayPlan
 from tests.turing_checkpoint_replay import restore
 
 
-def closed_features(mut f: TuringPrefillFixture) raises:
+def closed_features(mut f: TuringPrefillFixture) raises -> Int:
     var tokens = List[Int]()
     for _ in range(32): tokens.append(1)
     var activation = Int(f.activations.unsafe_ptr())
@@ -17,6 +17,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
     replay_tokens.append(1)
     var replay_tiles = List[Int]()
     replay_tiles.append(1)
+    var refusal_count = 0
     var replay = FixtureReplayPlan(0,weights,Int(f.native.activations.unsafe_ptr()),
         Int(f.native.cache.unsafe_ptr()),replay_tokens,replay_tiles,1,f.native.sampler.config,UInt64(0))
     for feature in range(13):
@@ -51,7 +52,9 @@ def closed_features(mut f: TuringPrefillFixture) raises:
             raise Error("Ungated small feature changed owner state/counters")
         if Int(f.activations.unsafe_ptr()) != activation or Int(f.cache.unsafe_ptr()) != cache or Int(f.native.weights.unsafe_ptr()) != weights:
             raise Error("Ungated small feature changed allocations")
+        refusal_count += 1
     f.guards()
+    return refusal_count
 
 
 def main() raises:
@@ -100,16 +103,17 @@ def main() raises:
     var capable = len(args) == 3 and args[2] == "controls-disabled"
     if len(args) == 3 and not capable: raise Error("Unknown small model mode")
     var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,False,capable)
-    invalid_tiles(f)
-    if not capable: closed_features(f)
+    var tile_refusals = invalid_tiles(f)
+    var closed_refusals = 0
+    if not capable: closed_refusals = closed_features(f)
     print("ATTENTION,rope_cache_elementwise_down128_small,1,32")
     print("META,1,128256,1536,32,f16,8")
-    print("ADMISSION,5,12,0")
-    if capable: print("CONTROL_CAPABLE,5,1,DISABLED")
+    print("ADMISSION,5,COUNTS1,"+String(tile_refusals)+","+String(closed_refusals))
+    if capable: print("CONTROL_CAPABLE,5,1,DISABLED,STATE1")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.","Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.","Write one sentence about a silver ship beneath Bifröst.",long_prompt]
     for index in range(4):
-        measure(f,index,prompts[index])
+        measure(f,index,prompts[index],capable)
         print("ENQUEUE,"+String(index)+","+String(f.rope_cache_calls))
         print("ELEMENTWISE,"+String(index)+","+String(f.elementwise_calls))
         print("DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))

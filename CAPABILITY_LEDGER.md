@@ -2142,8 +2142,9 @@ Refines AES-ACC-010; no general new capability promotion.
 
 Optional small-score strategy5 now passes all513024 full F32 values per owner,
 exact own bits and accepted4 bytes/cache/IDs/counts, unchanged independent zero-GPU
-CPU/max/RMS/argmax,4352 guards/eight invalid tiles/12 live feature refusals and all
-32 finite paired records. Default-false capability and strict actual current/source
+CPU/max/RMS/argmax,4352 guards/eight invalid tiles/legacy `ADMISSION,5,12,0`
+metadata and all32 finite paired records in the dated 2026-10-03 receipt. Current
+COUNTS1 collectors separately record executed refusal counts. Default-false capability and strict actual current/source
 binaries keep old selectors. Seven hostile contracts/master190/one skip/all seven
 builds; [operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Same-capture native-four/
 small-fixture exploratory prefill only, not historical4/new5 or Ollama/request ratio.
@@ -2197,3 +2198,17 @@ pass. [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
 Controls remain fixture-only; no normal selector, persistence/context-recreation,
 CUDA-fault repair, general runtime, or provider-speed capability is promoted.
 Next: owned small-score strategy5 tracing.
+
+### Small-score observed disabled-control baseline refinement — 2026-10-10
+
+AES500-002's fresh COUNTS1/STATE1 capable-disabled capture passes all513024
+F32 values per owner, exact historical strategy5 source bytes/cache/IDs/counters,
+32 actual disabled/healthy/reset-free owner snapshots,4352 guards and fixed
+independent zero-GPU CPU max/RMS/argmax. Eight tile refusals are executed;
+capable mode executes zero ordinary feature checks. Input/source hashes stay
+unchanged and authenticated normal CUDA service health is restored. Quality
+acceptance has `speed_scored=false`, null ratios and no medians.
+[Evidence](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md).
+This strengthens the fixture evidence boundary only. Fresh enabled-abort/recovery,
+runtime, broader device/model/context and provider-speed gates remain separate;
+no capability status or count is promoted.

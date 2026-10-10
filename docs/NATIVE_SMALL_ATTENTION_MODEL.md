@@ -20,9 +20,9 @@ old batched fused calls must be0 under5. Original scalar query counts remain.
 
 Enabled controls, tracing and sealed replay5 require separate acceptance. Restore
 rejects small mode before reading/resetting owner/sampling state, even for a valid
-native-owner replay plan. Native collector proves12 live feature refusals: configure/
+native-owner replay plan. The ordinary current collector executes thirteen live feature refusals: configure/
 start control; tracing, foreign control/trace flags; missing fused/down/rotary/
-elementwise flags; and valid-plan replay. All preserve owner pointers, empty IDs,
+elementwise flags; valid-plan replay; and unauthorized small tracing. All preserve owner pointers, empty IDs,
 positions/samplers/health/control state and zero actual counters. Eight existing
 invalid tiles additionally preserve owning state and guards. Six hostile constructor
 combinations and unsupported CLI refuse before model/CUDA; no silent fallback.
@@ -31,7 +31,12 @@ combinations and unsupported CLI refuse before model/CUDA; no silent fallback.
 
 Separate `test_small_attention_model.mojo MODEL.gguf` exports the explicit marker
 `ATTENTION,rope_cache_elementwise_down128_small,1,32`, original META scope and
-ADMISSION5,12,0. Every public30/37/31/1070 case retains128256 original native-four
+`ADMISSION,5,COUNTS1,8,13`, using counts returned by the validated refusal checks.
+The dated 2026-10-03 receipt retains its historical `ADMISSION,5,12,0` format;
+current readers preserve that archival source. Capable-disabled collection has
+eight tile refusals and zero feature refusals (`COUNTS1,8,0`), with a separate
+STATE1 baseline gate in [the controls operation](NATIVE_SMALL_ATTENTION_CONTROLS.md).
+Every public30/37/31/1070 case retains128256 original native-four
 and small-matrix F32 logits, exact committed input IDs, own fresh-repeat UInt32 bits
 including signed zero,1088 guards, full176160832-byte guarded F16 cache SHA and
 actual rope/elementwise/down/small/original/closed-fused counts. All513024 values

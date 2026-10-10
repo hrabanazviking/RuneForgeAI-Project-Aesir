@@ -175,8 +175,21 @@ Explicit `--small-attention` separately admits strategy5 only with the
 model5 source/binary and actual current binary/SHA. It verifies small/down/closed-
 fused/original dispatch counts and exact recovered vectors; default readers remain
 closed. `check_turing_model_prefill.py --small-controls` separately verifies the
-capable-but-disabled four-case model/source/cache/CPU baseline. Read
-`../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` and the physical evidence receipt.
+capable-but-disabled four-case model/source/cache/CPU baseline. The current
+collector must emit `CONTROL_CAPABLE,5,1,DISABLED,STATE1` and, after each `TIME`
+row, a `CONTROL_STATE` row with 16 total CSV fields: the record tag plus 15
+payload fields (index/mode/sample, six capability/admission/enable/reset/health
+flags, and six native/sampler-position and committed-length counts), and
+`ADMISSION,5,COUNTS1,8,0` for capable mode. `COUNTS1,8,0` means eight validated
+tile refusals and zero skipped feature checks; ordinary collection expects
+`COUNTS1,8,13`. Historical `ADMISSION,5,12,0` is parseable only as legacy and
+cannot satisfy new STATE1 acceptance. STATE1 quality may pass while reports keep
+raw timings, set `speed_scored=false`, and withhold timing ratios. Acceptance
+requires a fresh COUNTS1/STATE1 capture and receipt. The checker rejects the legacy 2026-10-09 label-only
+capable-disabled capture for this strengthened gate; historical acceptance is
+not reclassified as a new physical run, and ordinary disabled-source readers
+remain unchanged. Read `../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` and the
+historical physical evidence receipt.
 
 ## check_turing_decode_quality.py
 
@@ -506,7 +519,7 @@ changing bounds/math; whole-model/state/production/provider gates remain separat
 Final small_attention=False is an exclusive test-only strategy5 requiring original
 fused/down128/rotary/elementwise precision0 and no control/trace capabilities.
 Count4/32 enqueue attend_small; singles remain original. Separate small/fused/scalar
-counters reset.12 state/allocation-preserving refusals include a valid native replay
+counters reset. The current ordinary collector counts thirteen state/allocation-preserving refusals, including unauthorized small tracing and a valid native replay
 plan; restore rejects5 before owner mutation. No original0..4 or normal selection
 change. New probe exports all513024 F32 per owner/IDs/full cache/4352 guards/32
 records and own exact bits. Explicit reader allow_small/CLI--small-attention require
