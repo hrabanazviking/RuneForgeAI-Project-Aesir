@@ -768,6 +768,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-059 synchronizes the contract/interface/review record, including the
   caller-trusted baseline JSON boundary and the corrected repeated-space slug
   rule. The evidence receipt hashes remain the operator's baseline identity.
+- AES500-061 contract defines `CheckedSpan` as pure half-open range arithmetic
+  with subtraction-first admission and a zero-length policy. It explicitly
+  leaves allocation ownership, pointer validity, lifetime, aliasing, GPU bounds,
+  and caller migration to later evidence-gated slices.
 
 ## Status
 
