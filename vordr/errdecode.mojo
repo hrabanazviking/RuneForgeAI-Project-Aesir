@@ -63,10 +63,10 @@ def _bit(v: Int, b: Int) -> Bool:
     return (v >> b) & 1 == 1
 
 
-def decode_pci_status(status: Int) -> List[DecodedError]:
+def decode_pci_status(status: Int, mut out: List[DecodedError]):
     # PCI config Status register (offset 0x06, 16 bits). Bit meanings
     # per the PCI Local Bus Specification (standard, documented).
-    var out = List[DecodedError]()
+    # Appends into out (in place — DecodedError is move-only).
     var names = List[String]()
     var meanings = List[String]()
     var sevs = List[String]()
@@ -123,12 +123,12 @@ def decode_pci_status(status: Int) -> List[DecodedError]:
                     "UnknownErrorBit", "undocumented status bit set",
                     "warning", 0x06, b,
                 ))
-    return out^
+    return
 
 
-def decode_pmcsr(pmcsr: Int) -> List[DecodedError]:
+def decode_pmcsr(pmcsr: Int, mut out: List[DecodedError]):
     # PCI Power Management Control/Status (PM cap + 4, 16 bits).
-    var out = List[DecodedError]()
+    # Appends into out (in place — DecodedError is move-only).
     if _bit(pmcsr, 15):
         out.append(DecodedError(
             "Pmcsr.PmeStatus",
@@ -139,13 +139,13 @@ def decode_pmcsr(pmcsr: Int) -> List[DecodedError]:
         out.append(DecodedError(
             "Pmcsr.PmeEn", "PME enabled (informational)", "info", 0x44, 8
         ))
-    return out^
+    return
 
 
-def decode_bar0_irq018c(status: UInt32) -> List[DecodedError]:
+def decode_bar0_irq018c(status: UInt32, mut out: List[DecodedError]):
     # BAR0+0x018C host-interrupt status (H087). Bit meanings are
     # UNDOCUMENTED — every set bit becomes UnknownErrorBit, honestly.
-    var out = List[DecodedError]()
+    # Appends into out (in place — DecodedError is move-only).
     var v = Int(status)
     for b in range(32):
         if _bit(v, b):
@@ -155,7 +155,7 @@ def decode_bar0_irq018c(status: UInt32) -> List[DecodedError]:
                 "ignored, never mislabeled (H087)",
                 "warning", 0x018C, b,
             ))
-    return out^
+    return
 
 
 def poll_decode_live(
@@ -170,15 +170,11 @@ def poll_decode_live(
     var out = List[DecodedError]()
     var cfg = read_config_bytes(arch, sysfs_root, bdf, 64)
     var status = Int(cfg[6]) | (Int(cfg[7]) << 8)
-    var st = decode_pci_status(status)
-    for i in range(len(st)):
-        out.append(st[i])
+    decode_pci_status(status, out)
     var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
     var irq = reg_read32(m, 0x018C)
     unmap_bar(arch, m)
-    var iq = decode_bar0_irq018c(irq)
-    for i in range(len(iq)):
-        out.append(iq[i])
+    decode_bar0_irq018c(irq, out)
     for i in range(len(out)):
         event_emit_slice(
             arch, log_path, "H144", "RegisterErrorDecoded", out[i].to_fields()
@@ -196,17 +192,11 @@ def decode_image(image: List[Int]) -> List[DecodedError]:
         var off = image[i]
         var val = image[i + 1]
         if off == 0x06:
-            var d = decode_pci_status(val)
-            for k in range(len(d)):
-                out.append(d[k])
+            decode_pci_status(val, out)
         elif off == 0x44:
-            var d = decode_pmcsr(val)
-            for k in range(len(d)):
-                out.append(d[k])
+            decode_pmcsr(val, out)
         elif off == 0x018C:
-            var d = decode_bar0_irq018c(UInt32(val))
-            for k in range(len(d)):
-                out.append(d[k])
+            decode_bar0_irq018c(UInt32(val), out)
         else:
             out.append(DecodedError(
                 "UnknownErrorBit", "register offset not in the documented "
