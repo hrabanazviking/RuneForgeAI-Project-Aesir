@@ -40,6 +40,9 @@ This slice changes documentation only.
   loops, preserving the existing allowance for distinct row counts. This fixes
   the baseline-observed unrotated K suffix. The historical baseline remains
   available for comparison.
+- AES500-105's scalar reference test covers both pair layouts, multiple heads,
+  distinct Q/K row counts, and start positions 0 and 7. It requires exact F16
+  equality for this deterministic corpus only.
 - This contract does not establish partial rotary dimensions, scaling variants,
   multi-axis RoPE, accelerator parity, speed, training gradients, or model
   quality. F16 rounding and non-finite input behavior beyond current source

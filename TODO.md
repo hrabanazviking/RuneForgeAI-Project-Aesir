@@ -1227,3 +1227,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   pre-mutation admission. Q and K now rotate in independent row loops, so
   distinct row counts transform fully. The focused interface test proves K's
   third row changes when Q has only two rows.
+- [x] AES500-105 RoPE unit evidence: `compute.rope_reference` compares both
+  interleaved and NeoX layouts across multiple heads, distinct Q/K row counts,
+  and positions 0/7 against an independent scalar F32 calculation; exact F16
+  equality passes for this corpus only.

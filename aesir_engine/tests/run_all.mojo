@@ -39,6 +39,7 @@ from tests.test_rmsnorm_reference import test_rmsnorm_reference
 from tests.test_rmsnorm_integration import test_rmsnorm_inference_integration
 from tests.test_rmsnorm_adversarial import test_rmsnorm_adversarial
 from tests.test_rope_interface import test_rope_interface
+from tests.test_rope_reference import test_rope_reference
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
     test_mimir_well_allocation_bounds,
@@ -350,6 +351,7 @@ def main() raises:
     run_case(ledger, "compute.rmsnorm_reference", test_rmsnorm_reference)
     run_case(ledger, "compute.rmsnorm_adversarial", test_rmsnorm_adversarial)
     run_case(ledger, "compute.rope_interface", test_rope_interface)
+    run_case(ledger, "compute.rope_reference", test_rope_reference)
     print("")
 
     # --- Logical Host Tensor Partitioning ---
@@ -841,4 +843,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(200)
+    ledger.finish(201)
