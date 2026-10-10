@@ -407,7 +407,9 @@ struct CUDAF16Allocation:
     var element_count: Int
     var size_bytes: Int
     var stable_device_id: String
+    var allocation_id: Int
     var synchronization_count: Int
+    var pending_work_count: Int
 
     def set_host(mut self, index: Int, value: Scalar[f16]) raises: ...
     def get_host(self, index: Int) raises -> Scalar[f16]: ...
@@ -417,11 +419,21 @@ struct CUDAF16Allocation:
     def upload_and_synchronize(mut self) raises: ...
     def download_and_synchronize(mut self) raises: ...
 
+struct CUDAAllocationTracker(Movable):
+    var next_id: Int
+    var live_count: Int
+    var live_bytes: Int
+    var fenced_owner_destroyed_count: Int
+    var fenced_owner_destroyed_bytes: Int
+    var unfenced_owner_destroyed_count: Int
+    var accounting_error: Bool
+
 struct CUDADeviceResources:
     var context: DeviceContext
     var physical_device: PhysicalDevice
     var budget: CUDAResourceBudget
     var allocation_count: Int
+    var allocation_tracker: ArcPointer[CUDAAllocationTracker]
 
     def __init__(out self, physical_device: PhysicalDevice, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
     def allocate_f16(mut self, element_count: Int) raises -> CUDAF16Allocation: ...
@@ -431,8 +443,15 @@ struct CUDADeviceResources:
 Budget accounting is conservative and monotonic for a session. Failed MAX
 allocation rolls back its reservation. Three-buffer GPU-3 admission reserves
 one exact atomic total and restores that total if executor construction fails.
-Dropping a buffer does not fabricate immediate pool reuse, and no owning raw
-pointer is exposed.
+The tracker records session-local owner IDs, logical live counts/bytes, and
+owner destruction after known queued work has been synchronized. Destruction
+with known pending work is counted separately. It does not decrease the
+monotonic policy reservation, promise allocator reuse or driver-memory return,
+or guard arbitrary direct use of the currently exposed `device_buffer` field.
+Tracker payload mutation is single-host-thread scoped; `ArcPointer` protects
+shared ownership but not concurrent mutation of its payload. These counters are
+lifecycle diagnostics, not a thread-safe allocator or a complete observer of
+untracked raw-buffer use.
 
 ### `CUDAGemmPlan` and `CUDAF16GemmExecutor` (GPU-3)
 

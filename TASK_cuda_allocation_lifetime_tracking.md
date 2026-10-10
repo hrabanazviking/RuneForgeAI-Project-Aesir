@@ -28,8 +28,8 @@ Inputs are a validated selected CUDA device, explicit device and pinned-host
 limits, positive F16 element count, and operations that enqueue copies or
 synchronize the owning context. Observable outputs are allocation success or
 explicit failure, the exact logical allocation count/byte reservation, data
-transfer completion, and deterministic release of the host/device resources
-under the library's documented ownership rules.
+transfer completion, and logical owner destruction, known wrapper/executor pending-work count, and
+explicit stream completion status under the library's documented rules.
 
 ## Invariants to prove before implementation
 
@@ -39,12 +39,12 @@ under the library's documented ownership rules.
    the exact reservation once; it cannot increment success counters.
 3. A returned allocation has a unique stable identity suitable for live-state
    accounting; identity cannot be reused while an earlier owner is live.
-4. Release accounting occurs exactly once when ownership ends. The contract must
-   distinguish bytes reserved by policy, bytes held by live buffers, and bytes
-   that may be reusable by the underlying MAX allocator.
-5. Dropping a wrapper cannot make in-flight asynchronous transfers unsafe. The
-   owning stream/context completion rule must be explicit and supported by
-   library guarantees or direct evidence; do not infer it from host object drop.
+4. Owner destruction accounting is separate from bytes reserved by policy and
+   bytes reusable by the underlying MAX allocator. It must not decrement the
+   monotonic budget or imply pool/driver reuse.
+5. The tracker reports known pending wrapper/executor operations at owner
+   destruction, but is not a safety guard. Direct raw-buffer use can bypass it;
+   no async teardown guarantee is inferred from host object drop.
 6. Moves preserve one owner and one identity. Copies or double-release are
    rejected by the type/API contract.
 7. Allocation failure, transfer failure, synchronization failure, and teardown
@@ -71,8 +71,9 @@ under the library's documented ownership rules.
 
 AES500-022 baseline evidence is captured in
 `docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/`. AES500-023 defines the narrow interface
-and negative cases. AES500-024 implements only the approved accounting/lifetime
-behavior. AES500-025 adds focused executable evidence; AES500-026 checks the
+and negative cases. AES500-024 implements the bounded ledger in
+`TASK_cuda_allocation_lifetime_implementation.md`. AES500-025 adds adversarial
+executable evidence; AES500-026 checks the
 adjacent GEMM owner end to end; AES500-027 exercises hostile failure and cleanup
 paths; AES500-028 obtains independent review; AES500-029 synchronizes interface,
 ledger and operating docs; AES500-030 performs the pinned build, test, push and

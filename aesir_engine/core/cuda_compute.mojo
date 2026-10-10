@@ -85,26 +85,42 @@ struct CUDAF16GemmExecutor:
             plan.b_element_count,
             plan.c_element_count,
         )
+        if resources.allocation_count > 9223372036854775804:
+            resources.budget.rollback_f16(reserved_bytes)
+            raise Error("CUDADeviceResources: allocation count exhausted")
         try:
+            resources.allocation_tracker[].validate_registration(3, reserved_bytes)
+            var a_id = resources.allocation_tracker[].reserve_id()
+            var b_id = resources.allocation_tracker[].reserve_id()
+            var c_id = resources.allocation_tracker[].reserve_id()
             var a_allocation = CUDAF16Allocation(
                 resources.context,
                 resources.physical_device.stable_id,
                 plan.a_element_count,
                 plan.a_size_bytes,
+                a_id,
+                resources.allocation_tracker,
             )
             var b_allocation = CUDAF16Allocation(
                 resources.context,
                 resources.physical_device.stable_id,
                 plan.b_element_count,
                 plan.b_size_bytes,
+                b_id,
+                resources.allocation_tracker,
             )
             var c_allocation = CUDAF16Allocation(
                 resources.context,
                 resources.physical_device.stable_id,
                 plan.c_element_count,
                 plan.c_size_bytes,
+                c_id,
+                resources.allocation_tracker,
             )
             resources.context.synchronize()
+            a_allocation.register_live_owner()
+            b_allocation.register_live_owner()
+            c_allocation.register_live_owner()
             resources.allocation_count += 3
             return Self(
                 plan,
@@ -196,8 +212,14 @@ struct CUDAF16GemmExecutor:
                 grid_dim=self.plan.grid_size,
                 block_dim=self.plan.block_size,
             )
+            self.a_allocation.mark_kernel_enqueued()
+            self.b_allocation.mark_kernel_enqueued()
+            self.c_allocation.mark_kernel_enqueued()
             self.c_allocation.enqueue_download()
             self.context.synchronize()
+            self.a_allocation.mark_context_synchronized()
+            self.b_allocation.mark_context_synchronized()
+            self.c_allocation.mark_context_synchronized()
         except error:
             self.is_usable = False
             self.last_failure_message = String(error)
@@ -361,5 +383,3 @@ def _cuda_dequantize_q8_0_kernel[
             var val_i8 = Scalar[DType.int8](q_byte)
             var val_f16 = Scalar[f16](val_i8.cast[Float32]()) * scale
             out_ptr.unsafe_store(out_offset + i, val_f16)
-
-

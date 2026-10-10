@@ -628,8 +628,13 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   `docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/`; asynchronous
   teardown and driver allocator semantics remain unproven.
 - AES500-023 establishes a successful stream fence as a prerequisite for any
-  logical release receipt; budget reservation and physical allocator reuse stay
-  separate. Mojo/MAX do not document implicit fence-on-buffer-destruction.
+  fenced owner-destruction count; budget reservation and physical allocator reuse
+  stay separate. Mojo/MAX do not document implicit fence-on-buffer-destruction.
+- AES500-024 adds session-local owner IDs and an ArcPointer-backed logical ledger.
+  Physical GPU-2/GPU-3 probes pass and report zero live owners after synchronized
+  scope cleanup. The ledger is single-host-thread scoped and raw buffer access
+  and async teardown safety remain outside its proof; see
+  `docs/evidence/cuda-allocation-lifetime-implementation-2026-10-10/`.
 
 ## Status
 

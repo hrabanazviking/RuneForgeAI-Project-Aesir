@@ -217,6 +217,9 @@ def prove_insufficient_budget_rejection(
         resources.budget.device_reserved_bytes != 0
         or resources.budget.pinned_host_reserved_bytes != 0
         or resources.allocation_count != 0
+        or resources.allocation_tracker[].live_count != 0
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 0
+        or resources.allocation_tracker[].accounting_error
     ):
         raise Error("GPU-3 rejected executor changed resource accounting")
 
@@ -256,6 +259,14 @@ def main() raises:
 
     if resources.allocation_count != 6:
         raise Error("GPU-3 expected two three-buffer executors")
+    if (
+        resources.allocation_tracker[].live_count != 0
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 6
+        or resources.allocation_tracker[].live_bytes != 0
+        or resources.allocation_tracker[].accounting_error
+        or resources.allocation_tracker[].unfenced_owner_destroyed_count != 0
+    ):
+        raise Error("GPU-3 allocation lifetime accounting mismatch")
     resources.synchronize()
     print("[GPU3] device:", physical_device.name)
     print("[GPU3] stable-id:", physical_device.stable_id)
