@@ -86,9 +86,28 @@ def build_mixed(path):
     print("wrote", path, len(buf), "bytes,", len(tensors), "tensors")
 
 def build_v2(path):
-    buf = bytearray(struct.pack("<4sIQQ", b"GGUF", 2, 1, 1))
-    w_kv(buf, "general.architecture", 8, struct.pack("<Q", 5) + b"llama")
-    w_str(buf, "t.weight"); buf += struct.pack("<IQ", 1, 1) + struct.pack("<Q", 8) + struct.pack("<IQ", 1, 0)
+    # Well-formed minimal GGUF v2: 24-byte header (no alignment field),
+    # one KV pair, one F32 tensor. v2 has no general.alignment; loader
+    # defaults to 32.
+    kvs = []
+    kvs.append(("general.architecture", 8, struct.pack("<Q", 5) + b"llama"))
+    payload = struct.pack("<" + "f"*8, *([0.5]*8))
+    tensors = [("w.weight", [8], 0, payload)]
+    buf = bytearray()
+    buf += struct.pack("<4sIQQ", b"GGUF", 2, len(tensors), len(kvs))
+    for k, vt, pay in kvs: w_kv(buf, k, vt, pay)
+    off, infos = 0, []
+    for name, dims, gt, pay in tensors:
+        infos.append((name, dims, gt, off))
+        off = ((off + len(pay) + 31) // 32) * 32
+    for name, dims, gt, o in infos:
+        w_str(buf, name)
+        buf += struct.pack("<I", len(dims))
+        for d in dims: buf += struct.pack("<Q", d)
+        buf += struct.pack("<I", gt) + struct.pack("<Q", o)
+    data_off = ((len(buf) + 31) // 32) * 32
+    buf += b"\x00" * (data_off - len(buf))
+    buf += payload
     open(path, "wb").write(bytes(buf))
     print("wrote", path, len(buf), "bytes")
 
