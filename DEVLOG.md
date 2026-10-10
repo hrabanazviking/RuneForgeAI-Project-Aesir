@@ -3839,3 +3839,11 @@ Actions runs remain in progress; no hosted success is inferred.
 Specified the RuneWeaver merge-vector owners and current score-ranked adjacent
 pair behavior, tie order, space normalization, UTF-8 splitting and fallback.
 External tokenizer parity and broad multilingual fidelity remain separate.
+
+
+## 2026-10-10 — AES500-152 byte BPE baseline
+
+Captured deterministic leftmost tie, score priority, chained merge convergence,
+and four-byte emoji fallback vectors. Master suite: 218 passed, zero failed, one
+external fixture skipped (219 total). Evidence is synthetic and not external
+tokenizer parity.

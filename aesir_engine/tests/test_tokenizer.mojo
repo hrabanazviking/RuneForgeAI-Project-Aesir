@@ -106,5 +106,48 @@ def test_multilingual_corpora() raises:
 
 def main() raises:
     test_tokenizer()
+    test_byte_bpe_merge_baseline()
     test_stream_decoder()
     test_multilingual_corpora()
+
+def test_byte_bpe_merge_baseline() raises:
+    var tie = RuneWeaver()
+    tie.add_token("a", 1)
+    tie.add_token("b", 2)
+    tie.add_token("c", 3)
+    tie.add_token("ab", 4, 1.0)
+    tie.add_token("bc", 5, 1.0)
+    var tied = tie.encode("abc")
+    if len(tied) != 2 or tied[0] != 4 or tied[1] != 3:
+        raise Error("equal-score BPE tie no longer selects leftmost pair")
+
+    var ranked = RuneWeaver()
+    ranked.add_token("a", 1)
+    ranked.add_token("b", 2)
+    ranked.add_token("c", 3)
+    ranked.add_token("ab", 4, 1.0)
+    ranked.add_token("bc", 5, 5.0)
+    var right_first = ranked.encode("abc")
+    if len(right_first) != 2 or right_first[0] != 1 or right_first[1] != 5:
+        raise Error("higher-score right pair did not win merge selection")
+
+    var chained = RuneWeaver()
+    chained.add_token("a", 1)
+    chained.add_token("b", 2)
+    chained.add_token("c", 3)
+    chained.add_token("ab", 4, 1.0)
+    chained.add_token("bc", 5, 0.0)
+    chained.add_token("abc", 6, 2.0)
+    var chain = chained.encode("abc")
+    if len(chain) != 1 or chain[0] != 6:
+        raise Error("BPE did not repeat score-ranked merges to convergence")
+
+    var fallback = RuneWeaver()
+    fallback.add_token("<0xF0>", 11)
+    fallback.add_token("<0x9F>", 12)
+    fallback.add_token("<0x98>", 13)
+    fallback.add_token("<0x80>", 14)
+    var emoji = fallback.encode("😀")
+    if len(emoji) != 4 or emoji[0] != 11 or emoji[1] != 12 or emoji[2] != 13 or emoji[3] != 14:
+        raise Error("UTF-8 byte fallback vector changed")
+    print("PASS: byte BPE tie, score order, chaining and UTF-8 fallback baseline")

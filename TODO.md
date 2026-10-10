@@ -1413,3 +1413,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-151 byte BPE merge-vector contract: `TASK_byte_bpe_merge_vectors.md`
   records owners, score-priority merge order, earliest tie behavior, space marker
   normalization, UTF-8 symbols, byte fallback, and exclusions before edits.
+
+- [x] AES500-152 byte BPE baseline: deterministic tie/ranking/chaining and
+  exact emoji fallback IDs are captured with source/tool hashes; master suite
+  passes 218/0/1 (219 total). Evidence is in the baseline README.
