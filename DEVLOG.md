@@ -3712,3 +3712,12 @@ Recorded the current value traversal widths, string and array layouts,
 inference-consumed metadata types, and silent skip behavior for mismatched
 selected scalar keys. This is a source-derived contract only; no parser change
 or broad GGUF compatibility claim is made.
+
+
+AES500-132 baseline probes four selected GGUF metadata keys with mismatched
+scalar types. All four skip the field and leave its default unchanged while
+valid tokenizer arrays permit metadata inspection to complete. The reproducible
+synthetic corpus, Mojo/source identities, hashes, and limitations are recorded
+in `docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`; no
+inference-validity claim is made. Master suite: 211 passed, zero failed, one
+external-fixture skip (212 total); doc-drift and whitespace checks pass.

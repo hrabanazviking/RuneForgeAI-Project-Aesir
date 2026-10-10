@@ -43,3 +43,11 @@ implementation change.
 The owners, scalar widths, string/array layout, consumed metadata types, current
 mismatch behavior, and exclusions are explicit. No parser code changes in
 AES500-131.
+
+
+AES500-132 baseline: four generated files confirm mismatched types for
+`llama.context_length` (UInt64), `llama.rope.freq_base` (UInt32),
+`tokenizer.ggml.add_bos_token` (UInt32), and `general.alignment` (UInt64) are
+skipped; each corresponding default remains unchanged and `inspect_metadata`
+completes. The corpus, source/tool hashes and reproduction command are in
+`docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`.

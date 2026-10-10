@@ -1322,3 +1322,10 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-131 GGUF metadata type contract: `TASK_gguf_metadata_type_matrix.md`
   records scalar/string/array traversal, consumed key types, current mismatch
   fallback, implementation owners, and scope exclusions before code changes.
+
+- [x] AES500-132 GGUF metadata type baseline: four synthetic mapped fixtures
+  reproduce selected-key type mismatches being skipped with default values
+  unchanged; source/tool identities, hashes, scope limits, and command are in
+  `docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`. Registered
+  as `gguf.metadata_type_baseline`. Master suite: 211 passed, 0 failed, 1
+  skipped (212 total); documentation consistency and whitespace checks pass.
