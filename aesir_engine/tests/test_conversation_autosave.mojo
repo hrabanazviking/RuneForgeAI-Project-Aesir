@@ -3,7 +3,16 @@
 from std.sys import argv
 from std.ffi import external_call
 from cli.conversation import ConversationState
-from cli.conversation_autosave import ConversationAutosave
+from cli.conversation_autosave import (
+    AUTOSAVE_HEADER,
+    INFLIGHT_HEADER,
+    ConversationAutosave,
+    _autosave_record,
+    _parse_inflight,
+    _parse_manifest,
+    _serialize_inflight,
+    _serialize_manifest,
+)
 
 
 def _autosave_test_cstring(value: String) -> List[Int8]:
@@ -115,6 +124,114 @@ def test_conversation_autosave_generations() raises:
     if external_call["rmdir", Int32](root_bytes.unsafe_ptr()) != 0:
         raise Error("unable to remove autosave test directory")
     print("conversation autosave generations: PASS")
+
+
+def _expect_manifest_rejection(raw: String, label: String) raises:
+    var rejected = False
+    try:
+        _ = _parse_manifest(raw)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("corrupt autosave manifest accepted: " + label)
+
+
+def _expect_inflight_rejection(raw: String, label: String) raises:
+    var rejected = False
+    try:
+        _ = _parse_inflight(raw)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("corrupt autosave inflight record accepted: " + label)
+
+
+def test_conversation_autosave_corrupt_records() raises:
+    # A well-formed manifest round-trips exactly.
+    var good = _parse_manifest(_serialize_manifest(3, [1, 2, 3]))
+    if len(good) != 3 or good[0] != 1 or good[1] != 2 or good[2] != 3:
+        raise Error("valid autosave manifest failed to parse")
+
+    # Duplicate generation numbers are rejected.
+    _expect_manifest_rejection(
+        _serialize_manifest(3, [2, 2, 3]), "duplicate generation"
+    )
+    # Non-monotonic generation sequences are rejected.
+    _expect_manifest_rejection(
+        _serialize_manifest(3, [3, 2, 1]), "non-monotonic generations"
+    )
+    # Zero and negative generation IDs are rejected.
+    _expect_manifest_rejection(
+        _serialize_manifest(3, [0]), "zero generation"
+    )
+    _expect_manifest_rejection(
+        _autosave_record(AUTOSAVE_HEADER + "\nRETAIN:3\nGENERATIONS:-1\n"),
+        "negative generation",
+    )
+    # Empty generation fields are rejected.
+    _expect_manifest_rejection(
+        _autosave_record(AUTOSAVE_HEADER + "\nRETAIN:3\nGENERATIONS:1,,2\n"),
+        "empty generation field",
+    )
+    # An empty generation list is rejected.
+    _expect_manifest_rejection(
+        _autosave_record(AUTOSAVE_HEADER + "\nRETAIN:3\nGENERATIONS:\n"),
+        "empty generation list",
+    )
+    # The generation count may not exceed the retained count.
+    _expect_manifest_rejection(
+        _autosave_record(AUTOSAVE_HEADER + "\nRETAIN:1\nGENERATIONS:1,2\n"),
+        "generation count exceeds retention",
+    )
+    # A truncated record is rejected.
+    _expect_manifest_rejection(
+        _autosave_record(AUTOSAVE_HEADER + "\nRETAIN:3\n"),
+        "truncated manifest",
+    )
+    # A wrong magic header is rejected.
+    _expect_manifest_rejection(
+        _autosave_record("BOGUS_HEADER\nRETAIN:3\nGENERATIONS:1,2,3\n"),
+        "wrong header",
+    )
+    # A tampered payload fails its checksum.
+    _expect_manifest_rejection(
+        _serialize_manifest(3, [1, 2, 3]).replace("GENERATIONS:1,2,3", "GENERATIONS:1,2,4"),
+        "checksum mismatch",
+    )
+
+    # A well-formed inflight record round-trips exactly.
+    var flight = _parse_inflight(_serialize_inflight(5, 3))
+    if flight[0] != 5 or flight[1] != 3:
+        raise Error("valid autosave inflight record failed to parse")
+    # Negative generations and turns are rejected.
+    _expect_inflight_rejection(
+        _autosave_record(INFLIGHT_HEADER + "\nGENERATION:-1\nTURN:3\n"),
+        "negative generation",
+    )
+    _expect_inflight_rejection(
+        _autosave_record(INFLIGHT_HEADER + "\nGENERATION:5\nTURN:-1\n"),
+        "negative turn",
+    )
+    # Out-of-range generations and turns are rejected.
+    _expect_inflight_rejection(
+        _autosave_record(INFLIGHT_HEADER + "\nGENERATION:2147483648\nTURN:3\n"),
+        "generation beyond bound",
+    )
+    _expect_inflight_rejection(
+        _autosave_record(INFLIGHT_HEADER + "\nGENERATION:5\nTURN:1025\n"),
+        "turn beyond bound",
+    )
+    # A truncated record is rejected.
+    _expect_inflight_rejection(
+        _autosave_record(INFLIGHT_HEADER + "\nGENERATION:5\n"),
+        "truncated inflight",
+    )
+    # A tampered payload fails its checksum.
+    _expect_inflight_rejection(
+        _serialize_inflight(5, 3).replace("TURN:3", "TURN:4"),
+        "inflight checksum mismatch",
+    )
+    print("conversation autosave corrupt records: PASS")
 
 
 def main() raises:

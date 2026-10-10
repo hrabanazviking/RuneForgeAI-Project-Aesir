@@ -5,6 +5,12 @@ from cli.chat_recovery import (
     chat_startup_failure_instruction,
     decide_chat_turn_recovery,
 )
+from cli.conversation import (
+    ConversationState,
+    deserialize_conversation,
+    require_conversation_compatible,
+    serialize_conversation,
+)
 from cli.cuda_chat import ChatTranscript
 
 
@@ -86,3 +92,90 @@ def test_chat_recovery_policy() raises:
     if external_call["fcntl", Int32](fd, Int32(3), Int64(0)) >= 0:
         _ = external_call["close", Int32](fd)
         raise Error("Recovery transcript ownership leaked its descriptor")
+
+
+def _recovery_snapshot_fixture() raises -> ConversationState:
+    var state = ConversationState(
+        "sha256:recovery-fixture", "llama3", 64,
+        "Remember.", "greedy; seed=42",
+    )
+    state.tokens.append(100)
+    state.tokens.append(101)
+    state.append_turn("user-1", "assistant-1")
+    state.sampler_draws = 2
+    return state^
+
+
+def _expect_snapshot_rejection(raw: String, label: String) raises:
+    var rejected = False
+    try:
+        _ = deserialize_conversation(raw)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("corrupt recovery snapshot accepted: " + label)
+
+
+def _expect_foreign_rejection(
+    saved: ConversationState, current: ConversationState, label: String
+) raises:
+    var rejected = False
+    try:
+        require_conversation_compatible(saved, current)
+    except error:
+        rejected = True
+    if not rejected:
+        raise Error("foreign recovery snapshot accepted: " + label)
+
+
+def test_chat_recovery_snapshot_validation() raises:
+    # The recovery policy must never advise resuming from a dead session.
+    var dead = decide_chat_turn_recovery(False, True, False, 5, False)
+    if dead.continue_session or "restart Aesir" not in dead.instruction:
+        raise Error("recovery policy advised resuming a dead session")
+
+    # A well-formed snapshot round-trips through the codec.
+    var saved = _recovery_snapshot_fixture()
+    var encoded = serialize_conversation(saved)
+    var decoded = deserialize_conversation(encoded)
+    if len(decoded.turns) != 1 or decoded.model_identity != saved.model_identity:
+        raise Error("valid recovery snapshot failed to deserialize")
+
+    # Corrupt snapshots are rejected before any resume advice: bad magic.
+    _expect_snapshot_rejection(
+        encoded.replace("AESIR_CONVERSATION_V1", "BOGUS_MAGIC"), "bad magic"
+    )
+
+    # A tampered payload fails its checksum.
+    _expect_snapshot_rejection(
+        encoded.replace("USER:", "USERS:"), "tampered payload"
+    )
+
+    # A truncated snapshot is rejected.
+    _expect_snapshot_rejection(
+        String(encoded[byte=0:len(encoded.bytes()) // 2]), "truncated snapshot"
+    )
+
+    # Foreign snapshots are rejected before KV restore: different model.
+    var foreign = _recovery_snapshot_fixture()
+    foreign.model_identity = "sha256:other-model"
+    _expect_foreign_rejection(saved, foreign, "different model identity")
+
+    # Different model profile.
+    foreign = _recovery_snapshot_fixture()
+    foreign.profile = "gemma4"
+    _expect_foreign_rejection(saved, foreign, "different model profile")
+
+    # Different sampling identity.
+    foreign = _recovery_snapshot_fixture()
+    foreign.sampling_identity = "cuda; temperature=0.9"
+    _expect_foreign_rejection(saved, foreign, "different sampling identity")
+
+    # Different system prompt.
+    foreign = _recovery_snapshot_fixture()
+    foreign.system_prompt = "Forget."
+    _expect_foreign_rejection(saved, foreign, "different system prompt")
+
+    # The identical session identity is still admitted.
+    require_conversation_compatible(saved, _recovery_snapshot_fixture())
+    print("chat recovery snapshot validation: PASS")

@@ -63,6 +63,16 @@ def validate_runtime_backend_config(
 
 
 
+comptime MAX_PROMPT_BYTES = 1048576
+"""Maximum admitted generation prompt size: 1 MiB of UTF-8 bytes."""
+
+
+def admit_generation_prompt(prompt: String) raises:
+    """Fail-closed admission of a generation prompt before any inference work."""
+    if prompt.byte_length() > MAX_PROMPT_BYTES:
+        raise Error("Prompt exceeds the 1 MiB byte bound")
+
+
 struct GenerationConfig(Copyable):
     """Validated configuration parameters for text generation."""
 
@@ -432,6 +442,7 @@ struct AesirEngine:
         is_cancelled: Bool = False,
     ) raises -> GenerationResult:
         """Owns prompt prefill and every autoregressive token transition."""
+        admit_generation_prompt(prompt)
         if not self.parser.is_loaded:
             raise Error("AesirEngine cannot generate without a validated GGUF model")
         config.validate(self.parser.config.context_length)

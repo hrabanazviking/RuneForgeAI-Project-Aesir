@@ -358,3 +358,43 @@ def test_native_recipe_precedence() raises:
     var explicit_openai = OpenAIRequest("{\"model\":\"m\",\"messages\":[{\"role\":\"system\",\"content\":\"request system\"},{\"role\":\"user\",\"content\":\"x\"}]}", base, "recipe system")
     if explicit_native.system != "" or explicit_ollama.system != "" or explicit_openai.system != "request system":
         raise Error("Request system override was concatenated with or lost to baseline")
+
+
+def _expect_ollama_option_rejection(field: String, label: String) raises:
+    var rejected = False
+    try:
+        _ = OllamaRequest(
+            "{\"model\":\"m\",\"prompt\":\"x\",\"options\":{" + field + "}}"
+        )
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Ollama accepted an out-of-range sampling option: " + label)
+
+
+def test_ollama_sampling_bounds() raises:
+    # In-range options parse through the Ollama adapter unchanged.
+    var valid = OllamaRequest(
+        "{\"model\":\"m\",\"prompt\":\"x\",\"options\":{"
+        + "\"temperature\":2.5,\"top_k\":256,\"top_p\":1,\"min_p\":0,"
+        + "\"seed\":42,\"repeat_penalty\":0.5}}"
+    )
+    if (valid.sampling.temperature != 2.5 or valid.sampling.top_k != 256
+            or valid.sampling.top_p != 1 or valid.sampling.min_p != 0
+            or valid.sampling.seed != 42
+            or valid.sampling.repetition_penalty != 0.5):
+        raise Error("valid Ollama sampling options were not applied")
+
+    # Out-of-range options fail closed through the Ollama adapter.
+    _expect_ollama_option_rejection("\"temperature\":-1", "negative temperature")
+    _expect_ollama_option_rejection("\"temperature\":1e999", "exponent temperature")
+    _expect_ollama_option_rejection("\"top_p\":0", "zero top_p")
+    _expect_ollama_option_rejection("\"top_p\":1.5", "top_p above one")
+    _expect_ollama_option_rejection("\"top_k\":0", "zero top_k")
+    _expect_ollama_option_rejection("\"top_k\":257", "top_k above 256")
+    _expect_ollama_option_rejection("\"min_p\":1.5", "min_p above one")
+    _expect_ollama_option_rejection("\"repeat_penalty\":0", "zero repeat_penalty")
+    _expect_ollama_option_rejection(
+        "\"seed\":18446744073709551616", "seed overflow"
+    )
+    print("ollama sampling bounds: PASS")

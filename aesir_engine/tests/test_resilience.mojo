@@ -4,12 +4,18 @@
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from std.ffi import external_call
-from core.mimir_well import Scalar, f16
+from core.mimir_well import Scalar, f16, f32
 from core.error_guard import ErrorGuard
-from core.state_vault import StateVault
+from core.state_vault import StateVault, _vault_atomic_write, _vault_read
 from core.event_bus import AesirEventBus
 from core.thread_pool import RuneThreadPool
 from core.supervisor import SelfHealingSupervisor
+
+
+def _resilience_zero_address() -> Int:
+    # Produces address 0 at runtime so the null-pointer gate can be tested;
+    # the stdlib rejects a literal null Pointer at compile time.
+    return Int(0)
 
 
 def _resilience_test_cstring(value: String) -> List[Int8]:
@@ -87,6 +93,134 @@ def test_error_guard() raises:
         print("ErrorGuard: PASS")
     else:
         raise Error("ErrorGuard scaffold invariant mismatch")
+
+
+def test_error_guard_finiteness() raises:
+    print("--- Testing ErrorGuard float finiteness helpers ---")
+    var success = True
+
+    # f32 finiteness: finite values accepted
+    if not ErrorGuard.is_finite_f32(Scalar[f32](0.0)):
+        print("FAIL: is_finite_f32 rejected 0.0")
+        success = False
+    if not ErrorGuard.is_finite_f32(Scalar[f32](1.5)):
+        print("FAIL: is_finite_f32 rejected 1.5")
+        success = False
+    if not ErrorGuard.is_finite_f32(Scalar[f32](-3.4028234663852886e38)):
+        print("FAIL: is_finite_f32 rejected max finite f32 magnitude")
+        success = False
+
+    var nan32 = Scalar[f32](0.0) / Scalar[f32](0.0)
+    var inf32 = Scalar[f32](1.0) / Scalar[f32](0.0)
+    var ninf32 = Scalar[f32](-1.0) / Scalar[f32](0.0)
+    if ErrorGuard.is_finite_f32(nan32):
+        print("FAIL: is_finite_f32 accepted NaN")
+        success = False
+    if ErrorGuard.is_finite_f32(inf32):
+        print("FAIL: is_finite_f32 accepted +Inf")
+        success = False
+    if ErrorGuard.is_finite_f32(ninf32):
+        print("FAIL: is_finite_f32 accepted -Inf")
+        success = False
+
+    # f64 finiteness
+    if not ErrorGuard.is_finite_f64(Float64(0.0)):
+        print("FAIL: is_finite_f64 rejected 0.0")
+        success = False
+    if not ErrorGuard.is_finite_f64(Float64(-2.25)):
+        print("FAIL: is_finite_f64 rejected -2.25")
+        success = False
+    if ErrorGuard.is_finite_f64(Float64(0.0) / Float64(0.0)):
+        print("FAIL: is_finite_f64 accepted NaN")
+        success = False
+    if ErrorGuard.is_finite_f64(Float64(1.0) / Float64(0.0)):
+        print("FAIL: is_finite_f64 accepted +Inf")
+        success = False
+    if ErrorGuard.is_finite_f64(Float64(-1.0) / Float64(0.0)):
+        print("FAIL: is_finite_f64 accepted -Inf")
+        success = False
+
+    # count_nonfinite_f32: mixed buffer of 8, expect 4 non-finite
+    var ptr = alloc(Layout[Scalar[f32]](count=8)).unsafe_leak()
+    ptr.unsafe_store(0, Scalar[f32](1.0))
+    ptr.unsafe_store(1, nan32)
+    ptr.unsafe_store(2, inf32)
+    ptr.unsafe_store(3, Scalar[f32](-2.5))
+    ptr.unsafe_store(4, ninf32)
+    ptr.unsafe_store(5, Scalar[f32](0.0))
+    ptr.unsafe_store(6, nan32)
+    ptr.unsafe_store(7, Scalar[f32](7.25))
+    if ErrorGuard.count_nonfinite_f32(ptr, 8) != 4:
+        print("FAIL: count_nonfinite_f32 expected 4 non-finite elements")
+        success = False
+
+    # buffer must not be modified by the count
+    if (
+        ptr.unsafe_load(0) != Scalar[f32](1.0)
+        or ptr.unsafe_load(3) != Scalar[f32](-2.5)
+        or ptr.unsafe_load(7) != Scalar[f32](7.25)
+    ):
+        print("FAIL: count_nonfinite_f32 modified the buffer")
+        success = False
+
+    # all-finite buffer counts zero
+    for i in range(8):
+        ptr.unsafe_store(i, Scalar[f32](Float64(i) * 0.5))
+    if ErrorGuard.count_nonfinite_f32(ptr, 8) != 0:
+        print("FAIL: count_nonfinite_f32 reported non-finite elements in a finite buffer")
+        success = False
+
+    # count <= 0 raises
+    var rejected = False
+    try:
+        _ = ErrorGuard.count_nonfinite_f32(ptr, 0)
+    except:
+        rejected = True
+    if not rejected:
+        print("FAIL: count_nonfinite_f32 silently accepted a zero count")
+        success = False
+
+    rejected = False
+    try:
+        _ = ErrorGuard.count_nonfinite_f32(ptr, -3)
+    except:
+        rejected = True
+    if not rejected:
+        print("FAIL: count_nonfinite_f32 silently accepted a negative count")
+        success = False
+
+    # null pointer raises (address computed at runtime: the stdlib rejects a
+    # literal null Pointer at compile time, so the zero address is produced
+    # dynamically to exercise the addr == 0 gate)
+    var null_ptr = Pointer[Scalar[f32], MutUntrackedOrigin](
+        unsafe_from_address=_resilience_zero_address()
+    )
+    rejected = False
+    try:
+        _ = ErrorGuard.count_nonfinite_f32(null_ptr, 8)
+    except:
+        rejected = True
+    if not rejected:
+        print("FAIL: count_nonfinite_f32 silently accepted a null pointer")
+        success = False
+
+    # address-one sentinel raises
+    var sentinel_ptr32 = Pointer[Scalar[f32], MutUntrackedOrigin](unsafe_from_address=1)
+    rejected = False
+    try:
+        _ = ErrorGuard.count_nonfinite_f32(sentinel_ptr32, 8)
+    except:
+        rejected = True
+    if not rejected:
+        print("FAIL: count_nonfinite_f32 silently accepted sentinel address 1")
+        success = False
+
+    ptr.unsafe_free()
+
+    if success:
+        print("ErrorGuard finiteness: PASS")
+    else:
+        raise Error("ErrorGuard finiteness invariant mismatch")
 
 
 def test_state_vault() raises:
@@ -268,3 +402,76 @@ def test_supervisor_recovery_boundary() raises:
         print("unsupported supervisor recovery boundary: PASS")
     else:
         raise Error("SelfHealingSupervisor recovery invariant mismatch")
+
+
+def test_state_vault_read_exact_bytes() raises:
+    print("--- Testing StateVault read returns exactly the file bytes (F012) ---")
+    var path = (
+        "/tmp/aesir-vault-exact-"
+        + String(external_call["getpid", Int32]()) + ".chk"
+    )
+    var body = (
+        "AESIR_STATE_MARKER_V1\nTOKEN_POS=42\nPROMPT_COUNT=7\nTIMESTAMP=2000\n"
+        + "CHECKSUM=0123456789abcdef\n"
+    )
+    _vault_atomic_write(path, body)
+    var name = _resilience_test_cstring(path)
+    try:
+        var back = _vault_read(path)
+        if back != body:
+            raise Error("StateVault read did not return exactly the file bytes")
+    except error:
+        _ = external_call["unlink", Int32](name.unsafe_ptr())
+        raise error
+    _ = external_call["unlink", Int32](name.unsafe_ptr())
+    print("StateVault exact-bytes read: PASS")
+
+
+def test_state_vault_rejects_growth() raises:
+    print("--- Testing StateVault rejects files that grew during read (F012) ---")
+    var path = (
+        "/tmp/aesir-vault-grow-"
+        + String(external_call["getpid", Int32]()) + ".chk"
+    )
+    var body = "AESIR_STATE_MARKER_V1\nTOKEN_POS=1\n"
+    var name = _resilience_test_cstring(path)
+    # Deterministic TOCTOU: fork a child that appends one byte per syscall
+    # while the parent issues repeated _vault_read attempts. Any attempt whose
+    # fstat lands mid-flight reads past the pinned size and must fail closed
+    # instead of returning silently grown bytes. O_WRONLY | O_APPEND.
+    _vault_atomic_write(path, body)
+    var pid = external_call["fork", Int32]()
+    if pid < 0:
+        _ = external_call["unlink", Int32](name.unsafe_ptr())
+        raise Error("StateVault growth test fork failed")
+    if pid == 0:
+        var appender = external_call["open64", Int32](
+            name.unsafe_ptr(), Int32(1025), Int32(0)
+        )
+        if appender >= 0:
+            var one = List[Byte]()
+            one.append(Byte(88))
+            var total = 0
+            while total < 20000:
+                var count = external_call["write", Int](
+                    Int(appender), one.unsafe_ptr(), Int(1)
+                )
+                if count <= 0:
+                    break
+                total += count
+            _ = external_call["close", Int32](appender)
+        external_call["_exit", NoneType](Int32(0))
+    var rejected = False
+    var attempt = 0
+    while not rejected and attempt < 500:
+        attempt += 1
+        try:
+            _ = _vault_read(path)
+        except error:
+            rejected = "changed size during read" in String(error)
+    var status: Int32 = 0
+    _ = external_call["waitpid", Int32](pid, Pointer(to=status), Int32(0))
+    _ = external_call["unlink", Int32](name.unsafe_ptr())
+    if not rejected:
+        raise Error("StateVault accepted a checkpoint that grew during read")
+    print("StateVault growth rejection: PASS")

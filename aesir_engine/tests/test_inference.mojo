@@ -4,7 +4,13 @@ from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.session import SessionContext, SessionManager
-from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config
+from aesir import (
+    MAX_PROMPT_BYTES,
+    GenerationConfig,
+    admit_generation_prompt,
+    generation_stop_reason,
+    validate_runtime_backend_config,
+)
 from std.memory import Pointer
 
 
@@ -497,11 +503,30 @@ def test_model_produced_eos_fixture() raises:
         
     print("Model-Produced EOS Fixture: PASS")
 
+def test_prompt_byte_bound() raises:
+    print("--- Testing generation prompt byte bound ---")
+    admit_generation_prompt("hello")
+    admit_generation_prompt("")
+    var boundary = String("")
+    for _ in range(MAX_PROMPT_BYTES):
+        boundary += "x"
+    admit_generation_prompt(boundary)
+    var rejected = False
+    try:
+        admit_generation_prompt(boundary + "x")
+    except error:
+        rejected = "byte bound" in String(error)
+    if not rejected:
+        raise Error("overlong prompt passed inference admission")
+    print("Prompt byte bound: PASS")
+
+
 def main() raises:
     test_forward_pass()
     test_generation_stop_policy()
     test_unsupported_runtime_config()
     test_generation_config_validation()
+    test_prompt_byte_bound()
     test_sampler_stack()
     test_chat_template()
     test_session_isolation()
