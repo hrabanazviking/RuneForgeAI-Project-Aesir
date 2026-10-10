@@ -208,9 +208,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core memory domain
 - **Claim sources:** README MimirWell claims; core interfaces
-- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool, advances offsets, validates positive pool/allocation sizes, checks overflow, validates reset boundaries, and raises catchable `Error("MimirWell: memory pool exhausted")` instead of returning address `1`.
+- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool, advances offsets, rejects nonpositive pool/allocation sizes, validates reset boundaries, and raises catchable `Error("MimirWell: memory pool exhausted")` instead of returning address `1`. The current allocator compares `offset + elements` directly with capacity; checked overflow for that addition is not established.
 - **Executable evidence:** `E-MASTER` case `inference.kv_cache` in `aesir_engine/tests/test_kv_cache.mojo` verifies memory exhaustion error raising, zero address 1 returns, and pool offset integrity.
-- **Evidence boundary:** Single-thread linear arena allocation pool; does not cover multi-threaded lock-free arenas or page allocation tables.
+- **Evidence boundary:** Single-thread linear arena allocation pool; does not cover multi-threaded lock-free arenas, page allocation tables, per-allocation ownership, pointer provenance, lifetime, or alias control. See the [AES500-082 baseline](docs/evidence/allocation-ownership-baseline-2026-10-10/README.md) for current source limits.
 - **Next acceptance gate:** Multi-threaded arena access locks, dynamic pool expansion policy, and heap sanitizer integrations.
 - **Audit:** AER-002, AER-005, AER-023, AER-028.
 

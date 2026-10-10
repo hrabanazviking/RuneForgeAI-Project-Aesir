@@ -93,7 +93,22 @@ no probability tensors are copied to CPU. See `docs/NATIVE_RUNTIME.md` for
 exact filtering order, byte counts, admission and reproducibility boundaries.
 
 ### `MimirWell`
-Pre-allocates the contiguous workspace pool. Raises `Error` on nonpositive pool sizes, negative allocations, integer overflow, or pool exhaustion.
+Pre-allocates a contiguous F16-element workspace pool. `allocate(elements)`
+accepts a positive element count and returns a raw pointer at the current bump
+offset; it raises on nonpositive counts or when its current capacity check
+reports exhaustion. The arena tracks only `base_ptr`, element capacity, and
+current offset. `reset()` rewinds to zero, while `reset_kv_cache(offset)`
+rewinds to a caller-selected offset within the current allocated prefix.
+
+This interface exposes no per-allocation record, stable owner identity,
+pointer provenance, backing-range association, lifetime validation, or alias
+policy. Rewinding the offset does not invalidate pointer values held by callers.
+`RuneTensor` views remain copyable raw-pointer descriptors and are not tied to a
+specific `MimirWell` allocation. Allocation ownership records are deferred
+until owner identity, copy/move/lifetime semantics, and reset invalidation can
+be defined without pointer reuse or ABA revival. `allocate` currently computes
+`offset + elements` directly; this interface does not claim that this addition
+is overflow-checked.
 
 ```mojo
 struct MimirWell:
@@ -102,7 +117,20 @@ struct MimirWell:
     def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) raises -> NPUBuffer: ... # Slice 7
     def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> GPUBuffer: ... # Slice 8
     def reset_kv_cache(mut self, kv_offset_start: Int) raises: ...
+    def reset(mut self): ...
 ```
+
+### Allocation ownership records (AES500-081–083)
+
+AES500-081 deferred implementation because the present raw-pointer arena and
+copyable tensor view do not establish a stable owner identity or a live
+allocation association. AES500-082 records the source and usage baseline at
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`. AES500-083
+specifies the current boundary only; it adds no public record type or behavior.
+Any later owner-record API requires a separate contract defining non-reused
+owner identity, copy/move/lifetime behavior, and reset invalidation without
+generation wrap or ABA revival. A record, if later implemented, remains
+non-owning and does not extend lifetime or prevent aliases.
 
 ### `RuneTensor[type: DType]`
 Zero-copy tensor descriptor wrapping pointer offsets. `checked()` enforces
