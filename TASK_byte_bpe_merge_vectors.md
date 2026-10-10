@@ -38,3 +38,8 @@ The public vocabulary/encoding seam is exercised without private helper calls: r
 ## AES500-154 implementation receipt
 
 The score comparator now explicitly selects the lower pair index when candidate scores are equal. This preserves existing finite-score outputs while making deterministic tie behavior visible in the implementation. The master suite passes 219/0/1 (220 total), including all exact merge vectors.
+
+
+## AES500-155 unit evidence receipt
+
+Repeated equal-score input produces the same `[4,3]` vector twice. A partial byte vocabulary with only `<0xF0>` mapped returns `[11,99,99,99]` for 😀 when unknown ID is 99. Master suite: 220 passed, zero failed, one skipped (221 total).

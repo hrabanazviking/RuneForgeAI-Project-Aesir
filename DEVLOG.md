@@ -3856,3 +3856,8 @@ no-BOS behavior. Master suite: 219 passed, zero failed, one skipped (220 total).
 AES500-154 makes equal-score leftmost pair selection explicit in the merge
 comparator. Exact tie/ranking/chaining/fallback vectors and master suite
 (219 passed, zero failed, one skipped) remain green.
+
+
+AES500-155 confirms repeated merge ties are deterministic and partial emoji
+byte vocabularies use the unknown ID for each missing byte. Master suite: 220
+passed, zero failed, one skipped (221 total).

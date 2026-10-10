@@ -1425,3 +1425,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-154 byte BPE merge implementation: explicit stable leftmost
   tie comparator preserves exact baseline vectors; master suite 219/0/1
   (220 total).
+
+- [x] AES500-155 byte BPE unit evidence: repeated tie is deterministic and
+  incomplete UTF-8 byte vocabulary falls back per byte to unknown ID; master
+  suite 220/0/1 (221 total).

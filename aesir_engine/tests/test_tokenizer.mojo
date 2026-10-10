@@ -164,3 +164,25 @@ def test_byte_bpe_merge_interface() raises:
     if len(empty) != 0:
         raise Error("empty tokenizer input must emit no token without BOS")
     print("PASS: byte BPE public vocabulary-to-encode interface")
+
+def test_byte_bpe_merge_adversarial() raises:
+    var tie = RuneWeaver()
+    tie.add_token("a", 1)
+    tie.add_token("b", 2)
+    tie.add_token("c", 3)
+    tie.add_token("ab", 4, 1.0)
+    tie.add_token("bc", 5, 1.0)
+    var first = tie.encode("abc", False)
+    var second = tie.encode("abc", False)
+    if len(first) != len(second) or len(first) != 2:
+        raise Error("repeated tie vector changed result length")
+    if first[0] != 4 or first[1] != 3 or second[0] != first[0] or second[1] != first[1]:
+        raise Error("repeated tie vector is not deterministic")
+
+    var partial_fallback = RuneWeaver()
+    partial_fallback.unknown_token_id = 99
+    partial_fallback.add_token("<0xF0>", 11)
+    var emoji = partial_fallback.encode("😀", False)
+    if len(emoji) != 4 or emoji[0] != 11 or emoji[1] != 99 or emoji[2] != 99 or emoji[3] != 99:
+        raise Error("partial UTF-8 byte fallback did not use unknown ID for missing bytes")
+    print("PASS: byte BPE repeatability and partial byte fallback boundaries")
