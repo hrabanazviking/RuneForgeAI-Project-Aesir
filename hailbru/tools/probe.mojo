@@ -614,13 +614,14 @@ def cmd_irq_selftest(arch: String, args: List[String]) raises:
     except e:
         if String(e).find("MechanismUnavailable") < 0:
             raise herror("DmaError", "set_irqs wrong error")
-    # uio_irq_wait is REAL since 2026-10-10: an invalid fd must fail
-    # closed (ppoll EBADF -> IrqSetupFailed), never hang or succeed.
+    # uio_irq_wait is REAL since 2026-10-10: poll(2) ignores negative
+    # fds, so fd=-1 must hit the timeout path (IrqTimeout), never hang
+    # or succeed.
     try:
         _ = uio_irq_wait(arch, -1, 100)
         raise herror("DmaError", "uio_irq_wait not caught")
     except e:
-        if String(e).find("IrqSetupFailed") < 0:
+        if String(e).find("IrqTimeout") < 0:
             raise herror("DmaError", "uio_irq_wait wrong error: " + String(e))
     emit(
         arch,
