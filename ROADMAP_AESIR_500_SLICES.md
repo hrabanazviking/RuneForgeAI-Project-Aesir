@@ -627,6 +627,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-022 records the current synchronized GPU-2 resource baseline in
   `docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/`; asynchronous
   teardown and driver allocator semantics remain unproven.
+- AES500-023 establishes a successful stream fence as a prerequisite for any
+  logical release receipt; budget reservation and physical allocator reuse stay
+  separate. Mojo/MAX do not document implicit fence-on-buffer-destruction.
 
 ## Status
 
