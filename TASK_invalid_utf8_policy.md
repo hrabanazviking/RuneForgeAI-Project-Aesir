@@ -39,3 +39,8 @@ AES500-172 baseline: unsafe truncated `C3` with no vocabulary -> `[195]`; unsafe
 ## AES500-173 interface receipt
 
 The owner seam is the existing public `encode(prompt: String, add_bos: Bool = False) -> List[Int]`; no raising behavior or signature change is planned. Valid Strings keep existing behavior. Malformed byte sequences admitted through unsafe String construction must produce the unknown-token sentinel, with optional BOS prefix as described above. The current baseline test pins the public return path before the implementation changes it.
+
+
+## AES500-174 implementation receipt
+
+`RuneWeaver._is_valid_utf8` now validates leading-byte ranges, continuation bytes, overlong exclusions, surrogate exclusion, and the U+10FFFF ceiling. `encode` checks the borrowed byte span before tokenization; malformed input returns the configured unknown ID and retains an optional enabled BOS prefix. Valid input keeps the existing path. Focused malformed fixtures cover truncation, a bad continuation, overlong lead, surrogate, and above-maximum scalar; master suite passes 227/0/1 (228 total).

@@ -293,25 +293,51 @@ def test_unicode_normalization_adversarial() raises:
         raise Error("non-breaking space was incorrectly rewritten as ASCII space marker")
     print("PASS: non-breaking space stays distinct from ASCII space marker")
 
-def test_invalid_utf8_baseline() raises:
+def assert_invalid_utf8_fails_closed(mut raw: List[Int8]) raises:
+    raw.append(0)
+    var text = String(unsafe_from_utf8_ptr=raw.unsafe_ptr())
+    var weaver = RuneWeaver()
+    weaver.unknown_token_id = 99
+    var encoded = weaver.encode(text, False)
+    if len(encoded) != 1 or encoded[0] != 99:
+        raise Error("invalid UTF-8 did not collapse to configured unknown ID")
+
+
+def test_invalid_utf8_rejection() raises:
     var truncated = List[Int8]()
     truncated.append(Int8(0xC3))
-    truncated.append(0)
-    var truncated_text = String(unsafe_from_utf8_ptr=truncated.unsafe_ptr())
-    var empty_vocab = RuneWeaver()
-    var raw = empty_vocab.encode(truncated_text, False)
-    if len(raw) != 1 or raw[0] != 0xC3:
-        raise Error("no-vocabulary invalid-byte baseline changed")
+    assert_invalid_utf8_fails_closed(truncated)
 
-    var malformed = List[Int8]()
-    malformed.append(Int8(0xC3))
-    malformed.append(Int8(0x28))
-    malformed.append(0)
-    var malformed_text = String(unsafe_from_utf8_ptr=malformed.unsafe_ptr())
-    var vocab = RuneWeaver()
-    vocab.add_token("<0xC3>", 11)
-    vocab.add_token("<0x28>", 12)
-    var encoded = vocab.encode(malformed_text, False)
-    if len(encoded) != 2 or encoded[0] != 11 or encoded[1] != 12:
-        raise Error("malformed UTF-8 with vocabulary did not preserve byte fallback")
-    print("PASS: unsafe malformed UTF-8 current baseline vectors")
+    var bad_continuation = List[Int8]()
+    bad_continuation.append(Int8(0xC3))
+    bad_continuation.append(Int8(0x28))
+    assert_invalid_utf8_fails_closed(bad_continuation)
+
+    var overlong = List[Int8]()
+    overlong.append(Int8(0xC0))
+    overlong.append(Int8(0xAF))
+    assert_invalid_utf8_fails_closed(overlong)
+
+    var surrogate = List[Int8]()
+    surrogate.append(Int8(0xED))
+    surrogate.append(Int8(0xA0))
+    surrogate.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(surrogate)
+
+    var above_unicode_max = List[Int8]()
+    above_unicode_max.append(Int8(0xF4))
+    above_unicode_max.append(Int8(0x90))
+    above_unicode_max.append(Int8(0x80))
+    above_unicode_max.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(above_unicode_max)
+
+    var bos_invalid = List[Int8]()
+    bos_invalid.append(Int8(0xC3))
+    bos_invalid.append(0)
+    var bos_text = String(unsafe_from_utf8_ptr=bos_invalid.unsafe_ptr())
+    var bos_weaver = RuneWeaver()
+    bos_weaver.unknown_token_id = 99
+    var with_bos = bos_weaver.encode(bos_text, True)
+    if len(with_bos) != 2 or with_bos[0] != bos_weaver.bos_token_id or with_bos[1] != 99:
+        raise Error("invalid UTF-8 BOS/unknown fail-closed result changed")
+    print("PASS: invalid UTF-8 rejects to unknown ID with optional BOS")

@@ -3950,3 +3950,9 @@ zero failed, one skipped (228 total).
 AES500-173 pins invalid-input handling to the existing non-raising encoder
 interface: malformed unsafe String bytes will become unknown ID with optional
 BOS, preserving valid-input behavior and public signature.
+
+
+AES500-174 adds strict UTF-8 validation over the borrowed input span. Truncated,
+bad continuation, overlong, surrogate, and above-maximum sequences fail closed
+to unknown ID with optional BOS. Master suite: 227 passed, zero failed, one
+skipped (228 total).

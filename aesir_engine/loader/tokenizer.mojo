@@ -97,6 +97,49 @@ struct RuneWeaver:
             + String(">")
         )
 
+    def _is_valid_utf8(self, text: String) -> Bool:
+        var raw = text.as_bytes()
+        var index = 0
+        while index < len(raw):
+            var first = raw[index]
+            if first <= 0x7F:
+                index += 1
+                continue
+            var continuation_count: Int
+            var second_min = UInt8(0x80)
+            var second_max = UInt8(0xBF)
+            if first >= 0xC2 and first <= 0xDF:
+                continuation_count = 1
+            elif first == 0xE0:
+                continuation_count = 2
+                second_min = 0xA0
+            elif (first >= 0xE1 and first <= 0xEC) or (first >= 0xEE and first <= 0xEF):
+                continuation_count = 2
+            elif first == 0xED:
+                continuation_count = 2
+                second_max = 0x9F
+            elif first == 0xF0:
+                continuation_count = 3
+                second_min = 0x90
+            elif first >= 0xF1 and first <= 0xF3:
+                continuation_count = 3
+            elif first == 0xF4:
+                continuation_count = 3
+                second_max = 0x8F
+            else:
+                return False
+            if index + continuation_count >= len(raw):
+                return False
+            var second = raw[index + 1]
+            if second < second_min or second > second_max:
+                return False
+            for continuation_index in range(2, continuation_count + 1):
+                var continuation = raw[index + continuation_index]
+                if continuation < 0x80 or continuation > 0xBF:
+                    return False
+            index += continuation_count + 1
+        return True
+
     def _append_utf8_symbols(self, text: String, mut pieces: List[String]):
         """Splits UTF-8 text into complete code-point symbols without truncation."""
         var raw = text.as_bytes()
@@ -211,6 +254,9 @@ struct RuneWeaver:
         var tokens = List[Int]()
         if add_bos and self.add_bos_token and self.bos_token_id >= 0:
             tokens.append(self.bos_token_id)
+        if not self._is_valid_utf8(prompt):
+            tokens.append(self.unknown_token_id)
+            return tokens^
         if len(prompt.as_bytes()) == 0:
             return tokens^
         if self.vocab_size == 0:
