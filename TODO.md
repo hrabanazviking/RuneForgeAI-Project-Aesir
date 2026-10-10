@@ -1309,3 +1309,12 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   failed loader state unmapped; registered as `gguf.header_adversarial`.
   Focused and master checks pass (210 passed, 0 failed, 1 skipped / 211 total);
   docs consistency and whitespace checks pass.
+- [x] AES500-128 GGUF primary Auditor pass: source confirms both UInt64 count
+  comparisons precede `Int` conversion and entry loops; test checks FAILED
+  state and mmap cleanup. Independent Auditor subagent unavailable because the
+  collaboration service thread limit rejected assignment; no independent pass
+  is claimed. Receipt is in `TASK_gguf_header_version_matrix.md`.
+
+- [x] AES500-129 GGUF documentation sync: task, TODO, devlog, roadmap, and
+  capability ledger agree on the v3 admission matrix, the two tiny-file count
+  rejection cases, local suite totals, and the explicit arithmetic/scope limits.

@@ -68,3 +68,14 @@ The version table, byte layout, both owners, existing discrepancy, and explicit
 exclusions are stated. No parser code changes in AES500-121. AES500-127's
 adversarial count cases are registered as `gguf.header_adversarial` in the
 master suite.
+
+## AES500-128 review receipt
+
+Primary review of the pushed `2b00cb3` slice confirms `_parse_header` compares
+each UInt64 count to mapped file size before conversion to `Int` or entry-loop
+execution, and the adversarial cases assert the rejection diagnostic plus
+FAILED/unmapped cleanup. Focused module and master suite pass locally (210
+passed, zero failed, one explicitly skipped; 211 total). No independent Auditor
+agent review is claimed: the collaboration service rejected another reviewer
+because its thread limit was reached. The test covers tiny files/count 25 only;
+it does not establish complete allocation or offset arithmetic safety.
