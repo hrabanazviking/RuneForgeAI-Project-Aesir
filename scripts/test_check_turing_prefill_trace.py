@@ -99,6 +99,26 @@ class Contracts(unittest.TestCase):
         self.assertFalse(result["passed"]); self.assertTrue(result["collection_complete"])
         self.assertIn("artifact changed", result["error"]); self.assertFalse(result["speed_scored"])
 
+    def test_strategy5_requires_owned_small_session_and_counts(self):
+        text = self.text.replace("TRACE,1,2,1,123,aesir.fixture.prefill", "TRACE,1,5,1,123,aesir.fixture.prefill")
+        text = text.replace("ENQUEUE,168,281\nCACHE", "ENQUEUE,168,281\nDOWN_ROWS128,0\nDOWN_TILE,128,32\nSMALL_ATTENTION,0,56\nFUSED_ATTENTION,0,56\nCACHE")
+        self.path.write_text(text)
+        parsed = check.parse(self.path, self.golden, 1, allow_small=True)
+        self.assertEqual(parsed["attention_variant"], 5)
+        self.assertEqual(parsed["small_attention_host_enqueues"], 0)
+        self.assertEqual(parsed["original_attention_queries"], 56)
+        for bad in (
+            text.replace("SMALL_ATTENTION,0,56", "SMALL_ATTENTION,1,56"),
+            text.replace("TRACE,1,5,1,123,aesir.fixture.prefill", "TRACE,1,4,1,123,aesir.fixture.prefill"),
+            text.replace("SMALL_ATTENTION,0,56\n", ""),
+        ):
+            self.path.write_text(bad)
+            with self.assertRaises((ValueError, StopIteration)):
+                check.parse(self.path, self.golden, 1, allow_small=True)
+        for flags in ({"allow_fused": True, "allow_small": True}, {"allow_down": True, "allow_small": True}):
+            with self.assertRaises(ValueError):
+                check.parse(self.path, self.golden, 1, **flags)
+
     def test_wrong_source_strategy_refuses_before_trace(self):
         output = self.root / "source.json"
         with patch.object(sys, "argv", self.arguments(output)), patch.object(check, "digest", return_value="b"*64), \

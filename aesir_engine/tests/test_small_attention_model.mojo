@@ -19,7 +19,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
     replay_tiles.append(1)
     var replay = FixtureReplayPlan(0,weights,Int(f.native.activations.unsafe_ptr()),
         Int(f.native.cache.unsafe_ptr()),replay_tokens,replay_tiles,1,f.native.sampler.config,UInt64(0))
-    for feature in range(12):
+    for feature in range(13):
         if feature == 2:f.trace_projections = True
         elif feature == 3:f.fused_controls = True
         elif feature == 4:f.fused_tracing = True
@@ -29,6 +29,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
         elif feature == 8:f.down128 = False
         elif feature == 9:f.batched_elementwise = False
         elif feature == 10:f.batched_rope_cache = False
+        elif feature == 12:f.small_tracing = True
         var refused = False
         try:
             if feature == 0:f.configure_control(1)
@@ -37,6 +38,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
             else:f.step(tokens,0,32)
         except:refused = True
         f.trace_projections = False
+        f.small_tracing = False
         f.fused_controls = False
         f.fused_tracing = False
         f.down128_controls = False
@@ -82,6 +84,18 @@ def main() raises:
         if args[2] == "reject-controls-with-replay":
             var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,True,True)
             raise Error("Small controls with replay admitted")
+        if args[2] == "reject-small-tracing-without-small":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,False,False,False,True)
+            raise Error("Small tracing without strategy5 admitted")
+        if args[2] == "reject-small-tracing-with-controls":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,False,True,True)
+            raise Error("Small tracing with controls admitted")
+        if args[2] == "reject-small-tracing-with-replay":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,True,False,True)
+            raise Error("Small tracing with replay admitted")
+        if args[2] == "reject-small-tracing-with-fused-tracing":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,True,True,False,False,True)
+            raise Error("Small tracing borrowed fused tracing admitted")
     if len(args) != 2 and len(args) != 3:raise Error("usage: test_small_attention_model MODEL.gguf [controls-disabled]")
     var capable = len(args) == 3 and args[2] == "controls-disabled"
     if len(args) == 3 and not capable: raise Error("Unknown small model mode")

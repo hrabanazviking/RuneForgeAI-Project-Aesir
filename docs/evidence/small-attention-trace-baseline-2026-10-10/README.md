@@ -38,8 +38,8 @@ The initial checker report using the old strategy default and the subsequent
 system-Python report without the pinned `llama_cpp` environment were retained as
 failed reports. The accepted checker was run from the existing oracle environment
 pinned to llama-cpp-python0.3.23 / NumPy2.4.4 and zero GPU layers. Full CSV, all
-reports, before/after identity files and process outputs are retained privately at
-`/home/volmarr/Documents/Codex/2026-10-09/ma/work/aesir-small-trace-baseline-20261010/`.
+reports, before/after identity files and process outputs are retained in the
+private untracked task artifact directory; its machine-local path stays out of Git.
 The source/model/binary/source-report hashes matched before and after validation.
 
 This baseline does not test traced/profiled parity, trace-event ownership, kernel

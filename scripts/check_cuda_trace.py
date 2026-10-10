@@ -31,18 +31,20 @@ def union_ns(intervals):
     return total
 
 
-def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False, fused_attention=False, fused_primitive=False):
+def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=None, projection_tiles=None, down128=False, record_resources=False, fused_attention=False, small_attention=False, fused_primitive=False):
     """Accept concrete tables only, one actual CUDA PID, matched kernel launches.
 
     The descriptor-backed immutable URI avoids symlink/replacement races on Linux.
     Export must be closed, without WAL/journal sidecars; query_only and an authorizer
     deny writes and executable extensions. No database-provided SQL is executed.
     """
-    if type(fused_primitive) is not bool or (fused_primitive and (not record_resources or down128 or fused_attention or projection_tiles is not None or nvtx_range is not None)):
+    if type(fused_primitive) is not bool or (fused_primitive and (not record_resources or down128 or fused_attention or small_attention or projection_tiles is not None or nvtx_range is not None)):
         raise ValueError("Fused primitive resources require exclusive complete capture admission")
+    if type(small_attention) is not bool or (small_attention and not (record_resources and projection_tiles is not None and not down128 and not fused_attention)):
+        raise ValueError("Small attention resources require explicit exclusive tile ownership")
     if type(fused_attention) is not bool or (fused_attention and not (down128 and record_resources and projection_tiles is not None)):
         raise ValueError("Fused attention resources require explicit owned down projection path")
-    if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not (down128 or fused_primitive)):
+    if type(down128) is not bool or type(record_resources) is not bool or (down128 and (not record_resources or projection_tiles is None)) or (record_resources and not (down128 or fused_primitive or small_attention)):
         raise ValueError("Kernel resources require explicit owned down projection path")
     path = Path(path).absolute()
     for suffix in ("-wal", "-shm", "-journal"):
@@ -243,7 +245,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             clipped = [(max(s, first), min(e, last)) for s, e in active if s < last and e > first]
             busy = union_ns(clipped)
             projection = None
-            if projection_tiles is not None:
+            if projection_tiles is not None and not small_attention:
                 from cuda_projection_ranges import attribute
                 projection = attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,down128=down128,resources=resources)
             attention = None
@@ -251,7 +253,12 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 from cuda_fused_attention_ranges import attribute as attention_attribute
                 attention = attention_attribute(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
                 projection["attention_variant"] = 4
+            small = None
+            if small_attention:
+                from cuda_fused_attention_ranges import attribute_small
+                small = attribute_small(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
             extra = {"fused_attention_attribution": attention} if fused_attention else {}
+            if small_attention: extra["small_attention_attribution"] = small
             if fused_primitive:
                 from cuda_projection_ranges import RESOURCE_FIELDS
                 resource_groups = {}

@@ -29,8 +29,8 @@ change normal runtime selection. Enabled-control timing is not scored.
   `ade78b64383b682a16edc57bf547ff7853aaf7e015d40264471c0ac32ddedba3`;
   `controls.json` is
   `ec99cd7bd5f5f502cc278427d48c7653dd1318600ff135876c0d1391a173d4a9`.
-- The full CSV captures are retained at
-  `/home/volmarr/Documents/Codex/2026-10-09/ma/work/aesir-small-controls-20261009/`.
+- The full CSV captures are retained in the private untracked task artifact
+  directory; its machine-local path stays out of Git.
 
 ## Results
 

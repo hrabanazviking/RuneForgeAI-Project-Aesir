@@ -32,8 +32,8 @@ the declared public37 and public1070 prefill sessions before any profiled run.
   `3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660`.
 - Independent reference model SHA-256:
   `b0dd20c95a6605d9773d9d3153c52f89f21628f21048ff81bb184684b6f7a42b`; its
-  derivation receipt is
-  `/home/volmarr/Documents/Codex/2026-09-30/ok-2/outputs/aesir-measurement/oracle-f32-derivation.json`.
+  independently pinned F32 derivation receipt is part of the existing local
+  oracle evidence set.
 - Physical device/tool baseline is RTX 2060 Max-Q sm_75, Llama3.2 3B Q4_K_M,
   context1536, F16 KV, activation precision0, locked Mojo/MAX26.5.0 and Nsight
   Systems2023.4.4. Nsight availability is reconnaissance only.

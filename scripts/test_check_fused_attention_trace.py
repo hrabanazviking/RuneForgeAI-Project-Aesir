@@ -10,7 +10,7 @@ from unittest.mock import patch
 import check_turing_prefill_trace as check
 import check_cuda_trace as cuda
 import check_turing_down_source as source_check
-from cuda_fused_attention_ranges import attribute, FUSED_PREFIX
+from cuda_fused_attention_ranges import attribute, FUSED_PREFIX, SMALL_PREFIX
 from cuda_projection_ranges import RESOURCE_FIELDS, STAGES
 import test_check_turing_down_projection_trace as down_contracts
 import test_check_fused_attention_controls_model as model_contracts
@@ -105,6 +105,32 @@ class Contracts(unittest.TestCase):
         self.assertEqual(d['resources']['grid_y'],32);self.assertEqual(d['resources']['static_shared_bytes'],16384)
         self.assertEqual(d['gpu_total_ns'],280)  # GPU begins after CPU child exits; retained whole.
 
+    def small_geometry(self):
+        self.outer=(100,100000,16777217);self.tiles={1:0,4:0,32:1}
+        self.rows=[(110,150,59,self.outer[2],None,'aesir.attend.small.b32',None)]
+        self.launches={};self.kernels=[];self.resources={}
+        for layer in range(28):
+            c=layer+1;self.launches[c]=(111+layer,112+layer,self.outer[2])
+            self.kernels.append((c,SMALL_PREFIX+'_mock',160+layer,170+layer))
+            self.resources[c]=dict(zip(RESOURCE_FIELDS,(64,6144,0,0,999,24,32,1,128,1,1),strict=True))
+
+    def test_small_tile_owns_28_complete_kernel_correlations(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry();r=attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.assertEqual((r['attention_variant'],r['cpu_range_count'],r['kernel_count']),(5,1,28))
+        self.assertEqual(r['groups']['small.b32']['layers_per_tile'],28)
+        self.assertEqual(r['groups']['small.b32']['recorded_resource_distributions'][0]['resources']['static_shared_bytes'],6144)
+        for defect in ('missing','duplicate','wrong-label','wrong-thread','wrong-geometry','wrong-prefix'):
+            self.small_geometry()
+            if defect=='missing':self.kernels.pop()
+            elif defect=='duplicate':self.kernels.append(self.kernels[0])
+            elif defect=='wrong-label':self.rows[0]=(*self.rows[0][:5],'aesir.attend.fused.b32',None)
+            elif defect=='wrong-thread':self.launches[1]=(111,112,self.outer[2]+1)
+            elif defect=='wrong-geometry':self.resources[1]['grid_y']=4
+            else:self.kernels[0]=(1,'foreign_kernel',160,170)
+            with self.subTest(defect=defect),self.assertRaises(ValueError):
+                attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
     def test_range_owner_order_count_overlap_and_namespace(self):
         for defect in ('missing','duplicate','overlap','order','thread','endthread','kind','textid','namespace','bounds','foreign-batch'):
             self.geometry();i=next(i for i,r in enumerate(self.rows) if r[5]=='aesir.attend.fused.b32');row=list(self.rows[i])
@@ -163,6 +189,19 @@ class Contracts(unittest.TestCase):
                 db.execute('UPDATE CUPTI_ACTIVITY_KIND_KERNEL SET '+column+'=? WHERE correlationId=4',(value,));db.commit()
             with patch('cuda_projection_ranges.attribute') as a,patch('cuda_fused_attention_ranges.attribute') as b,self.assertRaises(ValueError):self.analyze(p)
             a.assert_not_called();b.assert_not_called()
+
+    def test_small_mode_is_exclusive_and_routes_only_to_small_attributor(self):
+        p=self.database()
+        with patch('cuda_projection_ranges.attribute') as projection, \
+             patch('cuda_fused_attention_ranges.attribute_small',return_value=dict(passed=True,attention_variant=5)) as small:
+            result=cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+            self.assertEqual(result['small_attention_attribution']['attention_variant'],5)
+            small.assert_called_once();projection.assert_not_called()
+        for kwargs in (dict(small_attention=1),dict(small_attention=True),
+                       dict(small_attention=True,down128=True,record_resources=True,projection_tiles={1:1,4:0,32:0}),
+                       dict(small_attention=True,record_resources=True)):
+            with self.assertRaises(ValueError):cuda.analyze(p,**kwargs)
 
     def test_real_source_requires_closed_capability_complete_cpu_prior_binary(self):
         harness=model_contracts.Contracts('test_source_complete_predecessor_and_cpu_scope');harness.setUp();self.addCleanup(harness.doCleanups)
