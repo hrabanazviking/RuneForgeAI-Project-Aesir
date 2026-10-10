@@ -52,6 +52,7 @@ from tests.test_gguf_metadata_types import (
     test_gguf_tensor_directory_baseline,
     test_gguf_tensor_directory_interface,
     test_gguf_tensor_directory_adversarial,
+    test_gguf_tensor_directory_integration,
 )
 from tests.test_gguf_version_interface import (
     test_gguf_version_interface,
@@ -340,6 +341,7 @@ def main() raises:
     run_case(ledger, "gguf.tensor_directory_baseline", test_gguf_tensor_directory_baseline)
     run_case(ledger, "gguf.tensor_directory_interface", test_gguf_tensor_directory_interface)
     run_case(ledger, "gguf.tensor_directory_adversarial", test_gguf_tensor_directory_adversarial)
+    run_case(ledger, "gguf.tensor_directory_integration", test_gguf_tensor_directory_integration)
     print("")
 
     # --- Tokenizer ---
@@ -879,4 +881,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(216)
+    ledger.finish(217)

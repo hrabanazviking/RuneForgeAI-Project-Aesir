@@ -28,6 +28,7 @@ def make_metadata_file(
     tensor_rank: UInt32 = 0,
     tensor_dim: UInt64 = 1,
     tensor_offset: UInt64 = 0,
+    tensor_type: UInt32 = 1,
 ) raises -> String:
     var bytes = List[UInt8]()
     bytes.append(0x47)
@@ -81,12 +82,15 @@ def make_metadata_file(
         append_u32(bytes, tensor_rank)
         for _ in range(Int(tensor_rank)):
             append_u64(bytes, tensor_dim)
-        append_u32(bytes, 1)
+        append_u32(bytes, tensor_type)
         append_u64(bytes, tensor_offset)
         while len(bytes) % 32 != 0:
             bytes.append(0)
-        bytes.append(0)
-        bytes.append(0)
+        if tensor_type == 0:
+            append_u32(bytes, 1065353216)
+        else:
+            bytes.append(0)
+            bytes.append(0)
 
     var template = List[Int8]()
     for byte in String("/tmp/aesir-gguf-type-XXXXXX").as_bytes():
@@ -266,9 +270,33 @@ def test_gguf_tensor_directory_adversarial() raises:
     print("PASS: GGUF tensor directory arithmetic hostile boundaries")
 
 
+def test_gguf_tensor_directory_integration() raises:
+    var path = make_metadata_file("extension.label", 8, 1, 1, 0, 0)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(128)
+    var initial_offset = pool.offset
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if "GGUF is missing required tensor:" not in error_text:
+        raise Error("F32 tensor integration did not reach required tensor validation")
+    if "fixture.weight" not in seer.tensors or seer.tensor_types["fixture.weight"] != 0:
+        raise Error("F32 tensor did not map as the expected synthetic fixture")
+    if pool.offset != initial_offset + 1:
+        raise Error("F32 normalization conversion did not allocate exactly one element")
+    if seer.state != 4 or seer.is_mapped:
+        raise Error("F32 integration fixture did not clean mapped state")
+    print("PASS: F32 directory entry converts into one MimirWell element")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
     test_gguf_metadata_type_integration()
     test_gguf_tensor_directory_baseline()
     test_gguf_tensor_directory_interface()
     test_gguf_tensor_directory_adversarial()
+    test_gguf_tensor_directory_integration()

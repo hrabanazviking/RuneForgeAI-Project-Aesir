@@ -50,3 +50,8 @@ The parser rejects UInt64 dimensions above signed host `Int` range before conver
 ## AES500-145 arithmetic unit evidence
 
 Four hostile directory fixtures cover UInt64::MAX dimension admission, a two-dimensional 3,037,000,500 × 3,037,000,500 element-product overflow, F16 byte-size overflow above `Int::MAX / 2`, and a 32-byte-aligned relative offset whose addition to `data_offset` overflows. Each asserts its specific diagnostic, no tensor descriptor, FAILED state, and mmap cleanup. The focused Mojo module passes.
+
+
+## AES500-146 integration receipt
+
+A generated 1x1 F32 tensor record containing 1.0 is loaded through `mmap_and_load`. It maps with GGML type F32, consumes exactly one MimirWell element for conversion, then fails at the expected later missing-required-tensor check; mmap cleanup is asserted. This verifies only the exercised conversion and ordering.

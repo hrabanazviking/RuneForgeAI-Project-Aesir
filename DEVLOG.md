@@ -3807,3 +3807,8 @@ AES500-145 adds hostile boundaries for host-index dimension conversion,
 row/column product, F16 byte size, and aligned absolute-offset addition. Each
 rejects before descriptor insertion and cleans mapping state; focused module
 passes.
+
+
+AES500-146 exercises a 1x1 F32 directory entry through the full load path. It
+converts one element into MimirWell, reaches the later missing-required-tensor
+check, and cleans the mmap; no full-model claim is implied.

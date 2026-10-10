@@ -1388,3 +1388,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   element product, F16 byte size, and aligned absolute offset all reject before
   tensor-map mutation with cleanup. Focused module passes; registered as
   `gguf.tensor_directory_adversarial`.
+
+- [x] AES500-146 GGUF tensor integration: 1x1 F32 fixture maps and consumes
+  exactly one pool element before later model completeness rejection; cleanup
+  is asserted. Registered as `gguf.tensor_directory_integration`.
