@@ -138,7 +138,7 @@ def FW_BLOB_ROOT() -> String:
     return "/lib/firmware/hailo/hailo10h"
 
 
-fn _u32le(data: List[UInt8], off: Int) -> UInt32:
+def _u32le(data: List[UInt8], off: Int) -> UInt32:
     return (
         UInt32(data[off])
         | (UInt32(data[off + 1]) << 8)
@@ -167,16 +167,18 @@ def fw_is_loaded(bar0: BarMapping) raises -> Bool:
     return fw_atr_read_trsl1(bar0, 1) == PCIE_BLOCK_ADDRESS_ATR1()
 
 
-fn _write_bar4_chunk(bar4: BarMapping, offset: Int, data: List[UInt8], start: Int, length: Int) raises:
+def _write_bar4_chunk(bar4: BarMapping, offset: Int, data: List[UInt8], start: Int, length: Int) raises:
     var p = bar4.ptr()
     for i in range(length):
-        (p + offset + i).init_pointee_copy(data[start + i])
+        (p + offset + i)[] = data[start + i]
 
 
-fn _read_bar4_chunk(bar4: BarMapping, offset: Int, out: List[UInt8], start: Int, length: Int) raises:
+def _read_bar4_chunk(bar4: BarMapping, offset: Int, length: Int) raises -> List[UInt8]:
+    var out = List[UInt8]()
     var p = bar4.ptr()
     for i in range(length):
         out.append((p + offset + i)[])
+    return out^
 
 
 def fw_write_memory(
@@ -248,14 +250,18 @@ def fw_read_memory(
                 )
             )
             fw_atr_program(bar0, 0, base_addr)
-            _read_bar4_chunk(bar4, Int(src - base_addr), out, 0, first)
+            var c0 = _read_bar4_chunk(bar4, Int(src - base_addr), first)
+            for i in range(len(c0)):
+                out.append(c0[i])
             done = first
         while done < length:
             var chunk = length - done
             if chunk > Int(ATR_TABLE_SIZE()):
                 chunk = Int(ATR_TABLE_SIZE())
             fw_atr_program(bar0, 0, src + Int64(done))
-            _read_bar4_chunk(bar4, 0, out, done, chunk)
+            var cn = _read_bar4_chunk(bar4, 0, chunk)
+            for i in range(len(cn)):
+                out.append(cn[i])
             done += chunk
     except e:
         reg_write32(bar0, prev_base, prev_param)
@@ -380,7 +386,7 @@ def fw_sku_id(bar0: BarMapping, bar4: BarMapping) raises -> Int64:
     var sku = Int64(0)
     for i in range(6):
         if (Int(gpio) >> (1 + i)) & 1:
-            sku |= Int64(1) << i
+            sku |= Int64(1) << Int64(i)
     return sku
 
 
