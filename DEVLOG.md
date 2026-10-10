@@ -3917,3 +3917,8 @@ and RuneStreamDecoder without merging their representations. Master suite:
 AES500-167 confirms NBSP remains its own byte fallback even when the model
 vocabulary contains `▁`; ASCII-space-only rewrite stays explicit. Master suite:
 226 passed, zero failed, one skipped (227 total).
+
+
+AES500-168 primary review confirms preservation and ASCII-space-only rewrite
+from source and exact vectors. Agent thread cap blocks independent Auditor
+assignment, which is not claimed.

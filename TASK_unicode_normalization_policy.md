@@ -50,3 +50,8 @@ RuneWeaver byte-fallback IDs are passed through actual `<0xHH>` vocabulary spell
 ## AES500-167 adversarial receipt
 
 With `▁` present in vocabulary, NBSP followed by `a` encodes as `[2,3,4]` (`C2 A0` byte tokens plus `a`), proving the marker rewrite is limited to ASCII space. Master suite: 226 passed, zero failed, one skipped (227 total).
+
+
+## AES500-168 review receipt
+
+Primary review confirms `_initial_pieces` preserves non-ASCII code points, only branches on byte 0x20 for marker rewriting, and the test vectors distinguish composed/decomposed forms plus NBSP. Round-trip evidence uses RuneStreamDecoder and remains synthetic. Independent Auditor assignment is unavailable at the collaboration service thread cap; no separate reviewer signoff is claimed. This does not prove Unicode segmentation or malformed UTF-8 conformance.
