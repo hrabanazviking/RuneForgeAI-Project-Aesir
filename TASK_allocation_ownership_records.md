@@ -10,7 +10,9 @@ disposition only; it does not add a record type or change allocator behavior.
 
 - `aesir_engine/core/mimir_well.mojo::MimirWell.allocate(elements)` accepts an
   element count and returns a raw F16 pointer after advancing the arena's bump
-  offset, subject to existing capacity and arithmetic checks.
+  offset, subject to its current capacity comparison. The implementation
+  computes `offset + elements` directly; overflow-safe arithmetic for that
+  addition is not established.
 - `reset()` and `reset_kv_cache(...)` rewind arena state and permit storage to
   be reused. The current offset is allocator state, not a durable allocation
   identity.
