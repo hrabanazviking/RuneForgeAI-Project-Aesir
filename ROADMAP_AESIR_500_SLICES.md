@@ -645,6 +645,12 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   assertions. RTX 2060 Max-Q run passes; see
   `docs/evidence/cuda-allocation-lifetime-integration-2026-10-10/`. Claims stay
   within the synchronous selected-device probe.
+- AES500-027 adds CPU-only hostile registration, empty-batch, negative-pending,
+  underflow, and fenced/unfenced destruction count plus fenced byte-total
+  saturation cases. The focused suite and
+  full master suite pass (191/0/1); see
+  `docs/evidence/cuda-allocation-lifetime-unit-2026-10-10/`. Failure visibility
+  is asserted without claiming concurrent mutation or GPU fault injection.
 
 ## Status
 

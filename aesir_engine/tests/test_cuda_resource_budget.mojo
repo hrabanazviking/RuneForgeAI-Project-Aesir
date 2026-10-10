@@ -120,6 +120,30 @@ def test_cuda_allocation_tracker_adversarial() raises:
     if tracker.live_count != 2 or tracker.live_bytes != 48:
         raise Error("CUDA allocation tracker live accounting mismatch")
 
+    for invalid_size in range(-1, 1):
+        var size_rejected = False
+        try:
+            tracker.register(invalid_size)
+        except error:
+            size_rejected = True
+        if (
+            not size_rejected
+            or tracker.live_count != 2
+            or tracker.live_bytes != 48
+        ):
+            raise Error("CUDA tracker invalid registration mutated live state")
+    var invalid_batch_rejected = False
+    try:
+        tracker.validate_registration(0, 8)
+    except error:
+        invalid_batch_rejected = True
+    if (
+        not invalid_batch_rejected
+        or tracker.live_count != 2
+        or tracker.live_bytes != 48
+    ):
+        raise Error("CUDA tracker invalid batch mutated live state")
+
     var count_before = tracker.live_count
     var bytes_before = tracker.live_bytes
     var count_overflow_rejected = False
@@ -184,6 +208,46 @@ def test_cuda_allocation_tracker_adversarial() raises:
         or not invalid_pending.accounting_error
     ):
         raise Error("CUDA tracker accepted a negative pending-work count")
+
+    var saturated_fenced = CUDAAllocationTracker()
+    saturated_fenced.register(8)
+    saturated_fenced.fenced_owner_destroyed_count = 9223372036854775807
+    saturated_fenced.owner_destroyed(8, 0)
+    if (
+        saturated_fenced.live_count != 0
+        or saturated_fenced.live_bytes != 0
+        or saturated_fenced.fenced_owner_destroyed_count
+        != 9223372036854775807
+        or not saturated_fenced.accounting_error
+    ):
+        raise Error("CUDA tracker failed closed on fenced counter saturation")
+
+    var saturated_fenced_bytes = CUDAAllocationTracker()
+    saturated_fenced_bytes.register(8)
+    saturated_fenced_bytes.fenced_owner_destroyed_bytes = 9223372036854775804
+    saturated_fenced_bytes.owner_destroyed(8, 0)
+    if (
+        saturated_fenced_bytes.live_count != 0
+        or saturated_fenced_bytes.live_bytes != 0
+        or saturated_fenced_bytes.fenced_owner_destroyed_count != 0
+        or saturated_fenced_bytes.fenced_owner_destroyed_bytes
+        != 9223372036854775804
+        or not saturated_fenced_bytes.accounting_error
+    ):
+        raise Error("CUDA tracker failed closed on fenced byte saturation")
+
+    var saturated_unfenced = CUDAAllocationTracker()
+    saturated_unfenced.register(8)
+    saturated_unfenced.unfenced_owner_destroyed_count = 9223372036854775807
+    saturated_unfenced.owner_destroyed(8, 1)
+    if (
+        saturated_unfenced.live_count != 0
+        or saturated_unfenced.live_bytes != 0
+        or saturated_unfenced.unfenced_owner_destroyed_count
+        != 9223372036854775807
+        or not saturated_unfenced.accounting_error
+    ):
+        raise Error("CUDA tracker failed closed on unfenced counter saturation")
 
     tracker.owner_destroyed(8, 0)
     if not tracker.accounting_error:
