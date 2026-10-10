@@ -4,34 +4,29 @@
 # only). Used by the watchdog supervisor to spawn and reap the
 # inference process. kill/getpid/sleep live in hailbru.syscall already.
 
-from std.memory import UnsafePointer
 from std.ffi import external_call
+from std.memory.alloc import unsafe_alloc
+from std.memory import UnsafePointer
+from std.origin import MutUntrackedOrigin
+
+alias CU8 = UnsafePointer[UInt8, MutUntrackedOrigin]
+alias CArgv = UnsafePointer[CU8, MutUntrackedOrigin]
 
 
 def _fork() -> Int64:
     return external_call["fork", Int64]()
 
 
-def _execve(
-    path: UnsafePointer[UInt8], argv: UnsafePointer[UnsafePointer[UInt8]],
-    envp: UnsafePointer[UnsafePointer[UInt8]],
-) -> Int64:
+def _execve(path: CU8, argv: CArgv, envp: CArgv) -> Int64:
     return external_call["execve", Int64](path, argv, envp)
 
 
-def _waitpid(pid: Int64, status: UnsafePointer[Int32], opts: Int32) -> Int64:
+def _waitpid(pid: Int64, status: UnsafePointer[Int32, MutUntrackedOrigin], opts: Int32) -> Int64:
     return external_call["waitpid", Int64](pid, status, opts)
 
 
 def _exit(code: Int32):
     _ = external_call["_exit", Int64](Int64(code))
-
-
-def _strlen(p: UnsafePointer[UInt8]) -> Int:
-    var n = 0
-    while p[n] != 0:
-        n += 1
-    return n
 
 
 def spawn_process(
@@ -51,17 +46,13 @@ def spawn_process(
         return pid
     # --- child ---
     var argc = len(args) + 1
-    var argv = UnsafePointer[UnsafePointer[UInt8]].alloc(argc + 1)
-    var cstrs = List[UnsafePointer[UInt8]]()
+    var argv = unsafe_alloc[CU8](argc + 1)
     var p0 = to_cstr(prog)
-    cstrs.append(p0)
-    argv[0] = p0
+    argv[unsafe_offset=0] = p0
     for i in range(len(args)):
-        var pa = to_cstr(args[i])
-        cstrs.append(pa)
-        argv[i + 1] = pa
-    argv[argc] = UnsafePointer[UInt8]()
-    var null_env = UnsafePointer[UnsafePointer[UInt8]]()
+        argv[unsafe_offset=i + 1] = to_cstr(args[i])
+    argv[unsafe_offset=argc] = CU8()
+    var null_env = CArgv()
     _ = _execve(p0, argv, null_env)
     # execve only returns on failure.
     _exit(127)
@@ -71,10 +62,10 @@ def spawn_process(
 def waitpid_nonblock(pid: Int64) -> Int:
     # Returns: -2 = still running (WNOHANG, no status), -1 = error/
     # no such child, else the raw wait status int.
-    var status = UnsafePointer[Int32].alloc(1)
-    status[0] = 0
+    var status = unsafe_alloc[Int32](1)
+    status[unsafe_offset=0] = Int32(0)
     var r = _waitpid(pid, status, 1)  # WNOHANG = 1
-    var s = Int(status[0])
+    var s = Int(status[unsafe_offset=0])
     status.unsafe_free()
     if r == 0:
         return -2

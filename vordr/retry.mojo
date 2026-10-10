@@ -64,16 +64,24 @@ def load_retry_policy(arch: String, path: String) raises -> RetryPolicy:
     return RetryPolicy(Int(vals[0]), vals[1], vals[2], vals[3])
 
 
-def jittered_delay(policy: RetryPolicy, attempt: Int, rng_state: UInt64) -> Int64:
+def jittered_delay(
+    base_ms: Int64, factor: Int64, jitter_pct: Int64, attempt: Int,
+    rng_state: UInt64,
+) -> Int64:
     # Deterministic jitter: xorshift one step, uniform in
-    # [-jitter_pct, +jitter_pct] of the nominal delay.
+    # [-jitter_pct, +jitter_pct] of the nominal delay. Takes scalars
+    # (not the policy struct) so callers never copy the struct.
     var x = rng_state
     x ^= x << 13
     x ^= x >> 7
     x ^= x << 17
-    var span = 2 * policy.jitter_pct + 1
-    var off = Int64(x % UInt64(span)) - policy.jitter_pct
-    var nom = policy.nominal_ms(attempt)
+    var span = 2 * jitter_pct + 1
+    var off = Int64(x % UInt64(span)) - jitter_pct
+    var nom = base_ms
+    var k = 1
+    while k < attempt:
+        nom *= factor
+        k += 1
     var d = nom + nom * off // 100
     if d < 0:
         d = 0
@@ -87,8 +95,8 @@ struct RetryDriver:
     # many times, then succeeds — proving absorption is real.
     var policy: RetryPolicy
 
-    def __init__(out self, policy: RetryPolicy):
-        self.policy = policy
+    def __init__(out self, owned policy: RetryPolicy):
+        self.policy = policy^
 
     def should_retry(self, attempt: Int) -> Bool:
         return attempt <= self.policy.max_retries
@@ -136,7 +144,10 @@ struct RetryDriver:
                     "op '" + op_name + "' failed " + String(attempt)
                     + " times; escalating to PERSISTENT handling",
                 )
-            var delay = jittered_delay(self.policy, attempt, rng)
+            var delay = jittered_delay(
+                self.policy.base_ms, self.policy.factor,
+                self.policy.jitter_pct, attempt, rng,
+            )
             rng = rng + UInt64(0x9E3779B97F4A7C15)
             var nom = self.policy.nominal_ms(attempt)
             event_emit_slice(

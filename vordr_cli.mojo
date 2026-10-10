@@ -613,7 +613,9 @@ def cmd_selftest_retry(args: List[String]) raises -> Int:
     # Backoff timing: measure one real 100ms-nominal delay.
     var nom = policy.nominal_ms(1)
     var t0 = os_clock_ms(arch)
-    os_sleep_ms(arch, jittered_delay(policy, 1, UInt64(42)))
+    os_sleep_ms(arch, jittered_delay(
+        policy.base_ms, policy.factor, policy.jitter_pct, 1, UInt64(42)
+    ))
     var actual = os_clock_ms(arch) - t0
     var lo = nom * 80 // 100
     var hi = nom * 120 // 100 + 30  # +30ms scheduling slack
