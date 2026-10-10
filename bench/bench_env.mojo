@@ -313,7 +313,7 @@ def bench_stats_json(name: String, unit: String, work: Float64, mut st: TrialSta
     var r_min = work / st.max_ns()
     var r_max = work / st.min_ns()
     var sd = work / med - work / (med + st.stddev_ns())
-    var j = String("    \"name\": \"") + _json_escape(name) + String("\",\n")
+    var j = String("{\n    \"name\": \"") + _json_escape(name) + String("\",\n")
     j += String("    \"unit\": \"") + _json_escape(unit) + String("\",\n")
     j += String("    \"trials\": ") + String(st.count()) + String(",\n")
     j += String("    \"median\": ") + String(r_med) + String(",\n")
@@ -324,5 +324,5 @@ def bench_stats_json(name: String, unit: String, work: Float64, mut st: TrialSta
     j += String("    \"median_ns\": ") + String(med) + String(",\n")
     j += String("    \"min_ns\": ") + String(st.min_ns()) + String(",\n")
     j += String("    \"max_ns\": ") + String(st.max_ns()) + String(",\n")
-    j += String("    \"stddev_ns\": ") + String(st.stddev_ns())
+    j += String("    \"stddev_ns\": ") + String(st.stddev_ns()) + String("\n    }")
     return j
