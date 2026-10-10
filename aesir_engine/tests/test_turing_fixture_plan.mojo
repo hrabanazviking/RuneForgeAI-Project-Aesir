@@ -1,5 +1,6 @@
 """Portable hostile-metadata and physical-span admission, with no GPU allocation."""
 from core.dense_buffers import DenseBufferLayout
+from core.checked_span import checked_span
 from core.dense_gqa_profile import DenseGQAProfile, llama3_2_3b_profile
 from tests.turing_fixture_plan import TuringFixturePlan, same_fixture_layout
 
@@ -61,6 +62,20 @@ def rejected_identity(reference: DenseBufferLayout) raises:
 
 
 def test_turing_fixture_plan() raises:
+    var accepted_span = checked_span(0, 32, 32)
+    if accepted_span.start != 0 or accepted_span.end != 32:
+        raise Error("Checked fixture span geometry changed")
+    var empty_endpoint = checked_span(32, 0, 32)
+    if empty_endpoint.start != 32 or empty_endpoint.end != 32:
+        raise Error("Checked fixture span empty endpoint changed")
+    var overrun_rejected = False
+    try:
+        _ = checked_span(31, 2, 32)
+    except:
+        overrun_rejected = True
+    if not overrun_rejected:
+        raise Error("Checked fixture span admitted a capacity overrun")
+
     var profile = llama3_2_3b_profile()
     var reference = DenseBufferLayout(profile,1536,4)
     var original = reference

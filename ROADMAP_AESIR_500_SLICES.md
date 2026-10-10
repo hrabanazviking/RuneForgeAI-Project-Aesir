@@ -816,3 +816,12 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   hosted/full master execution remains pending on exact-head CI.
 - AES500-068 Auditor passes the subtraction-first implementation review with no
   correctness finding; equal units remain a caller contract, as documented.
+- AES500-066 integrates the helper in CPU-only `TuringFixturePlan.admit_buffers`
+  for declared activation/cache element counts while retaining exact-size and
+  layout identity gates. The focused fixture test passes with exact, short,
+  negative, zero, oversized, and Int-maximum actual lengths.
+- AES500-067 exercises the integration's adversarial actual-length matrix and
+  empty/overrun arithmetic boundaries; all reject/accept outcomes pass.
+- The Auditor review of AES500-066 passes: exact admission behavior is
+  preserved, no allocation or mutation was added, and no provenance or device
+  claim is inferred from the arithmetic span.

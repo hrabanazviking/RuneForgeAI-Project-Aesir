@@ -1,5 +1,6 @@
 """Pure admission for the isolated guarded matrix fixture; no runtime promotion."""
 from core.dense_buffers import DenseBufferLayout, buffer_add, buffer_mul
+from core.checked_span import checked_span
 from core.dense_gqa_profile import DenseGQAProfile
 from core.sampling_config import sampling_device_bytes
 
@@ -53,5 +54,8 @@ struct TuringFixturePlan(Copyable):
     def admit_buffers(self,layout: DenseBufferLayout,actual_a: Int,actual_kv: Int) raises:
         if not same_fixture_layout(layout,self.layout):
             raise Error("Matrix fixture layout changed after allocation")
-        if actual_a != self.activation_elements or actual_kv != self.cache_elements:
+        var activation_span = checked_span(0, self.activation_elements, actual_a)
+        var cache_span = checked_span(0, self.cache_elements, actual_kv)
+        if (activation_span.end != actual_a or cache_span.end != actual_kv or
+            actual_a != self.activation_elements or actual_kv != self.cache_elements):
             raise Error("Matrix fixture actual buffer span disagrees with plan")
