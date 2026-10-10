@@ -1447,3 +1447,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-160 byte BPE release gate: native build/help, master 222/0/1
   (223 total), documentation and whitespace checks pass; recent hosted runs
   remain in progress.
+
+- [x] AES500-161 Unicode normalization contract: `TASK_unicode_normalization_policy.md`
+  defines preservation, ASCII-space marker behavior, owning path, and explicit
+  Unicode/malformed-input scope limits before edits.

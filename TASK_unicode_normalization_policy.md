@@ -1,0 +1,29 @@
+# AES500-161 — Unicode normalization policy
+
+## Objective and owner
+
+Define Unicode normalization at the RuneWeaver text-to-piece boundary. Owner:
+`RuneWeaver._initial_pieces` in `aesir_engine/loader/tokenizer.mojo`, with
+byte fallback in `_append_piece_tokens`.
+
+## Current behavior and intended policy
+
+The tokenizer preserves input code points and performs no NFC/NFD/NFKC/NFKD
+normalization. Its explicit preprocessing is limited to replacing ASCII space
+with `▁` or `Ġ` when the corresponding marker is present in the vocabulary;
+otherwise the space remains literal. UTF-8 text is split into symbol substrings
+before vocabulary merge and byte fallback. Thus canonically equivalent but
+byte-distinct inputs such as composed `é` and `e` plus combining acute remain
+distinct sequences unless the model vocabulary merges them.
+
+The policy for this slice is preservation: never normalize caller text
+implicitly. Token IDs and decoded text depend on the model vocabulary, and
+normalization would alter token boundaries and may change meaning in some
+scripts. This policy is limited to RuneWeaver's current path and does not
+establish Unicode segmentation conformance or correctness for malformed UTF-8.
+
+## Acceptance and evidence
+
+AES500-162 captures composed/decomposed vectors and ASCII space-marker cases
+with source/tool identity. Tests must assert exact token IDs and no hidden
+canonical-equivalence claim. No tokenizer code changes in AES500-161.

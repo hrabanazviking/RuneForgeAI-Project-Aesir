@@ -3884,3 +3884,11 @@ chaining, byte fallback and synthetic evidence limits.
 AES500-160 closes the byte BPE release gate: native build/help and docs pass;
 master suite 222 passed, zero failed, one skipped (223 total). Recent hosted
 Actions runs remain in progress.
+
+
+## 2026-10-10 — AES500-161 Unicode normalization policy
+
+Defined RuneWeaver input preservation: no implicit normalization, with only the
+existing vocabulary-driven ASCII-space marker rewrite. Canonically equivalent
+strings may produce different token vectors; Unicode conformance and malformed
+UTF-8 remain separate.
