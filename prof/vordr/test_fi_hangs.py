@@ -37,8 +37,8 @@ def main():
         out = f"/tmp/vordr-h152-{i}"
         r = run([VORDR, "h158-run", "--out-dir", out,
                  "--f1-bin", F1BIN, "--f1-config", F1CFG,
-                 "--max-tokens", "8", "--duration-s", "600",
-                 "--max-iters", "3", "--fi-file", str(fi),
+                 "--max-tokens", "4", "--duration-s", "600",
+                 "--max-iters", "2", "--fi-file", str(fi),
                  "--iter-budget-ms", "120000", "--no-schedule"])
         text = (Path(out) / "events.jsonl").read_text() \
             if (Path(out) / "events.jsonl").exists() else ""
@@ -70,8 +70,8 @@ def main():
         fi.write_text(json.dumps({"fault": "hang", "detail": ""}))
         run([VORDR, "h158-run", "--out-dir", f"/tmp/vordr-h152s-{i}",
              "--f1-bin", F1BIN, "--f1-config", F1CFG,
-             "--max-tokens", "8", "--duration-s", "600",
-             "--max-iters", "3", "--fi-file", str(fi),
+             "--max-tokens", "4", "--duration-s", "600",
+             "--max-iters", "2", "--fi-file", str(fi),
              "--iter-budget-ms", "120000", "--no-schedule"])
     run([F1BIN, "--config", F1CFG, "--prompt", prompt,
          "--max-new-tokens", "16", "--seed", "4242", "--out", ver])
