@@ -24,3 +24,7 @@ def errno_error(op: String, path: String, e: Int64) -> Error:
 #   DoubleFree, UnknownBuffer, RegOutOfRange, RegUnaligned, ReadbackMismatch,
 #   IrqTimeout, IrqSetupFailed, FirmwareMissing, FirmwareCorrupt,
 #   FirmwareBootTimeout, DeviceNotReady, OsError
+# Campaign 5 additions (H081-H100):
+#   PowerTransitionFailed, PowerManagementUnsupported, DriverBindingMismatch,
+#   VendorMirrorMismatch, StepOmitted, BootHang, FirmwareBootBanked,
+#   DeviceRemoved, DeviceBusy

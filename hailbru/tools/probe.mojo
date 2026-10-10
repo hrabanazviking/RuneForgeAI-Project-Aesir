@@ -18,7 +18,9 @@ from hailbru.syscall import (
     O_WRONLY,
     os_clock_ms,
     os_close,
+    list_dir,
     os_mkdir,
+    os_sleep_ms,
     os_openat,
     os_read,
     os_write,
@@ -49,11 +51,25 @@ from hailbru.vfio import (
 from hailbru.uio import (
     uio_driver_link_target,
     uio_find_nodes,
+    uio_node_for_bdf,
     uio_open,
     uio_step_bind,
     uio_step_register_id,
     uio_step_restore,
     uio_step_unbind,
+)
+from hailbru.fwboot import (
+    STAGE1_TRIGGER,
+    STAGE2_TRIGGER,
+    STAGE3_TRIGGER,
+    fw_boot_status,
+    fw_enable_interrupts,
+    fw_is_loaded,
+    fw_parse_scu,
+    fw_sku_id,
+    fw_trigger,
+    fw_wait_boot_irq,
+    fw_write_memory,
 )
 from hailbru.dma import (
     DmaBuffer,
@@ -98,6 +114,24 @@ from hailbru.fw import (
     sha256_hex,
 )
 from std.ffi import external_call
+from hailbru.pm import (
+    PM_STATE_D0,
+    PM_STATE_D3HOT,
+    find_pm_cap,
+    pm_assert_state,
+    pm_read_pmcsr,
+    pm_read_power_state_file,
+    pm_set_state,
+    pm_state_name,
+)
+from hailbru.bringup import BringupOpts, bringup_dump_registers, run_bringup
+from hailbru.health_obs import health_sample
+from hailbru.guard import SessionGuard, guard_acquire, guard_release
+from hailbru.removal import (
+    watch_bar_emulated,
+    watcher_read32,
+    watcher_sever,
+)
 
 
 def emit(arch: String, s: String):
@@ -580,12 +614,15 @@ def cmd_irq_selftest(arch: String, args: List[String]) raises:
     except e:
         if String(e).find("MechanismUnavailable") < 0:
             raise herror("DmaError", "set_irqs wrong error")
+    # uio_irq_wait is REAL since 2026-10-10: poll(2) ignores negative
+    # fds, so fd=-1 must hit the timeout path (IrqTimeout), never hang
+    # or succeed.
     try:
         _ = uio_irq_wait(arch, -1, 100)
         raise herror("DmaError", "uio_irq_wait not caught")
     except e:
-        if String(e).find("MechanismUnavailable") < 0:
-            raise herror("DmaError", "uio_irq_wait wrong error")
+        if String(e).find("IrqTimeout") < 0:
+            raise herror("DmaError", "uio_irq_wait wrong error: " + String(e))
     emit(
         arch,
         "SELFTEST irq: synthetic wake OK, IrqTimeout in " + String(dt)
@@ -766,6 +803,573 @@ def cmd_fw_stage_selftest(arch: String, args: List[String]) raises:
     )
 
 
+def _str_bytes(s: String) -> List[UInt8]:
+    var bs = List[UInt8]()
+    for b in s.bytes():
+        bs.append(b)
+    return bs^
+
+
+def _parse_int(s: String) -> Int:
+    var bs = _str_bytes(trim(s))
+    var v = 0
+    var neg = False
+    var i = 0
+    if len(bs) > 0 and (bs[0] == 45 or bs[0] == 43):
+        neg = bs[0] == 45
+        i = 1
+    for j in range(i, len(bs)):
+        var b = bs[j]
+        if b < 48 or b > 57:
+            break
+        v = v * 10 + (Int(b) - 48)
+    return -v if neg else v
+
+
+def cmd_bringup(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var opts = BringupOpts(
+        get_flag(args, "--log", ""),
+        get_flag(args, "--omit-step", ""),
+        get_flag(args, "--stall-step", ""),
+        Int64(_parse_int(get_flag(args, "--step-budget-ms", "10000"))),
+    )
+    try:
+        emit(arch, run_bringup(arch, sysfs_root, bdf, opts))
+    except e:
+        # Leave the device undisturbed even on a failed bring-up.
+        try:
+            pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        except:
+            pass
+        raise e
+
+
+def cmd_pm_set(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var want = get_flag(args, "--state", "D0")
+    var target = PM_STATE_D0() if want == "D0" else PM_STATE_D3HOT()
+    var verified = pm_assert_state(arch, sysfs_root, bdf, target)
+    emit(arch, "{\"bdf\": \"" + bdf + "\", \"state\": \"" + verified + "\"}")
+
+
+def _fw_boot_session(
+    arch: String, sysfs_root: String, dev_root: String, bdf: String,
+    fw_root: String, as_root: Bool, status_only: Bool,
+) raises:
+    # Full firmware boot session (H074/H075/H076, real UIO path).
+    # ALWAYS restores the vendor driver binding, even on failure.
+    emit(arch, "FWBOOT begin bdf=" + bdf)
+    # D0 for BAR access.
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var bar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
+    var already = False
+    try:
+        already = fw_is_loaded(bar0)
+    except e:
+        unmap_bar(arch, bar0)
+        raise e
+    unmap_bar(arch, bar0)
+    emit(arch, "FWBOOT already_loaded=" + ("1" if already else "0"))
+    if already or status_only:
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        emit(arch, "FWBOOT done (no flash needed)")
+        return
+    if not as_root:
+        raise herror(
+            "PrivilegeRequired",
+            "fw-boot needs --as-root (BAR writes + driver unbind)",
+        )
+    # --- UIO session begin ---
+    var original = uio_step_unbind(arch, sysfs_root, bdf, True)
+    emit(arch, "FWBOOT unbound original_driver=" + original)
+    if original != "hailo1x":
+        raise herror(
+            "FwError",
+            "unexpected original driver '" + original
+            + "' (expected hailo1x) — refusing to proceed",
+        )
+    var restored = False
+    try:
+        uio_step_register_id(arch, sysfs_root, "1e60", "45c4", True)
+        uio_step_bind(arch, sysfs_root, bdf, True)
+        var node = uio_node_for_bdf(arch, sysfs_root, bdf)
+        emit(arch, "FWBOOT uio_node=" + node)
+        var uio_fd = os_openat(arch, dev_root + "/" + node, O_RDONLY(), 0)
+        if uio_fd < 0:
+            raise herror("UioError", "open " + node + " failed")
+        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, True)
+        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 0x4000, True)
+        try:
+            fw_enable_interrupts(wbar0)
+            # Stage 1: certificate + SCU firmware.
+            var cert = read_file_bytes(
+                arch, fw_root + "/customer_certificate.bin", 65536
+            )
+            fw_write_memory(wbar0, wbar4, 0xA0000, cert)
+            emit(arch, "FWBOOT stage1 cert_bytes=" + String(len(cert)))
+            var scu = read_file_bytes(
+                arch, fw_root + "/scu_fw.bin", 1048576
+            )
+            var parts = fw_parse_scu(scu)
+            fw_write_memory(wbar0, wbar4, 0x88000, parts.header)
+            fw_write_memory(wbar0, wbar4, 0x20000, parts.code)
+            fw_write_memory(wbar0, wbar4, 0x88018, parts.key)
+            fw_write_memory(wbar0, wbar4, 0x886A8, parts.content)
+            emit(
+                arch,
+                "FWBOOT stage1 scu code=" + String(len(parts.code))
+                + " key=" + String(len(parts.key))
+                + " content=" + String(len(parts.content)),
+            )
+            fw_trigger(wbar0, wbar4, STAGE1_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 5000):
+                raise herror("FwError", "stage 1 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage1 BOOT_IRQ ok")
+            var sku = fw_sku_id(wbar0, wbar4)
+            var dtb_name = "u-boot-default.dtb.signed"
+            if sku >= 0:
+                dtb_name = "u-boot-" + String(sku) + ".dtb.signed"
+            emit(arch, "FWBOOT sku_id=" + String(sku) + " dtb=" + dtb_name)
+            # Stage 2: device tree.
+            var dtb = read_file_bytes(
+                arch, fw_root + "/" + dtb_name, 262144
+            )
+            fw_write_memory(wbar0, wbar4, 0xA8004, dtb)
+            emit(arch, "FWBOOT stage2 dtb_bytes=" + String(len(dtb)))
+            fw_trigger(wbar0, wbar4, STAGE2_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 5000):
+                raise herror("FwError", "stage 2 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage2 BOOT_IRQ ok")
+            # Stage 3: SPL + fitImage + image-fs (tfa optional).
+            var spl = read_file_bytes(
+                arch, fw_root + "/u-boot-spl.bin", 1048576
+            )
+            fw_write_memory(wbar0, wbar4, 0x80300000, spl)
+            emit(arch, "FWBOOT stage3 spl_bytes=" + String(len(spl)))
+            try:
+                var tfa = read_file_bytes(
+                    arch, fw_root + "/u-boot-tfa.itb", 8388608
+                )
+                fw_write_memory(wbar0, wbar4, 0x8032C000, tfa)
+                emit(arch, "FWBOOT stage3 tfa_bytes=" + String(len(tfa)))
+            except:
+                emit(arch, "FWBOOT stage3 tfa missing (optional, skipped)")
+            var fit = read_file_bytes(
+                arch, fw_root + "/fitImage", 134217728
+            )
+            fw_write_memory(wbar0, wbar4, 0x88000000, fit)
+            emit(arch, "FWBOOT stage3 fit_bytes=" + String(len(fit)))
+            var fs = read_file_bytes(
+                arch, fw_root + "/image-fs", 536870912
+            )
+            fw_write_memory(wbar0, wbar4, 0x90000000, fs)
+            emit(arch, "FWBOOT stage3 fs_bytes=" + String(len(fs)))
+            fw_trigger(wbar0, wbar4, STAGE3_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 40000):
+                raise herror("FwError", "stage 3 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage3 BOOT_IRQ ok")
+            var loaded = fw_is_loaded(wbar0)
+            var bstatus = fw_boot_status(wbar0, wbar4)
+            emit(
+                arch,
+                "FWBOOT verify loaded=" + ("1" if loaded else "0")
+                + " boot_status=" + String(bstatus),
+            )
+            if not loaded or bstatus != 1:
+                raise herror(
+                    "FwError",
+                    "boot verification failed",
+                )
+            emit(arch, "FWBOOT SUCCESS firmware booted")
+        except e:
+            unmap_bar(arch, wbar4)
+            unmap_bar(arch, wbar0)
+            _ = os_close(arch, uio_fd)
+            raise e
+        unmap_bar(arch, wbar4)
+        unmap_bar(arch, wbar0)
+        _ = os_close(arch, uio_fd)
+    except e:
+        restored = True
+        var rest = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWBOOT restored driver=" + rest + " (after error)")
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        raise e
+    if not restored:
+        var rest2 = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWBOOT restored driver=" + rest2)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    emit(arch, "FWBOOT done")
+
+
+def cmd_fw_msi_test(arch: String, args: List[String]) raises:
+    # H069 real: UIO session -> enable interrupts -> firmware soft reset
+    # -> wait for the SOFT_RESET_IRQ MSI on /dev/uioN -> verify the
+    # device reboots itself -> restore hailo1x. ALWAYS restores.
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var dev_root = get_flag(args, "--dev-root", "/dev")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var as_root = has_flag(args, "--as-root")
+    if not as_root:
+        raise herror(
+            "PrivilegeRequired", "fw-msi-test needs --as-root"
+        )
+    emit(arch, "FWMSI begin bdf=" + bdf)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var original = uio_step_unbind(arch, sysfs_root, bdf, True)
+    emit(arch, "FWMSI unbound original_driver=" + original)
+    if original != "hailo1x":
+        raise herror(
+            "FwError",
+            "unexpected original driver '" + original + "' — refusing",
+        )
+    var restored = False
+    try:
+        uio_step_register_id(arch, sysfs_root, "1e60", "45c4", True)
+        uio_step_bind(arch, sysfs_root, bdf, True)
+        var node = uio_node_for_bdf(arch, sysfs_root, bdf)
+        emit(arch, "FWMSI uio_node=" + node)
+        var uio_fd = os_openat(arch, dev_root + "/" + node, O_RDONLY(), 0)
+        if uio_fd < 0:
+            raise herror("UioError", "open " + node + " failed")
+        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, True)
+        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 0x4000, True)
+        try:
+            fw_enable_interrupts(wbar0)
+            var pre_loaded = fw_is_loaded(wbar0)
+            emit(arch, "FWMSI pre loaded=" + ("1" if pre_loaded else "0"))
+            # Trigger firmware soft reset: u32 8 to BAR4 + 0x1754.
+            reg_write32(wbar4, 0x1754, UInt32(8))
+            emit(arch, "FWMSI soft-reset triggered")
+            var got_irq = False
+            var got_srst_bit = False
+            try:
+                var cnt = uio_irq_wait(arch, uio_fd, 5000)
+                got_irq = True
+                var istatus = reg_read32(wbar0, 0x018C)
+                got_srst_bit = (Int(istatus) & 0x01000000) != 0
+                emit(
+                    arch,
+                    "FWMSI msi count=" + String(cnt) + " istatus=0x"
+                    + String(Int(istatus))
+                    + " srst_bit=" + ("1" if got_srst_bit else "0"),
+                )
+            except e:
+                emit(arch, "FWMSI irq wait failed: " + String(e))
+                raise e
+            # The firmware reboots itself: poll for loaded + boot_status.
+            var back = False
+            for i in range(30):
+                os_sleep_ms(arch, 1000)
+                if fw_is_loaded(wbar0):
+                    var bs = fw_boot_status(wbar0, wbar4)
+                    if bs == 1:
+                        back = True
+                        break
+            emit(arch, "FWMSI device_back=" + ("1" if back else "0"))
+            if not got_irq or not got_srst_bit or not back:
+                raise herror("FwError", "MSI test failed")
+            emit(arch, "FWMSI SUCCESS real MSI received")
+        except e:
+            unmap_bar(arch, wbar4)
+            unmap_bar(arch, wbar0)
+            _ = os_close(arch, uio_fd)
+            raise e
+        unmap_bar(arch, wbar4)
+        unmap_bar(arch, wbar0)
+        _ = os_close(arch, uio_fd)
+    except e:
+        restored = True
+        var rest = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWMSI restored driver=" + rest + " (after error)")
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        raise e
+    if not restored:
+        var rest2 = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWMSI restored driver=" + rest2)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    emit(arch, "FWMSI done")
+
+
+def cmd_fw_boot(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var dev_root = get_flag(args, "--dev-root", "/dev")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var fw_root = get_flag(args, "--fw-root", "/lib/firmware/hailo/hailo10h")
+    var as_root = has_flag(args, "--as-root")
+    var status_only = has_flag(args, "--status-only")
+    _fw_boot_session(
+        arch, sysfs_root, dev_root, bdf, fw_root, as_root, status_only
+    )
+
+
+def cmd_pm_get(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var pmcap = find_pm_cap(arch, sysfs_root, bdf)
+    var pmcsr = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap)
+    var ps = pm_read_power_state_file(arch, sysfs_root, bdf)
+    emit(
+        arch,
+        "{\"bdf\": \"" + bdf + "\", \"pmcsr\": " + String(pmcsr)
+        + ", \"pmcsr_state\": \"" + pm_state_name(pmcsr & 0x3)
+        + "\", \"power_state\": \"" + ps + "\"}",
+    )
+
+
+def cmd_snapshot(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var label = get_flag(args, "--state-label", "unknown")
+    var vals = bringup_dump_registers(arch, sysfs_root, bdf)
+    var names = List[String]()
+    for i in range(16):
+        names.append("cfg_0x" + String(i * 4))
+    names.append("bar0_0x0098")
+    names.append("bar0_0x0188")
+    names.append("bar0_0x018c")
+    names.append("bar0_0x0400")
+    names.append("bar0_0x0500")
+    var out = (
+        "{\"bdf\": \"" + bdf + "\", \"state_label\": \"" + label
+        + "\", \"registers\": {"
+    )
+    for i in range(len(vals)):
+        if i > 0:
+            out += ", "
+        out += "\"" + names[i] + "\": " + String(vals[i])
+    var pmcap = find_pm_cap(arch, sysfs_root, bdf)
+    var pmcsr = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap)
+    out += (
+        "}, \"pmcsr\": " + String(pmcsr) + ", \"power_state\": \""
+        + pm_read_power_state_file(arch, sysfs_root, bdf) + "\"}"
+    )
+    emit(arch, out)
+
+
+def cmd_health(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var thermal = get_flag(
+        args, "--thermal-path", "/sys/class/thermal/thermal_zone0/temp"
+    )
+    var n = _parse_int(get_flag(args, "--samples", "1"))
+    for _ in range(n):
+        var s = health_sample(arch, sysfs_root, bdf, thermal)
+        emit(arch, s.to_json())
+
+
+def _proc_cpu_ms(arch: String) raises -> Int64:
+    # utime+stime from /proc/self/stat (fields 14,15), in ms (HZ=100).
+    var data = read_file_str(arch, "/proc/self/stat", 4096)
+    var bs = _str_bytes(trim(data))
+    var close_paren = -1
+    for i in range(len(bs)):
+        if bs[i] == 41:  # ")"
+            close_paren = i
+    var start = 0
+    if close_paren >= 0 and close_paren + 2 < len(bs):
+        start = close_paren + 2
+    var fields = List[String]()
+    var cur = ""
+    for i in range(start, len(bs)):
+        var b = bs[i]
+        if b == 32:
+            fields.append(cur)
+            cur = ""
+        else:
+            cur += String(chr(Int(b)))
+    fields.append(cur)
+    if len(fields) < 15:
+        return 0
+    return (Int64(_parse_int(fields[11])) + Int64(_parse_int(fields[12]))) * 10
+
+
+def cmd_drift(arch: String, args: List[String]) raises:
+    # H097 drift detector: hold D0, sample the 5 BAR0 status registers
+    # every interval, compare against refs (off:value:mask triples),
+    # emit drift events; restore D3hot at the end. --inject flips one
+    # register's read value to prove detection.
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var duration_s = Int64(_parse_int(get_flag(args, "--duration-s", "3600")))
+    var interval_s = Int64(_parse_int(get_flag(args, "--interval-s", "5")))
+    var inject_off = _parse_int(get_flag(args, "--inject", "-1"))
+    var refs_raw = get_flag(args, "--refs", "")
+    var offs = List[Int]()
+    var vals = List[Int]()
+    var masks = List[Int]()
+    if refs_raw != "":
+        # Manual split of "off:value:mask,off:value:mask,...".
+        var rbs = _str_bytes(refs_raw)
+        var triples = List[String]()
+        var cur_t = ""
+        for i in range(len(rbs)):
+            if rbs[i] == 44:  # ","
+                triples.append(cur_t)
+                cur_t = ""
+            else:
+                cur_t += String(chr(Int(rbs[i])))
+        triples.append(cur_t)
+        for ti in range(len(triples)):
+            var tbs = _str_bytes(triples[ti])
+            var parts = List[String]()
+            var cur_p = ""
+            for i in range(len(tbs)):
+                if tbs[i] == 58:  # ":"
+                    parts.append(cur_p)
+                    cur_p = ""
+                else:
+                    cur_p += String(chr(Int(tbs[i])))
+            parts.append(cur_p)
+            if len(parts) == 3:
+                offs.append(Int(parse_u64_hex(parts[0])))
+                vals.append(Int(parse_u64_hex(parts[1])))
+                masks.append(Int(parse_u64_hex(parts[2])))
+    pm_set_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var cpu0 = _proc_cpu_ms(arch)
+    var t0 = os_clock_ms(arch)
+    var samples = 0
+    var events = 0
+    var detected_inject = 0
+    try:
+        while os_clock_ms(arch) - t0 < duration_s * 1000:
+            var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
+            var ro = List[Int]()
+            ro.append(0x0098)
+            ro.append(0x0188)
+            ro.append(0x018C)
+            ro.append(0x0400)
+            ro.append(0x0500)
+            for i in range(5):
+                var v = Int(reg_read32(m, ro[i]))
+                if ro[i] == 0x0098:
+                    v = Int(reg_read16(m, ro[i]))
+                if ro[i] == inject_off:
+                    v = v ^ 0xFFFFFFFF
+                    detected_inject += 1
+                for j in range(len(offs)):
+                    if offs[j] == ro[i]:
+                        var masked_v = v & masks[j]
+                        var masked_ref = vals[j] & masks[j]
+                        if masked_v != masked_ref:
+                            events += 1
+                            emit(
+                                arch,
+                                "{\"event\": \"drift\", \"offset\": \""
+                                + String(ro[i]) + "\", \"got\": "
+                                + String(v) + ", \"expected\": "
+                                + String(vals[j]) + ", \"mask\": "
+                                + String(masks[j]) + "}",
+                            )
+            unmap_bar(arch, m)
+            samples += 1
+            os_sleep_ms(arch, interval_s * 1000)
+    except e:
+        try:
+            pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        except:
+            pass
+        raise e
+    pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    var cpu1 = _proc_cpu_ms(arch)
+    var wall_ms = os_clock_ms(arch) - t0
+    var cpu_pct = 0.0
+    if wall_ms > 0:
+        cpu_pct = Float64(cpu1 - cpu0) / Float64(wall_ms) * 100.0
+    emit(
+        arch,
+        "{\"drift_run\": true, \"samples\": " + String(samples)
+        + ", \"drift_events\": " + String(events)
+        + ", \"injected_reads\": " + String(detected_inject)
+        + ", \"cpu_pct\": " + String(cpu_pct) + "}",
+    )
+
+
+def cmd_guard_selftest(arch: String, args: List[String]) raises:
+    var lock = get_flag(args, "--lock-path", "/tmp/hailbru_guard_test.lock")
+    var g = SessionGuard(lock)
+    var w1 = guard_acquire(arch, g)
+    if w1 != "":
+        raise herror("DmaError", "unexpected warning on clean acquire")
+    # Second acquire while held -> DeviceBusy naming the holder.
+    var g2 = SessionGuard(lock)
+    var saw_busy = False
+    try:
+        _ = guard_acquire(arch, g2)
+    except e:
+        if String(e).find("DeviceBusy") >= 0:
+            saw_busy = True
+    if not saw_busy:
+        raise herror("DmaError", "second acquire did not raise DeviceBusy")
+    guard_release(arch, g)
+    # Stale lock: dead PID recorded -> reclaim with warning.
+    write_file_str(arch, lock, "99999999\n")
+    var g3 = SessionGuard(lock)
+    var w3 = guard_acquire(arch, g3)
+    if w3.find("stale") < 0:
+        raise herror("DmaError", "stale lock not reclaimed with warning")
+    guard_release(arch, g3)
+    emit(arch, "SELFTEST guard: DeviceBusy contention + stale reclaim — OK")
+
+
+def _fd_count(arch: String) -> Int:
+    var n = 0
+    try:
+        var names = list_dir(arch, "/proc/self/fd")
+        n = len(names)
+    except:
+        pass
+    return n
+
+
+def cmd_removal_selftest(arch: String, args: List[String]) raises:
+    var path = get_flag(args, "--workdir", "/tmp/hailbru_removal_test")
+    _ = os_mkdir(arch, path, 0o755)
+    var img = path + "/bar.bin"
+    var wfd = os_openat(arch, img, O_WRONLY() | O_CREAT() | O_TRUNC(), 0o644)
+    var z = unsafe_alloc[UInt8](4096)
+    for i in range(4096):
+        z[unsafe_offset=i] = 0
+    _ = os_write(arch, wfd, z, 4096)
+    z.unsafe_free()
+    _ = os_close(arch, wfd)
+    var fds0 = _fd_count(arch)
+    var w = watch_bar_emulated(arch, img, 4096)
+    var v0 = watcher_read32(arch, w, 0)
+    _ = v0
+    watcher_sever(arch, w)
+    var saw_removed = False
+    var t0 = os_clock_ms(arch)
+    try:
+        _ = watcher_read32(arch, w, 0)
+    except e:
+        if String(e).find("DeviceRemoved") >= 0:
+            saw_removed = True
+    var dt = os_clock_ms(arch) - t0
+    var fds1 = _fd_count(arch)
+    if not saw_removed:
+        raise herror("DmaError", "severed read did not raise DeviceRemoved")
+    if dt > 1000:
+        raise herror(
+            "DmaError", "DeviceRemoved took " + String(dt) + "ms (>1s)"
+        )
+    if fds1 != fds0:
+        raise herror(
+            "DmaError",
+            "fd leak on removal path: " + String(fds0) + " -> "
+            + String(fds1),
+        )
+    emit(
+        arch,
+        "SELFTEST removal: DeviceRemoved in " + String(dt)
+        + "ms, fds " + String(fds0) + "->" + String(fds1) + " — OK",
+    )
+
+
 def main() raises:
     var arch = detect_arch()
     var cli_arch = proc_getenv(arch, "HAILBRU_CLI_ARCH")
@@ -781,7 +1385,8 @@ def main() raises:
             "usage: probe <discover|identity|bars|link|mechanism|"
             "fwcheck|regs-probe|regs-coherency|regs-selftest|dma-selftest|irq-selftest|"
             "boot-selftest|ready-selftest|sha256-selftest|vfio-negative|"
-            "uio-step|bdf-selftest|fw-stage-selftest> [flags]",
+            "uio-step|bdf-selftest|fw-stage-selftest|bringup|pm-set|pm-get|"
+            "snapshot|health|drift|guard-selftest|removal-selftest> [flags]",
         )
     var sub = argv[1]
     if sub == "discover":
@@ -820,5 +1425,25 @@ def main() raises:
         cmd_bdf_selftest(arch, argv)
     elif sub == "fw-stage-selftest":
         cmd_fw_stage_selftest(arch, argv)
+    elif sub == "fw-boot":
+        cmd_fw_boot(arch, argv)
+    elif sub == "fw-msi-test":
+        cmd_fw_msi_test(arch, argv)
+    elif sub == "bringup":
+        cmd_bringup(arch, argv)
+    elif sub == "pm-set":
+        cmd_pm_set(arch, argv)
+    elif sub == "pm-get":
+        cmd_pm_get(arch, argv)
+    elif sub == "snapshot":
+        cmd_snapshot(arch, argv)
+    elif sub == "health":
+        cmd_health(arch, argv)
+    elif sub == "drift":
+        cmd_drift(arch, argv)
+    elif sub == "guard-selftest":
+        cmd_guard_selftest(arch, argv)
+    elif sub == "removal-selftest":
+        cmd_removal_selftest(arch, argv)
     else:
         raise herror("BadSysfs", "unknown subcommand '" + sub + "'")

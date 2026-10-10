@@ -4,6 +4,29 @@ Every item F3-banked in Campaign 4, with the EXACT prerequisites to unblock
 it. The moment Volmarr rebuilds Mimir's kernel, this path is clear with
 zero re-research.
 
+## §0. UNBLOCK STATUS — MET WITH CORRECTIONS (2026-10-10 ~09:17 EDT)
+
+Volmarr's tryboot of `6.12.112-v8-16k-hailo+` succeeded; Mimir runs it.
+Worker-verified (device.invoke recon — supersedes the coordinator's
+summary where they differ):
+
+| Criterion (from §1) | Status | Evidence |
+|---|---|---|
+| Kernel `6.12.112-v8-16k-hailo+` booted | MET | `uname -r` |
+| VFIO framework live | MET | `/dev/vfio/vfio` (10,196); dmesg "VFIO - User Level meta-driver version: 0.3"; CONFIG_VFIO=y, VFIO_PCI=y, VFIO_IOMMU_TYPE1=y (builtin) |
+| CONFIG_UIO_PCI_GENERIC | MET | `=m`; modules `uio`, `uio_pdrv_genirq` loaded |
+| CONFIG_ARM_SMMU | MET (with caveat) | `=y`; 3 platform IOMMU devices present — **but no PCI device has an iommu_group** |
+| CONFIG_VFIO_NOIOMMU | **NOT SET** | `# CONFIG_VFIO_NOIOMMU is not set`; no /dev/vfio/noiommu-0 |
+| Old kernel + config.txt fallback | INTACT | per Volmarr's tryboot plan (untouched) |
+
+**Consequence (Sólrún addendum 2026-10-10):** VFIO is live but
+**unusable for 0001:01:00.0** — no IOMMU group, no noiommu fallback.
+The real unblocked path is **UIO_PCI_GENERIC** (F3-2), not VFIO (F3-1).
+DMA has no IOMMU: use physical addresses via /proc/self/pagemap with
+an uncached /dev/mem O_SYNC CPU alias (no cache maintenance needed).
+Vendor driver `hailo1x` (hailo1x_pci 5.3.0) is still bound; /dev/h1x-0
+(508,0) exists; fuser shows no userspace holder. Device parked D3hot.
+
 ## §1. Kernel rebuild (operator action — Volmarr's hands-only decision)
 
 **Why:** Mimir's kernel (6.12.109+rpt-rpi-2712) has CONFIG_VFIO,
@@ -50,21 +73,27 @@ sudo ./probe mechanism     # selected should become "vfio" (not sysfs-recon)
 
 ## §2. Banked items and their exact unblock paths
 
-### F3-1: IOMMU DMA (`vfio_iommu_map`, H066)
+### F3-1: IOMMU DMA (`vfio_iommu_map`, H066) — SUPERSEDED
 
-- **Prerequisite:** §1 complete; `probe mechanism` selects `vfio`.
-- **Steps:** open `/dev/vfio/vfio` (vfio_open_container), bind 0001:01:00.0
-  to vfio-pci (operator-supervised; unbinds the vendor driver —
-  see §3), map DMA buffers via `VFIO_IOMMU_MAP_DMA`.
-- **Unblock criterion:** `vfio_iommu_map` returns without `IommuError`;
-  a DMA write/readback through the IOMMU round-trips.
-- **HAILBRÚ status:** implemented, fail-closed (`IommuError` today).
+- **Status 2026-10-10:** BLOCKED-WITH-EVIDENCE, not unblocked.
+  0001:01:00.0 has no IOMMU group and CONFIG_VFIO_NOIOMMU is not set —
+  VFIO cannot attach this device. See §0.
+- **Replacement path (real):** physical-address DMA without IOMMU —
+  `/proc/self/pagemap` translation (root) + uncached `/dev/mem`
+  O_SYNC CPU alias for the DMA buffers (no userspace cache
+  maintenance possible per H018; the uncached alias sidesteps it).
+  Map carefully, unmap on teardown — there is NO DMA isolation.
+- **Unblock criterion (revised):** a DMA buffer's physical address is
+  translated and stable across mlock; device-visible via the ATR
+  windows (F3-4).
+- **HAILBRÚ status:** `vfio_iommu_map` stays fail-closed
+  (`IommuError`); the phys-DMA path is implemented in C5.
 
-### F3-2: UIO bind path (H065)
+### F3-2: UIO bind path (H065) — THE REAL PATH (unblocked 2026-10-10)
 
-- **Prerequisite:** §1 complete; `/sys/bus/pci/drivers/uio_pci_generic`
-  exists.
-- **Steps (operator-supervised, reversible):**
+- **Prerequisite:** §0 MET; `/sys/bus/pci/drivers/uio_pci_generic`
+  exists (module `uio_pci_generic`, `=m`).
+- **Steps (reversible; restore hailo1x after every session):**
   `probe uio-step --sysfs-root /sys --bdf 0001:01:00.0 --step unbind --as-root`
   (records original driver) → `--step register` → `--step bind` →
   verify `/dev/uioN` appears → `--step restore --original <name>` to
@@ -72,38 +101,44 @@ sudo ./probe mechanism     # selected should become "vfio" (not sysfs-recon)
 - **Unblock criterion:** `/dev/uioN` node appears; `uio_open` succeeds.
 - **HAILBRÚ status:** implemented with privilege + presence gates.
 
-### F3-3: Device MSI interrupts (H069)
+### F3-3: Device MSI interrupts (H069) — via UIO (unblocked 2026-10-10)
 
-- **Prerequisite:** F3-1 (VFIO) — single MSI confirmed at config 0xE0.
-- **Steps:** `VFIO_DEVICE_SET_IRQS` with an eventfd; `irq_wait` on the
-  fd; acknowledge via the BAR0+0x018C read-and-clear.
-- **Unblock criterion:** `irq-selftest`-style synthetic signal replaced
-  by a real device MSI; `irq_wait` returns on interrupt, not timeout.
+- **Prerequisite:** F3-2 (UIO) — single MSI confirmed at config 0xE0
+  (no MSI-X, H062).
+- **Steps:** uio_pci_generic sets up MSI; interrupts surface as
+  read() events on /dev/uioN (`uio_irq_wait`); acknowledge via the
+  BAR0+0x018C status read.
+- **Unblock criterion:** a real device MSI (DMA completion or
+  doorbell) arrives on /dev/uioN; `uio_irq_wait` returns on interrupt,
+  not timeout.
 - **HAILBRÚ status:** eventfd/ppoll plumbing real and tested
-  (10000/10000 exact); the VFIO irq-set is F3-gated.
+  (10000/10000 exact); UIO IRQ wait executed for real in C5.
 
-### F3-4: Firmware DMA upload + boot handshake (H074/H075/H076)
+### F3-4: Firmware DMA upload + boot handshake (H074/H075/H076) — attempted for real (unblocked 2026-10-10)
 
-- **Prerequisite:** F3-1 (DMA) + F3-3 (IRQs) + operator supervision.
-- **Steps:** stage blobs (H073 verified), program ATR windows at BAR0+0x700
-  with IOMMU-mapped addresses, DMA the three boot stages via the VDMA
-  descriptor ring, wait for channel-bitmap completions, trigger each boot
-  step, poll `BootPoller`/`ReadyPoller`.
-- **Unblock criterion:** device reports ready; `/dev/hailo*` or HAILBRÚ
-  ready-poll succeeds.
-- **HAILBRÚ status:** chunk planner, SHA-256 staging verify, and pollers
-  implemented and self-tested; the DMA/IRQ halves are F3-gated.
+- **Prerequisite:** F3-2 (UIO) + phys-DMA path + operator supervision
+  (coordinator directive 2026-10-10).
+- **Steps:** stage blobs (H073 verified, /lib/firmware/hailo/hailo10h/),
+  program ATR windows at BAR0+0x700 with PHYSICAL DMA addresses
+  (no IOMMU), DMA the three boot stages via the VDMA descriptor ring
+  in uncached host memory, wait for channel-bitmap completions via
+  UIO MSI, trigger each boot step, poll `BootPoller`/`ReadyPoller`.
+- **Unblock criterion:** device reports ready; HAILBRÚ ready-poll
+  (vendor mirror + status) succeeds post-boot.
+- **HAILBRÚ status:** chunk planner, SHA-256 staging verify, and
+  pollers implemented and self-tested; the DMA/IRQ halves executed
+  for real in C5 — outcome recorded per-step, fail-closed.
 
-### F3-5: Live register writes (H068 full)
+### F3-5: Live register writes (H068 full) — unblocked 2026-10-10
 
-- **Prerequisite:** vendor driver unbound under operator supervision
-  (F3-2 or direct unbind) — H005 §6 forbids writes while it is bound.
-- **Steps:** map BAR0 writable, `reg_write32_verified` on a
-  study-sanctioned register, readback check.
+- **Prerequisite:** vendor driver unbound via F3-2 (H005 §6 forbids
+  writes while it is bound).
+- **Steps:** map BAR0 writable via the UIO path, `reg_write32_verified`
+  on a study-sanctioned register (ATR windows 0x0700+), readback check.
 - **Unblock criterion:** `ReadbackMismatch` never raised across the
   write/readback matrix on live hardware.
 - **HAILBRÚ status:** write/readback implemented and tested on emulated
-  BARs (50/50); live writes refused by policy today.
+  BARs (50/50); executed for real on the ATR windows in C5.
 
 ## §3. Safety rules for the unblock
 

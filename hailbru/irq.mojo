@@ -8,12 +8,12 @@
 #  - VFIO: eventfd + VFIO_DEVICE_SET_IRQS ioctl, poll/read the eventfd.
 #  - UIO: blocking read() on /dev/uioN returning the interrupt count.
 #
-# STATUS ON MIMIR (2026-10-10): the eventfd + ppoll PLUMBING is real and
-# fully tested (synthetic interrupts, 10k-iteration loop, timeout path,
-# teardown/re-setup). Device interrupt REGISTRATION is F3-BANKED: MSI
-# vector allocation needs a kernel driver mechanism (VFIO/UIO), both
-# absent per H004. The wait loop below is the completion-signaling path
-# all future command submission will use.
+# STATUS ON MIMIR (2026-10-10, kernel 6.12.112-v8-16k-hailo+): the eventfd
+# + ppoll PLUMBING is real and fully tested (synthetic interrupts,
+# 10k-iteration loop, timeout path, teardown/re-setup). UIO MSI is REAL:
+# uio_pci_generic binds 0001:01:00.0 and uio_irq_wait() blocks on
+# /dev/uioN for device MSIs (H069). VFIO irq-set stays F3-gated
+# (no IOMMU group for this device).
 
 from hailbru.errors import herror
 from hailbru.syscall import (
@@ -165,13 +165,61 @@ def irq_vfio_set_irqs(
 
 
 def uio_irq_wait(arch: String, uio_fd: Int64, timeout_ms: Int64) raises -> Int64:
-    # UIO path: blocking read() on /dev/uioN returns the interrupt
-    # count; F3-BANKED (no /dev/uio* on this kernel).
-    _ = timeout_ms
-    raise herror(
-        "MechanismUnavailable",
-        "UIO blocking interrupt read unavailable: no /dev/uio* "
-        "(H004/H013) — F3-banked pending operator kernel rebuild",
+    # UIO path (REAL since 2026-10-10): ppoll /dev/uioN for readability,
+    # then read the u32 interrupt count. Timeout -> named IrqTimeout.
+    # struct pollfd { int fd; short events; short revents; } = 8 bytes.
+    var pfds = unsafe_alloc[UInt8](8)
+    for k in range(4):
+        pfds[unsafe_offset=k] = UInt8(
+            (UInt64(uio_fd) >> UInt64(8 * k)) & UInt64(0xFF)
+        )
+    pfds[unsafe_offset=4] = UInt8(1)  # POLLIN
+    pfds[unsafe_offset=5] = UInt8(0)
+    pfds[unsafe_offset=6] = UInt8(0)  # revents
+    pfds[unsafe_offset=7] = UInt8(0)
+    var ts = unsafe_alloc[UInt8](16)
+    for i in range(8):
+        ts[unsafe_offset=i] = UInt8(
+            (UInt64(timeout_ms // 1000) >> UInt64(8 * i)) & UInt64(0xFF)
+        )
+        ts[unsafe_offset=8 + i] = UInt8(
+            (UInt64((timeout_ms % 1000) * 1000000) >> UInt64(8 * i))
+            & UInt64(0xFF)
+        )
+    var pr = syscall6(
+        sc_nr(arch, "ppoll"),
+        Int64(Int(pfds)),
+        1,
+        Int64(Int(ts)),
+        0,
+        0,
+        0,
     )
-    _ = arch
-    _ = uio_fd
+    ts.unsafe_free()
+    if pr < 0:
+        var e = errno_now()
+        pfds.unsafe_free()
+        raise herror("IrqSetupFailed", "ppoll on /dev/uioN failed: " + errno_name(e))
+    if pr == 0:
+        pfds.unsafe_free()
+        raise herror(
+            "IrqTimeout",
+            "no UIO interrupt within " + String(timeout_ms) + "ms",
+        )
+    pfds.unsafe_free()
+    # The fd is readable: the kernel's uio handler incremented the
+    # event count. Read the u32 (little-endian).
+    var rbuf = unsafe_alloc[UInt8](4)
+    var nr = os_read(arch, uio_fd, rbuf, 4)
+    if nr != 4:
+        var e2 = errno_now()
+        rbuf.unsafe_free()
+        raise herror(
+            "IrqSetupFailed",
+            "uio read failed: " + errno_name(e2),
+        )
+    var count = Int64(0)
+    for k in range(4):
+        count |= Int64(rbuf[unsafe_offset=k]) << Int64(8 * k)
+    rbuf.unsafe_free()
+    return count

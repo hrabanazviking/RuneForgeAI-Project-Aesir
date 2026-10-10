@@ -2461,3 +2461,18 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   eventfd IRQ plumbing, 17-blob firmware SHA-256 verification.
 - **Banked (F3):** IOMMU DMA, UIO bind, device MSI, firmware DMA boot, live writes —
   prerequisites in `docs/hailbru/F3_UNBLOCK_RUNBOOK.md`.
+
+## HAILBRÚ Bring-up & Firmware (Campaign 5, H081–H100) — 2026-10-10
+- **Status:** `verified, Phase-C gate PASS (READY_FW)`
+- **Owner:** HAILBRÚ domain (D2)
+- **Implementation evidence:** `docs/hailbru/C5_REVIEW.md` — slice checklist
+  H081–H100; `docs/hailbru/PHASE_C_GATE.md`; `hailbru/fwboot.mojo`
+  (firmware boot engine); `docs/hailbru/F3_UNBLOCK_RUNBOOK.md` §0.
+- **Executable evidence:** kernel `6.12.112-v8-16k-hailo+`; UIO bind/unbind/
+  restore real (/dev/uio0); real device MSI (count=1); ATR programming real;
+  scu_fw.bin parsed (magic 0xE905DAAB); firmware verified booted
+  (ATR1==0x200000); 100/100 power cycles (mean 113.6 ms); 10/10 golden;
+  20/20 PM; 100/100 health; 28/28 tests green.
+- **Not demonstrated:** VDMA descriptor DMA (H066); full 3-stage re-flash
+  (H075 — implemented, not fired; device already booted); on-chip FW
+  version query (H086).

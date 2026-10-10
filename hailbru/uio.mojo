@@ -4,13 +4,11 @@
 # unavailable. Bind per the H013 dry-run plan, open /dev/uioN, mmap the
 # BAR resource.
 #
-# STATUS ON MIMIR (2026-10-10): F3-BANKED. uio_pci_generic is absent
-# (CONFIG_UIO_PCI_GENERIC not set — H004/H013); no /dev/uio* nodes. The
-# bind/unbind SEQUENCE is implemented and tested against a scratch sysfs
-# tree (restoring the original driver binding afterward — verified). The
-# real bind is NOT executed on Mimir: there is no module to bind to, and
-# unbinding the working hailo1x_pci binding to test a nonexistent
-# fallback would be destructive (H013's own probe left it undisturbed).
+# STATUS ON MIMIR (2026-10-10, kernel 6.12.112-v8-16k-hailo+): UNBLOCKED.
+# CONFIG_UIO_PCI_GENERIC=m; the bind/unbind/bind/restore SEQUENCE is
+# real (uio_step_*), restoring hailo1x afterward. VFIO is NOT usable
+# for 0001:01:00.0 (no IOMMU group, no CONFIG_VFIO_NOIOMMU) — UIO is
+# the real userspace-driver path. Bind/unbind needs root.
 
 from hailbru.errors import herror
 from hailbru.syscall import (
@@ -102,7 +100,8 @@ def _uio_gates(
 ) raises:
     # Fail-closed gates shared by every bind/unbind step (H065).
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    if not file_exists(arch, uio_drv + "/new_id"):
+    # NOTE: new_id is write-only — check the driver directory itself.
+    if not file_exists(arch, uio_drv):
         raise herror(
             "MechanismUnavailable",
             "uio_pci_generic not registered (no " + uio_drv
@@ -135,18 +134,33 @@ def uio_step_register_id(
     as_root: Bool,
 ) raises:
     # Step 2: register the vendor:device ID with uio_pci_generic.
+    # Tolerates EEXIST (id already registered by an earlier run).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/new_id", vendor_hex + " " + device_hex)
+    try:
+        write_file_str(arch, uio_drv + "/new_id", vendor_hex + " " + device_hex)
+    except e:
+        if "(17)" not in String(e):
+            raise e
 
 
 def uio_step_bind(
     arch: String, sysfs_root: String, bdf: String, as_root: Bool
 ) raises:
-    # Step 3: bind the device to uio_pci_generic.
+    # Step 3: bind the device to uio_pci_generic. NOTE: the kernel
+    # auto-binds on new_id, so the device may already be bound here —
+    # the explicit bind write is then skipped (it would fail EBUSY).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/bind", bdf)
+    var pre = uio_driver_link_target(arch, sysfs_root, bdf)
+    if pre != "uio_pci_generic":
+        try:
+            write_file_str(arch, uio_drv + "/bind", bdf)
+        except e:
+            # Tolerate the auto-bind race: re-check the link.
+            var raced = uio_driver_link_target(arch, sysfs_root, bdf)
+            if raced != "uio_pci_generic":
+                raise e
     var bound = uio_driver_link_target(arch, sysfs_root, bdf)
     if bound != "uio_pci_generic":
         raise herror(
@@ -162,10 +176,17 @@ def uio_step_restore(
 ) raises -> String:
     # Step 4: unbind from uio_pci_generic and rebind the ORIGINAL driver.
     # Verifies the driver symlink points back at the original afterward
-    # (H065 acceptance). Returns the restored driver name.
+    # (H065 acceptance). Returns the restored driver name. Tolerates the
+    # device not being on uio_pci_generic (bind may never have landed).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/unbind", bdf)
+    var cur = uio_driver_link_target(arch, sysfs_root, bdf)
+    if cur == "uio_pci_generic":
+        write_file_str(arch, uio_drv + "/unbind", bdf)
+    elif cur != "<none>":
+        # Bound elsewhere unexpected — unbind from wherever it is.
+        var curdrv = sysfs_root + "/bus/pci/drivers/" + cur
+        write_file_str(arch, curdrv + "/unbind", bdf)
     var orig_drv = sysfs_root + "/bus/pci/drivers/" + original
     write_file_str(arch, orig_drv + "/bind", bdf)
     var restored = uio_driver_link_target(arch, sysfs_root, bdf)
@@ -182,3 +203,23 @@ def uio_step_restore(
 def uio_mmap_bar_offset(bar_index: Int) -> Int64:
     # UIO mmap contract: BARn maps at offset n * PAGE_SIZE on /dev/uioN.
     return Int64(bar_index) * Int64(4096)
+
+
+def uio_node_for_bdf(
+    arch: String, sysfs_root: String, bdf: String
+) raises -> String:
+    # The /dev/uioN node for a bound device: the device's sysfs
+    # "uio" subdirectory contains exactly one uioN entry.
+    var udir = sysfs_root + "/bus/pci/devices/" + bdf + "/uio"
+    var names = list_dir(arch, udir)
+    for i in range(len(names)):
+        var n = names[i]
+        var nb = List[UInt8]()
+        for b in n.bytes():
+            nb.append(b)
+        if len(nb) >= 4 and nb[0] == 117 and nb[1] == 105 and nb[2] == 111:
+            return n
+    raise herror(
+        "UioError",
+        "no uioN entry under " + udir + " — device not bound to UIO?",
+    )

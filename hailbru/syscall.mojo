@@ -69,6 +69,16 @@ def sc_nr(arch: String, name: String) -> Int64:
         return Int64(113) if aarch else Int64(228)
     if name == "mkdirat":
         return Int64(34) if aarch else Int64(258)
+    if name == "pwrite64":
+        return Int64(68) if aarch else Int64(18)
+    if name == "getpid":
+        return Int64(172) if aarch else Int64(39)
+    if name == "kill":
+        return Int64(129) if aarch else Int64(62)
+    if name == "unlinkat":
+        return Int64(35) if aarch else Int64(263)
+    if name == "nanosleep":
+        return Int64(101) if aarch else Int64(35)
     return Int64(-1)
 
 
@@ -147,6 +157,10 @@ def O_RDWR() -> Int64:
 
 def O_TRUNC() -> Int64:
     return Int64(0o1000)
+
+
+def O_EXCL() -> Int64:
+    return Int64(128)
 
 
 def O_CREAT() -> Int64:
@@ -278,6 +292,51 @@ def os_readlinkat(
     return n
 
 
+def os_pwrite(
+    arch: String,
+    fd: Int64,
+    buf: Pointer[UInt8, MutUntrackedOrigin],
+    n: Int64,
+    offset: Int64,
+) -> Int64:
+    return syscall6(
+        sc_nr(arch, "pwrite64"), fd, Int64(Int(buf)), n, offset, 0, 0
+    )
+
+
+def os_getpid(arch: String) -> Int64:
+    return syscall6(sc_nr(arch, "getpid"), 0, 0, 0, 0, 0, 0)
+
+
+def os_kill(arch: String, pid: Int64, sig: Int64) -> Int64:
+    return syscall6(sc_nr(arch, "kill"), pid, sig, 0, 0, 0, 0)
+
+
+def os_unlinkat(arch: String, path: String) -> Int64:
+    var c = to_cstr(path)
+    var rc = syscall6(
+        sc_nr(arch, "unlinkat"), AT_FDCWD(), Int64(Int(c)), 0, 0, 0, 0
+    )
+    c.unsafe_free()
+    return rc
+
+
+def os_sleep_ms(arch: String, ms: Int64):
+    # Real sleep via nanosleep(2) — yields the CPU (the old busy-wait
+    # burned 100% CPU and broke the H097 <1% overhead budget).
+    if ms <= 0:
+        return
+    var ts = unsafe_alloc[UInt8](16)
+    var sec = ms // 1000
+    var nsec = (ms % 1000) * 1000000
+    for i in range(8):
+        var sh = Int64(i * 8)
+        ts[unsafe_offset=i] = UInt8((sec >> sh) & 0xFF)
+        ts[unsafe_offset=8 + i] = UInt8((nsec >> sh) & 0xFF)
+    _ = syscall6(sc_nr(arch, "nanosleep"), Int64(Int(ts)), 0, 0, 0, 0, 0)
+    ts.unsafe_free()
+
+
 def os_mkdir(arch: String, path: String, mode: Int64) -> Int64:
     var c = to_cstr(path)
     var r = syscall6(
@@ -381,12 +440,14 @@ def write_file_str(arch: String, path: String, content: String) raises:
     var n = content.byte_length()
     var c = to_cstr(content)
     var w = os_write(arch, fd, c, Int64(n))
+    var we = errno_now()
     c.unsafe_free()
     _ = os_close(arch, fd)
     if w != Int64(n):
         raise Error(
             "HailbruError[OsError]: short write to " + path + ": wrote "
-            + String(w) + " of " + String(n)
+            + String(w) + " of " + String(n) + " errno=" + errno_name(we)
+            + " (" + String(we) + ")"
         )
 
 
