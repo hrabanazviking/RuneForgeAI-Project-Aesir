@@ -22,7 +22,7 @@ def kern_stream_scalar(mut sink: Float64, warmup: Int, trials: Int, repeat: Int)
                 a[unsafe_offset=i] = b[unsafe_offset=i] + scalar * c[unsafe_offset=i]
         t.record(Float64(now_ns() - t0))
         sink += Float64(a[unsafe_offset=0]) + Float64(a[unsafe_offset=n - 1])
-    return bench_stats_json("stream_triad_scalar", "8M_fp32", Float64((3 * 4 * n) * Float64(repeat), t)
+    return bench_stats_json("stream_triad_scalar", "8M_fp32", Float64((3 * 4 * n) * Float64(repeat)), t)
 
 
 def kern_stream(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -57,7 +57,7 @@ def kern_stream(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Str
                 i += 8
         t.record(Float64(now_ns() - t0))
         sink += Float64(a[unsafe_offset=0]) + Float64(a[unsafe_offset=n - 1])
-    return bench_stats_json("stream_triad", "8M_fp32", Float64((3 * 4 * n) * Float64(repeat), t)
+    return bench_stats_json("stream_triad", "8M_fp32", Float64((3 * 4 * n) * Float64(repeat)), t)
 
 
 def kern_gemm(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -80,7 +80,7 @@ def kern_gemm(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             gemm_fp16(a, b, c, M, N, K)
         t.record(Float64(now_ns() - t0))
         sink += Float64(c[unsafe_offset=0]) + Float64(c[unsafe_offset=M * N - 1])
-    return bench_stats_json("gemm_fp16", "1024x1024x1024", Float64((2 * M * N * K) * Float64(repeat), t)
+    return bench_stats_json("gemm_fp16", "1024x1024x1024", Float64((2 * M * N * K) * Float64(repeat)), t)
 
 
 def kern_gemv(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -102,7 +102,7 @@ def kern_gemv(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             gemv_fp16(a, x, y, M, N)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=M - 1])
-    return bench_stats_json("gemv_fp16", "8192x8192", Float64(((M * N + N + M) * 2) * Float64(repeat), t)
+    return bench_stats_json("gemv_fp16", "8192x8192", Float64(((M * N + N + M) * 2) * Float64(repeat)), t)
 
 
 def kern_elem(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -124,7 +124,7 @@ def kern_elem(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             elem_add(a, b, c, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(c[unsafe_offset=0]) + Float64(c[unsafe_offset=n - 1])
-    out += bench_stats_json("elem_add", "2M", Float64((3 * 2 * n) * Float64(repeat), t) + ",\n"
+    out += bench_stats_json("elem_add", "2M", Float64((3 * 2 * n) * Float64(repeat)), t) + ",\n"
     t = TrialStats()
     for _ in range(trials):
         var t0 = now_ns()
@@ -132,7 +132,7 @@ def kern_elem(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             elem_mul(a, b, c, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(c[unsafe_offset=0]) + Float64(c[unsafe_offset=n - 1])
-    out += bench_stats_json("elem_mul", "2M", Float64((3 * 2 * n) * Float64(repeat), t) + ",\n"
+    out += bench_stats_json("elem_mul", "2M", Float64((3 * 2 * n) * Float64(repeat)), t) + ",\n"
     t = TrialStats()
     for _ in range(trials):
         var t0 = now_ns()
@@ -140,7 +140,7 @@ def kern_elem(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             elem_scale(a, c, Float16(0.5), n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(c[unsafe_offset=0]) + Float64(c[unsafe_offset=n - 1])
-    out += bench_stats_json("elem_scale", "2M", Float64((2 * 2 * n) * Float64(repeat), t) + ",\n"
+    out += bench_stats_json("elem_scale", "2M", Float64((2 * 2 * n) * Float64(repeat)), t) + ",\n"
     t = TrialStats()
     for _ in range(trials):
         var t0 = now_ns()
@@ -148,7 +148,7 @@ def kern_elem(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
             elem_axpy(a, b, c, Float16(0.5), n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(c[unsafe_offset=0]) + Float64(c[unsafe_offset=n - 1])
-    out += bench_stats_json("elem_axpy", "2M", Float64((3 * 2 * n) * Float64(repeat), t)
+    out += bench_stats_json("elem_axpy", "2M", Float64((3 * 2 * n) * Float64(repeat)), t)
     return out
 
 
@@ -172,7 +172,7 @@ def kern_layernorm(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> 
             layernorm_fp16(x, w, b, y, n, Float32(1e-5))
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    return bench_stats_json("layernorm_fp16", "1M", Float64((4 * 2 * n) * Float64(repeat), t)
+    return bench_stats_json("layernorm_fp16", "1M", Float64((4 * 2 * n) * Float64(repeat)), t)
 
 
 def kern_rmsnorm(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -193,7 +193,7 @@ def kern_rmsnorm(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> St
             rmsnorm_fp16(x, w, y, n, Float32(1e-5))
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    return bench_stats_json("rmsnorm_fp16", "1M", Float64((3 * 2 * n) * Float64(repeat), t)
+    return bench_stats_json("rmsnorm_fp16", "1M", Float64((3 * 2 * n) * Float64(repeat)), t)
 
 
 def kern_softmax(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -212,7 +212,7 @@ def kern_softmax(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> St
             softmax_fp16(x, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    return bench_stats_json("softmax_fp16", "1M", Float64((3 * 2 * n) * Float64(repeat), t)
+    return bench_stats_json("softmax_fp16", "1M", Float64((3 * 2 * n) * Float64(repeat)), t)
 
 
 def kern_act(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -231,7 +231,7 @@ def kern_act(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             silu_fp16(x, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    var out = bench_stats_json("silu_fp16", "1M", Float64((2 * 2 * n) * Float64(repeat), t) + ",\n"
+    var out = bench_stats_json("silu_fp16", "1M", Float64((2 * 2 * n) * Float64(repeat)), t) + ",\n"
     t = TrialStats()
     for _ in range(trials):
         var t0 = now_ns()
@@ -239,7 +239,7 @@ def kern_act(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             gelu_fp16(x, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    out += bench_stats_json("gelu_fp16", "1M", Float64((2 * 2 * n) * Float64(repeat), t)
+    out += bench_stats_json("gelu_fp16", "1M", Float64((2 * 2 * n) * Float64(repeat)), t)
     return out
 
 
@@ -262,7 +262,7 @@ def kern_rope(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> Strin
                 rope_fp16(x, y, hd, p, Float32(10000))
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=hd - 1])
-    return bench_stats_json("rope_fp16", "hd128_x4096", Float64((reps * 2 * hd * 2) * Float64(repeat), t)
+    return bench_stats_json("rope_fp16", "hd128_x4096", Float64((reps * 2 * hd * 2) * Float64(repeat)), t)
 
 
 def kern_fp32_to_fp16(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -282,7 +282,7 @@ def kern_fp32_to_fp16(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) 
             fp32_to_fp16(x, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    return bench_stats_json("fp32_to_fp16", "1M", Float64((4 * n + 2 * n) * Float64(repeat), t)
+    return bench_stats_json("fp32_to_fp16", "1M", Float64((4 * n + 2 * n) * Float64(repeat)), t)
 
 
 def kern_q80(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
@@ -302,7 +302,7 @@ def kern_q80(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             fp16_to_q80(x, q, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(q[unsafe_offset=0]) + Float64(q[unsafe_offset=(n // 32) * 34 - 1])
-    var out = bench_stats_json("fp16_to_q80", "1M", Float64((2 * n + (n // 32) * 34) * Float64(repeat), t) + ",\n"
+    var out = bench_stats_json("fp16_to_q80", "1M", Float64((2 * n + (n // 32) * 34) * Float64(repeat)), t) + ",\n"
     for _ in range(warmup):
         q80_to_fp16(q, y, n)
     t = TrialStats()
@@ -312,7 +312,7 @@ def kern_q80(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             q80_to_fp16(q, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    out += bench_stats_json("q80_to_fp16", "1M", Float64(((n // 32) * 34 + 2 * n) * Float64(repeat), t)
+    out += bench_stats_json("q80_to_fp16", "1M", Float64(((n // 32) * 34 + 2 * n) * Float64(repeat)), t)
     return out
 
 
@@ -333,7 +333,7 @@ def kern_q40(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             fp16_to_q40(x, q, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(q[unsafe_offset=0]) + Float64(q[unsafe_offset=(n // 32) * 18 - 1])
-    var out = bench_stats_json("fp16_to_q40", "1M", Float64((2 * n + (n // 32) * 18) * Float64(repeat), t) + ",\n"
+    var out = bench_stats_json("fp16_to_q40", "1M", Float64((2 * n + (n // 32) * 18) * Float64(repeat)), t) + ",\n"
     for _ in range(warmup):
         q40_to_fp16(q, y, n)
     t = TrialStats()
@@ -343,7 +343,7 @@ def kern_q40(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String
             q40_to_fp16(q, y, n)
         t.record(Float64(now_ns() - t0))
         sink += Float64(y[unsafe_offset=0]) + Float64(y[unsafe_offset=n - 1])
-    out += bench_stats_json("q40_to_fp16", "1M", Float64(((n // 32) * 18 + 2 * n) * Float64(repeat), t)
+    out += bench_stats_json("q40_to_fp16", "1M", Float64(((n // 32) * 18 + 2 * n) * Float64(repeat)), t)
     return out
 
 
