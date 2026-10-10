@@ -76,12 +76,16 @@ def spawn_process(
     var c = _to_cstr_raw(cmd)
     var rc = _system(c)
     c.unsafe_free()
-    # system() returns the wait-encoded status; propagate the exit
-    # code when it exited normally.
-    var code = Int32(127)
+    # system() returns the wait-encoded status of the shell child.
+    # Propagate it faithfully: normal exit -> same code; killed by a
+    # signal -> die by the same signal so the parent sees signal(N),
+    # not a synthetic exit(127).
     if (Int(rc) & 0x7F) == 0:
-        code = Int32((Int(rc) >> 8) & 0xFF)
-    _exit(code)
+        _exit(Int32((Int(rc) >> 8) & 0xFF))
+    var sig = Int(rc) & 0x7F
+    var me = external_call["getpid", Int64]()
+    _ = external_call["kill", Int64](me, Int64(sig))
+    _exit(Int32(127))
     return Int64(-1)
 
 
