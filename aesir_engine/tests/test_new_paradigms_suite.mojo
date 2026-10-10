@@ -184,6 +184,27 @@ def test_tool_use_json() raises:
         malformed_rejected = True
     if not malformed_rejected:
         raise Error("test_tool_use_json: malformed nested JSON was accepted")
+
+    # Adversarial schema boundary: require the complete two-field envelope and
+    # an object argument value; never accept a partial or permissive call shape.
+    var invalid_calls: List[String] = [
+        "{}",
+        "{\"tool\":\"a\"}",
+        "{\"arguments\":{}}",
+        "{\"tool\":\"a\",\"arguments\":null}",
+        "{\"tool\":\"a\",\"arguments\":[]}",
+        "{\"tool\":\"a\",\"arguments\":{},\"extra\":1}",
+        "{\"tool\":\"bad name\",\"arguments\":{}}",
+        "{\"tool\":\"a\",\"arguments\":{}} false",
+    ]
+    for invalid_call in invalid_calls:
+        var invalid_call_rejected = False
+        try:
+            _ = parse_tool_call(invalid_call)
+        except:
+            invalid_call_rejected = True
+        if not invalid_call_rejected:
+            raise Error("test_tool_use_json: invalid tool-call envelope accepted")
     print("test_tool_use_json: PASS")
 
 def test_smart_failure_diagnostics() raises:
