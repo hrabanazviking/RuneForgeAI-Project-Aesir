@@ -163,6 +163,13 @@ Historical baseline defects remain labeled as historical; remaining evidence
 gaps are integer/index overflow, pointer provenance and capacity, overlap,
 arbitrary strides, accelerator parity, and broad tolerance.
 
+AES500-110 rebuilt the sm_89 executable and passed its `--help` smoke path.
+The master suite passed 202, zero failed, one skipped (203 total); both
+documentation checks and `git diff --check` pass. `compute.rope_adversarial`
+runs last because placing its caught-error path before later filesystem-heavy
+tests reproducibly crashes the Mojo 1.0.0 runtime; as the final counted case it
+passes. Hosted exact-head CI is tracked after the receipt push.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

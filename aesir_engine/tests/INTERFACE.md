@@ -1,5 +1,12 @@
 # Tests Domain Interface Specification
 
+The RoPE interface, scalar-reference, KV-cache integration, and adversarial
+theta cases are registered in the counted master runner as `compute.rope_*`.
+The adversarial theta case runs last: under Mojo 1.0.0, a caught-error path in
+that test followed by the filesystem-heavy manifest-store test reproducibly
+crashes the process, although each passes alone and the manifest test passes
+after the other RoPE cases. As the final counted case it completes normally.
+
 `test_turing_prefill_trace.mojo` owns an opt-in direct native process and new0600
 CSV. Installed NVTX symbols load dynamically before model work; fresh strategy2
 case1/3 prefill is enclosed by one same-thread named range after reset/sync and

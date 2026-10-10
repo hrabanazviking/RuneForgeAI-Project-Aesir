@@ -1244,3 +1244,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   current positive-row/column, finite-positive-theta boundary, independent Q/K
   row loops, and historical AES500-102/107 defects alongside remaining
   overflow/pointer limits.
+- [x] AES500-110 RoPE release gate: sm_89 native build and `--help` smoke pass;
+  master suite passes 202, zero fail, one skip (203 total); doc-drift and
+  whitespace checks pass. The theta adversarial test runs last to avoid a
+  reproducible Mojo 1.0.0 same-process crash when later filesystem-heavy tests
+  follow its caught-error path. Hosted exact-head CI remains to be verified.
