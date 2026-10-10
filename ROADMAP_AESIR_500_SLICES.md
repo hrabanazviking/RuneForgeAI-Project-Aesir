@@ -731,6 +731,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   byte-identical TODO baseline reproduction. Three documented legacy-artifact
   warning groups remain. Hosted Actions for the exact pushed revision remain
   pending and will be reported separately from local acceptance.
+- AES500-051 publishes `TASK_markdown_link_validation.md`, defining a
+  deterministic read-only boundary for active tracked Markdown inline links
+  (root, docs, and engine docs; excluding historical/evidence), local path and
+  anchor resolution including explicit HTML IDs; baseline reviews refine the
+  exact slug algorithm before implementation.
 
 ## Status
 
