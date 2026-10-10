@@ -66,6 +66,12 @@ The module also exports `Llama3CUDASession` for `chat --profile llama3`, with
 32 device-resident layers and F16 KV. Both native sessions are separate from
 the `AesirEngine` struct and its legacy accelerator fields.
 
+Model blob SHA-256 and size identify stored bytes only. They do not identify
+embedding task, tokenizer, pooling, normalization, runtime, precision, or
+corpus/chunk pipeline. Future vector persistence must bind to the full pipeline
+identity tuple documented in `TASK_embedding_model_identity.md`; this interface
+does not currently expose a dedicated embedding model or embedding identity.
+
 ```mojo
 struct AesirEngine:
     var pool: MimirWell
