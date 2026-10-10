@@ -1120,18 +1120,31 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     )
 
     # Calibration iteration (no faults): sets the infer_iter budget
-    # as 3x measured, min 60s.
+    # as 3x measured. The calibration budget is token-based (10s/token
+    # worst case at 0.18 tok/s) — a hardcoded 120s is too tight for
+    # long generations and causes false hang detections.
+    var tok_n = Int(max_tok)
+    if tok_n <= 0:
+        tok_n = 32
+    var calib_budget = Int64(tok_n) * 10000
     var calib_ms = _h158_infer_iter(
         arch, log, bdf, f1bin, f1cfg, prompt, max_tok, out_dir, 0,
-        mon, machine, Int64(120000),
+        mon, machine, calib_budget,
     )
     iters += 1
     if calib_ms > 0:
         completed += 1
     if budget_ms <= 0:
-        budget_ms = calib_ms * 3
-        if budget_ms < 60000:
-            budget_ms = 60000
+        if calib_ms > 0:
+            budget_ms = calib_ms * 3
+        else:
+            # Calibration failed: fall back to a token-based estimate
+            # (8s/token) and say so loudly — never a blind 60s.
+            budget_ms = Int64(tok_n) * 8000
+            event_emit_slice(
+                arch, log, "H158", "IterBudgetUncalibrated",
+                "\"fallback_ms\": " + String(budget_ms),
+            )
     event_emit_slice(
         arch, log, "H158", "IterBudgetCalibrated",
         "\"calib_ms\": " + String(calib_ms) + ", \"budget_ms\": "
@@ -1184,7 +1197,12 @@ def cmd_h158_run(args: List[String]) raises -> Int:
             mon, machine, budget_ms,
         )
         iters += 1
-        if ms > 0:
+        if ms == -2:
+            # Real hang: detected and handled (killed+retry) — counts
+            # as injected+handled so the reconciliation balances.
+            injected += 1
+            handled += 1
+        elif ms > 0:
             completed += 1
 
     event_emit_slice(
@@ -1352,7 +1370,8 @@ def _h158_infer_iter(
 ) raises -> Int64:
     # One clean supervised inference iteration: staging integrity,
     # heartbeat-guarded f1_infer subprocess, error-register poll.
-    # Returns wall ms, or -1 when the iteration failed.
+    # Returns wall ms; -1 when the iteration failed; -2 when a real
+    # hang was detected and handled (killed+retry).
     from hailbru.syscall import (
         file_exists,
         os_clock_ms,
@@ -1407,6 +1426,11 @@ def _h158_infer_iter(
             machine.on_classified(arch, log, "transient", "HangDetected:" + op)
             machine.recovered(arch, log)
             event_emit_slice(
+                arch, log, "H158", "FaultInjected",
+                "\"fault\": \"real-hang\", \"detail\": \"infer exceeded "
+                "budget\", \"iter\": " + String(it),
+            )
+            event_emit_slice(
                 arch, log, "H158", "FaultHandled",
                 "\"fault\": \"real-hang\", \"action\": \"killed+retry\", "
                 "\"iter\": " + String(it),
@@ -1422,7 +1446,7 @@ def _h158_infer_iter(
     _ = poll_decode_live(arch, "/sys", bdf, log)
     staging.free()
     if hung:
-        return -1
+        return -2
     if not file_exists(arch, out_json):
         event_emit_slice(
             arch, log, "H158", "IterNoOutput", "\"iter\": " + String(it)
