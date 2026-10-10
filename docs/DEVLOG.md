@@ -1,3 +1,57 @@
+## 2026-10-10 — MÍMISBRUNNR Campaign 2 complete (H021–H040): ARMVEGR core verified on Mimir
+
+Replacement worker executed all 20 C2 slices on Mimir (Pi 5, aarch64, Mojo 1.1.0
+via pixi shim) after the previous worker died from an infrastructure error. All
+kernels compile and run on real ARM64 NEON; additive-only new domain D1 ARMVEGR
+(`armvegr/`); no cuda_* module touched, no README touched, no force-push.
+
+**Verification (measured, not claimed):**
+- `tests/c2_verify.mojo`: **241/241 checks PASS, exit 0** (branch `c2-armvegr-wip`).
+- H037 PRÓF oracle (`prof/armvegr/test_kernel_oracles.py`, stdlib-only, runs on
+  Mimir): **26/26 cases PASS** — every kernel H022–H035 vs independent float64
+  pure-Python references on the versioned corpus `data/armvegr/oracle_corpus.json`
+  (v1, fixed seeds; large GEMM via sum/sumsq checksum).
+- H038 perf baseline: `data/armvegr/kernel_perf.json` (22 entries, median-of-11,
+  clock pinned via `performance` governor + `taskset -c 3`); method in
+  `data/armvegr/BENCHMARK_METHOD.md`; benchmark source `armvegr/perf_bench.mojo`.
+- H039 toy forward: h=128 maxerr 1.95e-03, h=512 maxerr 3.91e-03 (≤5e-3), finite.
+- H040 review: `docs/armvegr/C2_REVIEW.md` — **VERDICT: READY** as the CPU
+  reference for the Phase-D wall under the documented per-kernel comparison
+  contracts (ulp envelopes, not bitwise equality). No H201+ remediation needed.
+
+**Real bugs found and fixed (inherited code, verified by the suites above):**
+- `mha.mojo`: per-head attention passed strided `[seq, d_model]` offsets into a
+  `[seq, head_dim]`-expecting kernel — added per-head gather buffers
+  (was maxerr 2.15 vs naive; now 2.4e-04).
+- `q80_gemm_bytes` omitted the N term, undercounting B-matrix traffic N-fold —
+  signature fixed to `(M, N, K)` (perf accounting only).
+- H031/H032 tests: `n=10000` not a multiple of 32 left a 16-element
+  uninitialized tail (fixed to 10016); wrong expected constant `0x0400` for
+  2^-10 corrected to `0x1400` (kernel was right).
+- Full Mojo 1.1.0 API port (pointer subscript `p[unsafe_offset=i]`,
+  `unsafe_store(offset, val)`, reserved words `ref`/`out`, no scalar `.sqrt()`).
+
+**SÓLRÚN re-scopes (mathematical, recorded in code + progress log):**
+- H029: SiLU monotonicity re-scoped (global minimum at x≈−1.2785; non-decreasing
+  only on [0,10] + dip check).
+- H022/H023/H024/H026/H027/H029: per-element ulp envelope
+  `|got−ref| ≤ base + 2^-10·|ref|` (independent fp16 rounding makes strict
+  absolute bounds infeasible — double rounding is exactly 1 ulp).
+- H032: contract max ≤ 0.43, rms ≤ 0.25; measured 0.424/0.237.
+
+**H023 shortfall analysis (honest):** 7.16 GFLOPS at 1024³ vs ≥32 target.
+H007's 16 GFLOPS used fp16 accumulation; the shipped kernel widens to fp32,
+trading speed for accuracy. Single-threaded NEON on Cortex-A76; no threading
+introduced in C2. Speed is Campaign 9's problem; the reference is correct.
+
+**Perf bars met:** GEMV 4.77 GB/s = 73% of STREAM (≥60% ✓); q80 GEMM
+2.54 GB/s = 53% of GEMV (≥50% ✓, after inlining + branchless scale via exp2;
+kb-outer loop order tried and reverted — 3× slower).
+
+**DCE lesson:** Mojo's optimizer deletes side-effect-free kernels from timing
+loops (observed 74 ns for 8192² GEMV). All perf loops now accumulate output
+checksums into a printed sink (`BENCHMARK_METHOD.md` §3).
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

@@ -56,6 +56,10 @@ Run commands from the repository root unless stated otherwise.
 | `E-SPECIAL` | `python3 scripts/test_special_file_admission.py --binary /tmp/aesir-ledger-build` | The built CLI rejects configuration, GGUF, resumable-download staging, Modelfile, source-blob, installed-blob, and catalog FIFOs without stalling. |
 | `E-SOURCE` | `rg`/source inspection at the cited paths | Establishes only that the named source shape or absence exists; it is not runtime proof. |
 
+| `E-ARMVEGR-ORACLE` | `python3 prof/armvegr/test_kernel_oracles.py` (on Mimir) | 26/26 oracle cases pass: every C2 kernel's Mojo output matches an independent float64 pure-Python reference within its documented bound; non-zero exit on any violation. |
+| `E-ARMVEGR-VERIFY` | `/usr/local/bin/mojo build -I. -o /tmp/c2_verify tests/c2_verify.mojo && /tmp/c2_verify` (on Mimir) | 241/241 checks pass, exit 0: per-kernel contracts, MHA seq/par bit-identity, backend-selection fail-closed, H039 toy forward. |
+| `E-ARMVEGR-PERF` | `/usr/local/bin/mojo build -I. -o /tmp/perf_bench armvegr/perf_bench.mojo && taskset -c 3 /tmp/perf_bench` (on Mimir, governor `performance`) | Median-of-11 per-kernel GFLOPS/GB/s written to `data/armvegr/kernel_perf.json`; method in `data/armvegr/BENCHMARK_METHOD.md`. |
+
 Pinned `E-REAL` fixture and oracle:
 
 - model: `shibatch/stories-converted`, revision
@@ -356,6 +360,111 @@ the complete ledger population.
 - **Evidence boundary:** CPU kernel shape, span, and parameter contract validation; does not replace hardware accelerator kernel validations.
 - **Next acceptance gate:** Property-based randomized F32 reference suites and float overflow/underflow sanitizer integrations.
 - **Audit:** AER-005, AER-043 through AER-050.
+
+## 6A. ARMVEGR (D1) — ARM64 CPU kernels (MÍMISBRUNNR Campaign 2, H021–H040)
+
+Pure-Mojo ARM64 NEON kernel domain for the Hailo-10 CPU engine path. All
+evidence was produced on Mimir (Raspberry Pi 5, aarch64), Mojo 1.1.0 via
+pixi shim — real hardware, never simulated, never x86_64. C2 review verdict
+(2026-10-10): READY as the CPU reference for the Phase-D wall under the
+documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
+
+### AES-ARM-001 — FP16 GEMM micro-kernel + blocking driver (H022/H023)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/gemm.mojo::gemm_micro_8x8` (NEON 8-wide micro-kernel, fp32 accumulation), `gemm_pack_a/b`, `gemm_fp16` blocking driver.
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (tile vs fp16 ref maxerr 2.5e-07; 1024³ checksum match); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 7.16 GFLOPS at 1024³ (`E-ARMVEGR-PERF`) — below the H023 ≥32 GFLOPS target; honest shortfall analysis in `docs/DEVLOG.md` (H007's 16 GFLOPS used fp16 accumulation; shipped kernel widens to fp32, trading speed for accuracy). Correctness unaffected.
+- **Next acceptance gate:** Campaign 9 (H161–H180) performance work.
+
+### AES-ARM-002 — FP16 GEMV (H024)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/gemv.mojo::gemv_fp16`.
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (ulp envelope, worst 1.95e-03, excess 0); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 4.77 GB/s at 8192² = 73% of STREAM (`E-ARMVEGR-PERF`); ≥60% bar met.
+
+### AES-ARM-003 — Elementwise kernels (H025)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/elem.mojo::elem_add/mul/scale/axpy`.
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (exact, maxerr 0); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 5.9–7.3 GB/s at 2M elements (`E-ARMVEGR-PERF`).
+
+### AES-ARM-004 — Normalization kernels (H026/H027)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/norm.mojo::layernorm_fp16`, `armvegr/rmsnorm.mojo::rmsnorm_fp16`.
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (ulp envelope; layernorm worst 4.8e-07, rmsnorm 0); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 5.00 / 6.30 GB/s at 1M (`E-ARMVEGR-PERF`).
+
+### AES-ARM-005 — Softmax (H028)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/softmax.mojo::softmax_fp16`, `softmax_masked_fp16` (masked positions exactly 0).
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (ulp envelope, maxerr 0, sums to 1, no NaN/Inf incl. ±100 extremes); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 1.29 GB/s at 1M (`E-ARMVEGR-PERF`).
+
+### AES-ARM-006 — Activations (H029)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/act.mojo::silu_fp16`, `gelu_fp16`.
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (ulp envelope base 2e-3; silu 0, gelu 3.1e-05); `E-ARMVEGR-VERIFY` incl. re-scoped monotonicity (non-decreasing on [0,10]; dip at x∈[−1.30,−1.25]).
+- **Evidence boundary:** 1.65 / 0.24 GB/s at 1M (`E-ARMVEGR-PERF`).
+
+### AES-ARM-007 — RoPE (H030)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/rope.mojo::rope_fp16` (interleaved pairs).
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (maxerr 0; pos=0 identity exact); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** 1658 ns/call at hd=128 (`E-ARMVEGR-PERF`).
+
+### AES-ARM-008 — Q8_0 / Q4_0 quantization (H031/H032)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/quant.mojo` (Q8_0: fp16 scale + 32×int8), `armvegr/q4.mojo` (Q4_0: fp16 scale + 16 packed bytes, low nibble first).
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (Q8_0 roundtrip max 0.0234/rms 0.0131 within 0.024/0.014; Q4_0 roundtrip max 0.424/rms 0.237 within 0.43/0.25); `E-ARMVEGR-VERIFY`.
+- **Evidence boundary:** Quantize 0.66/0.53 GB/s, dequantize 2.08/1.73 GB/s at 1M (`E-ARMVEGR-PERF`).
+
+### AES-ARM-009 — Quantized GEMM (H033)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/qgemm.mojo::q80_gemm` (K-major Bq layout).
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (max err 0.063 vs contract 0.05·rms=0.19); `E-ARMVEGR-VERIFY` (14 shape combos).
+- **Evidence boundary:** 2.54 GB/s at M1_N4096_K4096 = 53% of GEMV (`E-ARMVEGR-PERF`); ≥50% bar met.
+
+### AES-ARM-010 — Fused causal attention + MHA (H034/H035)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/attn.mojo::attn_sdpa_causal_fp16`, `armvegr/mha.mojo::mha_forward_seq/par` (RoPE, causal mask, fp32 softmax).
+- **Executable evidence:** `E-ARMVEGR-ORACLE` (attn 2.4e-07; MHA 2.4e-04 vs naive fp64); `E-ARMVEGR-VERIFY` (seq vs par bit-identical).
+- **Evidence boundary:** attn 4.87 GFLOPS (seq512_hd64); MHA 6.43 GFLOPS (seq128_nh8_hd64) (`E-ARMVEGR-PERF`).
+
+### AES-ARM-011 — Backend selection, CPU stage (H036)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/backend.mojo::select_backend` — every op resolves to CPU with a logged reason; NPU stub exists, compiles, is never selected (fail-closed).
+- **Executable evidence:** `E-ARMVEGR-VERIFY` (20/20 decisions → CPU; no code path returns NPU; stub never ready).
+- **Evidence boundary:** CPU stage only; D4 SKIPTI will extend the interface.
+
+### AES-ARM-012 — Toy forward pass composition (H039)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `tests/c2_verify.mojo::toy_forward` — embed → layernorm → matmul → SiLU → matmul → residual → layernorm → logits, kernel-composed vs naive scalar.
+- **Executable evidence:** `E-ARMVEGR-VERIFY` (h=128: maxerr 1.95e-03; h=512: maxerr 3.91e-03; finite; shape [1, vocab]).
+- **Evidence boundary:** Attention-free toy; proves kernel composition, not model quality.
 
 ## 7. GGUF Loading
 
