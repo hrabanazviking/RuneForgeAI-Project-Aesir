@@ -603,6 +603,23 @@ generator is independently designed; findings live in docs/plunder/.
 ## Campaign 8 — Vörðr Robustness (H141–H160)
 - Status: IN PROGRESS — Vörðr for the F1 CPU engine + Hailo device health (NPU compute NO-GO; NPU-referencing slices get honest audit treatment)
 - Coordinator: merged `mimisbrunnr-c7-f1` → main as 44957cd (--no-ff), pushed, remote HEAD verified 44957cd3121c35e2410efa9ecd16db4c587d2fc5. Branch deleted (local + origin).
+- Sólrún audit: `docs/vordr/SOLRUN_AUDIT_C8.md` (2026-10-10) — H150 = CPU numerics cross-check (shadow-verify F1 SIMD kernel vs independent scalar reference, H059R1 pattern); H157 = CPU-pipeline stage retry via scalar fallback, loud DEGRADED, no sticky fallback; H147/H148 = REAL reset/re-init via new HAILBRÚ `reset()` primitive (C5-proven PM-reset cycle); H153 = REAL UIO unbind (device left sane); H151–H154 = TEST-ONLY Python, real faults never simulated; H142 = Hailo die temp not readable on current kernel (Pi SoC is proxy).
+- H141 DONE: 10-min health monitor, 120/120 samples, max drift 12ms (<1s), SoC 43–48.5°C all "ok", MonitorStopped, clean exit.
+- H142: monitor + live threshold reload implemented (ThermalWarning/Recovered); Hailo die temp honestly documented as unreadable.
+- H143 DONE: hang budgets measured on Mimir → `data/vordr/hang_budgets.json` (p99×3); heartbeat detector: 300ms stall caught in 305ms, 1000 clean ops 0 false positives.
+- H144 DONE: error-decode selftest 50/50 bits; live register poll in supervised loop.
+- H145 DONE: machine-readable taxonomy; `test_taxonomy_complete.py` PASS (52 names classified exactly once, 62 entries all documented).
+- H146: watchdog live — 10 spaced SIGKILLs → restarts ≤2.4s (in progress, 5/10); rapid-death backoff proven 1/2/4/8s (≥8s on 4th); parent-monitor revive in H159.
+- H147 DONE: 50/50 reset cycles golden-clean, mean 201ms (real HAILBRÚ PM-reset).
+- H148 DONE: 50/50 re-init cycles OK, mean 203ms worst 206ms; firmware-survival probe documented.
+- H149 DONE: recovery state machine selftest (3 scenarios + 5 illegal transitions rejected).
+- H150 DONE: shadow-verification 10/10 (worst diff 1.43e-06); corruption hook → ShadowMismatch.
+- H155 DONE: recovery budgets → `data/vordr/recovery_budgets.json` (transient_retry p99 749ms→budget 1498ms; reset_reinit p99 213ms→426ms; process_restart p99 22ms→44ms); 10-sample confirmation ALL BEAT.
+- H156 DONE: retry absorbs 3 faults (recovered_after_retries: 3); 6 faults → RetryExhausted; backoff 109ms vs 100ms nominal.
+- H157 DONE: 19 fast + 1 degraded ops, exactly 1 DEGRADED event, scalar fallback per-op only.
+- H154 DONE: integrity 500/500 corruptions detected, 0 escapes, 500/500 retransferred clean.
+- H151/H152/H153/H158/H159: PRÓF suites running on Mimir (H159 audit in progress).
+- Branch: `mimisbrunnr-c8-vordr`, pushed (latest 0606745).
 
 ## Campaign 9 — Speed (H161–H180)
 - Status: not started — H171-H172 need GO
