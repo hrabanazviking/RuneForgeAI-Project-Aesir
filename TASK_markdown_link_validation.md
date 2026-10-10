@@ -43,7 +43,9 @@ without network access or modifications to source documents.
   `data`, and other schemes) are external and are not fetched or validated.
   Protocol-relative URLs are external as well.
 - Malformed or empty local destinations are reported with source path and
-  one-based line number. Diagnostics are stable and source ordered.
+  one-based line number when the CommonMark parser emits a link/image token.
+  Syntactically unrecognized text that resembles an incomplete Markdown link is
+  outside this parser contract. Diagnostics are stable and source ordered.
 - The checker is read-only, has no network dependency, and does not rewrite
   links, anchors, or Markdown.
 - Repository-wide enforcement remains opt-in until AES500-052 records preexisting
@@ -65,6 +67,11 @@ without network access or modifications to source documents.
 pixi run python scripts/test_check_markdown_links.py
 pixi run python scripts/check_markdown_links.py --check
 ```
+
+The baseline checker currently exits nonzero for nine known missing fragments
+in the Mojo guide TOC. AES500-056 defines how exact baseline debt is reported;
+until then, the standalone `--check` exit code is expected to be 1 on the
+repository corpus and the nine diagnostics must match the baseline.
 
 AES500-052 will measure this active-doc set and link baseline and test the
 scope against actual repository syntax. AES500-053 pins helper APIs and anchor

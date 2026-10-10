@@ -674,7 +674,11 @@ heading anchors lowercase text, replace spaces with hyphens, remove other
 whitespace and punctuation, strip Markdown formatting, and suffix duplicate
 slugs with `-1`, `-2`, etc. in heading order. This follows GitHub's published
 section-link rules. Diagnostics use source path and one-based source-map line,
-remain stable and ordered, and never modify files.
+remain stable and ordered, and never modify files. Malformed syntax that the
+CommonMark parser does not recognize as a link/image token is outside scope.
+
+The first repository run reports the nine preexisting TOC mismatches retained
+in the baseline; until AES500-056, `--check` exits 1 on those findings.
 
 The validator starts opt-in because the hash-bound baseline records nine
 preexisting fragment mismatches. Read

@@ -746,6 +746,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-053 pins `markdown-it-py` 4.2.0/CommonMark parsing, active tracked
   paths, reference links/images, anchor lookup through explicit HTML IDs and
   GitHub heading slugs, ordered diagnostics, and opt-in CLI acceptance.
+- AES500-054 implements deterministic tracked-file selection, Markdown token
+  extraction, GitHub-style heading slugs, explicit HTML anchors, and local
+  path/fragment validation. Seven focused checks pass; the repository CLI
+  reports exactly the nine hash-bound legacy TOC fragment errors.
 
 ## Status
 
