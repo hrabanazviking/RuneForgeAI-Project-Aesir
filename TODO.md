@@ -1503,3 +1503,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 
 - [x] AES500-176 invalid UTF-8 integration: rejected malformed bytes enter
   stream decoding only as one `<unk>` token; master suite 229/0/1 (230 total).
+
+- [x] AES500-177 invalid UTF-8 adversarial sweep: all 128 isolated high-byte
+  values fail closed to one unknown ID; master suite 230/0/1 (231 total).

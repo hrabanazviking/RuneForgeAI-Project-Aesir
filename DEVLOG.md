@@ -3966,3 +3966,8 @@ zero failed, one skipped (229 total).
 AES500-176 confirms malformed bytes become a single unknown token before the
 stream decoder and never enter its payload. Master suite: 229 passed, zero failed,
 one skipped (230 total).
+
+
+AES500-177 sweeps every isolated high byte 0x80-0xFF through unsafe String
+construction; each fails closed to one unknown token. Master suite: 230 passed,
+zero failed, one skipped (231 total).

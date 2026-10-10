@@ -54,3 +54,8 @@ Additional cases reject isolated continuation 80, overlong E0 80 80, overlong F0
 ## AES500-176 integration receipt
 
 Unsafe invalid bytes `C3 28` encode to one configured `<unk>` vocabulary ID; passing that vocabulary token into `RuneStreamDecoder` yields `<unk>` and no replacement character or malformed payload. Master suite: 229 passed, zero failed, one skipped (230 total).
+
+
+## AES500-177 adversarial receipt
+
+An exhaustive sweep constructs each isolated byte value 0x80 through 0xFF through the unsafe String seam. All 128 produce exactly one configured unknown ID. Master suite: 230 passed, zero failed, one skipped (231 total).

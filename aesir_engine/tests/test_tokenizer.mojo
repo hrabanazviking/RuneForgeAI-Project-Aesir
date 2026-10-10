@@ -396,3 +396,16 @@ def test_invalid_utf8_integration() raises:
     if output != "<unk>" or "�" in output:
         raise Error("malformed bytes reached the streaming text decoder")
     print("PASS: invalid UTF-8 is replaced by unknown token before stream decoding")
+
+def test_invalid_utf8_single_byte_sweep() raises:
+    for value in range(128, 256):
+        var raw = List[Int8]()
+        raw.append(Int8(value))
+        raw.append(0)
+        var text = String(unsafe_from_utf8_ptr=raw.unsafe_ptr())
+        var weaver = RuneWeaver()
+        weaver.unknown_token_id = 77
+        var encoded = weaver.encode(text, False)
+        if len(encoded) != 1 or encoded[0] != 77:
+            raise Error("single invalid UTF-8 byte did not fail closed at value " + String(value))
+    print("PASS: all 128 isolated high-byte UTF-8 inputs fail closed")
