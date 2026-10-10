@@ -55,3 +55,8 @@ Four hostile directory fixtures cover UInt64::MAX dimension admission, a two-dim
 ## AES500-146 integration receipt
 
 A generated 1x1 F32 tensor record containing 1.0 is loaded through `mmap_and_load`. It maps with GGML type F32, consumes exactly one MimirWell element for conversion, then fails at the expected later missing-required-tensor check; mmap cleanup is asserted. This verifies only the exercised conversion and ordering.
+
+
+## AES500-147 resource adversarial receipt
+
+A generated 1x2 F32 tensor requests two conversion elements from a one-element MimirWell. It rejects with the capacity diagnostic before tensor descriptor insertion; pool offset remains unchanged and loader mapping is cleaned. Focused module passes.

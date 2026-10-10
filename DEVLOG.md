@@ -3812,3 +3812,8 @@ passes.
 AES500-146 exercises a 1x1 F32 directory entry through the full load path. It
 converts one element into MimirWell, reaches the later missing-required-tensor
 check, and cleans the mmap; no full-model claim is implied.
+
+
+AES500-147 checks F32 conversion pool exhaustion with two requested values and
+one available element. It rejects before descriptor insertion, leaves pool
+offset unchanged, and cleans the mapping.

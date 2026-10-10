@@ -1392,3 +1392,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-146 GGUF tensor integration: 1x1 F32 fixture maps and consumes
   exactly one pool element before later model completeness rejection; cleanup
   is asserted. Registered as `gguf.tensor_directory_integration`.
+
+- [x] AES500-147 GGUF pool adversarial evidence: two-element F32 conversion
+  against one available pool element rejects without descriptor or pool mutation,
+  then closes mapping. Registered `gguf.tensor_directory_pool_adversarial`.

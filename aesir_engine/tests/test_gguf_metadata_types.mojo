@@ -87,7 +87,8 @@ def make_metadata_file(
         while len(bytes) % 32 != 0:
             bytes.append(0)
         if tensor_type == 0:
-            append_u32(bytes, 1065353216)
+            for _ in range(Int(tensor_dim)):
+                append_u32(bytes, 1065353216)
         else:
             bytes.append(0)
             bytes.append(0)
@@ -293,6 +294,29 @@ def test_gguf_tensor_directory_integration() raises:
     print("PASS: F32 directory entry converts into one MimirWell element")
 
 
+def test_gguf_tensor_directory_pool_adversarial() raises:
+    var path = make_metadata_file("extension.label", 8, 1, 2, 0, 0)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(1)
+    var initial_offset = pool.offset
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if "MimirWell cannot hold converted F32 normalization tensor" not in error_text:
+        raise Error("undersized F32 pool did not reject with capacity diagnostic")
+    if "fixture.weight" in seer.tensors:
+        raise Error("failed F32 allocation inserted a tensor descriptor")
+    if pool.offset != initial_offset:
+        raise Error("failed F32 allocation mutated pool offset")
+    if seer.state != 4 or seer.is_mapped:
+        raise Error("F32 pool rejection did not clean loader mapping")
+    print("PASS: F32 pool exhaustion is mutation-free and cleans mmap")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
     test_gguf_metadata_type_integration()
@@ -300,3 +324,4 @@ def main() raises:
     test_gguf_tensor_directory_interface()
     test_gguf_tensor_directory_adversarial()
     test_gguf_tensor_directory_integration()
+    test_gguf_tensor_directory_pool_adversarial()
