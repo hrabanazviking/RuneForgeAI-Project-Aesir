@@ -3368,3 +3368,17 @@ checks pass. The normal service binary was rebuilt after fixture-source changes;
 prefill4 and cpu_offload0. Controls stay test-only/default-disabled. No speed,
 GPU-fault repair or production-selection claim. Hosted CI is pending for the
 final pushed revision; the next slice is owned strategy5 tracing.
+
+## 2026-10-10 — Strategy5 owned trace review and documentation
+
+AES500-018 narrowed the pre-session CUDA trace exception after independent review.
+The 42 records in each owned trace window comprise 30 status-0 API calls and 12
+`cuMemCreate` calls returning CUDA status 101 (`CUDA_ERROR_INVALID_DEVICE`).
+Because exported calls omit arguments, evidence does not classify these results
+as benign or unsupported. The checker now admits status 101 only for pre-session
+`cuMemCreate` and writes per-API status counts into the compact physical receipts.
+Both retained public37/public1070 reports were re-admitted; profiled and
+unprofiled complete F32 logits remain byte-identical. Checker and documentation
+consistency checks pass locally. The current service remains separate from this
+fixture-only trace evidence. No speed, occupancy, provider-lead or production
+selection claim is made; AES500-020 exact-head hosted CI is the release gate.

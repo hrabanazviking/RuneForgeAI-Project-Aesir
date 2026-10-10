@@ -616,10 +616,12 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-016 public37/public1070 profiled/unprofiled integration and physical
   attribution are accepted locally in
   `docs/evidence/small-attention-trace-integration-2026-10-10/`; hosted CI remains
-  a separate release gate. AES500-017+ adversarial/review slices remain open.
-- AES500-017 adversarial checker coverage is underway under
-  `TASK_small_attention_trace_adversarial.md`; the exact hosted gate remains
-  pending until the slice is pushed.
+  a separate release gate.
+- AES500-017 hostile trace-boundary tests and AES500-018 review correction are
+  pushed. Status 101 is narrowly accepted only for pre-session `cuMemCreate`,
+  named as `CUDA_ERROR_INVALID_DEVICE`, and exposed in each trace receipt.
+- AES500-019 synchronizes this documentation; AES500-020 remains the exact-head
+  release gate. No speed, occupancy, provider-lead or production-selection claim.
 
 ## Status
 

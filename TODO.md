@@ -1079,7 +1079,11 @@ The legacy formatters below are not exposed compatibility APIs.
   [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
   [evidence](docs/evidence/small-attention-controls-2026-10-09/README.md).
   Fixture-only; no production selection or speed promotion.
-- [ ] SPD-03 owned strategy5 tracing, then
-  runtime/context/device/concurrency/soak/refreshed provider acceptance. Active
-  work order: the next strategy5 tracing contract. Control recovery is closed for
-  its declared fixture/model/device scope; broader runtime/provider gates remain.
+- [x] SPD-03 owned strategy5 tracing for the declared public37/public1070
+  fixture scope: implementation, adversarial checker contracts, independent
+  review correction and physical attribution are recorded in the trace evidence
+  receipt. The exact hosted release gate remains separate.
+- [ ] Continue with AES500-019 documentation and AES500-020 release verification,
+  then runtime/context/device/concurrency/soak/refreshed provider acceptance.
+  Control recovery remains closed only for its declared fixture/model/device
+  scope; broader runtime/provider gates remain.
