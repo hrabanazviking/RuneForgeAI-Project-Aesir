@@ -108,3 +108,9 @@ Mojo codebase can raise appears there exactly once.
 - **MechanismUnavailable / PowerManagementUnsupported /
   PrivilegeRequired** — the platform cannot provide what the recovery
   needs; escalate to the operator instead of degrading silently.
+
+## Telemetry (not errors)
+- **RegisterPollClean** — the H144 live register poll ran and found zero
+  error conditions (carries the raw pci_status / irq_0x18c values). Emitted
+  so the H159 audit has a positive signal that the poll executes on a
+  healthy device; it is not classified in the error taxonomy.

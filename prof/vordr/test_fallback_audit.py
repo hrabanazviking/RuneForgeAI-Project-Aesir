@@ -135,7 +135,7 @@ def main():
         run([VORDR, "h158-run", "--out-dir", out, "--f1-bin", F1BIN,
              "--f1-config", F1CFG, "--max-tokens", "8", "--duration-s", "600",
              "--max-iters", "2", "--iter-budget-ms", "120000"])
-        check("reg-decode-live", out + "/events.jsonl", ["RegisterErrorDecoded"])
+        check("reg-decode-live", out + "/events.jsonl", ["RegisterPollClean"])
 
     # 15-16: watchdog restarts a dying child, then gives up
     wdir = tmp / "wd"
@@ -211,7 +211,7 @@ def main():
     probe = tmp / "be_probe.mojo"
     probe.write_text(
         "from armvegr.backend import select_backend, BACKEND_AUTO\n"
-        "def main():\n"
+        "def main() raises:\n"
         "    var log = List[String]()\n"
         "    var b = select_backend(\"probe_op\", 8, 8, 32, BACKEND_AUTO(), log)\n"
         "    print(\"backend=\" + String(b))\n"

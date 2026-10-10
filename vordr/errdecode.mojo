@@ -179,6 +179,14 @@ def poll_decode_live(
         event_emit_slice(
             arch, log_path, "H144", "RegisterErrorDecoded", out[i].to_fields()
         )
+    if len(out) == 0:
+        # Honest telemetry: the live poll RAN and the device is clean.
+        # (H159 audit needs a positive signal that the poll executes.)
+        event_emit_slice(
+            arch, log_path, "H144", "RegisterPollClean",
+            "\"pci_status\": " + String(status) + ", \"irq_0x18c\": "
+            + String(irq),
+        )
     return out^
 
 

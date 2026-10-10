@@ -1043,6 +1043,7 @@ def cmd_h158_run(args: List[String]) raises -> Int:
         file_exists,
         os_clock_ms,
         os_kill,
+        os_mkdir,
         os_sleep_ms,
         os_unlinkat,
         read_file_str,
@@ -1074,6 +1075,8 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     var rng = XorShift64(fi_seed)
     var t_start = os_clock_ms(arch)
     var t_end = t_start + Int64(duration_s) * 1000
+    # Create the out dir (mkdir -p of one level; ignore EEXIST).
+    _ = os_mkdir(arch, out_dir, 493)
 
     # Time-based fault schedule: mean 1 fault / 60 s, seeded and
     # logged (the H158 acceptance rate). No fatal faults in the random
