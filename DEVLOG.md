@@ -3851,3 +3851,8 @@ tokenizer parity.
 
 AES500-153 pins the public RuneWeaver vocabulary-to-encode seam and empty
 no-BOS behavior. Master suite: 219 passed, zero failed, one skipped (220 total).
+
+
+AES500-154 makes equal-score leftmost pair selection explicit in the merge
+comparator. Exact tie/ranking/chaining/fallback vectors and master suite
+(219 passed, zero failed, one skipped) remain green.

@@ -164,7 +164,11 @@ struct RuneWeaver:
                 if token_id < 0 or token_id >= len(self.scores):
                     continue
                 var score = self.scores[token_id]
-                if score > best_score:
+                # Stable score ordering: equal scores keep the earliest pair.
+                if score > best_score or (
+                    score == best_score
+                    and (best_pair_index < 0 or index < best_pair_index)
+                ):
                     best_score = score
                     best_pair_index = index
 

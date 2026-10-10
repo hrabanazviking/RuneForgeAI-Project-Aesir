@@ -33,3 +33,8 @@ AES500-152 baseline: equal-score leftmost tie -> `[4,3]`; higher-scored right me
 ## AES500-153 interface receipt
 
 The public vocabulary/encoding seam is exercised without private helper calls: registering `x`, `y`, and scored `xy` yields `[3]` for `encode("xy", False)`, while empty input emits no token when BOS is disabled. Master suite: 219 passed, zero failed, one skipped (220 total).
+
+
+## AES500-154 implementation receipt
+
+The score comparator now explicitly selects the lower pair index when candidate scores are equal. This preserves existing finite-score outputs while making deterministic tie behavior visible in the implementation. The master suite passes 219/0/1 (220 total), including all exact merge vectors.
