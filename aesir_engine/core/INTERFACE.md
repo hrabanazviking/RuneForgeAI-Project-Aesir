@@ -1463,3 +1463,9 @@ typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one s
 seven builds before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
 selection/persisted/crash/context recreation claim. Next separate controls/tracing.
+CPU `flash_attention_2` is intended to produce inclusive causal-prefix
+attention: output row `i` may consume only K/V rows `0..i`. The current source
+does not apply this mask and consumes every row through `seq_len` for each
+query; AES500-112 captures that gap before implementation. See
+`TASK_causal_attention_reference_suite.md` for its shape, numerical, and
+evidence boundaries.

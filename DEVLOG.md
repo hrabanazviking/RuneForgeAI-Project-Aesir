@@ -170,6 +170,11 @@ runs last because placing its caught-error path before later filesystem-heavy
 tests reproducibly crashes the Mojo 1.0.0 runtime; as the final counted case it
 passes. Hosted exact-head CI is tracked after the receipt push.
 
+AES500-111 defines inclusive causal attention for `flash_attention_2`. Source
+inspection found the kernel currently consumes all `seq_len` K/V rows for every
+query row, with no future-position mask. AES500-112 will preserve a deterministic
+baseline of that gap before implementation; no behavior changed here.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

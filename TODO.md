@@ -1249,3 +1249,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   whitespace checks pass. The theta adversarial test runs last to avoid a
   reproducible Mojo 1.0.0 same-process crash when later filesystem-heavy tests
   follow its caught-error path. Hosted exact-head CI remains to be verified.
+- [x] AES500-111 causal attention contract: `TASK_causal_attention_reference_suite.md`
+  defines inclusive prefix semantics, shape and arithmetic expectations, and
+  identifies the current missing future-position mask. No source changed.
