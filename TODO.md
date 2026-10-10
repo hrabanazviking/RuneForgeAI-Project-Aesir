@@ -1205,3 +1205,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   integration rollback behavior is recorded, and all new named cases appear in
   the capability ledger and interfaces. `python3 scripts/test_check_doc_drift.py`
   and `python3 scripts/check_doc_drift.py` pass.
+- [x] AES500-100 local release checks: pinned Pixi/Mojo native build and
+  `--help` smoke pass; full sm_89 master suite reports 198 passed, 0 failed,
+  1 skipped, 199 total; both documentation checks and `git diff --check` pass.
+  Exact-head hosted CI is tracked against the release receipt commit and is not
+  inferred from these local results.

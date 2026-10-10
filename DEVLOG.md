@@ -118,6 +118,11 @@ tolerance and finite-overflow policy, and linked the review receipt from the
 task and interface owners. Repository and documentation drift checks pass; no
 runtime code changed in this documentation slice.
 
+AES500-100 local release checks rebuilt the pinned sm_89 native executable
+and passed its `--help` smoke path. The master suite reports 198 passed, zero
+failed, one skipped (199 total); both documentation checkers and whitespace
+hygiene pass. Hosted CI remains an exact-head post-push gate.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
