@@ -1072,6 +1072,14 @@ module-private complete-state path, so it cannot manufacture sentinel-bearing
 weights. The validated single-device path sizes Q independently from K/V,
 applies grouped-query attention, checks token IDs and required
 embedding/output tensors, and uses the model's RMS epsilon.
+
+`inference.rmsnorm_integration` runs the existing `forward_pass` output norm
+with finite positive model epsilon, checks the selected token and restored
+arena offset, then confirms a short output-normalization weight propagates the
+shared RMSNorm admission error. Existing `inference.synthetic_forward` also
+executes the TransformerBlock attention and feed-forward RMSNorm call sites.
+These synthetic checks establish host-path wiring and narrow output behavior;
+they do not establish model quality or external-fixture correctness.
 # Reserved experimental inference surfaces
 
 `EpisodicComputationMemory`, `WaveInferenceEngine`, `NSFIEngine` and

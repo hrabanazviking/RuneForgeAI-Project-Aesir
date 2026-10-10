@@ -1178,4 +1178,9 @@ The legacy formatters below are not exposed compatibility APIs.
   computes scalar F32 normalization for two rows at widths 3, 15, 16, 17, and
   33, then requires exact final F16 values. The passing corpus is deterministic
   and does not establish a general tolerance or exceptional-value policy. Full
-  master suite: 196 passed, 0 failed, 1 skipped, 197 total.
+master suite: 196 passed, 0 failed, 1 skipped, 197 total.
+- [x] AES500-096 RMSNorm integration: `inference.rmsnorm_integration` checks
+  deterministic `forward_pass` output normalization, selected token, restored
+  arena offset, and propagation of a short output-weight error. The existing
+  transformer forward case still exercises block RMSNorm consumers; no
+  inference path or model-quality claim is introduced.

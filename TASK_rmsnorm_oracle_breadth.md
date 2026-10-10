@@ -64,8 +64,11 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
 - Malformed tests reject zero dimensions, short weights, and nonpositive
   epsilon before mutation; exact before/after input snapshots prove no partial
   writes on rejected admission.
-- Integration exercises an existing transformer RMSNorm consumer without
-  changing the path.
+- Integration exercises the existing `forward_pass` output-normalization
+  consumer with a deterministic token result and arena restoration, then checks
+  that its short-weight failure propagates from the shared RMSNorm contract.
+  The registered synthetic transformer forward case also executes the layer
+  attention and feed-forward RMSNorm consumers; no inference path is changed.
 - Adversarial evidence covers very small/large finite magnitudes and explicit
   non-finite policy once the contract is resolved.
 

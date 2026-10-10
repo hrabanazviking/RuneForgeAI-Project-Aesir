@@ -93,6 +93,13 @@ outputs match after F16 conversion. This confirms the named corpus only; no
 general tolerance or exceptional tensor/weight policy is inferred. The master
 suite reports 196 passed, zero failed, one skipped (197 total).
 
+AES500-096 registers `inference.rmsnorm_integration` around the existing
+`forward_pass` final normalization path. A synthetic two-token model confirms
+the selected token and successful arena restoration; a short output weight
+surfaces the kernel's exact admission error. The existing synthetic transformer
+forward case also continues through block RMSNorm calls. No inference code
+changed, and these local cases do not establish model quality.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

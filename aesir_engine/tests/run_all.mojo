@@ -36,6 +36,7 @@ from tests.test_checked_span import test_checked_span
 from tests.test_rune_tensor_layout import test_rune_tensor_layout
 from tests.test_rmsnorm_interface import test_rmsnorm_interface
 from tests.test_rmsnorm_reference import test_rmsnorm_reference
+from tests.test_rmsnorm_integration import test_rmsnorm_inference_integration
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
     test_mimir_well_allocation_bounds,
@@ -326,6 +327,11 @@ def main() raises:
     print("  [DOMAIN] The Loom of Fate (Inference)")
     print("  -----------------------------------------")
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
+    run_case(
+        ledger,
+        "inference.rmsnorm_integration",
+        test_rmsnorm_inference_integration,
+    )
     run_case(ledger, "inference.stop_policy", test_generation_stop_policy)
     run_case(
         ledger,
@@ -831,4 +837,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(197)
+    ledger.finish(198)
