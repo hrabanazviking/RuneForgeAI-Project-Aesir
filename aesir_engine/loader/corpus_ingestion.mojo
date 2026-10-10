@@ -6,6 +6,7 @@
 # embeddings from document text.
 
 from core.mimir_well import MimirWell, MimirStore, RuneTensor, f16, f32
+from core.text_admission import admit_text_bytes, validate_utf8_bytes
 
 struct DocumentChunk(Copyable, ImplicitlyCopyable):
     var id: String
@@ -36,7 +37,7 @@ struct DocumentChunk(Copyable, ImplicitlyCopyable):
         self.byte_offset = existing.byte_offset
 
 
-def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> List[DocumentChunk]:
+def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) raises -> List[DocumentChunk]:
     """
     Deterministic Text Chunking Kernel.
     Splits text into fixed character windows with overlap, preserving byte offset metadata.
@@ -47,7 +48,12 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
     if text_len == 0 or chunk_size <= 0:
         return chunks^
 
-    var effective_overlap = chunk_overlap
+    var validation_bytes = List[Byte]()
+    for byte in t_bytes:
+        validation_bytes.append(byte)
+    validate_utf8_bytes(validation_bytes, "chunk_text input")
+
+    var effective_overlap = max(0, chunk_overlap)
     if effective_overlap >= chunk_size:
         effective_overlap = chunk_size // 2
 
@@ -60,16 +66,38 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
 
     while offset < text_len:
         var end_offset = min(offset + chunk_size, text_len)
+        # Move a nonterminal end back to a code-point boundary. The input was
+        # validated above, so continuation bytes are unambiguous here.
+        while end_offset < text_len and Int(t_bytes[end_offset]) >= 128 and Int(t_bytes[end_offset]) <= 191:
+            end_offset -= 1
+        # A single code point may exceed chunk_size; keep it intact.
+        if end_offset == offset:
+            var first = Int(t_bytes[offset])
+            if first >= 240:
+                end_offset = min(offset + 4, text_len)
+            elif first >= 224:
+                end_offset = min(offset + 3, text_len)
+            elif first >= 194:
+                end_offset = min(offset + 2, text_len)
+            else:
+                end_offset = offset + 1
         var slice_bytes = List[Byte]()
         for i in range(offset, end_offset):
             slice_bytes.append(t_bytes[i])
-        var chunk_str = String(slice_bytes)
+        var chunk_str = admit_text_bytes(slice_bytes, "chunk_text output", text_len)
         var chunk_id = String("chunk_") + String(idx)
         chunks.append(DocumentChunk(chunk_id, chunk_str, String("inline"), idx, offset))
         idx += 1
         if end_offset >= text_len:
             break
-        offset += step
+        var next_offset = offset + step
+        # Align forward to the next leading byte without skipping content:
+        # the overlap ensures this remains at or before the emitted end.
+        while next_offset < end_offset and Int(t_bytes[next_offset]) >= 128 and Int(t_bytes[next_offset]) <= 191:
+            next_offset += 1
+        if next_offset <= offset:
+            next_offset = end_offset
+        offset = next_offset
 
     return chunks^
 

@@ -1101,9 +1101,9 @@ the complete ledger population.
 - **Status:** `partial`
 - **Owner:** RAG domain
 - **Claim sources:** Mímisbrunnr external knowledge-base claim
-- **Implementation evidence:** `DocumentChunk` and `chunk_text()` provide deterministic overlapping inline chunks and byte offsets. `ingest_corpus_batch()` transactionally validates caller-supplied embedding matrix shape, store capacity, and non-empty text before copying rows into `MimirStore`; it performs no synthetic embedding generation.
-- **Executable evidence:** `E-MASTER` case `rag.corpus_ingestion` checks chunking, real matrix copying, shape rejection, and mutation-free failure.
-- **Evidence boundary:** There is no file/document parser, durable index, versioning, update/delete path, embedding service, or provenance-preserving citation store. The byte-window chunker does not yet prove arbitrary UTF-8 boundary safety.
+- **Implementation evidence:** `DocumentChunk` and `chunk_text()` provide deterministic overlapping inline chunks with original byte offsets, validate NUL-free UTF-8, and align emitted boundaries to complete code points. `ingest_corpus_batch()` validates caller-supplied embedding matrix shape, store capacity, and every non-empty chunk before copying rows; preflight rejection preserves store and arena state.
+- **Executable evidence:** `E-MASTER` case `rag.corpus_ingestion` checks chunking, exact Unicode byte offsets, malformed UTF-8 rejection, real matrix copying, shape/capacity/empty-text rejection, and mutation-free failure.
+- **Evidence boundary:** There is no file/document parser, durable index, versioning, update/delete path, embedding service, or provenance-preserving citation store. Byte-based chunk size may be exceeded by a single complete Unicode code point.
 - **Next acceptance gate:** Reproducible ingestion pipeline, persistent store/index, metadata/citation contract, restart behavior, and external corpus tests.
 - **Audit:** AER-084 through AER-087.
 

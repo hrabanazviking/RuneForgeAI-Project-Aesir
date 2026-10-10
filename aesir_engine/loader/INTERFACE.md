@@ -1,5 +1,19 @@
 # Loader Domain Interface Specification
 
+## RAG corpus ingestion (`corpus_ingestion.mojo`)
+
+`chunk_text(text, chunk_size, chunk_overlap)` raises on malformed or NUL-bearing
+UTF-8. Chunk sizes and offsets are byte-based, while emitted ranges preserve
+complete code points; an individual code point may exceed the requested byte
+size rather than being split. The returned `byte_offset` indexes the original
+UTF-8 byte sequence. Negative overlap clamps to zero; overlap at least the
+chunk size clamps to half the size.
+
+`ingest_corpus_batch()` validates embedding matrix shape, remaining store
+capacity, and every chunk's nonempty text before copying any row. Rejected
+batches preserve store count and arena offset. Caller-supplied embeddings
+remain required; ingestion does not generate vectors.
+
 > **Current execution boundary — 2026-08-30:** `gguf.mojo`/`tokenizer.mojo`
 > retain the CPU Llama slice. `packed_gguf.mojo` and `gemma4_tokenizer.mojo`
 > provide the bounded GGUF and BPE contract for the native Gemma CUDA profile;
