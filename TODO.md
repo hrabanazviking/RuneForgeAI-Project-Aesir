@@ -1519,3 +1519,22 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   binary help pass; master suite 230/0/1 (231 total); documentation drift and
   whitespace checks pass. Hosted Actions for pre-commit head 2d57f5e remained
   in progress at verification time.
+
+- [x] AES500-181 greedy tie contract: finite equal maxima choose the lowest
+  token ID; CPU/CUDA non-finite and suppression differences remain explicit.
+- [x] AES500-182 greedy tie baseline: pinned Mojo 1.0.0 CPU executable returns
+  token 1 for equal maxima at IDs 1, 2, and 4; source hashes and CUDA source-only
+  evidence are recorded.
+- [x] AES500-183/184 greedy tie interface and implementation: contracts are
+  explicit, and both existing selectors already implement the selected rule.
+- [x] AES500-185 greedy tie unit evidence: tied and unique maxima pass in the
+  master suite, now 231 passed, zero failed, one skipped (232 total).
+- [x] AES500-186/187 greedy tie integration and adversarial evidence: CPU path
+  passes; CUDA physical probe failed PTX JIT (`CUDA_ERROR_INVALID_PTX`) and is
+  not claimed. First/middle/final tie matrix passes; master 232/0/1 (233 total).
+- [x] AES500-188/189 primary review and documentation sync: source tie rule and
+  CPU/CUDA evidence boundary recorded; independent Auditor unavailable at
+  thread cap and not claimed.
+- [x] AES500-190 greedy tie release gate: pinned CLI build/help, master 232/0/1
+  (233 total), docs tests, drift and whitespace pass. CUDA physical probe remains
+  blocked by PTX JIT invalid PTX; no hardware tie result claimed.

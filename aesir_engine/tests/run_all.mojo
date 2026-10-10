@@ -30,6 +30,8 @@ from tests.test_inference import (
     test_forward_pass,
     test_generation_stop_policy,
     test_unsupported_runtime_config,
+    test_greedy_tie_policy,
+    test_greedy_tie_adversarial,
 )
 from tests.test_kv_cache import test_kv_cache
 from tests.test_checked_span import test_checked_span
@@ -375,6 +377,8 @@ def main() raises:
     print("  [DOMAIN] The Loom of Fate (Inference)")
     print("  -----------------------------------------")
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
+    run_case(ledger, "sampling.greedy_tie_policy", test_greedy_tie_policy)
+    run_case(ledger, "sampling.greedy_tie_adversarial", test_greedy_tie_adversarial)
     run_case(
         ledger,
         "inference.rmsnorm_integration",
@@ -896,4 +900,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(231)
+    ledger.finish(233)

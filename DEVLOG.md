@@ -3987,3 +3987,23 @@ native CLI build and built-binary help passed; master suite was 230 passed, zero
 failed, one skipped (231 total); documentation drift and whitespace checks
 passed. Exact remote head before commit was 2d57f5e. Hosted Actions remained
 in progress at verification time; no hosted success is inferred.
+
+
+AES500-181–185 specify, baseline, document, and test greedy finite-logit tie
+selection. CPU and CUDA source already select the lowest ID on equal maxima; the
+CPU fixture reproduces IDs 1/2/4 selecting 1, and the new master case checks tied
+and unique maxima. Master suite: 231 passed, zero failed, one skipped (232 total).
+No physical CUDA sampler run or model quality claim is included.
+
+
+AES500-186 attempted the physical CUDA sampler on the observed RTX 2060. The
+probe failed during PTX JIT with `CUDA_ERROR_INVALID_PTX`, so no GPU tie behavior
+is claimed. AES500-187 added first/middle/final tie-position vectors; the master
+suite passes 232 cases, zero failures, one skip (233 total). Primary review and
+documentation preserve the CPU evidence and CUDA limitation; no independent
+agent review was available.
+
+
+AES500-190 release gate passes the pinned CLI build and help, master suite
+(232 passed, zero failed, one skipped / 233 total), docs tests, drift and
+whitespace. The physical CUDA tie probe remains an explicit PTX JIT limitation.

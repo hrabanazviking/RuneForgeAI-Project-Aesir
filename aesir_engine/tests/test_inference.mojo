@@ -2,10 +2,12 @@ from loader.gguf import GGUFSeer
 from loader.chat_template import ChatMessage, RuneChatTemplate, NativeTokenizerSelection
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass, TransformerBlock
-from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
+from core.sampler import RuneRNG, TokenCandidate, sample_token_from_logits, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
 from core.session import SessionContext, SessionManager
 from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config
-from std.memory import Pointer
+from std.memory import Pointer, dealloc
+from std.memory.alloc import alloc, Layout
+from core.compute import MutUntrackedOrigin
 
 
 def test_session_isolation() raises:
@@ -214,6 +216,65 @@ def test_sampler_stack() raises:
         raise Error("Min-P sampling must truncate candidates below threshold")
 
     print("Configurable Sampler Stack: PASS")
+
+
+def test_greedy_tie_policy() raises:
+    """Finite equal maxima select the lowest token ID on the CPU path."""
+    var allocation = alloc(Layout[Scalar[f16]](count=5))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](5.0))
+    logits.unsafe_store(2, Scalar[f16](5.0))
+    logits.unsafe_store(3, Scalar[f16](0.0))
+    logits.unsafe_store(4, Scalar[f16](5.0))
+    var rng = RuneRNG(42)
+    var tied = sample_token_from_logits(logits, 5, 0.0, 40, 1.0, 1.0, List[Int](), rng)
+    if tied != 1:
+        dealloc(allocation^)
+        raise Error("Greedy ties must choose the lowest ID among finite maxima")
+    logits.unsafe_store(2, Scalar[f16](6.0))
+    var unique = sample_token_from_logits(logits, 5, 0.0, 40, 1.0, 1.0, List[Int](), rng)
+    dealloc(allocation^)
+    if unique != 2:
+        raise Error("Greedy unique maximum selection changed")
+    print("Finite greedy tie and unique-maximum policy: PASS")
+
+
+def test_greedy_tie_adversarial() raises:
+    """Tied maxima at first, middle, and final positions choose lowest ID."""
+    var allocation = alloc(Layout[Scalar[f16]](count=9))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    var tie_positions = List[List[Int]]()
+    var first_case = List[Int]()
+    first_case.append(0)
+    first_case.append(4)
+    first_case.append(8)
+    tie_positions.append(first_case.copy())
+    var second_case = List[Int]()
+    second_case.append(1)
+    second_case.append(5)
+    second_case.append(7)
+    tie_positions.append(second_case.copy())
+    var third_case = List[Int]()
+    third_case.append(2)
+    third_case.append(3)
+    third_case.append(6)
+    tie_positions.append(third_case.copy())
+    for case_idx in range(len(tie_positions)):
+        for i in range(9):
+            logits.unsafe_store(i, Scalar[f16](Float32(i - 20)))
+        var expected = tie_positions[case_idx][0]
+        for j in range(len(tie_positions[case_idx])):
+            logits.unsafe_store(tie_positions[case_idx][j], Scalar[f16](9.0))
+        var rng = RuneRNG(UInt64(100 + case_idx))
+        var actual = sample_token_from_logits(
+            logits, 9, 0.0, 40, 1.0, 1.0, List[Int](), rng
+        )
+        if actual != expected:
+            dealloc(allocation^)
+            raise Error("Greedy tie scan/position matrix selected the wrong ID")
+    dealloc(allocation^)
+    print("Greedy tie position and scan-order matrix: PASS")
 
 
 def test_chat_template() raises:

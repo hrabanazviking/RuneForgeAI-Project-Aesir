@@ -91,6 +91,13 @@ or failed sessions. Repetition-window changes require a new session.
 `NativeCUDASampler` owns fixed device workspaces and the ordered-stream history;
 no probability tensors are copied to CPU. See `docs/NATIVE_RUNTIME.md` for
 exact filtering order, byte counts, admission and reproducibility boundaries.
+Greedy selection for finite logits chooses the lowest token ID among equal
+maxima, on the CPU sampler and native CUDA argmax. CPU non-finite sanitization
+and suppression behavior differ from the plain CUDA greedy path and are not
+covered by this tie rule. Physical CUDA sampler evidence is currently blocked by
+local PTX JIT `CUDA_ERROR_INVALID_PTX`; no CUDA tie result is claimed. Synthetic
+tie vectors prove selector behavior only,
+not model output or performance.
 
 ### `MimirWell`
 Pre-allocates a contiguous F16-element workspace pool. `allocate(elements)`

@@ -220,6 +220,7 @@ def attention_kernel(a: Floats, kv: Floats, scores_arg: Int64, dst_arg: Int64,
 
 
 def argmax_kernel(a: Floats, output: Integers, logits_arg: Int64, count_arg: Int64):
+    """Select lowest ID among equal finite maxima; any nonfinite logit rejects."""
     var logits = Int(logits_arg)
     var count = Int(count_arg)
     var lane = Int(global_idx.x)

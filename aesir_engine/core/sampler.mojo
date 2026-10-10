@@ -234,7 +234,7 @@ def sample_token_from_logits(
     min_p: Float32 = 0.0,
     suppress_tokens: List[Int] = List[Int](),
 ) -> Int:
-    """Samples a token ID from raw F16 logits using an optimized high-performance sampler stack."""
+    """Samples raw F16 logits; greedy equal finite maxima choose the lowest ID."""
     if vocab_size <= 0:
         return 0
 
