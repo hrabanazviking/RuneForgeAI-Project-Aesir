@@ -7,6 +7,8 @@
 Current application version identity and the future release-tag contract are
 documented in [`docs/VERSIONING.md`](docs/VERSIONING.md). The CLI currently
 reports an unversioned development snapshot.
+Compatibility claims are limited by [`docs/COMPATIBILITY_POLICY.md`](docs/COMPATIBILITY_POLICY.md)
+and the [HTTP support matrix](docs/API_SUPPORT_MATRIX_V1.md).
 
 ---
 
