@@ -1538,3 +1538,19 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-190 greedy tie release gate: pinned CLI build/help, master 232/0/1
   (233 total), docs tests, drift and whitespace pass. CUDA physical probe remains
   blocked by PTX JIT invalid PTX; no hardware tie result claimed.
+- [x] AES500-191 temperature-distribution contract and AES500-192 baseline:
+  CPU/CUDA owners and distinct PRNG/filter contracts recorded with source hashes.
+- [x] AES500-193/194 temperature interface and implementation: formula and
+  order documented; existing CPU sampler already matches the chosen contract.
+- [x] AES500-195 temperature oracle: 4,096 paired seeds at T=0.5/1.0 agree
+  with analytic softmax within 0.025 and higher temperature flattens mass;
+  master suite 233/0/1 (234 total).
+- [x] AES500-196/197 temperature integration/adversarial: validated config
+  returns an in-range token; negative T rejects, extreme finite F16 selects max,
+  and NaN sanitization remains in-range. Master 235/0/1 (236 total).
+- [x] AES500-198/199 primary review and docs sync: formula, tolerances, engine
+  limits, no-calibration claim, and CUDA PTX JIT failure recorded. Independent
+  Auditor unavailable at thread cap; no independent review claimed.
+- [x] AES500-200 temperature release gate: CI-targeted CLI build/help, master
+  235/0/1 (236 total), docs tests, drift and whitespace pass; CUDA JIT limitation
+  remains explicit.

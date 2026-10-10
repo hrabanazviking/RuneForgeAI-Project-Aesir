@@ -32,6 +32,9 @@ from tests.test_inference import (
     test_unsupported_runtime_config,
     test_greedy_tie_policy,
     test_greedy_tie_adversarial,
+    test_temperature_distribution_oracle,
+    test_temperature_sampling_integration,
+    test_temperature_sampling_adversarial,
 )
 from tests.test_kv_cache import test_kv_cache
 from tests.test_checked_span import test_checked_span
@@ -379,6 +382,9 @@ def main() raises:
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
     run_case(ledger, "sampling.greedy_tie_policy", test_greedy_tie_policy)
     run_case(ledger, "sampling.greedy_tie_adversarial", test_greedy_tie_adversarial)
+    run_case(ledger, "sampling.temperature_distribution_oracle", test_temperature_distribution_oracle)
+    run_case(ledger, "sampling.temperature_integration", test_temperature_sampling_integration)
+    run_case(ledger, "sampling.temperature_adversarial", test_temperature_sampling_adversarial)
     run_case(
         ledger,
         "inference.rmsnorm_integration",
@@ -900,4 +906,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(233)
+    ledger.finish(236)

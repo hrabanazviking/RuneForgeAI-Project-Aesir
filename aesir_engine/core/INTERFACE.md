@@ -99,6 +99,22 @@ local PTX JIT `CUDA_ERROR_INVALID_PTX`; no CUDA tie result is claimed. Synthetic
 tie vectors prove selector behavior only,
 not model output or performance.
 
+For positive temperature, the CPU sampler forms probabilities proportional to
+`exp(logit / temperature)` after suppression, repetition/frequency/presence
+penalties, temperature scaling, and top-k/top-p/min-p filters. It uses its
+24-bit `RuneRNG` stream and a `max_logit - 15` candidate window. This CPU stream
+is not specified to match native CUDA SplitMix64 draws or CUDA filter details.
+Oracle tests use small finite CPU vectors and do not establish model calibration
+or output quality. The current deterministic CPU oracle reports 0.12768555
+lower-token mass versus 0.11920292 softmax expectation at T=0.5, and 0.2775879
+versus 0.26894143 at T=1.0 over 4,096 seeds per temperature; both use absolute
+tolerance 0.025. The physical CUDA probe remains unavailable due to PTX JIT
+`CUDA_ERROR_INVALID_PTX`.
+Validated `GenerationConfig` is exercised through the CPU sampler and the output
+is constrained to the admitted vocabulary. Negative temperature rejects before
+sampling; extreme finite F16 logits and NaN sanitization remain in bounds.
+These tests do not verify physical CUDA behavior or model calibration.
+
 ### `MimirWell`
 Pre-allocates a contiguous F16-element workspace pool. `allocate(elements)`
 accepts a positive element count and returns a raw pointer at the current bump

@@ -8,6 +8,8 @@ from aesir import GenerationConfig, generation_stop_reason, validate_runtime_bac
 from std.memory import Pointer, dealloc
 from std.memory.alloc import alloc, Layout
 from core.compute import MutUntrackedOrigin
+from std.math import exp
+from std.memory import bitcast
 
 
 def test_session_isolation() raises:
@@ -275,6 +277,100 @@ def test_greedy_tie_adversarial() raises:
             raise Error("Greedy tie scan/position matrix selected the wrong ID")
     dealloc(allocation^)
     print("Greedy tie position and scan-order matrix: PASS")
+
+
+def test_temperature_distribution_oracle() raises:
+    """Compare CPU two-token sampling frequencies with independent softmax."""
+    var allocation = alloc(Layout[Scalar[f16]](count=2))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](0.0))
+    var low_count_mid = 0
+    var low_count_high = 0
+    for seed in range(4096):
+        var rng_mid = RuneRNG(UInt64(seed + 1))
+        var mid_token = sample_token_from_logits(
+            logits, 2, 0.5, 2, 1.0, 1.0, List[Int](), rng_mid
+        )
+        var rng_high = RuneRNG(UInt64(seed + 1))
+        var high_token = sample_token_from_logits(
+            logits, 2, 1.0, 2, 1.0, 1.0, List[Int](), rng_high
+        )
+        if mid_token == 1:
+            low_count_mid += 1
+        elif mid_token != 0:
+            dealloc(allocation^)
+            raise Error("Two-token temperature sampler returned an invalid ID")
+        if high_token == 1:
+            low_count_high += 1
+        elif high_token != 0:
+            dealloc(allocation^)
+            raise Error("Two-token temperature sampler returned an invalid ID")
+    var observed_mid = Float32(low_count_mid) / 4096.0
+    var observed_high = Float32(low_count_high) / 4096.0
+    # Independent analytic oracle: exp(0/T) / (exp(1/T) + exp(0/T)).
+    var expected_mid = Float32(1.0) / (exp(Float32(2.0)) + Float32(1.0))
+    var expected_high = Float32(1.0) / (exp(Float32(1.0)) + Float32(1.0))
+    dealloc(allocation^)
+    if abs(observed_mid - expected_mid) > 0.025:
+        raise Error("CPU temperature sampling frequency diverged from softmax oracle")
+    if abs(observed_high - expected_high) > 0.025 or observed_high <= observed_mid:
+        raise Error("Higher temperature failed to flatten two-token sampling mass")
+    print("Temperature oracle mid observed/expected: ", observed_mid, " / ", expected_mid)
+    print("Temperature oracle high observed/expected: ", observed_high, " / ", expected_high)
+
+
+def test_temperature_sampling_integration() raises:
+    """Exercise validated config, fixed-seed CPU sample, and allowed IDs."""
+    var config = GenerationConfig(max_new_tokens=1, temperature=0.5, top_k=2, top_p=1.0)
+    config.validate(2)
+    var allocation = alloc(Layout[Scalar[f16]](count=2))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](2.0))
+    logits.unsafe_store(1, Scalar[f16](0.0))
+    var rng = RuneRNG(77)
+    var selected = sample_token_from_logits(
+        logits, 2, config.temperature, config.top_k, config.top_p,
+        1.0, List[Int](), rng
+    )
+    dealloc(allocation^)
+    if selected < 0 or selected >= 2:
+        raise Error("Integrated temperature sample escaped admitted vocabulary")
+    print("Temperature config-to-sampler integration: PASS token=", selected)
+
+
+def test_temperature_sampling_adversarial() raises:
+    """Check invalid temperature and extreme/nonfinite CPU sampler edges."""
+    var invalid_config = GenerationConfig(max_new_tokens=1, temperature=-0.5)
+    var rejected = False
+    try:
+        invalid_config.validate(2)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Negative temperature must reject before sampling")
+
+    var allocation = alloc(Layout[Scalar[f16]](count=3))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](65504.0))
+    logits.unsafe_store(1, Scalar[f16](-65504.0))
+    logits.unsafe_store(2, Scalar[f16](0.0))
+    var rng = RuneRNG(999)
+    var extreme = sample_token_from_logits(
+        logits, 3, 0.01, 3, 1.0, 1.0, List[Int](), rng
+    )
+    if extreme != 0:
+        dealloc(allocation^)
+        raise Error("Extreme finite logits must retain the maximum token")
+    logits.unsafe_store(0, Scalar[f16](bitcast[DType.float16](UInt16(0x7e00))))
+    var rng_bad = RuneRNG(1000)
+    var sanitized = sample_token_from_logits(
+        logits, 3, 0.5, 3, 1.0, 1.0, List[Int](), rng_bad
+    )
+    dealloc(allocation^)
+    if sanitized < 0 or sanitized >= 3:
+        raise Error("Nonfinite CPU logit sanitization escaped vocabulary bounds")
+    print("Temperature adversarial admission and finite extremes: PASS")
 
 
 def test_chat_template() raises:

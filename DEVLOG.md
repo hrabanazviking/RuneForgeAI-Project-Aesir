@@ -4007,3 +4007,25 @@ agent review was available.
 AES500-190 release gate passes the pinned CLI build and help, master suite
 (232 passed, zero failed, one skipped / 233 total), docs tests, drift and
 whitespace. The physical CUDA tie probe remains an explicit PTX JIT limitation.
+
+
+AES500-191–195 define and verify the CPU temperature distribution contract.
+Across 4,096 paired deterministic seeds, lower-token mass was 0.12768555 vs
+0.11920292 expected at T=0.5 and 0.2775879 vs 0.26894143 at T=1.0, within the
+predeclared 0.025 tolerance; higher temperature flattened the distribution.
+Master suite: 233 passed, zero failed, one skipped (234 total). CUDA remains
+unverified because physical sampler execution fails PTX JIT.
+
+
+AES500-196/197 add CPU config-to-sampler integration and hostile input checks:
+negative temperature rejects, extreme finite F16 logits select the maximum at
+low T, and NaN sanitization stays within vocabulary. Master suite: 235 passed,
+zero failed, one skipped (236 total). AES500-198/199 review and docs retain the
+exact oracle numbers, engine distinctions, and unavailable independent/CUDA
+evidence boundaries.
+
+
+AES500-200 release gate passes the pinned CI-targeted CLI build and binary help,
+master suite 235 passed, zero failed, one skipped (236 total), docs drift/tests,
+and whitespace. Hosted Actions status is checked against the pushed revision;
+physical CUDA remains unverified due to PTX JIT failure.
