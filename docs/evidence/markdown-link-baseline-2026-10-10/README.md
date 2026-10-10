@@ -8,14 +8,15 @@ implemented or enforced.
 - Repository revision: `dc7b6afc8a98bd53fa9591e462d8d0a83da59d57`.
 - Source selection: tracked root, `docs/`, and `aesir_engine/` Markdown,
   excluding `docs/evidence/**` and `docs/historical/**`.
-- Markdown-it parser: `markdown-it-py` 3.0.0, CommonMark preset.
-- Runtime: Python 3.14.4.
+- Markdown-it parser: `markdown-it-py` 4.2.0 from the repository Pixi lock,
+  CommonMark preset.
+- Runtime: Python 3.14.6 from the repository Pixi environment.
 - Census tool SHA-256:
   `cb5dbe0c3220710e7a9c5b54e79b3b51fd6987b52f3c2bca966d71bc052692e3`.
 - Census JSON SHA-256:
-  `1f24312567e3358181b30ef84f922a4e2201038188f976b338557c1d6e0b31c8`.
+  `84227553479a6ac4db45e58d120169077b0e312868f194acf34cc636e8f4ed20`.
 - Two consecutive runs produced byte-identical JSON. Reproduce with
-  `python3 scripts/census_markdown_links.py`.
+  `pixi run python scripts/census_markdown_links.py`.
 
 ## Summary
 

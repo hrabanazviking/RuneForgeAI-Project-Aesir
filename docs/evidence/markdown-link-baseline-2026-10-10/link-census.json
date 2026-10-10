@@ -2,7 +2,7 @@
   "baseline_schema_version": 1,
   "parser": {
     "name": "markdown-it-py",
-    "version": "3.0.0",
+    "version": "4.2.0",
     "preset": "commonmark"
   },
   "source_selection": "tracked root/docs/aesir_engine Markdown excluding docs/evidence and docs/historical",
