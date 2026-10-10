@@ -21,6 +21,7 @@
 
 from std.memory import Pointer
 from std.origin import MutUntrackedOrigin
+from std.memory.alloc import unsafe_alloc
 from armvegr.quant import q80_block_scale
 
 
