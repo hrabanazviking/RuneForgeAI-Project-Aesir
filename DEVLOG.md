@@ -50,6 +50,12 @@ AES500-086 records that integration is deferred: existing consumers continue
 to use their current raw-pointer interfaces, and no caller is migrated to a
 record type that does not exist. AES500-087 adversarial record testing likewise
 remains pending the prerequisite owner/invalidation contract.
+AES500-088 reviewed that deferral boundary and approved the source/evidence
+reconciliation; the review receipt is in
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+AES500-089 synchronizes the task, core interface, capability ledger, roadmap,
+TODO, and devlog with the same capability boundary. Exact-head hosted CI is the
+remaining release-gate item.
 
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 

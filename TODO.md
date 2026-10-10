@@ -1137,3 +1137,16 @@ The legacy formatters below are not exposed compatibility APIs.
 - [ ] AES500-087 adversarial evidence pending an accepted AES500-084 owner and
   reset-invalidation contract; stale-record and wrong-owner checks cannot be
   implemented against the current API.
+- [x] AES500-088 independent review of the deferral boundary: Auditor confirms
+  the current raw-pointer arena lacks owner identity and reset-aware lifetime;
+  interface, ledger, baseline and tests avoid unsupported ownership claims.
+  This closes review of the disposition only; AES500-087 record adversarial
+  tests remain pending. Receipt is in
+  `docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+- [x] AES500-089 documentation reconciliation: task, interface, ledger, roadmap,
+  TODO and devlog distinguish current allocator evidence from deferred
+  ownership-record implementation, integration, and adversarial work.
+  `git diff --check`, `scripts/test_check_doc_drift.py`,
+  `scripts/check_doc_drift.py`, and baseline-aware Markdown validation pass.
+- [ ] AES500-090 release gate: exact-head hosted CI remains in progress; verify
+  current runner/build receipts, final diff, remote SHA, and hosted conclusion.
