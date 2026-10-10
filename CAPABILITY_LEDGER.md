@@ -1994,8 +1994,8 @@ and circular self-parity transforms were removed.
 - **Claim sources:** local sovereignty/privacy and server/distribution functionality
 - **Implementation evidence:** `BifrostGate.__init__()` in `server/api.mojo` enforcing port range bounds (`1 <= port <= 65535 -> raises Error("server bind port must be between 1 and 65535")`).
 - **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Port and parser bounds are useful hardening, but no complete threat model, fuzz campaign, auth/TLS policy, or resource-exhaustion proof exists.
-- **Next acceptance gate:** Publish the threat model and run reproducible malformed-model, request-fuzzing, and resource-limit suites.
+- **Evidence boundary:** `SECURITY_POSTURE.md` contains a target threat model plus a 2026-10-10 evidence-linked native local-service boundary. No production security assessment, exhaustive fuzz campaign, TLS/remote policy, multi-tenant authorization, or complete resource-exhaustion proof exists.
+- **Next acceptance gate:** Run reproducible malformed-model, request-fuzzing, and sustained resource-limit suites; assess any later remote/TLS deployment as a separate capability.
 - **Audit:** AER-037, AER-075, AER-082, AER-107.
 
 ### AES-OPS-004 — Runtime observability, route parameter safety & diagnosability

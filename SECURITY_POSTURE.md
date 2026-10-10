@@ -1,6 +1,7 @@
 # SECURITY POSTURE — Project Æsir
 
-> **Status boundary — 2026-08-31:** This document retains a target threat model,
+> **Status boundary — 2026-10-10:** This document retains target controls and a
+> threat model,
 > not a certification that every control below exists. Native local serving now
 > has mandatory file-backed authentication, loopback-only binding, strict input
 > bounds and cooperative I/O/generation limits. The tested scope and remaining
@@ -11,6 +12,28 @@
 ## Authority
 
 This document defines the security stance, threat model, defensive measures, and incident response procedures for Project Æsir. It complements ENGINEERING_DOCTRINE.md by specifying how the system protects itself, its users, and its data. Where the doctrine says "secure," this document defines what secure means in practice.
+
+## Verified local-service boundary (2026-10-10)
+
+The controls below are the current tested native-service boundary. They do not
+make the broader target controls in this document implemented, and they are not
+a production security assessment. Reproduction commands and exact limitations
+are maintained in [the native service guide](docs/NATIVE_SERVICE.md).
+
+| Area | Current verified boundary | Residual risk |
+|---|---|---|
+| Network | Authenticated service binds IPv4 loopback; browser-origin headers are rejected. | No TLS or remote access; proxy/tunnel exposure is unsupported. |
+| Authentication | File-backed API key is checked before request body read or inference; key publication has a native permission/race probe. | No authorization scopes or multi-user identity; anyone who can read the key can use the service. No whole-program constant-time claim. |
+| Protocol | Bounded HTTP/1.1 framing, header/body limits, strict content type, one request per connection, and no chunked uploads/pipelining. | No claim of exhaustive fuzzing or proof against every parser/resource attack. |
+| Resource controls | One active generation, bounded queue and I/O/generation deadlines, cooperative shutdown, bounded generated text. | Queue is not tenant isolation; deadlines do not preempt in-flight kernels or model loading; disconnected work can continue. |
+| Data handling | Prompts, responses, and credentials are excluded from request logs; error responses do not echo body/key values. | Process/GPU memory is not securely erased; local privileged observers remain out of scope. |
+| Model inputs | Pinned download identity, bounded GGUF admission, and malformed input rejection have executable coverage. | This does not establish safety for every model format, parser state, or supply-chain compromise. |
+
+The remote-attacker, authenticated-multi-user, TLS, rate-limiting, authorization,
+persistent audit, and deployment-supervisor controls described later in this
+file remain target requirements or deployment responsibilities unless a
+specific implementation and receipt is linked. See `docs/NATIVE_SERVICE.md`
+for the tested service scope and its exact commands.
 
 Security is not a feature. It is a precondition. A fast inference engine that leaks user prompts to third parties is not a product. It is a liability with a benchmark score.
 
