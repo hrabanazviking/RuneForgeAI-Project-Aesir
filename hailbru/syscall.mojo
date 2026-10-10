@@ -440,12 +440,14 @@ def write_file_str(arch: String, path: String, content: String) raises:
     var n = content.byte_length()
     var c = to_cstr(content)
     var w = os_write(arch, fd, c, Int64(n))
+    var we = errno_now()
     c.unsafe_free()
     _ = os_close(arch, fd)
     if w != Int64(n):
         raise Error(
             "HailbruError[OsError]: short write to " + path + ": wrote "
-            + String(w) + " of " + String(n)
+            + String(w) + " of " + String(n) + " errno=" + errno_name(we)
+            + " (" + String(we) + ")"
         )
 
 

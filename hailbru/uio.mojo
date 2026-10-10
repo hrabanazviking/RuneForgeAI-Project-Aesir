@@ -171,10 +171,17 @@ def uio_step_restore(
 ) raises -> String:
     # Step 4: unbind from uio_pci_generic and rebind the ORIGINAL driver.
     # Verifies the driver symlink points back at the original afterward
-    # (H065 acceptance). Returns the restored driver name.
+    # (H065 acceptance). Returns the restored driver name. Tolerates the
+    # device not being on uio_pci_generic (bind may never have landed).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/unbind", bdf)
+    var cur = uio_driver_link_target(arch, sysfs_root, bdf)
+    if cur == "uio_pci_generic":
+        write_file_str(arch, uio_drv + "/unbind", bdf)
+    elif cur != "<none>":
+        # Bound elsewhere unexpected — unbind from wherever it is.
+        var curdrv = sysfs_root + "/bus/pci/drivers/" + cur
+        write_file_str(arch, curdrv + "/unbind", bdf)
     var orig_drv = sysfs_root + "/bus/pci/drivers/" + original
     write_file_str(arch, orig_drv + "/bind", bdf)
     var restored = uio_driver_link_target(arch, sysfs_root, bdf)
