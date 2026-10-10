@@ -378,6 +378,18 @@ first deletion, then removes unreachable canonical blobs and abandoned stages.
 `BlobGCResult` reports `scanned_blobs`, `referenced_blobs`, `removed_blobs`,
 `removed_stages`, and `reclaimed_bytes` for the completed locked sweep.
 
+The durable schema is explicitly versioned as `catalog.v1` with header
+`AESIR_MODEL_CATALOG_V1`, a decimal `COUNT:n`, and exactly n hex-encoded
+`ENTRY:` records. Normal load rejects missing/unknown headers and never falls
+back to the legacy delimiter format. `catalog migrate` is the sole legacy
+admission path; it requires a catalog-free destination, validates referenced
+blobs, then writes canonical v1 bytes. Backup/restore accepts v1 only. Restore
+parses and canonicalizes the complete backup before locking, validates blobs,
+then replaces the catalog through the atomic writer. Unknown future versions
+fail closed and are not auto-rewritten. See
+[`TASK_catalog_schema_versioning.md`](../../TASK_catalog_schema_versioning.md)
+and the dated [schema evidence](../../docs/evidence/catalog-schema-baseline-2026-10-10/README.md).
+
 ```mojo
 struct DurableModelStore:
     var root_path: String

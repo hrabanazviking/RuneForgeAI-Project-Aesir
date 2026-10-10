@@ -1,3 +1,20 @@
+## 2026-10-10 — catalog schema versioning contract and evidence
+
+AES500-211..219 define the durable model catalog as `catalog.v1` with the
+`AESIR_MODEL_CATALOG_V1` header, exact count and hex-encoded manifest records.
+The public codec contract, pre-change empty-store bytes/source hashes, strict
+codec unit cases, explicit legacy migration lifecycle, backup/restore ordering,
+and process-kill/FIFO evidence are recorded in
+[`TASK_catalog_schema_versioning.md`](../TASK_catalog_schema_versioning.md),
+[`cli/INTERFACE.md`](../aesir_engine/cli/INTERFACE.md), and the linked dated
+evidence directories. The normal loader fails closed on unknown versions;
+legacy data is admitted only through explicit catalog-free migration. Local
+master verification reached 240 passed, 0 failed, 1 skipped (241 total), and
+the native build/help and documentation checks passed. Recent hosted CI for the
+slice commits was still queued or in progress at this entry; no green hosted
+result is claimed here. Process-kill results are scoped to this Linux filesystem
+and do not prove sudden-power-loss durability or portability.
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

@@ -624,6 +624,11 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
 - [x] Compute real SHA-256 digests and sizes from imported bytes; recipe-only
   manifests retain their explicitly unknown byte metadata.
 - [x] Implement atomic add/copy/remove/update with rollback and restart tests.
+- [x] Define the durable schema as strict `catalog.v1`; reject unknown versions
+  on normal load and admit the legacy delimiter format only through explicit
+  empty-destination migration. See
+  [catalog schema contract](TASK_catalog_schema_versioning.md) and
+  [schema evidence](docs/evidence/catalog-schema-integration-2026-10-10/README.md).
 - [x] **[partial, AES-CLI-005] Connect catalog output:** `list`, `show`, `create`, `cp`, and `rm` use the restart-safe recipe catalog with built-CLI process evidence.
 - [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and
