@@ -155,7 +155,7 @@ def main() raises:
     paras.append(String("A good host prepares the guest room before the knock comes, keeps the fire lit through the dark hours, and never counts the cost of kindness while the guest is under the roof. "))
     paras.append(String("The traveler carries the road's dust and the wind's cold, but also carries tales worth more than silver. Bread for stories is the oldest trade, and both sides leave richer. "))
     paras.append(String("In the deep winter, when the nights are long and the wolves grow bold, the lit window of a welcoming house is a beacon. Hospitality then is not custom but survival. "))
-    paras.append(String("So the old ways teach: greet the stranger as a friend not yet known, share what you have without fear, and the web of frith will hold strong against the dark. "))
+    paras.append(String("So the old ways teach: greet the stranger as a friend not yet known, share what you have without fear, and the web of frith will hold strong against the coming "))
     var prompt = List[Int]()
     var pi_para = 0
     while len(prompt) < 512:
@@ -211,8 +211,9 @@ def main() raises:
         n_gen += 1
         if step == decode_probe_step:
             decode_cached = logits.copy()
-        if next_tok == 2:
-            break
+        # NOTE: no EOS break here (production f1_infer keeps it). This is
+        # the pipeline acceptance: the decode loop must run 100 steps
+        # regardless of the sampler's stop policy.
         logits_p = inf.forward(next_tok)
     var td1 = now_ns()
     var decode_s = Float64(td1 - td0) / 1e9
@@ -222,7 +223,7 @@ def main() raises:
         + "s = " + String(decode_tps) + " tok/s"
     )
     if n_gen != 100:
-        print("H136 NOTE: decode stopped early at " + String(n_gen) + " (EOS)")
+        fails.append("decode produced " + String(n_gen) + " tokens, want 100")
     var text = tok.decode(gen_ids)
     print("H136-GENERATED-START")
     print(text)
