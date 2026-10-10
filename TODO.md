@@ -1231,3 +1231,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   interleaved and NeoX layouts across multiple heads, distinct Q/K row counts,
   and positions 0/7 against an independent scalar F32 calculation; exact F16
   equality passes for this corpus only.
+- [x] AES500-106 RoPE integration evidence: transformed K values survive
+  `KVCache.append`/`get_k_slice` exactly, and the adjacent V tensor is preserved
+  unchanged. Scope is one deterministic cache position and row shape.

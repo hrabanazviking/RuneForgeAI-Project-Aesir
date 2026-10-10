@@ -145,6 +145,10 @@ AES500-105 compares both layouts, distinct Q/K row counts, multiple heads, and
 positions 0 and 7 against a scalar F32 oracle. Exact F16 output equality passes
 for this deterministic corpus only.
 
+AES500-106 sends a rotated key through `KVCache.append` and the active key slice,
+checking exact stored values and confirming the paired V input remains
+unchanged. The receipt is limited to the exercised local shape and cache slot.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
