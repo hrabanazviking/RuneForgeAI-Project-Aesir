@@ -123,6 +123,11 @@ and passed its `--help` smoke path. The master suite reports 198 passed, zero
 failed, one skipped (199 total); both documentation checkers and whitespace
 hygiene pass. Hosted CI remains an exact-head post-push gate.
 
+AES500-101 defines the `apply_rope` contract before implementation work. It
+records interleaved and NeoX pair indexing, row-relative positions, F16
+trigonometric coefficients, current shape checks, and the unvalidated theta
+and integer-overflow boundaries. No kernel behavior changed.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

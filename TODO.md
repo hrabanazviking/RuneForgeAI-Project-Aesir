@@ -1210,3 +1210,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   1 skipped, 199 total; both documentation checks and `git diff --check` pass.
   Exact-head hosted CI is tracked against the release receipt commit and is not
   inferred from these local results.
+- [x] AES500-101 RoPE contract: `TASK_rope_edge_matrix.md` defines the CPU owner,
+  input/output layout, interleaved/NeoX pair mapping, row positions, ordered
+  formula, current admission checks, and theta/integer-overflow exclusions.
+  `core/INTERFACE.md` now matches the actual `neox` parameter. No source changed.
