@@ -34,10 +34,10 @@ struct WatchedBar:
 def watch_bar_emulated(
     arch: String, path: String, size: Int
 ) raises -> WatchedBar:
-    return WatchedBar(map_emulated(arch, path, Int64(size)))
+    return WatchedBar(map_emulated(arch, path, size))
 
 
-def watcher_sever(arch: String, mut w: WatchedBar):
+def watcher_sever(arch: String, mut w: WatchedBar) raises:
     # Test hook simulating surprise removal: release the mapping and mark
     # the device gone. All fds/mappings are released here, not later.
     if w.alive:

@@ -89,7 +89,7 @@ def guard_acquire(arch: String, mut g: SessionGuard) raises -> String:
     if n > 0:
         var s = ""
         for i in range(Int(n)):
-            s += String(chr(Int(buf[i])))
+            s += String(chr(Int(buf[unsafe_offset=i])))
         var pid = _parse_pid(s)
         if pid > 0 and _pid_alive(arch, pid):
             buf.unsafe_free()

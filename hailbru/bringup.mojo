@@ -64,7 +64,7 @@ def BRINGUP_EXPECTED_CLASS() -> Int:
     return 0x0B4000
 
 
-fn hex16(v: Int) -> String:
+def hex16(v: Int) -> String:
     var digits = "0123456789abcdef"
     var s = "0x"
     for i in range(4):
@@ -229,7 +229,7 @@ def bringup_dump_registers(
         unmap_bar(arch, m)
     except:
         pass
-    return vals
+    return vals^
 
 
 def run_bringup(
