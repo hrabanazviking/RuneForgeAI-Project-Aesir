@@ -125,7 +125,7 @@ from hailbru.pm import (
     pm_state_name,
 )
 from hailbru.bringup import BringupOpts, bringup_dump_registers, run_bringup
-from hailbru.health_obs import health_sample
+from vordr.health_obs import health_sample
 from hailbru.guard import SessionGuard, guard_acquire, guard_release
 from hailbru.removal import (
     watch_bar_emulated,

@@ -1,4 +1,8 @@
-# HAILBRU VÖRÐR monitoring hooks (H087, Campaign 5).
+# VÖRÐR health observers (H087 hooks, adopted by VÖRÐR in H141).
+#
+# MOVED (not copied) from hailbru/health_obs.mojo in H141 per the C8
+# roadmap. Owned by VÖRÐR (D6). L12-clean: read-only observers using
+# only the HAILBRÚ public API — no direct register access of their own.
 #
 # Read-only observers owned by HAILBRÚ (L12-clean). health_sample()
 # returns a structured sample: Pi SoC temperature (documented units —
