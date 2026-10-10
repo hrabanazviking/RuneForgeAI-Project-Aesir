@@ -223,6 +223,11 @@ master suite reports 206 passed, zero failed, one skipped (207 total); both
 documentation checks and `git diff --check` pass. Hosted exact-head CI remains
 tracked separately from these local gates.
 
+AES500-121 defines GGUF v3 as the only supported header version and names both
+mapped-file and raw-byte parse owners. Source inspection found the mapped path
+enforces v3 while `parse_header_bytes` checks only length/magic; AES500-122/123
+will capture and test this mismatch before unifying it.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

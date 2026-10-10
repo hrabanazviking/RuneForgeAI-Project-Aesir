@@ -1284,3 +1284,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   pass; master suite reports 206 passed, 0 failed, 1 skipped (207 total); docs
   consistency and whitespace checks pass. Hosted exact-head CI is checked after
   this receipt is pushed.
+- [x] AES500-121 GGUF header version contract: `TASK_gguf_header_version_matrix.md`
+  defines the 24-byte little-endian header and v3-only admission across file
+  and byte-buffer owners, noting the byte helper's current version-check gap.

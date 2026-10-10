@@ -71,6 +71,9 @@ Bounds-checked GGUF v3 Llama loader. Supported F16 matrices alias the immutable
 mapped file directly; required F32 normalization vectors are converted once
 into `MimirWell`. Unsupported types, shapes, offsets, truncation, architectures,
 or missing tensors raise before `is_loaded` becomes true.
+The mapped loader admits GGUF version 3 only. The lower-level raw-header byte
+helper currently checks only the 24-byte minimum and magic; version parity
+across those paths is the subject of `TASK_gguf_header_version_matrix.md`.
 
 ```mojo
 struct GGUFSeer:
