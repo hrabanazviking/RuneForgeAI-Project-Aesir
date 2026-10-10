@@ -92,6 +92,27 @@ struct BringupOpts:
         self.step_budget_ms = step_budget_ms
 
 
+def _json_escape(s: String) -> String:
+    # Escape a free-text field for embedding in a JSON string value.
+    var out = ""
+    for b in s.bytes():
+        if b == 92:  # backslash
+            out += "\\\\"
+        elif b == 34:  # double quote
+            out += "\\\""
+        elif b == 10:  # newline
+            out += "\\n"
+        elif b == 13:  # carriage return
+            out += "\\r"
+        elif b == 9:  # tab
+            out += "\\t"
+        elif b < 32:
+            out += " "
+        else:
+            out += String(chr(Int(b)))
+    return out
+
+
 struct BringupLog:
     var lines: List[String]
 
@@ -105,7 +126,7 @@ struct BringupLog:
             "{\"ts_ms\": " + String(ts_ms) + ", \"step\": \"" + step
             + "\", \"event\": \"" + event + "\", \"outcome\": \"" + outcome
             + "\", \"dur_ms\": " + String(dur_ms) + ", \"detail\": \""
-            + detail + "\"}"
+            + _json_escape(detail) + "\"}"
         )
         self.lines.append(line)
 
