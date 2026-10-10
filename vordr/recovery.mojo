@@ -112,32 +112,38 @@ struct RecoveryMachine:
             self.transition(arch, log_path, 5, "post-reset verification FAILED")
 
 
+def _harvest(mut m: RecoveryMachine, mut out: List[String]):
+    # Strings copy; the machine's list stays intact for the checker.
+    for i in range(len(m.transitions)):
+        out.append(m.transitions[i])
+
+
 def scenario_transient(
-    arch: String, log_path: String
-) raises -> List[String]:
+    arch: String, log_path: String, mut out: List[String]
+) raises:
     # Scripted scenario 1: transient error -> recovery.
     var m = RecoveryMachine()
     m.on_classified(arch, log_path, "transient", "HangDetected:decode_step")
     m.recovered(arch, log_path)
-    return m.transitions^
+    _harvest(m, out)
 
 
 def scenario_persistent(
-    arch: String, log_path: String
-) raises -> List[String]:
+    arch: String, log_path: String, mut out: List[String]
+) raises:
     # Scripted scenario 2: persistent error -> reset + re-init.
     var m = RecoveryMachine()
     m.on_classified(arch, log_path, "persistent", "PciStatus.ReceivedMasterAbort")
     m.reset_done(arch, log_path)
     m.reinit_done(arch, log_path)
     m.verified(arch, log_path, True)
-    return m.transitions^
+    _harvest(m, out)
 
 
 def scenario_fatal(
-    arch: String, log_path: String
-) raises -> List[String]:
+    arch: String, log_path: String, mut out: List[String]
+) raises:
     # Scripted scenario 3: fatal error -> fail-closed halt.
     var m = RecoveryMachine()
     m.on_classified(arch, log_path, "fatal", "DeviceRemoved")
-    return m.transitions^
+    _harvest(m, out)

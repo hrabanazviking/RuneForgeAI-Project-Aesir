@@ -493,7 +493,8 @@ def cmd_selftest_recovery(args: List[String]) raises -> Int:
     var log = _get(args, "--log", "/tmp/vordr-st-recovery.jsonl")
     var failed = 0
 
-    var t1 = scenario_transient(arch, log)
+    var t1 = List[String]()
+    scenario_transient(arch, log, t1)
     var e1 = List[String]()
     e1.append("IDLE -> DEGRADED")
     e1.append("DEGRADED -> IDLE")
@@ -501,7 +502,8 @@ def cmd_selftest_recovery(args: List[String]) raises -> Int:
         print("FAIL: transient scenario mismatch")
         failed += 1
 
-    var t2 = scenario_persistent(arch, log)
+    var t2 = List[String]()
+    scenario_persistent(arch, log, t2)
     var e2 = List[String]()
     e2.append("IDLE -> RESETTING")
     e2.append("RESETTING -> REINITING")
@@ -511,7 +513,8 @@ def cmd_selftest_recovery(args: List[String]) raises -> Int:
         print("FAIL: persistent scenario mismatch")
         failed += 1
 
-    var t3 = scenario_fatal(arch, log)
+    var t3 = List[String]()
+    scenario_fatal(arch, log, t3)
     var e3 = List[String]()
     e3.append("IDLE -> HALTED")
     if not _seq_eq(t3, e3):
