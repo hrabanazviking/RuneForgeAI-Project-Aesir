@@ -1334,3 +1334,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   `inspect_metadata` and verifies four mismatched selected values leave defaults
   unchanged under the current behavior. This remains green before AES500-134
   changes the contract; no public API signature changed.
+
+- [x] AES500-134 GGUF metadata type implementation: selected known scalar/string
+  keys reject a wrong value type with a key-specific diagnostic before field
+  mutation; unknown keys retain generic skipping. Four focused rejection/state
+  cleanup cases pass.

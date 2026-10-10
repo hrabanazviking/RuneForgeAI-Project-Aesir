@@ -105,13 +105,13 @@ def probe(target_key: String, target_type: UInt32) raises:
     except error:
         error_text = String(error)
     unlink_path(path)
-    if len(error_text.as_bytes()) != 0:
+    if "GGUF metadata key has unexpected value type: " + target_key not in error_text:
         raise Error(
-            "mismatched metadata type did not retain skip behavior for "
+            "mismatched metadata type did not reject with key context for "
             + target_key + ": " + error_text
         )
-    if not seer.is_mapped:
-        raise Error("metadata inspection unexpectedly failed/cleaned mapping")
+    if seer.state != 4 or seer.is_mapped:
+        raise Error("metadata type rejection did not fail and clean the mapping")
     if target_key == "llama.context_length" and seer.config.context_length != 0:
         raise Error("mismatched context length modified the default configuration")
     if target_key == "llama.rope.freq_base" and seer.config.rope_freq_base != 10000.0:
@@ -120,15 +120,15 @@ def probe(target_key: String, target_type: UInt32) raises:
         raise Error("mismatched tokenizer bool changed the default flag")
     if target_key == "general.alignment" and seer.alignment != 32:
         raise Error("mismatched alignment changed the default alignment")
-    print("OBSERVED mismatch skipped with unchanged default:", target_key)
+    print("PASS: mismatched metadata type rejected before field mutation:", target_key)
 
 
-def test_gguf_metadata_type_baseline() raises:
+def test_gguf_metadata_type_rejection() raises:
     probe("llama.context_length", 10)
     probe("llama.rope.freq_base", 4)
     probe("tokenizer.ggml.add_bos_token", 4)
     probe("general.alignment", 10)
-    print("PASS: GGUF metadata mismatch baseline trajectories captured")
+    print("PASS: GGUF selected metadata types reject with state cleanup")
 
 def main() raises:
-    test_gguf_metadata_type_baseline()
+    test_gguf_metadata_type_rejection()

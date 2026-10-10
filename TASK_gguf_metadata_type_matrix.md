@@ -56,3 +56,8 @@ completes. The corpus, source/tool hashes and reproduction command are in
 ## AES500-133 interface receipt
 
 The executable fixture interface in `aesir_engine/tests/test_gguf_metadata_types.mojo` writes mapped version-3 files and calls `GGUFSeer.inspect_metadata(RuneWeaver)`. Its four currently supported mismatch observations cover UInt32, UInt64, and the parser's bool value type as actual inputs, verify that `inspect_metadata` completes, and assert the corresponding default is unchanged. This interface is the bounded seam for AES500-134 behavior changes; no public method signature changes. Unknown keys remain governed by `skip_value`.
+
+
+## AES500-134 implementation receipt
+
+`_parse_metadata_value` now derives the expected GGUF value type for each selected scalar/string metadata branch and rejects mismatches with `GGUF metadata key has unexpected value type: <key>` before reading or mutating its destination. The three tokenizer arrays retain their existing dedicated array and element-type diagnostics. Unknown metadata keys retain generic `skip_value` traversal. The four interface fixtures now require key-specific rejection and FAILED/unmapped cleanup; unrelated metadata and public signatures are unchanged.

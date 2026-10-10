@@ -355,6 +355,36 @@ struct GGUFSeer:
             if value_type != 9:
                 raise Error("tokenizer.ggml.token_type is not an array")
             return self._parse_type_array(offset, tokenizer)
+        var expected_type = UInt32(4294967295)
+        if key == "general.architecture":
+            expected_type = 8
+        elif (
+            key.endswith(".context_length")
+            or key.endswith(".embedding_length")
+            or key.endswith(".feed_forward_length")
+            or key.endswith(".block_count")
+            or key.endswith(".attention.head_count")
+            or key.endswith(".attention.key_length")
+            or key.endswith(".attention.head_count_kv")
+            or key.endswith(".rope.dimension_count")
+            or key == "general.alignment"
+            or key == "tokenizer.ggml.unknown_token_id"
+            or key == "tokenizer.ggml.bos_token_id"
+            or key == "tokenizer.ggml.eos_token_id"
+        ):
+            expected_type = 4
+        elif (
+            key.endswith(".rope.freq_base")
+            or key.endswith(".attention.layer_norm_rms_epsilon")
+        ):
+            expected_type = 6
+        elif (
+            key == "tokenizer.ggml.add_bos_token"
+            or key == "tokenizer.ggml.add_space_prefix"
+        ):
+            expected_type = 7
+        if expected_type != UInt32(4294967295) and value_type != expected_type:
+            raise Error("GGUF metadata key has unexpected value type: " + key)
         if key == "general.architecture" and value_type == 8:
             self.config.architecture = self._read_string(offset)
         elif key.endswith(".context_length") and value_type == 4:

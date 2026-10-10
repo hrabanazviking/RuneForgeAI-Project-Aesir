@@ -46,7 +46,7 @@ from tests.test_attention_interface import test_attention_interface
 from tests.test_attention_reference import test_attention_reference
 from tests.test_attention_integration import test_attention_integration
 from tests.test_attention_adversarial import test_attention_adversarial
-from tests.test_gguf_metadata_types import test_gguf_metadata_type_baseline
+from tests.test_gguf_metadata_types import test_gguf_metadata_type_rejection
 from tests.test_gguf_version_interface import (
     test_gguf_version_interface,
     test_gguf_version_reference,
@@ -329,7 +329,7 @@ def main() raises:
     run_case(ledger, "gguf.version_reference", test_gguf_version_reference)
     run_case(ledger, "gguf.version_integration", test_gguf_version_integration)
     run_case(ledger, "gguf.header_adversarial", test_gguf_header_adversarial)
-    run_case(ledger, "gguf.metadata_type_baseline", test_gguf_metadata_type_baseline)
+    run_case(ledger, "gguf.metadata_type_baseline", test_gguf_metadata_type_rejection)
     print("")
 
     # --- Tokenizer ---

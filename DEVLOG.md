@@ -3729,3 +3729,12 @@ Pinned the metadata test seam at `inspect_metadata` over generated v3 files and
 recorded default-preservation for four selected-key mismatch types. This
 interface receipt deliberately keeps current behavior intact; AES500-134 owns
 the explicit mismatch rejection change.
+
+
+## 2026-10-10 — AES500-134 GGUF metadata type enforcement
+
+The parser now checks expected value types for selected scalar/string metadata
+keys before reading their payloads. Mismatch errors include the key, and the
+four prior interface cases now assert rejection, FAILED state, and mapping
+cleanup. Unknown keys still use generic traversal; tokenizer arrays keep their
+existing dedicated validation. Focused cases pass.

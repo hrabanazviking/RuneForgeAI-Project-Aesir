@@ -28,7 +28,10 @@ Mojo: `1.0.0 (ed45d567)`. Baseline source hash: `gguf.mojo`
 `b1e3e41bbed0aa120f5f367f1f9975c114d6a07c8ab7b9b6e6605452c20d8347`; probe
 hash: `test_gguf_metadata_types.mojo`
 `6e08ff332024a0e3fe4ddb4b30c6f0b798b4abf649bae79b45453334100a2ac7`.
-Reproduce with:
+To reproduce the historical pre-change baseline, check out source revision
+`cb60719df3dc30548fb3c73507d94ed4d8657f8b` and run the command below. The
+current branch has moved the same fixture to the rejection contract in
+AES500-134, so the baseline observations are historical and hash-bound.
 
 ```sh
 pixi run mojo run --target-accelerator sm_89 -I aesir_engine aesir_engine/tests/test_gguf_metadata_types.mojo
