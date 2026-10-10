@@ -664,6 +664,14 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   expected GPU-3 negative control, plus doc-drift/whitespace checks. Receipt:
   `docs/evidence/cuda-allocation-lifetime-release-2026-10-10/`. The exact-head
   hosted Actions run remains the final release gate.
+- AES500-031 publishes `TASK_capability_ledger_schema.md`. The schema preserves
+  optional historical omissions as JSON null rather than requiring fabricated
+  metadata; independent design review resolved the migration risk before
+  implementation.
+- AES500-032 captures a deterministic 119-entry field/status census, hashes the
+  source/tool/output, reruns byte-identically, and confirms existing drift
+  checks pass. See
+  `docs/evidence/capability-ledger-baseline-2026-10-10/`.
 
 ## Status
 

@@ -104,3 +104,15 @@ malformed unit evidence; AES500-036 integrates with repository truth checks;
 AES500-037 adds adversarial file mutation and output-publication cases;
 AES500-038 obtains independent review; AES500-039 synchronizes docs; AES500-040
 is the exact-head release gate.
+
+## AES500-032 baseline result
+
+The pre-implementation census is preserved in
+`docs/evidence/capability-ledger-baseline-2026-10-10/`. It recognizes 119 unique
+entries, with 76 verified, 28 partial, and 15 missing statuses. All entries have
+status, owner, executable evidence, and evidence boundary fields. Optional
+source fields are absent in 2 claim-source, 1 implementation-evidence, 32 next-
+gate, and 4 audit entries; exact IDs and per-entry field counts are in the
+machine-readable census. Three census runs produced identical bytes and the
+existing drift checker passed. This is a structural snapshot, not an evidence
+truth evaluation.
