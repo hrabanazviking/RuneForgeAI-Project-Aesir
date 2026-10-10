@@ -192,6 +192,13 @@ present in the vocabulary; other Unicode spacing characters remain untouched.
 Synthetic composed/decomposed and NBSP vectors document this boundary without
 claiming full Unicode normalization or segmentation conformance. See
 `TASK_unicode_normalization_policy.md`.
+`encode` validates UTF-8 before vocabulary processing. Invalid byte sequences
+that enter through unsafe String construction return the configured unknown
+token ID, with BOS prepended only when both the call and tokenizer enable it.
+This API does not raise for malformed text; safe String construction behavior
+and arbitrary byte-buffer admission are separate boundaries. Tests cover
+truncation, continuation errors, overlong forms, surrogates, out-of-range
+scalars, and the valid U+10FFFF boundary. See `TASK_invalid_utf8_policy.md`.
 
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
 Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv

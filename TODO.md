@@ -1510,3 +1510,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-178 invalid UTF-8 review: primary review confirms scalar/continuation
   constraints and fail-closed output. Independent Auditor unavailable at service
   thread cap; no agent signoff claimed.
+
+- [x] AES500-179 invalid UTF-8 documentation sync: loader interface and project
+  records agree on pre-tokenization validation, unknown/BOS result, tested edges,
+  and unsafe-input limits.

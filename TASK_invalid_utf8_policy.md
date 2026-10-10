@@ -64,3 +64,6 @@ An exhaustive sweep constructs each isolated byte value 0x80 through 0xFF throug
 ## AES500-178 review receipt
 
 Primary review confirms validation covers RFC 3629 leading-byte ranges, continuation shape, overlong sequences, surrogate exclusions, and the U+10FFFF ceiling before any tokenizer processing. Rejection returns one unknown token plus optional enabled BOS; the 128-byte sweep and 3/4-byte edge cases pass. The unsafe pointer fixture is narrowly scoped and does not claim safe String constructors admit malformed data. Independent Auditor agent assignment is unavailable at the collaboration service thread cap; no independent signoff is claimed.
+
+
+AES500-179 documentation sync: `aesir_engine/loader/INTERFACE.md` states the fail-closed result, optional BOS rule, test boundaries, and unsafe String limitations.
