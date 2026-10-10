@@ -1343,3 +1343,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-135 GGUF metadata type unit evidence: eight adversarial files cover
   integer, float, bool, and array declaration mismatches; diagnostics and
   FAILED/unmapped cleanup are asserted. Focused Mojo module passes.
+
+- [x] AES500-136 GGUF metadata integration: full `mmap_and_load` rejects the
+  malformed context-length type before tensor allocation, cleans loader state,
+  and leaves the allocation pool offset unchanged. Focused module passes.

@@ -3,6 +3,7 @@
 from std.ffi import external_call
 from loader.gguf import GGUFSeer
 from loader.tokenizer import RuneWeaver
+from core.mimir_well import MimirWell
 
 
 def append_u32(mut bytes: List[UInt8], value: UInt32):
@@ -137,5 +138,27 @@ def test_gguf_metadata_type_rejection() raises:
     probe_expected("tokenizer.ggml.tokens", 4, "tokenizer.ggml.tokens is not an array")
     print("PASS: GGUF selected metadata type unit matrix")
 
+def test_gguf_metadata_type_integration() raises:
+    var path = make_metadata_file("llama.context_length", 10)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(128)
+    var initial_offset = pool.offset
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if "GGUF metadata key has unexpected value type: llama.context_length" not in error_text:
+        raise Error("full GGUF load did not preserve metadata type diagnostic")
+    if seer.state != 4 or seer.is_mapped or seer.is_loaded:
+        raise Error("full GGUF load did not clean rejected metadata mapping/state")
+    if pool.offset != initial_offset:
+        raise Error("metadata type rejection mutated tensor allocation pool")
+    print("PASS: metadata type rejection integrates with full load before allocation")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
+    test_gguf_metadata_type_integration()

@@ -66,3 +66,8 @@ The executable fixture interface in `aesir_engine/tests/test_gguf_metadata_types
 ## AES500-135 unit evidence receipt
 
 Eight generated mapped files now check wrong types for context length, embedding length, RoPE frequency, RMS epsilon, both tokenizer boolean flags, alignment, and `tokenizer.ggml.tokens`. The seven selected scalar keys require the stable key-specific mismatch diagnostic; the recognized array requires its dedicated non-array diagnostic. Every rejection asserts FAILED state and closed mmap. Focused Mojo module passes.
+
+
+## AES500-136 integration receipt
+
+A generated mapped GGUF with a wrong context-length value type is exercised through `mmap_and_load`. The full load path preserves the key-specific diagnostic, reaches FAILED with mmap closed and `is_loaded` false, and leaves the MimirWell allocation offset unchanged. Focused module passes; this confirms rejection occurs before tensor allocation for this fixture.

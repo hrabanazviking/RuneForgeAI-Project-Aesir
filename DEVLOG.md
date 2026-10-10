@@ -3743,3 +3743,8 @@ existing dedicated validation. Focused cases pass.
 AES500-135 expands unit evidence to eight type-mismatch fixtures spanning
 integer, float, bool and recognized tokenizer-array inputs. Each checks its
 stable diagnostic and failed-state mapping cleanup; the focused module passes.
+
+
+AES500-136 exercises the mismatch through full `mmap_and_load`; the key-specific
+error is retained, loader state is FAILED/unmapped/unloaded, and the tensor
+allocation pool remains at its original offset. The focused module passes.
