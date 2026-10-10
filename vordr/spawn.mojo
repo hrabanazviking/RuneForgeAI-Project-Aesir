@@ -4,8 +4,8 @@
 # only). Used by the watchdog supervisor to spawn and reap the
 # inference process. kill/getpid/sleep live in hailbru.syscall already.
 
-from memory import UnsafePointer
-from sys.ffi import external_call
+from std.memory import UnsafePointer
+from std.ffi import external_call
 
 
 def _fork() -> Int64:

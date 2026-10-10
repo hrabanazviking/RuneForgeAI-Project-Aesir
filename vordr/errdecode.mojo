@@ -17,7 +17,7 @@ from hailbru.errors import herror
 from vordr.events import event_emit_slice
 
 
-struct RegBit(Copyable, Movable):
+struct RegBit:
     # One decoded bit: name, meaning, severity, documented-or-not.
     var name: String
     var meaning: String
@@ -33,7 +33,7 @@ struct RegBit(Copyable, Movable):
         self.documented = documented
 
 
-struct DecodedError(Copyable, Movable):
+struct DecodedError:
     var name: String
     var meaning: String
     var severity: String
@@ -116,7 +116,7 @@ def decode_pci_status(status: Int, mut out: List[DecodedError]):
         if _bit(status, b):
             if is_err[b]:
                 out.append(DecodedError(names[b], meanings[b], sevs[b], 0x06, b))
-            elif len(names[b]) > 0:
+            elif names[b].byte_length() > 0:
                 out.append(DecodedError(names[b], meanings[b], "info", 0x06, b))
             else:
                 out.append(DecodedError(

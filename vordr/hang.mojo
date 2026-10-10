@@ -13,7 +13,7 @@ from hailbru.errors import herror
 from vordr.events import event_emit_slice, json_str
 
 
-struct OpBudget(Copyable, Movable):
+struct OpBudget:
     var op_id: String
     var budget_ms: Int64
 

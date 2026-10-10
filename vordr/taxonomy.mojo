@@ -12,7 +12,7 @@
 from hailbru.errors import herror
 
 
-struct TaxEntry(Copyable, Movable):
+struct TaxEntry:
     var name: String
     var cls: String
 
