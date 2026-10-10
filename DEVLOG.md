@@ -1,3 +1,36 @@
+## 2026-10-10 — Yrsa: aesir-dawn-forge FRITH-WEAVE (20 slices, x86_64 trust-hardening)
+
+Twenty-slice Mythic Engineering campaign on the main aesir_engine (x86_64/CUDA
+domain). ARM64/armvegr left entirely to the MÍMISBRUNNR roadmap coordinator.
+
+F001–F003 strict CLI parsing: --accel and five paradigm toggles enum-validated
+(wired pre-existing validators); parse_int now raises-strict (non-digits,
+empty/sign-only, overflow) with all 8 callers audited; parse_duration_seconds
+rejects empty numeric parts and trailing garbage. F004–F006 observability:
+DeviceTopology.probe_failure_notes captures swallowed CUDA probe errors; doctor
+emits disk_capacity_observed_via_fallback and service_listener_probe_failed
+issues. F007 expired-queue-slot 503 failures counted and reported per sweep.
+F008 additive ErrorGuard finite helpers (f32/f64). F009 gemm CUDA->SIMD
+silent-fallback contract documented (Mojo 1.0.0 has no module-level mutable
+state for a one-time notice); parity test added. F010 --port 1..65535 enforced.
+F011 HF download verification extracted to _hf_verify_complete_download (every
+completion path incl. resume verified identically). F012 REAL FIX:
+_state_vault read_ rejects files that grew between fstat and read (TOCTOU
+size pin). F013 new scripts/check_error_hygiene.py gate (Error() literal
+hygiene, exits 0). F014 check_doc_drift.py now covers all six aesir_engine
+INTERFACE.md files. F015–F017 audits (autosave manifest, chat recovery,
+model-reference traversal) already fail-closed; regression tests pinned.
+F018 REAL FIX: MAX_PROMPT_BYTES=1MiB + admit_generation_prompt at the
+_run_generation choke point (no byte bound existed pre-tokenization). F019
+ollama sampling bounds audited and pinned.
+
+Baseline honesty: tests/run_all.mojo does not build on the CPU-only toolchain
+(pre-existing stdlib GPU-architecture constraint via cuda_sampling.mojo);
+slices verified via standalone harnesses and per-module builds. Grand Proving
+count 191 -> 207 (16 new cases + 1 record_skip). Commits e34f376, 166a4b3,
+82e2d7e, bac7410, f8a7af8, 677b93f, 37c88c0 on main; no README, armvegr, or
+roadmap files touched.
+
 ## 2026-10-03 — Sigrún: explicit small-score sealed owning-context replay
 
 Taskf8e6618 preceded code. Final default-false fixture/plan capabilities bind
