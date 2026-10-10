@@ -40,10 +40,19 @@ def q80_gemm(
     # c:  M x N fp32.
     #
     # OPTIMIZED (2026-10-10): the block dot is inlined (a per-block-pair
-    # function call cost ~15 cycles at 524k pairs for the decode case)
-    # and A's row scales are hoisted: they were re-decoded N times per
-    # row (once per j), now decoded once per (i, kb).
+    # function call cost ~15 cycles at 524k pairs for the decode case);
+    # A's row scales are hoisted (decoded once per (i, kb) instead of N
+    # times); ALL of B's scales are precomputed once (N*nb fp32) so the
+    # hot inner loop does no fp16_from_bits decoding at all -- just
+    # streaming fp32 scale loads, the int8 dot, and one FMA per block.
     var nb = K // 32
+    var sb_all = unsafe_alloc[Float32](N * nb)
+    for j in range(N):
+        var brow = (j * nb) * 34
+        for kb in range(nb):
+            sb_all[unsafe_offset=j * nb + kb] = q80_block_scale(
+                bq, brow + kb * 34
+            )
     var sa_row = unsafe_alloc[Float32](nb)
     for i in range(M):
         var arow = (i * nb) * 34
@@ -55,7 +64,6 @@ def q80_gemm(
             for kb in range(nb):
                 var abo = arow + kb * 34 + 2
                 var bbo = brow + kb * 34 + 2
-                var sb = q80_block_scale(bq, brow + kb * 34)
                 var acc = SIMD[DType.int32, 16](0)
                 var a0 = aq.unsafe_offset(abo).unsafe_load[16]()
                 var b0 = bq.unsafe_offset(bbo).unsafe_load[16]()
@@ -64,7 +72,9 @@ def q80_gemm(
                 acc += a0.cast[DType.int32]() * b0.cast[DType.int32]()
                 acc += a1.cast[DType.int32]() * b1.cast[DType.int32]()
                 s += (
-                    sa_row[unsafe_offset=kb] * sb * Float32(acc.reduce_add())
+                    sa_row[unsafe_offset=kb]
+                    * sb_all[unsafe_offset=j * nb + kb]
+                    * Float32(acc.reduce_add())
                 )
             c[unsafe_offset=i * N + j] = s
 
