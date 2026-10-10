@@ -95,8 +95,13 @@ struct RetryDriver:
     # many times, then succeeds — proving absorption is real.
     var policy: RetryPolicy
 
-    def __init__(out self, owned policy: RetryPolicy):
-        self.policy = policy^
+    def __init__(out self, policy: RetryPolicy):
+        # Field-by-field (Mojo 1.1.0: def params are borrows; a struct
+        # cannot be moved into a field — cf. hailbru/removal.mojo).
+        self.policy = RetryPolicy(
+            policy.max_retries, policy.base_ms, policy.factor,
+            policy.jitter_pct,
+        )
 
     def should_retry(self, attempt: Int) -> Bool:
         return attempt <= self.policy.max_retries
