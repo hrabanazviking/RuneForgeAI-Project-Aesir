@@ -726,6 +726,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-049 records the exact review disposition, candidate grammar boundary,
   baseline hashes and the pre-existing hygiene-warning limitation in the task
   and interface documentation, with a concise continuity entry in `DEVLOG.md`.
+- AES500-050 local release checks pass: 15 schema tests, the expanded TODO
+  checker suite, 119-entry schema validation, repository truth checks, and
+  byte-identical TODO baseline reproduction. Three documented legacy-artifact
+  warning groups remain. Hosted Actions for the exact pushed revision remain
+  pending and will be reported separately from local acceptance.
 
 ## Status
 
