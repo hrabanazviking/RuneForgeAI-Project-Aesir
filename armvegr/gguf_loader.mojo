@@ -20,7 +20,7 @@ from std.memory.alloc import unsafe_alloc
 from std.origin import MutUntrackedOrigin
 
 from armvegr.q4 import q40_to_fp16
-from armvegr.quant import fp32_to_fp16, q80_to_fp16
+from armvegr.quant import fp32_to_fp16, q80_to_fp16, q6k_to_fp16
 
 
 struct GGUFTensorDesc(Copyable, Movable):
@@ -291,6 +291,10 @@ struct GGUFLoader:
             if n % 32 != 0:
                 raise Error("gguf_loader: Q4_0 element count not a multiple of 32: " + name)
             return (n // 32) * 18
+        if ttype == UInt32(14):
+            if n % 256 != 0:
+                raise Error("gguf_loader: Q6_K element count not a multiple of 256: " + name)
+            return (n // 256) * 210
         raise Error("gguf_loader: unsupported dtype for tensor " + name)
 
     # -- query / dequantize --------------------------------------------------
@@ -324,6 +328,8 @@ struct GGUFLoader:
             q80_to_fp16(src.unsafe_bitcast[Int8](), dst, n)
         elif d.ggml_type == UInt32(2):
             q40_to_fp16(src.unsafe_bitcast[Int8](), dst, n)
+        elif d.ggml_type == UInt32(14):
+            q6k_to_fp16(src.unsafe_bitcast[Int8](), dst, n)
         else:
             raise Error("gguf_loader: unsupported dtype for tensor " + name)
 

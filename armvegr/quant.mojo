@@ -59,21 +59,32 @@ def fp16_bits_of(f: Float32) -> UInt16:
 
 
 def fp16_from_bits(w: UInt16) -> Float32:
-    # Inverse of fp16_bits_of for normal values (exact).
+    # Inverse of fp16_bits_of. Handles normals, subnormals, and zero.
     var eb = Int((w >> 10) & UInt16(0x1F))
     var mant = Int(w & UInt16(0x3FF))
-    var v = Float32(1024 + mant) / Float32(1024)
-    var e = eb - 15
-    if e >= 0:
-        for _ in range(e):
-            v *= Float32(2)
+    var v: Float32
+    if eb == 0:
+        if mant == 0:
+            v = Float32(0.0)
+        else:
+            # Subnormal: (mant/1024) * 2^-14
+            v = Float32(mant) / Float32(1024.0) / Float32(16384.0)
+    elif eb == 31:
+        # Inf/NaN: return large value (should not occur in weights)
+        v = Float32(3.4028235e38)
+        if mant != 0:
+            v = Float32(0.0)  # NaN -> 0 (fail-safe)
     else:
-        for _ in range(-e):
-            v /= Float32(2)
+        v = Float32(1024 + mant) / Float32(1024)
+        var e = eb - 15
+        if e >= 0:
+            for _ in range(e):
+                v *= Float32(2)
+        else:
+            for _ in range(-e):
+                v /= Float32(2)
     if (w & UInt16(0x8000)) != UInt16(0):
         v = -v
-    if eb == 0:
-        return Float32(0)  # subnormal/zero flush (documented)
     return v
 
 
@@ -189,3 +200,32 @@ def q80_to_fp16(
         q80_dequant_block(
             src.unsafe_offset(b * 34), dst.unsafe_offset(b * 32), 32
         )
+
+
+def q6k_to_fp16(
+    src: Pointer[Int8, MutUntrackedOrigin],
+    dst: Pointer[Float16, MutUntrackedOrigin],
+    n: Int,
+):
+    """Dequantize Q6_K to FP16. 210 bytes per 256 elements.
+    Layout: ql[128] (lower 4 bits), qh[64] (upper 2 bits),
+            scales[16] (int8), d (fp16).
+    w = d * scales[i//16] * q_signed, q_signed is 6-bit two's complement.
+    """
+    var nb = n // 256
+    for b in range(nb):
+        var base = b * 210
+        var d = fp16_from_bits(read_u16_le(src, base + 208))
+        for i in range(256):
+            var sub = i // 16
+            var scale = Float32(Int(src.unsafe_offset(base + 192 + sub).unsafe_load()))
+            var ql_byte = Int(src.unsafe_offset(base + i // 2).unsafe_load()) & 0xFF
+            var ql_val = (ql_byte >> (4 * (i & 1))) & 0xF
+            var qh_byte = Int(src.unsafe_offset(base + 128 + i // 4).unsafe_load()) & 0xFF
+            var qh_val = (qh_byte >> (2 * (i & 3))) & 0x3
+            var q6 = ql_val | (qh_val << 4)
+            var q_signed = q6
+            if q6 >= 32:
+                q_signed = q6 - 64
+            var w = d * scale * Float32(q_signed)
+            dst.unsafe_offset(b * 256 + i).unsafe_store(Float16(w))
