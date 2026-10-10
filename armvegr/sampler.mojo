@@ -20,24 +20,33 @@ struct Sampler:
     var f_probs: Pointer[Float32, MutUntrackedOrigin]
     var f_idx: Pointer[Int, MutUntrackedOrigin]
     var f_live: Pointer[Int, MutUntrackedOrigin]
+    var f_hist: Pointer[Int, MutUntrackedOrigin]
 
     def __init__(out self, seed: UInt64):
         # splitmix64 requires non-zero state; mix the seed in.
         self.rng_state = seed + 0x9E3779B97F4A7C15
         if self.rng_state == 0:
             self.rng_state = 0x243F6A8885A308D3
-        self.f_n = 0
-        # Null placeholders; _fused_ensure() allocates on first use.
-        # (Never dereferenced while f_n == 0.)
-        self.f_logits = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
-        self.f_probs = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
-        self.f_idx = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
-        self.f_live = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
+        # 1-element placeholders (Pointer is non-nullable in Mojo 1.1);
+        # _fused_ensure() grows them on first real use. Never dereferenced
+        # at size 1.
+        self.f_n = 1
+        self.f_logits = unsafe_alloc[Float32](1)
+        self.f_probs = unsafe_alloc[Float32](1)
+        self.f_idx = unsafe_alloc[Int](1)
+        self.f_live = unsafe_alloc[Int](1)
+        # History staging buffer: history length <= max_seq (1024); 4096
+        # is ample headroom and never grows.
+        self.f_hist = unsafe_alloc[Int](4096)
 
     def _fused_ensure(mut self, n: Int):
-        # Allocate (or grow) the fused scratch. Called once per size class.
+        # Grow the fused scratch to size n (once per size class).
         if self.f_n >= n:
             return
+        self.f_logits.unsafe_free()
+        self.f_probs.unsafe_free()
+        self.f_idx.unsafe_free()
+        self.f_live.unsafe_free()
         self.f_logits = unsafe_alloc[Float32](n)
         self.f_probs = unsafe_alloc[Float32](n)
         self.f_idx = unsafe_alloc[Int](n)
@@ -179,17 +188,6 @@ struct Sampler:
         var probs = softmax(l)
         return self.sample_categorical(probs)
 
-    def _fused_scratch_view(self) -> SamplerScratch:
-        # View the owned buffers as a SamplerScratch (no copy of data,
-        # no allocation).
-        var sc = SamplerScratch()
-        sc.n = self.f_n
-        sc.logits = self.f_logits
-        sc.probs = self.f_probs
-        sc.idx = self.f_idx
-        sc.live = self.f_live
-        return sc^
-
     def sample_fast(
         mut self,
         logits: List[Float32],
@@ -207,17 +205,18 @@ struct Sampler:
         decode step after the first."""
         var n = len(logits)
         self._fused_ensure(n)
-        # Stage the input logits + history into contiguous buffers.
-        # (Two copies into owned scratch; no allocation.)
+        # Stage the input logits + history into the owned scratch buffers
+        # (copies only; no allocation). Buffers are distinct: lg/f_logits
+        # doubles as inp (self-copy is a no-op), hist lives in f_hist.
         for i in range(n):
             self.f_logits.unsafe_offset(i).unsafe_store(logits[i])
         var hn = len(history)
         for i in range(hn):
-            self.f_idx.unsafe_offset(i).unsafe_store(history[i])
-        var sc = self._fused_scratch_view()
+            self.f_hist.unsafe_offset(i).unsafe_store(history[i])
         return sample_fused(
-            self, self.f_logits, n, sc, temp, top_k, top_p,
-            self.f_idx, hn, penalty,
+            self, self.f_logits, n, self.f_logits, self.f_probs,
+            self.f_idx, self.f_live, temp, top_k, top_p,
+            self.f_hist, hn, penalty,
         )
 
     def sample_fast_ptr(
@@ -234,9 +233,10 @@ struct Sampler:
         """H173 — fused path with pointer inputs (for the harness decode
         loop, which already holds logits in a reused buffer)."""
         self._fused_ensure(n)
-        var sc = self._fused_scratch_view()
         return sample_fused(
-            self, inp, n, sc, temp, top_k, top_p, hist, hist_len, penalty
+            self, inp, n, self.f_logits, self.f_probs,
+            self.f_idx, self.f_live, temp, top_k, top_p,
+            hist, hist_len, penalty
         )
 
 
@@ -299,13 +299,6 @@ struct SamplerScratch:
         self.idx = unsafe_alloc[Int](n)
         self.live = unsafe_alloc[Int](n)
 
-    def __init__(out self):
-        # Non-allocating view constructor (for _fused_scratch_view).
-        self.n = 0
-        self.logits = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
-        self.probs = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
-        self.idx = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
-        self.live = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
 
     def free(mut self):
         self.logits.unsafe_free()
@@ -340,7 +333,10 @@ def sample_fused(
     mut sampler: Sampler,
     inp: Pointer[Float32, MutUntrackedOrigin],
     n: Int,
-    scratch: SamplerScratch,
+    lg: Pointer[Float32, MutUntrackedOrigin],
+    pr: Pointer[Float32, MutUntrackedOrigin],
+    mk_buf: Pointer[Int, MutUntrackedOrigin],
+    lv_buf: Pointer[Int, MutUntrackedOrigin],
     temp: Float32,
     top_k: Int,
     top_p: Float32,
@@ -349,9 +345,11 @@ def sample_fused(
     penalty: Float32,
 ) -> Int:
     """H173 fused sampling on preallocated buffers. Bit-identical tokens to
-    Sampler.sample() for the same inputs and RNG state (test-asserted)."""
-    var lg = scratch.logits
-    var pr = scratch.probs
+    Sampler.sample() for the same inputs and RNG state (test-asserted).
+
+    Buffers (each length >= n, caller-owned): lg = working logits,
+    pr = probs/workspace, mk_buf = keep-marker, lv_buf = live indices."""
+
     # 1. copy + repetition penalty (HF-style, same as repetition_penalty()).
     for i in range(n):
         lg.unsafe_offset(i).unsafe_store(inp.unsafe_offset(i).unsafe_load())
@@ -400,7 +398,7 @@ def sample_fused(
     #    candidates only).
     if top_p > Float32(0.0) and top_p < Float32(1.0):
         _fused_softmax(lg, pr, n)
-        var lv = scratch.live
+        var lv = lv_buf
         var nl = 0
         for i in range(n):
             if pr.unsafe_offset(i).unsafe_load() > Float32(0.0):
@@ -425,7 +423,7 @@ def sample_fused(
                 break
         if cumsum >= top_p:
             # Mask everything not in the kept prefix.
-            var mk = scratch.idx
+            var mk = mk_buf
             for i in range(n):
                 mk.unsafe_offset(i).unsafe_store(0)
             for r in range(nkept):
