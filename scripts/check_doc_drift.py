@@ -18,6 +18,9 @@ LEDGER = ROOT / "CAPABILITY_LEDGER.md"
 RUN_ALL = ROOT / "aesir_engine/tests/run_all.mojo"
 TODO = ROOT / "TODO.md"
 HYGIENE_POLICY = ROOT / "repository_hygiene_policy.json"
+ENGINE_ROOT = ROOT / "aesir_engine"
+INTERFACE_FILENAME = "INTERFACE.md"
+MOJO_REFERENCE_RE = re.compile(r"`([^`]*\.mojo)`")
 ACTIVE_STATUS_DOCS = [ROOT / "docs/Vision.md", ROOT / "docs/SYSTEM_VISION.md"]
 HISTORICAL_CLAIMS_MARKER = "<!-- HISTORICAL_CLAIMS_BEGIN -->"
 TEXT_SUFFIXES = {".md", ".mojo", ".py", ".toml", ".yml", ".yaml", ".json"}
@@ -581,6 +584,71 @@ def check_tracked_artifacts(
     warnings.extend(policy_warnings)
 
 
+def check_interface_surface(errors: list[str]) -> None:
+    """Fail closed when an INTERFACE.md under aesir_engine/ names a module
+    that has no matching .mojo file on disk.
+
+    References are backtick-quoted `*.mojo` names.  Path-qualified references
+    (e.g. `core/swarm.mojo`) resolve against the engine root.  Bare names
+    resolve to the sibling file first, then to the unique engine-wide match,
+    because INTERFACE.md files also name modules owned by sibling domains
+    (e.g. tests/ naming a core/ module).  An ambiguous bare name must be
+    qualified with its directory.
+    """
+    by_name: dict[str, list[Path]] = {}
+    for mojo in ENGINE_ROOT.rglob("*.mojo"):
+        by_name.setdefault(mojo.name, []).append(mojo)
+    interfaces = sorted(ENGINE_ROOT.rglob(INTERFACE_FILENAME))
+    if not interfaces:
+        errors.append("aesir_engine/: no INTERFACE.md files found")
+        return
+    for interface in interfaces:
+        source = interface.relative_to(ROOT).as_posix()
+        content = interface.read_text(encoding="utf-8")
+        for reference in sorted(set(MOJO_REFERENCE_RE.findall(content))):
+            if (
+                not reference
+                or any(char.isspace() for char in reference)
+                or reference.startswith("/")
+                or ".." in reference
+            ):
+                errors.append(
+                    f"{source}: malformed module reference `{reference}`"
+                )
+                continue
+            resolved: Path | None = None
+            if "/" in reference:
+                candidate = ENGINE_ROOT / reference
+                if candidate.is_file():
+                    resolved = candidate
+            else:
+                sibling = interface.parent / reference
+                if sibling.is_file():
+                    resolved = sibling
+                else:
+                    hits = by_name.get(reference, [])
+                    if len(hits) == 1:
+                        resolved = hits[0]
+                    elif len(hits) > 1:
+                        matches = ", ".join(
+                            sorted(
+                                hit.relative_to(ROOT).as_posix() for hit in hits
+                            )
+                        )
+                        errors.append(
+                            f"{source}: ambiguous module reference "
+                            f"`{reference}` matches {matches}; qualify it "
+                            "with its directory"
+                        )
+                        continue
+            if resolved is None:
+                errors.append(
+                    f"{source}: documented module `{reference}` has no "
+                    "matching .mojo file under aesir_engine/ "
+                    "(interface drift)"
+                )
+
+
 def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
@@ -592,6 +660,7 @@ def main() -> int:
     check_text_hygiene(paths, errors)
     check_source_truth(errors)
     check_ci(errors)
+    check_interface_surface(errors)
     check_tracked_artifacts(paths, statuses, errors, warnings)
     for warning in warnings:
         print(f"WARNING: {warning}")
@@ -600,7 +669,7 @@ def main() -> int:
         for error in errors:
             print(f" - {error}")
         return 1
-    print("PASSED: repository truth, ledger, test-count, CI, and hygiene checks")
+    print("PASSED: repository truth, ledger, test-count, CI, hygiene, and interface-surface checks")
     return 0
 
 
