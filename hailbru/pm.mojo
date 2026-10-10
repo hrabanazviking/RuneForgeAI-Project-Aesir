@@ -30,6 +30,7 @@ from hailbru.syscall import (
 )
 from hailbru.util import trim
 from hailbru.errors import herror
+from hailbru.regs import map_sysfs_resource, reg_read16, unmap_bar
 
 
 def PM_STATE_D0() -> Int:
@@ -150,30 +151,31 @@ def pm_set_state(
 def pm_assert_state(
     arch: String, sysfs_root: String, bdf: String, target: Int
 ) raises -> String:
-    # Transition and then verify by BOTH the PMCSR field and the sysfs
-    # power_state file; the file is polled because the kernel updates it
-    # asynchronously after the PMCSR write lands (observed 2026-10-10:
-    # PMCSR=D0 while power_state still read D3hot). Returns the verified
-    # state name.
+    # Transition, then verify functionally (not via the sysfs
+    # power_state file — see note below). Returns the verified state name.
+    #
+    # NOTE (2026-10-10, measured on Mimir): the kernel's power_state
+    # sysfs file does NOT follow manual PMCSR writes; it still reads
+    # "D3hot" 5+ seconds after PMCSR reads back D0 and BAR0 reads are
+    # fully coherent. The file is kernel-PCI-core bookkeeping that only
+    # changes on kernel-initiated transitions. The authoritative signals
+    # are therefore the PMCSR field readback (polled in pm_set_state)
+    # plus a functional BAR probe here.
     pm_set_state(arch, sysfs_root, bdf, target)
-    var pmcap = find_pm_cap(arch, sysfs_root, bdf)
     var want = pm_state_name(target)
-    var deadline = os_clock_ms(arch) + 5000
-    var pmcsr_state = -1
-    var ps = ""
-    while os_clock_ms(arch) < deadline:
-        pmcsr_state = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap) & 0x3
-        ps = pm_read_power_state_file(arch, sysfs_root, bdf)
-        if pmcsr_state == target and ps == want:
-            return want
-        _ = os_sleep_ms(arch, 25)
-    raise herror(
-        "PowerTransitionFailed",
-        bdf
-        + " state mismatch after transition: pmcsr="
-        + pm_state_name(pmcsr_state)
-        + " power_state="
-        + ps
-        + " want="
-        + want,
-    )
+    var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
+    var mirror = Int(reg_read16(m, 0x0098))
+    unmap_bar(arch, m)
+    if target == 0 and mirror != 0x1E60:
+        raise herror(
+            "PowerTransitionFailed",
+            bdf + " PMCSR=D0 but BAR0+0x0098 reads "
+            + String(mirror) + " (want 0x1e60)",
+        )
+    if target == 3 and mirror != 0xFFFF:
+        raise herror(
+            "PowerTransitionFailed",
+            bdf + " PMCSR=D3hot but BAR0+0x0098 reads "
+            + String(mirror) + " (want 0xFFFF: D3hot all-ones behavior)",
+        )
+    return want
