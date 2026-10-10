@@ -59,8 +59,9 @@ def main() raises:
     var ids = tok.encode(text)
     print("prompt tokens: " + String(len(ids)))
 
-    # Test 1+2: chunked vs token-by-token on the first 96 tokens.
-    var N = 96
+    # Test 1+2: chunked vs token-by-token on the first 32 tokens
+    # (forward_chunk requires chunk >= ntok).
+    var N = 32
     var prompt = List[Int]()
     for i in range(N):
         prompt.append(ids[i])
