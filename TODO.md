@@ -1480,3 +1480,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 
 - [x] AES500-170 Unicode release gate: native build/help, master 226/0/1
   (227 total), docs and whitespace checks pass; hosted runs remain in progress.
+
+- [x] AES500-171 invalid UTF-8 contract: `TASK_invalid_utf8_policy.md` records
+  String-only input, current width heuristic, malformed-byte gap, desired fail-closed
+  policy, and exclusions before behavior changes.

@@ -3931,3 +3931,11 @@ ASCII-space-only marker rule, while retaining explicit conformance limits.
 AES500-170 Unicode release gate passes native build/help, docs, whitespace, and
 master suite (226 passed, zero failed, one skipped / 227 total). Recent hosted
 Actions runs remain in progress.
+
+
+## 2026-10-10 — AES500-171 invalid UTF-8 policy
+
+Specified the RuneWeaver String boundary, current byte-width heuristic, and
+missing explicit continuation/overlong/surrogate checks. Unsafe malformed
+String behavior remains unspecified pending a baseline and interface feasibility
+check; no code changed.
