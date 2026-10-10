@@ -29,7 +29,8 @@ successful correlations project GPU duration without changing synchronization.
 - **`test_gpu_discovery.mojo`:** Opt-in physical MAX CUDA enumeration and
   topology-selection proof; intentionally excluded from the CPU master suite.
 - **`test_cuda_resource_budget.mojo`:** CPU-only GPU-2 byte accounting,
-  transactional rejection, rollback, overflow, and device-policy admission.
+  transactional rejection, rollback, overflow, session-local allocation IDs,
+  logical owner counters and hostile tracker admission cases.
 - **`test_gpu_resources.mojo`:** Opt-in physical GPU-2 selected-context,
   budgeted F16 buffer, synchronized transfer, and scope-cleanup proof.
 - **`test_cuda_gemm_plan.mojo`:** CPU-only GPU-3 shape/product/ABI/launch and

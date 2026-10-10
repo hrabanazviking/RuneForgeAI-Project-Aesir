@@ -2,6 +2,7 @@
 # Deterministic CPU-only GPU-2 budget and admission verification.
 
 from core.cuda_resources import (
+    CUDAAllocationTracker,
     CUDAResourceBudget,
     validate_cuda_resource_policy,
 )
@@ -106,6 +107,80 @@ def test_cuda_budget_overflow_and_rollback() raises:
     print("CUDA resource budget overflow and rollback: PASS")
 
 
+def test_cuda_allocation_tracker_adversarial() raises:
+    var tracker = CUDAAllocationTracker()
+    var first_id = tracker.reserve_id()
+    var second_id = tracker.reserve_id()
+    if first_id != 1 or second_id != 2:
+        raise Error("CUDA allocation IDs are not monotonic and unique")
+
+    tracker.validate_registration(2, 48)
+    tracker.register(16)
+    tracker.register(32)
+    if tracker.live_count != 2 or tracker.live_bytes != 48:
+        raise Error("CUDA allocation tracker live accounting mismatch")
+
+    var count_before = tracker.live_count
+    var bytes_before = tracker.live_bytes
+    var count_overflow_rejected = False
+    tracker.live_count = 9223372036854775807
+    try:
+        tracker.validate_registration(1, 2)
+    except error:
+        count_overflow_rejected = True
+    if not count_overflow_rejected or tracker.live_count != 9223372036854775807:
+        raise Error("CUDA tracker count overflow mutated the count")
+    tracker.live_count = count_before
+
+    var byte_overflow_rejected = False
+    tracker.live_bytes = 9223372036854775806
+    try:
+        tracker.validate_registration(1, 2)
+    except error:
+        byte_overflow_rejected = True
+    if not byte_overflow_rejected or tracker.live_bytes != 9223372036854775806:
+        raise Error("CUDA tracker byte overflow mutated live bytes")
+    tracker.live_bytes = bytes_before
+
+    var id_before = tracker.next_id
+    tracker.next_id = 9223372036854775807
+    var id_exhaustion_rejected = False
+    try:
+        _ = tracker.reserve_id()
+    except error:
+        id_exhaustion_rejected = True
+    if not id_exhaustion_rejected or tracker.next_id != 9223372036854775807:
+        raise Error("CUDA tracker ID exhaustion mutated next ID")
+    tracker.next_id = id_before
+
+    tracker.owner_destroyed(16, 0)
+    tracker.owner_destroyed(32, 0)
+    if (
+        tracker.live_count != 0
+        or tracker.live_bytes != 0
+        or tracker.fenced_owner_destroyed_count != 2
+        or tracker.fenced_owner_destroyed_bytes != 48
+        or tracker.accounting_error
+    ):
+        raise Error("CUDA tracker fenced owner destruction mismatch")
+
+    tracker.validate_registration(1, 8)
+    tracker.register(8)
+    tracker.owner_destroyed(8, 1)
+    if (
+        tracker.unfenced_owner_destroyed_count != 1
+        or tracker.fenced_owner_destroyed_count != 2
+        or tracker.live_count != 0
+        or tracker.accounting_error
+    ):
+        raise Error("CUDA tracker did not separate unfenced owner destruction")
+
+    tracker.owner_destroyed(8, 0)
+    if not tracker.accounting_error:
+        raise Error("CUDA tracker failed to detect owner underflow")
+    print("CUDA allocation tracker adversarial contracts: PASS")
+
+
 def test_cuda_resource_policy_admission() raises:
     var budget = CUDAResourceBudget(1024 * 1024, 1024 * 1024)
     validate_cuda_resource_policy(make_policy_device(), budget)
@@ -146,4 +221,5 @@ def main() raises:
     test_cuda_budget_accounting()
     test_cuda_budget_rejection_is_transactional()
     test_cuda_budget_overflow_and_rollback()
+    test_cuda_allocation_tracker_adversarial()
     test_cuda_resource_policy_admission()

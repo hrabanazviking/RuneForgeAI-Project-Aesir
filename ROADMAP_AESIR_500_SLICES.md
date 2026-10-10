@@ -635,6 +635,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   scope cleanup. The ledger is single-host-thread scoped and raw buffer access
   and async teardown safety remain outside its proof; see
   `docs/evidence/cuda-allocation-lifetime-implementation-2026-10-10/`.
+- AES500-025 adds CPU-only counter and ID exhaustion checks to the master suite;
+  validating no-mutation-on-rejection and separation of fenced/unfenced owner
+  destruction. Full local suite passes at 191/0/1; see
+  `docs/evidence/cuda-allocation-lifetime-unit-2026-10-10/`. Hosted CI remains
+  the release gate.
 
 ## Status
 

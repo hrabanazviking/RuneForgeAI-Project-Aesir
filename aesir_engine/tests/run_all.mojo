@@ -78,6 +78,7 @@ from tests.test_cuda_resource_budget import (
     test_cuda_budget_accounting,
     test_cuda_budget_rejection_is_transactional,
     test_cuda_budget_overflow_and_rollback,
+    test_cuda_allocation_tracker_adversarial,
     test_cuda_resource_policy_admission,
 )
 from tests.test_cuda_gemm_plan import (
@@ -409,6 +410,11 @@ def main() raises:
         ledger,
         "gpu.resource_budget_rollback",
         test_cuda_budget_overflow_and_rollback,
+    )
+    run_case(
+        ledger,
+        "gpu.allocation_tracker_adversarial",
+        test_cuda_allocation_tracker_adversarial,
     )
     run_case(
         ledger,
@@ -813,4 +819,4 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(191)
+    ledger.finish(192)
