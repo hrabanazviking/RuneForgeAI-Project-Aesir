@@ -180,6 +180,8 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                     integer(start); integer(end)
                     if not start < end:
                         raise ValueError("Invalid pre-session CUDA initialization interval")
+                    if type(status) is not int or status not in (0, 101):
+                        raise ValueError("Unexpected pre-session CUDA initialization result")
                     startup_initialization_api_count += 1
                 else:
                     interval(start, end)

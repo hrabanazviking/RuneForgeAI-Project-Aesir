@@ -180,6 +180,30 @@ class Contracts(unittest.TestCase):
         self.launches[999]=(111,112,self.outer[2])
         with self.assertRaises(ValueError):
             attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
+    def test_small_child_boundaries_and_hostile_nvtx_metadata(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry()
+        self.rows[0]=(self.outer[0],self.rows[0][1],*self.rows[0][2:])
+        self.rows[-1]=(*self.rows[-1][:1],self.outer[1],*self.rows[-1][2:])
+        start,end=self.rows[0][:2];self.launches[1]=(start,end,self.outer[2])
+        self.launches[28]=(self.rows[-1][0],self.rows[-1][1],self.outer[2])
+        self.assertEqual(attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)['cpu_range_count'],28)
+        for defect in ('missing','duplicate','overlap','kind','thread','endthread','text-id','namespace','parent-start'):
+            self.small_geometry()
+            row=list(self.rows[0])
+            if defect=='missing':self.rows.pop(0)
+            elif defect=='duplicate':self.rows.append(tuple(row))
+            elif defect=='overlap':row[0]=self.rows[1][0]-1
+            elif defect=='kind':row[2]=58
+            elif defect=='thread':row[3]=self.outer[2]+1
+            elif defect=='endthread':row[4]=self.outer[2]+1
+            elif defect=='text-id':row[6]=9
+            elif defect=='namespace':row[5]='aesir.attend.unknown.b32'
+            else:row[0]=self.outer[0]-1
+            if defect not in ('missing','duplicate'):self.rows[0]=tuple(row)
+            with self.subTest(defect=defect),self.assertRaises(ValueError):
+                attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
         self.small_geometry();self.launches[1]=(159,161,self.outer[2])
         with self.assertRaises(ValueError):
             attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
@@ -207,6 +231,16 @@ class Contracts(unittest.TestCase):
             self.assertEqual(result['small_attention_attribution']['attention_variant'],5)
             self.assertEqual(result['pre_session_initialization_api_count'],1)
             small.assert_called_once();projection.assert_not_called();fused.assert_not_called()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=999 WHERE correlationId=9")
+            db.commit()
+        with patch('cuda_fused_attention_ranges.attribute_small') as small,self.assertRaises(ValueError):
+            cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+        small.assert_not_called()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=0 WHERE correlationId=9")
+            db.commit()
         with closing(sqlite3.connect(p)) as db:
             db.execute("UPDATE StringIds SET value='cuDeviceGet' WHERE id=9")
             db.commit()

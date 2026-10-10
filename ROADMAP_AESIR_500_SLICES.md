@@ -617,6 +617,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   attribution are accepted locally in
   `docs/evidence/small-attention-trace-integration-2026-10-10/`; hosted CI remains
   a separate release gate. AES500-017+ adversarial/review slices remain open.
+- AES500-017 adversarial checker coverage is underway under
+  `TASK_small_attention_trace_adversarial.md`; the exact hosted gate remains
+  pending until the slice is pushed.
 
 ## Status
 
@@ -638,4 +641,6 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   tests; exact hosted release CI remains pending.
 - AES500-016: two full-session physical traces pass locally for the declared
   device/model/cases; no broader behavior or speed claim is made.
+- AES500-017: hostile range, launch-correlation and pre-session initializer
+  checks are being expanded; hosted CI is pending.
 - This document does not change any capability status.
