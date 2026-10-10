@@ -640,6 +640,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   destruction. Full local suite passes at 191/0/1; see
   `docs/evidence/cuda-allocation-lifetime-unit-2026-10-10/`. Hosted CI remains
   the release gate.
+- AES500-026 extends the physical GPU-3 GEMM probe with pairwise owner-ID,
+  creation-time live count/byte, and per-synchronized-execution pending-work
+  assertions. RTX 2060 Max-Q run passes; see
+  `docs/evidence/cuda-allocation-lifetime-integration-2026-10-10/`. Claims stay
+  within the synchronous selected-device probe.
 
 ## Status
 
