@@ -627,10 +627,10 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** generation/tool protocol domain
 - **Claim sources:** tool-use TODO and architecture descriptions
-- **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail.
+- **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail. `resolve_allowlisted_tool` validates the supplied definition set and refuses a parsed name absent from that set.
 - **Executable evidence:** `E-MASTER` case `paradigms.tool_use_json` covers exact parsing, nested arguments, prompt formatting, prose refusal, duplicates and malformed nested JSON. The adversarial matrix also rejects empty/missing-field envelopes, null/array arguments, extra fields, unsafe names and trailing values.
-- **Evidence boundary:** This formats and parses data only. It does not select, authorize, execute, sandbox, time out, cancel, audit, or return results from tools, and it is not wired into model generation.
-- **Next acceptance gate:** Add an allowlisted executor with per-tool schemas, authorization, resource/time limits, result framing, audit logs and end-to-end model fixtures.
+- **Evidence boundary:** This formats and parses data and checks call-name membership in a supplied definition allowlist. It does not validate argument instances against their JSON Schemas, grant user authorization, execute, sandbox, time out, cancel, audit, or return results from tools, and it is not wired into model generation.
+- **Next acceptance gate:** Add schema-instance validation and explicit authorization before any executor, then resource/time limits, result framing, audit logs and end-to-end model fixtures.
 - **Audit:** AER-003.
 
 ## 10. CLI and Model Management

@@ -407,3 +407,22 @@ def parse_tool_call(output_text: String) raises -> ToolCall:
     """Parses exactly one bounded JSON object; prose and extra fields fail."""
     var parser = BoundedToolJSON(output_text)
     return parser.parse_tool_call()
+
+
+def resolve_allowlisted_tool(call: ToolCall,
+        tools: List[ToolDefinition]) raises -> ToolDefinition:
+    """Resolve a parsed call only to one validated definition in this allowlist.
+
+    This checks definition membership and schema well-formedness. It does not
+    grant user authorization, validate arguments against the JSON Schema, or
+    execute the tool.
+    """
+    if len(tools) == 0 or len(tools) > 64:
+        raise Error("tool allowlist must contain 1..64 definitions")
+    # Reuse the canonical validator for safe names, uniqueness, descriptions,
+    # bounded object schemas and strict JSON parsing.
+    _ = format_tool_system_prompt(tools)
+    for i in range(len(tools)):
+        if tools[i].name == call.name:
+            return tools[i]
+    raise Error("tool call name is not present in the supplied allowlist")

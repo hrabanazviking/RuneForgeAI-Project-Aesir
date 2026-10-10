@@ -7,7 +7,7 @@ from cli.help import get_help_overview, get_command_help
 from cli.tui import AesirTUIDashboard
 from core.skaldbrodir import SkaldbrodirDetector
 from core.thinking import ThinkingController, sanitize_thinking_transcript
-from core.tool_use import ToolDefinition, ToolCall, format_tool_system_prompt, parse_tool_call
+from core.tool_use import ToolDefinition, ToolCall, format_tool_system_prompt, parse_tool_call, resolve_allowlisted_tool
 from core.smart_crash import SmartCrashReporter
 from core.max_gate import MAXGate
 from core.cia import EpisodicComputationMemory
@@ -160,6 +160,23 @@ def test_tool_use_json() raises:
     var parsed_call = parse_tool_call(call_json)
     if parsed_call.name != "get_weather" or parsed_call.arguments_json != "{\"location\":\"Oslo\",\"units\":\"metric\"}":
         raise Error("test_tool_use_json: strict tool call parsing failed")
+    var allowed_definition = resolve_allowlisted_tool(parsed_call, tools)
+    if allowed_definition.name != tool.name or allowed_definition.parameters_json_schema != tool.parameters_json_schema:
+        raise Error("test_tool_use_json: allowlist resolution changed definition identity")
+    var unknown_tool_rejected = False
+    try:
+        _ = resolve_allowlisted_tool(ToolCall("delete_everything", "{}"), tools)
+    except error:
+        unknown_tool_rejected = "not present" in String(error)
+    if not unknown_tool_rejected:
+        raise Error("test_tool_use_json: unlisted tool name was resolved")
+    var empty_allowlist_rejected = False
+    try:
+        _ = resolve_allowlisted_tool(parsed_call, List[ToolDefinition]())
+    except:
+        empty_allowlist_rejected = True
+    if not empty_allowlist_rejected:
+        raise Error("test_tool_use_json: empty allowlist was accepted")
 
     var prose_rejected = False
     try:
