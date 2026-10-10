@@ -68,3 +68,8 @@ Primary review confirms record rank/dimensions are read before mapping, host-ind
 
 
 AES500-149 documentation sync: `aesir_engine/loader/INTERFACE.md` summarizes rank-one/two positive shapes, aligned in-file offsets, F16 aliasing, F32 pool conversion, arithmetic guards, and the synthetic evidence boundaries.
+
+
+## AES500-150 release gate
+
+Native sm_89 build and executable `--help` smoke pass. Master suite reports 217 passed, zero failed, one skipped external-fixture case (218 total). Doc-drift and whitespace checks pass. Hosted workflow runs for recent slice heads remain in progress; hosted success is not claimed.

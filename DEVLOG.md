@@ -3827,3 +3827,8 @@ collaboration service thread cap persists; no independent signoff is claimed.
 AES500-149 syncs the loader interface with bounded tensor-directory evidence,
 including F16 alias/F32 conversion, checked index arithmetic and the remaining
 compressed-layout/overlap limits.
+
+
+AES500-150 release gate passes native build/help, master suite (217 passed, zero
+failed, one skipped / 218 total), doc-drift and whitespace checks. Recent hosted
+Actions runs remain in progress; no hosted success is inferred.
