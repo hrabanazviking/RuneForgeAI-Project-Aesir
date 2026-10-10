@@ -128,19 +128,19 @@ HYPOTHESIZED modes are marked with their reasoning.
   census, treat as FM-09.
 - **Handling slice:** H061 (discovery) + H081 (`read_initial_state`).
 
-## FM-11 — Firmware boot timeout (F3-BANKED, HYPOTHESIZED)
+## FM-11 — Firmware boot timeout (PARTIALLY OBSERVED 2026-10-10)
 
-- **Symptom:** `HailbruError[FirmwareBootTimeout]` — boot step triggered
-  but no completion interrupt within budget.
-- **Register signature:** channel bitmaps (0x0400/0x0500) stuck at 0;
-  0x018C completion bits never set.
-- **Likely cause:** bad DMA addresses (ATR windows misprogrammed),
-  corrupt blob (caught earlier by H073 staging verify), or the
-  firmware crashed on the on-chip CPU.
+- **Symptom:** `HailbruError[FwError]` — boot step triggered but no
+  BOOT_IRQ within budget (observed: stage-less soft-reset test, 5 s
+  wait, MSI arrived but bit 24 not set).
+- **Register signature:** 0x018C without the expected completion bit;
+  channel bitmaps (0x0400/0x0500) stuck at 0.
+- **Likely cause:** completion arrived as a different interrupt source,
+  or the firmware did not process the trigger.
 - **Recovery:** re-verify blob SHAs, re-program ATR windows, retry the
   stage; persistent → capture full dump for the operator.
-- **Handling slice:** H074/H075/H076 (F3-4) — unblocked by
-  `docs/hailbru/F3_UNBLOCK_RUNBOOK.md` F3-4.
+- **Handling slice:** H074/H075/H076 (F3-4) — unblocked 2026-10-10;
+  `probe fw-boot` implements the wait with `IrqTimeout`.
 
 ## FM-12 — Golden-map drift (register deviation in production)
 
@@ -181,3 +181,51 @@ HYPOTHESIZED modes are marked with their reasoning.
   (H084); re-authenticate and resume — the bring-up is idempotent, so
   resuming is safe.
 - **Handling slice:** H084 (fail-closed abort), H092 (guard re-entry).
+
+## FM-15 — UIO new_id write-only gate (OBSERVED 2026-10-10)
+
+- **Symptom:** `HailbruError[MechanismUnavailable]` — "uio_pci_generic
+  not registered" even though the module is loaded.
+- **Register signature:** none (sysfs).
+- **Likely cause:** the gate checked `new_id` with O_RDONLY; `new_id`
+  is write-only (0200) so the open fails. Fixed: check the driver
+  directory itself.
+- **Recovery:** code fix (done); no device impact.
+- **Handling slice:** H065.
+
+## FM-16 — UIO new_id auto-bind race (OBSERVED 2026-10-10)
+
+- **Symptom:** `HailbruError[OsError]` — short write to `.../bind`
+  (the kernel auto-binds on `new_id`, so the explicit bind races).
+- **Register signature:** none (sysfs).
+- **Likely cause:** writing a dynamic ID triggers the driver core to
+  bind immediately; the follow-up `bind` write then fails.
+- **Recovery:** check the driver link first; skip the explicit bind
+  when already bound; tolerate the race on write. Re-registering an
+  ID returns EEXIST (17) — tolerated.
+- **Handling slice:** H065.
+
+## FM-17 — IRQ "nobody cared" on unbind/rebind (OBSERVED 2026-10-10)
+
+- **Symptom:** kernel `irq 37: nobody cared` + `Disabling IRQ #37`
+  during a UIO→hailo1x transition.
+- **Register signature:** none (kernel IRQ layer).
+- **Likely cause:** the device's legacy INTx line fires while no
+  driver owns it (between unbind and rebind). IRQ 37 is the PCIe
+  PME/AER line, not the Hailo MSI — no lasting effect (the device
+  uses MSI).
+- **Recovery:** none needed; the kernel re-enables on next bind.
+  Minimize the window by rebinding promptly.
+- **Handling slice:** H065/H069.
+
+## FM-18 — VFIO unusable without IOMMU group (OBSERVED 2026-10-10)
+
+- **Symptom:** VFIO framework live (`/dev/vfio/vfio`, dmesg v0.3) but
+  `vfio-pci` cannot bind 0001:01:00.0 — no `iommu_group` symlink;
+  CONFIG_VFIO_NOIOMMU is not set.
+- **Register signature:** none.
+- **Likely cause:** the BCM2712 PCIe RC is not behind the ARM SMMU
+  (SMMU serves platform devices: codec, ISP).
+- **Recovery:** use the UIO path (H065). A device-tree change
+  attaching PCIe to the SMMU is operator/boot-config territory.
+- **Handling slice:** H064 (re-scoped to UIO).

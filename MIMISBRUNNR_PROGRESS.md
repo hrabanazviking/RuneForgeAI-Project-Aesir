@@ -457,6 +457,45 @@ into arbitrary physical memory (noiommu-less = no isolation);
 leave the device sane (D3hot, hailo1x bound) after every session;
 do not touch boot config.
 
+### F3 EXECUTION RESULTS — UIO path real (2026-10-10 ~09:30–09:35 EDT)
+
+Kernel `6.12.112-v8-16k-hailo+`. The vendor driver had already booted
+the firmware at kernel boot (ATR1 == 0x200000 verified read-only) —
+there was no unbooted device to flash, so the full 3-stage re-flash
+was NOT fired (re-flashing a running device is unsafe; the boot code
+refuses when already_loaded=1). What executed FOR REAL:
+
+- H065 REAL: uio_pci_generic bind/unbind/restore. /dev/uio0 appeared;
+  hailo1x rebound afterward, /dev/h1x-0 back. Two probe bugs fixed
+  along the way (new_id is write-only — gate checked it with O_RDONLY;
+  new_id auto-binds — explicit bind raced; new_id EEXIST on re-run).
+- H064 REAL (re-scoped): BAR0/BAR4 mapped writable during the UIO
+  session via sysfs resource; ATR windows programmed for real
+  (BAR0+0x700); reads/writes through BAR4. VFIO path documented
+  blocked-with-evidence (no IOMMU group, no CONFIG_VFIO_NOIOMMU).
+- H069 REAL: a genuine device MSI received on /dev/uio0 (count=1) via
+  uio_pci_generic. Caveat: the istatus bits (0x1080C400) did not show
+  the expected SOFT_RESET_IRQ bit 24 — the MSI's exact source is
+  unidentified (likely bind/enable chatter, not the reset completion).
+- H074 REAL: staged blobs read; scu_fw.bin parsed per the vendor
+  format (magic 0xE905DAAB verified, header/code/key/content
+  extracted with bounds checks).
+- H075 IMPLEMENTED, NOT FIRED: the 3-stage PIO upload
+  (hailbru/fwboot.mojo, STRATEGY_PCIE_BARS per the vendor driver) is
+  complete and validated against real headers, but there was no
+  unbooted target. Fail-safe refusal is the correct behavior.
+- H076 PARTIAL: handshake SIGNALS verified real (ATR1==0x200000,
+  boot_status); the trigger/wait sequence implemented but not fired.
+  A soft-reset WAS triggered for real (u32 8 to BAR4+0x1754); the
+  device survived and the driver re-probed "already loaded".
+- H066 NOT DEMONSTRATED: the PIO strategy made DMA unnecessary; the
+  VDMA descriptor path was not attempted. The phys-DMA design
+  (pagemap + uncached /dev/mem alias) remains unexecuted.
+- Device left sane: hailo1x bound, /dev/h1x-0 present, D3hot,
+  firmware loaded. One wart: IRQ 37 "nobody cared" during the
+  unbind/rebind transition (PCIe PME/AER line, not the Hailo MSI) —
+  kernel disabled it; no lasting effect (device uses MSI).
+
 ## Campaign 6 — The Wall / SMIÐR (H101–H120)
 - Status: not started — contains H111 GO/NO-GO gate
 

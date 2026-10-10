@@ -1,0 +1,1 @@
+{"date": "2026-10-10", "kernel": "6.12.112-v8-16k-hailo+", "h084_cycles": 100, "h084_ok": 100, "h084_min_ms": 110.9, "h084_max_ms": 133.2, "h084_mean_ms": 113.6, "h090_runs": 20, "h090_max_ms": 140, "h087_samples": 100, "h087_temp_min_c": 38.6, "h087_temp_max_c": 42.45, "h095_golden": "10/10 PASS", "fw_loaded": true}

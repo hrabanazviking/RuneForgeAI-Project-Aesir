@@ -94,57 +94,80 @@ left the device in D3hot; leave it undisturbed.
 
 ---
 
-## Path F — F3-unblocked kernel (after Volmarr's rebuild)
+## Path F — F3-unblocked kernel (REAL since 2026-10-10)
 
-Prerequisites: kernel rebuilt with CONFIG_VFIO, CONFIG_VFIO_PCI,
-CONFIG_UIO, CONFIG_UIO_PCI_GENERIC, CONFIG_ARM_SMMU (operator action;
-exact recipe in `docs/hailbru/F3_UNBLOCK_RUNBOOK.md` §1). Unblock
-criteria: `/dev/vfio/vfio` exists, `/dev/uioN` appears after bind,
-`dmesg | grep -i smmu` shows the SMMU probed, `probe mechanism`
-selects `vfio`.
+Prerequisites MET 2026-10-10: Mimir runs `6.12.112-v8-16k-hailo+`
+(tryboot success). BUT the recon corrected the plan:
 
-### F1. Bind via VFIO or UIO (operator-supervised)
+- **VFIO is BLOCKED for 0001:01:00.0**: no IOMMU group for the device
+  (PCIe not behind the ARM SMMU) and CONFIG_VFIO_NOIOMMU is not set.
+  The VFIO framework is live but unusable for this device.
+- **UIO is the real path**: CONFIG_UIO_PCI_GENERIC=m; `uio_pci_generic`
+  binds, `/dev/uio0` appears, MSI delivered, `hailo1x` restores cleanly.
+- **The vendor driver boots the firmware at kernel boot** — HAILBRÚ
+  verifies (ATR1 == 0x200000) rather than re-flashing. The full
+  userspace flash (`probe fw-boot`) is implemented but refuses when
+  already_loaded=1 (fail-safe; re-flashing a running device is unsafe).
 
-Record the original driver name first; unbind `hailo1x`; bind
-`vfio-pci` (or `uio_pci_generic`); restore the original binding after
-the session unless Volmarr directs otherwise. Every step is reversible
-(`uio_step_unbind/register/bind/restore`).
+### F1. UIO session (executed for real 2026-10-10)
 
-### F2. IOMMU DMA mapping
+Record the original driver (`hailo1x`); unbind; `new_id "1e60 45c4"`
+(the kernel auto-binds — the explicit `bind` write may race, tolerate
+it); `/dev/uio0` appears; restore `hailo1x` after. Gotchas found live:
+`new_id` is write-only (existence checks must not use O_RDONLY);
+re-registering an ID returns EEXIST (tolerate); `modprobe
+uio_pci_generic` first. Every step reversible
+(`uio_step_unbind/register/bind/restore` — H065).
 
-Open the VFIO container, `VFIO_IOMMU_MAP_DMA` for the firmware staging
-buffers (`vfio_iommu_map` — fail-closed `IommuError` until this path
-is live). Stage the 17 verified blobs (H073, 112MB, SHA-256).
+### F2. DMA without IOMMU
 
-### F3. Program ATR windows
+No IOMMU exists for this device — there is no DMA isolation. The
+honest userspace path: physical addresses via `/proc/self/pagemap`
+(root) + an uncached `/dev/mem` O_SYNC CPU alias for the DMA buffers
+(no userspace cache maintenance possible per H018; the uncached alias
+sidesteps it). Map carefully, unmap on teardown. **Not yet
+demonstrated** — the PIO strategy below made DMA unnecessary for boot.
 
-Write the IOMMU-mapped DMA addresses into the ATR address-translation
-windows at **BAR0+0x0700** (H072). Driver verifies each window landed
-at its expected block address.
+### F3. Program ATR windows (executed for real)
 
-### F4. DMA the three boot stages
+The ATR table at **BAR0+0x0700** (5×u32 per window, stride 0x20;
+`atr_param = 0x17 | index<<12`, `atr_trsl_param = 6`) is programmed
+for real (`fw_atr_program`, `hailbru/fwboot.mojo`). The `write_memory`
+/ `read_memory` routines save/restore ATR0 around each 4KB-chunked
+PIO transfer through BAR4 (fw_access), exactly like the vendor driver.
 
-Program the VDMA descriptor-ring engine (up to 16 channels) with the
-three boot-stage batches; each descriptor carries page-size/control,
-DMA address low/high, remaining-bytes/status. Wait for completion via
-the channel-bitmap interrupts (**BAR0+0x018C/0x0400/0x0500**) —
-device MSI via `VFIO_DEVICE_SET_IRQS` + eventfd (F3-3).
+### F4. The three boot stages (PIO strategy — driver-supported)
 
-### F5. Boot handshake
+The vendor driver itself supports STRATEGY_PCIE_BARS for all stages
+(`force_hailo_pcie_boot_mode_over_bars`), so PIO is legitimate:
 
-Trigger each boot step; the firmware-control offsets at **BAR0+0x0640+**
-"talk to the on-chip CPUs" (H072); the BAR4 mailbox (4KB window)
-carries commands as length-prefixed buffers with the "raise ready"
-flag as the doorbell (H072 §mailbox). Poll `BootPoller`/`ReadyPoller`
-until the device reports ready (`FirmwareBootTimeout` /
-`DeviceNotReady` on failure).
+- Stage 1: `customer_certificate.bin` → 0xA0000; `scu_fw.bin`
+  (header-parsed: magic 0xE905DAAB verified; header→0x88000,
+  code→0x20000, key→0x88018, content→0x886A8). Trigger: write 1 to
+  0x88C98. Wait BOOT_IRQ (0x018C bit 25) via UIO MSI, 5 s timeout.
+- Stage 2: `u-boot-<sku>.dtb.signed` → 0xA8004 (SKU read from
+  0xDEFFC after stage 1). Trigger 0xDEFF8. Wait 5 s.
+- Stage 3: `u-boot-spl.bin` → 0x80300000, `fitImage` → 0x88000000,
+  `image-fs` → 0x90000000 (`u-boot-tfa.itb` optional). Trigger
+  0x802FF000. Wait 40 s.
+- Implemented in `hailbru/fwboot.mojo` + `probe fw-boot`; validated
+  against the real blob headers; NOT fired (device already booted).
+
+### F5. Boot handshake (signals verified real)
+
+The handshake signals are read and verified: ATR1 translation ==
+0x200000 (`hailo_pcie_is_firmware_loaded`), boot_status == 1
+(ATR-windowed read of 0x80000). A soft reset was triggered for real
+(u32 8 → BAR4+0x1754 = FW_ACCESS_SOFT_RESET_MASK); a real MSI
+arrived on /dev/uio0 (count=1), though the SOFT_RESET_IRQ bit was not
+confirmed in istatus — the completion-bit path needs a cleaner test.
 
 ### F6. Firmware version
 
-Query the running firmware's version via the documented version
-registers or the mailbox response slot (**BAR4+0x0640**); record in
+Still open: query the running firmware's version via the mailbox
+response slot (**BAR4+0x0640**) or version registers; record in
 `data/hailbru/firmware_version.json` and cross-check against the H014
-blob catalogue.
+blob catalogue. (H086 — unblocked, not yet executed.)
 
 ---
 
