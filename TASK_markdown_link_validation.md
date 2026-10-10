@@ -68,15 +68,15 @@ without network access or modifications to source documents.
 
 ```sh
 pixi run python scripts/test_check_markdown_links.py
-pixi run python scripts/check_markdown_links.py --check
+pixi run python scripts/check_markdown_links.py --check --baseline-json docs/evidence/markdown-link-baseline-2026-10-10/link-census.json
 ```
 
-The baseline checker currently exits nonzero for nine known missing fragments
-in the Mojo guide TOC. AES500-056 defines how exact baseline debt is reported;
-until then, the standalone `--check` exit code is expected to be 1 on the
-repository corpus and the nine diagnostics must match the baseline.
+Without `--baseline-json`, `--check` exits nonzero when it finds any issue. With
+the pinned baseline, exact unchanged known failures are printed as `BASELINE`
+and do not fail the command; new or excess issue signatures remain `ERROR` and
+produce exit code 1. A malformed or unreadable baseline fails closed with exit
+code 2.
 
-AES500-052 will measure this active-doc set and link baseline and test the
-scope against actual repository syntax. AES500-053 pins helper APIs and anchor
-rules before implementation; later slices may narrow unsupported syntax based
-on the observed inventory, but must not silently claim coverage for exclusions.
+AES500-052 measured this active-doc set and link baseline. AES500-053 pins
+helper APIs and anchor rules; later slices add implementation and evidence
+without claiming coverage for excluded syntax.

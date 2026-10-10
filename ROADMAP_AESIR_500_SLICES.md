@@ -754,6 +754,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   exclusion, heading slugs/duplicates/Unicode, explicit anchors, local paths,
   query/percent handling, external URIs, missing targets/fragments, root and
   symlink escapes, empty destinations, and malformed parser-ignored syntax.
+- AES500-056 integrates all 976 active-document links against the full tracked
+  Markdown anchor index. Baseline-aware CLI classifies the nine pinned TOC
+  issues as unchanged `BASELINE` and exits 0 only with no new/excess issue;
+  new links and malformed baseline input fail closed. Thirteen focused tests pass.
 
 ## Status
 

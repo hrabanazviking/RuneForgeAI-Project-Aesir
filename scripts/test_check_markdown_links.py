@@ -5,6 +5,10 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+import json
+import subprocess
+from contextlib import redirect_stderr, redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 from markdown_links import (
@@ -13,6 +17,7 @@ from markdown_links import (
     heading_slugs,
     validate_links,
 )
+from check_markdown_links import main as checker_main
 
 
 class MarkdownLinkTests(unittest.TestCase):
@@ -151,6 +156,46 @@ class MarkdownLinkTests(unittest.TestCase):
             self.assertEqual(
                 validate_links("source.md", "[diagram](diagram.svg)\n", root), ()
             )
+
+    def test_repository_integration_accepts_only_hash_bound_baseline_issues(self) -> None:
+        root = Path(__file__).resolve().parent.parent
+        baseline = root / "docs/evidence/markdown-link-baseline-2026-10-10/link-census.json"
+        stdout = StringIO()
+        stderr = StringIO()
+        with redirect_stdout(stdout), redirect_stderr(stderr):
+            result = checker_main([
+                "--check", "--root", str(root), "--baseline-json", str(baseline)
+            ])
+        self.assertEqual(result, 0)
+        self.assertIn("9 unchanged baseline issue(s)", stdout.getvalue())
+        self.assertEqual(stderr.getvalue().count("BASELINE:"), 9)
+        self.assertNotIn("ERROR:", stderr.getvalue())
+
+    def test_baseline_mode_rejects_new_issue_and_malformed_baseline(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / "repo"
+            root.mkdir()
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            source = root / "README.md"
+            source.write_text("[new break](missing.md)\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "README.md"], check=True)
+            baseline = Path(temporary) / "baseline.json"
+            baseline.write_text(json.dumps({"problems": []}), encoding="utf-8")
+            stderr = StringIO()
+            with redirect_stderr(stderr):
+                result = checker_main([
+                    "--check", "--root", str(root), "--baseline-json", str(baseline)
+                ])
+            self.assertEqual(result, 1)
+            self.assertIn("ERROR: README.md:1: missing local target", stderr.getvalue())
+
+            baseline.write_text("{invalid", encoding="utf-8")
+            with redirect_stderr(stderr := StringIO()):
+                result = checker_main([
+                    "--check", "--root", str(root), "--baseline-json", str(baseline)
+                ])
+            self.assertEqual(result, 2)
+            self.assertIn("ERROR: unable to load baseline", stderr.getvalue())
 
 
 if __name__ == "__main__":

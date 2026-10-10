@@ -677,10 +677,10 @@ section-link rules. Diagnostics use source path and one-based source-map line,
 remain stable and ordered, and never modify files. Malformed syntax that the
 CommonMark parser does not recognize as a link/image token is outside scope.
 
-The first repository run reports the nine preexisting TOC mismatches retained
-in the baseline; until AES500-056, `--check` exits 1 on those findings.
-
 The validator starts opt-in because the hash-bound baseline records nine
-preexisting fragment mismatches. Read
-`../docs/evidence/markdown-link-baseline-2026-10-10/` before interpreting
-failures or proposing a legacy-debt policy.
+preexisting fragment mismatches. `--check` without a baseline exits 1 on any
+issue. `--baseline-json PATH` reports exact unchanged baseline signatures as
+`BASELINE` and returns success only when no new or excess signatures remain; a
+missing or malformed baseline exits 2. Read
+`../docs/evidence/markdown-link-baseline-2026-10-10/` before changing the debt
+policy.
