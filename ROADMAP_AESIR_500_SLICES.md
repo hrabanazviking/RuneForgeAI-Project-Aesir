@@ -701,6 +701,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-041 publishes `TASK_todo_ledger_reference_integrity.md`; it pins the
   existing explicit-tag semantics and excludes completion inference from
   checkbox state or untagged prose.
+- AES500-042 records a hash-bound 95-tag TODO census, including four adjacent-
+  tag lines and two tags with separate AER audit IDs. It shows zero unknown or
+  mismatched AES references under full-list validation, while explicitly
+  retaining the fact that the old checker only observed the first ID.
 
 ## Status
 
