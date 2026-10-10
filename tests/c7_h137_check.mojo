@@ -88,7 +88,7 @@ def main() raises:
     batch.load(cfg.model_path)
     try:
         var bad = List[List[Int]]()
-        bad.append(prompts[0])
+        bad.append(prompts[0].copy())
         _ = batch.generate_batch(bad, 4, cfg.seed, True)
         fails.append("guard: prompt-count mismatch did not raise")
     except:
@@ -185,14 +185,14 @@ def main() raises:
         lp2 = sess.inf.forward(nt2)
     # Reference: fresh instance prefills the IDENTICAL token sequence
     # (ids1 + gen1_ids + chunk2_ids) from scratch, then generates.
-    var ref = Inference(cfg.max_seq)
-    ref.model = sess.inf.model.shallow_copy()
+    var ref_inf = Inference(cfg.max_seq)
+    ref_inf.model = sess.inf.model.shallow_copy()
     var full_ids = ids1.copy()
     for i in range(len(gen1_ids)):
         full_ids.append(gen1_ids[i])
     for i in range(len(chunk2_ids)):
         full_ids.append(chunk2_ids[i])
-    var rlp = ref.prefill(full_ids)
+    var rlp = ref_inf.prefill(full_ids)
     var rseq = List[Int]()
     var rs = Sampler(cfg.seed + 1)
     for _ in range(24):
@@ -201,12 +201,12 @@ def main() raises:
         rseq.append(nt3)
         if nt3 == 2:
             break
-        rlp = ref.forward(nt3)
+        rlp = ref_inf.forward(nt3)
     if _ids_equal(seq2, rseq):
         print("H137 Test B PASS: prefix-cache reuse exact (turn-2 ids identical)")
     else:
         fails.append("Test B: turn-2 ids differ (prefix reuse inexact)")
-    ref.free()
+    ref_inf.free()
 
     # ---- Test C: session reset cleanliness. ----
     sess.reset()
