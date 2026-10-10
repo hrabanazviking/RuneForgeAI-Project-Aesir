@@ -292,8 +292,8 @@ def main() raises:
             for i in range(upto):
                 prefix.append(gen_ids[i])
             var ref_p = inf.forward_nocache(prefix)
-            var ref = _logits_to_f32(ref_p, 32000)
-            var err = _max_abs_err(cached, ref)
+            var ref_logits = _logits_to_f32(ref_p, 32000)
+            var err = _max_abs_err(cached, ref_logits)
             var ok = String("PASS")
             if err > Float32(1e-3):
                 ok = String("FAIL")
