@@ -34,6 +34,12 @@ original dated provenance. Do not rebuild and relabel a historical binary.
    validate state, positions, sampler positions and committed lengths against
    the observed input counts; label-only historical captures cannot satisfy
    this strengthened fresh gate.
+   The independent Auditor also found a fixed legacy admission count even when
+   capable mode skips feature-refusal checks. Count validated tile and feature
+   refusals during execution and emit versioned `COUNTS1` metadata. The current
+   STATE1 gate requires eight actual tile refusals and zero skipped feature
+   refusals; the ordinary current collector executes thirteen feature refusals.
+   Historical fixed-count source metadata stays parseable as historical evidence.
 2. Build the current `test_small_attention_model.mojo` for sm_75 into a fresh
    private task directory using the frozen installed toolchain.
 3. Run its explicit `controls-disabled` mode against the exact fixture model.
@@ -64,6 +70,9 @@ original dated provenance. Do not rebuild and relabel a historical binary.
 - Input and source hashes remain equal before and after capture and checking;
   raw artifacts are retained privately. The compact receipt never embeds local
   paths or credentials. No performance score is accepted by this slice.
+  Suppress generic timing scores for observed STATE1 baselines while preserving
+  complete quality acceptance and raw timings. Preserve provisional attempts;
+  a new capture is required after collector metadata changes.
 
 ## Verification and completion boundary
 
