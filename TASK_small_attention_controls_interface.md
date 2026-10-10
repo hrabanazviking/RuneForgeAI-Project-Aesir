@@ -123,3 +123,16 @@ The corrected acceptance requires exactly those two stdout lines, replacing
 MESSAGE with the row's predeclared exact exception, and empty stderr. No expected
 exception or constructor gate changes. Preserve the failed receipt/raw streams;
 commit/push this correction before executing a new fresh-directory matrix.
+
+## Accepted final matrix — 2026-10-10
+
+The new fresh-directory matrix passes all thirteen declared first exceptions,
+exit1 and exact known two-line stdout diagnostic with empty stderr. The accepted
+binary and all272 source hashes remain unchanged. The sentinel remains absent;
+ordinary service state, main PID and authenticated health are unchanged without
+service interruption. The [dated receipt](docs/evidence/small-attention-controls-interface-2026-10-10/README.md)
+contains exact symbolic arguments, process intervals and raw artifact hashes,
+alongside the preserved failed diagnostic-transport attempt. Default and request/
+reset statements remain source-reviewed; positive disabled scope reuses002.
+Final independent review, doc gates and exact remote/CI observation follow this
+local acceptance. Continue next with separately scoped AES500-004.

@@ -1124,7 +1124,13 @@ The legacy formatters below are not exposed compatibility APIs.
   restored with authenticated ready/CUDA/context4096/prefill4/offload0 health.
   [Evidence](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md).
   No speed score or fresh enabled-control revalidation; next independent gate
-  is AES500-003 interface admission and rejection evidence.
+  was AES500-003 interface admission and rejection evidence.
+- [x] AES500-003 current controls constructor interface: all13 declared
+  pre-load refusal modes pass exact first exceptions and known Mojo diagnostics.
+  Accepted002 binary/source inventory and active service/PID/health stay unchanged.
+  [Evidence](docs/evidence/small-attention-controls-interface-2026-10-10/README.md).
+  Source-reviewed defaults/methods and inherited positive002 scope are distinct;
+  next independent gate is AES500-004 implementation execution.
 - [x] SPD-03 owned strategy5 tracing for the declared public37/public1070
   fixture scope: implementation, adversarial checker contracts, independent
   review correction and physical attribution are recorded in the trace evidence

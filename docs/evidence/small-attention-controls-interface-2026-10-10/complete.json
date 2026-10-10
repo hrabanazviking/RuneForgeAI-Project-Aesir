@@ -1,0 +1,426 @@
+{
+  "schema": 1,
+  "slice": "AES500-003",
+  "source_commit": "6b6651eb2ee4de0435e2e1a3a8c9dde4b02fe2d2",
+  "accepted_baseline_commit": "4fa7b260eca0dcd740273d68ee90775fe1660326",
+  "task_contract_sha256": "19c600e2633ede651d44ec4d9247f90c929c5b16bb08d58e02a7c8051bdf112a",
+  "passed": true,
+  "fresh_positive_owner_execution": false,
+  "performance_scored": false,
+  "binary_sha256_before": "8a9e6a5a0ac3dc5009746b51a5621c6da4b87542cbad979054588a8ebfdca8a8",
+  "binary_sha256_after": "8a9e6a5a0ac3dc5009746b51a5621c6da4b87542cbad979054588a8ebfdca8a8",
+  "sentinel_absent_after": true,
+  "processes": [
+    {
+      "mode": "reject-fused",
+      "expected_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "actual_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "owning_gate": "small-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-fused"
+      ],
+      "started_utc": "2026-10-10T08:49:34.272637+00:00",
+      "ended_utc": "2026-10-10T08:49:34.288618+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 247,
+      "stderr_bytes": 0,
+      "stdout_sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-controls",
+      "expected_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "actual_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "owning_gate": "small-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-controls"
+      ],
+      "started_utc": "2026-10-10T08:49:34.289731+00:00",
+      "ended_utc": "2026-10-10T08:49:34.322081+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 247,
+      "stderr_bytes": 0,
+      "stdout_sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-tracing",
+      "expected_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "actual_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "owning_gate": "small-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-tracing"
+      ],
+      "started_utc": "2026-10-10T08:49:34.322947+00:00",
+      "ended_utc": "2026-10-10T08:49:34.339126+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 247,
+      "stderr_bytes": 0,
+      "stdout_sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-down",
+      "expected_exception": "Fused attention requires original down128 strategy with controls/tracing closed",
+      "actual_exception": "Fused attention requires original down128 strategy with controls/tracing closed",
+      "owning_gate": "fused-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-down"
+      ],
+      "started_utc": "2026-10-10T08:49:34.339957+00:00",
+      "ended_utc": "2026-10-10T08:49:34.356157+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 249,
+      "stderr_bytes": 0,
+      "stdout_sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-precision",
+      "expected_exception": "Batched rotary/cache requires original precision0",
+      "actual_exception": "Batched rotary/cache requires original precision0",
+      "owning_gate": "rotary/cache predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-precision"
+      ],
+      "started_utc": "2026-10-10T08:49:34.357113+00:00",
+      "ended_utc": "2026-10-10T08:49:34.373286+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 219,
+      "stderr_bytes": 0,
+      "stdout_sha256": "ad2512a3d555e57ddc9c1d8d09bb26d80d1b3fb522c61500b2f85ec594ee6bb1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-batched",
+      "expected_exception": "Batched elementwise requires admitted rotary/cache strategy",
+      "actual_exception": "Batched elementwise requires admitted rotary/cache strategy",
+      "owning_gate": "elementwise predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-batched"
+      ],
+      "started_utc": "2026-10-10T08:49:34.374126+00:00",
+      "ended_utc": "2026-10-10T08:49:34.390193+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 229,
+      "stderr_bytes": 0,
+      "stdout_sha256": "882694ac505aca083af7a739fb44a0a9c0a32c89a7ac5c2e0278a4534f00841f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-controls-without-small",
+      "expected_exception": "Small controls require exclusive admitted small attention strategy",
+      "actual_exception": "Small controls require exclusive admitted small attention strategy",
+      "owning_gate": "small-controls capability",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-controls-without-small"
+      ],
+      "started_utc": "2026-10-10T08:49:34.391093+00:00",
+      "ended_utc": "2026-10-10T08:49:34.407580+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 236,
+      "stderr_bytes": 0,
+      "stdout_sha256": "c402847d4884b7117f84293b55f3ff5dfb4e016e860035f15b445db982f296ea",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-controls-with-tracing",
+      "expected_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "actual_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "owning_gate": "small-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-controls-with-tracing"
+      ],
+      "started_utc": "2026-10-10T08:49:34.408477+00:00",
+      "ended_utc": "2026-10-10T08:49:34.424732+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 247,
+      "stderr_bytes": 0,
+      "stdout_sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-controls-with-replay",
+      "expected_exception": "Small controls and replay require separate acceptance",
+      "actual_exception": "Small controls and replay require separate acceptance",
+      "owning_gate": "small-controls replay exclusion",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-controls-with-replay"
+      ],
+      "started_utc": "2026-10-10T08:49:34.425684+00:00",
+      "ended_utc": "2026-10-10T08:49:34.442287+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 223,
+      "stderr_bytes": 0,
+      "stdout_sha256": "0049d6a37b0565126cf0520922b165a386303dff7a4c9c01fd208be9ce578419",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-small-tracing-without-small",
+      "expected_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "actual_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "owning_gate": "small-tracing capability",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-small-tracing-without-small"
+      ],
+      "started_utc": "2026-10-10T08:49:34.443194+00:00",
+      "ended_utc": "2026-10-10T08:49:34.459302+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 244,
+      "stderr_bytes": 0,
+      "stdout_sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-small-tracing-with-controls",
+      "expected_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "actual_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "owning_gate": "small-tracing exclusion",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-small-tracing-with-controls"
+      ],
+      "started_utc": "2026-10-10T08:49:34.460272+00:00",
+      "ended_utc": "2026-10-10T08:49:34.476648+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 244,
+      "stderr_bytes": 0,
+      "stdout_sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-small-tracing-with-replay",
+      "expected_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "actual_exception": "Small tracing requires exclusive small strategy without controls or replay",
+      "owning_gate": "small-tracing exclusion",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-small-tracing-with-replay"
+      ],
+      "started_utc": "2026-10-10T08:49:34.477969+00:00",
+      "ended_utc": "2026-10-10T08:49:34.494457+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 244,
+      "stderr_bytes": 0,
+      "stdout_sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    },
+    {
+      "mode": "reject-small-tracing-with-fused-tracing",
+      "expected_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "actual_exception": "Small attention requires original fused strategy with controls/tracing closed",
+      "owning_gate": "small-attention predecessor",
+      "argv": [
+        "[AES500_002_BINARY]",
+        "[TASK_ARTIFACTS]/verified-nonexistent-model.gguf",
+        "reject-small-tracing-with-fused-tracing"
+      ],
+      "started_utc": "2026-10-10T08:49:34.495630+00:00",
+      "ended_utc": "2026-10-10T08:49:34.511989+00:00",
+      "exit_code": 1,
+      "stdout_bytes": 247,
+      "stderr_bytes": 0,
+      "stdout_sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sentinel_absent_before_after": true,
+      "passed": true
+    }
+  ],
+  "source_inventory": {
+    "count": 272,
+    "receipt": "../small-attention-controls-baseline-2026-10-10/provenance.json",
+    "equal_to_accepted_baseline": true,
+    "equal_before_after": true,
+    "inventory_json_sha256": "7033e70fb253e67252ad06717cb47688d7c9bc6ea971f72ee99a790ee18bcd0f"
+  },
+  "service": {
+    "state_before": {
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "state_after": {
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "same_main_pid": true,
+    "health_before": {
+      "http_status": 200,
+      "status": "ready",
+      "backend": "cuda",
+      "context": 4096,
+      "prefill_batch": 4,
+      "cpu_offload": 0
+    },
+    "health_after": {
+      "http_status": 200,
+      "status": "ready",
+      "backend": "cuda",
+      "context": 4096,
+      "prefill_batch": 4,
+      "cpu_offload": 0
+    },
+    "stopped_for_matrix": false
+  },
+  "private_manifest_sha256": "178548c349e2e0eece6eb7e4d98828a94e84c4c2ae430ca12db9875df4b3d340",
+  "retained_first_attempt": {
+    "accepted": false,
+    "reason": "Initial receipt assumed exception diagnostics on stderr with empty stdout. All13 exits were1 but classification failed; actual runtime diagnostic is stdout. Original manifest/raw files remain unmodified.",
+    "source_commit": "71b8cdbf805c36d83ee64b47daa0ae990807e08e",
+    "private_manifest_sha256": "c3a8c91b9161698c015c2298e1382a9eac7b0b4777325d3e407a36a005010dda",
+    "all_exit_codes_one": true,
+    "source_binary_unchanged": true,
+    "service_unchanged": true,
+    "artifacts": {
+      "reject-batched.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-batched.stdout": {
+        "bytes": 229,
+        "sha256": "882694ac505aca083af7a739fb44a0a9c0a32c89a7ac5c2e0278a4534f00841f"
+      },
+      "reject-controls-with-replay.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-controls-with-replay.stdout": {
+        "bytes": 223,
+        "sha256": "0049d6a37b0565126cf0520922b165a386303dff7a4c9c01fd208be9ce578419"
+      },
+      "reject-controls-with-tracing.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-controls-with-tracing.stdout": {
+        "bytes": 247,
+        "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+      },
+      "reject-controls-without-small.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-controls-without-small.stdout": {
+        "bytes": 236,
+        "sha256": "c402847d4884b7117f84293b55f3ff5dfb4e016e860035f15b445db982f296ea"
+      },
+      "reject-controls.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-controls.stdout": {
+        "bytes": 247,
+        "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+      },
+      "reject-down.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-down.stdout": {
+        "bytes": 249,
+        "sha256": "cf37971d7493237f9732d9c8e5c0d67a11dd0d661075c94d44496add69c3aae1"
+      },
+      "reject-fused.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-fused.stdout": {
+        "bytes": 247,
+        "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+      },
+      "reject-precision.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-precision.stdout": {
+        "bytes": 219,
+        "sha256": "ad2512a3d555e57ddc9c1d8d09bb26d80d1b3fb522c61500b2f85ec594ee6bb1"
+      },
+      "reject-small-tracing-with-controls.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-small-tracing-with-controls.stdout": {
+        "bytes": 244,
+        "sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009"
+      },
+      "reject-small-tracing-with-fused-tracing.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-small-tracing-with-fused-tracing.stdout": {
+        "bytes": 247,
+        "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+      },
+      "reject-small-tracing-with-replay.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-small-tracing-with-replay.stdout": {
+        "bytes": 244,
+        "sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009"
+      },
+      "reject-small-tracing-without-small.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-small-tracing-without-small.stdout": {
+        "bytes": 244,
+        "sha256": "7e6239d7f4dd8f7621d4dea5cbfdddcb0e754c9b9bc0100fc272c6d7e16dd009"
+      },
+      "reject-tracing.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "reject-tracing.stdout": {
+        "bytes": 247,
+        "sha256": "a44d42ae8ac9703051e660b374f7dad051755965132412d7df844a5ae06bf5a2"
+      }
+    }
+  }
+}

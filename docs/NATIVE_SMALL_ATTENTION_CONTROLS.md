@@ -21,12 +21,74 @@ provider parity or a speed lead.
 
 ## Ownership and policy
 
-`TuringPrefillFixture` owns control capability admission and tile state. Its final
-`small_controls=False` parameter is valid only with explicitly admitted
-`small_attention=True`. It is exclusive with fused4 controls/tracing. The existing
-control machinery owns synchronized per-layer checks, timeout/cancel detection,
-reset-required state and poisoning after observer failure. Replay continues to
-refuse control-capable strategy5 owners.
+`TuringPrefillFixture` owns control capability admission and tile state. Its
+constructor accepts optional `small_controls=False`, followed by optional
+`small_tracing=False`. Only `small_controls=True` requires explicitly admitted
+`small_attention=True`; False is allowed with other strategies. The enabled
+capability excludes fused4 controls/tracing, small tracing and control-capable
+replay. These constructor refusals precede the first `Llama3CUDASession(path)`.
+The default and ordering are source-reviewed facts; the constructor refusal
+matrix does not freshly construct a default-false small owner.
+
+Construction copies the capability into `small_controls_admitted`.
+`admit_execution_strategy()` compares that snapshot with `small_controls` and
+rejects a mismatch before work. Both are public mutable fields; this comparison
+does not make their storage immutable or prove safety against simultaneous
+mutation of both fields. The current interface gate does not execute live
+capability mutation.
+
+The existing control machinery owns synchronized per-layer checks,
+timeout/cancel detection, reset-required state and poisoning after observer
+failure. Replay continues to refuse control-capable strategy5 owners.
+
+### Source-reviewed request and reset interface
+
+- `configure_control(timeout_ms=0, cancel_fd=-1)` checks strategy, fixture/native
+  health and capability admission before replacing request policy. Timeout
+  accepts `0..3600000` milliseconds; the cancellation descriptor accepts
+  `-1..2147483647`. Timeout 0 and descriptor -1 disable request controls.
+- `start_control()` checks the same strategy, health and admission boundaries.
+  An enabled request requires this explicit start before tile admission;
+  configuration alone does not start its deadline or admit execution.
+- Ordinary strategy5 without the small-control capability reaches the earlier
+  `Fused attention enabled controls require separate acceptance` refusal in
+  both methods. A later small-control exception is not the observed first gate.
+- `reset()` refuses failed fixture health with
+  `Failed matrix execution requires context recreation`. A successful reset
+  clears fixture position, committed IDs, sampler state and dispatch counters.
+  Control reset clears start/deadline/interruption state and completed-layer
+  count, while retaining the timeout/descriptor policy. To disable that policy,
+  configure the defaults explicitly on an admitted healthy owner.
+
+These statements follow the current fixture/control source. AES500-003 does not
+freshly execute enabled timeout, cancellation, abort, reset or poisoning; those
+remain separate physical gates.
+
+### AES500-003 constructor interface gate
+
+`TASK_small_attention_controls_interface.md` scopes thirteen existing rejection
+modes against a verified nonexistent model path, using AES500-002's accepted
+executable and unchanged source inventory. The
+[constructor interface receipt](evidence/small-attention-controls-interface-2026-10-10/README.md)
+owns the final matrix outcome. The matrix distinguishes direct small-control
+and replay exclusions from earlier predecessor refusals; an earlier exception
+does not prove that a later shadowed gate executed. The existing AES500-002
+capture supplies the positive capable-disabled owner scope.
+
+Mojo 1.0.0 reports these exceptions on stdout, with empty stderr. Each accepted
+row must exit 1 and emit only this fixed preamble followed by its exact declared
+exception message:
+
+```text
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: MESSAGE
+```
+
+The first matrix attempt is retained because its receipt assumed exception text
+on stderr and empty stdout. The corrected stream contract requires a fresh
+matrix. Exact errors, the nonexistent input and reviewed constructor ordering
+establish the named pre-load refusals; output silence alone does not establish
+that boundary. No fresh default-false owner, live abort or recovery claim follows.
 
 The mode is explicit:
 
@@ -42,8 +104,8 @@ The mode is explicit:
 ## Capable-but-disabled source baseline
 
 The complete-model probe has an explicit `controls-disabled` mode. It enables
-the sealed `small_controls` capability while leaving the request control object
-disabled. Ordinary invocations do not receive that capability. Bind this mode to
+the explicitly admitted `small_controls` capability while leaving the request
+control object disabled. Ordinary invocations do not receive that capability. Bind this mode to
 the accepted strategy5 source triplet and the current probe binary:
 
 ```sh

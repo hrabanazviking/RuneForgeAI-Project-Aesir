@@ -1,3 +1,25 @@
+## 2026-10-10 — AES500-003: controls constructor interface
+
+The independently executed thirteen-mode constructor matrix passes exact first
+exceptions against a verified nonexistent GGUF path using accepted002's unchanged
+sm_75 binary and all272 source hashes. Direct small-controls capability and
+replay exclusion have separate cases; predecessor refusals are attributed to
+actual first gates rather than later shadowed checks. The first receipt attempt
+failed an incorrect stderr/empty-stdout assumption; raw outcomes are retained.
+A pushed contract correction precedes the fresh accepted exact two-line Mojo
+stdout diagnostic/empty-stderr matrix. No expected exception changed.
+
+Owning docs now state optional parameter order/True-only admission, mutable
+capability snapshot comparisons, request/start ranges and reset retaining request
+policy. Those method/default statements are source-reviewed; positive disabled
+scope reuses002. No fresh default-false owner, live mutation/abort/reset/recovery
+or runtime/speed claim follows. Ordinary service state/main PID/authenticated
+health remain unchanged without stopping it. Cartographer/Forge mapped the
+source, Architect/Auditor/Skald reviewed scope, and Scribe synchronized interfaces.
+Final receipt review and doc checks precede commit/push and exact remote/CI
+observation. See `docs/evidence/small-attention-controls-interface-2026-10-10/README.md`.
+Continue with independently scoped AES500-004 implementation execution.
+
 ## 2026-10-10 — AES500-002: observed disabled-control baseline
 
 The independently executed strategy5 capable-disabled baseline now records

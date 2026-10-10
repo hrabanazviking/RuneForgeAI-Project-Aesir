@@ -64,13 +64,13 @@ The capability ledger's current count and evidence commands are a snapshot. Re-r
 
 ## Complete indexed backlog
 
-Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. AES500-001 is the historical contract gate. AES500-002 now has an independently executed strengthened baseline and dated receipt. Historical grouped control evidence remains relevant to AES500-003..009; those rows still require their own current acceptance and push. AES500-010 remains a separate hosted release-verification gate; AES500-011 starts owned strategy5 tracing.
+Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. AES500-001 is the historical contract gate. AES500-002 now has an independently executed strengthened baseline and dated receipt; AES500-003 has an independently executed constructor matrix and interface receipt. Historical grouped control evidence remains relevant to AES500-004..009; those remaining rows require their own current acceptance and push. AES500-010 remains a separate hosted release-verification gate; AES500-011 starts owned strategy5 tracing.
 
 | Slice | Phase | Work item | Owner | Depends on | Deliverable and acceptance gate |
 |---:|---|---|---|---|---|
 | AES500-001 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — contract | cuda | Existing strategy5 model/generation/replay gates | Complete: contract in `TASK_small_attention_controls.md`, first pushed as `3c7f40f` before implementation `b8d1443`; six-role Mythic contract review completed 2026-10-10. Exact contract-only acceptance commands are recorded below. |
 | AES500-002 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — baseline | cuda | AES500-001 | Complete: fresh 2026-10-10 COUNTS1/STATE1 capable-disabled capture passes exact historical source bytes/cache/IDs/counters, 32 owner snapshots, 4,352 guards and pinned independent CPU quality. Receipt: `docs/evidence/small-attention-controls-baseline-2026-10-10/README.md`; no speed score. |
-| AES500-003 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — interface | cuda | AES500-002 | Make the owning interface explicit and validate accepted/rejected inputs without changing unrelated public behavior. |
+| AES500-003 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — interface | cuda | AES500-002 | Complete: 13 current constructor refusal modes pass exact first-gate/diagnostic checks against nonexistent input using the unchanged accepted002 binary and source inventory. Default/method policy is source-reviewed; positive disabled scope reuses002. Receipt: `docs/evidence/small-attention-controls-interface-2026-10-10/README.md`. |
 | AES500-004 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — implementation | cuda | AES500-003 | Implement only the named behavior; compile or execute the owning path and show every failure remains explicit. |
 | AES500-005 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — unit-evidence | cuda | AES500-004 | Add focused executable evidence for normal, boundary and malformed cases; all assertions are tied to the named contract. |
 | AES500-006 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — integration-evidence | cuda | AES500-005 | Exercise the adjacent owning domains end to end with exact state/output comparisons and no orphan wiring. |
@@ -604,17 +604,22 @@ This documentation-only contract gate was committed as `3c7f40f` before the late
   (249 passed, zero failed, one skipped) pass. Quality acceptance carries no
   timing score, ratios or medians. Exact hosted CI remains separately observed.
 
-### AES500-003 — Strategy5 controls interface (next independent gate)
+### AES500-003 — Strategy5 controls interface (complete)
 
-- Make the default-false, exclusively admitted small-control capability and
-  cooperative request/reset interface explicit.
-- Execute constructor rejection modes against a nonexistent model path and
-  validate exact errors before model loading or CUDA resource work.
-- Bind the accepted capable-disabled scope to AES500-002's actual current binary
-  and source inventory; do not infer enabled abort/recovery from interface proof.
-- Publish a separate task contract, receipt and commit/push for this gate.
-  Historical enabled-control evidence does not substitute for current interface
-  execution or its independently reviewed acceptance.
+- All13 declared constructor refusals pass with exact first errors, exit1,
+  known two-line Mojo stdout diagnostics and empty stderr against nonexistent
+  input. The [interface receipt](docs/evidence/small-attention-controls-interface-2026-10-10/README.md)
+  attributes each earlier/direct gate separately; later shadowed predicates
+  are not claimed as independently executed.
+- The unchanged accepted002 executable and all272 source inventory entries
+  match before/after. The normal service remains active with the same main PID
+  and authenticated health. Positive disabled scope is inherited from002;
+  default-false owner and request/reset methods are source-reviewed only.
+- Optional parameter order, True-only admission, mutable snapshot checks,
+  request/start bounds and retained policy on reset are explicit. The first
+  failed diagnostic-stream assumption remains preserved with its own identity.
+- Continue to AES500-004 with its own implementation contract and acceptance.
+  Fresh enabled timeout/cancel/recovery is not established by interface evidence.
 
 ### AES500-011 — Strategy5 owned tracing
 
@@ -797,7 +802,10 @@ This documentation-only contract gate was committed as `3c7f40f` before the late
 - AES500-002: the strengthened baseline is independently executed and accepted
   with COUNTS1/STATE1 on 2026-10-10. Its task, actual report and dated receipt
   distinguish the historical source and provisional attempt.
-- AES500-003..009: historical interface/implementation, test evidence, review
+- AES500-003: the independent constructor matrix and owning interface
+  synchronization are complete on 2026-10-10; source-reviewed defaults/methods
+  and inherited positive002 scope remain distinct from fresh observations.
+- AES500-004..009: historical implementation, test evidence, review
   and documentation remain in `TASK_small_attention_controls.md` and the dated
   2026-10-09 receipt. Those artifacts were grouped rather than committed once
   per roadmap row; do not infer current independent completion for every row.

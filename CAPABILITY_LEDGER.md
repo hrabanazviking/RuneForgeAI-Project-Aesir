@@ -2212,3 +2212,15 @@ acceptance has `speed_scored=false`, null ratios and no medians.
 This strengthens the fixture evidence boundary only. Fresh enabled-abort/recovery,
 runtime, broader device/model/context and provider-speed gates remain separate;
 no capability status or count is promoted.
+
+### Small-score controls constructor interface refinement — 2026-10-10
+
+AES500-003 independently executes all13 existing constructor refusal modes with
+exact first-gate messages using the unchanged accepted002 executable. A verified
+nonexistent input, source ordering before native session construction and exact
+exception attribution support the pre-load refusal boundary; output silence
+alone proves no resource behavior. All272 source hashes and normal service
+state/health remain unchanged. Defaults and request/reset policy are source-
+reviewed; positive capable-disabled owners reuse002 rather than a new run.
+[Evidence](docs/evidence/small-attention-controls-interface-2026-10-10/README.md).
+No fresh default-false owner, live mutation/abort/recovery or capability promotion.

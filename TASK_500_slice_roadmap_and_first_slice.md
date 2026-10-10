@@ -32,8 +32,9 @@ prerequisites, a concrete deliverable, measurable acceptance evidence, and a
 claim boundary. AES500-001 was the contract gate; the strategy5 control
 implementation and physical fixture receipt were historically grouped across
 AES500-002..009. AES500-002 now has its own independently executed 2026-10-10
-COUNTS1/STATE1 baseline and receipt; current independent gates 003..009 continue
-from that accepted input. AES500-010 remains the separate hosted release-verification
+COUNTS1/STATE1 baseline and receipt. AES500-003 now has an independently
+executed interface matrix; current remaining gates004..009 continue from these
+accepted inputs. AES500-010 remains the separate hosted release-verification
 gate. Continue from the current frontier one independently committed and pushed
 slice at a time. Do not claim a speed lead from correctness/recovery evidence.
 
@@ -96,3 +97,14 @@ zero failed, one skipped) pass; normal launcher and shared-helper builds pass.
 These are current local observations. Historical default-target PTX failures
 and exact hosted release status remain separately stated. Continue next with
 AES500-003's independently scoped interface contract, execution and push.
+
+## Independently executed AES500-003 — 2026-10-10
+
+`TASK_small_attention_controls_interface.md` records the finite constructor
+matrix, current default/request/reset source boundary and inherited002 positive
+scope. The fresh final matrix passes all13 exact constructor errors with an
+absent model input and unchanged accepted binary/source inventory. Its first
+receipt attempt failed a diagnostic-stream assumption and remains preserved;
+the corrected contract was pushed before fresh execution. Service state/PID/
+authenticated health are unchanged. Continue with independently scoped004
+implementation execution, retaining separate fresh enabled-control gates.

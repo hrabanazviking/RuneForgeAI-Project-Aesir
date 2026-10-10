@@ -868,18 +868,52 @@ selection/persisted/crash/context recreation claim. Next separate controls/traci
 
 ## Explicit small-score cooperative controls
 
-The small-score strategy5 fixture adds final `small_controls=False`. True requires
-the already admitted small5 strategy and excludes fused4 controls, all tracing,
-and control-capable replay. `configure_control`, `start_control`, tile admission
-and replay admission validate the capability before mutation. Default small5
-continues to refuse enabled controls; a separate explicit collector mode5
-exercises the existing synchronized cooperative abort/reset machinery. It must
-preserve strategy5 dispatch counts (`small_attention`, closed fused-attention,
-original scalar), complete vectors, state, allocations and guards through abort
-and recovery. Strategy5 remains a test fixture; enabled-control timing is unscored.
+The small-score strategy5 fixture accepts optional `small_controls=False`,
+followed by optional `small_tracing=False`. Only `small_controls=True` requires
+the admitted small5 strategy; False is valid with other strategies. The enabled capability
+excludes fused4 controls/tracing, small tracing and control-capable replay.
+Constructor rejection precedes the first `Llama3CUDASession(path)`. Defaults and
+ordering are source-reviewed; the current matrix does not freshly construct a
+default-false small owner.
+
+`small_controls_admitted` is the construction snapshot compared with
+`small_controls` by `admit_execution_strategy()`. Both are public mutable fields;
+the comparison does not imply immutable storage or prove simultaneous mutation
+safety. This gate does not execute live capability-snapshot mutation.
+
+`configure_control(timeout_ms=0, cancel_fd=-1)` validates strategy,
+fixture/native health and capability admission before changing policy. Timeout
+accepts `0..3600000` milliseconds and descriptor accepts `-1..2147483647`;
+0/-1 leaves request controls disabled. `start_control()` validates the same
+boundaries, and enabled requests require it before tile admission. Ordinary
+small5 without the capability reaches the earlier
+`Fused attention enabled controls require separate acceptance` refusal in both
+methods. `reset()` refuses failed fixture health with
+`Failed matrix execution requires context recreation`; successful reset clears
+fixture/sampler/counter state and control start/deadline/interruption state while
+retaining timeout/descriptor policy. Disable that policy with default
+`configure_control()` on an admitted healthy owner. These method statements
+are source evidence, with no fresh enabled abort/reset/poison execution claim.
+
+`TASK_small_attention_controls_interface.md` owns AES500-003's thirteen-mode
+constructor refusal matrix against a verified nonexistent model path. See
+`docs/evidence/small-attention-controls-interface-2026-10-10/README.md` for its
+final matrix outcome and exact source/binary identities. Accept each named first
+exception only with exit 1, empty stderr and exactly the known Mojo stdout
+stack-trace preamble plus `Unhandled exception caught during execution: MESSAGE`.
+Retain the first attempt that failed its initial stderr/empty-stdout assumption;
+the corrected contract requires a fresh matrix. A predecessor refusal does not
+prove a later shadowed gate. AES500-002 supplies the existing positive
+capable-disabled owner scope, without a fresh default-false owner claim.
+
+A separate explicit collector mode5 exercises synchronized cooperative
+abort/reset machinery under its dated physical contract. It must preserve
+strategy5 dispatch counts (`small_attention`, closed fused-attention, original
+scalar), complete vectors, state, allocations and guards through abort and
+recovery. Strategy5 remains a test fixture; enabled-control timing is unscored.
 Read project-root `TASK_small_attention_controls.md` and
-`docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the active contract and final
-evidence boundary. Current collectors emit marker
+`docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the control contract and evidence
+boundary. Current collectors emit marker
 `CONTROL_CAPABLE,5,1,DISABLED,STATE1` and emit a `CONTROL_STATE` row after each
 `TIME` row. The row has 16 total CSV fields: its record tag plus 15 payload
 fields for index/mode/sample, capability/admission/enabled/reset-required/
