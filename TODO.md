@@ -677,6 +677,12 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Socket and HTTP foundation
 
+- [x] Define and verify bounded live HTTP request parsing: 8 KiB head, 64
+  unique headers, 1024-byte header values, 128 KiB declared body, exact-length
+  reads and one absolute read deadline. See
+  [request parser contract](TASK_request_parser_bounds.md) and the dated
+  baseline/unit/integration/adversarial receipts under
+  `docs/evidence/request-parser-*-2026-10-10/`.
 - [x] Define the live service listener/client/queue ownership lifecycle and
   borrowed cancellation descriptor; document cooperative shutdown limits in
   [the socket ownership contract](TASK_socket_ownership_shutdown.md), with

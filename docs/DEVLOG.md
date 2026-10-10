@@ -50,6 +50,18 @@ availability was blocked by the app thread cap, so only primary review is
 recorded. See [`TASK_socket_ownership_shutdown.md`](../TASK_socket_ownership_shutdown.md)
 and its baseline, unit, integration and adversarial evidence directories.
 
+AES500-251..259 reconcile the live HTTP parser contract: 8 KiB head, 64 unique
+headers, 1024-byte header values, 131072-byte exact body, and one absolute read
+deadline. Existing source matched the contract, so implementation required no
+behavior change. New boundary tests cover length/header/value thresholds, and
+socketpair evidence covers exact head/body separation plus overlong head, short
+EOF, NUL, and body-over-limit rejection. The master suite reached 248 passed,
+0 failed, 1 skipped (249 total). This is local protocol and transport evidence,
+not third-party compatibility or physical inference proof. Independent review
+was unavailable at the app thread cap and is not claimed. See
+[`TASK_request_parser_bounds.md`](../TASK_request_parser_bounds.md) and dated
+evidence links.
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability
