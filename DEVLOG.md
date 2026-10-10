@@ -100,6 +100,14 @@ surfaces the kernel's exact admission error. The existing synthetic transformer
 forward case also continues through block RMSNorm calls. No inference code
 changed, and these local cases do not establish model quality.
 
+AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
+maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
+Scalar F32 expectations match after F16 conversion for the finite extremes;
+exceptional inputs follow the documented IEEE propagation by row or output
+column. The kernel does not sanitize these cases. No wider F32 overflow,
+underflow, or distribution guarantee is inferred. The master suite reports
+198 passed, zero failed, one skipped (199 total).
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

@@ -43,9 +43,12 @@ tails. The first contract slice does not change kernel behavior.
 
 No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
   support, backing allocation or pointer-lifetime proof, training gradient, or
-  change to reduction order is implied. Input NaN/infinity behavior and
-  overflow/underflow of finite F32 sum-of-squares must be captured in the
-  baseline and assigned explicit acceptance in adversarial evidence. F16 result
+  change to reduction order is implied. The adversarial evidence defines the
+  tested IEEE behavior: F16 NaN input propagates across its row, F16 +/-Inf
+  input yields NaN at the infinite element and zero at finite peers in that row,
+  and NaN/+Inf/-Inf weights propagate only to their output column. The kernel
+  does not sanitize these values. Finite F32 sum-of-squares overflow/underflow
+  and wider adversarial distributions remain unproven. F16 result
   comparisons must account for final rounding; the F32 oracle is independent
   scalar arithmetic, not another SIMD call into production code. The numerical
   tolerance must combine absolute and relative error and be justified against
@@ -69,8 +72,10 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
   that its short-weight failure propagates from the shared RMSNorm contract.
   The registered synthetic transformer forward case also executes the layer
   attention and feed-forward RMSNorm consumers; no inference path is changed.
-- Adversarial evidence covers very small/large finite magnitudes and explicit
-  non-finite policy once the contract is resolved.
+- Adversarial evidence in `compute.rmsnorm_adversarial` compares F16 minimum
+  subnormal and maximum finite input rows to scalar F32 results, exercises the
+  documented input/weight IEEE propagation, and preserves the limits on F32
+  overflow/underflow and broader data distributions.
 
 ## Acceptance
 

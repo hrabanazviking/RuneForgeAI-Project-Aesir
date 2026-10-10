@@ -1184,3 +1184,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   arena offset, and propagation of a short output-weight error. The existing
   transformer forward case still exercises block RMSNorm consumers; no
   inference path or model-quality claim is introduced.
+- [x] AES500-097 RMSNorm adversarial evidence: `compute.rmsnorm_adversarial`
+  matches scalar F32 results for F16 min-subnormal and max-finite rows and
+  records tested IEEE propagation for NaN/±Inf inputs and weights. This does
+  not establish wide-distribution F32 overflow/underflow behavior. Full master
+  suite: 198 passed, 0 failed, 1 skipped, 199 total.

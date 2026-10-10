@@ -787,8 +787,8 @@ and columns, at least `cols` linear weight elements (only that prefix is read),
 and a finite positive epsilon. NaN, either infinity, zero, and negative
 epsilon are rejected before tensor mutation. The function does not validate
 pointer provenance/backing capacity or call `RuneTensor.checked()`; no such
-guarantee is implied here. Oracle tolerance, non-finite input policy, and
-finite-overflow/underflow policy are assigned to the AES500-091–100 evidence
+guarantee is implied here. Oracle tolerance and finite-overflow/underflow
+policy remain assigned to the AES500-091–100 evidence
 program; see `TASK_rmsnorm_oracle_breadth.md`.
 
 The focused `compute.rmsnorm_interface` case verifies acceptance of a positive
@@ -799,7 +799,14 @@ and columns, short weights, and non-finite/nonpositive epsilon. The separate
 `compute.rmsnorm_reference` case compares final F16 values with a scalar F32
 reference for a deterministic two-row corpus at widths 3, 15, 16, 17, and 33.
 Exact agreement on this corpus does not establish a general tolerance or
-tensor/weight non-finite-value policy.
+general overflow/underflow guarantee. Tolerance remains under AES500-095–100.
+The registered
+`compute.rmsnorm_adversarial` case records tested IEEE propagation: input NaN
+propagates through its row reduction; +/-Inf input produces NaN at that element
+and zero at finite peers in that row; NaN and +/-Inf weights propagate only to
+their output columns. The kernel does not sanitize tensor or weight exceptional
+values. This policy is bounded to those tested cases and the min-subnormal and
+max-finite F16 corpus.
 
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
