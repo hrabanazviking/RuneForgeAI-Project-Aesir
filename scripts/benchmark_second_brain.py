@@ -149,7 +149,9 @@ def sample_reply(provider: str, case: str, index: int, prompt: str,
     body = payload(provider, prompt, args)
     sampling = "greedy, repeat_penalty=1"
     sample = {"provider": provider, "case": case,
-              "phase": "warmup" if index == 0 else "warm", "repeat_index": index,
+              "phase": "warmup" if index == 0 else "warm",
+              "measurement_mode": "warmup_excluded" if index == 0 else "steady_state",
+              "cold_state_established": False, "repeat_index": index,
               "prompt": prompt,
               "workload": workload_identity(prompt, SYSTEM, args.model, args.context,
                                              args.max_tokens, sampling),
@@ -321,6 +323,7 @@ def measure(args: argparse.Namespace) -> dict:
                               args.context, args.max_tokens, "greedy, repeat_penalty=1")
                           for case, prompt in prompts.items()},
               "order": args.order, "order_seed": args.order_seed, "residency": args.residency,
+              "cold_measurement_established": False,
               "native_process_identity_observed": args.native_pid is not None,
               "os": platform.platform(), "samples": [], "errors": [],
               "limits": "Installed-service HTTP wall times. First appearance can reuse prefixes. Templates/KV may differ; declared blob equality is not API model attestation. Provider durations are reported, not independently validated. First-token/CPU-enqueue/GPU-only time and quality parity are not established. Bootstrap intervals require independent sessions and adequate samples before lead claims."}

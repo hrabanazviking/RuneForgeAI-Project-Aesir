@@ -103,6 +103,10 @@ python3 scripts/benchmark_second_brain.py --ollama http://gungnir:11434 --key-fi
 Native/Ollama templates can differ despite identical user/system text. Equal GGUF
 bytes require its optional --ollama-gguf hash gate. Report actual counts, residency,
 KV formats and prefix policy. An older-Aesir speedup alone proves no Ollama win.
+Paired samples label the first excluded sample `warmup_excluded` and subsequent
+samples `steady_state`; each explicitly records `cold_state_established: false`.
+The current installed-service harness cannot establish cache-cold provider state,
+so neither the first sample nor an `as-is` residency run is a cold benchmark.
 Paired reports include each case's exact UTF-8 prompt/system byte counts and a
 SHA-256 workload identity over the literal inputs and declared model/context/
 sampling/output policy. This verifies input identity only; it does not establish

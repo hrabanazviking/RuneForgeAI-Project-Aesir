@@ -113,6 +113,8 @@ class Contracts(unittest.TestCase):
             self.assertEqual(len(preload), 1)
             self.assertEqual(preload[0]["keep_alive"], "10m")
             self.assertFalse(report["cache_policy"]["first_appearance_is_cache_disabled"])
+            self.assertTrue(all(sample["measurement_mode"] in ("warmup_excluded", "steady_state")
+                                for sample in report["samples"]))
 
     def test_response_identity_count_and_shape_fail_closed(self):
         for field, value in [("model", "other"), ("backend", "cpu"),
