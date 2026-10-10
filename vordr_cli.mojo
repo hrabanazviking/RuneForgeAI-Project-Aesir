@@ -1072,7 +1072,43 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     var iters = 0
     var completed = 0
     var rng = XorShift64(fi_seed)
-    var t_end = os_clock_ms(arch) + Int64(duration_s) * 1000
+    var t_start = os_clock_ms(arch)
+    var t_end = t_start + Int64(duration_s) * 1000
+
+    # Time-based fault schedule: mean 1 fault / 60 s, seeded and
+    # logged (the H158 acceptance rate). No fatal faults in the random
+    # schedule — fatal handling is proven by the H151 serr probe and
+    # the H159 audit's halt probe; a random fatal would end the run.
+    var no_schedule = _has(args, "--no-schedule")
+    var fault_times = List[Int64]()
+    var fault_kinds = List[String]()
+    var fault_details = List[String]()
+    if not no_schedule:
+        var nfaults = duration_s // 60 + 2
+        if nfaults < 4:
+            nfaults = 4
+        for i in range(nfaults):
+            var jt = Int64(rng.next() % UInt64(20000)) - Int64(10000)
+            fault_times.append(t_start + Int64(i + 1) * 60000 + jt)
+            var pick = Int(rng.next() % UInt64(3))
+            if pick == 0:
+                fault_kinds.append("regerr")
+                var pk = Int(rng.next() % UInt64(4))
+                var pd = String("0x06:0x8000")
+                if pk == 1:
+                    pd = "0x06:0x2000"
+                elif pk == 2:
+                    pd = "0x06:0x0100"
+                elif pk == 3:
+                    pd = "0x44:0x8000"
+                fault_details.append(pd)
+            elif pick == 1:
+                fault_kinds.append("hang")
+                fault_details.append("")
+            else:
+                fault_kinds.append("dmacorrupt")
+                fault_details.append("")
+    var next_fault = 0
 
     event_emit_slice(
         arch, log, "H158", "SupervisedRunStarted",
@@ -1082,9 +1118,9 @@ def cmd_h158_run(args: List[String]) raises -> Int:
 
     # Calibration iteration (no faults): sets the infer_iter budget
     # as 3x measured, min 60s.
-    var calib_ms = _h158_iter(
+    var calib_ms = _h158_infer_iter(
         arch, log, bdf, f1bin, f1cfg, prompt, max_tok, out_dir, 0,
-        mon, machine, "", Int64(120000), "",
+        mon, machine, Int64(120000),
     )
     iters += 1
     if calib_ms > 0:
@@ -1102,51 +1138,51 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     while os_clock_ms(arch) < t_end or iters < 2:
         if max_iters > 0 and iters >= max_iters:
             break
-        # Fault source: external fi-file first, else internal schedule
-        # (mean 1 fault / 60s -> per-iteration probability from the
-        # measured iteration time).
-        var fault = String("")
-        var detail = String("")
+        var now = os_clock_ms(arch)
+        # Collect due faults: external fi-file (PRÓF) + time schedule.
+        var due_kinds = List[String]()
+        var due_details = List[String]()
         if fi_file != "" and file_exists(arch, fi_file):
             var raw = read_file_str(arch, fi_file, 4096)
-            fault = _fi_field(raw, "fault")
-            detail = _fi_field(raw, "detail")
-            # Consume it.
+            var fk = _fi_field(raw, "fault")
+            if fk.byte_length() > 0:
+                due_kinds.append(fk)
+                due_details.append(_fi_field(raw, "detail"))
             try:
                 _ = os_unlinkat(arch, fi_file)
             except e:
                 pass
-        elif Int(rng.next() % UInt64(60)) == 0:
-            var pick = Int(rng.next() % UInt64(3))
-            if pick == 0:
-                fault = "regerr"
-                detail = "0x06:0x2000"
-            elif pick == 1:
-                fault = "hang"
-            else:
-                fault = "dmacorrupt"
-        if fault != "":
+        while next_fault < len(fault_times) and fault_times[next_fault] <= now:
+            due_kinds.append(fault_kinds[next_fault])
+            due_details.append(fault_details[next_fault])
+            next_fault += 1
+        for di in range(len(due_kinds)):
             injected += 1
             event_emit_slice(
                 arch, log, "H158", "FaultInjected",
-                "\"fault\": \"" + fault + "\", \"detail\": \"" + detail
-                + "\", \"iter\": " + String(iters),
+                "\"fault\": \"" + due_kinds[di] + "\", \"detail\": \""
+                + due_details[di] + "\", \"iter\": " + String(iters),
             )
-        var ms = _h158_iter(
-            arch, log, bdf, f1bin, f1cfg, prompt, max_tok, out_dir, iters,
-            mon, machine, fault, budget_ms, detail,
-        )
-        iters += 1
-        if fault != "":
+            _h158_handle_fault(
+                arch, log, bdf, iters, mon, machine,
+                due_kinds[di], due_details[di],
+            )
             handled += 1
-        if ms > 0:
-            completed += 1
+            if machine.current() == "HALTED":
+                break
         if machine.current() == "HALTED":
             event_emit_slice(
                 arch, log, "H158", "SupervisedRunHalted",
                 "\"reason\": \"fatal fault — fail closed\"",
             )
             break
+        var ms = _h158_infer_iter(
+            arch, log, bdf, f1bin, f1cfg, prompt, max_tok, out_dir, iters,
+            mon, machine, budget_ms,
+        )
+        iters += 1
+        if ms > 0:
+            completed += 1
 
     event_emit_slice(
         arch, log, "H158", "SupervisedRunComplete",
@@ -1193,56 +1229,36 @@ def _fi_field(raw: String, key: String) -> String:
     return ""
 
 
-def _h158_iter(
+def _h158_handle_fault(
     arch: String,
     log: String,
     bdf: String,
-    f1bin: String,
-    f1cfg: String,
-    prompt: String,
-    max_tok: String,
-    out_dir: String,
     it: Int,
     mut mon: HeartbeatMonitor,
     mut machine: RecoveryMachine,
     fault: String,
-    budget_ms: Int64,
     detail: String,
-) raises -> Int64:
-    # One supervised inference iteration. Returns wall ms, or -1 when
-    # the iteration was consumed by fault handling (retry path).
-    from hailbru.syscall import (
-        file_exists,
-        os_clock_ms,
-        os_kill,
-        os_sleep_ms,
-        read_file_str,
-    )
+) raises:
+    # Handle ONE injected fault per the taxonomy. Transient faults are
+    # absorbed; persistent faults drive a REAL reset+re-init; fatal
+    # faults halt the machine (the caller breaks the run).
+    from hailbru.syscall import os_clock_ms, os_sleep_ms
     from vordr.taxonomy import classify
-    from vordr.errdecode import decode_image, poll_decode_live
-    from vordr.spawn import spawn_process, waitpid_nonblock, describe_status
-
-    var t0 = os_clock_ms(arch)
-    # Staging integrity around the prompt bytes.
-    var pb = List[UInt8]()
-    for b in prompt.bytes():
-        pb.append(b)
-    var staging = StagingBuffer("h158_prompt", len(pb) + 64, UInt64(5000 + it))
-    if not staging.verify(arch, log):
-        staging.retransfer(arch, log)
+    from vordr.errdecode import decode_image
 
     if fault == "dmacorrupt":
+        var staging = StagingBuffer("h158_fi", 512, UInt64(9000 + it))
         staging.corrupt_bit(17)
         if not staging.verify(arch, log):
             staging.retransfer(arch, log)
             _ = staging.verify(arch, log)
-            event_emit_slice(
-                arch, log, "H158", "FaultHandled",
-                "\"fault\": \"dmacorrupt\", \"action\": \"retransfer "
-                "(transient)\", \"iter\": " + String(it),
-            )
+        event_emit_slice(
+            arch, log, "H158", "FaultHandled",
+            "\"fault\": \"dmacorrupt\", \"action\": \"retransfer "
+            "(transient)\", \"iter\": " + String(it),
+        )
         staging.free()
-        return -1
+        return
 
     if fault == "regerr":
         # detail like "0x06:0x2000" (offset:value hex).
@@ -1256,17 +1272,15 @@ def _h158_iter(
                 decoded[k].to_fields(),
             )
         if machine.current() == "DEGRADED":
-            # Transient: retry the iteration (absorb).
             machine.recovered(arch, log)
             event_emit_slice(
                 arch, log, "H158", "FaultHandled",
                 "\"fault\": \"regerr\", \"action\": \"retry (transient)\", "
                 "\"iter\": " + String(it),
             )
-            staging.free()
-            return -1
+            return
         if machine.current() == "RESETTING":
-            # Persistent: REAL reset + re-init through HAILBRÚ.
+            # Persistent: REAL reset + re-init through HAILBRU.
             var rr = vordr_reset(arch, "/sys", bdf, log, "")
             _ = rr
             machine.reset_done(arch, log)
@@ -1279,17 +1293,18 @@ def _h158_iter(
                 "\"fault\": \"regerr\", \"action\": \"reset+reinit "
                 "(persistent)\", \"iter\": " + String(it),
             )
-            staging.free()
-            return -1
+            return
         # FATAL -> HALTED already; the caller breaks the loop.
-        staging.free()
-        return -1
+        event_emit_slice(
+            arch, log, "H158", "FaultHandled",
+            "\"fault\": \"regerr\", \"action\": \"halt (fatal)\", "
+            "\"iter\": " + String(it),
+        )
+        return
 
-    var op = "infer_iter_" + String(it)
     if fault == "hang":
         # Stall a nested stage op past its budget (test hook): the
-        # H143 detector must fire within budget+5s, then the fault
-        # is handled as transient (retry the iteration's supervision).
+        # H143 detector must fire within budget+5s.
         var sop = "stalled_stage_" + String(it)
         mon.begin_op(arch, sop, Int64(2000))
         var st0 = os_clock_ms(arch)
@@ -1310,11 +1325,51 @@ def _h158_iter(
             "(transient)\", \"detect_ms\": " + String(sdt)
             + ", \"iter\": " + String(it),
         )
-        staging.free()
-        return -1
+        return
+
+    event_emit_slice(
+        arch, log, "H158", "FaultIgnored",
+        "\"fault\": \"" + fault + "\", \"reason\": \"unknown fault kind\"",
+    )
+
+
+def _h158_infer_iter(
+    arch: String,
+    log: String,
+    bdf: String,
+    f1bin: String,
+    f1cfg: String,
+    prompt: String,
+    max_tok: String,
+    out_dir: String,
+    it: Int,
+    mut mon: HeartbeatMonitor,
+    mut machine: RecoveryMachine,
+    budget_ms: Int64,
+) raises -> Int64:
+    # One clean supervised inference iteration: staging integrity,
+    # heartbeat-guarded f1_infer subprocess, error-register poll.
+    # Returns wall ms, or -1 when the iteration failed.
+    from hailbru.syscall import (
+        file_exists,
+        os_clock_ms,
+        os_kill,
+        os_sleep_ms,
+    )
+    from vordr.errdecode import poll_decode_live
+    from vordr.spawn import spawn_process, waitpid_nonblock, describe_status
+
+    var t0 = os_clock_ms(arch)
+    var pb = List[UInt8]()
+    for b in prompt.bytes():
+        pb.append(b)
+    var staging = StagingBuffer("h158_prompt", len(pb) + 64, UInt64(5000 + it))
+    if not staging.verify(arch, log):
+        staging.retransfer(arch, log)
+
+    var op = "infer_iter_" + String(it)
     mon.begin_op(arch, op, budget_ms)
 
-    # Real inference: spawn f1_infer, reap, enforce the heartbeat.
     var out_json = out_dir + "/iter_" + String(it) + ".json"
     var cargs = List[String]()
     cargs.append("--config")
