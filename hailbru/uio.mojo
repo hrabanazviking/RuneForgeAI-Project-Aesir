@@ -4,13 +4,11 @@
 # unavailable. Bind per the H013 dry-run plan, open /dev/uioN, mmap the
 # BAR resource.
 #
-# STATUS ON MIMIR (2026-10-10): F3-BANKED. uio_pci_generic is absent
-# (CONFIG_UIO_PCI_GENERIC not set — H004/H013); no /dev/uio* nodes. The
-# bind/unbind SEQUENCE is implemented and tested against a scratch sysfs
-# tree (restoring the original driver binding afterward — verified). The
-# real bind is NOT executed on Mimir: there is no module to bind to, and
-# unbinding the working hailo1x_pci binding to test a nonexistent
-# fallback would be destructive (H013's own probe left it undisturbed).
+# STATUS ON MIMIR (2026-10-10, kernel 6.12.112-v8-16k-hailo+): UNBLOCKED.
+# CONFIG_UIO_PCI_GENERIC=m; the bind/unbind/bind/restore SEQUENCE is
+# real (uio_step_*), restoring hailo1x afterward. VFIO is NOT usable
+# for 0001:01:00.0 (no IOMMU group, no CONFIG_VFIO_NOIOMMU) — UIO is
+# the real userspace-driver path. Bind/unbind needs root.
 
 from hailbru.errors import herror
 from hailbru.syscall import (
@@ -182,3 +180,23 @@ def uio_step_restore(
 def uio_mmap_bar_offset(bar_index: Int) -> Int64:
     # UIO mmap contract: BARn maps at offset n * PAGE_SIZE on /dev/uioN.
     return Int64(bar_index) * Int64(4096)
+
+
+def uio_node_for_bdf(
+    arch: String, sysfs_root: String, bdf: String
+) raises -> String:
+    # The /dev/uioN node for a bound device: the device's sysfs
+    # "uio" subdirectory contains exactly one uioN entry.
+    var udir = sysfs_root + "/bus/pci/devices/" + bdf + "/uio"
+    var names = list_dir(arch, udir)
+    for i in range(len(names)):
+        var n = names[i]
+        var nb = List[UInt8]()
+        for b in n.bytes():
+            nb.append(b)
+        if len(nb) >= 4 and nb[0] == 117 and nb[1] == 105 and nb[2] == 111:
+            return n
+    raise herror(
+        "UioError",
+        "no uioN entry under " + udir + " — device not bound to UIO?",
+    )
