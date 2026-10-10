@@ -3753,3 +3753,10 @@ allocation pool remains at its original offset. The focused module passes.
 AES500-137 hostile cases cover a wrong tokenizer array element declaration and
 an invalid type-13 value on an unknown metadata key. Exact errors and failed
 state/mmap cleanup pass in the focused module.
+
+
+AES500-138 primary review checked expected type mappings against parser owners,
+including the KV-head suffix, array readers, and unknown-key traversal. Tests
+cover key diagnostics and cleanup. The collaboration service thread cap blocked
+independent Auditor assignment, so this receipt does not claim independent
+review.

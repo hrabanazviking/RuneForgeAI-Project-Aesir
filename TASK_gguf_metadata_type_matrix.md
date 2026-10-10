@@ -76,3 +76,8 @@ A generated mapped GGUF with a wrong context-length value type is exercised thro
 ## AES500-137 adversarial receipt
 
 The focused fixture adds a recognized tokenizer tokens array with an invalid element-type declaration and an unknown metadata key carrying invalid value type 13. They reject with `tokenizer.ggml.tokens must be a string array` and `GGUF contains an invalid metadata value type` respectively; both end FAILED with mmap closed. Focused module passes. The wrong-element check occurs before reading array length or token entries.
+
+
+## AES500-138 review receipt
+
+Primary review of AES500-134–137 confirms the type map matches the parser branches, including the distinct `.attention.head_count_kv` suffix; recognized arrays retain their own type and element checks; unknown keys remain on `skip_value`; and the eight mismatch plus integration/adversarial fixtures assert stable errors and mapping cleanup. No independent Auditor signoff is claimed because the collaboration service rejected reviewer assignment at its thread cap. Remaining boundary: only explicitly consumed metadata keys are strict; arbitrary unknown keys are structurally traversed, not semantically validated.
