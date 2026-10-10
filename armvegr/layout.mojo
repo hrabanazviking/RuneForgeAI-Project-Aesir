@@ -94,7 +94,7 @@ def plan_layouts(specs: List[TensorSpec]) -> List[LayoutEntry]:
         else:
             e.layout = "row_major"
         out.append(e.copy())
-    return out
+    return out.copy()
 
 
 def _ceil_div(a: Int, b: Int) -> Int:
