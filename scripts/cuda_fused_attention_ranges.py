@@ -106,10 +106,13 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         raise ValueError("Invalid admitted small-attention tile/resource scope")
     expected = {f"small.b{size}": tiles[size] for size in (32, 4) if tiles[size]}
     ranges = []
-    chronology = []
     for start, end, kind, tid, end_tid, text, text_id in rows:
         label = text if text_id is None else strings.get(text_id)
-        if type(label) is not str or not label.startswith("aesir.attend."):
+        if type(label) is not str:
+            continue
+        if label.startswith("aesir.project."):
+            raise ValueError("Small tracing does not admit projection-stage labels")
+        if not label.startswith("aesir.attend."):
             continue
         match = re.fullmatch(r"aesir\.attend\.small\.b(4|32)", label)
         if (not match or type(start) is not int or type(end) is not int or
@@ -121,7 +124,6 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         if key not in expected:
             raise ValueError("Small range disagrees with source tile plan")
         ranges.append((start, end, key))
-        chronology.append((start, end, label))
         if len(ranges) > sum(expected.values()):
             raise ValueError("Excess small attention ranges")
     ranges.sort()
@@ -129,14 +131,22 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         raise ValueError("Missing/duplicate small attention range counts")
     if any(before[1] > after[0] for before, after in zip(sorted(ranges), sorted(ranges)[1:])):
         raise ValueError("Overlapping small attention tile ranges")
+    # The fixture drains full 32-row tiles before its final 4-row tile.
+    # Counts alone would admit a trace ordering the source cannot emit.
+    expected_order = [f"small.b{size}" for size in (32, 4) for _ in range(tiles[size])]
+    if [item[2] for item in ranges] != expected_order:
+        raise ValueError("Small attention tile order differs from source execution plan")
     starts = [r[0] for r in ranges]
     used = Counter()
+    api_counts = Counter()
     seen = set()
     groups = defaultdict(lambda: dict(kernel_count=0, gpu_total_ns=0))
     distributions = defaultdict(dict)
     for correlation, name, start, end in kernels:
         if correlation in seen or correlation not in launches:
             raise ValueError("Duplicate/missing small launch correlation")
+        if type(start) is not int or type(end) is not int or not outer[0] <= start < end <= outer[1]:
+            raise ValueError("Invalid asynchronous small kernel interval")
         seen.add(correlation)
         api_start, api_end, tid = launches[correlation]
         i = bisect_right(starts, api_start)-1
@@ -149,6 +159,10 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         if not small or tid != outer[2] or not child[0] <= api_start < api_end <= child[1]:
             raise ValueError("Small attention launch containment/kernel identity failed")
         size = int(child[2].split(".b")[1])
+        if correlation not in resources or not isinstance(resources[correlation], dict) or any(
+            field not in resources[correlation] for field in RESOURCE_FIELDS
+        ):
+            raise ValueError("Small attention launch is missing its resource record")
         record = resources[correlation]
         geometry = dict(grid_x=24, grid_y=size, grid_z=1, block_x=128, block_y=1, block_z=1)
         if any(type(record[k]) is not int or record[k] != v for k, v in geometry.items()):
@@ -161,8 +175,19 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         used[i] += 1
         groups[child[2]]["kernel_count"] += 1
         groups[child[2]]["gpu_total_ns"] += end-start
+    # Count all launch APIs inside each child, including successful calls that
+    # lack a corresponding kernel row and would otherwise disappear.
+    for correlation, (api_start, api_end, tid) in launches.items():
+        i = bisect_right(starts, api_start)-1
+        child = ranges[i] if i >= 0 and api_start < ranges[i][1] else None
+        if child is not None and (tid != outer[2] or not child[0] <= api_start < api_end <= child[1]):
+            raise ValueError("Small attention API launch crosses owned range or thread")
+        if child is not None:
+            api_counts[i] += 1
     if any(used[i] != 28 for i in range(len(ranges))):
         raise ValueError("Each small tile range must own exactly 28 successful layer launches")
+    if any(api_counts[i] != 28 for i in range(len(ranges))):
+        raise ValueError("Each small tile range must own exactly 28 launch correlations")
     for key, group in groups.items():
         group.update(cpu_range_count=expected[key], batch=int(key.split(".b")[1]), layers_per_tile=28,
             recorded_resource_distributions=[distributions[key][k] for k in sorted(distributions[key])])

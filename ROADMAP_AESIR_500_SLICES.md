@@ -607,7 +607,14 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   receipt are published; baseline source/model/hash and independent CPU checks pass.
 - AES500-013 interface contract is published. Its exact remote CI and the
   preceding controls remote release gate remain pending.
-- AES500-014+ implementation and physical trace acceptance remain open.
+- AES500-014 strategy5 owned-range implementation is pushed as `bffabc2`; its
+  physical profiled/unprofiled trace acceptance and release gate remain open.
+- AES500-015 focused parser/attribution evidence is specified in
+  `TASK_small_attention_trace_unit_evidence.md`. Local unit checks are in
+  progress; the slice remains open until the complete local and hosted gates
+  pass and its evidence receipt is published.
+- AES500-016+ physical trace integration and later adversarial/review slices
+  remain open.
 
 ## Status
 
@@ -622,4 +629,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   against source5 and independent zero-GPU CPU evidence.
 - AES500-013: strategy5 tracing interface contract is published; implementation
   and physical trace attribution are not yet accepted.
+- AES500-014: implementation is pushed, and the trace collector compiles locally;
+  physical profiled/unprofiled parity and exact hosted release CI remain pending.
+- AES500-015: focused unit evidence is under construction; physical trace claims
+  are explicitly outside this slice.
 - This document does not change any capability status.
