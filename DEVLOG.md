@@ -228,6 +228,11 @@ mapped-file and raw-byte parse owners. Source inspection found the mapped path
 enforces v3 while `parse_header_bytes` checks only length/magic; AES500-122/123
 will capture and test this mismatch before unifying it.
 
+AES500-122 confirms the byte helper admits versions 0, 1, 2, 3, 4, and
+UInt32::MAX, while mapped `_parse_header` has a v3-only gate by source
+inspection. The raw corpus and hashes are retained; no complete mapped-file
+version matrix is claimed yet.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

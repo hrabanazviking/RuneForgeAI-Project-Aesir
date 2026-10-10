@@ -1287,3 +1287,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-121 GGUF header version contract: `TASK_gguf_header_version_matrix.md`
   defines the 24-byte little-endian header and v3-only admission across file
   and byte-buffer owners, noting the byte helper's current version-check gap.
+- [x] AES500-122 GGUF header baseline: raw-header helper accepts 0, 1, 2, 3,
+  4, and UInt32::MAX. Mapped `_parse_header` v3-only behavior is source-only
+  evidence. Raw output, reproduction, and hashes are retained in
+  `docs/evidence/gguf-header-version-baseline-2026-10-10/`.

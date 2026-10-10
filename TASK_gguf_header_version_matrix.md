@@ -32,6 +32,12 @@ directory validity, tokenizer behavior, external-model support, pointer
 provenance, or model inference success. AES500-122 captures current behavior;
 AES500-123 will test both paths before AES500-124 unifies them.
 
+AES500-122's byte-buffer corpus accepts versions 0, 1, 2, 3, 4, and
+`UInt32::MAX`; the reproduction and source identity are retained in
+`docs/evidence/gguf-header-version-baseline-2026-10-10/README.md`. The mapped
+file path's v3-only behavior is established by source inspection in this
+baseline, not by a full per-version file corpus.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit
