@@ -758,6 +758,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   Markdown anchor index. Baseline-aware CLI classifies the nine pinned TOC
   issues as unchanged `BASELINE` and exits 0 only with no new/excess issue;
   new links and malformed baseline input fail closed. Thirteen focused tests pass.
+- AES500-057 hardens source admission: tracked Markdown symlinks resolving
+  outside the checkout are rejected before reading, with deterministic
+  diagnostics. The hostile source-path case is covered in the focused suite.
 
 ## Status
 

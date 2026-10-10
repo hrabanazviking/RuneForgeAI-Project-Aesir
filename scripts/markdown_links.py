@@ -202,8 +202,16 @@ def validate_repository(root: Path = ROOT) -> tuple[MarkdownLinkDiagnostic, ...]
     anchor_cache: dict[str, frozenset[str]] = {}
     diagnostics: list[MarkdownLinkDiagnostic] = []
     for source in paths:
+        source_path = root / source
         try:
-            text = (root / source).read_text(encoding="utf-8")
+            source_path.resolve(strict=True).relative_to(root.resolve())
+        except (OSError, ValueError):
+            diagnostics.append(
+                MarkdownLinkDiagnostic(source, 1, "Markdown source escapes or is unavailable outside repository root")
+            )
+            continue
+        try:
+            text = source_path.read_text(encoding="utf-8")
         except (OSError, UnicodeDecodeError):
             diagnostics.append(MarkdownLinkDiagnostic(source, 1, "unable to read Markdown source"))
             continue

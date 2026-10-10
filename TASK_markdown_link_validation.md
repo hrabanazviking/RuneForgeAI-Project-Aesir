@@ -63,6 +63,8 @@ without network access or modifications to source documents.
 - No validation of code examples that happen to contain Markdown-like syntax.
 - No filesystem traversal outside the repository root and no following links
   to external paths.
+- Tracked Markdown source symlinks resolving outside the repository root fail
+  closed before their contents are read.
 
 ## Acceptance commands
 

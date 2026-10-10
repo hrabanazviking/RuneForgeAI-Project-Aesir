@@ -197,6 +197,25 @@ class MarkdownLinkTests(unittest.TestCase):
             self.assertEqual(result, 2)
             self.assertIn("ERROR: unable to load baseline", stderr.getvalue())
 
+    def test_repository_scan_rejects_tracked_markdown_symlink_escape(self) -> None:
+        from markdown_links import validate_repository
+
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            root = base / "repo"
+            root.mkdir()
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            outside = base / "outside.md"
+            outside.write_text("[outside](https://example.test)\n", encoding="utf-8")
+            (root / "README.md").symlink_to(outside)
+            subprocess.run(["git", "-C", str(root), "add", "README.md"], check=True)
+            diagnostics = validate_repository(root)
+            self.assertEqual(len(diagnostics), 1)
+            self.assertEqual(
+                diagnostics[0].message,
+                "Markdown source escapes or is unavailable outside repository root",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

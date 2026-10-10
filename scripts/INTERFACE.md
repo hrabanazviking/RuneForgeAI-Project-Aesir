@@ -676,6 +676,8 @@ slugs with `-1`, `-2`, etc. in heading order. This follows GitHub's published
 section-link rules. Diagnostics use source path and one-based source-map line,
 remain stable and ordered, and never modify files. Malformed syntax that the
 CommonMark parser does not recognize as a link/image token is outside scope.
+Tracked source symlinks resolving outside the checkout fail before content is
+read; link targets resolving through symlinks outside the checkout also fail.
 
 The validator starts opt-in because the hash-bound baseline records nine
 preexisting fragment mismatches. `--check` without a baseline exits 1 on any
