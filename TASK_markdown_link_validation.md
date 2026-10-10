@@ -34,9 +34,10 @@ without network access or modifications to source documents.
   generation follows the repository's pinned GitHub-compatible algorithm,
   including punctuation and duplicate-slug behavior, documented in the
   interface slice.
-- GitHub-compatible heading anchors lowercase the heading text, replace spaces
-  with hyphens, remove other whitespace and punctuation, and strip Markdown
-  formatting before slugging. Duplicate slugs receive `-1`, `-2`, and later
+- GitHub-compatible heading anchors lowercase the heading text, collapse each
+  run of spaces to one separator, replace spaces with hyphens, remove other
+  whitespace and punctuation, and strip Markdown formatting before slugging.
+  Duplicate slugs receive `-1`, `-2`, and later
   numeric suffixes in source order. Explicit HTML `id`/`name` anchors are
   matched exactly and take precedence for their literal values.
 - URI destinations with an explicit non-file scheme (`http`, `https`, `mailto`,
@@ -78,6 +79,10 @@ the pinned baseline, exact unchanged known failures are printed as `BASELINE`
 and do not fail the command; new or excess issue signatures remain `ERROR` and
 produce exit code 1. A malformed or unreadable baseline fails closed with exit
 code 2.
+
+The checker treats the supplied baseline JSON as trusted policy input. It does
+not authenticate the file against the evidence receipt hashes; review the
+baseline receipt and hash before using it to waive unchanged findings.
 
 AES500-052 measured this active-doc set and link baseline. AES500-053 pins
 helper APIs and anchor rules; later slices add implementation and evidence

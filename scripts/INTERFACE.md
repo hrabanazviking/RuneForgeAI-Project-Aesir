@@ -670,8 +670,9 @@ Local paths resolve from the source document. Percent escapes are decoded,
 query strings do not affect lookup, root escapes fail, and existing files or
 directories without fragments are valid destinations. Fragments require a
 tracked Markdown file. Explicit HTML `id`/`name` anchors match exact values;
-heading anchors lowercase text, replace spaces with hyphens, remove other
-whitespace and punctuation, strip Markdown formatting, and suffix duplicate
+heading anchors lowercase text, collapse each run of spaces to one, replace
+spaces with hyphens, remove other whitespace and punctuation, strip Markdown
+formatting, and suffix duplicate
 slugs with `-1`, `-2`, etc. in heading order. This follows GitHub's published
 section-link rules. Diagnostics use source path and one-based source-map line,
 remain stable and ordered, and never modify files. Malformed syntax that the
@@ -686,3 +687,6 @@ issue. `--baseline-json PATH` reports exact unchanged baseline signatures as
 missing or malformed baseline exits 2. Read
 `../docs/evidence/markdown-link-baseline-2026-10-10/` before changing the debt
 policy.
+The CLI trusts the caller-supplied baseline JSON and does not authenticate it
+against the evidence receipt hashes; operators must review the receipt and hash
+before using it to waive findings.

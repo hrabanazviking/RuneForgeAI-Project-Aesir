@@ -70,7 +70,10 @@ def heading_slugs(text: str) -> tuple[str, ...]:
         if token.type != "heading_open":
             continue
         inline = tokens[token_index + 1]
-        heading = _inline_text(inline.children or []).strip().lower()
+        # GitHub collapses a run of spaces to one anchor separator. Normalize
+        # the run before punctuation filtering so adjacent spaces never create
+        # repeated hyphens.
+        heading = re.sub(r" +", " ", _inline_text(inline.children or []).strip()).lower()
         base = "".join(
             "-" if character == " " else character
             for character in heading

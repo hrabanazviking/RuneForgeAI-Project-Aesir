@@ -761,6 +761,13 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-057 hardens source admission: tracked Markdown symlinks resolving
   outside the checkout are rejected before reading, with deterministic
   diagnostics. The hostile source-path case is covered in the focused suite.
+- AES500-058 Auditor review found repeated spaces were producing repeated
+  hyphens rather than GitHub's single separator. Slug normalization and the
+  focused regression test now cover that case; baseline trust remains an
+  explicit operator-provided input boundary.
+- AES500-059 synchronizes the contract/interface/review record, including the
+  caller-trusted baseline JSON boundary and the corrected repeated-space slug
+  rule. The evidence receipt hashes remain the operator's baseline identity.
 
 ## Status
 

@@ -42,11 +42,12 @@ class MarkdownLinkTests(unittest.TestCase):
         text = (
             "## **Hello, world!**\n"
             "## **Hello, world!**\n"
+            "## foo  bar\n"
             "## Café — 漢字\n"
         )
         self.assertEqual(
             heading_slugs(text),
-            ("hello-world", "hello-world-1", "café--漢字"),
+            ("hello-world", "hello-world-1", "foo-bar", "café--漢字"),
         )
 
     def test_explicit_html_anchors_are_preserved_exactly(self) -> None:

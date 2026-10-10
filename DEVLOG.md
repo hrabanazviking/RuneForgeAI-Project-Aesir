@@ -1,3 +1,14 @@
+## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
+
+The independent Auditor identified a repeated-space heading slug mismatch: the
+validator previously emitted multiple hyphens where GitHub uses one. The
+slugger now collapses consecutive spaces before slugging, with a regression test.
+The review also clarified that baseline JSON is caller-trusted policy input;
+the CLI does not authenticate it against the evidence receipt hashes. Operators
+must review the baseline receipt and hashes before using it to waive findings.
+Focused tests and the full baseline-aware scan pass with the same nine recorded
+legacy fragment mismatches. This is local evidence; hosted CI remains pending.
+
 ## 2026-10-10 — AES500-041–049: TODO capability-reference integrity
 
 The TODO checker now validates each AES ID in explicit lowercase status-tag
