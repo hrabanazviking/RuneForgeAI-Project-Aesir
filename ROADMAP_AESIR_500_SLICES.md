@@ -683,6 +683,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   multiline extensions, deterministic output, malformed input, duplicate IDs,
   and UTF-8 diagnostics. All pass; receipt:
   `docs/evidence/capability-ledger-schema-unit-2026-10-10/`.
+- AES500-036 integrates the schema parser into repository truth checks using
+  the already-read canonical ledger, with stable diagnostics and a valid/bad
+  integration fixture. Checker and parser suites pass; independent Auditor
+  review found no blockers. This validates structure, not claim truth.
 
 ## Status
 

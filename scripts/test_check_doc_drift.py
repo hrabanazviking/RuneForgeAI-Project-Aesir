@@ -11,6 +11,7 @@ from check_doc_drift import (
     check_policy_baseline,
     classify_artifact,
     evaluate_artifact_policy,
+    ledger_schema_errors,
     load_hygiene_policy,
     todo_status_reference_errors,
     validate_hygiene_policy,
@@ -225,6 +226,25 @@ def test_explicit_cuda_ci_target() -> None:
         require(not has_mojo_ci_gate(command, "run", source), "missing/commented/wrong Mojo gate was accepted")
 
 
+def test_ledger_schema_integration() -> None:
+    valid = (
+        "### AES-FND-001 — Example\n"
+        "- **Status:** `verified`\n"
+        "- **Owner:** foundation\n"
+        "- **Executable evidence:** `python3 check.py`\n"
+        "- **Evidence boundary:** Structural fixture only.\n"
+    )
+    require(not ledger_schema_errors(valid, "fixture.md"), "valid ledger schema failed integration")
+    malformed = valid.replace("- **Owner:** foundation", "- **Ownr:** foundation")
+    errors = ledger_schema_errors(malformed, "fixture.md")
+    require(
+        errors == [
+            "fixture.md schema: fixture.md:1: missing required field 'Owner'"
+        ],
+        f"schema integration diagnostics were unstable: {errors!r}",
+    )
+
+
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -233,6 +253,7 @@ def main() -> None:
     test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
+    test_ledger_schema_integration()
 
 
 if __name__ == "__main__":

@@ -12,6 +12,8 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
+from ledger_schema import LedgerSchemaError, parse_ledger_text
+
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "CAPABILITY_LEDGER.md"
@@ -124,6 +126,7 @@ def ledger_statuses(content: str) -> dict[str, str]:
 
 def check_ledger(errors: list[str]) -> dict[str, str]:
     content = LEDGER.read_text(encoding="utf-8")
+    errors.extend(ledger_schema_errors(content, "CAPABILITY_LEDGER.md"))
     headings = re.findall(r"^### (AES-[A-Z]+-\d+) —", content, re.MULTILINE)
     if len(headings) != len(set(headings)):
         duplicates = sorted(key for key, count in Counter(headings).items() if count > 1)
@@ -151,6 +154,15 @@ def check_ledger(errors: list[str]) -> dict[str, str]:
     if not total_match or int(total_match.group(1)) != len(headings):
         errors.append("CAPABILITY_LEDGER.md: summary total does not match capability entries")
     return statuses
+
+
+def ledger_schema_errors(content: str, source: str) -> list[str]:
+    """Return schema diagnostics in the repository checker's stable format."""
+    try:
+        parse_ledger_text(content, source)
+    except LedgerSchemaError as error:
+        return [f"{source} schema: {diagnostic}" for diagnostic in error.diagnostics]
+    return []
 
 
 def status_reference_errors(
