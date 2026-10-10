@@ -36,7 +36,7 @@ def kinds(log):
         for line in p.read_text().splitlines():
             i = line.find('"kind": "')
             if i >= 0:
-                out.add(line[i + 10:].split('"')[0])
+                out.add(line[i + 9:].split('"')[0])
     return out
 
 
