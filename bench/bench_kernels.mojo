@@ -1,3 +1,38 @@
+# bench/bench_kernels.mojo
+# H161 — C2 kernel timings ported into the C9 harness (Domain D1 ARMVEGR).
+#
+# The timing bodies are the H038 (perf_bench.mojo) originals, unchanged in
+# shape/seed/work-count, but parameterized by (warmup, trials) and reporting
+# through bench_env.TrialStats so every C9 measurement shares one method.
+# perf_bench.mojo is left untouched as C2 provenance.
+
+from std.memory import Pointer
+from std.memory.alloc import unsafe_alloc
+from std.origin import MutUntrackedOrigin
+
+from bench.bench_env import TrialStats, bench_stats_json
+from armvegr.util import now_ns, fill_rand_f16, rand_range_f16
+from armvegr.gemm import gemm_fp16
+from armvegr.gemv import gemv_fp16
+from armvegr.elem import elem_add, elem_mul, elem_scale, elem_axpy
+from armvegr.norm import layernorm_fp16
+from armvegr.rmsnorm import rmsnorm_fp16
+from armvegr.softmax import softmax_fp16
+from armvegr.act import silu_fp16, gelu_fp16
+from armvegr.rope import rope_fp16
+from armvegr.quant import fp32_to_fp16, fp16_to_q80, q80_to_fp16
+from armvegr.q4 import fp16_to_q40, q40_to_fp16
+from armvegr.qgemm import q80_gemm, q80_gemm_bytes
+from armvegr.attn import attn_sdpa_causal_fp16
+from armvegr.mha import mha_forward_seq
+
+
+def _new_rng(seed: UInt64) -> Pointer[UInt64, MutUntrackedOrigin]:
+    var st = unsafe_alloc[UInt64](1)
+    st[unsafe_offset=0] = seed
+    return st
+
+
 def kern_stream_scalar(mut sink: Float64, warmup: Int, trials: Int, repeat: Int) -> String:
     var n = 8 * 1024 * 1024
     var a = unsafe_alloc[Float32](n)
