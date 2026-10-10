@@ -175,6 +175,16 @@ def test_cuda_allocation_tracker_adversarial() raises:
     ):
         raise Error("CUDA tracker did not separate unfenced owner destruction")
 
+    var invalid_pending = CUDAAllocationTracker()
+    invalid_pending.register(8)
+    invalid_pending.owner_destroyed(8, -1)
+    if (
+        invalid_pending.live_count != 1
+        or invalid_pending.live_bytes != 8
+        or not invalid_pending.accounting_error
+    ):
+        raise Error("CUDA tracker accepted a negative pending-work count")
+
     tracker.owner_destroyed(8, 0)
     if not tracker.accounting_error:
         raise Error("CUDA tracker failed to detect owner underflow")

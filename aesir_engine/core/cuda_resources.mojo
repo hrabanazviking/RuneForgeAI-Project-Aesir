@@ -52,7 +52,12 @@ struct CUDAAllocationTracker(Movable):
             raise Error("CUDAAllocationTracker: live accounting overflow")
 
     def owner_destroyed(mut self, size_bytes: Int, pending_work_count: Int):
-        if size_bytes <= 0 or self.live_count <= 0 or self.live_bytes < size_bytes:
+        if (
+            size_bytes <= 0
+            or pending_work_count < 0
+            or self.live_count <= 0
+            or self.live_bytes < size_bytes
+        ):
             self.accounting_error = True
             return
         self.live_count -= 1
