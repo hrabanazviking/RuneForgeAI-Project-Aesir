@@ -1,12 +1,12 @@
 # tests/test_cli.mojo
 # Verification of implemented CLI parsing and honest unsupported boundaries.
 
-from cli.modelfile import parse_modelfile
+from cli.modelfile import parse_modelfile, parse_int, parse_float
 from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
 from cli.storage import DurableModelStore, deserialize_catalog
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import render_model_selector, selected_model_reference
-from cli.model_preferences import DurableModelPreferences
+from cli.model_preferences import DurableModelPreferences, ModelPreferences
 from cli.commands import (
     collect_run_positionals,
     dispatch_command,
@@ -1050,3 +1050,210 @@ def main() raises:
     test_modelfile_parser()
     test_cli_flag_options_parser()
     test_model_store_in_use_protection()
+    test_cli_enum_flag_validation()
+    test_parse_int_strict()
+    test_parse_duration_seconds_strict()
+
+
+def _test_flag_args(flag: String, value: String) -> List[String]:
+    var args = List[String]()
+    args.append("run")
+    args.append("model.gguf")
+    args.append(flag)
+    args.append(value)
+    return args^
+
+
+def test_cli_enum_flag_validation() raises:
+    print("--- Testing CLIOptions enum flag value validation ---")
+
+    # --accel must be one of auto|cpu|cuda|metal|intel|amd|npu|max
+    var bad_accel_rejected = False
+    try:
+        _ = parse_cli_options(_test_flag_args("--accel", "tpu"))
+    except error:
+        bad_accel_rejected = True
+        var message = String(error)
+        if "auto" not in message or "cpu" not in message or "max" not in message:
+            raise Error("--accel rejection omitted the valid values")
+    if not bad_accel_rejected:
+        raise Error("CLIOptions accepted unsupported --accel value")
+    var accels = List[String]()
+    accels.append("auto")
+    accels.append("cpu")
+    accels.append("cuda")
+    accels.append("metal")
+    accels.append("intel")
+    accels.append("amd")
+    accels.append("npu")
+    accels.append("max")
+    for i in range(len(accels)):
+        var accepted = parse_cli_options(_test_flag_args("--accel", accels[i]))
+        if accepted.accel_backend != accels[i]:
+            raise Error("CLIOptions did not preserve valid --accel " + accels[i])
+
+    # toggle flags must each be one of auto|on|off
+    var toggles = List[String]()
+    toggles.append("--skaldbrodir")
+    toggles.append("--thinking")
+    toggles.append("--cia")
+    toggles.append("--wic")
+    toggles.append("--nsfi")
+    var vocab = List[String]()
+    vocab.append("auto")
+    vocab.append("on")
+    vocab.append("off")
+    for i in range(len(toggles)):
+        for j in range(len(vocab)):
+            _ = parse_cli_options(_test_flag_args(toggles[i], vocab[j]))
+        var bad_toggle_rejected = False
+        try:
+            _ = parse_cli_options(_test_flag_args(toggles[i], "sometimes"))
+        except error:
+            bad_toggle_rejected = True
+            if "auto" not in String(error) or "on" not in String(error) or "off" not in String(error):
+                raise Error(toggles[i] + " rejection omitted the valid values")
+        if not bad_toggle_rejected:
+            raise Error("CLIOptions accepted unsupported " + toggles[i] + " value")
+
+    print("CLIOptions enum flag value validation: PASS")
+
+
+def test_parse_int_strict() raises:
+    print("--- Testing strict parse_int semantics ---")
+
+    if parse_int("007") != 7:
+        raise Error("parse_int('007') != 7")
+    if parse_int("-42") != -42:
+        raise Error("parse_int('-42') != -42")
+    if parse_int("0") != 0:
+        raise Error("parse_int('0') != 0")
+    if parse_int("  42  ") != 42:
+        raise Error("parse_int with surrounding whitespace mismatch")
+    if parse_int("9223372036854775807") != 9223372036854775807:
+        raise Error("parse_int failed at Int max boundary")
+
+    var bad_ints = List[String]()
+    bad_ints.append("12abc")
+    bad_ints.append("abc")
+    bad_ints.append("")
+    bad_ints.append("-")
+    bad_ints.append("   ")
+    bad_ints.append("3.14")
+    bad_ints.append("0x10")
+    for i in range(len(bad_ints)):
+        var rejected = False
+        try:
+            _ = parse_int(bad_ints[i])
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("parse_int accepted invalid input '" + bad_ints[i] + "'")
+
+    var overflow_rejected = False
+    try:
+        _ = parse_int("999999999999999999999999999999")
+    except:
+        overflow_rejected = True
+    if not overflow_rejected:
+        raise Error("parse_int accepted a 30-digit overflow")
+
+    var boundary_rejected = False
+    try:
+        _ = parse_int("9223372036854775808")
+    except:
+        boundary_rejected = True
+    if not boundary_rejected:
+        raise Error("parse_int accepted Int max + 1")
+
+    # parse_float must keep working on well-formed input
+    if parse_float("1.5") != 1.5:
+        raise Error("parse_float('1.5') mismatch")
+    if parse_float("-2.25") != -2.25:
+        raise Error("parse_float('-2.25') mismatch")
+    if parse_float("42") != 42.0:
+        raise Error("parse_float('42') mismatch")
+
+    print("strict parse_int semantics: PASS")
+
+
+def test_parse_duration_seconds_strict() raises:
+    print("--- Testing strict parse_duration_seconds semantics ---")
+
+    # a bare number is seconds
+    if parse_duration_seconds("30") != 30:
+        raise Error("parse_duration_seconds('30') != 30s")
+    if parse_duration_seconds("0s") != 0:
+        raise Error("parse_duration_seconds('0s') != 0")
+    if parse_duration_seconds("5m") != 300:
+        raise Error("parse_duration_seconds('5m') != 300")
+    if parse_duration_seconds("1h") != 3600:
+        raise Error("parse_duration_seconds('1h') != 3600")
+    if parse_duration_seconds("10m") != 600:
+        raise Error("parse_duration_seconds('10m') != 600")
+
+    var bad_durations = List[String]()
+    bad_durations.append("m")
+    bad_durations.append("s")
+    bad_durations.append("h")
+    bad_durations.append("1m30")
+    bad_durations.append("5x")
+    bad_durations.append("-5s")
+    bad_durations.append("-5")
+    bad_durations.append("")
+    for i in range(len(bad_durations)):
+        var rejected = False
+        try:
+            _ = parse_duration_seconds(bad_durations[i])
+        except:
+            rejected = True
+        if not rejected:
+            raise Error(
+                "parse_duration_seconds accepted invalid input '"
+                + bad_durations[i]
+                + "'"
+            )
+
+    print("strict parse_duration_seconds semantics: PASS")
+
+
+def test_model_reference_traversal_fail_closed() raises:
+    # A catalog name can never smuggle ".." through preference resolution.
+    var preferences = ModelPreferences()
+    var hostile = List[String]()
+    hostile.append("..")
+    hostile.append("..:latest")
+    hostile.append("../../etc/passwd")
+    hostile.append("models/../../evil")
+    hostile.append("..\\windows")
+    hostile.append("a/b")
+    for reference in hostile:
+        var rejected = False
+        try:
+            _ = preferences.resolve(reference)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error(
+                "preference resolution accepted a traversal reference: " + reference
+            )
+
+    # Path-shaped references are the local user's explicit path: they are
+    # returned intact and never enter catalog resolution.
+    var explicit = resolve_model_reference("models/../definitely-missing-xyz.gguf")
+    if explicit.from_catalog or explicit.path != "models/../definitely-missing-xyz.gguf":
+        raise Error("explicit GGUF path was mistaken for a catalog name")
+    var parent = resolve_model_reference("..")
+    if parent.from_catalog or parent.path != "..":
+        raise Error("'..' was mistaken for a catalog name")
+
+    # A plain unknown name fails closed instead of escaping anywhere.
+    var unknown_rejected = False
+    try:
+        _ = resolve_model_reference("no-such-model", "/tmp/aesir-no-such-store-xyz")
+    except:
+        unknown_rejected = True
+    if not unknown_rejected:
+        raise Error("unknown catalog name did not fail closed")
+
+    print("model reference traversal fail-closed: PASS")

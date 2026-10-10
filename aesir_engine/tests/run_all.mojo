@@ -6,6 +6,7 @@
 
 from tests.test_compute import (
     test_gemm,
+    test_gemm_f16_gpgpu_vector_cpu_fallback,
     test_flash_attention,
     test_silu,
     test_geglu,
@@ -13,7 +14,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
-from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds
+from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
@@ -30,6 +31,7 @@ from tests.test_inference import (
     test_forward_pass,
     test_generation_stop_policy,
     test_unsupported_runtime_config,
+    test_prompt_byte_bound,
 )
 from tests.test_kv_cache import test_kv_cache
 from tests.test_mimir_well import (
@@ -73,6 +75,7 @@ from tests.test_hardware_discovery import (
     test_physical_device_admission,
     test_topology_discovery_accumulation,
     test_topology_stable_selection,
+    test_topology_probe_failure_notes,
 )
 from tests.test_cuda_resource_budget import (
     test_cuda_budget_accounting,
@@ -197,10 +200,16 @@ from tests.test_cli import (
     test_cli_command_dispatch,
     test_repl_session_and_slash_commands,
     test_cli_flag_options_parser,
+    test_cli_enum_flag_validation,
+    test_parse_int_strict,
+    test_parse_duration_seconds_strict,
+    test_model_reference_traversal_fail_closed,
 )
 from tests.test_doctor import (
     test_doctor_observations,
     test_doctor_readiness_policy,
+    test_doctor_disk_fallback_issue,
+    test_doctor_listener_probe_issue,
 )
 from tests.test_conversation import (
     test_conversation_codec,
@@ -211,8 +220,14 @@ from tests.test_dense_buffers import test_dense_buffers
 from tests.test_turing_fixture_plan import test_turing_fixture_plan
 from tests.test_turing_fixture_control import test_turing_fixture_control
 from tests.test_turing_replay_plan import test_turing_replay_plan
-from tests.test_chat_recovery import test_chat_recovery_policy
-from tests.test_conversation_autosave import test_conversation_autosave_generations
+from tests.test_chat_recovery import (
+    test_chat_recovery_policy,
+    test_chat_recovery_snapshot_validation,
+)
+from tests.test_conversation_autosave import (
+    test_conversation_autosave_generations,
+    test_conversation_autosave_corrupt_records,
+)
 from tests.test_model_preferences import (
     test_model_preferences_codec,
     test_model_favorite_selection,
@@ -235,7 +250,10 @@ from tests.test_multi_engine import (
 )
 from tests.test_resilience import (
     test_error_guard,
+    test_error_guard_finiteness,
     test_state_vault,
+    test_state_vault_read_exact_bytes,
+    test_state_vault_rejects_growth,
     test_event_bus,
     test_thread_pool,
     test_supervisor_recovery_boundary,
@@ -246,6 +264,7 @@ from tests.test_huggingface import (
     test_hf_download_parameter_boundary,
     test_hf_subprocess_argument_safety,
     test_hf_pinned_download_admission,
+    test_hf_resume_completion_verification,
 )
 from tests.test_swarm_cluster import (
     test_swarm_node_role,
@@ -291,6 +310,11 @@ def main() raises:
     print("  [DOMAIN] Core Compute Kernels")
     print("  -----------------------------------------")
     run_case(ledger, "compute.gemm_f16", test_gemm)
+    run_case(
+        ledger,
+        "compute.gemm_f16_gpgpu_vector_fallback",
+        test_gemm_f16_gpgpu_vector_cpu_fallback,
+    )
     run_case(ledger, "compute.flash_attention_2", test_flash_attention)
     run_case(ledger, "compute.silu", test_silu)
     run_case(ledger, "compute.geglu", test_geglu)
@@ -326,6 +350,7 @@ def main() raises:
         "inference.unsupported_runtime_config",
         test_unsupported_runtime_config,
     )
+    run_case(ledger, "inference.prompt_byte_bound", test_prompt_byte_bound)
     run_case(ledger, "inference.kv_cache", test_kv_cache)
     print("")
 
@@ -396,6 +421,9 @@ def main() raises:
     )
     run_case(
         ledger, "gpu.stable_device_selection", test_topology_stable_selection
+    )
+    run_case(
+        ledger, "gpu.probe_failure_notes", test_topology_probe_failure_notes
     )
     run_case(
         ledger, "gpu.resource_budget_accounting", test_cuda_budget_accounting
@@ -508,8 +536,24 @@ def main() raises:
         ledger, "cli.repl_session_state", test_repl_session_and_slash_commands
     )
     run_case(ledger, "cli.flag_options_parser", test_cli_flag_options_parser)
+    run_case(ledger, "cli.enum_flag_validation", test_cli_enum_flag_validation)
+    run_case(ledger, "cli.parse_int_strict", test_parse_int_strict)
+    run_case(
+        ledger, "cli.duration_strict", test_parse_duration_seconds_strict
+    )
+    run_case(
+        ledger,
+        "cli.model_reference_traversal",
+        test_model_reference_traversal_fail_closed,
+    )
     run_case(ledger, "cli.doctor_observations", test_doctor_observations)
     run_case(ledger, "cli.doctor_readiness", test_doctor_readiness_policy)
+    run_case(
+        ledger, "cli.doctor_disk_fallback_issue", test_doctor_disk_fallback_issue
+    )
+    run_case(
+        ledger, "cli.doctor_listener_probe_issue", test_doctor_listener_probe_issue
+    )
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -522,6 +566,10 @@ def main() raises:
     run_case(
         ledger, "cli.conversation_autosave_generations",
         test_conversation_autosave_generations,
+    )
+    run_case(
+        ledger, "cli.conversation_autosave_corrupt_records",
+        test_conversation_autosave_corrupt_records,
     )
     run_case(ledger, "cli.model_preferences_codec", test_model_preferences_codec)
     run_case(ledger, "cli.favorite_model_selection", test_model_favorite_selection)
@@ -667,7 +715,18 @@ def main() raises:
     print("  [DOMAIN] Local Resilience & Concurrency Matrix")
     print("  -----------------------------------------")
     run_case(ledger, "resilience.error_guard", test_error_guard)
+    run_case(ledger, "resilience.error_guard_finiteness", test_error_guard_finiteness)
     run_case(ledger, "resilience.state_vault_marker", test_state_vault)
+    run_case(
+        ledger,
+        "resilience.state_vault_read_exact_bytes",
+        test_state_vault_read_exact_bytes,
+    )
+    run_case(
+        ledger,
+        "resilience.state_vault_rejects_growth",
+        test_state_vault_rejects_growth,
+    )
     run_case(
         ledger,
         "resilience.durable_state_vault",
@@ -695,9 +754,19 @@ def main() raises:
     run_case(ledger, "huggingface.url_builder", test_hf_download_url_builder)
     run_case(ledger, "huggingface.argv_safety", test_hf_subprocess_argument_safety)
     run_case(ledger, "huggingface.pinned_admission", test_hf_pinned_download_admission)
+    run_case(
+        ledger,
+        "huggingface.resume_verification",
+        test_hf_resume_completion_verification,
+    )
     run_case(ledger, "cli.cuda_chat_admission", test_cuda_chat_admission)
     run_case(ledger, "cli.cuda_model_switch_syntax", test_cuda_model_switch_syntax)
     run_case(ledger, "cli.chat_recovery_policy", test_chat_recovery_policy)
+    run_case(
+        ledger,
+        "cli.chat_recovery_snapshot_validation",
+        test_chat_recovery_snapshot_validation,
+    )
     run_case(
         ledger,
         "huggingface.download_parameter_boundary",
@@ -811,6 +880,7 @@ def main() raises:
     run_case(ledger, "local_service.http", test_local_http)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
+    run_case(ledger, "local_service.ollama_sampling_bounds", test_ollama_sampling_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(191)
+    ledger.finish(207)
