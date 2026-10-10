@@ -220,6 +220,6 @@ def uio_irq_wait(arch: String, uio_fd: Int64, timeout_ms: Int64) raises -> Int64
         )
     var count = Int64(0)
     for k in range(4):
-        count |= Int64(rbuf[unsafe_offset=k]) << (8 * k)
+        count |= Int64(rbuf[unsafe_offset=k]) << Int64(8 * k)
     rbuf.unsafe_free()
     return count
