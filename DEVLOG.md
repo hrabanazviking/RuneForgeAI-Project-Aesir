@@ -3945,3 +3945,8 @@ AES500-172 uses unsafe String construction to capture malformed-byte baselines:
 truncated C3 returns raw 195; C3 28 falls back to IDs 11/12. This does not imply
 safe Mojo String constructors accept malformed input. Master suite: 227 passed,
 zero failed, one skipped (228 total).
+
+
+AES500-173 pins invalid-input handling to the existing non-raising encoder
+interface: malformed unsafe String bytes will become unknown ID with optional
+BOS, preserving valid-input behavior and public signature.

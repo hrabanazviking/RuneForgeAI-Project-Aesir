@@ -34,3 +34,8 @@ without unsafe construction. No tokenizer code changes in AES500-171.
 
 
 AES500-172 baseline: unsafe truncated `C3` with no vocabulary -> `[195]`; unsafe `C3 28` with byte vocabulary -> `[11,12]` via fallback. This demonstrates current byte preservation for two unsafe-constructed String fixtures, not safe-constructor acceptance. Source/tool hashes and limitations are in `docs/evidence/invalid-utf8-baseline-2026-10-10/README.md`. Master suite: 227/0/1 (228 total).
+
+
+## AES500-173 interface receipt
+
+The owner seam is the existing public `encode(prompt: String, add_bos: Bool = False) -> List[Int]`; no raising behavior or signature change is planned. Valid Strings keep existing behavior. Malformed byte sequences admitted through unsafe String construction must produce the unknown-token sentinel, with optional BOS prefix as described above. The current baseline test pins the public return path before the implementation changes it.

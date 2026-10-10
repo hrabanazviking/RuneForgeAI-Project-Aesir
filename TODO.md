@@ -1488,3 +1488,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-172 invalid UTF-8 baseline: unsafe truncated/invalid byte Strings
   preserve bytes through raw/fallback outputs; source/tool hashes and safe-API
   caveat recorded. Master suite 227/0/1 (228 total).
+
+- [x] AES500-173 invalid UTF-8 interface: pins non-raising `encode(String) ->
+  List[Int]` and fail-closed unknown-ID behavior with optional enabled BOS; safe
+  valid input behavior remains the compatibility boundary.
