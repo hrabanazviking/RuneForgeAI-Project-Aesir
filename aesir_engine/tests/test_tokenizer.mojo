@@ -378,3 +378,21 @@ def test_invalid_utf8_adversarial() raises:
     if len(raw) != 4 or raw[0] != 0xF4 or raw[1] != 0x8F or raw[2] != 0xBF or raw[3] != 0xBF:
         raise Error("valid U+10FFFF boundary was rejected or changed")
     print("PASS: UTF-8 invalid boundaries and maximum scalar admission")
+
+def test_invalid_utf8_integration() raises:
+    var invalid = List[Int8]()
+    invalid.append(Int8(0xC3))
+    invalid.append(Int8(0x28))
+    invalid.append(0)
+    var text = String(unsafe_from_utf8_ptr=invalid.unsafe_ptr())
+    var weaver = RuneWeaver()
+    weaver.unknown_token_id = 99
+    weaver.add_token("<unk>", 99)
+    var encoded = weaver.encode(text, False)
+    if len(encoded) != 1 or encoded[0] != 99:
+        raise Error("invalid UTF-8 leaked multiple byte IDs into stream integration")
+    var decoder = RuneStreamDecoder()
+    var output = decoder.decode_token(weaver.vocab[encoded[0]])
+    if output != "<unk>" or "�" in output:
+        raise Error("malformed bytes reached the streaming text decoder")
+    print("PASS: invalid UTF-8 is replaced by unknown token before stream decoding")

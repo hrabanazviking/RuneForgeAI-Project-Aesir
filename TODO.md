@@ -1500,3 +1500,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-175 UTF-8 boundary evidence: isolated continuation, 3/4-byte
   overlong encodings and illegal lead reject; U+10FFFF remains accepted. Master
   suite 228/0/1 (229 total).
+
+- [x] AES500-176 invalid UTF-8 integration: rejected malformed bytes enter
+  stream decoding only as one `<unk>` token; master suite 229/0/1 (230 total).

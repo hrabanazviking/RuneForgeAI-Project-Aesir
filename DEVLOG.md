@@ -3961,3 +3961,8 @@ skipped (228 total).
 AES500-175 extends invalid UTF-8 evidence across isolated continuation, overlong
 3/4-byte forms, illegal lead, and valid maximum scalar. Master suite: 228 passed,
 zero failed, one skipped (229 total).
+
+
+AES500-176 confirms malformed bytes become a single unknown token before the
+stream decoder and never enter its payload. Master suite: 229 passed, zero failed,
+one skipped (230 total).

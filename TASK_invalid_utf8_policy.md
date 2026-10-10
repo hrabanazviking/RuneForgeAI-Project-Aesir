@@ -49,3 +49,8 @@ The owner seam is the existing public `encode(prompt: String, add_bos: Bool = Fa
 ## AES500-175 adversarial unit receipt
 
 Additional cases reject isolated continuation 80, overlong E0 80 80, overlong F0 80 80 80, and illegal F5 lead. The maximum valid scalar F4 8F BF BF remains byte-identical through no-vocabulary encoding. Master suite: 228 passed, zero failed, one skipped (229 total).
+
+
+## AES500-176 integration receipt
+
+Unsafe invalid bytes `C3 28` encode to one configured `<unk>` vocabulary ID; passing that vocabulary token into `RuneStreamDecoder` yields `<unk>` and no replacement character or malformed payload. Master suite: 229 passed, zero failed, one skipped (230 total).
