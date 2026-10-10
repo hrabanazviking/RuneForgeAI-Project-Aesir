@@ -3765,3 +3765,9 @@ review.
 AES500-139 syncs the GGUF loader interface with the selected-key type checks,
 retained array diagnostics, and structurally traversed unknown keys. Task/evidence
 records preserve the historic baseline separately from current rejection tests.
+
+
+AES500-140 release gate passes native sm_89 build/help, full master suite
+(212 passed, zero failed, one skipped / 213 total), documentation drift and
+whitespace checks. Hosted workflow runs were still in progress for recent heads;
+no hosted success is inferred.

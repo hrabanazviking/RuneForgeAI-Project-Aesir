@@ -87,3 +87,8 @@ AES500-139 documentation sync: `aesir_engine/loader/INTERFACE.md` now states
 the selected-key encodings, key-specific mismatch errors, dedicated tokenizer
 array validation, and structural-only handling of unknown keys. Historical
 baseline behavior remains separately hash-bound in its evidence README.
+
+
+## AES500-140 release gate
+
+Mojo 1.0.0 sm_89 native build and executable `--help` smoke pass. The full master suite reports 212 passed, zero failed, one explicitly skipped external-fixture case (213 total). `python3 scripts/check_doc_drift.py` and `git diff --check` pass. The work was pushed to `docs/cross-cutting-500-slice-roadmap`; exact pushed SHA is recorded in Git history. Hosted Actions runs for recent slice heads were still in progress at the time checked; no hosted pass is claimed.

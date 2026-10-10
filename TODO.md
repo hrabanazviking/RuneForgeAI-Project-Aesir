@@ -1360,3 +1360,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-139 GGUF metadata documentation sync: loader interface, task
   matrix, roadmap, TODO, devlog, and evidence agree on selected-key types,
   dedicated array validation, unknown-key traversal, suite count, and limits.
+
+- [x] AES500-140 GGUF metadata type release gate: native sm_89 build/help and
+  master suite pass (212 passed, 0 failed, 1 skipped / 213 total); docs and
+  whitespace checks pass. Pushed; hosted exact-head runs remain in progress.
