@@ -56,7 +56,15 @@ AES500-126 runs minimal v3/v4 files through `inspect_metadata`. The v3 file
 records version 3 and fails only later because metadata is absent; the v4 file
 fails at the version diagnostic. Both paths end in `FAILED` with mmap cleanup.
 
+AES500-127 writes 24-byte v3 headers with either tensor_count or kv_count set
+to 25. Each is rejected with the entry-count bounds diagnostic before metadata
+parsing, and `inspect_metadata` leaves state `FAILED` with the mapping closed.
+This bounds the count-to-file-size gate for tiny files; it does not establish
+complete overflow safety for arbitrary file sizes or later directory parsing.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit
-exclusions are stated. No parser code changes in AES500-121.
+exclusions are stated. No parser code changes in AES500-121. AES500-127's
+adversarial count cases are registered as `gguf.header_adversarial` in the
+master suite.

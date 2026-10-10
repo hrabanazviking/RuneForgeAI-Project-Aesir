@@ -3688,3 +3688,12 @@ paths. It does not establish concurrent payload mutation, an implicit stream
 fence on destruction, asynchronous teardown safety, allocator reuse, driver
 memory return, or arbitrary raw-buffer ownership. Per-slice commits are pushed;
 exact-head hosted CI remains the release gate before this work order closes.
+## 2026-10-10 — AES500-127 GGUF oversized header counts
+
+Minimal version-3 mapped headers with either tensor_count or metadata_count
+set to 25 are rejected by the file-size bound before entry parsing. Both
+`inspect_metadata` failures leave the loader in FAILED state with mmap closed.
+The focused GGUF matrix and master suite pass locally (210 passed, 0 failed,
+1 explicitly skipped / 211 total); documentation consistency and whitespace
+checks pass. This narrow tiny-file check does not prove arbitrary count
+arithmetic safety or complete GGUF directory validation.

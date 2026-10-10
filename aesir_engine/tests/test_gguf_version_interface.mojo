@@ -21,7 +21,11 @@ def make_header(version: UInt32) -> List[UInt8]:
     return bytes^ 
 
 
-def write_header(version: UInt32) raises -> String:
+def write_header(
+    version: UInt32,
+    tensor_count: UInt64 = 0,
+    kv_count: UInt64 = 0,
+) raises -> String:
     var template = List[Int8]()
     for byte in String("/tmp/aesir-gguf-version-XXXXXX").as_bytes():
         template.append(Int8(byte))
@@ -30,6 +34,9 @@ def write_header(version: UInt32) raises -> String:
     if fd < 0:
         raise Error("failed to create GGUF version fixture")
     var bytes = make_header(version)
+    for offset in range(8):
+        bytes[8 + offset] = UInt8((tensor_count >> UInt64(offset * 8)) & 0xff)
+        bytes[16 + offset] = UInt8((kv_count >> UInt64(offset * 8)) & 0xff)
     var offset = 0
     while offset < len(bytes):
         var wrote = external_call["write", Int](Int(fd), bytes.unsafe_ptr().unsafe_offset(offset), len(bytes) - offset)
@@ -162,7 +169,39 @@ def test_gguf_version_integration() raises:
     print("PASS: GGUF version gate integrates with loader state and mmap cleanup")
 
 
+def test_gguf_header_adversarial() raises:
+    var tensor_path = write_header(3, 25, 0)
+    var tensor_seer = GGUFSeer(tensor_path)
+    var tensor_tokenizer = RuneWeaver()
+    var tensor_error = String("")
+    try:
+        tensor_seer.inspect_metadata(tensor_tokenizer)
+    except error:
+        tensor_error = String(error)
+    unlink_path(tensor_path)
+    if "entry counts exceed the file size" not in tensor_error:
+        raise Error("oversized tensor count did not reject at header bounds")
+    if tensor_seer.state != 4 or tensor_seer.is_mapped:
+        raise Error("oversized tensor count did not clean up mapped state")
+
+    var metadata_path = write_header(3, 0, 25)
+    var metadata_seer = GGUFSeer(metadata_path)
+    var metadata_tokenizer = RuneWeaver()
+    var metadata_error = String("")
+    try:
+        metadata_seer.inspect_metadata(metadata_tokenizer)
+    except error:
+        metadata_error = String(error)
+    unlink_path(metadata_path)
+    if "entry counts exceed the file size" not in metadata_error:
+        raise Error("oversized metadata count did not reject at header bounds")
+    if metadata_seer.state != 4 or metadata_seer.is_mapped:
+        raise Error("oversized metadata count did not clean up mapped state")
+    print("PASS: GGUF oversized header counts reject before metadata parsing")
+
+
 def main() raises:
     test_gguf_version_interface()
     test_gguf_version_reference()
     test_gguf_version_integration()
+    test_gguf_header_adversarial()

@@ -1304,3 +1304,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-126 GGUF version integration: minimal mapped v3 passes the version
   gate and fails later on absent metadata; v4 fails at the version gate. Both
   `inspect_metadata` paths end `FAILED` with mappings cleaned up.
+- [x] AES500-127 GGUF adversarial header counts: oversized UInt64 tensor and
+  metadata counts in a 24-byte v3 file reject at the file-size gate and leave
+  failed loader state unmapped; registered as `gguf.header_adversarial`.
+  Focused and master checks pass (210 passed, 0 failed, 1 skipped / 211 total);
+  docs consistency and whitespace checks pass.

@@ -50,6 +50,7 @@ from tests.test_gguf_version_interface import (
     test_gguf_version_interface,
     test_gguf_version_reference,
     test_gguf_version_integration,
+    test_gguf_header_adversarial,
 )
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
@@ -326,6 +327,7 @@ def main() raises:
     run_case(ledger, "gguf.version_interface", test_gguf_version_interface)
     run_case(ledger, "gguf.version_reference", test_gguf_version_reference)
     run_case(ledger, "gguf.version_integration", test_gguf_version_integration)
+    run_case(ledger, "gguf.header_adversarial", test_gguf_header_adversarial)
     print("")
 
     # --- Tokenizer ---
@@ -865,4 +867,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(210)
+    ledger.finish(211)
