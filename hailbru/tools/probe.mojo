@@ -20,6 +20,7 @@ from hailbru.syscall import (
     os_close,
     list_dir,
     os_mkdir,
+    os_sleep_ms,
     os_openat,
     os_read,
     os_write,
@@ -789,7 +790,7 @@ def _str_bytes(s: String) -> List[UInt8]:
     var bs = List[UInt8]()
     for b in s.bytes():
         bs.append(b)
-    return bs
+    return bs^
 
 
 def _parse_int(s: String) -> Int:
@@ -978,9 +979,9 @@ def cmd_drift(arch: String, args: List[String]) raises:
             for i in range(5):
                 var v = 0
                 if ro[i] == 0x0098:
-                    v = Int(reg_read16(m, UInt16(ro[i])))
+                    v = Int(reg_read16(m, ro[i]))
                 else:
-                    v = Int(reg_read32(m, UInt16(ro[i])))
+                    v = Int(reg_read32(m, ro[i]))
                 if ro[i] == inject_off:
                     v = v ^ 0xFFFFFFFF
                     detected_inject += 1
@@ -1066,7 +1067,7 @@ def cmd_removal_selftest(arch: String, args: List[String]) raises:
     var wfd = os_openat(arch, img, O_WRONLY() | O_CREAT() | O_TRUNC(), 0o644)
     var z = unsafe_alloc[UInt8](4096)
     for i in range(4096):
-        z[i] = 0
+        z[unsafe_offset=i] = 0
     _ = os_write(arch, wfd, z, 4096)
     z.unsafe_free()
     _ = os_close(arch, wfd)

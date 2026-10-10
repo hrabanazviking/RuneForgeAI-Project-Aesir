@@ -57,4 +57,4 @@ def watcher_read32(
             + String(os_clock_ms(arch) - w.severed_at_ms)
             + "ms ago); mappings released cleanly",
         )
-    return Int(reg_read32(w.mapping, UInt16(off)))
+    return Int(reg_read32(w.mapping, off))
