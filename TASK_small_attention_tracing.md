@@ -117,3 +117,8 @@ trace capability is claimed yet.
   enumerate current source5 accepted CSV/report/binary and trace source exports;
   identify capture-tool availability/version and the exact full-session export
   schema before implementing a tracing capability.
+
+AES500-012 baseline preparation is split into
+`TASK_small_attention_trace_baseline.md`. It authorizes only fresh plain strategy5
+source/model baseline collection and exact source5/CPU comparison, before trace
+capability implementation or profiled capture.
