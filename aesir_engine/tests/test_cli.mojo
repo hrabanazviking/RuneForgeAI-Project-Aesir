@@ -573,6 +573,41 @@ def test_catalog_schema_interface() raises:
     print("validated public catalog schema codec seam: PASS")
 
 
+def test_catalog_schema_unit_evidence() raises:
+    """Covers strict v1 count, record, identity, and header boundaries."""
+    var malformed_inputs = List[String]()
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:0\nEXTRA")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:-1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1\nNO_ENTRY")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1\nENTRY:zz")
+
+    for index in range(len(malformed_inputs)):
+        var rejected = False
+        try:
+            _ = deserialize_catalog(malformed_inputs[index])
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("catalog decoder accepted malformed v1 case " + String(index))
+
+    var duplicate = RuneModelStore()
+    duplicate.create_model("same:v1", "FROM fixture.gguf")
+    duplicate.model_keys.append("same:v1")
+    duplicate.model_keys.append("same:v1")
+    if len(duplicate.model_keys) != 3:
+        raise Error("duplicate-key adversarial fixture was not constructed")
+    var duplicate_rejected = False
+    try:
+        _ = serialize_catalog(duplicate)
+    except error:
+        duplicate_rejected = "duplicate key" in String(error)
+    if not duplicate_rejected:
+        raise Error("catalog writer accepted a duplicate model key")
+    print("catalog schema malformed count/record and duplicate-key cases: PASS")
+
+
 def assert_cli_command_unsupported(command: String) raises:
     var args = List[String]()
     args.append(command)
