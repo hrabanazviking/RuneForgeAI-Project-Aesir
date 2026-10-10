@@ -341,3 +341,40 @@ def test_invalid_utf8_rejection() raises:
     if len(with_bos) != 2 or with_bos[0] != bos_weaver.bos_token_id or with_bos[1] != 99:
         raise Error("invalid UTF-8 BOS/unknown fail-closed result changed")
     print("PASS: invalid UTF-8 rejects to unknown ID with optional BOS")
+
+def test_invalid_utf8_adversarial() raises:
+    var isolated_continuation = List[Int8]()
+    isolated_continuation.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(isolated_continuation)
+
+    var overlong_three = List[Int8]()
+    overlong_three.append(Int8(0xE0))
+    overlong_three.append(Int8(0x80))
+    overlong_three.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(overlong_three)
+
+    var overlong_four = List[Int8]()
+    overlong_four.append(Int8(0xF0))
+    overlong_four.append(Int8(0x80))
+    overlong_four.append(Int8(0x80))
+    overlong_four.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(overlong_four)
+
+    var illegal_lead = List[Int8]()
+    illegal_lead.append(Int8(0xF5))
+    illegal_lead.append(Int8(0x80))
+    illegal_lead.append(Int8(0x80))
+    illegal_lead.append(Int8(0x80))
+    assert_invalid_utf8_fails_closed(illegal_lead)
+
+    var maximum_scalar = List[Int8]()
+    maximum_scalar.append(Int8(0xF4))
+    maximum_scalar.append(Int8(0x8F))
+    maximum_scalar.append(Int8(0xBF))
+    maximum_scalar.append(Int8(0xBF))
+    maximum_scalar.append(0)
+    var max_text = String(unsafe_from_utf8_ptr=maximum_scalar.unsafe_ptr())
+    var raw = RuneWeaver().encode(max_text, False)
+    if len(raw) != 4 or raw[0] != 0xF4 or raw[1] != 0x8F or raw[2] != 0xBF or raw[3] != 0xBF:
+        raise Error("valid U+10FFFF boundary was rejected or changed")
+    print("PASS: UTF-8 invalid boundaries and maximum scalar admission")

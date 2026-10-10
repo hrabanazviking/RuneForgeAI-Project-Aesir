@@ -3956,3 +3956,8 @@ AES500-174 adds strict UTF-8 validation over the borrowed input span. Truncated,
 bad continuation, overlong, surrogate, and above-maximum sequences fail closed
 to unknown ID with optional BOS. Master suite: 227 passed, zero failed, one
 skipped (228 total).
+
+
+AES500-175 extends invalid UTF-8 evidence across isolated continuation, overlong
+3/4-byte forms, illegal lead, and valid maximum scalar. Master suite: 228 passed,
+zero failed, one skipped (229 total).

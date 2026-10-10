@@ -44,3 +44,8 @@ The owner seam is the existing public `encode(prompt: String, add_bos: Bool = Fa
 ## AES500-174 implementation receipt
 
 `RuneWeaver._is_valid_utf8` now validates leading-byte ranges, continuation bytes, overlong exclusions, surrogate exclusion, and the U+10FFFF ceiling. `encode` checks the borrowed byte span before tokenization; malformed input returns the configured unknown ID and retains an optional enabled BOS prefix. Valid input keeps the existing path. Focused malformed fixtures cover truncation, a bad continuation, overlong lead, surrogate, and above-maximum scalar; master suite passes 227/0/1 (228 total).
+
+
+## AES500-175 adversarial unit receipt
+
+Additional cases reject isolated continuation 80, overlong E0 80 80, overlong F0 80 80 80, and illegal F5 lead. The maximum valid scalar F4 8F BF BF remains byte-identical through no-vocabulary encoding. Master suite: 228 passed, zero failed, one skipped (229 total).

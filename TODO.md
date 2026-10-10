@@ -1496,3 +1496,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-174 invalid UTF-8 implementation: strict scalar/continuation checks
   fail closed to unknown ID, preserving optional BOS and valid input path; master
   suite 227/0/1 (228 total).
+
+- [x] AES500-175 UTF-8 boundary evidence: isolated continuation, 3/4-byte
+  overlong encodings and illegal lead reject; U+10FFFF remains accepted. Master
+  suite 228/0/1 (229 total).
