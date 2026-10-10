@@ -3691,3 +3691,52 @@ config surface; coherence proof; honest CPU-only AUTO.
 **Mojo 1.1 lessons:** `device.invoke` caps at ~125 s regardless of timeout_ms —
 long runs must use `setsid nohup … &`; `String(Error)` works; `ref` is reserved;
 `Dict` needs explicit `.copy()`; `argv()` returns Span not List[String].
+
+## 2026-10-10 — MÍMISBRUNNR C8 (H141–H160): Vörðr Robustness — warden built, measured on Mimir (Yrsa)
+
+**Sólrún audit first** (`docs/vordr/SOLRUN_AUDIT_C8.md`): NPU-referencing slices got honest
+treatment under H111 NO-GO. H150 → CPU numerics cross-check (fast SIMD kernel vs independent
+scalar reference, H059R1's proven pattern — rejected the ggml/numpy option as already-proven).
+H157 → CPU-pipeline stage retry via scalar fallback, loud DEGRADED, never sticky. H147/H148 →
+REAL reset/re-init via new HAILBRÚ `reset()` primitive (C5-proven D3hot→D0 PM-reset cycle +
+golden compare; Vörðr never touches registers — L6/L12). H153 → REAL UIO unbind (stronger
+than the roadmap's OOM-simulation substitute; device left sane every run). H151–H154 →
+TEST-ONLY Python, real faults never simulated. H142: Hailo die temp NOT readable on this
+kernel — documented honestly, Pi SoC is the proxy.
+
+**Built:** `vordr/` D6 package (14 modules) + `vordr_cli.mojo` (20 subcommands).
+Mojo 1.1.0 lessons: `fn`→`def`; no `len(String)` (use `.byte_length()`); 2-arg
+`os_unlinkat`; `def` params are borrows (field-by-field struct construction);
+`UnsafePointer` deprecated → spawn via fork+`system("exec …")`; explicit
+`(Copyable, Movable)` *disables* implicit copyability.
+
+**Measured on Mimir (homelink-c2ba12):** H141 120/120 samples, drift ≤12ms; H143 stall
+305ms vs 300ms budget; H144 decode 50/50; H145 taxonomy 52 names exact; H146 restarts
+≤2.4s, backoff 1/2/4/8s; H147 50/50 resets @201ms; H148 50/50 reinits @203ms;
+H149 state machine 3 scenarios + 5 illegal rejected; H150 shadow 10/10 (1.43e-06);
+H154 500/500 corruptions caught; H155 budgets (transient 1498ms / reset 426ms /
+restart 44ms) + 10-sample confirmation ALL BEAT; H156 3-fault absorb, 6→exhausted;
+H157 19 fast + 1 degraded, exactly 1 DEGRADED event.
+
+**Bug fixed in-slice:** spawn child reported SIGKILL as exit(127) — now re-raises the
+signal so the parent sees signal(9) (honest audit trail).
+
+**In flight:** H146 10-kill test (5/10, all ≤2.4s), H159 no-silent-fallback audit,
+H151–H154 PRÓF suites, H158 30-min supervised run, H160 review.
+
+**H159 audit (2026-10-10 ~13:30 EDT): 20/20 PASS** — every degrade/fallback path
+emits its structured event; zero silent paths. Fixed in-slice: (1) h158-run
+crashed ENOENT when out-dir missing → now creates it; (2) live register poll on
+healthy device emitted nothing → added RegisterPollClean telemetry; (3) D3hot
+device reads BAR0+0x018C as 0x7FFFFFFF — decoder flags undocumented bits per
+H087 (never ignore, never mislabel), documented in ERROR_TAXONOMY.md.
+**H146: 10/10 SIGKILL restarts ≤2.4s.** **H153: 3/3 removals clean.**
+**H154: 500/500 DMA corruptions caught, 0 escapes.**
+
+**H158 (2026-10-10 ~15:00 EDT): 30-min supervised run COMPLETE** — 33 faults
+injected==handled (seeded schedule @ ~1/60s + 5 external PRÓF injections),
+13 iterations, 4/4 coherence spot-checks clean, 2×64-token long-form probes
+rubric-clean. Zero unhandled faults, zero crashes. Fixed in-slice: token-based
+calibration budgets (hardcoded 120s caused false hang kills); real-hang now
+counts as injected+handled in reconciliation.
+**Campaign 8 COMPLETE: 20/20 slices, verdict ROBUST.**

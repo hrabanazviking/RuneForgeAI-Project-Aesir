@@ -99,7 +99,6 @@ from hailbru.bringup import (
     bringup_dump_registers,
     run_bringup,
 )
-from hailbru.health_obs import HealthSample, health_sample
 from hailbru.guard import SessionGuard, guard_acquire, guard_release
 from hailbru.removal import (
     WatchedBar,
@@ -107,3 +106,4 @@ from hailbru.removal import (
     watcher_read32,
     watcher_sever,
 )
+from hailbru.reset import ResetReport, ResetStep, golden_check, reset

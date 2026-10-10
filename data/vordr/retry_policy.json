@@ -1,0 +1,1 @@
+{"max_retries": 5, "base_ms": 100, "factor": 2, "jitter_pct": 10, "_note": "Transient-error retry policy. Integers in order: max_retries, base_ms, factor, jitter_pct. Backoff grows geometrically with uniform symmetric jitter. This note carries no digits by design."}

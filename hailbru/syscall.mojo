@@ -171,6 +171,12 @@ def O_CLOEXEC() -> Int64:
     return Int64(0o2000000)
 
 
+def O_APPEND() -> Int64:
+    # Linux O_APPEND (0x400). Added in H141 for VÖRÐR's append-only
+    # event/restart logs.
+    return Int64(1024)
+
+
 def AT_FDCWD() -> Int64:
     return Int64(-100)
 
@@ -446,6 +452,35 @@ def write_file_str(arch: String, path: String, content: String) raises:
     if w != Int64(n):
         raise Error(
             "HailbruError[OsError]: short write to " + path + ": wrote "
+            + String(w) + " of " + String(n) + " errno=" + errno_name(we)
+            + " (" + String(we) + ")"
+        )
+
+
+def append_file_str(arch: String, path: String, content: String) raises:
+    # Append-only write (O_APPEND), for VÖRÐR event/restart logs (H141).
+    # Same fail-closed contract as write_file_str.
+    var fd = os_openat(
+        arch, path, O_WRONLY() | O_CREAT() | O_APPEND(), Int64(0o644)
+    )
+    if fd < 0:
+        var e = errno_now()
+        var code = "OsError"
+        if e == 13 or e == 1:
+            code = "PrivilegeRequired"
+        raise Error(
+            "HailbruError[" + code + "]: open for append " + path
+            + " failed: " + errno_name(e) + " (" + String(e) + ")"
+        )
+    var n = content.byte_length()
+    var c = to_cstr(content)
+    var w = os_write(arch, fd, c, Int64(n))
+    var we = errno_now()
+    c.unsafe_free()
+    _ = os_close(arch, fd)
+    if w != Int64(n):
+        raise Error(
+            "HailbruError[OsError]: short append to " + path + ": wrote "
             + String(w) + " of " + String(n) + " errno=" + errno_name(we)
             + " (" + String(we) + ")"
         )

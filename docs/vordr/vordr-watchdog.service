@@ -1,0 +1,28 @@
+# VÖRÐR watchdog — systemd unit (H146).
+#
+# The DOCUMENTED external mechanism #1 for "the watchdog itself
+# dying". Operator install (operator action — never done remotely):
+#
+#   sudo cp docs/vordr/vordr-watchdog.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now vordr-watchdog
+#
+# Restart=always means systemd revives the watchdog on any death;
+# mechanism #2 (`vordr_cli watchdog-parent`) covers hosts without
+# systemd. Paths below assume the C8 workdir /home/pi/mimisbrunnr_c8.
+[Unit]
+Description=Vörðr watchdog — Aesir inference supervisor (MÍMISBRUNNR C8)
+After=network.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/mimisbrunnr_c8
+ExecStart=/home/pi/mimisbrunnr_c8/vordr_cli watchdog-run --prog /home/pi/mimisbrunnr_c8/vordr_supervised.sh --policy /home/pi/mimisbrunnr_c8/data/vordr/watchdog_policy.json --log /home/pi/mimisbrunnr_c8/vordr-events.jsonl --restart-log /home/pi/mimisbrunnr_c8/vordr-restarts.jsonl --pidfile /home/pi/mimisbrunnr_c8/vordr-wd.pid --stopfile /home/pi/mimisbrunnr_c8/vordr-wd.stop
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

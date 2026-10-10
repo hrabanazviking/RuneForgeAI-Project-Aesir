@@ -2522,3 +2522,30 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   config surface; coherence proof; honest CPU-only AUTO.
 - **Non-claims:** no NPU compute (H111 NO-GO); decode speed is sampler-bound,
   not a hardware limit; no multi-node.
+
+## Vörðr Robustness (Campaign 8, H141–H160) — 2026-10-10
+- **Status:** `IN PROGRESS` — the warden for the F1 CPU engine + Hailo device health.
+  NPU-referencing slices received honest Sólrún audit treatment (`docs/vordr/SOLRUN_AUDIT_C8.md`):
+  H150 = CPU numerics cross-check (shadow-verify F1 SIMD kernel vs independent scalar
+  reference, the H059R1-proven pattern); H157 = CPU-pipeline stage retry via scalar
+  fallback kernel (loud DEGRADED, never sticky); H147/H148 = REAL reset/re-init via the
+  new HAILBRÚ `reset()` primitive (`hailbru/reset.mojo`, C5-proven PM-reset cycle);
+  H153 = REAL UIO unbind (device left sane: hailo1x rebound, D3hot); H151–H154 =
+  TEST-ONLY Python driving real faults, never simulated; H142 = Hailo die temp not
+  readable on current kernel (Pi SoC is the documented proxy).
+- **Implementation evidence:** `vordr/` D6 package (health_obs, events/JSONL, monitor,
+  hang/heartbeat, errdecode, taxonomy, spawn/fork+system, watchdog + parent-monitor,
+  reset_ctl, reinit, recovery state machine, shadow, integrity/FNV-1a, retry, degrade);
+  `vordr_cli.mojo` (all subcommands incl. h158-run supervised inference);
+  `data/vordr/thermal_thresholds.json`, `watchdog_policy.json` (1/2/4/8s backoff),
+  `retry_policy.json`, `hang_budgets.json`, `recovery_budgets.json`;
+  `docs/vordr/ERROR_TAXONOMY.md`, `FALLBACK_AUDIT.md`, `vordr-watchdog.service`.
+- **Measured on Mimir:** H141 120/120 samples, max drift 12ms (<1s); H143 stall caught
+  in 305ms (300ms budget), 0 false positives/1000 ops; H147 50/50 resets golden-clean
+  (mean 201ms); H148 50/50 re-inits (mean 203ms, worst 206ms); H155 budgets —
+  transient_retry p99 749ms→budget 1498ms, reset_reinit p99 213ms→426ms,
+  process_restart p99 22ms→44ms (10-sample confirmation: all beat); H146 watchdog
+  restarts ≤2.4s, rapid-death backoff 1/2/4/8s; H150 shadow 10/10 (worst diff 1.43e-06);
+  H154 integrity 500/500 detected, 0 escapes; H156 retry absorbs 3 faults, 6→RetryExhausted.
+- **Non-claims:** no NPU compute (H111 NO-GO stands); no Hailo die-temp telemetry on
+  this kernel; Vörðr never touches device registers (L6/L12 — all resets via HAILBRÚ).

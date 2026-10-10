@@ -1,0 +1,1 @@
+{"base_delay_s": 1, "factor": 2, "max_delay_s": 300, "rapid_window_s": 60, "max_restarts": 100, "_note": "Anti-restart-storm: consecutive deaths inside the rapid window escalate the restart delay geometrically. Integer fields must appear in this order: base_delay_s, factor, max_delay_s, rapid_window_s, max_restarts. The note text carries no digits."}
