@@ -11,6 +11,11 @@ import stat
 
 MAX_BYTES = 512 * 1024 * 1024
 MAX_ROWS = 2_000_000
+SMALL_STARTUP_APIS = frozenset({
+    "cuCtxSetCurrent", "cuStreamCreate", "cuMemGetAllocationGranularity",
+    "cuStreamIsCapturing", "cuMemAddressReserve", "cuMemCreate",
+    "cuMemAlloc_v2", "cuMemAllocHost_v2",
+})
 
 
 def integer(value, low=0, high=2**63 - 1):
@@ -165,13 +170,22 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             launches = {}
             selected_launches = set()
             launch_records = {}
+            startup_initialization_api_count = 0
             for start, end, tid, correlation, key, status in rows(
                     "CUPTI_ACTIVITY_KIND_RUNTIME", "start,end,globalTid,correlationId,nameId,returnValue"):
-                interval(start, end)
+                label = name(key)
+                pre_session_init = (small_attention and owned_range is not None and
+                    start < begin and end <= owned_range[0] and label in SMALL_STARTUP_APIS)
+                if pre_session_init:
+                    integer(start); integer(end)
+                    if not start < end:
+                        raise ValueError("Invalid pre-session CUDA initialization interval")
+                    startup_initialization_api_count += 1
+                else:
+                    interval(start, end)
                 integer(tid, 1); integer(correlation); integer(status)
                 if (tid >> 24) << 24 != pid:
                     raise ValueError("Foreign CUDA API process")
-                label = name(key)
                 selected = owned_range is None or (
                     tid == owned_range[2] and owned_range[0] <= start < end <= owned_range[1])
                 if selected:
@@ -259,6 +273,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 small = attribute_small(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
             extra = {"fused_attention_attribution": attention} if fused_attention else {}
             if small_attention: extra["small_attention_attribution"] = small
+            if small_attention: extra["pre_session_initialization_api_count"] = startup_initialization_api_count
             if fused_primitive:
                 from cuda_projection_ranges import RESOURCE_FIELDS
                 resource_groups = {}

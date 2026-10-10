@@ -12,16 +12,18 @@ unscored.
 It requires strategy5 and rejects small controls, replay, strategy4 controls and
 strategy4 tracing. Enabled cooperative controls are refused before configuration.
 The prefill collector keeps one synchronized `aesir.fixture.prefill` outer range.
-Each actual `attend_small[4|32]` tile enqueue owns one nested same-thread
+The fixture invokes its `attention()` method once per layer, so each actual
+`attend_small[4|32]` layer enqueue owns one nested same-thread
 `aesir.attend.small.b4` or `.b32` NVTX range. The single-token path remains the
 original attention implementation and has no small range.
 
-One tile enqueue launches one CUDA kernel for each of the model's 28 layers.
-Therefore each child range has exactly 28 successful launch correlations and
-28 complete asynchronous kernel intervals. Each kernel has the source-bound grid
-`(24,4|32,1)` and block `(128,1,1)`. The analyzer admits the complete session,
-then selects the outer range and maps child ranges only through successful API
-correlations. GPU intervals remain whole if they extend beyond the CPU range.
+Each owned child range contains exactly one successful API launch and one
+complete asynchronous kernel interval. A full 4- or 32-row tile contributes 28
+ordered child ranges, one per model layer; all b32 tiles precede the final b4
+tile. Each kernel has the source-bound grid `(24,4|32,1)` and block `(128,1,1)`.
+The analyzer admits the complete session, then selects the outer range and maps
+child ranges only through successful API correlations. GPU intervals remain
+whole if they extend beyond the CPU range.
 The kernel's mangled prefix is checked against the compiled implementation. No
 shape-only, timing-only or incomplete-capture attribution is admitted.
 
@@ -69,8 +71,12 @@ python3 scripts/check_turing_prefill_trace.py \
 
 The checker binds the accepted strategy5 source CSV/report/binary, current model
 and trace binary, complete plain/profiled logits/cache/input/state/counters/guards,
-full-session CUDA PID/device/API/kernel/resource identities, unique child ranges,
-28 launch correlations per tile, exact geometry and final hashes. Source quality
+full-session CUDA PID/device/API/kernel/resource identities, 28 unique
+layer-owned child ranges and launch correlations per tile, exact geometry and
+final hashes. Explicitly allowlisted CUDA context/stream/memory initialization
+calls may precede Nsight's analysis interval only when they end before the owned
+prefill range; this host initialization count is recorded separately. Kernels,
+launches, and the owned session remain interval-checked. Source quality
 reuses the accepted full-model strategy5 CPU/source gate; it is not recast as a
 new oracle run. Run case3 with `--case 3` in a separate fresh output directory.
 

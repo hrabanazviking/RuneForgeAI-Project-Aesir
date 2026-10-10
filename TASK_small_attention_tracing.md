@@ -43,12 +43,13 @@ distinct strategy and its trace ranges need exact strategy5 identity.
 3. A fresh untraced capable-but-disabled strategy5 baseline remains bit/state/cache
    identical to the accepted strategy5 model evidence. Tracing does not alter
    logits, committed IDs, sampler state, cache contents, dispatch counts or guards.
-4. For the public37 and1070 token sessions, each actual four/32-token small-score
-   attention tile enqueue has exactly one owned `aesir.attend.small.b{batch}` child
-   range, on the probe's owning thread and inside its complete source-bound parent
-   session. That enqueue launches a single grid spanning all 28 model layers;
-   therefore each child must own exactly 28 successful launch correlations and
-   their complete kernel intervals. Single-token attention remains original and
+4. For the public37 and1070 token sessions, `attention()` is invoked once per
+   layer within each four/32-token tile. Each actual per-layer `attend_small`
+   enqueue owns exactly one `aesir.attend.small.b{batch}` child range, on the
+   probe's owning thread and inside its complete source-bound parent session.
+   Thus every tile contributes 28 ordered child ranges, and each child owns one
+   successful launch correlation and its complete kernel interval. Full b32
+   tiles precede a final b4 tile; single-token attention remains original and
    has no small-score range.
 5. Full-session CUDA activity and successful API launch/runtime correlations map
    each range to its exact accepted strategy5 kernel, grid/block geometry and

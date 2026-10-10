@@ -99,12 +99,12 @@ def attribute(rows, strings, outer, launches, kernels, tiles, resources):
 
 
 def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
-    """Attribute one strategy5 tile range to its 28 per-layer async launches."""
+    """Attribute 28 layer-owned child ranges and launches for every strategy5 tile."""
     if (set(tiles) != {1, 4, 32} or
         any(type(k) is not int or type(v) is not int or not 0 <= v <= 1536 for k, v in tiles.items()) or
         not 1 <= sum(tiles.values()) <= 1536 or resources is None):
         raise ValueError("Invalid admitted small-attention tile/resource scope")
-    expected = {f"small.b{size}": tiles[size] for size in (32, 4) if tiles[size]}
+    expected = {f"small.b{size}": tiles[size]*28 for size in (32, 4) if tiles[size]}
     ranges = []
     for start, end, kind, tid, end_tid, text, text_id in rows:
         label = text if text_id is None else strings.get(text_id)
@@ -133,7 +133,7 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
         raise ValueError("Overlapping small attention tile ranges")
     # The fixture drains full 32-row tiles before its final 4-row tile.
     # Counts alone would admit a trace ordering the source cannot emit.
-    expected_order = [f"small.b{size}" for size in (32, 4) for _ in range(tiles[size])]
+    expected_order = [f"small.b{size}" for size in (32, 4) for _ in range(tiles[size]*28)]
     if [item[2] for item in ranges] != expected_order:
         raise ValueError("Small attention tile order differs from source execution plan")
     starts = [r[0] for r in ranges]
@@ -184,14 +184,15 @@ def attribute_small(rows, strings, outer, launches, kernels, tiles, resources):
             raise ValueError("Small attention API launch crosses owned range or thread")
         if child is not None:
             api_counts[i] += 1
-    if any(used[i] != 28 for i in range(len(ranges))):
-        raise ValueError("Each small tile range must own exactly 28 successful layer launches")
-    if any(api_counts[i] != 28 for i in range(len(ranges))):
-        raise ValueError("Each small tile range must own exactly 28 launch correlations")
+    if any(used[i] != 1 for i in range(len(ranges))):
+        raise ValueError("Each small layer range must own exactly one successful kernel launch")
+    if any(api_counts[i] != 1 for i in range(len(ranges))):
+        raise ValueError("Each small layer range must own exactly one launch correlation")
     for key, group in groups.items():
         group.update(cpu_range_count=expected[key], batch=int(key.split(".b")[1]), layers_per_tile=28,
+            tile_count=tiles[int(key.split(".b")[1])],
             recorded_resource_distributions=[distributions[key][k] for k in sorted(distributions[key])])
     return dict(passed=True, attention_variant=5, cpu_range_count=len(ranges),
         kernel_count=sum(g["kernel_count"] for g in groups.values()), groups=dict(sorted(groups.items())),
         tiles=tiles, resource_scope="complete capture admitted, owned strategy5 small attention distributions only",
-        limits="One owned child per tile and 28 successful layer launches per child. Full asynchronous GPU intervals are never clipped. Resources and timings are diagnostic only.")
+        limits="Twenty-eight layer-owned children per tile; each child owns one successful launch correlation and one complete kernel interval. Full asynchronous GPU intervals are never clipped. Resources and timings are diagnostic only.")

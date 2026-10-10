@@ -1,0 +1,128 @@
+{
+  "artifacts": {
+    "checker_report_sha256": "542854ed08a0641976caa80f4f2d4e7146dfe5e8e06c4544a1459d211caf75e8",
+    "nsys_report_sha256": "1164d02ffd30b0beed228c4f8fc891c6249be4ed60d184efffe24106a9d2548b",
+    "profiled_csv_sha256": "aa8875ade4b5291606e1f2e0302a78de9fb598f78a2926773dbd1f4efa18407b",
+    "sqlite_sha256": "709cd0ce6d052b961693b6771b2336e600ec2e8c3c9d8b8a19f4ea04c0f90cc8",
+    "unprofiled_csv_sha256": "ecd438c4fc70006c6a060c20070f598b22ed12210b560f30506d011d661084ee"
+  },
+  "bindings": {
+    "binary_sha256": "ffd40e06f5ea32eb435dde2946ad27a3dd76722cb51349f4fb971179b9dc54e9",
+    "model_sha256": "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff",
+    "source_binary_sha256": "3afd548ad0ef71952ae590aa13c06a6ebc08fff4355eacfee293af7998b82660",
+    "source_csv_sha256": "0dcc24b233b8ff094ac0486fcad7734fcd53ba0eba0c9f2e684a2c2316cd4d2d",
+    "source_report_sha256": "22395c06b4cc62444ff063ba439cfcef89f3922c5ff0daabb284f56e23932a27"
+  },
+  "case": 1,
+  "input_tokens": 37,
+  "output_equal": true,
+  "passed": true,
+  "profiled": {
+    "csv_sha256": "aa8875ade4b5291606e1f2e0302a78de9fb598f78a2926773dbd1f4efa18407b",
+    "f32_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+    "original_attention_queries": 28,
+    "pid": 3565216,
+    "small_attention_host_enqueues": 56
+  },
+  "schema": 1,
+  "trace": {
+    "complete_capture_kernel_count": 1869,
+    "excluded_kernel_count": 0,
+    "gpu": {
+      "bytes": 6017515520,
+      "compute": "7.5",
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design"
+    },
+    "owned_range": {
+      "duration_ns": 290111158,
+      "end_ns": 2808841442,
+      "global_tid": 341289379194528,
+      "name": "aesir.fixture.prefill",
+      "start_ns": 2518730284
+    },
+    "pre_session_initialization_api_count": 42,
+    "process": {
+      "name": "aesir-small-trace-final",
+      "pid": 3565216
+    },
+    "recorded_resource_kernel_count": 1869,
+    "small_attention_attribution": {
+      "attention_variant": 5,
+      "cpu_range_count": 56,
+      "groups": {
+        "small.b32": {
+          "batch": 32,
+          "cpu_range_count": 28,
+          "gpu_total_ns": 948234,
+          "kernel_count": 28,
+          "layers_per_tile": 28,
+          "recorded_resource_distributions": [
+            {
+              "gpu_total_ns": 948234,
+              "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+              "kernel_count": 28,
+              "resources": {
+                "block_x": 128,
+                "block_y": 1,
+                "block_z": 1,
+                "dynamic_shared_bytes": 0,
+                "grid_x": 24,
+                "grid_y": 32,
+                "grid_z": 1,
+                "legacy_local_bytes_total_deprecated": 17694720,
+                "local_bytes_per_thread": 0,
+                "registers_per_thread": 46,
+                "static_shared_bytes": 6144
+              }
+            }
+          ],
+          "tile_count": 1
+        },
+        "small.b4": {
+          "batch": 4,
+          "cpu_range_count": 28,
+          "gpu_total_ns": 336390,
+          "kernel_count": 28,
+          "layers_per_tile": 28,
+          "recorded_resource_distributions": [
+            {
+              "gpu_total_ns": 336390,
+              "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+              "kernel_count": 28,
+              "resources": {
+                "block_x": 128,
+                "block_y": 1,
+                "block_z": 1,
+                "dynamic_shared_bytes": 0,
+                "grid_x": 24,
+                "grid_y": 4,
+                "grid_z": 1,
+                "legacy_local_bytes_total_deprecated": 17694720,
+                "local_bytes_per_thread": 0,
+                "registers_per_thread": 46,
+                "static_shared_bytes": 6144
+              }
+            }
+          ],
+          "tile_count": 1
+        }
+      },
+      "kernel_count": 56,
+      "limits": "Twenty-eight layer-owned children per tile; each child owns one successful launch correlation and one complete kernel interval. Full asynchronous GPU intervals are never clipped. Resources and timings are diagnostic only.",
+      "passed": true,
+      "resource_scope": "complete capture admitted, owned strategy5 small attention distributions only",
+      "tiles": {
+        "1": 0,
+        "32": 1,
+        "4": 1
+      }
+    }
+  },
+  "unprofiled": {
+    "csv_sha256": "ecd438c4fc70006c6a060c20070f598b22ed12210b560f30506d011d661084ee",
+    "f32_sha256": "852473db8e65931a8cc164e6e2611374d91a55a68f8d76a431b7ca742764930c",
+    "original_attention_queries": 28,
+    "pid": 3561339,
+    "small_attention_host_enqueues": 56
+  }
+}

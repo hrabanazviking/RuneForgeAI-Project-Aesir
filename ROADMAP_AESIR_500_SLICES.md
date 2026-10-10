@@ -608,13 +608,15 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-013 interface contract is published. Its exact remote CI and the
   preceding controls remote release gate remain pending.
 - AES500-014 strategy5 owned-range implementation is pushed as `bffabc2`; its
-  physical profiled/unprofiled trace acceptance and release gate remain open.
+  physical trace contract was corrected from one range per tile to one range
+  per layer enqueue after capture. Hosted release verification remains open.
 - AES500-015 focused parser/attribution evidence is specified in
-  `TASK_small_attention_trace_unit_evidence.md`. Local unit checks are in
-  progress; the slice remains open until the complete local and hosted gates
-  pass and its evidence receipt is published.
-- AES500-016+ physical trace integration and later adversarial/review slices
-  remain open.
+  `TASK_small_attention_trace_unit_evidence.md`; the expanded 73-test focused
+  suite passes locally. The slice remains open for hosted release verification.
+- AES500-016 public37/public1070 profiled/unprofiled integration and physical
+  attribution are accepted locally in
+  `docs/evidence/small-attention-trace-integration-2026-10-10/`; hosted CI remains
+  a separate release gate. AES500-017+ adversarial/review slices remain open.
 
 ## Status
 
@@ -630,7 +632,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-013: strategy5 tracing interface contract is published; implementation
   and physical trace attribution are not yet accepted.
 - AES500-014: implementation is pushed, and the trace collector compiles locally;
-  physical profiled/unprofiled parity and exact hosted release CI remain pending.
-- AES500-015: focused unit evidence is under construction; physical trace claims
-  are explicitly outside this slice.
+  public37/public1070 physical trace acceptance is recorded locally; exact hosted
+  release CI remains pending.
+- AES500-015: expanded parser and CUDA range-attribution contracts pass 73 local
+  tests; exact hosted release CI remains pending.
+- AES500-016: two full-session physical traces pass locally for the declared
+  device/model/cases; no broader behavior or speed claim is made.
 - This document does not change any capability status.

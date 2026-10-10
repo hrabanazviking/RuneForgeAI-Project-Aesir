@@ -11,14 +11,18 @@ parity, or performance.
 
 - Verify strategy5 tile range count, namespace, kind, parent/thread identity,
   disjointness, and canonical source order (all full b32 tiles, then final b4).
-- Verify each owned tile has exactly 28 successful launch APIs and 28 matching
-  small-attention kernels, with exact selected grid/block geometry.
+- Verify each source tile has exactly 28 ordered layer-owned child ranges, and
+  each child owns one successful launch API and one matching small-attention
+  kernel with exact selected grid/block geometry.
 - Reject unpaired/crossing launch APIs, duplicate/missing correlations, foreign
   kernels, projection labels, malformed resource records, and invalid kernel
   intervals. Preserve complete asynchronous GPU intervals without clipping to
   CPU child-range bounds.
 - Verify whole-session analyzer routing is strategy5-exclusive and bypasses the
   strategy3/4 projection and fused attributors.
+- Verify the explicit CUDA setup API allowlist is accepted only before the report
+  analysis interval and before the owned parent range; other out-of-capture
+  activity remains rejected and the setup count is exposed in the report.
 - Keep parser, report, source-hash, full-session, and no-speed-claim checks in
   the Python contract suite.
 
