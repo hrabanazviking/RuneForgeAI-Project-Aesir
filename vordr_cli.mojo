@@ -1051,6 +1051,7 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     var fi_file = _get(args, "--fi-file", "")
     var fi_seed = UInt64(Int(_get(args, "--fi-seed", "777")))
     var budget_ms = Int64(Int(_get(args, "--iter-budget-ms", "0")))
+    var max_iters = Int(_get(args, "--max-iters", "0"))
 
     var mon = HeartbeatMonitor()
     var machine = RecoveryMachine()
@@ -1086,7 +1087,9 @@ def cmd_h158_run(args: List[String]) raises -> Int:
         + String(budget_ms),
     )
 
-    while os_clock_ms(arch) < t_end:
+    while os_clock_ms(arch) < t_end or iters < 2:
+        if max_iters > 0 and iters >= max_iters:
+            break
         # Fault source: external fi-file first, else internal schedule
         # (mean 1 fault / 60s -> per-iteration probability from the
         # measured iteration time).
