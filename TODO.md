@@ -1463,3 +1463,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-164 Unicode policy implementation: `_initial_pieces` documents
   code-point preservation and ASCII-space-only rewriting; master suite 224/0/1
   (225 total) confirms unchanged vectors.
+
+- [x] AES500-166 Unicode integration: composed and decomposed strings encode
+  and stream-decode to their exact original forms; master suite 225/0/1
+  (226 total).

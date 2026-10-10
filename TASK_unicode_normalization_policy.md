@@ -40,3 +40,8 @@ Public `encode(" a", False)` returns the marker ID followed by `a` when `▁` is
 ## AES500-164 implementation receipt
 
 `_initial_pieces` now states that caller Unicode code points are preserved because model vocabularies can distinguish canonical forms, and that only ASCII space receives marker rewriting. This makes the existing behavior explicit without changing token output. Master suite: 224 passed, zero failed, one skipped (225 total).
+
+
+## AES500-166 integration receipt
+
+RuneWeaver byte-fallback IDs are passed through actual `<0xHH>` vocabulary spellings into `RuneStreamDecoder`. The composed and decomposed forms each round-trip to their exact original strings in separate decoder instances. Master suite: 225 passed, zero failed, one skipped (226 total).

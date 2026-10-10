@@ -256,3 +256,28 @@ def test_unicode_normalization_interface() raises:
     if len(unchanged) != 2 or unchanged[0] != 1 or unchanged[1] != 2:
         raise Error("literal ASCII space was not preserved without marker vocabulary")
     print("PASS: Unicode-preserving public encode and vocabulary-driven space interface")
+
+def test_unicode_normalization_integration() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("<0xC3>", 11)
+    weaver.add_token("<0xA9>", 12)
+    weaver.add_token("<0x65>", 13)
+    weaver.add_token("<0xCC>", 14)
+    weaver.add_token("<0x81>", 15)
+
+    var composed_ids = weaver.encode("é", False)
+    var composed_decoder = RuneStreamDecoder()
+    var composed_output = String("")
+    for index in range(len(composed_ids)):
+        composed_output += composed_decoder.decode_token(weaver.vocab[composed_ids[index]])
+    if composed_output != "é":
+        raise Error("composed Unicode form changed through token stream round trip")
+
+    var decomposed_ids = weaver.encode("é", False)
+    var decomposed_decoder = RuneStreamDecoder()
+    var decomposed_output = String("")
+    for index in range(len(decomposed_ids)):
+        decomposed_output += decomposed_decoder.decode_token(weaver.vocab[decomposed_ids[index]])
+    if decomposed_output != "é":
+        raise Error("decomposed Unicode form changed through token stream round trip")
+    print("PASS: composed and decomposed Unicode round trips remain distinct")

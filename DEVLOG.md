@@ -3907,3 +3907,8 @@ suite: 224 passed, zero failed, one skipped (225 total).
 AES500-164 documents in code that RuneWeaver preserves Unicode code points and
 only applies vocabulary-driven ASCII-space rewriting. Master suite remains
 224 passed, zero failed, one skipped (225 total).
+
+
+AES500-166 round-trips composed/decomposed forms through RuneWeaver byte IDs
+and RuneStreamDecoder without merging their representations. Master suite:
+225 passed, zero failed, one skipped (226 total).
