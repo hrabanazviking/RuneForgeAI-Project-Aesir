@@ -185,6 +185,13 @@ through canonical `<0xHH>` tokens, then the configured unknown ID. Synthetic
 vectors pin score ranking, ties, chaining, partial fallback, and streaming
 UTF-8 reconstruction; these do not establish external tokenizer parity. See
 `TASK_byte_bpe_merge_vectors.md`.
+RuneWeaver does not normalize Unicode canonically: composed and decomposed
+forms remain distinct according to their input code points and model vocabulary.
+Only ASCII U+0020 may be rewritten to `▁` or `Ġ`, and only when that marker is
+present in the vocabulary; other Unicode spacing characters remain untouched.
+Synthetic composed/decomposed and NBSP vectors document this boundary without
+claiming full Unicode normalization or segmentation conformance. See
+`TASK_unicode_normalization_policy.md`.
 
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
 Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv

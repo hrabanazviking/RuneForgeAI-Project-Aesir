@@ -1474,3 +1474,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-168 Unicode review: primary review reconciles preserve/no-normalize
   policy, ASCII-space-only rewrite and vectors. Independent Auditor unavailable
   at service thread cap; no independent pass claimed.
+
+- [x] AES500-169 Unicode docs sync: loader interface and project records align
+  on canonical preservation, ASCII-space rewrite, evidence, and exclusions.

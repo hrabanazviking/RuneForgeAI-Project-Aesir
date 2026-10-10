@@ -3922,3 +3922,7 @@ vocabulary contains `▁`; ASCII-space-only rewrite stays explicit. Master suite
 AES500-168 primary review confirms preservation and ASCII-space-only rewrite
 from source and exact vectors. Agent thread cap blocks independent Auditor
 assignment, which is not claimed.
+
+
+AES500-169 syncs the loader interface with Unicode preservation and the
+ASCII-space-only marker rule, while retaining explicit conformance limits.

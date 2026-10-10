@@ -55,3 +55,6 @@ With `▁` present in vocabulary, NBSP followed by `a` encodes as `[2,3,4]` (`C2
 ## AES500-168 review receipt
 
 Primary review confirms `_initial_pieces` preserves non-ASCII code points, only branches on byte 0x20 for marker rewriting, and the test vectors distinguish composed/decomposed forms plus NBSP. Round-trip evidence uses RuneStreamDecoder and remains synthetic. Independent Auditor assignment is unavailable at the collaboration service thread cap; no separate reviewer signoff is claimed. This does not prove Unicode segmentation or malformed UTF-8 conformance.
+
+
+AES500-169 documentation sync: `aesir_engine/loader/INTERFACE.md` now states no canonical normalization, ASCII U+0020-only marker rewriting, and the NBSP distinction with explicit conformance limits.
