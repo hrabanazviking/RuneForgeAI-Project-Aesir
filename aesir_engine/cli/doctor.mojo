@@ -67,6 +67,56 @@ def _doctor_issue(code: String, action: String) -> DoctorIssue:
     return DoctorIssue(code, action)
 
 
+def doctor_observation_issues(
+    preferences_ok: Bool,
+    preference_findings: List[PreferenceFinding],
+    cuda_ready: Bool,
+    store_ok: Bool,
+    installed_count: Int,
+    broken_models: Int,
+    disk_known: Bool,
+    disk_available: Int,
+    disk_fallback_used: Bool,
+    listener_known: Bool,
+    model_reference: String,
+    model_ok: Bool,
+    model_result: ModelCompatibility,
+) -> List[DoctorIssue]:
+    """Assembles DoctorIssue rows from already-collected doctor observations.
+
+    Pure function of the observed values: identical inputs yield identical
+    issues, so the reporting policy is unit-testable without live I/O.
+    """
+    var issues = List[DoctorIssue]()
+    if not preferences_ok:
+        issues.append(_doctor_issue("preferences_unavailable", "Check the catalog and preferences record before using shortcuts; no automatic repair was attempted."))
+    elif len(preference_findings) > 0:
+        if stale_preference_count(preference_findings) > 0:
+            issues.append(_doctor_issue("stale_preferences", "Preview repair-preferences for this model store; --apply removes only missing-target shortcuts."))
+        if len(preference_findings) > stale_preference_count(preference_findings):
+            issues.append(_doctor_issue("recipe_preferences", "Some shortcuts target recipes without installed weights; import the intended bytes before selecting them."))
+    if not cuda_ready:
+        issues.append(_doctor_issue("cuda_unavailable", "Check hardware list and the supported NVIDIA/WSL driver setup."))
+    if not store_ok:
+        issues.append(_doctor_issue("store_unreadable", "Check the model-store path and catalog permissions; preserve files before repair."))
+    elif installed_count == 0:
+        issues.append(_doctor_issue("no_installed_weights", "Import available local weights with create --model; recipes alone cannot run."))
+    if broken_models > 0:
+        issues.append(_doctor_issue("broken_weights", "Verify the listed models and restore their exact trusted bytes before use."))
+    if disk_fallback_used:
+        issues.append(_doctor_issue("disk_capacity_observed_via_fallback", "The model-store path could not be observed, so disk capacity was measured at the current directory instead; repair the model-store path before trusting the free-space figure."))
+    if not disk_known or disk_available <= 0:
+        issues.append(_doctor_issue("disk_unavailable", "Check filesystem capacity and permissions before preparing models."))
+    if not listener_known:
+        issues.append(_doctor_issue("service_listener_probe_failed", "The service listener probe could not observe the socket; API reachability on port 11434 is unknown — verify the listener manually."))
+    if model_reference != "":
+        if not model_ok:
+            issues.append(_doctor_issue("model_inspection_failed", "Check the model reference and its readable, verified GGUF bytes."))
+        elif not model_result.cuda_support:
+            issues.append(_doctor_issue("model_cuda_unsupported", model_result.reason))
+    return issues^
+
+
 def dispatch_doctor(args: List[String]) raises:
     """Collects once, then renders text or versioned JSON diagnostics."""
     var model_reference = String("")
@@ -159,6 +209,7 @@ def dispatch_doctor(args: List[String]) raises:
     var disk_known = False
     var disk_available = -1
     var disk_path = model_store
+    var disk_fallback_used = False
     try:
         disk_available = observe_disk_available_bytes(model_store)
         disk_known = True
@@ -167,6 +218,7 @@ def dispatch_doctor(args: List[String]) raises:
             disk_available = observe_disk_available_bytes(".")
             disk_known = True
             disk_path = "."
+            disk_fallback_used = True
         except:
             pass
 
@@ -191,29 +243,21 @@ def dispatch_doctor(args: List[String]) raises:
         except error:
             model_error = String(error)
 
-    var issues = List[DoctorIssue]()
-    if not preferences_ok:
-        issues.append(_doctor_issue("preferences_unavailable", "Check the catalog and preferences record before using shortcuts; no automatic repair was attempted."))
-    elif len(preference_findings) > 0:
-        if stale_preference_count(preference_findings) > 0:
-            issues.append(_doctor_issue("stale_preferences", "Preview repair-preferences for this model store; --apply removes only missing-target shortcuts."))
-        if len(preference_findings) > stale_preference_count(preference_findings):
-            issues.append(_doctor_issue("recipe_preferences", "Some shortcuts target recipes without installed weights; import the intended bytes before selecting them."))
-    if not cuda_ready:
-        issues.append(_doctor_issue("cuda_unavailable", "Check hardware list and the supported NVIDIA/WSL driver setup."))
-    if not store_ok:
-        issues.append(_doctor_issue("store_unreadable", "Check the model-store path and catalog permissions; preserve files before repair."))
-    elif installed_count == 0:
-        issues.append(_doctor_issue("no_installed_weights", "Import available local weights with create --model; recipes alone cannot run."))
-    if broken_models > 0:
-        issues.append(_doctor_issue("broken_weights", "Verify the listed models and restore their exact trusted bytes before use."))
-    if not disk_known or disk_available <= 0:
-        issues.append(_doctor_issue("disk_unavailable", "Check filesystem capacity and permissions before preparing models."))
-    if model_reference != "":
-        if not model_ok:
-            issues.append(_doctor_issue("model_inspection_failed", "Check the model reference and its readable, verified GGUF bytes."))
-        elif not model_result.cuda_support:
-            issues.append(_doctor_issue("model_cuda_unsupported", model_result.reason))
+    var issues = doctor_observation_issues(
+        preferences_ok,
+        preference_findings,
+        cuda_ready,
+        store_ok,
+        installed_count,
+        broken_models,
+        disk_known,
+        disk_available,
+        disk_fallback_used,
+        listener_known,
+        model_reference,
+        model_ok,
+        model_result,
+    )
 
     if format == "json":
         var broken_json = String("[")

@@ -6,7 +6,24 @@ from core.native_diagnostics import (
     parse_hex_port,
     proc_tcp_has_listener,
 )
-from cli.doctor import doctor_system_ready, dispatch_doctor, doctor_json_bytes, DoctorIssue
+from cli.doctor import doctor_system_ready, dispatch_doctor, doctor_json_bytes, DoctorIssue, doctor_observation_issues
+from cli.model_preferences import PreferenceFinding
+from core.model_registry import ModelCompatibility
+
+
+def _doctor_issue_codes(issues: List[DoctorIssue]) -> List[String]:
+    var codes = List[String]()
+    for i in range(len(issues)):
+        codes.append(issues[i].code)
+    return codes^
+
+
+def _doctor_has_code(issues: List[DoctorIssue], code: String) -> Bool:
+    var codes = _doctor_issue_codes(issues)
+    for i in range(len(codes)):
+        if codes[i] == code:
+            return True
+    return False
 
 
 def test_doctor_observations() raises:
@@ -71,3 +88,98 @@ def test_doctor_readiness_policy() raises:
         rejected_store = True
     if not rejected_store:
         raise Error("doctor accepted an empty store path")
+
+
+def test_doctor_disk_fallback_issue() raises:
+    """F005: falling back from the model store to '.' must raise an issue."""
+    var fallback_issues = doctor_observation_issues(
+        True,
+        List[PreferenceFinding](),
+        True,
+        True,
+        1,
+        0,
+        True,
+        1024,
+        True,
+        True,
+        "",
+        False,
+        ModelCompatibility(),
+    )
+    if not _doctor_has_code(
+        fallback_issues, "disk_capacity_observed_via_fallback"
+    ):
+        raise Error("doctor dropped the disk-capacity fallback issue")
+    var direct_issues = doctor_observation_issues(
+        True,
+        List[PreferenceFinding](),
+        True,
+        True,
+        1,
+        0,
+        True,
+        1024,
+        False,
+        True,
+        "",
+        False,
+        ModelCompatibility(),
+    )
+    if _doctor_has_code(direct_issues, "disk_capacity_observed_via_fallback"):
+        raise Error("doctor fired the fallback issue without a fallback")
+    var healthy_issues = doctor_observation_issues(
+        True,
+        List[PreferenceFinding](),
+        True,
+        True,
+        1,
+        0,
+        True,
+        1024,
+        False,
+        True,
+        "",
+        False,
+        ModelCompatibility(),
+    )
+    if len(healthy_issues) != 0:
+        raise Error("doctor reported issues for a healthy observation")
+
+
+def test_doctor_listener_probe_issue() raises:
+    """F006: a failed listener probe must surface as a DoctorIssue."""
+    var probe_failed = doctor_observation_issues(
+        True,
+        List[PreferenceFinding](),
+        True,
+        True,
+        1,
+        0,
+        True,
+        1024,
+        False,
+        False,
+        "",
+        False,
+        ModelCompatibility(),
+    )
+    if not _doctor_has_code(probe_failed, "service_listener_probe_failed"):
+        raise Error("doctor stayed silent on a failed listener probe")
+    var probe_known = doctor_observation_issues(
+        True,
+        List[PreferenceFinding](),
+        True,
+        True,
+        1,
+        0,
+        True,
+        1024,
+        False,
+        True,
+        "",
+        False,
+        ModelCompatibility(),
+    )
+    if _doctor_has_code(probe_known, "service_listener_probe_failed"):
+        raise Error("doctor fired the listener issue when the probe succeeded")

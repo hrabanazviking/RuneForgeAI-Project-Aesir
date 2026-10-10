@@ -1566,6 +1566,8 @@ struct DeviceTopology(Copyable):
     var gpu_realms: List[GPURealmType]
     var physical_devices: List[PhysicalDevice]
     var last_gpu_discovery_status: DiscoveryStatus
+    var probe_failure_notes: List[String]
+    # Non-fatal notes recorded when a hardware-realm probe raises.
 
     def __init__(out self, num_devices: Int = 1):
         self.num_devices = max(1, num_devices)
@@ -1575,6 +1577,7 @@ struct DeviceTopology(Copyable):
         self.npu_backends = List[NPUBackendType]()
         self.gpu_realms = List[GPURealmType]()
         self.physical_devices = List[PhysicalDevice]()
+        self.probe_failure_notes = List[String]()
         self.last_gpu_discovery_status = DiscoveryStatus(
             DiscoveryStatus.NO_DEVICE
         )
@@ -1587,6 +1590,7 @@ struct DeviceTopology(Copyable):
         self.npu_backends = List[NPUBackendType]()
         self.gpu_realms = List[GPURealmType]()
         self.physical_devices = List[PhysicalDevice]()
+        self.probe_failure_notes = List[String]()
         self.last_gpu_discovery_status = DiscoveryStatus(
             DiscoveryStatus.NO_DEVICE
         )
@@ -1599,6 +1603,7 @@ struct DeviceTopology(Copyable):
         self.npu_backends = existing.npu_backends.copy()
         self.gpu_realms = existing.gpu_realms.copy()
         self.physical_devices = existing.physical_devices.copy()
+        self.probe_failure_notes = existing.probe_failure_notes.copy()
         self.last_gpu_discovery_status = (
             existing.last_gpu_discovery_status.copy()
         )
@@ -1690,10 +1695,19 @@ struct DeviceTopology(Copyable):
         self.probe_npu_realms()
         try:
             self.probe_cuda_realm()
-        except:
-            pass
+        except e:
+            self.record_probe_failure(
+                "cuda_realm_probe_failed: " + String(e)
+            )
         self.probe_intel_realm()
         self.probe_amd_realm()
+
+    def record_probe_failure(mut self, note: String):
+        """Records a non-fatal hardware-realm probe note for later review.
+
+        Additive observability only: does not alter the discovery flow.
+        """
+        self.probe_failure_notes.append(note)
 
     def require_npu_backend(self, backend: NPUBackendType) raises:
         """

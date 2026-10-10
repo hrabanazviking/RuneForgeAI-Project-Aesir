@@ -273,8 +273,29 @@ def test_topology_stable_selection() raises:
     print("topology stable device selection: PASS")
 
 
+def test_topology_probe_failure_notes() raises:
+    """F004: CUDA-realm probe failures are recorded, never silently dropped."""
+    var topology = DeviceTopology()
+    if len(topology.probe_failure_notes) != 0:
+        raise Error("DeviceTopology probe_failure_notes not initialized empty")
+    var replica = topology.copy()
+    if len(replica.probe_failure_notes) != 0:
+        raise Error("DeviceTopology copy lost probe_failure_notes")
+    # The real CUDA probe cannot be forced to fail on demand, so exercise the
+    # note-recording path the except-branch uses.
+    topology.record_probe_failure("cuda_realm_probe_failed: simulated")
+    if len(topology.probe_failure_notes) != 1:
+        raise Error("DeviceTopology did not record the probe failure note")
+    if topology.probe_failure_notes[0] != "cuda_realm_probe_failed: simulated":
+        raise Error("DeviceTopology probe failure note content drifted")
+    if len(replica.probe_failure_notes) != 0:
+        raise Error("DeviceTopology probe note leaked into the earlier copy")
+    print("topology probe failure notes: PASS")
+
+
 def main() raises:
     test_discovery_status_classification()
     test_physical_device_admission()
     test_topology_discovery_accumulation()
     test_topology_stable_selection()
+    test_topology_probe_failure_notes()
