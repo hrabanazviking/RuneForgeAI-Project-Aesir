@@ -18,15 +18,21 @@ from hailbru.api import (
 
 
 struct WatchedBar:
-    # A BAR mapping with an explicit liveness flag. guarded_read32 checks
+    # A BAR mapping with an explicit liveness flag. watcher_read32 checks
     # the flag BEFORE touching the mapping, so a severed mapping can
     # never be dereferenced (fail-closed by construction).
-    var mapping: BarMapping
+    # (Scalar fields instead of an embedded BarMapping: Mojo 1.1 move
+    # semantics forbid transferring a borrowed struct into a field.)
+    var map_addr: Int64
+    var map_size: Int
+    var map_label: String
     var alive: Bool
     var severed_at_ms: Int64
 
-    def __init__(out self, owned mapping: BarMapping):
-        self.mapping = mapping^
+    def __init__(out self, mapping: BarMapping):
+        self.map_addr = mapping.addr
+        self.map_size = mapping.size
+        self.map_label = mapping.label
         self.alive = True
         self.severed_at_ms = 0
 
@@ -41,7 +47,7 @@ def watcher_sever(arch: String, mut w: WatchedBar) raises:
     # Test hook simulating surprise removal: release the mapping and mark
     # the device gone. All fds/mappings are released here, not later.
     if w.alive:
-        unmap_bar(arch, w.mapping)
+        unmap_bar(arch, BarMapping(w.map_addr, w.map_size, w.map_label))
         w.alive = False
         w.severed_at_ms = os_clock_ms(arch)
 
@@ -57,4 +63,5 @@ def watcher_read32(
             + String(os_clock_ms(arch) - w.severed_at_ms)
             + "ms ago); mappings released cleanly",
         )
-    return Int(reg_read32(w.mapping, off))
+    var m = BarMapping(w.map_addr, w.map_size, w.map_label)
+    return Int(reg_read32(m, off))

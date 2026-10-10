@@ -120,31 +120,37 @@ struct StepCtx:
     var arch: String
     var sysfs_root: String
     var bdf: String
-    var opts: BringupOpts
+    var log_path: String
+    var omit_step: String
+    var stall_step: String
+    var step_budget_ms: Int64
     var log: BringupLog
 
     def __init__(
         out self, arch: String, sysfs_root: String, bdf: String,
-        owned opts: BringupOpts,
+        opts: BringupOpts,
     ):
         self.arch = arch
         self.sysfs_root = sysfs_root
         self.bdf = bdf
-        self.opts = opts^
+        self.log_path = ctx.log_path
+        self.omit_step = opts.omit_step
+        self.stall_step = opts.stall_step
+        self.step_budget_ms = opts.step_budget_ms
         self.log = BringupLog()
 
 
 def _step_start(mut ctx: StepCtx, name: String) raises -> Int64:
     var ts = os_clock_ms(ctx.arch)
     ctx.log.emit(ts, name, "step_start", "running", 0, "")
-    if ctx.opts.omit_step == name:
+    if ctx.omit_step == name:
         ctx.log.emit(ts, name, "error", "failed", 0, "omitted by test hook")
         raise herror(
             "StepOmitted",
             "bring-up step '" + name + "' omitted by test hook; boot failed",
         )
-    if ctx.opts.stall_step == name:
-        os_sleep_ms(ctx.arch, ctx.opts.step_budget_ms + 6000)
+    if ctx.stall_step == name:
+        os_sleep_ms(ctx.arch, ctx.step_budget_ms + 6000)
     return ts
 
 
@@ -152,7 +158,7 @@ def _step_end(
     mut ctx: StepCtx, name: String, t_start: Int64, detail: String
 ) raises:
     var dur = os_clock_ms(ctx.arch) - t_start
-    if dur > ctx.opts.step_budget_ms + 5000:
+    if dur > ctx.step_budget_ms + 5000:
         var dump = ""
         try:
             var vals = bringup_dump_registers(
@@ -165,7 +171,7 @@ def _step_end(
         raise herror(
             "BootHang",
             "step '" + name + "' exceeded budget+5s (" + String(dur)
-            + "ms > " + String(ctx.opts.step_budget_ms + 5000)
+            + "ms > " + String(ctx.step_budget_ms + 5000)
             + "ms); registers: " + dump,
         )
     ctx.log.emit(os_clock_ms(ctx.arch), name, "step_end", "ok", dur, detail)
@@ -337,6 +343,6 @@ def run_bringup(
         + "power-state cycle; firmware boot F3-banked\"}"
     )
     ctx.log.emit(os_clock_ms(arch), "bringup", "info", "ok", total, summary)
-    if opts.log_path != "":
-        ctx.log.flush(arch, opts.log_path)
+    if ctx.log_path != "":
+        ctx.log.flush(arch, ctx.log_path)
     return summary
