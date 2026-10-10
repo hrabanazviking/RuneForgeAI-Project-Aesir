@@ -7,6 +7,9 @@
 
 ## Laws (every worker reads these first)
 - PURE MOJO: no libraries in shipped code, ever. Python for TESTS ONLY.
+- **VOLMARR'S REINFORCEMENT (2026-10-10): the REAL target is Hailo-10 acceleration. The ARMVEGR CPU engine is the guaranteed fallback trunk — NOT the prize. Every campaign drives toward Hailo-10.**
+- **H111 Compiler Wall gate: FULL honesty AND FULL ambition. Pursue the GO branch as far as the evidence allows; take NO-GO only if the evidence truly forces it.**
+- **Kernel rebuild (VFIO/UIO) is an OPERATOR action — NEVER attempt it remotely without Volmarr's explicit go. F3-banked items carry EXACT prerequisites (kernel config options, operator steps, unblock criteria) so the path is clear the moment the kernel is ready.**
 - ChatGPT Work cuts slices on this repo too — `git fetch origin`, read `git log -20` and branches before each campaign; never collide (additive changes only, never rewrite her in-flight work).
 - Never edit README.md. Never force-push. Before every push: `git fetch origin`, diff remote vs local, preserve Volmarr's edits, push, verify with `git ls-remote origin HEAD`.
 - Tests green after every campaign. No pseudocode, no placeholders, no fabricated benchmarks, no invented results.
@@ -190,7 +193,82 @@ H060 GO (review doc). **No slices killed.**
 - [x] H060 — C3 review: ARMVEGR CPU pipeline verdict (F1 core complete) — VERDICT: F1-CORE-NOT-READY
 
 ## Campaign 4 — Hailbrú Driver (H061–H080)
-- Status: not started
+- Status: SÓLRÚN AUDIT COMPLETE 2026-10-10 ~08:15 EDT — route (b) selected, executing
+
+### SÓLRÚN AUDIT — C4 pre-execution (2026-10-10)
+**Mechanism confrontation.** Mimir's kernel (6.12.109+rpt-rpi-2712) has
+`CONFIG_VFIO`/`CONFIG_UIO_PCI_GENERIC`/`CONFIG_ARM_SMMU` all not-set; no
+`/dev/vfio`, no `/dev/uio*`; hailo1x_pci 5.3.0 bound to 0001:01:00.0 (no
+/dev/hailo* node). H004 verdict stands: NO-GO.
+- **Route (a) kernel rebuild: REJECTED for C4.** Compile takes hours on the
+  live Pi 5; a bad kernel = remotely unreachable device with no physical
+  access (Volmarr not present). The verdict doc classifies rebuild as an
+  operator action ("documented here, not executed"). Risk call: DO NOT
+  attempt. Recorded as the operator prerequisite for F3 unbanking.
+- **Route (b) sysfs-recon execution: SELECTED.** Discovery, config-space
+  identity, BAR parsing, link/PM diagnostics, read-only register probes
+  (root mmap of sysfs `resource0` — recon-only per H004, permitted),
+  eventfd/ppoll plumbing (pure userspace syscalls — real), CPU-side DMA
+  alloc primitives (real; IOMMU map fails closed with a named error),
+  firmware presence SHA-256 check (real), and all error-path tests (real)
+  execute honestly. DMA-coherent device-visible allocation, device
+  interrupt registration, firmware upload/boot — no kernel path exists —
+  are F3-BANKED with documented prerequisites. Nothing simulated.
+- New measured fact: device sits in **D3hot** (power_state read 2026-10-10);
+  slot max = 8.0 GT/s x4, negotiated = 8.0 GT/s x1 (Gen3 x1, device-limited,
+  matches H003 — not degradation). msi_irqs empty (H017 confirmed).
+
+**Slice-by-slice feasibility:**
+- H061 GO (sysfs discovery; negative test on scratch tree). H062 GO (config
+  read; root needed beyond 64B — `sudo -n` works on Mimir; MSI cap walk per
+  H017). H063 GO (real `resource` parse on Mimir: BAR0 16KB @0x1800000000,
+  BAR2 4KB @0x1800008000, BAR4 16KB @0x1800004000; 64-bit pairing test on
+  crafted file).
+- H064 GO-PARTIAL: VFIO path implemented (compiles); positive BAR0 mmap
+  F3-BANKED (no VFIO); negative tests real (invalid group fd → named error;
+  wrong-driver-bind assertion on scratch tree, citing H012). H065
+  GO-PARTIAL: UIO path implemented; mechanism-ordering decision test real
+  (mocked availability); bind/unbind restore tested on scratch sysfs; real
+  bind NOT executed (no module exists; unbinding the working hailo1x_pci
+  binding to test a nonexistent fallback would be destructive — H013's own
+  probe left the binding undisturbed).
+- H066 GO-PARTIAL: CPU allocation primitives real (page-aligned
+  posix_memalign, mlock attempt, pattern coherence, 100-buffer matrix,
+  double-free fail-closed); VFIO_IOMMU_MAP_DMA → named
+  `MechanismUnavailable` — F3-BANKED. H067 GO-PARTIAL: UIO allocator
+  refuses `WrongMechanism` unless UIO active (testable); cache-maintenance
+  hooks as named no-op-with-logging functions per H018 (tested).
+- **H068 RE-SCOPED (per H005 §6, which anticipated exactly this):** the
+  transport study found NO safe scratch register (every BAR0 register has
+  side effects). The criterion's live write/readback is REPLACED by (a) 50x
+  read-only coherency reads of the vendor-ID mirror at BAR0+0x0098 expecting
+  0x1e60 (study-prescribed, zero device-state disturbance), (b) full
+  write/readback + ReadbackMismatch logic tests against an emulated BAR
+  mapping, (c) 10 bad-offset fail-closed tests. ZERO writes to the live
+  device — vendor driver stays undisturbed.
+- H069 GO-PARTIAL: eventfd + ppoll plumbing real (synthetic wake,
+  teardown/re-setup, IrqTimeout); MSI vector allocation +
+  VFIO_DEVICE_SET_IRQS F3-BANKED (needs kernel mechanism). H070 GO: synthetic
+  interrupt loop fully testable without hardware (10k eventfd iterations,
+  timeout test); device-generated post-H075 test F3-BANKED.
+- H071 GO: link + PM state from sysfs (real; D3hot recorded). H072 GO:
+  read-only register identification + probes →
+  docs/plunder/HAILO_FW_LOAD_REGISTERS.md. H073 GO: Mojo SHA-256
+  firmware_check vs H014 catalogue (`/lib/firmware/hailo/hailo10h/` on
+  Mimir); L7 honored — read-only, no fetch/download.
+- H074/H075 F3-BANKED (code implemented + emulated tests; real upload/boot
+  needs the DMA path + device in a known state — blocked). H076 GO-PARTIAL
+  (code real; forced-timeout path with register dump real on Mimir; happy
+  path emulated; "True on Mimir after H075" blocked by H075).
+- H077: gate document — expected NO-GO with evidence table (failing steps:
+  H066-IOMMU, H069-device-IRQ, H074, H075, H076-happy-path); blocks C5 per
+  the literal criterion. H078 GO: Python suite ≥15 scenarios, scratch trees
+  + env overrides, runs on forge x86_64 (mojo 1.0.0) AND Mimir aarch64
+  (mojo 1.1.0). H079 GO: API.md + compile-time surface test. H080 GO:
+  C4_REVIEW.md, L12 grep, verdict NOT-READY for Phase C (mechanism NO-GO
+  unchanged) with F2/F3 routing.
+- No slices killed. All re-scopes recorded here, in DEVLOG, and in code
+  comments per the C2/C3 audit precedent.
 
 ## Campaign 5 — Bring-up & Firmware (H081–H100)
 - Status: not started
