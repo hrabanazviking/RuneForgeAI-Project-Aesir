@@ -1318,3 +1318,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-129 GGUF documentation sync: task, TODO, devlog, roadmap, and
   capability ledger agree on the v3 admission matrix, the two tiny-file count
   rejection cases, local suite totals, and the explicit arithmetic/scope limits.
+
+- [x] AES500-131 GGUF metadata type contract: `TASK_gguf_metadata_type_matrix.md`
+  records scalar/string/array traversal, consumed key types, current mismatch
+  fallback, implementation owners, and scope exclusions before code changes.

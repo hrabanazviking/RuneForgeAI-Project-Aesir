@@ -3704,3 +3704,11 @@ conversion and entry loops, while the tests assert FAILED/unmapped cleanup. The
 independent Auditor agent could not be assigned because the collaboration
 service thread cap was reached; no independent approval is claimed. AES500-129
 reconciles the roadmap, task note, TODO, ledger and this devlog.
+
+
+## 2026-10-10 — AES500-131 GGUF metadata type contract
+
+Recorded the current value traversal widths, string and array layouts,
+inference-consumed metadata types, and silent skip behavior for mismatched
+selected scalar keys. This is a source-derived contract only; no parser change
+or broad GGUF compatibility claim is made.
