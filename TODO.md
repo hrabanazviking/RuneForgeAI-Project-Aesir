@@ -1329,3 +1329,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   `docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`. Registered
   as `gguf.metadata_type_baseline`. Master suite: 211 passed, 0 failed, 1
   skipped (212 total); documentation consistency and whitespace checks pass.
+
+- [x] AES500-133 GGUF metadata interface: synthetic mapped v3 harness pins
+  `inspect_metadata` and verifies four mismatched selected values leave defaults
+  unchanged under the current behavior. This remains green before AES500-134
+  changes the contract; no public API signature changed.

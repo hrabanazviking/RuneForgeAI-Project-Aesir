@@ -3721,3 +3721,11 @@ synthetic corpus, Mojo/source identities, hashes, and limitations are recorded
 in `docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`; no
 inference-validity claim is made. Master suite: 211 passed, zero failed, one
 external-fixture skip (212 total); doc-drift and whitespace checks pass.
+
+
+## 2026-10-10 — AES500-133 GGUF metadata interface
+
+Pinned the metadata test seam at `inspect_metadata` over generated v3 files and
+recorded default-preservation for four selected-key mismatch types. This
+interface receipt deliberately keeps current behavior intact; AES500-134 owns
+the explicit mismatch rejection change.

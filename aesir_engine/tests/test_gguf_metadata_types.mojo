@@ -37,10 +37,10 @@ def make_metadata_file(target_key: String, target_type: UInt32) raises -> String
 
     append_string(bytes, target_key)
     append_u32(bytes, target_type)
-    if target_type == 4:
-        append_u32(bytes, 1)
-    elif target_type == 10:
+    if target_type == 10:
         append_u64(bytes, 1)
+    elif target_type == 8:
+        append_string(bytes, "fixture")
     else:
         append_u32(bytes, 1)
 
