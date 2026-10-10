@@ -40,6 +40,13 @@ elements` is overflow checked; the source performs that addition directly.
 See `TASK_allocation_ownership_records.md` and
 `docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
 
+AES500-085 adds `memory.allocation_bounds` to the master runner. It confirms
+adjacent allocator addresses, exact-capacity admission, and mutation-free
+rejection for zero, negative, and oversized counts. The full sm_89 master suite
+reports 194 passed, zero failed, one explicitly skipped (195 total). This is
+allocator behavior evidence only; it does not validate owner association or
+pointer lifetime. Integration remains pending the AES500-084 prerequisites.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

@@ -42,6 +42,12 @@
 - `aesir_engine/tests/test_memory_refinements.mojo::test_mimir_well_telemetry`
   checks reported byte telemetry and that `reset()` restores reported free
   capacity. It does not dereference retained pointers after reset.
+- AES500-085 adds `memory.allocation_bounds` to `run_all.mojo`. It asserts that
+  two allocations of 3 and 5 F16 elements have exactly adjacent typed-pointer
+  addresses, that their final offset equals the eight-element pool capacity,
+  and that zero, negative, and oversized requests reject without mutating the
+  arena offset. The tested rejection paths do not rely on integer address
+  conversion or dereference stale pointers.
 - Existing tensor tests and constructors pass raw pointers directly; their
   presence proves the API permits such views, not that their storage belongs to
   a specific arena or remains live.
@@ -54,4 +60,13 @@
 The baseline confirms that allocation provenance and lifetime are not
 represented in these types. Stable owner identity, copy/move behavior for the
 arena, alias policy, and reset invalidation remain design prerequisites. No
-source or test code changed in AES500-082.
+source or test code changed during AES500-082; AES500-085 later adds the focused executable checks described below.
+
+## AES500-085 focused evidence update
+
+The test suite extension records current allocator boundaries only. The exact
+master command is `pixi run mojo run --target-accelerator sm_89
+aesir_engine/tests/run_all.mojo`; observed result is 194 passed, zero failed,
+one skipped, 195 total, exit 0. It does not establish pointer ownership,
+capacity provenance for arbitrary tensors, stale-pointer invalidation, or
+overflow safety of the allocator's `offset + elements` expression.

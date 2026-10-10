@@ -1125,3 +1125,10 @@ The legacy formatters below are not exposed compatibility APIs.
   adding records. Do not ship a token/generation that cannot validate the live
   owner or prevents ABA revival. Unit, integration, and adversarial evidence
   remain pending that prerequisite architecture.
+- [x] AES500-085 current allocator unit evidence: `memory.allocation_bounds`
+  confirms adjacent addresses, exact-capacity admission, and unchanged arena
+  offset after zero, negative, and oversized request rejection. Full sm_89
+  master suite: 194 passed, 0 failed, 1 explicitly skipped, 195 total. These
+  checks do not establish ownership, provenance, or lifetime.
+- [ ] AES500-086 integration evidence pending: no consumer is migrated to an
+  ownership record because AES500-084 prerequisites remain unresolved.
