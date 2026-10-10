@@ -213,6 +213,10 @@ H060 GO (review doc). **No slices killed.**
   noted, read-only sysfs). No model-semantics code in hailbru/.
 - **Branch:** c4-hailbru-wip merged to main; pushed; remote HEAD verified.
 
+### COORDINATOR FOLLOW-UP (2026-10-10 ~08:50 EDT)
+- H014 follow-up DONE: `data/phase_a/firmware_catalogue.json` u-boot-spl.bin sha256 corrected (69-char corrupt → `219b9b981a00bab8174896c7c801b482d56f28d45e2fc731b356f385db8fe5c3`, 64 chars, hex-valid), note appended to catalogue.
+- Merged WIP branches deleted (local + origin): `c4-hailbru-wip`, `c2-armvegr-wip`.
+
 ### SÓLRÚN AUDIT — C4 pre-execution (2026-10-10)
 **Mechanism confrontation.** Mimir's kernel (6.12.109+rpt-rpi-2712) has
 `CONFIG_VFIO`/`CONFIG_UIO_PCI_GENERIC`/`CONFIG_ARM_SMMU` all not-set; no
