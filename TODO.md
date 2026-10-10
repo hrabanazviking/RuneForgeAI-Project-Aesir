@@ -1092,3 +1092,15 @@ The legacy formatters below are not exposed compatibility APIs.
   then runtime/context/device/concurrency/soak/refreshed provider acceptance.
   Control recovery remains closed only for its declared fixture/model/device
   scope; broader runtime/provider gates remain.
+
+## AES500 cross-cutting execution
+
+- [x] AES500-061–069: define, baseline, expose, implement, test, integrate,
+  adversarially exercise, independently review, and document pure checked
+  half-open span arithmetic. Evidence covers the CPU-only Turing fixture planner
+  and does not prove allocation ownership, pointer validity, lifetimes, or
+  device bounds. See `TASK_checked_span_construction.md` and
+  `docs/evidence/checked-span-baseline-2026-10-10/README.md`.
+- [ ] AES500-070 release gate: exact-head hosted CI and the complete Mojo build/
+  master suite remain pending; the current local ptxas rejects a PTX tanh feature
+  requiring ISA 7.0.

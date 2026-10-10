@@ -1,3 +1,17 @@
+## 2026-10-10 — AES500-061–069: Checked bounded spans
+
+Added `core/checked_span.mojo::checked_span`, a pure subtraction-first
+half-open range admission helper that allows empty spans and rejects negative,
+past-capacity, and overrun inputs before computing the end. Focused evidence
+covers ordinary, empty, full, invalid-sign, huge-length, and maximum signed
+endpoint cases. The CPU-only Turing fixture planner now uses it to validate
+declared activation/cache element lengths against the reported lengths while
+retaining exact size and layout gates. The fixture adversarial suite and
+independent Auditor review pass. No allocation, pointer, lifetime, or GPU
+admission is inferred. Full engine build/master remains pending because local
+ptxas rejects a PTX tanh feature that requires ISA 7.0; hosted CI is still
+running. See `TASK_checked_span_construction.md` and the baseline evidence.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

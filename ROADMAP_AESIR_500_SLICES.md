@@ -825,3 +825,15 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - The Auditor review of AES500-066 passes: exact admission behavior is
   preserved, no allocation or mutation was added, and no provenance or device
   claim is inferred from the arithmetic span.
+- AES500-069 synchronizes the task, core interface, capability ledger, TODO,
+  devlog and roadmap. AES500-070 remains a release gate: exact-head hosted CI
+  and full Mojo build/master execution are pending; local ptxas currently rejects
+  an existing PTX tanh feature requiring ISA 7.0.
+- AES500-070 local release checks pass for focused span/fixture tests,
+  documentation drift, and patch whitespace. Full build/master were attempted
+  and fail before the test runner on the environment's PTX assembler tanh-ISA
+  error. At the pre-release revision `e09694746c4efbe5fd2c16cabb7389c4725f6be4`,
+  GitHub Actions run `38016426824` was observed `in_progress`; earlier branch
+  runs were also pending. No hosted pass is claimed. This gate is pushed with
+  the pending CI evidence preserved, so AES500-071 begins next per roadmap
+  policy while remote validation continues.

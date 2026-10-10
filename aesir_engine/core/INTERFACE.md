@@ -12,8 +12,10 @@
 
 ### Checked bounded spans (AES500-061–070)
 
-AES500-061 defines the planned core `CheckedSpan` value as a pure half-open
-range with start, exclusive end, and length. Its checked factory admits
+AES500-061 through AES500-065 define and implement the core `CheckedSpan` value.
+`core/checked_span.mojo` exposes `CheckedSpan(start, end, length)` and
+`checked_span(start, length, capacity) raises`. The factory admits a pure
+half-open range with start, exclusive end, and length. It admits
 nonnegative capacity/start/length only when `start <= capacity` and
 `length <= capacity - start`, then computes the end. Empty spans including the
 capacity endpoint are valid. All arguments use a consistent caller-defined
@@ -23,6 +25,10 @@ lifetime, synchronization, or device bounds. Existing owner-specific gates
 remain in place until a later migration slice has its own baseline and tests.
 See the project-root `TASK_checked_span_construction.md` and
 `docs/evidence/checked-span-baseline-2026-10-10/README.md`.
+The CPU-only Turing fixture planner uses it to validate declared activation and
+cache element lengths before retaining its exact-size comparison. Focused
+arithmetic and fixture tests pass. This does not validate actual allocations or
+device accesses.
 
 ## Public Structs & Functions
 

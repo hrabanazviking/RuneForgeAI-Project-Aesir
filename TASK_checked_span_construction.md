@@ -49,3 +49,20 @@ span-check behavior. A future CPU-only focused test is planned at
 `aesir_engine/tests/test_checked_span.mojo`, followed by
 `pixi run mojo run aesir_engine/tests/run_all.mojo` when implementation and
 integration slices are reached.
+
+## Implementation and review receipt
+
+- `core/checked_span.mojo` implements the value and subtraction-first factory.
+- `tests/test_checked_span.mojo` covers ordinary/full/interior-empty/endpoint-
+  empty ranges, negative inputs, starts beyond capacity, overrun, huge lengths,
+  and the maximum signed endpoint.
+- The focused suite passes with Mojo 1.0.0. Auditor review confirmed the
+  arithmetic and the declared caller-unit boundary.
+- The CPU-only Turing fixture planner now uses this helper to bound activation
+  and cache element counts against reported lengths, while retaining layout
+  identity and exact-size checks. Its existing adversarial suite passes.
+- Full engine build and master runner remain pending because the local ptxas
+  rejects a PTX tanh feature requiring ISA 7.0; this failure occurs in existing
+  GPU compilation before the full CPU test suite executes.
+- This remains arithmetic evidence only; no tensor callers, general pointer
+  boundaries, allocator capacities, or device consumers were migrated.

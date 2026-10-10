@@ -77,12 +77,12 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 76 |
+| `verified` | 77 |
 | `partial` | 28 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
-| **Total** | **119** |
+| **Total** | **120** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -267,6 +267,17 @@ the complete ledger population.
 - **Evidence boundary:** Passing in-range tests does not prove failure safety.
 - **Next acceptance gate:** Checked public boundaries, removal of usable sentinel pointers, fuzz/boundary corpus, sanitizers where available, and proof that errors occur before dereference.
 - **Audit:** AER-002, AER-005, AER-028, AER-029, AER-030.
+
+### AES-MEM-007 — Caller-bounded half-open arithmetic spans
+
+- **Status:** `verified`
+- **Owner:** core memory utility; currently integrated only by the CPU-only Turing fixture planner
+- **Claim sources:** `TASK_checked_span_construction.md`; core interface
+- **Implementation evidence:** `core/checked_span.mojo::checked_span` checks nonnegative inputs, validates `start <= capacity`, and bounds length by `capacity - start` before computing the exclusive end. Empty spans are allowed, including the capacity endpoint.
+- **Executable evidence:** `E-MASTER` case `memory.checked_span`; focused `test_checked_span.mojo`; CPU-only `test_turing_fixture_plan.mojo` exact-capacity integration and rejection matrix.
+- **Evidence boundary:** Integer arithmetic only, with equal caller-defined units. It does not prove actual allocation ownership/capacity, pointer validity/alignment, aliasing, lifetime, synchronization, or device bounds. Existing owner-specific checks remain in place.
+- **Next acceptance gate:** Expand to additional named CPU span owners only after separate baselines; preserve each owner's current semantics and keep pointer/device claims out of arithmetic evidence.
+- **Audit:** AES500-068 and AES500-066 review.
 
 ## 6. CPU Compute Primitives
 
@@ -2018,7 +2029,7 @@ and circular self-parity transforms were removed.
 | Claim family | Canonical entries |
 |---|---|
 | Build/runtime foundation | AES-FND-001 through AES-FND-008 |
-| Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-006 |
+| Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-007 |
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
