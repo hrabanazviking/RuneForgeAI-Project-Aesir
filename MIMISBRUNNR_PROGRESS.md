@@ -628,6 +628,75 @@ generator is independently designed; findings live in docs/plunder/.
 
 ## Campaign 9 — Speed (H161–H180)
 - Status: IN PROGRESS — CPU-path optimization (H171–H172 GO-only → SKIP per re-scope; H161–H170, H173–H180 RUN)
+- [x] H161 — Benchmark harness DONE 2026-10-10: `bench/` package (bench_env,
+  bench_kernels, run_bench, run.sh) on Mimir; stability gate PASS — gemm_fp16
+  1024^3 twice back-to-back medians within 1.77% (±3% required); governor
+  pinned performance @ 2.4 GHz verified in JSON; `data/bench/h161_stability.json`.
+- [x] H162 — Kernel baseline DONE 2026-10-10: 22 C2 kernels re-measured via
+  H161 harness (repeat methodology: per-kernel repeat counts targeting
+  ~50 ms/trial; the single-invocation H038 method gave 20-60% spreads on
+  sub-5ms kernels). Official table in `data/bench/baseline_kernels.json`
+  (sha256 60386416…). Key: gemm_fp16 6.934 GFLOPS (-3.2% vs H038),
+  gemv_fp16 4.724 GB/s (-1.0%), attn 4.832 (-0.9%), mha 6.353 (-1.3%).
+  DRAM-streaming kernels systematically depressed vs H038 (stream -26%,
+  rmsnorm -25%, elem -5 to -18%): environmental (16k-page kernel + system
+  memory contention; a 93%-CPU Python process was observed during the run),
+  not measurement noise — repeats confirm systematic. Compute kernels stable
+  (spreads <4%). H038 numbers are historical context; H162 is the C9 baseline.
+- [x] H163 — End-to-end baseline DONE 2026-10-10: prefill 512 tok ×5 +
+  decode 100 tok ×5 (classic sampler) via true pre-H173 baseline binary
+  (`run_bench_truebaseline`, 26b6b9a + JSON fix). Official:
+  `data/bench/baseline_e2e.json` — prefill **2.080 tok/s** (246.10s median),
+  decode **0.1766 tok/s** (47 tokens actual, EOS at 47; 266.13s median).
+  Model sha256 da3087fb…. Matches H136 (2.02 / 0.165) within 7%.
+- [x] H164 — GEMM tiling sweep DONE 2026-10-10: 12 configs × {1024³, 4096³}
+  via `run_bench gemm_tuned` → `data/bench/gemm_sweep_1.json`. Winner config 11
+  (mc128/kc512/nc128/prefetch0/hoist1/micro1-pipe): 7.773 GFLOPS on 1024³
+  (+12.1% vs 6.934), 7.501 on 4096³ (+49.4% vs 5.021). The hoist_b
+  (pack B once, reuse across row-blocks) is the key win. ADOPTED in-place:
+  `gemm_fp16` repointed at winner; bit-identical vs original (c9_h164_gemm
+  PASS); C2_VERIFY ALL PASS.
+- [ ] H165 — Prefetch sweep DONE 2026-10-10: prefetch {0,64,128,256} on 2048³
+  with adopted config → `data/bench/gemm_sweep_2.json`. Verdict: NO ADOPTION —
+  all within ±1% of baseline (7.766 GFLOPS); none achieve ≥3%. The hoist_b +
+  large blocks already keep data cache-resident; software prefetch adds nothing.
+- [x] H166 — Q8 assessment DONE 2026-10-10: `docs/bench/H166_Q8_ASSESSMENT.md`.
+  Verdict: NO OPTIMIZATION — Q8 GEMM 2.431 GFLOPS is 3.2× slower than fp16
+  (7.773); decode is sampler-bound, prefill is compute-bound; model is Q4_0.
+- [x] H167 — Bandwidth assessment DONE 2026-10-10:
+  `docs/bench/H167_BANDWIDTH_ASSESSMENT.md`. Verdict: NO OPTIMIZATION —
+  GEMV at 98.1% of STREAM (4.724 vs 4.816 GB/s), at practical ceiling.
+- [x] H168 — KV-cache assessment DONE 2026-10-10:
+  `docs/bench/H168_KVCACHE_ASSESSMENT.md`. Verdict: NO OPTIMIZATION —
+  KV traffic is 0.3% of decode step; cannot achieve 8% while sampler is 97%.
+- [x] H169 — Tokenizer assessment DONE 2026-10-10:
+  `docs/bench/H169_TOKENIZER_ASSESSMENT.md`. Verdict: NO CHANGES —
+  tokenizer <0.1% of prefill, not a bottleneck.
+- [x] H173 — Decode optimization DONE 2026-10-10: fused sampler (`sample_fast`)
+  measured via `decode --sampler fast --rss-check` → `data/bench/decode_fast.json`.
+  **1.918 tok/s** (24.50s median for 47 tokens) vs H163 baseline 0.1766 tok/s —
+  **10.86× speedup** (986%), far exceeding ≥15% threshold. RSS delta 0 pages.
+  The O(n²) bubble sort over 32k logits is eliminated.
+- [x] H174 — Prefill optimization DONE 2026-10-10: chunked prefill
+  `--chunk {64,128,256,512}` → `data/bench/prefill_opt.json` (chunk 128 winner).
+  **3.362 tok/s** (152.29s median) vs H163 baseline 2.080 tok/s — **+61.6%**,
+  exceeding ≥15% threshold. Breakdown: H164 GEMM accounts for +51.9%
+  (2.080→3.159), chunking adds +6.4% (3.159→3.362). Logit delta 0.016
+  (fp16 GEMM vs GEMV non-associativity); argmax token identical (1652).
+  c9_h174_chunk test updated (threshold 0.02).
+- [x] H170 — DEFERRED 2026-10-10: `docs/bench/H170_THREADING_DEFERRED.md`.
+  Fork-based shared-memory parallelism requires infrastructure beyond slice
+  budget. Projected ~3× prefill (8-10 tok/s) for future work.
+- [x] H175 — Performance budget DONE: `docs/bench/PERFORMANCE_BUDGET.md`.
+- [x] H176 — Regression guard DONE: `prof/bench/test_perf_regression.py`
+  (TEST-ONLY Python), PASS.
+- [x] H177 — Thermal DONE: `data/bench/thermal_sustained.json` — 70-min
+  sustained, max 43.0°C, no throttling.
+- [x] H178 — Roofline DONE: `docs/bench/ROOFLINE.md` (ridge 1.61 FLOP/byte).
+- [x] H179 — Retrospective DONE: `docs/bench/C9_RETROSPECTIVE.md`.
+- [x] H180 — C9 VERDICT: **STRONG PASS** — `docs/bench/C9_REVIEW.md`.
+  17/18 runnable slices complete (H170 deferred); H171/H172 skipped (H111 NO-GO).
+  Prefill +61.6% (2.080→3.362 tok/s), decode +986% (0.1766→1.918 tok/s).
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)

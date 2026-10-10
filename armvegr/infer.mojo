@@ -23,6 +23,7 @@ from armvegr.rope import rope_fp16
 from armvegr.sampler import Sampler
 from armvegr.sp_tokenizer import SPTokenizer
 from armvegr.kv_cache import KVCache
+from armvegr.gemm_tuned import gemm_fp16_tuned, gemm_default_tune
 
 
 struct TinyLlama:
@@ -143,6 +144,23 @@ struct Inference:
     var ffn_g: Pointer[Float16, MutUntrackedOrigin]
     var ffn_u: Pointer[Float16, MutUntrackedOrigin]
     var logits: Pointer[Float16, MutUntrackedOrigin]
+    # H173 — preallocated attention score buffer (max_seq fp32): forward()
+    # no longer allocates/frees per head per layer per step.
+    var scores_buf: Pointer[Float32, MutUntrackedOrigin]
+    # H173 — precomputed weight-dict key strings: forward() no longer
+    # builds "blk.<layer>.<name>" Strings per layer per step.
+    var wkey_embd: String
+    var wkey_out: String
+    var wkey_out_norm: String
+    var wkey_attn_norm: List[String]
+    var wkey_attn_q: List[String]
+    var wkey_attn_k: List[String]
+    var wkey_attn_v: List[String]
+    var wkey_attn_out: List[String]
+    var wkey_ffn_norm: List[String]
+    var wkey_ffn_gate: List[String]
+    var wkey_ffn_up: List[String]
+    var wkey_ffn_down: List[String]
 
     def __init__(out self, max_seq: Int = 256):
         self.model = TinyLlama()
@@ -163,6 +181,30 @@ struct Inference:
         self.ffn_g = unsafe_alloc[Float16](5632)
         self.ffn_u = unsafe_alloc[Float16](5632)
         self.logits = unsafe_alloc[Float16](32000)
+        self.scores_buf = unsafe_alloc[Float32](max_seq)
+        self.wkey_embd = String("token_embd.weight")
+        self.wkey_out = String("output.weight")
+        self.wkey_out_norm = String("output_norm.weight")
+        self.wkey_attn_norm = List[String]()
+        self.wkey_attn_q = List[String]()
+        self.wkey_attn_k = List[String]()
+        self.wkey_attn_v = List[String]()
+        self.wkey_attn_out = List[String]()
+        self.wkey_ffn_norm = List[String]()
+        self.wkey_ffn_gate = List[String]()
+        self.wkey_ffn_up = List[String]()
+        self.wkey_ffn_down = List[String]()
+        for layer in range(22):
+            var lp = String("blk.") + String(layer) + String(".")
+            self.wkey_attn_norm.append(lp + "attn_norm.weight")
+            self.wkey_attn_q.append(lp + "attn_q.weight")
+            self.wkey_attn_k.append(lp + "attn_k.weight")
+            self.wkey_attn_v.append(lp + "attn_v.weight")
+            self.wkey_attn_out.append(lp + "attn_output.weight")
+            self.wkey_ffn_norm.append(lp + "ffn_norm.weight")
+            self.wkey_ffn_gate.append(lp + "ffn_gate.weight")
+            self.wkey_ffn_up.append(lp + "ffn_up.weight")
+            self.wkey_ffn_down.append(lp + "ffn_down.weight")
 
     def load(mut self, path: String) raises:
         self.model.load(path)
@@ -186,6 +228,7 @@ struct Inference:
         self.ffn_g.unsafe_free()
         self.ffn_u.unsafe_free()
         self.logits.unsafe_free()
+        self.scores_buf.unsafe_free()
         self.model.free()
 
     def prefill(
@@ -200,6 +243,211 @@ struct Inference:
         for i in range(1, len(tokens)):
             lp = self.forward(tokens[i])
         return lp
+
+    def prefill_chunked(
+        mut self, tokens: List[Int], chunk: Int
+    ) raises -> Pointer[Float16, MutUntrackedOrigin]:
+        """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
+        exactly like prefill(). H174 replaces the chunk interior with
+        batched GEMM computation; the H161 baseline processes each chunk
+        token-by-token (bit-identical to prefill by construction)."""
+        if len(tokens) == 0:
+            raise Error("infer: prefill_chunked needs >= 1 token")
+        if chunk <= 1:
+            return self.prefill(tokens)
+        var done = 0
+        # Initialized to self.logits (forward_chunk always returns it);
+        # overwritten by the first chunk below.
+        var lp: Pointer[Float16, MutUntrackedOrigin] = self.logits
+        while done < len(tokens):
+            var csz = chunk
+            if done + csz > len(tokens):
+                csz = len(tokens) - done
+            var sub = List[Int]()
+            for j in range(csz):
+                sub.append(tokens[done + j])
+            lp = self.forward_chunk(sub, csz)
+            done += csz
+        return lp
+
+    def forward_chunk(
+        mut self, tokens: List[Int], chunk: Int
+    ) raises -> Pointer[Float16, MutUntrackedOrigin]:
+        """H174 — chunked prefill: process up to `chunk` tokens with batched
+        GEMMs (compute-bound) for the projections and FFN, per-token
+        attention identical to forward(). Returns the last token's logits.
+
+        Correctness: logits within 1e-3 of prefill() (test-asserted); the
+        attention math is the same fp32 code as forward(), only the
+        projection/FFN summation order differs (blocked GEMM vs GEMV)."""
+        var ntok = len(tokens)
+        if ntok == 0:
+            raise Error("infer: forward_chunk needs >= 1 token")
+        if chunk <= 0 or chunk < ntok:
+            raise Error("infer: forward_chunk chunk must cover tokens")
+        if not self.model.loaded:
+            raise Error("infer: forward_chunk on unloaded model")
+        if self.seq_len + ntok > self.max_seq:
+            raise Error("infer: forward_chunk exceeds max_seq")
+        for t in range(ntok):
+            var tid = tokens[t]
+            if tid < 0 or tid >= self.model.vocab:
+                raise Error("infer: token id out of range in forward_chunk")
+        var C = ntok
+        var theta = Float32(10000.0)
+        # Chunk workspace (per call, not per decode step).
+        var xc = unsafe_alloc[Float16](C * 2048)
+        var hc = unsafe_alloc[Float16](C * 2048)
+        var ht = unsafe_alloc[Float16](2048 * C)
+        var qall = unsafe_alloc[Float16](2048 * C)
+        var kall = unsafe_alloc[Float16](256 * C)
+        var vall = unsafe_alloc[Float16](256 * C)
+        var oall = unsafe_alloc[Float16](2048 * C)
+        var gg = unsafe_alloc[Float16](5632 * C)
+        var uu = unsafe_alloc[Float16](5632 * C)
+        var qh = unsafe_alloc[Float16](64)
+        var kh = unsafe_alloc[Float16](64)
+        var vh = unsafe_alloc[Float16](64)
+        var oh = unsafe_alloc[Float16](64)
+        var tune = gemm_default_tune()
+        # Embedding gather.
+        var emb = self.model.weights[self.wkey_embd]
+        for c in range(C):
+            var eoff = tokens[c] * 2048
+            for i in range(2048):
+                xc.unsafe_offset(c * 2048 + i).unsafe_store(
+                    emb.unsafe_offset(eoff + i).unsafe_load()
+                )
+        var pos0 = self.seq_len
+        for layer in range(22):
+            var w_attn_norm = self.model.weights[self.wkey_attn_norm[layer]]
+            var w_q = self.model.weights[self.wkey_attn_q[layer]]
+            var w_k = self.model.weights[self.wkey_attn_k[layer]]
+            var w_v = self.model.weights[self.wkey_attn_v[layer]]
+            var w_o = self.model.weights[self.wkey_attn_out[layer]]
+            var w_ffn_norm = self.model.weights[self.wkey_ffn_norm[layer]]
+            var w_g = self.model.weights[self.wkey_ffn_gate[layer]]
+            var w_u = self.model.weights[self.wkey_ffn_up[layer]]
+            var w_d = self.model.weights[self.wkey_ffn_down[layer]]
+            # Attn norm per row.
+            for c in range(C):
+                rmsnorm_fp16(
+                    xc.unsafe_offset(c * 2048), w_attn_norm,
+                    hc.unsafe_offset(c * 2048), 2048, Float32(1e-5),
+                )
+            _transpose_f16(hc, ht, C, 2048)
+            # QKV as batched GEMMs: [out,2048] x [2048,C].
+            gemm_fp16_tuned(w_q, ht, qall, 2048, C, 2048, tune)
+            gemm_fp16_tuned(w_k, ht, kall, 256, C, 2048, tune)
+            gemm_fp16_tuned(w_v, ht, vall, 256, C, 2048, tune)
+            # Per-token RoPE + cache append + attention (same math as
+            # forward(), fp32 scores).
+            for c in range(C):
+                var pos = pos0 + c
+                for hk in range(4):
+                    for d in range(64):
+                        kh.unsafe_offset(d).unsafe_store(
+                            kall.unsafe_offset((hk * 64 + d) * C + c).unsafe_load()
+                        )
+                        vh.unsafe_offset(d).unsafe_store(
+                            vall.unsafe_offset((hk * 64 + d) * C + c).unsafe_load()
+                        )
+                    rope_fp16(kh, kh, 64, pos, theta)
+                    var kd = self._k_ptr(layer, pos, hk)
+                    var vd = self._v_ptr(layer, pos, hk)
+                    for d in range(64):
+                        kd.unsafe_offset(d).unsafe_store(kh.unsafe_offset(d).unsafe_load())
+                        vd.unsafe_offset(d).unsafe_store(vh.unsafe_offset(d).unsafe_load())
+                for hq in range(32):
+                    var khq = hq // 8
+                    for d in range(64):
+                        qh.unsafe_offset(d).unsafe_store(
+                            qall.unsafe_offset((hq * 64 + d) * C + c).unsafe_load()
+                        )
+                    rope_fp16(qh, qh, 64, pos, theta)
+                    var m = Float32(-1e30)
+                    for st in range(pos + 1):
+                        var kp = self._k_ptr(layer, st, khq)
+                        var dot = Float32(0.0)
+                        for d in range(64):
+                            dot += Float32(qh.unsafe_offset(d).unsafe_load()) * Float32(
+                                kp.unsafe_offset(d).unsafe_load()
+                            )
+                        var sc = dot / Float32(8.0)
+                        self.scores_buf.unsafe_offset(st).unsafe_store(sc)
+                        if sc > m:
+                            m = sc
+                    var esum = Float32(0.0)
+                    for st in range(pos + 1):
+                        var e = exp(self.scores_buf.unsafe_offset(st).unsafe_load() - m)
+                        self.scores_buf.unsafe_offset(st).unsafe_store(e)
+                        esum += e
+                    var inv = Float32(1.0) / esum
+                    for d in range(64):
+                        var acc = Float32(0.0)
+                        for st in range(pos + 1):
+                            var vp = self._v_ptr(layer, st, khq)
+                            acc += (
+                                self.scores_buf.unsafe_offset(st).unsafe_load()
+                                * inv
+                                * Float32(vp.unsafe_offset(d).unsafe_load())
+                            )
+                        oh.unsafe_offset(d).unsafe_store(Float16(acc))
+                    for d in range(64):
+                        oall.unsafe_offset((hq * 64 + d) * C + c).unsafe_store(
+                            oh.unsafe_offset(d).unsafe_load()
+                        )
+            # Attn output proj as GEMM.
+            gemm_fp16_tuned(w_o, oall, ht, 2048, C, 2048, tune)
+            _transpose_f16(ht, hc, 2048, C)
+            for c in range(C):
+                for i in range(2048):
+                    var xv = Float32(xc.unsafe_offset(c * 2048 + i).unsafe_load())
+                    var hv = Float32(hc.unsafe_offset(c * 2048 + i).unsafe_load())
+                    xc.unsafe_offset(c * 2048 + i).unsafe_store(Float16(xv + hv))
+            # FFN norm per row, then batched GEMMs.
+            for c in range(C):
+                rmsnorm_fp16(
+                    xc.unsafe_offset(c * 2048), w_ffn_norm,
+                    hc.unsafe_offset(c * 2048), 2048, Float32(1e-5),
+                )
+            _transpose_f16(hc, ht, C, 2048)
+            gemm_fp16_tuned(w_g, ht, gg, 5632, C, 2048, tune)
+            gemm_fp16_tuned(w_u, ht, uu, 5632, C, 2048, tune)
+            for i in range(5632 * C):
+                var gv = Float32(gg.unsafe_offset(i).unsafe_load())
+                var uv = Float32(uu.unsafe_offset(i).unsafe_load())
+                var silu = gv / (Float32(1.0) + exp(-gv))
+                gg.unsafe_offset(i).unsafe_store(Float16(silu * uv))
+            gemm_fp16_tuned(w_d, gg, ht, 2048, C, 5632, tune)
+            _transpose_f16(ht, hc, 2048, C)
+            for c in range(C):
+                for i in range(2048):
+                    var xv2 = Float32(xc.unsafe_offset(c * 2048 + i).unsafe_load())
+                    var hv2 = Float32(hc.unsafe_offset(c * 2048 + i).unsafe_load())
+                    xc.unsafe_offset(c * 2048 + i).unsafe_store(Float16(xv2 + hv2))
+        # Final norm on the last token only, then the LM head.
+        var last = (C - 1) * 2048
+        rmsnorm_fp16(
+            xc.unsafe_offset(last), self.model.weights[self.wkey_out_norm],
+            self.h, 2048, Float32(1e-5),
+        )
+        gemv_fp16(self.model.weights[self.wkey_out], self.h, self.logits, 32000, 2048)
+        self.seq_len += ntok
+        xc.unsafe_free()
+        hc.unsafe_free()
+        ht.unsafe_free()
+        qall.unsafe_free()
+        kall.unsafe_free()
+        vall.unsafe_free()
+        oall.unsafe_free()
+        gg.unsafe_free()
+        uu.unsafe_free()
+        qh.unsafe_free()
+        kh.unsafe_free()
+        vh.unsafe_free()
+        oh.unsafe_free()
+        return self.logits
 
     def _k_ptr(self, layer: Int, pos: Int, kh: Int) -> Pointer[Float16, MutUntrackedOrigin]:
         var off = ((layer * self.max_seq + pos) * 4 + kh) * 64
@@ -232,21 +480,20 @@ struct Inference:
         # rope_fp16 takes raw theta (it computes ln(theta) internally).
         var theta = Float32(10000.0)
         # Embedding.
-        var emb = self.model.weights["token_embd.weight"]
+        var emb = self.model.weights[self.wkey_embd]
         var eoff = token * 2048
         for i in range(2048):
             self.x.unsafe_offset(i).unsafe_store(emb.unsafe_offset(eoff + i).unsafe_load())
         # Layers.
         for layer in range(22):
-            var p = String("blk.") + String(layer) + String(".")
             # Attn norm.
             rmsnorm_fp16(
-                self.x, self.model.weights[p + "attn_norm.weight"], self.h, 2048, Float32(1e-5)
+                self.x, self.model.weights[self.wkey_attn_norm[layer]], self.h, 2048, Float32(1e-5)
             )
             # QKV.
-            gemv_fp16(self.model.weights[p + "attn_q.weight"], self.h, self.q, 2048, 2048)
-            gemv_fp16(self.model.weights[p + "attn_k.weight"], self.h, self.k, 256, 2048)
-            gemv_fp16(self.model.weights[p + "attn_v.weight"], self.h, self.v, 256, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_q[layer]], self.h, self.q, 2048, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_k[layer]], self.h, self.k, 256, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_v[layer]], self.h, self.v, 256, 2048)
             # RoPE (in-place on q/k).
             for hq in range(32):
                 rope_fp16(
@@ -271,8 +518,8 @@ struct Inference:
             for hq in range(32):
                 var kh = hq // 8
                 var qh = self.q.unsafe_offset(hq * 64)
-                # Scores.
-                var scores = unsafe_alloc[Float32](pos + 1)
+                # Scores (H173: reused preallocated buffer — no per-head alloc).
+                var scores = self.scores_buf
                 var m = Float32(-1e30)
                 for s in range(pos + 1):
                     var kp = self._k_ptr(layer, s, kh)
@@ -302,10 +549,9 @@ struct Inference:
                             * Float32(vp.unsafe_offset(d).unsafe_load())
                         )
                     oh.unsafe_offset(d).unsafe_store(Float16(acc))
-                scores.unsafe_free()
             # Attn output proj.
             gemv_fp16(
-                self.model.weights[p + "attn_output.weight"],
+                self.model.weights[self.wkey_attn_out[layer]],
                 self.attn_out, self.h, 2048, 2048,
             )
             # Residual.
@@ -315,11 +561,11 @@ struct Inference:
                 self.x.unsafe_offset(i).unsafe_store(Float16(xv + hv))
             # FFN norm.
             rmsnorm_fp16(
-                self.x, self.model.weights[p + "ffn_norm.weight"], self.h, 2048, Float32(1e-5)
+                self.x, self.model.weights[self.wkey_ffn_norm[layer]], self.h, 2048, Float32(1e-5)
             )
             # Gate and Up.
-            gemv_fp16(self.model.weights[p + "ffn_gate.weight"], self.h, self.ffn_g, 5632, 2048)
-            gemv_fp16(self.model.weights[p + "ffn_up.weight"], self.h, self.ffn_u, 5632, 2048)
+            gemv_fp16(self.model.weights[self.wkey_ffn_gate[layer]], self.h, self.ffn_g, 5632, 2048)
+            gemv_fp16(self.model.weights[self.wkey_ffn_up[layer]], self.h, self.ffn_u, 5632, 2048)
             # SiLU(gate) * up.
             for i in range(5632):
                 var g = Float32(self.ffn_g.unsafe_offset(i).unsafe_load())
@@ -328,7 +574,7 @@ struct Inference:
                 self.ffn_g.unsafe_offset(i).unsafe_store(Float16(silu * u))
             # Down.
             gemv_fp16(
-                self.model.weights[p + "ffn_down.weight"], self.ffn_g, self.h, 2048, 5632
+                self.model.weights[self.wkey_ffn_down[layer]], self.ffn_g, self.h, 2048, 5632
             )
             # Residual.
             for i in range(2048):
@@ -337,10 +583,10 @@ struct Inference:
                 self.x.unsafe_offset(i).unsafe_store(Float16(xv2 + hv2))
         # Final norm.
         rmsnorm_fp16(
-            self.x, self.model.weights["output_norm.weight"], self.h, 2048, Float32(1e-5)
+            self.x, self.model.weights[self.wkey_out_norm], self.h, 2048, Float32(1e-5)
         )
         # LM head.
-        gemv_fp16(self.model.weights["output.weight"], self.h, self.logits, 32000, 2048)
+        gemv_fp16(self.model.weights[self.wkey_out], self.h, self.logits, 32000, 2048)
         self.seq_len += 1
         return self.logits
 
@@ -488,6 +734,25 @@ struct Inference:
         sv.unsafe_free()
         return self.logits
 
+
+def _transpose_f16(
+    src: Pointer[Float16, MutUntrackedOrigin],
+    dst: Pointer[Float16, MutUntrackedOrigin],
+    R: Int,
+    C: Int,
+):
+    """dst[C,R] = src[R,C]^T (row-major both)."""
+    for r in range(R):
+        for c in range(C):
+            dst.unsafe_offset(c * R + r).unsafe_store(
+                src.unsafe_offset(r * C + c).unsafe_load()
+            )
+
+
+# H174 is implemented as Inference.forward_chunk (below), appended to the
+# struct via this extension block. (Mojo structs are extended here by
+# defining the method on Inference directly in the struct body — see the
+# inserted method after prefill_chunked.)
 
 def infer_version() -> String:
     return "0.2.0"

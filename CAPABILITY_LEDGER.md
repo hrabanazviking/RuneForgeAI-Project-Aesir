@@ -2549,3 +2549,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   H154 integrity 500/500 detected, 0 escapes; H156 retry absorbs 3 faults, 6→RetryExhausted.
 - **Non-claims:** no NPU compute (H111 NO-GO stands); no Hailo die-temp telemetry on
   this kernel; Vörðr never touches device registers (L6/L12 — all resets via HAILBRÚ).
+
+## Speed Optimization (Campaign 9, H161–H180) — 2026-10-10
+- **Status:** `IN PROGRESS` — measured optimization of the F1 CPU path on Mimir
+  (H111 NO-GO stands: H171/H172 GO-gated slices SKIPPED per docs/fallback/RESCOPED_PLAN.md).
+- **Implementation evidence:** `bench/` harness (`bench_env.mojo`: env capture,
+  TrialStats median/min/max/stddev, thermal settle; `bench_kernels.mojo`: 22 C2
+  kernels at H038 shapes; `run_bench.mojo`: kernels/gemm_tuned/prefill/decode/
+  tokenize/stability subcommands; `run.sh`: governor→performance, taskset pin,
+  restore); `armvegr/gemm_tuned.mojo` (GemmTune: Mc/Kc/Nc, prefetch, hoisted-B,
+  micro-kernel variants; additive — gemm_fp16 untouched); `data/bench/e2e_prompt.txt`.
+- **Measured on Mimir:** pending (H161 stability gate runs first).
+- **Non-claims:** no NPU-path optimization (H111 NO-GO); harness records the pin
+  state it actually observed — it never claims pinned clocks it did not verify.

@@ -3740,3 +3740,36 @@ rubric-clean. Zero unhandled faults, zero crashes. Fixed in-slice: token-based
 calibration budgets (hardcoded 120s caused false hang kills); real-hang now
 counts as injected+handled in reconciliation.
 **Campaign 8 COMPLETE: 20/20 slices, verdict ROBUST.**
+
+## 2026-10-10 — C9 H161: benchmark harness built (MÍMISBRUNNR)
+H161 — the official C9 benchmark harness. New `bench/` package (pure Mojo):
+`bench_env.mojo` (environment capture: cpufreq governors + freqs, SoC temp
+start/end, Mojo version, harness version 1.0.0; TrialStats with median/min/max/
+stddev; thermal-settle wait; JSON emission), `bench_kernels.mojo` (all 22 C2
+kernels at the exact H038 shapes/seeds/work-counts, parameterized by
+warmup/trials), `run_bench.mojo` (single entry: kernels | gemm_tuned | prefill |
+decode | tokenize | stability subcommands; emits data/bench/<name>.json with
+median/p50, min, max, stddev, trial count, clock settings, temps, versions —
+every field on every run), `run.sh` (wrapper: sudo governor->performance,
+taskset -c 3, build-if-needed, restore on exit; refuses non-aarch64).
+Also: `armvegr/gemm_tuned.mojo` (additive tunable GEMM: GemmTune Mc/Kc/Nc,
+software prefetch via llvm.prefetch.p0 — probed working on Mimir's Mojo 1.1.0 —
+hoisted-B packing driver, pipelined 8x8 micro-kernel variant; gemm_fp16
+untouched), `Inference.prefill_chunked` (H161: chunk-looped token prefill,
+bit-identical to prefill; H174 optimizes the interior), `Sampler.sample_fast`
+(H161: delegates to sample(); the --sampler fast|classic flag A/B-tests the
+H173 optimization at the identical call site), `data/bench/e2e_prompt.txt`
+(fixed 512-token prefill prompt, versioned). H161 acceptance (stability:
+same benchmark twice back-to-back, medians within ±3%) runs on Mimir next;
+H162/H163 baselines follow through the same harness.
+
+## 2026-10-10 — C9 H161 DONE: harness stability gate PASS (MÍMISBRUNNR)
+H161 acceptance met on Mimir: the same benchmark (gemm_fp16 1024^3, 11
+trials, pinned governor=performance @ 2.4 GHz, taskset -c 3, thermal settle)
+run twice back-to-back yielded medians within 1.77% (±3% required) — verdict
+PASS, recorded in data/bench/h161_stability.json with full env capture
+(governors, freqs, SoC temp 35.85→38.6 C, harness v1.0.0, Mojo 1.1.0).
+Note: only cpufreq policy0 exists on this kernel (policies 1-3 read "?",
+honestly recorded). H162 (kernel baselines) and H163 (e2e baselines) now run
+through the harness; the pre-optimization binary is preserved as
+build/run_bench_baseline on Mimir so H162/H163 measure the unoptimized code.

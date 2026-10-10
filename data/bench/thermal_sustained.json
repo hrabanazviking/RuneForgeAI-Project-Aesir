@@ -1,0 +1,1 @@
+{"device":"Mimir (Raspberry Pi 5)","duration_min":70,"governor":"performance @ 2.4 GHz","method":"H163 decode baseline (5 trials, 100% CPU single-core)","slice":"H177","temp_c_max":43.0,"temp_c_start":39.7,"thermal_throttle":false,"verdict":"PASS — 70-min sustained 100% CPU, max 43.0C, well below 70C warn threshold. No throttling observed."}
