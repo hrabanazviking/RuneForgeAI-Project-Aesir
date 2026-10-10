@@ -95,6 +95,11 @@ class Contracts(unittest.TestCase):
                 self.assertTrue(all(s["generated_tokens"] == ceiling and s["text"] and s["reply"] for s in report["samples"]))
                 self.assertNotIn(key, json.dumps(report))
                 self.assertFalse(report["speed_ratios"]["long_context"]["quality_parity_established"])
+                self.assertTrue(report["speed_ratios"]["long_context"]["exact_workload_inputs_match"])
+                workload = report["workloads"]["long_context"]
+                self.assertEqual(workload["prompt_utf8_bytes"], len(bench.EXTENDED_PROMPTS["long_context"].encode("utf-8")))
+                self.assertEqual(len(workload["identity_sha256"]), 64)
+                self.assertTrue(all(s["workload"] == workload for s in report["samples"] if s["case"] == "long_context"))
                 self.assertEqual(report["distributions_seconds"]["aesir"]["long_context"]["n"], 2)
                 for route, body, headers in calls:
                     if route.startswith("/api/"):

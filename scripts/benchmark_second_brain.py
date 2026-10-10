@@ -147,9 +147,13 @@ def payload(provider: str, prompt: str, args: argparse.Namespace) -> dict:
 def sample_reply(provider: str, case: str, index: int, prompt: str,
                  args: argparse.Namespace, key: str) -> dict:
     body = payload(provider, prompt, args)
+    sampling = "greedy, repeat_penalty=1"
     sample = {"provider": provider, "case": case,
               "phase": "warmup" if index == 0 else "warm", "repeat_index": index,
-              "prompt": prompt, "request": body, "seconds": None}
+              "prompt": prompt,
+              "workload": workload_identity(prompt, SYSTEM, args.model, args.context,
+                                             args.max_tokens, sampling),
+              "request": body, "seconds": None}
     reply = None
     started = time.perf_counter()
     try:
@@ -199,6 +203,22 @@ def distribution(values: list[float]) -> dict:
             "small_sample": len(values) < 10}
 
 
+def workload_identity(prompt: str, system: str, model: str, context: int,
+                     max_tokens: int, sampling: str) -> dict:
+    # Bind each workload to its exact UTF-8 inputs and declared generation policy.
+    # Normalization is intentionally not applied: providers receive these exact strings.
+    prompt_bytes = prompt.encode("utf-8")
+    system_bytes = system.encode("utf-8")
+    identity = json.dumps({"prompt": prompt, "system": system, "model": model,
+                           "context": context, "max_tokens": max_tokens,
+                           "sampling": sampling}, ensure_ascii=False, sort_keys=True,
+                          separators=(",", ":")).encode("utf-8")
+    return {"prompt_utf8_bytes": len(prompt_bytes),
+            "system_utf8_bytes": len(system_bytes),
+            "prompt_sha256": hashlib.sha256(prompt_bytes).hexdigest(),
+            "identity_sha256": hashlib.sha256(identity).hexdigest()}
+
+
 def summarize(report: dict, prompts: dict[str, str]) -> None:
     samples = report["samples"]
     report["failed_samples"] = sum("failure_category" in s for s in samples)
@@ -219,11 +239,15 @@ def summarize(report: dict, prompts: dict[str, str]) -> None:
                 report["medians_seconds"][p][case] = None
         equal = valid and all(s["generated_tokens"] == report["max_tokens"]
                               for g in groups.values() for s in g)
+        identities = {s["workload"]["identity_sha256"]
+                      for g in groups.values() for s in g}
+        prompts_match = valid and len(identities) == 1
         all_good = not report["errors"] and not report["failed_samples"]
         report["speed_ratios"][case] = {
             "ollama_over_aesir": report["medians_seconds"]["ollama"][case] /
             report["medians_seconds"]["aesir"][case] if equal and all_good and case != "short" else None,
             "equal_required_output_counts": equal,
+            "exact_workload_inputs_match": prompts_match,
             "quality_parity_established": False,
             "certified_lead": False,
         }
@@ -293,6 +317,9 @@ def measure(args: argparse.Namespace) -> dict:
     report = {"schema_version": 2, "model": args.model, "context": args.context,
               "max_tokens": args.max_tokens, "suite": args.suite, "samples_per_case": args.samples,
               "system": SYSTEM, "sampling": "greedy, repeat_penalty=1",
+            "workloads": {case: workload_identity(prompt, SYSTEM, args.model,
+                              args.context, args.max_tokens, "greedy, repeat_penalty=1")
+                          for case, prompt in prompts.items()},
               "order": args.order, "order_seed": args.order_seed, "residency": args.residency,
               "native_process_identity_observed": args.native_pid is not None,
               "os": platform.platform(), "samples": [], "errors": [],

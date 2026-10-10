@@ -103,6 +103,13 @@ python3 scripts/benchmark_second_brain.py --ollama http://gungnir:11434 --key-fi
 Native/Ollama templates can differ despite identical user/system text. Equal GGUF
 bytes require its optional --ollama-gguf hash gate. Report actual counts, residency,
 KV formats and prefix policy. An older-Aesir speedup alone proves no Ollama win.
+Paired reports include each case's exact UTF-8 prompt/system byte counts and a
+SHA-256 workload identity over the literal inputs and declared model/context/
+sampling/output policy. This verifies input identity only; it does not establish
+equivalent tokenization, templates, outputs or quality across providers.
+The repository master currently depends on CUDA/PTX features that this host's
+`ptxas` rejects (`tanh` requires PTX ISA 7.0+); benchmark Python tests and doc
+gates are independently runnable without claiming that GPU master passed here.
 
 ## Numerical and operational gates
 
