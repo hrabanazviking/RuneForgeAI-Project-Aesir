@@ -42,6 +42,9 @@ without network access or modifications to source documents.
 - URI destinations with an explicit non-file scheme (`http`, `https`, `mailto`,
   `data`, and other schemes) are external and are not fetched or validated.
   Protocol-relative URLs are external as well.
+- `file:` URIs are not repository-relative destinations. The pinned CommonMark
+  parser does not emit them as accepted link tokens; if a future parser does,
+  they fail closed rather than being read from the host filesystem.
 - Malformed or empty local destinations are reported with source path and
   one-based line number when the CommonMark parser emits a link/image token.
   Syntactically unrecognized text that resembles an incomplete Markdown link is

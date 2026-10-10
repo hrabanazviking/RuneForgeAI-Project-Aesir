@@ -750,6 +750,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   extraction, GitHub-style heading slugs, explicit HTML anchors, and local
   path/fragment validation. Seven focused checks pass; the repository CLI
   reports exactly the nine hash-bound legacy TOC fragment errors.
+- AES500-055 adds 11 focused tests for inline/reference/image parsing, code
+  exclusion, heading slugs/duplicates/Unicode, explicit anchors, local paths,
+  query/percent handling, external URIs, missing targets/fragments, root and
+  symlink escapes, empty destinations, and malformed parser-ignored syntax.
 
 ## Status
 
