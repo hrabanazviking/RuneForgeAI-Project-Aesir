@@ -1,0 +1,11 @@
+{
+  "bdf": "0001:01:00.0",
+  "speed": "8.0 GT/s",
+  "width": "x1",
+  "max_width": "x4",
+  "note": "device-limited to x1",
+  "power_state": "D3hot (idle); D0 reachable via PM-control 0xFC",
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe link"
+}

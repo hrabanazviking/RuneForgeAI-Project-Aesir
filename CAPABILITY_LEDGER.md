@@ -2448,3 +2448,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Owner:** ARMVEGR domain (D1)
 - **Implementation evidence:** `docs/armvegr/C3_REVIEW.md` — per-component tables, L2/L3/L9 confirmation, C3 VERDICT section.
 - **Executable evidence:** Review document; verdict **F1-CORE-NOT-READY** (H059 blocked, remediation named). H041–H058 complete and verified.
+
+## HAILBRÚ Driver (Campaign 4, H061–H080) — 2026-10-10
+- **Status:** `implemented, Phase-B gate NO-GO`
+- **Owner:** HAILBRÚ domain (D2)
+- **Implementation evidence:** `docs/hailbru/C4_REVIEW.md` — slice checklist H061–H080,
+  API table, L12 verification, measured register evidence.
+- **Executable evidence:** 17-file pure-Mojo domain; `probe` CLI (17 subcommands);
+  28 error-path tests green on x86_64 + aarch64; 11 CLI selftests green.
+- **Capability:** real sysfs discovery/config/BAR/link probing, root BAR mmap
+  read-only register access (50/50 coherency 0x1e60), CPU-side DMA alloc/mlock,
+  eventfd IRQ plumbing, 17-blob firmware SHA-256 verification.
+- **Banked (F3):** IOMMU DMA, UIO bind, device MSI, firmware DMA boot, live writes —
+  prerequisites in `docs/hailbru/F3_UNBLOCK_RUNBOOK.md`.

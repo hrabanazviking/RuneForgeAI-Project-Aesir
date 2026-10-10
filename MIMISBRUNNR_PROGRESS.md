@@ -193,7 +193,25 @@ H060 GO (review doc). **No slices killed.**
 - [x] H060 — C3 review: ARMVEGR CPU pipeline verdict (F1 core complete) — VERDICT: F1-CORE-NOT-READY
 
 ## Campaign 4 — Hailbrú Driver (H061–H080)
-- Status: SÓLRÚN AUDIT COMPLETE 2026-10-10 ~08:15 EDT — route (b) selected, executing
+- Status: COMPLETE 2026-10-10 ~09:30 EDT — all slices executed, gate NO-GO, F3 runbook written
+
+### C4 COMPLETION (2026-10-10 ~09:30 EDT)
+- **Slices:** H061–H080 all executed. DONE (real): H061/62/63/71 discovery+identity+BARs+link,
+  H068 50/50 coherency reads (0x1e60, live device D0), H066/67 CPU DMA, H069/70 eventfd IRQ,
+  H073 17-blob firmware SHA-256, H072 register doc, H078 28 error-path tests (x86_64+aarch64),
+  H079 API.md + surface test, H077 gate, H080 review. F3-BANKED: H064-VFIO, H065-UIO-bind,
+  H066-IOMMU, H069-device-MSI, H074/75/76 firmware boot, H068-live-writes.
+- **Breakthrough:** D3hot→D0 via standard PM-control write (setpci 0xFC.w=2008); vendor mirror
+  read 0x1e60, 50/50 stable; device restored to D3hot (0x200b) after probing.
+- **Findings:** (1) H014 catalogue corrupt for u-boot-spl.bin (69-char sha256; real 219b9b98...5c3,
+  hashlib-confirmed) — HAILBRÚ correctly raised FirmwareCorrupt. (2) regs.mojo BAR0 0x0600/0x0700
+  mislabels corrected to study-accurate map (mailbox in BAR4, ATR at 0x700+, fw-ctrl at 0x640+).
+  (3) need_bdf validation added — malformed BDFs now raise BadBdf.
+- **Gate verdicts:** H077 PHASE_B_GATE.md = NO-GO; H080 C4_REVIEW.md = NOT-READY for Phase C.
+  F3_UNBLOCK_RUNBOOK.md holds exact kernel configs + operator steps + unblock criteria.
+- **L12:** clean — no shipped domain outside hailbru/ touches device nodes (one Phase-A spike
+  noted, read-only sysfs). No model-semantics code in hailbru/.
+- **Branch:** c4-hailbru-wip merged to main; pushed; remote HEAD verified.
 
 ### SÓLRÚN AUDIT — C4 pre-execution (2026-10-10)
 **Mechanism confrontation.** Mimir's kernel (6.12.109+rpt-rpi-2712) has
@@ -269,6 +287,30 @@ H060 GO (review doc). **No slices killed.**
   unchanged) with F2/F3 routing.
 - No slices killed. All re-scopes recorded here, in DEVLOG, and in code
   comments per the C2/C3 audit precedent.
+
+### DIRECTIVE FROM VOLMARR (2026-10-10 ~08:16 EDT, via coordinator)
+1. The REAL target is Hailo-10 acceleration; ARMVEGR CPU is the fallback
+   trunk, not the prize. Every slice must drive toward Hailo-10.
+2. **KERNEL REBUILD IS AN OPERATOR ACTION — route (a) OFF THE TABLE.**
+   No remote rebuild attempt on Mimir; Volmarr's hands-only decision.
+3. Sólrún audit takes route (b) — confirmed: implement HAILBRÚ as far as
+   the CURRENT kernel honestly allows (sysfs resource mmap BAR access,
+   config-space reads, register R/W primitives, mailbox/doorbell ID,
+   firmware presence checks — all real, on Mimir). VFIO/UIO-dependent
+   slices (IOMMU DMA, MSI-X eventfds) are F3-BANKED with EXACT
+   prerequisites: precise kernel config options, exact operator steps,
+   exact unblock criteria — zero re-research needed when he rebuilds.
+4. Ambition WITH honesty: squeeze every legitimate register-level avenue
+   the current kernel allows; bank only what the kernel truly forbids,
+   each banked item carrying the specific probe evidence.
+- Standing consequence: a `docs/hailbru/F3_UNBLOCK_RUNBOOK.md` operator
+  runbook is a C4 deliverable (exact config + steps + unblock criteria).
+- Note on register writes: root sysfs resource0 mmap makes writes
+  technically possible, but H005 §6's clean-room finding (no safe scratch
+  register — every BAR0 register has side effects; vendor driver bound)
+  forbids live-device writes as destructive. R/W primitives are real
+  (implemented + emulated-BAR tested); live device gets read-only probes.
+  This is ambition-with-honesty, not a skipped avenue.
 
 ## Campaign 5 — Bring-up & Firmware (H081–H100)
 - Status: not started

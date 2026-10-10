@@ -1,0 +1,14 @@
+{
+  "selected": "sysfs-recon",
+  "vfio": {
+    "available": false,
+    "reason": "no /dev/vfio/vfio \u2014 CONFIG_VFIO not set (H004, H012)"
+  },
+  "uio": {
+    "available": false,
+    "reason": "no /dev/uio* \u2014 CONFIG_UIO_PCI_GENERIC not set (H004, H013)"
+  },
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe mechanism"
+}
