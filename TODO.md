@@ -1267,3 +1267,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-115 causal attention unit evidence: width-3 tail computation is
   compared with an independent scalar F32 `[0,i]` oracle at 0.05 absolute F16
   error; row 0 is exact and the test repeats with +100 future-row values.
+- [x] AES500-116 causal attention integration: two appended KV-cache rows feed
+  active K/V slices into the attention kernel; row 0 equals the first cached V
+  exactly, while row 1 consumes its two-position causal prefix.

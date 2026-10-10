@@ -47,6 +47,10 @@ case to a scalar F32 online softmax over `[0, i]`, accepts at most 0.05 absolute
 error after F16 storage for this corpus, requires exact row-0 single-key
 equality, and repeats with a large future-row V perturbation.
 
+AES500-116 appends two K/V rows through `KVCache`, reads the active slices, and
+passes them to causal attention. Query row 0 exactly equals cache position 0's
+V row; query row 1 must differ after admitting its second position.
+
 AES500-113 adds direct admission coverage for zero sequence/head width,
 nondivisible Q width, K/V/output column mismatches, and each tensor's short-row
 case. Rejections assert the entire logical output snapshot is unchanged; one

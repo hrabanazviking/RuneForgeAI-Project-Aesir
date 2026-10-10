@@ -196,6 +196,11 @@ row must equal its only allowed V row exactly, and a +100 perturbation to the
 future V row remains covered by the same causal oracle. This is one deterministic
 tail-width corpus, not a general tolerance claim.
 
+AES500-116 passes active K/V slices from two KV-cache appends through causal
+attention. The first output row equals the first cached V row; the second row
+changes after its prefix includes position 1. This is one local cache-to-kernel
+integration case.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
