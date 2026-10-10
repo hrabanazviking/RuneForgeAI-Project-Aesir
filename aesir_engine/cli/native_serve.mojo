@@ -153,8 +153,16 @@ struct PendingClient:
 
 def admit_pending(listener: Int32, mut pending: List[PendingClient],
                   queue_limit: Int, queue_timeout_ms: Int, io_timeout_ms: Int,
-                  interrupt_fd: Int, ollama: Bool) raises:
-    """FIFO admission at decoder boundaries, with bounded work per probe."""
+                  interrupt_fd: Int, ollama: Bool,
+                  expired_undelivered: Int = 0) raises -> Int:
+    """FIFO admission at decoder boundaries, with bounded work per probe.
+
+    Counts expired-slot 503 sends that fail to deliver and reports
+    "[queue expired_undelivered=N]" after the sweep when N > 0. The running
+    count is returned so callers may thread it back in across sweeps; the
+    default keeps all existing call sites compatible.
+    """
+    var undelivered = expired_undelivered
     var index = 0
     while index < len(pending):
         if client_disconnected(pending[index].client.fd):
@@ -166,11 +174,13 @@ def admit_pending(listener: Int32, mut pending: List[PendingClient],
                 send_local(pending[index].client.fd, local_response(503, "", ollama),
                            min(io_timeout_ms, 500), interrupt_fd)
             except:
-                pass
+                undelivered += 1
             _ = pending.pop(index)
             print("[queue expired]")
         else:
             index += 1
+    if undelivered > 0:
+        print("[queue expired_undelivered=" + String(undelivered) + "]")
     for _ in range(16):
         var fd = accept_local_ready(listener)
         if fd < 0:
@@ -189,6 +199,7 @@ def admit_pending(listener: Int32, mut pending: List[PendingClient],
             pending.append(PendingClient(incoming^, monotonic_milliseconds()))
             print("[queue admitted depth=" + String(len(pending)) + "]")
         _ = external_call["fflush", Int32](Int(0))
+    return undelivered
 
 
 def next_client(listener: Int32, mut pending: List[PendingClient],
@@ -329,7 +340,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 send_stream_head(client.fd, "application/x-ndjson", io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
-                                admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
+                                _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                                 answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
@@ -399,7 +410,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                         request_id, created, model.name), io_timeout_ms, interrupt_fd)
                             while session.status().generating:
                                 var chunk = session.next_chunk()
-                                admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
+                                _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                                 answer += chunk
                                 if answer.byte_length() > 1048576:
                                     _ = session.cancel()
@@ -459,7 +470,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
                         while session.status().generating:
                             var chunk = session.next_chunk()
-                            admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
+                            _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
                             answer += chunk
                             if answer.byte_length() > 1048576:
                                 _ = session.cancel()
@@ -574,7 +585,12 @@ def dispatch_native_serve(args: List[String]) raises:
         elif flag == "--profile":
             profile = value
         elif flag == "--port":
-            port = bounded_decimal(value)
+            try:
+                port = bounded_decimal(value)
+            except:
+                raise Error("Invalid --port value '" + value + "': expected an unsigned decimal integer")
+            if port < 1 or port > 65535:
+                raise Error("Invalid --port value: port must be within the valid range 1..65535")
         elif flag == "--context":
             context = bounded_decimal(value)
         elif flag == "--device":
