@@ -135,7 +135,7 @@ def main():
         run([VORDR, "h158-run", "--out-dir", out, "--f1-bin", F1BIN,
              "--f1-config", F1CFG, "--max-tokens", "8", "--duration-s", "600",
              "--max-iters", "2", "--iter-budget-ms", "120000"])
-        check("reg-decode-live", out + "/events.jsonl", ["RegisterPollClean"])
+        check("reg-decode-live", out + "/events.jsonl", ["RegisterErrorDecoded"])
 
     # 15-16: watchdog restarts a dying child, then gives up
     wdir = tmp / "wd"
