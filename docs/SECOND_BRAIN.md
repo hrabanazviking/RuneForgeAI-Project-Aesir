@@ -139,9 +139,13 @@ This version requires the exercised 8G host ceiling. Native settings enforce
 model/context/port limits; this helper does not establish arbitrary hardware or
 memory-policy support. It uses explicit argv and escaped systemd arguments.
 
-Service startup rehashes catalog content, checks allocation admission and loads
-one CUDA session. `Type=simple` becoming active is not readiness: check the
-authenticated health endpoint. Restart handles process failure; an intentional
+Service startup rehashes catalog content, checks allocation admission, loads
+one CUDA session, then binds the listener and emits `Native inference ready`.
+The generated unit uses `Type=simple`, so systemd can report it active before
+those startup steps finish. The startup line proves listener initialization;
+the authenticated `/health` response proves the session is currently healthy.
+Check both signals, and still validate model/backend/completion identity on each
+generation response. Restart handles process failure; an intentional
 `systemctl stop` stays stopped. Repeated startup failures eventually hit the
 start limit. Correct the underlying build, key or resource issue, then:
 

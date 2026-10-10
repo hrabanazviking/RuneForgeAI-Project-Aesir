@@ -6,6 +6,18 @@ remains available. A separate Ollama-compatible mode was verified with the
 native Gemma 4 E2B Q4_K_M profile at 16,384 context on an RTX 4070 Laptop GPU.
 Neither mode is ready for public or multi-tenant deployment.
 
+## Startup, listener, and readiness signals
+
+The native service rehashes and admits the catalog model, initializes the CUDA
+session, then binds its loopback listener and writes `Native inference ready` to
+stdout. The supervised user unit uses `Type=simple`, so `systemctl is-active`
+can become successful before model initialization and listener binding finish.
+Use the startup line to confirm the listener loop was reached, then call the
+authenticated native `/health` route and require `status: ready` plus the
+expected backend/model identity. Generation clients must still validate each
+response's status, model and completion fields; neither systemd activation nor
+health readiness is a completion receipt for an individual request.
+
 ## Ollama-compatible offline mode
 
 Install a model into the durable catalog once, while the GGUF is available:
