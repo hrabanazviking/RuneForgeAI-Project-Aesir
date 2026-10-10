@@ -1130,5 +1130,10 @@ The legacy formatters below are not exposed compatibility APIs.
   offset after zero, negative, and oversized request rejection. Full sm_89
   master suite: 194 passed, 0 failed, 1 explicitly skipped, 195 total. These
   checks do not establish ownership, provenance, or lifetime.
-- [ ] AES500-086 integration evidence pending: no consumer is migrated to an
-  ownership record because AES500-084 prerequisites remain unresolved.
+- [x] AES500-086 integration disposition: no current owner-record interface
+  exists, so migrating a raw-pointer consumer would invent the deferred
+  semantics. No consumer is changed; this is a recorded defer, not integration
+  evidence.
+- [ ] AES500-087 adversarial evidence pending an accepted AES500-084 owner and
+  reset-invalidation contract; stale-record and wrong-owner checks cannot be
+  implemented against the current API.

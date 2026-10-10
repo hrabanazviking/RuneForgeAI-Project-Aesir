@@ -46,6 +46,10 @@ rejection for zero, negative, and oversized counts. The full sm_89 master suite
 reports 194 passed, zero failed, one explicitly skipped (195 total). This is
 allocator behavior evidence only; it does not validate owner association or
 pointer lifetime. Integration remains pending the AES500-084 prerequisites.
+AES500-086 records that integration is deferred: existing consumers continue
+to use their current raw-pointer interfaces, and no caller is migrated to a
+record type that does not exist. AES500-087 adversarial record testing likewise
+remains pending the prerequisite owner/invalidation contract.
 
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
