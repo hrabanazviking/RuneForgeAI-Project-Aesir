@@ -1,7 +1,8 @@
 """Descriptor ownership transfer and idempotent moved-from cleanup checks."""
 from std.collections import InlineArray
 from std.ffi import external_call
-from server.local_transport import OwnedFD, listen_local
+from core.generation_control import monotonic_milliseconds
+from server.local_transport import OwnedFD, listen_local, receive_head, receive_body
 
 
 def test_owned_fd_transfer_release() raises:
@@ -56,6 +57,30 @@ def test_socket_admission_rejection() raises:
     print("PASS listener/owner admission: invalid ports and negative descriptors reject")
 
 
+def test_socketpair_request_transport() raises:
+    var descriptors = InlineArray[Int32, 2](fill=-1)
+    if external_call["socketpair", Int32](Int32(1), Int32(526337), Int32(0), descriptors.unsafe_ptr()) != 0:
+        raise Error("Cannot create parser transport socketpair")
+    var peer = OwnedFD(descriptors[0])
+    var server = OwnedFD(descriptors[1])
+    var request = String("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nContent-Length: 4\r\nContent-Type: application/json\r\n\r\n{}{}")
+    var bytes = request.as_bytes()
+    var wrote = external_call["write", Int64](Int64(peer.fd), bytes.unsafe_ptr().unsafe_bitcast[Int8](), Int64(len(bytes)))
+    if wrote != Int64(len(bytes)):
+        raise Error("Parser transport fixture write was incomplete")
+    var deadline = monotonic_milliseconds() + 1000
+    var head = receive_head(server.fd, deadline, -1)
+    if not head.endswith("\r\n\r\n") or "Content-Length: 4" not in head:
+        raise Error("Transport did not return exactly one complete request head")
+    var body = receive_body(server.fd, 4, deadline, -1)
+    if body != "{}{}":
+        raise Error("Transport body reader lost or consumed adjacent request bytes")
+    _ = server
+    _ = peer
+    print("PASS socketpair request transport: exact head/body framing preserved")
+
+
 def main() raises:
     test_owned_fd_transfer_release()
     test_socket_admission_rejection()
+    test_socketpair_request_transport()
