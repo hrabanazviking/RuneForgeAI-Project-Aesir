@@ -38,6 +38,7 @@ from bench.bench_env import (
     bench_thermal_settle,
     bench_write_file,
     bench_read_text,
+    bench_rss_pages,
     harness_version,
 )
 from bench.bench_kernels import bench_all_kernels
@@ -248,7 +249,11 @@ def _run_decode(args: List[String], root: String) raises -> String:
     print("bench: model loaded")
     var t = TrialStats()
     var sink = Float64(0)
-    var first_ids = List[Int]()
+    # H173: reused decode-step buffers (logits fp32 + history ids). The
+    # "classic" sampler path still allocates per step (that IS the H163
+    # baseline); the "fast" path must not (proven by --rss-check).
+    var logits_buf = unsafe_alloc[Float32](32000)
+    var hist_buf = unsafe_alloc[Int](cfg.max_seq)
     for r in range(trials):
         inf.reset()
         var logits_p = inf.prefill(ids)
@@ -259,14 +264,20 @@ def _run_decode(args: List[String], root: String) raises -> String:
         var td0 = now_ns()
         var n_gen = 0
         for _ in range(max_new):
-            var logits = _logits_to_f32(logits_p, 32000)
             var next_tok: Int
             if sampler_kind == "fast":
-                next_tok = sampler.sample_fast(
-                    logits, cfg.temperature, cfg.top_k, cfg.top_p,
-                    gen_ids, cfg.repetition_penalty,
+                for i in range(32000):
+                    logits_buf.unsafe_offset(i).unsafe_store(
+                        Float32(logits_p.unsafe_offset(i).unsafe_load())
+                    )
+                for i in range(len(gen_ids)):
+                    hist_buf.unsafe_offset(i).unsafe_store(gen_ids[i])
+                next_tok = sampler.sample_fast_ptr(
+                    logits_buf, 32000, cfg.temperature, cfg.top_k, cfg.top_p,
+                    hist_buf, len(gen_ids), cfg.repetition_penalty,
                 )
             else:
+                var logits = _logits_to_f32(logits_p, 32000)
                 next_tok = sampler.sample(
                     logits, cfg.temperature, cfg.top_k, cfg.top_p,
                     gen_ids, cfg.repetition_penalty,
@@ -279,13 +290,74 @@ def _run_decode(args: List[String], root: String) raises -> String:
         var td1 = now_ns()
         t.record(Float64(td1 - td0))
         sink += Float64(n_gen)
-        if r == 0:
-            first_ids = gen_ids.copy()
         print(
             "bench: decode trial " + String(r) + ": " + String(n_gen) + " tokens in "
             + String(Float64(td1 - td0) / 1e9) + "s"
         )
-    # Determinism check: every trial must generate the identical sequence.
+    # H173 allocation instrumentation (--rss-check): warmup steps, snapshot
+    # RSS, run 30 decode steps, snapshot again. Zero per-step allocation
+    # after the first <=> RSS delta is ~0 pages.
+    var rss_before = Int64(-1)
+    var rss_after = Int64(-1)
+    if _get_int(args, "--rss-check", 0) != 0:
+        print("bench: rss-check: 30 decode steps, sampler=" + sampler_kind)
+        inf.reset()
+        var logits_p = inf.prefill(ids)
+        var sampler = Sampler(cfg.seed)
+        var gen_ids = List[Int]()
+        for i in range(len(ids)):
+            gen_ids.append(ids[i])
+        for _ in range(3):  # warmup (first-step allocations settle here)
+            for i in range(32000):
+                logits_buf.unsafe_offset(i).unsafe_store(
+                    Float32(logits_p.unsafe_offset(i).unsafe_load())
+                )
+            for i in range(len(gen_ids)):
+                hist_buf.unsafe_offset(i).unsafe_store(gen_ids[i])
+            var nt: Int
+            if sampler_kind == "fast":
+                nt = sampler.sample_fast_ptr(
+                    logits_buf, 32000, cfg.temperature, cfg.top_k, cfg.top_p,
+                    hist_buf, len(gen_ids), cfg.repetition_penalty,
+                )
+            else:
+                var logits = _logits_to_f32(logits_p, 32000)
+                nt = sampler.sample(
+                    logits, cfg.temperature, cfg.top_k, cfg.top_p,
+                    gen_ids, cfg.repetition_penalty,
+                )
+            gen_ids.append(nt)
+            logits_p = inf.forward(nt)
+        rss_before = bench_rss_pages()
+        for _ in range(30):
+            for i in range(32000):
+                logits_buf.unsafe_offset(i).unsafe_store(
+                    Float32(logits_p.unsafe_offset(i).unsafe_load())
+                )
+            for i in range(len(gen_ids)):
+                hist_buf.unsafe_offset(i).unsafe_store(gen_ids[i])
+            var nt: Int
+            if sampler_kind == "fast":
+                nt = sampler.sample_fast_ptr(
+                    logits_buf, 32000, cfg.temperature, cfg.top_k, cfg.top_p,
+                    hist_buf, len(gen_ids), cfg.repetition_penalty,
+                )
+            else:
+                var logits = _logits_to_f32(logits_p, 32000)
+                nt = sampler.sample(
+                    logits, cfg.temperature, cfg.top_k, cfg.top_p,
+                    gen_ids, cfg.repetition_penalty,
+                )
+            gen_ids.append(nt)
+            logits_p = inf.forward(nt)
+        rss_after = bench_rss_pages()
+        print(
+            "bench: rss-check: pages before=" + String(rss_before)
+            + " after=" + String(rss_after)
+            + " delta=" + String(rss_after - rss_before)
+        )
+    logits_buf.unsafe_free()
+    hist_buf.unsafe_free()
     inf.free()
     var j = String("{\n")
     j += String("  \"benchmark\": \"decode\",\n")
@@ -306,7 +378,9 @@ def _run_decode(args: List[String], root: String) raises -> String:
         "decode", String(max_new) + String("_tokens"), Float64(max_new), t
     ) + String("\n  ],\n")
     j += String("  \"sink\": ") + String(sink) + String(",\n")
-    _ = first_ids
+    j += String("  \"rss_pages_before\": ") + String(rss_before) + String(",\n")
+    j += String("  \"rss_pages_after\": ") + String(rss_after) + String(",\n")
+    j += String("  \"rss_pages_delta\": ") + String(rss_after - rss_before) + String(",\n")
     return j
 
 

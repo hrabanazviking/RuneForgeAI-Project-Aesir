@@ -197,6 +197,31 @@ struct TrialStats:
         return (t / Float64(len(self.s))) ** 0.5
 
 
+def bench_rss_pages() -> Int64:
+    # Resident set size in OS pages, from /proc/self/statm field 2.
+    # Used by H173 to prove zero per-step allocation (RSS must stay flat).
+    var txt = bench_try_read_text("/proc/self/statm")
+    if txt == "":
+        return Int64(-1)
+    # Second whitespace-separated field.
+    var i = 0
+    var n = len(txt.as_bytes())
+    while i < n and txt.as_bytes()[i] != 32:
+        i += 1
+    while i < n and txt.as_bytes()[i] == 32:
+        i += 1
+    var num = String("")
+    while i < n and txt.as_bytes()[i] != 32:
+        var b = List[Int8]()
+        b.append(Int8(txt.as_bytes()[i]))
+        b.append(0)
+        num += String(unsafe_from_utf8_ptr=b.unsafe_ptr())
+        i += 1
+    if num == "":
+        return Int64(-1)
+    return Int64(Int(num))
+
+
 def bench_thermal_settle(max_wait_s: Int = 60) raises -> Float64:
     # Wait until the SoC temperature is stable: sample every 5 s; stop when
     # two consecutive samples differ by < 1.0 C or the budget is exhausted.

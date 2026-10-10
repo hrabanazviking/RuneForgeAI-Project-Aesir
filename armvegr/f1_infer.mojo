@@ -242,7 +242,8 @@ def main() raises:
     var n_gen = 0
     for _ in range(max_new):
         var logits = _logits_to_f32(logits_p, 32000)
-        var next_tok = sampler.sample(
+        # H173: fused zero-allocation sampler (bit-identical to sample()).
+        var next_tok = sampler.sample_fast(
             logits, cfg.temperature, cfg.top_k, cfg.top_p,
             gen_ids, cfg.repetition_penalty,
         )

@@ -143,6 +143,23 @@ struct Inference:
     var ffn_g: Pointer[Float16, MutUntrackedOrigin]
     var ffn_u: Pointer[Float16, MutUntrackedOrigin]
     var logits: Pointer[Float16, MutUntrackedOrigin]
+    # H173 — preallocated attention score buffer (max_seq fp32): forward()
+    # no longer allocates/frees per head per layer per step.
+    var scores_buf: Pointer[Float32, MutUntrackedOrigin]
+    # H173 — precomputed weight-dict key strings: forward() no longer
+    # builds "blk.<layer>.<name>" Strings per layer per step.
+    var wkey_embd: String
+    var wkey_out: String
+    var wkey_out_norm: String
+    var wkey_attn_norm: List[String]
+    var wkey_attn_q: List[String]
+    var wkey_attn_k: List[String]
+    var wkey_attn_v: List[String]
+    var wkey_attn_out: List[String]
+    var wkey_ffn_norm: List[String]
+    var wkey_ffn_gate: List[String]
+    var wkey_ffn_up: List[String]
+    var wkey_ffn_down: List[String]
 
     def __init__(out self, max_seq: Int = 256):
         self.model = TinyLlama()
@@ -163,6 +180,30 @@ struct Inference:
         self.ffn_g = unsafe_alloc[Float16](5632)
         self.ffn_u = unsafe_alloc[Float16](5632)
         self.logits = unsafe_alloc[Float16](32000)
+        self.scores_buf = unsafe_alloc[Float32](max_seq)
+        self.wkey_embd = String("token_embd.weight")
+        self.wkey_out = String("output.weight")
+        self.wkey_out_norm = String("output_norm.weight")
+        self.wkey_attn_norm = List[String]()
+        self.wkey_attn_q = List[String]()
+        self.wkey_attn_k = List[String]()
+        self.wkey_attn_v = List[String]()
+        self.wkey_attn_out = List[String]()
+        self.wkey_ffn_norm = List[String]()
+        self.wkey_ffn_gate = List[String]()
+        self.wkey_ffn_up = List[String]()
+        self.wkey_ffn_down = List[String]()
+        for layer in range(22):
+            var lp = String("blk.") + String(layer) + String(".")
+            self.wkey_attn_norm.append(lp + "attn_norm.weight")
+            self.wkey_attn_q.append(lp + "attn_q.weight")
+            self.wkey_attn_k.append(lp + "attn_k.weight")
+            self.wkey_attn_v.append(lp + "attn_v.weight")
+            self.wkey_attn_out.append(lp + "attn_output.weight")
+            self.wkey_ffn_norm.append(lp + "ffn_norm.weight")
+            self.wkey_ffn_gate.append(lp + "ffn_gate.weight")
+            self.wkey_ffn_up.append(lp + "ffn_up.weight")
+            self.wkey_ffn_down.append(lp + "ffn_down.weight")
 
     def load(mut self, path: String) raises:
         self.model.load(path)
@@ -186,6 +227,7 @@ struct Inference:
         self.ffn_g.unsafe_free()
         self.ffn_u.unsafe_free()
         self.logits.unsafe_free()
+        self.scores_buf.unsafe_free()
         self.model.free()
 
     def prefill(
@@ -254,21 +296,20 @@ struct Inference:
         # rope_fp16 takes raw theta (it computes ln(theta) internally).
         var theta = Float32(10000.0)
         # Embedding.
-        var emb = self.model.weights["token_embd.weight"]
+        var emb = self.model.weights[self.wkey_embd]
         var eoff = token * 2048
         for i in range(2048):
             self.x.unsafe_offset(i).unsafe_store(emb.unsafe_offset(eoff + i).unsafe_load())
         # Layers.
         for layer in range(22):
-            var p = String("blk.") + String(layer) + String(".")
             # Attn norm.
             rmsnorm_fp16(
-                self.x, self.model.weights[p + "attn_norm.weight"], self.h, 2048, Float32(1e-5)
+                self.x, self.model.weights[self.wkey_attn_norm[layer]], self.h, 2048, Float32(1e-5)
             )
             # QKV.
-            gemv_fp16(self.model.weights[p + "attn_q.weight"], self.h, self.q, 2048, 2048)
-            gemv_fp16(self.model.weights[p + "attn_k.weight"], self.h, self.k, 256, 2048)
-            gemv_fp16(self.model.weights[p + "attn_v.weight"], self.h, self.v, 256, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_q[layer]], self.h, self.q, 2048, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_k[layer]], self.h, self.k, 256, 2048)
+            gemv_fp16(self.model.weights[self.wkey_attn_v[layer]], self.h, self.v, 256, 2048)
             # RoPE (in-place on q/k).
             for hq in range(32):
                 rope_fp16(
@@ -293,8 +334,8 @@ struct Inference:
             for hq in range(32):
                 var kh = hq // 8
                 var qh = self.q.unsafe_offset(hq * 64)
-                # Scores.
-                var scores = unsafe_alloc[Float32](pos + 1)
+                # Scores (H173: reused preallocated buffer — no per-head alloc).
+                var scores = self.scores_buf
                 var m = Float32(-1e30)
                 for s in range(pos + 1):
                     var kp = self._k_ptr(layer, s, kh)
@@ -324,10 +365,9 @@ struct Inference:
                             * Float32(vp.unsafe_offset(d).unsafe_load())
                         )
                     oh.unsafe_offset(d).unsafe_store(Float16(acc))
-                scores.unsafe_free()
             # Attn output proj.
             gemv_fp16(
-                self.model.weights[p + "attn_output.weight"],
+                self.model.weights[self.wkey_attn_out[layer]],
                 self.attn_out, self.h, 2048, 2048,
             )
             # Residual.
@@ -337,11 +377,11 @@ struct Inference:
                 self.x.unsafe_offset(i).unsafe_store(Float16(xv + hv))
             # FFN norm.
             rmsnorm_fp16(
-                self.x, self.model.weights[p + "ffn_norm.weight"], self.h, 2048, Float32(1e-5)
+                self.x, self.model.weights[self.wkey_ffn_norm[layer]], self.h, 2048, Float32(1e-5)
             )
             # Gate and Up.
-            gemv_fp16(self.model.weights[p + "ffn_gate.weight"], self.h, self.ffn_g, 5632, 2048)
-            gemv_fp16(self.model.weights[p + "ffn_up.weight"], self.h, self.ffn_u, 5632, 2048)
+            gemv_fp16(self.model.weights[self.wkey_ffn_gate[layer]], self.h, self.ffn_g, 5632, 2048)
+            gemv_fp16(self.model.weights[self.wkey_ffn_up[layer]], self.h, self.ffn_u, 5632, 2048)
             # SiLU(gate) * up.
             for i in range(5632):
                 var g = Float32(self.ffn_g.unsafe_offset(i).unsafe_load())
@@ -350,7 +390,7 @@ struct Inference:
                 self.ffn_g.unsafe_offset(i).unsafe_store(Float16(silu * u))
             # Down.
             gemv_fp16(
-                self.model.weights[p + "ffn_down.weight"], self.ffn_g, self.h, 2048, 5632
+                self.model.weights[self.wkey_ffn_down[layer]], self.ffn_g, self.h, 2048, 5632
             )
             # Residual.
             for i in range(2048):
@@ -359,10 +399,10 @@ struct Inference:
                 self.x.unsafe_offset(i).unsafe_store(Float16(xv2 + hv2))
         # Final norm.
         rmsnorm_fp16(
-            self.x, self.model.weights["output_norm.weight"], self.h, 2048, Float32(1e-5)
+            self.x, self.model.weights[self.wkey_out_norm], self.h, 2048, Float32(1e-5)
         )
         # LM head.
-        gemv_fp16(self.model.weights["output.weight"], self.h, self.logits, 32000, 2048)
+        gemv_fp16(self.model.weights[self.wkey_out], self.h, self.logits, 32000, 2048)
         self.seq_len += 1
         return self.logits
 
