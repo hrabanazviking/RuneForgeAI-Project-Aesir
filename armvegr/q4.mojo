@@ -72,12 +72,9 @@ def q40_dequant_block(
     var scale = fp16_from_bits(read_u16_le(src, 0))
     for b in range(16):
         var byte = UInt8(src[unsafe_offset=2 + b])
-        var q0 = Int(byte & UInt8(15))
-        var q1 = Int((byte >> 4) & UInt8(15))
-        if q0 >= 8:
-            q0 -= 16
-        if q1 >= 8:
-            q1 -= 16
+        # GGML: x0 = (q & 0xF) - 8 (values stored biased by +8).
+        var q0 = Int(byte & UInt8(15)) - 8
+        var q1 = Int((byte >> 4) & UInt8(15)) - 8
         # GGML split-half: byte b -> elements b (low nibble) and b+16 (high).
         dst[unsafe_offset=b] = Float16(Float32(q0) * scale)
         dst[unsafe_offset=b + 16] = Float16(Float32(q1) * scale)
