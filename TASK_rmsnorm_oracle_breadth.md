@@ -28,11 +28,10 @@ tails. The first contract slice does not change kernel behavior.
 - `weight.size >= T.cols`; the implementation consumes the first `T.cols`
   linear elements regardless of the weight descriptor's row/column shape;
   additional elements are ignored.
-- The implementation rejects `epsilon <= 0`. It currently admits NaN and
-  positive infinity because neither compares `<= 0`; AES500-091 records this
-  behavior without silently introducing a new finite-value policy. The
-  contract review must decide whether later code preserves it or intentionally
-  adds finite epsilon validation.
+- The implementation rejects `epsilon <= 0`. AES500-094 tightens admission to
+  finite positive epsilon: NaN and either infinity reject before mutation.
+  This makes the normalization denominator an admitted positive finite input;
+  it does not define non-finite tensor or weight behavior.
 - The kernel reads tensor fields directly and does not call `RuneTensor.checked()`.
   This contract does not imply checked construction, backing capacity, pointer
   provenance, or lifetime safety.

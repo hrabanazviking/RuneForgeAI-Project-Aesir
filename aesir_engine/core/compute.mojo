@@ -1679,8 +1679,8 @@ def rmsnorm(
         raise Error("rmsnorm: tensor dimensions must be positive")
     if weight.size < T.cols:
         raise Error("rmsnorm: weight dimension mismatch")
-    if epsilon <= 0.0:
-        raise Error("rmsnorm: epsilon must be positive")
+    if isnan(epsilon) or isinf(epsilon) or epsilon <= 0.0:
+        raise Error("rmsnorm: epsilon must be finite and positive")
 
     var hidden_dim = T.cols
     var simd_end = (hidden_dim // simd_w_f16) * simd_w_f16

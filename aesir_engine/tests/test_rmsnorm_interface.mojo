@@ -62,8 +62,8 @@ def test_rmsnorm_interface() raises:
         flat_weight.data.unsafe_store(index, Scalar[f16](1.0))
     rmsnorm(accepted, flat_weight, Scalar[f32](1e-5))
 
-    # Invalid dimension, short-weight, and nonpositive-epsilon inputs reject
-    # before writing any tensor element.
+    # Invalid dimension, short-weight, and non-finite/nonpositive epsilon
+    # inputs reject before writing any tensor element.
     var base = RuneTensor[f16](1, 3, well.allocate(3))
     for index in range(base.size):
         base.data.unsafe_store(index, Scalar[f16](Float32(index + 1)))
@@ -85,15 +85,32 @@ def test_rmsnorm_interface() raises:
         base,
         valid_weight,
         Scalar[f32](0.0),
-        "rmsnorm: epsilon must be positive",
+        "rmsnorm: epsilon must be finite and positive",
     )
     expect_rejected_without_mutation(
         base,
         valid_weight,
         Scalar[f32](-1.0),
-        "rmsnorm: epsilon must be positive",
+        "rmsnorm: epsilon must be finite and positive",
     )
-
+    expect_rejected_without_mutation(
+        base,
+        valid_weight,
+        Scalar[f32](0.0 / 0.0),
+        "rmsnorm: epsilon must be finite and positive",
+    )
+    expect_rejected_without_mutation(
+        base,
+        valid_weight,
+        Scalar[f32](1.0 / 0.0),
+        "rmsnorm: epsilon must be finite and positive",
+    )
+    expect_rejected_without_mutation(
+        base,
+        valid_weight,
+        Scalar[f32](-1.0 / 0.0),
+        "rmsnorm: epsilon must be finite and positive",
+    )
 
     var zero_rows = RuneTensor[f16](0, 3, well.allocate(1))
     expect_dimension_rejection_without_mutation(

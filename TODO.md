@@ -1169,3 +1169,8 @@ The legacy formatters below are not exposed compatibility APIs.
   error. The accepted case asserts descriptor admission only, not numerical
   weight-prefix parity. Final sm_89 master suite: 195 passed, 0 failed,
   1 skipped, 196 total.
+
+- [x] AES500-094 RMSNorm implementation: `rmsnorm` now rejects NaN and either
+  infinity alongside zero/negative epsilon before mutation. Focused admission
+  tests assert the expected error and unchanged logical input for all five
+  invalid epsilon classes; tensor and weight non-finite policy remains open.

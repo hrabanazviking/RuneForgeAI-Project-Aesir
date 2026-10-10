@@ -784,8 +784,8 @@ in F32 using 16-wide SIMD reductions followed by a scalar tail, computes
 `inv_rms = 1 / sqrt(sum_squares / cols + epsilon)`, then stores
 `f16((f32(x) * inv_rms) * f32(weight[c]))`. It requires positive tensor rows
 and columns, at least `cols` linear weight elements (only that prefix is read),
-and an epsilon that does not compare `<= 0`. Current comparison behavior
-admits NaN and positive infinity epsilon. The function does not validate
+and a finite positive epsilon. NaN, either infinity, zero, and negative
+epsilon are rejected before tensor mutation. The function does not validate
 pointer provenance/backing capacity or call `RuneTensor.checked()`; no such
 guarantee is implied here. Oracle tolerance, non-finite input policy, and
 finite-overflow/underflow policy are assigned to the AES500-091–100 evidence
@@ -795,8 +795,8 @@ The focused `compute.rmsnorm_interface` case verifies acceptance of a positive
 multirow tensor with an overlong 2x2 weight descriptor. The implementation
 reads the first `cols` linear values; this admission case does not verify that
 numerical behavior. It verifies mutation-free rejection of zero/negative rows
-and columns, short weights, and zero/negative epsilon. It adds no numerical
-parity or non-finite-value evidence.
+and columns, short weights, and non-finite/nonpositive epsilon. It adds no
+numerical parity or tensor/weight non-finite-value evidence.
 
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
