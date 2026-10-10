@@ -67,8 +67,8 @@ struct TinyLlama:
         c.head_dim = self.head_dim
         c.ffn_dim = self.ffn_dim
         c.vocab = self.vocab
-        c.weights = self.weights
-        c.weight_sizes = self.weight_sizes
+        c.weights = self.weights.copy()
+        c.weight_sizes = self.weight_sizes.copy()
         c.loaded = self.loaded
         c.owns_weights = False
         return c^
