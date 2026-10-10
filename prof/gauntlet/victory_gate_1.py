@@ -56,8 +56,8 @@ PROMPTS = [
 
 BINARY = str(REPO / "build" / "f1_infer")
 TOKENIZER = str(REPO / "data" / "armvegr" / "tinyllama_tokenizer.model")
-RUBRIC = json.loads((REPO / "data" / "armvegr" / "coherence_rubric.json").read_text())
-WORDLIST = set((REPO / "data" / "armvegr" / "english_wordlist.txt").read_text().split())
+# Rubric + wordlist are chosen per-run via --rubric/--wordlist (see main()).
+WORDLIST = set()
 
 
 def sha256_of(path):
@@ -121,13 +121,13 @@ def check_rubric(text, ids, topics):
     return fails
 
 
-def generate(model_path, prompt, seed, model_sha):
+def generate(model_path, prompt, seed, model_sha, max_tokens):
     cfg = {
         "model_path": str(model_path),
         "model_sha256": model_sha,
         "tokenizer_path": TOKENIZER,
         "chat_template": "tinyllama",
-        "max_new_tokens": 64,
+        "max_new_tokens": max_tokens,
         "max_seq": 1024,
         "temperature": 0.7,
         "top_k": 40,
@@ -139,7 +139,7 @@ def generate(model_path, prompt, seed, model_sha):
     cfg_path.write_text(json.dumps(cfg))
     r = subprocess.run(
         [BINARY, "--config", str(cfg_path), "--prompt", prompt,
-         "--max-new-tokens", "64", "--seed", str(seed)],
+         "--max-new-tokens", str(max_tokens), "--seed", str(seed)],
         capture_output=True, text=True, timeout=600, cwd=str(REPO))
     if r.returncode != 0:
         raise RuntimeError("f1_infer crashed: " + r.stderr[-300:])
@@ -150,17 +150,37 @@ def generate(model_path, prompt, seed, model_sha):
 
 
 def main() -> int:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--rubric", default="data/armvegr/coherence_rubric_v1_1.json",
+                    help="rubric JSON (default: v1.1 with the repaired wordlist)")
+    ap.add_argument("--wordlist", default="data/armvegr/english_wordlist_v2.txt")
+    ap.add_argument("--max-tokens", type=int, default=96)
+    ap.add_argument("--out", default="data/gauntlet/victory_gate_1.json")
+    args = ap.parse_args()
+    global WORDLIST
+    rubric = json.loads((REPO / args.rubric).read_text())
+    WORDLIST = set((REPO / args.wordlist).read_text().split())
+    out_path = REPO / args.out
+    max_tokens = args.max_tokens
+
     fails = []
     transcript = {"envelope": "GGUF, TinyLlama-1.1B shape (dim 2048, 22 layers, vocab 32000); "
-                  "cross-family models NOT claimed (loader shape-pinned — known limitation)",
-                  "rubric": RUBRIC["rubric_id"], "models": []}
+                  "cross-family models NOT claimed (loader shape-pinned — known limitation); "
+                  "dtypes supported: Q8_0/Q4_0/Q6_K/F32/F16 (Q5_K_M correctly rejected fail-closed in-slice)",
+                  "rubric": rubric["rubric_id"],
+                  "rubric_file": args.rubric,
+                  "wordlist": args.wordlist,
+                  "max_tokens": max_tokens,
+                  "models": []}
 
     for mi, model in enumerate(MODELS):
         path, sha = download(model)
         mrec = {"name": model["name"], "url": model["url"],
                 "sha256": sha, "prompts": []}
         for pi, (prompt, topics) in enumerate(PROMPTS):
-            text, ids = generate(path, prompt, seed=19500 + mi * 10 + pi, model_sha=sha)
+            text, ids = generate(path, prompt, seed=19500 + mi * 10 + pi, model_sha=sha,
+                                 max_tokens=max_tokens)
             n_gen = len(ids)
             bad = check_rubric(text, ids, topics)
             ok = (not bad) and n_gen >= 50
@@ -188,7 +208,7 @@ def main() -> int:
 
     transcript["verdict"] = "PASS" if not fails else "FAIL"
     transcript["failures"] = fails
-    OUT.write_text(json.dumps(transcript, indent=2))
+    out_path.write_text(json.dumps(transcript, indent=2))
     print("H195-ALL-PASS" if not fails else "H195 FAIL: " + "; ".join(fails))
     return 0 if not fails else 1
 
