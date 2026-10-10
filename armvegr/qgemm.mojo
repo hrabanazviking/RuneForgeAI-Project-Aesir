@@ -69,8 +69,9 @@ def q80_gemm(
             c[unsafe_offset=i * N + j] = s
 
 
-def q80_gemm_bytes(M: Int, K: Int) -> Int64:
-    # Bytes streamed by the M=1 decode case: one activation row + the
-    # whole B matrix in Q8_0 (scales included).
+def q80_gemm_bytes(M: Int, N: Int, K: Int) -> Int64:
+    # Bytes streamed by the decode case: M activation rows (Q8_0) + the
+    # whole N x K B matrix in Q8_0 (scales included). (Fixed 2026-10-10:
+    # the original omitted N, undercounting B traffic by N×.)
     var nb = K // 32
-    return Int64((M * nb + 1 * nb) * 34)
+    return Int64((M * nb + N * nb) * 34)

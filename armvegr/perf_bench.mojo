@@ -223,10 +223,9 @@ def bench_elem(mut sink: Float64):
     var st = new_rng(23)
     fill_rand_f16(a, n, st, -1.0, 1.0)
     fill_rand_f16(b, n, st, -1.0, 1.0)
-    var t = Timer()
     for _ in range(3):
         elem_add(a, b, c, n)
-    t = Timer()
+    var t = Timer()
     for _ in range(11):
         var t0 = now_ns()
         elem_add(a, b, c, n)
@@ -461,7 +460,7 @@ def bench_q80_gemm(mut sink: Float64):
         "q80_gemm",
         "M1_N4096_K4096",
         "GB/s",
-        Float64(q80_gemm_bytes(M, K)),
+        Float64(q80_gemm_bytes(M, N, K)),
         t,
         sink,
     )
