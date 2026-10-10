@@ -183,7 +183,7 @@ def main() raises:
             raise Error("f1_infer: --seed must be >= 0")
         seed = UInt64(si)
 
-    var prompt_text = String("")
+    var prompt_text = _get_opt(args, "--prompt", String(""))
     if _has_flag(args, "--prompt-file"):
         var ppath = _get_arg(args, "--prompt-file")
         var pdata = _read_file(ppath)
@@ -239,7 +239,7 @@ def main() raises:
         gen_ids.append(ids[i])
     var td0 = now_ns()
     var n_gen = 0
-    for step in range(max_new):
+    for _ in range(max_new):
         var logits = _logits_to_f32(logits_p, 32000)
         var next_tok = sampler.sample(
             logits, cfg.temperature, cfg.top_k, cfg.top_p,
