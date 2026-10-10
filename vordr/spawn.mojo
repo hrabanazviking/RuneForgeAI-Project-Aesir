@@ -6,7 +6,7 @@
 
 from std.ffi import external_call
 from std.memory.alloc import unsafe_alloc
-from std.memory import UnsafePointer
+from std.memory import Pointer, UnsafePointer
 from std.origin import MutUntrackedOrigin
 
 def _fork() -> Int64:
@@ -14,9 +14,9 @@ def _fork() -> Int64:
 
 
 def _execve(
-    path: UnsafePointer[UInt8, MutUntrackedOrigin],
-    argv: UnsafePointer[UnsafePointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
-    envp: UnsafePointer[UnsafePointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
+    path: Pointer[UInt8, MutUntrackedOrigin],
+    argv: UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
+    envp: UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
 ) -> Int64:
     return external_call["execve", Int64](path, argv, envp)
 
@@ -46,13 +46,13 @@ def spawn_process(
         return pid
     # --- child ---
     var argc = len(args) + 1
-    var argv = unsafe_alloc[UnsafePointer[UInt8, MutUntrackedOrigin]](argc + 1)
+    var argv = unsafe_alloc[Pointer[UInt8, MutUntrackedOrigin]](argc + 1)
     var p0 = to_cstr(prog)
     argv[unsafe_offset=0] = p0
     for i in range(len(args)):
         argv[unsafe_offset=i + 1] = to_cstr(args[i])
-    argv[unsafe_offset=argc] = UnsafePointer[UInt8, MutUntrackedOrigin]()
-    var null_env = UnsafePointer[UnsafePointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin]()
+    argv[unsafe_offset=argc] = Pointer[UInt8, MutUntrackedOrigin]()
+    var null_env = UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin]()
     _ = _execve(p0, argv, null_env)
     # execve only returns on failure.
     _exit(127)
