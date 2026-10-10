@@ -116,7 +116,9 @@ struct RuneWeaver:
             index += width
 
     def _initial_pieces(self, prompt: String) -> List[String]:
-        """Applies SentencePiece/BPE space markers and returns UTF-8 symbols."""
+        """Applies model space markers without Unicode normalization."""
+        # Preserve caller code points: model vocabularies may distinguish
+        # canonically equivalent forms. Only ASCII space gets marker rewriting.
         var uses_llama_space = "▁" in self.token_to_id
         var uses_gpt2_space = "Ġ" in self.token_to_id
         var normalized = String("")

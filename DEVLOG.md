@@ -3902,3 +3902,8 @@ passed, zero failed, one skipped (224 total).
 AES500-163 pins the public space-marker behavior: `▁` replacement occurs only
 when present in vocabulary; literal space remains available otherwise. Master
 suite: 224 passed, zero failed, one skipped (225 total).
+
+
+AES500-164 documents in code that RuneWeaver preserves Unicode code points and
+only applies vocabulary-driven ASCII-space rewriting. Master suite remains
+224 passed, zero failed, one skipped (225 total).

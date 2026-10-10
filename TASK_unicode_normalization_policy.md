@@ -35,3 +35,8 @@ AES500-162 baseline: composed `é` -> `[11,12]` and decomposed `e` + acute -> `[
 ## AES500-163 interface receipt
 
 Public `encode(" a", False)` returns the marker ID followed by `a` when `▁` is in vocabulary, and the literal-space ID followed by `a` when the vocabulary instead contains ASCII space. The composed/decomposed preservation vectors remain in the master suite. Suite: 224 passed, zero failed, one skipped (225 total).
+
+
+## AES500-164 implementation receipt
+
+`_initial_pieces` now states that caller Unicode code points are preserved because model vocabularies can distinguish canonical forms, and that only ASCII space receives marker rewriting. This makes the existing behavior explicit without changing token output. Master suite: 224 passed, zero failed, one skipped (225 total).
