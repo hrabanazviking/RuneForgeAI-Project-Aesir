@@ -240,3 +240,19 @@ def test_unicode_normalization_baseline() raises:
     if len(composed) == len(decomposed):
         raise Error("Unicode canonical forms were unexpectedly normalized together")
     print("PASS: RuneWeaver preserves composed and decomposed Unicode byte vectors")
+
+def test_unicode_normalization_interface() raises:
+    var sentencepiece = RuneWeaver()
+    sentencepiece.add_token("▁", 1)
+    sentencepiece.add_token("a", 2)
+    var marked = sentencepiece.encode(" a", False)
+    if len(marked) != 2 or marked[0] != 1 or marked[1] != 2:
+        raise Error("vocabulary-driven SentencePiece space marker interface changed")
+
+    var literal = RuneWeaver()
+    literal.add_token(" ", 1)
+    literal.add_token("a", 2)
+    var unchanged = literal.encode(" a", False)
+    if len(unchanged) != 2 or unchanged[0] != 1 or unchanged[1] != 2:
+        raise Error("literal ASCII space was not preserved without marker vocabulary")
+    print("PASS: Unicode-preserving public encode and vocabulary-driven space interface")

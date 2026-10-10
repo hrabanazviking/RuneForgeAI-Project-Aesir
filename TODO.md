@@ -1455,3 +1455,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-162 Unicode baseline: composed/decomposed canonical forms retain
   distinct exact byte-token vectors; source/tool hashes and limits are recorded.
   Master suite 223/0/1 (224 total).
+
+- [x] AES500-163 Unicode interface: public encode confirms vocabulary-driven
+  `▁` rewriting and literal-space preservation otherwise; master suite 224/0/1
+  (225 total).

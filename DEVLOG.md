@@ -3897,3 +3897,8 @@ UTF-8 remain separate.
 AES500-162 captures composed/decomposed `é` as distinct byte-token vectors,
 confirming no implicit canonical normalization in this path. Master suite: 223
 passed, zero failed, one skipped (224 total).
+
+
+AES500-163 pins the public space-marker behavior: `▁` replacement occurs only
+when present in vocabulary; literal space remains available otherwise. Master
+suite: 224 passed, zero failed, one skipped (225 total).

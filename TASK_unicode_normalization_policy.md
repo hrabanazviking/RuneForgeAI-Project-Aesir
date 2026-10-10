@@ -30,3 +30,8 @@ canonical-equivalence claim. No tokenizer code changes in AES500-161.
 
 
 AES500-162 baseline: composed `é` -> `[11,12]` and decomposed `e` + acute -> `[13,14,15]`, demonstrating preservation. Mojo/source identity and hashes are in `docs/evidence/unicode-normalization-baseline-2026-10-10/README.md`. Master suite: 223 passed, zero failed, one skipped (224 total).
+
+
+## AES500-163 interface receipt
+
+Public `encode(" a", False)` returns the marker ID followed by `a` when `▁` is in vocabulary, and the literal-space ID followed by `a` when the vocabulary instead contains ASCII space. The composed/decomposed preservation vectors remain in the master suite. Suite: 224 passed, zero failed, one skipped (225 total).
