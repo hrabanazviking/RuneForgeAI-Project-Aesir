@@ -17,6 +17,14 @@ headers, pipelining and keep-alive reuse reject. See the
 [parser bounds contract](../TASK_request_parser_bounds.md) and
 [native service transport limits](NATIVE_SERVICE.md).
 
+Framing failures are fail-closed: request line must be HTTP/1.1; line endings
+must be CRLF; header names are strict ASCII tokens and duplicates are rejected
+without regard to case. Repeated Content-Length, any Transfer-Encoding, and
+Expect are unsupported. POST needs one positive decimal Content-Length and
+exact JSON content type; GET with a nonzero length and non-GET/POST methods do
+not enter request decoding or inference. See the
+[framing rejection contract](../TASK_http_framing_rejection.md).
+
 | Route | Native mode (bearer required) | `--ollama` mode (no bearer) | Successful body |
 |---|---|---|---|
 | `GET /health` | Yes | 404 | JSON `status`, `backend`, `cpu_offload`, `profile`, `context`; loaded-service readiness only. |

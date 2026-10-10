@@ -38,6 +38,20 @@ request bytes out of error text/logs and do not enter inference. See
 [`TASK_request_parser_bounds.md`](../../TASK_request_parser_bounds.md) and the
 [API v1 matrix](../../docs/API_SUPPORT_MATRIX_V1.md).
 
+### HTTP request framing rejection
+
+`LocalHTTPHead` requires a three-token HTTP/1.1 request line and strict CRLF
+framing; header names are ASCII letters/digits/hyphen and duplicate detection
+is case-insensitive. It rejects folded/malformed headers, duplicate
+Content-Length (including case variants), `Transfer-Encoding`, and `Expect`.
+The live mode validates Host and bearer auth before body reading; POST requires
+one decimal positive Content-Length, exact JSON content type, and body size at
+most 131072. GET rejects nonzero body length; unsupported methods return 405.
+Malformed syntax raises into the sanitized client error path. No body or
+inference session mutation follows a non-200 head result. See
+[`TASK_http_framing_rejection.md`](../../TASK_http_framing_rejection.md) and
+the [v1 support matrix](../../docs/API_SUPPORT_MATRIX_V1.md).
+
 ### Live socket and shutdown ownership
 
 `OwnedFD` owns and closes one descriptor. `listen_local` returns the listener
