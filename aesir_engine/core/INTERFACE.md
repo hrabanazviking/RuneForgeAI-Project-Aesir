@@ -791,6 +791,13 @@ guarantee is implied here. Oracle tolerance, non-finite input policy, and
 finite-overflow/underflow policy are assigned to the AES500-091–100 evidence
 program; see `TASK_rmsnorm_oracle_breadth.md`.
 
+The focused `compute.rmsnorm_interface` case verifies acceptance of a positive
+multirow tensor with an overlong 2x2 weight descriptor. The implementation
+reads the first `cols` linear values; this admission case does not verify that
+numerical behavior. It verifies mutation-free rejection of zero/negative rows
+and columns, short weights, and zero/negative epsilon. It adds no numerical
+parity or non-finite-value evidence.
+
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
 def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16], mut Out: RuneTensor[f16], seq_len: Int, head_dim: Int): ...

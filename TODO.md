@@ -1161,3 +1161,11 @@ The legacy formatters below are not exposed compatibility APIs.
   `docs/evidence/rmsnorm-baseline-2026-10-10/README.md`. All 168 baseline
   outputs match after F16 rounding; this does not establish a broad tolerance
   or exceptional-value policy.
+- [x] AES500-093 interface: `core/INTERFACE.md` states the exact shape/weight/
+  epsilon boundary. `compute.rmsnorm_interface` passes a valid two-row input
+  with overlong non-vector-shaped weights and proves rejected zero/negative
+  dimensions using an allocated sentinel, and short weights/zero-negative
+  epsilon using logical-range snapshots; every rejection checks the intended
+  error. The accepted case asserts descriptor admission only, not numerical
+  weight-prefix parity. Final sm_89 master suite: 195 passed, 0 failed,
+  1 skipped, 196 total.

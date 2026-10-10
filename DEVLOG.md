@@ -72,6 +72,16 @@ passes but only tests short-weight rejection. Neither result establishes a
 general numerical tolerance or non-finite/overflow policy. See
 `docs/evidence/rmsnorm-baseline-2026-10-10/README.md`.
 
+AES500-093 formalizes the RMSNorm admission interface and registers
+`compute.rmsnorm_interface`. Positive multirow input with overlong 2x2 weights
+is accepted. Zero/negative rows and columns, short weights, and zero/negative
+epsilon are rejected with the expected error before mutating the tensor's
+logical elements; dimension failures preserve an allocated sentinel because
+those descriptors have no positive logical span. The sm_89 master suite result
+reports 195 passed, zero failed, one skipped (196 total). The test checks
+admission only; numerical prefix semantics and tolerance remain for the
+oracle-evidence slices.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the
