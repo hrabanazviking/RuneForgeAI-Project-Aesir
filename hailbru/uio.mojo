@@ -100,7 +100,8 @@ def _uio_gates(
 ) raises:
     # Fail-closed gates shared by every bind/unbind step (H065).
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    if not file_exists(arch, uio_drv + "/new_id"):
+    # NOTE: new_id is write-only — check the driver directory itself.
+    if not file_exists(arch, uio_drv):
         raise herror(
             "MechanismUnavailable",
             "uio_pci_generic not registered (no " + uio_drv
