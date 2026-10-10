@@ -74,7 +74,7 @@ def shadow_plan(seed: UInt64, n_ops: Int, fraction: Float64) raises -> List[Int]
     var out = List[Int]()
     for k in range(want):
         out.append(perm[k])
-    return out
+    return out^
 
 
 def shadow_verify_tile(

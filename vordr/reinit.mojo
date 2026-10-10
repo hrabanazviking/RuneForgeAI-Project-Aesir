@@ -149,4 +149,4 @@ def reinit(
         "\"ready\": true, \"ms\": " + String(os_clock_ms(arch) - t0)
         + ", \"reset_ms\": " + String(rep.reset_ms),
     )
-    return rep
+    return rep^

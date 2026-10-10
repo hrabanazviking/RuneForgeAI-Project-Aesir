@@ -85,7 +85,7 @@ struct HeartbeatMonitor:
                 _ = self.budgets.pop(i)
                 _ = self.deadlines.pop(i)
             i -= 1
-        return out
+        return out^
 
     def in_flight_count(self) -> Int:
         return len(self.ids)
@@ -141,7 +141,7 @@ def load_budgets(arch: String, path: String) raises -> List[OpBudget]:
         i += 1
     if len(out) == 0:
         raise herror("BadBudgets", "no budgets parsed from " + path)
-    return out
+    return out^
 
 
 def _at_key(tb: List[UInt8], i: Int, key: String) -> Bool:

@@ -88,7 +88,7 @@ def taxonomy_entries() -> List[TaxEntry]:
     t.append(TaxEntry("VendorMirrorMismatch", "persistent"))
     t.append(TaxEntry("VfioError", "persistent"))
     t.append(TaxEntry("WrongMechanism", "fatal"))
-    return t
+    return t^
 
 
 def classify(name: String) raises -> String:
@@ -107,4 +107,4 @@ def taxonomy_names() -> List[String]:
     var out = List[String]()
     for i in range(len(t)):
         out.append(t[i].name)
-    return out
+    return out^

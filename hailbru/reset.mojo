@@ -99,7 +99,7 @@ def golden_check(
             )
         i += 2
     unmap_bar(arch, m)
-    return bad
+    return bad^
 
 
 def reset(
@@ -154,4 +154,4 @@ def reset(
             + (" (+" + String(len(bad) - 1) + " more)" if len(bad) > 1 else ""),
         )
     rep.steps.append(ResetStep("golden", os_clock_ms(arch) - t0, True))
-    return rep
+    return rep^

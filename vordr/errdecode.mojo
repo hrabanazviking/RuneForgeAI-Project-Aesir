@@ -123,7 +123,7 @@ def decode_pci_status(status: Int) -> List[DecodedError]:
                     "UnknownErrorBit", "undocumented status bit set",
                     "warning", 0x06, b,
                 ))
-    return out
+    return out^
 
 
 def decode_pmcsr(pmcsr: Int) -> List[DecodedError]:
@@ -139,7 +139,7 @@ def decode_pmcsr(pmcsr: Int) -> List[DecodedError]:
         out.append(DecodedError(
             "Pmcsr.PmeEn", "PME enabled (informational)", "info", 0x44, 8
         ))
-    return out
+    return out^
 
 
 def decode_bar0_irq018c(status: UInt32) -> List[DecodedError]:
@@ -155,7 +155,7 @@ def decode_bar0_irq018c(status: UInt32) -> List[DecodedError]:
                 "ignored, never mislabeled (H087)",
                 "warning", 0x018C, b,
             ))
-    return out
+    return out^
 
 
 def poll_decode_live(
@@ -183,7 +183,7 @@ def poll_decode_live(
         event_emit_slice(
             arch, log_path, "H144", "RegisterErrorDecoded", out[i].to_fields()
         )
-    return out
+    return out^
 
 
 def decode_image(image: List[Int]) -> List[DecodedError]:
@@ -213,4 +213,4 @@ def decode_image(image: List[Int]) -> List[DecodedError]:
                 "decode set", "warning", off, -1,
             ))
         i += 2
-    return out
+    return out^

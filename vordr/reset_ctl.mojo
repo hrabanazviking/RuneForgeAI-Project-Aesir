@@ -51,7 +51,7 @@ def vordr_reset(
             fields + ", " + sfields
             + ", \"wall_ms\": " + String(os_clock_ms(arch) - t0),
         )
-        return rep
+        return rep^
     except e:
         event_emit_slice(
             arch, log_path, "H147", "ResetFailed",

@@ -119,7 +119,7 @@ def scenario_transient(
     var m = RecoveryMachine()
     m.on_classified(arch, log_path, "transient", "HangDetected:decode_step")
     m.recovered(arch, log_path)
-    return m.transitions
+    return m.transitions^
 
 
 def scenario_persistent(
@@ -131,7 +131,7 @@ def scenario_persistent(
     m.reset_done(arch, log_path)
     m.reinit_done(arch, log_path)
     m.verified(arch, log_path, True)
-    return m.transitions
+    return m.transitions^
 
 
 def scenario_fatal(
@@ -140,4 +140,4 @@ def scenario_fatal(
     # Scripted scenario 3: fatal error -> fail-closed halt.
     var m = RecoveryMachine()
     m.on_classified(arch, log_path, "fatal", "DeviceRemoved")
-    return m.transitions
+    return m.transitions^

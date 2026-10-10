@@ -1366,10 +1366,10 @@ def _parse_reg_detail(detail: String) -> List[Int]:
             cur += String(chr(Int(b)))
     parts.append(cur)
     if len(parts) != 2:
-        return img
+        return img^
     img.append(_hex_to_int(parts[0]))
     img.append(_hex_to_int(parts[1]))
-    return img
+    return img^
 
 
 def _hex_to_int(s: String) -> Int:

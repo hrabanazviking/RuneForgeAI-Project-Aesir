@@ -147,7 +147,7 @@ def load_thresholds(arch: String, path: String) raises -> List[Int]:
     var out = List[Int]()
     out.append(warn_mc)
     out.append(crit_mc)
-    return out
+    return out^
 
 
 def monitor_run(
