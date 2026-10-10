@@ -3832,3 +3832,10 @@ compressed-layout/overlap limits.
 AES500-150 release gate passes native build/help, master suite (217 passed, zero
 failed, one skipped / 218 total), doc-drift and whitespace checks. Recent hosted
 Actions runs remain in progress; no hosted success is inferred.
+
+
+## 2026-10-10 — AES500-151 byte BPE merge contract
+
+Specified the RuneWeaver merge-vector owners and current score-ranked adjacent
+pair behavior, tie order, space normalization, UTF-8 splitting and fallback.
+External tokenizer parity and broad multilingual fidelity remain separate.

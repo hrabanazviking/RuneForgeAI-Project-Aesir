@@ -1409,3 +1409,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-150 GGUF tensor-directory release gate: native build/help,
   master suite (217 passed, 0 failed, 1 skipped / 218 total), docs, and
   whitespace checks pass. Recent hosted runs remain in progress.
+
+- [x] AES500-151 byte BPE merge-vector contract: `TASK_byte_bpe_merge_vectors.md`
+  records owners, score-priority merge order, earliest tie behavior, space marker
+  normalization, UTF-8 symbols, byte fallback, and exclusions before edits.
