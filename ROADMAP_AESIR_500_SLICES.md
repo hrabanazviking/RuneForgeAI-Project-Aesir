@@ -651,6 +651,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   full master suite pass (191/0/1); see
   `docs/evidence/cuda-allocation-lifetime-unit-2026-10-10/`. Failure visibility
   is asserted without claiming concurrent mutation or GPU fault injection.
+- AES500-028 independent review confirmed tracker lifetimes and counter results
+  for the exercised synchronous GEMM path. It added a live-count assertion
+  immediately after each execution and rebound the physical receipt to a fresh
+  run of that exact source; no async or concurrent guarantee is inferred.
 
 ## Status
 

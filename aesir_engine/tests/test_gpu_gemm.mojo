@@ -197,6 +197,8 @@ def exercise_shape(
         for index in range(c.size):
             c.data.unsafe_store(index, -999.0)
         gemm_f16_cuda(executor, a, b, c)
+        if resources.allocation_tracker[].live_count != 3:
+            raise Error("GPU-3 tracker owner count changed during executor use")
         if executor.a_allocation.pending_work_count != 0:
             raise Error("GPU-3 synchronized GEMM left A work pending")
         if executor.b_allocation.pending_work_count != 0:
