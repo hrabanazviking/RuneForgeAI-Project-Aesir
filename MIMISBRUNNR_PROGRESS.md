@@ -649,6 +649,17 @@ generator is independently designed; findings live in docs/plunder/.
   `data/bench/baseline_e2e.json` — prefill **2.080 tok/s** (246.10s median),
   decode **0.1766 tok/s** (47 tokens actual, EOS at 47; 266.13s median).
   Model sha256 da3087fb…. Matches H136 (2.02 / 0.165) within 7%.
+- [x] H164 — GEMM tiling sweep DONE 2026-10-10: 12 configs × {1024³, 4096³}
+  via `run_bench gemm_tuned` → `data/bench/gemm_sweep_1.json`. Winner config 11
+  (mc128/kc512/nc128/prefetch0/hoist1/micro1-pipe): 7.773 GFLOPS on 1024³
+  (+12.1% vs 6.934), 7.501 on 4096³ (+49.4% vs 5.021). The hoist_b
+  (pack B once, reuse across row-blocks) is the key win. ADOPTED in-place:
+  `gemm_fp16` repointed at winner; bit-identical vs original (c9_h164_gemm
+  PASS); C2_VERIFY ALL PASS.
+- [ ] H165 — Prefetch sweep DONE 2026-10-10: prefetch {0,64,128,256} on 2048³
+  with adopted config → `data/bench/gemm_sweep_2.json`. Verdict: NO ADOPTION —
+  all within ±1% of baseline (7.766 GFLOPS); none achieve ≥3%. The hoist_b +
+  large blocks already keep data cache-resident; software prefetch adds nothing.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
