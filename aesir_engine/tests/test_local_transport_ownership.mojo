@@ -1,7 +1,7 @@
 """Descriptor ownership transfer and idempotent moved-from cleanup checks."""
 from std.collections import InlineArray
 from std.ffi import external_call
-from server.local_transport import OwnedFD
+from server.local_transport import OwnedFD, listen_local
 
 
 def test_owned_fd_transfer_release() raises:
@@ -28,5 +28,34 @@ def test_owned_fd_transfer_release() raises:
     print("PASS OwnedFD transfer: moved-from cleanup is inert; destination closes once")
 
 
+def test_socket_admission_rejection() raises:
+    var rejected_negative = False
+    var rejected_privileged = False
+    var rejected_too_large = False
+    try:
+        _ = listen_local(-1)
+    except:
+        rejected_negative = True
+    try:
+        _ = listen_local(1023)
+    except:
+        rejected_privileged = True
+    try:
+        _ = listen_local(65536)
+    except:
+        rejected_too_large = True
+    if not rejected_negative or not rejected_privileged or not rejected_too_large:
+        raise Error("Invalid service port reached socket setup")
+    var rejected_fd = False
+    try:
+        _ = OwnedFD(-1)
+    except:
+        rejected_fd = True
+    if not rejected_fd:
+        raise Error("Invalid descriptor constructed an owner")
+    print("PASS listener/owner admission: invalid ports and negative descriptors reject")
+
+
 def main() raises:
     test_owned_fd_transfer_release()
+    test_socket_admission_rejection()
