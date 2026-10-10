@@ -32,6 +32,12 @@ existing `test_flash_attention` only checks that output is nonzero for one
 synthetic shape; it does not detect causality. AES500-112 will capture this
 behavior before the implementation change.
 
+AES500-112's retained corpus is in
+`docs/evidence/causal-attention-baseline-2026-10-10/README.md`: 10/12 captured
+F16 values differ from the causal oracle (max absolute error 12.671875), while
+the capture is much closer to the all-row oracle. The evidence is bounded to
+that shape and input set.
+
 The current admission checks do not establish checked products/indexes,
 pointer provenance or backing capacity, alias/overlap safety, exceptional-value
 policy, broad numerical tolerance, accelerator behavior, performance, or model

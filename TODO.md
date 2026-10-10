@@ -1252,3 +1252,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-111 causal attention contract: `TASK_causal_attention_reference_suite.md`
   defines inclusive prefix semantics, shape and arithmetic expectations, and
   identifies the current missing future-position mask. No source changed.
+- [x] AES500-112 causal attention baseline: deterministic 3-row/2-head capture
+  differs from causal scalar F16 output at 10/12 values (max error 12.671875)
+  and is far closer to the all-row oracle. Reproduction, hashes, raw capture,
+  and oracle are in `docs/evidence/causal-attention-baseline-2026-10-10/`.

@@ -175,6 +175,12 @@ inspection found the kernel currently consumes all `seq_len` K/V rows for every
 query row, with no future-position mask. AES500-112 will preserve a deterministic
 baseline of that gap before implementation; no behavior changed here.
 
+AES500-112's reproducible 3-row/2-head baseline differs from the independent
+causal oracle on 10/12 F16 outputs (max absolute error 12.671875) and is much
+closer to the all-row oracle. This confirms future-value leakage for the named
+corpus only; the retained source/tool hashes and comparator are linked in the
+task file.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
