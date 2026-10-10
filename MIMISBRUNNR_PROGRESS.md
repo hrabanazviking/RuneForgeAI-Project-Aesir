@@ -677,8 +677,13 @@ generator is independently designed; findings live in docs/plunder/.
   **1.918 tok/s** (24.50s median for 47 tokens) vs H163 baseline 0.1766 tok/s —
   **10.86× speedup** (986%), far exceeding ≥15% threshold. RSS delta 0 pages.
   The O(n²) bubble sort over 32k logits is eliminated.
-- [ ] H174 — Prefill optimization IN PROGRESS 2026-10-10: chunked prefill
-  `--chunk {64,128,256,512}` → `prefill_opt.json`; target ≥15% vs H163 (2.080 tok/s).
+- [x] H174 — Prefill optimization DONE 2026-10-10: chunked prefill
+  `--chunk {64,128,256,512}` → `data/bench/prefill_opt.json` (chunk 128 winner).
+  **3.362 tok/s** (152.29s median) vs H163 baseline 2.080 tok/s — **+61.6%**,
+  exceeding ≥15% threshold. Breakdown: H164 GEMM accounts for +51.9%
+  (2.080→3.159), chunking adds +6.4% (3.159→3.362). Logit delta 0.016
+  (fp16 GEMM vs GEMV non-associativity); argmax token identical (1652).
+  c9_h174_chunk test updated (threshold 0.02).
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
