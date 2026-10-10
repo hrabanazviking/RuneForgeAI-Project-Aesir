@@ -49,8 +49,11 @@ def q40_quant_block(
     write_u16_le(dst, 0, fp16_bits_of(scale))
     var inv = Float32(1) / scale
     for b in range(16):
-        var q0 = round_half_away(Float32(src[unsafe_offset=2 * b]) * inv)
-        var q1 = round_half_away(Float32(src[unsafe_offset=2 * b + 1]) * inv)
+        # GGML split-half (matches q40_dequant_block): byte b holds
+        # element b in the low nibble and element b+16 in the high nibble,
+        # values stored biased by +8.
+        var q0 = round_half_away(Float32(src[unsafe_offset=b]) * inv)
+        var q1 = round_half_away(Float32(src[unsafe_offset=b + 16]) * inv)
         if q0 > 7:
             q0 = 7
         if q0 < -8:
@@ -59,7 +62,7 @@ def q40_quant_block(
             q1 = 7
         if q1 < -8:
             q1 = -8
-        # LOW NIBBLE FIRST: q[2b] in bits [3:0], q[2b+1] in bits [7:4].
+        # GGML split-half: q[b] in bits [3:0], q[b+16] in bits [7:4].
         var byte = UInt8(q0 & 15) | (UInt8(q1 & 15) << 4)
         dst[unsafe_offset=2 + b] = Int8(byte)
 
