@@ -103,9 +103,10 @@ def check_rubric(text, ids, topics):
     return fails
 
 
-def generate(model_path, prompt, seed):
+def generate(model_path, prompt, seed, model_sha):
     cfg = {
         "model_path": str(model_path),
+        "model_sha256": model_sha,
         "tokenizer_path": TOKENIZER,
         "chat_template": "tinyllama",
         "max_new_tokens": 64,
@@ -141,7 +142,7 @@ def main() -> int:
         mrec = {"name": model["name"], "url": model["url"],
                 "sha256": sha, "prompts": []}
         for pi, (prompt, topics) in enumerate(PROMPTS):
-            text, ids = generate(path, prompt, seed=19500 + mi * 10 + pi)
+            text, ids = generate(path, prompt, seed=19500 + mi * 10 + pi, model_sha=sha)
             n_gen = len(ids)
             bad = check_rubric(text, ids, topics)
             ok = (not bad) and n_gen >= 50
