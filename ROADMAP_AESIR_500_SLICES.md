@@ -738,11 +738,14 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   exact slug algorithm before implementation. Directory destinations are
   valid existing local targets; fragments on directories are invalid.
 - AES500-052 inventories 297 tracked active Markdown files and 976 inline
-  links/images using markdown-it-py 3.0.0. It records 861 local and 115 external
+  links/images using markdown-it-py 4.2.0. It records 861 local and 115 external
   destinations plus nine existing local-anchor mismatches in the Mojo language
   guide TOC; no local file targets or repository-root escapes were found.
   Enforcement remains deferred until the exact slug grammar and legacy-debt
   policy are pinned.
+- AES500-053 pins `markdown-it-py` 4.2.0/CommonMark parsing, active tracked
+  paths, reference links/images, anchor lookup through explicit HTML IDs and
+  GitHub heading slugs, ordered diagnostics, and opt-in CLI acceptance.
 
 ## Status
 

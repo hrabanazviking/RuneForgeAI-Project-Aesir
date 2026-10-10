@@ -656,3 +656,27 @@ The read-only baseline is
 `docs/evidence/todo-ledger-refs-baseline-2026-10-10/`; it records 95 tags, 95
 AES references, four adjacent-tag lines, and two tags with separate AER IDs.
 The pre-change checker observed only the first AES reference per tag.
+
+## Local Markdown link validation (AES500-051–060)
+
+The validator uses `markdown-it-py` 4.2.0 in the pinned Pixi environment with
+the CommonMark preset. It scans Git-tracked root, `docs/`, and `aesir_engine/`
+Markdown, excluding `docs/evidence/**` and `docs/historical/**`. CommonMark
+inline/reference links and images are candidates; fenced/inline code and angle
+autolinks are ignored. External URI schemes and protocol-relative destinations
+are syntax-only and are never fetched.
+
+Local paths resolve from the source document. Percent escapes are decoded,
+query strings do not affect lookup, root escapes fail, and existing files or
+directories without fragments are valid destinations. Fragments require a
+tracked Markdown file. Explicit HTML `id`/`name` anchors match exact values;
+heading anchors lowercase text, replace spaces with hyphens, remove other
+whitespace and punctuation, strip Markdown formatting, and suffix duplicate
+slugs with `-1`, `-2`, etc. in heading order. This follows GitHub's published
+section-link rules. Diagnostics use source path and one-based source-map line,
+remain stable and ordered, and never modify files.
+
+The validator starts opt-in because the hash-bound baseline records nine
+preexisting fragment mismatches. Read
+`../docs/evidence/markdown-link-baseline-2026-10-10/` before interpreting
+failures or proposing a legacy-debt policy.

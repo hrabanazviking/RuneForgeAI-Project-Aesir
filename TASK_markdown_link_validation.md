@@ -16,6 +16,8 @@ without network access or modifications to source documents.
   scope. Source-relative link resolution is rooted at the containing document.
 - Candidate syntax: CommonMark inline links and images, including reference
   uses/definitions, after excluding fenced code and inline code spans.
+- Parser identity: `markdown-it-py` 4.2.0, CommonMark preset, through the
+  repository's pinned Pixi environment.
 - Test owner: `scripts/test_check_doc_drift.py` or a dedicated focused test.
 
 ## Invariants
@@ -32,6 +34,11 @@ without network access or modifications to source documents.
   generation follows the repository's pinned GitHub-compatible algorithm,
   including punctuation and duplicate-slug behavior, documented in the
   interface slice.
+- GitHub-compatible heading anchors lowercase the heading text, replace spaces
+  with hyphens, remove other whitespace and punctuation, and strip Markdown
+  formatting before slugging. Duplicate slugs receive `-1`, `-2`, and later
+  numeric suffixes in source order. Explicit HTML `id`/`name` anchors are
+  matched exactly and take precedence for their literal values.
 - URI destinations with an explicit non-file scheme (`http`, `https`, `mailto`,
   `data`, and other schemes) are external and are not fetched or validated.
   Protocol-relative URLs are external as well.
@@ -55,8 +62,8 @@ without network access or modifications to source documents.
 ## Acceptance commands
 
 ```sh
-python3 scripts/test_check_doc_drift.py
-python3 scripts/check_doc_drift.py
+pixi run python scripts/test_check_markdown_links.py
+pixi run python scripts/check_markdown_links.py --check
 ```
 
 AES500-052 will measure this active-doc set and link baseline and test the
