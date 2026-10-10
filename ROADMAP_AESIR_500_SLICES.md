@@ -880,3 +880,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   devlog and review receipt. The existing `AES-MEM-002` capability remains
   verified only for checked 2D host views and scalar row-major indexing; raw
   views, allocation bounds, lifetimes and arbitrary/packed strides remain open.
+- AES500-080 target-specific release checks pass locally on source revision
+  `22cf8c6141602a7770304474a3ca00ce8b7a7ef3`: `sm_89` executable build and
+  `--help` smoke succeed, and the master suite reports 193 passed, zero failed,
+  one skipped, total 194, exit 0. Repository drift checks pass with only the
+  recorded legacy-artifact warnings. Exact-head GitHub Actions run
+  `38017251960` was observed `in_progress`; hosted release acceptance remains
+  pending, with no hosted pass claimed.
