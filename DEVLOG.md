@@ -3422,3 +3422,37 @@ outrun implementations), 5 risks with mitigations, open questions → owning
 slices, C2 kernel backlog with shapes and tolerances. H010 verdict
 re-confirmed GO-WITH-CONDITIONS, no amendment. Phase A is closed; C2
 (ARMVEGR kernels) is scoped.
+
+## 2026-10-10 — MÍMISBRUNNR H041: GGUFSeer ARM64 full port (1.1.0 migration + ABI fix)
+
+Two ARM64-specific issues fixed in `aesir_engine/loader/gguf.mojo` (the two
+touchpoints authorized by the C3 SÓLRÚN audit, Finding A; zero behavior change
+on x86_64):
+1. Mojo 1.1.0 removed `InlineArray` from `std.collections` — the fstat buffer
+   in `_open_and_map` is now `unsafe_alloc[UInt64](18)` + zero-fill +
+   `unsafe_free` on every raise path (same 144-byte semantics).
+2. struct stat ABI: st_mode is word 2 on aarch64, word 3 on x86_64 — the
+   regular-file check ORs both slots (the other holds st_nlink). Without this
+   every mmap open failed on ARM64 ("must be a regular file"); found because
+   the port harness actually ran on Mimir.
+Corpus: 6 files (5 deterministic from `prof/armvegr/make_gguf_corpus.py` +
+real TinyLlama-1.1B-Chat-v1.0 Q4_0, 637699456 bytes), v2+v3, dtypes
+F32/F16/Q4_0/Q8_0/Q4_1/Q5_0/Q8_1/Q6_K. Canonical dumps byte-identical
+x86_64 vs ARM64 on all six (per-file sha256 in
+`data/armvegr/gguf_port_diff.txt`; diff empty). Existing x86_64 suite
+(test_gguf_parsing, test_ggml_type) passes unmodified. L9 preserved.
+
+## 2026-10-10 — MÍMISBRUNNR H042: GGUF tensor loader (mmap + dequantize)
+
+New `armvegr/gguf_loader.mojo`: self-contained v2/v3 header parser (24-byte
+v3 header — there is NO alignment field in the header; alignment defaults to
+32 via general.alignment; an early draft misread u32@24 and was caught by the
+x86_64 self-test), bounds-checked tensor table, mmap via open64/lseek/mmap,
+dequantize to FP16 via H031/H032 kernels (F32->fp32_to_fp16, F16 bit-exact
+copy, Q8_0->q80_to_fp16, Q4_0->q40_to_fp16); other dtypes fail closed at parse
+time with a named error. Portable Mojo: the same sources build on x86_64 and
+ARM64. Cross-check (`tests/h042_xcheck.mojo`, TEST-ONLY): 68 tensors
+dequantized per arch — per-tensor FP16 bytes byte-identical (aggregate sha256
+49391f64... both arches; max abs err 0 <= 1e-6). 1.1 GB sparse GGUF loads with
+peak RSS 320 KiB (budget file+256 MiB). Three corrupt files fail closed with
+named errors, exit 0, no crash. Evidence: `data/armvegr/gguf_loader_xcheck.txt`.

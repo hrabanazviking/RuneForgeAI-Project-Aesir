@@ -1,0 +1,37 @@
+# H042 — GGUF loader cross-architecture check (data/armvegr/gguf_loader_xcheck.txt)
+#
+# Method: tests/h042_xcheck.mojo dequantizes EVERY tensor of each corpus file
+# to FP16 with armvegr/gguf_loader.mojo (H031/H032 kernels) and writes raw
+# FP16 bytes per tensor. The SAME Mojo sources were built on x86_64 (forge,
+# pixi Mojo 1.1.0, bypassing armvegr/build.sh's arch gate in the TEST-ONLY
+# harness only) and on ARM64 (Mimir, native Mojo 1.1.0). Per-tensor .f16 files
+# compared by sha256; aggregate = sha256 of the sorted per-tensor sha256 list.
+#
+# Corpus (inputs byte-identical on both machines, sha256-verified):
+#   h041_mixed.gguf  (v3, 24 tensors: F32/F16/Q8_0/Q4_0)
+#   h041_small.gguf  (v3, 21 tensors)
+#   h041_f32.gguf    (v3, 22 tensors, F32-heavy incl. MimirWell conversion path analogues)
+#   h041_v2.gguf     (v2, 1 F32 tensor)
+#   h041_qextra.gguf (v3, contains Q4_1/Q5_0/Q8_1 -> identical fail-closed
+#                     REJECT "gguf_loader: unsupported dtype for tensor extra.q41.b"
+#                     on BOTH arches at parse time)
+#
+# Result: 68 tensors dequantized on each arch; per-tensor sha256 aggregate:
+#   x86_64: 49391f64913abad217ce216eb0b5c99ecf454c47dd1d8b1a9840f7c8c8a7ef75
+#   ARM64:  49391f64913abad217ce216eb0b5c99ecf454c47dd1d8b1a9840f7c8c8a7ef75
+# MATCH — max absolute error 0 (bit-identical), well within the <= 1e-6 bound.
+# Dtypes exercised: F32 (fp32_to_fp16), F16 (bit-exact copy), Q8_0 (q80_to_fp16),
+# Q4_0 (q40_to_fp16). Unsupported dtypes fail closed with the same named error
+# on both architectures.
+#
+# mmap / no-copy check (Mimir, 2026-10-10):
+#   /tmp/h041corp/h042_big.gguf = 1100000096 bytes (1.1 GB, sparse; valid v3
+#   header + one 550M-element F16 tensor). Loaded via mmap; peak RSS sampled
+#   from /proc/PID/status VmHWM during parse: 320 KiB.
+#   Budget: file size + 256 MiB = 1336362 KiB. 320 KiB << budget. PASS —
+#   the whole file is never copied into RAM.
+#
+# Fail-closed checks (Mimir, h042_xcheck exit 0, no crash, no silent garbage):
+#   h042_badmagic.gguf -> REJECT: gguf_loader: bad GGUF magic
+#   h042_trunc.gguf    -> REJECT: gguf_loader: file smaller than the GGUF header
+#   h042_badoff.gguf   -> REJECT: gguf_loader: misaligned tensor offset for token_embd.weight

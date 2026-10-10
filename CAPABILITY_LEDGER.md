@@ -2364,3 +2364,34 @@ top 5 lessons, top 5 risks with mitigations, open questions mapped to
 answering slices, C2 kernel backlog (H022–H039 with target shapes and error
 tolerances), and the H010 gate verdict re-confirmed GO-WITH-CONDITIONS
 (dated, no amendment — H016–H019 added evidence, no contradictions).
+
+## 6B. ARMVEGR loaders / tokenizer / KV-cache / sampler (D1) — MÍMISBRUNNR Campaign 3 (H041–H060)
+
+Pure-Mojo model I/O and CPU pipeline domain, continuing the F1 CPU engine on
+the ARMVEGR substrate. All on-device evidence from Mimir (aarch64, Mojo 1.1.0);
+x86_64 cross-checks from the forge (same Mojo 1.1.0).
+
+### AES-LOAD-041 — GGUFSeer ARM64 full port (H041)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `aesir_engine/loader/gguf.mojo` — Mojo 1.1.0
+  migration (InlineArray removal) + aarch64 struct-stat ABI fix (st_mode word
+  index); the only two touchpoints, zero x86_64 behavior change.
+- **Executable evidence:** `tests/h041_gguf_port.mojo` canonical dump; 6-file
+  corpus (v2+v3, F32/F16/Q4_0/Q8_0/Q4_1/Q5_0/Q8_1/Q6_K, incl. real
+  TinyLlama-1.1B-Chat-v1.0 Q4_0) byte-identical x86_64 vs ARM64
+  (`data/armvegr/gguf_port_diff.txt`, empty diff). Existing x86_64 suite
+  (test_gguf_parsing, test_ggml_type) passes unmodified.
+
+### AES-LOAD-042 — GGUF tensor loader, mmap + dequantize to FP16 (H042)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/gguf_loader.mojo` — self-contained
+  v2/v3 parser, mmap, FP16 dequantize via H031/H032 kernels; unsupported
+  dtypes and corrupt input fail closed with named errors.
+- **Executable evidence:** `tests/h042_xcheck.mojo` (TEST-ONLY): 68 tensors
+  dequantized per arch, byte-identical (max abs err 0 <= 1e-6);
+  1.1 GB file loads at 320 KiB peak RSS; 3 corrupt files fail closed
+  (`data/armvegr/gguf_loader_xcheck.txt`).

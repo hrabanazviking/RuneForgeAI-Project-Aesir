@@ -88,7 +88,103 @@ All 20 slices reviewed against their acceptance criteria before execution. Findi
 - [x] H040 — C2 review verdict (READY)
 
 ## Campaign 3 — Loaders, Tokenizer, KV Cache (H041–H060)
-- Status: not started
+- Status: IN PROGRESS (worker session 771dcfe5, 2026-10-10)
+
+### SÓLRÚN AUDIT — C3 pre-execution (2026-10-10)
+All 20 slices reviewed against acceptance criteria before execution.
+
+**Finding A (H041) — GGUFSeer 1.1.0 breakage is REAL, lazily compiled:**
+Probed on forge (Mojo 1.1.0 via pixi): `from std.collections import InlineArray`
+fails at parse. BUT `from loader.gguf import GGUFSeer` + struct construction
+BUILD SUCCEEDS — Mojo 1.1.0 compiles lazily per-symbol: the error fires only
+when a method body on the InlineArray path (the fstat path in `open()`,
+gguf.mojo:415) is compiled. Proof: probe module with bad top-level import —
+importing/instantiating the struct builds (exit 0); calling the method that
+uses the imported name fails with the InlineArray error. Consequence: any
+FUNCTIONAL use of GGUFSeer (open/parse) is broken; H041 ("every parse path
+exercised") cannot proceed without the migration.
+**DECISION: MIGRATE GGUFSeer to the 1.1.0 API (parent task's preferred option).**
+Surgical change confined to aesir_engine/loader/gguf.mojo: line 4 import drops
+InlineArray; lines 415-422 fstat buffer becomes `unsafe_alloc[UInt64](18)`
+(from std.memory.alloc) + zero-fill + unsafe_free, same 144-byte semantics.
+Zero behavior change. This is a toolchain-drift fix in the loader domain,
+explicitly authorized by the parent task's H041 instruction; the general
+additive guideline yields to that explicit instruction for these 2 touchpoints
+only. Recorded here, in DEVLOG, and in the commit message. No cuda_* touches,
+no README touches. Alternative (parallel ARM64 loader ignoring GGUFSeer)
+rejected: would duplicate a 749-line validated module.
+
+**Finding B (H043/H044) — Hladgerð: GREEN-FIELD CONFIRMED.** No module/struct/
+function named Hladgerd exists anywhere in the repo (re-grepped 2026-10-10).
+**DECISION:** build the safetensors parser + loader as NEW files in the D1
+ARMVEGR domain (`armvegr/safetensors.mojo`), hand-rolled JSON per L1, zero
+edits to existing domains. Whether to name it Hladgerð deferred to a later
+slice; C3 ships it as the armvegr safetensors loader.
+
+**Finding C (H042) — dequantize kernels are portable.** `q80_to_fp16` /
+`q40_to_fp16` / `fp32_to_fp16` (quant.mojo, q4.mojo) contain ZERO NEON
+intrinsics — pure portable Mojo (`Float16(Float32(q) * scale)`). **DECISION:**
+new additive module `armvegr/gguf_loader.mojo` (mmap + self-contained
+v2/v3 header parse + dequantize via H031/H032 kernels). The x86_64 cross-check
+("same tensor dequantized by the x86_64 Aesir loader, same code path") builds
+THE SAME module + kernel sources on the forge (x86_64) in a TEST-ONLY harness
+(bypassing armvegr/build.sh's arch gate, which is package policy, not a code
+constraint) and compares against the Mimir (ARM64) output: max abs err ≤1e-6.
+Same Mojo source on both archs = the truest "same code path". GGUFSeer itself
+does NOT dequantize (stores raw Q4_0/Q8_0 bytes as RuneTensor is_q views;
+only F16 zero-copy and F32→F16 convert), so it cannot serve as the x86_64
+dequantize reference — the portable-kernel cross-check is the honest design.
+
+**Finding D (H046/H047) — reference tooling.** tiktoken 0.14.0 + sentencepiece
+0.2.2 installed on forge 2026-10-10 (TEST-ONLY, `--user --break-system-packages`);
+Mimir already has sentencepiece. GPT-2 vocab/merges + a real .model file to be
+downloaded; frozen vectors generated once by TEST-ONLY scripts, then frozen.
+
+**Finding E (H059) — model choice.** Constraints: loader supports
+F32/F16/Q8_0/Q4_0 only (no K-quants); tokenizer must be H046-BPE or
+H047-SentencePiece; must fit 16GB; must plausibly pass the frozen coherence
+rubric. **DECISION: TinyLlama-1.1B-Chat-v1.0 Q4_0 GGUF (TheBloke) + its
+tokenizer.model (SentencePiece, vocab 32000).** Rationale: legacy Q4_0 quant
+(only Q4_0/F32 tensors — inside the supported set), chat-tuned (coherence),
+SentencePiece exercises H047 in the real run, Llama arch (RMSNorm/RoPE/SwiGLU)
+matches the ARMVEGR kernels, GQA (32Q/4KV heads) forces a real GQA decode
+path. Inference loop: new `armvegr/infer.mojo` (decode-only, batch=1) reusing
+gemv_fp16, rmsnorm_fp16, rope_fp16, silu_fp16, softmax_fp16 + a new GQA decode
+attention over the H050 KV cache. Fallback if the file carries unsupported
+dtypes: fail closed, document, pick the documented equivalent (SmolLM2-135M
+F16). No simulation: if it cannot run, H059 reports the blocker honestly.
+
+**Per-slice verdicts:** H041 GO (migrate). H042 GO (new module, portable-kernel
+cross-check). H043/H044 GO (green-field). H045 GO (new module, JSON plan).
+H046/H047/H048/H049 GO. H050/H051/H052 GO (new kv_cache.mojo; H051 cache-vs-
+recompute on a tiny random transformer in the c3 test binary). H053–H057 GO
+(new sampler.mojo; splitmix64 PRNG implemented in-module — stdlib `random`
+not relied upon; determinism testable). H058 GO (TEST-ONLY python; runs the
+H059 inference binary on a tiny random GGUF). H059 GO per Finding E.
+H060 GO (review doc). **No slices killed.**
+
+- [x] H041 — GGUFSeer ARM64 full port (1.1.0 migration)
+  - Evidence (2026-10-10): 1.1.0 migration (InlineArray→unsafe_alloc fstat buffer) + aarch64 struct-stat ABI fix (st_mode word 2 vs 3) in aesir_engine/loader/gguf.mojo — the two authorized touchpoints only. 6-file corpus (5 deterministic via prof/armvegr/make_gguf_corpus.py + real TinyLlama-1.1B-Chat-v1.0 Q4_0 637699456 B), v2+v3, dtypes F32/F16/Q4_0/Q8_0/Q4_1/Q5_0/Q8_1/Q6_K. Canonical dumps byte-identical x86_64 vs ARM64 on all six (data/armvegr/gguf_port_diff.txt, empty diff). Existing x86_64 suite (test_gguf_parsing, test_ggml_type) passes unmodified.
+- [x] H042 — GGUF tensor loader (mmap + dequantize to FP16)
+  - Evidence (2026-10-10): new armvegr/gguf_loader.mojo (self-contained v2/v3 parse, mmap, FP16 dequantize via H031/H032 kernels). Cross-check: 68 tensors dequantized per arch, byte-identical (aggregate sha256 49391f64… both; max abs err 0 ≤ 1e-6). 1.1 GB file: peak RSS 320 KiB (budget file+256 MiB). 3 corrupt files fail closed with named errors, exit 0. Evidence: data/armvegr/gguf_loader_xcheck.txt. Note: draft bug (misread u32@24 as header alignment — v3 header is 24 bytes, no alignment field) caught by the x86_64 self-test before Mimir ran.
+- [ ] H043 — safetensors parser in pure Mojo
+- [ ] H044 — safetensors tensor loader (dtype mapping incl. BF16)
+- [ ] H045 — Weight layout planner
+- [ ] H046 — BPE tokenizer (vocab + merges)
+- [ ] H047 — SentencePiece-style tokenizer support
+- [ ] H048 — TEST-ONLY (PRÓF): tokenizer differential suite
+- [ ] H049 — Special tokens handling (BOS/EOS/pad)
+- [ ] H050 — KV-cache structure (FP16)
+- [ ] H051 — KV-cache update/append during decode
+- [ ] H052 — Context eviction policy (sliding window)
+- [ ] H053 — Sampler: greedy
+- [ ] H054 — Sampler: temperature
+- [ ] H055 — Sampler: top-k
+- [ ] H056 — Sampler: top-p (nucleus)
+- [ ] H057 — Sampler: repetition penalty
+- [ ] H058 — TEST-ONLY (PRÓF): CPU pipeline smoke test
+- [ ] H059 — CPU inference with a real small open LLM
+- [ ] H060 — C3 review: ARMVEGR CPU pipeline verdict (F1 core complete)
 
 ## Campaign 4 — Hailbrú Driver (H061–H080)
 - Status: not started
