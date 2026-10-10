@@ -679,6 +679,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   deterministic schema-v1 JSON export preserving optional nulls and ordered
   extension labels. Current 119 entries parse, and two exports are byte-
   identical; focused malformed-input evidence follows in AES500-035.
+- AES500-035 adds 11 standard-library unit tests for canonical/optional fields,
+  multiline extensions, deterministic output, malformed input, duplicate IDs,
+  and UTF-8 diagnostics. All pass; receipt:
+  `docs/evidence/capability-ledger-schema-unit-2026-10-10/`.
 
 ## Status
 
