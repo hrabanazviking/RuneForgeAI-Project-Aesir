@@ -330,8 +330,9 @@ def os_sleep_ms(arch: String, ms: Int64):
     var sec = ms // 1000
     var nsec = (ms % 1000) * 1000000
     for i in range(8):
-        ts[unsafe_offset=i] = UInt8((sec >> (i * 8)) & 0xFF)
-        ts[unsafe_offset=8 + i] = UInt8((nsec >> (i * 8)) & 0xFF)
+        var sh = Int64(i * 8)
+        ts[unsafe_offset=i] = UInt8((sec >> sh) & 0xFF)
+        ts[unsafe_offset=8 + i] = UInt8((nsec >> sh) & 0xFF)
     _ = syscall6(sc_nr(arch, "nanosleep"), Int64(Int(ts)), 0, 0, 0, 0, 0)
     ts.unsafe_free()
 
