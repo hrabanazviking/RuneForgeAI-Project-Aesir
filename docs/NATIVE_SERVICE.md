@@ -245,8 +245,10 @@ possible context size or under sustained load. Four counted protocol/request/pat
 cases join the master suite; hosted CPU CI does not claim GPU service execution.
 
 Native key publication is also tested without a GPU, including filename byte
-lengths 1..33, Unicode, mode/format, existing files/symlinks, a four-process
-publication race and temporary-link cleanup:
+lengths 1..33, Unicode, mode/format under umask 000, existing files/symlinks,
+a four-process publication race and temporary-link cleanup. Key admission
+rejects group/world read, write, and execute permission examples before model
+or CUDA initialization:
 
 ```bash
 python scripts/test_native_keygen.py --binary ./aesir

@@ -19,9 +19,12 @@ def reject_keys(binary):
         good = root / "good"
         good.write_text(secrets.token_hex(32))
         good.chmod(0o600)
-        insecure = root / "public"
-        insecure.write_text(secrets.token_hex(32))
-        insecure.chmod(0o644)
+        insecure_modes = []
+        for mode in [0o640, 0o604, 0o620, 0o602, 0o666, 0o711]:
+            path = root / ("insecure-%04o" % mode)
+            path.write_text(secrets.token_hex(32))
+            path.chmod(mode)
+            insecure_modes.append(path)
         link = root / "link"
         link.symlink_to(good)
         fifo = root / "fifo"
@@ -30,12 +33,12 @@ def reject_keys(binary):
             path = root / name
             path.write_text(value)
             path.chmod(0o600)
-        for path in [insecure, link, fifo, root / "short", root / "long", root / "invalid"]:
+        for path in [*insecure_modes, link, fifo, root / "short", root / "long", root / "invalid"]:
             result = subprocess.run([binary, "serve", "missing.gguf", "--accel", "cuda",
                 "--api-key-file", str(path)], capture_output=True, timeout=15)
             assert result.returncode != 0, "unsafe key file accepted"
             assert b"[CUDA]" not in result.stdout, "unsafe key reached CUDA initialization"
-    print("PASS owner-only key admission: public, symlink, FIFO, short, oversized, invalid")
+    print("PASS owner-only key admission: group/world permission matrix, symlink, FIFO, short, oversized, invalid")
 
 
 def check(binary, model, profile, output_dir):

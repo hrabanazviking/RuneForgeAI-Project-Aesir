@@ -624,8 +624,9 @@ exclusively created in the opened parent directory. File sync precedes atomic
 no-replace linking; directory sync follows owned temporary-link removal. Existing
 outputs are never deleted or replaced. Contents are never printed. All POSIX
 path pointers refer to explicitly terminated, owned byte buffers. The native
-key probe runs in CI without a GPU; crash/persistence limits are documented in
-`docs/NATIVE_SERVICE.md`.
+key probe runs in CI without a GPU and verifies mode 0600 under umask 000;
+service admission rejects representative group/world permission combinations.
+Crash/persistence limits are documented in `docs/NATIVE_SERVICE.md`.
 
 ### Durable quantization tuning cache
 

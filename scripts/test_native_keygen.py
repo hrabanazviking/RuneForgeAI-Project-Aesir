@@ -1,6 +1,7 @@
 """Exercise exclusive native key creation, protection and publication races."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+import os
 from pathlib import Path
 import re
 import stat
@@ -15,8 +16,11 @@ def check(binary):
     with tempfile.TemporaryDirectory(prefix="aesir-native-key-") as directory:
         root = Path(directory)
         first, second = root / "first.key", root / "second.key"
-        for target in [first, second]:
-            result = run(target)
+        for target, mask in [(first, None), (second, 0)]:
+            result = subprocess.run(
+                [binary, "keygen", str(target)], capture_output=True, timeout=30,
+                preexec_fn=(lambda: os.umask(mask)) if mask is not None else None,
+            )
             assert result.returncode == 0, result.stderr.decode(errors="replace")
             data = target.read_bytes()
             assert re.fullmatch(b"[0-9a-f]{64}\n", data), "invalid key shape"
@@ -42,7 +46,7 @@ def check(binary):
         assert sum(result.returncode == 0 for result in outcomes) == 1, "publication race replaced a key"
         assert re.fullmatch(b"[0-9a-f]{64}\n", raced.read_bytes())
         assert not list(root.glob(".aesir-key-*")), "temporary key links leaked"
-    print("PASS native random key generation: mode, shape, distinct keys, no disclosure, no overwrite, symlinks, race and cleanup")
+    print("PASS native random key generation: owner-only mode under umask 000, shape, distinct keys, no disclosure, no overwrite, symlinks, race and cleanup")
 
 
 if __name__ == "__main__":
