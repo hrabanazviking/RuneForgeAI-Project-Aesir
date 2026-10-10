@@ -19,6 +19,9 @@ provider policy for ordinary new prompts; native is a working explicit option.
 See [current efficiency evidence](evidence/native-efficiency-2026-10-01.md) and
 [reproducible operation](NATIVE_EFFICIENCY.md). Earlier 8.1 s native measurements
 in the integration record are historical. No general Ollama-superiority claim.
+The provider refresh check on 2026-10-10 could not run because the Ollama server
+was unreachable and no registered model artifact was present in this checkout;
+see the [refresh receipt](evidence/provider-baseline-refresh-2026-10-10.md).
 
 Embeddings continue using the original Ollama `nomic-embed-text` model. Aesir's
 text generation does not implement that embedding space. Existing database

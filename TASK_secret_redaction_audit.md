@@ -25,3 +25,12 @@ assert they are absent from rejection payloads and service logs, run static
 docs/truth checks, and record the GPU-fixture requirement if the live service
 probe cannot run here. Do not add a generic redaction filter that might conceal
 diagnostics; prevent sensitive fields from entering logs.
+
+## Follow-on roadmap status
+
+AES500-391..400 is tracked in
+[`ROADMAP_AESIR_500_SLICES.md`](ROADMAP_AESIR_500_SLICES.md). The provider
+baseline refresh gate is recorded separately in
+[`docs/evidence/provider-baseline-refresh-2026-10-10.md`](docs/evidence/provider-baseline-refresh-2026-10-10.md);
+it was not refreshed because the local Ollama service and registered model
+artifact were unavailable.
