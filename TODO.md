@@ -1440,3 +1440,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-158 byte BPE review: primary review confirms score/tie behavior,
   chaining, fallback and integration vectors. Independent Auditor unavailable
   at service thread cap; no independent signoff claimed.
+
+- [x] AES500-159 byte BPE documentation sync: loader interface, task, roadmap,
+  TODO and devlog agree on merge and fallback behavior and evidence limits.

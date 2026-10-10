@@ -178,6 +178,14 @@ struct RuneWeaver:
     def decode(self, token: Int) -> String: ...
 ```
 
+`_merge_sentencepiece` greedily selects the adjacent vocabulary pair with the
+highest score; equal scores select the leftmost pair. It repeats until no
+vocabulary merge remains. Unmapped pieces fall back one UTF-8 byte at a time
+through canonical `<0xHH>` tokens, then the configured unknown ID. Synthetic
+vectors pin score ranking, ties, chaining, partial fallback, and streaming
+UTF-8 reconstruction; these do not establish external tokenizer parity. See
+`TASK_byte_bpe_merge_vectors.md`.
+
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
 Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv
 subprocesses, HTTPS-only redirects, bounded time/size, optional parallel ranges,

@@ -3875,3 +3875,7 @@ scores. Master suite: 222 passed, zero failed, one skipped (223 total).
 AES500-158 primary review reconciles merge/tie implementation, byte fallback,
 and stream integration evidence. The service thread cap blocks a separate
 Auditor agent; no independent review claim is made.
+
+
+AES500-159 syncs the loader interface with score priority, leftmost ties,
+chaining, byte fallback and synthetic evidence limits.
