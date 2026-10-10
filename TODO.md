@@ -677,6 +677,11 @@ The legacy formatters below are not exposed compatibility APIs.
 
 ### Socket and HTTP foundation
 
+- [x] Define the live service listener/client/queue ownership lifecycle and
+  borrowed cancellation descriptor; document cooperative shutdown limits in
+  [the socket ownership contract](TASK_socket_ownership_shutdown.md), with
+  baseline, unit, integration, and adversarial receipts under
+  `docs/evidence/socket-shutdown-*-2026-10-10/`.
 - [ ] Move transport serialization and socket ownership out of `AesirEngine`
   behind a service/request API.
 - [x] **[verified, AES-SRV-001] Add loopback bind/listen/accept/close tests:** POSIX socket setup, `SO_REUSEADDR`, `set_nonblocking()` (`fcntl`), and deterministic cleanup.

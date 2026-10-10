@@ -37,6 +37,19 @@ behavior. Primary review was recorded; independent review was unavailable and
 is not claimed. See [`TASK_atomic_model_registration.md`](../TASK_atomic_model_registration.md)
 and its dated evidence links.
 
+AES500-241..249 define the live socket ownership and cooperative shutdown
+boundary. Source review found listener and pending-client RAII ownership, a
+borrowed cancellation descriptor, and one moved-from wrapper path that could
+call `close(-1)`. The owner now skips that invalid close; a pipe test verifies
+the transferred descriptor remains live until the destination owner ends.
+Admission rejects invalid ports and negative descriptors. The master suite
+reached 245 passed, 0 failed, 1 skipped (246 total). Local physical model
+shutdown could not be rerun because the repository artifact is a zero-byte
+placeholder; prior GPU receipts are historical. Independent reviewer
+availability was blocked by the app thread cap, so only primary review is
+recorded. See [`TASK_socket_ownership_shutdown.md`](../TASK_socket_ownership_shutdown.md)
+and its baseline, unit, integration and adversarial evidence directories.
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

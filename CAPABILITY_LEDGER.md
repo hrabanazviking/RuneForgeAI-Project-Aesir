@@ -2008,6 +2008,8 @@ and circular self-parity transforms were removed.
 - **Observation formatter evidence:** `AesirTUIDashboard` accepts an atomic, validated metric snapshot with caller source and timestamp. An empty dashboard reports observations unavailable, and invalid values cannot partially replace the preceding snapshot.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
 - **Evidence boundary:** The native service has narrow request logs and readiness. Legacy route validation still does not establish metrics, tracing, persistent audit storage or broad production diagnosis.
+
+- **AES500-241..248 socket lifecycle evidence:** Live native transport ownership is bounded to the `serve_loaded` listener, one active request owner, and configured FIFO owners; the interrupt FD is borrowed from CLI signal ownership. `OwnedFD` now skips closing the `-1` moved-from sentinel, with focused transfer, invalid-FD, and port-boundary evidence. Master is 245 passed, 0 failed, 1 skipped (246 total). Baseline, unit, integration and adversarial receipts are linked from [the socket ownership contract](TASK_socket_ownership_shutdown.md). The physical active-shutdown receipt is historical because this checkout has no usable model; independent review was unavailable and is not claimed.
 - **Next acceptance gate:** Add structured logs, request/session correlation, real metrics, health semantics, and operator-facing failure diagnostics.
 - **Audit:** AER-078, AER-101, AER-111.
 
