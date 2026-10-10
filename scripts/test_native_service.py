@@ -121,7 +121,12 @@ def check(binary, model, profile, output_dir):
                 })
                 assert status == 400 and prompt_error_marker not in json.dumps(rejected_body), "malformed prompt echoed"
                 status, health = request("GET", "/health")
-                assert status == 200 and health["profile"] == profile and health["context"] == 512
+                assert (status == 200 and health["status"] == "ready"
+                        and health["backend"] == "cuda" and health["cpu_offload"] == 0
+                        and health["profile"] == profile and health["context"] == 512
+                        and health["model"] == model
+                        and isinstance(health["model_digest"], str)
+                        and health["model_digest"].startswith("sha256:"))
                 assert request("GET", "/health", extra={"Host": "attacker.invalid"})[0] == 403
                 assert request("GET", "/health", extra={"Origin": "https://attacker.invalid"})[0] == 403
                 status, models = request("GET", "/v1/models")

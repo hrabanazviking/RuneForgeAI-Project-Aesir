@@ -152,6 +152,15 @@ Both tested models returned `Four`, one generated token, `finish_reason: eos`,
 native framing. Authentication is also required for `GET /health`, which reports
 the actually loaded profile, context and backend. Unknown routes return 404.
 
+`GET /health` is a session-readiness signal, not a process-liveness probe. The
+startup log confirms that model initialization reached the listener loop; the
+authenticated route then reports `status: ready` only while the native session
+is healthy, together with backend, profile, context, model name and model digest.
+An HTTP 200 status alone does not establish inference success; clients must also
+validate response identity and completion fields. The route is served only by
+native mode; the Ollama-compatibility service does not expose this native health
+contract.
+
 ## Request and response contract
 
 `POST /v1/generate` accepts a flat JSON object. Unknown/duplicate fields, nested
