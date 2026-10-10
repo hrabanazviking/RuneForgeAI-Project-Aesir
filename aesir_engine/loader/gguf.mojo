@@ -421,7 +421,13 @@ struct GGUFSeer:
         if external_call["fstat", Int32](self.fd, stat) != 0:
             stat.unsafe_free()
             raise Error("Failed to inspect GGUF model")
-        if stat[unsafe_offset=3] & 61440 != 32768:
+        # H041 (aarch64 ABI): struct stat lays st_mode at word index 2 on
+        # aarch64 but index 3 on x86_64; the other slot holds st_nlink, a small
+        # hard-link count whose S_IFMT bits (0xF000) are zero in practice.
+        # OR-ing both slots accepts S_IFREG on either ABI with zero behavior
+        # change on x86_64 and fixes the regular-file check on ARM64.
+        var mode_word = stat[unsafe_offset=2] | stat[unsafe_offset=3]
+        if mode_word & 61440 != 32768:
             stat.unsafe_free()
             raise Error("GGUF model must be a regular file")
         if stat[unsafe_offset=6] < 24 or stat[unsafe_offset=6] > 9223372036854775807:
