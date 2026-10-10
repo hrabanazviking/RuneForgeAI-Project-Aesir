@@ -164,7 +164,7 @@ def main() raises:
     probe_steps.append(127)
     probe_steps.append(511)
     var probe_cached = List[List[Float32]]()
-    for pi in range(len(probe_steps)):
+    for _ in range(len(probe_steps)):
         probe_cached.append(List[Float32]())
     var tp0 = now_ns()
     var logits_p = inf.forward(prompt[0])

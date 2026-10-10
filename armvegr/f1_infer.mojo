@@ -59,13 +59,17 @@ def _get_opt(args: List[String], name: String, default: String) -> String:
     return default
 
 
+def _hexchar(v: Int) -> String:
+    if v < 10:
+        return String(v)
+    var b = List[Int8]()
+    b.append(Int8(97 + v - 10))  # 'a' + (v - 10)
+    b.append(0)
+    return String(unsafe_from_utf8_ptr=b.unsafe_ptr())
+
+
 def _hex2(c: UInt8) -> String:
-    var h = List[String]()
-    h.append("0"); h.append("1"); h.append("2"); h.append("3")
-    h.append("4"); h.append("5"); h.append("6"); h.append("7")
-    h.append("8"); h.append("9"); h.append("a"); h.append("b")
-    h.append("c"); h.append("d"); h.append("e"); h.append("f")
-    return h[Int(c) // 16] + h[Int(c) % 16]
+    return _hexchar(Int(c) // 16) + _hexchar(Int(c) % 16)
 
 
 def _json_escape(s: String) -> String:
@@ -143,7 +147,10 @@ def _max_abs_err(a: List[Float32], b: List[Float32]) -> Float32:
 
 
 def main() raises:
-    var args = argv()
+    var raw_args = argv()
+    var args = List[String]()
+    for i in range(len(raw_args)):
+        args.append(String(raw_args[i]))
     # Validate flags fail-closed: every -- token must be known.
     for i in range(1, len(args)):
         var a = args[i]
