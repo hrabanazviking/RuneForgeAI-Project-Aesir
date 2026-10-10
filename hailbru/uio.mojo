@@ -134,9 +134,14 @@ def uio_step_register_id(
     as_root: Bool,
 ) raises:
     # Step 2: register the vendor:device ID with uio_pci_generic.
+    # Tolerates EEXIST (id already registered by an earlier run).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/new_id", vendor_hex + " " + device_hex)
+    try:
+        write_file_str(arch, uio_drv + "/new_id", vendor_hex + " " + device_hex)
+    except e:
+        if "(17)" not in String(e):
+            raise e
 
 
 def uio_step_bind(
