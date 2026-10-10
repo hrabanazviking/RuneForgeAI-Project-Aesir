@@ -174,22 +174,26 @@ from armvegr.attn import attn_sdpa_causal_fp16
 from armvegr.mha import mha_forward_seq
 
 
-def load_raw(path: String, nbytes: Int) raises -> List[UInt8]:
+def load_buf(path: String, nbytes: Int) raises -> Pointer[UInt8, MutUntrackedOrigin]:
+    # Read a whole binary file into a MutUntrackedOrigin buffer, so the
+    # bitcast views satisfy the kernels' Pointer[T, MutUntrackedOrigin]
+    # parameters (a List's interior origin would not).
+    var buf = unsafe_alloc[UInt8](nbytes)
     var fh = open(path, "r")
-    var data = fh.read_bytes(nbytes)
+    var nr = fh.read[DType.uint8, MutUntrackedOrigin](
+        Span[UInt8, MutUntrackedOrigin](unsafe_ptr=buf, length=nbytes)
+    )
     fh.close()
-    return data
+    return buf
 
 
-def new_out(nbytes: Int) -> List[UInt8]:
-    var out = List[UInt8](capacity=nbytes)
-    out.resize(nbytes, UInt8(0))
-    return out
-
-
-def store_raw(path: String, data: List[UInt8]) raises:
+def store_buf(
+    path: String, buf: Pointer[UInt8, MutUntrackedOrigin], nbytes: Int
+) raises:
     var fh = open(path, "w")
-    fh.write_bytes(data)
+    fh.write_bytes(
+        Span[UInt8, MutUntrackedOrigin](unsafe_ptr=buf, length=nbytes)
+    )
     fh.close()
 
 
@@ -205,10 +209,10 @@ def mojo_case_gemm_micro(case, wd):
     open(os.path.join(wd, "b.bin"), "wb").write(f16bytes(b))
     code = """
     # case %(id)s: gemm_micro_8x8 kc=%(kc)d
-    var raw_a = load_raw("%(wd)s/a.bin", %(n2)d)
-    var raw_b = load_raw("%(wd)s/b.bin", %(n2)d)
-    var a = raw_a.unsafe_ptr().unsafe_bitcast[Float16]()
-    var b = raw_b.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_a = load_buf("%(wd)s/a.bin", %(n2)d)
+    var buf_b = load_buf("%(wd)s/b.bin", %(n2)d)
+    var a = buf_a.unsafe_bitcast[Float16]()
+    var b = buf_b.unsafe_bitcast[Float16]()
     var ap = unsafe_alloc[Float16](%(n)d)
     var bp = unsafe_alloc[Float16](%(n)d)
     var acc = unsafe_alloc[Float32](64)
@@ -217,11 +221,11 @@ def mojo_case_gemm_micro(case, wd):
     for i in range(64):
         acc[unsafe_offset=i] = Float32(0)
     gemm_micro_8x8(ap, bp, acc, %(kc)d, 8)
-    var out_raw = new_out(256)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float32]()
+    var out_bytes = unsafe_alloc[UInt8](256)
+    var outp = out_bytes.unsafe_bitcast[Float32]()
     for i in range(64):
         outp[unsafe_offset=i] = acc[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, 256)
 """ % {"id": case["id"], "kc": kc, "n": n, "n2": n * 2, "wd": wd}
 
     def verify(wd):
@@ -254,26 +258,26 @@ def mojo_case_gemm(case, wd):
         var v = Float64(c[unsafe_offset=i])
         s += v
         ss += v * v
-    var out_raw = new_out(16)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float64]()
+    var out_bytes = unsafe_alloc[UInt8](16)
+    var outp = out_bytes.unsafe_bitcast[Float64]()
     outp[unsafe_offset=0] = s
     outp[unsafe_offset=1] = ss
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, 16)
 """ % {"mn": M * N, "wd": wd}
     else:
         tail = """
-    var out_raw = new_out(%(mn2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(mn2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(mn)d):
         outp[unsafe_offset=i] = c[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(mn2)d)
 """ % {"mn": M * N, "mn2": M * N * 2, "wd": wd}
     code = """
     # case %(id)s: gemm_fp16 %(M)dx%(N)dx%(K)d
-    var raw_a = load_raw("%(wd)s/a.bin", %(a2)d)
-    var raw_b = load_raw("%(wd)s/b.bin", %(b2)d)
-    var a = raw_a.unsafe_ptr().unsafe_bitcast[Float16]()
-    var b = raw_b.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_a = load_buf("%(wd)s/a.bin", %(a2)d)
+    var buf_b = load_buf("%(wd)s/b.bin", %(b2)d)
+    var a = buf_a.unsafe_bitcast[Float16]()
+    var b = buf_b.unsafe_bitcast[Float16]()
     var c = unsafe_alloc[Float16](%(mn)d)
     gemm_fp16(a, b, c, %(M)d, %(N)d, %(K)d)
 """ % {
@@ -327,17 +331,17 @@ def mojo_case_gemv(case, wd):
     open(os.path.join(wd, "x.bin"), "wb").write(f16bytes(x))
     code = """
     # case %(id)s: gemv_fp16 %(M)dx%(N)d
-    var raw_a = load_raw("%(wd)s/a.bin", %(a2)d)
-    var raw_x = load_raw("%(wd)s/x.bin", %(x2)d)
-    var a = raw_a.unsafe_ptr().unsafe_bitcast[Float16]()
-    var xv = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_a = load_buf("%(wd)s/a.bin", %(a2)d)
+    var buf_x = load_buf("%(wd)s/x.bin", %(x2)d)
+    var a = buf_a.unsafe_bitcast[Float16]()
+    var xv = buf_x.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(M)d)
     gemv_fp16(a, xv, y, %(M)d, %(N)d)
-    var out_raw = new_out(%(m2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(m2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(M)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(m2)d)
 """ % {"id": case["id"], "M": M, "N": N, "wd": wd, "a2": M * N * 2,
        "x2": N * 2, "m2": M * 2}
 
@@ -371,17 +375,17 @@ def mojo_case_elem(case, wd):
     }[kernel] % {"n": n}
     code = """
     # case %(id)s: %(kernel)s n=%(n)d
-    var raw_a = load_raw("%(wd)s/a.bin", %(n2)d)
-    var raw_b = load_raw("%(wd)s/b.bin", %(n2)d)
-    var a = raw_a.unsafe_ptr().unsafe_bitcast[Float16]()
-    var b = raw_b.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_a = load_buf("%(wd)s/a.bin", %(n2)d)
+    var buf_b = load_buf("%(wd)s/b.bin", %(n2)d)
+    var a = buf_a.unsafe_bitcast[Float16]()
+    var b = buf_b.unsafe_bitcast[Float16]()
     var c = unsafe_alloc[Float16](%(n)d)
     %(call)s
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = c[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "kernel": kernel, "n": n, "n2": n * 2,
        "wd": wd, "call": call}
 
@@ -411,19 +415,19 @@ def mojo_case_layernorm(case, wd):
         open(os.path.join(wd, name + ".bin"), "wb").write(f16bytes(vals))
     code = """
     # case %(id)s: layernorm n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var raw_w = load_raw("%(wd)s/w.bin", %(n2)d)
-    var raw_b = load_raw("%(wd)s/b.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
-    var w = raw_w.unsafe_ptr().unsafe_bitcast[Float16]()
-    var bv = raw_b.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var buf_w = load_buf("%(wd)s/w.bin", %(n2)d)
+    var buf_b = load_buf("%(wd)s/b.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
+    var w = buf_w.unsafe_bitcast[Float16]()
+    var bv = buf_b.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(n)d)
     layernorm_fp16(x, w, bv, y, %(n)d, Float32(%(eps)r))
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "n": n, "n2": n * 2, "wd": wd, "eps": eps}
 
     def verify(wd):
@@ -448,17 +452,17 @@ def mojo_case_rmsnorm(case, wd):
         open(os.path.join(wd, name + ".bin"), "wb").write(f16bytes(vals))
     code = """
     # case %(id)s: rmsnorm n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var raw_w = load_raw("%(wd)s/w.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
-    var w = raw_w.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var buf_w = load_buf("%(wd)s/w.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
+    var w = buf_w.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(n)d)
     rmsnorm_fp16(x, w, y, %(n)d, Float32(%(eps)r))
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "n": n, "n2": n * 2, "wd": wd, "eps": eps}
 
     def verify(wd):
@@ -488,15 +492,15 @@ def mojo_case_softmax(case, wd, masked):
         cid = case["id"]
     code = """
     # case %(id)s: softmax n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(n)d)
     %(call)s
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": cid, "n": n, "n2": n * 2, "wd": wd, "call": call}
 
     def verify(wd):
@@ -535,15 +539,15 @@ def mojo_case_act(case, wd):
     open(os.path.join(wd, "x.bin"), "wb").write(f16bytes(x))
     code = """
     # case %(id)s: %(kernel)s n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(n)d)
     %(kernel)s(x, y, %(n)d)
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "kernel": kernel, "n": n, "n2": n * 2, "wd": wd}
 
     def silu_ref(v):
@@ -572,15 +576,15 @@ def mojo_case_rope(case, wd):
     open(os.path.join(wd, "x.bin"), "wb").write(f16bytes(x))
     code = """
     # case %(id)s: rope hd=%(hd)d pos=%(pos)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
     var y = unsafe_alloc[Float16](%(hd)d)
     rope_fp16(x, y, %(hd)d, %(pos)d, Float32(%(theta)r))
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(hd)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "hd": hd, "pos": pos, "wd": wd, "n2": hd * 2,
        "theta": theta}
 
@@ -607,15 +611,15 @@ def mojo_case_fp32_to_fp16(case, wd):
     open(os.path.join(wd, "x.bin"), "wb").write(f32bytes(vals))
     code = """
     # case %(id)s: fp32_to_fp16 n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n4)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float32]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n4)d)
+    var x = buf_x.unsafe_bitcast[Float32]()
     var y = unsafe_alloc[Float16](%(n)d)
     fp32_to_fp16(x, y, %(n)d)
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "n": n, "n2": n * 2, "n4": n * 4, "wd": wd}
 
     def verify(wd):
@@ -639,17 +643,17 @@ def mojo_case_qroundtrip(case, wd):
         "q40_to_fp16(q, y, %(n)d)" % {"n": n}
     code = """
     # case %(id)s: %(kernel)s n=%(n)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(n2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(n2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
     var q = unsafe_alloc[Int8](%(qb)d)
     var y = unsafe_alloc[Float16](%(n)d)
     %(qcall)s
     %(dcall)s
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = y[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "kernel": case["kernel"], "n": n, "n2": n * 2,
        "qb": (n // 32) * blk, "wd": wd, "qcall": qcall, "dcall": dcall}
 
@@ -680,17 +684,17 @@ def mojo_case_q80_gemm(case, wd):
     open(os.path.join(wd, "bq.bin"), "wb").write(bq)
     code = """
     # case %(id)s: q80_gemm %(M)dx%(N)dx%(K)d
-    var raw_aq = load_raw("%(wd)s/aq.bin", %(aqn)d)
-    var raw_bq = load_raw("%(wd)s/bq.bin", %(bqn)d)
-    var aq = raw_aq.unsafe_ptr().unsafe_bitcast[Int8]()
-    var bq = raw_bq.unsafe_ptr().unsafe_bitcast[Int8]()
+    var buf_aq = load_buf("%(wd)s/aq.bin", %(aqn)d)
+    var buf_bq = load_buf("%(wd)s/bq.bin", %(bqn)d)
+    var aq = buf_aq.unsafe_bitcast[Int8]()
+    var bq = buf_bq.unsafe_bitcast[Int8]()
     var c = unsafe_alloc[Float32](%(mn)d)
     q80_gemm(aq, bq, c, %(M)d, %(N)d, %(K)d)
-    var out_raw = new_out(%(mn4)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float32]()
+    var out_bytes = unsafe_alloc[UInt8](%(mn4)d)
+    var outp = out_bytes.unsafe_bitcast[Float32]()
     for i in range(%(mn)d):
         outp[unsafe_offset=i] = c[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(mn4)d)
 """ % {"id": case["id"], "M": M, "N": N, "K": K, "wd": wd,
        "aqn": (M * K // 32) * 34, "bqn": (N * K // 32) * 34,
        "mn": M * N, "mn4": M * N * 4}
@@ -724,19 +728,19 @@ def mojo_case_attn(case, wd):
         open(os.path.join(wd, name + ".bin"), "wb").write(f16bytes(vals))
     code = """
     # case %(id)s: attn seq=%(seq)d hd=%(hd)d
-    var raw_q = load_raw("%(wd)s/q.bin", %(n2)d)
-    var raw_k = load_raw("%(wd)s/k.bin", %(n2)d)
-    var raw_v = load_raw("%(wd)s/v.bin", %(n2)d)
-    var q = raw_q.unsafe_ptr().unsafe_bitcast[Float16]()
-    var k = raw_k.unsafe_ptr().unsafe_bitcast[Float16]()
-    var vv = raw_v.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_q = load_buf("%(wd)s/q.bin", %(n2)d)
+    var buf_k = load_buf("%(wd)s/k.bin", %(n2)d)
+    var buf_v = load_buf("%(wd)s/v.bin", %(n2)d)
+    var q = buf_q.unsafe_bitcast[Float16]()
+    var k = buf_k.unsafe_bitcast[Float16]()
+    var vv = buf_v.unsafe_bitcast[Float16]()
     var o = unsafe_alloc[Float16](%(n)d)
     _ = attn_sdpa_causal_fp16(q, k, vv, o, %(seq)d, %(hd)d)
-    var out_raw = new_out(%(n2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(n2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(n)d):
         outp[unsafe_offset=i] = o[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(n2)d)
 """ % {"id": case["id"], "seq": seq, "hd": hd, "wd": wd, "n": seq * hd,
        "n2": seq * hd * 2}
 
@@ -777,23 +781,23 @@ def mojo_case_mha(case, wd):
         open(os.path.join(wd, name + ".bin"), "wb").write(f16bytes(vals))
     code = """
     # case %(id)s: mha seq=%(seq)d nh=%(nh)d hd=%(hd)d
-    var raw_x = load_raw("%(wd)s/x.bin", %(xn2)d)
-    var raw_wq = load_raw("%(wd)s/wq.bin", %(wn2)d)
-    var raw_wk = load_raw("%(wd)s/wk.bin", %(wn2)d)
-    var raw_wv = load_raw("%(wd)s/wv.bin", %(wn2)d)
-    var raw_wo = load_raw("%(wd)s/wo.bin", %(wn2)d)
-    var x = raw_x.unsafe_ptr().unsafe_bitcast[Float16]()
-    var wq = raw_wq.unsafe_ptr().unsafe_bitcast[Float16]()
-    var wk = raw_wk.unsafe_ptr().unsafe_bitcast[Float16]()
-    var wv = raw_wv.unsafe_ptr().unsafe_bitcast[Float16]()
-    var wo = raw_wo.unsafe_ptr().unsafe_bitcast[Float16]()
+    var buf_x = load_buf("%(wd)s/x.bin", %(xn2)d)
+    var buf_wq = load_buf("%(wd)s/wq.bin", %(wn2)d)
+    var buf_wk = load_buf("%(wd)s/wk.bin", %(wn2)d)
+    var buf_wv = load_buf("%(wd)s/wv.bin", %(wn2)d)
+    var buf_wo = load_buf("%(wd)s/wo.bin", %(wn2)d)
+    var x = buf_x.unsafe_bitcast[Float16]()
+    var wq = buf_wq.unsafe_bitcast[Float16]()
+    var wk = buf_wk.unsafe_bitcast[Float16]()
+    var wv = buf_wv.unsafe_bitcast[Float16]()
+    var wo = buf_wo.unsafe_bitcast[Float16]()
     var o = unsafe_alloc[Float16](%(dmn)d)
     mha_forward_seq(x, wq, wk, wv, wo, o, %(seq)d, %(nh)d, %(hd)d, Float32(10000))
-    var out_raw = new_out(%(dmn2)d)
-    var outp = out_raw.unsafe_ptr().unsafe_bitcast[Float16]()
+    var out_bytes = unsafe_alloc[UInt8](%(dmn2)d)
+    var outp = out_bytes.unsafe_bitcast[Float16]()
     for i in range(%(dmn)d):
         outp[unsafe_offset=i] = o[unsafe_offset=i]
-    store_raw("%(wd)s/out.bin", out_raw)
+    store_buf("%(wd)s/out.bin", out_bytes, %(dmn2)d)
 """ % {"id": case["id"], "seq": seq, "nh": nh, "hd": hd, "wd": wd,
        "xn2": seq * dm * 2, "wn2": dm * dm * 2, "dmn": seq * dm,
        "dmn2": seq * dm * 2}
