@@ -1,0 +1,37 @@
+# H043/H044 — safetensors parser + loader evidence (data/armvegr/safetensors_xcheck.txt)
+#
+# H043 — parser vs independent Python struct+json cross-check
+# (prof/armvegr/check_safetensors.py), canonical descriptor lines:
+#   5 real files (F16, BF16, F32, mixed+dtype+metadata+unicode name, tiny model):
+#   MATCH on every descriptor line (name, dtype, shape, absolute offsets).
+#   6 adversarial headers, all fail closed with named errors (exit 0, no crash):
+#     adv_trunc_json.st -> safetensors: truncated file or out-of-range offset
+#     adv_overlap.st    -> safetensors: overlapping data offsets
+#     adv_badoff.st     -> safetensors: data_offsets size mismatch for b
+#     adv_baddtype.st   -> safetensors: unsupported dtype Q8_0
+#     adv_badjson.st    -> safetensors: malformed tensor descriptor
+#     adv_negsize.st    -> safetensors: bad data_offsets for a
+#   (The Python cross-check rejects the same files; only the message wording
+#   differs, which the criterion does not constrain.)
+#
+# H044 — loader: x86_64 (forge) vs ARM64 (Mimir) FP16 checksums, identical inputs
+# (corpus sha256-verified byte-identical). Per tensor: FNV-1a-64 over the FP16
+# bytes + f64 sum. Aggregate (LC_ALL=C sorted):
+#   x86_64: 3f8e149757247e020da6f954b6a7043fe0faa9af50ac57f3244e6eb3c10cd8e1
+#   ARM64:  3f8e149757247e020da6f954b6a7043fe0faa9af50ac57f3244e6eb3c10cd8e1
+#   MATCH — all 18 tensors bit-identical (F16 passthrough, F32 via fp32_to_fp16,
+#   BF16 via bf16_to_fp16_rne).
+#
+# H044 — BF16->FP16 RNE exhaustive: all 65536 BF16 bit patterns converted by
+# bf16_to_fp16_rne and compared byte-for-byte against the independent integer-
+# arithmetic reference (prof/armvegr/check_bf16_rne.py):
+#   x86_64:    dae5a613a981e5c814eefb07939198b101c763bbbea2c9e7953752869ba0c6b2
+#   ARM64:     dae5a613a981e5c814eefb07939198b101c763bbbea2c9e7953752869ba0c6b2
+#   reference: dae5a613a981e5c814eefb07939198b101c763bbbea2c9e7953752869ba0c6b2
+#   MATCH on all three — max abs err 0, within the documented 0.5-ULP bound.
+#   Two real bugs found and fixed by this test:
+#     1. _rne_shift overflowed 64-bit Int for drops > 63 (subnormal path).
+#     2. NaN via Inf/Inf is arch-dependent (x86 yields 0xFFC00000, ARM 0x7FC00000);
+#        _f16_from_bits_exact now uses a pointer bitcast (bit-exact everywhere).
+#   Endianness: safetensors is little-endian; all multi-byte reads assemble LE
+#   bytes explicitly (aarch64 Pi is LE; the code does not depend on host order).

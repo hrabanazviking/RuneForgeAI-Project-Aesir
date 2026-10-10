@@ -2395,3 +2395,25 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   dequantized per arch, byte-identical (max abs err 0 <= 1e-6);
   1.1 GB file loads at 320 KiB peak RSS; 3 corrupt files fail closed
   (`data/armvegr/gguf_loader_xcheck.txt`).
+
+### AES-LOAD-043 — safetensors parser in pure Mojo (H043)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/safetensors.mojo` — hand-rolled JSON
+  header parser (L1), descriptor validation (dtype/shape/offsets/overlap/EOF).
+- **Executable evidence:** `tests/h043_st_check.mojo` (TEST-ONLY) vs
+  `prof/armvegr/check_safetensors.py`: 5 real files match exactly; 6
+  adversarial headers fail closed with named errors
+  (`data/armvegr/safetensors_xcheck.txt`).
+
+### AES-LOAD-044 — safetensors tensor loader incl. BF16 (H044)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `SafetensorsLoader.load_fp16` — F16 passthrough,
+  F32 via H031, BF16 via `bf16_to_fp16_rne` (RNE contract documented in code).
+- **Executable evidence:** exhaustive 65536-pattern BF16 test bit-exact vs
+  integer reference on both arches (dae5a613...); 18-tensor FP16 checksums
+  identical x86_64 vs ARM64 (3f8e1497...); st_model.st loads end-to-end on
+  Mimir (`data/armvegr/safetensors_xcheck.txt`).

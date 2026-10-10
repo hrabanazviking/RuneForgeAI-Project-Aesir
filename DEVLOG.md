@@ -3456,3 +3456,30 @@ dequantized per arch — per-tensor FP16 bytes byte-identical (aggregate sha256
 49391f64... both arches; max abs err 0 <= 1e-6). 1.1 GB sparse GGUF loads with
 peak RSS 320 KiB (budget file+256 MiB). Three corrupt files fail closed with
 named errors, exit 0, no crash. Evidence: `data/armvegr/gguf_loader_xcheck.txt`.
+
+## 2026-10-10 — MÍMISBRUNNR H043: safetensors parser in pure Mojo
+
+New `armvegr/safetensors.mojo`: hand-rolled JSON parser (L1 — recursive
+descent, no library) reading the safetensors header schema (tensor descriptors
++ `__metadata__` skip + unknown-field skip), full string-escape handling incl
+`\uXXXX` surrogate pairs, integer-overflow guards. Validation: dtype in
+{F16,BF16,F32}, non-negative shapes, data_offsets size match, EOF bounds,
+overlap detection, duplicate names. 5 real files (F16/BF16/F32/mixed/unicode
+name/tiny model) — every descriptor matches the independent Python
+struct+json cross-check exactly. 6 adversarial headers (truncated JSON,
+overlap, offset beyond EOF, bad dtype, bad JSON, negative-size offsets) all
+fail closed with named errors. Corpus: `prof/armvegr/make_safetensors_corpus.py`
+(deterministic).
+
+## 2026-10-10 — MÍMISBRUNNR H044: safetensors tensor loader (dtype mapping incl. BF16)
+
+`SafetensorsLoader.load_fp16`: F16 bit-exact copy, F32 via H031 fp32_to_fp16,
+BF16 via new `bf16_to_fp16_rne` (documented RNE contract in code). Exhaustive
+test over all 65536 BF16 patterns vs independent integer-arithmetic reference:
+bit-exact on x86_64, ARM64, and reference (all three sha256 dae5a613...). Two
+real bugs caught by the test: (1) `_rne_shift` 64-bit overflow for large drops;
+(2) NaN-via-Inf/Inf is arch-dependent (x86 0xFFC00000 vs ARM 0x7FC00000) —
+`_f16_from_bits_exact` now uses a pointer bitcast, bit-exact everywhere.
+End-to-end: st_model.st loads on Mimir; all 18 tensors' FP16 checksums match
+x86_64 exactly (aggregate 3f8e1497... both). Endianness explicit (LE assembly).
+Evidence: `data/armvegr/safetensors_xcheck.txt`.

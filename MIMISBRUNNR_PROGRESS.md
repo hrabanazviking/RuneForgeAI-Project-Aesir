@@ -167,8 +167,10 @@ H060 GO (review doc). **No slices killed.**
   - Evidence (2026-10-10): 1.1.0 migration (InlineArray→unsafe_alloc fstat buffer) + aarch64 struct-stat ABI fix (st_mode word 2 vs 3) in aesir_engine/loader/gguf.mojo — the two authorized touchpoints only. 6-file corpus (5 deterministic via prof/armvegr/make_gguf_corpus.py + real TinyLlama-1.1B-Chat-v1.0 Q4_0 637699456 B), v2+v3, dtypes F32/F16/Q4_0/Q8_0/Q4_1/Q5_0/Q8_1/Q6_K. Canonical dumps byte-identical x86_64 vs ARM64 on all six (data/armvegr/gguf_port_diff.txt, empty diff). Existing x86_64 suite (test_gguf_parsing, test_ggml_type) passes unmodified.
 - [x] H042 — GGUF tensor loader (mmap + dequantize to FP16)
   - Evidence (2026-10-10): new armvegr/gguf_loader.mojo (self-contained v2/v3 parse, mmap, FP16 dequantize via H031/H032 kernels). Cross-check: 68 tensors dequantized per arch, byte-identical (aggregate sha256 49391f64… both; max abs err 0 ≤ 1e-6). 1.1 GB file: peak RSS 320 KiB (budget file+256 MiB). 3 corrupt files fail closed with named errors, exit 0. Evidence: data/armvegr/gguf_loader_xcheck.txt. Note: draft bug (misread u32@24 as header alignment — v3 header is 24 bytes, no alignment field) caught by the x86_64 self-test before Mimir ran.
-- [ ] H043 — safetensors parser in pure Mojo
-- [ ] H044 — safetensors tensor loader (dtype mapping incl. BF16)
+- [x] H043 — safetensors parser in pure Mojo
+  - Evidence (2026-10-10): new armvegr/safetensors.mojo (hand-rolled JSON parser, L1). 5 real files (F16/BF16/F32/mixed/tiny model): every descriptor matches the Python struct+json cross-check exactly. 6 adversarial headers fail closed with named errors. Corpus: prof/armvegr/make_safetensors_corpus.py.
+- [x] H044 — safetensors tensor loader (dtype mapping incl. BF16)
+  - Evidence (2026-10-10): load_fp16 (F16 copy, F32 via H031, BF16 via bf16_to_fp16_rne with documented RNE contract). Exhaustive 65536-pattern BF16 test bit-exact vs integer reference on x86_64 + ARM64 (dae5a613...). Two real bugs fixed (shift overflow; arch-dependent NaN). 18-tensor FP16 checksums identical across arches (3f8e1497...). Evidence: data/armvegr/safetensors_xcheck.txt.
 - [ ] H045 — Weight layout planner
 - [ ] H046 — BPE tokenizer (vocab + merges)
 - [ ] H047 — SentencePiece-style tokenizer support
