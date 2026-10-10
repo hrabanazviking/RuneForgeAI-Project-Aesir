@@ -23,7 +23,8 @@
 | Victory gates 1-3 | H195-H197 | pending | — | — |
 
 ## Campaign 1 — Recon & Spikes (H001–H020)
-- Status: IN PROGRESS (worker spawned 2026-10-10 ~03:52 EDT)
+- Status: COMPLETE 2026-10-10 ~04:32 EDT — all 20 slices, pushed f364849, remote HEAD verified f36484931b3647afce8dd9a1c8ba9abce146e35e
+- Key: Mojo 1.1.0 NATIVE-WORKS on Pi 5 (pixi shim); mechanism verdict NO-GO (no VFIO/UIO — Phase-B driver blocked until kernel rebuild or F2 re-scope); NEON FP16 GEMM 16.0 GFLOPS bit-exact; GGUFSeer blocked by 1.1.0 InlineArray removal; Hladgerð has no implementation
 - [x] H001 — Mojo toolchain native attempt on Pi 5
 - [x] H002 — Cross-compile fallback x86_64 → aarch64
 - [x] H003 — PCIe census of Mimir
