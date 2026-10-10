@@ -1396,3 +1396,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-147 GGUF pool adversarial evidence: two-element F32 conversion
   against one available pool element rejects without descriptor or pool mutation,
   then closes mapping. Registered `gguf.tensor_directory_pool_adversarial`.
+
+- [x] AES500-148 GGUF tensor directory review: primary review reconciles host
+  arithmetic guards, mapping/pool order, and synthetic evidence limits.
+  Independent Auditor unavailable at service thread cap; no separate approval
+  claimed.

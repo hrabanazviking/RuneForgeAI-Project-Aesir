@@ -3817,3 +3817,8 @@ check, and cleans the mmap; no full-model claim is implied.
 AES500-147 checks F32 conversion pool exhaustion with two requested values and
 one available element. It rejects before descriptor insertion, leaves pool
 offset unchanged, and cleans the mapping.
+
+
+AES500-148 primary review checked arithmetic guards, pool admission and the
+tensor fixture assertions. Independent review could not be assigned because the
+collaboration service thread cap persists; no independent signoff is claimed.
