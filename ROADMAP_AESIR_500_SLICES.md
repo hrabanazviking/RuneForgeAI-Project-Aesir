@@ -624,6 +624,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   release gate. No speed, occupancy, provider-lead or production-selection claim.
 - AES500-021 publishes `TASK_cuda_allocation_lifetime_tracking.md`, defining
   ownership/accounting evidence boundaries before any resource-lifecycle change.
+- AES500-022 records the current synchronized GPU-2 resource baseline in
+  `docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/`; asynchronous
+  teardown and driver allocator semantics remain unproven.
 
 ## Status
 

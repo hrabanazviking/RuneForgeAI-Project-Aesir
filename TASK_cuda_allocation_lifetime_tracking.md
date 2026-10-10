@@ -69,7 +69,8 @@ under the library's documented ownership rules.
 
 ## Required follow-on sequence
 
-AES500-022 captures baseline evidence. AES500-023 defines the narrow interface
+AES500-022 baseline evidence is captured in
+`docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/`. AES500-023 defines the narrow interface
 and negative cases. AES500-024 implements only the approved accounting/lifetime
 behavior. AES500-025 adds focused executable evidence; AES500-026 checks the
 adjacent GEMM owner end to end; AES500-027 exercises hostile failure and cleanup
