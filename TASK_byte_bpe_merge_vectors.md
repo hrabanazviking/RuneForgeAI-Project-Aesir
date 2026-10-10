@@ -61,3 +61,8 @@ Primary review reconciles `_merge_sentencepiece` against the exact vectors: stri
 
 
 AES500-159 documentation sync: `aesir_engine/loader/INTERFACE.md` now states score order, leftmost tie, convergence, per-byte fallback and the synthetic evidence boundary.
+
+
+## AES500-160 release gate
+
+Native sm_89 build and executable help smoke pass. Master suite reports 222 passed, zero failed, one external-fixture skip (223 total). Documentation drift and whitespace checks pass. GitHub Actions runs for recent heads remained in progress when checked; hosted success is not claimed.

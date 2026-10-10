@@ -3879,3 +3879,8 @@ Auditor agent; no independent review claim is made.
 
 AES500-159 syncs the loader interface with score priority, leftmost ties,
 chaining, byte fallback and synthetic evidence limits.
+
+
+AES500-160 closes the byte BPE release gate: native build/help and docs pass;
+master suite 222 passed, zero failed, one skipped (223 total). Recent hosted
+Actions runs remain in progress.

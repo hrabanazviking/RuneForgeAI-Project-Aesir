@@ -1443,3 +1443,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 
 - [x] AES500-159 byte BPE documentation sync: loader interface, task, roadmap,
   TODO and devlog agree on merge and fallback behavior and evidence limits.
+
+- [x] AES500-160 byte BPE release gate: native build/help, master 222/0/1
+  (223 total), documentation and whitespace checks pass; recent hosted runs
+  remain in progress.
