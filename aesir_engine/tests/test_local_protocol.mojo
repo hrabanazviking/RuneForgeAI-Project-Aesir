@@ -121,9 +121,59 @@ def test_local_http() raises:
         raise Error("Ollama streaming response lost its NDJSON media type")
 
 
+def test_local_http_bounds() raises:
+    var prefix = String("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: ")
+    var suffix = String("\r\n\r\n")
+    var exact_body = LocalHTTPHead(prefix + "131072" + suffix, 18434, "test-key")
+    if exact_body.status != 200 or exact_body.length != 131072:
+        raise Error("Maximum declared request body rejected")
+    var over_body = LocalHTTPHead(prefix + "131073" + suffix, 18434, "test-key")
+    if over_body.status != 413:
+        raise Error("Oversized declared request body did not return 413")
+    var too_large_number = False
+    try:
+        _ = LocalHTTPHead(prefix + "999999999999999999999999999999" + suffix, 18434, "test-key")
+    except:
+        too_large_number = True
+    if not too_large_number:
+        raise Error("Overflowing Content-Length was accepted")
+
+    var base = String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n")
+    var auth = String("Authorization: Bearer test-key\r\n")
+    var fields = String("")
+    for i in range(62):
+        fields += "X-" + String(i) + ": a\r\n"
+    var sixty_four = LocalHTTPHead(base + auth + fields + "\r\n", 18434, "test-key")
+    if sixty_four.status != 200:
+        raise Error("64 unique headers rejected")
+    var sixty_five_rejected = False
+    try:
+        _ = LocalHTTPHead(base + auth + fields + "X-over: a\r\n\r\n", 18434, "test-key")
+    except:
+        sixty_five_rejected = True
+    if not sixty_five_rejected:
+        raise Error("65 unique headers accepted")
+
+    var value = String("")
+    for _ in range(1024):
+        value += "a"
+    var value_head = String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nX-test: " + value + "\r\n\r\n")
+    if LocalHTTPHead(value_head, 18434, "test-key").status != 200:
+        raise Error("1024-byte header value rejected")
+    value += "a"
+    var value_rejected = False
+    try:
+        _ = LocalHTTPHead(String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nX-test: " + value + "\r\n\r\n"), 18434, "test-key")
+    except:
+        value_rejected = True
+    if not value_rejected:
+        raise Error("1025-byte header value accepted")
+
+
 def main() raises:
     test_local_json()
     test_local_http()
+    test_local_http_bounds()
     test_local_generation_request()
     test_local_path_bounds()
     print("PASS bounded JSON and HTTP rejection")

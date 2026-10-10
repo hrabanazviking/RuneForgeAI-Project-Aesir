@@ -13,7 +13,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer, test_byte_bpe_merge_baseline, test_byte_bpe_merge_interface, test_byte_bpe_merge_adversarial, test_byte_bpe_merge_integration, test_byte_bpe_merge_negative_scores, test_unicode_normalization_baseline, test_unicode_normalization_interface, test_unicode_normalization_integration, test_unicode_normalization_adversarial, test_invalid_utf8_rejection, test_invalid_utf8_adversarial, test_invalid_utf8_integration, test_invalid_utf8_single_byte_sweep
-from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds
+from tests.test_local_protocol import test_local_json, test_local_http, test_local_http_bounds, test_local_generation_request, test_local_path_bounds
 from tests.test_local_transport_ownership import test_owned_fd_transfer_release, test_socket_admission_rejection
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
@@ -929,6 +929,7 @@ def main() raises:
     run_case(ledger, "control.sigint", test_generation_sigint)
     run_case(ledger, "local_service.json", test_local_json)
     run_case(ledger, "local_service.http", test_local_http)
+    run_case(ledger, "local_service.http_bounds", test_local_http_bounds)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "local_service.fd_ownership", test_owned_fd_transfer_release)
@@ -938,4 +939,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(246)
+    ledger.finish(247)
