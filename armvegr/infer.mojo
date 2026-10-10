@@ -9,7 +9,7 @@ from std.collections import Dict
 from std.memory import Pointer
 from std.memory.alloc import unsafe_alloc
 from std.origin import MutUntrackedOrigin
-from std.math import exp, log
+from std.math import exp
 
 from armvegr.gguf_loader import GGUFLoader
 from armvegr.gemv import gemv_fp16
@@ -136,7 +136,8 @@ struct Inference:
     def forward(mut self, token: Int) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """One decode step. Returns pointer to 32000 logits (FP16)."""
         var pos = self.seq_len
-        var ln_theta = log(Float32(10000.0))
+        # rope_fp16 takes raw theta (it computes ln(theta) internally).
+        var theta = Float32(10000.0)
         # Embedding.
         var emb = self.model.weights["token_embd.weight"]
         var eoff = token * 2048
@@ -158,13 +159,13 @@ struct Inference:
                 rope_fp16(
                     self.q.unsafe_offset(hq * 64),
                     self.q.unsafe_offset(hq * 64),
-                    64, pos, ln_theta,
+                    64, pos, theta,
                 )
             for hk in range(4):
                 rope_fp16(
                     self.k.unsafe_offset(hk * 64),
                     self.k.unsafe_offset(hk * 64),
-                    64, pos, ln_theta,
+                    64, pos, theta,
                 )
             # KV cache append.
             for hk in range(4):

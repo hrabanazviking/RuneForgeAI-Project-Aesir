@@ -2,15 +2,13 @@
 #
 # Q4_0 BLOCK FORMAT (byte-exact, 18 bytes per 32-value block):
 #   bytes [0:2]   : scale, IEEE-754 binary16, little-endian
-#   bytes [2:18]  : 16 bytes, 2x 4-bit nibbles per byte, LOW NIBBLE FIRST:
-#                   byte b holds q[2b] in bits [3:0] and q[2b+1] in bits [7:4]
+#   bytes [2:18]  : 16 bytes, 2x 4-bit nibbles per byte, GGML SPLIT-HALF layout:
+#                   byte b holds q[b] in bits [3:0] and q[b+16] in bits [7:4]
+#                   (matches ggml-quants.c dequantize_row_q4_0; verified against
+#                   ggml via ctypes 2026-10-10, H059R1)
 #   scale = max_abs(block) / 7   (max_abs == 0 -> scale = 1.0, all q = 0)
 #   q[i] = round_half_away(x[i] / scale), clamped to [-8, 7]
 #   dequant: x[i] = float(q_signed[i]) * scale, q_signed in [-8, 7]
-#
-# The nibble order (low first) matches the GGML convention so tooling that
-# reads GGML Q4_0 sees the expected byte layout; it is verified by a test
-# that checks the first byte of a hand-computed input (H032 acceptance).
 #
 # SÓLRÚN RE-SCOPE (2026-10-10): the roadmap's contract numbers
 # (max <= 0.08, RMS <= 0.02 on uniform[-6,6]) are mathematically
@@ -80,8 +78,9 @@ def q40_dequant_block(
             q0 -= 16
         if q1 >= 8:
             q1 -= 16
-        dst[unsafe_offset=2 * b] = Float16(Float32(q0) * scale)
-        dst[unsafe_offset=2 * b + 1] = Float16(Float32(q1) * scale)
+        # GGML split-half: byte b -> elements b (low nibble) and b+16 (high).
+        dst[unsafe_offset=b] = Float16(Float32(q0) * scale)
+        dst[unsafe_offset=b + 16] = Float16(Float32(q1) * scale)
 
 
 def fp16_to_q40(

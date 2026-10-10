@@ -208,24 +208,53 @@ def q6k_to_fp16(
     n: Int,
 ):
     """Dequantize Q6_K to FP16. 210 bytes per 256 elements.
-    Layout: ql[128] (lower 4 bits), qh[64] (upper 2 bits),
-            scales[16] (int8), d (fp16).
-    w = d * scales[i//16] * q_signed, q_signed is 6-bit two's complement.
+    Layout (matches ggml-quants.c dequantize_row_q6_K; verified against ggml
+    via ctypes 2026-10-10, H059R1): ql[128] (lower 4 bits), qh[64] (upper
+    2 bits), scales[16] (int8), d (fp16). For j in {0,128}, l in 0..31:
+      y[j+l]    = d*sc[j/16+l/16]  *(ql[j/2+l]&0xF    | ((qh[j/4+l]&3)<<4)   - 32)
+      y[j+l+32] = d*sc[j/16+l/16+2]*((ql[j/2+l+32]&0xF | (((qh[j/4+l]>>2)&3)<<4)) - 32)
+      y[j+l+64] = d*sc[j/16+l/16+4]*(((ql[j/2+l]>>4)&0xF|(((qh[j/4+l]>>4)&3)<<4)) - 32)
+      y[j+l+96] = d*sc[j/16+l/16+6]*(((ql[j/2+l+32]>>4)&0xF|(((qh[j/4+l]>>6)&3)<<4)) - 32)
     """
     var nb = n // 256
     for b in range(nb):
         var base = b * 210
         var d = fp16_from_bits(read_u16_le(src, base + 208))
-        for i in range(256):
-            var sub = i // 16
-            var scale = Float32(Int(src.unsafe_offset(base + 192 + sub).unsafe_load()))
-            var ql_byte = Int(src.unsafe_offset(base + i // 2).unsafe_load()) & 0xFF
-            var ql_val = (ql_byte >> (4 * (i & 1))) & 0xF
-            var qh_byte = Int(src.unsafe_offset(base + 128 + i // 4).unsafe_load()) & 0xFF
-            var qh_val = (qh_byte >> (2 * (i & 3))) & 0x3
-            var q6 = ql_val | (qh_val << 4)
-            var q_signed = q6
-            if q6 >= 32:
-                q_signed = q6 - 64
-            var w = d * scale * Float32(q_signed)
-            dst.unsafe_offset(b * 256 + i).unsafe_store(Float16(w))
+        for j in range(0, 256, 128):
+            var ql_o = base + j // 2
+            var qh_o = base + 128 + j // 4
+            var sc_o = base + 192 + j // 16
+            for l in range(32):
+                var is_ = l // 16
+                var b0 = Int(src.unsafe_offset(ql_o + l).unsafe_load()) & 0xFF
+                var b1 = Int(src.unsafe_offset(ql_o + l + 32).unsafe_load()) & 0xFF
+                var hb = Int(src.unsafe_offset(qh_o + l).unsafe_load()) & 0xFF
+                var sc0 = Float32(
+                    Int(src.unsafe_offset(sc_o + is_).unsafe_load())
+                )
+                var sc1 = Float32(
+                    Int(src.unsafe_offset(sc_o + is_ + 2).unsafe_load())
+                )
+                var sc2 = Float32(
+                    Int(src.unsafe_offset(sc_o + is_ + 4).unsafe_load())
+                )
+                var sc3 = Float32(
+                    Int(src.unsafe_offset(sc_o + is_ + 6).unsafe_load())
+                )
+                var q1 = (b0 & 0xF) | ((hb & 0x3) << 4)
+                var q2 = (b1 & 0xF) | (((hb >> 2) & 0x3) << 4)
+                var q3 = ((b0 >> 4) & 0xF) | (((hb >> 4) & 0x3) << 4)
+                var q4 = ((b1 >> 4) & 0xF) | (((hb >> 6) & 0x3) << 4)
+                var o = b * 256 + j
+                dst.unsafe_offset(o + l).unsafe_store(
+                    Float16(d * sc0 * Float32(q1 - 32))
+                )
+                dst.unsafe_offset(o + l + 32).unsafe_store(
+                    Float16(d * sc1 * Float32(q2 - 32))
+                )
+                dst.unsafe_offset(o + l + 64).unsafe_store(
+                    Float16(d * sc2 * Float32(q3 - 32))
+                )
+                dst.unsafe_offset(o + l + 96).unsafe_store(
+                    Float16(d * sc3 * Float32(q4 - 32))
+                )
