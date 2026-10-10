@@ -158,6 +158,10 @@ def _vault_read(path: String) raises -> String:
     if stat[6] == 0 or stat[6] > MAX_VAULT_BYTES:
         _ = external_call["close", Int32](fd)
         raise Error("StateVault checkpoint must contain 1 through 4096 bytes")
+    # F012: pin the fstat size. The loop below reads to EOF rather than
+    # stopping at the pinned size, so without this check a file that grew
+    # between fstat and read would be silently accepted instead of rejected.
+    var pinned_size = stat[6]
     var buffer = List[Byte]()
     buffer.resize(MAX_VAULT_BYTES + 1, 0)
     var size = 0
@@ -181,6 +185,9 @@ def _vault_read(path: String) raises -> String:
         if size > MAX_VAULT_BYTES:
             _ = external_call["close", Int32](fd)
             raise Error("StateVault checkpoint exceeds 4096 bytes")
+    if UInt64(size) != pinned_size:
+        _ = external_call["close", Int32](fd)
+        raise Error("StateVault checkpoint changed size during read")
     var close_result = external_call["close", Int32](fd)
     if close_result != 0:
         raise Error("StateVault checkpoint close failed")

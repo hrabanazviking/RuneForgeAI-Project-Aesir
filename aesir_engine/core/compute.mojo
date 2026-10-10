@@ -2008,6 +2008,19 @@ def gemm_f16_gpgpu_vector(
     ════════════════════════════════════════════════════════════════════════════
 
     Routes to physical NVIDIA CUDA GPU execution when CUDA is available, or vector SIMD.
+
+    Silent-fallback contract (F009):
+    - When CUDA is unavailable, or when CUDAGate.launch_gemm_cuda raises for
+      any reason, this function silently falls back to the 16-wide vector SIMD
+      path below. No error is raised and no notice is printed.
+    - The fallback computes exactly what the function computes when CUDA was
+      never available, so callers cannot distinguish "CUDA launch failed" from
+      "CUDA absent" by inspecting C, the (absent) return value, or any error
+      channel.
+    - A one-time-per-process notice was considered, but Mojo 1.0.0 does not
+      support module-level mutable state ("global variables are not
+      supported"), so the fallback remains silent by design. The CPU fallback
+      parity test pins the fallback path's numerical behavior instead.
     """
     if CUDAGate.is_available() and CUDAGate.get_device_count() > 0:
         try:

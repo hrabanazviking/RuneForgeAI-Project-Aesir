@@ -274,6 +274,38 @@ def _hf_transfer(
     if cleanup_failed:
         raise Error("Hugging Face range staging cleanup failed")
 
+
+def _hf_verify_complete_download(
+    fd: Int32, expected_size: Int, expected_sha256: String
+) raises:
+    """Verify a fully assembled staged download before it may be published.
+
+    Fail-closed size, GGUF v3 magic, and SHA-256 checks. Invoked on every
+    completion path of download_hf_model: fresh single-connection downloads,
+    resumed single-connection downloads (curl --continue-at), and
+    multi-connection range assembly. A resumed file is verified exactly like
+    a fresh one; no path may publish without passing these checks.
+    """
+    var actual_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
+    if actual_size != Int64(expected_size):
+        raise Error("Hugging Face downloaded size mismatch: expected "
+                    + String(expected_size) + ", received " + String(actual_size))
+    var header = List[Byte]()
+    header.resize(8, 0)
+    if external_call["pread", Int](
+        fd, header.unsafe_ptr(), Int(8), Int64(0)
+    ) != 8:
+        raise Error("Hugging Face GGUF header read failed")
+    if (header[0] != 71 or header[1] != 71 or header[2] != 85
+            or header[3] != 70 or header[4] != 3 or header[5] != 0
+            or header[6] != 0 or header[7] != 0):
+        raise Error("Hugging Face download is not GGUF v3")
+    var digest_args: List[String] = ["sha256sum", "--zero", "--"]
+    var digest = _hf_run_with_open_fd(digest_args^, fd)
+    if len(digest.bytes()) < 64 or String(digest[byte=0:64]) != expected_sha256:
+        raise Error("Hugging Face downloaded SHA-256 mismatch")
+
+
 struct HuggingFaceSeer:
     """
     ᚺᛢᚷᚷᛁ᛾ᚷ·ᚠᚨᚲᛖ·ᛋᛖᛖᚱ — The Vision of the HuggingFace Hub (HuggingFaceSeer)
@@ -485,24 +517,9 @@ struct HuggingFaceSeer:
                         raise error
             else:
                 _hf_transfer(url, staged_path, fd, expected_size, connections)
-            var actual_size = external_call["lseek", Int64](fd, Int64(0), Int32(2))
-            if actual_size != Int64(expected_size):
-                raise Error("Hugging Face downloaded size mismatch: expected "
-                            + String(expected_size) + ", received " + String(actual_size))
-            var header = List[Byte]()
-            header.resize(8, 0)
-            if external_call["pread", Int](
-                fd, header.unsafe_ptr(), Int(8), Int64(0)
-            ) != 8:
-                raise Error("Hugging Face GGUF header read failed")
-            if (header[0] != 71 or header[1] != 71 or header[2] != 85
-                    or header[3] != 70 or header[4] != 3 or header[5] != 0
-                    or header[6] != 0 or header[7] != 0):
-                raise Error("Hugging Face download is not GGUF v3")
-            var digest_args: List[String] = ["sha256sum", "--zero", "--"]
-            var digest = _hf_run_with_open_fd(digest_args^, fd)
-            if len(digest.bytes()) < 64 or String(digest[byte=0:64]) != expected_sha256:
-                raise Error("Hugging Face downloaded SHA-256 mismatch")
+            # Invariant: every completion path (fresh, resumed, range-assembled)
+            # is verified identically before publication. Never publish first.
+            _hf_verify_complete_download(fd, expected_size, expected_sha256)
             if external_call["fsync", Int32](fd) != 0:
                 raise Error("Hugging Face staging synchronization failed")
             # Publish the exact verified descriptor, not a replaceable stage path.

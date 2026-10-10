@@ -1,9 +1,11 @@
 # tests/test_compute.mojo
 # The Proving Grounds: Verification of the Forge's Mathematical Truth
 
-from core.mimir_well import MimirWell, RuneTensor, f16, f32
+from core.mimir_well import MimirWell, RuneTensor, Scalar, f16, f32
 from core.compute import (
     gemm_f16,
+    gemm_f16_gpgpu_vector,
+    gemm_f16_mobile_opencl,
     flash_attention_2,
     flash_attention_gqa,
     geglu,
@@ -387,6 +389,92 @@ def test_gqa_attention_reference() raises:
     else:
         print("FAIL: flash_attention_gqa expected approx 0.3, got", val)
         raise Error("flash_attention_gqa reference mismatch")
+
+def test_gemm_f16_gpgpu_vector_cpu_fallback() raises:
+    print("--- Testing gemm_f16_gpgpu_vector CPU fallback parity (F009) ---")
+    var well = MimirWell(1024 * 1024)
+
+    var M = 5
+    var K = 20  # not a multiple of the 16-wide lane: exercises the scalar tail
+    var N = 7
+
+    var a_ptr = well.allocate(M * K)
+    var A = RuneTensor[f16](M, K, a_ptr)
+    var b_ptr = well.allocate(N * K)
+    var B = RuneTensor[f16](N, K, b_ptr)
+    var c_ptr = well.allocate(M * N)
+    var C = RuneTensor[f16](M, N, c_ptr)
+    var c2_ptr = well.allocate(M * N)
+    var C2 = RuneTensor[f16](M, N, c2_ptr)
+
+    # Deterministic inexact pattern: exercises f16 rounding in the fallback.
+    for m in range(M):
+        for k in range(K):
+            A.data.unsafe_store(m * K + k, Scalar[f16](Float64(m * K + k) * 0.1 - 5.0))
+    for n in range(N):
+        for k in range(K):
+            B.data.unsafe_store(n * K + k, Scalar[f16](Float64(n * K + k) * 0.07 + 0.3))
+
+    # On a CPU-only host the CUDA branch never fires, so this call exercises
+    # exactly the documented silent-fallback (pure-SIMD) path.
+    gemm_f16_gpgpu_vector(A, B, C)
+    gemm_f16_gpgpu_vector(A, B, C2)
+
+    var success = True
+    # (1) Determinism: the fallback path must be bit-identical across calls.
+    for i in range(M * N):
+        if C.data.unsafe_load(i) != C2.data.unsafe_load(i):
+            print("FAIL: fallback path not deterministic at index", i)
+            success = False
+    # (2) Numeric parity with a Float64 scalar reference.
+    for m in range(M):
+        for n in range(N):
+            var reference: Float64 = 0.0
+            for k in range(K):
+                reference += Float64(A.data.unsafe_load(m * K + k)) * Float64(
+                    B.data.unsafe_load(n * K + k)
+                )
+            var got = Float64(C.data.unsafe_load(m * N + n))
+            var err = reference - got
+            if err < 0:
+                err = -err
+            var magnitude = reference if reference >= 0 else -reference
+            if err > 0.05 * (1.0 + magnitude):
+                print("FAIL: fallback deviates from reference at", m, n,
+                      "got", got, "reference", reference)
+                success = False
+
+    # (3) Exact-arithmetic parity with the sibling 8-wide SIMD kernel: with
+    # exactly representable operands every lane width must agree bit-for-bit.
+    var eM = 4
+    var eK = 16
+    var eN = 4
+    var ea_ptr = well.allocate(eM * eK)
+    var eA = RuneTensor[f16](eM, eK, ea_ptr)
+    var eb_ptr = well.allocate(eN * eK)
+    var eB = RuneTensor[f16](eN, eK, eb_ptr)
+    var ec_ptr = well.allocate(eM * eN)
+    var eC = RuneTensor[f16](eM, eN, ec_ptr)
+    var ec2_ptr = well.allocate(eM * eN)
+    var eC2 = RuneTensor[f16](eM, eN, ec2_ptr)
+    for i in range(eM * eK):
+        eA.data.unsafe_store(i, Scalar[f16](0.25))
+    for i in range(eN * eK):
+        eB.data.unsafe_store(i, Scalar[f16](0.5))
+    gemm_f16_gpgpu_vector(eA, eB, eC)
+    gemm_f16_mobile_opencl(eA, eB, eC2)
+    for i in range(eM * eN):
+        if eC.data.unsafe_load(i) != eC2.data.unsafe_load(i):
+            print("FAIL: fallback/SIMD kernel mismatch at index", i)
+            success = False
+        if eC.data.unsafe_load(i) != Scalar[f16](2.0):
+            print("FAIL: fallback exact value wrong at index", i)
+            success = False
+
+    if not success:
+        raise Error("gemm_f16_gpgpu_vector CPU fallback parity mismatch")
+    print("gemm_f16_gpgpu_vector CPU fallback parity: PASS")
+
 
 def main() raises:
     print("Starting Compute Kernel Verification...")

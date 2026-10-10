@@ -1,7 +1,13 @@
 # tests/test_huggingface.mojo
 # Verification of Hugging Face string helpers and unsupported download boundary
 
-from loader.huggingface import HuggingFaceSeer, _hf_run_checked
+from std.ffi import external_call
+from loader.huggingface import (
+    HuggingFaceSeer,
+    _hf_cstring,
+    _hf_run_checked,
+    _hf_verify_complete_download,
+)
 from cli.commands import dispatch_pull
 
 def test_hf_repo_parsing() raises:
@@ -140,3 +146,95 @@ def test_hf_pinned_download_admission() raises:
             failed = "pull" in String(error)
         if not failed:
             raise Error("Invalid pull arguments were not rejected before I/O")
+
+
+def _hf_test_pwrite_all(fd: Int32, data: List[Byte], offset: Int) raises:
+    var done = 0
+    while done < len(data):
+        var count = external_call["pwrite", Int](
+            fd, data.unsafe_ptr().unsafe_offset(done), len(data) - done,
+            Int64(offset + done),
+        )
+        if count <= 0:
+            raise Error("Hugging Face test staging write failed")
+        done += count
+
+
+def test_hf_resume_completion_verification() raises:
+    print("--- Testing Hugging Face resume-path completion verification (F011) ---")
+    var template = _hf_cstring("/tmp/aesir-hf-resume-test-XXXXXX")
+    var fd = external_call["mkstemp", Int32](template.unsafe_ptr())
+    if fd < 0:
+        raise Error("Hugging Face test staging file creation failed")
+    var path = String(unsafe_from_utf8_ptr=template.unsafe_ptr())
+    try:
+        # 64-byte pinned GGUF v3 artifact (downloader requires >= 24 bytes).
+        var payload = List[Byte]()
+        var magic: List[Int] = [71, 71, 85, 70, 3, 0, 0, 0]
+        for byte in magic:
+            payload.append(Byte(byte))
+        for i in range(56):
+            payload.append(Byte((i * 37 + 11) % 251))
+        # Simulate an interrupted download: stage the first 40 bytes, then
+        # "resume" by appending the remainder, exactly as curl --continue-at
+        # would leave the staging descriptor.
+        var first = List[Byte]()
+        for i in range(40):
+            first.append(payload[i])
+        _hf_test_pwrite_all(fd, first, 0)
+        var rest = List[Byte]()
+        for i in range(40, 64):
+            rest.append(payload[i])
+        _hf_test_pwrite_all(fd, rest, 40)
+        var argv: List[String] = ["sha256sum", "--", path]
+        var digest = _hf_run_checked(argv)
+        var sha = String(digest[byte=0:64])
+        # The resumed completion must verify exactly like a fresh download.
+        _hf_verify_complete_download(fd, 64, sha)
+
+        # Tamper one byte: fail-closed SHA-256 rejection.
+        var flip = List[Byte]()
+        flip.append(payload[8] ^ 255)
+        _hf_test_pwrite_all(fd, flip, 8)
+        var tamper_rejected = False
+        try:
+            _hf_verify_complete_download(fd, 64, sha)
+        except error:
+            tamper_rejected = "SHA-256 mismatch" in String(error)
+        if not tamper_rejected:
+            raise Error("Tampered staged download was not rejected")
+
+        # Restore the byte, then a wrong pinned size must fail closed.
+        var original = List[Byte]()
+        original.append(payload[8])
+        _hf_test_pwrite_all(fd, original, 8)
+        var size_rejected = False
+        try:
+            _hf_verify_complete_download(fd, 63, sha)
+        except error:
+            size_rejected = "size mismatch" in String(error)
+        if not size_rejected:
+            raise Error("Wrong-size staged download was not rejected")
+
+        # A non-GGUF magic must fail closed even at the pinned size.
+        var bad = List[Byte]()
+        for _ in range(64):
+            bad.append(Byte(0))
+        _hf_test_pwrite_all(fd, bad, 0)
+        var bad_argv: List[String] = ["sha256sum", "--", path]
+        var bad_digest = _hf_run_checked(bad_argv)
+        var bad_sha = String(bad_digest[byte=0:64])
+        var header_rejected = False
+        try:
+            _hf_verify_complete_download(fd, 64, bad_sha)
+        except error:
+            header_rejected = "not GGUF v3" in String(error)
+        if not header_rejected:
+            raise Error("Non-GGUF staged download was not rejected")
+    except error:
+        _ = external_call["close", Int32](fd)
+        _ = external_call["unlink", Int32](template.unsafe_ptr())
+        raise error
+    _ = external_call["close", Int32](fd)
+    _ = external_call["unlink", Int32](template.unsafe_ptr())
+    print("Hugging Face resume completion verification: PASS")
