@@ -15,10 +15,12 @@ GPU run.
   correlations; wrong kernel prefix and exact grid/block resource fields.
 - Empty, reversed or out-of-capture asynchronous kernel intervals. GPU intervals
   that merely finish after their CPU child range remain complete and untrimmed.
-- Pre-analysis CUDA initialization calls: allow only the exact strategy5 setup
-  names, same process, and return status 0 or documented unsupported status 101;
-  each must end before the owned prefill range. Unknown names, status drift and
-  overlap with the owned range fail closed.
+- Pre-analysis CUDA API records: allow only the exact strategy5 setup names in
+  the same process, with status 0 except `cuMemCreate` status 101. CUDA status
+  101 is `CUDA_ERROR_INVALID_DEVICE`; the capture lacks call arguments, so the
+  receipt records this result without claiming it was benign or unsupported.
+  Each record must end before the owned prefill range. Unknown names, other
+  nonzero statuses and overlap with the owned range fail closed.
 - Strategy and trace-mode exclusivity, including no projection-stage labels or
   fused strategy borrowing.
 

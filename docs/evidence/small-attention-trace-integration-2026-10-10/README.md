@@ -23,10 +23,10 @@ byte-for-byte, and both passed the source-bound full-session checker.
 
 ## Results
 
-| Case | Input IDs | Small tile plan | Owned child ranges / kernels | Pre-session init APIs | Unprofiled = profiled logits |
+| Case | Input IDs | Small tile plan | Owned child ranges / kernels | Pre-session allowlisted CUDA API records | Unprofiled = profiled logits |
 |---|---:|---|---:|---:|---|
-| public37 | 37 | 1×b32, 1×b4, 1 scalar | 56 / 56 | 42 | Yes |
-| public1070 | 1070 | 33×b32, 3×b4, 1 scalar | 1008 / 1008 | 42 | Yes |
+| public37 | 37 | 1×b32, 1×b4, 1 scalar | 56 / 56 | 42 (30 status 0; 12 `cuMemCreate` status 101) | Yes |
+| public1070 | 1070 | 33×b32, 3×b4, 1 scalar | 1008 / 1008 | 42 (30 status 0; 12 `cuMemCreate` status 101) | Yes |
 
 Every full tile generates 28 `attend_small` calls, one per model layer. Each call
 owns one nested range and one successful launch correlation; the earlier
@@ -35,12 +35,15 @@ activity. Children follow full b32 tiles then final b4. Small kernels matched th
 compiled mangled-name prefix, exact `(24,4|32,1)` grid and `(128,1,1)` block. GPU
 intervals are preserved whole when they extend beyond their CPU child ranges.
 
-In both Nsight reports, 42 same-process CUDA context/stream/memory initialization
-API calls ended before the owned prefill range and some began before the analysis
-interval. The bounded initializer allowlist records these separately. Calls,
-kernels, memcpy/memset rows, NVTX ownership, process identity, all source outputs
-and final artifact hashes still pass the checker; kernels and the owned session
-remain inside the analyzed capture interval.
+In both Nsight reports, 42 same-process allowlisted CUDA API records ended before
+the owned prefill range; some began before the analysis interval. Each report has
+30 status-0 records and 12 `cuMemCreate` records returning CUDA status 101
+(`CUDA_ERROR_INVALID_DEVICE`). The exported CUPTI rows omit the call arguments,
+so this receipt does not classify those results as benign or unsupported. The
+checker permits status 101 only for pre-session `cuMemCreate`, reports the
+per-API status histogram, and rejects other nonzero pre-session results. Calls,
+kernels, memcpy/memset rows, NVTX ownership, process identity, outputs and hashes
+pass; the owned kernels/session remain inside the analyzed capture interval.
 
 The two source-bound summaries are [case1.json](case1.json) and
 [case3.json](case3.json). All full CSVs, Nsight reports/SQLite, process logs and

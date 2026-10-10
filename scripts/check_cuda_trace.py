@@ -170,7 +170,7 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
             launches = {}
             selected_launches = set()
             launch_records = {}
-            startup_initialization_api_count = 0
+            pre_session_api_statuses = defaultdict(lambda: defaultdict(int))
             for start, end, tid, correlation, key, status in rows(
                     "CUPTI_ACTIVITY_KIND_RUNTIME", "start,end,globalTid,correlationId,nameId,returnValue"):
                 label = name(key)
@@ -180,9 +180,9 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                     integer(start); integer(end)
                     if not start < end:
                         raise ValueError("Invalid pre-session CUDA initialization interval")
-                    if type(status) is not int or status not in (0, 101):
-                        raise ValueError("Unexpected pre-session CUDA initialization result")
-                    startup_initialization_api_count += 1
+                    if type(status) is not int or (status != 0 and not (label == "cuMemCreate" and status == 101)):
+                        raise ValueError("Unexpected pre-session CUDA API result")
+                    pre_session_api_statuses[label][str(status)] += 1
                 else:
                     interval(start, end)
                 integer(tid, 1); integer(correlation); integer(status)
@@ -275,7 +275,12 @@ def analyze(path, expected_executable="aesir", *, expected_pid=None, nvtx_range=
                 small = attribute_small(nvtx_rows,strings,owned_range,launch_records,selected_kernels,projection_tiles,resources)
             extra = {"fused_attention_attribution": attention} if fused_attention else {}
             if small_attention: extra["small_attention_attribution"] = small
-            if small_attention: extra["pre_session_initialization_api_count"] = startup_initialization_api_count
+            if small_attention:
+                extra["pre_session_allowlisted_api_record_count"] = sum(
+                    sum(counts.values()) for counts in pre_session_api_statuses.values())
+                extra["pre_session_api_return_values"] = {
+                    label: dict(sorted(counts.items(), key=lambda item: int(item[0])))
+                    for label, counts in sorted(pre_session_api_statuses.items())}
             if fused_primitive:
                 from cuda_projection_ranges import RESOURCE_FIELDS
                 resource_groups = {}

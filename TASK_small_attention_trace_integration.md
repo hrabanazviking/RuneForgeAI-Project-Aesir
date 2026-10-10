@@ -19,10 +19,11 @@ CUDA correlation contract.
 - Preserve all failed reports and raw artifacts outside Git. Publish compact,
   path-scrubbed acceptance summaries under
   `docs/evidence/small-attention-trace-integration-2026-10-10/`.
-- Record any CUDA context setup calls that precede Nsight's analysis interval
-  separately; permit only the bounded strategy5 initializer allowlist when every
-  such call ends before the owned prefill NVTX range. Launches, kernels and the
-  complete owned session remain interval-checked.
+- Record allowlisted pre-session CUDA API rows separately with per-API return
+  histograms. Permit status 0 generally and status 101 only for `cuMemCreate`
+  before the owned range; status 101 is `CUDA_ERROR_INVALID_DEVICE`, and absent
+  call arguments do not justify classifying it as benign. Other nonzero statuses
+  reject. Launches, kernels and the complete owned session remain interval-checked.
 
 ## Evidence boundary
 

@@ -641,6 +641,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   tests; exact hosted release CI remains pending.
 - AES500-016: two full-session physical traces pass locally for the declared
   device/model/cases; no broader behavior or speed claim is made.
-- AES500-017: hostile range, launch-correlation and pre-session initializer
-  checks are being expanded; hosted CI is pending.
+- AES500-017: hostile range, launch-correlation and pre-session API status
+  checks pass locally; status 101 is recorded only for pre-session cuMemCreate
+  as CUDA_ERROR_INVALID_DEVICE, without a benign/unsupported interpretation.
+- AES500-018: independent review identified and corrected that status wording,
+  narrowed the checker exception, and re-admitted both retained physical traces.
+  Local checker tests pass; exact hosted CI remains a release gate.
 - This document does not change any capability status.

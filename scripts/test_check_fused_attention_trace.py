@@ -229,7 +229,7 @@ class Contracts(unittest.TestCase):
             result=cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
                 projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
             self.assertEqual(result['small_attention_attribution']['attention_variant'],5)
-            self.assertEqual(result['pre_session_initialization_api_count'],1)
+            self.assertEqual(result['pre_session_allowlisted_api_record_count'],1)
             small.assert_called_once();projection.assert_not_called();fused.assert_not_called()
         with closing(sqlite3.connect(p)) as db:
             db.execute("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=999 WHERE correlationId=9")

@@ -1,6 +1,6 @@
 {
   "artifacts": {
-    "checker_report_sha256": "b6f62b5ba07e98563b201223ee84c052d40ded7cb8b2bfcec05e8c2ca6c283b9",
+    "checker_report_sha256": "6da58a9e2f3ee99b18823818d6d77abb59db18073866c92da50791f8876f357c",
     "nsys_report_sha256": "931658259df8e52c4e4a68d6c2ac45a731938d7fb0da3321c021b959c670e760",
     "profiled_csv_sha256": "d64c61de923d8451b73f2c3056103de6e269278690d7a99c4cb750ac5220371e",
     "sqlite_sha256": "a7643bc1fa4a92f73ce852bb8fd097baccfa46ace934d5836a55ab0b8d52f1c5",
@@ -26,97 +26,275 @@
   },
   "schema": 1,
   "trace": {
-    "complete_capture_kernel_count": 32215,
-    "excluded_kernel_count": 0,
-    "gpu": {
-      "bytes": 6017515520,
-      "compute": "7.5",
-      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design"
-    },
-    "owned_range": {
-      "duration_ns": 5793196367,
-      "end_ns": 8292752910,
-      "global_tid": 341326809165655,
-      "name": "aesir.fixture.prefill",
-      "start_ns": 2499556543
-    },
-    "pre_session_initialization_api_count": 42,
-    "process": {
-      "name": "aesir-small-trace-final",
-      "pid": 3567447
-    },
-    "recorded_resource_kernel_count": 32215,
     "small_attention_attribution": {
+      "passed": true,
       "attention_variant": 5,
       "cpu_range_count": 1008,
+      "kernel_count": 1008,
       "groups": {
         "small.b32": {
-          "batch": 32,
-          "cpu_range_count": 924,
-          "gpu_total_ns": 517553691,
           "kernel_count": 924,
+          "gpu_total_ns": 517553691,
+          "cpu_range_count": 924,
+          "batch": 32,
           "layers_per_tile": 28,
+          "tile_count": 33,
           "recorded_resource_distributions": [
             {
-              "gpu_total_ns": 517553691,
               "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
-              "kernel_count": 924,
               "resources": {
-                "block_x": 128,
-                "block_y": 1,
-                "block_z": 1,
+                "registers_per_thread": 46,
+                "static_shared_bytes": 6144,
                 "dynamic_shared_bytes": 0,
+                "local_bytes_per_thread": 0,
+                "legacy_local_bytes_total_deprecated": 17694720,
                 "grid_x": 24,
                 "grid_y": 32,
                 "grid_z": 1,
-                "legacy_local_bytes_total_deprecated": 17694720,
-                "local_bytes_per_thread": 0,
-                "registers_per_thread": 46,
-                "static_shared_bytes": 6144
-              }
-            }
-          ],
-          "tile_count": 33
-        },
-        "small.b4": {
-          "batch": 4,
-          "cpu_range_count": 84,
-          "gpu_total_ns": 26407059,
-          "kernel_count": 84,
-          "layers_per_tile": 28,
-          "recorded_resource_distributions": [
-            {
-              "gpu_total_ns": 26407059,
-              "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
-              "kernel_count": 84,
-              "resources": {
                 "block_x": 128,
                 "block_y": 1,
-                "block_z": 1,
+                "block_z": 1
+              },
+              "kernel_count": 924,
+              "gpu_total_ns": 517553691
+            }
+          ]
+        },
+        "small.b4": {
+          "kernel_count": 84,
+          "gpu_total_ns": 26407059,
+          "cpu_range_count": 84,
+          "batch": 4,
+          "layers_per_tile": 28,
+          "tile_count": 3,
+          "recorded_resource_distributions": [
+            {
+              "kernel": "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9",
+              "resources": {
+                "registers_per_thread": 46,
+                "static_shared_bytes": 6144,
                 "dynamic_shared_bytes": 0,
+                "local_bytes_per_thread": 0,
+                "legacy_local_bytes_total_deprecated": 17694720,
                 "grid_x": 24,
                 "grid_y": 4,
                 "grid_z": 1,
-                "legacy_local_bytes_total_deprecated": 17694720,
-                "local_bytes_per_thread": 0,
-                "registers_per_thread": 46,
-                "static_shared_bytes": 6144
-              }
+                "block_x": 128,
+                "block_y": 1,
+                "block_z": 1
+              },
+              "kernel_count": 84,
+              "gpu_total_ns": 26407059
             }
-          ],
-          "tile_count": 3
+          ]
         }
       },
-      "kernel_count": 1008,
-      "limits": "Twenty-eight layer-owned children per tile; each child owns one successful launch correlation and one complete kernel interval. Full asynchronous GPU intervals are never clipped. Resources and timings are diagnostic only.",
-      "passed": true,
-      "resource_scope": "complete capture admitted, owned strategy5 small attention distributions only",
       "tiles": {
-        "1": 1,
-        "32": 33,
-        "4": 3
+        "1": 0,
+        "4": 3,
+        "32": 33
+      },
+      "resource_scope": "complete capture admitted, owned strategy5 small attention distributions only",
+      "limits": "Twenty-eight layer-owned children per tile; each child owns one successful launch correlation and one complete kernel interval. Full asynchronous GPU intervals are never clipped. Resources and timings are diagnostic only."
+    },
+    "pre_session_allowlisted_api_record_count": 42,
+    "pre_session_api_return_values": {
+      "cuCtxSetCurrent": {
+        "0": 1
+      },
+      "cuMemAddressReserve": {
+        "0": 1
+      },
+      "cuMemAllocHost_v2": {
+        "0": 1
+      },
+      "cuMemAlloc_v2": {
+        "0": 4
+      },
+      "cuMemCreate": {
+        "101": 12
+      },
+      "cuMemGetAllocationGranularity": {
+        "0": 2
+      },
+      "cuStreamCreate": {
+        "0": 1
+      },
+      "cuStreamIsCapturing": {
+        "0": 20
       }
-    }
+    },
+    "schema": 1,
+    "exporter": "2023.4.4.54",
+    "process": {
+      "pid": 3567447,
+      "name": "aesir-small-trace-final"
+    },
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 2060 with Max-Q Design",
+      "compute": "7.5",
+      "bytes": 6017515520
+    },
+    "capture_ns": 9527948213,
+    "kernel_count": 32215,
+    "scope": "owned_nvtx_prefill",
+    "complete_capture_kernel_count": 32215,
+    "excluded_kernel_count": 0,
+    "projection_attribution": null,
+    "recorded_resource_kernel_count": 32215,
+    "kernel_window_ns": 5792970719,
+    "gpu_busy_in_kernel_window_ns": 5762979805,
+    "uncovered_in_kernel_window_ns": 29990914,
+    "kernel_groups": {
+      "core_packed_turing_matrix_stag6A6A6A6A_d3cdbd5ae2abdeff": {
+        "count": 3696,
+        "total_ns": 3095548719
+      },
+      "core_packed_turing_matrix_larg6A6A6A6A_27c7650a93138e37": {
+        "count": 462,
+        "total_ns": 628528155
+      },
+      "core_packed_turing_matrix_larg6A6A6A6A_4ab9bf6cd4782a40": {
+        "count": 462,
+        "total_ns": 617958781
+      },
+      "core_packed_projection_four_ma6A6A6A6A_52d17741bd3f0d2b": {
+        "count": 11592,
+        "total_ns": 547852995
+      },
+      "core_fused_small_attention_sma6A6A6A6A_dea98fb2fcf6e8e9": {
+        "count": 1008,
+        "total_ns": 543960750
+      },
+      "core_packed_projection_four_ma6A6A6A6A_2d1994eb3a806a92": {
+        "count": 3780,
+        "total_ns": 161599214
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_9edad2449f19dc31": {
+        "count": 2016,
+        "total_ns": 65644935
+      },
+      "core_packed_projection_block_m6A6A6A6A_755fea54cf20fad1": {
+        "count": 336,
+        "total_ns": 33295214
+      },
+      "core_dense_normalization_dense6A6A6A6A_2237709dd64a8fad": {
+        "count": 2016,
+        "total_ns": 25225193
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_b0fdf43cdbb4dc6e": {
+        "count": 1008,
+        "total_ns": 11999079
+      },
+      "tests_batched_elementwise_batc6A6A6A6A_892fbf964b7bd330": {
+        "count": 2016,
+        "total_ns": 8578050
+      },
+      "core_packed_projection_block_m6A6A6A6A_71b5269aac05bb11": {
+        "count": 57,
+        "total_ns": 7686225
+      },
+      "core_llama3_kernels_llama_scor6A6A6A6A_a235264d73eaa09f": {
+        "count": 56,
+        "total_ns": 3324226
+      },
+      "core_llama3_kernels_llama_atte6A6A6A6A_a6bf5d922a2cbd18": {
+        "count": 56,
+        "total_ns": 2544983
+      },
+      "tests_batched_rope_cache_batch6A6A6A6A_8b96c7437a529a5f": {
+        "count": 1008,
+        "total_ns": 2218662
+      },
+      "core_cuda_sampling_sampling_re6A6A6A6A_3b998fa8edcf579b": {
+        "count": 1070,
+        "total_ns": 1963377
+      },
+      "core_gemma4_kernels_embedding_6A6A6A6A_3ed88dd7ce6a190f": {
+        "count": 1070,
+        "total_ns": 1720586
+      },
+      "core_dense_normalization_dense6A6A6A6A_3f13c764a16a0e97": {
+        "count": 113,
+        "total_ns": 1330666
+      },
+      "core_llama3_kernels_llama_scal6A6A6A6A_f9d8c4752fca0dc0": {
+        "count": 112,
+        "total_ns": 717571
+      },
+      "core_llama3_kernels_llama_soft6A6A6A6A_7fd119a9d9bc8739": {
+        "count": 56,
+        "total_ns": 414084
+      },
+      "core_gemma4_kernels_argmax_ker6A6A6A6A_d03fb3143cce253b": {
+        "count": 1,
+        "total_ns": 393764
+      },
+      "core_llama3_kernels_llama_resi6A6A6A6A_3883ecf011529460": {
+        "count": 112,
+        "total_ns": 237930
+      },
+      "core_llama3_kernels_llama_silu6A6A6A6A_ab2877e480b0edfd": {
+        "count": 56,
+        "total_ns": 146244
+      },
+      "core_llama3_kernels_llama_cach6A6A6A6A_35dd7bc25fbc72be": {
+        "count": 56,
+        "total_ns": 90402
+      }
+    },
+    "api_groups": {
+      "cuStreamSynchronize": {
+        "count": 39,
+        "total_ns": 5617907336,
+        "return_values": {
+          "0": 39
+        }
+      },
+      "cuLaunchKernelEx": {
+        "count": 32215,
+        "total_ns": 79785808,
+        "return_values": {
+          "0": 32215
+        }
+      },
+      "cuModuleLoadDataEx": {
+        "count": 24,
+        "total_ns": 51433237,
+        "return_values": {
+          "0": 24
+        }
+      },
+      "cuStreamIsCapturing": {
+        "count": 32278,
+        "total_ns": 4961798,
+        "return_values": {
+          "0": 32278
+        }
+      },
+      "cuMemcpyDtoHAsync_v2": {
+        "count": 1,
+        "total_ns": 10590,
+        "return_values": {
+          "0": 1
+        }
+      }
+    },
+    "copies_by_kind": {
+      "2": {
+        "count": 1,
+        "bytes": 4,
+        "total_ns": 2176
+      }
+    },
+    "owned_nvtx_range": {
+      "name": "aesir.fixture.prefill",
+      "start_ns": 2499556543,
+      "end_ns": 8292752910,
+      "duration_ns": 5793196367,
+      "global_tid": 341326809165655
+    },
+    "limits": "Profiled timings only. Optional named range selects observed prefill launches after full-capture validation. API synchronization overlaps GPU work; do not sum them. Uncovered timeline is observed, not proven CPU launch delay. No per-layer projection labels or quality/speed-lead certification."
   },
   "unprofiled": {
     "csv_sha256": "74d313e236d33d261dafd0c4fc72262d5124f0de8107bbc7a3d0786dd4146a1d",
