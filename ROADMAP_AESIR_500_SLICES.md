@@ -659,6 +659,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   first-accelerator TODO, task contract, roadmap progress, and devlog. The ledger
   remains partial for GPU execution and explicitly limits allocation lifecycle
   claims to the exercised synchronous single-host-thread paths.
+- AES500-030 local release checks pass: pinned sm_89 launch build, master suite
+  191/0/1, 66 focused Python checker tests, physical GPU-2/GPU-3 positives and
+  expected GPU-3 negative control, plus doc-drift/whitespace checks. Receipt:
+  `docs/evidence/cuda-allocation-lifetime-release-2026-10-10/`. The exact-head
+  hosted Actions run remains the final release gate.
 
 ## Status
 
