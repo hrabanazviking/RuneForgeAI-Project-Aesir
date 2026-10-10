@@ -133,7 +133,7 @@ struct StepCtx:
         self.arch = arch
         self.sysfs_root = sysfs_root
         self.bdf = bdf
-        self.log_path = ctx.log_path
+        self.log_path = opts.log_path
         self.omit_step = opts.omit_step
         self.stall_step = opts.stall_step
         self.step_budget_ms = opts.step_budget_ms
