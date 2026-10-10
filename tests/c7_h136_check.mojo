@@ -141,23 +141,32 @@ def main() raises:
     var tok = SPTokenizer()
     tok.load(cfg.tokenizer_path)
 
-    # ---- Build the 512-token prefill prompt (deterministic). ----
-    var para = String(
-        "Hospitality is the sacred duty of welcoming the traveler. "
-        + "In the old ways, no one is turned from the door; bread and "
-        + "mead are shared with friend and stranger alike, for the "
-        + "guest may be a god in disguise. "
-    )
-    var pids = tok.encode(para)
-    print("H136 paragraph tokens: " + String(len(pids)))
+    # ---- Build the 512-token prefill prompt (deterministic).
+    # Ten varied paragraphs (~52 tokens each): repetition would push the
+    # model into a degenerate loop + early EOS, so the prompt varies.
+    var paras = List[String]()
+    paras.append(String("Hospitality is the sacred duty of welcoming the traveler. In the old ways, no one is turned from the door; bread and mead are shared with friend and stranger alike, for the guest may be a god in disguise. "))
+    paras.append(String("The old Norse laws held hospitality above almost all other virtues. A host who refused shelter to a weary traveler would be shamed before the whole village, and the gods themselves were said to wander in disguise. "))
+    paras.append(String("When a guest entered the longhouse, the host would offer water for washing, a seat by the fire, and food without asking questions first. Only after the meal would names and errands be exchanged. "))
+    paras.append(String("Mead horns were passed hand to hand, and stories flowed as freely as the drink. The traveler brought news from distant fjords, and the host gave rest, warmth, and safe passage onward. "))
+    paras.append(String("Freyja's halls are open to all who come with honest hearts, the old songs say. None are turned away for being poor or strange, for worth is weighed by deed and not by dress. "))
+    paras.append(String("Odin himself wandered the worlds as an old beggar, testing the generosity of kings and farmers. Those who shared their last loaf found blessings; those who slammed the door found ruin. "))
+    paras.append(String("A good host prepares the guest room before the knock comes, keeps the fire lit through the dark hours, and never counts the cost of kindness while the guest is under the roof. "))
+    paras.append(String("The traveler carries the road's dust and the wind's cold, but also carries tales worth more than silver. Bread for stories is the oldest trade, and both sides leave richer. "))
+    paras.append(String("In the deep winter, when the nights are long and the wolves grow bold, the lit window of a welcoming house is a beacon. Hospitality then is not custom but survival. "))
+    paras.append(String("So the old ways teach: greet the stranger as a friend not yet known, share what you have without fear, and the web of frith will hold strong against the dark. "))
     var prompt = List[Int]()
+    var pi_para = 0
     while len(prompt) < 512:
+        var pids = tok.encode(paras[pi_para % 10])
         for i in range(len(pids)):
             prompt.append(pids[i])
             if len(prompt) >= 512:
                 break
+        pi_para += 1
     if len(prompt) != 512:
         fails.append("prompt build: not exactly 512 tokens")
+    print("H136 prompt built: 512 tokens from 10 varied paragraphs")
 
     # ---- Timed prefill; capture cached logits at probe steps. ----
     var probe_steps = List[Int]()
