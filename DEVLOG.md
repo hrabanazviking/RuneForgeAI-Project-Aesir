@@ -185,6 +185,11 @@ AES500-113 covers the current `flash_attention_2` admission boundary. A valid
 multi-head case writes output; each invalid sequence/head/column/row descriptor
 rejects without changing the entire output tensor. No kernel behavior changed.
 
+AES500-114 bounds each query row's tiled key iteration to positions `0..i`.
+On the retained probe, row 0 now exactly equals its only allowed V row,
+confirming the future-value leak is removed for that case. Broader numerical
+agreement remains for AES500-115.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

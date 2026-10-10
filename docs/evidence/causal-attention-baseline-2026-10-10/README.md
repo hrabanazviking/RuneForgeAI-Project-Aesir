@@ -3,9 +3,14 @@
 ## Reproduction
 
 ```sh
+# The historical capture is reproducible at pre-change commit 9e59203.
+git checkout 9e59203
 pixi run mojo run --target-accelerator sm_89 -I aesir_engine docs/evidence/causal-attention-baseline-2026-10-10/attention_baseline.mojo > docs/evidence/causal-attention-baseline-2026-10-10/raw-output.txt
 python3 docs/evidence/causal-attention-baseline-2026-10-10/compare_scalar_reference.py
 ```
+
+The checked-in `raw-output.txt` is the immutable pre-change capture; later
+source revisions should write reruns to a separate destination.
 
 Toolchain: Mojo 1.0.0 (`ed45d567`). Baseline owner source SHA-256:
 `9585165accabf26456682497fd8d2b8322cec80584ccec9dd71f163e47987b78`.

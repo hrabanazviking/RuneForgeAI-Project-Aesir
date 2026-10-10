@@ -1260,3 +1260,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   valid multi-head call and mutation-free output rejection for invalid sequence
   and head dimensions, Q divisibility, K/V/output columns, and each short-row
   descriptor.
+- [x] AES500-114 causal attention implementation: the tiled key loop now ends
+  at `i+1`, admitting only positions `0..i`. The retained probe now emits the
+  first value row unchanged for query row 0, as required by its single-key
+  causal prefix.

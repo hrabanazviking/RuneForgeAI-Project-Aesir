@@ -1520,6 +1520,7 @@ def flash_attention_2(
 
                 var m_i: Scalar[f32] = -1e20
                 var l_i: Scalar[f32] = 0.0
+                var causal_end = i + 1
 
                 # Initialize Out row to 0 for this head
                 for k in range(0, simd_end, simd_w_f32):
@@ -1530,10 +1531,10 @@ def flash_attention_2(
                 for k in range(simd_end, head_dim):
                     Out.data.unsafe_store(i * Q.cols + h * head_dim + k, 0.0)
 
-                for j_start in range(0, seq_len, Bc):
+                for j_start in range(0, causal_end, Bc):
                     for jj in range(Bc):
                         var j = j_start + jj
-                        if j >= seq_len:
+                        if j >= causal_end:
                             break
 
                         # 1. Compute QK^T / sqrt(d)
