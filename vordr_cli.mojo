@@ -245,16 +245,28 @@ def cmd_watchdog_run(args: List[String]) raises -> Int:
 
 
 def cmd_watchdog_parent(args: List[String]) raises -> Int:
+    # Parent-monitor: keeps the WATCHDOG alive. The watchdog's own
+    # command line comes via --child-args (comma-separated, everything
+    # after "watchdog-run"); the parent's --log/--pidfile/--stopfile
+    # are separate from the child's.
     var arch = _arch()
     var raw = argv()
-    var wargs = List[String]()
-    wargs.append("watchdog-run")
-    for i in range(2, len(raw)):
-        wargs.append(String(raw[i]))
+    var cargs = List[String]()
+    cargs.append("watchdog-run")
+    var extra = _get(args, "--child-args", "")
+    var cur = String("")
+    for b in extra.bytes():
+        if Int(b) == 44:
+            cargs.append(cur)
+            cur = String("")
+        else:
+            cur += String(chr(Int(b)))
+    if cur.byte_length() > 0:
+        cargs.append(cur)
     var rc = watchdog_parent_run(
         arch,
         String(raw[0]),
-        wargs,
+        cargs,
         _get(args, "--log", "/tmp/vordr-wd-events.jsonl"),
         _get(args, "--pidfile", "/tmp/vordr-wd-parent.pid"),
         _get(args, "--stopfile", "/tmp/vordr-wd-parent.stop"),

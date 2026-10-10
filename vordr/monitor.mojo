@@ -167,6 +167,7 @@ def monitor_run(
     var th = load_thresholds(arch, thresholds_path)
     var warn_mc = th[0]
     var crit_mc = th[1]
+    var th_raw = read_file_str(arch, thresholds_path, 8192)
     var me = os_getpid(arch)
     write_file_str(arch, pidfile, String(me) + "\n")
     var samples_path = out_dir + "/samples.jsonl"
@@ -198,6 +199,20 @@ def monitor_run(
             break
         var sched = expected
         expected = expected + Int64(period_s) * 1000
+        # Live threshold reload: the operator (or a test) may rewrite
+        # the thresholds file mid-run; the monitor picks it up and
+        # says so (never a silent policy change).
+        var cur_raw = read_file_str(arch, thresholds_path, 8192)
+        if cur_raw != th_raw:
+            th_raw = cur_raw
+            var nth = load_thresholds(arch, thresholds_path)
+            warn_mc = nth[0]
+            crit_mc = nth[1]
+            event_emit_slice(
+                arch, events_path, "H142", "ThresholdsReloaded",
+                "\"warn_mc\": " + String(warn_mc) + ", \"crit_mc\": "
+                + String(crit_mc) + ", \"n\": " + String(n),
+            )
         var drift = now - sched
         if drift < 0:
             drift = -drift
