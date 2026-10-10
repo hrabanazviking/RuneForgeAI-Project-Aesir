@@ -720,6 +720,12 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-047 tests repeated unknown IDs and a 64-reference adversarial tag;
   no occurrences are collapsed or truncated, and line/ID diagnostics retain
   source order.
+- AES500-048 independent Auditor review passes the matcher, repository tests,
+  and pinned TODO/ledger hashes. Review confirms that only documented
+  lowercase status-token bracket candidates are in scope.
+- AES500-049 records the exact review disposition, candidate grammar boundary,
+  baseline hashes and the pre-existing hygiene-warning limitation in the task
+  and interface documentation, with a concise continuity entry in `DEVLOG.md`.
 
 ## Status
 

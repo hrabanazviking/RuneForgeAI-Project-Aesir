@@ -1,3 +1,16 @@
+## 2026-10-10 — AES500-041–049: TODO capability-reference integrity
+
+The TODO checker now validates each AES ID in explicit lowercase status-tag
+candidates, including later semicolon-separated references and adjacent tags.
+AER audit IDs and arbitrary brackets remain outside capability validation;
+checkbox completion is never inferred. The hash-bound 95-tag baseline records
+four adjacent-tag lines and two tags carrying separate AER references. Focused,
+repository-integration and adversarial tests pass, including repeated unknown
+IDs and a 64-reference tag. Independent Auditor review passed with the boundary
+that malformed brackets outside the documented candidate grammar are ignored.
+The status checker validates structure against the ledger; it does not establish
+TODO completion or the truth of the capability evidence.
+
 ## 2026-10-03 — Sigrún: explicit small-score sealed owning-context replay
 
 Taskf8e6618 preceded code. Final default-false fixture/plan capabilities bind

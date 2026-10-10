@@ -647,6 +647,11 @@ name, one-based line, and tag/reference location; diagnostics are ordered left
 to right by tag and then by ID occurrence. Repeated IDs are checked at each
 occurrence. The checker does not mutate TODO or ledger content.
 
+This lowercase status-token candidate boundary is intentional: malformed
+brackets that do not match that candidate grammar are ordinary text for this
+check and are not diagnosed. Auditor review in AES500-048 confirmed this scope
+and the committed source hashes.
+
 The read-only baseline is
 `docs/evidence/todo-ledger-refs-baseline-2026-10-10/`; it records 95 tags, 95
 AES references, four adjacent-tag lines, and two tags with separate AER IDs.
