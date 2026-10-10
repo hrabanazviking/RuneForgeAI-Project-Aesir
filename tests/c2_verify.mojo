@@ -81,6 +81,37 @@ def f64_sqrt(v: Float64) -> Float64:
 def f32_sqrt(v: Float32) -> Float32:
     return _sqrt(SIMD[DType.float32, 1](v))[0]
 
+def max_ulp_excess(
+    got: Pointer[Float16, MutUntrackedOrigin],
+    expected: Pointer[Float16, MutUntrackedOrigin],
+    n: Int,
+    base: Float64,
+) -> Float64:
+    # SÓLRÚN RE-SCOPE (2026-10-10): strict absolute bounds (1e-3) are
+    # infeasible when kernel and reference round independently to fp16:
+    # two fp32 values within rounding noise of each other can round to
+    # adjacent fp16 values, differing by a full ulp. Per-element bound:
+    #   |got - ref| <= base + 2^-10 * |ref|   (~1 fp16 ulp at |ref|)
+    # Returns the worst excess over the bound (<= 0 means all pass).
+    # Small-magnitude elements keep the strict base bound, so the check
+    # still catches any real indexing/packing bug (those err >> ulp).
+    var worst = Float64(0)
+    for i in range(n):
+        var g = Float64(got[unsafe_offset=i])
+        var r = Float64(expected[unsafe_offset=i])
+        var d = g - r
+        if d < 0:
+            d = -d
+        var ar = r
+        if ar < 0:
+            ar = -ar
+        var allowed = base + ar * Float64(0.0009765625)
+        var excess = d - allowed
+        if excess > worst:
+            worst = excess
+    return worst
+
+
 
 struct Ctx:
     var fails: Int
@@ -158,8 +189,14 @@ def test_h022(mut ctx: Ctx):
                         b[unsafe_offset=k * 8 + j]
                     )
                 expected[unsafe_offset=i * 8 + j] = Float16(s)
+        # The micro-kernel's contract is fp32 accumulation; the driver
+        # rounds to fp16. Compare the ROUNDED tile (apples to apples):
+        # comparing raw fp32 acc against fp16 ref confounds output
+        # quantization with kernel error.
         for i in range(64):
-            var d = Float64(acc[unsafe_offset=i]) - Float64(expected[unsafe_offset=i])
+            var d = Float64(Float16(acc[unsafe_offset=i])) - Float64(
+                expected[unsafe_offset=i]
+            )
             if d < 0:
                 d = -d
             if d > worst:
@@ -177,11 +214,13 @@ def test_gemm_case(mut ctx: Ctx, M: Int, N: Int, K: Int, tag: String) -> Float64
     gemm_fp16(a, b, c, M, N, K)
     gemm_scalar_ref(a, b, r, M, N, K)
     var e = max_abs_err_f16(c, r, M * N)
+    var excess = max_ulp_excess(c, r, M * N, 1e-3)
     ctx.check(
         "H023",
-        e <= 1e-3,
+        excess <= 0,
         tag + String(" M=") + String(M) + String(" N=") + String(N) + String(" K=")
-        + String(K) + String(" maxerr=") + String(e),
+        + String(K) + String(" maxerr=") + String(e)
+        + String(" ulp_excess=") + String(excess),
     )
     return e
 
@@ -225,10 +264,15 @@ def test_h023(mut ctx: Ctx):
     fill_rand_f16(b, n * n, ctx.state, -1.0, 1.0)
     gemm_fp16(a, b, c, n, n, n)  # warmup
     var dts = unsafe_alloc[Int64](11)
+    # sink: forces the timed kernel to actually execute (anti-DCE).
+    var sink = Float64(0)
     for r in range(11):
         var t0 = now_ns()
         gemm_fp16(a, b, c, n, n, n)
         dts[unsafe_offset=r] = now_ns() - t0
+        for i in range(0, n * n, 65536):
+            sink += Float64(c[unsafe_offset=i])
+    print("PERF gemm_fp16 sink=", sink)
     for i in range(11):
         for j in range(i + 1, 11):
             if dts[unsafe_offset=j] < dts[unsafe_offset=i]:
@@ -280,11 +324,12 @@ def test_gemv_case(mut ctx: Ctx, M: Int, N: Int):
     gemv_fp16(a, x, y, M, N)
     gemv_scalar_ref(a, x, r, M, N)
     var e = max_abs_err_f16(y, r, M)
+    var excess = max_ulp_excess(y, r, M, 1e-3)
     ctx.check(
         "H024",
-        e <= 1e-3,
+        excess <= 0,
         String("M=") + String(M) + String(" N=") + String(N) + String(" maxerr=")
-        + String(e),
+        + String(e) + String(" ulp_excess=") + String(excess),
     )
 
 
@@ -299,11 +344,16 @@ def stream_bw_gbs() -> Float64:
         a[unsafe_offset=i] = Float32(1)
         b[unsafe_offset=i] = Float32(2)
     var dts = unsafe_alloc[Int64](11)
+    # sink: forces the timed loop to actually execute (anti-DCE).
+    var sink = Float64(0)
     for r in range(11):
         var t0 = now_ns()
         for i in range(n):
             c[unsafe_offset=i] = a[unsafe_offset=i] + Float32(2) * b[unsafe_offset=i]
         dts[unsafe_offset=r] = now_ns() - t0
+        for i in range(0, n, 65536):
+            sink += Float64(c[unsafe_offset=i])
+    print("PERF stream_triad sink=", sink)
     for i in range(11):
         for j in range(i + 1, 11):
             if dts[unsafe_offset=j] < dts[unsafe_offset=i]:
@@ -346,10 +396,15 @@ def test_h024(mut ctx: Ctx):
     fill_rand_f16(x, N, ctx.state, -1.0, 1.0)
     gemv_fp16(a, x, y, M, N)
     var dts = unsafe_alloc[Int64](11)
+    # sink: forces the timed kernel to actually execute (anti-DCE).
+    var sink = Float64(0)
     for r in range(11):
         var t0 = now_ns()
         gemv_fp16(a, x, y, M, N)
         dts[unsafe_offset=r] = now_ns() - t0
+        for i in range(0, M, 1024):
+            sink += Float64(y[unsafe_offset=i])
+    print("PERF gemv_fp16 sink=", sink)
     for i in range(11):
         for j in range(i + 1, 11):
             if dts[unsafe_offset=j] < dts[unsafe_offset=i]:
@@ -439,10 +494,12 @@ def test_norm_case(mut ctx: Ctx, n: Int, eps: Float32, tag: String):
         ) + Float64(b[unsafe_offset=i])
         r[unsafe_offset=i] = Float16(yn)
     var e = max_abs_err_f16(y, r, n)
+    var excess = max_ulp_excess(y, r, n, 1e-3)
     ctx.check(
         "H026",
-        e <= 1e-3,
-        tag + String(" n=") + String(n) + String(" maxerr=") + String(e),
+        excess <= 0,
+        tag + String(" n=") + String(n) + String(" maxerr=") + String(e)
+        + String(" ulp_excess=") + String(excess),
     )
 
 
@@ -501,10 +558,12 @@ def test_rmsnorm_case(mut ctx: Ctx, n: Int, tag: String, with_w: Bool):
             Float64(x[unsafe_offset=i]) * inv * Float64(w[unsafe_offset=i])
         )
     var e = max_abs_err_f16(y, r, n)
+    var excess = max_ulp_excess(y, r, n, 1e-3)
     ctx.check(
         "H027",
-        e <= 1e-3,
-        tag + String(" n=") + String(n) + String(" maxerr=") + String(e),
+        excess <= 0,
+        tag + String(" n=") + String(n) + String(" maxerr=") + String(e)
+        + String(" ulp_excess=") + String(excess),
     )
 
 
@@ -608,19 +667,20 @@ def test_h029(mut ctx: Ctx):
     var x = unsafe_alloc[Float16](n)
     var y = unsafe_alloc[Float16](n)
     fill_rand_f16(x, n, ctx.state, -10.0, 10.0)
-    # SiLU vs fp64
+    # SiLU vs fp64 (ulp envelope: fp16 output rounding dominates at |x| >> 1)
     silu_fp16(x, y, n)
-    var worst = Float64(0)
+    var r = unsafe_alloc[Float16](n)
     for i in range(n):
         var v = Float64(x[unsafe_offset=i])
-        var expected = v / (1.0 + f64_exp(-v))
-        var d = Float64(y[unsafe_offset=i]) - expected
-        if d < 0:
-            d = -d
-        if d > worst:
-            worst = d
-    ctx.check("H029", worst <= 2e-3, String("silu maxerr=") + String(worst))
-    # GELU (tanh approx) vs fp64
+        r[unsafe_offset=i] = Float16(v / (1.0 + f64_exp(-v)))
+    var worst = max_abs_err_f16(y, r, n)
+    var excess = max_ulp_excess(y, r, n, 2e-3)
+    ctx.check(
+        "H029",
+        excess <= 0,
+        String("silu maxerr=") + String(worst) + String(" ulp_excess=") + String(excess),
+    )
+    # GELU (tanh approx) vs fp64 (ulp envelope)
     gelu_fp16(x, y, n)
     worst = Float64(0)
     for i in range(n):
@@ -628,13 +688,14 @@ def test_h029(mut ctx: Ctx):
         var inner = 0.7978845608028654 * (v + 0.044715 * v * v * v)
         var t = f64_exp(2.0 * inner)
         t = (t - 1.0) / (t + 1.0)
-        var expected = 0.5 * v * (1.0 + t)
-        var d = Float64(y[unsafe_offset=i]) - expected
-        if d < 0:
-            d = -d
-        if d > worst:
-            worst = d
-    ctx.check("H029", worst <= 2e-3, String("gelu maxerr=") + String(worst))
+        r[unsafe_offset=i] = Float16(0.5 * v * (1.0 + t))
+    worst = max_abs_err_f16(y, r, n)
+    excess = max_ulp_excess(y, r, n, 2e-3)
+    ctx.check(
+        "H029",
+        excess <= 0,
+        String("gelu maxerr=") + String(worst) + String(" ulp_excess=") + String(excess),
+    )
     # Monotonicity, RE-SCOPED (see audit): non-decreasing on [0, 10].
     var m = 2001
     var xs = unsafe_alloc[Float16](m)
@@ -730,10 +791,17 @@ def test_h031(mut ctx: Ctx):
     # fp16_bits_of / fp16_from_bits sanity (exact for normals).
     ctx.check("H031", fp16_from_bits(fp16_bits_of(Float32(1.0))) == Float32(1.0), "bits roundtrip 1.0")
     ctx.check("H031", fp16_from_bits(fp16_bits_of(Float32(-2.5))) == Float32(-2.5), "bits roundtrip -2.5")
+    # 2^-10 in fp16: exp field = -10 + 15 = 5 -> 0x1400 (the old 0x0400
+    # expectation was a test bug: 0x0400 is 2^-14).
     ctx.check(
         "H031",
-        fp16_bits_of(Float32(0.0009765625)) == UInt16(0x0400),
-        "bits 0x0400",
+        fp16_bits_of(Float32(0.0009765625)) == UInt16(0x1400),
+        "bits 0x1400",
+    )
+    ctx.check(
+        "H031",
+        fp16_bits_of(Float32(0.00006103515625)) == UInt16(0x0400),
+        "bits 0x0400 (2^-14)",
     )
     # fp32 -> fp16 cast.
     var n = 10000
@@ -754,6 +822,10 @@ def test_h031(mut ctx: Ctx):
     ctx.check("H031", worst == 0.0, String("fp32->fp16 maxerr=") + String(worst))
     # Q8_0 round-trip on uniform[-6, 6]: contract max <= 0.024, RMS <= 0.014
     # (SÓLRÚN re-scope; derivation in quant.mojo header).
+    # n = 10016: block size is 32, so n must be a multiple of 32; with
+    # n = 10000 the last 16 outputs were never written (uninitialized
+    # memory compared -> bogus maxerr). 10016 covers the 10,000 required.
+    n = 10016
     var x = unsafe_alloc[Float16](n)
     var q = unsafe_alloc[Int8]((n // 32) * 34)
     var y = unsafe_alloc[Float16](n)
@@ -779,7 +851,8 @@ def test_h031(mut ctx: Ctx):
 
 def test_h032(mut ctx: Ctx):
     ctx.seed(UInt64(0x3201))
-    var n = 10000
+    # n = 10016: multiple of the 32-value block (see H031 note).
+    var n = 10016
     var x = unsafe_alloc[Float16](n)
     var q = unsafe_alloc[Int8]((n // 32) * 18)
     var y = unsafe_alloc[Float16](n)
@@ -932,10 +1005,15 @@ def test_h033(mut ctx: Ctx):
     fp16_to_q80(bt, bq, N * K)
     q80_gemm(aq, bq, c, 1, N, K)
     var dts = unsafe_alloc[Int64](11)
+    # sink: forces the timed kernel to actually execute (anti-DCE).
+    var sink = Float64(0)
     for r in range(11):
         var t0 = now_ns()
         q80_gemm(aq, bq, c, 1, N, K)
         dts[unsafe_offset=r] = now_ns() - t0
+        for j in range(0, N, 512):
+            sink += Float64(c[unsafe_offset=j])
+    print("PERF q80_gemm sink=", sink)
     for i in range(11):
         for j in range(i + 1, 11):
             if dts[unsafe_offset=j] < dts[unsafe_offset=i]:

@@ -71,16 +71,27 @@ def mha_forward_seq(
                 theta,
             )
     # Sequential head order, shared concat buffer.
+    # qr/kr/vv are [seq, d_model]; head h must be gathered into a
+    # contiguous [seq, head_dim] buffer: attn_sdpa_causal_fp16 indexes
+    # row i at i * head_dim, so a strided offset would read the wrong
+    # rows for i > 0.
     for h in range(n_heads):
+        var qh = unsafe_alloc[Float16](seq * head_dim)
+        var kh = unsafe_alloc[Float16](seq * head_dim)
+        var vh = unsafe_alloc[Float16](seq * head_dim)
         var oh = unsafe_alloc[Float16](seq * head_dim)
-        _ = attn_sdpa_causal_fp16(
-            qr.unsafe_offset(h * head_dim),
-            kr.unsafe_offset(h * head_dim),
-            vv.unsafe_offset(h * head_dim),
-            oh,
-            seq,
-            head_dim,
-        )
+        for s in range(seq):
+            for d in range(head_dim):
+                qh[unsafe_offset=s * head_dim + d] = qr[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+                kh[unsafe_offset=s * head_dim + d] = kr[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+                vh[unsafe_offset=s * head_dim + d] = vv[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+        _ = attn_sdpa_causal_fp16(qh, kh, vh, oh, seq, head_dim)
         for s in range(seq):
             for d in range(head_dim):
                 ctx[unsafe_offset=s * d_model + h * head_dim + d] = oh[
@@ -132,15 +143,22 @@ def mha_forward_par(
             )
     var h = n_heads - 1
     while h >= 0:
+        var qh = unsafe_alloc[Float16](seq * head_dim)
+        var kh = unsafe_alloc[Float16](seq * head_dim)
+        var vh = unsafe_alloc[Float16](seq * head_dim)
         var oh = unsafe_alloc[Float16](seq * head_dim)
-        _ = attn_sdpa_causal_fp16(
-            qr.unsafe_offset(h * head_dim),
-            kr.unsafe_offset(h * head_dim),
-            vv.unsafe_offset(h * head_dim),
-            oh,
-            seq,
-            head_dim,
-        )
+        for s in range(seq):
+            for d in range(head_dim):
+                qh[unsafe_offset=s * head_dim + d] = qr[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+                kh[unsafe_offset=s * head_dim + d] = kr[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+                vh[unsafe_offset=s * head_dim + d] = vv[
+                    unsafe_offset=s * d_model + h * head_dim + d
+                ]
+        _ = attn_sdpa_causal_fp16(qh, kh, vh, oh, seq, head_dim)
         for s in range(seq):
             for d in range(head_dim):
                 ctx[unsafe_offset=s * d_model + h * head_dim + d] = oh[
