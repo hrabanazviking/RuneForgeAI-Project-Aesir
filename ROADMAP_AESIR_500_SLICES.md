@@ -692,6 +692,12 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   remove temporary files, and replace failure preserves the old destination.
   The schema suite passes 15 tests; failure injection is local filesystem
   behavior evidence only.
+- AES500-038 independent Auditor review passes for parser, exporter, checker
+  integration, adversarial tests and contract. The review records file mode
+  and power-loss durability limits without expanding the guarantee.
+- AES500-039 synchronizes the parser interface, task contract and roadmap with
+  repository-checker integration, 0600 output mode on the tested platform, and
+  the atomic-visibility versus parent-directory durability boundary.
 
 ## Status
 

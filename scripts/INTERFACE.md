@@ -603,7 +603,10 @@ def render_ledger_json(entries: tuple[CapabilityEntry, ...]) -> str: ...
 def export_ledger_json(input_path: Path, output_path: Path) -> None: ...
 ```
 
-The canonical labels are recognized independent of order. Every top-level
+The repository truth checker imports this parser and validates the same
+in-memory ledger text it uses for status/count checks; schema failures are
+reported with a stable `CAPABILITY_LEDGER.md schema:` prefix. The canonical
+labels are recognized independent of order. Every top-level
 `- **Label:**` row, canonical or supplemental, begins a field and terminates the
 previous one; indented field-like lines remain value text. Wrapped lines and
 intervening blank lines belong to the field. The parser trims only outer field
@@ -623,6 +626,8 @@ two-space indented, and ends with one newline. `check INPUT` validates only;
 file in the destination directory and atomically replacing the destination.
 The exporter rejects output resolving to or sharing an inode with the input
 ledger, removes temporary files after failed writes/replaces, and leaves any
-existing output untouched on validation failure. These interface rules do not
-establish that the Markdown evidence itself is true; capability review remains
-with the ledger owners.
+existing output untouched on validation failure. Published files inherit the
+temporary file's restrictive permissions. The contract establishes atomic
+replacement, not parent-directory durability after power loss. These interface
+rules do not establish that the Markdown evidence itself is true; capability
+review remains with the ledger owners.

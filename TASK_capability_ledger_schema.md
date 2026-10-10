@@ -82,6 +82,12 @@ are synthesized by the exporter.
   ID/name form is rejected, not consumed as preceding field continuation.
 - The existing repository drift checker and TODO-to-ledger status validation
   remain active and retain their current behavior.
+- `scripts/check_doc_drift.py` invokes the schema parser against the exact
+  already-read ledger text and reports deterministic schema-prefixed errors;
+  legacy count/status checks continue to run.
+- Atomic replacement guarantees visibility of either the old or complete new
+  output. Exported file permissions are restrictive (`0600` on the tested
+  platform); parent-directory fsync and power-loss durability are not claimed.
 - The schema does not decide whether evidence is true; it validates required
   structure and leaves capability review to the ledger owners.
 
