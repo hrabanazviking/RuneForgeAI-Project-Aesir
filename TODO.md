@@ -1234,3 +1234,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-106 RoPE integration evidence: transformed K values survive
   `KVCache.append`/`get_k_slice` exactly, and the adjacent V tensor is preserved
   unchanged. Scope is one deterministic cache position and row shape.
+- [x] AES500-107 RoPE adversarial evidence: theta=0 and theta=-1 are admitted
+  and produce NaN in Q and K for the exercised case. This is a captured unsafe
+  behavior, not a contract; NaN/Inf theta admission remains uncharacterized.

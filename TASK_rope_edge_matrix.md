@@ -46,6 +46,10 @@ This slice changes documentation only.
 - AES500-106 verifies the adjacent KV-cache path: rotated K values are appended
   and read back unchanged, while V remains unchanged by RoPE. This is local
   integration evidence for one cache position and shape.
+- AES500-107 records that theta=0 and theta=-1 are admitted and produce NaN in
+  both Q and K for the exercised nonzero position. This is an unsafe behavior,
+  not an accepted numerical contract. NaN and infinity theta remain
+  uncharacterized.
 - This contract does not establish partial rotary dimensions, scaling variants,
   multi-axis RoPE, accelerator parity, speed, training gradients, or model
   quality. F16 rounding and non-finite input behavior beyond current source
