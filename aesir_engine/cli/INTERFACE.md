@@ -365,7 +365,10 @@ use it across process restarts. An absent catalog loads as empty; mutations stag
 sync it, atomically rename it, sync the containing directory, and publish the
 new in-memory state only after the durable commit succeeds. Catalog v1 is
 bounded, versioned, delimiter-safe, and rejects malformed records, duplicate
-identities, unsafe references, and unsupported versions. Blob ingestion copies
+identities, unsafe references, and unsupported versions. The public codec seam is `serialize_catalog(RuneModelStore) -> String` and
+`deserialize_catalog(String) -> RuneModelStore`; it emits canonical v1 bytes and
+rejects unsupported headers before record decoding. Legacy delimiter data enters
+only through `DurableModelStore.migrate_legacy_catalog(source)`. Blob ingestion copies
 a final-symlink-rejected, nonempty seekable source inode, hashes the exact open
 descriptor, and publishes `blobs/sha256/<digest>` without overwriting an
 existing entry. Existing entries are size/hash verified before deduplication;

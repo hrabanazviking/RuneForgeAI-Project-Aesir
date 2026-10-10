@@ -3,7 +3,7 @@
 
 from cli.modelfile import parse_modelfile
 from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
-from cli.storage import DurableModelStore, deserialize_catalog
+from cli.storage import DurableModelStore, deserialize_catalog, serialize_catalog
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import render_model_selector, selected_model_reference
 from cli.model_preferences import DurableModelPreferences
@@ -544,6 +544,33 @@ def test_model_manifest_store() raises:
     _cleanup_owned_model_store(test_root, stored_digest)
 
     print("validated manifests & restart-safe durable catalog: PASS")
+
+
+def test_catalog_schema_interface() raises:
+    """Exercises the public v1 catalog codec seam and its admission boundary."""
+    var empty = RuneModelStore()
+    var encoded_empty = serialize_catalog(empty)
+    if encoded_empty != "AESIR_MODEL_CATALOG_V1\nCOUNT:0":
+        raise Error("empty catalog v1 wire representation changed")
+    if len(deserialize_catalog(encoded_empty).list_models()) != 0:
+        raise Error("empty catalog v1 codec did not round-trip")
+
+    var one = RuneModelStore()
+    one.create_model("interface:v1", "FROM fixture.gguf")
+    var encoded_one = serialize_catalog(one)
+    var decoded_one = deserialize_catalog(encoded_one)
+    if (len(decoded_one.list_models()) != 1
+            or decoded_one.get_model("interface:v1").name != "interface"):
+        raise Error("single-entry catalog v1 codec changed the model identity")
+
+    var unsupported = False
+    try:
+        _ = deserialize_catalog("AESIR_MODEL_CATALOG_V2\nCOUNT:0")
+    except error:
+        unsupported = "unsupported or missing model catalog version" in String(error)
+    if not unsupported:
+        raise Error("catalog codec did not report the unsupported version")
+    print("validated public catalog schema codec seam: PASS")
 
 
 def assert_cli_command_unsupported(command: String) raises:
