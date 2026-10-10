@@ -179,6 +179,15 @@ def test_query_embedding_extraction() raises:
         rejected = True
     if not rejected or well.offset != offset_before_rejection:
         raise Error("invalid token IDs must be rejected before allocation")
+
+    var empty_tokens = List[Int]()
+    var empty_rejected = False
+    try:
+        _ = mean_pool_token_embeddings(empty_tokens, table, well)
+    except:
+        empty_rejected = True
+    if not empty_rejected or well.offset != offset_before_rejection:
+        raise Error("empty token sequence must reject before allocation")
     print("Query Embedding Extraction: PASS")
 
 def test_corpus_ingestion() raises:

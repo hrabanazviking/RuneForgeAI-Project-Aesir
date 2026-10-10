@@ -1091,7 +1091,7 @@ the complete ledger population.
 - **Owner:** facade and embedding domains
 - **Claim sources:** RAG integration claims
 - **Implementation evidence:** `mean_pool_token_embeddings()` validates every caller token ID before allocation and mean-pools rows from a real caller-supplied token table. `extract_query_embedding()` requires the loaded `token_embd.weight`, exact hidden dimension, and a non-empty valid token sequence; it has no hash, constant, or token-zero substitution.
-- **Executable evidence:** `E-MASTER` case `rag.query_embedding` checks exact mean-pool values and pre-allocation rejection. The engine integration case remains explicitly skipped without a real fixture.
+- **Executable evidence:** `E-MASTER` case `rag.query_embedding` checks exact mean-pool values and pre-allocation rejection for invalid IDs and empty token sequences. The engine integration case remains explicitly skipped without a real fixture.
 - **Evidence boundary:** No fabricated fallback remains, but the real-model path is not exercised by the default suite and is not a dedicated embedding model.
 - **Next acceptance gate:** Run the pinned external fixture in CI and compare embeddings/retrieval against an independent oracle.
 - **Audit:** AER-086.
