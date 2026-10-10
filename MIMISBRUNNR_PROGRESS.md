@@ -19,7 +19,7 @@
 | Gate | Slice | Result | Date | Notes |
 |------|-------|--------|------|-------|
 | Phase-A gate review | H010 | GO-WITH-CONDITIONS | docs/phase_a/PHASE_A_GATE_REVIEW.md | 2026-10-10 |
-| Phase-B go gate | H077 | pending | — | — |
+| Phase-B go gate | H077 | NO-GO (kernel) → UNLOCKED | 2026-10-10 | Was kernel-forbidden on 6.12.109+rpt-rpi-2712. **Volmarr's operator rebuild: Mimir now on `6.12.112-v8-16k-hailo+` — coordinator verified live /dev/vfio/vfio, dmesg "VFIO - User Level meta-driver version: 0.3", vfio/vfio_iommu_type1/vfio_pci/uio modules present. No SMMU probe → VFIO noiommu mode. F3-banked H066/H069/H074/H075/H076 UNBANKED (real VFIO path). Old kernel + config.txt kept as fallback; rebuild stays operator-only.** |
 | Phase-C gate | H095 | pending | — | — |
 | **H111 GO/NO-GO (Compiler Wall)** | H111 | **NOT YET EVALUATED** | — | Honest evaluation required. NO-GO is a valid outcome; follow roadmap branch plan. |
 | Phase-E go gate | H128 | pending | — | — |
