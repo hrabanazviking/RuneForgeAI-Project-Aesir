@@ -622,6 +622,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   named as `CUDA_ERROR_INVALID_DEVICE`, and exposed in each trace receipt.
 - AES500-019 synchronizes this documentation; AES500-020 remains the exact-head
   release gate. No speed, occupancy, provider-lead or production-selection claim.
+- AES500-021 publishes `TASK_cuda_allocation_lifetime_tracking.md`, defining
+  ownership/accounting evidence boundaries before any resource-lifecycle change.
 
 ## Status
 
