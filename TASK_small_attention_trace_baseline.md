@@ -44,3 +44,11 @@ Build first. Run fresh public37 and public1070 strategy5 collection, strict sour
 comparison, independent CPU oracle, post-capture rehashes and documentation/drift
 checks. Review the exact output before committing/pushing and recording the remote
 head. Tracing implementation is a later slice.
+
+## Completion receipt — 2026-10-10
+
+Fresh capable-disabled collection passed all four source5 cases, exact source5
+vectors/cache/IDs/counts, independent pinned zero-GPU CPU comparison and guards.
+Compact hashes/results are recorded in
+`docs/evidence/small-attention-trace-baseline-2026-10-10/README.md`; raw CSV and
+failed reports remain in the private task directory listed there.
