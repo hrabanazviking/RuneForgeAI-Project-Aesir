@@ -708,6 +708,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-043 specifies candidate recognition, every-ID traversal, AER
   exclusion, adjacent tags, repeated IDs, unsupported statuses, and stable
   left-to-right diagnostics in `scripts/INTERFACE.md`.
+- AES500-044 updates `status_reference_errors` to validate every AES ID inside
+  each explicit bracket tag and process adjacent tags independently; tags
+  without an AES ID and AER references remain outside capability validation.
 
 ## Status
 

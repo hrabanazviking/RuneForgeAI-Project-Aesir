@@ -169,24 +169,30 @@ def status_reference_errors(
     content: str, statuses: dict[str, str], source: str
 ) -> list[str]:
     errors = []
-    tag_pattern = re.compile(r"\[([a-z/]+),\s*(AES-[A-Z]+-\d+)")
+    tag_pattern = re.compile(r"\[([a-z/]+),([^\]]*)\]")
+    capability_pattern = re.compile(r"AES-[A-Z]+-\d+")
     for line_no, line in enumerate(content.splitlines(), 1):
-        for declared, capability_id in tag_pattern.findall(line):
+        for match in tag_pattern.finditer(line):
+            declared, references = match.groups()
+            capability_ids = capability_pattern.findall(references)
+            if not capability_ids:
+                continue
             if declared not in ALLOWED_STATUSES:
                 errors.append(
                     f"{source}:{line_no}: unsupported status tag {declared!r}"
                 )
                 continue
-            actual = statuses.get(capability_id)
-            if actual is None:
-                errors.append(
-                    f"{source}:{line_no}: unknown capability reference {capability_id}"
-                )
-            elif declared != actual:
-                errors.append(
-                    f"{source}:{line_no}: {capability_id} tag is {declared}, "
-                    f"ledger is {actual}"
-                )
+            for capability_id in capability_ids:
+                actual = statuses.get(capability_id)
+                if actual is None:
+                    errors.append(
+                        f"{source}:{line_no}: unknown capability reference {capability_id}"
+                    )
+                elif declared != actual:
+                    errors.append(
+                        f"{source}:{line_no}: {capability_id} tag is {declared}, "
+                        f"ledger is {actual}"
+                    )
     return errors
 
 
