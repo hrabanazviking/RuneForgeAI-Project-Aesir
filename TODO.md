@@ -1301,3 +1301,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-125 GGUF version unit evidence: tests cover 24-byte valid v3,
   23-byte truncation, malformed magic, v4 rejection, stable diagnostics, and
   unchanged input bytes after rejection.
+- [x] AES500-126 GGUF version integration: minimal mapped v3 passes the version
+  gate and fails later on absent metadata; v4 fails at the version gate. Both
+  `inspect_metadata` paths end `FAILED` with mappings cleaned up.

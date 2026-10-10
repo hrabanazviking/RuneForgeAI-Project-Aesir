@@ -247,6 +247,10 @@ AES500-125 adds raw helper unit boundaries for the exact 24-byte minimum,
 23-byte rejection, invalid magic, and v4 rejection. It checks the stable error
 classes and confirms rejection leaves the supplied bytes intact.
 
+AES500-126 exercises mapped v3 and v4 through `inspect_metadata`. The v3
+header passes its gate before expected later metadata failure; v4 stops at the
+version gate. Both cases leave FAILED state and unmap/close resources.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

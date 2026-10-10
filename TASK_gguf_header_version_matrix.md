@@ -52,6 +52,10 @@ AES500-125 adds unit boundaries: exactly 24 bytes admits the version-3 header,
 23 bytes rejects, incorrect magic rejects, and version 4 rejects with the
 stable v3-only diagnostic. Tests confirm rejected input bytes remain unchanged.
 
+AES500-126 runs minimal v3/v4 files through `inspect_metadata`. The v3 file
+records version 3 and fails only later because metadata is absent; the v4 file
+fails at the version diagnostic. Both paths end in `FAILED` with mmap cleanup.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit

@@ -131,6 +131,38 @@ def test_gguf_version_reference() raises:
     print("PASS: GGUF version header byte-length, endian, magic, and boundary cases")
 
 
+def test_gguf_version_integration() raises:
+    var v3_path = write_header(3)
+    var v3 = GGUFSeer(v3_path)
+    var tokenizer = RuneWeaver()
+    var v3_error = String("")
+    try:
+        v3.inspect_metadata(tokenizer)
+    except error:
+        v3_error = String(error)
+    unlink_path(v3_path)
+    if v3.version != 3 or "Only GGUF version 3" in v3_error:
+        raise Error("v3 mapped header did not pass the version gate")
+    if v3.state != 4 or v3.is_mapped:
+        raise Error("v3 incomplete fixture did not fail and clean up later-stage state")
+
+    var v4_path = write_header(4)
+    var v4 = GGUFSeer(v4_path)
+    var v4_tokenizer = RuneWeaver()
+    var v4_error = String("")
+    try:
+        v4.inspect_metadata(v4_tokenizer)
+    except error:
+        v4_error = String(error)
+    unlink_path(v4_path)
+    if "Only GGUF version 3" not in v4_error:
+        raise Error("v4 mapped header did not stop at the version gate")
+    if v4.version != 4 or v4.state != 4 or v4.is_mapped:
+        raise Error("v4 version rejection did not preserve state/cleanup invariants")
+    print("PASS: GGUF version gate integrates with loader state and mmap cleanup")
+
+
 def main() raises:
     test_gguf_version_interface()
     test_gguf_version_reference()
+    test_gguf_version_integration()
