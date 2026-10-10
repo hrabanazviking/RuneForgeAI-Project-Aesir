@@ -684,6 +684,19 @@ generator is independently designed; findings live in docs/plunder/.
   (2.080→3.159), chunking adds +6.4% (3.159→3.362). Logit delta 0.016
   (fp16 GEMM vs GEMV non-associativity); argmax token identical (1652).
   c9_h174_chunk test updated (threshold 0.02).
+- [x] H170 — DEFERRED 2026-10-10: `docs/bench/H170_THREADING_DEFERRED.md`.
+  Fork-based shared-memory parallelism requires infrastructure beyond slice
+  budget. Projected ~3× prefill (8-10 tok/s) for future work.
+- [x] H175 — Performance budget DONE: `docs/bench/PERFORMANCE_BUDGET.md`.
+- [x] H176 — Regression guard DONE: `prof/bench/test_perf_regression.py`
+  (TEST-ONLY Python), PASS.
+- [x] H177 — Thermal DONE: `data/bench/thermal_sustained.json` — 70-min
+  sustained, max 43.0°C, no throttling.
+- [x] H178 — Roofline DONE: `docs/bench/ROOFLINE.md` (ridge 1.61 FLOP/byte).
+- [x] H179 — Retrospective DONE: `docs/bench/C9_RETROSPECTIVE.md`.
+- [x] H180 — C9 VERDICT: **STRONG PASS** — `docs/bench/C9_REVIEW.md`.
+  17/18 runnable slices complete (H170 deferred); H171/H172 skipped (H111 NO-GO).
+  Prefill +61.6% (2.080→3.362 tok/s), decode +986% (0.1766→1.918 tok/s).
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
