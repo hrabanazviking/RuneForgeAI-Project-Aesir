@@ -1,0 +1,39 @@
+{
+  "benchmark": "e2e_baseline",
+  "slice": "H163",
+  "date": "2026-10-10",
+  "model_sha256": "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556",
+  "config": "data/fallback/f1_config.json",
+  "prompt_file": "data/bench/e2e_prompt.txt",
+  "binary": "run_bench_truebaseline (pre-H173: 26b6b9a + JSON brace fix; original infer.forward with per-head allocs, classic sampler)",
+  "prefill": {
+    "tokens": 512,
+    "trials": 5,
+    "median_s": 246.103493442,
+    "tok_per_s": 2.0804255674682843,
+    "min_s": 246.07410618,
+    "max_s": 246.271370566
+  },
+  "decode": {
+    "prefill_tokens": 512,
+    "max_new": 100,
+    "actual_tokens_per_trial": 47,
+    "sampler": "classic",
+    "sampler_cfg": {
+      "repetition_penalty": 1.1,
+      "seed": 12345,
+      "temperature": 0.7,
+      "top_k": 40,
+      "top_p": 0.95
+    },
+    "trials": 5,
+    "median_s": 266.134866021,
+    "tok_per_s": 0.17660218934369673,
+    "min_s": 266.072204296,
+    "max_s": 266.286344645
+  },
+  "harness_version": "1.0.0",
+  "mojo_version": "Mojo 1.1.0 (8189361e)",
+  "device": "Mimir (Raspberry Pi 5 Model B Rev 1.1, 16GB RAM, aarch64)",
+  "pin": "taskset -c 3; cpufreq governor=performance (sudo)"
+}

@@ -643,9 +643,12 @@ generator is independently designed; findings live in docs/plunder/.
   memory contention; a 93%-CPU Python process was observed during the run),
   not measurement noise — repeats confirm systematic. Compute kernels stable
   (spreads <4%). H038 numbers are historical context; H162 is the C9 baseline.
-- [ ] H163 — End-to-end baseline IN PROGRESS 2026-10-10: prefill 512 tok ×5 +
+- [x] H163 — End-to-end baseline DONE 2026-10-10: prefill 512 tok ×5 +
   decode 100 tok ×5 (classic sampler) via true pre-H173 baseline binary
-  (`run_bench_truebaseline`, built from 26b6b9a + JSON fix) → `data/bench/baseline_e2e.json`.
+  (`run_bench_truebaseline`, 26b6b9a + JSON fix). Official:
+  `data/bench/baseline_e2e.json` — prefill **2.080 tok/s** (246.10s median),
+  decode **0.1766 tok/s** (47 tokens actual, EOS at 47; 266.13s median).
+  Model sha256 da3087fb…. Matches H136 (2.02 / 0.165) within 7%.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
