@@ -1148,21 +1148,24 @@ The legacy formatters below are not exposed compatibility APIs.
   ownership-record implementation, integration, and adversarial work.
   `git diff --check`, `scripts/test_check_doc_drift.py`,
   `scripts/check_doc_drift.py`, and baseline-aware Markdown validation pass.
-- [ ] AES500-090 release gate: exact-head hosted CI remains in progress; verify
-  current runner/build receipts, final diff, remote SHA, and hosted conclusion.
+- [x] AES500-090 release gate: hosted Project Aesir CI run `38018008916` for
+  `dc869a320816b30f684f71ebf55e743a53f3ec32` completed successfully. This is
+  historical for AES500-090 and says nothing about later heads.
 - [x] AES500-091 RMSNorm oracle contract: Architect and Auditor reviewed the
   exact F32 reduction/normalization/multiply order, flat weight-prefix behavior,
-  current epsilon comparison behavior, and missing pointer-provenance checks.
-  The contract defers justified tolerance and non-finite/overflow policy to
-  baseline and adversarial evidence. See `TASK_rmsnorm_oracle_breadth.md`.
+  then-current epsilon comparison behavior, and missing pointer-provenance
+  checks. Later AES500-094/097 slices record finite-epsilon and tested IEEE
+  behavior. General tolerance and F32 overflow/underflow remain open. See
+  `TASK_rmsnorm_oracle_breadth.md`.
 - [x] AES500-092 baseline: Mojo 1.0.0 source hashes, focused existing short-weight
   rejection, deterministic 2-row captures at widths 3/15/16/17/33, and
   independent NumPy scalar F32 comparison are preserved in
   `docs/evidence/rmsnorm-baseline-2026-10-10/README.md`. All 168 baseline
   outputs match after F16 rounding; this does not establish a broad tolerance
   or exceptional-value policy.
-- [x] AES500-093 interface: `core/INTERFACE.md` states the exact shape/weight/
-  epsilon boundary. `compute.rmsnorm_interface` passes a valid two-row input
+- [x] AES500-093 interface: `core/INTERFACE.md` records that slice's shape/
+  weight/epsilon boundary (epsilon is tightened in AES500-094).
+  `compute.rmsnorm_interface` passes a valid two-row input
   with overlong non-vector-shaped weights and proves rejected zero/negative
   dimensions using an allocated sentinel, and short weights/zero-negative
   epsilon using logical-range snapshots; every rejection checks the intended
@@ -1173,7 +1176,8 @@ The legacy formatters below are not exposed compatibility APIs.
 - [x] AES500-094 RMSNorm implementation: `rmsnorm` now rejects NaN and either
   infinity alongside zero/negative epsilon before mutation. Focused admission
   tests assert the expected error and unchanged logical input for all five
-  invalid epsilon classes; tensor and weight non-finite policy remains open.
+  invalid epsilon classes. AES500-097 later records bounded tensor/weight
+  IEEE behavior; wider finite overflow/underflow policy remains open.
 - [x] AES500-095 RMSNorm unit evidence: `compute.rmsnorm_reference` independently
   computes scalar F32 normalization for two rows at widths 3, 15, 16, 17, and
   33, then requires exact final F16 values. The passing corpus is deterministic
@@ -1196,3 +1200,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   from the convenience overload. Receipt: `docs/evidence/rmsnorm-review-2026-10-10/`.
   Independent subagent approval is unavailable in this run because agent
   creation returned `agent thread limit reached`; no independent pass is claimed.
+- [x] AES500-099 documentation sync: baseline wording is anchored to its source
+  commit, exact deterministic equality is kept separate from general tolerance,
+  integration rollback behavior is recorded, and all new named cases appear in
+  the capability ledger and interfaces. `python3 scripts/test_check_doc_drift.py`
+  and `python3 scripts/check_doc_drift.py` pass.

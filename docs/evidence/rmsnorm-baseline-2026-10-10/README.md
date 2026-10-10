@@ -3,6 +3,8 @@
 ## Identity
 
 - Baseline source commit: `351bc995d4bb41bfa11c30ae6863f492639047f0`.
+- This is a historical snapshot from AES500-092, before the finite-epsilon
+  change in AES500-094 and the bounded exceptional-value evidence in AES500-097.
 - Toolchain: Mojo 1.0.0 (`ed45d567`), Linux x86_64; Pixi environment from
   `pixi.toml`.
 - Production owner: `aesir_engine/core/compute.mojo::rmsnorm`.
@@ -50,9 +52,10 @@ all-input correctness proof.
 - The source computes `1 / sqrt(sum / cols + epsilon)` and then multiplies each
   input by that inverse and its corresponding flat weight element before F16
   storage.
-- The current contract rejects nonpositive epsilon and short weights, but does
-  not reject NaN or positive infinity epsilon. This capture uses ordinary finite
-  epsilon only; it does not settle that policy.
+- At the baseline commit, the contract rejected nonpositive epsilon and short
+  weights but did not reject NaN or positive infinity epsilon. This capture
+  uses ordinary finite epsilon only; later policy changes are tracked by
+  AES500-094 and AES500-097.
 - The tested corpus does not cover randomized inputs, near-zero/very-large
   finite values, NaN/infinity inputs, overflow or underflow, arbitrary tensor
   pointer validity, or accelerated implementations.

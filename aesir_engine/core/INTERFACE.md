@@ -806,7 +806,8 @@ propagates through its row reduction; +/-Inf input produces NaN at that element
 and zero at finite peers in that row; NaN and +/-Inf weights propagate only to
 their output columns. The kernel does not sanitize tensor or weight exceptional
 values. This policy is bounded to those tested cases and the min-subnormal and
-max-finite F16 corpus.
+max-finite F16 corpus. The review and rollback receipt is recorded in
+`docs/evidence/rmsnorm-review-2026-10-10/README.md`.
 
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...

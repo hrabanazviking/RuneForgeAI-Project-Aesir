@@ -112,6 +112,12 @@ role lenses were applied by the primary agent; the subagent service rejected
 new independent reviewers at its thread limit, so independent approval remains
 unclaimed.
 
+AES500-099 synchronized the historical baseline note with its source commit,
+reconciled the contract's exact-corpus results with the still-open general
+tolerance and finite-overflow policy, and linked the review receipt from the
+task and interface owners. Repository and documentation drift checks pass; no
+runtime code changed in this documentation slice.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

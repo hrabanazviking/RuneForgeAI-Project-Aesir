@@ -17,10 +17,11 @@ tails. The first contract slice does not change kernel behavior.
 - Accumulation and normalization are F32, then each output is rounded to F16.
 - The SIMD prefix uses the F16 SIMD width (currently 16 lanes) and
   `reduce_add`; any remaining columns use a scalar F32 accumulation. Their
-  accumulation order may differ, so oracle parity is tolerance-based rather
-  than bitwise F32 equality.
-- The SIMD prefix and scalar tail must produce values consistent with the
-  scalar reference within the declared tolerance in the implementation slice.
+  accumulation order may differ, so broader oracle parity may be tolerance-
+  based rather than bitwise F32 equality.
+- AES500-092/095 finite deterministic corpora match exactly after final F16
+  conversion. This is a corpus result, not a declared general tolerance.
+  Any future non-exact corpus must record an explicit acceptance threshold.
 
 ## Admission invariants
 
@@ -50,10 +51,11 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
   does not sanitize these values. Finite F32 sum-of-squares overflow/underflow
   and wider adversarial distributions remain unproven. F16 result
   comparisons must account for final rounding; the F32 oracle is independent
-  scalar arithmetic, not another SIMD call into production code. The numerical
-  tolerance must combine absolute and relative error and be justified against
-  measured F16 rounding and reduction-order variation in AES500-092 before
-  implementation acceptance.
+  scalar arithmetic, not another SIMD call into production code. The current
+  AES500-092/095 deterministic corpora compare exactly after F16 conversion and
+  establish no general tolerance. Any future non-exact corpus must declare a
+  combined absolute/relative threshold and justify it with measured F16
+  rounding and reduction-order variation before claiming broader acceptance.
 
 ## Planned evidence
 
@@ -73,7 +75,8 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
   epsilon failures propagate from the shared RMSNorm contract. The convenience
   overload must also roll back its temporary KV-cache arena allocation.
   The registered synthetic transformer forward case also executes the layer
-  attention and feed-forward RMSNorm consumers; no inference path is changed.
+  attention and feed-forward RMSNorm consumers; AES500-098 changes only the
+  failure cleanup, leaving successful inference computation order unchanged.
 - Adversarial evidence in `compute.rmsnorm_adversarial` compares F16 minimum
   subnormal and maximum finite input rows to scalar F32 results, exercises the
   documented input/weight IEEE propagation, and preserves the limits on F32
@@ -83,4 +86,8 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
 
 This is a documentation-only contract. Architect and Auditor review the formula,
 admission, and unresolved finite policy; `git diff --check` passes. No source or
-test behavior changes in AES500-091.
+test behavior changes in AES500-091. Later epsilon and exceptional-value policy
+decisions are recorded in AES500-094 and AES500-097. The AES500-098 review
+receipt is primary-agent role-based review; it does not claim an independent
+subagent approval. The review record is in
+`docs/evidence/rmsnorm-review-2026-10-10/README.md`.
