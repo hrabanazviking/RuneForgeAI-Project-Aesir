@@ -21,7 +21,7 @@
 | Phase-A gate review | H010 | GO-WITH-CONDITIONS | docs/phase_a/PHASE_A_GATE_REVIEW.md | 2026-10-10 |
 | Phase-B go gate | H077 | NO-GO (kernel) → UNLOCKED | 2026-10-10 | Was kernel-forbidden on 6.12.109+rpt-rpi-2712. **Volmarr's operator rebuild: Mimir now on `6.12.112-v8-16k-hailo+` — coordinator verified live /dev/vfio/vfio, dmesg "VFIO - User Level meta-driver version: 0.3", vfio/vfio_iommu_type1/vfio_pci/uio modules present. No SMMU probe → VFIO noiommu mode. F3-banked H066/H069/H074/H075/H076 UNBANKED (real VFIO path). Old kernel + config.txt kept as fallback; rebuild stays operator-only.** |
 | Phase-C gate | H095 | pending | — | — |
-| **H111 GO/NO-GO (Compiler Wall)** | H111 | **NOT YET EVALUATED** | — | Honest evaluation required. NO-GO is a valid outcome; follow roadmap branch plan. |
+| **H111 GO/NO-GO (Compiler Wall)** | H111 | **NO-GO** | 2026-10-10 | **The Wall held.** SMIÐR's faithful mailbox implementation (pure Mojo): command writes land readback-verified, then silence — no completion bit, no MSI, no response. Exhausted: 5 hardening variants, vendor ioctl rejected ("not supported on integrated device type"), core-doorbell probe silent (1005 ms). H105–H110 blocked by strict-serial law. Encoding face honestly UNKNOWN (never invented). NO-GO branch executed (H115–H119); F1 CPU fallback trunk proven (H059 coherent). Ambition was fully pursued — the evidence forced NO-GO. |
 | Phase-E go gate | H128 | pending | — | — |
 | Victory gates 1-3 | H195-H197 | pending | — | — |
 
@@ -595,9 +595,10 @@ generator is independently designed; findings live in docs/plunder/.
 - **H120: DONE** — `docs/smidr/C6_REVIEW.md` (NO-GO-flavored; F1 CPU
   guarantee affirmed via H059).
 - Device left sane after every session: hailo1x bound, D3hot, /dev/h1x-0.
+- Coordinator: merged `mimisbrunnr-c6-wall` → main as 5590451 (--no-ff), pushed, remote HEAD verified 5590451dc46d080e1a8129001eba954becc8df99. Local branch deleted. **H111 relayed to parent: NO-GO, evidence-forced after full ambition.**
 
 ## Campaign 7 — Offload + Pipeline (H121–H140)
-- Status: not started — branch-aware (H121-H135 need GO; H136-H139 NO-GO branch)
+- Status: IN PROGRESS — NO-GO branch (H121–H135 SKIP per re-scope; H136–H139 + H140 RUN)
 
 ## Campaign 8 — Vörðr Robustness (H141–H160)
 - Status: not started
