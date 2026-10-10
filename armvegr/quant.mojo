@@ -20,6 +20,7 @@
 # in data/armvegr/quant_contract.json uses the derivable bounds:
 # max <= 0.024, RMS <= 0.014, with this derivation.
 
+from std.math import exp2
 from std.memory import Pointer
 from std.origin import MutUntrackedOrigin
 
@@ -148,6 +149,21 @@ def q80_dequant_block(
 
 def q80_block_scale(src: Pointer[Int8, MutUntrackedOrigin], bo: Int) -> Float32:
     return fp16_from_bits(read_u16_le(src, bo))
+
+
+def q80_block_scale_fast(
+    src: Pointer[Int8, MutUntrackedOrigin], bo: Int
+) -> Float32:
+    # Branchless fp16->fp32 for block scales (always positive normal
+    # fp16 values). value = (1 + mant/1024) * 2^(eb-15), with the
+    # power of two via exp2 (exact for integer exponents). The general
+    # fp16_from_bits uses up to 15 fp divisions in a loop; this is a
+    # handful of instructions. Used by qgemm's hot loop only.
+    var w = read_u16_le(src, bo)
+    var eb = Int((w >> 10) & UInt16(0x1F))
+    var mant = Int(w & UInt16(0x3FF))
+    var v = Float32(1024 + mant) / Float32(1024)
+    return v * exp2(SIMD[DType.float32, 1](Float32(eb - 15)))[0]
 
 
 def fp16_to_q80(
