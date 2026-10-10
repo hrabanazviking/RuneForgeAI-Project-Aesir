@@ -74,7 +74,12 @@ struct CLIOptions:
 
 
 def parse_duration_seconds(duration_str: String) raises -> Int:
-    """Parses duration strings such as '5m', '1h', '30s', '0s' into seconds."""
+    """Parses duration strings into seconds.
+    A bare number ("30") is treated as seconds. Suffixes 's', 'm', 'h'
+    (case-insensitive) scale by 1, 60, and 3600. The numeric part must be
+    present ("m" alone raises) and nothing may follow the unit ("1m30"
+    raises). Negative values and overflow past the supported range raise.
+    """
     var raw = duration_str.strip()
     var bytes_view = raw.as_bytes()
     if len(bytes_view) == 0:
@@ -121,7 +126,7 @@ def validate_acceleration_backend(value: String) raises -> String:
         and value != "npu"
         and value != "max"
     ):
-        raise Error("unsupported acceleration backend: " + value)
+        raise Error("--accel must be auto, cpu, cuda, metal, intel, amd, npu, or max")
     return value
 
 
@@ -177,37 +182,37 @@ def parse_cli_options(args: List[String]) raises -> CLIOptions:
         elif arg == "--accel" or arg == "-a":
             if i + 1 >= len(args):
                 raise Error("Missing value for --accel/-a flag")
-            options.accel_backend = args[i + 1]
+            options.accel_backend = validate_acceleration_backend(args[i + 1])
             options.accel_was_set = True
             i += 1
         elif arg == "--skaldbrodir":
             if i + 1 >= len(args):
                 raise Error("Missing value for --skaldbrodir flag")
-            options.skaldbrodir = args[i + 1]
+            options.skaldbrodir = validate_toggle(args[i + 1], "--skaldbrodir")
             options.skaldbrodir_was_set = True
             i += 1
         elif arg == "--thinking":
             if i + 1 >= len(args):
                 raise Error("Missing value for --thinking flag")
-            options.thinking = args[i + 1]
+            options.thinking = validate_toggle(args[i + 1], "--thinking")
             options.thinking_was_set = True
             i += 1
         elif arg == "--cia":
             if i + 1 >= len(args):
                 raise Error("Missing value for --cia flag")
-            options.cia = args[i + 1]
+            options.cia = validate_toggle(args[i + 1], "--cia")
             options.cia_was_set = True
             i += 1
         elif arg == "--wic":
             if i + 1 >= len(args):
                 raise Error("Missing value for --wic flag")
-            options.wic = args[i + 1]
+            options.wic = validate_toggle(args[i + 1], "--wic")
             options.wic_was_set = True
             i += 1
         elif arg == "--nsfi":
             if i + 1 >= len(args):
                 raise Error("Missing value for --nsfi flag")
-            options.nsfi = args[i + 1]
+            options.nsfi = validate_toggle(args[i + 1], "--nsfi")
             options.nsfi_was_set = True
             i += 1
         elif arg == "--tui":

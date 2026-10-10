@@ -20,25 +20,34 @@ def generation_recipe_penalty(value: String) raises -> Float32:
 
 
 @always_inline
-def parse_int(value: String) -> Int:
-    """Parses an integer from string digits."""
+def parse_int(value: String) raises -> Int:
+    """Parses an integer strictly from string digits.
+    An optional leading '-' is allowed; any other non-digit character, an
+    empty or sign-only input, or overflow past Int max raises an Error. The
+    overflow guard mirrors core/observation_integer's bounded_decimal.
+    """
     var raw = value.strip().as_bytes()
-    if len(raw) == 0:
-        return 0
-    var res = 0
-    var sign = 1
     var start = 0
-    if raw[0] == 45:  # '-'
+    var sign = 1
+    if len(raw) > 0 and raw[0] == 45:  # '-'
         sign = -1
         start = 1
+    if start >= len(raw):
+        raise Error("expected an integer, got '" + value + "'")
+    var res = 0
     for i in range(start, len(raw)):
-        if raw[i] >= 48 and raw[i] <= 57:
-            res = res * 10 + Int(raw[i] - 48)
+        var byte = raw[i]
+        if byte < 48 or byte > 57:
+            raise Error("expected an integer, got '" + value + "'")
+        var digit = Int(byte - 48)
+        if res > (9223372036854775807 - digit) // 10:
+            raise Error("integer overflow in '" + value + "'")
+        res = res * 10 + digit
     return res * sign
 
 
 @always_inline
-def parse_float(value: String) -> Float32:
+def parse_float(value: String) raises -> Float32:
     """Parses a Float32 from string digits."""
     var s = String(value.strip())
     var is_neg = False
