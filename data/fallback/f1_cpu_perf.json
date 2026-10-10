@@ -1,0 +1,19 @@
+{
+  "slice": "H136",
+  "model": "TinyLlama-1.1B-Chat-v1.0 Q4_0 GGUF (TheBloke)",
+  "model_sha256": "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556",
+  "device": "Mimir (Raspberry Pi 5, aarch64)",
+  "binary": "tests/c7_h136_check (armvegr Inference 0.2.0)",
+  "config": "data/fallback/f1_config.json",
+  "prefill_tokens": 512,
+  "prefill_seconds": 253.094608977,
+  "prefill_tokens_per_sec": 2.022958932509416,
+  "decode_tokens": 100,
+  "decode_seconds": 604.590743583,
+  "decode_tokens_per_sec": 0.16540114294070682,
+  "sampler": {"temperature": 0.7, "top_k": 40, "top_p": 0.95, "repetition_penalty": 1.1, "seed": 12345},
+  "kvcheck_max_abs_err_tolerance": 0.001,
+  "kvcheck_probes": [127, 511, 560],
+  "kvcheck": "probe step 127: max_abs_err=0.0 PASS\nprobe step 511: max_abs_err=0.0 PASS\nprobe step 560: max_abs_err=0.0 PASS\n",
+  "guards": "7/7 PASS"
+}

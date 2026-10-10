@@ -1,11 +1,15 @@
 # H036 — Backend-selection interface (CPU stage).
+# H139 — SKIPTI AUTO = CPU-only honest mode (NO-GO branch).
 #
-# The interface SKIPTI (D4) will later extend: a Backend id set
-# (CPU / NPU / AUTO), select_backend(op, shapes, want, log), and the
-# C2-stage rule that EVERY op resolves to CPU with the decision logged.
-# A stub NPU backend type exists and compiles (proving the extension
-# point) but is never selected: NPU unready means CPU, loudly (L11
-# fail-closed). A test asserts no code path can return NPU at this stage.
+# Phase-D ended H111 = NO-GO (the Compiler Wall held): the NPU compute path
+# is honestly closed. select_backend() now resolves EVERYTHING (CPU and
+# AUTO wants) to CPU, and every dispatch logs the declared reason
+# "NPU unavailable (Phase-D NO-GO H111), using verified CPU path" (L11:
+# fail closed, degrade honestly — no silent fallback, no masquerade).
+# An explicit NPU want raises the named NpuUnavailable error citing the
+# H111 verdict. The NpuBackendStub type remains as the documented extension
+# point, but NO code path can select NPU in this build (the old
+# want==NPU-and-ready branch is deleted, not just unreachable).
 
 from std.collections import List
 
@@ -22,10 +26,18 @@ def BACKEND_AUTO() -> Int:
     return 2
 
 
+def NPU_UNAVAILABLE_REASON() -> String:
+    """The declared reason every CPU dispatch logs (H139, L11)."""
+    return String(
+        "NPU unavailable (Phase-D NO-GO H111), using verified CPU path"
+    )
+
+
 struct NpuBackendStub:
     # Extension point for the D4 SKIPTI backend. Exists, compiles, and is
-    # never selected at the C2 stage: ready is always False, and any
-    # dispatch attempt fails closed to CPU with a logged reason.
+    # never selected: ready is always False. Post-H111-NO-GO there is no
+    # selection branch at all — the NPU path reports itself honestly
+    # unavailable (see select_backend).
     var ready: Bool
 
     def __init__(out self):
@@ -42,19 +54,23 @@ def select_backend(
     k: Int,
     want: Int,
     mut log: List[String],
-) -> Int:
-    # want: BACKEND_CPU / BACKEND_NPU / BACKEND_AUTO request.
-    # At the C2 stage every op resolves to CPU; the decision is appended
-    # to log as "op m=.. n=.. k=.. want=.. -> CPU (reason)".
-    var stub = NpuBackendStub()
-    var reason = String(
-        "NPU backend unready at C2 stage; CPU is the only verified backend (L11 fail-closed)"
-    )
-    if want == BACKEND_NPU() and stub.is_ready():
-        # Unreachable at this stage (stub.ready is always False); kept as
-        # the documented extension point for D4.
-        log.append(op + " -> NPU")
-        return BACKEND_NPU()
+) raises -> Int:
+    """H139 — resolve the backend for one op, honestly.
+
+    want BACKEND_CPU or BACKEND_AUTO -> BACKEND_CPU, logging
+    NPU_UNAVAILABLE_REASON() (L11: the degradation is declared, never
+    silent). want BACKEND_NPU -> raises the named NpuUnavailable error:
+    the NPU compute path is closed by the Phase-D H111 NO-GO verdict.
+    """
+    if want == BACKEND_NPU():
+        raise Error(
+            String("NpuUnavailable: explicit NPU backend requested for ")
+            + op + String(", but the NPU compute path is closed ")
+            + String("(MIMISBRUNNR Phase-D H111 = NO-GO, the Compiler Wall ")
+            + String("held). No NPU code path exists in this build; ")
+            + String("request BACKEND_CPU or BACKEND_AUTO.")
+        )
+    var reason = NPU_UNAVAILABLE_REASON()
     var entry = (
         op
         + " m="
