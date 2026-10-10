@@ -237,3 +237,7 @@ def main():
         sys.exit(1)
     print("H159: all degrade/fallback paths emit their events — "
           "zero silent paths")
+
+
+if __name__ == "__main__":
+    main()
