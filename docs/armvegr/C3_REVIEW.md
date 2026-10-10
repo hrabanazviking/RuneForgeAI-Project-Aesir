@@ -75,3 +75,20 @@
 **What IS ready:** The loader substrate (H041–H045), tokenizers (H046–H049), KV-cache (H050–H052), sampler (H053–H057), and smoke test (H058) are solid, tested, and portable. The Q6_K dequantizer is correct. The inference scaffolding (`armvegr/infer.mojo`) is structurally sound and will support the remediation.
 
 **Recommendation:** Execute H059R1–R3 before declaring F1 complete. Do not proceed to C4 (Hailo driver) until the CPU pipeline demonstrably generates coherent text, as C4 builds on the F1 core.
+
+---
+
+## ADDENDUM 2026-10-10 — H059R1–R3 REMEDIATION COMPLETE: VERDICT REVISED TO **F1-CORE-READY**
+
+**Root cause (differential debug vs ggml ground truth, ctypes, maxdiff 0.0):** four dequant/RoPE bugs in the Mojo pipeline —
+1. Q4_0 nibble layout used interleaved `(2b, 2b+1)`; GGML uses split-half `(b, b+16)` — permuted all 200 Q4_0 weight tensors (`armvegr/q4.mojo`);
+2. Q4_0 sign bias used `if q>=8: q-=16`; GGML stores biased by +8, i.e. `(q & 0xF) - 8` (`armvegr/q4.mojo`);
+3. Q6_K layout used naive `i//2` interleaving; GGML uses blocked `(j,l,g)` structure (`armvegr/quant.mojo`) — the prior "<1e-4 vs Python" check was circular (both shared the wrong layout);
+4. RoPE double-log: `ln(theta)` passed to `rope_fp16` which applies `log()` internally → effective base e^2.22 instead of 10000 (`armvegr/infer.mojo`).
+Model file EXONERATED (sha256 `da3087fb...` matches HuggingFace authoritative).
+
+**Fixes:** surgical, in `armvegr/q4.mojo` (split-half layout + `-8` bias), `armvegr/quant.mojo` (Q6_K rewritten to ggml blocked structure), `armvegr/infer.mojo` (pass raw `theta=10000.0`).
+
+**Coherence proof (Mimir, Pi 5):** before — "What is the meaning of hospitality?" → "laglag rangeesen Vere"; after — "Hospitality refers to the act of providing hospital..." — coherent English, on-topic. Q4_0/Q6_K dequant match ggml maxdiff 0.0 (256-element blocks). Generation speed ~0.15 tok/s on Pi 5 (slow but functional; correctness achieved).
+
+**Revised verdict:** **F1-CORE-READY.** H041–H060 all complete. The "circular verification" lesson is recorded: dequant checks must go against an INDEPENDENT ground truth (ggml ctypes), never against a second implementation sharing the same layout assumptions.

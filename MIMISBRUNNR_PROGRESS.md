@@ -88,7 +88,7 @@ All 20 slices reviewed against their acceptance criteria before execution. Findi
 - [x] H040 — C2 review verdict (READY)
 
 ## Campaign 3 — Loaders, Tokenizer, KV Cache (H041–H060)
-- Status: IN PROGRESS (worker session 771dcfe5, 2026-10-10)
+- Status: COMPLETE 2026-10-10 ~08:08 EDT — all 20 slices + H059R1–R3 remediation. Root cause of H059 incoherence found and fixed (Q4_0 split-half layout, Q4_0 −8 bias, Q6_K ggml blocked layout, RoPE double-log). Coherence proven on Mimir ("Hospitality refers to the act of providing hospital..."). C3 verdict revised: **F1-CORE-READY**. Pushed e69e0db; remediation fc35ddb; remote HEAD verified.
 
 ### SÓLRÚN AUDIT — C3 pre-execution (2026-10-10)
 All 20 slices reviewed against acceptance criteria before execution.
