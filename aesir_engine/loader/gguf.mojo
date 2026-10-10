@@ -1,9 +1,10 @@
 # loader/gguf.mojo
 # Bounds-checked GGUF v3 loader with real mmap-backed F16 tensor views.
 
-from std.collections import Dict, InlineArray
+from std.collections import Dict
 from std.ffi import external_call
 from std.memory import Pointer, bitcast
+from std.memory.alloc import unsafe_alloc
 
 from core.mimir_well import (
     CompressedFormatType,
@@ -412,14 +413,22 @@ struct GGUFSeer:
         if self.fd < 0:
             raise Error("Failed to open GGUF model: " + self.file_path)
 
-        var stat = InlineArray[UInt64, 18](fill=0)
-        if external_call["fstat", Int32](self.fd, stat.unsafe_ptr()) != 0:
+        # H041 (Mojo 1.1.0): InlineArray was removed from std.collections.
+        # Same semantics via a raw 144-byte buffer (struct stat = 18 x UInt64).
+        var stat = unsafe_alloc[UInt64](18)
+        for si in range(18):
+            stat[unsafe_offset=si] = 0
+        if external_call["fstat", Int32](self.fd, stat) != 0:
+            stat.unsafe_free()
             raise Error("Failed to inspect GGUF model")
-        if stat[3] & 61440 != 32768:
+        if stat[unsafe_offset=3] & 61440 != 32768:
+            stat.unsafe_free()
             raise Error("GGUF model must be a regular file")
-        if stat[6] < 24 or stat[6] > 9223372036854775807:
+        if stat[unsafe_offset=6] < 24 or stat[unsafe_offset=6] > 9223372036854775807:
+            stat.unsafe_free()
             raise Error("GGUF file is smaller than the v3 header")
-        self.file_size = Int64(stat[6])
+        self.file_size = Int64(stat[unsafe_offset=6])
+        stat.unsafe_free()
 
         var mapped_address = external_call["mmap", Int](
             Int(0), self.file_size, Int32(1), Int32(1), self.fd, Int64(0)
