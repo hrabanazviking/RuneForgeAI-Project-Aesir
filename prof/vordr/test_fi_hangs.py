@@ -50,7 +50,7 @@ def main():
             continue
         # Detection latency: the FaultHandled event carries detect_ms.
         m = [l for l in text.splitlines() if '"fault": "hang"' in l]
-        if not m or '"detect_ms"' not in m[0]:
+        if not any('"detect_ms"' in l for l in m):
             fails.append(f"hang {i}: no detect_ms evidence")
             continue
         detected += 1
