@@ -1,0 +1,3 @@
+ARMVEGR BUILD REFUSED: this package targets AArch64+NEON only.
+  host arch: x86_64 (need aarch64)
+  Build on Mimir (Raspberry Pi 5) or another AArch64 host.
