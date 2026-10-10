@@ -39,12 +39,13 @@ def q80_gemm(
     #     (j * nb + kb) * 34.
     # c:  M x N fp32.
     #
-    # OPTIMIZED (2026-10-10): the block dot is inlined (a per-block-pair
-    # function call cost ~15 cycles at 524k pairs for the decode case);
-    # A's row scales are hoisted (decoded once per (i, kb) instead of N
-    # times); ALL of B's scales are precomputed once (N*nb fp32) so the
-    # hot inner loop does no fp16_from_bits decoding at all -- just
-    # streaming fp32 scale loads, the int8 dot, and one FMA per block.
+    # OPTIMIZED (2026-10-10): kb-outer loop order. For each k-block, A's
+    # 32 int8 values (+ scale) are loaded ONCE and reused across all N
+    # columns; B streams once (optimal). The previous j-outer order
+    # re-loaded A's row N times (17.8 MB of redundant L1 traffic for
+    # the decode case). B's scales are precomputed once (N*nb fp32) so
+    # the hot loop does no fp16_from_bits decoding; the block dot is
+    # inlined (16-wide NEON, widened to int32).
     var nb = K // 32
     var sb_all = unsafe_alloc[Float32](N * nb)
     for j in range(N):
@@ -54,29 +55,33 @@ def q80_gemm(
                 bq, brow + kb * 34
             )
     var sa_row = unsafe_alloc[Float32](nb)
+    var s_acc = unsafe_alloc[Float32](N)
     for i in range(M):
         var arow = (i * nb) * 34
         for kb in range(nb):
             sa_row[unsafe_offset=kb] = q80_block_scale(aq, arow + kb * 34)
         for j in range(N):
-            var s = Float32(0)
-            var brow = (j * nb) * 34
-            for kb in range(nb):
-                var abo = arow + kb * 34 + 2
-                var bbo = brow + kb * 34 + 2
-                var acc = SIMD[DType.int32, 16](0)
-                var a0 = aq.unsafe_offset(abo).unsafe_load[16]()
+            s_acc[unsafe_offset=j] = Float32(0)
+        for kb in range(nb):
+            var abo = arow + kb * 34 + 2
+            var a0 = aq.unsafe_offset(abo).unsafe_load[16]()
+            var a1 = aq.unsafe_offset(abo + 16).unsafe_load[16]()
+            var a0w = a0.cast[DType.int32]()
+            var a1w = a1.cast[DType.int32]()
+            var sa = sa_row[unsafe_offset=kb]
+            for j in range(N):
+                var bbo = (j * nb + kb) * 34 + 2
                 var b0 = bq.unsafe_offset(bbo).unsafe_load[16]()
-                var a1 = aq.unsafe_offset(abo + 16).unsafe_load[16]()
                 var b1 = bq.unsafe_offset(bbo + 16).unsafe_load[16]()
-                acc += a0.cast[DType.int32]() * b0.cast[DType.int32]()
-                acc += a1.cast[DType.int32]() * b1.cast[DType.int32]()
-                s += (
-                    sa_row[unsafe_offset=kb]
-                    * sb_all[unsafe_offset=j * nb + kb]
-                    * Float32(acc.reduce_add())
+                var d = (
+                    a0w * b0.cast[DType.int32]()
+                    + a1w * b1.cast[DType.int32]()
+                ).reduce_add()
+                s_acc[unsafe_offset=j] += (
+                    sa * sb_all[unsafe_offset=j * nb + kb] * Float32(d)
                 )
-            c[unsafe_offset=i * N + j] = s
+        for j in range(N):
+            c[unsafe_offset=i * N + j] = s_acc[unsafe_offset=j]
 
 
 def q80_gemm_bytes(M: Int, K: Int) -> Int64:
