@@ -20,7 +20,7 @@ Rules for execution:
 
 ## Current baseline and first slice
 
-At the planning baseline, `ROADMAP_AESIR_SPEED_LEAD.md` names strategy5 cooperative control recovery as the current native fixture frontier. Strategy5 has narrowly documented model, causal-generation and sealed replay evidence; control recovery and owned tracing remain open. The normal service retains its admitted original path. First execution is `AES500-001`, strategy5 control contract. The next implementation work order is the already-scoped strategy5 cooperative timeout/cancel/reset/recovery gate, followed by strategy5 owned tracing, then runtime breadth. This work makes no speed claim and does not promote strategy5 to normal service.
+Historical planning baseline (2026-10-09): `ROADMAP_AESIR_SPEED_LEAD.md` named strategy5 cooperative-control recovery as the current native fixture frontier, with controls and owned tracing still open. AES500-001's contract was committed as `3c7f40f` before the control implementation commit `b8d1443`; the narrow physical control gate was accepted on 2026-10-09 and documented in `docs/evidence/small-attention-controls-2026-10-09/README.md`. As of 2026-10-10 the current native fixture frontier is owned strategy5 tracing. Normal service remains on the admitted original path; no speed or production promotion follows.
 
 The capability ledger's current count and evidence commands are a snapshot. Re-read the ledger and exact evidence before each capability decision.
 
@@ -64,11 +64,11 @@ The capability ledger's current count and evidence commands are a snapshot. Re-r
 
 ## Complete indexed backlog
 
-Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. Slices AES500-001 through AES500-010 close the strategy5 cooperative-controls work order; AES500-011 starts owned strategy5 tracing.
+Each row states the owning domain, immediate dependency, deliverable focus and gate acceptance. AES500-001 is the historical contract gate. The strategy5 control implementation and physical fixture proof are recorded in AES500-002..009, while AES500-010 remains a separate hosted release-verification gate; AES500-011 starts owned strategy5 tracing.
 
 | Slice | Phase | Work item | Owner | Depends on | Deliverable and acceptance gate |
 |---:|---|---|---|---|---|
-| AES500-001 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — contract | cuda | Existing strategy5 model/generation/replay gates | Publish the exact owner, inputs, outputs, invariants, exclusions and acceptance commands; reviewer confirms the slice is independently scoped. |
+| AES500-001 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — contract | cuda | Existing strategy5 model/generation/replay gates | Complete: contract in `TASK_small_attention_controls.md`, first pushed as `3c7f40f` before implementation `b8d1443`; six-role Mythic contract review completed 2026-10-10. Exact contract-only acceptance commands are recorded below. |
 | AES500-002 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — baseline | cuda | AES500-001 | Capture a reproducible pre-change baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
 | AES500-003 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — interface | cuda | AES500-002 | Make the owning interface explicit and validate accepted/rejected inputs without changing unrelated public behavior. |
 | AES500-004 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — implementation | cuda | AES500-003 | Implement only the named behavior; compile or execute the owning path and show every failure remains explicit. |
@@ -77,7 +77,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 | AES500-007 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — adversarial-evidence | cuda | AES500-006 | Run hostile bounds, interruption, mutation, resource and cleanup cases relevant to the slice; reject unsafe cases before mutation. |
 | AES500-008 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — independent-review | cuda | AES500-007 | Have the Auditor reconcile source, evidence and capability wording; no unsubstantiated maturity or performance claim remains. |
 | AES500-009 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — documentation | cuda | AES500-008 | Synchronize task, interface, ledger, TODO and devlog owners; links resolve and evidence boundaries are stated. |
-| AES500-010 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — release-gate | cuda | AES500-009 | Rebuild from the pinned toolchain, run declared suites, inspect the final diff, commit and push this slice, then verify the exact remote revision and hosted CI. |
+| AES500-010 | CUDA kernels and strategy admission | strategy5 cooperative control recovery — release-gate | cuda | AES500-009 | Implementation/evidence commits `b8d1443` and `4cff9cf` are pushed. Physical fixture receipt passes; no matching hosted Actions run for those exact SHAs is visible in the current `gh run list --workflow ci.yml --limit 100` query, so hosted CI release status remains unverified. |
 | AES500-011 | CUDA kernels and strategy admission | strategy5 owned tracing — contract | cuda | AES500-010 | Publish the exact trace owner, events, sources, invariants, exclusions and acceptance commands; reviewer confirms the slice is independently scoped. |
 | AES500-012 | CUDA kernels and strategy admission | strategy5 owned tracing — baseline | cuda | AES500-011 | Capture a reproducible untraced strategy5 baseline with source/tool/model identities and preserve raw failures; baseline is rerunnable from a clean task directory. |
 | AES500-013 | CUDA kernels and strategy admission | strategy5 owned tracing — interface | cuda | AES500-012 | Make the trace capability and event interface explicit; reject unsupported capability combinations without mutation. |
@@ -577,14 +577,15 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - Advanced agent and multimodal tracks remain research until real end-to-end inputs, independent quality criteria, safety boundaries and operational behavior pass.
 - The 500 items are bounded backlog units, not a completion forecast. New defects enter through evidence-backed contracts and may revise ordering without erasing history.
 
-## First-slice contract
+## AES500-001 — Strategy5 control contract (contract gate complete)
 
-### AES500-001 — Strategy5 control contract
+This documentation-only contract gate was committed as `3c7f40f` before the later implementation commit `b8d1443`. The physical control behavior was accepted in a later gate and is recorded in `docs/evidence/small-attention-controls-2026-10-09/README.md`; this contract commit alone establishes no implementation behavior.
 
 - **Owner:** CUDA fixture controls / test harness.
 - **Inputs:** accepted strategy5 model, generation and sealed-replay source/evidence; current binary/source identity; the existing cooperative control and reset semantics.
 - **Deliverable:** `TASK_small_attention_controls.md` with default-false capability, pre-mutation admission, abort classes, expected state/counter invariants, evidence commands and explicit unsupported claims.
-- **Acceptance:** contract matches `ROADMAP_AESIR_SPEED_LEAD.md` section 6 and `docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md`; no source/runtime mutation; task contract is committed and pushed before implementation.
+- **Acceptance:** contract matches `ROADMAP_AESIR_SPEED_LEAD.md` section 6 and `docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md`; no source/runtime mutation; task contract is committed and pushed before implementation. The six Mythic Engineering roles reviewed this contract on 2026-10-10. Their review confirmed the narrow scope and required this current-status synchronization.
+- **Contract-only verification:** `git show --stat --oneline 3c7f40f`; `git show --format= --name-only 3c7f40f`; `git merge-base --is-ancestor 3c7f40f b8d1443`; `python3 scripts/test_check_doc_drift.py`; `python3 scripts/check_doc_drift.py`; `git diff --check`.
 - **Claim boundary:** planning/contract only; no control recovery, runtime readiness, production selection or performance claim is established.
 
 ### AES500-002 — Disabled-control strategy5 baseline
@@ -775,11 +776,18 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 
 ## Status
 
-- AES500-001 through AES500-009: strategy5 control contract, baseline, interface,
-  implementation, unit/integration/adversarial evidence, review and documentation
-  are complete for the declared fixture/model/device; see the task and evidence.
-- AES500-010: controls implementation is pushed; exact hosted CI is still running
-  its opt-in CUDA probe compile step.
+- AES500-001: contract-only documentation gate is complete in `3c7f40f`, before
+  implementation. Six-role contract review and current-status synchronization
+  are recorded in this roadmap.
+- AES500-002..009: existing strategy5 controls baseline/interface/implementation,
+  test evidence, review and documentation are documented in
+  `TASK_small_attention_controls.md` and the dated physical receipt. Historically
+  these artifacts were grouped rather than committed once per roadmap row; do
+  not infer an independent commit for every row. Physical evidence is limited to
+  its declared fixture/model/device.
+- AES500-010: implementation/evidence commits are pushed; the exact hosted
+  release gate remains unverified because no matching hosted Actions run for
+  those historical SHAs was visible in the current query.
 - AES500-011: tracing contract is published; exact hosted release gate remains
   pending for the prior controls commit.
 - AES500-012: fresh unprofiled public37/public1070 baseline is accepted locally
