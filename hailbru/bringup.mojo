@@ -125,7 +125,7 @@ struct StepCtx:
 
     def __init__(
         out self, arch: String, sysfs_root: String, bdf: String,
-        opts: owned BringupOpts,
+        owned opts: BringupOpts,
     ):
         self.arch = arch
         self.sysfs_root = sysfs_root
