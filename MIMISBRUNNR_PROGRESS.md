@@ -389,6 +389,74 @@ Slice verdicts:
 - No slices killed. Banked to F3: H086 on-chip version query; H081
   firmware-load/boot-handshake steps; inference-ready "ready" itself.
 
+### SÓLRÚN AUDIT ADDENDUM — kernel rebuild succeeded (2026-10-10 ~09:17 EDT)
+
+Volmarr booted Mimir on `6.12.112-v8-16k-hailo+` (tryboot success).
+Worker recon (device.invoke, NOT the coordinator's summary) CORRECTS
+and REFINES the new basis — the coordinator's verification had three
+inaccuracies:
+
+1. **CONFIG_VFIO_NOIOMMU is NOT set** (`# CONFIG_VFIO_NOIOMMU is not
+   set` in /proc/config.gz). There is NO /dev/vfio/noiommu-0. The
+   planned "VFIO noiommu DMA" path does not exist.
+2. **ARM SMMU is present but PCIe is NOT behind it.** CONFIG_ARM_SMMU=y
+   and /sys/class/iommu has 3 devices (1000005100/5200/5280.iommu —
+   codec/ISP platform devices), but NO PCI device has an iommu_group
+   symlink and /sys/kernel/iommu_groups holds only the platform
+   groups. `0001:01:00.0` has no IOMMU group → **vfio-pci CANNOT bind
+   this device** (VFIO requires an IOMMU group). The VFIO framework is
+   live (/dev/vfio/vfio, dmesg "VFIO - User Level meta-driver version:
+   0.3", vfio_pci/vfio_iommu_type1 builtin) but unusable for the
+   Hailo-10. A device-tree change attaching PCIe to the SMMU is
+   operator/boot-config territory — named as future hypothesis only.
+3. **The vendor driver is still bound**: `hailo1x` (module
+   hailo1x_pci 5.3.0) holds 0001:01:00.0; /dev/h1x-0 (508,0) exists.
+   "Device free" means no userspace holder (fuser empty), not
+   unbound. Device parked in D3hot by the driver.
+
+**Revised mechanism verdict: VFIO-BLOCKED (no IOMMU group, no noiommu),
+UIO-VIABLE.** CONFIG_UIO_PCI_GENERIC=m is available (uio,
+uio_pdrv_genirq loaded). The real F3-unblocked path is UIO:
+
+- H064 RE-SCOPED: VFIO BAR mapping is impossible for this device —
+  documented as blocked-with-evidence. UIO bind (F3-2 procedure) is
+  the real BAR path; sysfs resource0 stays as the documented fallback.
+- H065 DO (real): uio_pci_generic bind/unbind/restore per the F3-2
+  runbook (record hailo1x first; restore after every session).
+- H066 RE-SCOPED: no IOMMU DMA. Real approach: physical addresses via
+  /proc/self/pagemap (root) + UNCACHED CPU alias via /dev/mem O_SYNC
+  (CONFIG_STRICT_DEVMEM permissive per Volmarr's build notes) so no
+  cache maintenance is needed — the honest userspace DMA path without
+  an IOMMU. Map carefully, unmap on teardown (no DMA isolation!).
+- H069 DO (real): MSI via uio_pci_generic (it handles MSI); interrupts
+  surface as read() events on /dev/uioN. MSI cap 0xE0 confirmed, no
+  MSI-X (H062).
+- H074/H075/H076 DO (real attempt): firmware DMA upload + boot
+  handshake via the UIO path, using the H073-verified staged blobs
+  (/lib/firmware/hailo/hailo10h/, 17 blobs, 112MB). L7 HOLDS: never
+  fetch/download/ship firmware — use what's staged. Attempt for real;
+  any step that fails is reported with exact evidence (fail-closed),
+  not simulated.
+- H086: on-chip firmware version query becomes real post-boot (was
+  F3-banked); still banked until the boot succeeds.
+- H081 re-scope: firmware_load + boot_handshake steps become REAL
+  (UIO path) instead of banked stubs; READY_PM is joined by READY_FW
+  when the firmware reports ready. The banked-stub events remain for
+  the VFIO-irrelevant halves only.
+- H082/H096 golden snapshots, H084/H093/H095 cycle runs, H094 thermal,
+  H097 drift: /tmp was wiped by the reboot — all C5 measurement data
+  is regenerated against the new kernel (strictly better: against the
+  real boot path). Rebuild the probe into the repo-adjacent
+  ~/mimisbrunnr_c5/ (reboot-safe), not /tmp.
+- H111 road: real DMA + real MSI + real firmware upload are now being
+  attempted — the Wall assault prerequisites.
+
+Safety restated: unbind hailo1x ONLY via the F3-2 reversible
+procedure (record original driver, restore after session); never DMA
+into arbitrary physical memory (noiommu-less = no isolation);
+leave the device sane (D3hot, hailo1x bound) after every session;
+do not touch boot config.
+
 ## Campaign 6 — The Wall / SMIÐR (H101–H120)
 - Status: not started — contains H111 GO/NO-GO gate
 
