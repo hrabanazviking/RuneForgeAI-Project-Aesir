@@ -237,6 +237,7 @@ from tests.test_cli import (
     test_catalog_schema_unit_evidence,
     test_blob_identity_interface,
     test_blob_identity_unit_evidence,
+    test_atomic_registration_unit_evidence,
     test_cli_command_dispatch,
     test_repl_session_and_slash_commands,
     test_cli_flag_options_parser,
@@ -616,6 +617,10 @@ def main() raises:
         test_blob_identity_unit_evidence,
     )
     run_case(
+        ledger, "cli.atomic_registration_unit_evidence",
+        test_atomic_registration_unit_evidence,
+    )
+    run_case(
         ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch
     )
     run_case(
@@ -930,4 +935,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(243)
+    ledger.finish(244)

@@ -669,6 +669,67 @@ def test_blob_identity_unit_evidence() raises:
     print("blob identity scheme/width/case/suffix/signed-size matrix: PASS")
 
 
+def test_atomic_registration_unit_evidence() raises:
+    """Pins expected-pair admission and newly published blob rollback."""
+    var test_root = (
+        String(".aesir-test-model-store-")
+        + String(external_call["getpid", Int32]())
+    )
+    var root_bytes = _test_cstring(test_root)
+    if external_call["access", Int32](root_bytes.unsafe_ptr(), 0) == 0:
+        raise Error("refusing to reuse atomic registration test path")
+
+    var invalid_pair_rejected = False
+    try:
+        var invalid_store = DurableModelStore(test_root)
+        _ = invalid_store.ingest_model(
+            "invalid:v1", "FROM fixture.gguf", test_root + "/source.bin",
+            "", 32,
+        )
+    except error:
+        invalid_pair_rejected = "requires an expected digest" in String(error)
+    if not invalid_pair_rejected:
+        _cleanup_owned_model_store(test_root)
+        raise Error("expected size without digest was not rejected")
+    if external_call["access", Int32](root_bytes.unsafe_ptr(), 0) == 0:
+        _cleanup_owned_model_store(test_root)
+        raise Error("invalid expected pair created the model store")
+
+    if external_call["mkdir", Int32](root_bytes.unsafe_ptr(), 448) != 0:
+        raise Error("unable to create owned registration test root")
+    var source_path = test_root + "/source.bin"
+    var stored_digest = String(
+        "sha256:9b3737096a1813f0580908da7a52fd6f04a5da9c5e207ccdf2c0483c2db47d96"
+    )
+    try:
+        _write_test_blob(source_path, "content-addressed-model-fixture\n")
+        var store = DurableModelStore(test_root)
+        var mismatch_rejected = False
+        try:
+            _ = store.ingest_model(
+                "mismatch:v1", "FROM fixture.gguf", source_path,
+                "sha256:" + "0" * 64, 32,
+            )
+        except error:
+            mismatch_rejected = "expected digest and size" in String(error)
+        if not mismatch_rejected:
+            raise Error("measured identity mismatch was not rejected")
+        var catalog_bytes = _test_cstring(test_root + "/catalog.v1")
+        if external_call["access", Int32](catalog_bytes.unsafe_ptr(), 0) == 0:
+            raise Error("rejected registration published a catalog")
+        var blob_bytes = _test_cstring(
+            test_root + "/blobs/sha256/"
+            + String(stored_digest[byte=7:])
+        )
+        if external_call["access", Int32](blob_bytes.unsafe_ptr(), 0) == 0:
+            raise Error("rejected registration leaked its new blob")
+    except error:
+        _cleanup_owned_model_store(test_root, stored_digest)
+        raise error
+    _cleanup_owned_model_store(test_root, stored_digest)
+    print("atomic registration expected-pair and new-blob rollback: PASS")
+
+
 def assert_cli_command_unsupported(command: String) raises:
     var args = List[String]()
     args.append(command)
