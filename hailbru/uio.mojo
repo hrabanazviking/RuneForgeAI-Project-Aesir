@@ -142,10 +142,20 @@ def uio_step_register_id(
 def uio_step_bind(
     arch: String, sysfs_root: String, bdf: String, as_root: Bool
 ) raises:
-    # Step 3: bind the device to uio_pci_generic.
+    # Step 3: bind the device to uio_pci_generic. NOTE: the kernel
+    # auto-binds on new_id, so the device may already be bound here —
+    # the explicit bind write is then skipped (it would fail EBUSY).
     _uio_gates(arch, sysfs_root, as_root)
     var uio_drv = sysfs_root + "/bus/pci/drivers/uio_pci_generic"
-    write_file_str(arch, uio_drv + "/bind", bdf)
+    var pre = uio_driver_link_target(arch, sysfs_root, bdf)
+    if pre != "uio_pci_generic":
+        try:
+            write_file_str(arch, uio_drv + "/bind", bdf)
+        except e:
+            # Tolerate the auto-bind race: re-check the link.
+            var raced = uio_driver_link_target(arch, sysfs_root, bdf)
+            if raced != "uio_pci_generic":
+                raise e
     var bound = uio_driver_link_target(arch, sysfs_root, bdf)
     if bound != "uio_pci_generic":
         raise herror(
