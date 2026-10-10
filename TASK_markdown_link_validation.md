@@ -14,8 +14,8 @@ without network access or modifications to source documents.
   or `aesir_engine/`, excluding `docs/evidence/**` and `docs/historical/**`.
   Other tracked Markdown such as task, interface, and component docs remains in
   scope. Source-relative link resolution is rooted at the containing document.
-- Candidate syntax: CommonMark inline links and images with literal inline
-  destinations, after excluding fenced code and inline code spans.
+- Candidate syntax: CommonMark inline links and images, including reference
+  uses/definitions, after excluding fenced code and inline code spans.
 - Test owner: `scripts/test_check_doc_drift.py` or a dedicated focused test.
 
 ## Invariants
@@ -23,9 +23,9 @@ without network access or modifications to source documents.
 - Every local destination resolves relative to the source document and remains
   within the repository root. Percent-encoded path characters are decoded
   before filesystem resolution. Query strings do not affect file lookup.
-- A local target must exist and be a regular file. A link ending in `/` may
-  target an existing directory only when it contains `README.md` (the README is
-  the implied document target).
+- A local target must exist as a file or directory. A directory destination
+  without a fragment is valid; a fragment on a directory destination is not a
+  document anchor and fails validation.
 - Fragment-only links target the source document. File-plus-fragment links
   validate the target file first, then the fragment against an explicit HTML
   `id`/`name` anchor or a heading anchor in that file. Heading anchor
@@ -46,9 +46,8 @@ without network access or modifications to source documents.
 ## Exclusions
 
 - No network reachability, redirect, TLS, or remote-anchor checking.
-- No parsing of arbitrary HTML links, autolinks, reference-style definitions,
-  or embedded raw HTML in this first contract unless later slices add an
-  explicit interface.
+- No parsing of arbitrary HTML links, angle-bracket autolinks, or embedded raw
+  HTML in this first contract unless later slices add an explicit interface.
 - No validation of code examples that happen to contain Markdown-like syntax.
 - No filesystem traversal outside the repository root and no following links
   to external paths.

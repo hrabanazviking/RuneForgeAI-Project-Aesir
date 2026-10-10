@@ -735,7 +735,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   deterministic read-only boundary for active tracked Markdown inline links
   (root, docs, and engine docs; excluding historical/evidence), local path and
   anchor resolution including explicit HTML IDs; baseline reviews refine the
-  exact slug algorithm before implementation.
+  exact slug algorithm before implementation. Directory destinations are
+  valid existing local targets; fragments on directories are invalid.
 
 ## Status
 
