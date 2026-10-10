@@ -881,9 +881,11 @@ def test_h032(mut ctx: Ctx):
         worst <= 0.43 and rms <= 0.25,
         String("q40 roundtrip max=") + String(worst) + String(" rms=") + String(rms),
     )
-    # Nibble hand-check (H032 acceptance): block with amax = 7 -> scale 1.0;
-    # x[0] = 3 -> q = 3, x[1] = -2 -> q = -2 (rest 0).
-    # First byte must be 0xE3 (low nibble first: 0x3 | 0xE0).
+    # Nibble hand-check (H032 acceptance, ggml convention per H059R1):
+    # block with amax = 7 -> scale 1.0; x[0] = 3 -> q = 3, x[1] = -2,
+    # x[16] = 0 -> q = 0 (rest 0). Split-half: byte 0 holds q[0] (low)
+    # and q[16] (high), values stored biased by +8: low = 3+8 = 0xB,
+    # high = 0+8 = 0x8 -> first byte must be 0x8B.
     var xb = unsafe_alloc[Float16](32)
     var qb = unsafe_alloc[Int8](18)
     for i in range(32):
@@ -893,7 +895,7 @@ def test_h032(mut ctx: Ctx):
     xb[unsafe_offset=2] = Float16(7)
     fp16_to_q40(xb, qb, 32)
     var first = UInt8(qb[unsafe_offset=2])
-    ctx.check("H032", first == UInt8(0xE3), String("nibble byte0=") + String(Int(first)))
+    ctx.check("H032", first == UInt8(0x8B), String("nibble byte0=") + String(Int(first)))
 
 
 def q80_gemm_fp32_ref(

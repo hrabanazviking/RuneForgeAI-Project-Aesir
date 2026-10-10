@@ -62,8 +62,9 @@ def q40_quant_block(
             q1 = 7
         if q1 < -8:
             q1 = -8
-        # GGML split-half: q[b] in bits [3:0], q[b+16] in bits [7:4].
-        var byte = UInt8(q0 & 15) | (UInt8(q1 & 15) << 4)
+        # GGML split-half: q[b] in bits [3:0], q[b+16] in bits [7:4];
+        # values stored biased by +8 (matches q40_dequant_block).
+        var byte = UInt8((q0 + 8) & 15) | (UInt8((q1 + 8) & 15) << 4)
         dst[unsafe_offset=2 + b] = Int8(byte)
 
 
