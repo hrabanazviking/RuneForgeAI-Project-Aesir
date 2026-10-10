@@ -25,6 +25,21 @@ master suite reports 193 passed, zero failed, one skipped (194 total), and the
 target-specific executable build plus help smoke pass. Hosted CI remains in
 progress. See `TASK_rune_tensor_2d_layout.md` and its baseline receipt.
 
+## 2026-10-10 — AES500-081–084: Allocation ownership record gate
+
+The Architect/Auditor-reviewed contract and source census show that
+`MimirWell` returns raw pointer offsets and permits rewinds, while copyable
+`RuneTensor` values carry neither arena identity nor allocation extent. No
+current API can safely validate a record against a live, non-reused owner or
+prevent a stale generation from becoming meaningful after reset/reallocation.
+AES500-081–083 therefore document the current boundary without introducing a
+record API; AES500-084 implementation is explicitly deferred until owner
+identity, arena copy/move/lifetime, and reset invalidation semantics are
+designed. The audit also corrected an unsupported claim that `offset +
+elements` is overflow checked; the source performs that addition directly.
+See `TASK_allocation_ownership_records.md` and
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

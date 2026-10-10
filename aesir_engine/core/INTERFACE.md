@@ -132,6 +132,12 @@ owner identity, copy/move/lifetime behavior, and reset invalidation without
 generation wrap or ABA revival. A record, if later implemented, remains
 non-owning and does not extend lifetime or prevent aliases.
 
+AES500-084 implementation is deferred until these prerequisites are designed
+and accepted. A fabricated identity or generation layered onto the current
+copyable arena and escaping raw pointers would create a record without a sound
+way to prove that its owner is live or that reset/reallocation has not revived
+it. Therefore no ownership-record implementation is claimed or exposed.
+
 ### `RuneTensor[type: DType]`
 Zero-copy tensor descriptor wrapping pointer offsets. `checked()` enforces
 positive shape dimensions and provides checked indexing.

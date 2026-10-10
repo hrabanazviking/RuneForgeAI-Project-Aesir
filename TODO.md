@@ -1112,3 +1112,16 @@ The legacy formatters below are not exposed compatibility APIs.
   does not prove arbitrary strides or allocation bounds.
 - [ ] AES500-080 release gate: local sm_89 target build, CLI help smoke and
   194-case master suite pass; verify exact-head hosted CI before promotion.
+- [x] AES500-081–083: contract, source baseline, and current-interface boundary
+  reviewed by Architect/Auditor; allocation records are deferred because the
+  arena has no stable owner identity and raw-pointer tensor views can escape,
+  copy, alias, and survive offset rewinds without invalidation. The interface
+  and AES-MEM-001 ledger now state the unsupported ownership/lifetime claims
+  and correct the unverified allocator-addition overflow claim. See
+  `TASK_allocation_ownership_records.md` and
+  `docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+- [ ] AES500-084 implementation deferred: establish non-reused live-owner
+  identity plus defined arena copy/move/lifetime and reset invalidation before
+  adding records. Do not ship a token/generation that cannot validate the live
+  owner or prevents ABA revival. Unit, integration, and adversarial evidence
+  remain pending that prerequisite architecture.
