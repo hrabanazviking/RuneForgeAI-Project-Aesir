@@ -104,3 +104,27 @@ element must express, not the bit layouts the silicon expects. Learning
 those encodings without the proprietary dataflow compiler is the Phase-D
 research assault (H101–H110); this survey defines what "learned" means per
 element.
+
+## SMIÐR-CFG v1 manifest (H104)
+
+SMIÐR-CFG v1 is SMIÐR's **host-side test configuration format**, emitted by
+`smidr/config_gen.mojo` (H104). It is traceable to two surface elements:
+
+- **Element 2 (tensor descriptors):** `dtype` ("fp16"), `nelems` (64),
+  `layout` ("contiguous-1d") — the exact buffer facts a runtime needs.
+- **Element 12 (Aesir's own versioned envelope):** `format` ("SMIDR-CFG"),
+  `version` (1) — SMIÐR's own magic, never confusable with a vendor HEF.
+
+Byte layout (every byte documented; no magic):
+
+- `vecadd_a.bin` / `vecadd_b.bin`: 64 × fp16 little-endian, raw payload,
+  no header. Seeded xorshift64 values, multiples of 0.125 in [-125, 125].
+- `vecadd_expected.bin`: 64 × fp16 little-endian, element-wise a+b
+  (exact in fp16 for these values — no rounding ambiguity).
+- `vecadd_config.json`: `format`, `version`, `op`, `seed`, `dtype`,
+  `nelems`, `layout`, `files`, `notes`. No undocumented fields.
+
+**Honesty marking:** SMIÐR-CFG v1 is NOT a HEF and NOT a chip-executable
+program (L3, L5). It exercises elements 2 and 12 only; elements 1, 3, 4, 5,
+6, 7 (the chip-execution path) remain unlearned. Chip executability is
+UNPROVEN — H105 tests it. Added 2026-10-10 (Campaign 6, H104).

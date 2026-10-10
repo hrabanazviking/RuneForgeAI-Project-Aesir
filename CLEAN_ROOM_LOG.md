@@ -58,3 +58,33 @@ GPL-2.0 terms additionally confirm why no driver code may enter this tree
   the repository. No vendor package was installed, built, or executed.
 - **Output:** `docs/plunder/HAILO_HEF_CONTAINER_GUIDE.md` (original prose;
   no format diagrams reproduced verbatim, no parser code copied).
+
+### H101/H102 — Firmware mailbox doorbell + control-protocol study (2026-10-10)
+
+- **Who:** MIMISBRUNNR Campaign 6 worker (Yrsa's forge).
+- **Repositories:**
+  - `https://github.com/hailo-ai/hailort-drivers.git` @ `309eb10`
+    (shallow clone `--depth 1`, fresh clone to `/tmp/hailo_study_c6/`).
+  - `https://github.com/hailo-ai/hailort.git` @ `f519590` ("v5.4.0",
+    shallow clone `--depth 1`, fresh clone to `/tmp/hailo_study_c6/`).
+- **Files studied:** `hailort-drivers/common/pcie_common.c` (mailbox
+  write/read path), `hailort-drivers/common/pcie_common.h` (request-size
+  offset constant, alignment constant), `hailort-drivers/common/hailo_ioctl_common.h`
+  (firmware-control structure, ready-flag bit masks, default timeout),
+  `hailort-drivers/linux/pcie/src/nnc.c` + `linux/pcie/src/fops.c`
+  (completion signaling via software-IRQ bit), `hailort/common/include/control_protocol.h`
+  (control opcode list, packed request/response header layout, IDENTIFY
+  response structure, protocol version), `hailort/common/include/status.h`
+  (success status value), `hailort/common/include/firmware_version.h`
+  (version triple layout),
+  `hailort/hailort/libhailort/src/device_common/control_protocol.cpp`
+  (request header packing: version field value used on the wire).
+- **Assertions:** No vendor package was installed, built, or executed.
+  No kernel module was compiled or loaded from the studied sources.
+  The studied clones live outside the repo (`/tmp/hailo_study_c6/`,
+  ephemeral) and are never committed. No studied code was copied,
+  translated, or vendored into this repository — understanding only.
+- **Output:** `docs/plunder/HAILO_COMMAND_QUEUE.md` (H101; original
+  prose, cited evidence per claim, UNCORROBORATED marking where live
+  probing could not confirm). The study names the exact doorbell offset
+  and one side-effect-free control command that H102 attempts live.

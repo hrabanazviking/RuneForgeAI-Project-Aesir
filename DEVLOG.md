@@ -3617,3 +3617,30 @@ Phase C gate: 100/100 cycles (mean 113.6 ms), 10/10 golden, 20/20 PM,
 100/100 health → READY_FW. 28/28 tests green. Device left sane
 (hailo1x bound, D3hot, FW loaded). Open: H086 (FW version), H066
 (phys-DMA demo), H093 re-run, H097 1-hour baseline.
+
+## 2026-10-10 — MÍMISBRUNNR Campaign 6 (H101–H120): THE WALL — H111 NO-GO (Yrsa)
+
+**H111 verdict signed: NO-GO.** Decision rule (roadmap line 330): GO iff
+H106+H109+H110 all PASS — H106 BLOCKED, H109 BLOCKED, H110 BLOCKED.
+Full evidence table + written technical account in
+`docs/smidr/PHASE_D_GATE.md`.
+
+**The assault:** H101 PASS (mailbox model, `docs/plunder/HAILO_COMMAND_QUEUE.md`).
+H102 FAIL — firmware mailbox silent on both doorbells (app-CPU 0x1, core
+0x2 final probe this campaign), 5 hardening variants, vendor ioctl
+rejected; 0 completions. H103 PASS (fail-closed descriptor builder,
+5/5 BadDescriptor, independent checker green). H104 PASS (deterministic
+SMIÐR-CFG v1, 2× byte-identical, validator green, H019 manifest).
+H105–H110 BLOCKED (strict-serial; nothing faked).
+
+**NO-GO branch executed:** H115 F1 trigger (`docs/smidr/FALLBACK_TRIGGERED.md`);
+H116 F1 completion plan (21 gaps, zero unowned); H117 F2 survey (no viable
+interface); H118 banked assault index (48 paths, 10 docs clean, no TBD/TODO);
+H119 re-scope (62 RUN / 18 SKIP, mechanically valid); H120 retrospective
+(`docs/smidr/C6_REVIEW.md`, F1 CPU guarantee affirmed via H059's coherent run).
+
+**Mojo 1.1 lessons:** `owned` params gone; borrowed values cannot move into
+struct fields; `take()` must copy-and-reset; `bitcast[DType.uint32]` from
+`std.memory`; `unsafe_alloc[UInt8]` from `std.memory.alloc`.
+
+Device left sane: hailo1x bound, D3hot, /dev/h1x-0 present.

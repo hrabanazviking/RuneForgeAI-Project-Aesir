@@ -2476,3 +2476,28 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Not demonstrated:** VDMA descriptor DMA (H066); full 3-stage re-flash
   (H075 — implemented, not fired; device already booted); on-chip FW
   version query (H086).
+
+## SMIÐR Wall Assault (Campaign 6, H101–H120) — 2026-10-10
+- **Status:** `partial, Phase-D gate NO-GO (H111)` — the Compiler Wall held.
+- **Owner:** SMIÐR domain (D3)
+- **Implementation evidence:** `docs/smidr/PHASE_D_GATE.md` (evidence table,
+  NO-GO verdict, written technical account); `docs/smidr/H102_ATTEMPT_RECORD.md`;
+  `docs/smidr/H105_ATTEMPT_RECORD.md`; `docs/smidr/C6_REVIEW.md`.
+- **Executable evidence (host-side, on Mimir):** `smidr/mailbox.mojo`
+  (faithful mailbox implementation); `smidr/descriptor.mojo` (H103:
+  fail-closed builder, 5/5 malformed inputs raise named BadDescriptor);
+  `smidr/config_gen.mojo` (H104: deterministic seeded SMIÐR-CFG v1,
+  2 runs byte-identical); independent TEST-ONLY validators
+  `prof/smidr/check_descriptors.py` and `prof/smidr/check_vecadd_config.py`
+  all green; golden vectors in `data/smidr/vecadd/`.
+- **Negative result (measured):** firmware mailbox silent on both
+  documented doorbells (app-CPU 0x1, core 0x2) across 5 hardening
+  variants + vendor ioctl; 0 completions observed. No transport ⇒
+  H105–H110 BLOCKED (strict-serial), H106/H109/H110 not PASS ⇒ NO-GO
+  per the decision rule.
+- **Fallback:** F1 CPU trunk triggered (`docs/smidr/FALLBACK_TRIGGERED.md`);
+  F2 survey found no viable partial-acceleration interface;
+  C7–C10 re-scoped to 62 RUN / 18 SKIP (`docs/fallback/RESCOPED_PLAN.md`,
+  mechanically validated).
+- **Not demonstrated:** any on-chip compute; the H019 element-1 compute
+  encoding remains explicitly UNKNOWN (0xFFFFFFFF sentinel, not invented).

@@ -507,7 +507,94 @@ refuses when already_loaded=1). What executed FOR REAL:
   kernel disabled it; no lasting effect (device uses MSI).
 
 ## Campaign 6 — The Wall / SMIÐR (H101–H120)
-- Status: not started — contains H111 GO/NO-GO gate
+### SÓLRÚN AUDIT — C6 pre-execution (2026-10-10 ~09:45 EDT)
+
+**Assault plan (strictly serial H101→H110 per roadmap law):**
+
+- H101: write `docs/plunder/HAILO_COMMAND_QUEUE.md` — original prose, cited
+  evidence per claim, UNCORROBORATED marking. CORRECTS the roadmap's
+  "ring buffer + doorbell" premise: the H005 study proves the control path
+  is a mailbox (BAR4+0x0000 length-prefixed command) with a 32-bit
+  "raise ready" flag write as the doorbell — no queue-pair exists. Live
+  corroboration via read-only BAR probing on Mimir (vendor driver bound).
+- H102: implement mailbox submission through HAILBRÚ's UIO path
+  (hailo1x unbind → uio_pci_generic → D0 → mailbox work → restore).
+  Two study gaps block it today: (a) the per-board "raise ready" flag
+  offset is UNNAMED in H005's study; (b) no valid firmware command
+  encoding is documented (H086's on-chip version query was F3-banked for
+  exactly this reason). L5-PERMITTED additional study of hailort-drivers
+  (GPL-2.0, study-only, clone to /tmp, never committed) will be attempted
+  to name the flag offset and ONE side-effect-free control command
+  (firmware version / device info query). If the study yields them, H102
+  attempts a real 100× control round-trip (golden-map-clean ⇒ no-op
+  proven). If the study cannot name them, H102 FAILS honestly with the
+  exact blocking finding — inventing offsets is forbidden.
+- H103: pure-Mojo descriptor builder (no-op/mailbox-ping, VDMA memcopy,
+  vector-add). The mailbox envelope + VDMA descriptor layouts are
+  study-documented; the vector-add COMPUTE encoding is UNKNOWN — emitted
+  as explicitly-marked unknown-format placeholders with documented
+  meaning (no magic bytes). Independent TEST-ONLY checker validates
+  field-by-field. Malformed inputs fail closed.
+- H104: vector-add config generator (FP16, len 64). Artifact acceptance:
+  complete package + human-readable manifest traceable to H019 surface
+  elements, 10-run byte-identical determinism, TEST-ONLY validator. The
+  manifest HONESTLY marks the compute-context encoding ASSUMPTION/
+  UNKNOWN — chip-executability is unproven until H105.
+- H105: submit the H104 candidate via the H102 transport on Mimir, with
+  timeout + full register dump + golden-state recovery (soft-reset path
+  proven in C5). EXPECTED: the firmware cannot consume a configuration
+  whose compute encoding is unknown — rejection or timeout. A documented
+  failed attempt is evidence; H106 then BLOCKED pending diagnosis.
+- H106: requires H105 success. If H105 fails, H106 is BLOCKED/FAIL —
+  nothing to verify.
+- H107–H110: roadmap internal-deps law is explicit — H107 requires H106
+  PASS ("earn the harder op"). If H106 fails, H107–H110 are NOT executed;
+  building the harder op on a failed foundation is forbidden. The H105
+  failure mode is categorical (the encoding wall, not the op), so a
+  matmul attempt would add no new information. Marked BLOCKED with the
+  rule cited — this is obedience to the roadmap, not surrender.
+- H111: decided SOLELY by the roadmap's decision rule (line 330): GO iff
+  H106 PASS + H109 PASS + H110 PASS. NO-GO requires the written technical
+  account of the blocking finding. Volmarr's directive is honored by
+  pursuing every legitimate avenue above for real — NOT by relaxing the
+  criterion.
+
+**C5 honest gaps carried forward (do not serve H111, re-queued):** H093
+soak re-run and H097 1-hour baseline were flagged incomplete in the C5
+review; they concern bring-up reliability, not the compiler wall, and
+stay queued behind the H111 verdict.
+
+**Clean-room posture:** all new study is L5 study-only (original prose,
+file citations, no code copied/translated/vendored). The configuration
+generator is independently designed; findings live in docs/plunder/.
+
+### C6 EXECUTION RECORD (2026-10-10)
+
+- **H101: PASS** — `docs/plunder/HAILO_COMMAND_QUEUE.md` written.
+- **H102: FAIL** — `docs/smidr/H102_ATTEMPT_RECORD.md` +
+  `data/smidr/first_command_trace.json`. Firmware silent on both
+  doorbells (final core-doorbell probe this campaign: completed=False).
+- **H103: PASS** — `smidr/descriptor.mojo` + `smidr/tools/descemit.mojo`;
+  independent checker `prof/smidr/check_descriptors.py` ALL PASSED;
+  5/5 fail-closed. `data/smidr/descriptors.json`.
+- **H104: PASS** — `smidr/config_gen.mojo` + `smidr/tools/cfgemit.mojo`;
+  SMIÐR-CFG v1 manifest added to `docs/plunder/HAILO_CONFIG_SURFACE.md`
+  (H019, elements 2+12); validator `prof/smidr/check_vecadd_config.py`
+  ALL PASSED; determinism proven (2× seed 12345 byte-identical).
+  Golden vectors in `data/smidr/vecadd/`.
+- **H105: BLOCKED** — `docs/smidr/H105_ATTEMPT_RECORD.md` (no transport).
+- **H106–H110: BLOCKED** — strict-serial chain broken at H105.
+- **H111: NO-GO** — `docs/smidr/PHASE_D_GATE.md`; decision rule
+  (H106+H109+H110 all PASS) not met; written technical account included.
+  Verdict signed in DEVLOG.
+- **H115–H119 (NO-GO branch): EXECUTED** — `docs/smidr/FALLBACK_TRIGGERED.md`,
+  `docs/fallback/F1_COMPLETION_PLAN.md`, `docs/fallback/F2_SURVEY.md`
+  (no viable F2 interface), `docs/plunder/BANKED_ASSAULT_INDEX.md`
+  (48 paths, 10 docs clean), `docs/fallback/RESCOPED_PLAN.md`
+  (62 RUN / 18 SKIP, re-scope valid).
+- **H120: DONE** — `docs/smidr/C6_REVIEW.md` (NO-GO-flavored; F1 CPU
+  guarantee affirmed via H059).
+- Device left sane after every session: hailo1x bound, D3hot, /dev/h1x-0.
 
 ## Campaign 7 — Offload + Pipeline (H121–H140)
 - Status: not started — branch-aware (H121-H135 need GO; H136-H139 NO-GO branch)
