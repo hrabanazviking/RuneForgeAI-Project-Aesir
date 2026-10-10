@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import json
+import os
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from ledger_schema import (
@@ -13,6 +15,7 @@ from ledger_schema import (
     parse_ledger_path,
     parse_ledger_text,
     render_ledger_json,
+    export_ledger_json,
 )
 
 
@@ -134,6 +137,81 @@ class CapabilityLedgerSchemaTests(unittest.TestCase):
             path.write_bytes(b"# title\n\xff")
             with self.assertRaisesRegex(LedgerSchemaError, r"invalid.md:2: input is not valid UTF-8"):
                 parse_ledger_path(path)
+
+    def test_invalid_input_preserves_existing_destination_and_cleans_temp(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "invalid.md"
+            output = root / "output.json"
+            source.write_text("### AES-TST-001 — Invalid\n", encoding="utf-8")
+            output.write_bytes(b"prior-valid-output\n")
+            with self.assertRaises(LedgerSchemaError):
+                export_ledger_json(source, output)
+            self.assertEqual(output.read_bytes(), b"prior-valid-output\n")
+            self.assertEqual(list(root.glob(".output.json.*.tmp")), [])
+
+    def test_export_rejects_same_path_and_hard_link(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "ledger.md"
+            source.write_text(entry(), encoding="utf-8")
+            with self.assertRaisesRegex(LedgerSchemaError, "must not alias"):
+                export_ledger_json(source, source)
+            hard_link = root / "ledger-copy.md"
+            os.link(source, hard_link)
+            with self.assertRaisesRegex(LedgerSchemaError, "must not alias"):
+                export_ledger_json(source, hard_link)
+
+    def test_replace_failure_preserves_destination_and_cleans_temp(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "ledger.md"
+            output = root / "output.json"
+            source.write_text(entry(), encoding="utf-8")
+            output.write_bytes(b"prior-output")
+            with patch("ledger_schema.os.replace", side_effect=OSError("injected replace failure")):
+                with self.assertRaisesRegex(OSError, "injected replace failure"):
+                    export_ledger_json(source, output)
+            self.assertEqual(output.read_bytes(), b"prior-output")
+            self.assertEqual(list(root.glob(".output.json.*.tmp")), [])
+
+    def test_write_failure_cleans_temporary_file(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "ledger.md"
+            output = root / "output.json"
+            source.write_text(entry(), encoding="utf-8")
+            real_named_temporary_file = tempfile.NamedTemporaryFile
+
+            def failing_temporary_file(*args: object, **kwargs: object) -> object:
+                temporary = real_named_temporary_file(*args, **kwargs)
+
+                class FailingWriter:
+                    name = temporary.name
+
+                    def __enter__(self) -> "FailingWriter":
+                        return self
+
+                    def __exit__(self, *exit_args: object) -> bool:
+                        temporary.close()
+                        return False
+
+                    def write(self, _value: str) -> int:
+                        raise OSError("injected write failure")
+
+                    def fileno(self) -> int:
+                        return temporary.fileno()
+
+                    def flush(self) -> None:
+                        temporary.flush()
+
+                return FailingWriter()
+
+            with patch("ledger_schema.tempfile.NamedTemporaryFile", side_effect=failing_temporary_file):
+                with self.assertRaisesRegex(OSError, "injected write failure"):
+                    export_ledger_json(source, output)
+            self.assertFalse(output.exists())
+            self.assertEqual(list(root.glob(".output.json.*.tmp")), [])
 
 
 if __name__ == "__main__":

@@ -687,6 +687,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   the already-read canonical ledger, with stable diagnostics and a valid/bad
   integration fixture. Checker and parser suites pass; independent Auditor
   review found no blockers. This validates structure, not claim truth.
+- AES500-037 adds hostile publication tests: malformed input preserves existing
+  bytes, same-path and hard-link aliases reject, injected write/replace failures
+  remove temporary files, and replace failure preserves the old destination.
+  The schema suite passes 15 tests; failure injection is local filesystem
+  behavior evidence only.
 
 ## Status
 
