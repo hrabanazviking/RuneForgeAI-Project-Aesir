@@ -46,7 +46,10 @@ from tests.test_attention_interface import test_attention_interface
 from tests.test_attention_reference import test_attention_reference
 from tests.test_attention_integration import test_attention_integration
 from tests.test_attention_adversarial import test_attention_adversarial
-from tests.test_gguf_version_interface import test_gguf_version_interface
+from tests.test_gguf_version_interface import (
+    test_gguf_version_interface,
+    test_gguf_version_reference,
+)
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
     test_mimir_well_allocation_bounds,
@@ -320,6 +323,7 @@ def main() raises:
     run_case(ledger, "gguf.malformed_model_rejection", test_gguf_parsing)
     run_case(ledger, "gguf.type_constants", test_ggml_type)
     run_case(ledger, "gguf.version_interface", test_gguf_version_interface)
+    run_case(ledger, "gguf.version_reference", test_gguf_version_reference)
     print("")
 
     # --- Tokenizer ---
@@ -859,4 +863,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(208)
+    ledger.finish(209)

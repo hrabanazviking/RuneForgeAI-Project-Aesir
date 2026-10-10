@@ -48,6 +48,10 @@ AES500-124 adds the same little-endian version-3 gate to
 admission and stable rejection of every tested non-3 version, matching the
 mapped-file header gate.
 
+AES500-125 adds unit boundaries: exactly 24 bytes admits the version-3 header,
+23 bytes rejects, incorrect magic rejects, and version 4 rejects with the
+stable v3-only diagnostic. Tests confirm rejected input bytes remain unchanged.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit

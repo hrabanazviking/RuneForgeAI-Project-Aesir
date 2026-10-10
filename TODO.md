@@ -1298,3 +1298,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-124 GGUF header implementation: `parse_header_bytes` now decodes
   the little-endian version and rejects non-3 values with the mapped path's
   diagnostic. The interface case requires both paths to agree on the v3 matrix.
+- [x] AES500-125 GGUF version unit evidence: tests cover 24-byte valid v3,
+  23-byte truncation, malformed magic, v4 rejection, stable diagnostics, and
+  unchanged input bytes after rejection.

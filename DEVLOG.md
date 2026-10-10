@@ -243,6 +243,10 @@ little-endian UInt32 version and rejects non-3 values before admission. The
 focused interface test now requires stable version-gate parity for 0/2/3/4 and
 UInt32::MAX.
 
+AES500-125 adds raw helper unit boundaries for the exact 24-byte minimum,
+23-byte rejection, invalid magic, and v4 rejection. It checks the stable error
+classes and confirms rejection leaves the supplied bytes intact.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
