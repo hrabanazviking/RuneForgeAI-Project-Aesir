@@ -206,6 +206,12 @@ at position 32 cannot affect query 31 (exact output 2) and is included by
 query 32 (within 0.1 of the scalar average). No broad long-sequence stability
 claim follows from this boundary sample.
 
+AES500-118's primary review found no further causal-mask correction, but
+retained the narrow 0.05 oracle tolerance scope and called out repeated F16
+partial-output stores, unchecked index/pointer safety, exceptional values, and
+accelerator behavior. Independent agents were unavailable due the app thread
+cap; the review receipt makes no independent-approval claim.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

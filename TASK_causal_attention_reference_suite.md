@@ -66,6 +66,12 @@ policy, broad numerical tolerance, accelerator behavior, performance, or model
 quality. The online softmax update and SIMD width/tail behavior also require
 oracle evidence before any wider claims.
 
+AES500-118 manually reconciles the causal mask, retained baseline, interface,
+scalar oracle, KV-cache integration, and tile-boundary case. The review receipt
+is `docs/evidence/causal-attention-review-2026-10-10/README.md`; independent
+subagent review was unavailable in this run. F16 partial-output rounding and
+raw-pointer/index safety remain open.
+
 ## Planned evidence
 
 - AES500-112: deterministic pre-change capture with an adversarial future-value

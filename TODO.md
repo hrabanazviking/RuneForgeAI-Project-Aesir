@@ -1273,3 +1273,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-117 causal attention adversarial evidence: sequence 33 crosses the
   32-key tile edge; a position-32 value of 1024 leaves row 31 at exactly 2 and
   enters row 32's average within 0.1 absolute error.
+- [x] AES500-118 causal attention review: primary review reconciles causal mask,
+  baseline, interface, scalar, cache, and tile-boundary evidence. F16 partial
+  output rounding and pointer/index safety remain open. Agent service hit its
+  thread cap, so no independent subagent pass is claimed; see review receipt.
