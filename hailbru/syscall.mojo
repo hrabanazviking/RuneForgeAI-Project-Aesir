@@ -77,6 +77,8 @@ def sc_nr(arch: String, name: String) -> Int64:
         return Int64(129) if aarch else Int64(62)
     if name == "unlinkat":
         return Int64(35) if aarch else Int64(263)
+    if name == "nanosleep":
+        return Int64(101) if aarch else Int64(35)
     return Int64(-1)
 
 
@@ -320,10 +322,18 @@ def os_unlinkat(arch: String, path: String) -> Int64:
 
 
 def os_sleep_ms(arch: String, ms: Int64):
-    # Busy-wait on the monotonic clock; no nanosleep dependency.
-    var end = os_clock_ms(arch) + ms
-    while os_clock_ms(arch) < end:
-        pass
+    # Real sleep via nanosleep(2) — yields the CPU (the old busy-wait
+    # burned 100% CPU and broke the H097 <1% overhead budget).
+    if ms <= 0:
+        return
+    var ts = unsafe_alloc[UInt8](16)
+    var sec = ms // 1000
+    var nsec = (ms % 1000) * 1000000
+    for i in range(8):
+        ts[unsafe_offset=i] = UInt8((sec >> (i * 8)) & 0xFF)
+        ts[unsafe_offset=8 + i] = UInt8((nsec >> (i * 8)) & 0xFF)
+    _ = syscall6(sc_nr(arch, "nanosleep"), Int64(Int(ts)), 0, 0, 0, 0, 0)
+    ts.unsafe_free()
 
 
 def os_mkdir(arch: String, path: String, mode: Int64) -> Int64:
