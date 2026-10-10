@@ -700,7 +700,8 @@ generator is independently designed; findings live in docs/plunder/.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
-- Status: not started — H184 needs GO
+- Status: IN PROGRESS — final campaign (H184 GO-only → SKIP per re-scope; H181–H183, H185–H200 RUN)
+- Coordinator: merged `mimisbrunnr-c9-speed` → main as d9e20e1 (--no-ff), pushed, remote HEAD verified d9e20e199ff6102b0aa75f63e6322bb6fa7d6960. Branch deleted (local + origin). C9 verdict: STRONG PASS — decode 0.1766→1.918 tok/s (10.86×), prefill 2.080→3.362 tok/s (+61.6%), GEMM 6.934→7.773 GFLOPS (+12.1%). H170 deferred (threading needs shared-memory infra, documented).
 
 ## Blocker log
 
