@@ -352,6 +352,7 @@ def cmd_selftest_hang(args: List[String]) raises -> Int:
     var log = _get(args, "--log", "/tmp/vordr-st-hang.jsonl")
     var mon = HeartbeatMonitor()
     var failed = 0
+    var before = _count_kind(arch, log, "HangDetected")
     # 1) Stall hook.
     var budget = Int64(300)
     mon.begin_op(arch, "stalled_op", budget)
@@ -376,7 +377,6 @@ def cmd_selftest_hang(args: List[String]) raises -> Int:
     else:
         print("stall detected in " + String(elapsed) + "ms (budget 300ms)")
     # 2) 1000 clean ops, zero false positives.
-    var before = _count_kind(arch, log, "HangDetected")
     for i in range(1000):
         mon.begin_op(arch, "op_" + String(i), Int64(5000))
         os_sleep_ms(arch, 1)
