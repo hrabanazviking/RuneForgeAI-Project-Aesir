@@ -804,3 +804,6 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   span gates, source hashes, focused KVCache/dense-buffer/fixture-plan evidence,
   and the required `-I aesir_engine` include path. No shared-helper behavior is
   claimed or changed in this baseline.
+- AES500-063 records the proposed `CheckedSpan` API in the core interface,
+  including empty-span semantics and explicit limits. Existing specialized
+  gates remain owners until separate migration evidence exists.

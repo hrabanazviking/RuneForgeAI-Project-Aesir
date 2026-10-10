@@ -10,6 +10,20 @@
 > `llama3_cuda.mojo` adds the separate dense Llama 3 8B Stheno profile with the
 > same device ownership, an F16 KV cache and an 8K context ceiling.
 
+### Checked bounded spans (AES500-061–070)
+
+AES500-061 defines the planned core `CheckedSpan` value as a pure half-open
+range with start, exclusive end, and length. Its checked factory admits
+nonnegative capacity/start/length only when `start <= capacity` and
+`length <= capacity - start`, then computes the end. Empty spans including the
+capacity endpoint are valid. All arguments use a consistent caller-defined
+unit. The value is arithmetic admission only: it does not prove allocator
+ownership, actual backing capacity, pointer validity/alignment, aliasing,
+lifetime, synchronization, or device bounds. Existing owner-specific gates
+remain in place until a later migration slice has its own baseline and tests.
+See the project-root `TASK_checked_span_construction.md` and
+`docs/evidence/checked-span-baseline-2026-10-10/README.md`.
+
 ## Public Structs & Functions
 
 ### Persisted text admission
