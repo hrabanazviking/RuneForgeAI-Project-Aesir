@@ -3771,3 +3771,11 @@ AES500-140 release gate passes native sm_89 build/help, full master suite
 (212 passed, zero failed, one skipped / 213 total), documentation drift and
 whitespace checks. Hosted workflow runs were still in progress for recent heads;
 no hosted success is inferred.
+
+
+## 2026-10-10 — AES500-141 tensor directory contract
+
+Documented the current GGUF tensor record shape, rank/positive-dimension rules,
+aligned relative offsets, mmap/pool mapping paths, duplicate names, and later
+required-shape validation. Integer overflow, overlap rejection, and broad
+quantization arithmetic remain outside this contract.

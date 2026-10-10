@@ -1364,3 +1364,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-140 GGUF metadata type release gate: native sm_89 build/help and
   master suite pass (212 passed, 0 failed, 1 skipped / 213 total); docs and
   whitespace checks pass. Pushed; hosted exact-head runs remain in progress.
+
+- [x] AES500-141 GGUF tensor directory contract: `TASK_gguf_tensor_directory.md`
+  specifies record layout, rank and dimensions, alignment/range gates, mapping
+  modes, required tensor checks, parser owners, and explicit safety exclusions.
