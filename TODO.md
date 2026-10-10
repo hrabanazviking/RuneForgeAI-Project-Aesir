@@ -1374,3 +1374,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   source/tool hashes, command, and limits are in the baseline evidence README.
   Registered as `gguf.tensor_directory_baseline`. Master suite: 213 passed,
   0 failed, 1 skipped / 214 total; docs and whitespace checks pass.
+
+- [x] AES500-143 GGUF tensor directory interface: rank-1/rank-2 positive shapes
+  reach mapping; rank-3 and zero dimensions reject before tensor map mutation.
+  Failure cleanup is asserted; registered `gguf.tensor_directory_interface`.

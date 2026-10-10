@@ -23,7 +23,10 @@ def append_string(mut bytes: List[UInt8], value: String):
 
 
 def make_metadata_file(
-    target_key: String, target_type: UInt32, tensor_rank: UInt32 = 0
+    target_key: String,
+    target_type: UInt32,
+    tensor_rank: UInt32 = 0,
+    tensor_dim: UInt64 = 1,
 ) raises -> String:
     var bytes = List[UInt8]()
     bytes.append(0x47)
@@ -76,7 +79,7 @@ def make_metadata_file(
         append_string(bytes, "fixture.weight")
         append_u32(bytes, tensor_rank)
         for _ in range(Int(tensor_rank)):
-            append_u64(bytes, 1)
+            append_u64(bytes, tensor_dim)
         append_u32(bytes, 1)
         append_u64(bytes, 0)
         while len(bytes) % 32 != 0:
@@ -200,7 +203,38 @@ def test_gguf_tensor_directory_baseline() raises:
     print("PASS: valid rank-one F16 tensor maps before missing-model-tensor rejection")
 
 
+def tensor_directory_probe(rank: UInt32, dimension: UInt64, expected_error: String) raises:
+    var path = make_metadata_file("extension.label", 8, rank, dimension)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(128)
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if expected_error not in error_text:
+        raise Error("tensor directory admission differs for rank " + String(rank) + ": " + error_text)
+    if (rank == 1 or rank == 2) and dimension > 0:
+        if "fixture.weight" not in seer.tensors:
+            raise Error("accepted rank did not map before later required-tensor failure: " + error_text)
+    elif "fixture.weight" in seer.tensors:
+        raise Error("rejected tensor directory entry mutated tensor map")
+    if seer.state != 4 or seer.is_mapped:
+        raise Error("tensor directory admission did not close failed mapping")
+
+
+def test_gguf_tensor_directory_interface() raises:
+    tensor_directory_probe(1, 1, "GGUF is missing required tensor:")
+    tensor_directory_probe(2, 1, "GGUF is missing required tensor:")
+    tensor_directory_probe(3, 1, "one or two dimensions")
+    tensor_directory_probe(1, 0, "non-positive dimension")
+    print("PASS: GGUF tensor rank and positive dimension interface matrix")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
     test_gguf_metadata_type_integration()
     test_gguf_tensor_directory_baseline()
+    test_gguf_tensor_directory_interface()

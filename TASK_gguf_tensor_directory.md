@@ -35,3 +35,8 @@ AES500-141 changes no parser code.
 
 
 AES500-142 baseline: one generated rank-one 1x1 F16 `fixture.weight` maps successfully before expected missing-required-tensor rejection. The test checks descriptor dimensions plus FAILED/unmapped cleanup. Source/tool hashes and scope limits are in `docs/evidence/gguf-tensor-directory-baseline-2026-10-10/README.md`; this is not complete model or compressed-layout evidence.
+
+
+## AES500-143 interface receipt
+
+The synthetic tensor-record builder and `mmap_and_load` test interface cover rank 1 and rank 2 with positive 1x1 dimensions (mapping proceeds to the later missing-required-tensor error), rank 3 (rank diagnostic), and rank 1 with dimension zero (positive-dimension diagnostic). Each file ends FAILED/unmapped; rejected ranks/dimensions do not add `fixture.weight` to the tensor map.

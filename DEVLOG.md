@@ -3788,3 +3788,8 @@ loader descriptor after later required-model validation rejects the incomplete
 fixture. Loader state ends FAILED/unmapped. Evidence includes hashes and avoids
 claiming complete GGUF or model support. Master suite: 213 passed, zero failed,
 one skipped (214 total); docs and whitespace checks pass.
+
+
+AES500-143 tensor-directory interface tests confirm positive rank-one/two
+records reach mapping, while rank three and a zero dimension fail before adding
+a tensor descriptor. Each failure cleans mmap state.
