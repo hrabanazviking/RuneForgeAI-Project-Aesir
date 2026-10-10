@@ -1002,6 +1002,95 @@ def _fw_boot_session(
     emit(arch, "FWBOOT done")
 
 
+def cmd_fw_msi_test(arch: String, args: List[String]) raises:
+    # H069 real: UIO session -> enable interrupts -> firmware soft reset
+    # -> wait for the SOFT_RESET_IRQ MSI on /dev/uioN -> verify the
+    # device reboots itself -> restore hailo1x. ALWAYS restores.
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var dev_root = get_flag(args, "--dev-root", "/dev")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var as_root = has_flag(args, "--as-root")
+    if not as_root:
+        raise herror(
+            "PrivilegeRequired", "fw-msi-test needs --as-root"
+        )
+    emit(arch, "FWMSI begin bdf=" + bdf)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var original = uio_step_unbind(arch, sysfs_root, bdf, True)
+    emit(arch, "FWMSI unbound original_driver=" + original)
+    if original != "hailo1x":
+        raise herror(
+            "FwError",
+            "unexpected original driver '" + original + "' — refusing",
+        )
+    var restored = False
+    try:
+        uio_step_register_id(arch, sysfs_root, "1e60", "45c4", True)
+        uio_step_bind(arch, sysfs_root, bdf, True)
+        var node = uio_node_for_bdf(arch, sysfs_root, bdf)
+        emit(arch, "FWMSI uio_node=" + node)
+        var uio_fd = os_openat(arch, dev_root + "/" + node, O_RDONLY(), 0)
+        if uio_fd < 0:
+            raise herror("UioError", "open " + node + " failed")
+        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, True)
+        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 0x4000, True)
+        try:
+            fw_enable_interrupts(wbar0)
+            var pre_loaded = fw_is_loaded(wbar0)
+            emit(arch, "FWMSI pre loaded=" + ("1" if pre_loaded else "0"))
+            # Trigger firmware soft reset: u32 8 to BAR4 + 0x1754.
+            reg_write32(wbar4, 0x1754, UInt32(8))
+            emit(arch, "FWMSI soft-reset triggered")
+            var got_irq = False
+            var got_srst_bit = False
+            try:
+                var cnt = uio_irq_wait(arch, uio_fd, 5000)
+                got_irq = True
+                var istatus = reg_read32(wbar0, 0x018C)
+                got_srst_bit = (Int(istatus) & 0x01000000) != 0
+                emit(
+                    arch,
+                    "FWMSI msi count=" + String(cnt) + " istatus=0x"
+                    + String(Int(istatus))
+                    + " srst_bit=" + ("1" if got_srst_bit else "0"),
+                )
+            except e:
+                emit(arch, "FWMSI irq wait failed: " + String(e))
+                raise e
+            # The firmware reboots itself: poll for loaded + boot_status.
+            var back = False
+            for i in range(30):
+                os_sleep_ms(arch, 1000)
+                if fw_is_loaded(wbar0):
+                    var bs = fw_boot_status(wbar0, wbar4)
+                    if bs == 1:
+                        back = True
+                        break
+            emit(arch, "FWMSI device_back=" + ("1" if back else "0"))
+            if not got_irq or not got_srst_bit or not back:
+                raise herror("FwError", "MSI test failed")
+            emit(arch, "FWMSI SUCCESS real MSI received")
+        except e:
+            unmap_bar(arch, wbar4)
+            unmap_bar(arch, wbar0)
+            _ = os_close(arch, uio_fd)
+            raise e
+        unmap_bar(arch, wbar4)
+        unmap_bar(arch, wbar0)
+        _ = os_close(arch, uio_fd)
+    except e:
+        restored = True
+        var rest = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWMSI restored driver=" + rest + " (after error)")
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        raise e
+    if not restored:
+        var rest2 = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWMSI restored driver=" + rest2)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    emit(arch, "FWMSI done")
+
+
 def cmd_fw_boot(arch: String, args: List[String]) raises:
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
     var dev_root = get_flag(args, "--dev-root", "/dev")
@@ -1335,6 +1424,8 @@ def main() raises:
         cmd_fw_stage_selftest(arch, argv)
     elif sub == "fw-boot":
         cmd_fw_boot(arch, argv)
+    elif sub == "fw-msi-test":
+        cmd_fw_msi_test(arch, argv)
     elif sub == "bringup":
         cmd_bringup(arch, argv)
     elif sub == "pm-set":
