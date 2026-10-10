@@ -649,7 +649,7 @@ def cmd_selftest_integrity(args: List[String]) raises -> Int:
         if not buf.verify(arch, log):
             print("FAIL: re-transferred buffer not clean")
             escapes += 1
-        buf.unsafe_free()
+        buf.free()
     print(
         "selftest-integrity: injected=500 detected=" + String(detected)
         + " escapes=" + String(escapes)
@@ -871,7 +871,7 @@ def cmd_measure_hang_budgets(args: List[String]) raises -> Int:
         var t0 = os_clock_ms(arch)
         _ = buf.verify(arch, "/tmp/vordr-measure.jsonl")
         t_staging.append(os_clock_ms(arch) - t0)
-        buf.unsafe_free()
+        buf.free()
 
     var j = String("{\"_doc\": \"VÖRÐR hang budgets (H143). Derived: budget_ms = measured p99 latency x 3. Measured on Mimir (Pi 5) in-slice.\",\n")
     j += " \"derivation\": \"p99 of N timed trials x 3, rounded up to whole ms; min 100ms floor for scheduling slack\",\n"
@@ -881,9 +881,9 @@ def cmd_measure_hang_budgets(args: List[String]) raises -> Int:
     ops.append("shadow_verify")
     ops.append("staging_verify")
     var series = List[List[Int64]]()
-    series.append(t_health)
-    series.append(t_shadow)
-    series.append(t_staging)
+    series.append(t_health^)
+    series.append(t_shadow^)
+    series.append(t_staging^)
     for k in range(3):
         var p99 = _p99(series[k])
         var b = p99 * 3
@@ -998,9 +998,9 @@ def cmd_measure_recovery(args: List[String]) raises -> Int:
     names.append("reset_reinit")
     names.append("process_restart")
     var all = List[List[Int64]]()
-    all.append(t_retry)
-    all.append(t_reinit)
-    all.append(t_restart)
+    all.append(t_retry^)
+    all.append(t_reinit^)
+    all.append(t_restart^)
     for k in range(3):
         var p50 = _p50(all[k])
         var p99 = _p99(all[k])
@@ -1221,7 +1221,7 @@ def _h158_iter(
                 "\"fault\": \"dmacorrupt\", \"action\": \"retransfer "
                 "(transient)\", \"iter\": " + String(it),
             )
-        staging.unsafe_free()
+        staging.free()
         return -1
 
     if fault == "regerr":
@@ -1243,7 +1243,7 @@ def _h158_iter(
                 "\"fault\": \"regerr\", \"action\": \"retry (transient)\", "
                 "\"iter\": " + String(it),
             )
-            staging.unsafe_free()
+            staging.free()
             return -1
         if machine.current() == "RESETTING":
             # Persistent: REAL reset + re-init through HAILBRÚ.
@@ -1259,10 +1259,10 @@ def _h158_iter(
                 "\"fault\": \"regerr\", \"action\": \"reset+reinit "
                 "(persistent)\", \"iter\": " + String(it),
             )
-            staging.unsafe_free()
+            staging.free()
             return -1
         # FATAL -> HALTED already; the caller breaks the loop.
-        staging.unsafe_free()
+        staging.free()
         return -1
 
     var op = "infer_iter_" + String(it)
@@ -1290,7 +1290,7 @@ def _h158_iter(
             "(transient)\", \"detect_ms\": " + String(sdt)
             + ", \"iter\": " + String(it),
         )
-        staging.unsafe_free()
+        staging.free()
         return -1
     mon.begin_op(arch, op, budget_ms)
 
@@ -1342,7 +1342,7 @@ def _h158_iter(
             pass
     # Error-register poll every iteration (H144 live).
     _ = poll_decode_live(arch, "/sys", bdf, log)
-    staging.unsafe_free()
+    staging.free()
     if hung:
         return -1
     if not file_exists(arch, out_json):
