@@ -1,3 +1,30 @@
+## 2026-10-10 — H059R1–R3: TinyLlama incoherence ROOT CAUSE FOUND + FIXED (Yrsa)
+
+**Symptom:** "Hello"→"nederbörd"; chat prompt→Cyrillic fragments; logit entropy 4.73.
+
+**Differential debug (H059R1):** Built numpy reference forward pass. Model file
+EXONERATED (sha256 da3087fb... matches HF authoritative). Reference with
+GGML-correct dequant gives coherent "Hello"→[',','World','world','there','!'].
+llama-cli reference also coherent. Bug is in Mojo dequant.
+
+**Root causes (4 bugs):**
+1. Q4_0 nibble layout: used interleaved (2b,2b+1); GGML uses split-half (b,b+16).
+2. Q4_0 sign bias: used `if>=8:-=16`; GGML does `(q&0xF)-8`.
+3. Q6_K layout: naive i//2; GGML uses blocked (j,l,g). Prior "<1e-4" check was circular.
+4. RoPE double-log: passed ln(theta) to function doing log() internally.
+
+All verified maxdiff 0.0 vs ggml via ctypes.
+
+**Fix (H059R2):** Commits 2764508, 1d6016d. Surgical fixes in armvegr/q4.mojo,
+armvegr/quant.mojo, armvegr/infer.mojo.
+
+**Verification (H059R3, Mimir Pi 5):** "What is the meaning of hospitality?" →
+"Hospitality refers to the act of providing hospital..." — COHERENT English.
+Before: "laglag rangeesen Vere". Measured: ~0.15 tokens/sec.
+
+**Files:** armvegr/q4.mojo, armvegr/quant.mojo, armvegr/infer.mojo.
+**Remote HEAD:** 1d6016d832bffa94e832981f1995a32d7a39e94c (verified).
+
 ## 2026-10-10 — Yrsa: aesir-dawn-forge FRITH-WEAVE (20 slices, x86_64 trust-hardening)
 
 Twenty-slice Mythic Engineering campaign on the main aesir_engine (x86_64/CUDA

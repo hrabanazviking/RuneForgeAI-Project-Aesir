@@ -231,3 +231,35 @@ corrupted model file. Requires differential debug vs reference (H059R1).
 **Commit:** 2027a08 (H059 scaffolding + Q6_K, marked BLOCKED).
 **Review:** `docs/armvegr/C3_REVIEW.md` (H060) — verdict F1-CORE-NOT-READY.
 
+### 2026-10-10 — H059R1 ROOT CAUSE FOUND + FIXED: Q4_0/Q6_K dequant layout bugs
+
+**Status:** Root cause isolated via differential debug vs ggml ground truth.
+Fixed in commits 2764508, 1d6016d. Coherence verified on Mimir.
+
+**Root causes (3):**
+1. **Q4_0 nibble layout** (`armvegr/q4.mojo`): Used interleaved `(2b, 2b+1)`;
+   GGML `dequantize_row_q4_0` uses split-half `(b, b+16)`. Permuted all 200
+   Q4_0 weight tensors. Fixed.
+2. **Q4_0 sign bias** (`armvegr/q4.mojo`): Used `if q>=8: q-=16`; GGML does
+   `(q & 0xF) - 8` (values biased by +8). Wrong for q<8. Fixed.
+3. **Q6_K layout** (`armvegr/quant.mojo`): Used naive `i//2` interleaving;
+   GGML `dequantize_row_q6_K` uses blocked `(j,l,g)` structure. Prior
+   "<1e-4 vs Python" check was circular (both wrong). Rewritten, verified
+   maxdiff 0.0 vs ggml via ctypes.
+4. **RoPE double-log** (`armvegr/infer.mojo`): Passed `ln(theta)` to
+   `rope_fp16` which does `log()` internally → effective base e^2.22 not
+   10000. Fixed (pass raw theta).
+
+**Eliminated:** Model file EXONERATED (sha256 matches HF authoritative
+`da3087fb...`); reference `llama-cli` gives coherent output; numpy reference
+with correct dequant gives coherent top-5.
+
+**Verification (Mimir, Pi 5):** "What is the meaning of hospitality?" →
+"Hospitality refers to the act of providing hospital..." (coherent English).
+Before: "laglag rangeesen Vere" / "nederbörd" / Cyrillic.
+
+**Performance:** ~0.15 tokens/sec on Mimir (Pi 5, 1.1B Q4_0). Slow but functional.
+
+**Commits:** 2764508 (layouts + RoPE), 1d6016d (Q4_0 bias).
+**Remote HEAD verified:** 1d6016d832bffa94e832981f1995a32d7a39e94c.
+
