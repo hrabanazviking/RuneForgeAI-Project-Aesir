@@ -23,7 +23,7 @@ def attn_sdpa_causal_fp16(
     q: Pointer[Float16, MutUntrackedOrigin],
     k: Pointer[Float16, MutUntrackedOrigin],
     v: Pointer[Float16, MutUntrackedOrigin],
-    out: Pointer[Float16, MutUntrackedOrigin],
+    outp: Pointer[Float16, MutUntrackedOrigin],
     seq_len: Int,
     head_dim: Int,
 ) -> Int64:
@@ -68,5 +68,5 @@ def attn_sdpa_causal_fp16(
                 acc += scores[unsafe_offset=j] * inv * Float32(
                     v[unsafe_offset=j * head_dim + d2]
                 )
-            out[unsafe_offset=i * head_dim + d2] = Float16(acc)
+            outp[unsafe_offset=i * head_dim + d2] = Float16(acc)
     return peak_bytes

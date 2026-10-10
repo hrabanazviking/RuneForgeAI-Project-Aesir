@@ -38,7 +38,7 @@ def mha_forward_seq(
     wk: Pointer[Float16, MutUntrackedOrigin],
     wv: Pointer[Float16, MutUntrackedOrigin],
     wo: Pointer[Float16, MutUntrackedOrigin],
-    out: Pointer[Float16, MutUntrackedOrigin],
+    outp: Pointer[Float16, MutUntrackedOrigin],
     seq: Int,
     n_heads: Int,
     head_dim: Int,
@@ -86,7 +86,7 @@ def mha_forward_seq(
                 ctx[unsafe_offset=s * d_model + h * head_dim + d] = oh[
                     unsafe_offset=s * head_dim + d
                 ]
-    mha_project(ctx, wo, out, seq, d_model, d_model)
+    mha_project(ctx, wo, outp, seq, d_model, d_model)
 
 
 def mha_forward_par(
@@ -95,7 +95,7 @@ def mha_forward_par(
     wk: Pointer[Float16, MutUntrackedOrigin],
     wv: Pointer[Float16, MutUntrackedOrigin],
     wo: Pointer[Float16, MutUntrackedOrigin],
-    out: Pointer[Float16, MutUntrackedOrigin],
+    outp: Pointer[Float16, MutUntrackedOrigin],
     seq: Int,
     n_heads: Int,
     head_dim: Int,
@@ -147,4 +147,4 @@ def mha_forward_par(
                     unsafe_offset=s * head_dim + d
                 ]
         h -= 1
-    mha_project(ctx, wo, out, seq, d_model, d_model)
+    mha_project(ctx, wo, outp, seq, d_model, d_model)

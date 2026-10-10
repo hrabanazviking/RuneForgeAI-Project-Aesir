@@ -297,7 +297,7 @@ def stream_bw_gbs() -> Float64:
     var c = unsafe_alloc[Float32](n)
     for i in range(0, n, 1024):
         a[unsafe_offset=i] = Float32(1)
-        b[unsafe_offset=i] = Float16(2)
+        b[unsafe_offset=i] = Float32(2)
     var dts = unsafe_alloc[Int64](11)
     for r in range(11):
         var t0 = now_ns()
@@ -1048,7 +1048,7 @@ def test_h034(mut ctx: Ctx):
         var o_small = unsafe_alloc[Float16](ln * hd)
         _ = attn_sdpa_causal_fp16(q, k, v, o_small, ln, hd)
         for d in range(hd):
-            if o_small[unsafe_offset=i * hd + d] != o_big.unsafe_offset(i * hd + d):
+            if o_small[unsafe_offset=i * hd + d] != o_big[unsafe_offset=i * hd + d]:
                 identical = False
     ctx.check("H034", identical, "causal rows bit-identical (seq i+1 vs 2048)")
 
@@ -1194,7 +1194,7 @@ def test_h035(mut ctx: Ctx):
     ctx.check("H035", e <= 2e-3, String("mha vs naive maxerr=") + String(e))
     var identical = True
     for i in range(seq * dm):
-        if o_seq[unsafe_offset=i] != o_par.unsafe_offset(i):
+        if o_seq[unsafe_offset=i] != o_par[unsafe_offset=i]:
             identical = False
     ctx.check("H035", identical, "seq vs par bit-identical")
 
