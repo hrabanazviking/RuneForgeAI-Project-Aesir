@@ -128,6 +128,13 @@ records interleaved and NeoX pair indexing, row-relative positions, F16
 trigonometric coefficients, current shape checks, and the unvalidated theta
 and integer-overflow boundaries. No kernel behavior changed.
 
+AES500-102 captures deterministic 2x8 Q and 3x4 K inputs for both layouts.
+The independent scalar F16 oracle matches all captured outputs. The unequal
+row corpus reveals that the third K row remains untouched because the current
+kernel drives both Q and K loops from Q.rows. This is recorded as an observed
+baseline limitation, not an intended guarantee; see
+`docs/evidence/rope-baseline-2026-10-09/README.md`.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

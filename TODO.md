@@ -1214,3 +1214,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   input/output layout, interleaved/NeoX pair mapping, row positions, ordered
   formula, current admission checks, and theta/integer-overflow exclusions.
   `core/INTERFACE.md` now matches the actual `neox` parameter. No source changed.
+- [x] AES500-102 RoPE baseline: deterministic interleaved and NeoX captures
+  use Q=2x8 and K=3x4 with start_pos=5/head_dim=4; the independent scalar
+  oracle matches the captured F16 outputs. The capture exposes that K's third
+  row remains unchanged because both loops use Q.rows. Reproduction and limits
+  are in `docs/evidence/rope-baseline-2026-10-09/README.md`.
