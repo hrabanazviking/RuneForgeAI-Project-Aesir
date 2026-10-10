@@ -1150,3 +1150,8 @@ The legacy formatters below are not exposed compatibility APIs.
   `scripts/check_doc_drift.py`, and baseline-aware Markdown validation pass.
 - [ ] AES500-090 release gate: exact-head hosted CI remains in progress; verify
   current runner/build receipts, final diff, remote SHA, and hosted conclusion.
+- [x] AES500-091 RMSNorm oracle contract: Architect and Auditor reviewed the
+  exact F32 reduction/normalization/multiply order, flat weight-prefix behavior,
+  current epsilon comparison behavior, and missing pointer-provenance checks.
+  The contract defers justified tolerance and non-finite/overflow policy to
+  baseline and adversarial evidence. See `TASK_rmsnorm_oracle_breadth.md`.

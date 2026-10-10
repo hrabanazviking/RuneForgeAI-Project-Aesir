@@ -779,6 +779,18 @@ GEMM gateway. `gemm_f16_cuda` requires a caller-owned
 signatures do not carry selected device resources. The historically named
 `gpgpu_vector` and `mobile_opencl` functions are host-only SIMD experiments.
 
+CPU `rmsnorm` operates in place on each contiguous row. It accumulates squares
+in F32 using 16-wide SIMD reductions followed by a scalar tail, computes
+`inv_rms = 1 / sqrt(sum_squares / cols + epsilon)`, then stores
+`f16((f32(x) * inv_rms) * f32(weight[c]))`. It requires positive tensor rows
+and columns, at least `cols` linear weight elements (only that prefix is read),
+and an epsilon that does not compare `<= 0`. Current comparison behavior
+admits NaN and positive infinity epsilon. The function does not validate
+pointer provenance/backing capacity or call `RuneTensor.checked()`; no such
+guarantee is implied here. Oracle tolerance, non-finite input policy, and
+finite-overflow/underflow policy are assigned to the AES500-091–100 evidence
+program; see `TASK_rmsnorm_oracle_breadth.md`.
+
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
 def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16], mut Out: RuneTensor[f16], seq_len: Int, head_dim: Int): ...

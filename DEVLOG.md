@@ -57,6 +57,13 @@ AES500-089 synchronizes the task, core interface, capability ledger, roadmap,
 TODO, and devlog with the same capability boundary. Exact-head hosted CI is the
 remaining release-gate item.
 
+AES500-091 begins CPU numerical contracts with RMSNorm. The reviewed contract
+records the F32 SIMD-prefix/scalar-tail accumulation, reciprocal-RMS operation
+order, flat weight-prefix semantics, and current epsilon comparison behavior.
+It leaves tolerance justification and non-finite/finite-overflow behavior to
+reproducible baseline and adversarial evidence. See
+`TASK_rmsnorm_oracle_breadth.md`.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the
