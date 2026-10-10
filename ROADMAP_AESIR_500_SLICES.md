@@ -705,6 +705,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   tag lines and two tags with separate AER audit IDs. It shows zero unknown or
   mismatched AES references under full-list validation, while explicitly
   retaining the fact that the old checker only observed the first ID.
+- AES500-043 specifies candidate recognition, every-ID traversal, AER
+  exclusion, adjacent tags, repeated IDs, unsupported statuses, and stable
+  left-to-right diagnostics in `scripts/INTERFACE.md`.
 
 ## Status
 

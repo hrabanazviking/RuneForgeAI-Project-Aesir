@@ -631,3 +631,23 @@ temporary file's restrictive permissions. The contract establishes atomic
 replacement, not parent-directory durability after power loss. These interface
 rules do not establish that the Markdown evidence itself is true; capability
 review remains with the ledger owners.
+
+## TODO-to-ledger status-tag validation (AES500-041–050)
+
+`todo_status_reference_errors(content, statuses)` returns ordered diagnostics
+for explicit status assertions in TODO text. Inspect only bracket bodies
+beginning with a lowercase status token and containing at least one
+`AES-[A-Z]+-N` ID. Status-like brackets without an AES ID and unrelated bracket
+syntax remain uninterpreted. For each candidate, check every AES ID in source
+order, ignore AER audit references, and validate adjacent candidates
+independently. A candidate with an unsupported status reports that status and
+does not use it to establish any capability state. Unknown IDs and status
+mismatches report the offending ID. Every diagnostic binds the literal source
+name, one-based line, and tag/reference location; diagnostics are ordered left
+to right by tag and then by ID occurrence. Repeated IDs are checked at each
+occurrence. The checker does not mutate TODO or ledger content.
+
+The read-only baseline is
+`docs/evidence/todo-ledger-refs-baseline-2026-10-10/`; it records 95 tags, 95
+AES references, four adjacent-tag lines, and two tags with separate AER IDs.
+The pre-change checker observed only the first AES reference per tag.

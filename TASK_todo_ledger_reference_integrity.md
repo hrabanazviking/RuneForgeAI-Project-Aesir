@@ -41,9 +41,12 @@ hygiene checks in one invocation.
   Unknown or mismatched later references cannot be hidden by an earlier valid
   ID.
 - Each error includes the literal source name `TODO.md`, one-based line number,
-  and a stable diagnostic message.
+  and a stable diagnostic message naming the status or offending AES ID.
 - Multiple errors on a line and errors across lines are all returned in
   deterministic source order (left to right, then each ID in source order).
+- A malformed or unsupported status candidate that includes an AES ID fails
+  closed. Candidate brackets with no AES ID are outside the recognized form
+  and are ignored.
 - Markdown historical context and ordinary references are not rewritten.
 - The TODO checker consumes the same status mapping validated by
   `check_ledger`; it cannot edit or promote ledger entries.
