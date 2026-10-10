@@ -170,10 +170,52 @@ def test_local_http_bounds() raises:
         raise Error("1025-byte header value accepted")
 
 
+def test_local_http_framing() raises:
+    var base = String("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n")
+    var invalid: List[String] = [
+        base + "content-length: 2\r\n\r\n",
+        base + "Expect: 100-continue\r\n\r\n",
+        base + "Transfer-Encoding: chunked\r\n\r\n",
+        base + "Transfer-Encoding: chunked\r\nContent-Length: 2\r\n\r\n",
+        "POST  /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n\r\n",
+        "POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\rAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n\r\n",
+    ]
+    for head in invalid:
+        var rejected = False
+        try:
+            _ = LocalHTTPHead(head, 18434, "test-key")
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Ambiguous or malformed HTTP framing accepted")
+
+    var put = LocalHTTPHead("PUT /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\n\r\n", 18434, "test-key")
+    if put.status != 405:
+        raise Error("Unsupported method did not return 405")
+    var no_length = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\n\r\n", 18434, "test-key")
+    if no_length.status != 411:
+        raise Error("POST without Content-Length did not return 411")
+    var empty_length = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 0\r\n\r\n", 18434, "test-key")
+    if empty_length.status != 411:
+        raise Error("Zero-length POST did not return 411")
+    var wrong_type = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: text/plain\r\nContent-Length: 2\r\n\r\n", 18434, "test-key")
+    if wrong_type.status != 415:
+        raise Error("Unsupported request media type did not return 415")
+    var get_body_rejected = False
+    try:
+        _ = LocalHTTPHead("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Length: 1\r\n\r\n", 18434, "test-key")
+    except:
+        get_body_rejected = True
+    if not get_body_rejected:
+        raise Error("GET with a body was admitted")
+    print("PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy")
+
+
 def main() raises:
     test_local_json()
     test_local_http()
     test_local_http_bounds()
+    test_local_http_framing()
     test_local_generation_request()
     test_local_path_bounds()
     print("PASS bounded JSON and HTTP rejection")

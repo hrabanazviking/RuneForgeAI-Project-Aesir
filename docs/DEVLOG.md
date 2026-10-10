@@ -62,6 +62,16 @@ was unavailable at the app thread cap and is not claimed. See
 [`TASK_request_parser_bounds.md`](../TASK_request_parser_bounds.md) and dated
 evidence links.
 
+AES500-261..269 add a strict framing matrix without changing the already
+fail-closed parser implementation. Tests cover case-insensitive duplicate
+names, Expect, Transfer-Encoding plus Content-Length, malformed request-line
+spacing and CRLF, unsupported methods, absent/zero POST length, wrong media
+type, and GET with a body. Master verification reached 249 passed, 0 failed,
+1 skipped (250 total); docs checks pass. This is a local supported-subset
+contract, not an RFC-complete or third-party compatibility claim. Independent
+agent review was unavailable at the app thread cap; primary review is recorded.
+See [`TASK_http_framing_rejection.md`](../TASK_http_framing_rejection.md).
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

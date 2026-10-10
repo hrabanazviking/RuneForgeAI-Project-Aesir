@@ -683,6 +683,11 @@ The legacy formatters below are not exposed compatibility APIs.
   [request parser contract](TASK_request_parser_bounds.md) and the dated
   baseline/unit/integration/adversarial receipts under
   `docs/evidence/request-parser-*-2026-10-10/`.
+- [x] Reject ambiguous HTTP request framing: duplicate header names (including
+  case variants), Transfer-Encoding, Expect, malformed request lines/CRLF,
+  unsupported methods and unsupported GET/POST body policies. See
+  [framing rejection contract](TASK_http_framing_rejection.md) and the dated
+  framing evidence under `docs/evidence/http-framing-*-2026-10-10/`.
 - [x] Define the live service listener/client/queue ownership lifecycle and
   borrowed cancellation descriptor; document cooperative shutdown limits in
   [the socket ownership contract](TASK_socket_ownership_shutdown.md), with
