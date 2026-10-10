@@ -24,22 +24,6 @@ from std.origin import MutUntrackedOrigin
 from armvegr.quant import q80_block_scale
 
 
-def q80_block_dot(
-    a: Pointer[Int8, MutUntrackedOrigin],
-    b: Pointer[Int8, MutUntrackedOrigin],
-) -> Int32:
-    # Dot product of the 32 int8 values of two Q8_0 blocks (skipping the
-    # 2 scale bytes): 16-wide NEON, widened to int32 before multiply.
-    var acc = SIMD[DType.int32, 16](0)
-    for t in range(0, 32, 16):
-        var av = a.unsafe_offset(2 + t).unsafe_load[16]()
-        var bv = b.unsafe_offset(2 + t).unsafe_load[16]()
-        var av32 = av.cast[DType.int32]()
-        var bv32 = bv.cast[DType.int32]()
-        acc = acc + av32 * bv32
-    return acc.reduce_add()
-
-
 def q80_gemm(
     aq: Pointer[Int8, MutUntrackedOrigin],
     bq: Pointer[Int8, MutUntrackedOrigin],
@@ -53,17 +37,34 @@ def q80_gemm(
     # bq: N x K Q8_0, row j = blocks over K: block (j, kb) at byte
     #     (j * nb + kb) * 34.
     # c:  M x N fp32.
+    #
+    # OPTIMIZED (2026-10-10): the block dot is inlined (a per-block-pair
+    # function call cost ~15 cycles at 524k pairs for the decode case)
+    # and A's row scales are hoisted: they were re-decoded N times per
+    # row (once per j), now decoded once per (i, kb).
     var nb = K // 32
+    var sa_row = unsafe_alloc[Float32](nb)
     for i in range(M):
+        var arow = (i * nb) * 34
+        for kb in range(nb):
+            sa_row[unsafe_offset=kb] = q80_block_scale(aq, arow + kb * 34)
         for j in range(N):
             var s = Float32(0)
+            var brow = (j * nb) * 34
             for kb in range(nb):
-                var ab = aq.unsafe_offset((i * nb + kb) * 34)
-                var bb = bq.unsafe_offset((j * nb + kb) * 34)
-                var sa = q80_block_scale(aq, (i * nb + kb) * 34)
-                var sb = q80_block_scale(bq, (j * nb + kb) * 34)
-                var d = q80_block_dot(ab, bb)
-                s += sa * sb * Float32(d)
+                var abo = arow + kb * 34 + 2
+                var bbo = brow + kb * 34 + 2
+                var sb = q80_block_scale(bq, brow + kb * 34)
+                var acc = SIMD[DType.int32, 16](0)
+                var a0 = aq.unsafe_offset(abo).unsafe_load[16]()
+                var b0 = bq.unsafe_offset(bbo).unsafe_load[16]()
+                var a1 = aq.unsafe_offset(abo + 16).unsafe_load[16]()
+                var b1 = bq.unsafe_offset(bbo + 16).unsafe_load[16]()
+                acc += a0.cast[DType.int32]() * b0.cast[DType.int32]()
+                acc += a1.cast[DType.int32]() * b1.cast[DType.int32]()
+                s += (
+                    sa_row[unsafe_offset=kb] * sb * Float32(acc.reduce_add())
+                )
             c[unsafe_offset=i * N + j] = s
 
 

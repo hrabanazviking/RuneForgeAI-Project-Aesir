@@ -346,10 +346,17 @@ def stream_bw_gbs() -> Float64:
     var dts = unsafe_alloc[Int64](11)
     # sink: forces the timed loop to actually execute (anti-DCE).
     var sink = Float64(0)
+    # 8-wide SIMD triad: measures true achievable memory bandwidth
+    # (a scalar triad understates the machine and would flatter GEMV).
+    var sv = SIMD[DType.float32, 8](2)
     for r in range(11):
         var t0 = now_ns()
-        for i in range(n):
-            c[unsafe_offset=i] = a[unsafe_offset=i] + Float32(2) * b[unsafe_offset=i]
+        var i = 0
+        while i + 8 <= n:
+            var av = a.unsafe_offset(i).unsafe_load[8]()
+            var bv = b.unsafe_offset(i).unsafe_load[8]()
+            c.unsafe_store(i, av + sv * bv)
+            i += 8
         dts[unsafe_offset=r] = now_ns() - t0
         for i in range(0, n, 65536):
             sink += Float64(c[unsafe_offset=i])
