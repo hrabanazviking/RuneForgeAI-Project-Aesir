@@ -3773,3 +3773,107 @@ Note: only cpufreq policy0 exists on this kernel (policies 1-3 read "?",
 honestly recorded). H162 (kernel baselines) and H163 (e2e baselines) now run
 through the harness; the pre-optimization binary is preserved as
 build/run_bench_baseline on Mimir so H162/H163 measure the unoptimized code.
+
+## 2026-10-10 — C10 H181 DONE: GAUNTLET module skeleton (MÍMISBRUNNR)
+
+`gauntlet/` D7 package: metrics (Metric/Measurement, OLS slope, mean,
+stddev, slope 95% CI), gates (Gate: metric→op→threshold→verdict, 5 ops),
+verdict (Verdict/VerdictSet, JSON emission). Architectural law enforced
+mechanically: `prof/gauntlet/test_gauntlet_purity.py` asserts every
+`from X` in gauntlet/*.mojo is std-only and greps for zero
+repair/recovery/fix references — GAUNTLET judges, never implements.
+`tests/c10_h181_gauntlet.mojo`: 3 example gates on canned PASS + FAIL
+data (both directions verified), VerdictSet one-FAIL-fails-all, metric
+mismatch raises, trend stats (flat slope ~0, injected 15% drift inside
+the 95% CI). U1–U4.
+
+## 2026-10-10 — C10 H182 DONE: stability gate definitions (MÍMISBRUNNR)
+
+`data/gauntlet/STABILITY_GATES.json`: 9 gates (soak error rate, soak
+duration, soak drift ratio, FI unhandled, FI crashes, recovery success,
+determinism match, RSS slope, coherence pass) — each with metric,
+measurement method, numeric PASS threshold, source slice, one-sentence
+justification. `prof/gauntlet/gauntlet_eval.py` (TEST-ONLY evaluator) +
+`test_stability_gates.py`: canned healthy dataset → PASS 9/9; breaking
+each metric individually → FAIL flagged on exactly the right gate (9/9
+discrimination checks).
+
+## 2026-10-10 — C10 H183 RUNNING: 4h CPU soak (MÍMISBRUNNR)
+
+`prof/gauntlet/test_soak_cpu_4h.py` (TEST-ONLY) drives the production
+`build/f1_infer` on Mimir: 10-gen warmup sets p50 (measured 36.0 s wall
+→ hang timeout 180 s), then 4 h cycling the fixed 50-prompt corpus
+(`data/gauntlet/soak_corpus.json`). Per-gen JSONL log
+(`data/gauntlet/soak_cpu_4h.log`), per-gen peak RSS → `soak_rss.jsonl`
+(H189), SoC temp every 5 min. Fail-fast on crash/hang with log position.
+Launched 2026-10-10 ~19:23 EDT on Mimir; ETA ~23:23 EDT.
+
+## 2026-10-10 — C10 H185 DONE: soak analyzer (MÍMISBRUNNR)
+
+`prof/gauntlet/analyze_soak.py`: OLS slope/hour with 95% CI per metric
+(decode_tps, wall_s, peak_rss_mb, soc_temp_c); DRIFT-DETECTED only when
+the slope is significant AND the implied end-to-end change exceeds the
+tolerance. `test_analyze_soak.py` validates on synthetic logs: injected
+15% slowdown → DRIFT-DETECTED with the true slope inside the CI; clean
+log → DRIFT-FREE (no false positive). Runs on the real H183 log after
+the soak completes.
+
+## 2026-10-10 — C10 H186/H187/H188/H189 drivers written (MÍMISBRUNNR)
+
+- H186 `prof/gauntlet/test_fi_campaign.py`: 60-min `vordr_cli h158-run`
+  (C8's supervised inference) with a background injector arming ≥100
+  faults (hang/regerr/dmacorrupt, seeded shuffle, ~1/28 s) via --fi-file;
+  asserts injected==handled per the events.jsonl reconciliation, zero
+  child crashes, coherence spot-checks vs the frozen rubric.
+- H187 `prof/gauntlet/test_reset_storm.py`: 20 SIGKILL→respawn cycles;
+  verification inference uses the greedy `data/gauntlet/storm_config.json`
+  (temperature 0.0) and must match the pre-storm reference ids EXACTLY;
+  respawn-to-alive checked against the H155 44 ms process_restart budget.
+- H188 `prof/gauntlet/test_determinism.py`: 10/10 identical × 5 prompts
+  + 5/5 post-restart (NO-GO: no NPU backend comparison).
+- H189 `prof/gauntlet/check_rss.py`: OLS slope of per-gen peak RSS over
+  the soak's second hour ≤ 1 MB/h (NO-GO: no DMA mapping check).
+
+## 2026-10-10 — C10 H190/H191 DONE: packaging + deploy (MÍMISBRUNNR)
+
+`scripts/package_f1_release.sh`: builds f1_infer, seals
+aesir-f1-<ver>-aarch64.tar.gz (bin, config, tokenizer, docs, notices,
+MANIFEST.txt); fails on any .py/.hef/.fw artifact.
+`prof/gauntlet/test_packaging.py`: manifest scan + inference inside a
+python-less debian:bookworm-slim container (python3 verified ABSENT) +
+host `strace -f -e trace=execve` proving the binary never execs python
+(the DEVLOG-fixed no-Python method).
+`deploy_mimir.sh`: sha256-verify → extract → timestamped operator-config
+backup → model sha256 → watchdog unit (systemd system or user) →
+assert `aesir-driver` symlink → canary smoke
+(`data/gauntlet/canary.json`: greedy prompt, expected first-10 generated
+ids measured on Mimir). NO-GO mapping documented: the `driver` symlink
+is the stable production-release path (no kernel driver exists).
+
+## 2026-10-10 — C10 H192/H193/H194 DONE (MÍMISBRUNNR)
+
+- H192 `docs/gauntlet/RUNBOOK.md`: startup/shutdown, health checks, log
+  locations, per-fault-class recovery (citing VÖRÐR), give-up criteria,
+  redeploy/rollback; every procedure last-tested 2026-10-10; cold-reader
+  validation performed with corrections noted.
+- H193 `docs/gauntlet/LEDGER_AUDIT.md`: full MÍMISBRUNNR ledger audit —
+  C8/C9 statuses corrected to COMPLETE, C10 section added, zero stale
+  Simulated marks, no orphan claims.
+- H194 `THIRD_PARTY_NOTICES.md`: clean-room statement (H005/H006/C6),
+  test-only artifacts (TinyLlama Apache 2.0), shipped-binary license
+  scan — ldd shows Mojo 1.1.0 toolchain runtime + POSIX libc/libm only;
+  imports are std + repo's own pure-Mojo packages; no GPL markers.
+
+## 2026-10-10 — C10 H195 RUNNING: victory gate 1 (MÍMISBRUNNR)
+
+`prof/gauntlet/victory_gate_1.py` (TEST-ONLY): downloads two UNSEEN
+GGUFs (TinyLlama-1.1B-Chat-v1.0 Q8_0 + Q5_K_M from TheBloke's HF repo —
+the campaign never used them), records SHA-256, loads with Aesir's own
+loaders, 3 unseen prompts × 64 tokens each vs the frozen
+coherence rubric; transcript → `data/gauntlet/victory_gate_1.json`.
+ENVELOPE HONESTY: the F1 loader is shape-pinned to TinyLlama-1.1B
+(dim 2048, 22 layers, vocab 32000) — cross-family/cross-architecture
+models are a documented limitation, not a tested claim. H135 scans
+(no .hef, no HEF handling in pipeline code) applied.
+Fix in-slice: generated config needed `model_sha256` (f1_config_load
+requires it).

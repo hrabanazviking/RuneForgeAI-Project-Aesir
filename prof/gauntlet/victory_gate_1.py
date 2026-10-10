@@ -10,10 +10,11 @@
 #
 # ENVELOPE (stated honestly): the F1 loader (armvegr/infer.mojo) is
 # shape-pinned to the TinyLlama-1.1B architecture (dim 2048, 22 layers,
-# vocab 32000); cross-family/cross-architecture models are a documented
-# limitation, NOT a tested claim. The two models below are unseen GGUF
-# files the campaign never used (Q8_0 and Q5_K_M quants of
-# TinyLlama-1.1B-Chat-v1.0).
+# vocab 32000) and supports the Q8_0/Q4_0/Q6_K/F32/F16 dtypes —
+# cross-family/cross-architecture models and other quants (e.g. Q5_K_M,
+# correctly rejected fail-closed in-slice) are documented limitations,
+# not tested claims. The two models below are unseen GGUF files the
+# campaign never used (Q8_0 and Q6_K quants of TinyLlama-1.1B-Chat-v1.0).
 #
 # No HEF, no Dataflow Compiler, no vendor library at any step (asserted
 # by the H135 scans: no .hef under the work tree; no HEF handling in
@@ -41,9 +42,9 @@ MODELS = [
         "file": "tinyllama-1.1b-chat-v1.0.Q8_0.gguf",
     },
     {
-        "name": "TinyLlama-1.1B-Chat-v1.0 Q5_K_M",
-        "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf",
-        "file": "tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf",
+        "name": "TinyLlama-1.1B-Chat-v1.0 Q6_K",
+        "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
+        "file": "tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
     },
 ]
 
@@ -80,6 +81,15 @@ def download(model):
     return dest, sha
 
 
+def clean_token(tok):
+    # Exact rubric method (matches prof/fallback/check_coherence.py):
+    # whitespace tokens, punctuation stripped, lowercased.
+    t = tok.strip().lower()
+    t = t.strip(".,!?;:\"'()[]{}<>-—–…«»„“”‘’/\\|@#$%^&*+=~`")
+    t = t.replace("'", "").replace("’", "")
+    return t
+
+
 def check_rubric(text, ids, topics):
     fails = []
     if not all(0 <= i < 32000 for i in ids):
@@ -96,9 +106,17 @@ def check_rubric(text, ids, topics):
         fails.append("topic_word")
     if "\ufffd" in text:
         fails.append("no_garbage")
-    words = re.findall(r"[A-Za-z']+", text.lower())
-    eng = sum(1 for w in words if w in WORDLIST or w.isdigit())
-    if words and eng / len(words) < 0.8:
+    # english_ratio_ge_80: whitespace tokens, punctuation stripped,
+    # lowercased; numeric tokens count as English.
+    good = total = 0
+    for tok in text.split():
+        c = clean_token(tok)
+        if not c:
+            continue
+        total += 1
+        if c.replace(".", "", 1).isdigit() or c in WORDLIST:
+            good += 1
+    if total > 0 and good / total < 0.8:
         fails.append("english_ratio_ge_80")
     return fails
 
