@@ -36,6 +36,26 @@ def test_rune_tensor_layout() raises:
     if not endpoint_rejected:
         raise Error("RuneTensor checked indexing admitted an endpoint column")
 
+    for invalid_row in [3, Int(1) << 62, (Int(1) << 63) - 1]:
+        var rejected = False
+        try:
+            _ = tensor.get_checked(invalid_row, 0)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("RuneTensor admitted an extreme out-of-range row")
+
+    var before = Float32(tensor.get_checked(1, 2))
+    var invalid_store_rejected = False
+    try:
+        tensor.set_checked(-1, 2, Scalar[f16](999.0))
+    except:
+        invalid_store_rejected = True
+    if not invalid_store_rejected:
+        raise Error("RuneTensor set_checked admitted a negative row")
+    if Float32(tensor.get_checked(1, 2)) != before:
+        raise Error("Rejected RuneTensor write mutated an in-range element")
+
 
 def main() raises:
     test_rune_tensor_layout()

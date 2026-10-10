@@ -866,3 +866,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   synchronizes the E-MASTER total to 194 (193 named plus one explicit skip).
   The focused and complete target-specific master tests pass; exact-head hosted
   CI remains pending.
+- AES500-076 adds adversarial maximum-int/out-of-range row reads and a rejected
+  negative-row write that must leave a neighboring in-range value unchanged.
+  Focused layout and KVCache tests pass; independent Auditor review passes with
+  no finding.
