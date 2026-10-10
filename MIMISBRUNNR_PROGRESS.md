@@ -601,7 +601,7 @@ generator is independently designed; findings live in docs/plunder/.
 - Status: COMPLETE — NO-GO branch (H121–H135 SKIP per re-scope; H136–H140 all DONE, F1-COMPLETE per docs/fallback/C7_REVIEW.md)
 
 ## Campaign 8 — Vörðr Robustness (H141–H160)
-- Status: IN PROGRESS — Vörðr for the F1 CPU engine + Hailo device health (NPU compute NO-GO; NPU-referencing slices get honest audit treatment)
+- Status: COMPLETE — 20/20 slices, verdict ROBUST (`docs/vordr/C8_REVIEW.md`) — Vörðr for the F1 CPU engine + Hailo device health (NPU compute NO-GO; NPU-referencing slices get honest audit treatment)
 - Coordinator: merged `mimisbrunnr-c7-f1` → main as 44957cd (--no-ff), pushed, remote HEAD verified 44957cd3121c35e2410efa9ecd16db4c587d2fc5. Branch deleted (local + origin).
 - Sólrún audit: `docs/vordr/SOLRUN_AUDIT_C8.md` (2026-10-10) — H150 = CPU numerics cross-check (shadow-verify F1 SIMD kernel vs independent scalar reference, H059R1 pattern); H157 = CPU-pipeline stage retry via scalar fallback, loud DEGRADED, no sticky fallback; H147/H148 = REAL reset/re-init via new HAILBRÚ `reset()` primitive (C5-proven PM-reset cycle); H153 = REAL UIO unbind (device left sane); H151–H154 = TEST-ONLY Python, real faults never simulated; H142 = Hailo die temp not readable on current kernel (Pi SoC is proxy).
 - H141 DONE: 10-min health monitor, 120/120 samples, max drift 12ms (<1s), SoC 43–48.5°C all "ok", MonitorStopped, clean exit.
@@ -623,7 +623,7 @@ generator is independently designed; findings live in docs/plunder/.
 - H159 DONE: 20/20 degrade/fallback paths emit events — zero silent paths.
 - H151 DONE: 11/11 register-error patterns decoded+classified+actioned (transient→retry, persistent→reset, fatal→halt).
 - H152 DONE: 20/20 hangs detected+handled (detect_ms 2001–2004ms, budget+5s); post-recovery inference matches reference.
-- H158: 30-min supervised run in progress on Mimir.
+- H158 DONE: 30-min supervised run — 33 faults injected==handled (seeded @ ~1/60s + 5 PRÓF external), 13 iterations, 4/4 coherence spot-check clean, 2×64-token long-form probes rubric-clean (3 sentences each), zero unhandled faults, zero crashes.
 - Branch: `mimisbrunnr-c8-vordr`, pushed (latest 0606745).
 
 ## Campaign 9 — Speed (H161–H180)

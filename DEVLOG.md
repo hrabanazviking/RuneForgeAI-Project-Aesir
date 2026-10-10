@@ -3732,3 +3732,11 @@ device reads BAR0+0x018C as 0x7FFFFFFF — decoder flags undocumented bits per
 H087 (never ignore, never mislabel), documented in ERROR_TAXONOMY.md.
 **H146: 10/10 SIGKILL restarts ≤2.4s.** **H153: 3/3 removals clean.**
 **H154: 500/500 DMA corruptions caught, 0 escapes.**
+
+**H158 (2026-10-10 ~15:00 EDT): 30-min supervised run COMPLETE** — 33 faults
+injected==handled (seeded schedule @ ~1/60s + 5 external PRÓF injections),
+13 iterations, 4/4 coherence spot-checks clean, 2×64-token long-form probes
+rubric-clean. Zero unhandled faults, zero crashes. Fixed in-slice: token-based
+calibration budgets (hardcoded 120s caused false hang kills); real-hang now
+counts as injected+handled in reconciliation.
+**Campaign 8 COMPLETE: 20/20 slices, verdict ROBUST.**
