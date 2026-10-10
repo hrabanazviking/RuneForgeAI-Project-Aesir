@@ -2501,3 +2501,24 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   mechanically validated).
 - **Not demonstrated:** any on-chip compute; the H019 element-1 compute
   encoding remains explicitly UNKNOWN (0xFFFFFFFF sentinel, not invented).
+
+## F1 CPU Pipeline (Campaign 7, H136–H140) — 2026-10-10
+- **Status:** `F1-COMPLETE` — the pure-Mojo ARM64 CPU engine is production-grade.
+- **Owner:** ARMVEGR domain (D1), NO-GO branch (H111 closed the NPU path).
+- **Implementation evidence:** `armvegr/infer.mojo` v0.2.0 (fail-closed guards,
+  shape validation, reset/prefill/free, forward_nocache reference, shallow_copy);
+  `armvegr/f1_config.mojo` + `data/fallback/f1_config.json` (production config,
+  byte-level fail-closed JSON parser); `armvegr/f1_infer.mojo` (shippable CLI,
+  JSON output); `armvegr/batch.mojo` (B=4 static batching, weight sharing);
+  `armvegr/session.mojo` (KV-cache prefix cache, multi-turn); `armvegr/backend.mojo`
+  (H139: AUTO→CPU honest, NPU raises NpuUnavailable); `docs/fallback/C7_REVIEW.md`.
+- **Measured on Mimir (TinyLlama-1.1B-Chat Q4_0, sha256 da3087fb...):**
+  prefill 512 tok = 253.1 s (2.02 tok/s); decode 100 tok = 604.6 s (0.165 tok/s,
+  sampler-bound — top_p O(n²) bubble sort, deferred to C9); batch B=4:
+  2.05 tok/s vs 2.12 unbatched (×0.97, honest); H136 kvcheck 3/3 probes
+  bit-identical (0.0); H137 batch/session 3/3 tests + 3/3 guards;
+  H138 3/3 prompts × 64 tok, all 6 rubric items pass; H139 50/50 CPU + 5/5 NPU errors.
+- **Gaps closed (5):** end-to-end prefill+decode; batching+context; production
+  config surface; coherence proof; honest CPU-only AUTO.
+- **Non-claims:** no NPU compute (H111 NO-GO); decode speed is sampler-bound,
+  not a hardware limit; no multi-node.

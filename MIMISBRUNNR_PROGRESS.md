@@ -598,7 +598,7 @@ generator is independently designed; findings live in docs/plunder/.
 - Coordinator: merged `mimisbrunnr-c6-wall` → main as 5590451 (--no-ff), pushed, remote HEAD verified 5590451dc46d080e1a8129001eba954becc8df99. Local branch deleted. **H111 relayed to parent: NO-GO, evidence-forced after full ambition.**
 
 ## Campaign 7 — Offload + Pipeline (H121–H140)
-- Status: IN PROGRESS — NO-GO branch (H121–H135 SKIP per re-scope; H136–H139 + H140 RUN)
+- Status: COMPLETE — NO-GO branch (H121–H135 SKIP per re-scope; H136–H140 all DONE, F1-COMPLETE per docs/fallback/C7_REVIEW.md)
 
 ## Campaign 8 — Vörðr Robustness (H141–H160)
 - Status: not started
