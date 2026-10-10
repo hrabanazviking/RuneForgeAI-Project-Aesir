@@ -32,7 +32,7 @@ from hailbru.syscall import (
 from hailbru.syscall import unsafe_alloc
 from hailbru.util import parse_u16_hex, parse_u64_hex, trim
 from hailbru.errors import herror
-from hailbru.discovery import discover, parse_bdf
+from hailbru.discovery import discover, parse_bdf, parse_bdf
 from hailbru.config import (
     check_identity,
     read_identity,
@@ -133,6 +133,16 @@ def get_flag(args: List[String], name: String, default: String) -> String:
     return default
 
 
+def need_bdf(arch: String, args: List[String], sysfs_root: String) raises -> String:
+    # Validate an explicit --bdf (BadBdf on malformed); auto-discover when
+    # absent. Every command that addresses a device by BDF goes through here.
+    var bdf = get_flag(args, "--bdf", "")
+    if bdf == "":
+        return discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    _ = parse_bdf(bdf)
+    return bdf
+
+
 def has_flag(args: List[String], name: String) -> Bool:
     for i in range(len(args)):
         if args[i] == name:
@@ -179,9 +189,7 @@ def cmd_discover(arch: String, args: List[String]) raises:
 
 def cmd_identity(arch: String, args: List[String]) raises:
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
-    var bdf = get_flag(args, "--bdf", "")
-    if bdf == "":
-        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var bdf = need_bdf(arch, args, sysfs_root)
     var ident = read_identity(arch, sysfs_root, bdf)
     var vendor = parse_u16_hex(get_flag(args, "--expect-vendor", "0x1e60"))
     var device = parse_u16_hex(get_flag(args, "--expect-device", "0x45c4"))
@@ -202,9 +210,7 @@ def cmd_identity(arch: String, args: List[String]) raises:
 
 def cmd_bars(arch: String, args: List[String]) raises:
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
-    var bdf = get_flag(args, "--bdf", "")
-    if bdf == "":
-        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var bdf = need_bdf(arch, args, sysfs_root)
     var bars = parse_resource(arch, sysfs_root, bdf)
     _ = bars_sane(bars)
     var j = '{"bdf": "' + bdf + '", "bars": ['
@@ -225,9 +231,7 @@ def cmd_bars(arch: String, args: List[String]) raises:
 
 def cmd_link(arch: String, args: List[String]) raises:
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
-    var bdf = get_flag(args, "--bdf", "")
-    if bdf == "":
-        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var bdf = need_bdf(arch, args, sysfs_root)
     var ls = read_link_status(arch, sysfs_root, bdf)
     var ps = read_power_state(arch, sysfs_root, bdf)
     emit(
@@ -274,9 +278,7 @@ def cmd_fwcheck(arch: String, args: List[String]) raises:
 def cmd_regs_probe(arch: String, args: List[String]) raises:
     # Read-only register probes on the live device (needs root).
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
-    var bdf = get_flag(args, "--bdf", "")
-    if bdf == "":
-        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var bdf = need_bdf(arch, args, sysfs_root)
     var bar = Int(parse_u64_hex(get_flag(args, "--bar", "0x0")))
     var size = Int(parse_u64_hex(get_flag(args, "--bar-size", "0x4000")))
     var m = map_sysfs_resource(arch, sysfs_root, bdf, bar, size, False)
@@ -303,9 +305,7 @@ def cmd_regs_coherency(arch: String, args: List[String]) raises:
     # proves the register path is coherent without touching device state.
     # Needs root (sysfs resource mmap) and the device in D0.
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
-    var bdf = get_flag(args, "--bdf", "")
-    if bdf == "":
-        bdf = discover(arch, sysfs_root, 0x1E60, 0x45C4)
+    var bdf = need_bdf(arch, args, sysfs_root)
     var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
     var bad = 0
     for i in range(50):
