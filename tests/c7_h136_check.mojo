@@ -238,13 +238,13 @@ def main() raises:
         for i in range(upto):
             prefix.append(gen_ids[i])
         var ref_p = inf.forward_nocache(prefix)
-        var ref = _logits_to_f32(ref_p, 32000)
+        var ref_logits = _logits_to_f32(ref_p, 32000)
         var cached = List[Float32]()
         if pi < 2:
             cached = probe_cached[pi].copy()
         else:
             cached = decode_cached.copy()
-        var err = _max_abs_err(cached, ref)
+        var err = _max_abs_err(cached, ref_logits)
         var verdict = String("PASS")
         if err > Float32(1e-3):
             verdict = String("FAIL")
