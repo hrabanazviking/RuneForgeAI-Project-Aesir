@@ -51,11 +51,25 @@ from hailbru.vfio import (
 from hailbru.uio import (
     uio_driver_link_target,
     uio_find_nodes,
+    uio_node_for_bdf,
     uio_open,
     uio_step_bind,
     uio_step_register_id,
     uio_step_restore,
     uio_step_unbind,
+)
+from hailbru.fwboot import (
+    STAGE1_TRIGGER,
+    STAGE2_TRIGGER,
+    STAGE3_TRIGGER,
+    fw_boot_status,
+    fw_enable_interrupts,
+    fw_is_loaded,
+    fw_parse_scu,
+    fw_sku_id,
+    fw_trigger,
+    fw_wait_boot_irq,
+    fw_write_memory,
 )
 from hailbru.dma import (
     DmaBuffer,
@@ -838,6 +852,168 @@ def cmd_pm_set(arch: String, args: List[String]) raises:
     emit(arch, "{\"bdf\": \"" + bdf + "\", \"state\": \"" + verified + "\"}")
 
 
+def _fw_boot_session(
+    arch: String, sysfs_root: String, dev_root: String, bdf: String,
+    fw_root: String, as_root: Bool, status_only: Bool,
+) raises:
+    # Full firmware boot session (H074/H075/H076, real UIO path).
+    # ALWAYS restores the vendor driver binding, even on failure.
+    emit(arch, "FWBOOT begin bdf=" + bdf)
+    # D0 for BAR access.
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var bar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 65536, False)
+    var already = False
+    try:
+        already = fw_is_loaded(bar0)
+    except e:
+        unmap_bar(arch, bar0)
+        raise e
+    unmap_bar(arch, bar0)
+    emit(arch, "FWBOOT already_loaded=" + ("1" if already else "0"))
+    if already or status_only:
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        emit(arch, "FWBOOT done (no flash needed)")
+        return
+    if not as_root:
+        raise herror(
+            "PrivilegeRequired",
+            "fw-boot needs --as-root (BAR writes + driver unbind)",
+        )
+    # --- UIO session begin ---
+    var original = uio_step_unbind(arch, sysfs_root, bdf, True)
+    emit(arch, "FWBOOT unbound original_driver=" + original)
+    if original != "hailo1x":
+        raise herror(
+            "FwError",
+            "unexpected original driver '" + original
+            + "' (expected hailo1x) — refusing to proceed",
+        )
+    var restored = False
+    try:
+        uio_step_register_id(arch, sysfs_root, "1e60", "45c4", True)
+        uio_step_bind(arch, sysfs_root, bdf, True)
+        var node = uio_node_for_bdf(arch, sysfs_root, bdf)
+        emit(arch, "FWBOOT uio_node=" + node)
+        var uio_fd = os_openat(arch, dev_root + "/" + node, O_RDONLY(), 0)
+        if uio_fd < 0:
+            raise herror("UioError", "open " + node + " failed")
+        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 65536, True)
+        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 4096, True)
+        try:
+            fw_enable_interrupts(wbar0)
+            # Stage 1: certificate + SCU firmware.
+            var cert = read_file_bytes(
+                arch, fw_root + "/customer_certificate.bin", 65536
+            )
+            fw_write_memory(wbar0, wbar4, 0xA0000, cert)
+            emit(arch, "FWBOOT stage1 cert_bytes=" + String(len(cert)))
+            var scu = read_file_bytes(
+                arch, fw_root + "/scu_fw.bin", 1048576
+            )
+            var parts = fw_parse_scu(scu)
+            fw_write_memory(wbar0, wbar4, 0x88000, parts.header)
+            fw_write_memory(wbar0, wbar4, 0x20000, parts.code)
+            fw_write_memory(wbar0, wbar4, 0x88018, parts.key)
+            fw_write_memory(wbar0, wbar4, 0x886A8, parts.content)
+            emit(
+                arch,
+                "FWBOOT stage1 scu code=" + String(len(parts.code))
+                + " key=" + String(len(parts.key))
+                + " content=" + String(len(parts.content)),
+            )
+            fw_trigger(wbar0, wbar4, STAGE1_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 5000):
+                raise herror("FwError", "stage 1 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage1 BOOT_IRQ ok")
+            var sku = fw_sku_id(wbar0, wbar4)
+            var dtb_name = "u-boot-default.dtb.signed"
+            if sku >= 0:
+                dtb_name = "u-boot-" + String(sku) + ".dtb.signed"
+            emit(arch, "FWBOOT sku_id=" + String(sku) + " dtb=" + dtb_name)
+            # Stage 2: device tree.
+            var dtb = read_file_bytes(
+                arch, fw_root + "/" + dtb_name, 262144
+            )
+            fw_write_memory(wbar0, wbar4, 0xA8004, dtb)
+            emit(arch, "FWBOOT stage2 dtb_bytes=" + String(len(dtb)))
+            fw_trigger(wbar0, wbar4, STAGE2_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 5000):
+                raise herror("FwError", "stage 2 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage2 BOOT_IRQ ok")
+            # Stage 3: SPL + fitImage + image-fs (tfa optional).
+            var spl = read_file_bytes(
+                arch, fw_root + "/u-boot-spl.bin", 1048576
+            )
+            fw_write_memory(wbar0, wbar4, 0x80300000, spl)
+            emit(arch, "FWBOOT stage3 spl_bytes=" + String(len(spl)))
+            try:
+                var tfa = read_file_bytes(
+                    arch, fw_root + "/u-boot-tfa.itb", 8388608
+                )
+                fw_write_memory(wbar0, wbar4, 0x8032C000, tfa)
+                emit(arch, "FWBOOT stage3 tfa_bytes=" + String(len(tfa)))
+            except:
+                emit(arch, "FWBOOT stage3 tfa missing (optional, skipped)")
+            var fit = read_file_bytes(
+                arch, fw_root + "/fitImage", 134217728
+            )
+            fw_write_memory(wbar0, wbar4, 0x88000000, fit)
+            emit(arch, "FWBOOT stage3 fit_bytes=" + String(len(fit)))
+            var fs = read_file_bytes(
+                arch, fw_root + "/image-fs", 536870912
+            )
+            fw_write_memory(wbar0, wbar4, 0x90000000, fs)
+            emit(arch, "FWBOOT stage3 fs_bytes=" + String(len(fs)))
+            fw_trigger(wbar0, wbar4, STAGE3_TRIGGER())
+            if not fw_wait_boot_irq(arch, wbar0, uio_fd, 40000):
+                raise herror("FwError", "stage 3 BOOT_IRQ timeout")
+            emit(arch, "FWBOOT stage3 BOOT_IRQ ok")
+            var loaded = fw_is_loaded(wbar0)
+            var bstatus = fw_boot_status(wbar0, wbar4)
+            emit(
+                arch,
+                "FWBOOT verify loaded=" + ("1" if loaded else "0")
+                + " boot_status=" + String(bstatus),
+            )
+            if not loaded or bstatus != 1:
+                raise herror(
+                    "FwError",
+                    "boot verification failed",
+                )
+            emit(arch, "FWBOOT SUCCESS firmware booted")
+        except e:
+            unmap_bar(arch, wbar4)
+            unmap_bar(arch, wbar0)
+            _ = os_close(arch, uio_fd)
+            raise e
+        unmap_bar(arch, wbar4)
+        unmap_bar(arch, wbar0)
+        _ = os_close(arch, uio_fd)
+    except e:
+        restored = True
+        var rest = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWBOOT restored driver=" + rest + " (after error)")
+        _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        raise e
+    if not restored:
+        var rest2 = uio_step_restore(arch, sysfs_root, bdf, original, True)
+        emit(arch, "FWBOOT restored driver=" + rest2)
+    _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    emit(arch, "FWBOOT done")
+
+
+def cmd_fw_boot(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var dev_root = get_flag(args, "--dev-root", "/dev")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var fw_root = get_flag(args, "--fw-root", "/lib/firmware/hailo/hailo10h")
+    var as_root = has_flag(args, "--as-root")
+    var status_only = has_flag(args, "--status-only")
+    _fw_boot_session(
+        arch, sysfs_root, dev_root, bdf, fw_root, as_root, status_only
+    )
+
+
 def cmd_pm_get(arch: String, args: List[String]) raises:
     var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
     var bdf = need_bdf(arch, args, sysfs_root)
@@ -1157,6 +1333,8 @@ def main() raises:
         cmd_bdf_selftest(arch, argv)
     elif sub == "fw-stage-selftest":
         cmd_fw_stage_selftest(arch, argv)
+    elif sub == "fw-boot":
+        cmd_fw_boot(arch, argv)
     elif sub == "bringup":
         cmd_bringup(arch, argv)
     elif sub == "pm-set":
