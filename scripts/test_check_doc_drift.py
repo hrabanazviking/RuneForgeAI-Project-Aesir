@@ -318,6 +318,27 @@ def test_todo_repository_integration_against_canonical_ledger() -> None:
         not todo_status_reference_errors(todo, statuses),
         "repository TODO contains a reference inconsistent with the canonical ledger",
     )
+
+
+def test_todo_adversarial_repeated_and_high_cardinality_references() -> None:
+    statuses = {"AES-TST-001": "verified"}
+    repeated = "[verified, AES-TST-999; AES-TST-999]"
+    errors = status_reference_errors(repeated, statuses, "TODO.md")
+    require(
+        errors == [
+            "TODO.md:1: unknown capability reference AES-TST-999",
+            "TODO.md:1: unknown capability reference AES-TST-999",
+        ],
+        "repeated unknown IDs were collapsed or reordered",
+    )
+
+    many_ids = "; ".join(f"AES-TST-{index:03}" for index in range(100, 164))
+    errors = status_reference_errors(
+        f"heading\n[verified, {many_ids}]", statuses, "TODO.md"
+    )
+    require(len(errors) == 64, "high-cardinality references were truncated")
+    require(errors[0] == "TODO.md:2: unknown capability reference AES-TST-100", "first ID order changed")
+    require(errors[-1] == "TODO.md:2: unknown capability reference AES-TST-163", "last ID order changed")
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -332,6 +353,7 @@ def main() -> None:
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
     test_todo_unsupported_status_and_ordinary_brackets()
     test_todo_repository_integration_against_canonical_ledger()
+    test_todo_adversarial_repeated_and_high_cardinality_references()
 
 
 if __name__ == "__main__":

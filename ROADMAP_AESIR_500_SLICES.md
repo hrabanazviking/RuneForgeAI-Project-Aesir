@@ -717,6 +717,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-046 exercises the complete current TODO against the schema-backed
   canonical ledger status map; all repository tags resolve and match without
   changing the source documents.
+- AES500-047 tests repeated unknown IDs and a 64-reference adversarial tag;
+  no occurrences are collapsed or truncated, and line/ID diagnostics retain
+  source order.
 
 ## Status
 
