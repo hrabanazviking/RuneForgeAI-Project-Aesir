@@ -96,9 +96,21 @@ suite reports 196 passed, zero failed, one skipped (197 total).
 AES500-096 registers `inference.rmsnorm_integration` around the existing
 `forward_pass` final normalization path. A synthetic two-token model confirms
 the selected token and successful arena restoration; a short output weight
-surfaces the kernel's exact admission error. The existing synthetic transformer
-forward case also continues through block RMSNorm calls. No inference code
-changed, and these local cases do not establish model quality.
+surfaces the kernel's exact admission error and restores the arena offset. A
+non-finite model epsilon is also rejected with complete rollback through the
+convenience overload. The review found and fixed missing rollback around final
+output RMSNorm and its temporary KV cache; the existing synthetic transformer
+forward case also continues through block RMSNorm calls. These local cases do
+not establish model quality.
+
+AES500-098 reconciled the RMSNorm contract, test corpus, inference call sites,
+and evidence limits. It found and fixed arena-offset leakage when final
+RMSNorm rejects input, including KV-cache allocation rollback in the
+convenience overload. The integration case now checks both short-weight and
+non-finite-epsilon failure cleanup. The review receipt records that the six
+role lenses were applied by the primary agent; the subagent service rejected
+new independent reviewers at its thread limit, so independent approval remains
+unclaimed.
 
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.

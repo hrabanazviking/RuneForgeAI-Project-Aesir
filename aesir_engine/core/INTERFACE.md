@@ -1082,8 +1082,11 @@ embedding/output tensors, and uses the model's RMS epsilon.
 
 `inference.rmsnorm_integration` runs the existing `forward_pass` output norm
 with finite positive model epsilon, checks the selected token and restored
-arena offset, then confirms a short output-normalization weight propagates the
-shared RMSNorm admission error. Existing `inference.synthetic_forward` also
+arena offset on success and rejected admission, then confirms short weights and
+non-finite epsilon propagate the shared RMSNorm errors. `forward_pass` restores
+its activation arena offset when final RMSNorm raises; the overload that creates
+its own KV cache also rolls back that temporary allocation. Existing
+`inference.synthetic_forward` also
 executes the TransformerBlock attention and feed-forward RMSNorm call sites.
 These synthetic checks establish host-path wiring and narrow output behavior;
 they do not establish model quality or external-fixture correctness.

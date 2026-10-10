@@ -68,8 +68,10 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
   epsilon before mutation; exact before/after input snapshots prove no partial
   writes on rejected admission.
 - Integration exercises the existing `forward_pass` output-normalization
-  consumer with a deterministic token result and arena restoration, then checks
-  that its short-weight failure propagates from the shared RMSNorm contract.
+  consumer with a deterministic token result and arena restoration on success
+  and rejected RMSNorm admission, then checks that short-weight and non-finite
+  epsilon failures propagate from the shared RMSNorm contract. The convenience
+  overload must also roll back its temporary KV-cache arena allocation.
   The registered synthetic transformer forward case also executes the layer
   attention and feed-forward RMSNorm consumers; no inference path is changed.
 - Adversarial evidence in `compute.rmsnorm_adversarial` compares F16 minimum

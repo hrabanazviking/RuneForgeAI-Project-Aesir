@@ -1181,11 +1181,18 @@ The legacy formatters below are not exposed compatibility APIs.
 master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-096 RMSNorm integration: `inference.rmsnorm_integration` checks
   deterministic `forward_pass` output normalization, selected token, restored
-  arena offset, and propagation of a short output-weight error. The existing
-  transformer forward case still exercises block RMSNorm consumers; no
-  inference path or model-quality claim is introduced.
+  arena offset on success and rejection, and propagation of a short output-
+  weight and non-finite epsilon errors. Final output RMSNorm errors now restore
+  temporary activation and convenience-overload KV-cache allocations. The
+  existing transformer forward case still exercises block consumers; no
+  model-quality claim is introduced.
 - [x] AES500-097 RMSNorm adversarial evidence: `compute.rmsnorm_adversarial`
   matches scalar F32 results for F16 min-subnormal and max-finite rows and
   records tested IEEE propagation for NaN/±Inf inputs and weights. This does
   not establish wide-distribution F32 overflow/underflow behavior. Full master
   suite: 198 passed, 0 failed, 1 skipped, 199 total.
+- [x] AES500-098 primary-agent review and correction: final output RMSNorm
+  failures restore the caller's arena offset, including temporary cache storage
+  from the convenience overload. Receipt: `docs/evidence/rmsnorm-review-2026-10-10/`.
+  Independent subagent approval is unavailable in this run because agent
+  creation returned `agent thread limit reached`; no independent pass is claimed.
