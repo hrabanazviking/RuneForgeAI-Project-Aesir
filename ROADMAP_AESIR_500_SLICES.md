@@ -843,3 +843,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   deferred to separately contracted work.
 - AES500-071 independent review passed after clarifying that quantization
   arguments are copied, not validated, by `RuneTensor.checked()`.
+- AES500-072 records the pinned Mojo identity, `RuneTensor` and interface hashes,
+  and focused 3x4 row-major behavior alongside KVCache/dense-buffer owners.
+  The new CPU baseline verifies unique `(row, column)` values and checked
+  coordinate rejection; no arbitrary stride or allocation-size claim is made.
