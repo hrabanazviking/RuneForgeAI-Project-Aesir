@@ -53,3 +53,8 @@ The four encoded emoji fallback IDs select their actual `<0xHH>` vocabulary stri
 ## AES500-157 adversarial evidence receipt
 
 For input `abc`, pair scores -3 (`ab`) and -1 (`bc`) emit `[1,5]`, proving the numerically higher negative score wins. Equal -2 scores emit `[4,3]`, preserving leftmost tie. Master suite: 222 passed, zero failed, one skipped (223 total).
+
+
+## AES500-158 review receipt
+
+Primary review reconciles `_merge_sentencepiece` against the exact vectors: strict greater-score choice, explicit lower-index equal-score tie, repeated convergence, and byte fallback. The public `encode` tests cover no-BOS empty input, partial-byte unknown fallback, and streaming decoder reconstruction. All evidence is synthetic; no external BPE parity is claimed. Independent Auditor assignment remains unavailable because the collaboration service reports its thread cap; no separate reviewer signoff is claimed.

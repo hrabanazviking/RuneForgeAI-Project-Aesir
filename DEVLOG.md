@@ -3870,3 +3870,8 @@ passed, zero failed, one skipped (222 total).
 
 AES500-157 confirms numeric ranking and deterministic ties for negative BPE
 scores. Master suite: 222 passed, zero failed, one skipped (223 total).
+
+
+AES500-158 primary review reconciles merge/tie implementation, byte fallback,
+and stream integration evidence. The service thread cap blocks a separate
+Auditor agent; no independent review claim is made.

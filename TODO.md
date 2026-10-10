@@ -1436,3 +1436,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 
 - [x] AES500-157 byte BPE adversarial evidence: negative-score ranking and
   negative tie behavior match the contract; master suite 222/0/1 (223 total).
+
+- [x] AES500-158 byte BPE review: primary review confirms score/tie behavior,
+  chaining, fallback and integration vectors. Independent Auditor unavailable
+  at service thread cap; no independent signoff claimed.
