@@ -1280,3 +1280,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-119 causal attention documentation sync: task/interface and
   AES-CPU-005 ledger entry describe implemented inclusive causal prefixes and
   link bounded scalar/cache/tile evidence without broad numeric or safety claims.
+- [x] AES500-120 causal attention release gate: sm_89 build and `--help` smoke
+  pass; master suite reports 206 passed, 0 failed, 1 skipped (207 total); docs
+  consistency and whitespace checks pass. Hosted exact-head CI is checked after
+  this receipt is pushed.
