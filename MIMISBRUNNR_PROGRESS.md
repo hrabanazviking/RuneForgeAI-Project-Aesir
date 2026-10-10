@@ -628,6 +628,10 @@ generator is independently designed; findings live in docs/plunder/.
 
 ## Campaign 9 — Speed (H161–H180)
 - Status: IN PROGRESS — CPU-path optimization (H171–H172 GO-only → SKIP per re-scope; H161–H170, H173–H180 RUN)
+- [x] H161 — Benchmark harness DONE 2026-10-10: `bench/` package (bench_env,
+  bench_kernels, run_bench, run.sh) on Mimir; stability gate PASS — gemm_fp16
+  1024^3 twice back-to-back medians within 1.77% (±3% required); governor
+  pinned performance @ 2.4 GHz verified in JSON; `data/bench/h161_stability.json`.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)

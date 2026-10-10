@@ -3762,3 +3762,14 @@ H173 optimization at the identical call site), `data/bench/e2e_prompt.txt`
 (fixed 512-token prefill prompt, versioned). H161 acceptance (stability:
 same benchmark twice back-to-back, medians within ±3%) runs on Mimir next;
 H162/H163 baselines follow through the same harness.
+
+## 2026-10-10 — C9 H161 DONE: harness stability gate PASS (MÍMISBRUNNR)
+H161 acceptance met on Mimir: the same benchmark (gemm_fp16 1024^3, 11
+trials, pinned governor=performance @ 2.4 GHz, taskset -c 3, thermal settle)
+run twice back-to-back yielded medians within 1.77% (±3% required) — verdict
+PASS, recorded in data/bench/h161_stability.json with full env capture
+(governors, freqs, SoC temp 35.85→38.6 C, harness v1.0.0, Mojo 1.1.0).
+Note: only cpufreq policy0 exists on this kernel (policies 1-3 read "?",
+honestly recorded). H162 (kernel baselines) and H163 (e2e baselines) now run
+through the harness; the pre-optimization binary is preserved as
+build/run_bench_baseline on Mimir so H162/H163 measure the unoptimized code.
