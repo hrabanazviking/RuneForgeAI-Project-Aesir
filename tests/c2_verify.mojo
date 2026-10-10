@@ -1284,7 +1284,11 @@ def test_h035(mut ctx: Ctx):
     ctx.check("H035", identical, "seq vs par bit-identical")
 
 
-def test_h036(mut ctx: Ctx):
+def test_h036(mut ctx: Ctx) raises:
+    # H139 contract (supersedes the H036 C2-stage behavior): AUTO/CPU wants
+    # resolve to CPU with the declared NPU-unavailable reason logged (L11);
+    # an explicit NPU want raises the named NpuUnavailable error citing
+    # the Phase-D H111 NO-GO verdict.
     var log = List[String]()
     var ops = List[String]()
     ops.append("matmul")
@@ -1294,33 +1298,43 @@ def test_h036(mut ctx: Ctx):
     var n_calls = 0
     for oi in range(4):
         var op = ops[oi]
-        for si in range(5):
+        for si in range(4):
             var m = 64 * (si + 1)
             var n = 128 * (si + 1)
             var k = 256 * (si + 1)
             var want = BACKEND_AUTO()
-            if si == 4:
-                want = BACKEND_NPU()  # even an explicit NPU want must fail closed
+            if si % 2 == 1:
+                want = BACKEND_CPU()
             var r = select_backend(op, m, n, k, want, log)
             if r != BACKEND_CPU():
                 ctx.check("H036", False, String("non-CPU result for ") + op)
             n_calls += 1
-    ctx.check("H036", n_calls == 20, String("20 decisions, got ") + String(n_calls))
-    var all_cpu = True
-    var no_npu_path = True
-    for i in range(20):
+    ctx.check("H036", n_calls == 16, String("16 decisions, got ") + String(n_calls))
+    var all_cpu_reasoned = True
+    for i in range(16):
         var entry = log[i]
-        # result marker is "-> CPU"; "-> NPU" must never appear
-        var has_cpu = False
-        var idx = entry.find("-> CPU")
-        if idx >= 0:
-            has_cpu = True
-        if not has_cpu:
-            all_cpu = False
+        # result marker is "-> CPU" with the declared reason; "-> NPU" never.
+        if entry.find("-> CPU") < 0:
+            all_cpu_reasoned = False
+        if entry.find("NPU unavailable (Phase-D NO-GO") < 0:
+            all_cpu_reasoned = False
         if entry.find("-> NPU") >= 0:
-            no_npu_path = False
-    ctx.check("H036", all_cpu, "all 20 decisions -> CPU")
-    ctx.check("H036", no_npu_path, "no code path returns NPU")
+            all_cpu_reasoned = False
+    ctx.check("H036", all_cpu_reasoned, "all 16 decisions -> CPU with reason")
+    # Explicit NPU want raises the named error (message cites H111).
+    var npu_named = 0
+    for oi in range(4):
+        try:
+            _ = select_backend(ops[oi], 64, 128, 256, BACKEND_NPU(), log)
+            ctx.check("H036", False, "explicit NPU want did not raise")
+        except e:
+            var msg = String(e)
+            if msg.find("NpuUnavailable") >= 0 and msg.find("H111") >= 0:
+                npu_named += 1
+            else:
+                ctx.check("H036", False, String("NPU error misnamed: ") + msg)
+    ctx.check("H036", npu_named == 4, "4/4 explicit NPU -> NpuUnavailable")
+    ctx.check("H036", len(log) == 16, "refused NPU dispatch adds no log entry")
     var stub = NpuBackendStub()
     ctx.check("H036", not stub.is_ready(), "NPU stub never ready (fail-closed)")
 
@@ -1454,7 +1468,7 @@ def test_h039(mut ctx: Ctx):
         )
 
 
-def main():
+def main() raises:
     var ctx = Ctx()
     test_h021(ctx)
     test_h022(ctx)

@@ -188,11 +188,18 @@ struct Inference:
         self.logits.unsafe_free()
         self.model.free()
 
-    def prefill(mut self, tokens: List[Int]) raises:
+    def prefill(
+        mut self, tokens: List[Int]
+    ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """H136 — prefill orchestration: run the prompt through the model,
-        growing the KV cache. Raises fail-closed on bad input."""
-        for i in range(len(tokens)):
-            _ = self.forward(tokens[i])
+        growing the KV cache. Returns the last step's logits (decode can
+        continue directly). Raises fail-closed on bad input."""
+        if len(tokens) == 0:
+            raise Error("infer: prefill needs >= 1 token")
+        var lp = self.forward(tokens[0])
+        for i in range(1, len(tokens)):
+            lp = self.forward(tokens[i])
+        return lp
 
     def _k_ptr(self, layer: Int, pos: Int, kh: Int) -> Pointer[Float16, MutUntrackedOrigin]:
         var off = ((layer * self.max_seq + pos) * 4 + kh) * 64
