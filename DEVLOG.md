@@ -82,6 +82,17 @@ reports 195 passed, zero failed, one skipped (196 total). The test checks
 admission only; numerical prefix semantics and tolerance remain for the
 oracle-evidence slices.
 
+AES500-094 tightens RMSNorm epsilon admission to finite positive values. NaN,
+positive infinity, negative infinity, zero, and negative values reject before
+the in-place write loops; every focused rejection preserves the logical input.
+Tensor and weight exceptional-value behavior remains undefined.
+
+AES500-095 registers `compute.rmsnorm_reference`, an independent scalar F32
+oracle for two-row inputs at widths 3, 15, 16, 17, and 33. All deterministic
+outputs match after F16 conversion. This confirms the named corpus only; no
+general tolerance or exceptional tensor/weight policy is inferred. The master
+suite reports 196 passed, zero failed, one skipped (197 total).
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

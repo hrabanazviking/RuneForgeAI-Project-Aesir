@@ -1174,3 +1174,8 @@ The legacy formatters below are not exposed compatibility APIs.
   infinity alongside zero/negative epsilon before mutation. Focused admission
   tests assert the expected error and unchanged logical input for all five
   invalid epsilon classes; tensor and weight non-finite policy remains open.
+- [x] AES500-095 RMSNorm unit evidence: `compute.rmsnorm_reference` independently
+  computes scalar F32 normalization for two rows at widths 3, 15, 16, 17, and
+  33, then requires exact final F16 values. The passing corpus is deterministic
+  and does not establish a general tolerance or exceptional-value policy. Full
+  master suite: 196 passed, 0 failed, 1 skipped, 197 total.

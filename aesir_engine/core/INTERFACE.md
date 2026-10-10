@@ -795,8 +795,11 @@ The focused `compute.rmsnorm_interface` case verifies acceptance of a positive
 multirow tensor with an overlong 2x2 weight descriptor. The implementation
 reads the first `cols` linear values; this admission case does not verify that
 numerical behavior. It verifies mutation-free rejection of zero/negative rows
-and columns, short weights, and non-finite/nonpositive epsilon. It adds no
-numerical parity or tensor/weight non-finite-value evidence.
+and columns, short weights, and non-finite/nonpositive epsilon. The separate
+`compute.rmsnorm_reference` case compares final F16 values with a scalar F32
+reference for a deterministic two-row corpus at widths 3, 15, 16, 17, and 33.
+Exact agreement on this corpus does not establish a general tolerance or
+tensor/weight non-finite-value policy.
 
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...

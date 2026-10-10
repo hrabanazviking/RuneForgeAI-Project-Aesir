@@ -56,9 +56,11 @@ No GPU/NPU parity or accelerator admission, performance claim, arbitrary-stride
 
 - Baseline current source/toolchain and existing boundary test before edits.
 - Interface adds this formula and accepted/rejected inputs.
-- Unit evidence builds deterministic rows and weights, computes expected
-  F32 results independently, rounds expected outputs to F16, and checks widths
-  spanning SIMD tails plus multiple rows.
+- Unit evidence in `compute.rmsnorm_reference` builds deterministic rows and
+  weights, computes expected F32 results with scalar loops independently of
+  production SIMD, rounds expected outputs to F16, and checks widths 3, 15,
+  16, 17, and 33 across two rows. Exact agreement is confined to this corpus;
+  it does not establish a general tolerance.
 - Malformed tests reject zero dimensions, short weights, and nonpositive
   epsilon before mutation; exact before/after input snapshots prove no partial
   writes on rejected admission.
