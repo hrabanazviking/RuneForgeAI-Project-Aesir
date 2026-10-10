@@ -1185,8 +1185,8 @@ and circular self-parity transforms were removed.
 - **Owner:** core compute domain
 - **Claim sources:** 3-bit and 5-bit K-quantization support (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)
 - **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks. Public Q3_K S/M/L and Q5_K S/M dequantizers plus the format-specific GEMM entry points route to that shared checked implementation; padded local descriptors and circular reference decoders were replaced.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs.
-- **Evidence boundary:** Verified canonical raw-byte addressing, scale unpacking, quant unpacking, format-alias dispatch, and known-value matvec results. Full-model Q3_K execution has not been independently established.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs. `compute.dequantize_q4_k` additionally compares all 256 standalone Q5_K outputs against an independent scalar scale/minimum and high-bit-plane oracle.
+- **Evidence boundary:** Verified one-block Q5_K raw-byte addressing, scale unpacking, high-bit/nibble extraction, format-alias dispatch, and known-value matvec results. Multi-block and full-model Q3_K/Q5_K execution have not been independently established.
 - **Audit:** Stage 53.1 Mythic Engineering Pass.
 
 ### AES-QNT-007 — Quantization system crash-proofing, error-correcting, and self-healing boundaries
