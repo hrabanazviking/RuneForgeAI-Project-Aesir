@@ -14,9 +14,8 @@ This slice changes documentation only.
   `neox` selecting paired-index layout.
 - Q and K are validated independently: each must have positive rows and columns
   divisible by `head_dim`. The implementation does not require equal Q/K row
-  counts or equal numbers of heads. However, zero columns are currently
-  admitted (zero is divisible by every positive `head_dim`); only row counts
-  are explicitly required to be positive.
+  counts or equal numbers of heads. Q and K are independently rotated across
+  their respective rows.
 - For row `r`, the position is `start_pos + r`. For pair index `i` in
   `[0, head_dim/2)`, it computes
   `freq = 1 / theta^(2*i/head_dim)`, then `cos(pos*freq)` and `sin(pos*freq)`.
@@ -25,8 +24,8 @@ This slice changes documentation only.
   rotates `(i, i+head_dim/2)`. Each head in a row shares the same position and
   pair coefficients. The ordered updates are `x0*cos - x1*sin` and
   `x0*sin + x1*cos`, stored in place as F16.
-- Current dimension and position admission checks run before the rotation loops,
-  so those rejected inputs do not mutate Q or K.
+- Current theta, dimension, and position admission checks run before the
+  rotation loops, so those rejected inputs do not mutate Q or K.
 
 ## Known gaps and exclusions
 
@@ -45,10 +44,8 @@ This slice changes documentation only.
 - AES500-106 verifies the adjacent KV-cache path: rotated K values are appended
   and read back unchanged, while V remains unchanged by RoPE. This is local
   integration evidence for one cache position and shape.
-- AES500-107 records that theta=0 and theta=-1 are admitted and produce NaN in
-  both Q and K for the exercised nonzero position. This is an unsafe behavior,
-  not an accepted numerical contract. NaN and infinity theta remain
-  uncharacterized.
+- AES500-107 records the historical failure: theta=0 and theta=-1 were admitted
+  and produced NaN in both Q and K for the exercised nonzero position.
 - AES500-108 closes the observed defect: theta must be finite and positive,
   and zero, negative, NaN, and ±Inf reject before changing Q or K.
 - This contract does not establish partial rotary dimensions, scaling variants,
@@ -60,12 +57,13 @@ This slice changes documentation only.
 
 - AES500-102 captures the pre-change source/toolchain and current observable
   outputs for interleaved and NeoX layouts.
-- AES500-103 adds direct accepted/rejected interface cases, including distinct
-  Q/K shapes and mutation-free validation failures. It records zero-column
-  admission as existing behavior without treating it as a desirable contract.
-- Later unit and adversarial slices compare small deterministic cases against
-  independent scalar F32 trigonometry and test position/dimension overflow and
-  theta-domain behavior after those decisions are documented.
+- AES500-103 records the pre-implementation interface, including historical
+  zero-column admission. AES500-104 closes that gap before mutation.
+- AES500-105 adds deterministic scalar F32 oracle coverage. AES500-106 verifies
+  the KV-cache boundary. AES500-107 captures invalid-theta corruption and
+  AES500-108 changes it to finite-positive pre-mutation rejection.
+- Position and index overflow, pointer provenance/capacity, overlap, arbitrary
+  strides, broad tolerance, and accelerator behavior remain unverified.
 
 ## Baseline receipt
 
@@ -73,10 +71,11 @@ AES500-102's deterministic corpus, raw output, independent Python oracle, and
 scope notes are preserved in
 `docs/evidence/rope-baseline-2026-10-09/README.md`. The unequal-row capture
 shows the third K row left untouched by the current Q-driven loop. That is an
-observed limitation, pending explicit interface/implementation disposition.
+historical observation. AES500-104 corrects it by iterating K.rows independently.
 
 ## Acceptance
 
-This contract matches the current code and names the unresolved theta and
-integer-overflow behavior without promising a capability the implementation
-does not provide. No kernel or caller behavior changes in AES500-101.
+This task records the AES500-101 starting contract and subsequent evidence.
+Current owner behavior matches the source after AES500-104 and AES500-108;
+remaining limitations are stated above. The numerical results apply only to
+the explicitly exercised deterministic corpus.

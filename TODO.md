@@ -1240,3 +1240,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-108 RoPE review/fix: theta=0, negative, NaN, +Inf, and -Inf now
   reject with a finite-positive error before Q/K mutation. The adversarial test
   snapshots both tensors and verifies rejection for all five classes.
+- [x] AES500-109 RoPE documentation sync: task and interface now describe the
+  current positive-row/column, finite-positive-theta boundary, independent Q/K
+  row loops, and historical AES500-102/107 defects alongside remaining
+  overflow/pointer limits.

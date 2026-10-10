@@ -158,6 +158,11 @@ AES500-108's primary review turns that observation into a finite-positive theta
 admission rule. Zero, negative, NaN, and either infinity reject before Q or K
 mutation; the adversarial test verifies unchanged snapshots for both tensors.
 
+AES500-109 reconciles the current interface and roadmap with those corrections.
+Historical baseline defects remain labeled as historical; remaining evidence
+gaps are integer/index overflow, pointer provenance and capacity, overlap,
+arbitrary strides, accelerator parity, and broad tolerance.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
