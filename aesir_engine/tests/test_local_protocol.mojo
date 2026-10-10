@@ -6,7 +6,7 @@ from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_ca
 from server.openai import OpenAIRequest, OpenAIGate
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
-from cli.native_settings import resolve_native_settings, native_config_sampling
+from cli.native_settings import resolve_native_settings, native_config_sampling, load_native_config
 from config import parse_config_json
 
 
@@ -397,6 +397,22 @@ def test_request_limit_precedence() raises:
 
 
 def test_native_recipe_precedence() raises:
+    # The config is opt-in: an absent selector must not touch a nonexistent file.
+    var no_config_flags = List[String]()
+    var defaults = load_native_config("missing-config-must-not-be-opened.json", no_config_flags)
+    var default_sampling = native_config_sampling(defaults)
+    if default_sampling.temperature != NativeSamplingConfig().temperature or default_sampling.top_p != NativeSamplingConfig().top_p:
+        raise Error("Implicit config lookup changed native defaults")
+    # Ambiguous selectors reject before attempting to open either path.
+    var ambiguous_flags: List[String] = ["--config", "--model-store"]
+    var ambiguous_rejected = False
+    try:
+        _ = load_native_config("missing-config-must-not-be-opened.json", ambiguous_flags)
+    except error:
+        ambiguous_rejected = "mutually exclusive" in String(error)
+    if not ambiguous_rejected:
+        raise Error("Ambiguous config/store selectors were not rejected before file access")
+
     var config = parse_config_json('{"sampling":{"temperature":0.4,"top_p":0.6}}')
     var baseline = native_config_sampling(config)
     var none = List[String]()
