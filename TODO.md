@@ -629,6 +629,11 @@ an independent device/reference gate; see [runtime controls](docs/NATIVE_RUNTIME
   empty-destination migration. See
   [catalog schema contract](TASK_catalog_schema_versioning.md) and
   [schema evidence](docs/evidence/catalog-schema-integration-2026-10-10/README.md).
+- [x] Define content-addressed identity pairings: zero-sized `fnv1a64:` recipe
+  fingerprints versus positive-sized lowercase SHA-256 blob identities; optional
+  expected digest/size must match measured source bytes. See
+  [blob identity contract](TASK_content_addressed_blob_identity.md) and
+  [integration evidence](docs/evidence/blob-identity-integration-2026-10-10/README.md).
 - [x] **[partial, AES-CLI-005] Connect catalog output:** `list`, `show`, `create`, `cp`, and `rm` use the restart-safe recipe catalog with built-CLI process evidence.
 - [ ] Connect `ps` and `stop` only after a real live-session registry exists.
 - [x] Define model-in-use, not-found, duplicate, permission, corruption, and

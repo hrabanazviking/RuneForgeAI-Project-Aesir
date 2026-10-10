@@ -738,6 +738,12 @@ the complete ledger population.
   Codec baseline/interface/unit tests, separate-process lifecycle integration,
   and four-stage process-kill evidence are linked from
   [the schema contract](TASK_catalog_schema_versioning.md).
+- **AES500-221..228 blob identity evidence:** recipe fingerprints remain
+  non-cryptographic and zero-sized; durable blob references require lowercase
+  SHA-256 plus positive measured size. The shared validator and expected
+  ingest-pair contract are documented in the CLI interface; unit, native
+  integration, corruption/missing-blob, FIFO/symlink and recovery receipts are
+  linked from [the identity contract](TASK_content_addressed_blob_identity.md).
 
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
