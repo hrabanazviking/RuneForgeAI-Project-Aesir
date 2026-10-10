@@ -420,6 +420,18 @@ measured SHA-256 form. `DurableModelStore.ingest_model` optionally accepts an
 expected SHA-256 and positive size pair and compares both with the opened
 inode's measured values before catalog publication.
 
+`ingest_model(name, modelfile_content, source_path, expected_digest="",
+expected_size=0)` runs one registration transaction under the store-root lock
+and returns `BlobRecord(digest, size_bytes, created)` only on success. An
+expected size without an expected digest, malformed pair, mismatch with
+measured bytes, invalid source, or invalid model/recipe rejects with an error.
+Before catalog rename, a failed transaction removes only a newly created blob;
+an existing deduplicated blob is preserved. If rename succeeds but directory
+sync reports failure, the catalog may already expose the new record, so the
+referenced blob is retained and durability is uncertain. The public in-memory
+store is updated only after the transaction reports success. Master case
+`cli.manifest_store_restart` checks expected-identity mismatch and rollback.
+
 `scripts/test_catalog_crash_atomicity.py` is the Linux process-crash evidence
 for the catalog commit protocol. Its test-only interposition shim kills the
 unmodified native binary after successful staged write, staged-file `fsync`,
