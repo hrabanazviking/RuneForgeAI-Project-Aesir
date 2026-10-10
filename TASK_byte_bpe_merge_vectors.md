@@ -43,3 +43,8 @@ The score comparator now explicitly selects the lower pair index when candidate 
 ## AES500-155 unit evidence receipt
 
 Repeated equal-score input produces the same `[4,3]` vector twice. A partial byte vocabulary with only `<0xF0>` mapped returns `[11,99,99,99]` for 😀 when unknown ID is 99. Master suite: 220 passed, zero failed, one skipped (221 total).
+
+
+## AES500-156 integration receipt
+
+The four encoded emoji fallback IDs select their actual `<0xHH>` vocabulary strings and feed them through `RuneStreamDecoder`; the combined output is exactly 😀. Master suite: 221 passed, zero failed, one skipped (222 total).

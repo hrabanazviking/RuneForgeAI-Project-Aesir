@@ -186,3 +186,18 @@ def test_byte_bpe_merge_adversarial() raises:
     if len(emoji) != 4 or emoji[0] != 11 or emoji[1] != 99 or emoji[2] != 99 or emoji[3] != 99:
         raise Error("partial UTF-8 byte fallback did not use unknown ID for missing bytes")
     print("PASS: byte BPE repeatability and partial byte fallback boundaries")
+
+def test_byte_bpe_merge_integration() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("<0xF0>", 11)
+    weaver.add_token("<0x9F>", 12)
+    weaver.add_token("<0x98>", 13)
+    weaver.add_token("<0x80>", 14)
+    var encoded = weaver.encode("😀", False)
+    var decoder = RuneStreamDecoder()
+    var decoded = String("")
+    for index in range(len(encoded)):
+        decoded += decoder.decode_token(weaver.vocab[encoded[index]])
+    if decoded != "😀":
+        raise Error("encoded byte-fallback vector did not stream-decode to original UTF-8")
+    print("PASS: RuneWeaver byte fallback integrates with streaming UTF-8 decoder")

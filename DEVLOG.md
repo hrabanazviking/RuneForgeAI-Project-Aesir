@@ -3861,3 +3861,8 @@ comparator. Exact tie/ranking/chaining/fallback vectors and master suite
 AES500-155 confirms repeated merge ties are deterministic and partial emoji
 byte vocabularies use the unknown ID for each missing byte. Master suite: 220
 passed, zero failed, one skipped (221 total).
+
+
+AES500-156 integrates byte fallback token IDs with RuneStreamDecoder and
+reconstructs the exact emoji from four vocabulary spellings. Master suite: 221
+passed, zero failed, one skipped (222 total).
