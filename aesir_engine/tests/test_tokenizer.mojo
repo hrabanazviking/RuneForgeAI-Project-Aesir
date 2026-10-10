@@ -151,3 +151,16 @@ def test_byte_bpe_merge_baseline() raises:
     if len(emoji) != 4 or emoji[0] != 11 or emoji[1] != 12 or emoji[2] != 13 or emoji[3] != 14:
         raise Error("UTF-8 byte fallback vector changed")
     print("PASS: byte BPE tie, score order, chaining and UTF-8 fallback baseline")
+
+def test_byte_bpe_merge_interface() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("x", 1)
+    weaver.add_token("y", 2)
+    weaver.add_token("xy", 3, 0.75)
+    var merged = weaver.encode("xy", False)
+    if len(merged) != 1 or merged[0] != 3:
+        raise Error("public add_token/encode merge interface changed")
+    var empty = weaver.encode("", False)
+    if len(empty) != 0:
+        raise Error("empty tokenizer input must emit no token without BOS")
+    print("PASS: byte BPE public vocabulary-to-encode interface")

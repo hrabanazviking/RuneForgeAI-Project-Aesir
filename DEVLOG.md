@@ -3847,3 +3847,7 @@ Captured deterministic leftmost tie, score priority, chained merge convergence,
 and four-byte emoji fallback vectors. Master suite: 218 passed, zero failed, one
 external fixture skipped (219 total). Evidence is synthetic and not external
 tokenizer parity.
+
+
+AES500-153 pins the public RuneWeaver vocabulary-to-encode seam and empty
+no-BOS behavior. Master suite: 219 passed, zero failed, one skipped (220 total).

@@ -1417,3 +1417,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-152 byte BPE baseline: deterministic tie/ranking/chaining and
   exact emoji fallback IDs are captured with source/tool hashes; master suite
   passes 218/0/1 (219 total). Evidence is in the baseline README.
+
+- [x] AES500-153 byte BPE interface: public `add_token`/`encode` emits exact
+  merged ID and empty no-BOS input emits no tokens; master suite 219/0/1
+  (220 total).

@@ -28,3 +28,8 @@ No tokenizer code changes in AES500-151.
 
 
 AES500-152 baseline: equal-score leftmost tie -> `[4,3]`; higher-scored right merge -> `[1,5]`; chained merge -> `[6]`; emoji byte fallback -> `[11,12,13,14]`. Source/tool hashes and limitations are in `docs/evidence/byte-bpe-merge-baseline-2026-10-10/README.md`. Master suite is 218 passed, 0 failed, 1 skipped (219 total).
+
+
+## AES500-153 interface receipt
+
+The public vocabulary/encoding seam is exercised without private helper calls: registering `x`, `y`, and scored `xy` yields `[3]` for `encode("xy", False)`, while empty input emits no token when BOS is disabled. Master suite: 219 passed, zero failed, one skipped (220 total).
