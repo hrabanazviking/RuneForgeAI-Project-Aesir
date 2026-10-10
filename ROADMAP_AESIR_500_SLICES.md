@@ -811,3 +811,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   with subtraction-first admission. Focused Mojo evidence passes; whole-engine
   build and master suite are blocked by local ptxas rejecting a required PTX
   tanh feature (`.version 7.0 or later`), before these CPU-only gates run.
+- AES500-065 adds the focused checked-span suite to the master runner and bumps
+  its evidence ledger from 192 to 193 total cases. The focused test passes;
+  hosted/full master execution remains pending on exact-head CI.
+- AES500-068 Auditor passes the subtraction-first implementation review with no
+  correctness finding; equal units remain a caller contract, as documented.
