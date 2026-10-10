@@ -1219,3 +1219,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   oracle matches the captured F16 outputs. The capture exposes that K's third
   row remains unchanged because both loops use Q.rows. Reproduction and limits
   are in `docs/evidence/rope-baseline-2026-10-09/README.md`.
+- [x] AES500-103 RoPE interface: focused cases accept distinct Q/K head counts,
+  reject invalid position/head width/column divisibility/zero rows before
+  mutating either tensor, and record that zero columns are currently admitted.
+  `test_rope_interface.mojo` passes; this slice makes no behavior change.

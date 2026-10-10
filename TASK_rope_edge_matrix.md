@@ -14,7 +14,9 @@ This slice changes documentation only.
   `neox` selecting paired-index layout.
 - Q and K are validated independently: each must have positive rows and columns
   divisible by `head_dim`. The implementation does not require equal Q/K row
-  counts or equal numbers of heads.
+  counts or equal numbers of heads. However, zero columns are currently
+  admitted (zero is divisible by every positive `head_dim`); only row counts
+  are explicitly required to be positive.
 - For row `r`, the position is `start_pos + r`. For pair index `i` in
   `[0, head_dim/2)`, it computes
   `freq = 1 / theta^(2*i/head_dim)`, then `cos(pos*freq)` and `sin(pos*freq)`.
@@ -44,7 +46,8 @@ This slice changes documentation only.
 - AES500-102 captures the pre-change source/toolchain and current observable
   outputs for interleaved and NeoX layouts.
 - AES500-103 adds direct accepted/rejected interface cases, including distinct
-  Q/K shapes and mutation-free validation failures.
+  Q/K shapes and mutation-free validation failures. It records zero-column
+  admission as existing behavior without treating it as a desirable contract.
 - Later unit and adversarial slices compare small deterministic cases against
   independent scalar F32 trigonometry and test position/dimension overflow and
   theta-domain behavior after those decisions are documented.
