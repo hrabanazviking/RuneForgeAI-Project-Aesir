@@ -861,7 +861,7 @@ def _fw_boot_session(
     emit(arch, "FWBOOT begin bdf=" + bdf)
     # D0 for BAR access.
     _ = pm_assert_state(arch, sysfs_root, bdf, PM_STATE_D0())
-    var bar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 65536, False)
+    var bar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
     var already = False
     try:
         already = fw_is_loaded(bar0)
@@ -897,8 +897,8 @@ def _fw_boot_session(
         var uio_fd = os_openat(arch, dev_root + "/" + node, O_RDONLY(), 0)
         if uio_fd < 0:
             raise herror("UioError", "open " + node + " failed")
-        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 65536, True)
-        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 4096, True)
+        var wbar0 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, True)
+        var wbar4 = map_sysfs_resource(arch, sysfs_root, bdf, 4, 0x4000, True)
         try:
             fw_enable_interrupts(wbar0)
             # Stage 1: certificate + SCU firmware.
