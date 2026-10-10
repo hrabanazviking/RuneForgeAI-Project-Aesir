@@ -846,10 +846,10 @@ def dequantize_q4_0(block_ptr: Pointer[BlockQ4_0, MutUntrackedOrigin], out_ptr: 
 ```
 
 CPU `apply_rope` mutates Q and K in place. It requires nonnegative start
-position, positive even head width, positive tensor rows, and each tensor's
-columns divisible by `head_dim`. The current source admits zero columns because
-zero is divisible by a valid head width. Q/K row counts and head counts are
-validated independently. Interleaved pairs are `(2*i, 2*i+1)`; NeoX pairs are
+position, positive even head width, positive tensor rows and columns, and each
+tensor's columns divisible by `head_dim`. Q/K row counts and head counts are
+validated independently and each tensor is rotated across all its own rows.
+Interleaved pairs are `(2*i, 2*i+1)`; NeoX pairs are
 `(i, i+head_dim/2)`. Row `r` uses position `start_pos+r`, frequency
 `1/theta^(2*i/head_dim)`, F16-cast cosine/sine coefficients, and ordered
 `x0*cos-x1*sin`, `x0*sin+x1*cos` updates. Current admission does not validate

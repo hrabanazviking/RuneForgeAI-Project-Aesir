@@ -135,6 +135,12 @@ kernel drives both Q and K loops from Q.rows. This is recorded as an observed
 baseline limitation, not an intended guarantee; see
 `docs/evidence/rope-baseline-2026-10-09/README.md`.
 
+AES500-103 adds focused mutation-free rejection coverage and pins zero-column
+admission as an observed gap. AES500-104 closes that gap and independently
+iterates Q and K rows; the focused test confirms K rows beyond Q.rows are now
+rotated. Distinct row counts remain accepted, matching the per-tensor position
+rule. General overflow, pointer, overlap, and theta-domain gaps remain open.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

@@ -37,7 +37,7 @@ def expect_rejected_without_mutation(
 def test_rope_interface() raises:
     var well = MimirWell(4096)
     var Q = RuneTensor[f16](2, 8, well.allocate(16))
-    var K = RuneTensor[f16](2, 4, well.allocate(8))
+    var K = RuneTensor[f16](3, 4, well.allocate(12))
     for index in range(Q.size):
         Q.data.unsafe_store(index, Scalar[f16](Float32(index + 1) / 4.0))
     for index in range(K.size):
@@ -49,6 +49,8 @@ def test_rope_interface() raises:
         raise Error("Accepted RoPE call did not transform Q")
     if K.data.unsafe_load(0) == Scalar[f16](1.0 / 3.0):
         raise Error("Accepted RoPE call did not transform K")
+    if K.data.unsafe_load(8) == Scalar[f16](9.0 / 3.0):
+        raise Error("RoPE did not transform K rows beyond Q.rows")
 
     # Every admission failure is checked before either tensor is mutated.
     var q2 = RuneTensor[f16](2, 8, well.allocate(16))
@@ -70,7 +72,7 @@ def test_rope_interface() raises:
     # Current source accepts zero columns because divisibility succeeds and
     # only row counts are checked. Pin the observation for a later policy slice.
     var empty_k = RuneTensor[f16](2, 0, well.allocate(1))
-    apply_rope(q2, empty_k, 0, 4)
+    expect_rejected_without_mutation(q2, empty_k, 0, 4, "dimensions must be positive")
 
     print("PASS: RoPE interface admission and mutation-free rejection")
 

@@ -1731,7 +1731,7 @@ def apply_rope(
         raise Error("apply_rope: head_dim must be positive and even")
     if Q.cols % head_dim != 0 or K.cols % head_dim != 0:
         raise Error("apply_rope: tensor columns must be a multiple of head_dim")
-    if Q.rows <= 0 or K.rows <= 0:
+    if Q.rows <= 0 or K.rows <= 0 or Q.cols <= 0 or K.cols <= 0:
         raise Error("apply_rope: tensor dimensions must be positive")
 
     var num_heads_q = Q.cols // head_dim
@@ -1754,6 +1754,14 @@ def apply_rope(
                 var q1 = Q.data.unsafe_load(idx1)
                 Q.data.unsafe_store(idx0, q0 * fcr - q1 * fci)
                 Q.data.unsafe_store(idx1, q0 * fci + q1 * fcr)
+
+    for r in range(K.rows):
+        var pos = start_pos + r
+        for i in range(half_dim):
+            var freq = 1.0 / (theta ** (Float32(2 * i) / Float32(head_dim)))
+            var val = Float32(pos) * freq
+            var fcr = cos(val).cast[f16]()
+            var fci = sin(val).cast[f16]()
 
             for h in range(num_heads_k):
                 var head_base = r * K.cols + h * head_dim

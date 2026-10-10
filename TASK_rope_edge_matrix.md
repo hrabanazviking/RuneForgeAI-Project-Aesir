@@ -36,6 +36,10 @@ This slice changes documentation only.
 - `start_pos + row` and row/head pointer-index products are not checked for
   integer overflow. Pointer provenance, backing capacity, lifetime, overlap
   between Q and K, and arbitrary strides are not established.
+- AES500-104 now rejects zero columns and rotates Q/K using independent row
+  loops, preserving the existing allowance for distinct row counts. This fixes
+  the baseline-observed unrotated K suffix. The historical baseline remains
+  available for comparison.
 - This contract does not establish partial rotary dimensions, scaling variants,
   multi-axis RoPE, accelerator parity, speed, training gradients, or model
   quality. F16 rounding and non-finite input behavior beyond current source

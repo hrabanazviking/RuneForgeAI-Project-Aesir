@@ -1223,3 +1223,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   reject invalid position/head width/column divisibility/zero rows before
   mutating either tensor, and record that zero columns are currently admitted.
   `test_rope_interface.mojo` passes; this slice makes no behavior change.
+- [x] AES500-104 RoPE implementation: zero-column Q or K is rejected during
+  pre-mutation admission. Q and K now rotate in independent row loops, so
+  distinct row counts transform fully. The focused interface test proves K's
+  third row changes when Q has only two rows.
