@@ -171,7 +171,8 @@ H060 GO (review doc). **No slices killed.**
   - Evidence (2026-10-10): new armvegr/safetensors.mojo (hand-rolled JSON parser, L1). 5 real files (F16/BF16/F32/mixed/tiny model): every descriptor matches the Python struct+json cross-check exactly. 6 adversarial headers fail closed with named errors. Corpus: prof/armvegr/make_safetensors_corpus.py.
 - [x] H044 — safetensors tensor loader (dtype mapping incl. BF16)
   - Evidence (2026-10-10): load_fp16 (F16 copy, F32 via H031, BF16 via bf16_to_fp16_rne with documented RNE contract). Exhaustive 65536-pattern BF16 test bit-exact vs integer reference on x86_64 + ARM64 (dae5a613...). Two real bugs fixed (shift overflow; arch-dependent NaN). 18-tensor FP16 checksums identical across arches (3f8e1497...). Evidence: data/armvegr/safetensors_xcheck.txt.
-- [ ] H045 — Weight layout planner
+- [x] H045 — Weight layout planner
+  - Evidence (2026-10-10): new armvegr/layout.mojo (deterministic planner, pre-pack, packed GEMM driver). 6-tensor model: byte-identical plan JSON on repeat runs; packed_b vs naive and packed_a vs naive max abs err 0.0 (<= 1e-3) on Mimir.
 - [ ] H046 — BPE tokenizer (vocab + merges)
 - [ ] H047 — SentencePiece-style tokenizer support
 - [ ] H048 — TEST-ONLY (PRÓF): tokenizer differential suite

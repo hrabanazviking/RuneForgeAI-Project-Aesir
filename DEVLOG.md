@@ -3483,3 +3483,15 @@ real bugs caught by the test: (1) `_rne_shift` 64-bit overflow for large drops;
 End-to-end: st_model.st loads on Mimir; all 18 tensors' FP16 checksums match
 x86_64 exactly (aggregate 3f8e1497... both). Endianness explicit (LE assembly).
 Evidence: `data/armvegr/safetensors_xcheck.txt`.
+
+## 2026-10-10 — MÍMISBRUNNR H045: weight layout planner
+
+New `armvegr/layout.mojo`: `plan_layouts` decides per-tensor layouts
+(row_major / packed_b / packed_a) by deterministic rules (F16 GEMM weights
+with K,N>=64 -> packed panels matching H023's MC=64/NC=64/KC=256 blocking);
+`pack_b_for_gemm`/`pack_a_for_gemm` pre-pack at load time into self-describing
+buffers (u64 slab counts + LE offset table + panels); `gemm_packed` consumes
+pre-packed panels with the same micro-kernel in the same order. 6-tensor test
+model: plan JSON byte-identical on repeat runs (determinism PASS); packed_b vs
+naive and packed_a vs naive both max abs err 0.0 (<= 1e-3). Evidence in test
+output (tests/c3_h045_layout.mojo H045-ALL-PASS on Mimir).

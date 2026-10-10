@@ -2417,3 +2417,13 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   integer reference on both arches (dae5a613...); 18-tensor FP16 checksums
   identical x86_64 vs ARM64 (3f8e1497...); st_model.st loads end-to-end on
   Mimir (`data/armvegr/safetensors_xcheck.txt`).
+
+### AES-LOAD-045 — weight layout planner (H045)
+
+- **Status:** `verified`
+- **Owner:** ARMVEGR domain (D1)
+- **Implementation evidence:** `armvegr/layout.mojo` — deterministic
+  per-tensor layout planner, load-time pre-packing, packed-panel GEMM driver.
+- **Executable evidence:** `tests/c3_h045_layout.mojo` (TEST-ONLY):
+  byte-identical plan JSON on repeat runs; packed_b/packed_a vs naive GEMM
+  max abs err 0.0 (<= 1e-3) on Mimir.
