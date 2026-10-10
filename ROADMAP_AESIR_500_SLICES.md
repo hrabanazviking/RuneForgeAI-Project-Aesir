@@ -800,3 +800,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   narrowed the checker exception, and re-admitted both retained physical traces.
   Local checker tests pass; exact hosted CI remains a release gate.
 - This document does not change any capability status.
+- AES500-062 baseline records pinned Mojo 1.0.0 identity, current owner-specific
+  span gates, source hashes, focused KVCache/dense-buffer/fixture-plan evidence,
+  and the required `-I aesir_engine` include path. No shared-helper behavior is
+  claimed or changed in this baseline.
