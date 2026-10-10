@@ -17,7 +17,7 @@ from hailbru.errors import herror
 from vordr.events import event_emit_slice
 
 
-struct RegBit:
+struct RegBit(Copyable, Movable):
     # One decoded bit: name, meaning, severity, documented-or-not.
     var name: String
     var meaning: String
@@ -33,7 +33,7 @@ struct RegBit:
         self.documented = documented
 
 
-struct DecodedError:
+struct DecodedError(Copyable, Movable):
     var name: String
     var meaning: String
     var severity: String

@@ -23,7 +23,7 @@ from hailbru.api import (
 )
 
 
-struct ResetStep:
+struct ResetStep(Copyable, Movable):
     var name: String
     var ms: Int64
     var ok: Bool
@@ -34,7 +34,7 @@ struct ResetStep:
         self.ok = ok
 
 
-struct ResetReport:
+struct ResetReport(Copyable, Movable):
     var steps: List[ResetStep]
     var golden_mismatches: List[String]
 
