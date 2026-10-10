@@ -32,3 +32,6 @@ acceptance and rejection before implementation changes.
 This document names directory layout, parser owners, rank and dimension rules,
 placement, mapping modes, later required-tensor checks, and explicit exclusions.
 AES500-141 changes no parser code.
+
+
+AES500-142 baseline: one generated rank-one 1x1 F16 `fixture.weight` maps successfully before expected missing-required-tensor rejection. The test checks descriptor dimensions plus FAILED/unmapped cleanup. Source/tool hashes and scope limits are in `docs/evidence/gguf-tensor-directory-baseline-2026-10-10/README.md`; this is not complete model or compressed-layout evidence.

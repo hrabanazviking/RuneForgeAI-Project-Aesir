@@ -1368,3 +1368,9 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-141 GGUF tensor directory contract: `TASK_gguf_tensor_directory.md`
   specifies record layout, rank and dimensions, alignment/range gates, mapping
   modes, required tensor checks, parser owners, and explicit safety exclusions.
+
+- [x] AES500-142 GGUF tensor-directory baseline: generated rank-one 1x1 F16
+  tensor maps before the incomplete fixture fails required-tensor validation;
+  source/tool hashes, command, and limits are in the baseline evidence README.
+  Registered as `gguf.tensor_directory_baseline`. Master suite: 213 passed,
+  0 failed, 1 skipped / 214 total; docs and whitespace checks pass.

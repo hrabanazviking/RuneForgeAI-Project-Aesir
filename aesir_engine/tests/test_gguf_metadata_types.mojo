@@ -22,14 +22,19 @@ def append_string(mut bytes: List[UInt8], value: String):
         bytes.append(UInt8(byte))
 
 
-def make_metadata_file(target_key: String, target_type: UInt32) raises -> String:
+def make_metadata_file(
+    target_key: String, target_type: UInt32, tensor_rank: UInt32 = 0
+) raises -> String:
     var bytes = List[UInt8]()
     bytes.append(0x47)
     bytes.append(0x47)
     bytes.append(0x55)
     bytes.append(0x46)
     append_u32(bytes, 3)
-    append_u64(bytes, 0)
+    if tensor_rank == 0:
+        append_u64(bytes, 0)
+    else:
+        append_u64(bytes, 1)
     append_u64(bytes, 5)
 
     append_string(bytes, "general.architecture")
@@ -66,6 +71,18 @@ def make_metadata_file(target_key: String, target_type: UInt32) raises -> String
     append_u64(bytes, 3)
     for _ in range(3):
         append_u32(bytes, 1)
+
+    if tensor_rank > 0:
+        append_string(bytes, "fixture.weight")
+        append_u32(bytes, tensor_rank)
+        for _ in range(Int(tensor_rank)):
+            append_u64(bytes, 1)
+        append_u32(bytes, 1)
+        append_u64(bytes, 0)
+        while len(bytes) % 32 != 0:
+            bytes.append(0)
+        bytes.append(0)
+        bytes.append(0)
 
     var template = List[Int8]()
     for byte in String("/tmp/aesir-gguf-type-XXXXXX").as_bytes():
@@ -161,6 +178,29 @@ def test_gguf_metadata_type_integration() raises:
     print("PASS: metadata type rejection integrates with full load before allocation")
 
 
+def test_gguf_tensor_directory_baseline() raises:
+    var path = make_metadata_file("extension.label", 8, 1)
+    var seer = GGUFSeer(path)
+    var tokenizer = RuneWeaver()
+    var pool = MimirWell(128)
+    var error_text = String("")
+    try:
+        seer.mmap_and_load(pool, tokenizer)
+    except error:
+        error_text = String(error)
+    unlink_path(path)
+    if "GGUF is missing required tensor:" not in error_text:
+        raise Error("valid directory baseline did not reach required-tensor validation")
+    if "fixture.weight" not in seer.tensors:
+        raise Error("valid F16 directory entry did not map before later model rejection")
+    if seer.tensors["fixture.weight"].rows != 1 or seer.tensors["fixture.weight"].cols != 1:
+        raise Error("valid rank-one directory shape did not map as 1x1")
+    if seer.state != 4 or seer.is_mapped:
+        raise Error("incomplete model baseline did not clean mapping after later rejection")
+    print("PASS: valid rank-one F16 tensor maps before missing-model-tensor rejection")
+
+
 def main() raises:
     test_gguf_metadata_type_rejection()
     test_gguf_metadata_type_integration()
+    test_gguf_tensor_directory_baseline()

@@ -3779,3 +3779,12 @@ Documented the current GGUF tensor record shape, rank/positive-dimension rules,
 aligned relative offsets, mmap/pool mapping paths, duplicate names, and later
 required-shape validation. Integer overflow, overlap rejection, and broad
 quantization arithmetic remain outside this contract.
+
+
+## 2026-10-10 — AES500-142 tensor-directory baseline
+
+A generated single rank-one 1x1 F16 tensor maps and remains visible in the
+loader descriptor after later required-model validation rejects the incomplete
+fixture. Loader state ends FAILED/unmapped. Evidence includes hashes and avoids
+claiming complete GGUF or model support. Master suite: 213 passed, zero failed,
+one skipped (214 total); docs and whitespace checks pass.
