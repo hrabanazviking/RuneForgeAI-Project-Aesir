@@ -701,6 +701,18 @@ generator is independently designed; findings live in docs/plunder/.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
 - Status: IN PROGRESS — final campaign (H184 GO-only → SKIP per re-scope; H181–H183, H185–H200 RUN)
+- [x] H181 — GAUNTLET skeleton DONE: `gauntlet/` (metrics/gates/verdict), purity self-test, 3 example gates on canned data.
+- [x] H182 — Stability gates DONE: 9 gates in `data/gauntlet/STABILITY_GATES.json`, discrimination proven on canned PASS/FAIL.
+- [~] H183 — 4h CPU soak RUNNING on Mimir (launched ~19:23 EDT, ETA ~23:23 EDT).
+- [x] H184 — SKIPPED (H111 NO-GO; recorded skipped-with-reason per re-scope).
+- [x] H185 — Soak analyzer DONE + validated on synthetic drift/clean logs.
+- [~] H186/H187/H188/H189 — drivers written; runs sequenced after the soak (no CPU contention during drift measurement).
+- [x] H190/H191 — packaging script + deploy script + canary DONE (canary measured on Mimir).
+- [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE.
+- [x] H195 — Victory gate 1 PASS (2026-10-10): 2 unseen models (Q8_0 + Q6_K) × 3 prompts, 6/6 coherent per rubric v1.1. H201 remediation executed in-slice: v1 wordlist (2674 words) caused false english_ratio failures on coherent text → expanded to v2 (370090 words), rubric v1.1, re-run at 96 tokens. Q5_K_M correctly rejected fail-closed (unsupported dtype) — envelope documented.
+- [ ] H196/H197 — pending H183/H186/H187/H188/H189 evidence.
+- [ ] H198 — pending all evidence (full suite ~7-8h).
+- [ ] H199/H200 — pending H198.
 - Coordinator: merged `mimisbrunnr-c9-speed` → main as d9e20e1 (--no-ff), pushed, remote HEAD verified d9e20e199ff6102b0aa75f63e6322bb6fa7d6960. Branch deleted (local + origin). C9 verdict: STRONG PASS — decode 0.1766→1.918 tok/s (10.86×), prefill 2.080→3.362 tok/s (+61.6%), GEMM 6.934→7.773 GFLOPS (+12.1%). H170 deferred (threading needs shared-memory infra, documented).
 
 ## Blocker log

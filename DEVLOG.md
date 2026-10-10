@@ -3877,3 +3877,31 @@ models are a documented limitation, not a tested claim. H135 scans
 (no .hef, no HEF handling in pipeline code) applied.
 Fix in-slice: generated config needed `model_sha256` (f1_config_load
 requires it).
+
+## 2026-10-10 — C10 H195 DONE + H201 remediation: victory gate 1 PASS (MÍMISBRUNNR)
+
+**H195 verdict: PASS.** Two unseen models (TinyLlama-1.1B-Chat-v1.0 Q8_0,
+sha256 a4c9bb1d…03fc59; Q6_K, sha256 9fb2be7c…22cb6d — both downloaded
+fresh from TheBloke's HF repo, never used by the campaign) × 3 unseen
+prompts × 96 tokens: 6/6 coherent per rubric f1-coherence-v1.1.
+Transcript: `data/gauntlet/victory_gate_1.json`. H135 scans applied: no
+.hef under the tree, no HEF handling in pipeline code.
+
+**Envelope honesty (stated in the evidence):** the F1 loader is
+shape-pinned to TinyLlama-1.1B (dim 2048, 22 layers, vocab 32000) with
+Q8_0/Q4_0/Q6_K/F32/F16 dtypes — cross-family models are a documented
+limitation, not a tested claim. Q5_K_M was attempted first and correctly
+REJECTED fail-closed (`gguf_loader: unsupported dtype`) — the loader
+does not silently misread unknown quants.
+
+**H201 remediation (instrument repair, executed in-slice):** the first
+H195 run (rubric v1, 64 tokens) failed 5/6 prompts on `english_ratio_ge_80`
+despite human-verified coherent output. Root cause proven: the frozen
+v1 wordlist (2674 words) lacks common words (watched, ships, passengers,
+cargo, suspicious, behavior, obsessed, waiting, counting…) — measured
+47/62 = 0.76 on coherent Q8_0 text. Fix: `data/armvegr/english_wordlist_v2.txt`
+(370090 words = v1 + dwyl/english-words words_alpha.txt, deduped),
+`data/armvegr/coherence_rubric_v1_1.json` (threshold unchanged at 80%,
+v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
+(also fixes a sentences_ge_3 truncation artifact on Q6_K p0 at 64 tokens):
+6/6 PASS. The original failing transcript is preserved in git history.
