@@ -837,6 +837,11 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   runs were also pending. No hosted pass is claimed. This gate is pushed with
   the pending CI evidence preserved, so AES500-071 begins next per roadmap
   policy while remote validation continues.
+- AES500-070 has now also passed the target-specific E-BUILD and the canonical
+  target-specific E-MASTER locally: the `sm_89` binary builds and its `--help`
+  smoke path works; 193 cases pass, zero fail, one fixture is skipped, total
+  194. This supersedes the earlier unqualified-build failure note. Hosted CI
+  for this branch is still reported in progress by GitHub Actions.
 - AES500-071 defines the current `RuneTensor` contract as an exactly 2D,
   contiguous row-major descriptor with implied element strides `(cols, 1)`.
   Arbitrary strides, rank changes and allocation-span proof are explicitly
@@ -857,3 +862,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   remain unchanged; no bounds or allocation proof is added.
 - AES500-074 Auditor review passes: shared offset calculation is unchanged and
   documented as raw scalar indexing only.
+- AES500-075 registers the 3x4 layout regression case in the master runner and
+  synchronizes the E-MASTER total to 194 (193 named plus one explicit skip).
+  The focused and complete target-specific master tests pass; exact-head hosted
+  CI remains pending.

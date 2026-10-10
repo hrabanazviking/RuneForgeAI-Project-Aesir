@@ -1102,5 +1102,10 @@ The legacy formatters below are not exposed compatibility APIs.
   device bounds. See `TASK_checked_span_construction.md` and
   `docs/evidence/checked-span-baseline-2026-10-10/README.md`.
 - [ ] AES500-070 release gate: exact-head hosted CI and the complete Mojo build/
-  master suite remain pending; the current local ptxas rejects a PTX tanh feature
-  requiring ISA 7.0.
+  master suite are addressed locally with the sm_89-targeted build and runner;
+  193 tests pass, zero fail, one is explicitly skipped. Exact-head hosted CI is
+  still in progress.
+- [x] AES500-071–075: define, baseline, publish, centralize and test the current
+  two-dimensional contiguous row-major scalar indexing contract. The dedicated
+  master case checks unique 3x4 values and checked coordinate boundaries; it
+  does not prove arbitrary strides or allocation bounds.

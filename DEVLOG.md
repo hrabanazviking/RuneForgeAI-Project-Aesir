@@ -12,6 +12,19 @@ admission is inferred. Full engine build/master remains pending because local
 ptxas rejects a PTX tanh feature that requires ISA 7.0; hosted CI is still
 running. See `TASK_checked_span_construction.md` and the baseline evidence.
 
+## 2026-10-10 — AES500-071–075: RuneTensor row-major layout
+
+Specified `RuneTensor` as an exactly 2D contiguous row-major descriptor for
+logical scalar indexing, with implied `(cols, 1)` element strides and no
+backing-capacity, arbitrary-stride, or packed-quantized-layout claim. A CPU
+3x4 baseline confirms the mapping. The implementation now routes raw `get` and
+`set` through one private scalar offset formula without changing descriptor
+state or bounds behavior. Independent contract, interface, and implementation
+reviews pass. The focused layout and KV-cache tests pass; the canonical sm_89
+master suite reports 193 passed, zero failed, one skipped (194 total), and the
+target-specific executable build plus help smoke pass. Hosted CI remains in
+progress. See `TASK_rune_tensor_2d_layout.md` and its baseline receipt.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

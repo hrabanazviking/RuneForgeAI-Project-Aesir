@@ -252,11 +252,17 @@ def check_master_count(errors: list[str]) -> None:
     finish = re.search(r"ledger\.finish\((\d+)\)", source)
     if not finish or int(finish.group(1)) != expected:
         errors.append(f"aesir_engine/tests/run_all.mojo: ledger.finish must equal {expected}")
-    phrase = (
-        f"{len(cases)} named executable cases pass, zero fail, "
+    ledger_text = LEDGER.read_text(encoding="utf-8")
+    registered_phrase = (
+        f"{len(cases)} named executable cases are registered, "
         f"{len(skips)} external-fixture case is explicitly skipped, total {expected}"
     )
-    if phrase not in LEDGER.read_text(encoding="utf-8"):
+    passed_phrase = (
+        f"{len(cases)} named executable cases pass, zero fail, "
+        f"{len(skips)} external-fixture case is explicitly skipped, "
+        f"total {expected}, process exit 0"
+    )
+    if registered_phrase not in ledger_text and passed_phrase not in ledger_text:
         errors.append("CAPABILITY_LEDGER.md: E-MASTER count is not synchronized")
 
 
