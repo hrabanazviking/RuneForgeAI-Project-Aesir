@@ -601,7 +601,8 @@ generator is independently designed; findings live in docs/plunder/.
 - Status: COMPLETE — NO-GO branch (H121–H135 SKIP per re-scope; H136–H140 all DONE, F1-COMPLETE per docs/fallback/C7_REVIEW.md)
 
 ## Campaign 8 — Vörðr Robustness (H141–H160)
-- Status: not started
+- Status: IN PROGRESS — Vörðr for the F1 CPU engine + Hailo device health (NPU compute NO-GO; NPU-referencing slices get honest audit treatment)
+- Coordinator: merged `mimisbrunnr-c7-f1` → main as 44957cd (--no-ff), pushed, remote HEAD verified 44957cd3121c35e2410efa9ecd16db4c587d2fc5. Branch deleted (local + origin).
 
 ## Campaign 9 — Speed (H161–H180)
 - Status: not started — H171-H172 need GO
