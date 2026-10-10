@@ -2148,3 +2148,110 @@ tracing and broader runtime/context/device/concurrency/soak/refreshed provider g
 
 [Evidence](docs/evidence/small-attention-checkpoint-2026-10-03/README.md).
 Refines AES-ACC-008/010; no general new capability/provider speed promotion.
+
+## MÍMISBRUNNR Campaign 1 (Hailo-10) — 2026-10-10
+
+Phase A recon & spikes on Mimir (Raspberry Pi 5, aarch64, Cortex-A76). These
+entries record measurement spikes and toolchain verdicts, not shipped engine
+capabilities. Nothing here changes an existing capability status.
+
+### H007 — NEON FP16 GEMM baseline — measured
+
+**Status: verified** as a measurement (spike, not engine code). Pure-Mojo
+64x64x64 FP16 matmul with an 8-wide SIMD inner kernel (8x fp16 = one 128-bit
+NEON register; `av.fma(bv, acc)` lowers to `fmla v0.8h, v2.8h, v1.8h`,
+confirmed in `--emit asm` output), checked against a naive scalar
+triple-loop reference on deterministic dyadic inputs (k/64, k in [-4,4]:
+every product and partial sum exactly representable in fp16).
+
+Results on Mimir @ 2.4 GHz (performance governor, sudo-pinned): max abs err
+**0.0** (bit-for-bit agreement, threshold was 1e-3); median of 11 runs
+**32765 ns/matmul = 16.0 GFLOPS** (524288 FLOPs; run spread <1.2%).
+Evidence: `data/phase_a/neon_baseline.json`,
+`spikes/phase_a/neon_fp16_matmul.mojo`. This is a baseline, not a tuned
+result (~21% of the NEON FP16 FMA roofline); it does not establish engine
+GEMM performance.
+
+### H008 — Loader port check — partial
+
+**Status: partial.** GGUF header parsing on ARM64 is byte-identical to
+x86_64 (standalone pure-Mojo parser, 3 generated GGUF v3 test files, sha256
+of canonical outputs match across arches — `data/phase_a/loader_port_check.json`).
+Two blocking findings filed in `docs/phase_a/LOADER_PORT_ISSUES.md`, neither
+worked around: (1) GGUFSeer (`aesir_engine/loader/gguf.mojo`) does not
+compile under Mojo 1.1.0 (`InlineArray` removed from `std.collections`) —
+toolchain drift on both arches, not ARM64-specific; (2) Hladgerð has no
+implementation anywhere in the repo (named domain only), so no safetensors
+loader exists to port-check. Neither finding establishes an ARM64
+endianness/alignment bug; the format itself parses identically.
+
+### H015 — POSIX syscall baseline — verified
+
+**Status: verified** as a measurement spike. Pure Mojo on Mimir performs all
+7 syscalls the HAILBRU driver needs via a single `syscall()` gateway
+(`std.ffi external_call`): openat, read, mmap/munmap, eventfd2, ppoll,
+ioctl (FIONREAD, real success), write — plus pipe2/close supporting. Every
+failure site reports errno via `__errno_location` mapped to a name; the
+ENOENT error path verified. Evidence: `data/phase_a/posix_baseline/output.log`
+(`H015_ALL_SYSCALLS_OK`), `spikes/phase_a/posix_baseline.mojo`. Notes:
+AArch64 uses eventfd2(19)/ppoll(73); redeclaring libc read/write/fclose via
+external_call conflicts with std.io's declarations (hard error) — the
+gateway design is the workaround.
+
+### H010 — Phase-A gate review — GO-WITH-CONDITIONS
+
+**Status: verified** as a review document. `docs/phase_a/PHASE_A_GATE_REVIEW.md`
+tables H001–H009 verdicts against the architecture's Phase-A go gate (3/4
+pass; the VFIO/UIO/sysfs mechanism fails per H004). Verdict:
+GO-WITH-CONDITIONS — Phase A recon is complete and the campaign proceeds,
+but H061–H080 (HAILBRÚ driver) are blocked until the kernel gains
+VFIO/UIO or the driver re-scopes to F2; GGUFSeer needs a 1.1.0 migration
+before loader-dependent slices; Hladgerð/safetensors scope must be decided.
+D1 CPU work, studies, PRÓF, and F3 banking are unblocked.
+
+### H016 — Phase-A evidence aggregator (PRÓF, test-only) — verified
+
+**Status: verified.** `prof/phase_a/check_phase_a.py` (Python, file I/O
+only, no engine imports) machine-checks all Phase-A artifacts: 36/36 pass
+on the clean tree, exit 0. Anti-rubber-stamp proven: an emptied
+`neon_baseline.json` in a scratch copy yields 32/34 with named failures and
+exit 1. Cross-refs checked: H004 cites the census BDF, H010 has the GATE
+VERDICT section, JSON artifacts parse with required keys.
+
+### H017 — Interrupt capability study — verified
+
+**Status: verified** as a study. `docs/phase_a/INTERRUPT_STUDY.md`:
+MSI capability present but zero vectors allocated (`msi_irqs/` empty);
+legacy INTx active on IRQ 37 (INTA#); vendor stack uses single-vector MSI
+(not MSI-X), acknowledged by read-and-clear of BAR0+0x018C. H069 will
+implement MSI first, INTx fallback; MSI-X not a fallback (unproven on this
+device). Userspace primitives named: VFIO = eventfd+ioctl
+(VFIO_DEVICE_SET_IRQS); UIO = blocking read on /dev/uioX.
+
+### H018 — DMA coherence model study — verified
+
+**Status: verified** as a study. `docs/phase_a/DMA_COHERENCE_STUDY.md`: no
+IOMMU on Mimir (no `iommu_group`, SMMU not compiled); 64-bit DMA mask;
+64 MB CMA; 64-byte cache lines. Per-mechanism DMA-visibility documented.
+**ARM64 pitfall flagged (real):** pure userspace cannot issue DC CVAC/IVAC
+(EL1+), so H066/H067 must use uncached mappings, a kernel partner, or
+explicitly unsafe assumptions — plus no-IOMMU means a misprogrammed
+descriptor can DMA anywhere (safety-critical).
+
+### H019 — Chip-executable configuration surface survey — verified
+
+**Status: verified** as a study. `docs/plunder/HAILO_CONFIG_SURFACE.md`
+surveys 12 configuration elements SMIÐR must generate (operation/tensor
+descriptors, allocation directives, data-movement programs, scheduling,
+completion signaling, firmware handshake, plus 5 LATER items), each with a
+one-sentence purpose and MUST-HAVE/LATER marking. Seven are MUST-HAVE for
+the minimal vector-op proof. The encoding of each element (bit layouts the
+silicon expects) remains the Phase-D research target.
+
+### H020 — Phase-A closeout — verified
+
+**Status: verified** as a planning document. `docs/phase_a/PHASE_A_CLOSEOUT.md`:
+top 5 lessons, top 5 risks with mitigations, open questions mapped to
+answering slices, C2 kernel backlog (H022–H039 with target shapes and error
+tolerances), and the H010 gate verdict re-confirmed GO-WITH-CONDITIONS
+(dated, no amendment — H016–H019 added evidence, no contradictions).

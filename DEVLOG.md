@@ -3343,3 +3343,82 @@ Normal f3442a1e stays authenticated ready/prefill4/cpuoffload0. Read
 [operation](docs/NATIVE_TURING_BATCHED_CONTROLS.md) and full evidence. Cooperative
 only; no GPU-fault repair, runtime32/provider promotion. Next earn owned stage
 tracing and wider context/concurrency/soak gates.
+
+## 2026-10-10 — MÍMISBRUNNR H007: NEON FP16 GEMM baseline measured on Mimir
+
+Native pure-Mojo 64x64x64 FP16 matmul on the Pi 5 (Cortex-A76 @ 2.4 GHz,
+performance governor pinned via sudo). 8-wide SIMD inner kernel lowers to
+`fmla v0.8h, v2.8h, v1.8h` (confirmed in asm). Max abs err vs scalar
+reference: **0.0** (bit-exact on dyadic inputs; threshold 1e-3). Median of
+11 runs: **32765 ns = 16.0 GFLOPS**. Mojo 1.1.0 API notes: no module-level
+`alias`, `Pointer` needs `MutUntrackedOrigin` from `std.origin` for mutable
+fn params, timing via `clock_gettime` through `std.ffi external_call`.
+Evidence: `data/phase_a/neon_baseline.json`, `spikes/phase_a/neon_fp16_matmul.mojo`.
+
+## 2026-10-10 — MÍMISBRUNNR H008: loader port check re-scoped, ARM64 parse verified
+
+GGUFSeer cannot compile under Mojo 1.1.0 (`InlineArray` removed from
+`std.collections`) — toolchain drift on both arches, filed as blocking
+issue, not worked around. Hladgerð has no implementation (named domain
+only); no safetensors loader exists. Re-scoped per SÓLRÚN: standalone
+pure-Mojo GGUF v3 header parser run natively on Mimir vs x86_64 forge —
+outputs byte-identical (sha256) on all 3 test files. No ARM64
+endianness/alignment divergence in the format. Findings:
+`docs/phase_a/LOADER_PORT_ISSUES.md`, `data/phase_a/loader_port_check.json`,
+`spikes/phase_a/gguf_parse_spike.mojo`.
+
+## 2026-10-10 — MÍMISBRUNNR H015: POSIX syscall baseline all green on Mimir
+
+Pure-Mojo `syscall()` gateway proves all 7 driver syscalls on the Pi 5:
+openat/read (Hailo vendor sysfs -> 0x1e60), mmap/munmap (pattern-verified),
+eventfd2 + ppoll (ready/timeout), pipe2 + ioctl(FIONREAD)=5, write/read
+roundtrip. ENOENT error path verified; every failure names its errno.
+Key finding: glibc's syscall() wrapper converts raw -errno to -1 (must read
+__errno_location); std.io pre-declares read/write/fclose so external_call
+needs the single-gateway design. `H015_ALL_SYSCALLS_OK`.
+Evidence: `data/phase_a/posix_baseline/output.log`,
+`spikes/phase_a/posix_baseline.mojo`.
+
+## 2026-10-10 — MÍMISBRUNNR H010: Phase-A gate review — GO-WITH-CONDITIONS
+
+Gate review written (`docs/phase_a/PHASE_A_GATE_REVIEW.md`): H001–H009
+tabled, 3/4 go-gate conditions pass. The H004 mechanism NO-GO is Phase A's
+most important finding, not a campaign killer — but H061–H080 are blocked
+until the kernel gets VFIO/UIO or the driver re-scopes to F2. Two more
+conditions: GGUFSeer 1.1.0 migration before loader slices; Hladgerð scope
+decision before safetensors slices. CPU engine work, studies, and F3
+banking proceed unblocked.
+
+## 2026-10-10 — MÍMISBRUNNR H016: Phase-A evidence aggregator (PRÓF)
+
+`prof/phase_a/check_phase_a.py` verifies all Phase-A artifacts exist,
+non-empty, and cross-referenced: 36/36 PASS, exit 0. Proven not a rubber
+stamp — emptied artifact in scratch copy fails with exit 1 and names the
+failures. Fixed two real issues found: `loader_port_check.json` had an
+extra brace (invalid JSON); firmware catalogue is a dict, not a list.
+
+## 2026-10-10 — MÍMISBRUNNR H017/H018: interrupt + DMA coherence studies
+
+INTERRUPT_STUDY.md: MSI present but unallocated, INTx on IRQ 37 live; vendor
+uses single MSI (not MSI-X), acked by read-and-clear BAR0+0x018C. H069 does
+MSI first, INTx fallback. VFIO=eventfd+ioctl, UIO=blocking read.
+DMA_COHERENCE_STUDY.md: no IOMMU, 64-bit mask, 64 MB CMA, 64 B lines. Real
+ARM64 pitfall for H066/H067: userspace cannot do cache maintenance (EL1+),
+and with no IOMMU a bad descriptor DMAs anywhere in RAM.
+
+## 2026-10-10 — MÍMISBRUNNR H019: config surface survey for SMIÐR
+
+`docs/plunder/HAILO_CONFIG_SURFACE.md`: 12 elements a chip-executable
+configuration must express, 7 MUST-HAVE for the minimal proof (op/tensor
+descriptors, allocation, DMA programs, schedule, completion, firmware
+handshake), 5 LATER. Gives C6 a prioritized backlog; the bit encodings are
+the Phase-D assault's target.
+
+## 2026-10-10 — MÍMISBRUNNR H020: Phase-A closeout
+
+`docs/phase_a/PHASE_A_CLOSEOUT.md`: 5 lessons (toolchain is real, 1.1.0
+drift, mechanism NO-GO is the finding, spikes beat speculation, names
+outrun implementations), 5 risks with mitigations, open questions → owning
+slices, C2 kernel backlog with shapes and tolerances. H010 verdict
+re-confirmed GO-WITH-CONDITIONS, no amendment. Phase A is closed; C2
+(ARMVEGR kernels) is scoped.
