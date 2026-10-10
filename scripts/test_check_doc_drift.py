@@ -13,6 +13,7 @@ from check_doc_drift import (
     evaluate_artifact_policy,
     ledger_schema_errors,
     load_hygiene_policy,
+    status_reference_errors,
     todo_status_reference_errors,
     validate_hygiene_policy,
 )
@@ -245,6 +246,66 @@ def test_ledger_schema_integration() -> None:
     )
 
 
+def test_todo_combined_and_adjacent_capability_references() -> None:
+    statuses = {
+        "AES-TST-001": "verified",
+        "AES-TST-002": "partial",
+    }
+    content = (
+        "[verified, AES-TST-001; AER-002] "
+        "[partial, AES-TST-002]"
+    )
+    require(
+        not status_reference_errors(content, statuses, "TODO.md"),
+        "valid combined audit and adjacent capability tags were rejected",
+    )
+
+
+def test_todo_later_unknown_and_mismatched_references() -> None:
+    statuses = {"AES-TST-001": "verified", "AES-TST-002": "partial"}
+    unknown = "[verified, AES-TST-001; AER-002; AES-TST-999]"
+    require(
+        status_reference_errors(unknown, statuses, "TODO.md") == [
+            "TODO.md:1: unknown capability reference AES-TST-999"
+        ],
+        "unknown later AES reference was hidden by a valid earlier reference",
+    )
+    mismatch = "[verified, AES-TST-001; AES-TST-002]"
+    require(
+        status_reference_errors(mismatch, statuses, "TODO.md") == [
+            "TODO.md:1: AES-TST-002 tag is verified, ledger is partial"
+        ],
+        "mismatched later AES reference was not diagnosed",
+    )
+
+
+def test_todo_adjacent_unknown_and_mismatch_diagnostic_order() -> None:
+    statuses = {"AES-TST-001": "verified", "AES-TST-002": "partial"}
+    content = (
+        "[verified, AES-TST-999] [verified, AES-TST-002] "
+        "[partial, AES-TST-002]"
+    )
+    require(
+        status_reference_errors(content, statuses, "TODO.md") == [
+            "TODO.md:1: unknown capability reference AES-TST-999",
+            "TODO.md:1: AES-TST-002 tag is verified, ledger is partial",
+        ],
+        "adjacent tag diagnostics were not emitted in source order",
+    )
+
+
+def test_todo_unsupported_status_and_ordinary_brackets() -> None:
+    statuses = {"AES-TST-001": "verified"}
+    content = (
+        "[finished, AES-TST-001] [verified, AES-TST-001] "
+        "[verified, ordinary words] [note: AES-TST-001]"
+    )
+    require(
+        status_reference_errors(content, statuses, "TODO.md") == [
+            "TODO.md:1: unsupported status tag 'finished'"
+        ],
+        "unsupported tag or unrelated brackets did not follow the contract",
+    )
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -254,6 +315,10 @@ def main() -> None:
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
     test_ledger_schema_integration()
+    test_todo_combined_and_adjacent_capability_references()
+    test_todo_later_unknown_and_mismatched_references()
+    test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
+    test_todo_unsupported_status_and_ordinary_brackets()
 
 
 if __name__ == "__main__":

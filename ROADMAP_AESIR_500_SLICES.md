@@ -711,6 +711,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-044 updates `status_reference_errors` to validate every AES ID inside
   each explicit bracket tag and process adjacent tags independently; tags
   without an AES ID and AER references remain outside capability validation.
+- AES500-045 adds focused cases for valid adjacent/AER tags, unknown and
+  mismatched later IDs, adjacent diagnostic ordering, unsupported statuses,
+  and unrelated bracket text. The repository checker test script passes.
 
 ## Status
 
