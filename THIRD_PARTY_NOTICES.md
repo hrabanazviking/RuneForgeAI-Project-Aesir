@@ -1,5 +1,31 @@
 # Third-Party Notices
 
+## hailort-drivers (study only — no code taken)
+
+The PCIe transport architecture documented in
+`docs/plunder/HAILO_PCIE_TRANSPORT_GUIDE.md` was studied from the
+hailo-ai/hailort-drivers repository (commit `309eb10`, "Update
+third-party-packages.md for v5.4.0", cloned 2026-10-10). No code from this
+repository was copied, translated, vendored, linked, or shipped; the study
+produced original prose only, per the clean-room workflow (see
+`CLEAN_ROOM_LOG.md`).
+
+GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
+Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+
+## HailoRT (study only — no code taken)
+
+The HEF container format documented in
+`docs/plunder/HAILO_HEF_CONTAINER_GUIDE.md` was studied from the
+hailo-ai/HailoRT repository (commit `f519590`, "v5.4.0", cloned
+2026-10-10). No code from this repository was copied, translated, vendored,
+linked, or shipped; the study produced original prose only, per the
+clean-room workflow (see `CLEAN_ROOM_LOG.md`). No `.hef` file was
+downloaded, opened, or parsed.
+
+The MIT License (MIT)
+Copyright (c) 2019-2026 Hailo Technologies Ltd.
+
 ## ggml / llama.cpp format and architecture reference
 
 Native Gemma 4 tokenizer, quantized weight decoding, and model operations are

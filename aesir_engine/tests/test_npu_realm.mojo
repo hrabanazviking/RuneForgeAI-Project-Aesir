@@ -1,25 +1,19 @@
 # tests/test_npu_realm.mojo
-# Verification of Edge/Desktop NPU Acceleration Integration & Gateway Memory Management
+# H011: the dlopen NPU stub retired. These tests verify the DOCUMENTED ABSENCE:
+# no dlopen probing exists, probe_npu_realms() clears the backend list,
+# and gemm_f16_npu() raises the stable "not implemented" error.
+# HAILBRU's real driver (H061+) will replace this absence.
 
-from core.npu_gate import NPUGate
 from core.mimir_well import MimirWell, RuneTensor, NPUBackendType, f16
 from core.compute import gemm_f16_npu
 
-def test_npu_gate_availability() raises:
-    print("--- Testing NPUGate driver & runtime availability ---")
-    for b_id in range(7):
-        var backend = NPUBackendType(b_id)
-        var avail = NPUGate.is_available(backend)
-        var count = NPUGate.get_device_count(backend)
-
-        if avail:
-            print("NPU Backend " + backend.name() + ": runtime library LOADABLE; physical device count unverified")
-        else:
-            print("NPU Backend " + backend.name() + ": UNAVAILABLE on current host platform (Fail-Closed)")
-        if count != 0:
-            raise Error("NPUGate fabricated a physical device count for " + backend.name())
-
-    print("NPUGate driver & runtime availability: PASS")
+def test_npu_probe_absence() raises:
+    print("--- Testing NPU probe absence (H011 retirement) ---")
+    var well = MimirWell(1024 * 1024)
+    well.probe_npu_realms()
+    if len(well.npu_backends) != 0:
+        raise Error("probe_npu_realms reported backends with no driver present")
+    print("NPU probe absence: PASS")
 
 
 def test_npu_gemm_dispatch_bounds() raises:
@@ -34,14 +28,14 @@ def test_npu_gemm_dispatch_bounds() raises:
 
     var shape_rejected = False
     try:
-        NPUGate.launch_gemm_npu(A, B, C, NPUBackendType(NPUBackendType.QUALCOMM_HEXAGON))
+        gemm_f16_npu(A, B, C, NPUBackendType(NPUBackendType.QUALCOMM_HEXAGON))
     except error:
         shape_rejected = True
         if "GEMM shape mismatch" not in String(error):
-            raise Error("NPUGate shape mismatch check produced unexpected error text: " + String(error))
+            raise Error("gemm_f16_npu shape mismatch check produced unexpected error text: " + String(error))
 
     if not shape_rejected:
-        raise Error("NPUGate failed to reject mismatched GEMM shapes")
+        raise Error("gemm_f16_npu failed to reject mismatched GEMM shapes")
 
     print("gemm_f16_npu shape mismatch handling: PASS")
 

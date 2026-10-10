@@ -26,7 +26,6 @@ from .cuda_compute import CUDAF16GemmExecutor
 from .metal_gate import MetalGate
 from .intel_gate import IntelGate
 from .amd_gate import AMDGate
-from .npu_gate import NPUGate
 from .external_quantization import (
     GPTQ4BitMatrix,
     GPTQ8BitMatrix,
@@ -1989,9 +1988,16 @@ def gemm_f16_npu(
     backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
 ) raises:
     """
-    Dispatch GEMM execution to NPUGate or raise explicit NPU error.
+    H011: the dlopen NPU stub retired — no dlopen probing, no NPU execution.
+    Validates shapes, then raises the documented absence error until
+    HAILBRU's real driver (H061+) lands. Fail-closed: never falls back
+    to CPU compute under an NPU label.
     """
-    NPUGate.launch_gemm_npu(A, B, C, backend)
+    if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
+        raise Error("gemm_f16_npu: non-positive matrix dimensions are prohibited")
+    if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
+        raise Error("gemm_f16_npu: GEMM shape mismatch")
+    raise Error("NPU execution is not implemented for backend " + backend.name() + ": no physical kernel was launched")
 
 
 def gemm_f16_gpgpu_vector(

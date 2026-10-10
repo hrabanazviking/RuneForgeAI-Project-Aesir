@@ -290,7 +290,7 @@ def check_source_truth(errors: list[str]) -> None:
             "aesir_engine/core/cuda_gate.mojo: CUDA count must use truthful MAX discovery"
         )
 
-    for name in ["metal_gate.mojo", "intel_gate.mojo", "amd_gate.mojo", "npu_gate.mojo"]:
+    for name in ["metal_gate.mojo", "intel_gate.mojo", "amd_gate.mojo"]:
         content = (ROOT / "aesir_engine/core" / name).read_text(encoding="utf-8")
         block = re.search(r"def get_device_count\([^)]*\)[^:]*:\s*(.*?)(?=\n\s*def |\Z)", content, re.DOTALL)
         if not block or "return 0" not in block.group(1):

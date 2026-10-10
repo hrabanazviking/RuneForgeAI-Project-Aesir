@@ -230,14 +230,14 @@ graph TD
   - **`gemm_f16_cuda`:** Real resource-explicit CUDA F16 GEMM gateway. It requires a reusable selected-device `CUDAF16GemmExecutor`; it never discovers hardware, invents budgets, or falls back to host compute.
   - **`rmsnorm_gpu` and `gemm_f16_gpu`:** The older realm-only gateways remain fail-closed for every realm because they carry no selected resource owner. CUDA discovery never authorizes a CPU fallback under a GPU label.
 
-### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo`, `npu_gate.mojo` — Hardware Runtime Gate Probes
+### 6.1. `core/cuda_gate.mojo`, `metal_gate.mojo`, `intel_gate.mojo`, `amd_gate.mojo` — Hardware Runtime Gate Probes
 - **Role:** Backend-specific GPU/NPU runtime discovery, driver availability probes, and hardware-specific kernel launchers.
 - **Implementation:**
   - `CUDAGate` (`cuda_gate.mojo`): NVIDIA CUDA runtime probe with `is_cuda_available()`, dynamic `libcuda.so` / `nvcuda.dll` presence detection, and fail-closed error boundaries for missing CUDA drivers.
   - `MetalGate` (`metal_gate.mojo`): Apple Metal runtime probe with `is_metal_available()`, macOS Metal framework detection, and fail-closed boundaries for non-Apple platforms.
   - `IntelGate` (`intel_gate.mojo`): Intel OneAPI Level Zero runtime probe with `is_intel_available()`, `libze_loader.so` presence detection, and fail-closed boundaries for missing Intel GPU drivers.
   - `AMDGate` (`amd_gate.mojo`): AMD ROCm HIP runtime probe with `is_amd_available()`, `libamdhip64.so` presence detection, and fail-closed boundaries for missing AMD GPU drivers.
-  - `NPUGate` (`npu_gate.mojo`): Edge NPU runtime probe with backend-specific library detection (`libhailort.so`, `libQnnHtp.so`, etc.) and fail-closed boundaries for unavailable NPU hardware.
+- **NPU probing retired (H011, 2026-10-10):** the former `NPUGate` (`npu_gate.mojo`) dlopen-based Edge NPU runtime probe was removed per architectural law L1. Its former responsibilities are a documented absence until HAILBRU's real driver lands (H061+); see `docs/phase_a/NPU_GATE_RETIREMENT.md`. `gemm_f16_npu()` keeps its public signature, validates shapes, and raises the stable "not implemented" error; `MimirWell.probe_npu_realms()` clears the backend list.
 - **Boundary:** All gate files are in `core/` (Core — Hardware Discovery Domain). They have zero imports from `server/`, `cli/`, or `loader/`.
 
 ### 7. `core/inference.mojo` — The Loom of Fate (`TransformerBlock`, `forward_pass` & `generation_stop_reason`)

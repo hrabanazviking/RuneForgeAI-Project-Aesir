@@ -1359,6 +1359,7 @@ struct MimirWell:
     var base_ptr: Pointer[Scalar[f16], MutUntrackedOrigin]
     var capacity: Int
     var offset: Int
+    var npu_backends: List[NPUBackendType]
 
     def __init__(out self, size_in_bytes: Int) raises:
         if size_in_bytes <= 0:
@@ -1368,6 +1369,7 @@ struct MimirWell:
         var allocation = alloc(Layout[Scalar[f16]](count=self.capacity))
         self.base_ptr = allocation^.unsafe_leak()
         self.offset = 0
+        self.npu_backends = List[NPUBackendType]()
         unsafe_memset_zero(self.base_ptr, self.capacity)
 
     def allocate(
@@ -1425,6 +1427,16 @@ struct MimirWell:
         if self.capacity <= 0:
             return 0.0
         return (Float32(self.offset) / Float32(self.capacity)) * 100.0
+
+    def probe_npu_realms(mut self):
+        """Runtime probe for edge/desktop NPU backends.
+
+        H011: the dlopen NPU stub retired — the dlopen-based runtime probe is gone.
+        This clears the backend list and reports nothing, a documented absence
+        until HAILBRU's real driver (H061+) repopulates it via genuine
+        device discovery.
+        """
+        self.npu_backends.clear()
 
     def __deinit__(deinit self):
         self.base_ptr.unsafe_free()
@@ -1596,14 +1608,14 @@ struct DeviceTopology(Copyable):
         self.npu_backends.clear()
 
     def probe_npu_realms(mut self):
-        """Runtime probe for edge/desktop NPU backends."""
-        self.npu_backends.clear()
-        from core.npu_gate import NPUGate
+        """Runtime probe for edge/desktop NPU backends.
 
-        for b_id in range(7):
-            var b = NPUBackendType(b_id)
-            if NPUGate.is_available(b) and NPUGate.get_device_count(b) > 0:
-                self.npu_backends.append(b)
+        H011: the dlopen NPU stub retired — the dlopen-based runtime probe is gone.
+        This clears the backend list and reports nothing, a documented absence
+        until HAILBRU's real driver (H061+) repopulates it via genuine
+        device discovery.
+        """
+        self.npu_backends.clear()
 
     def detect_gpu_realms(mut self):
         """Default constructor initialization (comptime safe)."""

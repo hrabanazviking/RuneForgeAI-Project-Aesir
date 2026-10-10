@@ -5,7 +5,6 @@ from core.cuda_gate import CUDAGate
 from core.metal_gate import MetalGate
 from core.intel_gate import IntelGate
 from core.amd_gate import AMDGate
-from core.npu_gate import NPUGate
 from core.mimir_well import MimirWell, RuneTensor, GPURealmType, NPUBackendType, f16
 from core.compute import gemm_f16_gpu, gemm_f16_npu
 
@@ -44,15 +43,10 @@ def test_non_positive_allocation_rejection() raises:
     if not amd_rej:
         raise Error("AMDGate failed to reject zero allocation size")
 
-    var npu_rej = False
-    try:
-        _ = NPUGate.allocate_npu_buffer(-128)
-    except:
-        npu_rej = True
-    if not npu_rej:
-        raise Error("NPUGate failed to reject negative allocation size")
+    # H011: NPUGate retired — its dlopen stub allocator is gone and no NPU
+    # allocator exists until HAILBRU (H061+). Nothing to probe here.
 
-    print("non-positive VRAM / NPU allocation rejection: PASS")
+    print("non-positive VRAM allocation rejection: PASS")
 
 
 def test_non_positive_dimension_gemm_rejection() raises:
@@ -103,12 +97,12 @@ def test_non_positive_dimension_gemm_rejection() raises:
 
     var npu_dim_rej = False
     try:
-        NPUGate.launch_gemm_npu(A_zero, B_zero, C_zero, NPUBackendType(NPUBackendType.QUALCOMM_HEXAGON))
+        gemm_f16_npu(A_zero, B_zero, C_zero, NPUBackendType(NPUBackendType.QUALCOMM_HEXAGON))
     except e:
         if "non-positive matrix dimensions" in String(e):
             npu_dim_rej = True
     if not npu_dim_rej:
-        raise Error("NPUGate failed to reject non-positive matrix dimensions")
+        raise Error("gemm_f16_npu failed to reject non-positive matrix dimensions")
 
     print("non-positive GEMM dimension rejection: PASS")
 
@@ -133,14 +127,15 @@ def test_self_healing_error_barriers() raises:
         if not metal_caught:
             raise Error("gemm_f16_gpu failed to trap Metal unavailable error")
 
-    # Test NPU dispatch error barrier on unavailable hardware
-    if not NPUGate.is_available(NPUBackendType(NPUBackendType.HAILO_10)):
-        var hailo_caught = False
-        try:
-            gemm_f16_npu(A, B, C, NPUBackendType(NPUBackendType.HAILO_10))
-        except:
-            hailo_caught = True
-        if not hailo_caught:
-            raise Error("gemm_f16_npu failed to trap Hailo-10 unavailable error")
+    # NPU dispatch error barrier: no NPU driver exists yet (H011 retired the
+    # dlopen stub), so gemm_f16_npu must always raise the documented absence
+    # error — no availability probe remains to consult.
+    var hailo_caught = False
+    try:
+        gemm_f16_npu(A, B, C, NPUBackendType(NPUBackendType.HAILO_10))
+    except:
+        hailo_caught = True
+    if not hailo_caught:
+        raise Error("gemm_f16_npu failed to trap Hailo-10 unavailable error")
 
     print("fail-closed error barriers and arena integrity: PASS")

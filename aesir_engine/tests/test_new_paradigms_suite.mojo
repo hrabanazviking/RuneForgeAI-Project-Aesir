@@ -15,7 +15,6 @@ from core.wic import WaveInferenceEngine
 from core.nsfi import NSFIEngine
 from core.mqari import MQARIEngine
 from core.mimir_well import MimirWell, RuneTensor, f16, NPUBackendType
-from core.npu_gate import NPUGate
 
 def test_config_and_json() raises:
     var cfg = AesirConfig()
@@ -36,8 +35,8 @@ def test_config_and_json() raises:
     if not parsed.skaldbrodir_enabled:
         raise Error("test_config_and_json: Failed to parse skaldbrodir_enabled")
     
-    # Prove Hailo-10 /dev/hailo0 Pi 5 device detection method executes cleanly
-    _ = NPUGate.is_hailo_pi5_device_present()
+    # H011: NPUGate retired — no dlopen device probing remains. /dev/hailo0
+    # detection returns with HAILBRU's real driver (H061+).
     print("test_config_and_json: PASS")
 
 def test_cli_flags() raises:

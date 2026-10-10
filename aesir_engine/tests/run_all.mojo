@@ -132,7 +132,7 @@ from tests.test_amd_realm import (
     test_amd_realm_unsupported_gateways,
 )
 from tests.test_npu_realm import (
-    test_npu_gate_availability,
+    test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
     test_npu_realm_unsupported_gateways,
 )
@@ -363,7 +363,7 @@ def main() raises:
     run_case(ledger, "npu.host_buffer_view", test_npu_buffer_zero_copy)
     run_case(ledger, "npu.host_simd8_parity", test_arm_neon_precision)
     run_case(ledger, "npu.unsupported_execution", test_npu_gemm_parity)
-    run_case(ledger, "npu.npu_gate_availability", test_npu_gate_availability)
+    run_case(ledger, "npu.probe_absence", test_npu_probe_absence)
     run_case(
         ledger, "npu.npu_gemm_dispatch_bounds", test_npu_gemm_dispatch_bounds
     )
