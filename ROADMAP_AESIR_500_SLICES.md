@@ -675,6 +675,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-033 pins immutable parser records, diagnostics, CLI subcommands,
   continuation and extension preservation, and safe atomic export in
   `scripts/INTERFACE.md` and the task contract.
+- AES500-034 implements a read-only parser, stable fail-closed diagnostics, and
+  deterministic schema-v1 JSON export preserving optional nulls and ordered
+  extension labels. Current 119 entries parse, and two exports are byte-
+  identical; focused malformed-input evidence follows in AES500-035.
 
 ## Status
 
