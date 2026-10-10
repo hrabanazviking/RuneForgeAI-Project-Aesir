@@ -534,17 +534,31 @@ struct GGUFSeer:
         tensor_type: UInt32,
     ) raises -> Int:
         if tensor_type == GGMLType.F16:
+            if element_count < 0 or element_count > 9223372036854775807 // 2:
+                raise Error("GGUF tensor byte size overflows host index")
             return element_count * 2
         elif tensor_type == GGMLType.F32:
+            if element_count < 0 or element_count > 9223372036854775807 // 4:
+                raise Error("GGUF tensor byte size overflows host index")
             return element_count * 4
         elif tensor_type == GGMLType.Q4_0:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 18
         elif tensor_type == GGMLType.Q4_1:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 20:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 20
         elif tensor_type == GGMLType.Q8_0:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 34:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 34
         elif tensor_type == GGMLType.Q4_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 144:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 256) * 144
+        if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
+            raise Error("GGUF tensor byte size overflows host index")
         return (element_count // 32) * 18
 
     def _map_tensor(
@@ -559,10 +573,14 @@ struct GGUFSeer:
         # silent map
         if name in self.tensors:
             raise Error("GGUF contains a duplicate tensor name: " + name)
+        if rows <= 0 or cols <= 0 or rows > 9223372036854775807 // cols:
+            raise Error("GGUF tensor element count overflows host index: " + name)
         var element_count = rows * cols
         var byte_size = self._tensor_byte_size(element_count, tensor_type)
         if tensor_offset < 0 or tensor_offset % self.alignment != 0:
             raise Error("GGUF tensor offset is not correctly aligned: " + name)
+        if tensor_offset > 9223372036854775807 - self.data_offset:
+            raise Error("GGUF tensor absolute offset overflows host index: " + name)
         var absolute_offset = self.data_offset + tensor_offset
         self._require_range(absolute_offset, byte_size)
 
@@ -570,7 +588,7 @@ struct GGUFSeer:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, False)
         elif tensor_type == GGMLType.F32:
-            if pool.offset + element_count > pool.capacity:
+            if pool.offset < 0 or pool.offset > pool.capacity or element_count > pool.capacity - pool.offset:
                 raise Error("MimirWell cannot hold converted F32 normalization tensor")
             var destination = pool.allocate(element_count)
             var source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Float32]()
@@ -604,11 +622,17 @@ struct GGUFSeer:
             cursor += 4
             if dimension_count <= 0 or dimension_count > 2:
                 raise Error("Inference tensor must have one or two dimensions: " + name)
-            var cols = Int(self._read_u64(cursor))
+            var cols_u64 = self._read_u64(cursor)
+            if cols_u64 > UInt64(9223372036854775807):
+                raise Error("GGUF tensor dimension exceeds host index: " + name)
+            var cols = Int(cols_u64)
             cursor += 8
             var rows = 1
             if dimension_count == 2:
-                rows = Int(self._read_u64(cursor))
+                var rows_u64 = self._read_u64(cursor)
+                if rows_u64 > UInt64(9223372036854775807):
+                    raise Error("GGUF tensor dimension exceeds host index: " + name)
+                rows = Int(rows_u64)
                 cursor += 8
             if rows <= 0 or cols <= 0:
                 raise Error("GGUF tensor has a non-positive dimension: " + name)

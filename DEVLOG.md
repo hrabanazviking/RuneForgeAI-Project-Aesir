@@ -3793,3 +3793,11 @@ one skipped (214 total); docs and whitespace checks pass.
 AES500-143 tensor-directory interface tests confirm positive rank-one/two
 records reach mapping, while rank three and a zero dimension fail before adding
 a tensor descriptor. Each failure cleans mmap state.
+
+
+## 2026-10-10 — AES500-144 tensor arithmetic bounds
+
+Added host-index guards for UInt64 dimensions, row/column product, current tensor
+byte-size multiplications, and absolute data offsets. F32 conversion pool bounds
+now avoid offset-plus-count overflow. The sm_89 native build and focused GGUF
+module pass; quantized block divisibility remains open.

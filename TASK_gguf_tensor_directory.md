@@ -40,3 +40,8 @@ AES500-142 baseline: one generated rank-one 1x1 F16 `fixture.weight` maps succes
 ## AES500-143 interface receipt
 
 The synthetic tensor-record builder and `mmap_and_load` test interface cover rank 1 and rank 2 with positive 1x1 dimensions (mapping proceeds to the later missing-required-tensor error), rank 3 (rank diagnostic), and rank 1 with dimension zero (positive-dimension diagnostic). Each file ends FAILED/unmapped; rejected ranks/dimensions do not add `fixture.weight` to the tensor map.
+
+
+## AES500-144 implementation receipt
+
+The parser rejects UInt64 dimensions above signed host `Int` range before conversion; `_map_tensor` checks positive shape/product overflow and absolute-offset addition before arithmetic; `_tensor_byte_size` guards multiplication for F16/F32 and current block-size branches; F32 pool admission now compares requested elements to `capacity - offset` after validating the offset. Native sm_89 build and the focused GGUF module pass. This does not resolve quantization block divisibility or all GGML type byte layouts.

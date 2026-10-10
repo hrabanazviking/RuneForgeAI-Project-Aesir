@@ -1378,3 +1378,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-143 GGUF tensor directory interface: rank-1/rank-2 positive shapes
   reach mapping; rank-3 and zero dimensions reject before tensor map mutation.
   Failure cleanup is asserted; registered `gguf.tensor_directory_interface`.
+
+- [x] AES500-144 GGUF tensor arithmetic: dimension conversion, element product,
+  supported byte-size multiplications, absolute data offset and F32 pool bound
+  now use checked/subtraction-based guards. Native build and focused GGUF module
+  pass; block divisibility/layout coverage remains separate.
