@@ -168,9 +168,6 @@ def main() raises:
         probe_cached.append(List[Float32]())
     var tp0 = now_ns()
     var logits_p = inf.forward(prompt[0])
-    for pi in range(len(probe_steps)):
-        if 0 == probe_steps[pi]:
-            probe_cached[pi] = _logits_to_f32(logits_p, 32000)
     for i in range(1, 512):
         logits_p = inf.forward(prompt[i])
         for pi in range(len(probe_steps)):
@@ -239,11 +236,9 @@ def main() raises:
             prefix.append(gen_ids[i])
         var ref_p = inf.forward_nocache(prefix)
         var ref_logits = _logits_to_f32(ref_p, 32000)
-        var cached = List[Float32]()
+        var cached = decode_cached.copy()
         if pi < 2:
             cached = probe_cached[pi].copy()
-        else:
-            cached = decode_cached.copy()
         var err = _max_abs_err(cached, ref_logits)
         var verdict = String("PASS")
         if err > Float32(1e-3):
