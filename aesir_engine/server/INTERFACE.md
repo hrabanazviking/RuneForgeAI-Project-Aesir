@@ -23,6 +23,24 @@ See `docs/NATIVE_SERVICE.md` and `docs/API_SUPPORT_MATRIX_V1.md` for exact
 route, field, transport and threat limits. The declarations below also retain
 legacy primitives/formatters that are not exposed routes.
 
+### Live socket and shutdown ownership
+
+`OwnedFD` owns and closes one descriptor. `listen_local` returns the listener
+owner; each accepted client becomes an owner before entering the pending FIFO.
+Popping or detaching a pending client transfers that owner to request handling.
+Every completion, rejection, timeout, cancellation, and error path releases its
+owned client through scope cleanup. `serve_loaded` owns the listener and pending
+queue for the call lifetime. The interrupt descriptor belongs to the CLI signal
+bootstrap and is borrowed by polling and generation control; transport does not
+close or consume it. SIGINT/SIGTERM cooperatively stop admission and generation
+at existing control checkpoints, then scope cleanup releases pending clients,
+active clients, and listener. An in-progress request may observe a closed
+connection. This lifecycle contract does not guarantee GPU-kernel preemption,
+response delivery during shutdown, daemon supervision, remote binding, or
+cross-platform behavior. See
+[`TASK_socket_ownership_shutdown.md`](../../TASK_socket_ownership_shutdown.md)
+and the [baseline receipt](../../docs/evidence/socket-shutdown-baseline-2026-10-10/README.md).
+
 ## Public Structs & Functions
 
 ### Sampling precedence (S07a)
