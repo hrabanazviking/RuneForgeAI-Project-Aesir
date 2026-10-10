@@ -28,8 +28,11 @@ AES500-002 supplies the already executed positive capable-disabled scope.
 Document the constructor, capability admission snapshot, cooperative request/start and
 reset policy precisely. Run the unchanged accepted executable against a verified
 nonexistent model path in a fresh private directory for each negative mode.
-Require exit code 1, the exact expected exception message, empty stdout, and
-absence of the collector's fallback `... admitted` error or model/CUDA output.
+Require exit code 1, the exact expected exception message, clean stderr, and
+only the known Mojo exception diagnostic on stdout: the fixed stack-trace
+preamble followed by one `Unhandled exception caught during execution: MESSAGE`
+line. Reject any extra collector CSV, fallback `... admitted` error or
+model/CUDA output.
 The nonexistent input and exact exception, together with reviewed constructor
 ordering, establish the named pre-load refusal. Output silence alone is not a
 proof of the boundary.
@@ -102,3 +105,21 @@ normal runtime, broad model/device, or speed promotion is established here.
 
 Pre-execution Architect, Auditor and Skald reviews pass. Admission snapshots
 are mutable fields compared by the fixture; immutable storage is not implied.
+
+## Observed diagnostic transport correction — before final execution
+
+The first retained matrix attempt observed all thirteen expected errors and
+exit codes, with source/binary/service identities unchanged. Its receipt failed
+because the initial contract assumed exception text on stderr and empty stdout.
+Mojo 1.0.0 actually emits this fixed stdout preamble and one exception line,
+with empty stderr:
+
+```text
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: MESSAGE
+```
+
+The corrected acceptance requires exactly those two stdout lines, replacing
+MESSAGE with the row's predeclared exact exception, and empty stderr. No expected
+exception or constructor gate changes. Preserve the failed receipt/raw streams;
+commit/push this correction before executing a new fresh-directory matrix.
