@@ -638,6 +638,37 @@ def test_blob_identity_interface() raises:
     print("recipe/blob identity interface pairings: PASS")
 
 
+def test_blob_identity_unit_evidence() raises:
+    """Adds exact scheme, width, digit-case, suffix, and signed-size boundaries."""
+    var invalid_digests = List[String]()
+    invalid_digests.append("md5:" + "a" * 32)
+    invalid_digests.append("fnv1a64:" + "0" * 15)
+    invalid_digests.append("fnv1a64:" + "0" * 17)
+    invalid_digests.append("fnv1a64:" + "0" * 15 + "G")
+    invalid_digests.append("sha256:" + "a" * 63)
+    invalid_digests.append("sha256:" + "a" * 65)
+    invalid_digests.append("sha256:" + "a" * 63 + "G")
+    invalid_digests.append("sha256:" + "a" * 64 + ":suffix")
+
+    for index in range(len(invalid_digests)):
+        var rejected = False
+        try:
+            validate_manifest_storage_identity(invalid_digests[index], 1)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("identity validator accepted malformed digest " + String(index))
+
+    var negative_rejected = False
+    try:
+        validate_manifest_storage_identity("sha256:" + "b" * 64, -1)
+    except error:
+        negative_rejected = "must not be negative" in String(error)
+    if not negative_rejected:
+        raise Error("identity validator did not diagnose a negative byte size")
+    print("blob identity scheme/width/case/suffix/signed-size matrix: PASS")
+
+
 def assert_cli_command_unsupported(command: String) raises:
     var args = List[String]()
     args.append(command)
