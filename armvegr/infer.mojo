@@ -201,6 +201,28 @@ struct Inference:
             lp = self.forward(tokens[i])
         return lp
 
+    def prefill_chunked(
+        mut self, tokens: List[Int], chunk: Int
+    ) raises -> Pointer[Float16, MutUntrackedOrigin]:
+        """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
+        exactly like prefill(). H174 replaces the chunk interior with
+        batched GEMM computation; the H161 baseline processes each chunk
+        token-by-token (bit-identical to prefill by construction)."""
+        if len(tokens) == 0:
+            raise Error("infer: prefill_chunked needs >= 1 token")
+        if chunk <= 1:
+            return self.prefill(tokens)
+        var lp = self.forward(tokens[0])
+        var i = 1
+        while i < len(tokens):
+            var end = i + chunk
+            if end > len(tokens):
+                end = len(tokens)
+            for j in range(i, end):
+                lp = self.forward(tokens[j])
+            i = end
+        return lp
+
     def _k_ptr(self, layer: Int, pos: Int, kh: Int) -> Pointer[Float16, MutUntrackedOrigin]:
         var off = ((layer * self.max_seq + pos) * 4 + kh) * 64
         return self.k_cache.unsafe_offset(off)

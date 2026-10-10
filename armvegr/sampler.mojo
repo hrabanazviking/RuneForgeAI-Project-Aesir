@@ -152,6 +152,22 @@ struct Sampler:
         var probs = softmax(l)
         return self.sample_categorical(probs)
 
+    def sample_fast(
+        mut self,
+        logits: List[Float32],
+        temp: Float32,
+        top_k: Int,
+        top_p: Float32,
+        history: List[Int],
+        penalty: Float32,
+    ) -> Int:
+        """H161/H173 — fast sampling path. H161 baseline: identical to
+        sample() (the flag exists so H173 can A/B the optimization
+        against this exact call site). H173 replaces the interior with
+        the fused zero-allocation path; token-identity vs sample() is
+        asserted by test."""
+        return self.sample(logits, temp, top_k, top_p, history, penalty)
+
 
 def softmax(logits: List[Float32]) -> List[Float32]:
     var n = len(logits)
@@ -171,4 +187,4 @@ def softmax(logits: List[Float32]) -> List[Float32]:
 
 
 def sampler_version() -> String:
-    return "0.1.0"
+    return "0.2.0"
