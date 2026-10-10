@@ -660,6 +660,25 @@ generator is independently designed; findings live in docs/plunder/.
   with adopted config → `data/bench/gemm_sweep_2.json`. Verdict: NO ADOPTION —
   all within ±1% of baseline (7.766 GFLOPS); none achieve ≥3%. The hoist_b +
   large blocks already keep data cache-resident; software prefetch adds nothing.
+- [x] H166 — Q8 assessment DONE 2026-10-10: `docs/bench/H166_Q8_ASSESSMENT.md`.
+  Verdict: NO OPTIMIZATION — Q8 GEMM 2.431 GFLOPS is 3.2× slower than fp16
+  (7.773); decode is sampler-bound, prefill is compute-bound; model is Q4_0.
+- [x] H167 — Bandwidth assessment DONE 2026-10-10:
+  `docs/bench/H167_BANDWIDTH_ASSESSMENT.md`. Verdict: NO OPTIMIZATION —
+  GEMV at 98.1% of STREAM (4.724 vs 4.816 GB/s), at practical ceiling.
+- [x] H168 — KV-cache assessment DONE 2026-10-10:
+  `docs/bench/H168_KVCACHE_ASSESSMENT.md`. Verdict: NO OPTIMIZATION —
+  KV traffic is 0.3% of decode step; cannot achieve 8% while sampler is 97%.
+- [x] H169 — Tokenizer assessment DONE 2026-10-10:
+  `docs/bench/H169_TOKENIZER_ASSESSMENT.md`. Verdict: NO CHANGES —
+  tokenizer <0.1% of prefill, not a bottleneck.
+- [x] H173 — Decode optimization DONE 2026-10-10: fused sampler (`sample_fast`)
+  measured via `decode --sampler fast --rss-check` → `data/bench/decode_fast.json`.
+  **1.918 tok/s** (24.50s median for 47 tokens) vs H163 baseline 0.1766 tok/s —
+  **10.86× speedup** (986%), far exceeding ≥15% threshold. RSS delta 0 pages.
+  The O(n²) bubble sort over 32k logits is eliminated.
+- [ ] H174 — Prefill optimization IN PROGRESS 2026-10-10: chunked prefill
+  `--chunk {64,128,256,512}` → `prefill_opt.json`; target ≥15% vs H163 (2.080 tok/s).
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
