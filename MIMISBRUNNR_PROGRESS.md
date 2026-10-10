@@ -609,7 +609,7 @@ generator is independently designed; findings live in docs/plunder/.
 - H143 DONE: hang budgets measured on Mimir → `data/vordr/hang_budgets.json` (p99×3); heartbeat detector: 300ms stall caught in 305ms, 1000 clean ops 0 false positives.
 - H144 DONE: error-decode selftest 50/50 bits; live register poll in supervised loop.
 - H145 DONE: machine-readable taxonomy; `test_taxonomy_complete.py` PASS (52 names classified exactly once, 62 entries all documented).
-- H146: watchdog live — 10 spaced SIGKILLs → restarts ≤2.4s (in progress, 5/10); rapid-death backoff proven 1/2/4/8s (≥8s on 4th); parent-monitor revive in H159.
+- H146 DONE: 10/10 spaced SIGKILLs → restarts ≤2.4s (each ≤5s); rapid-death backoff proven 1/2/4/8s; parent-monitor revive proven (H159).
 - H147 DONE: 50/50 reset cycles golden-clean, mean 201ms (real HAILBRÚ PM-reset).
 - H148 DONE: 50/50 re-init cycles OK, mean 203ms worst 206ms; firmware-survival probe documented.
 - H149 DONE: recovery state machine selftest (3 scenarios + 5 illegal transitions rejected).
@@ -618,7 +618,10 @@ generator is independently designed; findings live in docs/plunder/.
 - H156 DONE: retry absorbs 3 faults (recovered_after_retries: 3); 6 faults → RetryExhausted; backoff 109ms vs 100ms nominal.
 - H157 DONE: 19 fast + 1 degraded ops, exactly 1 DEGRADED event, scalar fallback per-op only.
 - H154 DONE: integrity 500/500 corruptions detected, 0 escapes, 500/500 retransferred clean.
-- H151/H152/H153/H158/H159: PRÓF suites running on Mimir (H159 audit in progress).
+- H153 DONE: 3/3 removal stages — DeviceRemoved named, clean release, no crash, device sane (hailo1x/D3hot), inference coherent.
+- H154 DONE: 500/500 corruptions detected, 0 escapes, 500/500 retransferred.
+- H159 DONE: 20/20 degrade/fallback paths emit events — zero silent paths.
+- H151/H152: PRÓF suites running on Mimir; H158 30-min run queued.
 - Branch: `mimisbrunnr-c8-vordr`, pushed (latest 0606745).
 
 ## Campaign 9 — Speed (H161–H180)
