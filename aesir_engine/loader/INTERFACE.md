@@ -82,6 +82,14 @@ types raise a key-specific diagnostic before assigning the field. Unknown keys
 are structurally traversed by `skip_value`; that is not semantic validation of
 their contents. See `TASK_gguf_metadata_type_matrix.md` for the complete key
 matrix and evidence limits.
+The tensor directory accepts rank-one/two records with positive dimensions,
+aligned relative offsets, and in-file ranges. F16 records alias mapped storage;
+F32 records convert into MimirWell after checked host-index arithmetic and pool
+capacity admission. Rank/shape, required tensor, and type checks remain distinct
+stages. Current synthetic directory evidence covers 1x1 F16/F32 fixtures,
+rank/zero-dimension refusal, arithmetic limits, and pool exhaustion; it does
+not establish compressed-block layout or overlap rejection. See
+`TASK_gguf_tensor_directory.md` for the detailed scope.
 
 ```mojo
 struct GGUFSeer:

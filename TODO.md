@@ -1401,3 +1401,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   arithmetic guards, mapping/pool order, and synthetic evidence limits.
   Independent Auditor unavailable at service thread cap; no separate approval
   claimed.
+
+- [x] AES500-149 tensor-directory documentation sync: loader interface and
+  task/roadmap/TODO/devlog agree on accepted ranks, mapping modes, checked
+  arithmetic, F32 pool admission, evidence, and remaining unsupported cases.

@@ -65,3 +65,6 @@ A generated 1x2 F32 tensor requests two conversion elements from a one-element M
 ## AES500-148 review receipt
 
 Primary review confirms record rank/dimensions are read before mapping, host-index guards precede product/offset arithmetic, F32 pool capacity is subtraction-based, and the rank/dimension/overflow/resource fixtures assert rejection before descriptor or pool mutation where applicable. The rank-one F16 and F32 conversion cases are synthetic and stop at later missing-required-tensor validation. Independent Auditor agent review is unavailable because the collaboration service thread cap rejects new reviewers; no independent pass is claimed. Quantized block byte layouts, overlap detection, and complete model validation remain outside the reviewed evidence.
+
+
+AES500-149 documentation sync: `aesir_engine/loader/INTERFACE.md` summarizes rank-one/two positive shapes, aligned in-file offsets, F16 aliasing, F32 pool conversion, arithmetic guards, and the synthetic evidence boundaries.
