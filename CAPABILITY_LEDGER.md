@@ -1205,8 +1205,8 @@ and circular self-parity transforms were removed.
 - **Owner:** core compute domain
 - **Claim sources:** 2-bit and 6-bit K-quantization support (Q2_K, Q6_K)
 - **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks; public block dequantizers and format-specific GEMM entry points route through the shared checked path.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs; independent Stheno row parity additionally covers Q6_K.
-- **Evidence boundary:** Verified canonical raw-byte addressing, metadata use, complete-block enforcement, and known-value matvec results. Full-model Q2_K execution has not been independently established.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs; `compute.dequantize_q4_k` now compares every standalone Q6_K output against a separate scalar nibble/high-plane/signed-scale oracle; independent Stheno row parity additionally covers Q6_K.
+- **Evidence boundary:** Verified one-block canonical raw-byte addressing, signed metadata use, complete-block enforcement, and known-value matvec results. Multi-block layouts and full-model Q2_K execution have not been independently established.
 - **Audit:** Stage 55.1 Mythic Engineering Pass.
 
 ### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels
