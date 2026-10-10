@@ -75,7 +75,8 @@ def main():
              "--f1-config", "/home/pi/mimisbrunnr_c8/data/fallback/f1_config.json",
              "--max-tokens", "8", "--duration-s", "600",
              "--max-iters", "3",
-             "--fi-file", str(fi), "--iter-budget-ms", "120000"],
+             "--fi-file", str(fi), "--iter-budget-ms", "120000",
+             "--no-schedule"],
             capture_output=True, text=True, timeout=600)
         log = Path(f"/tmp/vordr-h151-{label}/events.jsonl")
         text = log.read_text() if log.exists() else ""

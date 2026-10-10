@@ -39,7 +39,7 @@ def main():
                  "--f1-bin", F1BIN, "--f1-config", F1CFG,
                  "--max-tokens", "8", "--duration-s", "600",
                  "--max-iters", "3", "--fi-file", str(fi),
-                 "--iter-budget-ms", "120000"])
+                 "--iter-budget-ms", "120000", "--no-schedule"])
         text = (Path(out) / "events.jsonl").read_text() \
             if (Path(out) / "events.jsonl").exists() else ""
         if '"kind": "HangDetected"' not in text:
@@ -72,7 +72,7 @@ def main():
              "--f1-bin", F1BIN, "--f1-config", F1CFG,
              "--max-tokens", "8", "--duration-s", "600",
              "--max-iters", "3", "--fi-file", str(fi),
-             "--iter-budget-ms", "120000"])
+             "--iter-budget-ms", "120000", "--no-schedule"])
     run([F1BIN, "--config", F1CFG, "--prompt", prompt,
          "--max-new-tokens", "16", "--seed", "4242", "--out", ver])
     t_ref = json.loads(Path(ref).read_text())["generated_text"]
