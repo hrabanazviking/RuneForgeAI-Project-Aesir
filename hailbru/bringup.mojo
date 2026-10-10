@@ -304,7 +304,7 @@ def run_bringup(
     ts = _step_start(ctx, "ready_poll")
     var m2 = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
     var ok = 0
-    for i in range(5):
+    for _ in range(5):
         if Int(reg_read16(m2, 0x0098)) == BRINGUP_EXPECTED_VENDOR():
             ok += 1
     var status = reg_read32(m2, 0x018C)

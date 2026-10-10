@@ -889,7 +889,7 @@ def cmd_health(arch: String, args: List[String]) raises:
         args, "--thermal-path", "/sys/class/thermal/thermal_zone0/temp"
     )
     var n = _parse_int(get_flag(args, "--samples", "1"))
-    for i in range(n):
+    for _ in range(n):
         var s = health_sample(arch, sysfs_root, bdf, thermal)
         emit(arch, s.to_json())
 
@@ -977,11 +977,9 @@ def cmd_drift(arch: String, args: List[String]) raises:
             ro.append(0x0400)
             ro.append(0x0500)
             for i in range(5):
-                var v = 0
+                var v = Int(reg_read32(m, ro[i]))
                 if ro[i] == 0x0098:
                     v = Int(reg_read16(m, ro[i]))
-                else:
-                    v = Int(reg_read32(m, ro[i]))
                 if ro[i] == inject_off:
                     v = v ^ 0xFFFFFFFF
                     detected_inject += 1
