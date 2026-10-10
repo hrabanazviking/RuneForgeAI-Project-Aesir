@@ -80,7 +80,90 @@ def test_socketpair_request_transport() raises:
     print("PASS socketpair request transport: exact head/body framing preserved")
 
 
+def test_request_transport_adversarial() raises:
+    # Oversized head without a terminator must fail at the 8 KiB ceiling.
+    var head_pair = InlineArray[Int32, 2](fill=-1)
+    if external_call["socketpair", Int32](Int32(1), Int32(526337), Int32(0), head_pair.unsafe_ptr()) != 0:
+        raise Error("Cannot create oversized-head fixture")
+    var head_peer = OwnedFD(head_pair[0])
+    var head_server = OwnedFD(head_pair[1])
+    var oversized = String("")
+    for _ in range(8192):
+        oversized += "x"
+    var oversized_bytes = oversized.as_bytes()
+    if external_call["write", Int64](Int64(head_peer.fd), oversized_bytes.unsafe_ptr().unsafe_bitcast[Int8](), Int64(len(oversized_bytes))) != 8192:
+        raise Error("Could not write oversized head fixture")
+    var rejected_head = False
+    try:
+        _ = receive_head(head_server.fd, monotonic_milliseconds() + 1000, -1)
+    except:
+        rejected_head = True
+    if not rejected_head:
+        raise Error("Unterminated 8 KiB request head accepted")
+    _ = head_server
+    _ = head_peer
+
+    # A short body must fail closed when its only peer closes.
+    var short_pair = InlineArray[Int32, 2](fill=-1)
+    if external_call["socketpair", Int32](Int32(1), Int32(526337), Int32(0), short_pair.unsafe_ptr()) != 0:
+        raise Error("Cannot create short-body fixture")
+    var short_peer = OwnedFD(short_pair[0])
+    var short_server = OwnedFD(short_pair[1])
+    var partial = String("{}")
+    var partial_bytes = partial.as_bytes()
+    if external_call["write", Int64](Int64(short_peer.fd), partial_bytes.unsafe_ptr().unsafe_bitcast[Int8](), Int64(2)) != 2:
+        raise Error("Could not write short-body fixture")
+    _ = short_peer
+    var rejected_short = False
+    try:
+        _ = receive_body(short_server.fd, 4, monotonic_milliseconds() + 1000, -1)
+    except:
+        rejected_short = True
+    if not rejected_short:
+        raise Error("Short request body accepted")
+    _ = short_server
+
+    # NUL-containing request bytes are not admitted into Mojo strings.
+    var nul_pair = InlineArray[Int32, 2](fill=-1)
+    if external_call["socketpair", Int32](Int32(1), Int32(526337), Int32(0), nul_pair.unsafe_ptr()) != 0:
+        raise Error("Cannot create NUL-body fixture")
+    var nul_peer = OwnedFD(nul_pair[0])
+    var nul_server = OwnedFD(nul_pair[1])
+    var raw = InlineArray[Int8, 4](fill=0)
+    raw[0] = 123
+    raw[1] = 0
+    raw[2] = 125
+    raw[3] = 33
+    if external_call["write", Int64](Int64(nul_peer.fd), raw.unsafe_ptr(), Int64(4)) != 4:
+        raise Error("Could not write NUL-body fixture")
+    var rejected_nul = False
+    try:
+        _ = receive_body(nul_server.fd, 4, monotonic_milliseconds() + 1000, -1)
+    except:
+        rejected_nul = True
+    if not rejected_nul:
+        raise Error("NUL-containing request body accepted")
+    _ = nul_server
+    _ = nul_peer
+
+    var length_pair = InlineArray[Int32, 2](fill=-1)
+    if external_call["socketpair", Int32](Int32(1), Int32(526337), Int32(0), length_pair.unsafe_ptr()) != 0:
+        raise Error("Cannot create oversized-length fixture")
+    var length_server = OwnedFD(length_pair[1])
+    var rejected_length = False
+    try:
+        _ = receive_body(length_server.fd, 131073, monotonic_milliseconds() + 1000, -1)
+    except:
+        rejected_length = True
+    if not rejected_length:
+        raise Error("Oversized body length accepted")
+    _ = length_server
+    _ = external_call["close", Int32](length_pair[0])
+    print("PASS request transport adversarial: header/body bounds, short EOF, NUL reject")
+
+
 def main() raises:
     test_owned_fd_transfer_release()
     test_socket_admission_rejection()
     test_socketpair_request_transport()
+    test_request_transport_adversarial()
