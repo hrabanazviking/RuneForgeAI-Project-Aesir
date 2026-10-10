@@ -44,7 +44,7 @@ struct Timer:
     def record(mut self, ns: Float64):
         self.s.append(ns)
 
-    def sorted_median(self) -> Float64:
+    def sorted_median(mut self) -> Float64:
         # Insertion sort of the 11 samples; median is element 5.
         var n = len(self.s)
         for i in range(1, n):
@@ -76,7 +76,7 @@ def emit(
     shape: String,
     unit: String,
     work: Float64,
-    t: Timer,
+    mut t: Timer,
     mut sink: Float64,
 ):
     # work: FLOPs for GFLOPS, or bytes for GB/s. rate = work / median_ns.
