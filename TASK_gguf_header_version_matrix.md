@@ -43,6 +43,11 @@ helper admits all five tested values (0, 2, 3, 4, max UInt32), while mapped
 files reject every non-3 value at the version gate; version 3 proceeds to a
 later metadata error for this deliberately incomplete fixture.
 
+AES500-124 adds the same little-endian version-3 gate to
+`parse_header_bytes`. The counted interface case now requires raw version 3
+admission and stable rejection of every tested non-3 version, matching the
+mapped-file header gate.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit

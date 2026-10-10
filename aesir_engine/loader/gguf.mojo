@@ -441,6 +441,13 @@ struct GGUFSeer:
         var magic = b0 | (b1 << 8) | (b2 << 16) | (b3 << 24)
         if magic != 0x46554747:
             raise Error("GGUF magic bytes are invalid")
+        var b4 = UInt32(bytes_ptr.unsafe_offset(4).unsafe_load())
+        var b5 = UInt32(bytes_ptr.unsafe_offset(5).unsafe_load())
+        var b6 = UInt32(bytes_ptr.unsafe_offset(6).unsafe_load())
+        var b7 = UInt32(bytes_ptr.unsafe_offset(7).unsafe_load())
+        var version = b4 | (b5 << 8) | (b6 << 16) | (b7 << 24)
+        if version != 3:
+            raise Error("Only GGUF version 3 is supported by this inference slice")
 
     def _parse_header(mut self) raises:
         if self._read_u32(0) != 0x46554747:

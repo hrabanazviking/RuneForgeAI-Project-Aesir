@@ -238,6 +238,11 @@ The interface test confirms byte-helper acceptance of every tested version
 against mapped-path rejection of all but v3, whose deliberately incomplete
 metadata proceeds beyond the version gate.
 
+AES500-124 aligns `parse_header_bytes` with mapped files: it decodes the
+little-endian UInt32 version and rejects non-3 values before admission. The
+focused interface test now requires stable version-gate parity for 0/2/3/4 and
+UInt32::MAX.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

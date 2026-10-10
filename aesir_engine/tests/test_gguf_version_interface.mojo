@@ -62,12 +62,17 @@ def test_gguf_version_interface() raises:
         var raw = make_header(version)
         var raw_seer = GGUFSeer("raw-version-probe.gguf")
         var raw_accepted = True
+        var raw_error = String("")
         try:
             raw_seer.parse_header_bytes(raw.unsafe_ptr(), len(raw), well)
-        except:
+        except error:
             raw_accepted = False
-        if not raw_accepted:
-            raise Error("raw-byte helper unexpectedly rejected a version in baseline slice")
+            raw_error = String(error)
+        if version == 3:
+            if not raw_accepted:
+                raise Error("raw-byte helper rejected supported version 3")
+        elif raw_accepted or "Only GGUF version 3" not in raw_error:
+            raise Error("raw-byte helper did not enforce the mapped-path version gate")
 
         var path = write_header(version)
         var file_seer = GGUFSeer(path)
@@ -83,7 +88,7 @@ def test_gguf_version_interface() raises:
                 raise Error("mapped file rejected supported version 3")
         elif "Only GGUF version 3" not in file_error:
             raise Error("mapped file did not reject unsupported GGUF version")
-    print("PASS: GGUF version interface exposes raw/file admission mismatch")
+    print("PASS: GGUF version 3 admission is consistent across file and byte paths")
 
 
 def main() raises:

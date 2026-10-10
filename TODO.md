@@ -1295,3 +1295,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   mapped headers and exercises raw bytes for 0/2/3/4/UInt32::MAX. It asserts
   the current raw-helper acceptance versus mapped v3-only rejection and cleans
   its temporary files.
+- [x] AES500-124 GGUF header implementation: `parse_header_bytes` now decodes
+  the little-endian version and rejects non-3 values with the mapped path's
+  diagnostic. The interface case requires both paths to agree on the v3 matrix.
