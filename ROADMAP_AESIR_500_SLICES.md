@@ -807,3 +807,7 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-063 records the proposed `CheckedSpan` API in the core interface,
   including empty-span semantics and explicit limits. Existing specialized
   gates remain owners until separate migration evidence exists.
+- AES500-064 implements the standalone pure-arithmetic `CheckedSpan` constructor
+  with subtraction-first admission. Focused Mojo evidence passes; whole-engine
+  build and master suite are blocked by local ptxas rejecting a required PTX
+  tanh feature (`.version 7.0 or later`), before these CPU-only gates run.
