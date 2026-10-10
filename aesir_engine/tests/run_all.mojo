@@ -355,7 +355,6 @@ def main() raises:
     run_case(ledger, "compute.rope_interface", test_rope_interface)
     run_case(ledger, "compute.rope_reference", test_rope_reference)
     run_case(ledger, "compute.rope_integration", test_rope_integration)
-    run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
     print("")
 
     # --- Logical Host Tensor Partitioning ---
@@ -847,4 +846,7 @@ def main() raises:
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
+    # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
+    # test runs after this caught-error adversarial path in the same process.
+    run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
     ledger.finish(203)

@@ -1,16 +1,7 @@
 """Adversarial current behavior for apply_rope theta domain."""
 
-from std.math import isnan
-
 from core.mimir_well import MimirWell, RuneTensor, Scalar, f16, f32
 from core.compute import apply_rope
-
-
-def has_nan(T: RuneTensor[f16]) -> Bool:
-    for index in range(T.size):
-        if isnan(T.data.unsafe_load(index).cast[f32]()):
-            return True
-    return False
 
 
 def check_invalid_theta(theta: Scalar[f32]) raises:
