@@ -1433,3 +1433,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-156 byte BPE integration: RuneWeaver fallback IDs pass through
   vocabulary spellings into RuneStreamDecoder and reconstruct exact emoji;
   master suite 221/0/1 (222 total).
+
+- [x] AES500-157 byte BPE adversarial evidence: negative-score ranking and
+  negative tie behavior match the contract; master suite 222/0/1 (223 total).

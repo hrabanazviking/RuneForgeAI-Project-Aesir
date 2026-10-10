@@ -3866,3 +3866,7 @@ passed, zero failed, one skipped (221 total).
 AES500-156 integrates byte fallback token IDs with RuneStreamDecoder and
 reconstructs the exact emoji from four vocabulary spellings. Master suite: 221
 passed, zero failed, one skipped (222 total).
+
+
+AES500-157 confirms numeric ranking and deterministic ties for negative BPE
+scores. Master suite: 222 passed, zero failed, one skipped (223 total).

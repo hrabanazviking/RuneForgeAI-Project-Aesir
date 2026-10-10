@@ -201,3 +201,25 @@ def test_byte_bpe_merge_integration() raises:
     if decoded != "😀":
         raise Error("encoded byte-fallback vector did not stream-decode to original UTF-8")
     print("PASS: RuneWeaver byte fallback integrates with streaming UTF-8 decoder")
+
+def test_byte_bpe_merge_negative_scores() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("a", 1)
+    weaver.add_token("b", 2)
+    weaver.add_token("c", 3)
+    weaver.add_token("ab", 4, -3.0)
+    weaver.add_token("bc", 5, -1.0)
+    var ranked = weaver.encode("abc", False)
+    if len(ranked) != 2 or ranked[0] != 1 or ranked[1] != 5:
+        raise Error("negative BPE scores did not select the numerically highest pair")
+
+    var tied = RuneWeaver()
+    tied.add_token("a", 1)
+    tied.add_token("b", 2)
+    tied.add_token("c", 3)
+    tied.add_token("ab", 4, -2.0)
+    tied.add_token("bc", 5, -2.0)
+    var tie = tied.encode("abc", False)
+    if len(tie) != 2 or tie[0] != 4 or tie[1] != 3:
+        raise Error("equal negative BPE scores did not preserve leftmost tie")
+    print("PASS: BPE negative-score ranking and tie boundary")

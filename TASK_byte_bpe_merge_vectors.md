@@ -48,3 +48,8 @@ Repeated equal-score input produces the same `[4,3]` vector twice. A partial byt
 ## AES500-156 integration receipt
 
 The four encoded emoji fallback IDs select their actual `<0xHH>` vocabulary strings and feed them through `RuneStreamDecoder`; the combined output is exactly 😀. Master suite: 221 passed, zero failed, one skipped (222 total).
+
+
+## AES500-157 adversarial evidence receipt
+
+For input `abc`, pair scores -3 (`ab`) and -1 (`bc`) emit `[1,5]`, proving the numerically higher negative score wins. Equal -2 scores emit `[4,3]`, preserving leftmost tie. Master suite: 222 passed, zero failed, one skipped (223 total).
