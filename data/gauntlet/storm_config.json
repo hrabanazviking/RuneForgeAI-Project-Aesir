@@ -1,0 +1,14 @@
+{
+  "_note": "H187 reset-storm config: GREEDY (temperature 0.0) copy of the F1 production config, so the post-restart verification inference must match the pre-storm reference EXACTLY (state truly clean, not approximately clean). TEST-ONLY.",
+  "chat_template": "tinyllama",
+  "max_new_tokens": 64,
+  "max_seq": 1024,
+  "model_path": "/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf",
+  "model_sha256": "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556",
+  "repetition_penalty": 1.1,
+  "seed": 12345,
+  "temperature": 0.0,
+  "tokenizer_path": "data/armvegr/tinyllama_tokenizer.model",
+  "top_k": 1,
+  "top_p": 0.95
+}
