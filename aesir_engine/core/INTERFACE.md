@@ -140,6 +140,8 @@ For scalar indexing, `cols` is the implied row stride in elements; column
 stride is one element. These are semantic consequences of the current indexing
 formula, not separately stored or queried stride values. This statement does
 not define packed quantized storage layout.
+The implementation shares this scalar formula through the private
+`_linear_offset(r, c)` helper used by raw `get` and `set`.
 
 ### Canonical GGML K-quant bytes
 

@@ -852,3 +852,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   as new accessor APIs without a consumer.
 - AES500-073 Auditor review passes: constructor metadata and scalar-index stride
   semantics match source; packed quantized storage remains outside the claim.
+- AES500-074 centralizes the existing scalar row-major `r * cols + c` formula in
+  a private helper shared by raw `get`/`set`. Descriptor layout and public APIs
+  remain unchanged; no bounds or allocation proof is added.
+- AES500-074 Auditor review passes: shared offset calculation is unchanged and
+  documented as raw scalar indexing only.

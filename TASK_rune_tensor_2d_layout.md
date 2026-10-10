@@ -50,3 +50,11 @@ Any later explicit-stride capability requires a separate contract for stride
 units, accepted positive/negative/zero values, reachable-span arithmetic,
 overflow, and validation against a real backing allocation before storage or
 indexing changes are implemented.
+
+## AES500-074 implementation refinement
+
+The source implementation centralizes the existing scalar row-major address
+formula in a private `_linear_offset(r, c)` helper used by both raw `get` and
+`set`. It stores no stride state and adds no bounds, allocation, or quantized
+packed-storage behavior. Checked coordinate methods continue to perform the
+coordinate validation before using raw indexing.
