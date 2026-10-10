@@ -69,6 +69,14 @@ def sc_nr(arch: String, name: String) -> Int64:
         return Int64(113) if aarch else Int64(228)
     if name == "mkdirat":
         return Int64(34) if aarch else Int64(258)
+    if name == "pwrite64":
+        return Int64(68) if aarch else Int64(18)
+    if name == "getpid":
+        return Int64(172) if aarch else Int64(39)
+    if name == "kill":
+        return Int64(129) if aarch else Int64(62)
+    if name == "unlinkat":
+        return Int64(35) if aarch else Int64(263)
     return Int64(-1)
 
 
@@ -147,6 +155,10 @@ def O_RDWR() -> Int64:
 
 def O_TRUNC() -> Int64:
     return Int64(0o1000)
+
+
+def O_EXCL() -> Int64:
+    return Int64(128)
 
 
 def O_CREAT() -> Int64:
@@ -276,6 +288,42 @@ def os_readlinkat(
     )
     c.unsafe_free()
     return n
+
+
+def os_pwrite(
+    arch: String,
+    fd: Int64,
+    buf: Pointer[UInt8, MutUntrackedOrigin],
+    n: Int64,
+    offset: Int64,
+) -> Int64:
+    return syscall6(
+        sc_nr(arch, "pwrite64"), fd, Int64(Int(buf)), n, offset, 0, 0
+    )
+
+
+def os_getpid(arch: String) -> Int64:
+    return syscall6(sc_nr(arch, "getpid"), 0, 0, 0, 0, 0, 0)
+
+
+def os_kill(arch: String, pid: Int64, sig: Int64) -> Int64:
+    return syscall6(sc_nr(arch, "kill"), pid, sig, 0, 0, 0, 0)
+
+
+def os_unlinkat(arch: String, path: String) -> Int64:
+    var c = to_cstr(path)
+    var rc = syscall6(
+        sc_nr(arch, "unlinkat"), AT_FDCWD(), Int64(Int(c)), 0, 0, 0, 0
+    )
+    c.unsafe_free()
+    return rc
+
+
+def os_sleep_ms(arch: String, ms: Int64):
+    # Busy-wait on the monotonic clock; no nanosleep dependency.
+    var end = os_clock_ms(arch) + ms
+    while os_clock_ms(arch) < end:
+        pass
 
 
 def os_mkdir(arch: String, path: String, mode: Int64) -> Int64:

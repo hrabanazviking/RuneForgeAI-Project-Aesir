@@ -81,3 +81,29 @@ from hailbru.fw import (
     sha256_hex,
 )
 from hailbru.errors import herror
+from hailbru.pm import (
+    PM_STATE_D0,
+    PM_STATE_D3HOT,
+    find_pm_cap,
+    pm_assert_state,
+    pm_read_pmcsr,
+    pm_read_power_state_file,
+    pm_set_state,
+    pm_state_name,
+)
+from hailbru.bringup import (
+    BRINGUP_EXPECTED_DEVICE,
+    BRINGUP_EXPECTED_DRIVER,
+    BRINGUP_EXPECTED_VENDOR,
+    BringupOpts,
+    bringup_dump_registers,
+    run_bringup,
+)
+from hailbru.health_obs import HealthSample, health_sample
+from hailbru.guard import SessionGuard, guard_acquire, guard_release
+from hailbru.removal import (
+    WatchedBar,
+    watch_bar_emulated,
+    watcher_read32,
+    watcher_sever,
+)

@@ -317,7 +317,77 @@ H060 GO (review doc). **No slices killed.**
   This is ambition-with-honesty, not a skipped avenue.
 
 ## Campaign 5 — Bring-up & Firmware (H081–H100)
-- Status: not started
+- Status: in progress (worker session 0aaa7b6a-330d-4534-859f-d41eea30f930, 2026-10-10)
+
+### SÓLRÚN AUDIT — C5 pre-execution (2026-10-10)
+Phase-B gate NO-GO stands: no VFIO/UIO, no IOMMU DMA, no device MSI, no
+firmware DMA upload/boot handshake (F3-banked per F3_UNBLOCK_RUNBOOK.md).
+Vendordriver `hailo1x` stays bound (H005 §6). Reality on Mimir today:
+D3hot↔D0 PMCSR transitions, config-space reads, BAR0 reads in D0
+(vendor mirror 0x1e60, 50/50 stable), register snapshots, Pi SoC thermal.
+Passwordless sudo confirmed — root-only probes runnable.
+
+**"Ready" is honestly redefined for C5:** READY_PM = D0 + vendor-mirror
+register coherency + clean power-state cycle. NOT firmware-booted
+inference-ready. The original "ready" (F3-4 firmware boot) stays F3-banked.
+Stated plainly in COLD_BOOT_DEFINITION.md, PHASE_C_GATE.md, C5_REVIEW.md.
+
+**"Cold boot" redefined:** C5 uses option (c) — PM-cycle bring-up
+(D3hot→D0→verify→ready-poll→restore D3hot). Definition file
+`docs/hailbru/COLD_BOOT_DEFINITION.md` records: (a) full Pi reboot + HAT
+power cycle = OPERATOR-ONLY (never remote); (b) driver re-enumeration from
+unbound state = OPERATOR-SUPERVISED (F3-adjacent: unbinds vendor driver);
+(c) PM-cycle = used by C5. Per-cycle records in H085/H093/H095 cite (c)
+with this justification — an honest, recorded deviation from the
+roadmap's (a)/(b).
+
+Slice verdicts:
+- H081 DO (re-scoped): PM-cycle orchestrator; firmware-load + boot-handshake
+  steps are explicit F3-BANKED stubs emitting `step_banked` events with
+  prerequisite citations — never silently skipped. Skip-any-REAL-step hook
+  fails with named `StepOmitted`.
+- H082 DO (re-scoped): golden snapshot = ALL documented readable registers:
+  5 BAR0 offsets + 16 config-space dwords + PMCSR + link-status words
+  (~24 entries, not 40 — documented shortfall, honestly recorded).
+- H083 DO (real): "clean reset" = PMCSR-asserted D3hot → verify → D0 →
+  coherency. Only PMCSR written (standard PCI PM, C4-established practice;
+  NOT a BAR write — H005 §6 governs BAR writes). post_reset_snapshot.json.
+- H084 DO (re-scoped): 100× PM-cycle harness, Python TEST-ONLY, drives the
+  Mojo bringup binary. "Ready" per C5 definition.
+- H085 DO (real): 30 PM-cycles, per-step timings, budget = max×2 rounded up.
+- H086 DO (partial) + F3-bank: read-only vendor-driver/sysfs identity
+  material recorded with method cited; on-chip firmware version via
+  mailbox/registers → F3-4 (needs boot).
+- H087 DO (re-scoped): health_obs.mojo in hailbru/; SoC thermal (labeled Pi
+  SoC, NOT device temp) + BAR0 0x018C via H079 API + monotonic ts.
+  100 samples, sane range. Device die temperature: unavailable — stated.
+- H088 DO (real): BootHang detector on bring-up steps; stall hook → BootHang
+  with ≥10 register dump; 30 clean cycles zero false positives.
+- H089 DO (real): BRINGUP_LOG_SCHEMA.md + TEST-ONLY Python validator.
+- H090 DO (real): 20 D3hot↔D0 cycles, PMCSR readback verified, resume→ready.
+- H091 DO (real): emulated-BAR severed-mapping simulation per criterion;
+  DeviceRemoved ≤1s, clean exit, fd-count verified.
+- H092 DO (real): PID lock-file guard, DeviceBusy naming holder, stale
+  reclaim, real subprocess tests.
+- H093 DO (real, duration-honest): 1000 PM-cycles unattended on Mimir
+  (nohup, polled); 99th percentile vs H085 budget.
+- H094 DO (real): SoC temp at cycle start / at ready / after 100 rapid
+  cycles; ΔT quantified; caution if >15°C.
+- H095 DO (re-scoped): gate over 100 PM-cycles with golden checks every
+  10th; GO/NO-GO stated against the REDEFINED ready — plainly.
+- H096 DO (re-scoped): 21 registers (16 config dwords + 5 BAR0) × 4 PM-state
+  proxies; regdiff TEST-ONLY; 3 injected deviations caught, 10 clean dumps
+  zero false positives.
+- H097 DO (real): 1h drift detector on idle-D0 device via H079 API only;
+  3 injected deviations ≤5s; CPU <1% measured; baseline zero events.
+- H098 DO (real): HAILO_BRINGUP_GUIDE.md documents BOTH the current-kernel
+  path AND the F3-unblocked path; second-pass re-derivation check.
+- H099 DO (real): FAILURE_MODES.md ≥12 modes, 5 fields each, observed cite
+  evidence / hypothesized marked, owners named.
+- H100 DO (real): C5_REVIEW.md with reliability table; C5 VERDICT
+  READY/NOT-READY for Phase D stated honestly (Phase D needs F3 regardless).
+- No slices killed. Banked to F3: H086 on-chip version query; H081
+  firmware-load/boot-handshake steps; inference-ready "ready" itself.
 
 ## Campaign 6 — The Wall / SMIÐR (H101–H120)
 - Status: not started — contains H111 GO/NO-GO gate

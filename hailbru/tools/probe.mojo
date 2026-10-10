@@ -18,6 +18,7 @@ from hailbru.syscall import (
     O_WRONLY,
     os_clock_ms,
     os_close,
+    list_dir,
     os_mkdir,
     os_openat,
     os_read,
@@ -98,6 +99,24 @@ from hailbru.fw import (
     sha256_hex,
 )
 from std.ffi import external_call
+from hailbru.pm import (
+    PM_STATE_D0,
+    PM_STATE_D3HOT,
+    find_pm_cap,
+    pm_assert_state,
+    pm_read_pmcsr,
+    pm_read_power_state_file,
+    pm_set_state,
+    pm_state_name,
+)
+from hailbru.bringup import BringupOpts, bringup_dump_registers, run_bringup
+from hailbru.health_obs import health_sample
+from hailbru.guard import SessionGuard, guard_acquire, guard_release
+from hailbru.removal import (
+    watch_bar_emulated,
+    watcher_read32,
+    watcher_sever,
+)
 
 
 def emit(arch: String, s: String):
@@ -766,6 +785,315 @@ def cmd_fw_stage_selftest(arch: String, args: List[String]) raises:
     )
 
 
+def _parse_int(s: String) -> Int:
+    var t = trim(s)
+    var v = 0
+    var neg = False
+    var i = 0
+    if len(t) > 0 and (t[0] == "-" or t[0] == "+"):
+        neg = t[0] == "-"
+        i = 1
+    for j in range(i, len(t)):
+        var b = t.bytes()[j]
+        if b < 48 or b > 57:
+            break
+        v = v * 10 + (Int(b) - 48)
+    return -v if neg else v
+
+
+def cmd_bringup(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var opts = BringupOpts(
+        get_flag(args, "--log", ""),
+        get_flag(args, "--omit-step", ""),
+        get_flag(args, "--stall-step", ""),
+        Int64(_parse_int(get_flag(args, "--step-budget-ms", "10000"))),
+    )
+    try:
+        emit(arch, run_bringup(arch, sysfs_root, bdf, opts))
+    except e:
+        # Leave the device undisturbed even on a failed bring-up.
+        try:
+            pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        except:
+            pass
+        raise e
+
+
+def cmd_pm_set(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var want = get_flag(args, "--state", "D0")
+    var target = PM_STATE_D0() if want == "D0" else PM_STATE_D3HOT()
+    var verified = pm_assert_state(arch, sysfs_root, bdf, target)
+    emit(arch, "{\"bdf\": \"" + bdf + "\", \"state\": \"" + verified + "\"}")
+
+
+def cmd_pm_get(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var pmcap = find_pm_cap(arch, sysfs_root, bdf)
+    var pmcsr = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap)
+    var ps = pm_read_power_state_file(arch, sysfs_root, bdf)
+    emit(
+        arch,
+        "{\"bdf\": \"" + bdf + "\", \"pmcsr\": " + String(pmcsr)
+        + ", \"pmcsr_state\": \"" + pm_state_name(pmcsr & 0x3)
+        + "\", \"power_state\": \"" + ps + "\"}",
+    )
+
+
+def cmd_snapshot(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var label = get_flag(args, "--state-label", "unknown")
+    var vals = bringup_dump_registers(arch, sysfs_root, bdf)
+    var names = List[String]()
+    for i in range(16):
+        names.append("cfg_0x" + String(i * 4))
+    names.append("bar0_0x0098")
+    names.append("bar0_0x0188")
+    names.append("bar0_0x018c")
+    names.append("bar0_0x0400")
+    names.append("bar0_0x0500")
+    var out = (
+        "{\"bdf\": \"" + bdf + "\", \"state_label\": \"" + label
+        + "\", \"registers\": {"
+    )
+    for i in range(len(vals)):
+        if i > 0:
+            out += ", "
+        out += "\"" + names[i] + "\": " + String(vals[i])
+    var pmcap = find_pm_cap(arch, sysfs_root, bdf)
+    var pmcsr = pm_read_pmcsr(arch, sysfs_root, bdf, pmcap)
+    out += (
+        "}, \"pmcsr\": " + String(pmcsr) + ", \"power_state\": \""
+        + pm_read_power_state_file(arch, sysfs_root, bdf) + "\"}"
+    )
+    emit(arch, out)
+
+
+def cmd_health(arch: String, args: List[String]) raises:
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var thermal = get_flag(
+        args, "--thermal-path", "/sys/class/thermal/thermal_zone0/temp"
+    )
+    var n = _parse_int(get_flag(args, "--samples", "1"))
+    for i in range(n):
+        var s = health_sample(arch, sysfs_root, bdf, thermal)
+        emit(arch, s.to_json())
+
+
+def _proc_cpu_ms(arch: String) -> Int64:
+    # utime+stime from /proc/self/stat (fields 14,15), in ms (HZ=100).
+    var data = read_file_str(arch, "/proc/self/stat", 4096)
+    var s = trim(data)
+    var close_paren = -1
+    for i in range(len(s)):
+        if s[i] == ")":
+            close_paren = i
+    var rest = s
+    if close_paren >= 0 and close_paren + 2 < len(s):
+        rest = s[close_paren + 2 :]
+    var fields = List[String]()
+    var cur = ""
+    for b in rest.bytes():
+        if b == 32:
+            fields.append(cur)
+            cur = ""
+        else:
+            cur += String(chr(Int(b)))
+    fields.append(cur)
+    if len(fields) < 15:
+        return 0
+    return (Int64(_parse_int(fields[11])) + Int64(_parse_int(fields[12]))) * 10
+
+
+def cmd_drift(arch: String, args: List[String]) raises:
+    # H097 drift detector: hold D0, sample the 5 BAR0 status registers
+    # every interval, compare against refs (off:value:mask triples),
+    # emit drift events; restore D3hot at the end. --inject flips one
+    # register's read value to prove detection.
+    var sysfs_root = get_flag(args, "--sysfs-root", "/sys")
+    var bdf = need_bdf(arch, args, sysfs_root)
+    var duration_s = Int64(_parse_int(get_flag(args, "--duration-s", "3600")))
+    var interval_s = Int64(_parse_int(get_flag(args, "--interval-s", "5")))
+    var inject_off = _parse_int(get_flag(args, "--inject", "-1"))
+    var refs_raw = get_flag(args, "--refs", "")
+    var offs = List[Int]()
+    var vals = List[Int]()
+    var masks = List[Int]()
+    if refs_raw != "":
+        # Manual split of "off:value:mask,off:value:mask,..." (no std split).
+        var triples = List[String]()
+        var cur_t = ""
+        for b in refs_raw.bytes():
+            if b == 44:  # ","
+                triples.append(cur_t)
+                cur_t = ""
+            else:
+                cur_t += String(chr(Int(b)))
+        triples.append(cur_t)
+        for ti in range(len(triples)):
+            var triple = triples[ti]
+            var parts = List[String]()
+            var cur_p = ""
+            for b in triple.bytes():
+                if b == 58:  # ":"
+                    parts.append(cur_p)
+                    cur_p = ""
+                else:
+                    cur_p += String(chr(Int(b)))
+            parts.append(cur_p)
+            if len(parts) == 3:
+                offs.append(Int(parse_u64_hex(parts[0])))
+                vals.append(Int(parse_u64_hex(parts[1])))
+                masks.append(Int(parse_u64_hex(parts[2])))
+    pm_set_state(arch, sysfs_root, bdf, PM_STATE_D0())
+    var cpu0 = _proc_cpu_ms(arch)
+    var t0 = os_clock_ms(arch)
+    var samples = 0
+    var events = 0
+    var detected_inject = 0
+    try:
+        while os_clock_ms(arch) - t0 < duration_s * 1000:
+            var m = map_sysfs_resource(arch, sysfs_root, bdf, 0, 0x4000, False)
+            var ro = List[Int]()
+            ro.append(0x0098)
+            ro.append(0x0188)
+            ro.append(0x018C)
+            ro.append(0x0400)
+            ro.append(0x0500)
+            for i in range(5):
+                var v = 0
+                if ro[i] == 0x0098:
+                    v = Int(reg_read16(m, UInt16(ro[i])))
+                else:
+                    v = Int(reg_read32(m, UInt16(ro[i])))
+                if ro[i] == inject_off:
+                    v = v ^ 0xFFFFFFFF
+                    detected_inject += 1
+                for j in range(len(offs)):
+                    if offs[j] == ro[i]:
+                        var masked_v = v & masks[j]
+                        var masked_ref = vals[j] & masks[j]
+                        if masked_v != masked_ref:
+                            events += 1
+                            emit(
+                                arch,
+                                "{\"event\": \"drift\", \"offset\": \""
+                                + String(ro[i]) + "\", \"got\": "
+                                + String(v) + ", \"expected\": "
+                                + String(vals[j]) + ", \"mask\": "
+                                + String(masks[j]) + "}",
+                            )
+            unmap_bar(arch, m)
+            samples += 1
+            os_sleep_ms(arch, interval_s * 1000)
+    except e:
+        try:
+            pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+        except:
+            pass
+        raise e
+    pm_set_state(arch, sysfs_root, bdf, PM_STATE_D3HOT())
+    var cpu1 = _proc_cpu_ms(arch)
+    var wall_ms = os_clock_ms(arch) - t0
+    var cpu_pct = 0.0
+    if wall_ms > 0:
+        cpu_pct = Float64(cpu1 - cpu0) / Float64(wall_ms) * 100.0
+    emit(
+        arch,
+        "{\"drift_run\": true, \"samples\": " + String(samples)
+        + ", \"drift_events\": " + String(events)
+        + ", \"injected_reads\": " + String(detected_inject)
+        + ", \"cpu_pct\": " + String(cpu_pct) + "}",
+    )
+
+
+def cmd_guard_selftest(arch: String, args: List[String]) raises:
+    var lock = get_flag(args, "--lock-path", "/tmp/hailbru_guard_test.lock")
+    var g = SessionGuard(lock)
+    var w1 = guard_acquire(arch, g)
+    if w1 != "":
+        raise herror("DmaError", "unexpected warning on clean acquire")
+    # Second acquire while held -> DeviceBusy naming the holder.
+    var g2 = SessionGuard(lock)
+    var saw_busy = False
+    try:
+        _ = guard_acquire(arch, g2)
+    except e:
+        if String(e).find("DeviceBusy") >= 0:
+            saw_busy = True
+    if not saw_busy:
+        raise herror("DmaError", "second acquire did not raise DeviceBusy")
+    guard_release(arch, g)
+    # Stale lock: dead PID recorded -> reclaim with warning.
+    write_file_str(arch, lock, "99999999\n")
+    var g3 = SessionGuard(lock)
+    var w3 = guard_acquire(arch, g3)
+    if w3.find("stale") < 0:
+        raise herror("DmaError", "stale lock not reclaimed with warning")
+    guard_release(arch, g3)
+    emit(arch, "SELFTEST guard: DeviceBusy contention + stale reclaim — OK")
+
+
+def _fd_count(arch: String) -> Int:
+    var n = 0
+    try:
+        var names = list_dir(arch, "/proc/self/fd")
+        n = len(names)
+    except:
+        pass
+    return n
+
+
+def cmd_removal_selftest(arch: String, args: List[String]) raises:
+    var path = get_flag(args, "--workdir", "/tmp/hailbru_removal_test")
+    _ = os_mkdir(arch, path, 0o755)
+    var img = path + "/bar.bin"
+    var wfd = os_openat(arch, img, O_WRONLY() | O_CREAT() | O_TRUNC(), 0o644)
+    var z = unsafe_alloc[UInt8](4096)
+    for i in range(4096):
+        z[i] = 0
+    _ = os_write(arch, wfd, z, 4096)
+    z.unsafe_free()
+    _ = os_close(arch, wfd)
+    var fds0 = _fd_count(arch)
+    var w = watch_bar_emulated(arch, img, 4096)
+    var v0 = watcher_read32(arch, w, 0)
+    _ = v0
+    watcher_sever(arch, w)
+    var saw_removed = False
+    var t0 = os_clock_ms(arch)
+    try:
+        _ = watcher_read32(arch, w, 0)
+    except e:
+        if String(e).find("DeviceRemoved") >= 0:
+            saw_removed = True
+    var dt = os_clock_ms(arch) - t0
+    var fds1 = _fd_count(arch)
+    if not saw_removed:
+        raise herror("DmaError", "severed read did not raise DeviceRemoved")
+    if dt > 1000:
+        raise herror(
+            "DmaError", "DeviceRemoved took " + String(dt) + "ms (>1s)"
+        )
+    if fds1 != fds0:
+        raise herror(
+            "DmaError",
+            "fd leak on removal path: " + String(fds0) + " -> "
+            + String(fds1),
+        )
+    emit(
+        arch,
+        "SELFTEST removal: DeviceRemoved in " + String(dt)
+        + "ms, fds " + String(fds0) + "->" + String(fds1) + " — OK",
+    )
+
+
 def main() raises:
     var arch = detect_arch()
     var cli_arch = proc_getenv(arch, "HAILBRU_CLI_ARCH")
@@ -781,7 +1109,8 @@ def main() raises:
             "usage: probe <discover|identity|bars|link|mechanism|"
             "fwcheck|regs-probe|regs-coherency|regs-selftest|dma-selftest|irq-selftest|"
             "boot-selftest|ready-selftest|sha256-selftest|vfio-negative|"
-            "uio-step|bdf-selftest|fw-stage-selftest> [flags]",
+            "uio-step|bdf-selftest|fw-stage-selftest|bringup|pm-set|pm-get|"
+            "snapshot|health|drift|guard-selftest|removal-selftest> [flags]",
         )
     var sub = argv[1]
     if sub == "discover":
@@ -820,5 +1149,21 @@ def main() raises:
         cmd_bdf_selftest(arch, argv)
     elif sub == "fw-stage-selftest":
         cmd_fw_stage_selftest(arch, argv)
+    elif sub == "bringup":
+        cmd_bringup(arch, argv)
+    elif sub == "pm-set":
+        cmd_pm_set(arch, argv)
+    elif sub == "pm-get":
+        cmd_pm_get(arch, argv)
+    elif sub == "snapshot":
+        cmd_snapshot(arch, argv)
+    elif sub == "health":
+        cmd_health(arch, argv)
+    elif sub == "drift":
+        cmd_drift(arch, argv)
+    elif sub == "guard-selftest":
+        cmd_guard_selftest(arch, argv)
+    elif sub == "removal-selftest":
+        cmd_removal_selftest(arch, argv)
     else:
         raise herror("BadSysfs", "unknown subcommand '" + sub + "'")
