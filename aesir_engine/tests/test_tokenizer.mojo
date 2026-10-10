@@ -281,3 +281,14 @@ def test_unicode_normalization_integration() raises:
     if decomposed_output != "é":
         raise Error("decomposed Unicode form changed through token stream round trip")
     print("PASS: composed and decomposed Unicode round trips remain distinct")
+
+def test_unicode_normalization_adversarial() raises:
+    var weaver = RuneWeaver()
+    weaver.add_token("▁", 1)
+    weaver.add_token("<0xC2>", 2)
+    weaver.add_token("<0xA0>", 3)
+    weaver.add_token("a", 4)
+    var tokens = weaver.encode(" a", False)
+    if len(tokens) != 3 or tokens[0] != 2 or tokens[1] != 3 or tokens[2] != 4:
+        raise Error("non-breaking space was incorrectly rewritten as ASCII space marker")
+    print("PASS: non-breaking space stays distinct from ASCII space marker")

@@ -1467,3 +1467,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-166 Unicode integration: composed and decomposed strings encode
   and stream-decode to their exact original forms; master suite 225/0/1
   (226 total).
+
+- [x] AES500-167 Unicode adversarial case: NBSP remains distinct from ASCII
+  space marker; master suite 226/0/1 (227 total).

@@ -3912,3 +3912,8 @@ only applies vocabulary-driven ASCII-space rewriting. Master suite remains
 AES500-166 round-trips composed/decomposed forms through RuneWeaver byte IDs
 and RuneStreamDecoder without merging their representations. Master suite:
 225 passed, zero failed, one skipped (226 total).
+
+
+AES500-167 confirms NBSP remains its own byte fallback even when the model
+vocabulary contains `▁`; ASCII-space-only rewrite stays explicit. Master suite:
+226 passed, zero failed, one skipped (227 total).

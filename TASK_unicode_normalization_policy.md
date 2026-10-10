@@ -45,3 +45,8 @@ Public `encode(" a", False)` returns the marker ID followed by `a` when `▁` is
 ## AES500-166 integration receipt
 
 RuneWeaver byte-fallback IDs are passed through actual `<0xHH>` vocabulary spellings into `RuneStreamDecoder`. The composed and decomposed forms each round-trip to their exact original strings in separate decoder instances. Master suite: 225 passed, zero failed, one skipped (226 total).
+
+
+## AES500-167 adversarial receipt
+
+With `▁` present in vocabulary, NBSP followed by `a` encodes as `[2,3,4]` (`C2 A0` byte tokens plus `a`), proving the marker rewrite is limited to ASCII space. Master suite: 226 passed, zero failed, one skipped (227 total).

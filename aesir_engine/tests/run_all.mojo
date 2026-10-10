@@ -12,7 +12,7 @@ from tests.test_compute import (
     test_dequantize_q4_k_m,
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
-from tests.test_tokenizer import test_tokenizer, test_byte_bpe_merge_baseline, test_byte_bpe_merge_interface, test_byte_bpe_merge_adversarial, test_byte_bpe_merge_integration, test_byte_bpe_merge_negative_scores, test_unicode_normalization_baseline, test_unicode_normalization_interface, test_unicode_normalization_integration
+from tests.test_tokenizer import test_tokenizer, test_byte_bpe_merge_baseline, test_byte_bpe_merge_interface, test_byte_bpe_merge_adversarial, test_byte_bpe_merge_integration, test_byte_bpe_merge_negative_scores, test_unicode_normalization_baseline, test_unicode_normalization_interface, test_unicode_normalization_integration, test_unicode_normalization_adversarial
 from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
@@ -358,6 +358,7 @@ def main() raises:
     run_case(ledger, "tokenizer.unicode_normalization_baseline", test_unicode_normalization_baseline)
     run_case(ledger, "tokenizer.unicode_normalization_interface", test_unicode_normalization_interface)
     run_case(ledger, "tokenizer.unicode_normalization_integration", test_unicode_normalization_integration)
+    run_case(ledger, "tokenizer.unicode_normalization_adversarial", test_unicode_normalization_adversarial)
     run_case(
         ledger, "tokenizer.linear_bpe_perf", test_bpe_tokenizer_linear_perf
     )
@@ -891,4 +892,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(226)
+    ledger.finish(227)
