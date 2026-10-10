@@ -351,12 +351,16 @@ def _f16_rne_bits_subnormal(mant7: Int) -> UInt16:
 def _f16_rne_bits_subnormal_full(e: Int, mant7: Int) -> UInt16:
     """RNE of v = (128 + mant7) * 2^(e-7) with e+15 <= 0 to FP16 subnormal bits."""
     # Target: 10-bit subnormal mantissa M = round((128 + mant7) * 2^(e+17)).
-    # e+17 <= -15+... e <= -15 so e+17 <= 2; for e+17 >= 0 the shift is exact-ish.
     var base = 128 + mant7  # in [128, 255]
-    var shift = e + 17
+    var shift = e + 17  # <= 2 (since e <= -15)
     var m: Int
     if shift >= 0:
-        m = base << shift  # exact (<= 255 * 4)
+        m = base << shift  # exact
+    elif shift < -10:
+        # base * 2^shift < 2^8 * 2^-10 = 0.5, and it can never be exactly 0.5
+        # (that would need base = 2^(-shift-1) >= 1024 > 255), so RNE -> 0.
+        # (This also avoids 64-bit overflow in _rne_shift for huge drops.)
+        m = 0
     else:
         m = _rne_shift(base, -shift)
     if m >= 1024:
@@ -366,33 +370,18 @@ def _f16_rne_bits_subnormal_full(e: Int, mant7: Int) -> UInt16:
 
 
 def _f16_from_bits_exact(w: UInt16) -> Float16:
-    """Exact UInt16 bit pattern -> Float16 (all classes incl. subnormals)."""
-    var sign = Float32(1)
-    if (w & UInt16(0x8000)) != UInt16(0):
-        sign = Float32(-1)
-    var exp5 = Int((w >> 10) & UInt16(0x1F))
-    var mant = Int(w & UInt16(0x3FF))
-    if exp5 == 31:
-        if mant == 0:
-            return Float16(sign * Float32(1e30) * Float32(1e30))  # Inf via overflow
-        return Float16(sign * Float32(1e30) * Float32(1e30)) / Float16(sign * Float32(1e30) * Float32(1e30))  # NaN via Inf/Inf
-    if exp5 == 0:
-        if mant == 0:
-            return Float16(sign) * Float16(0)
-        # subnormal: mant * 2^-24
-        var v = Float32(mant)
-        for _ in range(24):
-            v /= Float32(2)
-        return Float16(sign * v)
-    var v = Float32(1024 + mant) / Float32(1024)
-    var e = exp5 - 15
-    if e >= 0:
-        for _ in range(e):
-            v *= Float32(2)
-    else:
-        for _ in range(-e):
-            v /= Float32(2)
-    return Float16(sign * v)
+    """Exact UInt16 bit pattern -> Float16 (all classes incl. NaN/subnormals).
+
+    Uses a pointer bitcast (not scalar bitcast, which Mojo 1.1.0 removed):
+    the 16 bits are stored and reloaded as Float16, so the value's bit
+    pattern is exactly `w` on every architecture — in particular quiet-NaN
+    payloads do not depend on how each CPU renders Inf/Inf.
+    """
+    var bits = unsafe_alloc[UInt16](1)
+    bits[unsafe_offset=0] = w
+    var v = bits.unsafe_bitcast[Float16]().unsafe_offset(0).unsafe_load()
+    bits.unsafe_free()
+    return v
 
 
 struct SafetensorsLoader:
