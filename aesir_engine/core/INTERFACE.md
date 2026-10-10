@@ -852,9 +852,9 @@ validated independently and each tensor is rotated across all its own rows.
 Interleaved pairs are `(2*i, 2*i+1)`; NeoX pairs are
 `(i, i+head_dim/2)`. Row `r` uses position `start_pos+r`, frequency
 `1/theta^(2*i/head_dim)`, F16-cast cosine/sine coefficients, and ordered
-`x0*cos-x1*sin`, `x0*sin+x1*cos` updates. Current admission does not validate
-theta or checked integer/pointer arithmetic; see `TASK_rope_edge_matrix.md` for
-the exact exclusions and next evidence gates.
+`x0*cos-x1*sin`, `x0*sin+x1*cos` updates. Theta must be finite and positive.
+Checked integer/pointer arithmetic is not established; see
+`TASK_rope_edge_matrix.md` for the exact exclusions and next evidence gates.
 
 The dispatcher rejects null/sentinel storage, nonpositive element counts,
 partial blocks, unknown descriptors, and reserved external/extreme formats

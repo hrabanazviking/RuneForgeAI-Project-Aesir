@@ -20,16 +20,29 @@ def check_invalid_theta(theta: Scalar[f32]) raises:
     for index in range(4):
         Q.data.unsafe_store(index, Scalar[f16](Float32(index + 1)))
         K.data.unsafe_store(index, Scalar[f16](Float32(index + 2)))
-    # AES500-107 captures current behavior; domain admission policy is deferred.
-    apply_rope(Q, K, 2, 4, theta)
-    if not has_nan(Q) or not has_nan(K):
-        raise Error("Invalid theta did not produce NaN in both Q and K")
+    var rejected = False
+    try:
+        apply_rope(Q, K, 2, 4, theta)
+    except error:
+        rejected = True
+        if "theta must be finite and positive" not in String(error):
+            raise Error("RoPE rejected an invalid theta for an unexpected reason")
+    if not rejected:
+        raise Error("RoPE admitted an invalid theta")
+    for index in range(4):
+        if Q.data.unsafe_load(index) != Scalar[f16](Float32(index + 1)):
+            raise Error("Invalid theta rejection mutated Q")
+        if K.data.unsafe_load(index) != Scalar[f16](Float32(index + 2)):
+            raise Error("Invalid theta rejection mutated K")
 
 
 def test_rope_adversarial() raises:
     check_invalid_theta(Scalar[f32](0.0))
     check_invalid_theta(Scalar[f32](-1.0))
-    print("PASS: RoPE zero and negative theta currently propagate NaN into Q and K")
+    check_invalid_theta(Scalar[f32](0.0 / 0.0))
+    check_invalid_theta(Scalar[f32](1.0 / 0.0))
+    check_invalid_theta(Scalar[f32](-1.0 / 0.0))
+    print("PASS: RoPE rejects invalid theta before mutating Q or K")
 
 
 def main() raises:

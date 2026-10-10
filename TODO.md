@@ -1237,3 +1237,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-107 RoPE adversarial evidence: theta=0 and theta=-1 are admitted
   and produce NaN in Q and K for the exercised case. This is a captured unsafe
   behavior, not a contract; NaN/Inf theta admission remains uncharacterized.
+- [x] AES500-108 RoPE review/fix: theta=0, negative, NaN, +Inf, and -Inf now
+  reject with a finite-positive error before Q/K mutation. The adversarial test
+  snapshots both tensors and verifies rejection for all five classes.

@@ -154,6 +154,10 @@ accepted and contaminate Q and K with NaNs at the exercised position. This is
 reported as a defect observation. NaN and infinity theta paths were not
 characterized and no broader IEEE or pointer-safety claim is made.
 
+AES500-108's primary review turns that observation into a finite-positive theta
+admission rule. Zero, negative, NaN, and either infinity reject before Q or K
+mutation; the adversarial test verifies unchanged snapshots for both tensors.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

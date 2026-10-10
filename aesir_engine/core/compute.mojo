@@ -1727,6 +1727,8 @@ def apply_rope(
     """
     if start_pos < 0:
         raise Error("apply_rope: start_pos cannot be negative")
+    if theta <= 0.0 or isnan(theta) or isinf(theta):
+        raise Error("apply_rope: theta must be finite and positive")
     if head_dim <= 0 or head_dim % 2 != 0:
         raise Error("apply_rope: head_dim must be positive and even")
     if Q.cols % head_dim != 0 or K.cols % head_dim != 0:

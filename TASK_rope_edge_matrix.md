@@ -30,9 +30,8 @@ This slice changes documentation only.
 
 ## Known gaps and exclusions
 
-- The current implementation does not require `theta` to be finite and
-  positive. Zero, negative, NaN, or infinite theta behavior is not an accepted
-  numerical guarantee yet; later slices must capture and decide it explicitly.
+- `theta` must be finite and positive. Zero, negative, NaN, and either infinity
+  reject before tensor mutation; focused adversarial tests assert this.
 - `start_pos + row` and row/head pointer-index products are not checked for
   integer overflow. Pointer provenance, backing capacity, lifetime, overlap
   between Q and K, and arbitrary strides are not established.
@@ -50,6 +49,8 @@ This slice changes documentation only.
   both Q and K for the exercised nonzero position. This is an unsafe behavior,
   not an accepted numerical contract. NaN and infinity theta remain
   uncharacterized.
+- AES500-108 closes the observed defect: theta must be finite and positive,
+  and zero, negative, NaN, and ±Inf reject before changing Q or K.
 - This contract does not establish partial rotary dimensions, scaling variants,
   multi-axis RoPE, accelerator parity, speed, training gradients, or model
   quality. F16 rounding and non-finite input behavior beyond current source
