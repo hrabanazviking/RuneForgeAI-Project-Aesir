@@ -15,6 +15,16 @@ slice commits was still queued or in progress at this entry; no green hosted
 result is claimed here. Process-kill results are scoped to this Linux filesystem
 and do not prove sudden-power-loss durability or portability.
 
+AES500-221..229 then defined the content-addressed identity boundary: recipe
+fingerprints are non-cryptographic and carry zero observed bytes; immutable blob
+references use lowercase SHA-256 plus a positive measured size. Identity
+validation is shared across manifest decode, catalog serialization, ingest,
+restore and collection. The exact 32-byte fixture hash, restart/dedup/corruption
+checks and special-file/crash gates are documented in
+[`TASK_content_addressed_blob_identity.md`](../TASK_content_addressed_blob_identity.md)
+and its linked evidence. No external hash-oracle or sudden-power-loss claim is
+made.
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability
