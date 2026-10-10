@@ -43,6 +43,7 @@ from tests.test_rope_reference import test_rope_reference
 from tests.test_rope_integration import test_rope_integration
 from tests.test_rope_adversarial import test_rope_adversarial
 from tests.test_attention_interface import test_attention_interface
+from tests.test_attention_reference import test_attention_reference
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
     test_mimir_well_allocation_bounds,
@@ -357,6 +358,7 @@ def main() raises:
     run_case(ledger, "compute.rope_reference", test_rope_reference)
     run_case(ledger, "compute.rope_integration", test_rope_integration)
     run_case(ledger, "compute.attention_interface", test_attention_interface)
+    run_case(ledger, "compute.attention_reference", test_attention_reference)
     print("")
 
     # --- Logical Host Tensor Partitioning ---
@@ -851,4 +853,4 @@ def main() raises:
     # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
     # test runs after this caught-error adversarial path in the same process.
     run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
-    ledger.finish(204)
+    ledger.finish(205)

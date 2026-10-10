@@ -1264,3 +1264,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   at `i+1`, admitting only positions `0..i`. The retained probe now emits the
   first value row unchanged for query row 0, as required by its single-key
   causal prefix.
+- [x] AES500-115 causal attention unit evidence: width-3 tail computation is
+  compared with an independent scalar F32 `[0,i]` oracle at 0.05 absolute F16
+  error; row 0 is exact and the test repeats with +100 future-row values.

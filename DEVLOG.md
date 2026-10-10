@@ -190,6 +190,12 @@ On the retained probe, row 0 now exactly equals its only allowed V row,
 confirming the future-value leak is removed for that case. Broader numerical
 agreement remains for AES500-115.
 
+AES500-115 adds an independent scalar F32 `[0,i]` oracle for a 3-row,
+head-width-3 case, with a 0.05 absolute error bound after F16 output. The first
+row must equal its only allowed V row exactly, and a +100 perturbation to the
+future V row remains covered by the same causal oracle. This is one deterministic
+tail-width corpus, not a general tolerance claim.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

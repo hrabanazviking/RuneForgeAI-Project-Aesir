@@ -42,6 +42,11 @@ AES500-114 changes the tiled key loop bound for query row `i` to `i+1`, so
 future keys are not scored or accumulated. Re-running the retained 3-row probe
 after the change makes row 0 equal its sole allowed value row exactly.
 
+AES500-115's `compute.attention_reference` test compares a 3-row, head-width-3
+case to a scalar F32 online softmax over `[0, i]`, accepts at most 0.05 absolute
+error after F16 storage for this corpus, requires exact row-0 single-key
+equality, and repeats with a large future-row V perturbation.
+
 AES500-113 adds direct admission coverage for zero sequence/head width,
 nondivisible Q width, K/V/output column mismatches, and each tensor's short-row
 case. Rejections assert the entire logical output snapshot is unchanged; one
