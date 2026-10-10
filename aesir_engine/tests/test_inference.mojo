@@ -3,6 +3,7 @@ from loader.chat_template import ChatMessage, RuneChatTemplate, NativeTokenizerS
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass, TransformerBlock
 from core.sampler import RuneRNG, TokenCandidate, sample_token_from_logits, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
+from core.sampling_config import NativeSamplingConfig
 from core.session import SessionContext, SessionManager
 from aesir import GenerationConfig, generation_stop_reason, validate_runtime_backend_config
 from std.memory import Pointer, dealloc
@@ -218,6 +219,93 @@ def test_sampler_stack() raises:
         raise Error("Min-P sampling must truncate candidates below threshold")
 
     print("Configurable Sampler Stack: PASS")
+
+
+def test_top_k_boundary_semantics() raises:
+    """CPU top-k boundaries and stable input ordering for tied cutoff."""
+    var empty = List[TokenCandidate]()
+    apply_top_k(empty, 1)
+    if len(empty) != 0:
+        raise Error("Top-k on empty candidates must remain empty")
+
+    var boundary = List[TokenCandidate]()
+    boundary.append(TokenCandidate(10, 1.0))
+    boundary.append(TokenCandidate(11, 4.0))
+    boundary.append(TokenCandidate(12, 4.0))
+    boundary.append(TokenCandidate(13, 2.0))
+    apply_top_k(boundary, 0)
+    if len(boundary) != 4 or boundary[0].id != 10:
+        raise Error("Nonpositive helper top-k must be a no-op")
+    apply_top_k(boundary, 1)
+    if len(boundary) != 1 or boundary[0].id != 11:
+        raise Error("Top-k one must retain first input candidate among tied maxima")
+
+    var all_candidates = List[TokenCandidate]()
+    all_candidates.append(TokenCandidate(10, 1.0))
+    all_candidates.append(TokenCandidate(11, 4.0))
+    all_candidates.append(TokenCandidate(12, 4.0))
+    all_candidates.append(TokenCandidate(13, 2.0))
+    apply_top_k(all_candidates, 4)
+    if (len(all_candidates) != 4 or all_candidates[0].id != 10
+            or all_candidates[1].id != 11 or all_candidates[2].id != 12):
+        raise Error("Top-k equal to candidate count must preserve all in original order")
+
+    var over_candidates = List[TokenCandidate]()
+    over_candidates.append(TokenCandidate(10, 1.0))
+    over_candidates.append(TokenCandidate(11, 4.0))
+    apply_top_k(over_candidates, 3)
+    if len(over_candidates) != 2:
+        raise Error("Top-k above candidate count must preserve all candidates")
+    print("CPU top-k empty, no-op, cutoff tie and count boundaries: PASS")
+
+
+def test_top_k_sampling_integration() raises:
+    """Pin CPU top_k=1 greedy scan with suppression but without penalties."""
+    NativeSamplingConfig(0.8, 1, 1.0, 0, 1, 64, 42).validate()
+    var allocation = alloc(Layout[Scalar[f16]](count=3))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](9.0))
+    logits.unsafe_store(2, Scalar[f16](2.0))
+    var suppressed = List[Int]()
+    suppressed.append(1)
+    var rng = RuneRNG(12)
+    var selected = sample_token_from_logits(
+        logits, 3, 0.8, 1, 1.0, 1.0, List[Int](), rng,
+        suppress_tokens=suppressed
+    )
+    dealloc(allocation^)
+    if selected != 2:
+        raise Error("CPU top_k=1 greedy special path behavior changed")
+    print("CPU top_k=1 sampling integration short-circuit: PASS")
+
+
+def test_top_k_adversarial() raises:
+    """Dense equal-score cutoff, singleton and maximum config boundaries."""
+    NativeSamplingConfig(0.7, 256, 1.0, 0, 1, 64, 42).validate()
+    var singleton = List[TokenCandidate]()
+    singleton.append(TokenCandidate(90, -3.0))
+    apply_top_k(singleton, 1)
+    if len(singleton) != 1 or singleton[0].id != 90:
+        raise Error("Top-k one on singleton must preserve its only candidate")
+
+    var dense = List[TokenCandidate]()
+    for i in range(12):
+        dense.append(TokenCandidate(100 + i, Float32(i // 4)))
+    apply_top_k(dense, 5)
+    if len(dense) != 5 or dense[0].id != 108 or dense[1].id != 109 or dense[2].id != 110 or dense[3].id != 111 or dense[4].id != 104:
+        raise Error("Top-k dense tied cutoff changed stable input ordering")
+
+    var rejected = NativeSamplingConfig()
+    rejected.top_k = 0
+    var failed = False
+    try:
+        rejected.validate()
+    except:
+        failed = True
+    if not failed:
+        raise Error("Public sampling config must reject top-k zero")
+    print("Top-k singleton, dense ties and config extremes: PASS")
 
 
 def test_greedy_tie_policy() raises:

@@ -1554,3 +1554,18 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-200 temperature release gate: CI-targeted CLI build/help, master
   235/0/1 (236 total), docs tests, drift and whitespace pass; CUDA JIT limitation
   remains explicit.
+- [x] AES500-201/202 top-k contract and baseline: CPU helper boundaries and
+  stable ties separated from CUDA public 1..256 validation and lower-ID ties;
+  hashes and physical CUDA limitation recorded.
+- [x] AES500-203/204 top-k interface and implementation: core contract synced;
+  existing behavior matches, with no algorithm change needed.
+- [x] AES500-205 top-k boundary tests: empty, k=0/1/n/>n, tied maxima, and
+  stable cutoff pass; master suite 236/0/1 (237 total).
+- [x] AES500-206/207 top-k integration/adversarial tests: top_k=1 suppression
+  path, singleton, max k=256, rejected zero, and dense tie cutoff pass; master
+  suite 238/0/1 (239 total).
+- [x] AES500-208/209 primary review and docs sync: CPU/CUDA-specific tie rules
+  and physical CUDA PTX failure stated; Auditor unavailable at thread cap.
+- [x] AES500-210 top-k release gate: pinned CLI build/help, master 238/0/1
+  (239 total), docs tests, drift and whitespace pass; remote and hosted CI
+  checked after push.

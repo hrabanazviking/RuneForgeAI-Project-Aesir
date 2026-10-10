@@ -4029,3 +4029,22 @@ AES500-200 release gate passes the pinned CI-targeted CLI build and binary help,
 master suite 235 passed, zero failed, one skipped (236 total), docs drift/tests,
 and whitespace. Hosted Actions status is checked against the pushed revision;
 physical CUDA remains unverified due to PTX JIT failure.
+
+
+AES500-201–205 define and pin top-k boundaries. CPU helper vectors confirm
+empty/zero/one/n/>n behavior and stable input order for equal scores; the public
+CPU special case and native CUDA 1..256/lower-ID behavior remain explicitly
+separate. Master suite: 236 passed, zero failed, one skipped (237 total).
+
+
+AES500-206/207 add CPU config integration for `top_k==1` with suppression,
+singleton and maximum config boundaries, rejection at k=0, and dense tied-cutoff
+ordering. The master suite passes 238 cases, zero failures, one skip (239 total).
+AES500-208/209 review and documentation keep CPU and CUDA contracts separate;
+independent Auditor and physical CUDA evidence remain unavailable.
+
+
+AES500-210 release gate passes the pinned CI-targeted CLI build and help,
+master 238 passed, zero failed, one skipped (239 total), docs tests, drift and
+whitespace. Hosted Actions remains a separate remote signal; the local physical
+CUDA sampler is still blocked by PTX JIT `CUDA_ERROR_INVALID_PTX`.

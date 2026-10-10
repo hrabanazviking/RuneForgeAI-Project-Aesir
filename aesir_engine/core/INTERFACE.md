@@ -115,6 +115,18 @@ is constrained to the admitted vocabulary. Negative temperature rejects before
 sampling; extreme finite F16 logits and NaN sanitization remain in bounds.
 These tests do not verify physical CUDA behavior or model calibration.
 
+CPU `apply_top_k` is a no-op for empty candidates, `k <= 0`, and `k >= n`;
+otherwise it retains exactly k by descending logit, preserving input order for
+ties at the cutoff. The CPU public sampler treats `top_k == 1` as a greedy scan
+that still applies suppression but bypasses repetition/frequency penalties.
+Native CUDA config accepts 1..256 and its exact ranking resolves score ties by
+lower token ID. The current CPU master test confirms k=0 is a no-op in the helper,
+k=1 retains the first tied maximum, and k>=n preserves the input order. It also
+confirms the top_k=1 public sampler path honors suppression. Native CUDA physical
+execution remains unverified because PTX JIT fails with
+`CUDA_ERROR_INVALID_PTX`. These engine-specific rules are not interchangeable
+and no CPU/CUDA parity is claimed.
+
 ### `MimirWell`
 Pre-allocates a contiguous F16-element workspace pool. `allocate(elements)`
 accepts a positive element count and returns a raw pointer at the current bump
