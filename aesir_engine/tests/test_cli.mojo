@@ -2,7 +2,12 @@
 # Verification of implemented CLI parsing and honest unsupported boundaries.
 
 from cli.modelfile import parse_modelfile
-from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
+from cli.manifest import (
+    RuneModelStore,
+    ModelManifest,
+    deserialize_manifest,
+    validate_manifest_storage_identity,
+)
 from cli.storage import DurableModelStore, deserialize_catalog, serialize_catalog
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import render_model_selector, selected_model_reference
@@ -606,6 +611,31 @@ def test_catalog_schema_unit_evidence() raises:
     if not duplicate_rejected:
         raise Error("catalog writer accepted a duplicate model key")
     print("catalog schema malformed count/record and duplicate-key cases: PASS")
+
+
+def test_blob_identity_interface() raises:
+    """Pins the accepted recipe/blob identity pairs at the public validator."""
+    validate_manifest_storage_identity("fnv1a64:0123456789abcdef", 0)
+    validate_manifest_storage_identity("sha256:" + "a" * 64, 1)
+
+    var rejected_pairs = List[String]()
+    rejected_pairs.append("fnv1a64:0123456789abcdef|1")
+    rejected_pairs.append("sha256:" + "a" * 64 + "|0")
+    rejected_pairs.append("sha256:" + "a" * 63 + "|1")
+    rejected_pairs.append("sha256:" + "A" * 64 + "|1")
+    rejected_pairs.append("fnv1a64:" + "A" * 16 + "|0")
+    for index in range(len(rejected_pairs)):
+        var pair = rejected_pairs[index].split("|")
+        var rejected = False
+        try:
+            validate_manifest_storage_identity(
+                String(pair[0]), Int64(atol(String(pair[1])))
+            )
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("manifest identity validator accepted rejected vector " + String(index))
+    print("recipe/blob identity interface pairings: PASS")
 
 
 def assert_cli_command_unsupported(command: String) raises:

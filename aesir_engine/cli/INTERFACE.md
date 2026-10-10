@@ -412,7 +412,13 @@ focused verification. Store-root validation delegates to the authoritative
 `AesirConfig.model_store_path` schema, whose relative default is
 `.aesir/models`.
 `validate_manifest_storage_identity` is the single recipe/blob digest-and-size
-invariant used by catalog decode, durable serialization, and collection.
+invariant used by catalog decode, durable serialization, and collection. It
+accepts `fnv1a64:<16 lowercase hex>` only with zero observed bytes for recipe
+fingerprints, or `sha256:<64 lowercase hex>` only with positive measured bytes
+for immutable blobs. `RuneModelStore.create_model_from_blob` requires the
+measured SHA-256 form. `DurableModelStore.ingest_model` optionally accepts an
+expected SHA-256 and positive size pair and compares both with the opened
+inode's measured values before catalog publication.
 
 `scripts/test_catalog_crash_atomicity.py` is the Linux process-crash evidence
 for the catalog commit protocol. Its test-only interposition shim kills the
