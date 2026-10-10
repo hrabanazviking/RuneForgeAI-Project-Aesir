@@ -3926,3 +3926,8 @@ assignment, which is not claimed.
 
 AES500-169 syncs the loader interface with Unicode preservation and the
 ASCII-space-only marker rule, while retaining explicit conformance limits.
+
+
+AES500-170 Unicode release gate passes native build/help, docs, whitespace, and
+master suite (226 passed, zero failed, one skipped / 227 total). Recent hosted
+Actions runs remain in progress.

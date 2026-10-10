@@ -58,3 +58,8 @@ Primary review confirms `_initial_pieces` preserves non-ASCII code points, only 
 
 
 AES500-169 documentation sync: `aesir_engine/loader/INTERFACE.md` now states no canonical normalization, ASCII U+0020-only marker rewriting, and the NBSP distinction with explicit conformance limits.
+
+
+## AES500-170 release gate
+
+Native sm_89 build and executable help smoke pass. Master suite reports 226 passed, zero failed, one external-fixture skip (227 total). Documentation drift and whitespace checks pass. GitHub Actions runs for recent heads remain in progress; hosted success is not claimed.
