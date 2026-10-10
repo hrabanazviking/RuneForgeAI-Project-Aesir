@@ -197,7 +197,7 @@ struct TrialStats:
         return (t / Float64(len(self.s))) ** 0.5
 
 
-def bench_rss_pages() -> Int64:
+def bench_rss_pages() raises -> Int64:
     # Resident set size in OS pages, from /proc/self/statm field 2.
     # Used by H173 to prove zero per-step allocation (RSS must stay flat).
     var txt = bench_try_read_text("/proc/self/statm")

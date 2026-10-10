@@ -27,11 +27,12 @@ struct Sampler:
         if self.rng_state == 0:
             self.rng_state = 0x243F6A8885A308D3
         self.f_n = 0
-        # Null-pointer placeholders; _fused_ensure() allocates on demand.
-        self.f_logits = Pointer[Float32, MutUntrackedOrigin]()
-        self.f_probs = Pointer[Float32, MutUntrackedOrigin]()
-        self.f_idx = Pointer[Int, MutUntrackedOrigin]()
-        self.f_live = Pointer[Int, MutUntrackedOrigin]()
+        # Null placeholders; _fused_ensure() allocates on first use.
+        # (Never dereferenced while f_n == 0.)
+        self.f_logits = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
+        self.f_probs = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
+        self.f_idx = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
+        self.f_live = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
 
     def _fused_ensure(mut self, n: Int):
         # Allocate (or grow) the fused scratch. Called once per size class.
@@ -301,10 +302,10 @@ struct SamplerScratch:
     def __init__(out self):
         # Non-allocating view constructor (for _fused_scratch_view).
         self.n = 0
-        self.logits = Pointer[Float32, MutUntrackedOrigin]()
-        self.probs = Pointer[Float32, MutUntrackedOrigin]()
-        self.idx = Pointer[Int, MutUntrackedOrigin]()
-        self.live = Pointer[Int, MutUntrackedOrigin]()
+        self.logits = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
+        self.probs = Pointer[Float32, MutUntrackedOrigin](unsafe_from_address=0)
+        self.idx = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
+        self.live = Pointer[Int, MutUntrackedOrigin](unsafe_from_address=0)
 
     def free(mut self):
         self.logits.unsafe_free()
