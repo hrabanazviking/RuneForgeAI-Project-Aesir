@@ -627,7 +627,8 @@ generator is independently designed; findings live in docs/plunder/.
 - Branch: `mimisbrunnr-c8-vordr`, pushed (latest 0606745).
 
 ## Campaign 9 — Speed (H161–H180)
-- Status: not started — H171-H172 need GO
+- Status: IN PROGRESS — CPU-path optimization (H171–H172 GO-only → SKIP per re-scope; H161–H170, H173–H180 RUN)
+- Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
 - Status: not started — H184 needs GO
