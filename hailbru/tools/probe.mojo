@@ -785,16 +785,23 @@ def cmd_fw_stage_selftest(arch: String, args: List[String]) raises:
     )
 
 
+def _str_bytes(s: String) -> List[UInt8]:
+    var bs = List[UInt8]()
+    for b in s.bytes():
+        bs.append(b)
+    return bs
+
+
 def _parse_int(s: String) -> Int:
-    var t = trim(s)
+    var bs = _str_bytes(trim(s))
     var v = 0
     var neg = False
     var i = 0
-    if len(t) > 0 and (t[0] == "-" or t[0] == "+"):
-        neg = t[0] == "-"
+    if len(bs) > 0 and (bs[0] == 45 or bs[0] == 43):
+        neg = bs[0] == 45
         i = 1
-    for j in range(i, len(t)):
-        var b = t.bytes()[j]
+    for j in range(i, len(bs)):
+        var b = bs[j]
         if b < 48 or b > 57:
             break
         v = v * 10 + (Int(b) - 48)
@@ -886,20 +893,21 @@ def cmd_health(arch: String, args: List[String]) raises:
         emit(arch, s.to_json())
 
 
-def _proc_cpu_ms(arch: String) -> Int64:
+def _proc_cpu_ms(arch: String) raises -> Int64:
     # utime+stime from /proc/self/stat (fields 14,15), in ms (HZ=100).
     var data = read_file_str(arch, "/proc/self/stat", 4096)
-    var s = trim(data)
+    var bs = _str_bytes(trim(data))
     var close_paren = -1
-    for i in range(len(s)):
-        if s[i] == ")":
+    for i in range(len(bs)):
+        if bs[i] == 41:  # ")"
             close_paren = i
-    var rest = s
-    if close_paren >= 0 and close_paren + 2 < len(s):
-        rest = s[close_paren + 2 :]
+    var start = 0
+    if close_paren >= 0 and close_paren + 2 < len(bs):
+        start = close_paren + 2
     var fields = List[String]()
     var cur = ""
-    for b in rest.bytes():
+    for i in range(start, len(bs)):
+        var b = bs[i]
         if b == 32:
             fields.append(cur)
             cur = ""
@@ -926,26 +934,27 @@ def cmd_drift(arch: String, args: List[String]) raises:
     var vals = List[Int]()
     var masks = List[Int]()
     if refs_raw != "":
-        # Manual split of "off:value:mask,off:value:mask,..." (no std split).
+        # Manual split of "off:value:mask,off:value:mask,...".
+        var rbs = _str_bytes(refs_raw)
         var triples = List[String]()
         var cur_t = ""
-        for b in refs_raw.bytes():
-            if b == 44:  # ","
+        for i in range(len(rbs)):
+            if rbs[i] == 44:  # ","
                 triples.append(cur_t)
                 cur_t = ""
             else:
-                cur_t += String(chr(Int(b)))
+                cur_t += String(chr(Int(rbs[i])))
         triples.append(cur_t)
         for ti in range(len(triples)):
-            var triple = triples[ti]
+            var tbs = _str_bytes(triples[ti])
             var parts = List[String]()
             var cur_p = ""
-            for b in triple.bytes():
-                if b == 58:  # ":"
+            for i in range(len(tbs)):
+                if tbs[i] == 58:  # ":"
                     parts.append(cur_p)
                     cur_p = ""
                 else:
-                    cur_p += String(chr(Int(b)))
+                    cur_p += String(chr(Int(tbs[i])))
             parts.append(cur_p)
             if len(parts) == 3:
                 offs.append(Int(parse_u64_hex(parts[0])))

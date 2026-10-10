@@ -186,12 +186,18 @@ def _bound_driver(arch: String, sysfs_root: String, bdf: String) raises -> Strin
     tmp.unsafe_free()
     buf.unsafe_free()
     # basename after the last "/"
+    var bs = List[UInt8]()
+    for b in s.bytes():
+        bs.append(b)
     var cut = -1
-    for i in range(len(s)):
-        if s[i] == "/":
+    for i in range(len(bs)):
+        if bs[i] == 47:  # "/"
             cut = i
     if cut >= 0:
-        return s[cut + 1 :]
+        var out = ""
+        for i in range(cut + 1, len(bs)):
+            out += String(chr(Int(bs[i])))
+        return out
     return s
 
 
