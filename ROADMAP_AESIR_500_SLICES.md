@@ -672,6 +672,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   source/tool/output, reruns byte-identically, and confirms existing drift
   checks pass. See
   `docs/evidence/capability-ledger-baseline-2026-10-10/`.
+- AES500-033 pins immutable parser records, diagnostics, CLI subcommands,
+  continuation and extension preservation, and safe atomic export in
+  `scripts/INTERFACE.md` and the task contract.
 
 ## Status
 
