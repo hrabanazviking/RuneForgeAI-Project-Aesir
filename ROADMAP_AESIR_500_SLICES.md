@@ -603,12 +603,23 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 ### AES500-011 — Strategy5 owned tracing
 
 - Begin only after control recovery acceptance. Attribute actual strategy5 work to owned resources and complete source-bound sessions; timing stays unscored until the relevant measurement contract is met.
+- AES500-011 trace contract and AES500-012 fresh strategy5 unprofiled baseline
+  receipt are published; baseline source/model/hash and independent CPU checks pass.
+- AES500-013 interface contract is published. Its exact remote CI and the
+  preceding controls remote release gate remain pending.
+- AES500-014+ implementation and physical trace acceptance remain open.
 
 ## Status
 
 - AES500-001 through AES500-009: strategy5 control contract, baseline, interface,
   implementation, unit/integration/adversarial evidence, review and documentation
   are complete for the declared fixture/model/device; see the task and evidence.
-- AES500-010: release gate is pending final commit/push and exact hosted CI.
-- AES500-011: strategy5 owned tracing contract is the next active slice.
+- AES500-010: controls implementation is pushed; exact hosted CI is still running
+  its opt-in CUDA probe compile step.
+- AES500-011: tracing contract is published; exact hosted release gate remains
+  pending for the prior controls commit.
+- AES500-012: fresh unprofiled public37/public1070 baseline is accepted locally
+  against source5 and independent zero-GPU CPU evidence.
+- AES500-013: strategy5 tracing interface contract is published; implementation
+  and physical trace attribution are not yet accepted.
 - This document does not change any capability status.

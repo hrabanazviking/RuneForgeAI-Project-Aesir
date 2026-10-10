@@ -547,3 +547,15 @@ typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one s
 seven builds before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
 selection/persisted/crash/context recreation claim. Next separate controls/tracing.
+
+## Explicit strategy5 owned attention trace
+
+`check_turing_prefill_trace.py --small-attention` requires an explicit accepted
+strategy5 source CSV/report/binary plus exact current model/binary. It admits the
+complete plain/profiled vectors, IDs/state/cache/dispatch/guards, then full-session
+Nsight process/device/launch/kernel/resource integrity. `cuda_fused_attention_ranges.attribute_small`
+requires one owned child range per tile and exactly28 successful per-layer kernel
+correlations with canonical grid/block geometry. This mode is separate from the
+strategy4 one-kernel-per-child path; asynchronous intervals are never clipped.
+All durations are diagnostic and unscored. Read
+`../docs/NATIVE_SMALL_ATTENTION_TRACE.md`.

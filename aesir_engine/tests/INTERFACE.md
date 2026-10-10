@@ -873,3 +873,16 @@ Read project-root `TASK_small_attention_controls.md` and
 `docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the active contract and final
 evidence boundary. The scoped physical gate passes for the accepted strict3B
 model and RTX2060 sm75; this does not admit normal runtime selection.
+
+## Explicit small-score strategy5 owned tracing
+
+Strategy5 owns a separate default-false, constructor-sealed `small_tracing`
+capability. It excludes small controls/replay and borrowed strategy4 tracing, and
+refuses enabled controls before control mutation. The trace collector holds one
+`aesir.fixture.prefill` parent range and emits one nested
+`aesir.attend.small.b4|b32` child per actual strategy5 tile enqueue. Each tile has
+28 per-layer successful launch correlations at grid24x4/32x1, block128x1x1;
+single-token attention remains original. Stage projection labels are not enabled.
+Read project-root `TASK_small_attention_tracing.md` and
+`docs/NATIVE_SMALL_ATTENTION_TRACE.md`. Hosted compile and synthetic hostile
+contracts do not establish physical trace attribution.
