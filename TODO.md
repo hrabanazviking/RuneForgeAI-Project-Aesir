@@ -1506,3 +1506,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 
 - [x] AES500-177 invalid UTF-8 adversarial sweep: all 128 isolated high-byte
   values fail closed to one unknown ID; master suite 230/0/1 (231 total).
+
+- [x] AES500-178 invalid UTF-8 review: primary review confirms scalar/continuation
+  constraints and fail-closed output. Independent Auditor unavailable at service
+  thread cap; no agent signoff claimed.

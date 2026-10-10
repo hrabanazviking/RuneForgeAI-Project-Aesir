@@ -59,3 +59,8 @@ Unsafe invalid bytes `C3 28` encode to one configured `<unk>` vocabulary ID; pas
 ## AES500-177 adversarial receipt
 
 An exhaustive sweep constructs each isolated byte value 0x80 through 0xFF through the unsafe String seam. All 128 produce exactly one configured unknown ID. Master suite: 230 passed, zero failed, one skipped (231 total).
+
+
+## AES500-178 review receipt
+
+Primary review confirms validation covers RFC 3629 leading-byte ranges, continuation shape, overlong sequences, surrogate exclusions, and the U+10FFFF ceiling before any tokenizer processing. Rejection returns one unknown token plus optional enabled BOS; the 128-byte sweep and 3/4-byte edge cases pass. The unsafe pointer fixture is narrowly scoped and does not claim safe String constructors admit malformed data. Independent Auditor agent assignment is unavailable at the collaboration service thread cap; no independent signoff is claimed.

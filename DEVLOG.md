@@ -3971,3 +3971,8 @@ one skipped (230 total).
 AES500-177 sweeps every isolated high byte 0x80-0xFF through unsafe String
 construction; each fails closed to one unknown token. Master suite: 230 passed,
 zero failed, one skipped (231 total).
+
+
+AES500-178 primary review checks validator ranges, optional BOS, unknown output,
+and unsafe-input scope. The collaboration service cap blocks a separate Auditor;
+independent signoff is not claimed.
