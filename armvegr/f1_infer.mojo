@@ -271,7 +271,7 @@ def main() raises:
         var probes = List[Int]()
         probes.append(127)
         probes.append(511)
-        probes.append(512 + 49)  # decode step 49 (0-indexed overall step)
+        probes.append(511 + 49)  # decode step 49 -> overall token 560
         for pi in range(len(probes)):
             var upto = probes[pi] + 1  # prefix length
             if upto > len(gen_ids):

@@ -224,7 +224,10 @@ def main() raises:
     var all_probes = List[Int]()
     all_probes.append(127)
     all_probes.append(511)
-    all_probes.append(512 + decode_probe_step)
+    # Decode probe: decode_cached holds the logits for overall token 560
+    # (decode step 49 processes gen_ids[560]); the reference prefix must
+    # end at the same token.
+    all_probes.append(511 + decode_probe_step)
     for pi in range(len(all_probes)):
         var step = all_probes[pi]
         var upto = step + 1
@@ -272,7 +275,7 @@ def main() raises:
     json += ", \"repetition_penalty\": " + String(cfg.repetition_penalty)
     json += ", \"seed\": " + String(cfg.seed) + "},\n"
     json += "  \"kvcheck_max_abs_err_tolerance\": 0.001,\n"
-    json += "  \"kvcheck_probes\": [127, 511, 561],\n"
+    json += "  \"kvcheck_probes\": [127, 511, 560],\n"
     json += "  \"kvcheck\": \"" + kv_results + "\",\n"
     json += "  \"guards\": \"7/7 PASS\"\n"
     json += "}\n"
