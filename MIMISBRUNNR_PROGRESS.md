@@ -621,7 +621,9 @@ generator is independently designed; findings live in docs/plunder/.
 - H153 DONE: 3/3 removal stages — DeviceRemoved named, clean release, no crash, device sane (hailo1x/D3hot), inference coherent.
 - H154 DONE: 500/500 corruptions detected, 0 escapes, 500/500 retransferred.
 - H159 DONE: 20/20 degrade/fallback paths emit events — zero silent paths.
-- H151/H152: PRÓF suites running on Mimir; H158 30-min run queued.
+- H151 DONE: 11/11 register-error patterns decoded+classified+actioned (transient→retry, persistent→reset, fatal→halt).
+- H152 DONE: 20/20 hangs detected+handled (detect_ms 2001–2004ms, budget+5s); post-recovery inference matches reference.
+- H158: 30-min supervised run in progress on Mimir.
 - Branch: `mimisbrunnr-c8-vordr`, pushed (latest 0606745).
 
 ## Campaign 9 — Speed (H161–H180)
