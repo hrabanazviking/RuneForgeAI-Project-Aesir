@@ -67,3 +67,8 @@ Primary review confirms validation covers RFC 3629 leading-byte ranges, continua
 
 
 AES500-179 documentation sync: `aesir_engine/loader/INTERFACE.md` states the fail-closed result, optional BOS rule, test boundaries, and unsafe String limitations.
+
+
+## AES500-180 release receipt
+
+The exact CI-targeted command `pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-ci-build` succeeded, and the built CLI `--help` exited successfully. The master suite passed 230 cases, failed zero, skipped one (231 total). `scripts/test_check_doc_drift.py`, `scripts/check_doc_drift.py`, and `git diff --check` passed. The remote matched pre-commit head `2d57f5e`; its hosted Actions run was still `in_progress`, so no hosted pass is claimed here.

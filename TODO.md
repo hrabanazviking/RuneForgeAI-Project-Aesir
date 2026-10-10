@@ -1514,3 +1514,8 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-179 invalid UTF-8 documentation sync: loader interface and project
   records agree on pre-tokenization validation, unknown/BOS result, tested edges,
   and unsafe-input limits.
+
+- [x] AES500-180 invalid UTF-8 release gate: CI-targeted native CLI build and
+  binary help pass; master suite 230/0/1 (231 total); documentation drift and
+  whitespace checks pass. Hosted Actions for pre-commit head 2d57f5e remained
+  in progress at verification time.

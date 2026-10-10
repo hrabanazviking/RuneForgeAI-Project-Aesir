@@ -3980,3 +3980,10 @@ independent signoff is not claimed.
 
 AES500-179 syncs the loader interface with malformed UTF-8 validation, unknown/BOS
 output, coverage boundaries and unsafe String limitations.
+
+
+AES500-180 closes the local invalid UTF-8 release gate: the exact CI-targeted
+native CLI build and built-binary help passed; master suite was 230 passed, zero
+failed, one skipped (231 total); documentation drift and whitespace checks
+passed. Exact remote head before commit was 2d57f5e. Hosted Actions remained
+in progress at verification time; no hosted success is inferred.
