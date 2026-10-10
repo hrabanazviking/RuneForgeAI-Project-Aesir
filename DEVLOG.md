@@ -3738,3 +3738,8 @@ keys before reading their payloads. Mismatch errors include the key, and the
 four prior interface cases now assert rejection, FAILED state, and mapping
 cleanup. Unknown keys still use generic traversal; tokenizer arrays keep their
 existing dedicated validation. Focused cases pass.
+
+
+AES500-135 expands unit evidence to eight type-mismatch fixtures spanning
+integer, float, bool and recognized tokenizer-array inputs. Each checks its
+stable diagnostic and failed-state mapping cleanup; the focused module passes.

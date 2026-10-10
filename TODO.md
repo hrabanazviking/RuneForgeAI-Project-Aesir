@@ -1339,3 +1339,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   keys reject a wrong value type with a key-specific diagnostic before field
   mutation; unknown keys retain generic skipping. Four focused rejection/state
   cleanup cases pass.
+
+- [x] AES500-135 GGUF metadata type unit evidence: eight adversarial files cover
+  integer, float, bool, and array declaration mismatches; diagnostics and
+  FAILED/unmapped cleanup are asserted. Focused Mojo module passes.

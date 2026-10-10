@@ -61,3 +61,8 @@ The executable fixture interface in `aesir_engine/tests/test_gguf_metadata_types
 ## AES500-134 implementation receipt
 
 `_parse_metadata_value` now derives the expected GGUF value type for each selected scalar/string metadata branch and rejects mismatches with `GGUF metadata key has unexpected value type: <key>` before reading or mutating its destination. The three tokenizer arrays retain their existing dedicated array and element-type diagnostics. Unknown metadata keys retain generic `skip_value` traversal. The four interface fixtures now require key-specific rejection and FAILED/unmapped cleanup; unrelated metadata and public signatures are unchanged.
+
+
+## AES500-135 unit evidence receipt
+
+Eight generated mapped files now check wrong types for context length, embedding length, RoPE frequency, RMS epsilon, both tokenizer boolean flags, alignment, and `tokenizer.ggml.tokens`. The seven selected scalar keys require the stable key-specific mismatch diagnostic; the recognized array requires its dedicated non-array diagnostic. Every rejection asserts FAILED state and closed mmap. Focused Mojo module passes.

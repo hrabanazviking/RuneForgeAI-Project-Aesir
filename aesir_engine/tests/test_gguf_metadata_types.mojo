@@ -95,7 +95,11 @@ def unlink_path(path: String):
     _ = external_call["unlink", Int32](bytes.unsafe_ptr())
 
 
-def probe(target_key: String, target_type: UInt32) raises:
+def probe_expected(
+    target_key: String,
+    target_type: UInt32,
+    expected_error: String,
+) raises:
     var path = make_metadata_file(target_key, target_type)
     var seer = GGUFSeer(path)
     var tokenizer = RuneWeaver()
@@ -105,30 +109,33 @@ def probe(target_key: String, target_type: UInt32) raises:
     except error:
         error_text = String(error)
     unlink_path(path)
-    if "GGUF metadata key has unexpected value type: " + target_key not in error_text:
+    if expected_error not in error_text:
         raise Error(
-            "mismatched metadata type did not reject with key context for "
-            + target_key + ": " + error_text
+            "metadata mismatch diagnostic differs for " + target_key + ": " + error_text
         )
     if seer.state != 4 or seer.is_mapped:
         raise Error("metadata type rejection did not fail and clean the mapping")
-    if target_key == "llama.context_length" and seer.config.context_length != 0:
-        raise Error("mismatched context length modified the default configuration")
-    if target_key == "llama.rope.freq_base" and seer.config.rope_freq_base != 10000.0:
-        raise Error("mismatched RoPE frequency modified the default configuration")
-    if target_key == "tokenizer.ggml.add_bos_token" and not tokenizer.add_bos_token:
-        raise Error("mismatched tokenizer bool changed the default flag")
-    if target_key == "general.alignment" and seer.alignment != 32:
-        raise Error("mismatched alignment changed the default alignment")
-    print("PASS: mismatched metadata type rejected before field mutation:", target_key)
+    print("PASS: metadata type rejection and cleanup:", target_key)
+
+
+def probe(target_key: String, target_type: UInt32) raises:
+    probe_expected(
+        target_key,
+        target_type,
+        "GGUF metadata key has unexpected value type: " + target_key,
+    )
 
 
 def test_gguf_metadata_type_rejection() raises:
     probe("llama.context_length", 10)
+    probe("llama.embedding_length", 6)
     probe("llama.rope.freq_base", 4)
+    probe("llama.attention.layer_norm_rms_epsilon", 4)
     probe("tokenizer.ggml.add_bos_token", 4)
+    probe("tokenizer.ggml.add_space_prefix", 4)
     probe("general.alignment", 10)
-    print("PASS: GGUF selected metadata types reject with state cleanup")
+    probe_expected("tokenizer.ggml.tokens", 4, "tokenizer.ggml.tokens is not an array")
+    print("PASS: GGUF selected metadata type unit matrix")
 
 def main() raises:
     test_gguf_metadata_type_rejection()
