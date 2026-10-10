@@ -38,6 +38,11 @@ AES500-122's byte-buffer corpus accepts versions 0, 1, 2, 3, 4, and
 file path's v3-only behavior is established by source inspection in this
 baseline, not by a full per-version file corpus.
 
+AES500-123's counted test writes minimal 24-byte mapped files. The raw-byte
+helper admits all five tested values (0, 2, 3, 4, max UInt32), while mapped
+files reject every non-3 value at the version gate; version 3 proceeds to a
+later metadata error for this deliberately incomplete fixture.
+
 ## Acceptance
 
 The version table, byte layout, both owners, existing discrepancy, and explicit

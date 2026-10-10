@@ -233,6 +233,11 @@ UInt32::MAX, while mapped `_parse_header` has a v3-only gate by source
 inspection. The raw corpus and hashes are retained; no complete mapped-file
 version matrix is claimed yet.
 
+AES500-123 exercises both owners using raw headers and minimal mapped files.
+The interface test confirms byte-helper acceptance of every tested version
+against mapped-path rejection of all but v3, whose deliberately incomplete
+metadata proceeds beyond the version gate.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

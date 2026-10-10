@@ -1291,3 +1291,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   4, and UInt32::MAX. Mapped `_parse_header` v3-only behavior is source-only
   evidence. Raw output, reproduction, and hashes are retained in
   `docs/evidence/gguf-header-version-baseline-2026-10-10/`.
+- [x] AES500-123 GGUF header interface: `gguf.version_interface` writes minimal
+  mapped headers and exercises raw bytes for 0/2/3/4/UInt32::MAX. It asserts
+  the current raw-helper acceptance versus mapped v3-only rejection and cleans
+  its temporary files.
