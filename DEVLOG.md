@@ -12,7 +12,7 @@ admission is inferred. Full engine build/master remains pending because local
 ptxas rejects a PTX tanh feature that requires ISA 7.0; hosted CI is still
 running. See `TASK_checked_span_construction.md` and the baseline evidence.
 
-## 2026-10-10 — AES500-071–075: RuneTensor row-major layout
+## 2026-10-10 — AES500-071–079: RuneTensor row-major layout
 
 Specified `RuneTensor` as an exactly 2D contiguous row-major descriptor for
 logical scalar indexing, with implied `(cols, 1)` element strides and no

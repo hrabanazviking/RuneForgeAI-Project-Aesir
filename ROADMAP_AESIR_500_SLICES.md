@@ -873,3 +873,10 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   negative-row write that must leave a neighboring in-range value unchanged.
   Focused layout and KVCache tests pass.
 - Independent Auditor review of AES500-077 passes with no finding.
+- AES500-078 full review confirms source, test and evidence boundaries match.
+  It identified the expected AES500-079 synchronization of integration and
+  adversarial evidence across TODO, task and capability ledger.
+- AES500-079 synchronizes the contract, interface, capability ledger, TODO,
+  devlog and review receipt. The existing `AES-MEM-002` capability remains
+  verified only for checked 2D host views and scalar row-major indexing; raw
+  views, allocation bounds, lifetimes and arbitrary/packed strides remain open.

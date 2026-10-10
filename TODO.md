@@ -1105,7 +1105,10 @@ The legacy formatters below are not exposed compatibility APIs.
   master suite are addressed locally with the sm_89-targeted build and runner;
   193 tests pass, zero fail, one is explicitly skipped. Exact-head hosted CI is
   still in progress.
-- [x] AES500-071–075: define, baseline, publish, centralize and test the current
-  two-dimensional contiguous row-major scalar indexing contract. The dedicated
-  master case checks unique 3x4 values and checked coordinate boundaries; it
+- [x] AES500-071–079: define, baseline, publish, centralize, integrate,
+  adversarially review and document the current two-dimensional contiguous
+  row-major scalar indexing contract. The dedicated master case checks unique
+  3x4 values and checked coordinate boundaries; it
   does not prove arbitrary strides or allocation bounds.
+- [ ] AES500-080 release gate: local sm_89 target build, CLI help smoke and
+  194-case master suite pass; verify exact-head hosted CI before promotion.

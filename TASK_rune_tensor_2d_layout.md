@@ -58,3 +58,11 @@ formula in a private `_linear_offset(r, c)` helper used by both raw `get` and
 `set`. It stores no stride state and adds no bounds, allocation, or quantized
 packed-storage behavior. Checked coordinate methods continue to perform the
 coordinate validation before using raw indexing.
+
+The existing CPU-only `KVCache` test exercises the helper through cache writes
+and checked reads; the integration receipt is
+`docs/evidence/rune-tensor-layout-integration-2026-10-10/README.md`. The focused
+layout test rejects negative, endpoint, very large, and maximum-int rows through
+checked access and verifies a rejected negative-row store leaves an in-range
+neighbor unchanged. AES500-078 review receipt:
+`docs/evidence/rune-tensor-layout-review-2026-10-10/README.md`.
