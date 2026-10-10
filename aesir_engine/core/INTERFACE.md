@@ -115,10 +115,11 @@ struct RuneTensor[type: DType]:
     var cols: Int
     var size: Int
     var is_quantized: Bool
+    var quant_format: CompressedFormatType
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...  # unchecked internal view
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = ...): ...  # unchecked internal view
     @staticmethod
-    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False) raises -> Self: ...
+    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = ...) raises -> Self: ...
     def get(self, r: Int, c: Int) -> Scalar[Self.type]: ...
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]): ...
     def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]: ...
@@ -129,11 +130,16 @@ struct RuneTensor[type: DType]:
 wrapped shape products, and null/address-1 pointers. The non-raising initializer
 is an explicitly unchecked internal view primitive used by copy and slice paths;
 callers must already own its shape, pointer, and lifetime invariants.
-AES500-071 specifies the current layout exactly: rank two, contiguous row-major,
-with implied element strides `(cols, 1)` and offset `r * cols + c`. No explicit
+AES500-071 specifies the current logical scalar layout exactly: rank two,
+contiguous row-major, with implied element strides `(cols, 1)` and offset
+`r * cols + c`. No explicit
 stride fields, arbitrary-stride indexing, or allocation-capacity proof exists.
 Raw `get`/`set` do not add coordinate checks; use the checked variants where
 that coordinate validation is required. See `TASK_rune_tensor_2d_layout.md`.
+For scalar indexing, `cols` is the implied row stride in elements; column
+stride is one element. These are semantic consequences of the current indexing
+formula, not separately stored or queried stride values. This statement does
+not define packed quantized storage layout.
 
 ### Canonical GGML K-quant bytes
 

@@ -20,7 +20,8 @@ separate them from future generic-rank or arbitrary-stride capabilities.
 ## Layout invariant
 
 - Rank is exactly two.
-- The descriptor denotes a contiguous row-major matrix.
+- For logical scalar indexing, the descriptor denotes a contiguous row-major
+  matrix.
 - Implied element strides are `(cols, 1)`: element `(r, c)` is at linear
   element offset `r * cols + c`.
 - `size` is the checked product `rows * cols` only for checked construction.

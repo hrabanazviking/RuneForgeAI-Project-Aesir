@@ -847,3 +847,8 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
   and focused 3x4 row-major behavior alongside KVCache/dense-buffer owners.
   The new CPU baseline verifies unique `(row, column)` values and checked
   coordinate rejection; no arbitrary stride or allocation-size claim is made.
+- AES500-073 publishes the exact current constructor metadata and row-major
+  indexing contract. Stride values remain implied by `cols` and are not added
+  as new accessor APIs without a consumer.
+- AES500-073 Auditor review passes: constructor metadata and scalar-index stride
+  semantics match source; packed quantized storage remains outside the claim.
