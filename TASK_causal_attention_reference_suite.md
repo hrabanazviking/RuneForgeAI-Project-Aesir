@@ -51,6 +51,10 @@ AES500-116 appends two K/V rows through `KVCache`, reads the active slices, and
 passes them to causal attention. Query row 0 exactly equals cache position 0's
 V row; query row 1 must differ after admitting its second position.
 
+AES500-117 tests sequence length 33 across the 32-key tile boundary. A large
+value at position 32 must leave output row 31 at 2, while output row 32 includes
+it with a bounded 0.1 absolute error. The first row is checked as well.
+
 AES500-113 adds direct admission coverage for zero sequence/head width,
 nondivisible Q width, K/V/output column mismatches, and each tensor's short-row
 case. Rejections assert the entire logical output snapshot is unchanged; one

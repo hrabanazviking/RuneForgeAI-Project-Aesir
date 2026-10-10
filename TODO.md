@@ -1270,3 +1270,6 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-116 causal attention integration: two appended KV-cache rows feed
   active K/V slices into the attention kernel; row 0 equals the first cached V
   exactly, while row 1 consumes its two-position causal prefix.
+- [x] AES500-117 causal attention adversarial evidence: sequence 33 crosses the
+  32-key tile edge; a position-32 value of 1024 leaves row 31 at exactly 2 and
+  enters row 32's average within 0.1 absolute error.

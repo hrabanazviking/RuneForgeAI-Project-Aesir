@@ -201,6 +201,11 @@ attention. The first output row equals the first cached V row; the second row
 changes after its prefix includes position 1. This is one local cache-to-kernel
 integration case.
 
+AES500-117 exercises 33 positions over the 32-key tile edge. A value of 1024
+at position 32 cannot affect query 31 (exact output 2) and is included by
+query 32 (within 0.1 of the scalar average). No broad long-sequence stability
+claim follows from this boundary sample.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;
