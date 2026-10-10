@@ -98,3 +98,7 @@ def main():
         sys.exit(1)
     print("H153: 3/3 stages — named DeviceRemoved, clean release, "
           "no crash, device sane (hailo1x/D3hot)")
+
+
+if __name__ == "__main__":
+    main()
