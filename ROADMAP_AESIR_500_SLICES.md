@@ -714,6 +714,9 @@ Each row states the owning domain, immediate dependency, deliverable focus and g
 - AES500-045 adds focused cases for valid adjacent/AER tags, unknown and
   mismatched later IDs, adjacent diagnostic ordering, unsupported statuses,
   and unrelated bracket text. The repository checker test script passes.
+- AES500-046 exercises the complete current TODO against the schema-backed
+  canonical ledger status map; all repository tags resolve and match without
+  changing the source documents.
 
 ## Status
 

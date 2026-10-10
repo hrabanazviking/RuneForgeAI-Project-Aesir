@@ -306,6 +306,18 @@ def test_todo_unsupported_status_and_ordinary_brackets() -> None:
         ],
         "unsupported tag or unrelated brackets did not follow the contract",
     )
+
+
+def test_todo_repository_integration_against_canonical_ledger() -> None:
+    from check_doc_drift import LEDGER, TODO, ledger_statuses
+
+    statuses = ledger_statuses(LEDGER.read_text(encoding="utf-8"))
+    todo = TODO.read_text(encoding="utf-8")
+    require(len(statuses) == 119, "canonical ledger status map changed unexpectedly")
+    require(
+        not todo_status_reference_errors(todo, statuses),
+        "repository TODO contains a reference inconsistent with the canonical ledger",
+    )
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -319,6 +331,7 @@ def main() -> None:
     test_todo_later_unknown_and_mismatched_references()
     test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
     test_todo_unsupported_status_and_ordinary_brackets()
+    test_todo_repository_integration_against_canonical_ledger()
 
 
 if __name__ == "__main__":
