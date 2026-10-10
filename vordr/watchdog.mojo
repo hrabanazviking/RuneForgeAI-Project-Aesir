@@ -14,7 +14,6 @@
 #      the watchdog and restarts IT on death (runs unprivileged).
 
 from hailbru.syscall import (
-    AT_FDCWD,
     append_file_str,
     file_exists,
     os_clock_ms,
@@ -51,7 +50,7 @@ struct WatchdogPolicy:
         self.rapid_window_s = rapid_window_s
         self.max_restarts = max_restarts
 
-    fn delay_for(self, rapid_deaths: Int) -> Int64:
+    def delay_for(self, rapid_deaths: Int) -> Int64:
         # rapid_deaths = consecutive deaths inside the rapid window.
         # 1st rapid death -> base, 2nd -> base*factor, ... (5th -> 8s
         # with base=1, factor=2 — the H146 anti-storm proof point).
@@ -171,7 +170,7 @@ def watchdog_run(
                 "mechanism (systemd unit or watchdog-parent) must notice\"",
             )
             try:
-                _ = os_unlinkat(arch, AT_FDCWD(), pidfile)
+                _ = os_unlinkat(arch, pidfile)
             except e:
                 pass
             return 2
@@ -179,7 +178,7 @@ def watchdog_run(
         child = spawn_process(prog, child_args)
         child_start = os_clock_ms(arch)
     try:
-        _ = os_unlinkat(arch, AT_FDCWD(), pidfile)
+        _ = os_unlinkat(arch, pidfile)
     except e:
         pass
     return 0
@@ -226,7 +225,7 @@ def watchdog_parent_run(
         os_sleep_ms(arch, 5000)
         wd = spawn_process(watchdog_prog, watchdog_args)
     try:
-        _ = os_unlinkat(arch, AT_FDCWD(), pidfile)
+        _ = os_unlinkat(arch, pidfile)
     except e:
         pass
     return 0

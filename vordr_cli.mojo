@@ -76,7 +76,7 @@ def _has(args: List[String], name: String) -> Bool:
     return False
 
 
-def _count_kind(arch: String, log_path: String, kind: String) -> Int:
+def _count_kind(arch: String, log_path: String, kind: String) raises -> Int:
     # Count JSONL lines whose "kind" equals kind (PRÓF-side assertion aid).
     from hailbru.syscall import read_file_str, file_exists
 
@@ -92,16 +92,16 @@ def _count_kind(arch: String, log_path: String, kind: String) -> Int:
             line = String("")
         else:
             line += String(chr(Int(b)))
-    if len(line) > 0 and _line_has_kind(line, kind):
+    if line.byte_length() > 0 and _line_has_kind(line, kind):
         n += 1
     return n
 
 
-fn _line_has_kind(line: String, kind: String) -> Bool:
+def _line_has_kind(line: String, kind: String) -> Bool:
     return _contains(line, String("\"kind\": \"") + kind + String("\""))
 
 
-fn _contains(hay: String, needle: String) -> Bool:
+def _contains(hay: String, needle: String) -> Bool:
     var nb = List[UInt8]()
     for b in needle.bytes():
         nb.append(b)
@@ -157,7 +157,6 @@ def cmd_monitor_start(args: List[String]) raises -> Int:
 
 def cmd_monitor_stop(args: List[String]) raises -> Int:
     from hailbru.syscall import (
-        AT_FDCWD,
         file_exists,
         os_kill,
         os_sleep_ms,
@@ -188,7 +187,7 @@ def cmd_monitor_stop(args: List[String]) raises -> Int:
         os_sleep_ms(arch, 2000)
         alive = pid_alive(arch, Int64(pid))
     try:
-        _ = os_unlinkat(arch, AT_FDCWD(), stopfile)
+        _ = os_unlinkat(arch, stopfile)
     except e:
         pass
     print("monitor_stop: alive=" + ("true" if alive else "false"))
@@ -220,7 +219,7 @@ def cmd_watchdog_run(args: List[String]) raises -> Int:
     var arch = _arch()
     var cargs = List[String]()
     var extra = _get(args, "--child-args", "")
-    if len(extra) > 0:
+    if extra.byte_length() > 0:
         # Comma-separated child args.
         var cur = String("")
         for b in extra.bytes():
@@ -229,7 +228,7 @@ def cmd_watchdog_run(args: List[String]) raises -> Int:
                 cur = String("")
             else:
                 cur += String(chr(Int(b)))
-        if len(cur) > 0:
+        if cur.byte_length() > 0:
             cargs.append(cur)
     var rc = watchdog_run(
         arch,
@@ -381,7 +380,7 @@ def cmd_selftest_hang(args: List[String]) raises -> Int:
     for i in range(1000):
         mon.begin_op(arch, "op_" + String(i), Int64(5000))
         os_sleep_ms(arch, 1)
-        mon.complete_op(arch, "op_" + String(i))
+        mon.complete_op("op_" + String(i))
         if i % 100 == 0:
             var od2 = mon.overdue(arch, log)
             if len(od2) > 0:
@@ -449,8 +448,8 @@ def cmd_selftest_shadow(args: List[String]) raises -> Int:
         if w > worst_all:
             worst_all = w
         verified += 1
-        ap.free()
-        bp.free()
+        ap.unsafe_free()
+        bp.unsafe_free()
     if verified != 10:
         print("FAIL: verified " + String(verified) + ", want 10")
         failed += 1
@@ -473,8 +472,8 @@ def cmd_selftest_shadow(args: List[String]) raises -> Int:
         else:
             print("FAIL: wrong error: " + msg)
             failed += 1
-    ap2.free()
-    bp2.free()
+    ap2.unsafe_free()
+    bp2.unsafe_free()
     if not caught:
         print("FAIL: corruption hook did not raise ShadowMismatch")
         failed += 1
@@ -554,7 +553,7 @@ def cmd_selftest_recovery(args: List[String]) raises -> Int:
     return 0 if failed == 0 else 1
 
 
-fn _seq_eq(a: List[String], b: List[String]) -> Bool:
+def _seq_eq(a: List[String], b: List[String]) -> Bool:
     if len(a) != len(b):
         return False
     for i in range(len(a)):
@@ -650,7 +649,7 @@ def cmd_selftest_integrity(args: List[String]) raises -> Int:
         if not buf.verify(arch, log):
             print("FAIL: re-transferred buffer not clean")
             escapes += 1
-        buf.free()
+        buf.unsafe_free()
     print(
         "selftest-integrity: injected=500 detected=" + String(detected)
         + " escapes=" + String(escapes)
@@ -863,8 +862,8 @@ def cmd_measure_hang_budgets(args: List[String]) raises -> Int:
             arch, "/tmp/vordr-measure.jsonl", "measure", ap, bp, kc, 1.0, False
         )
         t_shadow.append(os_clock_ms(arch) - t0)
-    ap.free()
-    bp.free()
+    ap.unsafe_free()
+    bp.unsafe_free()
 
     var t_staging = List[Int64]()
     for i in range(trials):
@@ -872,7 +871,7 @@ def cmd_measure_hang_budgets(args: List[String]) raises -> Int:
         var t0 = os_clock_ms(arch)
         _ = buf.verify(arch, "/tmp/vordr-measure.jsonl")
         t_staging.append(os_clock_ms(arch) - t0)
-        buf.free()
+        buf.unsafe_free()
 
     var j = String("{\"_doc\": \"VÖRÐR hang budgets (H143). Derived: budget_ms = measured p99 latency x 3. Measured on Mimir (Pi 5) in-slice.\",\n")
     j += " \"derivation\": \"p99 of N timed trials x 3, rounded up to whole ms; min 100ms floor for scheduling slack\",\n"
@@ -899,7 +898,7 @@ def cmd_measure_hang_budgets(args: List[String]) raises -> Int:
     return 0
 
 
-fn _p99(xs: List[Int64]) -> Int64:
+def _p99(xs: List[Int64]) -> Int64:
     # Nearest-rank p99 over a small sample (insertion sort).
     var srt = List[Int64]()
     for i in range(len(xs)):
@@ -919,7 +918,7 @@ fn _p99(xs: List[Int64]) -> Int64:
     return srt[rank - 1]
 
 
-fn _p50(xs: List[Int64]) -> Int64:
+def _p50(xs: List[Int64]) -> Int64:
     var srt = List[Int64]()
     for i in range(len(xs)):
         srt.append(xs[i])
@@ -1028,6 +1027,7 @@ def cmd_h158_run(args: List[String]) raises -> Int:
         os_clock_ms,
         os_kill,
         os_sleep_ms,
+        os_unlinkat,
         read_file_str,
     )
     from vordr.taxonomy import classify
@@ -1092,9 +1092,8 @@ def cmd_h158_run(args: List[String]) raises -> Int:
             fault = _fi_field(raw, "fault")
             detail = _fi_field(raw, "detail")
             # Consume it.
-            from hailbru.syscall import os_unlinkat, AT_FDCWD
             try:
-                _ = os_unlinkat(arch, AT_FDCWD(), fi_file)
+                _ = os_unlinkat(arch, fi_file)
             except e:
                 pass
         elif Int(rng.next() % UInt64(60)) == 0:
@@ -1142,7 +1141,7 @@ def cmd_h158_run(args: List[String]) raises -> Int:
     return 0 if injected == handled else 1
 
 
-fn _fi_field(raw: String, key: String) -> String:
+def _fi_field(raw: String, key: String) -> String:
     # Minimal "key": "value" extraction from the fi-file JSON.
     var needle = String("\"") + key + String("\"")
     var nb = List[UInt8]()
@@ -1222,7 +1221,7 @@ def _h158_iter(
                 "\"fault\": \"dmacorrupt\", \"action\": \"retransfer "
                 "(transient)\", \"iter\": " + String(it),
             )
-        staging.free()
+        staging.unsafe_free()
         return -1
 
     if fault == "regerr":
@@ -1244,7 +1243,7 @@ def _h158_iter(
                 "\"fault\": \"regerr\", \"action\": \"retry (transient)\", "
                 "\"iter\": " + String(it),
             )
-            staging.free()
+            staging.unsafe_free()
             return -1
         if machine.current() == "RESETTING":
             # Persistent: REAL reset + re-init through HAILBRÚ.
@@ -1260,10 +1259,10 @@ def _h158_iter(
                 "\"fault\": \"regerr\", \"action\": \"reset+reinit "
                 "(persistent)\", \"iter\": " + String(it),
             )
-            staging.free()
+            staging.unsafe_free()
             return -1
         # FATAL -> HALTED already; the caller breaks the loop.
-        staging.free()
+        staging.unsafe_free()
         return -1
 
     var op = "infer_iter_" + String(it)
@@ -1291,7 +1290,7 @@ def _h158_iter(
             "(transient)\", \"detect_ms\": " + String(sdt)
             + ", \"iter\": " + String(it),
         )
-        staging.free()
+        staging.unsafe_free()
         return -1
     mon.begin_op(arch, op, budget_ms)
 
@@ -1343,7 +1342,7 @@ def _h158_iter(
             pass
     # Error-register poll every iteration (H144 live).
     _ = poll_decode_live(arch, "/sys", bdf, log)
-    staging.free()
+    staging.unsafe_free()
     if hung:
         return -1
     if not file_exists(arch, out_json):
@@ -1354,7 +1353,7 @@ def _h158_iter(
     return os_clock_ms(arch) - t0
 
 
-fn _parse_reg_detail(detail: String) -> List[Int]:
+def _parse_reg_detail(detail: String) -> List[Int]:
     # "0x06:0x2000" -> [6, 8192]. Empty/bad -> empty image.
     var img = List[Int]()
     var parts = List[String]()
@@ -1373,7 +1372,7 @@ fn _parse_reg_detail(detail: String) -> List[Int]:
     return img
 
 
-fn _hex_to_int(s: String) -> Int:
+def _hex_to_int(s: String) -> Int:
     var v = 0
     for b in s.bytes():
         var c = Int(b)

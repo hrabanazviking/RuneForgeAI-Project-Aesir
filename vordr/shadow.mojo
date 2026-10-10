@@ -107,8 +107,8 @@ def shadow_verify_tile(
             d = -d
         if d > worst:
             worst = d
-    acc_fast.free()
-    acc_ref.free()
+    acc_fast.unsafe_free()
+    acc_ref.unsafe_free()
     if worst > contract:
         event_emit_slice(
             arch, log_path, "H150", "ShadowMismatch",

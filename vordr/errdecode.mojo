@@ -50,7 +50,7 @@ struct DecodedError:
         self.offset = offset
         self.bit = bit
 
-    fn to_fields(self) -> String:
+    def to_fields(self) -> String:
         return (
             "\"name\": \"" + self.name + "\", \"meaning\": \""
             + self.meaning + "\", \"severity\": \"" + self.severity
@@ -59,7 +59,7 @@ struct DecodedError:
         )
 
 
-fn _bit(v: Int, b: Int) -> Bool:
+def _bit(v: Int, b: Int) -> Bool:
     return (v >> b) & 1 == 1
 
 

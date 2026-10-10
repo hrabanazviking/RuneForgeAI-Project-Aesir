@@ -15,7 +15,7 @@ def event_emit(arch: String, log_path: String, kind: String, fields: String) rai
     var ts = os_clock_ms(arch)
     var line = (
         "{\"ts_ms\": " + String(ts) + ", \"kind\": \"" + kind
-        + "\", \"slice\": \"C8\"" + (", " + fields if len(trim(fields)) > 0 else "")
+        + "\", \"slice\": \"C8\"" + (", " + fields if trim(fields).byte_length() > 0 else "")
         + "}\n"
     )
     append_file_str(arch, log_path, line)
@@ -28,7 +28,7 @@ def event_emit_slice(
     var line = (
         "{\"ts_ms\": " + String(ts) + ", \"kind\": \"" + kind
         + "\", \"slice\": \"" + slice_id + "\""
-        + (", " + fields if len(trim(fields)) > 0 else "") + "}\n"
+        + (", " + fields if trim(fields).byte_length() > 0 else "") + "}\n"
     )
     append_file_str(arch, log_path, line)
 

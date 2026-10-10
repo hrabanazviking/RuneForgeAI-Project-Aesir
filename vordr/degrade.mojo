@@ -72,7 +72,7 @@ def run_stage_alloc(
     var r = run_stage(
         arch, log_path, op, ap, bp, acc, kc, hook_persistent_fail, hook_cause
     )
-    ap.free()
-    bp.free()
-    acc.free()
+    ap.unsafe_free()
+    bp.unsafe_free()
+    acc.unsafe_free()
     return r

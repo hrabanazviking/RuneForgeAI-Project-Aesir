@@ -42,17 +42,17 @@ struct ResetReport:
         self.steps = List[ResetStep]()
         self.golden_mismatches = List[String]()
 
-    fn total_ms(self) -> Int64:
+    def total_ms(self) -> Int64:
         var t = Int64(0)
         for i in range(len(self.steps)):
             t += self.steps[i].ms
         return t
 
-    fn golden_clean(self) -> Bool:
+    def golden_clean(self) -> Bool:
         return len(self.golden_mismatches) == 0
 
 
-fn _hex8(v: Int) -> String:
+def _hex8(v: Int) -> String:
     var out = String("")
     var db = List[UInt8]()
     for b in String("0123456789abcdef").bytes():

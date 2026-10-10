@@ -11,7 +11,6 @@
 # L12: sampling goes through vordr.health_obs (H087 hooks) only.
 
 from hailbru.syscall import (
-    AT_FDCWD,
     append_file_str,
     file_exists,
     list_dir,
@@ -28,7 +27,7 @@ from vordr.events import event_emit_slice, json_str
 from vordr.health_obs import HealthSample, health_sample
 
 
-fn _ints_in_text(raw: String) -> List[Int]:
+def _ints_in_text(raw: String) -> List[Int]:
     # All unsigned-integer runs in the text, in order. Used for the
     # thresholds file (pure Mojo, no JSON library — L1).
     var vals = List[Int]()
@@ -73,7 +72,7 @@ def thermal_level(soc_mc: Int, warn_mc: Int, crit_mc: Int) -> String:
     return "ok"
 
 
-fn _int_after_key(raw: String, key: String) -> Int:
+def _int_after_key(raw: String, key: String) -> Int:
     # Minimal key-aware extraction: finds "key" then the first
     # unsigned integer after the following ':'. -1 when absent.
     var kb = List[UInt8]()
@@ -248,7 +247,7 @@ def monitor_run(
         "\"samples\": " + String(n) + ", \"missed\": " + String(missed),
     )
     try:
-        _ = os_unlinkat(arch, AT_FDCWD(), pidfile)
+        _ = os_unlinkat(arch, pidfile)
     except e:
         pass
     return n

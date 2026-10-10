@@ -13,7 +13,7 @@ from hailbru.errors import herror
 from vordr.events import event_emit_slice
 
 
-fn _state_name(s: Int) -> String:
+def _state_name(s: Int) -> String:
     if s == 0:
         return "IDLE"
     if s == 1:
@@ -27,7 +27,7 @@ fn _state_name(s: Int) -> String:
     return "HALTED"
 
 
-fn _legal(frm: Int, to: Int) -> Bool:
+def _legal(frm: Int, to: Int) -> Bool:
     # IDLE=0, DEGRADED=1, RESETTING=2, REINITING=3, VERIFYING=4, HALTED=5
     if to == 5:
         return frm != 5  # any live state may halt; HALTED is terminal
@@ -52,7 +52,7 @@ struct RecoveryMachine:
         self.state = 0
         self.transitions = List[String]()
 
-    fn current(self) -> String:
+    def current(self) -> String:
         return _state_name(self.state)
 
     def transition(

@@ -28,7 +28,7 @@ struct RetryPolicy:
         self.factor = factor
         self.jitter_pct = jitter_pct
 
-    fn nominal_ms(self, attempt: Int) -> Int64:
+    def nominal_ms(self, attempt: Int) -> Int64:
         # attempt is 1-based (delay BEFORE retry #attempt).
         var d = self.base_ms
         var k = 1
@@ -64,7 +64,7 @@ def load_retry_policy(arch: String, path: String) raises -> RetryPolicy:
     return RetryPolicy(Int(vals[0]), vals[1], vals[2], vals[3])
 
 
-fn jittered_delay(policy: RetryPolicy, attempt: Int, rng_state: UInt64) -> Int64:
+def jittered_delay(policy: RetryPolicy, attempt: Int, rng_state: UInt64) -> Int64:
     # Deterministic jitter: xorshift one step, uniform in
     # [-jitter_pct, +jitter_pct] of the nominal delay.
     var x = rng_state

@@ -8,26 +8,26 @@ from memory import UnsafePointer
 from sys.ffi import external_call
 
 
-fn _fork() -> Int64:
+def _fork() -> Int64:
     return external_call["fork", Int64]()
 
 
-fn _execve(
+def _execve(
     path: UnsafePointer[UInt8], argv: UnsafePointer[UnsafePointer[UInt8]],
     envp: UnsafePointer[UnsafePointer[UInt8]],
 ) -> Int64:
     return external_call["execve", Int64](path, argv, envp)
 
 
-fn _waitpid(pid: Int64, status: UnsafePointer[Int32], opts: Int32) -> Int64:
+def _waitpid(pid: Int64, status: UnsafePointer[Int32], opts: Int32) -> Int64:
     return external_call["waitpid", Int64](pid, status, opts)
 
 
-fn _exit(code: Int32):
+def _exit(code: Int32):
     _ = external_call["_exit", Int64](Int64(code))
 
 
-fn _strlen(p: UnsafePointer[UInt8]) -> Int:
+def _strlen(p: UnsafePointer[UInt8]) -> Int:
     var n = 0
     while p[n] != 0:
         n += 1
@@ -75,7 +75,7 @@ def waitpid_nonblock(pid: Int64) -> Int:
     status[0] = 0
     var r = _waitpid(pid, status, 1)  # WNOHANG = 1
     var s = Int(status[0])
-    status.free()
+    status.unsafe_free()
     if r == 0:
         return -2
     if r < 0:
@@ -83,20 +83,20 @@ def waitpid_nonblock(pid: Int64) -> Int:
     return s
 
 
-fn wifexited(status: Int) -> Bool:
+def wifexited(status: Int) -> Bool:
     return (status & 0x7F) == 0
 
 
-fn wexitstatus(status: Int) -> Int:
+def wexitstatus(status: Int) -> Int:
     return (status >> 8) & 0xFF
 
 
-fn wifsignaled(status: Int) -> Bool:
+def wifsignaled(status: Int) -> Bool:
     var sig = status & 0x7F
     return sig != 0 and sig != 0x7F
 
 
-fn wtermsig(status: Int) -> Int:
+def wtermsig(status: Int) -> Int:
     return status & 0x7F
 
 

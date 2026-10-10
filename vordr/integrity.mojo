@@ -16,7 +16,7 @@ from std.origin import MutUntrackedOrigin
 from vordr.events import event_emit_slice
 
 
-fn fnv1a64(p: Pointer[UInt8, MutUntrackedOrigin], n: Int) -> UInt64:
+def fnv1a64(p: Pointer[UInt8, MutUntrackedOrigin], n: Int) -> UInt64:
     var h = UInt64(14695981039346656037)
     for i in range(n):
         h ^= UInt64(p[unsafe_offset=i])
@@ -97,6 +97,6 @@ struct StagingBuffer:
 
     def free(mut self):
         if not self.freed:
-            self.data.free()
-            self.pristine.free()
+            self.data.unsafe_free()
+            self.pristine.unsafe_free()
             self.freed = True

@@ -34,7 +34,7 @@ struct HeartbeatMonitor:
         self.deadlines = List[Int64]()
         self.budgets = List[Int64]()
 
-    fn _find(self, op_id: String) -> Int:
+    def _find(self, op_id: String) -> Int:
         for i in range(len(self.ids)):
             if self.ids[i] == op_id:
                 return i
@@ -87,7 +87,7 @@ struct HeartbeatMonitor:
             i -= 1
         return out
 
-    fn in_flight_count(self) -> Int:
+    def in_flight_count(self) -> Int:
         return len(self.ids)
 
 
@@ -144,7 +144,7 @@ def load_budgets(arch: String, path: String) raises -> List[OpBudget]:
     return out
 
 
-fn _at_key(tb: List[UInt8], i: Int, key: String) -> Bool:
+def _at_key(tb: List[UInt8], i: Int, key: String) -> Bool:
     # tb[i] == '"' and key follows, then '"'.
     var kn = 0
     for b in key.bytes():
