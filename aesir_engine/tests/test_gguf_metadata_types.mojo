@@ -136,6 +136,8 @@ def test_gguf_metadata_type_rejection() raises:
     probe("tokenizer.ggml.add_space_prefix", 4)
     probe("general.alignment", 10)
     probe_expected("tokenizer.ggml.tokens", 4, "tokenizer.ggml.tokens is not an array")
+    probe_expected("tokenizer.ggml.tokens", 9, "tokenizer.ggml.tokens must be a string array")
+    probe_expected("extension.unknown_key", 13, "invalid metadata value type")
     print("PASS: GGUF selected metadata type unit matrix")
 
 def test_gguf_metadata_type_integration() raises:

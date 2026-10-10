@@ -3748,3 +3748,8 @@ stable diagnostic and failed-state mapping cleanup; the focused module passes.
 AES500-136 exercises the mismatch through full `mmap_and_load`; the key-specific
 error is retained, loader state is FAILED/unmapped/unloaded, and the tensor
 allocation pool remains at its original offset. The focused module passes.
+
+
+AES500-137 hostile cases cover a wrong tokenizer array element declaration and
+an invalid type-13 value on an unknown metadata key. Exact errors and failed
+state/mmap cleanup pass in the focused module.

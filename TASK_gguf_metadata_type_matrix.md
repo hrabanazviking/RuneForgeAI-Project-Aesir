@@ -71,3 +71,8 @@ Eight generated mapped files now check wrong types for context length, embedding
 ## AES500-136 integration receipt
 
 A generated mapped GGUF with a wrong context-length value type is exercised through `mmap_and_load`. The full load path preserves the key-specific diagnostic, reaches FAILED with mmap closed and `is_loaded` false, and leaves the MimirWell allocation offset unchanged. Focused module passes; this confirms rejection occurs before tensor allocation for this fixture.
+
+
+## AES500-137 adversarial receipt
+
+The focused fixture adds a recognized tokenizer tokens array with an invalid element-type declaration and an unknown metadata key carrying invalid value type 13. They reject with `tokenizer.ggml.tokens must be a string array` and `GGUF contains an invalid metadata value type` respectively; both end FAILED with mmap closed. Focused module passes. The wrong-element check occurs before reading array length or token entries.
