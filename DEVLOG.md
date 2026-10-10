@@ -64,6 +64,14 @@ It leaves tolerance justification and non-finite/finite-overflow behavior to
 reproducible baseline and adversarial evidence. See
 `TASK_rmsnorm_oracle_breadth.md`.
 
+AES500-092 captured the pre-change kernel at scalar, exact-vector, tail, and
+multi-vector widths. A separate NumPy scalar F32 reference consumes the
+captured F16 inputs and flat weights; all 168 outputs match exactly after F16
+rounding in this deterministic corpus. The existing checked-boundary harness
+passes but only tests short-weight rejection. Neither result establishes a
+general numerical tolerance or non-finite/overflow policy. See
+`docs/evidence/rmsnorm-baseline-2026-10-10/README.md`.
+
 ## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
 
 The independent Auditor identified a repeated-space heading slug mismatch: the

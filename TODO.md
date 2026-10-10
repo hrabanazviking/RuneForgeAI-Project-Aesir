@@ -1155,3 +1155,9 @@ The legacy formatters below are not exposed compatibility APIs.
   current epsilon comparison behavior, and missing pointer-provenance checks.
   The contract defers justified tolerance and non-finite/overflow policy to
   baseline and adversarial evidence. See `TASK_rmsnorm_oracle_breadth.md`.
+- [x] AES500-092 baseline: Mojo 1.0.0 source hashes, focused existing short-weight
+  rejection, deterministic 2-row captures at widths 3/15/16/17/33, and
+  independent NumPy scalar F32 comparison are preserved in
+  `docs/evidence/rmsnorm-baseline-2026-10-10/README.md`. All 168 baseline
+  outputs match after F16 rounding; this does not establish a broad tolerance
+  or exceptional-value policy.
