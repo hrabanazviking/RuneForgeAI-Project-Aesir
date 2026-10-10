@@ -1,27 +1,25 @@
 # VÖRÐR POSIX process primitives (H146).
 #
-# fork/execve/waitpid via external_call (L1: POSIX via external_call
-# only). Used by the watchdog supervisor to spawn and reap the
-# inference process. kill/getpid/sleep live in hailbru.syscall already.
+# fork/waitpid via external_call (L1: POSIX via external_call only).
+# spawn_process: fork; the child runs the command through
+# /bin/sh -c "exec ..." so the shell replaces itself with the target
+# (the supervised pid IS the target process). This avoids building
+# argv pointer arrays, which Mojo 1.1.0's pointer model makes
+# needlessly painful. kill/getpid/sleep live in hailbru.syscall.
 
 from std.ffi import external_call
 from std.memory.alloc import unsafe_alloc
-from std.memory import Pointer, UnsafePointer
+from std.memory import UnsafePointer
 from std.origin import MutUntrackedOrigin
+
 
 def _fork() -> Int64:
     return external_call["fork", Int64]()
 
 
-def _execve(
-    path: Pointer[UInt8, MutUntrackedOrigin],
-    argv: UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
-    envp: UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin],
+def _waitpid(
+    pid: Int64, status: UnsafePointer[Int32, MutUntrackedOrigin], opts: Int32
 ) -> Int64:
-    return external_call["execve", Int64](path, argv, envp)
-
-
-def _waitpid(pid: Int64, status: UnsafePointer[Int32, MutUntrackedOrigin], opts: Int32) -> Int64:
     return external_call["waitpid", Int64](pid, status, opts)
 
 
@@ -29,13 +27,43 @@ def _exit(code: Int32):
     _ = external_call["_exit", Int64](Int64(code))
 
 
+def _system(cmd: UnsafePointer[UInt8, MutUntrackedOrigin]) -> Int32:
+    return external_call["system", Int32](cmd)
+
+
+def _sh_quote(s: String) -> String:
+    # Single-quote for sh, escaping embedded quotes as '\''.
+    var out = String("'")
+    for b in s.bytes():
+        if Int(b) == 39:
+            out += "'\\''"
+        else:
+            out += String(chr(Int(b)))
+    out += "'"
+    return out
+
+
+def _to_cstr_raw(s: String) -> UnsafePointer[UInt8, MutUntrackedOrigin]:
+    var p = unsafe_alloc[UInt8](s.byte_length() + 1)
+    var i = 0
+    for b in s.bytes():
+        p[unsafe_offset=i] = b
+        i += 1
+    p[unsafe_offset=i] = 0
+    return p
+
+
 def spawn_process(
     prog: String, args: List[String]
 ) raises -> Int64:
-    # fork + execve. Parent returns the child pid; the child never
-    # returns (execve or _exit(127)). argv[0] = prog.
-    from hailbru.syscall import to_cstr, errno_now, errno_name
+    # fork; child execs the target via sh. Parent returns the child
+    # pid; the child never returns (system() then _exit).
+    from hailbru.syscall import errno_now, errno_name
     from hailbru.errors import herror
+
+    var cmd = String("exec ") + _sh_quote(prog)
+    for i in range(len(args)):
+        cmd += String(" ") + _sh_quote(args[i])
 
     var pid = _fork()
     if pid < 0:
@@ -45,17 +73,15 @@ def spawn_process(
     if pid > 0:
         return pid
     # --- child ---
-    var argc = len(args) + 1
-    var argv = unsafe_alloc[Pointer[UInt8, MutUntrackedOrigin]](argc + 1)
-    var p0 = to_cstr(prog)
-    argv[unsafe_offset=0] = p0
-    for i in range(len(args)):
-        argv[unsafe_offset=i + 1] = to_cstr(args[i])
-    argv[unsafe_offset=argc] = Pointer[UInt8, MutUntrackedOrigin]()
-    var null_env = UnsafePointer[Pointer[UInt8, MutUntrackedOrigin], MutUntrackedOrigin]()
-    _ = _execve(p0, argv, null_env)
-    # execve only returns on failure.
-    _exit(127)
+    var c = _to_cstr_raw(cmd)
+    var rc = _system(c)
+    c.unsafe_free()
+    # system() returns the wait-encoded status; propagate the exit
+    # code when it exited normally.
+    var code = Int32(127)
+    if (Int(rc) & 0x7F) == 0:
+        code = Int32((Int(rc) >> 8) & 0xFF)
+    _exit(code)
     return Int64(-1)
 
 
