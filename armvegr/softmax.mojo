@@ -27,7 +27,7 @@ def softmax_fp16(
             m = lm
         i += 8
     for kk in range(i, n):
-        var v = Float32(x.unsafe_offset(kk))
+        var v = Float32(x[unsafe_offset=kk])
         if v > m:
             m = v
     var vsum = SIMD[DType.float32, 8](0)
@@ -39,16 +39,16 @@ def softmax_fp16(
         j += 8
     var s = vsum.reduce_add()
     for kk in range(j, n):
-        s += exp(SIMD[DType.float32, 1](Float32(x.unsafe_offset(kk)) - m))[0]
+        s += exp(SIMD[DType.float32, 1](Float32(x[unsafe_offset=kk]) - m))[0]
     var inv = Float32(1) / s
     var k2 = 0
     while k2 + 8 <= n:
         var v = x.unsafe_offset(k2).unsafe_load[8]().cast[DType.float32]() - m
         var yn = exp(v) * inv
-        y.unsafe_offset(k2).unsafe_store[8](yn.cast[DType.float16]())
+        y.unsafe_store(k2, yn.cast[DType.float16]())
         k2 += 8
     for kk in range(k2, n):
-        var e = exp(SIMD[DType.float32, 1](Float32(x.unsafe_offset(kk)) - m))[0]
+        var e = exp(SIMD[DType.float32, 1](Float32(x[unsafe_offset=kk]) - m))[0]
         y[unsafe_offset=kk] = Float16(e * inv)
 
 
@@ -63,17 +63,17 @@ def softmax_masked_fp16(
     # max pass; exp(-1e30 - max) underflows to exactly 0.0.
     var m = Float32(-1e30)
     for kk in range(n):
-        var v = Float32(x.unsafe_offset(kk)) if kk < valid_len else Float32(-1e30)
+        var v = Float32(x[unsafe_offset=kk]) if kk < valid_len else Float32(-1e30)
         if v > m:
             m = v
     var s = Float32(0)
     for kk in range(n):
-        var v = Float32(x.unsafe_offset(kk)) if kk < valid_len else Float32(-1e30)
+        var v = Float32(x[unsafe_offset=kk]) if kk < valid_len else Float32(-1e30)
         s += exp(SIMD[DType.float32, 1](v - m))[0]
     var inv = Float32(1) / s
     for kk in range(n):
         if kk < valid_len:
-            var v = Float32(x.unsafe_offset(kk))
+            var v = Float32(x[unsafe_offset=kk])
             var e = exp(SIMD[DType.float32, 1](v - m))[0]
             y[unsafe_offset=kk] = Float16(e * inv)
         else:

@@ -27,7 +27,7 @@ def rmsnorm_fp16(
         i += 8
     var tail_sq = Float32(0)
     for kk in range(i, n):
-        var v = Float32(x.unsafe_offset(kk))
+        var v = Float32(x[unsafe_offset=kk])
         tail_sq += v * v
     var ms = (vsq.reduce_add() + tail_sq) / Float32(n)
     if ms < Float32(0):
@@ -38,8 +38,8 @@ def rmsnorm_fp16(
         var v = x.unsafe_offset(j).unsafe_load[8]().cast[DType.float32]()
         var wv = w.unsafe_offset(j).unsafe_load[8]().cast[DType.float32]()
         var yn = v * inv * wv
-        y.unsafe_offset(j).unsafe_store[8](yn.cast[DType.float16]())
+        y.unsafe_store(j, yn.cast[DType.float16]())
         j += 8
     for kk in range(j, n):
-        var yn = Float32(x.unsafe_offset(kk)) * inv * Float32(w.unsafe_offset(kk))
+        var yn = Float32(x[unsafe_offset=kk]) * inv * Float32(w[unsafe_offset=kk])
         y[unsafe_offset=kk] = Float16(yn)

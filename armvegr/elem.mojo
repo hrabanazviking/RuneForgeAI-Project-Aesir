@@ -30,15 +30,15 @@ def elem_kernel(
         var av = a.unsafe_offset(i).unsafe_load[8]()
         if mode == 0:
             var bv = b.unsafe_offset(i).unsafe_load[8]()
-            c.unsafe_offset(i).unsafe_store[8](av + bv)
+            c.unsafe_store(i, av + bv)
         elif mode == 1:
             var bv = b.unsafe_offset(i).unsafe_load[8]()
-            c.unsafe_offset(i).unsafe_store[8](av * bv)
+            c.unsafe_store(i, av * bv)
         elif mode == 2:
-            c.unsafe_offset(i).unsafe_store[8](av * alpha)
+            c.unsafe_store(i, av * alpha)
         else:
             var bv = b.unsafe_offset(i).unsafe_load[8]()
-            c.unsafe_offset(i).unsafe_store[8](av * alpha + bv)
+            c.unsafe_store(i, av * alpha + bv)
         i += 8
     for kk in range(i, n):
         var x = a[unsafe_offset=kk]

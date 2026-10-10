@@ -102,10 +102,10 @@ def fp32_to_fp16(
     var i = 0
     while i + 8 <= n:
         var v = src.unsafe_offset(i).unsafe_load[8]()
-        dst.unsafe_offset(i).unsafe_store[8](v.cast[DType.float16]())
+        dst.unsafe_store(i, v.cast[DType.float16]())
         i += 8
     for kk in range(i, n):
-        dst[unsafe_offset=kk] = Float16(src.unsafe_offset(kk))
+        dst[unsafe_offset=kk] = Float16(src[unsafe_offset=kk])
 
 
 def q80_quant_block(
@@ -116,7 +116,7 @@ def q80_quant_block(
     # Quantize n = 32 fp16 values into one 34-byte Q8_0 block at dst.
     var amax = Float32(0)
     for i in range(n):
-        var v = Float32(src.unsafe_offset(i))
+        var v = Float32(src[unsafe_offset=i])
         if v < Float32(0):
             v = -v
         if v > amax:
@@ -127,7 +127,7 @@ def q80_quant_block(
     write_u16_le(dst, 0, fp16_bits_of(scale))
     var inv = Float32(1) / scale
     for i in range(n):
-        var q = round_half_away(Float32(src.unsafe_offset(i)) * inv)
+        var q = round_half_away(Float32(src[unsafe_offset=i]) * inv)
         if q > 127:
             q = 127
         if q < -128:
@@ -142,7 +142,7 @@ def q80_dequant_block(
 ):
     var scale = fp16_from_bits(read_u16_le(src, 0))
     for i in range(n):
-        var q = Int(src.unsafe_offset(2 + i))
+        var q = Int(src[unsafe_offset=2 + i])
         dst[unsafe_offset=i] = Float16(Float32(q) * scale)
 
 

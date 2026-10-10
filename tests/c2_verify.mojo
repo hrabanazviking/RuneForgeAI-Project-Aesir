@@ -42,6 +42,7 @@ from armvegr.quant import (
     q80_to_fp16,
     fp16_bits_of,
     fp16_from_bits,
+    q80_block_scale,
 )
 from armvegr.q4 import fp16_to_q40, q40_to_fp16
 from armvegr.qgemm import q80_gemm
@@ -75,6 +76,10 @@ def f64_sin(v: Float64) -> Float64:
 
 def f64_sqrt(v: Float64) -> Float64:
     return _sqrt(SIMD[DType.float64, 1](v))[0]
+
+
+def f32_sqrt(v: Float32) -> Float32:
+    return _sqrt(SIMD[DType.float32, 1](v))[0]
 
 
 struct Ctx:
@@ -115,8 +120,8 @@ def gemm_scalar_ref(
         for j in range(N):
             var s = Float32(0)
             for k in range(K):
-                s += Float32(a.unsafe_offset(i * K + k)) * Float32(
-                    b.unsafe_offset(k * N + j)
+                s += Float32(a[unsafe_offset=i * K + k]) * Float32(
+                    b[unsafe_offset=k * N + j]
                 )
             c[unsafe_offset=i * N + j] = Float16(s)
 
@@ -134,7 +139,7 @@ def test_h022(mut ctx: Ctx):
     var ap = unsafe_alloc[Float16](8 * kc)
     var bp = unsafe_alloc[Float16](8 * kc)
     var acc = unsafe_alloc[Float32](64)
-    var ref = unsafe_alloc[Float16](64)
+    var expected = unsafe_alloc[Float16](64)
     var worst = Float64(0)
     ctx.seed(UInt64(0x2201))
     for t in range(100):
@@ -149,12 +154,12 @@ def test_h022(mut ctx: Ctx):
             for j in range(8):
                 var s = Float32(0)
                 for k in range(kc):
-                    s += Float32(a.unsafe_offset(i * kc + k)) * Float32(
-                        b.unsafe_offset(k * 8 + j)
+                    s += Float32(a[unsafe_offset=i * kc + k]) * Float32(
+                        b[unsafe_offset=k * 8 + j]
                     )
-                ref[unsafe_offset=i * 8 + j] = Float16(s)
+                expected[unsafe_offset=i * 8 + j] = Float16(s)
         for i in range(64):
-            var d = Float64(acc[unsafe_offset=i]) - Float64(ref[unsafe_offset=i])
+            var d = Float64(acc[unsafe_offset=i]) - Float64(expected[unsafe_offset=i])
             if d < 0:
                 d = -d
             if d > worst:
@@ -261,7 +266,7 @@ def gemv_scalar_ref(
     for i in range(M):
         var s = Float32(0)
         for k in range(N):
-            s += Float32(a.unsafe_offset(i * N + k)) * Float32(x.unsafe_offset(k))
+            s += Float32(a[unsafe_offset=i * N + k]) * Float32(x[unsafe_offset=k])
         y[unsafe_offset=i] = Float16(s)
 
 
@@ -292,12 +297,12 @@ def stream_bw_gbs() -> Float64:
     var c = unsafe_alloc[Float32](n)
     for i in range(0, n, 1024):
         a[unsafe_offset=i] = Float32(1)
-        b[unsafe_offset=i] = Float32(2)
+        b[unsafe_offset=i] = Float16(2)
     var dts = unsafe_alloc[Int64](11)
     for r in range(11):
         var t0 = now_ns()
         for i in range(n):
-            c[unsafe_offset=i] = a.unsafe_offset(i) + Float32(2) * b.unsafe_offset(i)
+            c[unsafe_offset=i] = a[unsafe_offset=i] + Float32(2) * b[unsafe_offset=i]
         dts[unsafe_offset=r] = now_ns() - t0
     for i in range(11):
         for j in range(i + 1, 11):
@@ -375,25 +380,25 @@ def test_elem_case(mut ctx: Ctx, n: Int):
     # add
     elem_add(a, b, c, n)
     for i in range(n):
-        r[unsafe_offset=i] = a.unsafe_offset(i) + b.unsafe_offset(i)
+        r[unsafe_offset=i] = a[unsafe_offset=i] + b[unsafe_offset=i]
     var e = max_abs_err_f16(c, r, n)
     ctx.check("H025", e <= 1e-4, String("add n=") + String(n) + String(" maxerr=") + String(e))
     # mul
     elem_mul(a, b, c, n)
     for i in range(n):
-        r[unsafe_offset=i] = a.unsafe_offset(i) * b.unsafe_offset(i)
+        r[unsafe_offset=i] = a[unsafe_offset=i] * b[unsafe_offset=i]
     e = max_abs_err_f16(c, r, n)
     ctx.check("H025", e <= 1e-4, String("mul n=") + String(n) + String(" maxerr=") + String(e))
     # scale
     elem_scale(a, c, alpha, n)
     for i in range(n):
-        r[unsafe_offset=i] = a.unsafe_offset(i) * alpha
+        r[unsafe_offset=i] = a[unsafe_offset=i] * alpha
     e = max_abs_err_f16(c, r, n)
     ctx.check("H025", e <= 1e-4, String("scale n=") + String(n) + String(" maxerr=") + String(e))
     # axpy
     elem_axpy(a, b, c, alpha, n)
     for i in range(n):
-        r[unsafe_offset=i] = a.unsafe_offset(i) * alpha + b.unsafe_offset(i)
+        r[unsafe_offset=i] = a[unsafe_offset=i] * alpha + b[unsafe_offset=i]
     e = max_abs_err_f16(c, r, n)
     ctx.check("H025", e <= 1e-4, String("axpy n=") + String(n) + String(" maxerr=") + String(e))
 
@@ -420,18 +425,18 @@ def test_norm_case(mut ctx: Ctx, n: Int, eps: Float32, tag: String):
     # fp64 reference
     var mean = Float64(0)
     for i in range(n):
-        mean += Float64(x.unsafe_offset(i))
+        mean += Float64(x[unsafe_offset=i])
     mean /= Float64(n)
     var var_ = Float64(0)
     for i in range(n):
-        var d = Float64(x.unsafe_offset(i)) - mean
+        var d = Float64(x[unsafe_offset=i]) - mean
         var_ += d * d
     var_ /= Float64(n)
     var inv = 1.0 / f64_sqrt(var_ + Float64(eps))
     for i in range(n):
-        var yn = (Float64(x.unsafe_offset(i)) - mean) * inv * Float64(
-            w.unsafe_offset(i)
-        ) + Float64(b.unsafe_offset(i))
+        var yn = (Float64(x[unsafe_offset=i]) - mean) * inv * Float64(
+            w[unsafe_offset=i]
+        ) + Float64(b[unsafe_offset=i])
         r[unsafe_offset=i] = Float16(yn)
     var e = max_abs_err_f16(y, r, n)
     ctx.check(
@@ -468,7 +473,7 @@ def test_h026(mut ctx: Ctx):
     layernorm_fp16(x, w, b, y, n, Float32(1e-5))
     var finite = True
     for i in range(n):
-        var v = y.unsafe_offset(i)
+        var v = y[unsafe_offset=i]
         if v != v:
             finite = False  # NaN check
     ctx.check("H026", finite, "constant-input finite (no NaN)")
@@ -487,13 +492,13 @@ def test_rmsnorm_case(mut ctx: Ctx, n: Int, tag: String, with_w: Bool):
     rmsnorm_fp16(x, w, y, n, Float32(1e-6))
     var ms = Float64(0)
     for i in range(n):
-        var v = Float64(x.unsafe_offset(i))
+        var v = Float64(x[unsafe_offset=i])
         ms += v * v
     ms /= Float64(n)
     var inv = 1.0 / f64_sqrt(ms + 1e-6)
     for i in range(n):
         r[unsafe_offset=i] = Float16(
-            Float64(x.unsafe_offset(i)) * inv * Float64(w.unsafe_offset(i))
+            Float64(x[unsafe_offset=i]) * inv * Float64(w[unsafe_offset=i])
         )
     var e = max_abs_err_f16(y, r, n)
     ctx.check(
@@ -537,22 +542,22 @@ def test_softmax_case(mut ctx: Ctx, n: Int, lo: Float64, hi: Float64, tag: Strin
     fill_rand_f16(x, n, ctx.state, lo, hi)
     softmax_fp16(x, y, n)
     # fp64 reference
-    var m = Float64(x.unsafe_offset(0))
+    var m = Float64(x[unsafe_offset=0])
     for i in range(n):
-        var v = Float64(x.unsafe_offset(i))
+        var v = Float64(x[unsafe_offset=i])
         if v > m:
             m = v
     var s = 0.0
     for i in range(n):
-        s += f64_exp(Float64(x.unsafe_offset(i)) - m)
+        s += f64_exp(Float64(x[unsafe_offset=i]) - m)
     var worst = Float64(0)
     var total = Float64(0)
     var ok = True
     for i in range(n):
-        var ref = f64_exp(Float64(x.unsafe_offset(i)) - m) / s
-        var got = Float64(y.unsafe_offset(i))
+        var expected = f64_exp(Float64(x[unsafe_offset=i]) - m) / s
+        var got = Float64(y[unsafe_offset=i])
         total += got
-        var d = got - ref
+        var d = got - expected
         if d < 0:
             d = -d
         if d > worst:
@@ -585,7 +590,7 @@ def test_h028(mut ctx: Ctx):
     var total = Float64(0)
     var masked_zero = True
     for i in range(n):
-        var v = Float64(y.unsafe_offset(i))
+        var v = Float64(y[unsafe_offset=i])
         total += v
         if i >= valid and v != Float64(0):
             masked_zero = False
@@ -607,9 +612,9 @@ def test_h029(mut ctx: Ctx):
     silu_fp16(x, y, n)
     var worst = Float64(0)
     for i in range(n):
-        var v = Float64(x.unsafe_offset(i))
-        var ref = v / (1.0 + f64_exp(-v))
-        var d = Float64(y.unsafe_offset(i)) - ref
+        var v = Float64(x[unsafe_offset=i])
+        var expected = v / (1.0 + f64_exp(-v))
+        var d = Float64(y[unsafe_offset=i]) - expected
         if d < 0:
             d = -d
         if d > worst:
@@ -619,12 +624,12 @@ def test_h029(mut ctx: Ctx):
     gelu_fp16(x, y, n)
     worst = Float64(0)
     for i in range(n):
-        var v = Float64(x.unsafe_offset(i))
+        var v = Float64(x[unsafe_offset=i])
         var inner = 0.7978845608028654 * (v + 0.044715 * v * v * v)
         var t = f64_exp(2.0 * inner)
         t = (t - 1.0) / (t + 1.0)
-        var ref = 0.5 * v * (1.0 + t)
-        var d = Float64(y.unsafe_offset(i)) - ref
+        var expected = 0.5 * v * (1.0 + t)
+        var d = Float64(y[unsafe_offset=i]) - expected
         if d < 0:
             d = -d
         if d > worst:
@@ -639,14 +644,14 @@ def test_h029(mut ctx: Ctx):
     silu_fp16(xs, ys, m)
     var nondecr = True
     for i in range(1000, m - 1):
-        if Float32(ys.unsafe_offset(i + 1)) < Float32(ys.unsafe_offset(i)):
+        if Float32(ys[unsafe_offset=i + 1]) < Float32(ys[unsafe_offset=i]):
             nondecr = False
     ctx.check("H029", nondecr, "silu non-decreasing on [0,10] @0.01")
     # Dip check: minimum over [-10, 10] at x in [-1.30, -1.25], value in [-0.29, -0.27].
-    var minv = Float32(ys.unsafe_offset(0))
+    var minv = Float32(ys[unsafe_offset=0])
     var minx = Float32(-10)
     for i in range(m):
-        var v = Float32(ys.unsafe_offset(i))
+        var v = Float32(ys[unsafe_offset=i])
         if v < minv:
             minv = v
             minx = Float32(i) * Float32(0.01) - Float32(10)
@@ -670,12 +675,12 @@ def test_rope_case(mut ctx: Ctx, hd: Int, theta: Float32, pos: Int):
         var ang = Float64(pos) * f64_exp(
             Float64(-2 * i) / Float64(hd) * f64_log(Float64(theta))
         )
-        var x0 = Float64(x.unsafe_offset(2 * i))
-        var x1 = Float64(x.unsafe_offset(2 * i + 1))
+        var x0 = Float64(x[unsafe_offset=2 * i])
+        var x1 = Float64(x[unsafe_offset=2 * i + 1])
         var r0 = x0 * f64_cos(ang) - x1 * f64_sin(ang)
         var r1 = x0 * f64_sin(ang) + x1 * f64_cos(ang)
-        var d0 = Float64(y.unsafe_offset(2 * i)) - r0
-        var d1 = Float64(y.unsafe_offset(2 * i + 1)) - r1
+        var d0 = Float64(y[unsafe_offset=2 * i]) - r0
+        var d1 = Float64(y[unsafe_offset=2 * i + 1]) - r1
         if d0 < 0:
             d0 = -d0
         if d1 < 0:
@@ -740,8 +745,8 @@ def test_h031(mut ctx: Ctx):
     fp32_to_fp16(f32, f16, n)
     var worst = Float64(0)
     for i in range(n):
-        var ref = Float16(f32.unsafe_offset(i))
-        var d = Float64(f16.unsafe_offset(i)) - Float64(ref)
+        var expected = Float16(f32[unsafe_offset=i])
+        var d = Float64(f16[unsafe_offset=i]) - Float64(expected)
         if d < 0:
             d = -d
         if d > worst:
@@ -758,13 +763,13 @@ def test_h031(mut ctx: Ctx):
     worst = Float64(0)
     var ss = Float64(0)
     for i in range(n):
-        var d = Float64(y.unsafe_offset(i)) - Float64(x.unsafe_offset(i))
+        var d = Float64(y[unsafe_offset=i]) - Float64(x[unsafe_offset=i])
         ss += d * d
         if d < 0:
             d = -d
         if d > worst:
             worst = d
-    var rms = (ss / Float64(n)).sqrt()
+    var rms = f64_sqrt(ss / Float64(n))
     ctx.check(
         "H031",
         worst <= 0.024 and rms <= 0.014,
@@ -784,13 +789,13 @@ def test_h032(mut ctx: Ctx):
     var worst = Float64(0)
     var ss = Float64(0)
     for i in range(n):
-        var d = Float64(y.unsafe_offset(i)) - Float64(x.unsafe_offset(i))
+        var d = Float64(y[unsafe_offset=i]) - Float64(x[unsafe_offset=i])
         ss += d * d
         if d < 0:
             d = -d
         if d > worst:
             worst = d
-    var rms = (ss / Float64(n)).sqrt()
+    var rms = f64_sqrt(ss / Float64(n))
     ctx.check(
         "H032",
         worst <= 0.43 and rms <= 0.25,
@@ -807,7 +812,7 @@ def test_h032(mut ctx: Ctx):
     xb[unsafe_offset=1] = Float16(-2)
     xb[unsafe_offset=2] = Float16(7)
     fp16_to_q40(xb, qb, 32)
-    var first = UInt8(qb.unsafe_offset(2))
+    var first = UInt8(qb[unsafe_offset=2])
     ctx.check("H032", first == UInt8(0xE3), String("nibble byte0=") + String(Int(first)))
 
 
@@ -829,7 +834,7 @@ def q80_gemm_fp32_ref(
             var s = q80_block_scale(aq, bo)
             for t in range(32):
                 ad[unsafe_offset=i * K + kb * 32 + t] = Float32(
-                    Int(aq.unsafe_offset(bo + 2 + t))
+                    Int(aq[unsafe_offset=bo + 2 + t])
                 ) * s
     for j in range(N):
         for kb in range(nb):
@@ -837,13 +842,13 @@ def q80_gemm_fp32_ref(
             var s = q80_block_scale(bq, bo)
             for t in range(32):
                 bd[unsafe_offset=(kb * 32 + t) * N + j] = Float32(
-                    Int(bq.unsafe_offset(bo + 2 + t))
+                    Int(bq[unsafe_offset=bo + 2 + t])
                 ) * s
     for i in range(M):
         for j in range(N):
             var s = Float32(0)
             for k in range(K):
-                s += ad.unsafe_offset(i * K + k) * bd.unsafe_offset(k * N + j)
+                s += ad[unsafe_offset=i * K + k] * bd[unsafe_offset=k * N + j]
             r[unsafe_offset=i * N + j] = s
 
 
@@ -862,7 +867,7 @@ def test_q80_gemm_case(mut ctx: Ctx, M: Int, N: Int, K: Int):
     var bt = unsafe_alloc[Float16](N * K)
     for j in range(N):
         for k in range(K):
-            bt[unsafe_offset=j * K + k] = b.unsafe_offset(k * N + j)
+            bt[unsafe_offset=j * K + k] = b[unsafe_offset=k * N + j]
     fp16_to_q80(bt, bq, N * K)
     q80_gemm(aq, bq, c, M, N, K)
     q80_gemm_fp32_ref(aq, bq, r, M, N, K)
@@ -870,13 +875,13 @@ def test_q80_gemm_case(mut ctx: Ctx, M: Int, N: Int, K: Int):
     var ss = Float64(0)
     var worst = Float64(0)
     for i in range(M * N):
-        var d = Float64(c.unsafe_offset(i)) - Float64(r.unsafe_offset(i))
-        ss += Float64(r.unsafe_offset(i)) * Float64(r.unsafe_offset(i))
+        var d = Float64(c[unsafe_offset=i]) - Float64(r[unsafe_offset=i])
+        ss += Float64(r[unsafe_offset=i]) * Float64(r[unsafe_offset=i])
         if d < 0:
             d = -d
         if d > worst:
             worst = d
-    var rms = (ss / Float64(M * N)).sqrt()
+    var rms = f64_sqrt(ss / Float64(M * N))
     var bound = Float64(0.05) * rms
     ctx.check(
         "H033",
@@ -923,7 +928,7 @@ def test_h033(mut ctx: Ctx):
     var bt = unsafe_alloc[Float16](N * K)
     for j in range(N):
         for k in range(K):
-            bt[unsafe_offset=j * K + k] = b.unsafe_offset(k * N + j)
+            bt[unsafe_offset=j * K + k] = b[unsafe_offset=k * N + j]
     fp16_to_q80(bt, bq, N * K)
     q80_gemm(aq, bq, c, 1, N, K)
     var dts = unsafe_alloc[Int64](11)
@@ -966,8 +971,8 @@ def test_attn_case(mut ctx: Ctx, seq: Int, hd: Int):
         for j in range(i + 1):
             var s = 0.0
             for d in range(hd):
-                s += Float64(q.unsafe_offset(i * hd + d)) * Float64(
-                    k.unsafe_offset(j * hd + d)
+                s += Float64(q[unsafe_offset=i * hd + d]) * Float64(
+                    k[unsafe_offset=j * hd + d]
                 )
             s *= inv_s
             if s > m:
@@ -976,8 +981,8 @@ def test_attn_case(mut ctx: Ctx, seq: Int, hd: Int):
         for j in range(i + 1):
             var s = 0.0
             for d in range(hd):
-                s += Float64(q.unsafe_offset(i * hd + d)) * Float64(
-                    k.unsafe_offset(j * hd + d)
+                s += Float64(q[unsafe_offset=i * hd + d]) * Float64(
+                    k[unsafe_offset=j * hd + d]
                 )
             esum += f64_exp(s * inv_s - m)
         for d in range(hd):
@@ -985,15 +990,15 @@ def test_attn_case(mut ctx: Ctx, seq: Int, hd: Int):
             for j in range(i + 1):
                 var s = 0.0
                 for dd in range(hd):
-                    s += Float64(q.unsafe_offset(i * hd + dd)) * Float64(
-                        k.unsafe_offset(j * hd + dd)
+                    s += Float64(q[unsafe_offset=i * hd + dd]) * Float64(
+                        k[unsafe_offset=j * hd + dd]
                     )
                 acc += f64_exp(s * inv_s - m) / esum * Float64(
-                    v.unsafe_offset(j * hd + d)
+                    v[unsafe_offset=j * hd + d]
                 )
-            var ref = acc
-            var got = Float64(o.unsafe_offset(i * hd + d))
-            var dd = got - ref
+            var expected = acc
+            var got = Float64(o[unsafe_offset=i * hd + d])
+            var dd = got - expected
             if dd < 0:
                 dd = -dd
             if dd > worst:
@@ -1043,7 +1048,7 @@ def test_h034(mut ctx: Ctx):
         var o_small = unsafe_alloc[Float16](ln * hd)
         _ = attn_sdpa_causal_fp16(q, k, v, o_small, ln, hd)
         for d in range(hd):
-            if o_small.unsafe_offset(i * hd + d) != o_big.unsafe_offset(i * hd + d):
+            if o_small[unsafe_offset=i * hd + d] != o_big.unsafe_offset(i * hd + d):
                 identical = False
     ctx.check("H034", identical, "causal rows bit-identical (seq i+1 vs 2048)")
 
@@ -1054,7 +1059,7 @@ def mha_naive_ref(
     wk: Pointer[Float16, MutUntrackedOrigin],
     wv: Pointer[Float16, MutUntrackedOrigin],
     wo: Pointer[Float16, MutUntrackedOrigin],
-    out: Pointer[Float16, MutUntrackedOrigin],
+    outp: Pointer[Float16, MutUntrackedOrigin],
     seq: Int,
     n_heads: Int,
     head_dim: Int,
@@ -1072,10 +1077,10 @@ def mha_naive_ref(
             var sk = 0.0
             var sv = 0.0
             for e in range(dm):
-                var xe = Float64(x.unsafe_offset(s * dm + e))
-                sq += xe * Float64(wq.unsafe_offset(e * dm + d))
-                sk += xe * Float64(wk.unsafe_offset(e * dm + d))
-                sv += xe * Float64(wv.unsafe_offset(e * dm + d))
+                var xe = Float64(x[unsafe_offset=s * dm + e])
+                sq += xe * Float64(wq[unsafe_offset=e * dm + d])
+                sk += xe * Float64(wk[unsafe_offset=e * dm + d])
+                sv += xe * Float64(wv[unsafe_offset=e * dm + d])
             q[unsafe_offset=s * dm + d] = sq
             k[unsafe_offset=s * dm + d] = sk
             vv[unsafe_offset=s * dm + d] = sv
@@ -1095,10 +1100,10 @@ def mha_naive_ref(
                     var ang_j = Float64(j) * f64_exp(
                         Float64(-2 * p) / Float64(head_dim) * ln_t
                     )
-                    var qi0 = q.unsafe_offset(i * dm + h * head_dim + 2 * p)
-                    var qi1 = q.unsafe_offset(i * dm + h * head_dim + 2 * p + 1)
-                    var kj0 = k.unsafe_offset(j * dm + h * head_dim + 2 * p)
-                    var kj1 = k.unsafe_offset(j * dm + h * head_dim + 2 * p + 1)
+                    var qi0 = q[unsafe_offset=i * dm + h * head_dim + 2 * p]
+                    var qi1 = q[unsafe_offset=i * dm + h * head_dim + 2 * p + 1]
+                    var kj0 = k[unsafe_offset=j * dm + h * head_dim + 2 * p]
+                    var kj1 = k[unsafe_offset=j * dm + h * head_dim + 2 * p + 1]
                     var rqi0 = qi0 * f64_cos(ang_i) - qi1 * f64_sin(ang_i)
                     var rkj0 = kj0 * f64_cos(ang_j) - kj1 * f64_sin(ang_j)
                     var rkj1 = kj0 * f64_sin(ang_j) + kj1 * f64_cos(ang_j)
@@ -1118,10 +1123,10 @@ def mha_naive_ref(
                     var ang_j = Float64(j) * f64_exp(
                         Float64(-2 * p) / Float64(head_dim) * ln_t
                     )
-                    var qi0 = q.unsafe_offset(i * dm + h * head_dim + 2 * p)
-                    var qi1 = q.unsafe_offset(i * dm + h * head_dim + 2 * p + 1)
-                    var kj0 = k.unsafe_offset(j * dm + h * head_dim + 2 * p)
-                    var kj1 = k.unsafe_offset(j * dm + h * head_dim + 2 * p + 1)
+                    var qi0 = q[unsafe_offset=i * dm + h * head_dim + 2 * p]
+                    var qi1 = q[unsafe_offset=i * dm + h * head_dim + 2 * p + 1]
+                    var kj0 = k[unsafe_offset=j * dm + h * head_dim + 2 * p]
+                    var kj1 = k[unsafe_offset=j * dm + h * head_dim + 2 * p + 1]
                     var rqi0 = qi0 * f64_cos(ang_i) - qi1 * f64_sin(ang_i)
                     var rqi1 = qi0 * f64_sin(ang_i) + qi1 * f64_cos(ang_i)
                     var rkj0 = kj0 * f64_cos(ang_j) - kj1 * f64_sin(ang_j)
@@ -1139,27 +1144,27 @@ def mha_naive_ref(
                         var ang_j = Float64(j) * f64_exp(
                             Float64(-2 * p) / Float64(head_dim) * ln_t
                         )
-                        var qi0 = q.unsafe_offset(i * dm + h * head_dim + 2 * p)
-                        var qi1 = q.unsafe_offset(i * dm + h * head_dim + 2 * p + 1)
-                        var kj0 = k.unsafe_offset(j * dm + h * head_dim + 2 * p)
-                        var kj1 = k.unsafe_offset(j * dm + h * head_dim + 2 * p + 1)
+                        var qi0 = q[unsafe_offset=i * dm + h * head_dim + 2 * p]
+                        var qi1 = q[unsafe_offset=i * dm + h * head_dim + 2 * p + 1]
+                        var kj0 = k[unsafe_offset=j * dm + h * head_dim + 2 * p]
+                        var kj1 = k[unsafe_offset=j * dm + h * head_dim + 2 * p + 1]
                         var rqi0 = qi0 * f64_cos(ang_i) - qi1 * f64_sin(ang_i)
                         var rqi1 = qi0 * f64_sin(ang_i) + qi1 * f64_cos(ang_i)
                         var rkj0 = kj0 * f64_cos(ang_j) - kj1 * f64_sin(ang_j)
                         var rkj1 = kj0 * f64_sin(ang_j) + kj1 * f64_cos(ang_j)
                         s += rqi0 * rkj0 + rqi1 * rkj1
-                    acc += f64_exp(s * inv_s - m) / esum * vv.unsafe_offset(
+                    acc += f64_exp(s * inv_s - m) / esum * vv[unsafe_offset=
                         j * dm + h * head_dim + d
-                    )
+                    ]
                 ctx[unsafe_offset=i * dm + h * head_dim + d] = acc
     for s in range(seq):
         for d in range(dm):
             var acc = 0.0
             for e in range(dm):
-                acc += ctx.unsafe_offset(s * dm + e) * Float64(
-                    wo.unsafe_offset(e * dm + d)
+                acc += ctx[unsafe_offset=s * dm + e] * Float64(
+                    wo[unsafe_offset=e * dm + d]
                 )
-            out[unsafe_offset=s * dm + d] = Float16(acc)
+            outp[unsafe_offset=s * dm + d] = Float16(acc)
 
 
 def test_h035(mut ctx: Ctx):
@@ -1189,7 +1194,7 @@ def test_h035(mut ctx: Ctx):
     ctx.check("H035", e <= 2e-3, String("mha vs naive maxerr=") + String(e))
     var identical = True
     for i in range(seq * dm):
-        if o_seq.unsafe_offset(i) != o_par.unsafe_offset(i):
+        if o_seq[unsafe_offset=i] != o_par.unsafe_offset(i):
             identical = False
     ctx.check("H035", identical, "seq vs par bit-identical")
 
@@ -1259,7 +1264,7 @@ def toy_forward(
     var t4 = unsafe_alloc[Float16](h)
     var t5 = unsafe_alloc[Float16](h)
     for i in range(h):
-        x[unsafe_offset=i] = emb.unsafe_offset(tok * h + i)
+        x[unsafe_offset=i] = emb[unsafe_offset=tok * h + i]
     if use_kernels:
         layernorm_fp16(x, lnw1, lnb1, t1, h, Float32(1e-5))
         gemm_fp16(t1, w1, t2, 1, 4 * h, h)
@@ -1272,55 +1277,55 @@ def toy_forward(
         # naive scalar fp32 reference
         var mean = Float32(0)
         for i in range(h):
-            mean += Float32(x.unsafe_offset(i))
+            mean += Float32(x[unsafe_offset=i])
         mean /= Float32(h)
         var vv = Float32(0)
         for i in range(h):
-            var d = Float32(x.unsafe_offset(i)) - mean
+            var d = Float32(x[unsafe_offset=i]) - mean
             vv += d * d
         vv /= Float32(h)
         var inv = Float32(1) / Float32(f64_sqrt(Float64(vv)))
         for i in range(h):
             t1[unsafe_offset=i] = Float16(
-                (Float32(x.unsafe_offset(i)) - mean) * inv * Float32(
-                    lnw1.unsafe_offset(i)
-                ) + Float32(lnb1.unsafe_offset(i))
+                (Float32(x[unsafe_offset=i]) - mean) * inv * Float32(
+                    lnw1[unsafe_offset=i]
+                ) + Float32(lnb1[unsafe_offset=i])
             )
         for j in range(4 * h):
             var s = Float32(0)
             for i in range(h):
-                s += Float32(t1.unsafe_offset(i)) * Float32(w1.unsafe_offset(i * 4 * h + j))
+                s += Float32(t1[unsafe_offset=i]) * Float32(w1[unsafe_offset=i * 4 * h + j])
             t2[unsafe_offset=j] = Float16(s)
         for j in range(4 * h):
-            var v = Float32(t2.unsafe_offset(j))
-            t3[unsafe_offset=j] = Float16(Float32(v / (1.0 + f64_exp(Float64(-v)))))
+            var v = Float32(t2[unsafe_offset=j])
+            t3[unsafe_offset=j] = Float16(v / Float32(1.0 + f64_exp(Float64(-v))))
         for j in range(h):
             var s = Float32(0)
             for i in range(4 * h):
-                s += Float32(t3.unsafe_offset(i)) * Float32(w2.unsafe_offset(i * h + j))
+                s += Float32(t3[unsafe_offset=i]) * Float32(w2[unsafe_offset=i * h + j])
             t4[unsafe_offset=j] = Float16(s)
         for i in range(h):
-            t5[unsafe_offset=i] = x.unsafe_offset(i) + t4.unsafe_offset(i)
+            t5[unsafe_offset=i] = x[unsafe_offset=i] + t4[unsafe_offset=i]
         mean = Float32(0)
         for i in range(h):
-            mean += Float32(t5.unsafe_offset(i))
+            mean += Float32(t5[unsafe_offset=i])
         mean /= Float32(h)
         vv = Float32(0)
         for i in range(h):
-            var d = Float32(t5.unsafe_offset(i)) - mean
+            var d = Float32(t5[unsafe_offset=i]) - mean
             vv += d * d
         vv /= Float32(h)
-        inv = Float32(1) / vv.sqrt()
+        inv = Float32(1) / f32_sqrt(vv)
         for i in range(h):
             t1[unsafe_offset=i] = Float16(
-                (Float32(t5.unsafe_offset(i)) - mean) * inv * Float32(
-                    lnw2.unsafe_offset(i)
-                ) + Float32(lnb2.unsafe_offset(i))
+                (Float32(t5[unsafe_offset=i]) - mean) * inv * Float32(
+                    lnw2[unsafe_offset=i]
+                ) + Float32(lnb2[unsafe_offset=i])
             )
         for j in range(vocab):
             var s = Float32(0)
             for i in range(h):
-                s += Float32(t1.unsafe_offset(i)) * Float32(wl.unsafe_offset(i * vocab + j))
+                s += Float32(t1[unsafe_offset=i]) * Float32(wl[unsafe_offset=i * vocab + j])
             logits[unsafe_offset=j] = Float16(s)
 
 
@@ -1354,7 +1359,7 @@ def test_h039(mut ctx: Ctx):
         var e = max_abs_err_f16(lk, lr, vocab)
         var finite = True
         for i in range(vocab):
-            var v = lk.unsafe_offset(i)
+            var v = lk[unsafe_offset=i]
             if v != v:
                 finite = False
         ctx.check(

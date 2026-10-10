@@ -51,10 +51,10 @@ def silu_fp16(
         var v = x.unsafe_offset(i).unsafe_load[8]().cast[DType.float32]()
         var sig = Float32(1) / (Float32(1) + exp(-v))
         var yn = v * sig
-        y.unsafe_offset(i).unsafe_store[8](yn.cast[DType.float16]())
+        y.unsafe_store(i, yn.cast[DType.float16]())
         i += 8
     for kk in range(i, n):
-        var v = Float32(x.unsafe_offset(kk))
+        var v = Float32(x[unsafe_offset=kk])
         var sig = Float32(1) / (Float32(1) + exp(SIMD[DType.float32, 1](-v))[0])
         y[unsafe_offset=kk] = Float16(v * sig)
 
@@ -71,10 +71,10 @@ def gelu_fp16(
         var v = x.unsafe_offset(i).unsafe_load[8]().cast[DType.float32]()
         var inner = c0 * (v + Float32(0.044715) * v * v * v)
         var yn = Float32(0.5) * v * (Float32(1) + tanh_fp32_vec(inner))
-        y.unsafe_offset(i).unsafe_store[8](yn.cast[DType.float16]())
+        y.unsafe_store(i, yn.cast[DType.float16]())
         i += 8
     for kk in range(i, n):
-        var v = Float32(x.unsafe_offset(kk))
+        var v = Float32(x[unsafe_offset=kk])
         var z = c0 * (v + Float32(0.044715) * v * v * v)
         var e2 = exp(SIMD[DType.float32, 1](z + z))[0]
         var t = (e2 - Float32(1)) / (e2 + Float32(1))

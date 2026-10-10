@@ -79,15 +79,15 @@ def gemm_micro_8x8(
         # k-tail (kc not a multiple of 8): scalar fp32 accumulation into
         # the same lane sums, preserving summation order class.
         for kk in range(k, kc):
-            var aik = Float32(ap.unsafe_offset(i * kc + kk))
-            s0 += aik * Float32(bp.unsafe_offset(0 * kc + kk))
-            s1 += aik * Float32(bp.unsafe_offset(1 * kc + kk))
-            s2 += aik * Float32(bp.unsafe_offset(2 * kc + kk))
-            s3 += aik * Float32(bp.unsafe_offset(3 * kc + kk))
-            s4 += aik * Float32(bp.unsafe_offset(4 * kc + kk))
-            s5 += aik * Float32(bp.unsafe_offset(5 * kc + kk))
-            s6 += aik * Float32(bp.unsafe_offset(6 * kc + kk))
-            s7 += aik * Float32(bp.unsafe_offset(7 * kc + kk))
+            var aik = Float32(ap[unsafe_offset=i * kc + kk])
+            s0 += aik * Float32(bp[unsafe_offset=0 * kc + kk])
+            s1 += aik * Float32(bp[unsafe_offset=1 * kc + kk])
+            s2 += aik * Float32(bp[unsafe_offset=2 * kc + kk])
+            s3 += aik * Float32(bp[unsafe_offset=3 * kc + kk])
+            s4 += aik * Float32(bp[unsafe_offset=4 * kc + kk])
+            s5 += aik * Float32(bp[unsafe_offset=5 * kc + kk])
+            s6 += aik * Float32(bp[unsafe_offset=6 * kc + kk])
+            s7 += aik * Float32(bp[unsafe_offset=7 * kc + kk])
         acc[unsafe_offset=i * ldc + 0] += s0
         acc[unsafe_offset=i * ldc + 1] += s1
         acc[unsafe_offset=i * ldc + 2] += s2
@@ -113,8 +113,8 @@ def gemm_scalar_tile(
         for j in range(nr):
             var s = Float32(0)
             for k in range(kc):
-                s += Float32(ap.unsafe_offset(i * kc + k)) * Float32(
-                    bp.unsafe_offset(j * kc + k)
+                s += Float32(ap[unsafe_offset=i * kc + k]) * Float32(
+                    bp[unsafe_offset=j * kc + k]
                 )
             acc[unsafe_offset=i * ldc + j] += s
 
@@ -218,5 +218,5 @@ def gemm_fp16(
             for i in range(cur_mc):
                 for j in range(cur_nc):
                     c[unsafe_offset=(i0 + i) * N + j0 + j] = Float16(
-                        acc.unsafe_offset(i * cur_nc + j)
+                        acc[unsafe_offset=i * cur_nc + j]
                     )

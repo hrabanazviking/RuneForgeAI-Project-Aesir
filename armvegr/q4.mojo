@@ -40,7 +40,7 @@ def q40_quant_block(
     # Quantize n = 32 fp16 values into one 18-byte Q4_0 block at dst.
     var amax = Float32(0)
     for i in range(n):
-        var v = Float32(src.unsafe_offset(i))
+        var v = Float32(src[unsafe_offset=i])
         if v < Float32(0):
             v = -v
         if v > amax:
@@ -51,8 +51,8 @@ def q40_quant_block(
     write_u16_le(dst, 0, fp16_bits_of(scale))
     var inv = Float32(1) / scale
     for b in range(16):
-        var q0 = round_half_away(Float32(src.unsafe_offset(2 * b)) * inv)
-        var q1 = round_half_away(Float32(src.unsafe_offset(2 * b + 1)) * inv)
+        var q0 = round_half_away(Float32(src[unsafe_offset=2 * b]) * inv)
+        var q1 = round_half_away(Float32(src[unsafe_offset=2 * b + 1]) * inv)
         if q0 > 7:
             q0 = 7
         if q0 < -8:
@@ -73,7 +73,7 @@ def q40_dequant_block(
 ):
     var scale = fp16_from_bits(read_u16_le(src, 0))
     for b in range(16):
-        var byte = UInt8(src.unsafe_offset(2 + b))
+        var byte = UInt8(src[unsafe_offset=2 + b])
         var q0 = Int(byte & UInt8(15))
         var q1 = Int((byte >> 4) & UInt8(15))
         if q0 >= 8:

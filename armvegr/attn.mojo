@@ -49,8 +49,8 @@ def attn_sdpa_causal_fp16(
                 d += 8
             var s = dot.reduce_add()
             for dd in range(d, head_dim):
-                s += Float32(q.unsafe_offset(i * head_dim + dd)) * Float32(
-                    k.unsafe_offset(j * head_dim + dd)
+                s += Float32(q[unsafe_offset=i * head_dim + dd]) * Float32(
+                    k[unsafe_offset=j * head_dim + dd]
                 )
             var sc = s * inv_scale
             scores[unsafe_offset=j] = sc
@@ -66,7 +66,7 @@ def attn_sdpa_causal_fp16(
             var acc = Float32(0)
             for j in range(i + 1):
                 acc += scores[unsafe_offset=j] * inv * Float32(
-                    v.unsafe_offset(j * head_dim + d2)
+                    v[unsafe_offset=j * head_dim + d2]
                 )
             out[unsafe_offset=i * head_dim + d2] = Float16(acc)
     return peak_bytes

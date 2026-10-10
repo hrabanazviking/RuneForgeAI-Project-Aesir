@@ -46,8 +46,8 @@ def rope_fp16(
         var co = cos(angs)
         var si = sin(angs)
         for k in range(4):
-            var x0 = Float32(x.unsafe_offset(2 * (i + k)))
-            var x1 = Float32(x.unsafe_offset(2 * (i + k) + 1))
+            var x0 = Float32(x[unsafe_offset=2 * (i + k)])
+            var x1 = Float32(x[unsafe_offset=2 * (i + k) + 1])
             y[unsafe_offset=2 * (i + k)] = Float16(x0 * co[k] - x1 * si[k])
             y[unsafe_offset=2 * (i + k) + 1] = Float16(x0 * si[k] + x1 * co[k])
         i += 4
@@ -55,7 +55,7 @@ def rope_fp16(
         var ang = rope_angle(pos, kk, head_dim, ln_theta)
         var co = cos(SIMD[DType.float32, 1](ang))[0]
         var si = sin(SIMD[DType.float32, 1](ang))[0]
-        var x0 = Float32(x.unsafe_offset(2 * kk))
-        var x1 = Float32(x.unsafe_offset(2 * kk + 1))
+        var x0 = Float32(x[unsafe_offset=2 * kk])
+        var x1 = Float32(x[unsafe_offset=2 * kk + 1])
         y[unsafe_offset=2 * kk] = Float16(x0 * co - x1 * si)
         y[unsafe_offset=2 * kk + 1] = Float16(x0 * si + x1 * co)

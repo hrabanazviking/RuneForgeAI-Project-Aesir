@@ -32,7 +32,7 @@ def layernorm_fp16(
     var tail_sum = Float32(0)
     var tail_sq = Float32(0)
     for kk in range(i, n):
-        var v = Float32(x.unsafe_offset(kk))
+        var v = Float32(x[unsafe_offset=kk])
         tail_sum += v
         tail_sq += v * v
     var mean = (vsum.reduce_add() + tail_sum) / Float32(n)
@@ -46,10 +46,10 @@ def layernorm_fp16(
         var wv = w.unsafe_offset(j).unsafe_load[8]().cast[DType.float32]()
         var bv = b.unsafe_offset(j).unsafe_load[8]().cast[DType.float32]()
         var yn = (v - mean) * inv * wv + bv
-        y.unsafe_offset(j).unsafe_store[8](yn.cast[DType.float16]())
+        y.unsafe_store(j, yn.cast[DType.float16]())
         j += 8
     for kk in range(j, n):
-        var yn = (Float32(x.unsafe_offset(kk)) - mean) * inv * Float32(
-            w.unsafe_offset(kk)
-        ) + Float32(b.unsafe_offset(kk))
+        var yn = (Float32(x[unsafe_offset=kk]) - mean) * inv * Float32(
+            w[unsafe_offset=kk]
+        ) + Float32(b[unsafe_offset=kk])
         y[unsafe_offset=kk] = Float16(yn)

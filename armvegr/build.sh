@@ -32,5 +32,5 @@ fi
 
 cd "$(dirname "$0")/.."
 mkdir -p build
-"$MOJO_BIN" build -o build/c2_verify tests/c2_verify.mojo
+"$MOJO_BIN" build -I . -o build/c2_verify tests/c2_verify.mojo
 echo "ARMVEGR build OK: build/c2_verify"

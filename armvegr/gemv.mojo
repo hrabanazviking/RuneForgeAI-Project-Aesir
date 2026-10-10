@@ -27,7 +27,7 @@ def gemv_fp16(
             k += 8
         var s = acc.reduce_add()
         for kk in range(k, N):
-            s += Float32(a.unsafe_offset(i * N + kk)) * Float32(x.unsafe_offset(kk))
+            s += Float32(a[unsafe_offset=i * N + kk]) * Float32(x[unsafe_offset=kk])
         y[unsafe_offset=i] = Float16(s)
 
 
