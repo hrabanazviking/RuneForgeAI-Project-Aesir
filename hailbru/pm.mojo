@@ -98,8 +98,8 @@ def pm_write_pmcsr(
             + errno_name(e),
         )
     var p = unsafe_alloc[UInt8](2)
-    p[0] = UInt8(val & 0xFF)
-    p[1] = UInt8((val >> 8) & 0xFF)
+    p[unsafe_offset=0] = UInt8(val & 0xFF)
+    p[unsafe_offset=1] = UInt8((val >> 8) & 0xFF)
     var rc = os_pwrite(arch, fd, p, 2, Int64(pmcap + 4))
     p.unsafe_free()
     _ = os_close(arch, fd)

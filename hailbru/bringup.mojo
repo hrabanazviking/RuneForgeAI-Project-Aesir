@@ -69,7 +69,7 @@ def hex16(v: Int) -> String:
     var s = "0x"
     for i in range(4):
         var shift = 12 - i * 4
-        s += digits[(v >> shift) & 0xF]
+        s += digits[byte=(v >> shift) & 0xF]
     return s
 
 
@@ -130,7 +130,7 @@ struct StepCtx:
         self.arch = arch
         self.sysfs_root = sysfs_root
         self.bdf = bdf
-        self.opts = opts
+        self.opts = opts^
         self.log = BringupLog()
 
 
@@ -180,8 +180,8 @@ def _bound_driver(arch: String, sysfs_root: String, bdf: String) raises -> Strin
         raise herror("DriverBindingMismatch", bdf + " has no driver bound")
     var tmp = unsafe_alloc[UInt8](Int(n) + 1)
     for i in range(Int(n)):
-        tmp[i] = buf[i]
-    tmp[Int(n)] = 0
+        tmp[unsafe_offset=i] = buf[unsafe_offset=i]
+    tmp[unsafe_offset=Int(n)] = 0
     var s = cstr_to_string(tmp, Int(n) + 1)
     tmp.unsafe_free()
     buf.unsafe_free()

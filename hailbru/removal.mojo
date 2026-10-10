@@ -26,7 +26,7 @@ struct WatchedBar:
     var severed_at_ms: Int64
 
     def __init__(out self, mapping: BarMapping):
-        self.mapping = mapping
+        self.mapping = mapping^
         self.alive = True
         self.severed_at_ms = 0
 
