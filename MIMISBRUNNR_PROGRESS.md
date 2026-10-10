@@ -632,6 +632,20 @@ generator is independently designed; findings live in docs/plunder/.
   bench_kernels, run_bench, run.sh) on Mimir; stability gate PASS — gemm_fp16
   1024^3 twice back-to-back medians within 1.77% (±3% required); governor
   pinned performance @ 2.4 GHz verified in JSON; `data/bench/h161_stability.json`.
+- [x] H162 — Kernel baseline DONE 2026-10-10: 22 C2 kernels re-measured via
+  H161 harness (repeat methodology: per-kernel repeat counts targeting
+  ~50 ms/trial; the single-invocation H038 method gave 20-60% spreads on
+  sub-5ms kernels). Official table in `data/bench/baseline_kernels.json`
+  (sha256 60386416…). Key: gemm_fp16 6.934 GFLOPS (-3.2% vs H038),
+  gemv_fp16 4.724 GB/s (-1.0%), attn 4.832 (-0.9%), mha 6.353 (-1.3%).
+  DRAM-streaming kernels systematically depressed vs H038 (stream -26%,
+  rmsnorm -25%, elem -5 to -18%): environmental (16k-page kernel + system
+  memory contention; a 93%-CPU Python process was observed during the run),
+  not measurement noise — repeats confirm systematic. Compute kernels stable
+  (spreads <4%). H038 numbers are historical context; H162 is the C9 baseline.
+- [ ] H163 — End-to-end baseline IN PROGRESS 2026-10-10: prefill 512 tok ×5 +
+  decode 100 tok ×5 (classic sampler) via true pre-H173 baseline binary
+  (`run_bench_truebaseline`, built from 26b6b9a + JSON fix) → `data/bench/baseline_e2e.json`.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
