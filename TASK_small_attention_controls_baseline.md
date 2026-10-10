@@ -6,7 +6,8 @@ Volmarr authorized the complete 500-slice Mythic Engineering roadmap, verificati
 and a commit and push after each accepted slice. The test-fixture domain owns
 this baseline. The existing `TASK_small_attention_controls.md` controls the
 capability contract. This work publishes independently reproducible evidence for
-AES500-002 and does not change inference source or admission policy.
+AES500-002 and adds collector/checker observations without changing inference
+source or admission policy.
 
 ## Current truth
 
@@ -25,7 +26,14 @@ and execute the affected sm_75 entry point, recording its actual outcome.
 ## Outcome and scope
 
 1. Admit the retained pre-change source CSV/report/binary and preserve its
-   original dated provenance. Do not rebuild and relabel a historical binary.
+original dated provenance. Do not rebuild and relabel a historical binary.
+   The Auditor found that the legacy capable-disabled marker does not serialize
+   actual enabled/reset/health state. Add an explicit state-observation version
+   and actual snapshots after all eight runs per case. Assert the disabled,
+   healthy, admitted capability before and after each run. The checker must
+   validate state, positions, sampler positions and committed lengths against
+   the observed input counts; label-only historical captures cannot satisfy
+   this strengthened fresh gate.
 2. Build the current `test_small_attention_model.mojo` for sm_75 into a fresh
    private task directory using the frozen installed toolchain.
 3. Run its explicit `controls-disabled` mode against the exact fixture model.
@@ -58,6 +66,14 @@ and execute the affected sm_75 entry point, recording its actual outcome.
   paths or credentials. No performance score is accepted by this slice.
 
 ## Verification and completion boundary
+
+Owning files are `aesir_engine/tests/test_turing_model_prefill.mojo` (optional
+observations, default off), `aesir_engine/tests/test_small_attention_model.mojo`
+(explicit capable-disabled opt-in), `scripts/check_turing_model_prefill.py`
+(state parsing/admission), the focused small-model checker contracts, and their
+interface/operator documents. Preserve legacy non-control source readers and
+historical captures. Test missing, duplicate, reordered, enabled, poisoned,
+reset-required, capability-drift and position-drift snapshots before capture.
 
 The exact build is `pixi run --frozen --no-install --offline mojo build -I
 aesir_engine --target-accelerator sm_75 aesir_engine/tests/test_small_attention_model.mojo
