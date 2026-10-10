@@ -3939,3 +3939,9 @@ Specified the RuneWeaver String boundary, current byte-width heuristic, and
 missing explicit continuation/overlong/surrogate checks. Unsafe malformed
 String behavior remains unspecified pending a baseline and interface feasibility
 check; no code changed.
+
+
+AES500-172 uses unsafe String construction to capture malformed-byte baselines:
+truncated C3 returns raw 195; C3 28 falls back to IDs 11/12. This does not imply
+safe Mojo String constructors accept malformed input. Master suite: 227 passed,
+zero failed, one skipped (228 total).

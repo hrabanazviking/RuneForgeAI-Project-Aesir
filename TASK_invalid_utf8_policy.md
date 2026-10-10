@@ -31,3 +31,6 @@ normalization, grapheme segmentation, arbitrary byte-buffer APIs, or external
 Unicode conformance. AES500-172 captures current behavior for any safely
 constructible invalid input and documents when no such input can be represented
 without unsafe construction. No tokenizer code changes in AES500-171.
+
+
+AES500-172 baseline: unsafe truncated `C3` with no vocabulary -> `[195]`; unsafe `C3 28` with byte vocabulary -> `[11,12]` via fallback. This demonstrates current byte preservation for two unsafe-constructed String fixtures, not safe-constructor acceptance. Source/tool hashes and limitations are in `docs/evidence/invalid-utf8-baseline-2026-10-10/README.md`. Master suite: 227/0/1 (228 total).

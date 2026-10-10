@@ -1484,3 +1484,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
 - [x] AES500-171 invalid UTF-8 contract: `TASK_invalid_utf8_policy.md` records
   String-only input, current width heuristic, malformed-byte gap, desired fail-closed
   policy, and exclusions before behavior changes.
+
+- [x] AES500-172 invalid UTF-8 baseline: unsafe truncated/invalid byte Strings
+  preserve bytes through raw/fallback outputs; source/tool hashes and safe-API
+  caveat recorded. Master suite 227/0/1 (228 total).

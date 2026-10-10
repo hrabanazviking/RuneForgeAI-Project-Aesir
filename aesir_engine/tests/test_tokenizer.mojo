@@ -292,3 +292,26 @@ def test_unicode_normalization_adversarial() raises:
     if len(tokens) != 3 or tokens[0] != 2 or tokens[1] != 3 or tokens[2] != 4:
         raise Error("non-breaking space was incorrectly rewritten as ASCII space marker")
     print("PASS: non-breaking space stays distinct from ASCII space marker")
+
+def test_invalid_utf8_baseline() raises:
+    var truncated = List[Int8]()
+    truncated.append(Int8(0xC3))
+    truncated.append(0)
+    var truncated_text = String(unsafe_from_utf8_ptr=truncated.unsafe_ptr())
+    var empty_vocab = RuneWeaver()
+    var raw = empty_vocab.encode(truncated_text, False)
+    if len(raw) != 1 or raw[0] != 0xC3:
+        raise Error("no-vocabulary invalid-byte baseline changed")
+
+    var malformed = List[Int8]()
+    malformed.append(Int8(0xC3))
+    malformed.append(Int8(0x28))
+    malformed.append(0)
+    var malformed_text = String(unsafe_from_utf8_ptr=malformed.unsafe_ptr())
+    var vocab = RuneWeaver()
+    vocab.add_token("<0xC3>", 11)
+    vocab.add_token("<0x28>", 12)
+    var encoded = vocab.encode(malformed_text, False)
+    if len(encoded) != 2 or encoded[0] != 11 or encoded[1] != 12:
+        raise Error("malformed UTF-8 with vocabulary did not preserve byte fallback")
+    print("PASS: unsafe malformed UTF-8 current baseline vectors")
