@@ -81,3 +81,9 @@ The focused fixture adds a recognized tokenizer tokens array with an invalid ele
 ## AES500-138 review receipt
 
 Primary review of AES500-134–137 confirms the type map matches the parser branches, including the distinct `.attention.head_count_kv` suffix; recognized arrays retain their own type and element checks; unknown keys remain on `skip_value`; and the eight mismatch plus integration/adversarial fixtures assert stable errors and mapping cleanup. No independent Auditor signoff is claimed because the collaboration service rejected reviewer assignment at its thread cap. Remaining boundary: only explicitly consumed metadata keys are strict; arbitrary unknown keys are structurally traversed, not semantically validated.
+
+
+AES500-139 documentation sync: `aesir_engine/loader/INTERFACE.md` now states
+the selected-key encodings, key-specific mismatch errors, dedicated tokenizer
+array validation, and structural-only handling of unknown keys. Historical
+baseline behavior remains separately hash-bound in its evidence README.

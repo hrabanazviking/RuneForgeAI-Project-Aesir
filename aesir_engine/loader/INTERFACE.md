@@ -74,6 +74,14 @@ or missing tensors raise before `is_loaded` becomes true.
 The mapped loader admits GGUF version 3 only. The lower-level raw-header byte
 helper currently checks only the 24-byte minimum and magic; version parity
 across those paths is the subject of `TASK_gguf_header_version_matrix.md`.
+Metadata keys consumed by inference require their GGUF value types: architecture
+is a string; selected dimensions, IDs, and alignment are UInt32; selected RoPE
+and norm scalars are F32; tokenizer flags are bool; and tokenizer token, score,
+and token-type arrays require string, F32, and I32 elements. Wrong selected-key
+types raise a key-specific diagnostic before assigning the field. Unknown keys
+are structurally traversed by `skip_value`; that is not semantic validation of
+their contents. See `TASK_gguf_metadata_type_matrix.md` for the complete key
+matrix and evidence limits.
 
 ```mojo
 struct GGUFSeer:

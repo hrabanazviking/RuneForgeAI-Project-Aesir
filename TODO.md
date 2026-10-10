@@ -1356,3 +1356,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   array-specific handling, unknown-key structural skip, and cleanup evidence.
   Independent Auditor assignment was blocked by service thread cap; no separate
   agent signoff is claimed.
+
+- [x] AES500-139 GGUF metadata documentation sync: loader interface, task
+  matrix, roadmap, TODO, devlog, and evidence agree on selected-key types,
+  dedicated array validation, unknown-key traversal, suite count, and limits.

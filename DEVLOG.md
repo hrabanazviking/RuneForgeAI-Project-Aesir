@@ -3760,3 +3760,8 @@ including the KV-head suffix, array readers, and unknown-key traversal. Tests
 cover key diagnostics and cleanup. The collaboration service thread cap blocked
 independent Auditor assignment, so this receipt does not claim independent
 review.
+
+
+AES500-139 syncs the GGUF loader interface with the selected-key type checks,
+retained array diagnostics, and structurally traversed unknown keys. Task/evidence
+records preserve the historic baseline separately from current rejection tests.
