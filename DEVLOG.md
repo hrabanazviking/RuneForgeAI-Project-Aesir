@@ -181,6 +181,10 @@ closer to the all-row oracle. This confirms future-value leakage for the named
 corpus only; the retained source/tool hashes and comparator are linked in the
 task file.
 
+AES500-113 covers the current `flash_attention_2` admission boundary. A valid
+multi-head case writes output; each invalid sequence/head/column/row descriptor
+rejects without changing the entire output tensor. No kernel behavior changed.
+
 AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
 maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
 Scalar F32 expectations match after F16 conversion for the finite extremes;

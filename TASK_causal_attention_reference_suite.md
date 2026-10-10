@@ -38,6 +38,11 @@ F16 values differ from the causal oracle (max absolute error 12.671875), while
 the capture is much closer to the all-row oracle. The evidence is bounded to
 that shape and input set.
 
+AES500-113 adds direct admission coverage for zero sequence/head width,
+nondivisible Q width, K/V/output column mismatches, and each tensor's short-row
+case. Rejections assert the entire logical output snapshot is unchanged; one
+valid multi-head call must write output.
+
 The current admission checks do not establish checked products/indexes,
 pointer provenance or backing capacity, alias/overlap safety, exceptional-value
 policy, broad numerical tolerance, accelerator behavior, performance, or model

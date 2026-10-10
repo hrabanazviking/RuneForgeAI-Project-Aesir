@@ -1256,3 +1256,7 @@ master suite: 196 passed, 0 failed, 1 skipped, 197 total.
   differs from causal scalar F16 output at 10/12 values (max error 12.671875)
   and is far closer to the all-row oracle. Reproduction, hashes, raw capture,
   and oracle are in `docs/evidence/causal-attention-baseline-2026-10-10/`.
+- [x] AES500-113 attention interface: `compute.attention_interface` verifies a
+  valid multi-head call and mutation-free output rejection for invalid sequence
+  and head dimensions, Q divisibility, K/V/output columns, and each short-row
+  descriptor.
