@@ -3587,3 +3587,17 @@ L2/L3/L9 confirmed (no Python in shipped path, no HEF, zero cuda_* edits).
 VERDICT: F1-CORE-NOT-READY — H059 blocked, remediation slices H059R1–R3
 named (differential debug, fix+verify coherence, Mimir cross-check).
 H041–H058 complete and verified; Q6_K correct; inference scaffolding sound.
+
+## 2026-10-10 — Campaign 4 (H061–H080) HAILBRÚ Driver COMPLETE
+Sólrún audit: route (b) per Volmarr's directive (kernel rebuild off the table — operator action).
+Pure-Mojo `hailbru/` domain (17 files): discovery, config, BARs, mechanism, VFIO/UIO (fail-closed),
+DMA (CPU-side real, IOMMU F3-banked), registers, IRQ (eventfd real, MSI-X F3-banked),
+firmware (pure-Mojo SHA-256), API surface.
+Measured on Mimir: 1e60:45c4 @0001:01:00.0, BAR0/2/4, Gen3 x1, 50/50 coherency reads 0x1e60 (D0 via
+PM-control), 17 firmware blobs / 112MB SHA-256-verified. H014 catalogue corruption found
+(u-boot-spl.bin 69-char sha256; real hash 219b9b98...5c3, confirmed by hashlib).
+28 error-path tests green on x86_64 + aarch64. L12 clean (one Phase-A spike noted, read-only sysfs).
+Docs: `docs/hailbru/PHASE_B_GATE.md` (NO-GO), `docs/hailbru/C4_REVIEW.md` (NOT-READY Phase C),
+`docs/hailbru/F3_UNBLOCK_RUNBOOK.md`, `docs/plunder/HAILO_FW_LOAD_REGISTERS.md`, `hailbru/API.md`.
+`data/hailbru/*.json` evidence snapshots written.
+VERDICT: Phase-B gate NO-GO — IOMMU DMA, device MSI, firmware boot F3-banked behind kernel rebuild.

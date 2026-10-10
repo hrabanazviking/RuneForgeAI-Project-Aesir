@@ -1,0 +1,14 @@
+{
+  "bdf": "0001:01:00.0",
+  "vendor": "0x1e60",
+  "device": "0x45c4",
+  "class": "0x0b4000",
+  "msi_cap": 224,
+  "msix_cap": -1,
+  "pm_cap": 248,
+  "pcie_ext_cap": -1,
+  "config_bytes": 4096,
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe identity (root)"
+}

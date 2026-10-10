@@ -1,0 +1,15 @@
+{
+  "bdf": "0001:01:00.0",
+  "registers_d0": {
+    "vendor_mirror_0x98": "0x1e60",
+    "irq_mask_0x188": "0x00000000",
+    "irq_status_0x18c": "0x00800000",
+    "chan_bitmap0_0x400": "0x00000000",
+    "chan_bitmap1_0x500": "0x00000000"
+  },
+  "coherency_50x": "50/50 reads of BAR0+0x0098 returned 0x1e60",
+  "note": "D3hot reads return 0xFFFFFFFF; D0 via setpci 0xFC.w=2008; restored to 0x200b after",
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe regs-probe/regs-coherency (root)"
+}

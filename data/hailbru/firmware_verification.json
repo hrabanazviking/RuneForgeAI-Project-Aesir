@@ -1,0 +1,10 @@
+{
+  "fw_root": "/lib/firmware/hailo",
+  "verified_blobs": 17,
+  "total_bytes": 112287372,
+  "engine": "hailbru pure-Mojo SHA-256",
+  "note": "H014 catalogue entry for hailo10h/u-boot-spl.bin is corrupt (69-char sha256); verified against hashlib-confirmed hash 219b9b98...5c3",
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe fwcheck (root)"
+}

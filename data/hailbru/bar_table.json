@@ -1,0 +1,26 @@
+{
+  "bdf": "0001:01:00.0",
+  "bars": [
+    {
+      "index": 0,
+      "start": "0x1800000000",
+      "size": 16384,
+      "flags": "0x14220c"
+    },
+    {
+      "index": 1,
+      "start": "0x1800008000",
+      "size": 4096,
+      "flags": "0x14220c"
+    },
+    {
+      "index": 2,
+      "start": "0x1800004000",
+      "size": 16384,
+      "flags": "0x14220c"
+    }
+  ],
+  "measured": "2026-10-10",
+  "host": "mimir",
+  "tool": "hailbru probe bars"
+}
