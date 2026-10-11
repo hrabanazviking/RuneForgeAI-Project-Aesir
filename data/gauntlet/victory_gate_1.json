@@ -1,0 +1,71 @@
+{
+  "envelope": "GGUF, TinyLlama-1.1B shape (dim 2048, 22 layers, vocab 32000); cross-family models NOT claimed (loader shape-pinned \u2014 known limitation); dtypes supported: Q8_0/Q4_0/Q6_K/F32/F16 (Q5_K_M correctly rejected fail-closed in-slice)",
+  "rubric": "f1-coherence-v1.1",
+  "rubric_file": "data/armvegr/coherence_rubric_v1_1.json",
+  "wordlist": "data/armvegr/english_wordlist_v2.txt",
+  "max_tokens": 96,
+  "models": [
+    {
+      "name": "TinyLlama-1.1B-Chat-v1.0 Q8_0",
+      "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q8_0.gguf",
+      "sha256": "a4c9bb1dbaa372f6381a035fa5c02ef087aaa1ff1f843a56a22328114f03fc59",
+      "prompts": [
+        {
+          "prompt": "The harbor master watched the ships come in and",
+          "n_tokens": 106,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "The harbor master watched the ships come in and out of port, counting the passengers and cargo as they passed. He kept a close eye on them, watching for any suspicious activity or unusual behavior.\n\nAs time went by, Jack became more and more obsessed with finding his wife. He spent all his days at the station, waiting for news from her that he knew would never come. Every day was a struggle against despair - but he refused to give up hope until she was found safe and sound."
+        },
+        {
+          "prompt": "An old woman told stories by the fire about",
+          "n_tokens": 105,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "An old woman told stories by the fire about her life. The stories were of hardships and perseverance, of overcoming obstacles that had tested her courage. She had seen much in her life, but there was one story that still haunted her\u2014the story of a girl who had lost everything she loved.\n\nThe girl's name was Lily, and it was said that she lived with a wealthy family in the city. They were kind to Lily at first; they took care"
+        },
+        {
+          "prompt": "The young apprentice learned to carve runes and",
+          "n_tokens": 108,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "The young apprentice learned to carve runes and other symbols that were meant to bring power and protection. He also learned how to create his own rune stones, which he would use in spells and rituals.\n\nIn addition, the young apprentice was trained in the art of battle magic. He was taught how to cast spells that would protect him from enemy attacks while still being able to strike back with his sword at the right moment. The training involved hours upon hours of practice on both physical combat and"
+        }
+      ]
+    },
+    {
+      "name": "TinyLlama-1.1B-Chat-v1.0 Q6_K",
+      "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q6_K.gguf",
+      "sha256": "9fb2be7c8bbc0ca358ae88cef6d9e6844b81929eaffa5016a543e6f56b22cb6d",
+      "prompts": [
+        {
+          "prompt": "The harbor master watched the ships come in and",
+          "n_tokens": 106,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "The harbor master watched the ships come in and out, tending to them with care. He saw the fishermen's boats, their nets and lines, and he knew that they were working hard to bring in their catch. The harbor was alive with activity; ships rumbled into port, cargo barges unloaded supplies for the town's stores. The smell of fresh seafood wafted through the air as people gathered around stalls selling seafood specialties like c"
+        },
+        {
+          "prompt": "An old woman told stories by the fire about",
+          "n_tokens": 105,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "An old woman told stories by the fire about her life on a deserted island. She had been born and raised in the jungle, where she learned to live off the land and fish for food.\n\nThe old woman was kind-hearted, but sometimes struggled with a lack of social skills due to her isolation. Her stories were heartwarming and taught valuable lessons about survival, resourcefulness, and perseverance in difficult times.\n\nAnother character was an"
+        },
+        {
+          "prompt": "The young apprentice learned to carve runes and",
+          "n_tokens": 108,
+          "rubric_failures": [],
+          "pass": true,
+          "text": "The young apprentice learned to carve runes and the art of enchantment, as well as the ways of magic. He spent hours honing his craft, learning every aspect of this ancient art form.\n\nBut as he grew older, he began to realize that his apprenticeship was more than just a way to learn magical arts. He realized that it was a chance for him to find true love and happiness in this world that seemed so unpredictable and cruel at times.\n\nOne day,"
+        }
+      ]
+    }
+  ],
+  "hef_scan": {
+    "hef_files": [],
+    "pipeline_hef_grep": ""
+  },
+  "verdict": "PASS",
+  "failures": []
+}

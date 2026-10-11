@@ -1,0 +1,819 @@
+{"ts_ms": 51258565, "kind": "SupervisedRunStarted", "slice": "H158", "duration_s": 3600, "fi_seed": 186}
+{"ts_ms": 51313594, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51313594, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51313594, "kind": "IterBudgetCalibrated", "slice": "H158", "calib_ms": 55029, "budget_ms": 165087}
+{"ts_ms": 51313595, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 1}
+{"ts_ms": 51315596, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_1", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 51315596, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_1"}
+{"ts_ms": 51315596, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51315596, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 1}
+{"ts_ms": 51370376, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51370376, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51370376, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 2}
+{"ts_ms": 51370376, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 51370376, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 51370376, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 51370577, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 51370578, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 51370578, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 51370578, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 51370779, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 51370780, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 51370780, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 51370780, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 51370781, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 201}
+{"ts_ms": 51370781, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 51370781, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 51370781, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 2}
+{"ts_ms": 51370781, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 2}
+{"ts_ms": 51370781, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 3502775279735643514, "actual_sum": 15322215448728143384}
+{"ts_ms": 51370781, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51370781, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 2}
+{"ts_ms": 51425561, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51425561, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51425562, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 3}
+{"ts_ms": 51425562, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 18244982068374154181, "actual_sum": 16329818491716165595}
+{"ts_ms": 51425562, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51425562, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 3}
+{"ts_ms": 51425562, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 3}
+{"ts_ms": 51425562, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 51425562, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 51425562, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51425562, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 3}
+{"ts_ms": 51480345, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51480345, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51480346, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 4}
+{"ts_ms": 51480346, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 51480346, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 51480346, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51480346, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 4}
+{"ts_ms": 51480346, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 4}
+{"ts_ms": 51482347, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_4", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 51482347, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_4"}
+{"ts_ms": 51482347, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51482347, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 4}
+{"ts_ms": 51506112, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51506112, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51506112, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 5}
+{"ts_ms": 51506112, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 51506112, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 51506112, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51506112, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 5}
+{"ts_ms": 51506112, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 5}
+{"ts_ms": 51508114, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_5", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 51508114, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_5"}
+{"ts_ms": 51508114, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51508114, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 5}
+{"ts_ms": 51563147, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51563147, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51563147, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 6}
+{"ts_ms": 51563147, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 51563147, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 51563147, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51563147, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 6}
+{"ts_ms": 51617940, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51617940, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51617940, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 7}
+{"ts_ms": 51617940, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 51617940, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 51617940, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 51618141, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 51618141, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 51618141, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 51618141, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 51618343, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 51618343, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 51618343, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 51618343, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 51618344, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 51618344, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 51618344, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 51618344, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 7}
+{"ts_ms": 51618344, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 7}
+{"ts_ms": 51620348, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_7", "budget_ms": 2000, "overdue_ms": 4}
+{"ts_ms": 51620348, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_7"}
+{"ts_ms": 51620348, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51620348, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2004, "iter": 7}
+{"ts_ms": 51620348, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 7}
+{"ts_ms": 51620348, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14382701376568919477, "actual_sum": 12311232248740205871}
+{"ts_ms": 51620348, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51620348, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 7}
+{"ts_ms": 51675382, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51675382, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51675382, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 8}
+{"ts_ms": 51677387, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_8", "budget_ms": 2000, "overdue_ms": 5}
+{"ts_ms": 51677387, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_8"}
+{"ts_ms": 51677387, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51677387, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2005, "iter": 8}
+{"ts_ms": 51677387, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 8}
+{"ts_ms": 51679388, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_8", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 51679389, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_8"}
+{"ts_ms": 51679389, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51679389, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 8}
+{"ts_ms": 51734169, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51734169, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51734169, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 9}
+{"ts_ms": 51736171, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_9", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 51736171, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_9"}
+{"ts_ms": 51736171, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51736171, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 9}
+{"ts_ms": 51790958, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51790958, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51790959, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 10}
+{"ts_ms": 51790959, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 9458361893099442631, "actual_sum": 17613991910547407005}
+{"ts_ms": 51790959, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51790959, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 10}
+{"ts_ms": 51790959, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 10}
+{"ts_ms": 51792960, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_10", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 51792960, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_10"}
+{"ts_ms": 51792960, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51792960, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 10}
+{"ts_ms": 51792960, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 10}
+{"ts_ms": 51792960, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 51792960, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 51792961, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51792961, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 10}
+{"ts_ms": 51847755, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51847755, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51847755, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 11}
+{"ts_ms": 51847755, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 4291407775841921183, "actual_sum": 16967713132434047065}
+{"ts_ms": 51847755, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51847755, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 11}
+{"ts_ms": 51902782, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51902782, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51902782, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 12}
+{"ts_ms": 51902783, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 2744801670112636958, "actual_sum": 14351224053845458020}
+{"ts_ms": 51902783, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 51902783, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 12}
+{"ts_ms": 51902783, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 12}
+{"ts_ms": 51902783, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 51902783, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 51902783, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51902783, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 12}
+{"ts_ms": 51957813, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 51957813, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 51957813, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 13}
+{"ts_ms": 51957813, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 51957813, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 51957813, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51957813, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 13}
+{"ts_ms": 51957813, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 13}
+{"ts_ms": 51959815, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_13", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 51959815, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_13"}
+{"ts_ms": 51959815, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 51959815, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 13}
+{"ts_ms": 52014597, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52014597, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52014597, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 14}
+{"ts_ms": 52014597, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 4415210766640844208, "actual_sum": 5271049369546693278}
+{"ts_ms": 52014597, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52014597, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 14}
+{"ts_ms": 52014597, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 14}
+{"ts_ms": 52014598, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52014598, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52014598, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52014598, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 14}
+{"ts_ms": 52069632, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52069632, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52069633, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 15}
+{"ts_ms": 52071635, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_15", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52071635, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_15"}
+{"ts_ms": 52071635, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52071635, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 15}
+{"ts_ms": 52071635, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 15}
+{"ts_ms": 52071635, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52071635, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52071635, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52071635, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 15}
+{"ts_ms": 52126666, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52126666, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52126666, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 16}
+{"ts_ms": 52126666, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 3656671878942971478, "actual_sum": 4788262176351134168}
+{"ts_ms": 52126666, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52126666, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 16}
+{"ts_ms": 52126666, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 16}
+{"ts_ms": 52128668, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_16", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52128668, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_16"}
+{"ts_ms": 52128668, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52128668, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 16}
+{"ts_ms": 52183702, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52183702, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52183703, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 17}
+{"ts_ms": 52183703, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14918257034375040230, "actual_sum": 15887303577073612140}
+{"ts_ms": 52183703, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52183703, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 17}
+{"ts_ms": 52183703, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 17}
+{"ts_ms": 52183703, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 52183703, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 52183703, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52183703, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 17}
+{"ts_ms": 52238742, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52238742, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52238742, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 18}
+{"ts_ms": 52240744, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_18", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52240744, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_18"}
+{"ts_ms": 52240744, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52240744, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 18}
+{"ts_ms": 52240744, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 18}
+{"ts_ms": 52240744, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52240744, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52240744, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52240744, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 18}
+{"ts_ms": 52295781, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52295781, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52295781, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 19}
+{"ts_ms": 52297786, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_19", "budget_ms": 2000, "overdue_ms": 5}
+{"ts_ms": 52297786, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_19"}
+{"ts_ms": 52297786, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52297786, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2005, "iter": 19}
+{"ts_ms": 52297786, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 19}
+{"ts_ms": 52299788, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_19", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52299788, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_19"}
+{"ts_ms": 52299788, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52299788, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 19}
+{"ts_ms": 52339061, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52339061, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52339062, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 20}
+{"ts_ms": 52341063, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_20", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 52341063, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_20"}
+{"ts_ms": 52341063, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52341063, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 20}
+{"ts_ms": 52341063, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 20}
+{"ts_ms": 52341063, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52341063, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52341063, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52341063, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 20}
+{"ts_ms": 52396104, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52396104, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52396104, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 21}
+{"ts_ms": 52398107, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_21", "budget_ms": 2000, "overdue_ms": 3}
+{"ts_ms": 52398107, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_21"}
+{"ts_ms": 52398107, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52398107, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2003, "iter": 21}
+{"ts_ms": 52453151, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52453151, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52453151, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 22}
+{"ts_ms": 52453151, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 4548003132254720165, "actual_sum": 8928889430313914259}
+{"ts_ms": 52453151, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52453151, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 22}
+{"ts_ms": 52453151, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 22}
+{"ts_ms": 52453151, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 4548003132254720165, "actual_sum": 8928889430313914259}
+{"ts_ms": 52453151, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52453151, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 22}
+{"ts_ms": 52508187, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52508187, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52508187, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 23}
+{"ts_ms": 52508187, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52508187, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52508187, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52508187, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 23}
+{"ts_ms": 52508187, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 23}
+{"ts_ms": 52508187, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 15422001749553824290, "actual_sum": 14492495622699082892}
+{"ts_ms": 52508187, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52508187, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 23}
+{"ts_ms": 52563223, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52563223, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52563223, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 24}
+{"ts_ms": 52563223, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 52563223, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 52563223, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 52563424, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 52563424, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 52563424, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 52563424, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 52563626, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 52563626, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 52563626, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 52563626, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 52563627, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 52563627, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 52563627, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 52563627, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 24}
+{"ts_ms": 52563627, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 24}
+{"ts_ms": 52563627, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 52563627, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 52563627, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52563627, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 24}
+{"ts_ms": 52618665, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52618665, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52618665, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 25}
+{"ts_ms": 52620667, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_25", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52620667, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_25"}
+{"ts_ms": 52620667, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52620667, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 25}
+{"ts_ms": 52620667, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 25}
+{"ts_ms": 52620667, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 11892952943044362120, "actual_sum": 7083447987912380566}
+{"ts_ms": 52620667, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52620667, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 25}
+{"ts_ms": 52675442, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52675442, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52675442, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 26}
+{"ts_ms": 52677444, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_26", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 52677444, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_26"}
+{"ts_ms": 52677444, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52677444, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 26}
+{"ts_ms": 52677444, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 26}
+{"ts_ms": 52677444, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 52677444, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 52677444, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52677444, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 26}
+{"ts_ms": 52732479, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52732479, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52732480, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 27}
+{"ts_ms": 52732480, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52732480, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52732480, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52732480, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 27}
+{"ts_ms": 52732480, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 27}
+{"ts_ms": 52734481, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_27", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 52734481, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_27"}
+{"ts_ms": 52734481, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52734481, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 27}
+{"ts_ms": 52789512, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52789512, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52789512, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 28}
+{"ts_ms": 52789512, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52789513, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52789513, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52789513, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 28}
+{"ts_ms": 52789513, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 28}
+{"ts_ms": 52791514, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_28", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 52791514, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_28"}
+{"ts_ms": 52791514, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52791514, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 28}
+{"ts_ms": 52846551, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52846551, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52846551, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 29}
+{"ts_ms": 52848554, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_29", "budget_ms": 2000, "overdue_ms": 3}
+{"ts_ms": 52848554, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_29"}
+{"ts_ms": 52848554, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52848554, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2003, "iter": 29}
+{"ts_ms": 52848554, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 29}
+{"ts_ms": 52848554, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 12570977117894264295, "actual_sum": 5202291428122445333}
+{"ts_ms": 52848554, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52848554, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 29}
+{"ts_ms": 52903341, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52903341, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52903341, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 30}
+{"ts_ms": 52903341, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 10910766933187388200, "actual_sum": 12805041115434023130}
+{"ts_ms": 52903341, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52903341, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 30}
+{"ts_ms": 52903342, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 30}
+{"ts_ms": 52903342, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 52903342, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 52903342, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 52903342, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 30}
+{"ts_ms": 52958370, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 52958370, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 52958370, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 31}
+{"ts_ms": 52958370, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 9845295289458262493, "actual_sum": 2798290686809285319}
+{"ts_ms": 52958370, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52958370, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 31}
+{"ts_ms": 52958370, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 31}
+{"ts_ms": 52958370, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 9845295289458262493, "actual_sum": 2798290686809285319}
+{"ts_ms": 52958370, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 52958370, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 31}
+{"ts_ms": 53013399, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53013399, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53013400, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 32}
+{"ts_ms": 53013400, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14134066809503299372, "actual_sum": 16210742663783367254}
+{"ts_ms": 53013400, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53013400, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 32}
+{"ts_ms": 53013400, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 32}
+{"ts_ms": 53013400, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 53013400, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 53013400, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53013400, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 32}
+{"ts_ms": 53068690, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53068690, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53068690, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 33}
+{"ts_ms": 53068690, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 53068690, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 53068690, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53068690, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 33}
+{"ts_ms": 53068690, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 33}
+{"ts_ms": 53070692, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_33", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53070692, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_33"}
+{"ts_ms": 53070692, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53070692, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 33}
+{"ts_ms": 53125474, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53125474, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53125475, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 34}
+{"ts_ms": 53125475, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 53125475, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 53125475, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53125475, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 34}
+{"ts_ms": 53180517, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53180517, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53180517, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 35}
+{"ts_ms": 53180517, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 53180517, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 53180517, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53180517, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 35}
+{"ts_ms": 53180517, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 35}
+{"ts_ms": 53180517, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 279421157299729110, "actual_sum": 10681339303804453616}
+{"ts_ms": 53180517, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53180517, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 35}
+{"ts_ms": 53235549, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53235549, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53235549, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 36}
+{"ts_ms": 53237551, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_36", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53237551, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_36"}
+{"ts_ms": 53237551, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53237551, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 36}
+{"ts_ms": 53237551, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 36}
+{"ts_ms": 53237551, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 5439694784118363598, "actual_sum": 4651090232659133176}
+{"ts_ms": 53237551, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53237551, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 36}
+{"ts_ms": 53237551, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 36}
+{"ts_ms": 53237551, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 5439694784118363598, "actual_sum": 4651090232659133176}
+{"ts_ms": 53237551, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53237551, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 36}
+{"ts_ms": 53292586, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53292586, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53292586, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 37}
+{"ts_ms": 53294589, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_37", "budget_ms": 2000, "overdue_ms": 3}
+{"ts_ms": 53294589, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_37"}
+{"ts_ms": 53294589, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53294589, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2003, "iter": 37}
+{"ts_ms": 53294589, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 37}
+{"ts_ms": 53294589, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 3314189887552927532, "actual_sum": 347366326333879566}
+{"ts_ms": 53294589, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53294589, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 37}
+{"ts_ms": 53349370, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53349370, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53349370, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 38}
+{"ts_ms": 53351372, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_38", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53351372, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_38"}
+{"ts_ms": 53351372, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53351372, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 38}
+{"ts_ms": 53406407, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53406407, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53406407, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 39}
+{"ts_ms": 53406407, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 53406407, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 53406407, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 53406608, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 53406608, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 53406608, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 53406608, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 53406810, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 53406810, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 53406810, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 53406811, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 1}
+{"ts_ms": 53406812, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 53406812, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 53406812, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 53406812, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 39}
+{"ts_ms": 53406812, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 39}
+{"ts_ms": 53406812, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 53406812, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 53406812, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 53407013, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 53407013, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 53407013, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 53407013, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 53407215, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 53407215, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 53407215, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 53407215, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 53407216, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 53407216, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 53407216, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 53407216, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 39}
+{"ts_ms": 53462001, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53462001, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53462001, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 40}
+{"ts_ms": 53464003, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_40", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53464003, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_40"}
+{"ts_ms": 53464003, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53464003, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 40}
+{"ts_ms": 53464003, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 40}
+{"ts_ms": 53464003, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 53464003, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 53464003, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53464003, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 40}
+{"ts_ms": 53518786, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53518787, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53518787, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 41}
+{"ts_ms": 53520788, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_41", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 53520789, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_41"}
+{"ts_ms": 53520789, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53520789, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 41}
+{"ts_ms": 53520789, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 41}
+{"ts_ms": 53520789, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 1017843895827739968, "actual_sum": 14234299561821025290}
+{"ts_ms": 53520789, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53520789, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 41}
+{"ts_ms": 53575569, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53575569, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53575569, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 42}
+{"ts_ms": 53577571, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_42", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53577571, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_42"}
+{"ts_ms": 53577571, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53577571, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 42}
+{"ts_ms": 53577571, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 42}
+{"ts_ms": 53577571, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 53577571, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 53577571, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53577571, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 42}
+{"ts_ms": 53632350, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53632350, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53632350, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 43}
+{"ts_ms": 53634352, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_43", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53634352, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_43"}
+{"ts_ms": 53634352, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53634352, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 43}
+{"ts_ms": 53634352, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 43}
+{"ts_ms": 53634352, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 12305274837572951631, "actual_sum": 8628637648472477573}
+{"ts_ms": 53634352, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53634352, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 43}
+{"ts_ms": 53684634, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53684634, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53684634, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 44}
+{"ts_ms": 53686635, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_44", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 53686636, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_44"}
+{"ts_ms": 53686636, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53686636, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 44}
+{"ts_ms": 53686636, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 44}
+{"ts_ms": 53686636, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 53686636, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 53686636, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53686636, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 44}
+{"ts_ms": 53741673, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53741673, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53741673, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 45}
+{"ts_ms": 53743676, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_45", "budget_ms": 2000, "overdue_ms": 3}
+{"ts_ms": 53743676, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_45"}
+{"ts_ms": 53743676, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53743676, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2003, "iter": 45}
+{"ts_ms": 53743676, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 45}
+{"ts_ms": 53743676, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 2725147230081845562, "actual_sum": 3486484377169210724}
+{"ts_ms": 53743676, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53743676, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 45}
+{"ts_ms": 53798460, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53798460, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53798460, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 46}
+{"ts_ms": 53798460, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 53798460, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 53798460, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53798460, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 46}
+{"ts_ms": 53798460, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 46}
+{"ts_ms": 53798460, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 53798460, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 53798460, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53798460, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 46}
+{"ts_ms": 53853503, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53853503, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53853503, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 47}
+{"ts_ms": 53855505, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_47", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53855505, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_47"}
+{"ts_ms": 53855505, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53855505, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 47}
+{"ts_ms": 53855505, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 47}
+{"ts_ms": 53855505, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 5594160884920499907, "actual_sum": 12057387705423588981}
+{"ts_ms": 53855505, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53855505, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 47}
+{"ts_ms": 53910548, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53910548, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53910548, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 48}
+{"ts_ms": 53910548, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 17111711251451724169, "actual_sum": 15073996789052980079}
+{"ts_ms": 53910548, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 53910548, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 48}
+{"ts_ms": 53910548, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 48}
+{"ts_ms": 53912550, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_48", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 53912550, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_48"}
+{"ts_ms": 53912550, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53912550, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 48}
+{"ts_ms": 53967328, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 53967328, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 53967328, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 49}
+{"ts_ms": 53967328, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 53967329, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 53967329, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53967329, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 49}
+{"ts_ms": 53967329, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 49}
+{"ts_ms": 53967329, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 53967329, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 53967329, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 53967329, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 49}
+{"ts_ms": 54022356, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54022356, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54022357, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 50}
+{"ts_ms": 54022357, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 54022357, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 54022357, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54022357, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 50}
+{"ts_ms": 54061139, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54061139, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54061139, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 51}
+{"ts_ms": 54063141, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_51", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 54063141, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_51"}
+{"ts_ms": 54063141, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54063141, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 51}
+{"ts_ms": 54063141, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 51}
+{"ts_ms": 54063141, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54063141, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54063141, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54063141, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 51}
+{"ts_ms": 54117934, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54117934, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54117934, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 52}
+{"ts_ms": 54117934, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14506685003155099426, "actual_sum": 15894903435246050392}
+{"ts_ms": 54117934, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54117934, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 52}
+{"ts_ms": 54117934, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 52}
+{"ts_ms": 54117934, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54117934, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54117934, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54117934, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 52}
+{"ts_ms": 54172980, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54172980, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54172980, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 53}
+{"ts_ms": 54172980, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 846279855038252848, "actual_sum": 12116660034632147834}
+{"ts_ms": 54172980, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54172980, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 53}
+{"ts_ms": 54172980, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x8000", "iter": 53}
+{"ts_ms": 54172980, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.DetectedParityError"}
+{"ts_ms": 54172980, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.DetectedParityError", "meaning": "parity error detected on the bus (sticky)", "severity": "error", "offset": 6, "bit": 15}
+{"ts_ms": 54172980, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54172980, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 53}
+{"ts_ms": 54228016, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54228016, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54228017, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 54}
+{"ts_ms": 54228017, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14546891988251416480, "actual_sum": 4790569687201111058}
+{"ts_ms": 54228017, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54228017, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 54}
+{"ts_ms": 54228017, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 54}
+{"ts_ms": 54228017, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54228017, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54228017, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54228017, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 54}
+{"ts_ms": 54283044, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54283045, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54283045, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 55}
+{"ts_ms": 54283045, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 54283045, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 54283045, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54283045, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 55}
+{"ts_ms": 54283045, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 55}
+{"ts_ms": 54285047, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_55", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 54285047, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_55"}
+{"ts_ms": 54285047, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54285047, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 55}
+{"ts_ms": 54340089, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54340089, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54340089, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 56}
+{"ts_ms": 54342091, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_56", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 54342091, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_56"}
+{"ts_ms": 54342091, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54342091, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 56}
+{"ts_ms": 54342091, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 56}
+{"ts_ms": 54342091, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 54342091, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 54342091, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54342294, "kind": "ResetComplete", "slice": "H147", "total_ms": 203, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 102}, {"name": "golden", "ms": 0}], "wall_ms": 203}
+{"ts_ms": 54342294, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 54342294, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 54342294, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54342496, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 54342496, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 54342496, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 54342496, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 54342497, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 54342497, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 54342497, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 54342497, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 56}
+{"ts_ms": 54397290, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54397290, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54397291, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 57}
+{"ts_ms": 54399293, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_57", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 54399298, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_57"}
+{"ts_ms": 54399298, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54399298, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2007, "iter": 57}
+{"ts_ms": 54399298, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 57}
+{"ts_ms": 54399298, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54399298, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54399298, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54399298, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 57}
+{"ts_ms": 54454334, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54454334, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54454334, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 58}
+{"ts_ms": 54454334, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 54454334, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 54454334, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54454334, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 58}
+{"ts_ms": 54454334, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 58}
+{"ts_ms": 54454334, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 10034457742648016317, "actual_sum": 13375729783944416851}
+{"ts_ms": 54454334, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54454334, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 58}
+{"ts_ms": 54488348, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54488348, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54488348, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 59}
+{"ts_ms": 54488348, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14159263693884467813, "actual_sum": 14651056800023650799}
+{"ts_ms": 54488348, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54488348, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 59}
+{"ts_ms": 54543383, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54543383, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54543384, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 60}
+{"ts_ms": 54543384, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 12053562868870701419, "actual_sum": 8855717772138651953}
+{"ts_ms": 54543384, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54543384, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 60}
+{"ts_ms": 54543384, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 60}
+{"ts_ms": 54543384, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 12053562868870701419, "actual_sum": 8855717772138651953}
+{"ts_ms": 54543384, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54543384, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 60}
+{"ts_ms": 54598171, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54598171, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54598171, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 61}
+{"ts_ms": 54600173, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_61", "budget_ms": 2000, "overdue_ms": 2}
+{"ts_ms": 54600173, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_61"}
+{"ts_ms": 54600173, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54600173, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2002, "iter": 61}
+{"ts_ms": 54600173, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 61}
+{"ts_ms": 54600173, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54600173, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54600173, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54600173, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 61}
+{"ts_ms": 54655453, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54655453, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54655453, "kind": "FaultInjected", "slice": "H158", "fault": "dmacorrupt", "detail": "", "iter": 62}
+{"ts_ms": 54655453, "kind": "IntegrityCorrupt", "slice": "H154", "buffer": "h158_fi", "expected_sum": 14014817140637487338, "actual_sum": 17140877113367580848}
+{"ts_ms": 54655453, "kind": "IntegrityRetransferred", "slice": "H154", "buffer": "h158_fi", "bytes": 512, "verify": "clean"}
+{"ts_ms": 54655453, "kind": "FaultHandled", "slice": "H158", "fault": "dmacorrupt", "action": "retransfer (transient)", "iter": 62}
+{"ts_ms": 54655453, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 62}
+{"ts_ms": 54655453, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54655453, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54655453, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54655453, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 62}
+{"ts_ms": 54710501, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54710501, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54710501, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 63}
+{"ts_ms": 54710501, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 54710501, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 54710501, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54710702, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 54710702, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 54710702, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 54710702, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54710904, "kind": "ResetComplete", "slice": "H147", "total_ms": 202, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 202}
+{"ts_ms": 54710904, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 54710904, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 54710904, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 0}
+{"ts_ms": 54710905, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 202}
+{"ts_ms": 54710905, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 54710905, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 54710905, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 63}
+{"ts_ms": 54710905, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x0100", "iter": 63}
+{"ts_ms": 54710905, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "PciStatus.MasterDataParityError"}
+{"ts_ms": 54710905, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.MasterDataParityError", "meaning": "master data parity error (sticky)", "severity": "error", "offset": 6, "bit": 8}
+{"ts_ms": 54710905, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54710906, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 63}
+{"ts_ms": 54765680, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54765680, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54765681, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 64}
+{"ts_ms": 54765681, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 54765681, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 54765681, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54765882, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 50}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 54765882, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 54765882, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 54765882, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54766083, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 54766083, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 54766083, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 54766084, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 1}
+{"ts_ms": 54766085, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 201}
+{"ts_ms": 54766085, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 54766085, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 54766085, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 64}
+{"ts_ms": 54766085, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x44:0x8000", "iter": 64}
+{"ts_ms": 54766085, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "Pmcsr.PmeStatus"}
+{"ts_ms": 54766085, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "Pmcsr.PmeStatus", "meaning": "PME status sticky bit set — device requested power-management event", "severity": "warning", "offset": 68, "bit": 15}
+{"ts_ms": 54766085, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54766085, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "retry (transient)", "iter": 64}
+{"ts_ms": 54820870, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54820870, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54820871, "kind": "FaultInjected", "slice": "H158", "fault": "hang", "detail": "", "iter": 65}
+{"ts_ms": 54822872, "kind": "HangDetected", "slice": "H143", "op": "stalled_stage_65", "budget_ms": 2000, "overdue_ms": 1}
+{"ts_ms": 54822872, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "DEGRADED", "cause": "HangDetected:stalled_stage_65"}
+{"ts_ms": 54822872, "kind": "RecoveryTransition", "slice": "H149", "from": "DEGRADED", "to": "IDLE", "cause": "transient absorbed"}
+{"ts_ms": 54822872, "kind": "FaultHandled", "slice": "H158", "fault": "hang", "action": "detected+retry (transient)", "detect_ms": 2001, "iter": 65}
+{"ts_ms": 54822872, "kind": "FaultInjected", "slice": "H158", "fault": "regerr", "detail": "0x06:0x2000", "iter": 65}
+{"ts_ms": 54822872, "kind": "RecoveryTransition", "slice": "H149", "from": "IDLE", "to": "RESETTING", "cause": "PciStatus.ReceivedMasterAbort"}
+{"ts_ms": 54822872, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.ReceivedMasterAbort", "meaning": "master abort received (sticky)", "severity": "error", "offset": 6, "bit": 13}
+{"ts_ms": 54822872, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54823075, "kind": "ResetComplete", "slice": "H147", "total_ms": 203, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 51}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 101}, {"name": "golden", "ms": 0}], "wall_ms": 203}
+{"ts_ms": 54823075, "kind": "RecoveryTransition", "slice": "H149", "from": "RESETTING", "to": "REINITING", "cause": "reset complete"}
+{"ts_ms": 54823075, "kind": "ReinitStarted", "slice": "H148", "bdf": "0001:01:00.0"}
+{"ts_ms": 54823075, "kind": "ResetCommanded", "slice": "H147", "bdf": "0001:01:00.0", "via": "hailbru.api.reset"}
+{"ts_ms": 54823276, "kind": "ResetComplete", "slice": "H147", "total_ms": 201, "golden_clean": true, "steps": [{"name": "d3hot", "ms": 50}, {"name": "d0", "ms": 51}, {"name": "coherency", "ms": 100}, {"name": "golden", "ms": 0}], "wall_ms": 201}
+{"ts_ms": 54823276, "kind": "ReinitBarsValidated", "slice": "H148", "bars_ok": true, "ms": 0}
+{"ts_ms": 54823276, "kind": "ReinitFirmwareProbed", "slice": "H148", "note": "vendor driver hailo1x bound after reset; on-device firmware state is driver-managed and was re-established by the driver's re-probe (see dmesg evidence in the H148 run log); host-side FW blobs untouched (L7 user-side prerequisite)", "ms": 0}
+{"ts_ms": 54823277, "kind": "ReinitDmaReestablished", "slice": "H148", "bytes": 65536, "ms": 1}
+{"ts_ms": 54823278, "kind": "ReinitReady", "slice": "H148", "ready": true, "ms": 1, "reset_ms": 201}
+{"ts_ms": 54823278, "kind": "RecoveryTransition", "slice": "H149", "from": "REINITING", "to": "VERIFYING", "cause": "re-init complete"}
+{"ts_ms": 54823278, "kind": "RecoveryTransition", "slice": "H149", "from": "VERIFYING", "to": "IDLE", "cause": "post-reset verification clean"}
+{"ts_ms": 54823278, "kind": "FaultHandled", "slice": "H158", "fault": "regerr", "action": "reset+reinit (persistent)", "iter": 65}
+{"ts_ms": 54878312, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "PciStatus.CapabilitiesList", "meaning": "capabilities list present (informational)", "severity": "info", "offset": 6, "bit": 4}
+{"ts_ms": 54878312, "kind": "RegisterErrorDecoded", "slice": "H144", "name": "UnknownErrorBit", "meaning": "undocumented BAR0+0x018C interrupt bit set — never ignored, never mislabeled (H087)", "severity": "warning", "offset": 396, "bit": 23}
+{"ts_ms": 54878312, "kind": "SupervisedRunComplete", "slice": "H158", "iters": 66, "completed": 66, "injected": 124, "handled": 124}

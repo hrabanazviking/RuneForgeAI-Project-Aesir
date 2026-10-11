@@ -1,0 +1,151 @@
+{
+  "verdict": "PASS",
+  "restarts": 20,
+  "recoveries_to_service": 20,
+  "all_within_h155_budget_ms": true,
+  "h155_budget_ms": 44.0,
+  "max_restart_ms": 1.0,
+  "failures": [],
+  "recoveries": [
+    {
+      "cycle": 0,
+      "restart_ms": 1.0,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 1,
+      "restart_ms": 0.9,
+      "within_budget": true,
+      "verify_wall_s": 24.5,
+      "exact_match": true
+    },
+    {
+      "cycle": 2,
+      "restart_ms": 0.9,
+      "within_budget": true,
+      "verify_wall_s": 24.3,
+      "exact_match": true
+    },
+    {
+      "cycle": 3,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 4,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.3,
+      "exact_match": true
+    },
+    {
+      "cycle": 5,
+      "restart_ms": 0.5,
+      "within_budget": true,
+      "verify_wall_s": 24.6,
+      "exact_match": true
+    },
+    {
+      "cycle": 6,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 7,
+      "restart_ms": 0.6,
+      "within_budget": true,
+      "verify_wall_s": 24.5,
+      "exact_match": true
+    },
+    {
+      "cycle": 8,
+      "restart_ms": 0.5,
+      "within_budget": true,
+      "verify_wall_s": 24.3,
+      "exact_match": true
+    },
+    {
+      "cycle": 9,
+      "restart_ms": 0.6,
+      "within_budget": true,
+      "verify_wall_s": 24.5,
+      "exact_match": true
+    },
+    {
+      "cycle": 10,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 11,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.5,
+      "exact_match": true
+    },
+    {
+      "cycle": 12,
+      "restart_ms": 0.6,
+      "within_budget": true,
+      "verify_wall_s": 24.3,
+      "exact_match": true
+    },
+    {
+      "cycle": 13,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.5,
+      "exact_match": true
+    },
+    {
+      "cycle": 14,
+      "restart_ms": 0.6,
+      "within_budget": true,
+      "verify_wall_s": 24.3,
+      "exact_match": true
+    },
+    {
+      "cycle": 15,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.6,
+      "exact_match": true
+    },
+    {
+      "cycle": 16,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 17,
+      "restart_ms": 0.5,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 18,
+      "restart_ms": 0.4,
+      "within_budget": true,
+      "verify_wall_s": 24.4,
+      "exact_match": true
+    },
+    {
+      "cycle": 19,
+      "restart_ms": 0.5,
+      "within_budget": true,
+      "verify_wall_s": 24.6,
+      "exact_match": true
+    }
+  ]
+}

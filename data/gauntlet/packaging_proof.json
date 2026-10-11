@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "tarball": "/home/pi/c10work/build/pkgtest/aesir-f1-1.0-aarch64.tar.gz",
+  "files": 22,
+  "forbidden_found": [],
+  "docker_rc": 0,
+  "docker_python_absent": true,
+  "strace_execve_python_hits": 0,
+  "verdict": "PASS",
+  "failures": []
+}

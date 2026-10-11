@@ -1,0 +1,30 @@
+{
+  "verdict": "PASS",
+  "match_rate": 1.0,
+  "failures": [],
+  "detail": {
+    "prompt_0_10x": {
+      "identical_10_10": true,
+      "n_tokens": 64
+    },
+    "prompt_1_10x": {
+      "identical_10_10": true,
+      "n_tokens": 61
+    },
+    "prompt_2_10x": {
+      "identical_10_10": true,
+      "n_tokens": 60
+    },
+    "prompt_3_10x": {
+      "identical_10_10": true,
+      "n_tokens": 57
+    },
+    "prompt_4_10x": {
+      "identical_10_10": true,
+      "n_tokens": 63
+    },
+    "post_restart_5x": {
+      "identical_5_5": true
+    }
+  }
+}
