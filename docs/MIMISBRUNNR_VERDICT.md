@@ -50,8 +50,8 @@ Ambition was fully pursued; the evidence forced NO-GO.
 |---|---|
 | Decode | 1.918 tok/s (C9 H180) |
 | Prefill | 3.362 tok/s (C9 H180) |
-| Soak (4h) | 393 generations, 0 crashes, 0 hangs; median decode 2.157 → 2.189 tok/s (first vs last 30 min), drift 1.48%; H185 analysis: all metrics DRIFT-FREE |
-| Fault injection | 124/124 handled in 60.7 min (hang 39, regerr 50, dmacorrupt 35), 0 crashes, 10/10 coherence spot-checks clean |
+| Soak (4h) | H183 campaign: 393 generations, 0 crashes, 0 hangs, drift 1.48%; H198 in-suite fresh soak: 384 generations, 4.007h, 0 crashes, 0 hangs, 2.127→2.136 tok/s, drift 0.42% |
+| Fault injection | H186 campaign: 124/124 handled (60.7 min), 0 crashes; H198 in-suite re-run: 122/122 handled (hang 34, dmacorrupt 36, regerr 52) |
 | Reset storm | 20/20 SIGKILL→respawn recoveries, max restart 1.0 ms vs 44 ms H155 budget, outputs bit-identical |
 | Determinism | 5 prompts × 10/10 identical + 5/5 post-restart identical |
 | Memory | RSS slope −0.37 MB/h over the soak — no leak |

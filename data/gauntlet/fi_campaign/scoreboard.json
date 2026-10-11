@@ -1,21 +1,21 @@
 {
   "verdict": "PASS",
-  "elapsed_min": 60.7,
-  "rescored": true,
+  "elapsed_min": 61.1,
+  "rescored": false,
   "rubric": "f1-coherence-v1.1 (H201-remediated freeze; thresholds identical to v1, wordlist v2)",
   "vordr_invocation": "sudo -n build/vordr_cli h158-run (root required for sysfs supervision, as in C8 H158)",
   "injected": {
-    "hang": 39,
-    "regerr": 50,
-    "dmacorrupt": 35
+    "hang": 34,
+    "dmacorrupt": 36,
+    "regerr": 52
   },
   "handled": {
-    "hang": 39,
-    "regerr": 50,
-    "dmacorrupt": 35
+    "hang": 34,
+    "dmacorrupt": 36,
+    "regerr": 52
   },
-  "injected_total": 124,
-  "handled_total": 124,
+  "injected_total": 122,
+  "handled_total": 122,
   "child_crashes": 0,
   "coherence_spot_checked": 10,
   "failures": [],

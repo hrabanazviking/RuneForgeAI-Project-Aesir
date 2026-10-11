@@ -3,23 +3,23 @@
   "verdict": "PASS",
   "scoreboard_per_class": {
     "dmacorrupt": {
-      "injected": 35,
-      "handled": 35,
+      "injected": 36,
+      "handled": 36,
       "missed": 0
     },
     "hang": {
-      "injected": 39,
-      "handled": 39,
+      "injected": 34,
+      "handled": 34,
       "missed": 0
     },
     "regerr": {
-      "injected": 50,
-      "handled": 50,
+      "injected": 52,
+      "handled": 52,
       "missed": 0
     }
   },
-  "injected_total": 124,
-  "handled_total": 124,
+  "injected_total": 122,
+  "handled_total": 122,
   "process_crashes": 0,
   "checks": {
     "process_crashes_zero": true,

@@ -1,0 +1,187 @@
+{
+  "verdict": "PASS",
+  "total_tests": 26,
+  "executed": 26,
+  "passed": 26,
+  "failed": [],
+  "skipped": [
+    {
+      "test": "prof/gauntlet/test_soak_npu_4h.py",
+      "reason": "H184 SKIPPED: H111 was NO-GO \u2014 no NPU compute path exists to soak; recorded skipped-with-reason per docs/fallback/RESCOPED_PLAN.md"
+    }
+  ],
+  "total_runtime_s": 23572.2,
+  "total_runtime_h": 6.55,
+  "machines": {
+    "mimir": {
+      "verdict": "PASS",
+      "passed": 24,
+      "total_tests": 24,
+      "total_runtime_h": 6.55
+    },
+    "x86": {
+      "verdict": "PASS",
+      "passed": 2,
+      "total_tests": 2,
+      "total_runtime_h": 0.0
+    }
+  },
+  "results": [
+    {
+      "script": "prof/gauntlet/test_gauntlet_purity.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "H181 PURITY PASS: 4 gauntlet modules, std+gauntlet-only imports, zero repair/recovery/fix code references\n"
+    },
+    {
+      "script": "prof/gauntlet/test_stability_gates.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "H182: loaded 9 gates\nH182: all gates have metric, method, numeric threshold, slice, justification\nH182: canned healthy dataset -> PASS (9/9)\nH182: breaking soak_error_rate -> FAIL flagged on STAB-01\nH182: breaking soak_duration_h -> FAIL flagged on STAB-02\nH182: breaking soak_drift_ratio -> FAIL flagged on STAB-03\nH182: breaking fi_unhandled_count -> FAIL flagged on STAB-04\nH182: breaking fi_crash_count -> FAIL flagged on STAB-05\nH182: breaking recovery_success_rate -> FAIL flagged on STAB-06\nH182: breaking determinism_match_rate -> FAIL flagged on STAB-07\nH182: breaking rss_slope_mb_per_h -> FAIL flagged on STAB-08\nH182: breaking coherence_pass_rate -> FAIL flagged on STAB-09\nH182-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_analyze_soak.py",
+      "pass": true,
+      "seconds": 0.2,
+      "tail": "H185: injected 15% slowdown -> DRIFT-DETECTED (slope -0.22485/h, expected -0.22693)\nH185: clean synthetic log -> DRIFT-FREE (no false positive)\nH185: wall_s latency-creep detection consistent\nH185-ALL-PASS\n"
+    },
+    {
+      "script": "prof/vordr/test_taxonomy_complete.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "raised names: 52, taxonomy entries: 62\nH145 taxonomy completeness: PASS\n"
+    },
+    {
+      "script": "prof/hailbru/test_log_schema.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "BAD[0] rejected: not JSON: Expecting value: line 1 column 1 (char 0)\nBAD[1] rejected: missing field 'detail'\nBAD[2] rejected: ts_ms must be integer\nBAD[3] rejected: bad event 'launch'\nBAD[4] rejected: step_start must pair with running\nselftest: 0 failures\n"
+    },
+    {
+      "script": "prof/hailbru/test_error_paths.py",
+      "pass": true,
+      "seconds": 2.0,
+      "tail": "............................                                             [100%]\n28 passed in 1.55s\n"
+    },
+    {
+      "script": "prof/vordr/test_fallback_audit.py",
+      "pass": true,
+      "seconds": 403.2,
+      "tail": ", 'RetryFired', 'TransientFault'] OK\n  recovery: ['RecoveryTransition'] OK\n  integrity: ['IntegrityCorrupt', 'IntegrityRetransferred'] OK\n  shadow: ['ShadowMismatch', 'ShadowPlan'] OK\n  hang: ['HangDetected'] OK\n  thermal: ['ThermalWarning', 'ThresholdsReloaded', 'ThermalRecovered'] OK\n  reset: ['ResetCommanded', 'ResetComplete'] OK\n  reinit: ['ReinitStarted', 'ReinitReady'] OK\n  reinit-refused: ['ReinitRefused'] OK\n  reg-decode-live: ['RegisterErrorDecoded'] OK\n  watchdog: ['WatchdogStarted', 'ChildRestarted', 'WatchdogGaveUp'] OK\n  watchdog-parent: ['WatchdogParentStarted', 'WatchdogRevived'] OK\n  h158-handled: ['FaultInjected', 'FaultHandled'] OK\n  h158-halt: ['SupervisedRunHalted'] OK\n  backend L11 declaration: OK\n\nH159: all degrade/fallback paths emit their events \u2014 zero silent paths\n"
+    },
+    {
+      "script": "prof/armvegr/test_kernel_oracles.py",
+      "pass": true,
+      "seconds": 561.6,
+      "tail": "m_fp16 maxerr=4.76837e-07 ulp_excess=0\nPASS H037 rmsnorm_fp16 maxerr=0 ulp_excess=0\nPASS H037 softmax_fp16 maxerr=0 ulp_excess=0 sum=1\nPASS H037 softmax_masked_fp16 maxerr=0 ulp_excess=0 sum=1\nPASS H037 silu_fp16 maxerr=0 ulp_excess=0\nPASS H037 gelu_fp16 maxerr=3.05176e-05 ulp_excess=0\nPASS H037 rope_fp16 maxerr=0 ulp_excess=0\nPASS H037 rope_fp16_identity identity@pos0 exact=True\nPASS H037 fp32_to_fp16 maxerr=0\nPASS H037 q80_roundtrip max=0.0234375 rms=0.0131115\nPASS H037 q40_roundtrip max=0.424316 rms=0.237059\nPASS H037 q80_gemm maxerr=0.0571358 rms=3.7021 contract=0.05*rms=0.185105\nPASS H037 q80_gemm_m1 maxerr=0.0628888 rms=3.76426 contract=0.05*rms=0.188213\nPASS H037 attn_sdpa maxerr=2.38419e-07 ulp_excess=0\nPASS H037 mha_forward maxerr=0.000244141 ulp_excess=0\nH037: 26/26 cases passed\n"
+    },
+    {
+      "script": "prof/bench/test_perf_regression.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "PERF REGRESSION GUARD: PASS (all baselines within 10%)\n"
+    },
+    {
+      "script": "prof/hailbru/test_reset_cycles.py",
+      "pass": true,
+      "seconds": 12.2,
+      "tail": "K 123ms\ncycle 61: OK 119ms\ncycle 62: OK 120ms\ncycle 63: OK 119ms\ncycle 64: OK 120ms\ncycle 65: OK 121ms\ncycle 66: OK 119ms\ncycle 67: OK 118ms\ncycle 68: OK 118ms\ncycle 69: OK 120ms\ncycle 70: OK 120ms\ncycle 71: OK 120ms\ncycle 72: OK 120ms\ncycle 73: OK 118ms\ncycle 74: OK 116ms\ncycle 75: OK 118ms\ncycle 76: OK 121ms\ncycle 77: OK 119ms\ncycle 78: OK 121ms\ncycle 79: OK 119ms\ncycle 80: OK 118ms\ncycle 81: OK 118ms\ncycle 82: OK 118ms\ncycle 83: OK 121ms\ncycle 84: OK 118ms\ncycle 85: OK 120ms\ncycle 86: OK 119ms\ncycle 87: OK 119ms\ncycle 88: OK 120ms\ncycle 89: OK 125ms\ncycle 90: OK 118ms\ncycle 91: OK 119ms\ncycle 92: OK 118ms\ncycle 93: OK 118ms\ncycle 94: OK 121ms\ncycle 95: OK 120ms\ncycle 96: OK 122ms\ncycle 97: OK 118ms\ncycle 98: OK 123ms\ncycle 99: OK 123ms\n100/100 OK  min=115 max=186 mean=121ms total=12.1s\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_registers.py",
+      "pass": true,
+      "seconds": 375.8,
+      "tail": "H151 parity: decoded=PciStatus.DetectedParityError action=retry OK\nH151 serr: decoded=PciStatus.SignaledSystemError action=halt OK\nH151 master_abort: decoded=PciStatus.ReceivedMasterAbort action=reset OK\nH151: 11 patterns, decode+classify+action verified\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_hangs.py",
+      "pass": true,
+      "seconds": 1887.2,
+      "tail": "H152 hangs detected+handled: 20/20\nH152 post-recovery inference matches reference: OK\nH152: 20/20 hangs detected within budget, handled, recovery proven\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_dma_corrupt.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "selftest-integrity: injected=500 detected=500 escapes=0\nH154 reconciled: corrupt_events=500 retransfer_events=500\nH154: 500/500 detected, 0 escapes, 500/500 re-transferred clean\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_removal.py",
+      "pass": true,
+      "seconds": 87.3,
+      "tail": "H153 prefill: DeviceRemoved named, rebound, sane, inference coherent: OK\nH153 decode_step: DeviceRemoved named, rebound, sane, inference coherent: OK\nH153 weight_staging: DeviceRemoved named, rebound, sane, inference coherent: OK\nH153: 3/3 stages \u2014 named DeviceRemoved, clean release, no crash, device sane (hailo1x/D3hot)\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_supervised.py",
+      "pass": true,
+      "seconds": 2586.5,
+      "tail": "H158: launching 30-min supervised run (fi_seed=866)...\nH158: external fault injected t+107s: hang\nH158: external fault injected t+334s: dmacorrupt\nH158: external fault injected t+584s: regerr\nH158: external fault injected t+1081s: hang\nH158: external fault injected t+1325s: dmacorrupt\nH158: injected=33 handled=33\nH158: 13 iteration outputs\nH158: coherence spot-check 4/4 clean\nH158: long-form coherence probes (2 x 64 tokens)...\nH158: long-form probe 0 rubric-clean (3 sentences)\nH158: long-form probe 1 rubric-clean (3 sentences)\n\nH158: 30-min supervised run \u2014 injected==handled, coherence holds, zero unhandled faults\n"
+    },
+    {
+      "script": "prof/gauntlet/test_packaging.py",
+      "pass": true,
+      "seconds": 29.2,
+      "tail": "H190: 22 files in package, forbidden scan: CLEAN\nH190: container (python3 ABSENT) inference OK\nH190: strace execve scan: binary never execs python\nH190-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_reset_storm.py",
+      "pass": true,
+      "seconds": 657.2,
+      "tail": "h=True\nH187 cycle 10: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 11: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 12: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 13: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 14: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 15: restart 0ms (<=44ms: True), exact_match=True\nH187 cycle 16: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 17: restart 0ms (<=44ms: True), exact_match=True\nH187 cycle 18: restart 1ms (<=44ms: True), exact_match=True\nH187 cycle 19: restart 1ms (<=44ms: True), exact_match=True\n{\n  \"verdict\": \"PASS\",\n  \"restarts\": 20,\n  \"recoveries_to_service\": 20,\n  \"all_within_h155_budget_ms\": true,\n  \"h155_budget_ms\": 44.0,\n  \"max_restart_ms\": 1.3,\n  \"failures\": []\n}\nH187-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_determinism.py",
+      "pass": true,
+      "seconds": 1783.8,
+      "tail": "H188 prompt 0: 10/10 identical = True (64 tokens)\nH188 prompt 1: 10/10 identical = True (61 tokens)\nH188 prompt 2: 10/10 identical = True (60 tokens)\nH188 prompt 3: 10/10 identical = True (57 tokens)\nH188 prompt 4: 10/10 identical = True (63 tokens)\nH188 post-restart 5/5 identical = True\nH188-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/check_rss.py",
+      "pass": true,
+      "seconds": 0.0,
+      "tail": "{\n  \"verdict\": \"PASS\",\n  \"n_samples\": 393,\n  \"n_second_hour\": 101,\n  \"rss_slope_mb_per_h\": -3.023061337308689,\n  \"budget_mb_per_h\": 1.0,\n  \"rss_first_mb\": 2140.3,\n  \"rss_last_mb\": 2179.2,\n  \"dma_mapping_check\": \"N/A (NO-GO branch: no NPU, no DMA-mapped memory)\"\n}\nH189-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_fi_campaign.py",
+      "pass": true,
+      "seconds": 3665.3,
+      "tail": "egerr': 52} (total 122)\nH186 handled:  {'hang': 34, 'dmacorrupt': 36, 'regerr': 52} (total 122)\nH186 child crashes: 0\nH186 coherence spot-checked: 10 iterations\n{\n  \"verdict\": \"PASS\",\n  \"elapsed_min\": 61.1,\n  \"rescored\": false,\n  \"rubric\": \"f1-coherence-v1.1 (H201-remediated freeze; thresholds identical to v1, wordlist v2)\",\n  \"vordr_invocation\": \"sudo -n build/vordr_cli h158-run (root required for sysfs supervision, as in C8 H158)\",\n  \"injected\": {\n    \"hang\": 34,\n    \"dmacorrupt\": 36,\n    \"regerr\": 52\n  },\n  \"handled\": {\n    \"hang\": 34,\n    \"dmacorrupt\": 36,\n    \"regerr\": 52\n  },\n  \"injected_total\": 122,\n  \"handled_total\": 122,\n  \"child_crashes\": 0,\n  \"coherence_spot_checked\": 10,\n  \"failures\": [],\n  \"events_log\": \"/home/pi/c10work/data/gauntlet/fi_campaign/events.jsonl\"\n}\nH186-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_soak_cpu_4h.py",
+      "pass": true,
+      "seconds": 14424.8,
+      "tail": "C\nH183 status: 281 gens, 2.96h, temp 50.7C\nH183 status: 290 gens, 3.05h, temp 49.6C\nH183 status: 299 gens, 3.14h, temp 50.7C\nH183 status: 308 gens, 3.24h, temp 50.7C\nH183 status: 317 gens, 3.33h, temp 51.25C\nH183 status: 326 gens, 3.42h, temp 50.7C\nH183 status: 335 gens, 3.51h, temp 50.15C\nH183 status: 344 gens, 3.60h, temp 51.25C\nH183 status: 353 gens, 3.69h, temp 50.7C\nH183 status: 362 gens, 3.79h, temp 51.25C\nH183 status: 371 gens, 3.88h, temp 51.8C\nH183 status: 380 gens, 3.97h, temp 50.15C\nH183 summary: {\n  \"verdict\": \"PASS\",\n  \"generations\": 384,\n  \"elapsed_h\": 4.007,\n  \"crashes\": 0,\n  \"hangs\": 0,\n  \"first30_median_tps\": 2.127,\n  \"last30_median_tps\": 2.136,\n  \"drift_ratio\": 0.0042,\n  \"drift_within_10pct\": true,\n  \"log\": \"/home/pi/c10work/data/gauntlet/soak_cpu_4h.log\"\n}\nH183-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/victory_gate_1.py",
+      "pass": true,
+      "seconds": 328.4,
+      "tail": "5: TinyLlama-1.1B-Chat-v1.0 Q8_0 already present, reusing\nH195: TinyLlama-1.1B-Chat-v1.0 Q8_0 sha256=a4c9bb1dbaa372f6381a035fa5c02ef087aaa1ff1f843a56a22328114f03fc59 (1170781568 bytes)\nH195 TinyLlama-1.1B-Chat-v1.0 Q8_0 prompt 0: 106 tokens, rubric PASS\nH195 TinyLlama-1.1B-Chat-v1.0 Q8_0 prompt 1: 105 tokens, rubric PASS\nH195 TinyLlama-1.1B-Chat-v1.0 Q8_0 prompt 2: 108 tokens, rubric PASS\nH195: TinyLlama-1.1B-Chat-v1.0 Q6_K already present, reusing\nH195: TinyLlama-1.1B-Chat-v1.0 Q6_K sha256=9fb2be7c8bbc0ca358ae88cef6d9e6844b81929eaffa5016a543e6f56b22cb6d (904385920 bytes)\nH195 TinyLlama-1.1B-Chat-v1.0 Q6_K prompt 0: 106 tokens, rubric PASS\nH195 TinyLlama-1.1B-Chat-v1.0 Q6_K prompt 1: 105 tokens, rubric PASS\nH195 TinyLlama-1.1B-Chat-v1.0 Q6_K prompt 2: 108 tokens, rubric PASS\nH195-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/victory_gate_2.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "H196 STABILITY verdict: PASS (9/9 gates)\n  PASS STAB-01                measured=0.0 threshold(le)=0.0\n  PASS STAB-02                measured=4.007 threshold(ge)=4.0\n  PASS STAB-03                measured=0.0042 threshold(le)=0.1\n  PASS STAB-04                measured=0.0 threshold(le)=0.0\n  PASS STAB-05                measured=0.0 threshold(le)=0.0\n  PASS STAB-06                measured=1.0 threshold(ge)=1.0\n  PASS STAB-07                measured=1.0 threshold(ge)=1.0\n  PASS STAB-08                measured=-3.023061337308689 threshold(le)=1.0\n  PASS STAB-09                measured=1.0 threshold(ge)=1.0\n"
+    },
+    {
+      "script": "prof/gauntlet/victory_gate_3.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": ": {\n      \"injected\": 36,\n      \"handled\": 36,\n      \"missed\": 0\n    },\n    \"hang\": {\n      \"injected\": 34,\n      \"handled\": 34,\n      \"missed\": 0\n    },\n    \"regerr\": {\n      \"injected\": 52,\n      \"handled\": 52,\n      \"missed\": 0\n    }\n  },\n  \"injected_total\": 122,\n  \"handled_total\": 122,\n  \"process_crashes\": 0,\n  \"checks\": {\n    \"process_crashes_zero\": true,\n    \"unhandled_faults_zero\": true,\n    \"faults_ge_100\": true,\n    \"all_classes_covered\": true,\n    \"silent_degradations_zero\": true,\n    \"recovery_budget_compliant\": true\n  },\n  \"evidence\": {\n    \"fi_campaign\": \"data/gauntlet/fi_campaign/scoreboard.json\",\n    \"fi_events\": \"data/gauntlet/fi_campaign/events.jsonl\",\n    \"reset_storm\": \"data/gauntlet/reset_storm.json\",\n    \"h159_audit\": \"docs/vordr/FALLBACK_AUDIT.md\"\n  }\n}\nH197-ALL-PASS\n"
+    },
+    {
+      "script": "prof/armvegr/test_cpu_smoke.py",
+      "pass": true,
+      "seconds": 5.9,
+      "tail": "Tiny GGUF: /tmp/c3_smoke_tiny.gguf (960 bytes)\nSmoke binary built.\nH058-ALL-PASS\nPERF_JSON {\"test\": \"cpu_smoke\", \"tensors\": 2, \"prompt_tokens\": 2, \"generated_tokens\": 20, \"wall_seconds\": 0.176, \"status\": \"ok\"}\n"
+    },
+    {
+      "script": "prof/armvegr/test_tokenizers.py",
+      "pass": true,
+      "seconds": 3.4,
+      "tail": "CLI built: /tmp/c3_h048_tok_cli\nBPE: 750/750 exact, 750/750 round-trip\nSP: 750/750 exact, 750/750 round-trip\nH048-ALL-PASS (3000 assertions)\n"
+    }
+  ]
+}
