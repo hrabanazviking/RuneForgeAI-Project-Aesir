@@ -6,9 +6,10 @@
 # owning domains (ARMVEGR, HAILBRÚ, VÖRÐR) in clean commits.
 #
 # ARCHITECTURAL LAW (H181): no gauntlet/*.mojo file may import anything
-# outside the Mojo standard library. Enforced mechanically by
-# prof/gauntlet/test_gauntlet_purity.py (every `from X` must satisfy
-# X startswith "std"). GAUNTLET reads measurement logs and judges;
+# outside the Mojo standard library and GAUNTLET's own package. Enforced
+# mechanically by prof/gauntlet/test_gauntlet_purity.py (every `from X`
+# must satisfy X startswith "std" or "gauntlet"; no code references to
+# repair/recovery/fix paths). GAUNTLET reads measurement logs and judges;
 # repair/recovery/fix code paths are unreachable by construction.
 #
 # Modules:
