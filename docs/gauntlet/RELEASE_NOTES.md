@@ -1,15 +1,17 @@
 # Aesir F1 — Release Notes — mimisbrunnr-1.0
 
 **Version:** mimisbrunnr-1.0 (MÍMISBRUNNR Campaign 10, H199)
-**Date:** 2026-10-10
+**Date:** 2026-10-11
 **Branch outcome: F1 CPU PATH PRODUCTION — the Hailo-10 compute wall held (H111 NO-GO).**
 
 ## Headline
 
 The F1 CPU inference trunk is production-grade: pure-Mojo ARM64 inference
 (TinyLlama-1.1B), judged by the GAUNTLET measurement framework across a
-4-hour soak, 120-fault injection campaign, 20-cycle reset storm,
-determinism proofs, and a python-less container packaging proof.
+4-hour soak (393 generations, zero errors, 1.48% drift), a 124-fault
+injection campaign (124 handled, zero crashes), a 20-cycle reset storm
+(20/20 recoveries, max restart 1.0 ms), determinism proofs (55/55
+bit-identical), and a python-less container packaging proof.
 
 ## Measured performance (Mimir, Raspberry Pi 5, Mojo 1.1.0)
 
@@ -17,14 +19,19 @@ determinism proofs, and a python-less container packaging proof.
 |---|---|---|
 | Decode | 1.918 tok/s | C9 H180, TinyLlama-1.1B-Chat Q4_0, 47-token median |
 | Prefill | 3.362 tok/s | C9 H180, 512-token prompt |
-| Soak decode (4h) | ~2.2 tok/s | H183, 64-token generations, temp <55 °C |
+| Soak decode (4h) | 2.157 → 2.189 tok/s (first vs last 30 min) | H183, 393 generations, drift 1.48%, SoC 41.9–47.95 °C |
 | Model load | ~2.5 s | 609 MB Q4_0 GGUF from SD |
-| Peak RSS | ~2.14 GB | H189, per-generation peak |
+| Peak RSS | ~2.14 GB, slope −0.37 MB/h (no leak) | H189 |
 
 ## What shipped
 
 - `bin/f1_infer` — pure-Mojo production inference CLI (prefill + decode,
   JSON output, fail-closed guards). No Python required or invoked.
+- `lib/` — Mojo 1.1.0 toolchain runtime libraries the binary links
+  against, bundled unmodified; the binary's rpath is `$ORIGIN/../lib`,
+  so the package runs on a clean machine with no toolchain installed
+  (proven by the H190 python-less container test — the first packaging
+  attempt without them failed, which is why they ship).
 - `config/f1_config.json` — production config (temperature 0.7, top_k 40,
   top_p 0.95, repetition_penalty 1.1).
 - `share/tokenizer/tinyllama_tokenizer.model`
@@ -39,8 +46,10 @@ No open-ended "any format" claim.
 
 - **Gate 1 (H195):** PASS — 2 unseen models (Q8_0, Q6_K) × 3 prompts,
   6/6 coherent per rubric f1-coherence-v1.1.
-- **Gate 2 (H196):** _pending_ — stability verdict from the soak evidence.
-- **Gate 3 (H197):** _pending_ — crash-resistance verdict from fault injection.
+- **Gate 2 (H196):** PASS — 9/9 stability gates (STAB-01..09) green on
+  the H183/H186/H187/H188/H189/H195 evidence.
+- **Gate 3 (H197):** PASS — 124/124 faults handled, 0 crashes, 20/20
+  storm recoveries; crash-resistance proven end-to-end.
 
 ## Known limitations
 
