@@ -19,9 +19,9 @@ the GAUNTLET production hardening (C10).
 |---|---|---|
 | Phase-A recon | H010 | GO-WITH-CONDITIONS |
 | Phase-B mechanism | H077 | NO-GO (kernel) → UNLOCKED by Volmarr's operator rebuild (6.12.112-v8-16k-hailo+, VFIO live) |
-| Phase-C bring-up | H095 | _see gate log_ |
+| Phase-C bring-up | H095 | DONE (re-scoped: 100 PM-cycles, golden checks every 10th, C5) |
 | **H111 Compiler Wall** | H111 | **NO-GO — the wall held** |
-| Phase-E | H128 | _see gate log_ |
+| Phase-E | H128 | N/A (GO-only; H111 was NO-GO) |
 | Victory gates | H195–H197 | _below_ |
 
 ## The wall (H111)
