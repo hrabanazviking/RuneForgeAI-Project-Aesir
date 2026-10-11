@@ -17,6 +17,7 @@ struct RuneWeaver:
     var eos_token_id: Int
     var add_bos_token: Bool
     var add_space_prefix: Bool
+    var special_tokens_configured: Bool
 
     def __init__(out self):
         self.vocab = List[String]()
@@ -29,6 +30,7 @@ struct RuneWeaver:
         self.eos_token_id = 2
         self.add_bos_token = True
         self.add_space_prefix = False
+        self.special_tokens_configured = False
 
     def add_token(
         mut self,
@@ -36,8 +38,13 @@ struct RuneWeaver:
         token_id: Int,
         score: Float32 = 0.0,
         token_type: Int = 1,
-    ):
+    ) raises:
         """Adds one vocabulary entry while keeping parallel metadata aligned."""
+        if token_id < 0:
+            raise Error(
+                "add_token: token id must be non-negative, got "
+                + String(token_id)
+            )
         while len(self.vocab) <= token_id:
             self.vocab.append("")
             self.scores.append(0.0)
@@ -67,6 +74,7 @@ struct RuneWeaver:
         self.unknown_token_id = unknown_token_id
         self.bos_token_id = bos_token_id
         self.eos_token_id = eos_token_id
+        self.special_tokens_configured = True
 
     def validate_vocabulary(self) raises:
         """Validates parallel list lengths, vocabulary size, and special token bounds."""
@@ -84,6 +92,46 @@ struct RuneWeaver:
             raise Error("Tokenizer bos_token_id is out of bounds")
         if self.eos_token_id < 0 or self.eos_token_id >= self.vocab_size:
             raise Error("Tokenizer eos_token_id is out of bounds")
+        # Every populated spelling must map back to its own id through
+        # token_to_id. "" entries are add_token gap-fill placeholders for
+        # skipped ids and stay valid, so they are skipped. This catches both
+        # missing coverage (spelling absent from token_to_id) and duplicate
+        # strings (token_to_id keeps the last id, so the earlier id fails).
+        for i in range(self.vocab_size):
+            var spelling = String(self.vocab[i])
+            if spelling == "":
+                continue
+            if self.token_to_id.get(spelling, -1) != i:
+                raise Error(
+                    "Tokenizer vocabulary coverage error at token id "
+                    + String(i)
+                    + ": spelling '"
+                    + spelling
+                    + "' does not map back to this id (missing from token_to_id or duplicated)"
+                )
+        # Declared special token ids must carry real, non-empty spellings.
+        # Enforced only when set_special_tokens was explicitly called: a
+        # hand-built weaver with default ids 0/1/2 over "" gap-fill slots
+        # must keep validating.
+        if self.special_tokens_configured:
+            if self.vocab[self.unknown_token_id] == "":
+                raise Error(
+                    "Tokenizer unknown_token_id "
+                    + String(self.unknown_token_id)
+                    + " has an empty spelling"
+                )
+            if self.vocab[self.bos_token_id] == "":
+                raise Error(
+                    "Tokenizer bos_token_id "
+                    + String(self.bos_token_id)
+                    + " has an empty spelling"
+                )
+            if self.vocab[self.eos_token_id] == "":
+                raise Error(
+                    "Tokenizer eos_token_id "
+                    + String(self.eos_token_id)
+                    + " has an empty spelling"
+                )
 
     def byte_to_hex_token(self, byte_value: UInt8) -> String:
         """Formats one raw byte using GGUF's canonical byte-token spelling."""
@@ -200,7 +248,21 @@ struct RuneWeaver:
             else:
                 tokens.append(self.unknown_token_id)
 
-    def encode(self, prompt: String, add_bos: Bool = False) -> List[Int]:
+    def special_token_id(self, spelling: String) raises -> Int:
+        """Returns the vocabulary id for a special control-token spelling.
+
+        Raises naming the spelling when it is absent from the vocabulary:
+        encode must never invent hardcoded fallback ids for spellings the
+        model did not ship.
+        """
+        if spelling in self.token_to_id:
+            return self.token_to_id.get(spelling, -1)
+        raise Error(
+            "RuneWeaver special token spelling is not in the vocabulary: "
+            + spelling
+        )
+
+    def encode(self, prompt: String, add_bos: Bool = False) raises -> List[Int]:
         """Encodes text with model scores, UTF-8 safety, special control tokens, and byte fallback."""
         var tokens = List[Int]()
         if add_bos and self.add_bos_token and self.bos_token_id >= 0:
@@ -227,23 +289,23 @@ struct RuneWeaver:
                 if i + 15 <= n_bytes and text[byte=i : i + 15] == "<start_of_turn>":
                     matched_special = True
                     match_len = 15
-                    spec_id = self.token_to_id.get("<start_of_turn>", 106)
+                    spec_id = self.special_token_id("<start_of_turn>")
                 elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<end_of_turn>":
                     matched_special = True
                     match_len = 13
-                    spec_id = self.token_to_id.get("<end_of_turn>", 107)
+                    spec_id = self.special_token_id("<end_of_turn>")
                 elif i + 12 <= n_bytes and text[byte=i : i + 12] == "<|im_start|>":
                     matched_special = True
                     match_len = 12
-                    spec_id = self.token_to_id.get("<|im_start|>", 151644)
+                    spec_id = self.special_token_id("<|im_start|>")
                 elif i + 10 <= n_bytes and text[byte=i : i + 10] == "<|im_end|>":
                     matched_special = True
                     match_len = 10
-                    spec_id = self.token_to_id.get("<|im_end|>", 151645)
+                    spec_id = self.special_token_id("<|im_end|>")
                 elif i + 13 <= n_bytes and text[byte=i : i + 13] == "<|endoftext|>":
                     matched_special = True
                     match_len = 13
-                    spec_id = self.token_to_id.get("<|endoftext|>", 151643)
+                    spec_id = self.special_token_id("<|endoftext|>")
 
                 if matched_special:
                     if i > last_idx:
@@ -323,6 +385,27 @@ def hex_char_to_int(c: UInt8) -> Int:
     return 0
 
 
+def _is_hex_digit(c: UInt8) -> Bool:
+    return (c >= 48 and c <= 57) or (c >= 65 and c <= 70) or (c >= 97 and c <= 102)
+
+
+def hex_pair_to_byte(hi: UInt8, lo: UInt8) raises -> UInt8:
+    """Validates two hex digits and returns the combined byte value.
+
+    Raises naming the offending "<0x??>" token when either digit is not a
+    hex digit (hex_char_to_int silently returns 0 for such input, which is
+    kept for backward compatibility).
+    """
+    if not _is_hex_digit(hi) or not _is_hex_digit(lo):
+        raise Error(
+            "Invalid hex digits in byte token: <0x"
+            + chr(Int(hi))
+            + chr(Int(lo))
+            + ">"
+        )
+    return UInt8((hex_char_to_int(hi) << 4) | hex_char_to_int(lo))
+
+
 struct RuneStreamDecoder:
     """Stateful streaming byte/UTF-8 decoder handling byte-fallback tokens and UTF-8 sequence completion."""
 
@@ -331,12 +414,10 @@ struct RuneStreamDecoder:
     def __init__(out self):
         self.pending_bytes = List[UInt8]()
 
-    def _append_token_bytes(mut self, token: String):
+    def _append_token_bytes(mut self, token: String) raises:
         var raw = token.as_bytes()
         if len(raw) == 6 and raw[0] == 60 and raw[1] == 48 and raw[2] == 120 and raw[5] == 62:
-            var high = hex_char_to_int(raw[3])
-            var low = hex_char_to_int(raw[4])
-            var byte_val = UInt8((high << 4) | low)
+            var byte_val = hex_pair_to_byte(raw[3], raw[4])
             self.pending_bytes.append(byte_val)
             return
 
@@ -361,12 +442,12 @@ struct RuneStreamDecoder:
             self.pending_bytes.append(UInt8(raw[index]))
             index += 1
 
-    def decode_token(mut self, token_str: String) -> String:
+    def decode_token(mut self, token_str: String) raises -> String:
         """Decodes one token string and returns any complete UTF-8 text accumulated so far."""
         self._append_token_bytes(token_str)
         return self._pop_complete_utf8()
 
-    def decode_id(mut self, token_id: Int, tokenizer: RuneWeaver) -> String:
+    def decode_id(mut self, token_id: Int, tokenizer: RuneWeaver) raises -> String:
         """Decodes one token ID using tokenizer vocabulary and returns complete UTF-8 text."""
         if tokenizer.vocab_size == 0:
             self.pending_bytes.append(UInt8(token_id & 0xFF))
@@ -376,6 +457,13 @@ struct RuneStreamDecoder:
         return self.decode_token(tokenizer.vocab[token_id])
 
     def _pop_complete_utf8(mut self) -> String:
+        # INVALID-BYTE POLICY: any byte that cannot belong to a complete,
+        # valid UTF-8 sequence is deterministically replaced with U+FFFD
+        # (bytes EF BF BD) instead of being emitted raw. That covers lone
+        # continuation bytes (0x80-0xBF), invalid lead bytes (0xF8-0xFF),
+        # and lead bytes followed by a non-continuation byte. Truncated but
+        # otherwise well-formed sequences at the end stay pending so split
+        # multi-byte tokens can still complete on later decode_token calls.
         var text_bytes = List[Int8]()
         var index = 0
         var n = len(self.pending_bytes)
@@ -392,7 +480,10 @@ struct RuneStreamDecoder:
             elif b >= 0xF0 and b <= 0xF7:
                 width = 4
             else:
-                text_bytes.append(Int8(b))
+                # Lone continuation byte or invalid lead byte: U+FFFD.
+                text_bytes.append(Int8(-17))  # 0xEF
+                text_bytes.append(Int8(-65))  # 0xBF
+                text_bytes.append(Int8(-67))  # 0xBD
                 index += 1
                 continue
 
@@ -407,7 +498,12 @@ struct RuneStreamDecoder:
                     break
 
             if not valid:
-                text_bytes.append(Int8(b))
+                # Lead byte not followed by valid continuations: replace the
+                # lead with U+FFFD; the following byte is reprocessed on its
+                # own and replaced as well if it is invalid.
+                text_bytes.append(Int8(-17))  # 0xEF
+                text_bytes.append(Int8(-65))  # 0xBF
+                text_bytes.append(Int8(-67))  # 0xBD
                 index += 1
                 continue
 
@@ -426,12 +522,45 @@ struct RuneStreamDecoder:
         return String(unsafe_from_utf8_ptr=text_bytes.unsafe_ptr())
 
     def flush(mut self) -> String:
-        """Flushes all pending bytes at end of stream as String."""
+        """Flushes all pending bytes at end of stream as String.
+
+        Applies the same invalid-byte policy as _pop_complete_utf8: bytes
+        that cannot belong to a complete, valid UTF-8 sequence are replaced
+        with U+FFFD (bytes EF BF BD). Trailing truncated sequences can never
+        complete at end of stream, so each of their bytes is replaced too.
+        """
         if len(self.pending_bytes) == 0:
             return String("")
-        var bytes = List[Int8]()
-        for index in range(len(self.pending_bytes)):
-            bytes.append(Int8(self.pending_bytes[index]))
-        bytes.append(0)
+        var text_bytes = List[Int8]()
+        var index = 0
+        var n = len(self.pending_bytes)
+        while index < n:
+            var b = Int(self.pending_bytes[index])
+            var width = 0
+            if b < 0x80:
+                width = 1
+            elif b >= 0xC0 and b <= 0xDF:
+                width = 2
+            elif b >= 0xE0 and b <= 0xEF:
+                width = 3
+            elif b >= 0xF0 and b <= 0xF7:
+                width = 4
+            var valid = width > 0 and index + width <= n
+            if valid:
+                for offset in range(1, width):
+                    var cb = Int(self.pending_bytes[index + offset])
+                    if (cb & 0xC0) != 0x80:
+                        valid = False
+                        break
+            if valid:
+                for offset in range(width):
+                    text_bytes.append(Int8(self.pending_bytes[index + offset]))
+                index += width
+            else:
+                text_bytes.append(Int8(-17))  # 0xEF
+                text_bytes.append(Int8(-65))  # 0xBF
+                text_bytes.append(Int8(-67))  # 0xBD
+                index += 1
+        text_bytes.append(0)
         self.pending_bytes.clear()
-        return String(unsafe_from_utf8_ptr=bytes.unsafe_ptr())
+        return String(unsafe_from_utf8_ptr=text_bytes.unsafe_ptr())

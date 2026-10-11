@@ -104,7 +104,156 @@ def test_multilingual_corpora() raises:
 
     print("Multilingual differential corpora round-trip: PASS")
 
+def test_validate_vocabulary_duplicate_spelling() raises:
+    print("--- Testing validate_vocabulary duplicate spelling detection (R001) ---")
+    var weaver = RuneWeaver()
+    weaver.add_token("alpha", 10)
+    weaver.add_token("beta", 11)
+    weaver.add_token("alpha", 12)
+    var raised = False
+    try:
+        weaver.validate_vocabulary()
+    except error:
+        raised = True
+        if "12" not in String(error) and "10" not in String(error):
+            raise Error("duplicate-spelling error must name the offending id: " + String(error))
+    if not raised:
+        raise Error("validate_vocabulary must raise when one spelling covers two ids")
+    print("validate_vocabulary duplicate spelling: PASS")
+
+def test_validate_vocabulary_missing_coverage() raises:
+    print("--- Testing validate_vocabulary missing token_to_id coverage (R001) ---")
+    var weaver = RuneWeaver()
+    weaver.add_token("alpha", 10)
+    weaver.add_token("beta", 11)
+    # Direct struct manipulation: vocab spelling present, token_to_id entry gone.
+    weaver.vocab[11] = "gamma"
+    var raised = False
+    try:
+        weaver.validate_vocabulary()
+    except error:
+        raised = True
+        if "11" not in String(error):
+            raise Error("missing-coverage error must name the offending id: " + String(error))
+    if not raised:
+        raise Error("validate_vocabulary must raise when a non-empty vocab spelling is missing from token_to_id")
+    print("validate_vocabulary missing coverage: PASS")
+
+def test_validate_vocabulary_empty_special_spelling() raises:
+    print("--- Testing validate_vocabulary empty special spelling (R001) ---")
+    var weaver = RuneWeaver()
+    weaver.add_token("<unk>", 0)
+    weaver.add_token("<s>", 1)
+    # eos id 2 is intentionally left as a "" gap-fill placeholder.
+    weaver.set_special_tokens(0, 1, 2)
+    var raised = False
+    try:
+        weaver.validate_vocabulary()
+    except error:
+        raised = True
+        if "eos_token_id" not in String(error):
+            raise Error("empty-special error must name the special: " + String(error))
+    if not raised:
+        raise Error("validate_vocabulary must raise when a special token id has an empty spelling")
+    # Control case: fully configured specials validate cleanly.
+    var good = RuneWeaver()
+    good.add_token("<unk>", 0)
+    good.add_token("<s>", 1)
+    good.add_token("</s>", 2)
+    good.set_special_tokens(0, 1, 2)
+    good.validate_vocabulary()
+    print("validate_vocabulary empty special spelling: PASS")
+
+def test_add_token_negative_id() raises:
+    print("--- Testing add_token negative id rejection (R002) ---")
+    var weaver = RuneWeaver()
+    var raised = False
+    try:
+        weaver.add_token("x", -1)
+    except error:
+        raised = True
+        if "non-negative" not in String(error):
+            raise Error("negative-id error must say the id must be non-negative: " + String(error))
+    if not raised:
+        raise Error("add_token must raise for a negative token id")
+    print("add_token negative id: PASS")
+
+def test_encode_special_token_resolution() raises:
+    print("--- Testing encode special-token id resolution (R003) ---")
+    var weaver = RuneWeaver()
+    weaver.add_token("a", 0)
+    weaver.add_token("b", 1)
+    # "<|im_start|>" is not registered: encode must raise naming the spelling.
+    var raised = False
+    try:
+        _ = weaver.encode("<|im_start|>ab")
+    except error:
+        raised = True
+        if "<|im_start|>" not in String(error):
+            raise Error("encode error must name the missing special spelling: " + String(error))
+    if not raised:
+        raise Error("encode must raise when a special spelling is absent from the vocabulary")
+    # Register it: the prompt must now encode the spelling to its vocab id.
+    weaver.add_token("<|im_start|>", 2)
+    var tokens = weaver.encode("<|im_start|>ab")
+    if len(tokens) != 3:
+        raise Error("special-token prompt must encode to 3 tokens")
+    if tokens[0] != 2 or tokens[1] != 0 or tokens[2] != 1:
+        raise Error("registered special spelling must encode to its vocab id")
+    print("encode special-token id resolution: PASS")
+
+def test_decode_token_invalid_hex() raises:
+    print("--- Testing decode_token hex validation (R004) ---")
+    var decoder = RuneStreamDecoder()
+    var raised = False
+    try:
+        _ = decoder.decode_token("<0xZZ>")
+    except error:
+        raised = True
+        if "<0xZZ>" not in String(error):
+            raise Error("hex error must name the bad token: " + String(error))
+    if not raised:
+        raise Error("decode_token must raise for a non-hex byte token")
+    # Valid hex still decodes: 0xF0 starts a 4-byte sequence, stays pending.
+    var chunk = decoder.decode_token("<0xF0>")
+    if chunk != "":
+        raise Error("valid <0xF0> must stay pending as an incomplete sequence")
+    print("decode_token hex validation: PASS")
+
+def test_stream_decoder_invalid_byte_replacement() raises:
+    print("--- Testing invalid byte U+FFFD replacement (R005) ---")
+    var decoder = RuneStreamDecoder()
+    # A lone continuation byte can never complete: replaced immediately.
+    var chunk = decoder.decode_token("<0x80>")
+    var tail = decoder.flush()
+    var combined = chunk + tail
+    if combined != "\uFFFD":
+        raise Error("lone 0x80 must decode to exactly U+FFFD, got '" + combined + "'")
+    var combined_bytes = combined.as_bytes()
+    if len(combined_bytes) != 3 or combined_bytes[0] != 0xEF or combined_bytes[1] != 0xBF or combined_bytes[2] != 0xBD:
+        raise Error("U+FFFD must be bytes EF BF BD")
+    for i in range(len(combined_bytes)):
+        if combined_bytes[i] == 0x80:
+            raise Error("raw 0x80 leaked into decoded output")
+    # flush() with a truncated sequence pending: 0xE2 stays pending in
+    # _pop_complete_utf8, then flush() replaces it with U+FFFD.
+    var decoder2 = RuneStreamDecoder()
+    var pending_chunk = decoder2.decode_token("<0xE2>")
+    if pending_chunk != "":
+        raise Error("truncated 0xE2 lead must stay pending")
+    var flushed = decoder2.flush()
+    if flushed != "\uFFFD":
+        raise Error("truncated lead 0xE2 must flush to U+FFFD, got '" + flushed + "'")
+    print("invalid byte U+FFFD replacement: PASS")
+
 def main() raises:
     test_tokenizer()
     test_stream_decoder()
     test_multilingual_corpora()
+    test_validate_vocabulary_duplicate_spelling()
+    test_validate_vocabulary_missing_coverage()
+    test_validate_vocabulary_empty_special_spelling()
+    test_add_token_negative_id()
+    test_encode_special_token_resolution()
+    test_decode_token_invalid_hex()
+    test_stream_decoder_invalid_byte_replacement()
