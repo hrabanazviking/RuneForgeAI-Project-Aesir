@@ -1,3 +1,66 @@
+## 2026-10-10 — Yrsa: aesir-dusk-forge RUNEWEAVE (20 slices, tokenizer + prompt-pipeline hardening)
+
+Twenty-slice Mythic Engineering campaign on the tokenizer/prompt-shaping
+pipeline (aesir_engine/loader + core). ARM64/armvegr and all MÍMISBRUNNR
+roadmap domains untouched; ChatGPT Work's server/CLI files untouched;
+no README or Volmarr-authored docs touched.
+
+R001–R005 RuneWeaver core (loader/tokenizer.mojo): validate_vocabulary now
+requires full token_to_id coverage (non-empty spellings map to their own id —
+catches duplicates and gaps) and non-empty declared special-token spellings
+(gated on set_special_tokens having been called, so hand-built weavers keep
+validating); add_token rejects negative ids; encode's special-token split is
+fail-closed via raising special_token_id (hardcoded 106/107/151644/151645/
+151643 fallbacks deleted — no test relied on them); byte-fallback hex pairs
+are hex-digit validated (raising); the stream decoder replaces invalid UTF-8
+with U+FFFD instead of emitting raw bytes.
+
+R006–R009 native BPE families: Llama3 append_header maps role "tool" to user
+framing (documented policy — reconciles ChatMessage.validate); Gemma4
+append_message accepts "assistant" as an alias for "model"; Gemma4 newline
+segmentation extracted to free function gemma4_newline_spans (char-boundary
+invariant pinned — already solid); GPT-2 pre-tokenizer splits pinned
+("don't"->["don","'t"], qwen digit runs, llama3 digit_limit=3).
+
+R010–R013 chat templates (loader/chat_template.mojo): escape_control_tokens
+now neutralizes all 12 family control spellings (gemma <start_of_turn>/
+<end_of_turn>, llama3 <|start_header_id|> etc., llama2 [INST]/[/INST]/
+<<SYS>> — closing the prompt-framing injection gap); detect_template_family
+checks strong bracketed markers before weak bare-word heuristics;
+format_llama2 concatenates multiple system blocks with "\n\n" (was
+last-wins); format_chat raises on unknown style (was silent chatml).
+
+R014–R016 quantization bounds (loader/quantization.mojo): raising
+quant_block_size_bytes/quant_weights_per_block fail closed on unknown
+formats (legacy fail-open fns kept, no other callers); span-checked
+dequantize_q4_0/q8_0_checked wrappers (overflow-guarded, expected-vs-actual
+messages); all span-validation errors now carry the offending values.
+
+R017–R020: chunk_text snaps chunk windows to UTF-8 code-point boundaries
+(never splits multibyte sequences; wide code points emitted whole; also
+fixes chunk text construction to decode bytes instead of stringifying the
+byte list); unicode_categories pins the 821 live L/N ranges with comptime
+asserts evaluated on every build (Mojo 1.0.0 removed constrained[] —
+replacement verified by scratch proof); reusable_prompt_prefix and
+GenerationControl invariants pinned by regression tests (both already
+solid, unchanged).
+
+Tests: 30 new test functions across test_tokenizer,
+test_tokenizer_families (new), test_chat_template_hardening (new),
+test_quantization_hardening, test_corpus_ingestion (new),
+test_unicode_categories (new), test_prompt_prefix, test_generation_control —
+all green; regressions also green: test_quantization,
+test_quantized_inference, test_rag, test_memory_refinements.
+Pre-existing environment failures unchanged (tests/run_all.mojo still does
+not build on this CPU-only VM — stdlib GPU-arch constraint via
+cuda_sampling.mojo; test_inference.mojo needs a GPU).
+
+Files: aesir_engine/loader/{tokenizer,llama3_tokenizer,gemma4_tokenizer,
+chat_template,quantization,corpus_ingestion,unicode_categories}.mojo +
+8 test files.
+Plan: ~/workspace/forge-runs/aesir-2026-10-10-1927/plan.md
+Commits: 0e6f48d, 672f26e, 9e0dbdc, 8324476, f56c46e (+ this DEVLOG entry).
+
 ## 2026-10-10 — H059R1–R3: TinyLlama incoherence ROOT CAUSE FOUND + FIXED (Yrsa)
 
 **Symptom:** "Hello"→"nederbörd"; chat prompt→Cyrillic fragments; logit entropy 4.73.
