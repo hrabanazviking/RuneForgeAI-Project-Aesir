@@ -708,13 +708,16 @@ generator is independently designed; findings live in docs/plunder/.
 - [x] H185 — Soak analyzer PASS on the REAL soak log: decode_tps slope CI DRIFT-FREE (implied +3.07%), wall_s DRIFT-FREE, peak_rss DRIFT-FREE, soc_temp DRIFT-FREE, 0 anomalies. Evidence: `data/gauntlet/soak_analysis.json`.
 - [x] H186 — FI campaign PASS (2026-10-11): 60.7 min supervised run, 124 faults injected = 124 handled (hang 39, regerr 50, dmacorrupt 35), 0 child crashes, vordr rc 0, 10/10 coherence spot-checks clean (rubric v1.1, H138 semantics). Two driver fixes en route: vordr needs root (sudo, as C8) and the checker was aligned to the H138 reference (full generated_text/ids; first checker sliced the prompt echo and false-failed topic_word on coherent continuations — rescored from saved artifacts, `--rescore`). Evidence: `data/gauntlet/fi_campaign/scoreboard.json`.
 - [x] H187 — Reset storm PASS (2026-10-11): 20/20 SIGKILL→respawn cycles recovered to service, max restart 1.0 ms vs H155 budget 44 ms, post-storm greedy output bit-identical to pre-storm reference every cycle. Evidence: `data/gauntlet/reset_storm.json`.
-- [~] H188 — Determinism RUNNING on Mimir.
+- [x] H188 — Determinism PASS (2026-10-11): 5 prompts × 10/10 identical greedy outputs + 5/5 post-restart identical. Evidence: `data/gauntlet/determinism.json`.
 - [x] H189 — Leak check PASS on real soak RSS: slope −0.37 MB/h (budget ≤1 MB/h), rss 2140.3→2179.2 MB over 2nd hour window. Evidence: `data/gauntlet/rss_check.json`.
-- [x] H190/H191 — packaging script + deploy script + canary DONE (canary measured on Mimir).
+- [x] H190 — Packaging PASS after a gauntlet-found real defect: the bare binary did NOT run in a clean container (missing Mojo runtime libs) → packaging script fixed in-domain (bundle toolchain libs under lib/, patchelf rpath $ORIGIN/../lib, fail-closed ldd check) → H190-ALL-PASS (python-less container inference OK, strace clean). Evidence: `data/gauntlet/packaging_proof.json`.
+- [x] H191 — Deploy COMPLETE: checksum + model sha256 verified, extracted to /home/pi/aesir-f1-1.0, watchdog installed (systemd-system), `aesir-driver` symlink asserted, canary PASS (first-10 generated ids match). One fix en route: canary.json is resolved AFTER extraction (first-deploy bug).
+- [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE (notices amended for the bundled runtime libs).
 - [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE.
 - [x] H195 — Victory gate 1 PASS (2026-10-10): 2 unseen models (Q8_0 + Q6_K) × 3 prompts, 6/6 coherent per rubric v1.1. H201 remediation executed in-slice: v1 wordlist (2674 words) caused false english_ratio failures on coherent text → expanded to v2 (370090 words), rubric v1.1, re-run at 96 tokens. Q5_K_M correctly rejected fail-closed (unsupported dtype) — envelope documented.
-- [ ] H196/H197 — pending H183/H186/H187/H188/H189 evidence.
-- [ ] H198 — pending all evidence (full suite ~7-8h).
+- [x] H196 — Victory gate 2 PASS (2026-10-11): 9/9 stability gates PASS on measured evidence (STAB-01..09). Evidence: `data/gauntlet/victory_gate_2.json`.
+- [x] H197 — Victory gate 3 PASS (2026-10-11). Evidence: `data/gauntlet/victory_gate_3.json`.
+- [~] H198 — Full suite RUNNING: x86 subset ALL-PASS (2/2, forge VM); mimir subset (24 tests) launched 01:44 EDT under sudo, ETA ~09:30 EDT. run_all fixed en route: per-test args (--selftest/--probe), per-test env (HAILBRU_PROBE), two-machine split for the x86-xcompile tests.
 - [ ] H199/H200 — pending H198.
 - Coordinator: merged `mimisbrunnr-c9-speed` → main as d9e20e1 (--no-ff), pushed, remote HEAD verified d9e20e199ff6102b0aa75f63e6322bb6fa7d6960. Branch deleted (local + origin). C9 verdict: STRONG PASS — decode 0.1766→1.918 tok/s (10.86×), prefill 2.080→3.362 tok/s (+61.6%), GEMM 6.934→7.773 GFLOPS (+12.1%). H170 deferred (threading needs shared-memory infra, documented).
 

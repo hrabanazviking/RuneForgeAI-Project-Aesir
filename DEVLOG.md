@@ -3947,3 +3947,38 @@ v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
   budget, and every post-storm greedy verification bit-identical to
   the pre-storm reference. A killed process leaves no residue: the
   pipeline is stateless across process death by construction.
+
+## 2026-10-11 — MÍMISBRUNNR C10: H188/H190/H191/H196/H197 PASS, H198 running
+
+- H188: determinism — 5 prompts × 10/10 bit-identical greedy outputs,
+  5/5 identical after process restart. The F1 trunk is a pure function
+  of (model, config, seed): no hidden state, no clock, no entropy leak.
+- H190: the gauntlet earned its keep — the packaging test FAILED the
+  first run because the "self-contained" binary silently depended on
+  Mojo toolchain runtime libraries (libKGENCompilerRTShared et al.)
+  present only on the build host. Fix in-domain (packaging script):
+  bundle the toolchain libs under lib/, patchelf the binary's rpath
+  to $ORIGIN/../lib, fail closed if ldd shows any "not found".
+  Re-test: 22 files, forbidden scan clean, inference OK inside a
+  python-less debian:bookworm-slim container, strace shows no python
+  exec. THIRD_PARTY_NOTICES amended for the bundled libs.
+- H191: deploy to /home/pi/aesir-f1-1.0 complete — checksum and model
+  sha256 verified, watchdog unit installed (systemd-system),
+  aesir-driver symlink asserted, canary PASS (first-10 generated ids
+  bit-match). One fix: the canary path is now resolved after
+  extraction (it ships inside the package; resolving it before
+  extraction broke first-time deploys).
+- H196 victory gate 2: PASS — all 9 stability gates green on measured
+  evidence (soak 4.004h/0 errors/drift 1.48%, FI 124=124, recovery
+  1.0, determinism 1.0, RSS slope ≤ budget, coherence 1.0).
+- H197 victory gate 3: PASS — crash-resistance proven from the FI
+  scoreboard + reset-storm record + the C8 fallback audit.
+- H198: full suite restructured honestly — the PRÓF corpus spans two
+  machines (two tests drive the x86 cross-compile toolchain and
+  cannot run on the Pi). run_all.py now tags each test by machine,
+  runs each subset where its toolchain lives, and merges. x86 subset:
+  2/2 ALL-PASS. Mimir subset (24 tests) launched under sudo (C8
+  VÖRÐR tests need root). First attempt caught three invocation bugs
+  (test_log_schema --selftest, test_error_paths $HAILBRU_PROBE,
+  test_reset_cycles --probe/--out) — all fixed in the runner, never
+  in the tests.
