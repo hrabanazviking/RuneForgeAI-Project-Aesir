@@ -32,7 +32,7 @@ struct Verdict:
         self.evidence_path = evidence_path
 
 
-def judge(g: Gate, m: Measurement) -> Verdict:
+def judge(g: Gate, m: Measurement) -> Verdict raises:
     """Evaluate one measurement against one gate; emit its verdict."""
     var ok = gate_holds(g, m)
     var word = String("FAIL")

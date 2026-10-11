@@ -38,7 +38,7 @@ struct Gate:
         self.justification = justification
 
 
-def gate_holds(g: Gate, m: Measurement) -> Bool:
+def gate_holds(g: Gate, m: Measurement) -> Bool raises:
     """True when the measurement satisfies the gate's threshold.
 
     Raises when the measurement is for a different metric than the gate
@@ -65,7 +65,7 @@ def gate_holds(g: Gate, m: Measurement) -> Bool:
     raise Error("gauntlet: gate " + g.gate_id + " has unknown op '" + g.op + "'")
 
 
-def gate_verdict_word(g: Gate, m: Measurement) -> String:
+def gate_verdict_word(g: Gate, m: Measurement) -> String raises:
     """PASS/FAIL word for one measurement against one gate."""
     if gate_holds(g, m):
         return String("PASS")

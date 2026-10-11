@@ -36,7 +36,7 @@ struct Measurement:
         self.evidence_path = evidence_path
 
 
-def ols_slope(xs: List[Float64], ys: List[Float64]) -> Float64:
+def ols_slope(xs: List[Float64], ys: List[Float64]) -> Float64 raises:
     """Ordinary least-squares slope of y on x. Raises on degenerate input."""
     if len(xs) != len(ys):
         raise Error("gauntlet: ols_slope length mismatch")
@@ -61,7 +61,7 @@ def ols_slope(xs: List[Float64], ys: List[Float64]) -> Float64:
     return num / den
 
 
-def mean(xs: List[Float64]) -> Float64:
+def mean(xs: List[Float64]) -> Float64 raises:
     """Arithmetic mean. Raises on empty input."""
     if len(xs) == 0:
         raise Error("gauntlet: mean of empty list")
@@ -81,7 +81,7 @@ def stddev(xs: List[Float64]) -> Float64:
     return sqrt(acc / Float64(len(xs)))
 
 
-def slope_ci_halfwidth(xs: List[Float64], ys: List[Float64]) -> Float64:
+def slope_ci_halfwidth(xs: List[Float64], ys: List[Float64]) -> Float64 raises:
     """Half-width of the ~95% confidence interval for the OLS slope.
 
     Uses the standard error of the slope times 1.96 (large-sample normal
