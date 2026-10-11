@@ -149,3 +149,17 @@ POSIX libc/libm only. No GPL/LGPL/AGPL/proprietary linkage. No Python,
 no HEF, no firmware blobs in the package (separately verified by
 `scripts/package_f1_release.sh` artifact scan and
 `prof/gauntlet/test_packaging.py`).
+
+## Bundled runtime libraries (H190 packaging, 2026-10-11)
+
+The release tarball bundles, unmodified, the Mojo 1.1.0 toolchain
+runtime libraries that `f1_infer` dynamically links against
+(libKGENCompilerRTShared.so, libMSupportGlobals.so,
+libAsyncRTRuntimeGlobals.so, libstdc++.so.6, libgcc_s.so.1) under
+`lib/`, with the binary's rpath set to `$ORIGIN/../lib`. Without them
+the binary does not run on a clean machine (H190 container proof).
+These libraries are © Modular, Inc., distributed as part of the Mojo
+toolchain installation on the build host; libstdc++/libgcc_s are
+© the GCC project (GPL with the GCC Runtime Library Exception, which
+permits linking and redistribution with independent programs). No
+other third-party code is bundled.

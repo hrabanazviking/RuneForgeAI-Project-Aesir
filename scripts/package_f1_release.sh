@@ -11,11 +11,18 @@
 #
 # Layout inside the tarball:
 #   aesir-f1-<ver>/
-#     bin/f1_infer
+#     bin/f1_infer            (rpath $ORIGIN/../lib — self-contained)
+#     lib/                    (Mojo toolchain runtime libs the binary
+#                              links against, bundled unmodified; the
+#                              binary does NOT run without them — proven
+#                              by the H190 container test)
 #     config/f1_config.json
 #     share/tokenizer/tinyllama_tokenizer.model
 #     share/doc/RUNBOOK.md  share/doc/RELEASE_NOTES.md
 #     THIRD_PARTY_NOTICES.md  MANIFEST.txt
+#
+# Build-host requirement: patchelf (Debian: apt-get install patchelf).
+# The script FAILS CLOSED if patchelf is missing.
 set -euo pipefail
 
 VERSION=""
@@ -39,6 +46,36 @@ mkdir -p "$HERE/build"
 mojo build -I "$HERE" -o "$HERE/build/f1_infer" "$HERE/armvegr/f1_infer.mojo"
 
 cp "$HERE/build/f1_infer" "$STAGE/bin/"
+
+# H190 (gauntlet-found defect, fixed in-domain): the Mojo binary links
+# against toolchain runtime libraries (libKGENCompilerRTShared,
+# libMSupportGlobals, libAsyncRTRuntimeGlobals, libstdc++, libgcc_s)
+# that live in the build host's Mojo installation. A bare binary copy
+# does NOT run on a clean machine (proven by the H190 container test:
+# "libKGENCompilerRTShared.so: cannot open shared object file").
+# Bundle every toolchain-provided library the binary needs and point
+# the binary's rpath at the bundled lib/ via $ORIGIN.
+command -v patchelf >/dev/null 2>&1 || {
+  echo "H190 FAIL: patchelf not found on build host (apt-get install patchelf)" >&2
+  exit 1
+}
+mkdir -p "$STAGE/lib"
+KGEN_PATH="$(ldd "$HERE/build/f1_infer" | awk '/libKGENCompilerRTShared/ {print $3}')"
+[ -n "$KGEN_PATH" ] || { echo "H190 FAIL: cannot locate libKGENCompilerRTShared via ldd" >&2; exit 1; }
+TOOLCHAIN_LIB_DIR="$(dirname "$KGEN_PATH")"
+echo "H190: bundling toolchain runtime libs from $TOOLCHAIN_LIB_DIR"
+ldd "$HERE/build/f1_infer" | awk '{print $3}' | grep "^$TOOLCHAIN_LIB_DIR/" | sort -u | while read -r so; do
+  cp -L "$so" "$STAGE/lib/"
+  echo "H190:   bundled $(basename "$so")"
+done
+patchelf --set-rpath '$ORIGIN/../lib' "$STAGE/bin/f1_infer"
+# Fail closed if the staged binary still has unresolved libraries.
+if ldd "$STAGE/bin/f1_infer" | grep -q "not found"; then
+  echo "H190 FAIL: staged binary has unresolved libraries:" >&2
+  ldd "$STAGE/bin/f1_infer" | grep "not found" >&2
+  exit 1
+fi
+echo "H190: staged binary self-contained (ldd clean, rpath \$ORIGIN/../lib)"
 cp "$HERE/data/fallback/f1_config.json" "$STAGE/config/"
 cp "$HERE/data/gauntlet/storm_config.json" "$STAGE/config/" 2>/dev/null || true
 cp "$HERE/data/armvegr/tinyllama_tokenizer.model" "$STAGE/share/tokenizer/"
