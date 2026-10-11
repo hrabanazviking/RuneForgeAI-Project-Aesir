@@ -713,12 +713,11 @@ generator is independently designed; findings live in docs/plunder/.
 - [x] H190 — Packaging PASS after a gauntlet-found real defect: the bare binary did NOT run in a clean container (missing Mojo runtime libs) → packaging script fixed in-domain (bundle toolchain libs under lib/, patchelf rpath $ORIGIN/../lib, fail-closed ldd check) → H190-ALL-PASS (python-less container inference OK, strace clean). Evidence: `data/gauntlet/packaging_proof.json`.
 - [x] H191 — Deploy COMPLETE: checksum + model sha256 verified, extracted to /home/pi/aesir-f1-1.0, watchdog installed (systemd-system), `aesir-driver` symlink asserted, canary PASS (first-10 generated ids match). One fix en route: canary.json is resolved AFTER extraction (first-deploy bug).
 - [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE (notices amended for the bundled runtime libs).
-- [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE.
 - [x] H195 — Victory gate 1 PASS (2026-10-10): 2 unseen models (Q8_0 + Q6_K) × 3 prompts, 6/6 coherent per rubric v1.1. H201 remediation executed in-slice: v1 wordlist (2674 words) caused false english_ratio failures on coherent text → expanded to v2 (370090 words), rubric v1.1, re-run at 96 tokens. Q5_K_M correctly rejected fail-closed (unsupported dtype) — envelope documented.
 - [x] H196 — Victory gate 2 PASS (2026-10-11): 9/9 stability gates PASS on measured evidence (STAB-01..09). Evidence: `data/gauntlet/victory_gate_2.json`.
 - [x] H197 — Victory gate 3 PASS (2026-10-11). Evidence: `data/gauntlet/victory_gate_3.json`.
-- [~] H198 — Full suite RUNNING: x86 subset ALL-PASS (2/2, forge VM); mimir subset (24 tests) launched 01:44 EDT under sudo, ETA ~09:30 EDT. run_all fixed en route: per-test args (--selftest/--probe), per-test env (HAILBRU_PROBE), two-machine split for the x86-xcompile tests.
-- [ ] H199/H200 — pending H198.
+- [~] H198 — Full suite RUNNING (20/24 mimir PASS as of 04:15 EDT; x86 subset ALL-PASS 2/2). Two-machine suite (x86 subset for the cross-compile toolchain tests). Attempt 1 aborted at test_fi_dma_corrupt on a stale /tmp/vordr-h154-events.jsonl (append-only log double-counted; C8 assumed wiped /tmp) — runner hygiene added (scratch clean before every mimir test + --resume), attempt-1 FAIL was runner-environment, not the driver (clean-scratch re-run: 500/500, 0 escapes). Remaining: in-suite 4h soak (fresh evidence) ~09:40 EDT, then VG1-3 quick re-judgments.
+- [ ] H199/H200 — drafts written; final fill + tag after H198.
 - Coordinator: merged `mimisbrunnr-c9-speed` → main as d9e20e1 (--no-ff), pushed, remote HEAD verified d9e20e199ff6102b0aa75f63e6322bb6fa7d6960. Branch deleted (local + origin). C9 verdict: STRONG PASS — decode 0.1766→1.918 tok/s (10.86×), prefill 2.080→3.362 tok/s (+61.6%), GEMM 6.934→7.773 GFLOPS (+12.1%). H170 deferred (threading needs shared-memory infra, documented).
 
 ## Blocker log

@@ -3982,3 +3982,18 @@ v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
   (test_log_schema --selftest, test_error_paths $HAILBRU_PROBE,
   test_reset_cycles --probe/--out) — all fixed in the runner, never
   in the tests.
+- H198 attempt 1 aborted at test_fi_dma_corrupt: "corrupt events
+  1000 != 500 injected" — the C8 test counts events from the append-only
+  /tmp/vordr-h154-events.jsonl and C8's campaign ran on a wiped /tmp; the
+  stale log double-counted. Runner hygiene added (C10 domain, not the
+  tests): run_all.py now cleans /tmp/vordr-* before every mimir test and
+  supports --resume (keeps earlier-attempt PASS results, re-runs the
+  rest; attempt-1 summary preserved at
+  data/gauntlet/full_suite_mimir_attempt1.json). Pre-flight with clean
+  scratch: 500/500 detected, 0 escapes, 500/500 re-transferred — PASS.
+  Resumed 2026-10-11 02:39 EDT with scratch cleaning: dma_corrupt,
+  removal, supervised (2586.5s), packaging, reset_storm (657.2s),
+  determinism (1783.8s), check_rss all PASS; in-suite FI campaign PASS
+  (3665.3s; injected 122 = handled 122: hang 34, dmacorrupt 36,
+  regerr 52). In-suite 4h soak (test_soak_cpu_4h.py) now running —
+  the suite's own fresh-soak evidence, ~09:40 EDT completion.
