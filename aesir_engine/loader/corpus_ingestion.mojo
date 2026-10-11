@@ -36,10 +36,60 @@ struct DocumentChunk(Copyable, ImplicitlyCopyable):
         self.byte_offset = existing.byte_offset
 
 
+def _is_utf8_continuation(b: Byte) -> Bool:
+    """True for UTF-8 continuation bytes 0x80..0xBF."""
+    return b >= 0x80 and b <= 0xBF
+
+
+def _utf8_lead_length(lead: Byte) -> Int:
+    """Total byte length of the code point opened by lead byte `lead` (>= 0xC0)."""
+    if lead < 0xE0:
+        return 2
+    if lead < 0xF0:
+        return 3
+    return 4
+
+
+def _snap_chunk_end(t_bytes: Span[Byte, ...], offset: Int, raw_end: Int) -> Int:
+    """Largest code-point boundary `e` with `offset < e <= raw_end`.
+
+    Walks back over at most 3 continuation bytes, then resolves a trailing
+    lead byte: a split code point is excluded (the walk alone would leave its
+    orphan lead byte inside the chunk), while a code point that ends exactly
+    at `raw_end` keeps `raw_end`. `offset` itself is always a boundary, so the
+    walk never passes it.
+    """
+    var end_offset = raw_end
+    var steps = 0
+    while end_offset > offset and steps < 3 and _is_utf8_continuation(t_bytes[end_offset - 1]):
+        end_offset -= 1
+        steps += 1
+    if end_offset > offset and t_bytes[end_offset - 1] >= 0xC0:
+        if end_offset - 1 + _utf8_lead_length(t_bytes[end_offset - 1]) > raw_end:
+            end_offset -= 1
+        else:
+            end_offset = raw_end
+    return end_offset
+
+
+def _snap_chunk_start(t_bytes: Span[Byte, ...], raw_start: Int, text_len: Int) -> Int:
+    """Smallest code-point boundary `s >= raw_start` (walks forward over continuations)."""
+    var start = raw_start
+    while start < text_len and _is_utf8_continuation(t_bytes[start]):
+        start += 1
+    return start
+
+
 def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> List[DocumentChunk]:
     """
     Deterministic Text Chunking Kernel.
-    Splits text into fixed character windows with overlap, preserving byte offset metadata.
+    Splits text into fixed byte windows with overlap, preserving byte offset metadata.
+
+    R017: windows are snapped to UTF-8 code-point boundaries, so no chunk ever
+    starts or ends mid-character. For pure ASCII input the snapping is a no-op,
+    so window offsets/ids/counts match the pre-fix layout; chunk text is now
+    properly UTF-8-decoded (pre-fix String(slice_bytes) yielded the byte
+    list's repr instead of the decoded text).
     """
     var chunks = List[DocumentChunk]()
     var t_bytes = text.as_bytes()
@@ -59,17 +109,40 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
     var idx = 0
 
     while offset < text_len:
-        var end_offset = min(offset + chunk_size, text_len)
+        var raw_end = min(offset + chunk_size, text_len)
+        # The tail of the text always ends on a boundary; only interior cuts snap.
+        var end_offset = raw_end
+        if raw_end < text_len:
+            end_offset = _snap_chunk_end(t_bytes, offset, raw_end)
+            if end_offset <= offset:
+                # A single code point wider than chunk_size: emit that one
+                # whole code point instead of an empty or partial chunk.
+                var fwd = offset + 1
+                while fwd < text_len and _is_utf8_continuation(t_bytes[fwd]):
+                    fwd += 1
+                end_offset = fwd
         var slice_bytes = List[Byte]()
         for i in range(offset, end_offset):
             slice_bytes.append(t_bytes[i])
-        var chunk_str = String(slice_bytes)
+        # Decode the snapped bytes as UTF-8. NOTE: the pre-fix code used
+        # String(slice_bytes), which stringifies the List (yielding the byte
+        # list's repr like "[97, 98, ...]") instead of decoding the bytes.
+        # The repo's established bytes->String pattern (as in
+        # loader/tokenizer.mojo) is a NUL-terminated unsafe_from_utf8_ptr,
+        # which is sound here because snapping guarantees valid UTF-8.
+        slice_bytes.append(0)
+        var chunk_str = String(unsafe_from_utf8_ptr=slice_bytes.unsafe_ptr())
         var chunk_id = String("chunk_") + String(idx)
         chunks.append(DocumentChunk(chunk_id, chunk_str, String("inline"), idx, offset))
         idx += 1
         if end_offset >= text_len:
             break
-        offset += step
+        # The next chunk must also start on a boundary. If snapping pinched
+        # the overlap shut, tile gaplessly instead of skipping bytes.
+        var next_offset = _snap_chunk_start(t_bytes, offset + step, text_len)
+        if next_offset > end_offset:
+            next_offset = end_offset
+        offset = next_offset
 
     return chunks^
 

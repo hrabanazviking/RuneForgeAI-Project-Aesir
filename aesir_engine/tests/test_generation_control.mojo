@@ -1,7 +1,7 @@
 """Native deadline and pollable cancellation checks without a model/GPU."""
 from std.collections import InlineArray
 from std.ffi import external_call
-from core.generation_control import GenerationControl, monotonic_milliseconds
+from core.generation_control import GenerationControl, cancellation_ready, monotonic_milliseconds
 from cli.interrupts import ChatInterrupts, consume_interrupts
 
 
@@ -66,8 +66,45 @@ def test_generation_sigint() raises:
         raise Error("Native cancellation leaked its SIGINT mask")
 
 
+def test_generation_control_hardening() raises:
+    # R020 regression pins: constructor bounds, idle stop reason, poll helper,
+    # and the monotonic clock contract.
+    var rejected = False
+    try:
+        _ = GenerationControl(-1)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("GenerationControl(-1) must raise")
+    rejected = False
+    try:
+        _ = GenerationControl(3600001)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("GenerationControl(3600001) must raise")
+    rejected = False
+    try:
+        _ = GenerationControl(0, -2)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("GenerationControl(0, -2) must raise")
+    var idle = GenerationControl(0)
+    idle.start()
+    if idle.stop_reason() != "":
+        raise Error("zero timeout must report an empty stop reason")
+    if cancellation_ready(-1):
+        raise Error("cancellation_ready(-1) must be False")
+    var t1 = monotonic_milliseconds()
+    var t2 = monotonic_milliseconds()
+    if t1 <= 0 or t2 < t1:
+        raise Error("monotonic clock must be positive and non-decreasing")
+
+
 def main() raises:
     test_generation_deadline()
     test_generation_control_rejection()
     test_generation_sigint()
+    test_generation_control_hardening()
     print("PASS native deadlines, invalid controls and real SIGINT cancellation")
