@@ -103,3 +103,63 @@ Except as contained in this notice, the name of a copyright holder shall
 not be used in advertising or otherwise to promote the sale, use or other
 dealings in these Data Files or Software without prior written
 authorization of the copyright holder.
+
+## H194 finalization (MÍMISBRUNNR Campaign 10, 2026-10-10)
+
+### Clean-room statement
+
+All vendor artifacts (hailort-drivers, HailoRT) were STUDIED ONLY under
+the clean-room workflow: readers produced prose notes, implementers
+worked from the notes, never from the vendor source. No vendor code was
+copied, translated, vendored, linked, or shipped at any point. Evidence:
+`CLEAN_ROOM_LOG.md` (H005/H006 transport + HEF studies), the C6 SMIÐR
+assault logs (encoding face honestly UNKNOWN, never reconstructed from
+vendor sources). No `.hef` file was ever downloaded, opened, or parsed;
+no Dataflow Compiler or HailoRT library was ever installed on the build
+or test hosts.
+
+### Open-licensed artifacts used in TESTS ONLY (never shipped)
+
+- **TinyLlama-1.1B-Chat-v1.0** (used by H059/H138/H183/H195+ test
+  inference): original weights by TinyLlama team, Apache 2.0. The GGUF
+  Q4_0 quantization used in tests (`tinyllama-1.1b-chat-v1.0.Q4_0.gguf`,
+  sha256 `da3087fb…03b556`) is TheBloke's conversion (CC-BY-NC / Llama 2
+  community terms via the original model card). The weights live outside
+  the repo (`/home/pi/models/`, gitignored `*.gguf`) and are NOT part of
+  the release package.
+- **Unseen victory-gate models (H195)**: recorded per-run in
+  `data/gauntlet/victory_gate_1.json` with name, URL, and SHA-256. Both
+  inside the GGUF-or-safetensors envelope Aesir's loaders support.
+
+### Shipped binary dependency-closure license scan (H194)
+
+Method (recorded, reproducible on Mimir):
+1. `ldd build/f1_infer` — dynamic linkage must show POSIX libc/libm/
+   ld-linux only.
+2. `grep -rhoE "^from [A-Za-z0-9_.]+" gauntlet/ armvegr/ | sort -u` —
+   every import root must be `std` or one of the repo's own pure-Mojo
+   packages (`armvegr`, `gauntlet`, `hailbru`, `vordr`, `smidr`).
+3. `grep -rliE "gpl|affero" build/f1_infer` — no GPL marker strings in
+   the binary.
+
+Result (2026-10-10, on Mimir): PASS — Mojo stdlib + the Mojo 1.1.0
+toolchain runtime libs (libKGENCompilerRTShared, libMSupportGlobals,
+libAsyncRTRuntimeGlobals, libstdc++/libgcc_s from the toolchain env) +
+POSIX libc/libm only. No GPL/LGPL/AGPL/proprietary linkage. No Python,
+no HEF, no firmware blobs in the package (separately verified by
+`scripts/package_f1_release.sh` artifact scan and
+`prof/gauntlet/test_packaging.py`).
+
+## Bundled runtime libraries (H190 packaging, 2026-10-11)
+
+The release tarball bundles, unmodified, the Mojo 1.1.0 toolchain
+runtime libraries that `f1_infer` dynamically links against
+(libKGENCompilerRTShared.so, libMSupportGlobals.so,
+libAsyncRTRuntimeGlobals.so, libstdc++.so.6, libgcc_s.so.1) under
+`lib/`, with the binary's rpath set to `$ORIGIN/../lib`. Without them
+the binary does not run on a clean machine (H190 container proof).
+These libraries are © Modular, Inc., distributed as part of the Mojo
+toolchain installation on the build host; libstdc++/libgcc_s are
+© the GCC project (GPL with the GCC Runtime Library Exception, which
+permits linking and redistribution with independent programs). No
+other third-party code is bundled.

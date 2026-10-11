@@ -1,0 +1,10 @@
+{
+  "verdict": "PASS",
+  "n_samples": 393,
+  "n_second_hour": 101,
+  "rss_slope_mb_per_h": -3.023061337308689,
+  "budget_mb_per_h": 1.0,
+  "rss_first_mb": 2140.3,
+  "rss_last_mb": 2179.2,
+  "dma_mapping_check": "N/A (NO-GO branch: no NPU, no DMA-mapped memory)"
+}

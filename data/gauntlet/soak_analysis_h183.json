@@ -1,0 +1,43 @@
+{
+  "log": "data/gauntlet/soak_cpu_4h.log",
+  "generations": 393,
+  "anomalies": 0,
+  "metrics": {
+    "decode_tps": {
+      "metric": "decode_tps",
+      "n": 393,
+      "span_h": 3.901,
+      "slope_per_h": 0.01716975706355417,
+      "slope_ci95_halfwidth": 0.005192728151502907,
+      "implied_frac_change": 0.030713153665829832,
+      "verdict": "DRIFT-FREE"
+    },
+    "wall_s": {
+      "metric": "wall_s",
+      "n": 393,
+      "span_h": 3.901,
+      "slope_per_h": -0.23204313866938744,
+      "slope_ci95_halfwidth": 0.3005104059196803,
+      "implied_frac_change": -0.02526679525083641,
+      "verdict": "DRIFT-FREE"
+    },
+    "peak_rss_mb": {
+      "metric": "peak_rss_mb",
+      "n": 393,
+      "span_h": 3.901,
+      "implied_frac_change": -0.0006703057181384501,
+      "verdict": "DRIFT-FREE",
+      "leak_slope_mb_per_h": -0.36899133986050914,
+      "leak_slope_ci95": 1.769746671339243
+    },
+    "soc_temp_c": {
+      "metric": "soc_temp_c",
+      "n": 44,
+      "span_h": 3.83,
+      "slope_per_h": -1.2580315152505666,
+      "slope_ci95_halfwidth": 0.5683680885329802,
+      "implied_frac_change": -0.10624759423416269,
+      "verdict": "DRIFT-FREE"
+    }
+  }
+}

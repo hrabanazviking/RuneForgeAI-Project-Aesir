@@ -1,0 +1,92 @@
+{
+  "machine": "mimir",
+  "verdict": "FAIL",
+  "total_tests": 24,
+  "executed": 13,
+  "passed": 12,
+  "failed": [
+    "prof/vordr/test_fi_dma_corrupt.py"
+  ],
+  "total_runtime_s": 3242.6,
+  "total_runtime_h": 0.9,
+  "results": [
+    {
+      "script": "prof/gauntlet/test_gauntlet_purity.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "H181 PURITY PASS: 4 gauntlet modules, std+gauntlet-only imports, zero repair/recovery/fix code references\n"
+    },
+    {
+      "script": "prof/gauntlet/test_stability_gates.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "H182: loaded 9 gates\nH182: all gates have metric, method, numeric threshold, slice, justification\nH182: canned healthy dataset -> PASS (9/9)\nH182: breaking soak_error_rate -> FAIL flagged on STAB-01\nH182: breaking soak_duration_h -> FAIL flagged on STAB-02\nH182: breaking soak_drift_ratio -> FAIL flagged on STAB-03\nH182: breaking fi_unhandled_count -> FAIL flagged on STAB-04\nH182: breaking fi_crash_count -> FAIL flagged on STAB-05\nH182: breaking recovery_success_rate -> FAIL flagged on STAB-06\nH182: breaking determinism_match_rate -> FAIL flagged on STAB-07\nH182: breaking rss_slope_mb_per_h -> FAIL flagged on STAB-08\nH182: breaking coherence_pass_rate -> FAIL flagged on STAB-09\nH182-ALL-PASS\n"
+    },
+    {
+      "script": "prof/gauntlet/test_analyze_soak.py",
+      "pass": true,
+      "seconds": 0.2,
+      "tail": "H185: injected 15% slowdown -> DRIFT-DETECTED (slope -0.22485/h, expected -0.22693)\nH185: clean synthetic log -> DRIFT-FREE (no false positive)\nH185: wall_s latency-creep detection consistent\nH185-ALL-PASS\n"
+    },
+    {
+      "script": "prof/vordr/test_taxonomy_complete.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "raised names: 52, taxonomy entries: 62\nH145 taxonomy completeness: PASS\n"
+    },
+    {
+      "script": "prof/hailbru/test_log_schema.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "BAD[0] rejected: not JSON: Expecting value: line 1 column 1 (char 0)\nBAD[1] rejected: missing field 'detail'\nBAD[2] rejected: ts_ms must be integer\nBAD[3] rejected: bad event 'launch'\nBAD[4] rejected: step_start must pair with running\nselftest: 0 failures\n"
+    },
+    {
+      "script": "prof/hailbru/test_error_paths.py",
+      "pass": true,
+      "seconds": 2.0,
+      "tail": "............................                                             [100%]\n28 passed in 1.55s\n"
+    },
+    {
+      "script": "prof/vordr/test_fallback_audit.py",
+      "pass": true,
+      "seconds": 403.2,
+      "tail": ", 'RetryFired', 'TransientFault'] OK\n  recovery: ['RecoveryTransition'] OK\n  integrity: ['IntegrityCorrupt', 'IntegrityRetransferred'] OK\n  shadow: ['ShadowMismatch', 'ShadowPlan'] OK\n  hang: ['HangDetected'] OK\n  thermal: ['ThermalWarning', 'ThresholdsReloaded', 'ThermalRecovered'] OK\n  reset: ['ResetCommanded', 'ResetComplete'] OK\n  reinit: ['ReinitStarted', 'ReinitReady'] OK\n  reinit-refused: ['ReinitRefused'] OK\n  reg-decode-live: ['RegisterErrorDecoded'] OK\n  watchdog: ['WatchdogStarted', 'ChildRestarted', 'WatchdogGaveUp'] OK\n  watchdog-parent: ['WatchdogParentStarted', 'WatchdogRevived'] OK\n  h158-handled: ['FaultInjected', 'FaultHandled'] OK\n  h158-halt: ['SupervisedRunHalted'] OK\n  backend L11 declaration: OK\n\nH159: all degrade/fallback paths emit their events \u2014 zero silent paths\n"
+    },
+    {
+      "script": "prof/armvegr/test_kernel_oracles.py",
+      "pass": true,
+      "seconds": 561.6,
+      "tail": "m_fp16 maxerr=4.76837e-07 ulp_excess=0\nPASS H037 rmsnorm_fp16 maxerr=0 ulp_excess=0\nPASS H037 softmax_fp16 maxerr=0 ulp_excess=0 sum=1\nPASS H037 softmax_masked_fp16 maxerr=0 ulp_excess=0 sum=1\nPASS H037 silu_fp16 maxerr=0 ulp_excess=0\nPASS H037 gelu_fp16 maxerr=3.05176e-05 ulp_excess=0\nPASS H037 rope_fp16 maxerr=0 ulp_excess=0\nPASS H037 rope_fp16_identity identity@pos0 exact=True\nPASS H037 fp32_to_fp16 maxerr=0\nPASS H037 q80_roundtrip max=0.0234375 rms=0.0131115\nPASS H037 q40_roundtrip max=0.424316 rms=0.237059\nPASS H037 q80_gemm maxerr=0.0571358 rms=3.7021 contract=0.05*rms=0.185105\nPASS H037 q80_gemm_m1 maxerr=0.0628888 rms=3.76426 contract=0.05*rms=0.188213\nPASS H037 attn_sdpa maxerr=2.38419e-07 ulp_excess=0\nPASS H037 mha_forward maxerr=0.000244141 ulp_excess=0\nH037: 26/26 cases passed\n"
+    },
+    {
+      "script": "prof/bench/test_perf_regression.py",
+      "pass": true,
+      "seconds": 0.1,
+      "tail": "PERF REGRESSION GUARD: PASS (all baselines within 10%)\n"
+    },
+    {
+      "script": "prof/hailbru/test_reset_cycles.py",
+      "pass": true,
+      "seconds": 12.2,
+      "tail": "K 123ms\ncycle 61: OK 119ms\ncycle 62: OK 120ms\ncycle 63: OK 119ms\ncycle 64: OK 120ms\ncycle 65: OK 121ms\ncycle 66: OK 119ms\ncycle 67: OK 118ms\ncycle 68: OK 118ms\ncycle 69: OK 120ms\ncycle 70: OK 120ms\ncycle 71: OK 120ms\ncycle 72: OK 120ms\ncycle 73: OK 118ms\ncycle 74: OK 116ms\ncycle 75: OK 118ms\ncycle 76: OK 121ms\ncycle 77: OK 119ms\ncycle 78: OK 121ms\ncycle 79: OK 119ms\ncycle 80: OK 118ms\ncycle 81: OK 118ms\ncycle 82: OK 118ms\ncycle 83: OK 121ms\ncycle 84: OK 118ms\ncycle 85: OK 120ms\ncycle 86: OK 119ms\ncycle 87: OK 119ms\ncycle 88: OK 120ms\ncycle 89: OK 125ms\ncycle 90: OK 118ms\ncycle 91: OK 119ms\ncycle 92: OK 118ms\ncycle 93: OK 118ms\ncycle 94: OK 121ms\ncycle 95: OK 120ms\ncycle 96: OK 122ms\ncycle 97: OK 118ms\ncycle 98: OK 123ms\ncycle 99: OK 123ms\n100/100 OK  min=115 max=186 mean=121ms total=12.1s\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_registers.py",
+      "pass": true,
+      "seconds": 375.8,
+      "tail": "H151 parity: decoded=PciStatus.DetectedParityError action=retry OK\nH151 serr: decoded=PciStatus.SignaledSystemError action=halt OK\nH151 master_abort: decoded=PciStatus.ReceivedMasterAbort action=reset OK\nH151: 11 patterns, decode+classify+action verified\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_hangs.py",
+      "pass": true,
+      "seconds": 1887.2,
+      "tail": "H152 hangs detected+handled: 20/20\nH152 post-recovery inference matches reference: OK\nH152: 20/20 hangs detected within budget, handled, recovery proven\n"
+    },
+    {
+      "script": "prof/vordr/test_fi_dma_corrupt.py",
+      "pass": false,
+      "seconds": 0.1,
+      "tail": "selftest-integrity: injected=500 detected=500 escapes=0\nH154 reconciled: corrupt_events=1000 retransfer_events=1000\nH154 FAIL: corrupt events 1000 != 500 injected\n"
+    }
+  ]
+}

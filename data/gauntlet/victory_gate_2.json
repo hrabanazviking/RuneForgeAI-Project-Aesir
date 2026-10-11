@@ -1,0 +1,108 @@
+{
+  "overall": "PASS",
+  "n_gates": 9,
+  "n_pass": 9,
+  "results": [
+    {
+      "gate_id": "STAB-01",
+      "metric": "soak_error_rate",
+      "verdict": "PASS",
+      "measured": 0.0,
+      "threshold": 0.0,
+      "op": "le",
+      "evidence": "data/gauntlet/soak_cpu_4h_summary.json",
+      "source_slice": "H183",
+      "justification": "Any crash or hang during the soak is a release blocker."
+    },
+    {
+      "gate_id": "STAB-02",
+      "metric": "soak_duration_h",
+      "verdict": "PASS",
+      "measured": 4.007,
+      "threshold": 4.0,
+      "op": "ge",
+      "evidence": "data/gauntlet/soak_cpu_4h_summary.json",
+      "source_slice": "H183",
+      "justification": "The soak must complete the full 4 hours to count as a stability proof."
+    },
+    {
+      "gate_id": "STAB-03",
+      "metric": "soak_drift_ratio",
+      "verdict": "PASS",
+      "measured": 0.0042,
+      "threshold": 0.1,
+      "op": "le",
+      "evidence": "data/gauntlet/soak_cpu_4h_summary.json",
+      "source_slice": "H183",
+      "justification": "Throughput must not regress more than 10% across the soak window (no slowdown drift)."
+    },
+    {
+      "gate_id": "STAB-04",
+      "metric": "fi_unhandled_count",
+      "verdict": "PASS",
+      "measured": 0.0,
+      "threshold": 0.0,
+      "op": "le",
+      "evidence": "data/gauntlet/fi_campaign/scoreboard.json",
+      "source_slice": "H186",
+      "justification": "Every injected fault must be handled; an unhandled fault is a warden blind spot."
+    },
+    {
+      "gate_id": "STAB-05",
+      "metric": "fi_crash_count",
+      "verdict": "PASS",
+      "measured": 0.0,
+      "threshold": 0.0,
+      "op": "le",
+      "evidence": "data/gauntlet/fi_campaign/scoreboard.json",
+      "source_slice": "H186",
+      "justification": "The inference process must never crash under fault injection."
+    },
+    {
+      "gate_id": "STAB-06",
+      "metric": "recovery_success_rate",
+      "verdict": "PASS",
+      "measured": 1.0,
+      "threshold": 1.0,
+      "op": "ge",
+      "evidence": "data/gauntlet/reset_storm.json",
+      "source_slice": "H187",
+      "justification": "Every restart must return to full service, or the recovery path cannot be trusted at 3 AM."
+    },
+    {
+      "gate_id": "STAB-07",
+      "metric": "determinism_match_rate",
+      "verdict": "PASS",
+      "measured": 1.0,
+      "threshold": 1.0,
+      "op": "ge",
+      "evidence": "data/gauntlet/determinism.json",
+      "source_slice": "H188",
+      "justification": "Greedy inference must be bit-identical across runs and restarts; nondeterminism hides state leaks."
+    },
+    {
+      "gate_id": "STAB-08",
+      "metric": "rss_slope_mb_per_h",
+      "verdict": "PASS",
+      "measured": -3.023061337308689,
+      "threshold": 1.0,
+      "op": "le",
+      "evidence": "data/gauntlet/rss_check.json",
+      "source_slice": "H189",
+      "justification": "Memory growth above 1 MB/hour indicates an unbounded leak, not cache fill."
+    },
+    {
+      "gate_id": "STAB-09",
+      "metric": "coherence_pass_rate",
+      "verdict": "PASS",
+      "measured": 1.0,
+      "threshold": 1.0,
+      "op": "ge",
+      "evidence": "data/gauntlet/victory_gate_1.json",
+      "source_slice": "H195",
+      "justification": "A release must generate coherent text on models it has never seen before."
+    }
+  ],
+  "title": "VICTORY GATE 2 \u2014 STABILITY",
+  "remediation": []
+}

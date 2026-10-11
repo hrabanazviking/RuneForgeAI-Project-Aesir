@@ -1,0 +1,12 @@
+{
+  "verdict": "PASS",
+  "generations": 384,
+  "elapsed_h": 4.007,
+  "crashes": 0,
+  "hangs": 0,
+  "first30_median_tps": 2.127,
+  "last30_median_tps": 2.136,
+  "drift_ratio": 0.0042,
+  "drift_within_10pct": true,
+  "log": "/home/pi/c10work/data/gauntlet/soak_cpu_4h.log"
+}

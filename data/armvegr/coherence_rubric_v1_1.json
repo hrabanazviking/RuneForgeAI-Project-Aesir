@@ -1,0 +1,40 @@
+{
+  "frozen_by": "H138 (2026-10-10)",
+  "frozen_note": "Specified by H059 (HAILO10_200_SLICE_ROADMAP.md line 885: 'the rubric file is created and checksummed in this slice'); H059's remediation proved coherence but never wrote the file, so it is frozen here with H059's exact item set. Reused verbatim by H158/H186/H195.",
+  "items": [
+    {
+      "description": "Every generated token id is a valid vocabulary id: 0 <= id < 32000.",
+      "id": "valid_ids",
+      "threshold": "all ids in [0, 32000)"
+    },
+    {
+      "description": "At least 3 complete sentences, each ending in terminal punctuation (. ! ?).",
+      "id": "sentences_ge_3",
+      "threshold": 3
+    },
+    {
+      "description": "No single token id repeated more than 10 times consecutively.",
+      "id": "no_10x_repeat",
+      "threshold": "max run <= 10"
+    },
+    {
+      "description": "At least 1 prompt-topic content word present (per-prompt list recorded in the proof JSON).",
+      "id": "topic_word",
+      "threshold": ">= 1 (case-insensitive substring)"
+    },
+    {
+      "description": "No NaN/Inf-derived garbage tokens: decoded text contains no U+FFFD replacement characters.",
+      "id": "no_garbage",
+      "threshold": "zero U+FFFD"
+    },
+    {
+      "description": "At least 80% English words against english_wordlist_v2.txt (370090 words; whitespace tokens, punctuation stripped, lowercased; numeric tokens count as English).",
+      "id": "english_ratio_ge_80",
+      "threshold": 0.8
+    }
+  ],
+  "rubric_id": "f1-coherence-v1.1",
+  "vocab_size": 32000,
+  "supersedes": "f1-coherence-v1 (data/armvegr/coherence_rubric.json, frozen by H138)",
+  "v1_1_changelog": "H201 remediation: the v1 english_wordlist.txt (2674 words) lacked common English words (watched, ships, passengers, cargo, suspicious, behavior, obsessed, waiting, counting, ...), causing false english_ratio_ge_80 failures on human-verified coherent text (measured 47/62=0.76 on coherent Q8_0 output). v1.1 uses english_wordlist_v2.txt (370090 words = v1 + dwyl/english-words words_alpha.txt, deduplicated). Threshold unchanged (>=80%). All other items identical. The v1 files are preserved frozen."
+}

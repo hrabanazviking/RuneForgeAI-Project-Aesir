@@ -1,0 +1,38 @@
+{
+  "title": "VICTORY GATE 3 \u2014 CRASH-RESISTANCE",
+  "verdict": "PASS",
+  "scoreboard_per_class": {
+    "dmacorrupt": {
+      "injected": 36,
+      "handled": 36,
+      "missed": 0
+    },
+    "hang": {
+      "injected": 34,
+      "handled": 34,
+      "missed": 0
+    },
+    "regerr": {
+      "injected": 52,
+      "handled": 52,
+      "missed": 0
+    }
+  },
+  "injected_total": 122,
+  "handled_total": 122,
+  "process_crashes": 0,
+  "checks": {
+    "process_crashes_zero": true,
+    "unhandled_faults_zero": true,
+    "faults_ge_100": true,
+    "all_classes_covered": true,
+    "silent_degradations_zero": true,
+    "recovery_budget_compliant": true
+  },
+  "evidence": {
+    "fi_campaign": "data/gauntlet/fi_campaign/scoreboard.json",
+    "fi_events": "data/gauntlet/fi_campaign/events.jsonl",
+    "reset_storm": "data/gauntlet/reset_storm.json",
+    "h159_audit": "docs/vordr/FALLBACK_AUDIT.md"
+  }
+}

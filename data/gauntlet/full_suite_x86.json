@@ -1,0 +1,24 @@
+{
+  "machine": "x86",
+  "verdict": "PASS",
+  "total_tests": 2,
+  "executed": 2,
+  "passed": 2,
+  "failed": [],
+  "total_runtime_s": 9.3,
+  "total_runtime_h": 0.0,
+  "results": [
+    {
+      "script": "prof/armvegr/test_cpu_smoke.py",
+      "pass": true,
+      "seconds": 5.9,
+      "tail": "Tiny GGUF: /tmp/c3_smoke_tiny.gguf (960 bytes)\nSmoke binary built.\nH058-ALL-PASS\nPERF_JSON {\"test\": \"cpu_smoke\", \"tensors\": 2, \"prompt_tokens\": 2, \"generated_tokens\": 20, \"wall_seconds\": 0.176, \"status\": \"ok\"}\n"
+    },
+    {
+      "script": "prof/armvegr/test_tokenizers.py",
+      "pass": true,
+      "seconds": 3.4,
+      "tail": "CLI built: /tmp/c3_h048_tok_cli\nBPE: 750/750 exact, 750/750 round-trip\nSP: 750/750 exact, 750/750 round-trip\nH048-ALL-PASS (3000 assertions)\n"
+    }
+  ]
+}
