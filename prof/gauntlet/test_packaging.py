@@ -62,6 +62,7 @@ def main() -> int:
 
     # 3. Python-less docker container.
     model = "/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf"
+    model_sha = "da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556"
     drepo = "/tmp/c10-pkgtest"
     r = sh(["docker", "run", "--rm",
             "-v", "%s:%s:ro" % (tarball, drepo + "/pkg.tar.gz"),
@@ -70,22 +71,27 @@ def main() -> int:
             "set -e; "
             "command -v python3 && { echo PYTHON_PRESENT; exit 9; } || echo PYTHON_ABSENT; "
             "mkdir -p /opt/aesir && tar -xzf /tmp/c10-pkgtest/pkg.tar.gz -C /opt/aesir --strip-components=1; "
-            "python3 --version 2>/dev/null && { echo PYTHON_PRESENT2; exit 9; } || true; "
             "cat > /opt/aesir/config/t.json <<'EOF'\n"
-            '{"model_path": "%s", "tokenizer_path": "/opt/aesir/share/tokenizer/tinyllama_tokenizer.model", '
+            '{"model_path": "%s", "model_sha256": "%s", '
+            '"tokenizer_path": "/opt/aesir/share/tokenizer/tinyllama_tokenizer.model", '
             '"chat_template": "tinyllama", "max_new_tokens": 24, "max_seq": 1024, '
             '"temperature": 0.0, "top_k": 1, "top_p": 1.0, "repetition_penalty": 1.0, "seed": 7}\n'
             "EOF\n"
             "/opt/aesir/bin/f1_infer --config /opt/aesir/config/t.json "
             "--prompt 'The old fisherman mended his nets and' --max-new-tokens 24 --seed 7 "
-            "| grep -c F1-GENERATED-START" % model])
+            "| grep -c F1-GENERATED-START" % (model, model_sha)])
     dock_out = (r.stdout or "") + (r.stderr or "")
     proof["docker_rc"] = r.returncode
+    proof["docker_python_absent"] = "PYTHON_ABSENT" in dock_out
     if "PYTHON_PRESENT" in dock_out:
         fails.append("python3 present in the 'python-less' container")
-    if r.returncode != 0 or "1" not in r.stdout.strip().split("\n")[-1:]:
-        fails.append("container inference failed (rc=%d): %s"
-                     % (r.returncode, dock_out[-500:]))
+    if "PYTHON_ABSENT" not in dock_out:
+        fails.append("could not confirm python absence in container")
+    # The last stdout line is the grep -c count; expect "1".
+    last_line = (r.stdout or "").strip().split("\n")[-1] if r.stdout else ""
+    if r.returncode != 0 or last_line != "1":
+        fails.append("container inference failed (rc=%d, last=%r): %s"
+                     % (r.returncode, last_line, dock_out[-500:]))
     else:
         print("H190: container (python3 ABSENT) inference OK")
 
