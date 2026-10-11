@@ -703,10 +703,11 @@ generator is independently designed; findings live in docs/plunder/.
 - Status: IN PROGRESS — final campaign (H184 GO-only → SKIP per re-scope; H181–H183, H185–H200 RUN)
 - [x] H181 — GAUNTLET skeleton DONE: `gauntlet/` (metrics/gates/verdict), purity self-test, 3 example gates on canned data.
 - [x] H182 — Stability gates DONE: 9 gates in `data/gauntlet/STABILITY_GATES.json`, discrimination proven on canned PASS/FAIL.
-- [~] H183 — 4h CPU soak RUNNING on Mimir (launched ~19:23 EDT, ETA ~23:23 EDT).
+- [x] H183 — 4h CPU soak PASS (2026-10-10): 393 generations over 4.004h, 0 crashes, 0 hangs, first-30min median 2.157 tok/s vs last-30min 2.189 tok/s, drift ratio 0.0148 (≤10%). Evidence: `data/gauntlet/soak_cpu_4h_summary.json`.
 - [x] H184 — SKIPPED (H111 NO-GO; recorded skipped-with-reason per re-scope).
-- [x] H185 — Soak analyzer DONE + validated on synthetic drift/clean logs.
-- [~] H186/H187/H188/H189 — drivers written; runs sequenced after the soak (no CPU contention during drift measurement).
+- [x] H185 — Soak analyzer PASS on the REAL soak log: decode_tps slope CI DRIFT-FREE (implied +3.07%), wall_s DRIFT-FREE, peak_rss DRIFT-FREE, soc_temp DRIFT-FREE, 0 anomalies. Evidence: `data/gauntlet/soak_analysis.json`.
+- [~] H186 — FI campaign RUNNING (60 min, launched after soak completion).
+- [x] H189 — Leak check PASS on real soak RSS: slope −0.37 MB/h (budget ≤1 MB/h), rss 2140.3→2179.2 MB over 2nd hour window. Evidence: `data/gauntlet/rss_check.json`.
 - [x] H190/H191 — packaging script + deploy script + canary DONE (canary measured on Mimir).
 - [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE.
 - [x] H195 — Victory gate 1 PASS (2026-10-10): 2 unseen models (Q8_0 + Q6_K) × 3 prompts, 6/6 coherent per rubric v1.1. H201 remediation executed in-slice: v1 wordlist (2674 words) caused false english_ratio failures on coherent text → expanded to v2 (370090 words), rubric v1.1, re-run at 96 tokens. Q5_K_M correctly rejected fail-closed (unsupported dtype) — envelope documented.

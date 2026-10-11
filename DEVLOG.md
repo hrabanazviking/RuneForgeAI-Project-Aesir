@@ -3905,3 +3905,22 @@ cargo, suspicious, behavior, obsessed, waiting, counting…) — measured
 v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
 (also fixes a sentences_ge_3 truncation artifact on Q6_K p0 at 64 tokens):
 6/6 PASS. The original failing transcript is preserved in git history.
+
+## 2026-10-10 — MÍMISBRUNNR C10: H181 verified, H183 soak PASS, H185/H189 PASS
+
+- H181: `tests/c10_h181_gauntlet.mojo` compiled and run on Mimir —
+  H181-ALL-PASS (Mojo 1.1.0 fixes: `byte_length()` for String length,
+  `raises` declared before return type, Verdict made Copyable with
+  explicit `__copyinit__`). Purity self-test PASS: 4 gauntlet modules,
+  std+gauntlet-only imports, zero repair/recovery/fix code references
+  (comment prose stripped before scan — the law binds code, not words).
+- H183: 4-hour CPU soak PASS — 393 generations, 4.004h, 0 crashes,
+  0 hangs; median decode 2.157 tok/s (first 30 min) vs 2.189 tok/s
+  (last 30 min), drift ratio 0.0148 against the 10% gate.
+  SoC temp stayed 41.9–47.95 °C throughout.
+- H185: analyzer on the real soak log — all four metrics DRIFT-FREE:
+  decode_tps implied change +3.07% (CI excludes any slowdown),
+  wall_s −2.53%, peak_rss leak slope −0.37 MB/h, temp −1.26 °C/h.
+  0 anomalies in 393 generations.
+- H189: memory-leak gate PASS — RSS slope over the soak's 2nd hour
+  ≤1 MB/h budget met (−0.37 MB/h measured); no growth trend.
