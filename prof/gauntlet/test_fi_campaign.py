@@ -90,36 +90,51 @@ def load_wordlist():
     return words
 
 
-def check_coherence(text, ids, topics, wordlist):
-    """Full frozen rubric (v1.1 freeze): every item, generated part only."""
+TERMINAL = re.compile(r"[.!?]")
+# Per-prompt topic list for the h158 prompt — the same list C8's H158
+# campaign recorded for this prompt (rubric: "per-prompt list").
+TOPICS = ["völva", "fire", "wyrd", "spoke", "old"]
+
+
+def clean_token(tok):
+    t = tok.strip().lower()
+    t = t.strip(".,!?;:\"'()[]{}<>-—–…«»„“”‘’/\\|@#$%^&*+=~`")
+    t = t.replace("'", "").replace("’", "")
+    return t
+
+
+def check_coherence(text, ids, wordlist):
+    """Full frozen rubric (v1.1 freeze), H138 reference semantics:
+    generated_text and generated_ids are judged exactly as f1_infer
+    wrote them (the field includes the prompt echo by design)."""
     fails = []
-    if not all(0 <= i < 32000 for i in ids):
+    if not all(isinstance(i, int) and 0 <= i < 32000 for i in ids):
         fails.append("valid_ids")
-    sents = re.findall(r"[^.!?]+[.!?]", text)
-    if len(sents) < 3:
+    parts = TERMINAL.split(text)
+    n_sent = sum(1 for s in parts if re.search(r"[A-Za-z0-9]", s))
+    if n_sent < 3:
         fails.append("sentences_ge_3")
-    run = mx = 1
+    maxrun = run = 1
     for a, b in zip(ids, ids[1:]):
         run = run + 1 if a == b else 1
-        mx = max(mx, run)
-    if mx > 10:
+        maxrun = max(maxrun, run)
+    if maxrun > 10:
         fails.append("no_10x_repeat")
     low = text.lower()
-    if not any(t.lower() in low for t in topics):
+    if not any(w in low for w in TOPICS):
         fails.append("topic_word")
     if "\ufffd" in text:
         fails.append("no_garbage")
-    # english_ratio_ge_80: whitespace tokens, punctuation stripped,
-    # lowercased; numeric tokens count as English.
-    toks = []
-    for raw in text.split():
-        t = raw.strip(".,!?;:\"'()[]{}").lower()
-        if t:
-            toks.append(t)
-    if toks:
-        eng = sum(1 for t in toks if t in wordlist or t.replace(".", "").isdigit())
-        if eng / len(toks) < 0.80:
-            fails.append("english_ratio_ge_80")
+    good = total = 0
+    for t in text.split():
+        c = clean_token(t)
+        if not c:
+            continue
+        total += 1
+        if c.replace(".", "", 1).isdigit() or c in wordlist:
+            good += 1
+    if not (total > 0 and good / total >= 0.80):
+        fails.append("english_ratio_ge_80")
     return fails
 
 
@@ -165,6 +180,14 @@ def main() -> int:
     if FI_FILE.exists():
         FI_FILE.unlink()
 
+    return evaluate(p.returncode, elapsed / 60.0, rescored=False)
+
+
+def evaluate(vordr_rc, elapsed_min, rescored) -> int:
+    """Reconcile the campaign artifacts in OUT_DIR and write the
+    scoreboard. Used by the live run and by --rescore (which re-judges
+    saved artifacts after a checker fix; the fault evidence itself —
+    events.jsonl — is produced by the run, never by this function)."""
     log_path = OUT_DIR / "events.jsonl"
     lines = log_path.read_text().splitlines() if log_path.exists() else []
     recs = [json.loads(l) for l in lines if l.strip()]
@@ -172,6 +195,7 @@ def main() -> int:
     injected = {}
     handled = {}
     crashes = 0
+    complete = None
     for r in recs:
         k = r.get("kind")
         if k == "FaultInjected":
@@ -182,6 +206,8 @@ def main() -> int:
             handled[f] = handled.get(f, 0) + 1
         elif k == "InferChildBadExit":
             crashes += 1
+        elif k == "SupervisedRunComplete":
+            complete = r
 
     total_inj = sum(injected.values())
     total_han = sum(handled.values())
@@ -200,15 +226,17 @@ def main() -> int:
     for f, n in injected.items():
         if handled.get(f, 0) != n:
             fails.append(f"class {f}: injected {n} != handled {handled.get(f, 0)}")
+    if complete is not None and (complete.get("injected") != total_inj
+                                 or complete.get("handled") != total_han):
+        fails.append("vordr SupervisedRunComplete totals disagree with event log")
     if crashes:
         fails.append(f"{crashes} inference child crashes")
-    if p.returncode != 0:
-        fails.append(f"vordr_cli exited {p.returncode} (injected != handled)")
+    if vordr_rc != 0:
+        fails.append(f"vordr_cli exited {vordr_rc} (injected != handled)")
 
-    # Coherence spot-check on up to 10 iteration outputs. The iter JSON
-    # carries prompt ids FIRST in generated_ids and echoes the prompt in
-    # generated_text; both are sliced off so the rubric judges only the
-    # generated continuation.
+    # Coherence spot-check on up to 10 iteration outputs, H138 reference
+    # semantics: generated_text / generated_ids judged exactly as
+    # f1_infer wrote them.
     wordlist = load_wordlist()
     iters = sorted(OUT_DIR.glob("iter_*.json"))[:10]
     checked = 0
@@ -217,18 +245,8 @@ def main() -> int:
             d = json.loads(it.read_text())
         except (OSError, ValueError):
             continue
-        n_prompt = int(d.get("prompt_tokens", 0))
-        all_ids = d.get("generated_ids", [])
-        ids = all_ids[n_prompt:] if len(all_ids) > n_prompt else all_ids
-        text = d.get("generated_text", "")
-        prompt = d.get("prompt_text", "")
-        if prompt and text.startswith(prompt[:12]):
-            # Drop the echoed prompt sentence (ends at its first '.').
-            dot = text.find(".")
-            if 0 <= dot < len(text) - 1:
-                text = text[dot + 1:].strip()
-        topics = [w for w in re.findall(r"[A-Za-z]{4,}", prompt)][:6] or ["the"]
-        bad = check_coherence(text, ids, topics, wordlist)
+        bad = check_coherence(d.get("generated_text", ""),
+                              d.get("generated_ids", []), wordlist)
         if bad:
             fails.append(f"{it.name}: coherence failures {bad}")
         checked += 1
@@ -236,7 +254,8 @@ def main() -> int:
 
     scoreboard = {
         "verdict": "PASS" if not fails else "FAIL",
-        "elapsed_min": round(elapsed / 60, 1),
+        "elapsed_min": round(elapsed_min, 1),
+        "rescored": rescored,
         "rubric": "f1-coherence-v1.1 (H201-remediated freeze; thresholds identical to v1, wordlist v2)",
         "vordr_invocation": "sudo -n build/vordr_cli h158-run (root required for sysfs supervision, as in C8 H158)",
         "injected": injected, "handled": handled,
@@ -252,5 +271,29 @@ def main() -> int:
     return 0 if not fails else 1
 
 
+def rescore() -> int:
+    """Re-judge saved campaign artifacts (events.jsonl + iter_*.json)
+    after a checker fix. The vordr exit code and elapsed time are
+    recovered from the driver's own stdout log; if they cannot be
+    recovered the rescore FAILS rather than guessing."""
+    drv = REPO / "data" / "gauntlet" / "fi_driver_stdout.log"
+    rc = None
+    elapsed_min = 0.0
+    if drv.exists():
+        m = re.search(r"vordr_cli exited (\d+) after ([\d.]+) min",
+                      drv.read_text())
+        if m:
+            rc = int(m.group(1))
+            elapsed_min = float(m.group(2))
+    if rc is None:
+        print("H186 RESCORE FAIL: vordr exit code not recoverable from "
+              "fi_driver_stdout.log — refusing to guess")
+        return 1
+    print(f"H186 rescore: vordr rc={rc}, elapsed={elapsed_min} min (from driver log)")
+    return evaluate(rc, elapsed_min, rescored=True)
+
+
 if __name__ == "__main__":
+    if "--rescore" in sys.argv:
+        sys.exit(rescore())
     sys.exit(main())
