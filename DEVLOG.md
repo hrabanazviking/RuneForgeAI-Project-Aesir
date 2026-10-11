@@ -3924,3 +3924,26 @@ v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
   0 anomalies in 393 generations.
 - H189: memory-leak gate PASS — RSS slope over the soak's 2nd hour
   ≤1 MB/h budget met (−0.37 MB/h measured); no growth trend.
+
+## 2026-10-11 — MÍMISBRUNNR C10: H186 FI campaign PASS, H187 storm PASS
+
+- H186: 60.7-minute supervised FI campaign — 124 faults injected and
+  124 handled (hang 39, regerr 50, dmacorrupt 35), zero child crashes,
+  vordr exit 0, 10/10 coherence spot-checks clean. Two honest stumbles
+  on the way: (1) vordr_cli must run as root — its supervision opens
+  the Hailo sysfs resource0 (EACCES as pi; C8's H158 test said "Needs
+  root" all along) → driver now uses `sudo -n`, internal schedule +
+  external fi-file both armed (C8's design), 96-token iterations so
+  spot-check samples carry full-rubric length. (2) My first checker
+  sliced the prompt echo off generated_text/generated_ids before
+  judging; the frozen rubric's reference semantics (H138) judge the
+  fields exactly as f1_infer writes them, and the slicing false-failed
+  topic_word on coherent continuations ("He told her about his long
+  life..." contains no prompt keyword). Checker aligned to H138,
+  campaign re-judged from saved artifacts via `--rescore` (fault
+  evidence untouched); H198 re-runs the campaign end-to-end regardless.
+- H187: reset storm — 20 SIGKILL-mid-decode → respawn cycles, 20/20
+  recovered to service, max restart 1.0 ms against the H155 44 ms
+  budget, and every post-storm greedy verification bit-identical to
+  the pre-storm reference. A killed process leaves no residue: the
+  pipeline is stateless across process death by construction.

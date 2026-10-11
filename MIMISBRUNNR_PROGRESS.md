@@ -706,7 +706,9 @@ generator is independently designed; findings live in docs/plunder/.
 - [x] H183 — 4h CPU soak PASS (2026-10-10): 393 generations over 4.004h, 0 crashes, 0 hangs, first-30min median 2.157 tok/s vs last-30min 2.189 tok/s, drift ratio 0.0148 (≤10%). Evidence: `data/gauntlet/soak_cpu_4h_summary.json`.
 - [x] H184 — SKIPPED (H111 NO-GO; recorded skipped-with-reason per re-scope).
 - [x] H185 — Soak analyzer PASS on the REAL soak log: decode_tps slope CI DRIFT-FREE (implied +3.07%), wall_s DRIFT-FREE, peak_rss DRIFT-FREE, soc_temp DRIFT-FREE, 0 anomalies. Evidence: `data/gauntlet/soak_analysis.json`.
-- [~] H186 — FI campaign RUNNING (60 min, launched after soak completion).
+- [x] H186 — FI campaign PASS (2026-10-11): 60.7 min supervised run, 124 faults injected = 124 handled (hang 39, regerr 50, dmacorrupt 35), 0 child crashes, vordr rc 0, 10/10 coherence spot-checks clean (rubric v1.1, H138 semantics). Two driver fixes en route: vordr needs root (sudo, as C8) and the checker was aligned to the H138 reference (full generated_text/ids; first checker sliced the prompt echo and false-failed topic_word on coherent continuations — rescored from saved artifacts, `--rescore`). Evidence: `data/gauntlet/fi_campaign/scoreboard.json`.
+- [x] H187 — Reset storm PASS (2026-10-11): 20/20 SIGKILL→respawn cycles recovered to service, max restart 1.0 ms vs H155 budget 44 ms, post-storm greedy output bit-identical to pre-storm reference every cycle. Evidence: `data/gauntlet/reset_storm.json`.
+- [~] H188 — Determinism RUNNING on Mimir.
 - [x] H189 — Leak check PASS on real soak RSS: slope −0.37 MB/h (budget ≤1 MB/h), rss 2140.3→2179.2 MB over 2nd hour window. Evidence: `data/gauntlet/rss_check.json`.
 - [x] H190/H191 — packaging script + deploy script + canary DONE (canary measured on Mimir).
 - [x] H192/H193/H194 — runbook, ledger audit, third-party notices DONE.
