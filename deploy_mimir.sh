@@ -47,8 +47,16 @@ PROD_BASE="/home/pi"
 RELDIR="$PROD_BASE/aesir-f1-$VERSION"
 MODEL="/home/pi/models/tinyllama/tinyllama-1.1b-chat-v1.0.Q4_0.gguf"
 MODEL_SHA="da3087fb14aede55fde6eb81a0e55e886810e43509ec82ecdc7aa5d62a03b556"
-CANARY="$RELDIR/share/doc/canary.json"
-[ -f "$CANARY" ] || CANARY="$(dirname "$0")/../data/gauntlet/canary.json"
+# The canary ships inside the package (share/doc/canary.json), so it can
+# only be resolved AFTER extraction (step 7). Resolving it here, before
+# the release dir exists, was the H191 first-deploy bug. Fallback (for a
+# package without a canary): this script lives at the repo root.
+CANARY=""
+resolve_canary() {
+  CANARY="$RELDIR/share/doc/canary.json"
+  [ -f "$CANARY" ] || CANARY="$(cd "$(dirname "$0")" && pwd)/data/gauntlet/canary.json"
+  [ -f "$CANARY" ] || { echo "H191 FAIL: canary.json not found (package or repo)" >&2; exit 1; }
+}
 
 echo "=== H191 deploy: aesir-f1-$VERSION ==="
 
@@ -112,6 +120,7 @@ echo "-- driver symlink asserted: $PROD_BASE/aesir-driver -> $TGT"
 
 # 7. Smoke inference: canary prompt, first-10 GENERATED token ids must match exactly.
 echo "-- smoke inference (canary)"
+resolve_canary
 PROMPT="$(python3 -c "import json;print(json.load(open('$CANARY'))['prompt'])")"
 SEED="$(python3 -c "import json;print(json.load(open('$CANARY'))['seed'])")"
 NPT="$(python3 -c "import json;print(json.load(open('$CANARY'))['prompt_tokens'])")"
