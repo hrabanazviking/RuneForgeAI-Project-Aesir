@@ -71,7 +71,7 @@ def mean(xs: List[Float64]) raises -> Float64:
     return s / Float64(len(xs))
 
 
-def stddev(xs: List[Float64]) -> Float64:
+def stddev(xs: List[Float64]) raises -> Float64:
     """Population standard deviation. Raises on empty input."""
     var m = mean(xs)
     var acc = Float64(0.0)
