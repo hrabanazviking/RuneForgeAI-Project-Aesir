@@ -24,6 +24,45 @@ def get_weights_per_block(format_type: CompressedFormatType) -> Int:
         return 256
     return 32
 
+
+def quant_block_size_bytes(format_type: CompressedFormatType) raises -> Int:
+    """
+    Strict block-size lookup: raises on any unrecognized quantization format.
+    (The legacy get_block_size_bytes fail-open fallback is kept for old callers.)
+    """
+    if format_type.value == CompressedFormatType.Q4_K_M:
+        return 144
+    elif format_type.value == CompressedFormatType.Q4_0:
+        return 18
+    elif format_type.value == CompressedFormatType.Q4_1:
+        return 20
+    elif format_type.value == CompressedFormatType.Q8_0:
+        return 34
+    raise Error(
+        "unknown quantization format " + format_type.name()
+        + " (discriminant " + String(format_type.value) + ")"
+    )
+
+
+def quant_weights_per_block(format_type: CompressedFormatType) raises -> Int:
+    """
+    Strict weights-per-block lookup: raises on any unrecognized quantization format.
+    (The legacy get_weights_per_block fail-open fallback is kept for old callers.)
+    """
+    if format_type.value == CompressedFormatType.Q4_K_M:
+        return 256
+    elif format_type.value == CompressedFormatType.Q4_0:
+        return 32
+    elif format_type.value == CompressedFormatType.Q4_1:
+        return 32
+    elif format_type.value == CompressedFormatType.Q8_0:
+        return 32
+    raise Error(
+        "unknown quantization format " + format_type.name()
+        + " (discriminant " + String(format_type.value) + ")"
+    )
+
+
 def validate_quantized_byte_span(
     total_bytes: Int,
     num_elements: Int,
@@ -34,19 +73,33 @@ def validate_quantized_byte_span(
     Raises Error on truncated, unaligned, or non-divisible byte buffer spans.
     """
     if total_bytes <= 0 or num_elements <= 0:
-        raise Error("validate_quantized_byte_span: byte length and num_elements must be positive")
-    
-    var block_size = get_block_size_bytes(format_type)
-    var weights_per_block = get_weights_per_block(format_type)
+        raise Error(
+            "validate_quantized_byte_span: byte length and num_elements must be positive"
+            + " (byte length " + String(total_bytes)
+            + ", num_elements " + String(num_elements) + ")"
+        )
+
+    var block_size = quant_block_size_bytes(format_type)
+    var weights_per_block = quant_weights_per_block(format_type)
 
     if total_bytes % block_size != 0:
-        raise Error("validate_quantized_byte_span: buffer byte length is not a multiple of block size")
+        raise Error(
+            "validate_quantized_byte_span: buffer byte length " + String(total_bytes)
+            + " is not a multiple of block size " + String(block_size)
+            + " (format " + format_type.name() + ")"
+        )
 
     var num_blocks = total_bytes // block_size
     var expected_elements = num_blocks * weights_per_block
 
     if num_elements != expected_elements:
-        raise Error("validate_quantized_byte_span: element count mismatch for byte span")
+        raise Error(
+            "validate_quantized_byte_span: element count mismatch for byte span"
+            + " (got " + String(num_elements) + " elements, expected "
+            + String(expected_elements) + " for " + String(total_bytes)
+            + " bytes in " + String(num_blocks)
+            + " blocks of format " + format_type.name() + ")"
+        )
 
 
 def dequantize_q4_0_block(
@@ -86,3 +139,86 @@ def dequantize_q8_0_block(
         for i in range(32):
             var q_byte = src_bytes.unsafe_load(src_offset + 2 + i).cast[DType.int8]()
             dst_f16.unsafe_store(dst_offset + i, d * Scalar[f16](q_byte))
+
+
+comptime MAX_CHECKED_BLOCKS = 1 << 40
+
+
+def dequantize_q4_0_checked(
+    src: Pointer[Byte, MutUntrackedOrigin],
+    src_len: Int,
+    dst: Pointer[Scalar[f16], MutUntrackedOrigin],
+    dst_len: Int,
+    num_blocks: Int,
+) raises:
+    """
+    Checked entry point for Q4_0 dequantization: verifies that the caller-supplied
+    spans hold at least num_blocks*18 source bytes and num_blocks*32 destination
+    F16 values before delegating to the raw dequantize_q4_0_block kernel.
+    """
+    if num_blocks < 0:
+        raise Error(
+            "dequantize_q4_0_checked: num_blocks must be non-negative (got "
+            + String(num_blocks) + ")"
+        )
+    if num_blocks > MAX_CHECKED_BLOCKS:
+        raise Error(
+            "dequantize_q4_0_checked: num_blocks " + String(num_blocks)
+            + " exceeds sane bound " + String(MAX_CHECKED_BLOCKS)
+        )
+    # num_blocks <= 2^40: the products below are provably overflow-free.
+    var expected_src = num_blocks * 18
+    if src_len < expected_src:
+        raise Error(
+            "dequantize_q4_0_checked: src buffer too small (need "
+            + String(expected_src) + " bytes, have " + String(src_len)
+            + " bytes for " + String(num_blocks) + " blocks)"
+        )
+    var expected_dst = num_blocks * 32
+    if dst_len < expected_dst:
+        raise Error(
+            "dequantize_q4_0_checked: dst buffer too small (need "
+            + String(expected_dst) + " elements, have " + String(dst_len)
+            + " elements for " + String(num_blocks) + " blocks)"
+        )
+    dequantize_q4_0_block(src, dst, num_blocks)
+
+
+def dequantize_q8_0_checked(
+    src: Pointer[Byte, MutUntrackedOrigin],
+    src_len: Int,
+    dst: Pointer[Scalar[f16], MutUntrackedOrigin],
+    dst_len: Int,
+    num_blocks: Int,
+) raises:
+    """
+    Checked entry point for Q8_0 dequantization: verifies that the caller-supplied
+    spans hold at least num_blocks*34 source bytes and num_blocks*32 destination
+    F16 values before delegating to the raw dequantize_q8_0_block kernel.
+    """
+    if num_blocks < 0:
+        raise Error(
+            "dequantize_q8_0_checked: num_blocks must be non-negative (got "
+            + String(num_blocks) + ")"
+        )
+    if num_blocks > MAX_CHECKED_BLOCKS:
+        raise Error(
+            "dequantize_q8_0_checked: num_blocks " + String(num_blocks)
+            + " exceeds sane bound " + String(MAX_CHECKED_BLOCKS)
+        )
+    # num_blocks <= 2^40: the products below are provably overflow-free.
+    var expected_src = num_blocks * 34
+    if src_len < expected_src:
+        raise Error(
+            "dequantize_q8_0_checked: src buffer too small (need "
+            + String(expected_src) + " bytes, have " + String(src_len)
+            + " bytes for " + String(num_blocks) + " blocks)"
+        )
+    var expected_dst = num_blocks * 32
+    if dst_len < expected_dst:
+        raise Error(
+            "dequantize_q8_0_checked: dst buffer too small (need "
+            + String(expected_dst) + " elements, have " + String(dst_len)
+            + " elements for " + String(num_blocks) + " blocks)"
+        )
+    dequantize_q8_0_block(src, dst, num_blocks)
