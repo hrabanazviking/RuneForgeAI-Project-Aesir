@@ -93,12 +93,11 @@ def verdictset_to_json(vs: VerdictSet) -> String:
     out += String(vs.n_pass())
     out += ", \"verdicts\": ["
     for i in range(len(vs.verdicts)):
-        var v = vs.verdicts[i]
         if i > 0:
             out += ", "
-        out += "{\"gate_id\": \"" + v.gate_id + "\", \"result\": \""
-        out += v.result + "\", \"measured\": " + _f2s(v.measured)
-        out += ", \"threshold\": " + _f2s(v.threshold)
-        out += ", \"evidence\": \"" + v.evidence_path + "\"}"
+        out += "{\"gate_id\": \"" + vs.verdicts[i].gate_id + "\", \"result\": \""
+        out += vs.verdicts[i].result + "\", \"measured\": " + _f2s(vs.verdicts[i].measured)
+        out += ", \"threshold\": " + _f2s(vs.verdicts[i].threshold)
+        out += ", \"evidence\": \"" + vs.verdicts[i].evidence_path + "\"}"
     out += "]}"
     return out
