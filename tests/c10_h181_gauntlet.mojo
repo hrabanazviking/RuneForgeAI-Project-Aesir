@@ -68,7 +68,7 @@ def main() raises:
     _check(vs.n_pass() == 2, "VerdictSet counts 2/3 passes")
     _check(vs.overall() == "FAIL", "VerdictSet overall FAIL on one failing gate")
     var js = verdictset_to_json(vs)
-    _check(len(js) > 100, "VerdictSet emits JSON")
+    _check(js.byte_length() > 100, "VerdictSet emits JSON")
     print("H181 verdict JSON: " + js)
 
     # --- metric mismatch raises (judgment error, not a pass) ---
