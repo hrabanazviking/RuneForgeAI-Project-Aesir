@@ -79,23 +79,51 @@ struct RuneChatTemplate(Copyable):
 
     @staticmethod
     def detect_template_family(jinja_template: String) -> String:
-        if ("start_of_turn" in jinja_template or "gemma" in jinja_template
-                or "<|turn>" in jinja_template or "<turn|>" in jinja_template):
-            return "gemma"
+        # Strong (fully bracketed) framing markers are checked before the bare
+        # name heuristics so that a template which merely mentions a family
+        # name (e.g. the word "gemma") cannot shadow the real control tokens.
+        if "<|start_header_id|>" in jinja_template or "start_header_id" in jinja_template:
+            return "llama3"
         elif "<|im_start|>" in jinja_template or "im_start" in jinja_template:
             return "chatml"
-        elif "<|start_header_id|>" in jinja_template or "start_header_id" in jinja_template:
-            return "llama3"
-        elif "[INST]" in jinja_template or "INST" in jinja_template or "<<SYS>>" in jinja_template:
+        elif ("<start_of_turn>" in jinja_template or "<|turn>" in jinja_template
+                or "<turn|>" in jinja_template):
+            return "gemma"
+        elif "[INST]" in jinja_template or "<<SYS>>" in jinja_template:
+            return "llama2"
+        # Weak bare-word fallbacks (documented heuristics, kept for templates
+        # that name a family without embedding its framing tokens).
+        elif "gemma" in jinja_template:
+            return "gemma"
+        elif "INST" in jinja_template:
             return "llama2"
         return "unknown"
 
     @staticmethod
     def escape_control_tokens(content: String) -> String:
-        if "<|im_start|>" not in content and "<|im_end|>" not in content:
+        # Neutralize every family control-token spelling so user content cannot
+        # inject framing tokens into the prompt. Each spelling is replaced by
+        # a harmless bracketed form (existing convention: <...> -> [...]).
+        if ("<|im_start|>" not in content and "<|im_end|>" not in content
+                and "<start_of_turn>" not in content and "<end_of_turn>" not in content
+                and "<|start_header_id|>" not in content
+                and "<|end_header_id|>" not in content
+                and "<|eot_id|>" not in content and "<|begin_of_text|>" not in content
+                and "[INST]" not in content and "[/INST]" not in content
+                and "<<SYS>>" not in content and "<</SYS>>" not in content):
             return content
         var res = content.replace("<|im_start|>", "[im_start]")
         res = res.replace("<|im_end|>", "[im_end]")
+        res = res.replace("<start_of_turn>", "[start_of_turn]")
+        res = res.replace("<end_of_turn>", "[end_of_turn]")
+        res = res.replace("<|start_header_id|>", "[start_header_id]")
+        res = res.replace("<|end_header_id|>", "[end_header_id]")
+        res = res.replace("<|eot_id|>", "[eot_id]")
+        res = res.replace("<|begin_of_text|>", "[begin_of_text]")
+        res = res.replace("[INST]", "[[INST]]")
+        res = res.replace("[/INST]", "[[/INST]]")
+        res = res.replace("<<SYS>>", "[SYS]")
+        res = res.replace("<</SYS>>", "[/SYS]")
         return res
 
     def format_gemma(self, messages: List[ChatMessage]) raises -> String:
@@ -140,6 +168,9 @@ struct RuneChatTemplate(Copyable):
         return prompt
 
     def format_llama2(self, messages: List[ChatMessage]) raises -> String:
+        """Llama-2 chat format. Multiple system messages are concatenated with
+        a "\n\n" separator into one combined <<SYS>> block, which merges into
+        the first [INST] turn exactly as a single system message does."""
         if len(messages) == 0:
             raise Error("cannot format empty ChatMessage list")
         var prompt = String("")
@@ -149,7 +180,10 @@ struct RuneChatTemplate(Copyable):
             messages[i].validate()
             var safe_content = Self.escape_control_tokens(messages[i].content)
             if messages[i].role == "system":
-                system_prompt = safe_content
+                if system_prompt == "":
+                    system_prompt = safe_content
+                else:
+                    system_prompt += "\n\n" + safe_content
             elif messages[i].role == "user":
                 prompt += String("[INST] ")
                 if system_prompt != "":
@@ -171,5 +205,7 @@ struct RuneChatTemplate(Copyable):
             return self.format_llama3(messages)
         elif self.format_style == "llama2":
             return self.format_llama2(messages)
-        else:
+        elif self.format_style == "chatml":
             return self.format_chatml(messages)
+        else:
+            raise Error("unknown chat format style: " + self.format_style)
