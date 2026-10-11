@@ -9,7 +9,7 @@ from gauntlet.gates import Gate, gate_holds
 from gauntlet.metrics import Measurement
 
 
-struct Verdict:
+struct Verdict(Copyable):
     """One gate's judgment on one measurement."""
     var gate_id: String
     var result: String  # "PASS" or "FAIL"
@@ -30,6 +30,13 @@ struct Verdict:
         self.threshold = threshold
         self.measured = measured
         self.evidence_path = evidence_path
+
+    def __copyinit__(out self, other: Verdict):
+        self.gate_id = other.gate_id
+        self.result = other.result
+        self.measured = other.measured
+        self.threshold = other.threshold
+        self.evidence_path = other.evidence_path
 
 
 def judge(g: Gate, m: Measurement) raises -> Verdict:
