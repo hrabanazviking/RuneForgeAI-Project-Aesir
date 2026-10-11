@@ -700,7 +700,7 @@ generator is independently designed; findings live in docs/plunder/.
 - Coordinator: merged `mimisbrunnr-c8-vordr` → main as 966875d (--no-ff), pushed, remote HEAD verified 966875dd674ecbb2e70178918cf08ee6aa793d49. Branch deleted (local + origin). C8 verdict: ROBUST — every recovery path fired on real faults and measured; zero silent fallbacks.
 
 ## Campaign 10 — Gauntlet + Hardening (H181–H200)
-- Status: IN PROGRESS — final campaign (H184 GO-only → SKIP per re-scope; H181–H183, H185–H200 RUN)
+- Status: COMPLETE — final campaign done (H184 GO-only → SKIPPED per re-scope; H181–H183, H185–H200 all RUN and PASS)
 - [x] H181 — GAUNTLET skeleton DONE: `gauntlet/` (metrics/gates/verdict), purity self-test, 3 example gates on canned data.
 - [x] H182 — Stability gates DONE: 9 gates in `data/gauntlet/STABILITY_GATES.json`, discrimination proven on canned PASS/FAIL.
 - [x] H183 — 4h CPU soak PASS (2026-10-10): 393 generations over 4.004h, 0 crashes, 0 hangs, first-30min median 2.157 tok/s vs last-30min 2.189 tok/s, drift ratio 0.0148 (≤10%). Evidence: `data/gauntlet/soak_cpu_4h_summary.json`.
@@ -716,8 +716,20 @@ generator is independently designed; findings live in docs/plunder/.
 - [x] H195 — Victory gate 1 PASS (2026-10-10): 2 unseen models (Q8_0 + Q6_K) × 3 prompts, 6/6 coherent per rubric v1.1. H201 remediation executed in-slice: v1 wordlist (2674 words) caused false english_ratio failures on coherent text → expanded to v2 (370090 words), rubric v1.1, re-run at 96 tokens. Q5_K_M correctly rejected fail-closed (unsupported dtype) — envelope documented.
 - [x] H196 — Victory gate 2 PASS (2026-10-11): 9/9 stability gates PASS on measured evidence (STAB-01..09). Evidence: `data/gauntlet/victory_gate_2.json`.
 - [x] H197 — Victory gate 3 PASS (2026-10-11). Evidence: `data/gauntlet/victory_gate_3.json`.
-- [~] H198 — Full suite RUNNING (20/24 mimir PASS as of 04:15 EDT; x86 subset ALL-PASS 2/2). Two-machine suite (x86 subset for the cross-compile toolchain tests). Attempt 1 aborted at test_fi_dma_corrupt on a stale /tmp/vordr-h154-events.jsonl (append-only log double-counted; C8 assumed wiped /tmp) — runner hygiene added (scratch clean before every mimir test + --resume), attempt-1 FAIL was runner-environment, not the driver (clean-scratch re-run: 500/500, 0 escapes). Remaining: in-suite 4h soak (fresh evidence) ~09:40 EDT, then VG1-3 quick re-judgments.
-- [ ] H199/H200 — drafts written; final fill + tag after H198.
+- [x] H198 — Full suite ALL-PASS (2026-10-11): 26/26 (24 mimir + 2 x86),
+  failed=[], skipped=1 (H184, recorded with reason). Merged verdict
+  H198-ALL-PASS. Mimir subset ran 6.55h; fresh in-suite 4h soak (384
+  gens, 0 errors, 0.42% drift) and fresh 122-fault FI campaign
+  (122=122 handled). Attempt 1's dma_corrupt abort was a stale
+  /tmp scratch log (runner-environment, not the driver); --resume
+  kept the 12 earlier PASSes, attempt-1 record preserved at
+  data/gauntlet/full_suite_mimir_attempt1.json. Evidence:
+  data/gauntlet/full_suite.json.
+- [x] H199 — Release notes DONE; annotated tag `mimisbrunnr-v1.0`
+  created and PUSHED (commit 0dd9b65887fd1a0bb9ccef9c0318ffe4acd622bc,
+  remote tag ref verified).
+- [x] H200 — Final campaign review DONE: docs/MIMISBRUNNR_VERDICT.md —
+  **VICTORY — F1 CPU PATH PRODUCTION (WALL HELD)**.
 - Coordinator: merged `mimisbrunnr-c9-speed` → main as d9e20e1 (--no-ff), pushed, remote HEAD verified d9e20e199ff6102b0aa75f63e6322bb6fa7d6960. Branch deleted (local + origin). C9 verdict: STRONG PASS — decode 0.1766→1.918 tok/s (10.86×), prefill 2.080→3.362 tok/s (+61.6%), GEMM 6.934→7.773 GFLOPS (+12.1%). H170 deferred (threading needs shared-memory infra, documented).
 
 ## Blocker log

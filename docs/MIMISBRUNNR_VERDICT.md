@@ -80,4 +80,20 @@ Ambition was fully pursued; the evidence forced NO-GO.
 
 ## FINAL VERDICT
 
-_pending all gates_
+**VICTORY — F1 CPU PATH PRODUCTION (WALL HELD)**
+
+The full PRÓF corpus is green: **26/26 passed** across two machines
+(24 on Mimir, 2 on the x86 forge VM), with the single H184 skip
+recorded with reason (NPU soak has nothing to soak after H111's NO-GO).
+The fresh in-suite 4-hour soak (384 generations, 0 crashes, 0 hangs,
+0.42% drift) and the fresh 122-fault injection campaign (122 handled,
+0 crashes) re-prove, on new evidence, what the campaign slices
+established. All three victory gates PASS on measured evidence.
+
+The Hailo-10 compute wall held — SMIÐR's 48 assault paths are banked,
+honestly documented, and the NO-GO was evidence-forced, not
+surrender. What ships is the F1 CPU trunk: pure-Mojo ARM64 inference,
+crash-resistant, deterministic, leak-free, packaged to run with no
+Python, deployed with a watchdog and a green canary.
+
+Two hundred slices. Ten campaigns. The forge is done.

@@ -88,5 +88,7 @@ Full operator docs: `share/doc/RUNBOOK.md`.
   verify its sha256 after any re-download.
 
 ---
-*Tag commit hash: _filled at tag time_. Release package built from the
-exact tagged commit (hash verified). README.md untouched (L8).*
+*Tag commit hash: `0dd9b65887fd1a0bb9ccef9c0318ffe4acd622bc` (tag
+`mimisbrunnr-v1.0`, pushed, verified at
+`refs/tags/mimisbrunnr-v1.0`). Release package built from the exact
+tagged commit (hash verified). README.md untouched (L8).*
