@@ -33,6 +33,7 @@
 #   bring-up CLI kept reboot-safe at ~/mimisbrunnr_c5/bin/probe.
 
 import argparse
+import glob
 import json
 import os
 import platform
@@ -91,11 +92,43 @@ def detect_machine():
     return "mimir" if m in ("aarch64", "arm64") else "x86"
 
 
-def run_machine(machine, version) -> int:
+def clean_scratch():
+    """Restore the fresh-/tmp assumption the C8 tests were written
+    against (their campaign ran on a wiped /tmp). Several vordr tests
+    append to fixed-name event logs under /tmp (e.g.
+    /tmp/vordr-h154-events.jsonl); a stale log double-counts events —
+    exactly the H198 attempt-1 failure at test_fi_dma_corrupt
+    (1000 events counted vs 500 injected). All /tmp/vordr-* state is
+    per-run disposable, so it is removed before every mimir test."""
+    for p in glob.glob("/tmp/vordr-*"):
+        try:
+            if os.path.isdir(p):
+                import shutil
+                shutil.rmtree(p, ignore_errors=True)
+            else:
+                os.unlink(p)
+        except OSError:
+            pass
+
+
+def run_machine(machine, version, resume=False) -> int:
     subset = [s for s in SUITE if s[4] == machine]
+    out = REPO / "data" / "gauntlet" / ("full_suite_%s.json" % machine)
+    kept = {}
+    if resume and out.exists():
+        prev = json.loads(out.read_text())
+        kept = {r["script"]: r for r in prev.get("results", []) if r["pass"]}
+        print("H198 RESUME [%s]: keeping %d passed results" % (machine, len(kept)),
+              flush=True)
     t0 = time.time()
     results = []
     for script, extra, note, extra_env, _mach in subset:
+        if script in kept:
+            results.append(kept[script])
+            print("H198 SKIP (passed in earlier attempt): %s" % script, flush=True)
+            continue
+        if machine == "mimir":
+            clean_scratch()
         argv = [sys.executable, script] + [
             a.format(ver=version) for a in extra]
         print("=" * 70, flush=True)
@@ -129,6 +162,7 @@ def run_machine(machine, version) -> int:
     failed = [r["script"] for r in results if not r["pass"]]
     summary = {
         "machine": machine,
+        "resumed": resume,
         "verdict": "PASS" if not failed and len(results) == len(subset) else "FAIL",
         "total_tests": len(subset),
         "executed": len(results),
@@ -138,7 +172,6 @@ def run_machine(machine, version) -> int:
         "total_runtime_h": round(total_s / 3600, 2),
         "results": results,
     }
-    out = REPO / "data" / "gauntlet" / ("full_suite_%s.json" % machine)
     out.write_text(json.dumps(summary, indent=2))
     print("=" * 70)
     print("H198 [%s] SUMMARY: %d/%d passed, failed=%s, runtime=%.2fh" % (
@@ -190,10 +223,14 @@ def main() -> int:
     ap.add_argument("--version", default="1.0")
     ap.add_argument("--machine", choices=["mimir", "x86"], default=None)
     ap.add_argument("--merge", action="store_true")
+    ap.add_argument("--resume", action="store_true",
+                    help="keep PASS results from an earlier attempt of the "
+                         "same machine subset and run only the rest")
     args = ap.parse_args()
     if args.merge:
         return merge()
-    return run_machine(args.machine or detect_machine(), args.version)
+    return run_machine(args.machine or detect_machine(), args.version,
+                       resume=args.resume)
 
 
 if __name__ == "__main__":
