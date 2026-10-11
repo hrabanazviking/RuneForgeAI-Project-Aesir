@@ -4,6 +4,27 @@ from loader.packed_gguf import PackedGGUF
 from loader.tokenizer import RuneWeaver
 
 
+def gemma4_newline_spans(text: String) -> List[String]:
+    """Split text at newline (0x0A) byte boundaries, as Gemma 4 encode does.
+
+    0x0A can never appear inside a multibyte UTF-8 sequence (lead bytes are
+    >= 0xC2, continuation bytes are 0x80-0xBF), so slicing at these byte
+    offsets is always char-boundary safe. Boundaries toggle only when
+    newline-ness changes between adjacent bytes, so consecutive newlines
+    group into a single span.
+    """
+    var spans = List[String]()
+    var raw = text.as_bytes()
+    var start = 0
+    for i in range(1, len(raw)):
+        if (raw[i] == 10) != (raw[i - 1] == 10):
+            spans.append(String(text[byte=start:i]))
+            start = i
+    if start < len(raw):
+        spans.append(String(text[byte=start:len(raw)]))
+    return spans^
+
+
 struct Gemma4Tokenizer:
     var vocabulary: RuneWeaver
     var ranks: Dict[String, Int]
@@ -74,14 +95,8 @@ struct Gemma4Tokenizer:
         var result = List[Int]()
         if add_bos:
             result.append(self.vocabulary.bos_token_id)
-        var raw = text.as_bytes()
-        var start = 0
-        for i in range(1, len(raw)):
-            if (raw[i] == 10) != (raw[i - 1] == 10):
-                self._segment(String(text[byte=start:i]), result)
-                start = i
-        if start < len(raw):
-            self._segment(String(text[byte=start:len(raw)]), result)
+        for span in gemma4_newline_spans(text):
+            self._segment(String(span), result)
         return result^
 
     def append_text(self, mut tokens: List[Int], text: String):
@@ -90,10 +105,17 @@ struct Gemma4Tokenizer:
             tokens.append(token)
 
     def append_message(self, mut tokens: List[Int], role: String, text: String) raises:
-        if role != "system" and role != "user" and role != "model":
+        # ROLE ALIAS: the ChatMessage canon and RuneChatTemplate.format_gemma
+        # both map assistant -> model, so "assistant" is accepted here as an
+        # alias for "model" and normalized before the check. Invalid roles
+        # (e.g. "tool", "") still raise.
+        var effective = role
+        if role == "assistant":
+            effective = "model"
+        if effective != "system" and effective != "user" and effective != "model":
             raise Error("Unsupported Gemma 4 text message role")
         tokens.append(self.control("<|turn>"))
-        self.append_text(tokens, role + "\n" + text)
+        self.append_text(tokens, effective + "\n" + text)
         tokens.append(self.control("<turn|>"))
         self.append_text(tokens, "\n")
 

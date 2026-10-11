@@ -218,14 +218,21 @@ struct Llama3Tokenizer:
             tokens.append(token)
 
     def append_header(self, mut tokens: List[Int], role: String) raises:
-        if role != "system" and role != "user" and role != "assistant":
+        # ROLE POLICY: native Llama 3 chat has no tool framing. Tool output is
+        # rendered exactly as a user turn — deterministic and explicit. This
+        # keeps append_header consistent with ChatMessage.validate, which
+        # accepts "tool" as a valid role.
+        var effective = role
+        if role == "tool":
+            effective = "user"
+        if effective != "system" and effective != "user" and effective != "assistant":
             raise Error("Invalid native chat role")
         if self.family == "qwen3":
             tokens.append(self.control("<|im_start|>"))
-            self.append_text(tokens, role + "\n")
+            self.append_text(tokens, effective + "\n")
             return
         tokens.append(self.control("<|start_header_id|>"))
-        self.append_text(tokens, role)
+        self.append_text(tokens, effective)
         tokens.append(self.control("<|end_header_id|>"))
         self.append_text(tokens, "\n\n")
 
