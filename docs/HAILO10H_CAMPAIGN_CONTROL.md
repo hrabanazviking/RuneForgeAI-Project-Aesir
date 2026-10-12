@@ -113,3 +113,9 @@ Current observations confirm the same Hailo-10H identity and kernel family as hi
 Verdict for Æsir's current constrained path: **NO-GO / BLOCKED**. No documented, evidence-backed route currently provides both Hailo command completion and executable model configuration while preserving no-HEF/no-DFC/no-HailoRT-runtime requirements. Keep model execution and integration slices blocked. The v5.4 integrated firmware-control framing change is a bounded research lead for future owner-reviewed investigation, not permission to update system packages or alter constraints. No CPU LLM branch is available.
 
 Evidence: docs/HAILO10H_PHASE_D_RECONCILIATION.md, docs/HAILO10H_ACCESS_MECHANISMS.md, docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md, and upstream release comparison linked in Slice 034.
+
+## Slice 041 — Verify Mojo ARM64 toolchain status from official docs (complete)
+
+Modular's current Mojo requirements list Linux ARM64 support, and the compilation-target documentation lists AArch64 code generation. The documented/tested Linux environments specify Ubuntu 22.04+ and ARM64 AWS Graviton2/3; other Linux distributions are expected where glibc requirements are met but are not tested. These pages do not name Raspberry Pi 5/Cortex-A76 as a validated runtime host. Finding: ARM64 support exists, while Pi 5 toolchain/runtime support remains unverified.
+
+Sources: https://docs.modular.com/mojo/requirements/ ; https://docs.modular.com/mojo/tools/compilation/
