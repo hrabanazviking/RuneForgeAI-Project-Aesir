@@ -221,3 +221,9 @@ Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/smidr/PHASE_D_GATE.md.
 ## Slice 060 — Publish HAILBRÚ access contract and gate implementation (complete)
 
 The HAILBRÚ boundary, exclusive-ownership rules, read-only default, identity validation, BAR bounds, and VFIO/UIO status are recorded in this campaign-control log and access-mechanism inventory. Any device-touching implementation remains BLOCKED until the feasibility gate establishes an allowed, safe transport; current H111 NO-GO remains operative. No CPU LLM branch is permitted.
+
+## Slice 061 — Record current firmware/control identity (complete)
+
+The current read-only identify sample reports HAILO10H, firmware 5.3.0 (release,app), logger version 0, and control protocol v2. This is identity/version telemetry exposed through installed Hailo tooling; it does not show that Æsir's direct mailbox service is accepting commands.
+
+Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md and docs/HAILO10H_OS_SOFTWARE_IDENTITY.md.
