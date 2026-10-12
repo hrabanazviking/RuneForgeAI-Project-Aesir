@@ -152,16 +152,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 11: Hailo compute enablement gate
 
-- [ ] **Slice 101.** Reconcile command-submission transport requirements with the H102 failure signature.
-- [ ] **Slice 102.** Identify any new official mechanism that could replace the silent firmware mailbox path.
-- [ ] **Slice 103.** Require independently sourced evidence before changing doorbell or completion assumptions.
-- [ ] **Slice 104.** Assess whether firmware protocol access is possible without vendor runtime dependence.
-- [ ] **Slice 105.** Assess whether raw compute configuration is possible without HEF/DFC.
-- [ ] **Slice 106.** Join transport and configuration evidence into a single dependency graph.
-- [ ] **Slice 107.** Define a technical NO-GO result for unresolved transport, encoding, or legal barriers.
-- [ ] **Slice 108.** Define the sole GO criterion: one real Hailo-10H operation with device-completion and output evidence.
-- [ ] **Slice 109.** Record whether Hailo-only inference work is unblocked; if not, stop dependent implementation slices.
-- [ ] **Slice 110.** Publish the campaign gate and leave all CPU inference slices absent.
+- [x] **Slice 101.** Reconcile command-submission transport requirements with the H102 failure signature.
+- [x] **Slice 102.** Identify any new official mechanism that could replace the silent firmware mailbox path.
+- [x] **Slice 103.** Require independently sourced evidence before changing doorbell or completion assumptions.
+- [x] **Slice 104.** Assess whether firmware protocol access is possible without vendor runtime dependence.
+- [x] **Slice 105.** Assess whether raw compute configuration is possible without HEF/DFC.
+- [x] **Slice 106.** Join transport and configuration evidence into a single dependency graph.
+- [x] **Slice 107.** Define a technical NO-GO result for unresolved transport, encoding, or legal barriers.
+- [x] **Slice 108.** Define the sole GO criterion: one real Hailo-10H operation with device-completion and output evidence.
+- [x] **Slice 109.** Record whether Hailo-only inference work is unblocked; if not, stop dependent implementation slices.
+- [x] **Slice 110.** Publish the campaign gate and leave all CPU inference slices absent.
 
 ## Phase 12: Model computation mapping research
 
