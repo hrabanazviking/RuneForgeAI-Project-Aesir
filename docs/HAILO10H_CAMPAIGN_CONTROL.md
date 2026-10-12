@@ -195,3 +195,7 @@ No mutating device probe is included or authorized by these slices. Before any f
 ## Slice 055 — Require fail-closed PCI identity checks (complete)
 
 Any future HAILBRÚ acquisition path must verify the expected PCI vendor/device identity and Hailo architecture before touching device resources. A missing, ambiguous, or mismatched identity returns a named error and performs no mapping, write, bind change, firmware operation, or LLM execution. Current observed identity is 1e60:45c4 and HAILO10H; this is inventory, not acquisition permission.
+
+## Slice 056 — Specify BAR metadata and bounds validation (complete)
+
+Before any future mapping, HAILBRÚ must validate the resource index, resource size, offset, access width, alignment, and overflow-safe end bound against the OS-provided resource metadata. Unknown BAR semantics or out-of-range access must fail closed. This is an acceptance contract only; this slice performs no BAR mapping.
