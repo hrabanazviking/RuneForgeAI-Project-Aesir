@@ -1,13 +1,7 @@
-## Slice 118 — Map prefill/decode dependencies without host LLM math (complete; blocked)
+## Slice 119 — Identify a minimum model only from proven Hailo operations (complete; no candidate selectable)
 
-The existing TinyLlama path divides into:
+A model can be selected only after a measured Hailo operation set covers every required layer operation, tensor format, memory movement, and control step. The current verified Æsir-on-Hailo operation set is empty. Consequently no “smallest” LLM architecture can be responsibly selected or sized for this target under the present evidence: reducing parameter count does not remove the need for projections, normalization, attention, nonlinearity, output logits, and a legal chip configuration path.
 
-- **Host preparation:** parse model metadata and weights, tokenize prompt, allocate request/session bookkeeping. These are orchestration and data-preparation steps; they do not provide a Hailo model execution path.
-- **Prefill model computation:** for each layer, normalization → Q/K/V projections → RoPE → attention score/softmax/value aggregation → output projection → residual → normalization → FFN gate/up projections → activation/gating → down projection → residual; then final normalization and vocabulary projection.
-- **Decode model computation:** repeat the layer computation for the current token, with KV-cache reads/writes and one-token projections, then vocabulary projection; a sampler chooses the next token from logits.
+Result: candidate selection is deferred; the existing TinyLlama source is only the repository’s model-operation reference and is not nominated as Hailo-compatible. Revisit after the first real Hailo operation and a complete model-op coverage matrix exist. No CPU LLM work was performed.
 
-All model arithmetic in prefill and decode must execute on Hailo for this campaign. There is no verified operation/configuration/transport set to realize the chains; thus the chain is a requirements map only, not an implementation plan that may silently substitute host math. Tokenization, sampling, and orchestration may remain host responsibilities only after valid Hailo logits exist.
-
-Dependency result: model mapping and implementation remain BLOCKED by Slices 107–110. No model was run.
-
-Evidence: armvegr/infer.mojo; Slices 111–117; docs/smidr/PHASE_D_GATE.md.
+Evidence: Slices 107–118; docs/smidr/PHASE_D_GATE.md; CAPABILITY_LEDGER.md.
