@@ -87,16 +87,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 06: Safe device-access contract
 
-- [ ] **Slice 051.** Specify the HAILBRÚ ownership boundary for PCI discovery, BARs, DMA, interrupts, and device commands.
-- [ ] **Slice 052.** Document the current bound-driver state and prohibit accidental simultaneous driver ownership.
-- [ ] **Slice 053.** Specify a read-only default mode for all device census and diagnostics.
-- [ ] **Slice 054.** Define explicit preconditions and operator safeguards for any future mutating device probe.
-- [ ] **Slice 055.** Specify PCI identity checks that fail closed on a non-Hailo-10H endpoint.
-- [ ] **Slice 056.** Specify BAR/resource validation and bounds checks before any mapping operation is permitted.
-- [ ] **Slice 057.** Document the current missing-IOMMU-group limitation for VFIO on this machine.
-- [ ] **Slice 058.** Document UIO availability as unverified until module and interrupt/DMA behavior are tested under an approved procedure.
-- [ ] **Slice 059.** Reject sysfs BAR access as a DMA execution solution unless a safe, evidenced DMA contract is established.
-- [ ] **Slice 060.** Publish HAILBRÚ access contract and gate all device-touching implementation on a GO decision.
+- [x] **Slice 051.** Specify the HAILBRÚ ownership boundary for PCI discovery, BARs, DMA, interrupts, and device commands.
+- [x] **Slice 052.** Document the current bound-driver state and prohibit accidental simultaneous driver ownership.
+- [x] **Slice 053.** Specify a read-only default mode for all device census and diagnostics.
+- [x] **Slice 054.** Define explicit preconditions and operator safeguards for any future mutating device probe.
+- [x] **Slice 055.** Specify PCI identity checks that fail closed on a non-Hailo-10H endpoint.
+- [x] **Slice 056.** Specify BAR/resource validation and bounds checks before any mapping operation is permitted.
+- [x] **Slice 057.** Document the current missing-IOMMU-group limitation for VFIO on this machine.
+- [x] **Slice 058.** Document UIO availability as unverified until module and interrupt/DMA behavior are tested under an approved procedure.
+- [x] **Slice 059.** Reject sysfs BAR access as a DMA execution solution unless a safe, evidenced DMA contract is established.
+- [x] **Slice 060.** Publish HAILBRÚ access contract and gate all device-touching implementation on a GO decision.
 
 ## Phase 07: Firmware and control-plane evidence
 
