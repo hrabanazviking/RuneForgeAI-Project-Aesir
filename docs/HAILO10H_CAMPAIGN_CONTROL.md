@@ -25,3 +25,9 @@ Evidence: docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md and the repository's MÍMIS
 Vendor drivers, HailoRT, and other third-party implementations may be studied only under the repository's clean-room procedure: check license and study permissions first, record sources and intent, extract general concepts rather than code, and independently design any Æsir implementation. Do not copy or mechanically translate source. If the needed protocol/configuration cannot be derived within these boundaries, record the blocker.
 
 Evidence: ENGINEERING_GOALS_AND_BOUNDARIES.md, DEPENDENCY_POLICY.md, docs/plunder/.
+
+## Slice 025 — Vendor GenAI examples are reference evidence only (complete)
+
+Official Raspberry Pi/Hailo LLM documentation, Hailo GenAI Model Zoo, and Hailo-Ollama can establish what the vendor-supported Hailo-10H path requires. They do not establish an Æsir-compatible implementation: the current documented path uses Hailo model artifacts and vendor runtime components that conflict with Slice 023. Do not install or invoke those components as a workaround.
+
+Evidence: docs/HAILO10H_OS_SOFTWARE_IDENTITY.md and docs/HAILO10H_MODULE_MEMORY_EVIDENCE.md; official source links are recorded there.
