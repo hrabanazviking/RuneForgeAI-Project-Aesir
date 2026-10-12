@@ -249,3 +249,9 @@ Evidence: docs/plunder/HAILO_COMMAND_QUEUE.md, docs/smidr/H102_ATTEMPT_RECORD.md
 ## Slice 065 — Record historic app/core mailbox non-completion (complete)
 
 H102's attempt record documents repeated app-CPU mailbox submissions plus a final core-doorbell probe: writes/readbacks appeared as expected, but no completion bit, MSI, or response was observed. A vendor ioctl attempt also did not expose the raw operation on the integrated device. This is the measured historic failure signature; no retry was executed by this slice.
+
+## Slice 066 — Check official updates for mailbox changes (complete)
+
+Public driver release v5.4.0 exists beyond the installed 5.3.0. The reviewed v5.3→v5.4 integrated firmware-control source changes request/response framing and timeout behavior, but the public release material reviewed does not state that the raw app/core doorbell protocol or H102 no-completion failure is fixed. The source delta is not enough to infer that it is the same interface.
+
+Evidence: Slice 034 source comparison; https://github.com/hailo-ai/hailort-drivers/releases and https://github.com/hailo-ai/hailort-drivers/compare/v5.3.0...v5.4.0.
