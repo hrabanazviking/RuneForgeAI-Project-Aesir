@@ -343,3 +343,7 @@ For a future hardware attempt, checksum and preserve exact input bytes, candidat
 ## Slice 085 — Define completion, timeout, and integrity evidence (complete; proof remains gated)
 
 A pass requires a correlated device completion within a predeclared bounded timeout, successful output readback, unchanged/healthy device state, and output bytes matching the oracle criterion. Timeout, missing interrupt/status, invalid response, or integrity mismatch is a fail with raw trace preserved. Host process completion alone is not device completion.
+
+## Slice 086 — Set repeatability requirements for a real operation (complete; proof remains gated)
+
+After the first operation passes, require 100 repeated submissions with unique sequence accounting and identical deterministic outputs for the pinned input. Record per-operation completion and latency. Repeatability runs are meaningful only after proven on-chip execution; no host-side loop or simulation may satisfy them.
