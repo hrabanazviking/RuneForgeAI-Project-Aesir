@@ -1,6 +1,6 @@
 # Hailo-10H inference policy
 
-**Roadmap Slice 004 — inference-path inventory and target**
+**Roadmap Slice 004 — complete: inference-path inventory and Hailo-only target**
 
 ## Current repository inventory
 
