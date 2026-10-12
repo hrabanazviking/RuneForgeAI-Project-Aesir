@@ -269,3 +269,9 @@ Evidence: docs/smidr/H102_ATTEMPT_RECORD.md.
 ## Slice 069 — Keep new mailbox experiments blocked (complete)
 
 New mailbox writes remain blocked: there is no current mutating-probe safety case, driver-ownership handoff/restore plan, or new non-invasive signal isolating the control-service issue. The H102 attempt record is already comprehensive evidence for the tested path. A future attempt requires a separate owner-reviewed concrete safety plan before device mutation; this campaign performs none.
+
+## Slice 071 — State the chip-configuration problem separately from transport (complete)
+
+Hailo command transport and executable configuration are independent prerequisites. Even a working PCIe/DMA/doorbell path cannot compute unless the Hailo-10H firmware receives a valid operation description, tensor layout, memory placement, data-movement plan, schedule, and completion contract. Conversely, a valid configuration candidate cannot help while the tested submission path has no completion. This separation prevents transport results from being presented as compute proof.
+
+Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md and docs/smidr/PHASE_D_GATE.md.
