@@ -148,6 +148,7 @@ def _max_abs_err(a: List[Float32], b: List[Float32]) -> Float32:
 
 
 def main() raises:
+    raise Error("CpuInferenceProhibited: this CPU inference CLI is withdrawn; Project A.E.S.I.R. LLM inference is Hailo-10H-only.")
     var raw_args = argv()
     var args = List[String]()
     for i in range(len(raw_args)):
