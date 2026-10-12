@@ -7,8 +7,9 @@ compatible artifact; it has no alternate inference backend.
 
 `Hailo10HSession(path)` owns a noncopyable native session. `generate(prompt,
 max_tokens=128, timeout_ms=60000)` returns complete validated UTF-8 text.
-`describe()` returns a JSON object with observed identity/context/status and
-declared template reserve. `clear_context()` explicitly starts a fresh
+`describe()` returns a JSON object with observed identity/context/status, the
+opened artifact's SHA-256/size, and declared template reserve.
+`clear_context()` explicitly starts a fresh
 conversation. `close()` is idempotent; the destructor also releases ownership
 on exceptional exit.
 

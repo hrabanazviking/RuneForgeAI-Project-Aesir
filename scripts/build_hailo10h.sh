@@ -18,7 +18,7 @@ aesir_output="$(cd -- "$aesir_output" && pwd)"
 # Generations are retained locally; only a successful pair is published.
 aesir_stage="$(mktemp -d "$aesir_output/.hailo-build.XXXXXXXX")"
 "$aesir_cxx" -std=c++17 -Wall -Wextra -Werror -fPIC -shared \
-    "$aesir_root/aesir_engine/hailo10h_bridge.cpp" -lhailort -pthread \
+    "$aesir_root/aesir_engine/hailo10h_bridge.cpp" -lhailort -lcrypto -pthread \
     -o "$aesir_stage/libaesir_hailo10h.so"
 MODULAR_CACHE_DIR="${MODULAR_CACHE_DIR:-$aesir_output/mojo-cache}" \
     "$aesir_mojo" build -I "$aesir_root/aesir_engine" \

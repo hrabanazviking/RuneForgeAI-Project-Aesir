@@ -1,8 +1,11 @@
 #include <hailo/genai/llm/llm.hpp>
 #include <hailo/device.hpp>
 #include <hailo/vdevice.hpp>
+#include <openssl/evp.h>
 
 #include <algorithm>
+#include <array>
+#include <cerrno>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -10,12 +13,76 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <stdexcept>
 #include <unordered_map>
 #include <vector>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 namespace {
+struct ReadOnlyFile {
+    int fd;
+    explicit ReadOnlyFile(const char *path) : fd(::open(path, O_RDONLY | O_CLOEXEC)) {
+        if (fd < 0) throw std::runtime_error(std::string("ModelArtifactOpen: ") + std::strerror(errno));
+    }
+    ReadOnlyFile(const ReadOnlyFile &) = delete;
+    ReadOnlyFile &operator=(const ReadOnlyFile &) = delete;
+    ~ReadOnlyFile() { if (fd >= 0) ::close(fd); }
+};
+
+struct ModelArtifact {
+    ReadOnlyFile file;
+    struct stat identity{};
+    std::string digest;
+    std::string load_path;
+
+    explicit ModelArtifact(const char *path) : file(path) {
+        if (::fstat(file.fd, &identity) != 0 || !S_ISREG(identity.st_mode) || identity.st_size <= 0)
+            throw std::runtime_error("ModelArtifactRequired: expected a nonempty regular file");
+        std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> context(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+        if (!context || EVP_DigestInit_ex(context.get(), EVP_sha256(), nullptr) != 1)
+            throw std::runtime_error("ModelArtifactHash: cannot initialize SHA-256");
+        std::array<unsigned char, 65536> chunk{};
+        while (true) {
+            const auto count = ::read(file.fd, chunk.data(), chunk.size());
+            if (count < 0 && errno == EINTR) continue;
+            if (count < 0) throw std::runtime_error("ModelArtifactHash: read failed");
+            if (count == 0) break;
+            if (EVP_DigestUpdate(context.get(), chunk.data(), static_cast<size_t>(count)) != 1)
+                throw std::runtime_error("ModelArtifactHash: SHA-256 update failed");
+        }
+        std::array<unsigned char, EVP_MAX_MD_SIZE> raw{};
+        unsigned int length = 0;
+        if (EVP_DigestFinal_ex(context.get(), raw.data(), &length) != 1 || length != 32)
+            throw std::runtime_error("ModelArtifactHash: SHA-256 finalization failed");
+        constexpr char hex[] = "0123456789abcdef";
+        for (unsigned int i = 0; i < length; ++i) {
+            digest += hex[raw[i] >> 4]; digest += hex[raw[i] & 15];
+        }
+        if (::lseek(file.fd, 0, SEEK_SET) < 0)
+            throw std::runtime_error("ModelArtifactHash: cannot rewind file");
+        // Linux procfs binds SDK loading to the inode actually fingerprinted.
+        // Keep this descriptor alive throughout the owning model session.
+        // HailoRT may check the path from a helper process: address the
+        // owning process explicitly instead of resolving that helper's self.
+        load_path = "/proc/" + std::to_string(::getpid()) + "/fd/" + std::to_string(file.fd);
+        check_unchanged();
+    }
+
+    void check_unchanged() const {
+        struct stat after{};
+        if (::fstat(file.fd, &after) != 0 || identity.st_dev != after.st_dev
+            || identity.st_ino != after.st_ino || identity.st_size != after.st_size
+            || identity.st_mtim.tv_sec != after.st_mtim.tv_sec || identity.st_mtim.tv_nsec != after.st_mtim.tv_nsec
+            || identity.st_ctim.tv_sec != after.st_ctim.tv_sec || identity.st_ctim.tv_nsec != after.st_ctim.tv_nsec)
+            throw std::runtime_error("ModelArtifactChanged: file changed during hashing/loading; retry with stable model bytes");
+    }
+};
+
 struct Session {
     std::shared_ptr<hailort::VDevice> device;
+    std::shared_ptr<ModelArtifact> artifact;
     std::unique_ptr<hailort::genai::LLM> llm;
     std::mutex mutex;
     std::string identity_json;
@@ -98,6 +165,7 @@ extern "C" int aesir_hailo10h_open(const char *hef_path, uint64_t *handle_out,
         if (std::strlen(hef_path) == 0 || std::strlen(hef_path) >= 4096) {
             copy_error(error_out, error_cap, "model path must contain 1..4095 bytes"); return -1;
         }
+        auto artifact = std::make_shared<ModelArtifact>(hef_path);
         auto device = hailort::VDevice::create_shared();
         if (!device) {
             copy_error(error_out, error_cap, status_error("VDevice::create_shared", device.status()));
@@ -126,21 +194,24 @@ extern "C" int aesir_hailo10h_open(const char *hef_path, uint64_t *handle_out,
             copy_error(error_out, error_cap, status_error("hailo_get_library_version", version_status));
             return static_cast<int>(version_status);
         }
-        hailort::genai::LLMParams params(hef_path);
+        hailort::genai::LLMParams params(artifact->load_path);
         auto created = hailort::genai::LLM::create(device.value(), params);
         if (!created) {
             copy_error(error_out, error_cap, status_error("LLM::create", created.status()));
             return static_cast<int>(created.status());
         }
+        artifact->check_unchanged();
         auto identity_json = std::string("{\"backend\":\"hailort-genai\",\"architecture\":\"HAILO10H\",\"device_id\":")
             + json_quote(chip.get_dev_id()) + ",\"model_path\":" + json_quote(hef_path)
+            + ",\"model_sha256\":" + json_quote(artifact->digest.c_str())
+            + ",\"model_size_bytes\":" + std::to_string(artifact->identity.st_size)
             + ",\"runtime_version\":\"" + std::to_string(version.major) + "."
             + std::to_string(version.minor) + "." + std::to_string(version.revision)
             + "\",\"firmware_version\":\"" + std::to_string(identity->fw_version.major) + "."
             + std::to_string(identity->fw_version.minor) + "." + std::to_string(identity->fw_version.revision)
             + "\"";
         auto session = std::shared_ptr<Session>(new Session{
-            device.value(), std::make_unique<hailort::genai::LLM>(std::move(created.value())), {}, identity_json
+            device.value(), artifact, std::make_unique<hailort::genai::LLM>(std::move(created.value())), {}, identity_json
         });
         std::lock_guard<std::mutex> lock(sessions_mutex);
         if (next_handle == 0) {
