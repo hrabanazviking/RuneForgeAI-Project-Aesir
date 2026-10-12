@@ -161,3 +161,7 @@ Source: https://git.mitgai.net/l-nmch/hailo-10h-llm-compiler/blob/main/README.md
 Clean-room study log: Hailo official driver repository (GPL-2.0; study-only per repository doctrine), Hailo Model Zoo GenAI (MIT repository but depends on HailoRT and compiled artifacts), official Hailo Model Zoo (DFC/HEF workflow), Raspberry Pi official AI docs, Modular Mojo official requirements/compilation/FFI docs, and public Hailo-10H LLM compiler (MIT code with proprietary DFC requirement). Facts are recorded as requirements and architectural observations only; no upstream source code or distinctive implementation was copied. Unknowns: a supported raw command API, artifact-free executable configuration format, and Pi-specific Mojo runtime validation.
 
 Source inventory paths/links are in docs/HAILO10H_CAMPAIGN_CONTROL.md slices 033–047 and docs/plunder/HAILO_* guides.
+
+## Slice 049 — Assess whether a compliant configuration-generation route is evidenced (complete)
+
+The reviewed official path depends on the proprietary DFC and HEF; the reviewed independent compiler project also depends on DFC and emits HEF. Existing Æsir H104 emits a deterministic host-side candidate, but PHASE_D_GATE.md explicitly marks its chip executability unproven and H102 transport failed. No evidence-backed route presently satisfies no-DFC/no-HEF plus actual Hailo execution. Do not promote host-side generation artifacts to a passing configuration generator.
