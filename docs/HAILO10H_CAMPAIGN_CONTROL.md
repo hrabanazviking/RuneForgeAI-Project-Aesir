@@ -171,3 +171,9 @@ The reviewed official path depends on the proprietary DFC and HEF; the reviewed 
 Recommendation: continue only evidence research and reversible design work under the current architecture; keep the native Hailo LLM execution path BLOCKED. Officially documented Hailo-10H LLM paths found in this review require components the project excludes, while the prior clean-room transport attempt ended NO-GO. A future implementation decision requires materially new evidence for both command completion and configuration generation, or an explicit owner decision changing those architecture constraints. This is not permission for CPU LLM work and is not a claim that Hailo hardware cannot run LLMs through supported vendor paths.
 
 Decision recorded in docs/HAILO10H_DECISION_LOG.md and the Slice 040 gate.
+
+## Slice 051 — Define HAILBRÚ device-ownership boundary (complete)
+
+Only HAILBRÚ may discover PCI endpoints, inspect BAR/resource metadata, acquire device ownership, map accelerator resources, allocate or submit DMA buffers, configure interrupts, issue device ioctls, or submit commands. Model, API, memory, and orchestration domains may consume only a published HAILBRÚ interface and may not access PCI resources directly.
+
+Evidence: repository architecture/domain boundaries; docs/HAILO10H_COMPONENT_BOUNDARIES.md.
