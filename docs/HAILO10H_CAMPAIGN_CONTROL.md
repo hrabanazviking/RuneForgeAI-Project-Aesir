@@ -305,3 +305,7 @@ Evidence: ENGINEERING_GOALS_AND_BOUNDARIES.md, DEPENDENCY_POLICY.md, and reposit
 Static validation may check a candidate generator's deterministic encoding, field bounds, internal schema, source traceability, and malformed-input rejection. These checks can validate host-side candidate structure only. Without a successful, correlated Hailo firmware completion and correct on-device result, no static checker can establish that undocumented control words are accepted or chip-executable.
 
 Evidence: H104's explicit host-side-only status in docs/plunder/HAILO_CONFIG_SURFACE.md; H105/H111 criteria in docs/smidr/PHASE_D_GATE.md.
+
+## Slice 077 — Assess generator completeness against current evidence (complete)
+
+A complete configuration generator is not currently evidenced. The essential compute encoding and allocation/scheduling/handshake contracts remain unknown, while command submission failed. SMIÐR-CFG v1 is explicitly a test format that describes inputs and expected values, not a chip program. Under present evidence, extending this generator toward chip execution would risk inventing undocumented fields and would be blocked.
