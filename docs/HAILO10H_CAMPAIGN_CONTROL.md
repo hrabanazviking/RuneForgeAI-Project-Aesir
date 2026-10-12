@@ -1,17 +1,7 @@
-## Slice 130 — Publish conditional host-to-device data-path contract (complete; BLOCKED)
+## Slice 131 — Inspect backend enums, validation, and dispatch (complete; scope conflict found)
 
-The Hailo data path requires a verified, compliant chain:
+The repository exposes a reserved NPU backend identifier and an NPU-unavailable stub, but the current fallback backend policy is unsuitable for the owner’s Hailo-only mission: armvegr/backend.mojo documents that AUTO and CPU requests resolve to BACKEND_CPU, while explicit NPU requests raise an error that recommends CPU/AUTO. This is an intentional historical NO-GO fallback policy, not a Hailo implementation. It would violate the current requirement that Project Æsir perform no Pi CPU LLM inference.
 
-1. Validate Hailo-10H identity and acquire safe exclusive ownership.
-2. Allocate bounded host staging memory and verify device-visible DMA addressability, size, alignment, and lifetime.
-3. Record tensor metadata, byte length, and input checksum; apply documented cache/transfer synchronization.
-4. Submit a documented operation/configuration through a verified transport and record a unique sequence.
-5. Await correlated Hailo completion within a bounded timeout; do not infer completion from host calls or register readback.
-6. Synchronize device output for host access, verify output size/checksum against the operation contract, then permit downstream sampling.
-7. On any error, cancellation, or removal, preserve trace data, invalidate the result, and retain/quarantine buffers until device ownership is safely returned.
-8. Release mappings/buffers and restore prior endpoint state only under the reviewed safety procedure; verify restored state.
-9. Benchmark transfer and compute separately only after the first real operation passes.
+Required correction before any runtime work: the active product path must fail closed unless a Hailo backend is ready; it must not silently or explicitly route an LLM request to the CPU. This slice makes no source edit because the permitted Hailo architecture is still an owner decision and the current roadmap branch is documentation-only.
 
-Status: **BLOCKED**. H102 transport did not complete, H019 execution configuration remains unknown, memory/ordering/coherency semantics are unresolved for a compliant raw path, and there is no reviewed current device-mutation safety case. This contract is not executable code and supplies no CPU LLM fallback.
-
-Evidence: Slices 107–110 and 121–129; docs/HAILO10H_ACCESS_MECHANISMS.md; docs/smidr/PHASE_D_GATE.md.
+Evidence: armvegr/backend.mojo; CAPABILITY_LEDGER.md entries H139 and SMIÐR Phase-D; owner instruction in this task.
