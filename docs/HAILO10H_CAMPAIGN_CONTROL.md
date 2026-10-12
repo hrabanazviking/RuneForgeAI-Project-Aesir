@@ -287,3 +287,9 @@ Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md.
 Current public Hailo Model Zoo documents graph parse/optimize/compile flows and downloadable precompiled HEF models; the GenAI Model Zoo documents pre-trained artifacts and HailoRT serving. These sources establish the supported compilation workflow but do not provide a public raw operation-word/scheduler encoding specification for a Mojo generator. This is a bounded public-documentation finding, not a claim about private developer materials.
 
 Sources: https://github.com/hailo-ai/hailo_model_zoo ; https://github.com/hailo-ai/hailo_model_zoo_genai.
+
+## Slice 074 — Survey public compiler outputs only within clean-room limits (complete)
+
+The publicly documented community LLM compiler requires proprietary DFC 5.3.0 and creates HEF output; official Model Zoo likewise exposes compiled HEFs. Such outputs are outside this campaign's no-HEF rule and do not provide a compliant configuration artifact. No compiled artifact was downloaded, unpacked, or used for reverse engineering in this slice. Any later survey must first satisfy source license, project clean-room, and owner-scope rules.
+
+Evidence: docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 034, 046–048; public project README linked in Slice 047.
