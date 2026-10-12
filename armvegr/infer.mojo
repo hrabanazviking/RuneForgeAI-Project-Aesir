@@ -610,6 +610,7 @@ struct Inference:
         cache is correct (same FP16 op order); the H136 gate allows
         max abs error <= 1e-3 across all 32000 logits.
         """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if not self.model.loaded:
             raise Error("infer: forward_nocache on unloaded model")
         var n = len(tokens)
@@ -746,7 +747,6 @@ def _transpose_f16(
     C: Int,
 ):
     """dst[C,R] = src[R,C]^T (row-major both)."""
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
     for r in range(R):
         for c in range(C):
             dst.unsafe_offset(c * R + r).unsafe_store(
