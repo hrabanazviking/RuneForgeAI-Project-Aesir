@@ -187,3 +187,7 @@ Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/HAILO10H_HOST_DEVICE_IDENT
 ## Slice 053 — Make read-only the default device mode (complete)
 
 All census, diagnostics, and feasibility checks default to read-only operations. Reading PCI identity/link metadata or supported Hailo identify output does not authorize BAR writes, firmware transfer, ownership changes, DMA, interrupts, reset, or command submission. A future mutating path must be explicitly separate, gated, and auditable.
+
+## Slice 054 — Specify safeguards for future mutating probes (complete)
+
+No mutating device probe is included or authorized by these slices. Before any future attempt, require a written safety case naming the exact operation, impact, preconditions, saved baseline, rollback/restore procedure, timeout, expected state afterward, and evidence to stop on failure. Require owner review of that concrete procedure before touching the live endpoint. No such procedure is executed here.
