@@ -100,16 +100,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 07: Firmware and control-plane evidence
 
-- [ ] **Slice 061.** Inventory the current firmware identity from supported read-only tooling.
-- [ ] **Slice 062.** Compare current firmware identity with the exact H102 test identity where logs allow.
-- [ ] **Slice 063.** Document which firmware status signals are observable without taking device ownership.
-- [ ] **Slice 064.** Review documented app-CPU and core doorbell semantics against primary sources.
-- [ ] **Slice 065.** Record that the historic app and core mailbox submissions yielded no completion.
-- [ ] **Slice 066.** Check whether any official update documents mailbox access restrictions on integrated Hailo-10H.
-- [ ] **Slice 067.** Define what positive evidence would prove the firmware control service is reachable.
-- [ ] **Slice 068.** Define what negative evidence is sufficient to block compute submissions safely.
-- [ ] **Slice 069.** Keep new mailbox experiments blocked until owner-approved safety, state restoration, and evidence gaps are explicit.
-- [ ] **Slice 070.** Publish a firmware/control-plane evidence matrix with supported, contradicted, and unknown claims.
+- [x] **Slice 061.** Inventory the current firmware identity from supported read-only tooling.
+- [x] **Slice 062.** Compare current firmware identity with the exact H102 test identity where logs allow.
+- [x] **Slice 063.** Document which firmware status signals are observable without taking device ownership.
+- [x] **Slice 064.** Review documented app-CPU and core doorbell semantics against primary sources.
+- [x] **Slice 065.** Record that the historic app and core mailbox submissions yielded no completion.
+- [x] **Slice 066.** Check whether any official update documents mailbox access restrictions on integrated Hailo-10H.
+- [x] **Slice 067.** Define what positive evidence would prove the firmware control service is reachable.
+- [x] **Slice 068.** Define what negative evidence is sufficient to block compute submissions safely.
+- [x] **Slice 069.** Keep new mailbox experiments blocked until owner-approved safety, state restoration, and evidence gaps are explicit.
+- [x] **Slice 070.** Publish a firmware/control-plane evidence matrix with supported, contradicted, and unknown claims.
 
 ## Phase 08: Configuration-generation research
 
