@@ -183,3 +183,7 @@ Evidence: repository architecture/domain boundaries; docs/HAILO10H_COMPONENT_BOU
 The live Hailo endpoint is bound to kernel driver hailo1x. Treat that binding as exclusive ownership. Æsir must not map or submit raw commands while hailo1x owns the endpoint, and no campaign action may unbind or rebind it under the present read-only plan.
 
 Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/HAILO10H_HOST_DEVICE_IDENTITY.md.
+
+## Slice 053 — Make read-only the default device mode (complete)
+
+All census, diagnostics, and feasibility checks default to read-only operations. Reading PCI identity/link metadata or supported Hailo identify output does not authorize BAR writes, firmware transfer, ownership changes, DMA, interrupts, reset, or command submission. A future mutating path must be explicitly separate, gated, and auditable.
