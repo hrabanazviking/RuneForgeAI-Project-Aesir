@@ -1,7 +1,17 @@
-## Slice 129 — Specify transfer benchmarks after compute proof (complete; benchmark blocked)
+## Slice 130 — Publish conditional host-to-device data-path contract (complete; BLOCKED)
 
-Transfer benchmarks may begin only after a real Hailo compute operation, safe DMA mapping, correlated completion, cache/coherency behavior, and output integrity have passed the GO gate. Report host-to-device transfer, device execution, and device-to-host transfer separately where supported; include warm/cold distinction, tensor sizes/shapes, buffer reuse policy, repeat count, latency percentiles, errors, and device/software identity. Do not label host allocation/copy or a vendor-stack demo as Æsir Hailo performance.
+The Hailo data path requires a verified, compliant chain:
 
-Current status: benchmark work is BLOCKED because no compliant compute or transport path is verified. No benchmark was run and no Pi CPU inference performance is relevant to this plan.
+1. Validate Hailo-10H identity and acquire safe exclusive ownership.
+2. Allocate bounded host staging memory and verify device-visible DMA addressability, size, alignment, and lifetime.
+3. Record tensor metadata, byte length, and input checksum; apply documented cache/transfer synchronization.
+4. Submit a documented operation/configuration through a verified transport and record a unique sequence.
+5. Await correlated Hailo completion within a bounded timeout; do not infer completion from host calls or register readback.
+6. Synchronize device output for host access, verify output size/checksum against the operation contract, then permit downstream sampling.
+7. On any error, cancellation, or removal, preserve trace data, invalidate the result, and retain/quarantine buffers until device ownership is safely returned.
+8. Release mappings/buffers and restore prior endpoint state only under the reviewed safety procedure; verify restored state.
+9. Benchmark transfer and compute separately only after the first real operation passes.
 
-Evidence: Slices 085–089, 107–110, 121–128; docs/smidr/PHASE_D_GATE.md.
+Status: **BLOCKED**. H102 transport did not complete, H019 execution configuration remains unknown, memory/ordering/coherency semantics are unresolved for a compliant raw path, and there is no reviewed current device-mutation safety case. This contract is not executable code and supplies no CPU LLM fallback.
+
+Evidence: Slices 107–110 and 121–129; docs/HAILO10H_ACCESS_MECHANISMS.md; docs/smidr/PHASE_D_GATE.md.
