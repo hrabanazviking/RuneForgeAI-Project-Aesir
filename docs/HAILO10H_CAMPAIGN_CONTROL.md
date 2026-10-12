@@ -317,3 +317,9 @@ Any future generator must tie every emitted field/value to a documented or exper
 ## Slice 079 — Set a stopping rule for unbounded reverse engineering (complete)
 
 Pause configuration reverse engineering when both transport completion and operation encoding lack an evidence-backed path, when further progress requires prohibited DFC/HEF use, or when validation would require an unreviewed mutating hardware experiment. Resume only after new public/documented evidence, an approved safe test plan, and a clear discriminating experiment exist. This prevents endless low-evidence byte guessing.
+
+## Slice 080 — Publish current configuration-surface feasibility verdict (complete)
+
+Verdict: **NO-GO for a Hailo-executable configuration generator under the current evidence and constraints.** H019 still has unknown mandatory device encodings; H104 covers host-side tensor facts/envelope only; public compiled outputs depend on excluded tooling/artifacts; H102 transport does not complete. Keep on-chip compute and LLM integration BLOCKED. Preserve the host-side artifacts as research data, not functioning kernels.
+
+Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md, docs/HAILO10H_PHASE_D_RECONCILIATION.md.
