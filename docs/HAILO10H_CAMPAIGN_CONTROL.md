@@ -165,3 +165,9 @@ Source inventory paths/links are in docs/HAILO10H_CAMPAIGN_CONTROL.md slices 033
 ## Slice 049 — Assess whether a compliant configuration-generation route is evidenced (complete)
 
 The reviewed official path depends on the proprietary DFC and HEF; the reviewed independent compiler project also depends on DFC and emits HEF. Existing Æsir H104 emits a deterministic host-side candidate, but PHASE_D_GATE.md explicitly marks its chip executability unproven and H102 transport failed. No evidence-backed route presently satisfies no-DFC/no-HEF plus actual Hailo execution. Do not promote host-side generation artifacts to a passing configuration generator.
+
+## Slice 050 — Issue a technical/architecture feasibility recommendation (complete)
+
+Recommendation: continue only evidence research and reversible design work under the current architecture; keep the native Hailo LLM execution path BLOCKED. Officially documented Hailo-10H LLM paths found in this review require components the project excludes, while the prior clean-room transport attempt ended NO-GO. A future implementation decision requires materially new evidence for both command completion and configuration generation, or an explicit owner decision changing those architecture constraints. This is not permission for CPU LLM work and is not a claim that Hailo hardware cannot run LLMs through supported vendor paths.
+
+Decision recorded in docs/HAILO10H_DECISION_LOG.md and the Slice 040 gate.
