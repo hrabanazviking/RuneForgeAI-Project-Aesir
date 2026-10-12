@@ -275,3 +275,9 @@ New mailbox writes remain blocked: there is no current mutating-probe safety cas
 Hailo command transport and executable configuration are independent prerequisites. Even a working PCIe/DMA/doorbell path cannot compute unless the Hailo-10H firmware receives a valid operation description, tensor layout, memory placement, data-movement plan, schedule, and completion contract. Conversely, a valid configuration candidate cannot help while the tested submission path has no completion. This separation prevents transport results from being presented as compute proof.
 
 Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md and docs/smidr/PHASE_D_GATE.md.
+
+## Slice 072 — Inventory H019 configuration elements and confidence (complete)
+
+H019 lists seven MUST-HAVE elements for a minimal operation: (1) operation encoding, (2) tensor descriptors, (3) memory allocation, (4) data movement, (5) scheduling/order, (6) completion signaling, and (7) firmware handshake. The H104 host-side candidate covers tensor facts and Æsir's envelope only; its own record says chip executability is unproven. The required device encodings for elements 1 and 3–7 remain unknown/unverified.
+
+Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md.
