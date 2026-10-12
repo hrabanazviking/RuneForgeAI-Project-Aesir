@@ -1,6 +1,6 @@
 # Project A.E.S.I.R. on Hailo-10H
 
-**Mission — roadmap Slice 001**
+**Mission — roadmap Slice 001 (complete)**
 
 Project A.E.S.I.R. is a local, Mojo-native inference engine built to give its
 keeper direct control over model execution and data. This roadmap's objective is
