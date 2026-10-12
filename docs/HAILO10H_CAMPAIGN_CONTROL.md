@@ -191,3 +191,7 @@ All census, diagnostics, and feasibility checks default to read-only operations.
 ## Slice 054 — Specify safeguards for future mutating probes (complete)
 
 No mutating device probe is included or authorized by these slices. Before any future attempt, require a written safety case naming the exact operation, impact, preconditions, saved baseline, rollback/restore procedure, timeout, expected state afterward, and evidence to stop on failure. Require owner review of that concrete procedure before touching the live endpoint. No such procedure is executed here.
+
+## Slice 055 — Require fail-closed PCI identity checks (complete)
+
+Any future HAILBRÚ acquisition path must verify the expected PCI vendor/device identity and Hailo architecture before touching device resources. A missing, ambiguous, or mismatched identity returns a named error and performs no mapping, write, bind change, firmware operation, or LLM execution. Current observed identity is 1e60:45c4 and HAILO10H; this is inventory, not acquisition permission.
