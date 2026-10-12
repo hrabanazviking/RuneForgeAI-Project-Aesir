@@ -13,3 +13,9 @@ Evidence: user instruction recorded in this task; `docs/HAILO10H_MISSION.md`; `d
 Æsir's shipped execution path remains native Mojo under the repository's engineering doctrine. Python remains test-only where existing policy allows it. This slice adds no Python runtime dependency and no CPU inference implementation.
 
 Evidence: ENGINEERING_DOCTRINE.md, AGENT_ONBOARDING.md, and the Hailo mission constraints.
+
+## Slice 023 — No HEF, DFC, or vendor-runtime requirements (complete)
+
+This campaign preserves the existing explicit architecture requirements: do not create, read, or require HEF artifacts; do not install or invoke the proprietary Hailo Dataflow Compiler; and do not link, dlopen, or require HailoRT/Hailo-Ollama as Æsir runtime dependencies. The feasibility risk is accepted as a possible blocker, not silently resolved by relaxing these constraints.
+
+Evidence: docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md and the repository's MÍMISBRUNNR architectural laws.
