@@ -227,3 +227,9 @@ The HAILBRÚ boundary, exclusive-ownership rules, read-only default, identity va
 The current read-only identify sample reports HAILO10H, firmware 5.3.0 (release,app), logger version 0, and control protocol v2. This is identity/version telemetry exposed through installed Hailo tooling; it does not show that Æsir's direct mailbox service is accepting commands.
 
 Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md and docs/HAILO10H_OS_SOFTWARE_IDENTITY.md.
+
+## Slice 062 — Compare firmware version with H102 evidence (complete)
+
+H102 and Phase-D records identify the same kernel family and say the SOC firmware batch was loaded, but they do not record an exact firmware build/version for the raw mailbox attempts. Current identify output is 5.3.0. Therefore an exact firmware-version match or difference cannot be asserted; the current reading does not retroactively alter H102's measured no-completion result.
+
+Evidence: docs/smidr/H102_ATTEMPT_RECORD.md; current identity snapshot.
