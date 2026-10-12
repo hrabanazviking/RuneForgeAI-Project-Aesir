@@ -381,3 +381,9 @@ Evidence: hailbru/discovery.mojo, hailbru/API.md, docs/hailbru/PHASE_B_GATE.md.
 hailbru.bars.parse_resource reads the kernel sysfs resource table, parses start/end/flags, pairs 64-bit BAR entries, and validates basic shape/size assumptions. Parsing metadata is distinct from opening resource files or mapping BARs. Current physical mappings are privilege-gated; future mappings must be bounds-checked and read-only by default.
 
 Evidence: hailbru/bars.mojo, hailbru/API.md.
+
+## Slice 094 — Specify DMA ownership and address semantics (complete; execution remains gated)
+
+DmaRegistry alloc/free and optional mlock establish host-side buffer allocation/accounting. They do not prove the returned host address is a device-visible DMA address. VFIO IOMMU mapping and UIO DMA allocation are marked unavailable/F3-banked in HAILBRÚ; current endpoint has no IOMMU group. Any accelerator path must establish device-visible address, lifetime, alignment, cache-coherency, and release semantics before submission.
+
+Evidence: hailbru/dma.mojo, hailbru/API.md, docs/HAILO10H_ACCESS_MECHANISMS.md.
