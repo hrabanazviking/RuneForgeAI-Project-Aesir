@@ -351,3 +351,7 @@ After the first operation passes, require 100 repeated submissions with unique s
 ## Slice 087 — Require evidence of physical Hailo execution (complete; proof remains gated)
 
 Accelerator provenance must combine endpoint identity, device/firmware completion evidence correlated to the submitted operation, device-returned output bytes, and a negative control showing the host-only path cannot produce a passing device record. Device discovery, a BAR write/readback, or mocked completion by itself is insufficient.
+
+## Slice 088 — Define safety preconditions and restoration for mutation (complete; proof remains gated)
+
+A future mutating proof requires the safety case defined in Slice 054, including exclusive ownership, exact driver handoff, safe memory/DMA mapping, known completion timeout, saved register baseline, restoration steps, and stop conditions. Device must return to the recorded driver/firmware state after success or failure. This slice defines criteria only; no mutation is authorized or executed.
