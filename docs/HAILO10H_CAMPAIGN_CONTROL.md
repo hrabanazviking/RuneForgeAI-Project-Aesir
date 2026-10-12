@@ -1,7 +1,7 @@
-## Slice 121 — Define host/device tensor ownership transitions (complete; conditional contract)
+## Slice 122 — Specify transfer-integrity checks and counters (complete; design only)
 
-For any future verified operation, a tensor must have one explicit owner at each point: host allocation/preparation → successful transport mapping and device-visible address validation → device-owned while submission is in flight → host-readable only after correlated completion and required synchronization → release only after completion or a proven abort. Ownership must not be inferred from a host pointer or a successful mmap. Every transition needs an observable success/failure result and cleanup rule.
+A future approved Hailo operation record should capture, at minimum: operation/request sequence ID; source tensor byte count and cryptographic digest; mapped device-buffer identity/size/direction; transfer submission and correlated completion status; returned byte count and digest; expected output digest; timeout/error counter; and device/firmware identity. Counters must distinguish allocated, mapped, submitted, completed, failed, and released buffers. A successful host write/read alone must never increment “device completed.”
 
-This is a requirements contract only. Current Æsir lacks a proven Hailo DMA mapping and completion path; the endpoint remains under hailo1x. Therefore no buffers were mapped, allocated for Hailo, transferred, or submitted. This does not authorize simultaneous or raw access to the bound device. No CPU LLM execution is part of the contract.
+No live transfer path exists in Æsir, and H102 failed before a command round-trip. These fields specify evidence requirements; this slice creates no telemetry implementation and authorizes no device I/O.
 
-Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/HAILO10H_COMPONENT_BOUNDARIES.md; docs/smidr/H102_ATTEMPT_RECORD.md; H019 configuration surface.
+Evidence: H102 attempt record; Slices 084–087 and 121; HAILBRÚ API and H019 config-surface requirements.
