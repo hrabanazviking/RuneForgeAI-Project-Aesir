@@ -1,7 +1,7 @@
-## Slice 115 — Assess tensor precision and quantization evidence (complete; model contract unknown)
+## Slice 116 — Define conditional weight/activation representation (complete; hypothetical only)
 
-The selected TinyLlama source uses FP16 weights and FP16 intermediate buffers in its host implementation, with FP32 accumulation in several kernels and FP32 attention scores/softmax before conversion to FP16. That describes Æsir’s existing ARMVEGR code, not a verified Hailo-10H tensor contract. Official Raspberry Pi AI HAT+ 2 material reports 40 TOPS INT4, but a performance specification does not establish accepted external tensor dtypes, per-layer quantization scales, accumulator precision, or a no-HEF execution route. H019 requires exact tensor descriptors and quantization fields; those remain unknown.
+A future Hailo representation cannot be selected until the device’s accepted tensor format, quantization parameters, memory layout, and operation descriptors are publicly specified or experimentally verified under an approved proof. The current ARMVEGR FP16/FP32 host representation is documented as source behavior only and must not be treated as the accelerator contract. Likewise, Raspberry Pi’s INT4 performance specification does not supply scale/zero-point, packing, accumulator, or layer compatibility rules.
 
-Result: no precision or quantization mapping is approved for Hailo. Do not infer INT4 model compatibility from TOPS claims; require public technical documentation and a Hailo proof before defining a chip contract. No model was executed.
+For a future candidate format, each tensor record would need an explicit dtype, shape, strides/layout, quantization parameters where applicable, byte length, alignment, ownership, and versioned provenance. These are requirements for evidence collection, not a proposed executable serialization. No format, quantizer, conversion path, or device buffer was implemented or exercised. No CPU LLM execution is in scope.
 
-Sources: armvegr/infer.mojo; armvegr/gemv.mojo; armvegr/gemm_tuned.mojo; docs/plunder/HAILO_CONFIG_SURFACE.md; https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html.
+Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md elements 1–4; Slices 114–115; armvegr/infer.mojo.
