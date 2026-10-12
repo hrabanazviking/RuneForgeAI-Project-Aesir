@@ -89,3 +89,7 @@ Sources: https://github.com/hailo-ai/hailort-drivers/releases ; https://github.c
 The current live sample reports kernel 6.12.112-v8-16k-hailo+, hailo1x module 5.3.0, and device firmware 5.3.0. H102 records the same kernel family and a loaded firmware, but does not pin an exact firmware version for the mailbox attempts. Therefore firmware equivalence cannot be established from the available H102 record. Upstream driver v5.4.0 exists, but it is not installed and was not applied to this machine. No upgrade or reboot was performed.
 
 Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_OS_SOFTWARE_IDENTITY.md, docs/smidr/H102_ATTEMPT_RECORD.md.
+
+## Slice 036 — Assess non-invasive discriminating observations (complete)
+
+Read-only device identity, current driver/firmware versions, PCI link state, node/module state, and the upstream v5.4 source delta are now known. None directly reports whether the H102 app-CPU/core mailbox service accepts a clean-room raw command. No additional non-invasive indicator in the available supported tools was identified that would distinguish the historic silent-mailbox state from a recovered command service. Do not infer success from device scan/identify.
