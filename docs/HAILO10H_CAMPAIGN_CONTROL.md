@@ -1,7 +1,7 @@
-## Slice 114 — Assess Hailo memory-layout evidence (complete; no Æsir contract established)
+## Slice 115 — Assess tensor precision and quantization evidence (complete; model contract unknown)
 
-Public evidence reviewed for this slice documents Hailo driver DMA buffer mechanisms and hardware-side support code, and Raspberry Pi documents AI HAT+ 2 as Hailo-10H with 8 GB onboard memory. This evidence is not a complete public specification for the tensor layout, addressability, cache-coherency, or model-layer memory behavior needed by Æsir. The public driver source is tied to the vendor runtime/driver stack and cannot be treated as authorization or a compliant implementation contract for this campaign. Do not infer that 8 GB is all freely addressable to arbitrary Mojo buffers or that a particular tensor packing is accepted.
+The selected TinyLlama source uses FP16 weights and FP16 intermediate buffers in its host implementation, with FP32 accumulation in several kernels and FP32 attention scores/softmax before conversion to FP16. That describes Æsir’s existing ARMVEGR code, not a verified Hailo-10H tensor contract. Official Raspberry Pi AI HAT+ 2 material reports 40 TOPS INT4, but a performance specification does not establish accepted external tensor dtypes, per-layer quantization scales, accumulator precision, or a no-HEF execution route. H019 requires exact tensor descriptors and quantization fields; those remain unknown.
 
-Result: Æsir’s Hailo memory-layout requirements remain UNKNOWN pending a public, legally usable specification and a proven transport/configuration path. No hardware was accessed or changed.
+Result: no precision or quantization mapping is approved for Hailo. Do not infer INT4 model compatibility from TOPS claims; require public technical documentation and a Hailo proof before defining a chip contract. No model was executed.
 
-Sources: https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html ; https://github.com/hailo-ai/hailort-drivers/blob/master/common/pcie_common.h ; https://github.com/hailo-ai/hailort-drivers/blob/master/linux/vdma/ioctl.c ; docs/HAILO10H_ACCESS_MECHANISMS.md.
+Sources: armvegr/infer.mojo; armvegr/gemv.mojo; armvegr/gemm_tuned.mojo; docs/plunder/HAILO_CONFIG_SURFACE.md; https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html.
