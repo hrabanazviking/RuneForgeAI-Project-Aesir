@@ -20,6 +20,7 @@ struct Session {
     std::mutex mutex;
     std::string identity_json;
     bool needs_reset = false;
+    bool needs_reopen = false;
     std::string last_completion = "none";
 };
 
@@ -28,11 +29,22 @@ struct Session {
 std::mutex sessions_mutex;
 std::unordered_map<uint64_t, std::shared_ptr<Session>> sessions;
 uint64_t next_handle = 1;
+// Admission policy for the structured single-user-message template. This is
+// reserved headroom, not a claimed measured tokenizer/property of the chip.
+constexpr size_t TEMPLATE_TOKEN_RESERVE = 64;
 
 std::shared_ptr<Session> lookup(uint64_t handle) {
     std::lock_guard<std::mutex> lock(sessions_mutex);
     auto found = sessions.find(handle);
     return found == sessions.end() ? nullptr : found->second;
+}
+
+hailo_status restore_context(Session &session, const hailort::BufferPtr &previous) {
+    const auto status = previous
+        ? session.llm->load_context(hailort::MemoryView(previous))
+        : session.llm->clear_context();
+    session.needs_reset = status != HAILO_SUCCESS;
+    return status;
 }
 
 void copy_error(char *out, size_t cap, const std::string &message) {
@@ -164,7 +176,9 @@ extern "C" int aesir_hailo10h_describe(uint64_t handle, char *output, size_t out
         auto json = session->identity_json + ",\"context_capacity\":" + std::to_string(capacity.value())
             + ",\"context_usage\":" + std::to_string(usage.value())
             + ",\"needs_reset\":" + (session->needs_reset ? "true" : "false")
+            + ",\"needs_reopen\":" + (session->needs_reopen ? "true" : "false")
             + ",\"last_completion\":" + json_quote(session->last_completion.c_str());
+        json += ",\"template_token_reserve\":" + std::to_string(TEMPLATE_TOKEN_RESERVE);
         auto stop_tokens = session->llm->get_stop_tokens();
         if (!stop_tokens) {
             copy_error(error_out, error_cap, status_error("get_stop_tokens", stop_tokens.status()));
@@ -202,6 +216,9 @@ extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
         auto session = lookup(handle);
         if (!session) { copy_error(error_out, error_cap, "session is closed or invalid"); return -1; }
         std::lock_guard<std::mutex> lock(session->mutex);
+        if (session->needs_reopen) {
+            copy_error(error_out, error_cap, "SessionRequiresReopen: restart this Hailo chat session"); return -1;
+        }
         if (session->needs_reset) {
             copy_error(error_out, error_cap, "SessionNeedsReset: use /clear before another request"); return -1;
         }
@@ -224,15 +241,47 @@ extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
         if (auto s = params->set_do_sample(false); HAILO_SUCCESS != s) {
             copy_error(error_out, error_cap, status_error("set_do_sample", s)); return static_cast<int>(s);
         }
+        // Preserve completed turns before submitting input which can mutate
+        // device context. The snapshot is opaque state, never host inference.
+        auto usage = session->llm->get_context_usage_size();
+        if (!usage) {
+            copy_error(error_out, error_cap, status_error("get_context_usage_size", usage.status()));
+            return static_cast<int>(usage.status());
+        }
+        auto prompt_tokens = session->llm->tokenize(prompt);
+        if (!prompt_tokens) {
+            copy_error(error_out, error_cap, status_error("Hailo prompt tokenize", prompt_tokens.status()));
+            return static_cast<int>(prompt_tokens.status());
+        }
+        if (usage.value() > capacity.value()
+            || max_tokens > capacity.value() - usage.value()
+            || prompt_tokens->size() > capacity.value() - usage.value() - max_tokens
+            || TEMPLATE_TOKEN_RESERVE > capacity.value() - usage.value() - max_tokens - prompt_tokens->size()) {
+            copy_error(error_out, error_cap,
+                "ContextCapacityExceeded: prompt, output budget and template reserve do not fit; "
+                "shorten the request or max-tokens, or use /clear to start a new conversation");
+            return -1;
+        }
+        hailort::BufferPtr previous_context;
+        if (usage.value() != 0) {
+            auto saved = session->llm->save_context();
+            if (!saved) {
+                copy_error(error_out, error_cap, status_error("save_context", saved.status()));
+                return static_cast<int>(saved.status());
+            }
+            previous_context = saved.value();
+        }
         std::vector<std::string> messages{
             std::string("{\"role\":\"user\",\"content\":") + json_quote(prompt) + "}"
         };
         auto completion = session->llm->generate(params.value(), messages);
         if (!completion) {
-            session->needs_reset = session->llm->clear_context() != HAILO_SUCCESS;
+            const auto restored = restore_context(*session, previous_context);
             session->last_completion = "request_failed";
             auto message = status_error("LLM::generate", completion.status())
-                + (session->needs_reset ? "; context reset failed, use /clear or reopen" : "; context cleared, retry the request");
+                + (restored != HAILO_SUCCESS ? "; context restoration failed, use /clear or reopen"
+                    : previous_context ? "; previous context restored, adjust the request and retry"
+                    : "; empty context restored, adjust the request and retry");
             copy_error(error_out, error_cap, message);
             return static_cast<int>(completion.status());
         }
@@ -242,13 +291,17 @@ extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
             // no automatic replay: clearing discards partially updated context.
             const auto abort_status = completion->abort();
             const auto clear_status = abort_status == HAILO_SUCCESS
-                ? session->llm->clear_context() : abort_status;
+                ? restore_context(*session, previous_context) : abort_status;
+            session->needs_reopen = abort_status != HAILO_SUCCESS;
             session->needs_reset = clear_status != HAILO_SUCCESS;
             session->last_completion = "read_failed";
             auto message = status_error("completion.read_all", text.status());
             if (abort_status != HAILO_SUCCESS) message += "; " + status_error("abort", abort_status);
-            else if (clear_status != HAILO_SUCCESS) message += "; " + status_error("recovery clear_context", clear_status);
-            else message += "; generation aborted and context cleared; retry the request";
+            else if (clear_status != HAILO_SUCCESS) message += "; " + status_error("recovery restore_context", clear_status);
+            else message += previous_context
+                ? "; generation aborted and previous context restored; retry the request"
+                : "; generation aborted and context cleared; retry the request";
+            if (session->needs_reopen) message += "; restart this Hailo session before retrying";
             copy_error(error_out, error_cap, message);
             return static_cast<int>(text.status());
         }
@@ -261,6 +314,21 @@ extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
             session->last_completion = "aborted"; break;
         default:
             copy_error(error_out, error_cap, "Hailo generation did not reach a terminal status"); return -1;
+        }
+        // Hide only a complete terminal suffix actually configured by the
+        // loaded model. Never remove an internal or hardcoded model token.
+        if (session->last_completion == "end_of_generation") {
+            auto stops = session->llm->get_stop_tokens();
+            size_t remove = 0;
+            if (stops) {
+                for (const auto &stop : stops.value()) {
+                    if (!stop.empty() && stop.size() <= text->size()
+                        && text->compare(text->size() - stop.size(), stop.size(), stop) == 0) {
+                        remove = std::max(remove, stop.size());
+                    }
+                }
+            }
+            if (remove) text->resize(text->size() - remove);
         }
         if (text->size() == std::numeric_limits<size_t>::max()) {
             copy_error(error_out, error_cap, "generated output size overflow"); return -1;
@@ -286,6 +354,10 @@ extern "C" int aesir_hailo10h_clear_context(uint64_t handle, char *error_out, si
         auto session = lookup(handle);
         if (!session) { copy_error(error_out, error_cap, "session is closed or invalid"); return -1; }
         std::lock_guard<std::mutex> lock(session->mutex);
+        if (session->needs_reopen) {
+            copy_error(error_out, error_cap, "SessionRequiresReopen: abort did not confirm stopped generation; restart this Hailo session");
+            return -1;
+        }
         const auto status = session->llm->clear_context();
         if (HAILO_SUCCESS != status) { copy_error(error_out, error_cap, status_error("clear_context", status)); return static_cast<int>(status); }
         session->needs_reset = false;

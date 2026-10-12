@@ -1,6 +1,5 @@
 from std.ffi import external_call
 from std.memory import Pointer
-from std.sys import argv
 
 
 struct _OwnedHailoText:
@@ -46,6 +45,10 @@ struct Hailo10HSession:
             _ = external_call["aesir_hailo10h_close", Int32](self.handle)
 
     def __init__(out self, hef_path: String) raises:
+        self.handle = 0
+        self.open = False
+        if hef_path.byte_length() == 0 or hef_path.byte_length() >= 4096:
+            raise Error("Hailo model path must contain 1..4095 UTF-8 bytes")
         var path = _c_string(hef_path)
         var error = List[Int8]()
         error.resize(2048, 0)
@@ -55,6 +58,8 @@ struct Hailo10HSession:
         ](path.unsafe_ptr(), Pointer(to=handle_out), error.unsafe_ptr(), UInt(2048))
         if status != 0:
             raise Error("Direct Hailo-10H open failed: " + _buffer_string(error))
+        if handle_out == 0:
+            raise Error("Native Hailo backend returned an invalid session handle")
         self.handle = handle_out
         self.open = True
 
@@ -112,33 +117,3 @@ struct Hailo10HSession:
                 raise Error("Native Hailo-10H session close failed")
             self.open = False
             self.handle = 0
-
-
-def main() raises:
-    var args = argv()
-    var path = String("artifacts/Qwen2.5-1.5B-Instruct.hef")
-    var prompt = String("Reply with the single word READY.")
-    var max_tokens = 32
-    var index = 1
-    while index < len(args):
-        if args[index] == "--model-path":
-            if index + 1 >= len(args):
-                raise Error("--model-path requires a Hailo model artifact path")
-            path = args[index + 1]
-            index += 2
-        elif args[index] == "--max-tokens":
-            if index + 1 >= len(args):
-                raise Error("--max-tokens requires a positive integer")
-            max_tokens = Int(args[index + 1])
-            index += 2
-        elif args[index] == "--prompt":
-            if index + 1 >= len(args):
-                raise Error("--prompt requires text")
-            prompt = args[index + 1]
-            index += 2
-        else:
-            raise Error("unsupported direct Hailo option: " + args[index])
-    var session = Hailo10HSession(path)
-    var result = session.generate(prompt, max_tokens)
-    print(result)
-    session.close()
