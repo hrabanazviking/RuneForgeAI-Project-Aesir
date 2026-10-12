@@ -137,3 +137,9 @@ Sources: https://docs.modular.com/mojo/std/ffi/ ; docs/plunder/HAILO_PCIE_TRANSP
 Mojo stdlib and OS/POSIX interfaces are distinct from third-party runtime dependencies. The project's DEPENDENCY_POLICY classifies libc functions as dependencies requiring justification. Any proposed FFI list therefore needs an explicit API-by-API justification and must avoid dynamic HailoRT loading or proprietary libraries. No dependency approval is inferred from the existence of std.ffi.
 
 Evidence: DEPENDENCY_POLICY.md, docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md, and the official Mojo FFI docs.
+
+## Slice 045 — Record firmware ownership and redistribution boundary (complete)
+
+The project architecture treats Hailo firmware as proprietary and user-side supplied: Æsir must not fetch, embed, commit, or redistribute firmware blobs. Existing bring-up source records firmware names and hashes only as operational evidence; campaign artifacts must not copy firmware payloads. Any firmware prerequisite must be documented separately from Æsir's own code and verified without placing the blob in the repository.
+
+Evidence: repository Hailo architectural laws L7, docs/plunder/HAILO_FW_LOAD_REGISTERS.md, and dependency/licensing policy.
