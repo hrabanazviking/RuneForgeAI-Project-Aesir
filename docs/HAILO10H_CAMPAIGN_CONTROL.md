@@ -331,3 +331,7 @@ Proposed first proof: one length-64 FP16 vector-add operation, matching the exis
 ## Slice 082 — Define an independent host oracle for the operation (complete; proof remains gated)
 
 The test-only host oracle computes the expected 64-lane FP16 vector-add result from pinned input bit patterns. Its only role is comparison against returned Hailo output; it must never accept prompts, load a model, run transformer operations, or generate LLM tokens. Keep oracle provenance and expected values independent of the candidate config generator.
+
+## Slice 083 — Specify an artifact-free proof representation (complete; proof remains gated)
+
+The proof representation must use Æsir-owned documented descriptors and raw test buffers, not HEF, HAR, proprietary DFC output, HailoRT objects, or model-serving artifacts. Existing SMIÐR-CFG v1 is only a host-side manifest and is not considered executable until the device gate proves otherwise.
