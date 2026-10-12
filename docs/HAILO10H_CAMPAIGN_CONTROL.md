@@ -217,3 +217,7 @@ Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/smidr/H102_ATTEMPT_RECORD.
 Sysfs resource exposure may support bounded register inspection in some configurations, but it does not itself provide an evidenced DMA allocation/address mapping, interrupt/completion path, or command protocol. Do not treat BAR mmap alone as a viable LLM execution transport. Require separately proven safe DMA and command-completion contracts before considering any mechanism.
 
 Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/smidr/PHASE_D_GATE.md.
+
+## Slice 060 — Publish HAILBRÚ access contract and gate implementation (complete)
+
+The HAILBRÚ boundary, exclusive-ownership rules, read-only default, identity validation, BAR bounds, and VFIO/UIO status are recorded in this campaign-control log and access-mechanism inventory. Any device-touching implementation remains BLOCKED until the feasibility gate establishes an allowed, safe transport; current H111 NO-GO remains operative. No CPU LLM branch is permitted.
