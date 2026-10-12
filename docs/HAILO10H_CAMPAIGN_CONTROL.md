@@ -143,3 +143,9 @@ Evidence: DEPENDENCY_POLICY.md, docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md, and 
 The project architecture treats Hailo firmware as proprietary and user-side supplied: Æsir must not fetch, embed, commit, or redistribute firmware blobs. Existing bring-up source records firmware names and hashes only as operational evidence; campaign artifacts must not copy firmware payloads. Any firmware prerequisite must be documented separately from Æsir's own code and verified without placing the blob in the repository.
 
 Evidence: repository Hailo architectural laws L7, docs/plunder/HAILO_FW_LOAD_REGISTERS.md, and dependency/licensing policy.
+
+## Slice 046 — Inventory official LLM artifacts against the campaign constraints (complete)
+
+Official Hailo material describes LLM serving through Hailo-10H artifacts and HailoRT, and its model/compilation workflow uses the Dataflow Compiler to generate HEF. These requirements conflict with the current Æsir no-HEF/no-DFC/no-vendor-runtime design. The artifacts remain reference evidence only and are not selected for Æsir.
+
+Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/hailo-ai/hailo_model_zoo ; https://www.raspberrypi.com/documentation/computers/ai.html.
