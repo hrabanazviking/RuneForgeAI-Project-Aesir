@@ -139,16 +139,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 10: Native Hailo transport prerequisites
 
-- [ ] **Slice 091.** Review existing HAILBRÚ implementation and separate historical code from currently usable interface.
-- [ ] **Slice 092.** Document exact device-discovery behavior and its permissions requirements.
-- [ ] **Slice 093.** Document BAR metadata parsing contract without mapping device resources.
-- [ ] **Slice 094.** Specify memory ownership and DMA address semantics required by a Hailo operation.
-- [ ] **Slice 095.** Specify interrupt/completion semantics required by the prior mailbox model and unresolved gaps.
-- [ ] **Slice 096.** Document concurrency and exclusive-access rules for the endpoint.
-- [ ] **Slice 097.** Define error types for absent device, wrong device, permission denial, and unsupported mechanism.
-- [ ] **Slice 098.** Define cleanup invariants for file descriptors, mappings, and device ownership.
-- [ ] **Slice 099.** Prepare transport implementation acceptance criteria guarded behind feasibility GO.
-- [ ] **Slice 100.** Record transport implementation status without claiming inference capability.
+- [x] **Slice 091.** Review existing HAILBRÚ implementation and separate historical code from currently usable interface.
+- [x] **Slice 092.** Document exact device-discovery behavior and its permissions requirements.
+- [x] **Slice 093.** Document BAR metadata parsing contract without mapping device resources.
+- [x] **Slice 094.** Specify memory ownership and DMA address semantics required by a Hailo operation.
+- [x] **Slice 095.** Specify interrupt/completion semantics required by the prior mailbox model and unresolved gaps.
+- [x] **Slice 096.** Document concurrency and exclusive-access rules for the endpoint.
+- [x] **Slice 097.** Define error types for absent device, wrong device, permission denial, and unsupported mechanism.
+- [x] **Slice 098.** Define cleanup invariants for file descriptors, mappings, and device ownership.
+- [x] **Slice 099.** Prepare transport implementation acceptance criteria guarded behind feasibility GO.
+- [x] **Slice 100.** Record transport implementation status without claiming inference capability.
 
 ## Phase 11: Hailo compute enablement gate
 
