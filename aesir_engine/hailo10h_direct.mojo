@@ -64,6 +64,20 @@ struct Hailo10HSession:
         if status != 0:
             raise Error("Direct Hailo-10H clear_context failed: " + _buffer_string(error))
 
+    def describe(self) raises -> String:
+        if not self.open:
+            raise Error("Hailo-10H session is closed")
+        var output = List[Int8]()
+        output.resize(8192, 0)
+        var error = List[Int8]()
+        error.resize(2048, 0)
+        var status = external_call["aesir_hailo10h_describe", Int32](
+            self.handle, output.unsafe_ptr(), UInt(8192), error.unsafe_ptr(), UInt(2048)
+        )
+        if status != 0:
+            raise Error("Hailo-10H diagnostics failed: " + _buffer_string(error))
+        return _buffer_string(output)
+
     def close(mut self):
         if self.open:
             external_call["aesir_hailo10h_close", NoneType](self.handle)
