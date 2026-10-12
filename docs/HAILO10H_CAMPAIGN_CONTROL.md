@@ -355,3 +355,7 @@ Accelerator provenance must combine endpoint identity, device/firmware completio
 ## Slice 088 — Define safety preconditions and restoration for mutation (complete; proof remains gated)
 
 A future mutating proof requires the safety case defined in Slice 054, including exclusive ownership, exact driver handoff, safe memory/DMA mapping, known completion timeout, saved register baseline, restoration steps, and stop conditions. Device must return to the recorded driver/firmware state after success or failure. This slice defines criteria only; no mutation is authorized or executed.
+
+## Slice 089 — Set first-operation GO/NO-GO criteria (complete; proof remains gated)
+
+GO requires a real Hailo-10H vector-add, observed correlated completion, returned output bit-equal to the host oracle, repeated 100 times, and device state restored/healthy; configuration bytes must trace to documented/verified fields and obey no-HEF/no-DFC/no-vendor-runtime rules. Any missing criterion is NO-GO/BLOCKED, not a simulated pass.
