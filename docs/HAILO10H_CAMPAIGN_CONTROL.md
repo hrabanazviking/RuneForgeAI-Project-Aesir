@@ -1,5 +1,7 @@
-## Slice 113 — Record unsupported or unknown operations (complete)
+## Slice 114 — Assess Hailo memory-layout evidence (complete; no Æsir contract established)
 
-All operations in Slice 112 remain explicitly unsupported/unverified for Æsir-on-Hailo: projection GEMV/GEMM, RMSNorm, RoPE, grouped-query attention, softmax, KV-cache movement, residual/activation elementwise work, and logits projection. “Unsupported” here means no qualifying Æsir/Hailo-10H proof exists; it does not make a claim about the silicon’s theoretical capabilities or other vendor-supported stacks. Do not replace these operations with CPU LLM math, CPU fallback, or host shadow inference. Any future model request must remain fail-closed until every required operation is verified on Hailo.
+Public evidence reviewed for this slice documents Hailo driver DMA buffer mechanisms and hardware-side support code, and Raspberry Pi documents AI HAT+ 2 as Hailo-10H with 8 GB onboard memory. This evidence is not a complete public specification for the tensor layout, addressability, cache-coherency, or model-layer memory behavior needed by Æsir. The public driver source is tied to the vendor runtime/driver stack and cannot be treated as authorization or a compliant implementation contract for this campaign. Do not infer that 8 GB is all freely addressable to arbitrary Mojo buffers or that a particular tensor packing is accepted.
 
-Evidence: Slices 111–112; docs/smidr/PHASE_D_GATE.md.
+Result: Æsir’s Hailo memory-layout requirements remain UNKNOWN pending a public, legally usable specification and a proven transport/configuration path. No hardware was accessed or changed.
+
+Sources: https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html ; https://github.com/hailo-ai/hailort-drivers/blob/master/common/pcie_common.h ; https://github.com/hailo-ai/hailort-drivers/blob/master/linux/vdma/ioctl.c ; docs/HAILO10H_ACCESS_MECHANISMS.md.
