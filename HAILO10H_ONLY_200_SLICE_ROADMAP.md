@@ -48,16 +48,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 03: Constraints and decision control
 
-- [ ] **Slice 021.** Record the owner-approved Hailo-only mission and explicitly prohibit Pi CPU LLM work.
-- [ ] **Slice 022.** Record pure Mojo runtime policy and Python-test-only boundary from project doctrine.
-- [ ] **Slice 023.** Record no-HEF, no-DFC, and no-vendor-inference-runtime requirements as campaign invariants.
-- [ ] **Slice 024.** Record clean-room requirements for any vendor driver/runtime study, including license gate and provenance.
-- [ ] **Slice 025.** Mark HailoRT/model-zoo/Ollama examples as comparison evidence, not an approved Æsir architecture.
-- [ ] **Slice 026.** Define permitted host responsibilities: control plane, tokenizer, sampler, and data movement only.
-- [ ] **Slice 027.** Define prohibited execution paths: CPU LLM, CPU fallback, CPU shadow inference, CUDA LLM, and cloud inference.
-- [ ] **Slice 028.** Create a decision log that distinguishes technical evidence from owner choices.
-- [ ] **Slice 029.** Define fail-closed behavior when no verified Hailo compute path exists.
-- [ ] **Slice 030.** Approve the campaign gate policy: a failed prerequisite blocks dependent slices and never routes to CPU inference.
+- [x] **Slice 021.** Record the owner-approved Hailo-only mission and explicitly prohibit Pi CPU LLM work.
+- [x] **Slice 022.** Record pure Mojo runtime policy and Python-test-only boundary from project doctrine.
+- [x] **Slice 023.** Record no-HEF, no-DFC, and no-vendor-inference-runtime requirements as campaign invariants.
+- [x] **Slice 024.** Record clean-room requirements for any vendor driver/runtime study, including license gate and provenance.
+- [x] **Slice 025.** Mark HailoRT/model-zoo/Ollama examples as comparison evidence, not an approved Æsir architecture.
+- [x] **Slice 026.** Define permitted host responsibilities: control plane, tokenizer, sampler, and data movement only.
+- [x] **Slice 027.** Define prohibited execution paths: CPU LLM, CPU fallback, CPU shadow inference, CUDA LLM, and cloud inference.
+- [x] **Slice 028.** Create a decision log that distinguishes technical evidence from owner choices.
+- [x] **Slice 029.** Define fail-closed behavior when no verified Hailo compute path exists.
+- [x] **Slice 030.** Approve the campaign gate policy: a failed prerequisite blocks dependent slices and never routes to CPU inference.
 
 ## Phase 04: Hailo-only feasibility revalidation
 
