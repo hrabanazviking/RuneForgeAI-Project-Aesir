@@ -299,3 +299,9 @@ Evidence: docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 034, 046–048; public projec
 For any future permissible configuration research: record the public source, version, license, and exact question before study; use designated docs/plunder/HAILO_* notes; record facts and confidence without copying source or proprietary artifacts; keep implementation authors separated from source text where practical; obtain independent validation; and stop when evidence is insufficient or constraints would be crossed. No raw vendor source or HEF payload is added to this repository by this slice.
 
 Evidence: ENGINEERING_GOALS_AND_BOUNDARIES.md, DEPENDENCY_POLICY.md, and repository clean-room Hailo study docs.
+
+## Slice 076 — Define what can validate a candidate without hardware submission (complete)
+
+Static validation may check a candidate generator's deterministic encoding, field bounds, internal schema, source traceability, and malformed-input rejection. These checks can validate host-side candidate structure only. Without a successful, correlated Hailo firmware completion and correct on-device result, no static checker can establish that undocumented control words are accepted or chip-executable.
+
+Evidence: H104's explicit host-side-only status in docs/plunder/HAILO_CONFIG_SURFACE.md; H105/H111 criteria in docs/smidr/PHASE_D_GATE.md.
