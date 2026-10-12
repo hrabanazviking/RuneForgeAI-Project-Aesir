@@ -1,7 +1,7 @@
-## Slice 126 — Define address, alignment, and size constraints (complete; raw-path values unknown)
+## Slice 127 — Define cache-coherency assumptions and evidence gate (complete; unverified)
 
-Official HailoRT driver interfaces expose buffer mapping, descriptor lists, transfer lengths, and platform DMA addresses; their documentation describes page-aligned user buffers for its own API. This describes the vendor-supported runtime interface, which is outside the campaign’s implementation constraints. It does not establish a transferable raw Mojo contract, the integrated Hailo-10H’s required tensor alignment/packing, or limits for an Æsir-generated operation.
+A host/device data path must prove when input writes become visible to Hailo, when Hailo output becomes visible to the host, which synchronization primitive or memory mapping enforces each transition, and whether cache maintenance is implicit or explicit for the exact SoC, PCIe endpoint, driver, and buffer class. The contract must also cover partial lines, alignment, barriers, and error paths. Coherency cannot be inferred from ARM64 pointer access, BAR mappings, or successful DMA allocation.
 
-Current Æsir requirements therefore retain address width/addressability, page and descriptor alignment, transfer-size maxima, per-channel limits, tensor padding/stride rules, and safe DMA reach as **UNKNOWN**. No numerical constraint is copied from the vendor API into Æsir and no transfer is attempted. Resolve only through a permitted primary specification or a separately approved, safe Hailo proof path.
+Current census and H018 note that the system lacks an IOMMU and userspace cannot perform the required privileged cache maintenance directly. There is no proven Æsir DMA path or public raw coherency contract in scope. Status: **UNKNOWN; blocks data movement**. No memory mapping or cache operation was performed.
 
-Sources: https://github.com/hailo-ai/hailort/blob/master/hailort/libhailort/src/vdma/driver/hailort_driver.hpp ; https://github.com/hailo-ai/hailort/blob/master/hailort/libhailort/src/vdma/driver/hailort_driver.cpp ; https://github.com/hailo-ai/hailort-drivers/blob/master/linux/vdma/ioctl.c ; docs/HAILO10H_ACCESS_MECHANISMS.md.
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/HAILO10H_ACCESS_CENSUS.md; CAPABILITY_LEDGER.md H018; H102 attempt record.
