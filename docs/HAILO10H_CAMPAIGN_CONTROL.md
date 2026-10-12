@@ -1,19 +1,7 @@
-## Slice 120 — Publish operation coverage matrix (complete; integration blocked)
+## Slice 121 — Define host/device tensor ownership transitions (complete; conditional contract)
 
-| Æsir model operation | Required phase | Current Hailo-10H proof | Status |
-|---|---|---|---|
-| Weight projection GEMV/GEMM | Prefill + decode | None; H019 op/config and H102 transport gaps | UNVERIFIED |
-| RMSNorm | Every transformer layer | None | UNVERIFIED |
-| RoPE | Query/key processing | None | UNVERIFIED |
-| KV-cache transfer/read/write | Decode | No Æsir DMA/residency contract or device proof | UNVERIFIED |
-| Grouped-query attention score products | Prefill + decode | None | UNVERIFIED |
-| Softmax | Prefill + decode | None | UNVERIFIED |
-| Attention value aggregation | Prefill + decode | None | UNVERIFIED |
-| Residual additions and activation/gating | Every transformer layer | None | UNVERIFIED |
-| Final normalization and vocabulary projection | Output logits | None | UNVERIFIED |
-| Sampling/token selection | After valid accelerator logits | Host orchestration allowed, but no logits source exists | BLOCKED by compute |
-| Tokenization, request management | Host preparation | Host-side responsibilities only; do not treat as model execution | Not a Hailo compute claim |
+For any future verified operation, a tensor must have one explicit owner at each point: host allocation/preparation → successful transport mapping and device-visible address validation → device-owned while submission is in flight → host-readable only after correlated completion and required synchronization → release only after completion or a proven abort. Ownership must not be inferred from a host pointer or a successful mmap. Every transition needs an observable success/failure result and cleanup rule.
 
-No model integration may begin until every required model computation row has a verified Hailo primitive, data path, completion contract, and correctness evidence. The matrix does not assert that silicon cannot perform an operation; it records the absence of qualifying Æsir evidence. Pi CPU LLM development, fallback, shadow inference, and serving remain out of scope.
+This is a requirements contract only. Current Æsir lacks a proven Hailo DMA mapping and completion path; the endpoint remains under hailo1x. Therefore no buffers were mapped, allocated for Hailo, transferred, or submitted. This does not authorize simultaneous or raw access to the bound device. No CPU LLM execution is part of the contract.
 
-Evidence: Slices 111–119; docs/plunder/HAILO_CONFIG_SURFACE.md; docs/smidr/PHASE_D_GATE.md.
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/HAILO10H_COMPONENT_BOUNDARIES.md; docs/smidr/H102_ATTEMPT_RECORD.md; H019 configuration surface.
