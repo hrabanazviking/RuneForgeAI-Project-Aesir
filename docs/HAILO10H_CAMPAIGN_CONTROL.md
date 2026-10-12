@@ -1,7 +1,7 @@
-## Slice 122 — Specify transfer-integrity checks and counters (complete; design only)
+## Slice 123 — Specify bounded staging memory (complete; size remains unknown)
 
-A future approved Hailo operation record should capture, at minimum: operation/request sequence ID; source tensor byte count and cryptographic digest; mapped device-buffer identity/size/direction; transfer submission and correlated completion status; returned byte count and digest; expected output digest; timeout/error counter; and device/firmware identity. Counters must distinguish allocated, mapped, submitted, completed, failed, and released buffers. A successful host write/read alone must never increment “device completed.”
+A future Hailo data path must account for a fixed, configurable ceiling covering input, output, descriptor, and any in-flight staging buffers. Admission must reject a request before allocation if its verified byte requirements exceed that ceiling. Buffer lifetime and reuse must be tied to correlated device completion; backpressure must stop new submissions rather than grow memory without bound. The numerical ceiling must come from documented module/driver limits and measured Æsir operation shapes, not the Pi’s RAM total or product-level onboard-memory headline.
 
-No live transfer path exists in Æsir, and H102 failed before a command round-trip. These fields specify evidence requirements; this slice creates no telemetry implementation and authorizes no device I/O.
+Because no compliant Hailo operation/transfer path or tensor format is established, no staging size can yet be calculated or implemented. This is a design requirement only; it does not move LLM work to the CPU.
 
-Evidence: H102 attempt record; Slices 084–087 and 121; HAILBRÚ API and H019 config-surface requirements.
+Evidence: Slices 114–116 and 121–122; H019 elements 2–4; Raspberry Pi AI HAT+ 2 public memory specification.
