@@ -47,3 +47,9 @@ Evidence: docs/HAILO10H_INFERENCE_POLICY.md, docs/HAILO10H_NO_CPU_INFERENCE.md, 
 ## Slice 028 — Decision log and change control (complete)
 
 docs/HAILO10H_DECISION_LOG.md is the campaign decision record. It distinguishes user-authorized scope, project architecture, observed hardware facts, and unresolved technical questions. Only the project owner may change the Hailo-only mission or relax the no-HEF/no-DFC/no-vendor-runtime requirements; a blocker does not imply approval to change them.
+
+## Slice 029 — Fail-closed behavior (complete)
+
+If Hailo identity, a permitted execution interface, the selected model representation, or accelerator execution cannot be verified, Æsir returns a specific error and performs no LLM inference. It must not retry through CPU, CUDA, a remote endpoint, or an unapproved vendor service.
+
+Evidence: docs/HAILO10H_INFERENCE_POLICY.md and docs/HAILO10H_NO_CPU_INFERENCE.md.
