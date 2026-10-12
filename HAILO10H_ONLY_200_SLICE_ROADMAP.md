@@ -168,7 +168,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 - [x] **Slice 111.** Inventory transformer operations required by Æsir's selected model family from existing loaders and architecture docs.
 - [x] **Slice 112.** Map each operation to a Hailo compute primitive only when that primitive is verified on-device.
 - [x] **Slice 113.** Record unsupported or unknown operations without substituting CPU execution.
-- [ ] **Slice 114.** Assess Hailo memory layout requirements from documented, permissible evidence.
+- [x] **Slice 114.** Assess Hailo memory layout requirements from documented, permissible evidence.
 - [ ] **Slice 115.** Assess tensor precision and quantization contracts required by the selected model.
 - [ ] **Slice 116.** Define weight and activation representations for a hypothetical proven Hailo primitive.
 - [ ] **Slice 117.** Map attention and KV-cache operations to Hailo only where device capability is measured.
