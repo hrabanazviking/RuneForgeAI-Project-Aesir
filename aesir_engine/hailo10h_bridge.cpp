@@ -4,10 +4,13 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace {
@@ -17,6 +20,18 @@ struct Session {
     std::mutex mutex;
     std::string identity_json;
 };
+
+// A public handle is an opaque monotonically assigned ID, never a raw pointer.
+// Each call holds a shared owner so concurrent close cannot free its session.
+std::mutex sessions_mutex;
+std::unordered_map<uint64_t, std::shared_ptr<Session>> sessions;
+uint64_t next_handle = 1;
+
+std::shared_ptr<Session> lookup(uint64_t handle) {
+    std::lock_guard<std::mutex> lock(sessions_mutex);
+    auto found = sessions.find(handle);
+    return found == sessions.end() ? nullptr : found->second;
+}
 
 void copy_error(char *out, size_t cap, const std::string &message) {
     if (!out || cap == 0) return;
@@ -60,12 +75,15 @@ std::string json_quote(const char *value) {
 
 extern "C" int aesir_hailo10h_open(const char *hef_path, uint64_t *handle_out,
                                       char *error_out, size_t error_cap) {
+    if (handle_out) *handle_out = 0;
     if (!hef_path || !handle_out) {
         copy_error(error_out, error_cap, "model path and handle output are required");
         return -1;
     }
     try {
-        *handle_out = 0;
+        if (std::strlen(hef_path) == 0 || std::strlen(hef_path) >= 4096) {
+            copy_error(error_out, error_cap, "model path must contain 1..4095 bytes"); return -1;
+        }
         auto device = hailort::VDevice::create_shared();
         if (!device) {
             copy_error(error_out, error_cap, status_error("VDevice::create_shared", device.status()));
@@ -107,13 +125,23 @@ extern "C" int aesir_hailo10h_open(const char *hef_path, uint64_t *handle_out,
             + "\",\"firmware_version\":\"" + std::to_string(identity->fw_version.major) + "."
             + std::to_string(identity->fw_version.minor) + "." + std::to_string(identity->fw_version.revision)
             + "\"";
-        auto *session = new Session{device.value(), std::make_unique<hailort::genai::LLM>(std::move(created.value())), {}, identity_json};
-        *handle_out = static_cast<uint64_t>(reinterpret_cast<uintptr_t>(session));
+        auto session = std::shared_ptr<Session>(new Session{
+            device.value(), std::make_unique<hailort::genai::LLM>(std::move(created.value())), {}, identity_json
+        });
+        std::lock_guard<std::mutex> lock(sessions_mutex);
+        if (next_handle == 0) {
+            copy_error(error_out, error_cap, "session ID space exhausted"); return -1;
+        }
+        const auto handle = next_handle++;
+        sessions.emplace(handle, std::move(session));
+        *handle_out = handle;
         copy_error(error_out, error_cap, "");
         return 0;
     } catch (const std::exception &e) {
         copy_error(error_out, error_cap, e.what());
         return -1;
+    } catch (...) {
+        copy_error(error_out, error_cap, "unknown native exception in open"); return -1;
     }
 }
 
@@ -123,7 +151,8 @@ extern "C" int aesir_hailo10h_describe(uint64_t handle, char *output, size_t out
         copy_error(error_out, error_cap, "invalid session description arguments"); return -1;
     }
     try {
-        auto *session = reinterpret_cast<Session *>(static_cast<uintptr_t>(handle));
+        auto session = lookup(handle);
+        if (!session) { copy_error(error_out, error_cap, "session is closed or invalid"); return -1; }
         std::lock_guard<std::mutex> lock(session->mutex);
         auto capacity = session->llm->max_context_capacity();
         auto usage = session->llm->get_context_usage_size();
@@ -145,16 +174,27 @@ extern "C" int aesir_hailo10h_describe(uint64_t handle, char *output, size_t out
 }
 
 extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
-                                          uint32_t max_tokens, char *output,
-                                          size_t output_cap, size_t *output_len,
+                                          uint32_t max_tokens, uint32_t timeout_ms,
+                                          char **output, size_t *output_len,
                                           char *error_out, size_t error_cap) {
-    if (!handle || !prompt || !output || output_cap == 0 || !output_len || max_tokens == 0) {
+    if (output) *output = nullptr;
+    if (output_len) *output_len = 0;
+    if (!handle || !prompt || !output || !output_len || max_tokens == 0 || timeout_ms == 0) {
         copy_error(error_out, error_cap, "invalid generation arguments");
         return -1;
     }
-    auto *session = reinterpret_cast<Session *>(static_cast<uintptr_t>(handle));
-    std::lock_guard<std::mutex> lock(session->mutex);
     try {
+        auto session = lookup(handle);
+        if (!session) { copy_error(error_out, error_cap, "session is closed or invalid"); return -1; }
+        std::lock_guard<std::mutex> lock(session->mutex);
+        auto capacity = session->llm->max_context_capacity();
+        if (!capacity) {
+            copy_error(error_out, error_cap, status_error("max_context_capacity", capacity.status()));
+            return static_cast<int>(capacity.status());
+        }
+        if (max_tokens > capacity.value()) {
+            copy_error(error_out, error_cap, "requested output tokens exceed the Hailo model context capacity"); return -1;
+        }
         auto params = session->llm->create_generator_params();
         if (!params) {
             copy_error(error_out, error_cap, status_error("create_generator_params", params.status()));
@@ -174,36 +214,62 @@ extern "C" int aesir_hailo10h_generate(uint64_t handle, const char *prompt,
             copy_error(error_out, error_cap, status_error("LLM::generate", completion.status()));
             return static_cast<int>(completion.status());
         }
-        auto text = completion->read_all();
+        auto text = completion->read_all(std::chrono::milliseconds(timeout_ms));
         if (!text) {
             copy_error(error_out, error_cap, status_error("completion.read_all", text.status()));
             return static_cast<int>(text.status());
         }
-        *output_len = text->size();
-        if (text->size() >= output_cap) {
-            copy_error(error_out, error_cap, "generated output exceeds caller buffer");
-            return -2;
+        if (text->size() == std::numeric_limits<size_t>::max()) {
+            copy_error(error_out, error_cap, "generated output size overflow"); return -1;
         }
-        std::memcpy(output, text->data(), text->size());
-        output[text->size()] = '\0';
+        auto allocated = static_cast<char *>(std::malloc(text->size() + 1));
+        if (!allocated) { copy_error(error_out, error_cap, "cannot allocate generated text buffer"); return -1; }
+        std::memcpy(allocated, text->c_str(), text->size() + 1);
+        *output_len = text->size();
+        *output = allocated;
         copy_error(error_out, error_cap, "");
         return 0;
     } catch (const std::exception &e) {
         copy_error(error_out, error_cap, e.what());
         return -1;
+    } catch (...) {
+        copy_error(error_out, error_cap, "unknown native exception in generate"); return -1;
     }
 }
 
 extern "C" int aesir_hailo10h_clear_context(uint64_t handle, char *error_out, size_t error_cap) {
     if (!handle) { copy_error(error_out, error_cap, "invalid session handle"); return -1; }
-    auto *session = reinterpret_cast<Session *>(static_cast<uintptr_t>(handle));
-    std::lock_guard<std::mutex> lock(session->mutex);
-    const auto status = session->llm->clear_context();
-    if (HAILO_SUCCESS != status) { copy_error(error_out, error_cap, status_error("clear_context", status)); return static_cast<int>(status); }
-    copy_error(error_out, error_cap, "");
-    return 0;
+    try {
+        auto session = lookup(handle);
+        if (!session) { copy_error(error_out, error_cap, "session is closed or invalid"); return -1; }
+        std::lock_guard<std::mutex> lock(session->mutex);
+        const auto status = session->llm->clear_context();
+        if (HAILO_SUCCESS != status) { copy_error(error_out, error_cap, status_error("clear_context", status)); return static_cast<int>(status); }
+        copy_error(error_out, error_cap, ""); return 0;
+    } catch (const std::exception &e) {
+        copy_error(error_out, error_cap, e.what()); return -1;
+    } catch (...) {
+        copy_error(error_out, error_cap, "unknown native exception in clear_context"); return -1;
+    }
 }
 
-extern "C" void aesir_hailo10h_close(uint64_t handle) {
-    delete reinterpret_cast<Session *>(static_cast<uintptr_t>(handle));
+extern "C" void aesir_hailo10h_free_text(char *text) noexcept {
+    std::free(text);
+}
+
+extern "C" int aesir_hailo10h_close(uint64_t handle) noexcept {
+    try {
+        std::shared_ptr<Session> release;
+        {
+            std::lock_guard<std::mutex> lock(sessions_mutex);
+            auto found = sessions.find(handle);
+            if (found != sessions.end()) {
+                release = std::move(found->second);
+                sessions.erase(found);
+            }
+        }
+        // Destruction occurs outside the registry lock and after in-flight
+        // calls drop their owner. Closing an already closed ID is harmless.
+        return 0;
+    } catch (...) { return -1; }
 }
