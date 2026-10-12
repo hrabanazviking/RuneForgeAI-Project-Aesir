@@ -59,3 +59,9 @@ Evidence: docs/HAILO10H_INFERENCE_POLICY.md and docs/HAILO10H_NO_CPU_INFERENCE.m
 Every dependent implementation slice requires evidence-backed GO decisions for safe transport, command completion, and executable Hailo configuration generation. A missing prerequisite marks downstream work BLOCKED; it does not count as a simulated pass, trigger CPU work, or erase the 200-slice plan. The campaign may honestly conclude INCOMPLETE with the blocking evidence named.
 
 Evidence: docs/HAILO10H_ONLY_200_SLICE_ROADMAP.md; docs/smidr/PHASE_D_GATE.md.
+
+## Slice 031 — Re-read H111 with dated claims isolated (complete)
+
+Re-read docs/smidr/PHASE_D_GATE.md and docs/smidr/H102_ATTEMPT_RECORD.md. H111 is dated 2026-10-10 and records NO-GO. Its concrete finding is zero completion on the tested app/core command paths, with H105–H110 blocked. The verdict is scoped to those attempts and that tested environment; it is not a claim that no future Hailo path can ever exist.
+
+Evidence crosswalk: docs/HAILO10H_PHASE_D_RECONCILIATION.md.
