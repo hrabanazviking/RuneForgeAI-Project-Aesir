@@ -359,3 +359,7 @@ A future mutating proof requires the safety case defined in Slice 054, including
 ## Slice 089 — Set first-operation GO/NO-GO criteria (complete; proof remains gated)
 
 GO requires a real Hailo-10H vector-add, observed correlated completion, returned output bit-equal to the host oracle, repeated 100 times, and device state restored/healthy; configuration bytes must trace to documented/verified fields and obey no-HEF/no-DFC/no-vendor-runtime rules. Any missing criterion is NO-GO/BLOCKED, not a simulated pass.
+
+## Slice 090 — Keep first compute attempt blocked (complete; proof remains gated)
+
+Status: BLOCKED. H102 did not establish command completion; H019 still marks mandatory execution-configuration elements unknown; the current device is under hailo1x and this campaign has no reviewed mutating-device safety case. Do not submit H104 data to the live endpoint. Resume only after new compliant transport/configuration evidence and a reviewed safety procedure; no CPU fallback.
