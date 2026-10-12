@@ -77,3 +77,9 @@ Limit: this confirms repository history through the observed branch tips; contin
 Current official Hailo documentation reviewed: Hailo GenAI Model Zoo describes Hailo-Ollama on HailoRT; the Hailo Model Zoo documents Dataflow Compiler compilation and HEF output for hardware execution; Raspberry Pi's AI HAT+ 2 LLM guide describes its Hailo GenAI package/Hailo-Ollama path. The reviewed public materials do not document a raw, HEF-free, DFC-free, vendor-runtime-free LLM compute API for Æsir to call. This is a bounded documentation finding, not proof that no private or future interface exists.
 
 Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/hailo-ai/hailo_model_zoo ; https://www.raspberrypi.com/documentation/computers/ai.html
+
+## Slice 034 — Review upstream driver/runtime release changes (study only) (complete)
+
+Read-only review of Hailo's public hailort-drivers v5.3.0 → v5.4.0 comparison was performed under the repository's existing clean-room study-only boundary. The source headers identify GPL-2.0; no source was copied into Æsir. The integrated firmware-control implementation changed request/response framing (the expected-MD5 field is removed) and changed timeout handling to a fixed default. This is a meaningful control-path research lead. It is not evidence that the H102 direct app/core mailbox protocol, doorbell, or completion behavior changed; H102's vendor ioctl attempt also reported the integrated-device operation unsupported.
+
+Sources: https://github.com/hailo-ai/hailort-drivers/releases ; https://github.com/hailo-ai/hailort-drivers/compare/v5.3.0...v5.4.0 ; source paths reviewed: linux/integrated_nnc/src/fw_control.c at tags v5.3.0 and v5.4.0. Follow existing docs/plunder/HAILO_* study records and license policy for any deeper study.
