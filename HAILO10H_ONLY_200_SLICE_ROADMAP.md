@@ -173,7 +173,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 - [x] **Slice 116.** Define weight and activation representations for a hypothetical proven Hailo primitive.
 - [x] **Slice 117.** Map attention and KV-cache operations to Hailo only where device capability is measured.
 - [x] **Slice 118.** Map prefill and decode dependency chains with no host LLM math.
-- [ ] **Slice 119.** Identify minimal model architecture that could be supported by a demonstrated Hailo operation set.
+- [x] **Slice 119.** Identify minimal model architecture that could be supported by a demonstrated Hailo operation set.
 - [ ] **Slice 120.** Publish an operation coverage matrix; no LLM integration until every required op has Hailo proof.
 
 ## Phase 13: Host-to-device data path contract
