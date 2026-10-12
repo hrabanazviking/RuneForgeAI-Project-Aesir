@@ -281,3 +281,9 @@ Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md and docs/smidr/PHASE_D_GATE.md.
 H019 lists seven MUST-HAVE elements for a minimal operation: (1) operation encoding, (2) tensor descriptors, (3) memory allocation, (4) data movement, (5) scheduling/order, (6) completion signaling, and (7) firmware handshake. The H104 host-side candidate covers tensor facts and Æsir's envelope only; its own record says chip executability is unproven. The required device encodings for elements 1 and 3–7 remain unknown/unverified.
 
 Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md.
+
+## Slice 073 — Review public sources for operation/configuration semantics (complete)
+
+Current public Hailo Model Zoo documents graph parse/optimize/compile flows and downloadable precompiled HEF models; the GenAI Model Zoo documents pre-trained artifacts and HailoRT serving. These sources establish the supported compilation workflow but do not provide a public raw operation-word/scheduler encoding specification for a Mojo generator. This is a bounded public-documentation finding, not a claim about private developer materials.
+
+Sources: https://github.com/hailo-ai/hailo_model_zoo ; https://github.com/hailo-ai/hailo_model_zoo_genai.
