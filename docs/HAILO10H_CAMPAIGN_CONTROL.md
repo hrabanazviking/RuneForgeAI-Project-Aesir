@@ -119,3 +119,9 @@ Evidence: docs/HAILO10H_PHASE_D_RECONCILIATION.md, docs/HAILO10H_ACCESS_MECHANIS
 Modular's current Mojo requirements list Linux ARM64 support, and the compilation-target documentation lists AArch64 code generation. The documented/tested Linux environments specify Ubuntu 22.04+ and ARM64 AWS Graviton2/3; other Linux distributions are expected where glibc requirements are met but are not tested. These pages do not name Raspberry Pi 5/Cortex-A76 as a validated runtime host. Finding: ARM64 support exists, while Pi 5 toolchain/runtime support remains unverified.
 
 Sources: https://docs.modular.com/mojo/requirements/ ; https://docs.modular.com/mojo/tools/compilation/
+
+## Slice 042 — Check Æsir build target against the Pi (complete)
+
+The repository's aesir_engine/pixi.toml declares only linux-64. The reviewed project manifest does not declare linux-aarch64, and the default project CI/build evidence is x86_64. This is a packaging/build-target gap for the current AArch64 Pi environment; it does not prove that Mojo cannot compile Æsir there. No build or inference workload was run in this documentation slice.
+
+Evidence: aesir_engine/pixi.toml and CAPABILITY_LEDGER.md.
