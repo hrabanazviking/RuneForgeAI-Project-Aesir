@@ -239,3 +239,9 @@ Evidence: docs/smidr/H102_ATTEMPT_RECORD.md; current identity snapshot.
 Available read-only signals include PCI vendor/device identity, driver binding, negotiated/max PCIe link, node/module presence, supported hailortcli firmware/control-protocol identification, Pi thermal/throttle state, and host software versions. The reviewed outputs do not expose an Æsir-accessible raw mailbox-ready/command-acceptance signal. Hailo device temperature and usable accelerator-memory telemetry are also not currently established.
 
 Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_ACCESS_MECHANISMS.md, docs/HAILO10H_RESOURCE_ENVELOPE.md.
+
+## Slice 064 — Reconcile app/core doorbell semantics with primary-source study (complete)
+
+The campaign's documented mailbox model records the app-CPU doorbell at BAR4+0x1754 and the core-doorbell value 0x2 as studied protocol values; H101 marks claims with corroboration status. H102 then exercised both documented targets and observed no completion. These offsets/values remain research-derived interface claims, not an official public raw-compute contract and not a reason to issue more writes now.
+
+Evidence: docs/plunder/HAILO_COMMAND_QUEUE.md, docs/smidr/H102_ATTEMPT_RECORD.md, and docs/smidr/PHASE_D_GATE.md.
