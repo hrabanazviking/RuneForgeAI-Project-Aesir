@@ -3,7 +3,9 @@
 **Ledger version:** Application S19 compatibility streaming, September 22, 2026
 
 This is the canonical source of truth for the current implementation status of
-Project A.E.S.I.R. Vision documents describe desired direction; task files and
+Project A.E.S.I.R.
+
+**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. Until Hailo execution is implemented and verified, runtime entrypoints must fail closed. CPU capabilities below are retained only as historical implementation facts; they do not authorize further CPU work. Vision documents describe desired direction; task files and
 devlogs describe work at a point in time; names, banners, and test titles describe
 interfaces. None of those supersede this ledger's present-tense capability
 statuses.
@@ -81,8 +83,8 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 76 |
-| `partial` | 28 |
+| `verified` | 75 |
+| `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
@@ -450,13 +452,13 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Executable evidence:** `E-ARMVEGR-ORACLE` (attn 2.4e-07; MHA 2.4e-04 vs naive fp64); `E-ARMVEGR-VERIFY` (seq vs par bit-identical).
 - **Evidence boundary:** attn 4.87 GFLOPS (seq512_hd64); MHA 6.43 GFLOPS (seq128_nh8_hd64) (`E-ARMVEGR-PERF`).
 
-### AES-ARM-011 — Backend selection, CPU stage (H036)
+### AES-ARM-011 — Backend selection, Hailo-only fail-closed gate (H036)
 
-- **Status:** `verified`
-- **Owner:** ARMVEGR domain (D1)
-- **Implementation evidence:** `armvegr/backend.mojo::select_backend` — every op resolves to CPU with a logged reason; NPU stub exists, compiles, is never selected (fail-closed).
-- **Executable evidence:** `E-ARMVEGR-VERIFY` (20/20 decisions → CPU; no code path returns NPU; stub never ready).
-- **Evidence boundary:** CPU stage only; D4 SKIPTI will extend the interface.
+- **Status:** `partial`
+- **Owner:** Project operations / Hailo backend
+- **Implementation evidence:** `armvegr/backend.mojo::select_backend` rejects CPU and AUTO requests and reports Hailo unavailable; `aesir_engine/aesir.mojo::validate_runtime_backend_config` and every public `forward_pass` entrypoint reject CPU, ARM_NEON, GPU, and unimplemented Hailo execution before model arithmetic begins.
+- **Executable evidence:** No post-change execution evidence has been collected. The prior `E-ARMVEGR-VERIFY` CPU-routing result is historical and does not validate the new fail-closed policy.
+- **Evidence boundary:** This prevents currently inspected engine entrypoints from routing to CPU but does not establish a working Hailo backend or prove every auxiliary CLI path is gated. The Hailo-only audit and hardware integration remain open.
 
 ### AES-ARM-012 — Toy forward pass composition (H039)
 
