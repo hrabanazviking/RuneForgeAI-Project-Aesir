@@ -177,3 +177,9 @@ Decision recorded in docs/HAILO10H_DECISION_LOG.md and the Slice 040 gate.
 Only HAILBRÚ may discover PCI endpoints, inspect BAR/resource metadata, acquire device ownership, map accelerator resources, allocate or submit DMA buffers, configure interrupts, issue device ioctls, or submit commands. Model, API, memory, and orchestration domains may consume only a published HAILBRÚ interface and may not access PCI resources directly.
 
 Evidence: repository architecture/domain boundaries; docs/HAILO10H_COMPONENT_BOUNDARIES.md.
+
+## Slice 052 — Record current driver ownership and exclusivity (complete)
+
+The live Hailo endpoint is bound to kernel driver hailo1x. Treat that binding as exclusive ownership. Æsir must not map or submit raw commands while hailo1x owns the endpoint, and no campaign action may unbind or rebind it under the present read-only plan.
+
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/HAILO10H_HOST_DEVICE_IDENTITY.md.
