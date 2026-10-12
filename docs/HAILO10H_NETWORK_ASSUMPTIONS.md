@@ -1,6 +1,6 @@
 # Hailo-10H network assumptions
 
-**Roadmap Slice 006 — offline and network behavior**
+**Roadmap Slice 007 — complete: offline and network behavior**
 
 ## Runtime assumption
 
@@ -23,7 +23,7 @@ LAN exposure, authentication, and remote clients require a later explicit
 security design. If Æsir communicates with a separate Hailo service, the
 endpoint and process ownership must be configured and visible in diagnostics.
 
-## Slice 006 acceptance
+## Slice 007 acceptance
 
 - Runtime inference is defined as local and independent of cloud inference.
 - Setup/model-download network requirements are separated from runtime.
