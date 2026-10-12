@@ -309,3 +309,7 @@ Evidence: H104's explicit host-side-only status in docs/plunder/HAILO_CONFIG_SUR
 ## Slice 077 — Assess generator completeness against current evidence (complete)
 
 A complete configuration generator is not currently evidenced. The essential compute encoding and allocation/scheduling/handshake contracts remain unknown, while command submission failed. SMIÐR-CFG v1 is explicitly a test format that describes inputs and expected values, not a chip program. Under present evidence, extending this generator toward chip execution would risk inventing undocumented fields and would be blocked.
+
+## Slice 078 — Reject undocumented magic bytes and simulated execution claims (complete)
+
+Any future generator must tie every emitted field/value to a documented or experimentally verified meaning. A deterministic blob, JSON manifest, passing host-side schema check, BAR write/readback, or model output produced outside the Hailo does not establish Hailo compute. Unknown encodings must remain explicitly unknown; no sentinel value may be described as executable.
