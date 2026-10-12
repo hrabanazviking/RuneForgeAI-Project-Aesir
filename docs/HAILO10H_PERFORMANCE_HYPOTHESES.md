@@ -1,6 +1,6 @@
 # Hailo-10H initial performance hypotheses
 
-**Roadmap Slice 007 — provisional latency, throughput, and quality goals**
+**Roadmap Slice 008 — complete: provisional latency, throughput, and quality hypotheses**
 
 These are planning hypotheses for a first Hailo-only text-generation profile,
 not achieved Æsir results or a release claim. Qwen2-1.5B-Instruct is a
@@ -34,7 +34,7 @@ is part of this campaign.
 - [Hailo GenAI Model Zoo model and performance table](https://github.com/hailo-ai/hailo_model_zoo_genai/blob/main/docs/MODELS.rst)
 - [Raspberry Pi AI HAT specifications](https://www.raspberrypi.com/documentation/accessories/ai-hat-plus.html)
 
-## Slice 007 acceptance
+## Slice 008 acceptance
 
 - Proposed goals are identified as hypotheses, not measured AESIR results.
 - Baselines include their model and measurement boundaries.
