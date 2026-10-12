@@ -183,7 +183,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 - [x] **Slice 123.** Specify bounded staging memory without copying inference compute onto the host.
 - [x] **Slice 124.** Define synchronization needed between transfer and accelerator completion.
 - [x] **Slice 125.** Define behavior for partial transfers and device timeouts.
-- [ ] **Slice 126.** Define address, alignment, and size constraints from verified hardware documentation.
+- [x] **Slice 126.** Define address, alignment, and size constraints from verified hardware documentation.
 - [ ] **Slice 127.** Define cache-coherency assumptions and require hardware evidence before use.
 - [ ] **Slice 128.** Define cleanup after cancellation or device removal.
 - [ ] **Slice 129.** Specify transfer benchmarks only after the compute path exists.
