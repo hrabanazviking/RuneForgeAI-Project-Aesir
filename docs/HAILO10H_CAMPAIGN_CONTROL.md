@@ -255,3 +255,7 @@ H102's attempt record documents repeated app-CPU mailbox submissions plus a fina
 Public driver release v5.4.0 exists beyond the installed 5.3.0. The reviewed v5.3→v5.4 integrated firmware-control source changes request/response framing and timeout behavior, but the public release material reviewed does not state that the raw app/core doorbell protocol or H102 no-completion failure is fixed. The source delta is not enough to infer that it is the same interface.
 
 Evidence: Slice 034 source comparison; https://github.com/hailo-ai/hailort-drivers/releases and https://github.com/hailo-ai/hailort-drivers/compare/v5.3.0...v5.4.0.
+
+## Slice 067 — Define positive evidence for firmware control reachability (complete)
+
+A positive control-service proof must show a correctly identified Hailo-10H endpoint accepts a well-formed, non-compute control request and returns a correlated completion/response within a bounded timeout, with device-state snapshots before/after and no host-side emulation. A board-identify response through the vendor stack is not sufficient proof for Æsir's raw command path. No request was submitted in this slice.
