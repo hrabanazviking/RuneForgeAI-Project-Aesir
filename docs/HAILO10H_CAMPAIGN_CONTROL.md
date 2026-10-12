@@ -131,3 +131,9 @@ Evidence: aesir_engine/pixi.toml and CAPABILITY_LEDGER.md.
 The Hailo transport research requires host-side PCI discovery plus bounded file/device operations such as open/read/close, resource mapping/unmapping, ioctl or an approved alternative, synchronization, and completion waits; DMA additionally needs a valid device-visible address and ownership contract. Mojo documents std.ffi external_call for C interoperability. Availability of an FFI call does not establish a safe DMA/IOMMU path or a Hailo command protocol.
 
 Sources: https://docs.modular.com/mojo/std/ffi/ ; docs/plunder/HAILO_PCIE_TRANSPORT_GUIDE.md; docs/HAILO10H_ACCESS_MECHANISMS.md.
+
+## Slice 044 — Review primitive availability against dependency policy (complete)
+
+Mojo stdlib and OS/POSIX interfaces are distinct from third-party runtime dependencies. The project's DEPENDENCY_POLICY classifies libc functions as dependencies requiring justification. Any proposed FFI list therefore needs an explicit API-by-API justification and must avoid dynamic HailoRT loading or proprietary libraries. No dependency approval is inferred from the existence of std.ffi.
+
+Evidence: DEPENDENCY_POLICY.md, docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md, and the official Mojo FFI docs.
