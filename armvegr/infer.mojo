@@ -234,8 +234,8 @@ struct Inference:
     def prefill(
         mut self, tokens: List[Int]
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         """H136 — prefill orchestration: run the prompt through the model,
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         growing the KV cache. Returns the last step's logits (decode can
         continue directly). Raises fail-closed on bad input."""
         if len(tokens) == 0:
@@ -248,8 +248,8 @@ struct Inference:
     def prefill_chunked(
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         exactly like prefill(). H174 replaces the chunk interior with
         batched GEMM computation; the H161 baseline processes each chunk
         token-by-token (bit-identical to prefill by construction)."""
@@ -275,8 +275,8 @@ struct Inference:
     def forward_chunk(
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         """H174 — chunked prefill: process up to `chunk` tokens with batched
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         GEMMs (compute-bound) for the projections and FFN, per-token
         attention identical to forward(). Returns the last token's logits.
 
@@ -461,8 +461,8 @@ struct Inference:
         return self.v_cache.unsafe_offset(off)
 
     def forward(mut self, token: Int) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         """One decode step. Returns pointer to 32000 logits (FP16).
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
 
         H136 fail-closed guards: unloaded model, token id out of range,
         and KV-cache capacity are all hard errors — never silent.
@@ -597,8 +597,8 @@ struct Inference:
     def forward_nocache(
         mut self, tokens: List[Int]
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         """H136 — cache-free reference forward (H051-style check on the real model).
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
 
         Recomputes K/V for the ENTIRE prefix from scratch into private
         scratch buffers: no reads from the persistent KV cache, no use of
