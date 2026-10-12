@@ -125,3 +125,9 @@ Sources: https://docs.modular.com/mojo/requirements/ ; https://docs.modular.com/
 The repository's aesir_engine/pixi.toml declares only linux-64. The reviewed project manifest does not declare linux-aarch64, and the default project CI/build evidence is x86_64. This is a packaging/build-target gap for the current AArch64 Pi environment; it does not prove that Mojo cannot compile Æsir there. No build or inference workload was run in this documentation slice.
 
 Evidence: aesir_engine/pixi.toml and CAPABILITY_LEDGER.md.
+
+## Slice 043 — Map required Mojo/POSIX device-control primitives (complete)
+
+The Hailo transport research requires host-side PCI discovery plus bounded file/device operations such as open/read/close, resource mapping/unmapping, ioctl or an approved alternative, synchronization, and completion waits; DMA additionally needs a valid device-visible address and ownership contract. Mojo documents std.ffi external_call for C interoperability. Availability of an FFI call does not establish a safe DMA/IOMMU path or a Hailo command protocol.
+
+Sources: https://docs.modular.com/mojo/std/ffi/ ; docs/plunder/HAILO_PCIE_TRANSPORT_GUIDE.md; docs/HAILO10H_ACCESS_MECHANISMS.md.
