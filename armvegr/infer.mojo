@@ -247,7 +247,8 @@ struct Inference:
     def prefill_chunked(
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
+        """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
         exactly like prefill(). H174 replaces the chunk interior with
         batched GEMM computation; the H161 baseline processes each chunk
         token-by-token (bit-identical to prefill by construction)."""
@@ -273,7 +274,8 @@ struct Inference:
     def forward_chunk(
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        """H174 — chunked prefill: process up to `chunk` tokens with batched
+        """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")H174 — chunked prefill: process up to `chunk` tokens with batched
         GEMMs (compute-bound) for the projections and FFN, per-token
         attention identical to forward(). Returns the last token's logits.
 
@@ -458,11 +460,13 @@ struct Inference:
         return self.v_cache.unsafe_offset(off)
 
     def forward(mut self, token: Int) raises -> Pointer[Float16, MutUntrackedOrigin]:
-        """One decode step. Returns pointer to 32000 logits (FP16).
+        """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")One decode step. Returns pointer to 32000 logits (FP16).
 
         H136 fail-closed guards: unloaded model, token id out of range,
         and KV-cache capacity are all hard errors — never silent.
         """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if not self.model.loaded:
             raise Error("infer: forward on unloaded model (call load() first)")
         if token < 0 or token >= self.model.vocab:
@@ -606,6 +610,7 @@ struct Inference:
         cache is correct (same FP16 op order); the H136 gate allows
         max abs error <= 1e-3 across all 32000 logits.
         """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if not self.model.loaded:
             raise Error("infer: forward_nocache on unloaded model")
         var n = len(tokens)
