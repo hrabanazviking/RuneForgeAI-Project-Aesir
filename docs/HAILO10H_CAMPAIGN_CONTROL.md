@@ -1,7 +1,7 @@
-## Slice 123 — Specify bounded staging memory (complete; size remains unknown)
+## Slice 124 — Define synchronization around device completion (complete; conditional)
 
-A future Hailo data path must account for a fixed, configurable ceiling covering input, output, descriptor, and any in-flight staging buffers. Admission must reject a request before allocation if its verified byte requirements exceed that ceiling. Buffer lifetime and reuse must be tied to correlated device completion; backpressure must stop new submissions rather than grow memory without bound. The numerical ceiling must come from documented module/driver limits and measured Æsir operation shapes, not the Pi’s RAM total or product-level onboard-memory headline.
+For any future submitted operation, the sequence must distinguish host preparation, DMA visibility/synchronization, command acceptance, device completion, output visibility/synchronization, and host reuse. A submission cannot be treated as complete merely because the doorbell write returned. Output cannot be consumed or buffers recycled until the completion identity matches the request and the documented cache/transfer synchronization has succeeded. If synchronization semantics are unknown, execution remains blocked.
 
-Because no compliant Hailo operation/transfer path or tensor format is established, no staging size can yet be calculated or implemented. This is a design requirement only; it does not move LLM work to the CPU.
+Current evidence lacks a successful command completion and a complete public cache-coherency/transfer contract for Æsir. Thus this slice specifies ordering conditions only; it does not add synchronization code or touch the bound endpoint.
 
-Evidence: Slices 114–116 and 121–122; H019 elements 2–4; Raspberry Pi AI HAT+ 2 public memory specification.
+Evidence: H102 attempt record; H019 elements 4–7; docs/HAILO10H_ACCESS_MECHANISMS.md; Slices 121–123.
