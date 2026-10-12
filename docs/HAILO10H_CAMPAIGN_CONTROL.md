@@ -1,7 +1,7 @@
-## Slice 125 — Define partial-transfer and timeout behavior (complete; design only)
+## Slice 126 — Define address, alignment, and size constraints (complete; raw-path values unknown)
 
-A future Hailo operation must fail the request if any input transfer reports fewer bytes than its declared length, if a completion is missing/ambiguous, if output length or integrity checks fail, or if the bounded device timeout expires. On failure, mark the operation result invalid, prevent sampling or response publication from incomplete logits, preserve the diagnostic trace, and quarantine any buffer whose device ownership is uncertain until a proven abort/recovery procedure returns it to host ownership. Never retry through CPU inference. A retry is allowed only through the same verified Hailo path and only after safe device state is established.
+Official HailoRT driver interfaces expose buffer mapping, descriptor lists, transfer lengths, and platform DMA addresses; their documentation describes page-aligned user buffers for its own API. This describes the vendor-supported runtime interface, which is outside the campaign’s implementation constraints. It does not establish a transferable raw Mojo contract, the integrated Hailo-10H’s required tensor alignment/packing, or limits for an Æsir-generated operation.
 
-No Hailo transfer was run for this slice. These rules are conditional acceptance requirements; the existing transport/configuration NO-GO blocks implementation.
+Current Æsir requirements therefore retain address width/addressability, page and descriptor alignment, transfer-size maxima, per-channel limits, tensor padding/stride rules, and safe DMA reach as **UNKNOWN**. No numerical constraint is copied from the vendor API into Æsir and no transfer is attempted. Resolve only through a permitted primary specification or a separately approved, safe Hailo proof path.
 
-Evidence: Slices 085, 097–099, 121–124; docs/smidr/H102_ATTEMPT_RECORD.md.
+Sources: https://github.com/hailo-ai/hailort/blob/master/hailort/libhailort/src/vdma/driver/hailort_driver.hpp ; https://github.com/hailo-ai/hailort/blob/master/hailort/libhailort/src/vdma/driver/hailort_driver.cpp ; https://github.com/hailo-ai/hailort-drivers/blob/master/linux/vdma/ioctl.c ; docs/HAILO10H_ACCESS_MECHANISMS.md.
