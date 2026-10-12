@@ -1,7 +1,7 @@
-## Slice 128 — Define cleanup after cancellation or device removal (complete; conditional)
+## Slice 129 — Specify transfer benchmarks after compute proof (complete; benchmark blocked)
 
-On cancellation, timeout, or endpoint removal, mark the request cancelled and stop admitting work. Release host-only allocations immediately only if they are not mapped or device-owned. For mapped/in-flight buffers, require a documented cancellation/abort completion or verified device quiescence before unmapping or freeing. If ownership cannot be proven returned, quarantine the buffer and report a named recovery-required error; do not reuse memory or claim clean recovery. Restore driver ownership only under the reviewed handoff procedure and verify post-state before reporting success.
+Transfer benchmarks may begin only after a real Hailo compute operation, safe DMA mapping, correlated completion, cache/coherency behavior, and output integrity have passed the GO gate. Report host-to-device transfer, device execution, and device-to-host transfer separately where supported; include warm/cold distinction, tensor sizes/shapes, buffer reuse policy, repeat count, latency percentiles, errors, and device/software identity. Do not label host allocation/copy or a vendor-stack demo as Æsir Hailo performance.
 
-No cancellation or removal behavior was exercised because Æsir has no verified Hailo submission path. This records required lifecycle behavior only.
+Current status: benchmark work is BLOCKED because no compliant compute or transport path is verified. No benchmark was run and no Pi CPU inference performance is relevant to this plan.
 
-Evidence: Slices 097–099, 121, 124–127; docs/HAILO10H_ACCESS_MECHANISMS.md; docs/HAILO10H_COMPONENT_BOUNDARIES.md.
+Evidence: Slices 085–089, 107–110, 121–128; docs/smidr/PHASE_D_GATE.md.
