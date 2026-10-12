@@ -199,3 +199,9 @@ Any future HAILBRÚ acquisition path must verify the expected PCI vendor/device 
 ## Slice 056 — Specify BAR metadata and bounds validation (complete)
 
 Before any future mapping, HAILBRÚ must validate the resource index, resource size, offset, access width, alignment, and overflow-safe end bound against the OS-provided resource metadata. Unknown BAR semantics or out-of-range access must fail closed. This is an acceptance contract only; this slice performs no BAR mapping.
+
+## Slice 057 — Document VFIO's missing IOMMU group (complete)
+
+The Hailo endpoint currently has no sysfs iommu_group, although /dev/vfio/vfio exists and VFIO_PCI support is present. Therefore the current view does not supply an endpoint VFIO group or establish an IOMMU-backed DMA path. No VFIO binding or IOMMU setting was changed.
+
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md.
