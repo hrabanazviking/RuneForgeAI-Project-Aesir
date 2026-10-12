@@ -5,7 +5,7 @@
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R.
 
-**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. Until Hailo execution is implemented and verified, runtime entrypoints must fail closed. CPU capabilities below are retained only as historical implementation facts; they do not authorize further CPU work. Vision documents describe desired direction; task files and
+**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. Until Hailo execution is implemented and verified, runtime entrypoints must fail closed. The ARMVEGR CPU LLM inference CLI and direct inference methods now raise CpuInferenceProhibited before inference math; their underlying historical kernels remain in source but are not an authorized or available runtime route. CPU capability entries below are historical records only and do not authorize further CPU work. Vision documents describe desired direction; task files and
 devlogs describe work at a point in time; names, banners, and test titles describe
 interfaces. None of those supersede this ledger's present-tense capability
 statuses.
@@ -2505,7 +2505,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   encoding remains explicitly UNKNOWN (0xFFFFFFFF sentinel, not invented).
 
 ## F1 CPU Pipeline (Campaign 7, H136–H140) — 2026-10-10
-- **Status:** `F1-COMPLETE` — the pure-Mojo ARM64 CPU engine is production-grade.
+- **Status:** `withdrawn / disabled by owner scope (2026-10-12)` — historical CPU implementation only; its CLI and direct inference entrypoints now fail closed. It is not an active product path.
 - **Owner:** ARMVEGR domain (D1), NO-GO branch (H111 closed the NPU path).
 - **Implementation evidence:** `armvegr/infer.mojo` v0.2.0 (fail-closed guards,
   shape validation, reset/prefill/free, forward_nocache reference, shallow_copy);
@@ -2520,13 +2520,12 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   2.05 tok/s vs 2.12 unbatched (×0.97, honest); H136 kvcheck 3/3 probes
   bit-identical (0.0); H137 batch/session 3/3 tests + 3/3 guards;
   H138 3/3 prompts × 64 tok, all 6 rubric items pass; H139 50/50 CPU + 5/5 NPU errors.
-- **Gaps closed (5):** end-to-end prefill+decode; batching+context; production
-  config surface; coherence proof; honest CPU-only AUTO.
+- **Historical evidence only:** prior CPU measurements and tests describe the old implementation; they do not establish a currently callable inference path or authorize CPU work.
 - **Non-claims:** no NPU compute (H111 NO-GO); decode speed is sampler-bound,
   not a hardware limit; no multi-node.
 
 ## Vörðr Robustness (Campaign 8, H141–H160) — 2026-10-10
-- **Status:** `COMPLETE` — the warden for the F1 CPU engine + Hailo device health.
+- **Status:** `historical / CPU inference supervision withdrawn (2026-10-12)` — Hailo device-health primitives remain recorded, but CPU inference supervision is outside owner scope.
   NPU-referencing slices received honest Sólrún audit treatment (`docs/vordr/SOLRUN_AUDIT_C8.md`):
   H150 = CPU numerics cross-check (shadow-verify F1 SIMD kernel vs independent scalar
   reference, the H059R1-proven pattern); H157 = CPU-pipeline stage retry via scalar
@@ -2553,9 +2552,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   this kernel; Vörðr never touches device registers (L6/L12 — all resets via HAILBRÚ).
 
 ## Speed Optimization (Campaign 9, H161–H180) — 2026-10-10
-- **Status:** `COMPLETE` — verdict STRONG PASS (`docs/bench/C9_REVIEW.md`).
-  Measured optimization of the F1 CPU path on Mimir (H111 NO-GO stands:
-  H171/H172 GO-gated slices SKIPPED per docs/fallback/RESCOPED_PLAN.md).
+- **Status:** `historical / CPU inference optimization withdrawn (2026-10-12)` — prior benchmark records remain archival; no CPU LLM optimization is in scope.
 - **Implementation evidence:** `bench/` harness (`bench_env.mojo`: env capture,
   TrialStats median/min/max/stddev, thermal settle; `bench_kernels.mojo`: 22 C2
   kernels at H038 shapes; `run_bench.mojo`: kernels/gemm_tuned/prefill/decode/
@@ -2569,9 +2566,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   state it actually observed — it never claims pinned clocks it did not verify.
 
 ## GAUNTLET Production Hardening (Campaign 10, H181–H200) — 2026-10-10
-- **Status:** `COMPLETE` — the F1 CPU trunk judged production-grade by the
-  GAUNTLET measurement framework (H184 NPU soak SKIPPED: H111 was NO-GO,
-  per docs/fallback/RESCOPED_PLAN.md).
+- **Status:** `historical / CPU inference release path withdrawn (2026-10-12)` — prior CPU-only measurements and packaging records are archival, not a current release claim or authorized roadmap.
 - **Owner:** D7 GAUNTLET domain — measures and judges ONLY; never touches
   implementation code (architectural self-test: gauntlet/*.mojo imports
   std-only, zero repair/recovery/fix references, machine-checked by
