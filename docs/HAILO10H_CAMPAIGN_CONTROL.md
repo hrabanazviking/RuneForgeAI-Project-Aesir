@@ -1,7 +1,7 @@
-## Slice 116 — Define conditional weight/activation representation (complete; hypothetical only)
+## Slice 117 — Map attention and KV-cache only to measured Hailo support (complete; none measured)
 
-A future Hailo representation cannot be selected until the device’s accepted tensor format, quantization parameters, memory layout, and operation descriptors are publicly specified or experimentally verified under an approved proof. The current ARMVEGR FP16/FP32 host representation is documented as source behavior only and must not be treated as the accelerator contract. Likewise, Raspberry Pi’s INT4 performance specification does not supply scale/zero-point, packing, accumulator, or layer compatibility rules.
+TinyLlama’s source uses grouped-query attention (32 query heads to 4 key/value heads), RoPE on query/key vectors, per-token KV-cache writes, scaled dot-product scores, softmax, and weighted value accumulation. No corresponding Hailo-10H operation sequence, memory residency contract, cache capacity behavior, or measured attention primitive is established for Æsir. The H111 NO-GO prevents a legitimate on-device mapping, and public product-level memory/TOPS claims do not fill these operation-level gaps.
 
-For a future candidate format, each tensor record would need an explicit dtype, shape, strides/layout, quantization parameters where applicable, byte length, alignment, ownership, and versioned provenance. These are requirements for evidence collection, not a proposed executable serialization. No format, quantizer, conversion path, or device buffer was implemented or exercised. No CPU LLM execution is in scope.
+Status: attention and KV-cache support on Hailo are **UNVERIFIED**. Do not implement a host-side attention substitute as model inference. Revisit only when transport, compute configuration, memory semantics, and operation proof gates pass.
 
-Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md elements 1–4; Slices 114–115; armvegr/infer.mojo.
+Evidence: armvegr/infer.mojo; armvegr/kv_cache.mojo; docs/plunder/HAILO_CONFIG_SURFACE.md; docs/smidr/PHASE_D_GATE.md; Slice 114.
