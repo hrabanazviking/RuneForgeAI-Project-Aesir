@@ -415,3 +415,9 @@ Evidence: hailbru/API.md and docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 054, 088.
 ## Slice 099 — Prepare transport acceptance criteria behind GO (complete; execution remains gated)
 
 Before any HAILBRÚ transport implementation is treated as usable, require evidence-backed device identity, exclusive safe ownership, valid BAR bounds, safe DMA address mapping, real interrupt or correlated completion, firmware-ready handling, timeout/cleanup proof, and restore-state evidence. The command round-trip must succeed before configuration or compute work starts. Current NO-GO blocks implementation on the live target.
+
+## Slice 100 — Record HAILBRÚ status without claiming inference (complete; execution remains gated)
+
+Status: partial measured host/device transport and bring-up primitives; Phase-B gate NO-GO for fully usable DMA/interrupt transport; Phase-C historically PASS for firmware bring-up under the prior environment; H102 raw command completion FAIL; H111 compute NO-GO. Æsir LLM inference on Hailo remains unimplemented. This slice changes no HAILBRÚ code and claims no inference capability.
+
+Evidence: CAPABILITY_LEDGER.md; docs/hailbru/PHASE_B_GATE.md; docs/hailbru/PHASE_C_GATE.md; docs/smidr/PHASE_D_GATE.md.
