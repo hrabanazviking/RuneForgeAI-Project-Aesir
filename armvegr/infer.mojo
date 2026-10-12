@@ -235,9 +235,9 @@ struct Inference:
         mut self, tokens: List[Int]
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """H136 — prefill orchestration: run the prompt through the model,
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         growing the KV cache. Returns the last step's logits (decode can
         continue directly). Raises fail-closed on bad input."""
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if len(tokens) == 0:
             raise Error("infer: prefill needs >= 1 token")
         var lp = self.forward(tokens[0])
@@ -249,10 +249,10 @@ struct Inference:
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         exactly like prefill(). H174 replaces the chunk interior with
         batched GEMM computation; the H161 baseline processes each chunk
         token-by-token (bit-identical to prefill by construction)."""
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if len(tokens) == 0:
             raise Error("infer: prefill_chunked needs >= 1 token")
         if chunk <= 1:
@@ -276,13 +276,13 @@ struct Inference:
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """H174 — chunked prefill: process up to `chunk` tokens with batched
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         GEMMs (compute-bound) for the projections and FFN, per-token
         attention identical to forward(). Returns the last token's logits.
 
         Correctness: logits within 1e-3 of prefill() (test-asserted); the
         attention math is the same fp32 code as forward(), only the
         projection/FFN summation order differs (blocked GEMM vs GEMV)."""
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         var ntok = len(tokens)
         if ntok == 0:
             raise Error("infer: forward_chunk needs >= 1 token")
@@ -462,11 +462,11 @@ struct Inference:
 
     def forward(mut self, token: Int) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """One decode step. Returns pointer to 32000 logits (FP16).
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
 
         H136 fail-closed guards: unloaded model, token id out of range,
         and KV-cache capacity are all hard errors — never silent.
         """
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
         if not self.model.loaded:
             raise Error("infer: forward on unloaded model (call load() first)")
         if token < 0 or token >= self.model.vocab:
@@ -598,7 +598,6 @@ struct Inference:
         mut self, tokens: List[Int]
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         """H136 — cache-free reference forward (H051-style check on the real model).
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
 
         Recomputes K/V for the ENTIRE prefix from scratch into private
         scratch buffers: no reads from the persistent KV cache, no use of
@@ -747,6 +746,7 @@ def _transpose_f16(
     C: Int,
 ):
     """dst[C,R] = src[R,C]^T (row-major both)."""
+        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
     for r in range(R):
         for c in range(C):
             dst.unsafe_offset(c * R + r).unsafe_store(
