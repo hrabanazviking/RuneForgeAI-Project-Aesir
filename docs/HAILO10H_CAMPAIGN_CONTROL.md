@@ -347,3 +347,7 @@ A pass requires a correlated device completion within a predeclared bounded time
 ## Slice 086 — Set repeatability requirements for a real operation (complete; proof remains gated)
 
 After the first operation passes, require 100 repeated submissions with unique sequence accounting and identical deterministic outputs for the pinned input. Record per-operation completion and latency. Repeatability runs are meaningful only after proven on-chip execution; no host-side loop or simulation may satisfy them.
+
+## Slice 087 — Require evidence of physical Hailo execution (complete; proof remains gated)
+
+Accelerator provenance must combine endpoint identity, device/firmware completion evidence correlated to the submitted operation, device-returned output bytes, and a negative control showing the host-only path cannot produce a passing device record. Device discovery, a BAR write/readback, or mocked completion by itself is insufficient.
