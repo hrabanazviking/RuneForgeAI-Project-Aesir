@@ -1,3 +1,5 @@
+> **SUPERSEDED FOR CURRENT WORK (2026-10-12):** This historical campaign includes Pi CPU LLM inference work and a CPU fallback. The project owner has explicitly excluded all development whose purpose is running LLMs on the Pi CPU. Do not execute its CPU inference slices or fallback. The active scope is Hailo-10H LLM inference only, as defined in [docs/HAILO10H_MISSION.md](docs/HAILO10H_MISSION.md), [docs/HAILO10H_INTERACTION.md](docs/HAILO10H_INTERACTION.md), [docs/HAILO10H_IO.md](docs/HAILO10H_IO.md), and [docs/HAILO10H_INFERENCE_POLICY.md](docs/HAILO10H_INFERENCE_POLICY.md). If Hailo feasibility is blocked, report the blocker and propose a Hailo-only adjustment; CPU inference is not an authorized fallback.
+
 # HAILO-10 — MÍMISBRUNNR 200-Slice Roadmap
 
 **Campaign:** MÍMISBRUNNR — bring Project Aesir (pure-Mojo, bare-metal, zero-library LLM inference) to the Hailo-10 on Mimir (Raspberry Pi 5, 16 GB, AI HAT+)
