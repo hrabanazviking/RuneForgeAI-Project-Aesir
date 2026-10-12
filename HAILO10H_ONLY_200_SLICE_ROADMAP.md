@@ -61,29 +61,29 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 04: Hailo-only feasibility revalidation
 
-- [ ] **Slice 031.** Re-read the H111 decision and identify exactly which claims are dated and hardware-specific.
-- [ ] **Slice 032.** Check upstream Æsir history for any Hailo-path change after the H111 evidence commit.
-- [ ] **Slice 033.** Check official Hailo documentation for any newly documented raw-compute interface, using dated citations.
-- [ ] **Slice 034.** Check upstream Hailo driver/runtime releases for any documented mailbox protocol change; study only.
-- [ ] **Slice 035.** Check whether the current installed firmware/device version differs materially from the H102 test environment.
-- [ ] **Slice 036.** Determine whether a new non-invasive observation can distinguish stale evidence from unchanged behavior.
-- [ ] **Slice 037.** Write a bounded revalidation plan that does not unbind, reset, or reflash the live device without a documented safety basis.
-- [ ] **Slice 038.** Execute only read-only revalidation probes needed to establish present device/software identity.
-- [ ] **Slice 039.** Compare current observations to H102/H111 and state whether evidence invalidates, narrows, or confirms NO-GO.
-- [ ] **Slice 040.** Publish the Hailo compute feasibility verdict; if NO-GO remains, mark implementation slices BLOCKED pending owner decision.
+- [x] **Slice 031.** Re-read the H111 decision and identify exactly which claims are dated and hardware-specific.
+- [x] **Slice 032.** Check upstream Æsir history for any Hailo-path change after the H111 evidence commit.
+- [x] **Slice 033.** Check official Hailo documentation for any newly documented raw-compute interface, using dated citations.
+- [x] **Slice 034.** Check upstream Hailo driver/runtime releases for any documented mailbox protocol change; study only.
+- [x] **Slice 035.** Check whether the current installed firmware/device version differs materially from the H102 test environment.
+- [x] **Slice 036.** Determine whether a new non-invasive observation can distinguish stale evidence from unchanged behavior.
+- [x] **Slice 037.** Write a bounded revalidation plan that does not unbind, reset, or reflash the live device without a documented safety basis.
+- [x] **Slice 038.** Execute only read-only revalidation probes needed to establish present device/software identity.
+- [x] **Slice 039.** Compare current observations to H102/H111 and state whether evidence invalidates, narrows, or confirms NO-GO.
+- [x] **Slice 040.** Publish the Hailo compute feasibility verdict; if NO-GO remains, mark implementation slices BLOCKED pending owner decision.
 
 ## Phase 05: Toolchain and legal feasibility
 
-- [ ] **Slice 041.** Verify current Mojo compiler support for the project's target architecture from official Mojo documentation.
-- [ ] **Slice 042.** Determine whether Æsir's existing build can target the current Pi environment; do not create CPU inference work.
-- [ ] **Slice 043.** Map the minimum POSIX/device-control primitives a Mojo-only Hailo transport would require.
-- [ ] **Slice 044.** Verify whether those primitives are available under the project's dependency and licensing policies.
-- [ ] **Slice 045.** Map firmware ownership and redistribution constraints without fetching or bundling firmware.
-- [ ] **Slice 046.** Inventory official Hailo LLM artifacts and record why their HEF/DFC/runtime requirements conflict with Æsir constraints.
-- [ ] **Slice 047.** Inventory public research claiming direct Hailo execution and verify hardware, artifact, toolchain, and license requirements.
-- [ ] **Slice 048.** Create a clean-room research log with source URLs, licenses, facts, and unanswered questions.
-- [ ] **Slice 049.** Ask no code path to depend on proprietary tools; identify whether any compliant configuration-generation route is evidenced.
-- [ ] **Slice 050.** Issue a technical/legal feasibility recommendation with explicit unresolved owner decisions.
+- [x] **Slice 041.** Verify current Mojo compiler support for the project's target architecture from official Mojo documentation.
+- [x] **Slice 042.** Determine whether Æsir's existing build can target the current Pi environment; do not create CPU inference work.
+- [x] **Slice 043.** Map the minimum POSIX/device-control primitives a Mojo-only Hailo transport would require.
+- [x] **Slice 044.** Verify whether those primitives are available under the project's dependency and licensing policies.
+- [x] **Slice 045.** Map firmware ownership and redistribution constraints without fetching or bundling firmware.
+- [x] **Slice 046.** Inventory official Hailo LLM artifacts and record why their HEF/DFC/runtime requirements conflict with Æsir constraints.
+- [x] **Slice 047.** Inventory public research claiming direct Hailo execution and verify hardware, artifact, toolchain, and license requirements.
+- [x] **Slice 048.** Create a clean-room research log with source URLs, licenses, facts, and unanswered questions.
+- [x] **Slice 049.** Ask no code path to depend on proprietary tools; identify whether any compliant configuration-generation route is evidenced.
+- [x] **Slice 050.** Issue a technical/legal feasibility recommendation with explicit unresolved owner decisions.
 
 ## Phase 06: Safe device-access contract
 
