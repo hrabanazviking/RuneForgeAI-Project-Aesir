@@ -387,3 +387,9 @@ Evidence: hailbru/bars.mojo, hailbru/API.md.
 DmaRegistry alloc/free and optional mlock establish host-side buffer allocation/accounting. They do not prove the returned host address is a device-visible DMA address. VFIO IOMMU mapping and UIO DMA allocation are marked unavailable/F3-banked in HAILBRÚ; current endpoint has no IOMMU group. Any accelerator path must establish device-visible address, lifetime, alignment, cache-coherency, and release semantics before submission.
 
 Evidence: hailbru/dma.mojo, hailbru/API.md, docs/HAILO10H_ACCESS_MECHANISMS.md.
+
+## Slice 095 — Specify completion/interrupt requirements and gaps (complete; execution remains gated)
+
+HAILBRÚ has real eventfd/poll plumbing and synthetic IRQ tests, while VFIO MSI-X/eventfd and UIO device interrupt paths are F3-banked in the public API. Phase-B records device MSI prerequisites blocked by the current access mechanism. H102 observed no completion bit, MSI, or response on the tested raw command path. Host eventfd plumbing is not device completion.
+
+Evidence: hailbru/irq.mojo, hailbru/API.md, docs/hailbru/PHASE_B_GATE.md, docs/smidr/H102_ATTEMPT_RECORD.md.
