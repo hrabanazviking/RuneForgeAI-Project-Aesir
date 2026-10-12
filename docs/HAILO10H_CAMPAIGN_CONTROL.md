@@ -43,3 +43,7 @@ Evidence: docs/HAILO10H_COMPONENT_BOUNDARIES.md and docs/HAILO10H_NO_CPU_INFEREN
 This campaign does not develop CPU LLM execution, CPU fallback, CPU shadow inference, CPU model serving, CUDA LLM execution, or cloud inference. Existing CPU/CUDA code remains untouched. On missing/unverified Hailo capability, Æsir reports an error and does not dispatch model execution elsewhere.
 
 Evidence: docs/HAILO10H_INFERENCE_POLICY.md, docs/HAILO10H_NO_CPU_INFERENCE.md, and docs/HAILO10H_NETWORK_ASSUMPTIONS.md.
+
+## Slice 028 — Decision log and change control (complete)
+
+docs/HAILO10H_DECISION_LOG.md is the campaign decision record. It distinguishes user-authorized scope, project architecture, observed hardware facts, and unresolved technical questions. Only the project owner may change the Hailo-only mission or relax the no-HEF/no-DFC/no-vendor-runtime requirements; a blocker does not imply approval to change them.
