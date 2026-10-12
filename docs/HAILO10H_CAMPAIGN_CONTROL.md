@@ -103,3 +103,7 @@ Revalidation is limited to (a) compare public docs/source changes under clean-ro
 Executed read-only commands to record OS/kernel/firmware identity, PCI BDF/device ID and driver, Hailo device architecture/firmware, PCI link speed/width and maximum, IOMMU group presence, device nodes, loaded modules, UIO module availability, host memory, Pi temperature, and throttling flag. The probes made no writes to device resources and ran no LLM inference.
 
 Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_OS_SOFTWARE_IDENTITY.md, docs/HAILO10H_ACCESS_MECHANISMS.md.
+
+## Slice 039 — Compare current evidence against H102/H111 (complete)
+
+Current observations confirm the same Hailo-10H identity and kernel family as historic campaign records, but do not demonstrate command completion. The historical attempt's exact firmware build is not pinned. The upstream v5.4 firmware-control change is potentially relevant but not proven to alter the direct command mailbox or resolve its silence. The old failure remains valid for the attempt as run; no current result supersedes its NO-GO gate.
