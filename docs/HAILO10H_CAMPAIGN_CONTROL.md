@@ -83,3 +83,9 @@ Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/
 Read-only review of Hailo's public hailort-drivers v5.3.0 → v5.4.0 comparison was performed under the repository's existing clean-room study-only boundary. The source headers identify GPL-2.0; no source was copied into Æsir. The integrated firmware-control implementation changed request/response framing (the expected-MD5 field is removed) and changed timeout handling to a fixed default. This is a meaningful control-path research lead. It is not evidence that the H102 direct app/core mailbox protocol, doorbell, or completion behavior changed; H102's vendor ioctl attempt also reported the integrated-device operation unsupported.
 
 Sources: https://github.com/hailo-ai/hailort-drivers/releases ; https://github.com/hailo-ai/hailort-drivers/compare/v5.3.0...v5.4.0 ; source paths reviewed: linux/integrated_nnc/src/fw_control.c at tags v5.3.0 and v5.4.0. Follow existing docs/plunder/HAILO_* study records and license policy for any deeper study.
+
+## Slice 035 — Compare installed identity with historic H102 environment (complete)
+
+The current live sample reports kernel 6.12.112-v8-16k-hailo+, hailo1x module 5.3.0, and device firmware 5.3.0. H102 records the same kernel family and a loaded firmware, but does not pin an exact firmware version for the mailbox attempts. Therefore firmware equivalence cannot be established from the available H102 record. Upstream driver v5.4.0 exists, but it is not installed and was not applied to this machine. No upgrade or reboot was performed.
+
+Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_OS_SOFTWARE_IDENTITY.md, docs/smidr/H102_ATTEMPT_RECORD.md.
