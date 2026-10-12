@@ -23,15 +23,15 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 ## Phase 01: Scope and success criteria
 
 - [x] **Slice 001.** Record Æsir's documented mission as a local, Mojo-native inference engine whose LLM execution target for this campaign is Hailo-10H only; preserve local model/data control, disclose accelerator provenance, and fail closed when Hailo inference is unavailable. Evidence: `docs/HAILO10H_MISSION.md`.
-- [ ] **Slice 002.** Define the primary interaction loop and target user.
-- [ ] **Slice 003.** List required inputs, outputs, and integrations.
-- [ ] **Slice 004.** Mark every model inference path as Hailo-10H only.
-- [ ] **Slice 005.** Explicitly exclude CPU LLM inference, fallback, and model-serving paths.
-- [ ] **Slice 006.** Separate host orchestration from accelerator inference responsibilities.
-- [ ] **Slice 007.** Define offline behavior and network assumptions.
-- [ ] **Slice 008.** Set initial latency, throughput, and quality targets as hypotheses.
-- [ ] **Slice 009.** Define memory, power, and thermal operating envelopes.
-- [ ] **Slice 010.** Create a decision log for unresolved product choices.
+- [x] **Slice 002.** Define the primary interaction loop and target user.
+- [x] **Slice 003.** List required inputs, outputs, and integrations.
+- [x] **Slice 004.** Mark every model inference path as Hailo-10H only.
+- [x] **Slice 005.** Explicitly exclude CPU LLM inference, fallback, and model-serving paths.
+- [x] **Slice 006.** Separate host orchestration from accelerator inference responsibilities.
+- [x] **Slice 007.** Define offline behavior and network assumptions.
+- [x] **Slice 008.** Set initial latency, throughput, and quality targets as hypotheses.
+- [x] **Slice 009.** Define memory, power, and thermal operating envelopes.
+- [x] **Slice 010.** Create a decision log for unresolved product choices.
 
 ## Phase 02: Repository and hardware evidence
 
