@@ -363,3 +363,9 @@ GO requires a real Hailo-10H vector-add, observed correlated completion, returne
 ## Slice 090 — Keep first compute attempt blocked (complete; proof remains gated)
 
 Status: BLOCKED. H102 did not establish command completion; H019 still marks mandatory execution-configuration elements unknown; the current device is under hailo1x and this campaign has no reviewed mutating-device safety case. Do not submit H104 data to the live endpoint. Resume only after new compliant transport/configuration evidence and a reviewed safety procedure; no CPU fallback.
+
+## Slice 091 — Review HAILBRÚ implementation versus usable interface (complete; execution remains gated)
+
+HAILBRÚ contains Mojo modules for sysfs discovery, PCI config/BAR metadata, BAR mappings/registers, DMA allocation, VFIO/UIO mechanisms, interrupts, firmware checks/boot, reset, and device lifecycle. Its public API explicitly marks important VFIO/UIO DMA, device IRQ, and firmware upload paths F3-banked or fail-closed. Phase-B is NO-GO and Phase-D raw command submission failed. Existing HAILBRÚ code is transport/bring-up scaffolding with specific measured sub-capabilities; it is not a working Æsir inference backend.
+
+Evidence: hailbru/API.md, docs/hailbru/PHASE_B_GATE.md, docs/hailbru/PHASE_C_GATE.md, docs/smidr/PHASE_D_GATE.md.
