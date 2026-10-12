@@ -323,3 +323,7 @@ Pause configuration reverse engineering when both transport completion and opera
 Verdict: **NO-GO for a Hailo-executable configuration generator under the current evidence and constraints.** H019 still has unknown mandatory device encodings; H104 covers host-side tensor facts/envelope only; public compiled outputs depend on excluded tooling/artifacts; H102 transport does not complete. Keep on-chip compute and LLM integration BLOCKED. Preserve the host-side artifacts as research data, not functioning kernels.
 
 Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md, docs/HAILO10H_PHASE_D_RECONCILIATION.md.
+
+## Slice 081 — Define the minimal Hailo compute operation (complete; proof remains gated)
+
+Proposed first proof: one length-64 FP16 vector-add operation, matching the existing H104 host-side candidate. Define exact input vectors, elementwise output, buffer lengths, dtype, and zero-tolerance bitwise output criterion. This is a minimal accelerator compute proof only, not an LLM capability. It remains unexecutable until transport and configuration prerequisites pass.
