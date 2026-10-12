@@ -233,3 +233,9 @@ Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md and docs/HAILO10H_OS_SOFTWARE_ID
 H102 and Phase-D records identify the same kernel family and say the SOC firmware batch was loaded, but they do not record an exact firmware build/version for the raw mailbox attempts. Current identify output is 5.3.0. Therefore an exact firmware-version match or difference cannot be asserted; the current reading does not retroactively alter H102's measured no-completion result.
 
 Evidence: docs/smidr/H102_ATTEMPT_RECORD.md; current identity snapshot.
+
+## Slice 063 — List control signals observable without device ownership (complete)
+
+Available read-only signals include PCI vendor/device identity, driver binding, negotiated/max PCIe link, node/module presence, supported hailortcli firmware/control-protocol identification, Pi thermal/throttle state, and host software versions. The reviewed outputs do not expose an Æsir-accessible raw mailbox-ready/command-acceptance signal. Hailo device temperature and usable accelerator-memory telemetry are also not currently established.
+
+Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_ACCESS_MECHANISMS.md, docs/HAILO10H_RESOURCE_ENVELOPE.md.
