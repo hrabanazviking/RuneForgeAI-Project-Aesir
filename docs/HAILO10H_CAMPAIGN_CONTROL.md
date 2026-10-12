@@ -339,3 +339,7 @@ The proof representation must use Æsir-owned documented descriptors and raw tes
 ## Slice 084 — Define checksums and retained proof evidence (complete; proof remains gated)
 
 For a future hardware attempt, checksum and preserve exact input bytes, candidate configuration bytes, manifest, expected output, returned device output, and pre/post device identity/state snapshots. A passing result must be reproducible from retained bytes; missing output or mismatched checksums fails the proof.
+
+## Slice 085 — Define completion, timeout, and integrity evidence (complete; proof remains gated)
+
+A pass requires a correlated device completion within a predeclared bounded timeout, successful output readback, unchanged/healthy device state, and output bytes matching the oracle criterion. Timeout, missing interrupt/status, invalid response, or integrity mismatch is a fail with raw trace preserved. Host process completion alone is not device completion.
