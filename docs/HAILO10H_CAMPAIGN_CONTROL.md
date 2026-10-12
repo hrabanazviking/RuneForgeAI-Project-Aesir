@@ -313,3 +313,7 @@ A complete configuration generator is not currently evidenced. The essential com
 ## Slice 078 — Reject undocumented magic bytes and simulated execution claims (complete)
 
 Any future generator must tie every emitted field/value to a documented or experimentally verified meaning. A deterministic blob, JSON manifest, passing host-side schema check, BAR write/readback, or model output produced outside the Hailo does not establish Hailo compute. Unknown encodings must remain explicitly unknown; no sentinel value may be described as executable.
+
+## Slice 079 — Set a stopping rule for unbounded reverse engineering (complete)
+
+Pause configuration reverse engineering when both transport completion and operation encoding lack an evidence-backed path, when further progress requires prohibited DFC/HEF use, or when validation would require an unreviewed mutating hardware experiment. Resume only after new public/documented evidence, an approved safe test plan, and a clear discriminating experiment exist. This prevents endless low-evidence byte guessing.
