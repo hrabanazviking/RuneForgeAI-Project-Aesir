@@ -1,6 +1,6 @@
 # Hailo-10H resource envelope
 
-**Roadmap Slice 008 — initial memory, power, and thermal baseline**
+**Roadmap Slice 009 — complete: initial memory, power, and thermal baseline**
 
 ## Observed on the target host (2026-10-12)
 
@@ -31,7 +31,7 @@ runtime.
 - The host's 16 GiB is for OS and ordinary app orchestration; it is not an
   alternate LLM memory pool or permission to run LLM inference on the CPU.
 
-## Slice 008 acceptance
+## Slice 009 acceptance
 
 - Target host and accelerator identity are backed by live device output.
 - Installed memory, Hailo software versions, and a dated thermal snapshot are
