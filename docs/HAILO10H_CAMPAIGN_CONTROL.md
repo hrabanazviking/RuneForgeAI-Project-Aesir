@@ -259,3 +259,9 @@ Evidence: Slice 034 source comparison; https://github.com/hailo-ai/hailort-drive
 ## Slice 067 — Define positive evidence for firmware control reachability (complete)
 
 A positive control-service proof must show a correctly identified Hailo-10H endpoint accepts a well-formed, non-compute control request and returns a correlated completion/response within a bounded timeout, with device-state snapshots before/after and no host-side emulation. A board-identify response through the vendor stack is not sufficient proof for Æsir's raw command path. No request was submitted in this slice.
+
+## Slice 068 — Define negative evidence and its limits (complete)
+
+A bounded attempt that produces no correlated completion/response, together with a trace showing request bytes, target/doorbell, elapsed timeout, and unchanged/restored device state, is sufficient to fail that tested mechanism and block downstream compute work. It does not prove that every firmware version or every conceivable interface is impossible. H102 already satisfies this tested-path fail condition.
+
+Evidence: docs/smidr/H102_ATTEMPT_RECORD.md.
