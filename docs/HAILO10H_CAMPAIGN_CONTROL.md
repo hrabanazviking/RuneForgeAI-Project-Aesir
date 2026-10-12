@@ -149,3 +149,9 @@ Evidence: repository Hailo architectural laws L7, docs/plunder/HAILO_FW_LOAD_REG
 Official Hailo material describes LLM serving through Hailo-10H artifacts and HailoRT, and its model/compilation workflow uses the Dataflow Compiler to generate HEF. These requirements conflict with the current Æsir no-HEF/no-DFC/no-vendor-runtime design. The artifacts remain reference evidence only and are not selected for Æsir.
 
 Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/hailo-ai/hailo_model_zoo ; https://www.raspberrypi.com/documentation/computers/ai.html.
+
+## Slice 047 — Review public direct-Hailo LLM research and its prerequisites (complete)
+
+The public hailo-10h-llm-compiler project documents Hailo Dataflow Compiler 5.3.0 as a proprietary prerequisite and generates HEF artifacts served through Hailo-Ollama/HailoRT. Its public hardware results therefore do not demonstrate a path compatible with Æsir's current no-DFC/no-HEF/no-vendor-runtime requirements. No code or artifact from that project was imported.
+
+Source: https://git.mitgai.net/l-nmch/hailo-10h-llm-compiler/blob/main/README.md ; https://community.hailo.ai/t/i-compiled-an-llm-for-the-hailo-10h/19685.
