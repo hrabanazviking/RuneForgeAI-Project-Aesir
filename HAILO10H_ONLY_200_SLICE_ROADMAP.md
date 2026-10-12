@@ -35,16 +35,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 02: Repository and hardware evidence
 
-- [ ] **Slice 011.** Reconcile the checked-out branch and remote default branch without discarding owner changes.
-- [ ] **Slice 012.** Record the exact current Æsir commit and identify the authoritative Hailo campaign artifacts.
-- [ ] **Slice 013.** Inventory Hailo-related source and documentation without opening or changing device state.
-- [ ] **Slice 014.** Record the observed Pi 5, Hailo-10H identity, PCI BDF, driver binding, and link width/speed.
-- [ ] **Slice 015.** Record Hailo module memory claims separately from what the current device reports.
-- [ ] **Slice 016.** Record the current OS, kernel, firmware, HailoRT package, and GenAI package versions as observations only.
-- [ ] **Slice 017.** Check current PCIe/IOMMU/UIO/VFIO facts using read-only queries and mark unknowns explicitly.
-- [ ] **Slice 018.** Review prior Phase-B/C bring-up evidence and distinguish historic state from current census.
-- [ ] **Slice 019.** Reconcile H101–H111 evidence paths and confirm the Phase-D NO-GO remains current or needs a bounded revalidation.
-- [ ] **Slice 020.** Publish a dated evidence inventory with source paths, freshness, and confidence labels.
+- [x] **Slice 011.** Reconcile the checked-out branch and remote default branch without discarding owner changes.
+- [x] **Slice 012.** Record the exact current Æsir commit and identify the authoritative Hailo campaign artifacts.
+- [x] **Slice 013.** Inventory Hailo-related source and documentation without opening or changing device state.
+- [x] **Slice 014.** Record the observed Pi 5, Hailo-10H identity, PCI BDF, driver binding, and link width/speed.
+- [x] **Slice 015.** Record Hailo module memory claims separately from what the current device reports.
+- [x] **Slice 016.** Record the current OS, kernel, firmware, HailoRT package, and GenAI package versions as observations only.
+- [x] **Slice 017.** Check current PCIe/IOMMU/UIO/VFIO facts using read-only queries and mark unknowns explicitly.
+- [x] **Slice 018.** Review prior Phase-B/C bring-up evidence and distinguish historic state from current census.
+- [x] **Slice 019.** Reconcile H101–H111 evidence paths and confirm the Phase-D NO-GO remains current or needs a bounded revalidation.
+- [x] **Slice 020.** Publish a dated evidence inventory with source paths, freshness, and confidence labels.
 
 ## Phase 03: Constraints and decision control
 
