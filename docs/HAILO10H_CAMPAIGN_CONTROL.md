@@ -37,3 +37,9 @@ Evidence: docs/HAILO10H_OS_SOFTWARE_IDENTITY.md and docs/HAILO10H_MODULE_MEMORY_
 The Pi may run operating-system and ordinary application work: request parsing, file and model-metadata reading, tokenization, process/device orchestration, non-content diagnostics, and response formatting. Host-side work must not compute transformer layers or model logits. Any generation sub-operation whose classification is unclear must be resolved by evidence and architecture review before implementation; it must not become hidden CPU inference.
 
 Evidence: docs/HAILO10H_COMPONENT_BOUNDARIES.md and docs/HAILO10H_NO_CPU_INFERENCE.md.
+
+## Slice 027 — Prohibited inference routes (complete)
+
+This campaign does not develop CPU LLM execution, CPU fallback, CPU shadow inference, CPU model serving, CUDA LLM execution, or cloud inference. Existing CPU/CUDA code remains untouched. On missing/unverified Hailo capability, Æsir reports an error and does not dispatch model execution elsewhere.
+
+Evidence: docs/HAILO10H_INFERENCE_POLICY.md, docs/HAILO10H_NO_CPU_INFERENCE.md, and docs/HAILO10H_NETWORK_ASSUMPTIONS.md.
