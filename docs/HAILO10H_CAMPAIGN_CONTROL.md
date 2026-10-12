@@ -265,3 +265,7 @@ A positive control-service proof must show a correctly identified Hailo-10H endp
 A bounded attempt that produces no correlated completion/response, together with a trace showing request bytes, target/doorbell, elapsed timeout, and unchanged/restored device state, is sufficient to fail that tested mechanism and block downstream compute work. It does not prove that every firmware version or every conceivable interface is impossible. H102 already satisfies this tested-path fail condition.
 
 Evidence: docs/smidr/H102_ATTEMPT_RECORD.md.
+
+## Slice 069 — Keep new mailbox experiments blocked (complete)
+
+New mailbox writes remain blocked: there is no current mutating-probe safety case, driver-ownership handoff/restore plan, or new non-invasive signal isolating the control-service issue. The H102 attempt record is already comprehensive evidence for the tested path. A future attempt requires a separate owner-reviewed concrete safety plan before device mutation; this campaign performs none.
