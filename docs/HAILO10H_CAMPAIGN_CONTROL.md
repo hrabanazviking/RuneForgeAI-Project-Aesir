@@ -71,3 +71,9 @@ Evidence crosswalk: docs/HAILO10H_PHASE_D_RECONCILIATION.md.
 Compared GitHub main to docs/cross-cutting-hailo-mission. The feature branch is 47 commits ahead and not behind main; the reported changed-file inventory consists of campaign documentation and the corrected legacy-roadmap notice. No Æsir source change or newer hardware compute proof appears in that comparison. Main remains pinned at 3b2608a3993ddbadaaac5d7799f22966d5d62896.
 
 Limit: this confirms repository history through the observed branch tips; continue checking before future implementation.
+
+## Slice 033 — Review current official Hailo execution documentation (complete)
+
+Current official Hailo documentation reviewed: Hailo GenAI Model Zoo describes Hailo-Ollama on HailoRT; the Hailo Model Zoo documents Dataflow Compiler compilation and HEF output for hardware execution; Raspberry Pi's AI HAT+ 2 LLM guide describes its Hailo GenAI package/Hailo-Ollama path. The reviewed public materials do not document a raw, HEF-free, DFC-free, vendor-runtime-free LLM compute API for Æsir to call. This is a bounded documentation finding, not proof that no private or future interface exists.
+
+Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/hailo-ai/hailo_model_zoo ; https://www.raspberrypi.com/documentation/computers/ai.html
