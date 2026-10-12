@@ -1,7 +1,5 @@
-## Slice 112 — Map model operations only to verified Hailo primitives (complete; none verified)
+## Slice 113 — Record unsupported or unknown operations (complete)
 
-The current evidence inventory contains no operation primitive that has passed a real on-device Hailo-10H execution proof under Æsir’s no-HEF/no-DFC/no-vendor-runtime constraints. Therefore no TinyLlama operation is currently mapped as Hailo-supported. Projection GEMV/GEMM, RMSNorm, RoPE, grouped-query attention, softmax, KV-cache movement, residual/SiLU elementwise work, and output logits all remain **UNVERIFIED ON HAILO**. Host implementation or ARM64 kernel tests do not establish Hailo execution.
+All operations in Slice 112 remain explicitly unsupported/unverified for Æsir-on-Hailo: projection GEMV/GEMM, RMSNorm, RoPE, grouped-query attention, softmax, KV-cache movement, residual/activation elementwise work, and logits projection. “Unsupported” here means no qualifying Æsir/Hailo-10H proof exists; it does not make a claim about the silicon’s theoretical capabilities or other vendor-supported stacks. Do not replace these operations with CPU LLM math, CPU fallback, or host shadow inference. Any future model request must remain fail-closed until every required operation is verified on Hailo.
 
-Mapping rule: promote an operation only after (1) an independently described input/output contract, (2) an evidenced legal chip configuration and submission path, (3) correlated Hailo completion/output, and (4) correctness evidence. Current transport/configuration NO-GO fails prerequisites 2–3. No CPU implementation is being developed or used by this roadmap slice as an inference alternative.
-
-Evidence: Slice 111 inventory; docs/smidr/PHASE_D_GATE.md; docs/plunder/HAILO_CONFIG_SURFACE.md; Slices 107–110 above.
+Evidence: Slices 111–112; docs/smidr/PHASE_D_GATE.md.
