@@ -335,3 +335,7 @@ The test-only host oracle computes the expected 64-lane FP16 vector-add result f
 ## Slice 083 — Specify an artifact-free proof representation (complete; proof remains gated)
 
 The proof representation must use Æsir-owned documented descriptors and raw test buffers, not HEF, HAR, proprietary DFC output, HailoRT objects, or model-serving artifacts. Existing SMIÐR-CFG v1 is only a host-side manifest and is not considered executable until the device gate proves otherwise.
+
+## Slice 084 — Define checksums and retained proof evidence (complete; proof remains gated)
+
+For a future hardware attempt, checksum and preserve exact input bytes, candidate configuration bytes, manifest, expected output, returned device output, and pre/post device identity/state snapshots. A passing result must be reproducible from retained bytes; missing output or mismatched checksums fails the proof.
