@@ -113,16 +113,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 08: Configuration-generation research
 
-- [ ] **Slice 071.** Restate the chip-executable configuration problem independently of the transport problem.
-- [ ] **Slice 072.** Inventory H019 unknown configuration elements and current confidence per element.
-- [ ] **Slice 073.** Reassess whether public sources expose operation encoding or scheduler/configuration semantics.
-- [ ] **Slice 074.** Survey public compiler outputs only where legally and technically permissible; do not invoke DFC.
-- [ ] **Slice 075.** Define a clean-room method for recording externally observed formats without copying source code.
-- [ ] **Slice 076.** Determine what evidence would validate a generated configuration without submitting it to hardware.
-- [ ] **Slice 077.** Assess whether a configuration generator can be technically complete with currently available evidence.
-- [ ] **Slice 078.** Reject undocumented magic bytes and synthetic success claims in generated configurations.
-- [ ] **Slice 079.** Specify a stopping criterion for unbounded reverse engineering under this campaign.
-- [ ] **Slice 080.** Publish a configuration-surface feasibility decision; block execution work if the control/config surfaces remain unknown.
+- [x] **Slice 071.** Restate the chip-executable configuration problem independently of the transport problem.
+- [x] **Slice 072.** Inventory H019 unknown configuration elements and current confidence per element.
+- [x] **Slice 073.** Reassess whether public sources expose operation encoding or scheduler/configuration semantics.
+- [x] **Slice 074.** Survey public compiler outputs only where legally and technically permissible; do not invoke DFC.
+- [x] **Slice 075.** Define a clean-room method for recording externally observed formats without copying source code.
+- [x] **Slice 076.** Determine what evidence would validate a generated configuration without submitting it to hardware.
+- [x] **Slice 077.** Assess whether a configuration generator can be technically complete with currently available evidence.
+- [x] **Slice 078.** Reject undocumented magic bytes and synthetic success claims in generated configurations.
+- [x] **Slice 079.** Specify a stopping criterion for unbounded reverse engineering under this campaign.
+- [x] **Slice 080.** Publish a configuration-surface feasibility decision; block execution work if the control/config surfaces remain unknown.
 
 ## Phase 09: Hailo-only compute proof design
 
