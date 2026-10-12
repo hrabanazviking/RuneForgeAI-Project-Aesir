@@ -375,3 +375,9 @@ Evidence: hailbru/API.md, docs/hailbru/PHASE_B_GATE.md, docs/hailbru/PHASE_C_GAT
 hailbru.discovery.discover enumerates PCI devices through an injectable sysfs root and matches vendor/device IDs rather than hardcoding the observed BDF. PCI identity/config reads and link/power metadata use sysfs/config access. Discovery does not acquire the endpoint or establish BAR/DMA access. BAR mmap and driver bind/unbind operations have root/operator privilege requirements in the documented API.
 
 Evidence: hailbru/discovery.mojo, hailbru/API.md, docs/hailbru/PHASE_B_GATE.md.
+
+## Slice 093 — Document BAR metadata parsing without mapping (complete; execution remains gated)
+
+hailbru.bars.parse_resource reads the kernel sysfs resource table, parses start/end/flags, pairs 64-bit BAR entries, and validates basic shape/size assumptions. Parsing metadata is distinct from opening resource files or mapping BARs. Current physical mappings are privilege-gated; future mappings must be bounds-checked and read-only by default.
+
+Evidence: hailbru/bars.mojo, hailbru/API.md.
