@@ -6,7 +6,7 @@
 
 **Execution model:** 20 phases × 10 slices = exactly 200 slices. Slices are Hailo-only. Hardware or host CPU may perform ordinary orchestration, parsing, tokenization, sampling, and control work, but no slice builds, runs, benchmarks, tests, or falls back to CPU LLM inference. Preserve the project's no-HEF/no-DFC/no-HailoRT-runtime constraint. If a Hailo-only gate is infeasible, record the evidence and stop at a decision point; do not substitute a CPU solution.
 
-**Execution model:** 20 phases × 10 small slices = exactly 200 slices. Complete sequentially where dependencies require it; each slice should end with a reviewable artifact, verified behavior, or recorded decision. The vendor Hailo GenAI path is reference evidence only and does not meet Æsir’s no-HEF/no-proprietary-toolchain/no-vendor-runtime constraints.
+**Slice execution:** Work through the numbered slices in order when their gates are open. Each completed slice must leave a reviewable artifact, verified behavior, or evidence-backed decision. The vendor Hailo GenAI path is reference evidence only and does not meet Æsir’s no-HEF/no-proprietary-toolchain/no-vendor-runtime constraints.
 
 ## Repository-grounded gates
 
@@ -22,7 +22,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 01: Scope and success criteria
 
-- [ ] **Slice 001.** Write AESIR's user-visible mission in one paragraph.
+- [x] **Slice 001.** Record Æsir's documented mission as a local, Mojo-native inference engine whose LLM execution target for this campaign is Hailo-10H only; preserve local model/data control, disclose accelerator provenance, and fail closed when Hailo inference is unavailable. Evidence: `docs/HAILO10H_MISSION.md`.
 - [ ] **Slice 002.** Define the primary interaction loop and target user.
 - [ ] **Slice 003.** List required inputs, outputs, and integrations.
 - [ ] **Slice 004.** Mark every model inference path as Hailo-10H only.
