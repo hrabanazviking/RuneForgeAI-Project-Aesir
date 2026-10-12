@@ -205,3 +205,9 @@ Before any future mapping, HAILBRÚ must validate the resource index, resource s
 The Hailo endpoint currently has no sysfs iommu_group, although /dev/vfio/vfio exists and VFIO_PCI support is present. Therefore the current view does not supply an endpoint VFIO group or establish an IOMMU-backed DMA path. No VFIO binding or IOMMU setting was changed.
 
 Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md.
+
+## Slice 058 — Mark UIO usability as unverified (complete)
+
+The kernel contains uio_pci_generic.ko.xz, but the module is not bound to the Hailo endpoint, and this census does not demonstrate UIO interrupt behavior, a safe DMA model, or Hailo control-command completion. Availability is not capability. No UIO binding or probe was performed.
+
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/smidr/H102_ATTEMPT_RECORD.md.
