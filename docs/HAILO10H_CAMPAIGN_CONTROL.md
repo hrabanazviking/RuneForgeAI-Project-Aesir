@@ -53,3 +53,9 @@ docs/HAILO10H_DECISION_LOG.md is the campaign decision record. It distinguishes 
 If Hailo identity, a permitted execution interface, the selected model representation, or accelerator execution cannot be verified, Æsir returns a specific error and performs no LLM inference. It must not retry through CPU, CUDA, a remote endpoint, or an unapproved vendor service.
 
 Evidence: docs/HAILO10H_INFERENCE_POLICY.md and docs/HAILO10H_NO_CPU_INFERENCE.md.
+
+## Slice 030 — Gate and blocker policy (complete)
+
+Every dependent implementation slice requires evidence-backed GO decisions for safe transport, command completion, and executable Hailo configuration generation. A missing prerequisite marks downstream work BLOCKED; it does not count as a simulated pass, trigger CPU work, or erase the 200-slice plan. The campaign may honestly conclude INCOMPLETE with the blocking evidence named.
+
+Evidence: docs/HAILO10H_ONLY_200_SLICE_ROADMAP.md; docs/smidr/PHASE_D_GATE.md.
