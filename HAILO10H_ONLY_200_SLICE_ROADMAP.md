@@ -186,7 +186,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 - [x] **Slice 126.** Define address, alignment, and size constraints from verified hardware documentation.
 - [x] **Slice 127.** Define cache-coherency assumptions and require hardware evidence before use.
 - [x] **Slice 128.** Define cleanup after cancellation or device removal.
-- [ ] **Slice 129.** Specify transfer benchmarks only after the compute path exists.
+- [x] **Slice 129.** Specify transfer benchmarks only after the compute path exists.
 - [ ] **Slice 130.** Publish data-path contract gated on verified Hailo transport and compute.
 
 ## Phase 14: Æsir Hailo backend integration design
