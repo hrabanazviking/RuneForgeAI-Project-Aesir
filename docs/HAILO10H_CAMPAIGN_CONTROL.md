@@ -155,3 +155,9 @@ Sources: https://github.com/hailo-ai/hailo_model_zoo_genai ; https://github.com/
 The public hailo-10h-llm-compiler project documents Hailo Dataflow Compiler 5.3.0 as a proprietary prerequisite and generates HEF artifacts served through Hailo-Ollama/HailoRT. Its public hardware results therefore do not demonstrate a path compatible with Æsir's current no-DFC/no-HEF/no-vendor-runtime requirements. No code or artifact from that project was imported.
 
 Source: https://git.mitgai.net/l-nmch/hailo-10h-llm-compiler/blob/main/README.md ; https://community.hailo.ai/t/i-compiled-an-llm-for-the-hailo-10h/19685.
+
+## Slice 048 — Record clean-room source, licenses, facts, and unknowns (complete)
+
+Clean-room study log: Hailo official driver repository (GPL-2.0; study-only per repository doctrine), Hailo Model Zoo GenAI (MIT repository but depends on HailoRT and compiled artifacts), official Hailo Model Zoo (DFC/HEF workflow), Raspberry Pi official AI docs, Modular Mojo official requirements/compilation/FFI docs, and public Hailo-10H LLM compiler (MIT code with proprietary DFC requirement). Facts are recorded as requirements and architectural observations only; no upstream source code or distinctive implementation was copied. Unknowns: a supported raw command API, artifact-free executable configuration format, and Pi-specific Mojo runtime validation.
+
+Source inventory paths/links are in docs/HAILO10H_CAMPAIGN_CONTROL.md slices 033–047 and docs/plunder/HAILO_* guides.
