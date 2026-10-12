@@ -211,3 +211,9 @@ Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md.
 The kernel contains uio_pci_generic.ko.xz, but the module is not bound to the Hailo endpoint, and this census does not demonstrate UIO interrupt behavior, a safe DMA model, or Hailo control-command completion. Availability is not capability. No UIO binding or probe was performed.
 
 Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md and docs/smidr/H102_ATTEMPT_RECORD.md.
+
+## Slice 059 — Reject sysfs BAR access as a DMA execution mechanism (complete)
+
+Sysfs resource exposure may support bounded register inspection in some configurations, but it does not itself provide an evidenced DMA allocation/address mapping, interrupt/completion path, or command protocol. Do not treat BAR mmap alone as a viable LLM execution transport. Require separately proven safe DMA and command-completion contracts before considering any mechanism.
+
+Evidence: docs/HAILO10H_ACCESS_MECHANISMS.md; docs/smidr/PHASE_D_GATE.md.
