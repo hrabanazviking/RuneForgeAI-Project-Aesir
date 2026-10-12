@@ -3,12 +3,18 @@
 **Roadmap Slice 007 — provisional latency, throughput, and quality goals**
 
 These are planning hypotheses for a first Hailo-only text-generation profile,
-not achieved Æsir results or a release claim. The reference candidate is
-Qwen2-1.5B-Instruct using a Hailo-10H-compatible artifact and the Hailo-Ollama
-API. Hailo's current GenAI model table reports a 2048-token context, 3.66 s
+not achieved Æsir results or a release claim. Qwen2-1.5B-Instruct is a
+provisional workload reference only; no compiled artifact or Hailo-Ollama/
+HailoRT path is approved for Æsir. Hailo's current GenAI model table reports a 2048-token context, 3.66 s
 load time, 0.32 s time-to-first-token, and 8.06 tokens/s for that model. The
-published table does not establish performance on this exact Pi/AESIR setup;
-all values must be reproduced on the target hardware before they become gates.
+published table reflects Hailo's compiled/runtime path and does not establish
+performance or feasibility for Æsir's native no-HEF path on this exact Pi.
+Values are comparison context only; remeasure using Æsir's authorized Hailo
+path before setting gates.
+
+The hypothesis thresholds below are provisional goals, not extrapolations
+claimed as achieved. If the native path cannot be established, record a Hailo
+feasibility blocker; do not run an LLM on the CPU to fill the gap.
 
 | Measure | Initial hypothesis | Measurement boundary |
 |---|---:|---|
@@ -16,7 +22,7 @@ all values must be reproduced on the target hardware before they become gates.
 | Time to first token | ≤ 500 ms | Fixed short prompt after model is loaded |
 | Decode throughput | ≥ 8 tokens/s | Greedy 128-token response; exclude prompt preparation and rendering |
 | Supported context | 2048 tokens | Only if the exact artifact/runtime combination confirms it |
-| Quality | No regression against a frozen task rubric | Same prompts, template, and generation settings; score on Hailo output only |
+| Quality | No regression against a frozen task rubric | Same prompts and generation settings; score output from Hailo execution only |
 
 Measure each value with the model, artifact hash, runtime version, prompt size,
 Pi/HAT identity, Hailo device evidence, temperature, and power state recorded.

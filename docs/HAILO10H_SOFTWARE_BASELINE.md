@@ -31,12 +31,12 @@ matrix against current Hailo and Raspberry Pi release material.
 
 ## Provisional model candidate
 
-Qwen2-1.5B-Instruct is the initial benchmark candidate because the Hailo GenAI
-model catalog lists a compiled Hailo-10H model, a 2048-token context, and
-compatibility above version 5.1.1. The installed 5.3.0 stack appears version
-compatible by that listing, but the model is not installed locally and no
-inference has been run. Confirm OS compatibility, package compatibility, and
-artifact acceptance before treating it as selected.
+Qwen2-1.5B-Instruct is a provisional workload reference because Hailo lists a
+compiled model and 2048-token context for its own GenAI path. That compiled
+artifact is not approved for Æsir under the current no-HEF constraint. The
+installed 5.3.0 packages and active Hailo-Ollama service are environment facts,
+not approval to use that stack. No model is installed and no Hailo inference
+has been run. A native source-model-to-Hailo execution path remains unproven.
 
 ## Slice 009 acceptance
 
