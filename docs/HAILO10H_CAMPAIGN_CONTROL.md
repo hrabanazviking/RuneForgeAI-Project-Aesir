@@ -411,3 +411,7 @@ Evidence: hailbru/errors.mojo, hailbru/API.md, docs/smidr/H102_ATTEMPT_RECORD.md
 Every future HAILBRÚ acquisition path must release mappings and file descriptors on every exit; release DMA allocations only after device completion or abort/reset is proven; restore prior driver ownership only through a reviewed safe procedure; preserve errors without claiming restored state until observed; and leave the device in a known documented state. Current campaign takes no such ownership.
 
 Evidence: hailbru/API.md and docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 054, 088.
+
+## Slice 099 — Prepare transport acceptance criteria behind GO (complete; execution remains gated)
+
+Before any HAILBRÚ transport implementation is treated as usable, require evidence-backed device identity, exclusive safe ownership, valid BAR bounds, safe DMA address mapping, real interrupt or correlated completion, firmware-ready handling, timeout/cleanup proof, and restore-state evidence. The command round-trip must succeed before configuration or compute work starts. Current NO-GO blocks implementation on the live target.
