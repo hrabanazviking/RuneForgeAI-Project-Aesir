@@ -249,8 +249,7 @@ struct Inference:
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
-        """
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
+        """H161/H174 — chunked prefill orchestration. chunk <= 1 behaves
         exactly like prefill(). H174 replaces the chunk interior with
         batched GEMM computation; the H161 baseline processes each chunk
         token-by-token (bit-identical to prefill by construction)."""
@@ -277,8 +276,7 @@ struct Inference:
         mut self, tokens: List[Int], chunk: Int
     ) raises -> Pointer[Float16, MutUntrackedOrigin]:
         raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
-        """
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")H174 — chunked prefill: process up to `chunk` tokens with batched
+        """H174 — chunked prefill: process up to `chunk` tokens with batched
         GEMMs (compute-bound) for the projections and FFN, per-token
         attention identical to forward(). Returns the last token's logits.
 
@@ -464,8 +462,7 @@ struct Inference:
 
     def forward(mut self, token: Int) raises -> Pointer[Float16, MutUntrackedOrigin]:
         raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")
-        """
-        raise Error("CpuInferenceProhibited: Project A.E.S.I.R. LLM inference is Hailo-10H-only; CPU inference is disabled until a Hailo backend is available.")One decode step. Returns pointer to 32000 logits (FP16).
+        """One decode step. Returns pointer to 32000 logits (FP16).
 
         H136 fail-closed guards: unloaded model, token id out of range,
         and KV-cache capacity are all hard errors — never silent.
