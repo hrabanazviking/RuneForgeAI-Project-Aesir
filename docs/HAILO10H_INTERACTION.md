@@ -1,38 +1,29 @@
-# Hailo-10H interaction loop
+# Æsir on Hailo-10H — user and interaction loop
 
-**Roadmap Slice 002 — target user and primary loop**
+**Roadmap Slice 002 — complete**
 
-## Target user
+## Primary user
 
-The first user is the Æsir keeper/developer operating the supported Raspberry
-Pi 5 and Hailo-10H installation locally. The initial workflow is a private,
-single-user text-generation session, entered through Æsir's existing local CLI
-or local service interface. A browser UI, voice workflow, multi-user service,
-and remote access are not prerequisites for proving this loop.
+The primary user is the local Æsir keeper/operator: the person running Project Æsir on their own machine, selecting a supported local model, and submitting prompts through Æsir's CLI or local server interface. This follows the repository's local-runtime mission and architecture. The operator is not assumed to be a general consumer using an unspecified assistant product.
 
-## Primary interaction loop
+## Intended interaction loop
 
-1. The user starts Æsir and selects a model that has a verified Æsir-compatible
-   Hailo-10H execution path. The path must honor the no-HEF/no-DFC/no-vendor-
-   runtime project constraints.
-2. Æsir validates the model/runtime/device combination and reports the active
-   model and Hailo-10H backend.
-3. The user submits a text prompt and generation limits.
-4. Æsir performs request validation and non-LLM orchestration on the Pi, then
-   submits LLM inference to Hailo-10H through Æsir's authorized native path.
-5. Æsir returns generated text, preferably as a stream when the chosen backend
-   supports streaming, and reports completion or a specific error.
-6. If Hailo-10H is unavailable or inference fails, Æsir stops with an explicit
-   error; it does not route the request to a Pi CPU LLM backend.
+1. The operator starts Æsir and selects a locally available model that has a verified Hailo-10H execution path.
+2. Æsir validates the request and model metadata, reads the model/tokenizer data, and prepares the prompt on the host.
+3. Æsir submits every LLM computation required for generation to the Hailo-10H. Host code may perform request control, tokenization, sampling, and response formatting; it must not execute LLM layers or silently substitute CPU inference.
+4. Æsir receives token/results from the accelerator, decodes and formats the response, and returns it to the caller through the CLI or local server.
+5. Æsir reports model/device provenance and makes failures visible. If Hailo is absent, unsupported, or unverified, it refuses inference with an actionable error.
 
-## Slice 002 acceptance
+## Evidence boundary
 
-- The initial target user and single-user local scope are written down.
-- The interaction's request, accelerator execution, response, and failure
-  steps are explicit.
-- CLI/local service are identified as first interface candidates based on
-  current repository capabilities; choosing the canonical entry point remains
-  open. The serving backend must preserve the Hailo campaign constraints in
-  `HAILO10H_ARCHITECTURAL_CONSTRAINTS.md`.
-- Every LLM inference step is assigned to Hailo-10H, with CPU LLM fallback
-  explicitly forbidden.
+The repository architecture documents a local CLI/server-to-engine flow, model loading, tokenization, generation, and output streaming. Hailo dispatch is not implemented: the Hailo enum is reserved, the NPU path is missing, and the prior H111 gate is NO-GO. Therefore steps 1–5 describe the target interaction contract, not a currently working Hailo journey. No CPU LLM path is introduced or authorized by this slice.
+
+## Acceptance
+
+- Primary user is grounded in the local-engine/operator model from repository documentation.
+- The request → host preparation → Hailo-only LLM execution → response loop is explicit.
+- Missing or unverified Hailo inference fails closed.
+- Intended behavior is distinguished from current capability.
+- No CPU LLM inference, CPU fallback, or product assumption from the discarded generic roadmap is included.
+
+Evidence reviewed: `AGENT_ONBOARDING.md`, `ENGINEERING_GOALS_AND_BOUNDARIES.md`, `ARCHITECTURE.md`, `CAPABILITY_LEDGER.md`, and `docs/smidr/PHASE_D_GATE.md`.
