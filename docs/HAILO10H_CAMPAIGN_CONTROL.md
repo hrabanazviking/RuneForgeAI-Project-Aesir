@@ -327,3 +327,7 @@ Evidence: docs/plunder/HAILO_CONFIG_SURFACE.md, docs/smidr/PHASE_D_GATE.md, docs
 ## Slice 081 — Define the minimal Hailo compute operation (complete; proof remains gated)
 
 Proposed first proof: one length-64 FP16 vector-add operation, matching the existing H104 host-side candidate. Define exact input vectors, elementwise output, buffer lengths, dtype, and zero-tolerance bitwise output criterion. This is a minimal accelerator compute proof only, not an LLM capability. It remains unexecutable until transport and configuration prerequisites pass.
+
+## Slice 082 — Define an independent host oracle for the operation (complete; proof remains gated)
+
+The test-only host oracle computes the expected 64-lane FP16 vector-add result from pinned input bit patterns. Its only role is comparison against returned Hailo output; it must never accept prompts, load a model, run transformer operations, or generate LLM tokens. Keep oracle provenance and expected values independent of the candidate config generator.
