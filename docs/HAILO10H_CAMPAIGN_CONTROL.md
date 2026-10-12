@@ -107,3 +107,9 @@ Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_OS_SOFTWARE_IDENT
 ## Slice 039 — Compare current evidence against H102/H111 (complete)
 
 Current observations confirm the same Hailo-10H identity and kernel family as historic campaign records, but do not demonstrate command completion. The historical attempt's exact firmware build is not pinned. The upstream v5.4 firmware-control change is potentially relevant but not proven to alter the direct command mailbox or resolve its silence. The old failure remains valid for the attempt as run; no current result supersedes its NO-GO gate.
+
+## Slice 040 — Publish feasibility verdict and block dependent work (complete)
+
+Verdict for Æsir's current constrained path: **NO-GO / BLOCKED**. No documented, evidence-backed route currently provides both Hailo command completion and executable model configuration while preserving no-HEF/no-DFC/no-HailoRT-runtime requirements. Keep model execution and integration slices blocked. The v5.4 integrated firmware-control framing change is a bounded research lead for future owner-reviewed investigation, not permission to update system packages or alter constraints. No CPU LLM branch is available.
+
+Evidence: docs/HAILO10H_PHASE_D_RECONCILIATION.md, docs/HAILO10H_ACCESS_MECHANISMS.md, docs/HAILO10H_ARCHITECTURAL_CONSTRAINTS.md, and upstream release comparison linked in Slice 034.
