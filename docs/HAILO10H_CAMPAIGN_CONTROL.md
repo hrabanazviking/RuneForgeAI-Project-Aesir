@@ -97,3 +97,9 @@ Read-only device identity, current driver/firmware versions, PCI link state, nod
 ## Slice 037 — Bound a safe revalidation plan (complete)
 
 Revalidation is limited to (a) compare public docs/source changes under clean-room policy, (b) read the current device/software identity and sysfs access state, and (c) compare those facts with H102/H111. No unbind, rebind, reset, firmware upload, or raw mailbox write is in this plan. Any future mutating device experiment requires a separate safety case with exact state-restoration steps before execution; this slice grants no such authorization.
+
+## Slice 038 — Complete read-only current-state probes (complete)
+
+Executed read-only commands to record OS/kernel/firmware identity, PCI BDF/device ID and driver, Hailo device architecture/firmware, PCI link speed/width and maximum, IOMMU group presence, device nodes, loaded modules, UIO module availability, host memory, Pi temperature, and throttling flag. The probes made no writes to device resources and ran no LLM inference.
+
+Evidence: docs/HAILO10H_HOST_DEVICE_IDENTITY.md, docs/HAILO10H_OS_SOFTWARE_IDENTITY.md, docs/HAILO10H_ACCESS_MECHANISMS.md.
