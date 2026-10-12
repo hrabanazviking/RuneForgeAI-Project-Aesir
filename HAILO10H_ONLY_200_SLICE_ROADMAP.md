@@ -191,7 +191,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 14: Æsir Hailo backend integration design
 
-- [ ] **Slice 131.** Inspect existing Æsir backend enums, configuration validators, and dispatch points.
+- [x] **Slice 131.** Inspect existing Æsir backend enums, configuration validators, and dispatch points.
 - [ ] **Slice 132.** Document each missing connection from model request to Hailo submission and result.
 - [ ] **Slice 133.** Design a Hailo-only backend interface without CPU/CUDA alternatives in the campaign.
 - [ ] **Slice 134.** Define startup readiness as Hailo device plus verified Hailo operation capability.
