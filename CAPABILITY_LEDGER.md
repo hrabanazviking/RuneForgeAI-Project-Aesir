@@ -11,8 +11,8 @@ interfaces. None of those supersede this ledger's present-tense capability
 statuses.
 
 The ledger intentionally separates narrow working primitives from the broader
-systems they may eventually support. A `verified` CPU fallback does not verify a
-GPU. A tested JSON formatter does not verify an HTTP API. A deterministic local
+systems they may eventually support. A verified host primitive does not verify Hailo hardware. A tested JSON
+formatter does not verify an HTTP API. A deterministic local
 simulation can be well tested and still remain `simulated`.
 
 ## 1. Status Contract
