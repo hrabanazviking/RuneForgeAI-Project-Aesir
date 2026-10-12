@@ -293,3 +293,9 @@ Sources: https://github.com/hailo-ai/hailo_model_zoo ; https://github.com/hailo-
 The publicly documented community LLM compiler requires proprietary DFC 5.3.0 and creates HEF output; official Model Zoo likewise exposes compiled HEFs. Such outputs are outside this campaign's no-HEF rule and do not provide a compliant configuration artifact. No compiled artifact was downloaded, unpacked, or used for reverse engineering in this slice. Any later survey must first satisfy source license, project clean-room, and owner-scope rules.
 
 Evidence: docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 034, 046–048; public project README linked in Slice 047.
+
+## Slice 075 — Specify clean-room configuration research method (complete)
+
+For any future permissible configuration research: record the public source, version, license, and exact question before study; use designated docs/plunder/HAILO_* notes; record facts and confidence without copying source or proprietary artifacts; keep implementation authors separated from source text where practical; obtain independent validation; and stop when evidence is insufficient or constraints would be crossed. No raw vendor source or HEF payload is added to this repository by this slice.
+
+Evidence: ENGINEERING_GOALS_AND_BOUNDARIES.md, DEPENDENCY_POLICY.md, and repository clean-room Hailo study docs.
