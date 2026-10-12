@@ -1,8 +1,8 @@
 # Hailo-10H request and response boundary
 
-**Roadmap Slice 003 — initial inputs, outputs, and integrations**
+**Roadmap Slice 003 — complete: initial inputs, outputs, and integrations**
 
-## Initial inputs
+## Initial inputs (target contract; not yet a Hailo capability claim)
 
 - A user-selected model identifier that resolves to a source model format
   supported by Æsir and a verified native Hailo-10H execution configuration.
