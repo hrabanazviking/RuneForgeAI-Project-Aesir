@@ -369,3 +369,9 @@ Status: BLOCKED. H102 did not establish command completion; H019 still marks man
 HAILBRÚ contains Mojo modules for sysfs discovery, PCI config/BAR metadata, BAR mappings/registers, DMA allocation, VFIO/UIO mechanisms, interrupts, firmware checks/boot, reset, and device lifecycle. Its public API explicitly marks important VFIO/UIO DMA, device IRQ, and firmware upload paths F3-banked or fail-closed. Phase-B is NO-GO and Phase-D raw command submission failed. Existing HAILBRÚ code is transport/bring-up scaffolding with specific measured sub-capabilities; it is not a working Æsir inference backend.
 
 Evidence: hailbru/API.md, docs/hailbru/PHASE_B_GATE.md, docs/hailbru/PHASE_C_GATE.md, docs/smidr/PHASE_D_GATE.md.
+
+## Slice 092 — Document device discovery and permissions (complete; execution remains gated)
+
+hailbru.discovery.discover enumerates PCI devices through an injectable sysfs root and matches vendor/device IDs rather than hardcoding the observed BDF. PCI identity/config reads and link/power metadata use sysfs/config access. Discovery does not acquire the endpoint or establish BAR/DMA access. BAR mmap and driver bind/unbind operations have root/operator privilege requirements in the documented API.
+
+Evidence: hailbru/discovery.mojo, hailbru/API.md, docs/hailbru/PHASE_B_GATE.md.
