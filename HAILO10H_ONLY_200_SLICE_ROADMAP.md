@@ -126,16 +126,16 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 ## Phase 09: Hailo-only compute proof design
 
-- [ ] **Slice 081.** Define the smallest useful Hailo compute operation and its exact input/output contract.
-- [ ] **Slice 082.** Define an independent host-side oracle strictly for verifying Hailo results, never for LLM inference.
-- [ ] **Slice 083.** Specify an artifact-free test representation consistent with the no-HEF rule.
-- [ ] **Slice 084.** Specify how proof inputs and outputs will be checksummed and retained.
-- [ ] **Slice 085.** Define completion, timeout, device-health, and result-integrity evidence required for a pass.
-- [ ] **Slice 086.** Define repeatability requirements for an operation that has actually executed on the accelerator.
-- [ ] **Slice 087.** Define how telemetry will prove silicon execution rather than host-side emulation.
-- [ ] **Slice 088.** Define the safety checks and restore procedure before any mutating device proof.
-- [ ] **Slice 089.** Write go/no-go criteria for the first real Hailo operation; no CPU fallback branch.
-- [ ] **Slice 090.** Keep the first compute proof BLOCKED until transport and configuration generation both have evidence-backed GO decisions.
+- [x] **Slice 081.** Define the smallest useful Hailo compute operation and its exact input/output contract.
+- [x] **Slice 082.** Define an independent host-side oracle strictly for verifying Hailo results, never for LLM inference.
+- [x] **Slice 083.** Specify an artifact-free test representation consistent with the no-HEF rule.
+- [x] **Slice 084.** Specify how proof inputs and outputs will be checksummed and retained.
+- [x] **Slice 085.** Define completion, timeout, device-health, and result-integrity evidence required for a pass.
+- [x] **Slice 086.** Define repeatability requirements for an operation that has actually executed on the accelerator.
+- [x] **Slice 087.** Define how telemetry will prove silicon execution rather than host-side emulation.
+- [x] **Slice 088.** Define the safety checks and restore procedure before any mutating device proof.
+- [x] **Slice 089.** Write go/no-go criteria for the first real Hailo operation; no CPU fallback branch.
+- [x] **Slice 090.** Keep the first compute proof BLOCKED until transport and configuration generation both have evidence-backed GO decisions.
 
 ## Phase 10: Native Hailo transport prerequisites
 
