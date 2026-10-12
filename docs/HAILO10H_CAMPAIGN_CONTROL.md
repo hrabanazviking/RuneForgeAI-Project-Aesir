@@ -1,7 +1,13 @@
-## Slice 117 — Map attention and KV-cache only to measured Hailo support (complete; none measured)
+## Slice 118 — Map prefill/decode dependencies without host LLM math (complete; blocked)
 
-TinyLlama’s source uses grouped-query attention (32 query heads to 4 key/value heads), RoPE on query/key vectors, per-token KV-cache writes, scaled dot-product scores, softmax, and weighted value accumulation. No corresponding Hailo-10H operation sequence, memory residency contract, cache capacity behavior, or measured attention primitive is established for Æsir. The H111 NO-GO prevents a legitimate on-device mapping, and public product-level memory/TOPS claims do not fill these operation-level gaps.
+The existing TinyLlama path divides into:
 
-Status: attention and KV-cache support on Hailo are **UNVERIFIED**. Do not implement a host-side attention substitute as model inference. Revisit only when transport, compute configuration, memory semantics, and operation proof gates pass.
+- **Host preparation:** parse model metadata and weights, tokenize prompt, allocate request/session bookkeeping. These are orchestration and data-preparation steps; they do not provide a Hailo model execution path.
+- **Prefill model computation:** for each layer, normalization → Q/K/V projections → RoPE → attention score/softmax/value aggregation → output projection → residual → normalization → FFN gate/up projections → activation/gating → down projection → residual; then final normalization and vocabulary projection.
+- **Decode model computation:** repeat the layer computation for the current token, with KV-cache reads/writes and one-token projections, then vocabulary projection; a sampler chooses the next token from logits.
 
-Evidence: armvegr/infer.mojo; armvegr/kv_cache.mojo; docs/plunder/HAILO_CONFIG_SURFACE.md; docs/smidr/PHASE_D_GATE.md; Slice 114.
+All model arithmetic in prefill and decode must execute on Hailo for this campaign. There is no verified operation/configuration/transport set to realize the chains; thus the chain is a requirements map only, not an implementation plan that may silently substitute host math. Tokenization, sampling, and orchestration may remain host responsibilities only after valid Hailo logits exist.
+
+Dependency result: model mapping and implementation remain BLOCKED by Slices 107–110. No model was run.
+
+Evidence: armvegr/infer.mojo; Slices 111–117; docs/smidr/PHASE_D_GATE.md.
