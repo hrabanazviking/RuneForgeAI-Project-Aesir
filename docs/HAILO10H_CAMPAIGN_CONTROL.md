@@ -405,3 +405,9 @@ Evidence: hailbru/API.md, hailbru/uio.mojo, docs/HAILO10H_ACCESS_MECHANISMS.md.
 Transport-facing error categories include absent/multiple device, bad sysfs/BDF/identity, mechanism unavailable, privilege required, mapping failure, DMA/IOMMU failure, IRQ timeout, firmware missing/corrupt/not-ready, removal, and command timeout/invalid response. Unknown status, unsupported mechanism, or failed identity check must fail closed before model execution. Existing HAILBRÚ names remain the source where available; no Hailo inference success code is defined here.
 
 Evidence: hailbru/errors.mojo, hailbru/API.md, docs/smidr/H102_ATTEMPT_RECORD.md.
+
+## Slice 098 — Define cleanup invariants for future transport (complete; execution remains gated)
+
+Every future HAILBRÚ acquisition path must release mappings and file descriptors on every exit; release DMA allocations only after device completion or abort/reset is proven; restore prior driver ownership only through a reviewed safe procedure; preserve errors without claiming restored state until observed; and leave the device in a known documented state. Current campaign takes no such ownership.
+
+Evidence: hailbru/API.md and docs/HAILO10H_CAMPAIGN_CONTROL.md Slices 054, 088.
