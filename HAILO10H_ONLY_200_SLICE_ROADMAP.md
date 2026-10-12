@@ -2,19 +2,19 @@
 
 **Goal:** make Project AESIR reliably useful with every LLM inference executed on the Hailo-10H accelerator. The Raspberry Pi CPU may run the operating system, AESIR orchestration, UI, tokenization, storage, and other non-LLM support code; it must never run an LLM inference path or fallback.
 
-**Repository baseline:** Project Æsir is an experimental native Mojo LLM inference engine. Its Hailo design intent is local Hailo-10H inference through a pure-Mojo path, with no HEF, proprietary Dataflow Compiler, or vendor inference runtime dependency. The codebase currently has a reserved `HAILO_10` enum but no Hailo execution dispatch; the prior H111 Phase-D gate is NO-GO after documented mailbox silence. The machine census and campaign evidence are recorded in `docs/HAILO10H_*` and `docs/smidr/PHASE_D_GATE.md`.
+**Repository baseline:** Project Æsir is an experimental Mojo LLM application with existing CPU/CUDA paths that are prohibited for this campaign. Its Hailo enum is reserved and direct Hailo dispatch is not implemented. H111 records a historical raw-mailbox NO-GO; that does not rule out the installed HailoRT GenAI API. The machine currently has HailoRT 5.3.0 and a positively identified Hailo-10H. The implementation target is an in-process Æsir-to-HailoRT GenAI integration using a Hailo-10H-compatible compiled model. Hailo-Ollama and any other inference proxy/service are explicitly excluded.
 
-**Execution model:** 20 phases × 10 slices = exactly 200 slices. Slices are Hailo-only. Hardware or host CPU may perform ordinary orchestration, parsing, tokenization, sampling, and control work, but no slice builds, runs, benchmarks, tests, or falls back to CPU LLM inference. Preserve the project's no-HEF/no-DFC/no-HailoRT-runtime constraint. If a Hailo-only gate is infeasible, record the evidence and stop at a decision point; do not substitute a CPU solution.
+**Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Use the direct in-process HailoRT GenAI API and compatible Hailo model artifacts. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
-**Slice execution:** Work through the numbered slices in order when their gates are open. Each completed slice must leave a reviewable artifact, verified behavior, or evidence-backed decision. The vendor Hailo GenAI path is reference evidence only and does not meet Æsir’s no-HEF/no-proprietary-toolchain/no-vendor-runtime constraints.
+**Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the caller and owner of the inference session while HailoRT executes the full LLM pipeline on Hailo-10H. Keep the runtime boundary in-process; Hailo-Ollama is not the target.
 
 ## Repository-grounded gates
 
 - Prior H111 is **NO-GO**: H102 recorded no mailbox completion on either documented doorbell despite the listed hardening attempts; H105–H110 were blocked. See `docs/smidr/PHASE_D_GATE.md` and `docs/smidr/H102_ATTEMPT_RECORD.md`.
 - The current machine census is in `docs/HAILO10H_ACCESS_CENSUS.md`; it is an observation snapshot, not permission to unbind/reset/reflash the device.
 - Current Æsir Hailo support is not an inference backend: the Hailo enum is reserved and NPU dispatch remains missing. Confirm against `CAPABILITY_LEDGER.md` and code before implementation.
-- Official Hailo GenAI documentation may be consulted for current facts, but its HEF/DFC/HailoRT requirements do not satisfy this campaign's architecture. Do not install or invoke those tools as a workaround.
-- A technical NO-GO blocks dependent slices. The roadmap still contains 200 planned slices, but blocked items remain blocked until new Hailo evidence or an explicit owner-approved architecture decision changes the constraints.
+- Official HailoRT GenAI documentation and installed headers define the supported direct execution path. Keep model/runtime versions matched and record licensing, provenance, and compatibility.
+- A failed probe triggers diagnosis and a concrete next attempt (supported model/runtime pair, corrected integration, or supported host profile); it does not authorize CPU inference or a proxy substitution.
 
 ## Non-negotiable acceptance rule
 
@@ -50,9 +50,9 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 - [x] **Slice 021.** Record the owner-approved Hailo-only mission and explicitly prohibit Pi CPU LLM work.
 - [x] **Slice 022.** Record pure Mojo runtime policy and Python-test-only boundary from project doctrine.
-- [x] **Slice 023.** Record no-HEF, no-DFC, and no-vendor-inference-runtime requirements as campaign invariants.
+- [x] **Slice 023.** Record the Hailo-10H-only execution invariant; select direct in-process HailoRT GenAI as the integration route and exclude Hailo-Ollama.
 - [x] **Slice 024.** Record clean-room requirements for any vendor driver/runtime study, including license gate and provenance.
-- [x] **Slice 025.** Mark HailoRT/model-zoo/Ollama examples as comparison evidence, not an approved Æsir architecture.
+- [x] **Slice 025.** Approve official HailoRT GenAI APIs and compatible Hailo model artifacts for direct Æsir integration; explicitly prohibit inference proxies including Hailo-Ollama.
 - [x] **Slice 026.** Define permitted host responsibilities: control plane, tokenizer, sampler, and data movement only.
 - [x] **Slice 027.** Define prohibited execution paths: CPU LLM, CPU fallback, CPU shadow inference, CUDA LLM, and cloud inference.
 - [x] **Slice 028.** Create a decision log that distinguishes technical evidence from owner choices.
@@ -193,23 +193,23 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 - [x] **Slice 131.** Inspect existing Æsir backend enums, configuration validators, and dispatch points.
 - [x] **Slice 132.** Document each missing connection from model request to Hailo submission and result.
-- [ ] **Slice 133.** Design a Hailo-only backend interface without CPU/CUDA alternatives in the campaign.
-- [ ] **Slice 134.** Define startup readiness as Hailo device plus verified Hailo operation capability.
-- [ ] **Slice 135.** Define model loading so host parsing prepares tensors but does not execute LLM layers.
-- [ ] **Slice 136.** Define how unsupported operations fail with a named Hailo capability error.
-- [ ] **Slice 137.** Define sampling and output assembly on the host as non-LLM orchestration only.
-- [ ] **Slice 138.** Specify runtime evidence attached to each generated response for accelerator provenance.
-- [ ] **Slice 139.** Specify test seams that cannot report simulated Hailo success as hardware proof.
-- [ ] **Slice 140.** Publish a backend integration design; keep code implementation blocked until gate GO.
+- [ ] **Slice 133.** Add a direct in-process HailoRT GenAI backend boundary for Æsir; ensure it cannot dispatch CPU/CUDA inference.
+- [ ] **Slice 134.** Implement Hailo-10H discovery and startup readiness through HailoRT; expose actionable diagnostics.
+- [ ] **Slice 135.** Load a version-matched Hailo GenAI model artifact into HailoRT and establish session ownership/lifetime.
+- [ ] **Slice 136.** Map HailoRT errors to typed Æsir errors and implement retry/recovery without changing inference device.
+- [ ] **Slice 137.** Pass prompts and generation controls through the direct GenAI API; keep model inference on Hailo.
+- [ ] **Slice 138.** Attach runtime, device, model, and execution-provenance evidence to each response.
+- [ ] **Slice 139.** Add a hardware-integration seam while distinguishing mocks from actual Hailo execution evidence.
+- [ ] **Slice 140.** Complete a real direct-backend inference smoke run on the attached Hailo-10H and record output and device evidence.
 
 ## Phase 15: First model feasibility
 
 - [ ] **Slice 141.** List Æsir's currently supported model formats and architecture families from repository evidence.
-- [ ] **Slice 142.** Select one candidate model architecture for Hailo mapping, without approving a vendor HEF path.
+- [ ] **Slice 142.** Select the first Hailo-10H GenAI catalog model with an artifact compatible with installed HailoRT.
 - [ ] **Slice 143.** Record model license, revision, tokenizer, and architecture metadata.
 - [ ] **Slice 144.** Estimate accelerator memory needs from documented capacity; label estimates rather than measurements.
-- [ ] **Slice 145.** Define conversion-free or project-approved input representation for candidate weights.
-- [ ] **Slice 146.** Check whether model quantization needed by Hailo can be produced without prohibited tooling.
+- [ ] **Slice 145.** Pin the official Hailo model artifact, tokenizer, source, integrity digest, and license metadata.
+- [ ] **Slice 146.** Verify model artifact/runtime compatibility; if it fails, select the next supported artifact/version pair and continue.
 - [ ] **Slice 147.** Map every model layer to the operation coverage matrix.
 - [ ] **Slice 148.** Reject the model candidate if any required op or configuration format is unverified.
 - [ ] **Slice 149.** Document what new Hailo capabilities would be needed to revisit rejected candidates.
@@ -277,6 +277,6 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 - [ ] **Slice 196.** Create regression checks for Hailo firmware and driver changes using supported probes.
 - [ ] **Slice 197.** Revalidate every accelerator proof after a material Hailo software update.
 - [ ] **Slice 198.** Track upstream Hailo documentation and research for compliant raw-execution interfaces.
-- [ ] **Slice 199.** If the no-HEF/no-DFC path remains blocked, publish INCOMPLETE with the exact technical and owner decision needed.
-- [ ] **Slice 200.** Revise the next roadmap only from new Hailo evidence or an explicit owner-approved architecture change.
+- [ ] **Slice 199.** Close remaining direct HailoRT GenAI integration defects; preserve Hailo-only inference and no-proxy rules.
+- [ ] **Slice 200.** Publish the verified Æsir Hailo-10H release profile, measured inference evidence, and next Hailo-targeted improvements.
 

@@ -63,9 +63,11 @@ def _require_hailo_only_inference(
         raise Error(
             "HailoOnlyBackendRequired: GPU LLM inference is outside this mission"
         )
+    # This legacy GGUF tensor path is not the HailoRT GenAI session. Refuse
+    # that mismatched model representation rather than executing its kernels.
     raise Error(
-        "HailoUnavailable: Hailo-10 LLM execution is not implemented; "
-        "CPU fallback is disabled"
+        "ModelFormatNotSupported: the GGUF transformer path cannot execute "
+        "on Hailo-10H; use the direct Hailo GenAI artifact backend"
     )
 
 struct TransformerBlock(Copyable):

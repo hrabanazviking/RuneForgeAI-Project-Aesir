@@ -1,5 +1,7 @@
 # Hailo-10H component boundaries
 
+**Active correction (2026-10-12):** Æsir calls HailoRT GenAI directly in-process; the complete LLM pipeline executes on Hailo-10H. Compatible Hailo artifacts are permitted. Hailo-Ollama and all inference proxies are excluded. Historical no-HEF/no-DFC/no-vendor-runtime language below is superseded. CPU LLM execution remains prohibited.
+
 **Roadmap Slice 006 — complete: host and accelerator responsibilities**
 
 | Component | Owns | Must not do |

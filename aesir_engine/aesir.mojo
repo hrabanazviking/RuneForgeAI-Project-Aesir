@@ -71,9 +71,12 @@ def validate_runtime_backend_config(
         raise Error(
             "HailoOnlyBackendRequired: GPU inference is outside the Hailo-10 mission"
         )
+    # The runnable HailoRT GenAI integration is owned by the direct backend
+    # session. This GGUF TransformerBlock engine cannot dispatch Hailo layers.
     raise Error(
-        "HailoUnavailable: Hailo-10 LLM execution is not implemented; "
-        "CPU fallback is disabled"
+        "ModelFormatNotSupported: the Hailo-10H GenAI backend requires a "
+        "Hailo model artifact and direct GenAI session; GGUF layer execution "
+        "is not routed to CPU"
     )
 
 

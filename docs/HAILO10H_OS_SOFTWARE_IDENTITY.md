@@ -15,9 +15,9 @@ These are live identity/version observations only. The specific Hailo GenAI pack
 
 ## Official platform guidance comparison
 
-Raspberry Pi's current AI software documentation says its supported Pi 5 AI setup uses 64-bit Raspberry Pi OS Trixie. Its AI HAT+ 2 LLM route installs the Hailo GenAI Model Zoo and Hailo Ollama stack, while the AI HAT+ 2 base software prerequisites include Hailo driver/firmware and HailoRT. That documented vendor route conflicts with Æsir's current no-HEF/no-DFC/no-vendor-runtime architecture and is not being adopted.
+Raspberry Pi's current AI software documentation describes a Trixie-based vendor workflow. Æsir's direct in-process HailoRT GenAI route is separately verified on this host's Bookworm installation; do not treat Hailo-Ollama as Æsir's target or upgrade the OS absent a concrete incompatibility.
 
-The target currently runs Debian 12 Bookworm, not Raspberry Pi OS Trixie. This is a compatibility gap against current Raspberry Pi guidance for the supported vendor AI workflow. It does **not** establish that the project's independent native Mojo path is unsupported, and this slice makes no OS change recommendation until Mojo/Hailo feasibility and project policy are evaluated.
+The target currently runs Debian 12 Bookworm and completed a direct HailoRT GenAI generation with the installed 5.3.0 stack and matching model artifact. Preserve this exact host profile in compatibility evidence.
 
 ## Sources
 

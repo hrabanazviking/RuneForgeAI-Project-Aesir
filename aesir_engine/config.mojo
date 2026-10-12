@@ -46,7 +46,7 @@ struct AesirConfig:
     in particular, hardware and experimental values do not activate execution.
     """
 
-    var acceleration_backend: String  # "auto", "cuda", "metal", "intel", "amd", "npu", "cpu", "max"
+    var acceleration_backend: String  # includes explicit "hailo10h" direct GenAI backend
     var target_npu: String  # "auto", "hailo10", "hailo8", "hexagon", "ane", "intel_npu", "arm_neon"
     var skaldbrodir_enabled: Bool  # Doom Loop Annihilation Protocol
     var thinking_enabled: Bool  # Thought token generation & suppression toggle
@@ -400,7 +400,7 @@ struct ConfigJSONParser:
             if (
                 value != "auto" and value != "cpu" and value != "cuda"
                 and value != "metal" and value != "intel" and value != "amd"
-                and value != "npu" and value != "max"
+                and value != "npu" and value != "hailo10h" and value != "max"
             ):
                 raise Error("invalid acceleration_backend: " + value)
             self.config.acceleration_backend = value

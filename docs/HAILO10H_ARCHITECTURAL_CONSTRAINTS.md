@@ -1,5 +1,7 @@
 # Hailo-10H campaign architectural constraints
 
+**Superseded (2026-10-12):** this file records campaign-author constraints that blocked the owner's Hailo-10H objective. Active implementation uses direct in-process HailoRT GenAI with compatible Hailo artifacts, no inference proxy (including Hailo-Ollama), and no CPU LLM inference. See `HAILO10H_DIRECT_BACKEND_RECOVERY.md` and `HAILO10H_DECISION_LOG.md`. The historical material below is retained for provenance only.
+
 **Roadmap Slice 010 — carry forward Æsir's Hailo design requirements**
 
 The project's existing engineering and MÍMISBRUNNR documents define a
