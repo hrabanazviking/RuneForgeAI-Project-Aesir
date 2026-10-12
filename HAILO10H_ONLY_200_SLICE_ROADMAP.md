@@ -180,7 +180,7 @@ All LLM model execution must be demonstrated on Hailo-10H with runtime/device ev
 
 - [x] **Slice 121.** Define host/device tensor ownership transitions around verified Hailo operations.
 - [x] **Slice 122.** Specify transfer integrity checks and evidence counters.
-- [ ] **Slice 123.** Specify bounded staging memory without copying inference compute onto the host.
+- [x] **Slice 123.** Specify bounded staging memory without copying inference compute onto the host.
 - [ ] **Slice 124.** Define synchronization needed between transfer and accelerator completion.
 - [ ] **Slice 125.** Define behavior for partial transfers and device timeouts.
 - [ ] **Slice 126.** Define address, alignment, and size constraints from verified hardware documentation.
