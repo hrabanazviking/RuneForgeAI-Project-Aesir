@@ -399,3 +399,9 @@ Evidence: hailbru/irq.mojo, hailbru/API.md, docs/hailbru/PHASE_B_GATE.md, docs/s
 The public HAILBRÚ API has no mutable globals and passes architecture/state explicitly, but shared mutable registries require caller locking. Device ownership is a separate exclusive resource: the current endpoint is bound to hailo1x, and a future raw transport may not operate concurrently with the kernel driver. No ownership handoff is performed by this campaign.
 
 Evidence: hailbru/API.md, hailbru/uio.mojo, docs/HAILO10H_ACCESS_MECHANISMS.md.
+
+## Slice 097 — Define stable transport errors (complete; execution remains gated)
+
+Transport-facing error categories include absent/multiple device, bad sysfs/BDF/identity, mechanism unavailable, privilege required, mapping failure, DMA/IOMMU failure, IRQ timeout, firmware missing/corrupt/not-ready, removal, and command timeout/invalid response. Unknown status, unsupported mechanism, or failed identity check must fail closed before model execution. Existing HAILBRÚ names remain the source where available; no Hailo inference success code is defined here.
+
+Evidence: hailbru/errors.mojo, hailbru/API.md, docs/smidr/H102_ATTEMPT_RECORD.md.
