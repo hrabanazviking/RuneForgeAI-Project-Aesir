@@ -9,8 +9,9 @@ from core.sampling_options import with_sampling_option
 from cli.sampling import sampling_option_name
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
-from cli.model_reference import resolve_model_reference
+from cli.model_reference import resolve_model_reference, lease_resolved_model
 from cli.storage import DurableModelStore
+from cli.service_lifecycle import register_service
 from server.local_protocol import FlatJSON, LocalHTTPHead, resolve_request_token_limit, require_loaded_context
 from server.local_transport import (OwnedFD, listen_local, accept_local,
                                     accept_local_ready, client_disconnected,
@@ -254,6 +255,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         prefix_cache: Bool = False, prefill_batch: Int = 1) raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
+    var owner = register_service(model_store, port, model.name, model.digest,
+                                 "ollama" if ollama else "native")
     var stop = GenerationControl(0, interrupt_fd)
     var sequence = 0
     var pending = List[PendingClient]()
@@ -554,6 +557,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
             raise
     print("Native inference service stopped")
     _ = listener
+    _ = owner
 
 
 def dispatch_native_serve(args: List[String]) raises:
@@ -672,6 +676,7 @@ def dispatch_native_serve(args: List[String]) raises:
     if show_settings:
         print(native_settings_json(effective))
         return
+    var blob_lease = lease_resolved_model(resolved, model_store)
     sampling = effective.sampling
     context = effective.context
     token_limit = effective.max_tokens
@@ -704,3 +709,4 @@ def dispatch_native_serve(args: List[String]) raises:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
     _ = interrupts
+    _ = blob_lease

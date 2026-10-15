@@ -653,6 +653,13 @@ the resident model. In authenticated mode, `/health/live` reports the service
 loop and `/health/ready` reports the loaded model separately. A listed model
 is not automatically ready for inference.
 
+For a foreground service, `aesir ps --model-store .aesir/models` reports its
+verified resident process and `aesir stop <exact-model> --model-store .aesir/models`
+requests a safe, cooperative stop. A model store admits one
+foreground service at a time; garbage collection preserves a leased resident
+blob even after its catalog name is removed. See the service contract for the
+Linux-only process-identity and timing limits.
+
 The service also does not yet provide the complete Ollama model-management, embeddings, tool-calling, multimodal, or remote-listening surface.
 
 ---
@@ -1239,7 +1246,7 @@ If you are new to the engineering side of AI, the terminology can feel like a wa
  * **Compute Kernels:** CPU GEMM, RMSNorm, RoPE, and GQA attention (`verified` CPU fallback; [`AES-CPU-001`-`004`](CAPABILITY_LEDGER.md))
  * **Memory Management:** `MimirWell` linear allocation pool with contiguous `KVCache` ([`AES-MEM-001`-`003`](CAPABILITY_LEDGER.md) `partial`/`verified`)
  * **Tokenizer:** `RuneWeaver` BPE token encoding & decoding ([`AES-TOK-001`](CAPABILITY_LEDGER.md) `verified`)
-* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe catalog commands are operational: `create --model` imports exact bytes into an immutable SHA-256-addressed blob store, `verify` rehashes the stored inode, pinned `pull --name` registers a verified Hub artifact, and `gc` reclaims unreachable blobs after full locked validation. Durable aliases resolve to canonical catalog identities and favorites rise to the top of path-free model selection. `aesir doctor` checks CUDA, storage integrity, disk visibility, local listeners, and model compatibility without requiring internet access. Ollama/OpenAI model discovery and text/chat generation work on the native loopback service; authentication, `ps`/`stop`, embeddings, and remaining management endpoints remain unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
+* **CLI & Transport:** Single-shot CPU execution and the native CUDA `run`/`chat` path work for their documented model profiles. Restart-safe catalog commands are operational: `create --model` imports exact bytes into an immutable SHA-256-addressed blob store, `verify` rehashes the stored inode, pinned `pull --name` registers a verified Hub artifact, and `gc` reclaims unreachable blobs after full locked validation while preserving leased resident weights. Durable aliases resolve to canonical catalog identities and favorites rise to the top of path-free model selection. `aesir doctor` checks CUDA, storage integrity, disk visibility, local listeners, and model compatibility without requiring internet access. Ollama/OpenAI model discovery and text/chat generation work on the native loopback service; bounded native authentication and foreground `ps`/`stop` are implemented, while embeddings, hot model swap, and remaining management endpoints are unfinished. See the [model-store guide](docs/MODEL_STORE.md), [current status](docs/CURRENT_STATUS.md), and ledger.
 * **Accelerator & Swarm Matrix:** The native CUDA Gemma and Llama 3 profiles are real and narrowly verified. NPU, multi-GPU, non-NVIDIA backends, general accelerator support, and Swarm remain unimplemented or bounded; see the ledger before relying on them.
 
 ## 🛡️ Why A.E.S.I.R.? (The Philosophy)

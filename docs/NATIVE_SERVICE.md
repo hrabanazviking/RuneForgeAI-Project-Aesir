@@ -66,6 +66,25 @@ A corrupt/unreadable catalog yields HTTP 503 on metadata routes without
 poisoning the resident session. `/api/version` identifies the Aesir adapter,
 not an Ollama installation or release.
 
+The foreground service registers one live resident model per model store after
+its listener and CUDA session are ready. `aesir ps --model-store .aesir/models`
+shows that verified process, or `--format json` emits a schema-v1 `services[]`
+snapshot. `aesir stop <exact-model> --model-store .aesir/models` requests
+cooperative SIGTERM for that same live owner. A stale record, mismatched model,
+or unavailable Linux pidfd fails closed; it never falls back to a raw PID
+signal. Stop may wait for a running kernel to return before the service exits.
+The record is local to the Linux user/runtime and contains no API key.
+Different services need different model stores; there is no hot model swap or
+daemon management in this slice.
+
+Registered blobs and direct model paths hold a shared inode lease while native
+CUDA service, chat, or single-shot inference uses them. `aesir gc` skips an
+otherwise unreferenced leased blob, then may reclaim it after the owner exits.
+Removing a catalog name does not
+unload its resident weights; the loaded session remains visible in `/api/ps`
+until stopped. The application does not claim safety against another program
+rewriting or deleting model files outside its catalog/GC transaction.
+
 ## Start and call
 
 ### Sampling defaults and request overrides

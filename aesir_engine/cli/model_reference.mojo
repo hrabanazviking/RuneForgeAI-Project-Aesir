@@ -1,6 +1,6 @@
 """One verified route from CLI model references to executable GGUF paths."""
 from std.ffi import external_call
-from cli.storage import DurableModelStore
+from cli.storage import DurableModelStore, BlobResidencyLease, lease_direct_model_path
 from cli.manifest import normalize_model_reference
 from cli.model_preferences import DurableModelPreferences
 
@@ -58,3 +58,13 @@ def resolve_model_reference(reference: String,
         reference, path, catalog_name, manifest.digest, manifest.size_bytes,
         manifest.modelfile_content, True,
     )
+
+
+def lease_resolved_model(resolved: ResolvedModelReference,
+                         model_store: String) raises -> BlobResidencyLease:
+    """Keep exact resolved weights alive through service/chat/single-shot use."""
+    if resolved.from_catalog:
+        return DurableModelStore(model_store).lease_model_blob(
+            resolved.catalog_name, resolved.digest, resolved.size_bytes
+        )
+    return lease_direct_model_path(resolved.path)

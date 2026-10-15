@@ -13,6 +13,7 @@ from cli.multi_engine import (
 )
 from config import AesirConfig, load_config_file, validate_model_store_path
 from cli.native_serve import dispatch_native_serve
+from cli.service_lifecycle import service_snapshot, stop_service
 from server.keyfiles import create_service_key
 from loader.huggingface import HuggingFaceSeer
 from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
@@ -120,9 +121,13 @@ def print_general_help():
     print("  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]")
     print("      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback")
     print("      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.")
+    print("  ps [--model-store path] [--format json]")
+    print("      Report the one verified live foreground service owned by this store.")
+    print("  stop <exact-model> [--model-store path]")
+    print("      Request SIGTERM through a verified Linux pidfd; never signal a stale PID.")
     print("Reserved but unsupported:")
-    print("  daemon; interactive run; ps")
-    print("  push; stop")
+    print("  daemon; interactive run")
+    print("  push")
     print("  llama-cli; llama-server; llama-bench; exl2; onnx; swarm")
     print(
         "See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates."
@@ -931,6 +936,45 @@ def dispatch_command(args: List[String]) raises:
     dispatch_command(args, store)
 
 
+def dispatch_service_command(args: List[String]) raises:
+    var cmd = args[0]
+    var store_path = String(".aesir/models")
+    var json = False
+    var index = 1 if cmd == "ps" else 2
+    if cmd == "stop" and (len(args) < 2 or args[1].startswith("--")):
+        raise Error("Usage: aesir stop <exact-model> [--model-store path]")
+    var seen_store = False
+    while index < len(args):
+        if args[index] == "--model-store" and not seen_store and index + 1 < len(args):
+            store_path = args[index + 1]
+            seen_store = True
+            index += 2
+        elif cmd == "ps" and args[index] == "--format" and not json and index + 1 < len(args) and args[index + 1] == "json":
+            json = True
+            index += 2
+        else:
+            raise Error("Usage: aesir ps [--model-store path] [--format json] | aesir stop <exact-model> [--model-store path]")
+    if cmd == "stop":
+        var stopped = stop_service(store_path, args[1])
+        print("Stop requested for owned service: " + stopped.model + " pid=" + String(stopped.pid))
+        return
+    var current = service_snapshot(store_path)
+    if json:
+        if not current.live:
+            print("{\"schema_version\":1,\"services\":[]}")
+        else:
+            print("{\"schema_version\":1,\"services\":[{\"pid\":" + String(current.pid) +
+                  ",\"port\":" + String(current.port) +
+                  ",\"model\":\"" + json_escape_string(current.model) +
+                  "\",\"digest\":\"" + json_escape_string(current.digest) +
+                  "\",\"mode\":\"" + current.mode + "\"}]}")
+    elif current.live:
+        print("Live service: " + current.model + " pid=" + String(current.pid) +
+              " port=" + String(current.port) + " mode=" + current.mode)
+    else:
+        print("No live service owns this model store")
+
+
 def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
     """Routes implemented commands and rejected reserved surfaces using a shared store context.
     """
@@ -977,6 +1021,10 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "serve":
         dispatch_native_serve(args)
+        return
+
+    if cmd == "ps" or cmd == "stop":
+        dispatch_service_command(args)
         return
 
     if cmd == "hardware":
@@ -1034,20 +1082,8 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
             run_single_shot(resolved.path, trimmed_prompt, options.max_tokens)
         return
 
-    if cmd == "ps":
-        _ = store
-        _ = is_json
-        raise Error(
-            "runtime process registry command 'ps' is not implemented"
-        )
-
     if cmd == "daemon":
         raise Error("daemon is unsupported; use explicit foreground serve with authentication")
-
-    if cmd == "stop":
-        raise Error(
-            "engine process control command '" + cmd + "' is not implemented"
-        )
 
     if cmd == "push":
         raise Error(

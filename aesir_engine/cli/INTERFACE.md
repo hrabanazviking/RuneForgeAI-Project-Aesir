@@ -505,8 +505,13 @@ Main CLI router. Empty invocation, `help`, `--help`, `version`, configuration
 validation, and the real single-shot `run <model-path> [options] <prompt...>`
 path are implemented. `config [--config <path>]` reads and validates the
 selected schema and prints its normalized representation. Catalog commands are
-restart safe; content-addressed import and verification are implemented. `ps`,
-`stop`, `push`, authenticated pull, resumable parallel pull,
+restart safe; content-addressed import and verification are implemented. `ps`
+reports the one verified live foreground service for a selected model store;
+`stop <exact-model>` sends SIGTERM only through a pidfd whose boot/start
+identity and owner lock still match. The owner-only runtime record lives on a
+Linux-private filesystem, not in a potentially permissive DrvFS catalog.
+Only one foreground service can own a store at a time; neither command is a
+general process manager. `push`, authenticated pull, resumable parallel pull,
 interactive `run`, multi-engine commands, and swarm commands raise stable
 unsupported errors and emit no success output.
 

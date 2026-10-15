@@ -895,7 +895,46 @@ Every row is initially queued unless the execution record says otherwise.
   or public-network deployment safety. The S06 cold-host/desktop witness
   remains a separate open gate.
 
-### S22–S48
+### S22 — Foreground residency and safe stop ownership
+
+- Status: done for the bounded Linux/WSL foreground-service contract; broader
+  platform and crash-campaign gates remain open.
+- Contract: a successfully loaded/bound service owns one model store until it
+  exits. `ps` reports only a verified live owner; `stop <exact-model>` refuses
+  mismatched and stale records and signals the pinned process through pidfd,
+  never through a raw recycled PID. Registered and direct-path native CUDA
+  service, chat and single-shot weights hold a shared inode lease; `gc` skips
+  an unreferenced leased blob and reclaims it after unload. Catalog removal
+  does not silently unload a resident session.
+- Implementation: `cli/service_lifecycle.mojo` owns a private Linux runtime
+  record keyed by opened store inode, its exclusive lifetime lock, boot/start
+  identity checks and pidfd stop. `cli/native_serve.mojo` publishes ownership
+  only after CUDA load and listener bind. `cli/model_reference.mojo` routes
+  catalog/direct references to the right lease; `cli/cuda_chat.mojo` holds it
+  across chat and single-shot inference. `cli/storage.mojo` owns blob leases
+  and GC's nonblocking exclusive inode check; CLI `ps`/`stop` are explicit
+  foreground operations, not daemon or arbitrary process control.
+- Evidence: the final `sm_89` service build and direct durable-store test
+  passed. The opt-in `scripts/test_service_lifecycle_live.py` passed native,
+  Ollama and direct-path modes using installed Gemma 4 E2B/RTX 4070 WSL
+  weights in test-owned hardlinked catalogs: correct live `ps`, wrong-model
+  refusal, GC retention after catalog removal, cooperative stop/unload,
+  post-exit reclamation and stale-PID refusal while an unrelated process
+  remained alive. The final binary passed all 31 v1 HTTP fixtures, focused
+  protocol and durable-store tests, one physical catalog-backed chat turn and
+  one physical single-shot CUDA answer. Python compilation and diff checks
+  passed. The documentation checker still reports the same 66 pre-existing
+  unrelated repository issues; a clean doc gate is not claimed.
+- Limits: one foreground service per store, no hot swap or multiple resident
+  models; `ps` is a momentary observation, not a durable job manager. Stop is
+  cooperative and may await a kernel return. The runtime record is Linux
+  owner-only because DrvFS model stores can report permissive file modes.
+  Absent pidfd support fails closed. This does not prevent another program
+  outside Aesir from deleting/replacing files. The full counted Mojo suite
+  previously stalled in `gemm_f16_gpgpu_vector`; no full-suite pass is claimed.
+  The S06 cold-host/desktop witness remains open.
+
+### S23–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

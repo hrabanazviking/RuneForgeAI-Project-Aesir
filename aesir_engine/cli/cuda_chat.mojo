@@ -7,9 +7,9 @@ from cli.sampling import with_sampling_option, sampling_option_name, sampling_de
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptible_line
 from cli.tui import AesirTUIDashboard
-from cli.model_reference import resolve_model_reference
+from cli.model_reference import resolve_model_reference, lease_resolved_model
 from cli.model_selector import choose_installed_model
-from cli.storage import digest_open_fd
+from cli.storage import digest_open_fd, lease_direct_model_path
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 from cli.conversation import (
     ConversationState,
@@ -509,6 +509,7 @@ def _dispatch_cuda_chat(
     var selection_profile = profile
     while True:
         var resolved = resolve_model_reference(model_reference, model_store)
+        var blob_lease = lease_resolved_model(resolved, model_store)
         var effective = resolve_native_settings(resolved.modelfile_content,
             sampling, seen, requested_context, requested_max_tokens, system, config_sampling)
         var selection = choose_native_cuda_plan(
@@ -547,6 +548,7 @@ def _dispatch_cuda_chat(
                 effective.sampling, interrupt_fd, timeout_ms, tui, resolved.digest,
                 resolved.requested, model_store, autosave_dir, autosave_retain,
             )
+        blob_lease.release()
         if switch.target == "":
             break
         transcript.emit("\n[previous model unloaded; switching to " + switch.target + "]\n")
@@ -679,6 +681,7 @@ def run_gemma_chat(
 
 
 def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
+    var blob_lease = lease_direct_model_path(path)
     var transcript = ChatTranscript("")
     var selection = choose_native_cuda_plan(path)
     var plan = selection.plan.copy()
@@ -691,6 +694,7 @@ def cuda_single_shot(path: String, prompt: String, max_tokens: Int) raises:
         var session = Gemma4CUDASession(path, plan.context_length, device_index)
         var attempt = ChatTurnAttempt()
         _ = cuda_chat_turn(session, prompt, "", max_tokens, 1, transcript, attempt)
+    _ = blob_lease
 
 
 def cuda_chat_turn(mut session: Llama3CUDASession, prompt: String, system: String, max_tokens: Int, number: Int, transcript: ChatTranscript, mut attempt: ChatTurnAttempt) raises -> ChatTurnResult:

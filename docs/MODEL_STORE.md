@@ -96,7 +96,10 @@ every catalog blob reference and exact size, enumerates the SHA-256 directory
 with NUL-delimited filenames, and rejects unknown names, symlinks, directories,
 FIFOs, missing references, and inconsistent sizes. It then removes only canonical
 64-lowercase-hex blobs that have no manifest reference plus strictly shaped
-`.ingest.<pid>.<attempt>.tmp` remnants, synchronizes the directory, and reports
+`.ingest.<pid>.<attempt>.tmp` remnants, except that an active native CUDA
+service/chat/single-shot inode lease makes an otherwise orphaned blob ineligible
+for that sweep. Once the lease is released, a later `gc` can reclaim it. The
+collector synchronizes the directory and reports
 scanned/referenced/removed/stale/reclaimed counters. A failure after deletion has
 started can leave some unreachable files for the next idempotent run, but cannot
 delete a catalog-referenced blob based on the validated snapshot.

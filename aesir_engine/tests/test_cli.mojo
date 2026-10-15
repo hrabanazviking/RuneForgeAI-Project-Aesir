@@ -457,6 +457,9 @@ def test_model_manifest_store() raises:
             "sha256:f7053e5cd10c37b04d2d6db8f17bc3ede0e4d6912adfc54994c2b38aadcc40b0"
         ) or orphan.size_bytes != 30:
             raise Error("garbage-collection fixture identity mismatch")
+        var lease = removed_restart.lease_model_blob(
+            "orphan:v1", orphan.digest, orphan.size_bytes
+        )
         removed_restart.remove_model("orphan:v1")
         var unexpected_path = test_root + "/blobs/sha256/unexpected"
         _write_test_blob(unexpected_path, "do-not-delete-anything-yet")
@@ -472,6 +475,12 @@ def test_model_manifest_store() raises:
         var unexpected_bytes = _test_cstring(unexpected_path)
         if external_call["unlink", Int32](unexpected_bytes.unsafe_ptr()) != 0:
             raise Error("unable to remove test-owned unexpected blob entry")
+        var protected = removed_restart.garbage_collect()
+        if (protected.scanned_blobs != 2 or protected.referenced_blobs != 1 or
+                protected.removed_blobs != 0 or protected.reclaimed_bytes != 0 or
+                external_call["access", Int32](rolled_back_blob.unsafe_ptr(), 0) != 0):
+            raise Error("garbage collection unlinked a leased resident blob")
+        lease.release()
         var stale_stage_path = (
             test_root + "/blobs/sha256/.ingest.999.1.tmp"
         )
@@ -1048,6 +1057,7 @@ def test_model_store_in_use_protection() raises:
 
 def main() raises:
     test_modelfile_parser()
+    test_model_manifest_store()
     test_cli_flag_options_parser()
     test_model_store_in_use_protection()
     test_cli_enum_flag_validation()

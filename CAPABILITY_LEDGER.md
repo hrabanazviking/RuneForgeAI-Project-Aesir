@@ -873,10 +873,10 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Status:** `partial`
 - **Owner:** CLI and runtime domains
 - **Claim sources:** CLI help and completed Ollama-suite TODO
-- **Implementation evidence:** `cp` and `rm`/`delete` perform locked, restart-safe catalog mutations through staged file sync, atomic replacement and directory sync. Copies preserve a shared immutable SHA-256 blob reference. Removal preserves bytes until explicit `gc` proves them unreferenced under the store lock. `stop` remains unsupported and cannot claim process unload.
-- **Executable evidence:** `E-MASTER` durable catalog cases and `E-STORE` separate-process success, rollback, shared-reference retention, and reference-aware reclamation checks.
-- **Evidence boundary:** Shared immutable blobs and snapshot-based reachability collection exist; live process ownership and automatic in-use protection across processes do not.
-- **Next acceptance gate:** Add a live-session registry with real in-use and stop semantics and systematic crash recovery tests for collection.
+- **Implementation evidence:** `cp` and `rm`/`delete` perform locked, restart-safe catalog mutations through staged file sync, atomic replacement and directory sync. Copies preserve a shared immutable SHA-256 blob reference. Removal preserves bytes until explicit `gc` proves them unreferenced under the store lock. Native CUDA service, chat and single-shot paths now hold shared inode leases; `gc` skips a leased orphan. `ps` reports one validated live service owner per store, and `stop <exact-model>` uses an owner-locked record, boot/start identity and Linux pidfd signaling rather than a raw PID.
+- **Executable evidence:** `E-MASTER` durable catalog cases and `E-STORE` separate-process success, rollback, shared-reference retention, and reference-aware reclamation checks. S22's focused durable-store test proves lease-retained and post-release GC behavior; `scripts/test_service_lifecycle_live.py` exercises native, Ollama and direct-path foreground services on installed Gemma weights, wrong-target refusal, stop/unload, and a forged stale-PID record that leaves an unrelated process alive. A physical catalog-backed chat turn and single-shot CUDA answer passed after adding those leases.
+- **Evidence boundary:** This is a single foreground service per model store on the exercised Linux/WSL pidfd host, not a daemon, hot-swap manager, multi-process scheduler, or proof against another program deleting files outside Aesir transactions. A stop request is cooperative; an in-flight kernel can delay exit. Cold-start crash recovery and broader platforms remain unproved.
+- **Next acceptance gate:** Systematic crash recovery and concurrent hostile-filesystem tests for collection, plus broader Linux/Windows portability where explicitly scoped.
 - **Audit:** AER-061 through AER-064.
 
 ### AES-CLI-008 — REPL slash-command state and interactive inference

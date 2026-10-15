@@ -49,6 +49,41 @@ struct BlobRecord(Copyable):
         return Self(self.digest, self.size_bytes, self.created)
 
 
+struct BlobResidencyLease:
+    """A held shared flock on the exact verified blob inode."""
+
+    var fd: Int32
+
+    def __init__(out self, fd: Int32 = -1):
+        self.fd = fd
+
+    def release(mut self):
+        if self.fd >= 0:
+            _ = external_call["close", Int32](self.fd)
+            self.fd = -1
+
+    def __deinit__(deinit self):
+        if self.fd >= 0:
+            _ = external_call["close", Int32](self.fd)
+
+
+def lease_direct_model_path(path: String) raises -> BlobResidencyLease:
+    """Hold a direct-path inode too; it may point into an Aesir blob store."""
+    if path.byte_length() == 0 or path.byte_length() >= 4096 or "\0" in path:
+        raise Error("invalid direct model path for residency lease")
+    var encoded = _cstring(path)
+    var fd = external_call["open64", Int32](encoded.unsafe_ptr(), Int32(526336), Int32(0))
+    if fd < 0:
+        raise Error("cannot open direct model path for residency lease")
+    var stat = InlineArray[UInt64, 18](fill=0)
+    if (external_call["fstat", Int32](fd, stat.unsafe_ptr()) != 0 or
+            stat[3] & 61440 != 32768 or stat[6] == 0 or
+            external_call["flock", Int32](fd, 1) != 0):
+        _ = external_call["close", Int32](fd)
+        raise Error("direct model path is not a leasable regular file")
+    return BlobResidencyLease(fd)
+
+
 struct BlobGCResult(Copyable):
     """Exact outcome of one locked content-addressed reachability sweep."""
 
@@ -916,6 +951,35 @@ struct DurableModelStore:
         _ = self.verify_model(name)
         return self.root_path + "/" + BLOB_DIRECTORY + "/" + SHA256_DIRECTORY + "/" + String(manifest.digest[byte=7:])
 
+    def lease_model_blob(self, name: String, expected_digest: String,
+                         expected_size: Int64) raises -> BlobResidencyLease:
+        """Pin a catalog blob before loading; GC cannot unlink the held inode."""
+        _ensure_store_root(self.root_path)
+        var root_fd = _lock_store_root(self.root_path)
+        var sha_fd: Int32 = -1
+        var blob_fd: Int32 = -1
+        try:
+            var manifest = _load_store(self.root_path).get_model(name)
+            if (manifest.digest != expected_digest or
+                    manifest.size_bytes != expected_size or
+                    not manifest.digest.startswith("sha256:")):
+                raise Error("model changed before residency lease: " + name)
+            sha_fd = _open_sha256_directory(root_fd)
+            blob_fd = _open_blob_by_digest(sha_fd, String(manifest.digest[byte=7:]))
+            _verify_blob_fd(blob_fd, String(manifest.digest[byte=7:]), manifest.size_bytes)
+            if external_call["flock", Int32](blob_fd, 1) != 0:
+                raise Error("unable to lease model blob for residency")
+        except error:
+            if blob_fd >= 0:
+                _ = external_call["close", Int32](blob_fd)
+            if sha_fd >= 0:
+                _ = external_call["close", Int32](sha_fd)
+            _ = external_call["close", Int32](root_fd)
+            raise error
+        _ = external_call["close", Int32](sha_fd)
+        _ = external_call["close", Int32](root_fd)
+        return BlobResidencyLease(blob_fd)
+
     def create_model(
         mut self, name: String, modelfile_content: String
     ) raises:
@@ -1079,11 +1143,22 @@ struct DurableModelStore:
             for digest in blob_names:
                 if digest in references:
                     continue
+                # The root lock serializes catalog mutations and new leases.
+                # A live service holds a shared lock on this exact inode.
+                var orphan_fd = _open_blob_by_digest(sha_directory_fd, digest)
+                if external_call["flock", Int32](orphan_fd, 6) != 0:
+                    var lock_error = _errno()
+                    _ = external_call["close", Int32](orphan_fd)
+                    if lock_error == 11:
+                        continue
+                    raise Error("unable to inspect model blob residency lock")
                 var digest_bytes = _cstring(digest)
                 if external_call["unlinkat", Int32](
                     sha_directory_fd, digest_bytes.unsafe_ptr(), Int32(0)
                 ) != 0:
+                    _ = external_call["close", Int32](orphan_fd)
                     raise Error("unable to remove unreachable model blob: " + digest)
+                _ = external_call["close", Int32](orphan_fd)
                 removed_blobs += 1
                 reclaimed_bytes += available_sizes[digest]
             for name in stage_names:

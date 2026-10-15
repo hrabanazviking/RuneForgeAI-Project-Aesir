@@ -60,10 +60,19 @@ status, deadlines, reset/cancel invariants and all device execution.
 sockets and descriptor lifetime. Neither transport file imports a model kernel.
 The legacy `BifrostGate`/compatibility formatters are not the live service.
 
+S22 adds a separate lifecycle boundary: `cli/service_lifecycle.mojo` owns the
+single foreground service's private process record, lifetime lock and
+pidfd-verified stop; it never owns CUDA state or catalog mutation.
+`cli/model_reference.mojo` routes resolved catalog/direct paths into
+`cli/storage.mojo` inode leases. Storage alone decides whether GC may unlink
+an unreferenced blob. Service, chat and single-shot orchestration hold leases
+for exactly their native CUDA use; HTTP adapters do not manage process IDs.
+
 Both CUDA profiles have passed authenticated stateless HTTP generation,
 malformed-input/slow-client rejection, deadline recovery and active shutdown.
-This proves the limited [native service](NATIVE_SERVICE.md), not the distributed,
-streaming, OpenAI/Ollama or multi-device aspirations retained below.
+The later S18–S22 slices add bounded streaming, OpenAI/Ollama adapters and
+foreground lifecycle to this [native service](NATIVE_SERVICE.md); they do not
+establish distributed or multi-device operation.
 
 
 > **Status boundary — 2026-08-30:** This document mixes implemented shapes and

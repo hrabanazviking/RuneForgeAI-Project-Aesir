@@ -11,10 +11,16 @@ status, deadlines, reset/cancel invariants and all device execution.
 sockets and descriptor lifetime. Neither transport file imports a model kernel.
 The legacy `BifrostGate`/compatibility formatters are not the live service.
 
+S22 keeps process identity in `cli/service_lifecycle.mojo` and content-addressed
+inode leases/GC decisions in `cli/storage.mojo`; `cli/model_reference.mojo`
+selects the lease for catalog or direct paths. Service/chat/single-shot code
+holds ownership but cannot decide reachability or signal an unverified PID.
+
 Both CUDA profiles have passed authenticated stateless HTTP generation,
 malformed-input/slow-client rejection, deadline recovery and active shutdown.
-This proves the limited [native service](NATIVE_SERVICE.md), not the distributed,
-streaming, OpenAI/Ollama or multi-device aspirations retained below.
+The bounded streaming and OpenAI/Ollama adapters now run on that
+[native service](NATIVE_SERVICE.md); distributed and multi-device operation
+remain aspirations, not demonstrated behavior.
 
 
 > **Status boundary — 2026-08-30:** Ownership labels describe intended
