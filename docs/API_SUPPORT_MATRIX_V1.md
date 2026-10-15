@@ -10,15 +10,17 @@ at a time and close every HTTP/1.1 connection after its response.
 
 | Route | Native mode (bearer required) | `--ollama` mode (no bearer) | Successful body |
 |---|---|---|---|
-| `GET /health` | Yes | 404 | JSON `status`, `backend`, `cpu_offload`, `profile`, `context`; loaded-service readiness only. |
+| `GET /health` | Yes | 404 | Legacy loaded-service report; retains `status: "ready"` for existing clients. Use the separate routes below for new health checks. |
+| `GET /health/live` | Yes | 404 | Schema v1 JSON `status: "ok"`, `scope: "process"`; request-loop liveness only, with no model-readiness claim. |
+| `GET /health/ready` | Yes | 404 | Schema v1 JSON `ready`, `status`, resident model identity/profile/context. HTTP 200 when the resident session is healthy, 503 with `status: "not_ready"` otherwise. |
 | `POST /v1/generate` | Yes | 404 | Default JSON `text`, `finish_reason`, `prompt_tokens`, `generated_tokens`, `context_used`, `backend`, `cpu_offload`; `stream:true` uses incremental NDJSON text records and a counted terminal record. |
-| `GET /v1/models` | Yes | Yes | JSON `object: "list"`, `data[]` with `id`, `object: "model"`, `created`, `owned_by`. Catalog visibility does not mean every listed model is loaded; generation serves only the currently loaded model. |
+| `GET /v1/models` | Yes | Yes | JSON `object: "list"`, `data[]` with `id`, `object: "model"`, `created`, `owned_by`. Re-reads registered weight manifests on every call; a directly loaded path is included in native mode. Visibility does not imply loaded or runnable. |
 | `POST /v1/completions` | Yes | Yes | JSON `id`, `object: "text_completion"`, `created`, `model`, one `choices[]` item and `usage`. |
 | `POST /v1/chat/completions` | Yes | Yes | JSON `id`, `object: "chat.completion"`, `created`, `model`, one assistant `choices[]` item and `usage`. |
-| `GET /api/version` | 404 | Yes | JSON `version`; Aesir identity, not an Ollama release claim. |
-| `GET /api/tags` | 404 | Yes | JSON `models[]` with catalog metadata. |
+| `GET /api/version` | 404 | Yes | JSON `version: "0.1.0-aesir"`; fixed adapter identity, not an Ollama release or model-readiness claim. |
+| `GET /api/tags` | 404 | Yes | JSON `models[]` from the current registered weight manifests, not a startup snapshot. |
 | `GET /api/ps` | 404 | Yes | JSON `models[]` for the currently loaded model. |
-| `POST /api/show` | 404 | Yes | JSON `license`, `modelfile`, `parameters`, `template`, `details`, `model_info`. Empty strings are not evidence that a source model lacks a license/template. |
+| `POST /api/show` | 404 | Yes | Current registered weight manifest. `model_info.aesir.loaded` distinguishes the resident model; unloaded entries omit `aesir.context_length` and do not invent `num_ctx`. Empty license/template strings are not evidence that source metadata is absent. |
 | `POST /api/generate` | 404 | Yes | JSON final record with `model`, `created_at`, `response`, `done`, counts and durations. |
 | `POST /api/chat` | 404 | Yes | JSON final record with `message`, `done`, counts and durations. |
 
@@ -41,6 +43,11 @@ the resolved service ceiling. Unsupported input returns 400; wrong loaded model
 returns 404; context or generation admission can return 422. Native errors are
 `{"error":{"code":N,"message":"..."}}`; Ollama-mode errors are
 `{"error":"..."}`. Error messages intentionally do not echo request data.
+Unreadable/corrupt catalog metadata returns 503 on list/show routes without
+changing resident-model readiness or `/api/ps`. A missing show name returns
+404. Catalog entries are metadata, not verified live inference capacity; only
+the resident model may be used for generation. The OpenAI-compatible `created`
+integer is response materialization time, not a claim about model creation.
 
 ## Streaming state at v1 (S18/S19 additive extensions)
 

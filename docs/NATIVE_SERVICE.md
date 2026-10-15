@@ -56,6 +56,16 @@ messages or remote listening. See the
 [versioned API support matrix](API_SUPPORT_MATRIX_V1.md) for the exact route and
 field subset, including the OpenAI-style routes available in both modes.
 
+`/api/tags` and `/v1/models` read a fresh validated catalog snapshot per
+request, so separate CLI create/remove operations become visible without a
+service restart. They list registered weight metadata, not models proven ready
+for inference. `/api/show` reads the same current catalog: nonresident entries
+show `aesir.loaded:false` and omit allocated context facts. `/api/ps` remains
+the one resident model, even if its catalog name is removed while it is loaded.
+A corrupt/unreadable catalog yields HTTP 503 on metadata routes without
+poisoning the resident session. `/api/version` identifies the Aesir adapter,
+not an Ollama installation or release.
+
 ## Start and call
 
 ### Sampling defaults and request overrides
@@ -149,8 +159,13 @@ than exposing its value in the process argument list:
 
 Both tested models returned `Four`, one generated token, `finish_reason: eos`,
 `backend: cuda` and `cpu_offload: 0`. Prompt/context counts depend on the model's
-native framing. Authentication is also required for `GET /health`, which reports
-the actually loaded profile, context and backend. Unknown routes return 404.
+native framing. Authentication is also required for `GET /health`, which retains
+its legacy loaded-service `status:ready` field for existing clients. New clients
+should use `GET /health/live` for process request-loop liveness and
+`GET /health/ready` for the loaded model's readiness. Both use schema version 1;
+readiness is 200 with `ready:true` for a healthy resident session, or 503 with
+`ready:false` when that session is not ready. Neither route equates catalog
+membership with runnable inference. Unknown routes return 404.
 
 ## Request and response contract
 

@@ -23,6 +23,14 @@ See `docs/NATIVE_SERVICE.md` and `docs/API_SUPPORT_MATRIX_V1.md` for exact
 route, field, transport and threat limits. The declarations below also retain
 legacy primitives/formatters that are not exposed routes.
 
+S21 keeps catalog persistence in `cli/storage.mojo` and presentation in
+`server/ollama.mojo`/`server/openai.mojo`; `cli/native_serve.mojo` re-reads the
+catalog only for metadata routes. `server/service_status.mojo` formats process
+liveness and one-resident-model readiness without importing catalog or CUDA
+owners. The legacy `/health` response is preserved, while `/health/live` and
+`/health/ready` provide separate schema-versioned states. Catalog errors map
+to HTTP 503; they do not change `/api/ps` or the loaded session.
+
 ## Public Structs & Functions
 
 ### Sampling precedence (S07a)

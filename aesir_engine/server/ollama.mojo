@@ -239,8 +239,19 @@ def ollama_catalog_tags(models: List[OllamaModelInfo]) -> String:
     return body + "]}"
 
 
-def ollama_show(model: OllamaModelInfo, context: Int) -> String:
-    return "{\"license\":\"\",\"modelfile\":\"" + json_escape_string(model.modelfile) + "\",\"parameters\":\"num_ctx " + String(context) + "\",\"template\":\"\",\"details\":" + ollama_details(model) + ",\"model_info\":{\"general.architecture\":\"" + json_escape_string(model.family) + "\",\"aesir.context_length\":" + String(context) + "}}"
+def ollama_show(model: OllamaModelInfo, context: Int, loaded: Bool = True) -> String:
+    var prefix = ("{\"license\":\"\",\"modelfile\":\"" +
+                  json_escape_string(model.modelfile) +
+                  "\",\"parameters\":\"" +
+                  ("num_ctx " + String(context) if loaded else "") +
+                  "\",\"template\":\"\",\"details\":" + ollama_details(model) +
+                  ",\"model_info\":{\"aesir.loaded\":" +
+                  ("true" if loaded else "false"))
+    if loaded:
+        return (prefix + ",\"general.architecture\":\"" +
+                json_escape_string(model.family) +
+                "\",\"aesir.context_length\":" + String(context) + "}}")
+    return prefix + "}}"
 
 
 def ollama_ps(model: OllamaModelInfo, size_vram: Int,

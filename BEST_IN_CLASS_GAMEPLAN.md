@@ -856,7 +856,46 @@ Every row is initially queued unless the execution record says otherwise.
   reset and deterministic outputs, not secure GPU memory erasure or hostile
   multi-tenant isolation. No public listener, batching or worker pool is claimed.
 
-### S21–S48
+### S21 — Live service metadata and model readiness
+
+- Status: done for the bounded S21 contract; full-suite and broader-platform
+  gates remain explicitly open.
+- Contract: authenticated native `/health/live` reports process liveness and
+  `/health/ready` reports resident model readiness using versioned, separate
+  JSON shapes (HTTP 200 ready, 503 not ready). Legacy `/health` keeps its
+  existing response for clients. Ollama `/api/tags` and `/api/show`, and OpenAI
+  `/v1/models`, read the current durable catalog per request rather than a
+  startup snapshot. `/api/ps` reports the actual resident model even if its
+  catalog entry changes. `/api/version` remains an adapter version, not an
+  upstream Ollama release claim.
+- Implementation: catalog persistence remains in `cli/storage.mojo`; pure
+  status formatting lives in `server/service_status.mojo`; adapter schemas
+  remain in `server/ollama.mojo` and `server/openai.mojo`; the local service
+  orchestrates catalog reads, authentication, and 404/503 mapping in
+  `cli/native_serve.mojo`. A nonresident catalog entry can be shown without
+  inventing allocated context or claiming it is loaded. Catalog listing alone
+  is not proof that arbitrary registered weights can run.
+- Evidence: `sm_89` native service build succeeded. On the installed Gemma 4
+  E2B/RTX 4070 WSL host, `scripts/test_service_metadata_live.py` passed in
+  native and Ollama modes: live add/remove, nonresident show, resident `/api/ps`,
+  authenticated status, catalog-corruption 503 with service still live, and
+  version responses. The independent v1 HTTP corpus passed 31 fixtures in
+  both modes, including the two new status routes. Direct
+  `aesir_engine/tests/test_local_protocol.mojo` passed. Python compilation and
+  `git diff --check` passed.
+- Limits: the full 207-case Mojo suite did not complete: after earlier cases
+  passed, it stopped making progress in the unrelated
+  `gemm_f16_gpgpu_vector` compute case and was interrupted after about 12
+  minutes; no full-suite pass or final count is claimed. The documentation
+  checker reports 66 pre-existing issues in unrelated files from the later
+  MÍMISBRUNNR campaign, so a clean documentation gate is not claimed. The
+  HTTP 503 readiness body is unit-tested; a physically unhealthy resident
+  model was not induced because service failure normally ends the process.
+  Physical evidence is one local GPU/model/WSL host, not official SDK parity
+  or public-network deployment safety. The S06 cold-host/desktop witness
+  remains a separate open gate.
+
+### S22–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

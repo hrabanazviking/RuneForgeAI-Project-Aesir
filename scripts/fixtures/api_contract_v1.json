@@ -2,6 +2,8 @@
   "version": 1,
   "cases": [
     {"id":"native-health","mode":"native","method":"GET","path":"/health","status":200,"content_type":"application/json","fields":{"status":"str","backend":"str","cpu_offload":"int","profile":"str","context":"int"},"equals":{"status":"ready","backend":"cuda","cpu_offload":0,"context":512}},
+    {"id":"native-liveness","mode":"native","method":"GET","path":"/health/live","status":200,"content_type":"application/json","equals":{"schema_version":1,"status":"ok","scope":"process"}},
+    {"id":"native-readiness","mode":"native","method":"GET","path":"/health/ready","status":200,"content_type":"application/json","fields":{"model":"str","digest":"str","profile":"str","context":"int"},"equals":{"schema_version":1,"status":"ready","ready":true,"backend":"cuda","context":512}},
     {"id":"native-auth","mode":"native","method":"GET","path":"/health","anonymous":true,"status":401,"fields":{"error.code":"int","error.message":"str"},"equals":{"error.code":401}},
     {"id":"native-models","mode":"native","method":"GET","path":"/v1/models","status":200,"fields":{"object":"str","data.0.id":"str","data.0.created":"int","data.0.owned_by":"str"},"equals":{"object":"list","data.0.object":"model"}},
     {"id":"native-generate","mode":"native","method":"POST","path":"/v1/generate","body":{"prompt":"Reply with a short greeting.","max_tokens":8},"status":200,"fields":{"text":"str","finish_reason":"str","prompt_tokens":"int","generated_tokens":"int","context_used":"int","backend":"str","cpu_offload":"int"},"equals":{"backend":"cuda","cpu_offload":0}},

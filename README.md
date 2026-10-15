@@ -632,6 +632,7 @@ The current implemented routes are:
 ```text
 GET  /api/version
 GET  /api/tags
+GET  /api/ps
 POST /api/show
 POST /api/generate
 POST /api/chat
@@ -646,6 +647,11 @@ default, and returns HTTP 503 when that queue is full or a waiter expires.
 Use `--queue-limit 1..8` and `--queue-timeout-ms 100..60000` to set these
 bounds. This is a loopback-only subset, not full Ollama compatibility; see
 [the exact service contract](docs/NATIVE_SERVICE.md).
+
+Catalog listings update while the service runs; `/api/ps` still reports only
+the resident model. In authenticated mode, `/health/live` reports the service
+loop and `/health/ready` reports the loaded model separately. A listed model
+is not automatically ready for inference.
 
 The service also does not yet provide the complete Ollama model-management, embeddings, tool-calling, multimodal, or remote-listening surface.
 

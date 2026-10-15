@@ -4,6 +4,7 @@ from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
 from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps, ollama_generate_chunk, ollama_chat_chunk
 from server.openai import OpenAIRequest, OpenAIGate
+from server.service_status import service_liveness, model_readiness
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
 from cli.native_settings import resolve_native_settings, native_config_sampling
@@ -64,6 +65,15 @@ def test_local_json() raises:
     var info = OllamaModelInfo("gemma4-e2b:latest", "sha256:abc", 3106738272, "Q4_K_M", "2026-09-09T00:00:00Z", "FROM gemma", "gemma4", "2B")
     if "gemma4-e2b:latest" not in ollama_tags(info) or "num_ctx 16384" not in ollama_show(info, 16384):
         raise Error("Ollama model response serialization failed")
+    var unresident = ollama_show(info, 0, False)
+    if ('"aesir.loaded":false' not in unresident or
+            '"parameters":""' not in unresident or
+            'aesir.context_length' in unresident):
+        raise Error("Unloaded catalog show invented a resident context")
+    if ('"scope":"process"' not in service_liveness() or
+            '"ready":true' not in model_readiness(True, info.name, info.digest, "gemma4", 512) or
+            '"status":"not_ready"' not in model_readiness(False, info.name, info.digest, "gemma4", 512)):
+        raise Error("Liveness and model readiness were conflated")
     var running = ollama_ps(info, 3323822692, 16384)
     if "\"size_vram\":3323822692" not in running or "\"context_length\":16384" not in running:
         raise Error("Ollama running-model response serialization failed")
@@ -105,6 +115,10 @@ def test_local_http() raises:
         raise Error("Explicit loopback compatibility mode still required authentication")
     if LocalHTTPHead(head, 18435, key).status != 403:
         raise Error("Untrusted Host accepted")
+    var unavailable = local_response(503, model_readiness(False, "m", "d", "gemma4", 512), False,
+                                     "application/json", True)
+    if "HTTP/1.1 503 Service Unavailable" not in unavailable or '"ready":false' not in unavailable:
+        raise Error("Readiness failure lost its stable JSON body")
     var cases: List[String] = ["GET / HTTP/1.0\r\n\r\n", "GET / HTTP/1.1\n\n", "GET / HTTP/1.1\r\nHost: a\r\nHost: b\r\n\r\n", "GET / HTTP/1.1\r\nTransfer-Encoding: chunked\r\n\r\n", "GET / HTTP/1.1\r\n X: folded\r\n\r\n", "GET / HTTP/1.1\r\nContent-Length: -1\r\n\r\n", "GET / HTTP/1.1\r\nX: a\nInjected: b\r\n\r\n"]
     for source in cases:
         var rejected = False

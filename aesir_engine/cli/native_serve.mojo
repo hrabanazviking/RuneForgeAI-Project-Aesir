@@ -18,6 +18,7 @@ from server.local_transport import (OwnedFD, listen_local, accept_local,
                                     receive_head, receive_body, send_local,
                                     send_native_stream_head, send_stream_head)
 from server.api import build_http_response, json_escape_string
+from server.service_status import service_liveness, model_readiness
 from server.ollama import (OllamaRequest, OllamaShowRequest, OllamaModelInfo, ollama_version,
                            ollama_catalog_tags, ollama_show, ollama_ps,
                            ollama_generate_response, ollama_chat_response,
@@ -90,7 +91,8 @@ struct GenerateRequest:
 
 
 def local_response(code: Int, body: String, ollama: Bool = False,
-                   content_type: String = "application/json") -> String:
+                   content_type: String = "application/json",
+                   preserve_body: Bool = False) -> String:
     var reason = String("Error")
     if code == 200:
         reason = "OK"
@@ -121,7 +123,7 @@ def local_response(code: Int, body: String, ollama: Bool = False,
     elif code == 504:
         reason = "Gateway Timeout"
     var payload = body
-    if code != 200:
+    if code != 200 and not preserve_body:
         if ollama:
             payload = "{\"error\":\"" + reason + "\"}"
         else:
@@ -215,24 +217,23 @@ def ollama_model_matches(requested: String, loaded: String) -> Bool:
 
 def ollama_catalog_models(model_store: String,
                           loaded: OllamaModelInfo) raises -> List[OllamaModelInfo]:
-    """Lists runnable blob manifests while preserving exact loaded-model facts."""
+    """Read the current registered weight manifests, not a startup snapshot."""
     var models = List[OllamaModelInfo]()
-    var found_loaded = False
     for manifest in DurableModelStore(model_store).list_models():
         var name = manifest.name + ":" + manifest.tag
-        if name == loaded.name:
-            models.append(loaded)
-            found_loaded = True
-        elif manifest.digest.startswith("sha256:") and manifest.size_bytes > 0:
+        if manifest.digest.startswith("sha256:") and manifest.size_bytes > 0:
+            var same_resident_blob = (name == loaded.name and
+                                      manifest.digest == loaded.digest and
+                                      manifest.size_bytes == loaded.size_bytes)
             models.append(OllamaModelInfo(
                 name, manifest.digest, manifest.size_bytes,
                 manifest.quantization,
                 manifest.modified_time if manifest.modified_time != "unknown"
                     else "1970-01-01T00:00:00Z",
-                manifest.modelfile_content, "unknown", "unknown",
+                manifest.modelfile_content,
+                loaded.family if same_resident_blob else "unknown",
+                loaded.parameter_size if same_resident_blob else "unknown",
             ))
-    if not found_loaded:
-        models.append(loaded)
     return models^
 
 
@@ -246,7 +247,7 @@ def openai_catalog_names(catalog: List[OllamaModelInfo]) -> List[String]:
 def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: String,
         profile: String, context: Int, token_limit: Int, timeout_ms: Int,
         io_timeout_ms: Int, interrupt_fd: Int, ollama: Bool,
-        model: OllamaModelInfo, catalog: List[OllamaModelInfo],
+        model: OllamaModelInfo, model_store: String, loaded_from_catalog: Bool,
         device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
@@ -283,6 +284,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
             var receiving = True
             var generation_started = False
             var response_started = False
+            var preserve_status_body = False
             var stream_kind = String("")
             try:
                 var deadline = start + io_timeout_ms
@@ -292,7 +294,9 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     if ollama and head.method == "GET" and head.path == "/api/version":
                         body = ollama_version()
                     elif ollama and head.method == "GET" and head.path == "/api/tags":
-                        body = ollama_catalog_tags(catalog)
+                        status = 503
+                        body = ollama_catalog_tags(ollama_catalog_models(model_store, model))
+                        status = 200
                     elif ollama and head.method == "GET" and head.path == "/api/ps":
                         body = ollama_ps(model, device_bytes, context)
                     elif ollama and head.method == "POST" and head.path == "/api/show":
@@ -300,11 +304,19 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
                         receiving = False
                         var request = OllamaShowRequest(raw)
-                        if not ollama_model_matches(request.model, model.name):
+                        status = 503
+                        var shown = False
+                        for listed in ollama_catalog_models(model_store, model):
+                            if ollama_model_matches(request.model, listed.name):
+                                var resident = (listed.name == model.name and
+                                                listed.digest == model.digest and
+                                                listed.size_bytes == model.size_bytes)
+                                body = ollama_show(listed, context if resident else 0, resident)
+                                status = 200
+                                shown = True
+                                break
+                        if not shown:
                             status = 404
-                        else:
-                            body = ollama_show(model, context)
-                            status = 200
                     elif ollama and head.method == "POST" and (head.path == "/api/generate" or head.path == "/api/chat"):
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -364,9 +376,15 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 send_local(client.fd, body + "\n", io_timeout_ms, interrupt_fd)
                             status = 200
                     elif head.method == "GET" and head.path == "/v1/models":
+                        status = 503
+                        var current_catalog = ollama_catalog_models(model_store, model)
+                        var names = openai_catalog_names(current_catalog)
+                        if not loaded_from_catalog and model.name not in names:
+                            names.append(model.name)
                         body = OpenAIGate.format_model_catalog(
-                            openai_catalog_names(catalog), openai_created_unix()
+                            names, openai_created_unix()
                         )
+                        status = 200
                     elif head.method == "POST" and (head.path == "/v1/chat/completions" or head.path == "/v1/completions"):
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -448,6 +466,13 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
                         body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                    elif not ollama and head.method == "GET" and head.path == "/health/live":
+                        body = service_liveness()
+                    elif not ollama and head.method == "GET" and head.path == "/health/ready":
+                        var ready = session.status().healthy
+                        body = model_readiness(ready, model.name, model.digest, profile, context)
+                        status = 200 if ready else 503
+                        preserve_status_body = True
                     elif not ollama and head.method == "POST" and head.path == "/v1/generate":
                         status = 400
                         var raw = receive_body(client.fd, head.length, deadline, interrupt_fd)
@@ -513,7 +538,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         pass
             if not response_started:
                 try:
-                    send_local(client.fd, local_response(status, body, ollama, content_type), io_timeout_ms, interrupt_fd)
+                    send_local(client.fd, local_response(status, body, ollama, content_type, preserve_status_body), io_timeout_ms, interrupt_fd)
                 except:
                     # Disconnects/slow readers cannot poison a healthy session.
                     print("[request=" + String(sequence) + " response=not_delivered]")
@@ -672,15 +697,10 @@ def dispatch_native_serve(args: List[String]) raises:
     var parameter_size = ("3B" if plan.variant == "llama3-3B" else "8B") if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else ("2B" if plan.variant == "gemma4-E2B" else "4B"))
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
-    var catalog = List[OllamaModelInfo]()
-    if ollama:
-        catalog = ollama_catalog_models(model_store, model_info)
-    else:
-        catalog.append(model_info)
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
     _ = interrupts
