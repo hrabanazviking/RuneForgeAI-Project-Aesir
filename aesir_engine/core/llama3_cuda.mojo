@@ -21,6 +21,7 @@ from core.dense_gqa_execution import DenseGQALayer, prepare_dense_gqa_layers
 from core.prompt_prefix import reusable_prompt_prefix
 from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
+from core.grammar import BooleanJSONGrammar
 
 comptime X = 0
 comptime N = X + LLAMA3_8B_HIDDEN_SIZE
@@ -69,6 +70,7 @@ struct Llama3CUDASession(ControlledTextSession):
     var sampler: NativeCUDASampler
     var control: GenerationControl
     var reset_required: Bool
+    var boolean_grammar: BooleanJSONGrammar
     var x_offset: Int
     var norm_offset: Int
     var query_offset: Int
@@ -117,6 +119,7 @@ struct Llama3CUDASession(ControlledTextSession):
         self.healthy = True
         self.generating = False
         self.reset_required = False
+        self.boolean_grammar = BooleanJSONGrammar()
         self.control = GenerationControl()
         self.generated_tokens = 0
         self.prompt_tokens = 0
@@ -252,7 +255,12 @@ struct Llama3CUDASession(ControlledTextSession):
         if need_logits:
             self.norm_at(self.output_norm, self.x_offset, self.norm_offset, self.profile.hidden_size)
             self.project(self.output_tensor, self.norm_offset, self.logits_offset)
-            self.sampler.select(self.a(), self.logits_offset, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
+            if self.boolean_grammar.active:
+                self.sampler.select_boolean_json(self.a(), self.logits_offset,
+                    self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](),
+                    self.boolean_grammar.next_ids())
+            else:
+                self.sampler.select(self.a(), self.logits_offset, self.output.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin](), self.profile.ordinary_token_limit, self.profile.eos_token_id, self.profile.end_of_turn_token_id)
             self.context.enqueue_copy(self.host_output, self.output)
             self.context.synchronize()
             result = Int(self.host_output[0])
@@ -340,6 +348,8 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("Chat text exceeds admission bounds")
         if max_tokens < 1 or max_tokens > self.profile.context_cap:
             raise Error("Llama 3 completion ceiling must be within 1.." + String(self.profile.context_cap))
+        if self.boolean_grammar.active and max_tokens < self.boolean_grammar.maximum_tokens():
+            raise Error("Boolean JSON needs enough completion tokens for either literal")
         var tokens = List[Int]()
         if self.position == 0 and self.profile.add_bos:
             tokens.append(self.tokenizer.vocabulary.bos_token_id)
@@ -349,6 +359,8 @@ struct Llama3CUDASession(ControlledTextSession):
         self.tokenizer.append_header(tokens, "assistant")
         if len(tokens) + 2 > self.context_length - self.position:
             raise Error("Llama 3 context cannot fit prompt, response and closing token; history was not truncated")
+        if self.boolean_grammar.active and len(tokens) + self.boolean_grammar.maximum_tokens() + 1 > self.context_length - self.position:
+            raise Error("Llama 3 context cannot fit Boolean JSON and closing token")
         self.prompt_tokens = len(tokens)
         self.generated_tokens = 0
         self.max_new_tokens = max_tokens
@@ -410,6 +422,7 @@ struct Llama3CUDASession(ControlledTextSession):
         self.finish_reason = "reset"
         self.committed_tokens.clear()
         self.reset_required = False
+        self.boolean_grammar.clear()
         self.control.deadline_ms = 0
         self.decoder = RuneStreamDecoder()
         self.healthy = True
@@ -452,6 +465,32 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("Cannot configure a busy or failed CUDA session")
         self.sampler.configure(sampling)
 
+    def configure_output(mut self, output_mode: String) raises:
+        if not self.healthy or self.generating:
+            raise Error("Cannot configure output on a busy or failed CUDA session")
+        self.boolean_grammar.clear()
+        if output_mode == "":
+            return
+        if output_mode != "json_boolean":
+            raise Error("Unsupported structured output mode")
+        var true_tokens = self.tokenizer.encode("true")
+        var false_tokens = self.tokenizer.encode("false")
+        var true_decoder = RuneStreamDecoder()
+        var false_decoder = RuneStreamDecoder()
+        var true_text = String("")
+        var false_text = String("")
+        for token in true_tokens:
+            true_text += self.tokenizer.decode(token, true_decoder)
+        for token in false_tokens:
+            false_text += self.tokenizer.decode(token, false_decoder)
+        true_text += true_decoder.flush()
+        false_text += false_decoder.flush()
+        if true_text != "true" or false_text != "false":
+            raise Error("Tokenizer cannot render exact JSON boolean literals")
+        if self.sampler.config.temperature != 0 or self.sampler.config.repetition_penalty != 1:
+            raise Error("Boolean JSON requires unpenalized greedy sampling")
+        self.boolean_grammar.configure(true_tokens, false_tokens)
+
     def configure_control(mut self, timeout_ms: Int = 0, cancel_fd: Int = -1) raises:
         if not self.healthy or self.generating:
             raise Error("Cannot configure a busy or failed CUDA session")
@@ -487,6 +526,15 @@ struct Llama3CUDASession(ControlledTextSession):
             return self.decoder.flush()
         var chunk = self.tokenizer.decode(token, self.decoder)
         self.generated_tokens += 1
+        if self.boolean_grammar.active:
+            var complete = self.boolean_grammar.advance(token)
+            self.pending_token = self.forward(token, not complete)
+            if complete:
+                _ = self.forward(self.profile.end_of_turn_token_id, False)
+                self.finish_reason = "eos"
+                self.generating = False
+                chunk += self.decoder.flush()
+            return chunk
         var limit = self.generated_tokens >= self.max_new_tokens
         var full = self.position + 2 >= self.context_length
         self.pending_token = self.forward(token, not limit and not full)

@@ -217,3 +217,87 @@ struct GBNFGrammar(Copyable):
         if self.schema_type == "number" and pattern == self.rules[0].pattern:
             return
         raise Error("general GBNF rule parsing is not implemented")
+
+
+struct BooleanJSONGrammar:
+    """A two-literal token trie for exact JSON true/false output.
+
+    Only canonical tokenizer encodings supplied by the session are admitted.
+    This is not a general JSON Schema or GBNF implementation.
+    """
+    var active: Bool
+    var true_tokens: List[Int]
+    var false_tokens: List[Int]
+    var emitted: List[Int]
+
+    def __init__(out self):
+        self.active = False
+        self.true_tokens = List[Int]()
+        self.false_tokens = List[Int]()
+        self.emitted = List[Int]()
+
+    def configure(mut self, true_tokens: List[Int], false_tokens: List[Int]) raises:
+        if len(true_tokens) < 1 or len(false_tokens) < 1 or len(true_tokens) > 32 or len(false_tokens) > 32:
+            raise Error("Boolean JSON tokenizer sequence must contain 1..32 tokens")
+        var same = len(true_tokens) == len(false_tokens)
+        if same:
+            for i in range(len(true_tokens)):
+                if true_tokens[i] != false_tokens[i]:
+                    same = False
+                    break
+        if same:
+            raise Error("Boolean JSON tokenizer sequences are indistinguishable")
+        self.true_tokens = true_tokens.copy()
+        self.false_tokens = false_tokens.copy()
+        self.emitted.clear()
+        self.active = True
+
+    def clear(mut self):
+        self.active = False
+        self.true_tokens.clear()
+        self.false_tokens.clear()
+        self.emitted.clear()
+
+    def maximum_tokens(self) -> Int:
+        return max(len(self.true_tokens), len(self.false_tokens))
+
+    def _prefix(self, sequence: List[Int]) -> Bool:
+        if len(self.emitted) >= len(sequence):
+            return False
+        for i in range(len(self.emitted)):
+            if self.emitted[i] != sequence[i]:
+                return False
+        return True
+
+    def next_ids(self) raises -> List[Int]:
+        if not self.active:
+            raise Error("Boolean JSON grammar is not active")
+        var allowed = List[Int]()
+        if self._prefix(self.true_tokens):
+            allowed.append(self.true_tokens[len(self.emitted)])
+        if self._prefix(self.false_tokens):
+            var other = self.false_tokens[len(self.emitted)]
+            if len(allowed) == 0 or other != allowed[0]:
+                allowed.append(other)
+        if len(allowed) == 0:
+            raise Error("Boolean JSON grammar has no continuation")
+        return allowed^
+
+    def advance(mut self, token: Int) raises -> Bool:
+        var allowed = self.next_ids()
+        if token != allowed[0] and (len(allowed) < 2 or token != allowed[1]):
+            raise Error("Boolean JSON output token violates grammar")
+        self.emitted.append(token)
+        var true_done = len(self.emitted) == len(self.true_tokens)
+        if true_done:
+            for i in range(len(self.emitted)):
+                if self.emitted[i] != self.true_tokens[i]:
+                    true_done = False
+                    break
+        var false_done = len(self.emitted) == len(self.false_tokens)
+        if false_done:
+            for i in range(len(self.emitted)):
+                if self.emitted[i] != self.false_tokens[i]:
+                    false_done = False
+                    break
+        return true_done or false_done

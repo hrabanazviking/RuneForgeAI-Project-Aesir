@@ -29,8 +29,8 @@ at a time and close every HTTP/1.1 connection after its response.
 | Request | Accepted top-level fields | Constraints and explicit exclusions |
 |---|---|---|
 | Native generate | `prompt`, `system`, `max_tokens`, `timeout_ms`, `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed`, `stream` | Nonempty prompt. `stream` is a JSON boolean, default `false`. `messages`, `tools`, `format`, `images`, `logprobs`, unknown or duplicate fields are rejected. No session ID/history. |
-| OpenAI completion | `model`, `prompt`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n` | `model` must identify the loaded model; `n` must be 1. `best_of`, `stop`, `logprobs`, `echo`, `suffix`, `response_format`, `tools`, unknown or duplicate fields are rejected. |
-| OpenAI chat | `model`, `messages`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. Tool/function roles, arrays or multimodal content, `response_format`, `tools`, `tool_choice`, `stop`, `logprobs`, `stream_options`, unknown or duplicate fields are rejected. |
+| OpenAI completion | `model`, `prompt`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n`, bounded `response_format` | `model` must identify the loaded model; `n` must be 1. `best_of`, `stop`, `logprobs`, `echo`, `suffix`, `tools`, unknown or duplicate fields are rejected. Structured output is the strict Boolean subset below only. |
+| OpenAI chat | `model`, `messages`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n`, bounded `response_format` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. Tool/function roles, arrays or multimodal content, `tools`, `tool_choice`, `stop`, `logprobs`, `stream_options`, unknown or duplicate fields are rejected. Structured output is the strict Boolean subset below only. |
 | Ollama show | `model` or `name` | Loaded model only; no remote lookup. |
 | Ollama generate | `model` or `name`, `prompt`, `system`, `stream`, `options` | Nonempty prompt. No `raw`, `format`, `template`, `context`, `images`, `keep_alive`, `suffix` or unknown fields. |
 | Ollama chat | `model` or `name`, `messages`, `system`, `stream`, `options` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. No prompt, images, tools or unknown fields. |
@@ -48,6 +48,30 @@ changing resident-model readiness or `/api/ps`. A missing show name returns
 404. Catalog entries are metadata, not verified live inference capacity; only
 the resident model may be used for generation. The OpenAI-compatible `created`
 integer is response materialization time, not a claim about model creation.
+
+## Strict Boolean JSON response format (S23)
+
+OpenAI chat and completion routes in either service mode accept this one
+non-streaming structured-output shape:
+
+```json
+{"response_format":{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean"}}}}
+```
+
+`name` may be any nonempty string up to 64 UTF-8 bytes. All four nested objects
+are parsed strictly: duplicate or extra fields, missing fields, malformed JSON,
+schema keywords beyond `type`, any type other than `boolean`, `strict:false`,
+`stream:true`, and non-greedy sampling return 400 before generation. The model
+must have enough requested token and context budget for either literal or
+admission fails. The output text is exactly `true` or `false`; the session
+stops immediately after the canonical tokenizer sequence and reports `stop`.
+Only the allowed canonical tokens compete by raw logits. `top_k` and `top_p`
+do not affect this greedy choice. A deadline, disconnect or execution fault
+is an error, not a guaranteed JSON response. Native `/v1/generate`, Ollama
+`/api/*`, JSON objects/arrays/numbers/strings, arbitrary GBNF and tool calls
+remain unsupported structured-output surfaces. The Gemma E2B physical test is
+`scripts/test_boolean_json_live.py`; the Llama/Qwen path compiled but lacked
+installed-weight evidence in the S23 run.
 
 ## Streaming state at v1 (S18/S19 additive extensions)
 

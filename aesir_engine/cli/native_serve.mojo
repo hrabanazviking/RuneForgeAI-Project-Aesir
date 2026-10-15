@@ -407,6 +407,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             var request_tokens = resolve_request_token_limit(request.max_tokens, token_limit)
                             session.reset()
                             session.configure_sampling(request.sampling)
+                            session.configure_output(request.output_mode)
                             session.configure_control(timeout_ms, interrupt_fd)
                             status = 422
                             generation_started = True
@@ -446,6 +447,10 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             var state = session.status()
                             if state.finish_reason == "timeout":
                                 raise Error("OpenAI generation deadline exceeded")
+                            if request.output_mode == "json_boolean" and (
+                                    state.finish_reason != "eos" or
+                                    (answer != "true" and answer != "false")):
+                                raise Error("Structured output ended without a complete JSON boolean")
                             var finish = ollama_done_reason(state.finish_reason)
                             if request.stream:
                                 send_local(client.fd,

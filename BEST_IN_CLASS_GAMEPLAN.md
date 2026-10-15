@@ -934,7 +934,45 @@ Every row is initially queued unless the execution record says otherwise.
   previously stalled in `gemm_f16_gpgpu_vector`; no full-suite pass is claimed.
   The S06 cold-host/desktop witness remains open.
 
-### S23–S48
+### S23 — Strict Boolean JSON structured output
+
+- Status: implemented and verified on the installed Gemma 4 E2B CUDA model.
+  The Llama/Qwen session path compiled but has no installed-weight witness in
+  this run. This slice is a deliberately narrow JSON grammar, not general GBNF
+  or object/array JSON Schema support.
+- Contract: OpenAI chat/completion requests in either service mode may pass
+  `response_format` with `type:"json_schema"`, a bounded nonempty `name`,
+  `strict:true`, and exactly `schema:{"type":"boolean"}`. No other schema
+  keywords or nested fields are accepted. Streaming and non-greedy sampling
+  are refused at request parsing. The core validates exact tokenizer round
+  trips for `true` and `false`, greedily selects only canonical continuation
+  tokens on the CUDA logits, and closes the turn immediately after one complete
+  literal with the normal `stop` finish reason. The service refuses a successful
+  structured response unless the final text and finish state prove completion.
+  Too-small token/context budgets
+  fail before generation. Native `/v1/generate`, Ollama `/api/*`, arbitrary
+  GBNF, objects, arrays, numbers and string schemas are not supported here.
+- Evidence: fresh `mojo build main.mojo --target-accelerator sm_89` succeeded.
+  Focused `test_gbnf_grammar.mojo` and `test_local_protocol.mojo` passed.
+  `scripts/test_boolean_json_live.py` used temporary hardlinked catalogs in
+  both native and Ollama service modes on the installed Gemma E2B/RTX 4070 WSL
+  model: an independent Python JSON parser accepted chat and completion
+  Boolean outputs, `finish_reason` was `stop` before the
+  16-token ceiling, and malformed/unsupported schemas, streaming and sampled
+  requests returned 400 without entering generation. A subsequent ordinary
+  response passed, proving per-request grammar state was cleared. The same final binary
+  passed all 31 independent v1 HTTP fixtures. No model download or operator
+  catalog mutation was required.
+- Limits: only the canonical tokenizer encodings for two literals are searched;
+  this is not a general token-text grammar engine. Constrained mode chooses
+  maximum logits among allowed continuations and ignores top-p/top-k because
+  sampling is greedy; interruption/deadline can still fail a request before a
+  complete JSON result. Physical Llama 3/Qwen 3 and cold-host checks remain
+  open. The full counted Mojo suite and clean documentation gate were not run
+  as S23 completion evidence; prior full-suite stall and pre-existing doc drift
+  remain recorded under S22.
+
+### S24–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

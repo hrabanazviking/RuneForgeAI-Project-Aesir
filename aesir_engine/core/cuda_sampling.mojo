@@ -133,6 +133,28 @@ def sampling_merge(values: Floats, ids: Integers, bad_flags: Integers,
             return
 
 
+def select_boolean_json_token(logits: Floats, output: Integers,
+                              offset: Int64, first: Int64, second: Int64):
+    """Greedy choice only among the next canonical JSON literal tokens."""
+    if global_idx.x != 0:
+        return
+    var first_logit = logits.unsafe_load(Int(offset + first))
+    if not isfinite(first_logit):
+        output.unsafe_store(0, Int32(-1))
+        return
+    if second < 0:
+        output.unsafe_store(0, Int32(first))
+        return
+    var second_logit = logits.unsafe_load(Int(offset + second))
+    if not isfinite(second_logit):
+        output.unsafe_store(0, Int32(-1))
+        return
+    var selected = first
+    if second_logit > first_logit or (second_logit == first_logit and second < first):
+        selected = second
+    output.unsafe_store(0, Int32(selected))
+
+
 struct NativeCUDASampler:
     var context: DeviceContext
     var counts: DeviceBuffer[DType.int32]
@@ -206,3 +228,17 @@ struct NativeCUDASampler:
         # A deterministic penalized argmax does not consume an RNG draw.
         if self.config.temperature > 0:
             self.draws += 1
+
+    def select_boolean_json(mut self, logits: Floats, offset: Int,
+                            output: Integers, allowed: List[Int]) raises:
+        if len(allowed) < 1 or len(allowed) > 2:
+            raise Error("Boolean JSON grammar requires one or two candidate tokens")
+        if self.config.temperature != 0 or self.config.repetition_penalty != 1:
+            raise Error("Boolean JSON grammar requires unpenalized greedy sampling")
+        for token in allowed:
+            if token < 0 or token >= self.vocab_size:
+                raise Error("Boolean JSON candidate outside vocabulary")
+        var second = allowed[1] if len(allowed) == 2 else -1
+        self.context.enqueue_function[select_boolean_json_token](
+            logits, output, Int64(offset), Int64(allowed[0]), Int64(second),
+            grid_dim=1, block_dim=1)

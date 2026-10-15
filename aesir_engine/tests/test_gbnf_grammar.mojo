@@ -4,7 +4,7 @@
 from std.memory import Pointer
 from std.memory.alloc import alloc, Layout
 from core.mimir_well import Scalar, f16
-from core.grammar import GBNFGrammar, GBNFRule, GBNFAutomatonState
+from core.grammar import GBNFGrammar, GBNFRule, GBNFAutomatonState, BooleanJSONGrammar
 
 def test_gbnf_rule_construction() raises:
     print("--- Testing GBNF Rule Construction & Automaton ---")
@@ -89,3 +89,43 @@ def test_gbnf_token_validation_and_masking() raises:
 def main() raises:
     test_gbnf_rule_construction()
     test_gbnf_token_validation_and_masking()
+    test_boolean_json_token_trie()
+
+
+def test_boolean_json_token_trie() raises:
+    var grammar = BooleanJSONGrammar()
+    var rejected = False
+    try:
+        _ = grammar.next_ids()
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Inactive Boolean JSON grammar admitted tokens")
+    var true_ids: List[Int] = [10, 11]
+    var false_ids: List[Int] = [20, 21, 22]
+    grammar.configure(true_ids, false_ids)
+    if grammar.maximum_tokens() != 3 or len(grammar.next_ids()) != 2:
+        raise Error("Boolean JSON initial branches are wrong")
+    rejected = False
+    try:
+        _ = grammar.advance(99)
+    except:
+        rejected = True
+    if not rejected or len(grammar.emitted) != 0:
+        raise Error("Boolean JSON accepted invalid token or mutated state")
+    if grammar.advance(20) or len(grammar.next_ids()) != 1 or grammar.next_ids()[0] != 21:
+        raise Error("Boolean JSON false prefix is wrong")
+    if grammar.advance(21) or not grammar.advance(22):
+        raise Error("Boolean JSON did not terminate after false")
+    rejected = False
+    try:
+        _ = grammar.next_ids()
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Boolean JSON admitted trailing output after completion")
+    grammar.clear()
+    grammar.configure(true_ids, false_ids)
+    if grammar.advance(10) or not grammar.advance(11):
+        raise Error("Boolean JSON did not terminate after true")
+    print("Boolean JSON token trie: PASS")

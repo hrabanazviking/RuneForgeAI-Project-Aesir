@@ -22,6 +22,7 @@ struct OpenAIRequest:
     var sampling: NativeSamplingConfig
     var has_messages: Bool
     var has_prompt: Bool
+    var output_mode: String
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -36,6 +37,7 @@ struct OpenAIRequest:
         self.sampling = defaults
         self.has_messages = False
         self.has_prompt = False
+        self.output_mode = ""
         var parser = FlatJSON(body)
         parser.take(123)
         parser.space()
@@ -57,6 +59,8 @@ struct OpenAIRequest:
                     self.has_messages = True
                 elif name == "stream":
                     self.stream = parser.boolean()
+                elif name == "response_format":
+                    self.output_mode = self._parse_response_format(parser)
                 elif name == "max_tokens":
                     self.max_tokens = bounded_decimal(parser.number())
                     if self.max_tokens == 0:
@@ -91,6 +95,88 @@ struct OpenAIRequest:
         if self.system == "":
             self.system = default_system
         self.sampling.validate()
+        if self.output_mode != "" and self.stream:
+            raise Error("Boolean JSON response format does not support streaming")
+        if self.output_mode != "" and not self.sampling.plain_greedy():
+            raise Error("Boolean JSON response format requires greedy sampling")
+
+    def _parse_boolean_schema(self, mut parser: FlatJSON) raises:
+        parser.take(123)
+        var seen_type = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var name = parser.string()
+                parser.take(58)
+                if name != "type" or seen_type or parser.string() != "boolean":
+                    raise Error("Only JSON Schema {type:boolean} is supported")
+                seen_type = True
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        if not seen_type:
+            raise Error("Boolean JSON schema requires type")
+
+    def _parse_json_schema_config(self, mut parser: FlatJSON) raises:
+        parser.take(123)
+        var seen_name = False
+        var seen_schema = False
+        var seen_strict = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var name = parser.string()
+                parser.take(58)
+                if name == "name" and not seen_name:
+                    var schema_name = parser.string()
+                    if schema_name.byte_length() < 1 or schema_name.byte_length() > 64:
+                        raise Error("Boolean JSON schema name must contain 1..64 bytes")
+                    seen_name = True
+                elif name == "schema" and not seen_schema:
+                    self._parse_boolean_schema(parser)
+                    seen_schema = True
+                elif name == "strict" and not seen_strict:
+                    if not parser.boolean():
+                        raise Error("Boolean JSON schema requires strict=true")
+                    seen_strict = True
+                else:
+                    raise Error("Unsupported or duplicate JSON schema configuration field")
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        if not seen_name or not seen_schema or not seen_strict:
+            raise Error("Boolean JSON schema requires name, strict and schema")
+
+    def _parse_response_format(self, mut parser: FlatJSON) raises -> String:
+        parser.take(123)
+        var seen_type = False
+        var seen_schema = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var name = parser.string()
+                parser.take(58)
+                if name == "type" and not seen_type:
+                    if parser.string() != "json_schema":
+                        raise Error("Only strict Boolean JSON schema response format is supported")
+                    seen_type = True
+                elif name == "json_schema" and not seen_schema:
+                    self._parse_json_schema_config(parser)
+                    seen_schema = True
+                else:
+                    raise Error("Unsupported or duplicate response_format field")
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        if not seen_type or not seen_schema:
+            raise Error("Boolean JSON response_format requires type and json_schema")
+        return "json_boolean"
 
     def _parse_messages(mut self, mut parser: FlatJSON) raises:
         parser.take(91)

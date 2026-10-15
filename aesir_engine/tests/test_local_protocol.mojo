@@ -140,7 +140,46 @@ def main() raises:
     test_local_http()
     test_local_generation_request()
     test_local_path_bounds()
+    test_boolean_json_schema_admission()
     print("PASS bounded JSON and HTTP rejection")
+
+
+def test_boolean_json_schema_admission() raises:
+    var schema = String('{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean"}}}')
+    var request = OpenAIRequest('{"model":"m","prompt":"Is this true?","response_format":' + schema + '}')
+    if request.output_mode != "json_boolean" or request.stream:
+        raise Error("Strict Boolean JSON schema did not select bounded output mode")
+    var bad: List[String] = [
+        '{"type":"json_object"}',
+        '{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"string"}}}',
+        '{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean","enum":[true]}}}',
+        '{"type":"json_schema","json_schema":{"name":"answer","strict":false,"schema":{"type":"boolean"}}}',
+        '{"type":"json_schema","json_schema":{"name":"answer","schema":{"type":"boolean"}}}',
+        '{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean"},"schema":{"type":"boolean"}}}',
+        '{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean"}}',
+    ]
+    for candidate in bad:
+        var rejected = False
+        try:
+            _ = OpenAIRequest('{"model":"m","prompt":"x","response_format":' + candidate + '}')
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Unsupported or malformed Boolean JSON schema was admitted")
+    var rejected = False
+    try:
+        _ = OpenAIRequest('{"model":"m","prompt":"x","stream":true,"response_format":' + schema + '}')
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Boolean JSON schema admitted streaming")
+    rejected = False
+    try:
+        _ = OpenAIRequest('{"model":"m","prompt":"x","temperature":0.7,"response_format":' + schema + '}')
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Boolean JSON schema admitted non-greedy sampling")
 
 
 def test_sampling_default_precedence() raises:
