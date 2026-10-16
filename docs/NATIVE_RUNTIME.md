@@ -197,6 +197,13 @@ point identity is not promised.
 
 Interactive commands run between turns:
 
+- `/compose`: enter a bounded line-mode multiline draft. Each Enter adds a
+  line, including blank lines. `/send` submits a nonempty draft, `/undo`
+  removes the last line, and `/cancel` discards it; use `//` to enter a line
+  beginning with a composer command (for example `//send`). EOF or Ctrl+C
+  discards the draft without generating a turn. The limit is 128 lines and
+  64 KiB including newlines. The draft is not saved or logged until sent;
+  this is not a full-screen cursor editor.
 - `/show`: context usage, sampling policy, timeout and reset-required state.
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does

@@ -54,7 +54,7 @@ full S33 transcript/editor/navigation surface.
 `cli/sampling.mojo` maps native sampling flags and re-exports core value
 validation for interactive settings. `cuda_chat.mojo` owns `/help`, `/show`,
 `/history [page]`, `/turn N`, `/clear`, `/new`, `/save`, `/load`, `/export`,
-`/set` and `/bye`,
+`/set`, `/compose` and `/bye`,
 reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
@@ -66,6 +66,12 @@ preserve valid Unicode text, and point to `/export FILE` for complete readable
 content. They neither retokenize nor alter sampler/KV/conversation state.
 The terminal width helper is shared with the model chooser; full Unicode cell
 width and grapheme behavior still need the S33 terminal acceptance pass.
+
+`cli/chat_compose.mojo` owns only an interactive, line-mode draft (128 lines,
+64 KiB including newlines). `/send` submits, `/undo` removes one line,
+`/cancel`, EOF and interrupt discard the unsubmitted draft. `//` escapes a
+composer command. A submitted draft is always prompt text, even if its first
+line starts with `/`; it is never reinterpreted as a session command.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

@@ -167,10 +167,11 @@ def render_turn_command(
 
 def chat_command_help(columns: Int) -> String:
     if columns < 50:
-        return String("\n/help /show /history [P]\n/turn N /clear /new /bye\n"
+        return String("\n/help /show /history [P]\n/turn N /compose /bye\n/clear /new\n"
                       + "/model NAME /save FILE\n/load FILE /export FILE\n"
                       + "/set NAME VALUE\n")
     return String("\nBrowse: /history [page], /turn N, /show\n"
+                  + "Compose: /compose (then /send, /undo, /cancel)\n"
                   + "Session: /clear, /new, /bye\n"
                   + "Models: /model NAME (resets conversation)\n"
                   + "Files: /save FILE, /load FILE, /export FILE\n"

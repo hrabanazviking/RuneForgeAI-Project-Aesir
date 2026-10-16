@@ -11,6 +11,7 @@ from cli.model_reference import resolve_model_reference, lease_resolved_model
 from cli.model_selector import choose_installed_model
 from cli.terminal_view import terminal_columns
 from cli.chat_history import chat_command_help, render_history_command, render_turn_command
+from cli.chat_compose import read_chat_compose
 from cli.storage import digest_open_fd, lease_direct_model_path
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 from cli.conversation import (
@@ -616,9 +617,18 @@ def run_gemma_chat(
             print("You> ", end="")
             _ = external_call["fflush", Int32](Int(0))
             var prompt = read_chat_line(interrupt_fd)
-            if prompt == "" or prompt == "/bye":
+            var composed_prompt = False
+            if prompt == "/compose":
+                var composed = read_chat_compose(interrupt_fd)
+                if composed.eof:
+                    break
+                if not composed.submitted:
+                    continue
+                prompt = composed.text
+                composed_prompt = True
+            if (prompt == "" or prompt == "/bye") and not composed_prompt:
                 break
-            if prompt.startswith("/"):
+            if prompt.startswith("/") and not composed_prompt:
                 var state_changed = False
                 var model_switch_command = prompt.startswith("/model")
                 try:
@@ -823,9 +833,18 @@ def run_llama_chat(
             print("You> ", end="")
             _ = external_call["fflush", Int32](Int(0))
             var prompt = read_chat_line(interrupt_fd)
-            if prompt == "" or prompt == "/bye":
+            var composed_prompt = False
+            if prompt == "/compose":
+                var composed = read_chat_compose(interrupt_fd)
+                if composed.eof:
+                    break
+                if not composed.submitted:
+                    continue
+                prompt = composed.text
+                composed_prompt = True
+            if (prompt == "" or prompt == "/bye") and not composed_prompt:
                 break
-            if prompt.startswith("/"):
+            if prompt.startswith("/") and not composed_prompt:
                 var state_changed = False
                 var model_switch_command = prompt.startswith("/model")
                 try:

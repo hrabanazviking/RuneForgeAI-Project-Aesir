@@ -62,6 +62,11 @@ through one short public prompt, resizes the terminal, and checks history,
 numbered turn detail, Unicode preservation, command help, and invalid-page
 rejection. It does not download or publish model data.
 
+`test_chat_compose_pty.py` is an opt-in physical-CUDA chat smoke using an
+already installed model. It checks that cancellation commits no turn, undo
+removes a line, blank and Unicode lines survive, and a draft beginning with
+`/bye` is submitted as literal prompt text. It makes no model download.
+
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical
 request/reply sequences and actual model/policy identity, recomputes warm medians

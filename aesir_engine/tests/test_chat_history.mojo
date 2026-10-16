@@ -70,8 +70,11 @@ def main() raises:
         raise Error("terminal controls leaked into history preview")
     if "..." not in safe_turn_preview(String("x") * 1000, 12):
         raise Error("long turn preview was not bounded")
-    if "/history" not in chat_command_help(24) or "/export" not in chat_command_help(80):
-        raise Error("command discovery omitted history/export")
+    if ("/history" not in chat_command_help(24)
+            or "/compose" not in chat_command_help(24)
+            or "/compose" not in chat_command_help(80)
+            or "/export" not in chat_command_help(80)):
+        raise Error("command discovery omitted history/compose/export")
     for line in chat_command_help(24).split("\n"):
         if String(line).byte_length() > 24:
             raise Error("narrow command help overflowed")

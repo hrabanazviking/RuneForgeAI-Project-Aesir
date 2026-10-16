@@ -1092,9 +1092,10 @@ Every row is initially queued unless the execution record says otherwise.
 ### S33 — Bounded local terminal experience
 
 - Parent status: active/partial. S05, S13, and S18 prerequisites are recorded
-  above. S33a improves model browsing and S33b adds bounded read-only history
-  and command discovery. Neither completes the multiline editor, full
-  transcript navigation, copy/export ergonomics, or Unicode terminal gate.
+  above. S33a improves model browsing, S33b adds bounded read-only history
+  and command discovery, and S33c adds a bounded line-mode multiline composer.
+  Full-screen cursor editing, full transcript navigation, copy/export
+  ergonomics, and the broad Unicode terminal gate remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1145,3 +1146,25 @@ Every row is initially queued unless the execution record says otherwise.
   widths, long mixed-script turns, multiline editing, and the remaining
   copy/export usability workflow need S33c+ work. Parent acceptance remains
   open.
+- S33c contract: `cli/chat_compose.mojo` owns an interactive line-mode draft
+  bounded to 128 lines and 65,536 UTF-8 bytes including separators. `/compose`
+  enters it in either native CUDA chat profile; blank lines are preserved,
+  `/undo` removes the last line, `/send` submits only a nonempty draft, and
+  `/cancel`, EOF or SIGINT discard the draft. `//` escapes a composer command.
+  Submitted text starting with `/` bypasses session-command routing and is
+  passed as literal prompt text. Draft text is not emitted to the durable
+  transcript, journal or model until `/send`. Prompt-file mode is unchanged.
+- S33c evidence: fresh CUDA-targeted `main.mojo` build passed; standalone
+  `test_chat_compose.mojo` passed empty, Unicode, blank-line, slash-content,
+  undo, exact-byte-boundary and 128-line checks. Rebuilt S33b history unit
+  passed. `scripts/test_chat_compose_pty.py` drove the actual installed Gemma
+  4 E2B through a real 80x24 PTY: cancel kept history empty, `//send` plus
+  undo stayed in compose, and `/send` committed one Unicode multiline turn
+  beginning with literal `/bye`; subsequent `/history` and `/bye` passed.
+  `check_doc_drift.py` still fails on the same 66 pre-existing consistency
+  issues. No model download or other fixture change was performed.
+- S33c remaining gate: this is line-mode composition, not a full-screen
+  cursor editor. Physical EOF/SIGINT during compose, terminal-width changes
+  while composing, and Llama/Qwen PTY paths were not exercised. The parent
+  S33 acceptance gate remains open for those cases, full scrollback and
+  copy/export ergonomics.
