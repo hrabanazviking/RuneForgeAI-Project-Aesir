@@ -974,9 +974,9 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S24 — Gemma 4 single-function tool-call protocol
 
-- Status: implemented and verified for the installed Gemma 4 E2B CUDA template;
-  the commit containing this record is the evidence revision. No tool is
-  executed by Aesir.
+- Status: done for the installed Gemma 4 E2B CUDA template; verified commit
+  `2c4a985570d4d32231654c2869ad9ff2584353c4` was pushed to `origin/main`
+  and the remote revision matched. No tool is executed by Aesir.
 - Contract: the OpenAI chat route in either native or Ollama service mode
   admits one zero-argument function declaration and optional `tool_choice:auto`
   only. The installed Gemma 4 E2B GGUF `tokenizer.chat_template` was inspected
