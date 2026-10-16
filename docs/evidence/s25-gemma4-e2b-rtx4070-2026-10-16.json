@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "model": "gemma4-e2b:latest",
+  "errors": [],
+  "load_processes": [
+    {
+      "kind": "first_process",
+      "ready_seconds": 36.42597768600001,
+      "prelaunch_device_vram_mib": 370,
+      "process_memory_kib": {
+        "VmHWM": 4619064,
+        "VmRSS": 4619064
+      },
+      "sampled_process_vram_peak_mib": null,
+      "sampled_device_vram_peak_mib": 3483
+    },
+    {
+      "kind": "repeat_process",
+      "ready_seconds": 37.60477397300008,
+      "prelaunch_device_vram_mib": 370,
+      "process_memory_kib": {
+        "VmHWM": 4620008,
+        "VmRSS": 4620008
+      },
+      "sampled_process_vram_peak_mib": null,
+      "sampled_device_vram_peak_mib": 3485
+    }
+  ],
+  "samples": [
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2270,
+      "decode_ms": 108,
+      "wall_seconds": 2.3800378880000608,
+      "ttft_seconds": 2.3301881000001003,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "warmup",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2034,
+      "decode_ms": 108,
+      "wall_seconds": 2.1426264670000137,
+      "ttft_seconds": 2.092848678999985,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "sample",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2029,
+      "decode_ms": 108,
+      "wall_seconds": 2.1378326160000825,
+      "ttft_seconds": 2.0881985519999944,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "sample",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2028,
+      "decode_ms": 108,
+      "wall_seconds": 2.137007371999971,
+      "ttft_seconds": 2.0874173849999806,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "sample",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2028,
+      "decode_ms": 108,
+      "wall_seconds": 2.136736367000026,
+      "ttft_seconds": 2.086948792000044,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "sample",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "Four",
+      "prompt_tokens": 41,
+      "generated_tokens": 1,
+      "finish_reason": "eos",
+      "prefill_ms": 2029,
+      "decode_ms": 108,
+      "wall_seconds": 2.1373273359999985,
+      "ttft_seconds": 2.0876388210000414,
+      "record_count": 2,
+      "case": "arithmetic",
+      "phase": "sample",
+      "prompt_sha256": "1c1d6377c7be15ac511d3f4daafe4712ce3f0cfa52e4bc04829c84b750d4b192"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12545,
+      "decode_ms": 1510,
+      "wall_seconds": 14.05530429199996,
+      "ttft_seconds": 12.606299896999985,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "warmup",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12532,
+      "decode_ms": 1509,
+      "wall_seconds": 14.041583113000002,
+      "ttft_seconds": 12.593427928999972,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "sample",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12526,
+      "decode_ms": 1509,
+      "wall_seconds": 14.036508135000076,
+      "ttft_seconds": 12.58833999300009,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "sample",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12531,
+      "decode_ms": 1508,
+      "wall_seconds": 14.039168791999941,
+      "ttft_seconds": 12.591785009999967,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "sample",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12531,
+      "decode_ms": 1509,
+      "wall_seconds": 14.041126589999976,
+      "ttft_seconds": 12.593266280999956,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "sample",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    },
+    {
+      "text": "The knowledge graph links documents, entities, and supporting passages, with sources available for citation. New material is added via a",
+      "prompt_tokens": 247,
+      "generated_tokens": 24,
+      "finish_reason": "length",
+      "prefill_ms": 12534,
+      "decode_ms": 1509,
+      "wall_seconds": 14.04368058600005,
+      "ttft_seconds": 12.595446054000035,
+      "record_count": 25,
+      "case": "long_prompt",
+      "phase": "sample",
+      "prompt_sha256": "cab78f5b9b6c4dd512fce63c556db27ffdc06c923d2a35ab1b9aa5b7efca6fb5"
+    }
+  ],
+  "summary": {
+    "arithmetic": {
+      "latency_p50_seconds": 2.1373273359999985,
+      "latency_p95_seconds": 2.1416676968000274,
+      "ttft_p50_seconds": 2.0876388210000414,
+      "prefill_tokens_per_second_p50": 20.206998521439132,
+      "decode_tokens_per_second_p50": 9.25925925925926
+    },
+    "long_prompt": {
+      "latency_p50_seconds": 14.041126589999976,
+      "latency_p95_seconds": 14.04326109140004,
+      "ttft_p50_seconds": 12.593266280999956,
+      "prefill_tokens_per_second_p50": 19.7111164312505,
+      "decode_tokens_per_second_p50": 15.904572564612327
+    }
+  },
+  "binary_sha256": "e11ea802a0ff82a3c91f2cae7c813dd747c51025fd0baea63bffa4f5e981996e",
+  "model_digest": "sha256:740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8",
+  "context": 512,
+  "max_tokens": 24,
+  "samples_per_case": 5,
+  "host": {
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "machine": "x86_64"
+  },
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "driver_version": "610.88",
+    "total_mib": 8188,
+    "used_mib": 370
+  },
+  "limits": [
+    "First/repeat process launch, not a verified cold/warm host state.",
+    "TTFT is first visible UTF-8 text record, not an internal token timestamp; it includes loopback transport and service prefill. Phase timers are service wall time, not GPU kernel time.",
+    "VRAM is periodically sampled; per-process peak is null when NVIDIA process telemetry is unavailable. Device-wide peak may include unrelated activity and is not attributable to Aesir alone.",
+    "NVIDIA telemetry polling and host scheduling can perturb latency; repeat with the same measurement policy before comparing builds."
+  ],
+  "health": {
+    "status": "ready",
+    "backend": "cuda",
+    "cpu_offload": 0,
+    "profile": "gemma4",
+    "context": 512,
+    "model": "gemma4-e2b:latest",
+    "model_digest": "sha256:740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8",
+    "max_tokens": 24,
+    "generation_timeout_ms": 120000,
+    "capabilities": {
+      "text_generation": true,
+      "embeddings": false,
+      "exact_prefix_reuse": false
+    },
+    "prefill_batch": 1,
+    "queue_limit": 4
+  }
+}

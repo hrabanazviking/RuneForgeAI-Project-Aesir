@@ -1016,9 +1016,16 @@ Every row is initially queued unless the execution record says otherwise.
 
 ### S25 — Reproducible native runtime benchmark
 
-- Parent status: active. S25a is verified pending push; S25b will publish the
-  pinned baseline and decide whether the table gate is met. No benchmark is a
-  general speed or cold-host claim.
+- Parent status: partial/blocked at the warm/cold-load gate. S25a is pushed at
+  `0e90096d0747dfcab126ffbb810882b6a55473db`; S25b retains and validates
+  the physical baseline below. No benchmark is a general speed or cold-host
+  claim. A controlled cold/warm host-cache and driver-state experiment would
+  require a safe dedicated maintenance window or separate machine. This run
+  cannot establish it, so the S25 table gate is **not** complete. Per-process
+  VRAM also remains unavailable on this WSL NVIDIA telemetry path; only
+  device-wide observations are reported. Dependent S26–S32 and S37/S39/S46/S47
+  are not unblocked by this bounded result. Independent eligible slices may
+  proceed in table order.
 - S25a contract: native `/v1/generate` returns monotonic service-phase
   `timings_ms.prefill` and `timings_ms.decode` with a complete, model-identified
   terminal response. The opt-in `scripts/benchmark_runtime_v1.py` runs an
@@ -1051,9 +1058,30 @@ Every row is initially queued unless the execution record says otherwise.
   TTFT is first decoded text observed by a loopback client; phase timers
   include service work rather than isolated GPU kernels. The repository
   documentation checker still reports its 66 known consistency issues; the
-  earlier counted Mojo suite stall is not claimed resolved. S25b needs a
-  retained machine-readable baseline with sufficient repetitions and explicit
-  missing-sensor limits before parent completion.
+  earlier counted Mojo suite stall is not claimed resolved. The S25a smoke
+  was superseded for retained baseline purposes by S25b below.
+- S25b contract/evidence: retained
+  `docs/evidence/s25-gemma4-e2b-rtx4070-2026-10-16.json` and interpretation in
+  `docs/evidence/s25-runtime-benchmark-2026-10-16.md`. On WSL2/RTX 4070 Laptop
+  GPU, driver 610.88, the pinned Gemma 4 E2B blob and native binary hashes are
+  in the report. Two fresh service processes became ready in 36.426/37.605 s.
+  Each of two fixed public prompts has one warmup and five measured streaming
+  samples. Independent `validate_runtime_baseline_v1.py` accepted all 12 raw
+  samples and recomputed p50/p95, TTFT and phase-throughput medians; its two
+  synthetic tests include eleven fail-closed mutations. The runner's six tests
+  also passed. Arithmetic request p50/p95 was 2.137/2.142 s; long-prompt
+  p50/p95 was 14.041/14.043 s. Process high-water RAM was 4,619,064/
+  4,620,008 KiB. Device-wide sampled peaks were 3483/3485 MiB versus 370
+  MiB prelaunch; process VRAM remained `null`. The one-token arithmetic decode
+  is not a sustained generation speed claim. `check_doc_drift.py` still reports
+  the same 66 pre-existing repository consistency issues; none names a new
+  S25b file.
+- S25b remaining gate: controlled cold/warm host-state loads and attributable
+  process VRAM cannot be inferred from two fresh processes and device-wide
+  samples. A cold-host experiment is not authorized within this unattended
+  heartbeat; no cache flush, reboot or driver reset was attempted. Preserve
+  the missing-sensor/null field and revisit only with an observable path or
+  explicit maintenance-window authorization.
 
 ### S26–S48
 

@@ -43,6 +43,11 @@ The first process load is **not** a cold-host proof; both loads inherit unknown
 OS/driver cache state. Choose a fresh `--output` path and do not run other GPU
 tests concurrently. `test_benchmark_runtime_v1.py` checks its parser and
 adversarial evidence gates without claiming physical inference.
+`validate_runtime_baseline_v1.py` independently checks a completed retained
+report: identities, paired process loads, complete raw samples and recomputed
+summary quantiles. Its synthetic mutation tests are in
+`test_validate_runtime_baseline_v1.py`; they do not independently authenticate
+the physical model or GPU measurements.
 
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical
