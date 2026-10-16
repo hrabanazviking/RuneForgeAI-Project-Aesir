@@ -50,12 +50,14 @@ def main(binary, store):
             raise AssertionError("interrupted draft reached committed history")
         send_and_wait(master, "/compose")
         send_and_wait(master, "/bye")
+        size(master, 24)
         send_and_wait(master, "")
         send_and_wait(master, "//send")
         undone = send_and_wait(master, "/undo")
         if "Last line removed" not in undone:
             raise AssertionError("compose undo was not acknowledged")
         send_and_wait(master, "世界 🛡️")
+        size(master, 80)
         submitted = send_and_wait(master, "/send", b"You> ", 90).replace("\r\n", "\n")
         if "User: /bye\n\n世界 🛡️" not in submitted:
             raise AssertionError(f"multiline Unicode prompt was not submitted literally: {submitted[-900:]!r}")
@@ -75,7 +77,7 @@ def main(binary, store):
                 process.kill()
                 process.wait(timeout=5)
         os.close(master)
-    print("native compose PTY cancel/SIGINT/undo/multiline Unicode/literal slash: PASS")
+    print("native compose PTY cancel/SIGINT/24-to-80 resize/Unicode: PASS")
 
 
 if __name__ == "__main__":

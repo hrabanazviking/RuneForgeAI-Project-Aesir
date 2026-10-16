@@ -67,11 +67,17 @@ refusal. It does not download or publish model data.
 already installed model. It checks that cancellation commits no turn, undo
 removes a line, blank and Unicode lines survive, and a draft beginning with
 `/bye` is submitted as literal prompt text. It also sends a real SIGINT to
-check draft cancellation without committing a turn. It makes no model download.
+check draft cancellation without committing a turn, and resizes from 80 to 24
+and back to 80 columns during an unfinished draft. It makes no model download.
 
 `test_chat_compose_input.py` drives the model-free
 `tests/chat_compose_input.mojo` harness through redirected EOF (including a
 partial final line), empty `/send`, and explicit Unicode submission.
+
+`test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
+already installed model. It pipes selection, Unicode compose, history and exit
+through standard input and checks the captured output for one committed turn
+without ANSI escape sequences. It makes no model download.
 
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical

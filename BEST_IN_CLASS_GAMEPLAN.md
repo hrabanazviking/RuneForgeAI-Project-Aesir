@@ -1097,8 +1097,9 @@ Every row is initially queued unless the execution record says otherwise.
   S33d makes copy/export guidance width-aware and verifies private full-text
   export. S33e verifies compose cancellation under redirected EOF and real
   SIGINT. S33f bounds mixed-script previews by conservative terminal-cell
-  estimates. Full-screen cursor editing, full transcript navigation, and
-  exact grapheme-width behavior remain open.
+  estimates. S33g verifies draft resize and redirected output. Full-screen
+  cursor editing, full transcript navigation, and exact grapheme-width
+  behavior remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1226,3 +1227,21 @@ Every row is initially queued unless the execution record says otherwise.
   terminals, emoji fonts or composed sequences. Full-screen editing and
   scrollback, resize while composing, redirected-output combinations, and
   non-Gemma physical PTY paths remain open. Parent S33 acceptance is partial.
+- S33g contract: prove that resizing the PTY during an unsubmitted draft does
+  not reset or reinterpret draft lines, and that a piped/redirected native
+  CUDA chat can select an installed model, compose Unicode, view history and
+  exit without ANSI output. Keep the model-free EOF harness and actual PTY
+  checks distinct; do not infer terminal behavior from redirected tests.
+- S33g evidence: the revised `scripts/test_chat_compose_pty.py` passed with
+  the installed Gemma 4 E2B after an 80-to-24-to-80-column resize mid-draft;
+  it still verified cancel, SIGINT, undo, literal slash content, Unicode
+  submission and one committed turn. New `scripts/test_chat_redirected.py`
+  passed with the same installed model and captured stdout: default model
+  selection, Unicode `/compose` and `/send`, `/history`, one committed turn,
+  normal exit and no ANSI escape sequence. Both reused the S33f native CUDA
+  binary; this was a test/documentation slice with no application code change
+  or model download.
+- S33g remaining gate: exact grapheme-cell behavior and full-screen
+  scrollback/editor remain unimplemented. Other installed model profiles and
+  a wider set of terminal/locale combinations were not physically exercised.
+  Parent S33 acceptance remains partial.
