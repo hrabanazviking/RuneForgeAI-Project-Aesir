@@ -211,7 +211,9 @@ Interactive commands run between turns:
 - `/turn N`: show a bounded preview of completed turn N. Terminal controls are
   replaced and valid Unicode is preserved; use `/export <new-markdown>` for
   full, untruncated prose. Select visible text in the terminal to copy it;
-  Aesir does not read or write the system clipboard.
+  Aesir does not read or write the system clipboard. Previews conservatively
+  charge up to two terminal cells per non-ASCII scalar, so long mixed-script
+  text may truncate earlier than the terminal strictly requires.
 - `/set <setting> <value>`: update temperature, top-k, top-p, min-p,
   repeat-penalty, seed or timeout-ms. Use names without `--`. Changing the seed resets the
   draw sequence; changing other settings preserves it.

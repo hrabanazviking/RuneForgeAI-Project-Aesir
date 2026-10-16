@@ -59,7 +59,7 @@ The product-level catalog/chat smoke is separate.
 `test_chat_history_pty.py` is an opt-in physical-CUDA chat smoke: it starts an
 explicit native binary against an already installed model, drives a real PTY
 through one short public prompt, resizes the terminal, and checks history,
-numbered turn detail, Unicode preservation, command help, and invalid-page
+numbered turn detail, conservative mixed-script width, command help, and invalid-page
 rejection. It also checks owner-private full-text export and duplicate-path
 refusal. It does not download or publish model data.
 

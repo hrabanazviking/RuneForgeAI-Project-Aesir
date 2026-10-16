@@ -67,8 +67,10 @@ content. History, turn detail and help explain terminal text selection as the
 copy path; the app does not access the system clipboard. Footer hints are
 bounded for 24-, 50- and 80-column terminals. Views neither retokenize nor
 alter sampler/KV/conversation state.
-The terminal width helper is shared with the model chooser; full Unicode cell
-width and grapheme behavior still need the S33 terminal acceptance pass.
+The terminal width helper is shared with the model chooser. Previews charge
+non-ASCII scalars a conservative two cells and reserve ellipsis width; long
+turn details fit one terminal row per speaker. Exact grapheme/display-cell
+behavior still needs the S33 terminal acceptance pass.
 
 `cli/chat_compose.mojo` owns only an interactive, line-mode draft (128 lines,
 64 KiB including newlines). `/send` submits, `/undo` removes one line,

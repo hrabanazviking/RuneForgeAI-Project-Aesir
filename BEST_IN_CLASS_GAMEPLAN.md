@@ -1096,8 +1096,9 @@ Every row is initially queued unless the execution record says otherwise.
   and command discovery, and S33c adds a bounded line-mode multiline composer.
   S33d makes copy/export guidance width-aware and verifies private full-text
   export. S33e verifies compose cancellation under redirected EOF and real
-  SIGINT. Full-screen cursor editing, full transcript navigation, and the
-  broad Unicode terminal gate remain open.
+  SIGINT. S33f bounds mixed-script previews by conservative terminal-cell
+  estimates. Full-screen cursor editing, full transcript navigation, and
+  exact grapheme-width behavior remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1204,3 +1205,24 @@ Every row is initially queued unless the execution record says otherwise.
 - S33e remaining gate: Llama/Qwen physical PTY paths, resize while composing,
   and full-screen editing/scrollback are still untested or unimplemented.
   Parent S33 acceptance remains partial.
+- S33f contract: `cli/chat_history.mojo` charges each sanitized non-ASCII
+  scalar at most two terminal cells, reserves cell width for truncation dots,
+  and bounds `/turn N` detail to a single terminal row per speaker. This
+  prevents long East-Asian/emoji text from overflowing the fixed-width
+  history/turn previews without relying on process locale, clipboard access,
+  or a terminal-specific Unicode table. Full text remains available through
+  the existing explicit private `/export FILE` path.
+- S33f evidence: fresh CUDA-targeted `main.mojo` and rebuilt
+  `test_chat_history.mojo` passed. Unit cases cover ASCII exact-fit and
+  truncation, CJK/emoji conservative width, 24-column history/detail, and
+  mixed-script detail at 24/50/80 columns. The revised
+  `scripts/test_chat_history_pty.py` passed using the installed Gemma 4 E2B:
+  a long CJK/emoji prompt generated, the 24-column history row stayed within
+  a two-cell-per-non-ASCII bound after resize, 80-column detail kept valid
+  Unicode, and private full-text export retained the untruncated prompt.
+  `check_doc_drift.py` still reports the same 66 pre-existing issues.
+- S33f remaining gate: this conservative estimate may truncate earlier than
+  necessary and is not an exact grapheme/display-cell algorithm across
+  terminals, emoji fonts or composed sequences. Full-screen editing and
+  scrollback, resize while composing, redirected-output combinations, and
+  non-Gemma physical PTY paths remain open. Parent S33 acceptance is partial.

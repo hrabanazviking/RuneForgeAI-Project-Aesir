@@ -24,64 +24,80 @@ def _positive_index(text: String, label: String) raises -> Int:
 
 
 def safe_turn_preview(text: String, limit: Int) raises -> String:
-    """Keep valid UTF-8, but replace terminal controls and bound work/output."""
+    """Sanitize UTF-8 and fit a conservative terminal-cell budget."""
     if limit < 1 or limit > 512:
         raise Error("turn preview limit must be within 1..512")
     var raw = text.as_bytes()
     var index = 0
     var shown = 0
     var result = String("")
+    var ellipsis_fit = String("")
     while index < len(raw) and shown < limit:
         var first = Int(raw[index])
+        var fragment: String
+        var consumed = 1
+        var cells = 1
         if first < 128:
             if first >= 32 and first < 127:
-                result += String(text[byte=index:index + 1])
+                fragment = String(text[byte=index:index + 1])
             else:
-                result += " "
-            index += 1
-            shown += 1
-            continue
-        var width = 0
-        var scalar = 0
-        if first >= 194 and first <= 223:
-            width = 2
-            scalar = first & 31
-        elif first >= 224 and first <= 239:
-            width = 3
-            scalar = first & 15
-        elif first >= 240 and first <= 244:
-            width = 4
-            scalar = first & 7
-        var valid = width > 0 and index + width <= len(raw)
-        if valid:
-            for offset in range(1, width):
-                var next_byte = Int(raw[index + offset])
-                if next_byte < 128 or next_byte > 191:
-                    valid = False
-                    break
-                scalar = (scalar << 6) | (next_byte & 63)
-            if (width == 2 and scalar < 128
-                    or width == 3 and scalar < 2048
-                    or width == 4 and scalar < 65536
-                    or scalar > 1114111
-                    or scalar >= 55296 and scalar <= 57343):
-                valid = False
-        if not valid:
-            result += "?"
-            index += 1
+                fragment = " "
         else:
-            if (scalar >= 128 and scalar <= 159
-                    or scalar >= 8203 and scalar <= 8207
-                    or scalar >= 8232 and scalar <= 8238
-                    or scalar >= 8288 and scalar <= 8303
-                    or scalar == 65279):
-                result += " "
+            var width = 0
+            var scalar = 0
+            if first >= 194 and first <= 223:
+                width = 2
+                scalar = first & 31
+            elif first >= 224 and first <= 239:
+                width = 3
+                scalar = first & 15
+            elif first >= 240 and first <= 244:
+                width = 4
+                scalar = first & 7
+            var valid = width > 0 and index + width <= len(raw)
+            if valid:
+                for offset in range(1, width):
+                    var next_byte = Int(raw[index + offset])
+                    if next_byte < 128 or next_byte > 191:
+                        valid = False
+                        break
+                    scalar = (scalar << 6) | (next_byte & 63)
+                if (width == 2 and scalar < 128
+                        or width == 3 and scalar < 2048
+                        or width == 4 and scalar < 65536
+                        or scalar > 1114111
+                        or scalar >= 55296 and scalar <= 57343):
+                    valid = False
+            if not valid:
+                fragment = "?"
             else:
-                result += String(text[byte=index:index + width])
-            index += width
-        shown += 1
+                consumed = width
+                # A scalar may occupy zero, one or two cells. Two is the
+                # conservative upper bound without locale or grapheme tables.
+                cells = 2
+                if (scalar >= 128 and scalar <= 159
+                        or scalar == 1564
+                        or scalar >= 8203 and scalar <= 8207
+                        or scalar >= 8232 and scalar <= 8238
+                        or scalar >= 8288 and scalar <= 8303
+                        or scalar == 65279):
+                    fragment = " "
+                    cells = 1
+                else:
+                    fragment = String(text[byte=index:index + width])
+        if shown + cells > limit:
+            break
+        result += fragment
+        shown += cells
+        index += consumed
+        if shown <= limit - 3:
+            ellipsis_fit = result
     if index < len(raw):
-        result += "..."
+        if limit < 3:
+            if limit == 1:
+                return "."
+            return ".."
+        return ellipsis_fit + "..."
     return result
 
 
@@ -136,9 +152,7 @@ def render_turn_detail(
     if number < 1 or number > len(conversation.turns):
         raise Error("turn number is outside completed history")
     var turn = conversation.turns[number - 1]
-    var preview_limit = columns * 3
-    if preview_limit > 240:
-        preview_limit = 240
+    var preview_limit = columns - 8
     var footer = String("Copy: select text\n/export FILE: full text\n")
     if columns >= 50:
         footer = "Select text to copy; /export FILE for full text.\n"

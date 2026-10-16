@@ -3,7 +3,7 @@
 from cli.conversation import ConversationState, ConversationTurn
 from cli.chat_history import (
     chat_command_help, render_history_command, render_history_page,
-    render_turn_command, safe_turn_preview,
+    render_turn_command, render_turn_detail, safe_turn_preview,
 )
 
 
@@ -77,6 +77,25 @@ def main() raises:
     var unicode = safe_turn_preview("héllo 🛡️", 20)
     if "héllo 🛡️" not in unicode:
         raise Error("Unicode preview lost valid text")
+    if (safe_turn_preview(String("界") * 20, 9) != "界界界..."
+            or safe_turn_preview(String("a") * 10, 9) != "aaaaaa..."
+            or safe_turn_preview(String("a") * 9, 9) != "aaaaaaaaa"
+            or safe_turn_preview("界", 1) != "."):
+        raise Error("preview did not reserve a bounded cell-width ellipsis")
+    var mixed = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    mixed.append_turn(String("界") * 100, String("🛡️") * 100)
+    var mixed_page = render_history_page(mixed, 1, 24)
+    var mixed_detail = render_turn_detail(mixed, 1, 24)
+    if "1 You: 界界界..." not in mixed_page or "You: 界界界界界界..." not in mixed_detail:
+        raise Error("narrow mixed-script views were not cell-bounded")
+    for width in [24, 50, 80]:
+        for line in render_turn_detail(mixed, 1, width).split("\n"):
+            # Every non-ASCII scalar is charged two cells, so byte length
+            # is not an appropriate terminal-width assertion here.
+            if String(line).byte_length() > width * 4:
+                raise Error("mixed-script turn detail was unbounded")
     var sanitized = safe_turn_preview("a\nb\tc", 20)
     if "\n" in sanitized or "\t" in sanitized or sanitized != "a b c":
         raise Error("terminal controls leaked into history preview")

@@ -46,13 +46,18 @@ def main(binary, store):
         startup = read_until(master, b"You> ", 120)
         if b"backend=cuda" not in startup:
             raise AssertionError("native CUDA chat did not become ready")
-        os.write(master, "Freyja 🛡️\n".encode())
+        os.write(master, ("界" * 20 + " Freyja 🛡️\n").encode())
         read_until(master, b"You> ", 60)
         size(master, 24)
         os.write(master, b"/history\n")
         history = read_until(master, b"You> ", 15).decode()
-        if "History 1/1" not in history or "1 You:" not in history or "Freyja" not in history:
+        if "History 1/1" not in history or "1 You: 界界界..." not in history:
             raise AssertionError(f"history did not show the committed turn: {history!r}")
+        for line in history.replace("\r", "").split("\n"):
+            if " You:" in line or line.startswith("  AI:"):
+                cells = sum(2 if ord(char) >= 128 else 1 for char in line)
+                if cells > 24:
+                    raise AssertionError(f"mixed-script history row exceeded 24 cells: {line!r}")
         size(master, 80)
         os.write(master, b"/turn 1\n")
         detail = read_until(master, b"You> ", 15).decode()
@@ -71,7 +76,8 @@ def main(binary, store):
             os.write(master, f"/export {export}\n".encode())
             exported = read_until(master, b"You> ", 15).decode()
             content = export.read_text(encoding="utf-8")
-            if ("conversation exported" not in exported or "Freyja 🛡️" not in content
+            if ("conversation exported" not in exported or "界" * 20 not in content
+                    or "Freyja 🛡️" not in content
                     or "## Turn 1" not in content):
                 raise AssertionError("full Unicode conversation export failed")
             if export.stat().st_mode & 0o777 != 0o600:
