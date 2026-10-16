@@ -56,6 +56,12 @@ binary path to the script. It checks bounded pages, narrow rendering, resize,
 selection, help, invalid choice and cancellation without loading model bytes.
 The product-level catalog/chat smoke is separate.
 
+`test_chat_history_pty.py` is an opt-in physical-CUDA chat smoke: it starts an
+explicit native binary against an already installed model, drives a real PTY
+through one short public prompt, resizes the terminal, and checks history,
+numbered turn detail, Unicode preservation, command help, and invalid-page
+rejection. It does not download or publish model data.
+
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical
 request/reply sequences and actual model/policy identity, recomputes warm medians

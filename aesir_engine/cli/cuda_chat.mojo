@@ -9,6 +9,8 @@ from cli.interrupts import ChatInterrupts, consume_interrupts, read_interruptibl
 from cli.tui import AesirTUIDashboard
 from cli.model_reference import resolve_model_reference, lease_resolved_model
 from cli.model_selector import choose_installed_model
+from cli.terminal_view import terminal_columns
+from cli.chat_history import chat_command_help, render_history_command, render_turn_command
 from cli.storage import digest_open_fd, lease_direct_model_path
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 from cli.conversation import (
@@ -910,13 +912,17 @@ def chat_control(mut session: Gemma4CUDASession, command: String, transcript: Ch
     var state_changed = False
     if command == "/show":
         transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
+    elif command == "/history" or command.startswith("/history "):
+        transcript.emit(render_history_command(command, conversation, terminal_columns()))
+    elif command == "/turn" or command.startswith("/turn "):
+        transcript.emit(render_turn_command(command, conversation, terminal_columns()))
     elif command == "/clear" or command == "/new":
         session.reset()
         conversation.clear()
         state_changed = True
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit(chat_command_help(terminal_columns()))
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)
@@ -964,13 +970,17 @@ def chat_control(mut session: Llama3CUDASession, command: String, transcript: Ch
     var state_changed = False
     if command == "/show":
         transcript.emit("\n[context_used=" + String(session.position) + "; context_limit=" + String(session.context_length) + "; turns=" + String(len(conversation.turns)) + "; timeout_ms=" + String(session.control.timeout_ms) + "; reset_required=" + String(session.reset_required) + "; sampling=" + session.sampler.config.description() + "]\n")
+    elif command == "/history" or command.startswith("/history "):
+        transcript.emit(render_history_command(command, conversation, terminal_columns()))
+    elif command == "/turn" or command.startswith("/turn "):
+        transcript.emit(render_turn_command(command, conversation, terminal_columns()))
     elif command == "/clear" or command == "/new":
         session.reset()
         conversation.clear()
         state_changed = True
         transcript.emit("\n[conversation cleared; context/history/seed sequence reset; model remains loaded]\n")
     elif command == "/help":
-        transcript.emit("\n/help /show /clear /new /bye; /model <name-or-alias>; /save <new-file> /load <file> /export <new-markdown>; /set <temperature|top-k|top-p|min-p|repeat-penalty|seed|timeout-ms> <value>. Repetition window is fixed at session creation.\n")
+        transcript.emit(chat_command_help(terminal_columns()))
     elif command.startswith("/save"):
         var path = _chat_command_path(command, "/save")
         conversation.model_identity = digest_open_fd(session.model.source.fd)

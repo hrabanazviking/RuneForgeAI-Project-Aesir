@@ -3,8 +3,7 @@ from cli.manifest import ModelManifest
 from cli.storage import DurableModelStore
 from cli.model_preferences import ModelPreferences, DurableModelPreferences
 from cli.interrupts import read_interruptible_line_result
-from std.collections import InlineArray
-from std.ffi import external_call
+from cli.terminal_view import terminal_columns
 
 
 comptime MODEL_PAGE_SIZE = 10
@@ -29,15 +28,7 @@ def browser_quantization_label(value: String) -> String:
 
 def model_selector_columns() -> Int:
     """Reads the current PTY width; a non-PTY caller gets an 80-column view."""
-    var window = InlineArray[UInt16, 4](fill=0)
-    if external_call["ioctl", Int32](Int32(1), UInt64(21523), window.unsafe_ptr()) != 0:
-        return 80
-    var columns = Int(window[1])
-    if columns < 24:
-        return 24
-    if columns > 240:
-        return 240
-    return columns
+    return terminal_columns()
 
 
 def render_model_selector_page(

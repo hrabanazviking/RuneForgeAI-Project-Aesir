@@ -198,6 +198,12 @@ point identity is not promised.
 Interactive commands run between turns:
 
 - `/show`: context usage, sampling policy, timeout and reset-required state.
+- `/history [page]`: list five completed turns per page, newest first. Page 1
+  is the default; page numbers outside the history are rejected. This does
+  not change model state.
+- `/turn N`: show a bounded preview of completed turn N. Terminal controls are
+  replaced and valid Unicode is preserved; use `/export <new-markdown>` for
+  full, untruncated prose.
 - `/set <setting> <value>`: update temperature, top-k, top-p, min-p,
   repeat-penalty, seed or timeout-ms. Use names without `--`. Changing the seed resets the
   draw sequence; changing other settings preserves it.

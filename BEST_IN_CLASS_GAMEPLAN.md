@@ -1092,9 +1092,9 @@ Every row is initially queued unless the execution record says otherwise.
 ### S33 — Bounded local terminal experience
 
 - Parent status: active/partial. S05, S13, and S18 prerequisites are recorded
-  above. S33a is a bounded model-browser improvement, not completion of the
-  full transcript navigation, multiline editor, copy/export hints, command
-  discovery, and Unicode PTY gate.
+  above. S33a improves model browsing and S33b adds bounded read-only history
+  and command discovery. Neither completes the multiline editor, full
+  transcript navigation, copy/export ergonomics, or Unicode terminal gate.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1120,5 +1120,28 @@ Every row is initially queued unless the execution record says otherwise.
 - Remaining: the real PTY harness uses synthetic manifests and the same prompt
   function; the catalog-backed smoke used redirected input rather than a PTY.
   Transcript navigation, multiline editing, copy/export discoverability and
-  Unicode terminal behavior remain S33b+ work. Do not mark the parent gate
-  passed yet.
+  Unicode terminal behavior remained open after S33a.
+- S33b contract: `cli/chat_history.mojo` owns read-only five-turn newest-first
+  pages and bounded numbered-turn previews for both CUDA chat profiles.
+  `/history [page]`, `/turn N`, and a grouped `/help` are routed only between
+  turns; their output cannot mutate the committed turn list or sampler/KV
+  state. Strict positive-decimal page/turn parsing rejects overflow and
+  out-of-range selections. UTF-8 previews replace terminal controls and cap
+  output; `/export FILE` is the explicit full-text path. `cli/terminal_view.mojo`
+  shares the PTY width observation with the S33a model browser.
+- S33b evidence: fresh CUDA-targeted `main.mojo` and
+  `test_chat_history.mojo` builds passed. The history unit binary covered
+  empty, 12-turn/three-page, 1,024-turn/four-digit narrow layout, malformed
+  indices, Unicode, control replacement, preview truncation, help width and
+  read-only state. Rebuilt S33a model-browser unit and PTY checks passed after
+  the shared-width extraction. `scripts/test_chat_history_pty.py` used the
+  installed Gemma 4 E2B in real 80x24 then 24x24 PTY: one public Unicode
+  prompt committed, `/history`, `/turn 1`, `/help`, invalid `/history 2` and
+  `/bye` passed. `check_doc_drift.py` still reports the same 66 pre-existing
+  consistency issues.
+- S33b remaining gate: physical PTY exercised only one Gemma turn; Llama/Qwen
+  command routing compiled but lacked an equivalent physical PTY run. History
+  is bounded previews, not a full-screen scrollback. Grapheme/display-cell
+  widths, long mixed-script turns, multiline editing, and the remaining
+  copy/export usability workflow need S33c+ work. Parent acceptance remains
+  open.

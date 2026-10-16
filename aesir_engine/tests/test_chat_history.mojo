@@ -1,0 +1,83 @@
+"""S33b read-only transcript navigation and safe preview regressions."""
+
+from cli.conversation import ConversationState, ConversationTurn
+from cli.chat_history import (
+    chat_command_help, render_history_command, render_history_page,
+    render_turn_command, safe_turn_preview,
+)
+
+
+def main() raises:
+    var conversation = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    if "No completed turns" not in render_history_page(conversation, 1, 24):
+        raise Error("empty history was not explained")
+    var invalid_empty_page = False
+    try:
+        _ = render_history_page(conversation, 2, 24)
+    except:
+        invalid_empty_page = True
+    if not invalid_empty_page:
+        raise Error("empty history accepted page two")
+    for number in range(1, 13):
+        conversation.append_turn("user " + String(number), "answer " + String(number))
+    var newest = render_history_command("/history", conversation, 24)
+    var middle = render_history_command("/history 2", conversation, 80)
+    var oldest = render_history_command("/history 3", conversation, 80)
+    if ("12 You:" not in newest or "8 You:" not in newest
+            or "7 You:" in newest or "7 You:" not in middle
+            or "3 You:" not in middle or "2 You:" not in oldest
+            or "1 You:" not in oldest):
+        raise Error("history navigation skipped or reordered turns")
+    for line in newest.split("\n"):
+        if String(line).byte_length() > 24:
+            raise Error("24-column history page overflowed")
+    var full_history = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    for _ in range(1024):
+        full_history.turns.append(ConversationTurn(String("x") * 80, "answer"))
+    var last_page = render_history_page(full_history, 1, 24)
+    if "1024 You:" not in last_page:
+        raise Error("four-digit turn ID was not shown")
+    for line in last_page.split("\n"):
+        if String(line).byte_length() > 24:
+            raise Error("four-digit history page overflowed")
+    if "user 3" not in render_turn_command("/turn 3", conversation, 80):
+        raise Error("numbered turn did not show its own content")
+    for bad in ["/history 0", "/history -1", "/history 4", "/history 1x"]:
+        var rejected = False
+        try:
+            _ = render_history_command(bad, conversation, 80)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("history accepted invalid page: " + bad)
+    for bad in ["/turn", "/turn 0", "/turn 13", "/turn 999999999999999999999"]:
+        var rejected = False
+        try:
+            _ = render_turn_command(bad, conversation, 80)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("turn view accepted invalid number: " + bad)
+    var unicode = safe_turn_preview("héllo 🛡️", 20)
+    if "héllo 🛡️" not in unicode:
+        raise Error("Unicode preview lost valid text")
+    var sanitized = safe_turn_preview("a\nb\tc", 20)
+    if "\n" in sanitized or "\t" in sanitized or sanitized != "a b c":
+        raise Error("terminal controls leaked into history preview")
+    if "..." not in safe_turn_preview(String("x") * 1000, 12):
+        raise Error("long turn preview was not bounded")
+    if "/history" not in chat_command_help(24) or "/export" not in chat_command_help(80):
+        raise Error("command discovery omitted history/export")
+    for line in chat_command_help(24).split("\n"):
+        if String(line).byte_length() > 24:
+            raise Error("narrow command help overflowed")
+    for line in chat_command_help(50).split("\n"):
+        if String(line).byte_length() > 50:
+            raise Error("wide command help overflowed its declared width")
+    if len(conversation.turns) != 12:
+        raise Error("history rendering mutated conversation state")
+    print("chat history unit: PASS")
