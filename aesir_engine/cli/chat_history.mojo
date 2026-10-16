@@ -118,9 +118,12 @@ def render_history_page(
         frame += String(number) + " You: " + safe_turn_preview(turn.user, preview_limit) + "\n"
         frame += "  AI: " + safe_turn_preview(turn.assistant, preview_limit) + "\n"
     if columns < 50:
-        frame += "/turn N | /export FILE\n"
+        frame += "Copy: select text\n/turn N | /export FILE\n"
+    elif columns < 80:
+        frame += "Use /turn N; /history P for older.\n"
+        frame += "Select text to copy; /export FILE for all.\n"
     else:
-        frame += "Use /turn N for detail; /history P for older pages; /export FILE for full text.\n"
+        frame += "Use /turn N or /history P; select text to copy; /export FILE for full text.\n"
     return frame
 
 
@@ -136,9 +139,9 @@ def render_turn_detail(
     var preview_limit = columns * 3
     if preview_limit > 240:
         preview_limit = 240
-    var footer = String("/export FILE: full text\n")
+    var footer = String("Copy: select text\n/export FILE: full text\n")
     if columns >= 50:
-        footer = "Use /export FILE for full text.\n"
+        footer = "Select text to copy; /export FILE for full text.\n"
     return String("\nTurn " + String(number) + "/" + String(len(conversation.turns))
                   + "\nYou: " + safe_turn_preview(turn.user, preview_limit)
                   + "\nAI: " + safe_turn_preview(turn.assistant, preview_limit)
@@ -169,12 +172,13 @@ def chat_command_help(columns: Int) -> String:
     if columns < 50:
         return String("\n/help /show /history [P]\n/turn N /compose /bye\n/clear /new\n"
                       + "/model NAME /save FILE\n/load FILE /export FILE\n"
-                      + "/set NAME VALUE\n")
+                      + "/set NAME VALUE\nCopy: select text\n")
     return String("\nBrowse: /history [page], /turn N, /show\n"
                   + "Compose: /compose (then /send, /undo, /cancel)\n"
                   + "Session: /clear, /new, /bye\n"
                   + "Models: /model NAME (resets conversation)\n"
                   + "Files: /save FILE, /load FILE, /export FILE\n"
+                  + "Copy: select text; /export FILE for full text.\n"
                   + "Settings: /set NAME VALUE\n"
                   + "Names: temperature, top-k, top-p, min-p,\n"
                   + "       repeat-penalty, seed, timeout-ms.\n"

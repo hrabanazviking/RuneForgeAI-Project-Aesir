@@ -4,10 +4,12 @@
 import argparse
 import fcntl
 import os
+from pathlib import Path
 import select
 import struct
 import subprocess
 import termios
+import tempfile
 import time
 
 
@@ -64,6 +66,20 @@ def main(binary, store):
         rejected = read_until(master, b"You> ", 15).decode()
         if "history page is outside completed turns" not in rejected:
             raise AssertionError("invalid page was not rejected")
+        with tempfile.TemporaryDirectory(prefix="aesir-history-") as temporary:
+            export = Path(temporary) / "conversation.md"
+            os.write(master, f"/export {export}\n".encode())
+            exported = read_until(master, b"You> ", 15).decode()
+            content = export.read_text(encoding="utf-8")
+            if ("conversation exported" not in exported or "Freyja 🛡️" not in content
+                    or "## Turn 1" not in content):
+                raise AssertionError("full Unicode conversation export failed")
+            if export.stat().st_mode & 0o777 != 0o600:
+                raise AssertionError("export was not owner-private")
+            os.write(master, f"/export {export}\n".encode())
+            duplicate = read_until(master, b"You> ", 15).decode()
+            if "must not already exist" not in duplicate or export.read_text(encoding="utf-8") != content:
+                raise AssertionError("duplicate export was not safely rejected")
         os.write(master, b"/bye\n")
         if process.wait(timeout=15) != 0:
             raise AssertionError(f"chat exited with status {process.returncode}")
@@ -76,7 +92,7 @@ def main(binary, store):
                 process.kill()
                 process.wait(timeout=5)
         os.close(master)
-    print("native chat PTY 80x24, 24x24 resize, Unicode history/turn/help: PASS")
+    print("native chat PTY history/turn/help, private Unicode export/no-overwrite: PASS")
 
 
 if __name__ == "__main__":

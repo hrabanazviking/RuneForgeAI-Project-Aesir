@@ -210,7 +210,8 @@ Interactive commands run between turns:
   not change model state.
 - `/turn N`: show a bounded preview of completed turn N. Terminal controls are
   replaced and valid Unicode is preserved; use `/export <new-markdown>` for
-  full, untruncated prose.
+  full, untruncated prose. Select visible text in the terminal to copy it;
+  Aesir does not read or write the system clipboard.
 - `/set <setting> <value>`: update temperature, top-k, top-p, min-p,
   repeat-penalty, seed or timeout-ms. Use names without `--`. Changing the seed resets the
   draw sequence; changing other settings preserves it.
@@ -233,7 +234,8 @@ Interactive commands run between turns:
   and sampling settings before resetting and replaying exact tokens into GPU KV.
   The loader never reconstructs model state by retokenizing exported prose.
 - `/export <new-markdown>`: exclusively publish a readable Markdown copy of the
-  current user and assistant turns. It is not a restorable snapshot.
+  current user and assistant turns. The new file is owner-private; an existing
+  path is never overwritten. It is not a restorable snapshot.
 - `/help` and `/bye`: show controls or exit.
 
 To organize explicit `/save` snapshots by a human name, use the separate named

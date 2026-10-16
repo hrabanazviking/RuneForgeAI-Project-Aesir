@@ -63,7 +63,10 @@ CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
 newest-first history has five turns per page; `/turn N` shows a larger but
 bounded preview of a numbered turn. Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable
-content. They neither retokenize nor alter sampler/KV/conversation state.
+content. History, turn detail and help explain terminal text selection as the
+copy path; the app does not access the system clipboard. Footer hints are
+bounded for 24-, 50- and 80-column terminals. Views neither retokenize nor
+alter sampler/KV/conversation state.
 The terminal width helper is shared with the model chooser; full Unicode cell
 width and grapheme behavior still need the S33 terminal acceptance pass.
 

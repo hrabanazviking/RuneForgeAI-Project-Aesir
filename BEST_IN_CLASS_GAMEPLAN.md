@@ -1094,8 +1094,9 @@ Every row is initially queued unless the execution record says otherwise.
 - Parent status: active/partial. S05, S13, and S18 prerequisites are recorded
   above. S33a improves model browsing, S33b adds bounded read-only history
   and command discovery, and S33c adds a bounded line-mode multiline composer.
-  Full-screen cursor editing, full transcript navigation, copy/export
-  ergonomics, and the broad Unicode terminal gate remain open.
+  S33d makes copy/export guidance width-aware and verifies private full-text
+  export. Full-screen cursor editing, full transcript navigation, and the
+  broad Unicode terminal gate remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1168,3 +1169,22 @@ Every row is initially queued unless the execution record says otherwise.
   while composing, and Llama/Qwen PTY paths were not exercised. The parent
   S33 acceptance gate remains open for those cases, full scrollback and
   copy/export ergonomics.
+- S33d contract: history and turn-detail footers explicitly explain terminal
+  selection for copying and `/export FILE` for full text at narrow, mid-width
+  and 80-column terminals. Help lists the same path without claiming clipboard
+  integration. The existing exclusive, owner-private export boundary remains
+  the only file-write path; no clipboard library or network dependency is
+  introduced.
+- S33d evidence: fresh CUDA-targeted `main.mojo` build and rebuilt
+  `test_chat_history.mojo` passed. Unit assertions cover copy/export guidance
+  and per-line bounds at 24, 50, 79 and 80 columns. The revised
+  `test_chat_history_pty.py` passed with the installed Gemma 4 E2B through an
+  actual 80x24 then 24x24 PTY: Unicode history/turn/help, owner-private
+  Markdown export containing the full Unicode turn, and duplicate-path
+  refusal without changing the first export. `check_doc_drift.py` still
+  reports the same 66 pre-existing repository consistency issues.
+- S33d remaining gate: terminal selection/copy is user-interface guidance,
+  not programmatic clipboard integration or an automated clipboard test.
+  Full-screen scrollback/editing, broader Unicode cell/grapheme behavior,
+  redirected-output/resize combinations, and non-Gemma physical PTY chat
+  paths are still open. Parent S33 acceptance remains partial.

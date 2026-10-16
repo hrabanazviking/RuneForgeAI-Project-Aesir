@@ -33,6 +33,18 @@ def main() raises:
     for line in newest.split("\n"):
         if String(line).byte_length() > 24:
             raise Error("24-column history page overflowed")
+    for width in [24, 50, 79, 80]:
+        var page = render_history_page(conversation, 1, width)
+        var detail = render_turn_command("/turn 1", conversation, width)
+        if (("select text" not in page and "Select text" not in page)
+                or ("select text" not in detail and "Select text" not in detail)):
+            raise Error("copy/export guidance is missing")
+        for line in page.split("\n"):
+            if String(line).byte_length() > width:
+                raise Error("history guidance overflowed terminal width")
+        for line in detail.split("\n"):
+            if String(line).byte_length() > width:
+                raise Error("turn guidance overflowed terminal width")
     var full_history = ConversationState(
         "sha256:fixture", "gemma4", 512, "system", "greedy",
     )
@@ -73,8 +85,9 @@ def main() raises:
     if ("/history" not in chat_command_help(24)
             or "/compose" not in chat_command_help(24)
             or "/compose" not in chat_command_help(80)
-            or "/export" not in chat_command_help(80)):
-        raise Error("command discovery omitted history/compose/export")
+            or "/export" not in chat_command_help(80)
+            or "select text" not in chat_command_help(80)):
+        raise Error("command discovery omitted history/compose/copy/export")
     for line in chat_command_help(24).split("\n"):
         if String(line).byte_length() > 24:
             raise Error("narrow command help overflowed")
