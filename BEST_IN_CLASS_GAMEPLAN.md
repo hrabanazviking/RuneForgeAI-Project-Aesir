@@ -1083,8 +1083,42 @@ Every row is initially queued unless the execution record says otherwise.
   the missing-sensor/null field and revisit only with an observable path or
   explicit maintenance-window authorization.
 
-### S26–S48
+### S26–S32, S34–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each
   slice becomes active. No unchecked row implies an implemented feature.
+
+### S33 — Bounded local terminal experience
+
+- Parent status: active/partial. S05, S13, and S18 prerequisites are recorded
+  above. S33a is a bounded model-browser improvement, not completion of the
+  full transcript navigation, multiline editor, copy/export hints, command
+  discovery, and Unicode PTY gate.
+- S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
+  with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
+  cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
+  It measures the PTY width at each
+  render, so resize affects the next page without changing catalog identity.
+  A long model name is visibly clipped, while the number remains unique and
+  untrusted quantization metadata cannot inject terminal control characters.
+  `aesir show` remains the complete-metadata path. Selection still leaves
+  model resolution and GPU startup to the existing CUDA chat boundary.
+- S33a evidence: a fresh CUDA-targeted `main.mojo` build and standalone
+  `test_model_browser.mojo` build passed. Its unit checks cover page ordering,
+  24/80-column line bounds, favorite marker, stable final-page selection,
+  unsafe quantization suppression and invalid-page rejection.
+  `scripts/test_model_browser_pty.py` drove the
+  compiled harness at 80x24 and 24x24, selected page-two model 12, resized
+  from 24 to 80 columns between page renders, tested invalid input/help,
+  navigated back and cancelled. With the actual installed Gemma 4 E2B catalog,
+  redirected `q` and EOF both exited 0 without loading a model or hanging;
+  blank selection then `/bye` loaded the CUDA model and exited 0 with zero
+  turns. `check_doc_drift.py` still reports the same 66 existing consistency
+  issues, none naming a new S33a file. The previous all-model formatter
+  remains for existing callers/tests.
+- Remaining: the real PTY harness uses synthetic manifests and the same prompt
+  function; the catalog-backed smoke used redirected input rather than a PTY.
+  Transcript navigation, multiline editing, copy/export discoverability and
+  Unicode terminal behavior remain S33b+ work. Do not mark the parent gate
+  passed yet.

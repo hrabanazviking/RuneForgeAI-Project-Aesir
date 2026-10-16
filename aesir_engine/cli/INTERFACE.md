@@ -38,6 +38,17 @@ does not become a resident inference server. Ctrl+C cancels menu input, and
 EOF/quit exits. Child cancellation follows that child's existing policy.
 Model imports and preference repair application are never implicit menu actions.
 
+The installed-model chat chooser uses a bounded ten-entry page. Its numeric
+IDs stay stable across `n`/`p` page navigation and terminal resize; `?` shows
+selection help, `q`/EOF/Ctrl+C cancels, and blank Enter selects the first
+entry on the visible page (the first favorite-first entry on page one). The
+current terminal width is read on each page; narrow
+views clip ASCII catalog names with `...` but retain the unique numeric ID.
+Untrusted quantization metadata is reduced to a safe ASCII label before display.
+`aesir show <name:tag>` provides full metadata. This chooser does not hash
+model bytes or start a GPU session until a choice is made. It is not yet the
+full S33 transcript/editor/navigation surface.
+
 ## Native CUDA chat controls
 
 `cli/sampling.mojo` maps native sampling flags and re-exports core value

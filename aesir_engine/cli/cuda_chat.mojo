@@ -484,7 +484,13 @@ def _dispatch_cuda_chat(
     var interrupts = ChatInterrupts()
     var interrupt_fd = interrupts.fd
     if model_reference == "":
-        model_reference = choose_installed_model(model_store, interrupt_fd)
+        try:
+            model_reference = choose_installed_model(model_store, interrupt_fd)
+        except error:
+            if String(error) == "Model selection cancelled":
+                print("Model selection cancelled; no model loaded.")
+                return
+            raise error
     startup.current_model = model_reference
     var requested_context = context_length if "--context" in seen else 0
     var requested_max_tokens = max_tokens if "--max-tokens" in seen else 0

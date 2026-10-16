@@ -49,6 +49,13 @@ summary quantiles. Its synthetic mutation tests are in
 `test_validate_runtime_baseline_v1.py`; they do not independently authenticate
 the physical model or GPU measurements.
 
+`test_model_browser_pty.py` drives the standalone native Mojo
+`tests/test_model_browser.mojo` harness through a real Linux PTY. Build that
+harness with the supported CUDA-targeted Mojo environment, then pass its
+binary path to the script. It checks bounded pages, narrow rendering, resize,
+selection, help, invalid choice and cancellation without loading model bytes.
+The product-level catalog/chat smoke is separate.
+
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical
 request/reply sequences and actual model/policy identity, recomputes warm medians
