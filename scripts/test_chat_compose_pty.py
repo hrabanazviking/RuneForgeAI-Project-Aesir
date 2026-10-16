@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import signal
 import subprocess
 
 from test_chat_history_pty import read_until, size
@@ -38,6 +39,16 @@ def main(binary, store):
         if "No completed turns" not in empty or "CANCELLED_PRIVATE_DRAFT" in empty:
             raise AssertionError("cancelled draft reached committed history")
         send_and_wait(master, "/compose")
+        send_and_wait(master, "INTERRUPTED_PRIVATE_DRAFT")
+        os.kill(process.pid, signal.SIGINT)
+        interrupted = read_until(master, b"You> ", 15).decode("utf-8")
+        if "Draft cancelled by interrupt" not in interrupted:
+            raise AssertionError("SIGINT did not cancel the active draft")
+        os.write(master, b"/history\n")
+        empty_after_interrupt = read_until(master, b"You> ", 15).decode("utf-8")
+        if "No completed turns" not in empty_after_interrupt:
+            raise AssertionError("interrupted draft reached committed history")
+        send_and_wait(master, "/compose")
         send_and_wait(master, "/bye")
         send_and_wait(master, "")
         send_and_wait(master, "//send")
@@ -64,7 +75,7 @@ def main(binary, store):
                 process.kill()
                 process.wait(timeout=5)
         os.close(master)
-    print("native compose PTY cancel/undo/multiline Unicode/literal slash: PASS")
+    print("native compose PTY cancel/SIGINT/undo/multiline Unicode/literal slash: PASS")
 
 
 if __name__ == "__main__":

@@ -1095,7 +1095,8 @@ Every row is initially queued unless the execution record says otherwise.
   above. S33a improves model browsing, S33b adds bounded read-only history
   and command discovery, and S33c adds a bounded line-mode multiline composer.
   S33d makes copy/export guidance width-aware and verifies private full-text
-  export. Full-screen cursor editing, full transcript navigation, and the
+  export. S33e verifies compose cancellation under redirected EOF and real
+  SIGINT. Full-screen cursor editing, full transcript navigation, and the
   broad Unicode terminal gate remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
@@ -1188,3 +1189,18 @@ Every row is initially queued unless the execution record says otherwise.
   Full-screen scrollback/editing, broader Unicode cell/grapheme behavior,
   redirected-output/resize combinations, and non-Gemma physical PTY chat
   paths are still open. Parent S33 acceptance remains partial.
+- S33e contract: verify that EOF (including a final partial line), empty
+  `/send`, and real SIGINT cannot submit or commit a draft. Add a model-free
+  redirected-input harness and extend the already installed Gemma PTY smoke;
+  do not modify model/session ownership or weaken the explicit `/send` gate.
+- S33e evidence: a fresh CUDA-targeted `tests/chat_compose_input.mojo` harness
+  build and `scripts/test_chat_compose_input.py` passed empty EOF, partial
+  final-line EOF, empty `/send` followed by EOF, and explicit Unicode `/send`.
+  The revised `scripts/test_chat_compose_pty.py` passed with the installed
+  Gemma 4 E2B: SIGINT discarded a nonempty draft, history remained empty,
+  and subsequent multiline Unicode generation and normal exit still worked.
+  It reused the S33d native CUDA binary; no application source changed in
+  this test-only slice and no model data was downloaded.
+- S33e remaining gate: Llama/Qwen physical PTY paths, resize while composing,
+  and full-screen editing/scrollback are still untested or unimplemented.
+  Parent S33 acceptance remains partial.
