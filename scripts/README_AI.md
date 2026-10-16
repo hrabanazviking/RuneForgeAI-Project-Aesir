@@ -33,6 +33,17 @@ failures. --no-prefix-cache distinguishes fresh prefill from repeated prefixes.
 Run measurements while other GPU tests are idle. It owns its temporary process
 and key, not the supervised deployment. See ../docs/NATIVE_PERFORMANCE.md.
 
+benchmark_runtime_v1.py is the S25 supervised streaming measurement runner.
+It retains two process-load timings, raw per-request wall/first-text/phase
+timings and token counts, p50/p95 request latency, binary/model digests,
+process RAM high-water, sampled per-process NVIDIA VRAM where observable, and
+sampled device-wide VRAM with a prelaunch comparison. Device-wide use may
+include other workloads and is never attributed solely to Aesir.
+The first process load is **not** a cold-host proof; both loads inherit unknown
+OS/driver cache state. Choose a fresh `--output` path and do not run other GPU
+tests concurrently. `test_benchmark_runtime_v1.py` checks its parser and
+adversarial evidence gates without claiming physical inference.
+
 The optional extended suite and --max-tokens exercise larger public prompts and
 sustained generation. compare_native_benchmarks.py requires complete identical
 request/reply sequences and actual model/policy identity, recomputes warm medians

@@ -208,7 +208,10 @@ GPU memory. Calls are serialized through `ControlledTextSession`; transport
 does not own tensors or execute kernels.
 
 Successful JSON responses contain `text`, `finish_reason`, `prompt_tokens`,
-`generated_tokens`, `context_used`, `backend` and `cpu_offload`. A generation
+`generated_tokens`, `context_used`, `backend`, `cpu_offload`, resident model
+identity, and observed `timings_ms.prefill`/`timings_ms.decode` service-phase
+durations. Streaming final records carry the same identity and phase timing;
+these wall timers include service work, not just GPU kernels. A generation
 deadline may return a partial answer with `finish_reason: timeout`; a deadline
 during prefill returns HTTP 504 without an answer. The next valid request resets
 state before use. Invalid JSON/control values return 400; model/context admission

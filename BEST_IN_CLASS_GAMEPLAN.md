@@ -1014,7 +1014,48 @@ Every row is initially queued unless the execution record says otherwise.
   no full-suite pass is claimed. The error-hygiene scan also reports one
   pre-existing violation in untouched `test_chat_template_hardening.mojo`.
 
-### S25–S48
+### S25 — Reproducible native runtime benchmark
+
+- Parent status: active. S25a is verified pending push; S25b will publish the
+  pinned baseline and decide whether the table gate is met. No benchmark is a
+  general speed or cold-host claim.
+- S25a contract: native `/v1/generate` returns monotonic service-phase
+  `timings_ms.prefill` and `timings_ms.decode` with a complete, model-identified
+  terminal response. The opt-in `scripts/benchmark_runtime_v1.py` runs an
+  authenticated loopback service twice, measures first/repeat process load,
+  first visible UTF-8 text, per-request wall/prefill/decode and token counts,
+  process RSS high-water, sampled NVIDIA process/device VRAM, and p50/p95 over
+  raw samples. The binary and installed catalog model are SHA-256-identified;
+  the blob is rehashed after measurement. Reports are exclusively created,
+  retain partial samples on failure, and never include the temporary key.
+- S25a evidence: fresh CUDA-targeted `main.mojo` build passed. Focused
+  `test_local_protocol.mojo` passed; six synthetic Python benchmark tests
+  covered stream framing, identity/count/timing refusal, p95 calculation,
+  catalog identity, exclusive failure artifacts and partial-sample retention.
+  The same built binary passed all 32 independent HTTP v1 fixtures, including
+  the new nonstream/NDJSON timing fields. An opt-in Gemma 4 E2B/RTX 4070 WSL
+  smoke run (`.aesir/s25a-final.json`, untracked) completed two process loads
+  in 37.21/37.91 s and six streaming requests. Its two measured arithmetic
+  replies had p50/p95 wall latency 2.139/2.140 s; the two long-prompt replies
+  had 13.321/13.328 s. The model blob hash matched the catalog pin. These
+  tiny smoke samples are not the S25 baseline.
+- Reproduce S25a: build `main.mojo` for the supported CUDA accelerator, then
+  run `python3 scripts/benchmark_runtime_v1.py --binary BUILD --model
+  gemma4-e2b:latest --store .aesir/models --context 512 --max-tokens 12
+  --samples 2 --output NEW-REPORT.json` from the repository root. The output
+  path must not exist; run with no other intentional GPU benchmarks active.
+- S25a limits: per-process VRAM is unavailable on this WSL driver (`null` in
+  both loads); sampled device-wide peaks were 3485/3483 MiB against a 370 MiB
+  prelaunch observation and may include unrelated workloads. First/repeat
+  process launches do not establish cold/warm OS-cache or cold-host states.
+  TTFT is first decoded text observed by a loopback client; phase timers
+  include service work rather than isolated GPU kernels. The repository
+  documentation checker still reports its 66 known consistency issues; the
+  earlier counted Mojo suite stall is not claimed resolved. S25b needs a
+  retained machine-readable baseline with sufficient repetitions and explicit
+  missing-sensor limits before parent completion.
+
+### S26–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

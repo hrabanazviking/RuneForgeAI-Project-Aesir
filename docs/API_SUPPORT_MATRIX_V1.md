@@ -13,7 +13,7 @@ at a time and close every HTTP/1.1 connection after its response.
 | `GET /health` | Yes | 404 | Legacy loaded-service report; retains `status: "ready"` for existing clients. Use the separate routes below for new health checks. |
 | `GET /health/live` | Yes | 404 | Schema v1 JSON `status: "ok"`, `scope: "process"`; request-loop liveness only, with no model-readiness claim. |
 | `GET /health/ready` | Yes | 404 | Schema v1 JSON `ready`, `status`, resident model identity/profile/context. HTTP 200 when the resident session is healthy, 503 with `status: "not_ready"` otherwise. |
-| `POST /v1/generate` | Yes | 404 | Default JSON `text`, `finish_reason`, `prompt_tokens`, `generated_tokens`, `context_used`, `backend`, `cpu_offload`; `stream:true` uses incremental NDJSON text records and a counted terminal record. |
+| `POST /v1/generate` | Yes | 404 | Default JSON `text`, `finish_reason`, `prompt_tokens`, `generated_tokens`, `context_used`, `backend`, `cpu_offload`, model identity and service phase `timings_ms`; `stream:true` uses incremental NDJSON text records and a counted terminal record. |
 | `GET /v1/models` | Yes | Yes | JSON `object: "list"`, `data[]` with `id`, `object: "model"`, `created`, `owned_by`. Re-reads registered weight manifests on every call; a directly loaded path is included in native mode. Visibility does not imply loaded or runnable. |
 | `POST /v1/completions` | Yes | Yes | JSON `id`, `object: "text_completion"`, `created`, `model`, one `choices[]` item and `usage`. |
 | `POST /v1/chat/completions` | Yes | Yes | JSON `id`, `object: "chat.completion"`, `created`, `model`, one assistant `choices[]` item and `usage`. |
@@ -105,8 +105,14 @@ Native `/v1/generate` `stream:false` returns one JSON response. `stream:true`
 returns `application/x-ndjson` over a close-delimited HTTP/1.1 response without
 `Content-Length`: each complete UTF-8 text piece is
 `{"text":"...","done":false}\n`, followed by one
-`{"text":"","done":true,"finish_reason":"...","prompt_tokens":N,"generated_tokens":N,"context_used":N,"backend":"cuda","cpu_offload":0}\n`.
+`{"text":"","done":true,"finish_reason":"...","prompt_tokens":N,"generated_tokens":N,"context_used":N,"backend":"cuda","cpu_offload":0,"model":"...","model_digest":"sha256:...","timings_ms":{"prefill":N,"decode":N}}\n`.
 The first text record is sent during decoding, before the final record.
+Both nonstreaming and streaming native results expose `timings_ms`: prefill
+measures service wall time inside `begin_turn` (including tokenization and GPU
+prefill); decode measures the service loop from before its first decode step
+through the final step, including scheduling and stream sends. These are
+monotonic millisecond observations, not isolated GPU kernel times. A client
+measuring time to its first text record observes additional loopback transport.
 If a connection fails after headers, it can end without a terminal record;
 clients must treat that as incomplete rather than as a successful generation.
 

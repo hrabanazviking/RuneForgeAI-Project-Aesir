@@ -513,7 +513,9 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         session.configure_control(request.timeout_ms, interrupt_fd)
                         status = 422
                         generation_started = True
+                        var prefill_started_ms = monotonic_milliseconds()
                         session.begin_turn(request.prompt, request.system, request.max_tokens)
+                        var prefill_elapsed_ms = monotonic_milliseconds() - prefill_started_ms
                         print("[request=" + String(sequence) + " phase=generation]")
                         _ = external_call["fflush", Int32](Int(0))
                         var answer = String("")
@@ -522,6 +524,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             response_started = True
                             stream_kind = "native"
                             send_native_stream_head(client.fd, io_timeout_ms, interrupt_fd)
+                        var decode_started_ms = monotonic_milliseconds()
                         while session.status().generating:
                             var chunk = session.next_chunk()
                             _ = admit_pending(listener.fd, pending, queue_limit, queue_timeout_ms, io_timeout_ms, interrupt_fd, ollama)
@@ -532,11 +535,12 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 raise Error("Native response exceeded 1 MiB")
                             if request.stream and chunk.byte_length() > 0:
                                 send_local(client.fd, "{\"text\":\"" + json_escape_string(chunk) + "\",\"done\":false}\n", io_timeout_ms, interrupt_fd)
+                        var decode_elapsed_ms = monotonic_milliseconds() - decode_started_ms
                         var state = session.status()
                         if request.stream:
-                            send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0}\n", io_timeout_ms, interrupt_fd)
+                            send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}\n", io_timeout_ms, interrupt_fd)
                         else:
-                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\"}"
+                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}"
                         status = 200
                     else:
                         status = 404
