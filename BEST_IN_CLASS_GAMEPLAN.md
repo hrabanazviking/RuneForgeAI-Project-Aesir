@@ -972,7 +972,49 @@ Every row is initially queued unless the execution record says otherwise.
   as S23 completion evidence; prior full-suite stall and pre-existing doc drift
   remain recorded under S22.
 
-### S24–S48
+### S24 — Gemma 4 single-function tool-call protocol
+
+- Status: implemented and verified for the installed Gemma 4 E2B CUDA template;
+  the commit containing this record is the evidence revision. No tool is
+  executed by Aesir.
+- Contract: the OpenAI chat route in either native or Ollama service mode
+  admits one zero-argument function declaration and optional `tool_choice:auto`
+  only. The installed Gemma 4 E2B GGUF `tokenizer.chat_template` was inspected
+  directly; its `<|tool>`, `<|tool_call>` and `<tool_call|>` control syntax
+  frames the declaration and emitted call without inventing a prompt format.
+  A complete `<|tool_call>call:name{}<tool_call|>` model response is parsed
+  against the declared name and serialized as one OpenAI `tool_calls` choice
+  with a server-generated ID, empty JSON arguments and `tool_calls` finish
+  reason. Ordinary model text stays ordinary assistant content. Streaming,
+  tool-result continuation, nonempty arguments, multiple functions, general
+  OpenAI tool parity and automatic execution remain unsupported. Llama 3
+  session configuration refuses nonempty tool declarations.
+- Evidence: fresh `mojo build main.mojo --target-accelerator sm_89` and
+  `mojo build tests/run_all.mojo` passed.
+  `test_local_protocol.mojo` covers admission, malformed call blocks, response
+  identity and unsupported combinations; `test_new_paradigms_suite.mojo`
+  preserves the existing generic JSON tool helper. The independent Python
+  `scripts/test_gemma_tool_call_live.py` used a test-owned hardlinked catalog
+  and the installed Gemma 4 E2B/RTX 4070 WSL model. Native and Ollama mode
+  each returned real calls with distinct parsed IDs and `{}` arguments;
+  unsupported requests returned 400 and wrong-model identity 404 without
+  reaching generation, and ordinary text worked
+  with and without a tool declaration. The same binary passed all 31 authored
+  v1 API HTTP fixtures. The S23 live Boolean JSON regression passed in both
+  service modes, and the focused grammar suite passed. No model was downloaded
+  or operator catalog changed.
+- Limits: no installed Llama/Qwen tool-template witness, external SDK/tool
+  executor, or response-to-tool-result continuation. The independent client
+  round trip is response parsing of emitted call ID/text/arguments, not an
+  execution cycle. Cold-host launch gate S06 remains separate. The repository
+  documentation checker still reports 66 pre-existing consistency issues and
+  tracked-artifact warnings; it is not claimed clean. A bounded full counted
+  Mojo-suite attempt reached the known `compute.gemm_f16_gpgpu_vector` stall
+  after its earlier cases passed, then ended nonzero without a suite summary;
+  no full-suite pass is claimed. The error-hygiene scan also reports one
+  pre-existing violation in untouched `test_chat_template_hardening.mojo`.
+
+### S25–S48
 
 - Status: queued; use the corresponding table row as the initial slice contract.
 - Append implementation decisions, commands, results and remaining gates as each

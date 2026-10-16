@@ -727,7 +727,7 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Claim sources:** tool-use TODO and architecture descriptions
 - **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail.
 - **Executable evidence:** `E-MASTER` case `paradigms.tool_use_json` covers exact parsing, nested arguments, prompt formatting, prose refusal, duplicates and malformed nested JSON.
-- **Evidence boundary:** This formats and parses data only. It does not select, authorize, execute, sandbox, time out, cancel, audit, or return results from tools, and it is not wired into model generation.
+- **Evidence boundary:** The general JSON helper formats and parses data only. S24 separately wires one zero-argument Gemma 4 declaration/call into CUDA generation and OpenAI chat serialization; neither path authorizes, executes, sandboxes, audits, or returns results from tools.
 - **Next acceptance gate:** Add an allowlisted executor with per-tool schemas, authorization, resource/time limits, result framing, audit logs and end-to-end model fixtures.
 - **Audit:** AER-003.
 
@@ -1076,7 +1076,7 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Claim sources:** multi-engine TODO; server interface
 - **Implementation evidence:** `OpenAIGate` bounds and escapes caller-observed JSON/SSE data; `cli/native_serve.mojo` now supplies actual request identity, time, model and usage for a bounded completion/chat route subset. The disconnected legacy router in `server/api.mojo` still returns 501.
 - **Executable evidence:** `E-MASTER` case `server.openai_rest_gateway`; `E-API-CONTRACT` and `E-COMPAT-STREAM` exercise model list, chat/completion, errors and incremental SSE on a real CUDA service.
-- **Evidence boundary:** These live routes are a narrow subset, not complete OpenAI compatibility. Official SDK breadth, tools, multimodal input and streaming usage options remain unproved/unsupported.
+- **Evidence boundary:** These live routes are a narrow subset, not complete OpenAI compatibility. S24 adds only one non-streaming, zero-argument Gemma 4 function call; official SDK breadth, general tools, multimodal input and streaming usage options remain unproved/unsupported.
 - **Next acceptance gate:** Independent SDK fixtures and broader protocol conformance.
 - **Audit:** AER-078, AER-079.
 
@@ -1086,8 +1086,8 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Owner:** server and facade domains
 - **Claim sources:** completed multi-engine TODO and server interface
 - **Implementation evidence:** the live CLI service parses bounded `/v1/models`, `/v1/completions` and `/v1/chat/completions` requests, invokes the loaded CUDA model and reports measured usage. The disconnected legacy router remains unsupported.
-- **Executable evidence:** `E-API-CONTRACT` and `E-COMPAT-STREAM` cover successful replies, incremental SSE terminal framing, reset-peer cancellation and unsupported-field rejection.
-- **Evidence boundary:** One loaded text model, one choice, strict field subset, no embeddings or tool calls. No full external-client compatibility claim.
+- **Executable evidence:** `E-API-CONTRACT` and `E-COMPAT-STREAM` cover successful replies, incremental SSE terminal framing, reset-peer cancellation and unsupported-field rejection. S24's focused `test_local_protocol.mojo` and independent `scripts/test_gemma_tool_call_live.py` cover strict Gemma tool admission, one actual emitted ID/empty-argument call, and ordinary text in both service modes; the same final binary passed all 31 v1 HTTP fixtures.
+- **Evidence boundary:** One loaded text model, one choice, strict field subset, no embeddings or general tool-result continuation. S24's Gemma 4 single-function no-argument call is separately bounded; no full external-client compatibility claim.
 - **Next acceptance gate:** Official-client conformance, wider model families and streaming usage options.
 - **Audit:** AER-078, AER-079, AER-003.
 

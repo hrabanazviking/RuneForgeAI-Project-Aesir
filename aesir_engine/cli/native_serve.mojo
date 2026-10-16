@@ -6,6 +6,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    llama3_memory_plan)
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.sampling_options import with_sampling_option
+from core.tool_use import parse_gemma_zero_arg_call
 from cli.sampling import sampling_option_name
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
@@ -408,6 +409,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             session.reset()
                             session.configure_sampling(request.sampling)
                             session.configure_output(request.output_mode)
+                            session.configure_tool(request.tool_name, request.tool_description)
                             session.configure_control(timeout_ms, interrupt_fd)
                             status = 422
                             generation_started = True
@@ -420,6 +422,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
+                            var tool_block_complete = False
                             status = 500
                             var created = openai_created_unix()
                             var request_id = "cmpl-aesir-" + String(sequence)
@@ -438,6 +441,13 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     _ = session.cancel()
                                     status = 413
                                     raise Error("Native response exceeded 1 MiB")
+                                if request.tool_name != "" and "<tool_call|>" in answer:
+                                    if not answer.endswith("<tool_call|>"):
+                                        _ = session.cancel()
+                                        raise Error("Gemma tool-call terminator has trailing output")
+                                    answer += session.cancel()
+                                    tool_block_complete = True
+                                    break
                                 if request.stream and chunk.byte_length() > 0:
                                     send_local(client.fd,
                                         OpenAIGate.format_chat_chunk(request_id, created, model.name, chunk)
@@ -451,24 +461,35 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     state.finish_reason != "eos" or
                                     (answer != "true" and answer != "false")):
                                 raise Error("Structured output ended without a complete JSON boolean")
-                            var finish = ollama_done_reason(state.finish_reason)
-                            if request.stream:
-                                send_local(client.fd,
-                                    OpenAIGate.format_chat_chunk(request_id, created, model.name, "", finish)
-                                    if head.path == "/v1/chat/completions"
-                                    else OpenAIGate.format_completion_chunk(request_id, created, model.name, "", finish),
-                                    io_timeout_ms, interrupt_fd)
-                                send_local(client.fd, "data: [DONE]\n\n", io_timeout_ms, interrupt_fd)
-                            elif head.path == "/v1/chat/completions":
-                                body = OpenAIGate.format_chat_completion(
-                                    request_id, created, model.name, answer, finish,
-                                    state.prompt_tokens, state.generated_tokens,
-                                )
+                            if request.tool_name != "" and (
+                                    "<|tool_call>" in answer or "<tool_call|>" in answer):
+                                if not tool_block_complete:
+                                    raise Error("Gemma tool-call block is incomplete")
+                                var tool_call = parse_gemma_zero_arg_call(answer, request.tool_name)
+                                body = OpenAIGate.format_chat_tool_completion(
+                                    request_id, created, model.name,
+                                    "call-aesir-" + String(created) + "-" + String(sequence) + "-0",
+                                    tool_call.name, tool_call.arguments_json,
+                                    state.prompt_tokens, state.generated_tokens)
                             else:
-                                body = OpenAIGate.format_completion(
-                                    request_id, created, model.name, answer, finish,
-                                    state.prompt_tokens, state.generated_tokens,
-                                )
+                                var finish = ollama_done_reason(state.finish_reason)
+                                if request.stream:
+                                    send_local(client.fd,
+                                        OpenAIGate.format_chat_chunk(request_id, created, model.name, "", finish)
+                                        if head.path == "/v1/chat/completions"
+                                        else OpenAIGate.format_completion_chunk(request_id, created, model.name, "", finish),
+                                        io_timeout_ms, interrupt_fd)
+                                    send_local(client.fd, "data: [DONE]\n\n", io_timeout_ms, interrupt_fd)
+                                elif head.path == "/v1/chat/completions":
+                                    body = OpenAIGate.format_chat_completion(
+                                        request_id, created, model.name, answer, finish,
+                                        state.prompt_tokens, state.generated_tokens,
+                                    )
+                                else:
+                                    body = OpenAIGate.format_completion(
+                                        request_id, created, model.name, answer, finish,
+                                        state.prompt_tokens, state.generated_tokens,
+                                    )
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)

@@ -122,3 +122,18 @@ struct Gemma4Tokenizer:
     def append_generation_prompt(self, mut tokens: List[Int]) raises:
         tokens.append(self.control("<|turn>"))
         self.append_text(tokens, "model\n")
+
+    def append_zero_arg_tool_system(self, mut tokens: List[Int], system: String,
+                                    name: String, description: String) raises:
+        """Render one function using the installed Gemma 4 GGUF template IDs."""
+        tokens.append(self.control("<|turn>"))
+        self.append_text(tokens, "system\n" + system)
+        tokens.append(self.control("<|tool>"))
+        self.append_text(tokens, "declaration:" + name + "{description:")
+        tokens.append(self.control('<|"|>'))
+        self.append_text(tokens, description)
+        tokens.append(self.control('<|"|>'))
+        self.append_text(tokens, "}")
+        tokens.append(self.control("<tool|>"))
+        tokens.append(self.control("<turn|>"))
+        self.append_text(tokens, "\n")

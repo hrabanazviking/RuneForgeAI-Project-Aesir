@@ -14,7 +14,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer
-from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds
+from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds, test_gemma_tool_protocol
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
@@ -881,6 +881,7 @@ def main() raises:
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "local_service.ollama_sampling_bounds", test_ollama_sampling_bounds)
+    run_case(ledger, "local_service.gemma_tool_protocol", test_gemma_tool_protocol)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(207)
+    ledger.finish(208)

@@ -6,6 +6,7 @@ from server.local_protocol import FlatJSON
 from core.sampling_config import NativeSamplingConfig
 from core.native_hardware import bounded_decimal
 from core.sampling_options import with_sampling_option
+from core.tool_use import validate_gemma_zero_arg_tool
 from std.collections import InlineArray
 from std.ffi import external_call
 
@@ -23,6 +24,8 @@ struct OpenAIRequest:
     var has_messages: Bool
     var has_prompt: Bool
     var output_mode: String
+    var tool_name: String
+    var tool_description: String
 
     def __init__(out self, body: String, defaults: NativeSamplingConfig = NativeSamplingConfig(), default_system: String = "") raises:
         defaults.validate()
@@ -38,6 +41,9 @@ struct OpenAIRequest:
         self.has_messages = False
         self.has_prompt = False
         self.output_mode = ""
+        self.tool_name = ""
+        self.tool_description = ""
+        var seen_tool_choice = False
         var parser = FlatJSON(body)
         parser.take(123)
         parser.space()
@@ -61,6 +67,12 @@ struct OpenAIRequest:
                     self.stream = parser.boolean()
                 elif name == "response_format":
                     self.output_mode = self._parse_response_format(parser)
+                elif name == "tools":
+                    self._parse_tools(parser)
+                elif name == "tool_choice":
+                    if parser.string() != "auto":
+                        raise Error("Only automatic Gemma tool choice is supported")
+                    seen_tool_choice = True
                 elif name == "max_tokens":
                     self.max_tokens = bounded_decimal(parser.number())
                     if self.max_tokens == 0:
@@ -99,6 +111,70 @@ struct OpenAIRequest:
             raise Error("Boolean JSON response format does not support streaming")
         if self.output_mode != "" and not self.sampling.plain_greedy():
             raise Error("Boolean JSON response format requires greedy sampling")
+        if seen_tool_choice and self.tool_name == "":
+            raise Error("tool_choice requires a declared tool")
+        if self.tool_name != "" and (
+                self.stream or self.output_mode != "" or self.has_prompt or not self.has_messages):
+            raise Error("Gemma tool calls require nonstreaming chat without response_format")
+
+    def _parse_tool_function(mut self, mut parser: FlatJSON) raises:
+        parser.take(123)
+        var seen_name = False
+        var seen_description = False
+        var seen_parameters = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var key = parser.string()
+                parser.take(58)
+                if key == "name" and not seen_name:
+                    self.tool_name = parser.string()
+                    seen_name = True
+                elif key == "description" and not seen_description:
+                    self.tool_description = parser.string()
+                    seen_description = True
+                elif key == "parameters" and not seen_parameters:
+                    parser.take(123)
+                    parser.take(125)
+                    seen_parameters = True
+                else:
+                    raise Error("Unsupported or duplicate Gemma function field")
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        if not seen_name or not seen_description or not seen_parameters:
+            raise Error("Gemma function requires name, description and empty parameters")
+        validate_gemma_zero_arg_tool(self.tool_name, self.tool_description)
+
+    def _parse_tools(mut self, mut parser: FlatJSON) raises:
+        parser.take(91)
+        parser.take(123)
+        var seen_type = False
+        var seen_function = False
+        parser.space()
+        if parser.peek() != 125:
+            while True:
+                var key = parser.string()
+                parser.take(58)
+                if key == "type" and not seen_type:
+                    if parser.string() != "function":
+                        raise Error("Only function tools are supported")
+                    seen_type = True
+                elif key == "function" and not seen_function:
+                    self._parse_tool_function(parser)
+                    seen_function = True
+                else:
+                    raise Error("Unsupported or duplicate Gemma tool field")
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(125)
+        parser.take(93)
+        if not seen_type or not seen_function:
+            raise Error("Gemma tool requires function type and declaration")
 
     def _parse_boolean_schema(self, mut parser: FlatJSON) raises:
         parser.take(123)
@@ -311,6 +387,27 @@ struct OpenAIGate:
         res += ",\n    \"completion_tokens\": " + String(completion_tokens)
         res += ",\n    \"total_tokens\": " + String(total_tokens) + "\n  }\n}"
         return res
+
+    @staticmethod
+    def format_chat_tool_completion(
+        request_id: String, created_unix: Int, model: String,
+        call_id: String, tool_name: String, arguments_json: String,
+        prompt_tokens: Int, completion_tokens: Int,
+    ) raises -> String:
+        """Serialize one observed Gemma call; the host never executes it."""
+        OpenAIGate._validate_identity(request_id, created_unix, model)
+        OpenAIGate._validate_finish_reason("tool_calls", False)
+        if call_id.byte_length() < 1 or call_id.byte_length() > 256:
+            raise Error("OpenAI tool call ID must contain 1..256 bytes")
+        validate_gemma_zero_arg_tool(tool_name, "validated")
+        if arguments_json != "{}":
+            raise Error("Gemma tool response requires empty arguments")
+        if prompt_tokens < 0 or completion_tokens < 0:
+            raise Error("OpenAI response token counts must be non-negative")
+        if (prompt_tokens > 4611686018427387903
+                or completion_tokens > 4611686018427387903 - prompt_tokens):
+            raise Error("OpenAI response token count overflow")
+        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"chat.completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":null,\"tool_calls\":[{\"id\":\"" + json_escape_string(call_id) + "\",\"type\":\"function\",\"function\":{\"name\":\"" + json_escape_string(tool_name) + "\",\"arguments\":\"" + json_escape_string(arguments_json) + "\"}}]},\"finish_reason\":\"tool_calls\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(prompt_tokens + completion_tokens) + "}}"
 
     @staticmethod
     def format_chat_chunk(

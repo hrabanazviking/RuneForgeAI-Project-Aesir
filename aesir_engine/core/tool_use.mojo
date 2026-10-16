@@ -407,3 +407,39 @@ def parse_tool_call(output_text: String) raises -> ToolCall:
     """Parses exactly one bounded JSON object; prose and extra fields fail."""
     var parser = BoundedToolJSON(output_text)
     return parser.parse_tool_call()
+
+
+def validate_gemma_zero_arg_tool(name: String, description: String) raises:
+    """Conservative admission for one Gemma 4 template function declaration."""
+    if not _valid_tool_name(name):
+        raise Error("Gemma tool name must be 1..64 ASCII identifier bytes")
+    if description.byte_length() < 1 or description.byte_length() > 256:
+        raise Error("Gemma tool description must contain 1..256 bytes")
+    for byte in description.as_bytes():
+        if byte < 32 or byte > 126 or byte == 60 or byte == 62 or byte == 123 or byte == 125:
+            raise Error("Gemma tool description contains unsupported template characters")
+
+
+def parse_gemma_zero_arg_call(output_text: String, expected_name: String) raises -> ToolCall:
+    """Parse one complete Gemma template call, never executing it.
+
+    The bounded v1 subset has one declared no-argument function. No prose,
+    multiple calls, partial delimiters, or nonempty argument DSL is accepted.
+    """
+    if output_text.byte_length() > 65536 or not _valid_tool_name(expected_name):
+        raise Error("Gemma tool call exceeds bounds or has invalid expected name")
+    var text = String(output_text.strip())
+    var prefix = String("<|tool_call>call:")
+    var suffix = String("<tool_call|>")
+    if not text.startswith(prefix) or not text.endswith(suffix):
+        raise Error("Gemma tool call must be one complete template block")
+    var middle = String(text[byte=prefix.byte_length():text.byte_length() - suffix.byte_length()])
+    if not middle.startswith(expected_name):
+        raise Error("Gemma tool call names an undeclared function")
+    var arguments = String(middle[byte=expected_name.byte_length():middle.byte_length()])
+    if not arguments.startswith("{") or not arguments.endswith("}"):
+        raise Error("Gemma tool call requires an arguments object")
+    var inside = String(arguments[byte=1:arguments.byte_length() - 1])
+    if String(inside.strip()) != "":
+        raise Error("Gemma tool call supplied unsupported nonempty arguments")
+    return ToolCall(expected_name, "{}")

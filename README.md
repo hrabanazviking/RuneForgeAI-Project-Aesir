@@ -332,7 +332,7 @@ On a currently supported setup you can:
 - run the early Ollama-compatible local service
 - experiment with applications that only require the currently implemented Ollama/OpenAI-compatible text surface
 
-You should **not** expect arbitrary GGUF files, every GPU vendor, every Ollama client feature, embeddings, vision, tools, or Internet-facing serving to work yet.
+You should **not** expect arbitrary GGUF files, every GPU vendor, every Ollama client feature, embeddings, vision, general tool execution, or Internet-facing serving to work yet. A narrow single-function Gemma 4 tool-call response is documented in the [API support matrix](docs/API_SUPPORT_MATRIX_V1.md).
 
 ---
 

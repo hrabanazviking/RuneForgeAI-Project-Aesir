@@ -491,6 +491,13 @@ struct Llama3CUDASession(ControlledTextSession):
             raise Error("Boolean JSON requires unpenalized greedy sampling")
         self.boolean_grammar.configure(true_tokens, false_tokens)
 
+    def configure_tool(mut self, name: String, description: String) raises:
+        _ = description
+        if not self.healthy or self.generating:
+            raise Error("Cannot configure a busy or failed CUDA session")
+        if name != "":
+            raise Error("Tool calls require the proven Gemma 4 tool template; this model is unsupported")
+
     def configure_control(mut self, timeout_ms: Int = 0, cancel_fd: Int = -1) raises:
         if not self.healthy or self.generating:
             raise Error("Cannot configure a busy or failed CUDA session")

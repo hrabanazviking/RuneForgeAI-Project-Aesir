@@ -30,7 +30,7 @@ at a time and close every HTTP/1.1 connection after its response.
 |---|---|---|
 | Native generate | `prompt`, `system`, `max_tokens`, `timeout_ms`, `temperature`, `top_k`, `top_p`, `min_p`, `repeat_penalty`, `seed`, `stream` | Nonempty prompt. `stream` is a JSON boolean, default `false`. `messages`, `tools`, `format`, `images`, `logprobs`, unknown or duplicate fields are rejected. No session ID/history. |
 | OpenAI completion | `model`, `prompt`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n`, bounded `response_format` | `model` must identify the loaded model; `n` must be 1. `best_of`, `stop`, `logprobs`, `echo`, `suffix`, `tools`, unknown or duplicate fields are rejected. Structured output is the strict Boolean subset below only. |
-| OpenAI chat | `model`, `messages`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n`, bounded `response_format` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. Tool/function roles, arrays or multimodal content, `tools`, `tool_choice`, `stop`, `logprobs`, `stream_options`, unknown or duplicate fields are rejected. Structured output is the strict Boolean subset below only. |
+| OpenAI chat | `model`, `messages`, `stream`, `max_tokens`, `temperature`, `top_p`, `seed`, `n`, bounded `response_format`, bounded `tools`, `tool_choice` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. Tool/function message roles, arrays or multimodal content, `stop`, `logprobs`, `stream_options`, unknown or duplicate fields are rejected. Structured output is the strict Boolean subset below only; tools use the separate Gemma-only subset below. |
 | Ollama show | `model` or `name` | Loaded model only; no remote lookup. |
 | Ollama generate | `model` or `name`, `prompt`, `system`, `stream`, `options` | Nonempty prompt. No `raw`, `format`, `template`, `context`, `images`, `keep_alive`, `suffix` or unknown fields. |
 | Ollama chat | `model` or `name`, `messages`, `system`, `stream`, `options` | Messages contain only string `role`/`content`; roles are `system`, `user`, `assistant`, final role `user`. No prompt, images, tools or unknown fields. |
@@ -72,6 +72,32 @@ is an error, not a guaranteed JSON response. Native `/v1/generate`, Ollama
 remain unsupported structured-output surfaces. The Gemma E2B physical test is
 `scripts/test_boolean_json_live.py`; the Llama/Qwen path compiled but lacked
 installed-weight evidence in the S23 run.
+
+## Gemma 4 single-function tool calls (S24)
+
+The OpenAI chat route in either service mode accepts exactly one function
+declaration for the installed Gemma 4 CUDA template, with `parameters:{}` and
+an optional `tool_choice:"auto"`. The function name is 1–64 ASCII bytes from
+letters, digits, hyphen, dot, and underscore; description is 1–256 printable ASCII bytes without template
+metacharacters. Example:
+
+```json
+{"model":"gemma4-e2b:latest","messages":[{"role":"user","content":"Call get_time."}],"tools":[{"type":"function","function":{"name":"get_time","description":"Return the current time","parameters":{}}}],"max_tokens":64}
+```
+
+Tool calls require non-streaming chat and cannot combine with
+`response_format`. Multiple functions, arguments, forced/none choice, streamed
+tool calls, tool result messages, and tool execution are not supported. The
+server inserts the declaration using the installed GGUF's control tokens;
+when the model emits one complete zero-argument call, it returns
+`finish_reason:"tool_calls"`, an assistant `content:null`, one `tool_calls[]`
+entry with a server-generated `call-aesir-*` ID and `function.arguments:"{}"`.
+If it responds in ordinary text, the usual assistant content and `stop` or
+`length` finish reason remain. Malformed, partial, unexpected-name, nonempty-
+argument or multi-call model output fails closed rather than executing. Other
+model templates reject the tool configuration. This is not general OpenAI
+function calling or a tool-result continuation protocol; clients must perform
+their own authorized execution outside Aesir.
 
 ## Streaming state at v1 (S18/S19 additive extensions)
 

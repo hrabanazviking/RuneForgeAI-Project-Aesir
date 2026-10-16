@@ -11,6 +11,7 @@ from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
 from core.grammar import BooleanJSONGrammar
+from core.tool_use import validate_gemma_zero_arg_tool
 from core.gemma4_kernels import (
     Bytes, Floats, embedding_kernel, matvec_kernel, norm_kernel,
     element_kernel, rope_kernel, cache_kernel, scores_kernel,
@@ -59,6 +60,8 @@ struct Gemma4CUDASession(ControlledTextSession):
     var control: GenerationControl
     var reset_required: Bool
     var boolean_grammar: BooleanJSONGrammar
+    var tool_name: String
+    var tool_description: String
 
     def __init__(out self, path: String, context_length: Int = 0,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
@@ -79,6 +82,8 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.generating = False
         self.reset_required = False
         self.boolean_grammar = BooleanJSONGrammar()
+        self.tool_name = ""
+        self.tool_description = ""
         self.control = GenerationControl()
         self.generated_tokens = 0
         self.prompt_tokens = 0
@@ -230,7 +235,10 @@ struct Gemma4CUDASession(ControlledTextSession):
         var tokens = List[Int]()
         if self.position == 0:
             tokens.append(self.tokenizer.vocabulary.bos_token_id)
-            if system != "":
+            if self.tool_name != "":
+                self.tokenizer.append_zero_arg_tool_system(tokens, system,
+                    self.tool_name, self.tool_description)
+            elif system != "":
                 self.tokenizer.append_message(tokens, "system", system)
         else:
             self.tokenizer.append_text(tokens, "\n")
@@ -274,6 +282,8 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.committed_tokens.clear()
         self.reset_required = False
         self.boolean_grammar.clear()
+        self.tool_name = ""
+        self.tool_description = ""
         self.control.deadline_ms = 0
         self.decoder = RuneStreamDecoder()
         self.healthy = True
@@ -335,6 +345,22 @@ struct Gemma4CUDASession(ControlledTextSession):
         if self.sampler.config.temperature != 0 or self.sampler.config.repetition_penalty != 1:
             raise Error("Boolean JSON requires unpenalized greedy sampling")
         self.boolean_grammar.configure(true_tokens, false_tokens)
+
+    def configure_tool(mut self, name: String, description: String) raises:
+        if not self.healthy or self.generating or self.position != 0:
+            raise Error("Tool configuration requires an empty healthy Gemma session")
+        self.tool_name = ""
+        self.tool_description = ""
+        if name == "" and description == "":
+            return
+        validate_gemma_zero_arg_tool(name, description)
+        _ = self.tokenizer.control("<|tool>")
+        _ = self.tokenizer.control("<tool|>")
+        _ = self.tokenizer.control('<|"|>')
+        _ = self.tokenizer.control("<|tool_call>")
+        _ = self.tokenizer.control("<tool_call|>")
+        self.tool_name = name
+        self.tool_description = description
 
     def configure_control(mut self, timeout_ms: Int = 0, cancel_fd: Int = -1) raises:
         if not self.healthy or self.generating:

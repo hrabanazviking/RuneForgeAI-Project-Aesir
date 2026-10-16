@@ -4,6 +4,7 @@ from cli.native_serve import GenerateRequest, local_response
 from server.local_transport import c_path_bytes
 from server.ollama import OllamaRequest, OllamaModelInfo, ollama_tags, ollama_catalog_tags, ollama_show, ollama_ps, ollama_generate_chunk, ollama_chat_chunk
 from server.openai import OpenAIRequest, OpenAIGate
+from core.tool_use import parse_gemma_zero_arg_call
 from server.service_status import service_liveness, model_readiness
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
@@ -141,7 +142,55 @@ def main() raises:
     test_local_generation_request()
     test_local_path_bounds()
     test_boolean_json_schema_admission()
+    test_gemma_tool_protocol()
     print("PASS bounded JSON and HTTP rejection")
+
+
+def test_gemma_tool_protocol() raises:
+    var function = String('{"type":"function","function":{"name":"get_time","description":"Return current time","parameters":{}}}')
+    var prefix = String('{"model":"m","messages":[{"role":"user","content":"What time is it?"}],"tools":[')
+    var request = OpenAIRequest(prefix + function + '],"tool_choice":"auto"}')
+    if request.tool_name != "get_time" or request.tool_description != "Return current time":
+        raise Error("Gemma tool declaration was not admitted")
+    var call = parse_gemma_zero_arg_call("<|tool_call>call:get_time{}<tool_call|>", "get_time")
+    if call.name != "get_time" or call.arguments_json != "{}":
+        raise Error("Gemma tool call was not parsed")
+    var wire = OpenAIGate.format_chat_tool_completion("cmpl-1", 1789130000, "m", "call-aesir-1", call.name, call.arguments_json, 5, 6)
+    if ('"id":"call-aesir-1"' not in wire or '"finish_reason":"tool_calls"' not in wire or '"arguments":"{}"' not in wire or '"content":null' not in wire):
+        raise Error("OpenAI tool-call response lost identity or arguments")
+    var bad_calls: List[String] = [
+        "<|tool_call>call:get_time{\"x\":1}<tool_call|>",
+        "<|tool_call>call:other{}<tool_call|>",
+        "prefix<|tool_call>call:get_time{}<tool_call|>",
+        "<|tool_call>call:get_time{}<tool_call|>suffix",
+        "<|tool_call>call:get_time{}",
+        "<|tool_call>call:get_time{}<tool_call|><|tool_call>call:get_time{}<tool_call|>",
+    ]
+    for candidate in bad_calls:
+        var rejected = False
+        try:
+            _ = parse_gemma_zero_arg_call(candidate, "get_time")
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Malformed Gemma tool call accepted")
+    var bad_requests: List[String] = [
+        prefix + function + ',' + function + ']}',
+        prefix + function + '],"stream":true}',
+        prefix + function + '],"tool_choice":"required"}',
+        prefix + function + '],"response_format":{"type":"json_schema","json_schema":{"name":"answer","strict":true,"schema":{"type":"boolean"}}}}',
+        '{"model":"m","prompt":"x","tools":[' + function + ']}',
+        prefix + '{"type":"function","function":{"name":"get_time","description":"x","parameters":{"x":1}}}]}',
+        prefix + '{"type":"function","function":{"name":"get_time","description":"<tool>","parameters":{}}}]}',
+    ]
+    for candidate in bad_requests:
+        var rejected = False
+        try:
+            _ = OpenAIRequest(candidate)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Unsupported Gemma tool request accepted")
 
 
 def test_boolean_json_schema_admission() raises:
