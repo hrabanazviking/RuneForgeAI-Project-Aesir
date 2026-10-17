@@ -1110,8 +1110,9 @@ Every row is initially queued unless the execution record says otherwise.
   against an installed non-Gemma family without changing model bytes. S33t
   detects idle terminal resize without consuming draft input. S33u preserves
   paced bracketed paste through the idle boundary. S33v keeps the `/edit`
-  control legend readable at the minimum supported terminal width. Parent
-  acceptance is still partial.
+  control legend readable at the minimum supported terminal width. S33w
+  checks that the advertised Escape cancellation is distinct from arrow-key
+  escape sequences in a narrow real PTY. Parent acceptance is still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1576,3 +1577,23 @@ Every row is initially queued unless the execution record says otherwise.
 - S33v remaining gate: exact grapheme-cell rendering, transcript scrollback,
   Llama physical UI, broader terminal-emulator coverage and independent
   usability trials remain open. Parent S33 acceptance is partial.
+- S33w contract: at the minimum 24-column, eight-row PTY, a lone Escape
+  cancels an unsubmitted draft and restores terminal mode, while a complete
+  left-arrow escape sequence edits without cancelling or submitting early.
+  Keep the previously advertised controls and draft semantics unchanged.
+  Rebuild the model-free `/edit` harness and run its real-PTY suite, the key
+  decoder unit and editor row checks. This is a keyboard acceptance slice,
+  not a Unicode grapheme or transcript-scrollback claim.
+- S33w evidence: rebuilt the model-free `test_chat_editor` harness and ran
+  `scripts/test_chat_editor_pty.py` successfully. At 24x8, an unsubmitted
+  `PRIVATE` draft followed by lone Escape cancelled with restored termios and
+  alternate screen; `AB`, left arrow, `!`, Enter submitted `A!B` without
+  misclassifying the arrow as cancellation. The existing redirected, resize,
+  paced-paste, submit and Ctrl+C cases also passed. Fresh
+  `tests/test_terminal_keys.mojo` and `tests/test_terminal_editor_view.mojo`
+  runs passed. No application source or CUDA/model path changed, so this is
+  verification of the S33v visible hint rather than a new feature claim.
+- S33w remaining gate: exact grapheme cells, transcript scrollback, Llama
+  physical UI, broader terminal-emulator coverage and user trials remain.
+  Arrow sequences arriving more than the reader's 30 ms Escape window apart
+  may be classified as cancellation; this PTY test sends the sequence together.

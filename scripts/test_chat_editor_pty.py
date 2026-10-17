@@ -150,6 +150,12 @@ def main(binary):
     edited = run_case(binary, "A界B".encode() + b"\x1b[D\x1b[D\x1b[3~\r", b"SUBMITTED=AB")
     if b"SUBMITTED=A" + "界".encode() in edited:
         raise AssertionError("forward delete did not remove UTF-8 scalar")
+    narrow_cancelled = run_case(
+        binary, b"PRIVATE\x1b", b"EDITOR_CANCELLED", initial=(8, 24),
+    )
+    if b"SUBMITTED=" in narrow_cancelled:
+        raise AssertionError("lone Escape submitted a narrow-screen draft")
+    run_case(binary, b"AB\x1b[D!\r", b"SUBMITTED=A!B", initial=(8, 24))
     cancelled = run_case(binary, b"PRIVATE\x03", b"EDITOR_CANCELLED")
     if b"SUBMITTED=" in cancelled:
         raise AssertionError("cancelled draft was submitted")
