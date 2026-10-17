@@ -5,14 +5,55 @@ import argparse
 import os
 import signal
 import subprocess
+import termios
 
 from test_chat_history_pty import read_until, size
-from test_terminal_screen_pty import write_all
+from test_terminal_screen_pty import size as set_size, write_all
 
 
-def main(binary, store, model):
+def extended_view(master, original):
+    prompt = "NARROW_" + "界" * 96 + "_END"
+    write_all(master, (prompt + "\n").encode())
+    read_until(master, b"You> ", 90)
+    set_size(master, 8, 24)
+    write_all(master, b"/transcript\n")
+    forward = bytearray(read_until(master, b"q back", 15))
+    page_count = 1
+    while b"End | p prev q back" not in forward[-256:]:
+        if page_count > 20:
+            raise AssertionError("narrow transcript did not reach its end")
+        write_all(master, b"n")
+        page = read_until(master, b"q back", 15)
+        forward.extend(page)
+        page_count += 1
+    before_assistant = bytes(forward).split(b"Turn 2 AI:", 1)[0]
+    if (page_count < 2 or b"Turn 2 You:" not in forward
+            or b"NARROW_" not in forward or b"_END" not in forward
+            or before_assistant.count("界".encode()) != 96):
+        raise AssertionError("narrow paging lost or duplicated committed Unicode")
+    write_all(master, b"p")
+    previous = read_until(master, b"q back", 15)
+    if b"n next" not in previous:
+        raise AssertionError("previous did not leave the transcript end page")
+    set_size(master, 24, 80)
+    widened = read_until(master, b"select text to copy", 5)
+    if b"Transcript | turn" not in widened:
+        raise AssertionError("idle wide resize did not redraw transcript")
+    write_all(master, b"q")
+    restored = read_until(master, b"You> ", 15)
+    if (b"\x1b[?2004l\x1b[?25h\x1b[?1049l" not in restored
+            or termios.tcgetattr(master) != original):
+        raise AssertionError("wide transcript exit left terminal state changed")
+    write_all(master, b"/history\n")
+    history = read_until(master, b"You> ", 15)
+    if b"History 1/1" not in history or b"2 You: NARROW_" not in history:
+        raise AssertionError("transcript navigation changed the committed turns")
+
+
+def main(binary, store, model, extended=False):
     master, slave = os.openpty()
     size(slave, 80)
+    original = termios.tcgetattr(slave)
     command = [
         binary, "chat", model, "--accel", "cuda", "--model-store", store,
         "--context", "512", "--max-tokens", "4",
@@ -46,6 +87,8 @@ def main(binary, store, model):
         history = read_until(master, b"You> ", 15)
         if b"History 1/1" not in history or b"HELLO_TRANSCRIPT" not in history:
             raise AssertionError("transcript viewing changed committed history")
+        if extended:
+            extended_view(master, original)
         write_all(master, b"/bye\n")
         if process.wait(timeout=15):
             raise AssertionError("native chat exited unsuccessfully")
@@ -54,7 +97,10 @@ def main(binary, store, model):
             process.terminate()
             process.wait(timeout=10)
         os.close(master)
-    print("native CUDA /transcript PTY empty/committed/SIGINT/history: PASS")
+    if extended:
+        print("native CUDA /transcript PTY narrow/wide Unicode paging/restore: PASS")
+    else:
+        print("native CUDA /transcript PTY empty/committed/SIGINT/history: PASS")
 
 
 if __name__ == "__main__":
@@ -62,5 +108,6 @@ if __name__ == "__main__":
     parser.add_argument("binary")
     parser.add_argument("--store", default=".aesir/models")
     parser.add_argument("--model", required=True)
+    parser.add_argument("--extended", action="store_true")
     args = parser.parse_args()
-    main(args.binary, args.store, args.model)
+    main(args.binary, args.store, args.model, args.extended)

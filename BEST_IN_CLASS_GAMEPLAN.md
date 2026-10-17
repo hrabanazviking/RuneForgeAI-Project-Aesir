@@ -1114,8 +1114,11 @@ Every row is initially queued unless the execution record says otherwise.
   checks that the advertised Escape cancellation is distinct from arrow-key
   escape sequences in a narrow real PTY. S33x introduces a read-only,
   bounded chronological transcript window primitive. S33y adds a model-free
-  pager and fixed-height view over that primitive. Parent acceptance is still
-  partial.
+  pager and fixed-height view, S33z binds it to a real PTY, and S33aa exposes
+  `/transcript` in native CUDA chat. S33ab verifies narrow/wide physical
+  Unicode paging on installed Qwen and Gemma. Parent acceptance is still
+  partial: exact grapheme-cell handling, Llama physical UI and independent
+  user trials remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1694,3 +1697,26 @@ Every row is initially queued unless the execution record says otherwise.
   Llama physical-UI pass still requires a valid preinstalled model. Exact
   grapheme/display cells, broader terminal-emulator coverage and independent
   user trials remain open; parent S33 remains partial.
+- S33ab contract: extend installed-model PTY acceptance for `/transcript` to
+  a committed mixed-script turn at 24x8, forward/back paging, and idle
+  resize to 80x24 without duplicate or missing rows. Verify the viewer's
+  screen/termios restoration and unchanged `/history` after exit. Run with
+  preinstalled Qwen and Gemma artifacts only; keep model downloads, Llama
+  physical acceptance, exact grapheme cells and user usability trials out
+  of this bounded check. Acceptance: rebuild CUDA `main.mojo` for `sm_89`,
+  run `scripts/test_chat_transcript_cuda_pty.py --extended` against each
+  installed model, and rerun model-free pager/viewer regressions.
+- S33ab evidence: a fresh `.pixi` CUDA-targeted `main.mojo --target-accelerator
+  sm_89` build passed. The extended real-PTY harness passed with the
+  preinstalled Qwen3-0.6B Q4_K_M and Gemma 4 E2B Q4_K_M artifacts. At 24x8,
+  each run paged through a 96-character CJK user turn with exactly 96 CJK
+  scalars before its assistant header, reached the end, moved back, redrew
+  after idle resize to 80x24, restored termios/paste/cursor/screen on exit,
+  and left both committed turns visible in `/history`. Both runs also passed
+  the existing empty-view and external-SIGINT checks. Model-free transcript
+  window and pager units plus rebuilt viewer real-PTY suite passed. No model
+  download or new model bytes were used.
+- S33ab remaining gate: this validates one WSL PTY and two installed model
+  profiles, not all terminal emulators or Llama physical UI. CJK scalar
+  continuity is not exact grapheme-cluster/display-cell correctness, and
+  independent user usability trials remain open. Parent S33 remains partial.
