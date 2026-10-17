@@ -1103,7 +1103,8 @@ Every row is initially queued unless the execution record says otherwise.
   S33i introduces the guarded terminal-mode primitive, S33j the bounded
   cursor-state primitive, S33k the raw-key classifier, S33l the UTF-8
   text-byte assembler, S33m their model-free PTY orchestration and S33n a
-  bounded draft-frame generator for later editing; none is wired into chat.
+  bounded draft-frame generator and S33o a model-free alternate-screen PTY
+  lifecycle for later editing; none is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1380,3 +1381,28 @@ Every row is initially queued unless the execution record says otherwise.
   resize PTY coverage, nor CUDA-chat wiring. Non-ASCII width remains a
   conservative estimate rather than exact grapheme-cell measurement. Parent
   S33 acceptance remains partial.
+- S33o contract: `cli/terminal_editor_screen.mojo` owns the scoped alternate
+  screen and hidden physical cursor, writes S33n's sanitized fixed-height
+  rows in a bounded layout based on the actual PTY size on every draw, and
+  restores the previous screen on explicit close or scope teardown. It
+  refuses physical viewports below 24 columns or 8 rows rather than drawing
+  outside them. Raw LF is a distinct
+  Ctrl+J newline event while CR submits; existing line-mode `/compose` is
+  unchanged. A model-free harness composes the input, draft, and display
+  primitives without model/session ownership.
+- S33o evidence: fresh CUDA-targeted build of
+  `tests/test_terminal_screen.mojo` and
+  `scripts/test_terminal_screen_pty.py` passed a real Linux PTY: Unicode
+  middle edit, Ctrl+J multiline submission, 80x24 to 24x8 redraw while
+  preserving the draft, raw Ctrl+C cancellation, redirected refusal, and
+  exact termios/alternate-screen/cursor restoration on submit/cancel. A 23x7
+  PTY was refused and an injected Escape-path error unwound the screen and
+  termios. The first PTY run exposed a mistaken test keystroke position, not
+  an implementation defect; moving right before Ctrl+J made the intended
+  submission pass. A fresh `main.mojo` build plus rebuilt S33k key, S33n
+  view and S33b history unit binaries passed. No model was loaded or
+  downloaded.
+- S33o remaining gate: this is a model-free harness, not a chat command or
+  real inference workflow. Bracketed paste, physical external-signalfd
+  cancellation, precise grapheme-cell cursor placement, and full S33
+  usability/resize acceptance remain open. Parent S33 is partial.

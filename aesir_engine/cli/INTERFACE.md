@@ -104,8 +104,11 @@ Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
 have a model-free PTY harness but are not yet connected to a chat editor.
 `cli/terminal_editor_view.mojo` generates a fixed-height list of safe draft
 rows with a visible inline cursor marker, vertical viewport and horizontal
-context window. It shares the scalar sanitizer but does not emit ANSI redraws
-or change the live chat interface yet.
+context window. `cli/terminal_editor_screen.mojo` owns the alternate-screen
+and physical-cursor lifecycle, re-reads actual PTY dimensions on redraw,
+refuses viewports below 24x8, and writes only those sanitized rows. A
+model-free PTY harness covers Unicode/multiline input, resize and teardown;
+the live chat interface has not adopted it yet.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

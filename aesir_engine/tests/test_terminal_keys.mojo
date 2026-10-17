@@ -4,7 +4,7 @@ from cli.terminal_keys import (
     TerminalKeyDecoder, KEY_PENDING, KEY_TEXT_BYTE, KEY_ENTER,
     KEY_BACKSPACE, KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN,
     KEY_HOME, KEY_END, KEY_DELETE, KEY_ESCAPE, KEY_INTERRUPT,
-    KEY_EOF, KEY_UNKNOWN,
+    KEY_EOF, KEY_UNKNOWN, KEY_NEWLINE,
 )
 
 
@@ -22,7 +22,7 @@ def main() raises:
     if decoder.feed(UInt8(228)).byte != 228:
         raise Error("high UTF-8 byte was not preserved")
     expect(decoder, "\r", KEY_ENTER)
-    expect(decoder, "\n", KEY_ENTER)
+    expect(decoder, "\n", KEY_NEWLINE)
     expect(decoder, "\x7f", KEY_BACKSPACE)
     expect(decoder, "\x08", KEY_BACKSPACE)
     expect(decoder, "\x03", KEY_INTERRUPT)

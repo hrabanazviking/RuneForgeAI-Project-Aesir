@@ -15,6 +15,7 @@ comptime KEY_ESCAPE = 11
 comptime KEY_INTERRUPT = 12
 comptime KEY_EOF = 13
 comptime KEY_UNKNOWN = 14
+comptime KEY_NEWLINE = 15
 
 
 struct TerminalKey:
@@ -107,7 +108,9 @@ struct TerminalKeyDecoder:
         if byte == 27:
             self.state = 1
             return TerminalKey(KEY_PENDING)
-        if byte == 10 or byte == 13:
+        if byte == 10:
+            return TerminalKey(KEY_NEWLINE)
+        if byte == 13:
             return TerminalKey(KEY_ENTER)
         if byte == 8 or byte == 127:
             return TerminalKey(KEY_BACKSPACE)

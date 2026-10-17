@@ -71,3 +71,28 @@ def terminal_columns() -> Int:
     if columns > 240:
         return 240
     return columns
+
+
+struct TerminalEditorSize:
+    var columns: Int
+    var rows: Int
+
+    def __init__(out self, columns: Int, rows: Int):
+        self.columns = columns
+        self.rows = rows
+
+
+def terminal_editor_size() raises -> TerminalEditorSize:
+    """Read actual PTY dimensions; refuse viewports too small for safe redraw."""
+    var window = InlineArray[UInt16, 4](fill=0)
+    if external_call["ioctl", Int32](Int32(1), UInt64(21523), window.unsafe_ptr()) != 0:
+        raise Error("Cannot read terminal editor dimensions")
+    var rows = Int(window[0])
+    var columns = Int(window[1])
+    if rows < 8 or columns < 24:
+        raise Error("Terminal editor requires at least 24 columns and 8 rows")
+    if rows > 80:
+        rows = 80
+    if columns > 240:
+        columns = 240
+    return TerminalEditorSize(columns, rows)
