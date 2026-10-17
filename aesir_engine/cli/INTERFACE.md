@@ -106,7 +106,11 @@ other callers retain blocking reads and unchanged key/paste semantics.
 With bracketed paste enabled by the screen lease, it buffers a paste as one
 validated event, normalizes CRLF, treats pasted newlines as draft content,
 and rejects the whole paste beyond 64 KiB or 128 lines. Raw Ctrl+C still
-cancels; malformed/unsafe control bytes are not inserted.
+cancels; malformed/unsafe control bytes are not inserted. While a bracketed
+paste is active, idle polls do not flush a partial UTF-8 scalar; a split
+scalar can arrive later, and an incomplete one is discarded at paste end.
+Unmarked paste and literal embedded ESC[201~ cannot be disambiguated by this
+terminal protocol.
 Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
 have a model-free PTY harness and are composed by `cli/chat_editor.mojo`.
 `cli/terminal_editor_view.mojo` generates a fixed-height list of safe draft

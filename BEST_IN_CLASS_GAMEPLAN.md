@@ -1108,8 +1108,9 @@ Every row is initially queued unless the execution record says otherwise.
   opt-in `/edit` entry point into native CUDA chat; S33r hardens undersized
   terminal and live-resize recovery. S33s exercises the same PTY workflow
   against an installed non-Gemma family without changing model bytes. S33t
-  detects idle terminal resize without consuming draft input. Parent
-  acceptance is still partial.
+  detects idle terminal resize without consuming draft input. S33u preserves
+  paced bracketed paste through the idle boundary. Parent acceptance is still
+  partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1527,3 +1528,27 @@ Every row is initially queued unless the execution record says otherwise.
   does not prove display behavior on every terminal emulator. Exact grapheme
   cells, transcript scrollback, Llama physical UI, delayed/unmarked paste,
   independent usability trials and parent S33 acceptance remain open.
+- S33u contract: a bracketed paste may arrive in PTY chunks separated
+  by more than the 250 ms idle check. Preserve CRLF normalization, one UTF-8
+  scalar split across delayed bytes, and a split ESC[201~ terminator without
+  treating any pasted content as Enter or a chat command. Drop incomplete
+  scalars only when the paste actually ends or is cancelled. Add a model-free
+  paced PTY regression and rerun the editor/event harnesses plus a CUDA-targeted
+  build; do not infer support for terminals that omit bracketed-paste markers
+  or for literal marker bytes embedded in pasted content.
+- S33u evidence: the new real-PTY test first failed on the S33t binary: `/bye`
+  and its newline survived, but the delayed three-byte Unicode scalar was
+  dropped after the 250 ms idle flush. The event reader now preserves a partial
+  UTF-8 scalar while `in_paste` and still flushes it at the paste terminator or
+  cancellation. Rebuilt model-free `/edit` and event harnesses passed paced
+  chunks 380 ms apart across CRLF, UTF-8 bytes and ESC[201~, with no early
+  submission, correct literal text and restored terminal mode. A separate
+  incomplete-scalar-at-terminator check passed. Fresh CUDA-targeted `main.mojo`
+  and the installed Qwen 3 Q4_K_M CUDA editor smoke passed. No model download.
+- S33u remaining gate: a terminal that ignores bracketed-paste mode sends
+  unmarked newlines that cannot be distinguished reliably from Enter; use
+  `/compose` in that environment. Literal ESC[201~ bytes inside a paste are
+  indistinguishable from the protocol terminator. The test covers paced PTY
+  delivery, not every terminal emulator or arbitrary transport failure.
+  Exact grapheme cells, transcript scrollback, Llama physical UI, user trials
+  and parent S33 acceptance remain open.

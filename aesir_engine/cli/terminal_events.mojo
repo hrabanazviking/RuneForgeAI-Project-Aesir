@@ -138,7 +138,7 @@ struct TerminalEventReader:
             if self.keys.state != 0 and not self.in_paste:
                 if timeout < 0 or timeout > 30:
                     timeout = 30
-            elif self.utf8.expected != 0:
+            elif self.utf8.expected != 0 and not self.in_paste:
                 if timeout < 0 or timeout > 250:
                     timeout = 250
             var descriptors = InlineArray[UInt64, 2](fill=0)
@@ -158,7 +158,7 @@ struct TerminalEventReader:
                     _ = self.utf8.flush()
                     if pending.kind == KEY_ESCAPE:
                         return TerminalEvent(KEY_ESCAPE)
-                elif self.utf8.expected != 0:
+                elif self.utf8.expected != 0 and not self.in_paste:
                     _ = self.utf8.flush()
                 if idle_timeout_ms >= 0:
                     return TerminalEvent(KEY_IDLE)

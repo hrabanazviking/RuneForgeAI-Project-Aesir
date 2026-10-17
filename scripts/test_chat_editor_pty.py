@@ -6,6 +6,7 @@ import os
 import select
 import subprocess
 import termios
+import time
 
 from test_chat_history_pty import read_until
 from test_terminal_screen_pty import size, write_all
@@ -94,12 +95,46 @@ def run_idle_resize_case(binary):
         os.close(master)
 
 
+def run_paced_paste_case(binary):
+    master, slave = os.openpty()
+    size(slave, 24, 80)
+    original = termios.tcgetattr(slave)
+    process = subprocess.Popen([binary], stdin=slave, stdout=slave, stderr=slave)
+    try:
+        initial = read_until(master, b"Line 1/1", 10)
+        if b"\x1b[?2004h" not in initial:
+            raise AssertionError("paced paste did not enable bracketed mode")
+        parts = [
+            b"\x1b[200~", b"/bye\r", b"\n", b"\xe4", b"\xb8", b"\x96",
+            b"\x1b[2", b"01~",
+        ]
+        for part in parts:
+            write_all(master, part)
+            time.sleep(0.38)
+            if process.poll() is not None:
+                raise AssertionError("paced paste submitted before its terminator")
+        write_all(master, b"\r")
+        submitted = read_until(master, b"SUBMITTED=/bye\r\n" + "世".encode(), 10)
+        if process.wait(timeout=10) or termios.tcgetattr(master) != original:
+            raise AssertionError("paced paste failed or left terminal mode changed")
+        if b"\x1b[?2004l\x1b[?25h\x1b[?1049l" not in submitted:
+            raise AssertionError("paced paste did not restore terminal screen")
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            process.wait(timeout=10)
+        os.close(slave)
+        os.close(master)
+
+
 def main(binary):
     redirected = subprocess.run([binary], input=b"/bye\n", capture_output=True, timeout=10)
     if redirected.returncode or b"EDITOR_CANCELLED" not in redirected.stdout:
         raise AssertionError("redirected /edit did not decline interactive mode")
     run_refusal_case(binary)
     run_idle_resize_case(binary)
+    run_paced_paste_case(binary)
+    run_case(binary, b"\x1b[200~A\xe4\x1b[201~\r", b"SUBMITTED=A")
     submitted = run_case(
         binary,
         b"\r\x1b[200~/bye\r\n" + "世界".encode() + b"\x1b[201~\r",
@@ -127,7 +162,7 @@ def main(binary):
     )
     if b"Draft cancelled: Terminal editor requires" not in shrunken:
         raise AssertionError("mid-draft resize did not cancel with guidance")
-    print("chat editor PTY submit/cancel/paste/resize/restore: PASS")
+    print("chat editor PTY submit/cancel/paced-paste/resize/restore: PASS")
 
 
 if __name__ == "__main__":
