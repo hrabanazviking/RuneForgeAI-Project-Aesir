@@ -141,6 +141,8 @@ def main() raises:
     if ("/history" not in chat_command_help(24)
             or "/compose" not in chat_command_help(24)
             or "/compose" not in chat_command_help(80)
+            or "/edit" not in chat_command_help(24)
+            or "/edit" not in chat_command_help(80)
             or "/export" not in chat_command_help(80)
             or "select text" not in chat_command_help(80)):
         raise Error("command discovery omitted history/compose/copy/export")

@@ -34,9 +34,9 @@ struct TerminalEditorScreen:
         self.active = True
         _write_terminal("\x1b[?1049h\x1b[?25l\x1b[?2004h")
 
-    def draw(self, draft: CursorDraft) raises:
+    def draw(self, draft: CursorDraft, notice: String = "") raises:
         var size = terminal_editor_size()
-        var rows = render_editor_rows(draft, size.columns, size.rows)
+        var rows = render_editor_rows(draft, size.columns, size.rows, notice)
         var frame = String("\x1b[H\x1b[2J")
         for index in range(len(rows)):
             frame += "\x1b[" + String(index + 1) + ";1H\x1b[2K" + rows[index]

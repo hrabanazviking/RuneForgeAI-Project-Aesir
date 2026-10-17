@@ -90,6 +90,7 @@ def print_general_help():
     print("      Optional crash recovery; restores the latest compatible committed generation.")
     print("      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>")
     print("      /export <new-markdown> /set <setting> <value> /bye")
+    print("      Multiline: /compose (line mode) or /edit (interactive TTY editor)")
     print("      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.")
     print("      Persistent CUDA text chat; one user turn per nonempty prompt-file line.")
     print("  config [--config <path>] [--format json|text]")

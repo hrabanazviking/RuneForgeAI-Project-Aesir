@@ -1104,8 +1104,9 @@ Every row is initially queued unless the execution record says otherwise.
   cursor-state primitive, S33k the raw-key classifier, S33l the UTF-8
   text-byte assembler, S33m their model-free PTY orchestration and S33n a
   bounded draft-frame generator and S33o a model-free alternate-screen PTY
-  lifecycle and S33p bracketed-paste safety for later editing; none is wired
-  into chat.
+  lifecycle and S33p bracketed-paste safety. S33q wires their guarded
+  opt-in `/edit` entry point into native CUDA chat. Parent acceptance is
+  still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1427,3 +1428,29 @@ Every row is initially queued unless the execution record says otherwise.
   end delimiters are not physically covered. The rejected-paste harness exits
   with a test error rather than user-facing guidance. CUDA-chat routing,
   precise grapheme placement, and parent S33 acceptance remain open.
+- S33q contract: `/edit` is an explicit interactive-only full-screen draft
+  route in both Gemma and Llama CUDA chat loops. It submits nonempty text as
+  literal prompt content, including leading slash commands, while `/compose`
+  and redirected input retain their existing behavior. Enter submits,
+  Ctrl+J inserts a newline, cursor/edit keys act on scalar boundaries, and
+  Esc/Ctrl+C cancel without a turn. A rejected or over-limit paste leaves the
+  current draft intact with visible guidance. The screen, bracketed-paste
+  mode and termios are restored on every tested exit path.
+- S33q evidence: fresh CUDA-targeted `main.mojo` and model-free editor harness
+  builds passed. `test_chat_editor_pty.py` passed redirected refusal, empty
+  submit refusal, Ctrl+J insertion, literal Unicode multiline paste, UTF-8 forward deletion,
+  Ctrl+C cancellation, over-limit paste guidance and terminal restoration.
+  The installed Gemma 4 E2B CUDA PTY smoke passed: a cancelled `/edit` draft
+  did not enter history, external SIGINT cancelled another draft, and pasted
+  `/bye` plus Unicode committed one literal turn visible in history. The first
+  external-SIGINT run exposed unread draft bytes entering the next cooked chat
+  prompt; cancellation now flushes pending TTY input before restoring termios,
+  and the rerun passed. Existing redirected CUDA compose/history/no-ANSI and
+  physical CUDA `/compose` PTY regressions passed. Cursor draft, editor view,
+  raw terminal lease, screen PTY and help-width unit regressions passed. No
+  model was downloaded.
+- S33q remaining gate: full S33 acceptance is not claimed. The editor uses
+  scalar rather than grapheme-cluster cursor steps, has no transcript
+  scrollback, and has not been physically exercised with Llama/Qwen, delayed
+  paste transport, or unmarked paste. Narrow/wide hardware usability remains
+  to verify.

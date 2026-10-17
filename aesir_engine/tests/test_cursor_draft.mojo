@@ -6,7 +6,7 @@ from cli.cursor_draft import CursorDraft
 
 def main() raises:
     var draft = CursorDraft()
-    if draft.move_left() or draft.move_right() or draft.erase_left():
+    if draft.move_left() or draft.move_right() or draft.erase_left() or draft.erase_right():
         raise Error("empty draft moved or erased")
     if not draft.insert("A世界🛡️B"):
         raise Error("UTF-8 insertion failed")
@@ -33,6 +33,16 @@ def main() raises:
     draft.move_home()
     if draft.erase_left() or not draft.insert("/") or draft.text() != "/A世界🛡":
         raise Error("start boundary or command-like insertion failed")
+    var forward = CursorDraft()
+    if not forward.insert("A界B"):
+        raise Error("forward-delete draft setup failed")
+    forward.move_home()
+    _ = forward.move_right()
+    if not forward.erase_right() or forward.text() != "AB" or forward.cursor != 1:
+        raise Error("forward deletion did not preserve UTF-8 boundary")
+    forward.move_end()
+    if forward.erase_right():
+        raise Error("forward deletion crossed end boundary")
     var bounded = CursorDraft()
     if not bounded.insert(String("x") * COMPOSE_MAX_BYTES):
         raise Error("exact 64 KiB limit rejected")

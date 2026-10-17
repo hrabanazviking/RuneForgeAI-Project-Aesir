@@ -204,6 +204,14 @@ Interactive commands run between turns:
   discards the draft without generating a turn. The limit is 128 lines and
   64 KiB including newlines. The draft is not saved or logged until sent;
   this is not a full-screen cursor editor.
+- `/edit`: opt-in interactive terminal editor. Enter submits a nonempty draft;
+  Ctrl+J adds a line; Left/Right, Home/End, Backspace and Delete edit at UTF-8
+  scalar boundaries. Esc or Ctrl+C discards the draft. Bracketed paste keeps
+  pasted newlines and command-like text literal, rejecting the whole paste
+  beyond 64 KiB or 128 lines. The screen and terminal mode are restored on
+  submission, cancellation and errors. It requires TTY stdin and stdout;
+  redirected scripts should use `/compose`. Display-cell placement for
+  grapheme clusters and transcript scrollback remain limited.
 - `/show`: context usage, sampling policy, timeout and reset-required state.
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does

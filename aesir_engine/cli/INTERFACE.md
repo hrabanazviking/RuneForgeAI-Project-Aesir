@@ -54,7 +54,7 @@ full S33 transcript/editor/navigation surface.
 `cli/sampling.mojo` maps native sampling flags and re-exports core value
 validation for interactive settings. `cuda_chat.mojo` owns `/help`, `/show`,
 `/history [page]`, `/turn N`, `/clear`, `/new`, `/save`, `/load`, `/export`,
-`/set`, `/compose` and `/bye`,
+`/set`, `/compose`, `/edit` and `/bye`,
 reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
@@ -81,19 +81,20 @@ behavior still needs the S33 terminal acceptance pass.
 composer command. A submitted draft is always prompt text, even if its first
 line starts with `/`; it is never reinterpreted as a session command.
 
-`cli/terminal_input.mojo` owns a scoped Linux raw-mode lease for a future
-cursor editor. It requires TTY stdin and stdout, snapshots the original
+`cli/terminal_input.mojo` owns a scoped Linux raw-mode lease for the opt-in
+`/edit` cursor editor. It requires TTY stdin and stdout, snapshots the original
 termios state, and restores it explicitly or during scope teardown. It does
-not own prompts, conversations, signals or model state and is not wired into
-chat yet; `/compose` remains line-mode, including in a PTY.
+not own prompts, conversations, signals or model state. `/compose` remains
+line-mode, including in a PTY. The editor flushes queued raw draft bytes on
+cancellation before returning to cooked chat input.
 `cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
 cursor at scalar boundaries, insertion/backspace/movement, and the same
 64 KiB/128-line limits as `/compose`. It does not decode keys or render a
-terminal view. Neither primitive changes the current chat input path.
+terminal view. `/edit` uses these primitives only after an explicit command.
 `cli/terminal_keys.mojo` classifies incremental raw bytes into basic text-byte,
 editing, navigation and control events. It bounds and drains unknown CSI
 sequences; its caller must flush incomplete escapes after an idle timeout.
-It does not validate UTF-8 text or interpret paste protocols.
+It does not validate UTF-8 text; the event layer handles bracketed paste.
 `cli/terminal_utf8.mojo` separately assembles text-byte events into complete
 UTF-8 scalars, rejecting malformed encodings, terminal controls and directional
 formatting controls. Its caller must flush partial scalars on non-text events.
@@ -105,15 +106,18 @@ validated event, normalizes CRLF, treats pasted newlines as draft content,
 and rejects the whole paste beyond 64 KiB or 128 lines. Raw Ctrl+C still
 cancels; malformed/unsafe control bytes are not inserted.
 Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
-have a model-free PTY harness but are not yet connected to a chat editor.
+have a model-free PTY harness and are composed by `cli/chat_editor.mojo`.
 `cli/terminal_editor_view.mojo` generates a fixed-height list of safe draft
 rows with a visible inline cursor marker, vertical viewport and horizontal
 context window. `cli/terminal_editor_screen.mojo` owns the alternate-screen
 and physical-cursor lifecycle, re-reads actual PTY dimensions on redraw,
 refuses viewports below 24x8, enables/disables bracketed paste mode, and
 writes only those sanitized rows. A
-model-free PTY harness covers Unicode/multiline input, resize and teardown;
-the live chat interface has not adopted it yet.
+model-free PTY harness covers Unicode/multiline input, resize and teardown.
+`cli/chat_editor.mojo` returns submitted text to the Gemma/Llama chat loops
+as literal prompt content. Redirected input declines `/edit` without entering
+raw mode; `/compose` is the supported redirected multiline path. Transcript
+scrollback and exact grapheme-cell cursor placement remain open.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

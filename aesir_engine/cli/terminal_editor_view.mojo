@@ -57,7 +57,9 @@ def _active_line(line: String, cursor: Int, columns: Int) raises -> String:
     return "> " + _safe_tail(before, left_budget) + "|" + _safe_prefix(after, right_budget)
 
 
-def render_editor_rows(draft: CursorDraft, columns: Int, rows: Int) raises -> List[String]:
+def render_editor_rows(
+    draft: CursorDraft, columns: Int, rows: Int, notice: String = "",
+) raises -> List[String]:
     """Return exactly rows sanitized lines, with cursor context always visible."""
     if columns < 24 or columns > 240 or rows < 8 or rows > 80:
         raise Error("editor view requires 24..240 columns and 8..80 rows")
@@ -90,8 +92,11 @@ def render_editor_rows(draft: CursorDraft, columns: Int, rows: Int) raises -> Li
             result.append(_active_line(lines[source], draft.cursor - line_start, columns))
         else:
             result.append("  " + _safe_prefix(lines[source], columns - 2))
-    result.append(_safe_prefix(
-        "Line " + String(cursor_line + 1) + "/" + String(len(lines))
-        + " | " + String(draft.text().byte_length()) + " bytes", columns,
-    ))
+    if notice != "":
+        result.append(_safe_prefix(notice, columns))
+    else:
+        result.append(_safe_prefix(
+            "Line " + String(cursor_line + 1) + "/" + String(len(lines))
+            + " | " + String(draft.text().byte_length()) + " bytes", columns,
+        ))
     return result^

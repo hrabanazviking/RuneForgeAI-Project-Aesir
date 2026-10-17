@@ -64,6 +64,16 @@ struct CursorDraft:
         self.content = String(self.content[byte=0:self.cursor]) + String(self.content[byte=end:])
         return True
 
+    def erase_right(mut self) -> Bool:
+        if self.cursor == self.content.byte_length():
+            return False
+        var start = self.cursor
+        _ = self.move_right()
+        var end = self.cursor
+        self.content = String(self.content[byte=0:start]) + String(self.content[byte=end:])
+        self.cursor = start
+        return True
+
     def move_home(mut self):
         self.cursor = 0
 

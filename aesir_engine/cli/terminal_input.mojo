@@ -38,6 +38,12 @@ struct TerminalRawMode:
         self.active = False
         return True
 
+    def discard_pending_input(self) -> Bool:
+        """Keep unread draft bytes from becoming the next cooked chat line."""
+        if not self.active:
+            return False
+        return external_call["tcflush", Int32](Int32(0), Int32(0)) == 0
+
     def __deinit__(deinit self):
         if self.active:
             _ = external_call["tcsetattr", Int32](Int32(0), Int32(0), self.saved.unsafe_ptr())

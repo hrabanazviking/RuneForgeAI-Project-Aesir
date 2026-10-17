@@ -12,6 +12,7 @@ from cli.model_selector import choose_installed_model
 from cli.terminal_view import terminal_columns
 from cli.chat_history import chat_command_help, render_history_command, render_turn_command
 from cli.chat_compose import read_chat_compose
+from cli.chat_editor import read_chat_editor
 from cli.storage import digest_open_fd, lease_direct_model_path
 from core.inference_memory import gemma4_profile_memory_plan, llama3_memory_plan
 from cli.conversation import (
@@ -626,6 +627,14 @@ def run_gemma_chat(
                     continue
                 prompt = composed.text
                 composed_prompt = True
+            elif prompt == "/edit":
+                var edited = read_chat_editor(interrupt_fd)
+                if edited.eof:
+                    break
+                if not edited.submitted:
+                    continue
+                prompt = edited.text
+                composed_prompt = True
             if (prompt == "" or prompt == "/bye") and not composed_prompt:
                 break
             if prompt.startswith("/") and not composed_prompt:
@@ -841,6 +850,14 @@ def run_llama_chat(
                 if not composed.submitted:
                     continue
                 prompt = composed.text
+                composed_prompt = True
+            elif prompt == "/edit":
+                var edited = read_chat_editor(interrupt_fd)
+                if edited.eof:
+                    break
+                if not edited.submitted:
+                    continue
+                prompt = edited.text
                 composed_prompt = True
             if (prompt == "" or prompt == "/bye") and not composed_prompt:
                 break

@@ -110,6 +110,14 @@ refusal, bracketed paste (CRLF and literal command-like text), oversized-paste
 rejection and injected-error cleanup. It verifies paste mode, cursor, prior
 screen and termios are restored; it does not route a draft into CUDA chat.
 
+`test_chat_editor_pty.py` drives the real `/edit` reader without loading a
+model. It verifies literal multiline bracketed paste, empty-submit refusal,
+UTF-8 forward deletion, Ctrl+C cancellation, oversized-paste guidance and
+terminal restoration. `test_chat_editor_cuda_pty.py` is an opt-in physical-CUDA
+smoke using an already installed model; it checks that cancelled drafts stay
+out of history (including external SIGINT and pending input) and a literal
+pasted multiline prompt commits one turn.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn
