@@ -1112,7 +1112,9 @@ Every row is initially queued unless the execution record says otherwise.
   paced bracketed paste through the idle boundary. S33v keeps the `/edit`
   control legend readable at the minimum supported terminal width. S33w
   checks that the advertised Escape cancellation is distinct from arrow-key
-  escape sequences in a narrow real PTY. Parent acceptance is still partial.
+  escape sequences in a narrow real PTY. S33x introduces a read-only,
+  bounded chronological transcript window primitive. Parent acceptance is
+  still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1597,3 +1599,35 @@ Every row is initially queued unless the execution record says otherwise.
   physical UI, broader terminal-emulator coverage and user trials remain.
   Arrow sequences arriving more than the reader's 30 ms Escape window apart
   may be classified as cancellation; this PTY test sends the sequence together.
+- S33x contract: extend `cli/chat_history.mojo`, the existing read-only
+  conversation presentation owner, with a resumable chronological transcript
+  window. Each call emits at most 1..80 sanitized rows at 24..240 columns,
+  preserves explicit line breaks, reports an exact continuation cursor across
+  speakers and turns, rejects invalid or mid-UTF-8 cursors, and never
+  materializes the full transcript in its output. The primitive must not
+  mutate the conversation, infer model state, write files or claim an
+  interactive viewer.
+  Test empty, multiline, controls, Unicode, turn boundaries, narrow width,
+  invalid cursors and a maximum-size turn. Acceptance: `mojo run
+  tests/test_transcript_window.mojo` and the existing history/editor units;
+  build `main.mojo` with the installed Mojo/MAX environment if it compiles
+  this shared CLI owner.
+- S33x evidence: `mojo run tests/test_transcript_window.mojo` passed empty,
+  multiline, exact-width newline, sanitized-control, 24-cell Unicode,
+  cross-speaker/turn, malformed-cursor and maximum 1 MiB assistant-turn
+  cases. A resumed long reply and final-byte lookup returned exact offsets.
+  A 240-column by 80-row
+  window emitted only its requested rows. The existing
+  `tests/test_chat_history.mojo` and `tests/test_terminal_editor_view.mojo`
+  passed. A fresh CUDA-targeted `main.mojo` build passed using the installed
+  `.pixi` Mojo/MAX environment. The primitive reads committed conversation
+  data only; no model or file operation was performed. Architect kept this
+  within the existing `chat_history` presentation owner, and Skald favored
+  the plain `TranscriptWindow` name over a command that would overpromise an
+  unwired viewer.
+- S33x remaining gate: a user-facing terminal navigation loop, physical PTY
+  acceptance, exact grapheme cells, Llama UI and independent user trials.
+  The caller must carry the returned cursor; no reverse navigation or global
+  page index is supplied yet. Conversation validation still scans the whole
+  bounded state on each page, so repeated paging of very long histories has
+  not been performance-benchmarked. Parent S33 acceptance is partial.

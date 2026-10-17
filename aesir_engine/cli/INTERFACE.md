@@ -63,6 +63,9 @@ CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
 newest-first history has five turns per page; `/turn N [page]` walks a numbered
 turn one bounded row per speaker at a time. Page numbers start at 1 and the
 header reports the final page; `/export FILE` remains the exact full-text path.
+The same owner now has a pure chronological transcript-window primitive that
+returns a bounded set of rows and a continuation cursor across speakers and
+turns. It is not yet wired to an interactive scrollback command or screen.
 Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable
 content. History, turn detail and help explain terminal text selection as the

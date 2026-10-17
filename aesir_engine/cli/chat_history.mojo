@@ -60,6 +60,134 @@ struct TurnWindow:
         self.pages = pages
 
 
+struct TranscriptWindow:
+    """One bounded chronological viewport and its exact continuation point."""
+
+    var text: String
+    var turn: Int
+    var speaker: Int
+    var offset: Int
+    var done: Bool
+
+    def __init__(
+        out self, text: String, turn: Int, speaker: Int, offset: Int,
+        done: Bool,
+    ):
+        self.text = text
+        self.turn = turn
+        self.speaker = speaker
+        self.offset = offset
+        self.done = done
+
+
+struct _TranscriptLine:
+    var text: String
+    var next_offset: Int
+
+    def __init__(out self, text: String, next_offset: Int):
+        self.text = text
+        self.next_offset = next_offset
+
+
+def _transcript_line(text: String, start: Int, columns: Int) raises -> _TranscriptLine:
+    """Consume at most one sanitized terminal row from a committed speaker."""
+    var raw = text.as_bytes()
+    var index = start
+    var cells = 0
+    var row = String("")
+    while index < len(raw):
+        if raw[index] == 10:
+            index += 1
+            break
+        var atom = terminal_preview_atom(text, index)
+        if cells + atom.cells > columns:
+            break
+        row += atom.fragment
+        cells += atom.cells
+        index += atom.byte_count
+    if cells == columns and index < len(raw) and raw[index] == 10:
+        index += 1
+    return _TranscriptLine(row, index)
+
+
+def render_transcript_window(
+    conversation: ConversationState, start_turn: Int, start_speaker: Int,
+    start_offset: Int,
+    columns: Int, rows: Int,
+) raises -> TranscriptWindow:
+    """Read in order across speakers and turns without materializing the log."""
+    if columns < 24 or columns > 240 or rows < 1 or rows > 80:
+        raise Error("transcript window requires 24..240 columns and 1..80 rows")
+    conversation.validate()
+    var turn = start_turn
+    var speaker = start_speaker
+    var offset = start_offset
+    var total = len(conversation.turns)
+    if turn < 0 or turn > total or speaker < 0 or speaker > 1 or offset < -1:
+        raise Error("transcript cursor is outside committed history")
+    if turn == total:
+        if speaker != 0 or offset != -1:
+            raise Error("transcript end cursor is invalid")
+        if total == 0:
+            return TranscriptWindow("[No completed turns.]\n", turn, 0, -1, True)
+        return TranscriptWindow("", turn, 0, -1, True)
+    var segment_length = conversation.turns[turn].user.byte_length()
+    if speaker == 1:
+        segment_length = conversation.turns[turn].assistant.byte_length()
+    if offset > segment_length:
+        raise Error("transcript cursor exceeds speaker text")
+    if offset >= 0 and offset < segment_length:
+        var cursor_byte: UInt8
+        if speaker == 0:
+            cursor_byte = conversation.turns[turn].user.as_bytes()[offset]
+        else:
+            cursor_byte = conversation.turns[turn].assistant.as_bytes()[offset]
+        if (cursor_byte & 192) == 128:
+            raise Error("transcript cursor splits a UTF-8 scalar")
+    var output = String("")
+    var shown = 0
+    while shown < rows and turn < total:
+        if offset == -1:
+            if speaker == 0:
+                output += "Turn " + String(turn + 1) + " You:\n"
+            else:
+                output += "Turn " + String(turn + 1) + " AI:\n"
+            shown += 1
+            offset = 0
+            continue
+        segment_length = conversation.turns[turn].user.byte_length()
+        if speaker == 1:
+            segment_length = conversation.turns[turn].assistant.byte_length()
+        if offset == segment_length:
+            if speaker == 0:
+                speaker = 1
+            else:
+                turn += 1
+                speaker = 0
+            offset = -1
+            continue
+        var line: _TranscriptLine
+        if speaker == 0:
+            line = _transcript_line(conversation.turns[turn].user, offset, columns)
+        else:
+            line = _transcript_line(conversation.turns[turn].assistant, offset, columns)
+        output += line.text + "\n"
+        shown += 1
+        offset = line.next_offset
+    if turn < total and offset >= 0:
+        segment_length = conversation.turns[turn].user.byte_length()
+        if speaker == 1:
+            segment_length = conversation.turns[turn].assistant.byte_length()
+        if offset == segment_length:
+            if speaker == 0:
+                speaker = 1
+            else:
+                turn += 1
+                speaker = 0
+            offset = -1
+    return TranscriptWindow(output, turn, speaker, offset, turn == total)
+
+
 def _turn_window(text: String, page: Int, budget: Int) raises -> TurnWindow:
     """Scan bounded committed text once; retain only the requested page."""
     var raw = text.as_bytes()
