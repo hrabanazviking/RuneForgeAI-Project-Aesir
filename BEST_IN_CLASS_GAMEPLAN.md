@@ -1106,7 +1106,9 @@ Every row is initially queued unless the execution record says otherwise.
   bounded draft-frame generator and S33o a model-free alternate-screen PTY
   lifecycle and S33p bracketed-paste safety. S33q wires their guarded
   opt-in `/edit` entry point into native CUDA chat; S33r hardens undersized
-  terminal and live-resize recovery. Parent acceptance is still partial.
+  terminal and live-resize recovery. S33s exercises the same PTY workflow
+  against an installed non-Gemma family without changing model bytes. Parent
+  acceptance is still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1475,3 +1477,27 @@ Every row is initially queued unless the execution record says otherwise.
   the next key. Exact grapheme-cell rendering, transcript scrollback,
   Llama/Qwen physical UI paths, delayed/unmarked paste and parent S33
   acceptance remain open.
+- S33s contract: make the opt-in CUDA `/edit` PTY acceptance harness
+  accept an explicit already-installed model path as well as its existing
+  favorite-first chooser mode. Exercise a real Qwen 3 0.6B Q4_K_M session
+  through undersized refusal, resize, cancellation, literal Unicode paste,
+  one committed turn and history. Preserve the Gemma chooser regression.
+  The exact commands are a fresh CUDA-targeted `main.mojo` build followed by
+  `python3 scripts/test_chat_editor_cuda_pty.py BINARY --model
+  .aesir/models/Qwen3-0.6B-Q4_K_M.gguf --expect-model qwen3-0.6B` and the
+  chooser-mode invocation.
+  No new model download, catalog mutation, or Llama claim is in scope.
+- S33s evidence: the already installed Qwen 3 0.6B Q4_K_M GGUF was 396,705,472
+  bytes and reported `VERIFIED`/`READY` with native `qwen3` profile on local
+  inspection (inspection alone did not prove execution). A fresh CUDA-targeted
+  `main.mojo` build passed. The explicit-path PTY run loaded `model=qwen3-0.6B`
+  and passed undersized refusal, live resize/shrink recovery, raw and external
+  SIGINT cancellation, literal Unicode multiline paste, one generated turn,
+  history and normal exit. The chooser-mode Gemma 4 E2B rerun passed the same
+  workflow. Neither run downloaded a model or changed the catalog.
+- S33s remaining gate: the local Llama/Stheno GGUF path is zero bytes, so a
+  physical Llama `/edit` run is unavailable without a separately authorized
+  model acquisition. Exact grapheme-cell behavior, transcript scrollback,
+  delayed/unmarked paste, user usability trials and parent S33 acceptance
+  remain open. This Qwen result is one named quantization, not broad model
+  compatibility.

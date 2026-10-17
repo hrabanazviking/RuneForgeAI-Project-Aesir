@@ -118,6 +118,9 @@ cleanup. `test_chat_editor_cuda_pty.py` is an opt-in physical-CUDA smoke using
 an already installed model; it checks undersized refusal, shrink recovery,
 24-to-120-column draft retention, cancellation (including external SIGINT and
 pending input), and one literal pasted multiline prompt committed as a turn.
+By default it drives the installed-model chooser. Pass `--model PATH` and
+`--expect-model PROFILE` to verify an explicit local model such as Qwen
+without a download or catalog mutation.
 
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
