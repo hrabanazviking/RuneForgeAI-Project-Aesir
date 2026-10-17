@@ -31,6 +31,20 @@ def main() raises:
     var empty = check_rows(draft, 24, 8)
     if "> |" not in empty[1] or "Line 1/1" not in empty[7]:
         raise Error("empty editor frame lost cursor or status")
+    if empty[0] != "Enter send; ^J line; Esc":
+        raise Error("narrow editor clipped send, newline or cancel hint")
+    var medium = check_rows(draft, 50, 8)
+    if medium[0] != "Draft: Enter send | Ctrl+J line | Ctrl+C cancel":
+        raise Error("medium editor lost its full control legend")
+    var medium_edge = check_rows(draft, 47, 8)
+    if medium_edge[0] != medium[0]:
+        raise Error("47-column editor clipped its control legend")
+    var broad = check_rows(draft, 80, 8)
+    if broad[0] != "Draft: Enter send | Ctrl+J line | Esc/Ctrl+C cancel":
+        raise Error("wide editor lost Escape or Ctrl+C guidance")
+    var broad_edge = check_rows(draft, 51, 8)
+    if broad_edge[0] != broad[0]:
+        raise Error("51-column editor clipped its control legend")
     if not draft.insert("A世界🛡️B"):
         raise Error("draft insertion failed")
     _ = draft.move_left()

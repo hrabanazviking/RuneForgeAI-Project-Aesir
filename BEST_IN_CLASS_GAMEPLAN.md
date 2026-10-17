@@ -1109,8 +1109,9 @@ Every row is initially queued unless the execution record says otherwise.
   terminal and live-resize recovery. S33s exercises the same PTY workflow
   against an installed non-Gemma family without changing model bytes. S33t
   detects idle terminal resize without consuming draft input. S33u preserves
-  paced bracketed paste through the idle boundary. Parent acceptance is still
-  partial.
+  paced bracketed paste through the idle boundary. S33v keeps the `/edit`
+  control legend readable at the minimum supported terminal width. Parent
+  acceptance is still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1552,3 +1553,26 @@ Every row is initially queued unless the execution record says otherwise.
   delivery, not every terminal emulator or arbitrary transport failure.
   Exact grapheme cells, transcript scrollback, Llama physical UI, user trials
   and parent S33 acceptance remain open.
+- S33v contract: the `/edit` frame must show an untruncated send, newline and
+  cancel hint at 24 columns, with fuller labels at 50 and 80 columns. Keep
+  exactly the existing row count and sanitation rules, including on resize;
+  do not change key bindings or draft state. Verify model-free row rendering
+  and a real-PTY resize from wide to 24 columns, then rebuild native CUDA
+  chat. Acceptance commands: from `aesir_engine`, `mojo run
+  tests/test_terminal_editor_view.mojo` and `mojo build main.mojo
+  --target-accelerator sm_89`; from the repository root, `python3
+  scripts/test_chat_editor_pty.py aesir_engine/test_chat_editor` after
+  rebuilding that harness.
+- S33v evidence: `mojo run tests/test_terminal_editor_view.mojo` passed at
+  24, 47, 50, 51 and 80 columns, including fixed frame height and row-cell
+  bounds. Rebuilt `tests/test_chat_editor.mojo`; its real-PTY harness passed
+  80-to-24-column idle resize with both control legends visible, plus the
+  existing submit, cancel, paced-paste and terminal-restoration paths. A
+  fresh CUDA-targeted `main.mojo` build passed using the installed `.pixi`
+  Mojo/MAX package root and import path. Initial attempts with the global
+  Mojo wrapper and the direct `.pixi` executable without package variables
+  failed on missing MAX and standard-library imports respectively; those
+  were environment-selection errors, not successful build evidence.
+- S33v remaining gate: exact grapheme-cell rendering, transcript scrollback,
+  Llama physical UI, broader terminal-emulator coverage and independent
+  usability trials remain open. Parent S33 acceptance is partial.

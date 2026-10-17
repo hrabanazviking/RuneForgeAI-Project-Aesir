@@ -73,12 +73,16 @@ def run_idle_resize_case(binary):
         initial = read_until(master, b"0 bytes", 10)
         if b"\x1b[?2004h" not in initial:
             raise AssertionError("idle-resize editor did not enter paste mode")
+        if b"Draft: Enter send | Ctrl+J line | Esc/Ctrl+C cancel" not in initial:
+            raise AssertionError("wide editor control legend was missing")
         if select.select([master], [], [], 0.75)[0]:
             raise AssertionError("unchanged idle editor emitted an extra frame")
         size(slave, 8, 24)
         valid = read_until(master, b"\x1b[8;1H", 3)
         if b"\x1b[H\x1b[2J" not in valid:
             raise AssertionError("valid idle resize did not redraw")
+        if b"Enter send; ^J line; Esc" not in valid:
+            raise AssertionError("24-column resize clipped editor controls")
         size(slave, 7, 23)
         cancelled = read_until(master, b"EDITOR_CANCELLED", 3)
         if b"Draft cancelled: Terminal editor requires" not in cancelled:

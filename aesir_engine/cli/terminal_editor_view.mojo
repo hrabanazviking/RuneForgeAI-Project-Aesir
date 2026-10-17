@@ -83,7 +83,12 @@ def render_editor_rows(
     if first > final_first:
         first = final_first
     var result = List[String]()
-    result.append(_safe_prefix("Draft: Enter send | Ctrl+J line | Ctrl+C cancel", columns))
+    if columns < 47:
+        result.append("Enter send; ^J line; Esc")
+    elif columns < 51:
+        result.append("Draft: Enter send | Ctrl+J line | Ctrl+C cancel")
+    else:
+        result.append("Draft: Enter send | Ctrl+J line | Esc/Ctrl+C cancel")
     for row in range(visible):
         var source = first + row
         if source >= len(lines):
