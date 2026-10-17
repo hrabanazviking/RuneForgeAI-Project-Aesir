@@ -117,7 +117,9 @@ model-free PTY harness covers Unicode/multiline input, resize and teardown.
 `cli/chat_editor.mojo` returns submitted text to the Gemma/Llama chat loops
 as literal prompt content. Redirected input declines `/edit` without entering
 raw mode; `/compose` is the supported redirected multiline path. Transcript
-scrollback and exact grapheme-cell cursor placement remain open.
+scrollback and exact grapheme-cell cursor placement remain open. `/edit`
+refuses a viewport below 24x8 before changing terminal mode; shrink below
+that threshold on the next redraw cancels only the draft and restores chat.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

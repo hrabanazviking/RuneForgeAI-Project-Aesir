@@ -1105,8 +1105,8 @@ Every row is initially queued unless the execution record says otherwise.
   text-byte assembler, S33m their model-free PTY orchestration and S33n a
   bounded draft-frame generator and S33o a model-free alternate-screen PTY
   lifecycle and S33p bracketed-paste safety. S33q wires their guarded
-  opt-in `/edit` entry point into native CUDA chat. Parent acceptance is
-  still partial.
+  opt-in `/edit` entry point into native CUDA chat; S33r hardens undersized
+  terminal and live-resize recovery. Parent acceptance is still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1454,3 +1454,24 @@ Every row is initially queued unless the execution record says otherwise.
   scrollback, and has not been physically exercised with Llama/Qwen, delayed
   paste transport, or unmarked paste. Narrow/wide hardware usability remains
   to verify.
+- S33r contract: `/edit` refuses a viewport below 24 columns or eight rows
+  before entering raw/alternate-screen mode. If the viewport becomes too
+  small during an unfinished draft, its next redraw discards only that draft,
+  restores paste mode, prior screen and termios, and returns to the live chat
+  prompt with a readable reason. Supported 24- and 120-column viewports keep
+  the draft through a resize. The same cleanup applies if initial redraw
+  fails after the preflight check.
+- S33r evidence: rebuilt model-free `/edit` harness and CUDA-targeted
+  `main.mojo` passed. Model-free PTY tests passed initial 23x7 refusal with
+  untouched termios/screen and mid-draft shrink cancellation with restoration.
+  Installed Gemma CUDA PTY chat passed 23-column refusal, active-editor shrink
+  and recovery to chat, then a 24-to-120-column resize retaining an unsubmitted
+  draft; raw Ctrl+C, external SIGINT, paste and one committed turn still passed.
+  The physical test first hit a test-harness race that read the paste-mode
+  marker and then waited for a frame already consumed in the same PTY read;
+  it now awaits the complete first frame and passed. No model download.
+- S33r remaining gate: resize is checked on the next input/redraw, not from a
+  dedicated SIGWINCH handler, so a too-small frame can remain visible until
+  the next key. Exact grapheme-cell rendering, transcript scrollback,
+  Llama/Qwen physical UI paths, delayed/unmarked paste and parent S33
+  acceptance remain open.

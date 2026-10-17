@@ -211,7 +211,9 @@ Interactive commands run between turns:
   beyond 64 KiB or 128 lines. The screen and terminal mode are restored on
   submission, cancellation and errors. It requires TTY stdin and stdout;
   redirected scripts should use `/compose`. Display-cell placement for
-  grapheme clusters and transcript scrollback remain limited.
+  grapheme clusters and transcript scrollback remain limited. The editor
+  requires at least 24 columns by eight rows; shrinking below that minimum
+  cancels the draft on the next edit and returns to the chat prompt.
 - `/show`: context usage, sampling policy, timeout and reset-required state.
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does

@@ -5,6 +5,7 @@ from cli.cursor_draft import CursorDraft
 from cli.terminal_editor_screen import TerminalEditorScreen
 from cli.terminal_events import TerminalEventReader
 from cli.terminal_input import TerminalRawMode, interactive_terminal_available
+from cli.terminal_view import terminal_editor_size
 from cli.terminal_keys import (
     KEY_TEXT_BYTE, KEY_ENTER, KEY_NEWLINE, KEY_BACKSPACE, KEY_DELETE,
     KEY_LEFT, KEY_RIGHT, KEY_HOME, KEY_END, KEY_INTERRUPT, KEY_EOF,
@@ -17,11 +18,26 @@ def read_chat_editor(interrupt_fd: Int) raises -> ComposeResult:
     if not interactive_terminal_available():
         print("[/edit requires interactive stdin and stdout; use /compose here]")
         return ComposeResult("", False, False)
+    try:
+        _ = terminal_editor_size()
+    except error:
+        print("[/edit unavailable: " + String(error) + "]")
+        return ComposeResult("", False, False)
     var mode = TerminalRawMode()
     var screen = TerminalEditorScreen()
     var reader = TerminalEventReader()
     var draft = CursorDraft()
-    screen.draw(draft)
+    try:
+        screen.draw(draft)
+    except error:
+        var discarded = mode.discard_pending_input()
+        screen.close()
+        if not mode.restore():
+            raise Error("Editor terminal mode restore failed")
+        if not discarded:
+            raise Error("Editor could not discard pending draft input")
+        print("[Draft cancelled: " + String(error) + "]")
+        return ComposeResult("", False, False)
     while True:
         var event = reader.next(interrupt_fd)
         var notice = String("")
@@ -68,4 +84,14 @@ def read_chat_editor(interrupt_fd: Int) raises -> ComposeResult:
                 if not mode.restore():
                     raise Error("Editor terminal mode restore failed")
                 return ComposeResult(draft.text(), True, False)
-        screen.draw(draft, notice)
+        try:
+            screen.draw(draft, notice)
+        except error:
+            var discarded = mode.discard_pending_input()
+            screen.close()
+            if not mode.restore():
+                raise Error("Editor terminal mode restore failed")
+            if not discarded:
+                raise Error("Editor could not discard pending draft input")
+            print("[Draft cancelled: " + String(error) + "]")
+            return ComposeResult("", False, False)
