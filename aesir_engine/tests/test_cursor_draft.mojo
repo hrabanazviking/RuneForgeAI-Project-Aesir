@@ -120,6 +120,44 @@ def main() raises:
     if (not broken_join.move_right() or broken_join.cursor != 4
             or not broken_join.move_right() or broken_join.cursor != 5):
         raise Error("emoji join crossed a hard line break")
+    var flag = String("🇺🇸")
+    var flag_draft = CursorDraft()
+    _ = flag_draft.insert(flag + "X")
+    flag_draft.move_home()
+    if not flag_draft.move_right() or flag_draft.cursor != flag.byte_length():
+        raise Error("flag pair was split by right movement")
+    if not flag_draft.erase_left() or flag_draft.text() != "X":
+        raise Error("flag pair was split by Backspace")
+    var flag_delete = CursorDraft()
+    _ = flag_delete.insert(flag + "X")
+    flag_delete.move_home()
+    if not flag_delete.erase_right() or flag_delete.text() != "X":
+        raise Error("flag pair was split by Delete")
+    var two_flags = CursorDraft()
+    _ = two_flags.insert("🇺🇸🇨🇦")
+    two_flags.move_home()
+    if (not two_flags.move_right() or two_flags.cursor != 8
+            or not two_flags.move_right() or two_flags.cursor != 16
+            or not two_flags.move_left() or two_flags.cursor != 8):
+        raise Error("consecutive flag pairs lost their boundaries")
+    var odd_flags = CursorDraft()
+    _ = odd_flags.insert("🇺🇸🇨")
+    odd_flags.move_end()
+    if (not odd_flags.move_left() or odd_flags.cursor != 8
+            or not odd_flags.move_left() or odd_flags.cursor != 0):
+        raise Error("odd regional-indicator tail was not one scalar")
+    var inserted_flag = CursorDraft()
+    _ = inserted_flag.insert("🇺🇸")
+    inserted_flag.move_home()
+    if (not inserted_flag.insert("🇨") or inserted_flag.cursor != 8
+            or not inserted_flag.erase_left() or inserted_flag.text() != "🇸"):
+        raise Error("insertion before a flag pair left cursor inside it")
+    var joined_flags = CursorDraft()
+    _ = joined_flags.insert("🇺‍🇸")
+    joined_flags.move_home()
+    if (not joined_flags.move_right() or joined_flags.cursor != 4
+            or not joined_flags.move_right() or joined_flags.cursor != 7):
+        raise Error("regional indicators were treated as joined emoji")
     var forward = CursorDraft()
     if not forward.insert("A界B"):
         raise Error("forward-delete draft setup failed")

@@ -75,7 +75,25 @@ def _hard_break(text: String, start: Int) -> Bool:
 def _emoji_base(text: String, start: Int) -> Bool:
     var scalar = _scalar_value(text, start)
     return (scalar >= 9728 and scalar <= 10175
-            or scalar >= 126976 and scalar <= 129791)
+            or (scalar >= 126976 and scalar <= 129791
+                and not (scalar >= 127462 and scalar <= 127487)))
+
+
+def _regional_indicator(text: String, start: Int) -> Bool:
+    var scalar = _scalar_value(text, start)
+    return scalar >= 127462 and scalar <= 127487
+
+
+def _ri_count_before(text: String, end: Int) -> Int:
+    var count = 0
+    var position = end
+    while position > 0:
+        var previous = _scalar_start(text, position)
+        if not _regional_indicator(text, previous):
+            break
+        count += 1
+        position = previous
+    return count
 
 
 def _base_before(text: String, end: Int) -> Int:
@@ -157,12 +175,23 @@ struct CursorDraft:
                     )
             else:
                 self.cursor = _joined_emoji_end(self.content, self.cursor, base)
+            if self.cursor < self.content.byte_length() and _regional_indicator(
+                self.content, _scalar_start(self.content, self.cursor),
+            ):
+                if (_ri_count_before(self.content, self.cursor) % 2 == 1
+                        and _regional_indicator(self.content, self.cursor)):
+                    self.cursor = _scalar_end(self.content, self.cursor)
         return True
 
     def move_left(mut self) -> Bool:
         if self.cursor == 0:
             return False
+        var ending = self.cursor
         self.cursor = _base_before(self.content, self.cursor)
+        if _regional_indicator(self.content, self.cursor):
+            if _ri_count_before(self.content, ending) % 2 == 0:
+                self.cursor = _scalar_start(self.content, self.cursor)
+            return True
         while self.cursor > 0 and _emoji_base(self.content, self.cursor):
             var joiner = _scalar_start(self.content, self.cursor)
             if _scalar_value(self.content, joiner) != 8205 or joiner == 0:
@@ -178,6 +207,9 @@ struct CursorDraft:
             return False
         var break_scalar = _hard_break(self.content, self.cursor)
         var base = self.cursor
+        var preceding_ri = 0
+        if _regional_indicator(self.content, base):
+            preceding_ri = _ri_count_before(self.content, base)
         self.cursor = _scalar_end(self.content, self.cursor)
         if not break_scalar:
             while self.cursor < self.content.byte_length() and _trailing_mark(
@@ -185,6 +217,10 @@ struct CursorDraft:
             ):
                 self.cursor = _scalar_end(self.content, self.cursor)
             self.cursor = _joined_emoji_end(self.content, self.cursor, base)
+            if (preceding_ri % 2 == 0 and _regional_indicator(self.content, base)
+                    and self.cursor < self.content.byte_length()
+                    and _regional_indicator(self.content, self.cursor)):
+                self.cursor = _scalar_end(self.content, self.cursor)
         return True
 
     def erase_left(mut self) -> Bool:

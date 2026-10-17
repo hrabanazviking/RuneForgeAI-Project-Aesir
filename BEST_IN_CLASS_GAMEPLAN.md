@@ -1766,3 +1766,23 @@ Every row is initially queued unless the execution record says otherwise.
   script-specific clusters and exact terminal display cells remain open.
   The zero-byte Llama fixture, broader terminal-emulator coverage and
   independent user trials keep parent S33 partial.
+- S33ae contract: make plain regional-indicator flag pairs atomic in
+  `CursorDraft`, pairing from the start of each contiguous RI run. A flag
+  moves and deletes in one step, two flags remain distinct, and an odd RI
+  tail remains one scalar. Insertion at a pair boundary must not strand the
+  cursor inside a newly formed pair. Exclude RI code points from the bounded
+  pictographic-ZWJ classifier; preserve ASCII, newline and existing emoji
+  behavior. This is not full Unicode segmentation or a display-width claim.
+  Acceptance: cursor unit, real-PTY `/edit` flags, editor-row unit, fresh
+  CUDA build and installed-model `/edit` PTY smoke.
+- S33ae evidence: `tests/test_cursor_draft.mojo` passed a single flag,
+  two adjacent flags, an odd RI tail, insertion before an existing pair,
+  and an RI-ZWJ-RI sequence that must remain separate. The rebuilt
+  model-free `/edit` real-PTY suite passed flag Delete/Backspace along with
+  its existing Unicode, paste, resize and restoration cases; editor-row
+  unit passed. A fresh `.pixi` CUDA-targeted `main.mojo` build and installed
+  Qwen3-0.6B `/edit` PTY smoke passed. No model was downloaded or changed.
+- S33ae remaining gate: only plain RI runs are paired; RI with variation
+  selectors and complete UAX #29 behavior are not claimed. Exact terminal
+  display-cell width, Llama physical UI, broader emulator coverage and
+  independent user trials remain open; parent S33 remains partial.
