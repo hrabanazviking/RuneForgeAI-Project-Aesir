@@ -1853,3 +1853,22 @@ Every row is initially queued unless the execution record says otherwise.
   not a Gemma/Llama Unicode-cluster physical pass, other terminal emulators,
   exact terminal-cell measurement, full Unicode segmentation or independent
   user usability trials. Parent S33 remains partial.
+- S33ai contract: run the same committed-turn accent, pictographic-join and
+  RI flag `/transcript` PTY acceptance against the already installed Gemma 4
+  E2B GGUF on a fresh CUDA build. Confirm each whole cluster's count across
+  narrow paging, screen/termios restoration and unchanged committed history;
+  record any model-specific divergence without modifying model bytes. This
+  closes only the second installed-model profile, not the remaining parent
+  S33 hardware, terminal-emulator or human-usability gates.
+- S33ai evidence: a fresh `.pixi` CUDA `main.mojo` build for `sm_89` and
+  `scripts/test_chat_transcript_cuda_pty.py --clusters --model
+  .aesir/models/gemma-4-E2B-it-Q4_K_M.gguf` passed with the already installed
+  Gemma 4 E2B model. Its 24x8 transcript paged twelve full accent, family
+  emoji and RI-flag clusters without loss or duplication, then restored
+  screen, paste/cursor state and termios; `/history` retained the committed
+  turn. No model file or generation policy changed.
+- S33ai remaining gate: Qwen and Gemma now have this one-PTY Unicode-cluster
+  acceptance, but the local Llama/Stheno fixture remains zero bytes. Other
+  terminal emulators, exact display-cell measurement, full Unicode
+  segmentation and independent user trials remain unverified. Parent S33
+  stays partial; S34/S35 retain their S33 prerequisite.
