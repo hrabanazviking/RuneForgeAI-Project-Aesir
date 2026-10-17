@@ -1656,3 +1656,23 @@ Every row is initially queued unless the execution record says otherwise.
   Back navigation is intentionally limited to the most recent 128 pages, and
   resizing starts a fresh back-history at the current continuation point.
   Parent S33 acceptance is partial.
+- S33z contract: connect the bounded S33y pager to the existing raw-key
+  reader and alternate-screen lease in a model-free, read-only PTY viewer.
+  `n`/down advances, `p`/up returns, and `q`/Escape/Ctrl+C exits without
+  applying pasted commands. Refuse redirected or undersized streams before
+  changing terminal mode; poll for resize and restore termios, paste mode,
+  cursor and prior screen on normal exit or an undersized resize. Reuse the
+  shared screen writer without changing `/edit` behavior. Do not yet claim a
+  CUDA-chat command, model-backed UI, exact grapheme cells or user trials.
+- S33z evidence: a fresh model-free viewer binary passed a real-PTY suite for
+  first/next/previous pages by letter and arrow keys, inert bracketed paste,
+  unchanged idle frames,
+  24-to-80-column redraw, below-minimum resize closure, q, lone-Escape and
+  Ctrl+C exit, redirected and undersized refusal, and exact
+  termios/alternate-screen restoration.
+  S33x/S33y window and pager units, editor row unit, and rebuilt `/edit` real
+  PTY suite passed. A fresh CUDA-targeted `main.mojo` build passed using the
+  installed `.pixi` Mojo/MAX environment; no model was loaded.
+- S33z remaining gate: the viewer is a model-free harness, not a native chat
+  command. Exact grapheme/display cells, Llama physical UI and independent
+  usability trials remain open; parent S33 remains partial.

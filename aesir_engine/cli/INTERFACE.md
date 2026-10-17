@@ -67,8 +67,12 @@ The same owner now has a pure chronological transcript-window primitive that
 returns a bounded set of rows and a continuation cursor across speakers and
 turns. `terminal_transcript_view.mojo` builds fixed-height, width-bounded
 frames and a 128-page back-history over that primitive; resize retains the
-current cursor and drops old page geometry. Neither is yet wired to raw keys,
-an alternate screen or a chat command.
+current cursor and drops old page geometry. `chat_transcript_viewer.mojo`
+connects that pager to the existing raw-key reader and alternate-screen lease
+in a model-free interactive loop. It accepts `n`/down for next, `p`/up for
+previous, and `q`/Escape/Ctrl+C for exit; bracketed paste is inert. It checks
+the 24x8 minimum before entering raw mode and closes on an undersized resize.
+The loop is not yet a CUDA-chat command or a replacement for `/history`.
 
 Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable
@@ -108,8 +112,9 @@ formatting controls. Its caller must flush partial scalars on non-text events.
 `cli/terminal_events.mojo` polls stdin and the existing optional interrupt
 descriptor, composes the key and UTF-8 decoders, flushes incomplete escapes or
 scalars after bounded idle periods, and emits whole-scalar text/control events.
-Its optional idle timeout is used only by `/edit` for a 250 ms resize check;
-other callers retain blocking reads and unchanged key/paste semantics.
+Its optional idle timeout is used by `/edit` and the model-free transcript
+viewer for a 250 ms resize check; other callers retain blocking reads and
+unchanged key/paste semantics.
 With bracketed paste enabled by the screen lease, it buffers a paste as one
 validated event, normalizes CRLF, treats pasted newlines as draft content,
 and rejects the whole paste beyond 64 KiB or 128 lines. Raw Ctrl+C still
@@ -125,7 +130,8 @@ rows with a visible inline cursor marker, vertical viewport and horizontal
 context window. `cli/terminal_editor_screen.mojo` owns the alternate-screen
 and physical-cursor lifecycle, re-reads actual PTY dimensions on redraw,
 refuses viewports below 24x8, enables/disables bracketed paste mode, and
-writes only those sanitized rows. A
+writes only those sanitized rows. The same lease can paint the pager's
+already sanitized fixed-height rows. A
 model-free PTY harness covers Unicode/multiline input, resize and teardown.
 `cli/chat_editor.mojo` returns submitted text to the Gemma/Llama chat loops
 as literal prompt content. Redirected input declines `/edit` without entering

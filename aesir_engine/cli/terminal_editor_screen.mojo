@@ -37,6 +37,10 @@ struct TerminalEditorScreen:
     def draw(self, draft: CursorDraft, notice: String = "") raises:
         var size = terminal_editor_size()
         var rows = render_editor_rows(draft, size.columns, size.rows, notice)
+        self.draw_rows(rows)
+
+    def draw_rows(self, rows: List[String]) raises:
+        """Paint a complete, already sanitized fixed-height view."""
         var frame = String("\x1b[H\x1b[2J")
         for index in range(len(rows)):
             frame += "\x1b[" + String(index + 1) + ";1H\x1b[2K" + rows[index]
