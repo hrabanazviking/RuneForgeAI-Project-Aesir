@@ -6,6 +6,17 @@ from cli.conversation import ConversationState
 comptime HISTORY_PAGE_SIZE = 5
 
 
+struct PreviewAtom:
+    var fragment: String
+    var byte_count: Int
+    var cells: Int
+
+    def __init__(out self, fragment: String, byte_count: Int, cells: Int):
+        self.fragment = fragment
+        self.byte_count = byte_count
+        self.cells = cells
+
+
 def _positive_index(text: String, label: String) raises -> Int:
     var clean = String(text.strip())
     if clean == "":
@@ -23,6 +34,51 @@ def _positive_index(text: String, label: String) raises -> Int:
     return value
 
 
+def _preview_atom(text: String, index: Int) raises -> PreviewAtom:
+    """One sanitized scalar; non-ASCII display is charged two cells."""
+    var raw = text.as_bytes()
+    var first = Int(raw[index])
+    if first < 128:
+        if first >= 32 and first < 127:
+            return PreviewAtom(String(text[byte=index:index + 1]), 1, 1)
+        return PreviewAtom(" ", 1, 1)
+    var width = 0
+    var scalar = 0
+    if first >= 194 and first <= 223:
+        width = 2
+        scalar = first & 31
+    elif first >= 224 and first <= 239:
+        width = 3
+        scalar = first & 15
+    elif first >= 240 and first <= 244:
+        width = 4
+        scalar = first & 7
+    var valid = width > 0 and index + width <= len(raw)
+    if valid:
+        for offset in range(1, width):
+            var next_byte = Int(raw[index + offset])
+            if next_byte < 128 or next_byte > 191:
+                valid = False
+                break
+            scalar = (scalar << 6) | (next_byte & 63)
+        if (width == 2 and scalar < 128
+                or width == 3 and scalar < 2048
+                or width == 4 and scalar < 65536
+                or scalar > 1114111
+                or scalar >= 55296 and scalar <= 57343):
+            valid = False
+    if not valid:
+        return PreviewAtom("?", 1, 1)
+    if (scalar >= 128 and scalar <= 159
+            or scalar == 1564
+            or scalar >= 8203 and scalar <= 8207
+            or scalar >= 8232 and scalar <= 8238
+            or scalar >= 8288 and scalar <= 8303
+            or scalar == 65279):
+        return PreviewAtom(" ", width, 1)
+    return PreviewAtom(String(text[byte=index:index + width]), width, 2)
+
+
 def safe_turn_preview(text: String, limit: Int) raises -> String:
     """Sanitize UTF-8 and fit a conservative terminal-cell budget."""
     if limit < 1 or limit > 512:
@@ -33,63 +89,12 @@ def safe_turn_preview(text: String, limit: Int) raises -> String:
     var result = String("")
     var ellipsis_fit = String("")
     while index < len(raw) and shown < limit:
-        var first = Int(raw[index])
-        var fragment: String
-        var consumed = 1
-        var cells = 1
-        if first < 128:
-            if first >= 32 and first < 127:
-                fragment = String(text[byte=index:index + 1])
-            else:
-                fragment = " "
-        else:
-            var width = 0
-            var scalar = 0
-            if first >= 194 and first <= 223:
-                width = 2
-                scalar = first & 31
-            elif first >= 224 and first <= 239:
-                width = 3
-                scalar = first & 15
-            elif first >= 240 and first <= 244:
-                width = 4
-                scalar = first & 7
-            var valid = width > 0 and index + width <= len(raw)
-            if valid:
-                for offset in range(1, width):
-                    var next_byte = Int(raw[index + offset])
-                    if next_byte < 128 or next_byte > 191:
-                        valid = False
-                        break
-                    scalar = (scalar << 6) | (next_byte & 63)
-                if (width == 2 and scalar < 128
-                        or width == 3 and scalar < 2048
-                        or width == 4 and scalar < 65536
-                        or scalar > 1114111
-                        or scalar >= 55296 and scalar <= 57343):
-                    valid = False
-            if not valid:
-                fragment = "?"
-            else:
-                consumed = width
-                # A scalar may occupy zero, one or two cells. Two is the
-                # conservative upper bound without locale or grapheme tables.
-                cells = 2
-                if (scalar >= 128 and scalar <= 159
-                        or scalar == 1564
-                        or scalar >= 8203 and scalar <= 8207
-                        or scalar >= 8232 and scalar <= 8238
-                        or scalar >= 8288 and scalar <= 8303
-                        or scalar == 65279):
-                    fragment = " "
-                    cells = 1
-                else:
-                    fragment = String(text[byte=index:index + width])
-        if shown + cells > limit:
+        var atom = _preview_atom(text, index)
+        if shown + atom.cells > limit:
             break
-        result += fragment
-        shown += cells
-        index += consumed
+        result += atom.fragment
+        shown += atom.cells
+        index += atom.byte_count
         if shown <= limit - 3:
             ellipsis_fit = result
     if index < len(raw):
@@ -99,6 +104,34 @@ def safe_turn_preview(text: String, limit: Int) raises -> String:
             return ".."
         return ellipsis_fit + "..."
     return result
+
+
+struct TurnWindow:
+    var text: String
+    var pages: Int
+
+    def __init__(out self, text: String, pages: Int):
+        self.text = text
+        self.pages = pages
+
+
+def _turn_window(text: String, page: Int, budget: Int) raises -> TurnWindow:
+    """Scan bounded committed text once; retain only the requested page."""
+    var raw = text.as_bytes()
+    var index = 0
+    var current_page = 1
+    var cells = 0
+    var output = String("")
+    while index < len(raw):
+        var atom = _preview_atom(text, index)
+        if cells + atom.cells > budget:
+            current_page += 1
+            cells = 0
+        if current_page == page:
+            output += atom.fragment
+        cells += atom.cells
+        index += atom.byte_count
+    return TurnWindow(output, current_page)
 
 
 def render_history_page(
@@ -134,7 +167,7 @@ def render_history_page(
         frame += String(number) + " You: " + safe_turn_preview(turn.user, preview_limit) + "\n"
         frame += "  AI: " + safe_turn_preview(turn.assistant, preview_limit) + "\n"
     if columns < 50:
-        frame += "Copy: select text\n/turn N | /export FILE\n"
+        frame += "Copy: select text\n/turn N [P]\n/export FILE\n"
     elif columns < 80:
         frame += "Use /turn N; /history P for older.\n"
         frame += "Select text to copy; /export FILE for all.\n"
@@ -144,21 +177,31 @@ def render_history_page(
 
 
 def render_turn_detail(
-    conversation: ConversationState, number: Int, columns: Int,
+    conversation: ConversationState, number: Int, columns: Int, page: Int = 1,
 ) raises -> String:
     if columns < 24 or columns > 240:
         raise Error("turn view width must be 24..240 columns")
     conversation.validate()
     if number < 1 or number > len(conversation.turns):
         raise Error("turn number is outside completed history")
+    if page < 1:
+        raise Error("turn page must be positive")
     var turn = conversation.turns[number - 1]
-    var preview_limit = columns - 8
-    var footer = String("Copy: select text\n/export FILE: full text\n")
+    var budget = columns - 8
+    var user = _turn_window(turn.user, page, budget)
+    var assistant = _turn_window(turn.assistant, page, budget)
+    var pages = max(user.pages, assistant.pages)
+    if page > pages:
+        raise Error("turn page is outside completed text")
+    var header = String("\nTurn " + String(number) + " P" + String(page)
+                        + "/" + String(pages) + "\n")
+    var footer = String("Copy: select text\n/turn N [P]\n/export FILE: full text\n")
     if columns >= 50:
-        footer = "Select text to copy; /export FILE for full text.\n"
-    return String("\nTurn " + String(number) + "/" + String(len(conversation.turns))
-                  + "\nYou: " + safe_turn_preview(turn.user, preview_limit)
-                  + "\nAI: " + safe_turn_preview(turn.assistant, preview_limit)
+        header = String("\nTurn " + String(number) + "/" + String(len(conversation.turns))
+                        + " page " + String(page) + "/" + String(pages) + "\n")
+        footer = "Use /turn N P for pages; /export FILE.\nSelect text to copy.\n"
+    return String(header + "You: " + user.text
+                  + "\nAI: " + assistant.text
                   + "\n" + footer)
 
 
@@ -177,17 +220,24 @@ def render_turn_command(
     command: String, conversation: ConversationState, columns: Int,
 ) raises -> String:
     if not command.startswith("/turn "):
-        raise Error("Usage: /turn <number>")
-    var number = _positive_index(String(command[byte=6:]), "/turn")
-    return render_turn_detail(conversation, number, columns)
+        raise Error("Usage: /turn <number> [page]")
+    var arguments = String(command[byte=6:])
+    var parts = arguments.split(" ")
+    if len(parts) < 1 or len(parts) > 2:
+        raise Error("Usage: /turn <number> [page]")
+    var number = _positive_index(String(parts[0]), "/turn")
+    var page = 1
+    if len(parts) == 2:
+        page = _positive_index(String(parts[1]), "/turn page")
+    return render_turn_detail(conversation, number, columns, page)
 
 
 def chat_command_help(columns: Int) -> String:
     if columns < 50:
-        return String("\n/help /show /history [P]\n/turn N /compose /bye\n/clear /new\n"
+        return String("\n/help /show /history [P]\n/turn N [P] /compose\n/bye /clear /new\n"
                       + "/model NAME /save FILE\n/load FILE /export FILE\n"
                       + "/set NAME VALUE\nCopy: select text\n")
-    return String("\nBrowse: /history [page], /turn N, /show\n"
+    return String("\nBrowse: /history [P], /turn N [P], /show\n"
                   + "Compose: /compose (then /send, /undo, /cancel)\n"
                   + "Session: /clear, /new, /bye\n"
                   + "Models: /model NAME (resets conversation)\n"

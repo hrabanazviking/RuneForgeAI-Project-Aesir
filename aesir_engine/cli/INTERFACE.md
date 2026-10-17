@@ -60,8 +60,10 @@ and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
 
 `cli/chat_history.mojo` is read-only presentation over committed turns. The
-newest-first history has five turns per page; `/turn N` shows a larger but
-bounded preview of a numbered turn. Views replace terminal control characters,
+newest-first history has five turns per page; `/turn N [page]` walks a numbered
+turn one bounded row per speaker at a time. Page numbers start at 1 and the
+header reports the final page; `/export FILE` remains the exact full-text path.
+Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable
 content. History, turn detail and help explain terminal text selection as the
 copy path; the app does not access the system clipboard. Footer hints are

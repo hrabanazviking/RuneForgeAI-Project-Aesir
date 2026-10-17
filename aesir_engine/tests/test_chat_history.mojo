@@ -66,7 +66,8 @@ def main() raises:
             rejected = True
         if not rejected:
             raise Error("history accepted invalid page: " + bad)
-    for bad in ["/turn", "/turn 0", "/turn 13", "/turn 999999999999999999999"]:
+    for bad in ["/turn", "/turn 0", "/turn 13", "/turn 1 0",
+                "/turn 1 2", "/turn 1 2 3", "/turn 999999999999999999999"]:
         var rejected = False
         try:
             _ = render_turn_command(bad, conversation, 80)
@@ -88,8 +89,44 @@ def main() raises:
     mixed.append_turn(String("界") * 100, String("🛡️") * 100)
     var mixed_page = render_history_page(mixed, 1, 24)
     var mixed_detail = render_turn_detail(mixed, 1, 24)
-    if "1 You: 界界界..." not in mixed_page or "You: 界界界界界界..." not in mixed_detail:
+    if ("1 You: 界界界..." not in mixed_page
+            or "Turn 1 P1/25" not in mixed_detail
+            or "You: 界界界界界界界界" not in mixed_detail):
         raise Error("narrow mixed-script views were not cell-bounded")
+    var last_mixed = render_turn_command("/turn 1 25", mixed, 24)
+    if "Turn 1 P25/25" not in last_mixed or "You: \n" not in last_mixed:
+        raise Error("last mixed-script page skipped or repeated user text")
+    var no_page_26 = False
+    try:
+        _ = render_turn_command("/turn 1 26", mixed, 24)
+    except:
+        no_page_26 = True
+    if not no_page_26:
+        raise Error("turn page beyond the end was accepted")
+    var paged = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    paged.append_turn(String("x") * 35, String("y") * 18)
+    var first = render_turn_command("/turn 1", paged, 24)
+    var second = render_turn_command("/turn 1 2", paged, 24)
+    var third = render_turn_command("/turn 1 3", paged, 24)
+    if ("P1/3" not in first or "You: " + String("x") * 16 not in first
+            or "P2/3" not in second or "AI: yy" not in second
+            or "P3/3" not in third or "You: xxx" not in third):
+        raise Error("turn pages lost, repeated or misnumbered text")
+    var huge = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    huge.append_turn("question", String("a") * 1048576)
+    var last_huge = render_turn_command("/turn 1 4520", huge, 240)
+    if "page 4520/4520" not in last_huge or "AI: " + String("a") * 168 not in last_huge:
+        raise Error("maximum assistant turn was not paged through its final bytes")
+    var narrow_huge = render_turn_command("/turn 1 65536", huge, 24)
+    if "Turn 1 P65536/65536" not in narrow_huge or "AI: " + String("a") * 16 not in narrow_huge:
+        raise Error("maximum assistant turn lost its narrow final page")
+    for line in narrow_huge.split("\n"):
+        if String(line).byte_length() > 24:
+            raise Error("maximum turn page overflowed 24 columns")
     for width in [24, 50, 80]:
         for line in render_turn_detail(mixed, 1, width).split("\n"):
             # Every non-ASCII scalar is charged two cells, so byte length

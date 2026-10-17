@@ -208,9 +208,14 @@ Interactive commands run between turns:
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does
   not change model state.
-- `/turn N`: show a bounded preview of completed turn N. Terminal controls are
-  replaced and valid Unicode is preserved; use `/export <new-markdown>` for
-  full, untruncated prose. Select visible text in the terminal to copy it;
+- `/turn N [page]`: read a completed turn in bounded pages, with page 1 as the
+  default. Each page shows one row of user and assistant text; the header
+  reports the final page, and an out-of-range page is rejected. The page
+  number is shared between the two speakers; a shorter side becomes blank
+  after its final page. Terminal
+  controls are replaced and valid Unicode is preserved; use
+  `/export <new-markdown>` for exact, untruncated prose. Select visible text in
+  the terminal to copy it;
   Aesir does not read or write the system clipboard. Previews conservatively
   charge up to two terminal cells per non-ASCII scalar, so long mixed-script
   text may truncate earlier than the terminal strictly requires.

@@ -1097,9 +1097,9 @@ Every row is initially queued unless the execution record says otherwise.
   S33d makes copy/export guidance width-aware and verifies private full-text
   export. S33e verifies compose cancellation under redirected EOF and real
   SIGINT. S33f bounds mixed-script previews by conservative terminal-cell
-  estimates. S33g verifies draft resize and redirected output. Full-screen
-  cursor editing, full transcript navigation, and exact grapheme-width
-  behavior remain open.
+  estimates. S33g verifies draft resize and redirected output. S33h adds
+  bounded pages across long committed turns. Full-screen cursor editing,
+  transcript-log scrollback and exact grapheme-width behavior remain open.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1245,3 +1245,27 @@ Every row is initially queued unless the execution record says otherwise.
   scrollback/editor remain unimplemented. Other installed model profiles and
   a wider set of terminal/locale combinations were not physically exercised.
   Parent S33 acceptance remains partial.
+- S33h contract: `/turn N [page]` walks every sanitized user/assistant scalar
+  in a committed turn with one terminal-width row per speaker and explicit
+  page/final-page numbers. A single page number applies to both speakers; a
+  shorter side is blank after it ends. Parsing rejects zero, overflow, extra
+  arguments and out-of-range pages. `cli/chat_history.mojo` shares one UTF-8
+  sanitizer between short previews and the page scanner, with no model/KV or
+  conversation mutation. `/export FILE` remains the exact full-text path.
+- S33h evidence: fresh CUDA-targeted `main.mojo` and
+  `test_chat_history.mojo` builds passed. Unit tests covered short/long page
+  order, 24-column CJK/emoji boundaries, malformed pages, a shorter speaker,
+  1,024-turn history, and 240/24-column final pages of a 1 MiB assistant
+  answer; the final unit binary reported 0.06 seconds elapsed and 13,460 KiB
+  peak RSS in WSL. Revised `scripts/test_chat_history_pty.py` passed with the installed
+  Gemma 4 E2B: a 50-CJK-plus-Unicode prompt spanned two 80-column turn pages,
+  page two retained the tail, 24-column history remained bounded, and the
+  exact full prompt survived owner-private export. The first PTY run exposed
+  an overbroad test assertion matching generated assistant text; narrowing it
+  to the user row made the physical test pass. `check_doc_drift.py` remains at
+  66 pre-existing repository consistency issues.
+- S33h remaining gate: the pager sanitizes terminal controls, so it is not a
+  byte-exact transcript viewer; use `/export FILE` for original prose.
+  Full-screen scrollback of commands/system output and cursor editing remain
+  unimplemented, and Llama/Qwen PTY profiles lack physical coverage. Parent
+  S33 acceptance remains partial.

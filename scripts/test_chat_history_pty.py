@@ -46,7 +46,7 @@ def main(binary, store):
         startup = read_until(master, b"You> ", 120)
         if b"backend=cuda" not in startup:
             raise AssertionError("native CUDA chat did not become ready")
-        os.write(master, ("界" * 20 + " Freyja 🛡️\n").encode())
+        os.write(master, ("界" * 50 + " Freyja 🛡️\n").encode())
         read_until(master, b"You> ", 60)
         size(master, 24)
         os.write(master, b"/history\n")
@@ -61,11 +61,15 @@ def main(binary, store):
         size(master, 80)
         os.write(master, b"/turn 1\n")
         detail = read_until(master, b"You> ", 15).decode()
-        if "Turn 1/1" not in detail or "Freyja 🛡️" not in detail:
-            raise AssertionError(f"turn detail lost Unicode content: {detail!r}")
+        if "Turn 1/1 page 1/2" not in detail or "Freyja" in detail.split("AI:", 1)[0]:
+            raise AssertionError(f"first turn page was not bounded: {detail!r}")
+        os.write(master, b"/turn 1 2\n")
+        second_detail = read_until(master, b"You> ", 15).decode()
+        if "Turn 1/1 page 2/2" not in second_detail or "Freyja 🛡️" not in second_detail:
+            raise AssertionError(f"second turn page lost Unicode content: {second_detail!r}")
         os.write(master, b"/help\n")
         help_text = read_until(master, b"You> ", 15).decode()
-        if "/history" not in help_text or "/export" not in help_text:
+        if "/history" not in help_text or "/turn N [P]" not in help_text or "/export" not in help_text:
             raise AssertionError("chat command discovery omitted history/export")
         os.write(master, b"/history 2\n")
         rejected = read_until(master, b"You> ", 15).decode()
@@ -76,7 +80,7 @@ def main(binary, store):
             os.write(master, f"/export {export}\n".encode())
             exported = read_until(master, b"You> ", 15).decode()
             content = export.read_text(encoding="utf-8")
-            if ("conversation exported" not in exported or "界" * 20 not in content
+            if ("conversation exported" not in exported or "界" * 50 not in content
                     or "Freyja 🛡️" not in content
                     or "## Turn 1" not in content):
                 raise AssertionError("full Unicode conversation export failed")
@@ -98,7 +102,7 @@ def main(binary, store):
                 process.kill()
                 process.wait(timeout=5)
         os.close(master)
-    print("native chat PTY history/turn/help, private Unicode export/no-overwrite: PASS")
+    print("native chat PTY history/turn pages/help, private Unicode export/no-overwrite: PASS")
 
 
 if __name__ == "__main__":
