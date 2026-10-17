@@ -12,7 +12,9 @@ from cli.terminal_keys import (
 )
 
 
-def read_chat_transcript(conversation: ConversationState) raises -> Bool:
+def read_chat_transcript(
+    conversation: ConversationState, interrupt_fd: Int = -1,
+) raises -> Bool:
     """Show committed history only; return false if a usable PTY is absent."""
     if not interactive_terminal_available():
         print("[Transcript view requires interactive stdin and stdout]")
@@ -38,7 +40,7 @@ def read_chat_transcript(conversation: ConversationState) raises -> Bool:
                 screen.draw_rows(pager.render(conversation, size.columns, size.rows))
                 last_columns = size.columns
                 last_rows = size.rows
-            var event = reader.next(-1, 250)
+            var event = reader.next(interrupt_fd, 250)
             if event.kind == KEY_IDLE:
                 continue
             if event.kind == KEY_EOF:

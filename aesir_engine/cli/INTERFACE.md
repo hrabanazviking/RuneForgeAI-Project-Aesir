@@ -54,7 +54,7 @@ full S33 transcript/editor/navigation surface.
 `cli/sampling.mojo` maps native sampling flags and re-exports core value
 validation for interactive settings. `cuda_chat.mojo` owns `/help`, `/show`,
 `/history [page]`, `/turn N`, `/clear`, `/new`, `/save`, `/load`, `/export`,
-`/set`, `/compose`, `/edit` and `/bye`,
+`/set`, `/compose`, `/edit`, `/transcript` and `/bye`,
 reports successful state changes and rejections to the durable transcript,
 and treats prompt-file lines literally. The core owns sampler/KV state.
 CLI syntax, defaults and limitations are in `docs/NATIVE_RUNTIME.md`.
@@ -72,7 +72,8 @@ connects that pager to the existing raw-key reader and alternate-screen lease
 in a model-free interactive loop. It accepts `n`/down for next, `p`/up for
 previous, and `q`/Escape/Ctrl+C for exit; bracketed paste is inert. It checks
 the 24x8 minimum before entering raw mode and closes on an undersized resize.
-The loop is not yet a CUDA-chat command or a replacement for `/history`.
+The CUDA chat loops expose the read-only viewer as `/transcript` between
+turns; it is not a replacement for `/history` or `/export`.
 
 Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable

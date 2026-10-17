@@ -1676,3 +1676,21 @@ Every row is initially queued unless the execution record says otherwise.
 - S33z remaining gate: the viewer is a model-free harness, not a native chat
   command. Exact grapheme/display cells, Llama physical UI and independent
   usability trials remain open; parent S33 remains partial.
+- S33aa contract: expose the read-only S33z viewer as explicit `/transcript`
+  in both Gemma and Llama native CUDA chat loops, preserving the existing
+  conversation, model and sampler state. Pass the chat interrupt descriptor
+  to the viewer, refuse redirected output without ANSI/raw mode, and add
+  narrow/wide help and runtime guidance. Verify with the installed Qwen CUDA
+  path and model-free regressions; do not imply Llama hardware acceptance.
+- S33aa evidence: the fresh CUDA-targeted `main.mojo` build passed. An
+  installed Qwen3-0.6B Q4_K_M real-PTY smoke passed empty `/transcript`, a
+  committed user turn, external SIGINT returning to chat with restored
+  alternate screen, and unchanged `/history`. The model-free history, pager,
+  transcript-window and key units passed. Rebuilt viewer and `/edit` binaries
+  passed their real-PTY suites. Redirected native CUDA chat completed its
+  compose/history flow, refused `/transcript` without ANSI, and exited with
+  its one committed turn intact. No new model was downloaded.
+- S33aa remaining gate: the Llama/Stheno GGUF fixture is zero bytes, so a
+  Llama physical-UI pass still requires a valid preinstalled model. Exact
+  grapheme/display cells, broader terminal-emulator coverage and independent
+  user trials remain open; parent S33 remains partial.

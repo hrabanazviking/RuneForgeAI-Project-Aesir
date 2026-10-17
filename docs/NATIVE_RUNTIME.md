@@ -218,6 +218,13 @@ Interactive commands run between turns:
   If your terminal ignores bracketed-paste mode and pasted newlines submit
   early, use `/compose` for multiline text. Literal paste-end escape bytes
   (ESC[201~) cannot be represented inside one bracketed paste.
+- `/transcript`: interactive, read-only chronological view of completed turns.
+  Press `n` or Down for the next page, `p` or Up for the previous page, and
+  `q`, Escape or Ctrl+C to return to chat. At most 128 prior page starts are
+  retained; resize preserves the current continuation point but clears old
+  back-pages. Pasted keys do not navigate. It requires a TTY of at least
+  24 columns by eight rows and never changes conversation or model state.
+  Use `/history` or `/export` for noninteractive access and exact full text.
 - `/show`: context usage, sampling policy, timeout and reset-required state.
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does

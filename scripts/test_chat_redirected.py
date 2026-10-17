@@ -9,14 +9,17 @@ def main(binary, store):
     result = subprocess.run(
         [binary, "chat", "--accel", "cuda", "--model-store", store,
          "--context", "512", "--max-tokens", "4"],
-        input="\n/compose\n界\n/send\n/history\n/bye\n".encode("utf-8"),
+        input="\n/compose\n界\n/send\n/history\n/transcript\n/bye\n".encode("utf-8"),
         capture_output=True, timeout=180,
     )
     output = result.stdout.decode("utf-8", errors="replace")
     errors = result.stderr.decode("utf-8", errors="replace")
     if result.returncode:
         raise AssertionError(f"redirected chat exited {result.returncode}: {errors[-500:]!r}")
-    for marker in ("backend=cuda", "User: 界", "History 1/1", "1 You: 界", "Completed turns: 1"):
+    for marker in (
+        "backend=cuda", "User: 界", "History 1/1", "1 You: 界",
+        "Transcript view requires interactive stdin and stdout", "Completed turns: 1",
+    ):
         if marker not in output:
             raise AssertionError(f"redirected chat omitted {marker!r}: {output[-800:]!r}")
     if "\x1b" in output:
