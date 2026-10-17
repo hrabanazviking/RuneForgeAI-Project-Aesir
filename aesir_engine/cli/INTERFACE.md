@@ -100,9 +100,12 @@ not own prompts, conversations, signals or model state. `/compose` remains
 line-mode, including in a PTY. The editor flushes queued raw draft bytes on
 cancellation before returning to cooked chat input.
 `cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
-cursor at scalar boundaries, insertion/backspace/movement, and the same
+cursor that groups bases with common trailing combining marks, variation
+selectors and emoji skin-tone modifiers for movement/deletion, and the same
 64 KiB/128-line limits as `/compose`. It does not decode keys or render a
 terminal view. `/edit` uses these primitives only after an explicit command.
+This is not full UAX #29 segmentation; ZWJ and flag clusters still need
+separate acceptance.
 `cli/terminal_keys.mojo` classifies incremental raw bytes into basic text-byte,
 editing, navigation and control events. It bounds and drains unknown CSI
 sequences; its caller must flush incomplete escapes after an idle timeout.

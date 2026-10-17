@@ -1720,3 +1720,26 @@ Every row is initially queued unless the execution record says otherwise.
   profiles, not all terminal emulators or Llama physical UI. CJK scalar
   continuity is not exact grapheme-cluster/display-cell correctness, and
   independent user usability trials remain open. Parent S33 remains partial.
+- S33ac contract: in `cli/cursor_draft.mojo`, make Left/Right and
+  Backspace/Delete atomic for a base scalar followed by combining marks,
+  variation selectors or emoji skin-tone modifiers. Keep the 64 KiB/128-line
+  limits, UTF-8 byte offsets and existing scalar behavior for unmarked text.
+  Test both directions, insertion before a trailing mark, and PTY editor
+  deletion, without claiming full UAX #29 grapheme segmentation (ZWJ/flags)
+  or exact terminal display cells. Acceptance: model-free cursor unit,
+  rebuilt `/edit` real-PTY suite, and fresh CUDA-targeted `main.mojo` build.
+- S33ac evidence: `tests/test_cursor_draft.mojo` passed for common accent,
+  variation-selector and skin-tone movement/deletion, insertion before a
+  trailing mark, unchanged ASCII/CJK boundaries and capacity limits. A
+  pre-commit audit caught the newline boundary; tests now show a mark after
+  a hard line break stays separate, including when the break is inserted
+  before it. The rebuilt model-free `/edit` real-PTY suite passed both
+  Delete and Backspace for all three glyph shapes, plus existing paste,
+  resize, cancellation and restoration cases. The editor-row unit, fresh
+  `.pixi` CUDA-targeted `main.mojo` build, and installed-Qwen CUDA `/edit`
+  PTY smoke passed. No model bytes or generation policy changed.
+- S33ac remaining gate: this is a deliberately bounded trailing-mark rule,
+  not full Unicode grapheme segmentation. ZWJ emoji, regional flags, other
+  script-specific clusters and exact display-cell measurement remain open.
+  Llama physical UI, broader terminals and independent usability trials also
+  remain open; parent S33 is partial.

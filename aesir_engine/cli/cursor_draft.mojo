@@ -7,8 +7,73 @@ def _continuation(value: UInt8) -> Bool:
     return (value & 192) == 128
 
 
+def _scalar_end(text: String, start: Int) -> Int:
+    var raw = text.as_bytes()
+    var end = start + 1
+    while end < len(raw) and _continuation(raw[end]):
+        end += 1
+    return end
+
+
+def _scalar_start(text: String, end: Int) -> Int:
+    var raw = text.as_bytes()
+    var start = end - 1
+    while start > 0 and _continuation(raw[start]):
+        start -= 1
+    return start
+
+
+def _scalar_value(text: String, start: Int) -> Int:
+    """Decode only enough UTF-8 to classify a trailing mark; fail closed."""
+    var raw = text.as_bytes()
+    var first = Int(raw[start])
+    if first < 128:
+        return first
+    var width = 0
+    var scalar = 0
+    if first >= 194 and first <= 223:
+        width = 2
+        scalar = first & 31
+    elif first >= 224 and first <= 239:
+        width = 3
+        scalar = first & 15
+    elif first >= 240 and first <= 244:
+        width = 4
+        scalar = first & 7
+    if width == 0 or start + width > len(raw):
+        return -1
+    for offset in range(1, width):
+        var next_byte = Int(raw[start + offset])
+        if next_byte < 128 or next_byte > 191:
+            return -1
+        scalar = (scalar << 6) | (next_byte & 63)
+    if (width == 2 and scalar < 128
+            or width == 3 and scalar < 2048
+            or width == 4 and scalar < 65536
+            or scalar > 1114111
+            or scalar >= 55296 and scalar <= 57343):
+        return -1
+    return scalar
+
+
+def _trailing_mark(text: String, start: Int) -> Bool:
+    var scalar = _scalar_value(text, start)
+    return (scalar >= 768 and scalar <= 879
+            or scalar >= 6832 and scalar <= 6911
+            or scalar >= 7616 and scalar <= 7679
+            or scalar >= 8400 and scalar <= 8447
+            or scalar >= 65024 and scalar <= 65039
+            or scalar >= 65056 and scalar <= 65071
+            or scalar >= 127995 and scalar <= 127999)
+
+
+def _hard_break(text: String, start: Int) -> Bool:
+    var scalar = _scalar_value(text, start)
+    return scalar >= 0 and (scalar < 32 or scalar == 127)
+
+
 struct CursorDraft:
-    """Keep the cursor on UTF-8 scalar boundaries, without terminal policy."""
+    """Keep the cursor on UTF-8 boundaries and attached trailing marks."""
 
     var content: String
     var cursor: Int
@@ -36,24 +101,36 @@ struct CursorDraft:
         var after = String(self.content[byte=self.cursor:])
         self.content = before + value + after
         self.cursor += value.byte_length()
+        if value.byte_length() > 0 and not _hard_break(
+            value, _scalar_start(value, value.byte_length()),
+        ):
+            while self.cursor < self.content.byte_length() and _trailing_mark(
+                self.content, self.cursor,
+            ):
+                self.cursor = _scalar_end(self.content, self.cursor)
         return True
 
     def move_left(mut self) -> Bool:
         if self.cursor == 0:
             return False
-        var raw = self.content.as_bytes()
-        self.cursor -= 1
-        while self.cursor > 0 and _continuation(raw[self.cursor]):
-            self.cursor -= 1
+        self.cursor = _scalar_start(self.content, self.cursor)
+        while self.cursor > 0 and _trailing_mark(self.content, self.cursor):
+            var previous = _scalar_start(self.content, self.cursor)
+            if _hard_break(self.content, previous):
+                break
+            self.cursor = previous
         return True
 
     def move_right(mut self) -> Bool:
         if self.cursor == self.content.byte_length():
             return False
-        var raw = self.content.as_bytes()
-        self.cursor += 1
-        while self.cursor < len(raw) and _continuation(raw[self.cursor]):
-            self.cursor += 1
+        var break_scalar = _hard_break(self.content, self.cursor)
+        self.cursor = _scalar_end(self.content, self.cursor)
+        if not break_scalar:
+            while self.cursor < self.content.byte_length() and _trailing_mark(
+                self.content, self.cursor,
+            ):
+                self.cursor = _scalar_end(self.content, self.cursor)
         return True
 
     def erase_left(mut self) -> Bool:

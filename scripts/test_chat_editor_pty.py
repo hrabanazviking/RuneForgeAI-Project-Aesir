@@ -150,6 +150,15 @@ def main(binary):
     edited = run_case(binary, "A界B".encode() + b"\x1b[D\x1b[D\x1b[3~\r", b"SUBMITTED=AB")
     if b"SUBMITTED=A" + "界".encode() in edited:
         raise AssertionError("forward delete did not remove UTF-8 scalar")
+    for glyph in ("e\u0301", "🛡️", "👍🏽"):
+        run_case(
+            binary, (glyph + "B").encode() + b"\x1b[D\x1b[D\x1b[3~\r",
+            b"SUBMITTED=B",
+        )
+        run_case(
+            binary, (glyph + "B").encode() + b"\x1b[D\x7f\r",
+            b"SUBMITTED=B",
+        )
     narrow_cancelled = run_case(
         binary, b"PRIVATE\x1b", b"EDITOR_CANCELLED", initial=(8, 24),
     )
