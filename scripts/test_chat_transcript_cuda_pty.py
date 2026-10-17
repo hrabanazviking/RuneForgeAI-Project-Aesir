@@ -50,7 +50,41 @@ def extended_view(master, original):
         raise AssertionError("transcript navigation changed the committed turns")
 
 
-def main(binary, store, model, extended=False):
+def clusters_view(master, original):
+    cluster = "e\u0301👩‍👩‍👧‍👦🇺🇸"
+    prompt = "CLUSTER_" + cluster * 12 + "_END"
+    write_all(master, (prompt + "\n").encode())
+    read_until(master, b"You> ", 90)
+    set_size(master, 8, 24)
+    write_all(master, b"/transcript\n")
+    forward = bytearray(read_until(master, b"q back", 15))
+    page_count = 1
+    while b"End | p prev q back" not in forward[-256:]:
+        if page_count > 20:
+            raise AssertionError("cluster transcript did not reach its end")
+        write_all(master, b"n")
+        forward.extend(read_until(master, b"q back", 15))
+        page_count += 1
+    if b"Turn 2 You:" not in forward or b"Turn 2 AI:" not in forward:
+        raise AssertionError("cluster transcript lost the committed turn")
+    user = bytes(forward).split(b"Turn 2 You:", 1)[1].split(b"Turn 2 AI:", 1)[0]
+    if (page_count < 2 or b"CLUSTER_" not in user or b"_END" not in user
+            or user.count("e\u0301".encode()) != 12
+            or user.count("👩‍👩‍👧‍👦".encode()) != 12
+            or user.count("🇺🇸".encode()) != 12):
+        raise AssertionError("cluster paging split, lost or duplicated a glyph")
+    write_all(master, b"q")
+    restored = read_until(master, b"You> ", 15)
+    if (b"\x1b[?2004l\x1b[?25h\x1b[?1049l" not in restored
+            or termios.tcgetattr(master) != original):
+        raise AssertionError("cluster transcript exit left terminal state changed")
+    write_all(master, b"/history\n")
+    history = read_until(master, b"You> ", 15)
+    if b"2 You: CLUSTE" not in history:
+        raise AssertionError("cluster transcript mutated committed history")
+
+
+def main(binary, store, model, extended=False, clusters=False):
     master, slave = os.openpty()
     size(slave, 80)
     original = termios.tcgetattr(slave)
@@ -89,6 +123,8 @@ def main(binary, store, model, extended=False):
             raise AssertionError("transcript viewing changed committed history")
         if extended:
             extended_view(master, original)
+        if clusters:
+            clusters_view(master, original)
         write_all(master, b"/bye\n")
         if process.wait(timeout=15):
             raise AssertionError("native chat exited unsuccessfully")
@@ -97,7 +133,9 @@ def main(binary, store, model, extended=False):
             process.terminate()
             process.wait(timeout=10)
         os.close(master)
-    if extended:
+    if clusters:
+        print("native CUDA /transcript PTY intact accent/emoji/flag paging: PASS")
+    elif extended:
         print("native CUDA /transcript PTY narrow/wide Unicode paging/restore: PASS")
     else:
         print("native CUDA /transcript PTY empty/committed/SIGINT/history: PASS")
@@ -108,6 +146,8 @@ if __name__ == "__main__":
     parser.add_argument("binary")
     parser.add_argument("--store", default=".aesir/models")
     parser.add_argument("--model", required=True)
-    parser.add_argument("--extended", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--extended", action="store_true")
+    mode.add_argument("--clusters", action="store_true")
     args = parser.parse_args()
-    main(args.binary, args.store, args.model, args.extended)
+    main(args.binary, args.store, args.model, args.extended, args.clusters)

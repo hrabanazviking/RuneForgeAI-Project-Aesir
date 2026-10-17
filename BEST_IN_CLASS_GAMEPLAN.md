@@ -1833,3 +1833,23 @@ Every row is initially queued unless the execution record says otherwise.
   exact `wcwidth`/terminal-emulator measurement. The PTY suites use model-free
   fixtures, not a fresh installed-model Unicode UI run; no Llama physical UI
   or independent user trial was performed. Parent S33 stays partial.
+- S33ah contract: exercise the new bounded preview atoms through installed
+  Qwen CUDA chat in a real 24x8 PTY without fetching model bytes. Commit a
+  prompt with repeated Latin accents, pictographic U+200D families and RI
+  flags, page `/transcript` to its end, and prove each full cluster appears
+  exactly once before the assistant heading. Verify exit restores screen and
+  termios and `/history` still sees the committed turn. Rerun the relevant
+  model-free transcript and editor units. This is one host/PTY acceptance,
+  not full terminal-emulator or Unicode coverage.
+- S33ah evidence: a fresh `.pixi` CUDA `main.mojo` build for `sm_89` and
+  `scripts/test_chat_transcript_cuda_pty.py --clusters --model
+  .aesir/models/Qwen3-0.6B-Q4_K_M.gguf` passed on the installed Qwen model.
+  At 24x8, twelve full accent, family-emoji and flag clusters each appeared
+  exactly once across multiple transcript pages before the assistant header.
+  Exit restored alternate screen/paste/cursor/termios and `/history` still
+  showed the committed turn. The focused atom, transcript-window and
+  editor-row model-free units passed again. No model bytes were fetched.
+- S33ah remaining gate: this is one WSL PTY and one preinstalled Qwen model,
+  not a Gemma/Llama Unicode-cluster physical pass, other terminal emulators,
+  exact terminal-cell measurement, full Unicode segmentation or independent
+  user usability trials. Parent S33 remains partial.
