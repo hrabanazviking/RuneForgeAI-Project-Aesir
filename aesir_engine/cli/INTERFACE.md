@@ -100,13 +100,18 @@ formatting controls. Its caller must flush partial scalars on non-text events.
 `cli/terminal_events.mojo` polls stdin and the existing optional interrupt
 descriptor, composes the key and UTF-8 decoders, flushes incomplete escapes or
 scalars after bounded idle periods, and emits whole-scalar text/control events.
+With bracketed paste enabled by the screen lease, it buffers a paste as one
+validated event, normalizes CRLF, treats pasted newlines as draft content,
+and rejects the whole paste beyond 64 KiB or 128 lines. Raw Ctrl+C still
+cancels; malformed/unsafe control bytes are not inserted.
 Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
 have a model-free PTY harness but are not yet connected to a chat editor.
 `cli/terminal_editor_view.mojo` generates a fixed-height list of safe draft
 rows with a visible inline cursor marker, vertical viewport and horizontal
 context window. `cli/terminal_editor_screen.mojo` owns the alternate-screen
 and physical-cursor lifecycle, re-reads actual PTY dimensions on redraw,
-refuses viewports below 24x8, and writes only those sanitized rows. A
+refuses viewports below 24x8, enables/disables bracketed paste mode, and
+writes only those sanitized rows. A
 model-free PTY harness covers Unicode/multiline input, resize and teardown;
 the live chat interface has not adopted it yet.
 

@@ -4,7 +4,7 @@ from cli.terminal_keys import (
     TerminalKeyDecoder, KEY_PENDING, KEY_TEXT_BYTE, KEY_ENTER,
     KEY_BACKSPACE, KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN,
     KEY_HOME, KEY_END, KEY_DELETE, KEY_ESCAPE, KEY_INTERRUPT,
-    KEY_EOF, KEY_UNKNOWN, KEY_NEWLINE,
+    KEY_EOF, KEY_UNKNOWN, KEY_NEWLINE, KEY_PASTE_START, KEY_PASTE_END,
 )
 
 
@@ -36,6 +36,9 @@ def main() raises:
     expect(decoder, "\x1bOH", KEY_HOME)
     expect(decoder, "\x1bOF", KEY_END)
     expect(decoder, "\x1b[3~", KEY_DELETE)
+    expect(decoder, "\x1b[200~", KEY_PASTE_START)
+    expect(decoder, "\x1b[201~", KEY_PASTE_END)
+    expect(decoder, "\x1b[202~", KEY_UNKNOWN)
     expect(decoder, "\x1b[1;5D", KEY_UNKNOWN)
     expect(decoder, "b", KEY_TEXT_BYTE)
     if decoder.feed(UInt8(27)).kind != KEY_PENDING or decoder.flush().kind != KEY_ESCAPE:

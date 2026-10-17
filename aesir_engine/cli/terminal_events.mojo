@@ -3,10 +3,12 @@
 from std.collections import InlineArray
 from std.ffi import external_call
 from std.memory import Pointer
+from cli.chat_compose import COMPOSE_MAX_BYTES, COMPOSE_MAX_LINES
 from cli.interrupts import consume_interrupts
 from cli.terminal_keys import (
     TerminalKeyDecoder, KEY_PENDING, KEY_TEXT_BYTE, KEY_ESCAPE,
     KEY_INTERRUPT, KEY_EOF, KEY_UNKNOWN,
+    KEY_PASTE_START, KEY_PASTE_END, KEY_PASTE_REJECTED,
 )
 from cli.terminal_utf8 import TerminalUtf8Decoder, UTF8_READY
 
@@ -25,16 +27,111 @@ struct TerminalEventReader:
 
     var keys: TerminalKeyDecoder
     var utf8: TerminalUtf8Decoder
+    var in_paste: Bool
+    var paste_match: Int
+    var paste_cr: Bool
+    var paste_bytes: List[Int8]
+    var paste_lines: Int
+    var paste_overflow: Bool
 
     def __init__(out self):
         self.keys = TerminalKeyDecoder()
         self.utf8 = TerminalUtf8Decoder()
+        self.in_paste = False
+        self.paste_match = 0
+        self.paste_cr = False
+        self.paste_bytes = List[Int8]()
+        self.paste_lines = 1
+        self.paste_overflow = False
+
+    def _paste_append(mut self, value: String):
+        if self.paste_overflow:
+            return
+        if value.byte_length() > COMPOSE_MAX_BYTES - len(self.paste_bytes):
+            self.paste_overflow = True
+            self.paste_bytes = List[Int8]()
+            return
+        for byte in value.as_bytes():
+            self.paste_bytes.append(Int8(byte))
+
+    def _paste_line(mut self):
+        if self.paste_overflow:
+            return
+        if self.paste_lines >= COMPOSE_MAX_LINES:
+            self.paste_overflow = True
+            self.paste_bytes = List[Int8]()
+            return
+        self.paste_lines += 1
+        self._paste_append("\n")
+
+    def _paste_end_byte(self, index: Int) -> UInt8:
+        if index == 0:
+            return 27
+        if index == 1:
+            return 91
+        if index == 2:
+            return 50
+        if index == 3:
+            return 48
+        if index == 4:
+            return 49
+        return 126
+
+    def _paste_byte(mut self, byte: UInt8) -> TerminalEvent:
+        """Drop escape prefixes; only a full ESC[201~ ends pasted text."""
+        if byte == 3:
+            self.in_paste = False
+            self.paste_match = 0
+            self.paste_bytes = List[Int8]()
+            _ = self.utf8.flush()
+            return TerminalEvent(KEY_INTERRUPT)
+        if self.paste_match > 0:
+            if byte == self._paste_end_byte(self.paste_match):
+                self.paste_match += 1
+                if self.paste_match == 6:
+                    self.in_paste = False
+                    self.paste_match = 0
+                    _ = self.utf8.flush()
+                    if self.paste_overflow:
+                        self.paste_bytes = List[Int8]()
+                        return TerminalEvent(KEY_PASTE_REJECTED)
+                    self.paste_bytes.append(0)
+                    var content = String(unsafe_from_utf8_ptr=self.paste_bytes.unsafe_ptr())
+                    self.paste_bytes = List[Int8]()
+                    return TerminalEvent(KEY_PASTE_END, content)
+                return TerminalEvent(KEY_PENDING)
+            self.paste_match = 0
+        if byte == 27:
+            self.paste_match = 1
+            self.paste_cr = False
+            _ = self.utf8.flush()
+            return TerminalEvent(KEY_PENDING)
+        if byte == 13:
+            self.paste_cr = True
+            _ = self.utf8.flush()
+            self._paste_line()
+            return TerminalEvent(KEY_PENDING)
+        if byte == 10:
+            if self.paste_cr:
+                self.paste_cr = False
+                return TerminalEvent(KEY_PENDING)
+            _ = self.utf8.flush()
+            self._paste_line()
+            return TerminalEvent(KEY_PENDING)
+        self.paste_cr = False
+        if byte < 32 or byte == 127:
+            _ = self.utf8.flush()
+            return TerminalEvent(KEY_PENDING)
+        var scalar = self.utf8.feed(byte)
+        if scalar.status == UTF8_READY:
+            self._paste_append(scalar.text)
+        return TerminalEvent(KEY_PENDING)
 
     def next(mut self, interrupt_fd: Int = -1) raises -> TerminalEvent:
         var input_byte = InlineArray[UInt8, 1](fill=0)
         while True:
             var timeout = -1
-            if self.keys.state != 0:
+            if self.keys.state != 0 and not self.in_paste:
                 timeout = 30
             elif self.utf8.expected != 0:
                 timeout = 250
@@ -70,10 +167,25 @@ struct TerminalEventReader:
             if bytes_read == 0:
                 _ = self.utf8.flush()
                 return TerminalEvent(KEY_EOF)
+            if self.in_paste:
+                var pasted = self._paste_byte(input_byte[0])
+                if pasted.kind == KEY_PENDING:
+                    continue
+                return pasted^
             var key = self.keys.feed(input_byte[0])
             if key.kind != KEY_TEXT_BYTE:
                 _ = self.utf8.flush()
             if key.kind == KEY_PENDING or key.kind == KEY_UNKNOWN:
+                continue
+            if key.kind == KEY_PASTE_START:
+                self.in_paste = True
+                self.paste_match = 0
+                self.paste_cr = False
+                self.paste_bytes = List[Int8]()
+                self.paste_lines = 1
+                self.paste_overflow = False
+                return TerminalEvent(KEY_PASTE_START)
+            if key.kind == KEY_PASTE_END:
                 continue
             if key.kind == KEY_TEXT_BYTE:
                 var scalar = self.utf8.feed(key.byte)

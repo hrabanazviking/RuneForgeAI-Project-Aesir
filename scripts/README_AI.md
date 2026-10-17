@@ -106,8 +106,9 @@ does not emit terminal redraw sequences or load a model.
 `test_terminal_screen_pty.py` drives the model-free native
 `tests/test_terminal_screen.mojo` harness through alternate-screen redraw,
 Unicode/multiline editing, resize, Ctrl+C cancellation, undersized-terminal
-refusal and injected-error cleanup. It verifies the cursor, prior screen and
-termios are restored; it does not route a draft into CUDA chat.
+refusal, bracketed paste (CRLF and literal command-like text), oversized-paste
+rejection and injected-error cleanup. It verifies paste mode, cursor, prior
+screen and termios are restored; it does not route a draft into CUDA chat.
 
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit

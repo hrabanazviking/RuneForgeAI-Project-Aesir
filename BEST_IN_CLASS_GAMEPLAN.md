@@ -1104,7 +1104,8 @@ Every row is initially queued unless the execution record says otherwise.
   cursor-state primitive, S33k the raw-key classifier, S33l the UTF-8
   text-byte assembler, S33m their model-free PTY orchestration and S33n a
   bounded draft-frame generator and S33o a model-free alternate-screen PTY
-  lifecycle for later editing; none is wired into chat.
+  lifecycle and S33p bracketed-paste safety for later editing; none is wired
+  into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1406,3 +1407,23 @@ Every row is initially queued unless the execution record says otherwise.
   real inference workflow. Bracketed paste, physical external-signalfd
   cancellation, precise grapheme-cell cursor placement, and full S33
   usability/resize acceptance remain open. Parent S33 is partial.
+- S33p contract: the alternate-screen lease enables and disables bracketed
+  paste mode on entry/teardown. The key decoder recognizes ESC[200~/ESC[201~;
+  the event reader treats the enclosed bytes as one validated paste, never
+  as Enter or editor commands. CRLF becomes one draft newline, unsafe controls
+  are dropped, raw Ctrl+C can still cancel, and pastes exceeding 64 KiB or
+  128 lines are rejected as a whole before insertion. The same limits remain
+  enforced by `CursorDraft` against the current draft. This is still model-free.
+- S33p evidence: fresh CUDA-targeted `main.mojo`, S33k key,
+  `test_terminal_screen.mojo` and `test_terminal_events.mojo` builds passed.
+  The key unit recognized paste start/end and rejected unknown CSI. The real
+  PTY screen test passed pasted `/bye` plus Unicode on two lines without early
+  submission, CRLF normalization, Ctrl+C cancellation during paste, and exact
+  paste-mode/screen/termios restoration. Oversized 65,537-byte and 129-line
+  pastes were rejected, with cleanup, rather than submitted. Existing PTY
+  event workflows still passed. No model was loaded or downloaded.
+- S33p remaining gate: terminals that ignore bracketed-paste mode can still
+  send unmarked newlines as Enter; delayed transport and literal embedded
+  end delimiters are not physically covered. The rejected-paste harness exits
+  with a test error rather than user-facing guidance. CUDA-chat routing,
+  precise grapheme placement, and parent S33 acceptance remain open.

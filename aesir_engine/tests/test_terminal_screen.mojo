@@ -8,7 +8,7 @@ from cli.terminal_input import TerminalRawMode, interactive_terminal_available
 from cli.terminal_keys import (
     KEY_TEXT_BYTE, KEY_ENTER, KEY_NEWLINE, KEY_BACKSPACE,
     KEY_LEFT, KEY_RIGHT, KEY_HOME, KEY_END, KEY_INTERRUPT, KEY_EOF,
-    KEY_ESCAPE,
+    KEY_ESCAPE, KEY_PASTE_END, KEY_PASTE_REJECTED,
 )
 
 
@@ -27,6 +27,10 @@ def main() raises:
         var event = reader.next()
         if event.kind == KEY_TEXT_BYTE:
             _ = draft.insert(event.text)
+        elif event.kind == KEY_PASTE_END:
+            _ = draft.insert(event.text)
+        elif event.kind == KEY_PASTE_REJECTED:
+            raise Error("paste limit rejected")
         elif event.kind == KEY_NEWLINE:
             _ = draft.insert("\n")
         elif event.kind == KEY_LEFT:

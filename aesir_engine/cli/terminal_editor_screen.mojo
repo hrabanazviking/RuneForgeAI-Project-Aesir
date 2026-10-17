@@ -32,7 +32,7 @@ struct TerminalEditorScreen:
         if not interactive_terminal_available():
             raise Error("Terminal editor screen requires interactive streams")
         self.active = True
-        _write_terminal("\x1b[?1049h\x1b[?25l")
+        _write_terminal("\x1b[?1049h\x1b[?25l\x1b[?2004h")
 
     def draw(self, draft: CursorDraft) raises:
         var size = terminal_editor_size()
@@ -45,12 +45,12 @@ struct TerminalEditorScreen:
     def close(mut self) raises:
         if not self.active:
             return
-        _write_terminal("\x1b[?25h\x1b[?1049l")
+        _write_terminal("\x1b[?2004l\x1b[?25h\x1b[?1049l")
         self.active = False
 
     def __deinit__(deinit self):
         if self.active:
-            var ending = String("\x1b[?25h\x1b[?1049l")
+            var ending = String("\x1b[?2004l\x1b[?25h\x1b[?1049l")
             var raw = ending.as_bytes()
             var offset = 0
             while offset < len(raw):
