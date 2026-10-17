@@ -1100,8 +1100,9 @@ Every row is initially queued unless the execution record says otherwise.
   estimates. S33g verifies draft resize and redirected output. S33h adds
   bounded pages across long committed turns. Full-screen cursor editing,
   transcript-log scrollback and exact grapheme-width behavior remain open;
-  S33i introduces the guarded terminal-mode primitive and S33j the bounded
-  cursor-state primitive for later editing; neither is wired into chat.
+  S33i introduces the guarded terminal-mode primitive, S33j the bounded
+  cursor-state primitive and S33k the raw-key classifier for later editing;
+  none is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1303,3 +1304,20 @@ Every row is initially queued unless the execution record says otherwise.
   navigation or display-cell measurement; combining sequences may still be
   traversed internally. Key decoding, redraw, paste/resize/interrupt behavior,
   chat wiring and physical PTY acceptance remain open. Parent S33 is partial.
+- S33k contract: `cli/terminal_keys.mojo` incrementally classifies raw bytes
+  into printable text-byte, Enter, Backspace, arrows, Home/End, Delete,
+  Escape, interrupt and EOF events without owning termios, terminal redraw or
+  chat state. Incomplete escape sequences remain pending until a caller flush;
+  unknown and overlong CSI sequences are consumed without leaking their tail
+  into text events. The decoder itself is not a UTF-8 validator.
+- S33k evidence: a fresh CUDA-targeted build/run of
+  `tests/test_terminal_keys.mojo` passed controls, navigation, delete, lone and
+  incomplete escape flush, unknown CSI, overlong CSI with both a final byte
+  at the length boundary and a longer drained sequence, and recovery of the
+  following printable byte. Rebuilt `tests/test_cursor_draft.mojo` passed;
+  `scripts/test_terminal_input_pty.py` also passed against its previously
+  built native harness. No model was loaded or downloaded.
+- S33k remaining gate: the caller still needs an idle-timeout policy and
+  UTF-8 assembly/validation, bracketed paste policy, redraw, resize, signal
+  handling and chat integration. This unit test is not a physical keyboard or
+  end-to-end editor acceptance pass. Parent S33 remains partial.

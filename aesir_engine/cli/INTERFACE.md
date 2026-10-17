@@ -89,6 +89,11 @@ chat yet; `/compose` remains line-mode, including in a PTY.
 cursor at scalar boundaries, insertion/backspace/movement, and the same
 64 KiB/128-line limits as `/compose`. It does not decode keys or render a
 terminal view. Neither primitive changes the current chat input path.
+`cli/terminal_keys.mojo` classifies incremental raw bytes into basic text-byte,
+editing, navigation and control events. It bounds and drains unknown CSI
+sequences; its caller must flush incomplete escapes after an idle timeout.
+It does not validate UTF-8 text or interpret paste protocols. It is not yet
+connected to either the raw-mode lease or a chat editor.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

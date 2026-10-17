@@ -83,6 +83,11 @@ injected error; it does not load a model or enable cursor editing in chat.
 UTF-8 scalar boundaries plus rejection at the shared 64 KiB/128-line draft
 limits. It does not exercise a terminal or claim grapheme-cell rendering.
 
+`tests/test_terminal_keys.mojo` checks model-free incremental raw-byte key
+classification, including arrows, home/end/delete, interrupt/EOF, incomplete
+escape flush and overlong/unknown CSI recovery. It does not decode UTF-8 text
+or drive the user-facing chat editor.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn
