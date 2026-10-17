@@ -88,6 +88,10 @@ classification, including arrows, home/end/delete, interrupt/EOF, incomplete
 escape flush and overlong/unknown CSI recovery. It does not decode UTF-8 text
 or drive the user-facing chat editor.
 
+`tests/test_terminal_utf8.mojo` checks model-free text-byte assembly into
+complete UTF-8 scalars, control/format rejection, malformed-sequence recovery
+and incomplete-sequence flush. It does not drive a PTY or model.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn

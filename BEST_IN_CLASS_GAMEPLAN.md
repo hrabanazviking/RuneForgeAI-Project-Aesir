@@ -1101,8 +1101,8 @@ Every row is initially queued unless the execution record says otherwise.
   bounded pages across long committed turns. Full-screen cursor editing,
   transcript-log scrollback and exact grapheme-width behavior remain open;
   S33i introduces the guarded terminal-mode primitive, S33j the bounded
-  cursor-state primitive and S33k the raw-key classifier for later editing;
-  none is wired into chat.
+  cursor-state primitive, S33k the raw-key classifier and S33l the UTF-8
+  text-byte assembler for later editing; none is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1321,3 +1321,20 @@ Every row is initially queued unless the execution record says otherwise.
   UTF-8 assembly/validation, bracketed paste policy, redraw, resize, signal
   handling and chat integration. This unit test is not a physical keyboard or
   end-to-end editor acceptance pass. Parent S33 remains partial.
+- S33l contract: `cli/terminal_utf8.mojo` assembles incremental text bytes
+  into complete UTF-8 scalars without emitting partial sequences. It rejects
+  malformed, overlong, surrogate and out-of-range encodings, ASCII/C1 terminal
+  controls and selected invisible/directional format controls. A malformed
+  continuation is discarded while its following printable byte is reprocessed;
+  the caller can flush a truncated scalar on a non-text event. Valid combining
+  marks and emoji joiners remain available for ordinary Unicode input.
+- S33l evidence: fresh CUDA-targeted build/run of
+  `tests/test_terminal_utf8.mojo` passed ASCII, accented, CJK, emoji and
+  combining input; stray continuations, overlong encodings, surrogates,
+  out-of-range scalars, ASCII/C1 controls, bidi override/isolate, truncated
+  flush, valid joiner, and recovery of following ASCII/CJK. Fresh rebuilt
+  S33k key and S33j cursor-state tests passed. No model or PTY was needed.
+- S33l remaining gate: key events, text assembly, cursor state and terminal
+  lease are not yet orchestrated together. An idle-timeout/flush policy,
+  bracketed paste, grapheme-aware movement/redraw, resize/signal handling and
+  physical PTY/chat acceptance remain open. Parent S33 is partial.

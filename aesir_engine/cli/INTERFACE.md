@@ -92,8 +92,11 @@ terminal view. Neither primitive changes the current chat input path.
 `cli/terminal_keys.mojo` classifies incremental raw bytes into basic text-byte,
 editing, navigation and control events. It bounds and drains unknown CSI
 sequences; its caller must flush incomplete escapes after an idle timeout.
-It does not validate UTF-8 text or interpret paste protocols. It is not yet
-connected to either the raw-mode lease or a chat editor.
+It does not validate UTF-8 text or interpret paste protocols.
+`cli/terminal_utf8.mojo` separately assembles text-byte events into complete
+UTF-8 scalars, rejecting malformed encodings, terminal controls and directional
+formatting controls. The caller must flush partial scalars on non-text events;
+none of these primitives is yet connected to a chat editor.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target
