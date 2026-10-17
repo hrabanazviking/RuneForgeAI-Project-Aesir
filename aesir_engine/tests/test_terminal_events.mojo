@@ -16,6 +16,13 @@ def main() raises:
         return
     var mode = TerminalRawMode()
     var reader = TerminalEventReader()
+    var rejected_busy_poll = False
+    try:
+        _ = reader.next(-1, 0)
+    except:
+        rejected_busy_poll = True
+    if not rejected_busy_poll:
+        raise Error("Terminal event reader accepted a zero-timeout busy loop")
     var draft = CursorDraft()
     print("EVENT_READY")
     _ = external_call["fflush", Int32](Int(0))

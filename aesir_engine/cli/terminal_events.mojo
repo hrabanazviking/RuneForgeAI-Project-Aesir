@@ -8,7 +8,7 @@ from cli.interrupts import consume_interrupts
 from cli.terminal_keys import (
     TerminalKeyDecoder, KEY_PENDING, KEY_TEXT_BYTE, KEY_ESCAPE,
     KEY_INTERRUPT, KEY_EOF, KEY_UNKNOWN,
-    KEY_PASTE_START, KEY_PASTE_END, KEY_PASTE_REJECTED,
+    KEY_PASTE_START, KEY_PASTE_END, KEY_PASTE_REJECTED, KEY_IDLE,
 )
 from cli.terminal_utf8 import TerminalUtf8Decoder, UTF8_READY
 
@@ -127,14 +127,20 @@ struct TerminalEventReader:
             self._paste_append(scalar.text)
         return TerminalEvent(KEY_PENDING)
 
-    def next(mut self, interrupt_fd: Int = -1) raises -> TerminalEvent:
+    def next(
+        mut self, interrupt_fd: Int = -1, idle_timeout_ms: Int = -1,
+    ) raises -> TerminalEvent:
+        if idle_timeout_ms != -1 and (idle_timeout_ms < 50 or idle_timeout_ms > 60000):
+            raise Error("Terminal idle timeout must be 50..60000 ms")
         var input_byte = InlineArray[UInt8, 1](fill=0)
         while True:
-            var timeout = -1
+            var timeout = idle_timeout_ms
             if self.keys.state != 0 and not self.in_paste:
-                timeout = 30
+                if timeout < 0 or timeout > 30:
+                    timeout = 30
             elif self.utf8.expected != 0:
-                timeout = 250
+                if timeout < 0 or timeout > 250:
+                    timeout = 250
             var descriptors = InlineArray[UInt64, 2](fill=0)
             descriptors[0] = UInt64(1) << 32
             var count = UInt64(1)
@@ -154,6 +160,8 @@ struct TerminalEventReader:
                         return TerminalEvent(KEY_ESCAPE)
                 elif self.utf8.expected != 0:
                     _ = self.utf8.flush()
+                if idle_timeout_ms >= 0:
+                    return TerminalEvent(KEY_IDLE)
                 continue
             if interrupt_fd >= 0 and descriptors[1] >> 48 != 0:
                 _ = consume_interrupts(interrupt_fd)

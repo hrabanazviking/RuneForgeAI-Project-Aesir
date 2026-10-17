@@ -9,7 +9,7 @@ from cli.terminal_view import terminal_editor_size
 from cli.terminal_keys import (
     KEY_TEXT_BYTE, KEY_ENTER, KEY_NEWLINE, KEY_BACKSPACE, KEY_DELETE,
     KEY_LEFT, KEY_RIGHT, KEY_HOME, KEY_END, KEY_INTERRUPT, KEY_EOF,
-    KEY_ESCAPE, KEY_PASTE_END, KEY_PASTE_REJECTED,
+    KEY_ESCAPE, KEY_PASTE_END, KEY_PASTE_REJECTED, KEY_IDLE,
 )
 
 
@@ -18,8 +18,12 @@ def read_chat_editor(interrupt_fd: Int) raises -> ComposeResult:
     if not interactive_terminal_available():
         print("[/edit requires interactive stdin and stdout; use /compose here]")
         return ComposeResult("", False, False)
+    var last_columns: Int
+    var last_rows: Int
     try:
-        _ = terminal_editor_size()
+        var initial = terminal_editor_size()
+        last_columns = initial.columns
+        last_rows = initial.rows
     except error:
         print("[/edit unavailable: " + String(error) + "]")
         return ComposeResult("", False, False)
@@ -39,9 +43,18 @@ def read_chat_editor(interrupt_fd: Int) raises -> ComposeResult:
         print("[Draft cancelled: " + String(error) + "]")
         return ComposeResult("", False, False)
     while True:
-        var event = reader.next(interrupt_fd)
+        var event = reader.next(interrupt_fd, 250)
         var notice = String("")
-        if event.kind == KEY_TEXT_BYTE or event.kind == KEY_PASTE_END:
+        if event.kind == KEY_IDLE:
+            var changed = True
+            try:
+                var current = terminal_editor_size()
+                changed = current.columns != last_columns or current.rows != last_rows
+            except:
+                pass
+            if not changed:
+                continue
+        elif event.kind == KEY_TEXT_BYTE or event.kind == KEY_PASTE_END:
             if not draft.insert(event.text):
                 notice = "Draft limit: 64 KiB / 128 lines"
         elif event.kind == KEY_PASTE_REJECTED:
@@ -86,6 +99,9 @@ def read_chat_editor(interrupt_fd: Int) raises -> ComposeResult:
                 return ComposeResult(draft.text(), True, False)
         try:
             screen.draw(draft, notice)
+            var shown = terminal_editor_size()
+            last_columns = shown.columns
+            last_rows = shown.rows
         except error:
             var discarded = mode.discard_pending_input()
             screen.close()

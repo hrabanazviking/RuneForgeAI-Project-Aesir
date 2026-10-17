@@ -19,6 +19,7 @@ comptime KEY_NEWLINE = 15
 comptime KEY_PASTE_START = 16
 comptime KEY_PASTE_END = 17
 comptime KEY_PASTE_REJECTED = 18
+comptime KEY_IDLE = 19
 
 
 struct TerminalKey:

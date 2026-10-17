@@ -49,16 +49,18 @@ def main(binary, store, model=None, expected_model=None):
         write_all(master, b"/edit\n")
         editor_ready(master)
         size(master, 23)
-        write_all(master, b"SHRUNK_DRAFT")
-        shrunk = read_until(master, b"You> ", 15)
+        shrunk = read_until(master, b"You> ", 5)
         if b"Draft cancelled: Terminal editor requires" not in shrunk:
-            raise AssertionError("mid-draft shrink did not return to live chat")
+            raise AssertionError("idle shrink did not return to live chat")
         size(master, 24)
         write_all(master, b"/edit\n")
         editor_ready(master)
         write_all(master, b"NARROW")
         read_until(master, b"6 bytes", 15)
         size(master, 120)
+        idle_redraw = read_until(master, b"6 bytes", 5)
+        if b"NARROW" not in idle_redraw:
+            raise AssertionError("idle 24-to-120 resize did not redraw the draft")
         write_all(master, b"WIDE")
         widened = read_until(master, b"10 bytes", 15)
         if b"NARROWWIDE" not in widened:

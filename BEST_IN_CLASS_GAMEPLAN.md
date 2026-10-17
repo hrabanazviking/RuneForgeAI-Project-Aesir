@@ -1107,7 +1107,8 @@ Every row is initially queued unless the execution record says otherwise.
   lifecycle and S33p bracketed-paste safety. S33q wires their guarded
   opt-in `/edit` entry point into native CUDA chat; S33r hardens undersized
   terminal and live-resize recovery. S33s exercises the same PTY workflow
-  against an installed non-Gemma family without changing model bytes. Parent
+  against an installed non-Gemma family without changing model bytes. S33t
+  detects idle terminal resize without consuming draft input. Parent
   acceptance is still partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
@@ -1501,3 +1502,28 @@ Every row is initially queued unless the execution record says otherwise.
   delayed/unmarked paste, user usability trials and parent S33 acceptance
   remain open. This Qwen result is one named quantization, not broad model
   compatibility.
+- S33t contract: only the `/edit` caller opts into a bounded idle
+  wakeup in the terminal event reader. An unchanged viewport must not redraw;
+  a valid resize must redraw the existing draft without a key, and a resize
+  below 24x8 must cancel only the draft, restore terminal state and return to
+  live chat. Existing key/UTF-8/paste/interrupt semantics and non-editor event
+  callers keep their prior behavior. Acceptance: rebuilt event/editor harnesses
+  and CUDA-targeted `main.mojo`; PTY checks for idle no-write, 80x24 to 24x8
+  redraw and 23x7 cancellation without input; rerun physical CUDA editor and
+  redirected compose regressions on installed models only.
+- S33t evidence: rebuilt `test_chat_editor.mojo`, `test_terminal_events.mojo`,
+  `test_terminal_screen.mojo` and CUDA-targeted `main.mojo` passed. The model-free
+  PTY held an unchanged editor for 750 ms without extra output, then observed
+  an 80x24-to-24x8 redraw and 23x7 draft cancellation with termios, cursor,
+  paste mode and prior screen restored, all without a key. Existing event and
+  screen PTY tests passed with their default blocking behavior; a zero-timeout
+  busy-loop request was rejected. The physical
+  Qwen 3 Q4_K_M CUDA editor run passed idle shrink/recovery, idle valid resize,
+  cancellation, paste, one committed turn and history. Redirected installed
+  Gemma CUDA compose/history/Unicode/no-ANSI regression passed. No model was
+  downloaded.
+- S33t remaining gate: `/edit` polls terminal dimensions at most four times
+  per second while idle; this is not a SIGWINCH-driven zero-wakeup design and
+  does not prove display behavior on every terminal emulator. Exact grapheme
+  cells, transcript scrollback, Llama physical UI, delayed/unmarked paste,
+  independent usability trials and parent S33 acceptance remain open.

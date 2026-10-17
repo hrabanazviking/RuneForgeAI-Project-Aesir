@@ -101,6 +101,8 @@ formatting controls. Its caller must flush partial scalars on non-text events.
 `cli/terminal_events.mojo` polls stdin and the existing optional interrupt
 descriptor, composes the key and UTF-8 decoders, flushes incomplete escapes or
 scalars after bounded idle periods, and emits whole-scalar text/control events.
+Its optional idle timeout is used only by `/edit` for a 250 ms resize check;
+other callers retain blocking reads and unchanged key/paste semantics.
 With bracketed paste enabled by the screen lease, it buffers a paste as one
 validated event, normalizes CRLF, treats pasted newlines as draft content,
 and rejects the whole paste beyond 64 KiB or 128 lines. Raw Ctrl+C still
@@ -119,7 +121,8 @@ as literal prompt content. Redirected input declines `/edit` without entering
 raw mode; `/compose` is the supported redirected multiline path. Transcript
 scrollback and exact grapheme-cell cursor placement remain open. `/edit`
 refuses a viewport below 24x8 before changing terminal mode; shrink below
-that threshold on the next redraw cancels only the draft and restores chat.
+that threshold cancels only the draft and restores chat after its next input
+or idle resize check. Unchanged idle checks do not emit redraw frames.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

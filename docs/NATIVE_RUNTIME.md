@@ -213,7 +213,8 @@ Interactive commands run between turns:
   redirected scripts should use `/compose`. Display-cell placement for
   grapheme clusters and transcript scrollback remain limited. The editor
   requires at least 24 columns by eight rows; shrinking below that minimum
-  cancels the draft on the next edit and returns to the chat prompt.
+  cancels the draft on the next edit or idle size check and returns to the chat
+  prompt. Idle size checks use a 250 ms poll; unchanged size does not redraw.
 - `/show`: context usage, sampling policy, timeout and reset-required state.
 - `/history [page]`: list five completed turns per page, newest first. Page 1
   is the default; page numbers outside the history are rejected. This does

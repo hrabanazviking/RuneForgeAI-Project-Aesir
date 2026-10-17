@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import select
 import subprocess
 import termios
 
@@ -62,11 +63,43 @@ def run_refusal_case(binary):
         os.close(master)
 
 
+def run_idle_resize_case(binary):
+    master, slave = os.openpty()
+    size(slave, 24, 80)
+    original = termios.tcgetattr(slave)
+    process = subprocess.Popen([binary], stdin=slave, stdout=slave, stderr=slave)
+    try:
+        initial = read_until(master, b"0 bytes", 10)
+        if b"\x1b[?2004h" not in initial:
+            raise AssertionError("idle-resize editor did not enter paste mode")
+        if select.select([master], [], [], 0.75)[0]:
+            raise AssertionError("unchanged idle editor emitted an extra frame")
+        size(slave, 8, 24)
+        valid = read_until(master, b"\x1b[8;1H", 3)
+        if b"\x1b[H\x1b[2J" not in valid:
+            raise AssertionError("valid idle resize did not redraw")
+        size(slave, 7, 23)
+        cancelled = read_until(master, b"EDITOR_CANCELLED", 3)
+        if b"Draft cancelled: Terminal editor requires" not in cancelled:
+            raise AssertionError("undersized idle resize did not cancel")
+        if b"\x1b[?2004l\x1b[?25h\x1b[?1049l" not in cancelled:
+            raise AssertionError("idle resize cancellation left alternate screen active")
+        if process.wait(timeout=10) or termios.tcgetattr(master) != original:
+            raise AssertionError("idle resize cancellation left terminal state changed")
+    finally:
+        if process.poll() is None:
+            process.terminate()
+            process.wait(timeout=10)
+        os.close(slave)
+        os.close(master)
+
+
 def main(binary):
     redirected = subprocess.run([binary], input=b"/bye\n", capture_output=True, timeout=10)
     if redirected.returncode or b"EDITOR_CANCELLED" not in redirected.stdout:
         raise AssertionError("redirected /edit did not decline interactive mode")
     run_refusal_case(binary)
+    run_idle_resize_case(binary)
     submitted = run_case(
         binary,
         b"\r\x1b[200~/bye\r\n" + "世界".encode() + b"\x1b[201~\r",
