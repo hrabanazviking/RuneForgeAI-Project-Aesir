@@ -2,7 +2,7 @@
 
 from cli.chat_compose import COMPOSE_MAX_BYTES
 from cli.cursor_draft import CursorDraft
-from cli.terminal_editor_view import render_editor_rows
+from cli.terminal_editor_view import render_editor_rows, _safe_prefix, _safe_tail
 from cli.terminal_view import terminal_preview_atom
 
 
@@ -54,6 +54,14 @@ def main() raises:
     var wide = check_rows(draft, 80, 24)
     if "世界" not in wide[1]:
         raise Error("wide frame lost Unicode text")
+    if (_safe_prefix(String("a") * 8 + "e\u0301", 9)
+            != String("a") * 8 + "e\u0301"
+            or _safe_tail(String("a") * 9 + "e\u0301", 9)
+            != "<" + String("a") * 7 + "e\u0301"):
+        raise Error("editor viewport split an accent cluster")
+    if (_safe_prefix(String("a") * 8 + "👩‍👩‍👧‍👦", 10)
+            != String("a") * 8 + "👩‍👩‍👧‍👦"):
+        raise Error("editor viewport split a joined emoji")
     var invalid_dimensions = False
     try:
         _ = render_editor_rows(draft, 23, 8)

@@ -75,6 +75,27 @@ def main() raises:
     if unicode_last.text != "界\nTurn 1 AI:\n" or not unicode_last.done:
         raise Error("Unicode continuation repeated or skipped a scalar")
     check_rows(unicode_first.text, 24, 2)
+    var clusters = ConversationState("sha256:fixture", "gemma4", 512, "system", "greedy")
+    clusters.append_turn(String("a") * 23 + "e\u0301👩‍👩‍👧‍👦🇺🇸", "")
+    var cluster_first = render_transcript_window(clusters, 0, 0, -1, 24, 2)
+    if (cluster_first.text != "Turn 1 You:\n" + String("a") * 23 + "e\u0301\n"
+            or cluster_first.offset != 26):
+        raise Error("accent cluster did not fit the last cell intact")
+    var cluster_next = render_transcript_window(
+        clusters, cluster_first.turn, cluster_first.speaker,
+        cluster_first.offset, 24, 1,
+    )
+    if (cluster_next.text != "👩‍👩‍👧‍👦🇺🇸\n"
+            or cluster_next.done):
+        raise Error("emoji or flag cluster split across transcript rows")
+    var cluster_end = render_transcript_window(
+        clusters, cluster_next.turn, cluster_next.speaker,
+        cluster_next.offset, 24, 1,
+    )
+    if cluster_end.text != "Turn 1 AI:\n" or not cluster_end.done:
+        raise Error("cluster transcript did not finish after its AI header")
+    check_rows(cluster_first.text, 24, 2)
+    check_rows(cluster_next.text, 24, 1)
     var exact = ConversationState("sha256:fixture", "gemma4", 512, "system", "greedy")
     exact.append_turn(String("x") * 24 + "\ny", "")
     var exact_first = render_transcript_window(exact, 0, 0, -1, 24, 2)

@@ -90,18 +90,20 @@ def main() raises:
     var mixed_page = render_history_page(mixed, 1, 24)
     var mixed_detail = render_turn_detail(mixed, 1, 24)
     if ("1 You: 界界界..." not in mixed_page
-            or "Turn 1 P1/25" not in mixed_detail
+            or "Turn 1 P1/13" not in mixed_detail
             or "You: 界界界界界界界界" not in mixed_detail):
         raise Error("narrow mixed-script views were not cell-bounded")
-    var last_mixed = render_turn_command("/turn 1 25", mixed, 24)
-    if "Turn 1 P25/25" not in last_mixed or "You: \n" not in last_mixed:
+    var last_mixed = render_turn_command("/turn 1 13", mixed, 24)
+    if ("Turn 1 P13/13" not in last_mixed
+            or "You: 界界界界\n" not in last_mixed
+            or "AI: 🛡️🛡️🛡️🛡️\n" not in last_mixed):
         raise Error("last mixed-script page skipped or repeated user text")
-    var no_page_26 = False
+    var no_page_14 = False
     try:
-        _ = render_turn_command("/turn 1 26", mixed, 24)
+        _ = render_turn_command("/turn 1 14", mixed, 24)
     except:
-        no_page_26 = True
-    if not no_page_26:
+        no_page_14 = True
+    if not no_page_14:
         raise Error("turn page beyond the end was accepted")
     var paged = ConversationState(
         "sha256:fixture", "gemma4", 512, "system", "greedy",
@@ -129,8 +131,8 @@ def main() raises:
             raise Error("maximum turn page overflowed 24 columns")
     for width in [24, 50, 80]:
         for line in render_turn_detail(mixed, 1, width).split("\n"):
-            # Every non-ASCII scalar is charged two cells, so byte length
-            # is not an appropriate terminal-width assertion here.
+            # Bounded non-ASCII clusters are charged two cells, so byte
+            # length is not an appropriate terminal-width assertion here.
             if String(line).byte_length() > width * 4:
                 raise Error("mixed-script turn detail was unbounded")
     var sanitized = safe_turn_preview("a\nb\tc", 20)

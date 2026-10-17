@@ -1807,3 +1807,29 @@ Every row is initially queued unless the execution record says otherwise.
   does not change rendering or prove exact display-cell width. Full Unicode
   segmentation, Llama physical UI and user trials remain open; parent S33
   remains partial.
+- S33ag contract: use the shared bounded cluster rules in
+  `cli/terminal_view.mojo` so common base-plus-mark, pictographic U+200D and
+  plain RI flag sequences are one sanitized preview atom. Charge Latin plus
+  trailing marks one cell, and continue charging CJK/emoji clusters two;
+  preserve the existing control/bidi replacement and malformed UTF-8
+  fallback. No preview, editor viewport or transcript row may split one of
+  those recognized clusters. Verify focused atom/row tests, history and
+  transcript-window units, editor and transcript real-PTY suites, and a
+  fresh CUDA build. This is bounded cluster-aware layout, not complete
+  Unicode grapheme segmentation or exact width for all terminals.
+- S33ag evidence: `tests/test_terminal_cluster_view.mojo` passed Latin/CJK
+  marks, joined pictographs, plain RI flags, ASCII keycaps and standalone
+  control/bidi replacement. History, chronological transcript-window,
+  editor-row, transcript-frame and cursor-state units passed. Updated
+  history-page expectations reflect the joined shield emoji's new two-cell
+  charge; transcript continuation and editor clipping tests showed no split
+  in the recognized clusters. Rebuilt editor and transcript-viewer binaries
+  passed their real-PTY navigation, paste, resize and terminal-restoration
+  suites. A fresh `.pixi` `main.mojo` CUDA build for `sm_89` passed. The
+  original scalar sanitizer remains the fallback for invalid UTF-8 and
+  standalone unsafe formatting; no model download or generation policy
+  changed.
+- S33ag remaining gate: this is not a full UAX #29 grapheme algorithm or an
+  exact `wcwidth`/terminal-emulator measurement. The PTY suites use model-free
+  fixtures, not a fresh installed-model Unicode UI run; no Llama physical UI
+  or independent user trial was performed. Parent S33 stays partial.

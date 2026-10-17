@@ -2,6 +2,10 @@
 
 from std.collections import InlineArray
 from std.ffi import external_call
+from cli.unicode_clusters import (
+    _emoji_base, _joined_emoji_end, _regional_indicator,
+    _scalar_end, _scalar_value, _trailing_mark,
+)
 
 
 struct PreviewAtom:
@@ -15,8 +19,8 @@ struct PreviewAtom:
         self.cells = cells
 
 
-def terminal_preview_atom(text: String, index: Int) raises -> PreviewAtom:
-    """One sanitized scalar; non-ASCII display is charged two cells."""
+def _scalar_preview_atom(text: String, index: Int) raises -> PreviewAtom:
+    """Preserve the fail-closed scalar sanitizer and its fallback width."""
     var raw = text.as_bytes()
     var first = Int(raw[index])
     if first < 128:
@@ -58,6 +62,40 @@ def terminal_preview_atom(text: String, index: Int) raises -> PreviewAtom:
             or scalar == 65279):
         return PreviewAtom(" ", width, 1)
     return PreviewAtom(String(text[byte=index:index + width]), width, 2)
+
+
+def terminal_preview_atom(text: String, index: Int) raises -> PreviewAtom:
+    """One sanitized bounded cluster, with conservative terminal-cell cost."""
+    var first = _scalar_preview_atom(text, index)
+    var scalar = _scalar_value(text, index)
+    # Never absorb a mark after a rejected scalar, control, or bidi format.
+    if scalar < 0 or first.fragment == " ":
+        return first^
+    var end = index + first.byte_count
+    if _regional_indicator(text, index):
+        # View callers advance by whole atoms from a source-run boundary.
+        # Pair locally so a long RI run stays linear to render.
+        if (end < text.byte_length()
+                and _regional_indicator(text, end)):
+            end = _scalar_end(text, end)
+            return PreviewAtom(String(text[byte=index:end]), end - index, 2)
+        return first^
+    var cells = first.cells
+    var emoji = _emoji_base(text, index)
+    while end < text.byte_length() and _trailing_mark(text, end):
+        var mark = _scalar_value(text, end)
+        # A skin tone is only attached to a pictographic base. ASCII keycaps
+        # are a two-cell emoji even though their base is one ASCII digit.
+        if mark >= 127995 and mark <= 127999 and not emoji:
+            break
+        if mark == 8419:
+            cells = 2
+        end = _scalar_end(text, end)
+    if emoji:
+        end = _joined_emoji_end(text, end, index)
+    if end > index + first.byte_count:
+        return PreviewAtom(String(text[byte=index:end]), end - index, cells)
+    return first^
 
 
 def terminal_columns() -> Int:

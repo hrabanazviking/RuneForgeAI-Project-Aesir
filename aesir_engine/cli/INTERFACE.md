@@ -81,11 +81,14 @@ content. History, turn detail and help explain terminal text selection as the
 copy path; the app does not access the system clipboard. Footer hints are
 bounded for 24-, 50- and 80-column terminals. Views neither retokenize nor
 alter sampler/KV/conversation state.
-The terminal width and sanitized-scalar helpers are shared with the model
-chooser and draft-frame generator. Previews charge
-non-ASCII scalars a conservative two cells and reserve ellipsis width; long
-turn details fit one terminal row per speaker. Exact grapheme/display-cell
-behavior still needs the S33 terminal acceptance pass.
+The terminal width and sanitized preview-atom helpers are shared with the
+model chooser and draft-frame generator. Common base-plus-mark, pictographic
+U+200D and plain RI flag sequences remain intact through clipping and paging.
+Latin-plus-mark atoms cost one cell; CJK, emoji and flags cost two, with ASCII
+keycaps charged two. Malformed UTF-8 and standalone controls/formatting retain
+their fail-closed replacement. Previews reserve ellipsis width; long turn
+details fit one terminal row per speaker. These bounded rules are not full
+Unicode grapheme segmentation or exact width across terminals.
 
 `cli/chat_compose.mojo` owns only an interactive, line-mode draft (128 lines,
 64 KiB including newlines). `/send` submits, `/undo` removes one line,
@@ -102,7 +105,7 @@ cancellation before returning to cooked chat input.
 `cli/unicode_clusters.mojo` owns pure UTF-8 scalar and bounded cluster
 classification (trailing marks, common pictographic joins and plain RI
 pairs). It has no terminal, model or persistence dependency; draft state and
-future presentation may depend on it, not the other way around.
+read-only presentation depend on it, not the other way around.
 `cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
 cursor that groups bases with common trailing combining marks, variation
 selectors, emoji skin-tone modifiers and common pictographic U+200D joins for
