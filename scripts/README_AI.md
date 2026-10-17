@@ -92,6 +92,12 @@ or drive the user-facing chat editor.
 complete UTF-8 scalars, control/format rejection, malformed-sequence recovery
 and incomplete-sequence flush. It does not drive a PTY or model.
 
+`test_terminal_events_pty.py` drives the model-free native
+`tests/test_terminal_events.mojo` harness through a real Linux PTY. It checks
+Unicode cursor edits, raw Ctrl+C cancellation, malformed and cross-escape
+UTF-8 rejection, idle escape/scalar recovery, redirected refusal, and exact
+termios restoration. It does not enable the editor in chat or load a model.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn

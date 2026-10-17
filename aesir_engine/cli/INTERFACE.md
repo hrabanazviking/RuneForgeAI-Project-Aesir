@@ -95,8 +95,12 @@ sequences; its caller must flush incomplete escapes after an idle timeout.
 It does not validate UTF-8 text or interpret paste protocols.
 `cli/terminal_utf8.mojo` separately assembles text-byte events into complete
 UTF-8 scalars, rejecting malformed encodings, terminal controls and directional
-formatting controls. The caller must flush partial scalars on non-text events;
-none of these primitives is yet connected to a chat editor.
+formatting controls. Its caller must flush partial scalars on non-text events.
+`cli/terminal_events.mojo` polls stdin and the existing optional interrupt
+descriptor, composes the key and UTF-8 decoders, flushes incomplete escapes or
+scalars after bounded idle periods, and emits whole-scalar text/control events.
+Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
+have a model-free PTY harness but are not yet connected to a chat editor.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

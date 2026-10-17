@@ -1101,8 +1101,9 @@ Every row is initially queued unless the execution record says otherwise.
   bounded pages across long committed turns. Full-screen cursor editing,
   transcript-log scrollback and exact grapheme-width behavior remain open;
   S33i introduces the guarded terminal-mode primitive, S33j the bounded
-  cursor-state primitive, S33k the raw-key classifier and S33l the UTF-8
-  text-byte assembler for later editing; none is wired into chat.
+  cursor-state primitive, S33k the raw-key classifier, S33l the UTF-8
+  text-byte assembler and S33m their model-free PTY orchestration for later
+  editing; none is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1338,3 +1339,24 @@ Every row is initially queued unless the execution record says otherwise.
   lease are not yet orchestrated together. An idle-timeout/flush policy,
   bracketed paste, grapheme-aware movement/redraw, resize/signal handling and
   physical PTY/chat acceptance remain open. Parent S33 is partial.
+- S33m contract: `cli/terminal_events.mojo` polls raw stdin and an optional
+  existing interrupt descriptor, composes S33k/S33l into whole-scalar text and
+  control events, uses 30 ms escape and 250 ms incomplete-scalar idle flushes,
+  and discards partial UTF-8 on any non-text key. The caller retains ownership
+  of the S33i terminal lease and S33j draft; neither chat nor model state is
+  touched. EOF is distinct from cancellation; raw Ctrl+C and signalfd
+  interruption both produce the cancellation event.
+- S33m evidence: fresh CUDA-targeted build of
+  `tests/test_terminal_events.mojo` and
+  `scripts/test_terminal_events_pty.py` passed a real Linux PTY: Unicode
+  middle insertion/deletion, Ctrl+C cancellation, malformed overlong bytes,
+  rejection of a UTF-8 scalar split by an arrow sequence, lone-Escape and
+  truncated-scalar idle recovery, redirected refusal, and exact termios
+  restoration after submit/cancel. The test reused no model and downloaded
+  nothing. The first audit found the cross-escape partial-scalar leak; a flush
+  on every non-text event fixed it and the added case passed.
+- S33m remaining gate: the PTY harness does not render a draft, exercise
+  bracketed paste, resize or external signalfd interruption, or route into a
+  real CUDA chat. The 30/250 ms idle thresholds are local-terminal policy,
+  not proven across delayed transports. Grapheme-aware movement and complete
+  S33 user-facing acceptance remain open; parent S33 is partial.
