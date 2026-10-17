@@ -74,6 +74,11 @@ and back to 80 columns during an unfinished draft. It makes no model download.
 `tests/chat_compose_input.mojo` harness through redirected EOF (including a
 partial final line), empty `/send`, and explicit Unicode submission.
 
+`test_terminal_input_pty.py` drives the model-free native
+`tests/test_terminal_input.mojo` raw-mode lease. It checks redirected-stream
+refusal and exact PTY termios restoration after both normal input and an
+injected error; it does not load a model or enable cursor editing in chat.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn

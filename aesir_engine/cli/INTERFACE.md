@@ -80,6 +80,12 @@ behavior still needs the S33 terminal acceptance pass.
 composer command. A submitted draft is always prompt text, even if its first
 line starts with `/`; it is never reinterpreted as a session command.
 
+`cli/terminal_input.mojo` owns a scoped Linux raw-mode lease for a future
+cursor editor. It requires TTY stdin and stdout, snapshots the original
+termios state, and restores it explicitly or during scope teardown. It does
+not own prompts, conversations, signals or model state and is not wired into
+chat yet; `/compose` remains line-mode, including in a PTY.
+
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target
 while the current session remains recoverable, returns the accepted request out

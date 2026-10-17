@@ -1099,7 +1099,8 @@ Every row is initially queued unless the execution record says otherwise.
   SIGINT. S33f bounds mixed-script previews by conservative terminal-cell
   estimates. S33g verifies draft resize and redirected output. S33h adds
   bounded pages across long committed turns. Full-screen cursor editing,
-  transcript-log scrollback and exact grapheme-width behavior remain open.
+  transcript-log scrollback and exact grapheme-width behavior remain open;
+  S33i introduces only the guarded terminal-mode primitive for later editing.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1269,3 +1270,21 @@ Every row is initially queued unless the execution record says otherwise.
   Full-screen scrollback of commands/system output and cursor editing remain
   unimplemented, and Llama/Qwen PTY profiles lack physical coverage. Parent
   S33 acceptance remains partial.
+- S33i contract: `cli/terminal_input.mojo` owns a scoped Linux raw-mode lease
+  isolated from model/session state and existing line-mode `/compose`. It
+  refuses redirected stdin or stdout, snapshots termios before mutation,
+  enters raw mode only for a real TTY, and restores the original state on
+  explicit release or scope teardown. This is a prerequisite for a bounded
+  cursor editor, not a user-visible editor feature.
+- S33i evidence: fresh CUDA-targeted build of
+  `tests/test_terminal_input.mojo` passed. `scripts/test_terminal_input_pty.py`
+  verified redirected refusal, noncanonical/no-echo input on a real Linux
+  PTY, and exact original termios restoration after both normal completion
+  and an injected exception. No model was loaded and no application entrypoint
+  imported the new module in this slice.
+- S33i remaining gate: no cursor editing, redraw, Unicode insertion,
+  bracketed paste, SIGINT handling or PTY resize behavior is implemented on
+  top of this primitive yet. Abnormal process termination may bypass scope
+  teardown; no claim of recovery from SIGKILL/power loss is made. The fixed
+  termios buffer and PTY evidence cover Linux x86_64/glibc in this environment,
+  not every libc or platform. Parent S33 acceptance remains partial.
