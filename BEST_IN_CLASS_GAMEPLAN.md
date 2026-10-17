@@ -1100,7 +1100,8 @@ Every row is initially queued unless the execution record says otherwise.
   estimates. S33g verifies draft resize and redirected output. S33h adds
   bounded pages across long committed turns. Full-screen cursor editing,
   transcript-log scrollback and exact grapheme-width behavior remain open;
-  S33i introduces only the guarded terminal-mode primitive for later editing.
+  S33i introduces the guarded terminal-mode primitive and S33j the bounded
+  cursor-state primitive for later editing; neither is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1288,3 +1289,17 @@ Every row is initially queued unless the execution record says otherwise.
   teardown; no claim of recovery from SIGKILL/power loss is made. The fixed
   termios buffer and PTY evidence cover Linux x86_64/glibc in this environment,
   not every libc or platform. Parent S33 acceptance remains partial.
+- S33j contract: `cli/cursor_draft.mojo` owns model-free UTF-8 text and a byte
+  cursor kept on scalar boundaries. It supports bounded insertion, left/right,
+  home/end and backspace without splitting a UTF-8 scalar; rejected inserts
+  preserve text and cursor. It shares the current `/compose` 64 KiB and
+  128-line limits but does not replace `/compose` or touch model/session state.
+- S33j evidence: a fresh CUDA-targeted build and run of
+  `tests/test_cursor_draft.mojo` passed empty/end boundaries, CJK, emoji and
+  variation-selector movement, middle insertion/deletion, exact byte and line
+  limits, and capacity recovery. A fresh build/run of the existing
+  `tests/test_chat_compose.mojo` also passed. No model or PTY was needed.
+- S33j remaining gate: this is scalar-boundary state, not grapheme-cluster
+  navigation or display-cell measurement; combining sequences may still be
+  traversed internally. Key decoding, redraw, paste/resize/interrupt behavior,
+  chat wiring and physical PTY acceptance remain open. Parent S33 is partial.

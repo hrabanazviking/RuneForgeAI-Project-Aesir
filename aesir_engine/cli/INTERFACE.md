@@ -85,6 +85,10 @@ cursor editor. It requires TTY stdin and stdout, snapshots the original
 termios state, and restores it explicitly or during scope teardown. It does
 not own prompts, conversations, signals or model state and is not wired into
 chat yet; `/compose` remains line-mode, including in a PTY.
+`cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
+cursor at scalar boundaries, insertion/backspace/movement, and the same
+64 KiB/128-line limits as `/compose`. It does not decode keys or render a
+terminal view. Neither primitive changes the current chat input path.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target

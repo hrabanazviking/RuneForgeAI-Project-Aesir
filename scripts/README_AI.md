@@ -79,6 +79,10 @@ partial final line), empty `/send`, and explicit Unicode submission.
 refusal and exact PTY termios restoration after both normal input and an
 injected error; it does not load a model or enable cursor editing in chat.
 
+`tests/test_cursor_draft.mojo` checks model-free cursor movement and edits at
+UTF-8 scalar boundaries plus rejection at the shared 64 KiB/128-line draft
+limits. It does not exercise a terminal or claim grapheme-cell rendering.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn
