@@ -1113,8 +1113,9 @@ Every row is initially queued unless the execution record says otherwise.
   control legend readable at the minimum supported terminal width. S33w
   checks that the advertised Escape cancellation is distinct from arrow-key
   escape sequences in a narrow real PTY. S33x introduces a read-only,
-  bounded chronological transcript window primitive. Parent acceptance is
-  still partial.
+  bounded chronological transcript window primitive. S33y adds a model-free
+  pager and fixed-height view over that primitive. Parent acceptance is still
+  partial.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1631,3 +1632,27 @@ Every row is initially queued unless the execution record says otherwise.
   page index is supplied yet. Conversation validation still scans the whole
   bounded state on each page, so repeated paging of very long histories has
   not been performance-benchmarked. Parent S33 acceptance is partial.
+- S33y contract: `cli/terminal_transcript_view.mojo` owns only in-memory
+  forward/back page state and a sanitized fixed-height frame over S33x. It
+  starts at the oldest committed turn, never mutates conversation or model
+  state, keeps at most 128 page starts, and preserves the current continuation
+  point while clearing stale back-history on terminal resize. The view accepts
+  24..240 columns and 8..80 rows, emits exactly that many width-bounded rows,
+  and offers clear narrow/wide navigation hints. Verify cross-turn next/back,
+  end-of-log behavior, 24/80-column frames, resize, empty history, controls,
+  and bounded page history with a model-free unit. No raw input, terminal
+  lease, command wiring or physical PTY claim belongs in this slice.
+- S33y evidence: `mojo run tests/test_terminal_transcript_view.mojo`
+  passed empty history, chronological cross-turn forward/back, end-of-log,
+  sanitized control text, turn-count headers, exact 24x8, 80x8 and 80x80
+  frames, resize cursor retention, failed-resize-render state preservation,
+  invalid viewport refusal, and 140 forward pages while retaining at most
+  128 page starts. The source conversation remained unchanged. A first test
+  run caught a missing wide end-of-log copy hint; the footer was corrected
+  before the passing run. No PTY lease, CUDA build or inference was exercised
+  for this pure view module.
+- S33y remaining gate: raw-key navigation and terminal restoration in a real
+  PTY, CUDA-chat command wiring, exact grapheme cells, Llama UI and user trials.
+  Back navigation is intentionally limited to the most recent 128 pages, and
+  resizing starts a fresh back-history at the current continuation point.
+  Parent S33 acceptance is partial.

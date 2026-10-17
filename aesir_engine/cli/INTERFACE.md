@@ -65,7 +65,11 @@ turn one bounded row per speaker at a time. Page numbers start at 1 and the
 header reports the final page; `/export FILE` remains the exact full-text path.
 The same owner now has a pure chronological transcript-window primitive that
 returns a bounded set of rows and a continuation cursor across speakers and
-turns. It is not yet wired to an interactive scrollback command or screen.
+turns. `terminal_transcript_view.mojo` builds fixed-height, width-bounded
+frames and a 128-page back-history over that primitive; resize retains the
+current cursor and drops old page geometry. Neither is yet wired to raw keys,
+an alternate screen or a chat command.
+
 Views replace terminal control characters,
 preserve valid Unicode text, and point to `/export FILE` for complete readable
 content. History, turn detail and help explain terminal text selection as the
