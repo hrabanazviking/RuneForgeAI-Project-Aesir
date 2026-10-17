@@ -101,11 +101,12 @@ line-mode, including in a PTY. The editor flushes queued raw draft bytes on
 cancellation before returning to cooked chat input.
 `cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
 cursor that groups bases with common trailing combining marks, variation
-selectors and emoji skin-tone modifiers for movement/deletion, and the same
+selectors, emoji skin-tone modifiers and common pictographic U+200D joins for
+movement/deletion, and the same
 64 KiB/128-line limits as `/compose`. It does not decode keys or render a
 terminal view. `/edit` uses these primitives only after an explicit command.
-This is not full UAX #29 segmentation; ZWJ and flag clusters still need
-separate acceptance.
+This is not full UAX #29 segmentation; regional flags, script-specific joins
+and display-cell width still need separate acceptance.
 `cli/terminal_keys.mojo` classifies incremental raw bytes into basic text-byte,
 editing, navigation and control events. It bounds and drains unknown CSI
 sequences; its caller must flush incomplete escapes after an idle timeout.

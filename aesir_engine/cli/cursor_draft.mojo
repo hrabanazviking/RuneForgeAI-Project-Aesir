@@ -72,6 +72,39 @@ def _hard_break(text: String, start: Int) -> Bool:
     return scalar >= 0 and (scalar < 32 or scalar == 127)
 
 
+def _emoji_base(text: String, start: Int) -> Bool:
+    var scalar = _scalar_value(text, start)
+    return (scalar >= 9728 and scalar <= 10175
+            or scalar >= 126976 and scalar <= 129791)
+
+
+def _base_before(text: String, end: Int) -> Int:
+    var start = _scalar_start(text, end)
+    while start > 0 and _trailing_mark(text, start):
+        var previous = _scalar_start(text, start)
+        if _hard_break(text, previous):
+            break
+        start = previous
+    return start
+
+
+def _joined_emoji_end(text: String, end: Int, base: Int) -> Int:
+    var current_end = end
+    var current_base = base
+    while _emoji_base(text, current_base) and current_end < text.byte_length():
+        if _scalar_value(text, current_end) != 8205:
+            break
+        var joined = _scalar_end(text, current_end)
+        if joined == text.byte_length() or not _emoji_base(text, joined):
+            break
+        current_base = joined
+        current_end = _scalar_end(text, joined)
+        while (current_end < text.byte_length()
+                and _trailing_mark(text, current_end)):
+            current_end = _scalar_end(text, current_end)
+    return current_end
+
+
 struct CursorDraft:
     """Keep the cursor on UTF-8 boundaries and attached trailing marks."""
 
@@ -108,15 +141,34 @@ struct CursorDraft:
                 self.content, self.cursor,
             ):
                 self.cursor = _scalar_end(self.content, self.cursor)
+            var base = _base_before(self.content, self.cursor)
+            if (_scalar_value(self.content, base) == 8205 and base > 0
+                    and self.cursor < self.content.byte_length()
+                    and _emoji_base(self.content, self.cursor)):
+                var prior = _base_before(self.content, base)
+                if _emoji_base(self.content, prior):
+                    var joined = self.cursor
+                    self.cursor = _scalar_end(self.content, joined)
+                    while (self.cursor < self.content.byte_length()
+                            and _trailing_mark(self.content, self.cursor)):
+                        self.cursor = _scalar_end(self.content, self.cursor)
+                    self.cursor = _joined_emoji_end(
+                        self.content, self.cursor, joined,
+                    )
+            else:
+                self.cursor = _joined_emoji_end(self.content, self.cursor, base)
         return True
 
     def move_left(mut self) -> Bool:
         if self.cursor == 0:
             return False
-        self.cursor = _scalar_start(self.content, self.cursor)
-        while self.cursor > 0 and _trailing_mark(self.content, self.cursor):
-            var previous = _scalar_start(self.content, self.cursor)
-            if _hard_break(self.content, previous):
+        self.cursor = _base_before(self.content, self.cursor)
+        while self.cursor > 0 and _emoji_base(self.content, self.cursor):
+            var joiner = _scalar_start(self.content, self.cursor)
+            if _scalar_value(self.content, joiner) != 8205 or joiner == 0:
+                break
+            var previous = _base_before(self.content, joiner)
+            if not _emoji_base(self.content, previous):
                 break
             self.cursor = previous
         return True
@@ -125,12 +177,14 @@ struct CursorDraft:
         if self.cursor == self.content.byte_length():
             return False
         var break_scalar = _hard_break(self.content, self.cursor)
+        var base = self.cursor
         self.cursor = _scalar_end(self.content, self.cursor)
         if not break_scalar:
             while self.cursor < self.content.byte_length() and _trailing_mark(
                 self.content, self.cursor,
             ):
                 self.cursor = _scalar_end(self.content, self.cursor)
+            self.cursor = _joined_emoji_end(self.content, self.cursor, base)
         return True
 
     def erase_left(mut self) -> Bool:

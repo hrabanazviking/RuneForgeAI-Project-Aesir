@@ -207,7 +207,8 @@ Interactive commands run between turns:
 - `/edit`: opt-in interactive terminal editor. Enter submits a nonempty draft;
   Ctrl+J adds a line; Left/Right, Home/End, Backspace and Delete edit at UTF-8
   scalar boundaries, grouping common combining marks, variation selectors
-  and skin-tone modifiers with their base for movement and deletion. Esc or
+  skin-tone modifiers and common pictographic U+200D joins with their base
+  for movement and deletion. Esc or
   Ctrl+C discards the draft. Bracketed paste keeps
   pasted newlines and command-like text literal, rejecting the whole paste
   beyond 64 KiB or 128 lines. The screen and terminal mode are restored on

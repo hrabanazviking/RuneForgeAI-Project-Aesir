@@ -71,6 +71,55 @@ def main() raises:
     if (not inserted_break.insert("\n") or inserted_break.cursor != 1
             or inserted_break.text() != "\n\u0301"):
         raise Error("inserting a line break absorbed a following mark")
+    var family = String("👩‍👩‍👧‍👦")
+    var joined = CursorDraft()
+    if not joined.insert(family + "X"):
+        raise Error("joined-emoji draft setup failed")
+    joined.move_home()
+    if not joined.move_right() or joined.cursor != family.byte_length():
+        raise Error("emoji family was not one right step")
+    if not joined.erase_left() or joined.text() != "X":
+        raise Error("emoji family was not erased in one backspace")
+    var joined_delete = CursorDraft()
+    _ = joined_delete.insert(family + "X")
+    joined_delete.move_home()
+    if not joined_delete.erase_right() or joined_delete.text() != "X":
+        raise Error("emoji family was not erased in one Delete")
+    var toned_join = CursorDraft()
+    _ = toned_join.insert("👩🏽‍💻B")
+    toned_join.move_home()
+    if not toned_join.move_right() or toned_join.cursor != "👩🏽‍💻".byte_length():
+        raise Error("skin-tone emoji join was split by movement")
+    if not toned_join.erase_left() or toned_join.text() != "B":
+        raise Error("skin-tone emoji join was split by Backspace")
+    var plain_join = CursorDraft()
+    _ = plain_join.insert("A\u200dB")
+    plain_join.move_home()
+    if (not plain_join.move_right() or plain_join.cursor != 1
+            or not plain_join.move_right() or plain_join.cursor != 4
+            or not plain_join.move_right() or plain_join.cursor != 5):
+        raise Error("ASCII joiner was incorrectly treated as emoji")
+    var typed_join = CursorDraft()
+    _ = typed_join.insert("👩👩")
+    typed_join.move_home()
+    _ = typed_join.move_right()
+    if (not typed_join.insert("\u200d")
+            or typed_join.cursor != "👩‍👩".byte_length()
+            or not typed_join.erase_left() or typed_join.text() != ""):
+        raise Error("inserting a joiner left cursor inside emoji")
+    var inserted_base = CursorDraft()
+    _ = inserted_base.insert("\u200d👩")
+    inserted_base.move_home()
+    if (not inserted_base.insert("👩")
+            or inserted_base.cursor != "👩‍👩".byte_length()
+            or not inserted_base.erase_left() or inserted_base.text() != ""):
+        raise Error("inserting before an emoji join left cursor inside it")
+    var broken_join = CursorDraft()
+    _ = broken_join.insert("👩\n\u200d👩")
+    broken_join.move_home()
+    if (not broken_join.move_right() or broken_join.cursor != 4
+            or not broken_join.move_right() or broken_join.cursor != 5):
+        raise Error("emoji join crossed a hard line break")
     var forward = CursorDraft()
     if not forward.insert("A界B"):
         raise Error("forward-delete draft setup failed")

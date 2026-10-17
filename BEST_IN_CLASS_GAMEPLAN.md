@@ -1743,3 +1743,26 @@ Every row is initially queued unless the execution record says otherwise.
   script-specific clusters and exact display-cell measurement remain open.
   Llama physical UI, broader terminals and independent usability trials also
   remain open; parent S33 is partial.
+- S33ad contract: extend the bounded `CursorDraft` movement/deletion rule to
+  common pictographic emoji joined by U+200D. A family or skin-tone-plus-ZWJ
+  sequence must move and erase as one visible unit in both directions;
+  insertion before an existing join must not leave the cursor inside it.
+  ASCII with a joiner, hard line breaks, and unjoined scalars must retain
+  their prior behavior. This is not a complete UAX #29 implementation or
+  exact display-cell claim. Acceptance: model-free cursor and editor-row
+  units, rebuilt `/edit` PTY suite with ZWJ cases, fresh CUDA-targeted build
+  and installed-model `/edit` PTY smoke. Do not download model bytes.
+- S33ad evidence: `tests/test_cursor_draft.mojo` passed family-emoji and
+  skin-tone-plus-ZWJ atomic movement, Backspace and Delete, plus insertion
+  both before an existing emoji join and of a joiner between emoji bases.
+  ASCII with U+200D, newline-separated emoji, trailing marks and capacity
+  limits retained their stated behavior. The rebuilt `/edit` real-PTY suite
+  passed Delete and Backspace on family and skin-tone joined glyphs alongside
+  its earlier cases. The editor-row unit, fresh CUDA-targeted `main.mojo`
+  build, and installed Qwen3-0.6B CUDA `/edit` PTY smoke passed. No model
+  download or generation-policy change occurred.
+- S33ad remaining gate: this only recognizes common pictographic ranges
+  joined by U+200D, not full UAX #29 segmentation. Regional-indicator flags,
+  script-specific clusters and exact terminal display cells remain open.
+  The zero-byte Llama fixture, broader terminal-emulator coverage and
+  independent user trials keep parent S33 partial.
