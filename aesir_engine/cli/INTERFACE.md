@@ -65,7 +65,10 @@ turn one bounded row per speaker at a time. Page numbers start at 1 and the
 header reports the final page; `/export FILE` remains the exact full-text path.
 The same owner now has a pure chronological transcript-window primitive that
 returns a bounded set of rows and a continuation cursor across speakers and
-turns. `terminal_transcript_view.mojo` builds fixed-height, width-bounded
+turns. Caller-supplied cursors must start at a sanitized preview-atom boundary;
+the window rejects offsets inside the recognized accent, pictographic-join
+or plain-flag clusters as well as inside a UTF-8 scalar.
+`terminal_transcript_view.mojo` builds fixed-height, width-bounded
 frames and a 128-page back-history over that primitive; resize retains the
 current cursor and drops old page geometry. `chat_transcript_viewer.mojo`
 connects that pager to the existing raw-key reader and alternate-screen lease

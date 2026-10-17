@@ -1872,3 +1872,26 @@ Every row is initially queued unless the execution record says otherwise.
   terminal emulators, exact display-cell measurement, full Unicode
   segmentation and independent user trials remain unverified. Parent S33
   stays partial; S34/S35 retain their S33 prerequisite.
+- S33aj contract: reject a read-only transcript continuation offset that
+  starts inside one of the bounded preview clusters, even if it is a valid
+  UTF-8 scalar boundary. Check trailing marks, pictographic joins and the
+  second RI of each plain flag; keep generated continuation points, exact
+  byte offsets, invalid-scalar rejection and bounded viewport behavior.
+  Verify focused cursor and transcript-frame units, rebuilt viewer real-PTY
+  navigation and a fresh CUDA build. This guards the public window primitive,
+  not arbitrary full-UAX grapheme offsets or a terminal-cell measurement.
+- S33aj evidence: `tests/test_transcript_window.mojo` rejected valid-scalar
+  byte offsets inside an accent, a skin-tone pictograph, both halves of a
+  pictographic U+200D join and the second RI of each plain flag, for both
+  user and assistant text. It accepted normal boundaries, a standalone ASCII
+  joiner and a generated continuation in a 13-flag run. History, preview-atom
+  and transcript-frame units passed. A rebuilt transcript viewer passed its
+  real-PTY navigation/paste/resize/restoration suite, and a fresh `.pixi`
+  CUDA `main.mojo` build for `sm_89` passed. `cli/INTERFACE.md` now states
+  the caller-supplied cursor invariant. No model file or generation policy
+  changed.
+- S33aj remaining gate: the guard recognizes only the bounded preview-atom
+  policy, not full UAX #29. RI-run parity validation scans backward from a
+  supplied cursor; pathological long-RI paging throughput was not measured.
+  Llama physical UI, other terminal emulators, exact display cells and
+  independent user trials remain open. Parent S33 stays partial.

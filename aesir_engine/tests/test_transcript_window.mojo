@@ -96,6 +96,43 @@ def main() raises:
         raise Error("cluster transcript did not finish after its AI header")
     check_rows(cluster_first.text, 24, 2)
     check_rows(cluster_next.text, 24, 1)
+    var cursor_clusters = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    cursor_clusters.append_turn("e\u0301👩🏽‍💻🇺🇸🇨🇦Z", "e\u0301👩🏽‍💻🇺🇸🇨🇦Z")
+    for bad in [1, 7, 11, 14, 22, 30]:
+        for speaker in [0, 1]:
+            var rejected = False
+            try:
+                _ = render_transcript_window(
+                    cursor_clusters, 0, speaker, bad, 24, 1,
+                )
+            except:
+                rejected = True
+            if not rejected:
+                raise Error("transcript accepted a mid-cluster cursor")
+    for good in [0, 3, 18, 26, 34]:
+        _ = render_transcript_window(cursor_clusters, 0, 0, good, 24, 1)
+    var standalone_join = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    standalone_join.append_turn("A\u200dB", "")
+    _ = render_transcript_window(standalone_join, 0, 0, 1, 24, 1)
+    _ = render_transcript_window(standalone_join, 0, 0, 4, 24, 1)
+    var flag_run = ConversationState(
+        "sha256:fixture", "gemma4", 512, "system", "greedy",
+    )
+    flag_run.append_turn(String("🇺🇸") * 13, "")
+    var flag_page = render_transcript_window(flag_run, 0, 0, -1, 24, 2)
+    if flag_page.offset != 96 or flag_page.text != (
+            "Turn 1 You:\n" + String("🇺🇸") * 12 + "\n"):
+        raise Error("plain flag run did not page at a pair boundary")
+    var flag_tail = render_transcript_window(
+        flag_run, flag_page.turn, flag_page.speaker,
+        flag_page.offset, 24, 1,
+    )
+    if flag_tail.text != "🇺🇸\n":
+        raise Error("valid flag continuation was rejected or split")
     var exact = ConversationState("sha256:fixture", "gemma4", 512, "system", "greedy")
     exact.append_turn(String("x") * 24 + "\ny", "")
     var exact_first = render_transcript_window(exact, 0, 0, -1, 24, 2)

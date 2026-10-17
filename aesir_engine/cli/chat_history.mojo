@@ -2,6 +2,10 @@
 
 from cli.conversation import ConversationState
 from cli.terminal_view import terminal_preview_atom
+from cli.unicode_clusters import (
+    _base_before, _regional_indicator, _ri_count_before, _scalar_start,
+    _scalar_value,
+)
 
 
 comptime HISTORY_PAGE_SIZE = 5
@@ -110,6 +114,29 @@ def _transcript_line(text: String, start: Int, columns: Int) raises -> _Transcri
     return _TranscriptLine(row, index)
 
 
+def _transcript_atom_boundary(text: String, offset: Int) raises -> Bool:
+    """Validate a caller-supplied cursor against bounded preview clusters."""
+    if offset <= 0 or offset >= text.byte_length():
+        return True
+    if (text.as_bytes()[offset] & 192) == 128:
+        return False
+    if _regional_indicator(text, offset):
+        # Pair from the start of the contiguous run; the third RI is valid.
+        return _ri_count_before(text, offset) % 2 == 0
+    var previous = _scalar_start(text, offset)
+    if terminal_preview_atom(text, previous).byte_count > offset - previous:
+        return False
+    if _scalar_value(text, offset) == 8205:
+        var base = _base_before(text, offset)
+        if terminal_preview_atom(text, base).byte_count > offset - base:
+            return False
+    if _scalar_value(text, previous) == 8205:
+        var base = _base_before(text, previous)
+        if terminal_preview_atom(text, base).byte_count > offset - base:
+            return False
+    return True
+
+
 def render_transcript_window(
     conversation: ConversationState, start_turn: Int, start_speaker: Int,
     start_offset: Int,
@@ -137,13 +164,11 @@ def render_transcript_window(
     if offset > segment_length:
         raise Error("transcript cursor exceeds speaker text")
     if offset >= 0 and offset < segment_length:
-        var cursor_byte: UInt8
         if speaker == 0:
-            cursor_byte = conversation.turns[turn].user.as_bytes()[offset]
-        else:
-            cursor_byte = conversation.turns[turn].assistant.as_bytes()[offset]
-        if (cursor_byte & 192) == 128:
-            raise Error("transcript cursor splits a UTF-8 scalar")
+            if not _transcript_atom_boundary(conversation.turns[turn].user, offset):
+                raise Error("transcript cursor splits a UTF-8 preview atom")
+        elif not _transcript_atom_boundary(conversation.turns[turn].assistant, offset):
+            raise Error("transcript cursor splits a UTF-8 preview atom")
     var output = String("")
     var shown = 0
     while shown < rows and turn < total:
