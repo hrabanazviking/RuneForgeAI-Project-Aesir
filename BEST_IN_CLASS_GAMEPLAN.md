@@ -1102,8 +1102,8 @@ Every row is initially queued unless the execution record says otherwise.
   transcript-log scrollback and exact grapheme-width behavior remain open;
   S33i introduces the guarded terminal-mode primitive, S33j the bounded
   cursor-state primitive, S33k the raw-key classifier, S33l the UTF-8
-  text-byte assembler and S33m their model-free PTY orchestration for later
-  editing; none is wired into chat.
+  text-byte assembler, S33m their model-free PTY orchestration and S33n a
+  bounded draft-frame generator for later editing; none is wired into chat.
 - S33a contract: `cli/model_selector.mojo` owns ten-entry favorite-first pages
   with stable global numeric IDs, `n`/`p` navigation, `?` help, `q`/EOF/interrupt
   cancellation, a visible-page blank-Enter default, and width-aware ASCII rows.
@@ -1360,3 +1360,23 @@ Every row is initially queued unless the execution record says otherwise.
   real CUDA chat. The 30/250 ms idle thresholds are local-terminal policy,
   not proven across delayed transports. Grapheme-aware movement and complete
   S33 user-facing acceptance remain open; parent S33 is partial.
+- S33n contract: `cli/terminal_view.mojo` owns the scalar sanitizer shared
+  by history and the new `cli/terminal_editor_view.mojo`. The latter returns
+  exactly one safe row per requested terminal row for 24..240 columns and
+  8..80 rows, keeps a visible inline cursor marker inside bounded horizontal
+  and vertical windows, and clips long or hostile draft text without emitting
+  raw terminal controls. This is pure presentation over S33j state, not ANSI
+  output or chat routing.
+- S33n evidence: fresh CUDA-targeted build/run of
+  `tests/test_terminal_editor_view.mojo` passed empty/Unicode rows,
+  24/80-column bounds, rejected invalid dimensions, long ASCII/CJK cursor
+  windows, 41-line vertical following, control-byte replacement and a 64 KiB
+  draft. The final test binary reported 0.03 seconds and 12,540 KiB peak RSS
+  in WSL. Fresh `main.mojo` build and rebuilt `test_chat_history.mojo` passed
+  after moving the sanitizer, preserving existing history behavior. No model
+  was loaded or downloaded.
+- S33n remaining gate: row generation is not interactive redraw; there is no
+  alternate-screen lifecycle, actual terminal cursor positioning, paste or
+  resize PTY coverage, nor CUDA-chat wiring. Non-ASCII width remains a
+  conservative estimate rather than exact grapheme-cell measurement. Parent
+  S33 acceptance remains partial.

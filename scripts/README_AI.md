@@ -98,6 +98,11 @@ Unicode cursor edits, raw Ctrl+C cancellation, malformed and cross-escape
 UTF-8 rejection, idle escape/scalar recovery, redirected refusal, and exact
 termios restoration. It does not enable the editor in chat or load a model.
 
+`tests/test_terminal_editor_view.mojo` checks pure, fixed-height draft rows
+at 24/80 columns, cursor-visible horizontal/vertical windows, Unicode and
+control-byte sanitization, invalid dimensions and the 64 KiB draft bound. It
+does not emit terminal redraw sequences or load a model.
+
 `test_chat_redirected.py` is an opt-in physical-CUDA, non-PTY smoke using an
 already installed model. It pipes selection, Unicode compose, history and exit
 through standard input and checks the captured output for one committed turn

@@ -69,7 +69,8 @@ content. History, turn detail and help explain terminal text selection as the
 copy path; the app does not access the system clipboard. Footer hints are
 bounded for 24-, 50- and 80-column terminals. Views neither retokenize nor
 alter sampler/KV/conversation state.
-The terminal width helper is shared with the model chooser. Previews charge
+The terminal width and sanitized-scalar helpers are shared with the model
+chooser and draft-frame generator. Previews charge
 non-ASCII scalars a conservative two cells and reserve ellipsis width; long
 turn details fit one terminal row per speaker. Exact grapheme/display-cell
 behavior still needs the S33 terminal acceptance pass.
@@ -101,6 +102,10 @@ descriptor, composes the key and UTF-8 decoders, flushes incomplete escapes or
 scalars after bounded idle periods, and emits whole-scalar text/control events.
 Its caller owns the raw-mode lease and cursor/rendering policy. These pieces
 have a model-free PTY harness but are not yet connected to a chat editor.
+`cli/terminal_editor_view.mojo` generates a fixed-height list of safe draft
+rows with a visible inline cursor marker, vertical viewport and horizontal
+context window. It shares the scalar sanitizer but does not emit ANSI redraws
+or change the live chat interface yet.
 
 Interactive `/model <name-or-alias-or-path>` is owned by the outer CUDA-chat
 lifecycle, not either concrete session. It resolves and inspects the target
