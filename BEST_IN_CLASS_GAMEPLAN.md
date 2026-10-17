@@ -1786,3 +1786,24 @@ Every row is initially queued unless the execution record says otherwise.
   selectors and complete UAX #29 behavior are not claimed. Exact terminal
   display-cell width, Llama physical UI, broader emulator coverage and
   independent user trials remain open; parent S33 remains partial.
+- S33af contract: extract the bounded UTF-8 scalar and cluster-boundary
+  helpers from `cli/cursor_draft.mojo` into a pure `cli/unicode_clusters.mojo`
+  owner so editor state and future read-only presentation can share one
+  policy. Keep `CursorDraft` behavior, limits and public API unchanged; the
+  helper must not import terminal I/O, model code, or persistence. Add a
+  focused model-free helper unit, then rerun cursor, editor-view, real-PTY
+  `/edit`, native CUDA build and installed-model `/edit` smoke. This is a
+  behavior-preserving extraction, not yet display-width implementation.
+- S33af evidence: the new `tests/test_unicode_clusters.mojo` passed scalar
+  byte boundaries, combining/hard-break, joined-emoji and RI classification.
+  Existing cursor and editor-row units passed unchanged. A rebuilt `/edit`
+  binary passed the real-PTY suite, including all prior Unicode clusters,
+  paste, resize and restoration cases. Fresh `.pixi` CUDA-targeted
+  `main.mojo` build and installed Qwen3-0.6B CUDA `/edit` PTY smoke passed.
+  `cli/unicode_clusters.mojo` imports no terminal, model or persistence code;
+  `CursorDraft` now imports it. No model bytes or generation policy changed.
+- S33af remaining gate: terminal presentation still uses its existing
+  scalar sanitizer and conservative two-cell charge; this extraction alone
+  does not change rendering or prove exact display-cell width. Full Unicode
+  segmentation, Llama physical UI and user trials remain open; parent S33
+  remains partial.

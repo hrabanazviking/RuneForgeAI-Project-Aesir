@@ -99,6 +99,10 @@ termios state, and restores it explicitly or during scope teardown. It does
 not own prompts, conversations, signals or model state. `/compose` remains
 line-mode, including in a PTY. The editor flushes queued raw draft bytes on
 cancellation before returning to cooked chat input.
+`cli/unicode_clusters.mojo` owns pure UTF-8 scalar and bounded cluster
+classification (trailing marks, common pictographic joins and plain RI
+pairs). It has no terminal, model or persistence dependency; draft state and
+future presentation may depend on it, not the other way around.
 `cli/cursor_draft.mojo` owns a separate, model-free UTF-8 draft with a byte
 cursor that groups bases with common trailing combining marks, variation
 selectors, emoji skin-tone modifiers and common pictographic U+200D joins for
