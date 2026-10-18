@@ -1895,3 +1895,25 @@ Every row is initially queued unless the execution record says otherwise.
   supplied cursor; pathological long-RI paging throughput was not measured.
   Llama physical UI, other terminal emulators, exact display cells and
   independent user trials remain open. Parent S33 stays partial.
+- S33ak contract: exercise transcript continuation at the 1 MiB assistant
+  bound with a contiguous regional-indicator run. Measure early and late
+  valid flag cursors, reject an interior pair cursor, and ensure viewport
+  rows and continuation bytes remain correct. If backward parity detection
+  proves materially slow, tighten that pure helper without changing paired
+  flag, odd-tail or cursor semantics. Rerun helper, cursor, transcript, pager
+  and real-PTY viewer regressions plus a fresh CUDA build. Record observed
+  timings as host-local evidence, not a portable performance guarantee.
+- S33ak evidence: the new compiled `tests/test_transcript_ri_scale.mojo`
+  used a 1,048,576-byte assistant turn of contiguous flag pairs. Early,
+  midpoint and final valid cursors returned whole rows at exact byte
+  offsets; the final pair's interior cursor was rejected. One WSL run
+  measured those four operations at 0/1/2/2 ms respectively with the
+  monotonic millisecond clock, so no helper rewrite was warranted. Pure
+  cluster, cursor, transcript-window, pager and history units passed. A
+  rebuilt viewer passed its real-PTY navigation/paste/resize/restoration
+  suite, and a fresh `.pixi` CUDA `main.mojo` build for `sm_89` passed.
+- S33ak remaining gate: these are single-process, single-host millisecond
+  observations, not a p95 or whole-transcript paging benchmark. Complete
+  Unicode segmentation, exact display cells, Llama physical UI, other
+  terminal emulators and independent user trials remain open; parent S33
+  stays partial.
