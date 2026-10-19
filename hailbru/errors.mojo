@@ -30,3 +30,4 @@ def errno_error(op: String, path: String, e: Int64) -> Error:
 #   DeviceRemoved, DeviceBusy
 # Source-model transport additions:
 #   BadRpcFrame, BadRpcHex, BadRpcProtobuf, RpcReplyMismatch, RpcRemoteFailure
+#   BadSocAbi

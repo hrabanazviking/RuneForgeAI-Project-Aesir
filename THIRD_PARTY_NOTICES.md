@@ -233,3 +233,10 @@ interface facts. The independently authored Mojo RPC envelope codec copies no
 vendor implementation. See `CLEAN_ROOM_LOG.md` and
 `docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`. The existing linked
 runtime and its attribution above are separate from this source study.
+
+The installed 5.3.0 driver UAPI header (SPDX
+`(GPL-2.0 WITH Linux-syscall-note) AND MIT`) is included only by the test-only
+`tests/hailo_soc_abi_oracle.cpp` layout/byte oracle. The operator supplies the
+installed header; this repository ships no copy. Production Mojo contains
+independently authored codecs using interface facts, without driver source or
+oracle linkage. See `docs/HAILO10H_MOJO_SOC_ABI.md` and `CLEAN_ROOM_LOG.md`.

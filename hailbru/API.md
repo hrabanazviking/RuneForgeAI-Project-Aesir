@@ -104,10 +104,23 @@ models. `HrpcFrame` owns UInt32 message/action/remote-status values and copied
 opaque body bytes. `encode_hrpc_frame` emits the exact logical packet;
 `decode_hrpc_frame(data, padded_dma_buffer=False)` validates the 20-byte header,
 magic, 2048-byte body maximum and exact packet size. Explicit padded mode
-requires a 2068-byte DMA message and excludes trailing bytes from the body.
+requires a 2068-byte message-buffer snapshot and excludes trailing bytes from
+the body. This is not a claim about physical DMA alignment or transfer size.
 Unknown actions and nonzero remote statuses are preserved, not interpreted.
 Malformed frames raise `BadRpcFrame`; the native hex tool raises `BadRpcHex`
 for invalid or excessive hex input. No device round-trip is implied.
+
+## Packed integrated-device session ABI
+
+`hailbru.soc_abi` owns Linux LP64 little-endian 5.3.0 packed codecs and the
+admitted session request numbers. It encodes descriptor creation/release,
+connect/close, masks and single user-pointer engine-zero transfers; it decodes
+descriptor/channel outputs, driver properties/version and interrupt records.
+Native `smidr/tools/soc_abi.mojo` consumes these interfaces without device
+access. Invalid storage/arguments raise `BadSocAbi`. Numeric enums preserve
+unknown values. Zero handles are admitted; the all-ones sentinel rejects.
+This is byte compatibility, not DMA or session ownership admission. Callers
+must establish identity, allocation, assigned resources and lifetime separately.
 
 Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
 Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.

@@ -1,3 +1,16 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): packed session ABI
+
+- Reconciled installed 5.3.0 UAPI byte packing, exact request numbers,
+  descriptor/channel/transfer outputs and interrupt storage. Implemented
+  independently in HAILBRÚ with a real native inspector/constructor.
+- Native build and nine independent methods pass: twelve ioctl values and
+  84 complete buffers match a C++ oracle including the installed UAPI header.
+  Reply bounds, zero handles, sentinels, unknown enums and interrupt statuses
+  are checked. No device accessed or runtime library/shim added by this slice.
+- Receipt: `docs/HAILO10H_MOJO_SOC_ABI.md`. Continue automatically with driver
+  query/ownership and cleanup, then a bounded physical RPC exchange. The fixed
+  source-model compiler goal remains open; byte primitives do not complete it.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo typed device protocol
 
 - Implemented pinned device create/identify/destroy messages and a bounded

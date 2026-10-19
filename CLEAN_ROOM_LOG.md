@@ -121,3 +121,18 @@ ownership, assigned channels and close/cancel ordering. Independently authored
 Mojo code uses those facts; no vendor implementation was copied or translated.
 The external test-only protobuf 6.33.6 runtime is an independent oracle, not a
 shipped or newly installed runtime dependency. No device was touched in tests.
+
+### 2026-10-19 — Installed driver session UAPI
+
+Read the installed 5.3.0 common-header SPDX declaration:
+`(GPL-2.0 WITH Linux-syscall-note) AND MIT`; the installed driver package
+copyright identifies GPLv2. Studied packed declarations, enums and ioctl
+macros in `common/hailo_ioctl_common.h`, and connection ownership interface
+facts in `linux/pcie/src/soc.c`. Header SHA-256:
+`a2731314f4676cb140b970043d53cc06d57da90ea46344ccd44a3c491aede26b`.
+No driver implementation or declarations were copied/translated into the
+production code. The independently authored Mojo codec uses interface facts.
+A test-only C++ oracle includes the operator's installed UAPI header to emit
+layout and byte evidence; no vendor header is shipped in this repository.
+No kernel code was built, installed, loaded or changed. Host-only evidence:
+`docs/HAILO10H_MOJO_SOC_ABI.md`.

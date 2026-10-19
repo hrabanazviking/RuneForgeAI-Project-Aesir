@@ -2648,3 +2648,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   See `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
 - **Boundary:** pinned v5.3.0 control-message subset; no device/model access,
   general protobuf runtime, physical round-trip or source compilation claim.
+
+### Owned Mojo packed session ABI
+
+- **Status:** `verified` as a Linux LP64 little-endian host byte primitive.
+- **Owner:** `hailbru/soc_abi.mojo`, consumed by native
+  `smidr/tools/soc_abi.mojo` without device access.
+- **Evidence:** native build plus nine independent methods; twelve ioctl
+  values and 84 complete request buffers match the installed 5.3.0 C UAPI
+  oracle. Reply offsets, bounds, valid zero handles, unknown enums and IRQ
+  statuses are checked. See `docs/HAILO10H_MOJO_SOC_ABI.md`.
+- **Boundary:** codecs establish neither resource ownership nor valid DMA
+  allocation, alignment, lifetime or physical completion. Driver session and
+  source-model execution remain separate required work.
