@@ -1,3 +1,16 @@
+> **OWNER TARGET CORRECTION — 2026-10-19:** Project Aesir must implement the
+> Mojo path needed to run source models that fit the Hailo-10H hardware. The
+> owner explicitly rejects limiting the product to compatible vendor-precompiled
+> models and forbids changing the target. Earlier catalog-only execution rules
+> in this document are superseded. Historical precompiled-model receipts remain
+> observations, not completion evidence for the owner's actual objective.
+
+**D-011 — controlling owner directive:** the target is immutable without
+explicit owner revision. The owner rejects precompiled-only model support.
+Earlier D-002/D-005 interpretations that made vendor catalog artifacts the
+product boundary are superseded. Device APIs may be evaluated as mechanisms;
+they cannot redefine the requested source-model capability.
+
 # Æsir Hailo-10H campaign decision log
 
 **Roadmap Slice 010 — complete**

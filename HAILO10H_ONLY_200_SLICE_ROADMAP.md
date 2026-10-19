@@ -1,12 +1,19 @@
+> **OWNER TARGET CORRECTION — 2026-10-19:** Project Aesir must implement the
+> Mojo path needed to run source models that fit the Hailo-10H hardware. The
+> owner explicitly rejects limiting the product to compatible vendor-precompiled
+> models and forbids changing the target. Earlier catalog-only execution rules
+> in this document are superseded. Historical precompiled-model receipts remain
+> observations, not completion evidence for the owner's actual objective.
+
 # Project AESIR: 200-slice Hailo-10H roadmap
 
-**Goal:** make Project AESIR reliably useful with every LLM inference executed on the Hailo-10H accelerator. The Raspberry Pi CPU may run the operating system, AESIR orchestration, UI, tokenization, storage, and other non-LLM support code; it must never run an LLM inference path or fallback.
+**Goal (fixed by the owner):** implement Project Aesir in Mojo so source models of the right size for this Hailo hardware can run on it; compatible vendor-precompiled catalog models must not define the support boundary. All LLM inference must execute on Hailo-10H. The Raspberry Pi CPU may run the operating system, AESIR orchestration, UI, tokenization, storage, and other non-LLM support code; it must never run an LLM inference path or fallback.
 
-**Current frontier (2026-10-19):** the direct in-process Mojo/C++ HailoRT GenAI backend and canonical CLI are implemented, with device/model readiness, owned lifetime, timeout recovery, chat/reset and response fingerprints evidenced through slices 133–138. Slices 139–140 add a repeatable acceptance runner and pass fresh physical readiness, inference, context preservation/reset and cleanup checks. Slice 141 inventories active and historical format boundaries; the active frontier is slice 142, official catalog candidate selection. The qualified profile is HailoRT/firmware 5.3.0 with Qwen2.5-1.5B-Instruct on Hailo-10H. CPU/CUDA LLM paths and inference proxies remain excluded. H111 describes the historical raw-mailbox experiment, not this supported API route. Checked research slices are evidence/decision artifacts, not 132 implemented runtime features.
+**Current frontier (2026-10-19):** the direct in-process Mojo/C++ HailoRT GenAI backend and canonical CLI are implemented, with device/model readiness, owned lifetime, timeout recovery, chat/reset and response fingerprints evidenced through slices 133–138. Slices 139–140 add a repeatable acceptance runner and pass fresh physical readiness, inference, context preservation/reset and cleanup checks. Slice 141 inventories active and historical format boundaries; catalog candidate selection at slice 142 is withdrawn. The active work is the source-model/compiler gap contract `TASK_hailo10h_mojo_model_execution.md`. The qualified profile is HailoRT/firmware 5.3.0 with Qwen2.5-1.5B-Instruct on Hailo-10H. CPU/CUDA LLM paths and inference proxies remain excluded. H111 describes the historical raw-mailbox experiment, not this supported API route. Checked research slices are evidence/decision artifacts, not 132 implemented runtime features.
 
-**Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Use the direct in-process HailoRT GenAI API and compatible Hailo model artifacts. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
+**Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Implement the Mojo-owned source-model import, lowering, device-program generation and execution needed for the owner's fixed target. The existing vendor-precompiled GenAI route is historical integration evidence and cannot define completion or supported-model scope. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
-**Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the caller and owner of the inference session while HailoRT executes the full LLM pipeline on Hailo-10H. Keep the runtime boundary in-process; Hailo-Ollama is not the target.
+**Slice execution:** Work through the numbered slices in order, completing the action and leaving a reviewable artifact, verified behavior, or evidence-backed decision. Build Æsir as the Mojo owner of the source-model-to-Hailo execution path; close the actual compiler, operation, configuration and transport gaps without substituting a catalog-only product. Keep the runtime boundary in-process; Hailo-Ollama is not the target.
 
 ## Repository-grounded gates
 
@@ -207,7 +214,7 @@ Phase 14 evidence: `TASK_hailo10h_direct_lifecycle.md`, `docs/HAILO10H_SLICE_134
 ## Phase 15: First model feasibility
 
 - [x] **Slice 141.** List Æsir's currently supported model formats and architecture families from repository evidence.
-- [ ] **Slice 142.** Select the first Hailo-10H GenAI catalog model with an artifact compatible with installed HailoRT.
+- [ ] **Slice 142 — WITHDRAWN CATALOG WORK ORDER.** The owner rejected the precompiled-only restriction before this slice was implemented or published. Resume only under `TASK_hailo10h_mojo_model_execution.md`; phase-15 dependent catalog assumptions must be reconciled against the fixed source-model target before execution.
 - [ ] **Slice 143.** Record model license, revision, tokenizer, and architecture metadata.
 - [ ] **Slice 144.** Estimate accelerator memory needs from documented capacity; label estimates rather than measurements.
 - [ ] **Slice 145.** Pin the official Hailo model artifact, tokenizer, source, integrity digest, and license metadata.

@@ -1,3 +1,17 @@
+## 2026-10-19 — Codex (Scribe): unauthorized scope narrowing corrected
+
+- The owner explicitly rejected the precompiled-only target and instructed
+  that the target must never be changed without authorization.
+- Stopped catalog selection immediately. Slice 142 had only read-only source
+  research; no slice-142 implementation or commit was made.
+- Paused the continuation heartbeat and replaced its prompt with the fixed
+  Mojo/source-model objective. Published history remains intact.
+- Superseded the catalog phase contract and added controlling scope notices to
+  the active roadmap, mission, decision log and TODO. Historical GenAI smoke
+  receipts do not establish the owner's source-model/compiler objective.
+- Next work is the Mojo source-model execution gap contract, preserving the
+  owner target and the authorized automatic per-slice publication workflow.
+
 ## 2026-10-19 — Codex (Cartographer, Scribe): Hailo slice 141
 
 - Inventoried the active canonical compiled GenAI artifact route against actual

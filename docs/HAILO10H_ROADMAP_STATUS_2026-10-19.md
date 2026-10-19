@@ -1,3 +1,10 @@
+> **OWNER TARGET CORRECTION — 2026-10-19:** Project Aesir must implement the
+> Mojo path needed to run source models that fit the Hailo-10H hardware. The
+> owner explicitly rejects limiting the product to compatible vendor-precompiled
+> models and forbids changing the target. Earlier catalog-only execution rules
+> in this document are superseded. Historical precompiled-model receipts remain
+> observations, not completion evidence for the owner's actual objective.
+
 # Project Aesir roadmap status — 2026-10-19
 
 This inventory distinguishes the branches inspected during the owner's request

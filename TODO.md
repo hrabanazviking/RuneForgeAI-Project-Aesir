@@ -1,3 +1,15 @@
+## Owner target authority — 2026-10-19
+
+- Fixed target: Project Aesir in Mojo must provide the source-model execution
+  path for models of the right size for Hailo-10H. The owner prohibits target
+  changes and rejects a compatible-vendor-precompiled-model limitation.
+- Vendor catalog slice 142 and its dependent precompiled-only work orders are
+  withdrawn before implementation; prior receipts remain historical evidence.
+- Active next work: `TASK_hailo10h_mojo_model_execution.md` — inspect and close
+  source import, operation lowering, device configuration and transport gaps.
+- Preserve the automatic complete → verify → publish → next-slice workflow
+  under this fixed target. Never mark a narrower substitute as completion.
+
 ## 2026-10-19 — Active Hailo-only campaign
 
 - [x] Reconcile the existing Hailo branch through slices 133–138 against its

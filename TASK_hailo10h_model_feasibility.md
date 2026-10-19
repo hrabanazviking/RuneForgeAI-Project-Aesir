@@ -1,3 +1,9 @@
+> **SUPERSEDED — OWNER CORRECTION 2026-10-19.** Stop the vendor-catalog
+> selection and precompiled-only progression described here. The owner did not
+> authorize changing the target to a precompiled-model product. This contract
+> is retained as history and does not authorize further implementation.
+> Active contract: `TASK_hailo10h_mojo_model_execution.md`.
+
 # Hailo-10H first-model feasibility: slices 141–150
 
 Date: 2026-10-19. Status: contracted before implementation.
