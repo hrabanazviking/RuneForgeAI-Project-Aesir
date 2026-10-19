@@ -5,8 +5,11 @@
   changes and rejects a compatible-vendor-precompiled-model limitation.
 - Vendor catalog slice 142 and its dependent precompiled-only work orders are
   withdrawn before implementation; prior receipts remain historical evidence.
-- Active next work: `TASK_hailo10h_mojo_model_execution.md` — inspect and close
-  source import, operation lowering, device configuration and transport gaps.
+- Active parent: `TASK_hailo10h_mojo_model_execution.md`. Mojo integrated RPC
+  framing is verified; next work is PCIe session and typed-request lifecycle,
+  then a bounded read-only round-trip. Source import/lowering/configuration
+  generation remain part of the same fixed target. See
+  `docs/HAILO10H_SOURCE_EXECUTION_PROGRESS.md`.
 - Preserve the automatic complete → verify → publish → next-slice workflow
   under this fixed target. Never mark a narrower substitute as completion.
 

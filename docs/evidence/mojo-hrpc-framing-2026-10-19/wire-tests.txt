@@ -1,0 +1,13 @@
+test_body_boundaries_and_all_uint32_fields (__main__.NativeFrameTests.test_body_boundaries_and_all_uint32_fields) ... ok
+test_dma_mode_requires_exact_padded_buffer (__main__.NativeFrameTests.test_dma_mode_requires_exact_padded_buffer) ... ok
+test_every_truncated_header_rejects (__main__.NativeFrameTests.test_every_truncated_header_rejects) ... ok
+test_fixed_independent_wire_vector (__main__.NativeFrameTests.test_fixed_independent_wire_vector) ... ok
+test_hex_and_mode_arguments_reject_before_decode (__main__.NativeFrameTests.test_hex_and_mode_arguments_reject_before_decode) ... ok
+test_magic_length_truncation_and_extra_bytes_reject (__main__.NativeFrameTests.test_magic_length_truncation_and_extra_bytes_reject) ... ok
+test_padded_dma_does_not_leak_padding_into_payload (__main__.NativeFrameTests.test_padded_dma_does_not_leak_padding_into_payload) ... ok
+test_seeded_independent_vectors (__main__.NativeFrameTests.test_seeded_independent_vectors) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.260s
+
+OK

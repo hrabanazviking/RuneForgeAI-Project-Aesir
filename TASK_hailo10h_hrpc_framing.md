@@ -1,6 +1,6 @@
 # Mojo integrated-device RPC framing
 
-Date: 2026-10-19. Status: contracted before implementation.
+Date: 2026-10-19. Status: implemented; native and independent wire/API acceptance pass.
 Parent objective: `TASK_hailo10h_mojo_model_execution.md`; the owner target
 remains source models on Hailo-10H through Mojo, without a precompiled-only
 model restriction.

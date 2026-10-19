@@ -88,3 +88,24 @@ GPL-2.0 terms additionally confirm why no driver code may enter this tree
   prose, cited evidence per claim, UNCORROBORATED marking where live
   probing could not confirm). The study names the exact doorbell offset
   and one side-effect-free control command that H102 attempts live.
+
+## 2026-10-19 — Integrated-device source-execution transport research
+
+- Pinned HailoRT v5.3.0 revision:
+  `d503417f2a0db186a838390fb08690c4ea0f415e`.
+- License gate: `hailort/LICENSE` read and confirmed MIT before implementation
+  source study. The historical deeper license path returned 404; the pinned
+  tree provided the correct root path.
+- Studied: `hailort/hrpc/rpc_connection.hpp`, `.cpp`,
+  `hrpc/session_internal/pcie_session_internal.cpp`, `hrpc_protocol/rpc.proto`,
+  `libhailort/src/device/device_hrpc_client.cpp`, and
+  `libhailort/src/vdma/integrated/integrated_device.cpp`.
+- Extracted protocol/interface facts only. No implementation code copied,
+  translated or vendored. Original Mojo envelope implementation has a real
+  native inspector and independent byte-vector/ownership/refusal evidence.
+- Source copies stay outside this repository. No vendor code was built,
+  installed or executed for the study, and no device state was changed.
+- Independent source-compilation research license was read at project revision
+  `c870419f7d6315e1277e06a9fa5eadd955b8e1af` (MIT); its public findings and
+  dependency boundary were surveyed. Its DFC/proxy pipeline is not adopted.
+- Receipt and source links: `docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`.

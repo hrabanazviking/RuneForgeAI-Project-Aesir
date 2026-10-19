@@ -96,6 +96,22 @@ device IRQs need MSI-X eventfds (F3-banked).
 | `fw_stage_verify` | `(arch: String, path: String, expected: String) raises` | `FirmwareCorrupt` |
 | `BootPoller` / `ReadyPoller` | structs | `FirmwareBootTimeout` / `DeviceNotReady` |
 
+## Integrated-device RPC envelope
+
+`hailbru.hrpc_frame` owns a pure-Mojo, non-device envelope codec for the
+little-endian HailoRT v5.3.0 host protocol. It does not submit work or execute
+models. `HrpcFrame` owns UInt32 message/action/remote-status values and copied
+opaque body bytes. `encode_hrpc_frame` emits the exact logical packet;
+`decode_hrpc_frame(data, padded_dma_buffer=False)` validates the 20-byte header,
+magic, 2048-byte body maximum and exact packet size. Explicit padded mode
+requires a 2068-byte DMA message and excludes trailing bytes from the body.
+Unknown actions and nonzero remote statuses are preserved, not interpreted.
+Malformed frames raise `BadRpcFrame`; the native hex tool raises `BadRpcHex`
+for invalid or excessive hex input. No device round-trip is implied.
+
+Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
+Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
+
 ## Thread-safety
 
 HAILBRÚ has **no mutable globals** (verified by grep: zero module-level

@@ -12,6 +12,9 @@ No studied implementation is copied, translated or vendored in this work.
 The existing clean-room log records HailoRT's MIT license. Revalidate against
 the exact v5.3.0 source license before implementation-source study. The pinned
 official runtime revision is `d503417f2a0db186a838390fb08690c4ea0f415e`.
+Its actual license path is `hailort/LICENSE`, read and confirmed MIT on
+2026-10-19; the historical `hailort/libhailort/LICENSE` path no longer exists
+at that revision.
 
 Independent project `l-nmch/hailo-10h-llm-compiler` at
 `c870419f7d6315e1277e06a9fa5eadd955b8e1af` has an MIT license, read before
@@ -49,6 +52,27 @@ without importing those dependencies or substituting its objective.
    output before extending graph or model coverage.
 4. Connect existing source-model parsing to the owned compiler representation
    and resource plan, with a real consumer and explicit device-generation gaps.
+
+## Pinned-source transport finding — 2026-10-19
+
+Studied official files `hailort/hrpc/rpc_connection.hpp`, `.cpp`,
+`session_internal/pcie_session_internal.cpp`, `hrpc_protocol/rpc.proto`, and
+`libhailort/src/device/device_hrpc_client.cpp`. The host-side device create /
+identify operations use typed RPC requests over a PCIe session. The RPC
+envelope has five 32-bit fields and a 2048-byte body maximum; the little-endian
+host profile is implemented independently in `hailbru/hrpc_frame.mojo`.
+
+This gives an alternate control-transport lead to the historical mailbox.
+The source-level connection is established; an independent Mojo device
+round-trip still needs its own physical acceptance. Framing tests alone
+cannot prove it.
+
+The generic infer-model RPC names an executable-container byte length and
+transfers those bytes separately. That is a container-loading interface,
+not proof that only a vendor catalog model could ever be used. Aesir's
+source compiler must produce the actual device program and required metadata;
+repacking metadata without valid compute contexts would not satisfy the goal.
+Executable contexts / operation encoding remain a separate investigation.
 
 Research findings are hypotheses until their named independent or physical
 gate passes. An opaque field is an engineering problem to investigate; it

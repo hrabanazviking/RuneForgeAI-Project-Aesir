@@ -1,3 +1,17 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo integrated RPC framing
+
+- Kept the fixed source-model/Mojo target; published the experiment contract
+  before implementation. Investigated the actual PCIe-session RPC path rather
+  than repeating the historical raw-mailbox assumption.
+- Added `hailbru/hrpc_frame.mojo` and a real native SMIÐR frame inspector.
+  The independent implementation preserves opaque payloads, all UInt32 IDs /
+  remote statuses, enforces protocol lengths and separates explicit DMA padding.
+- Both native builds pass. Eight Python wire-test methods (including 32
+  seeded independent cases) and the direct Mojo ownership/outbound-refusal
+  checks pass. No device or model was opened in these structural checks.
+- Receipt: `docs/HAILO10H_MOJO_HRPC_FRAMING.md`. Full compiler and independent
+  device round-trip remain open. Next: PCIe session and typed-request lifecycle.
+
 ## 2026-10-19 — Codex (Scribe): unauthorized scope narrowing corrected
 
 - The owner explicitly rejected the precompiled-only target and instructed

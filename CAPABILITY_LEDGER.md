@@ -2618,3 +2618,20 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   Strict word-only recall formatting fails in this qualified model.
   No general model quality, throughput, per-layer telemetry, service packaging,
   additional runtime/platform compatibility or full-roadmap completion claim.
+
+## Mojo source-model execution target — 2026-10-19 owner correction
+
+- **Status:** `missing` for the complete source-model-to-Hailo execution path.
+  Existing loaders, protocol primitives and vendor-precompiled smoke evidence
+  do not complete this capability or limit its intended model scope.
+- **Owner target:** Project Aesir in Mojo must run source models of the right
+  size for Hailo-10H. Only an explicit owner instruction may change the target.
+- **Current narrow verified primitive:** `hailbru/hrpc_frame.mojo` implements
+  the pinned integrated-device RPC envelope and is consumed by the native
+  `smidr/tools/hrpc_frame.mojo` inspector. Eight independent Python wire-test
+  methods plus direct Mojo API refusal/ownership checks pass. See
+  `docs/HAILO10H_MOJO_HRPC_FRAMING.md`.
+- **Boundary:** host framing validation only; no independent device round-trip,
+  new compute encoding, source compilation or LLM inference is claimed.
+- **Next:** PCIe session/request lifecycle, then bounded read-only physical
+  round-trip, alongside the actual source compiler/configuration gaps.

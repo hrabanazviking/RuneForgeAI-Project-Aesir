@@ -224,3 +224,12 @@ toolchain installation on the build host; libstdc++/libgcc_s are
 © the GCC project (GPL with the GCC Runtime Library Exception, which
 permits linking and redistribution with independent programs). No
 other third-party code is bundled.
+
+## Integrated-device protocol study (2026-10-19)
+
+Hailo Technologies' MIT-licensed HailoRT v5.3.0 source at
+`d503417f2a0db186a838390fb08690c4ea0f415e` was studied for protocol and
+interface facts. The independently authored Mojo RPC envelope codec copies no
+vendor implementation. See `CLEAN_ROOM_LOG.md` and
+`docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`. The existing linked
+runtime and its attribution above are separate from this source study.
