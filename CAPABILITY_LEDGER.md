@@ -2635,3 +2635,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   new compute encoding, source compilation or LLM inference is claimed.
 - **Next:** PCIe session/request lifecycle, then bounded read-only physical
   round-trip, alongside the actual source compiler/configuration gaps.
+
+### Owned Mojo typed device-control protocol
+
+- **Status:** `verified` only as a host wire-message primitive. The complete
+  source-model compiler and physical Mojo session remain open.
+- **Owner:** `hailbru/hrpc_device.mojo`; caller is the native
+  `smidr/tools/hrpc_device.mojo` constructor/inspector.
+- **Evidence:** native build plus ten independent google.protobuf-backed test
+  methods. Zero handles, unknown fields, numeric identity presence/defaults,
+  correlated replies, remote failures and malformed message boundaries pass.
+  See `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+- **Boundary:** pinned v5.3.0 control-message subset; no device/model access,
+  general protobuf runtime, physical round-trip or source compilation claim.

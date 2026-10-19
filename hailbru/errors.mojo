@@ -29,4 +29,4 @@ def errno_error(op: String, path: String, e: Int64) -> Error:
 #   VendorMirrorMismatch, StepOmitted, BootHang, FirmwareBootBanked,
 #   DeviceRemoved, DeviceBusy
 # Source-model transport additions:
-#   BadRpcFrame, BadRpcHex
+#   BadRpcFrame, BadRpcHex, BadRpcProtobuf, RpcReplyMismatch, RpcRemoteFailure

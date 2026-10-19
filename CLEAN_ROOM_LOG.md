@@ -109,3 +109,15 @@ GPL-2.0 terms additionally confirm why no driver code may enter this tree
   `c870419f7d6315e1277e06a9fa5eadd955b8e1af` (MIT); its public findings and
   dependency boundary were surveyed. Its DFC/proxy pipeline is not adopted.
 - Receipt and source links: `docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`.
+
+### 2026-10-19 — Typed integrated-device requests and session lifecycle
+
+At the same MIT-licensed HailoRT revision `d503417`, studied
+`hrpc_protocol/serializer.hpp`, `hrpc/client.cpp`,
+`libhailort/src/vdma/pcie_session.cpp`, `.hpp` and
+`vdma/driver/hailort_driver.cpp`, `.hpp`. Recorded protocol/interface facts:
+create/identify/destroy enum indices, nested proto3 field contracts, descriptor
+ownership, assigned channels and close/cancel ordering. Independently authored
+Mojo code uses those facts; no vendor implementation was copied or translated.
+The external test-only protobuf 6.33.6 runtime is an independent oracle, not a
+shipped or newly installed runtime dependency. No device was touched in tests.

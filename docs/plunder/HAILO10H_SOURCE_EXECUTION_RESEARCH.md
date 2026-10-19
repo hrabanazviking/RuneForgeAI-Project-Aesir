@@ -84,3 +84,24 @@ does not authorize changing the target or declaring success.
 - [Independent author's source-compilation report](https://community.hailo.ai/t/i-compiled-an-llm-for-the-hailo-10h/19685)
 - [Independent research revision](https://github.com/l-nmch/hailo-10h-llm-compiler/tree/c870419f7d6315e1277e06a9fa5eadd955b8e1af)
 - Existing H019/H102/H105 evidence in this repository, retained as dated results.
+
+## Session lifecycle and typed-message continuation
+
+Pinned `pcie_session.cpp` creates separate descriptor lists before
+`soc_connect` returns assigned channel IDs. Channels and interrupt dispatch
+are initialized before activation. Shutdown deactivates owned host work,
+stops dispatch, closes the assigned connection to abort DMA, then cancels
+pending storage. The matching driver ABI and complete ownership must be
+reconciled before live use.
+
+`serializer.hpp` yields action indices create=20, destroy=21, identify=22.
+The independently implemented Mojo messages follow the public `rpc.proto`
+field definitions, preserving zero handles and optional firmware presence.
+The native tool passes the independent protobuf oracle; this remains host
+wire evidence, not a live query.
+
+The 2068-byte RPC message-buffer size must not be confused with a final
+physical PCIe transfer size/alignment. The low-level session interface also
+names alignment and synchronized transfer-pattern requirements. Resolve that
+layer explicitly before live DMA rather than assuming a framing buffer is
+already a valid transfer.

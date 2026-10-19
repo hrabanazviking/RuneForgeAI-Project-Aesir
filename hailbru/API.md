@@ -112,6 +112,25 @@ for invalid or excessive hex input. No device round-trip is implied.
 Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
 Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
 
+`hailbru.hrpc_device` adds the pinned create/identify/destroy control messages.
+`device_*_request(message_id[, handle])` returns an owned `HrpcFrame`.
+`device_create_reply(frame, expected_message_id)` returns the UInt32 handle;
+`device_identify_reply` returns observed numeric protocol/firmware/logger /
+architecture fields plus explicit firmware-message presence. It never assumes
+that absent/default identity fields prove Hailo-10H. `device_destroy_reply`
+checks correlated success and bounded wire validity without asserting a live
+device operation. Zero handles are valid protobuf values and are preserved.
+
+This is a bounded proto3 subset, not a general protobuf runtime. It skips
+unknown varint/fixed64/length-delimited/fixed32 fields, rejects duplicate
+recognized singular fields, invalid keys, wrong known wire types, out-of-range
+integers, length overruns and malformed varints. Correlation and remote-status
+failure precede body decoding. Named errors are `BadRpcProtobuf`,
+`RpcReplyMismatch` and `RpcRemoteFailure`.
+
+Caller: native `smidr/tools/hrpc_device.mojo` and the planned owned session
+client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+
 ## Thread-safety
 
 HAILBRÚ has **no mutable globals** (verified by grep: zero module-level

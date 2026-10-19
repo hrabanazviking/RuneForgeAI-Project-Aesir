@@ -1,0 +1,15 @@
+test_argument_bounds_and_unknown_modes (__main__.NativeDeviceMessages.test_argument_bounds_and_unknown_modes) ... ok
+test_create_replies_match_independent_protobuf (__main__.NativeDeviceMessages.test_create_replies_match_independent_protobuf) ... ok
+test_create_request_matches_independent_protobuf (__main__.NativeDeviceMessages.test_create_request_matches_independent_protobuf) ... ok
+test_duplicate_identity_and_firmware_fields_reject (__main__.NativeDeviceMessages.test_duplicate_identity_and_firmware_fields_reject) ... ok
+test_empty_present_identity_is_not_fabricated_as_hailo10h (__main__.NativeDeviceMessages.test_empty_present_identity_is_not_fabricated_as_hailo10h) ... ok
+test_handle_requests_include_valid_zero_handle_presence (__main__.NativeDeviceMessages.test_handle_requests_include_valid_zero_handle_presence) ... ok
+test_identity_numeric_fields_and_optional_firmware_presence (__main__.NativeDeviceMessages.test_identity_numeric_fields_and_optional_firmware_presence) ... ok
+test_malformed_nested_and_unknown_fields_fail_closed (__main__.NativeDeviceMessages.test_malformed_nested_and_unknown_fields_fail_closed) ... ok
+test_reply_ids_actions_and_remote_errors_precede_body_parsing (__main__.NativeDeviceMessages.test_reply_ids_actions_and_remote_errors_precede_body_parsing) ... ok
+test_unknown_field_wire_types_are_skipped_safely (__main__.NativeDeviceMessages.test_unknown_field_wire_types_are_skipped_safely) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.488s
+
+OK

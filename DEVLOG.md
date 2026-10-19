@@ -1,3 +1,18 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo typed device protocol
+
+- Implemented pinned device create/identify/destroy messages and a bounded
+  proto3 subset in HAILBRÚ, consumed by a real native SMIÐR tool. No model or
+  device is opened by the tool or these tests.
+- Native build passes. Ten independent test methods pass using installed
+  google.protobuf 6.33.6: complete request bytes, valid zero handles, identity
+  defaults/presence, unknown fields, correlations, remote errors and malformed
+  wire data. Duplicate recognized fields reject explicitly.
+- Checked action IDs 20/21/22 against the pinned source enum. Mapped session
+  resource setup and close-before-buffer-release ordering from source.
+- Receipt: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`. The live Mojo session
+  and source-model compiler remain required. Next: running driver ABI and
+  owned descriptor/channel/transfer lifecycle, then physical control proof.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo integrated RPC framing
 
 - Kept the fixed source-model/Mojo target; published the experiment contract

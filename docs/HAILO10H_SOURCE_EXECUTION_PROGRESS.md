@@ -10,7 +10,8 @@ verify, publish and advance each bounded work slice.
 | Work slice | State | Evidence / next action |
 |---|---|---|
 | Integrated-device envelope | Verified as a host protocol primitive | `HAILO10H_MOJO_HRPC_FRAMING.md`; native tool, independent wire checks and ownership/refusal checks pass. |
-| PCIe session and typed requests | Next | Map actual driver/session/resource ownership and request lifecycle from the pinned interfaces. |
+| Typed device requests/replies | Verified as a host wire primitive | `HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`; native tool and ten independent protobuf-backed test methods pass. |
+| PCIe session / running driver ABI | Next | Reconcile exact descriptor/channel/transfer ABI and implement complete ownership and cleanup. |
 | Independent Mojo read-only device round-trip | Pending session work | Must identify the actual device with response correlation and complete cleanup. |
 | Source-model compiler representation / resource planning | Existing parsers; compiler connection open | Connect real source metadata/tensors to owned lowering inputs and resource estimates. |
 | Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |
