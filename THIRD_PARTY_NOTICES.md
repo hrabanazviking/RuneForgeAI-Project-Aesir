@@ -13,7 +13,7 @@ produced original prose only, per the clean-room workflow (see
 GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
 Copyright (C) 1989, 1991 Free Software Foundation, Inc.
 
-## HailoRT (study only — no code taken)
+## HailoRT historical study (2026-10-10 — no code taken)
 
 The HEF container format documented in
 `docs/plunder/HAILO_HEF_CONTAINER_GUIDE.md` was studied from the
@@ -21,10 +21,67 @@ hailo-ai/HailoRT repository (commit `f519590`, "v5.4.0", cloned
 2026-10-10). No code from this repository was copied, translated, vendored,
 linked, or shipped; the study produced original prose only, per the
 clean-room workflow (see `CLEAN_ROOM_LOG.md`). No `.hef` file was
-downloaded, opened, or parsed.
+downloaded, opened, or parsed during that study. This historical study
+statement does not describe the direct linked runtime added on 2026-10-12.
 
 The MIT License (MIT)
 Copyright (c) 2019-2026 Hailo Technologies Ltd.
+
+## HailoRT direct linked runtime (2026-10-12)
+
+The current Hailo-10H integration links the installed HailoRT 5.3.0 GenAI
+runtime through Æsir's own narrow C ABI bridge. No HailoRT implementation
+source is copied or vendored. The installed GenAI API header and package
+copyright identify Hailo Technologies and MIT licensing. This is a separate
+use from the historical clean-room studies above. Approval, dependency
+versions, and external model-artifact provenance are recorded in
+`docs/DEPENDENCIES.md` and `docs/HAILO10H_DECISION_LOG.md`.
+
+The MIT License (MIT)
+
+Copyright (c) 2019-2026 Hailo Technologies Ltd.
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+The bridge also links the system GNU C++ standard runtime. Its installed
+`libstdc++6` package copyright record identifies GPLv3 or later with the GCC
+Runtime Library Exception 3.1. This source change does not vendor that runtime,
+Hailo device firmware, or model weights. The compatible HEF used for the
+narrow smoke remains an external local artifact; retain its own model and
+compiled-artifact license record before packaging or redistributing it.
+HailoRT's MIT license is not evidence of the model's license.
+
+## OpenSSL linked digest API (2026-10-12)
+
+The direct Hailo bridge links the installed OpenSSL 3.0.22 `libcrypto` EVP
+digest API for model-file SHA-256 integrity. It performs ordinary host file
+hashing, not LLM computation, and does not use an inference or network service.
+No OpenSSL source is copied or vendored, and the existing installed package is
+used without package changes. Slice 138 fingerprint/provenance acceptance is
+being qualified separately.
+
+The installed `libssl3` package copyright identifies the OpenSSL Project
+Authors and contributors and the Apache License 2.0. Preserve applicable
+copyright, license, and notice material if redistributing covered components.
+See the [OpenSSL license](https://www.openssl.org/source/license.html) and
+[official EVP digest API](https://docs.openssl.org/3.0/man3/EVP_DigestInit/).
+Dependency scope and version are recorded in `docs/DEPENDENCIES.md`.
 
 ## ggml / llama.cpp format and architecture reference
 
@@ -106,7 +163,11 @@ authorization of the copyright holder.
 
 ## H194 finalization (MÍMISBRUNNR Campaign 10, 2026-10-10)
 
-### Clean-room statement
+### Historical clean-room statement
+
+The following statement records the 2026-10-10 campaign, whose CPU inference
+release direction is withdrawn by the current owner scope. It does not assert
+the dependency state of the direct Hailo-10H integration described above.
 
 All vendor artifacts (hailort-drivers, HailoRT) were STUDIED ONLY under
 the clean-room workflow: readers produced prose notes, implementers
@@ -131,7 +192,7 @@ or test hosts.
   `data/gauntlet/victory_gate_1.json` with name, URL, and SHA-256. Both
   inside the GGUF-or-safetensors envelope Aesir's loaders support.
 
-### Shipped binary dependency-closure license scan (H194)
+### Historical shipped binary dependency-closure license scan (H194)
 
 Method (recorded, reproducible on Mimir):
 1. `ldd build/f1_infer` — dynamic linkage must show POSIX libc/libm/
@@ -150,7 +211,7 @@ no HEF, no firmware blobs in the package (separately verified by
 `scripts/package_f1_release.sh` artifact scan and
 `prof/gauntlet/test_packaging.py`).
 
-## Bundled runtime libraries (H190 packaging, 2026-10-11)
+## Historical bundled runtime libraries (H190 packaging, 2026-10-11)
 
 The release tarball bundles, unmodified, the Mojo 1.1.0 toolchain
 runtime libraries that `f1_infer` dynamically links against
@@ -163,3 +224,19 @@ toolchain installation on the build host; libstdc++/libgcc_s are
 © the GCC project (GPL with the GCC Runtime Library Exception, which
 permits linking and redistribution with independent programs). No
 other third-party code is bundled.
+
+## Integrated-device protocol study (2026-10-19)
+
+Hailo Technologies' MIT-licensed HailoRT v5.3.0 source at
+`d503417f2a0db186a838390fb08690c4ea0f415e` was studied for protocol and
+interface facts. The independently authored Mojo RPC envelope codec copies no
+vendor implementation. See `CLEAN_ROOM_LOG.md` and
+`docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`. The existing linked
+runtime and its attribution above are separate from this source study.
+
+The installed 5.3.0 driver UAPI header (SPDX
+`(GPL-2.0 WITH Linux-syscall-note) AND MIT`) is included only by the test-only
+`tests/hailo_soc_abi_oracle.cpp` layout/byte oracle. The operator supplies the
+installed header; this repository ships no copy. Production Mojo contains
+independently authored codecs using interface facts, without driver source or
+oracle linkage. See `docs/HAILO10H_MOJO_SOC_ABI.md` and `CLEAN_ROOM_LOG.md`.

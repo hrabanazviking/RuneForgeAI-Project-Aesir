@@ -3,14 +3,16 @@
 **Ledger version:** Application S19 compatibility streaming, September 22, 2026
 
 This is the canonical source of truth for the current implementation status of
-Project A.E.S.I.R. Vision documents describe desired direction; task files and
+Project A.E.S.I.R.
+
+**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. The canonical Hailo CLI uses the direct backend described below; unsupported or unavailable inference must fail closed. The ARMVEGR CPU LLM inference CLI and direct inference methods now raise CpuInferenceProhibited before inference math; their underlying historical kernels remain in source but are not an authorized or available runtime route. CPU capability entries below are historical records only and do not authorize further CPU work. Vision documents describe desired direction; task files and
 devlogs describe work at a point in time; names, banners, and test titles describe
 interfaces. None of those supersede this ledger's present-tense capability
 statuses.
 
 The ledger intentionally separates narrow working primitives from the broader
-systems they may eventually support. A `verified` CPU fallback does not verify a
-GPU. A tested JSON formatter does not verify an HTTP API. A deterministic local
+systems they may eventually support. A verified host primitive does not verify Hailo hardware. A tested JSON
+formatter does not verify an HTTP API. A deterministic local
 simulation can be well tested and still remain `simulated`.
 
 ## 1. Status Contract
@@ -81,8 +83,8 @@ the complete ledger population.
 
 | Status | Count |
 |---|---:|
-| `verified` | 76 |
-| `partial` | 28 |
+| `verified` | 75 |
+| `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
@@ -450,13 +452,13 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Executable evidence:** `E-ARMVEGR-ORACLE` (attn 2.4e-07; MHA 2.4e-04 vs naive fp64); `E-ARMVEGR-VERIFY` (seq vs par bit-identical).
 - **Evidence boundary:** attn 4.87 GFLOPS (seq512_hd64); MHA 6.43 GFLOPS (seq128_nh8_hd64) (`E-ARMVEGR-PERF`).
 
-### AES-ARM-011 — Backend selection, CPU stage (H036)
+### AES-ARM-011 — Backend selection, Hailo-only fail-closed gate (H036)
 
-- **Status:** `verified`
-- **Owner:** ARMVEGR domain (D1)
-- **Implementation evidence:** `armvegr/backend.mojo::select_backend` — every op resolves to CPU with a logged reason; NPU stub exists, compiles, is never selected (fail-closed).
-- **Executable evidence:** `E-ARMVEGR-VERIFY` (20/20 decisions → CPU; no code path returns NPU; stub never ready).
-- **Evidence boundary:** CPU stage only; D4 SKIPTI will extend the interface.
+- **Status:** `partial`
+- **Owner:** Project operations / Hailo backend
+- **Implementation evidence:** `armvegr/backend.mojo::select_backend` rejects CPU and AUTO requests and reports Hailo unavailable; `aesir_engine/aesir.mojo::validate_runtime_backend_config` and every public `forward_pass` entrypoint reject CPU, ARM_NEON, GPU, and unimplemented Hailo execution before model arithmetic begins.
+- **Executable evidence:** No post-change execution evidence has been collected. The prior `E-ARMVEGR-VERIFY` CPU-routing result is historical and does not validate the new fail-closed policy.
+- **Evidence boundary:** This prevents currently inspected engine entrypoints from routing to CPU but does not establish a working Hailo backend or prove every auxiliary CLI path is gated. The Hailo-only audit and hardware integration remain open.
 
 ### AES-ARM-012 — Toy forward pass composition (H039)
 
@@ -2503,7 +2505,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   encoding remains explicitly UNKNOWN (0xFFFFFFFF sentinel, not invented).
 
 ## F1 CPU Pipeline (Campaign 7, H136–H140) — 2026-10-10
-- **Status:** `F1-COMPLETE` — the pure-Mojo ARM64 CPU engine is production-grade.
+- **Status:** `withdrawn / disabled by owner scope (2026-10-12)` — historical CPU implementation only; its CLI and direct inference entrypoints now fail closed. It is not an active product path.
 - **Owner:** ARMVEGR domain (D1), NO-GO branch (H111 closed the NPU path).
 - **Implementation evidence:** `armvegr/infer.mojo` v0.2.0 (fail-closed guards,
   shape validation, reset/prefill/free, forward_nocache reference, shallow_copy);
@@ -2518,13 +2520,12 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   2.05 tok/s vs 2.12 unbatched (×0.97, honest); H136 kvcheck 3/3 probes
   bit-identical (0.0); H137 batch/session 3/3 tests + 3/3 guards;
   H138 3/3 prompts × 64 tok, all 6 rubric items pass; H139 50/50 CPU + 5/5 NPU errors.
-- **Gaps closed (5):** end-to-end prefill+decode; batching+context; production
-  config surface; coherence proof; honest CPU-only AUTO.
+- **Historical evidence only:** prior CPU measurements and tests describe the old implementation; they do not establish a currently callable inference path or authorize CPU work.
 - **Non-claims:** no NPU compute (H111 NO-GO); decode speed is sampler-bound,
   not a hardware limit; no multi-node.
 
 ## Vörðr Robustness (Campaign 8, H141–H160) — 2026-10-10
-- **Status:** `COMPLETE` — the warden for the F1 CPU engine + Hailo device health.
+- **Status:** `historical / CPU inference supervision withdrawn (2026-10-12)` — Hailo device-health primitives remain recorded, but CPU inference supervision is outside owner scope.
   NPU-referencing slices received honest Sólrún audit treatment (`docs/vordr/SOLRUN_AUDIT_C8.md`):
   H150 = CPU numerics cross-check (shadow-verify F1 SIMD kernel vs independent scalar
   reference, the H059R1-proven pattern); H157 = CPU-pipeline stage retry via scalar
@@ -2551,9 +2552,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   this kernel; Vörðr never touches device registers (L6/L12 — all resets via HAILBRÚ).
 
 ## Speed Optimization (Campaign 9, H161–H180) — 2026-10-10
-- **Status:** `COMPLETE` — verdict STRONG PASS (`docs/bench/C9_REVIEW.md`).
-  Measured optimization of the F1 CPU path on Mimir (H111 NO-GO stands:
-  H171/H172 GO-gated slices SKIPPED per docs/fallback/RESCOPED_PLAN.md).
+- **Status:** `historical / CPU inference optimization withdrawn (2026-10-12)` — prior benchmark records remain archival; no CPU LLM optimization is in scope.
 - **Implementation evidence:** `bench/` harness (`bench_env.mojo`: env capture,
   TrialStats median/min/max/stddev, thermal settle; `bench_kernels.mojo`: 22 C2
   kernels at H038 shapes; `run_bench.mojo`: kernels/gemm_tuned/prefill/decode/
@@ -2567,9 +2566,7 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   state it actually observed — it never claims pinned clocks it did not verify.
 
 ## GAUNTLET Production Hardening (Campaign 10, H181–H200) — 2026-10-10
-- **Status:** `COMPLETE` — the F1 CPU trunk judged production-grade by the
-  GAUNTLET measurement framework (H184 NPU soak SKIPPED: H111 was NO-GO,
-  per docs/fallback/RESCOPED_PLAN.md).
+- **Status:** `historical / CPU inference release path withdrawn (2026-10-12)` — prior CPU-only measurements and packaging records are archival, not a current release claim or authorized roadmap.
 - **Owner:** D7 GAUNTLET domain — measures and judges ONLY; never touches
   implementation code (architectural self-test: gauntlet/*.mojo imports
   std-only, zero repair/recovery/fix references, machine-checked by
@@ -2593,3 +2590,87 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Non-claims:** no NPU compute (H111 NO-GO stands — the Hailo-10 compute
   wall held); no "any model format" claim (GGUF-or-safetensors envelope
   per Aesir's loaders); no Python in the shipped package.
+
+## Direct Hailo-10H application backend — 2026-10-19
+
+- **Status:** `partial` overall; the narrow HailoRT 5.3.0 / Qwen2.5-1.5B
+  canonical CLI is physically evidenced by slices 134–138. This is a dedicated
+  backend, separate from historical generic NPU-dispatch entries.
+- **Owner:** AESIR orchestration (`hailo10h_direct.mojo`, `hailo10h_bridge.cpp`,
+  `cli/hailo_commands.mojo`); in-process HailoRT owns device model execution.
+- **Evidence:** readiness/lifetime/recovery/CLI/provenance receipts in
+  `docs/HAILO10H_SLICE_134_READINESS.md` through
+  `docs/HAILO10H_SLICE_138_PROVENANCE.md`.
+- **Slice 139:** `tests/test_hailo10h_hardware.py` is a physical acceptance seam
+  with explicit artifact/binary/profile, independent hashes before/after runs,
+  retained raw failures, strict provenance and ordered chat-context gates.
+  Seven synthetic validator tests pass; they prove rejection logic only.
+  Eleven local C ABI/CLI tests pass with one hardware class explicitly skipped.
+  FIFO, FIFO symlink, empty-file and directory model arguments reject promptly
+  before device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
+- **Slice 140 (physical):** the fresh canonical-CLI acceptance passes readiness,
+  single-shot arithmetic, persistent recall, context-overflow rejection without
+  mutation, reset-to-zero and post-reset generation. All source/binary/library/
+  profile/model hashes remain unchanged. Final-source boundary/lifecycle tests
+  pass 12/12; Mojo exception cleanup and repeat close pass. See
+  `docs/HAILO10H_SLICE_140_SMOKE.md` and its public receipt/transcript.
+- **Next gate:** slices 141–150 formal model/artifact compatibility acceptance.
+  Strict word-only recall formatting fails in this qualified model.
+  No general model quality, throughput, per-layer telemetry, service packaging,
+  additional runtime/platform compatibility or full-roadmap completion claim.
+
+## Mojo source-model execution target — 2026-10-19 owner correction
+
+- **Status:** `missing` for the complete source-model-to-Hailo execution path.
+  Existing loaders, protocol primitives and vendor-precompiled smoke evidence
+  do not complete this capability or limit its intended model scope.
+- **Owner target:** Project Aesir in Mojo must run source models of the right
+  size for Hailo-10H. Only an explicit owner instruction may change the target.
+- **Current narrow verified primitive:** `hailbru/hrpc_frame.mojo` implements
+  the pinned integrated-device RPC envelope and is consumed by the native
+  `smidr/tools/hrpc_frame.mojo` inspector. Eight independent Python wire-test
+  methods plus direct Mojo API refusal/ownership checks pass. See
+  `docs/HAILO10H_MOJO_HRPC_FRAMING.md`.
+- **Boundary:** host framing validation only; no independent device round-trip,
+  new compute encoding, source compilation or LLM inference is claimed.
+- **Next:** PCIe session/request lifecycle, then bounded read-only physical
+  round-trip, alongside the actual source compiler/configuration gaps.
+
+### Owned Mojo typed device-control protocol
+
+- **Status:** `verified` only as a host wire-message primitive. The complete
+  source-model compiler and physical Mojo session remain open.
+- **Owner:** `hailbru/hrpc_device.mojo`; caller is the native
+  `smidr/tools/hrpc_device.mojo` constructor/inspector.
+- **Evidence:** native build plus ten independent google.protobuf-backed test
+  methods. Zero handles, unknown fields, numeric identity presence/defaults,
+  correlated replies, remote failures and malformed message boundaries pass.
+  See `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+- **Boundary:** pinned v5.3.0 control-message subset; no device/model access,
+  general protobuf runtime, physical round-trip or source compilation claim.
+
+### Owned Mojo packed session ABI
+
+- **Status:** `verified` as a Linux LP64 little-endian host byte primitive.
+- **Owner:** `hailbru/soc_abi.mojo`, consumed by native
+  `smidr/tools/soc_abi.mojo` without device access.
+- **Evidence:** native build plus nine independent methods; twelve ioctl
+  values and 84 complete request buffers match the installed 5.3.0 C UAPI
+  oracle. Reply offsets, bounds, valid zero handles, unknown enums and IRQ
+  statuses are checked. See `docs/HAILO10H_MOJO_SOC_ABI.md`.
+- **Boundary:** codecs establish neither resource ownership nor valid DMA
+  allocation, alignment, lifetime or physical completion. Driver session and
+  source-model execution remain separate required work.
+
+### Owned native Mojo read-only driver query
+
+- **Status:** `verified` on this Pi for driver-file identity, actual kernel
+  properties/version and fd cleanup. No independent RPC or inference claim.
+- **Owner:** `hailbru/soc_driver.mojo`, consumed by native
+  `smidr/tools/soc_driver.mojo` through the HAILBRÚ syscall gateway.
+- **Evidence:** actual Hailo-10H PCIe query, two native builds and eleven test
+  methods including strace-observed close, both injected read-only query
+  failures, exception cleanup and node refusal. Subsequent supported identify
+  succeeds. See `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+- **Boundary:** qualified 5.3.0 Linux driver profile; descriptors, connection,
+  DMA, remote typed RPC and source-model compilation remain open.

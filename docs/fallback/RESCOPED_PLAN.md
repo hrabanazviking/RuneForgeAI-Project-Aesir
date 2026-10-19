@@ -1,53 +1,9 @@
-# Re-scoped Plan (H119) — C7–C10 CPU-Only Execution Order
+# Withdrawn CPU fallback plan
 
-**Date:** 2026-10-10
-**Requires:** H111 = NO-GO.
+**Status: SUPERSEDED — do not execute.**
 
-## Slice disposition (H121–H200)
+This file formerly directed post-NO-GO work into Pi CPU LLM inference and CPU-only campaigns. That direction was outside the project owner's authorized scope and is withdrawn. CPU inference, CPU fallback, CPU shadowing, CPU serving, and CPU-specific roadmap work are not approved Project Æsir objectives.
 
-**SKIP (NPU-only, 19 slices):**
+The active plan is [HAILO10H_ONLY_200_SLICE_ROADMAP.md](../../HAILO10H_ONLY_200_SLICE_ROADMAP.md). If Hailo compute is unavailable, the product must fail closed and the campaign must pursue only Hailo-compliant evidence or implementation. No other inference backend may be substituted.
 
-| Slice | Title | Reason |
-|---|---|---|
-| H121–H135 | SKIPTI dispatch → NPU end-to-end | All require H111=GO; NPU dispatch/placement/prefill/decode |
-| H171 | NPU path optimization | Requires H111=GO |
-| H172 | Transfer overlap tuning | Requires H111=GO |
-| H184 | NPU 4h soak | Requires H111=GO |
-
-**RUN (CPU variants / as-is, 61 slices):**
-
-- H136, H137, H138, H139 — F1 pipeline completion (require H111=NO-GO)
-- H140 — C7 review (`docs/fallback/C7_REVIEW.md`, branch-aware)
-- H141–H170 — VÖRÐR + speed (CPU-supervising variants: H150 shadow,
-  H153 removal, H154 DMA-corrupt, H157 CPU-recompute)
-- H173–H183 — decode-latency/prefill opt, budgets, CPU soak
-- H185–H200 — soak analysis (H183's CPU logs), fault-injection,
-  determinism (CPU-only), packaging, runbook, victory gates on CPU
-
-**Degradation notes (documented, not silent):**
-
-- H175/H179: H171/H172 rows absent — tables note "N/A (NO-GO)".
-- H185/H196: evaluate H183's CPU-soak logs only (not H184's).
-- H188: cross-backend check becomes CPU-only determinism.
-
-## New dependency chain
-
-```
-H136 → H137 → H138 → H139 → H140 (C7 review)
-  → H141–H160 → H160 (C8 review, ROBUST)
-  → H161–H180 → H180 (C9 review, speed)
-  → H181–H200 → H200 (fallback verdict)
-```
-
-Linear within each campaign; C7→C8→C9→C10 strictly ordered. No slice
-depends on a skipped slice — verified mechanically by
-`prof/smidr/check_rescope.py`.
-
-## Validation
-
-Run: `python3 prof/smidr/check_rescope.py`. It checks:
-1. Every `[requires H111=GO]` slice is SKIP; every
-   `[requires H111=NO-GO]` slice is RUN.
-2. No RUN slice has a hard dependency on a SKIP slice (known
-   cross-branch edges from the routing table, all documented as
-   gracefully degrading).
+The former plan is recoverable from Git history for audit; this file no longer contains executable CPU work instructions.

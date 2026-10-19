@@ -79,6 +79,8 @@ def sc_nr(arch: String, name: String) -> Int64:
         return Int64(35) if aarch else Int64(263)
     if name == "nanosleep":
         return Int64(101) if aarch else Int64(35)
+    if name == "statx":
+        return Int64(291) if aarch else Int64(332)
     return Int64(-1)
 
 
@@ -142,7 +144,7 @@ def cstr_to_string(p: Pointer[UInt8, MutUntrackedOrigin], n: Int) -> String:
     return s
 
 
-# --- flag constants (Linux UAPI, arch-independent values) -------------------
+# --- flag constants (Linux UAPI; arch argument where values differ) ---------
 def O_RDONLY() -> Int64:
     return Int64(0)
 
@@ -169,6 +171,10 @@ def O_CREAT() -> Int64:
 
 def O_CLOEXEC() -> Int64:
     return Int64(0o2000000)
+
+
+def O_NOFOLLOW(arch: String) -> Int64:
+    return Int64(0o100000) if arch == "aarch64" else Int64(0o400000)
 
 
 def O_APPEND() -> Int64:
@@ -276,6 +282,52 @@ def os_mlock(arch: String, addr: Int64, length: Int64) -> Int64:
 
 def os_ioctl(arch: String, fd: Int64, req: Int64, arg: Int64) -> Int64:
     return syscall6(sc_nr(arch, "ioctl"), fd, req, arg, 0, 0, 0)
+
+
+def os_host_architecture() raises -> String:
+    # libc uname has no architecture-specific syscall number at this boundary.
+    # Linux utsname: six 65-byte strings, machine is the fifth field.
+    var data = unsafe_alloc[UInt8](390)
+    var result = external_call["uname", Int32](data)
+    if result != 0:
+        var error = errno_now()
+        data.unsafe_free()
+        raise Error("HailbruError[OsError]: uname failed: " + String(error))
+    var machine = String("")
+    for index in range(65):
+        var byte = data[unsafe_offset=260 + index]
+        if byte == 0:
+            break
+        machine += String(chr(Int(byte)))
+    data.unsafe_free()
+    if machine != "aarch64" and machine != "x86_64":
+        raise Error("HailbruError[SocDriverMismatch]: unsupported host architecture")
+    return machine
+
+
+def os_fd_rdev(arch: String, fd: Int64) raises -> Tuple[UInt32, UInt32]:
+    # statx(fd, "", AT_EMPTY_PATH, STATX_TYPE, ...), stable Linux UAPI.
+    var data = unsafe_alloc[UInt8](256)
+    for index in range(256):
+        data[unsafe_offset=index] = 0
+    var path = to_cstr("")
+    var result = syscall6(sc_nr(arch, "statx"), fd, Int64(Int(path)), 0x1000, 1, Int64(Int(data)), 0)
+    var error = errno_now()
+    path.unsafe_free()
+    if result != 0:
+        data.unsafe_free()
+        raise Error("HailbruError[OsError]: statx device fd failed: " + String(error))
+    var mode = UInt16(data[unsafe_offset=28]) | (UInt16(data[unsafe_offset=29]) << UInt16(8))
+    if (data[unsafe_offset=0] & 1) == 0 or (mode & 0xF000) != 0x2000:
+        data.unsafe_free()
+        raise Error("HailbruError[SocDriverMismatch]: opened fd is not a character device")
+    var major = UInt32(0)
+    var minor = UInt32(0)
+    for index in range(4):
+        major |= UInt32(data[unsafe_offset=128 + index]) << UInt32(8 * index)
+        minor |= UInt32(data[unsafe_offset=132 + index]) << UInt32(8 * index)
+    data.unsafe_free()
+    return (major, minor)
 
 
 def os_readlinkat(

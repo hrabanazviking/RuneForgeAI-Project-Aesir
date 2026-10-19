@@ -1,0 +1,14 @@
+test_all_session_ioctl_values_match_installed_header (__main__.NativeSocAbi.test_all_session_ioctl_values_match_installed_header) ... ok
+test_connect_close_and_masks_match_c (__main__.NativeSocAbi.test_connect_close_and_masks_match_c) ... ok
+test_descriptor_and_channel_replies_use_installed_offsets (__main__.NativeSocAbi.test_descriptor_and_channel_replies_use_installed_offsets) ... ok
+test_descriptor_bytes_match_c_packed_struct (__main__.NativeSocAbi.test_descriptor_bytes_match_c_packed_struct) ... ok
+test_every_decoder_rejects_truncated_and_extra_storage (__main__.NativeSocAbi.test_every_decoder_rejects_truncated_and_extra_storage) ... ok
+test_interrupt_count_statuses_and_bounds (__main__.NativeSocAbi.test_interrupt_count_statuses_and_bounds) ... ok
+test_invalid_requests_are_rejected_before_any_device_access (__main__.NativeSocAbi.test_invalid_requests_are_rejected_before_any_device_access) ... ok
+test_properties_and_driver_version_preserve_unfamiliar_values (__main__.NativeSocAbi.test_properties_and_driver_version_preserve_unfamiliar_values) ... ok
+test_transfer_bytes_match_c_including_unaligned_fields (__main__.NativeSocAbi.test_transfer_bytes_match_c_including_unaligned_fields) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 1.424s
+
+OK

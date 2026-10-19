@@ -43,6 +43,33 @@ struct _ValidatedBlockCopyToken(Copyable, ImplicitlyCopyable):
         self.approved = True
 
 
+
+
+def _require_hailo_only_inference(
+    use_npu: Bool,
+    npu_backend: NPUBackendType,
+    use_gpu_realm: Bool,
+) raises:
+    """Prevent every unverified or non-Hailo LLM execution path."""
+    if not use_npu:
+        raise Error(
+            "CpuInferenceProhibited: LLM inference requires the Hailo-10 backend"
+        )
+    if npu_backend != NPUBackendType.HAILO_10:
+        raise Error(
+            "HailoOnlyBackendRequired: ARM_NEON and other NPU targets are disabled"
+        )
+    if use_gpu_realm:
+        raise Error(
+            "HailoOnlyBackendRequired: GPU LLM inference is outside this mission"
+        )
+    # This legacy GGUF tensor path is not the HailoRT GenAI session. Refuse
+    # that mismatched model representation rather than executing its kernels.
+    raise Error(
+        "ModelFormatNotSupported: the GGUF transformer path cannot execute "
+        "on Hailo-10H; use the direct Hailo GenAI artifact backend"
+    )
+
 struct TransformerBlock(Copyable):
     """
     A single layer of the Transformer.
@@ -239,8 +266,8 @@ struct TransformerBlock(Copyable):
         start_pos: Int,
         mut kv_cache: KVCache,
         topology: DeviceTopology = DeviceTopology(1),
-        use_npu: Bool = False,
-        npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+        use_npu: Bool = True,
+        npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.HAILO_10),
         use_gpu_realm: Bool = False,
         gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)
     ) raises:
@@ -249,6 +276,7 @@ struct TransformerBlock(Copyable):
         Executes one layer on the host path. Logical sharding remains sequential
         host computation; physical accelerator options fail closed.
         """
+        _require_hailo_only_inference(use_npu, npu_backend, use_gpu_realm)
         var num_devices = topology.num_devices
         if num_devices <= 1:
             var start_offset = well.offset
@@ -577,8 +605,8 @@ def forward_pass(
     num_heads: Int = 32,
     topology: DeviceTopology = DeviceTopology(1),
     blocks: List[TransformerBlock] = List[TransformerBlock](),
-    use_npu: Bool = False,
-    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+    use_npu: Bool = True,
+    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.HAILO_10),
     use_gpu_realm: Bool = False,
     gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
     temperature: Scalar[f32] = 0.0,
@@ -592,6 +620,7 @@ def forward_pass(
     The Weaving of Fate.
     Executes the full LLM forward pass across transformer layers with bounds safety.
     """
+    _require_hailo_only_inference(use_npu, npu_backend, use_gpu_realm)
     if len(tokens) == 0:
         raise Error("forward_pass: tokens list cannot be empty")
     if num_layers <= 0 or head_dim <= 0 or num_heads <= 0:
@@ -714,8 +743,8 @@ def forward_pass(
     num_heads: Int = 32,
     topology: DeviceTopology = DeviceTopology(1),
     blocks: List[TransformerBlock] = List[TransformerBlock](),
-    use_npu: Bool = False,
-    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON),
+    use_npu: Bool = True,
+    npu_backend: NPUBackendType = NPUBackendType(NPUBackendType.HAILO_10),
     use_gpu_realm: Bool = False,
     gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
     temperature: Scalar[f32] = 0.0,
@@ -726,6 +755,7 @@ def forward_pass(
     """
     Overload for forward_pass without an explicit KVCache.
     """
+    _require_hailo_only_inference(use_npu, npu_backend, use_gpu_realm)
     ref token_embd = seer.tensors["token_embd.weight"]
     var kv_dim = token_embd.cols
     var context_length = 2048

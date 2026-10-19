@@ -1,3 +1,34 @@
+## Owner target authority — 2026-10-19
+
+- Fixed target: Project Aesir in Mojo must provide the source-model execution
+  path for models of the right size for Hailo-10H. The owner prohibits target
+  changes and rejects a compatible-vendor-precompiled-model limitation.
+- Vendor catalog slice 142 and its dependent precompiled-only work orders are
+  withdrawn before implementation; prior receipts remain historical evidence.
+- Active parent: `TASK_hailo10h_mojo_model_execution.md`. Mojo integrated RPC
+  framing, typed control messages and packed driver ABI are verified. A native
+  driver query/owner is physically verified; next work is owned descriptors
+  and the assigned PCIe session lifecycle,
+  then a bounded read-only round-trip. Source import/lowering/configuration
+  generation remain part of the same fixed target. See
+  `docs/HAILO10H_SOURCE_EXECUTION_PROGRESS.md`.
+- Preserve the automatic complete → verify → publish → next-slice workflow
+  under this fixed target. Never mark a narrower substitute as completion.
+
+## 2026-10-19 — Active Hailo-only campaign
+
+- [x] Reconcile the existing Hailo branch through slices 133–138 against its
+  implementation receipts; historical MIMISBRUNNR CPU work is superseded here.
+- [x] Slice 139: repeatable canonical-CLI hardware acceptance seam, pinned public
+  profile and adversarial validator tests; reject special model files before
+  blocking or device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
+- [x] Slice 140: fresh physical direct-backend acceptance, 12/12 boundary and
+  lifecycle checks, and Mojo exception cleanup pass. Evidence:
+  `docs/HAILO10H_SLICE_140_SMOKE.md`. Exact word-only recall formatting remains
+  a model quality limitation; recall and context lifecycle pass.
+- [ ] Slices 141–150: formalize first-model metadata, artifact/runtime pin,
+  compatibility and operation coverage without broadening beyond evidence.
+
 ## 2026-10-01 — Measured speed-lead program
 
 - [x] Document the installed-provider baseline and publish the focused

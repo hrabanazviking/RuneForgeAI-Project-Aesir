@@ -88,3 +88,63 @@ GPL-2.0 terms additionally confirm why no driver code may enter this tree
   prose, cited evidence per claim, UNCORROBORATED marking where live
   probing could not confirm). The study names the exact doorbell offset
   and one side-effect-free control command that H102 attempts live.
+
+## 2026-10-19 — Integrated-device source-execution transport research
+
+- Pinned HailoRT v5.3.0 revision:
+  `d503417f2a0db186a838390fb08690c4ea0f415e`.
+- License gate: `hailort/LICENSE` read and confirmed MIT before implementation
+  source study. The historical deeper license path returned 404; the pinned
+  tree provided the correct root path.
+- Studied: `hailort/hrpc/rpc_connection.hpp`, `.cpp`,
+  `hrpc/session_internal/pcie_session_internal.cpp`, `hrpc_protocol/rpc.proto`,
+  `libhailort/src/device/device_hrpc_client.cpp`, and
+  `libhailort/src/vdma/integrated/integrated_device.cpp`.
+- Extracted protocol/interface facts only. No implementation code copied,
+  translated or vendored. Original Mojo envelope implementation has a real
+  native inspector and independent byte-vector/ownership/refusal evidence.
+- Source copies stay outside this repository. No vendor code was built,
+  installed or executed for the study, and no device state was changed.
+- Independent source-compilation research license was read at project revision
+  `c870419f7d6315e1277e06a9fa5eadd955b8e1af` (MIT); its public findings and
+  dependency boundary were surveyed. Its DFC/proxy pipeline is not adopted.
+- Receipt and source links: `docs/plunder/HAILO10H_SOURCE_EXECUTION_RESEARCH.md`.
+
+### 2026-10-19 — Typed integrated-device requests and session lifecycle
+
+At the same MIT-licensed HailoRT revision `d503417`, studied
+`hrpc_protocol/serializer.hpp`, `hrpc/client.cpp`,
+`libhailort/src/vdma/pcie_session.cpp`, `.hpp` and
+`vdma/driver/hailort_driver.cpp`, `.hpp`. Recorded protocol/interface facts:
+create/identify/destroy enum indices, nested proto3 field contracts, descriptor
+ownership, assigned channels and close/cancel ordering. Independently authored
+Mojo code uses those facts; no vendor implementation was copied or translated.
+The external test-only protobuf 6.33.6 runtime is an independent oracle, not a
+shipped or newly installed runtime dependency. No device was touched in tests.
+
+### 2026-10-19 — Installed driver session UAPI
+
+Read the installed 5.3.0 common-header SPDX declaration:
+`(GPL-2.0 WITH Linux-syscall-note) AND MIT`; the installed driver package
+copyright identifies GPLv2. Studied packed declarations, enums and ioctl
+macros in `common/hailo_ioctl_common.h`, and connection ownership interface
+facts in `linux/pcie/src/soc.c`. Header SHA-256:
+`a2731314f4676cb140b970043d53cc06d57da90ea46344ccd44a3c491aede26b`.
+No driver implementation or declarations were copied/translated into the
+production code. The independently authored Mojo codec uses interface facts.
+A test-only C++ oracle includes the operator's installed UAPI header to emit
+layout and byte evidence; no vendor header is shipped in this repository.
+No kernel code was built, installed, loaded or changed. Host-only evidence:
+`docs/HAILO10H_MOJO_SOC_ABI.md`.
+
+### 2026-10-19 — Driver file ownership and system UAPI facts
+
+Continued installed 5.3.0 driver interface study: `linux/pcie/src/soc.c`,
+`fops.c` and `linux/vdma/vdma.c` for per-file ownership/finalization order.
+Recorded behavior only; no GPL implementation copied or translated. Read
+installed Linux/glibc system headers for statx, uname, syscall and ARM open
+flag ABI facts; no header declarations are shipped. Test-only C++ oracle
+includes system headers for independent layout/constant evidence. The native
+Mojo owner performs real read-only queries through libc/syscall; no vendor
+runtime/bridge, kernel compilation, module or firmware changes are added.
+Evidence: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.

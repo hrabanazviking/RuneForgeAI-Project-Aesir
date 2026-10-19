@@ -1,0 +1,10 @@
+{
+  "uname_size": 390,
+  "uname_machine": 260,
+  "statx_size": 256,
+  "statx_mode": 28,
+  "statx_rdev_major": 128,
+  "statx_rdev_minor": 132,
+  "statx_syscall": 291,
+  "o_nofollow": 32768
+}

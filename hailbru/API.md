@@ -96,6 +96,67 @@ device IRQs need MSI-X eventfds (F3-banked).
 | `fw_stage_verify` | `(arch: String, path: String, expected: String) raises` | `FirmwareCorrupt` |
 | `BootPoller` / `ReadyPoller` | structs | `FirmwareBootTimeout` / `DeviceNotReady` |
 
+## Integrated-device RPC envelope
+
+`hailbru.hrpc_frame` owns a pure-Mojo, non-device envelope codec for the
+little-endian HailoRT v5.3.0 host protocol. It does not submit work or execute
+models. `HrpcFrame` owns UInt32 message/action/remote-status values and copied
+opaque body bytes. `encode_hrpc_frame` emits the exact logical packet;
+`decode_hrpc_frame(data, padded_dma_buffer=False)` validates the 20-byte header,
+magic, 2048-byte body maximum and exact packet size. Explicit padded mode
+requires a 2068-byte message-buffer snapshot and excludes trailing bytes from
+the body. This is not a claim about physical DMA alignment or transfer size.
+Unknown actions and nonzero remote statuses are preserved, not interpreted.
+Malformed frames raise `BadRpcFrame`; the native hex tool raises `BadRpcHex`
+for invalid or excessive hex input. No device round-trip is implied.
+
+## Packed integrated-device session ABI
+
+`hailbru.soc_abi` owns Linux LP64 little-endian 5.3.0 packed codecs and the
+admitted session request numbers. It encodes descriptor creation/release,
+connect/close, masks and single user-pointer engine-zero transfers; it decodes
+descriptor/channel outputs, driver properties/version and interrupt records.
+Native `smidr/tools/soc_abi.mojo` consumes these interfaces without device
+access. Invalid storage/arguments raise `BadSocAbi`. Numeric enums preserve
+unknown values. Zero handles are admitted; the all-ones sentinel rejects.
+This is byte compatibility, not DMA or session ownership admission. Callers
+must establish identity, allocation, assigned resources and lifetime separately.
+
+## Owned integrated-device driver file
+
+`hailbru.soc_driver.open_soc_driver(sysfs_root, dev_root) raises -> SocDriver`
+discovers the PCI identity and associated node, verifies the opened character
+fd's device numbers, then queries/qualifies the installed 5.3.0 Hailo-10H
+driver profile. `SocDriver` is movable, not copyable; `close()` is idempotent
+and exception unwinding closes the fd. `request(operation, mut data)` accepts
+only the admitted ABI operations, checks storage size and refuses a closed fd.
+It is a low-level HAILBRÚ operation, not proof of descriptor/channel/buffer
+ownership. The current real caller performs read-only driver queries.
+Errors: `SocDriverMismatch`, `SocOpenFailed`, `SocSessionClosed`,
+`SocIoctlFailed`, `SocCleanupFailed`, plus existing discovery/OS/ABI errors.
+
+Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
+Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
+
+`hailbru.hrpc_device` adds the pinned create/identify/destroy control messages.
+`device_*_request(message_id[, handle])` returns an owned `HrpcFrame`.
+`device_create_reply(frame, expected_message_id)` returns the UInt32 handle;
+`device_identify_reply` returns observed numeric protocol/firmware/logger /
+architecture fields plus explicit firmware-message presence. It never assumes
+that absent/default identity fields prove Hailo-10H. `device_destroy_reply`
+checks correlated success and bounded wire validity without asserting a live
+device operation. Zero handles are valid protobuf values and are preserved.
+
+This is a bounded proto3 subset, not a general protobuf runtime. It skips
+unknown varint/fixed64/length-delimited/fixed32 fields, rejects duplicate
+recognized singular fields, invalid keys, wrong known wire types, out-of-range
+integers, length overruns and malformed varints. Correlation and remote-status
+failure precede body decoding. Named errors are `BadRpcProtobuf`,
+`RpcReplyMismatch` and `RpcRemoteFailure`.
+
+Caller: native `smidr/tools/hrpc_device.mojo` and the planned owned session
+client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+
 ## Thread-safety
 
 HAILBRÚ has **no mutable globals** (verified by grep: zero module-level

@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-19",
+  "contract": "TASK_hailo10h_soc_session.md",
+  "scope": "Host-only Linux LP64 little-endian session UAPI bytes; no device access or model inference",
+  "header_sha256": "a2731314f4676cb140b970043d53cc06d57da90ea46344ccd44a3c491aede26b",
+  "test_methods_passed": 9,
+  "ioctl_values_matched": 12,
+  "complete_C_buffer_comparisons": 84,
+  "source_sha256": {
+    "hailbru/soc_abi.mojo": "49a0ff1de244893a9b1b8494e038bd8e3ad728a89e298073a10d427af75de8bf",
+    "smidr/tools/soc_abi.mojo": "a53a97124da1f510d6502368ab081925eb7c441f9a505ba93e3f13ba1cd7f1ec",
+    "tests/hailo_soc_abi_oracle.cpp": "6b1c4dfc50d92f43cd5961f9d872fb54e74569ca405599e3363773da63107647",
+    "tests/test_hailo_soc_abi.py": "ee49fc79e81e032d9727e1d7d425f93cfcecdcfc923041c0a81758ac3a4b7351"
+  },
+  "binary_sha256": {
+    "soc-abi": "7d42ef57f5ee0eb620ff16566a87c89883174bbc6c30e4295662d8a8f06cb723",
+    "soc-abi-oracle": "fe47917e2d5b009d35815862ca7f1742fd0f752619858acb974697311c52962f"
+  },
+  "next": "Owned driver query and session lifecycle; source-model compiler target remains unchanged"
+}

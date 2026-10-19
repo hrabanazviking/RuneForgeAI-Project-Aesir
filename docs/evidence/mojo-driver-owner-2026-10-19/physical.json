@@ -1,0 +1,1 @@
+{"bdf":"0001:01:00.0","node":"h1x-0","arch":"aarch64","driver":{"major":5,"minor":3,"revision":0},"properties":{"desc_max_page_size":4096,"board_type":2,"dma_type":0,"dma_engines_count":1,"is_fw_loaded":true},"fd_closed":true,"repeat_close":true,"closed_request_refused":true,"dma_submitted":false}

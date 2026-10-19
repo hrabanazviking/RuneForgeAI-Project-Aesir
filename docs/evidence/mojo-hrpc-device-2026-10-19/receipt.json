@@ -1,0 +1,34 @@
+{
+  "artifacts": {
+    "hailbru/hrpc_device.mojo": {
+      "sha256": "7131fc0cadc5c2f52fbfd1dca5ade66e6410f1af021d53a5b04cb50e57027337",
+      "size_bytes": 8550
+    },
+    "hailbru/hrpc_frame.mojo": {
+      "sha256": "1cebebeea08754a80fc586f36d57d231241bf135bf4bf804afed79a10fb6fc65",
+      "size_bytes": 3014
+    },
+    "native_protocol_tool": {
+      "sha256": "d8e2bb8e320373998829effb0e2c4f7766b6fc3fb7de7df310482e1329863882",
+      "size_bytes": 90872
+    },
+    "smidr/tools/hrpc_device.mojo": {
+      "sha256": "65156dce169830d4446dc1ae6edaef7925b5043f08285d6480a4e813cc5f16f6",
+      "size_bytes": 3345
+    },
+    "tests/test_hailo_hrpc_device.py": {
+      "sha256": "a84c2ef127e0ceb60e25ba13bbecd89189b7cfa037e6bd33f9ff340d28f5160f",
+      "size_bytes": 10377
+    }
+  },
+  "date": "2026-10-19",
+  "device_access": false,
+  "evidence_kind": "native-host-typed-protocol",
+  "llm_execution": false,
+  "mojo_version": "1.1.0 (8189361e)",
+  "oracle": "google.protobuf",
+  "oracle_version": "6.33.6",
+  "protocol_source_revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "status": "PASS",
+  "test_methods": 10
+}

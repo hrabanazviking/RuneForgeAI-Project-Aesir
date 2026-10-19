@@ -61,6 +61,10 @@ These dependencies are commonly useful but require a written justification in th
 | Compression libraries | zlib, lz4, zstd | What is being decompressed, and is the performance gain over a Mojo implementation significant? |
 | Crypto primitives | OpenSSL, libsodium | What cryptographic operation is required, and why must it use an external library? |
 
+### Recorded Tier 2 integrity dependency — 2026-10-12
+
+The direct Hailo bridge uses the installed OpenSSL 3.0.22 EVP digest API solely for streaming SHA-256 of the opened regular model artifact. This is host file-integrity support, with no LLM arithmetic or network operation. A maintained installed digest API avoids a bespoke cryptographic implementation and a separate hashing subprocess while keeping the fingerprint bound to the descriptor used for loading. No OpenSSL implementation source is copied or vendored and no package installation is needed. The version, Apache-2.0 license, scope, and slice 138 qualification status are recorded in `docs/DEPENDENCIES.md`; notices are in `THIRD_PARTY_NOTICES.md`.
+
 ### Tier 3: Restricted — Requires Architect Approval
 
 These dependencies carry significant risk and require explicit Architect role approval before inclusion. The approval must be recorded in a DECISIONS entry.
@@ -71,6 +75,12 @@ These dependencies carry significant risk and require explicit Architect role ap
 | C++ libraries with complex ABIs | Template-heavy headers, STL dependencies, exception handling | Must prove no C library alternative exists. Must wrap in a thin C ABI shim. Must not let C++ types cross the boundary. |
 | Frameworks (web, ORM, DI) | Imposes architectural opinions on the project | Almost always denied. The project defines its own architecture. Frameworks that dictate structure are antithetical to the project's design philosophy. |
 | Anything with a copyleft license | GPL, LGPL, AGPL | See Section Five. Generally denied unless the project license is compatible. |
+
+### Accepted Hailo-10H GenAI dependency boundary — 2026-10-12
+
+The owner said “proceed” after the direct HailoRT integration, compiled model artifact, and narrow device smoke were disclosed. This records approval for the restricted C++ dependency at this specific boundary: Æsir Mojo owns the application/session interface, an Æsir-owned thin C ABI bridge links the installed HailoRT 5.3.0 GenAI API, and LLM execution targets Hailo-10H. C++ objects, templates, and exceptions must remain inside the bridge. The bridge cannot select CPU LLM execution or an inference proxy.
+
+The prior pure-Mojo/no-HailoRT/no-HEF restrictions are superseded for this accepted route. This does not approve arbitrary C++ frameworks, proprietary libraries, CPU LLM engines, or inference-service substitutions. HailoRT is a linked dependency with MIT licensing identified by the installed GenAI headers and package copyright; no vendor implementation source is copied into Æsir. System libstdc++ and the compatible external model artifact are separately recorded in `docs/DEPENDENCIES.md`. See D-002 and D-005 in `docs/HAILO10H_DECISION_LOG.md` for the approval record and `docs/HAILO10H_DIRECT_BACKEND_RECOVERY.md` for the evidence boundary.
 
 ### Tier 4: Forbidden
 

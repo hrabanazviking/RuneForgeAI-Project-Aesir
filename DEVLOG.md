@@ -1,3 +1,145 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): native driver ownership
+
+- Added a movable native Mojo owner, PCI/sysfs-to-open-fd device identity,
+  exact packed read-only queries, idempotent close and exception cleanup.
+- Actual Pi query succeeds: Hailo-10H PCIe, one engine, descriptor page maximum
+  4096, driver 5.3.0 and firmware loaded. No connection, DMA or model opened.
+- Both builds and eleven test methods pass, including two separate injected
+  read-only ioctl EIO failures, observed close, exception unwind and node
+  boundaries. Subsequent supported hardware identify succeeds; ABI tests 9/9.
+- Tests caught the ARM/x86 O_NOFOLLOW difference; corrected from installed
+  headers and now require no-follow in the actual open trace. Initial failure
+  output is preserved. Receipt: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+- Next, automatically: descriptor and assigned connection ownership/cleanup,
+  then bounded physical typed RPC. Source-model compiler target stays fixed.
+
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): packed session ABI
+
+- Reconciled installed 5.3.0 UAPI byte packing, exact request numbers,
+  descriptor/channel/transfer outputs and interrupt storage. Implemented
+  independently in HAILBRÚ with a real native inspector/constructor.
+- Native build and nine independent methods pass: twelve ioctl values and
+  84 complete buffers match a C++ oracle including the installed UAPI header.
+  Reply bounds, zero handles, sentinels, unknown enums and interrupt statuses
+  are checked. No device accessed or runtime library/shim added by this slice.
+- Receipt: `docs/HAILO10H_MOJO_SOC_ABI.md`. Continue automatically with driver
+  query/ownership and cleanup, then a bounded physical RPC exchange. The fixed
+  source-model compiler goal remains open; byte primitives do not complete it.
+
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo typed device protocol
+
+- Implemented pinned device create/identify/destroy messages and a bounded
+  proto3 subset in HAILBRÚ, consumed by a real native SMIÐR tool. No model or
+  device is opened by the tool or these tests.
+- Native build passes. Ten independent test methods pass using installed
+  google.protobuf 6.33.6: complete request bytes, valid zero handles, identity
+  defaults/presence, unknown fields, correlations, remote errors and malformed
+  wire data. Duplicate recognized fields reject explicitly.
+- Checked action IDs 20/21/22 against the pinned source enum. Mapped session
+  resource setup and close-before-buffer-release ordering from source.
+- Receipt: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`. The live Mojo session
+  and source-model compiler remain required. Next: running driver ABI and
+  owned descriptor/channel/transfer lifecycle, then physical control proof.
+
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): Mojo integrated RPC framing
+
+- Kept the fixed source-model/Mojo target; published the experiment contract
+  before implementation. Investigated the actual PCIe-session RPC path rather
+  than repeating the historical raw-mailbox assumption.
+- Added `hailbru/hrpc_frame.mojo` and a real native SMIÐR frame inspector.
+  The independent implementation preserves opaque payloads, all UInt32 IDs /
+  remote statuses, enforces protocol lengths and separates explicit DMA padding.
+- Both native builds pass. Eight Python wire-test methods (including 32
+  seeded independent cases) and the direct Mojo ownership/outbound-refusal
+  checks pass. No device or model was opened in these structural checks.
+- Receipt: `docs/HAILO10H_MOJO_HRPC_FRAMING.md`. Full compiler and independent
+  device round-trip remain open. Next: PCIe session and typed-request lifecycle.
+
+## 2026-10-19 — Codex (Scribe): unauthorized scope narrowing corrected
+
+- The owner explicitly rejected the precompiled-only target and instructed
+  that the target must never be changed without authorization.
+- Stopped catalog selection immediately. Slice 142 had only read-only source
+  research; no slice-142 implementation or commit was made.
+- Paused the continuation heartbeat and replaced its prompt with the fixed
+  Mojo/source-model objective. Published history remains intact.
+- Superseded the catalog phase contract and added controlling scope notices to
+  the active roadmap, mission, decision log and TODO. Historical GenAI smoke
+  receipts do not establish the owner's source-model/compiler objective.
+- Next work is the Mojo source-model execution gap contract, preserving the
+  owner target and the authorized automatic per-slice publication workflow.
+
+## 2026-10-19 — Codex (Cartographer, Scribe): Hailo slice 141
+
+- Inventoried the active canonical compiled GenAI artifact route against actual
+  source and slice-140 physical receipts. Separated preserved GGUF/safetensors
+  parsers and historical CUDA profiles from Hailo execution support.
+- Confirmed all eleven cited owner paths, canonical dispatch import, actual
+  HailoRT model creation and explicit legacy GGUF execution refusal.
+- Receipt: `docs/HAILO10H_SLICE_141_FORMATS.md`. No runtime or capability
+  promotion. Next slice 142 starts automatically after this publication.
+
+## 2026-10-19 — Codex (Auditor, Scribe): Hailo slice 140
+
+### Completed and verified
+- Physical canonical-CLI runner PASSED: HAILO10H at `0001:01:00.0`, runtime and
+  firmware 5.3.0, pinned Qwen2.5-1.5B artifact digest and 2048-token capacity.
+- Single-shot arithmetic returned `5.`. Persistent chat context grew
+  0 → 73 → 108 tokens; oversized input rejected at unchanged 108; subsequent
+  recall grew context to 142; explicit reset returned usage to 0; arithmetic
+  after reset returned `5.` at usage 46. All input/source/binary/library/model
+  fingerprints revalidated after execution.
+- Final-source boundary/lifecycle suite passed 12/12, including regular model
+  load and all special-file rejections. Mojo exception unwinding released the
+  native handle; repeated close remained safe.
+- Slice-139 API commit `d5625694ae248def914a215985bd4fc94961925a` has exactly
+  the tested local source tree `da769003c42dcccd82254176d5a337d7c8125996`.
+
+### Discoveries and limits
+- Recall succeeds, but both word-only instruction checks fail; generated text
+  includes explanatory phrasing. One max-token completion retains a stop-token
+  spelling. Public transcript preserves these limitations.
+- Recorded 10.12/15.51/24.53-second readiness/run/chat process durations include
+  loading and orchestration; they are not inference speed measurements.
+- Hosted push CI run `39314556676` fails while compiling the historical
+  master: four `test_inference.mojo` calls omit the required
+  `enable_gpu_realm` argument to `validate_runtime_backend_config`. Neither
+  affected source was changed by slice 139. Physical checks pass; hosted
+  release acceptance remains failed and is not bypassed or reported green.
+
+### Next
+- Continue at slice 141, formalizing supported model formats and the first
+  Hailo artifact's metadata, license, runtime pin and operation coverage.
+
+## 2026-10-19 — Codex (Cartographer, Forge Worker, Auditor, Scribe): Hailo slice 139
+
+### Completed
+- Located the active Hailo-only campaign at remote `619b2d1`; reconciled stale
+  slices 133–138 checkboxes with the existing direct-backend receipts.
+- Published the bounded 139–140 task contract before implementation.
+- Added a physical canonical-CLI acceptance seam with pinned public profile,
+  independent artifact fingerprints, strict JSON/provenance/context checks,
+  subprocess timeouts, retained failures and explicit formatting observations.
+
+### Changed
+- Fixed model FIFO admission: blocking `open` prevented type validation.
+  Nonblocking read-only open now permits `fstat` rejection before device use.
+- Added regressions for FIFO, FIFO symlink, empty file and directory rejection,
+  and adversarial synthetic acceptance-validator cases.
+
+### Verified
+- Before the fix, a model FIFO stalled beyond the supervisor's three-second
+  bound. After the fix, all four special-file cases reject promptly.
+- Direct native/Mojo build passes. Seven synthetic validator tests pass;
+  eleven local boundary/CLI tests pass with one explicit hardware-class skip.
+- Pre-change baseline: 11/11 live boundary/lifecycle tests pass and canonical
+  Hailo inference returns `5.` with the expected device/model fingerprint.
+  This earlier run is not substituted for final-source hardware acceptance.
+
+### Next
+- Execute the new runner and Mojo ownership probe against the final rebuilt
+  source for slice 140. Record all failures and quality limitations honestly.
+
 ## 2026-10-10 — Yrsa: aesir-dusk-forge RUNEWEAVE (20 slices, tokenizer + prompt-pipeline hardening)
 
 Twenty-slice Mythic Engineering campaign on the tokenizer/prompt-shaping

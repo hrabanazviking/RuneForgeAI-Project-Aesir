@@ -1,0 +1,14 @@
+[26:26:20261019,163058.904160:ERROR file_io_posix.cc:207] open /home/pi/mojo-dev/.pixi/envs/default/share/max/crashdb/settings.dat: Read-only file system (30)
+[26:26:20261019,163058.904350:ERROR socket.cc:45] setsockopt: Operation not permitted (1)
+Failed to initialize Crashpad.  Crash reporting will not be available.  Cause: crashpad failed to start handler
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_abi.mojo:46:27: warning: assignment to 'data' was never used; assign to '_' instead?
+    var data = List[UInt8]()
+                          ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_abi.mojo:5:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:59:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_abi.mojo:5:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:199:9: warning: ref 'index' was never used, remove it?
+    for index in range(SOC_MAX_ENGINES):
+        ^

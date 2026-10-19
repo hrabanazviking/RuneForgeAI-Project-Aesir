@@ -1,0 +1,154 @@
+{
+  "artifacts": {
+    "aesir_engine/cli/hailo_commands.mojo": {
+      "sha256": "557b88e8df68f94d0d71344b7f88c0f948dc6584d5b08234b8792ea7d7cb9ecb",
+      "size_bytes": 12958
+    },
+    "aesir_engine/hailo10h_bridge.cpp": {
+      "sha256": "1e8a16738c380fd6c9c2cb81f8d4197e589e577eaf6ac94f5b2cf073ae94eb66",
+      "size_bytes": 22751
+    },
+    "aesir_engine/hailo10h_direct.mojo": {
+      "sha256": "8dc7d03bfa74f145a877d412ae40874a34ad4e1bab5ebd96301b47e26c8f2c77",
+      "size_bytes": 4593
+    },
+    "aesir_engine/main.mojo": {
+      "sha256": "34f7d473ef5d1e620a26462dd8e3873d81f54ee3dfd1f49fc06fa49ae3a93d98",
+      "size_bytes": 324
+    },
+    "binary": {
+      "sha256": "5b6bb1156bc45ccdb0623603539764e2ef460fe6d274bb78d4057af6abbab2fe",
+      "size_bytes": 93568
+    },
+    "bridge": {
+      "sha256": "08e25938c7661ac3e80b1fdb73b056f3b27ac9fd1e810210c42f232d8184d83b",
+      "size_bytes": 296664
+    },
+    "model": {
+      "sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+      "size_bytes": 2464582493
+    },
+    "profile": {
+      "sha256": "e7e9b3bc670dc1bd2869dbda28d9935ed3a10ad53d76d7dbc417cda23750e55d",
+      "size_bytes": 963
+    },
+    "scripts/build_hailo10h.sh": {
+      "sha256": "bcc52b15ef66911aef8d6494d4b98d4f8705b50deaec558397e20804d6b94361",
+      "size_bytes": 1719
+    },
+    "tests/test_hailo10h_hardware.py": {
+      "sha256": "4a699e83d142a8eb91d265f58a28d1f3617af6e65d47ee7d5fe18adb5305a41b",
+      "size_bytes": 11641
+    }
+  },
+  "checks": {
+    "chat": {
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 24.530754029998207
+    },
+    "readiness": {
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 10.122818501000438
+    },
+    "single": {
+      "returncode": 0,
+      "timed_out": false,
+      "wall_seconds": 15.510520478001126
+    }
+  },
+  "device_id": "0001:01:00.0",
+  "evidence_boundary": "Public-prompt smoke and context lifecycle only; not general quality, speed, or per-layer telemetry.",
+  "evidence_kind": "physical-hailo10h-canonical-cli",
+  "finished_utc": "2026-10-19T19:52:16.365844+00:00",
+  "format_observations": {
+    "recall_after_rejection_word_only": false,
+    "recall_word_only": false
+  },
+  "mocked": false,
+  "profile": {
+    "architecture": "HAILO10H",
+    "arithmetic_prompt": "What is 2 plus 3? Reply with only the number.",
+    "arithmetic_response_pattern": "\\s*5\\.?\\s*",
+    "backend": "hailort-genai",
+    "context_capacity": 2048,
+    "evidence_boundary": "Public-prompt smoke and context lifecycle only; not general quality, speed, or per-layer telemetry.",
+    "firmware_version": "5.3.0",
+    "max_tokens": 32,
+    "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+    "model_size_bytes": 2464582493,
+    "overflow_repetitions": 2500,
+    "overflow_word": "hello ",
+    "process_timeout_seconds": 240,
+    "profile": "hailo10h-qwen2.5-1.5b-instruct-hailort-5.3.0",
+    "recall_prompt": "What word did I ask you to remember? Reply with only that word.",
+    "recall_word": "ember",
+    "remember_prompt": "Remember this word: ember. Reply briefly to confirm.",
+    "runtime_version": "5.3.0",
+    "schema_version": 1,
+    "template_token_reserve": 64,
+    "timeout_ms": 60000
+  },
+  "published_equivalent_source_commit": "d5625694ae248def914a215985bd4fc94961925a",
+  "raw_artifacts": {
+    "chat.process.json": {
+      "sha256": "4f1e83e4d5736a03f636a01be918d503395d6c925e32d9a28127d481f58aacbf",
+      "size_bytes": 82
+    },
+    "chat.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "chat.stdin.txt": {
+      "sha256": "10779b737cd9a71fc38bea97592451f941827ef63fc620bdf846e87a40eed90d",
+      "size_bytes": 15258
+    },
+    "chat.stdout.txt": {
+      "sha256": "a792a0ecb3bd2657cafca7e6e9154957ce0121d8e3e77302f4db5351b259dd0e",
+      "size_bytes": 5174
+    },
+    "readiness.process.json": {
+      "sha256": "01485e6273a20fe0bbe16c7de161b3994003b93dc6b5f748d48df2c23fdf1cd2",
+      "size_bytes": 82
+    },
+    "readiness.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "readiness.stdin.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "readiness.stdout.txt": {
+      "sha256": "cf058130d45331c4a48246cd133a29581fda7372981e5987787ca90eb4f25eaa",
+      "size_bytes": 549
+    },
+    "report.json": {
+      "sha256": "b47e6b52abd914983655cc5746e257ff9e1e4ca1e8d386be291fd8194bd7209f",
+      "size_bytes": 3430
+    },
+    "single.process.json": {
+      "sha256": "720f69356f3992dcf469b63bf086bdaa09752953c41374d06d33793809cacf1f",
+      "size_bytes": 82
+    },
+    "single.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "single.stdin.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "single.stdout.txt": {
+      "sha256": "0fb0e26b44fce450c787fb0b75e420edc5ed8ae52152b5ef5efe39d757f84f07",
+      "size_bytes": 594
+    }
+  },
+  "schema_version": 1,
+  "source_commit": "1436200dcd2f1906e1bf6c448f8855ab9958ab9d",
+  "source_commit_note": "The local source commit and published API commit have the identical Git tree above; the original runner receipt is retained unchanged locally.",
+  "source_tree_sha": "da769003c42dcccd82254176d5a337d7c8125996",
+  "started_utc": "2026-10-19T19:51:20.851960+00:00",
+  "status": "PASSED"
+}

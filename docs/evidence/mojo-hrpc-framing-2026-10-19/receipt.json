@@ -1,0 +1,47 @@
+{
+  "api_checks": [
+    "oversized outbound refusal",
+    "owned input body",
+    "owned decoded body",
+    "remote status preserved"
+  ],
+  "artifacts": {
+    "hailbru/errors.mojo": {
+      "sha256": "eb90919e8eb39f0713db606c9e2324310cbf2b116d4e734be944636b605d05dc",
+      "size_bytes": 1528
+    },
+    "hailbru/hrpc_frame.mojo": {
+      "sha256": "1cebebeea08754a80fc586f36d57d231241bf135bf4bf804afed79a10fb6fc65",
+      "size_bytes": 3014
+    },
+    "native_api_probe": {
+      "sha256": "6a8d6dbb16e5c1ff4aebecef49f5b0e374d4e610ad4aac0ffb10d2bd4f958286",
+      "size_bytes": 83408
+    },
+    "native_inspector": {
+      "sha256": "6def2c45810e95947740d2b946d2213713a43d74820f68ed5ca3f2c5e9df3bd3",
+      "size_bytes": 88224
+    },
+    "smidr/tools/hrpc_frame.mojo": {
+      "sha256": "5d44f4a4cc05b83e291ad8ed307447556beea9b399149414c5050506128670c9",
+      "size_bytes": 2274
+    },
+    "tests/hailo_hrpc_frame_api.mojo": {
+      "sha256": "219acd8a8521a26509e73b311839f422a689be777889d5c31627270049eddf58",
+      "size_bytes": 1321
+    },
+    "tests/test_hailo_hrpc_frame.py": {
+      "sha256": "f753fffad51dd0402300f49ac8a9f77757c04f9c7ebce14d674c5dd08d8be73d",
+      "size_bytes": 5365
+    }
+  },
+  "date": "2026-10-19",
+  "device_access": false,
+  "evidence_kind": "native-host-protocol-and-ownership",
+  "llm_execution": false,
+  "mojo_version": "1.1.0 (8189361e)",
+  "protocol_source_revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "seeded_wire_cases": 32,
+  "status": "PASS",
+  "wire_test_methods": 8
+}
