@@ -23,7 +23,9 @@
 namespace {
 struct ReadOnlyFile {
     int fd;
-    explicit ReadOnlyFile(const char *path) : fd(::open(path, O_RDONLY | O_CLOEXEC)) {
+    // A FIFO can block in open before fstat gets the chance to reject it.
+    // O_NONBLOCK has no effect on regular-file reads; other types fail below.
+    explicit ReadOnlyFile(const char *path) : fd(::open(path, O_RDONLY | O_CLOEXEC | O_NONBLOCK)) {
         if (fd < 0) throw std::runtime_error(std::string("ModelArtifactOpen: ") + std::strerror(errno));
     }
     ReadOnlyFile(const ReadOnlyFile &) = delete;

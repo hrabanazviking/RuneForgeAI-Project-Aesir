@@ -1,3 +1,32 @@
+## 2026-10-19 — Codex (Cartographer, Forge Worker, Auditor, Scribe): Hailo slice 139
+
+### Completed
+- Located the active Hailo-only campaign at remote `619b2d1`; reconciled stale
+  slices 133–138 checkboxes with the existing direct-backend receipts.
+- Published the bounded 139–140 task contract before implementation.
+- Added a physical canonical-CLI acceptance seam with pinned public profile,
+  independent artifact fingerprints, strict JSON/provenance/context checks,
+  subprocess timeouts, retained failures and explicit formatting observations.
+
+### Changed
+- Fixed model FIFO admission: blocking `open` prevented type validation.
+  Nonblocking read-only open now permits `fstat` rejection before device use.
+- Added regressions for FIFO, FIFO symlink, empty file and directory rejection,
+  and adversarial synthetic acceptance-validator cases.
+
+### Verified
+- Before the fix, a model FIFO stalled beyond the supervisor's three-second
+  bound. After the fix, all four special-file cases reject promptly.
+- Direct native/Mojo build passes. Seven synthetic validator tests pass;
+  eleven local boundary/CLI tests pass with one explicit hardware-class skip.
+- Pre-change baseline: 11/11 live boundary/lifecycle tests pass and canonical
+  Hailo inference returns `5.` with the expected device/model fingerprint.
+  This earlier run is not substituted for final-source hardware acceptance.
+
+### Next
+- Execute the new runner and Mojo ownership probe against the final rebuilt
+  source for slice 140. Record all failures and quality limitations honestly.
+
 ## 2026-10-10 — Yrsa: aesir-dusk-forge RUNEWEAVE (20 slices, tokenizer + prompt-pipeline hardening)
 
 Twenty-slice Mythic Engineering campaign on the tokenizer/prompt-shaping

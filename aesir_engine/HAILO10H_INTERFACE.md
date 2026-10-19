@@ -49,6 +49,11 @@ output budget, current usage, and a declared 64-token template reserve must
 fit before submission. This qualified profile's capacity is 2048, regardless
 of the upstream training model's larger advertised context.
 
+Model file admission opens read-only/nonblocking before checking for a
+nonempty regular file, so a FIFO cannot stall startup before type validation.
+The physical acceptance seam and its separate synthetic-validator evidence
+are documented in `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
+
 Evidence: `docs/HAILO10H_SLICE_134_READINESS.md` through
 `docs/HAILO10H_SLICE_137_CLI.md`. Full model quality, all failure recovery,
 concurrent performance and additional host/platform support are not implied.

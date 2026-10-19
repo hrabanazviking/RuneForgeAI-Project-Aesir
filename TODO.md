@@ -1,3 +1,15 @@
+## 2026-10-19 — Active Hailo-only campaign
+
+- [x] Reconcile the existing Hailo branch through slices 133–138 against its
+  implementation receipts; historical MIMISBRUNNR CPU work is superseded here.
+- [x] Slice 139: repeatable canonical-CLI hardware acceptance seam, pinned public
+  profile and adversarial validator tests; reject special model files before
+  blocking or device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
+- [ ] Slice 140: run the fresh direct-backend hardware acceptance and publish
+  measured device/model, response and context lifecycle evidence.
+- [ ] Slices 141–150: formalize first-model metadata, artifact/runtime pin,
+  compatibility and operation coverage without broadening beyond evidence.
+
 ## 2026-10-01 — Measured speed-lead program
 
 - [x] Document the installed-provider baseline and publish the focused

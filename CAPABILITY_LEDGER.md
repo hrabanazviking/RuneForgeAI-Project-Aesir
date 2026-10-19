@@ -5,7 +5,7 @@
 This is the canonical source of truth for the current implementation status of
 Project A.E.S.I.R.
 
-**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. Until Hailo execution is implemented and verified, runtime entrypoints must fail closed. The ARMVEGR CPU LLM inference CLI and direct inference methods now raise CpuInferenceProhibited before inference math; their underlying historical kernels remain in source but are not an authorized or available runtime route. CPU capability entries below are historical records only and do not authorize further CPU work. Vision documents describe desired direction; task files and
+**Owner scope directive (2026-10-12):** all Project Æsir LLM inference work is Hailo-10H-only. CPU LLM inference, CPU fallback, CPU shadow inference, and CPU model-serving are out of scope. The canonical Hailo CLI uses the direct backend described below; unsupported or unavailable inference must fail closed. The ARMVEGR CPU LLM inference CLI and direct inference methods now raise CpuInferenceProhibited before inference math; their underlying historical kernels remain in source but are not an authorized or available runtime route. CPU capability entries below are historical records only and do not authorize further CPU work. Vision documents describe desired direction; task files and
 devlogs describe work at a point in time; names, banners, and test titles describe
 interfaces. None of those supersede this ledger's present-tense capability
 statuses.
@@ -2590,3 +2590,24 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Non-claims:** no NPU compute (H111 NO-GO stands — the Hailo-10 compute
   wall held); no "any model format" claim (GGUF-or-safetensors envelope
   per Aesir's loaders); no Python in the shipped package.
+
+## Direct Hailo-10H application backend — 2026-10-19
+
+- **Status:** `partial` overall; the narrow HailoRT 5.3.0 / Qwen2.5-1.5B
+  canonical CLI is physically evidenced by slices 134–138. This is a dedicated
+  backend, separate from historical generic NPU-dispatch entries.
+- **Owner:** AESIR orchestration (`hailo10h_direct.mojo`, `hailo10h_bridge.cpp`,
+  `cli/hailo_commands.mojo`); in-process HailoRT owns device model execution.
+- **Evidence:** readiness/lifetime/recovery/CLI/provenance receipts in
+  `docs/HAILO10H_SLICE_134_READINESS.md` through
+  `docs/HAILO10H_SLICE_138_PROVENANCE.md`.
+- **Slice 139:** `tests/test_hailo10h_hardware.py` is a physical acceptance seam
+  with explicit artifact/binary/profile, independent hashes before/after runs,
+  retained raw failures, strict provenance and ordered chat-context gates.
+  Seven synthetic validator tests pass; they prove rejection logic only.
+  Eleven local C ABI/CLI tests pass with one hardware class explicitly skipped.
+  FIFO, FIFO symlink, empty-file and directory model arguments reject promptly
+  before device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
+- **Next gate:** fresh slice-140 physical acceptance of the rebuilt source.
+  No general model quality, throughput, per-layer telemetry, service packaging,
+  additional runtime/platform compatibility or full-roadmap completion claim.

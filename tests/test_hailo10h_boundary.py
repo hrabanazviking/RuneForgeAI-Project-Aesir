@@ -14,9 +14,11 @@ Run from the repository root:
 import argparse
 import ctypes
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 
@@ -190,6 +192,26 @@ class CommandLineValidationTests(unittest.TestCase):
             [self.binary, *arguments], input="", capture_output=True,
             text=True, timeout=15, cwd=ROOT, check=False,
         )
+
+    def test_special_model_files_fail_before_device_allocation(self):
+        with tempfile.TemporaryDirectory(prefix="aesir-hailo-admission-") as directory:
+            root = Path(directory)
+            fifo = root / "model.hef"
+            os.mkfifo(fifo)
+            empty = root / "empty.hef"
+            empty.touch()
+            link = root / "fifo-link.hef"
+            link.symlink_to(fifo)
+            for path in (fifo, link, empty, root):
+                with self.subTest(kind=path.name):
+                    result = self.run_cli([
+                        "run", "--model-path", str(path), "--prompt", "not submitted",
+                    ])
+                    diagnostic = result.stdout + result.stderr
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn("ModelArtifactRequired", diagnostic)
+                    self.assertNotIn("VDevice::create_shared", diagnostic)
+                    self.assertNotIn("LLM::create", diagnostic)
 
     def test_invalid_requests_fail_in_parser_before_opening_model(self):
         model = ["--model-path", "/aesir-test-unused-model.hef"]

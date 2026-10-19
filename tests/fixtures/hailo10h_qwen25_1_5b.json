@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "profile": "hailo10h-qwen2.5-1.5b-instruct-hailort-5.3.0",
+  "architecture": "HAILO10H",
+  "backend": "hailort-genai",
+  "runtime_version": "5.3.0",
+  "firmware_version": "5.3.0",
+  "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+  "model_size_bytes": 2464582493,
+  "context_capacity": 2048,
+  "template_token_reserve": 64,
+  "max_tokens": 32,
+  "timeout_ms": 60000,
+  "process_timeout_seconds": 240,
+  "arithmetic_prompt": "What is 2 plus 3? Reply with only the number.",
+  "arithmetic_response_pattern": "\\s*5\\.?\\s*",
+  "remember_prompt": "Remember this word: ember. Reply briefly to confirm.",
+  "recall_prompt": "What word did I ask you to remember? Reply with only that word.",
+  "recall_word": "ember",
+  "overflow_word": "hello ",
+  "overflow_repetitions": 2500,
+  "evidence_boundary": "Public-prompt smoke and context lifecycle only; not general quality, speed, or per-layer telemetry."
+}
