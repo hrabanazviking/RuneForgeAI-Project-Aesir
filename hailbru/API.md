@@ -135,6 +135,18 @@ ownership. The current real caller performs read-only driver queries.
 Errors: `SocDriverMismatch`, `SocOpenFailed`, `SocSessionClosed`,
 `SocIoctlFailed`, `SocCleanupFailed`, plus existing discovery/OS/ABI errors.
 
+## Assigned integrated-device connection
+
+`hailbru.soc_session.open_soc_session(sysfs_root, dev_root) raises -> SocSession`
+owns the verified driver, two circular descriptor lists and assigned channels
+for port 12133. `require_open()` rejects a closed owner; `close()` is idempotent.
+Explicit cleanup and exception unwinding close the connection before releasing
+lists. Uncertain connect/close uses file-context finalization; list cleanup
+continues after an individual failure. Errors retain the driver/cleanup codes
+above. The native consumer exercises the real lifecycle without user DMA
+buffers, message exchange, model loading or inference. Transfer-buffer owners
+must be added and independently verified before a typed RPC round-trip.
+
 Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
 Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
 

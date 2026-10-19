@@ -2674,3 +2674,19 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   succeeds. See `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
 - **Boundary:** qualified 5.3.0 Linux driver profile; descriptors, connection,
   DMA, remote typed RPC and source-model compilation remain open.
+
+### Owned native Mojo assigned connection lifecycle
+
+- **Status:** `verified` on this Pi for two descriptor lists, assigned RPC
+  service channels and ordered normal/error/exception cleanup.
+- **Owner:** `hailbru/soc_session.mojo`, consumed by the native
+  `smidr/tools/soc_session.mojo` lifecycle tool.
+- **Evidence:** actual connection to port 12133, two builds and seven physical
+  methods with exact syscall order, ten normal successful sessions, exception
+  cleanup, six injected ioctl failures and a fresh connection after each.
+  Subsequent supported identify succeeds. See
+  `docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`.
+- **Boundary:** no user DMA buffer/transfer, typed remote message, program
+  generation or source-model execution. These remain required work under the
+  same target. Kernel memory-accounting and arbitrary firmware recovery are
+  not certified by these bounded tests.

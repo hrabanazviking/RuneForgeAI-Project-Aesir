@@ -1,3 +1,17 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): assigned PCIe lifecycle
+
+- Added independent movable Mojo ownership of two driver descriptor lists
+  and assigned port-12133 channels, with ordered explicit/exception cleanup.
+- Real Pi run succeeds with assigned channels 0/16, handles 16384/32768,
+  65536 descriptors per direction and 512-byte descriptor pages. Driver
+  starts channels at connect; no user DMA buffers or transfers are submitted.
+- Two native builds and all seven physical methods pass. Exact ioctl order,
+  six injected acquisition/close/release failures and fresh successful sessions
+  after each are observed. Supported device identify remains successful.
+- Receipt: `docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`. Automatically continue
+  exact transfer/alignment/completion and buffer lifetime, then typed RPC.
+  The broad Mojo source-model/compiler target remains fixed and incomplete.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): native driver ownership
 
 - Added a movable native Mojo owner, PCI/sysfs-to-open-fd device identity,

@@ -148,3 +148,13 @@ includes system headers for independent layout/constant evidence. The native
 Mojo owner performs real read-only queries through libc/syscall; no vendor
 runtime/bridge, kernel compilation, module or firmware changes are added.
 Evidence: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+
+### 2026-10-19 — Assigned descriptor/connection owner
+
+Continued licensed installed-driver interface study in `common/pcie_common.c`,
+`vdma_common.h`, `linux/pcie/src/soc.c`, `fops.c`, and `linux/vdma/ioctl.c`,
+`vdma.c`: descriptor/connection ownership, PCIe direction mask, bounded control
+wait, and finalization ordering. No implementation copied or translated.
+Original Mojo ownership policy and physical syscall/fault evidence are in
+`docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`. Driver code was not built, installed,
+loaded or modified. No user DMA buffer, transfer or model was supplied.
