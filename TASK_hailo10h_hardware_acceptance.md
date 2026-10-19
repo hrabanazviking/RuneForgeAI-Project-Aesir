@@ -1,6 +1,6 @@
 # Hailo-10H slices 139–140: repeatable physical acceptance
 
-Date: 2026-10-19. Status: contracted before implementation.
+Date: 2026-10-19. Status: implementation and physical acceptance complete; publication recorded in the campaign history.
 
 Authorization: the owner requested pulling Project Aesir, checking roadmap
 status, and continuing the Hailo-10 roadmap on this Pi with the established

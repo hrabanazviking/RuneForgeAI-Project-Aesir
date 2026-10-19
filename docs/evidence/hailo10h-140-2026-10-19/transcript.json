@@ -1,0 +1,221 @@
+{
+  "readiness": [
+    {
+      "backend": "hailort-genai",
+      "architecture": "HAILO10H",
+      "device_id": "0001:01:00.0",
+      "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+      "model_size_bytes": 2464582493,
+      "runtime_version": "5.3.0",
+      "firmware_version": "5.3.0",
+      "context_capacity": 2048,
+      "context_usage": 0,
+      "needs_reset": false,
+      "needs_reopen": false,
+      "last_completion": "none",
+      "template_token_reserve": 64,
+      "stop_tokens": [
+        "<|im_end|>",
+        "<|endoftext|>"
+      ]
+    }
+  ],
+  "single": [
+    {
+      "response": "5.",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 46,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "end_of_generation",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    }
+  ],
+  "chat": [
+    {
+      "backend": "hailort-genai",
+      "architecture": "HAILO10H",
+      "device_id": "0001:01:00.0",
+      "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+      "model_size_bytes": 2464582493,
+      "runtime_version": "5.3.0",
+      "firmware_version": "5.3.0",
+      "context_capacity": 2048,
+      "context_usage": 0,
+      "needs_reset": false,
+      "needs_reopen": false,
+      "last_completion": "none",
+      "template_token_reserve": 64,
+      "stop_tokens": [
+        "<|im_end|>",
+        "<|endoftext|>"
+      ]
+    },
+    {
+      "response": "Sure, what would you like to know about the word \"ember\" in detail? Please let me know if there's anything specific you'd like to discuss.<|im_end|>",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 73,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "max_tokens",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    },
+    {
+      "response": "The word I was asked to remember is \"ember.\"",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 108,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "end_of_generation",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    },
+    {
+      "error": "Direct Hailo-10H generation failed: ContextCapacityExceeded: prompt, output budget and template reserve do not fit; shorten the request or max-tokens, or use /clear to start a new conversation",
+      "action": "Retry or use /clear when reset is required; restart chat when reopen is required"
+    },
+    {
+      "backend": "hailort-genai",
+      "architecture": "HAILO10H",
+      "device_id": "0001:01:00.0",
+      "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+      "model_size_bytes": 2464582493,
+      "runtime_version": "5.3.0",
+      "firmware_version": "5.3.0",
+      "context_capacity": 2048,
+      "context_usage": 108,
+      "needs_reset": false,
+      "needs_reopen": false,
+      "last_completion": "end_of_generation",
+      "template_token_reserve": 64,
+      "stop_tokens": [
+        "<|im_end|>",
+        "<|endoftext|>"
+      ]
+    },
+    {
+      "response": "The word you were asking for is \"ember.\"",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 142,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "end_of_generation",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    },
+    {
+      "event": "context_cleared",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 0,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "context_cleared",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    },
+    {
+      "backend": "hailort-genai",
+      "architecture": "HAILO10H",
+      "device_id": "0001:01:00.0",
+      "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+      "model_size_bytes": 2464582493,
+      "runtime_version": "5.3.0",
+      "firmware_version": "5.3.0",
+      "context_capacity": 2048,
+      "context_usage": 0,
+      "needs_reset": false,
+      "needs_reopen": false,
+      "last_completion": "context_cleared",
+      "template_token_reserve": 64,
+      "stop_tokens": [
+        "<|im_end|>",
+        "<|endoftext|>"
+      ]
+    },
+    {
+      "response": "5.",
+      "provenance": {
+        "backend": "hailort-genai",
+        "architecture": "HAILO10H",
+        "device_id": "0001:01:00.0",
+        "model_sha256": "0856a10c2b804cfe1590b80aa5e28369eb7169a9b36de836420a0b8cdf5b8d05",
+        "model_size_bytes": 2464582493,
+        "runtime_version": "5.3.0",
+        "firmware_version": "5.3.0",
+        "context_capacity": 2048,
+        "context_usage": 46,
+        "needs_reset": false,
+        "needs_reopen": false,
+        "last_completion": "end_of_generation",
+        "template_token_reserve": 64,
+        "stop_tokens": [
+          "<|im_end|>",
+          "<|endoftext|>"
+        ]
+      }
+    }
+  ],
+  "publication_note": "Only the machine-specific model_path field is omitted from this public copy. Responses, errors and other provenance are unchanged; raw stdout digests are in receipt.json."
+}

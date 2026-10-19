@@ -5,8 +5,10 @@
 - [x] Slice 139: repeatable canonical-CLI hardware acceptance seam, pinned public
   profile and adversarial validator tests; reject special model files before
   blocking or device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
-- [ ] Slice 140: run the fresh direct-backend hardware acceptance and publish
-  measured device/model, response and context lifecycle evidence.
+- [x] Slice 140: fresh physical direct-backend acceptance, 12/12 boundary and
+  lifecycle checks, and Mojo exception cleanup pass. Evidence:
+  `docs/HAILO10H_SLICE_140_SMOKE.md`. Exact word-only recall formatting remains
+  a model quality limitation; recall and context lifecycle pass.
 - [ ] Slices 141–150: formalize first-model metadata, artifact/runtime pin,
   compatibility and operation coverage without broadening beyond evidence.
 

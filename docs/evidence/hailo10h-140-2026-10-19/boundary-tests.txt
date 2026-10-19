@@ -1,0 +1,17 @@
+test_clear_context_rejects_invalid_handles (__main__.BoundaryTests.test_clear_context_rejects_invalid_handles) ... ok
+test_close_is_idempotent_for_zero_and_unknown_handles (__main__.BoundaryTests.test_close_is_idempotent_for_zero_and_unknown_handles) ... ok
+test_describe_rejects_invalid_handles_and_buffers (__main__.BoundaryTests.test_describe_rejects_invalid_handles_and_buffers) ... ok
+test_error_capacity_bounds_and_nul_termination (__main__.BoundaryTests.test_error_capacity_bounds_and_nul_termination) ... ok
+test_free_null_text_is_safe (__main__.BoundaryTests.test_free_null_text_is_safe) ... ok
+test_generate_rejects_invalid_arguments_and_clears_outputs (__main__.BoundaryTests.test_generate_rejects_invalid_arguments_and_clears_outputs) ... ok
+test_null_error_buffers_are_safe (__main__.BoundaryTests.test_null_error_buffers_are_safe) ... ok
+test_open_null_handle_returns_before_allocating_device (__main__.BoundaryTests.test_open_null_handle_returns_before_allocating_device) ... ok
+test_open_null_path_resets_handle_before_returning (__main__.BoundaryTests.test_open_null_path_resets_handle_before_returning) ... ok
+test_invalid_requests_fail_in_parser_before_opening_model (__main__.CommandLineValidationTests.test_invalid_requests_fail_in_parser_before_opening_model) ... ok
+test_special_model_files_fail_before_device_allocation (__main__.CommandLineValidationTests.test_special_model_files_fail_before_device_allocation) ... ok
+test_real_model_identity_close_and_stale_handles (__main__.HardwareLifecycleTests.test_real_model_identity_close_and_stale_handles) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 10.404s
+
+OK

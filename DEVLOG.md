@@ -1,3 +1,35 @@
+## 2026-10-19 — Codex (Auditor, Scribe): Hailo slice 140
+
+### Completed and verified
+- Physical canonical-CLI runner PASSED: HAILO10H at `0001:01:00.0`, runtime and
+  firmware 5.3.0, pinned Qwen2.5-1.5B artifact digest and 2048-token capacity.
+- Single-shot arithmetic returned `5.`. Persistent chat context grew
+  0 → 73 → 108 tokens; oversized input rejected at unchanged 108; subsequent
+  recall grew context to 142; explicit reset returned usage to 0; arithmetic
+  after reset returned `5.` at usage 46. All input/source/binary/library/model
+  fingerprints revalidated after execution.
+- Final-source boundary/lifecycle suite passed 12/12, including regular model
+  load and all special-file rejections. Mojo exception unwinding released the
+  native handle; repeated close remained safe.
+- Slice-139 API commit `d5625694ae248def914a215985bd4fc94961925a` has exactly
+  the tested local source tree `da769003c42dcccd82254176d5a337d7c8125996`.
+
+### Discoveries and limits
+- Recall succeeds, but both word-only instruction checks fail; generated text
+  includes explanatory phrasing. One max-token completion retains a stop-token
+  spelling. Public transcript preserves these limitations.
+- Recorded 10.12/15.51/24.53-second readiness/run/chat process durations include
+  loading and orchestration; they are not inference speed measurements.
+- Hosted push CI run `39314556676` fails while compiling the historical
+  master: four `test_inference.mojo` calls omit the required
+  `enable_gpu_realm` argument to `validate_runtime_backend_config`. Neither
+  affected source was changed by slice 139. Physical checks pass; hosted
+  release acceptance remains failed and is not bypassed or reported green.
+
+### Next
+- Continue at slice 141, formalizing supported model formats and the first
+  Hailo artifact's metadata, license, runtime pin and operation coverage.
+
 ## 2026-10-19 — Codex (Cartographer, Forge Worker, Auditor, Scribe): Hailo slice 139
 
 ### Completed

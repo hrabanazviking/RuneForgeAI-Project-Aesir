@@ -2608,6 +2608,13 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   Eleven local C ABI/CLI tests pass with one hardware class explicitly skipped.
   FIFO, FIFO symlink, empty-file and directory model arguments reject promptly
   before device allocation. See `docs/HAILO10H_SLICE_139_HARDWARE_SEAM.md`.
-- **Next gate:** fresh slice-140 physical acceptance of the rebuilt source.
+- **Slice 140 (physical):** the fresh canonical-CLI acceptance passes readiness,
+  single-shot arithmetic, persistent recall, context-overflow rejection without
+  mutation, reset-to-zero and post-reset generation. All source/binary/library/
+  profile/model hashes remain unchanged. Final-source boundary/lifecycle tests
+  pass 12/12; Mojo exception cleanup and repeat close pass. See
+  `docs/HAILO10H_SLICE_140_SMOKE.md` and its public receipt/transcript.
+- **Next gate:** slices 141–150 formal model/artifact compatibility acceptance.
+  Strict word-only recall formatting fails in this qualified model.
   No general model quality, throughput, per-layer telemetry, service packaging,
   additional runtime/platform compatibility or full-roadmap completion claim.
