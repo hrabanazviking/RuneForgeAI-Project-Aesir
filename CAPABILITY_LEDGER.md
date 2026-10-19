@@ -2661,3 +2661,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** codecs establish neither resource ownership nor valid DMA
   allocation, alignment, lifetime or physical completion. Driver session and
   source-model execution remain separate required work.
+
+### Owned native Mojo read-only driver query
+
+- **Status:** `verified` on this Pi for driver-file identity, actual kernel
+  properties/version and fd cleanup. No independent RPC or inference claim.
+- **Owner:** `hailbru/soc_driver.mojo`, consumed by native
+  `smidr/tools/soc_driver.mojo` through the HAILBRÚ syscall gateway.
+- **Evidence:** actual Hailo-10H PCIe query, two native builds and eleven test
+  methods including strace-observed close, both injected read-only query
+  failures, exception cleanup and node refusal. Subsequent supported identify
+  succeeds. See `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+- **Boundary:** qualified 5.3.0 Linux driver profile; descriptors, connection,
+  DMA, remote typed RPC and source-model compilation remain open.

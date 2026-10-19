@@ -1,0 +1,16 @@
+test_host_uname_statx_layout_matches_compiled_system_headers (__main__.DriverOwner.test_host_uname_statx_layout_matches_compiled_system_headers) ... ok
+test_invalid_node_name_and_missing_device_node (__main__.DriverOwner.test_invalid_node_name_and_missing_device_node) ... ok
+test_missing_matching_pci_device (__main__.DriverOwner.test_missing_matching_pci_device) ... ok
+test_missing_or_ambiguous_node_association (__main__.DriverOwner.test_missing_or_ambiguous_node_association) ... ok
+test_multiple_matching_pci_devices (__main__.DriverOwner.test_multiple_matching_pci_devices) ... ok
+test_node_symlink_refused_at_open (__main__.DriverOwner.test_node_symlink_refused_at_open) ... ok
+test_physical_exception_unwinding_closes (__main__.DriverOwner.test_physical_exception_unwinding_closes) ... ok
+test_physical_query_and_explicit_repeat_close (__main__.DriverOwner.test_physical_query_and_explicit_repeat_close) ... ok
+test_physical_rdev_mismatch_closes_before_ioctl (__main__.DriverOwner.test_physical_rdev_mismatch_closes_before_ioctl) ... ok
+test_physical_readonly_query_failures_close (__main__.DriverOwner.test_physical_readonly_query_failures_close) ... ok
+test_regular_file_and_fifo_refuse_without_hang_and_close (__main__.DriverOwner.test_regular_file_and_fifo_refuse_without_hang_and_close) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.360s
+
+OK

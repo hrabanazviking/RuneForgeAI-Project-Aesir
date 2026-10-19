@@ -136,3 +136,15 @@ A test-only C++ oracle includes the operator's installed UAPI header to emit
 layout and byte evidence; no vendor header is shipped in this repository.
 No kernel code was built, installed, loaded or changed. Host-only evidence:
 `docs/HAILO10H_MOJO_SOC_ABI.md`.
+
+### 2026-10-19 — Driver file ownership and system UAPI facts
+
+Continued installed 5.3.0 driver interface study: `linux/pcie/src/soc.c`,
+`fops.c` and `linux/vdma/vdma.c` for per-file ownership/finalization order.
+Recorded behavior only; no GPL implementation copied or translated. Read
+installed Linux/glibc system headers for statx, uname, syscall and ARM open
+flag ABI facts; no header declarations are shipped. Test-only C++ oracle
+includes system headers for independent layout/constant evidence. The native
+Mojo owner performs real read-only queries through libc/syscall; no vendor
+runtime/bridge, kernel compilation, module or firmware changes are added.
+Evidence: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.

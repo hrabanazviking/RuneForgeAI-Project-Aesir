@@ -6,8 +6,9 @@
 - Vendor catalog slice 142 and its dependent precompiled-only work orders are
   withdrawn before implementation; prior receipts remain historical evidence.
 - Active parent: `TASK_hailo10h_mojo_model_execution.md`. Mojo integrated RPC
-  framing, typed control messages and packed driver ABI are verified; next
-  work is the owned PCIe session lifecycle,
+  framing, typed control messages and packed driver ABI are verified. A native
+  driver query/owner is physically verified; next work is owned descriptors
+  and the assigned PCIe session lifecycle,
   then a bounded read-only round-trip. Source import/lowering/configuration
   generation remain part of the same fixed target. See
   `docs/HAILO10H_SOURCE_EXECUTION_PROGRESS.md`.

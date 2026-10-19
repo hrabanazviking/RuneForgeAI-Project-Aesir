@@ -1,3 +1,18 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): native driver ownership
+
+- Added a movable native Mojo owner, PCI/sysfs-to-open-fd device identity,
+  exact packed read-only queries, idempotent close and exception cleanup.
+- Actual Pi query succeeds: Hailo-10H PCIe, one engine, descriptor page maximum
+  4096, driver 5.3.0 and firmware loaded. No connection, DMA or model opened.
+- Both builds and eleven test methods pass, including two separate injected
+  read-only ioctl EIO failures, observed close, exception unwind and node
+  boundaries. Subsequent supported hardware identify succeeds; ABI tests 9/9.
+- Tests caught the ARM/x86 O_NOFOLLOW difference; corrected from installed
+  headers and now require no-follow in the actual open trace. Initial failure
+  output is preserved. Receipt: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+- Next, automatically: descriptor and assigned connection ownership/cleanup,
+  then bounded physical typed RPC. Source-model compiler target stays fixed.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): packed session ABI
 
 - Reconciled installed 5.3.0 UAPI byte packing, exact request numbers,

@@ -6,6 +6,10 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <sys/utsname.h>
+#include <sys/syscall.h>
+#include <linux/stat.h>
+#include <fcntl.h>
 #include "hailo_ioctl_common.h"
 
 template<typename T> void bytes(const T &value) {
@@ -20,7 +24,16 @@ int main(int argc, char **argv) {
     static_assert(sizeof(bool) == 1 && sizeof(hailo_dma_buffer_type) == 4);
     const auto n = [&](int i) { return std::strtoull(argv[i], nullptr, 10); };
     const std::string mode = argc > 1 ? argv[1] : "layout";
-    if (mode == "layout" && argc == 2) {
+    if (mode == "host-layout" && argc == 2) {
+        std::cout << "{\"uname_size\":" << sizeof(utsname)
+                  << ",\"uname_machine\":" << offsetof(utsname, machine)
+                  << ",\"statx_size\":" << sizeof(statx)
+                  << ",\"statx_mode\":" << offsetof(statx, stx_mode)
+                  << ",\"statx_rdev_major\":" << offsetof(statx, stx_rdev_major)
+                  << ",\"statx_rdev_minor\":" << offsetof(statx, stx_rdev_minor)
+                  << ",\"statx_syscall\":" << SYS_statx
+                  << ",\"o_nofollow\":" << O_NOFOLLOW << "}\n";
+    } else if (mode == "layout" && argc == 2) {
         std::cout << "{";
         bool first = true;
         const auto item = [&](const char *key, uint64_t value) {

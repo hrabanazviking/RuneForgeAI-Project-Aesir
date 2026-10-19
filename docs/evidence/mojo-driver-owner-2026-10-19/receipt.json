@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-19",
+  "contract": "TASK_hailo10h_soc_session.md",
+  "scope": "Native driver file identity, read-only kernel properties/version and observed fd cleanup; no PCIe connection or DMA or inference",
+  "test_methods_passed": 11,
+  "abi_regression_methods_passed": 9,
+  "physical_data": {
+    "bdf": "0001:01:00.0",
+    "node": "h1x-0",
+    "arch": "aarch64",
+    "driver": {
+      "major": 5,
+      "minor": 3,
+      "revision": 0
+    },
+    "properties": {
+      "desc_max_page_size": 4096,
+      "board_type": 2,
+      "dma_type": 0,
+      "dma_engines_count": 1,
+      "is_fw_loaded": true
+    },
+    "fd_closed": true,
+    "repeat_close": true,
+    "closed_request_refused": true,
+    "dma_submitted": false
+  },
+  "initial_findings": [
+    "ARM O_NOFOLLOW differs from x86; corrected from installed header and required in real open trace",
+    "strace decoded ioctl format parsed for numeric comparison"
+  ],
+  "source_sha256": {
+    "hailbru/syscall.mojo": "0fb27cc03bb2478b883781171ac77427387e1a86f48b55267090f159901be637",
+    "hailbru/soc_driver.mojo": "6649aed99f71786fd420d22f20c7a11a3b9f40335f1d35fe9e2ede4e85043a9c",
+    "smidr/tools/soc_driver.mojo": "b3492d27000bdfeb1944c7e05d1ab5a9cec918254d7509bad44d1f78994b9a3f",
+    "tests/hailo_soc_driver_unwind.mojo": "185a2e7291b643d2ac7e1dd2bc8493d3fa64611c532522c7cdf687904d709019",
+    "tests/test_hailo_soc_driver.py": "6932baa9cda2d88592b64f34050173edc53bb588422fdf8efd92f6874e91ded6",
+    "tests/hailo_soc_abi_oracle.cpp": "ffcd4b1856459f1f9ee0bcc6873a931f27f5e107dccf088653c20d3e25bc67bf"
+  },
+  "binary_sha256": {
+    "soc-driver": "3648fa6218c6dfde81a2555960523fab67813d6268ed6fd63c1cb4ec928f7f55",
+    "soc-driver-unwind": "2df281cfc9288e1bc1423b0fbc4125d7817e23831b1e5fc84d88f05ac87472eb",
+    "soc-abi-oracle": "2d3ba239f75b782700b90522e469d3fdde21d55fca530dab9a71ab549ad12cf8"
+  },
+  "next": "Owned descriptors and assigned connection cleanup before bounded typed RPC; fixed source-model target remains open"
+}

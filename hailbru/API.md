@@ -122,6 +122,19 @@ unknown values. Zero handles are admitted; the all-ones sentinel rejects.
 This is byte compatibility, not DMA or session ownership admission. Callers
 must establish identity, allocation, assigned resources and lifetime separately.
 
+## Owned integrated-device driver file
+
+`hailbru.soc_driver.open_soc_driver(sysfs_root, dev_root) raises -> SocDriver`
+discovers the PCI identity and associated node, verifies the opened character
+fd's device numbers, then queries/qualifies the installed 5.3.0 Hailo-10H
+driver profile. `SocDriver` is movable, not copyable; `close()` is idempotent
+and exception unwinding closes the fd. `request(operation, mut data)` accepts
+only the admitted ABI operations, checks storage size and refuses a closed fd.
+It is a low-level HAILBRÚ operation, not proof of descriptor/channel/buffer
+ownership. The current real caller performs read-only driver queries.
+Errors: `SocDriverMismatch`, `SocOpenFailed`, `SocSessionClosed`,
+`SocIoctlFailed`, `SocCleanupFailed`, plus existing discovery/OS/ABI errors.
+
 Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
 Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
 

@@ -31,3 +31,5 @@ def errno_error(op: String, path: String, e: Int64) -> Error:
 # Source-model transport additions:
 #   BadRpcFrame, BadRpcHex, BadRpcProtobuf, RpcReplyMismatch, RpcRemoteFailure
 #   BadSocAbi
+#   SocDriverMismatch, SocOpenFailed, SocSessionClosed, SocIoctlFailed,
+#   SocCleanupFailed

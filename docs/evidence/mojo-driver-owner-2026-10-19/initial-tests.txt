@@ -1,0 +1,168 @@
+test_host_uname_statx_layout_matches_compiled_system_headers (__main__.DriverOwner.test_host_uname_statx_layout_matches_compiled_system_headers) ... ok
+test_invalid_node_name_and_missing_device_node (__main__.DriverOwner.test_invalid_node_name_and_missing_device_node) ... ok
+test_missing_matching_pci_device (__main__.DriverOwner.test_missing_matching_pci_device) ... ok
+test_missing_or_ambiguous_node_association (__main__.DriverOwner.test_missing_or_ambiguous_node_association) ... ok
+test_multiple_matching_pci_devices (__main__.DriverOwner.test_multiple_matching_pci_devices) ... ok
+test_node_symlink_refused_at_open (__main__.DriverOwner.test_node_symlink_refused_at_open) ... FAIL
+test_physical_exception_unwinding_closes (__main__.DriverOwner.test_physical_exception_unwinding_closes) ... ok
+test_physical_query_and_explicit_repeat_close (__main__.DriverOwner.test_physical_query_and_explicit_repeat_close) ... FAIL
+test_physical_rdev_mismatch_closes_before_ioctl (__main__.DriverOwner.test_physical_rdev_mismatch_closes_before_ioctl) ... ok
+test_physical_readonly_query_failures_close (__main__.DriverOwner.test_physical_readonly_query_failures_close) ... ok
+test_regular_file_and_fifo_refuse_without_hang_and_close (__main__.DriverOwner.test_regular_file_and_fifo_refuse_without_hang_and_close) ... ok
+
+======================================================================
+FAIL: test_node_symlink_refused_at_open (__main__.DriverOwner.test_node_symlink_refused_at_open)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_driver.py", line 119, in test_node_symlink_refused_at_open
+    trace = self.reject("SocOpenFailed", trace=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_driver.py", line 62, in reject
+    self.assertIn("HailbruError[" + code + "]", result.stderr + result.stdout)
+AssertionError: 'HailbruError[SocOpenFailed]' not found in 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: HailbruError[SocDriverMismatch]: opened character fd does not match PCI sysfs dev numbers\n'
+
+======================================================================
+FAIL: test_physical_query_and_explicit_repeat_close (__main__.DriverOwner.test_physical_query_and_explicit_repeat_close)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_soc_driver.py", line 141, in test_physical_query_and_explicit_repeat_close
+    self.assertEqual(calls, ["0x400c6701", "0x40136700"], trace)
+AssertionError: Lists differ: [] != ['0x400c6701', '0x40136700']
+
+Second list contains 2 additional elements.
+First extra element 0:
+'0x400c6701'
+
+- []
++ ['0x400c6701', '0x40136700'] : openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/tls/aarch64/atomics/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/tls/aarch64/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/tls/atomics/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/tls/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/aarch64/atomics/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/aarch64/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/atomics/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so", O_RDONLY|O_CLOEXEC) = 3</home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so>
+close(3</home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3</etc/ld.so.cache>
+close(3</etc/ld.so.cache>)              = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/lib/aarch64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3</usr/lib/aarch64-linux-gnu/libc.so.6>
+close(3</usr/lib/aarch64-linux-gnu/libc.so.6>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/tls/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/tls/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/tls/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/tls/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/tls/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/tls/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_USupport/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/tls/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/tls/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/tls/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_USupport/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/tls/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/tls/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/tls/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../_solib_aarch64/_UAsyncRT/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/tls/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/tls/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/tls/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/tls/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/aarch64/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/aarch64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/atomics/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libKGENCompilerRTShared.so.runfiles/_main/_solib_aarch64/_UAsyncRT/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/lib/aarch64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3</usr/lib/aarch64-linux-gnu/libm.so.6>
+close(3</usr/lib/aarch64-linux-gnu/libm.so.6>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = 3</home/pi/mojo-dev/.pixi/envs/default/lib/libstdc++.so.6.0.36>
+close(3</home/pi/mojo-dev/.pixi/envs/default/lib/libstdc++.so.6.0.36>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libMSupportGlobals.so", O_RDONLY|O_CLOEXEC) = 3</home/pi/mojo-dev/.pixi/envs/default/lib/libMSupportGlobals.so>
+close(3</home/pi/mojo-dev/.pixi/envs/default/lib/libMSupportGlobals.so>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so", O_RDONLY|O_CLOEXEC) = 3</home/pi/mojo-dev/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so>
+close(3</home/pi/mojo-dev/.pixi/envs/default/lib/libAsyncRTRuntimeGlobals.so>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3</home/pi/mojo-dev/.pixi/envs/default/lib/libgcc_s.so.1>
+close(3</home/pi/mojo-dev/.pixi/envs/default/lib/libgcc_s.so.1>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./tls/aarch64/atomics/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./tls/aarch64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./tls/atomics/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./aarch64/atomics/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./aarch64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./atomics/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/./libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/home/pi/mojo-dev/.pixi/envs/default/lib/../lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/lib/aarch64-linux-gnu/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3</usr/lib/aarch64-linux-gnu/libdl.so.2>
+close(3</usr/lib/aarch64-linux-gnu/libdl.so.2>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/cpu/possible", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/cpu/possible>
+close(3</sys/devices/system/cpu/possible>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node0/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node0/cpulist>
+close(3</sys/devices/system/node/node0/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node1/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node1/cpulist>
+close(3</sys/devices/system/node/node1/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node2/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node2/cpulist>
+close(3</sys/devices/system/node/node2/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node3/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node3/cpulist>
+close(3</sys/devices/system/node/node3/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node4/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node4/cpulist>
+close(3</sys/devices/system/node/node4/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node5/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node5/cpulist>
+close(3</sys/devices/system/node/node5/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node6/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node6/cpulist>
+close(3</sys/devices/system/node/node6/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node7/cpulist", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/node/node7/cpulist>
+close(3</sys/devices/system/node/node7/cpulist>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/node/node8/cpulist", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list", O_RDONLY|O_CLOEXEC) = 3</sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list>
+close(3</sys/devices/system/cpu/cpu0/cache/index3/shared_cpu_list>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices", O_RDONLY) = 3</sys/bus/pci/devices>
+close(3</sys/bus/pci/devices>)          = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:00:00.0/vendor", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/vendor>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/vendor>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:00:00.0/device", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/device>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/device>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0002:01:00.0/vendor", O_RDONLY) = 3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/0002:01:00.0/vendor>
+close(3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/0002:01:00.0/vendor>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0002:01:00.0/device", O_RDONLY) = 3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/0002:01:00.0/device>
+close(3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/0002:01:00.0/device>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0002:00:00.0/vendor", O_RDONLY) = 3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/vendor>
+close(3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/vendor>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0002:00:00.0/device", O_RDONLY) = 3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/device>
+close(3</sys/devices/platform/axi/1000120000.pcie/pci0002:00/0002:00:00.0/device>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:01:00.0/vendor", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/vendor>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/vendor>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:01:00.0/device", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/device>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/device>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:01:00.0/hailo1x", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/hailo1x>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/hailo1x>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/sys/bus/pci/devices/0001:01:00.0/hailo1x/h1x-0/dev", O_RDONLY) = 3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/hailo1x/h1x-0/dev>
+close(3</sys/devices/platform/axi/1000110000.pcie/pci0001:00/0001:00:00.0/0001:01:00.0/hailo1x/h1x-0/dev>) = 0
+openat(AT_FDCWD</home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir>, "/dev/h1x-0", O_RDWR|O_NONBLOCK|O_LARGEFILE|O_CLOEXEC) = 3</dev/h1x-0>
+statx(3</dev/h1x-0>, "", AT_STATX_SYNC_AS_STAT|AT_EMPTY_PATH, STATX_TYPE, {stx_mask=STATX_BASIC_STATS|STATX_MNT_ID, stx_attributes=0, stx_mode=S_IFCHR|0666, stx_size=0, ...}) = 0
+ioctl(3</dev/h1x-0>, _IOC(_IOC_WRITE, 0x67, 0x1, 0xc), 0x1b31ffe00000) = 0
+ioctl(3</dev/h1x-0>, _IOC(_IOC_WRITE, 0x67, 0, 0x13), 0x1b31ffe04000) = 0
+close(3</dev/h1x-0>)                    = 0
++++ exited with 0 +++
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.431s
+
+FAILED (failures=2)
