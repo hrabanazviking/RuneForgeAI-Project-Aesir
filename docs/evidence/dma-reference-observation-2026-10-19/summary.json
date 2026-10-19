@@ -1,0 +1,67 @@
+{
+  "paired_ioctls": 548,
+  "host_page_size": 16384,
+  "message_transfer_bytes": 2068,
+  "descriptor_page_size": 512,
+  "successful_transfer_return": 5,
+  "h2d_transfers": 5,
+  "d2h_transfers": 6,
+  "completed_h2d": 5,
+  "completed_d2h": 5,
+  "outstanding_d2h_at_shutdown": 1,
+  "shutdown_close_and_all_buffer_unmaps_observed": true,
+  "request_headers": [
+    {
+      "message_id": 0,
+      "action": 20,
+      "body_bytes": 0,
+      "status": 1
+    },
+    {
+      "message_id": 1,
+      "action": 33,
+      "body_bytes": 10,
+      "status": 1
+    },
+    {
+      "message_id": 2,
+      "action": 33,
+      "body_bytes": 10,
+      "status": 1
+    },
+    {
+      "message_id": 3,
+      "action": 22,
+      "body_bytes": 4,
+      "status": 1
+    },
+    {
+      "message_id": 4,
+      "action": 21,
+      "body_bytes": 4,
+      "status": 1
+    }
+  ],
+  "explicit_sync_ioctls": 0,
+  "mapped_buffers": 258,
+  "unmapped_buffers": 258,
+  "mapping_groups": [
+    {
+      "bytes": 256,
+      "direction": 1,
+      "count": 128
+    },
+    {
+      "bytes": 2068,
+      "direction": 1,
+      "count": 128
+    },
+    {
+      "bytes": 2068,
+      "direction": 2,
+      "count": 2
+    }
+  ],
+  "independent_mojo_exchange": false,
+  "model_inference": false
+}

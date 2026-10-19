@@ -2690,3 +2690,16 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   generation or source-model execution. These remain required work under the
   same target. Kernel memory-accounting and arbitrary firmware recovery are
   not certified by these bounded tests.
+
+### Integrated RPC reference transfer facts
+
+- **Status:** `verified` as bounded installed-reference observation, not an
+  independent Mojo message exchange or model execution capability.
+- **Evidence:** `docs/HAILO10H_DMA_OBSERVATION.md`; 548 paired real ioctl
+  calls, 258 matching buffer tuples, exact 2068-byte transfers, positive
+  descriptor-count result 5, request status 1, eight adversarial checker tests
+  and evidence non-overwrite refusal. Subsequent ordinary identify and owned
+  Mojo connection lifecycle succeed.
+- **Next:** production return/status corrections, owned map/unmap/sync/storage
+  and bounded interrupt lifetime, then actual correlated Mojo device RPC.
+  These findings do not reduce the source-model/compiler target.

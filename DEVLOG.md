@@ -1,3 +1,18 @@
+## 2026-10-19 — Codex (Researcher, Auditor, Scribe): exact DMA observation
+
+- Published the observation/completion contract at `690766e`. Preserved the
+  owner's concurrent nine compiler-strategy uploads before all publication.
+- Built an independent test-only ioctl observer; bounded private read-only
+  reference identify succeeds. Checker pairs 548 calls and 258 map/unmap tuples.
+- Actual RPC submissions are 2068 bytes on page-aligned pointers; successful
+  launch returns 5 descriptors; request status is 1. An initial unmap-handle
+  assumption was rejected and corrected to the original buffer tuple.
+- Eight adversarial checker methods and evidence non-overwrite refusal pass.
+  Subsequent normal identify and independent Mojo connection lifecycle pass.
+- Receipt: `docs/HAILO10H_DMA_OBSERVATION.md`. Next: correct request results /
+  status, then owned buffer codecs and bounded completion before live Mojo RPC.
+  Full source-model compiler and hardware operation generation remain open.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): assigned PCIe lifecycle
 
 - Added independent movable Mojo ownership of two driver descriptor lists

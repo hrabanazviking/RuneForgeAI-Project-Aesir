@@ -1,0 +1,13 @@
+test_actual_paired_observation (__main__.ObservationChecks.test_actual_paired_observation) ... ok
+test_failed_ioctl_is_not_reported_as_reference_success (__main__.ObservationChecks.test_failed_ioctl_is_not_reported_as_reference_success) ... ok
+test_guessed_padding_and_zero_success_return_reject (__main__.ObservationChecks.test_guessed_padding_and_zero_success_return_reject) ... ok
+test_interrupt_error_does_not_become_completion (__main__.ObservationChecks.test_interrupt_error_does_not_become_completion) ... ok
+test_invented_zero_request_status_rejects (__main__.ObservationChecks.test_invented_zero_request_status_rejects) ... ok
+test_missing_and_duplicate_call_records_reject (__main__.ObservationChecks.test_missing_and_duplicate_call_records_reject) ... ok
+test_unassigned_descriptor_or_channels_reject (__main__.ObservationChecks.test_unassigned_descriptor_or_channels_reject) ... ok
+test_wrong_unmap_tuple_rejects (__main__.ObservationChecks.test_wrong_unmap_tuple_rejects) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.118s
+
+OK

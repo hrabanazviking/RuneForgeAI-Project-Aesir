@@ -14,6 +14,7 @@ verify, publish and advance each bounded work slice.
 | Running driver ABI | Verified as a host byte primitive | `HAILO10H_MOJO_SOC_ABI.md`; twelve ioctl values and 84 complete buffers match the installed C UAPI oracle. |
 | Owned native driver query | Verified on the actual Pi driver | `HAILO10H_MOJO_DRIVER_OWNER.md`; actual properties/version, identity and observed close/refusal/error/unwind checks. No connection or DMA. |
 | PCIe descriptor / connection lifecycle | Verified on the actual Pi driver | `HAILO10H_MOJO_SESSION_LIFECYCLE.md`; actual assigned channels, ordered close, six injected failures and exception cleanup. |
+| Reference DMA interface observation | Verified reference facts | `HAILO10H_DMA_OBSERVATION.md`: actual 2068-byte submissions, positive descriptor-count returns, request status 1, complete mapping tuples. Not independent Mojo exchange. |
 | Owned user DMA / completion | In progress | `TASK_hailo10h_dma_observation.md`: bounded read-only reference observation, exact sizes/cache/completion facts, owned deadlines and storage before typed RPC transfer. |
 | Independent Mojo read-only device round-trip | Pending session work | Must identify the actual device with response correlation and complete cleanup. |
 | Source-model compiler representation / resource planning | Existing parsers; compiler connection open | Connect real source metadata/tensors to owned lowering inputs and resource estimates. |

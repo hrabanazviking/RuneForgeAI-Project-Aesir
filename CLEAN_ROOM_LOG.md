@@ -158,3 +158,16 @@ wait, and finalization ordering. No implementation copied or translated.
 Original Mojo ownership policy and physical syscall/fault evidence are in
 `docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`. Driver code was not built, installed,
 loaded or modified. No user DMA buffer, transfer or model was supplied.
+
+### 2026-10-19 — Bounded read-only DMA observation
+
+Under `TASK_hailo10h_dma_observation.md`, the independent test observer
+includes the installed dual-licensed UAPI and forwards actual libc ioctl in a
+private installed-runtime identify child. No vendor implementation is copied,
+translated or shipped. Interface study at the already pinned MIT HailoRT
+revision: `hrpc/client.cpp`, `vdma/driver/hailort_driver.cpp`; installed driver
+UAPI/behavior facts from `linux/vdma/ioctl.c`, `common/vdma_common.c`, and
+installed `hailo/hailort.h` status declaration. Extracted exact sizes, result
+semantics, request status and unmap keys into the observation receipt before
+the next production implementation. No model/inference or kernel changes.
+See `docs/HAILO10H_DMA_OBSERVATION.md`.
