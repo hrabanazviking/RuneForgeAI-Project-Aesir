@@ -1,3 +1,13 @@
+## 2026-10-19 — Codex (Cartographer, Scribe): Hailo slice 141
+
+- Inventoried the active canonical compiled GenAI artifact route against actual
+  source and slice-140 physical receipts. Separated preserved GGUF/safetensors
+  parsers and historical CUDA profiles from Hailo execution support.
+- Confirmed all eleven cited owner paths, canonical dispatch import, actual
+  HailoRT model creation and explicit legacy GGUF execution refusal.
+- Receipt: `docs/HAILO10H_SLICE_141_FORMATS.md`. No runtime or capability
+  promotion. Next slice 142 starts automatically after this publication.
+
 ## 2026-10-19 — Codex (Auditor, Scribe): Hailo slice 140
 
 ### Completed and verified

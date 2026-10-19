@@ -2,7 +2,7 @@
 
 **Goal:** make Project AESIR reliably useful with every LLM inference executed on the Hailo-10H accelerator. The Raspberry Pi CPU may run the operating system, AESIR orchestration, UI, tokenization, storage, and other non-LLM support code; it must never run an LLM inference path or fallback.
 
-**Current frontier (2026-10-19):** the direct in-process Mojo/C++ HailoRT GenAI backend and canonical CLI are implemented, with device/model readiness, owned lifetime, timeout recovery, chat/reset and response fingerprints evidenced through slices 133–138. Slices 139–140 add a repeatable acceptance runner and pass fresh physical readiness, inference, context preservation/reset and cleanup checks. The active frontier is slice 141: formal model metadata and compatibility acceptance. The qualified profile is HailoRT/firmware 5.3.0 with Qwen2.5-1.5B-Instruct on Hailo-10H. CPU/CUDA LLM paths and inference proxies remain excluded. H111 describes the historical raw-mailbox experiment, not this supported API route. Checked research slices are evidence/decision artifacts, not 132 implemented runtime features.
+**Current frontier (2026-10-19):** the direct in-process Mojo/C++ HailoRT GenAI backend and canonical CLI are implemented, with device/model readiness, owned lifetime, timeout recovery, chat/reset and response fingerprints evidenced through slices 133–138. Slices 139–140 add a repeatable acceptance runner and pass fresh physical readiness, inference, context preservation/reset and cleanup checks. Slice 141 inventories active and historical format boundaries; the active frontier is slice 142, official catalog candidate selection. The qualified profile is HailoRT/firmware 5.3.0 with Qwen2.5-1.5B-Instruct on Hailo-10H. CPU/CUDA LLM paths and inference proxies remain excluded. H111 describes the historical raw-mailbox experiment, not this supported API route. Checked research slices are evidence/decision artifacts, not 132 implemented runtime features.
 
 **Execution model:** 20 phases × 10 slices = exactly 200 slices. Every model operation must execute on Hailo-10H. Host CPU may perform ordinary application orchestration, tokenization, request handling, and I/O; it may not execute, shadow, serve, or fall back to LLM inference. Use the direct in-process HailoRT GenAI API and compatible Hailo model artifacts. Do not route inference through Hailo-Ollama, another service, CPU, CUDA, or cloud. When a gate fails, keep working through bounded diagnostics, version/model alternatives supported by Hailo, and implementation fixes; record temporary blockers without converting them into terminal project decisions.
 
@@ -206,7 +206,7 @@ Phase 14 evidence: `TASK_hailo10h_direct_lifecycle.md`, `docs/HAILO10H_SLICE_134
 
 ## Phase 15: First model feasibility
 
-- [ ] **Slice 141.** List Æsir's currently supported model formats and architecture families from repository evidence.
+- [x] **Slice 141.** List Æsir's currently supported model formats and architecture families from repository evidence.
 - [ ] **Slice 142.** Select the first Hailo-10H GenAI catalog model with an artifact compatible with installed HailoRT.
 - [ ] **Slice 143.** Record model license, revision, tokenizer, and architecture metadata.
 - [ ] **Slice 144.** Estimate accelerator memory needs from documented capacity; label estimates rather than measurements.
@@ -216,6 +216,8 @@ Phase 14 evidence: `TASK_hailo10h_direct_lifecycle.md`, `docs/HAILO10H_SLICE_134
 - [ ] **Slice 148.** Reject the model candidate if any required op or configuration format is unverified.
 - [ ] **Slice 149.** Document what new Hailo capabilities would be needed to revisit rejected candidates.
 - [ ] **Slice 150.** Publish a candidate decision; do not execute any LLM on the Pi CPU.
+
+Phase 15 progress and per-slice receipts: `docs/HAILO10H_PHASE15_PROGRESS.md`.
 
 ## Phase 16: Hailo proof benchmark and correctness gates
 
