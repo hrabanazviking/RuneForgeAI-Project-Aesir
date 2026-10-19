@@ -1,0 +1,3 @@
+[26:26:20261019,180717.292570:ERROR file_io_posix.cc:207] open /home/pi/mojo-dev/.pixi/envs/default/share/max/crashdb/settings.dat: Read-only file system (30)
+[26:26:20261019,180717.292734:ERROR socket.cc:45] setsockopt: Operation not permitted (1)
+Failed to initialize Crashpad.  Crash reporting will not be available.  Cause: crashpad failed to start handler

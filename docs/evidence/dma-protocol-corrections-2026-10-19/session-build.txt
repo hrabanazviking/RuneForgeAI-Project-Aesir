@@ -1,0 +1,56 @@
+[26:26:20261019,180819.088055:ERROR file_io_posix.cc:207] open /home/pi/mojo-dev/.pixi/envs/default/share/max/crashdb/settings.dat: Read-only file system (30)
+[26:26:20261019,180819.088224:ERROR socket.cc:45] setsockopt: Operation not permitted (1)
+Failed to initialize Crashpad.  Crash reporting will not be available.  Cause: crashpad failed to start handler
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:93:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", input)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:96:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", output)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:100:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("connect", connect)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:52:36: warning: 'Int64' value is unused; assign to '_' to discard the result
+                self.driver.request("close", data)
+                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+                _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:62:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:68:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("driver-info", driver_info)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("properties", properties)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:3:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?
+        var d = 0
+                ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_session.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_session.mojo:6:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:59:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^

@@ -1,0 +1,1 @@
+{"bdf":"0001:01:00.0","port":12133,"descriptor_count_per_direction":65536,"descriptor_page_size":512,"input_handle":16384,"output_handle":32768,"input_channel":0,"output_channel":16,"connection_closed":true,"repeat_close":true,"closed_use_refused":true,"user_dma_submitted":false}

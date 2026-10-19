@@ -1,0 +1,26 @@
+[25:25:20261019,180742.421428:ERROR file_io_posix.cc:207] open /home/pi/mojo-dev/.pixi/envs/default/share/max/crashdb/settings.dat: Read-only file system (30)
+[25:25:20261019,180742.421617:ERROR socket.cc:45] setsockopt: Operation not permitted (1)
+Failed to initialize Crashpad.  Crash reporting will not be available.  Cause: crashpad failed to start handler
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_driver.mojo:20:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("driver-info", data)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_driver.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("driver-info", driver_info)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_driver.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("properties", properties)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_driver.mojo:4:
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_driver.mojo:4:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?
+        var d = 0
+                ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/soc_driver.mojo:5:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/hailbru/soc_abi.mojo:59:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^

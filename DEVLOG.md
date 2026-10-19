@@ -1,3 +1,16 @@
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): observed protocol corrections
+
+- Corrected typed request status to observed `HAILO_UNINITIALIZED=1`; success
+  replies remain zero. Native create packet exactly matches the observed header.
+- Corrected ioctl handling to preserve positive transfer descriptor counts;
+  negative errno failures and unexpected positive non-transfer results reject.
+- Six builds pass; ten independent protobuf methods and seven direct API
+  assertions pass. Rebuilt physical owner suite passes 11/11 and connection
+  suite 7/7, with all existing cleanup/fault/unwind checks retained.
+- Receipt: `docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`. Automatically continue
+  owned buffer map/unmap/sync and bounded completion before live typed RPC.
+  Source-model compiler target remains fixed and incomplete.
+
 ## 2026-10-19 — Codex (Researcher, Auditor, Scribe): exact DMA observation
 
 - Published the observation/completion contract at `690766e`. Preserved the

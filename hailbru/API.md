@@ -130,6 +130,10 @@ fd's device numbers, then queries/qualifies the installed 5.3.0 Hailo-10H
 driver profile. `SocDriver` is movable, not copyable; `close()` is idempotent
 and exception unwinding closes the fd. `request(operation, mut data)` accepts
 only the admitted ABI operations, checks storage size and refuses a closed fd.
+It returns `Int64`: successful transfer descriptor counts are preserved;
+negative results raise with captured errno, and unexpected positive results
+from other operations reject. A transfer count still needs ring-owner bounds
+and completion checks; it does not itself mean completed work.
 It is a low-level HAILBRÚ operation, not proof of descriptor/channel/buffer
 ownership. The current real caller performs read-only driver queries.
 Errors: `SocDriverMismatch`, `SocOpenFailed`, `SocSessionClosed`,
@@ -152,6 +156,8 @@ Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
 
 `hailbru.hrpc_device` adds the pinned create/identify/destroy control messages.
 `device_*_request(message_id[, handle])` returns an owned `HrpcFrame`.
+Requests carry status 1 (`HAILO_UNINITIALIZED`), established by the installed
+reference observation; successful replies require status 0.
 `device_create_reply(frame, expected_message_id)` returns the UInt32 handle;
 `device_identify_reply` returns observed numeric protocol/firmware/logger /
 architecture fields plus explicit firmware-message presence. It never assumes
@@ -167,7 +173,8 @@ failure precede body decoding. Named errors are `BadRpcProtobuf`,
 `RpcReplyMismatch` and `RpcRemoteFailure`.
 
 Caller: native `smidr/tools/hrpc_device.mojo` and the planned owned session
-client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md` and current
+`docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`.
 
 ## Thread-safety
 

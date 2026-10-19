@@ -2703,3 +2703,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Next:** production return/status corrections, owned map/unmap/sync/storage
   and bounded interrupt lifetime, then actual correlated Mojo device RPC.
   These findings do not reduce the source-model/compiler target.
+
+### Observed request status and ioctl-result handling
+
+- **Status:** `verified` as host wire/API corrections, not independent Mojo
+  remote exchange or model execution.
+- **Evidence:** `docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`; native create
+  request matches the actual reference header; ten independent protobuf methods,
+  seven result-handler assertions, six builds and rebuilt physical owner 11/11
+  / connection lifecycle 7/7 pass. Request status 1 and successful positive
+  transfer count 5 replace the prior host-only assumptions.
+- **Boundary:** actual owned user-buffer transfer and bounded completion
+  remain required; nonnegative submission does not mean completed work.

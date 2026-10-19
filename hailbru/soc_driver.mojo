@@ -22,6 +22,16 @@ def _node_name(name: String) raises:
             raise herror("SocDriverMismatch", "node suffix is not decimal")
 
 
+def _checked_ioctl_result(operation: String, result: Int64, error: Int64) raises -> Int64:
+    if result < 0:
+        raise herror("SocIoctlFailed", operation + ": " + errno_name(error) + " (" + String(error) + ")")
+    if operation != "transfer" and result != 0:
+        raise herror("SocDriverMismatch", "unexpected positive result for " + operation)
+    # Transfer launch returns a descriptor count. Preserve it for the ring owner
+    # to validate against its own submitted buffers and allocated descriptor list.
+    return result
+
+
 struct SocDriver(Movable):
     var arch: String
     var bdf: String
@@ -53,7 +63,7 @@ struct SocDriver(Movable):
             var error = errno_now()
             raise herror("SocCleanupFailed", "driver fd close: " + errno_name(error) + " (" + String(error) + ")")
 
-    def request(mut self, operation: String, mut data: List[UInt8]) raises:
+    def request(mut self, operation: String, mut data: List[UInt8]) raises -> Int64:
         if self.fd < 0:
             raise herror("SocSessionClosed", "driver file is closed")
         var code = soc_ioctl(operation)
@@ -62,9 +72,8 @@ struct SocDriver(Movable):
         if len(data) != expected:
             raise herror("BadSocAbi", "ioctl storage does not match its encoded size")
         var result = os_ioctl(self.arch, self.fd, Int64(code), Int64(Int(data.unsafe_ptr())))
-        if result != 0:
-            var error = errno_now()
-            raise herror("SocIoctlFailed", operation + ": " + errno_name(error) + " (" + String(error) + ")")
+        var error = errno_now() if result < 0 else Int64(0)
+        return _checked_ioctl_result(operation, result, error)
 
 
 def open_soc_driver(sysfs_root: String, dev_root: String) raises -> SocDriver:
