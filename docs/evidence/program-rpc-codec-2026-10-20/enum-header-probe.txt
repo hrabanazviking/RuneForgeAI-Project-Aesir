@@ -1,0 +1,5 @@
+In file included from ../program-delivery-study/enum_probe.cpp:1:
+../hailort-v530-study/serializer.hpp:16:10: fatal error: common/utils.hpp: No such file or directory
+   16 | #include "common/utils.hpp"
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.

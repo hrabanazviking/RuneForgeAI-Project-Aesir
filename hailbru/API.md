@@ -193,3 +193,15 @@ direct /dev path parameters**: `BarMapping` and `DmaBuffer` are opaque
 handles. Downstream domains go through this API; they never touch device
 nodes directly. `grep -r "open.*dev\|mmap\|ioctl" --include="*.mojo"` outside
 `hailbru/` must return empty (checked in C4_REVIEW.md).
+
+## Original program metadata/lifecycle wire values (`hailbru.hrpc_program`)
+
+`program_create_request(message_id, vdevice_handle, program_bytes, name,
+host_program_limit)` constructs only bounded metadata. The separate program
+bytes are not copied or sent. `program_handle_request(message_id, action,
+handle)` admits action 3/5/10/11/12. `program_create_reply` returns a checked
+handle; `program_empty_reply` validates a matching successful lifecycle reply.
+All return owned values and open no device. These do not acquire/own actual
+server resources, prove numerical program validity or admit hardware execution.
+Wire conventions, tests and physical gates:
+`docs/HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`.

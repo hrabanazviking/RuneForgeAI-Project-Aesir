@@ -2819,3 +2819,18 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** no model/layer forward, device precision/layout, source identity
   certificate or execution. Original numerical CCWs, program delivery and
   activation remain open; active `TASK_hailo10h_program_delivery.md`.
+
+### Original program metadata/lifecycle RPC — 2026-10-20
+
+- **Status:** `verified` as pure host wire construction/inspection.
+- **Owner:** original `hailbru/hrpc_program.mojo`; existing project protobuf
+  reader reused, no vendor/protobuf production dependency.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140
+  native calls (70 accepted, 70 refused) against frozen generated public-schema
+  protobuf, exact body/UTF-8/u64/ownership/refusal checks; rebuilt device codec
+  passes ten regression methods. Optional compiled enum header probe remains
+  unbuilt with its missing-include diagnostic retained.
+- **Boundary:** no device open, program transfer, activation, model arithmetic
+  or physical handle ownership. Numerical CCWs, container metadata, original
+  immutable program delivery, configure/cleanup and first hardware result remain
+  open under `TASK_hailo10h_program_delivery.md`.
