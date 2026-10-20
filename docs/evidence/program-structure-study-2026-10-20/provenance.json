@@ -1,0 +1,26 @@
+[
+  {
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/src/device_common/device_internal.cpp",
+    "sha256": "a21afbe569b139158c1b504ca9119e57f52ae9110e229387ce3f3a1f6bb94711",
+    "license": "Hailo MIT already read; interface facts only"
+  },
+  {
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/src/hef/hef_internal.hpp",
+    "sha256": "68483779a9b6a4ed40f1b75259c25ae5ca8f1597cb734fbaf0e0dc608c9f8099",
+    "license": "Hailo MIT already read; interface facts only"
+  },
+  {
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/hef.proto",
+    "sha256": "e58753d4c33791beee096482cc4fce8b5023b48bc04c7910798fa7b063e149fb",
+    "license": "Hailo MIT already read; interface facts only"
+  },
+  {
+    "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+    "path": "hailort/libhailort/src/hef/hef.cpp",
+    "sha256": "3dd18a8b8094dc4f6bdf84e69ac728426116ec4046275d0b6564737b58b1fde4",
+    "license": "Hailo MIT already read; interface facts only"
+  }
+]
