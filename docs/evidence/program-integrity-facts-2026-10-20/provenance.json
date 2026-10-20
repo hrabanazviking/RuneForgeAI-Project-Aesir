@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-20",
+  "hailort_commit": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "xxhash_spec_commit": "bbb27a5efb85b92a0486cf361a8635715a53f6ba",
+  "spec_version": "0.2.0",
+  "licenses_read_before_algorithm": true,
+  "external_implementation_inspected": false,
+  "production_external_dependency": false,
+  "device_access": false,
+  "oracle_package": "libxxhash0:arm64\t0.8.1-1",
+  "sha256": {
+    "xxhash_license": "6ffedbc0f7878612d2b23589f1ff2ab15633e1df7963a5d9fc750ec5500c7e7a",
+    "xxhash_spec": "61c47af338b2feefcc7621700ef6b941bcf9b1dd33899c503f68cb797e7ef333",
+    "hef_cpp": "3dd18a8b8094dc4f6bdf84e69ac728426116ec4046275d0b6564737b58b1fde4",
+    "utils_hpp": "1aaa032fad3ba0a85a7aab4cec4457cd3f64738b9e3f732d073c1c66f7a42359",
+    "xxhash_manifest": "6371eb5bdb53d8c9f5c7bff7ede54cd130013f0cd8cd23483b0097dfcef3bfad",
+    "oracle_license": "a123c93b07e781919ae996276ac02bb1c8b19dfde88176cd1240ab277c14a4ce",
+    "oracle_library": "eba22de3de8f35b9871675e08b74ee43275e5fa3992d4b8c22ae394b5f184031"
+  }
+}

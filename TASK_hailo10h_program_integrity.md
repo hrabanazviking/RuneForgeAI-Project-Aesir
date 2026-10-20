@@ -29,3 +29,8 @@ program target, parser acceptance or hardware execution. Preserve all historical
 and negative evidence, publish verified narrow slices, and continue actual
 numerical encoding/configuration/upload/activation/result/cleanup automatically
 under the unchanged broad ordinary-model support objective.
+
+2026-10-20 research narrowing: full unseeded XXH3-64 specification coverage,
+exact ranges and the original implementation/verification contract are now in
+`docs/HAILO10H_PROGRAM_INTEGRITY_FACTS.md`. Publish these facts first, then
+implement the bounded window hash and selected-domain validator.
