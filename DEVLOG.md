@@ -1,3 +1,12 @@
+## 2026-10-20 — Codex (Researcher, Auditor, Scribe): Q5/Q6 source field facts
+
+- Rechecked frozen MIT license/source/reference hashes, then published Q5_K
+  byte/bit layout and Q6_K quadrant/signed-scale field descriptors before code.
+  Record: `docs/HAILO10H_Q5Q6_SOURCE_LAYOUT.md` and its provenance receipt.
+- No external implementation copied/translated or compiler invoked. Next:
+  original bounded component readers plus isolated static reference checks.
+  Numerical Hailo backend and broad model execution remain open.
+
 ## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): source weight byte tiles
 
 - Connected lazy matrix rectangles to live source mappings with exact binding

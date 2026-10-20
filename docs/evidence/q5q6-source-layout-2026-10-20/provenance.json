@@ -1,0 +1,16 @@
+{
+  "revision": "a05c9922613c6a2230dbb1d0de679519ecafb4f0",
+  "license": "MIT; read before source format study",
+  "license_sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+  "source_sha256": {
+    "ggml-common.h": "0061131b615c5721fc88a78feeb22c1f8c450f1c2646a317d80796a653bf595c",
+    "ggml-quants.c": "5574a2dccf7c07e75b143733e04a5412d3d8c819e7945f5217a7b83a2b2ff8ab"
+  },
+  "reference_library_sha256": "45bd8cc3f12159e7b219a95d185be74a2ad83789045e6359acf49523aee23328",
+  "build_and_dependency_provenance": "../source-q4k-constants-2026-10-20/reference-provenance.json",
+  "scope": "source storage interface/format facts; original implementation will follow published schema",
+  "production_dependency": false,
+  "implementation_copied_or_translated": false,
+  "device_access": false,
+  "model_math": false
+}
