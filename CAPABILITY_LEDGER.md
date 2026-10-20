@@ -3040,3 +3040,18 @@ No fresh default-false owner, live mutation/abort/recovery or capability promoti
   semantic integration, device precision/packing/placement, numerical CCWs or
   hardware execution. Source-neutral mathematical input connection follows
   `TASK_hailo10h_source_neutral_semantics.md`; the broad target is unchanged.
+
+
+### Owned typed decoder inputs and semantic builder — 2026-10-20
+
+- **Status:** `verified` as the typed configuration/structural graph boundary.
+- **Owner:** original `smidr/semantic_plan.mojo`, compatible GGUF entry point
+  delegates after decoding and closes the file before graph construction.
+- **Evidence:** `docs/HAILO10H_MOJO_TYPED_DECODER.md`;7 methods/493 native calls
+  (243 accept,250 refuse),30 exact complete-graph comparisons with pre-refactor
+  output, independent edge/lifetime checks, raw Float32/ownership/bounds/span
+  oracles. Seven dependent suites pass47 methods/1440 further native calls.
+- **Boundary:** storage remains explicitly GGUF-specific. No safetensors/config/
+  shard semantic integration, immutable file identity, physical precision/layout,
+  actual numerical instructions or Hailo model execution is certified. Continue
+  tagged storage/name/config facts toward the unchanged broad target.

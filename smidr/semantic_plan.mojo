@@ -1,7 +1,7 @@
 # Original source graph construction. No numerical kernels or device program.
 from std.collections import Dict
 from std.math import isfinite
-from loader.packed_gguf import PackedGGUF
+from loader.packed_gguf import PackedGGUF, packed_row_bytes
 from smidr.source_inventory import SourceTensorInventory, inventory_from_source
 
 
@@ -9,6 +9,24 @@ def checked_product(a: Int, b: Int) raises -> Int:
     if a <= 0 or b <= 0 or a > 9223372036854775807 // b:
         raise Error("SemanticPlan: invalid or overflowing positive shape product")
     return a * b
+
+
+@fieldwise_init
+struct DenseDecoderParameters(Copyable, Movable):
+    """Owned mathematical configuration, independent of container reads."""
+    var layers: Int
+    var hidden: Int
+    var feed_forward: Int
+    var heads: Int
+    var kv_heads: Int
+    var key_dim: Int
+    var value_dim: Int
+    var rope_dim: Int
+    var vocabulary: Int
+    var source_context: Int
+    var rope_base: Float32
+    var rms_epsilon: Float32
+    var source_layout: String
 
 
 @fieldwise_init
@@ -108,13 +126,13 @@ struct SemanticPlan(Movable):
         return output
 
 
-def read_dense_semantic_plan(path: String, query_tokens: Int,
-                             past_tokens: Int, context_capacity: Int) raises -> SemanticPlan:
-    var source = PackedGGUF(path)
-    var plan = SemanticPlan(inventory_from_source(source))
-    # Incremental importer coverage, never hardware eligibility or a target cap.
-    if plan.source.architecture != "llama":
-        raise Error("SemanticPlan: architecture semantic importer unresolved: " + plan.source.architecture)
+def gguf_dense_decoder_parameters(source: PackedGGUF) raises -> DenseDecoderParameters:
+    """Decode only the existing GGUF recipe; storage/architecture breadth follows."""
+    if not source.source.is_mapped or source.source.fd < 0:
+        raise Error("SemanticPlan: live GGUF metadata owner required")
+    var architecture = source.text("general.architecture")
+    if architecture != "llama":
+        raise Error("SemanticPlan: architecture semantic importer unresolved: " + architecture)
     var prefix = String("llama.")
     # Never silently drop a new architecture-specific semantic modifier.
     var known = Dict[String, Bool]()
@@ -137,48 +155,150 @@ def read_dense_semantic_plan(path: String, query_tokens: Int,
             raise Error("SemanticPlan: metadata semantics unresolved: " + key)
     if prefix + "rope.scaling.type" in source.fields and source.text(prefix + "rope.scaling.type") != "none":
         raise Error("SemanticPlan: scaled RoPE recipe unresolved")
-    plan.layers = source.integer(prefix + "block_count")
-    plan.hidden = source.integer(prefix + "embedding_length")
-    plan.feed_forward = source.integer(prefix + "feed_forward_length")
-    plan.heads = source.integer(prefix + "attention.head_count")
-    plan.kv_heads = source.integer(prefix + "attention.head_count_kv", plan.heads)
-    if plan.heads <= 0 or plan.hidden <= 0 or plan.kv_heads <= 0 or plan.heads % plan.kv_heads != 0:
+    var layers = source.integer(prefix + "block_count")
+    var hidden = source.integer(prefix + "embedding_length")
+    var feed_forward = source.integer(prefix + "feed_forward_length")
+    var heads = source.integer(prefix + "attention.head_count")
+    var kv_heads = source.integer(prefix + "attention.head_count_kv", heads)
+    if heads <= 0 or hidden <= 0 or kv_heads <= 0 or heads % kv_heads != 0:
         raise Error("SemanticPlan: invalid hidden/query/KV head dimensions")
-    var default_dim = plan.hidden // plan.heads
-    if plan.hidden % plan.heads != 0 and (prefix + "attention.key_length" not in source.fields or prefix + "attention.value_length" not in source.fields):
+    var default_dim = hidden // heads
+    if hidden % heads != 0 and (prefix + "attention.key_length" not in source.fields or prefix + "attention.value_length" not in source.fields):
         raise Error("SemanticPlan: non-integral default head dimension")
-    plan.key_dim = source.integer(prefix + "attention.key_length", default_dim)
-    plan.value_dim = source.integer(prefix + "attention.value_length", default_dim)
+    if "token_embd.weight" not in source.tensors:
+        raise Error("SemanticPlan: missing embedding")
+    var vocabulary = source.tensors["token_embd.weight"].rows
+    if prefix + "vocab_size" in source.fields and source.integer(prefix + "vocab_size") != vocabulary:
+        raise Error("SemanticPlan: vocabulary metadata and embedding disagree")
+    return DenseDecoderParameters(layers, hidden, feed_forward, heads, kv_heads,
+        source.integer(prefix + "attention.key_length", default_dim),
+        source.integer(prefix + "attention.value_length", default_dim),
+        source.integer(prefix + "rope.dimension_count"), vocabulary,
+        source.integer(prefix + "context_length"), source.floating(prefix + "rope.freq_base"),
+        source.floating(prefix + "attention.layer_norm_rms_epsilon"),
+        source.text(prefix + "tensor_data_layout") if prefix + "tensor_data_layout" in source.fields else String("reference"))
+
+
+def _sift_spans(mut starts: List[Int], mut ends: List[Int], size: Int, root: Int):
+    var parent = root
+    while parent < size // 2:
+        var child = parent * 2 + 1
+        if child + 1 < size and starts[child + 1] > starts[child]:
+            child += 1
+        if starts[parent] >= starts[child]:
+            return
+        var start = starts[parent]
+        var end = ends[parent]
+        starts[parent] = starts[child]
+        ends[parent] = ends[child]
+        starts[child] = start
+        ends[child] = end
+        parent = child
+
+
+def _check_disjoint_spans(mut starts: List[Int], mut ends: List[Int]) raises:
+    # Original paired heapsort: bounded metadata, O(n log n), no file access.
+    var parent = len(starts) // 2
+    while parent > 0:
+        parent -= 1
+        _sift_spans(starts, ends, len(starts), parent)
+    var size = len(starts)
+    while size > 1:
+        size -= 1
+        var start = starts[0]
+        var end = ends[0]
+        starts[0] = starts[size]
+        ends[0] = ends[size]
+        starts[size] = start
+        ends[size] = end
+        _sift_spans(starts, ends, size, 0)
+    for i in range(1, len(starts)):
+        if starts[i] < ends[i - 1]:
+            raise Error("SemanticPlan: overlapping descriptive source bindings")
+
+
+def validate_dense_gguf_inventory(source: SourceTensorInventory) raises:
+    """Recheck mutable GGUF descriptors, not backing-file identity or device fit."""
+    if source.architecture != "llama":
+        raise Error("SemanticPlan: architecture semantic importer unresolved: " + source.architecture)
+    if len(source.bindings) == 0 or source.source_bytes <= 0 or source.data_offset < 0 or source.data_offset > source.source_bytes:
+        raise Error("SemanticPlan: invalid descriptive source extent")
+    var total = 0
+    var starts = List[Int]()
+    var ends = List[Int]()
+    for name in source.bindings:
+        var binding = source.bindings[name]
+        var size = checked_product(packed_row_bytes(binding.source_kind, binding.columns), binding.rows)
+        if binding.file_offset < source.data_offset or binding.file_offset > source.source_bytes or binding.byte_count != size or size > source.source_bytes - binding.file_offset:
+            raise Error("SemanticPlan: source binding shape/byte extent mismatch")
+        if total > 9223372036854775807 - size:
+            raise Error("SemanticPlan: aggregate weight bytes overflow")
+        total += size
+        starts.append(binding.file_offset)
+        ends.append(binding.file_offset + size)
+    if total != source.weight_bytes:
+        raise Error("SemanticPlan: aggregate weight byte count mismatch")
+    _check_disjoint_spans(starts, ends)
+
+
+def validate_dense_decoder_parameters(parameters: DenseDecoderParameters,
+                                      source: SourceTensorInventory,
+                                      query_tokens: Int, past_tokens: Int,
+                                      context_capacity: Int) raises:
+    var p = parameters.copy()
+    if p.layers <= 0 or p.layers > len(source.bindings) // 9 or p.layers > (9223372036854775807 - 5) // 23:
+        raise Error("SemanticPlan: layer count exceeds source tensor evidence")
+    if p.hidden <= 0 or p.feed_forward <= 0 or p.vocabulary <= 0 or p.source_context <= 0:
+        raise Error("SemanticPlan: invalid decoder dimensions")
+    if p.heads <= 0 or p.kv_heads <= 0 or p.heads % p.kv_heads != 0:
+        raise Error("SemanticPlan: invalid hidden/query/KV head dimensions")
+    _ = checked_product(p.heads, p.key_dim)
+    _ = checked_product(p.kv_heads, p.key_dim)
+    _ = checked_product(p.kv_heads, p.value_dim)
+    _ = checked_product(p.heads, p.value_dim)
+    if p.rope_dim <= 0 or p.rope_dim > p.key_dim or p.rope_dim % 2 != 0:
+        raise Error("SemanticPlan: invalid rotary dimension")
+    if not isfinite(p.rms_epsilon) or p.rms_epsilon <= 0 or not isfinite(p.rope_base) or p.rope_base <= 0:
+        raise Error("SemanticPlan: non-finite or non-positive numerical parameter")
+    if query_tokens <= 0 or past_tokens < 0 or context_capacity <= 0 or context_capacity > p.source_context or past_tokens > context_capacity or query_tokens > context_capacity - past_tokens:
+        raise Error("SemanticPlan: invalid session query/past/context extent")
+    if "token_embd.weight" not in source.bindings:
+        raise Error("SemanticPlan: missing embedding")
+    if source.bindings["token_embd.weight"].rows != p.vocabulary:
+        raise Error("SemanticPlan: vocabulary metadata and embedding disagree")
+
+
+def build_dense_semantic_plan(var source: SourceTensorInventory,
+                              parameters: DenseDecoderParameters,
+                              query_tokens: Int, past_tokens: Int,
+                              context_capacity: Int) raises -> SemanticPlan:
+    """Build the current dense graph from values; storage stays GGUF-specific."""
+    validate_dense_gguf_inventory(source)
+    validate_dense_decoder_parameters(parameters, source, query_tokens, past_tokens, context_capacity)
+    var plan = SemanticPlan(source^)
+    plan.layers = parameters.layers
+    plan.hidden = parameters.hidden
+    plan.feed_forward = parameters.feed_forward
+    plan.heads = parameters.heads
+    plan.kv_heads = parameters.kv_heads
+    plan.key_dim = parameters.key_dim
+    plan.value_dim = parameters.value_dim
+    plan.rope_dim = parameters.rope_dim
+    plan.vocabulary = parameters.vocabulary
+    plan.rope_base = parameters.rope_base
+    plan.rms_epsilon = parameters.rms_epsilon
+    plan.source_layout = parameters.source_layout
+    plan.query_tokens = query_tokens
+    plan.past_tokens = past_tokens
+    plan.context_capacity = context_capacity
     var query_width = checked_product(plan.heads, plan.key_dim)
     var key_width = checked_product(plan.kv_heads, plan.key_dim)
     var value_width = checked_product(plan.kv_heads, plan.value_dim)
     var attended_width = checked_product(plan.heads, plan.value_dim)
-    plan.rope_dim = source.integer(prefix + "rope.dimension_count")
-    if plan.rope_dim <= 0 or plan.rope_dim > plan.key_dim or plan.rope_dim % 2 != 0:
-        raise Error("SemanticPlan: invalid rotary dimension")
-    plan.rms_epsilon = source.floating(prefix + "attention.layer_norm_rms_epsilon")
-    plan.rope_base = source.floating(prefix + "rope.freq_base")
-    if not isfinite(plan.rms_epsilon) or plan.rms_epsilon <= 0 or not isfinite(plan.rope_base) or plan.rope_base <= 0:
-        raise Error("SemanticPlan: non-finite or non-positive numerical parameter")
-    plan.source_layout = source.text(prefix + "tensor_data_layout") if prefix + "tensor_data_layout" in source.fields else String("reference")
-    # No default machine resource capacity. This is an explicit session shape.
-    var source_context = source.integer(prefix + "context_length")
-    if query_tokens <= 0 or past_tokens < 0 or context_capacity <= 0 or context_capacity > source_context or past_tokens > context_capacity or query_tokens > context_capacity - past_tokens:
-        raise Error("SemanticPlan: invalid session query/past/context extent")
-    plan.query_tokens = query_tokens
-    plan.past_tokens = past_tokens
-    plan.context_capacity = context_capacity
     var total = past_tokens + query_tokens
-    if plan.layers <= 0 or plan.layers > len(source.tensors) // 9:
-        raise Error("SemanticPlan: layer count exceeds source tensor evidence")
-    if plan.feed_forward <= 0 or "token_embd.weight" not in source.tensors:
-        raise Error("SemanticPlan: missing embedding or invalid FFN dimension")
-    plan.vocabulary = source.tensors["token_embd.weight"].rows
-    if prefix + "vocab_size" in source.fields and source.integer(prefix + "vocab_size") != plan.vocabulary:
-        raise Error("SemanticPlan: vocabulary metadata and embedding disagree")
     plan.weight("token_embd.weight", plan.hidden, plan.vocabulary)
     plan.weight("output_norm.weight", plan.hidden)
-    var output_weight = String("output.weight") if "output.weight" in source.tensors else String("token_embd.weight")
+    var output_weight = String("output.weight") if "output.weight" in plan.source.bindings else String("token_embd.weight")
     plan.weight(output_weight, plan.hidden, plan.vocabulary)
     var tokens = plan.tensor("tokens", [query_tokens])
     var positions = plan.tensor("positions", [query_tokens])
@@ -222,7 +342,7 @@ def read_dense_semantic_plan(path: String, query_tokens: Int,
     x = plan.emit("rms_norm", "output_norm", [x], [query_tokens, plan.hidden], "output_norm.weight")
     plan.logits = plan.emit("linear", "logits", [x], [query_tokens, plan.vocabulary], output_weight)
     # Exact consumed tensor set: do not silently omit biases, norms or factors.
-    for name in source.tensors:
+    for name in plan.source.bindings:
         if name not in plan.used_weights:
             raise Error("SemanticPlan: source tensor semantics unresolved: " + name)
     var end = len(plan.operations)
@@ -231,3 +351,18 @@ def read_dense_semantic_plan(path: String, query_tokens: Int,
         if plan.tensors[i].persistent:
             plan.tensors[i].last_use = end
     return plan^
+
+
+
+def read_dense_semantic_plan(path: String, query_tokens: Int,
+                             past_tokens: Int, context_capacity: Int) raises -> SemanticPlan:
+    var source = PackedGGUF(path)
+    try:
+        var parameters = gguf_dense_decoder_parameters(source)
+        var inventory = inventory_from_source(source)
+        source.source.close()
+        return build_dense_semantic_plan(inventory^, parameters, query_tokens,
+                                         past_tokens, context_capacity)
+    except e:
+        source.source.close()
+        raise e

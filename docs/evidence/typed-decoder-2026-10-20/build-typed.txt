@@ -1,0 +1,98 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:25:36: error: value of type 'DenseDecoderParameters' cannot be implicitly copied, it does not conform to 'ImplicitlyCopyable'
+        return _Inputs(inventory^, parameters)
+                                   ^~~~~~~~~~
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:25:36: note: consider transferring the value with '^'
+        return _Inputs(inventory^, parameters)
+                                   ^
+                                             ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:25:36: note: you can copy it explicitly with '.copy()'
+        return _Inputs(inventory^, parameters)
+                                   ^
+                                             .copy()
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:33:30: error: no matching function in initialization
+        p.rope_base = Float32(value)
+                      ~~~~~~~^~~~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:659:1: note: candidate not viable: unexpected argument
+def __init__() -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:673:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'T', argument type 'String' does not conform to trait 'Intable'
+def __init__[T: Intable, target_dtype: DType = .int](value: T) -> Scalar[target_dtype]    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:702:1: note: candidate not viable: return type 'Int' parameter 'dtype' value 'DType.int' doesn't match expected value 'DType.float32'
+def __init__[T: IntableRaising](out self: Int, value: T)    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:717:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'Scalar[other_dtype]', it depends on an unresolved parameter 'other_dtype'
+def __init__[other_dtype: DType, //](value: SIMD[other_dtype, length], /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:769:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'SIMDLength'
+def __init__(value: SIMDLength, /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:790:1: note: candidate not viable: missing required argument: 'from_int'
+def __init__(*, from_int: Int) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:795:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'T', argument type 'String' does not conform to trait 'Floatable'
+def __init__[T: Floatable, //](value: T, /) -> Float64    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:807:1: note: candidate not viable: return type 'Float64' parameter 'dtype' value 'DType.float64' doesn't match expected value 'DType.float32'
+def __init__[T: FloatableRaising, //](out self: Float64, value: T, /)    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:825:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'IntLiteral[value.value]', it depends on an unresolved parameter 'value.value'
+def __init__(value: IntLiteral, /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:844:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'Bool' (10 more notes omitted.)
+def __init__(value: Bool, /) -> SIMD[.bool, length]    # note - synthetic signature
+^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:35:32: error: no matching function in initialization
+        p.rms_epsilon = Float32(value)
+                        ~~~~~~~^~~~~~~
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:659:1: note: candidate not viable: unexpected argument
+def __init__() -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:673:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'T', argument type 'String' does not conform to trait 'Intable'
+def __init__[T: Intable, target_dtype: DType = .int](value: T) -> Scalar[target_dtype]    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:702:1: note: candidate not viable: return type 'Int' parameter 'dtype' value 'DType.int' doesn't match expected value 'DType.float32'
+def __init__[T: IntableRaising](out self: Int, value: T)    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:717:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'Scalar[other_dtype]', it depends on an unresolved parameter 'other_dtype'
+def __init__[other_dtype: DType, //](value: SIMD[other_dtype, length], /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:769:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'SIMDLength'
+def __init__(value: SIMDLength, /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:790:1: note: candidate not viable: missing required argument: 'from_int'
+def __init__(*, from_int: Int) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:795:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'T', argument type 'String' does not conform to trait 'Floatable'
+def __init__[T: Floatable, //](value: T, /) -> Float64    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:807:1: note: candidate not viable: return type 'Float64' parameter 'dtype' value 'DType.float64' doesn't match expected value 'DType.float32'
+def __init__[T: FloatableRaising, //](out self: Float64, value: T, /)    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:825:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'IntLiteral[value.value]', it depends on an unresolved parameter 'value.value'
+def __init__(value: IntLiteral, /) -> Self    # note - synthetic signature
+^
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/typed_decoder.mojo:2:
+Mojo/stdlib/std/simd.mojo:844:1: note: candidate not viable: value passed to 'value' cannot be converted from 'String' to 'Bool' (10 more notes omitted.)
+def __init__(value: Bool, /) -> SIMD[.bool, length]    # note - synthetic signature
+^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module

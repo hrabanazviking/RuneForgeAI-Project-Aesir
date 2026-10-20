@@ -1,0 +1,82 @@
+WARNING: legacy tracked artifacts pending deletion approval: duplicate_root_asset=24 (1785562606904.png, 1785578752571.png, 1785579199112.png, 1785579714847.png, 1785579996746.png, 1785580300042.png, 1785580561571.png, 660262974_1643999840123485_7514919576143109031_n.jpg, GLM_AI_Picture4.png, GNU_Affero_OS_License1.png, Gemini_AI_Picture1.png, Gemini_Generated_Image_63wk1e63wk1e63wk.png, Gemini_Generated_Image_718k4h718k4h718k.png, Gemini_Generated_Image_fkesx8fkesx8fkes.png, Gemini_Generated_Image_fz3555fz3555fz35.png, Gemini_Generated_Image_pxw52zpxw52zpxw5.png, Gemini_Generated_Image_rxblg7rxblg7rxbl.png, IMG_0407.jpeg, RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AI.png, RuneForgeAI-Project_Aesir_Norse_Mythology_Meets_AIsmall.png, RuneForgeAIConsultant1.jpeg, Sovereign_Paganism_Flag_V1.png, cybervikingsolarpunk1.png, image-23-RuneForgeAI.jpg)
+WARNING: legacy tracked artifacts pending deletion approval: generated_executable=7 (aesir_engine/aesir_main, aesir_engine/main, aesir_engine/test, aesir_engine/test_engine, aesir_engine/test_server_loop, aesir_main, main)
+WARNING: legacy tracked artifacts pending deletion approval: placeholder_model=1 (aesir_engine/model.gguf)
+FAILED: 78 repository consistency issue(s)
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2416: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2429: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2441: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2452: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2463: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2473: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2480: missing required field 'Evidence boundary'
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2482: status must be one backticked canonical value
+ - CAPABILITY_LEDGER.md schema: CAPABILITY_LEDGER.md:2487: malformed capability heading
+ - CAPABILITY_LEDGER.md: every capability must have exactly one allowed status
+ - DEVLOG.md:4726: machine-local absolute path
+ - MIMISBRUNNR_PROGRESS.md:714: machine-local absolute path
+ - THIRD_PARTY_NOTICES.md:189: machine-local absolute path
+ - data/fallback/f1_coherent_proof.json:12: machine-local absolute path
+ - data/fallback/f1_config.json:1: machine-local absolute path
+ - data/gauntlet/fi_campaign/scoreboard.json:22: machine-local absolute path
+ - data/gauntlet/full_suite.json:148: machine-local absolute path
+ - data/gauntlet/full_suite.json:154: machine-local absolute path
+ - data/gauntlet/full_suite_mimir.json:130: machine-local absolute path
+ - data/gauntlet/full_suite_mimir.json:136: machine-local absolute path
+ - data/gauntlet/packaging_proof.json:3: machine-local absolute path
+ - data/gauntlet/soak_cpu_4h_h183_summary.json:11: machine-local absolute path
+ - data/gauntlet/soak_cpu_4h_summary.json:11: machine-local absolute path
+ - data/gauntlet/storm_config.json:6: machine-local absolute path
+ - data/phase_a/VERSION_PINS.md:13: machine-local absolute path
+ - docs/MIMISBRUNNR_VERDICT.md:58: machine-local absolute path
+ - docs/evidence/context-actions-2026-10-19/first-runs.json:14: machine-local absolute path
+ - docs/evidence/context-actions-2026-10-19/first-runs.json:17: machine-local absolute path
+ - docs/evidence/context-actions-2026-10-19/runs.json:14: machine-local absolute path
+ - docs/evidence/context-actions-2026-10-19/runs.json:17: machine-local absolute path
+ - docs/gauntlet/RELEASE_NOTES.md:87: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:8: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:9: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:10: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:20: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:49: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:55: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:56: machine-local absolute path
+ - docs/gauntlet/RUNBOOK.md:107: machine-local absolute path
+ - docs/phase_a/CROSS_COMPILE_RECIPE.md:18: machine-local absolute path
+ - docs/phase_a/CROSS_COMPILE_RECIPE.md:35: machine-local absolute path
+ - docs/phase_a/CROSS_COMPILE_RECIPE.md:70: machine-local absolute path
+ - docs/phase_a/CROSS_COMPILE_RECIPE.md:81: machine-local absolute path
+ - docs/phase_a/CROSS_COMPILE_RECIPE.md:119: machine-local absolute path
+ - docs/phase_a/MOJO_TOOLCHAIN_VERDICT.md:16: machine-local absolute path
+ - docs/phase_a/MOJO_TOOLCHAIN_VERDICT.md:17: machine-local absolute path
+ - docs/phase_a/MOJO_TOOLCHAIN_VERDICT.md:21: machine-local absolute path
+ - prof/armvegr/test_cpu_smoke.py:70: machine-local absolute path
+ - prof/armvegr/test_tokenizers.py:68: machine-local absolute path
+ - prof/fallback/make_h138_proof.py:110: machine-local absolute path
+ - prof/gauntlet/test_packaging.py:64: machine-local absolute path
+ - prof/gauntlet/victory_gate_1.py:36: machine-local absolute path
+ - prof/run_all.py:46: machine-local absolute path
+ - prof/vordr/test_fallback_audit.py:19: machine-local absolute path
+ - prof/vordr/test_fallback_audit.py:20: machine-local absolute path
+ - prof/vordr/test_fallback_audit.py:21: machine-local absolute path
+ - prof/vordr/test_fallback_audit.py:22: machine-local absolute path
+ - prof/vordr/test_fi_dma_corrupt.py:15: machine-local absolute path
+ - prof/vordr/test_fi_hangs.py:17: machine-local absolute path
+ - prof/vordr/test_fi_hangs.py:18: machine-local absolute path
+ - prof/vordr/test_fi_hangs.py:19: machine-local absolute path
+ - prof/vordr/test_fi_registers.py:19: machine-local absolute path
+ - prof/vordr/test_fi_registers.py:74: machine-local absolute path
+ - prof/vordr/test_fi_registers.py:75: machine-local absolute path
+ - prof/vordr/test_fi_removal.py:19: machine-local absolute path
+ - prof/vordr/test_fi_removal.py:20: machine-local absolute path
+ - prof/vordr/test_fi_removal.py:21: machine-local absolute path
+ - prof/vordr/test_fi_supervised.py:20: machine-local absolute path
+ - prof/vordr/test_fi_supervised.py:21: machine-local absolute path
+ - prof/vordr/test_fi_supervised.py:145: machine-local absolute path
+ - scripts/check_error_hygiene.py:9: machine-local absolute path
+ - scripts/check_error_hygiene.py:35: machine-local absolute path
+ - tests/c9_h174_chunk.mojo:9: machine-local absolute path
+ - tests/c9_h174_chunk.mojo:50: machine-local absolute path
+ - vordr_cli.mojo:1059: machine-local absolute path
+ - .github/workflows/ci.yml: missing Mojo run gate for aesir_engine/tests/run_all.mojo
+ - unapproved tracked artifact data/armvegr/gpt2_bpe.bin (model_weight): model weights and external model formats must remain outside Git
+ - unapproved tracked artifact data/armvegr/unicode_classes.bin (model_weight): model weights and external model formats must remain outside Git

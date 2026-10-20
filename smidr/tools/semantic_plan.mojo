@@ -1,6 +1,6 @@
 # Host-only source graph inspection. Does not submit executable device bytes.
 from std.sys import argv
-from smidr.semantic_plan import read_dense_semantic_plan
+from smidr.semantic_plan import SemanticPlan, read_dense_semantic_plan
 from smidr.tools.source_inventory import _quote
 
 
@@ -13,11 +13,7 @@ def _integers(values: List[Int]) -> String:
     return result + "]"
 
 
-def main() raises:
-    var args = argv()
-    if len(args) != 5:
-        raise Error("usage: semantic_plan <source.gguf> <query_tokens> <past_tokens> <context_capacity>")
-    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
+def describe_semantic_plan(plan: SemanticPlan) raises -> String:
     var text = String("{\"schema_version\":1,\"scope\":\"source_semantic_graph\",\"architecture\":") + _quote(plan.source.architecture)
     text += ",\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"hardware_fit_verified\":false"
     text += ",\"unresolved_gates\":[\"source_layout_and_rope_pairing\",\"quantization_and_numerical_recipes\",\"activation_precision_and_layout\",\"device_resource_budgets\",\"operation_lowering_and_program_encoding\",\"program_upload_and_hardware_validation\"]"
@@ -52,4 +48,13 @@ def main() raises:
         text += "{\"id\":" + String(i) + ",\"kind\":" + _quote(operation.kind) + ",\"inputs\":" + _integers(operation.inputs)
         text += ",\"output\":" + String(operation.output) + ",\"weight\":" + _quote(operation.weight) + "}"
     text += "],\"logits\":" + String(plan.logits) + "}"
-    print(text)
+    return text
+
+
+
+def main() raises:
+    var args = argv()
+    if len(args) != 5:
+        raise Error("usage: semantic_plan <source.gguf> <query_tokens> <past_tokens> <context_capacity>")
+    var plan = read_dense_semantic_plan(args[1], Int(args[2]), Int(args[3]), Int(args[4]))
+    print(describe_semantic_plan(plan))

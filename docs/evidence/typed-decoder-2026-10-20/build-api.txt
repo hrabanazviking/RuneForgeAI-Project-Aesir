@@ -1,0 +1,7 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_typed_decoder_api.mojo:22:42: error: value 'first.inventory' cannot be consumed, because 'first' is used later
+    var graph = build_dense_semantic_plan(first.inventory^, first.parameters, 3, 0, 16)
+                                         ^
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_typed_decoder_api.mojo:24:42: error: field 'second.inventory.architecture' destroyed out of the middle of a value, preventing the overall value from being destroyed
+    var other = build_dense_semantic_plan(second.inventory^, second.parameters, 3, 0, 16)
+                                         ^
+/home/pi/mojo-dev/.pixi/envs/default/bin/mojo: error: failed to run the pass manager

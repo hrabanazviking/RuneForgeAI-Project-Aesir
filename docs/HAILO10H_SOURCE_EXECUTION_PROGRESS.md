@@ -7,7 +7,7 @@ interpretation was withdrawn in `cd8f397`; historical receipts remain intact.
 Latest owner clarification (2026-10-20): **broad model support is 100% the
 target**. Aesir must own loading/internal translation of ordinary model files;
 no outside compiler or specially precompiled model prerequisite. Active native
-slice: `TASK_hailo10h_program_integrity.md`. Full controlling scope:
+slice: `TASK_hailo10h_source_neutral_semantics.md`. Full controlling scope:
 `HAILO10H_OWNER_NATIVE_SCOPE_2026-10-20.md`.
 
 Active parent: `TASK_hailo10h_mojo_model_execution.md`. Automatically complete,
@@ -45,6 +45,7 @@ verify, publish and advance each bounded work slice.
 | Native source-bound matrix schedules | Verified mathematical scheduling | `HAILO10H_MOJO_MATRIX_TILES.md`; seven methods/860 native calls,729 small domains/6672 coordinates, lazy tails/source binding/head splits/ownership/overflow. Actual packed source tile reads are next; no device numerical program. |
 | Native source weight byte tiles | Verified source storage | `HAILO10H_MOJO_SOURCE_WEIGHT_TILES.md`; five methods/286 calls and88368 exact byte checks, live source binding, packed block spans, copied payload and ownership. No numerical evaluation or device packing/execution. |
 | Original Q5_K/Q6_K source components | Verified static representation | `HAILO10H_MOJO_SOURCE_Q5Q6_CONSTANTS.md`; seven methods/88 calls,94416 components and8192 exact static reference checks. Integer field readers only, no device precision/packing/execution. |
+| Owned typed decoder configuration | Verified structural graph boundary | `HAILO10H_MOJO_TYPED_DECODER.md`;54 methods/1933 calls with30 complete pre-refactor graph comparisons. GGUF storage remains explicit; tagged storage/config/name integration follows. No model/device execution. |
 | Physical resource placement / backend lowering | Open | Establish actual widths, layouts, weight conversion, workspace, hardware budgets and program encoding; hypotheses cannot admit inference. |
 | Public context-action byte codec | Verified host primitive | `HAILO10H_MOJO_CONTEXT_ACTIONS.md`; four public record types, owned values, exact field widths and 244 native calls against independent struct and C++ header oracles. No numerical program or upload. |
 | Configuration upload/activation endpoint | Public program receiver mapped; physical original upload open | `HAILO10H_PROGRAM_DELIVERY_BOUNDARY.md`; matching driver rejects NNC firmware controls on the Pi SoC path. hRPC action 2 accepts separate compiled-program bytes, followed by configure/activate lifecycles. Original metadata/lifecycle codec is verified as host bytes; active `TASK_hailo10h_program_delivery.md` continues container/CCW facts. Actual upload, raw-context endpoint and numerical encoding remain open. |
@@ -67,6 +68,7 @@ construction passes8/194; public release delta study follows under
 `TASK_hailo10h_public_encoding_delta.md`. Results are now recorded in
 `HAILO10H_PUBLIC_ENCODING_DELTA_2026-10-20.md`; no new numerical ISA was found
 in that delta. Safetensors inventory passes11/219 and static words9/97; next input work is
-source-neutral semantic config/binding/provenance,
+tagged full-shape storage/name provenance and ordinary config/index facts; typed
+configuration/compatible graph construction passes54 methods/1933 calls,
 while actual encoding/configuration/placement/transport work remains open. Architectural
 patents are not a device ISA.

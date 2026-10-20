@@ -178,3 +178,17 @@ words retain all bits, F16/BF16 reuse integer bit expansion; no floating model
 math/value-loader/activation/device packing occurs. Source dtype IDs remain
 0 F16,1 BF16,2 F32. Evidence and limits:
 `docs/HAILO10H_MOJO_SAFETENSORS_CONSTANTS.md`.
+
+`semantic_plan.mojo` exposes owned `DenseDecoderParameters` and
+`build_dense_semantic_plan(source,parameters,query,past,capacity)`; source is
+consumed, configuration is copied into the graph. Configuration fields cover
+layers, hidden/feed-forward widths, query/KV heads, key/value/rotary widths,
+vocabulary/source context, Float32 RoPE base/RMS epsilon and source layout.
+`gguf_dense_decoder_parameters(live_source)` handles existing GGUF metadata
+semantics; `read_dense_semantic_plan` delegates and closes before graph building.
+`validate_dense_gguf_inventory` checks mutable descriptive bindings/byte spans,
+not backing-file identity. `validate_dense_decoder_parameters` checks typed
+math/session inputs. Existing storage remains GGUF-specific; safetensors dtype
+integers must not be passed as GGUF kinds. The graph and unresolved gates remain
+compatible. Exact independent complete-graph, ownership and regression evidence:
+`docs/HAILO10H_MOJO_TYPED_DECODER.md`.

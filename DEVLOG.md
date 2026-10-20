@@ -1,3 +1,17 @@
+## 2026-10-20 — Codex (Forge Worker, Auditor, Scribe): owned typed decoder graph
+
+- Separated live GGUF metadata decoding from owned decoder parameters and the
+  compatible graph builder; direct callers get dimension/product/context and
+  descriptive GGUF binding/extent/overlap checks. Mappings close before building.
+- Seven new methods/493 calls pass,30 complete graph comparisons against the
+  frozen pre-refactor binary and direct typed path, exact Float32/ownership and
+  independent span oracles. Seven dependent suites pass47 methods/1440 calls.
+  Failed compiles and the initial test-discovery issue are recorded honestly.
+- `docs/HAILO10H_MOJO_TYPED_DECODER.md` records all54 methods/1933 calls and the
+  structural boundary. Storage remains GGUF-specific; full tags/shapes/original
+  names and ordinary config/index facts follow before safetensors semantics.
+  Numerical device encoding/placement/upload/execution remains open.
+
 ## 2026-10-20 — Codex (Auditor, Scribe): semantic frontend dependency contract
 
 - Audited actual PackedGGUF/config/source-kind dependencies across semantic,

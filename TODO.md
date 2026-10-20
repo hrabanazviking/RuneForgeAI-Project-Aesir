@@ -20,9 +20,12 @@
   metadata only, no tensor/model execution or immutable source identity.
 - [x] Ordinary safetensors static words: nine methods/97 native calls and
   264204 exact word checks; reader11/219 regression. No model/device math.
-- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, typed frontend
-  config/binding/provenance connection; actual encoding/configuration/placement/
-  transport gaps remain open.
+- [x] Owned typed decoder configuration and compatible graph builder:54 methods/
+  1933 native calls including30 complete pre-refactor graph comparisons.
+  `docs/HAILO10H_MOJO_TYPED_DECODER.md`; no model/device execution.
+- [ ] Active: `TASK_hailo10h_source_neutral_semantics.md`, tagged full-shape
+  storage/name provenance and ordinary config/index facts before safetensors
+  semantic integration; actual numerical encoding/placement/transport stays open.
 - [ ] Continue exact numerical CCW/register/target/placement discovery in parallel.
 - [ ] Actual device numerical encoding, precision/packing/placement, original
   program upload/activation/result/cleanup and broad architecture/format support.

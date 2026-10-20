@@ -1,0 +1,46 @@
+{
+  "typed": {
+    "calls": 493,
+    "accepted": 243,
+    "refused": 250
+  },
+  "semantic-regression": {
+    "calls": 56,
+    "accepted": 14,
+    "refused": 42
+  },
+  "primitive": {
+    "calls": 44,
+    "accepted": 27,
+    "refused": 17
+  },
+  "expanded": {
+    "calls": 45,
+    "accepted": 32,
+    "refused": 13
+  },
+  "storage": {
+    "calls": 61,
+    "accepted": 32,
+    "refused": 29
+  },
+  "expanded-storage": {
+    "calls": 88,
+    "accepted": 34,
+    "refused": 54
+  },
+  "matrix": {
+    "calls": 860,
+    "accepted": 799,
+    "refused": 61
+  },
+  "weight-tiles": {
+    "calls": 286,
+    "accepted": 256,
+    "refused": 30
+  },
+  "total_calls": 1933,
+  "test_methods": 54,
+  "complete_graph_positive_comparisons": 30,
+  "execution_tested": false
+}
