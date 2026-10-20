@@ -1,0 +1,15 @@
+{
+  "date": "2026-10-20",
+  "commit": "fa27fa835a466cb50d07696ec20b94f46aed0e31",
+  "tag": "v0.7.0",
+  "license": "Apache-2.0, read before format material",
+  "external_implementation_inspected": false,
+  "production_external_dependency": false,
+  "device_access": false,
+  "sha256": {
+    "license": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "format_description": "e430910cef3bfc36f06c236f25685dc6734ea9a50c5432d890f8b4fff05696e1",
+    "existing_project_reader": "394be01a956b8c5ac7827d60b2317b0b1c26512e632d25bf8deab0bd3b84476b",
+    "existing_inventory": "738ade2ce6d6b45c7caab6dadc5b68ce620ccc2b2d4885fbda3ce657f9e0e46c"
+  }
+}

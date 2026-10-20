@@ -1,0 +1,7 @@
+{
+  "version": "0.7.0",
+  "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "binary_sha256": "bb6b2e72e9450b098a8125100b54f48c7b26d109fb996c8f9a4f20e850c68ab2",
+  "purpose": "isolated metadata/format test oracle; no framework/model import",
+  "production_dependency": false
+}

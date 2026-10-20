@@ -31,3 +31,7 @@ CPU/CUDA/cloud inference, device access or external compiler is part of this
 source metadata slice. Continue actual numerical instruction/configuration/
 placement/upload/activation/result work toward broad model execution. Publish
 verified narrow progress and advance automatically.
+
+2026-10-20 narrowing: publish the canonical format facts, existing-reader static
+boundary audit and exact repair/adapter contract in
+`docs/HAILO10H_SAFETENSORS_SOURCE_FACTS.md` before changing production code.
