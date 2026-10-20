@@ -313,3 +313,11 @@ study/copy/translation. Independent tiny Decimal probability fixtures verify
 mathematics only; no model/attention/layer forward or device submission. Prior
 RMSNorm/SiLU evidence is retained. Receipt:
 `docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`.
+
+### 2026-10-19 — Original global compiler graph integration
+
+Original Mojo ownership/mapping/lifetime pass over the project's semantic
+graph and primitive recipes. No external implementation study or copied/
+translated source. Independent symbolic edge/interval checks, malformed graph
+refusals and returned ownership pass without model/layer/numerical execution
+or device access. Receipt: `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`.

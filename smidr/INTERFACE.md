@@ -57,3 +57,11 @@ one finite value per row and no NaN/+infinity. They are obligations, not already
 validated runtime data. Current regression/softmax evidence:
 `docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`. Expanded graph/storage integration is
 contracted in `TASK_hailo10h_expanded_graph.md`.
+
+`expanded_graph.mojo` exposes move-only `ExpandedGraph` owning the original
+semantic plan/recipes plus global `ExpandedValue`/`ExpandedOperation` values.
+`expand_semantic_graph(plan)` consumes the source plan, splices recipes into
+global IDs and recomputes lifetimes. All weight constants are explicit and
+deduplicated; predicates/index values and KV aliases are explicit. This is IR,
+not device lowering or storage qualification. Complete conventions/evidence:
+`docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`.

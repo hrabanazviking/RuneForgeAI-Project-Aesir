@@ -2773,3 +2773,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
 - **Boundary:** explicit runtime preconditions have not been enforced on
   device. No model/layer forward, executable Hailo program or device numerical
   tolerance is certified. Expanded storage/placement/program gates remain.
+
+### Integrated expanded mathematical graph — 2026-10-19
+
+- **Status:** `verified` as host compiler integration only.
+- **Owner:** `smidr/expanded_graph.mojo`; consumes/owns the source plan and
+  primitive recipes, emits deterministic global values/operations.
+- **Evidence:** `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`; five methods/45 native
+  calls, exact source/local/global edge and binding/scalar/domain checks,
+  recomputed lifetimes, aliases, malformed API refusals and returned ownership.
+- **Boundary:** no model/layer math or device submission; physical precision,
+  expanded resource qualification, CCWs and numerical hardware proof remain
+  open. Source constants are references, not converted device allocations.
