@@ -10,7 +10,7 @@ from unittest.mock import patch
 import check_turing_prefill_trace as check
 import check_cuda_trace as cuda
 import check_turing_down_source as source_check
-from cuda_fused_attention_ranges import attribute, FUSED_PREFIX
+from cuda_fused_attention_ranges import attribute, FUSED_PREFIX, SMALL_PREFIX
 from cuda_projection_ranges import RESOURCE_FIELDS, STAGES
 import test_check_turing_down_projection_trace as down_contracts
 import test_check_fused_attention_controls_model as model_contracts
@@ -105,6 +105,157 @@ class Contracts(unittest.TestCase):
         self.assertEqual(d['resources']['grid_y'],32);self.assertEqual(d['resources']['static_shared_bytes'],16384)
         self.assertEqual(d['gpu_total_ns'],280)  # GPU begins after CPU child exits; retained whole.
 
+    def small_geometry(self):
+        self.outer=(100,100000,16777217);self.tiles={1:0,4:0,32:1}
+        self.rows=[]
+        self.launches={};self.kernels=[];self.resources={}
+        for layer in range(28):
+            start=110+layer*100;c=layer+1
+            self.rows.append((start,start+50,59,self.outer[2],None,'aesir.attend.small.b32',None))
+            self.launches[c]=(start+1,start+2,self.outer[2])
+            self.kernels.append((c,SMALL_PREFIX+'_mock',start+60,start+70))
+            self.resources[c]=dict(zip(RESOURCE_FIELDS,(64,6144,0,0,999,24,32,1,128,1,1),strict=True))
+
+    def test_small_tile_owns_28_complete_kernel_correlations(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry();r=attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.assertEqual((r['attention_variant'],r['cpu_range_count'],r['kernel_count']),(5,28,28))
+        self.assertEqual(r['groups']['small.b32']['layers_per_tile'],28)
+        self.assertEqual(r['groups']['small.b32']['tile_count'],1)
+        self.assertEqual(r['groups']['small.b32']['recorded_resource_distributions'][0]['resources']['static_shared_bytes'],6144)
+        for defect in ('missing','duplicate','wrong-label','wrong-thread','wrong-geometry','wrong-prefix'):
+            self.small_geometry()
+            if defect=='missing':self.kernels.pop()
+            elif defect=='duplicate':self.rows.append(self.rows[-1])
+            elif defect=='wrong-label':self.rows[0]=(*self.rows[0][:5],'aesir.attend.fused.b32',None)
+            elif defect=='wrong-thread':self.launches[1]=(111,112,self.outer[2]+1)
+            elif defect=='wrong-geometry':self.resources[1]['grid_y']=4
+            else:self.kernels[0]=(1,'foreign_kernel',160,170)
+            with self.subTest(defect=defect),self.assertRaises(ValueError):
+                attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.small_geometry();self.resources.pop(1)
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.small_geometry();del self.resources[1]['grid_x']
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.small_geometry();self.rows[0]=(*self.rows[0][:5],'aesir.project.query.b32',None)
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.small_geometry();self.kernels[0]=(1,SMALL_PREFIX+'_mock',self.outer[1],self.outer[1]+1)
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
+    def test_small_multi_tile_async_intervals_and_resource_scope(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.outer=(100,100000,16777217);self.tiles={1:0,4:1,32:1}
+        self.rows=[];self.launches={};self.kernels=[];self.resources={}
+        correlation=0
+        for size,start in ((32,110),(4,5000)):
+            for layer in range(28):
+                correlation+=1
+                child_start=start+layer*100
+                self.rows.append((child_start,child_start+40,59,self.outer[2],None,f'aesir.attend.small.b{size}',None))
+                api=child_start+1
+                self.launches[correlation]=(api,api+1,self.outer[2])
+                # GPU completion intentionally extends past its CPU child.
+                self.kernels.append((correlation,SMALL_PREFIX+'_mock',child_start+50,child_start+250))
+                self.resources[correlation]=dict(zip(RESOURCE_FIELDS,(64,6144,0,0,999,24,size,1,128,1,1),strict=True))
+        result=attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.assertEqual(result['cpu_range_count'],56)
+        self.assertEqual(result['kernel_count'],56)
+        self.assertEqual(result['groups']['small.b32']['gpu_total_ns'],28*200)
+        self.assertEqual(result['groups']['small.b4']['gpu_total_ns'],28*200)
+        self.rows[0]=(*self.rows[0][:5],'aesir.attend.small.b4',None)
+        self.rows[28]=(*self.rows[28][:5],'aesir.attend.small.b32',None)
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        for tiles,resources in (({1:0,4:0,32:0},self.resources),({1:0,4:1,32:1},None)):
+            with self.subTest(tiles=tiles,resources=resources is None),self.assertRaises(ValueError):
+                attribute_small(self.rows,{},self.outer,self.launches,self.kernels,tiles,resources)
+
+    def test_small_requires_one_to_one_api_correlation_inside_child(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry()
+        self.launches[999]=(111,112,self.outer[2])
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
+    def test_small_child_boundaries_and_hostile_nvtx_metadata(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry()
+        self.rows[0]=(self.outer[0],self.rows[0][1],*self.rows[0][2:])
+        self.rows[-1]=(*self.rows[-1][:1],self.outer[1],*self.rows[-1][2:])
+        start,end=self.rows[0][:2];self.launches[1]=(start,end,self.outer[2])
+        self.launches[28]=(self.rows[-1][0],self.rows[-1][1],self.outer[2])
+        self.assertEqual(attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)['cpu_range_count'],28)
+        for defect in ('missing','duplicate','overlap','kind','thread','endthread','text-id','namespace','parent-start'):
+            self.small_geometry()
+            row=list(self.rows[0])
+            if defect=='missing':self.rows.pop(0)
+            elif defect=='duplicate':self.rows.append(tuple(row))
+            elif defect=='overlap':row[0]=self.rows[1][0]-1
+            elif defect=='kind':row[2]=58
+            elif defect=='thread':row[3]=self.outer[2]+1
+            elif defect=='endthread':row[4]=self.outer[2]+1
+            elif defect=='text-id':row[6]=9
+            elif defect=='namespace':row[5]='aesir.attend.unknown.b32'
+            else:row[0]=self.outer[0]-1
+            if defect not in ('missing','duplicate'):self.rows[0]=tuple(row)
+            with self.subTest(defect=defect),self.assertRaises(ValueError):
+                attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+        self.small_geometry();self.launches[1]=(159,161,self.outer[2])
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
+    def test_small_rejects_non_small_enqueue_inside_owned_range(self):
+        from cuda_fused_attention_ranges import attribute_small
+        self.small_geometry();correlation=29
+        self.launches[correlation]=(120,121,self.outer[2])
+        self.kernels.append((correlation,FUSED_PREFIX+'_foreign',180,190))
+        self.resources[correlation]=dict(zip(RESOURCE_FIELDS,(64,6144,0,0,999,24,32,1,128,1,1),strict=True))
+        with self.assertRaises(ValueError):
+            attribute_small(self.rows,{},self.outer,self.launches,self.kernels,self.tiles,self.resources)
+
+    def test_small_analyzer_mode_is_exclusive_and_skips_projection_attribution(self):
+        p=self.database()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("INSERT INTO StringIds VALUES(9,'cuCtxSetCurrent')")
+            db.execute("INSERT INTO CUPTI_ACTIVITY_KIND_RUNTIME VALUES(10,20,16777217,9,9,0)")
+            db.commit()
+        with patch('cuda_fused_attention_ranges.attribute_small',return_value=dict(passed=True,attention_variant=5)) as small, \
+             patch('cuda_projection_ranges.attribute') as projection, \
+             patch('cuda_fused_attention_ranges.attribute') as fused:
+            result=cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+            self.assertEqual(result['small_attention_attribution']['attention_variant'],5)
+            self.assertEqual(result['pre_session_allowlisted_api_record_count'],1)
+            small.assert_called_once();projection.assert_not_called();fused.assert_not_called()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=999 WHERE correlationId=9")
+            db.commit()
+        with patch('cuda_fused_attention_ranges.attribute_small') as small,self.assertRaises(ValueError):
+            cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+        small.assert_not_called()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("UPDATE CUPTI_ACTIVITY_KIND_RUNTIME SET returnValue=0 WHERE correlationId=9")
+            db.commit()
+        with closing(sqlite3.connect(p)) as db:
+            db.execute("UPDATE StringIds SET value='cuDeviceGet' WHERE id=9")
+            db.commit()
+        with patch('cuda_fused_attention_ranges.attribute_small') as small,self.assertRaises(ValueError):
+            cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+        small.assert_not_called()
+        for kwargs in (
+            dict(small_attention=True),
+            dict(small_attention=True,record_resources=False,projection_tiles={1:1,4:0,32:0}),
+            dict(small_attention=True,record_resources=True,projection_tiles={1:1,4:0,32:0},down128=True),
+            dict(small_attention=True,record_resources=True,projection_tiles={1:1,4:0,32:0},fused_attention=True),
+        ):
+            with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):cuda.analyze(p,**kwargs)
+
     def test_range_owner_order_count_overlap_and_namespace(self):
         for defect in ('missing','duplicate','overlap','order','thread','endthread','kind','textid','namespace','bounds','foreign-batch'):
             self.geometry();i=next(i for i,r in enumerate(self.rows) if r[5]=='aesir.attend.fused.b32');row=list(self.rows[i])
@@ -163,6 +314,19 @@ class Contracts(unittest.TestCase):
                 db.execute('UPDATE CUPTI_ACTIVITY_KIND_KERNEL SET '+column+'=? WHERE correlationId=4',(value,));db.commit()
             with patch('cuda_projection_ranges.attribute') as a,patch('cuda_fused_attention_ranges.attribute') as b,self.assertRaises(ValueError):self.analyze(p)
             a.assert_not_called();b.assert_not_called()
+
+    def test_small_mode_is_exclusive_and_routes_only_to_small_attributor(self):
+        p=self.database()
+        with patch('cuda_projection_ranges.attribute') as projection, \
+             patch('cuda_fused_attention_ranges.attribute_small',return_value=dict(passed=True,attention_variant=5)) as small:
+            result=cuda.analyze(p,'aesir',expected_pid=1,nvtx_range=check.RANGE,
+                projection_tiles={1:1,4:0,32:0},record_resources=True,small_attention=True)
+            self.assertEqual(result['small_attention_attribution']['attention_variant'],5)
+            small.assert_called_once();projection.assert_not_called()
+        for kwargs in (dict(small_attention=1),dict(small_attention=True),
+                       dict(small_attention=True,down128=True,record_resources=True,projection_tiles={1:1,4:0,32:0}),
+                       dict(small_attention=True,record_resources=True)):
+            with self.assertRaises(ValueError):cuda.analyze(p,**kwargs)
 
     def test_real_source_requires_closed_capability_complete_cpu_prior_binary(self):
         harness=model_contracts.Contracts('test_source_complete_predecessor_and_cpu_scope');harness.setUp();self.addCleanup(harness.doCleanups)

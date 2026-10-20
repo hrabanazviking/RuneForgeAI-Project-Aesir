@@ -95,6 +95,11 @@ class Contracts(unittest.TestCase):
                 self.assertTrue(all(s["generated_tokens"] == ceiling and s["text"] and s["reply"] for s in report["samples"]))
                 self.assertNotIn(key, json.dumps(report))
                 self.assertFalse(report["speed_ratios"]["long_context"]["quality_parity_established"])
+                self.assertTrue(report["speed_ratios"]["long_context"]["exact_workload_inputs_match"])
+                workload = report["workloads"]["long_context"]
+                self.assertEqual(workload["prompt_utf8_bytes"], len(bench.EXTENDED_PROMPTS["long_context"].encode("utf-8")))
+                self.assertEqual(len(workload["identity_sha256"]), 64)
+                self.assertTrue(all(s["workload"] == workload for s in report["samples"] if s["case"] == "long_context"))
                 self.assertEqual(report["distributions_seconds"]["aesir"]["long_context"]["n"], 2)
                 for route, body, headers in calls:
                     if route.startswith("/api/"):
@@ -108,6 +113,8 @@ class Contracts(unittest.TestCase):
             self.assertEqual(len(preload), 1)
             self.assertEqual(preload[0]["keep_alive"], "10m")
             self.assertFalse(report["cache_policy"]["first_appearance_is_cache_disabled"])
+            self.assertTrue(all(sample["measurement_mode"] in ("warmup_excluded", "steady_state")
+                                for sample in report["samples"]))
 
     def test_response_identity_count_and_shape_fail_closed(self):
         for field, value in [("model", "other"), ("backend", "cpu"),

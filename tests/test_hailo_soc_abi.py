@@ -14,6 +14,8 @@ import unittest
 
 CONFIG = argparse.Namespace(binary=None, oracle=None)
 IOCTLS = {
+    "buffer-map": "HAILO_VDMA_BUFFER_MAP", "buffer-unmap": "HAILO_VDMA_BUFFER_UNMAP",
+    "buffer-sync": "HAILO_VDMA_BUFFER_SYNC",
     "properties": "HAILO_QUERY_DEVICE_PROPERTIES", "driver-info": "HAILO_QUERY_DRIVER_INFO",
     "desc-create": "HAILO_DESC_LIST_CREATE", "desc-release": "HAILO_DESC_LIST_RELEASE",
     "connect": "HAILO_SOC_CONNECT", "close": "HAILO_SOC_CLOSE",
@@ -56,6 +58,49 @@ class NativeSocAbi(unittest.TestCase):
     def test_all_session_ioctl_values_match_installed_header(self):
         self.assertEqual(json.loads(self.success("ioctls")),
                          {op: self.layout[name] for op, name in IOCTLS.items()})
+
+    def test_buffer_mapping_and_sync_bytes_match_installed_c(self):
+        self.assertEqual(self.layout["hailo_vdma_buffer_params"], 32)
+        self.assertEqual(self.layout["hailo_vdma_buffer_sync_params"], 28)
+        for name, offsets in (("hailo_vdma_buffer_params", {"addr_or_fd": 0, "size": 8, "direction": 16, "type": 20, "mapped_handle": 24}),
+                              ("hailo_vdma_buffer_sync_params", {"handle": 0, "sync_type": 8, "offset": 12, "count": 20})):
+            for field, offset in offsets.items():
+                self.assertEqual(self.layout[name + "." + field], offset)
+        generator = random.Random(0xD0A)
+        for direction in (1, 2):
+            for address, size in ((16384, 2068), (1, 1),
+                                  (0x1122334455667788, 0x12345678),
+                                  ((1 << 64) - 2, 1)):
+                self.matches_c("buffer", address, size, direction)
+        for _ in range(32):
+            size = generator.randrange(1, 1 << 63)
+            offset = generator.randrange(size)
+            count = generator.randrange(1, size - offset + 1)
+            self.matches_c("buffer-sync", generator.getrandbits(64),
+                           generator.randrange(2), offset, count, size)
+
+    def test_buffer_reply_checks_tuple_type_storage_and_handle(self):
+        data = bytearray(struct.pack("<QQIIQ", 16384, 2068, 1, 0, 0))
+        for handle in (0, 1, (1 << 64) - 2):
+            struct.pack_into("<Q", data, 24, handle)
+            self.assertEqual(int(self.success("buffer-reply", data.hex(), 16384, 2068, 1)), handle)
+        for offset in (0, 8, 16, 20):
+            bad = data.copy()
+            bad[offset] ^= 1
+            self.rejects("buffer-reply", bad.hex(), 16384, 2068, 1)
+        for bad in (data[:-1], data + b"\0", struct.pack("<QQIIQ", 16384, 2068, 1, 0, (1 << 64) - 1)):
+            self.rejects("buffer-reply", bad.hex(), 16384, 2068, 1)
+
+    def test_buffer_request_boundaries_refuse_before_device_access(self):
+        for args in (("buffer", 0, 2068, 1), ("buffer", 1, 0, 1),
+                     ("buffer", (1 << 64) - 1, 1, 1), ("buffer", 16384, 2068, 0),
+                     ("buffer", 16384, 2068, 3),
+                     ("buffer-sync", (1 << 64) - 1, 1, 0, 1, 2068),
+                     ("buffer-sync", 0, 1, 0, 0, 2068),
+                     ("buffer-sync", 0, 1, 2069, 1, 2068),
+                     ("buffer-sync", 0, 1, 2067, 2, 2068),
+                     ("buffer-sync", 0, 1, (1 << 64) - 2, 4, (1 << 64) - 1)):
+            self.rejects(*args)
 
     def test_descriptor_bytes_match_c_packed_struct(self):
         for count in (2, 4, 256, 65536):

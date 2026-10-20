@@ -23,6 +23,7 @@ separate. Current public contracts and evidence: [native runtime controls](docs/
 | **Loader** | `aesir_engine/loader/INTERFACE.md` | `GGUFSeer`, `RuneWeaver`, `RuneStreamDecoder`, `RuneChatTemplate` | Verified GGUF v3 F16 CPU mmap, GGUFState machine, stream decoder, multilingual corpora & chat templates (`AES-LDR-001`, `AES-LDR-005`, `AES-TOK-003`, `AES-TOK-004`, `AES-GEN-007` `verified`) |
 | **Core (Compute, Session & Facade)** | `aesir_engine/core/INTERFACE.md` | `AesirEngine`, `GenerationConfig`, `SessionContext`, `SessionManager` | Verified CPU kernels, scalar tails, GenerationConfig, token suppression masking, finite argmax & session token accounting (`AES-CPU-001`, `AES-CPU-005`, `AES-GEN-005`, `AES-GEN-006`, `AES-GEN-007`, `AES-GEN-008`, `AES-GEN-009` `verified`) |
 | **Core (Memory)** | `aesir_engine/core/INTERFACE.md` | `MimirWell` linear allocator, `RuneTensor`, `KVCache` | Verified allocation bounds & checked indexing (`AES-MEM-001`, `AES-MEM-002` `verified`) |
+| **SMIÐR source compiler** | `smidr/INTERFACE.md` | Bounded source inventory and typed dense-decoder semantic graph | Verified host compiler structure only; numerical lowering, resource qualification and executable Hailo program remain open |
 | **Testing** | `aesir_engine/tests/INTERFACE.md` | `TestLedger`, `run_all.mojo`, `test_real_gguf.mojo` | Fail-closed counted runner (`AES-FND-001` `verified`) |
 
 ---

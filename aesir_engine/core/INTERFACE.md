@@ -10,6 +10,26 @@
 > `llama3_cuda.mojo` adds the separate dense Llama 3 8B Stheno profile with the
 > same device ownership, an F16 KV cache and an 8K context ceiling.
 
+### Checked bounded spans (AES500-061–070)
+
+AES500-061 through AES500-065 define and implement the core `CheckedSpan` value.
+`core/checked_span.mojo` exposes `CheckedSpan(start, end, length)` and
+`checked_span(start, length, capacity) raises`. The factory admits a pure
+half-open range with start, exclusive end, and length. It admits
+nonnegative capacity/start/length only when `start <= capacity` and
+`length <= capacity - start`, then computes the end. Empty spans including the
+capacity endpoint are valid. All arguments use a consistent caller-defined
+unit. The value is arithmetic admission only: it does not prove allocator
+ownership, actual backing capacity, pointer validity/alignment, aliasing,
+lifetime, synchronization, or device bounds. Existing owner-specific gates
+remain in place until a later migration slice has its own baseline and tests.
+See the project-root `TASK_checked_span_construction.md` and
+`docs/evidence/checked-span-baseline-2026-10-10/README.md`.
+The CPU-only Turing fixture planner uses it to validate declared activation and
+cache element lengths before retaining its exact-size comparison. Focused
+arithmetic and fixture tests pass. This does not validate actual allocations or
+device accesses.
+
 ## Public Structs & Functions
 
 ### Persisted text admission
@@ -71,9 +91,59 @@ or failed sessions. Repetition-window changes require a new session.
 `NativeCUDASampler` owns fixed device workspaces and the ordered-stream history;
 no probability tensors are copied to CPU. See `docs/NATIVE_RUNTIME.md` for
 exact filtering order, byte counts, admission and reproducibility boundaries.
+Greedy selection for finite logits chooses the lowest token ID among equal
+maxima, on the CPU sampler and native CUDA argmax. CPU non-finite sanitization
+and suppression behavior differ from the plain CUDA greedy path and are not
+covered by this tie rule. Physical CUDA sampler evidence is currently blocked by
+local PTX JIT `CUDA_ERROR_INVALID_PTX`; no CUDA tie result is claimed. Synthetic
+tie vectors prove selector behavior only,
+not model output or performance.
+
+For positive temperature, the CPU sampler forms probabilities proportional to
+`exp(logit / temperature)` after suppression, repetition/frequency/presence
+penalties, temperature scaling, and top-k/top-p/min-p filters. It uses its
+24-bit `RuneRNG` stream and a `max_logit - 15` candidate window. This CPU stream
+is not specified to match native CUDA SplitMix64 draws or CUDA filter details.
+Oracle tests use small finite CPU vectors and do not establish model calibration
+or output quality. The current deterministic CPU oracle reports 0.12768555
+lower-token mass versus 0.11920292 softmax expectation at T=0.5, and 0.2775879
+versus 0.26894143 at T=1.0 over 4,096 seeds per temperature; both use absolute
+tolerance 0.025. The physical CUDA probe remains unavailable due to PTX JIT
+`CUDA_ERROR_INVALID_PTX`.
+Validated `GenerationConfig` is exercised through the CPU sampler and the output
+is constrained to the admitted vocabulary. Negative temperature rejects before
+sampling; extreme finite F16 logits and NaN sanitization remain in bounds.
+These tests do not verify physical CUDA behavior or model calibration.
+
+CPU `apply_top_k` is a no-op for empty candidates, `k <= 0`, and `k >= n`;
+otherwise it retains exactly k by descending logit, preserving input order for
+ties at the cutoff. The CPU public sampler treats `top_k == 1` as a greedy scan
+that still applies suppression but bypasses repetition/frequency penalties.
+Native CUDA config accepts 1..256 and its exact ranking resolves score ties by
+lower token ID. The current CPU master test confirms k=0 is a no-op in the helper,
+k=1 retains the first tied maximum, and k>=n preserves the input order. It also
+confirms the top_k=1 public sampler path honors suppression. Native CUDA physical
+execution remains unverified because PTX JIT fails with
+`CUDA_ERROR_INVALID_PTX`. These engine-specific rules are not interchangeable
+and no CPU/CUDA parity is claimed.
 
 ### `MimirWell`
-Pre-allocates the contiguous workspace pool. Raises `Error` on nonpositive pool sizes, negative allocations, integer overflow, or pool exhaustion.
+Pre-allocates a contiguous F16-element workspace pool. `allocate(elements)`
+accepts a positive element count and returns a raw pointer at the current bump
+offset; it raises on nonpositive counts or when its current capacity check
+reports exhaustion. The arena tracks only `base_ptr`, element capacity, and
+current offset. `reset()` rewinds to zero, while `reset_kv_cache(offset)`
+rewinds to a caller-selected offset within the current allocated prefix.
+
+This interface exposes no per-allocation record, stable owner identity,
+pointer provenance, backing-range association, lifetime validation, or alias
+policy. Rewinding the offset does not invalidate pointer values held by callers.
+`RuneTensor` views remain copyable raw-pointer descriptors and are not tied to a
+specific `MimirWell` allocation. Allocation ownership records are deferred
+until owner identity, copy/move/lifetime semantics, and reset invalidation can
+be defined without pointer reuse or ABA revival. `allocate` currently computes
+`offset + elements` directly; this interface does not claim that this addition
+is overflow-checked.
 
 ```mojo
 struct MimirWell:
@@ -82,10 +152,30 @@ struct MimirWell:
     def allocate_npu_buffer(mut self, size_bytes: Int, backend: NPUBackendType = NPUBackendType(NPUBackendType.ARM_NEON)) raises -> NPUBuffer: ... # Slice 7
     def allocate_gpu_buffer(mut self, size_bytes: Int, realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA)) raises -> GPUBuffer: ... # Slice 8
     def reset_kv_cache(mut self, kv_offset_start: Int) raises: ...
+    def reset(mut self): ...
 ```
 
+### Allocation ownership records (AES500-081–083)
+
+AES500-081 deferred implementation because the present raw-pointer arena and
+copyable tensor view do not establish a stable owner identity or a live
+allocation association. AES500-082 records the source and usage baseline at
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`. AES500-083
+specifies the current boundary only; it adds no public record type or behavior.
+Any later owner-record API requires a separate contract defining non-reused
+owner identity, copy/move/lifetime behavior, and reset invalidation without
+generation wrap or ABA revival. A record, if later implemented, remains
+non-owning and does not extend lifetime or prevent aliases.
+
+AES500-084 implementation is deferred until these prerequisites are designed
+and accepted. A fabricated identity or generation layered onto the current
+copyable arena and escaping raw pointers would create a record without a sound
+way to prove that its owner is live or that reset/reallocation has not revived
+it. Therefore no ownership-record implementation is claimed or exposed.
+
 ### `RuneTensor[type: DType]`
-Zero-copy tensor descriptor wrapping pointer offsets. Enforces positive shape dimensions and provides checked indexing.
+Zero-copy tensor descriptor wrapping pointer offsets. `checked()` enforces
+positive shape dimensions and provides checked indexing.
 
 ```mojo
 struct RuneTensor[type: DType]:
@@ -94,10 +184,11 @@ struct RuneTensor[type: DType]:
     var cols: Int
     var size: Int
     var is_quantized: Bool
+    var quant_format: CompressedFormatType
 
-    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False): ...  # unchecked internal view
+    def __init__(out self, rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = ...): ...  # unchecked internal view
     @staticmethod
-    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False) raises -> Self: ...
+    def checked(rows: Int, cols: Int, pre_allocated_ptr: Pointer[Scalar[Self.type], MutUntrackedOrigin], is_quantized: Bool = False, quant_format: CompressedFormatType = ...) raises -> Self: ...
     def get(self, r: Int, c: Int) -> Scalar[Self.type]: ...
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]): ...
     def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]: ...
@@ -108,6 +199,18 @@ struct RuneTensor[type: DType]:
 wrapped shape products, and null/address-1 pointers. The non-raising initializer
 is an explicitly unchecked internal view primitive used by copy and slice paths;
 callers must already own its shape, pointer, and lifetime invariants.
+AES500-071 specifies the current logical scalar layout exactly: rank two,
+contiguous row-major, with implied element strides `(cols, 1)` and offset
+`r * cols + c`. No explicit
+stride fields, arbitrary-stride indexing, or allocation-capacity proof exists.
+Raw `get`/`set` do not add coordinate checks; use the checked variants where
+that coordinate validation is required. See `TASK_rune_tensor_2d_layout.md`.
+For scalar indexing, `cols` is the implied row stride in elements; column
+stride is one element. These are semantic consequences of the current indexing
+formula, not separately stored or queried stride values. This statement does
+not define packed quantized storage layout.
+The implementation shares this scalar formula through the private
+`_linear_offset(r, c)` helper used by raw `get` and `set`.
 
 ### Canonical GGML K-quant bytes
 
@@ -375,9 +478,12 @@ production contexts or buffers whose lifetime extends beyond discovery.
 ### `CUDAResourceBudget`, `CUDAF16Allocation`, and `CUDADeviceResources` (GPU-2)
 
 `core/cuda_resources.mojo` owns the selected CUDA context and real MAX-managed
-F16 resource lifecycle. These are move-only project wrappers: the underlying
-MAX context, pinned-host buffer, and device buffer are reference-counted and
-released by their `Deinitable` lifecycles after queued stream work completes.
+F16 resource lifecycle. These are move-only project wrappers; the underlying
+MAX context, pinned-host buffer, and device buffer use their `Deinitable`
+lifecycles. This contract does not claim that wrapper destruction inserts an
+implicit stream fence. The logical tracker classifies a destruction as fenced
+only when its known pending-work count is zero after the owning code has
+successfully synchronized.
 
 ```mojo
 struct CUDAResourceBudget(Copyable):
@@ -407,7 +513,11 @@ struct CUDAF16Allocation:
     var element_count: Int
     var size_bytes: Int
     var stable_device_id: String
+    var allocation_id: Int
     var synchronization_count: Int
+    var pending_work_count: Int
+    var tracker: ArcPointer[CUDAAllocationTracker]
+    var is_registered: Bool
 
     def set_host(mut self, index: Int, value: Scalar[f16]) raises: ...
     def get_host(self, index: Int) raises -> Scalar[f16]: ...
@@ -417,11 +527,26 @@ struct CUDAF16Allocation:
     def upload_and_synchronize(mut self) raises: ...
     def download_and_synchronize(mut self) raises: ...
 
+struct CUDAAllocationTracker(Movable):
+    var next_id: Int
+    var live_count: Int
+    var live_bytes: Int
+    var fenced_owner_destroyed_count: Int
+    var fenced_owner_destroyed_bytes: Int
+    var unfenced_owner_destroyed_count: Int
+    var accounting_error: Bool
+
+    def reserve_id(mut self) raises -> Int: ...
+    def validate_registration(self, count: Int, total_bytes: Int) raises: ...
+    def register(mut self, size_bytes: Int) raises: ...
+    def owner_destroyed(mut self, size_bytes: Int, pending_work_count: Int): ...
+
 struct CUDADeviceResources:
     var context: DeviceContext
     var physical_device: PhysicalDevice
     var budget: CUDAResourceBudget
     var allocation_count: Int
+    var allocation_tracker: ArcPointer[CUDAAllocationTracker]
 
     def __init__(out self, physical_device: PhysicalDevice, device_limit_bytes: Int, pinned_host_limit_bytes: Int) raises: ...
     def allocate_f16(mut self, element_count: Int) raises -> CUDAF16Allocation: ...
@@ -431,8 +556,17 @@ struct CUDADeviceResources:
 Budget accounting is conservative and monotonic for a session. Failed MAX
 allocation rolls back its reservation. Three-buffer GPU-3 admission reserves
 one exact atomic total and restores that total if executor construction fails.
-Dropping a buffer does not fabricate immediate pool reuse, and no owning raw
-pointer is exposed.
+The tracker records session-local owner IDs, logical live counts/bytes, and
+owner destruction after known queued work has been synchronized. Destruction
+with known pending work is counted separately. It does not decrease the
+monotonic policy reservation, promise allocator reuse or driver-memory return,
+or guard arbitrary direct use of the currently exposed `device_buffer` field.
+The proof is limited to the exercised synchronous GPU-2/GPU-3 paths and
+CPU-only tracker accounting cases in the linked AES500 evidence receipts.
+Tracker payload mutation is single-host-thread scoped; `ArcPointer` protects
+shared ownership but not concurrent mutation of its payload. These counters are
+lifecycle diagnostics, not a thread-safe allocator, an async-teardown guarantee,
+or a complete observer of untracked raw-buffer use.
 
 ### `CUDAGemmPlan` and `CUDAF16GemmExecutor` (GPU-3)
 
@@ -680,6 +814,36 @@ GEMM gateway. `gemm_f16_cuda` requires a caller-owned
 signatures do not carry selected device resources. The historically named
 `gpgpu_vector` and `mobile_opencl` functions are host-only SIMD experiments.
 
+CPU `rmsnorm` operates in place on each contiguous row. It accumulates squares
+in F32 using 16-wide SIMD reductions followed by a scalar tail, computes
+`inv_rms = 1 / sqrt(sum_squares / cols + epsilon)`, then stores
+`f16((f32(x) * inv_rms) * f32(weight[c]))`. It requires positive tensor rows
+and columns, at least `cols` linear weight elements (only that prefix is read),
+and a finite positive epsilon. NaN, either infinity, zero, and negative
+epsilon are rejected before tensor mutation. The function does not validate
+pointer provenance/backing capacity or call `RuneTensor.checked()`; no such
+guarantee is implied here. Oracle tolerance and finite-overflow/underflow
+policy remain assigned to the AES500-091–100 evidence
+program; see `TASK_rmsnorm_oracle_breadth.md`.
+
+The focused `compute.rmsnorm_interface` case verifies acceptance of a positive
+multirow tensor with an overlong 2x2 weight descriptor. The implementation
+reads the first `cols` linear values; this admission case does not verify that
+numerical behavior. It verifies mutation-free rejection of zero/negative rows
+and columns, short weights, and non-finite/nonpositive epsilon. The separate
+`compute.rmsnorm_reference` case compares final F16 values with a scalar F32
+reference for a deterministic two-row corpus at widths 3, 15, 16, 17, and 33.
+Exact agreement on this corpus does not establish a general tolerance or
+general overflow/underflow guarantee. Tolerance remains under AES500-095–100.
+The registered
+`compute.rmsnorm_adversarial` case records tested IEEE propagation: input NaN
+propagates through its row reduction; +/-Inf input produces NaN at that element
+and zero at finite peers in that row; NaN and +/-Inf weights propagate only to
+their output columns. The kernel does not sanitize tensor or weight exceptional
+values. This policy is bounded to those tested cases and the min-subnormal and
+max-finite F16 corpus. The review and rollback receipt is recorded in
+`docs/evidence/rmsnorm-review-2026-10-10/README.md`.
+
 ```mojo
 def gemm_f16(A: RuneTensor[f16], B: RuneTensor[f16], mut C: RuneTensor[f16]): ...
 def flash_attention_2(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f16], mut Out: RuneTensor[f16], seq_len: Int, head_dim: Int): ...
@@ -687,7 +851,7 @@ def flash_attention_gqa(Q: RuneTensor[f16], K: RuneTensor[f16], V: RuneTensor[f1
 def silu(mut T: RuneTensor[f16]): ...
 def geglu(mut T: RuneTensor[f16]): ...
 def rmsnorm(mut T: RuneTensor[f16], weight: RuneTensor[f16], epsilon: Scalar[f32] = 1e-5): ...
-def apply_rope(mut Q: RuneTensor[f16], mut K: RuneTensor[f16], start_pos: Int, head_dim: Int, theta: Scalar[f32] = 10000.0): ...
+def apply_rope(mut Q: RuneTensor[f16], mut K: RuneTensor[f16], start_pos: Int, head_dim: Int, theta: Scalar[f32] = 10000.0, neox: Bool = False): ...
 def cosine_similarity(A: RuneTensor[f16], B: RuneTensor[f16]) -> Scalar[f32]: ...
 def gemm_f16_sharded(A_shards: List[RuneTensor[f16]], B_shards: List[RuneTensor[f16]], mut C_shards: List[RuneTensor[f16]]): ... # Slice 6
 def all_reduce_sum(shards: List[RuneTensor[f16]], mut Out: RuneTensor[f16]): ... # Slice 6
@@ -715,6 +879,23 @@ def dequantize_q5_k_m(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer
 def dequantize_q6_k_block(data: Pointer[UInt8, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int) raises: ...
 def dequantize_q4_0(block_ptr: Pointer[BlockQ4_0, MutUntrackedOrigin], out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin], num_blocks: Int): ...
 ```
+
+CPU `flash_attention_2` uses inclusive causal prefixes: output row `i` consumes
+only K/V positions `0..i`. AES500-112 preserves the prior all-row behavior;
+AES500-114 adds the mask. The scalar, cache-integration, and 32-key boundary
+evidence and remaining limits are documented in
+`TASK_causal_attention_reference_suite.md`.
+
+CPU `apply_rope` mutates Q and K in place. It requires nonnegative start
+position, positive even head width, positive tensor rows and columns, and each
+tensor's columns divisible by `head_dim`. Q/K row counts and head counts are
+validated independently and each tensor is rotated across all its own rows.
+Interleaved pairs are `(2*i, 2*i+1)`; NeoX pairs are
+`(i, i+head_dim/2)`. Row `r` uses position `start_pos+r`, frequency
+`1/theta^(2*i/head_dim)`, F16-cast cosine/sine coefficients, and ordered
+`x0*cos-x1*sin`, `x0*sin+x1*cos` updates. Theta must be finite and positive.
+Checked integer/pointer arithmetic is not established; see
+`TASK_rope_edge_matrix.md` for the exact exclusions and next evidence gates.
 
 The dispatcher rejects null/sentinel storage, nonpositive element counts,
 partial blocks, unknown descriptors, and reserved external/extreme formats
@@ -951,6 +1132,17 @@ module-private complete-state path, so it cannot manufacture sentinel-bearing
 weights. The validated single-device path sizes Q independently from K/V,
 applies grouped-query attention, checks token IDs and required
 embedding/output tensors, and uses the model's RMS epsilon.
+
+`inference.rmsnorm_integration` runs the existing `forward_pass` output norm
+with finite positive model epsilon, checks the selected token and restored
+arena offset on success and rejected admission, then confirms short weights and
+non-finite epsilon propagate the shared RMSNorm errors. `forward_pass` restores
+its activation arena offset when final RMSNorm raises; the overload that creates
+its own KV cache also rolls back that temporary allocation. Existing
+`inference.synthetic_forward` also
+executes the TransformerBlock attention and feed-forward RMSNorm call sites.
+These synthetic checks establish host-path wiring and narrow output behavior;
+they do not establish model quality or external-fixture correctness.
 # Reserved experimental inference surfaces
 
 `EpisodicComputationMemory`, `WaveInferenceEngine`, `NSFIEngine` and

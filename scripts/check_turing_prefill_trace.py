@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bind owned inference-only trace to complete explicit accepted strategy2/3/4 bytes; unscored."""
+"""Bind owned inference-only trace to complete explicit accepted strategy2/3/4/5 bytes; unscored."""
 import argparse
 from array import array
 import csv
@@ -13,19 +13,23 @@ import sqlite3
 from launch import digest
 from profile_native_cuda import read_text
 from check_cuda_trace import analyze
-from check_turing_down_source import accepted_model
+from check_turing_down_source import accepted_model as accepted_fused_model
+from check_small_attention_source import accepted_model as accepted_small_model
 from check_turing_activations import f32
 from check_turing_fixture_controls import reference
 from check_turing_model_prefill import parse as source_parse, rope_cache_calls, elementwise_calls
 from check_llama3_logits import VOCABULARY
 
 RANGE = "aesir.fixture.prefill"
+accepted_model = accepted_fused_model  # retained patch point for existing fused-mode contracts
 
 
-def parse(path, golden, case, projection_ranges=False, *, allow_down=False, allow_fused=False):
-    if type(allow_down) is not bool or type(allow_fused) is not bool or (allow_down and allow_fused) or ((allow_down or allow_fused) and not projection_ranges):
-        raise ValueError("Down trace requires explicit projection ranges")
-    strategy = 4 if allow_fused else 3 if allow_down else 2
+def parse(path, golden, case, projection_ranges=False, *, allow_down=False, allow_fused=False, allow_small=False):
+    if (type(allow_down) is not bool or type(allow_fused) is not bool or type(allow_small) is not bool or
+            sum((allow_down, allow_fused, allow_small)) > 1 or
+            ((allow_down or allow_fused) and not projection_ranges) or (allow_small and projection_ranges)):
+        raise ValueError("Trace strategies require exclusive explicit range modes")
+    strategy = 5 if allow_small else 4 if allow_fused else 3 if allow_down else 2
     text = read_text(path, 16 * 1024**2)
     if len(text.encode()) > 16 * 1024**2 or not text.endswith("\n"):
         raise ValueError("Trace CSV exceeds byte limit or lacks complete final line")
@@ -36,8 +40,9 @@ def parse(path, golden, case, projection_ranges=False, *, allow_down=False, allo
     if not row or not row[0].startswith("[CUDA]") or "api=cuda" not in row[0] or "cpu_offload=0" not in row[0]:
         raise ValueError("Missing native CUDA trace identity")
     row = next(reader)
+    expected_range = "aesir.fixture.prefill"
     if (len(row) != 6 or row[:4] != ["TRACE", "1", str(strategy), str(case)] or
-            not re.fullmatch(r"[1-9][0-9]{0,9}", row[4]) or row[5] != RANGE):
+            not re.fullmatch(r"[1-9][0-9]{0,9}", row[4]) or row[5] != expected_range):
         raise ValueError("Wrong trace strategy/case/PID/range")
     pid = int(row[4]); count = len(golden["input_ids"])
     if projection_ranges and next(reader) != ["STAGES","1"]:
@@ -53,19 +58,27 @@ def parse(path, golden, case, projection_ranges=False, *, allow_down=False, allo
         if len(row) != 3 or row[:2] != ["LOGIT", str(index)]:
             raise ValueError("Incomplete/duplicate/out-of-order trace logits")
         values.append(f32(row[2]))
-    if next(reader) != ["ENQUEUE", str(rope_cache_calls(count, 2)), str(elementwise_calls(count, 2))]:
+    source_strategy = 5 if allow_small else 2
+    if next(reader) != ["ENQUEUE", str(rope_cache_calls(count, source_strategy)), str(elementwise_calls(count, source_strategy))]:
         raise ValueError("Trace host enqueue counts changed")
-    if allow_down or allow_fused:
+    if allow_down or allow_fused or allow_small:
         if next(reader) != ["DOWN_ROWS128", str((count-1)//32*28)] or next(reader) != ["DOWN_TILE", "128", "32"]:
             raise ValueError("Down trace dispatch counts/selected tile changed")
     fused_calls = None
     original_queries = None
-    if allow_fused:
+    small_calls = None
+    if allow_fused or allow_small:
         remaining = count-1
-        fused_calls = (remaining//32+(remaining%32)//4)*28
+        calls = (remaining//32+(remaining%32)//4)*28
         original_queries = (remaining%4+1)*28
-        if next(reader) != ["FUSED_ATTENTION", str(fused_calls), str(original_queries)]:
-            raise ValueError("Fused attention actual enqueue/query counts changed")
+        marker = "SMALL_ATTENTION" if allow_small else "FUSED_ATTENTION"
+        if next(reader) != [marker, str(calls), str(original_queries)]:
+            raise ValueError("Attention actual enqueue/query counts changed")
+        if allow_small:
+            if next(reader) != ["FUSED_ATTENTION", "0", str(original_queries)]:
+                raise ValueError("Small trace did not preserve closed fused/original dispatch counts")
+            small_calls = calls
+        else: fused_calls = calls
     row = next(reader)
     if len(row) != 3 or row[:2] != ["CACHE", "176160832"] or not re.fullmatch(r"[0-9a-f]{64}", row[2]):
         raise ValueError("Trace cache record incomplete")
@@ -75,7 +88,9 @@ def parse(path, golden, case, projection_ranges=False, *, allow_down=False, allo
     if next(reader, None) is not None:
         raise ValueError("Trailing trace evidence")
     identical = values.tobytes() == golden["logits"].tobytes()
-    extra = dict(fused_attention_host_enqueues=fused_calls, original_attention_queries=original_queries) if allow_fused else {}
+    extra = (dict(small_attention_host_enqueues=small_calls, fused_attention_host_enqueues=0,
+                  original_attention_queries=original_queries) if allow_small else
+             dict(fused_attention_host_enqueues=fused_calls, original_attention_queries=original_queries) if allow_fused else {})
     return dict(passed=identical and cache, case=case, pid=pid, values=VOCABULARY, projection_ranges=projection_ranges,
                 attention_variant=strategy, down128_host_enqueues=(count-1)//32*28 if allow_down or allow_fused else None,
                 **extra,
@@ -99,6 +114,7 @@ def main():
     parser.add_argument("--projection-ranges", action="store_true")
     parser.add_argument("--down128", action="store_true")
     parser.add_argument("--fused-attention", action="store_true")
+    parser.add_argument("--small-attention", action="store_true")
     parser.add_argument("--reference-binary", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
@@ -114,6 +130,11 @@ def main():
                     raise ValueError("Fused trace requires exclusive explicit ranges and actual default4 source binary")
                 source, proof = accepted_model(args.reference_csv, args.reference_report, args.model_sha256,
                     fused=True, binary=args.reference_binary)
+            elif args.small_attention:
+                if args.down128 or args.projection_ranges or args.reference_binary is None:
+                    raise ValueError("Small trace requires exclusive strategy5 source binary and small-owned ranges")
+                source, proof = accepted_small_model(args.reference_csv,args.reference_report,args.model_sha256,
+                    small=True,binary=args.reference_binary)
             elif args.reference_binary is not None:
                 raise ValueError("Reference binary belongs only to explicit fused trace")
             elif args.down128:
@@ -127,8 +148,8 @@ def main():
             if source["csv_sha256"] != proof["csv_sha256"]:
                 raise ValueError("Trace source changed during admission")
             golden = source["cases"][args.case]
-            unprofiled = parse(args.unprofiled, golden, args.case,args.projection_ranges,allow_down=args.down128,allow_fused=args.fused_attention)
-            profiled = parse(args.profiled, golden, args.case,args.projection_ranges,allow_down=args.down128,allow_fused=args.fused_attention)
+            unprofiled = parse(args.unprofiled, golden, args.case,args.projection_ranges,allow_down=args.down128,allow_fused=args.fused_attention,allow_small=args.small_attention)
+            profiled = parse(args.profiled, golden, args.case,args.projection_ranges,allow_down=args.down128,allow_fused=args.fused_attention,allow_small=args.small_attention)
             report.update(probe_collection_complete=True, unprofiled=unprofiled, profiled=profiled,
                           model_sha256=args.model_sha256, binary_sha256=args.binary_sha256,
                           accepted_reference=proof)
@@ -139,9 +160,17 @@ def main():
                 while remaining:
                     size = 32 if remaining >= 32 else (4 if remaining >= 4 else 1)
                     tiles[size] += 1;remaining -= size
+            elif args.small_attention:
+                tiles = {1:0,4:0,32:0};remaining=len(golden["input_ids"])-1
+                while remaining:
+                    size = 32 if remaining >= 32 else (4 if remaining >= 4 else 1)
+                    tiles[size] += 1;remaining -= size
             extra = dict(fused_attention=True) if args.fused_attention else {}
+            if args.small_attention: extra["small_attention"] = True
             trace = analyze(args.sqlite, args.binary.name,
-                            expected_pid=profiled["pid"], nvtx_range=RANGE,projection_tiles=tiles,down128=args.down128 or args.fused_attention,record_resources=args.down128 or args.fused_attention,**extra)
+                            expected_pid=profiled["pid"], nvtx_range=RANGE,
+                            projection_tiles=tiles,down128=args.down128 or args.fused_attention,
+                            record_resources=args.down128 or args.fused_attention or args.small_attention,**extra)
             if trace["gpu"]["compute"] != "7.5":
                 raise ValueError("Trace differs from admitted physical capability7.5")
             report.update(collection_complete=True, unprofiled=unprofiled, profiled=profiled,
@@ -151,12 +180,12 @@ def main():
                         (args.reference_csv, proof["csv_sha256"]), (args.reference_report, proof["report_sha256"]),
                         (args.unprofiled, unprofiled["csv_sha256"]), (args.profiled, profiled["csv_sha256"]),
                         (args.sqlite, sqlite_sha)]
-            if args.fused_attention: expected.append((args.reference_binary, proof["binary_sha256"]))
+            if args.fused_attention or args.small_attention: expected.append((args.reference_binary, proof["binary_sha256"]))
             if any(digest(path) != sha for path, sha in expected):
                 raise ValueError("Trace artifact changed during validation")
             report["passed"] = unprofiled["passed"] and profiled["passed"]
             report["limits"] = ("One inference-only same-thread synchronized NVTX range, original strict3B/"
-                                "context1536/F16KV/sm75 explicit strategy2/3/4. All source F32/cache bytes retained. "
+                                "context1536/F16KV/sm75 explicit strategy2/3/4/5. All source F32/cache bytes retained. "
                                 "Explicit stage attribution uses successful launch correlations and owned tensors. Recorded resource fields do not infer occupancy/spills or a failure cause. "
                                 "API/GPU durations overlap; uncovered time has no inferred cause. No speed score, "
                                 "production32, broader context/device/concurrency/soak or provider lead.")

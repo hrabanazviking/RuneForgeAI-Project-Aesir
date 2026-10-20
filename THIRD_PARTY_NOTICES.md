@@ -240,3 +240,26 @@ The installed 5.3.0 driver UAPI header (SPDX
 installed header; this repository ships no copy. Production Mojo contains
 independently authored codecs using interface facts, without driver source or
 oracle linkage. See `docs/HAILO10H_MOJO_SOC_ABI.md` and `CLEAN_ROOM_LOG.md`.
+
+GGUF format documentation was consulted at ggml commit
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` under its MIT license (license read).
+Only public format facts inform the source-inventory/string validation checks;
+no ggml implementation, header or runtime is copied, translated or bundled by
+this slice. See `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` and `CLEAN_ROOM_LOG.md`.
+
+The same pinned GGUF format documentation also supplies metadata/default facts
+for the original source semantic graph. No external implementation is adapted;
+see `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md` and `CLEAN_ROOM_LOG.md`.
+
+The test-only public context-action oracle includes externally supplied
+HailoRT v5.3.0 public headers under the same pinned MIT license. Transitive
+`md5.h` carries Alexander Peslyak's public-domain/permissive notice, read in
+full; no MD5 implementation is used/linked. These headers are not bundled.
+Production Mojo copies no external implementation. Dependency hashes and
+evidence: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.
+
+The original source constant work also studies ggml Q4_K public data-format
+facts at the same pinned MIT revision, with its license re-read. No ggml
+implementation is copied/translated into production or bundled by the study.
+Hashes/schema and planned external test-only oracle boundary are recorded in
+`docs/HAILO10H_Q4K_SOURCE_LAYOUT.md`.

@@ -6,6 +6,7 @@
 # embeddings from document text.
 
 from core.mimir_well import MimirWell, MimirStore, RuneTensor, f16, f32
+from core.text_admission import admit_text_bytes, validate_utf8_bytes
 
 struct DocumentChunk(Copyable, ImplicitlyCopyable):
     var id: String
@@ -80,7 +81,7 @@ def _snap_chunk_start(t_bytes: Span[Byte, ...], raw_start: Int, text_len: Int) -
     return start
 
 
-def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> List[DocumentChunk]:
+def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) raises -> List[DocumentChunk]:
     """
     Deterministic Text Chunking Kernel.
     Splits text into fixed byte windows with overlap, preserving byte offset metadata.
@@ -97,7 +98,12 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
     if text_len == 0 or chunk_size <= 0:
         return chunks^
 
-    var effective_overlap = chunk_overlap
+    var validation_bytes = List[Byte]()
+    for byte in t_bytes:
+        validation_bytes.append(byte)
+    validate_utf8_bytes(validation_bytes, "chunk_text input")
+
+    var effective_overlap = max(0, chunk_overlap)
     if effective_overlap >= chunk_size:
         effective_overlap = chunk_size // 2
 
@@ -124,14 +130,7 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
         var slice_bytes = List[Byte]()
         for i in range(offset, end_offset):
             slice_bytes.append(t_bytes[i])
-        # Decode the snapped bytes as UTF-8. NOTE: the pre-fix code used
-        # String(slice_bytes), which stringifies the List (yielding the byte
-        # list's repr like "[97, 98, ...]") instead of decoding the bytes.
-        # The repo's established bytes->String pattern (as in
-        # loader/tokenizer.mojo) is a NUL-terminated unsafe_from_utf8_ptr,
-        # which is sound here because snapping guarantees valid UTF-8.
-        slice_bytes.append(0)
-        var chunk_str = String(unsafe_from_utf8_ptr=slice_bytes.unsafe_ptr())
+        var chunk_str = admit_text_bytes(slice_bytes, "chunk_text output", text_len)
         var chunk_id = String("chunk_") + String(idx)
         chunks.append(DocumentChunk(chunk_id, chunk_str, String("inline"), idx, offset))
         idx += 1
@@ -140,7 +139,7 @@ def chunk_text(text: String, chunk_size: Int = 256, chunk_overlap: Int = 32) -> 
         # The next chunk must also start on a boundary. If snapping pinched
         # the overlap shut, tile gaplessly instead of skipping bytes.
         var next_offset = _snap_chunk_start(t_bytes, offset + step, text_len)
-        if next_offset > end_offset:
+        if next_offset > end_offset or next_offset <= offset:
             next_offset = end_offset
         offset = next_offset
 

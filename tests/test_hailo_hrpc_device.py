@@ -93,7 +93,7 @@ class NativeDeviceMessages(unittest.TestCase):
     def test_create_request_matches_independent_protobuf(self):
         for message_id in (0, 1, 0xFFFFFFFF):
             with self.subTest(message_id=message_id):
-                expected = packet(MESSAGES["CreateRequest"]().SerializeToString(), 20, message_id)
+                expected = packet(MESSAGES["CreateRequest"]().SerializeToString(), 20, message_id, status=1)
                 self.assertEqual(self.success("create-request", message_id),
                                  {"packet_hex": expected})
 
@@ -107,7 +107,7 @@ class NativeDeviceMessages(unittest.TestCase):
             for operation, action in (("identify-request", 22), ("destroy-request", 21)):
                 with self.subTest(handle=handle, operation=operation):
                     self.assertEqual(self.success(operation, 17, handle),
-                                     {"packet_hex": packet(body, action)})
+                                     {"packet_hex": packet(body, action, status=1)})
 
     def test_create_replies_match_independent_protobuf(self):
         for handle in (0, 1, 127, 128, 65535, 1 << 31, 0xFFFFFFFF):

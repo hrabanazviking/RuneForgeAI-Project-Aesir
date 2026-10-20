@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-19",
+  "contract": "TASK_hailo10h_dma_observation.md",
+  "reference_facts_commit": "7359ad31d3d456db9e10149491d9d5927d58c5f8",
+  "scope": "Request wire status and raw ioctl result handling; no independent physical Mojo RPC transfer or model inference",
+  "native_builds_passed": 6,
+  "independent_protobuf_methods_passed": 10,
+  "result_handler_assertions_passed": 7,
+  "physical_driver_owner_methods_passed": 11,
+  "physical_connection_methods_passed": 7,
+  "create_header_comparison": {
+    "observed_create_header_hex": "3244558a00000000000000001400000001000000",
+    "native_create_request_matches": true,
+    "physical_mojo_transfer": false
+  },
+  "source_sha256": {
+    "hailbru/hrpc_device.mojo": "7cfbf250010ef881c48278152deaca7f38c28f21bf3445ac03c012173be3a7b0",
+    "hailbru/soc_driver.mojo": "079c07d2e5ace55181d315dc138a697c8ac03223325d7b6d23377f6661439ac5",
+    "tests/test_hailo_hrpc_device.py": "2662fb9c845c67a7739d3aabd7bd50db4165e5bf550bb4266cccd93c541c5b7d",
+    "tests/hailo_soc_result_api.mojo": "3656c9629aad7e664bc8f4e3a1f9fe445cb1afc62942515a0e9bb933fa90b279"
+  },
+  "binary_sha256": {
+    "hrpc-device": "ea452454a5664513c77749fd4936e795ff0156fd73b38ceaec817192b694431c",
+    "soc-result-api": "923a6aef83c25b5366a0db6bc9dcb21f184697b92a086e7e5215fc96f7a4c0e7",
+    "soc-driver": "2412ae995a11a6a97adfd63d90c5e1290b85aac1445388e4d6a9b51bc9923a76",
+    "soc-driver-unwind": "18e058647368a4bea3b8eb55963a9ccfc24933129ce5ecb8209ef6ecf950cb0f",
+    "soc-session": "95593e7e9c8e779f2895dbfb83979806ae47bbde48c527b1071bba24ff4730f9",
+    "soc-session-unwind": "3515d08e03ec19fd875ba0e970e5de0c961f555d56b08576734a78c686eaf66c"
+  },
+  "next": "Owned map/unmap/sync storage, bounded interrupt waiting and buffer lifetime; typed physical Mojo RPC then source-model compiler"
+}

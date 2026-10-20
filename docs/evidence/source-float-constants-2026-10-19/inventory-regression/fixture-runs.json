@@ -1,0 +1,114 @@
+[
+  {
+    "fixture_sha256": "916ff438f9faab8869294de0005d09ffe94204eacbb000bf2cf6c83c54619be3",
+    "bytes": 272,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"llama\",\"source_bytes\":272,\"data_offset\":224,\"weight_bytes\":40,\"tensor_count\":2,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"matrix.weight\":{\"file_offset\":224,\"columns\":4,\"rows\":3,\"source_kind\":1,\"byte_count\":24},\"norm.weight\":{\"file_offset\":256,\"columns\":4,\"rows\":1,\"source_kind\":0,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "f906dae2bf232c03c3dcd233b576cea353459206284f225373e6f53269875919",
+    "bytes": 272,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"qwen3\",\"source_bytes\":272,\"data_offset\":224,\"weight_bytes\":40,\"tensor_count\":2,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"matrix.weight\":{\"file_offset\":224,\"columns\":4,\"rows\":3,\"source_kind\":1,\"byte_count\":24},\"norm.weight\":{\"file_offset\":256,\"columns\":4,\"rows\":1,\"source_kind\":0,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "5a38b1d6b656ca6c626da93440cda822f2dbead9252d3387f1ed4e92e4269518",
+    "bytes": 304,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"new_architecture_not_in_backend_registry\",\"source_bytes\":304,\"data_offset\":256,\"weight_bytes\":40,\"tensor_count\":2,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"matrix.weight\":{\"file_offset\":256,\"columns\":4,\"rows\":3,\"source_kind\":1,\"byte_count\":24},\"norm.weight\":{\"file_offset\":288,\"columns\":4,\"rows\":1,\"source_kind\":0,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "f88ade13d8be5bf758a8a563d62fa4943b08c53a741f0ea8de50ac3164453cfe",
+    "bytes": 946,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"quantized_fixture\",\"source_bytes\":946,\"data_offset\":256,\"weight_bytes\":674,\"tensor_count\":3,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"q4.weight\":{\"file_offset\":256,\"columns\":256,\"rows\":2,\"source_kind\":12,\"byte_count\":288},\"q5.weight\":{\"file_offset\":544,\"columns\":256,\"rows\":1,\"source_kind\":13,\"byte_count\":176},\"q6.weight\":{\"file_offset\":736,\"columns\":256,\"rows\":1,\"source_kind\":14,\"byte_count\":210}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "99685929a36eea48572acec37031442c1ecf6f0845b2b31d8c28bff800ffdbec",
+    "bytes": 192,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"bf16_fixture\",\"source_bytes\":192,\"data_offset\":160,\"weight_bytes\":32,\"tensor_count\":1,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"bf16.weight\":{\"file_offset\":160,\"columns\":8,\"rows\":2,\"source_kind\":30,\"byte_count\":32}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "4997d2bd3b69302ea91612dcb32dba2213744b952ddbe715f3fe7d60b405efbf",
+    "bytes": 272,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Cannot construct a String from invalid UTF-8 data\n"
+  },
+  {
+    "fixture_sha256": "916ff438f9faab8869294de0005d09ffe94204eacbb000bf2cf6c83c54619be3",
+    "bytes": 272,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"llama\",\"source_bytes\":272,\"data_offset\":224,\"weight_bytes\":40,\"tensor_count\":2,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"matrix.weight\":{\"file_offset\":224,\"columns\":4,\"rows\":3,\"source_kind\":1,\"byte_count\":24},\"norm.weight\":{\"file_offset\":256,\"columns\":4,\"rows\":1,\"source_kind\":0,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "81575864fd85d3141f51d53c80517f0a150909c41fe4603990b83dc0c071add8",
+    "bytes": 16,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF file is smaller than the v3 header\n"
+  },
+  {
+    "fixture_sha256": "33c40639f20fc0b03799d7b6802ec3190dc60de2e48ef49c7430910e62aaace9",
+    "bytes": 271,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: GGUF is truncated or contains an out-of-range offset\n"
+  },
+  {
+    "fixture_sha256": "ffba4eff76aee736b259d987276a7aff635bccad7143a6cfe13165baeb0344d0",
+    "bytes": 272,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: overlapping tensors\n"
+  },
+  {
+    "fixture_sha256": "6e0ae252ea58e7f7d7484f3d60d1c9517b0b923112d81032a7bc360924ed926b",
+    "bytes": 272,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: architecture and at least one tensor are required\n"
+  },
+  {
+    "fixture_sha256": "7e750f4ee6e7744eda0ad12a941e4d2a27d6e9928fb812362d059f11306196a4",
+    "bytes": 128,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: SourceInventory: architecture and at least one tensor are required\n"
+  },
+  {
+    "fixture_sha256": "097c90ede1cebb488c8556535b330393d62d28d47b333d2f5444eabccf384cf1",
+    "bytes": 232,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: duplicate tensor same\n"
+  },
+  {
+    "fixture_sha256": "62780acd32c7c46de12efd2461e1f9f4211203d52c51dd36ab0b6f45be2ac19f",
+    "bytes": 208,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"arch_\u00c6sir_\ud83d\ude80\",\"source_bytes\":208,\"data_offset\":192,\"weight_bytes\":16,\"tensor_count\":1,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"name_\u00e9\\\"\\\\\\u000a.weight\":{\"file_offset\":192,\"columns\":4,\"rows\":2,\"source_kind\":1,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "ee43ac2cc9a2b4637b01d59b2eac2050f79d8a9d699686387108f1661875205e",
+    "bytes": 208,
+    "returncode": 0,
+    "stdout": "{\"schema_version\":1,\"scope\":\"source_tensor_inventory\",\"architecture\":\"llama\\u0000different\",\"source_bytes\":208,\"data_offset\":192,\"weight_bytes\":16,\"tensor_count\":1,\"execution_tested\":false,\"executable_program\":false,\"source_fingerprint_verified\":false,\"bindings\":{\"prefix\\u0000suffix.weight\":{\"file_offset\":192,\"columns\":4,\"rows\":2,\"source_kind\":1,\"byte_count\":16}}}\n",
+    "stderr": ""
+  },
+  {
+    "fixture_sha256": "894d9b17e8f6730c965d479d450c2f9380b304e24c369a171bbab24fe530a560",
+    "bytes": 672,
+    "returncode": 1,
+    "stdout": "",
+    "stderr": "stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: unsupported tensor type 99\n"
+  }
+]

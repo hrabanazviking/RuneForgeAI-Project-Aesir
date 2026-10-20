@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "purpose": "owner-requested integration of all current committed branch heads",
+  "source_heads": {
+    "origin/main": {
+      "head": "e70b76a9e03ed64b41b5fc438963c8d7cb00be35",
+      "ancestor": true,
+      "previously_retired_paths": [],
+      "files": 1508
+    },
+    "origin/docs/cross-cutting-500-slice-roadmap": {
+      "head": "e83b00a8f5e6aaf2e3816cabb362b7c1d9b65d65",
+      "ancestor": true,
+      "previously_retired_paths": [
+        "aesir_engine/core/npu_gate.mojo"
+      ],
+      "files": 1204
+    },
+    "origin/docs/cross-cutting-hailo-mission": {
+      "head": "7636d654992babc193e69585d75ce54db4e4a4d9",
+      "ancestor": true,
+      "previously_retired_paths": [],
+      "files": 1870
+    },
+    "origin/feat/project-consistency-reconciliation": {
+      "head": "170aeaf1318b363cf215422d35e21b7246254a3f",
+      "ancestor": true,
+      "previously_retired_paths": [
+        "aesir_engine/core/npu_gate.mojo"
+      ],
+      "files": 533
+    },
+    "6bb6c9ac6d7efd44125d5c984ea2360721177e06": {
+      "head": "6bb6c9ac6d7efd44125d5c984ea2360721177e06",
+      "ancestor": true,
+      "previously_retired_paths": [
+        "hailbru/health_obs.mojo"
+      ],
+      "files": 1208
+    }
+  },
+  "retired_paths": {
+    "aesir_engine/core/npu_gate.mojo": "fa79c72 intentionally retired dlopen stub",
+    "hailbru/health_obs.mojo": "123a350 moved observation hook into the VORDR domain"
+  },
+  "verification": {
+    "host_merge_regression": {
+      "result": "pass",
+      "tokenizer_methods": 23,
+      "unicode_chunk_scenarios": 27,
+      "tool_descriptor_paths": 2
+    },
+    "cache_layout": {
+      "result": "pass",
+      "methods": 6,
+      "native_accepts": 18,
+      "native_refusals": 71
+    },
+    "program_rpc": {
+      "result": "pass",
+      "methods": 8,
+      "native_accepts": 70,
+      "native_refusals": 70
+    },
+    "artifact_checker_self_tests": {
+      "result": "pass",
+      "repository_status_map_count": 138
+    },
+    "historical_master": {
+      "result": "compile_failed",
+      "execution": "never run",
+      "diagnostics": "legacy InlineArray/MAX toolchain compatibility and pre-existing config call mismatch; full log preserved outside Git"
+    },
+    "repository_consistency": {
+      "result": "failed",
+      "reported_issues": 78,
+      "schema_diagnostics": 9,
+      "schema_comparison": "same nine diagnostics exist on original main and Hailo heads; AES500 alone passes schema"
+    },
+    "diff_check_new_resolution_changes": "pass",
+    "preserved_hailo_implementation_and_evidence_blobs": "exact match",
+    "armvegr_tree": "exact match to original main"
+  },
+  "execution_boundaries": {
+    "llm_inference": false,
+    "device_access": false,
+    "outside_compiler": false,
+    "new_model_or_binary_tracked": false
+  },
+  "ci_change": "historical master compiles only because it contains prohibited CPU model forwards; focused host regression added; other gates retained",
+  "limitations": "No complete CI pass, broad native-model execution, numerical CCW lowering or device execution claimed."
+}

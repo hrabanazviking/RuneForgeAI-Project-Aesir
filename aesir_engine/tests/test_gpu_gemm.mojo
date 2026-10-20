@@ -147,6 +147,23 @@ def exercise_shape(
     var allocation_count = resources.allocation_count
     var maximum_error: Scalar[f32] = 0.0
 
+    if executor.a_allocation.allocation_id == executor.b_allocation.allocation_id:
+        raise Error("GPU-3 allocation tracker reused A/B owner ID")
+    if executor.a_allocation.allocation_id == executor.c_allocation.allocation_id:
+        raise Error("GPU-3 allocation tracker reused A/C owner ID")
+    if executor.b_allocation.allocation_id == executor.c_allocation.allocation_id:
+        raise Error("GPU-3 allocation tracker reused B/C owner ID")
+    if resources.allocation_tracker[].live_count != 3:
+        raise Error("GPU-3 allocation tracker did not register three owners")
+    if resources.allocation_tracker[].live_bytes != plan.total_size_bytes:
+        raise Error("GPU-3 allocation tracker registration byte mismatch")
+    if executor.a_allocation.pending_work_count != 0:
+        raise Error("GPU-3 A owner began with pending work")
+    if executor.b_allocation.pending_work_count != 0:
+        raise Error("GPU-3 B owner began with pending work")
+    if executor.c_allocation.pending_work_count != 0:
+        raise Error("GPU-3 C owner began with pending work")
+
     if exact_values:
         var invalid_c = RuneTensor[f16].checked(
             plan.m,
@@ -180,6 +197,14 @@ def exercise_shape(
         for index in range(c.size):
             c.data.unsafe_store(index, -999.0)
         gemm_f16_cuda(executor, a, b, c)
+        if resources.allocation_tracker[].live_count != 3:
+            raise Error("GPU-3 tracker owner count changed during executor use")
+        if executor.a_allocation.pending_work_count != 0:
+            raise Error("GPU-3 synchronized GEMM left A work pending")
+        if executor.b_allocation.pending_work_count != 0:
+            raise Error("GPU-3 synchronized GEMM left B work pending")
+        if executor.c_allocation.pending_work_count != 0:
+            raise Error("GPU-3 synchronized GEMM left C work pending")
         var round_error = validate_output(
             a,
             b,
@@ -217,6 +242,9 @@ def prove_insufficient_budget_rejection(
         resources.budget.device_reserved_bytes != 0
         or resources.budget.pinned_host_reserved_bytes != 0
         or resources.allocation_count != 0
+        or resources.allocation_tracker[].live_count != 0
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 0
+        or resources.allocation_tracker[].accounting_error
     ):
         raise Error("GPU-3 rejected executor changed resource accounting")
 
@@ -256,6 +284,14 @@ def main() raises:
 
     if resources.allocation_count != 6:
         raise Error("GPU-3 expected two three-buffer executors")
+    if (
+        resources.allocation_tracker[].live_count != 0
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 6
+        or resources.allocation_tracker[].live_bytes != 0
+        or resources.allocation_tracker[].accounting_error
+        or resources.allocation_tracker[].unfenced_owner_destroyed_count != 0
+    ):
+        raise Error("GPU-3 allocation lifetime accounting mismatch")
     resources.synchronize()
     print("[GPU3] device:", physical_device.name)
     print("[GPU3] stable-id:", physical_device.stable_id)

@@ -1,0 +1,15 @@
+{
+  "repository": "onnx/onnx",
+  "revision": "3bf92c03a9f27eba3bda1e5b9e63ea20ec213557",
+  "files": [
+    {
+      "path": "onnx/onnx.proto3",
+      "sha256": "e0760a581390404923d6b63a497e8daffc1849d42d370aaeb467736da8b151da"
+    },
+    {
+      "path": "docs/Operators.md",
+      "sha256": "0b9d72c82d15f9a8d348c8c276e23423e7e9458cdaaa7154cd0928da39c7c263"
+    }
+  ],
+  "license": "Apache-2.0 read before schema study; interface facts only"
+}

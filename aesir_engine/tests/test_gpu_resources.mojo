@@ -101,6 +101,15 @@ def run_resource_session(
         raise Error("GPU-2 second allocation lost selected-device identity")
     if resources.allocation_count != 2:
         raise Error("GPU-2 allocation count mismatch")
+    if (
+        first.allocation_id == second.allocation_id
+        or first.allocation_id <= 0
+        or second.allocation_id <= 0
+        or resources.allocation_tracker[].live_count != 2
+        or resources.allocation_tracker[].live_bytes
+        != first.size_bytes + second.size_bytes
+    ):
+        raise Error("GPU-2 allocation lifetime identity mismatch")
 
     var reserved_device_before_failure = resources.budget.device_reserved_bytes
     var reserved_host_before_failure = (
@@ -129,12 +138,26 @@ def run_resource_session(
         or resources.budget.pinned_host_reserved_bytes
         != reserved_host_before_failure
         or resources.allocation_count != allocations_before_failure
+        or resources.allocation_tracker[].live_count != 2
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 0
     ):
         raise Error("GPU-2 failed allocation changed committed accounting")
 
     exercise_allocation(first, 0, session_round, inject_mismatch)
     exercise_allocation(second, 1, session_round, inject_mismatch)
     resources.synchronize()
+    if (
+        resources.allocation_tracker[].accounting_error
+        or resources.allocation_tracker[].live_count != 0
+        or resources.allocation_tracker[].fenced_owner_destroyed_count != 2
+        or resources.allocation_tracker[].fenced_owner_destroyed_bytes
+        != 2 * (FIRST_ELEMENT_COUNT + SECOND_ELEMENT_COUNT)
+    ):
+        raise Error("GPU-2 allocation lifetime accounting failed")
+    print(
+        "[GPU2] logical-live-allocations:",
+        resources.allocation_tracker[].live_count,
+    )
 
 
 def main() raises:

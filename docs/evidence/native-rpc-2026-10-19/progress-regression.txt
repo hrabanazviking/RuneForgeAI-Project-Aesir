@@ -1,0 +1,11 @@
+test_alignment_extent_capacity_and_page_bounds (__main__.RpcProgress.test_alignment_extent_capacity_and_page_bounds) ... ok
+test_both_completion_orders_and_combined_snapshot (__main__.RpcProgress.test_both_completion_orders_and_combined_snapshot) ... ok
+test_exact_aligned_extent_counts (__main__.RpcProgress.test_exact_aligned_extent_counts) ... ok
+test_irq_errors_inactive_unowned_excess_and_duplicates_refuse (__main__.RpcProgress.test_irq_errors_inactive_unowned_excess_and_duplicates_refuse) ... ok
+test_launch_count_is_exact_not_just_positive (__main__.RpcProgress.test_launch_count_is_exact_not_just_positive) ... ok
+test_no_record_or_zero_transfer_is_not_completion (__main__.RpcProgress.test_no_record_or_zero_transfer_is_not_completion) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.253s
+
+OK

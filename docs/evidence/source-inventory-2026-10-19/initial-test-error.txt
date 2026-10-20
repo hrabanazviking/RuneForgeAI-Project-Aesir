@@ -1,0 +1,19 @@
+test_exact_source_offsets_shapes_kinds_and_no_backend_allowlist (__main__.SourceInventory.test_exact_source_offsets_shapes_kinds_and_no_backend_allowlist) ... ok
+test_malformed_utf8_refuses_instead_of_unsafe_string_construction (__main__.SourceInventory.test_malformed_utf8_refuses_instead_of_unsafe_string_construction) ... ok
+test_read_only_mapping_cleanup_and_no_device_access (__main__.SourceInventory.test_read_only_mapping_cleanup_and_no_device_access) ... ok
+test_truncation_overlap_duplicate_names_and_missing_source_facts_refuse (__main__.SourceInventory.test_truncation_overlap_duplicate_names_and_missing_source_facts_refuse) ... ok
+test_unicode_quotes_controls_and_length_prefixed_nul_preserved (__main__.SourceInventory.test_unicode_quotes_controls_and_length_prefixed_nul_preserved) ... ok
+test_unknown_tensor_layout_stays_explicit_importer_work (__main__.SourceInventory.test_unknown_tensor_layout_stays_explicit_importer_work) ... FAIL
+
+======================================================================
+FAIL: test_unknown_tensor_layout_stays_explicit_importer_work (__main__.SourceInventory.test_unknown_tensor_layout_stays_explicit_importer_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_source_inventory.py", line 141, in test_unknown_tensor_layout_stays_explicit_importer_work
+    self.assertIn('unsupported tensor type 99', result.stdout + result.stderr)
+AssertionError: 'unsupported tensor type 99' not found in 'stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`\nUnhandled exception caught during execution: Packed GGUF: K-quant row is not block aligned\n'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.184s
+
+FAILED (failures=1)

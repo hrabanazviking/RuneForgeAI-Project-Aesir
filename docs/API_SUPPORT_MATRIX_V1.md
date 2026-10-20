@@ -8,6 +8,23 @@ response assertions in `scripts/fixtures/api_contract_v1.json` through
 unrecognized paths return 404. Both modes bind IPv4 loopback, handle one request
 at a time and close every HTTP/1.1 connection after its response.
 
+Wire admission is bounded before endpoint decoding: request heads are at most
+8 KiB and contain at most 64 unique ASCII header names with values at most
+1024 bytes; POST bodies require one decimal `Content-Length` from 1 through
+131072 and exact `Content-Type: application/json`. A single absolute I/O
+deadline spans header and body reads. Transfer-Encoding, `Expect`, duplicate
+headers, pipelining and keep-alive reuse reject. See the
+[parser bounds contract](../TASK_request_parser_bounds.md) and
+[native service transport limits](NATIVE_SERVICE.md).
+
+Framing failures are fail-closed: request line must be HTTP/1.1; line endings
+must be CRLF; header names are strict ASCII tokens and duplicates are rejected
+without regard to case. Repeated Content-Length, any Transfer-Encoding, and
+Expect are unsupported. POST needs one positive decimal Content-Length and
+exact JSON content type; GET with a nonzero length and non-GET/POST methods do
+not enter request decoding or inference. See the
+[framing rejection contract](../TASK_http_framing_rejection.md).
+
 | Route | Native mode (bearer required) | `--ollama` mode (no bearer) | Successful body |
 |---|---|---|---|
 | `GET /health` | Yes | 404 | Legacy loaded-service report; retains `status: "ready"` for existing clients. Use the separate routes below for new health checks. |

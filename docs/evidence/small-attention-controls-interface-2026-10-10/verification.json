@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "slice": "AES500-003",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "scripts/test_check_doc_drift.py"
+      ],
+      "started_utc": "2026-10-10T08:53:54.757396+00:00",
+      "ended_utc": "2026-10-10T08:53:54.933737+00:00",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "python3",
+        "scripts/check_doc_drift.py"
+      ],
+      "started_utc": "2026-10-10T08:53:54.933761+00:00",
+      "ended_utc": "2026-10-10T08:53:55.758152+00:00",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "started_utc": "2026-10-10T08:53:55.758196+00:00",
+      "ended_utc": "2026-10-10T08:53:55.773142+00:00",
+      "exit_code": 0
+    }
+  ],
+  "log_sha256": "969ba63177076f6bbd6b33b49cedb9f0913a619938d0b72e1175f6644f5d42bc",
+  "reviews": {
+    "architect": "PASS: exact first-gate attribution and source-only scope.",
+    "auditor": "PASS: actual13 stream/manifest identities, all272 source hashes, corrected task-before-execution and preserved failed attempt, service state/PID/health.",
+    "scribe": "PASS after remaining-gate range synchronization.",
+    "other_roles": "Cartographer and Forge Worker independently mapped the source/matrix; Skald reviewed framing. Six distinct roles represented."
+  },
+  "markdown_links": {
+    "changed_documents": [
+      "CAPABILITY_LEDGER.md",
+      "DEVLOG.md",
+      "ROADMAP_AESIR_500_SLICES.md",
+      "TASK_500_slice_roadmap_and_first_slice.md",
+      "TASK_small_attention_controls_interface.md",
+      "TODO.md",
+      "aesir_engine/tests/INTERFACE.md",
+      "docs/NATIVE_SMALL_ATTENTION_CONTROLS.md",
+      "docs/evidence/small-attention-controls-interface-2026-10-10/README.md"
+    ],
+    "changed_document_issues": 0,
+    "repository_check_exit_code": 1,
+    "unchanged_guide_issues": 9,
+    "unchanged_guide_sha256": "d087fa19871da534cafb1e12b2f28a2579183ca43bf00de5d7d4fc8afa418d3c",
+    "diagnostics": [
+      "Complete_Mojo_Programming_Language_Guide.md:18: missing fragment anchor: #13-error-handling",
+      "Complete_Mojo_Programming_Language_Guide.md:19: missing fragment anchor: #14-metaprogramming",
+      "Complete_Mojo_Programming_Language_Guide.md:20: missing fragment anchor: #15-gpu-programming",
+      "Complete_Mojo_Programming_Language_Guide.md:21: missing fragment anchor: #16-the-max-engine",
+      "Complete_Mojo_Programming_Language_Guide.md:22: missing fragment anchor: #17-performance-optimization",
+      "Complete_Mojo_Programming_Language_Guide.md:23: missing fragment anchor: #18-standard-library",
+      "Complete_Mojo_Programming_Language_Guide.md:24: missing fragment anchor: #19-best-practices",
+      "Complete_Mojo_Programming_Language_Guide.md:25: missing fragment anchor: #20-migration-from-python",
+      "Complete_Mojo_Programming_Language_Guide.md:26: missing fragment anchor: #21-future-roadmap"
+    ]
+  }
+}

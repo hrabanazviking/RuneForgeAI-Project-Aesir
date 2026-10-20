@@ -6,8 +6,9 @@ from tests.turing_prefill_fixture import TuringPrefillFixture
 from tests.test_packed_matrix import seconds
 
 
-def invalid_tiles(mut f: TuringPrefillFixture) raises:
+def invalid_tiles(mut f: TuringPrefillFixture) raises -> Int:
     var tokens = List[Int]()
+    var refusal_count = 0
     for _ in range(32): tokens.append(1)
     for invalid in range(8):
         var count = 32
@@ -34,7 +35,9 @@ def invalid_tiles(mut f: TuringPrefillFixture) raises:
         f.position = 0
         f.healthy = True
         if invalid == 7: f.layout.elements -= 1
+        refusal_count += 1
     f.guards()
+    return refusal_count
 
 
 def inputs(f: TuringPrefillFixture,prompt: String) raises -> List[Int]:
@@ -94,15 +97,25 @@ def logits(f: TuringPrefillFixture,mode: Int) raises -> List[Float32]:
     return result^
 
 
-def measure(mut f: TuringPrefillFixture,index: Int,prompt: String) raises:
+def assert_disabled_control_state(f: TuringPrefillFixture) raises:
+    if not f.small_controls or not f.small_controls_admitted or f.execution_strategy() != 5 or f.control.enabled() or f.control.reset_required or not f.healthy or not f.native.healthy:
+        raise Error("Capable-disabled strategy5 control/health state changed")
+
+
+def measure(mut f: TuringPrefillFixture,index: Int,prompt: String,observe_disabled_controls: Bool = False) raises:
     var tokens = inputs(f,prompt)
     var baseline = List[Float32]()
     var matrix = List[Float32]()
     var timings = List[Float64]()
+    var control_states = List[String]()
     for sample in range(4):
         for step in range(2):
             var mode = (sample+step)%2
+            if observe_disabled_controls: assert_disabled_control_state(f)
             timings.append(run(f,tokens,mode))
+            if observe_disabled_controls:
+                assert_disabled_control_state(f)
+                control_states.append("CONTROL_STATE,"+String(index)+","+String(mode)+","+String(sample)+","+String(Int(f.small_controls))+","+String(Int(f.small_controls_admitted))+","+String(Int(f.control.enabled()))+","+String(Int(f.control.reset_required))+","+String(Int(f.healthy))+","+String(Int(f.native.healthy))+","+String(f.position)+","+String(f.native.position)+","+String(f.sampler.position)+","+String(f.native.sampler.position)+","+String(len(f.committed))+","+String(len(f.native.conversation_tokens())))
             var values = logits(f,mode)
             if sample == 0:
                 if mode == 0: baseline = values^
@@ -118,10 +131,14 @@ def measure(mut f: TuringPrefillFixture,index: Int,prompt: String) raises:
     for i in range(len(tokens)): print("INPUT,"+String(index)+","+String(i)+","+String(tokens[i]))
     for i in range(128256):
         print("LOGIT,"+String(index)+","+String(i)+","+String(Float64(baseline[i]))+","+String(Float64(matrix[i])))
+    var control_state_index = 0
     for sample in range(4):
         for step in range(2):
             var mode = (sample+step)%2
             print("TIME,"+String(index)+","+String(mode)+","+String(sample)+","+String(timings[sample*2+step])+","+String(len(tokens))+",0")
+            if observe_disabled_controls:
+                print(control_states[control_state_index])
+                control_state_index += 1
     print("GUARD,"+String(index)+",1088,0")
 
 

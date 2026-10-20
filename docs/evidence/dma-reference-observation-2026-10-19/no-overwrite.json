@@ -1,0 +1,5 @@
+{
+  "exit_code": 126,
+  "existing_trace_unchanged": true,
+  "stderr": "Aesir test observer requires a new AESIR_DMA_TRACE path and ioctl binding\n"
+}

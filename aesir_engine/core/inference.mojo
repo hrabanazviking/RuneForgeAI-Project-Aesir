@@ -688,13 +688,18 @@ def forward_pass(
         
     # 3. Final RMSNorm
     if "output_norm.weight" in seer.tensors:
+        ref output_norm_weight = seer.tensors["output_norm.weight"]
         var epsilon: Scalar[f32] = 1e-5
         if seer.config.rms_epsilon > 0.0:
             epsilon = seer.config.rms_epsilon
-        if use_gpu_realm:
-            rmsnorm_gpu(x, seer.tensors["output_norm.weight"], gpu_realm, epsilon)
-        else:
-            rmsnorm(x, seer.tensors["output_norm.weight"], epsilon)
+        try:
+            if use_gpu_realm:
+                rmsnorm_gpu(x, output_norm_weight, gpu_realm, epsilon)
+            else:
+                rmsnorm(x, output_norm_weight, epsilon)
+        except e:
+            well.offset = initial_offset
+            raise e
     
     # 4. Final projection to logits
     if "output.weight" not in seer.tensors:
@@ -764,24 +769,29 @@ def forward_pass(
     if seer.config.context_length > 0:
         context_length = seer.config.context_length
 
-    var kv_cache = KVCache(context_length, kv_dim, well, num_layers)
-    return forward_pass(
-        tokens,
-        seer,
-        well,
-        kv_cache,
-        0,
-        num_layers,
-        head_dim,
-        num_heads,
-        topology,
-        blocks,
-        use_npu,
-        npu_backend,
-        use_gpu_realm,
-        gpu_realm,
-        temperature,
-        top_k,
-        top_p,
-        repetition_penalty,
-    )
+    var initial_offset = well.offset
+    try:
+        var kv_cache = KVCache(context_length, kv_dim, well, num_layers)
+        return forward_pass(
+            tokens,
+            seer,
+            well,
+            kv_cache,
+            0,
+            num_layers,
+            head_dim,
+            num_heads,
+            topology,
+            blocks,
+            use_npu,
+            npu_backend,
+            use_gpu_realm,
+            gpu_realm,
+            temperature,
+            top_k,
+            top_p,
+            repetition_penalty,
+        )
+    except e:
+        well.offset = initial_offset
+        raise e

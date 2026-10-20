@@ -32,7 +32,10 @@ struct OwnedFD:
         self.fd = fd
 
     def __deinit__(deinit self):
-        _ = external_call["close", Int32](self.fd)
+        # Ownership transfers poison the moved-from wrapper with -1. Do not
+        # issue close(-1), which can obscure the intended single-owner rule.
+        if self.fd >= 0:
+            _ = external_call["close", Int32](self.fd)
 
 
 def wait_io(fd: Int32, events: Int, deadline: Int, cancel_fd: Int) raises:

@@ -1,5 +1,19 @@
 # Loader Domain Interface Specification
 
+## RAG corpus ingestion (`corpus_ingestion.mojo`)
+
+`chunk_text(text, chunk_size, chunk_overlap)` raises on malformed or NUL-bearing
+UTF-8. Chunk sizes and offsets are byte-based, while emitted ranges preserve
+complete code points; an individual code point may exceed the requested byte
+size rather than being split. The returned `byte_offset` indexes the original
+UTF-8 byte sequence. Negative overlap clamps to zero; overlap at least the
+chunk size clamps to half the size.
+
+`ingest_corpus_batch()` validates embedding matrix shape, remaining store
+capacity, and every chunk's nonempty text before copying any row. Rejected
+batches preserve store count and arena offset. Caller-supplied embeddings
+remain required; ingestion does not generate vectors.
+
 > **Current execution boundary — 2026-08-30:** `gguf.mojo`/`tokenizer.mojo`
 > retain the CPU Llama slice. `packed_gguf.mojo` and `gemma4_tokenizer.mojo`
 > provide the bounded GGUF and BPE contract for the native Gemma CUDA profile;
@@ -71,6 +85,25 @@ Bounds-checked GGUF v3 Llama loader. Supported F16 matrices alias the immutable
 mapped file directly; required F32 normalization vectors are converted once
 into `MimirWell`. Unsupported types, shapes, offsets, truncation, architectures,
 or missing tensors raise before `is_loaded` becomes true.
+The mapped loader admits GGUF version 3 only. The lower-level raw-header byte
+helper currently checks only the 24-byte minimum and magic; version parity
+across those paths is the subject of `TASK_gguf_header_version_matrix.md`.
+Metadata keys consumed by inference require their GGUF value types: architecture
+is a string; selected dimensions, IDs, and alignment are UInt32; selected RoPE
+and norm scalars are F32; tokenizer flags are bool; and tokenizer token, score,
+and token-type arrays require string, F32, and I32 elements. Wrong selected-key
+types raise a key-specific diagnostic before assigning the field. Unknown keys
+are structurally traversed by `skip_value`; that is not semantic validation of
+their contents. See `TASK_gguf_metadata_type_matrix.md` for the complete key
+matrix and evidence limits.
+The tensor directory accepts rank-one/two records with positive dimensions,
+aligned relative offsets, and in-file ranges. F16 records alias mapped storage;
+F32 records convert into MimirWell after checked host-index arithmetic and pool
+capacity admission. Rank/shape, required tensor, and type checks remain distinct
+stages. Current synthetic directory evidence covers 1x1 F16/F32 fixtures,
+rank/zero-dimension refusal, arithmetic limits, and pool exhaustion; it does
+not establish compressed-block layout or overlap rejection. See
+`TASK_gguf_tensor_directory.md` for the detailed scope.
 
 ```mojo
 struct GGUFSeer:
@@ -159,6 +192,28 @@ struct RuneWeaver:
     def decode(self, token: Int) -> String: ...
 ```
 
+`_merge_sentencepiece` greedily selects the adjacent vocabulary pair with the
+highest score; equal scores select the leftmost pair. It repeats until no
+vocabulary merge remains. Unmapped pieces fall back one UTF-8 byte at a time
+through canonical `<0xHH>` tokens, then the configured unknown ID. Synthetic
+vectors pin score ranking, ties, chaining, partial fallback, and streaming
+UTF-8 reconstruction; these do not establish external tokenizer parity. See
+`TASK_byte_bpe_merge_vectors.md`.
+RuneWeaver does not normalize Unicode canonically: composed and decomposed
+forms remain distinct according to their input code points and model vocabulary.
+Only ASCII U+0020 may be rewritten to `▁` or `Ġ`, and only when that marker is
+present in the vocabulary; other Unicode spacing characters remain untouched.
+Synthetic composed/decomposed and NBSP vectors document this boundary without
+claiming full Unicode normalization or segmentation conformance. See
+`TASK_unicode_normalization_policy.md`.
+`encode` validates UTF-8 before vocabulary processing. Invalid byte sequences
+that enter through unsafe String construction return the configured unknown
+token ID, with BOS prepended only when both the call and tokenizer enable it.
+This API does not raise for malformed text; safe String construction behavior
+and arbitrary byte-buffer admission are separate boundaries. Tests cover
+truncation, continuation errors, overlong forms, surrogates, out-of-range
+scalars, and the valid U+10FFFF boundary. See `TASK_invalid_utf8_policy.md`.
+
 ### `HuggingFaceSeer` (`loader/huggingface.mojo`)
 Public pinned-GGUF downloader and tag/URL builder. Downloads use checked argv
 subprocesses, HTTPS-only redirects, bounded time/size, optional parallel ranges,
@@ -201,3 +256,21 @@ Unicode Llama 3 segmentation pattern, GPT-2 byte encoding, whole-segment lookup
 and ranked BPE. Plain input cannot inject control IDs. `append_header`,
 `append_message` and `decode(token, decoder)` own chat framing and streaming
 UTF-8. The Unicode 16 category table is generated at build time.
+
+## GGUF string preservation — 2026-10-19
+
+`GGUFSeer._read_string()` treats its field as length-prefixed UTF-8. It copies
+exactly the declared bytes through the validating Mojo String constructor,
+preserves embedded NUL characters in metadata/tensor names and raises on
+malformed UTF-8. This does not change file-path NUL rejection. SMIÐR's source
+inventory consumes parsed descriptors without invoking an inference backend;
+its parser coverage is distinct from hardware execution support. Evidence:
+`docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` from the repository root.
+
+## Bounded half-word source read — 2026-10-19
+
+The internal GGUFSeer `_read_u16` checks an active mapping and an exact two-byte
+range before a little-endian load. SMIÐR's static constant reader consumes it
+without exporting the file pointer. Exhaustive source half/BF16 representation
+and boundary/closed-owner evidence:
+`docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`. This adds no model execution path.

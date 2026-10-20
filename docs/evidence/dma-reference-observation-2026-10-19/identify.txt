@@ -1,0 +1,5 @@
+[Operational excerpt; device identifiers omitted]
+Executing on device: pci/0001:01:00.0
+Control Protocol Version: 2
+Firmware Version: 5.3.0 (release,app)
+Device Architecture: HAILO10H

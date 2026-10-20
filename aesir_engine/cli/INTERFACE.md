@@ -475,7 +475,10 @@ use it across process restarts. An absent catalog loads as empty; mutations stag
 sync it, atomically rename it, sync the containing directory, and publish the
 new in-memory state only after the durable commit succeeds. Catalog v1 is
 bounded, versioned, delimiter-safe, and rejects malformed records, duplicate
-identities, unsafe references, and unsupported versions. Blob ingestion copies
+identities, unsafe references, and unsupported versions. The public codec seam is `serialize_catalog(RuneModelStore) -> String` and
+`deserialize_catalog(String) -> RuneModelStore`; it emits canonical v1 bytes and
+rejects unsupported headers before record decoding. Legacy delimiter data enters
+only through `DurableModelStore.migrate_legacy_catalog(source)`. Blob ingestion copies
 a final-symlink-rejected, nonempty seekable source inode, hashes the exact open
 descriptor, and publishes `blobs/sha256/<digest>` without overwriting an
 existing entry. Existing entries are size/hash verified before deduplication;
@@ -484,6 +487,18 @@ collection validates all catalog references and directory entries before its
 first deletion, then removes unreachable canonical blobs and abandoned stages.
 `BlobGCResult` reports `scanned_blobs`, `referenced_blobs`, `removed_blobs`,
 `removed_stages`, and `reclaimed_bytes` for the completed locked sweep.
+
+The durable schema is explicitly versioned as `catalog.v1` with header
+`AESIR_MODEL_CATALOG_V1`, a decimal `COUNT:n`, and exactly n hex-encoded
+`ENTRY:` records. Normal load rejects missing/unknown headers and never falls
+back to the legacy delimiter format. `catalog migrate` is the sole legacy
+admission path; it requires a catalog-free destination, validates referenced
+blobs, then writes canonical v1 bytes. Backup/restore accepts v1 only. Restore
+parses and canonicalizes the complete backup before locking, validates blobs,
+then replaces the catalog through the atomic writer. Unknown future versions
+fail closed and are not auto-rewritten. See
+[`TASK_catalog_schema_versioning.md`](../../TASK_catalog_schema_versioning.md)
+and the dated [schema evidence](../../docs/evidence/catalog-schema-baseline-2026-10-10/README.md).
 
 ```mojo
 struct DurableModelStore:
@@ -507,7 +522,25 @@ focused verification. Store-root validation delegates to the authoritative
 `AesirConfig.model_store_path` schema, whose relative default is
 `.aesir/models`.
 `validate_manifest_storage_identity` is the single recipe/blob digest-and-size
-invariant used by catalog decode, durable serialization, and collection.
+invariant used by catalog decode, durable serialization, and collection. It
+accepts `fnv1a64:<16 lowercase hex>` only with zero observed bytes for recipe
+fingerprints, or `sha256:<64 lowercase hex>` only with positive measured bytes
+for immutable blobs. `RuneModelStore.create_model_from_blob` requires the
+measured SHA-256 form. `DurableModelStore.ingest_model` optionally accepts an
+expected SHA-256 and positive size pair and compares both with the opened
+inode's measured values before catalog publication.
+
+`ingest_model(name, modelfile_content, source_path, expected_digest="",
+expected_size=0)` runs one registration transaction under the store-root lock
+and returns `BlobRecord(digest, size_bytes, created)` only on success. An
+expected size without an expected digest, malformed pair, mismatch with
+measured bytes, invalid source, or invalid model/recipe rejects with an error.
+Before catalog rename, a failed transaction removes only a newly created blob;
+an existing deduplicated blob is preserved. If rename succeeds but directory
+sync reports failure, the catalog may already expose the new record, so the
+referenced blob is retained and durability is uncertain. The public in-memory
+store is updated only after the transaction reports success. Master case
+`cli.manifest_store_restart` checks expected-identity mismatch and rollback.
 
 `scripts/test_catalog_crash_atomicity.py` is the Linux process-crash evidence
 for the catalog commit protocol. Its test-only interposition shim kills the
@@ -706,8 +739,9 @@ exclusively created in the opened parent directory. File sync precedes atomic
 no-replace linking; directory sync follows owned temporary-link removal. Existing
 outputs are never deleted or replaced. Contents are never printed. All POSIX
 path pointers refer to explicitly terminated, owned byte buffers. The native
-key probe runs in CI without a GPU; crash/persistence limits are documented in
-`docs/NATIVE_SERVICE.md`.
+key probe runs in CI without a GPU and verifies mode 0600 under umask 000;
+service admission rejects representative group/world permission combinations.
+Crash/persistence limits are documented in `docs/NATIVE_SERVICE.md`.
 
 ### Durable quantization tuning cache
 

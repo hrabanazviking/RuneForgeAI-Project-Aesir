@@ -66,6 +66,12 @@ The module also exports `Llama3CUDASession` for `chat --profile llama3`, with
 32 device-resident layers and F16 KV. Both native sessions are separate from
 the `AesirEngine` struct and its legacy accelerator fields.
 
+Model blob SHA-256 and size identify stored bytes only. They do not identify
+embedding task, tokenizer, pooling, normalization, runtime, precision, or
+corpus/chunk pipeline. Future vector persistence must bind to the full pipeline
+identity tuple documented in `TASK_embedding_model_identity.md`; this interface
+does not currently expose a dedicated embedding model or embedding identity.
+
 ```mojo
 struct AesirEngine:
     var pool: MimirWell
@@ -99,6 +105,23 @@ struct AesirEngine:
     def generate(mut self, prompt: String) raises -> String: ...  # 32-token facade
     def generate_stream(mut self, prompt: String, client_fd: Int32) raises: ...
 ```
+
+### Query vector capability boundary
+
+`AesirEngine.extract_query_embedding(prompt, hidden_dim)` tokenizes the prompt
+and arithmetic-mean-pools rows from the loaded generative model's
+`token_embd.weight` through
+`loader.corpus_ingestion.mean_pool_token_embeddings`. The latter rejects an
+empty token list, empty table, and out-of-range token IDs before allocation.
+This is a token-table-derived retrieval vector, not a dedicated trained
+sentence-embedding model, an external embeddings API, or a semantic-quality
+guarantee. The master test checks exact values on synthetic rows; real engine
+integration is skipped without a validated external GGUF and there is no
+independent embedding oracle. Document ingestion refuses to fabricate
+embeddings from text. See
+[`TASK_embedding_capability_decision.md`](../TASK_embedding_capability_decision.md),
+[`CAPABILITY_LEDGER.md`](../CAPABILITY_LEDGER.md#12-embeddings-and-rag), and the
+[baseline receipt](../docs/evidence/embedding-decision-baseline-2026-10-10/README.md).
 
 ```mojo
 def validate_runtime_backend_config(

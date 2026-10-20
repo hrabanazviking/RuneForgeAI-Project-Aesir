@@ -1,0 +1,73 @@
+test_callback_and_visibility_after_join_32_fresh_runs (__main__.BlockingWorker.test_callback_and_visibility_after_join_32_fresh_runs) ... FAIL
+test_clock_error_keeps_owner_until_rescue_wake_and_join (__main__.BlockingWorker.test_clock_error_keeps_owner_until_rescue_wake_and_join) ... ok
+test_duplicate_start_and_invalid_deadline_preserve_worker (__main__.BlockingWorker.test_duplicate_start_and_invalid_deadline_preserve_worker) ... FAIL
+test_exception_rescues_blocked_worker_before_scope_exit (__main__.BlockingWorker.test_exception_rescues_blocked_worker_before_scope_exit) ... FAIL
+test_failed_native_start_closes_pipe_without_live_worker (__main__.BlockingWorker.test_failed_native_start_closes_pipe_without_live_worker) ... FAIL
+test_installed_pthread_and_time_abi (__main__.BlockingWorker.test_installed_pthread_and_time_abi) ... ok
+test_timeout_retains_live_owner_then_wake_join_and_cleanup (__main__.BlockingWorker.test_timeout_retains_live_owner_then_wake_join_and_cleanup) ... FAIL
+test_unrecoverable_live_destructor_fails_closed_whole_process (__main__.BlockingWorker.test_unrecoverable_live_destructor_fails_closed_whole_process) ... ok
+test_worker_captures_its_own_syscall_errno (__main__.BlockingWorker.test_worker_captures_its_own_syscall_errno) ... ok
+
+======================================================================
+FAIL: test_callback_and_visibility_after_join_32_fresh_runs (__main__.BlockingWorker.test_callback_and_visibility_after_join_32_fresh_runs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 81, in test_callback_and_visibility_after_join_32_fresh_runs
+    self.success("normal-" + str(i))
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 59, in success
+    result, trace, elapsed = self.run_worker(name, mode)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 55, in run_worker
+    self.assertEqual(len(closes), 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_duplicate_start_and_invalid_deadline_preserve_worker (__main__.BlockingWorker.test_duplicate_start_and_invalid_deadline_preserve_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 93, in test_duplicate_start_and_invalid_deadline_preserve_worker
+    self.success("invalid-deadline", "invalid-deadline")
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 59, in success
+    result, trace, elapsed = self.run_worker(name, mode)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 55, in run_worker
+    self.assertEqual(len(closes), 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_exception_rescues_blocked_worker_before_scope_exit (__main__.BlockingWorker.test_exception_rescues_blocked_worker_before_scope_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 115, in test_exception_rescues_blocked_worker_before_scope_exit
+    result, trace, _ = self.run_worker("unwind", "unwind")
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 55, in run_worker
+    self.assertEqual(len(closes), 2)
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_failed_native_start_closes_pipe_without_live_worker (__main__.BlockingWorker.test_failed_native_start_closes_pipe_without_live_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 102, in test_failed_native_start_closes_pipe_without_live_worker
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_timeout_retains_live_owner_then_wake_join_and_cleanup (__main__.BlockingWorker.test_timeout_retains_live_owner_then_wake_join_and_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 85, in test_timeout_retains_live_owner_then_wake_join_and_cleanup
+    trace, elapsed = self.success("timeout-" + str(i), "timeout")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 59, in success
+    result, trace, elapsed = self.run_worker(name, mode)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/test_hailo_blocking_worker.py", line 55, in run_worker
+    self.assertEqual(len(closes), 2)
+AssertionError: 1 != 2
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.259s
+
+FAILED (failures=5)

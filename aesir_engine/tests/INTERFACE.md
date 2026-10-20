@@ -1,5 +1,12 @@
 # Tests Domain Interface Specification
 
+The RoPE interface, scalar-reference, KV-cache integration, and adversarial
+theta cases are registered in the counted master runner as `compute.rope_*`.
+The adversarial theta case runs last: under Mojo 1.0.0, a caught-error path in
+that test followed by the filesystem-heavy manifest-store test reproducibly
+crashes the process, although each passes alone and the manifest test passes
+after the other RoPE cases. As the final counted case it completes normally.
+
 `test_turing_prefill_trace.mojo` owns an opt-in direct native process and new0600
 CSV. Installed NVTX symbols load dynamically before model work; fresh strategy2
 case1/3 prefill is enclosed by one same-thread named range after reset/sync and
@@ -68,7 +75,7 @@ def test_gemm() raises: ...
 def test_flash_attention() raises: ...
 def test_silu() raises: ...
 def test_geglu() raises: ...
-def test_dequantize_q4_k_m() raises: ...  # canonical raw 144-byte GGML block
+def test_dequantize_q4_k_m() raises: ...  # Q4_K known value and Q5_K/Q6_K full scalar oracles
 
 # tests/test_gguf.mojo
 def test_gguf_parsing() raises: ...
@@ -119,6 +126,7 @@ def main() raises: ...
 def test_cuda_budget_accounting() raises: ...
 def test_cuda_budget_rejection_is_transactional() raises: ...
 def test_cuda_budget_overflow_and_rollback() raises: ...
+def test_cuda_allocation_tracker_adversarial() raises: ...
 def test_cuda_resource_policy_admission() raises: ...
 
 # tests/test_gpu_resources.mojo (opt-in physical GPU-2 resource proof)
@@ -816,7 +824,7 @@ changing bounds/math; whole-model/state/production/provider gates remain separat
 Final small_attention=False is an exclusive test-only strategy5 requiring original
 fused/down128/rotary/elementwise precision0 and no control/trace capabilities.
 Count4/32 enqueue attend_small; singles remain original. Separate small/fused/scalar
-counters reset.12 state/allocation-preserving refusals include a valid native replay
+counters reset. The current ordinary collector counts thirteen state/allocation-preserving refusals, including unauthorized small tracing and a valid native replay
 plan; restore rejects5 before owner mutation. No original0..4 or normal selection
 change. New probe exports all513024 F32 per owner/IDs/full cache/4352 guards/32
 records and own exact bits. Explicit reader allow_small/CLI--small-attention require
@@ -857,3 +865,84 @@ typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one s
 seven builds before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
 selection/persisted/crash/context recreation claim. Next separate controls/tracing.
+
+## Explicit small-score cooperative controls
+
+The small-score strategy5 fixture accepts optional `small_controls=False`,
+followed by optional `small_tracing=False`. Only `small_controls=True` requires
+the admitted small5 strategy; False is valid with other strategies. The enabled capability
+excludes fused4 controls/tracing, small tracing and control-capable replay.
+Constructor rejection precedes the first `Llama3CUDASession(path)`. Defaults and
+ordering are source-reviewed; the current matrix does not freshly construct a
+default-false small owner.
+
+`small_controls_admitted` is the construction snapshot compared with
+`small_controls` by `admit_execution_strategy()`. Both are public mutable fields;
+the comparison does not imply immutable storage or prove simultaneous mutation
+safety. This gate does not execute live capability-snapshot mutation.
+
+`configure_control(timeout_ms=0, cancel_fd=-1)` validates strategy,
+fixture/native health and capability admission before changing policy. Timeout
+accepts `0..3600000` milliseconds and descriptor accepts `-1..2147483647`;
+0/-1 leaves request controls disabled. `start_control()` validates the same
+boundaries, and enabled requests require it before tile admission. Ordinary
+small5 without the capability reaches the earlier
+`Fused attention enabled controls require separate acceptance` refusal in both
+methods. `reset()` refuses failed fixture health with
+`Failed matrix execution requires context recreation`; successful reset clears
+fixture/sampler/counter state and control start/deadline/interruption state while
+retaining timeout/descriptor policy. Disable that policy with default
+`configure_control()` on an admitted healthy owner. These method statements
+are source evidence, with no fresh enabled abort/reset/poison execution claim.
+
+`TASK_small_attention_controls_interface.md` owns AES500-003's thirteen-mode
+constructor refusal matrix against a verified nonexistent model path. See
+`docs/evidence/small-attention-controls-interface-2026-10-10/README.md` for its
+final matrix outcome and exact source/binary identities. Accept each named first
+exception only with exit 1, empty stderr and exactly the known Mojo stdout
+stack-trace preamble plus `Unhandled exception caught during execution: MESSAGE`.
+Retain the first attempt that failed its initial stderr/empty-stdout assumption;
+the corrected contract requires a fresh matrix. A predecessor refusal does not
+prove a later shadowed gate. AES500-002 supplies the existing positive
+capable-disabled owner scope, without a fresh default-false owner claim.
+
+A separate explicit collector mode5 exercises synchronized cooperative
+abort/reset machinery under its dated physical contract. It must preserve
+strategy5 dispatch counts (`small_attention`, closed fused-attention, original
+scalar), complete vectors, state, allocations and guards through abort and
+recovery. Strategy5 remains a test fixture; enabled-control timing is unscored.
+Read project-root `TASK_small_attention_controls.md` and
+`docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` for the control contract and evidence
+boundary. Current collectors emit marker
+`CONTROL_CAPABLE,5,1,DISABLED,STATE1` and emit a `CONTROL_STATE` row after each
+`TIME` row. The row has 16 total CSV fields: its record tag plus 15 payload
+fields for index/mode/sample, capability/admission/enabled/reset-required/
+fixture-health/native-health booleans, and native positions, sampler positions
+and committed lengths for both owners. This proves actual disabled and healthy
+owner state; the 2026-10-09 receipt remains historical acceptance and its
+label-only capable-disabled capture does not meet the strengthened current gate.
+The capable-mode `ADMISSION,5,COUNTS1,8,0` record binds eight validated tile
+refusals and zero skipped feature checks; ordinary collection uses
+`COUNTS1,8,13`. Historical `ADMISSION,5,12,0` remains parseable only under the
+legacy format and cannot be reused for STATE1 acceptance. Current reports retain
+raw timings but withhold timing ratios and set `speed_scored=false`, even when
+`passed=true`. Acceptance requires a fresh COUNTS1/STATE1 capture and receipt.
+The scoped physical gate passed for the accepted strict3B model and RTX2060
+sm75 under the earlier contract; this does not admit normal runtime selection.
+
+## Explicit small-score strategy5 owned tracing
+
+Strategy5 owns a separate default-false, constructor-sealed `small_tracing`
+capability. It excludes small controls/replay and borrowed strategy4 tracing, and
+refuses enabled controls before control mutation. The trace collector holds one
+`aesir.fixture.prefill` parent range and emits 28 nested
+`aesir.attend.small.b4|b32` children per actual strategy5 tile enqueue, one per
+model layer. Each child owns one successful launch correlation at grid24x4/32x1,
+block128x1x1;
+single-token attention remains original. Stage projection labels are not enabled.
+Read project-root `TASK_small_attention_tracing.md` and
+`docs/NATIVE_SMALL_ATTENTION_TRACE.md`. Physical public37/public1070 attribution and profiled/unprofiled output equality
+are recorded in `docs/evidence/small-attention-trace-integration-2026-10-10/`.
+Status-101 pre-session `cuMemCreate` rows are reported as `CUDA_ERROR_INVALID_DEVICE`;
+the receipt makes no benign interpretation because call arguments are absent.
+This does not establish speed, general device/model behavior or production selection.

@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-19",
+  "contract": "TASK_hailo10h_soc_session.md",
+  "scope": "Actual assigned PCIe descriptor/connection lifecycle; no user DMA buffer or transfer, typed RPC or model inference",
+  "test_methods_passed": 7,
+  "successful_normal_sessions": 10,
+  "successful_unwind_sessions": 1,
+  "injected_pre_kernel_ioctl_failures": 6,
+  "physical_data": {
+    "bdf": "0001:01:00.0",
+    "port": 12133,
+    "descriptor_count_per_direction": 65536,
+    "descriptor_page_size": 512,
+    "input_handle": 16384,
+    "output_handle": 32768,
+    "input_channel": 0,
+    "output_channel": 16,
+    "connection_closed": true,
+    "repeat_close": true,
+    "closed_use_refused": true,
+    "user_dma_submitted": false
+  },
+  "source_sha256": {
+    "hailbru/soc_session.mojo": "29917960524dbfd3fbc17b4a3d4e0d77e27720a758e7731748207f1e3100a982",
+    "hailbru/soc_driver.mojo": "6649aed99f71786fd420d22f20c7a11a3b9f40335f1d35fe9e2ede4e85043a9c",
+    "hailbru/soc_abi.mojo": "49a0ff1de244893a9b1b8494e038bd8e3ad728a89e298073a10d427af75de8bf",
+    "hailbru/syscall.mojo": "0fb27cc03bb2478b883781171ac77427387e1a86f48b55267090f159901be637",
+    "smidr/tools/soc_session.mojo": "99dd4608017bdc283acc6e8fc7327df13f767e9fc12b1d92415fdb6168e08edf",
+    "tests/hailo_soc_session_unwind.mojo": "41a5b9b2b2b1a7c08dd78e7f2e8df03374add98ec25c6adf1e2756da0f3275ed",
+    "tests/test_hailo_soc_session.py": "b90e61d066520578c65b8748b7100172f2790a9e7bb8e5d8c1f087a0706df457"
+  },
+  "binary_sha256": {
+    "soc-session": "039c5787b6439a2fa40d7137741070d014353ddd55cb082b33c64c710692bb79",
+    "soc-session-unwind": "e5835b1a092f4669a81b297ee3030af2b093dfa4ebe9bdf724be84f7297ad565"
+  },
+  "next": "Exact DMA sizing/alignment/completion/cancellation and owned buffers, then typed physical RPC; fixed source-model target remains open"
+}

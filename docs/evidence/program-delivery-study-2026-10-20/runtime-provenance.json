@@ -1,0 +1,13 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "files": {
+    "LICENSE": "b7f9de8a9180e5e47f14a34c8291778bd543e144afbf21ddfd191e0b057da4d7",
+    "device_hrpc_client.hpp": "995eecac503dd626cac912b9a00e0d3c8148d70fc3e6a6c0816f1638b8a1ab48",
+    "rpc.proto": "c44ec3a28d075bae5f814f99491a4f1de0c3cbd026721243e8876c67b5da9225",
+    "serializer.hpp": "e02cdb188ac543edd2a4b746c50399b6a74ad8ef1eb230ba5431ae47fccd3a87",
+    "hailort_server.cpp": "80b8c3c66b976f1cd2f62f52b0b23b8c996d1d3d58241619848b1023ee660668",
+    "config_buffer.hpp": "4ca79a5cdbcf9252538b306fd27d0b4b63d373eb5257777768aa1124f4358afc",
+    "config_buffer.cpp": "1a0f541998b575f625521fcea7f94bb4af7e95585ff5b44d27f081c86b13173d"
+  },
+  "effect": "read-only source/interface study; no device open"
+}

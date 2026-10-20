@@ -31,6 +31,53 @@ owners. The legacy `/health` response is preserved, while `/health/live` and
 `/health/ready` provide separate schema-versioned states. Catalog errors map
 to HTTP 503; they do not change `/api/ps` or the loaded session.
 
+### Live request framing and parser limits
+
+`receive_head(fd, deadline, cancel_fd)` consumes one byte at a time through the
+first CRLFCRLF and rejects NUL, EOF, cancellation, deadline expiry or a header
+block reaching the 8 KiB ceiling without a terminator. `LocalHTTPHead` then
+requires HTTP/1.1 and at most 64 unique ASCII header names, each value at most
+1024 bytes; it validates local Host, method, content type and authorization,
+rejects Transfer-Encoding and Expect, and caps POST `Content-Length` at
+131072 bytes. `receive_body` admits only 0..131072 bytes and reads exactly the
+declared count under the same absolute deadline; short EOF and NUL reject.
+Strict JSON/schema checks complete before session reset. Rejections keep
+request bytes out of error text/logs and do not enter inference. See
+[`TASK_request_parser_bounds.md`](../../TASK_request_parser_bounds.md) and the
+[API v1 matrix](../../docs/API_SUPPORT_MATRIX_V1.md).
+
+### HTTP request framing rejection
+
+`LocalHTTPHead` requires a three-token HTTP/1.1 request line and strict CRLF
+framing; header names are ASCII letters/digits/hyphen and duplicate detection
+is case-insensitive. It rejects folded/malformed headers, duplicate
+Content-Length (including case variants), `Transfer-Encoding`, and `Expect`.
+The live mode validates Host and bearer auth before body reading; POST requires
+one decimal positive Content-Length, exact JSON content type, and body size at
+most 131072. GET rejects nonzero body length; unsupported methods return 405.
+Malformed syntax raises into the sanitized client error path. No body or
+inference session mutation follows a non-200 head result. See
+[`TASK_http_framing_rejection.md`](../../TASK_http_framing_rejection.md) and
+the [v1 support matrix](../../docs/API_SUPPORT_MATRIX_V1.md).
+
+### Live socket and shutdown ownership
+
+`OwnedFD` owns and closes one descriptor. `listen_local` returns the listener
+owner; each accepted client becomes an owner before entering the pending FIFO.
+Popping or detaching a pending client transfers that owner to request handling.
+Every completion, rejection, timeout, cancellation, and error path releases its
+owned client through scope cleanup. `serve_loaded` owns the listener and pending
+queue for the call lifetime. The interrupt descriptor belongs to the CLI signal
+bootstrap and is borrowed by polling and generation control; transport does not
+close or consume it. SIGINT/SIGTERM cooperatively stop admission and generation
+at existing control checkpoints, then scope cleanup releases pending clients,
+active clients, and listener. An in-progress request may observe a closed
+connection. This lifecycle contract does not guarantee GPU-kernel preemption,
+response delivery during shutdown, daemon supervision, remote binding, or
+cross-platform behavior. See
+[`TASK_socket_ownership_shutdown.md`](../../TASK_socket_ownership_shutdown.md)
+and the [baseline receipt](../../docs/evidence/socket-shutdown-baseline-2026-10-10/README.md).
+
 ## Public Structs & Functions
 
 ### Sampling precedence (S07a)

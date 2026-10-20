@@ -13,8 +13,9 @@ from tests.test_compute import (
     test_dequantize_q4_k_m,
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
-from tests.test_tokenizer import test_tokenizer
-from tests.test_local_protocol import test_local_json, test_local_http, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds, test_gemma_tool_protocol
+from tests.test_tokenizer import test_tokenizer, test_byte_bpe_merge_baseline, test_byte_bpe_merge_interface, test_byte_bpe_merge_adversarial, test_byte_bpe_merge_integration, test_byte_bpe_merge_negative_scores, test_unicode_normalization_baseline, test_unicode_normalization_interface, test_unicode_normalization_integration, test_unicode_normalization_adversarial, test_invalid_utf8_rejection, test_invalid_utf8_adversarial, test_invalid_utf8_integration, test_invalid_utf8_single_byte_sweep
+from tests.test_local_protocol import test_local_json, test_local_http, test_local_http_bounds, test_local_http_framing, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds, test_gemma_tool_protocol
+from tests.test_local_transport_ownership import test_owned_fd_transfer_release, test_socket_admission_rejection, test_socketpair_request_transport, test_request_transport_adversarial
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
 from tests.test_cgroup_memory import test_cgroup_paths, test_cgroup_hierarchy, test_cgroup_rejection
 from tests.test_upload_admission import test_upload_staging_bounds, test_upload_host_admission
@@ -32,10 +33,48 @@ from tests.test_inference import (
     test_generation_stop_policy,
     test_unsupported_runtime_config,
     test_prompt_byte_bound,
+    test_greedy_tie_policy,
+    test_greedy_tie_adversarial,
+    test_temperature_distribution_oracle,
+    test_temperature_sampling_integration,
+    test_temperature_sampling_adversarial,
+    test_top_k_boundary_semantics,
+    test_top_k_sampling_integration,
+    test_top_k_adversarial,
 )
 from tests.test_kv_cache import test_kv_cache
+from tests.test_checked_span import test_checked_span
+from tests.test_rune_tensor_layout import test_rune_tensor_layout
+from tests.test_rmsnorm_interface import test_rmsnorm_interface
+from tests.test_rmsnorm_reference import test_rmsnorm_reference
+from tests.test_rmsnorm_integration import test_rmsnorm_inference_integration
+from tests.test_rmsnorm_adversarial import test_rmsnorm_adversarial
+from tests.test_rope_interface import test_rope_interface
+from tests.test_rope_reference import test_rope_reference
+from tests.test_rope_integration import test_rope_integration
+from tests.test_rope_adversarial import test_rope_adversarial
+from tests.test_attention_interface import test_attention_interface
+from tests.test_attention_reference import test_attention_reference
+from tests.test_attention_integration import test_attention_integration
+from tests.test_attention_adversarial import test_attention_adversarial
+from tests.test_gguf_metadata_types import (
+    test_gguf_metadata_type_rejection,
+    test_gguf_metadata_type_integration,
+    test_gguf_tensor_directory_baseline,
+    test_gguf_tensor_directory_interface,
+    test_gguf_tensor_directory_adversarial,
+    test_gguf_tensor_directory_integration,
+    test_gguf_tensor_directory_pool_adversarial,
+)
+from tests.test_gguf_version_interface import (
+    test_gguf_version_interface,
+    test_gguf_version_reference,
+    test_gguf_version_integration,
+    test_gguf_header_adversarial,
+)
 from tests.test_mimir_well import (
     test_mimir_well_allocation,
+    test_mimir_well_allocation_bounds,
     test_kv_cache_ring_buffer,
 )
 from tests.test_memory_refinements import (
@@ -81,6 +120,7 @@ from tests.test_cuda_resource_budget import (
     test_cuda_budget_accounting,
     test_cuda_budget_rejection_is_transactional,
     test_cuda_budget_overflow_and_rollback,
+    test_cuda_allocation_tracker_adversarial,
     test_cuda_resource_policy_admission,
 )
 from tests.test_cuda_gemm_plan import (
@@ -197,6 +237,11 @@ from tests.test_quantization_autotuner import (
 from tests.test_cli import (
     test_modelfile_parser,
     test_model_manifest_store,
+    test_catalog_schema_interface,
+    test_catalog_schema_unit_evidence,
+    test_blob_identity_interface,
+    test_blob_identity_unit_evidence,
+    test_atomic_registration_unit_evidence,
     test_cli_command_dispatch,
     test_repl_session_and_slash_commands,
     test_cli_flag_options_parser,
@@ -326,12 +371,36 @@ def main() raises:
     print("  -----------------------------------------")
     run_case(ledger, "gguf.malformed_model_rejection", test_gguf_parsing)
     run_case(ledger, "gguf.type_constants", test_ggml_type)
+    run_case(ledger, "gguf.version_interface", test_gguf_version_interface)
+    run_case(ledger, "gguf.version_reference", test_gguf_version_reference)
+    run_case(ledger, "gguf.version_integration", test_gguf_version_integration)
+    run_case(ledger, "gguf.header_adversarial", test_gguf_header_adversarial)
+    run_case(ledger, "gguf.metadata_type_baseline", test_gguf_metadata_type_rejection)
+    run_case(ledger, "gguf.metadata_type_integration", test_gguf_metadata_type_integration)
+    run_case(ledger, "gguf.tensor_directory_baseline", test_gguf_tensor_directory_baseline)
+    run_case(ledger, "gguf.tensor_directory_interface", test_gguf_tensor_directory_interface)
+    run_case(ledger, "gguf.tensor_directory_adversarial", test_gguf_tensor_directory_adversarial)
+    run_case(ledger, "gguf.tensor_directory_integration", test_gguf_tensor_directory_integration)
+    run_case(ledger, "gguf.tensor_directory_pool_adversarial", test_gguf_tensor_directory_pool_adversarial)
     print("")
 
     # --- Tokenizer ---
     print("  [DOMAIN] RuneWeaver Tokenizer")
     print("  -----------------------------------------")
     run_case(ledger, "tokenizer.synthetic_bpe", test_tokenizer)
+    run_case(ledger, "tokenizer.byte_bpe_merge_baseline", test_byte_bpe_merge_baseline)
+    run_case(ledger, "tokenizer.byte_bpe_merge_interface", test_byte_bpe_merge_interface)
+    run_case(ledger, "tokenizer.byte_bpe_merge_adversarial", test_byte_bpe_merge_adversarial)
+    run_case(ledger, "tokenizer.byte_bpe_merge_integration", test_byte_bpe_merge_integration)
+    run_case(ledger, "tokenizer.byte_bpe_merge_negative_scores", test_byte_bpe_merge_negative_scores)
+    run_case(ledger, "tokenizer.unicode_normalization_baseline", test_unicode_normalization_baseline)
+    run_case(ledger, "tokenizer.unicode_normalization_interface", test_unicode_normalization_interface)
+    run_case(ledger, "tokenizer.unicode_normalization_integration", test_unicode_normalization_integration)
+    run_case(ledger, "tokenizer.unicode_normalization_adversarial", test_unicode_normalization_adversarial)
+    run_case(ledger, "tokenizer.invalid_utf8_baseline", test_invalid_utf8_rejection)
+    run_case(ledger, "tokenizer.invalid_utf8_adversarial", test_invalid_utf8_adversarial)
+    run_case(ledger, "tokenizer.invalid_utf8_integration", test_invalid_utf8_integration)
+    run_case(ledger, "tokenizer.invalid_utf8_single_byte_sweep", test_invalid_utf8_single_byte_sweep)
     run_case(
         ledger, "tokenizer.linear_bpe_perf", test_bpe_tokenizer_linear_perf
     )
@@ -344,6 +413,19 @@ def main() raises:
     print("  [DOMAIN] The Loom of Fate (Inference)")
     print("  -----------------------------------------")
     run_case(ledger, "inference.synthetic_forward", test_forward_pass)
+    run_case(ledger, "sampling.greedy_tie_policy", test_greedy_tie_policy)
+    run_case(ledger, "sampling.greedy_tie_adversarial", test_greedy_tie_adversarial)
+    run_case(ledger, "sampling.temperature_distribution_oracle", test_temperature_distribution_oracle)
+    run_case(ledger, "sampling.temperature_integration", test_temperature_sampling_integration)
+    run_case(ledger, "sampling.temperature_adversarial", test_temperature_sampling_adversarial)
+    run_case(ledger, "sampling.top_k_boundaries", test_top_k_boundary_semantics)
+    run_case(ledger, "sampling.top_k_integration", test_top_k_sampling_integration)
+    run_case(ledger, "sampling.top_k_adversarial", test_top_k_adversarial)
+    run_case(
+        ledger,
+        "inference.rmsnorm_integration",
+        test_rmsnorm_inference_integration,
+    )
     run_case(ledger, "inference.stop_policy", test_generation_stop_policy)
     run_case(
         ledger,
@@ -352,6 +434,21 @@ def main() raises:
     )
     run_case(ledger, "inference.prompt_byte_bound", test_prompt_byte_bound)
     run_case(ledger, "inference.kv_cache", test_kv_cache)
+    run_case(
+        ledger, "memory.allocation_bounds", test_mimir_well_allocation_bounds
+    )
+    run_case(ledger, "memory.checked_span", test_checked_span)
+    run_case(ledger, "memory.rune_tensor_layout", test_rune_tensor_layout)
+    run_case(ledger, "compute.rmsnorm_interface", test_rmsnorm_interface)
+    run_case(ledger, "compute.rmsnorm_reference", test_rmsnorm_reference)
+    run_case(ledger, "compute.rmsnorm_adversarial", test_rmsnorm_adversarial)
+    run_case(ledger, "compute.rope_interface", test_rope_interface)
+    run_case(ledger, "compute.rope_reference", test_rope_reference)
+    run_case(ledger, "compute.rope_integration", test_rope_integration)
+    run_case(ledger, "compute.attention_interface", test_attention_interface)
+    run_case(ledger, "compute.attention_reference", test_attention_reference)
+    run_case(ledger, "compute.attention_integration", test_attention_integration)
+    run_case(ledger, "compute.attention_adversarial", test_attention_adversarial)
     print("")
 
     # --- Logical Host Tensor Partitioning ---
@@ -437,6 +534,11 @@ def main() raises:
         ledger,
         "gpu.resource_budget_rollback",
         test_cuda_budget_overflow_and_rollback,
+    )
+    run_case(
+        ledger,
+        "gpu.allocation_tracker_adversarial",
+        test_cuda_allocation_tracker_adversarial,
     )
     run_case(
         ledger,
@@ -529,6 +631,24 @@ def main() raises:
     print("  -----------------------------------------")
     run_case(ledger, "cli.modelfile_parser", test_modelfile_parser)
     run_case(ledger, "cli.manifest_store_restart", test_model_manifest_store)
+    run_case(
+        ledger, "cli.catalog_schema_interface", test_catalog_schema_interface
+    )
+    run_case(
+        ledger, "cli.catalog_schema_unit_evidence",
+        test_catalog_schema_unit_evidence,
+    )
+    run_case(
+        ledger, "cli.blob_identity_interface", test_blob_identity_interface
+    )
+    run_case(
+        ledger, "cli.blob_identity_unit_evidence",
+        test_blob_identity_unit_evidence,
+    )
+    run_case(
+        ledger, "cli.atomic_registration_unit_evidence",
+        test_atomic_registration_unit_evidence,
+    )
     run_case(
         ledger, "cli.truthful_command_boundaries", test_cli_command_dispatch
     )
@@ -878,10 +998,19 @@ def main() raises:
     run_case(ledger, "control.sigint", test_generation_sigint)
     run_case(ledger, "local_service.json", test_local_json)
     run_case(ledger, "local_service.http", test_local_http)
+    run_case(ledger, "local_service.http_bounds", test_local_http_bounds)
+    run_case(ledger, "local_service.http_framing", test_local_http_framing)
     run_case(ledger, "local_service.request", test_local_generation_request)
     run_case(ledger, "local_service.c_paths", test_local_path_bounds)
     run_case(ledger, "local_service.ollama_sampling_bounds", test_ollama_sampling_bounds)
     run_case(ledger, "local_service.gemma_tool_protocol", test_gemma_tool_protocol)
+    run_case(ledger, "local_service.fd_ownership", test_owned_fd_transfer_release)
+    run_case(ledger, "local_service.socket_admission", test_socket_admission_rejection)
+    run_case(ledger, "local_service.socketpair_framing", test_socketpair_request_transport)
+    run_case(ledger, "local_service.transport_adversarial", test_request_transport_adversarial)
     run_case(ledger, "native.gemma4_profiles", test_gemma4_profiles)
     run_case(ledger, "native.model_registry", test_model_architecture_registry)
-    ledger.finish(208)
+    # Keep this final: Mojo 1.0.0 runtime crashes when another file-system-heavy
+    # test runs after this caught-error adversarial path in the same process.
+    run_case(ledger, "compute.rope_adversarial", test_rope_adversarial)
+    ledger.finish(267)

@@ -8,7 +8,7 @@ from core.tool_use import parse_gemma_zero_arg_call
 from server.service_status import service_liveness, model_readiness
 from core.sampling_config import NativeSamplingConfig
 from cli.sampling import with_sampling_option
-from cli.native_settings import resolve_native_settings, native_config_sampling
+from cli.native_settings import resolve_native_settings, native_config_sampling, load_native_config
 from config import parse_config_json
 
 
@@ -136,9 +136,101 @@ def test_local_http() raises:
         raise Error("Ollama streaming response lost its NDJSON media type")
 
 
+def test_local_http_bounds() raises:
+    var prefix = String("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: ")
+    var suffix = String("\r\n\r\n")
+    var exact_body = LocalHTTPHead(prefix + "131072" + suffix, 18434, "test-key")
+    if exact_body.status != 200 or exact_body.length != 131072:
+        raise Error("Maximum declared request body rejected")
+    var over_body = LocalHTTPHead(prefix + "131073" + suffix, 18434, "test-key")
+    if over_body.status != 413:
+        raise Error("Oversized declared request body did not return 413")
+    var too_large_number = False
+    try:
+        _ = LocalHTTPHead(prefix + "999999999999999999999999999999" + suffix, 18434, "test-key")
+    except:
+        too_large_number = True
+    if not too_large_number:
+        raise Error("Overflowing Content-Length was accepted")
+
+    var base = String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\n")
+    var auth = String("Authorization: Bearer test-key\r\n")
+    var fields = String("")
+    for i in range(62):
+        fields += "X-" + String(i) + ": a\r\n"
+    var sixty_four = LocalHTTPHead(base + auth + fields + "\r\n", 18434, "test-key")
+    if sixty_four.status != 200:
+        raise Error("64 unique headers rejected")
+    var sixty_five_rejected = False
+    try:
+        _ = LocalHTTPHead(base + auth + fields + "X-over: a\r\n\r\n", 18434, "test-key")
+    except:
+        sixty_five_rejected = True
+    if not sixty_five_rejected:
+        raise Error("65 unique headers accepted")
+
+    var value = String("")
+    for _ in range(1024):
+        value += "a"
+    var value_head = String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nX-test: " + value + "\r\n\r\n")
+    if LocalHTTPHead(value_head, 18434, "test-key").status != 200:
+        raise Error("1024-byte header value rejected")
+    value += "a"
+    var value_rejected = False
+    try:
+        _ = LocalHTTPHead(String("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nX-test: " + value + "\r\n\r\n"), 18434, "test-key")
+    except:
+        value_rejected = True
+    if not value_rejected:
+        raise Error("1025-byte header value accepted")
+
+
+def test_local_http_framing() raises:
+    var base = String("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n")
+    var invalid: List[String] = [
+        base + "content-length: 2\r\n\r\n",
+        base + "Expect: 100-continue\r\n\r\n",
+        base + "Transfer-Encoding: chunked\r\n\r\n",
+        base + "Transfer-Encoding: chunked\r\nContent-Length: 2\r\n\r\n",
+        "POST  /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n\r\n",
+        "POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\rAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 2\r\n\r\n",
+    ]
+    for head in invalid:
+        var rejected = False
+        try:
+            _ = LocalHTTPHead(head, 18434, "test-key")
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("Ambiguous or malformed HTTP framing accepted")
+
+    var put = LocalHTTPHead("PUT /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\n\r\n", 18434, "test-key")
+    if put.status != 405:
+        raise Error("Unsupported method did not return 405")
+    var no_length = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\n\r\n", 18434, "test-key")
+    if no_length.status != 411:
+        raise Error("POST without Content-Length did not return 411")
+    var empty_length = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: application/json\r\nContent-Length: 0\r\n\r\n", 18434, "test-key")
+    if empty_length.status != 411:
+        raise Error("Zero-length POST did not return 411")
+    var wrong_type = LocalHTTPHead("POST /v1/generate HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Type: text/plain\r\nContent-Length: 2\r\n\r\n", 18434, "test-key")
+    if wrong_type.status != 415:
+        raise Error("Unsupported request media type did not return 415")
+    var get_body_rejected = False
+    try:
+        _ = LocalHTTPHead("GET /health HTTP/1.1\r\nHost: 127.0.0.1:18434\r\nAuthorization: Bearer test-key\r\nContent-Length: 1\r\n\r\n", 18434, "test-key")
+    except:
+        get_body_rejected = True
+    if not get_body_rejected:
+        raise Error("GET with a body was admitted")
+    print("PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy")
+
+
 def main() raises:
     test_local_json()
     test_local_http()
+    test_local_http_bounds()
+    test_local_http_framing()
     test_local_generation_request()
     test_local_path_bounds()
     test_boolean_json_schema_admission()
@@ -407,6 +499,22 @@ def test_request_limit_precedence() raises:
 
 
 def test_native_recipe_precedence() raises:
+    # The config is opt-in: an absent selector must not touch a nonexistent file.
+    var no_config_flags = List[String]()
+    var defaults = load_native_config("missing-config-must-not-be-opened.json", no_config_flags)
+    var default_sampling = native_config_sampling(defaults)
+    if default_sampling.temperature != NativeSamplingConfig().temperature or default_sampling.top_p != NativeSamplingConfig().top_p:
+        raise Error("Implicit config lookup changed native defaults")
+    # Ambiguous selectors reject before attempting to open either path.
+    var ambiguous_flags: List[String] = ["--config", "--model-store"]
+    var ambiguous_rejected = False
+    try:
+        _ = load_native_config("missing-config-must-not-be-opened.json", ambiguous_flags)
+    except error:
+        ambiguous_rejected = "mutually exclusive" in String(error)
+    if not ambiguous_rejected:
+        raise Error("Ambiguous config/store selectors were not rejected before file access")
+
     var config = parse_config_json('{"sampling":{"temperature":0.4,"top_p":0.6}}')
     var baseline = native_config_sampling(config)
     var none = List[String]()

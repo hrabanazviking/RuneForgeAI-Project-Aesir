@@ -19,9 +19,12 @@ def reject_keys(binary):
         good = root / "good"
         good.write_text(secrets.token_hex(32))
         good.chmod(0o600)
-        insecure = root / "public"
-        insecure.write_text(secrets.token_hex(32))
-        insecure.chmod(0o644)
+        insecure_modes = []
+        for mode in [0o640, 0o604, 0o620, 0o602, 0o666, 0o711]:
+            path = root / ("insecure-%04o" % mode)
+            path.write_text(secrets.token_hex(32))
+            path.chmod(mode)
+            insecure_modes.append(path)
         link = root / "link"
         link.symlink_to(good)
         fifo = root / "fifo"
@@ -30,12 +33,12 @@ def reject_keys(binary):
             path = root / name
             path.write_text(value)
             path.chmod(0o600)
-        for path in [insecure, link, fifo, root / "short", root / "long", root / "invalid"]:
+        for path in [*insecure_modes, link, fifo, root / "short", root / "long", root / "invalid"]:
             result = subprocess.run([binary, "serve", "missing.gguf", "--accel", "cuda",
                 "--api-key-file", str(path)], capture_output=True, timeout=15)
             assert result.returncode != 0, "unsafe key file accepted"
             assert b"[CUDA]" not in result.stdout, "unsafe key reached CUDA initialization"
-    print("PASS owner-only key admission: public, symlink, FIFO, short, oversized, invalid")
+    print("PASS owner-only key admission: group/world permission matrix, symlink, FIFO, short, oversized, invalid")
 
 
 def check(binary, model, profile, output_dir):
@@ -104,10 +107,26 @@ def check(binary, model, profile, output_dir):
                 for task in Path(f"/proc/{process.pid}/task").iterdir():
                     mask = next(line.split()[1] for line in task.joinpath("status").read_text().splitlines()
                                 if line.startswith("SigBlk:"))
-                    assert int(mask, 16) & 16386 == 16386, "worker signal mask is unsafe"
+                assert int(mask, 16) & 16386 == 16386, "worker signal mask is unsafe"
                 assert request("GET", "/health", authorized=False)[0] == 401
+                rejected_credential_marker = "REJECTED-BEARER-CANARY-" + secrets.token_hex(16)
+                status, rejected_auth = request(
+                    "GET", "/health", authorized=False,
+                    extra={"Authorization": "Bearer " + rejected_credential_marker},
+                )
+                assert status == 401 and rejected_credential_marker not in json.dumps(rejected_auth), "rejected credential echoed"
+                prompt_error_marker = "MALFORMED-PROMPT-CANARY-" + secrets.token_hex(16)
+                status, rejected_body = request("POST", "/v1/generate", {
+                    "prompt": prompt_error_marker, "temperature": "not-a-number",
+                })
+                assert status == 400 and prompt_error_marker not in json.dumps(rejected_body), "malformed prompt echoed"
                 status, health = request("GET", "/health")
-                assert status == 200 and health["profile"] == profile and health["context"] == 512
+                assert (status == 200 and health["status"] == "ready"
+                        and health["backend"] == "cuda" and health["cpu_offload"] == 0
+                        and health["profile"] == profile and health["context"] == 512
+                        and health["model"] == model
+                        and isinstance(health["model_digest"], str)
+                        and health["model_digest"].startswith("sha256:"))
                 assert request("GET", "/health", extra={"Host": "attacker.invalid"})[0] == 403
                 assert request("GET", "/health", extra={"Origin": "https://attacker.invalid"})[0] == 403
                 status, models = request("GET", "/v1/models")
@@ -157,6 +176,8 @@ def check(binary, model, profile, output_dir):
                 assert "Native inference service stopped" in logfile.read_text()
                 assert token not in logfile.read_text(), "credential leaked in logs"
                 assert sampled["prompt"] not in logfile.read_text(), "prompt leaked in logs"
+                assert rejected_credential_marker not in logfile.read_text(), "rejected credential leaked in logs"
+                assert prompt_error_marker not in logfile.read_text(), "malformed prompt leaked in logs"
                 print(f"PASS {profile}: authenticated real CUDA HTTP, replay, framing/Unicode rejection, slow-client limits, deadline recovery, shutdown")
             finally:
                 if process.poll() is None:

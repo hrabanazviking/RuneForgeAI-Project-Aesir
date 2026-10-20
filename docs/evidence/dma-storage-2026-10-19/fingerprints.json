@@ -1,0 +1,5 @@
+{
+  "../soc-storage": "661db8660c12662a57eaccedf4e4bd3f40579c186cdbabd8c6abd06918550b8f",
+  "../soc-storage-unwind": "a9de7b092b92aa127bd6162e30be149461807aeb45254c1cce0ad7c53a2ef5ec",
+  "/usr/src/hailort-pcie-driver/common/hailo_ioctl_common.h": "a2731314f4676cb140b970043d53cc06d57da90ea46344ccd44a3c491aede26b"
+}

@@ -105,3 +105,28 @@ physical PCIe transfer size/alignment. The low-level session interface also
 names alignment and synchronized transfer-pattern requirements. Resolve that
 layer explicitly before live DMA rather than assuming a framing buffer is
 already a valid transfer.
+
+### 2026-10-19 — Single-exchange launch/completion accounting facts
+
+Continued installed 5.3.0 interface/behavior study under its already recorded
+license: `common/vdma_common.c`, `linux/vdma/ioctl.c` and the UAPI. A non-cyclic
+USERPTR launch programs descriptors for the exact extent; launch returns the
+descriptor count. For the already observed page-aligned 2068-byte message and
+512-byte descriptor page, that count is five. IRQ channel data counts finished
+**transfers**, independently of descriptor count; 254/255 mean error/inactive.
+The single-outstanding-exchange policy therefore admits exactly one completion
+per submitted direction, validates all snapshot entries before changing host
+progress, and requires both directions before consuming a reply. A zero-record
+or zero-count wake does not prove completion. Ring capacity retains its spare
+entry; whole-session cancellation/quiescence is required after uncertainty.
+These are interface facts, not copied or translated driver implementation.
+
+### 2026-10-19 — Source graph metadata facts
+
+The already MIT-licensed GGUF spec at
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` defines optional key and value head
+lengths independently, each defaulting to hidden/head count; KV heads default
+to query heads. Rotary dimensions, layout text and scaling modifiers must be
+preserved or explicitly treated as unresolved semantics. This supplies format
+facts, not a numerical recipe or an accelerator instruction. The original
+Mojo graph carries these distinctions and explicit layout/recipe/backend gates.

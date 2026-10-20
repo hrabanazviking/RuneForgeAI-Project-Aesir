@@ -784,6 +784,11 @@ struct RuneTensor[type: DType](Copyable):
         self.quant_format = existing.quant_format.copy()
 
     @always_inline
+    def _linear_offset(self, r: Int, c: Int) -> Int:
+        """Return the row-major scalar-element offset for logical indexing."""
+        return r * self.cols + c
+
+    @always_inline
     def copy(self) -> Self:
         return Self(
             self.rows,
@@ -795,11 +800,11 @@ struct RuneTensor[type: DType](Copyable):
 
     @always_inline
     def get(self, r: Int, c: Int) -> Scalar[Self.type]:
-        return self.data.unsafe_load(r * self.cols + c)
+        return self.data.unsafe_load(self._linear_offset(r, c))
 
     @always_inline
     def set(mut self, r: Int, c: Int, val: Scalar[Self.type]):
-        self.data.unsafe_store(r * self.cols + c, val)
+        self.data.unsafe_store(self._linear_offset(r, c), val)
 
     def get_checked(self, r: Int, c: Int) raises -> Scalar[Self.type]:
         if r < 0 or r >= self.rows or c < 0 or c >= self.cols:

@@ -1,0 +1,13 @@
+test_close_failure_finalizes_file_before_host_memory (__main__.OwnedStorage.test_close_failure_finalizes_file_before_host_memory) ... ok
+test_each_host_allocation_failure_keeps_ordered_cleanup (__main__.OwnedStorage.test_each_host_allocation_failure_keeps_ordered_cleanup) ... ok
+test_each_sync_failure_preserves_cleanup (__main__.OwnedStorage.test_each_sync_failure_preserves_cleanup) ... ok
+test_each_uncertain_map_finalizes_context_before_storage (__main__.OwnedStorage.test_each_uncertain_map_finalizes_context_before_storage) ... ok
+test_each_unmap_failure_retains_memory_until_fd_close (__main__.OwnedStorage.test_each_unmap_failure_retains_memory_until_fd_close) ... ok
+test_exception_unwind_releases_both_mappings_and_pages (__main__.OwnedStorage.test_exception_unwind_releases_both_mappings_and_pages) ... ok
+test_normal_and_repeat_close (__main__.OwnedStorage.test_normal_and_repeat_close) ... ok
+test_successful_map_with_corrupt_reply_retains_actual_kernel_mapping (__main__.OwnedStorage.test_successful_map_with_corrupt_reply_retains_actual_kernel_mapping) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.758s
+
+OK

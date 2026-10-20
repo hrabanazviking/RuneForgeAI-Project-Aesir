@@ -130,16 +130,34 @@ fd's device numbers, then queries/qualifies the installed 5.3.0 Hailo-10H
 driver profile. `SocDriver` is movable, not copyable; `close()` is idempotent
 and exception unwinding closes the fd. `request(operation, mut data)` accepts
 only the admitted ABI operations, checks storage size and refuses a closed fd.
+It returns `Int64`: successful transfer descriptor counts are preserved;
+negative results raise with captured errno, and unexpected positive results
+from other operations reject. A transfer count still needs ring-owner bounds
+and completion checks; it does not itself mean completed work.
 It is a low-level HAILBRÚ operation, not proof of descriptor/channel/buffer
 ownership. The current real caller performs read-only driver queries.
 Errors: `SocDriverMismatch`, `SocOpenFailed`, `SocSessionClosed`,
 `SocIoctlFailed`, `SocCleanupFailed`, plus existing discovery/OS/ABI errors.
+
+## Assigned integrated-device connection
+
+`hailbru.soc_session.open_soc_session(sysfs_root, dev_root) raises -> SocSession`
+owns the verified driver, two circular descriptor lists and assigned channels
+for port 12133. `require_open()` rejects a closed owner; `close()` is idempotent.
+Explicit cleanup and exception unwinding close the connection before releasing
+lists. Uncertain connect/close uses file-context finalization; list cleanup
+continues after an individual failure. Errors retain the driver/cleanup codes
+above. The native consumer exercises the real lifecycle without user DMA
+buffers, message exchange, model loading or inference. Transfer-buffer owners
+must be added and independently verified before a typed RPC round-trip.
 
 Caller: `smidr/tools/hrpc_frame.mojo`, a real native recorded-frame inspector.
 Evidence: `docs/HAILO10H_MOJO_HRPC_FRAMING.md` and its independent wire tests.
 
 `hailbru.hrpc_device` adds the pinned create/identify/destroy control messages.
 `device_*_request(message_id[, handle])` returns an owned `HrpcFrame`.
+Requests carry status 1 (`HAILO_UNINITIALIZED`), established by the installed
+reference observation; successful replies require status 0.
 `device_create_reply(frame, expected_message_id)` returns the UInt32 handle;
 `device_identify_reply` returns observed numeric protocol/firmware/logger /
 architecture fields plus explicit firmware-message presence. It never assumes
@@ -155,7 +173,8 @@ failure precede body decoding. Named errors are `BadRpcProtobuf`,
 `RpcReplyMismatch` and `RpcRemoteFailure`.
 
 Caller: native `smidr/tools/hrpc_device.mojo` and the planned owned session
-client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md`.
+client. Evidence: `docs/HAILO10H_MOJO_HRPC_DEVICE_MESSAGES.md` and current
+`docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`.
 
 ## Thread-safety
 
@@ -174,3 +193,15 @@ direct /dev path parameters**: `BarMapping` and `DmaBuffer` are opaque
 handles. Downstream domains go through this API; they never touch device
 nodes directly. `grep -r "open.*dev\|mmap\|ioctl" --include="*.mojo"` outside
 `hailbru/` must return empty (checked in C4_REVIEW.md).
+
+## Original program metadata/lifecycle wire values (`hailbru.hrpc_program`)
+
+`program_create_request(message_id, vdevice_handle, program_bytes, name,
+host_program_limit)` constructs only bounded metadata. The separate program
+bytes are not copied or sent. `program_handle_request(message_id, action,
+handle)` admits action 3/5/10/11/12. `program_create_reply` returns a checked
+handle; `program_empty_reply` validates a matching successful lifecycle reply.
+All return owned values and open no device. These do not acquire/own actual
+server resources, prove numerical program validity or admit hardware execution.
+Wire conventions, tests and physical gates:
+`docs/HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`.

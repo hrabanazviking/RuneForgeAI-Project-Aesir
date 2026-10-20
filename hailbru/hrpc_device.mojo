@@ -8,6 +8,7 @@ from hailbru.hrpc_frame import HrpcFrame, HRPC_MAX_BODY_BYTES
 comptime HRPC_DEVICE_CREATE = UInt32(20)
 comptime HRPC_DEVICE_DESTROY = UInt32(21)
 comptime HRPC_DEVICE_IDENTIFY = UInt32(22)
+comptime HRPC_REQUEST_STATUS = UInt32(1)  # HAILO_UNINITIALIZED; observed in v5.3.0 requests.
 
 
 def _append_varint(mut data: List[UInt8], value: UInt32):
@@ -33,15 +34,15 @@ def _handle_body(handle: UInt32) -> List[UInt8]:
 
 
 def device_create_request(message_id: UInt32) -> HrpcFrame:
-    return HrpcFrame(message_id, HRPC_DEVICE_CREATE, UInt32(0), List[UInt8]())
+    return HrpcFrame(message_id, HRPC_DEVICE_CREATE, HRPC_REQUEST_STATUS, List[UInt8]())
 
 
 def device_identify_request(message_id: UInt32, handle: UInt32) -> HrpcFrame:
-    return HrpcFrame(message_id, HRPC_DEVICE_IDENTIFY, UInt32(0), _handle_body(handle))
+    return HrpcFrame(message_id, HRPC_DEVICE_IDENTIFY, HRPC_REQUEST_STATUS, _handle_body(handle))
 
 
 def device_destroy_request(message_id: UInt32, handle: UInt32) -> HrpcFrame:
-    return HrpcFrame(message_id, HRPC_DEVICE_DESTROY, UInt32(0), _handle_body(handle))
+    return HrpcFrame(message_id, HRPC_DEVICE_DESTROY, HRPC_REQUEST_STATUS, _handle_body(handle))
 
 
 struct _ProtoReader:

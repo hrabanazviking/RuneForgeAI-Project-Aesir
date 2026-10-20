@@ -217,6 +217,13 @@ struct GGUFSeer:
         if offset > Int(self.file_size) or byte_count > Int(self.file_size) - offset:
             raise Error("GGUF is truncated or contains an out-of-range offset")
 
+    def _read_u16(self, offset: Int) raises -> UInt16:
+        if not self.is_mapped:
+            raise Error("GGUF source is not mapped")
+        self._require_range(offset, 2)
+        var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
+        return UInt16(ptr.unsafe_load()) | (UInt16(ptr.unsafe_offset(1).unsafe_load()) << 8)
+
     def _read_u32(self, offset: Int) raises -> UInt32:
         self._require_range(offset, 4)
         var ptr = self.mmap_ptr.unsafe_offset(offset).unsafe_bitcast[UInt8]()
@@ -250,11 +257,13 @@ struct GGUFSeer:
     def _read_string(self, offset: Int) raises -> String:
         var string_length = Int(self._read_u64(offset))
         self._require_range(offset + 8, string_length)
-        var bytes = List[Int8]()
+        var bytes = List[UInt8]()
+        bytes.reserve(string_length)
         for index in range(string_length):
-            bytes.append(self.mmap_ptr.unsafe_offset(offset + 8 + index).unsafe_load())
-        bytes.append(0)
-        return String(unsafe_from_utf8_ptr=bytes.unsafe_ptr())
+            bytes.append(UInt8(self.mmap_ptr.unsafe_offset(offset + 8 + index).unsafe_load()))
+        # GGUF strings are length-prefixed UTF-8, not C strings. Preserve embedded
+        # NULs and reject malformed UTF-8 instead of trusting an unsafe pointer.
+        return String(from_utf8=bytes)
 
     def _string_end(self, offset: Int) raises -> Int:
         var string_length = Int(self._read_u64(offset))
@@ -356,6 +365,36 @@ struct GGUFSeer:
             if value_type != 9:
                 raise Error("tokenizer.ggml.token_type is not an array")
             return self._parse_type_array(offset, tokenizer)
+        var expected_type = UInt32(4294967295)
+        if key == "general.architecture":
+            expected_type = 8
+        elif (
+            key.endswith(".context_length")
+            or key.endswith(".embedding_length")
+            or key.endswith(".feed_forward_length")
+            or key.endswith(".block_count")
+            or key.endswith(".attention.head_count")
+            or key.endswith(".attention.key_length")
+            or key.endswith(".attention.head_count_kv")
+            or key.endswith(".rope.dimension_count")
+            or key == "general.alignment"
+            or key == "tokenizer.ggml.unknown_token_id"
+            or key == "tokenizer.ggml.bos_token_id"
+            or key == "tokenizer.ggml.eos_token_id"
+        ):
+            expected_type = 4
+        elif (
+            key.endswith(".rope.freq_base")
+            or key.endswith(".attention.layer_norm_rms_epsilon")
+        ):
+            expected_type = 6
+        elif (
+            key == "tokenizer.ggml.add_bos_token"
+            or key == "tokenizer.ggml.add_space_prefix"
+        ):
+            expected_type = 7
+        if expected_type != UInt32(4294967295) and value_type != expected_type:
+            raise Error("GGUF metadata key has unexpected value type: " + key)
         if key == "general.architecture" and value_type == 8:
             self.config.architecture = self._read_string(offset)
         elif key.endswith(".context_length") and value_type == 4:
@@ -456,6 +495,13 @@ struct GGUFSeer:
         var magic = b0 | (b1 << 8) | (b2 << 16) | (b3 << 24)
         if magic != 0x46554747:
             raise Error("GGUF magic bytes are invalid")
+        var b4 = UInt32(bytes_ptr.unsafe_offset(4).unsafe_load())
+        var b5 = UInt32(bytes_ptr.unsafe_offset(5).unsafe_load())
+        var b6 = UInt32(bytes_ptr.unsafe_offset(6).unsafe_load())
+        var b7 = UInt32(bytes_ptr.unsafe_offset(7).unsafe_load())
+        var version = b4 | (b5 << 8) | (b6 << 16) | (b7 << 24)
+        if version != 3:
+            raise Error("Only GGUF version 3 is supported by this inference slice")
 
     def _parse_header(mut self) raises:
         if self._read_u32(0) != 0x46554747:
@@ -512,17 +558,31 @@ struct GGUFSeer:
         tensor_type: UInt32,
     ) raises -> Int:
         if tensor_type == GGMLType.F16:
+            if element_count < 0 or element_count > 9223372036854775807 // 2:
+                raise Error("GGUF tensor byte size overflows host index")
             return element_count * 2
         elif tensor_type == GGMLType.F32:
+            if element_count < 0 or element_count > 9223372036854775807 // 4:
+                raise Error("GGUF tensor byte size overflows host index")
             return element_count * 4
         elif tensor_type == GGMLType.Q4_0:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 18
         elif tensor_type == GGMLType.Q4_1:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 20:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 20
         elif tensor_type == GGMLType.Q8_0:
+            if element_count < 0 or element_count // 32 > 9223372036854775807 // 34:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 32) * 34
         elif tensor_type == GGMLType.Q4_K:
+            if element_count < 0 or element_count // 256 > 9223372036854775807 // 144:
+                raise Error("GGUF tensor byte size overflows host index")
             return (element_count // 256) * 144
+        if element_count < 0 or element_count // 32 > 9223372036854775807 // 18:
+            raise Error("GGUF tensor byte size overflows host index")
         return (element_count // 32) * 18
 
     def _map_tensor(
@@ -537,10 +597,14 @@ struct GGUFSeer:
         # silent map
         if name in self.tensors:
             raise Error("GGUF contains a duplicate tensor name: " + name)
+        if rows <= 0 or cols <= 0 or rows > 9223372036854775807 // cols:
+            raise Error("GGUF tensor element count overflows host index: " + name)
         var element_count = rows * cols
         var byte_size = self._tensor_byte_size(element_count, tensor_type)
         if tensor_offset < 0 or tensor_offset % self.alignment != 0:
             raise Error("GGUF tensor offset is not correctly aligned: " + name)
+        if tensor_offset > 9223372036854775807 - self.data_offset:
+            raise Error("GGUF tensor absolute offset overflows host index: " + name)
         var absolute_offset = self.data_offset + tensor_offset
         self._require_range(absolute_offset, byte_size)
 
@@ -548,7 +612,7 @@ struct GGUFSeer:
             var tensor_ptr = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Scalar[DType.float16]]()
             self.tensors[name] = RuneTensor[f16].checked(rows, cols, tensor_ptr, False)
         elif tensor_type == GGMLType.F32:
-            if pool.offset + element_count > pool.capacity:
+            if pool.offset < 0 or pool.offset > pool.capacity or element_count > pool.capacity - pool.offset:
                 raise Error("MimirWell cannot hold converted F32 normalization tensor")
             var destination = pool.allocate(element_count)
             var source = self.mmap_ptr.unsafe_offset(absolute_offset).unsafe_bitcast[Float32]()
@@ -582,11 +646,17 @@ struct GGUFSeer:
             cursor += 4
             if dimension_count <= 0 or dimension_count > 2:
                 raise Error("Inference tensor must have one or two dimensions: " + name)
-            var cols = Int(self._read_u64(cursor))
+            var cols_u64 = self._read_u64(cursor)
+            if cols_u64 > UInt64(9223372036854775807):
+                raise Error("GGUF tensor dimension exceeds host index: " + name)
+            var cols = Int(cols_u64)
             cursor += 8
             var rows = 1
             if dimension_count == 2:
-                rows = Int(self._read_u64(cursor))
+                var rows_u64 = self._read_u64(cursor)
+                if rows_u64 > UInt64(9223372036854775807):
+                    raise Error("GGUF tensor dimension exceeds host index: " + name)
+                rows = Int(rows_u64)
                 cursor += 8
             if rows <= 0 or cols <= 0:
                 raise Error("GGUF tensor has a non-positive dimension: " + name)

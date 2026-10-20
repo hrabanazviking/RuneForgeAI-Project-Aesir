@@ -179,6 +179,15 @@ def test_query_embedding_extraction() raises:
         rejected = True
     if not rejected or well.offset != offset_before_rejection:
         raise Error("invalid token IDs must be rejected before allocation")
+
+    var empty_tokens = List[Int]()
+    var empty_rejected = False
+    try:
+        _ = mean_pool_token_embeddings(empty_tokens, table, well)
+    except:
+        empty_rejected = True
+    if not empty_rejected or well.offset != offset_before_rejection:
+        raise Error("empty token sequence must reject before allocation")
     print("Query Embedding Extraction: PASS")
 
 def test_corpus_ingestion() raises:
@@ -208,6 +217,68 @@ def test_corpus_ingestion() raises:
         rejected = True
     if not rejected or store.count != count_before_rejection:
         raise Error("shape mismatch must fail before mutating the corpus store")
+
+    var unicode_text = String("aé😀z")
+    var unicode_chunks = chunk_text(unicode_text, 4, 1)
+    if len(unicode_chunks) != 3:
+        raise Error("UTF-8 chunk boundaries produced an unexpected chunk count")
+    if (unicode_chunks[0].text.byte_length() != 3
+            or unicode_chunks[0].byte_offset != 0
+            or unicode_chunks[1].text.byte_length() != 4
+            or unicode_chunks[1].byte_offset != 3
+            or unicode_chunks[2].text.byte_length() != 1
+            or unicode_chunks[2].byte_offset != 7):
+        raise Error("UTF-8 chunk boundaries or byte offsets changed")
+    var nonpositive_chunks = chunk_text(unicode_text, 0, 0)
+    if len(nonpositive_chunks) != 0:
+        raise Error("non-positive chunk size must return no chunks")
+    var negative_overlap_chunks = chunk_text(String("abcdef"), 3, -1)
+    if (len(negative_overlap_chunks) != 2
+            or negative_overlap_chunks[0].byte_offset != 0
+            or negative_overlap_chunks[1].byte_offset != 3):
+        raise Error("negative overlap must clamp to zero")
+
+    var malformed_bytes = List[Byte]()
+    malformed_bytes.append(Byte(0xE2))
+    malformed_bytes.append(Byte(0x82))
+    malformed_bytes.append(Byte(0))
+    var malformed_text = String(unsafe_from_utf8_ptr=malformed_bytes.unsafe_ptr())
+    var malformed_rejected = False
+    try:
+        _ = chunk_text(malformed_text, 4, 1)
+    except:
+        malformed_rejected = True
+    if not malformed_rejected:
+        raise Error("chunk_text must reject malformed UTF-8")
+
+    var empty_chunks = List[DocumentChunk]()
+    empty_chunks.append(DocumentChunk("empty", String("")))
+    var empty_embedding = RuneTensor[f16](1, dim, well.allocate(dim), False)
+    var empty_store_count = store.count
+    var empty_store_offset = well.offset
+    var empty_chunk_rejected = False
+    try:
+        _ = ingest_corpus_batch(store, empty_chunks, empty_embedding)
+    except:
+        empty_chunk_rejected = True
+    if (not empty_chunk_rejected or store.count != empty_store_count
+            or well.offset != empty_store_offset):
+        raise Error("empty chunk must reject before mutating store or arena")
+
+    var too_many_chunks = List[DocumentChunk]()
+    for i in range(11):
+        too_many_chunks.append(DocumentChunk(String(i), String("x")))
+    var capacity_embeddings = RuneTensor[f16](11, dim, well.allocate(11 * dim), False)
+    var capacity_store_count = store.count
+    var capacity_store_offset = well.offset
+    var capacity_rejected = False
+    try:
+        _ = ingest_corpus_batch(store, too_many_chunks, capacity_embeddings)
+    except:
+        capacity_rejected = True
+    if (not capacity_rejected or store.count != capacity_store_count
+            or well.offset != capacity_store_offset):
+        raise Error("capacity failure must reject before mutating store or arena")
     print("Corpus Ingestion & Text Chunking: PASS")
 
 def test_end_to_end_rag_grounding() raises:

@@ -11,7 +11,9 @@ from check_doc_drift import (
     check_policy_baseline,
     classify_artifact,
     evaluate_artifact_policy,
+    ledger_schema_errors,
     load_hygiene_policy,
+    status_reference_errors,
     todo_status_reference_errors,
     validate_hygiene_policy,
 )
@@ -225,6 +227,118 @@ def test_explicit_cuda_ci_target() -> None:
         require(not has_mojo_ci_gate(command, "run", source), "missing/commented/wrong Mojo gate was accepted")
 
 
+def test_ledger_schema_integration() -> None:
+    valid = (
+        "### AES-FND-001 — Example\n"
+        "- **Status:** `verified`\n"
+        "- **Owner:** foundation\n"
+        "- **Executable evidence:** `python3 check.py`\n"
+        "- **Evidence boundary:** Structural fixture only.\n"
+    )
+    require(not ledger_schema_errors(valid, "fixture.md"), "valid ledger schema failed integration")
+    malformed = valid.replace("- **Owner:** foundation", "- **Ownr:** foundation")
+    errors = ledger_schema_errors(malformed, "fixture.md")
+    require(
+        errors == [
+            "fixture.md schema: fixture.md:1: missing required field 'Owner'"
+        ],
+        f"schema integration diagnostics were unstable: {errors!r}",
+    )
+
+
+def test_todo_combined_and_adjacent_capability_references() -> None:
+    statuses = {
+        "AES-TST-001": "verified",
+        "AES-TST-002": "partial",
+    }
+    content = (
+        "[verified, AES-TST-001; AER-002] "
+        "[partial, AES-TST-002]"
+    )
+    require(
+        not status_reference_errors(content, statuses, "TODO.md"),
+        "valid combined audit and adjacent capability tags were rejected",
+    )
+
+
+def test_todo_later_unknown_and_mismatched_references() -> None:
+    statuses = {"AES-TST-001": "verified", "AES-TST-002": "partial"}
+    unknown = "[verified, AES-TST-001; AER-002; AES-TST-999]"
+    require(
+        status_reference_errors(unknown, statuses, "TODO.md") == [
+            "TODO.md:1: unknown capability reference AES-TST-999"
+        ],
+        "unknown later AES reference was hidden by a valid earlier reference",
+    )
+    mismatch = "[verified, AES-TST-001; AES-TST-002]"
+    require(
+        status_reference_errors(mismatch, statuses, "TODO.md") == [
+            "TODO.md:1: AES-TST-002 tag is verified, ledger is partial"
+        ],
+        "mismatched later AES reference was not diagnosed",
+    )
+
+
+def test_todo_adjacent_unknown_and_mismatch_diagnostic_order() -> None:
+    statuses = {"AES-TST-001": "verified", "AES-TST-002": "partial"}
+    content = (
+        "[verified, AES-TST-999] [verified, AES-TST-002] "
+        "[partial, AES-TST-002]"
+    )
+    require(
+        status_reference_errors(content, statuses, "TODO.md") == [
+            "TODO.md:1: unknown capability reference AES-TST-999",
+            "TODO.md:1: AES-TST-002 tag is verified, ledger is partial",
+        ],
+        "adjacent tag diagnostics were not emitted in source order",
+    )
+
+
+def test_todo_unsupported_status_and_ordinary_brackets() -> None:
+    statuses = {"AES-TST-001": "verified"}
+    content = (
+        "[finished, AES-TST-001] [verified, AES-TST-001] "
+        "[verified, ordinary words] [note: AES-TST-001]"
+    )
+    require(
+        status_reference_errors(content, statuses, "TODO.md") == [
+            "TODO.md:1: unsupported status tag 'finished'"
+        ],
+        "unsupported tag or unrelated brackets did not follow the contract",
+    )
+
+
+def test_todo_repository_integration_against_canonical_ledger() -> None:
+    from check_doc_drift import LEDGER, TODO, ledger_statuses
+
+    statuses = ledger_statuses(LEDGER.read_text(encoding="utf-8"))
+    todo = TODO.read_text(encoding="utf-8")
+    require(len(statuses) == 138, "canonical ledger status map changed unexpectedly")
+    require(
+        not todo_status_reference_errors(todo, statuses),
+        "repository TODO contains a reference inconsistent with the canonical ledger",
+    )
+
+
+def test_todo_adversarial_repeated_and_high_cardinality_references() -> None:
+    statuses = {"AES-TST-001": "verified"}
+    repeated = "[verified, AES-TST-999; AES-TST-999]"
+    errors = status_reference_errors(repeated, statuses, "TODO.md")
+    require(
+        errors == [
+            "TODO.md:1: unknown capability reference AES-TST-999",
+            "TODO.md:1: unknown capability reference AES-TST-999",
+        ],
+        "repeated unknown IDs were collapsed or reordered",
+    )
+
+    many_ids = "; ".join(f"AES-TST-{index:03}" for index in range(100, 164))
+    errors = status_reference_errors(
+        f"heading\n[verified, {many_ids}]", statuses, "TODO.md"
+    )
+    require(len(errors) == 64, "high-cardinality references were truncated")
+    require(errors[0] == "TODO.md:2: unknown capability reference AES-TST-100", "first ID order changed")
+    require(errors[-1] == "TODO.md:2: unknown capability reference AES-TST-163", "last ID order changed")
 def main() -> None:
     test_artifact_classification()
     test_policy_evaluation()
@@ -233,6 +347,13 @@ def main() -> None:
     test_active_status_document_boundary()
     test_live_policy_schema_and_baseline()
     test_explicit_cuda_ci_target()
+    test_ledger_schema_integration()
+    test_todo_combined_and_adjacent_capability_references()
+    test_todo_later_unknown_and_mismatched_references()
+    test_todo_adjacent_unknown_and_mismatch_diagnostic_order()
+    test_todo_unsupported_status_and_ordinary_brackets()
+    test_todo_repository_integration_against_canonical_ledger()
+    test_todo_adversarial_repeated_and_high_cardinality_references()
 
 
 if __name__ == "__main__":

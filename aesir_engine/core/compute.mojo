@@ -1519,6 +1519,7 @@ def flash_attention_2(
 
                 var m_i: Scalar[f32] = -1e20
                 var l_i: Scalar[f32] = 0.0
+                var causal_end = i + 1
 
                 # Initialize Out row to 0 for this head
                 for k in range(0, simd_end, simd_w_f32):
@@ -1529,10 +1530,10 @@ def flash_attention_2(
                 for k in range(simd_end, head_dim):
                     Out.data.unsafe_store(i * Q.cols + h * head_dim + k, 0.0)
 
-                for j_start in range(0, seq_len, Bc):
+                for j_start in range(0, causal_end, Bc):
                     for jj in range(Bc):
                         var j = j_start + jj
-                        if j >= seq_len:
+                        if j >= causal_end:
                             break
 
                         # 1. Compute QK^T / sqrt(d)
@@ -1678,8 +1679,8 @@ def rmsnorm(
         raise Error("rmsnorm: tensor dimensions must be positive")
     if weight.size < T.cols:
         raise Error("rmsnorm: weight dimension mismatch")
-    if epsilon <= 0.0:
-        raise Error("rmsnorm: epsilon must be positive")
+    if isnan(epsilon) or isinf(epsilon) or epsilon <= 0.0:
+        raise Error("rmsnorm: epsilon must be finite and positive")
 
     var hidden_dim = T.cols
     var simd_end = (hidden_dim // simd_w_f16) * simd_w_f16
@@ -1726,11 +1727,13 @@ def apply_rope(
     """
     if start_pos < 0:
         raise Error("apply_rope: start_pos cannot be negative")
+    if theta <= 0.0 or isnan(theta) or isinf(theta):
+        raise Error("apply_rope: theta must be finite and positive")
     if head_dim <= 0 or head_dim % 2 != 0:
         raise Error("apply_rope: head_dim must be positive and even")
     if Q.cols % head_dim != 0 or K.cols % head_dim != 0:
         raise Error("apply_rope: tensor columns must be a multiple of head_dim")
-    if Q.rows <= 0 or K.rows <= 0:
+    if Q.rows <= 0 or K.rows <= 0 or Q.cols <= 0 or K.cols <= 0:
         raise Error("apply_rope: tensor dimensions must be positive")
 
     var num_heads_q = Q.cols // head_dim
@@ -1753,6 +1756,14 @@ def apply_rope(
                 var q1 = Q.data.unsafe_load(idx1)
                 Q.data.unsafe_store(idx0, q0 * fcr - q1 * fci)
                 Q.data.unsafe_store(idx1, q0 * fci + q1 * fcr)
+
+    for r in range(K.rows):
+        var pos = start_pos + r
+        for i in range(half_dim):
+            var freq = 1.0 / (theta ** (Float32(2 * i) / Float32(head_dim)))
+            var val = Float32(pos) * freq
+            var fcr = cos(val).cast[f16]()
+            var fci = sin(val).cast[f16]()
 
             for h in range(num_heads_k):
                 var head_base = r * K.cols + h * head_dim

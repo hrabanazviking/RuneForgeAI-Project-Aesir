@@ -1,0 +1,7 @@
+{
+  "revision": "d503417f2a0db186a838390fb08690c4ea0f415e",
+  "archive_sha256": "8d0b85c85f35c449f1204f8c96bf6647a2074407cc1323b62594d96072e604f5",
+  "license": "HailoRT root MIT already read before archive study; nested third-party code excluded",
+  "skipped_nonregular_members": [],
+  "scope": "bounded public numerical program/configuration declaration census; no model/artifact read or execution"
+}

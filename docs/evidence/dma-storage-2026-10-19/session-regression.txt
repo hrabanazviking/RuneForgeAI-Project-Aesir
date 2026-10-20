@@ -1,0 +1,12 @@
+test_each_descriptor_release_failure_still_attempts_remaining_cleanup (__main__.AssignedSession.test_each_descriptor_release_failure_still_attempts_remaining_cleanup) ... ok
+test_exception_unwinding_closes_connection_before_lists_and_fd (__main__.AssignedSession.test_exception_unwinding_closes_connection_before_lists_and_fd) ... ok
+test_failed_close_does_not_explicitly_free_active_descriptors (__main__.AssignedSession.test_failed_close_does_not_explicitly_free_active_descriptors) ... ok
+test_first_descriptor_failure_closes_without_release (__main__.AssignedSession.test_first_descriptor_failure_closes_without_release) ... ok
+test_normal_order_repeat_close_and_three_fresh_sessions (__main__.AssignedSession.test_normal_order_repeat_close_and_three_fresh_sessions) ... ok
+test_second_descriptor_failure_releases_only_acquired_list (__main__.AssignedSession.test_second_descriptor_failure_releases_only_acquired_list) ... ok
+test_uncertain_connect_uses_file_context_cleanup (__main__.AssignedSession.test_uncertain_connect_uses_file_context_cleanup) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.774s
+
+OK

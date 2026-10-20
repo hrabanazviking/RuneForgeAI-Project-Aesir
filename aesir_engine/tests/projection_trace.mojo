@@ -28,3 +28,12 @@ def projection_pop() raises:
     var process = OwnedDLHandle()
     var pop = process.get_function[Int32]("nvtxRangePop")
     _ = pop()
+
+
+def small_attention_push(count: Int) raises:
+    if count != 4 and count != 32: raise Error("Small attention trace requires owned four/32 rows")
+    var process = OwnedDLHandle()
+    var push = process.get_function[Int32]("nvtxRangePushA")
+    var label = String("aesir.attend.small.b")+String(count)
+    var text = label.as_c_string_slice()
+    _ = push(text.unsafe_ptr())

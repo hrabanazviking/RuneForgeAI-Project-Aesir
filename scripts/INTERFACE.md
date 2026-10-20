@@ -170,6 +170,26 @@ case1, including signed zero. Numerical failures retain complete exclusive
 reports; speed_claim is alwaysFalse. Nine adversarial contracts cover identity,
 state, mask, vectors, signed zero and binding. Read
 ../docs/NATIVE_TURING_FIXTURE_CONTROLS.md; this is test-only control evidence.
+Explicit `--small-attention` separately admits strategy5 only with the
+`rope_cache_elementwise_down128_small_controls` marker, accepted disabled-control
+model5 source/binary and actual current binary/SHA. It verifies small/down/closed-
+fused/original dispatch counts and exact recovered vectors; default readers remain
+closed. `check_turing_model_prefill.py --small-controls` separately verifies the
+capable-but-disabled four-case model/source/cache/CPU baseline. The current
+collector must emit `CONTROL_CAPABLE,5,1,DISABLED,STATE1` and, after each `TIME`
+row, a `CONTROL_STATE` row with 16 total CSV fields: the record tag plus 15
+payload fields (index/mode/sample, six capability/admission/enable/reset/health
+flags, and six native/sampler-position and committed-length counts), and
+`ADMISSION,5,COUNTS1,8,0` for capable mode. `COUNTS1,8,0` means eight validated
+tile refusals and zero skipped feature checks; ordinary collection expects
+`COUNTS1,8,13`. Historical `ADMISSION,5,12,0` is parseable only as legacy and
+cannot satisfy new STATE1 acceptance. STATE1 quality may pass while reports keep
+raw timings, set `speed_scored=false`, and withhold timing ratios. Acceptance
+requires a fresh COUNTS1/STATE1 capture and receipt. The checker rejects the legacy 2026-10-09 label-only
+capable-disabled capture for this strengthened gate; historical acceptance is
+not reclassified as a new physical run, and ordinary disabled-source readers
+remain unchanged. Read `../docs/NATIVE_SMALL_ATTENTION_CONTROLS.md` and the
+historical physical evidence receipt.
 
 ## check_turing_decode_quality.py
 
@@ -499,7 +519,7 @@ changing bounds/math; whole-model/state/production/provider gates remain separat
 Final small_attention=False is an exclusive test-only strategy5 requiring original
 fused/down128/rotary/elementwise precision0 and no control/trace capabilities.
 Count4/32 enqueue attend_small; singles remain original. Separate small/fused/scalar
-counters reset.12 state/allocation-preserving refusals include a valid native replay
+counters reset. The current ordinary collector counts thirteen state/allocation-preserving refusals, including unauthorized small tracing and a valid native replay
 plan; restore rejects5 before owner mutation. No original0..4 or normal selection
 change. New probe exports all513024 F32 per owner/IDs/full cache/4352 guards/32
 records and own exact bits. Explicit reader allow_small/CLI--small-attention require
@@ -540,3 +560,146 @@ typed source counters/state/IDs/CPU scope. Ten hostile contracts/master190/one s
 seven builds before serial GPU/CPU. Read project-root
 docs/NATIVE_SMALL_ATTENTION_CHECKPOINT.md. Same-process replay unscored, no normal
 selection/persisted/crash/context recreation claim. Next separate controls/tracing.
+
+## Explicit strategy5 owned attention trace
+
+`check_turing_prefill_trace.py --small-attention` requires an explicit accepted
+strategy5 source CSV/report/binary plus exact current model/binary. It admits the
+complete plain/profiled vectors, IDs/state/cache/dispatch/guards, then full-session
+Nsight process/device/launch/kernel/resource integrity. `cuda_fused_attention_ranges.attribute_small`
+requires one owned child range per tile and exactly28 successful per-layer kernel
+correlations with canonical grid/block geometry. This mode is separate from the
+strategy4 one-kernel-per-child path; asynchronous intervals are never clipped.
+All durations are diagnostic and unscored. Read
+`../docs/NATIVE_SMALL_ATTENTION_TRACE.md`.
+
+## Capability ledger schema (AES500-031–040)
+
+`CAPABILITY_LEDGER.md` remains the editable capability-status authority.
+`ledger_schema.py` parses its UTF-8 Markdown into an immutable ordered tuple and
+may export derived JSON for tooling. It does not write or normalize the source
+ledger. The baseline census is
+`docs/evidence/capability-ledger-baseline-2026-10-10/`.
+
+```python
+@dataclass(frozen=True)
+class LedgerExtension:
+    label: str
+    value: str
+
+@dataclass(frozen=True)
+class CapabilityEntry:
+    id: str
+    name: str
+    status: str
+    owner: str
+    claim_sources: str | None
+    implementation_evidence: str | None
+    executable_evidence: str
+    evidence_boundary: str
+    next_acceptance_gate: str | None
+    audit: str | None
+    extensions: tuple[LedgerExtension, ...]
+
+@dataclass(frozen=True)
+class LedgerDiagnostic:
+    source: str
+    line: int
+    message: str
+
+def parse_ledger_text(
+    text: str, source: str = "<memory>"
+) -> tuple[CapabilityEntry, ...]: ...  # raises LedgerSchemaError(diagnostics)
+
+def parse_ledger_path(path: Path) -> tuple[CapabilityEntry, ...]: ...
+def render_ledger_json(entries: tuple[CapabilityEntry, ...]) -> str: ...
+def export_ledger_json(input_path: Path, output_path: Path) -> None: ...
+```
+
+The repository truth checker imports this parser and validates the same
+in-memory ledger text it uses for status/count checks; schema failures are
+reported with a stable `CAPABILITY_LEDGER.md schema:` prefix. The canonical
+labels are recognized independent of order. Every top-level
+`- **Label:**` row, canonical or supplemental, begins a field and terminates the
+previous one; indented field-like lines remain value text. Wrapped lines and
+intervening blank lines belong to the field. The parser trims only outer field
+whitespace, normalizes line endings to LF, and preserves interior line breaks
+and Markdown. Supplemental labeled fields are retained, in order, as extension
+records. A missing optional canonical field maps to JSON `null`; required
+fields, duplicate IDs, duplicate canonical fields, invalid statuses, and
+malformed capability headings produce stable `source:line: message` diagnostics.
+A heading-like top-level line beginning with `### AES-` that does not match the
+stable ID/name form is malformed. Empty ledgers are rejected. Parsing
+accumulates all discoverable errors before raising and never returns a partial
+entry list.
+
+JSON has `schema_version: 1` and source-ordered `capabilities`. It is UTF-8,
+two-space indented, and ends with one newline. `check INPUT` validates only;
+`export-json INPUT --output OUTPUT` validates fully before writing a temporary
+file in the destination directory and atomically replacing the destination.
+The exporter rejects output resolving to or sharing an inode with the input
+ledger, removes temporary files after failed writes/replaces, and leaves any
+existing output untouched on validation failure. Published files inherit the
+temporary file's restrictive permissions. The contract establishes atomic
+replacement, not parent-directory durability after power loss. These interface
+rules do not establish that the Markdown evidence itself is true; capability
+review remains with the ledger owners.
+
+## TODO-to-ledger status-tag validation (AES500-041–050)
+
+`todo_status_reference_errors(content, statuses)` returns ordered diagnostics
+for explicit status assertions in TODO text. Inspect only bracket bodies
+beginning with a lowercase status token and containing at least one
+`AES-[A-Z]+-N` ID. Status-like brackets without an AES ID and unrelated bracket
+syntax remain uninterpreted. For each candidate, check every AES ID in source
+order, ignore AER audit references, and validate adjacent candidates
+independently. A candidate with an unsupported status reports that status and
+does not use it to establish any capability state. Unknown IDs and status
+mismatches report the offending ID. Every diagnostic binds the literal source
+name, one-based line, and tag/reference location; diagnostics are ordered left
+to right by tag and then by ID occurrence. Repeated IDs are checked at each
+occurrence. The checker does not mutate TODO or ledger content.
+
+This lowercase status-token candidate boundary is intentional: malformed
+brackets that do not match that candidate grammar are ordinary text for this
+check and are not diagnosed. Auditor review in AES500-048 confirmed this scope
+and the committed source hashes.
+
+The read-only baseline is
+`docs/evidence/todo-ledger-refs-baseline-2026-10-10/`; it records 95 tags, 95
+AES references, four adjacent-tag lines, and two tags with separate AER IDs.
+The pre-change checker observed only the first AES reference per tag.
+
+## Local Markdown link validation (AES500-051–060)
+
+The validator uses `markdown-it-py` 4.2.0 in the pinned Pixi environment with
+the CommonMark preset. It scans Git-tracked root, `docs/`, and `aesir_engine/`
+Markdown, excluding `docs/evidence/**` and `docs/historical/**`. CommonMark
+inline/reference links and images are candidates; fenced/inline code and angle
+autolinks are ignored. External URI schemes and protocol-relative destinations
+are syntax-only and are never fetched.
+
+Local paths resolve from the source document. Percent escapes are decoded,
+query strings do not affect lookup, root escapes fail, and existing files or
+directories without fragments are valid destinations. Fragments require a
+tracked Markdown file. Explicit HTML `id`/`name` anchors match exact values;
+heading anchors lowercase text, collapse each run of spaces to one, replace
+spaces with hyphens, remove other whitespace and punctuation, strip Markdown
+formatting, and suffix duplicate
+slugs with `-1`, `-2`, etc. in heading order. This follows GitHub's published
+section-link rules. Diagnostics use source path and one-based source-map line,
+remain stable and ordered, and never modify files. Malformed syntax that the
+CommonMark parser does not recognize as a link/image token is outside scope.
+Tracked source symlinks resolving outside the checkout fail before content is
+read; link targets resolving through symlinks outside the checkout also fail.
+
+The validator starts opt-in because the hash-bound baseline records nine
+preexisting fragment mismatches. `--check` without a baseline exits 1 on any
+issue. `--baseline-json PATH` reports exact unchanged baseline signatures as
+`BASELINE` and returns success only when no new or excess signatures remain; a
+missing or malformed baseline exits 2. Read
+`../docs/evidence/markdown-link-baseline-2026-10-10/` before changing the debt
+policy.
+The CLI trusts the caller-supplied baseline JSON and does not authenticate it
+against the evidence receipt hashes; operators must review the receipt and hash
+before using it to waive findings.

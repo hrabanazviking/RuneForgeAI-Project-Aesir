@@ -4,6 +4,39 @@
 from core.mimir_well import MimirWell, RuneTensor, KVCache, f16
 
 
+def expect_allocation_rejection(mut well: MimirWell, elements: Int) raises:
+    var before = well.offset
+    var rejected = False
+    try:
+        _ = well.allocate(elements)
+    except error:
+        rejected = True
+    if not rejected:
+        raise Error("MimirWell admitted an invalid allocation count")
+    if well.offset != before:
+        raise Error("Rejected MimirWell allocation changed the arena offset")
+
+
+def test_mimir_well_allocation_bounds() raises:
+    var well = MimirWell(16)  # eight F16 elements
+    var first = well.allocate(3)
+    var second = well.allocate(5)
+    if second != first.unsafe_offset(3):
+        raise Error("Adjacent allocations did not meet at the prior end")
+    if well.offset != 8:
+        raise Error("Exact-capacity allocations produced the wrong final offset")
+
+    expect_allocation_rejection(well, 1)
+    expect_allocation_rejection(well, 0)
+    expect_allocation_rejection(well, -1)
+
+    var reset_well = MimirWell(16)
+    expect_allocation_rejection(reset_well, 9)
+    if reset_well.offset != 0:
+        raise Error("Oversized allocation changed an empty arena offset")
+    print("PASS: MimirWell exact capacity and mutation-free rejection")
+
+
 def test_mimir_well_allocation() raises:
     """
     ᛗᛁᛗᛁᚱ·ᚹᛖᛚᛚ — Sovereign Memory Pool Allocation Verification

@@ -52,6 +52,80 @@ kb-outer loop order tried and reverted — 3× slower).
 loops (observed 74 ns for 8192² GEMV). All perf loops now accumulate output
 checksums into a printed sink (`BENCHMARK_METHOD.md` §3).
 
+## 2026-10-10 — catalog schema versioning contract and evidence
+
+AES500-211..219 define the durable model catalog as `catalog.v1` with the
+`AESIR_MODEL_CATALOG_V1` header, exact count and hex-encoded manifest records.
+The public codec contract, pre-change empty-store bytes/source hashes, strict
+codec unit cases, explicit legacy migration lifecycle, backup/restore ordering,
+and process-kill/FIFO evidence are recorded in
+[`TASK_catalog_schema_versioning.md`](../TASK_catalog_schema_versioning.md),
+[`cli/INTERFACE.md`](../aesir_engine/cli/INTERFACE.md), and the linked dated
+evidence directories. The normal loader fails closed on unknown versions;
+legacy data is admitted only through explicit catalog-free migration. Local
+master verification reached 240 passed, 0 failed, 1 skipped (241 total), and
+the native build/help and documentation checks passed. Recent hosted CI for the
+slice commits was still queued or in progress at this entry; no green hosted
+result is claimed here. Process-kill results are scoped to this Linux filesystem
+and do not prove sudden-power-loss durability or portability.
+
+AES500-221..229 then defined the content-addressed identity boundary: recipe
+fingerprints are non-cryptographic and carry zero observed bytes; immutable blob
+references use lowercase SHA-256 plus a positive measured size. Identity
+validation is shared across manifest decode, catalog serialization, ingest,
+restore and collection. The exact 32-byte fixture hash, restart/dedup/corruption
+checks and special-file/crash gates are documented in
+[`TASK_content_addressed_blob_identity.md`](../TASK_content_addressed_blob_identity.md)
+and its linked evidence. No external hash-oracle or sudden-power-loss claim is
+made.
+
+AES500-231..239 define and document atomic model registration. The contract
+requires expected digest/size to match the exact opened source bytes before
+catalog publication; failures before rename remove only a newly published blob,
+while a post-rename directory-sync error retains the referenced object and
+reports uncertain durability. Evidence covers a 37-byte fixture, separate
+process registration/restart, deduplication, concurrent commits, mismatch
+rollback, lifecycle interaction, and process kills at four catalog boundaries.
+The gates do not establish sudden-power-loss durability or cross-filesystem
+behavior. Primary review was recorded; independent review was unavailable and
+is not claimed. See [`TASK_atomic_model_registration.md`](../TASK_atomic_model_registration.md)
+and its dated evidence links.
+
+AES500-241..249 define the live socket ownership and cooperative shutdown
+boundary. Source review found listener and pending-client RAII ownership, a
+borrowed cancellation descriptor, and one moved-from wrapper path that could
+call `close(-1)`. The owner now skips that invalid close; a pipe test verifies
+the transferred descriptor remains live until the destination owner ends.
+Admission rejects invalid ports and negative descriptors. The master suite
+reached 245 passed, 0 failed, 1 skipped (246 total). Local physical model
+shutdown could not be rerun because the repository artifact is a zero-byte
+placeholder; prior GPU receipts are historical. Independent reviewer
+availability was blocked by the app thread cap, so only primary review is
+recorded. See [`TASK_socket_ownership_shutdown.md`](../TASK_socket_ownership_shutdown.md)
+and its baseline, unit, integration and adversarial evidence directories.
+
+AES500-251..259 reconcile the live HTTP parser contract: 8 KiB head, 64 unique
+headers, 1024-byte header values, 131072-byte exact body, and one absolute read
+deadline. Existing source matched the contract, so implementation required no
+behavior change. New boundary tests cover length/header/value thresholds, and
+socketpair evidence covers exact head/body separation plus overlong head, short
+EOF, NUL, and body-over-limit rejection. The master suite reached 248 passed,
+0 failed, 1 skipped (249 total). This is local protocol and transport evidence,
+not third-party compatibility or physical inference proof. Independent review
+was unavailable at the app thread cap and is not claimed. See
+[`TASK_request_parser_bounds.md`](../TASK_request_parser_bounds.md) and dated
+evidence links.
+
+AES500-261..269 add a strict framing matrix without changing the already
+fail-closed parser implementation. Tests cover case-insensitive duplicate
+names, Expect, Transfer-Encoding plus Content-Length, malformed request-line
+spacing and CRLF, unsupported methods, absent/zero POST length, wrong media
+type, and GET with a body. Master verification reached 249 passed, 0 failed,
+1 skipped (250 total); docs checks pass. This is a local supported-subset
+contract, not an RFC-complete or third-party compatibility claim. Independent
+agent review was unavailable at the app thread cap; primary review is recorded.
+See [`TASK_http_framing_rejection.md`](../TASK_http_framing_rejection.md).
+
 ## 2026-10-03 — optional strategy4 cooperative control recovery
 
 Task5b5ec58 preceded code. Forge added final default-false fused_controls capability

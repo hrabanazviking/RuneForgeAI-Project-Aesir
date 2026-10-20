@@ -1,0 +1,3 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_bytes.mojo:41:13: warning: ref 'index' was never used, remove it?
+        for index in range(2069):
+            ^

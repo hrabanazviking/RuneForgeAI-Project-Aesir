@@ -3,6 +3,8 @@
 # These codecs do not open devices, allocate DMA, establish ownership or infer.
 from hailbru.errors import herror
 
+comptime SOC_BUFFER_SIZE = 32
+comptime SOC_BUFFER_SYNC_SIZE = 28
 comptime SOC_PROPERTIES_SIZE = 19
 comptime SOC_DRIVER_INFO_SIZE = 12
 comptime SOC_DESC_CREATE_SIZE = 27
@@ -28,6 +30,12 @@ def soc_ioctl(operation: String) raises -> UInt32:
         return _ioc(1, 103, 0, SOC_PROPERTIES_SIZE)
     if operation == "driver-info":
         return _ioc(1, 103, 1, SOC_DRIVER_INFO_SIZE)
+    if operation == "buffer-map":
+        return _ioc(3, 118, 3, SOC_BUFFER_SIZE)
+    if operation == "buffer-unmap":
+        return _ioc(2, 118, 4, SOC_BUFFER_SIZE)
+    if operation == "buffer-sync":
+        return _ioc(2, 118, 5, SOC_BUFFER_SYNC_SIZE)
     if operation == "desc-create":
         return _ioc(3, 118, 6, SOC_DESC_CREATE_SIZE)
     if operation == "desc-release":
@@ -215,3 +223,42 @@ def soc_interrupts_json(data: List[UInt8]) raises -> String:
         # 254 means channel error; 255 means inactive, never completion counts.
         result += "{\"engine\":" + String(engine) + ",\"channel\":" + String(channel) + ",\"data\":" + String(data[offset + 2]) + "}"
     return result + "]"
+
+
+
+def soc_buffer(address: UInt64, size: UInt64, direction: UInt64) raises -> List[UInt8]:
+    # Admitted USERPTR subset: explicit host-to-device or device-to-host only.
+    # Identical tuple for map/unmap. The output handle is not an unmap key.
+    if address == 0 or size == 0 or size > SOC_INVALID_HANDLE - address:
+        raise herror("BadSocAbi", "USERPTR extent is empty or overflows its address")
+    if direction != 1 and direction != 2:
+        raise herror("BadSocAbi", "USERPTR direction must be to-device or from-device")
+    var data = soc_zero_bytes(SOC_BUFFER_SIZE)
+    _put(data, 0, 8, address)
+    _put(data, 8, 8, size)
+    _put(data, 16, 4, direction)
+    return data^
+
+
+def soc_buffer_reply(data: List[UInt8], address: UInt64, size: UInt64, direction: UInt64) raises -> UInt64:
+    _length(data, SOC_BUFFER_SIZE)
+    var expected = soc_buffer(address, size, direction)
+    for index in range(24):
+        if data[index] != expected[index]:
+            raise herror("BadSocAbi", "map response changed its original USERPTR tuple")
+    var handle = _get(data, 24, 8)
+    _handle(handle)
+    return handle
+
+
+def soc_buffer_sync(handle: UInt64, for_device: Bool, offset: UInt64, count: UInt64, mapped_size: UInt64) raises -> List[UInt8]:
+    _handle(handle)
+    # Subtraction after the first bound check prevents offset+count overflow.
+    if count == 0 or offset > mapped_size or count > mapped_size - offset:
+        raise herror("BadSocAbi", "cache-sync range exceeds its owned mapping")
+    var data = soc_zero_bytes(SOC_BUFFER_SYNC_SIZE)
+    _put(data, 0, 8, handle)
+    _put(data, 8, 4, UInt64(1) if for_device else UInt64(0))
+    _put(data, 12, 8, offset)
+    _put(data, 20, 8, count)
+    return data^

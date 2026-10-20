@@ -1,0 +1,9 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+./hailbru/blocking_call.mojo:64:13: warning: ref 'index' was never used, remove it?
+        for index in range(BLOCKING_HEADER_SIZE):
+            ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_blocking_worker.mojo:3:
+Included from ./hailbru/blocking_call.mojo:8:
+./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^

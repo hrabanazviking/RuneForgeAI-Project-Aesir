@@ -17,7 +17,7 @@ from core.fused_small_attention import attend_small
 from core.cuda_sampling import NativeCUDASampler
 from core.sampling_config import NativeSamplingConfig
 from loader.packed_gguf import PackedTensor
-from tests.projection_trace import projection_push, projection_pop, attention_push, same_projection_tensor
+from tests.projection_trace import projection_push, projection_pop, attention_push, small_attention_push, same_projection_tensor
 
 
 def ignore_layer(layer: Int) raises:
@@ -52,11 +52,15 @@ struct TuringPrefillFixture:
     var fused_tracing: Bool
     var small_replay: Bool
     var small_attention: Bool
+    var small_controls: Bool
+    var small_controls_admitted: Bool
+    var small_tracing: Bool
+    var small_tracing_admitted: Bool
     var small_attention_calls: Int
     var fused_attention_calls: Int
     var original_attention_queries: Int
 
-    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False,small_attention: Bool = False,small_replay: Bool = False) raises:
+    def __init__(out self,path: String,precision: Int = 0,batched: Bool = False,elementwise: Bool = False,down128: Bool = False,down128_controls: Bool = False,down128_tracing: Bool = False,fused_attention: Bool = False,fused_controls: Bool = False,fused_tracing: Bool = False,small_attention: Bool = False,small_replay: Bool = False,small_controls: Bool = False,small_tracing: Bool = False) raises:
         if precision < 0 or precision > 4: raise Error("Fixture activation precision must be0/1/2/3/4")
         if batched and precision != 0: raise Error("Batched rotary/cache requires original precision0")
         if elementwise and not batched: raise Error("Batched elementwise requires admitted rotary/cache strategy")
@@ -70,9 +74,18 @@ struct TuringPrefillFixture:
         if fused_tracing and (not fused_attention or fused_controls): raise Error("Fused tracing requires exclusive admitted fused strategy")
         if small_attention and (not fused_attention or fused_controls or fused_tracing):
             raise Error("Small attention requires original fused strategy with controls/tracing closed")
+        if small_controls and (not small_attention or fused_controls or fused_tracing):
+            raise Error("Small controls require exclusive admitted small attention strategy")
         if small_replay and not small_attention: raise Error("Small replay requires admitted small attention capability")
+        if small_controls and small_replay: raise Error("Small controls and replay require separate acceptance")
+        if small_tracing and (not small_attention or small_controls or small_replay or fused_controls or fused_tracing): raise Error("Small tracing requires exclusive small strategy without controls or replay")
+        if fused_tracing and small_attention: raise Error("Fused tracing cannot be borrowed by small strategy")
         self.small_replay = small_replay
         self.small_attention = small_attention
+        self.small_controls = small_controls
+        self.small_controls_admitted = small_controls
+        self.small_tracing = small_tracing
+        self.small_tracing_admitted = small_tracing
         self.small_attention_calls = 0
         self.fused_tracing = fused_tracing
         self.fused_attention = fused_attention
@@ -209,7 +222,9 @@ struct TuringPrefillFixture:
             self.rope_cache_calls += 1
         if self.fused_attention and batched:
             if count != 4 and count != 32: raise Error("Fused attention requires admitted four/32 rows")
-            if self.trace_projections: attention_push(count)
+            var own_attention_range = self.small_tracing or (self.trace_projections and not self.small_attention)
+            if self.small_tracing: small_attention_push(count)
+            elif own_attention_range: attention_push(count)
             try:
                 if self.small_attention:
                     if count == 4: attend_small[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
@@ -217,9 +232,9 @@ struct TuringPrefillFixture:
                 elif count == 4: attend_fused[4](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
                 else: attend_fused[32](self.native.context,self.activations,self.cache,self.layout.query+16,self.layout.attention+16,self.layout.stride,offset+16,1536,self.position,count)
             except:
-                if self.trace_projections: projection_pop()
+                if own_attention_range: projection_pop()
                 raise
-            if self.trace_projections: projection_pop()
+            if own_attention_range: projection_pop()
             if self.small_attention: self.small_attention_calls += 1
             else: self.fused_attention_calls += 1
             return
@@ -282,19 +297,29 @@ struct TuringPrefillFixture:
         self.residual_rows(count)
 
     def admit_execution_strategy(self) raises:
+        if self.small_controls != self.small_controls_admitted:
+            raise Error("Small control capability changed after construction")
+        if self.small_tracing != self.small_tracing_admitted:
+            raise Error("Small tracing capability changed after construction")
+        if self.small_tracing and (not self.small_attention or self.small_controls or self.small_replay or self.fused_controls or self.fused_tracing):
+            raise Error("Small tracing capability drifted outside exclusive small strategy")
         if self.small_replay and not self.small_attention: raise Error("Small replay capability drifted outside small strategy")
+        if self.small_controls and (not self.small_attention or self.fused_controls or self.fused_tracing or self.small_tracing):
+            raise Error("Small control capability drifted outside exclusive small strategy")
         if self.small_attention and (not self.fused_attention or self.fused_controls or self.fused_tracing):
             raise Error("Small attention capability drifted outside closed original fused strategy")
-        if self.fused_tracing and (not self.fused_attention or self.fused_controls): raise Error("Fused tracing capability drifted outside exclusive strategy")
+        if self.fused_tracing and (not self.fused_attention or self.fused_controls or self.small_attention): raise Error("Fused tracing capability drifted outside exclusive strategy")
         if self.fused_controls and not self.fused_attention: raise Error("Fused control capability drifted outside its strategy")
-        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or (self.trace_projections and not self.fused_tracing) or (self.control.enabled() and not self.fused_controls)):
+        if self.fused_attention and (not self.down128 or self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or self.down128_controls or self.down128_tracing or (self.trace_projections and not self.fused_tracing) or (self.control.enabled() and not (self.fused_controls or (self.small_attention and self.small_controls)))):
             raise Error("Fused attention requires uncontrolled untraced original down128 strategy")
         if self.down128_controls and not self.down128: raise Error("Down128 control capability drifted outside its strategy")
         if self.down128_tracing and not self.down128: raise Error("Down128 tracing capability drifted outside its strategy")
+        if self.small_tracing and self.trace_projections: raise Error("Small tracing does not admit projection-stage labels")
+        if self.small_tracing and self.control.enabled(): raise Error("Small tracing cannot enable cooperative controls")
         if self.trace_projections and self.control.enabled(): raise Error("Projection tracing cannot enable cooperative controls")
         if (self.batched_rope_cache and self.activation_precision != 0) or (self.batched_elementwise and not self.batched_rope_cache):
             raise Error("Fixture execution flags drifted outside admitted precision/strategy")
-        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not (self.down128_tracing or self.fused_tracing)) or (self.control.enabled() and not (self.down128_controls or self.fused_controls))):
+        if self.down128 and (self.activation_precision != 0 or not self.batched_rope_cache or not self.batched_elementwise or (self.trace_projections and not (self.down128_tracing or self.fused_tracing)) or (self.control.enabled() and not (self.down128_controls or self.fused_controls or (self.small_attention and self.small_controls)))):
             raise Error("Down128 requires original elementwise strategy and explicit control/trace capabilities")
 
     def admit(self,tokens: List[Int],start: Int,count: Int,need_logits: Bool) raises:
@@ -310,17 +335,20 @@ struct TuringPrefillFixture:
                 raise Error("Matrix fixture token outside vocabulary")
 
     def configure_control(mut self,timeout_ms: Int = 0,cancel_fd: Int = -1) raises:
-        if self.fused_attention and not self.fused_controls: raise Error("Fused attention enabled controls require separate acceptance")
-        if self.down128 and not (self.down128_controls or self.fused_controls): raise Error("Down128 enabled controls require separate acceptance")
+        if self.fused_attention and not (self.fused_controls or (self.small_attention and self.small_controls)): raise Error("Fused attention enabled controls require separate acceptance")
+        if self.small_attention and not self.small_controls: raise Error("Small attention enabled controls require separate acceptance")
+        if self.down128 and not (self.down128_controls or self.fused_controls or (self.small_attention and self.small_controls)): raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot configure a busy or failed matrix fixture")
         self.admit_execution_strategy()
+        if self.small_tracing and (timeout_ms != 0 or cancel_fd != -1): raise Error("Small tracing cannot configure enabled controls")
         if self.trace_projections and (timeout_ms != 0 or cancel_fd != -1): raise Error("Projection tracing cannot configure enabled controls")
         self.control.configure(timeout_ms,cancel_fd)
 
     def start_control(mut self) raises:
-        if self.fused_attention and not self.fused_controls: raise Error("Fused attention enabled controls require separate acceptance")
-        if self.down128 and not (self.down128_controls or self.fused_controls): raise Error("Down128 enabled controls require separate acceptance")
+        if self.fused_attention and not (self.fused_controls or (self.small_attention and self.small_controls)): raise Error("Fused attention enabled controls require separate acceptance")
+        if self.small_attention and not self.small_controls: raise Error("Small attention enabled controls require separate acceptance")
+        if self.down128 and not (self.down128_controls or self.fused_controls or (self.small_attention and self.small_controls)): raise Error("Down128 enabled controls require separate acceptance")
         if not self.healthy or not self.native.healthy:
             raise Error("Cannot start control on a busy or failed matrix fixture")
         self.admit_execution_strategy()

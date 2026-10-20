@@ -1,3 +1,60 @@
+## 2026-10-20 — Codex (Cartographer, Forge Worker, Auditor, Scribe): branch integration
+
+- Owner explicitly requested all current branches merged into main. Combined
+  AES500, current Hailo and local C7 histories; consistency is already included.
+  Resolved overlaps without reverting newer Hailo-only execution guards.
+- Rebuilt cache layout 6/89 and program RPC 8/140 pass; 23 tokenizer methods,
+  27 UTF-8 chunk scenarios and both tool descriptor paths pass. Artifact checker
+  self-tests pass. All Hailo implementation/evidence blobs remain byte-identical.
+- Historical master compile-only fails on existing toolchain/API mismatches;
+  repository checker still reports 78 legacy issues. No complete CI pass claimed.
+  CI master is compile-only to prevent prohibited CPU LLM model forwards.
+- Receipt: `docs/BRANCH_INTEGRATION_2026-10-20.md`. Preserve history and publish
+  exact reviewed tree as a multi-parent merge; verify main and resume native
+  matrix schedules automatically. Broad native-model target remains incomplete.
+
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): observed protocol corrections
+
+- Corrected typed request status to observed `HAILO_UNINITIALIZED=1`; success
+  replies remain zero. Native create packet exactly matches the observed header.
+- Corrected ioctl handling to preserve positive transfer descriptor counts;
+  negative errno failures and unexpected positive non-transfer results reject.
+- Six builds pass; ten independent protobuf methods and seven direct API
+  assertions pass. Rebuilt physical owner suite passes 11/11 and connection
+  suite 7/7, with all existing cleanup/fault/unwind checks retained.
+- Receipt: `docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`. Automatically continue
+  owned buffer map/unmap/sync and bounded completion before live typed RPC.
+  Source-model compiler target remains fixed and incomplete.
+
+## 2026-10-19 — Codex (Researcher, Auditor, Scribe): exact DMA observation
+
+- Published the observation/completion contract at `690766e`. Preserved the
+  owner's concurrent nine compiler-strategy uploads before all publication.
+- Built an independent test-only ioctl observer; bounded private read-only
+  reference identify succeeds. Checker pairs 548 calls and 258 map/unmap tuples.
+- Actual RPC submissions are 2068 bytes on page-aligned pointers; successful
+  launch returns 5 descriptors; request status is 1. An initial unmap-handle
+  assumption was rejected and corrected to the original buffer tuple.
+- Eight adversarial checker methods and evidence non-overwrite refusal pass.
+  Subsequent normal identify and independent Mojo connection lifecycle pass.
+- Receipt: `docs/HAILO10H_DMA_OBSERVATION.md`. Next: correct request results /
+  status, then owned buffer codecs and bounded completion before live Mojo RPC.
+  Full source-model compiler and hardware operation generation remain open.
+
+## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): assigned PCIe lifecycle
+
+- Added independent movable Mojo ownership of two driver descriptor lists
+  and assigned port-12133 channels, with ordered explicit/exception cleanup.
+- Real Pi run succeeds with assigned channels 0/16, handles 16384/32768,
+  65536 descriptors per direction and 512-byte descriptor pages. Driver
+  starts channels at connect; no user DMA buffers or transfers are submitted.
+- Two native builds and all seven physical methods pass. Exact ioctl order,
+  six injected acquisition/close/release failures and fresh successful sessions
+  after each are observed. Supported device identify remains successful.
+- Receipt: `docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`. Automatically continue
+  exact transfer/alignment/completion and buffer lifetime, then typed RPC.
+  The broad Mojo source-model/compiler target remains fixed and incomplete.
+
 ## 2026-10-19 — Codex (Forge Worker, Auditor, Scribe): native driver ownership
 
 - Added a movable native Mojo owner, PCI/sysfs-to-open-fd device identity,
@@ -262,6 +319,341 @@ slices verified via standalone harnesses and per-module builds. Grand Proving
 count 191 -> 207 (16 new cases + 1 record_skip). Commits e34f376, 166a4b3,
 82e2d7e, bac7410, f8a7af8, 677b93f, 37c88c0 on main; no README, armvegr, or
 roadmap files touched.
+
+## 2026-10-10 — AES500-003: controls constructor interface
+
+The independently executed thirteen-mode constructor matrix passes exact first
+exceptions against a verified nonexistent GGUF path using accepted002's unchanged
+sm_75 binary and all272 source hashes. Direct small-controls capability and
+replay exclusion have separate cases; predecessor refusals are attributed to
+actual first gates rather than later shadowed checks. The first receipt attempt
+failed an incorrect stderr/empty-stdout assumption; raw outcomes are retained.
+A pushed contract correction precedes the fresh accepted exact two-line Mojo
+stdout diagnostic/empty-stderr matrix. No expected exception changed.
+
+Owning docs now state optional parameter order/True-only admission, mutable
+capability snapshot comparisons, request/start ranges and reset retaining request
+policy. Those method/default statements are source-reviewed; positive disabled
+scope reuses002. No fresh default-false owner, live mutation/abort/reset/recovery
+or runtime/speed claim follows. Ordinary service state/main PID/authenticated
+health remain unchanged without stopping it. Cartographer/Forge mapped the
+source, Architect/Auditor/Skald reviewed scope, and Scribe synchronized interfaces.
+Final receipt review and doc checks precede commit/push and exact remote/CI
+observation. See `docs/evidence/small-attention-controls-interface-2026-10-10/README.md`.
+Continue with independently scoped AES500-004 implementation execution.
+
+## 2026-10-10 — AES500-002: observed disabled-control baseline
+
+The independently executed strategy5 capable-disabled baseline now records
+actual owner state and executed refusal counts. Review found that the legacy
+capability label did not observe enabled/reset/health state and a fixed admission
+count represented skipped checks as executed. Optional STATE1 snapshots after
+all 32 runs and COUNTS1 8/0 capable counts correct those evidence defects;
+ordinary current source counts 8/13. Inference algorithms and admission policy
+are unchanged. Adversarial parser contracts cover field/order/cardinality,
+owner carryover, canonical counts, version/mode mismatch and legacy CLI refusal.
+
+The fresh sm_75 capture and pinned zero-GPU CPU oracle pass all513024 F32 values
+per owner, exact historical source/cache/IDs/counters,4352 guards and fixed
+.05 maximum/.005 RMS/matching-argmax quality limits. Observed worst absolute
+error is .021598339080810547 and RMS .003986765366484171. Input and all272
+source/toolchain hashes remain unchanged; the initially active service is
+restored to authenticated ready/CUDA/context4096/prefill4/offload0 health.
+The report passes quality while withholding speed scores, ratios and medians.
+
+All48 owning/adjacent Python contracts pass; explicit sm_89 master reports249
+passed/0failed/1skip (250total). The fused-model sm_75 compatibility build and
+normal sm_89 launcher build/check pass. The default-target PTX failure remains
+separate. Historical source and provisional pre-COUNTS1 artifacts are retained
+without alteration. Final independent reviews reconcile the fresh receipt;
+exact remote revision and hosted CI are observed after push. See
+`docs/evidence/small-attention-controls-baseline-2026-10-10/README.md`.
+Continue with independently scoped AES500-003 interface evidence.
+
+## 2026-10-10 — AES500-061–069: Checked bounded spans
+
+Added `core/checked_span.mojo::checked_span`, a pure subtraction-first
+half-open range admission helper that allows empty spans and rejects negative,
+past-capacity, and overrun inputs before computing the end. Focused evidence
+covers ordinary, empty, full, invalid-sign, huge-length, and maximum signed
+endpoint cases. The CPU-only Turing fixture planner now uses it to validate
+declared activation/cache element lengths against the reported lengths while
+retaining exact size and layout gates. The fixture adversarial suite and
+independent Auditor review pass. No allocation, pointer, lifetime, or GPU
+admission is inferred. Full engine build/master remains pending because local
+ptxas rejects a PTX tanh feature that requires ISA 7.0; hosted CI is still
+running. See `TASK_checked_span_construction.md` and the baseline evidence.
+
+## 2026-10-10 — AES500-071–079: RuneTensor row-major layout
+
+Specified `RuneTensor` as an exactly 2D contiguous row-major descriptor for
+logical scalar indexing, with implied `(cols, 1)` element strides and no
+backing-capacity, arbitrary-stride, or packed-quantized-layout claim. A CPU
+3x4 baseline confirms the mapping. The implementation now routes raw `get` and
+`set` through one private scalar offset formula without changing descriptor
+state or bounds behavior. Independent contract, interface, and implementation
+reviews pass. The focused layout and KV-cache tests pass; the canonical sm_89
+master suite reports 193 passed, zero failed, one skipped (194 total), and the
+target-specific executable build plus help smoke pass. Hosted CI remains in
+progress. See `TASK_rune_tensor_2d_layout.md` and its baseline receipt.
+
+## 2026-10-10 — AES500-081–084: Allocation ownership record gate
+
+The Architect/Auditor-reviewed contract and source census show that
+`MimirWell` returns raw pointer offsets and permits rewinds, while copyable
+`RuneTensor` values carry neither arena identity nor allocation extent. No
+current API can safely validate a record against a live, non-reused owner or
+prevent a stale generation from becoming meaningful after reset/reallocation.
+AES500-081–083 therefore document the current boundary without introducing a
+record API; AES500-084 implementation is explicitly deferred until owner
+identity, arena copy/move/lifetime, and reset invalidation semantics are
+designed. The audit also corrected an unsupported claim that `offset +
+elements` is overflow checked; the source performs that addition directly.
+See `TASK_allocation_ownership_records.md` and
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+
+AES500-085 adds `memory.allocation_bounds` to the master runner. It confirms
+adjacent allocator addresses, exact-capacity admission, and mutation-free
+rejection for zero, negative, and oversized counts. The full sm_89 master suite
+reports 194 passed, zero failed, one explicitly skipped (195 total). This is
+allocator behavior evidence only; it does not validate owner association or
+pointer lifetime. Integration remains pending the AES500-084 prerequisites.
+AES500-086 records that integration is deferred: existing consumers continue
+to use their current raw-pointer interfaces, and no caller is migrated to a
+record type that does not exist. AES500-087 adversarial record testing likewise
+remains pending the prerequisite owner/invalidation contract.
+AES500-088 reviewed that deferral boundary and approved the source/evidence
+reconciliation; the review receipt is in
+`docs/evidence/allocation-ownership-baseline-2026-10-10/README.md`.
+AES500-089 synchronizes the task, core interface, capability ledger, roadmap,
+TODO, and devlog with the same capability boundary. Exact-head hosted CI is the
+remaining release-gate item.
+
+AES500-091 begins CPU numerical contracts with RMSNorm. The reviewed contract
+records the F32 SIMD-prefix/scalar-tail accumulation, reciprocal-RMS operation
+order, flat weight-prefix semantics, and current epsilon comparison behavior.
+It leaves tolerance justification and non-finite/finite-overflow behavior to
+reproducible baseline and adversarial evidence. See
+`TASK_rmsnorm_oracle_breadth.md`.
+
+AES500-092 captured the pre-change kernel at scalar, exact-vector, tail, and
+multi-vector widths. A separate NumPy scalar F32 reference consumes the
+captured F16 inputs and flat weights; all 168 outputs match exactly after F16
+rounding in this deterministic corpus. The existing checked-boundary harness
+passes but only tests short-weight rejection. Neither result establishes a
+general numerical tolerance or non-finite/overflow policy. See
+`docs/evidence/rmsnorm-baseline-2026-10-10/README.md`.
+
+AES500-093 formalizes the RMSNorm admission interface and registers
+`compute.rmsnorm_interface`. Positive multirow input with overlong 2x2 weights
+is accepted. Zero/negative rows and columns, short weights, and zero/negative
+epsilon are rejected with the expected error before mutating the tensor's
+logical elements; dimension failures preserve an allocated sentinel because
+those descriptors have no positive logical span. The sm_89 master suite result
+reports 195 passed, zero failed, one skipped (196 total). The test checks
+admission only; numerical prefix semantics and tolerance remain for the
+oracle-evidence slices.
+
+AES500-094 tightens RMSNorm epsilon admission to finite positive values. NaN,
+positive infinity, negative infinity, zero, and negative values reject before
+the in-place write loops; every focused rejection preserves the logical input.
+Tensor and weight exceptional-value behavior remains undefined.
+
+AES500-095 registers `compute.rmsnorm_reference`, an independent scalar F32
+oracle for two-row inputs at widths 3, 15, 16, 17, and 33. All deterministic
+outputs match after F16 conversion. This confirms the named corpus only; no
+general tolerance or exceptional tensor/weight policy is inferred. The master
+suite reports 196 passed, zero failed, one skipped (197 total).
+
+AES500-096 registers `inference.rmsnorm_integration` around the existing
+`forward_pass` final normalization path. A synthetic two-token model confirms
+the selected token and successful arena restoration; a short output weight
+surfaces the kernel's exact admission error and restores the arena offset. A
+non-finite model epsilon is also rejected with complete rollback through the
+convenience overload. The review found and fixed missing rollback around final
+output RMSNorm and its temporary KV cache; the existing synthetic transformer
+forward case also continues through block RMSNorm calls. These local cases do
+not establish model quality.
+
+AES500-098 reconciled the RMSNorm contract, test corpus, inference call sites,
+and evidence limits. It found and fixed arena-offset leakage when final
+RMSNorm rejects input, including KV-cache allocation rollback in the
+convenience overload. The integration case now checks both short-weight and
+non-finite-epsilon failure cleanup. The review receipt records that the six
+role lenses were applied by the primary agent; the subagent service rejected
+new independent reviewers at its thread limit, so independent approval remains
+unclaimed.
+
+AES500-099 synchronized the historical baseline note with its source commit,
+reconciled the contract's exact-corpus results with the still-open general
+tolerance and finite-overflow policy, and linked the review receipt from the
+task and interface owners. Repository and documentation drift checks pass; no
+runtime code changed in this documentation slice.
+
+AES500-100 local release checks rebuilt the pinned sm_89 native executable
+and passed its `--help` smoke path. The master suite reports 198 passed, zero
+failed, one skipped (199 total); both documentation checkers and whitespace
+hygiene pass. Hosted CI remains an exact-head post-push gate.
+
+AES500-101 defines the `apply_rope` contract before implementation work. It
+records interleaved and NeoX pair indexing, row-relative positions, F16
+trigonometric coefficients, current shape checks, and the unvalidated theta
+and integer-overflow boundaries. No kernel behavior changed.
+
+AES500-102 captures deterministic 2x8 Q and 3x4 K inputs for both layouts.
+The independent scalar F16 oracle matches all captured outputs. The unequal
+row corpus reveals that the third K row remains untouched because the current
+kernel drives both Q and K loops from Q.rows. This is recorded as an observed
+baseline limitation, not an intended guarantee; see
+`docs/evidence/rope-baseline-2026-10-09/README.md`.
+
+AES500-103 adds focused mutation-free rejection coverage and pins zero-column
+admission as an observed gap. AES500-104 closes that gap and independently
+iterates Q and K rows; the focused test confirms K rows beyond Q.rows are now
+rotated. Distinct row counts remain accepted, matching the per-tensor position
+rule. General overflow, pointer, overlap, and theta-domain gaps remain open.
+
+AES500-105 compares both layouts, distinct Q/K row counts, multiple heads, and
+positions 0 and 7 against a scalar F32 oracle. Exact F16 output equality passes
+for this deterministic corpus only.
+
+AES500-106 sends a rotated key through `KVCache.append` and the active key slice,
+checking exact stored values and confirming the paired V input remains
+unchanged. The receipt is limited to the exercised local shape and cache slot.
+
+AES500-107's adversarial test confirms zero and negative theta are currently
+accepted and contaminate Q and K with NaNs at the exercised position. This is
+reported as a defect observation. NaN and infinity theta paths were not
+characterized and no broader IEEE or pointer-safety claim is made.
+
+AES500-108's primary review turns that observation into a finite-positive theta
+admission rule. Zero, negative, NaN, and either infinity reject before Q or K
+mutation; the adversarial test verifies unchanged snapshots for both tensors.
+
+AES500-109 reconciles the current interface and roadmap with those corrections.
+Historical baseline defects remain labeled as historical; remaining evidence
+gaps are integer/index overflow, pointer provenance and capacity, overlap,
+arbitrary strides, accelerator parity, and broad tolerance.
+
+AES500-110 rebuilt the sm_89 executable and passed its `--help` smoke path.
+The master suite passed 202, zero failed, one skipped (203 total); both
+documentation checks and `git diff --check` pass. `compute.rope_adversarial`
+runs last because placing its caught-error path before later filesystem-heavy
+tests reproducibly crashes the Mojo 1.0.0 runtime; as the final counted case it
+passes. Hosted exact-head CI is tracked after the receipt push.
+
+AES500-111 defines inclusive causal attention for `flash_attention_2`. Source
+inspection found the kernel currently consumes all `seq_len` K/V rows for every
+query row, with no future-position mask. AES500-112 will preserve a deterministic
+baseline of that gap before implementation; no behavior changed here.
+
+AES500-112's reproducible 3-row/2-head baseline differs from the independent
+causal oracle on 10/12 F16 outputs (max absolute error 12.671875) and is much
+closer to the all-row oracle. This confirms future-value leakage for the named
+corpus only; the retained source/tool hashes and comparator are linked in the
+task file.
+
+AES500-113 covers the current `flash_attention_2` admission boundary. A valid
+multi-head case writes output; each invalid sequence/head/column/row descriptor
+rejects without changing the entire output tensor. No kernel behavior changed.
+
+AES500-114 bounds each query row's tiled key iteration to positions `0..i`.
+On the retained probe, row 0 now exactly equals its only allowed V row,
+confirming the future-value leak is removed for that case. Broader numerical
+agreement remains for AES500-115.
+
+AES500-115 adds an independent scalar F32 `[0,i]` oracle for a 3-row,
+head-width-3 case, with a 0.05 absolute error bound after F16 output. The first
+row must equal its only allowed V row exactly, and a +100 perturbation to the
+future V row remains covered by the same causal oracle. This is one deterministic
+tail-width corpus, not a general tolerance claim.
+
+AES500-116 passes active K/V slices from two KV-cache appends through causal
+attention. The first output row equals the first cached V row; the second row
+changes after its prefix includes position 1. This is one local cache-to-kernel
+integration case.
+
+AES500-117 exercises 33 positions over the 32-key tile edge. A value of 1024
+at position 32 cannot affect query 31 (exact output 2) and is included by
+query 32 (within 0.1 of the scalar average). No broad long-sequence stability
+claim follows from this boundary sample.
+
+AES500-118's primary review found no further causal-mask correction, but
+retained the narrow 0.05 oracle tolerance scope and called out repeated F16
+partial-output stores, unchecked index/pointer safety, exceptional values, and
+accelerator behavior. Independent agents were unavailable due the app thread
+cap; the review receipt makes no independent-approval claim.
+
+AES500-119 synchronizes task, interface, and AES-CPU-005 ledger wording with
+the causal prefix now enforced by source. The capability remains bounded to
+the scalar sample, cache integration, and one tile edge; F16 rounding, pointer
+safety, broader exceptional/numerical policy, and accelerator behavior stay
+open.
+
+AES500-120 passed the configured sm_89 native build and `--help` smoke. The
+master suite reports 206 passed, zero failed, one skipped (207 total); both
+documentation checks and `git diff --check` pass. Hosted exact-head CI remains
+tracked separately from these local gates.
+
+AES500-121 defines GGUF v3 as the only supported header version and names both
+mapped-file and raw-byte parse owners. Source inspection found the mapped path
+enforces v3 while `parse_header_bytes` checks only length/magic; AES500-122/123
+will capture and test this mismatch before unifying it.
+
+AES500-122 confirms the byte helper admits versions 0, 1, 2, 3, 4, and
+UInt32::MAX, while mapped `_parse_header` has a v3-only gate by source
+inspection. The raw corpus and hashes are retained; no complete mapped-file
+version matrix is claimed yet.
+
+AES500-123 exercises both owners using raw headers and minimal mapped files.
+The interface test confirms byte-helper acceptance of every tested version
+against mapped-path rejection of all but v3, whose deliberately incomplete
+metadata proceeds beyond the version gate.
+
+AES500-124 aligns `parse_header_bytes` with mapped files: it decodes the
+little-endian UInt32 version and rejects non-3 values before admission. The
+focused interface test now requires stable version-gate parity for 0/2/3/4 and
+UInt32::MAX.
+
+AES500-125 adds raw helper unit boundaries for the exact 24-byte minimum,
+23-byte rejection, invalid magic, and v4 rejection. It checks the stable error
+classes and confirms rejection leaves the supplied bytes intact.
+
+AES500-126 exercises mapped v3 and v4 through `inspect_metadata`. The v3
+header passes its gate before expected later metadata failure; v4 stops at the
+version gate. Both cases leave FAILED state and unmap/close resources.
+
+AES500-097 records bounded adversarial behavior for the minimum F16 subnormal,
+maximum finite F16 values, NaN and +/-Inf inputs, and NaN and +/-Inf weights.
+Scalar F32 expectations match after F16 conversion for the finite extremes;
+exceptional inputs follow the documented IEEE propagation by row or output
+column. The kernel does not sanitize these cases. No wider F32 overflow,
+underflow, or distribution guarantee is inferred. The master suite reports
+198 passed, zero failed, one skipped (199 total).
+
+## 2026-10-10 — AES500-058–059: Markdown slug review and contract sync
+
+The independent Auditor identified a repeated-space heading slug mismatch: the
+validator previously emitted multiple hyphens where GitHub uses one. The
+slugger now collapses consecutive spaces before slugging, with a regression test.
+The review also clarified that baseline JSON is caller-trusted policy input;
+the CLI does not authenticate it against the evidence receipt hashes. Operators
+must review the baseline receipt and hashes before using it to waive findings.
+Focused tests and the full baseline-aware scan pass with the same nine recorded
+legacy fragment mismatches. This is local evidence; hosted CI remains pending.
+
+## 2026-10-10 — AES500-041–049: TODO capability-reference integrity
+
+The TODO checker now validates each AES ID in explicit lowercase status-tag
+candidates, including later semicolon-separated references and adjacent tags.
+AER audit IDs and arbitrary brackets remain outside capability validation;
+checkbox completion is never inferred. The hash-bound 95-tag baseline records
+four adjacent-tag lines and two tags carrying separate AER references. Focused,
+repository-integration and adversarial tests pass, including repeated unknown
+IDs and a 64-reference tag. Independent Auditor review passed with the boundary
+that malformed brackets outside the documented candidate grammar are ignored.
+The status checker validates structure against the ledger; it does not establish
+TODO completion or the truth of the capability evidence.
 
 ## 2026-10-03 — Sigrún: explicit small-score sealed owning-context replay
 
@@ -4202,3 +4594,423 @@ v1 files preserved frozen, changelog recorded). Re-run at 96 tokens
   (3665.3s; injected 122 = handled 122: hang 34, dmacorrupt 36,
   regerr 52). In-suite 4h soak (test_soak_cpu_4h.py) now running —
   the suite's own fresh-soak evidence, ~09:40 EDT completion.
+
+## 2026-10-09 — Strategy5 cooperative controls accepted for fixture scope
+
+Published the 500-slice expansion roadmap and strategy5 control task contract on
+`docs/cross-cutting-500-slice-roadmap`. Added a separate default-false
+`small_controls` fixture capability, constructor-sealed capability admission,
+control-capable replay refusal, strategy5 collector marker/counts, and explicit
+strategy5 source/current binary admission in the control checker. The accepted
+capability ledger status remains unchanged.
+
+The three owning targets (capable-disabled model baseline, controls collector and
+checkpoint replay refusal) compile for sm_75 before GPU use. The fresh capable-
+but-disabled source5 baseline passed all four cases and the independent zero-GPU
+CPU gate. Physical timeout/cancellation/invalid-fd aborts stopped at0/2/8/0
+synced layers; explicit reset recovered all513024 native and matrix values per
+case byte-for-byte. Observer failure poisoned the owner;9792 guards and signal
+mask restoration passed. Evidence and hashes are in
+`docs/evidence/small-attention-controls-2026-10-09/README.md`.
+
+The 46 focused portable contracts, Python compilation, doc-drift and whitespace
+checks pass. The normal service binary was rebuilt after fixture-source changes;
+`aesir-brain.service` returned authenticated status200/ready, CUDA, context4096,
+prefill4 and cpu_offload0. Controls stay test-only/default-disabled. No speed,
+GPU-fault repair or production-selection claim. Hosted CI is pending for the
+final pushed revision; the next slice is owned strategy5 tracing.
+
+## 2026-10-10 — Strategy5 owned trace review and documentation
+
+AES500-018 narrowed the pre-session CUDA trace exception after independent review.
+The 42 records in each owned trace window comprise 30 status-0 API calls and 12
+`cuMemCreate` calls returning CUDA status 101 (`CUDA_ERROR_INVALID_DEVICE`).
+Because exported calls omit arguments, evidence does not classify these results
+as benign or unsupported. The checker now admits status 101 only for pre-session
+`cuMemCreate` and writes per-API status counts into the compact physical receipts.
+Both retained public37/public1070 reports were re-admitted; profiled and
+unprofiled complete F32 logits remain byte-identical. Checker and documentation
+consistency checks pass locally. The current service remains separate from this
+fixture-only trace evidence. No speed, occupancy, provider-lead or production
+selection claim is made; AES500-020 exact-head hosted CI is the release gate.
+
+## 2026-10-10 — CUDA allocation lifetime evidence
+
+AES500-021–029 define and exercise bounded logical allocation accounting for
+the selected synchronous GPU-2/GPU-3 paths. The tracker assigns session-local
+IDs, counts logical live owners/bytes, records known pending work, and separates
+owner destruction after successful fences from destruction with pending work.
+CPU-only adversarial cases cover invalid registration, arithmetic and ID
+exhaustion, negative pending work, underflow, and destruction counter/byte
+saturation. The RTX 2060 Max-Q GPU-3 probe confirms three distinct registered
+owners, live accounting during each successful GEMM, zero pending counts after
+the executor synchronizes, parity for two shapes, and a clean post-scope
+destruction receipt. Local master suite: 191 passed, zero failed, one optional
+fixture skip. Evidence links and limits are recorded in
+`CAPABILITY_LEDGER.md` and `aesir_engine/core/INTERFACE.md`.
+
+This is single-host-thread diagnostic evidence for the exercised synchronous
+paths. It does not establish concurrent payload mutation, an implicit stream
+fence on destruction, asynchronous teardown safety, allocator reuse, driver
+memory return, or arbitrary raw-buffer ownership. Per-slice commits are pushed;
+exact-head hosted CI remains the release gate before this work order closes.
+## 2026-10-10 — AES500-127 GGUF oversized header counts
+
+Minimal version-3 mapped headers with either tensor_count or metadata_count
+set to 25 are rejected by the file-size bound before entry parsing. Both
+`inspect_metadata` failures leave the loader in FAILED state with mmap closed.
+The focused GGUF matrix and master suite pass locally (210 passed, 0 failed,
+1 explicitly skipped / 211 total); documentation consistency and whitespace
+checks pass. This narrow tiny-file check does not prove arbitrary count
+arithmetic safety or complete GGUF directory validation.
+
+
+AES500-128 primary review confirmed the count bounds are checked before `Int`
+conversion and entry loops, while the tests assert FAILED/unmapped cleanup. The
+independent Auditor agent could not be assigned because the collaboration
+service thread cap was reached; no independent approval is claimed. AES500-129
+reconciles the roadmap, task note, TODO, ledger and this devlog.
+
+
+## 2026-10-10 — AES500-131 GGUF metadata type contract
+
+Recorded the current value traversal widths, string and array layouts,
+inference-consumed metadata types, and silent skip behavior for mismatched
+selected scalar keys. This is a source-derived contract only; no parser change
+or broad GGUF compatibility claim is made.
+
+
+AES500-132 baseline probes four selected GGUF metadata keys with mismatched
+scalar types. All four skip the field and leave its default unchanged while
+valid tokenizer arrays permit metadata inspection to complete. The reproducible
+synthetic corpus, Mojo/source identities, hashes, and limitations are recorded
+in `docs/evidence/gguf-metadata-type-baseline-2026-10-10/README.md`; no
+inference-validity claim is made. Master suite: 211 passed, zero failed, one
+external-fixture skip (212 total); doc-drift and whitespace checks pass.
+
+
+## 2026-10-10 — AES500-133 GGUF metadata interface
+
+Pinned the metadata test seam at `inspect_metadata` over generated v3 files and
+recorded default-preservation for four selected-key mismatch types. This
+interface receipt deliberately keeps current behavior intact; AES500-134 owns
+the explicit mismatch rejection change.
+
+
+## 2026-10-10 — AES500-134 GGUF metadata type enforcement
+
+The parser now checks expected value types for selected scalar/string metadata
+keys before reading their payloads. Mismatch errors include the key, and the
+four prior interface cases now assert rejection, FAILED state, and mapping
+cleanup. Unknown keys still use generic traversal; tokenizer arrays keep their
+existing dedicated validation. Focused cases pass.
+
+
+AES500-135 expands unit evidence to eight type-mismatch fixtures spanning
+integer, float, bool and recognized tokenizer-array inputs. Each checks its
+stable diagnostic and failed-state mapping cleanup; the focused module passes.
+
+
+AES500-136 exercises the mismatch through full `mmap_and_load`; the key-specific
+error is retained, loader state is FAILED/unmapped/unloaded, and the tensor
+allocation pool remains at its original offset. The focused module passes.
+
+
+AES500-137 hostile cases cover a wrong tokenizer array element declaration and
+an invalid type-13 value on an unknown metadata key. Exact errors and failed
+state/mmap cleanup pass in the focused module.
+
+
+AES500-138 primary review checked expected type mappings against parser owners,
+including the KV-head suffix, array readers, and unknown-key traversal. Tests
+cover key diagnostics and cleanup. The collaboration service thread cap blocked
+independent Auditor assignment, so this receipt does not claim independent
+review.
+
+
+AES500-139 syncs the GGUF loader interface with the selected-key type checks,
+retained array diagnostics, and structurally traversed unknown keys. Task/evidence
+records preserve the historic baseline separately from current rejection tests.
+
+
+AES500-140 release gate passes native sm_89 build/help, full master suite
+(212 passed, zero failed, one skipped / 213 total), documentation drift and
+whitespace checks. Hosted workflow runs were still in progress for recent heads;
+no hosted success is inferred.
+
+
+## 2026-10-10 — AES500-141 tensor directory contract
+
+Documented the current GGUF tensor record shape, rank/positive-dimension rules,
+aligned relative offsets, mmap/pool mapping paths, duplicate names, and later
+required-shape validation. Integer overflow, overlap rejection, and broad
+quantization arithmetic remain outside this contract.
+
+
+## 2026-10-10 — AES500-142 tensor-directory baseline
+
+A generated single rank-one 1x1 F16 tensor maps and remains visible in the
+loader descriptor after later required-model validation rejects the incomplete
+fixture. Loader state ends FAILED/unmapped. Evidence includes hashes and avoids
+claiming complete GGUF or model support. Master suite: 213 passed, zero failed,
+one skipped (214 total); docs and whitespace checks pass.
+
+
+AES500-143 tensor-directory interface tests confirm positive rank-one/two
+records reach mapping, while rank three and a zero dimension fail before adding
+a tensor descriptor. Each failure cleans mmap state.
+
+
+## 2026-10-10 — AES500-144 tensor arithmetic bounds
+
+Added host-index guards for UInt64 dimensions, row/column product, current tensor
+byte-size multiplications, and absolute data offsets. F32 conversion pool bounds
+now avoid offset-plus-count overflow. The sm_89 native build and focused GGUF
+module pass; quantized block divisibility remains open.
+
+
+AES500-145 adds hostile boundaries for host-index dimension conversion,
+row/column product, F16 byte size, and aligned absolute-offset addition. Each
+rejects before descriptor insertion and cleans mapping state; focused module
+passes.
+
+
+AES500-146 exercises a 1x1 F32 directory entry through the full load path. It
+converts one element into MimirWell, reaches the later missing-required-tensor
+check, and cleans the mmap; no full-model claim is implied.
+
+
+AES500-147 checks F32 conversion pool exhaustion with two requested values and
+one available element. It rejects before descriptor insertion, leaves pool
+offset unchanged, and cleans the mapping.
+
+
+AES500-148 primary review checked arithmetic guards, pool admission and the
+tensor fixture assertions. Independent review could not be assigned because the
+collaboration service thread cap persists; no independent signoff is claimed.
+
+
+AES500-149 syncs the loader interface with bounded tensor-directory evidence,
+including F16 alias/F32 conversion, checked index arithmetic and the remaining
+compressed-layout/overlap limits.
+
+
+AES500-150 release gate passes native build/help, master suite (217 passed, zero
+failed, one skipped / 218 total), doc-drift and whitespace checks. Recent hosted
+Actions runs remain in progress; no hosted success is inferred.
+
+
+## 2026-10-10 — AES500-151 byte BPE merge contract
+
+Specified the RuneWeaver merge-vector owners and current score-ranked adjacent
+pair behavior, tie order, space normalization, UTF-8 splitting and fallback.
+External tokenizer parity and broad multilingual fidelity remain separate.
+
+
+## 2026-10-10 — AES500-152 byte BPE baseline
+
+Captured deterministic leftmost tie, score priority, chained merge convergence,
+and four-byte emoji fallback vectors. Master suite: 218 passed, zero failed, one
+external fixture skipped (219 total). Evidence is synthetic and not external
+tokenizer parity.
+
+
+AES500-153 pins the public RuneWeaver vocabulary-to-encode seam and empty
+no-BOS behavior. Master suite: 219 passed, zero failed, one skipped (220 total).
+
+
+AES500-154 makes equal-score leftmost pair selection explicit in the merge
+comparator. Exact tie/ranking/chaining/fallback vectors and master suite
+(219 passed, zero failed, one skipped) remain green.
+
+
+AES500-155 confirms repeated merge ties are deterministic and partial emoji
+byte vocabularies use the unknown ID for each missing byte. Master suite: 220
+passed, zero failed, one skipped (221 total).
+
+
+AES500-156 integrates byte fallback token IDs with RuneStreamDecoder and
+reconstructs the exact emoji from four vocabulary spellings. Master suite: 221
+passed, zero failed, one skipped (222 total).
+
+
+AES500-157 confirms numeric ranking and deterministic ties for negative BPE
+scores. Master suite: 222 passed, zero failed, one skipped (223 total).
+
+
+AES500-158 primary review reconciles merge/tie implementation, byte fallback,
+and stream integration evidence. The service thread cap blocks a separate
+Auditor agent; no independent review claim is made.
+
+
+AES500-159 syncs the loader interface with score priority, leftmost ties,
+chaining, byte fallback and synthetic evidence limits.
+
+
+AES500-160 closes the byte BPE release gate: native build/help and docs pass;
+master suite 222 passed, zero failed, one skipped (223 total). Recent hosted
+Actions runs remain in progress.
+
+
+## 2026-10-10 — AES500-161 Unicode normalization policy
+
+Defined RuneWeaver input preservation: no implicit normalization, with only the
+existing vocabulary-driven ASCII-space marker rewrite. Canonically equivalent
+strings may produce different token vectors; Unicode conformance and malformed
+UTF-8 remain separate.
+
+
+AES500-162 captures composed/decomposed `é` as distinct byte-token vectors,
+confirming no implicit canonical normalization in this path. Master suite: 223
+passed, zero failed, one skipped (224 total).
+
+
+AES500-163 pins the public space-marker behavior: `▁` replacement occurs only
+when present in vocabulary; literal space remains available otherwise. Master
+suite: 224 passed, zero failed, one skipped (225 total).
+
+
+AES500-164 documents in code that RuneWeaver preserves Unicode code points and
+only applies vocabulary-driven ASCII-space rewriting. Master suite remains
+224 passed, zero failed, one skipped (225 total).
+
+
+AES500-166 round-trips composed/decomposed forms through RuneWeaver byte IDs
+and RuneStreamDecoder without merging their representations. Master suite:
+225 passed, zero failed, one skipped (226 total).
+
+
+AES500-167 confirms NBSP remains its own byte fallback even when the model
+vocabulary contains `▁`; ASCII-space-only rewrite stays explicit. Master suite:
+226 passed, zero failed, one skipped (227 total).
+
+
+AES500-168 primary review confirms preservation and ASCII-space-only rewrite
+from source and exact vectors. Agent thread cap blocks independent Auditor
+assignment, which is not claimed.
+
+
+AES500-169 syncs the loader interface with Unicode preservation and the
+ASCII-space-only marker rule, while retaining explicit conformance limits.
+
+
+AES500-170 Unicode release gate passes native build/help, docs, whitespace, and
+master suite (226 passed, zero failed, one skipped / 227 total). Recent hosted
+Actions runs remain in progress.
+
+
+## 2026-10-10 — AES500-171 invalid UTF-8 policy
+
+Specified the RuneWeaver String boundary, current byte-width heuristic, and
+missing explicit continuation/overlong/surrogate checks. Unsafe malformed
+String behavior remains unspecified pending a baseline and interface feasibility
+check; no code changed.
+
+
+AES500-172 uses unsafe String construction to capture malformed-byte baselines:
+truncated C3 returns raw 195; C3 28 falls back to IDs 11/12. This does not imply
+safe Mojo String constructors accept malformed input. Master suite: 227 passed,
+zero failed, one skipped (228 total).
+
+
+AES500-173 pins invalid-input handling to the existing non-raising encoder
+interface: malformed unsafe String bytes will become unknown ID with optional
+BOS, preserving valid-input behavior and public signature.
+
+
+AES500-174 adds strict UTF-8 validation over the borrowed input span. Truncated,
+bad continuation, overlong, surrogate, and above-maximum sequences fail closed
+to unknown ID with optional BOS. Master suite: 227 passed, zero failed, one
+skipped (228 total).
+
+
+AES500-175 extends invalid UTF-8 evidence across isolated continuation, overlong
+3/4-byte forms, illegal lead, and valid maximum scalar. Master suite: 228 passed,
+zero failed, one skipped (229 total).
+
+
+AES500-176 confirms malformed bytes become a single unknown token before the
+stream decoder and never enter its payload. Master suite: 229 passed, zero failed,
+one skipped (230 total).
+
+
+AES500-177 sweeps every isolated high byte 0x80-0xFF through unsafe String
+construction; each fails closed to one unknown token. Master suite: 230 passed,
+zero failed, one skipped (231 total).
+
+
+AES500-178 primary review checks validator ranges, optional BOS, unknown output,
+and unsafe-input scope. The collaboration service cap blocks a separate Auditor;
+independent signoff is not claimed.
+
+
+AES500-179 syncs the loader interface with malformed UTF-8 validation, unknown/BOS
+output, coverage boundaries and unsafe String limitations.
+
+
+AES500-180 closes the local invalid UTF-8 release gate: the exact CI-targeted
+native CLI build and built-binary help passed; master suite was 230 passed, zero
+failed, one skipped (231 total); documentation drift and whitespace checks
+passed. Exact remote head before commit was 2d57f5e. Hosted Actions remained
+in progress at verification time; no hosted success is inferred.
+
+
+AES500-181–185 specify, baseline, document, and test greedy finite-logit tie
+selection. CPU and CUDA source already select the lowest ID on equal maxima; the
+CPU fixture reproduces IDs 1/2/4 selecting 1, and the new master case checks tied
+and unique maxima. Master suite: 231 passed, zero failed, one skipped (232 total).
+No physical CUDA sampler run or model quality claim is included.
+
+
+AES500-186 attempted the physical CUDA sampler on the observed RTX 2060. The
+probe failed during PTX JIT with `CUDA_ERROR_INVALID_PTX`, so no GPU tie behavior
+is claimed. AES500-187 added first/middle/final tie-position vectors; the master
+suite passes 232 cases, zero failures, one skip (233 total). Primary review and
+documentation preserve the CPU evidence and CUDA limitation; no independent
+agent review was available.
+
+
+AES500-190 release gate passes the pinned CLI build and help, master suite
+(232 passed, zero failed, one skipped / 233 total), docs tests, drift and
+whitespace. The physical CUDA tie probe remains an explicit PTX JIT limitation.
+
+
+AES500-191–195 define and verify the CPU temperature distribution contract.
+Across 4,096 paired deterministic seeds, lower-token mass was 0.12768555 vs
+0.11920292 expected at T=0.5 and 0.2775879 vs 0.26894143 at T=1.0, within the
+predeclared 0.025 tolerance; higher temperature flattened the distribution.
+Master suite: 233 passed, zero failed, one skipped (234 total). CUDA remains
+unverified because physical sampler execution fails PTX JIT.
+
+
+AES500-196/197 add CPU config-to-sampler integration and hostile input checks:
+negative temperature rejects, extreme finite F16 logits select the maximum at
+low T, and NaN sanitization stays within vocabulary. Master suite: 235 passed,
+zero failed, one skipped (236 total). AES500-198/199 review and docs retain the
+exact oracle numbers, engine distinctions, and unavailable independent/CUDA
+evidence boundaries.
+
+
+AES500-200 release gate passes the pinned CI-targeted CLI build and binary help,
+master suite 235 passed, zero failed, one skipped (236 total), docs drift/tests,
+and whitespace. Hosted Actions status is checked against the pushed revision;
+physical CUDA remains unverified due to PTX JIT failure.
+
+
+AES500-201–205 define and pin top-k boundaries. CPU helper vectors confirm
+empty/zero/one/n/>n behavior and stable input order for equal scores; the public
+CPU special case and native CUDA 1..256/lower-ID behavior remain explicitly
+separate. Master suite: 236 passed, zero failed, one skipped (237 total).
+
+
+AES500-206/207 add CPU config integration for `top_k==1` with suppression,
+singleton and maximum config boundaries, rejection at k=0, and dense tied-cutoff
+ordering. The master suite passes 238 cases, zero failures, one skip (239 total).
+AES500-208/209 review and documentation keep CPU and CUDA contracts separate;
+independent Auditor and physical CUDA evidence remain unavailable.
+
+
+AES500-210 release gate passes the pinned CI-targeted CLI build and help,
+master 238 passed, zero failed, one skipped (239 total), docs tests, drift and
+whitespace. Hosted Actions remains a separate remote signal; the local physical
+CUDA sampler is still blocked by PTX JIT `CUDA_ERROR_INVALID_PTX`.

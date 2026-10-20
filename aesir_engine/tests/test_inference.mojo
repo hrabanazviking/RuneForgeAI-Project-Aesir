@@ -2,7 +2,8 @@ from loader.gguf import GGUFSeer
 from loader.chat_template import ChatMessage, RuneChatTemplate, NativeTokenizerSelection
 from core.mimir_well import MimirWell, RuneTensor, f16
 from core.inference import forward_pass, TransformerBlock
-from core.sampler import RuneRNG, TokenCandidate, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
+from core.sampler import RuneRNG, TokenCandidate, sample_token_from_logits, apply_repetition_penalty, apply_frequency_presence_penalty, apply_temperature, apply_top_k, apply_top_p, apply_min_p, apply_token_mask, sort_candidates_descending
+from core.sampling_config import NativeSamplingConfig
 from core.session import SessionContext, SessionManager
 from aesir import (
     MAX_PROMPT_BYTES,
@@ -11,7 +12,11 @@ from aesir import (
     generation_stop_reason,
     validate_runtime_backend_config,
 )
-from std.memory import Pointer
+from std.memory import Pointer, dealloc
+from std.memory.alloc import alloc, Layout
+from core.compute import MutUntrackedOrigin
+from std.math import exp
+from std.memory import bitcast
 
 
 def test_session_isolation() raises:
@@ -220,6 +225,246 @@ def test_sampler_stack() raises:
         raise Error("Min-P sampling must truncate candidates below threshold")
 
     print("Configurable Sampler Stack: PASS")
+
+
+def test_top_k_boundary_semantics() raises:
+    """CPU top-k boundaries and stable input ordering for tied cutoff."""
+    var empty = List[TokenCandidate]()
+    apply_top_k(empty, 1)
+    if len(empty) != 0:
+        raise Error("Top-k on empty candidates must remain empty")
+
+    var boundary = List[TokenCandidate]()
+    boundary.append(TokenCandidate(10, 1.0))
+    boundary.append(TokenCandidate(11, 4.0))
+    boundary.append(TokenCandidate(12, 4.0))
+    boundary.append(TokenCandidate(13, 2.0))
+    apply_top_k(boundary, 0)
+    if len(boundary) != 4 or boundary[0].id != 10:
+        raise Error("Nonpositive helper top-k must be a no-op")
+    apply_top_k(boundary, 1)
+    if len(boundary) != 1 or boundary[0].id != 11:
+        raise Error("Top-k one must retain first input candidate among tied maxima")
+
+    var all_candidates = List[TokenCandidate]()
+    all_candidates.append(TokenCandidate(10, 1.0))
+    all_candidates.append(TokenCandidate(11, 4.0))
+    all_candidates.append(TokenCandidate(12, 4.0))
+    all_candidates.append(TokenCandidate(13, 2.0))
+    apply_top_k(all_candidates, 4)
+    if (len(all_candidates) != 4 or all_candidates[0].id != 10
+            or all_candidates[1].id != 11 or all_candidates[2].id != 12):
+        raise Error("Top-k equal to candidate count must preserve all in original order")
+
+    var over_candidates = List[TokenCandidate]()
+    over_candidates.append(TokenCandidate(10, 1.0))
+    over_candidates.append(TokenCandidate(11, 4.0))
+    apply_top_k(over_candidates, 3)
+    if len(over_candidates) != 2:
+        raise Error("Top-k above candidate count must preserve all candidates")
+    print("CPU top-k empty, no-op, cutoff tie and count boundaries: PASS")
+
+
+def test_top_k_sampling_integration() raises:
+    """Pin CPU top_k=1 greedy scan with suppression but without penalties."""
+    NativeSamplingConfig(0.8, 1, 1.0, 0, 1, 64, 42).validate()
+    var allocation = alloc(Layout[Scalar[f16]](count=3))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](9.0))
+    logits.unsafe_store(2, Scalar[f16](2.0))
+    var suppressed = List[Int]()
+    suppressed.append(1)
+    var rng = RuneRNG(12)
+    var selected = sample_token_from_logits(
+        logits, 3, 0.8, 1, 1.0, 1.0, List[Int](), rng,
+        suppress_tokens=suppressed
+    )
+    dealloc(allocation^)
+    if selected != 2:
+        raise Error("CPU top_k=1 greedy special path behavior changed")
+    print("CPU top_k=1 sampling integration short-circuit: PASS")
+
+
+def test_top_k_adversarial() raises:
+    """Dense equal-score cutoff, singleton and maximum config boundaries."""
+    NativeSamplingConfig(0.7, 256, 1.0, 0, 1, 64, 42).validate()
+    var singleton = List[TokenCandidate]()
+    singleton.append(TokenCandidate(90, -3.0))
+    apply_top_k(singleton, 1)
+    if len(singleton) != 1 or singleton[0].id != 90:
+        raise Error("Top-k one on singleton must preserve its only candidate")
+
+    var dense = List[TokenCandidate]()
+    for i in range(12):
+        dense.append(TokenCandidate(100 + i, Float32(i // 4)))
+    apply_top_k(dense, 5)
+    if len(dense) != 5 or dense[0].id != 108 or dense[1].id != 109 or dense[2].id != 110 or dense[3].id != 111 or dense[4].id != 104:
+        raise Error("Top-k dense tied cutoff changed stable input ordering")
+
+    var rejected = NativeSamplingConfig()
+    rejected.top_k = 0
+    var failed = False
+    try:
+        rejected.validate()
+    except:
+        failed = True
+    if not failed:
+        raise Error("Public sampling config must reject top-k zero")
+    print("Top-k singleton, dense ties and config extremes: PASS")
+
+
+def test_greedy_tie_policy() raises:
+    """Finite equal maxima select the lowest token ID on the CPU path."""
+    var allocation = alloc(Layout[Scalar[f16]](count=5))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](5.0))
+    logits.unsafe_store(2, Scalar[f16](5.0))
+    logits.unsafe_store(3, Scalar[f16](0.0))
+    logits.unsafe_store(4, Scalar[f16](5.0))
+    var rng = RuneRNG(42)
+    var tied = sample_token_from_logits(logits, 5, 0.0, 40, 1.0, 1.0, List[Int](), rng)
+    if tied != 1:
+        dealloc(allocation^)
+        raise Error("Greedy ties must choose the lowest ID among finite maxima")
+    logits.unsafe_store(2, Scalar[f16](6.0))
+    var unique = sample_token_from_logits(logits, 5, 0.0, 40, 1.0, 1.0, List[Int](), rng)
+    dealloc(allocation^)
+    if unique != 2:
+        raise Error("Greedy unique maximum selection changed")
+    print("Finite greedy tie and unique-maximum policy: PASS")
+
+
+def test_greedy_tie_adversarial() raises:
+    """Tied maxima at first, middle, and final positions choose lowest ID."""
+    var allocation = alloc(Layout[Scalar[f16]](count=9))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    var tie_positions = List[List[Int]]()
+    var first_case = List[Int]()
+    first_case.append(0)
+    first_case.append(4)
+    first_case.append(8)
+    tie_positions.append(first_case.copy())
+    var second_case = List[Int]()
+    second_case.append(1)
+    second_case.append(5)
+    second_case.append(7)
+    tie_positions.append(second_case.copy())
+    var third_case = List[Int]()
+    third_case.append(2)
+    third_case.append(3)
+    third_case.append(6)
+    tie_positions.append(third_case.copy())
+    for case_idx in range(len(tie_positions)):
+        for i in range(9):
+            logits.unsafe_store(i, Scalar[f16](Float32(i - 20)))
+        var expected = tie_positions[case_idx][0]
+        for j in range(len(tie_positions[case_idx])):
+            logits.unsafe_store(tie_positions[case_idx][j], Scalar[f16](9.0))
+        var rng = RuneRNG(UInt64(100 + case_idx))
+        var actual = sample_token_from_logits(
+            logits, 9, 0.0, 40, 1.0, 1.0, List[Int](), rng
+        )
+        if actual != expected:
+            dealloc(allocation^)
+            raise Error("Greedy tie scan/position matrix selected the wrong ID")
+    dealloc(allocation^)
+    print("Greedy tie position and scan-order matrix: PASS")
+
+
+def test_temperature_distribution_oracle() raises:
+    """Compare CPU two-token sampling frequencies with independent softmax."""
+    var allocation = alloc(Layout[Scalar[f16]](count=2))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](1.0))
+    logits.unsafe_store(1, Scalar[f16](0.0))
+    var low_count_mid = 0
+    var low_count_high = 0
+    for seed in range(4096):
+        var rng_mid = RuneRNG(UInt64(seed + 1))
+        var mid_token = sample_token_from_logits(
+            logits, 2, 0.5, 2, 1.0, 1.0, List[Int](), rng_mid
+        )
+        var rng_high = RuneRNG(UInt64(seed + 1))
+        var high_token = sample_token_from_logits(
+            logits, 2, 1.0, 2, 1.0, 1.0, List[Int](), rng_high
+        )
+        if mid_token == 1:
+            low_count_mid += 1
+        elif mid_token != 0:
+            dealloc(allocation^)
+            raise Error("Two-token temperature sampler returned an invalid ID")
+        if high_token == 1:
+            low_count_high += 1
+        elif high_token != 0:
+            dealloc(allocation^)
+            raise Error("Two-token temperature sampler returned an invalid ID")
+    var observed_mid = Float32(low_count_mid) / 4096.0
+    var observed_high = Float32(low_count_high) / 4096.0
+    # Independent analytic oracle: exp(0/T) / (exp(1/T) + exp(0/T)).
+    var expected_mid = Float32(1.0) / (exp(Float32(2.0)) + Float32(1.0))
+    var expected_high = Float32(1.0) / (exp(Float32(1.0)) + Float32(1.0))
+    dealloc(allocation^)
+    if abs(observed_mid - expected_mid) > 0.025:
+        raise Error("CPU temperature sampling frequency diverged from softmax oracle")
+    if abs(observed_high - expected_high) > 0.025 or observed_high <= observed_mid:
+        raise Error("Higher temperature failed to flatten two-token sampling mass")
+    print("Temperature oracle mid observed/expected: ", observed_mid, " / ", expected_mid)
+    print("Temperature oracle high observed/expected: ", observed_high, " / ", expected_high)
+
+
+def test_temperature_sampling_integration() raises:
+    """Exercise validated config, fixed-seed CPU sample, and allowed IDs."""
+    var config = GenerationConfig(max_new_tokens=1, temperature=0.5, top_k=2, top_p=1.0)
+    config.validate(2)
+    var allocation = alloc(Layout[Scalar[f16]](count=2))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](2.0))
+    logits.unsafe_store(1, Scalar[f16](0.0))
+    var rng = RuneRNG(77)
+    var selected = sample_token_from_logits(
+        logits, 2, config.temperature, config.top_k, config.top_p,
+        1.0, List[Int](), rng
+    )
+    dealloc(allocation^)
+    if selected < 0 or selected >= 2:
+        raise Error("Integrated temperature sample escaped admitted vocabulary")
+    print("Temperature config-to-sampler integration: PASS token=", selected)
+
+
+def test_temperature_sampling_adversarial() raises:
+    """Check invalid temperature and extreme/nonfinite CPU sampler edges."""
+    var invalid_config = GenerationConfig(max_new_tokens=1, temperature=-0.5)
+    var rejected = False
+    try:
+        invalid_config.validate(2)
+    except:
+        rejected = True
+    if not rejected:
+        raise Error("Negative temperature must reject before sampling")
+
+    var allocation = alloc(Layout[Scalar[f16]](count=3))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[f16](65504.0))
+    logits.unsafe_store(1, Scalar[f16](-65504.0))
+    logits.unsafe_store(2, Scalar[f16](0.0))
+    var rng = RuneRNG(999)
+    var extreme = sample_token_from_logits(
+        logits, 3, 0.01, 3, 1.0, 1.0, List[Int](), rng
+    )
+    if extreme != 0:
+        dealloc(allocation^)
+        raise Error("Extreme finite logits must retain the maximum token")
+    logits.unsafe_store(0, Scalar[f16](bitcast[DType.float16](UInt16(0x7e00))))
+    var rng_bad = RuneRNG(1000)
+    var sanitized = sample_token_from_logits(
+        logits, 3, 0.5, 3, 1.0, 1.0, List[Int](), rng_bad
+    )
+    dealloc(allocation^)
+    if sanitized < 0 or sanitized >= 3:
+        raise Error("Nonfinite CPU logit sanitization escaped vocabulary bounds")
+    print("Temperature adversarial admission and finite extremes: PASS")
 
 
 def test_chat_template() raises:

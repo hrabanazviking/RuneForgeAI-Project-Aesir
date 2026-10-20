@@ -148,3 +148,204 @@ includes system headers for independent layout/constant evidence. The native
 Mojo owner performs real read-only queries through libc/syscall; no vendor
 runtime/bridge, kernel compilation, module or firmware changes are added.
 Evidence: `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
+
+### 2026-10-19 — Assigned descriptor/connection owner
+
+Continued licensed installed-driver interface study in `common/pcie_common.c`,
+`vdma_common.h`, `linux/pcie/src/soc.c`, `fops.c`, and `linux/vdma/ioctl.c`,
+`vdma.c`: descriptor/connection ownership, PCIe direction mask, bounded control
+wait, and finalization ordering. No implementation copied or translated.
+Original Mojo ownership policy and physical syscall/fault evidence are in
+`docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`. Driver code was not built, installed,
+loaded or modified. No user DMA buffer, transfer or model was supplied.
+
+### 2026-10-19 — Bounded read-only DMA observation
+
+Under `TASK_hailo10h_dma_observation.md`, the independent test observer
+includes the installed dual-licensed UAPI and forwards actual libc ioctl in a
+private installed-runtime identify child. No vendor implementation is copied,
+translated or shipped. Interface study at the already pinned MIT HailoRT
+revision: `hrpc/client.cpp`, `vdma/driver/hailort_driver.cpp`; installed driver
+UAPI/behavior facts from `linux/vdma/ioctl.c`, `common/vdma_common.c`, and
+installed `hailo/hailort.h` status declaration. Extracted exact sizes, result
+semantics, request status and unmap keys into the observation receipt before
+the next production implementation. No model/inference or kernel changes.
+See `docs/HAILO10H_DMA_OBSERVATION.md`.
+
+### 2026-10-19 — USERPTR map/unmap/cache-sync interface
+
+Continued study under the previously read installed UAPI dual license and
+installed driver's recorded license: `common/hailo_ioctl_common.h`,
+`linux/vdma/ioctl.c` and `memory.c`. Extracted packed field/enum/ioctl facts,
+original-tuple unmap identity, sync handle/range rules and context lifetime.
+No implementation copied or translated. Independently authored Mojo codecs
+are checked against actual C objects from the installed-header test oracle.
+See `docs/HAILO10H_MOJO_DMA_STORAGE_ABI.md`. No physical transfer is claimed.
+
+### 2026-10-19 — Native owned RPC storage
+
+Used the already recorded installed UAPI/driver interface facts for original
+USERPTR tuple lifetime, map output, sync selector/ranges and file finalization.
+The new Mojo ownership policy is independently authored; no vendor code was
+copied or translated. Actual anonymous allocation, driver map/sync/unmap and
+post-effect malformed reply evidence use the installed driver and strace.
+The discarded preload experiment is test research outside production; raw
+syscall observation supplies the qualified fault. No DMA transfer was launched.
+Receipt: `docs/HAILO10H_MOJO_DMA_STORAGE_OWNER.md`.
+
+### 2026-10-19 — In-process native worker interface
+
+Read current Mojo 1.1 C ABI and public runtime documentation, GNU pthread join
+clock manual and Linux pthread_create API documentation. Installed glibc
+pthread/time headers identify LGPL-2.1-or-later; read their notice and only
+extracted ABI facts, independently checked with system-header C++ oracle.
+No libc/runtime implementation is copied or translated. Original Mojo callback
+and ownership policy, actual host deadlines and terminal invariant evidence:
+`docs/HAILO10H_MOJO_BOUNDED_WORKER.md`. No device was opened by this proof.
+
+### 2026-10-19 — Assigned interrupt disable/join ownership
+
+Continued previously licensed installed-driver interface study in
+`linux/vdma/ioctl.c` and `vdma.c`: per-file enabled/interrupted masks,
+interruptible wait, disable wakeup and semaphore release during wait. No
+implementation copied or translated. Original Mojo session cancellation uses
+only assigned channel masks and the independently owned pthread worker.
+Actual empty-channel deadlines, retry, terminal invariant and subsequent fresh
+sessions are recorded in `docs/HAILO10H_MOJO_ASSIGNED_WAIT.md`. No DMA launch,
+inference, kernel, firmware, binding or reset operation was performed.
+
+### 2026-10-19 — Exact RPC descriptor/directional accounting
+
+Continued already licensed installed 5.3.0 UAPI/driver interface study in
+`common/vdma_common.c` and `linux/vdma/ioctl.c` for non-cyclic returned count,
+IRQ transfer-count meaning and finalization. Facts recorded in the
+source-execution research notes and prior reference observation. Original Mojo single-outstanding pair policy
+and pending storage guards contain no copied/translated implementation. Host
+IRQ snapshots prove accounting/refusals, not hardware execution.
+
+### 2026-10-19 — Independent native device RPC exchange
+
+Implemented the previously recorded/licensed hRPC frame, typed device messages,
+USERPTR launch and completion facts using original Mojo ownership/accounting.
+No vendor implementation, source translation or runtime bridge is used. The
+actual binary does not link HailoRT; the installed driver/firmware provides the
+hardware endpoint. Thirty-six physical native child runs cover normal typed
+lifecycles, pre-create submission failures, timeout and post-destroy cleanup.
+No model/inference or kernel/firmware/binding/reset change. Private identifiers
+and RPC bodies are omitted from published output. Receipt:
+`docs/HAILO10H_MOJO_NATIVE_RPC.md`.
+
+### 2026-10-19 — Source tensor inventory and GGUF string boundary
+
+Reused the project's own PackedGGUF/GGUFSeer parsing and ownership APIs without
+backend registry or inference calls. Read ggml MIT license at frozen commit
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0`; consulted only its GGUF specification
+for length-prefixed UTF-8 facts (spec SHA-256 recorded in the receipt). No ggml
+implementation/header/runtime is copied, translated or linked. Current public
+Mojo String API supplies validating byte construction. Original Mojo projection
+and independent Python struct-packed fixtures prove descriptors and string
+identity, not inference. Receipt: `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md`.
+
+### 2026-10-19 — Typed source semantic graph
+
+Continued the already MIT-licensed pinned GGUF specification study at
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` for attention key/value defaults,
+rotary dimensions and layout metadata facts. The existing project dense-GQA
+contracts supplied source tensor shape conventions; no CUDA admission registry
+or execution path is used. Original Mojo graph/ownership/lifetime construction
+and independent synthetic structural oracles copy or translate no external
+implementation. No source-model forward or device program is executed.
+Receipt: `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`.
+
+### 2026-10-19 — Original storage lifetime arithmetic
+
+Original Mojo interval-event accounting consumes the project's typed graph.
+Independent Python brute-force interval scans and test-only native graph
+mutations verify byte arithmetic without external implementation study, model
+forward or device access. Supplied assumptions are labelled hypothetical; no
+precision, available hardware memory or executable program is inferred.
+Receipt: `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md`.
+
+### 2026-10-19 — Public context action/configuration boundary
+
+Re-read pinned HailoRT v5.3.0 MIT license before the continued study. Public
+context/control header definitions, action-list/config-buffer/resource-manager
+interfaces and host/local device boundaries supply prose facts and hashes in
+`docs/HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`. This is no vendor program extraction
+or implementation translation. The next original codec is contracted in
+`TASK_hailo10h_context_actions.md`. No device control/write is performed.
+
+### 2026-10-19 — Original context-action codec verification
+
+Implemented the previously published public field facts independently in Mojo.
+The test-only C++ oracle includes operator-supplied pinned public headers outside
+Git, without vendor runtime linkage. Ten dependency hashes are recorded. Their
+MIT notices and the transitive md5 header's Alexander Peslyak public-domain/
+permissive notice were read; no MD5 implementation is used or linked. Exact
+byte/layout and independent Python checks pass. No vendor implementation or
+model/container content is copied or translated. No device/control/write or
+model forward occurs. Receipt: `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`.
+
+### 2026-10-19 — Server loading boundary and primitive recipe contract
+
+Continued already MIT-licensed pinned server interface study; original prose
+facts/hash appended to `docs/HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`. No server is
+run, installed or copied. Read paper abstract definitions and arXiv distribution
+license notices for RMSNorm (1910.07467) and SiLU (1702.03118); no paper source,
+implementation, figure or text is copied. Mathematical definitions and the
+project's own epsilon convention inform the original compiler recipe contract
+`TASK_hailo10h_primitive_recipes.md`. No numerical model forward.
+
+### 2026-10-19 — Original RMSNorm/SiLU mathematical IR
+
+Original Mojo source-bound expansion from mathematical identities and the
+project's normalization convention; no external implementation or paper
+text/figure copied. Exact graph/scalar/lifetime checks and tiny synthetic
+primitive-only Decimal oracles pass. No numerical production kernel, source
+model/layer forward or device program is executed. Receipt:
+`docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`.
+
+### 2026-10-19 — Original stable softmax recipe
+
+Original mathematical max-shift identity expressed in Mojo IR with explicit
+source/local dependencies and runtime preconditions. No external implementation
+study/copy/translation. Independent tiny Decimal probability fixtures verify
+mathematics only; no model/attention/layer forward or device submission. Prior
+RMSNorm/SiLU evidence is retained. Receipt:
+`docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`.
+
+### 2026-10-19 — Original global compiler graph integration
+
+Original Mojo ownership/mapping/lifetime pass over the project's semantic
+graph and primitive recipes. No external implementation study or copied/
+translated source. Independent symbolic edge/interval checks, malformed graph
+refusals and returned ownership pass without model/layer/numerical execution
+or device access. Receipt: `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`.
+
+### 2026-10-19 — Expanded graph storage validation/accounting
+
+Original Mojo typed graph checks and separate real/predicate event accounting
+use the project's graph and existing checked/source-size helpers. No external
+implementation study/copy/translation. Independent brute-force interval checks,
+malformed graph/policy/arithmetic refusals and returned ownership pass; no
+numerical model operation or device access. Receipt:
+`docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`.
+
+### 2026-10-19 — Original floating constant representation reader
+
+Public Python struct and Google BF16 documentation supplies representation
+format facts; no external implementation source is studied, copied, translated
+or linked. Original integer Mojo field expansion preserves payload placement
+without floating evaluation. Python struct/value-based exhaustive oracles use
+synthetic static constants only, never model/layer arithmetic or device access.
+Receipt: `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`.
+
+### 2026-10-19 — Q4_K source data-format study
+
+Re-read the ggml MIT license at frozen
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` before continued study of public block
+declarations and reference field interpretation. Original prose byte/bit table
+and hashes are published first in `docs/HAILO10H_Q4K_SOURCE_LAYOUT.md`. This is
+a source weight data format, not vendor device-program extraction. No external
+implementation is copied/translated/vendored; future test-only oracle stays
+outside the production tree. No model/layer/attention arithmetic or device call.

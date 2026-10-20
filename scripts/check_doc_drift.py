@@ -12,6 +12,8 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
+from ledger_schema import LedgerSchemaError, parse_ledger_text
+
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "CAPABILITY_LEDGER.md"
@@ -127,6 +129,7 @@ def ledger_statuses(content: str) -> dict[str, str]:
 
 def check_ledger(errors: list[str]) -> dict[str, str]:
     content = LEDGER.read_text(encoding="utf-8")
+    errors.extend(ledger_schema_errors(content, "CAPABILITY_LEDGER.md"))
     headings = re.findall(r"^### (AES-[A-Z]+-\d+) —", content, re.MULTILINE)
     if len(headings) != len(set(headings)):
         duplicates = sorted(key for key, count in Counter(headings).items() if count > 1)
@@ -156,28 +159,43 @@ def check_ledger(errors: list[str]) -> dict[str, str]:
     return statuses
 
 
+def ledger_schema_errors(content: str, source: str) -> list[str]:
+    """Return schema diagnostics in the repository checker's stable format."""
+    try:
+        parse_ledger_text(content, source)
+    except LedgerSchemaError as error:
+        return [f"{source} schema: {diagnostic}" for diagnostic in error.diagnostics]
+    return []
+
+
 def status_reference_errors(
     content: str, statuses: dict[str, str], source: str
 ) -> list[str]:
     errors = []
-    tag_pattern = re.compile(r"\[([a-z/]+),\s*(AES-[A-Z]+-\d+)")
+    tag_pattern = re.compile(r"\[([a-z/]+),([^\]]*)\]")
+    capability_pattern = re.compile(r"AES-[A-Z]+-\d+")
     for line_no, line in enumerate(content.splitlines(), 1):
-        for declared, capability_id in tag_pattern.findall(line):
+        for match in tag_pattern.finditer(line):
+            declared, references = match.groups()
+            capability_ids = capability_pattern.findall(references)
+            if not capability_ids:
+                continue
             if declared not in ALLOWED_STATUSES:
                 errors.append(
                     f"{source}:{line_no}: unsupported status tag {declared!r}"
                 )
                 continue
-            actual = statuses.get(capability_id)
-            if actual is None:
-                errors.append(
-                    f"{source}:{line_no}: unknown capability reference {capability_id}"
-                )
-            elif declared != actual:
-                errors.append(
-                    f"{source}:{line_no}: {capability_id} tag is {declared}, "
-                    f"ledger is {actual}"
-                )
+            for capability_id in capability_ids:
+                actual = statuses.get(capability_id)
+                if actual is None:
+                    errors.append(
+                        f"{source}:{line_no}: unknown capability reference {capability_id}"
+                    )
+                elif declared != actual:
+                    errors.append(
+                        f"{source}:{line_no}: {capability_id} tag is {declared}, "
+                        f"ledger is {actual}"
+                    )
     return errors
 
 
@@ -237,11 +255,17 @@ def check_master_count(errors: list[str]) -> None:
     finish = re.search(r"ledger\.finish\((\d+)\)", source)
     if not finish or int(finish.group(1)) != expected:
         errors.append(f"aesir_engine/tests/run_all.mojo: ledger.finish must equal {expected}")
-    phrase = (
-        f"{len(cases)} named executable cases pass, zero fail, "
+    ledger_text = LEDGER.read_text(encoding="utf-8")
+    registered_phrase = (
+        f"{len(cases)} named executable cases are registered, "
         f"{len(skips)} external-fixture case is explicitly skipped, total {expected}"
     )
-    if phrase not in LEDGER.read_text(encoding="utf-8"):
+    passed_phrase = (
+        f"{len(cases)} named executable cases pass, zero fail, "
+        f"{len(skips)} external-fixture case is explicitly skipped, "
+        f"total {expected}, process exit 0"
+    )
+    if registered_phrase not in ledger_text and passed_phrase not in ledger_text:
         errors.append("CAPABILITY_LEDGER.md: E-MASTER count is not synchronized")
 
 

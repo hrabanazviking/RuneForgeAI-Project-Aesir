@@ -1,0 +1,10 @@
+test_each_pre_create_sync_enable_and_launch_failure (__main__.NativeRpc.test_each_pre_create_sync_enable_and_launch_failure) ... ok
+test_eight_fresh_complete_device_lifecycles (__main__.NativeRpc.test_eight_fresh_complete_device_lifecycles) ... ok
+test_missing_h2d_after_actual_d2h_post_times_out_and_quiesces (__main__.NativeRpc.test_missing_h2d_after_actual_d2h_post_times_out_and_quiesces) ... ok
+test_post_destroy_channel_close_unmap_and_release_errors (__main__.NativeRpc.test_post_destroy_channel_close_unmap_and_release_errors) ... ok
+test_wrong_positive_launch_counts_never_count_as_completion (__main__.NativeRpc.test_wrong_positive_launch_counts_never_count_as_completion) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 3.512s
+
+OK

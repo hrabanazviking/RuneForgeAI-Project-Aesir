@@ -1,0 +1,53 @@
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:132:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", input)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:135:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("desc-create", output)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:139:31: warning: 'Int64' value is unused; assign to '_' to discard the result
+        session.driver.request("connect", connect)
+        ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:67:36: warning: 'Int64' value is unused; assign to '_' to discard the result
+                self.driver.request("close", data)
+                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+                _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:89:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+./hailbru/soc_session.mojo:95:40: warning: 'Int64' value is unused; assign to '_' to discard the result
+                    self.driver.request("desc-release", data)
+                    ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+                    _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+Imported from ./hailbru/soc_session.mojo:4:
+./hailbru/soc_driver.mojo:101:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("driver-info", driver_info)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Imported from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+Imported from ./hailbru/soc_session.mojo:4:
+./hailbru/soc_driver.mojo:107:23: warning: 'Int64' value is unused; assign to '_' to discard the result
+        driver.request("properties", properties)
+        ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+        _ = 
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+Included from ./hailbru/soc_session.mojo:4:
+Included from ./hailbru/soc_driver.mojo:4:
+./hailbru/discovery.mojo:35:17: warning: assignment to 'd' was never used; assign to '_' instead?
+        var d = 0
+                ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_soc_storage_unwind.mojo:3:
+Included from ./hailbru/soc_session.mojo:7:
+./hailbru/soc_abi.mojo:67:9: warning: ref 'index' was never used, remove it?
+    for index in range(size):
+        ^

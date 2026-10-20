@@ -1,0 +1,1 @@
+PASS: observed positive count, raw nonnegative counts, stale errno and negative/unexpected results

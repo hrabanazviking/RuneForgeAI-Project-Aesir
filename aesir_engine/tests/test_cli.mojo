@@ -2,8 +2,13 @@
 # Verification of implemented CLI parsing and honest unsupported boundaries.
 
 from cli.modelfile import parse_modelfile, parse_int, parse_float
-from cli.manifest import RuneModelStore, ModelManifest, deserialize_manifest
-from cli.storage import DurableModelStore, deserialize_catalog
+from cli.manifest import (
+    RuneModelStore,
+    ModelManifest,
+    deserialize_manifest,
+    validate_manifest_storage_identity,
+)
+from cli.storage import DurableModelStore, deserialize_catalog, serialize_catalog
 from cli.model_reference import resolve_model_reference
 from cli.model_selector import render_model_selector, selected_model_reference
 from cli.model_preferences import DurableModelPreferences, ModelPreferences
@@ -553,6 +558,185 @@ def test_model_manifest_store() raises:
     _cleanup_owned_model_store(test_root, stored_digest)
 
     print("validated manifests & restart-safe durable catalog: PASS")
+
+
+def test_catalog_schema_interface() raises:
+    """Exercises the public v1 catalog codec seam and its admission boundary."""
+    var empty = RuneModelStore()
+    var encoded_empty = serialize_catalog(empty)
+    if encoded_empty != "AESIR_MODEL_CATALOG_V1\nCOUNT:0":
+        raise Error("empty catalog v1 wire representation changed")
+    if len(deserialize_catalog(encoded_empty).list_models()) != 0:
+        raise Error("empty catalog v1 codec did not round-trip")
+
+    var one = RuneModelStore()
+    one.create_model("interface:v1", "FROM fixture.gguf")
+    var encoded_one = serialize_catalog(one)
+    var decoded_one = deserialize_catalog(encoded_one)
+    if (len(decoded_one.list_models()) != 1
+            or decoded_one.get_model("interface:v1").name != "interface"):
+        raise Error("single-entry catalog v1 codec changed the model identity")
+
+    var unsupported = False
+    try:
+        _ = deserialize_catalog("AESIR_MODEL_CATALOG_V2\nCOUNT:0")
+    except error:
+        unsupported = "unsupported or missing model catalog version" in String(error)
+    if not unsupported:
+        raise Error("catalog codec did not report the unsupported version")
+    print("validated public catalog schema codec seam: PASS")
+
+
+def test_catalog_schema_unit_evidence() raises:
+    """Covers strict v1 count, record, identity, and header boundaries."""
+    var malformed_inputs = List[String]()
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:0\nEXTRA")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:-1")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1\nNO_ENTRY")
+    malformed_inputs.append("AESIR_MODEL_CATALOG_V1\nCOUNT:1\nENTRY:zz")
+
+    for index in range(len(malformed_inputs)):
+        var rejected = False
+        try:
+            _ = deserialize_catalog(malformed_inputs[index])
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("catalog decoder accepted malformed v1 case " + String(index))
+
+    var duplicate = RuneModelStore()
+    duplicate.create_model("same:v1", "FROM fixture.gguf")
+    duplicate.model_keys.append("same:v1")
+    duplicate.model_keys.append("same:v1")
+    if len(duplicate.model_keys) != 3:
+        raise Error("duplicate-key adversarial fixture was not constructed")
+    var duplicate_rejected = False
+    try:
+        _ = serialize_catalog(duplicate)
+    except error:
+        duplicate_rejected = "duplicate key" in String(error)
+    if not duplicate_rejected:
+        raise Error("catalog writer accepted a duplicate model key")
+    print("catalog schema malformed count/record and duplicate-key cases: PASS")
+
+
+def test_blob_identity_interface() raises:
+    """Pins the accepted recipe/blob identity pairs at the public validator."""
+    validate_manifest_storage_identity("fnv1a64:0123456789abcdef", 0)
+    validate_manifest_storage_identity("sha256:" + "a" * 64, 1)
+
+    var rejected_pairs = List[String]()
+    rejected_pairs.append("fnv1a64:0123456789abcdef|1")
+    rejected_pairs.append("sha256:" + "a" * 64 + "|0")
+    rejected_pairs.append("sha256:" + "a" * 63 + "|1")
+    rejected_pairs.append("sha256:" + "A" * 64 + "|1")
+    rejected_pairs.append("fnv1a64:" + "A" * 16 + "|0")
+    for index in range(len(rejected_pairs)):
+        var pair = rejected_pairs[index].split("|")
+        var rejected = False
+        try:
+            validate_manifest_storage_identity(
+                String(pair[0]), Int64(atol(String(pair[1])))
+            )
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("manifest identity validator accepted rejected vector " + String(index))
+    print("recipe/blob identity interface pairings: PASS")
+
+
+def test_blob_identity_unit_evidence() raises:
+    """Adds exact scheme, width, digit-case, suffix, and signed-size boundaries."""
+    var invalid_digests = List[String]()
+    invalid_digests.append("md5:" + "a" * 32)
+    invalid_digests.append("fnv1a64:" + "0" * 15)
+    invalid_digests.append("fnv1a64:" + "0" * 17)
+    invalid_digests.append("fnv1a64:" + "0" * 15 + "G")
+    invalid_digests.append("sha256:" + "a" * 63)
+    invalid_digests.append("sha256:" + "a" * 65)
+    invalid_digests.append("sha256:" + "a" * 63 + "G")
+    invalid_digests.append("sha256:" + "a" * 64 + ":suffix")
+
+    for index in range(len(invalid_digests)):
+        var rejected = False
+        try:
+            validate_manifest_storage_identity(invalid_digests[index], 1)
+        except:
+            rejected = True
+        if not rejected:
+            raise Error("identity validator accepted malformed digest " + String(index))
+
+    var negative_rejected = False
+    try:
+        validate_manifest_storage_identity("sha256:" + "b" * 64, -1)
+    except error:
+        negative_rejected = "must not be negative" in String(error)
+    if not negative_rejected:
+        raise Error("identity validator did not diagnose a negative byte size")
+    print("blob identity scheme/width/case/suffix/signed-size matrix: PASS")
+
+
+def test_atomic_registration_unit_evidence() raises:
+    """Pins expected-pair admission and newly published blob rollback."""
+    var test_root = (
+        String(".aesir-test-model-store-")
+        + String(external_call["getpid", Int32]())
+    )
+    var root_bytes = _test_cstring(test_root)
+    if external_call["access", Int32](root_bytes.unsafe_ptr(), 0) == 0:
+        raise Error("refusing to reuse atomic registration test path")
+
+    var invalid_pair_rejected = False
+    try:
+        var invalid_store = DurableModelStore(test_root)
+        _ = invalid_store.ingest_model(
+            "invalid:v1", "FROM fixture.gguf", test_root + "/source.bin",
+            "", 32,
+        )
+    except error:
+        invalid_pair_rejected = "requires an expected digest" in String(error)
+    if not invalid_pair_rejected:
+        _cleanup_owned_model_store(test_root)
+        raise Error("expected size without digest was not rejected")
+    if external_call["access", Int32](root_bytes.unsafe_ptr(), 0) == 0:
+        _cleanup_owned_model_store(test_root)
+        raise Error("invalid expected pair created the model store")
+
+    if external_call["mkdir", Int32](root_bytes.unsafe_ptr(), 448) != 0:
+        raise Error("unable to create owned registration test root")
+    var source_path = test_root + "/source.bin"
+    var stored_digest = String(
+        "sha256:9b3737096a1813f0580908da7a52fd6f04a5da9c5e207ccdf2c0483c2db47d96"
+    )
+    try:
+        _write_test_blob(source_path, "content-addressed-model-fixture\n")
+        var store = DurableModelStore(test_root)
+        var mismatch_rejected = False
+        try:
+            _ = store.ingest_model(
+                "mismatch:v1", "FROM fixture.gguf", source_path,
+                "sha256:" + "0" * 64, 32,
+            )
+        except error:
+            mismatch_rejected = "expected digest and size" in String(error)
+        if not mismatch_rejected:
+            raise Error("measured identity mismatch was not rejected")
+        var catalog_bytes = _test_cstring(test_root + "/catalog.v1")
+        if external_call["access", Int32](catalog_bytes.unsafe_ptr(), 0) == 0:
+            raise Error("rejected registration published a catalog")
+        var blob_bytes = _test_cstring(
+            test_root + "/blobs/sha256/"
+            + String(stored_digest[byte=7:])
+        )
+        if external_call["access", Int32](blob_bytes.unsafe_ptr(), 0) == 0:
+            raise Error("rejected registration leaked its new blob")
+    except error:
+        _cleanup_owned_model_store(test_root, stored_digest)
+        raise error
+    _cleanup_owned_model_store(test_root, stored_digest)
+    print("atomic registration expected-pair and new-blob rollback: PASS")
 
 
 def assert_cli_command_unsupported(command: String) raises:

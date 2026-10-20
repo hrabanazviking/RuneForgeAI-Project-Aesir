@@ -7,7 +7,7 @@ from tests.turing_replay_plan import FixtureReplayPlan
 from tests.turing_checkpoint_replay import restore
 
 
-def closed_features(mut f: TuringPrefillFixture) raises:
+def closed_features(mut f: TuringPrefillFixture) raises -> Int:
     var tokens = List[Int]()
     for _ in range(32): tokens.append(1)
     var activation = Int(f.activations.unsafe_ptr())
@@ -17,9 +17,10 @@ def closed_features(mut f: TuringPrefillFixture) raises:
     replay_tokens.append(1)
     var replay_tiles = List[Int]()
     replay_tiles.append(1)
+    var refusal_count = 0
     var replay = FixtureReplayPlan(0,weights,Int(f.native.activations.unsafe_ptr()),
         Int(f.native.cache.unsafe_ptr()),replay_tokens,replay_tiles,1,f.native.sampler.config,UInt64(0))
-    for feature in range(12):
+    for feature in range(13):
         if feature == 2:f.trace_projections = True
         elif feature == 3:f.fused_controls = True
         elif feature == 4:f.fused_tracing = True
@@ -29,6 +30,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
         elif feature == 8:f.down128 = False
         elif feature == 9:f.batched_elementwise = False
         elif feature == 10:f.batched_rope_cache = False
+        elif feature == 12:f.small_tracing = True
         var refused = False
         try:
             if feature == 0:f.configure_control(1)
@@ -37,6 +39,7 @@ def closed_features(mut f: TuringPrefillFixture) raises:
             else:f.step(tokens,0,32)
         except:refused = True
         f.trace_projections = False
+        f.small_tracing = False
         f.fused_controls = False
         f.fused_tracing = False
         f.down128_controls = False
@@ -49,7 +52,9 @@ def closed_features(mut f: TuringPrefillFixture) raises:
             raise Error("Ungated small feature changed owner state/counters")
         if Int(f.activations.unsafe_ptr()) != activation or Int(f.cache.unsafe_ptr()) != cache or Int(f.native.weights.unsafe_ptr()) != weights:
             raise Error("Ungated small feature changed allocations")
+        refusal_count += 1
     f.guards()
+    return refusal_count
 
 
 def main() raises:
@@ -73,17 +78,42 @@ def main() raises:
         if args[2] == "reject-batched":
             var invalid = TuringPrefillFixture(args[1],0,False,True,True,False,False,True,False,False,True)
             raise Error("Small attention without rotary capability admitted")
-    if len(args) != 2:raise Error("usage: test_small_attention_model MODEL.gguf")
-    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True)
-    invalid_tiles(f)
-    closed_features(f)
+        if args[2] == "reject-controls-without-small":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,False,False,True)
+            raise Error("Small controls without small attention admitted")
+        if args[2] == "reject-controls-with-tracing":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,True,True,False,True)
+            raise Error("Small controls with tracing admitted")
+        if args[2] == "reject-controls-with-replay":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,True,True)
+            raise Error("Small controls with replay admitted")
+        if args[2] == "reject-small-tracing-without-small":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,False,False,False,True)
+            raise Error("Small tracing without strategy5 admitted")
+        if args[2] == "reject-small-tracing-with-controls":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,False,True,True)
+            raise Error("Small tracing with controls admitted")
+        if args[2] == "reject-small-tracing-with-replay":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,True,False,True)
+            raise Error("Small tracing with replay admitted")
+        if args[2] == "reject-small-tracing-with-fused-tracing":
+            var invalid = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,True,True,False,False,True)
+            raise Error("Small tracing borrowed fused tracing admitted")
+    if len(args) != 2 and len(args) != 3:raise Error("usage: test_small_attention_model MODEL.gguf [controls-disabled]")
+    var capable = len(args) == 3 and args[2] == "controls-disabled"
+    if len(args) == 3 and not capable: raise Error("Unknown small model mode")
+    var f = TuringPrefillFixture(args[1],0,True,True,True,False,False,True,False,False,True,False,capable)
+    var tile_refusals = invalid_tiles(f)
+    var closed_refusals = 0
+    if not capable: closed_refusals = closed_features(f)
     print("ATTENTION,rope_cache_elementwise_down128_small,1,32")
     print("META,1,128256,1536,32,f16,8")
-    print("ADMISSION,5,12,0")
+    print("ADMISSION,5,COUNTS1,"+String(tile_refusals)+","+String(closed_refusals))
+    if capable: print("CONTROL_CAPABLE,5,1,DISABLED,STATE1")
     var long_prompt = ("A knowledge graph links documents, entities and the passages that support each connection. Sources remain available for citation. New material is appended through a queue, checked for duplicate content, and embedded in the same vector space. Failed imports can be inspected and retried safely. "*20)+"Summarize the reliability principles in a detailed paragraph."
     var prompts: List[String] = ["What is two plus two? Answer with one word.","Explain how a knowledge graph connects documents, entities and their evidence. Write three sentences.","Write one sentence about a silver ship beneath Bifröst.",long_prompt]
     for index in range(4):
-        measure(f,index,prompts[index])
+        measure(f,index,prompts[index],capable)
         print("ENQUEUE,"+String(index)+","+String(f.rope_cache_calls))
         print("ELEMENTWISE,"+String(index)+","+String(f.elementwise_calls))
         print("DOWN_ROWS128,"+String(index)+","+String(f.down128_calls))

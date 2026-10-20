@@ -1,0 +1,4 @@
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/tests/hailo_context_action_ownership.mojo:2:
+./smidr/context_actions.mojo:98:27: warning: assignment to 'values' was never used; assign to '_' instead?
+    var values = List[Int]()
+                          ^

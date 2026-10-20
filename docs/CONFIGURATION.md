@@ -41,6 +41,12 @@ opening files. Neither command automatically reads `aesir.config.json`.
 Config store paths remain relative to the process working directory, not the
 config file's directory, matching catalog commands.
 
+Precedence is explicit and command-scoped: a config file is loaded only when
+`--config`/`-c` is present. With neither selector, native defaults apply and no
+implicit file lookup occurs. Supplying both `--config` and `--model-store`
+rejects before file access; supplying only `--model-store` selects the store
+without loading a config file. Sampling values then follow the layering below.
+
 Sampling precedence is native defaults < explicitly present config fields <
 stored native recipe < explicit CLI flags < supported request/session overrides.
 The existing `sampling.temperature` and `sampling.top_p` fields are connected;

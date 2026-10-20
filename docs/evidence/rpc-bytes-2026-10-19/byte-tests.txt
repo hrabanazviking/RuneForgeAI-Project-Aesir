@@ -1,0 +1,9 @@
+test_full_range_and_seeded_bytes_are_exact_with_zeroed_padding (__main__.OwnedBytes.test_full_range_and_seeded_bytes_are_exact_with_zeroed_padding) ... ok
+test_independent_protobuf_requests_and_frame_headers (__main__.OwnedBytes.test_independent_protobuf_requests_and_frame_headers) ... ok
+test_oversized_message_refused (__main__.OwnedBytes.test_oversized_message_refused) ... ok
+test_refusals_and_independent_copies (__main__.OwnedBytes.test_refusals_and_independent_copies) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.285s
+
+OK

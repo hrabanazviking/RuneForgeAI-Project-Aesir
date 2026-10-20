@@ -1,0 +1,7 @@
+Executing on device: pci/0001:01:00.0
+Identifying board
+Control Protocol Version: 2
+Firmware Version: 5.3.0 (release,app)
+Logger Version: 0
+Device Architecture: HAILO10H
+Full private stdout SHA-256: 4fc77d103627298582dd36449ef3fdace1714b46d79b4bfbd036600e7718c01a

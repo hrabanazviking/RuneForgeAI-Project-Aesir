@@ -14,6 +14,8 @@ from core.compute import (
     apply_rope,
     cosine_similarity,
     dequantize_q4_k_m,
+    dequantize_q5_k_m,
+    dequantize_q6_k_block,
 )
 
 def test_gemm() raises:
@@ -182,8 +184,73 @@ def test_dequantize_q4_k_m() raises:
     dequantize_q4_k_m(raw, output, 1)
     if output.unsafe_load(0) != Float16(0.5) or output.unsafe_load(32) != Float16(1):
         raise Error("Canonical Q4_K dequantization known-value mismatch")
-    _ = well
     print("canonical Q4_K dequantization: PASS")
+
+    # The same independent scalar oracle exercises the 32 high-bit planes
+    # that distinguish Q5_K from Q4_K.
+    var raw_q5 = well.allocate(176).unsafe_bitcast[UInt8]()
+    for i in range(176):
+        raw_q5.unsafe_store(i, UInt8(0))
+    raw_q5.unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.5))
+    raw_q5.unsafe_bitcast[Float16]().unsafe_store(1, Float16(0.25))
+    for i in range(12):
+        raw_q5.unsafe_store(4 + i, UInt8((i * 37 + 0xD3) & 255))
+    for i in range(32):
+        raw_q5.unsafe_store(16 + i, UInt8((i * 29 + 0xB6) & 255))
+    for i in range(128):
+        raw_q5.unsafe_store(48 + i, UInt8((i * 53 + 0xA5) & 255))
+    var output_q5 = well.allocate(256)
+    dequantize_q5_k_m(raw_q5, output_q5, 1)
+    for index in range(256):
+        var group = index // 32
+        var lane = index % 32
+        var packed = Int(raw_q5.unsafe_load(48 + (group // 2) * 32 + lane))
+        var q = (packed & 15) if group % 2 == 0 else (packed >> 4)
+        q += ((Int(raw_q5.unsafe_load(16 + lane)) >> group) & 1) * 16
+        var scale: Int
+        var minimum: Int
+        if group < 4:
+            scale = Int(raw_q5.unsafe_load(4 + group)) & 63
+            minimum = Int(raw_q5.unsafe_load(8 + group)) & 63
+        else:
+            var scale_byte = Int(raw_q5.unsafe_load(8 + group))
+            var scale_high = Int(raw_q5.unsafe_load(group)) >> 6
+            var minimum_high = Int(raw_q5.unsafe_load(4 + group)) >> 6
+            scale = (scale_byte & 15) | (scale_high << 4)
+            minimum = (scale_byte >> 4) | (minimum_high << 4)
+        var expected_q5 = Float16(Float32(0.5) * Float32(scale * q) - Float32(0.25) * Float32(minimum))
+        if output_q5.unsafe_load(index) != expected_q5:
+            raise Error("Q5_K output differs from independent scalar layout oracle at " + String(index))
+    print("Q5_K all-output scalar layout oracle: PASS")
+
+    var raw_q6 = well.allocate(210).unsafe_bitcast[UInt8]()
+    for i in range(210):
+        raw_q6.unsafe_store(i, UInt8(0))
+    for i in range(128):
+        raw_q6.unsafe_store(i, UInt8((i * 47 + 0x6D) & 255))
+    for i in range(64):
+        raw_q6.unsafe_store(128 + i, UInt8((i * 31 + 0xB7) & 255))
+    for i in range(16):
+        raw_q6.unsafe_store(192 + i, UInt8((i * 29 + 0x93) & 255))
+    raw_q6.unsafe_offset(208).unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.125))
+    var output_q6 = well.allocate(256)
+    dequantize_q6_k_block(raw_q6, output_q6, 1)
+    for index in range(256):
+        var half = index // 128
+        var within = index % 128
+        var group = within // 32
+        var lane = within % 32
+        var low_byte = Int(raw_q6.unsafe_load(half * 64 + (group % 2) * 32 + lane))
+        var low = (low_byte >> (4 * (group // 2))) & 15
+        var high_byte = Int(raw_q6.unsafe_load(128 + half * 32 + lane))
+        var high = (high_byte >> (2 * group)) & 3
+        var scale_byte = Int(raw_q6.unsafe_load(192 + half * 8 + group * 2 + lane // 16))
+        var signed_scale = scale_byte if scale_byte < 128 else scale_byte - 256
+        var expected_q6 = Float16(Float32(0.125) * Float32(signed_scale * ((low | (high << 4)) - 32)))
+        if output_q6.unsafe_load(index) != expected_q6:
+            raise Error("Q6_K output differs from independent scalar layout oracle at " + String(index))
+    print("Q6_K all-output scalar layout oracle: PASS")
+    _ = well
 
 
 def test_kernel_bounds() raises:

@@ -6,6 +6,18 @@ remains available. A separate Ollama-compatible mode was verified with the
 native Gemma 4 E2B Q4_K_M profile at 16,384 context on an RTX 4070 Laptop GPU.
 Neither mode is ready for public or multi-tenant deployment.
 
+## Startup, listener, and readiness signals
+
+The native service rehashes and admits the catalog model, initializes the CUDA
+session, then binds its loopback listener and writes `Native inference ready` to
+stdout. The supervised user unit uses `Type=simple`, so `systemctl is-active`
+can become successful before model initialization and listener binding finish.
+Use the startup line to confirm the listener loop was reached, then call the
+authenticated native `/health` route and require `status: ready` plus the
+expected backend/model identity. Generation clients must still validate each
+response's status, model and completion fields; neither systemd activation nor
+health readiness is a completion receipt for an individual request.
+
 ## Ollama-compatible offline mode
 
 Install a model into the durable catalog once, while the GGUF is available:
@@ -186,6 +198,15 @@ readiness is 200 with `ready:true` for a healthy resident session, or 503 with
 `ready:false` when that session is not ready. Neither route equates catalog
 membership with runnable inference. Unknown routes return 404.
 
+`GET /health` is a session-readiness signal, not a process-liveness probe. The
+startup log confirms that model initialization reached the listener loop; the
+authenticated route then reports `status: ready` only while the native session
+is healthy, together with backend, profile, context, model name and model digest.
+An HTTP 200 status alone does not establish inference success; clients must also
+validate response identity and completion fields. The route is served only by
+native mode; the Ollama-compatibility service does not expose this native health
+contract.
+
 ## Request and response contract
 
 `POST /v1/generate` accepts a flat JSON object. Unknown/duplicate fields, nested
@@ -276,14 +297,20 @@ Mojo. The test creates temporary keys and owned processes, checks `/proc` for
 actual loopback binding and worker signal masks, exercises real generation and
 seeded replay, rejects unsafe key files and malformed protocol inputs, forces
 slow-client and prefill deadlines, then verifies recovery and active shutdown.
+The service probe also sends unique canaries in a rejected bearer credential
+and malformed prompt body and asserts that neither error response nor service
+log contains them. This integration probe requires the pinned real GGUF fixtures
+and available CUDA device; adding assertions does not itself run that probe.
 Tests use context 512, a 64-token ceiling and a 300 ms I/O deadline to make bounds
 observable on the available GPU. They do not prove service operation at every
 possible context size or under sustained load. Four counted protocol/request/path
 cases join the master suite; hosted CPU CI does not claim GPU service execution.
 
 Native key publication is also tested without a GPU, including filename byte
-lengths 1..33, Unicode, mode/format, existing files/symlinks, a four-process
-publication race and temporary-link cleanup:
+lengths 1..33, Unicode, mode/format under umask 000, existing files/symlinks,
+a four-process publication race and temporary-link cleanup. Key admission
+rejects group/world read, write, and execute permission examples before model
+or CUDA initialization:
 
 ```bash
 python scripts/test_native_keygen.py --binary ./aesir

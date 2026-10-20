@@ -39,9 +39,9 @@ Run commands from the repository root unless stated otherwise.
 
 | Evidence key | Command | Establishes |
 |---|---|---|
-| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 190 named executable cases pass, zero fail, 1 external-fixture case is explicitly skipped, total 191, process exit 0. Synthetic/scaffold cases prove only their narrow local assertions. |
+| `E-MASTER` | `pixi run mojo run --target-accelerator sm_89 aesir_engine/tests/run_all.mojo` | 266 named executable cases are registered, 1 external-fixture case is explicitly skipped, total 267. This run includes `cli.catalog_schema_interface`, `cli.catalog_schema_unit_evidence`, `cli.blob_identity_interface`, `cli.blob_identity_unit_evidence`, `cli.atomic_registration_unit_evidence`, `local_service.http_bounds`, `local_service.http_framing`, `local_service.socketpair_framing`, `local_service.transport_adversarial`, `local_service.fd_ownership`, `local_service.socket_admission`, `sampling.greedy_tie_policy`, `sampling.greedy_tie_adversarial`, `sampling.temperature_distribution_oracle`, `sampling.temperature_integration`, `sampling.temperature_adversarial`, `sampling.top_k_boundaries`, `sampling.top_k_integration`, `sampling.top_k_adversarial`, `sampling.top_k_integration`, `memory.checked_span`, `memory.rune_tensor_layout`, `memory.allocation_bounds`, `gguf.version_interface`, `gguf.version_reference`, `gguf.version_integration`, `gguf.header_adversarial`, `gguf.metadata_type_baseline`, `gguf.metadata_type_integration`, `gguf.tensor_directory_baseline`, `gguf.tensor_directory_interface`, `gguf.tensor_directory_adversarial`, `gguf.tensor_directory_integration`, `gguf.tensor_directory_pool_adversarial`, `compute.rmsnorm_interface`, `compute.rmsnorm_reference`, `compute.rmsnorm_adversarial`, `compute.rope_interface`, `compute.rope_reference`, `compute.rope_integration`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, `compute.attention_adversarial`, `compute.rope_adversarial`, and `inference.rmsnorm_integration`. Synthetic/scaffold cases prove only their narrow local assertions. |
 | `E-REAL` | `pixi run mojo run aesir_engine/tests/test_real_gguf.mojo /path/to/stories260K.F16.gguf` | With the pinned external fixture identified below: exact GGUF metadata, F16 mmap alias, F32 norm conversion, tokenizer IDs, first token, 32 greedy token IDs/text, stop reason, context boundary, and pool restoration. |
-| `E-BUILD` | `pixi run mojo build aesir_engine/main.mojo -o /tmp/aesir-ledger-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment. |
+| `E-BUILD` | `pixi run mojo build --target-accelerator sm_89 aesir_engine/main.mojo -o /tmp/aesir-sigrun-sm89-build` | Current source compiles into a Linux x86-64 executable in the configured Pixi environment; the resulting binary's `--help` smoke path exits successfully. |
 | `E-API-CONTRACT` | `python3 scripts/test_api_contract_v1.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an already-installed local catalog model, 29 independently authored live HTTP cases check the bounded native/Ollama/OpenAI route subset and incremental compatibility framing. Does not download a model or prove full external compatibility. |
 | `E-NATIVE-STREAM` | `python3 scripts/test_native_streaming.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | On the installed Gemma CUDA model, independently reads native NDJSON during decoding, observes first text before final, checks UTF-8/JSON records, deterministic non-streamed text/count replay and a separate EOS terminal record. |
 | `E-COMPAT-STREAM` | `python3 scripts/test_compat_streaming.py --binary /tmp/aesir-ledger-build --model gemma4-e2b:latest` | With an installed Gemma CUDA model, a standard-library client parses incremental OpenAI chat/completion SSE and Ollama chat/generate NDJSON, tests reset-peer cancellation and next-request recovery, checks a slow reader, and forces post-header deadlines that produce sanitized error frames without success terminals. |
@@ -78,17 +78,20 @@ paths are not stored in the repository.
 
 ## 3. Status Summary
 
-The counts in this table are generated from the entries below and must sum to
-the complete ledger population.
+Counts use all numeric AES capability identifiers, including the campaign
+appendix. One historical entry retains the noncanonical `blocked` status.
+The stricter AES500 schema checker reports pre-existing appendix inconsistencies;
+this integration does not promote historical statuses or hide checker failures.
 
 | Status | Count |
 |---|---:|
-| `verified` | 75 |
+| `verified` | 94 |
 | `partial` | 29 |
 | `scaffold` | 0 |
 | `simulated` | 0 |
 | `missing` | 15 |
-| **Total** | **119** |
+| Historical noncanonical status | 1 |
+| **Total** | **139** |
 
 ## 4. Foundation, Build, and Test Truth
 
@@ -214,9 +217,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core memory domain
 - **Claim sources:** README MimirWell claims; core interfaces
-- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool, advances offsets, validates positive pool/allocation sizes, checks overflow, validates reset boundaries, and raises catchable `Error("MimirWell: memory pool exhausted")` instead of returning address `1`.
+- **Implementation evidence:** `aesir_engine/core/mimir_well.mojo::MimirWell` allocates one pool, advances offsets, rejects nonpositive pool/allocation sizes, validates reset boundaries, and raises catchable `Error("MimirWell: memory pool exhausted")` instead of returning address `1`. The current allocator compares `offset + elements` directly with capacity; checked overflow for that addition is not established.
 - **Executable evidence:** `E-MASTER` case `inference.kv_cache` in `aesir_engine/tests/test_kv_cache.mojo` verifies memory exhaustion error raising, zero address 1 returns, and pool offset integrity.
-- **Evidence boundary:** Single-thread linear arena allocation pool; does not cover multi-threaded lock-free arenas or page allocation tables.
+- **Evidence boundary:** Single-thread linear arena allocation pool; does not cover multi-threaded lock-free arenas, page allocation tables, per-allocation ownership, pointer provenance, lifetime, or alias control. See the [AES500-082 baseline](docs/evidence/allocation-ownership-baseline-2026-10-10/README.md) for current source limits.
 - **Next acceptance gate:** Multi-threaded arena access locks, dynamic pool expansion policy, and heap sanitizer integrations.
 - **Audit:** AER-002, AER-005, AER-023, AER-028.
 
@@ -225,9 +228,9 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core memory and loader domains
 - **Claim sources:** README custom zero-copy tensors; core interfaces
-- **Implementation evidence:** `RuneTensor.checked()` validates positive shape dimensions, rejects wrapped products and null/sentinel pointers, and is used by GGUF mapping and public cache pointer admission. The non-raising initializer is an explicitly unchecked internal view primitive. `get_checked` / `set_checked` provide coordinate bounds checks.
-- **Executable evidence:** `E-REAL` verifies F16 aliasing; `E-MASTER` case `inference.kv_cache` verifies valid checked construction plus dimension, overflow, sentinel-pointer, and coordinate rejection.
-- **Evidence boundary:** Checked admission for untrusted 2D host views; raw internal views and allocation-span/lifetime proof remain caller-owned.
+- **Implementation evidence:** `RuneTensor.checked()` validates positive shape dimensions, rejects wrapped products and null/sentinel pointers, and is used by GGUF mapping and public cache pointer admission. The non-raising initializer is an explicitly unchecked internal view primitive. Scalar `get`/`set` share the private row-major `r * cols + c` offset helper; `get_checked` / `set_checked` validate coordinates first.
+- **Executable evidence:** `E-REAL` verifies F16 aliasing; `E-MASTER` cases `inference.kv_cache` and `memory.rune_tensor_layout` verify checked construction, dimension/product/pointer rejection, 3x4 contiguous row-major scalar indexing, extreme coordinate rejection, mutation-free rejected checked store, and the existing cache consumer path. See [baseline](docs/evidence/rune-tensor-layout-baseline-2026-10-10/README.md), [integration](docs/evidence/rune-tensor-layout-integration-2026-10-10/README.md), and [review](docs/evidence/rune-tensor-layout-review-2026-10-10/README.md).
+- **Evidence boundary:** Checked admission for untrusted 2D host views; row-major scalar indexing only. Raw internal views and allocation-span/lifetime proof remain caller-owned. No arbitrary stride or packed quantized storage claim is made.
 - **Next acceptance gate:** N-dimensional tensor shape strides and compile-time lifetime annotations.
 - **Audit:** AER-005, AER-027, AER-039.
 
@@ -273,6 +276,17 @@ the complete ledger population.
 - **Evidence boundary:** Passing in-range tests does not prove failure safety.
 - **Next acceptance gate:** Checked public boundaries, removal of usable sentinel pointers, fuzz/boundary corpus, sanitizers where available, and proof that errors occur before dereference.
 - **Audit:** AER-002, AER-005, AER-028, AER-029, AER-030.
+
+### AES-MEM-007 — Caller-bounded half-open arithmetic spans
+
+- **Status:** `verified`
+- **Owner:** core memory utility; currently integrated only by the CPU-only Turing fixture planner
+- **Claim sources:** `TASK_checked_span_construction.md`; core interface
+- **Implementation evidence:** `core/checked_span.mojo::checked_span` checks nonnegative inputs, validates `start <= capacity`, and bounds length by `capacity - start` before computing the exclusive end. Empty spans are allowed, including the capacity endpoint.
+- **Executable evidence:** `E-MASTER` case `memory.checked_span`; focused `test_checked_span.mojo`; CPU-only `test_turing_fixture_plan.mojo` exact-capacity integration and rejection matrix.
+- **Evidence boundary:** Integer arithmetic only, with equal caller-defined units. It does not prove actual allocation ownership/capacity, pointer validity/alignment, aliasing, lifetime, synchronization, or device bounds. Existing owner-specific checks remain in place.
+- **Next acceptance gate:** Expand to additional named CPU span owners only after separate baselines; preserve each owner's current semantics and keep pointer/device claims out of arithmetic evidence.
+- **Audit:** AES500-068 and AES500-066 review.
 
 ## 6. CPU Compute Primitives
 
@@ -325,10 +339,10 @@ the complete ledger population.
 - **Status:** `verified`
 - **Owner:** core compute domain
 - **Claim sources:** TODO fused Flash Attention-2; README technical specifications
-- **Implementation evidence:** `flash_attention_2` in `aesir_engine/core/compute.mojo` combines online softmax, SRAM-tiling, and scalar tail loops for unaligned `head_dim` sizes alongside shape/span contract validation.
-- **Executable evidence:** `E-MASTER` cases `compute.flash_attention_2` and `compute.unaligned_flash_attention` in `test_compute.mojo`.
-- **Evidence boundary:** CPU tiled online-softmax kernel contract and scalar tail safety; target accelerator FlashAttention-2 GPU/NPU kernels remain separate.
-- **Next acceptance gate:** Multi-query mask variants and CUDA/Metal fused-kernel implementation.
+- **Implementation evidence:** `flash_attention_2` in `aesir_engine/core/compute.mojo` combines an inclusive `j <= i` causal prefix with online softmax, 32-key tiling, and scalar tail loops, after shape admission.
+- **Executable evidence:** `E-MASTER` cases `compute.flash_attention_2`, `compute.unaligned_flash_attention`, `compute.attention_interface`, `compute.attention_reference`, `compute.attention_integration`, and `compute.attention_adversarial`.
+- **Evidence boundary:** Causal-prefix semantics are checked for deterministic small CPU corpora, including one width-3 scalar oracle and one sequence-33 tile boundary. Repeated F16 partial-output stores remain; no broad numerical bound, raw-pointer safety, exceptional-value policy, accelerator parity, performance, or model-quality claim is made.
+- **Next acceptance gate:** Expand randomized causal reference coverage, head-width/sequence matrix, exceptional-value policy, and pointer/index safety before wider CPU claims; target accelerator kernels remain separate.
 - **Audit:** AER-048, AER-112.
 
 ### AES-CPU-006 — SiLU activation for tested values
@@ -727,10 +741,10 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Status:** `verified`
 - **Owner:** generation/tool protocol domain
 - **Claim sources:** tool-use TODO and architecture descriptions
-- **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail.
-- **Executable evidence:** `E-MASTER` case `paradigms.tool_use_json` covers exact parsing, nested arguments, prompt formatting, prose refusal, duplicates and malformed nested JSON.
-- **Evidence boundary:** The general JSON helper formats and parses data only. S24 separately wires one zero-argument Gemma 4 declaration/call into CUDA generation and OpenAI chat serialization; neither path authorizes, executes, sandboxes, audits, or returns results from tools.
-- **Next acceptance gate:** Add an allowlisted executor with per-tool schemas, authorization, resource/time limits, result framing, audit logs and end-to-end model fixtures.
+- **Implementation evidence:** `BoundedToolJSON` validates nested JSON with 64 KiB, depth-16 and 256-item/field limits, strict numbers/escapes/surrogates, duplicate-key rejection and trailing-content refusal. Tool definitions require unique safe names, bounded descriptions and object schemas before JSON prompt formatting. Tool calls accept exactly `tool` plus object-valued `arguments`; prose wrappers and unknown fields fail. `resolve_allowlisted_tool` validates the supplied definition set and refuses a parsed name absent from that set.
+- **Executable evidence:** `E-MASTER` case `paradigms.tool_use_json` covers exact parsing, nested arguments, prompt formatting, prose refusal, duplicates and malformed nested JSON. The adversarial matrix also rejects empty/missing-field envelopes, null/array arguments, extra fields, unsafe names and trailing values.
+- **Evidence boundary:** The general JSON helper formats and parses data only. S24 separately wires one zero-argument Gemma 4 declaration/call into CUDA generation and OpenAI chat serialization; neither path authorizes, executes, sandboxes, audits, or returns results from tools. The name resolver additionally checks supplied allowlist membership; argument-schema validation and execution remain outside that helper.
+- **Next acceptance gate:** Add schema-instance validation and explicit authorization before any executor, then resource/time limits, result framing, audit logs and end-to-end model fixtures.
 - **Audit:** AER-003.
 
 ## 10. CLI and Model Management
@@ -832,13 +846,33 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
   and canonicalizes the entire snapshot before destination mutation, then
   rehashes every referenced blob under the store lock and uses the established
   atomic catalog writer. Preferences remain a separate record.
+- **AES500-211..218 schema-versioning evidence:** `catalog.v1` has the exact
+  `AESIR_MODEL_CATALOG_V1` header, count, and hex entry grammar. Normal load
+  fails closed on unknown versions; legacy import is explicit and one-way.
+  Codec baseline/interface/unit tests, separate-process lifecycle integration,
+  and four-stage process-kill evidence are linked from
+  [the schema contract](TASK_catalog_schema_versioning.md).
+- **AES500-221..228 blob identity evidence:** recipe fingerprints remain
+  non-cryptographic and zero-sized; durable blob references require lowercase
+  SHA-256 plus positive measured size. The shared validator and expected
+  ingest-pair contract are documented in the CLI interface; unit, native
+  integration, corruption/missing-blob, FIFO/symlink and recovery receipts are
+  linked from [the identity contract](TASK_content_addressed_blob_identity.md).
+- **AES500-231..238 atomic registration evidence:** `ingest_model` validates
+  expected identity against measured bytes before catalog publication; mismatch
+  rolls back only a newly published blob, and post-rename sync uncertainty
+  retains the referenced blob. Unit, separate-process registration/restart,
+  dedup/concurrent-writer, lifecycle and four-boundary process-kill receipts are
+  linked from [the registration contract](TASK_atomic_model_registration.md).
+  These checks do not establish sudden-power-loss durability or cross-filesystem
+  guarantees; independent review was unavailable and is not claimed.
 
 - **Status:** `partial`
 - **Owner:** CLI catalog domain
 - **Claim sources:** CLI interface and completed Ollama-suite TODO
 - **Implementation evidence:** `AesirConfig.model_store_path` owns the validated relative `.aesir/models` default. `ModelManifest` and `RuneModelStore` validate identities and distinguish exact 16-hex `fnv1a64:` recipe fingerprints with zero observed bytes from exact 64-hex measured `sha256:` blob identities with positive size; decode, durable serialization, migration, restore, and collection share this invariant. `DurableModelStore` loads absent stores as empty, commits a bounded/versioned/delimiter-safe catalog under a Linux directory lock, imports strict legacy records, and creates/restores explicit snapshots through the same atomic writer. Ingestion copies the exact open inode into an owner-only staged file, hashes that inode through an inherited descriptor without a shell or path re-resolution, makes it owner-read-only, publishes `blobs/sha256/<digest>` content with non-replacing `linkat`, verifies an existing digest before deduplication, and records measured byte size. Optional expected digest/size admission occurs before catalog mutation and rolls back a blob newly created by a rejected transaction. Locked `gc` derives reachability from the current catalog, validates the complete blob namespace before deletion, retains referenced bytes, removes unreachable canonical digests and strict abandoned stages, synchronizes the directory, and reports exact accounting.
 - **Executable evidence:** `E-MASTER` case `cli.manifest_store_restart` proves exact SHA-256/size, first publication, deduplication, restart metadata, full rehash verification, same-size corruption detection, missing-blob rejection, validate-before-delete GC failure, stale-stage cleanup, unreachable-byte reclamation, referenced-byte retention, exact GC counters, and the earlier catalog invariants. `E-CATALOG-LIFECYCLE` proves strict one-way migration, immutable backup, repair of a corrupt current catalog, invalid/missing-blob restore refusal without catalog publication, and six simultaneous writers preserving every reference. `E-STORE` repeats six-process blob/catalog contention plus permissions, rollback, deduplication, corruption and missing-blob behavior. `E-CRASH` proves process-kill atomic visibility across the four catalog commit boundaries. `E-SPECIAL` proves catalog, source-blob, and installed-blob FIFOs fail closed without blocking.
-- **Evidence boundary:** The content-addressed store, explicit pinned `pull --name` registration, migration/backup/restore, and reference-aware `gc` are implemented for the configured Linux target and require `sha256sum`, GNU `find`, and procfs. Backups contain catalog metadata only; referenced blobs and the separate preferences record are not copied. Migration is deliberately one-way and empty-destination-only. The crash harness proves process-kill visibility on the tested filesystem, not sudden-power-loss durability; pre-rename crashes can leave ignored private stages. Injected syscall failures, collection crash recovery, portability, binary distribution, and live-session ownership remain open.
+- **Evidence boundary:** The content-addressed store, explicit pinned `pull --name` registration, migration/backup/restore, and reference-aware `gc` are implemented for the configured Linux target and require `sha256sum`, GNU `find`, and procfs. The catalog format is only v1; unknown future versions fail closed. Backups contain catalog metadata only; referenced blobs and the separate preferences record are not copied. Migration is deliberately one-way and empty-destination-only. The crash harness proves process-kill visibility on the tested filesystem, not sudden-power-loss durability; pre-rename crashes can leave ignored private stages. Injected syscall failures, collection crash recovery, portability, binary distribution, and live-session ownership remain open.
 - **Next acceptance gate:** S17 versioned API contract fixtures; storage follow-ups remain injected I/O errors, safe stale-root-stage cleanup, and process-crash recovery across collection boundaries.
 - **Audit:** AER-061, AER-062, AER-063.
 
@@ -1171,7 +1205,7 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Owner:** facade and embedding domains
 - **Claim sources:** RAG integration claims
 - **Implementation evidence:** `mean_pool_token_embeddings()` validates every caller token ID before allocation and mean-pools rows from a real caller-supplied token table. `extract_query_embedding()` requires the loaded `token_embd.weight`, exact hidden dimension, and a non-empty valid token sequence; it has no hash, constant, or token-zero substitution.
-- **Executable evidence:** `E-MASTER` case `rag.query_embedding` checks exact mean-pool values and pre-allocation rejection. The engine integration case remains explicitly skipped without a real fixture.
+- **Executable evidence:** `E-MASTER` case `rag.query_embedding` checks exact mean-pool values and pre-allocation rejection for invalid IDs and empty token sequences. The engine integration case remains explicitly skipped without a real fixture.
 - **Evidence boundary:** No fabricated fallback remains, but the real-model path is not exercised by the default suite and is not a dedicated embedding model.
 - **Next acceptance gate:** Run the pinned external fixture in CI and compare embeddings/retrieval against an independent oracle.
 - **Audit:** AER-086.
@@ -1181,9 +1215,9 @@ documented per-kernel comparison contracts (see `docs/armvegr/C2_REVIEW.md`).
 - **Status:** `partial`
 - **Owner:** RAG domain
 - **Claim sources:** Mímisbrunnr external knowledge-base claim
-- **Implementation evidence:** `DocumentChunk` and `chunk_text()` provide deterministic overlapping inline chunks and byte offsets. `ingest_corpus_batch()` transactionally validates caller-supplied embedding matrix shape, store capacity, and non-empty text before copying rows into `MimirStore`; it performs no synthetic embedding generation.
-- **Executable evidence:** `E-MASTER` case `rag.corpus_ingestion` checks chunking, real matrix copying, shape rejection, and mutation-free failure.
-- **Evidence boundary:** There is no file/document parser, durable index, versioning, update/delete path, embedding service, or provenance-preserving citation store. The byte-window chunker does not yet prove arbitrary UTF-8 boundary safety.
+- **Implementation evidence:** `DocumentChunk` and `chunk_text()` provide deterministic overlapping inline chunks with original byte offsets, validate NUL-free UTF-8, and align emitted boundaries to complete code points. `ingest_corpus_batch()` validates caller-supplied embedding matrix shape, store capacity, and every non-empty chunk before copying rows; preflight rejection preserves store and arena state.
+- **Executable evidence:** `E-MASTER` case `rag.corpus_ingestion` checks chunking, exact Unicode byte offsets, malformed UTF-8 rejection, real matrix copying, shape/capacity/empty-text rejection, and mutation-free failure.
+- **Evidence boundary:** There is no file/document parser, durable index, versioning, update/delete path, embedding service, or provenance-preserving citation store. Byte-based chunk size may be exceeded by a single complete Unicode code point.
 - **Next acceptance gate:** Reproducible ingestion pipeline, persistent store/index, metadata/citation contract, restart behavior, and external corpus tests.
 - **Audit:** AER-084 through AER-087.
 
@@ -1265,8 +1299,8 @@ and circular self-parity transforms were removed.
 - **Owner:** core compute domain
 - **Claim sources:** 3-bit and 5-bit K-quantization support (Q3_K_S, Q3_K_M, Q3_K_L, Q5_K_S, Q5_K_M)
 - **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 110-byte Q3_K and 176-byte Q5_K GGML blocks. Public Q3_K S/M/L and Q5_K S/M dequantizers plus the format-specific GEMM entry points route to that shared checked implementation; padded local descriptors and circular reference decoders were replaced.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs.
-- **Evidence boundary:** Verified canonical raw-byte addressing, scale unpacking, quant unpacking, format-alias dispatch, and known-value matvec results. Full-model Q3_K execution has not been independently established.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q3_k_s_parity`, `quantization.fused_q3_k_m_parity`, `quantization.fused_q3_k_l_parity`, `quantization.fused_q5_k_s_parity`, and `quantization.fused_q5_k_m_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs. `compute.dequantize_q4_k` additionally compares all 256 standalone Q5_K outputs against an independent scalar scale/minimum and high-bit-plane oracle.
+- **Evidence boundary:** Verified one-block Q5_K raw-byte addressing, scale unpacking, high-bit/nibble extraction, format-alias dispatch, and known-value matvec results. Multi-block and full-model Q3_K/Q5_K execution have not been independently established.
 - **Audit:** Stage 53.1 Mythic Engineering Pass.
 
 ### AES-QNT-007 — Quantization system crash-proofing, error-correcting, and self-healing boundaries
@@ -1285,8 +1319,8 @@ and circular self-parity transforms were removed.
 - **Owner:** core compute domain
 - **Claim sources:** 2-bit and 6-bit K-quantization support (Q2_K, Q6_K)
 - **Implementation evidence:** `packed_value`, `dequantize_ggml_k`, and `gemm_ggml_k` read canonical 84-byte Q2_K and 210-byte Q6_K GGML blocks; public block dequantizers and format-specific GEMM entry points route through the shared checked path.
-- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs; independent Stheno row parity additionally covers Q6_K.
-- **Evidence boundary:** Verified canonical raw-byte addressing, metadata use, complete-block enforcement, and known-value matvec results. Full-model Q2_K execution has not been independently established.
+- **Executable evidence:** `E-MASTER` cases `quantization.fused_q2_k_parity` and `quantization.fused_q6_k_parity` call both the public dequantizers and fused dispatch using raw upstream-layout blocks with hand-calculated outputs; `compute.dequantize_q4_k` now compares every standalone Q6_K output against a separate scalar nibble/high-plane/signed-scale oracle; independent Stheno row parity additionally covers Q6_K.
+- **Evidence boundary:** Verified one-block canonical raw-byte addressing, signed metadata use, complete-block enforcement, and known-value matvec results. Multi-block layouts and full-model Q2_K execution have not been independently established.
 - **Audit:** Stage 55.1 Mythic Engineering Pass.
 
 ### AES-QNT-009 — GPTQ, AWQ, EXL2, HQQ, and SmoothQuant fused quantization transformation kernels
@@ -1408,6 +1442,7 @@ and circular self-parity transforms were removed.
 - **Claim sources:** native CUDA Gemma 4 and Llama 3 profiles and existing F16 GEMM
 - **Implementation evidence:** `Gemma4CUDASession` owns packed device weights, activations, per-layer/global/shared KV, native quantized matvec, norms, RoPE, attention, GELU/PLE, logits and GPU greedy selection. It is exported by `aesir.mojo` and reached by `chat --accel cuda` and `run --accel cuda`. There is no CPU model fallback or external inference engine. The detached legacy `MAXGate` reports no devices and refuses graph execution rather than substituting a host scalar GEMM.
 - **Executable evidence:** RTX 4070 Laptop GPU: all 42 dense Gemma 4 E4B layers executed, 35 independent real-weight CUDA matvec comparisons passed (maximum error `1.3113022e-06`), tokenizer parity passed, and 20 exchanges with a 16,384 completion ceiling retained corrected facts across the 512-token attention boundary. Existing F16 CUDA GEMM exact/tail tests also passed. `E-MASTER` case `paradigms.max_gate_boundary` proves the detached gateway does not fabricate availability or mutate output. See `docs/GEMMA4_CUDA.md` for commands and limits.
+- **Bounded allocation-lifetime evidence (AES500-021–029):** GPU-2/GPU-3 wrappers now record session-local logical allocation IDs, live owners/bytes, known pending work, and fenced/unfenced owner destruction. CPU-only adversarial tracker cases and physical RTX 2060 Max-Q GPU-2/GPU-3 lifecycle probes pass; the GEMM receipt checks three live owners immediately after each successful execution and pending counts after each successful context synchronization. See `TASK_cuda_allocation_lifetime_tracking.md`, [baseline](docs/evidence/cuda-allocation-lifetime-baseline-2026-10-10/README.md), [implementation](docs/evidence/cuda-allocation-lifetime-implementation-2026-10-10/README.md), [unit/adversarial](docs/evidence/cuda-allocation-lifetime-unit-2026-10-10/README.md), and [GEMM integration](docs/evidence/cuda-allocation-lifetime-integration-2026-10-10/README.md) receipts. This is single-host-thread diagnostic accounting for exercised synchronous paths. It does not establish thread-safe mutation, implicit destruction fences, async teardown safety, physical allocator reuse, driver memory return, or untracked raw-buffer ownership.
 - **Evidence boundary:** Dense text-only E4B Q4_K_M and Llama 3 Stheno Q4_K_S profiles on one observed NVIDIA host. Independent logits for these profiles, long maximum-length generated outputs, arbitrary GGUF models, multimodal/MoE, Tensor Core optimization, multi-GPU and hardware CI are not claimed. The separate narrow 3B logit gate is recorded below. Host tokenization/I/O remains on CPU.
 - **Llama 3 evidence:** `Llama3CUDASession` implements all 32 layers with native CUDA packed weights, F32 activations and F16 KV. Fifteen independent tokenizer cases and framing passed, including three whole-segment lookup regressions; 35 real-weight dot products and 34,816 CUDA RoPE/SiLU/GQA values matched independent references. Boundary-position RoPE precision was corrected on-device. See `docs/STHENO_CUDA.md` for the final conversation acceptance status.
 - **2026-10-01 Turing/3B extension:** All 28 layers of the installed Llama 3.2
@@ -2073,8 +2108,8 @@ and circular self-parity transforms were removed.
 - **Claim sources:** local sovereignty/privacy and server/distribution functionality
 - **Implementation evidence:** `BifrostGate.__init__()` in `server/api.mojo` enforcing port range bounds (`1 <= port <= 65535 -> raises Error("server bind port must be between 1 and 65535")`).
 - **Executable evidence:** `E-MASTER` case `server.posix_socket` in `test_multi_engine.mojo`.
-- **Evidence boundary:** Port and parser bounds are useful hardening, but no complete threat model, fuzz campaign, auth/TLS policy, or resource-exhaustion proof exists.
-- **Next acceptance gate:** Publish the threat model and run reproducible malformed-model, request-fuzzing, and resource-limit suites.
+- **Evidence boundary:** `SECURITY_POSTURE.md` contains a target threat model plus a 2026-10-10 evidence-linked native local-service boundary. No production security assessment, exhaustive fuzz campaign, TLS/remote policy, multi-tenant authorization, or complete resource-exhaustion proof exists.
+- **Next acceptance gate:** Run reproducible malformed-model, request-fuzzing, and sustained resource-limit suites; assess any later remote/TLS deployment as a separate capability.
 - **Audit:** AER-037, AER-075, AER-082, AER-107.
 
 ### AES-OPS-004 — Runtime observability, route parameter safety & diagnosability
@@ -2087,6 +2122,10 @@ and circular self-parity transforms were removed.
 - **Observation formatter evidence:** `AesirTUIDashboard` accepts an atomic, validated metric snapshot with caller source and timestamp. An empty dashboard reports observations unavailable, and invalid values cannot partially replace the preceding snapshot.
 - **Executable evidence:** `E-MASTER` case `server.http_parser` in `test_multi_engine.mojo`.
 - **Evidence boundary:** The native service has narrow request logs and readiness. Legacy route validation still does not establish metrics, tracing, persistent audit storage or broad production diagnosis.
+
+- **AES500-241..248 socket lifecycle evidence:** Live native transport ownership is bounded to the `serve_loaded` listener, one active request owner, and configured FIFO owners; the interrupt FD is borrowed from CLI signal ownership. `OwnedFD` now skips closing the `-1` moved-from sentinel, with focused transfer, invalid-FD, and port-boundary evidence. Master is 245 passed, 0 failed, 1 skipped (246 total). Baseline, unit, integration and adversarial receipts are linked from [the socket ownership contract](TASK_socket_ownership_shutdown.md). The physical active-shutdown receipt is historical because this checkout has no usable model; independent review was unavailable and is not claimed.
+- **AES500-251..259 bounded request parsing evidence:** The live reader admits an 8 KiB CRLFCRLF-terminated head, up to 64 unique headers with 1024-byte values, and exact POST body bytes up to 131072 under one absolute read deadline. Unit coverage checks exact/over boundaries and numeric overflow; socketpair coverage checks adjacent head/body preservation, unterminated oversized head, short EOF, NUL and over-limit body rejection. Master is 248 passed, 0 failed, 1 skipped (249 total). Receipts are linked from [the parser contract](TASK_request_parser_bounds.md). These local tests are not third-party protocol parity or physical inference evidence.
+- **AES500-261..269 strict framing evidence:** `LocalHTTPHead` rejects case-insensitive duplicate headers, malformed request-line spacing/CRLF, `Expect`, `Transfer-Encoding` (including alongside Content-Length), and GET bodies; the status matrix exercises unsupported methods 405, missing/zero POST length 411 and wrong media type 415. Master is 249 passed, 0 failed, 1 skipped (250 total). See [the framing contract](TASK_http_framing_rejection.md) and dated test receipt. This remains local HTTP subset evidence, not complete RFC or external-client conformance.
 - **Next acceptance gate:** Add structured logs, request/session correlation, real metrics, health semantics, and operator-facing failure diagnostics.
 - **Audit:** AER-078, AER-101, AER-111.
 
@@ -2128,7 +2167,7 @@ and circular self-parity transforms were removed.
 | Claim family | Canonical entries |
 |---|---|
 | Build/runtime foundation | AES-FND-001 through AES-FND-008 |
-| Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-006 |
+| Memory/tensor/KV ownership | AES-MEM-001 through AES-MEM-007 |
 | CPU kernels and attention | AES-CPU-001 through AES-CPU-008 |
 | GGUF loading | AES-LDR-001 through AES-LDR-006 |
 | Tokenizer/decoder | AES-TOK-001 through AES-TOK-004 |
@@ -2217,8 +2256,9 @@ Refines AES-ACC-010; no general new capability promotion.
 
 Optional small-score strategy5 now passes all513024 full F32 values per owner,
 exact own bits and accepted4 bytes/cache/IDs/counts, unchanged independent zero-GPU
-CPU/max/RMS/argmax,4352 guards/eight invalid tiles/12 live feature refusals and all
-32 finite paired records. Default-false capability and strict actual current/source
+CPU/max/RMS/argmax,4352 guards/eight invalid tiles/legacy `ADMISSION,5,12,0`
+metadata and all32 finite paired records in the dated 2026-10-03 receipt. Current
+COUNTS1 collectors separately record executed refusal counts. Default-false capability and strict actual current/source
 binaries keep old selectors. Seven hostile contracts/master190/one skip/all seven
 builds; [operation](docs/NATIVE_SMALL_ATTENTION_MODEL.md). Same-capture native-four/
 small-fixture exploratory prefill only, not historical4/new5 or Ollama/request ratio.
@@ -2674,3 +2714,227 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   succeeds. See `docs/HAILO10H_MOJO_DRIVER_OWNER.md`.
 - **Boundary:** qualified 5.3.0 Linux driver profile; descriptors, connection,
   DMA, remote typed RPC and source-model compilation remain open.
+
+### Small-score cooperative controls refinement — 2026-10-09
+
+The strategy5 fixture's explicit default-false `small_controls` capability passes
+fresh capable-but-disabled full-model/source/cache/ID/CPU acceptance and physical
+pre-expired/mid-tile timeout, owned cancellation, invalid-descriptor, reset and
+recovery/poison cases for the documented strict3B/sm75/context1536 scope. Every
+recovered vector is byte-identical; guards and caller signal-mask restoration
+pass. [Operation](docs/NATIVE_SMALL_ATTENTION_CONTROLS.md) and
+[evidence](docs/evidence/small-attention-controls-2026-10-09/README.md).
+Controls remain fixture-only; no normal selector, persistence/context-recreation,
+CUDA-fault repair, general runtime, or provider-speed capability is promoted.
+Next: owned small-score strategy5 tracing.
+
+### Small-score observed disabled-control baseline refinement — 2026-10-10
+
+AES500-002's fresh COUNTS1/STATE1 capable-disabled capture passes all513024
+F32 values per owner, exact historical strategy5 source bytes/cache/IDs/counters,
+32 actual disabled/healthy/reset-free owner snapshots,4352 guards and fixed
+independent zero-GPU CPU max/RMS/argmax. Eight tile refusals are executed;
+capable mode executes zero ordinary feature checks. Input/source hashes stay
+unchanged and authenticated normal CUDA service health is restored. Quality
+acceptance has `speed_scored=false`, null ratios and no medians.
+[Evidence](docs/evidence/small-attention-controls-baseline-2026-10-10/README.md).
+This strengthens the fixture evidence boundary only. Fresh enabled-abort/recovery,
+runtime, broader device/model/context and provider-speed gates remain separate;
+no capability status or count is promoted.
+
+### Small-score controls constructor interface refinement — 2026-10-10
+
+AES500-003 independently executes all13 existing constructor refusal modes with
+exact first-gate messages using the unchanged accepted002 executable. A verified
+nonexistent input, source ordering before native session construction and exact
+exception attribution support the pre-load refusal boundary; output silence
+alone proves no resource behavior. All272 source hashes and normal service
+state/health remain unchanged. Defaults and request/reset policy are source-
+reviewed; positive capable-disabled owners reuse002 rather than a new run.
+[Evidence](docs/evidence/small-attention-controls-interface-2026-10-10/README.md).
+No fresh default-false owner, live mutation/abort/recovery or capability promotion.
+
+### Owned native Mojo assigned connection lifecycle
+
+- **Status:** `verified` on this Pi for two descriptor lists, assigned RPC
+  service channels and ordered normal/error/exception cleanup.
+- **Owner:** `hailbru/soc_session.mojo`, consumed by the native
+  `smidr/tools/soc_session.mojo` lifecycle tool.
+- **Evidence:** actual connection to port 12133, two builds and seven physical
+  methods with exact syscall order, ten normal successful sessions, exception
+  cleanup, six injected ioctl failures and a fresh connection after each.
+  Subsequent supported identify succeeds. See
+  `docs/HAILO10H_MOJO_SESSION_LIFECYCLE.md`.
+- **Boundary:** no user DMA buffer/transfer, typed remote message, program
+  generation or source-model execution. These remain required work under the
+  same target. Kernel memory-accounting and arbitrary firmware recovery are
+  not certified by these bounded tests.
+
+### Integrated RPC reference transfer facts
+
+- **Status:** `verified` as bounded installed-reference observation, not an
+  independent Mojo message exchange or model execution capability.
+- **Evidence:** `docs/HAILO10H_DMA_OBSERVATION.md`; 548 paired real ioctl
+  calls, 258 matching buffer tuples, exact 2068-byte transfers, positive
+  descriptor-count result 5, request status 1, eight adversarial checker tests
+  and evidence non-overwrite refusal. Subsequent ordinary identify and owned
+  Mojo connection lifecycle succeed.
+- **Next:** production return/status corrections, owned map/unmap/sync/storage
+  and bounded interrupt lifetime, then actual correlated Mojo device RPC.
+  These findings do not reduce the source-model/compiler target.
+
+### Observed request status and ioctl-result handling
+
+- **Status:** `verified` as host wire/API corrections, not independent Mojo
+  remote exchange or model execution.
+- **Evidence:** `docs/HAILO10H_DMA_PROTOCOL_CORRECTIONS.md`; native create
+  request matches the actual reference header; ten independent protobuf methods,
+  seven result-handler assertions, six builds and rebuilt physical owner 11/11
+  / connection lifecycle 7/7 pass. Request status 1 and successful positive
+  transfer count 5 replace the prior host-only assumptions.
+- **Boundary:** actual owned user-buffer transfer and bounded completion
+  remain required; nonnegative submission does not mean completed work.
+
+### Mojo source semantic graph — 2026-10-19
+
+- **Status:** `verified` for source descriptors and host graph structure only.
+- **Owner:** `smidr/source_inventory.mojo`, `smidr/semantic_plan.mojo`;
+  contract `TASK_hailo10h_source_compiler_plan.md`.
+- **Evidence:** `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`; nine independent
+  methods/56 native runs, exact dependency/shape/lifetime/weight checks, 42
+  refusals; rebuilt inventory six methods/16 runs pass. No model forward.
+- **Boundary:** first incremental dense-decoder importer, not a permanent
+  architecture limit. Layout/RoPE/quantization/numerical recipes, resource
+  qualification and executable program generation/execution remain open.
+
+### Checked source-graph storage scenario — 2026-10-19
+
+- **Status:** `verified` for hypothetical host compiler arithmetic only.
+- **Owner:** `smidr/storage_estimate.mojo`; explicit widths/alignment, aggregate
+  device-weight/workspace bytes, budget and provenance required.
+- **Evidence:** `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md`; seven independent
+  methods/61 native calls, exact brute-force interval oracle and malformed
+  policy/graph/arithmetic refusals. No device or numerical model execution.
+- **Boundary:** the comparison is not hardware fit or inference admission.
+  Actual conversion, precision, placement, physical budget and program costs
+  remain unresolved; all corresponding proof flags remain false.
+
+### Original public context-action codec — 2026-10-19
+
+- **Status:** `verified` for four host byte-record types only.
+- **Owner:** `smidr/context_actions.mojo`, native host inspector; contract
+  `TASK_hailo10h_context_actions.md`.
+- **Evidence:** `docs/HAILO10H_MOJO_CONTEXT_ACTIONS.md`; seven methods/244
+  native calls, exact independent Python and pinned C++ header object oracles,
+  enum/size/offset checks, field/refusal/ownership tests. No device access.
+- **Boundary:** no CCW generation, numerical operation, valid upload endpoint
+  or physical activation is established. Source-model execution remains open.
+
+### Source-bound primitive mathematical recipes — 2026-10-19
+
+- **Status:** `verified` as RMSNorm/SiLU compiler expansion and isolated
+  primitive mathematical agreement only.
+- **Owner:** `smidr/primitive_recipes.mojo`; native recipe inspector.
+- **Evidence:** `docs/HAILO10H_MOJO_PRIMITIVE_RECIPES.md`; six methods/39
+  native calls, source IDs/weights/scalar bits/shapes/lifetimes, fourteen
+  malformed API refusals and ownership; four tiny Decimal primitive oracles.
+- **Boundary:** no CPU model/layer forward, Hailo program, device precision or
+  numerical hardware acceptance. Expanded storage and backend encoding remain
+  open. Unexpanded operations are explicitly named.
+
+### Stable last-axis softmax recipe — 2026-10-19
+
+- **Status:** `verified` as mathematical compiler expansion only.
+- **Owner:** original `smidr/primitive_recipes.mojo` pass.
+- **Evidence:** `docs/HAILO10H_MOJO_SOFTMAX_RECIPE.md`; seven methods/44
+  native calls, five isolated primitive Decimal fixtures, RMSNorm/SiLU
+  regressions and exact source/shape/domain/lifetime checks.
+- **Boundary:** explicit runtime preconditions have not been enforced on
+  device. No model/layer forward, executable Hailo program or device numerical
+  tolerance is certified. Expanded storage/placement/program gates remain.
+
+### Integrated expanded mathematical graph — 2026-10-19
+
+- **Status:** `verified` as host compiler integration only.
+- **Owner:** `smidr/expanded_graph.mojo`; consumes/owns the source plan and
+  primitive recipes, emits deterministic global values/operations.
+- **Evidence:** `docs/HAILO10H_MOJO_EXPANDED_GRAPH.md`; five methods/45 native
+  calls, exact source/local/global edge and binding/scalar/domain checks,
+  recomputed lifetimes, aliases, malformed API refusals and returned ownership.
+- **Boundary:** no model/layer math or device submission; physical precision,
+  expanded resource qualification, CCWs and numerical hardware proof remain
+  open. Source constants are references, not converted device allocations.
+
+### Checked expanded-graph storage — 2026-10-19
+
+- **Status:** `verified` for explicit hypothetical byte-volume accounting.
+- **Owner:** `smidr/expanded_storage.mojo`, native storage inspector.
+- **Evidence:** `docs/HAILO10H_MOJO_EXPANDED_STORAGE.md`; seven methods/88
+  native calls, exact independent interval oracle, separate predicate/real
+  timelines, 54 invalid graph/policy/arithmetic refusals and returned ownership.
+- **Boundary:** no model math, actual device allocation/fit, physical placement
+  or executable program. Source constants/views do not duplicate allocation;
+  actual conversion, precision, budgets and hardware acceptance remain open.
+
+### Floating source constant representation — 2026-10-19
+
+- **Status:** `verified` as bounded static source representation decoding.
+- **Owner:** `smidr/source_float_constants.mojo`, loader half-word helper.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_FLOAT_CONSTANTS.md`; six methods/64
+  native calls, exhaustive F16/BF16 patterns, F32 payload preservation, 24
+  refusals and returned ownership; rebuilt inventory/storage regressions pass.
+- **Boundary:** no host model arithmetic, source identity certificate, selected
+  device weight format or execution. Packed quantized source constants and
+  actual compiler/backend/program/hardware gates remain open.
+
+### Packed Q4_K source affine constants — 2026-10-20
+
+- **Status:** `verified` as bounded static source representation decoding.
+- **Owner:** original `smidr/source_q4k_constants.mojo`, schema published first.
+- **Evidence:** `docs/HAILO10H_MOJO_SOURCE_Q4K_CONSTANTS.md`; eight methods/57
+  native calls (28 accepted, 29 refused), all group-factor/nibble values and
+  exact pinned external reference on 4096 synthetic constants; floating-format
+  exhaustive regression passes. Production has no ggml dependency.
+- **Boundary:** no model/layer forward, device precision/layout, source identity
+  certificate or execution. Original numerical CCWs, program delivery and
+  activation remain open; active `TASK_hailo10h_program_delivery.md`.
+
+### Original program metadata/lifecycle RPC — 2026-10-20
+
+- **Status:** `verified` as pure host wire construction/inspection.
+- **Owner:** original `hailbru/hrpc_program.mojo`; existing project protobuf
+  reader reused, no vendor/protobuf production dependency.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_RPC_CODEC.md`; eight methods/140
+  native calls (70 accepted, 70 refused) against frozen generated public-schema
+  protobuf, exact body/UTF-8/u64/ownership/refusal checks; rebuilt device codec
+  passes ten regression methods. Optional compiled enum header probe remains
+  unbuilt with its missing-include diagnostic retained.
+- **Boundary:** no device open, program transfer, activation, model arithmetic
+  or physical handle ownership. Numerical CCWs, container metadata, original
+  immutable program delivery, configure/cleanup and first hardware result remain
+  open under `TASK_hailo10h_program_delivery.md`.
+
+### Original program outer header/layout — 2026-10-20
+
+- **Status:** `verified` as synthetic output header/section arithmetic only.
+- **Owner:** original `smidr/program_header.mojo`, field facts published first.
+- **Evidence:** `docs/HAILO10H_MOJO_PROGRAM_HEADER.md`; eight methods/151 native
+  calls (84 accepted, 67 refused), complete independent big-endian struct bytes,
+  section origins/lengths/extents/overflow and returned ownership. Initial test
+  error-name assertion failure is retained; final suite passes.
+- **Boundary:** no checksum, full container, source/hardware target admission,
+  numerical CCWs, model/program file input, device upload or execution. Active
+  `TASK_hailo10h_llm_compile_interfaces.md` investigates public source compiler
+  interface leads toward the actual numerical backend gap.
+
+### Explicit source-bound cache address scenarios — 2026-10-20
+
+- **Status:** `verified` as hypothetical compiler relative addressing only.
+- **Owner:** original `smidr/cache_layout.mojo`, current dense semantic cache
+  identities and explicit caller assumptions.
+- **Evidence:** `docs/HAILO10H_MOJO_CACHE_LAYOUT.md`; six methods/89 native calls
+  (18 accepted, 71 refused), 3353 independent element-offset checks, distinct
+  K/V widths, padding/budget/overflow/graph/alias/ownership refusals.
+- **Boundary:** no actual dtype/layout/placement, immutable source identity,
+  cache/ring data mutation, host model math or hardware execution. Actual
+  numerical configuration remains open under the program-delivery parent.

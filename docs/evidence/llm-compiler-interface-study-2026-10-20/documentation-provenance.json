@@ -1,0 +1,39 @@
+{
+  "repository": "l-nmch/hailo-10h-llm-compiler",
+  "revision": "c870419f7d6315e1277e06a9fa5eadd955b8e1af",
+  "files": [
+    {
+      "path": "docs/status.md",
+      "sha256": "3bad3fae9c99a2aa9bc89ffbc20e50bcd9048c00e379e1322b6af3573926b87d"
+    },
+    {
+      "path": "docs/findings/tbt-cache-read.md",
+      "sha256": "21eb45f2ec5b0abbb357a6f793e05dcd1290568b72142b8276b97d9108e8015c"
+    },
+    {
+      "path": "docs/findings/kv-cache-config-key.md",
+      "sha256": "3af1904eff561ff3037f72b2d90b3c5d289d191f227aec7d077669e7fbf79b51"
+    },
+    {
+      "path": "docs/findings/rope-input-widths.md",
+      "sha256": "66bfbef0f507b37b9a7ea9bbd5b9c31679702f7018f9f1889e5d315cac04609b"
+    },
+    {
+      "path": "docs/findings/quantization-recipe.md",
+      "sha256": "2ccb0da78ffeb53edb00f77879a1236cee58412e6ae1c57eaee8b55c9d89304f"
+    },
+    {
+      "path": "docker/README.md",
+      "sha256": "b44306f35b3ac9602586a095cddd27884a1f1921987d8fca35120f7b96cb054e"
+    },
+    {
+      "path": "pipeline/README.md",
+      "sha256": "73a3faad7212904c1baaf1251c53a804ad9ce0a49bcc60a5000b9546dbf2945c"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a37b96ef4180c47b5a8bb42650f81e040bfed905821e8576b43d194352092489"
+    }
+  ],
+  "scope": "published interface/data-format facts; no external code run/copied/translated; no artifact inspection or model execution"
+}

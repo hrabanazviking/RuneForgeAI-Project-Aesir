@@ -1,0 +1,7 @@
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/context_actions.mojo:10:28: warning: assignment to 'bytes' was never used; assign to '_' instead?
+    var bytes = List[UInt8]()
+                           ^
+Included from /home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/tools/context_actions.mojo:3:
+/home/pi/Documents/Codex/2026-10-19/u/work/Project-Aesir/smidr/context_actions.mojo:98:27: warning: assignment to 'values' was never used; assign to '_' instead?
+    var values = List[Int]()
+                          ^
