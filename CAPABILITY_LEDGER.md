@@ -2715,3 +2715,15 @@ x86_64 cross-checks from the forge (same Mojo 1.1.0).
   transfer count 5 replace the prior host-only assumptions.
 - **Boundary:** actual owned user-buffer transfer and bounded completion
   remain required; nonnegative submission does not mean completed work.
+
+### Mojo source semantic graph — 2026-10-19
+
+- **Status:** `verified` for source descriptors and host graph structure only.
+- **Owner:** `smidr/source_inventory.mojo`, `smidr/semantic_plan.mojo`;
+  contract `TASK_hailo10h_source_compiler_plan.md`.
+- **Evidence:** `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`; nine independent
+  methods/56 native runs, exact dependency/shape/lifetime/weight checks, 42
+  refusals; rebuilt inventory six methods/16 runs pass. No model forward.
+- **Boundary:** first incremental dense-decoder importer, not a permanent
+  architecture limit. Layout/RoPE/quantization/numerical recipes, resource
+  qualification and executable program generation/execution remain open.

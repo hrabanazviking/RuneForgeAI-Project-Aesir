@@ -19,11 +19,17 @@ def string(raw):
     return struct.pack("<Q", len(raw)) + raw
 
 
-def fixture(architecture="llama", tensors=None, overlap=False):
+def fixture(architecture="llama", tensors=None, overlap=False, extra_metadata=()):
     if tensors is None:
         tensors = [("matrix.weight", 4, 3, 1), ("norm.weight", 4, 1, 0)]
     metadata = string("general.architecture") + struct.pack("<I", 8) + string(architecture)
     metadata += string("general.alignment") + struct.pack("<II", 4, 32)
+    for key, kind, value in extra_metadata:
+        metadata += string(key) + struct.pack("<I", kind)
+        if kind == 8:
+            metadata += string(value)
+        else:
+            metadata += struct.pack({4:'<I', 5:'<i', 6:'<f', 7:'<?', 10:'<Q', 11:'<q'}[kind], value)
     directory, payload, expected = bytearray(), bytearray(), {}
     for name, columns, rows, kind in tensors:
         offset = (len(payload) + 31) // 32 * 32
@@ -40,7 +46,7 @@ def fixture(architecture="llama", tensors=None, overlap=False):
         payload.extend(bytes((index * 7) % 256 for index in range(size)))
         expected[name] = {"file_offset": relative, "columns":columns, "rows":rows,
                           "source_kind":kind, "byte_count":size}
-    prefix = struct.pack("<IIQQ", 0x46554747, 3, len(tensors), 2) + metadata + directory
+    prefix = struct.pack("<IIQQ", 0x46554747, 3, len(tensors), 2 + len(extra_metadata)) + metadata + directory
     data_offset = (len(prefix) + 31) // 32 * 32
     raw = prefix + bytes(data_offset - len(prefix)) + payload
     for tensor in expected.values():

@@ -31,6 +31,11 @@ def read_source_inventory(path: String) raises -> SourceTensorInventory:
     # Reuse loader file/range ownership only; no registry, forward or allocation
     # of model activations, KV caches, accelerator tensors or dequantized weights.
     var source = PackedGGUF(path)
+    return inventory_from_source(source)
+
+
+def inventory_from_source(source: PackedGGUF) raises -> SourceTensorInventory:
+    # Borrow a live read-only parser so a compiler pass observes one mapping.
     var inventory = SourceTensorInventory()
     inventory.architecture = source.text("general.architecture")
     if inventory.architecture.byte_length() == 0 or len(source.tensors) == 0:

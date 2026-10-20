@@ -245,3 +245,14 @@ implementation/header/runtime is copied, translated or linked. Current public
 Mojo String API supplies validating byte construction. Original Mojo projection
 and independent Python struct-packed fixtures prove descriptors and string
 identity, not inference. Receipt: `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md`.
+
+### 2026-10-19 — Typed source semantic graph
+
+Continued the already MIT-licensed pinned GGUF specification study at
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` for attention key/value defaults,
+rotary dimensions and layout metadata facts. The existing project dense-GQA
+contracts supplied source tensor shape conventions; no CUDA admission registry
+or execution path is used. Original Mojo graph/ownership/lifetime construction
+and independent synthetic structural oracles copy or translate no external
+implementation. No source-model forward or device program is executed.
+Receipt: `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md`.

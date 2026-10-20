@@ -246,3 +246,7 @@ GGUF format documentation was consulted at ggml commit
 Only public format facts inform the source-inventory/string validation checks;
 no ggml implementation, header or runtime is copied, translated or bundled by
 this slice. See `docs/HAILO10H_MOJO_SOURCE_INVENTORY.md` and `CLEAN_ROOM_LOG.md`.
+
+The same pinned GGUF format documentation also supplies metadata/default facts
+for the original source semantic graph. No external implementation is adapted;
+see `docs/HAILO10H_MOJO_SEMANTIC_PLAN.md` and `CLEAN_ROOM_LOG.md`.

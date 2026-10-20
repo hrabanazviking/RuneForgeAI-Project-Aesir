@@ -120,3 +120,13 @@ progress, and requires both directions before consuming a reply. A zero-record
 or zero-count wake does not prove completion. Ring capacity retains its spare
 entry; whole-session cancellation/quiescence is required after uncertainty.
 These are interface facts, not copied or translated driver implementation.
+
+### 2026-10-19 — Source graph metadata facts
+
+The already MIT-licensed GGUF spec at
+`a05c9922613c6a2230dbb1d0de679519ecafb4f0` defines optional key and value head
+lengths independently, each defaulting to hidden/head count; KV heads default
+to query heads. Rotary dimensions, layout text and scaling modifiers must be
+preserved or explicitly treated as unresolved semantics. This supplies format
+facts, not a numerical recipe or an accelerator instruction. The original
+Mojo graph carries these distinctions and explicit layout/recipe/backend gates.

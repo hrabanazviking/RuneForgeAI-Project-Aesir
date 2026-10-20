@@ -25,7 +25,8 @@ verify, publish and advance each bounded work slice.
 | Owned DMA transfer / typed RPC | Verified physical message exchange | `HAILO10H_MOJO_NATIVE_RPC.md`; actual USERPTR submissions, exact counts, both completions, synchronized reply bytes and correlation; no model/compute. |
 | Independent Mojo read-only device round-trip | Verified on Hailo-10H without HailoRT linkage | `HAILO10H_MOJO_NATIVE_RPC.md`; five methods/36 child runs, repeated create/identify/destroy, timeout and failure cleanup with fresh-session recovery. |
 | Source tensor inventory | Verified compiler input snapshot | `HAILO10H_MOJO_SOURCE_INVENTORY.md`; original typed descriptors, exact source extents, no backend registry restriction, UTF-8/NUL preservation; six methods/16 fixture runs, no execution. |
-| Semantic operation plan / resource planning | Next active compiler gate | `TASK_hailo10h_source_compiler_plan.md`; bind real source tensors to operations, checked dimensions/lifetimes, resource estimates and explicit unknown backend gates. |
+| Semantic operation graph | Verified compiler structure | `HAILO10H_MOJO_SEMANTIC_PLAN.md`; typed operations, exact source bindings, distinct Q/K/V shapes, residual and persistent-KV lifetimes; nine methods/56 child runs. No numerical lowering or execution. |
+| Storage/resource planning | Next active compiler gate | Apply checked storage/lifetime arithmetic with explicit policy/budget provenance; no assumed device capacity or precision. |
 | Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |
 | Source-model execution and architecture breadth | Open | Earn complete model, format, quantization, memory, numerical and lifecycle gates toward the same broad target. |
 
