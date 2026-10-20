@@ -265,3 +265,12 @@ mutations verify byte arithmetic without external implementation study, model
 forward or device access. Supplied assumptions are labelled hypothetical; no
 precision, available hardware memory or executable program is inferred.
 Receipt: `docs/HAILO10H_MOJO_STORAGE_ESTIMATE.md`.
+
+### 2026-10-19 — Public context action/configuration boundary
+
+Re-read pinned HailoRT v5.3.0 MIT license before the continued study. Public
+context/control header definitions, action-list/config-buffer/resource-manager
+interfaces and host/local device boundaries supply prose facts and hashes in
+`docs/HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`. This is no vendor program extraction
+or implementation translation. The next original codec is contracted in
+`TASK_hailo10h_context_actions.md`. No device control/write is performed.

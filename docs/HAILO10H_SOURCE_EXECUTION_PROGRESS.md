@@ -28,7 +28,8 @@ verify, publish and advance each bounded work slice.
 | Semantic operation graph | Verified compiler structure | `HAILO10H_MOJO_SEMANTIC_PLAN.md`; typed operations, exact source bindings, distinct Q/K/V shapes, residual and persistent-KV lifetimes; nine methods/56 child runs. No numerical lowering or execution. |
 | Storage arithmetic | Verified hypothetical compiler scenario | `HAILO10H_MOJO_STORAGE_ESTIMATE.md`; explicit policy/budget provenance, alias-aware timeline and overflow checks; seven methods/61 native calls. Not placed memory or hardware fit. |
 | Physical resource placement / numerical lowering | Open | Establish actual widths, layouts, weight conversion, workspace, hardware budgets and program encoding; hypotheses cannot admit inference. |
-| Executable compute-context generation | Open | Learn and emit real operation/configuration/scheduling data, then prove the first operation on hardware. |
+| Public context/configuration boundary | Studied; independent codec next | `HAILO10H_PUBLIC_CONTEXT_ACTIONS.md`; action fields are distinct from CCWs; host hRPC has no established raw-context endpoint. `TASK_hailo10h_context_actions.md` covers bounded original codec/oracles. |
+| Executable compute-context generation | Open | Learn and emit actual CCW operation/register/configuration/scheduling data and establish upload/activation, then prove the first operation on hardware. |
 | Source-model execution and architecture breadth | Open | Earn complete model, format, quantization, memory, numerical and lifecycle gates toward the same broad target. |
 
 These rows organize implementation dependencies. They do not reduce the
